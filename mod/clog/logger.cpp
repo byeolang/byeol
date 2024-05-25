@@ -133,8 +133,8 @@ namespace namu {
         return false;
     }
 
-    me::logger() : super() {}
-    me::logger(const me& rhs) : super(rhs) {}
+    me::logger() : super(), _filters(nullptr) {}
+    me::logger(const me& rhs) : super(rhs), _streams(rhs._streams), _filters(rhs._filters) {}
 
     nbool me::isEnable() const {
         for(stream* s : _streams)
