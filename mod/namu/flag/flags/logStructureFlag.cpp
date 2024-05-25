@@ -6,7 +6,7 @@ namespace namu {
     NAMU_DEF_ME(logStructureFlag)
 
     const nchar* me::getName() const {
-        return "-ls";
+        return "--show-structure";
     }
 
     const nchar* me::getDescription() const {
@@ -17,7 +17,7 @@ namespace namu {
     }
 
     const nchar* me::_getRegExpr() const {
-        return "^\\-ls$";
+        return "^\\--show-structure$";
     }
 
     nbool me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {

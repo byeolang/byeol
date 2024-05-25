@@ -6,7 +6,7 @@ namespace namu {
     NAMU_DEF_ME(verboseFlag)
 
     const nchar* me::getName() const {
-        return "-lv";
+        return "-v";
     }
 
     const nchar* me::getDescription() const {
@@ -18,11 +18,11 @@ namespace namu {
     }
 
     const nchar* me::_getRegExpr() const {
-        return "^\\-lv$";
+        return "^\\-v$";
     }
 
     nbool me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
-        ip.setFlag(interpreter::DEFAULT | interpreter::LOG_STRUCTURE);
+        ip.setFlag(interpreter::DEFAULT);
         s.setFlag(starter::DEFAULT | starter::LOG_GRAPH_ON_EX);
         return true;
     }
