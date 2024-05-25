@@ -54,7 +54,8 @@ namespace namu {
         if(me.isSub<frame>()) return true;
 
         for(auto e=me.subs().begin(); e ;++e) {
-            if(!me.subAll<baseObj>(e.getKey()).getMatches().isMatched())
+            auto matches = me.subAll<baseObj>(e.getKey()).getMatches();
+            if(matches.len() > 1)
                 return posError(errCode::DUP_VAR, *e, e.getKey().c_str()), true;
         }
         return true;

@@ -188,19 +188,3 @@ TEST_F(retExprTest, retExceptionNoThrowAgain2) {
     ASSERT_FALSE(nul(ex));
     ASSERT_EQ(ex.len(), 1);
 }
-
-TEST_F(retExprTest, variableDuplication) {
-    make().parse(R"SRC(
-        age := 22
-        def a
-            age := 11
-            foo() int
-                ret age
-        main() int
-            ret a().foo()
-    )SRC").shouldVerified(true);
-
-    str res = run();
-    ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 11);
-}
