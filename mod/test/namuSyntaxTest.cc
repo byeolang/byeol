@@ -74,7 +74,11 @@ namu::nbool me::shouldVerified(namu::nbool expect) {
 }
 
 namu::str me::run() {
-    return namu::starter().setPack(getSubPack()).setReport(_rpt).work();
+    using namu::starter;
+    return starter()
+        .setPack(getSubPack()).setReport(_rpt)
+        .setFlag(starter::LOG_STRUCTURE | starter::LOG_GRAPH_ON_EX | starter::DEFAULT)
+        .work();
 }
 
 void me::_rel() {
