@@ -180,6 +180,10 @@ TEST_F(retExprTest, retExceptionNoThrowAgain2) {
     )SRC").shouldVerified(true);
 
     str res = run();
+
+    int* np = nullptr;
+    int a = *np;
+
     ASSERT_FALSE(nul(res));
     err& cast = res.cast<err>();
     ASSERT_FALSE(nul(cast));

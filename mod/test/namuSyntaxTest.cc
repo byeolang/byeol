@@ -46,7 +46,7 @@ namuSyntaxTest& me::parse(const namu::nchar* src) {
     using namu::interpreter;
     namu::nbool isVerbose = namu::logger::get().isEnable();
     int flag = isVerbose ? interpreter::DEFAULT | interpreter::LOG_STRUCTURE | interpreter::GUARD:
-        interpreter::DUMP_ON_EX | interpreter::LOG_ON_END;
+        interpreter::DUMP_ON_EX | interpreter::LOG_ON_END | interpreter::LOG_GRAPH_ON_EX;
 
     _ip.addSupply(*new namu::bufSupply(std::string(src)))
        .setFlag(flag)
@@ -57,7 +57,7 @@ namuSyntaxTest& me::parse(const namu::nchar* src) {
 
 namuSyntaxTest& me::negative() {
     typedef namu::interpreter ip;
-    _ip.delFlag(ip::LOG_STRUCTURE | ip::LOG_ON_EX | ip::DUMP_ON_EX | ip::LOG_ON_END | ip::DUMP_ON_END);
+    _ip.delFlag(ip::LOG_STRUCTURE | ip::LOG_ON_EX | ip::DUMP_ON_EX | ip::LOG_ON_END | ip::DUMP_ON_END | ip::LOG_GRAPH_ON_EX);
     return *this;
 }
 
