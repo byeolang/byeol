@@ -1,4 +1,5 @@
 #include "namuSyntaxTest.hpp"
+using namespace namu;
 
 typedef namuSyntaxTest me;
 
@@ -43,29 +44,16 @@ namuSyntaxTest& me::make(const namu::manifest& mani) {
 }
 
 namuSyntaxTest& me::parse(const namu::nchar* src) {
-    using namu::interpreter;
-    namu::nbool isVerbose = namu::logger::get().isEnable();
-    int flag = isVerbose ? interpreter::DEFAULT | interpreter::LOG_STRUCTURE | interpreter::GUARD:
-        interpreter::DUMP_ON_EX | interpreter::LOG_ON_END | interpreter::LOG_GRAPH_ON_EX;
+    using namespace namu;
+    nbool isVerbose = logger::get().isEnable();
+    int flag = isVerbose ? interpreter::DEFAULT | interpreter::LOG_STRUCTURE | interpreter::GUARD | interpreter::LOG_GRAPH_ON_EX :
+        interpreter::DUMP_ON_EX | interpreter::LOG_ON_END;
 
-    namu::signaler& signaler = namu::signaler::singletone();
-    _handler = [&](const namu::err& e) {
-        namu::enablesZone zone;
-        zone.setEnable(true);
-
-        auto& log = namu::logger::get();
-        log.logBypass("unexpected exception found: ");
-        e.dump();
-
-        if(_ip.isFlag())
-    };
-    signaler.addSignal(_handler);
-
+    defaultSigZone<interpreter> zone(_ip);
     _ip.addSupply(*new namu::bufSupply(std::string(src)))
        .setFlag(flag)
        .setReport(_rpt)
        .work();
-    signaler.delSignal(_handler);
     return *this;
 }
 

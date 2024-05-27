@@ -19,9 +19,6 @@ namespace namu {
         static inline const std::string MAIN = "main";
 
     public:
-        starter();
-
-    public:
         me& setPack(node& pak);
         node& getPack();
         const node& getPack() const NAMU_UNCONST_FUNC(getPack())

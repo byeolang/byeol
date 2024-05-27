@@ -20,12 +20,19 @@ namespace namu {
                 break;
         }
 
-        ip.work();
+        {
+            defaultSigZone<interpreter> zone(ip);
+            ip.work();
+        }
 
         if(!ip.isVerified())
             return _res;
 
-        str res = s.setPack(ip.getSubPack()).work();
+        str res;
+        {
+            defaultSigZone<starter> zone(starter);
+            res = s.setPack(ip.getSubPack()).work();
+        }
         _res = 0;
         if(res) {
             if(res->isSub<nInt>())

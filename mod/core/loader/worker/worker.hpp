@@ -38,7 +38,7 @@ namespace namu {
         me& setFlag(nint newFlag);
         me& addFlag(nint flag);
         me& delFlag(nint clear);
-        nbool isFlag(nint flag);
+        nbool isFlag(nint flag) const;
         nint getFlag() const;
 
         me& setTask(const T& root);

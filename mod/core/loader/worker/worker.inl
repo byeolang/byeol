@@ -42,7 +42,7 @@ namespace namu {
         _logFlag &= ~clear;
         return *this;
     }
-    TEMPLATE nbool ME::isFlag(nint flag) { return (_logFlag & flag) == flag; }
+    TEMPLATE nbool ME::isFlag(nint flag) const { return (_logFlag & flag) == flag; }
     TEMPLATE nint ME::getFlag() const { return _logFlag; }
 
     TEMPLATE
