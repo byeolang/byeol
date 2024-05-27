@@ -10,6 +10,7 @@ namespace namu {
         NAMU(ADT(worker))
         template <typename R1, typename T1>
         friend struct workerAdapter;
+        typedef R RetType;
 
     public:
         enum logFlag {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../loader/worker/worker.inl"
-#include "signaler.hpp"
+#include "defaultSigZone.hpp"
 
 namespace namu {
     class frames;
@@ -19,6 +19,9 @@ namespace namu {
         static inline const std::string MAIN = "main";
 
     public:
+        starter();
+
+    public:
         me& setPack(node& pak);
         node& getPack();
         const node& getPack() const NAMU_UNCONST_FUNC(getPack())
@@ -31,12 +34,8 @@ namespace namu {
         node& _findMain(node& pak, const args& a);
         void _prepareFrame(frames& fr);
         str _postprocess(str res);
-        void _relSignal();
-        void _setSignal(void(*fptr)(int));
-        void _setSignal();
 
     private:
         str _pak;
-        sigHandler _handler;
     };
 }

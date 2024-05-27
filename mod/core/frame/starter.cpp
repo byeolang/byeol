@@ -25,7 +25,6 @@ namespace namu {
             setTask(*new args());
         if(getReport().isSub<dummyErrReport>())
             setReport(*new errReport());
-        _setSignal();
     }
 
     str me::_onWork() {
@@ -57,7 +56,6 @@ namespace namu {
     }
 
     str me::_postprocess(str res) {
-        _relSignal();
         errReport& ex = thread::get().getEx();
         if(ex) {
             NAMU_E("unhandled exception found:");
@@ -77,27 +75,5 @@ namespace namu {
             NAMU_E("couldn't find main().");
 
         return ret;
-    }
-
-    void me::_setSignal() {
-        _handler = [&](const err& e) {
-            enablesZone zone;
-            // TODO: setEnable(true);
-            logger& log = logger::get();
-            log.logBypass("unexpected exception found: ");
-            e.dump();
-
-            if(isFlag(starter::LOG_GRAPH_ON_EX)) {
-                log.logBypass("\ngraph:\n");
-                graphVisitor().setFlag(0).setTask(getPack()).work();
-            }
-
-            // signaler will *terminate* the process after all.
-        };
-        signaler::singletone().addSignal(_handler);
-    }
-
-    void me::_relSignal() {
-        signaler::singletone().delSignal(_handler);
     }
 }

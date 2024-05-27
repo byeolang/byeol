@@ -30,4 +30,5 @@ private:
     const namu::nchar* _src;
     namu::errReport _rpt;
     namu::interpreter _ip;
+    namu::sigHandler _handler;
 };
