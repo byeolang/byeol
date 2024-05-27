@@ -25,12 +25,12 @@ namespace namu {
 
         void _onSignal(nint code) {
             NAMU_E("# signal %d caught.", code);
-            me::singletone().onSignal(code);
+            me::get().onSignal(code);
         }
     }
 
     me::signaler() {}
-    signaler& me::singletone() {
+    signaler& me::get() {
         static me inner;
         return inner;
     }

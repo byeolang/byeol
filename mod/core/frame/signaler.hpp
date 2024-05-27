@@ -33,7 +33,7 @@ namespace namu {
         /// report that signal has occured. and terminate the process after reporting.
         void onSignal(nint code);
 
-        static signaler& singletone();
+        static signaler& get();
 
     private:
         void _setSignal(void(*csignalHandler)(nint));
