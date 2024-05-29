@@ -79,7 +79,7 @@ namespace namu {
             if(!sample->isSamePrecedence(p)) return false;
             return ret.add(*p.elem);
         });
-        
+
         if(ret.isMatched())
             ret._setPriority(sample->lv);
         return ret;
@@ -89,6 +89,8 @@ namespace namu {
     tstr<T> ME::getMatch() {
         auto matches = getMatches();
         if(!matches.isMatched()) return tstr<T>();
+
+        NAMU_DI("priorities.getMatch[%s]", matches[0].getType().getName().c_str());
         return tstr<T>(matches[0]);
     }
 

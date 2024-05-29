@@ -14,12 +14,25 @@ namespace namu {
     me::runExpr(const node& meObj, const args& a): _me(meObj), _args(a), _subject(meObj) {}
 
     str me::run(const args& a) {
+        NAMU_DI("run: getting me");
         node& me = getMe();
-        if(nul(me)) return NAMU_E("no thread found"), str();
+        if(nul(me)) return NAMU_E("run: no thread found"), str();
+
+        NAMU_DI("run: getting sub. me[%s]", me.getType().getName().c_str());
         str sub = _getSub(me.as<node>(), _args);
         if(!sub) return NAMU_E("_subject.as<node>() returns null"), str();
 
+        NAMU_DI("run: is me frame?");
+        frame& fr = me.cast<frame>();
+        if(!nul(_args)) {
+            _args.setMe(!nul(fr) ? fr.getObjHaving(*sub) : me);
+            NAMU_DI("run: setting me on args. args.me[%s]", _args.getMe().getType().getName().c_str());
+        }
+
+        NAMU_DI("run: running sub with args[%s]", _args.toStr().c_str());
         str ret = sub->run(_args);
+
+        NAMU_DI("run: done. ret[%s]", ret ? ret->getType().getName().c_str() : "null");
         _args.setMe(nulOf<baseObj>());
         return ret;
     }
@@ -73,13 +86,12 @@ namespace namu {
         if(!me) return NAMU_E("me Obj == null"), str();
         if(!_subject) return NAMU_E("_subject as node == null"), str();
 
-        if(!nul(a))
-            a.setMe(*me);
         getExpr& cast = _subject->cast<getExpr>();
         if(!nul(cast))
             cast.setMe(*me);
 
-        return _subject->as<node>();
+        str ret = _subject->as<node>();
+        return ret;
     }
 
     str me::getEval() const {
