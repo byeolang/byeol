@@ -90,8 +90,7 @@ namespace namu {
         if(!nul(cast))
             cast.setMe(*me);
 
-        str ret = _subject->as<node>();
-        return ret;
+        return _subject->as<node>();
     }
 
     str me::getEval() const {
