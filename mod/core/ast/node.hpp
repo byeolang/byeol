@@ -27,6 +27,9 @@ namespace namu {
         const node& operator[](const std::string& name) const NAMU_UNCONST_FUNC(operator[](name))
 
     public:
+        nbool has(const node& elem) const;
+        nbool has(const node* elem) const;
+
         virtual nbicontainer& subs() = 0;
         const nbicontainer& subs() const NAMU_UNCONST_FUNC(subs())
 

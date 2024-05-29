@@ -17,6 +17,16 @@ namespace namu {
         return sub(name);
     }
 
+    nbool me::has(const node* elem) const {
+        return has(*elem);
+    }
+
+    nbool me::has(const node& elem) const {
+        return !nul(subs().get([&](const std::string& key, const node& e) {
+            return &e == &elem;
+        }));
+    }
+
     nbool me::canRun(const args& a) const {
         return prioritize(a) != NO_MATCH;
     }

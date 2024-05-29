@@ -55,6 +55,9 @@ namespace namu {
         nbool pushLocal(const std::string& name, const node* n);
         void pushObj(const baseObj& obj);
 
+        node& getObjHaving(const node& sub);
+        const node& getObjHaving(const node& sub) const NAMU_UNCONST_FUNC(getObjHaving(sub))
+
         nbicontainer& getTop();
         const nbicontainer& getTop() const NAMU_UNCONST_FUNC(getTop())
 

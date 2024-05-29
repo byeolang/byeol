@@ -46,6 +46,15 @@ namespace namu {
             bottom.link(obj.subs());
     }
 
+    node& me::getObjHaving(const node& sub) {
+        // TODO: _obj should be array if I support 'with' keyword.
+        if(!_obj) return nulOf<node>();
+
+        // TODO: disunite obj scope and subpack scope.
+        if(_obj->has(sub)) return *_obj;
+        return nulOf<node>();
+    }
+
     namespace {
         thread_local static baseObj* inner = nullptr;
     }
