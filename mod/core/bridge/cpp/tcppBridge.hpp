@@ -62,12 +62,16 @@ namespace namu {
         me& func(const std::string& name, Ret(T::* fptr)(Args...) const) { return funcConst(name, fptr); }
         template <typename Ret, typename... Args>
         me& funcNonConst(const std::string& name, Ret(T::* fptr)(Args...)) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, S, tmarshaling, Args...>(fptr));
+            auto* new1 = new tcppBridgeFunc<Ret, T, S, tmarshaling, Args...>(fptr);
+            new1->setOwner(*this);
+            subs().add(name, new1);
             return *this;
         }
         template <typename Ret, typename... Args>
         me& funcConst(const std::string& name, Ret(T::* fptr)(Args...) const) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, S, tmarshaling, Args...>((Ret(T::*)(Args...)) fptr));
+            auto* new1 = new tcppBridgeFunc<Ret, T, S, tmarshaling, Args...>((Ret(T::*)(Args...)) fptr);
+            new1->setOwner(*this);
+            subs().add(name, new1);
             return *this;
         }
 

@@ -21,6 +21,7 @@ namespace namu {
         nbool onVisit(visitInfo i, params& me);
         nbool onVisit(visitInfo i, FBOExpr& me) override;
         nbool onVisit(visitInfo i, baseObj& me) override;
+        void onLeave(visitInfo i, baseObj& me) override;
         nbool onVisit(visitInfo i, getGenericExpr& me) override;
 
     private:
@@ -28,5 +29,6 @@ namespace namu {
 
     private:
         params _params;
+        tstr<baseObj> _owner;
     };
 }

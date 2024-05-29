@@ -237,3 +237,24 @@ TEST_F(defObjExprTest, variableDuplication) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 33);
 }
+
+TEST_F(defObjExprTest, frameNotCreatedWhenCallPackFunc) {
+    make().parse(R"SRC(
+        age := 22
+        boo() int
+            ret age
+        def a
+            age := 33
+            foo() int
+                ret boo()
+        main() int
+            a().foo()
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 33);
+    // namu returns 22 in this scenario so far.
+    // because it doesn't make a frame object and add to current thread when frame::inFrame() func get called.
+    // so it reuses previous frame instance when boo() called.
+}

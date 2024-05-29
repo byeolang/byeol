@@ -35,6 +35,13 @@ namespace namu {
         return max;
     }
 
+    namespace {
+        static nbool _isNatureNumber(const node& it) {
+            return it.isSub<nInt>() || it.isSub<nByte>();
+        }
+    }
+
+
     priority me::_prioritize(const node& param, const node& arg) const {
         if(arg.getType() == param.getType()) return EXACT_MATCH;
         if(_isNatureNumber(param) && _isNatureNumber(arg)) return NUMERIC_MATCH;
@@ -52,7 +59,6 @@ namespace namu {
         return false;
     }
 
-    nbool me::_isNatureNumber(const node& it) const {
-        return it.isSub<nInt>() || it.isSub<nByte>();
-    }
+    void me::setOwner(baseObj& owner) { _owner.bind(owner); }
+    baseObj& me::getOwner() { return *_owner; }
 }

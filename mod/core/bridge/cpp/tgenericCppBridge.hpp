@@ -25,22 +25,30 @@ namespace namu {
 
         template <typename Ret, typename... Args>
         me& genericFunc(const std::string& name, Ret(T::* fptr)(Args...)) {
-            this->subs().add(name, new tcppBridgeFunc<Ret, T, obj, tgenericMarshaling, Args...>(fptr));
+            auto* new1 = new tcppBridgeFunc<Ret, T, obj, tgenericMarshaling, Args...>(fptr);
+            new1->setOwner(*this);
+            this->subs().add(name, new1);
             return *this;
         }
         template <typename Ret, typename... Args>
         me& genericFuncNonConst(const std::string& name, Ret(T::* fptr)(Args...)) {
-            this->subs().add(name, new tcppBridgeFunc<Ret, T, obj, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
+            auto* new1 = new tcppBridgeFunc<Ret, T, obj, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr);
+            new1->setOwner(*this);
+            this->subs().add(name, new1);
             return *this;
         }
         template <typename Ret, typename... Args>
         me& genericFunc(const std::string& name, Ret(T::*fptr)(Args...) const) {
-            this->subs().add(name, new tcppBridgeFunc<Ret, T, obj, tgenericMarshaling, Args...>( (Ret(T::*)(Args...)) fptr));
+            auto* new1 = new tcppBridgeFunc<Ret, T, obj, tgenericMarshaling, Args...>( (Ret(T::*)(Args...)) fptr);
+            new1->setOwner(*this);
+            this->subs().add(name, new1);
             return *this;
         }
         template <typename Ret, typename... Args>
         me& genericFuncConst(const std::string& name, Ret(T::* fptr)(Args...) const) {
-            this->subs().add(name, new tcppBridgeFunc<Ret, T, obj, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
+            auto* new1 = new tcppBridgeFunc<Ret, T, obj, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr);
+            new1->setOwner(*this);
+            this->subs().add(name, new1);
             return *this;
         }
 

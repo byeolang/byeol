@@ -108,6 +108,9 @@ namespace namu {
                 getReport().add(err::newErr(errCode::IS_NULL, "parent"));
         }
 
+        if(_owner)
+            me.setOwner(*_owner);
+
         onVisit(i, (baseFunc::super&) me);
         return true;
     }
@@ -121,8 +124,13 @@ namespace namu {
             e.setVal(org);
         }
 
+        _owner.bind(me);
         onVisit(i, (baseObj::super&) me);
         return true;
+    }
+
+    void me::onLeave(visitInfo i, baseObj& me) {
+        _owner.rel();
     }
 
     nbool me::onVisit(visitInfo i, FBOExpr& me) {

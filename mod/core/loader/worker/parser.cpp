@@ -494,8 +494,14 @@ namespace namu {
         bicontainable& own = it.getOwns();
         for(auto e=blk.asScope->begin(); e ;++e) {
             // TODO: not only func, but also shared variable.
-            bicontainable& con = nul(e.getVal<baseFunc>()) ? own : share;
-            con.add(e.getKey(), *e);
+            baseFunc& cast = e.getVal<baseFunc>();
+            if(nul(cast)) {
+                own.add(e.getKey(), *e);
+                continue;
+            }
+
+            share.add(e.getKey(), *e);
+            cast.setOwner(it);
         }
 
         return _onInjectCtor(it, blk);

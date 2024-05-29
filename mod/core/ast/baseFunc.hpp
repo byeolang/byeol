@@ -18,6 +18,10 @@ namespace namu {
     public:
         priority prioritize(const args& a) const override;
 
+        void setOwner(baseObj& owner);
+        baseObj& getOwner();
+        const baseObj& getOwner() const NAMU_UNCONST_FUNC(getOwner());
+
         /// @return parameters of run() func.
         ///         parameter is just a type. and I don't care about the value of each parameters.
         ///         that is the reason why I uses a ref to represents parameter.
@@ -41,8 +45,10 @@ namespace namu {
         virtual nbool setRet(const node& newRet);
 
     private:
-        nbool _isNatureNumber(const node& it) const;
         priority _prioritize(const node& param, const node& arg) const;
+
+    private:
+        tstr<baseObj> _owner;
     };
 
     typedef tnarr<baseFunc> funcs;
