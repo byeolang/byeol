@@ -544,7 +544,7 @@ TEST_F(nchainTest, testLinkArrayAndChain) {
     }
 }
 
-TEST_F(nchainTest, testDeepChainIteration) {
+TEST_F(nchainTest, testChainCopy) {
     tnchain<float, myNode> chn1;
     chn1.add(1.0, new myNode(1));
     chn1.add(2.0, new myNode(2));
@@ -555,28 +555,52 @@ TEST_F(nchainTest, testDeepChainIteration) {
     chn2.add(4.0, new myNode(4));
     ASSERT_EQ(chn2.len(), 2);
 
-    tstr<tnchain<float, myNode>> root(chn1.wrapDeep(chn1));
-    ASSERT_EQ(root->len(), 2);
-
+    // current status: chn1 -> chn2
     chn1.link(chn2);
     ASSERT_EQ(chn1.len(), 4);
-    ASSERT_EQ(root->len(), 4);
+
+    // current status: chn1   -> chn2
+    //                 cloned -> chn2
+    tstr<tnchain<float, myNode>> cloned(chn1.mock());
+    ASSERT_EQ(cloned->len(), 4);
 
     tnchain<float, myNode> chn3;
     chn3.add(5.0, new myNode(5));
     chn3.add(6.0, new myNode(6));
     ASSERT_EQ(chn3.len(), 2);
 
-    root->link(chn3);
-    ASSERT_EQ(root->len(), 6);
+    // current status: chn1 -> chn2
+    //                 chn3 -> cloned -> chn2
+    chn3.link(*cloned);
+    ASSERT_EQ(cloned->len(), 6);
+
+    // current status: chn1 -> chn2
+    //                 chn3 -> cloned -> chn2
+    //              cloned2 -> cloned
+    tstr<tnchain<float, myNode>> cloned2(chn3.mock(*cloned));
+    ASSERT_EQ(cloned2->len(), 4);
+
+    // current status: chn1 -> chn2(size=3)
+    //                 chn3 -> cloned -> chn2(size=3)
+    //              cloned2 -> cloned -> chn1 -> chn2(size=3)
+    ASSERT_FALSE(nul(cloned2->getNext()));
+    cloned2->getNext().link(chn1);
+    ASSERT_EQ(cloned2->len(), 8);
+
+    chn2.add(7.0, new myNode(7));
+    ASSERT_EQ(chn1.len(), 5);
+    ASSERT_EQ(chn3.len(), 7);
+    ASSERT_EQ(cloned2->len(), 9);
+
 
     std::vector<float> tray;
-    for(auto e=root->begin(); e ;++e) {
+    for(auto e=cloned->begin(); e ;++e) {
         ASSERT_EQ(e.getKey(), (float) e->cast<myNode>().number);
         tray.push_back(e.getKey());
     }
 
-    for(int n=1; n <= 6; n++)
+
+    for(int n=1; n <= 7; n++)
         ASSERT_TRUE(vectorHas(tray, n));
 }
 
@@ -590,21 +614,33 @@ TEST_F(nchainTest, testDeepChainAddDel) {
     chn2.add(4.0, new myNode(4));
     chn1.link(chn2);
 
-    tstr<tnchain<float, myNode>> root(chn1.wrapDeep(chn1));
+    tstr<tnchain<float, myNode>> root(chn1.mock());
 
     tnchain<float, myNode> chn3;
     chn3.add(5.0, new myNode2(5));
     chn3.add(6.0, new myNode(6));
 
-    root->link(chn3);
+    auto& tail = root->getTail(); // tail is chn2 from root.
+    ASSERT_FALSE(nul(tail));
+    ASSERT_EQ(tail.len(), 2);
+    ASSERT_EQ(&tail, &chn2);
+
+    // current graph: root -> chn2 -> chn3
+    //                chn1 -> chn2
+    tail.link(chn3);
+    ASSERT_EQ(root->len(), 6);
+    ASSERT_EQ(chn1.len(), 4);
 
     auto e = root->begin();
     e = e + 2;
     ASSERT_FALSE(nul(*e));
-
     ASSERT_EQ(root->get(6.0).number, 6);
+
+    // current graph: root -> chn2(size=1) -> chn3
+    //                chn1 -> chn2(size=1)
     root->del(3.0);
     ASSERT_EQ(root->len(), 5);
+    ASSERT_EQ(chn1.len(), 3);
 
     {
         float expects[] = {1.0, 2.0, 4.0, 5.0, 6.0};
@@ -616,8 +652,7 @@ TEST_F(nchainTest, testDeepChainAddDel) {
         ASSERT_TRUE(isMyNodesHasEqualIntArray<myNode2>(*root, expects, 2));
     }
 
-    ASSERT_EQ(root->len(), 5);
-    root->del(root->begin() + 1, root->last());
+    root->del(root->begin() + 1, root->last()); // last element will remain.
     ASSERT_EQ(root->len(), 2);
 
     {

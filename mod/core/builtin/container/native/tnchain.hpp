@@ -23,6 +23,8 @@ namespace namu {
         tnchain(): _map(new defaultContainer()) {}
         explicit tnchain(const super& arr): _map(arr) {}
         explicit tnchain(const super* arr): _map(arr) {}
+        explicit tnchain(const super& org, const me& next): _map(org), _next(next) {}
+
 
     public:
         // has:
@@ -64,6 +66,9 @@ namespace namu {
         const me& getNext() const {
             return *_next;
         }
+        /// return most not null next element of this chain.
+        me& getTail();
+        const me& getTail() const NAMU_UNCONST_FUNC(getTail())
 
         /// returned deep cloned of this object.
         /// @remark even if the chain has already linked to the another chain instance,
@@ -85,6 +90,14 @@ namespace namu {
 
         virtual me* wrap(const super& toShallowWrap) const { return wrap<me>(toShallowWrap); }
         me* wrap(const super* toShallowWrap) const { return wrap(*toShallowWrap); }
+
+        /// mock this chain and let it chain another container differ to original.
+        /// this func keep accessing next element to chain it.
+        /// @param until the loop will be terminated when next element has same address to this.
+        ///        chain you assigned to 'until' will be cloned to.
+        me* mock(const me& until) const;
+        /// mock all of this chain until 'next' is null.
+        me* mock() const { return mock(nulOf<me>()); }
 
     protected:
         iteration* _onMakeIteration(ncnt step) const override {

@@ -120,6 +120,15 @@ namespace namu {
     }
 
     TEMPL
+    ME& ME::getTail() {
+        me* ret = this;
+        while(ret)
+            if(ret->_next)
+                ret = &ret->_next.get();
+        return *ret;
+    }
+
+    TEMPL
     template <typename T>
     T* ME::wrap(const super& toShallowWrap) {
         if(nul(toShallowWrap)) return nullptr;
@@ -127,6 +136,22 @@ namespace namu {
         if(nul(ret)) {
             ret = new T();
             ret->_map.bind(toShallowWrap);
+        }
+
+        return ret;
+    }
+
+    TEMPL
+    ME* ME::mock(const me& until) const {
+        const me* e = this;
+        me* ret = new me(*this, nulOf<me>());
+        me* retElem = ret;
+        while((e = &this->_next.get())) {
+            me* new1 = new me(*e, nulOf<me>());
+            retElem->_next.bind(new1);
+            retElem = new1;
+
+            if(e == &until) break;
         }
 
         return ret;
