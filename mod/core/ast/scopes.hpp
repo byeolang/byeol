@@ -20,8 +20,6 @@ namespace namu {
 
         using super::wrap;
         me* wrap(const super::super& toShallowWrap) const override;
-        using super::wrapDeep;
-        virtual me* wrapDeep(const super::super& toDeepWrap) const override;
 
     private:
         weak _owner;

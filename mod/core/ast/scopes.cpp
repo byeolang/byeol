@@ -16,8 +16,4 @@ namespace namu {
     me* me::wrap(const super::super& toShallowWrap) const {
         return (me*) wrap<me>(toShallowWrap);
     }
-
-    me* me::wrapDeep(const super::super& toDeepWrap) const {
-        return (me*) wrapDeep<me>(toDeepWrap);
-    }
 }

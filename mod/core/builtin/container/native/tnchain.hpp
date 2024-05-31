@@ -86,19 +86,6 @@ namespace namu {
         virtual me* wrap(const super& toShallowWrap) const { return wrap<me>(toShallowWrap); }
         me* wrap(const super* toShallowWrap) const { return wrap(*toShallowWrap); }
 
-        /// wrap given container no matter what it is.
-        virtual me* wrapDeep(const super& toDeepWrap) const { return wrapDeep<me>(toDeepWrap); }
-        me* wrapDeep(const super* toDeepWrap) const { return wrapDeep(*toDeepWrap); }
-
-        template <typename T>
-        static T* wrapDeep(const super& toDeepWrap) {
-            T* innerChn = me::wrap<T>(toDeepWrap);
-
-            T* ret = new T();
-            ret->_map.bind(innerChn);
-            return ret;
-        }
-
     protected:
         iteration* _onMakeIteration(ncnt step) const override {
             // TODO: optimize using containerIteration
