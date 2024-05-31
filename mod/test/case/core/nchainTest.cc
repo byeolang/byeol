@@ -572,7 +572,8 @@ TEST_F(nchainTest, testChainCopy) {
     // current status: chn1 -> chn2
     //                 chn3 -> cloned -> chn2
     chn3.link(*cloned);
-    ASSERT_EQ(cloned->len(), 6);
+    ASSERT_EQ(cloned->len(), 4);
+    ASSERT_EQ(chn3.len(), 6);
 
     // current status: chn1 -> chn2
     //                 chn3 -> cloned -> chn2
@@ -594,7 +595,7 @@ TEST_F(nchainTest, testChainCopy) {
 
 
     std::vector<float> tray;
-    for(auto e=cloned->begin(); e ;++e) {
+    for(auto e=cloned2->begin(); e ;++e) {
         ASSERT_EQ(e.getKey(), (float) e->cast<myNode>().number);
         tray.push_back(e.getKey());
     }

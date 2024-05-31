@@ -95,6 +95,7 @@ namespace namu {
         /// this func keep accessing next element to chain it.
         /// @param until the loop will be terminated when next element has same address to this.
         ///        chain you assigned to 'until' will be cloned to.
+        me* mock(const super& until) const;
         me* mock(const me& until) const;
         /// mock all of this chain until 'next' is null.
         me* mock() const { return mock(nulOf<me>()); }

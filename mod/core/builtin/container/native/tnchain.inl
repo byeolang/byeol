@@ -107,8 +107,8 @@ namespace namu {
     TEMPL
     nbool ME::link(const ME& new1) {
         if(nul(new1) || nul(new1.getContainer())) return false;
-        if(&new1.getContainer() == &getContainer())
-            return NAMU_W("recursive link detected!! new1(%x) is chain(%x)'s container.", &new1, &getContainer()), false;
+        if(&new1 == this)
+            return NAMU_W("recursive link detected!! new1(%x) is this(%x).", &new1, this), false;
 
         return _next.bind(new1);
     }
@@ -142,19 +142,25 @@ namespace namu {
     }
 
     TEMPL
-    ME* ME::mock(const me& until) const {
+    ME* ME::mock(const super& until) const {
         const me* e = this;
-        me* ret = new me(*this, nulOf<me>());
+        me* ret = new me(getContainer(), nulOf<me>());
         me* retElem = ret;
-        while((e = &this->_next.get())) {
-            me* new1 = new me(*e, nulOf<me>());
+        while((e = &e->_next.get())) {
+            const super& eCon = e->getContainer();
+            me* new1 = new me(eCon, nulOf<me>());
             retElem->_next.bind(new1);
             retElem = new1;
 
-            if(e == &until) break;
+            if(&eCon == &until) break;
         }
 
         return ret;
+    }
+
+    TEMPL
+    ME* ME::mock(const me& until) const {
+        return mock(nul(until) ? nulOf<super>() : until.getContainer());
     }
 
     TEMPL
