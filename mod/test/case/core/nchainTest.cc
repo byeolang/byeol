@@ -624,7 +624,8 @@ TEST_F(nchainTest, testDeepChainAddDel) {
     auto& tail = root->getTail(); // tail is chn2 from root.
     ASSERT_FALSE(nul(tail));
     ASSERT_EQ(tail.len(), 2);
-    ASSERT_EQ(&tail, &chn2);
+    ASSERT_NE(&tail, &chn2);
+    ASSERT_EQ(&tail.getContainer(), &chn2.getContainer());
 
     // current graph: root -> chn2 -> chn3
     //                chn1 -> chn2

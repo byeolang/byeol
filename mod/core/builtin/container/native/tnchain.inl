@@ -122,9 +122,8 @@ namespace namu {
     TEMPL
     ME& ME::getTail() {
         me* ret = this;
-        while(ret)
-            if(ret->_next)
-                ret = &ret->_next.get();
+        while(ret->_next)
+            ret = &ret->_next.get();
         return *ret;
     }
 
