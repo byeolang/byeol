@@ -10,9 +10,9 @@ namespace namu {
 
     public:
         tstr<scopes>& getTop();
-        const tstr<scopes>& getTop() const;
-        tstr<scopes>& getBottom();
-        const tstr<scopes>& getBottom() const;
+        const tstr<scopes>& getTop() const NAMU_UNCONST_FUNC(getTop())
+        tstr<scopes>& getTail();
+        const tstr<scopes>& getTail() const NAMU_UNCONST_FUNC(getTail())
 
         ncnt len() const;
         ncnt chainLen() const;
@@ -25,6 +25,6 @@ namespace namu {
 
     private:
         tstr<scopes> _top;
-        tstr<scopes> _bottom;
+        tstr<scopes> _tail;
     };
 }

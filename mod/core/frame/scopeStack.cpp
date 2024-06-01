@@ -8,16 +8,8 @@ namespace namu {
         return _top;
     }
 
-    const tstr<scopes>& me::getTop() const {
-        return _top;
-    }
-
-    tstr<scopes>& me::getBottom() {
-        return _bottom;
-    }
-
-    const tstr<scopes>& me::getBottom() const {
-        return _bottom;
+    tstr<scopes>& me::getTail() {
+        return _tail;
     }
 
     ncnt me::len() const {
@@ -48,7 +40,7 @@ namespace namu {
         if(_top)
             new1.link(*_top);
         else
-            _bottom.bind(new1);
+            _tail.bind(new1);
 
         NAMU_DI("localStack.push(Chain(%x))", this, &new1);
         return _top.bind(new1);
@@ -60,13 +52,13 @@ namespace namu {
         tstr<scopes> ret(_top);
         _top.bind(_top->getNext());
         if(!_top)
-            _bottom.rel();
+            _tail.rel();
         NAMU_DI("localStack.pop(%x), .next=%x", &ret.get(), &_top.get());
         return ret;
     }
 
     void me::rel() {
         _top.rel();
-        _bottom.rel();
+        _tail.rel();
     }
 }

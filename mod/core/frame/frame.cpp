@@ -38,12 +38,12 @@ namespace namu {
     void me::pushObj(const baseObj& obj) {
         _obj.bind(obj);
 
-        scopes& bottom = *_local.getBottom();
-        if(nul(bottom)) return;
+        scopes& tail = *_local.getTail();
+        if(nul(tail)) return;
         if(nul(obj))
-            bottom.unlink();
+            tail.unlink();
         else
-            bottom.link(obj.subs());
+            tail.link(obj.subs());
     }
 
     node& me::getObjHaving(const node& sub) {

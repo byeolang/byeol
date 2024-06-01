@@ -23,16 +23,22 @@ struct frameTest : public namuTest {
     }
 
     void SetUp() {
+        thr.bind(new thread());
+        thread::set(*thr);
+
         getFrames().add(new frame());
     }
 
     void TearDown() {
-        thread::get().rel();
+        thread::set();
+        thr.rel();
     }
 
     scopeStack& getScopeStack(frame& fr) {
         return fr._local;
     }
+
+    tstr<thread> thr;
 };
 
 TEST_F(frameTest, testAccessFrame) {
@@ -42,13 +48,13 @@ TEST_F(frameTest, testAccessFrame) {
 TEST_F(frameTest, testFrameManipulateChainObjNegative) {
     frame& fr = getFrames()[getFrames().len() - 1];
     scopeStack& ss = getScopeStack(fr);
-    ASSERT_FALSE(ss.getBottom().isBind());
+    ASSERT_FALSE(ss.getTail().isBind());
 
     scope local;
     local.add("myNode1", new myNode(1));
     local.add("myNode2", new myNode(2));
     fr.pushLocal(local);
-    ASSERT_TRUE(ss.getBottom().isBind());
+    ASSERT_TRUE(ss.getTail().isBind());
 
     scopes shares;
     shares.add("myNode4", new myNode(4));
@@ -63,7 +69,7 @@ TEST_F(frameTest, testFrameManipulateChainObjNegative) {
     obj obj1(shares, owns);
     ASSERT_EQ(obj1.subs().len(), 2);
 
-    ASSERT_TRUE(ss.getBottom().isBind());
+    ASSERT_TRUE(ss.getTail().isBind());
     ASSERT_EQ(fr.subAll<myNode>(lambda).len(), 2);
     ASSERT_EQ(owns.getAll<myNode>(lambda).len(), 1);
 }
