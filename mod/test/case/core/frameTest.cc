@@ -23,22 +23,12 @@ struct frameTest : public namuTest {
     }
 
     void SetUp() {
-        thr.bind(new thread());
-        thread::set(*thr);
-
         getFrames().add(new frame());
-    }
-
-    void TearDown() {
-        thread::set();
-        thr.rel();
     }
 
     scopeStack& getScopeStack(frame& fr) {
         return fr._local;
     }
-
-    tstr<thread> thr;
 };
 
 TEST_F(frameTest, testAccessFrame) {

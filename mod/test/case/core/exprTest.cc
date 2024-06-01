@@ -31,12 +31,14 @@ struct exprTest : public namuTest {
 
 void exprTest::SetUp() {
     namuTest::SetUp();
+
     bridge.bind(tcppBridge<helloWorld>::def()
         .func("main", &helloWorld::main));
 }
 
 void exprTest::TearDown() {
     namuTest::TearDown();
+
     helloWorld::isRun = false;
 }
 
@@ -117,7 +119,7 @@ TEST_F(exprTest, simpleRunExpr) {
     runExpr exp1(*bridge, *new getExpr("main"), narr(*new nStr("kniz!")));
 
     frame* fr = new frame();
-    fr->pushLocal(new scope());
+    fr->pushLocal(*new scope());
     fr->pushObj(*bridge);
     getFrames().add(*fr);
 
@@ -164,7 +166,7 @@ TEST_F(exprTest, constructExprInManual) {
     setLine(r, 1, 1);
 
     frame* fr = new frame();
-    fr->pushLocal(new scope());
+    fr->pushLocal(*new scope());
     fr->pushObj(*bridge);
     getFrames().add(*fr);
 

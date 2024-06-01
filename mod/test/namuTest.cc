@@ -4,10 +4,16 @@ typedef namuTest me;
 
 void me::SetUp() {
     _assertVault();
+
+    thr.bind(new namu::thread());
+    namu::thread::set(*thr);
 }
 
 void me::TearDown() {
     _assertVault();
+
+    namu::thread::set();
+    thr.rel();
 }
 
 namu::instance::vault& me::_getVault() {

@@ -13,4 +13,7 @@ protected:
 
 private:
     void _assertVault();
+
+private:
+    namu::tstr<namu::thread> thr;
 };
