@@ -9,7 +9,7 @@ namespace namu {
     NAMU(DEF_ME(obj), DEF_VISIT())
 
     me& me::_assign(const me& rhs) {
-        scope* cloned = (scope*) rhs._owns->deepClone();
+        scope* cloned = (scope*) rhs._owns->cloneDeep();
         cloned->setOwner(*this);
         _owns.bind(cloned);
 
@@ -119,11 +119,11 @@ namespace namu {
         _org = newOrg;
     }
 
-    clonable* me::deepClone() const {
-        NAMU_DW("obj: deepClone");
+    clonable* me::cloneDeep() const {
+        NAMU_DW("obj: cloneDeep");
 
         me* ret = (me*) clone();
-        if(_shares) ret->_shares.bind((scopes*) _shares->deepClone()); // chain's deepClone() clones first container only.
+        if(_shares) ret->_shares.bind((scopes*) _shares->cloneDeep()); // chain's cloneDeep() clones first container only.
         ret->_subs.bind((scopes*) ret->_makeNewSubs());
         return ret;
     }

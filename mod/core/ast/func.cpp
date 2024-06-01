@@ -106,20 +106,20 @@ namespace namu {
         fr.popLocal();
     }
 
-    clonable* me::deepClone() const {
+    clonable* me::cloneDeep() const {
         me* ret = (me*) clone();
         // params:
         ret->_params.rel();
         for(auto e=_params.begin(); e ;++e)
-            ret->_params.add((param*) e->deepClone());
+            ret->_params.add((param*) e->cloneDeep());
         // shares:
         ret->_shares.rel();
         for(auto e=_shares.begin(); e ;++e)
-            ret->_shares.add(e.getKey(), (node*) e->deepClone());
+            ret->_shares.add(e.getKey(), (node*) e->cloneDeep());
         // retType:
-        ret->_retType.bind((node*) _retType->deepClone());
+        ret->_retType.bind((node*) _retType->cloneDeep());
         // blk:
-        ret->_blk.bind((blockExpr*) _blk->deepClone());
+        ret->_blk.bind((blockExpr*) _blk->cloneDeep());
 
         return ret;
     }

@@ -22,7 +22,7 @@ namespace namu {
         return *_me;
     }
 
-    clonable* me::deepClone() const {
+    clonable* me::cloneDeep() const {
         me* ret = new me();
         for(auto e=this->begin(); e ;e++)
             ret->add((node*) e->clone());

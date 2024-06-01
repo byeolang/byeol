@@ -23,11 +23,11 @@
                 class __declspec(dllimport) clonable {
                 public: typedef clonable me;
                     virtual me* clone() const = 0;
-                    virtual me* deepClone() const { return clone(); }
+                    virtual me* cloneDeep() const { return clone(); }
                 };
 
                 class __declspec(dllimport) instance : public typeProvidable, public clonable {
-                    instance* deepClone() const override { return (instance*)clone(); }
+                    instance* cloneDeep() const override { return (instance*)clone(); }
                 };
 
                 class __declspec(dllimport) strTactic {};
@@ -37,14 +37,14 @@
                 public:
                     const type& getType() const override { const type* ret = nullptr; return *ret; }
                     tnarr* clone() const override;
-                    tnarr* deepClone() const override;
+                    tnarr* cloneDeep() const override;
                 };
                 class node;
                 extern template class __declspec(dllimport) tnarr<node, strTactic>;
 
                 class __declspec(dllexport) A : public tnarr<node> {
                 public:
-                    A* deepClone() const override;
+                    A* cloneDeep() const override;
                 };
 */
 //          this code occurs the error saying C2491: "you're not allowed to define func 'tnarr<node,

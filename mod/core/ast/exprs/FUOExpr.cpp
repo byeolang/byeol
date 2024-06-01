@@ -13,7 +13,7 @@ namespace namu {
         tstr<arithmeticObj> it(_it->as<node>());
         if(!it) return str();
 
-        str ret((node*)it->deepClone());
+        str ret((node*)it->cloneDeep());
         switch(_rule) {
             case POSTFIX_DOUBLE_PLUS: {
                 tstr<arithmeticObj> rhs = it->add(nInt(1));

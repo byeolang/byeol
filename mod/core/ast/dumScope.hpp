@@ -16,6 +16,6 @@ namespace namu {
         using super::add;
         nbool add(const std::string& key, const node& val) override;
 
-        me* deepClone() const override;
+        me* cloneDeep() const override;
     };
 }

@@ -23,7 +23,7 @@ namespace namu {
         str getEval() const override;
         const node& getLeft() const;
         const node& getRight() const;
-        clonable* deepClone() const override;
+        clonable* cloneDeep() const override;
 
     private:
         iter _getScopeIterOfLhs();

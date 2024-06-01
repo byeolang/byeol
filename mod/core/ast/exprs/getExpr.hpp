@@ -33,7 +33,7 @@ namespace namu {
         const args& getSubArgs() const;
         void setSubArgs(const args& new1);
 
-        clonable* deepClone() const override;
+        clonable* cloneDeep() const override;
 
     protected:
         virtual priorities _get(nbool evalMode) const;

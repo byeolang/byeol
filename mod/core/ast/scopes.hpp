@@ -16,7 +16,7 @@ namespace namu {
     public:
         node& getOwner() override;
         void setOwner(const node& owner) override;
-        me* deepClone() const override;
+        me* cloneDeep() const override;
 
         using super::wrap;
         me* wrap(const super::super& toShallowWrap) const override;

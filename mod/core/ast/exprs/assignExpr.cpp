@@ -29,10 +29,10 @@ namespace namu {
         return *_rhs;
     }
 
-    clonable* me::deepClone() const {
+    clonable* me::cloneDeep() const {
         me* ret = (me*) clone();
-        if(_lhs) ret->_lhs.bind((node*) _lhs->deepClone());
-        if(_rhs) ret->_rhs.bind((node*) _rhs->deepClone());
+        if(_lhs) ret->_lhs.bind((node*) _lhs->cloneDeep());
+        if(_rhs) ret->_rhs.bind((node*) _rhs->cloneDeep());
         return ret;
     }
 

@@ -49,10 +49,10 @@ namespace namu {
             return *_params;
         }
 
-        clonable* deepClone() const override {
+        clonable* cloneDeep() const override {
             me* ret = (me*) clone();
             if(_params)
-                ret->_params.bind((params*) _params->deepClone());
+                ret->_params.bind((params*) _params->cloneDeep());
 
             return ret;
         }

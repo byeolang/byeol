@@ -68,7 +68,7 @@ namespace namu {
         clonable* clone() const override {
             return new me(*this);
         }
-        clonable* deepClone() const override;
+        clonable* cloneDeep() const override;
 
         std::string asStr() const {
             std::string ret;

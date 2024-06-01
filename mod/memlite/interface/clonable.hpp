@@ -12,6 +12,6 @@ namespace namu {
         virtual ~clonable() {}
 
         virtual me* clone() const = 0;
-        virtual me* deepClone() const { return clone(); }
+        virtual me* cloneDeep() const { return clone(); }
     };
 }

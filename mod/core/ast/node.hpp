@@ -99,7 +99,7 @@ namespace namu {
 
         virtual const src& getSrc() const;
 
-        clonable* deepClone() const override;
+        clonable* cloneDeep() const override;
 
         /// returns whether this instance is complete or not.
         /// if some instance is incomplete, it means that it's not accessible on namulang source

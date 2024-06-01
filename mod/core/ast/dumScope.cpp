@@ -12,7 +12,7 @@ namespace namu {
         return false;
     }
 
-    me* me::deepClone() const {
-        return (me*) super::deepClone();
+    me* me::cloneDeep() const {
+        return (me*) super::cloneDeep();
     }
 }

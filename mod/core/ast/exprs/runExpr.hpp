@@ -31,7 +31,7 @@ namespace namu {
         args& getArgs();
         const args& getArgs() const;
 
-        clonable* deepClone() const override;
+        clonable* cloneDeep() const override;
 
     private:
         str _getSub(str me, const args& a) const;

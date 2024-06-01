@@ -43,7 +43,7 @@ namespace namu {
         const scope& getOwns() const NAMU_UNCONST_FUNC(getOwns())
         const obj& getOrigin() const override;
 
-        clonable* deepClone() const override;
+        clonable* cloneDeep() const override;
         typedef ntype metaType;
         const ntype& getType() const override;
         nbool isComplete() const override;

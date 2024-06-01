@@ -97,7 +97,7 @@ namespace namu {
         nbool del(const iter& from, const iter& to) override;
 
         //  etc:
-        clonable* deepClone() const override;
+        clonable* cloneDeep() const override;
         void rel() override;
 
         const obj& getOrigin() const override;

@@ -47,7 +47,7 @@ namespace namu {
         // etc:
         void rel() override;
 
-        clonable* deepClone() const override;
+        clonable* cloneDeep() const override;
 
     protected:
         iteration* _onMakeIteration(ncnt step) const override {

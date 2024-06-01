@@ -37,7 +37,7 @@ namespace namu {
         void inFrame(const bicontainable& args) override;
         void outFrame() override;
 
-        clonable* deepClone() const override;
+        clonable* cloneDeep() const override;
 
     private:
         scope* _evalArgs(const ucontainable& args);

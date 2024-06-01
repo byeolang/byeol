@@ -188,13 +188,13 @@ TEST_F(arrTest, testContainableAPI) {
     delete arr1;
 }
 
-TEST_F(arrTest, testDeepClone) {
+TEST_F(arrTest, testcloneDeep) {
     narr arr1;
     arr1.add(new myNode(1));
     arr1.add(new myNode(2));
     ASSERT_EQ(arr1.len(), 2);
 
-    tstr<narr> arr2wrap((narr*) arr1.deepClone());
+    tstr<narr> arr2wrap((narr*) arr1.cloneDeep());
     ASSERT_TRUE(arr2wrap);
     narr& arr2 = *arr2wrap;
     ASSERT_EQ(arr1.len(), arr2.len());

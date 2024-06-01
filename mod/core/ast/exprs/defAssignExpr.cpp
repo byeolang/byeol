@@ -52,12 +52,12 @@ namespace namu {
         _to.bind(new1);
     }
 
-    clonable* me::deepClone() const {
-        NAMU_DW("defAssignExpr: deepClone");
+    clonable* me::cloneDeep() const {
+        NAMU_DW("defAssignExpr: cloneDeep");
 
         me* ret = (me*) clone();
-        if(_to) ret->_to.bind((node*) _to->deepClone());
-        if(_rhs) ret->_rhs.bind((node*) _rhs->deepClone());
+        if(_to) ret->_to.bind((node*) _to->cloneDeep());
+        if(_rhs) ret->_rhs.bind((node*) _rhs->cloneDeep());
 
         return ret;
     }

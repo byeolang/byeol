@@ -80,7 +80,7 @@ namespace namu {
         NAMU_DI("=========================");
         NAMU_DI("        make generic     ");
         NAMU_DI("=========================");
-        tstr<obj> ret = (obj*) _orgObj->deepClone();
+        tstr<obj> ret = (obj*) _orgObj->cloneDeep();
         // update origin:
         //  genericObj makes an origin object. but ret->getOrigin() is pointing _orgObj now.
         //  I need to update it.

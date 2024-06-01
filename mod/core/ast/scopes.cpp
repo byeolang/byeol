@@ -11,7 +11,7 @@ namespace namu {
 
     node& me::getOwner() { return *_owner; }
     void me::setOwner(const node& owner) { _owner.bind(owner); }
-    me* me::deepClone() const { return (me*) super::deepClone(); }
+    me* me::cloneDeep() const { return (me*) super::cloneDeep(); }
 
     me* me::wrap(const super::super& toShallowWrap) const {
         return (me*) wrap<me>(toShallowWrap);

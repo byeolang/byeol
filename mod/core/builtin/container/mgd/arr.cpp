@@ -185,10 +185,10 @@ namespace namu {
     }
 
     //  etc:
-    clonable* me::deepClone() const {
+    clonable* me::cloneDeep() const {
         me* ret = (me*) clone();
         ret->rel();
-        tstr<tnarr<node>> cloned((tnarr<node>*) get().deepClone());
+        tstr<tnarr<node>> cloned((tnarr<node>*) get().cloneDeep());
         ret->get().add(*cloned);
         return ret;
     }
@@ -212,7 +212,7 @@ namespace namu {
     }
 
     scope& me::_defGeneric(const type* key) {
-        tstr<scope> clone(_getOriginScope().deepClone());
+        tstr<scope> clone(_getOriginScope().cloneDeep());
         clone->add("getElemType", new getElemTypeFunc());
 
         _cache.insert({key, clone}); // this avoids infinite loop.

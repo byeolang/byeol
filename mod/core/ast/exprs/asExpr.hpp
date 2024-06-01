@@ -24,7 +24,7 @@ namespace namu {
         const node& getMe() const;
         const node& getAs() const;
         void setAs(const node& new1);
-        clonable* deepClone() const override;
+        clonable* cloneDeep() const override;
 
     private:
         str _me;

@@ -91,7 +91,7 @@ namespace namu {
         return sub.run(a);
     }
 
-    clonable* me::deepClone() const {
+    clonable* me::cloneDeep() const {
         return (me*) clone();
     }
 

@@ -19,13 +19,13 @@ namespace namu {
         return _exprs;
     }
 
-    clonable* me::deepClone() const {
-        NAMU_DW("blockExpr: deepClone");
+    clonable* me::cloneDeep() const {
+        NAMU_DW("blockExpr: cloneDeep");
 
         me* ret = (me*) clone();
         ret->_exprs.rel();
         for(auto e=_exprs.begin(); e ;e++)
-            ret->_exprs.add((node*) e->deepClone());
+            ret->_exprs.add((node*) e->cloneDeep());
 
         return ret;
     }

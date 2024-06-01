@@ -358,7 +358,7 @@ TEST_F(nchainTest, testIfnchainLinkItself) {
     ASSERT_EQ(chn.len(), 2);
 }
 
-TEST_F(nchainTest, testDeepClone) {
+TEST_F(nchainTest, testcloneDeep) {
     nchain chn;
     chn.add("0", new myNode(0));
     chn.add("1", new myNode(1));
@@ -372,7 +372,7 @@ TEST_F(nchainTest, testDeepClone) {
     ASSERT_EQ(chn["2"].cast<myNode>().number, 2);
     ASSERT_EQ(chn["3"].cast<myNode>().number, 3);
 
-    tstr<nchain> it((nchain*) chn.deepClone()); // deep clone only the chain holds 0, 1
+    tstr<nchain> it((nchain*) chn.cloneDeep()); // deep clone only the chain holds 0, 1
     nchain& itsChn = *it;
     ASSERT_EQ(itsChn["0"].cast<myNode>().number, 0);
     ASSERT_EQ(itsChn["1"].cast<myNode>().number, 1);

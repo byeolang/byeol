@@ -70,10 +70,10 @@ namespace namu {
     }
 
     TEMPL
-    clonable* ME::deepClone() const {
+    clonable* ME::cloneDeep() const {
         me* ret = (me*) getType().make();
         for(iter e=this->begin(); e ;++e)
-            ret->add(e.getKey(), (V*) e.getVal().deepClone());
+            ret->add(e.getKey(), (V*) e.getVal().cloneDeep());
 
         return ret;
     }

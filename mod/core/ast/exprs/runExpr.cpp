@@ -63,17 +63,17 @@ namespace namu {
         return _args;
     }
 
-    clonable* me::deepClone() const {
-        NAMU_DI("runExpr: deepClone");
+    clonable* me::cloneDeep() const {
+        NAMU_DI("runExpr: cloneDeep");
 
         me* ret = (me*) clone();
-        if(_me) ret->_me.bind((node*) _me->deepClone());
+        if(_me) ret->_me.bind((node*) _me->cloneDeep());
 
         ret->_args.rel();
         for(const auto& a : _args)
-            ret->_args.add((node*) a.deepClone());
+            ret->_args.add((node*) a.cloneDeep());
 
-        if(_subject) ret->_subject.bind((node*) _subject->deepClone());
+        if(_subject) ret->_subject.bind((node*) _subject->cloneDeep());
 
         return ret;
     }

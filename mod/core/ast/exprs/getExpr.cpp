@@ -76,9 +76,9 @@ namespace namu {
         _me.bind(newMe);
     }
 
-    clonable* me::deepClone() const {
+    clonable* me::cloneDeep() const {
         me* ret = (me*) clone();
-        if(_args) ret->_args.bind((args*) _args->deepClone());
+        if(_args) ret->_args.bind((args*) _args->cloneDeep());
 
         return ret;
     }

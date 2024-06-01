@@ -33,7 +33,7 @@ namespace namu {
         node& getTo();
         void setTo(const node& new1);
 
-        clonable* deepClone() const override;
+        clonable* cloneDeep() const override;
 
     private:
         str _to;

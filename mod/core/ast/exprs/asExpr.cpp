@@ -32,10 +32,10 @@ namespace namu {
         _as.bind(new1);
     }
 
-    clonable* me::deepClone() const {
+    clonable* me::cloneDeep() const {
         me* ret = (me*) clone();
-        if(_me) ret->_me.bind((node*) _me->deepClone());
-        if(_as) ret->_as.bind((node*) _as->deepClone());
+        if(_me) ret->_me.bind((node*) _me->cloneDeep());
+        if(_as) ret->_as.bind((node*) _as->cloneDeep());
         return ret;
     }
 }
