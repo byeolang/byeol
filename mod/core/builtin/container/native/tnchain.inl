@@ -141,7 +141,7 @@ namespace namu {
     }
 
     TEMPL
-    ME* ME::mock(const super& until) const {
+    ME* ME::cloneChain(const super& until) const {
         const me* e = this;
         me* ret = new me(getContainer(), nulOf<me>());
         me* retElem = ret;
@@ -158,8 +158,8 @@ namespace namu {
     }
 
     TEMPL
-    ME* ME::mock(const me& until) const {
-        return mock(nul(until) ? nulOf<super>() : until.getContainer());
+    ME* ME::cloneChain(const me& until) const {
+        return cloneChain(nul(until) ? nulOf<super>() : until.getContainer());
     }
 
     TEMPL

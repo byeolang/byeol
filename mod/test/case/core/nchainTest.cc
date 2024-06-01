@@ -561,7 +561,7 @@ TEST_F(nchainTest, testChainCopy) {
 
     // current status: chn1   -> chn2
     //                 cloned -> chn2
-    tstr<tnchain<float, myNode>> cloned(chn1.mock());
+    tstr<tnchain<float, myNode>> cloned(chn1.cloneChain());
     ASSERT_EQ(cloned->len(), 4);
 
     tnchain<float, myNode> chn3;
@@ -578,7 +578,7 @@ TEST_F(nchainTest, testChainCopy) {
     // current status: chn1 -> chn2
     //                 chn3 -> cloned -> chn2
     //              cloned2 -> cloned
-    tstr<tnchain<float, myNode>> cloned2(chn3.mock(*cloned));
+    tstr<tnchain<float, myNode>> cloned2(chn3.cloneChain(*cloned));
     ASSERT_EQ(cloned2->len(), 4);
 
     // current status: chn1 -> chn2(size=3)
@@ -615,7 +615,7 @@ TEST_F(nchainTest, testDeepChainAddDel) {
     chn2.add(4.0, new myNode(4));
     chn1.link(chn2);
 
-    tstr<tnchain<float, myNode>> root(chn1.mock());
+    tstr<tnchain<float, myNode>> root(chn1.cloneChain());
 
     tnchain<float, myNode> chn3;
     chn3.add(5.0, new myNode2(5));
