@@ -15,6 +15,7 @@ namespace namu {
 
         _shares.bind(*rhs._shares);
         _subs.bind(_makeNewSubs());
+        _subpack = rhs._subpack;
         _org = rhs._org;
         _type = rhs._type;
         _src = rhs._src;
@@ -100,6 +101,10 @@ namespace namu {
         return *_org;
     }
 
+    const obj& me::getSubPack() const {
+        return *_subpack;
+    }
+
     nbool me::isComplete() const {
         return _isComplete;
     }
@@ -117,6 +122,10 @@ namespace namu {
 
     void me::_setOrigin(obj* newOrg) {
         _org = newOrg;
+    }
+
+    void me::_setSubPack(const obj& subpack) {
+        _subpack.bind(subpack);
     }
 
     clonable* me::cloneDeep() const {

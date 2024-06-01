@@ -392,8 +392,8 @@ namespace namu {
 
         obj& ret = *_maker.birth<obj>(name, new mgdType(name));
         ret._setComplete(false);
+        ret._setSubPack(*_subpack);
         _onInjectObjSubs(ret, blk);
-        ret.getShares().link(_subpack->subs());
         return &ret;
     }
 

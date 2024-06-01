@@ -42,6 +42,7 @@ namespace namu {
         scope& getOwns();
         const scope& getOwns() const NAMU_UNCONST_FUNC(getOwns())
         const obj& getOrigin() const override;
+        const obj& getSubPack() const;
 
         clonable* cloneDeep() const override;
         typedef ntype metaType;
@@ -54,6 +55,7 @@ namespace namu {
         // update origin pointer of an object.
         // to modify origin* is very dangerous. only permitted module should do this.
         void _setOrigin(obj* newOrg);
+        void _setSubPack(const obj& newSub);
 
         me& _assign(const me& rhs);
 
@@ -63,7 +65,8 @@ namespace namu {
         tstr<scopes> _subs;
         tstr<scopes> _shares;
         tstr<scope> _owns;
-        obj* _org;
+        tstr<obj> _subpack; // TODO: this should be beloned to originObj class only.
+        obj* _org; // TODO: this should be 'originObj*' type.
         point _pos;
         const mgdType* _type; // TODO: memory leak
         nbool _isComplete;
