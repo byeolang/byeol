@@ -23,8 +23,9 @@ namespace namu {
         ~frame() override;
 
         /// @param existing don't need to cloneChain() before passing this func.
-        nbool add(scopes& existing);
-        nbool addLocal(const std::string& name, const node& n);
+        void add(scopes& existing);
+        void add(nbicontainer& existing);
+        void addLocal(const std::string& name, const node& n);
 
         void del();
 
@@ -56,11 +57,12 @@ namespace namu {
 
     private:
         void _rel();
+        scopes& _getTop();
 
     private:
         tstr<baseObj> _me;
         tstr<baseFunc> _func;
-        tstr<scopes> _stack;
+        std::vector<tstr<scopes>> _stack;
         mutable str _ret;
     };
 }

@@ -15,22 +15,28 @@ namespace namu {
         _rel();
     }
 
-    nbool me::add(scopes& existing) {
+    void me::add(scopes& existing) {
+        if(_stack.size() <= 0)
+            _stack.push_back(existing);
+
         tstr<scopes> cloned(existing.cloneChain());
-        if(!cloned) return false;
-        cloned->getTail().link(*_stack);
-        _stack = cloned;
-        return true;
+        if(!cloned) return;
+        cloned->getTail().link(_getTop());
+        _stack.push_back(cloned);
     }
-    nbool me::addLocal(const std::string& name, const node& n) {
-        if(!_stack)
-            return NAMU_E("couldn't push new node. the top scope is null"), false;
-        auto& top = *_stack;
+    void me::add(nbicontainer& existing) {
+        tstr<scopes> wrap = scopes::wrap<scopes>(existing);
+        add(*wrap);
+    }
+    void me::addLocal(const std::string& name, const node& n) {
+        if(_stack.size() <= 0)
+            return NAMU_E("couldn't push new node. the top scope is null"), void();
+        auto& top = _getTop();
         const node& owner = top.getOwner();
         if(!nul(top.getOwner()))
-            return NAMU_E("it's tried to add variable into %s. it's not valid.", owner.getType().getName().c_str()), false;
+            return NAMU_E("it's tried to add variable into %s. it's not valid.", owner.getType().getName().c_str()), void();
 
-        return top.add(name, n);
+        top.add(name, n);
     }
 
     node& me::getObjHaving(const node& sub) {
@@ -51,9 +57,14 @@ namespace namu {
     baseObj& me::getMe() { return *_me; }
 
     void me::del() {
-        if(!_stack) return;
+        _stack.pop_back();
+    }
 
-        _stack.bind(_stack->getNext());
+    scopes& me::_getTop() {
+        ncnt len = _stack.size();
+        if(len <= 0) return nulOf<scopes>();
+
+        return *_stack[len-1];
     }
 
     nbool me::setFunc(baseFunc& new1) { return _func.bind(new1); }
@@ -62,10 +73,9 @@ namespace namu {
 
     // node:
     nbicontainer& me::subs() {
-        if(_stack) return *_stack;
-
         static dumScope inner;
-        return inner;
+        nbicontainer& ret = _getTop();
+        return nul(ret) ? inner : ret;
     }
 
     priority me::prioritize(const args& a) const {
