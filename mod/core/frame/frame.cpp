@@ -17,7 +17,7 @@ namespace namu {
 
     void me::add(scopes& existing) {
         if(_stack.size() <= 0)
-            _stack.push_back(existing);
+            return _stack.push_back(existing), void();
 
         tstr<scopes> cloned(existing.cloneChain());
         if(!cloned) return;

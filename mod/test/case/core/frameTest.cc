@@ -27,6 +27,11 @@ struct frameTest : public namuTest {
         getFrames().add(new frame());
     }
 
+    void TearDown() {
+        getFrames().rel();
+        namuTest::TearDown();
+    }
+
     scopes& getScopeStack(frame& fr) {
         return fr.subs().cast<scopes>();
     }
