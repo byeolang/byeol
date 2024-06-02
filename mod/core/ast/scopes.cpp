@@ -22,7 +22,7 @@ namespace namu {
     }
 
     me* me::cloneChain(const super& until) const {
-        return cloneChain(until.getContainer());
+        return cloneChain(nul(until) ? nulOf<super>() : until.getContainer());
     }
 
     me* me::cloneChain() const {

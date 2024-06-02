@@ -118,9 +118,10 @@ TEST_F(exprTest, simpleRunExprWithoutMeObjNegative) {
 TEST_F(exprTest, simpleRunExpr) {
     runExpr exp1(*bridge, *new getExpr("main"), narr(*new nStr("kniz!")));
 
-    /*TODO: remove? frame* fr = new frame();
-    fr->pushObj(*bridge);
-    getFrames().add(*fr);*/
+    frame fr;
+    fr.add(*new scopes());
+    fr.setMe(*bridge);
+    getFrames().add(fr);
 
     errReport rep;
     verifier veri;
@@ -161,8 +162,15 @@ TEST_F(exprTest, constructExprInManual) {
     runExpr r(*bridge, *new getExpr("main"), narr(*new nStr("kniz!")));
     setLine(r, 1, 1);
 
+    frame fr;
+    fr.add(*new scopes());
+    fr.setMe(*bridge);
+    getFrames().add(fr);
+
     str res = r.run();
     ASSERT_TRUE(res);
     ASSERT_TRUE(res.getType() == ttype<node>::get());
     ASSERT_TRUE(res->getType() == ttype<nVoid>::get());
+
+    getFrames().del();
 }

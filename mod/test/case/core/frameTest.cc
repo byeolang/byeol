@@ -23,6 +23,7 @@ struct frameTest : public namuTest {
     }
 
     void SetUp() {
+        namuTest::SetUp();
         getFrames().add(new frame());
     }
 
