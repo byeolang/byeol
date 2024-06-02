@@ -119,7 +119,6 @@ TEST_F(exprTest, simpleRunExpr) {
     runExpr exp1(*bridge, *new getExpr("main"), narr(*new nStr("kniz!")));
 
     frame* fr = new frame();
-    fr->pushLocal(*new scope());
     fr->pushObj(*bridge);
     getFrames().add(*fr);
 

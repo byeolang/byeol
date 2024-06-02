@@ -34,7 +34,7 @@ namespace namu {
         frame& fr = *new frame();
         scope* s = new scope();
         s->add("me", *this);
-        fr.pushLocal(s);
+        fr.pushLocal(*scopes::wrap<scopes>(*s));
         fr.pushObj(*this);
         frs.add(fr);
     }

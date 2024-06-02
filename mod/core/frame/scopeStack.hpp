@@ -9,22 +9,25 @@ namespace namu {
         NAMU(CLASS(scopeStack, instance))
 
     public:
-        tstr<scopes>& getTop();
-        const tstr<scopes>& getTop() const NAMU_UNCONST_FUNC(getTop())
+        tstr<scopes>& getHead();
+        const tstr<scopes>& getHead() const NAMU_UNCONST_FUNC(getHead())
         tstr<scopes>& getTail();
         const tstr<scopes>& getTail() const NAMU_UNCONST_FUNC(getTail())
 
         ncnt len() const;
         ncnt chainLen() const;
 
-        nbool push(scopes& new1);
+        /// @param new1 this scope chain should be cloneChained if it's required.
+        nbool addTail(scopes& new1);
+        /// @param new1 this scope chain should be cloneChained if it's required.
+        nbool addHead(scopes& new1);
 
         tstr<scopes> pop();
 
         void rel();
 
     private:
-        tstr<scopes> _top;
+        tstr<scopes> _head;
         tstr<scopes> _tail;
     };
 }

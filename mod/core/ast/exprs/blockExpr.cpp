@@ -39,7 +39,7 @@ namespace namu {
             return;
         }
 
-        fr.pushLocal(new scope());
+        fr.pushLocal(*new scope());
     }
 
     void me::outFrame() {

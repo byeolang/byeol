@@ -23,53 +23,24 @@ namespace namu {
         frame();
         ~frame() override;
 
-        /* TODO: can I remove this?:
+        /// @param existing don't need to cloneChain() before passing this func.
+        nbool add(scopes& existing);
+        nbool addLocal(const std::string& name, const node& n);
 
-        /// @return returns tpair<node, itsOwner>. the owner has the container holding the node
-        ///         which can run with given name & argument.
-        tpair<str, str> subAndOwner(const std::string& name, const ucontainable& args) {
-            scopes& chn = subs().cast<scopes>();
-            if(nul(chn)) return tpair<str, str>();
+        void del();
 
-            for(scopes* e=&chn; e ;e=&e->getNext()) {
-                node& owner = _getOwnerFrom(*e);
-                if(nul(owner)) {
-                    NAMU_W("couldn't find owner from chain[%x]", &e.get());
-                    continue;
-                }
+        nbool setMe(const baseObj& obj);
+        void setMe();
+        const baseObj& getMe() const NAMU_UNCONST_FUNC(getMe())
+        baseObj& getMe();
 
-                node& ret = owner.sub(name, args);
-                if(nul(ret)) continue;
-
-                return tpair<str, str>(str(owner), str(ret));
-            }
-
-            return tpair<str, str>();
-        }*/
-
-        nbool pushLocal(nbicontainer* con);
-        nbool pushLocal(nbicontainer& con);
-        nbool pushLocal(scopes* new1);
-        nbool pushLocal(scopes& new1);
-        nbool pushLocal(const std::string& name, const node& n);
-        nbool pushLocal(const std::string& name, const node* n);
-        void pushObj(const baseObj& obj);
-
-        node& getObjHaving(const node& sub);
-        const node& getObjHaving(const node& sub) const NAMU_UNCONST_FUNC(getObjHaving(sub))
-
-        nbicontainer& getTop();
-        const nbicontainer& getTop() const NAMU_UNCONST_FUNC(getTop())
-
-        // I won't provide API for poping a single node from the scope.
-        tstr<scopes> popLocal();
-
-        void setFunc(baseFunc& new1);
+        nbool setFunc(baseFunc& new1);
         void setFunc();
         baseFunc& getFunc();
         const baseFunc& getFunc() const NAMU_UNCONST_FUNC(getFunc())
-        const baseObj& getMe() const NAMU_UNCONST_FUNC(getMe())
-        baseObj& getMe();
+
+        node& getObjHaving(const node& sub);
+        const node& getObjHaving(const node& sub) const NAMU_UNCONST_FUNC(getObjHaving(sub))
 
         // node:
         using node::subs;
@@ -84,18 +55,13 @@ namespace namu {
         nbool setRet() const;
         node& getRet() const;
 
-    protected:
-        static baseObj& _setMe(baseObj& new1);
-        static baseObj& _setMe();
-        static baseObj& _getMe();
-
     private:
         void _rel();
 
     private:
-        tstr<baseObj> _obj;
+        tstr<baseObj> _me;
         tstr<baseFunc> _func;
-        scopeStack _local;
+        tstr<scopes> _stack;
         mutable str _ret;
     };
 }

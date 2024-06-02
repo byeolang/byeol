@@ -15,84 +15,54 @@ namespace namu {
         _rel();
     }
 
-    nbool me::pushLocal(nbicontainer* con) { return pushLocal(*con); }
-    nbool me::pushLocal(nbicontainer& con) { return pushLocal(*scopes::wrap<scopes>(con)); }
-    nbool me::pushLocal(scopes* new1) { return _local.push(*new1); }
-    nbool me::pushLocal(scopes& new1) {
-        nbool ret = _local.push(new1);
-        if(ret && _local.chainLen() == 1 && _obj)
-            new1.link(_obj->subs());
-        return ret;
+    nbool me::add(scopes& existing) {
+        tstr<scopes> cloned(existing.cloneChain());
+        if(!cloned) return false;
+        cloned->getTail().link(*_stack);
+        _stack = cloned;
+        return true;
     }
-    nbool me::pushLocal(const std::string& name, const node& n) {
-        scopes& top = *_local.getTop();
-        if(nul(top))
+    nbool me::addLocal(const std::string& name, const node& n) {
+        if(!_stack)
             return NAMU_E("couldn't push new node. the top scope is null"), false;
+        auto& top = *_stack;
+        const node& owner = top.getOwner();
+        if(!nul(top.getOwner()))
+            return NAMU_E("it's tried to add variable into %s. it's not valid.", owner.getType().getName().c_str()), false;
 
         return top.add(name, n);
-    }
-    nbool me::pushLocal(const std::string& name, const node* n) {
-        return pushLocal(name, *n);
-    }
-
-    void me::pushObj(const baseObj& obj) {
-        _obj.bind(obj);
-
-        scopes& tail = *_local.getTail();
-        if(nul(tail)) return;
-        if(nul(obj))
-            tail.unlink();
-        else
-            tail.link(obj.subs());
     }
 
     node& me::getObjHaving(const node& sub) {
         // TODO: _obj should be array if I support 'with' keyword.
-        if(!_obj) return nulOf<node>();
+        if(!_me) return nulOf<node>();
 
         // TODO: disunite obj scope and subpack scope.
-        if(_obj->has(sub)) return *_obj;
+        if(_me->has(sub)) return *_me;
         return nulOf<node>();
     }
 
-    namespace {
-        thread_local static baseObj* inner = nullptr;
+    nbool me::setMe(const baseObj& new1) {
+        return _me.bind(new1);
+    }
+    void me::setMe() {
+        _me.rel();
+    }
+    baseObj& me::getMe() { return *_me; }
+
+    void me::del() {
+        if(!_stack) return;
+
+        _stack.bind(_stack->getNext());
     }
 
-    baseObj& me::_setMe(baseObj& new1) {
-        baseObj& ret = *inner;
-        inner = &new1;
-        return ret;
-    }
-    baseObj& me::_setMe() {
-        return _setMe(nulOf<baseObj>());
-    }
-    baseObj& me::_getMe() { return *inner; }
-
-    nbicontainer& me::getTop() {
-        if(_local.chainLen() > 0)
-            return _local.getTop()->getContainer();
-        if(_obj)
-            return _obj->subs();
-
-        static dumScope inner;
-        return inner;
-    }
-
-    tstr<scopes> me::popLocal() {
-        return _local.pop();
-    }
-    // I won't provide API for poping a single node from the scope.
-    void me::setFunc(baseFunc& new1) { _func.bind(new1); }
+    nbool me::setFunc(baseFunc& new1) { return _func.bind(new1); }
     void me::setFunc() { setFunc(nulOf<baseFunc>()); }
     baseFunc& me::getFunc() { return *_func; }
-    baseObj& me::getMe() { return *_obj; }
 
     // node:
     nbicontainer& me::subs() {
-        scopes& top = *_local.getTop();
-        if(!nul(top)) return top;
-        if(_obj) return _obj->subs();
+        if(_stack) return *_stack;
 
         static dumScope inner;
         return inner;
@@ -125,9 +95,9 @@ namespace namu {
     }
 
     void me::_rel() {
-        _obj.rel();
+        _me.rel();
         _func.rel();
-        _local.rel();
+        _stack.rel();
         _ret.rel();
     }
 }

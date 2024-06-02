@@ -99,9 +99,9 @@ namespace namu {
         static T* cloneChain(const T& org, const super& until);
 
         virtual me* cloneChain(const super& until) const;
-        me* cloneChain(const me& until) const;
+        virtual me* cloneChain(const me& until) const;
         /// mock all of this chain until 'next' is null.
-        me* cloneChain() const { return cloneChain(nulOf<me>()); }
+        virtual me* cloneChain() const { return cloneChain(nulOf<me>()); }
 
     protected:
         iteration* _onMakeIteration(ncnt step) const override {
