@@ -16,4 +16,16 @@ namespace namu {
     me* me::wrap(const super::super& toShallowWrap) const {
         return (me*) wrap<me>(toShallowWrap);
     }
+
+    me* me::cloneChain(const super::super& until) const {
+        return cloneChain<me>(*this, until);
+    }
+
+    me* me::cloneChain(const super& until) const {
+        return cloneChain(until.getContainer());
+    }
+
+    me* me::cloneChain() const {
+        return cloneChain(nulOf<super>());
+    }
 }

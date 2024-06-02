@@ -21,6 +21,11 @@ namespace namu {
         using super::wrap;
         me* wrap(const super::super& toShallowWrap) const override;
 
+        using super::cloneChain;
+        me* cloneChain(const super::super& until) const override;
+        me* cloneChain(const super& until) const override;
+        me* cloneChain() const override;
+
     private:
         weak _owner;
     };

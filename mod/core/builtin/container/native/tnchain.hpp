@@ -10,13 +10,13 @@ namespace namu {
     class tnchain : public tnbicontainer<K, V> {
         typedef tnbicontainer<K, V> _super_;
         typedef tnchain<K, V, defaultContainer> _me_;
-
         NAMU(CLASS(_me_, _super_))
 
     public:
         typedef typename super::iter iter;
         typedef typename super::iteration iteration;
         friend class chainIteration;
+        friend class scopeStack;
 #include "../iter/nchainIteration.hpp"
 
     public:
@@ -95,7 +95,10 @@ namespace namu {
         /// this func keep accessing next element to chain it.
         /// @param until the loop will be terminated when next element has same address to this.
         ///        chain you assigned to 'until' will be cloned to.
-        me* cloneChain(const super& until) const;
+        template <typename T>
+        static T* cloneChain(const T& org, const super& until);
+
+        virtual me* cloneChain(const super& until) const;
         me* cloneChain(const me& until) const;
         /// mock all of this chain until 'next' is null.
         me* cloneChain() const { return cloneChain(nulOf<me>()); }
