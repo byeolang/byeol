@@ -165,7 +165,7 @@ namespace namu {
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
         NAMU_I("verify: defAssignExpr: duplication of variable.");
-        const nbicontainer& top = *thread::get().getNowFrame()._stack;
+        const nbicontainer& top = thread::get().getNowFrame().subs();
         if(nul(top)) return;
 
         const std::string name = me.getSubName();
@@ -215,7 +215,7 @@ namespace namu {
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
         NAMU_I("verify: defPropExpr: check duplication");
-        const nbicontainer& top = *thread::get()._getNowFrame()._stack;
+        const nbicontainer& top = thread::get()._getNowFrame().subs();
         str eval = me.getEval();
         if(!eval)
             return posError(errCode::TYPE_NOT_EXIST, me, me.getName().c_str()), true;
@@ -251,9 +251,10 @@ namespace namu {
             posError(errCode::DONT_HAVE_CTOR, me, name.c_str());
         else {
             node* new1 = new mockNode(*eval);
-            nbool res = me._where ? me._where->add(name.c_str(), new1) : thread::get()._getNowFrame().addLocal(name, *new1);
-            if(!res)
-                NAMU_I("verify: defPropExpr: define variable %s is failed.", name.c_str());
+            if(me._where)
+                me._where->add(name.c_str(), new1);
+            else
+                thread::get()._getNowFrame().addLocal(name, *new1);
         }
         return true;
     }

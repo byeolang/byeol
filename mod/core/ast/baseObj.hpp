@@ -7,6 +7,7 @@ namespace namu {
 
     class baseFunc;
     typedef tnarr<baseFunc> funcs;
+    class frame;
 
     /// baseObj handles frame injection event of all objects.
     class _nout baseObj : public node {
@@ -38,6 +39,7 @@ namespace namu {
     protected:
         str _onRunSub(node& sub, const args& a) override;
         void _setSrc(const src& s) override;
+        virtual void _inFrame(frame& fr, const bicontainable& args);
 
     public:
          inline static const string CTOR_NAME = "@ctor";

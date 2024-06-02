@@ -109,6 +109,12 @@ namespace namu {
         return _isComplete;
     }
 
+    void me::_inFrame(frame& fr, const bicontainable& args) {
+        if(_subpack)
+            fr.add(_subpack->subs());
+        super::_inFrame(fr, args);
+    }
+
     void me::_setComplete(nbool isComplete) {
         _isComplete = isComplete;
     }

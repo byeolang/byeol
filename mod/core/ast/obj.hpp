@@ -49,6 +49,9 @@ namespace namu {
         const ntype& getType() const override;
         nbool isComplete() const override;
 
+    protected:
+        void _inFrame(frame& fr, const bicontainable& args) override;
+
     private:
         scopes* _makeNewSubs();
         void _setType(const mgdType* new1);

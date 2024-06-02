@@ -33,7 +33,7 @@ namespace namu {
             return NAMU_E("couldn't push new node. the top scope is null"), void();
         auto& top = _getTop();
         const node& owner = top.getOwner();
-        if(!nul(top.getOwner()))
+        if(!nul(owner))
             return NAMU_E("it's tried to add variable into %s. it's not valid.", owner.getType().getName().c_str()), void();
 
         top.add(name, n);
@@ -107,7 +107,7 @@ namespace namu {
     void me::_rel() {
         _me.rel();
         _func.rel();
-        _stack.rel();
+        _stack.clear();
         _ret.rel();
     }
 }

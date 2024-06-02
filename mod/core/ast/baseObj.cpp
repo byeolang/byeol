@@ -31,14 +31,18 @@ namespace namu {
         frames& frs = namu::thread::get()._getFrames();
         NAMU_DI("%s.inFrame()[%d]", getType().getName().c_str(), frs.len());
 
+        frame& fr = *new frame();
+        frs.add(fr);
+        _inFrame(fr, args);
+    }
+
+    void me::_inFrame(frame& fr, const bicontainable& args) {
+        fr.setMe(*this);
+        fr.add(subs());
+
         scopes* s = new scopes();
         s->add("me", *this);
-
-        frame& fr = *new frame();
         fr.add(*s);
-        fr.setMe(*this);
-
-        frs.add(fr);
     }
 
     void me::outFrame() {

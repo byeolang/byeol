@@ -14,13 +14,9 @@ namespace namu {
         str org = _org->as<node>();
         if(!org)
             return NAMU_E("getting origin by %s returns null", _name.c_str()), org;
-
-        nbool res = _where ? _where->add(_name, *org->run()) :
-            thread::get()._getNowFrame().addLocal(_name, *org->run());
-        if(!res)
-            NAMU_E("define variable %s is failed.", _name.c_str());
-
-        return org;
+        if(_where)
+            return _where->add(_name, *org->run()), org;
+        return thread::get()._getNowFrame().addLocal(_name, *org->run()), org;
     }
 
     void me::setOrigin(const node& newOrg) {

@@ -28,7 +28,7 @@ struct frameTest : public namuTest {
     }
 
     scopes& getScopeStack(frame& fr) {
-        return *fr._stack;
+        return fr.subs().cast<scopes>();
     }
 };
 
