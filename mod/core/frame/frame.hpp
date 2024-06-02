@@ -15,7 +15,6 @@ namespace namu {
     class _nout frame : public node { // TODO: may be obj, not node.
         NAMU(CLASS(frame, node), VISIT())
         friend class verifier;
-        friend struct ::immutableTest;
         friend struct ::frameTest;
         friend class baseObj;
 

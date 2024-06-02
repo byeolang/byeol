@@ -165,7 +165,7 @@ namespace namu {
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
         NAMU_I("verify: defAssignExpr: duplication of variable.");
-        const nbicontainer& top = thread::get().getNowFrame().getTop();
+        const nbicontainer& top = *thread::get().getNowFrame()._stack;
         if(nul(top)) return;
 
         const std::string name = me.getSubName();
@@ -200,7 +200,7 @@ namespace namu {
             if(sc.getContainer().has(me.getSubName()))
                 return posError(errCode::ALREADY_DEFINED_VAR, me, me.getSubName().c_str(),
                         rhs.getType().getName().c_str());
-            fr.pushLocal(me.getSubName(), *new1);
+            fr.addLocal(me.getSubName(), *new1);
 
         } else {
             scopes& sc = (scopes&) to.run()->subs();
@@ -215,7 +215,7 @@ namespace namu {
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
         NAMU_I("verify: defPropExpr: check duplication");
-        const nbicontainer& top = thread::get().getNowFrame().getTop();
+        const nbicontainer& top = *thread::get()._getNowFrame()._stack;
         str eval = me.getEval();
         if(!eval)
             return posError(errCode::TYPE_NOT_EXIST, me, me.getName().c_str()), true;
@@ -251,7 +251,7 @@ namespace namu {
             posError(errCode::DONT_HAVE_CTOR, me, name.c_str());
         else {
             node* new1 = new mockNode(*eval);
-            nbool res = me._where ? me._where->add(name.c_str(), new1) : thread::get()._getNowFrame().pushLocal(name, *new1);
+            nbool res = me._where ? me._where->add(name.c_str(), new1) : thread::get()._getNowFrame().addLocal(name, *new1);
             if(!res)
                 NAMU_I("verify: defPropExpr: define variable %s is failed.", name.c_str());
         }
@@ -430,7 +430,7 @@ namespace namu {
     nbool me::onVisit(visitInfo i, func& me) {
         onVisit(i, (func::super&) me);
 
-        obj& meObj = frame::_getMe().cast<obj>(); // TODO: same to 'thread::get().getNowFrame().getMe().cast<obj>();'
+        obj& meObj = thread::get()._getNowFrame().getMe().cast<obj>(); // TODO: same to 'thread::get().getNowFrame().getMe().cast<obj>();'
         if(nul(meObj)) return posError(errCode::FUNC_REDIRECTED_OBJ, me), true;
 
         NAMU_I("verify: check func duplication");
@@ -543,7 +543,6 @@ namespace namu {
 
     void me::_prepare() {
         super::_prepare();
-        _us.clear();
         _recentLoops.clear();
 
         baseObj& root = getTask().cast<baseObj>();
@@ -561,16 +560,17 @@ namespace namu {
     void me::onLeave(visitInfo i, func& me) {
         me.getBlock().outFrame();
         me.outFrame();
-        baseObj& meObj = frame::_getMe();
+        baseObj& meObj = thread::get()._getNowFrame().getMe();
         meObj.outFrame();
     }
 
     nbool me::onVisit(visitInfo i, baseObj& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
+        frame& fr = thread::get()._getNowFrame();
         NAMU_I("verify: baseObj: %s push me[%x] len=%d", me.getType().getName().c_str(),
-                &frame::_getMe(), me.subs().len());
-        _us.push_back(&frame::_setMe(me));
+                &fr.getMe(), me.subs().len());
+        fr.setMe(me);
 
         NAMU_I("verify: baseObj: iterate all subs and checks void type variable");
         for(const node& elem : me.subs())
@@ -584,10 +584,6 @@ namespace namu {
 
     void me::onLeave(visitInfo i, baseObj& me) {
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
-
-        frame::_setMe(*_us.back());
-        NAMU_I("verify: baseObj: pop me[%x]", &frame::_getMe());
-        _us.pop_back();
     }
 
     nbool me::onVisit(visitInfo i, genericObj& me) {
@@ -625,7 +621,7 @@ namespace namu {
                 name.c_str());
 
         me.getBlock().inFrame();
-        thread::get()._getNowFrame().pushLocal(name, *((node*) elemType->clone()));
+        thread::get()._getNowFrame().addLocal(name, *((node*) elemType->clone()));
         _recentLoops.push_back(&me);
         return true;
     }

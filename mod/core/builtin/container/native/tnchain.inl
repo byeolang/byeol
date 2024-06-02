@@ -144,12 +144,12 @@ namespace namu {
     template <typename T>
     T* ME::cloneChain(const T& org, const super& until) {
         if(nul(org)) return nullptr;
-        const T* e = &org;
-        T* ret = new T(org.getContainer(), nulOf<me>());
+        const me* e = &org;
+        T* ret = new T(org.getContainer(), nulOf<T>());
         T* retElem = ret;
         while((e = &e->_next.get())) {
             const super& eCon = e->getContainer();
-            T* new1 = new T(eCon, nulOf<me>());
+            T* new1 = new T(eCon, nulOf<T>());
             retElem->_next.bind(new1);
             retElem = new1;
 

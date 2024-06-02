@@ -12,6 +12,7 @@ namespace namu {
         scopes();
         explicit scopes(const super::super& arr);
         explicit scopes(const super::super* arr);
+        explicit scopes(const super::super& org, const me& next): super(org, next) {}
 
     public:
         node& getOwner() override;

@@ -118,16 +118,13 @@ TEST_F(exprTest, simpleRunExprWithoutMeObjNegative) {
 TEST_F(exprTest, simpleRunExpr) {
     runExpr exp1(*bridge, *new getExpr("main"), narr(*new nStr("kniz!")));
 
-    frame* fr = new frame();
+    /*TODO: remove? frame* fr = new frame();
     fr->pushObj(*bridge);
-    getFrames().add(*fr);
+    getFrames().add(*fr);*/
 
     errReport rep;
     verifier veri;
     veri.setReport(rep).setTask(exp1).work();
-    /*TODO: expr parser didn't put col & row on AST yet
-     *      uncomment these after the patch
-    ASSERT_TRUE(rep);*/
 
     setLine(exp1, 1, 1);
     rep.rel();
@@ -164,16 +161,8 @@ TEST_F(exprTest, constructExprInManual) {
     runExpr r(*bridge, *new getExpr("main"), narr(*new nStr("kniz!")));
     setLine(r, 1, 1);
 
-    frame* fr = new frame();
-    fr->pushLocal(*new scope());
-    fr->pushObj(*bridge);
-    getFrames().add(*fr);
-
     str res = r.run();
-
     ASSERT_TRUE(res);
     ASSERT_TRUE(res.getType() == ttype<node>::get());
     ASSERT_TRUE(res->getType() == ttype<nVoid>::get());
-
-    getFrames().del();
 }

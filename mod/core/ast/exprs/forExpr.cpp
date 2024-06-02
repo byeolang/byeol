@@ -40,7 +40,7 @@ namespace namu {
             if(!elem)
                 return NAMU_E("elem is null"), str();
             frameInteract f1(blk); {
-                fr.pushLocal(_name, *elem);
+                fr.addLocal(_name, *elem);
 
                 ret.add(*blk.run());
                 if(_postprocess(fr))
@@ -63,7 +63,7 @@ namespace namu {
 
         blockExpr& blk = getBlock();
         frameInteract f1(blk); {
-            thread::get()._getNowFrame().pushLocal(getLocalName(), *((node*) elemType->clone()));
+            thread::get()._getNowFrame().addLocal(getLocalName(), *((node*) elemType->clone()));
 
             arr& newEval = *new arr(*blk.getEval()); // elem of last stmt.
             setEval(newEval);

@@ -17,7 +17,7 @@ namespace namu {
 
         node& to = getTo();
         if(nul(to))
-            thread::get()._getNowFrame().pushLocal(_name, *new1);
+            thread::get()._getNowFrame().addLocal(_name, *new1);
         else
             to.run()->subs().add(_name, *new1);
 

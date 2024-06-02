@@ -26,8 +26,8 @@ struct frameTest : public namuTest {
         getFrames().add(new frame());
     }
 
-    scopeStack& getScopeStack(frame& fr) {
-        return fr._local;
+    scopes& getScopeStack(frame& fr) {
+        return *fr._stack;
     }
 };
 
@@ -37,14 +37,13 @@ TEST_F(frameTest, testAccessFrame) {
 
 TEST_F(frameTest, testFrameManipulateChainObjNegative) {
     frame& fr = getFrames()[getFrames().len() - 1];
-    scopeStack& ss = getScopeStack(fr);
-    ASSERT_FALSE(ss.getTail().isBind());
+    ASSERT_TRUE(nul(getScopeStack(fr)));
 
     scope local;
     local.add("myNode1", new myNode(1));
     local.add("myNode2", new myNode(2));
-    fr.pushLocal(local);
-    ASSERT_TRUE(ss.getTail().isBind());
+    fr.add(*scopes::wrap<scopes>(local));
+    ASSERT_FALSE(nul(getScopeStack(fr)));
 
     scopes shares;
     shares.add("myNode4", new myNode(4));
@@ -59,7 +58,6 @@ TEST_F(frameTest, testFrameManipulateChainObjNegative) {
     obj obj1(shares, owns);
     ASSERT_EQ(obj1.subs().len(), 2);
 
-    ASSERT_TRUE(ss.getTail().isBind());
     ASSERT_EQ(fr.subAll<myNode>(lambda).len(), 2);
     ASSERT_EQ(owns.getAll<myNode>(lambda).len(), 1);
 }

@@ -39,7 +39,7 @@ namespace namu {
             return;
         }
 
-        fr.pushLocal(*new scope());
+        fr.add(*new scopes());
     }
 
     void me::outFrame() {
@@ -51,7 +51,7 @@ namespace namu {
             return;
         }
 
-        fr.popLocal();
+        fr.del();
     }
 
     str me::run(const args& a) {

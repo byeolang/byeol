@@ -31,11 +31,13 @@ namespace namu {
         frames& frs = namu::thread::get()._getFrames();
         NAMU_DI("%s.inFrame()[%d]", getType().getName().c_str(), frs.len());
 
-        frame& fr = *new frame();
-        scope* s = new scope();
+        scopes* s = new scopes();
         s->add("me", *this);
-        fr.pushLocal(*scopes::wrap<scopes>(*s));
-        fr.pushObj(*this);
+
+        frame& fr = *new frame();
+        fr.add(*s);
+        fr.setMe(*this);
+
         frs.add(fr);
     }
 

@@ -89,9 +89,9 @@ namespace namu {
         }
 
         NAMU_DI("%s._inFrame()", getType().getName().c_str());
-        fr.pushLocal(subs());
         fr.setFunc(*this);
-        fr.pushLocal(nul(args) ? nulOf<nbicontainer>() : (nbicontainer&) args); // including 'me'
+        fr.add(*scopes::wrap<scopes>(subs()));
+        fr.add(*scopes::wrap<scopes>(nul(args) ? nulOf<nbicontainer>() : (nbicontainer&) args)); // including 'me'
     }
 
     void me::outFrame() {
@@ -102,8 +102,8 @@ namespace namu {
         if(nul(f) || &f != this) return;
 
         fr.setFunc();
-        fr.popLocal();
-        fr.popLocal();
+        fr.del();
+        fr.del();
     }
 
     clonable* me::cloneDeep() const {

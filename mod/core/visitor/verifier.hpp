@@ -57,7 +57,6 @@ namespace namu {
         void _verifyMgdFuncImplicitReturn(func& me);
 
     private:
-        std::vector<baseObj*> _us; // multiple 'me'
         std::vector<loopExpr*> _recentLoops;
     };
 }

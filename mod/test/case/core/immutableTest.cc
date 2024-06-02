@@ -88,10 +88,6 @@ struct immutableTest : public namuTest {
     void TearDown() {
         thread::get().rel();
     }
-
-    scopeStack& getScopeStack(frame& fr) {
-        return fr._local;
-    }
 };
 
 TEST_F(immutableTest, testImmutablePositive) {
@@ -146,7 +142,7 @@ TEST_F(immutableTest, testFrameImmutability) {
         auto e = fr.subs().iterate("age");
         if(e.isEnd()) return NAMU_E("there is no key"), false;
 
-        fr.pushLocal("age1", age);
+        fr.addLocal("age1", age);
 
         nInt& age1 = fr.sub<nInt>("age1");
         if(age1 != age) return NAMU_E("age1 != age"), false;
