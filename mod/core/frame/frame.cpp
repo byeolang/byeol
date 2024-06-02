@@ -16,6 +16,7 @@ namespace namu {
     }
 
     void me::add(scopes& existing) {
+        if(nul(existing)) return;
         if(_stack.size() <= 0)
             return _stack.push_back(existing), void();
 
