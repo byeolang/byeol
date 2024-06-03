@@ -500,9 +500,7 @@ namespace namu {
                 me._blk->subs().len());
 
         // sequence of adding frame matters:
-        //  object scope is first:
-        meObj.inFrame();
-
+        //  object scope was added at 'onVisit(visitInfo, baseObj&)
         //  parameters of func is second:
         scope* s = new scope();
         for(const auto& p : me.getParams()) {
@@ -568,10 +566,11 @@ namespace namu {
     nbool me::onVisit(visitInfo i, baseObj& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
+        me.inFrame();
+
         frame& fr = thread::get()._getNowFrame();
-        NAMU_I("verify: baseObj: %s push me[%x] len=%d", me.getType().getName().c_str(),
+        NAMU_I("verify: baseObj: %s push me[%x] len=%d", fr.getMe().getType().getName().c_str(),
                 &fr.getMe(), me.subs().len());
-        fr.setMe(me);
 
         NAMU_I("verify: baseObj: iterate all subs and checks void type variable");
         for(const node& elem : me.subs())
