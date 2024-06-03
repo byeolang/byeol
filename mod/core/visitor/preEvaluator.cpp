@@ -158,8 +158,10 @@ namespace namu {
                     nbool isChanged = false;
                     for(int n=0; n < stmts.len() ;) {
                         ncnt prevErrCnt = rpt.len();
-                        verifier v;
-                        v.setReport(rpt).setTask(stmts[n]).setFlag(0).work();
+                        frameInteract f1(me); {
+                            verifier v;
+                            v.setReport(rpt).setTask(stmts[n]).setFlag(0).work();
+                        }
 
                         if(rpt.len() > prevErrCnt) {
                             // if there was an error, proceed next stmt.
@@ -167,10 +169,11 @@ namespace namu {
                             //       but one of them could be just warning.
                             NAMU_I("preEval: evalFunc(%x): eval failed on stmt[%d]", &fun, n);
                             n++;
-                        } else {
-                            stmts.del(n);
-                            isChanged = true;
+                            continue;
                         }
+
+                        stmts.del(n);
+                        isChanged = true;
                     } // end of inner for
 
                     NAMU_I("preEval: end of evalFunc(%x).len = %d", &fun, stmts.len());
