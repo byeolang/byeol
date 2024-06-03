@@ -23,10 +23,11 @@ namespace namu {
         if(!sub) return NAMU_E("_subject.as<node>() returns null"), str();
 
         NAMU_DI("run: is me frame?");
-        frame& fr = me.cast<frame>();
         if(!nul(_args)) {
+            frame& fr = me.cast<frame>();
             _args.setMe(!nul(fr) ? fr.getObjHaving(*sub) : me);
-            NAMU_DI("run: setting me on args. args.me[%s]", _args.getMe().getType().getName().c_str());
+            const node& me = _args.getMe();
+            NAMU_DI("run: setting me on args. args.me[%s]", nul(me) ? "null" : me.getType().getName().c_str());
         }
 
         NAMU_DI("run: running sub with args[%s]", _args.toStr().c_str());

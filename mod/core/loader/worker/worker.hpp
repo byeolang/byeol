@@ -69,6 +69,7 @@ namespace namu {
 
         void _setTask(const T& new1);
         void _setTask(const T* new1);
+        void _onEndErrReport(const errReport& rpt) const;
 
     private:
         void _rel();

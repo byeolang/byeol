@@ -8,9 +8,11 @@ namespace namu {
         NAMU(CLASS(preEvaluator, visitor))
 
         struct _nout evaluation {
+            nbool isEvaluated() const;
+
+        public:
             tweak<obj> me;
             tweak<func> fun;
-            nbool evaluated;
         };
 
     public:
@@ -32,9 +34,12 @@ namespace namu {
 
     private:
         void _rel();
-        void _preEvalStack(errReport& rpt);
-        nbool _preEvalFunc(errReport& rpt, evaluation& eval);
-        void _delPreCtors();
+
+        /// @return true if there is a change.
+        nbool _tryPreEvals(errReport& rpt);
+        /// @return true if there is a change.
+        nbool _tryPreEval(errReport& rpt, evaluation& eval);
+        void _delEval(nidx n);
         void _preEval();
 
     private:

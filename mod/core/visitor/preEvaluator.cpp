@@ -12,7 +12,12 @@ namespace namu {
 
     NAMU(DEF_ME(preEvaluator))
 
-#define GUARD(...) if(isFlag(GUARD)) NAMU_I(__VA_ARGS__)
+    nbool me::evaluation::isEvaluated() const {
+        if(!fun) return true;
+        return fun->getBlock().getStmts().len() <= 0;
+    }
+
+#define GUARD(...) if(isFlag(me::GUARD)) NAMU_I(__VA_ARGS__)
 
 
     me::preEvaluator() {
@@ -63,7 +68,7 @@ namespace namu {
 
         if(i.name == baseObj::PRECTOR_NAME) {
             NAMU_I("preEval: func: found prector");
-            _stack.push_back({*_obj, me, false});
+            _stack.push_back({*_obj, me});
         }
 
         me.getBlock().inFrame();
@@ -98,41 +103,48 @@ namespace namu {
     }
 
     void me::_preEval() {
-        NAMU_I(" ===================================");
-        NAMU_I("          preEvaluationLoop         ");
-        NAMU_I(" ===================================");
-        errReport rpt;
-        while(true) {
-            errReport e;
-            _preEvalStack(e);
-            if(rpt == e)
+        GUARD(" ===================================");
+        GUARD("          preEvaluationLoop         ");
+        GUARD(" ===================================");
+        errReport e;
+        ncnt n = 0;
+        while(_stack.size() > 0) {
+            e.rel();
+            GUARD("try %d: running %d pre evaluation track...", n++, _stack.size());
+            if(!_tryPreEvals(e)) { // this func actually remove elements of _stack if the func consumes it.
+                // ok. there is no change after running one loop, which means, I think that
+                // preEvaluator just found circular dependencies.
+                NAMU_E("* * *");
+                NAMU_E("I couldn't finish pre-evaluation. may be because of circular dependency.");
+                NAMU_E("total %d pre-evaluations remains.", _stack.size());
                 break;
-            rpt = e;
+            }
         }
 
-        _delPreCtors();
-        getReport().add(rpt);
-        NAMU_I(" ==== end of preEvaluationLoop ==== ");
-    }
-
-    void me::_delPreCtors() {
-        for(auto& eval : _stack)
-            eval.me->subs().del(baseObj::PRECTOR_NAME);
+        _onEndErrReport(e);
+        getReport().add(e);
         _stack.clear();
+        GUARD(" ==== end of preEvaluationLoop ==== ");
     }
 
-    void me::_preEvalStack(errReport& rpt) {
+    nbool me::_tryPreEvals(errReport& rpt) {
         NAMU_I("preEval: evalStack[%d]", _stack.size());
-        for(nint n = 0; n < _stack.size() ;n++) {
+        nbool isChanged = false;
+        for(nint n = 0; n < _stack.size() ;) {
             evaluation& eval = _stack[n];
-            if(eval.evaluated) continue;
-
-            if(_preEvalFunc(rpt, eval))
-                eval.evaluated = true;
+            if(_tryPreEval(rpt, eval)) {
+                isChanged = true;
+                if(eval.isEvaluated()) {
+                    _stack.erase(_stack.begin() + n);
+                    continue;
+                }
+            }
+            n++;
         }
+        return isChanged;
     }
 
-    nbool me::_preEvalFunc(errReport& rpt, evaluation& eval) {
+    nbool me::_tryPreEval(errReport& rpt, evaluation& eval) {
         obj& me = *eval.me;
         frameInteract f1(me); {
             func& fun = *eval.fun;
@@ -143,13 +155,11 @@ namespace namu {
 
                     NAMU_I("preEval: evalFunc(%x).len = %d", &fun, stmts.len());
 
+                    nbool isChanged = false;
                     for(int n=0; n < stmts.len() ;) {
                         ncnt prevErrCnt = rpt.len();
                         verifier v;
-                        v.setReport(rpt)
-                         .setTask(stmts[n])
-                         .setFlag((LOG_ON_EX | DUMP_ON_EX) & (getFlag()))
-                         .work();
+                        v.setReport(rpt).setTask(stmts[n]).setFlag(0).work();
 
                         if(rpt.len() > prevErrCnt) {
                             // if there was an error, proceed next stmt.
@@ -157,13 +167,14 @@ namespace namu {
                             //       but one of them could be just warning.
                             NAMU_I("preEval: evalFunc(%x): eval failed on stmt[%d]", &fun, n);
                             n++;
-                        } else
+                        } else {
                             stmts.del(n);
+                            isChanged = true;
+                        }
                     } // end of inner for
 
                     NAMU_I("preEval: end of evalFunc(%x).len = %d", &fun, stmts.len());
-
-                    return stmts.len() == 0;
+                    return isChanged;
                 }
             }
         }

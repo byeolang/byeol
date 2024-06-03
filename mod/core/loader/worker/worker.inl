@@ -87,11 +87,7 @@ namespace namu {
     TEMPLATE
     void ME::_onEndWork() {
         _area.rel();
-
-        if(isFlag(DUMP_ON_END))
-            _rpt->dump();
-        else if(isFlag(LOG_ON_END))
-            _rpt->log();
+        _onEndErrReport(*_rpt);
     }
 
     TEMPLATE
@@ -101,6 +97,18 @@ namespace namu {
 
     TEMPLATE void ME::_setTask(const T& new1) { _task.bind(new1); }
     TEMPLATE void ME::_setTask(const T* new1) { _setTask(*new1); }
+
+    TEMPLATE
+    void ME::_onEndErrReport(const errReport& rpt) const {
+        if(!isFlag(DUMP_ON_END | LOG_ON_END))
+
+        NAMU_E("errors:");
+        if(isFlag(DUMP_ON_END))
+            return rpt.dump(), void();
+
+        if(isFlag(LOG_ON_END))
+            rpt.log();
+    }
 
 #undef ME
 #define ME workerAdapter<R, T>
