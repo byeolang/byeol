@@ -135,7 +135,7 @@ namespace namu {
             if(_tryPreEval(rpt, eval)) {
                 isChanged = true;
                 if(eval.isEvaluated()) {
-                    _stack.erase(_stack.begin() + n);
+                    _delEval(n);
                     continue;
                 }
             }
@@ -178,5 +178,12 @@ namespace namu {
                 }
             }
         }
+    }
+
+    void me::_delEval(nidx n) {
+        evaluation& eval = _stack[n];
+        eval.me->subs().del(baseObj::PRECTOR_NAME);
+
+        _stack.erase(_stack.begin() + n);
     }
 }
