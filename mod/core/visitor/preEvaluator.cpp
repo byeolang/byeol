@@ -160,7 +160,7 @@ namespace namu {
                     for(int n=0; n < stmts.len() ;) {
                         ncnt prevErrCnt = rpt.len();
                         verifier v;
-                        v.setReport(rpt).setTask(stmts[n]).setFlag(getFlag() & me::INTERNAL).work();
+                        v.setReport(rpt).setTask(stmts[n]).setFlag(getFlag() & (me::INTERNAL | me::GUARD)).work();
 
                         if(rpt.len() > prevErrCnt) {
                             // if there was an error, proceed next stmt.

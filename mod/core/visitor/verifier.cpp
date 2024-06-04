@@ -184,7 +184,8 @@ namespace namu {
         node& to = me.getTo();
         str new1 = me.isOnDefBlock() ? rhs.as<node>() : rhs.getEval();
 
-        NAMU_I("verify: defAssignExpr: new1[%s]", new1 ? new1->getType().getName().c_str() : "null");
+        NAMU_I("verify: defAssignExpr: define new1[%s] to[%s]",
+               new1 ? new1->getType().getName().c_str() : "null", nul(to) ? "frame" : to.getType().getName().c_str());
         if(!new1)
             return posError(errCode::RHS_NOT_EVALUATED, me);
         if(!new1->isComplete())
@@ -201,13 +202,20 @@ namespace namu {
                 return posError(errCode::ALREADY_DEFINED_VAR, me, me.getSubName().c_str(),
                         rhs.getType().getName().c_str());
             fr.addLocal(me.getSubName(), *new1);
-
+            NAMU_I("verify: defAssignExpr: define new variable '%s %s' at frame", me.getSubName().c_str(), new1->getType().getName().c_str());
         } else {
-            scopes& sc = (scopes&) to.run()->subs();
-            if(sc.getContainer().has(me.getSubName()))
+            str dest = to.run();
+            if(!dest)
+                return posError(errCode::EXPR_EVAL_NULL, me);
+            auto& subs = dest->subs();
+            if(!nul(subs.get([&](const auto& name, const node&, const node& meOfSub) {
+                return &meOfSub == &me && name == me.getSubName();
+            })))
                 return posError(errCode::ALREADY_DEFINED_VAR, me, me.getSubName().c_str(),
                         rhs.getType().getName().c_str());
-            sc.add(me.getSubName(), *new1);
+            subs.add(me.getSubName(), *new1);
+            NAMU_I("verify: defAssignExpr: define new variable '%s %s' at %s",
+                   me.getSubName().c_str(), new1->getType().getName().c_str(), dest->getType().getName().c_str());
         }
     }
 
@@ -564,7 +572,7 @@ namespace namu {
     }
 
     nbool me::onVisit(visitInfo i, baseObj& me) {
-        GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
+        GUARD("verify: baseObj: me[%s]", me.getType().getName().c_str());
 
         me.inFrame();
 
@@ -584,6 +592,7 @@ namespace namu {
 
     void me::onLeave(visitInfo i, baseObj& me) {
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
+        me.outFrame();
     }
 
     nbool me::onVisit(visitInfo i, genericObj& me) {

@@ -55,15 +55,16 @@ namespace namu {
     }
 
     priorities me::_get(nbool evalMode) const {
-        NAMU_DI("run: _name[%s] evalMode[%s]", _name.c_str(), evalMode ? "true" : "false");
         const node& me = getMe();
+        NAMU_DI("run: _name[%s] evalMode[%s] me[%s]",
+                _name.c_str(), evalMode ? "true" : "false", nul(me) ? "null" : me.getType().getName().c_str());
         if(nul(me)) return NAMU_E("me == null"), priorities();
 
         str evalMe = evalMode ? me.getEval() : me.as<node>();
         if(!evalMe) return NAMU_E("me == null"), priorities();
         if(evalMode)
             evalMe = evalMe->as<node>();
-        NAMU_DI("run: 'me' evaluated[%s]", evalMe->getType().getName().c_str());
+        NAMU_DI("run: 'me' was evaluated to %s", evalMe->getType().getName().c_str());
 
         std::string argsName = _args ? _args->asStr().c_str() : "{}";
         NAMU_DI("run: %s.sub(%s, %s)", evalMe->getType().getName().c_str(), _name.c_str(), argsName.c_str());
