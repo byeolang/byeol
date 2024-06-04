@@ -174,7 +174,7 @@ namespace namu {
 
                         stmts.del(n);
                         isChanged = true;
-                    } // end of inner for
+                    } // end of inner
 
                     NAMU_I("preEval: end of evalFunc(%x).len = %d", &fun, stmts.len());
                     return isChanged;
