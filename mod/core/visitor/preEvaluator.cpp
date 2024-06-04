@@ -110,13 +110,14 @@ namespace namu {
         ncnt n = 0;
         while(_stack.size() > 0) {
             e.rel();
-            GUARD("try %d: running %d pre evaluation track...", n++, _stack.size());
+            GUARD("|--- %dth try: running %d pre evaluation track... ---|", ++n, _stack.size());
             if(!_tryPreEvals(e)) { // this func actually remove elements of _stack if the func consumes it.
                 // ok. there is no change after running one loop, which means, I think that
                 // preEvaluator just found circular dependencies.
                 NAMU_E("* * *");
                 NAMU_E("I couldn't finish pre-evaluation. may be because of circular dependency.");
                 NAMU_E("total %d pre-evaluations remains.", _stack.size());
+                NAMU_E("* * *");
                 break;
             }
         }
@@ -128,7 +129,7 @@ namespace namu {
     }
 
     nbool me::_tryPreEvals(errReport& rpt) {
-        NAMU_I("preEval: evalStack[%d]", _stack.size());
+        GUARD("|--- preEval: tryPreEvals: evaluation[%d] remains ---|", _stack.size());
         nbool isChanged = false;
         for(nint n = 0; n < _stack.size() ;) {
             evaluation& eval = _stack[n];
@@ -153,30 +154,31 @@ namespace namu {
                 frameInteract f3(blk); {
                     narr& stmts = blk.getStmts();
 
-                    NAMU_I("preEval: evalFunc(%x).len = %d", &fun, stmts.len());
+                    GUARD("|--- preEval: evalFunc(%x).len = %d ---|", &fun, stmts.len());
 
                     nbool isChanged = false;
                     for(int n=0; n < stmts.len() ;) {
                         ncnt prevErrCnt = rpt.len();
-                        frameInteract f1(me); {
-                            verifier v;
-                            v.setReport(rpt).setTask(stmts[n]).setFlag(0).work();
-                        }
+                        verifier v;
+                        v.setReport(rpt).setTask(stmts[n]).setFlag(getFlag() & me::INTERNAL).work();
 
                         if(rpt.len() > prevErrCnt) {
                             // if there was an error, proceed next stmt.
                             // TODO: it uses len() for counting errors.
                             //       but one of them could be just warning.
-                            NAMU_I("preEval: evalFunc(%x): eval failed on stmt[%d]", &fun, n);
+                            GUARD("|--- preEval: evalFunc(%x): eval failed on stmt[%d] ---|", &fun, n);
+                            GUARD("errros:");
+                            rpt.dump(prevErrCnt+1);
                             n++;
                             continue;
                         }
 
+                        GUARD("|--- preEval: evalFunc(%x): stmt[%d] pre-evaluated.", &fun, n);
                         stmts.del(n);
                         isChanged = true;
                     } // end of inner
 
-                    NAMU_I("preEval: end of evalFunc(%x).len = %d", &fun, stmts.len());
+                    GUARD("|--- preEval: end of evalFunc(%x) stmt[%d] left ---|", &fun, stmts.len());
                     return isChanged;
                 }
             }
