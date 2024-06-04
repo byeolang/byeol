@@ -36,7 +36,9 @@ namespace namu {
         std::vector<tstr<err>>::const_iterator last() const;
         std::vector<tstr<err>>::const_iterator end() const;
 
+        void log(nidx since) const;
         void log() const;
+        virtual void dump(nidx since) const;
         void dump() const override;
 
         void rel();

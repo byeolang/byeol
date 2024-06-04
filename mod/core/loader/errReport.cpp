@@ -67,14 +67,20 @@ namespace namu {
         return _errs.end();
     }
 
+    void me::log(nidx since) const {
+        for(nidx n=since; n < _errs.size(); n++)
+            _errs[n]->log();
+    }
     void me::log() const {
-        for(auto& elem : _errs)
-            elem->log();
+        return log(0);
     }
 
+    void me::dump(nidx since) const {
+        for(nidx n=since; n < _errs.size(); n++)
+            _errs[n]->dump();
+    }
     void me::dump() const {
-        for(auto& elem : _errs)
-            elem->dump();
+        return dump(0);
     }
 
     void me::rel() {
