@@ -561,9 +561,7 @@ namespace namu {
 
     void me::onLeave(visitInfo i, func& me) {
         me.getBlock().outFrame();
-        me.outFrame();
-        baseObj& meObj = thread::get()._getNowFrame().getMe();
-        meObj.outFrame();
+        me.outFrame(scopes());
     }
 
     nbool me::onVisit(visitInfo i, baseObj& me) {

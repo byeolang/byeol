@@ -124,7 +124,8 @@ namespace namu {
 
         using frameInteractable::inFrame;
         void inFrame(const bicontainable& args) override;
-        void outFrame() override;
+        using frameInteractable::outFrame;
+        void outFrame(const bicontainable& args) override;
 
     protected:
         virtual str _onRunSub(node& sub, const args& a);

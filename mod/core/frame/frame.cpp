@@ -3,6 +3,7 @@
 #include "../ast/baseFunc.hpp"
 #include "../visitor/visitor.hpp"
 #include "../ast/dumScope.hpp"
+#include "thread.hpp"
 
 namespace namu {
     NAMU(DEF_ME(frame), DEF_VISIT())
@@ -24,6 +25,7 @@ namespace namu {
         if(!cloned) return;
         cloned->getTail().link(_getTop());
         _stack.push_back(cloned);
+        NAMU_DI("scope added. frames.len[%d] thisFrame.len[%d]", thread::get().getFrames().len(), _stack.size());
     }
     void me::add(nbicontainer& existing) {
         tstr<scopes> wrap = scopes::wrap<scopes>(existing);
@@ -59,6 +61,7 @@ namespace namu {
 
     void me::del() {
         _stack.pop_back();
+        NAMU_DI("scope deleted. frames.len[%d] thisFrame.len[%d]", thread::get().getFrames().len(), _stack.size());
     }
 
     scopes& me::_getTop() {

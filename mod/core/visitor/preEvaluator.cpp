@@ -60,8 +60,8 @@ namespace namu {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
         _func.bind(me);
-        me.inFrame();
-
+        me.inFrame(); // don't need to inFrame for args.
+                      // because what this want to do is just collect @preCtor funcs.
         NAMU_I("preEval: func: %s", i.name.c_str());
         for(const auto& p : me.getParams())
             ((node&) p.getOrigin()).accept(i, *this);

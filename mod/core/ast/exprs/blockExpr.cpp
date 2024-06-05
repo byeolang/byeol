@@ -31,7 +31,7 @@ namespace namu {
     }
 
     void me::inFrame(const bicontainable& args) {
-        NAMU_DI("%s._onInFrame()", getType().getName().c_str());
+        NAMU_DI("%s._onInFrame() frames.len[%d]", getType().getName().c_str(), thread::get().getFrames().len());
 
         frame& fr = namu::thread::get()._getNowFrame();
         if(nul(fr)) {
@@ -42,8 +42,8 @@ namespace namu {
         fr.add(*new scopes());
     }
 
-    void me::outFrame() {
-        NAMU_DI("%s._onOutFrame()", getType().getName().c_str());
+    void me::outFrame(const bicontainable& args) {
+        NAMU_DI("%s._onOutFrame() frames.len[%d]", getType().getName().c_str(), thread::get().getFrames().len());
 
         frame& fr = namu::thread::get()._getNowFrame();
         if(nul(fr)) {

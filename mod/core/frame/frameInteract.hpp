@@ -14,5 +14,6 @@ namespace namu {
 
     private:
         frameInteractable& _it;
+        const bicontainable& _args;
     };
 }

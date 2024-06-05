@@ -30,7 +30,7 @@ namespace namu {
 
     void me::inFrame(const bicontainable& args) {}
 
-    void me::outFrame() {}
+    void me::outFrame(const bicontainable& args) {}
 
     str me::_onRunSub(node& sub, const args& a) {
         return str();

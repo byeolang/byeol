@@ -7,8 +7,7 @@ namespace namu {
         int n=0;
         std::string msg;
         for(const param& p : *this)
-            msg += p.getName() + " " + p.getOrigin().getType().getName() +
-                    (++n >= len() ? "" : ",");
+            msg += p.getName() + " " + p.getOrigin().getType().getName() + (++n >= len() ? "" : ",");
         return msg;
     }
 }

@@ -2,6 +2,7 @@
 
 #include "param.hpp"
 #include "../builtin/container/native/tnarr.inl"
+#include "../ast/scopes.hpp"
 
 namespace namu {
     class _nout params : public tnarr<param> {

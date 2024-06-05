@@ -32,7 +32,8 @@ namespace namu {
 
         using super::inFrame;
         void inFrame(const bicontainable& args) override;
-        void outFrame() override;
+        using super::outFrame;
+        void outFrame(const bicontainable& args) override;
 
     protected:
         str _onRunSub(node& sub, const args& a) override;

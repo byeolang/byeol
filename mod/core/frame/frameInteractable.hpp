@@ -15,6 +15,9 @@ namespace namu {
             inFrame(nulOf<bicontainable>());
         }
 
-        virtual void outFrame() = 0;
+        virtual void outFrame(const bicontainable& args) = 0;
+        void outFrame() {
+            outFrame(nulOf<bicontainable>());
+        }
     };
 }

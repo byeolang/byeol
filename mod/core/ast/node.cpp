@@ -105,7 +105,7 @@ namespace namu {
 
     void me::inFrame(const bicontainable& args) {}
 
-    void me::outFrame() {}
+    void me::outFrame(const bicontainable& args) {}
 
     const src& me::getSrc() const {
         return dumSrc::singletone();

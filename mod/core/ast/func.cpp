@@ -88,21 +88,21 @@ namespace namu {
             return;
         }
 
-        NAMU_DI("%s._inFrame()", getType().getName().c_str());
+        NAMU_DI("%s._inFrame() frames.len[%d]", getType().getName().c_str(), thread::get().getFrames().len());
         fr.setFunc(*this);
         fr.add(*scopes::wrap<scopes>(subs()));
         fr.add(*scopes::wrap<scopes>(nul(args) ? nulOf<nbicontainer>() : (nbicontainer&) args)); // including 'me'
     }
 
-    void me::outFrame() {
-        NAMU_DI("%s._outFrame()", getType().getName().c_str());
+    void me::outFrame(const bicontainable& args) {
+        NAMU_DI("%s._outFrame() frames.len[%d]", getType().getName().c_str(), thread::get().getFrames().len());
 
         frame& fr = thread::get()._getNowFrame();
         baseFunc& f = fr.getFunc();
         if(nul(f) || &f != this) return;
 
         fr.setFunc();
-        fr.del();
+        if(!nul(args)) fr.del();
         fr.del();
     }
 
