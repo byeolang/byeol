@@ -34,6 +34,8 @@ namespace namu {
         using super::subs;
         nbicontainer& subs() override;
 
+        tstr<nbicontainer> mySubs() const override;
+
         using super::run;
         str run(const args& a) override;
 

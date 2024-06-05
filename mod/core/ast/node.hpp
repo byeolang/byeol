@@ -32,6 +32,7 @@ namespace namu {
 
         virtual nbicontainer& subs() = 0;
         const nbicontainer& subs() const NAMU_UNCONST_FUNC(subs())
+        virtual tstr<nbicontainer> mySubs() const;
 
         /// @return null if it's not relative between l & r.
         const node& deduce(const node& r) const {

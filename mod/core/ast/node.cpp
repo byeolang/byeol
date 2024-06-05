@@ -27,6 +27,10 @@ namespace namu {
         }));
     }
 
+    tstr<nbicontainer> me::mySubs() const {
+        return subs();
+    }
+
     nbool me::canRun(const args& a) const {
         return prioritize(a) != NO_MATCH;
     }

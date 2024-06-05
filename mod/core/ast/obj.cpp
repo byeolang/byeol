@@ -89,6 +89,10 @@ namespace namu {
         return *_subs;
     }
 
+    tstr<nbicontainer> me::mySubs() const {
+        return _subs->cloneChain(*_shares);
+    }
+
     scopes& me::getShares() {
         return *_shares;
     }
