@@ -439,7 +439,7 @@ namespace namu {
         obj& org = *_maker.birth<obj>(name, new mgdType(name, typeParams));
         org._setComplete(false);
         _onInjectObjSubs(org, blk);
-        org.getShares().link(_subpack->subs());
+        org._setSubPack(*_subpack);
 
         std::vector<std::string> paramNames = _extractParamTypeNames(typeParams);
         std::string paramName = _joinVectorString(paramNames);

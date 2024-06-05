@@ -21,7 +21,7 @@ namespace namu {
         if(_stack.size() <= 0)
             return _stack.push_back(existing), void();
 
-        tstr<scopes> cloned(existing.cloneChain());
+        tstr<nchain> cloned(existing.cloneChain());
         if(!cloned) return;
         cloned->getTail().link(_getTop());
         _stack.push_back(cloned);

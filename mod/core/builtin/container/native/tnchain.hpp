@@ -95,13 +95,10 @@ namespace namu {
         /// this func keep accessing next element to chain it.
         /// @param until the loop will be terminated when next element has same address to this.
         ///        chain you assigned to 'until' will be cloned to.
-        template <typename T>
-        static T* cloneChain(const T& org, const super& until);
-
-        virtual me* cloneChain(const super& until) const;
-        virtual me* cloneChain(const me& until) const;
+        me* cloneChain(const super& until) const;
+        me* cloneChain(const me& until) const;
         /// mock all of this chain until 'next' is null.
-        virtual me* cloneChain() const { return cloneChain(nulOf<me>()); }
+        me* cloneChain() const { return cloneChain(nulOf<me>()); }
 
     protected:
         iteration* _onMakeIteration(ncnt step) const override {
@@ -117,7 +114,7 @@ namespace namu {
         }
 
         void _getAll(const K& key, narr& tray) const override;
-
+        virtual me* _makeWhileCloneChaining(const me& rhs) const;
 
     private:
         iter& _getMapIterFromChainIter(const iter& wrapper) {

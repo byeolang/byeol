@@ -52,6 +52,11 @@ namespace namu {
     }
 
     TEMPL
+    ME* ME::_makeWhileCloneChaining(const me& rhs) const {
+        return new ME(rhs.getContainer(), nulOf<ME>());
+    }
+
+    TEMPL
     nbool ME::add(const K& key, const V& new1) {
         return getContainer().add(key, new1);
     }
@@ -141,27 +146,19 @@ namespace namu {
     }
 
     TEMPL
-    template <typename T>
-    T* ME::cloneChain(const T& org, const super& until) {
-        if(nul(org)) return nullptr;
-        const me* e = &org;
-        T* ret = new T(org.getContainer(), nulOf<T>());
-        T* retElem = ret;
+    ME* ME::cloneChain(const super& until) const {
+        const me* e = this;
+        ME* ret = _makeWhileCloneChaining(*this);
+        ME* retElem = ret;
         while((e = &e->_next.get())) {
-            const super& eCon = e->getContainer();
-            T* new1 = new T(eCon, nulOf<T>());
+            ME* new1 = _makeWhileCloneChaining(*e);
             retElem->_next.bind(new1);
             retElem = new1;
 
-            if(&eCon == &until) break;
+            if(&e->getContainer() == &until) break;
         }
 
         return ret;
-    }
-
-    TEMPL
-    ME* ME::cloneChain(const super& until) const {
-        return cloneChain<ME>(*this, until);
     }
 
     TEMPL
