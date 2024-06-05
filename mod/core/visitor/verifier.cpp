@@ -160,18 +160,16 @@ namespace namu {
             _verifyMgdFuncImplicitReturn(parent);
     }
 
+    nbool me::_isVariableDuplicated(defAssignExpr& me, const node& it) {
+        NAMU_I("verify: defAssignExpr: duplication of variable with name[%s] at %s obj", me.getSubName().c_str(), it.getType().getName().c_str());
+        if(it.mySubs()->has(me.getSubName()))
+            return posError(errCode::ALREADY_DEFINED_VAR, me, me.getSubName().c_str(), me.getEval()->getType().getName()
+                    .c_str()), true;
+        return false;
+    }
 
     void me::onLeave(visitInfo i, defAssignExpr& me) {
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
-
-        NAMU_I("verify: defAssignExpr: duplication of variable.");
-        const nbicontainer& top = thread::get().getNowFrame().subs();
-        if(nul(top)) return;
-
-        const std::string name = me.getSubName();
-        if(top.has(name))
-            return posError(errCode::ALREADY_DEFINED_VAR, me, name.c_str(), me.getEval()->getType().getName()
-                    .c_str());
 
         NAMU_I("verify: defAssignExpr: is definable?");
         const node& rhs = me.getRight();
@@ -201,6 +199,7 @@ namespace namu {
             if(sc.getContainer().has(me.getSubName()))
                 return posError(errCode::ALREADY_DEFINED_VAR, me, me.getSubName().c_str(),
                         rhs.getType().getName().c_str());
+            if(_isVariableDuplicated(me, fr)) return;
             fr.addLocal(me.getSubName(), *new1);
             NAMU_I("verify: defAssignExpr: define new variable '%s %s' at frame", me.getSubName().c_str(), new1->getType().getName().c_str());
         } else {
@@ -208,11 +207,7 @@ namespace namu {
             if(!dest)
                 return posError(errCode::EXPR_EVAL_NULL, me);
             auto& subs = dest->subs();
-            if(!nul(subs.get([&](const auto& name, const node&, const node& meOfSub) {
-                return &meOfSub == &me && name == me.getSubName();
-            })))
-                return posError(errCode::ALREADY_DEFINED_VAR, me, me.getSubName().c_str(),
-                        rhs.getType().getName().c_str());
+            if(_isVariableDuplicated(me, *dest)) return;
             subs.add(me.getSubName(), *new1);
             NAMU_I("verify: defAssignExpr: define new variable '%s %s' at %s",
                    me.getSubName().c_str(), new1->getType().getName().c_str(), dest->getType().getName().c_str());
