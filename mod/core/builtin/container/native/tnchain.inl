@@ -60,7 +60,7 @@ namespace namu {
     }
 
     TEMPL
-    ME* ME::_makeWhileCloneChaining(const me& rhs) const {
+    ME* ME::_shallowClone(const me& rhs) const {
         return new ME(rhs.getContainer(), nulOf<ME>());
     }
 
@@ -154,12 +154,17 @@ namespace namu {
     }
 
     TEMPL
+    ME* ME::wrap(const super& toShallowWrap) const {
+        return wrap<ME>(toShallowWrap);
+    }
+
+    TEMPL
     ME* ME::cloneChain(const super& until) const {
         const me* e = this;
-        ME* ret = _makeWhileCloneChaining(*this);
+        ME* ret = _shallowClone(*this);
         ME* retElem = ret;
         while((e = &e->_next.get())) {
-            ME* new1 = _makeWhileCloneChaining(*e);
+            ME* new1 = _shallowClone(*e);
             retElem->_next.bind(new1);
             retElem = new1;
 

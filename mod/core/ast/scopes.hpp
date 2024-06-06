@@ -23,7 +23,7 @@ namespace namu {
         me* wrap(const super::super& toShallowWrap) const override;
 
     protected:
-        me* _makeWhileCloneChaining(const super& rhs) const override;
+        me* _shallowClone(const super& rhs) const override;
 
     private:
         weak _owner;

@@ -8,13 +8,8 @@
 namespace namu {
     NAMU(DEF_ME(frame), DEF_VISIT())
 
-    me::frame() {
-        _rel();
-    }
-
-    me::~frame() {
-        _rel();
-    }
+    me::frame() { _rel(); }
+    me::~frame() { _rel(); }
 
     void me::add(scopes& existing) {
         if(nul(existing)) return;
@@ -43,20 +38,14 @@ namespace namu {
     }
 
     node& me::getObjHaving(const node& sub) {
-        // TODO: _obj should be array if I support 'with' keyword.
-        if(!_me) return nulOf<node>();
-
-        // TODO: disunite obj scope and subpack scope.
-        if(_me->has(sub)) return *_me;
+        for(auto& s : _stack)
+            if(s->has(sub))
+                return s->getOwner();
         return nulOf<node>();
     }
 
-    nbool me::setMe(const baseObj& new1) {
-        return _me.bind(new1);
-    }
-    void me::setMe() {
-        _me.rel();
-    }
+    nbool me::setMe(const baseObj& new1) { return _me.bind(new1); }
+    void me::setMe() { _me.rel(); }
     baseObj& me::getMe() { return *_me; }
 
     void me::del() {
@@ -82,13 +71,9 @@ namespace namu {
         return nul(ret) ? inner : ret;
     }
 
-    priority me::prioritize(const args& a) const {
-        return NO_MATCH;
-    }
+    priority me::prioritize(const args& a) const { return NO_MATCH; }
 
-    str me::run(const args& a) {
-        return str();
-    }
+    str me::run(const args& a) { return str(); }
 
     void me::rel() {
         _rel();
@@ -104,9 +89,7 @@ namespace namu {
         return true;
     }
 
-    node& me::getRet() const {
-        return *_ret;
-    }
+    node& me::getRet() const { return *_ret; }
 
     void me::_rel() {
         _me.rel();

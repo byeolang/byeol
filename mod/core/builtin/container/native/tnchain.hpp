@@ -88,9 +88,7 @@ namespace namu {
         ///        wrapping given container.
         template <typename T>
         static T* wrap(const super& toShallowWrap);
-
-        virtual me* wrap(const super& toShallowWrap) const { return wrap<me>(toShallowWrap); }
-        me* wrap(const super* toShallowWrap) const { return wrap(*toShallowWrap); }
+        virtual me* wrap(const super& toShallowWrap) const;
 
         /// mock this chain and let it chain another container differ to original.
         /// this func keep accessing next element to chain it.
@@ -115,7 +113,7 @@ namespace namu {
         }
 
         void _getAll(const K& key, narr& tray) const override;
-        virtual me* _makeWhileCloneChaining(const me& rhs) const;
+        virtual me* _shallowClone(const me& rhs) const;
 
     private:
         iter& _getMapIterFromChainIter(const iter& wrapper) {

@@ -17,7 +17,7 @@ namespace namu {
         return (me*) wrap<me>(toShallowWrap);
     }
 
-    me* me::_makeWhileCloneChaining(const super& rhs) const {
+    me* me::_shallowClone(const super& rhs) const {
         me* ret = new me(rhs.getContainer());
         ret->_owner.bind(rhs.getOwner());
         return ret;
