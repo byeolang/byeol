@@ -1,7 +1,7 @@
 #pragma once
 
 #include "validable.hpp"
-#include "../builtin/container/native/tnbicontainer.hpp"
+#include "scope.hpp"
 #include "../builtin/container/native/tnarr.hpp"
 #include "point.hpp"
 #include "../type/ntype.hpp"
@@ -30,8 +30,8 @@ namespace namu {
         nbool has(const node& elem) const;
         nbool has(const node* elem) const;
 
-        virtual nbicontainer& subs() = 0;
-        const nbicontainer& subs() const NAMU_UNCONST_FUNC(subs())
+        virtual scope& subs() = 0;
+        const scope& subs() const NAMU_UNCONST_FUNC(subs())
         virtual tstr<nbicontainer> mySubs() const;
 
         /// @return null if it's not relative between l & r.
@@ -47,12 +47,8 @@ namespace namu {
             return nulOf<node>();
         }
 
-        template <typename T>
-        T& sub(std::function<nbool(const std::string&, const T&)> l) {
-            return subs().get<T>(l);
-        }
-        template <typename T>
-        const T& sub(std::function<nbool(const std::string&, const T&)> l) const NAMU_UNCONST_FUNC(sub<T>(l))
+        template <typename T> T& sub(std::function<nbool(const std::string&, const T&)> l);
+        template <typename T> const T& sub(std::function<nbool(const std::string&, const T&)> l) const NAMU_UNCONST_FUNC(sub<T>(l))
         template <typename T = me> T& sub();
         template <typename T = me> const T& sub() const NAMU_UNCONST_FUNC(sub<T>())
         template <typename T = me> T& sub(const std::string& name);
@@ -60,17 +56,13 @@ namespace namu {
         template <typename T = me> T& sub(const std::string& name, const args& a);
         template <typename T = me> const T& sub(const std::string& name, const args& a) const NAMU_UNCONST_FUNC(sub<T>(name, a))
 
-        template <typename T>
-        tnarr<T, strTactic> subAll(std::function<nbool(const std::string&, const T&)> l) const {
-            return subs().getAll<T>(l);
-        }
-
+        template <typename T> tnarr<T, strTactic> subAll(std::function<nbool(const std::string&, const T&)> l) const;
         template <typename T = me> tnarr<T, strTactic> subAll() const;
         template <typename T = me> tpriorities<T> subAll(const std::string& name) const;
         template <typename T = me> tpriorities<T> subAll(const std::string& name, const args& a) const;
 
         bool canRun(const args& a) const;
-        virtual priority prioritize(const args& a) const = 0;
+        virtual priorType prioritize(const args& a) const = 0;
 
         virtual str run(const args& a) = 0;
         str run(const std::string& name, const args& a);
@@ -130,7 +122,8 @@ namespace namu {
     protected:
         virtual str _onRunSub(node& sub, const args& a);
         virtual void _setSrc(const src& s);
-
-    private:
     };
+
+    typedef tnmap<std::string, node> nmap;
+    typedef tnchain<std::string, node> nchain;
 }

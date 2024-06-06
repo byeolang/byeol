@@ -1,7 +1,7 @@
 #pragma once
 
 #include "baseObj.hpp"
-#include "scopes.hpp"
+#include "scope.hpp"
 
 namespace namu {
 
@@ -22,9 +22,9 @@ namespace namu {
 
     public:
         explicit obj();
-        explicit obj(const scopes& shares, const scope& owns);
+        explicit obj(scope& shares, scope& owns);
         explicit obj(mgdType* newType);
-        explicit obj(mgdType* newType, const scopes& shares, const scope& owns);
+        explicit obj(mgdType* newType, scope& shares, scope& owns);
         explicit obj(const me& rhs);
 
     public:
@@ -32,21 +32,24 @@ namespace namu {
 
     public:
         using super::subs;
-        nbicontainer& subs() override;
+        scope& subs() override;
 
         tstr<nbicontainer> mySubs() const override;
 
         using super::run;
         str run(const args& a) override;
 
-        scopes& getShares();
-        const scopes& getShares() const NAMU_UNCONST_FUNC(getShares())
+        scope& getShares();
+        const scope& getShares() const NAMU_UNCONST_FUNC(getShares())
         scope& getOwns();
         const scope& getOwns() const NAMU_UNCONST_FUNC(getOwns())
         const obj& getOrigin() const override;
         const obj& getSubPack() const;
 
         clonable* cloneDeep() const override;
+        /// clone this as local object.
+        /// only clone deeply owns scope. and link to original shares.
+        me* cloneLocal() const;
         typedef ntype metaType;
         const ntype& getType() const override;
         nbool isComplete() const override;
@@ -55,7 +58,6 @@ namespace namu {
         void _inFrame(frame& fr, const bicontainable& args) override;
 
     private:
-        scopes* _makeNewSubs();
         void _setType(const mgdType* new1);
         // update origin pointer of an object.
         // to modify origin* is very dangerous. only permitted module should do this.
@@ -67,9 +69,7 @@ namespace namu {
         void _setComplete(nbool isComplete);
 
     private:
-        tstr<scopes> _subs;
-        tstr<scopes> _shares;
-        tstr<scope> _owns;
+        tstr<scope> _subs;
         tstr<obj> _subpack; // TODO: this should be beloned to originObj class only.
         obj* _org; // TODO: this should be 'originObj*' type.
         point _pos;
@@ -84,12 +84,12 @@ namespace namu {
     //
     //  I don't know why, but unless define below variable here, I'll observe that the member-variable
     //  '_subs' above was tried to be instantiated but failed.
-    //  error message said that 'You've used undefined type "identifiertstr<scopes>"'.
-    //  however, MSVC definately knows about tstr<T> and scopes types.
+    //  error message said that 'You've used undefined type "identifiertstr<scope>"'.
+    //  however, MSVC definately knows about tstr<T> and scope types.
     //
     //  clang, gcc didn't complain about this.
     namespace {
-        static const inline scopes a3;
+        static const inline scope a3;
     }
 #endif
 }

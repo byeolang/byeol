@@ -28,7 +28,7 @@ namespace namu {
 
     nbool me::setRet(const node& newRet) { return _retType.bind(newRet); }
 
-    nbicontainer& me::subs() { return _shares; }
+    scope& me::subs() { return _shares; }
     const params& me::getParams() const { return _params; }
 
     str me::run(const args& a) {
@@ -67,7 +67,7 @@ namespace namu {
         if(args.len() != ps.len())
             return NAMU_E("length of args(%d) and typs(%d) doesn't match.", args.len(), ps.len()), nullptr;
 
-        scope* ret = new scope(*this);
+        scope* ret = new scope();
         int n = 0;
         for(const node& e: args) {
             const param& p = ps[n++];
@@ -90,8 +90,8 @@ namespace namu {
 
         NAMU_DI("%s._inFrame() frames.len[%d]", getType().getName().c_str(), thread::get().getFrames().len());
         fr.setFunc(*this);
-        fr.add(*scopes::wrap<scopes>(subs()));
-        fr.add(*scopes::wrap<scopes>(nul(args) ? nulOf<nbicontainer>() : (nbicontainer&) args)); // including 'me'
+        fr.add(*scope::wrap<scope>(subs()));
+        fr.add(*scope::wrap<scope>(nul(args) ? nulOf<nbicontainer>() : (nbicontainer&) args)); // including 'me'
     }
 
     void me::outFrame(const bicontainable& args) {

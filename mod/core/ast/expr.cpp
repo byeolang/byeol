@@ -3,6 +3,7 @@
 #include "../builtin/container/native/tnmap.inl"
 #include "args.hpp"
 #include "../frame/frame.hpp"
+#include "dumScope.hpp"
 
 namespace namu {
 
@@ -16,8 +17,8 @@ namespace namu {
         return str(((node&)from).run());
     }
 
-    nbicontainer& me::subs() {
-        static nmap inner;
+    scope& me::subs() {
+        static dumScope inner;
         return inner;
     }
 
@@ -33,7 +34,7 @@ namespace namu {
         return run->asImpli(to);
     }
 
-    priority me::prioritize(const args& a) const {
+    priorType me::prioritize(const args& a) const {
         return a.len() == 0 ? EXACT_MATCH : NO_MATCH;
     }
 

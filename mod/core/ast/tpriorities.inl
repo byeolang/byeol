@@ -34,20 +34,20 @@ namespace namu {
     T& ME::get() { return this->get(0); }
 
     TEMPLATE
-    priorType ME::getPriorityType() const {
+    priorType ME::getPriorType() const {
         return _type;
     }
 
     TEMPLATE
-    void ME::_setPriorityType(priorType new1) {
+    void ME::_setPriorType(priorType new1) {
         _type = new1;
     }
 
 #undef ME
 #define ME tpriorities<T>
 
-    TEMPLATE
-    ME::tpriorities() {}
+    TEMPLATE ME::tpriorities() {}
+    TEMPLATE ME::tpriorities(const node& elem) { this->add(new tprior<T>(elem, EXACT_MATCH, 0)); }
 
     TEMPLATE
     tmatches<T> ME::getMatches() const {
@@ -65,7 +65,7 @@ namespace namu {
         });
 
         if(ret.isMatched())
-            ret._setPriority(sample->lv);
+            ret._setPriorType(sample->type);
         return ret;
     }
 

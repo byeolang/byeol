@@ -15,8 +15,8 @@ TEST_F(defAssignExprTest, simpleGlobalDefAssign) {
             age := 5
             ret 0
     )SRC").shouldVerified(true);
-    scope& owns = (scope&) (((scopes&) getSlot().subs()).getContainer());
-    scope& shares = (scope&) (((scopes&) getSlot().subs()).getNext().getContainer());
+    auto& owns = (scope::super&) getSlot().subs().getContainer();
+    auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
     ASSERT_FALSE(nul(shares));
     ASSERT_FALSE(nul(owns));
     ASSERT_EQ(owns.len(), 1);

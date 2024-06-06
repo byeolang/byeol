@@ -136,7 +136,7 @@ namespace namu {
 
         public:
             using super::subs;
-            nbicontainer& subs() override {
+            scope& subs() override {
                 static super* inner = nullptr;
                 if(nul(inner)) {
                     inner = new super();

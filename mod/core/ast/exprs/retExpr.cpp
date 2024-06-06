@@ -33,7 +33,7 @@ namespace namu {
         return *_ret;
     }
 
-    priority me::prioritize(const args& a) const {
+    priorType me::prioritize(const args& a) const {
         if(_ret)
             return _ret->prioritize(a);
         return super::prioritize(a);

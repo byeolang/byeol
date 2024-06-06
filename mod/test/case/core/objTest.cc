@@ -10,8 +10,8 @@ namespace {
         NAMU(CLASS(originObj, obj))
 
     public:
-        originObj(): super(new mgdType("originObj")), _subs(*new scopes()) {}
-        originObj(const scopes& subs): super(new mgdType("originObj")), _subs(subs) {}
+        originObj(): super(new mgdType("originObj")), _subs(*new scope()) {}
+        originObj(const scope& subs): super(new mgdType("originObj")), _subs(subs) {}
         originObj(const me& rhs) {
             _subs = rhs._subs;
         }
@@ -28,21 +28,21 @@ namespace {
         }
 
         using super::subs;
-        nbicontainer& subs() override { return *_subs; }
+        scope& subs() override { return *_subs; }
 
     private:
-        tstr<scopes> _subs;
+        tstr<scope> _subs;
     };
 }
 
 TEST_F(objTest, testMakeOriginObj) {
     const nchar* o2Name = "o2";
-    originObj o1, o2(*new scopes());
+    originObj o1, o2(*new scope());
     ASSERT_NE(o1.getId(), o2.getId());
     ASSERT_FALSE(nul(o1.subs()));
     ASSERT_FALSE(nul(o2.subs()));
 
-    scopes* newSubs = new scopes();
+    scope* newSubs = new scope();
     originObj o3(*newSubs);
     ASSERT_FALSE(nul(o3.subs()));
 
@@ -60,8 +60,8 @@ TEST_F(objTest, testMakeOriginObj) {
 
 TEST_F(objTest, testCloneOriginObj) {
     const nchar* o2Name = "wow";
-    originObj o1, o2(*new scopes());
-    scopes* newSubs = new scopes();
+    originObj o1, o2(*new scope());
+    scope* newSubs = new scope();
     originObj o3(*newSubs);
 
     tstr<originObj> clone((originObj*) o3.clone());

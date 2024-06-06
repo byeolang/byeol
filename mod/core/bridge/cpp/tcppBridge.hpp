@@ -54,7 +54,7 @@ namespace namu {
         }
 
         using super::subs;
-        nbicontainer& subs() override { return *_subs; }
+        scope& subs() override { return *_subs; }
 
         template <typename Ret, typename... Args>
         me& func(const std::string& name, Ret(T::*fptr)(Args...)) { return funcNonConst(name, fptr); }

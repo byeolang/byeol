@@ -26,9 +26,9 @@ namespace namu {
         const tnarr<me>& getDependents() const;
 
         using super::subs;
-        nbicontainer& subs() override;
+        scope& subs() override;
 
-        priority prioritize(const args& a) const override;
+        priorType prioritize(const args& a) const override;
 
         using super::run;
         str run(const args& a) override;

@@ -15,7 +15,7 @@ namespace namu {
         return _onGetRet();
     }
 
-    priority me::prioritize(const args& a) const {
+    priorType me::prioritize(const args& a) const {
         return NO_MATCH;
     }
 }

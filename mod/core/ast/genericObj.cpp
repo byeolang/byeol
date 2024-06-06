@@ -2,6 +2,7 @@
 #include "../visitor/generalizer.hpp"
 #include "args.hpp"
 #include "../visitor/verifier.hpp"
+#include "dumScope.hpp"
 #include "baseFunc.hpp"
 #include "../type/mgdType.hpp"
 
@@ -36,12 +37,12 @@ namespace namu {
         return str();
     }
 
-    nbicontainer& me::subs() {
-        static scope inner;
+    scope& me::subs() {
+        static dumScope inner;
         return inner;
     }
 
-    priority me::prioritize(const args& a) const {
+    priorType me::prioritize(const args& a) const {
         std::string key = _makeKey(a);
         if(key.empty()) return NO_MATCH;
         if(!_cache.count(key)) return NO_MATCH;
@@ -80,7 +81,7 @@ namespace namu {
         NAMU_DI("=========================");
         NAMU_DI("        make generic     ");
         NAMU_DI("=========================");
-        tstr<obj> ret = (obj*) _orgObj->cloneDeep();
+        tstr<obj> ret = (obj*) _orgObj->cloneLocal();
         // update origin:
         //  genericObj makes an origin object. but ret->getOrigin() is pointing _orgObj now.
         //  I need to update it.

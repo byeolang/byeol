@@ -9,8 +9,8 @@ namespace {
     public:
         myNode(int n): num(n) {}
 
-        nbicontainer& subs() override { return nulOf<nbicontainer>(); }
-        priority prioritize(const args& a) const override { return NO_MATCH; }
+        scope& subs() override { return nulOf<scope>(); }
+        priorType prioritize(const args& a) const override { return NO_MATCH; }
         str run(const args& a) override { return str(); }
 
         int num;
@@ -32,8 +32,8 @@ struct frameTest : public namuTest {
         namuTest::TearDown();
     }
 
-    scopes& getScopeStack(frame& fr) {
-        return fr.subs().cast<scopes>();
+    scope& getScopeStack(frame& fr) {
+        return fr.subs();
     }
 };
 
@@ -48,10 +48,10 @@ TEST_F(frameTest, testFrameManipulateChainObjNegative) {
     scope local;
     local.add("myNode1", new myNode(1));
     local.add("myNode2", new myNode(2));
-    fr.add(*scopes::wrap<scopes>(local));
+    fr.add(*scope::wrap<scope>(local));
     ASSERT_FALSE(nul(getScopeStack(fr)));
 
-    scopes shares;
+    scope shares;
     shares.add("myNode4", new myNode(4));
     scope owns;
     owns.add("myNode3", new myNode(3));

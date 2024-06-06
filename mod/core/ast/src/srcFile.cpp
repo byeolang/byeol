@@ -1,5 +1,6 @@
 #include "srcFile.hpp"
 #include "visitor/visitor.hpp"
+#include "../dumScope.hpp"
 
 namespace namu {
 
@@ -8,7 +9,7 @@ namespace namu {
     me::srcFile(const std::string& fileName, const std::string& contents):
         _fileName(fileName), _contents(contents) {}
 
-    priority me::prioritize(const args& a) const {
+    priorType me::prioritize(const args& a) const {
         return NO_MATCH;
     }
 
@@ -16,8 +17,8 @@ namespace namu {
         return str();
     }
 
-    nbicontainer& me::subs() {
-        static nchain inner;
+    scope& me::subs() {
+        static dumScope inner;
         return inner;
     }
 

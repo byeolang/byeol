@@ -13,8 +13,8 @@ namespace {
     public:
         myNode(int num): number(num) {}
 
-        nbicontainer& subs() override { return nulOf<nbicontainer>(); }
-        priority prioritize(const args& types) const override { return NO_MATCH; }
+        scope& subs() override { return nulOf<scope>(); }
+        priorType prioritize(const args& types) const override { return NO_MATCH; }
         str run(const args& a) override { return str(); }
 
         int number;
@@ -290,9 +290,6 @@ TEST_F(narrTest, testRangeBasedForLoop) {
 
 TEST_F(narrTest, testEach) {
     narr arr1 {*new nInt(1), *new nByte(100), *new nInt(2)};
-    mockNode dum;
-    arr1.setOwner(dum);
-
     nint sum = 0;
     arr1.each<nInt>([&](const auto& elem) {
         return sum += elem.get(), true;

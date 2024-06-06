@@ -13,8 +13,8 @@ namespace {
     public:
         myNode(int num): number(num) {}
 
-        nbicontainer& subs() override { return nulOf<nbicontainer>(); }
-        priority prioritize(const args& types) const override { return NO_MATCH; }
+        scope& subs() override { return nulOf<scope>(); }
+        priorType prioritize(const args& types) const override { return NO_MATCH; }
         str run(const args& a) override { return str(); }
 
         int number;
@@ -376,8 +376,6 @@ TEST_F(nmapTest, testEach) {
     map1.add("val1", *new nInt(1));
     map1.add("val2", *new nByte(100));
     map1.add("val3", *new nInt(2));
-    mockNode dum;
-    map1.setOwner(dum);
 
     nint sum = 0;
     map1.each<nInt>([&](const std::string&, const nInt& elem) {

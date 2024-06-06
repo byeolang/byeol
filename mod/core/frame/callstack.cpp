@@ -1,7 +1,7 @@
 #include "callstack.hpp"
 #include "../builtin/container/native/tnarr.inl"
 #include "../builtin/container/native/tnchain.inl"
-#include "../ast/scopes.hpp"
+#include "../ast/scope.hpp"
 #include "../ast/src/src.hpp"
 #include "../ast/baseFunc.hpp"
 #include "../ast/params.hpp"

@@ -71,8 +71,8 @@ namespace {
         params _params;
     };
 
-    nbool _isFrameLinkScope(const frame& fr, const scopes& subs) {
-        for(const scopes* e=&fr.subs().cast<scopes>(); e ; e=(scopes*) &e->getNext())
+    nbool _isFrameLinkScope(const frame& fr, const scope& subs) {
+        for(const scope* e=&fr.subs().cast<scope>(); e ; e=(scope*) &e->getNext())
             if(e == &subs)
                 return true;
         return false;
@@ -87,7 +87,7 @@ namespace {
         for(auto e=fr.subs().begin(); e ;e++)
             NAMU_I(" - func(\"%s\") calls: fr[%d]=%s", e.getKey().c_str(), n++, e.getVal().getType().getName().c_str());
 
-        const scopes& funcScope = fr.subs().cast<scopes>();
+        const scope& funcScope = fr.subs().cast<scope>();
         if(nul(funcScope)) return NAMU_I("nul(funcScope)"), false;
         if(!_isFrameLinkScope(fr, funcScope))
             return NAMU_I("frame not contain the funcScope(%x)", &funcScope), false;

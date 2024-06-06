@@ -61,13 +61,10 @@ namespace namu {
     }
 
     void me::onTraverse(visitInfo i, node& me) {
-        nbicontainer& subs = me.subs();
-        scopes& cast = subs.cast<scopes>();
+        scope& subs = me.subs();
         ncnt len = subs.len();
-        if(!nul(cast)) {
-            len = cast.getContainer().len();
-            len += cast.getNext().getContainer().len();
-        }
+        len = subs.getContainer().len();
+        len += subs.getNext().getContainer().len();
         if(len <= 0) return;
 
         if(isFlag(GUARD))

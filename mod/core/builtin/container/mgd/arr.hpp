@@ -39,7 +39,7 @@ namespace namu {
         const ntype& getType() const override;
 
         using super::subs;
-        nbicontainer& subs() override;
+        scope& subs() override;
 
         ncnt len() const override;
 

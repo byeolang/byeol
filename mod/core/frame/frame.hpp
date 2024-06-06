@@ -2,7 +2,6 @@
 
 #include "../ast/baseObj.hpp"
 #include "../ast/baseFunc.hpp"
-#include "scopeStack.hpp"
 #include "../builtin/res/tpair.hpp"
 #include "../ast/mockNode.hpp"
 
@@ -10,6 +9,12 @@ struct immutableTest;
 struct frameTest;
 
 namespace namu {
+
+    struct _nout scopeRegister {
+        str owner;
+        tstr<scope> s;
+    };
+
     class obj;
     class baseFunc;
     class _nout frame : public node { // TODO: may be obj, not node.
@@ -23,8 +28,10 @@ namespace namu {
         ~frame() override;
 
         /// @param existing don't need to cloneChain() before passing this func.
-        void add(scopes& existing);
+        void add(scope& existing);
         void add(nbicontainer& existing);
+        void add(node& owner);
+        void add(node& owner, scope& s);
         void addLocal(const std::string& name, const node& n);
 
         void del();
@@ -39,17 +46,19 @@ namespace namu {
         baseFunc& getFunc();
         const baseFunc& getFunc() const NAMU_UNCONST_FUNC(getFunc())
 
-        node& getObjHaving(const node& sub);
-        const node& getObjHaving(const node& sub) const NAMU_UNCONST_FUNC(getObjHaving(sub))
+        node& getOwner(const node& sub);
+        const node& getOwner(const node& sub) const NAMU_UNCONST_FUNC(getOwner(sub))
 
         // node:
         using node::subs;
-        nbicontainer& subs() override;
+        scope& subs() override;
 
-        priority prioritize(const args& a) const override;
+        priorType prioritize(const args& a) const override;
         str run(const args& a) override;
 
         void rel() override;
+
+        const std::vector<scopeRegister>& getScopeRegisters() const;
 
         nbool setRet(const node& newRet) const;
         nbool setRet() const;
@@ -57,12 +66,12 @@ namespace namu {
 
     private:
         void _rel();
-        scopes& _getTop();
+        scopeRegister& _getTop();
 
     private:
         tstr<baseObj> _me;
         tstr<baseFunc> _func;
-        std::vector<tstr<scopes>> _stack;
+        std::vector<scopeRegister> _stack;
         mutable str _ret;
     };
 }

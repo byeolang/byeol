@@ -39,7 +39,7 @@ namespace namu {
             return;
         }
 
-        fr.add(*new scopes());
+        fr.add(*new scope());
     }
 
     void me::outFrame(const bicontainable& args) {

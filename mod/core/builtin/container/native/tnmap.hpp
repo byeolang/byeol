@@ -1,7 +1,6 @@
 #pragma once
 
 #include "tnbicontainer.hpp"
-#include "../../../ast/node.hpp"
 
 namespace namu {
 
@@ -74,6 +73,4 @@ namespace namu {
     private:
         cmap _map;
     };
-
-    typedef tnmap<std::string, node> nmap;
 }

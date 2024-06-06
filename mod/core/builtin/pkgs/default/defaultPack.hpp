@@ -8,7 +8,7 @@ namespace namu {
 
     public:
         using super::subs;
-        nbicontainer& subs() override;
+        scope& subs() override;
 
         const baseObj& getOrigin() const override;
     };

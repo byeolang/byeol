@@ -21,12 +21,12 @@ namespace namu {
         const obj& getOrigin() const override;
         const strings& getParamNames() const;
 
-        priority prioritize(const args& a) const override;
+        priorType prioritize(const args& a) const override;
         str run(const args& a) override;
 
         str getEval() const override;
 
-        virtual nbicontainer& subs() override;
+        virtual scope& subs() override;
 
         const std::map<std::string, tstr<obj>>& getCache() const;
 

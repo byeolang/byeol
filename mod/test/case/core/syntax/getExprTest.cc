@@ -13,7 +13,7 @@ TEST_F(getExprTest, getSymbolOnPackScope) {
             main
     )SRC").shouldParsed(true);
     shouldVerified(true); // retType is void so implicit return won't work.
-    scope& shares = (scope&) (((scopes&) getSlot().subs()).getNext().getContainer());
+    auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
     ASSERT_FALSE(nul(shares));
     ASSERT_EQ(shares.len(), 3);
 }
@@ -25,7 +25,7 @@ TEST_F(getExprTest, getSymbolOnPackScope1) {
         main() int
             ret 0
     )SRC").shouldVerified(true);
-    scope& shares = (scope&) (((scopes&) getSlot().subs()).getNext().getContainer());
+    auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
     ASSERT_FALSE(nul(shares));
     ASSERT_EQ(shares.len(), 3);
 }
@@ -37,7 +37,7 @@ TEST_F(getExprTest, getSymbolOnPackScope2) {
         main() int
             ret age
     )SRC").shouldVerified(true);
-    scope& shares = (scope&) (((scopes&) getSlot().subs()).getNext().getContainer());
+    auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
     ASSERT_FALSE(nul(shares));
     ASSERT_EQ(shares.len(), 3);
     node& age = getSubPack().sub("age");
@@ -54,7 +54,7 @@ TEST_F(getExprTest, getSymbolOnPackScope3Negative) {
             ret age
     )SRC").shouldParsed(true);
     shouldVerified(false);
-    scope& shares = (scope&) (((scopes&) getSlot().subs()).getNext().getContainer());
+    auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
     ASSERT_FALSE(nul(shares));
     ASSERT_EQ(shares.len(), 3);
     node& age = getSubPack().sub("age");

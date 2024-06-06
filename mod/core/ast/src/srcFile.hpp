@@ -13,11 +13,11 @@ namespace namu {
         srcFile(const std::string& fileName, const std::string& contents);
 
     public:
-        priority prioritize(const args& a) const override;
+        priorType prioritize(const args& a) const override;
 
         using super::run;
         str run(const args& a) override;
-        nbicontainer& subs() override;
+        scope& subs() override;
         const std::string& getFileName() const;
         const std::string& getContents() const;
 

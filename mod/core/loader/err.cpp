@@ -177,8 +177,8 @@ namespace namu {
         return !operator==(rhs);
     }
 
-    nbicontainer& me::subs() {
-        static scope inner(singletone());
+    scope& me::subs() {
+        static scope inner;
         if(inner.len() <= 0) {
             inner.add("log", new logFunc());
             inner.add("logStack", new logStackFunc());

@@ -9,12 +9,8 @@ namespace namu {
     NAMU(DEF_ME(obj), DEF_VISIT())
 
     me& me::_assign(const me& rhs) {
-        scope* cloned = (scope*) rhs._owns->cloneDeep();
-        cloned->setOwner(*this);
-        _owns.bind(cloned);
-
-        _shares.bind(*rhs._shares);
-        _subs.bind(_makeNewSubs());
+        scope* clonedOwns = scope::wrap<scope>(*(scope::super*) rhs.getOwns().getContainer().cloneDeep());
+        _subs.bind(new scope(rhs.getShares(), *clonedOwns));
         _subpack = rhs._subpack;
         _org = rhs._org;
         _type = rhs._type;
@@ -27,26 +23,22 @@ namespace namu {
     }
 
     me::obj(): super(), _org(this), _type(nullptr), _isComplete(true) {
-        _shares.bind(new scopes(new scope(*this)));
-        _owns.bind(new scope(*this));
-        _subs.bind(_makeNewSubs());
+        _subs.bind(new scope(*new scope::defaultContainer(), *new scope()));
     }
 
-    me::obj(const scopes& shares, const scope& owns):
-            super(), _shares(shares), _owns(owns), _org(this), _type(nullptr), _isComplete(true) {
-        _subs.bind(_makeNewSubs());
+    me::obj(scope& shares, scope& owns): super(), _org(this), _type(nullptr), _isComplete(true) {
+        owns.link(shares);
+        _subs.bind(owns);
     }
 
     me::obj(mgdType* newType): super(), _org(this), _type(nullptr), _isComplete(true) {
-        _shares.bind(new scopes(new scope(*this)));
-        _owns.bind(new scope(*this));
-        _subs.bind(_makeNewSubs());
+        _subs.bind(new scope(*new scope::defaultContainer(), *new scope()));
         _setType(newType);
     }
 
-    me::obj(mgdType* newType, const scopes& shares, const scope& owns):
-            super(), _shares(shares), _owns(owns), _org(this), _type(nullptr), _isComplete(true) {
-        _subs.bind(_makeNewSubs());
+    me::obj(mgdType* newType, scope& shares, scope& owns): super(), _org(this), _type(nullptr), _isComplete(true) {
+        owns.link(shares);
+        _subs.bind(owns);
         _setType(newType);
     }
 
@@ -85,20 +77,22 @@ namespace namu {
         _type = new1;
     }
 
-    nbicontainer& me::subs() {
+    scope& me::subs() {
         return *_subs;
     }
 
     tstr<nbicontainer> me::mySubs() const {
-        return _subs->cloneChain(*_shares);
+        return _subs->cloneChain(getShares());
     }
 
-    scopes& me::getShares() {
-        return *_shares;
+    scope& me::getShares() {
+        if(!_subs) return nulOf<scope>();
+        return _subs->getNext().cast<scope>();
     }
 
     scope& me::getOwns() {
-        return *_owns;
+        if(!_subs) return nulOf<scope>();
+        return _subs->cast<scope>();
     }
 
     const obj& me::getOrigin() const {
@@ -123,13 +117,6 @@ namespace namu {
         _isComplete = isComplete;
     }
 
-    scopes* me::_makeNewSubs() {
-        scopes* ret = new scopes(*_owns);
-        ret->link(*_shares);
-
-        return ret;
-    }
-
     void me::_setOrigin(obj* newOrg) {
         _org = newOrg;
     }
@@ -140,10 +127,12 @@ namespace namu {
 
     clonable* me::cloneDeep() const {
         NAMU_DW("obj: cloneDeep");
-
-        me* ret = (me*) clone();
-        if(_shares) ret->_shares.bind((scopes*) _shares->cloneDeep()); // chain's cloneDeep() clones first container only.
-        ret->_subs.bind((scopes*) ret->_makeNewSubs());
+        me* ret = new me(*this);
+        ret->getOwns().link(*(scope*) getShares().cloneDeep());
         return ret;
+    }
+
+    me* me::cloneLocal() const {
+        return new me(*this);
     }
 }

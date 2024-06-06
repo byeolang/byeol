@@ -98,7 +98,7 @@ namespace {
 
 TEST_F(nodeTest, testManuallyMakeNodeStructure) {
     // prepare:
-    tstr<scopes> frameEmulator;
+    tstr<scope> frameEmulator;
     myObj obj;
     myFunc func;
     NAMU_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
@@ -113,7 +113,7 @@ TEST_F(nodeTest, testManuallyMakeNodeStructure) {
     // when:
     frameEmulator.bind(obj.subs());
     //  push another:
-    scopes* chnOffunc = (scopes*) scopes::wrap<scopes>(func.subs());
+    scope* chnOffunc = scope::wrap<scope>(func.subs());
     chnOffunc->link(*frameEmulator);
     frameEmulator.bind(*chnOffunc);
 

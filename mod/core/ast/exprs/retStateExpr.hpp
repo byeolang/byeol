@@ -16,7 +16,7 @@ namespace namu {
         using super::run;
         str run(const args& a) override;
 
-        priority prioritize(const args& a) const override;
+        priorType prioritize(const args& a) const override;
         str getEval() const override;
 
     protected:

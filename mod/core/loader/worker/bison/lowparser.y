@@ -40,7 +40,6 @@
         class obj;
         class immutableTactic;
         template <typename K, typename V, typename TACTIC> class tnmap;
-        class scope;
         typedef tstr<node> str;
         template <typename T, typename WRP> class tnarr;
         typedef tnarr<node> narr;

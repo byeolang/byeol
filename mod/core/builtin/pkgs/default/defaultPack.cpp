@@ -10,7 +10,7 @@
 namespace namu {
     NAMU(DEF_ME(defaultPack))
 
-    nbicontainer& me::subs() {
+    scope& me::subs() {
         static scope inner;
         if(inner.len() <= 0) {
             inner.add("input", new inputFunc());

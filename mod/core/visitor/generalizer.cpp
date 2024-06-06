@@ -113,7 +113,7 @@ namespace namu {
     }
 
     nbool me::onVisit(visitInfo i, baseObj& me) {
-        nbicontainer& subs = me.subs();
+        scope& subs = me.subs();
         for(auto e=subs.begin(); e ;++e) {
             const node& org = _findOrigin(e.getVal());
             if(nul(org)) continue;

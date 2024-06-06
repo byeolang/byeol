@@ -15,7 +15,6 @@ namespace namu {
     typedef std::unordered_map<nidx, std::string> msgMap;
 
     class pos;
-    class scopes;
     struct _nout err : public baseObj, public dumpable {
         NAMU(CLASS(err, baseObj))
 
@@ -31,7 +30,7 @@ namespace namu {
 
     public:
         using super::subs;
-        nbicontainer& subs() override;
+        scope& subs() override;
         using super::run;
         str run(const args& a) override;
 

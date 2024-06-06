@@ -26,7 +26,7 @@ namespace namu {
 
     public:
         using super::subs;
-        nbicontainer& subs() override;
+        scope& subs() override;
 
         nbool isImpli(const type& to) const override;
         virtual str asImpli(const type& to) const override;
@@ -34,7 +34,7 @@ namespace namu {
         /// run of expr class get treated like 'evaluate' in namu.
         /// it should not take any argument to run()
         using super::prioritize;
-        priority prioritize(const args& a) const override;
+        priorType prioritize(const args& a) const override;
         const src& getSrc() const override;
 
     private:

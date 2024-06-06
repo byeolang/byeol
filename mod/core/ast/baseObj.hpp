@@ -26,7 +26,7 @@ namespace namu {
         using super::run;
         str run(const args& a) override;
 
-        priority prioritize(const args& a) const override;
+        priorType prioritize(const args& a) const override;
 
         virtual const baseObj& getOrigin() const = 0;
 

@@ -14,8 +14,8 @@ namespace {
         myNode(): number(0) {}
         myNode(int num): number(num) {}
 
-        nbicontainer& subs() override { return nulOf<nbicontainer>(); }
-        priority prioritize(const args& a) const override { return NO_MATCH; }
+        scope& subs() override { return nulOf<scope>(); }
+        priorType prioritize(const args& a) const override { return NO_MATCH; }
         using super::run;
         str run(const args& a) override { return str(); }
 

@@ -86,13 +86,6 @@ namespace namu {
     }
 
     TEMPL
-    node& ME::getOwner() {
-        auto& con = getContainer();
-        if(nul(con)) return nulOf<node>();
-        return con.getOwner();
-    }
-
-    TEMPL
     typename ME& ME::_assign(const me& rhs) {
         _step.bind((iteration*) rhs._step->clone());
         return *this;

@@ -19,7 +19,7 @@ namespace namu {
 
         node& getRet();
         const node& getRet() const NAMU_UNCONST_FUNC(getRet())
-        priority prioritize(const args& a) const override;
+        priorType prioritize(const args& a) const override;
         str getEval() const override;
 
     private:

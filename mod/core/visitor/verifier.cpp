@@ -195,7 +195,7 @@ namespace namu {
         //  if don't, it may be incomplete object.
         if(nul(to)) {
             frame& fr = thread::get()._getNowFrame();
-            scopes& sc = (scopes&) fr.subs();
+            scope& sc = (scope&) fr.subs();
             if(sc.getContainer().has(me.getSubName()))
                 return posError(errCode::ALREADY_DEFINED_VAR, me, me.getSubName().c_str(),
                         rhs.getType().getName().c_str());
@@ -561,7 +561,7 @@ namespace namu {
 
     void me::onLeave(visitInfo i, func& me) {
         me.getBlock().outFrame();
-        me.outFrame(scopes());
+        me.outFrame(scope());
     }
 
     nbool me::onVisit(visitInfo i, baseObj& me) {

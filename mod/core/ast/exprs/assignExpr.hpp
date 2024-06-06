@@ -12,7 +12,7 @@ namespace namu {
         NAMU(CLASS(assignExpr, expr, expr::exprType), VISIT())
         friend class verifier;
         friend class func;
-        typedef scopes::iter iter;
+        typedef scope::iter iter;
 
     public:
         assignExpr(const node& lhs, const node& rhs);

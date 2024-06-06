@@ -10,12 +10,12 @@ namespace namu {
 
     NAMU(DEF_ME(baseFunc), DEF_VISIT())
 
-    priority me::prioritize(const args& a) const {
+    priorType me::prioritize(const args& a) const {
         const params& ps = getParams();
         if(a.len() != ps.len()) return NO_MATCH;
 
         int n = 0;
-        priority max = EXACT_MATCH; // begining from lv0.
+        priorType max = EXACT_MATCH; // begining from lv0.
         for(const auto& e : a) {
             str t = e.getEval();
             if(!t) return NAMU_W("t == null"), NO_MATCH;
@@ -26,7 +26,7 @@ namespace namu {
             //  each subs can be categorized into 3 level of priority.
             //  the priority against func call will be computed maximum priority value between the argument and its paramter.
             //  the lower value of 'max', the more check needed.
-            priority newP = _prioritize(*p, *t);
+            priorType newP = _prioritize(*p, *t);
             max = newP > max ? newP : max;
             if(max == NO_MATCH)
                 return NO_MATCH;
@@ -35,7 +35,7 @@ namespace namu {
         return max;
     }
 
-    priority me::_prioritize(const node& param, const node& arg) const {
+    priorType me::_prioritize(const node& param, const node& arg) const {
         if(arg.getType() == param.getType()) return EXACT_MATCH;
         if(_isNatureNumber(param) && _isNatureNumber(arg)) return NUMERIC_MATCH;
         if(arg.isImpli(param)) return IMPLICIT_MATCH;

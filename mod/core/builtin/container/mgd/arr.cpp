@@ -21,7 +21,7 @@ namespace namu {
 
         public:
             using super::subs;
-            nbicontainer& subs() override {
+            scope& subs() override {
                 static super* inner = nullptr;
                 if(nul(inner)) {
                     inner = new super();
@@ -103,7 +103,7 @@ namespace namu {
         return _type;
     }
 
-    nbicontainer& me::subs() {
+    scope& me::subs() {
         static dumScope dummy;
         const auto& beans = getType().getBeans();
         if(beans.isEmpty()) return dummy;
@@ -212,7 +212,7 @@ namespace namu {
     }
 
     scope& me::_defGeneric(const type* key) {
-        tstr<scope> clone(_getOriginScope().cloneDeep());
+        tstr<scope> clone((scope*)_getOriginScope().cloneDeep());
         clone->add("getElemType", new getElemTypeFunc());
 
         _cache.insert({key, clone}); // this avoids infinite loop.

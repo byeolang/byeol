@@ -13,7 +13,6 @@ namespace namu {
         NAMU(CLASS(defAssignExpr, expr, expr::exprType), VISIT())
         friend class verifier;
         friend class func;
-        typedef scopes::iter iter;
 
     public:
         defAssignExpr(const std::string& name, const node& rhs);

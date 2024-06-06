@@ -50,25 +50,15 @@ namespace namu {
         V& get(std::function<nbool(const K&, const V&)> l);
         template <typename V1> const V1& get(std::function<nbool(const K&, const V1&)> l) const NAMU_UNCONST_FUNC(get(l))
         const V& get(std::function<nbool(const K&, const V&)> l) const NAMU_UNCONST_FUNC(get(l))
-        template <typename V1> V1& get(std::function<nbool(const K&, const V1&, node&)> l);
-        V& get(std::function<nbool(const K&, const V&, node&)> l);
-        template <typename V1> const V1& get(std::function<nbool(const K&, const V1&, node&)> l) const NAMU_UNCONST_FUNC(get(l))
-        const V& get(std::function<nbool(const K&, const V&, node&)> l) const NAMU_UNCONST_FUNC(get(l))
 
         tnarr<V, strTactic> getAll(const K& key) const;
         template <typename V1> tnarr<V1, strTactic> getAll(std::function<nbool(const K&, const V1&)> l) const;
         tnarr<V, strTactic> getAll(std::function<nbool(const K&, const V&)> l) const;
-        template <typename V1> tnarr<V1, strTactic> getAll(std::function<nbool(const K&, const V1&, node&)> l) const;
-        tnarr<V, strTactic> getAll(std::function<nbool(const K&, const V&, node&)> l) const;
 
         template <typename V1> void each(std::function<nbool(const K&, V1&)> l);
         void each(std::function<nbool(const K&, V&)> l);
         template <typename V1> void each(std::function<nbool(const K&, const V1&)> l) const NAMU_UNCONST_FUNC(each(l))
         void each(std::function<nbool(const K&, const V&)> l) const NAMU_UNCONST_FUNC(each(l))
-        template <typename V1> void each(std::function<nbool(const K&, V1&, node&)> l);
-        void each(std::function<nbool(const K&, V&, node&)> l);
-        template <typename V1> void each(std::function<nbool(const K&, const V1&, node&)> l) const NAMU_UNCONST_FUNC(each(l))
-        void each(std::function<nbool(const K&, const V&, node&)> l) const NAMU_UNCONST_FUNC(each(l))
 
         // iter:
         iter begin() const {
@@ -114,10 +104,6 @@ namespace namu {
 
         // etc:
         virtual void rel() = 0;
-
-        virtual node& getOwner() { return nulOf<node>(); }
-        const node& getOwner() const NAMU_UNCONST_FUNC(getOwner())
-        virtual void setOwner(const node& owner) { return; }
 
     protected:
         virtual iteration* _onMakeIteration(ncnt step) const = 0;

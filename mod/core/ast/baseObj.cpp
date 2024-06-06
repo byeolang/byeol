@@ -23,8 +23,8 @@ namespace namu {
         return str(this);
     }
 
-    priority me::prioritize(const args& a) const {
-        return subAll<baseFunc>(baseObj::CTOR_NAME, a).getMatches().getPriority();
+    priorType me::prioritize(const args& a) const {
+        return subAll<baseFunc>(baseObj::CTOR_NAME, a).getMatches().getPriorType();
     }
 
     void me::inFrame(const bicontainable& args) {
@@ -40,7 +40,7 @@ namespace namu {
         fr.setMe(*this);
         fr.add(subs());
 
-        scopes* s = new scopes();
+        scope* s = new scope();
         s->add("me", *this);
         fr.add(*s);
     }

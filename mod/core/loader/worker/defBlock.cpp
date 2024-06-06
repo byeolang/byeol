@@ -1,4 +1,5 @@
 #include "defBlock.hpp"
+#include "../../ast/node.hpp"
 
 namespace namu {
 

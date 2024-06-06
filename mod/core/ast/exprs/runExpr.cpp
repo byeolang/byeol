@@ -24,7 +24,7 @@ namespace namu {
         NAMU_DI("run: is me frame?");
         if(!nul(_args)) {
             frame& fr = me.cast<frame>();
-            _args.setMe(!nul(fr) ? fr.getObjHaving(*sub) : me);
+            _args.setMe(!nul(fr) ? fr.getOwner(*sub) : me);
             const node& me = _args.getMe();
             NAMU_DI("run: setting me on args. args.me[%s]", nul(me) ? "null" : me.getType().getName().c_str());
         }

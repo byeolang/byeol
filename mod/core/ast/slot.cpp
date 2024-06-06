@@ -8,11 +8,11 @@ namespace namu {
     NAMU(DEF_ME(slot), DEF_VISIT())
 
 
-    nbicontainer& me::subs() {
+    scope& me::subs() {
         return getPack().subs();
     }
 
-    priority me::prioritize(const args& a) const {
+    priorType me::prioritize(const args& a) const {
         return getPack().prioritize(a);
     }
 

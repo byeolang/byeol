@@ -119,7 +119,7 @@ TEST_F(exprTest, simpleRunExpr) {
     runExpr exp1(*bridge, *new getExpr("main"), narr(*new nStr("kniz!")));
 
     frame fr;
-    fr.add(*new scopes());
+    fr.add(*new scope());
     fr.setMe(*bridge);
     getFrames().add(fr);
 
@@ -163,7 +163,7 @@ TEST_F(exprTest, constructExprInManual) {
     setLine(r, 1, 1);
 
     frame fr;
-    fr.add(*new scopes());
+    fr.add(*new scope());
     fr.setMe(*bridge);
     getFrames().add(fr);
 

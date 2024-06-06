@@ -4,6 +4,8 @@
 #include "baseObj.hpp"
 #include "tpriorities.inl"
 #include "args.hpp"
+#include "scope.hpp"
+#include "../builtin/container/tbicontainable.inl"
 
 namespace namu {
 
@@ -27,7 +29,7 @@ namespace namu {
             tpriorities<T> ret;
             for(int n=0; n < this->size(); n++) {
                 for(const tprior<T>& elem : (*this)[n])
-                    ret.add(new tprior<T>(*elem.elem, *elem.owner, priority(n)));
+                    ret.add(new tprior<T>(*elem, priorType(n), elem.lv));
             }
             return ret;
         }
@@ -36,6 +38,11 @@ namespace namu {
             (*this)[elem.lv].add(elem);
         }
     };
+
+    TEMPLATE
+    T& ME::sub(std::function<nbool(const std::string&, const T&)> l) {
+        return subs().get<T>(l);
+    }
 
     TEMPLATE
     T& ME::sub() {
@@ -49,10 +56,8 @@ namespace namu {
 #if NAMU_IS_DBG
         ncnt n = 0;
 #endif
-        return subs().get<T>([&](const std::string& key, const T& val, node& owner) {
-            std::string ownerName = nul(owner) ? "null" : owner.getType().getName();
-            NAMU_DI("sub: [%d/%d] %s --> %s.%s",
-                    ++n, subs().len(), name.c_str(), ownerName.c_str(), key.c_str());
+        return subs().get<T>([&](const std::string& key, const T& val) {
+            NAMU_DI("sub: [%d/%d] %s --> %s", ++n, subs().len(), name.c_str(), key.c_str());
             return key == name;
         });
     }
@@ -66,15 +71,18 @@ namespace namu {
         ncnt n = 0;
 #endif
         std::string argStr = a.toStr();
-        return subs().get<T>([&](const std::string& key, const T& val, node& owner) {
-            priority p = NO_MATCH;
+        return subs().get<T>([&](const std::string& key, const T& val) {
+            priorType p = NO_MATCH;
             if(key == name) p = val.prioritize(a);
 
-            std::string ownerName = nul(owner) ? "null" : owner.getType().getName();
-            NAMU_DI("sub: [%d/%d] %s(%s) --> %s.%s = %d",
-                    ++n, subs().len(), name.c_str(), argStr.c_str(), ownerName.c_str(), key.c_str(), p);
+            NAMU_DI("sub: [%d/%d] %s(%s) --> %s.%s = %d", ++n, subs().len(), name.c_str(), argStr.c_str(), key.c_str(), p);
             return p != NO_MATCH;
         });
+    }
+
+    TEMPLATE
+    tnarr<T, strTactic> ME::subAll(std::function<nbool(const std::string&, const T&)> l) const {
+        return subs().getAll<T>(l);
     }
 
     TEMPLATE
@@ -97,24 +105,31 @@ namespace namu {
     TEMPLATE
     tpriorities<T> ME::subAll(const std::string& name, const args& a) const {
         // subs is arranged already to its scope:
-        //  so if priority of sub was same level, I need to keep the priority of original container.
+        //  so if priorType of sub was same level, I need to keep the priorType of original container.
 
 #if NAMU_IS_DBG
         ncnt n = 0;
 #endif
         std::string argStr = !nul(a) ? a.toStr() : "";
         tprioritiesBucket<T> ps;
-        subs().each<T>([&](const auto& key, const T& val, node& owner) {
-            priority p = NO_MATCH;
-            std::string ownerName = nul(owner) ? "null" : owner.getType().getName();
-            if(key == name) {
+        const scope* e = &subs();
+        ncnt lv = 0;
+        while(e) {
+            priorType p = NO_MATCH;
+            e->getContainer().each<T>([&](const std::string& key, const T& val) {
+                if(key != name) return true;
+
                 p = !nul(a) ? val.prioritize(a) : EXACT_MATCH;
                 if(p != NO_MATCH)
-                    ps.push_back(*new tprior<T>(val, owner, p));
-            }
-            NAMU_DI("subAll: [%d/%d] %s(%s) --> %s.%s = %d", n++, subs().len(), name.c_str(), argStr.c_str(), ownerName.c_str(), key.c_str(), p);
-            return true;
-        });
+                    ps.push_back(*new tprior<T>(val, p, lv));
+                NAMU_DI("subAll: [%d/%d] %s(%s) --> %s = priority(type=%d, lv=%d)", n++,
+                        subs().len(), name.c_str(), argStr.c_str(), key.c_str(), p, lv);
+                return true;
+            });
+
+            e = &e->getNext();
+            lv++;
+        }
         return ps.join();
     }
 

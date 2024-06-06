@@ -25,10 +25,3 @@ TEST_F(primitiveObjTest, subsIsDummy) {
     ASSERT_FALSE(subs.has("not work"));
     ASSERT_FALSE(subs.begin().isEnd());
 }
-
-TEST_F(primitiveObjTest, itsScopeHasOrigin) {
-    nInt val(3);
-    ASSERT_EQ(&val.subs().getOwner(), &val.getOrigin());
-    nInt val2;
-    ASSERT_EQ(&val.getOrigin(), &val2.getOrigin());
-}

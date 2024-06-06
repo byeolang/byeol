@@ -15,9 +15,9 @@ namespace namu {
         const ntype& getType() const override;
 
         using super::subs;
-        nbicontainer& subs() override;
+        scope& subs() override;
 
-        priority prioritize(const args& a) const override;
+        priorType prioritize(const args& a) const override;
 
         str run(const args& a) override;
 

@@ -11,10 +11,10 @@ namespace {
         const obj& getOrigin() const override { return *this; }
 
         using super::subs;
-        nbicontainer& subs() override { return *_subs; }
+        scope& subs() override { return *_subs; }
 
     private:
-        tstr<scopes> _subs;
+        tstr<scope> _subs;
     };
 }
 

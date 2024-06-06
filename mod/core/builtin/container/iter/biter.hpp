@@ -47,9 +47,6 @@ public:
 
     tbicontainable<K, V>& getContainer() override;
 
-    node& getOwner();
-    const node& getOwner() const NAMU_UNCONST_FUNC(getOwner())
-
     const tbicontainable<K, V>& getContainer() const NAMU_UNCONST_FUNC(getContainer());
 
 private:

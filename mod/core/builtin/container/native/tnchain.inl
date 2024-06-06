@@ -1,7 +1,7 @@
 #pragma once
 
-#include "tnchain.hpp"
 #include "tnmap.inl"
+#include "tnchain.hpp"
 
 namespace namu {
 
@@ -60,11 +60,6 @@ namespace namu {
     }
 
     TEMPL
-    ME* ME::_shallowClone(const me& rhs) const {
-        return new ME(rhs.getContainer(), nulOf<ME>());
-    }
-
-    TEMPL
     nbool ME::add(const K& key, const V& new1) {
         return getContainer().add(key, new1);
     }
@@ -112,7 +107,7 @@ namespace namu {
     tstr<ME> ME::link(const super& new1) {
         if(nul(new1)) return tstr<ME>();
 
-        ME& ret = *wrap(new1);
+        ME& ret = *wrap<ME>(new1);
         link(ret);
         return tstr<ME>(ret);
     }
@@ -141,6 +136,19 @@ namespace namu {
     }
 
     TEMPL
+    clonable* ME::cloneDeep() const {
+        me* ret = new me(*(super*) getContainer().cloneDeep(), getNext());
+        me* e = ret;
+        const me* next = &getNext();
+        while(next) {
+            e->_next.bind(new me(*(super*) next->getContainer().cloneDeep()));
+            e = &e->getNext();
+            next = &next->getNext();
+        }
+        return ret;
+    }
+
+    TEMPL
     template <typename T>
     T* ME::wrap(const super& toShallowWrap) {
         if(nul(toShallowWrap)) return nullptr;
@@ -154,17 +162,12 @@ namespace namu {
     }
 
     TEMPL
-    ME* ME::wrap(const super& toShallowWrap) const {
-        return wrap<ME>(toShallowWrap);
-    }
-
-    TEMPL
     ME* ME::cloneChain(const super& until) const {
         const me* e = this;
-        ME* ret = _shallowClone(*this);
+        ME* ret = new ME(this->getContainer());
         ME* retElem = ret;
         while((e = &e->_next.get())) {
-            ME* new1 = _shallowClone(*e);
+            ME* new1 = new ME(e->getContainer());
             retElem->_next.bind(new1);
             retElem = new1;
 

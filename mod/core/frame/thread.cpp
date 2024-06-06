@@ -42,12 +42,12 @@ namespace namu {
     void me::setEx(const errReport& new1) { _ex.bind(new1); }
 
     // node:
-    nbicontainer& me::subs() {
+    scope& me::subs() {
         static dumScope inner;
         return inner;
     }
 
-    priority me::prioritize(const args& a) const {
+    priorType me::prioritize(const args& a) const {
         return NO_MATCH;
     }
 

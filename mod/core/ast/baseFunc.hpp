@@ -16,7 +16,7 @@ namespace namu {
         static inline const std::string ME = "me";
 
     public:
-        priority prioritize(const args& a) const override;
+        priorType prioritize(const args& a) const override;
 
         /// @return parameters of run() func.
         ///         parameter is just a type. and I don't care about the value of each parameters.
@@ -42,7 +42,7 @@ namespace namu {
 
     private:
         nbool _isNatureNumber(const node& it) const;
-        priority _prioritize(const node& param, const node& arg) const;
+        priorType _prioritize(const node& param, const node& arg) const;
     };
 
     typedef tnarr<baseFunc> funcs;

@@ -15,7 +15,7 @@ namespace namu {
         return ttype<node>::get();
     }
 
-    priority me::prioritize(const args& a) const {
+    priorType me::prioritize(const args& a) const {
         if(_org) return _org->prioritize(a);
         return NO_MATCH;
     }
@@ -30,7 +30,7 @@ namespace namu {
         return new me(*this);
     }
 
-    nbicontainer& me::subs() {
+    scope& me::subs() {
         if(_org) return _org->subs();
         static dumScope inner;
         return inner;

@@ -2,14 +2,12 @@
 
 #include "baseFunc.hpp"
 #include "exprs/blockExpr.hpp"
-#include "../builtin/container/native/tnmap.hpp"
+#include "scope.hpp"
 #include "params.hpp"
 
 namespace namu {
 
     class visitor;
-    class scope;
-
     class _nout func : public baseFunc {
         NAMU(CLASS(func, baseFunc), VISIT())
         friend class verifier;
@@ -27,7 +25,7 @@ namespace namu {
         void setBlock(const blockExpr& new1);
         str getRet() const override;
         nbool setRet(const node& newRet) override;
-        nbicontainer& subs() override;
+        scope& subs() override;
         const params& getParams() const override;
 
         using super::run;
@@ -46,7 +44,7 @@ namespace namu {
 
     private:
         params _params;
-        nmap _shares;
+        scope _shares;
         str _retType;
         tstr<blockExpr> _blk;
     };

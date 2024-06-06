@@ -63,10 +63,10 @@ namespace namu {
 
         /// @return priority of matched one.
         ///         this'll be NO_MATCH if isMatched() returns false.
-        priorType getPriorityType() const;
+        priorType getPriorType() const;
 
     protected:
-        void _setPriorityType(priorType new1);
+        void _setPriorType(priorType new1);
 
     private:
         priorType _type;
@@ -78,6 +78,7 @@ namespace namu {
 
     public:
         tpriorities();
+        tpriorities(const node& elem);
 
     public:
         /// @return finally matched sub when you want to access.

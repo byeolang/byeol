@@ -9,7 +9,7 @@ namespace {
 
 TEST_F(cloneDeepTest, narrcloneDeep) {
     obj o1;
-    nbicontainer& subs = o1.subs();
+    scope& subs = o1.subs();
     nInt i1(1), i2(2);
     subs.add("1", i1);
     subs.add("2", i2);

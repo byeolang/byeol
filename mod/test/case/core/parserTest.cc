@@ -20,7 +20,7 @@ TEST_F(parserTest, testHelloWorld) {
     ASSERT_TRUE(rootBinder);
 
     slot s((manifest()));
-    scope& shares = (scope&) (((scopes&) s.subs()).getNext().getContainer());
+    scope::super& shares = (scope::super&) (s.subs().getNext().getContainer());
     ASSERT_FALSE(nul(shares));
     p.setTask(s);
     shares.add("hello", new nStr("hello"));
@@ -41,11 +41,11 @@ TEST_F(parserTest, slotNoOnTray) {
     )SRC");
     shouldVerified(true);
 
-    scope& owns = (scope&) (((scopes&) getSlot().subs()).getContainer());
+    auto& owns = (scope::super&) getSlot().subs().getContainer();
     ASSERT_FALSE(nul(owns));
     ASSERT_EQ(owns.len(), 0);
     ASSERT_EQ(getSlot().getManifest().name, manifest::DEFAULT_NAME);
-    scope& shares = (scope&) (((scopes&) getSlot().subs()).getNext().getContainer());
+    auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
     ASSERT_FALSE(nul(shares));
     ASSERT_EQ(shares.len(), 3); // 2 builtin func
     ASSERT_EQ(&getSlot().getPack(), &getSubPack());
@@ -63,7 +63,7 @@ TEST_F(parserTest, slotNoOnTrayWithoutMake) {
     )SRC");
     shouldVerified(true);
 
-    scope& shares = (scope&) (((scopes&) getSlot().subs()).getNext().getContainer());
+    auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
     ASSERT_FALSE(nul(shares));
     ASSERT_EQ(getSlot().getManifest().name, manifest::DEFAULT_NAME);
     ASSERT_EQ(&getSlot().getPack(), &getSubPack());

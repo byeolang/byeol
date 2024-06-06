@@ -11,36 +11,40 @@ namespace namu {
     me::frame() { _rel(); }
     me::~frame() { _rel(); }
 
-    void me::add(scopes& existing) {
+    void me::add(scope& existing) {
+        add(nulOf<node>(), existing);
+    }
+
+    void me::add(node& owner, scope& existing) {
         if(nul(existing)) return;
         if(_stack.size() <= 0)
-            return _stack.push_back(existing), void();
+            return _stack.push_back(scopeRegister{owner, existing}), void();
 
-        tstr<nchain> cloned(existing.cloneChain());
+        tstr<scope> cloned(existing.cloneChain());
         if(!cloned) return;
-        cloned->getTail().link(_getTop());
-        _stack.push_back(cloned);
+        cloned->getTail().link(*_getTop().s);
+        _stack.push_back(scopeRegister{owner, cloned});
         NAMU_DI("scope added. frames.len[%d] thisFrame.len[%d]", thread::get().getFrames().len(), _stack.size());
     }
     void me::add(nbicontainer& existing) {
-        tstr<scopes> wrap = scopes::wrap<scopes>(existing);
+        tstr<scope> wrap = scope::wrap<scope>(existing);
         add(*wrap);
     }
     void me::addLocal(const std::string& name, const node& n) {
         if(_stack.size() <= 0)
             return NAMU_E("couldn't push new node. the top scope is null"), void();
         auto& top = _getTop();
-        const node& owner = top.getOwner();
+        const node& owner = *top.owner;
         if(!nul(owner))
             return NAMU_E("it's tried to add variable into %s. it's not valid.", owner.getType().getName().c_str()), void();
 
-        top.add(name, n);
+        top.s->add(name, n);
     }
 
-    node& me::getObjHaving(const node& sub) {
-        for(auto& s : _stack)
-            if(s->has(sub))
-                return s->getOwner();
+    node& me::getOwner(const node& sub) {
+        for(auto& reg : _stack)
+            if(reg.s->has(sub))
+                return *reg.owner;
         return nulOf<node>();
     }
 
@@ -53,11 +57,11 @@ namespace namu {
         NAMU_DI("scope deleted. frames.len[%d] thisFrame.len[%d]", thread::get().getFrames().len(), _stack.size());
     }
 
-    scopes& me::_getTop() {
+    scopeRegister& me::_getTop() {
         ncnt len = _stack.size();
-        if(len <= 0) return nulOf<scopes>();
+        if(len <= 0) return nulOf<scopeRegister>();
 
-        return *_stack[len-1];
+        return _stack[len-1];
     }
 
     nbool me::setFunc(baseFunc& new1) { return _func.bind(new1); }
@@ -65,13 +69,13 @@ namespace namu {
     baseFunc& me::getFunc() { return *_func; }
 
     // node:
-    nbicontainer& me::subs() {
+    scope& me::subs() {
+        scopeRegister& reg = _getTop();
         static dumScope inner;
-        nbicontainer& ret = _getTop();
-        return nul(ret) ? inner : ret;
+        return nul(reg) ? inner : *reg.s;
     }
 
-    priority me::prioritize(const args& a) const { return NO_MATCH; }
+    priorType me::prioritize(const args& a) const { return NO_MATCH; }
 
     str me::run(const args& a) { return str(); }
 
@@ -79,6 +83,8 @@ namespace namu {
         _rel();
         super::rel();
     }
+
+    const std::vector<scopeRegister>& me::getScopeRegisters() const { return _stack; }
 
     nbool me::setRet(const node& newRet) const {
         return _ret.bind(newRet);

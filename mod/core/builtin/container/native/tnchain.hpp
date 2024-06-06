@@ -1,30 +1,27 @@
 #pragma once
 
 #include "tnmap.hpp"
-#include "../../../ast/node.hpp"
 
 namespace namu {
 
     class node;
-    template <typename K, typename V, typename defaultContainer = tnmap<K, V>>
+    template <typename K, typename V, typename _defaultContainer = tnmap<K, V>>
     class tnchain : public tnbicontainer<K, V> {
         typedef tnbicontainer<K, V> _super_;
-        typedef tnchain<K, V, defaultContainer> _me_;
+        typedef tnchain<K, V, _defaultContainer> _me_;
         NAMU(CLASS(_me_, _super_))
 
     public:
         typedef typename super::iter iter;
         typedef typename super::iteration iteration;
         friend class chainIteration;
-        friend class scopeStack;
+        typedef _defaultContainer defaultContainer;
 #include "../iter/nchainIteration.hpp"
 
     public:
         tnchain(): _map(new defaultContainer()) {}
         explicit tnchain(const super& arr): _map(arr) {}
-        explicit tnchain(const super* arr): _map(arr) {}
         explicit tnchain(const super& org, const me& next): _map(org), _next(next) {}
-
 
     public:
         // has:
@@ -71,15 +68,10 @@ namespace namu {
         me& getTail();
         const me& getTail() const NAMU_UNCONST_FUNC(getTail())
 
-        /// returned deep cloned of this object.
-        /// @remark even if the chain has already linked to the another chain instance,
-        ///         only this object will be deep cloned. cloned instance has the same linkage like
-        ///         which the original chain object has.
-        clonable* cloneDeep() const override {
-            me* ret = wrap(((super*) getContainer().cloneDeep())->template cast<super>());
-            ret->link(getNext());
-            return ret;
-        }
+        /// returned deep cloned of this instance with all chained ones.
+        /// @remark when the chain has already linked to the another chain instance,
+        ///         not only this object, but also all of chained instances will be deep cloned.
+        clonable* cloneDeep() const override;
 
         /// wrap given container as the same level to this chain.
         /// @param toShallowWrap
@@ -88,7 +80,6 @@ namespace namu {
         ///        wrapping given container.
         template <typename T>
         static T* wrap(const super& toShallowWrap);
-        virtual me* wrap(const super& toShallowWrap) const;
 
         /// mock this chain and let it chain another container differ to original.
         /// this func keep accessing next element to chain it.
@@ -113,7 +104,6 @@ namespace namu {
         }
 
         void _getAll(const K& key, narr& tray) const override;
-        virtual me* _shallowClone(const me& rhs) const;
 
     private:
         iter& _getMapIterFromChainIter(const iter& wrapper) {

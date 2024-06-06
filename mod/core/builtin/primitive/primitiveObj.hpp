@@ -42,10 +42,10 @@ namespace namu {
         }
 
         using super::subs;
-        nbicontainer& subs() override {
+        scope& subs() override {
             static tstr<scope> inner;
             if(!inner) {
-                scope scapegoat(this->getOrigin());
+                scope scapegoat;
                 _onMakeSubs(scapegoat);
                 inner.bind(new dumScope(scapegoat));
             }
@@ -75,10 +75,10 @@ namespace namu {
         }
 
         using super::subs;
-        nbicontainer& subs() override {
+        scope& subs() override {
             static tstr<scope> inner;
             if(!inner) {
-                scope scapegoat(getOrigin());
+                scope scapegoat;
                 _onMakeSubs(scapegoat);
                 inner.bind(new dumScope(scapegoat));
             }

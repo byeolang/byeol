@@ -41,9 +41,6 @@ public:
     tucontainable<T, R>& getContainer() override;
     const tucontainable<T, R>& getContainer() const NAMU_UNCONST_FUNC(getContainer());
 
-    node& getOwner();
-    const node& getOwner() const NAMU_UNCONST_FUNC(getOwner())
-
 private:
     me& _assign(const me& rhs);
     nbool _onSame(const typeProvidable& rhs) const override;
