@@ -17,6 +17,14 @@ namespace namu {
     }
 
     TEMPL
+    nbool ME::has(const V& val) const {
+        for(tstr<me> e(this); e ;e.bind(e->getNext()))
+            if(e->getContainer().has(val))
+                return true;
+        return false;
+    }
+
+    TEMPL
     ncnt ME::len() const {
         ncnt len = 0;
 

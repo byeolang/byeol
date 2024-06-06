@@ -15,6 +15,13 @@ namespace namu {
     }
 
     TEMPL
+    nbool ME::has(const V& val) const {
+        return !nul(get([&](const K&, const V& elem) {
+            return &elem == &val;
+        }));
+    }
+
+    TEMPL
     V& ME::get(const K& key) {
         if(!has(key)) return nulOf<V>();
 

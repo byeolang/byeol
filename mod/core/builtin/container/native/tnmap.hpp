@@ -29,6 +29,7 @@ namespace namu {
 
         // has:
         nbool has(const K& key) const override;
+        nbool has(const V& val) const override;
 
         // get:
         using super::get;

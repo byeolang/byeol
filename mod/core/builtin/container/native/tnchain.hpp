@@ -29,6 +29,7 @@ namespace namu {
     public:
         // has:
         nbool has(const K& key) const override;
+        nbool has(const V& val) const override;
 
         // len:
         ncnt len() const override;

@@ -37,6 +37,7 @@ namespace namu {
 
         // has:
         virtual nbool has(const K& key) const = 0;
+        virtual nbool has(const V& val) const = 0;
 
         // get:
         virtual V& get(const K& key) = 0;
