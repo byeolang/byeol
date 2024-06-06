@@ -8,14 +8,8 @@ namespace namu {
 #define ME tprior<T>
 
     TEMPLATE
-    ME::tprior(const node& newElem, priority newLv): lv(newLv) {
+    ME::tprior(const node& newElem, priorType newType, ncnt newLv): type(newType), lv(newLv) {
         elem.bind(newElem);
-    }
-
-    TEMPLATE
-    ME::tprior(const node& newElem, const node& newOwner, priority newLv): lv(newLv) {
-        elem.bind(newElem);
-        owner.bind(newOwner);
     }
 
     TEMPLATE T* ME::operator->() { return &get(); }
@@ -24,14 +18,14 @@ namespace namu {
     TEMPLATE T& ME::get() { return elem.get(); }
 
     TEMPLATE nbool ME::isSamePrecedence(const ME& rhs) const {
-        return lv == rhs.lv && &owner.get() == &rhs.owner.get();
+        return type == rhs.type && lv == rhs.lv;
     }
 
 #undef ME
 #define ME tmatches<T>
 
     TEMPLATE
-    ME::tmatches(): _lv(NO_MATCH) {}
+    ME::tmatches(): _type(NO_MATCH) {}
 
     TEMPLATE
     nbool ME::isMatched() const { return this->len() == 1; }
@@ -40,13 +34,13 @@ namespace namu {
     T& ME::get() { return this->get(0); }
 
     TEMPLATE
-    priority ME::getPriority() const {
-        return _lv;
+    priorType ME::getPriorityType() const {
+        return _type;
     }
 
     TEMPLATE
-    void ME::_setPriority(priority new1) {
-        _lv = new1;
+    void ME::_setPriorityType(priorType new1) {
+        _type = new1;
     }
 
 #undef ME
@@ -54,16 +48,6 @@ namespace namu {
 
     TEMPLATE
     ME::tpriorities() {}
-
-    TEMPLATE
-    ME::tpriorities(const T& elem) {
-        this->add(*new tprior<T>(elem, EXACT_MATCH));
-    }
-
-    TEMPLATE
-    ME::tpriorities(const T& elem, const node& owner) {
-        this->add(*new tprior<T>(elem, owner, EXACT_MATCH));
-    }
 
     TEMPLATE
     tmatches<T> ME::getMatches() const {
@@ -95,9 +79,9 @@ namespace namu {
     }
 
     TEMPLATE
-    ME ME::split(priority by) const {
+    ME ME::split(priorType by) const {
         ME ret;
-        priority p = NO_MATCH;
+        priorType p = NO_MATCH;
         for(const auto& e : *this) {
             if(p == NO_MATCH)
                 p = e.lv;

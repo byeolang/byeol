@@ -3,13 +3,13 @@
 #include "../builtin/container/native/tnarr.hpp"
 
 namespace namu {
-    enum priority {
+    enum priorType {
         EXACT_MATCH = 0,      // lv0: exact match.
         NUMERIC_MATCH = 1,    // lv1: numeric match.
-                        //      it's almost same level of lv0. except lv1 allows numeric implicit type cast ('byte to int' or reverse order)
+                              //      it's almost same level of lv0. except lv1 allows numeric implicit type cast ('byte to int' or reverse order)
         IMPLICIT_MATCH = 2,   // lv2: implicit cast match.
-                        //      it's almost same level of lv1 except it allows all kind of implicit type cast.
-        NO_MATCH,       // lv+: no match.
+                              //      it's almost same level of lv1 except it allows all kind of implicit type cast.
+        NO_MATCH,             // lv+: no match.
     };
 
     template <typename T>
@@ -17,8 +17,7 @@ namespace namu {
         NAMU(CLASS(tprior, instance))
 
     public:
-        tprior(const node& newElem, priority newLv);
-        tprior(const node& newElem, const node& newOwner, priority newLv);
+        tprior(const node& newElem, priorType type, ncnt lv);
 
     public:
         T* operator->();
@@ -36,8 +35,8 @@ namespace namu {
 
     public:
         tstr<T> elem;
-        str owner;
-        priority lv; // priority level.
+        priorType type;
+        ncnt lv;
     };
 
     template <typename T>
@@ -64,13 +63,13 @@ namespace namu {
 
         /// @return priority of matched one.
         ///         this'll be NO_MATCH if isMatched() returns false.
-        priority getPriority() const;
+        priorType getPriorityType() const;
 
     protected:
-        void _setPriority(priority new1);
+        void _setPriorityType(priorType new1);
 
     private:
-        priority _lv;
+        priorType _type;
     };
 
     template <typename T>
@@ -79,8 +78,6 @@ namespace namu {
 
     public:
         tpriorities();
-        tpriorities(const T& elem);
-        tpriorities(const T& elem, const node& owner);
 
     public:
         /// @return finally matched sub when you want to access.
@@ -88,7 +85,7 @@ namespace namu {
         tmatches<T> getMatches() const;
         tstr<T> getMatch();
         const tstr<T> getMatch() const NAMU_UNCONST_FUNC(getMatch())
-        tpriorities split(priority by) const;
+        tpriorities split(priorType by) const;
     };
 
     typedef tpriorities<node> priorities;
