@@ -82,11 +82,13 @@ struct immutableTest : public namuTest {
     }
 
     void SetUp() {
+        namuTest::SetUp();
         getFrames().add(new frame());
     }
 
     void TearDown() {
         thread::get().rel();
+        namuTest::TearDown();
     }
 };
 

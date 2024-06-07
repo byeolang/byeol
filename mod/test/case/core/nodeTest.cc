@@ -195,7 +195,7 @@ TEST_F(nodeTest, ShouldNotSameNameVariableIntoSubs) {
 
     c.subs().add("age", new nInt(23));
     ASSERT_EQ(c.subs().len(), 3);
-    ASSERT_EQ(c.subAll<nInt>("age").getMatch()->get(), 2);
+    ASSERT_EQ(c.subAll<nInt>("age").len(), 2);
     v.setTask(c).work();
     ASSERT_TRUE(rpt);
 }
