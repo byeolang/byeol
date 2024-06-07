@@ -75,7 +75,7 @@ namespace namu {
             priorType p = NO_MATCH;
             if(key == name) p = val.prioritize(a);
 
-            NAMU_DI("sub: [%d/%d] %s(%s) --> %s.%s = %d", ++n, subs().len(), name.c_str(), argStr.c_str(), key.c_str(), p);
+            NAMU_DI("sub: [%d/%d] %s(%s) --> %s = %d", ++n, subs().len(), name.c_str(), argStr.c_str(), key.c_str(), p);
             return p != NO_MATCH;
         });
     }

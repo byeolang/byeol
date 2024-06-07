@@ -45,9 +45,9 @@ namespace namu {
         scope& subs() override {
             static tstr<scope> inner;
             if(!inner) {
-                scope scapegoat;
-                _onMakeSubs(scapegoat);
-                inner.bind(new dumScope(scapegoat));
+                scope* scapegoat = new scope();
+                _onMakeSubs(*scapegoat);
+                inner.bind(new dumScope(*scapegoat));
             }
 
             return *inner;
@@ -78,9 +78,9 @@ namespace namu {
         scope& subs() override {
             static tstr<scope> inner;
             if(!inner) {
-                scope scapegoat;
-                _onMakeSubs(scapegoat);
-                inner.bind(new dumScope(scapegoat));
+                scope* scapegoat = new scope();
+                _onMakeSubs(*scapegoat);
+                inner.bind(new dumScope(*scapegoat));
             }
 
             return *inner;

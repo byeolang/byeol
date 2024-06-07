@@ -64,7 +64,9 @@ namespace namu {
         scope& subs = me.subs();
         ncnt len = subs.len();
         len = subs.getContainer().len();
-        len += subs.getNext().getContainer().len();
+        const auto& next = subs.getNext();
+        if(!nul(next))
+            len += next.getContainer().len();
         if(len <= 0) return;
 
         if(isFlag(GUARD))
