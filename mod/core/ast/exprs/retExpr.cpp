@@ -10,17 +10,29 @@ namespace namu {
     me::retExpr(const node& ret): _ret(ret) {}
     me::retExpr(): _ret(nVoid::singletone()) {}
 
+    namespace {
+        tstr<err> _returnEx(tstr<err> e) {
+            thread& thr = thread::get();
+            thr.getEx().add(*e);
+            thr.getNowFrame().setRet(*e);
+            return e;
+        }
+    }
+
     str me::run(const args& a) {
         if(!_ret) return str(nVoid::singletone());
         if(_ret->isSub<baseObj>()) return _ret; // case: obj
 
-        str ret = _ret->as<node>(); // case: expr
-        thread& thr = thread::get();
-        auto& fr = thr._getNowFrame();
-        str fRet = fr.getFunc().getRet();
-        if(_isEx(*ret, *fRet)) {
-            thr.getEx().add(ret->cast<err>());
-        }
+        auto& fr = thread::get().getNowFrame();
+
+        str ret = _ret->as<node>(); // # check retValue is null or not.
+        if(!ret) // ret should be void if there is no value to return. so 'null' not allowed here.
+            return _returnEx(err::newErr(errCode::RETURN_VALUE_IS_NULL, getSrc().getName().c_str()));
+
+        str fRet = fr.getFunc().getRet(); // # check exception occured during running func.
+        if(_isEx(*ret, *fRet))
+            return _returnEx(ret->cast<err>());
+
         fr.setRet(*ret);
         return ret;
     }
