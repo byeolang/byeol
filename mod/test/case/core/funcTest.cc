@@ -98,7 +98,7 @@ namespace {
                 return NAMU_I("fr.sub(%s) is 0 or +2 founds", name), false;
         }
 
-        if(fr.subAll(name).getMatches().isMatched())
+        if(!fr.subAll(name).getMatches().isMatched())
             return NAMU_I("couldn't find %s func on frame(%x)", name.c_str(), &fr), false;
 
         return true;

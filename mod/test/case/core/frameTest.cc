@@ -43,7 +43,7 @@ TEST_F(frameTest, testAccessFrame) {
 
 TEST_F(frameTest, testFrameManipulateChainObjNegative) {
     frame& fr = getFrames()[getFrames().len() - 1];
-    ASSERT_TRUE(nul(getScopeStack(fr)));
+    ASSERT_TRUE(!nul(getScopeStack(fr)));
 
     scope local;
     local.add("myNode1", new myNode(1));
@@ -65,5 +65,6 @@ TEST_F(frameTest, testFrameManipulateChainObjNegative) {
     ASSERT_EQ(obj1.subs().len(), 2);
 
     ASSERT_EQ(fr.subAll<myNode>(lambda).len(), 2);
-    ASSERT_EQ(owns.getAll<myNode>(lambda).len(), 1);
+    ASSERT_EQ(owns.getAll<myNode>(lambda).len(), 2);
+    ASSERT_EQ(owns.getContainer().getAll<myNode>(lambda).len(), 1);
 }
