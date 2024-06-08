@@ -14,7 +14,13 @@ namespace namu {
     void me::add(scope& existing) {
         add(nulOf<node>(), existing);
     }
-
+    void me::add(nbicontainer& existing) {
+        tstr<scope> wrap = scope::wrap<scope>(existing);
+        add(*wrap);
+    }
+    void me::add(node& owner) {
+        add(owner, owner.subs());
+    }
     void me::add(node& owner, scope& existing) {
         if(nul(existing)) return;
         if(_stack.size() <= 0)
@@ -25,10 +31,6 @@ namespace namu {
         cloned->getTail().link(*_getTop().s);
         _stack.push_back(scopeRegister{owner, cloned});
         NAMU_DI("scope added. frames.len[%d] thisFrame.len[%d]", thread::get().getFrames().len(), _stack.size());
-    }
-    void me::add(nbicontainer& existing) {
-        tstr<scope> wrap = scope::wrap<scope>(existing);
-        add(*wrap);
     }
     void me::addLocal(const std::string& name, const node& n) {
         if(_stack.size() <= 0)
@@ -42,9 +44,16 @@ namespace namu {
     }
 
     node& me::getOwner(const node& sub) {
-        for(auto& reg : _stack)
-            if(reg.s->has(sub))
+        const nchar* name = sub.getType().getName().c_str();
+        for(auto& reg : _stack) {
+            nbool isOwner = reg.s->has(sub);
+            node& owner = *reg.owner;
+            NAMU_DI("sub[%s] is in owner[%s]? == %s", name, nul(owner) ? "null" : owner.getType().getName().c_str(), isOwner ? "true" : "false");
+            if(isOwner)
                 return *reg.owner;
+        }
+
+        NAMU_E("couldn't find owner of %s", sub.getType().getName().c_str());
         return nulOf<node>();
     }
 

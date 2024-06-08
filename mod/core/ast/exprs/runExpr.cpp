@@ -17,11 +17,11 @@ namespace namu {
         node& me = getMe();
         if(nul(me)) return NAMU_E("run: no thread found"), str();
 
-        NAMU_DI("run: getting sub. me[%s]", me.getType().getName().c_str());
+        NAMU_DI("run: getting sub: me[%s]", me.getType().getName().c_str());
         str sub = _getSub(me.as<node>(), _args);
         if(!sub) return NAMU_E("_subject.as<node>() returns null"), str();
 
-        NAMU_DI("run: is me frame?");
+        NAMU_DI("run: assigning me: me[%s] sub[%s]", me.getType().getName().c_str(), sub->getType().getName().c_str());
         if(!nul(_args)) {
             frame& fr = me.cast<frame>();
             _args.setMe(!nul(fr) ? fr.getOwner(*sub) : me);

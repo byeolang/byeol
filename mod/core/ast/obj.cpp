@@ -109,7 +109,7 @@ namespace namu {
 
     void me::_inFrame(frame& fr, const bicontainable& args) {
         if(_subpack)
-            fr.add(_subpack->subs());
+            fr.add(*_subpack);
         super::_inFrame(fr, args);
     }
 
