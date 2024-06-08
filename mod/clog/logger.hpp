@@ -40,6 +40,7 @@ namespace namu {
         //  stream:
         const std::string& getName() const override;
         nbool logBypass(const nchar* message) override;
+        nbool logBypass(const std::string& msg);
         nbool isInit() const override;
         //  filter:
         void setFilters(const filters& newFilters);

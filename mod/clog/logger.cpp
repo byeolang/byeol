@@ -46,6 +46,9 @@ namespace namu {
 
         return result;
     }
+    nbool me::logBypass(const std::string& msg) {
+        return logBypass(msg.c_str());
+    }
 
     nbool me::logFormatBypass(const nchar* fmt, ...) {
         va_list va;
