@@ -106,6 +106,20 @@ namespace namu {
 
     node& me::getRet() const { return *_ret; }
 
+    void me::dump() const {
+        nidx n = 0;
+        logger& log = logger::get();
+        for(const scopeRegister& reg : _stack) {
+            const std::string& owner = reg.owner ? reg.owner->getType().getName() : "null";
+            log.logBypass("\t\tscope[" + std::to_string(n++) + "]: owner is " + owner);
+
+            const auto& subs = *reg.s;
+            nidx n2 = 0;
+            for(auto e=subs.begin(); e ; ++e)
+                log.logBypass("\t\t\tsub[" + std::to_string(n2++) + "]: " + e.getKey() + " " + e.getVal().getType().getName());
+        }
+    }
+
     void me::_rel() {
         _me.rel();
         _func.rel();

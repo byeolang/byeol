@@ -2,6 +2,7 @@
 
 #include "sigZone.hpp"
 #include "../visitor/graphVisitor.hpp"
+#include "thread.hpp"
 
 namespace namu {
     template <typename W>
@@ -17,6 +18,11 @@ namespace namu {
             log.logBypass("unexpected exception found: ");
             e.dump();
 
+            if(worker.isFlag(W::LOG_STRUCTURE)) {
+                log.logBypass("\ncurrent frames:\n");
+                thread::get().getFrames();
+            }
+
             if(worker.isFlag(W::LOG_GRAPH_ON_EX)) {
                 log.logBypass("\ngraph:\n");
                 graphVisitor().setFlag(0).setTask(worker.getTask()).work();
@@ -24,5 +30,8 @@ namespace namu {
 
             // signale will *terminate* the process after all.
         }) {}
+
+    private:
+        void _logFrames();
     };
 }

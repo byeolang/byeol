@@ -63,6 +63,7 @@ namespace namu {
     private:
         std::string _format(const std::string& fmt, va_list args);
         void _logNativeStack() const;
+        void _initStack();
 
     public:
         logLv::level fType;

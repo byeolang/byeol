@@ -147,27 +147,26 @@ namespace namu {
         return new err(logLv::INFO, pos, code, args);
     }
 
-
     me::err(logLv::level t, nint newCode): super(), fType(t), code((errCode) newCode) {
         msg = getErrMsg(code);
-        _stack.setStack(thread::get().getFrames());
+        _initStack();
     }
 
     me::err(logLv::level t, nint newCode, va_list args): super(), fType(t), code((errCode) newCode) {
         msg = _format(getErrMsg(code), args);
-        _stack.setStack(thread::get().getFrames());
+        _initStack();
     }
 
     me::err(logLv::level t, const point& ps, nint newCode, va_list args)
         : super(), fType(t), code((errCode) newCode), pos(ps) {
         msg = _format(getErrMsg(code), args);
-        _stack.setStack(thread::get().getFrames());
+        _initStack();
     }
 
     me::err(const me& rhs): fType(rhs.fType), code(rhs.code), msg(rhs.msg) {
         if(rhs._stack.hasTraces())
             _stack = rhs._stack;
-        _stack.setStack(thread::get().getFrames());
+        _initStack();
     }
 
     nbool me::operator==(const me& rhs) const {
@@ -260,6 +259,12 @@ namespace namu {
         for(const std::string& trace : native) {
             log.logFormatBypass("\tat %s%s%s\n", foreColor(BLUE).c_str(), trace.c_str(), foreColor(LIGHTGRAY).c_str());
         }
+    }
+
+    void me::_initStack() {
+        thread& thr = thread::get();
+        if(!nul(thr))
+            _stack.setStack(thread::get().getFrames());
     }
 
     void me::dump() const {

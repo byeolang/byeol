@@ -4,6 +4,7 @@
 #include "../ast/baseFunc.hpp"
 #include "../builtin/res/tpair.hpp"
 #include "../ast/mockNode.hpp"
+#include "../type/dumpable.hpp"
 
 struct immutableTest;
 struct frameTest;
@@ -17,7 +18,7 @@ namespace namu {
 
     class obj;
     class baseFunc;
-    class _nout frame : public node { // TODO: may be obj, not node.
+    class _nout frame : public node, public dumpable { // TODO: may be obj, not node.
         NAMU(CLASS(frame, node), VISIT())
         friend class verifier;
         friend struct ::frameTest;
@@ -63,6 +64,8 @@ namespace namu {
         nbool setRet(const node& newRet) const;
         nbool setRet() const;
         node& getRet() const;
+
+        void dump() const override;
 
     private:
         void _rel();
