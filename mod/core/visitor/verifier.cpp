@@ -33,15 +33,6 @@ namespace namu {
         }
     }
 
-    void me::_onWork() {
-        if(nul(thread::get())) {
-            error(errCode::NO_THREAD);
-            return;
-        }
-
-        super::_onWork();
-    }
-
     void me::_onEndWork() {
         _postpare();
     }

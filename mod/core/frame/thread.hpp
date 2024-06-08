@@ -46,7 +46,7 @@ namespace namu {
         ///         what this contains are all runtime err and exceptions.
         errReport& getEx();
         const errReport& getEx() const NAMU_UNCONST_FUNC(getEx())
-        void setEx(const errReport& new1);
+        virtual void setEx(const errReport& new1);
 
         // node:
         scope& subs() override;
@@ -63,7 +63,7 @@ namespace namu {
         void dump() const override;
 
     protected:
-        frames& _getFrames();
+        virtual frames& _getFrames();
         frame& _getNowFrame();
 
     private:

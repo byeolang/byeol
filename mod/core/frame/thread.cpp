@@ -28,8 +28,44 @@ namespace namu {
         return *_instance;
     }
 
+    namespace {
+        class dumFrames : public frames {
+            NAMU(CLASS(dumFrames, frames))
+
+        public:
+            using super::add;
+            nbool add(const iter& e, const frame& new1) override { return true; }
+            nbool add(nidx n, const frame& new1) override { return true; }
+            void add(const iter& here, const iter& from, const iter& to) override {}
+
+            using super::set;
+            using tarrayable<frame>::set;
+            nbool set(const iter& at, const frame& new1) override { return true; }
+            nbool set(nidx n, const frame& new1) override { return true; }
+        };
+        class dumThread : public thread {
+            NAMU(CLASS(dumThread, thread))
+
+        public:
+            dumThread() {
+                super::setEx(dummyErrReport::singletone);
+            }
+
+        public:
+            void setEx(const errReport& new1) override {}
+            void rel() override {}
+
+        protected:
+            frames& _getFrames() override {
+                static dumFrames inner;
+                return inner;
+            }
+        };
+    }
+
     void me::set(thread* new1) {
-        _instance = new1;
+        static dumThread inner;
+        _instance = new1 ? new1 : &inner;
     }
     void me::set(thread& new1) { set(&new1); }
     void me::set() { set(nullptr); }
@@ -60,7 +96,7 @@ namespace namu {
     }
 
     frame& me::_getNowFrame() {
-        return _frames[_frames.len() - 1];
+        return _getFrames()[_getFrames().len() - 1];
     }
 
     void me::_loadBuiltIns(nmap& tray) const {

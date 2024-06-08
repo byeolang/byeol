@@ -119,9 +119,6 @@ PAIRX(OUT_OF_RANGE,                 "given index '%d' is out of range. container
 PAIRX(STRING_IS_NOT_PROPER_TO_OP,   "string type isn't suitable to this operators.")
 PAIRX(PARANTHESIS_WAS_TUPLE,        "paranthesis was tuple only contains 1 expression")
 
-// frame:
-PAIRX(NO_THREAD,                    "there is no thread registered.")
-
 // signal:
 PAIRX(SIG_SEGV,                     "segmentation fault")
 PAIRX(SIG_INT,                      "external interrupt")

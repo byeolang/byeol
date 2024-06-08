@@ -1044,9 +1044,6 @@ namespace namu {
     }
 
     tstr<obj> me::_onWork() {
-        if(nul(thread::get()))
-            return error(errCode::NO_THREAD), tstr<obj>();
-
         const auto& supplies = getSrcSupplies();
         if(supplies.isEmpty())
             return error(NO_SRC), tstr<obj>();

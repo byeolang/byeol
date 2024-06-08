@@ -45,7 +45,6 @@ namespace namu {
         nbool onVisit(visitInfo i, ifExpr& me) override;
 
     protected:
-        void _onWork() override;
         void _onEndWork() override;
         void _prepare() override;
 
