@@ -38,7 +38,7 @@ namespace namu {
 
     void me::_inFrame(frame& fr, const bicontainable& args) {
         fr.setMe(*this);
-        fr.add(subs());
+        fr.add(*this);
 
         scope* s = new scope();
         s->add("me", *this);

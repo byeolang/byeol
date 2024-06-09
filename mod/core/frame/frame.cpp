@@ -30,7 +30,7 @@ namespace namu {
         if(!cloned) return;
         cloned->getTail().link(*_getTop().s);
         _stack.push_back(scopeRegister{owner, cloned});
-        NAMU_DI("scope added. frames.len[%d] thisFrame.len[%d]", thread::get().getFrames().len(), _stack.size());
+        NAMU_DI("scope added: frame.len[%d] scope.owner[%s]", _stack.size(), nul(owner) ? "null" : owner.getType().getName().c_str());
     }
     void me::addLocal(const std::string& name, const node& n) {
         if(_stack.size() <= 0)

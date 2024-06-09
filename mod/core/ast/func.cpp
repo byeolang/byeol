@@ -90,7 +90,7 @@ namespace namu {
 
         NAMU_DI("%s._inFrame() frames.len[%d]", getType().getName().c_str(), thread::get().getFrames().len());
         fr.setFunc(*this);
-        fr.add(*scope::wrap<scope>(subs()));
+        fr.add(*this);
         fr.add(*scope::wrap<scope>(nul(args) ? nulOf<nbicontainer>() : (nbicontainer&) args)); // including 'me'
     }
 
