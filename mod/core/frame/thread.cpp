@@ -11,8 +11,40 @@ namespace namu {
     NAMU_DEF_ME(thread)
 
     namespace {
+        class dumFrame : public frame {
+            NAMU(CLASS(dumFrame, frame))
+
+        public:
+            dumFrame() {
+                super::add(*new dumScope());
+            }
+
+        public:
+            using super::add;
+            void add(node& owner, scope& s) override {}
+            void addLocal(const std::string& name, const node& n) override {}
+
+            void del() override {}
+
+            using super::setMe;
+            nbool setMe(const baseObj& obj) override { return true; }
+
+            using super::setFunc;
+            nbool setFunc(baseFunc& new1) override { return true; }
+
+            void rel() override {}
+
+            using super::setRet;
+            virtual nbool setRet(const node& newRet) const override { return true; }
+        };
+
         class dumFrames : public frames {
             NAMU(CLASS(dumFrames, frames))
+
+        public:
+            dumFrames() {
+                super::add(*new dumFrame());
+            }
 
         public:
             using super::add;
@@ -24,7 +56,16 @@ namespace namu {
             using tarrayable<frame>::set;
             nbool set(const iter& at, const frame& new1) override { return true; }
             nbool set(nidx n, const frame& new1) override { return true; }
+
+            using super::del;
+            using tarrayable<frame>::del;
+            nbool del(const iter& from, const iter& end) override { return true; }
+            nbool del(const iter& it) override { return true; }
+            nbool del(nidx n) override { return true;}
+
+            void rel() override {}
         };
+
         class dumThread : public thread {
             NAMU(CLASS(dumThread, thread))
 

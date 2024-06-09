@@ -32,17 +32,17 @@ namespace namu {
         void add(scope& existing);
         void add(nbicontainer& existing);
         void add(node& owner);
-        void add(node& owner, scope& s);
-        void addLocal(const std::string& name, const node& n);
+        virtual void add(node& owner, scope& s);
+        virtual void addLocal(const std::string& name, const node& n);
 
-        void del();
+        virtual void del();
 
-        nbool setMe(const baseObj& obj);
+        virtual nbool setMe(const baseObj& obj);
         void setMe();
         const baseObj& getMe() const NAMU_UNCONST_FUNC(getMe())
         baseObj& getMe();
 
-        nbool setFunc(baseFunc& new1);
+        virtual nbool setFunc(baseFunc& new1);
         void setFunc();
         baseFunc& getFunc();
         const baseFunc& getFunc() const NAMU_UNCONST_FUNC(getFunc())
@@ -61,7 +61,7 @@ namespace namu {
 
         const std::vector<scopeRegister>& getScopeRegisters() const;
 
-        nbool setRet(const node& newRet) const;
+        virtual nbool setRet(const node& newRet) const;
         nbool setRet() const;
         node& getRet() const;
 
