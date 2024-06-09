@@ -10,24 +10,6 @@ namespace namu {
 
     NAMU_DEF_ME(thread)
 
-    thread_local thread* me::_instance = nullptr;
-
-    const nmap& me::getSlots() const {
-        static tstr<nmap> _inner;
-        if(!_inner)
-            _inner = _initSlots();
-        return *_inner;
-    }
-
-    str me::run(const args& a) { return str(); }
-
-    me::thread(): _ex(new errReport()) {} // for singleton
-    me::thread(const errReport& ex): _ex(ex) {}
-
-    thread& me::get() {
-        return *_instance;
-    }
-
     namespace {
         class dumFrames : public frames {
             NAMU(CLASS(dumFrames, frames))
@@ -54,6 +36,7 @@ namespace namu {
         public:
             void setEx(const errReport& new1) override {}
             void rel() override {}
+            nbool isInteractable() const override { return false; }
 
         protected:
             frames& _getFrames() override {
@@ -61,11 +44,37 @@ namespace namu {
                 return inner;
             }
         };
+
+        static dumThread& _getDumThread() {
+            static dumThread inner;
+            return inner;
+        }
+    }
+
+    thread_local thread* me::_instance = nullptr;
+
+    const nmap& me::getSlots() const {
+        static tstr<nmap> _inner;
+        if(!_inner)
+            _inner = _initSlots();
+        return *_inner;
+    }
+
+    str me::run(const args& a) { return str(); }
+
+    me::thread(): _ex(new errReport()) {} // for singleton
+    me::thread(const errReport& ex): _ex(ex) {}
+
+    thread& me::get() {
+        if (nul(_instance))
+            _instance = &_getDumThread();
+        return *_instance;
     }
 
     void me::set(thread* new1) {
-        static dumThread inner;
-        _instance = new1 ? new1 : &inner;
+        thread& prev = get();
+        _instance = new1 ? new1 : &_getDumThread();
+        NAMU_DI("thread::set(%s -> %s)", prev.getType().getName().c_str(), _instance->getType().getName().c_str());
     }
     void me::set(thread& new1) { set(&new1); }
     void me::set() { set(nullptr); }
@@ -140,4 +149,6 @@ namespace namu {
     void me::dump() const {
         // TODO:
     }
+
+    nbool me::isInteractable() const { return true; }
 }

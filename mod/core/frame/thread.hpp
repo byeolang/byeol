@@ -62,6 +62,8 @@ namespace namu {
 
         void dump() const override;
 
+        virtual nbool isInteractable() const;
+
     protected:
         virtual frames& _getFrames();
         frame& _getNowFrame();

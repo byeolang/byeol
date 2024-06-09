@@ -35,6 +35,9 @@ PAIRX(PARSING_HAS_ERR,              "parsing has done. but something went wrong:
 PAIRX(NO_SRC,                       "source code not provided")
 PAIRX(SRC_EMPTY,                    "source code was empty string.")
 
+// thread:
+PAIRX(THERE_IS_NO_FRAMES_IN_THREAD, "there is no frames in current thread.")
+
 // pack:
 PAIRX(PACK_ONLY_ALLOW_VAR_ACCESS,   "variable path only allowed when you define a pack")
 PAIRX(NO_PACK_TRAY,                 "pack tray hasn't been created before")
