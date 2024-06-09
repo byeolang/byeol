@@ -347,7 +347,7 @@ namespace namu {
                 me.getType().getName().c_str());
 
         NAMU_I("verify: getExpr: accesses to incomplete 'me' object");
-        str asedMe = me.getMe().as<node>();
+        str asedMe = me.getMe().getEval();
         if(asedMe && !asedMe->isComplete())
             return posError(errCode::ACCESS_TO_INCOMPLETE, me), true;
         return true;

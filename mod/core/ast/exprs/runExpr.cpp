@@ -94,7 +94,10 @@ namespace namu {
     }
 
     str me::getEval() const {
-        str sub = _getSub(getMe().getEval(), nulOf<args>());
+        const node& me = getMe();
+        if(nul(me)) return str();
+
+        str sub = _getSub(me.getEval(), nulOf<args>());
         if(!sub) return NAMU_E("_subject.as<node>() returns null"), str();
 
         const baseFunc& f = sub.cast<baseFunc>();

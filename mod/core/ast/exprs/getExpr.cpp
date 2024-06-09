@@ -56,8 +56,8 @@ namespace namu {
 
     priorities me::_get(nbool evalMode) const {
         const node& me = getMe();
-        NAMU_DI("run: _name[%s] evalMode[%s] me[%s]",
-                _name.c_str(), evalMode ? "true" : "false", nul(me) ? "null" : me.getType().getName().c_str());
+        NAMU_DI("getExpr: looking for 'me[%s] . _name[%s]' evalMode[%s]",
+                nul(me) ? "null" : me.getType().getName().c_str(), _name.c_str(), evalMode ? "true" : "false");
         if(nul(me)) return NAMU_E("me == null"), priorities();
 
         str evalMe = evalMode ? me.getEval() : me.as<node>();

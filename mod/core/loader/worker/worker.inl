@@ -102,10 +102,10 @@ namespace namu {
     void ME::_onEndErrReport(const errReport& rpt) const {
         if(!isFlag(DUMP_ON_END | LOG_ON_END))
 
-        NAMU_E("errors:");
+        if(!rpt) return; // ## print errors.
+        NAMU_I("errors:");
         if(isFlag(DUMP_ON_END))
             return rpt.dump(), void();
-
         if(isFlag(LOG_ON_END))
             rpt.log();
     }
