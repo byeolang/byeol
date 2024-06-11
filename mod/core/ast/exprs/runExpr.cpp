@@ -15,18 +15,19 @@ namespace namu {
 
     str me::run(const args& a) {
         node& me = getMe();
-        if(nul(me)) return NAMU_E("run: no thread found"), str();
+        if(nul(me)) return NAMU_E("run: me is null. no thread found"), str();
+        str evaledMe = me.as<node>();
+        if(!evaledMe) return NAMU_E("run: evaledMe is null. no thread found"), str();
 
-        NAMU_DI("run: getting sub: me[%s]", me.getType().getName().c_str());
-        str sub = _getSub(me.as<node>(), _args);
+        NAMU_DI("run: getting sub: me[%s]", evaledMe->getType().getName().c_str());
+        str sub = _getSub(*evaledMe, _args);
         if(!sub) return NAMU_E("_subject.as<node>() returns null"), str();
 
-        NAMU_DI("run: assigning me: me[%s] sub[%s]", me.getType().getName().c_str(), sub->getType().getName().c_str());
+        NAMU_DI("run: assigning me: me[%s] sub[%s]", evaledMe->getType().getName().c_str(), sub->getType().getName().c_str());
         if(!nul(_args)) {
-            frame& fr = me.cast<frame>();
-            _args.setMe(!nul(fr) ? fr.getOwner(*sub) : me);
-            const node& me = _args.getMe();
-            NAMU_DI("run: setting me on args. args.me[%s]", nul(me) ? "null" : me.getType().getName().c_str());
+            frame& fr = evaledMe->cast<frame>();
+            _args.setMe(!nul(fr) ? fr.getOwner(*sub) : *evaledMe);
+            NAMU_DI("run: setting me on args. args.me[%s]", !evaledMe ? "null" : _args.getMe().getType().getName().c_str());
         }
 
         NAMU_DI("run: running sub with args[%s]", _args.toStr().c_str());

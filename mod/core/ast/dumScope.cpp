@@ -1,4 +1,5 @@
 #include "dumScope.hpp"
+#include "node.hpp"
 
 namespace namu {
     

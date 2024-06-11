@@ -15,6 +15,7 @@ namespace namu {
         args(const baseObj& me, const narr& rhs);
 
     public:
+        /// @param me this should be evaluated already before you pass it to this func.
         const me& setMe(const node& me) const;
         node& getMe() const;
 

@@ -11,10 +11,7 @@ namespace namu {
     me::args(const baseObj& me, const narr& rhs): super(rhs), _me(me) {}
 
     const me& me::setMe(const node& me) const {
-        if(nul(me))
-            _me.rel();
-        else
-            _me = me.as<node>();
+        _me.bind(me);
         return *this;
     }
 
