@@ -158,7 +158,7 @@ namespace namu {
                     auto demangled = demangle(info.dli_sname);
                     if(demangled[0] == '?' || demangled[0] == '\0') continue;
 
-                    ret.push_back(demangled.substr(0, demangled.size()-1));
+                    ret.push_back(demangled.substr(0, demangled.size()));
                 }
             }
 

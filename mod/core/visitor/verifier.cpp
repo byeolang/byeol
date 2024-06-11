@@ -208,8 +208,7 @@ namespace namu {
     nbool me::onVisit(visitInfo i, defPropExpr& me) {
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
-        NAMU_I("verify: defPropExpr: check duplication");
-        const nbicontainer& top = thread::get()._getNowFrame().subs();
+        NAMU_I("verify: defPropExpr: to define a void type property isn't allowed.");
         str eval = me.getEval();
         if(!eval)
             return posError(errCode::TYPE_NOT_EXIST, me, me.getName().c_str()), true;
@@ -224,12 +223,8 @@ namespace namu {
 
         const ntype& t = eval->getType();
         const nchar* typeName = nul(t) ? "null" : t.getName().c_str();
-        if(nul(top)) return true;
-        if(top.has(me.getName()))
-            return posError(errCode::ALREADY_DEFINED_VAR, me, me.getName().c_str(), typeName), true;
 
 
-        // 'check duplication' must be front of 'is %s definable':
         std::string name = me.getName();
         NAMU_I("verify: defPropExpr: is %s definable?", name.c_str());
         if(name == "") return posError(errCode::HAS_NO_NAME, me), true;
@@ -239,16 +234,20 @@ namespace namu {
         if(nul(t))
             posError(errCode::CANT_DEF_VAR, me, name.c_str(), typeName);
 
-        // when you define variable, I need to clone it:
-        //  if don't, it may be incomplete object.
         if(!eval->canRun(args()))
-            posError(errCode::DONT_HAVE_CTOR, me, name.c_str());
-        else {
-            node* new1 = new mockNode(*eval);
-            if(me._where)
-                me._where->add(name.c_str(), new1);
-            else
-                thread::get()._getNowFrame().addLocal(name, *new1);
+            return posError(errCode::DONT_HAVE_CTOR, me, name.c_str()), true;
+
+        NAMU_I("verify: defPropExpr: check property duplication."); // 'check duplication' must be front of 'is %s definable'.
+        node* new1 = new mockNode(*eval);
+        if(me._where) {
+            if(me._where->getContainer().has(name))
+                return posError(errCode::ALREADY_DEFINED_VAR, me, me.getName().c_str(), typeName), true;
+            me._where->add(name.c_str(), new1);
+        } else {
+            frame& fr = thread::get()._getNowFrame();
+            if(fr.subs().getContainer().has(name))
+                return posError(errCode::ALREADY_DEFINED_VAR, me, me.getName().c_str(), typeName), true;
+            thread::get()._getNowFrame().addLocal(name, *new1);
         }
         return true;
     }
