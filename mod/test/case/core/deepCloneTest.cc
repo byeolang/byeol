@@ -1,4 +1,4 @@
-#include "../../../namuSyntaxTest.hpp"
+#include "../../namuSyntaxTest.hpp"
 
 using namespace namu;
 using namespace std;
@@ -7,7 +7,7 @@ namespace {
     struct cloneDeepTest : public namuSyntaxTest {};
 }
 
-TEST_F(cloneDeepTest, narrcloneDeep) {
+TEST_F(cloneDeepTest, narrCloneDeep) {
     obj o1;
     scope& subs = o1.subs();
     nInt i1(1), i2(2);

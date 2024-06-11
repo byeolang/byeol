@@ -10,7 +10,9 @@ namespace namu {
 
     me& me::_assign(const me& rhs) {
         scope* clonedOwns = scope::wrap<scope>(*(scope::super*) rhs.getOwns().getContainer().cloneDeep());
-        _subs.bind(new scope(rhs.getShares(), *clonedOwns));
+        clonedOwns->link(rhs.getShares());
+        _subs.bind(*clonedOwns);
+
         _subpack = rhs._subpack;
         _org = rhs._org;
         _type = rhs._type;
