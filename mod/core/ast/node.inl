@@ -75,7 +75,7 @@ namespace namu {
             priorType p = NO_MATCH;
             if(key == name) p = val.prioritize(a);
 
-            NAMU_DI("sub: [%d/%d] %s(%s) --> %s = %d", ++n, subs().len(), name.c_str(), argStr.c_str(), key.c_str(), p);
+            NAMU_DI("sub: [%d/%d] %s(%s) --> %s = %s", ++n, subs().len(), name.c_str(), argStr.c_str(), key.c_str(), getPriorTypeName(p));
             return p != NO_MATCH;
         });
     }
@@ -91,8 +91,8 @@ namespace namu {
         ncnt n = 0;
 #endif
         return subs().template getAll<T>([&](const std::string& key, const T& val) {
-            NAMU_DI("subAll: [%d/%d] 'any' --> %s = %d",
-                    n++, subs().len(), key.c_str(), EXACT_MATCH);
+            NAMU_DI("subAll: [%d/%d] 'any' --> %s = EXACT_MATCH",
+                    n++, subs().len(), key.c_str());
             return true;
         });
     }
@@ -122,8 +122,8 @@ namespace namu {
                 p = !nul(a) ? val.prioritize(a) : EXACT_MATCH;
                 if(p != NO_MATCH)
                     ps.push_back(*new tprior<T>(val, p, lv));
-                NAMU_DI("subAll: [%d/%d] %s(%s) --> %s = priority(type=%d, lv=%d)", n++,
-                        subs().len(), name.c_str(), argStr.c_str(), key.c_str(), p, lv);
+                NAMU_DI("subAll: [%d/%d] %s(%s) --> %s = priority(type=%s, lv=%d)", n++,
+                        subs().len(), name.c_str(), argStr.c_str(), key.c_str(), getPriorTypeName(p), lv);
                 return true;
             });
 

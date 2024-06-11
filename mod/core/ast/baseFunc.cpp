@@ -48,9 +48,7 @@ namespace namu {
         return inner;
     }
 
-    nbool me::setRet(const node& newRet) {
-        return false;
-    }
+    nbool me::setRet(const node& newRet) { return false; }
 
     nbool me::_isNatureNumber(const node& it) const {
         return it.isSub<nInt>() || it.isSub<nByte>();

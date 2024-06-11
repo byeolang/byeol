@@ -24,7 +24,7 @@ namespace namu {
         if(!sub) return NAMU_E("_subject.as<node>() returns null"), str();
 
         NAMU_DI("run: assigning me: me[%s] sub[%s]", evaledMe->getType().getName().c_str(), sub->getType().getName().c_str());
-        if(!nul(_args)) {
+        if(!sub->isSub<baseObj>() && !nul(_args)) { // if sub is a baseObj, this expr will runs ctor of it which doesn't need me obj.
             frame& fr = evaledMe->cast<frame>();
             _args.setMe(!nul(fr) ? fr.getOwner(*sub) : *evaledMe);
             NAMU_DI("run: setting me on args. args.me[%s]", !evaledMe ? "null" : _args.getMe().getType().getName().c_str());

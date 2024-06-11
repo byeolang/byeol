@@ -12,6 +12,8 @@ namespace namu {
         NO_MATCH,             // lv+: no match.
     };
 
+    _nout const nchar* getPriorTypeName(priorType type);
+
     template <typename T>
     struct tprior: instance {
         NAMU(CLASS(tprior, instance))
