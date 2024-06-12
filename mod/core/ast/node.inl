@@ -35,7 +35,7 @@ namespace namu {
         }
         using super::push_back;
         void push_back(const tprior<T>& elem) {
-            (*this)[elem.lv].add(elem);
+            (*this)[elem.type].add(elem);
         }
     };
 
