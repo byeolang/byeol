@@ -164,11 +164,6 @@ namespace namu {
         const getExpr& cast = it.cast<getExpr>();
         if(!nul(cast))
             ret = cast.getSubName();
-        else {
-            tstr<nStr> str = it.as<nStr>();
-            if(str)
-                ret = str->get();
-        }
         return ret;
     }
 

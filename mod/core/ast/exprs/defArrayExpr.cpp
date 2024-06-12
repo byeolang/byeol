@@ -35,19 +35,22 @@ namespace namu {
 
     str me::_deduceElems() const {
         ncnt len = _elems.len();
-        if(!len) return nVoid::singletone();
+        NAMU_DI("deduceElems: len[%d]", len);
+        if(!len) return NAMU_DI("len == 0. deduced type as 'void'"), nVoid::singletone();
 
         str ased1 = _elems[0].getEval();
         const node* ret = &ased1.get();
         if(!ret)
-            return nVoid::singletone();
+            return NAMU_DI("deduceElem: elem0 is 'void'. deduced type as 'void'"), nVoid::singletone();
         str ased;
 
         for(int n=1; n < len; n++) {
             ased = _elems[n].as<node>();
             ret = &ret->deduce(*ased);
+            NAMU_DI("deduceElem: prevElem + elem%d[%s] --> %s",
+                    n, ased->getType().getName().c_str(), ret ? ret->getType().getName().c_str() : "null");
             if(!ret)
-                return nVoid::singletone();
+                return NAMU_DI("deduceElem: elem%d was void. deduced type as 'void'", n), nVoid::singletone();
         }
 
         return *ret;

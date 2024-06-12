@@ -71,9 +71,6 @@ namespace namu {
             setTask(_pser.getTask());
 
         _isParsed = _isPackExist() && _pser.isOk();
-
-        if(isFlag(LOG_STRUCTURE))
-            graphVisitor().setFlag(0).setTask(getTask()).work();
     }
 
     void me::_preEval() {
@@ -89,9 +86,6 @@ namespace namu {
               .setFlag(getFlag())
               .setTask(getTask().getPack())
               .work();
-
-        if(isFlag(LOG_STRUCTURE))
-            graphVisitor().setFlag(0).setTask(getTask()).work();
     }
 
     void me::_verify() {

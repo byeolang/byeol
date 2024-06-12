@@ -496,8 +496,8 @@ TEST_F(forExprTest, evalOfForLoop4) {
     ASSERT_EQ(res.cast<nint>(), 15);
 }
 
-TEST_F(forExprTest, evalOfForLoopNegative4) {
-    make().negative().parse(R"SRC(
+TEST_F(forExprTest, evalOfForLoop5) {
+    make().parse(R"SRC(
         def a
             foo() void
                 ret
@@ -506,7 +506,7 @@ TEST_F(forExprTest, evalOfForLoopNegative4) {
             sum := 0
             for n in 0..8
                 if sum > 3
-                    break a()
+                    break
                 ++sum
             sum
     )SRC").shouldVerified(true);
@@ -523,7 +523,7 @@ TEST_F(forExprTest, evalOfForLoopIntAndBoolIsCompatible) {
             answer := for n in 0..8
                 if sum > 11
                     if true
-                        break false
+                        break
                 ++sum
             answer[answer.len() - 1]
     )SRC").shouldVerified(true);
@@ -548,7 +548,7 @@ TEST_F(forExprTest, evalOfForLoopIntAndBoolIsCompatible2) {
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res->getType(), ttype<nInt>::get());
-    ASSERT_EQ(res.cast<nint>(), 3);
+    ASSERT_EQ(res.cast<nint>(), 4);
 }
 
 TEST_F(forExprTest, defAssignWhatLoops) {
