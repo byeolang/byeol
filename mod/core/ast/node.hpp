@@ -21,6 +21,7 @@ namespace namu {
     class _nout node : public instance, public frameInteractable, public exceptional {
         NAMU(ADT(node, instance))
         friend class exprMaker; // for _setSrc
+        friend class mockNode;
 
     public:
         node& operator[](const std::string& name);

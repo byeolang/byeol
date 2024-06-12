@@ -6,6 +6,7 @@ namespace namu {
 
     class _nout mockNode : public node {
         NAMU(ME(mockNode, node), VISIT())
+        friend class exprMaker;
 
     public:
         mockNode();
@@ -27,6 +28,11 @@ namespace namu {
 
         node& getTarget();
         const node& getTarget() const NAMU_UNCONST_FUNC(getTarget());
+
+        const src& getSrc() const override;
+
+    protected:
+        void _setSrc(const src& s) override;
 
     private:
         str _org;

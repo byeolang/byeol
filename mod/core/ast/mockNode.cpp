@@ -43,4 +43,14 @@ namespace namu {
     node& me::getTarget() {
         return *_org;
     }
+
+    const src& me::getSrc() const {
+        if(_org) return _org->getSrc();
+        return super::getSrc();
+    }
+
+    void me::_setSrc(const src& s) {
+        if(!_org) return;
+        _org->_setSrc(s);
+    }
 }

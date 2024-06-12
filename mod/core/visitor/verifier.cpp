@@ -566,7 +566,6 @@ namespace namu {
         NAMU_I("verify: baseObj: iterate all subs and checks void type variable");
         for(const node& elem : me.subs())
             if(elem.isSub<nVoid>())
-                // don't finsh and return. i need to check all subs by calling super::onVisit().
                 posError(errCode::VOID_CANT_DEFINED, elem);
 
         onVisit(i, (baseObj::super&) me);
