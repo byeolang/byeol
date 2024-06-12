@@ -53,13 +53,13 @@ TEST_F(defPropExprTest, definePackVariable2) {
     slot& s = getSlot();
     ASSERT_EQ(s.getManifest().name, manifest::DEFAULT_NAME);
 
-    scope& owns = (scope&) (((scope&) getSlot().subs()).getContainer());
-    scope& shares = (scope&) (((scope&) getSlot().subs()).getNext().getContainer());
+    auto& owns = ((scope&) getSlot().subs()).getContainer();
+    auto& shares = ((scope&) getSlot().subs()).getNext().getContainer();
     ASSERT_FALSE(nul(owns));
     ASSERT_FALSE(nul(shares));
     ASSERT_EQ(owns.len(), 3);
     ASSERT_EQ(shares.len(), 3);
-    ASSERT_EQ(s.subAll<baseObj>().len(), 3);
+    ASSERT_EQ(owns.getAll<baseObj>().len(), 3);
     ASSERT_EQ(s.subAll<func>().len(), 1);
 
     nStr& name = s.sub<nStr>("name");

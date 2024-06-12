@@ -12,6 +12,18 @@ namespace namu {
 
     TEMPL
     template <typename V1>
+    V1& ME::get() {
+        return get<V1>([](const K&, const V1&) { return true; });
+    }
+
+    TEMPL
+    template <typename V1>
+    V1& ME::get(const K& key) {
+        return get(key).template cast<V1>();
+    }
+
+    TEMPL
+    template <typename V1>
     V1& ME::get(std::function<nbool(const K&, const V1&)> l) {
         for(auto e=begin(); e ;++e) {
             V1& val = e.getVal().template cast<V1>();
@@ -32,6 +44,12 @@ namespace namu {
         narr ret;
         _getAll(key, ret);
         return ret;
+    }
+
+    TEMPL
+    template <typename V1>
+    tnarr<V1> ME::getAll() const {
+        return getAll<V1>([](const K&, const V1&) { return true; });
     }
 
     TEMPL

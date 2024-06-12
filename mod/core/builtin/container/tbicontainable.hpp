@@ -42,9 +42,9 @@ namespace namu {
         // get:
         virtual V& get(const K& key) = 0;
         const V& get(const K& key) const NAMU_UNCONST_FUNC(get(key))
-        template <typename V1> V1& get(const K& key) {
-            return get(key).template cast<V1>();
-        }
+        template <typename V1> V1& get();
+        template <typename V1> const V1& get() const NAMU_UNCONST_FUNC(get<V1>())
+        template <typename V1> V1& get(const K& key);
         template <typename V1> const V1& get(const K& key) const NAMU_UNCONST_FUNC(get<V1>(key))
         template <typename V1> V1& get(std::function<nbool(const K&, const V1&)> l);
         V& get(std::function<nbool(const K&, const V&)> l);
@@ -52,6 +52,7 @@ namespace namu {
         const V& get(std::function<nbool(const K&, const V&)> l) const NAMU_UNCONST_FUNC(get(l))
 
         tnarr<V, strTactic> getAll(const K& key) const;
+        template <typename V1> tnarr<V1, strTactic> getAll() const;
         template <typename V1> tnarr<V1, strTactic> getAll(std::function<nbool(const K&, const V1&)> l) const;
         tnarr<V, strTactic> getAll(std::function<nbool(const K&, const V&)> l) const;
 

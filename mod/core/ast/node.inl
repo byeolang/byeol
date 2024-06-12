@@ -46,9 +46,7 @@ namespace namu {
 
     TEMPLATE
     T& ME::sub() {
-        return subs().get<T>([](const std::string& key, const T& val) {
-            return true;
-        });
+        return subs().get<T>();
     }
 
     TEMPLATE
@@ -87,14 +85,7 @@ namespace namu {
 
     TEMPLATE
     tnarr<T, strTactic> ME::subAll() const {
-#if NAMU_IS_DBG
-        ncnt n = 0;
-#endif
-        return subs().template getAll<T>([&](const std::string& key, const T& val) {
-            NAMU_DI("subAll: [%d/%d] 'any' --> %s = EXACT_MATCH",
-                    n++, subs().len(), key.c_str());
-            return true;
-        });
+        return subs().template getAll<T>();
     }
 
     TEMPLATE
