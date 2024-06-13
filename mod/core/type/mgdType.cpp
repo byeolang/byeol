@@ -7,20 +7,18 @@ namespace namu {
     me::mgdType(const std::string& name): _name(name) {
         _initSupers(ttype<obj>::get());
     }
-
     me::mgdType(const std::string& name, const mgdType& super): _name(name) {
         _initSupers(super);
     }
-
     me::mgdType(const std::string& name, const narr& beans): _name(name) {
         _initSupers(ttype<obj>::get());
         getBeans() = beans;
     }
-
     me::mgdType(const std::string& name, const mgdType& super, const narr& beans): _name(name) {
         _initSupers(super);
         getBeans() = beans;
     }
+    me::mgdType(const std::string& name, const types& supersFromRhs): _name(name), _supers(supersFromRhs) {}
 
     const type& me::getSuper() const {
         return *_supers[_supers.size()-1];
@@ -31,9 +29,7 @@ namespace namu {
         return inner;
     }
 
-    const std::string& me::getName() const {
-        return _name;
-    }
+    const std::string& me::getName() const { return _name; }
 
     types& me::_getSupers() {
         return _supers;

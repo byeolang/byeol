@@ -6,6 +6,7 @@ namespace namu {
     class _nout src : public instance {
         NAMU(CLASS(src, instance))
         friend class parser;
+        friend class genericObj; // for _setName() at genericObj::_makeGeneric()
 
     public:
         src(const srcFile& file, const std::string& name, const point& pos);

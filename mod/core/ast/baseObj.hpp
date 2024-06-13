@@ -16,6 +16,7 @@ namespace namu {
         friend class obj;
         friend class defaultMakeCtor;
         friend class parser;
+        friend class genericObj; // from genericObj::_makeGeneric()
 
     protected:
         /// if you don't give any subs when construct an baseObj, _subs will be assigned to dummy array.

@@ -17,6 +17,7 @@ namespace namu {
         mgdType(const std::string& name, const mgdType& super);
         mgdType(const std::string& name, const narr& bean);
         mgdType(const std::string& name, const mgdType& super, const narr& bean);
+        mgdType(const std::string& name, const types& supersFromRhs);
 
     public:
         const type& getSuper() const override;

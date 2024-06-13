@@ -42,8 +42,7 @@ namespace namu {
         std::string _makeKey(const args& a) const;
 
         /// make a generic object.
-        tstr<obj> _makeGeneric(const args& a) const;
-        tstr<obj> _defGeneric(const std::string& key, const args& a) const;
+        tstr<obj> _makeGeneric(const std::string& key, const args& a) const;
 
     private:
         std::map<std::string, tstr<obj>> _cache;

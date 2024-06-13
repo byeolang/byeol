@@ -1,6 +1,8 @@
 #pragma once
 
 #include "node.hpp"
+#include "baseFunc.hpp"
+#include "params.hpp"
 #include "baseObj.hpp"
 #include "tpriorities.inl"
 #include "args.hpp"
@@ -101,7 +103,7 @@ namespace namu {
 #if NAMU_IS_DBG
         ncnt n = 0;
 #endif
-        std::string argStr = !nul(a) ? a.toStr() : "";
+        std::string argStr = !nul(a) ? "(" + a.toStr() + ")" : "";
         tprioritiesBucket<T> ps;
         const scope* e = &subs();
         ncnt lv = 0;
@@ -113,8 +115,10 @@ namespace namu {
                 p = !nul(a) ? val.prioritize(a) : EXACT_MATCH;
                 if(p != NO_MATCH)
                     ps.push_back(*new tprior<T>(val, p, lv));
-                NAMU_DI("subAll: [%d/%d] %s(%s) --> %s = priority(type=%s, lv=%d)", n++,
-                        subs().len(), name.c_str(), argStr.c_str(), key.c_str(), getPriorTypeName(p), lv);
+                const baseFunc& f = val.template cast<baseFunc>();
+                std::string valArgs = !nul(f) ? "(" + f.getParams().toStr() + ")": "";
+                NAMU_DI("subAll: [%d/%d] %s%s --> %s%s = priority(type=%s, lv=%d)", n++,
+                        subs().len(), name.c_str(), argStr.c_str(), key.c_str(), valArgs.c_str(), getPriorTypeName(p), lv);
                 return true;
             });
 

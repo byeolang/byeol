@@ -47,9 +47,6 @@ namespace namu {
         const obj& getSubPack() const;
 
         clonable* cloneDeep() const override;
-        /// clone this as local object.
-        /// only clone deeply owns scope. and link to original shares.
-        me* cloneLocal() const;
         typedef ntype metaType;
         const ntype& getType() const override;
         nbool isComplete() const override;

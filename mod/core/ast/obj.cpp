@@ -133,8 +133,4 @@ namespace namu {
         ret->getOwns().link(*(scope*) getShares().cloneDeep());
         return ret;
     }
-
-    me* me::cloneLocal() const {
-        return new me(*this);
-    }
 }

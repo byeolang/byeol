@@ -53,20 +53,11 @@ namespace namu {
 
     str me::run(const args& a) {
         std::string key = _makeKey(a);
-        if(key.empty()) return NAMU_E("key is empty"), nulOf<obj>();
+        if(key.empty()) return NAMU_E("key is empty"), tstr<obj>();
 
         if(!_cache.count(key))
-            _cache.insert({key, _defGeneric(key, a)});
-
+            _cache.insert({key, _makeGeneric(key, a)});
         return _cache[key];
-    }
-
-    tstr<obj> me::_defGeneric(const std::string& key, const args& a) const {
-        // this making generic object will be done by preEvaluator:
-        //  when I run verification step, there are all of generic objects inside _cache.
-        //  so, don't worry and verify genenated objects here.
-        tstr<obj> gen = _makeGeneric(a);
-        return gen;
     }
 
     std::string me::_makeKey(const args& a) const {
@@ -75,20 +66,22 @@ namespace namu {
     }
 
     /// make a generic object.
-    tstr<obj> me::_makeGeneric(const args& a) const {
+    tstr<obj> me::_makeGeneric(const std::string& paramName, const args& a) const {
         if(!_orgObj) return NAMU_E("_orgObj is null"), tstr<obj>();
 
-        NAMU_DI("=========================");
-        NAMU_DI("        make generic     ");
-        NAMU_DI("=========================");
-        tstr<obj> ret = (obj*) _orgObj->cloneLocal();
+        std::string name = _orgObj->getType().getName() + "<" + paramName + ">";
+        NAMU_DI("generic: make %s generic class", name.c_str());
+        tstr<obj> ret = (obj*) _orgObj->clone();
+        src* s = new src(_orgObj->getSrc());
+        s->_setName(name);
+        ret->_setSrc(*s);
         // update origin:
         //  genericObj makes an origin object. but ret->getOrigin() is pointing _orgObj now.
         //  I need to update it.
         ret->_setOrigin(&ret.get());
         // clone type:
         if(ret->_type) {
-            mgdType* newType = new mgdType(*ret->_type);
+            mgdType* newType = new mgdType(name, ret->_type->getSupers());
             newType->getBeans() = a;
             ret->_setType(newType);
         }
