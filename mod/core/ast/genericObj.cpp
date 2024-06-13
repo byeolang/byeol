@@ -91,8 +91,9 @@ namespace namu {
         for(auto& e : a)
             g.add(*new param(_paramNames[n++], e));
 
-        g.setTask(*ret).work();
-        NAMU_DI("=========================");
+        NAMU_DI("============================");
+        g.setFlag(generalizer::INTERNAL).setTask(*ret).work();
+        NAMU_DI("============================");
         return ret;
     }
 }

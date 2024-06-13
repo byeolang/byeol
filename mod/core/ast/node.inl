@@ -102,8 +102,9 @@ namespace namu {
 
 #if NAMU_IS_DBG
         ncnt n = 0;
-#endif
+        const nchar* myName = getType().getName().c_str();
         std::string argStr = !nul(a) ? "(" + a.toStr() + ")" : "";
+#endif
         tprioritiesBucket<T> ps;
         const scope* e = &subs();
         ncnt lv = 0;
@@ -117,8 +118,8 @@ namespace namu {
                     ps.push_back(*new tprior<T>(val, p, lv));
                 const baseFunc& f = val.template cast<baseFunc>();
                 std::string valArgs = !nul(f) ? "(" + f.getParams().toStr() + ")": "";
-                NAMU_DI("subAll: [%d/%d] %s%s --> %s%s = priority(type=%s, lv=%d)", n++,
-                        subs().len(), name.c_str(), argStr.c_str(), key.c_str(), valArgs.c_str(), getPriorTypeName(p), lv);
+                NAMU_DI("subAll: [%d/%d] %s%s --> %s.%s%s = priority(type=%s, lv=%d)", n++,
+                        subs().len(), name.c_str(), argStr.c_str(), myName, key.c_str(), valArgs.c_str(), getPriorTypeName(p), lv);
                 return true;
             });
 

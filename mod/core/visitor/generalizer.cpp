@@ -27,6 +27,8 @@ namespace namu {
         const node& org = _findOrigin(me.getAs());
         if(nul(org)) return true;
 
+        NAMU_DI("* inject 'as %s' --> 'as %s'",
+               me.getAs().getType().getName().c_str(), org.getType().getName().c_str());
         me.setAs(org);
         return true;
     }
@@ -34,9 +36,12 @@ namespace namu {
     nbool me::onVisit(visitInfo i, blockExpr& me) {
         narr& stmts = me.getStmts();
         for(int n=0; n < stmts.len() ;n++) {
-            const node& org = _findOrigin(stmts[n]);
+            const node& stmt = stmts[n];
+            const node& org = _findOrigin(stmt);
             if(nul(org)) continue;
 
+            NAMU_DI("* inject 'stmt %s' --> 'stmt %s'",
+                   stmt.getType().getName().c_str(), org.getType().getName().c_str());
             stmts.set(n, org);
         }
         return true;
@@ -46,6 +51,9 @@ namespace namu {
         const node& org = _findOrigin(me.getOrigin());
         if(nul(org)) return true;
 
+        NAMU_DI("* inject '%s %s' --> '%s %s'",
+               me.getName().c_str(), me.getOrigin().getType().getName().c_str(),
+               me.getName().c_str(), org.getType().getName().c_str());
         me.setOrigin(org);
         return true;
     }
@@ -59,24 +67,27 @@ namespace namu {
         if(!nul(org))
             me.setSubject(*org);
 
-        args& a = me.getArgs();
-        for(int n=0; n < a.len(); n++) {
-            const node& org = _findOrigin(a[n]);
+        args& as = me.getArgs();
+        for(int n=0; n < as.len(); n++) {
+            node& a = as[n];
+            const node& org = _findOrigin(a);
             if(nul(org)) continue;
 
-            a.set(n, org);
+            NAMU_DI("* inject arg '%s' --> '%s'",
+                   a.getType().getName().c_str(), org.getType().getName().c_str());
+            as.set(n, org);
         }
         return true;
     }
 
     nbool me::onVisit(visitInfo i, params& me) {
-        NAMU_DI("generic: params[%d]", me.len());
-
         for(int n=0; n < me.len(); n++) {
             param& p = me[n];
             const node& org = _findOrigin(p.getOrigin());
             if(nul(org)) continue;
 
+            NAMU_DI("* inject param '%s' --> '%s'",
+                   p.getOrigin().getType().getName().c_str(), org.getType().getName().c_str());
             p.setOrigin(org);
         }
         return true;
@@ -97,12 +108,13 @@ namespace namu {
     }
 
     nbool me::onVisit(visitInfo i, baseFunc& me) {
-        NAMU_DI("generic: func[%s, %x]", i.name.c_str(), &me);
-
         onVisit(i, (params&) me.getParams());
 
         const node& retOrg = _findOrigin(*me.getRet());
         if(!nul(retOrg)) {
+            NAMU_DI("* inject retType of '%s(%s) %s' --> '%s'",
+                    i.name.c_str(), me.getParams().toStr().c_str(), me.getRet()->getEval().getType().getName().c_str(),
+                    retOrg.getType().getName().c_str());
             me.setRet(retOrg);
             if(nul(i.parent))
                 getReport().add(err::newErr(errCode::IS_NULL, "parent"));
@@ -115,9 +127,12 @@ namespace namu {
     nbool me::onVisit(visitInfo i, baseObj& me) {
         scope& subs = me.subs();
         for(auto e=subs.begin(); e ;++e) {
-            const node& org = _findOrigin(e.getVal());
+            const node& prevVal = e.getVal();
+            const node& org = _findOrigin(prevVal);
             if(nul(org)) continue;
 
+            NAMU_DI("* inject '%s' at '%s.%s' to '%s", prevVal.getType().getName().c_str(),
+                    i.name.c_str(), e.getKey().c_str(), org.getType().getName().c_str());
             e.setVal(org);
         }
 

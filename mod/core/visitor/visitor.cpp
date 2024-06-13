@@ -8,6 +8,8 @@ namespace namu {
 
     template class _nout worker<void, node>;
 
+#define GUARD(...) if(isFlag(GUARD)) NAMU_I(__VA_ARGS__)
+
     NAMU_DEF_ME(visitor)
 
 #define X(T) \
@@ -35,8 +37,7 @@ namespace namu {
 
     void me::visit(visitInfo i, node& me) {
         if(nul(me)) return;
-        if(isFlag(GUARD))
-            NAMU_I("visiting %s[%s]...", me.getType().getName().c_str(), i.name.c_str());
+        GUARD("visiting %s[%s]...", me.getType().getName().c_str(), i.name.c_str());
 
         if(!_markVisited(me)) return;
 
@@ -69,20 +70,18 @@ namespace namu {
             len += next.getContainer().len();
         if(len <= 0) return;
 
-        if(isFlag(GUARD))
-            NAMU_I("%s(\"%s\").onTraverse(len=%d)", me.getType().getName().c_str(), i.name.c_str(), len);
+        GUARD("%s(\"%s\").onTraverse(len=%d)", me.getType().getName().c_str(), i.name.c_str(), len);
 
         auto e = subs.begin();
         for(int n=0; n < len ;n++, ++e) {
-            NAMU_I("%s is traversing(%s)...", i.name.c_str(), e.getKey().c_str());
+            GUARD("%s is traversing(%s)...", i.name.c_str(), e.getKey().c_str());
             node& val = e.getVal();
             val.accept(visitInfo {e.getKey(), &me, n, len, i.depth+1}, *this);
         }
     }
 
     void me::onTraverse(visitInfo i, getExpr& e) {
-        if(isFlag(GUARD))
-            NAMU_I("getExpr(\"%s\").onTraverse()", i.name.c_str());
+        GUARD("getExpr(\"%s\").onTraverse()", i.name.c_str());
 
         // check me:
         const args& args = e.getSubArgs();
@@ -99,14 +98,12 @@ namespace namu {
     }
 
     void me::onTraverse(visitInfo i, frame& f) {
-        if(isFlag(GUARD))
-            NAMU_I("frame[%s]::onTraverse", i.name.c_str());
+        GUARD("frame[%s]::onTraverse", i.name.c_str());
         // do nothing.
     }
 
     void me::onTraverse(visitInfo i, runExpr& e) {
-        if(isFlag(GUARD))
-            NAMU_I("runExpr[%s]::onTraverse", i.name.c_str());
+        GUARD("runExpr[%s]::onTraverse", i.name.c_str());
 
         int n = 0;
         node& me = e.getMe();
@@ -122,15 +119,13 @@ namespace namu {
     }
 
     void me::onTraverse(visitInfo i, func& f) {
-        if(isFlag(GUARD))
-            NAMU_I("func[%s]::onTraverse", i.name.c_str());
+        GUARD("func[%s]::onTraverse", i.name.c_str());
 
         f.getBlock().accept(visitInfo {"codes", &f, 0, 1, i.depth+1}, *this);
     }
 
     void me::onTraverse(visitInfo i, blockExpr& b) {
-        if(isFlag(GUARD))
-            NAMU_I("blockExpr[%s]::onTraverse", i.name.c_str());
+        GUARD("blockExpr[%s]::onTraverse", i.name.c_str());
 
         int n = 0;
         narr& stmts = b.getStmts();
@@ -140,8 +135,7 @@ namespace namu {
     }
 
     void me::onTraverse(visitInfo i, retExpr& b) {
-        if(isFlag(GUARD))
-            NAMU_I("retExpr[%s]::onTraverse", i.name.c_str());
+        GUARD("retExpr[%s]::onTraverse", i.name.c_str());
 
         int n = 0;
         node& ret = b.getRet();
@@ -150,8 +144,7 @@ namespace namu {
     }
 
     void me::onTraverse(visitInfo i, asExpr& a) {
-        if(isFlag(GUARD))
-            NAMU_I("asExpr[%s]::onTraverse", i.name.c_str());
+        GUARD("asExpr[%s]::onTraverse", i.name.c_str());
 
         int n = 0;
         node& me = (node&) a.getMe();
@@ -164,8 +157,7 @@ namespace namu {
     }
 
     void me::onTraverse(visitInfo i, assignExpr& a) {
-        if(isFlag(GUARD))
-            NAMU_I("assignExpr[%s]::onTraverse", i.name.c_str());
+        GUARD("assignExpr[%s]::onTraverse", i.name.c_str());
 
         int n = 0;
         node& left = (node&) a.getLeft();
@@ -178,8 +170,7 @@ namespace namu {
     }
 
     void me::onTraverse(visitInfo i, defAssignExpr& d) {
-        if(isFlag(GUARD))
-            NAMU_I("defAssignExpr[%s]::onTraverse", i.name.c_str());
+        GUARD("defAssignExpr[%s]::onTraverse", i.name.c_str());
 
         node& right = d.getRight();
         if(!nul(right))
@@ -187,8 +178,7 @@ namespace namu {
     }
 
     void me::onTraverse(visitInfo i, defPropExpr& d) {
-        if(isFlag(GUARD))
-            NAMU_I("defPropExpr[%s]::onTraverse", i.name.c_str());
+        GUARD("defPropExpr[%s]::onTraverse", i.name.c_str());
 
         node& org = (node&) d.getOrigin();
         if(!nul(org))
@@ -196,8 +186,7 @@ namespace namu {
     }
 
     void me::onTraverse(visitInfo i, FBOExpr& f) {
-        if(isFlag(GUARD))
-            NAMU_I("FBOExpr[%s]::onTraverse", i.name.c_str());
+        GUARD("FBOExpr[%s]::onTraverse", i.name.c_str());
 
         int n = 0;
         node& left = (node&) f.getLeft();
@@ -210,8 +199,7 @@ namespace namu {
     }
 
     void me::onTraverse(visitInfo i, forExpr& f) {
-        if(isFlag(GUARD))
-            NAMU_I("forExpr[%s]::onTraverse", i.name.c_str());
+        GUARD("forExpr[%s]::onTraverse", i.name.c_str());
 
         node& con = *f.getContainer();
         ncnt len = nul(con) ? 1 : 2;
@@ -222,13 +210,11 @@ namespace namu {
     }
 
     void me::onTraverse(visitInfo i, retStateExpr& r) {
-        if(isFlag(GUARD))
-            NAMU_I("%s[%s]::onTraverse", r.getType().getName().c_str(), i.name.c_str());
+        GUARD("%s[%s]::onTraverse", r.getType().getName().c_str(), i.name.c_str());
     }
 
     void me::onTraverse(visitInfo i, ifExpr& f) {
-        if(isFlag(GUARD))
-            NAMU_I("ifExpr[%s]::onTraverse", i.name.c_str());
+        GUARD("ifExpr[%s]::onTraverse", i.name.c_str());
 
         blockExpr& elseBlk = f.getElseBlk();
         int len = !nul(elseBlk) ? 3 : 2;
@@ -241,16 +227,14 @@ namespace namu {
     }
 
     void me::onTraverse(visitInfo i, whileExpr& w) {
-        if(isFlag(GUARD))
-            NAMU_I("whileExpr[%s]::onTraverse", i.name.c_str());
+        GUARD("whileExpr[%s]::onTraverse", i.name.c_str());
 
         w.getCondition().accept(visitInfo {"condition", &w, 0, 2, i.depth+1}, *this);
         w.getBlock().accept(visitInfo {"codes", &w, 1, 2, i.depth+1}, *this);
     }
 
     void me::onTraverse(visitInfo i, defArrayExpr& d) {
-        if(isFlag(GUARD))
-            NAMU_I("defArrayExpr[%s]::onTraverse", i.name.c_str());
+        GUARD("defArrayExpr[%s]::onTraverse", i.name.c_str());
 
         narr& elems = d.getElems();
         int len = elems.len(),
@@ -260,8 +244,7 @@ namespace namu {
     }
 
     void me::onTraverse(visitInfo i, genericObj& g) {
-        if(isFlag(GUARD))
-            NAMU_I("genericObj[%s]::onTraverse", i.name.c_str());
+        GUARD("genericObj[%s]::onTraverse", i.name.c_str());
 
         auto& cache = (std::map<std::string, tstr<obj>>&) g.getCache();
         ncnt len = cache.size();
