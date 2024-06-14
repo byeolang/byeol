@@ -29,10 +29,10 @@ namespace namu {
         str iter = ased->run("iterate", args{narr{*new nInt(0)}});
         if(!iter) return NAMU_E("iter is null"), str();
 
-        arr& eval = getEval().cast<arr>();
+        node& eval = *getEval();
         if(nul(eval))
-            return NAMU_E("eval isn't arr"), str();
-        arr& ret = *new arr(eval.getType().getBeans()[0]);
+            return NAMU_E("eval is null "), str();
+        arr& ret = eval.isSub<arr>() ? *new arr(eval.getType().getBeans()[0]) : nulOf<arr>();
         frame& fr = thread::get()._getNowFrame();
 
         while(!iter->run("isEnd")->cast<nbool>()) {
@@ -42,7 +42,7 @@ namespace namu {
             frameInteract f1(blk); {
                 fr.addLocal(_name, *elem);
 
-                ret.add(*blk.run());
+                if(!nul(ret)) ret.add(*blk.run());
                 if(_postprocess(fr))
                     return ret;
             }

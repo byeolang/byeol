@@ -217,10 +217,12 @@ namespace namu {
 
         _cache.insert({key, clone}); // this avoids infinite loop.
 
+        NAMU_DI("|==============================================|");
+        NAMU_DI("|--- generic: make arr<%s> generic class ---|", key->getName().c_str());
         generalizer g;
         g.add(*new param(TYPENAME, getType().getBeans()[0]))
-         .setTask(*this)
-         .work();
+         .setTask(*this).setFlag(generalizer::INTERNAL).work();
+        NAMU_DI("|============================|");
 
         return *clone;
     }

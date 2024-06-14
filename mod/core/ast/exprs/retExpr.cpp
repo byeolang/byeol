@@ -20,10 +20,12 @@ namespace namu {
     }
 
     str me::run(const args& a) {
-        if(!_ret) return str(nVoid::singletone());
-        if(_ret->isSub<baseObj>()) return _ret; // case: obj
-
+        NAMU_DI("retExpr:...");
         auto& fr = thread::get().getNowFrame();
+        if(!_ret) return str(nVoid::singletone());
+
+        NAMU_DI("retExpr: _ret[%s]", _ret->getType().getName().c_str());
+        if(_ret->isSub<baseObj>()) return fr.setRet(*_ret), _ret;
 
         str ret = _ret->as<node>(); // # check retValue is null or not.
         if(!ret) // ret should be void if there is no value to return. so 'null' not allowed here.
@@ -33,6 +35,7 @@ namespace namu {
         if(_isEx(*ret, *fRet))
             return _returnEx(ret->cast<err>());
 
+        NAMU_DI("retExpr: frame.setRet(%s)", ret->getType().getName().c_str());
         fr.setRet(*ret);
         return ret;
     }
