@@ -62,6 +62,7 @@ namespace namu {
             return false;
         }
         virtual iter last() const {
+            if(len() <= 0) return end();
             static iter (me::*specifier)(ncnt) const = &me::iterate;
             return (this->*specifier)(len()-1);
         }

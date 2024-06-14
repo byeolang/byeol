@@ -11,10 +11,6 @@ namespace namu {
 
     me::blockExpr() {}
 
-    const narr& me::getStmts() const {
-        return _exprs;
-    }
-
     narr& me::getStmts() {
         return _exprs;
     }

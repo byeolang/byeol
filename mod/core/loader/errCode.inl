@@ -108,6 +108,7 @@ PAIRX(PARAM_NOT_VOID,               "parameter '%s' shouldn't be a void type")
 PAIRX(FUNC_SHOULD_RETURN_SOMETHING, "function should return something")
 
 // block:
+PAIRX(RET_AT_MIDDLE_OF_BLOCK,       "use 'ret' at last of block stmt.")
 PAIRX(BLK_CANT_MAKE_FRAME,          "block statement failed to construct frame structure")
 
 // container:

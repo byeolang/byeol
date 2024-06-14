@@ -355,6 +355,10 @@ namespace namu {
     nbool me::onVisit(visitInfo i, retExpr& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
+        NAMU_I("verify: retExpr: should be at last stmt");
+        if(i.index != i.len-1)
+            return posError(errCode::RET_AT_MIDDLE_OF_BLOCK, me), true;
+
         NAMU_I("verify: retExpr: checks evalType of func is matched to me");
         const baseFunc& f = thread::get().getNowFrame().getFunc();
         if(nul(f)) return posError(errCode::NO_FUNC_INFO, me), true;
@@ -520,17 +524,20 @@ namespace namu {
         NAMU_I("verify: func: last stmt[%s] should matches to return type[%s]",
                 lastStmt.getType().getName().c_str(), retType.getName().c_str());
 
-        if(!lastStmt.isSub<retExpr>() && retType == ttype<nVoid>::get()) {
-            NAMU_I("verify: func: implicit return won't verify when retType is void.");
-            return;
-        }
+        if(lastStmt.isSub<retExpr>())
+            // @see retExpr::getEval() for more info.
+            return NAMU_I("verify: func: skip verification when lastStmt is retExpr."), void();
+
+        if(retType == ttype<nVoid>::get())
+            return NAMU_I("verify: func: implicit return won't verify when retType is void."), void();
 
         str lastEval = lastStmt.getEval();
         if(!lastEval) return posError(NO_RET_TYPE, lastStmt);
         const ntype& lastType = lastEval->getType(); // to get type of expr, always uses evalType.
         if(nul(lastType)) return posError(NO_RET_TYPE, lastStmt);
-        if(!lastType.isSub<err>() && !lastType.isImpli(retType)) return posError(errCode::RET_TYPE_NOT_MATCH, lastStmt, lastType.getName().c_str(),
-                retType.getName().c_str());
+        if(!lastType.isSub<err>() && !lastType.isImpli(retType))
+            return posError(errCode::RET_TYPE_NOT_MATCH, lastStmt,
+                            lastType.getName().c_str(), retType.getName().c_str());
     }
 
     void me::_prepare() {

@@ -21,7 +21,7 @@ namespace namu {
         using super::run;
         str run(const args& a) override;
         str getEval() const override;
-        const narr& getStmts() const;
+        const narr& getStmts() const NAMU_UNCONST_FUNC(getStmts())
         narr& getStmts();
 
         using super::inFrame;
