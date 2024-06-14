@@ -83,6 +83,7 @@ namespace namu {
         if(!rightEval) return posError(errCode::RHS_IS_NULL, me), true;
         const ntype& rtype = rightEval->getType();
         if(nul(rtype)) return posError(errCode::RHS_IS_NULL, me), true;
+        if(rtype.isSub<retExpr>()) return posError(errCode::CANT_ASSIGN_RET, me), true;
         if(!rtype.isImpli(ltype))
             return posError(errCode::TYPE_NOT_COMPATIBLE, me, rtype.getName().c_str(), ltype.getName()
                     .c_str()), true;
@@ -166,6 +167,11 @@ namespace namu {
         const node& rhs = me.getRight();
         if(nul(rhs))
             return posError(errCode::CANT_DEF_VAR, me, me.getSubName().c_str(), "null");
+
+        str rhsEval = rhs.getEval();
+        NAMU_I("verify: does rhs[%s] have 'ret' in its blockStmt?", rhsEval->getType().getName().c_str());
+        if(rhsEval->isSub<retExpr>())
+            return posError(errCode::CANT_ASSIGN_RET, me);
 
         NAMU_I("verify: defAssignExpr: '%s %s' has defined.", me.getSubName().c_str(),
                 nul(rhs) ? "name" : rhs.getType().getName().c_str());

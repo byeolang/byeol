@@ -92,6 +92,7 @@ PAIRX(IDENTIFIER_ONLY,              "You can't use type or generic for '%s'")
 //  defAssign:
 PAIRX(RHS_NOT_EVALUATED,            "I can't define a new variable here because there is a problem with the expression on the right.")
 PAIRX(VOID_CANT_DEFINED,            "you can't define a variable to void type")
+PAIRX(CANT_ASSIGN_RET,              "rhs has 'ret' which is not appropriate to assign.")
 
 // func:("verify: arithmeticExpr: lhs & rhs should bind something.");
 //

@@ -309,3 +309,28 @@ TEST_F(defAssignExprTest, defAssignAtBlockNegative) {
     )SRC").shouldParsed(true);
     shouldVerified(false);
 }
+
+TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomethingNegative) {
+    make().negative().parse(R"SRC(
+        main() int
+            abc := for strArr in {{"hello"}}
+                for s in strArr
+                    ret s
+    )SRC").shouldVerified(false);
+}
+
+/*TODO: TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomethingNegative) {
+    make().negative().parse(R"SRC(
+        main() str
+            abc := for strArr in {{"child", "hello"}}
+                for s in strArr
+                    if s == "hello"
+                        ret s
+                    else: s
+            ret abc[0] // == "child"
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSSERT_EQ(res.cast<std::string>(), "hello")
+}*/
