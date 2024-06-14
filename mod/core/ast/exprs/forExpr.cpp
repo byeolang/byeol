@@ -56,7 +56,6 @@ namespace namu {
     str me::getEval() const {
         if(_initEval) return super::getEval();
 
-        _initEval = true;
         str ased = _container->getEval();
         str elemType = ased->run("getElemType");
         if(!elemType) return NAMU_E("elemType == null"), str();
@@ -67,8 +66,11 @@ namespace namu {
             if(nul(fr)) return str();
             fr.addLocal(getLocalName(), *((node*) elemType->clone()));
 
-            arr& newEval = *new arr(*blk.getEval()); // elem of last stmt.
-            setEval(newEval);
+            _initEval = true;
+            str newEval = blk.getEval();
+            if(!newEval->isSub<retExpr>())
+                newEval.bind(new arr(*newEval));
+            setEval(*newEval);
             return newEval;
         }
     }

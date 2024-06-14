@@ -521,20 +521,22 @@ namespace namu {
         str ret = me.getRet()->as<node>();
         const type& retType = ret->getType();
         const node& lastStmt = *me.getBlock().getStmts().last();
-        NAMU_I("verify: func: last stmt[%s] should matches to return type[%s]",
-                lastStmt.getType().getName().c_str(), retType.getName().c_str());
+        str eval = me.getBlock().getEval();
+        if(!eval) return posError(NO_RET_TYPE, lastStmt);
 
-        if(lastStmt.isSub<retExpr>())
+        const ntype& lastType = eval->getType(); // to get type of expr, always uses evalType.
+        if(nul(lastType)) return posError(NO_RET_TYPE, lastStmt);
+
+        NAMU_I("verify: func: last stmt[%s] should matches to return type[%s]",
+                eval->getType().getName().c_str(), retType.getName().c_str());
+
+        if(eval->isSub<retExpr>())
             // @see retExpr::getEval() for more info.
             return NAMU_I("verify: func: skip verification when lastStmt is retExpr."), void();
 
         if(retType == ttype<nVoid>::get())
             return NAMU_I("verify: func: implicit return won't verify when retType is void."), void();
 
-        str lastEval = lastStmt.getEval();
-        if(!lastEval) return posError(NO_RET_TYPE, lastStmt);
-        const ntype& lastType = lastEval->getType(); // to get type of expr, always uses evalType.
-        if(nul(lastType)) return posError(NO_RET_TYPE, lastStmt);
         if(!lastType.isSub<err>() && !lastType.isImpli(retType))
             return posError(errCode::RET_TYPE_NOT_MATCH, lastStmt,
                             lastType.getName().c_str(), retType.getName().c_str());
@@ -627,9 +629,9 @@ namespace namu {
     void me::onLeave(visitInfo i, forExpr& me) {
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
-        NAMU_I("verify: forExpr: eval Value check: is an array?");
-        tstr<arr> eval = me.getEval();
-        if(!eval) return posError(errCode::LOOP_NO_RET_ARR, me);
+        str eval = me.getEval();
+        NAMU_I("verify: forExpr: eval Value check: eval[%s] is an array?", eval->getType().getName().c_str());
+        if(!eval->isSub<retExpr>() && !eval->isSub<arr>()) return posError(errCode::LOOP_NO_RET_ARR, me);
 
         NAMU_I("verify: forExpr: onLeave");
         me.getBlock().outFrame();
