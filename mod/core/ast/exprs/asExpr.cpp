@@ -33,6 +33,7 @@ namespace namu {
     }
 
     clonable* me::cloneDeep() const {
+        NAMU_DI("%s.cloneDeep()", getType().getName().c_str());
         me* ret = (me*) clone();
         if(_me) ret->_me.bind((node*) _me->cloneDeep());
         if(_as) ret->_as.bind((node*) _as->cloneDeep());

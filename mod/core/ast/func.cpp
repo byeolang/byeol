@@ -109,6 +109,7 @@ namespace namu {
     }
 
     clonable* me::cloneDeep() const {
+        NAMU_DI("%s.cloneDeep()", getType().getName().c_str());
         me* ret = (me*) clone();
         // params:
         ret->_params.rel();

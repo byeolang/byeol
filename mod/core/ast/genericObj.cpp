@@ -66,12 +66,13 @@ namespace namu {
     }
 
     /// make a generic object.
-    tstr<obj> me::_makeGeneric(const std::string& paramName, const args& a) const {
+    tstr<obj> me::_makeGeneric(const std::string& argName, const args& a) const {
         if(!_orgObj) return NAMU_E("_orgObj is null"), tstr<obj>();
 
-        std::string name = _orgObj->getType().getName() + "<" + paramName + ">";
-        NAMU_DI("generic: make %s generic class", name.c_str());
-        tstr<obj> ret = (obj*) _orgObj->clone();
+        std::string name = _orgObj->getType().getName() + "<" + argName + ">";
+        NAMU_DI("|==========================================|");
+        NAMU_DI("|--- generic: make %s generic class ---|", name.c_str());
+        tstr<obj> ret = (obj*) _orgObj->cloneDeep(); // clone all of shares including func.
         src* s = new src(_orgObj->getSrc());
         s->_setName(name);
         ret->_setSrc(*s);
@@ -91,9 +92,9 @@ namespace namu {
         for(auto& e : a)
             g.add(*new param(_paramNames[n++], e));
 
-        NAMU_DI("============================");
+        NAMU_DI("|----------------------------|");
         g.setFlag(generalizer::INTERNAL).setTask(*ret).work();
-        NAMU_DI("============================");
+        NAMU_DI("|============================|");
         return ret;
     }
 }

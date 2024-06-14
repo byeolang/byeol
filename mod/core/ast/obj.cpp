@@ -128,7 +128,7 @@ namespace namu {
     }
 
     clonable* me::cloneDeep() const {
-        NAMU_DW("obj: cloneDeep");
+        NAMU_DI("%s.cloneDeep()", getType().getName().c_str());
         me* ret = new me(*this);
         ret->getOwns().link(*(scope*) getShares().cloneDeep());
         return ret;
