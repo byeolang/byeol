@@ -371,19 +371,16 @@ namespace namu {
         const baseFunc& f = thread::get().getNowFrame().getFunc();
         if(nul(f)) return posError(errCode::NO_FUNC_INFO, me), true;
 
-        str myEval = me.getEval();
-        if(!myEval) return posError(errCode::EXPR_EVAL_NULL, me), true;
+        str myRet = me.getRet().getEval();
+        if(!myRet) return posError(errCode::EXPR_EVAL_NULL, me), true;
 
-        NAMU_I("verify: retExpr: myEval=%s", myEval->getType().getName().c_str());
-        const ntype& myType = myEval->getType();
-        str retType = f.getRet()->as<node>();
-        const type& fType = retType->getType();
+        str funRet = f.getRet()->as<node>();
+        NAMU_I("verify: retExpr: checks return[%s] == func[%s]", myRet->getType().getName().c_str(),
+            funRet->getType().getName().c_str());
 
-        NAMU_I("verify: retExpr: checks return[%s] == func[%s]", myType.getName().c_str(),
-            fType.getName().c_str());
-
-        if(!myType.isSub<err>() && !myType.isImpli(fType))
-            return posError(errCode::RET_TYPE_NOT_MATCH, me, myType.getName().c_str(), fType.getName().c_str()), true;
+        if(!myRet->isSub<err>() && !myRet->isImpli(*funRet))
+            return posError(errCode::RET_TYPE_NOT_MATCH, me, myRet->getType().getName().c_str(),
+                            funRet->getType().getName().c_str()), true;
         return true;
     }
 
