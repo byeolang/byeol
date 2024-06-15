@@ -90,14 +90,15 @@ namespace namu {
             return;
         }
 
-        NAMU_DI("%s._inFrame() frames.len[%d]", getType().getName().c_str(), thread::get().getFrames().len());
+        NAMU_DI("'%s func'._inFrame() frames.len[%d]", getSrc().getName().c_str(),
+                getType().getName().c_str(), thread::get().getFrames().len());
         fr.setFunc(*this);
         fr.add(*this);
         fr.add(*scope::wrap<scope>(nul(args) ? nulOf<nbicontainer>() : (nbicontainer&) args)); // including 'me'
     }
 
     void me::outFrame(const bicontainable& args) {
-        NAMU_DI("%s._outFrame() frames.len[%d]", getType().getName().c_str(), thread::get().getFrames().len());
+        NAMU_DI("'%s func'._outFrame() frames.len[%d]", getSrc().getName().c_str(), thread::get().getFrames().len());
 
         frame& fr = thread::get()._getNowFrame();
         baseFunc& f = fr.getFunc();

@@ -3,13 +3,14 @@
 #include "tarr.hpp"
 
 namespace namu {
-    template <typename T>
-    class _nout tdumArr : public tarr<T> {
-        NAMU(CLASS(tdumArr, tarr<T>))
+    template <typename T, typename defaultElemType = T>
+    class _nout tdumArr : public tarr<T, defaultElemType> {
+        typedef tarr<T, defaultElemType> __super9;
+        NAMU(CLASS(tdumArr, __super9))
         typedef typename super::iter iter;
 
     public:
-        tdumArr() {}
+        tdumArr(): super(*new mockNode()) {}
         tdumArr(const node& elemType): super(elemType) {}
 
     public:
@@ -25,5 +26,5 @@ namespace namu {
         void add(const iter& here, const iter& from, const iter& to) override {}
     };
 
-    typedef tdumArr<node> dumArr;
+    typedef tdumArr<node, mockNode> dumArr;
 }

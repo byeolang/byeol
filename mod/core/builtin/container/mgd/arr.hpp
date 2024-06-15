@@ -9,7 +9,7 @@ namespace namu {
     //  spended plenty of hours again to find out the reason. thank you so much.
     typedef class _nout tgenericCppBridge<narr> __arrSuperClass;
 
-    class _nout arr : public __arrSuperClass, public tucontainable<node>, tarrayable<node> {
+    class _nout arr : public __arrSuperClass, public tucontainable<node>, public tarrayable<node> {
         // arr uses instance variable 'ntype':
         //  ntype contains beanType as 'const type*' instance variable. so user should be
         //  careful when calling ttype<arr>. because it will also return ntype instance
@@ -21,6 +21,8 @@ namespace namu {
              INIT_META(arr),
              CLONE(arr),
              VISIT())
+
+    public:
         typedef ntype metaType; // for ttype<T>
         typedef typename tucontainable<node>::iter iter;
         typedef typename tucontainable<node>::iteration iteration;

@@ -4,14 +4,14 @@
 
 namespace namu {
 
-    template <typename T>
+    template <typename T, typename defaultElemType = T>
     class tarr : public arr {
         NAMU(ME(tarr, arr),
              INIT_META(tarr),
              CLONE(tarr))
 
     public:
-        tarr(): super(*new T()) {}
-        tarr(arr& rhs): super(rhs) {}
+        tarr(): super(*new defaultElemType()) {}
+        tarr(const node& elemType): super(elemType) {}
     };
 }

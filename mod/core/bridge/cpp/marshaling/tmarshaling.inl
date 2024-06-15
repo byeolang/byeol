@@ -1,15 +1,16 @@
 #pragma once
 
+#include "builtin/container/mgd/arr.hpp"
 #include "tmarshaling.hpp"
 
 namespace namu {
 
 #define TEMPL template <typename T, typename S>
-#define ME tmarshaling<tarr<T>, S, true>
+#define ME tmarshaling<tarr<T, T>, S, true>
 
     TEMPL
-    tarr<T> ME::toNative(node& it) {
-        return tarr<T>(it.cast<arr>());
+    tarr<T, T> ME::toNative(node& it) {
+        return tarr<T, T>(it.cast<arr>());
     }
 
     TEMPL

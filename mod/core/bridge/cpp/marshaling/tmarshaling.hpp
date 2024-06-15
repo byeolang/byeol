@@ -7,7 +7,7 @@ namespace namu {
 
     struct marshalErr {};
     template <typename T, typename S> class tcppBridge;
-    template <typename T> class tarr;
+    template <typename T, typename defaultElemType> class tarr;
     class arr;
 
     template <typename T, typename S, nbool isNode = tifSub<T, node>::is>
@@ -88,10 +88,10 @@ namespace namu {
         static yes canMarshal();
     };
     template <typename T, typename S>
-    struct tmarshaling<tarr<T>, S, true> : public metaIf {
+    struct tmarshaling<tarr<T, T>, S, true> : public metaIf {
         typedef arr mgd;
 
-        static tarr<T> toNative(node& it);
+        static tarr<T, T> toNative(node& it);
 
         template <typename E>
         static str toMgd(E* it);

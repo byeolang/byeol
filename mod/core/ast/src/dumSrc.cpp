@@ -4,7 +4,7 @@ namespace namu {
     NAMU(DEF_ME(dumSrc))
 
     namespace {
-        static srcFile _inner("no_name", "");
+        static srcFile _inner("<no_name>", "");
     }
 
     dumSrc::dumSrc(): src(_inner, "", point {0, 0}) {}

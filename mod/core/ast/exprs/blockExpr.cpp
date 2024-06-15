@@ -27,7 +27,8 @@ namespace namu {
     }
 
     void me::inFrame(const bicontainable& args) {
-        NAMU_DI("%s._onInFrame() frames.len[%d]", getType().getName().c_str(), thread::get().getFrames().len());
+        NAMU_DI("%s._onInFrame() %d stmts. frames.len[%d]", getType().getName().c_str(), getStmts()
+                .len(), thread::get().getFrames().len());
 
         frame& fr = namu::thread::get()._getNowFrame();
         if(nul(fr)) {
@@ -39,7 +40,8 @@ namespace namu {
     }
 
     void me::outFrame(const bicontainable& args) {
-        NAMU_DI("%s._onOutFrame() frames.len[%d]", getType().getName().c_str(), thread::get().getFrames().len());
+        NAMU_DI("%s._onOutFrame() frames.len[%d]", getType().getName().c_str(), thread::get()
+                .getFrames().len());
 
         frame& fr = namu::thread::get()._getNowFrame();
         if(nul(fr)) {
@@ -57,6 +59,7 @@ namespace namu {
 
         const auto& ex = thread::get().getEx();
         nidx exN = ex.len() - 1; // blockExpr will judge exception occurs when exN is changed to after running one of its stmt.
+        NAMU_DI("blockExpr: loop %d stmts", _exprs.len());
         for(auto& e : _exprs) {
             ret = e.as<node>(); // if e is expr, it runs(). if not, it returns itself.
             if(ex.len() > (exN + 1)) {

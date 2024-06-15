@@ -32,9 +32,11 @@ namespace namu {
         node& eval = *getEval();
         if(nul(eval))
             return NAMU_E("eval is null "), str();
-        arr& ret = eval.isSub<arr>() ? *new arr(eval.getType().getBeans()[0]) : nulOf<arr>();
+        static dumArr inner;
+        arr& ret = eval.isSub<arr>() ? *new arr(eval.getType().getBeans()[0]) : inner;
         frame& fr = thread::get()._getNowFrame();
 
+        NAMU_DI("forExpr: loop %s in %s", getLocalName().c_str(), ased->getSrc().getName().c_str());
         while(!iter->run("isEnd")->cast<nbool>()) {
             str elem = iter->run("get");
             if(!elem)
@@ -42,7 +44,7 @@ namespace namu {
             frameInteract f1(blk); {
                 fr.addLocal(_name, *elem);
 
-                if(!nul(ret)) ret.add(*blk.run());
+                ret.add(*blk.run());
                 if(_postprocess(fr))
                     return ret;
             }
