@@ -169,6 +169,8 @@ namespace namu {
             return posError(errCode::CANT_DEF_VAR, me, me.getSubName().c_str(), "null");
 
         str rhsEval = rhs.getEval();
+        if(!rhsEval) return posError(errCode::RHS_IS_NULL, me);
+
         NAMU_I("verify: does rhs[%s] have 'ret' in its blockStmt?", rhsEval->getType().getName().c_str());
         if(rhsEval->isSub<retExpr>())
             return posError(errCode::CANT_ASSIGN_RET, me);

@@ -156,20 +156,18 @@ namespace namu {
                     for(int n=0; n < stmts.len() ;) {
                         ncnt prevErrCnt = rpt.len();
                         verifier v;
-                        v.setReport(rpt).setTask(stmts[n]).setFlag(getFlag() & (me::INTERNAL | me::GUARD)).work();
+                        v.setReport(rpt).setTask(stmts[n]).setFlag(0).work();
 
                         if(rpt.len() > prevErrCnt) {
                             // if there was an error, proceed next stmt.
                             // TODO: it uses len() for counting errors.
                             //       but one of them could be just warning.
                             GUARD("|--- preEval: evalFunc(%x): eval failed on stmt[%d] ---|", &fun, n);
-                            GUARD("errros:");
-                            rpt.dump(prevErrCnt+1);
                             n++;
                             continue;
                         }
 
-                        GUARD("|--- preEval: evalFunc(%x): stmt[%d] pre-evaluated.", &fun, n);
+                        GUARD("|--- preEval: evalFunc(%x): SUCCESS! stmt[%d] pre-evaluated.", &fun, n);
                         stmts.del(n);
                         isChanged = true;
                     } // end of inner
