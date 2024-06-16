@@ -37,7 +37,8 @@ TEST_F(retExprTest, simpleReturnTypeNegative) {
     retExpr& ret = con.begin().get<retExpr>();
     ASSERT_FALSE(nul(ret));
 
-    ASSERT_TRUE(ret.getEval()->getType() == ttype<nVoid>());
+    ASSERT_TRUE(ret.getEval()->isSub<retExpr>());
+    ASSERT_EQ(ret.getRet().getEval()->getType(), ttype<nVoid>::get());
 }
 
 TEST_F(retExprTest, implicitReturn) {
@@ -180,15 +181,11 @@ TEST_F(retExprTest, retExceptionNoThrowAgain2) {
     )SRC").shouldVerified(true);
 
     str res = run();
-
-    int* np = nullptr;
-    int a = *np;
-
     ASSERT_FALSE(nul(res));
     err& cast = res.cast<err>();
     ASSERT_FALSE(nul(cast));
 
     const auto& ex = getReport();
     ASSERT_FALSE(nul(ex));
-    ASSERT_EQ(ex.len(), 1);
+    ASSERT_EQ(ex.len(), 2);
 }
