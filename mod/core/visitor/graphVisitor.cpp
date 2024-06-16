@@ -117,15 +117,15 @@ namespace namu {
 
         clog << foreColor(LIGHTGRAY) << " = "
              << foreColor(CYAN) << e.getLeft().getType().getName();
-        tstr<nStr> leftVal = e.getLeft().as<nStr>();
-        if(leftVal)
-            clog << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(leftVal->get()) << foreColor(LIGHTGRAY) << ")";
+        str leftVal = e.getLeft();
+        const std::string& leftName = leftVal->isSub<getExpr>() ? leftVal->cast<getExpr>().getSubName() : leftVal->getType().getName();
+        clog << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(leftName) << foreColor(LIGHTGRAY) << ")";
 
         clog << " " << foreColor(LIGHTGRAY) << e.getRuleName(e.getRule()) << " "
              << foreColor(CYAN) << e.getRight().getType().getName();
-        tstr<nStr> rightVal = e.getRight().as<nStr>();
-        if(rightVal)
-            clog << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(rightVal->get()) << foreColor(LIGHTGRAY) << ")";
+        str rightVal = e.getRight();
+        const std::string& rightName = rightVal->isSub<getExpr>() ? rightVal->cast<getExpr>().getSubName() : rightVal->getType().getName();
+        clog << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(rightName) << foreColor(LIGHTGRAY) << ")";
 
         return !e.getLeft().isSub<arithmeticObj>() || !e.getRight().isSub<arithmeticObj>();
     }

@@ -635,6 +635,7 @@ namespace namu {
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
         str eval = me.getEval();
+        if(!eval) return posError(errCode::EXPR_EVAL_NULL, me);
         NAMU_I("verify: forExpr: eval Value check: eval[%s] is an array?", eval->getType().getName().c_str());
         if(!eval->isSub<retExpr>() && !eval->isSub<arr>()) return posError(errCode::LOOP_NO_RET_ARR, me);
 
