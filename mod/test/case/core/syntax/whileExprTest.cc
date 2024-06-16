@@ -60,29 +60,31 @@ TEST_F(whileExprTest, breakInsideOfFor) {
     make().parse(R"SRC(
         main() int
             n := 0
-            while n < 5
-                break 7
+            (while n < 5
+                break
+            ).len()
     )SRC").shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 7);
+    ASSERT_EQ(res.cast<nint>(), 0);
 }
 
 TEST_F(whileExprTest, breakInsideOfIfExpr) {
     make().parse(R"SRC(
         main() int
             n := 0
-            while n < 5
+            (while n < 5
                 if ++n == 3
-                    break 7
+                    break
                 else
                     n
+            )[1] // {1, 2}
     )SRC").shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 7);
+    ASSERT_EQ(res.cast<nint>(), 2);
 }
 
 TEST_F(whileExprTest, breakNestedForLoop) {
