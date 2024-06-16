@@ -70,6 +70,7 @@ namespace namu {
 
             _initEval = true;
             str newEval = blk.getEval();
+            if(!newEval) return newEval;
             if(!newEval->isSub<retExpr>())
                 newEval.bind(new arr(*newEval));
             setEval(*newEval);

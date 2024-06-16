@@ -17,6 +17,7 @@ TEST_F(stmtChainTest, chain2) {
         main() void
             for n in 2..5: foo(3); boo(3)
     )SRC").shouldParsed(true);
+    shouldVerified(false);
 }
 
 TEST_F(stmtChainTest, chain3) {
@@ -24,6 +25,7 @@ TEST_F(stmtChainTest, chain3) {
         main() void
             for n in 2..5: foo(3); age := 2 + 5
     )SRC").shouldParsed(true);
+    shouldVerified(true);
 }
 
 TEST_F(stmtChainTest, chain4) {
@@ -31,6 +33,7 @@ TEST_F(stmtChainTest, chain4) {
         main() void
             for n in 2..5: foo(3); if true: return
     )SRC").shouldParsed(true);
+    shouldVerified(true);
 }
 
 TEST_F(stmtChainTest, chainNegative1) {
@@ -48,6 +51,7 @@ TEST_F(stmtChainTest, chain5) {
             for n in 2..5: foo(3); if true: foo(5); print("this is inside of if expr")
             return // ok. belonged to 'main()' func.
     )SRC").shouldParsed(true);
+    shouldVerified(false);
 }
 
 TEST_F(stmtChainTest, lambdaWithChain) {
