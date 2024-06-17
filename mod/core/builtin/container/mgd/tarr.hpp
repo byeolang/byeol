@@ -13,6 +13,6 @@ namespace namu {
     public:
         tarr(): super(*new defaultElemType()) {}
         tarr(const node& elemType): super(elemType) {}
-        tarr(const super& rhs);
+        tarr(const super& rhs): super(rhs) {}
     };
 }

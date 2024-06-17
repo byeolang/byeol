@@ -189,19 +189,19 @@ namespace {
 
     struct testObj {
         int len;
-        arr _arr;
+        tstr<arr> _arr;
 
         testObj(): len(0) {}
 
         int updateLen(tarr<myObj> a) {
             len = a.len();
-            _arr = a;
+            _arr.bind((tarr<myObj>*)a.clone());
             return len;
         }
 
         int sumOfLen() const {
             int ret = 0;
-            for(const auto& elem : _arr)
+            for(const auto& elem : *_arr)
                 ret += elem.cast<myObj>().age;
             return ret;
         }
