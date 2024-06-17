@@ -32,6 +32,7 @@ namespace namu {
     public:
         arr();
         arr(const node& elemType);
+        arr(const node& elemType, const me& rhs);
 
     public:
         using tarrayable<node>::operator[];

@@ -87,14 +87,14 @@ namespace namu {
         static mgd& onGetRet() { return *new mgd(); }
         static yes canMarshal();
     };
-    template <typename T, typename S>
-    struct tmarshaling<tarr<T, T>, S, true> : public metaIf {
+    template <typename T, typename E, typename S>
+    struct tmarshaling<tarr<T, E>, S, true> : public metaIf {
         typedef arr mgd;
 
-        static tarr<T, T> toNative(node& it);
+        static tarr<T, E> toNative(node& it);
 
-        template <typename E>
-        static str toMgd(E* it);
+        template <typename E2>
+        static str toMgd(E2* it);
 
         static mgd& onAddParam();
         static mgd& onGetRet();

@@ -216,6 +216,7 @@ TEST_F(bridgeCPPTest, passArr) {
     str yourobj(new yourObj());
     ASSERT_EQ(a.add(*yourobj), false);
     a.add(new myObj(3));
+    ASSERT_EQ(a.len(), 3);
 
     str testobj(tcppBridge<testObj>::def()
         .func("updateLen", &testObj::updateLen)

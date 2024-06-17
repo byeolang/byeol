@@ -5,17 +5,17 @@
 
 namespace namu {
 
-#define TEMPL template <typename T, typename S>
-#define ME tmarshaling<tarr<T, T>, S, true>
+#define TEMPL template <typename T, typename E, typename S>
+#define ME tmarshaling<tarr<T, E>, S, true>
 
     TEMPL
-    tarr<T, T> ME::toNative(node& it) {
-        return tarr<T, T>(it.cast<arr>());
+    tarr<T, E> ME::toNative(node& it) {
+        return tarr<T, E>(it.cast<arr>());
     }
 
     TEMPL
-    template <typename E>
-    str ME::toMgd(E* it) {
+    template <typename E2>
+    str ME::toMgd(E2* it) {
         return new arr(*it);
     }
 

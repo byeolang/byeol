@@ -94,6 +94,7 @@ namespace namu {
 
     me::arr(): super(new narr()) { _type.getBeans().add(*new obj()); }
     me::arr(const node& newType): super(new narr()) { _type.getBeans().add(newType); }
+    me::arr(const node& elemType, const me& rhs): super(new narr(rhs.get())) { _type.getBeans().add(elemType); }
 
     node& me::operator[](nidx n) {
         return get()[n];
