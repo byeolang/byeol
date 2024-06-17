@@ -115,67 +115,19 @@ TEST_F(whileExprTest, evalOfForLoop) {
         main() int
             sum := 0
             n := 0
-            while ++n < 8 // bool vs int -> int wins. so evaluated to nint type.
+            (while ++n < 8
                 if sum > 3
-                    break false
-                ++sum
+                    break
+                sum += n
+            )[2] // {1, 3, 6}
     )SRC").shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
-}
-
-TEST_F(whileExprTest, evalOfForLoopNegative) {
-    make().negative().parse(R"SRC(
-        main() int
-            sum := 0
-            n := 0
-            while ++n < 8
-                if sum > 3
-                    break "hello"
-                ++sum
-    )SRC").shouldVerified(false);
-}
-
-TEST_F(whileExprTest, evalOfForLoopNegative2) {
-    make().negative().parse(R"SRC(
-        def a
-            foo() void
-                ret
-
-        main() int
-            sum := 0
-            n := 0
-            while ++n < 8
-                if sum > 3
-                    break a()
-                ++sum
-    )SRC").shouldVerified(false);
+    ASSERT_EQ(res.cast<nint>(), 6);
 }
 
 TEST_F(whileExprTest, evalOfForLoop2) {
-    make().parse(R"SRC(
-        def a
-            foo() void
-                ret
-
-        main() int
-            sum := 0
-            n := 0
-            while ++n < 8
-                if sum > 3
-                    break a()
-                ++sum
-            sum
-    )SRC").shouldVerified(true);
-
-    str res = run();
-    ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 4);
-}
-
-TEST_F(whileExprTest, evalOfForLoop3) {
     make().parse(R"SRC(
         main() int
             sum := 0
