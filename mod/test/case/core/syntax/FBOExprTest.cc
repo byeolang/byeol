@@ -55,7 +55,7 @@ TEST_F(FBOExprTest, addWithDefAssign) {
 }
 
 TEST_F(FBOExprTest, addWithDefAssignReversed) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         b := a + 2
         a := 5
         main() int
@@ -71,7 +71,7 @@ TEST_F(FBOExprTest, addWithDefAssignReversed) {
 }
 
 TEST_F(FBOExprTest, addIntAndStrNegative) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         a := "hello" + 12
     )SRC").shouldParsed(true);
     shouldVerified(false);

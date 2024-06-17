@@ -88,7 +88,7 @@ TEST_F(genericsTest, genericTwice1) {
 }
 
 TEST_F(genericsTest, genericTwice2Negative) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         def object<T>
             foo(val T) T
                 age := T()

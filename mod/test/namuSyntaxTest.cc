@@ -39,19 +39,18 @@ namuSyntaxTest& me::make() {
 
 namuSyntaxTest& me::make(const namu::manifest& mani) {
     _rel();
-    _ip.setTask(*new namu::slot(mani));
+    nbool isVerbose = logger::get().isEnable();
+    int flag = isVerbose ? interpreter::DEFAULT | interpreter::LOG_STRUCTURE | interpreter::GUARD | interpreter::LOG_GRAPH_ON_EX :
+        interpreter::DUMP_ON_EX | interpreter::LOG_ON_END;
+    _ip.setTask(*new namu::slot(mani)).setFlag(flag);
     return *this;
 }
 
 namuSyntaxTest& me::parse(const namu::nchar* src) {
     using namespace namu;
-    nbool isVerbose = logger::get().isEnable();
-    int flag = isVerbose ? interpreter::DEFAULT | interpreter::LOG_STRUCTURE | interpreter::GUARD | interpreter::LOG_GRAPH_ON_EX :
-        interpreter::DUMP_ON_EX | interpreter::LOG_ON_END;
 
     defaultSigZone<interpreter> zone(_ip);
     _ip.addSupply(*new namu::bufSupply(std::string(src)))
-       .setFlag(flag)
        .setReport(_rpt)
        .work();
     return *this;
@@ -59,7 +58,7 @@ namuSyntaxTest& me::parse(const namu::nchar* src) {
 
 namuSyntaxTest& me::negative() {
     typedef namu::interpreter ip;
-    _ip.delFlag(ip::LOG_STRUCTURE | ip::LOG_ON_EX | ip::DUMP_ON_EX | ip::LOG_ON_END | ip::DUMP_ON_END | ip::LOG_GRAPH_ON_EX);
+    _ip.setFlag(0);
     return *this;
 }
 

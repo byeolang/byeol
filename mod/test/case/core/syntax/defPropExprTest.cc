@@ -29,7 +29,7 @@ TEST_F(defPropExprTest, simpleDefineVariable) {
 }
 
 TEST_F(defPropExprTest, definePackVariableNegative) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         name str
         age int
         grade flt

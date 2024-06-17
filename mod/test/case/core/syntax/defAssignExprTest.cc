@@ -88,7 +88,7 @@ TEST_F(defAssignExprTest, testDefAssign1) {
 }
 
 TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         nickname := foo()
 
         foo() str
@@ -102,7 +102,7 @@ TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative) {
 }
 
 TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative2) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         nickname := boo() // refers the func that doesn't exist.
 
         foo() str
@@ -116,7 +116,7 @@ TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative2) {
 }
 
 TEST_F(defAssignExprTest, defAssignRefersItsIdentifier) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         con := sys.con
         con1 := con.add(1, 2)
 
@@ -127,7 +127,7 @@ TEST_F(defAssignExprTest, defAssignRefersItsIdentifier) {
 }
 
 TEST_F(defAssignExprTest, defAssignRefersItsIdentifierNegative1) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         con := sys.con
         con := con.add(1, 2)
 
@@ -138,7 +138,7 @@ TEST_F(defAssignExprTest, defAssignRefersItsIdentifierNegative1) {
 }
 
 TEST_F(defAssignExprTest, defAssignRefersItsIdentifierNegative2) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         con := sys.con
         con := con.add(1, 2)
 

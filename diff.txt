@@ -1,0 +1,2497 @@
+From 27e49ac1685f75495bbb10a59ae2a4c7ee8ade56 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 11:12:32 +0900
+Subject: [PATCH 02/21] core: fix: blockExpr didn't run if there is no 'ret'
+ narr
+
+---
+ build/CMakeLists.txt                           |  2 +-
+ mod/core/ast/exprs/blockExpr.cpp               |  7 +++++--
+ mod/core/ast/exprs/forExpr.cpp                 |  6 ++++--
+ mod/core/ast/func.cpp                          |  5 +++--
+ mod/core/ast/src/dumSrc.cpp                    |  2 +-
+ mod/core/bridge/cpp/marshaling/tmarshaling.hpp |  6 +++---
+ mod/core/bridge/cpp/marshaling/tmarshaling.inl |  7 ++++---
+ mod/core/builtin/container/mgd/arr.hpp         |  4 +++-
+ mod/core/builtin/container/mgd/tarr.hpp        |  6 +++---
+ mod/core/builtin/container/mgd/tdumArr.hpp     | 11 ++++++-----
+ 10 files changed, 33 insertions(+), 23 deletions(-)
+
+diff --git a/build/CMakeLists.txt b/build/CMakeLists.txt
+index f95d5f827..51760ade1 100644
+--- a/build/CMakeLists.txt
++++ b/build/CMakeLists.txt
+@@ -6,7 +6,7 @@ set(SHOW_CMAKE_VARIABLES 1)
+ set(VERSION_MAJOR 0)
+ set(VERSION_MINOR 2)
+ set(VERSION_FIX 6)
+-set(BUILD_COUNT 813)
++set(BUILD_COUNT 814)
+ set(VERSION_NAME "Mana")
+ set(VERSION_VALUE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_FIX}")
+ set(VERSION "${PROJECT_NAME} ${UPDATE_NAME} v${VERSION_VALUE}")
+diff --git a/mod/core/ast/exprs/blockExpr.cpp b/mod/core/ast/exprs/blockExpr.cpp
+index 0d0b80224..5f8c23906 100644
+--- a/mod/core/ast/exprs/blockExpr.cpp
++++ b/mod/core/ast/exprs/blockExpr.cpp
+@@ -27,7 +27,8 @@ namespace namu {
+     }
+
+     void me::inFrame(const bicontainable& args) {
+-        NAMU_DI("%s._onInFrame() frames.len[%d]", getType().getName().c_str(), thread::get().getFrames().len());
++        NAMU_DI("%s._onInFrame() %d stmts. frames.len[%d]", getType().getName().c_str(), getStmts()
++                .len(), thread::get().getFrames().len());
+
+         frame& fr = namu::thread::get()._getNowFrame();
+         if(nul(fr)) {
+@@ -39,7 +40,8 @@ namespace namu {
+     }
+
+     void me::outFrame(const bicontainable& args) {
+-        NAMU_DI("%s._onOutFrame() frames.len[%d]", getType().getName().c_str(), thread::get().getFrames().len());
++        NAMU_DI("%s._onOutFrame() frames.len[%d]", getType().getName().c_str(), thread::get()
++                .getFrames().len());
+
+         frame& fr = namu::thread::get()._getNowFrame();
+         if(nul(fr)) {
+@@ -57,6 +59,7 @@ namespace namu {
+
+         const auto& ex = thread::get().getEx();
+         nidx exN = ex.len() - 1; // blockExpr will judge exception occurs when exN is changed to after running one of its stmt.
++        NAMU_DI("blockExpr: loop %d stmts", _exprs.len());
+         for(auto& e : _exprs) {
+             ret = e.as<node>(); // if e is expr, it runs(). if not, it returns itself.
+             if(ex.len() > (exN + 1)) {
+diff --git a/mod/core/ast/exprs/forExpr.cpp b/mod/core/ast/exprs/forExpr.cpp
+index bd9812671..d68d2ee50 100644
+--- a/mod/core/ast/exprs/forExpr.cpp
++++ b/mod/core/ast/exprs/forExpr.cpp
+@@ -32,9 +32,11 @@ namespace namu {
+         node& eval = *getEval();
+         if(nul(eval))
+             return NAMU_E("eval is null "), str();
+-        arr& ret = eval.isSub<arr>() ? *new arr(eval.getType().getBeans()[0]) : nulOf<arr>();
++        static dumArr inner;
++        arr& ret = eval.isSub<arr>() ? *new arr(eval.getType().getBeans()[0]) : inner;
+         frame& fr = thread::get()._getNowFrame();
+
++        NAMU_DI("forExpr: loop %s in %s", getLocalName().c_str(), ased->getSrc().getName().c_str());
+         while(!iter->run("isEnd")->cast<nbool>()) {
+             str elem = iter->run("get");
+             if(!elem)
+@@ -42,7 +44,7 @@ namespace namu {
+             frameInteract f1(blk); {
+                 fr.addLocal(_name, *elem);
+
+-                if(!nul(ret)) ret.add(*blk.run());
++                ret.add(*blk.run());
+                 if(_postprocess(fr))
+                     return ret;
+             }
+diff --git a/mod/core/ast/func.cpp b/mod/core/ast/func.cpp
+index d30308dde..42efd44f0 100644
+--- a/mod/core/ast/func.cpp
++++ b/mod/core/ast/func.cpp
+@@ -90,14 +90,15 @@ namespace namu {
+             return;
+         }
+
+-        NAMU_DI("%s._inFrame() frames.len[%d]", getType().getName().c_str(), thread::get().getFrames().len());
++        NAMU_DI("'%s func'._inFrame() frames.len[%d]", getSrc().getName().c_str(),
++                getType().getName().c_str(), thread::get().getFrames().len());
+         fr.setFunc(*this);
+         fr.add(*this);
+         fr.add(*scope::wrap<scope>(nul(args) ? nulOf<nbicontainer>() : (nbicontainer&) args)); // including 'me'
+     }
+
+     void me::outFrame(const bicontainable& args) {
+-        NAMU_DI("%s._outFrame() frames.len[%d]", getType().getName().c_str(), thread::get().getFrames().len());
++        NAMU_DI("'%s func'._outFrame() frames.len[%d]", getSrc().getName().c_str(), thread::get().getFrames().len());
+
+         frame& fr = thread::get()._getNowFrame();
+         baseFunc& f = fr.getFunc();
+diff --git a/mod/core/ast/src/dumSrc.cpp b/mod/core/ast/src/dumSrc.cpp
+index 0e85e8d51..476ab71ce 100644
+--- a/mod/core/ast/src/dumSrc.cpp
++++ b/mod/core/ast/src/dumSrc.cpp
+@@ -4,7 +4,7 @@ namespace namu {
+     NAMU(DEF_ME(dumSrc))
+
+     namespace {
+-        static srcFile _inner("no_name", "");
++        static srcFile _inner("<no_name>", "");
+     }
+
+     dumSrc::dumSrc(): src(_inner, "", point {0, 0}) {}
+diff --git a/mod/core/bridge/cpp/marshaling/tmarshaling.hpp b/mod/core/bridge/cpp/marshaling/tmarshaling.hpp
+index df1eb98f6..c1329e97e 100644
+--- a/mod/core/bridge/cpp/marshaling/tmarshaling.hpp
++++ b/mod/core/bridge/cpp/marshaling/tmarshaling.hpp
+@@ -7,7 +7,7 @@ namespace namu {
+
+     struct marshalErr {};
+     template <typename T, typename S> class tcppBridge;
+-    template <typename T> class tarr;
++    template <typename T, typename defaultElemType> class tarr;
+     class arr;
+
+     template <typename T, typename S, nbool isNode = tifSub<T, node>::is>
+@@ -88,10 +88,10 @@ namespace namu {
+         static yes canMarshal();
+     };
+     template <typename T, typename S>
+-    struct tmarshaling<tarr<T>, S, true> : public metaIf {
++    struct tmarshaling<tarr<T, T>, S, true> : public metaIf {
+         typedef arr mgd;
+
+-        static tarr<T> toNative(node& it);
++        static tarr<T, T> toNative(node& it);
+
+         template <typename E>
+         static str toMgd(E* it);
+diff --git a/mod/core/bridge/cpp/marshaling/tmarshaling.inl b/mod/core/bridge/cpp/marshaling/tmarshaling.inl
+index 06aaee1be..c741d5205 100644
+--- a/mod/core/bridge/cpp/marshaling/tmarshaling.inl
++++ b/mod/core/bridge/cpp/marshaling/tmarshaling.inl
+@@ -1,15 +1,16 @@
+ #pragma once
+
++#include "builtin/container/mgd/arr.hpp"
+ #include "tmarshaling.hpp"
+
+ namespace namu {
+
+ #define TEMPL template <typename T, typename S>
+-#define ME tmarshaling<tarr<T>, S, true>
++#define ME tmarshaling<tarr<T, T>, S, true>
+
+     TEMPL
+-    tarr<T> ME::toNative(node& it) {
+-        return tarr<T>(it.cast<arr>());
++    tarr<T, T> ME::toNative(node& it) {
++        return tarr<T, T>(it.cast<arr>());
+     }
+
+     TEMPL
+diff --git a/mod/core/builtin/container/mgd/arr.hpp b/mod/core/builtin/container/mgd/arr.hpp
+index 8b353c70d..fbbf7d92c 100644
+--- a/mod/core/builtin/container/mgd/arr.hpp
++++ b/mod/core/builtin/container/mgd/arr.hpp
+@@ -9,7 +9,7 @@ namespace namu {
+     //  spended plenty of hours again to find out the reason. thank you so much.
+     typedef class _nout tgenericCppBridge<narr> __arrSuperClass;
+
+-    class _nout arr : public __arrSuperClass, public tucontainable<node>, tarrayable<node> {
++    class _nout arr : public __arrSuperClass, public tucontainable<node>, public tarrayable<node> {
+         // arr uses instance variable 'ntype':
+         //  ntype contains beanType as 'const type*' instance variable. so user should be
+         //  careful when calling ttype<arr>. because it will also return ntype instance
+@@ -21,6 +21,8 @@ namespace namu {
+              INIT_META(arr),
+              CLONE(arr),
+              VISIT())
++
++    public:
+         typedef ntype metaType; // for ttype<T>
+         typedef typename tucontainable<node>::iter iter;
+         typedef typename tucontainable<node>::iteration iteration;
+diff --git a/mod/core/builtin/container/mgd/tarr.hpp b/mod/core/builtin/container/mgd/tarr.hpp
+index 75df9347d..ea102c2de 100644
+--- a/mod/core/builtin/container/mgd/tarr.hpp
++++ b/mod/core/builtin/container/mgd/tarr.hpp
+@@ -4,14 +4,14 @@
+
+ namespace namu {
+
+-    template <typename T>
++    template <typename T, typename defaultElemType = T>
+     class tarr : public arr {
+         NAMU(ME(tarr, arr),
+              INIT_META(tarr),
+              CLONE(tarr))
+
+     public:
+-        tarr(): super(*new T()) {}
+-        tarr(arr& rhs): super(rhs) {}
++        tarr(): super(*new defaultElemType()) {}
++        tarr(const node& elemType): super(elemType) {}
+     };
+ }
+diff --git a/mod/core/builtin/container/mgd/tdumArr.hpp b/mod/core/builtin/container/mgd/tdumArr.hpp
+index 18e5df04a..fc71439c7 100644
+--- a/mod/core/builtin/container/mgd/tdumArr.hpp
++++ b/mod/core/builtin/container/mgd/tdumArr.hpp
+@@ -3,13 +3,14 @@
+ #include "tarr.hpp"
+
+ namespace namu {
+-    template <typename T>
+-    class _nout tdumArr : public tarr<T> {
+-        NAMU(CLASS(tdumArr, tarr<T>))
++    template <typename T, typename defaultElemType = T>
++    class _nout tdumArr : public tarr<T, defaultElemType> {
++        typedef tarr<T, defaultElemType> __super9;
++        NAMU(CLASS(tdumArr, __super9))
+         typedef typename super::iter iter;
+
+     public:
+-        tdumArr() {}
++        tdumArr(): super(*new mockNode()) {}
+         tdumArr(const node& elemType): super(elemType) {}
+
+     public:
+@@ -25,5 +26,5 @@ namespace namu {
+         void add(const iter& here, const iter& from, const iter& to) override {}
+     };
+
+-    typedef tdumArr<node> dumArr;
++    typedef tdumArr<node, mockNode> dumArr;
+ }
+--
+2.34.1
+
+
+From 8ec10f5100616772389d30be2b47202ae299014b Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 12:20:43 +0900
+Subject: [PATCH 03/21] core: fix: prevent NPE while printing logs
+
+---
+ mod/core/visitor/preEvaluator.cpp | 6 ++----
+ mod/core/visitor/verifier.cpp     | 2 ++
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/mod/core/visitor/preEvaluator.cpp b/mod/core/visitor/preEvaluator.cpp
+index 884b0df1d..cc16f1be0 100644
+--- a/mod/core/visitor/preEvaluator.cpp
++++ b/mod/core/visitor/preEvaluator.cpp
+@@ -156,20 +156,18 @@ namespace namu {
+                     for(int n=0; n < stmts.len() ;) {
+                         ncnt prevErrCnt = rpt.len();
+                         verifier v;
+-                        v.setReport(rpt).setTask(stmts[n]).setFlag(getFlag() & (me::INTERNAL | me::GUARD)).work();
++                        v.setReport(rpt).setTask(stmts[n]).setFlag(0).work();
+
+                         if(rpt.len() > prevErrCnt) {
+                             // if there was an error, proceed next stmt.
+                             // TODO: it uses len() for counting errors.
+                             //       but one of them could be just warning.
+                             GUARD("|--- preEval: evalFunc(%x): eval failed on stmt[%d] ---|", &fun, n);
+-                            GUARD("errros:");
+-                            rpt.dump(prevErrCnt+1);
+                             n++;
+                             continue;
+                         }
+
+-                        GUARD("|--- preEval: evalFunc(%x): stmt[%d] pre-evaluated.", &fun, n);
++                        GUARD("|--- preEval: evalFunc(%x): SUCCESS! stmt[%d] pre-evaluated.", &fun, n);
+                         stmts.del(n);
+                         isChanged = true;
+                     } // end of inner
+diff --git a/mod/core/visitor/verifier.cpp b/mod/core/visitor/verifier.cpp
+index 63ddbf6ad..7ee8f3cf9 100644
+--- a/mod/core/visitor/verifier.cpp
++++ b/mod/core/visitor/verifier.cpp
+@@ -169,6 +169,8 @@ namespace namu {
+             return posError(errCode::CANT_DEF_VAR, me, me.getSubName().c_str(), "null");
+
+         str rhsEval = rhs.getEval();
++        if(!rhsEval) return posError(errCode::RHS_IS_NULL, me);
++
+         NAMU_I("verify: does rhs[%s] have 'ret' in its blockStmt?", rhsEval->getType().getName().c_str());
+         if(rhsEval->isSub<retExpr>())
+             return posError(errCode::CANT_ASSIGN_RET, me);
+--
+2.34.1
+
+
+From 6a0c5b39efc5afd3d7046fe9f05bf1cc904df951 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 12:40:44 +0900
+Subject: [PATCH 04/21] core: fix: verifier didn't check what it returns to
+ func return type
+
+---
+ mod/core/visitor/verifier.cpp | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
+
+diff --git a/mod/core/visitor/verifier.cpp b/mod/core/visitor/verifier.cpp
+index 7ee8f3cf9..428911955 100644
+--- a/mod/core/visitor/verifier.cpp
++++ b/mod/core/visitor/verifier.cpp
+@@ -371,19 +371,16 @@ namespace namu {
+         const baseFunc& f = thread::get().getNowFrame().getFunc();
+         if(nul(f)) return posError(errCode::NO_FUNC_INFO, me), true;
+
+-        str myEval = me.getEval();
+-        if(!myEval) return posError(errCode::EXPR_EVAL_NULL, me), true;
++        str myRet = me.getRet().getEval();
++        if(!myRet) return posError(errCode::EXPR_EVAL_NULL, me), true;
+
+-        NAMU_I("verify: retExpr: myEval=%s", myEval->getType().getName().c_str());
+-        const ntype& myType = myEval->getType();
+-        str retType = f.getRet()->as<node>();
+-        const type& fType = retType->getType();
++        str funRet = f.getRet()->as<node>();
++        NAMU_I("verify: retExpr: checks return[%s] == func[%s]", myRet->getType().getName().c_str(),
++            funRet->getType().getName().c_str());
+
+-        NAMU_I("verify: retExpr: checks return[%s] == func[%s]", myType.getName().c_str(),
+-            fType.getName().c_str());
+-
+-        if(!myType.isSub<err>() && !myType.isImpli(fType))
+-            return posError(errCode::RET_TYPE_NOT_MATCH, me, myType.getName().c_str(), fType.getName().c_str()), true;
++        if(!myRet->isSub<err>() && !myRet->isImpli(*funRet))
++            return posError(errCode::RET_TYPE_NOT_MATCH, me, myRet->getType().getName().c_str(),
++                            funRet->getType().getName().c_str()), true;
+         return true;
+     }
+
+--
+2.34.1
+
+
+From 6de836f527ee283d624c2a05d9ce0d98cb6fbbc8 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 13:41:35 +0900
+Subject: [PATCH 05/21] test: fix: concept of retExpr has been changed
+
+---
+ mod/test/case/core/syntax/retExprTest.cc | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/mod/test/case/core/syntax/retExprTest.cc b/mod/test/case/core/syntax/retExprTest.cc
+index ef6a60aa7..c330f2e1b 100644
+--- a/mod/test/case/core/syntax/retExprTest.cc
++++ b/mod/test/case/core/syntax/retExprTest.cc
+@@ -37,7 +37,8 @@ TEST_F(retExprTest, simpleReturnTypeNegative) {
+     retExpr& ret = con.begin().get<retExpr>();
+     ASSERT_FALSE(nul(ret));
+
+-    ASSERT_TRUE(ret.getEval()->getType() == ttype<nVoid>());
++    ASSERT_TRUE(ret.getEval()->isSub<retExpr>());
++    ASSERT_EQ(ret.getRet().getEval()->getType(), ttype<nVoid>::get());
+ }
+
+ TEST_F(retExprTest, implicitReturn) {
+@@ -180,15 +181,11 @@ TEST_F(retExprTest, retExceptionNoThrowAgain2) {
+     )SRC").shouldVerified(true);
+
+     str res = run();
+-
+-    int* np = nullptr;
+-    int a = *np;
+-
+     ASSERT_FALSE(nul(res));
+     err& cast = res.cast<err>();
+     ASSERT_FALSE(nul(cast));
+
+     const auto& ex = getReport();
+     ASSERT_FALSE(nul(ex));
+-    ASSERT_EQ(ex.len(), 1);
++    ASSERT_EQ(ex.len(), 2);
+ }
+--
+2.34.1
+
+
+From 39ca0954415c7527d8eca5c77c2d6f4a35b7466a Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 13:50:59 +0900
+Subject: [PATCH 06/21] core: fix: add NPE prevention on forExpr
+
+---
+ mod/core/ast/exprs/forExpr.cpp             | 1 +
+ mod/test/case/core/syntax/stmtChainTest.cc | 4 ++++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/mod/core/ast/exprs/forExpr.cpp b/mod/core/ast/exprs/forExpr.cpp
+index d68d2ee50..e6909da90 100644
+--- a/mod/core/ast/exprs/forExpr.cpp
++++ b/mod/core/ast/exprs/forExpr.cpp
+@@ -70,6 +70,7 @@ namespace namu {
+
+             _initEval = true;
+             str newEval = blk.getEval();
++            if(!newEval) return newEval;
+             if(!newEval->isSub<retExpr>())
+                 newEval.bind(new arr(*newEval));
+             setEval(*newEval);
+diff --git a/mod/test/case/core/syntax/stmtChainTest.cc b/mod/test/case/core/syntax/stmtChainTest.cc
+index 0ff5a8024..3dfcc4cdb 100644
+--- a/mod/test/case/core/syntax/stmtChainTest.cc
++++ b/mod/test/case/core/syntax/stmtChainTest.cc
+@@ -17,6 +17,7 @@ TEST_F(stmtChainTest, chain2) {
+         main() void
+             for n in 2..5: foo(3); boo(3)
+     )SRC").shouldParsed(true);
++    shouldVerified(false);
+ }
+
+ TEST_F(stmtChainTest, chain3) {
+@@ -24,6 +25,7 @@ TEST_F(stmtChainTest, chain3) {
+         main() void
+             for n in 2..5: foo(3); age := 2 + 5
+     )SRC").shouldParsed(true);
++    shouldVerified(true);
+ }
+
+ TEST_F(stmtChainTest, chain4) {
+@@ -31,6 +33,7 @@ TEST_F(stmtChainTest, chain4) {
+         main() void
+             for n in 2..5: foo(3); if true: return
+     )SRC").shouldParsed(true);
++    shouldVerified(true);
+ }
+
+ TEST_F(stmtChainTest, chainNegative1) {
+@@ -48,6 +51,7 @@ TEST_F(stmtChainTest, chain5) {
+             for n in 2..5: foo(3); if true: foo(5); print("this is inside of if expr")
+             return // ok. belonged to 'main()' func.
+     )SRC").shouldParsed(true);
++    shouldVerified(false);
+ }
+
+ TEST_F(stmtChainTest, lambdaWithChain) {
+--
+2.34.1
+
+
+From 99874feced435bcbdc86412167ad934ed65b4b82 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 14:53:04 +0900
+Subject: [PATCH 07/21] test: fix: some TC is not proper after concept changed
+
+---
+ mod/test/case/core/syntax/stmtChainTest.cc |  4 ++--
+ mod/test/case/core/syntax/whileExprTest.cc | 14 ++++++++------
+ 2 files changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/mod/test/case/core/syntax/stmtChainTest.cc b/mod/test/case/core/syntax/stmtChainTest.cc
+index 3dfcc4cdb..f673a89f7 100644
+--- a/mod/test/case/core/syntax/stmtChainTest.cc
++++ b/mod/test/case/core/syntax/stmtChainTest.cc
+@@ -25,7 +25,7 @@ TEST_F(stmtChainTest, chain3) {
+         main() void
+             for n in 2..5: foo(3); age := 2 + 5
+     )SRC").shouldParsed(true);
+-    shouldVerified(true);
++    shouldVerified(false);
+ }
+
+ TEST_F(stmtChainTest, chain4) {
+@@ -33,7 +33,7 @@ TEST_F(stmtChainTest, chain4) {
+         main() void
+             for n in 2..5: foo(3); if true: return
+     )SRC").shouldParsed(true);
+-    shouldVerified(true);
++    shouldVerified(false);
+ }
+
+ TEST_F(stmtChainTest, chainNegative1) {
+diff --git a/mod/test/case/core/syntax/whileExprTest.cc b/mod/test/case/core/syntax/whileExprTest.cc
+index 05a7dd322..b7ec8e170 100644
+--- a/mod/test/case/core/syntax/whileExprTest.cc
++++ b/mod/test/case/core/syntax/whileExprTest.cc
+@@ -60,29 +60,31 @@ TEST_F(whileExprTest, breakInsideOfFor) {
+     make().parse(R"SRC(
+         main() int
+             n := 0
+-            while n < 5
+-                break 7
++            (while n < 5
++                break
++            ).len()
+     )SRC").shouldVerified(true);
+
+     str res = run();
+     ASSERT_TRUE(res);
+-    ASSERT_EQ(res.cast<nint>(), 7);
++    ASSERT_EQ(res.cast<nint>(), 0);
+ }
+
+ TEST_F(whileExprTest, breakInsideOfIfExpr) {
+     make().parse(R"SRC(
+         main() int
+             n := 0
+-            while n < 5
++            (while n < 5
+                 if ++n == 3
+-                    break 7
++                    break
+                 else
+                     n
++            )[1] // {1, 2}
+     )SRC").shouldVerified(true);
+
+     str res = run();
+     ASSERT_TRUE(res);
+-    ASSERT_EQ(res.cast<nint>(), 7);
++    ASSERT_EQ(res.cast<nint>(), 2);
+ }
+
+ TEST_F(whileExprTest, breakNestedForLoop) {
+--
+2.34.1
+
+
+From b59224f43dd3fe335050371dd2ed6b86716f62e8 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 14:53:31 +0900
+Subject: [PATCH 08/21] core :fix: avoid NPE when show graph of ast
+
+---
+ mod/core/visitor/graphVisitor.cpp | 12 ++++++------
+ mod/core/visitor/verifier.cpp     |  1 +
+ 2 files changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/mod/core/visitor/graphVisitor.cpp b/mod/core/visitor/graphVisitor.cpp
+index cb684af88..ecf362a17 100644
+--- a/mod/core/visitor/graphVisitor.cpp
++++ b/mod/core/visitor/graphVisitor.cpp
+@@ -117,15 +117,15 @@ namespace namu {
+
+         clog << foreColor(LIGHTGRAY) << " = "
+              << foreColor(CYAN) << e.getLeft().getType().getName();
+-        tstr<nStr> leftVal = e.getLeft().as<nStr>();
+-        if(leftVal)
+-            clog << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(leftVal->get()) << foreColor(LIGHTGRAY) << ")";
++        str leftVal = e.getLeft();
++        const std::string& leftName = leftVal->isSub<getExpr>() ? leftVal->cast<getExpr>().getSubName() : leftVal->getType().getName();
++        clog << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(leftName) << foreColor(LIGHTGRAY) << ")";
+
+         clog << " " << foreColor(LIGHTGRAY) << e.getRuleName(e.getRule()) << " "
+              << foreColor(CYAN) << e.getRight().getType().getName();
+-        tstr<nStr> rightVal = e.getRight().as<nStr>();
+-        if(rightVal)
+-            clog << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(rightVal->get()) << foreColor(LIGHTGRAY) << ")";
++        str rightVal = e.getRight();
++        const std::string& rightName = rightVal->isSub<getExpr>() ? rightVal->cast<getExpr>().getSubName() : rightVal->getType().getName();
++        clog << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(rightName) << foreColor(LIGHTGRAY) << ")";
+
+         return !e.getLeft().isSub<arithmeticObj>() || !e.getRight().isSub<arithmeticObj>();
+     }
+diff --git a/mod/core/visitor/verifier.cpp b/mod/core/visitor/verifier.cpp
+index 428911955..eb3d030e8 100644
+--- a/mod/core/visitor/verifier.cpp
++++ b/mod/core/visitor/verifier.cpp
+@@ -635,6 +635,7 @@ namespace namu {
+         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
+
+         str eval = me.getEval();
++        if(!eval) return posError(errCode::EXPR_EVAL_NULL, me);
+         NAMU_I("verify: forExpr: eval Value check: eval[%s] is an array?", eval->getType().getName().c_str());
+         if(!eval->isSub<retExpr>() && !eval->isSub<arr>()) return posError(errCode::LOOP_NO_RET_ARR, me);
+
+--
+2.34.1
+
+
+From fafc7819c1d3ca38bfeac038561a65ef5d9d5482 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 15:00:32 +0900
+Subject: [PATCH 09/21] test: fix: 'break' keyword changed its concept
+
+---
+ mod/test/case/core/syntax/whileExprTest.cc | 58 ++--------------------
+ 1 file changed, 5 insertions(+), 53 deletions(-)
+
+diff --git a/mod/test/case/core/syntax/whileExprTest.cc b/mod/test/case/core/syntax/whileExprTest.cc
+index b7ec8e170..f4e5f228b 100644
+--- a/mod/test/case/core/syntax/whileExprTest.cc
++++ b/mod/test/case/core/syntax/whileExprTest.cc
+@@ -115,67 +115,19 @@ TEST_F(whileExprTest, evalOfForLoop) {
+         main() int
+             sum := 0
+             n := 0
+-            while ++n < 8 // bool vs int -> int wins. so evaluated to nint type.
++            (while ++n < 8
+                 if sum > 3
+-                    break false
+-                ++sum
++                    break
++                sum += n
++            )[2] // {1, 3, 6}
+     )SRC").shouldVerified(true);
+
+     str res = run();
+     ASSERT_TRUE(res);
+-    ASSERT_EQ(res.cast<nint>(), 0);
+-}
+-
+-TEST_F(whileExprTest, evalOfForLoopNegative) {
+-    make().negative().parse(R"SRC(
+-        main() int
+-            sum := 0
+-            n := 0
+-            while ++n < 8
+-                if sum > 3
+-                    break "hello"
+-                ++sum
+-    )SRC").shouldVerified(false);
+-}
+-
+-TEST_F(whileExprTest, evalOfForLoopNegative2) {
+-    make().negative().parse(R"SRC(
+-        def a
+-            foo() void
+-                ret
+-
+-        main() int
+-            sum := 0
+-            n := 0
+-            while ++n < 8
+-                if sum > 3
+-                    break a()
+-                ++sum
+-    )SRC").shouldVerified(false);
++    ASSERT_EQ(res.cast<nint>(), 6);
+ }
+
+ TEST_F(whileExprTest, evalOfForLoop2) {
+-    make().parse(R"SRC(
+-        def a
+-            foo() void
+-                ret
+-
+-        main() int
+-            sum := 0
+-            n := 0
+-            while ++n < 8
+-                if sum > 3
+-                    break a()
+-                ++sum
+-            sum
+-    )SRC").shouldVerified(true);
+-
+-    str res = run();
+-    ASSERT_TRUE(res);
+-    ASSERT_EQ(res.cast<nint>(), 4);
+-}
+-
+-TEST_F(whileExprTest, evalOfForLoop3) {
+     make().parse(R"SRC(
+         main() int
+             sum := 0
+--
+2.34.1
+
+
+From 63e87390736fc21bea550d5e5a24990932142d37 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 16:05:50 +0900
+Subject: [PATCH 10/21] core: feat: hide verifier logs when it's negative
+
+---
+ mod/core/loader/worker/interpreter.cpp        |  8 ++---
+ mod/core/loader/worker/worker.inl             |  2 +-
+ mod/namu/flag/flags/verboseFlag.cpp           |  4 +--
+ mod/test/case/core/parserTest.cc              |  2 +-
+ mod/test/case/core/syntax/FBOExprTest.cc      |  4 +--
+ mod/test/case/core/syntax/asExprTest.cc       | 30 +++++++++----------
+ mod/test/case/core/syntax/assignExprTest.cc   |  2 +-
+ mod/test/case/core/syntax/bundlePackTest.cc   |  2 +-
+ .../case/core/syntax/defAssignExprTest.cc     | 10 +++----
+ mod/test/case/core/syntax/defFuncTest.cc      |  6 ++--
+ mod/test/case/core/syntax/defObjExprTest.cc   |  2 +-
+ mod/test/case/core/syntax/defPropExprTest.cc  |  2 +-
+ mod/test/case/core/syntax/genericsTest.cc     |  2 +-
+ mod/test/case/core/syntax/getExprTest.cc      |  4 +--
+ mod/test/case/core/syntax/retExprTest.cc      |  4 +--
+ mod/test/case/core/syntax/runExprTest.cc      |  8 ++---
+ mod/test/namuSyntaxTest.cc                    | 11 ++++---
+ 17 files changed, 51 insertions(+), 52 deletions(-)
+
+diff --git a/mod/core/loader/worker/interpreter.cpp b/mod/core/loader/worker/interpreter.cpp
+index 405eb79f6..78a797b4c 100644
+--- a/mod/core/loader/worker/interpreter.cpp
++++ b/mod/core/loader/worker/interpreter.cpp
+@@ -60,7 +60,7 @@ namespace namu {
+
+     void me::_parse() {
+         NAMU_DI("======================================");
+-        NAMU_DI("                parse                 ");
++        NAMU_DI("|               parse                |");
+         NAMU_DI("======================================");
+
+         _pser.setReport(getReport())
+@@ -75,7 +75,7 @@ namespace namu {
+
+     void me::_preEval() {
+         NAMU_DI("======================================");
+-        NAMU_DI("                preEval               ");
++        NAMU_DI("|               preEval              |");
+         NAMU_DI("======================================");
+
+         if(nul(getTask()))
+@@ -90,7 +90,7 @@ namespace namu {
+
+     void me::_verify() {
+         NAMU_DI("======================================");
+-        NAMU_DI("                verify                ");
++        NAMU_DI("|                verify              |");
+         NAMU_DI("======================================");
+
+         if(nul(getTask()))
+@@ -99,7 +99,7 @@ namespace namu {
+         // verify:
+         _veri.setReport(getReport())
+              .setFlag(getFlag());
+-        if(getFlag() & (LOG_ON_END | DUMP_ON_END))
++        if(isFlag(LOG_ON_END | DUMP_ON_END))
+             _veri.delFlag(LOG_ON_END | DUMP_ON_END);
+         _veri.setTask(getTask().getPack())
+              .work();
+diff --git a/mod/core/loader/worker/worker.inl b/mod/core/loader/worker/worker.inl
+index 2da5141da..188359350 100644
+--- a/mod/core/loader/worker/worker.inl
++++ b/mod/core/loader/worker/worker.inl
+@@ -59,7 +59,7 @@ namespace namu {
+     void ME::_rel() {
+         _rpt.bind(dummyErrReport::singletone);
+         _task.rel();
+-        _logFlag = DEFAULT;
++        _logFlag = 0;
+     }
+
+     TEMPLATE
+diff --git a/mod/namu/flag/flags/verboseFlag.cpp b/mod/namu/flag/flags/verboseFlag.cpp
+index a47621888..26fc8edea 100644
+--- a/mod/namu/flag/flags/verboseFlag.cpp
++++ b/mod/namu/flag/flags/verboseFlag.cpp
+@@ -22,8 +22,8 @@ namespace namu {
+     }
+
+     nbool me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
+-        ip.addFlag(interpreter::DEFAULT);
+-        s.addFlag(starter::DEFAULT | starter::LOG_GRAPH_ON_EX);
++        //ip.addFlag(interpreter::DEFAULT);
++        //s.addFlag(starter::DEFAULT | starter::LOG_GRAPH_ON_EX);
+         return true;
+     }
+ }
+diff --git a/mod/test/case/core/parserTest.cc b/mod/test/case/core/parserTest.cc
+index 4ff149350..ec79f8b5f 100644
+--- a/mod/test/case/core/parserTest.cc
++++ b/mod/test/case/core/parserTest.cc
+@@ -74,7 +74,7 @@ TEST_F(parserTest, slotNoOnTrayWithoutMake) {
+ TEST_F(parserTest, slotNotSpecifiedButCodeSpecifyPackNegative) {
+     // make without name:
+     //  slot will be generated. but its name is '{default}'.
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         pack demo
+         main() void
+             ret
+diff --git a/mod/test/case/core/syntax/FBOExprTest.cc b/mod/test/case/core/syntax/FBOExprTest.cc
+index f2a9be937..d8cb6e69d 100644
+--- a/mod/test/case/core/syntax/FBOExprTest.cc
++++ b/mod/test/case/core/syntax/FBOExprTest.cc
+@@ -55,7 +55,7 @@ TEST_F(FBOExprTest, addWithDefAssign) {
+ }
+
+ TEST_F(FBOExprTest, addWithDefAssignReversed) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         b := a + 2
+         a := 5
+         main() int
+@@ -71,7 +71,7 @@ TEST_F(FBOExprTest, addWithDefAssignReversed) {
+ }
+
+ TEST_F(FBOExprTest, addIntAndStrNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         a := "hello" + 12
+     )SRC").shouldParsed(true);
+     shouldVerified(false);
+diff --git a/mod/test/case/core/syntax/asExprTest.cc b/mod/test/case/core/syntax/asExprTest.cc
+index 384e05d89..8ea8a78b2 100644
+--- a/mod/test/case/core/syntax/asExprTest.cc
++++ b/mod/test/case/core/syntax/asExprTest.cc
+@@ -44,7 +44,7 @@ TEST_F(asExprTest, castInt3) {
+ }
+
+ TEST_F(asExprTest, castInt4) {
+-   negative(). make().parse(R"SRC(
++   make().negative().parse(R"SRC(
+         foo(age str) void
+             main()
+         main() void
+@@ -82,7 +82,7 @@ TEST_F(asExprTest, castFlt) {
+             foo(23.0)
+     )SRC").shouldVerified(true);
+
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(age str) void
+             main()
+         main() void
+@@ -94,7 +94,7 @@ TEST_F(asExprTest, castFlt) {
+ TEST_F(asExprTest, castByteNegative) {
+     // implicit casting of byte:
+     //  -> nbool
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(age int) void
+             main()
+         main() void
+@@ -103,7 +103,7 @@ TEST_F(asExprTest, castByteNegative) {
+ }
+
+ TEST_F(asExprTest, castByteNegative2) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(age flt) void
+             main()
+         main() void
+@@ -112,7 +112,7 @@ TEST_F(asExprTest, castByteNegative2) {
+ }
+
+ TEST_F(asExprTest, castByteNegative3) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(age str) void
+             main()
+         main() void
+@@ -140,7 +140,7 @@ TEST_F(asExprTest, castByte3) {
+ TEST_F(asExprTest, castBool) {
+     // implicit casting of nbool:
+     //  N/A
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(age int) void
+             main()
+         main() void
+@@ -148,7 +148,7 @@ TEST_F(asExprTest, castBool) {
+     )SRC").shouldParsed(true);
+     shouldVerified(true);
+
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(age flt) void
+             main()
+         main() void
+@@ -158,7 +158,7 @@ TEST_F(asExprTest, castBool) {
+ }
+
+ TEST_F(asExprTest, castBool1) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(age byte) void
+             main()
+         main() void
+@@ -177,7 +177,7 @@ TEST_F(asExprTest, castBool2) {
+ }
+
+ TEST_F(asExprTest, castBool3) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(age str) void
+             main()
+         main() void
+@@ -187,7 +187,7 @@ TEST_F(asExprTest, castBool3) {
+ }
+
+ TEST_F(asExprTest, castStrNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(age int) void
+             main()
+         main() void
+@@ -195,7 +195,7 @@ TEST_F(asExprTest, castStrNegative) {
+     )SRC").shouldParsed(true);
+     shouldVerified(false);
+
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(age flt) void
+             main()
+         main() void
+@@ -203,7 +203,7 @@ TEST_F(asExprTest, castStrNegative) {
+     )SRC").shouldParsed(true);
+     shouldVerified(false);
+
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(age byte) void
+             main()
+         main() void
+@@ -211,7 +211,7 @@ TEST_F(asExprTest, castStrNegative) {
+     )SRC").shouldParsed(true);
+     shouldVerified(false);
+
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(age bool) void
+             main()
+         main() void
+@@ -301,7 +301,7 @@ TEST_F(asExprTest, simpleAsInt5) {
+ }
+
+ TEST_F(asExprTest, asExprNotAllowedNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(age str) void
+             main()
+         main() void
+@@ -330,7 +330,7 @@ TEST_F(asExprTest, asAs) {
+ }
+ TEST_F(asExprTest, asAsNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(age str) void
+             main()
+         main() void
+diff --git a/mod/test/case/core/syntax/assignExprTest.cc b/mod/test/case/core/syntax/assignExprTest.cc
+index 5378ce77e..5bf2cdc30 100644
+--- a/mod/test/case/core/syntax/assignExprTest.cc
++++ b/mod/test/case/core/syntax/assignExprTest.cc
+@@ -75,7 +75,7 @@ TEST_F(assignExprTest, assignLocalVariable) {
+ }
+
+ TEST_F(assignExprTest, assignTypeNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         age int
+         main() int
+             ret age = "wow"
+diff --git a/mod/test/case/core/syntax/bundlePackTest.cc b/mod/test/case/core/syntax/bundlePackTest.cc
+index 5a6a7423e..80e25ed12 100644
+--- a/mod/test/case/core/syntax/bundlePackTest.cc
++++ b/mod/test/case/core/syntax/bundlePackTest.cc
+@@ -25,7 +25,7 @@ TEST_F(bundlePackTest, defaultDef2) {
+ }
+
+ TEST_F(bundlePackTest, withAsNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         Helloworld(age int) int
+             ret age
+
+diff --git a/mod/test/case/core/syntax/defAssignExprTest.cc b/mod/test/case/core/syntax/defAssignExprTest.cc
+index 779494923..0d2a0c4ca 100644
+--- a/mod/test/case/core/syntax/defAssignExprTest.cc
++++ b/mod/test/case/core/syntax/defAssignExprTest.cc
+@@ -88,7 +88,7 @@ TEST_F(defAssignExprTest, testDefAssign1) {
+ }
+
+ TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         nickname := foo()
+
+         foo() str
+@@ -102,7 +102,7 @@ TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative) {
+ }
+
+ TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative2) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         nickname := boo() // refers the func that doesn't exist.
+
+         foo() str
+@@ -116,7 +116,7 @@ TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative2) {
+ }
+
+ TEST_F(defAssignExprTest, defAssignRefersItsIdentifier) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         con := sys.con
+         con1 := con.add(1, 2)
+
+@@ -127,7 +127,7 @@ TEST_F(defAssignExprTest, defAssignRefersItsIdentifier) {
+ }
+
+ TEST_F(defAssignExprTest, defAssignRefersItsIdentifierNegative1) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         con := sys.con
+         con := con.add(1, 2)
+
+@@ -138,7 +138,7 @@ TEST_F(defAssignExprTest, defAssignRefersItsIdentifierNegative1) {
+ }
+
+ TEST_F(defAssignExprTest, defAssignRefersItsIdentifierNegative2) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         con := sys.con
+         con := con.add(1, 2)
+
+diff --git a/mod/test/case/core/syntax/defFuncTest.cc b/mod/test/case/core/syntax/defFuncTest.cc
+index fbd3c2541..0a45b172c 100644
+--- a/mod/test/case/core/syntax/defFuncTest.cc
++++ b/mod/test/case/core/syntax/defFuncTest.cc
+@@ -132,18 +132,18 @@ TEST_F(defFuncTest, lambda6) {
+ }
+
+ TEST_F(defFuncTest, noBodyNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         main() void)SRC").shouldParsed(true);
+     shouldVerified(false);
+
+-    make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         main(n int) void
+     )SRC").shouldParsed(true);
+     shouldVerified(false);
+ }
+
+ TEST_F(defFuncTest, wrongParamNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         main(a) void
+             22
+     )SRC").shouldParsed(false);
+diff --git a/mod/test/case/core/syntax/defObjExprTest.cc b/mod/test/case/core/syntax/defObjExprTest.cc
+index aec9786c5..f79e6b05b 100644
+--- a/mod/test/case/core/syntax/defObjExprTest.cc
++++ b/mod/test/case/core/syntax/defObjExprTest.cc
+@@ -29,7 +29,7 @@ TEST_F(defObjExprTest, simpleDefineObject2) {
+ }
+
+ TEST_F(defObjExprTest, simpleDefineObjectNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         def A
+             foo() void
+                 print("hello")
+diff --git a/mod/test/case/core/syntax/defPropExprTest.cc b/mod/test/case/core/syntax/defPropExprTest.cc
+index 80b7e4864..cfb50ee58 100644
+--- a/mod/test/case/core/syntax/defPropExprTest.cc
++++ b/mod/test/case/core/syntax/defPropExprTest.cc
+@@ -29,7 +29,7 @@ TEST_F(defPropExprTest, simpleDefineVariable) {
+ }
+
+ TEST_F(defPropExprTest, definePackVariableNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         name str
+         age int
+         grade flt
+diff --git a/mod/test/case/core/syntax/genericsTest.cc b/mod/test/case/core/syntax/genericsTest.cc
+index 53be5e368..21c6dbeeb 100644
+--- a/mod/test/case/core/syntax/genericsTest.cc
++++ b/mod/test/case/core/syntax/genericsTest.cc
+@@ -88,7 +88,7 @@ TEST_F(genericsTest, genericTwice1) {
+ }
+
+ TEST_F(genericsTest, genericTwice2Negative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         def object<T>
+             foo(val T) T
+                 age := T()
+diff --git a/mod/test/case/core/syntax/getExprTest.cc b/mod/test/case/core/syntax/getExprTest.cc
+index e2b018769..b5c6cead4 100644
+--- a/mod/test/case/core/syntax/getExprTest.cc
++++ b/mod/test/case/core/syntax/getExprTest.cc
+@@ -65,7 +65,7 @@ TEST_F(getExprTest, getSymbolOnPackScope3Negative) {
+ }
+
+ TEST_F(getExprTest, getInvalidVariableNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         age str
+         main() str
+             ret age1
+@@ -84,7 +84,7 @@ TEST_F(getExprTest, getInnerScopeVar) {
+ }
+
+ TEST_F(getExprTest, getInnerScopeVarNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         main() int
+             age int
+             age
+diff --git a/mod/test/case/core/syntax/retExprTest.cc b/mod/test/case/core/syntax/retExprTest.cc
+index c330f2e1b..d9da50fb2 100644
+--- a/mod/test/case/core/syntax/retExprTest.cc
++++ b/mod/test/case/core/syntax/retExprTest.cc
+@@ -22,7 +22,7 @@ TEST_F(retExprTest, simpleReturnTypeCheckStr) {
+ }
+
+ TEST_F(retExprTest, simpleReturnTypeNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         make() int
+             ret
+     )SRC").shouldParsed(true);
+@@ -50,7 +50,7 @@ TEST_F(retExprTest, implicitReturn) {
+
+
+ TEST_F(retExprTest, implicitReturnNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         make() flt
+             "wow"
+     )SRC").shouldVerified(false);
+diff --git a/mod/test/case/core/syntax/runExprTest.cc b/mod/test/case/core/syntax/runExprTest.cc
+index 8ca69cf1f..2b94580ed 100644
+--- a/mod/test/case/core/syntax/runExprTest.cc
++++ b/mod/test/case/core/syntax/runExprTest.cc
+@@ -34,7 +34,7 @@ TEST_F(runExprTest, runAnotherFunc) {
+ }
+
+ TEST_F(runExprTest, runNotExistFuncNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         main() int
+             me.foo()
+             ret 0
+@@ -50,7 +50,7 @@ TEST_F(runExprTest, runAndReturn) {
+ }
+
+ TEST_F(runExprTest, ArgumentMismatchNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         main(str arg) int
+             main(3.5)
+     )SRC").shouldVerified(false);
+@@ -85,7 +85,7 @@ TEST_F(runExprTest, runWithArgument) {
+ }
+
+ TEST_F(runExprTest, runWithArgumentNegative) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(name str, grade flt) str
+             ret name
+         main() int
+@@ -95,7 +95,7 @@ TEST_F(runExprTest, runWithArgumentNegative) {
+ }
+
+ TEST_F(runExprTest, runWithArgument2) {
+-    negative().make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         foo(name str, grade flt) int
+             3
+         make() int
+diff --git a/mod/test/namuSyntaxTest.cc b/mod/test/namuSyntaxTest.cc
+index 99f655b85..f105c091f 100644
+--- a/mod/test/namuSyntaxTest.cc
++++ b/mod/test/namuSyntaxTest.cc
+@@ -39,19 +39,18 @@ namuSyntaxTest& me::make() {
+
+ namuSyntaxTest& me::make(const namu::manifest& mani) {
+     _rel();
+-    _ip.setTask(*new namu::slot(mani));
++    nbool isVerbose = logger::get().isEnable();
++    int flag = isVerbose ? interpreter::DEFAULT | interpreter::LOG_STRUCTURE | interpreter::GUARD | interpreter::LOG_GRAPH_ON_EX :
++        interpreter::DUMP_ON_EX | interpreter::LOG_ON_END;
++    _ip.setTask(*new namu::slot(mani)).setFlag(flag);
+     return *this;
+ }
+
+ namuSyntaxTest& me::parse(const namu::nchar* src) {
+     using namespace namu;
+-    nbool isVerbose = logger::get().isEnable();
+-    int flag = isVerbose ? interpreter::DEFAULT | interpreter::LOG_STRUCTURE | interpreter::GUARD | interpreter::LOG_GRAPH_ON_EX :
+-        interpreter::DUMP_ON_EX | interpreter::LOG_ON_END;
+
+     defaultSigZone<interpreter> zone(_ip);
+     _ip.addSupply(*new namu::bufSupply(std::string(src)))
+-       .setFlag(flag)
+        .setReport(_rpt)
+        .work();
+     return *this;
+@@ -59,7 +58,7 @@ namuSyntaxTest& me::parse(const namu::nchar* src) {
+
+ namuSyntaxTest& me::negative() {
+     typedef namu::interpreter ip;
+-    _ip.delFlag(ip::LOG_STRUCTURE | ip::LOG_ON_EX | ip::DUMP_ON_EX | ip::LOG_ON_END | ip::DUMP_ON_END | ip::LOG_GRAPH_ON_EX);
++    _ip.setFlag(0);
+     return *this;
+ }
+
+--
+2.34.1
+
+
+From d8306976f95ac6b794681d4737f34adbcfec63ee Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 16:41:02 +0900
+Subject: [PATCH 11/21] core: fix: marshaling of arr can't be done
+
+---
+ mod/core/bridge/cpp/marshaling/tmarshaling.hpp | 10 +++++-----
+ mod/core/bridge/cpp/marshaling/tmarshaling.inl | 12 ++++++------
+ mod/core/builtin/container/mgd/arr.cpp         |  1 +
+ mod/core/builtin/container/mgd/arr.hpp         |  1 +
+ mod/core/builtin/container/mgd/tarr.hpp        |  1 +
+ mod/test/case/core/bridgeCPPTest.cc            |  1 +
+ 6 files changed, 15 insertions(+), 11 deletions(-)
+
+diff --git a/mod/core/bridge/cpp/marshaling/tmarshaling.hpp b/mod/core/bridge/cpp/marshaling/tmarshaling.hpp
+index c1329e97e..18745901d 100644
+--- a/mod/core/bridge/cpp/marshaling/tmarshaling.hpp
++++ b/mod/core/bridge/cpp/marshaling/tmarshaling.hpp
+@@ -87,14 +87,14 @@ namespace namu {
+         static mgd& onGetRet() { return *new mgd(); }
+         static yes canMarshal();
+     };
+-    template <typename T, typename S>
+-    struct tmarshaling<tarr<T, T>, S, true> : public metaIf {
++    template <typename T, typename E, typename S>
++    struct tmarshaling<tarr<T, E>, S, true> : public metaIf {
+         typedef arr mgd;
+
+-        static tarr<T, T> toNative(node& it);
++        static tarr<T, E> toNative(node& it);
+
+-        template <typename E>
+-        static str toMgd(E* it);
++        template <typename E2>
++        static str toMgd(E2* it);
+
+         static mgd& onAddParam();
+         static mgd& onGetRet();
+diff --git a/mod/core/bridge/cpp/marshaling/tmarshaling.inl b/mod/core/bridge/cpp/marshaling/tmarshaling.inl
+index c741d5205..b4f58aadf 100644
+--- a/mod/core/bridge/cpp/marshaling/tmarshaling.inl
++++ b/mod/core/bridge/cpp/marshaling/tmarshaling.inl
+@@ -5,17 +5,17 @@
+
+ namespace namu {
+
+-#define TEMPL template <typename T, typename S>
+-#define ME tmarshaling<tarr<T, T>, S, true>
++#define TEMPL template <typename T, typename E, typename S>
++#define ME tmarshaling<tarr<T, E>, S, true>
+
+     TEMPL
+-    tarr<T, T> ME::toNative(node& it) {
+-        return tarr<T, T>(it.cast<arr>());
++    tarr<T, E> ME::toNative(node& it) {
++        return tarr<T, E>(it.cast<arr>());
+     }
+
+     TEMPL
+-    template <typename E>
+-    str ME::toMgd(E* it) {
++    template <typename E2>
++    str ME::toMgd(E2* it) {
+         return new arr(*it);
+     }
+
+diff --git a/mod/core/builtin/container/mgd/arr.cpp b/mod/core/builtin/container/mgd/arr.cpp
+index 1116ea663..3a23ffb68 100644
+--- a/mod/core/builtin/container/mgd/arr.cpp
++++ b/mod/core/builtin/container/mgd/arr.cpp
+@@ -94,6 +94,7 @@ namespace namu {
+
+     me::arr(): super(new narr()) { _type.getBeans().add(*new obj()); }
+     me::arr(const node& newType): super(new narr()) { _type.getBeans().add(newType); }
++    me::arr(const node& elemType, const me& rhs): super(new narr(rhs.get())) { _type.getBeans().add(elemType); }
+
+     node& me::operator[](nidx n) {
+         return get()[n];
+diff --git a/mod/core/builtin/container/mgd/arr.hpp b/mod/core/builtin/container/mgd/arr.hpp
+index fbbf7d92c..89a2a1831 100644
+--- a/mod/core/builtin/container/mgd/arr.hpp
++++ b/mod/core/builtin/container/mgd/arr.hpp
+@@ -32,6 +32,7 @@ namespace namu {
+     public:
+         arr();
+         arr(const node& elemType);
++        arr(const node& elemType, const me& rhs);
+
+     public:
+         using tarrayable<node>::operator[];
+diff --git a/mod/core/builtin/container/mgd/tarr.hpp b/mod/core/builtin/container/mgd/tarr.hpp
+index ea102c2de..f9ae47f30 100644
+--- a/mod/core/builtin/container/mgd/tarr.hpp
++++ b/mod/core/builtin/container/mgd/tarr.hpp
+@@ -13,5 +13,6 @@ namespace namu {
+     public:
+         tarr(): super(*new defaultElemType()) {}
+         tarr(const node& elemType): super(elemType) {}
++        tarr(const super& rhs);
+     };
+ }
+diff --git a/mod/test/case/core/bridgeCPPTest.cc b/mod/test/case/core/bridgeCPPTest.cc
+index ee4575d5d..001259e43 100644
+--- a/mod/test/case/core/bridgeCPPTest.cc
++++ b/mod/test/case/core/bridgeCPPTest.cc
+@@ -216,6 +216,7 @@ TEST_F(bridgeCPPTest, passArr) {
+     str yourobj(new yourObj());
+     ASSERT_EQ(a.add(*yourobj), false);
+     a.add(new myObj(3));
++    ASSERT_EQ(a.len(), 3);
+
+     str testobj(tcppBridge<testObj>::def()
+         .func("updateLen", &testObj::updateLen)
+--
+2.34.1
+
+
+From e7e0678ff31553f8533ea9076b36a4ed008c2013 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 17:01:38 +0900
+Subject: [PATCH 12/21] core: fix: clone bridge obj when marshaling it
+
+---
+ mod/core/builtin/container/mgd/arr.cpp  | 2 +-
+ mod/core/builtin/container/mgd/arr.hpp  | 2 +-
+ mod/core/builtin/container/mgd/tarr.hpp | 2 +-
+ mod/test/case/core/bridgeCPPTest.cc     | 6 +++---
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+diff --git a/mod/core/builtin/container/mgd/arr.cpp b/mod/core/builtin/container/mgd/arr.cpp
+index 3a23ffb68..efe9a97c4 100644
+--- a/mod/core/builtin/container/mgd/arr.cpp
++++ b/mod/core/builtin/container/mgd/arr.cpp
+@@ -94,7 +94,7 @@ namespace namu {
+
+     me::arr(): super(new narr()) { _type.getBeans().add(*new obj()); }
+     me::arr(const node& newType): super(new narr()) { _type.getBeans().add(newType); }
+-    me::arr(const node& elemType, const me& rhs): super(new narr(rhs.get())) { _type.getBeans().add(elemType); }
++    me::arr(const me& rhs): super(new narr(rhs.get())) { _type.getBeans().add(rhs._type.getBeans()[0]); }
+
+     node& me::operator[](nidx n) {
+         return get()[n];
+diff --git a/mod/core/builtin/container/mgd/arr.hpp b/mod/core/builtin/container/mgd/arr.hpp
+index 89a2a1831..f06a7c3bb 100644
+--- a/mod/core/builtin/container/mgd/arr.hpp
++++ b/mod/core/builtin/container/mgd/arr.hpp
+@@ -32,7 +32,7 @@ namespace namu {
+     public:
+         arr();
+         arr(const node& elemType);
+-        arr(const node& elemType, const me& rhs);
++        arr(const me& rhs);
+
+     public:
+         using tarrayable<node>::operator[];
+diff --git a/mod/core/builtin/container/mgd/tarr.hpp b/mod/core/builtin/container/mgd/tarr.hpp
+index f9ae47f30..44e8bb6ce 100644
+--- a/mod/core/builtin/container/mgd/tarr.hpp
++++ b/mod/core/builtin/container/mgd/tarr.hpp
+@@ -13,6 +13,6 @@ namespace namu {
+     public:
+         tarr(): super(*new defaultElemType()) {}
+         tarr(const node& elemType): super(elemType) {}
+-        tarr(const super& rhs);
++        tarr(const super& rhs): super(rhs) {}
+     };
+ }
+diff --git a/mod/test/case/core/bridgeCPPTest.cc b/mod/test/case/core/bridgeCPPTest.cc
+index 001259e43..6565dd4da 100644
+--- a/mod/test/case/core/bridgeCPPTest.cc
++++ b/mod/test/case/core/bridgeCPPTest.cc
+@@ -189,19 +189,19 @@ namespace {
+
+     struct testObj {
+         int len;
+-        arr _arr;
++        tstr<arr> _arr;
+
+         testObj(): len(0) {}
+
+         int updateLen(tarr<myObj> a) {
+             len = a.len();
+-            _arr = a;
++            _arr.bind((tarr<myObj>*)a.clone());
+             return len;
+         }
+
+         int sumOfLen() const {
+             int ret = 0;
+-            for(const auto& elem : _arr)
++            for(const auto& elem : *_arr)
+                 ret += elem.cast<myObj>().age;
+             return ret;
+         }
+--
+2.34.1
+
+
+From 606d0edbcb1309b3b18bbe7f016b02e8ee6c2b83 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 17:09:02 +0900
+Subject: [PATCH 13/21] core: fix: frame's mySubs() didn't work
+
+---
+ mod/core/frame/frame.cpp | 5 +++++
+ mod/core/frame/frame.hpp | 2 ++
+ 2 files changed, 7 insertions(+)
+
+diff --git a/mod/core/frame/frame.cpp b/mod/core/frame/frame.cpp
+index a426bb3cc..c2a6640e6 100644
+--- a/mod/core/frame/frame.cpp
++++ b/mod/core/frame/frame.cpp
+@@ -84,6 +84,11 @@ namespace namu {
+         return nul(reg) ? inner : *reg.s;
+     }
+
++    tstr<nbicontainer> me::mySubs() const {
++        const auto& top = _getTop();
++        return top.owner ? top.owner->mySubs() : top.s->getContainer();
++    }
++
+     priorType me::prioritize(const args& a) const { return NO_MATCH; }
+
+     str me::run(const args& a) { return str(); }
+diff --git a/mod/core/frame/frame.hpp b/mod/core/frame/frame.hpp
+index 0eb267b69..67c23a6e4 100644
+--- a/mod/core/frame/frame.hpp
++++ b/mod/core/frame/frame.hpp
+@@ -53,6 +53,7 @@ namespace namu {
+         // node:
+         using node::subs;
+         scope& subs() override;
++        tstr<nbicontainer> mySubs() const override;
+
+         priorType prioritize(const args& a) const override;
+         str run(const args& a) override;
+@@ -70,6 +71,7 @@ namespace namu {
+     private:
+         void _rel();
+         scopeRegister& _getTop();
++        const scopeRegister& _getTop() const NAMU_UNCONST_FUNC(_getTop())
+
+     private:
+         tstr<baseObj> _me;
+--
+2.34.1
+
+
+From e74f5cc7d42116dca534515418e2ecc19625d5c2 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 17:45:13 +0900
+Subject: [PATCH 14/21] core: fix: func couldn't recognize returned value
+ inside of block
+
+---
+ mod/core/ast/exprs/blockExpr.cpp | 6 ++++--
+ mod/core/ast/exprs/ifExpr.cpp    | 4 +++-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/mod/core/ast/exprs/blockExpr.cpp b/mod/core/ast/exprs/blockExpr.cpp
+index 5f8c23906..364b463bc 100644
+--- a/mod/core/ast/exprs/blockExpr.cpp
++++ b/mod/core/ast/exprs/blockExpr.cpp
+@@ -57,7 +57,9 @@ namespace namu {
+         // that's why I didn't use frameInteracter here. see forExpr::run().
+         str ret;
+
+-        const auto& ex = thread::get().getEx();
++        thread& th = thread::get();
++        const auto& ex = th.getEx();
++        const frame& fr = th.getNowFrame();
+         nidx exN = ex.len() - 1; // blockExpr will judge exception occurs when exN is changed to after running one of its stmt.
+         NAMU_DI("blockExpr: loop %d stmts", _exprs.len());
+         for(auto& e : _exprs) {
+@@ -69,7 +71,7 @@ namespace namu {
+                              // so it's not the return type of what the func told, but it's okay.
+                              // all derived err object can be assigned to any type.
+             }
+-            if(ret && ret->isSub<retState>()) break;
++            if(!nul(fr.getRet())) break;
+         }
+         return ret;
+     }
+diff --git a/mod/core/ast/exprs/ifExpr.cpp b/mod/core/ast/exprs/ifExpr.cpp
+index deea3c946..cfe0292b1 100644
+--- a/mod/core/ast/exprs/ifExpr.cpp
++++ b/mod/core/ast/exprs/ifExpr.cpp
+@@ -28,7 +28,9 @@ namespace namu {
+         tstr<nBool> res = _expr->as<node>()->asImpli<nBool>();
+         if(!res) return nVoid::singletone();
+
+-        if(res->cast<nbool>()) {
++        nbool cond = res->cast<nbool>();
++        NAMU_DI("ifExpr: condition[%s]", cond ? "true" : "false");
++        if(cond) {
+             frameInteract f1(*_thenBlk); {
+                 return _thenBlk->run();
+             }
+--
+2.34.1
+
+
+From 199f25bbd44274acdd306f140b44f0e67f025262 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 18:16:59 +0900
+Subject: [PATCH 15/21] core: fix: verifier didn't (un)register scope of ifExpr
+
+---
+ mod/core/visitor/verifier.cpp                 | 29 +++++++++++++++----
+ mod/core/visitor/verifier.hpp                 |  2 ++
+ .../case/core/syntax/defAssignExprTest.cc     |  2 +-
+ 3 files changed, 26 insertions(+), 7 deletions(-)
+
+diff --git a/mod/core/visitor/verifier.cpp b/mod/core/visitor/verifier.cpp
+index eb3d030e8..e89b5b2be 100644
+--- a/mod/core/visitor/verifier.cpp
++++ b/mod/core/visitor/verifier.cpp
+@@ -682,12 +682,29 @@ namespace namu {
+     nbool me::onVisit(visitInfo i, ifExpr& me) {
+         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
+
+-        NAMU_I("verify: ifExpr: condition-expr can be casted into bool?");
+-        node& condition = me.getCondition();
+-        if(nul(condition))
+-            return posError(errCode::CONDITION_IS_EMPTY, me), true;
+-        if(!condition.is<nBool>())
+-            return posError(errCode::CONDITION_CANT_CAST_TO_BOOL, me), true;
++        auto& blk = _getIfBlockExprByCondition(me);
++        if(!nul(blk))
++            blk.inFrame();
+         return true;
+     }
++
++    void me::onLeave(visitInfo i, ifExpr& me) {
++        GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
++        NAMU_I("verify: ifExpr: unregister scope");
++        blockExpr& cont = _getIfBlockExprByCondition(me);
++        if(!nul(cont))
++            cont.outFrame();
++    }
++
++    blockExpr& me::_getIfBlockExprByCondition(ifExpr& me) {
++        NAMU_I("verify: ifExpr: condition-expr can be casted into bool?");
++        node& condExpr = me.getCondition();
++        if(nul(condExpr))
++            return posError(errCode::CONDITION_IS_EMPTY, me), nulOf<blockExpr>();
++        if(!condExpr.is<nBool>())
++            return posError(errCode::CONDITION_CANT_CAST_TO_BOOL, me), nulOf<blockExpr>();
++
++        NAMU_I("verify: ifExpr: register scope");
++        return condExpr.as<nBool>() ? me.getThenBlk() : me.getElseBlk();
++    }
+ }
+diff --git a/mod/core/visitor/verifier.hpp b/mod/core/visitor/verifier.hpp
+index 4756e8ca6..cf5f1c95c 100644
+--- a/mod/core/visitor/verifier.hpp
++++ b/mod/core/visitor/verifier.hpp
+@@ -43,6 +43,7 @@ namespace namu {
+         nbool onVisit(visitInfo i, breakExpr& me) override;
+         nbool onVisit(visitInfo i, nextExpr& me) override;
+         nbool onVisit(visitInfo i, ifExpr& me) override;
++        void onLeave(visitInfo i, ifExpr& me) override;
+
+     protected:
+         void _onEndWork() override;
+@@ -55,6 +56,7 @@ namespace namu {
+         // @param newInfo is not a heap instance.
+         void _verifyMgdFuncImplicitReturn(func& me);
+         nbool _isVariableDuplicated(defAssignExpr& me, const node& subs);
++        blockExpr& _getIfBlockExprByCondition(ifExpr& me);
+
+     private:
+         std::vector<loopExpr*> _recentLoops;
+diff --git a/mod/test/case/core/syntax/defAssignExprTest.cc b/mod/test/case/core/syntax/defAssignExprTest.cc
+index 0d2a0c4ca..f8e03f655 100644
+--- a/mod/test/case/core/syntax/defAssignExprTest.cc
++++ b/mod/test/case/core/syntax/defAssignExprTest.cc
+@@ -301,7 +301,7 @@ TEST_F(defAssignExprTest, defAssignAtIf) {
+ }
+
+ TEST_F(defAssignExprTest, defAssignAtBlockNegative) {
+-    make().negative().parse(R"SRC(
++    make().parse(R"SRC(
+         main() int
+             if true
+                 res := 0.8
+--
+2.34.1
+
+
+From 6c263dc80b1b9b939eb8d6aefd713f9179b5494f Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 18:39:49 +0900
+Subject: [PATCH 16/21] test: fix: change TC along to new 'ret' concept
+
+---
+ .../case/core/syntax/defAssignExprTest.cc     |  2 +-
+ mod/test/case/core/syntax/forExprTest.cc      | 23 ++++++++++++++++---
+ 2 files changed, 21 insertions(+), 4 deletions(-)
+
+diff --git a/mod/test/case/core/syntax/defAssignExprTest.cc b/mod/test/case/core/syntax/defAssignExprTest.cc
+index f8e03f655..0d2a0c4ca 100644
+--- a/mod/test/case/core/syntax/defAssignExprTest.cc
++++ b/mod/test/case/core/syntax/defAssignExprTest.cc
+@@ -301,7 +301,7 @@ TEST_F(defAssignExprTest, defAssignAtIf) {
+ }
+
+ TEST_F(defAssignExprTest, defAssignAtBlockNegative) {
+-    make().parse(R"SRC(
++    make().negative().parse(R"SRC(
+         main() int
+             if true
+                 res := 0.8
+diff --git a/mod/test/case/core/syntax/forExprTest.cc b/mod/test/case/core/syntax/forExprTest.cc
+index 87a6841b9..1d5a2329b 100644
+--- a/mod/test/case/core/syntax/forExprTest.cc
++++ b/mod/test/case/core/syntax/forExprTest.cc
+@@ -180,6 +180,21 @@ TEST_F(forExprTest, returnMiddleOfLoop1) {
+     ASSERT_EQ(res.cast<nint>(), 1);
+ }
+
++TEST_F(forExprTest, returnMiddleOfLoop1WithoutParenthesisNegative) {
++    make().negative().parse(R"SRC(
++        def person
++            name := ""
++
++        main() int
++            p1 := person()
++            p1.name = "Chales"
++
++            res := for p in {p1, person()}
++                ret p1.name == "Chales" // <-- you can't (def)assign what return something inside.
++            ret 0
++    )SRC").shouldVerified(false);
++}
++
+ TEST_F(forExprTest, returnMiddleOfLoop1WithoutParenthesis) {
+     make().parse(R"SRC(
+         def person
+@@ -190,12 +205,14 @@ TEST_F(forExprTest, returnMiddleOfLoop1WithoutParenthesis) {
+             p1.name = "Chales"
+
+             res := for p in {p1, person()}
+-                ret p1.name == "Chales"
+-            ret 0
++                if p.name == "Chales"
++                    ret 100
++                p.name == "Chales"
++            res[0] // {1, 0}
+     )SRC").shouldVerified(true);
+     str res = run();
+     ASSERT_TRUE(res);
+-    ASSERT_EQ(res.cast<nint>(), 1);
++    ASSERT_EQ(res.cast<nint>(), 100);
+ }
+
+ TEST_F(forExprTest, retMiddleOfLoop) {
+--
+2.34.1
+
+
+From 6a6c7dedea46a4f98db32af7c55594db4ab55828 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Tue, 30 Apr 2024 19:25:32 +0900
+Subject: [PATCH 17/21] core: refactor: make common logic on loopExpr
+
+---
+ code_coverage.info               |  0
+ mod/core/ast/exprs/forExpr.cpp   | 10 +++-------
+ mod/core/ast/exprs/loopExpr.cpp  | 16 +++++++++++++++-
+ mod/core/ast/exprs/loopExpr.hpp  |  8 +++++++-
+ mod/core/ast/exprs/whileExpr.cpp | 12 +++---------
+ mod/core/frame/thread.hpp        |  1 +
+ 6 files changed, 29 insertions(+), 18 deletions(-)
+ create mode 100644 code_coverage.info
+
+diff --git a/code_coverage.info b/code_coverage.info
+new file mode 100644
+index 000000000..e69de29bb
+diff --git a/mod/core/ast/exprs/forExpr.cpp b/mod/core/ast/exprs/forExpr.cpp
+index e6909da90..b5ad51125 100644
+--- a/mod/core/ast/exprs/forExpr.cpp
++++ b/mod/core/ast/exprs/forExpr.cpp
+@@ -9,7 +9,7 @@ namespace namu {
+     NAMU(DEF_ME(forExpr), DEF_VISIT())
+
+     me::forExpr(const std::string& localName, const node& container, const blockExpr& blk):
+-        super(blk), _container(container), _name(localName), _initEval(false) {}
++        super(blk), _container(container), _name(localName), _initEval(false), _isReturnable(false) {}
+
+     const std::string& me::getLocalName() const {
+         return _name;
+@@ -29,11 +29,7 @@ namespace namu {
+         str iter = ased->run("iterate", args{narr{*new nInt(0)}});
+         if(!iter) return NAMU_E("iter is null"), str();
+
+-        node& eval = *getEval();
+-        if(nul(eval))
+-            return NAMU_E("eval is null "), str();
+-        static dumArr inner;
+-        arr& ret = eval.isSub<arr>() ? *new arr(eval.getType().getBeans()[0]) : inner;
++        arr& ret = _preprocess();
+         frame& fr = thread::get()._getNowFrame();
+
+         NAMU_DI("forExpr: loop %s in %s", getLocalName().c_str(), ased->getSrc().getName().c_str());
+@@ -45,7 +41,7 @@ namespace namu {
+                 fr.addLocal(_name, *elem);
+
+                 ret.add(*blk.run());
+-                if(_postprocess(fr))
++                if(_postprocess())
+                     return ret;
+             }
+
+diff --git a/mod/core/ast/exprs/loopExpr.cpp b/mod/core/ast/exprs/loopExpr.cpp
+index 6d2443116..0535bb386 100644
+--- a/mod/core/ast/exprs/loopExpr.cpp
++++ b/mod/core/ast/exprs/loopExpr.cpp
+@@ -3,6 +3,8 @@
+ #include "../../frame/thread.hpp"
+ #include "breakExpr.hpp"
+ #include "nextExpr.hpp"
++#include "../../builtin/container/mgd/arr.hpp"
++#include "../../builtin/container/mgd/tdumArr.hpp"
+
+ namespace namu {
+
+@@ -22,7 +24,8 @@ namespace namu {
+         return _eval.bind(new1);
+     }
+
+-    nbool me::_postprocess(frame& fr) const {
++    nbool me::_postprocess() const {
++        frame& fr = thread::get()._getNowFrame();
+         const node& ret = fr.getRet();
+         if(nul(ret)) return false;
+         if(ret.isSub<nextRet>()) {
+@@ -34,4 +37,15 @@ namespace namu {
+         // stop the loop. I found the return value of the func.
+         return true;
+     }
++
++    arr& me::_preprocess() const {
++        node& eval = *getEval();
++        if(nul(eval))
++            return NAMU_E("eval is null "), nulOf<arr>();
++        static dumArr inner;
++        return isReturnable() ? *new arr(eval.getType().getBeans()[0]) : inner;
++    }
++
++    nbool me::isReturnable() const { return _isReturnable; }
++    void me::setReturnable(nbool isReturnable) { _isReturnable = isReturnable; }
+ }
+diff --git a/mod/core/ast/exprs/loopExpr.hpp b/mod/core/ast/exprs/loopExpr.hpp
+index c0ab73ed1..d64af9802 100644
+--- a/mod/core/ast/exprs/loopExpr.hpp
++++ b/mod/core/ast/exprs/loopExpr.hpp
+@@ -6,6 +6,7 @@
+ namespace namu {
+
+     class frame;
++    class arr;
+     class _nout loopExpr : public expr {
+         NAMU(ADT(loopExpr, expr, expr::exprType), VISIT())
+
+@@ -17,12 +18,17 @@ namespace namu {
+         str getEval() const override;
+         nbool setEval(const node& new1) const;
+
++        nbool isReturnable() const;
++        void setReturnable(nbool isReturnable);
++
+     protected:
+         /// @return true if exit the loop
+-        nbool _postprocess(frame& fr) const;
++        nbool _postprocess() const;
++        arr& _preprocess() const;
+
+     private:
+         mutable tstr<blockExpr> _blk;
+         mutable str _eval;
++        nbool _isReturnable;
+     };
+ }
+diff --git a/mod/core/ast/exprs/whileExpr.cpp b/mod/core/ast/exprs/whileExpr.cpp
+index 087aef1fb..d2e746002 100644
+--- a/mod/core/ast/exprs/whileExpr.cpp
++++ b/mod/core/ast/exprs/whileExpr.cpp
+@@ -19,21 +19,15 @@ namespace namu {
+         if(!_condition) return NAMU_E("_condition is null."), str();
+         if(nul(blk)) return NAMU_E("blk is null."), str();
+
+-        arr& eval = getEval().cast<arr>();
+-        if(nul(eval))
+-            return NAMU_E("eval isn't arr"), str();
+-        arr& ret = *new arr(eval.getType().getBeans()[0]);
+-        frame& fr = thread::get()._getNowFrame();
++        arr& ret = _preprocess();
+         while(true) {
+             str ased = _condition->asImpli<nBool>();
+             if(!ased) return NAMU_E("cast to bool has been failed."), str();
+-
+-            if(!ased->cast<nbool>())
+-                break;
++            if(!ased->cast<nbool>()) break;
+
+             frameInteract f1(blk); {
+                 ret.add(*blk.run());
+-                if(_postprocess(fr))
++                if(_postprocess())
+                     return ret;
+             }
+         }
+diff --git a/mod/core/frame/thread.hpp b/mod/core/frame/thread.hpp
+index e6835efec..d9df646a6 100644
+--- a/mod/core/frame/thread.hpp
++++ b/mod/core/frame/thread.hpp
+@@ -27,6 +27,7 @@ namespace namu {
+         friend class retStateExpr;
+         friend class starter;
+         friend struct ::exprTest;
++        friend class loopExpr;
+
+     public:
+         thread();
+--
+2.34.1
+
+
+From be0717886c37da614fd9644a0f489e21da0510c3 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Fri, 3 May 2024 16:22:11 +0900
+Subject: [PATCH 18/21] core: refactor: remove code duplication on 'loopExpr'
+ classes
+
+---
+ mod/core/ast/exprs/forExpr.cpp   | 76 ++++++++++++++++++--------------
+ mod/core/ast/exprs/forExpr.hpp   |  6 +--
+ mod/core/ast/exprs/loopExpr.cpp  | 55 ++++++++++++++++-------
+ mod/core/ast/exprs/loopExpr.hpp  | 32 +++++++++++---
+ mod/core/ast/exprs/whileExpr.cpp | 45 ++++++++++---------
+ mod/core/ast/exprs/whileExpr.hpp |  6 +--
+ 6 files changed, 138 insertions(+), 82 deletions(-)
+
+diff --git a/mod/core/ast/exprs/forExpr.cpp b/mod/core/ast/exprs/forExpr.cpp
+index b5ad51125..766175235 100644
+--- a/mod/core/ast/exprs/forExpr.cpp
++++ b/mod/core/ast/exprs/forExpr.cpp
+@@ -9,7 +9,7 @@ namespace namu {
+     NAMU(DEF_ME(forExpr), DEF_VISIT())
+
+     me::forExpr(const std::string& localName, const node& container, const blockExpr& blk):
+-        super(blk), _container(container), _name(localName), _initEval(false), _isReturnable(false) {}
++        super(blk), _container(container), _name(localName), _initEval(false) {}
+
+     const std::string& me::getLocalName() const {
+         return _name;
+@@ -19,38 +19,6 @@ namespace namu {
+         return *_container;
+     }
+
+-    str me::run(const args& a) {
+-        blockExpr& blk = getBlock();
+-        if(nul(blk) || !_container)
+-            return NAMU_E("blk or container is null"), str();
+-
+-        str ased = _container->as<node>();
+-        if(!ased) return NAMU_E("ased is null"), str();
+-        str iter = ased->run("iterate", args{narr{*new nInt(0)}});
+-        if(!iter) return NAMU_E("iter is null"), str();
+-
+-        arr& ret = _preprocess();
+-        frame& fr = thread::get()._getNowFrame();
+-
+-        NAMU_DI("forExpr: loop %s in %s", getLocalName().c_str(), ased->getSrc().getName().c_str());
+-        while(!iter->run("isEnd")->cast<nbool>()) {
+-            str elem = iter->run("get");
+-            if(!elem)
+-                return NAMU_E("elem is null"), str();
+-            frameInteract f1(blk); {
+-                fr.addLocal(_name, *elem);
+-
+-                ret.add(*blk.run());
+-                if(_postprocess())
+-                    return ret;
+-            }
+-
+-            iter->run("next", args{narr{*new nInt(1)}});
+-        }
+-
+-        return ret;
+-    }
+-
+     str me::getEval() const {
+         if(_initEval) return super::getEval();
+
+@@ -73,4 +41,46 @@ namespace namu {
+             return newEval;
+         }
+     }
++
++    namespace {
++        class forLoop : public me::loop {
++            NAMU(CLASS(forLoop, loop))
++
++        public:
++            forLoop(arr& ret, str iter, const forExpr& owner): super(ret), _iter(iter), _owner(owner) {}
++
++        public:
++            nbool isLooping() override {
++                return !_iter->run("isEnd")->cast<nbool>();
++            }
++
++            void run(blockExpr& blk, frame& fr) override {
++                str elem = _iter->run("get");
++                if(!elem)
++                    return NAMU_E("elem is null"), void();
++                fr.addLocal(_owner.getLocalName(), *elem);
++
++                super::run(blk, fr);
++            }
++
++            nbool postprocess(frame& fr) override {
++                _iter->run("next", args{narr{*new nInt(1)}});
++                return super::postprocess(fr);
++            }
++
++        private:
++            str _iter;
++            const forExpr& _owner;
++        };
++    }
++
++    tstr<me::loop> me::_makeLoop(arr& ret) const {
++        str ased = _container->as<node>();
++        if(!ased) return NAMU_E("ased is null"), str();
++        str iter = ased->run("iterate", args{narr{*new nInt(0)}});
++        if(!iter) return NAMU_E("iter is null"), str();
++
++        NAMU_DI("forExpr: loop %s in %s", getLocalName().c_str(), ased->getSrc().getName().c_str());
++        return new forLoop(ret, iter, *this);
++    }
+ }
+diff --git a/mod/core/ast/exprs/forExpr.hpp b/mod/core/ast/exprs/forExpr.hpp
+index 41378bb55..23aee5e10 100644
+--- a/mod/core/ast/exprs/forExpr.hpp
++++ b/mod/core/ast/exprs/forExpr.hpp
+@@ -16,11 +16,11 @@ namespace namu {
+         const std::string& getLocalName() const;
+         str getContainer();
+
+-        using super::run;
+-        str run(const args& a) override;
+-
+         str getEval() const override;
+
++    protected:
++        tstr<loop> _makeLoop(arr& ret) const override;
++
+     private:
+         str _container;
+         std::string _name;
+diff --git a/mod/core/ast/exprs/loopExpr.cpp b/mod/core/ast/exprs/loopExpr.cpp
+index 0535bb386..e08154755 100644
+--- a/mod/core/ast/exprs/loopExpr.cpp
++++ b/mod/core/ast/exprs/loopExpr.cpp
+@@ -1,6 +1,7 @@
+ #include "loopExpr.hpp"
+ #include "../../visitor/visitor.hpp"
+ #include "../../frame/thread.hpp"
++#include "../../frame/frameInteract.hpp"
+ #include "breakExpr.hpp"
+ #include "nextExpr.hpp"
+ #include "../../builtin/container/mgd/arr.hpp"
+@@ -10,6 +11,24 @@ namespace namu {
+
+     NAMU(DEF_ME(loopExpr), DEF_VISIT())
+
++    me::loop::loop(arr& ret): _ret(ret) {}
++
++    arr& me::loop::getRet() { return *_ret; }
++
++    void me::loop::run(blockExpr& blk, frame& fr) {
++        _ret->add(*blk.run());
++    }
++
++    nbool me::loop::postprocess(frame& fr) {
++        const node& ret = fr.getRet();
++        if(nul(ret)) return true;
++
++        if(ret.isSub<nextRet>()) return fr.setRet(), true;
++        if(ret.isSub<breakRet>()) return fr.setRet(), false; // after I go out of the loop, I should clear break state.
++        // or stop the loop. I found the return value of the func.
++        return false;
++    }
++
+     me::loopExpr(const blockExpr& blk): _blk(blk) {}
+
+     blockExpr& me::getBlock() const {
+@@ -24,28 +43,32 @@ namespace namu {
+         return _eval.bind(new1);
+     }
+
+-    nbool me::_postprocess() const {
++    str me::run(const args& a) {
++        blockExpr& blk = getBlock();
++        if(nul(blk)) return NAMU_E("blk is null"), str();
++
++        auto l = _makeLoop(*_makeRet());
++        if(!l) return NAMU_E("loop is null"), str();
++
+         frame& fr = thread::get()._getNowFrame();
+-        const node& ret = fr.getRet();
+-        if(nul(ret)) return false;
+-        if(ret.isSub<nextRet>()) {
+-            fr.setRet();
+-            return false;
++        while(l->isLooping()) {
++            frameInteract f1(getBlock()); {
++                l->run(blk, fr);
++                if(!l->postprocess(fr))
++                    break;
++            }
+         }
+-        if(ret.isSub<breakRet>()) fr.setRet(); // after I go out of the loop, I should clear break state.
+-
+-        // stop the loop. I found the return value of the func.
+-        return true;
++        return l->getRet();
+     }
+
+-    arr& me::_preprocess() const {
++    tstr<arr> me::_makeRet() const {
++        static dumArr inner;
++        if(!thread::get().getNowFrame().isReturning())
++            return inner;
++
+         node& eval = *getEval();
+         if(nul(eval))
+             return NAMU_E("eval is null "), nulOf<arr>();
+-        static dumArr inner;
+-        return isReturnable() ? *new arr(eval.getType().getBeans()[0]) : inner;
++        return *new arr(eval.getType().getBeans()[0]);
+     }
+-
+-    nbool me::isReturnable() const { return _isReturnable; }
+-    void me::setReturnable(nbool isReturnable) { _isReturnable = isReturnable; }
+ }
+diff --git a/mod/core/ast/exprs/loopExpr.hpp b/mod/core/ast/exprs/loopExpr.hpp
+index d64af9802..c518f4f6f 100644
+--- a/mod/core/ast/exprs/loopExpr.hpp
++++ b/mod/core/ast/exprs/loopExpr.hpp
+@@ -9,6 +9,26 @@ namespace namu {
+     class arr;
+     class _nout loopExpr : public expr {
+         NAMU(ADT(loopExpr, expr, expr::exprType), VISIT())
++        friend class loop;
++
++    public:
++        class _nout loop : public instance {
++            NAMU(ADT(loop))
++
++        public:
++            loop(arr& ret);
++
++        public:
++            /// @return false if exit the loop
++            virtual nbool isLooping() = 0;
++            virtual void run(blockExpr& blk, frame& fr);
++            arr& getRet();
++            virtual nbool postprocess(frame& fr);
++
++
++        private:
++            tstr<arr> _ret;
++        };
+
+     public:
+         loopExpr(const blockExpr& blk);
+@@ -18,17 +38,17 @@ namespace namu {
+         str getEval() const override;
+         nbool setEval(const node& new1) const;
+
+-        nbool isReturnable() const;
+-        void setReturnable(nbool isReturnable);
++        using super::run;
++        str run(const args& a) override;
+
+     protected:
+-        /// @return true if exit the loop
+-        nbool _postprocess() const;
+-        arr& _preprocess() const;
++        virtual tstr<loop> _makeLoop(arr& ret) const = 0;
++
++    private:
++        tstr<arr> _makeRet() const;
+
+     private:
+         mutable tstr<blockExpr> _blk;
+         mutable str _eval;
+-        nbool _isReturnable;
+     };
+ }
+diff --git a/mod/core/ast/exprs/whileExpr.cpp b/mod/core/ast/exprs/whileExpr.cpp
+index d2e746002..214c1adab 100644
+--- a/mod/core/ast/exprs/whileExpr.cpp
++++ b/mod/core/ast/exprs/whileExpr.cpp
+@@ -14,27 +14,6 @@ namespace namu {
+         return *_condition;
+     }
+
+-    str me::run(const args& a) {
+-        blockExpr& blk = getBlock();
+-        if(!_condition) return NAMU_E("_condition is null."), str();
+-        if(nul(blk)) return NAMU_E("blk is null."), str();
+-
+-        arr& ret = _preprocess();
+-        while(true) {
+-            str ased = _condition->asImpli<nBool>();
+-            if(!ased) return NAMU_E("cast to bool has been failed."), str();
+-            if(!ased->cast<nbool>()) break;
+-
+-            frameInteract f1(blk); {
+-                ret.add(*blk.run());
+-                if(_postprocess())
+-                    return ret;
+-            }
+-        }
+-
+-        return ret;
+-    }
+-
+     str me::getEval() const {
+         if(_initEval) return super::getEval();
+
+@@ -43,4 +22,28 @@ namespace namu {
+         setEval(newEval);
+         return newEval;
+     }
++
++    namespace {
++        class whileLoop : public me::loop {
++            NAMU(CLASS(whileLoop, loop))
++
++        public:
++            whileLoop(arr& ret, const whileExpr& owner): super(ret), _owner(owner) {}
++
++        public:
++            nbool isLooping() override {
++                str ased = _owner.getCondition().asImpli<nBool>();
++                if(!ased) return NAMU_E("cast to bool has been failed."), false;
++                return ased->cast<nbool>();
++            }
++
++        private:
++            const whileExpr& _owner;
++        };
++    }
++
++    tstr<me::loop> me::_makeLoop(arr& ret) const {
++        NAMU_DI("whileExpr: loop");
++        return new whileLoop(ret, *this);
++    }
+ }
+diff --git a/mod/core/ast/exprs/whileExpr.hpp b/mod/core/ast/exprs/whileExpr.hpp
+index 234fb9c17..744b05073 100644
+--- a/mod/core/ast/exprs/whileExpr.hpp
++++ b/mod/core/ast/exprs/whileExpr.hpp
+@@ -15,11 +15,11 @@ namespace namu {
+         const node& getCondition() const NAMU_UNCONST_FUNC(getCondition())
+         node& getCondition();
+
+-        using super::run;
+-        str run(const args& a) override;
+-
+         str getEval() const override;
+
++    protected:
++        tstr<loop> _makeLoop(arr& ret) const override;
++
+     private:
+         str _condition;
+         mutable nbool _initEval;
+--
+2.34.1
+
+
+From 026d976704682eeb95c2d746007fb4f608761966 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Fri, 3 May 2024 16:45:27 +0900
+Subject: [PATCH 19/21] core: refactor: merge getEval() of loopExpr classes
+ into single func
+
+---
+ mod/core/ast/exprs/forExpr.cpp   | 22 ++++++----------------
+ mod/core/ast/exprs/forExpr.hpp   |  4 +---
+ mod/core/ast/exprs/loopExpr.cpp  | 14 +++++++++++---
+ mod/core/ast/exprs/loopExpr.hpp  |  2 +-
+ mod/core/ast/exprs/whileExpr.cpp | 12 +-----------
+ mod/core/ast/exprs/whileExpr.hpp |  3 ---
+ 6 files changed, 20 insertions(+), 37 deletions(-)
+
+diff --git a/mod/core/ast/exprs/forExpr.cpp b/mod/core/ast/exprs/forExpr.cpp
+index 766175235..e38dc28d0 100644
+--- a/mod/core/ast/exprs/forExpr.cpp
++++ b/mod/core/ast/exprs/forExpr.cpp
+@@ -9,7 +9,7 @@ namespace namu {
+     NAMU(DEF_ME(forExpr), DEF_VISIT())
+
+     me::forExpr(const std::string& localName, const node& container, const blockExpr& blk):
+-        super(blk), _container(container), _name(localName), _initEval(false) {}
++        super(blk), _container(container), _name(localName) {}
+
+     const std::string& me::getLocalName() const {
+         return _name;
+@@ -19,26 +19,16 @@ namespace namu {
+         return *_container;
+     }
+
+-    str me::getEval() const {
+-        if(_initEval) return super::getEval();
+-
++    str me::_makeEval() const {
+         str ased = _container->getEval();
+         str elemType = ased->run("getElemType");
+         if(!elemType) return NAMU_E("elemType == null"), str();
+
+-        blockExpr& blk = getBlock();
+-        frameInteract f1(blk); {
+-            auto& fr = thread::get()._getNowFrame();
+-            if(nul(fr)) return str();
++        auto& fr = thread::get()._getNowFrame();
++        if(nul(fr)) return str();
++        frameInteract f1(getBlock()); {
+             fr.addLocal(getLocalName(), *((node*) elemType->clone()));
+-
+-            _initEval = true;
+-            str newEval = blk.getEval();
+-            if(!newEval) return newEval;
+-            if(!newEval->isSub<retExpr>())
+-                newEval.bind(new arr(*newEval));
+-            setEval(*newEval);
+-            return newEval;
++            return super::_makeEval();
+         }
+     }
+
+diff --git a/mod/core/ast/exprs/forExpr.hpp b/mod/core/ast/exprs/forExpr.hpp
+index 23aee5e10..c6323ebac 100644
+--- a/mod/core/ast/exprs/forExpr.hpp
++++ b/mod/core/ast/exprs/forExpr.hpp
+@@ -16,14 +16,12 @@ namespace namu {
+         const std::string& getLocalName() const;
+         str getContainer();
+
+-        str getEval() const override;
+-
+     protected:
+         tstr<loop> _makeLoop(arr& ret) const override;
++        str _makeEval() const override;
+
+     private:
+         str _container;
+         std::string _name;
+-        mutable nbool _initEval;
+     };
+ }
+diff --git a/mod/core/ast/exprs/loopExpr.cpp b/mod/core/ast/exprs/loopExpr.cpp
+index e08154755..7d0447aff 100644
+--- a/mod/core/ast/exprs/loopExpr.cpp
++++ b/mod/core/ast/exprs/loopExpr.cpp
+@@ -4,6 +4,7 @@
+ #include "../../frame/frameInteract.hpp"
+ #include "breakExpr.hpp"
+ #include "nextExpr.hpp"
++#include "retExpr.hpp"
+ #include "../../builtin/container/mgd/arr.hpp"
+ #include "../../builtin/container/mgd/tdumArr.hpp"
+
+@@ -36,11 +37,18 @@ namespace namu {
+     }
+
+     str me::getEval() const {
+-        return _eval;
++        if(_eval) return *_eval;
++
++        return _eval = _makeEval();
+     }
+
+-    nbool me::setEval(const node& new1) const {
+-        return _eval.bind(new1);
++    str me::_makeEval() const {
++        str ret = getBlock().getEval();
++        if(!ret) return str();
++
++        if(!ret->isSub<retExpr>())
++            ret.bind(new arr(*ret));
++        return ret;
+     }
+
+     str me::run(const args& a) {
+diff --git a/mod/core/ast/exprs/loopExpr.hpp b/mod/core/ast/exprs/loopExpr.hpp
+index c518f4f6f..a61b85b4f 100644
+--- a/mod/core/ast/exprs/loopExpr.hpp
++++ b/mod/core/ast/exprs/loopExpr.hpp
+@@ -36,13 +36,13 @@ namespace namu {
+     public:
+         blockExpr& getBlock() const;
+         str getEval() const override;
+-        nbool setEval(const node& new1) const;
+
+         using super::run;
+         str run(const args& a) override;
+
+     protected:
+         virtual tstr<loop> _makeLoop(arr& ret) const = 0;
++        virtual str _makeEval() const;
+
+     private:
+         tstr<arr> _makeRet() const;
+diff --git a/mod/core/ast/exprs/whileExpr.cpp b/mod/core/ast/exprs/whileExpr.cpp
+index 214c1adab..0f5904de4 100644
+--- a/mod/core/ast/exprs/whileExpr.cpp
++++ b/mod/core/ast/exprs/whileExpr.cpp
+@@ -7,22 +7,12 @@ namespace namu {
+
+     NAMU(DEF_ME(whileExpr), DEF_VISIT())
+
+-    me::whileExpr(const node& condition, const blockExpr& blk): super(blk), _condition(condition),
+-        _initEval(false) {}
++    me::whileExpr(const node& condition, const blockExpr& blk): super(blk), _condition(condition) {}
+
+     node& me::getCondition() {
+         return *_condition;
+     }
+
+-    str me::getEval() const {
+-        if(_initEval) return super::getEval();
+-
+-        _initEval = true;
+-        arr& newEval = *new arr(*getBlock().getEval()); // elem of last stmt.
+-        setEval(newEval);
+-        return newEval;
+-    }
+-
+     namespace {
+         class whileLoop : public me::loop {
+             NAMU(CLASS(whileLoop, loop))
+diff --git a/mod/core/ast/exprs/whileExpr.hpp b/mod/core/ast/exprs/whileExpr.hpp
+index 744b05073..23c199f16 100644
+--- a/mod/core/ast/exprs/whileExpr.hpp
++++ b/mod/core/ast/exprs/whileExpr.hpp
+@@ -15,13 +15,10 @@ namespace namu {
+         const node& getCondition() const NAMU_UNCONST_FUNC(getCondition())
+         node& getCondition();
+
+-        str getEval() const override;
+-
+     protected:
+         tstr<loop> _makeLoop(arr& ret) const override;
+
+     private:
+         str _condition;
+-        mutable nbool _initEval;
+     };
+ }
+--
+2.34.1
+
+
+From 85b27fb35d2f81e4a854afadef548389c3771691 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Fri, 3 May 2024 17:16:57 +0900
+Subject: [PATCH 20/21] core: fix: F/C occurs because temporary array has been
+ released during a loop
+
+---
+ mod/core/ast/exprs/forExpr.cpp | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/mod/core/ast/exprs/forExpr.cpp b/mod/core/ast/exprs/forExpr.cpp
+index e38dc28d0..b302b8bc5 100644
+--- a/mod/core/ast/exprs/forExpr.cpp
++++ b/mod/core/ast/exprs/forExpr.cpp
+@@ -37,7 +37,8 @@ namespace namu {
+             NAMU(CLASS(forLoop, loop))
+
+         public:
+-            forLoop(arr& ret, str iter, const forExpr& owner): super(ret), _iter(iter), _owner(owner) {}
++            forLoop(arr& ret, str container, str iter, const forExpr& owner):
++                super(ret), _container(container), _iter(iter), _owner(owner) {}
+
+         public:
+             nbool isLooping() override {
+@@ -59,6 +60,7 @@ namespace namu {
+             }
+
+         private:
++            str _container;
+             str _iter;
+             const forExpr& _owner;
+         };
+@@ -71,6 +73,6 @@ namespace namu {
+         if(!iter) return NAMU_E("iter is null"), str();
+
+         NAMU_DI("forExpr: loop %s in %s", getLocalName().c_str(), ased->getSrc().getName().c_str());
+-        return new forLoop(ret, iter, *this);
++        return new forLoop(ret, ased, iter, *this);
+     }
+ }
+--
+2.34.1
+
+
+From b922a7f4cdcac071c99ad6dea5f6df0773691f75 Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Fri, 3 May 2024 17:18:58 +0900
+Subject: [PATCH 21/21] =?UTF-8?q?=EC=9E=91=EC=97=85=EC=A4=91:=20isReturnin?=
+ =?UTF-8?q?g?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+* 지금은 매번 for loop을 돌때마다 배열을 만들어서 return 해주고 있다.
+* forExpr을 rhs로 두고 뭔가 작업을 하는 순간에만 forExpr 내부에서
+  ret 배열을 만들도록 해서 최적화를 하도록 하자.
+---
+ mod/core/frame/frame.cpp | 4 ++++
+ mod/core/frame/frame.hpp | 6 ++++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/mod/core/frame/frame.cpp b/mod/core/frame/frame.cpp
+index c2a6640e6..976365ce3 100644
+--- a/mod/core/frame/frame.cpp
++++ b/mod/core/frame/frame.cpp
+@@ -73,6 +73,8 @@ namespace namu {
+         return _stack[len-1];
+     }
+
++    void me::_setReturning(nbool newVal) { _isReturning = newVal; }
++
+     nbool me::setFunc(baseFunc& new1) { return _func.bind(new1); }
+     void me::setFunc() { setFunc(nulOf<baseFunc>()); }
+     baseFunc& me::getFunc() { return *_func; }
+@@ -93,6 +95,8 @@ namespace namu {
+
+     str me::run(const args& a) { return str(); }
+
++    nbool me::isReturning() const { return _isReturning; }
++
+     void me::rel() {
+         _rel();
+         super::rel();
+diff --git a/mod/core/frame/frame.hpp b/mod/core/frame/frame.hpp
+index 67c23a6e4..400c2142b 100644
+--- a/mod/core/frame/frame.hpp
++++ b/mod/core/frame/frame.hpp
+@@ -23,6 +23,7 @@ namespace namu {
+         friend class verifier;
+         friend struct ::frameTest;
+         friend class baseObj;
++        friend class loopExpr;
+
+     public:
+         frame();
+@@ -68,15 +69,20 @@ namespace namu {
+
+         void dump() const override;
+
++        /// return whether current expression processing by this frame is about to return value.
++        nbool isReturning() const;
++
+     private:
+         void _rel();
+         scopeRegister& _getTop();
+         const scopeRegister& _getTop() const NAMU_UNCONST_FUNC(_getTop())
++        void _setReturning(nbool newVal);
+
+     private:
+         tstr<baseObj> _me;
+         tstr<baseFunc> _func;
+         std::vector<scopeRegister> _stack;
+         mutable str _ret;
++        nbool _isReturning;
+     };
+ }
+--
+2.34.1

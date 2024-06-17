@@ -44,7 +44,7 @@ TEST_F(asExprTest, castInt3) {
 }
 
 TEST_F(asExprTest, castInt4) {
-   negative(). make().parse(R"SRC(
+   make().negative().parse(R"SRC(
         foo(age str) void
             main()
         main() void
@@ -82,7 +82,7 @@ TEST_F(asExprTest, castFlt) {
             foo(23.0)
     )SRC").shouldVerified(true);
 
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         foo(age str) void
             main()
         main() void
@@ -94,7 +94,7 @@ TEST_F(asExprTest, castFlt) {
 TEST_F(asExprTest, castByteNegative) {
     // implicit casting of byte:
     //  -> nbool
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         foo(age int) void
             main()
         main() void
@@ -103,7 +103,7 @@ TEST_F(asExprTest, castByteNegative) {
 }
 
 TEST_F(asExprTest, castByteNegative2) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         foo(age flt) void
             main()
         main() void
@@ -112,7 +112,7 @@ TEST_F(asExprTest, castByteNegative2) {
 }
 
 TEST_F(asExprTest, castByteNegative3) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         foo(age str) void
             main()
         main() void
@@ -140,7 +140,7 @@ TEST_F(asExprTest, castByte3) {
 TEST_F(asExprTest, castBool) {
     // implicit casting of nbool:
     //  N/A
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         foo(age int) void
             main()
         main() void
@@ -148,7 +148,7 @@ TEST_F(asExprTest, castBool) {
     )SRC").shouldParsed(true);
     shouldVerified(true);
 
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         foo(age flt) void
             main()
         main() void
@@ -158,7 +158,7 @@ TEST_F(asExprTest, castBool) {
 }
 
 TEST_F(asExprTest, castBool1) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         foo(age byte) void
             main()
         main() void
@@ -177,7 +177,7 @@ TEST_F(asExprTest, castBool2) {
 }
 
 TEST_F(asExprTest, castBool3) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         foo(age str) void
             main()
         main() void
@@ -187,7 +187,7 @@ TEST_F(asExprTest, castBool3) {
 }
 
 TEST_F(asExprTest, castStrNegative) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         foo(age int) void
             main()
         main() void
@@ -195,7 +195,7 @@ TEST_F(asExprTest, castStrNegative) {
     )SRC").shouldParsed(true);
     shouldVerified(false);
 
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         foo(age flt) void
             main()
         main() void
@@ -203,7 +203,7 @@ TEST_F(asExprTest, castStrNegative) {
     )SRC").shouldParsed(true);
     shouldVerified(false);
 
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         foo(age byte) void
             main()
         main() void
@@ -211,7 +211,7 @@ TEST_F(asExprTest, castStrNegative) {
     )SRC").shouldParsed(true);
     shouldVerified(false);
 
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         foo(age bool) void
             main()
         main() void
@@ -301,7 +301,7 @@ TEST_F(asExprTest, simpleAsInt5) {
 }
 
 TEST_F(asExprTest, asExprNotAllowedNegative) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         foo(age str) void
             main()
         main() void
@@ -330,7 +330,7 @@ TEST_F(asExprTest, asAs) {
 }
 
 TEST_F(asExprTest, asAsNegative) {
-    negative().make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         foo(age str) void
             main()
         main() void

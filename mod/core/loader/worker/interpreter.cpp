@@ -60,7 +60,7 @@ namespace namu {
 
     void me::_parse() {
         NAMU_DI("======================================");
-        NAMU_DI("                parse                 ");
+        NAMU_DI("|               parse                |");
         NAMU_DI("======================================");
 
         _pser.setReport(getReport())
@@ -75,7 +75,7 @@ namespace namu {
 
     void me::_preEval() {
         NAMU_DI("======================================");
-        NAMU_DI("                preEval               ");
+        NAMU_DI("|               preEval              |");
         NAMU_DI("======================================");
 
         if(nul(getTask()))
@@ -90,7 +90,7 @@ namespace namu {
 
     void me::_verify() {
         NAMU_DI("======================================");
-        NAMU_DI("                verify                ");
+        NAMU_DI("|                verify              |");
         NAMU_DI("======================================");
 
         if(nul(getTask()))
@@ -99,7 +99,7 @@ namespace namu {
         // verify:
         _veri.setReport(getReport())
              .setFlag(getFlag());
-        if(getFlag() & (LOG_ON_END | DUMP_ON_END))
+        if(isFlag(LOG_ON_END | DUMP_ON_END))
             _veri.delFlag(LOG_ON_END | DUMP_ON_END);
         _veri.setTask(getTask().getPack())
              .work();

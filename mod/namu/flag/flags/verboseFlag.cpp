@@ -22,8 +22,8 @@ namespace namu {
     }
 
     nbool me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
-        ip.addFlag(interpreter::DEFAULT);
-        s.addFlag(starter::DEFAULT | starter::LOG_GRAPH_ON_EX);
+        //ip.addFlag(interpreter::DEFAULT);
+        //s.addFlag(starter::DEFAULT | starter::LOG_GRAPH_ON_EX);
         return true;
     }
 }

@@ -59,7 +59,7 @@ namespace namu {
     void ME::_rel() {
         _rpt.bind(dummyErrReport::singletone);
         _task.rel();
-        _logFlag = DEFAULT;
+        _logFlag = 0;
     }
 
     TEMPLATE
