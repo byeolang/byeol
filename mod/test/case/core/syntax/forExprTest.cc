@@ -180,6 +180,21 @@ TEST_F(forExprTest, returnMiddleOfLoop1) {
     ASSERT_EQ(res.cast<nint>(), 1);
 }
 
+TEST_F(forExprTest, returnMiddleOfLoop1WithoutParenthesisNegative) {
+    make().negative().parse(R"SRC(
+        def person
+            name := ""
+
+        main() int
+            p1 := person()
+            p1.name = "Chales"
+
+            res := for p in {p1, person()}
+                ret p1.name == "Chales" // <-- you can't (def)assign what return something inside.
+            ret 0
+    )SRC").shouldVerified(false);
+}
+
 TEST_F(forExprTest, returnMiddleOfLoop1WithoutParenthesis) {
     make().parse(R"SRC(
         def person
@@ -190,12 +205,14 @@ TEST_F(forExprTest, returnMiddleOfLoop1WithoutParenthesis) {
             p1.name = "Chales"
 
             res := for p in {p1, person()}
-                ret p1.name == "Chales"
-            ret 0
+                if p.name == "Chales"
+                    ret 100
+                p.name == "Chales"
+            res[0] // {1, 0}
     )SRC").shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(res.cast<nint>(), 100);
 }
 
 TEST_F(forExprTest, retMiddleOfLoop) {

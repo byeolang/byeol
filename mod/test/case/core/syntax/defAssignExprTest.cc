@@ -301,7 +301,7 @@ TEST_F(defAssignExprTest, defAssignAtIf) {
 }
 
 TEST_F(defAssignExprTest, defAssignAtBlockNegative) {
-    make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         main() int
             if true
                 res := 0.8
