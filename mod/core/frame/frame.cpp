@@ -84,6 +84,11 @@ namespace namu {
         return nul(reg) ? inner : *reg.s;
     }
 
+    tstr<nbicontainer> me::mySubs() const {
+        const auto& top = _getTop();
+        return top.owner ? top.owner->mySubs() : top.s->getContainer();
+    }
+
     priorType me::prioritize(const args& a) const { return NO_MATCH; }
 
     str me::run(const args& a) { return str(); }

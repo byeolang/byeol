@@ -53,6 +53,7 @@ namespace namu {
         // node:
         using node::subs;
         scope& subs() override;
+        tstr<nbicontainer> mySubs() const override;
 
         priorType prioritize(const args& a) const override;
         str run(const args& a) override;
@@ -70,6 +71,7 @@ namespace namu {
     private:
         void _rel();
         scopeRegister& _getTop();
+        const scopeRegister& _getTop() const NAMU_UNCONST_FUNC(_getTop())
 
     private:
         tstr<baseObj> _me;
