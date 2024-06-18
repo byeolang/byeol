@@ -57,7 +57,9 @@ namespace namu {
         // that's why I didn't use frameInteracter here. see forExpr::run().
         str ret;
 
-        const auto& ex = thread::get().getEx();
+        thread& th = thread::get();
+        const auto& ex = th.getEx();
+        const frame& fr = th.getNowFrame();
         nidx exN = ex.len() - 1; // blockExpr will judge exception occurs when exN is changed to after running one of its stmt.
         NAMU_DI("blockExpr: loop %d stmts", _exprs.len());
         for(auto& e : _exprs) {
@@ -69,7 +71,7 @@ namespace namu {
                              // so it's not the return type of what the func told, but it's okay.
                              // all derived err object can be assigned to any type.
             }
-            if(ret && ret->isSub<retState>()) break;
+            if(!nul(fr.getRet())) break;
         }
         return ret;
     }

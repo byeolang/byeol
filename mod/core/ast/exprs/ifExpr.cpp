@@ -28,7 +28,9 @@ namespace namu {
         tstr<nBool> res = _expr->as<node>()->asImpli<nBool>();
         if(!res) return nVoid::singletone();
 
-        if(res->cast<nbool>()) {
+        nbool cond = res->cast<nbool>();
+        NAMU_DI("ifExpr: condition[%s]", cond ? "true" : "false");
+        if(cond) {
             frameInteract f1(*_thenBlk); {
                 return _thenBlk->run();
             }
