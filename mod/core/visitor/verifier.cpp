@@ -682,12 +682,29 @@ namespace namu {
     nbool me::onVisit(visitInfo i, ifExpr& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
-        NAMU_I("verify: ifExpr: condition-expr can be casted into bool?");
-        node& condition = me.getCondition();
-        if(nul(condition))
-            return posError(errCode::CONDITION_IS_EMPTY, me), true;
-        if(!condition.is<nBool>())
-            return posError(errCode::CONDITION_CANT_CAST_TO_BOOL, me), true;
+        auto& blk = _getIfBlockExprByCondition(me);
+        if(!nul(blk))
+            blk.inFrame();
         return true;
+    }
+
+    void me::onLeave(visitInfo i, ifExpr& me) {
+        GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
+        NAMU_I("verify: ifExpr: unregister scope");
+        blockExpr& cont = _getIfBlockExprByCondition(me);
+        if(!nul(cont))
+            cont.outFrame();
+    }
+
+    blockExpr& me::_getIfBlockExprByCondition(ifExpr& me) {
+        NAMU_I("verify: ifExpr: condition-expr can be casted into bool?");
+        node& condExpr = me.getCondition();
+        if(nul(condExpr))
+            return posError(errCode::CONDITION_IS_EMPTY, me), nulOf<blockExpr>();
+        if(!condExpr.is<nBool>())
+            return posError(errCode::CONDITION_CANT_CAST_TO_BOOL, me), nulOf<blockExpr>();
+
+        NAMU_I("verify: ifExpr: register scope");
+        return condExpr.as<nBool>() ? me.getThenBlk() : me.getElseBlk();
     }
 }
