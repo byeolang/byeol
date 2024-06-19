@@ -4,6 +4,7 @@
 #include "../../frame/frameInteract.hpp"
 #include "breakExpr.hpp"
 #include "nextExpr.hpp"
+#include "retExpr.hpp"
 #include "../../builtin/container/mgd/arr.hpp"
 #include "../../builtin/container/mgd/tdumArr.hpp"
 
@@ -36,11 +37,18 @@ namespace namu {
     }
 
     str me::getEval() const {
-        return _eval;
+        if(_eval) return *_eval;
+
+        return _eval = _makeEval();
     }
 
-    nbool me::setEval(const node& new1) const {
-        return _eval.bind(new1);
+    str me::_makeEval() const {
+        str ret = getBlock().getEval();
+        if(!ret) return str();
+
+        if(!ret->isSub<retExpr>())
+            ret.bind(new arr(*ret));
+        return ret;
     }
 
     str me::run(const args& a) {

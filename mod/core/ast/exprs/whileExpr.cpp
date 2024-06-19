@@ -7,20 +7,10 @@ namespace namu {
 
     NAMU(DEF_ME(whileExpr), DEF_VISIT())
 
-    me::whileExpr(const node& condition, const blockExpr& blk): super(blk), _condition(condition),
-        _initEval(false) {}
+    me::whileExpr(const node& condition, const blockExpr& blk): super(blk), _condition(condition) {}
 
     node& me::getCondition() {
         return *_condition;
-    }
-
-    str me::getEval() const {
-        if(_initEval) return super::getEval();
-
-        _initEval = true;
-        arr& newEval = *new arr(*getBlock().getEval()); // elem of last stmt.
-        setEval(newEval);
-        return newEval;
     }
 
     namespace {

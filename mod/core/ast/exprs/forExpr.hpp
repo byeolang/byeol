@@ -16,14 +16,12 @@ namespace namu {
         const std::string& getLocalName() const;
         str getContainer();
 
-        str getEval() const override;
-
     protected:
         tstr<loop> _makeLoop(arr& ret) const override;
+        str _makeEval() const override;
 
     private:
         str _container;
         std::string _name;
-        mutable nbool _initEval;
     };
 }

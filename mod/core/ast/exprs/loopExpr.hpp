@@ -36,13 +36,13 @@ namespace namu {
     public:
         blockExpr& getBlock() const;
         str getEval() const override;
-        nbool setEval(const node& new1) const;
 
         using super::run;
         str run(const args& a) override;
 
     protected:
         virtual tstr<loop> _makeLoop(arr& ret) const = 0;
+        virtual str _makeEval() const;
 
     private:
         tstr<arr> _makeRet() const;
