@@ -14,27 +14,6 @@ namespace namu {
         return *_condition;
     }
 
-    str me::run(const args& a) {
-        blockExpr& blk = getBlock();
-        if(!_condition) return NAMU_E("_condition is null."), str();
-        if(nul(blk)) return NAMU_E("blk is null."), str();
-
-        arr& ret = _preprocess();
-        while(true) {
-            str ased = _condition->asImpli<nBool>();
-            if(!ased) return NAMU_E("cast to bool has been failed."), str();
-            if(!ased->cast<nbool>()) break;
-
-            frameInteract f1(blk); {
-                ret.add(*blk.run());
-                if(_postprocess())
-                    return ret;
-            }
-        }
-
-        return ret;
-    }
-
     str me::getEval() const {
         if(_initEval) return super::getEval();
 
@@ -42,5 +21,29 @@ namespace namu {
         arr& newEval = *new arr(*getBlock().getEval()); // elem of last stmt.
         setEval(newEval);
         return newEval;
+    }
+
+    namespace {
+        class whileLoop : public me::loop {
+            NAMU(CLASS(whileLoop, loop))
+
+        public:
+            whileLoop(arr& ret, const whileExpr& owner): super(ret), _owner(owner) {}
+
+        public:
+            nbool isLooping() override {
+                str ased = _owner.getCondition().asImpli<nBool>();
+                if(!ased) return NAMU_E("cast to bool has been failed."), false;
+                return ased->cast<nbool>();
+            }
+
+        private:
+            const whileExpr& _owner;
+        };
+    }
+
+    tstr<me::loop> me::_makeLoop(arr& ret) const {
+        NAMU_DI("whileExpr: loop");
+        return new whileLoop(ret, *this);
     }
 }

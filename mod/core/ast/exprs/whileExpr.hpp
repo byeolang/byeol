@@ -15,10 +15,10 @@ namespace namu {
         const node& getCondition() const NAMU_UNCONST_FUNC(getCondition())
         node& getCondition();
 
-        using super::run;
-        str run(const args& a) override;
-
         str getEval() const override;
+
+    protected:
+        tstr<loop> _makeLoop(arr& ret) const override;
 
     private:
         str _condition;

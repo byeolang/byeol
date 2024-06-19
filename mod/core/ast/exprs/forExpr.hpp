@@ -16,10 +16,10 @@ namespace namu {
         const std::string& getLocalName() const;
         str getContainer();
 
-        using super::run;
-        str run(const args& a) override;
-
         str getEval() const override;
+
+    protected:
+        tstr<loop> _makeLoop(arr& ret) const override;
 
     private:
         str _container;
