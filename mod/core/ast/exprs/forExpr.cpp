@@ -37,7 +37,8 @@ namespace namu {
             NAMU(CLASS(forLoop, loop))
 
         public:
-            forLoop(arr& ret, str iter, const forExpr& owner): super(ret), _iter(iter), _owner(owner) {}
+            forLoop(arr& ret, str container, str iter, const forExpr& owner):
+                super(ret), _container(container), _iter(iter), _owner(owner) {}
 
         public:
             nbool isLooping() override {
@@ -59,6 +60,7 @@ namespace namu {
             }
 
         private:
+            str _container;
             str _iter;
             const forExpr& _owner;
         };
@@ -71,6 +73,6 @@ namespace namu {
         if(!iter) return NAMU_E("iter is null"), str();
 
         NAMU_DI("forExpr: loop %s in %s", getLocalName().c_str(), ased->getSrc().getName().c_str());
-        return new forLoop(ret, iter, *this);
+        return new forLoop(ret, ased, iter, *this);
     }
 }
