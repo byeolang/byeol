@@ -6,6 +6,7 @@
 namespace namu {
 
     class frame;
+    class arr;
     class _nout loopExpr : public expr {
         NAMU(ADT(loopExpr, expr, expr::exprType), VISIT())
 
@@ -17,12 +18,17 @@ namespace namu {
         str getEval() const override;
         nbool setEval(const node& new1) const;
 
+        nbool isReturnable() const;
+        void setReturnable(nbool isReturnable);
+
     protected:
         /// @return true if exit the loop
-        nbool _postprocess(frame& fr) const;
+        nbool _postprocess() const;
+        arr& _preprocess() const;
 
     private:
         mutable tstr<blockExpr> _blk;
         mutable str _eval;
+        nbool _isReturnable;
     };
 }

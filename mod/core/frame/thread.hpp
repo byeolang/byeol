@@ -27,6 +27,7 @@ namespace namu {
         friend class retStateExpr;
         friend class starter;
         friend struct ::exprTest;
+        friend class loopExpr;
 
     public:
         thread();

@@ -9,7 +9,7 @@ namespace namu {
     NAMU(DEF_ME(forExpr), DEF_VISIT())
 
     me::forExpr(const std::string& localName, const node& container, const blockExpr& blk):
-        super(blk), _container(container), _name(localName), _initEval(false) {}
+        super(blk), _container(container), _name(localName), _initEval(false), _isReturnable(false) {}
 
     const std::string& me::getLocalName() const {
         return _name;
@@ -29,11 +29,7 @@ namespace namu {
         str iter = ased->run("iterate", args{narr{*new nInt(0)}});
         if(!iter) return NAMU_E("iter is null"), str();
 
-        node& eval = *getEval();
-        if(nul(eval))
-            return NAMU_E("eval is null "), str();
-        static dumArr inner;
-        arr& ret = eval.isSub<arr>() ? *new arr(eval.getType().getBeans()[0]) : inner;
+        arr& ret = _preprocess();
         frame& fr = thread::get()._getNowFrame();
 
         NAMU_DI("forExpr: loop %s in %s", getLocalName().c_str(), ased->getSrc().getName().c_str());
@@ -45,7 +41,7 @@ namespace namu {
                 fr.addLocal(_name, *elem);
 
                 ret.add(*blk.run());
-                if(_postprocess(fr))
+                if(_postprocess())
                     return ret;
             }
 

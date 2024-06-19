@@ -19,21 +19,15 @@ namespace namu {
         if(!_condition) return NAMU_E("_condition is null."), str();
         if(nul(blk)) return NAMU_E("blk is null."), str();
 
-        arr& eval = getEval().cast<arr>();
-        if(nul(eval))
-            return NAMU_E("eval isn't arr"), str();
-        arr& ret = *new arr(eval.getType().getBeans()[0]);
-        frame& fr = thread::get()._getNowFrame();
+        arr& ret = _preprocess();
         while(true) {
             str ased = _condition->asImpli<nBool>();
             if(!ased) return NAMU_E("cast to bool has been failed."), str();
-
-            if(!ased->cast<nbool>())
-                break;
+            if(!ased->cast<nbool>()) break;
 
             frameInteract f1(blk); {
                 ret.add(*blk.run());
-                if(_postprocess(fr))
+                if(_postprocess())
                     return ret;
             }
         }
