@@ -43,12 +43,10 @@ namespace namu {
     }
 
     str me::_makeEval() const {
-        str ret = getBlock().getEval();
-        if(!ret) return str();
+        str res = getBlock().getEval();
+        if(!res) return str();
 
-        if(!ret->isSub<retExpr>())
-            ret.bind(new arr(*ret));
-        return ret;
+        return new arr(*res);
     }
 
     str me::run(const args& a) {
@@ -74,6 +72,7 @@ namespace namu {
         node& eval = *getEval();
         if(nul(eval))
             return NAMU_E("eval is null "), nulOf<arr>();
-        return *new arr(eval.getType().getBeans()[0]);
+        return *new arr(eval.getType().getBeans()[0]); // it's possible that this new arr contains
+                                                       // 'retExpr' as type parameter
     }
 }
