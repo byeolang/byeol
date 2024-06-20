@@ -38,6 +38,7 @@ namespace namu {
         void _preEval();
         void _verify();
         void _log() const;
+        void _showGraph() const;
 
     private:
         verifier _veri;

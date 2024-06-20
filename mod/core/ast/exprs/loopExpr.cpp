@@ -71,9 +71,6 @@ namespace namu {
 
     tstr<arr> me::_makeRet() const {
         static dumArr inner;
-        if(!thread::get().getNowFrame().isReturning())
-            return inner;
-
         node& eval = *getEval();
         if(nul(eval))
             return NAMU_E("eval is null "), nulOf<arr>();

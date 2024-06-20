@@ -37,14 +37,20 @@ namespace namu {
     }
 
     tstr<slot> me::_onWork() {
-        threadUse thr;
         _parse();
         if(getReport())
             return getTask();
         _preEval();
         _verify();
+        _showGraph();
 
         return getTask();
+    }
+
+    void me::_showGraph() const {
+        // run with dumThread.
+        if(isFlag(LOG_STRUCTURE) && !nul(_pser.getSubPack()) && !nul(getTask()))
+            graphVisitor().setFlag(0).setTask(getTask()).work();
     }
 
     void me::rel() {
@@ -81,6 +87,7 @@ namespace namu {
         if(nul(getTask()))
             return NAMU_E("_slot is null"), void();
 
+        threadUse thr;
         preEvaluator evaler;
         evaler.setReport(getReport())
               .setFlag(getFlag())
@@ -97,13 +104,12 @@ namespace namu {
             return NAMU_E("_slot is null"), void();
 
         // verify:
+        threadUse thr;
         _veri.setReport(getReport())
              .setFlag(getFlag());
         if(isFlag(LOG_ON_END | DUMP_ON_END))
             _veri.delFlag(LOG_ON_END | DUMP_ON_END);
         _veri.setTask(getTask().getPack())
              .work();
-        if(isFlag(LOG_STRUCTURE) && !nul(_pser.getSubPack()) && !nul(getTask()))
-            graphVisitor().setFlag(0).setTask(getTask()).work();
     }
 }
