@@ -179,16 +179,13 @@ namespace namu {
                 nul(rhs) ? "name" : rhs.getType().getName().c_str());
 
         node& to = me.getTo();
-        str new1 = me.isOnDefBlock() ? rhs.as<node>() : rhs.getEval();
+        str new1 = me.isOnDefBlock() ? rhs.as<node>() : rhsEval;
 
         NAMU_I("verify: defAssignExpr: define new1[%s] to[%s]",
                new1 ? new1->getType().getName().c_str() : "null", nul(to) ? "frame" : to.getType().getName().c_str());
-        if(!new1)
-            return posError(errCode::RHS_NOT_EVALUATED, me);
-        if(!new1->isComplete())
-            return posError(errCode::ACCESS_TO_INCOMPLETE, me);
-        if(new1->isSub<nVoid>())
-            return posError(errCode::VOID_CANT_DEFINED, me);
+        if(!new1) return posError(errCode::RHS_NOT_EVALUATED, me);
+        if(!new1->isComplete()) return posError(errCode::ACCESS_TO_INCOMPLETE, me);
+        if(new1->isSub<nVoid>()) return posError(errCode::VOID_CANT_DEFINED, me);
 
         // when you define variable, I need to clone it:
         //  if don't, it may be incomplete object.

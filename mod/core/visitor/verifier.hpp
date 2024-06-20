@@ -57,6 +57,7 @@ namespace namu {
         void _verifyMgdFuncImplicitReturn(func& me);
         nbool _isVariableDuplicated(defAssignExpr& me, const node& subs);
         blockExpr& _getIfBlockExprByCondition(ifExpr& me);
+        nbool _verifyArrWhetherHaveRetExpr(const arr& a, const expr& me);
 
     private:
         std::vector<loopExpr*> _recentLoops;

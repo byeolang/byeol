@@ -46,6 +46,8 @@ namespace namu {
         str res = getBlock().getEval();
         if(!res) return str();
 
+        if(res->isSub<retExpr>())
+            return res;
         return new arr(*res);
     }
 
@@ -70,9 +72,9 @@ namespace namu {
     tstr<arr> me::_makeRet() const {
         static dumArr inner;
         node& eval = *getEval();
-        if(nul(eval))
-            return NAMU_E("eval is null "), nulOf<arr>();
-        return *new arr(eval.getType().getBeans()[0]); // it's possible that this new arr contains
-                                                       // 'retExpr' as type parameter
+        if(nul(eval)) return NAMU_E("eval is null "), nulOf<arr>();
+        if(!eval.isSub<arr>()) return nulOf<arr>();
+
+        return *new arr(eval.getType().getBeans()[0]);
     }
 }

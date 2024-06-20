@@ -61,7 +61,7 @@ PAIRX(SEQ_SHOULD_INT_COMPATIBLE,    "start and end of a sequence should be sort 
 //  assign:
 PAIRX(TYPE_NOT_COMPATIBLE,          "rhs type '%s' is not compatible to lhs '%s' of this assigment")
 PAIRX(ASSIGN_TO_RVALUE,             "you can't assign %s to this unamed %s. please define it first")
-//  casting:
+//  type:
 PAIRX(CAST_NOT_AVAILABLE,           "couldn't cast %s type as %s")
 PAIRX(LHS_IS_NULL,                  "lhs of the expression is null")
 PAIRX(RHS_IS_NULL,                  "rhs of the expression is null")
@@ -69,6 +69,8 @@ PAIRX(EXPR_SHOULDNT_BE_HERE,        "expression shouldn't be here")
 PAIRX(IMPLICIT_CAST_NOT_AVAILABLE,  "couldn't implicit cast %s type as %s")
 PAIRX(VOID_NOT_CAST,                "casting to the void type isn't allowed")
 PAIRX(CAST_TO_UNKNOWN,              "cast to unknown type")
+PAIRX(ARR_DOESNT_HAVE_TYPE_PARAM,   "array doesn't have type parameter.")
+PAIRX(ARR_RETURNING_SOMETHING,      "block returning something can't be evaluated as an array.")
 //  arithmetic operation:
 PAIRX(LHS_IS_NOT_ARITH,             "lhs '%s' is not arithmetic type")
 PAIRX(RHS_IS_NOT_ARITH,             "rhs '%s' is not arithmetic type")
@@ -104,7 +106,7 @@ PAIRX(WRONG_RET_TYPE,               "%s is not a valid return type")
 PAIRX(NO_RET_TYPE,                  "return type is not specified")
 PAIRX(NO_FUNC_INFO,                 "function info doesn't exist")
 PAIRX(MAIN_SHOULD_HAVE_STMTS,       "'main' function need to contain more than 1 statement inside")
-PAIRX(RET_TYPE_NOT_MATCH,           "%s return type isn't valid to %s return type of func")
+PAIRX(RET_TYPE_NOT_MATCH,           "return type, %s, isn't valid to return type of func, %s")
 PAIRX(PARAM_NOT_VOID,               "parameter '%s' shouldn't be a void type")
 PAIRX(FUNC_SHOULD_RETURN_SOMETHING, "function should return something")
 
