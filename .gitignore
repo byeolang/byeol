@@ -83,3 +83,4 @@ build/debian/usr/
 *Zone.Identifier
 .cache/
 *.patch
+code_coverage.info
