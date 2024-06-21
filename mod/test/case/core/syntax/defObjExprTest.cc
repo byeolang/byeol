@@ -16,6 +16,40 @@ TEST_F(defObjExprTest, simpleDefineObject) {
     run();
 }
 
+TEST_F(defObjExprTest, objMakeScopeWithOwnsAndSharesButNotPackScope) {
+    make().parse(R"SRC(
+        def a
+            age := 22
+            foo() int: age
+        main() void
+            a().foo()
+    )SRC").shouldVerified(true);
+
+    node& root = getSubPack();
+    ASSERT_FALSE(nul(root));
+
+    node& a = root.sub("a");
+    ASSERT_FALSE(nul(a));
+
+    const scope& s = a.subs();
+    ASSERT_FALSE(nul(s));
+    ASSERT_TRUE(s.len() > 2);
+    const auto& sArr = s.getContainer();
+    ASSERT_EQ(sArr.len(), 1);
+    ASSERT_EQ(sArr.begin().getKey(), "age");
+    ASSERT_TRUE(sArr.begin()->isSub<nInt>());
+
+    ASSERT_EQ(s.chainLen(), 2); // owns + shares
+    const auto& next = s.getNext();
+    ASSERT_FALSE(nul(next));
+    ASSERT_EQ(next.len(), 3); // foo() + 2 x @ctor
+
+    const auto& nextArr = next.getContainer();
+    ASSERT_FALSE(nul(nextArr));
+    ASSERT_EQ(nextArr.len(), 3);
+    ASSERT_TRUE(nextArr.has("foo"));
+}
+
 TEST_F(defObjExprTest, simpleDefineObject2) {
     make().parse(R"SRC(
         def A
