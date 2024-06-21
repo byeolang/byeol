@@ -263,3 +263,46 @@ TEST_F(ifExprTest, testAssignWithCompoundExpr) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 1);
 }
+
+TEST_F(ifExprTest, evalIfExprReturningSomething) {
+    make().parse(R"SRC(
+        main() int
+            val := 2 > 5
+            a := if val
+                "seven_angel"
+            else
+                23 as str + "wow"
+            ret a.len()
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res->cast<nint>(), 5);
+}
+
+TEST_F(ifExprTest, evalIfExprReturningSomethingNegative) {
+    make().negative().parse(R"SRC(
+        main() int
+            val := 2 > 5
+            a := if val
+                ret -1
+            else
+                23 as str + "wow"
+            ret a.len()
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(ifExprTest, evalIfExprReturningSomethingNegative2) {
+    make().negative().parse(R"SRC(
+        main() int
+            val := 2 > 5
+            a := if val
+                ret -1
+            else
+                ret 1
+            ret a
+    )SRC").shouldVerified(false);
+
+    const auto& rpt = getReport();
+    ASSERT_TRUE(rpt.has(errCode::CANT_ASSIGN_RET));
+}
