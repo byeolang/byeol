@@ -17,7 +17,9 @@ namespace namu {
     arr& me::loop::getRet() { return *_ret; }
 
     void me::loop::run(blockExpr& blk, frame& fr) {
-        _ret->add(*blk.run());
+        str res = blk.run();
+        if(_ret)
+            _ret->add(*res);
     }
 
     nbool me::loop::postprocess(frame& fr) {
