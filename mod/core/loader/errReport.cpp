@@ -32,6 +32,12 @@ namespace namu {
         return false;
     }
     nbool me::has(logLv::level type) const { return has(type, 0); }
+    nbool me::has(errCode code) const {
+        for(auto e : *this)
+            if(e->code == code) return true;
+
+        return false;
+    }
 
     const err& me::get(nidx n) const {
         return *_errs[n];

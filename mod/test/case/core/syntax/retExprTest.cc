@@ -189,3 +189,36 @@ TEST_F(retExprTest, retExceptionNoThrowAgain2) {
     ASSERT_FALSE(nul(ex));
     ASSERT_EQ(ex.len(), 2);
 }
+
+TEST_F(retExprTest, dontUseRetAtMiddleOfBlockNegative) {
+    make().negative().parse(R"SRC(
+        foo() int
+            a := 2
+            b := 3 + 1
+            ret a + b
+            c := a * b
+            ret c
+
+        main() int
+            foo()
+    )SRC").shouldVerified(false);
+
+    const auto& rpt = getReport();
+    ASSERT_TRUE(rpt.hasErr());
+    ASSERT_TRUE(rpt.has(errCode::RET_AT_MIDDLE_OF_BLOCK));
+}
+
+TEST_F(retExprTest, dontUseRetAtMiddleOfBlockNegative2) {
+    make().negative().parse(R"SRC(
+        main() int
+            a := for n in 0..5
+                b := 3 + 1
+                ret b + n
+                c := b * n
+            ret a[1]
+    )SRC").shouldVerified(false);
+
+    const auto& rpt = getReport();
+    ASSERT_TRUE(rpt.hasErr());
+    ASSERT_TRUE(rpt.has(errCode::RET_AT_MIDDLE_OF_BLOCK));
+}
