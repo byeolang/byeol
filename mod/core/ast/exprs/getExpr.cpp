@@ -20,10 +20,7 @@ namespace namu {
     }
 
     str me::getEval() const {
-        str got = _get(true).getMatch();
-        if(!got)
-            return got;
-        return got->getEval();
+        return _get(true).getMatch();
     }
 
     str me::run(const args& a) {
