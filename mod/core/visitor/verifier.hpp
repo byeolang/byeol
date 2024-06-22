@@ -46,11 +46,9 @@ namespace namu {
         void onLeave(visitInfo i, ifExpr& me) override;
 
     protected:
-        void _onEndWork() override;
         void _prepare() override;
 
     private:
-        void _postpare();
         std::string _asStr(const params& ps);
 
         // @param newInfo is not a heap instance.

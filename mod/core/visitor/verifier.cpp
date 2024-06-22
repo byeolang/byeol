@@ -33,10 +33,6 @@ namespace namu {
         }
     }
 
-    void me::_onEndWork() {
-        _postpare();
-    }
-
     // verification:
     nbool me::onVisit(visitInfo i, node& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
@@ -547,17 +543,6 @@ namespace namu {
     void me::_prepare() {
         super::_prepare();
         _recentLoops.clear();
-
-        baseObj& root = getTask().cast<baseObj>();
-        if(!nul(root))
-            // before verify obj and its subs, I need to register onto frame.
-            root.inFrame();
-    }
-
-    void me::_postpare() {
-        baseObj& root = getTask().cast<baseObj>();
-        if(!nul(root))
-            root.outFrame();
     }
 
     void me::onLeave(visitInfo i, func& me) {
