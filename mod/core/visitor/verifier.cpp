@@ -62,7 +62,7 @@ namespace namu {
                     me.getAs().getType().getName().c_str()), true;
 
         NAMU_I("verify: asExpr: rhs shouldn't be expression");
-        if(!me.getAs().asImpli<node>())
+        if(!me.getAs().isImpli<node>())
             return posError(errCode::CAST_TO_UNKNOWN, me), true;
         return true;
     }
@@ -398,7 +398,7 @@ namespace namu {
         if(!nul(cast))
             cast.setMe(*ased);
 
-        str derivedSub = anySub.as<node>();
+        str derivedSub = anySub.getEval();
         if(!derivedSub) return posError(errCode::CANT_ACCESS, me, ased->getType().getName().c_str(), "sub-node"), true;
 
         NAMU_I("verify: runExpr: derivedSub[%s]", derivedSub->getType().getName().c_str());
@@ -503,7 +503,7 @@ namespace namu {
                 posError(errCode::PARAM_NOT_VOID, me, p.getName().c_str());
                 continue;
             }
-            s->add(p.getName(), *(node*) p.getOrigin().as<node>()->clone());
+            s->add(p.getName(), *(node*) p.getOrigin().getEval()->clone());
         }
 
         //  function's subs are third:
@@ -663,30 +663,10 @@ namespace namu {
 
     nbool me::onVisit(visitInfo i, ifExpr& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
-
-        auto& blk = _getIfBlockExprByCondition(me);
-        if(!nul(blk))
-            blk.inFrame();
         return true;
     }
 
     void me::onLeave(visitInfo i, ifExpr& me) {
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
-        NAMU_I("verify: ifExpr: unregister scope");
-        blockExpr& cont = _getIfBlockExprByCondition(me);
-        if(!nul(cont))
-            cont.outFrame();
-    }
-
-    blockExpr& me::_getIfBlockExprByCondition(ifExpr& me) {
-        NAMU_I("verify: ifExpr: condition-expr can be casted into bool?");
-        node& condExpr = me.getCondition();
-        if(nul(condExpr))
-            return posError(errCode::CONDITION_IS_EMPTY, me), nulOf<blockExpr>();
-        if(!condExpr.is<nBool>())
-            return posError(errCode::CONDITION_CANT_CAST_TO_BOOL, me), nulOf<blockExpr>();
-
-        NAMU_I("verify: ifExpr: register scope");
-        return condExpr.as<nBool>() ? me.getThenBlk() : me.getElseBlk();
     }
 }
