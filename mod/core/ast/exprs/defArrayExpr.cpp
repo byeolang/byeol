@@ -41,7 +41,7 @@ namespace namu {
         str ased1 = _elems[0].getEval();
         const node* ret = &ased1.get();
         if(!ret)
-            return NAMU_DI("deduceElem: elem0 is 'void'. deduced type as 'void'"), nVoid::singletone();
+            return NAMU_DI("deduceElem: elem0 is null"), str();
         str ased;
 
         for(int n=1; n < len; n++) {
@@ -50,7 +50,7 @@ namespace namu {
             NAMU_DI("deduceElem: prevElem + elem%d[%s] --> %s",
                     n, ased->getType().getName().c_str(), ret ? ret->getType().getName().c_str() : "null");
             if(!ret)
-                return NAMU_DI("deduceElem: elem%d was void. deduced type as 'void'", n), nVoid::singletone();
+                return NAMU_DI("deduceElem: elem%d was null.", n), str();
         }
 
         return *ret;
