@@ -222,9 +222,13 @@ namespace namu {
         f.getCondition().accept(visitInfo {"condition", &f, 0, len, i.depth+1}, *this);
 
         f.getThenBlk().accept(visitInfo {"then", &f, 1, len, i.depth+1}, *this);
-        if(!nul(elseBlk))
+        if(!nul(elseBlk)) {
+            onTraverseElse(f, elseBlk);
             elseBlk.accept(visitInfo {"else", &f, 2, len, i.depth+1}, *this);
+        }
     }
+
+    void me::onTraverseElse(ifExpr& e, blockExpr& blk) {}
 
     void me::onTraverse(visitInfo i, whileExpr& w) {
         GUARD("whileExpr[%s]::onTraverse", i.name.c_str());

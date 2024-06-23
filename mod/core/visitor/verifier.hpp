@@ -44,6 +44,7 @@ namespace namu {
         nbool onVisit(visitInfo i, nextExpr& me) override;
         nbool onVisit(visitInfo i, ifExpr& me) override;
         void onLeave(visitInfo i, ifExpr& me) override;
+        void onTraverseElse(ifExpr& me, blockExpr& blk) override;
 
     protected:
         void _prepare() override;

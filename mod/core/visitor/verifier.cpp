@@ -131,8 +131,6 @@ namespace namu {
 
     nbool me::onVisit(visitInfo i, blockExpr& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
-
-        NAMU_I("verify: blockExpr: it will iterate all subnodes[%d]", me.getStmts().len());
         return true;
     }
 
@@ -508,10 +506,6 @@ namespace namu {
 
         //  function's subs are third:
         me.inFrame(*s);
-
-        //  blockExpr is fourth:
-        //      blockExpr shouldn't interact the frame on their side. that's concept.
-        blk.inFrame();
         return true;
     }
 
@@ -630,6 +624,7 @@ namespace namu {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
         NAMU_I("verify: whileExpr: onVisit");
+        me.getBlock().inFrame();
         _recentLoops.push_back(&me);
         return true;
     }
@@ -642,6 +637,7 @@ namespace namu {
         if(!eval) return posError(errCode::LOOP_NO_RET_ARR, me);
 
         NAMU_I("verify: whileExpr: onLeave");
+        me.getBlock().outFrame();
         _recentLoops.pop_back();
     }
 
@@ -663,10 +659,21 @@ namespace namu {
 
     nbool me::onVisit(visitInfo i, ifExpr& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
+        me.getThenBlk().inFrame();
         return true;
     }
 
     void me::onLeave(visitInfo i, ifExpr& me) {
+        blockExpr().outFrame(); // it doesn't matter getting blockExpr from 'me'.
+                                // because conceptually, blockExpr::outFrame() is just like static func.
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
+    }
+
+    void me::onTraverseElse(ifExpr& me, blockExpr& blk) {
+        GUARD("%s.onTraverseElse(%s)", getType().getName().c_str(), me.getType().getName().c_str());
+        if(nul(blk)) return;
+
+        me.getThenBlk().outFrame();
+        blk.inFrame();
     }
 }

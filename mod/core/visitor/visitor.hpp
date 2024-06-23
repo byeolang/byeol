@@ -51,6 +51,8 @@ namespace namu {
         virtual void onTraverse(visitInfo i, defArrayExpr& d);
         virtual void onTraverse(visitInfo i, genericObj& g);
 
+        virtual void onTraverseElse(ifExpr& e, blockExpr& blk);
+
         using super::warn;
         template <typename... Args>
         void posWarn(errCode code, const node& it, Args... args) {
