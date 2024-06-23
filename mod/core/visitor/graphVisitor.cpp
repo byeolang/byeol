@@ -41,10 +41,20 @@ namespace namu {
     nbool me::onVisit(visitInfo i, nByte& e) { return _onVisitPrimitive<nByte>(i, e); }
     nbool me::onVisit(visitInfo i, nBool& e) { return _onVisitPrimitive<nBool>(i, e); }
 
+    namespace {
+        std::string _to4DigitAddr(void* inst) {
+            stringstream ss;
+            ss << inst;
+            std::string raw = ss.str();
+            return raw.substr(raw.length() - 4);
+        }
+    }
+
     nbool me::onVisit(visitInfo i, node& visitee) {
         _drawFrame(i);
         clog << foreColor(LIGHTRED) << i.name << " "
-             << foreColor(CYAN) << visitee.getType().getName();
+             << foreColor(CYAN) << visitee.getType().getName()
+             << foreColor(LIGHTGRAY) << "@" << foreColor(RED) << _to4DigitAddr(&visitee);
         return true;
     }
 
@@ -69,7 +79,8 @@ namespace namu {
     nbool me::onVisit(visitInfo i, baseFunc& fun) {
         _drawFrame(i);
 
-        clog << foreColor(LIGHTBLUE) << i.name
+        clog << foreColor(LIGHTGRAY) << "@" << foreColor(RED) << _to4DigitAddr(&fun) << " "
+             << foreColor(LIGHTBLUE) << i.name
              << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN) << fun.getParams().toStr() << foreColor(LIGHTGRAY) << ") "
              << foreColor(CYAN) << fun.getRet()->getType().getName();
         return true;
