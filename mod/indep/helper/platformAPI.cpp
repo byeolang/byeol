@@ -110,6 +110,13 @@ namespace namu {
 #endif
         }
 
+        std::string toAddrId(void* inst) {
+            stringstream ss;
+            ss << inst;
+            std::string raw = ss.str();
+            return raw.substr(raw.length() - 4);
+        }
+
         string getExecPath() {
             nchar res[PATH_MAX_LEN];
 

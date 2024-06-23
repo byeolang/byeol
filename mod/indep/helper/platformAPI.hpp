@@ -23,5 +23,6 @@ namespace namu {
         std::string getExecPath();
         std::string exec(const std::string& cmd);
         nulong getNowMs();
+        std::string toAddrId(void* inst);
     };
 }
