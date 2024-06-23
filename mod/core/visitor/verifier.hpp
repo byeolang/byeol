@@ -16,20 +16,19 @@ namespace namu {
         friend class genericObj;
 
     public:
-        nbool onVisit(visitInfo i, node& me) override;
-        nbool onVisit(visitInfo i, asExpr& me) override;
-        nbool onVisit(visitInfo i, assignExpr& me) override;
-        nbool onVisit(visitInfo i, blockExpr& me) override;
+        void onLeave(visitInfo i, node& me) override;
+        void onLeave(visitInfo i, asExpr& me) override;
+        void onLeave(visitInfo i, assignExpr& me) override;
         void onLeave(visitInfo i, blockExpr& me) override;
         void onLeave(visitInfo i, defAssignExpr& me) override;
-        nbool onVisit(visitInfo i, defPropExpr& me) override;
-        nbool onVisit(visitInfo i, defSeqExpr& me) override;
-        nbool onVisit(visitInfo i, defArrayExpr& me) override;
-        nbool onVisit(visitInfo i, FBOExpr& me) override;
-        nbool onVisit(visitInfo i, FUOExpr& me) override;
-        nbool onVisit(visitInfo i, getExpr& me) override;
-        nbool onVisit(visitInfo i, retExpr& me) override;
-        nbool onVisit(visitInfo i, runExpr& me) override;
+        void onLeave(visitInfo i, defPropExpr& me) override;
+        void onLeave(visitInfo i, defSeqExpr& me) override;
+        void onLeave(visitInfo i, defArrayExpr& me) override;
+        void onLeave(visitInfo i, FBOExpr& me) override;
+        void onLeave(visitInfo i, FUOExpr& me) override;
+        void onLeave(visitInfo i, getExpr& me) override;
+        void onLeave(visitInfo i, retExpr& me) override;
+        void onLeave(visitInfo i, runExpr& me) override;
         nbool onVisit(visitInfo i, func& me) override;
         void onLeave(visitInfo i, func& me) override;
         nbool onVisit(visitInfo i, baseObj& me) override;
@@ -40,8 +39,8 @@ namespace namu {
         void onLeave(visitInfo i, forExpr& me) override;
         nbool onVisit(visitInfo i, whileExpr& me) override;
         void onLeave(visitInfo i, whileExpr& me) override;
-        nbool onVisit(visitInfo i, breakExpr& me) override;
-        nbool onVisit(visitInfo i, nextExpr& me) override;
+        void onLeave(visitInfo i, breakExpr& me) override;
+        void onLeave(visitInfo i, nextExpr& me) override;
         nbool onVisit(visitInfo i, ifExpr& me) override;
         void onLeave(visitInfo i, ifExpr& me) override;
         void onTraverseElse(ifExpr& me, blockExpr& blk) override;
