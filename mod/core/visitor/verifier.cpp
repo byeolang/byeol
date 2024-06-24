@@ -534,7 +534,6 @@ namespace namu {
     void me::onLeave(visitInfo i, func& me) {
         GUARD("verify: %s func@%s: onLeave()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
 
-        me.getBlock().outFrame();
         me.outFrame(scope());
     }
 

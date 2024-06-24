@@ -111,6 +111,9 @@ namespace namu {
         ///
         /// and also this func requires frames. means that you have to interact frame first before
         /// call this func.
+        /// @remark some derived class of node may require to call this function first by verifier.
+        ///         if you call this function without calling verifier previously will damage then
+        ///         process.
         virtual str getEval() const;
 
         virtual void accept(visitInfo i, visitor& v);
