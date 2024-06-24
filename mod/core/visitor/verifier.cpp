@@ -389,7 +389,10 @@ namespace namu {
     }
 
     void me::onTraverse(runExpr& me, node& subject) {
-        str ased = me.getMe().getEval();
+        node& meSubj = me.getMe();
+        if(nul(meSubj)) return;
+
+        str ased = meSubj.getEval();
         if(!ased) return;
 
         getExpr& cast = subject.cast<getExpr>();
