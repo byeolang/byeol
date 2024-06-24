@@ -97,12 +97,17 @@ namespace namu {
         int len = e.getArgs().len() + (nul(me) ? 0 : 1) + (nul(subject) ? 0 : 1);
         if(!nul(me))
             me.accept(visitInfo {"me", &e, n++, len, i.depth+1}, *this);
+
+        onTraverse(e, subject);
+
         if(!nul(subject))
             subject.accept(visitInfo {"subject", &e, n++, len, i.depth+1}, *this);
 
         for(auto& elem : e.getArgs())
             elem.accept(visitInfo {"arg", &e, n++, len, i.depth+1}, *this);
     }
+
+    void me::onTraverse(runExpr& e, node& subject) {}
 
     void me::onTraverse(visitInfo i, func& f) {
         f.getBlock().accept(visitInfo {"codes", &f, 0, 1, i.depth+1}, *this);
@@ -187,12 +192,12 @@ namespace namu {
 
         f.getThenBlk().accept(visitInfo {"then", &f, 1, len, i.depth+1}, *this);
         if(!nul(elseBlk)) {
-            onTraverseElse(f, elseBlk);
+            onTraverse(f, elseBlk);
             elseBlk.accept(visitInfo {"else", &f, 2, len, i.depth+1}, *this);
         }
     }
 
-    void me::onTraverseElse(ifExpr& e, blockExpr& blk) {}
+    void me::onTraverse(ifExpr& e, blockExpr& blk) {}
 
     void me::onTraverse(visitInfo i, whileExpr& w) {
         w.getCondition().accept(visitInfo {"condition", &w, 0, 2, i.depth+1}, *this);

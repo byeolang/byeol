@@ -366,19 +366,14 @@ namespace namu {
         if(nul(me.getMe())) return posError(errCode::DONT_KNOW_ME, me);
 
         str ased = me.getMe().getEval();
-        if(!ased) return posError(errCode::DONT_KNOW_ME, me);
-
-        node& anySub = me.getSubject();
-        if(nul(anySub)) return posError(errCode::FUNC_NOT_EXIST, me);
-
-        NAMU_I("verify: runExpr: anySub[%s]", anySub.getType().getName().c_str());
+        if(!ased) return;
 
         args& a = me.getArgs();
         a.setMe(*ased);
 
-        getExpr& cast = anySub.cast<getExpr>();
-        if(!nul(cast))
-            cast.setMe(*ased);
+        node& anySub = me.getSubject();
+        if(nul(anySub)) return posError(errCode::FUNC_NOT_EXIST, me);
+        NAMU_I("verify: runExpr: anySub[%s]", anySub.getType().getName().c_str());
 
         str derivedSub = anySub.getEval();
         if(!derivedSub) return posError(errCode::CANT_ACCESS, me, ased->getType().getName().c_str(), "sub-node");
@@ -391,6 +386,15 @@ namespace namu {
         }
 
         a.setMe(nulOf<baseObj>());
+    }
+
+    void me::onTraverse(runExpr& me, node& subject) {
+        str ased = me.getMe().getEval();
+        if(!ased) return;
+
+        getExpr& cast = subject.cast<getExpr>();
+        if(!nul(cast))
+            cast.setMe(*ased);
     }
 
     std::string me::_asStr(const params& ps) {
@@ -653,8 +657,8 @@ namespace namu {
                                 // because conceptually, blockExpr::outFrame() is just like static func.
     }
 
-    void me::onTraverseElse(ifExpr& me, blockExpr& blk) {
-        GUARD("verify: ifExpr@%s: onTraverseElse()", platformAPI::toAddrId(&me).c_str());
+    void me::onTraverse(ifExpr& me, blockExpr& blk) {
+        GUARD("verify: ifExpr@%s: onTraverse()", platformAPI::toAddrId(&me).c_str());
         if(nul(blk)) return;
 
         me.getThenBlk().outFrame();

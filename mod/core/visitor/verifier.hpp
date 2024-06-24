@@ -29,6 +29,7 @@ namespace namu {
         void onLeave(visitInfo i, getExpr& me) override;
         void onLeave(visitInfo i, retExpr& me) override;
         void onLeave(visitInfo i, runExpr& me) override;
+        void onTraverse(runExpr& me, node& subject) override;
         nbool onVisit(visitInfo i, func& me) override;
         void onLeave(visitInfo i, func& me) override;
         nbool onVisit(visitInfo i, baseObj& me) override;
@@ -43,7 +44,7 @@ namespace namu {
         void onLeave(visitInfo i, nextExpr& me) override;
         nbool onVisit(visitInfo i, ifExpr& me) override;
         void onLeave(visitInfo i, ifExpr& me) override;
-        void onTraverseElse(ifExpr& me, blockExpr& blk) override;
+        void onTraverse(ifExpr& me, blockExpr& blk) override;
 
     protected:
         void _prepare() override;

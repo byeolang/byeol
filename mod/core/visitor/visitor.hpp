@@ -42,6 +42,7 @@ namespace namu {
         virtual void onTraverse(visitInfo i, getExpr& e);
         virtual void onTraverse(visitInfo i, retExpr& b);
         virtual void onTraverse(visitInfo i, runExpr& e);
+        virtual void onTraverse(runExpr& e, node& subject);
         virtual void onTraverse(visitInfo i, func& f);
         virtual void onTraverse(visitInfo i, frame& f);
         virtual void onTraverse(visitInfo i, forExpr& f);
@@ -51,7 +52,7 @@ namespace namu {
         virtual void onTraverse(visitInfo i, defArrayExpr& d);
         virtual void onTraverse(visitInfo i, genericObj& g);
 
-        virtual void onTraverseElse(ifExpr& e, blockExpr& blk);
+        virtual void onTraverse(ifExpr& e, blockExpr& blk);
 
         using super::warn;
         template <typename... Args>
