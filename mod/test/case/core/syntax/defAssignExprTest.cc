@@ -325,14 +325,14 @@ TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomething) {
             abc := for strArr in {{"child", "hello"}, {"parent", "world"}}
                 for s in strArr
                     if s == "world!"
-                        ret s
+                        ret s.len()
                     else: s
             ret abc[2] == "parent"
     )SRC").shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<std::string>(), "parent");
+    ASSERT_EQ(res->cast<nint>(), 1);
 }
 
 TEST_F(defAssignExprTest, assignFromForExprDeclaringLocalVariable) {
