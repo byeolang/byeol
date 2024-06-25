@@ -17,9 +17,5 @@ namespace namu {
         str run(const args& a) override;
 
         priorType prioritize(const args& a) const override;
-        str getEval() const override;
-
-    protected:
-        virtual const node& _onGetRet() const = 0;
     };
 }

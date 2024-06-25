@@ -11,7 +11,7 @@ namespace namu {
     class _nout breakExpr : public retStateExpr {
         NAMU(CLASS(breakExpr, retStateExpr, expr::exprType), VISIT())
 
-    protected:
-        const node& _onGetRet() const override;
+    public:
+        str getEval() const override;
     };
 }

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../expr.hpp"
+#include "retStateExpr.hpp"
 
 namespace namu {
 
     class visitor;
 
-    class _nout retExpr : public expr {
-        NAMU(CLASS(retExpr, expr, expr::exprType), VISIT())
+    class _nout retExpr : public retStateExpr {
+        NAMU(CLASS(retExpr, retStateExpr, expr::exprType), VISIT())
 
     public:
         retExpr(const node& ret);

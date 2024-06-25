@@ -3,6 +3,7 @@
 #include "../../visitor/visitor.hpp"
 #include "../../builtin/primitive/nBool.hpp"
 #include "../../frame/frameInteract.hpp"
+#include "retStateExpr.hpp"
 
 namespace namu {
 
@@ -45,12 +46,16 @@ namespace namu {
 
     str me::getEval() const {
         str thenEval = _thenBlk->getEval();
-        if(!thenEval) return thenEval;
-        if(!_elseBlk)
-            return str(nVoid::singletone());
+        if(!thenEval) return NAMU_E("thenEval is null"), thenEval;
 
-        str elseEval = _elseBlk->getEval();
-        return str(thenEval->deduce(*elseEval));
+        str elseEval = _elseBlk ? _elseBlk->getEval() : str();
+        str ret = thenEval->isSub<retStateExpr>() ? elseEval : thenEval->deduce(*elseEval); // if elseEval is null, then thenEval only left.
+
+        NAMU_DI("thenEval[%s] + elseVal[%s] -> %s",
+                thenEval ? thenEval->getType().getName().c_str() : "null",
+                elseEval ? elseEval->getType().getName().c_str() : "null",
+                ret ? ret->getType().getName().c_str() : "null");
+        return ret;
     }
 
     void me::setThenBlk(const blockExpr& newThen) {

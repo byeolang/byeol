@@ -35,9 +35,13 @@ namespace namu {
         const scope& subs() const NAMU_UNCONST_FUNC(subs())
         virtual tstr<nbicontainer> mySubs() const;
 
+        /// @param r type to be deduced to this type.
+        ///          if a type is null, it means that there is no type specified.
+        ///          it's complete different to 'void' type.
+        ///          so if r is a null, current this type will be deduced.
         /// @return null if it's not relative between l & r.
         const node& deduce(const node& r) const {
-            if(nul(r)) return nulOf<node>();
+            if(nul(r)) return *this;
             const ntype& ltype = getType();
             const ntype& rtype = r.getType();
             const ntype& res = ltype.deduce(rtype);

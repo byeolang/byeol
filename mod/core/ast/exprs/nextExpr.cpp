@@ -6,7 +6,7 @@ namespace namu {
 
     NAMU(DEF_ME(nextExpr), DEF_VISIT())
 
-    const node& me::_onGetRet() const {
+    str me::getEval() const {
         static nextRet inner;
         return inner;
     }

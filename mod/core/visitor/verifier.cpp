@@ -77,7 +77,7 @@ namespace namu {
         if(!rightEval) return posError(errCode::RHS_IS_NULL, me);
         const ntype& rtype = rightEval->getType();
         if(nul(rtype)) return posError(errCode::RHS_IS_NULL, me);
-        if(rtype.isSub<retExpr>()) return posError(errCode::CANT_ASSIGN_RET, me);
+        if(rtype.isSub<retStateExpr>()) return posError(errCode::CANT_ASSIGN_RET, me);
         if(!rtype.isImpli(ltype))
             return posError(errCode::TYPE_NOT_COMPATIBLE, me, rtype.getName().c_str(), ltype.getName()
                     .c_str());
@@ -158,7 +158,7 @@ namespace namu {
         if(!rhsEval) return posError(errCode::RHS_IS_NULL, me);
 
         NAMU_I("verify: does rhs[%s] have 'ret' in its blockStmt?", rhsEval->getType().getName().c_str());
-        if(rhsEval->isSub<retExpr>())
+        if(rhsEval->isSub<retStateExpr>())
             return posError(errCode::CANT_ASSIGN_RET, me);
 
         NAMU_I("verify: defAssignExpr: '%s %s' has defined.", me.getSubName().c_str(),
@@ -478,7 +478,7 @@ namespace namu {
 
         NAMU_I("verify: func: 'break' or 'next' can't be used to last stmt");
         const node& lastStmt = *blk.getStmts().last();
-        if(lastStmt.isSub<retStateExpr>())
+        if(lastStmt.isSub<retStateExpr>() && !lastStmt.isSub<retExpr>())
             return posError(errCode::FUNC_SHOULD_RETURN_SOMETHING, lastStmt), true;
 
         NAMU_I("verify: func[%s]: %s iterateBlock[%d]", i.name.c_str(), me.getType().getName().c_str(),
@@ -514,9 +514,9 @@ namespace namu {
         NAMU_I("verify: func: last stmt[%s] should matches to return type[%s]",
                 eval->getType().getName().c_str(), retType.getName().c_str());
 
-        if(eval->isSub<retExpr>())
+        if(eval->isSub<retStateExpr>())
             // @see retExpr::getEval() for more info.
-            return NAMU_I("verify: func: skip verification when lastStmt is retExpr."), void();
+            return NAMU_I("verify: func: skip verification when lastStmt is retStateExpr."), void();
 
         if(retType == ttype<nVoid>::get())
             return NAMU_I("verify: func: implicit return won't verify when retType is void."), void();
@@ -605,7 +605,7 @@ namespace namu {
         str eval = me.getEval();
         if(!eval) return posError(errCode::EXPR_EVAL_NULL, me);
         NAMU_I("verify: forExpr: eval Value check: eval[%s] is an array?", eval->getType().getName().c_str());
-        if(!eval->isSub<retExpr>() && !eval->isSub<arr>()) return posError(errCode::LOOP_NO_RET_ARR, me);
+        if(!eval->isSub<retStateExpr>() && !eval->isSub<arr>()) return posError(errCode::LOOP_NO_RET_ARR, me);
 
         NAMU_I("verify: forExpr: onLeave");
         me.getBlock().outFrame();
