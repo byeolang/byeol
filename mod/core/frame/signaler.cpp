@@ -56,8 +56,15 @@ namespace namu {
         exit(EXIT_FAILURE);
     }
 
+    namespace {
+        void* _getAddr(sigHandler handler) {
+            return (void*) handler.target<sigFunc>();
+        }
+    }
+
     void me::delSignal(sigHandler closure) {
-        _closures.erase(std::remove_if(_closures.begin(), _closures.end(), [&](sigHandler elem) { return &elem == &closure; }), _closures.end());
+        void* closureAddr = _getAddr(closure);
+        _closures.erase(std::remove_if(_closures.begin(), _closures.end(), [&](sigHandler elem) { return _getAddr(elem) == closureAddr; }), _closures.end());
         if(_closures.size() <= 0)
             _setSignal(SIG_DFL);
         NAMU_DI("signal handler deleted. total %d handlers remains", _closures.size());

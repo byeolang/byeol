@@ -15,6 +15,7 @@ namespace namu {
             zone.setEnable(true);
 
             logger& log = logger::get();
+            log.logBypass("\n* * *\n");
             log.logBypass("unexpected exception found: ");
             e.dump();
 

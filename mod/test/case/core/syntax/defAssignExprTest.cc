@@ -321,13 +321,13 @@ TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomethingNegative) {
 
 TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomething) {
     make().parse(R"SRC(
-        main() str
+        main() int
             abc := for strArr in {{"child", "hello"}, {"parent", "world"}}
                 for s in strArr
                     if s == "world!"
                         ret s
                     else: s
-            ret abc[2] // == "parent"
+            ret abc[2] == "parent"
     )SRC").shouldVerified(true);
 
     str res = run();

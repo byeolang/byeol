@@ -5,6 +5,7 @@
 namespace namu {
 
     typedef err*(*errMaker)(nint);
+    typedef void(*sigFunc)(const err&);
     typedef std::function<void(const err&)> sigHandler;
 
     struct _nout sig {
