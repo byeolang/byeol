@@ -580,3 +580,18 @@ TEST_F(forExprTest, defAssignWhatLoops) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res->cast<nint>(), 1);
 }
+
+TEST_F(forExprTest, callFuncWithForExprArgument) {
+    make().parse(R"SRC(
+        foo(age int) int: age + 1
+        main() int
+            foo((for n in 0..5
+                x := n + 1
+                x * 2
+            )[3]) // {2, 4, 6, 8, 10}
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res->cast<nint>(), 9); // 8 + 1
+}

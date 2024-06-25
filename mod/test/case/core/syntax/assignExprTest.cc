@@ -158,6 +158,21 @@ TEST_F(assignExprTest, assignAssignedValue2) {
     ASSERT_EQ(res.cast<nint>(), 55);
 }
 
+TEST_F(assignExprTest, assignForExprDeclaringLocalVariable) {
+    make().parse(R"SRC(
+        main() int
+            abc int[]
+            abc = for n in 0..5
+                x := n + 1
+                x * 2
+            abc[3] // abc = {2, 4, 6, 8, 10}
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res->cast<nint>(), 8);
+}
+
 // TODO: assignNegative inheritence
 // TODO: assignDotChain: A.B.name
 // TODO: assignComplexDotChain: B[A.foo() + 3].name

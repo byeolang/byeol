@@ -319,18 +319,32 @@ TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomethingNegative) {
     )SRC").shouldVerified(false);
 }
 
-/*TODO: TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomethingNegative) {
-    make().negative().parse(R"SRC(
+TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomething) {
+    make().parse(R"SRC(
         main() str
-            abc := for strArr in {{"child", "hello"}}
+            abc := for strArr in {{"child", "hello"}, {"parent", "world"}}
                 for s in strArr
-                    if s == "hello"
+                    if s == "world!"
                         ret s
                     else: s
-            ret abc[0] // == "child"
+            ret abc[2] // == "parent"
     )SRC").shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSSERT_EQ(res.cast<std::string>(), "hello")
-}*/
+    ASSERT_EQ(res->cast<std::string>(), "parent");
+}
+
+TEST_F(defAssignExprTest, assignFromForExprDeclaringLocalVariable) {
+    make().parse(R"SRC(
+        main() int
+            abc := for n in 0..5
+                x := n * 2
+                x + n
+            abc[4] // abc = {0, 3, 6, 9, 12}
+    )SRC").shouldVerified(false);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res->cast<nint>(), 12);
+}
