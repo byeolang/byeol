@@ -281,13 +281,25 @@ TEST_F(ifExprTest, evalIfExprReturningSomething) {
 }
 
 TEST_F(ifExprTest, evalIfExprReturningSomething2) {
-    make().negative().parse(R"SRC(
+    make().parse(R"SRC(
         main() int
             val := 2 > 5
             a := if val
                 ret -1 // if whole block uses 'ret', then it would be ignored when deduce type of ifExpr.
             else
                 23 as str + "wow"
+            ret a.len()
+    )SRC").shouldVerified(true);
+}
+
+TEST_F(ifExprTest, evalIfExprReturningSomething3) {
+    make().parse(R"SRC(
+        main() int
+            val := 2 > 5
+            a := if val
+                23 as str + "wow"
+            else
+                ret -1 // if whole block uses 'ret', then it would be ignored when deduce type of ifExpr.
             ret a.len()
     )SRC").shouldVerified(true);
 }

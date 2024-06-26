@@ -47,15 +47,24 @@ namespace namu {
     str me::getEval() const {
         str thenEval = _thenBlk->getEval();
         if(!thenEval) return NAMU_E("thenEval is null"), thenEval;
+        str elseEval = _elseBlk ? _elseBlk->getEval() : str();
+        if(!elseEval) return NAMU_E("elseEval is null"), elseEval;
+
+        if(thenEval->isSub<retStateExpr>())
+            return NAMU_DI("thenEval is %s, accept elseEval[%s]",
+                           thenEval->getType().getName().c_str(),
+                           elseEval ? elseEval->getType().getName().c_str() : "null"), elseEval;
+        if(elseEval->isSub<retStateExpr>())
+            return NAMU_DI("elseEval is %s, accept thenEval[%s]",
+                           elseEval->getType().getName().c_str(),
+                           thenEval->getType().getName().c_str()), thenEval;
 
         // when you try to get eval from ifExpr, `then` and else block must be declared first.
         // if one of blocks has omitted, evaluation of ifExpr should be null.
-        str elseEval = _elseBlk ? _elseBlk->getEval() : str();
-        str ret = thenEval->isSub<retStateExpr>() ? elseEval : thenEval->deduce(*elseEval); // if elseEval is null, then thenEval only left.
-
+        str ret = thenEval->deduce(*elseEval); // if elseEval is null, then thenEval only left.
         NAMU_DI("thenEval[%s] + elseVal[%s] -> %s",
-                thenEval ? thenEval->getType().getName().c_str() : "null",
-                elseEval ? elseEval->getType().getName().c_str() : "null",
+                thenEval->getType().getName().c_str(),
+                elseEval->getType().getName().c_str(),
                 ret ? ret->getType().getName().c_str() : "null");
         return ret;
     }
