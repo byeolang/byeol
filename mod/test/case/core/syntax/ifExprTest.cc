@@ -280,16 +280,16 @@ TEST_F(ifExprTest, evalIfExprReturningSomething) {
     ASSERT_EQ(res->cast<nint>(), 5);
 }
 
-TEST_F(ifExprTest, evalIfExprReturningSomethingNegative) {
+TEST_F(ifExprTest, evalIfExprReturningSomething2) {
     make().negative().parse(R"SRC(
         main() int
             val := 2 > 5
             a := if val
-                ret -1
+                ret -1 // if whole block uses 'ret', then it would be ignored when deduce type of ifExpr.
             else
                 23 as str + "wow"
             ret a.len()
-    )SRC").shouldVerified(false);
+    )SRC").shouldVerified(true);
 }
 
 TEST_F(ifExprTest, evalIfExprReturningSomethingNegative2) {

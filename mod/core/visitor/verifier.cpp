@@ -505,6 +505,10 @@ namespace namu {
         str ret = me.getRet()->as<node>();
         const type& retType = ret->getType();
         const node& lastStmt = *me.getBlock().getStmts().last();
+
+        if(retType == ttype<nVoid>::get())
+            return NAMU_I("verify: func: implicit return won't verify when retType is void."), void();
+
         str eval = me.getBlock().getEval();
         if(!eval) return posError(NO_RET_TYPE, lastStmt);
 
@@ -517,9 +521,6 @@ namespace namu {
         if(eval->isSub<retStateExpr>())
             // @see retExpr::getEval() for more info.
             return NAMU_I("verify: func: skip verification when lastStmt is retStateExpr."), void();
-
-        if(retType == ttype<nVoid>::get())
-            return NAMU_I("verify: func: implicit return won't verify when retType is void."), void();
 
         if(!lastType.isSub<err>() && !lastType.isImpli(retType))
             return posError(errCode::RET_TYPE_NOT_MATCH, lastStmt,
@@ -602,10 +603,11 @@ namespace namu {
     void me::onLeave(visitInfo i, forExpr& me) {
         GUARD("verify: %s forExpr@%s: onLeave()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
 
-        str eval = me.getEval();
-        if(!eval) return posError(errCode::EXPR_EVAL_NULL, me);
-        NAMU_I("verify: forExpr: eval Value check: eval[%s] is an array?", eval->getType().getName().c_str());
-        if(!eval->isSub<retStateExpr>() && !eval->isSub<arr>()) return posError(errCode::LOOP_NO_RET_ARR, me);
+        str eval = me.getEval(); // it's okay forExpr not to have 'eval'.
+        if(eval) {
+            NAMU_I("verify: forExpr: eval Value check: eval[%s] is an array?", eval->getType().getName().c_str());
+            if(!eval->isSub<retStateExpr>() && !eval->isSub<arr>()) return posError(errCode::LOOP_NO_RET_ARR, me);
+        }
 
         NAMU_I("verify: forExpr: onLeave");
         me.getBlock().outFrame();
