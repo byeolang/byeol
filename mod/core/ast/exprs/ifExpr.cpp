@@ -48,6 +48,8 @@ namespace namu {
         str thenEval = _thenBlk->getEval();
         if(!thenEval) return NAMU_E("thenEval is null"), thenEval;
 
+        // when you try to get eval from ifExpr, `then` and else block must be declared first.
+        // if one of blocks has omitted, evaluation of ifExpr should be null.
         str elseEval = _elseBlk ? _elseBlk->getEval() : str();
         str ret = thenEval->isSub<retStateExpr>() ? elseEval : thenEval->deduce(*elseEval); // if elseEval is null, then thenEval only left.
 

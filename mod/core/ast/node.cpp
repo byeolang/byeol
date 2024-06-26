@@ -31,6 +31,18 @@ namespace namu {
         return subs();
     }
 
+    const node& me::deduce(const node& r) const {
+        if(nul(r)) return nulOf<node>();
+        const ntype& ltype = getType();
+        const ntype& rtype = r.getType();
+        const ntype& res = ltype.deduce(rtype);
+        if(nul(res)) return nulOf<node>();
+        if(res == ltype) return *this;
+        if(res == rtype) return r;
+
+        return nulOf<node>();
+    }
+
     nbool me::canRun(const args& a) const {
         return prioritize(a) != NO_MATCH;
     }

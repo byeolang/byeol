@@ -327,7 +327,7 @@ TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomething) {
                     if s == "world!"
                         ret s.len()
                     else: s
-            ret abc[2] == "parent"
+            ret abc[1][0] == "parent"
     )SRC").shouldVerified(true);
 
     str res = run();
@@ -342,7 +342,7 @@ TEST_F(defAssignExprTest, assignFromForExprDeclaringLocalVariable) {
                 x := n * 2
                 x + n
             abc[4] // abc = {0, 3, 6, 9, 12}
-    )SRC").shouldVerified(false);
+    )SRC").shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

@@ -38,19 +38,8 @@ namespace namu {
         /// @param r type to be deduced to this type.
         ///          if a type is null, it means that there is no type specified.
         ///          it's complete different to 'void' type.
-        ///          so if r is a null, current this type will be deduced.
         /// @return null if it's not relative between l & r.
-        const node& deduce(const node& r) const {
-            if(nul(r)) return *this;
-            const ntype& ltype = getType();
-            const ntype& rtype = r.getType();
-            const ntype& res = ltype.deduce(rtype);
-            if(nul(res)) return nulOf<node>();
-            if(res == ltype) return *this;
-            if(res == rtype) return r;
-
-            return nulOf<node>();
-        }
+        const node& deduce(const node& r) const;
 
         template <typename T> T& sub(std::function<nbool(const std::string&, const T&)> l);
         template <typename T> const T& sub(std::function<nbool(const std::string&, const T&)> l) const NAMU_UNCONST_FUNC(sub<T>(l))
