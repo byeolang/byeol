@@ -55,7 +55,7 @@ namespace namu {
         // @param newInfo is not a heap instance.
         void _verifyMgdFuncImplicitReturn(func& me);
         nbool _isVariableDuplicated(defAssignExpr& me, const node& subs);
-        nbool _verifyArrWhetherHaveRetExpr(const arr& a, const expr& me);
+        void _onLeave(const loopExpr& me);
 
     private:
         std::vector<loopExpr*> _recentLoops;

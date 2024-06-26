@@ -146,6 +146,21 @@ namespace namu {
         return false;
     }
 
+    void me::_onLeave(const loopExpr& me) {
+        str eval = me.getEval(); // it's okay forExpr not to have 'eval'.
+        if(eval) {
+            NAMU_I("verify: %s: eval Value check: eval[%s] is an array?",
+                   me.getType().getName().c_str(),
+                   eval->getType().getName().c_str());
+            if(!eval->isSub<retStateExpr>() && !eval->isSub<arr>())
+                return posError(errCode::LOOP_NO_RET_ARR, me);
+        }
+
+        NAMU_I("verify: %s: onLeave", me.getType().getName().c_str());
+        me.getBlock().outFrame();
+        _recentLoops.pop_back();
+    }
+
     void me::onLeave(visitInfo i, defAssignExpr& me) {
         GUARD("verify: %s defAssignExpr@%s: onLeave()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
 
@@ -602,16 +617,7 @@ namespace namu {
 
     void me::onLeave(visitInfo i, forExpr& me) {
         GUARD("verify: %s forExpr@%s: onLeave()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
-
-        str eval = me.getEval(); // it's okay forExpr not to have 'eval'.
-        if(eval) {
-            NAMU_I("verify: forExpr: eval Value check: eval[%s] is an array?", eval->getType().getName().c_str());
-            if(!eval->isSub<retStateExpr>() && !eval->isSub<arr>()) return posError(errCode::LOOP_NO_RET_ARR, me);
-        }
-
-        NAMU_I("verify: forExpr: onLeave");
-        me.getBlock().outFrame();
-        _recentLoops.pop_back();
+        _onLeave(me);
     }
 
     nbool me::onVisit(visitInfo i, whileExpr& me) {
@@ -625,14 +631,7 @@ namespace namu {
 
     void me::onLeave(visitInfo i, whileExpr& me) {
         GUARD("verify: %s whileExpr@%s: onLeave()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
-
-        NAMU_I("verify: whileExpr: eval Value check: is an array?");
-        tstr<arr> eval = me.getEval();
-        if(!eval) return posError(errCode::LOOP_NO_RET_ARR, me);
-
-        NAMU_I("verify: whileExpr: onLeave");
-        me.getBlock().outFrame();
-        _recentLoops.pop_back();
+        _onLeave(me);
     }
 
     void me::onLeave(visitInfo i, breakExpr& me) {
