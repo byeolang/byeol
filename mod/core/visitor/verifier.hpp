@@ -20,7 +20,6 @@ namespace namu {
         void onLeave(visitInfo i, asExpr& me) override;
         void onLeave(visitInfo i, assignExpr& me) override;
         void onLeave(visitInfo i, blockExpr& me) override;
-        void onLeave(visitInfo i, defAssignExpr& me) override;
         void onLeave(visitInfo i, defPropExpr& me) override;
         void onLeave(visitInfo i, defSeqExpr& me) override;
         void onLeave(visitInfo i, defArrayExpr& me) override;
@@ -54,7 +53,6 @@ namespace namu {
 
         // @param newInfo is not a heap instance.
         void _verifyMgdFuncImplicitReturn(func& me);
-        nbool _isVariableDuplicated(defAssignExpr& me, const node& subs);
         void _onLeave(const loopExpr& me);
 
     private:

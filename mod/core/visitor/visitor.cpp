@@ -150,16 +150,10 @@ namespace namu {
             right.accept(visitInfo {"rhs", &a, n++, len, i.depth+1}, *this);
     }
 
-    void me::onTraverse(visitInfo i, defAssignExpr& d) {
-        node& right = d.getRight();
-        if(!nul(right))
-            right.accept(visitInfo {"rhs", &d, 0, 1, i.depth+1}, *this);
-    }
-
     void me::onTraverse(visitInfo i, defPropExpr& d) {
-        node& org = (node&) d.getOrigin();
-        if(!nul(org))
-            org.accept(visitInfo {d.getName(), &d, 0, 1, i.depth+1}, *this);
+        node& r = (node&) d.getRight();
+        if(!nul(r))
+            r.accept(visitInfo {d.getName(), &d, 0, 1, i.depth+1}, *this);
     }
 
     void me::onTraverse(visitInfo i, FBOExpr& f) {

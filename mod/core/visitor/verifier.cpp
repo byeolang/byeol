@@ -138,14 +138,6 @@ namespace namu {
             _verifyMgdFuncImplicitReturn(parent);
     }
 
-    nbool me::_isVariableDuplicated(defAssignExpr& me, const node& it) {
-        NAMU_I("verify: defAssignExpr: duplication of variable with name[%s] at %s obj", me.getSubName().c_str(), it.getType().getName().c_str());
-        if(it.mySubs()->has(me.getSubName()))
-            return posError(errCode::ALREADY_DEFINED_VAR, me, me.getSubName().c_str(), me.getEval()->getType().getName()
-                    .c_str()), true;
-        return false;
-    }
-
     void me::_onLeave(const loopExpr& me) {
         str eval = me.getEval(); // it's okay forExpr not to have 'eval'.
         if(eval) {
@@ -161,31 +153,43 @@ namespace namu {
         _recentLoops.pop_back();
     }
 
-    void me::onLeave(visitInfo i, defAssignExpr& me) {
-        GUARD("verify: %s defAssignExpr@%s: onLeave()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
+    void me::onLeave(visitInfo i, defPropExpr& me) {
+        GUARD("verify: %s defPropExpr@%s: onLeave()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
 
-        NAMU_I("verify: defAssignExpr: is definable?");
+        NAMU_I("verify: defPropExpr: is definable?");
         const node& rhs = me.getRight();
         if(nul(rhs))
-            return posError(errCode::CANT_DEF_VAR, me, me.getSubName().c_str(), "null");
+            return posError(errCode::CANT_DEF_VAR, me, me.getName().c_str(), "null");
 
-        str rhsEval = rhs.getEval();
-        if(!rhsEval) return posError(errCode::RHS_IS_NULL, me);
+        NAMU_I("verify: defPropExpr: to define a void type property isn't allowed.");
+        str eval = rhs.getEval();
+        if(!eval) return posError(errCode::RHS_IS_NULL, me);
+        if(eval->isSub<nVoid>())
+            return posError(errCode::VOID_CANT_DEFINED, me);
 
-        NAMU_I("verify: does rhs[%s] have 'ret' in its blockStmt?", rhsEval->getType().getName().c_str());
-        if(rhsEval->isSub<retStateExpr>())
+        NAMU_I("verify: defPropExpr: does rhs[%s] have 'ret' in its blockStmt?", eval->getType().getName().c_str());
+        if(eval->isSub<retStateExpr>())
             return posError(errCode::CANT_ASSIGN_RET, me);
 
-        NAMU_I("verify: defAssignExpr: '%s %s' has defined.", me.getSubName().c_str(),
-                nul(rhs) ? "name" : rhs.getType().getName().c_str());
+        NAMU_I("verify: defPropExpr: check whether make a void container.");
+        const narr& beans = eval->getType().getBeans();
+        for(const node& bean : beans)
+            if(bean.isSub<nVoid>())
+                return posError(errCode::NO_VOID_CONTAINER, me);
 
-        node& to = me.getTo();
-        NAMU_I("verify: defAssignExpr: define new1[%s] to[%s]",
-               rhsEval ? rhsEval->getType().getName().c_str() : "null", nul(to) ? "frame" : to.getType().getName().c_str());
-        if(!rhsEval) return posError(errCode::RHS_NOT_EVALUATED, me);
-        if(!rhsEval->isComplete()) return posError(errCode::ACCESS_TO_INCOMPLETE, me);
-        if(rhsEval->isSub<nVoid>()) return posError(errCode::VOID_CANT_DEFINED, me);
 
+        std::string name = me.getName();
+        if(name == "") return posError(errCode::HAS_NO_NAME, me);
+        NAMU_I("verify: defPropExpr: is %s definable?", name.c_str());
+        const ntype& t = eval->getType();
+        const nchar* typeName = nul(t) ? "null" : t.getName().c_str();
+        if(nul(t))
+            posError(errCode::CANT_DEF_VAR, me, name.c_str(), typeName);
+        if(!eval->isComplete()) return posError(errCode::ACCESS_TO_INCOMPLETE, me);
+        if(eval->isSub<nVoid>()) return posError(errCode::VOID_CANT_DEFINED, me);
+
+        std::string to = nul(me.getTo()) ? "null" : me.getTo().getType().getName();
+        NAMU_I("verify: defPropExpr: is 'to'[%s] valid", to.c_str());
         // only if to is 'frame', I need to make property when verify:
         //  local variables are required to verify further statements. but it's okay. it'll been
         //  removed after blockExpr::outFrame().
@@ -198,59 +202,12 @@ namespace namu {
         if(!nul(to)) return;
 
         frame& fr = thread::get()._getNowFrame();
-        scope& sc = (scope&) fr.subs();
-        if(sc.getContainer().has(me.getSubName()))
-            return posError(errCode::ALREADY_DEFINED_VAR, me, me.getSubName().c_str(),
-                    rhs.getType().getName().c_str());
-        if(_isVariableDuplicated(me, fr)) return;
-        fr.addLocal(me.getSubName(), *rhsEval);
-        NAMU_I("verify: defAssignExpr: define new variable '%s %s' at frame", me.getSubName().c_str(), rhsEval->getType().getName().c_str());
-    }
+        NAMU_I("verify: defPropExpr: duplication of variable with name[%s]", name.c_str());
+        if(fr.mySubs()->has(name))
+            return posError(errCode::ALREADY_DEFINED_VAR, me, name.c_str(), typeName);
 
-    void me::onLeave(visitInfo i, defPropExpr& me) {
-        GUARD("verify: %s defPropExpr@%s: onLeave()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
-
-        NAMU_I("verify: defPropExpr: to define a void type property isn't allowed.");
-        str eval = me.getEval();
-        if(!eval)
-            return posError(errCode::TYPE_NOT_EXIST, me, me.getName().c_str());
-        if(eval->isSub<nVoid>())
-            return posError(errCode::VOID_CANT_DEFINED, me);
-
-        NAMU_I("verify: defPropExpr: check whether make a void container.");
-        const narr& beans = eval->getType().getBeans();
-        for(const node& bean : beans)
-            if(bean.isSub<nVoid>())
-                return posError(errCode::NO_VOID_CONTAINER, me);
-
-        const ntype& t = eval->getType();
-        const nchar* typeName = nul(t) ? "null" : t.getName().c_str();
-
-
-        std::string name = me.getName();
-        NAMU_I("verify: defPropExpr: is %s definable?", name.c_str());
-        if(name == "") return posError(errCode::HAS_NO_NAME, me);
-        const node& org = me.getOrigin();
-        if(nul(org)) return posError(errCode::NO_ORIGIN, me, name.c_str());
-
-        if(nul(t))
-            posError(errCode::CANT_DEF_VAR, me, name.c_str(), typeName);
-
-        if(!eval->canRun(args()))
-            return posError(errCode::DONT_HAVE_CTOR, me, name.c_str());
-
-        NAMU_I("verify: defPropExpr: check property duplication."); // 'check duplication' must be front of 'is %s definable'.
-        node* new1 = new mockNode(*eval);
-        if(me._where) {
-            if(me._where->getContainer().has(name))
-                return posError(errCode::ALREADY_DEFINED_VAR, me, me.getName().c_str(), typeName);
-            me._where->add(name.c_str(), new1);
-        } else {
-            frame& fr = thread::get()._getNowFrame();
-            if(fr.subs().getContainer().has(name))
-                return posError(errCode::ALREADY_DEFINED_VAR, me, me.getName().c_str(), typeName);
-            thread::get()._getNowFrame().addLocal(name, *new1);
-        }
+        NAMU_I("verify: defPropExpr: ok. defining local temporary var... %s %s", name.c_str(), typeName);
+        fr.addLocal(name, *new mockNode(*eval));
     }
 
     void me::onLeave(visitInfo i, defSeqExpr& me) {

@@ -152,11 +152,11 @@ namespace namu {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, defAssignExpr& e) {
+    nbool me::onVisit(visitInfo i, defPropExpr& e) {
         onVisit(i, (node&) e);
 
         clog << foreColor(LIGHTGRAY) << " = "
-             << foreColor(MAGENTA) << e.getSubName() << foreColor(LIGHTGRAY) << " := "
+             << foreColor(MAGENTA) << e.getName() << foreColor(LIGHTGRAY) << " := "
              << foreColor(CYAN) << _getNameFrom(e.getRight());
         return true;
     }

@@ -17,7 +17,7 @@ namespace namu {
         nbool onVisit(visitInfo i, FBOExpr& e) override;
         nbool onVisit(visitInfo i, FUOExpr& e) override;
         nbool onVisit(visitInfo i, assignExpr& e) override;
-        nbool onVisit(visitInfo i, defAssignExpr& e) override;
+        nbool onVisit(visitInfo i, defPropExpr& e) override;
         nbool onVisit(visitInfo i, nInt& e) override;
         nbool onVisit(visitInfo i, nFlt& e) override;
         nbool onVisit(visitInfo i, nStr& e) override;
