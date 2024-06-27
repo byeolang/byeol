@@ -5,10 +5,9 @@
 namespace namu {
     NAMU(DEF_ME(defAssignExpr), DEF_VISIT())
 
-    me::defAssignExpr(const std::string& name, const node& rhs): _rhs(rhs),
-            _isOnDefBlock(false), _name(name) {}
+    me::defAssignExpr(const std::string& name, const node& rhs): _rhs(rhs), _name(name) {}
     me::defAssignExpr(const node& to, const std::string& name, const node& rhs):
-            _to(to), _rhs(rhs), _isOnDefBlock(false), _name(name) {}
+            _to(to), _rhs(rhs), _name(name) {}
 
     str me::run(const args& a) {
         str new1 = _rhs->as<node>();
@@ -38,14 +37,6 @@ namespace namu {
 
     node& me::getRight() {
         return *_rhs;
-    }
-
-    nbool me::isOnDefBlock() const {
-        return _isOnDefBlock;
-    }
-
-    void me::setOnDefBlock(nbool isOnDefBlock) {
-        _isOnDefBlock = isOnDefBlock;
     }
 
     void me::setTo(const node& new1) {

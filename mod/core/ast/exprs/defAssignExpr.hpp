@@ -27,8 +27,6 @@ namespace namu {
         const node& getRight() const;
         node& getRight();
         const node& getTo() const NAMU_UNCONST_FUNC(getTo())
-        nbool isOnDefBlock() const;
-        void setOnDefBlock(nbool isOnDefBlock);
         node& getTo();
         void setTo(const node& new1);
 
@@ -37,7 +35,6 @@ namespace namu {
     private:
         str _to;
         str _rhs;
-        nbool _isOnDefBlock;
         std::string _name; // name of variable or lambda.
     };
 }

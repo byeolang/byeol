@@ -180,35 +180,31 @@ namespace namu {
                 nul(rhs) ? "name" : rhs.getType().getName().c_str());
 
         node& to = me.getTo();
-        str new1 = me.isOnDefBlock() ? rhs.as<node>() : rhsEval;
-
         NAMU_I("verify: defAssignExpr: define new1[%s] to[%s]",
-               new1 ? new1->getType().getName().c_str() : "null", nul(to) ? "frame" : to.getType().getName().c_str());
-        if(!new1) return posError(errCode::RHS_NOT_EVALUATED, me);
-        if(!new1->isComplete()) return posError(errCode::ACCESS_TO_INCOMPLETE, me);
-        if(new1->isSub<nVoid>()) return posError(errCode::VOID_CANT_DEFINED, me);
+               rhsEval ? rhsEval->getType().getName().c_str() : "null", nul(to) ? "frame" : to.getType().getName().c_str());
+        if(!rhsEval) return posError(errCode::RHS_NOT_EVALUATED, me);
+        if(!rhsEval->isComplete()) return posError(errCode::ACCESS_TO_INCOMPLETE, me);
+        if(rhsEval->isSub<nVoid>()) return posError(errCode::VOID_CANT_DEFINED, me);
 
-        // when you define variable, I need to clone it:
-        //  if don't, it may be incomplete object.
-        if(nul(to)) {
-            frame& fr = thread::get()._getNowFrame();
-            scope& sc = (scope&) fr.subs();
-            if(sc.getContainer().has(me.getSubName()))
-                return posError(errCode::ALREADY_DEFINED_VAR, me, me.getSubName().c_str(),
-                        rhs.getType().getName().c_str());
-            if(_isVariableDuplicated(me, fr)) return;
-            fr.addLocal(me.getSubName(), *new1);
-            NAMU_I("verify: defAssignExpr: define new variable '%s %s' at frame", me.getSubName().c_str(), new1->getType().getName().c_str());
-        } else {
-            str dest = to.run();
-            if(!dest)
-                return posError(errCode::EXPR_EVAL_NULL, me);
-            auto& subs = dest->subs();
-            if(_isVariableDuplicated(me, *dest)) return;
-            subs.add(me.getSubName(), *new1);
-            NAMU_I("verify: defAssignExpr: define new variable '%s %s' at %s",
-                   me.getSubName().c_str(), new1->getType().getName().c_str(), dest->getType().getName().c_str());
-        }
+        // only if to is 'frame', I need to make property when verify:
+        //  local variables are required to verify further statements. but it's okay. it'll been
+        //  removed after blockExpr::outFrame().
+        //
+        //  however, if you make a variable on defBlock, that matters and affects rest of real
+        //  execution of codes. because they still leaves after verification because they aren't on
+        //  local scope.
+        //  but don't worry. these kind of properties have to be evaluated and instantiated on
+        //  the pre-evaluation step.
+        if(!nul(to)) return;
+
+        frame& fr = thread::get()._getNowFrame();
+        scope& sc = (scope&) fr.subs();
+        if(sc.getContainer().has(me.getSubName()))
+            return posError(errCode::ALREADY_DEFINED_VAR, me, me.getSubName().c_str(),
+                    rhs.getType().getName().c_str());
+        if(_isVariableDuplicated(me, fr)) return;
+        fr.addLocal(me.getSubName(), *rhsEval);
+        NAMU_I("verify: defAssignExpr: define new variable '%s %s' at frame", me.getSubName().c_str(), rhsEval->getType().getName().c_str());
     }
 
     void me::onLeave(visitInfo i, defPropExpr& me) {

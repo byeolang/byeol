@@ -157,7 +157,6 @@ namespace namu {
                         ncnt prevErrCnt = rpt.len();
                         verifier v;
                         v.setReport(rpt).setTask(stmts[n]).setFlag(0).work();
-
                         if(rpt.len() > prevErrCnt) {
                             // if there was an error, proceed next stmt.
                             // TODO: it uses len() for counting errors.
@@ -167,6 +166,7 @@ namespace namu {
                             continue;
                         }
 
+                        stmts[n].run();
                         GUARD("|--- preEval: evalFunc(%x): SUCCESS! stmt[%d] pre-evaluated.", &fun, n);
                         stmts.del(n);
                         isChanged = true;

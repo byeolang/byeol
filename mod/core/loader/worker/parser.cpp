@@ -246,7 +246,6 @@ namespace namu {
         defAssignExpr& defAssign = stmt.cast<defAssignExpr>();
         if(!nul(defAssign)) {
             defAssign.setTo(*_maker.make<getExpr>("me"));
-            defAssign.setOnDefBlock(true);
             s.asPreCtor->add(defAssign);
             return &s;
         }
