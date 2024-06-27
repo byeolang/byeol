@@ -1,46 +1,45 @@
 #include "defPropExpr.hpp"
 #include "../../frame/thread.hpp"
-#include "../../visitor/visitor.hpp"
 
 namespace namu {
+    NAMU(DEF_ME(defPropExpr))
 
-    NAMU(DEF_ME(defPropExpr), DEF_VISIT())
-
-    me::defPropExpr(const std::string& name, const node& org): _org(org), _name(name) {}
-    me::defPropExpr(const std::string& name, const node& org, const scope& where): _org(org),
-            _name(name), _where(where) {}
+    me::defPropExpr(const std::string& name, const node& rhs): _name(name), _rhs(rhs) {}
+    me::defPropExpr(const std::string& name, const node& rhs, const node& to): _name(name), _rhs(rhs), _to(to) {}
 
     str me::run(const args& a) {
-        str org = _org->as<node>();
-        if(!org)
-            return NAMU_E("getting origin by %s returns null", _name.c_str()), org;
-        if(_where)
-            return _where->add(_name, *org->run()), org;
-        return thread::get()._getNowFrame().addLocal(_name, *org->run()), org;
+        str new1 = getRight().as<node>();
+        if(!new1)
+            return NAMU_E("new1 is null"), str();
+
+        _getToScope().add(_name, *new1);
+        return new1;
     }
 
-    void me::setOrigin(const node& newOrg) {
-        _org.bind(newOrg);
+    const std::string& me::getName() const { return _name; }
+
+    node& me::getRight() { return *_rhs; }
+    void me::setRight(const node& rhs) { _rhs.bind(rhs); }
+
+    node& me::getTo() { return *_to; }
+    void me::setTo(const node& to) { _to.bind(to); }
+
+    nbool me::isToFrame() const { return !_to; }
+
+    str me::getEval() const { return _rhs->getEval(); }
+
+    clonable* me::cloneDeep() const {
+        NAMU_DI("%s.cloneDeep()", getType().getName().c_str());
+
+        me* ret = (me*) clone();
+        if(_to) ret->_to.bind((node*) _to->cloneDeep());
+        if(_rhs) ret->_rhs.bind((node*) _rhs->cloneDeep());
+
+        return ret;
     }
 
-    const std::string& me::getName() const {
-        return _name;
-    }
-
-    const node& me::getOrigin() const {
-        return *_org;
-    }
-
-    /// @return null of scope if this variable will be defined to local scope.
-    const scope& me::getWhere() const {
-        return *_where;
-    }
-
-    void me::setWhere(const scope& new1) {
-        _where.bind(new1);
-    }
-
-    str me::getEval() const {
-        return _org->getEval();
+    scope& me::_getToScope() {
+        node& to = getTo();
+        return nul(to) ? thread::get()._getNowFrame().getLocals() : to.subs();
     }
 }

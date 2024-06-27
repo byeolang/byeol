@@ -6,7 +6,6 @@
 #include "exprs/exprMaker.hpp"
 #include "exprs/defPropExpr.hpp"
 #include "exprs/assignExpr.hpp"
-#include "exprs/defAssignExpr.hpp"
 #include "exprs/asExpr.hpp"
 #include "exprs/FBOExpr.hpp"
 #include "exprs/FUOExpr.hpp"

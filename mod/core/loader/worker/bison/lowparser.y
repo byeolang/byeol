@@ -522,11 +522,11 @@ for: FOR NAME _IN_ expr-inline9 indentblock {
 def-prop-inline: def-prop-without-value { $$ = $1; }
               | def-prop-value { $$ = $1; }
 def-prop-without-value: NAME type { // exp means 'explicitly'
-                        $$ = PS.onDefVar(*$1, *$2);
+                        $$ = PS.onDefProp(*$1, *$2);
                         free($1);
                     }
 def-prop-value: NAME DEFASSIGN expr-inline9 {
-              $$ = PS.onDefAssign(*$1, *$3);
+              $$ = PS.onDefProp(*$1, *$3);
               free($1);
           }
 def-prop-accessor: NEWLINE INDENT def-prop-accessor-items DEDENT {
@@ -543,7 +543,7 @@ def-prop-accessor-items: def-prop-accessor-item {
                      }
 
 def-prop-compound: NAME DEFASSIGN expr-compound {
-                    $$ = PS.onDefAssign(*$1, *$3);
+                    $$ = PS.onDefProp(*$1, *$3);
                     free($1);
                } | def-prop-inline def-prop-accessor {
                     // ??

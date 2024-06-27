@@ -239,14 +239,8 @@ namespace namu {
 
         defPropExpr& defProp = stmt.cast<defPropExpr>();
         if(!nul(defProp)) {
-            mockNode* clone = _maker.make<mockNode>(defProp.getOrigin());
-            s.asScope->add(defProp.getName(), *clone);
-            return &s;
-        }
-        defAssignExpr& defAssign = stmt.cast<defAssignExpr>();
-        if(!nul(defAssign)) {
-            defAssign.setTo(*_maker.make<getExpr>("me"));
-            s.asPreCtor->add(defAssign);
+            defProp.setTo(*_maker.make<getExpr>("me"));
+            s.asPreCtor->add(defProp);
             return &s;
         }
 
@@ -254,8 +248,8 @@ namespace namu {
         return &s;
     }
 
-    node* me::onDefVar(const std::string& name, const node& origin) {
-        NAMU_DI("tokenEvent: onDefVar(%s, %s)", origin.getType().getName().c_str(), name.c_str());
+    node* me::onDefProp(const std::string& name, const node& origin) {
+        NAMU_DI("tokenEvent: onDefProp(%s, %s)", origin.getType().getName().c_str(), name.c_str());
 
         return _maker.make<defPropExpr>(name, origin);
     }
@@ -285,7 +279,7 @@ namespace namu {
             if(!defProp)
                 return posError(errCode::PARAM_HAS_VAL), ret;
 
-            ret.add(new param(defProp->getName(), defProp->getOrigin()));
+            ret.add(new param(defProp->getName(), defProp->getRight()));
         }
 
         return ret;
@@ -315,13 +309,13 @@ namespace namu {
         return new narr();
     }
     narr* me::onParams(const defPropExpr& elem) {
-        NAMU_DI("tokenEvent: onParams(%s %s)", elem.getName().c_str(), elem.getOrigin().getType().getName().c_str());
+        NAMU_DI("tokenEvent: onParams(%s %s)", elem.getName().c_str(), elem.getRight().getType().getName().c_str());
         narr* ret = new narr();
         ret->add(elem);
         return ret;
     }
     narr* me::onParams(narr& it, const defPropExpr& elem) {
-        NAMU_DI("tokenEvent: onParams(narr(%d), %s %s)", it.len(), elem.getName().c_str(), elem.getOrigin().getType().getName().c_str());
+        NAMU_DI("tokenEvent: onParams(narr(%d), %s %s)", it.len(), elem.getName().c_str(), elem.getRight().getType().getName().c_str());
         it.add(elem);
         return &it;
     }
@@ -753,12 +747,6 @@ namespace namu {
         NAMU_DI("tokenEvent: onModAssign(%s, %s)", lhs.getType().getName().c_str(),
                 rhs.getType().getName().c_str());
         return _onAssignElem(FBOExpr::MOD, lhs, rhs);
-    }
-
-    node* me::onDefAssign(const std::string& name, node& rhs) {
-        NAMU_DI("tokenEvent: onDefAssign(%s, %s)", name.c_str(), rhs.getType().getName().c_str());
-
-        return _maker.make<defAssignExpr>(name, rhs);
     }
 
     asExpr* me::onAs(const node& me, const node& as) {

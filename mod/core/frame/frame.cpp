@@ -35,12 +35,10 @@ namespace namu {
     void me::addLocal(const std::string& name, const node& n) {
         if(_stack.size() <= 0)
             return NAMU_E("couldn't push new node. the top scope is null"), void();
-        auto& top = _getTop();
-        const node& owner = *top.owner;
-        if(!nul(owner))
-            return NAMU_E("it's tried to add variable into %s. it's not valid.", owner.getType().getName().c_str()), void();
-
-        top.s->add(name, n);
+        auto& locals = getLocals();
+        if(!nul(locals))
+            return NAMU_E("it's tried to add variable into %s. it's not valid."), void();
+        locals.add(name, n);
     }
 
     node& me::getOwner(const node& sub) {
@@ -60,6 +58,12 @@ namespace namu {
     nbool me::setMe(const baseObj& new1) { return _me.bind(new1); }
     void me::setMe() { _me.rel(); }
     baseObj& me::getMe() { return *_me; }
+
+    scope& me::getLocals() {
+        auto& top = _getTop();
+        if(nul(top) || !top.owner) return nulOf<scope>();
+        return *top.s;
+    }
 
     void me::del() {
         _stack.pop_back();

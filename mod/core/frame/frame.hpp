@@ -42,6 +42,9 @@ namespace namu {
         const baseObj& getMe() const NAMU_UNCONST_FUNC(getMe())
         baseObj& getMe();
 
+        scope& getLocals();
+        const scope& getLocals() const NAMU_UNCONST_FUNC(getLocals())
+
         virtual nbool setFunc(baseFunc& new1);
         void setFunc();
         baseFunc& getFunc();

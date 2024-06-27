@@ -5,36 +5,39 @@
 #include "../scope.hpp"
 
 namespace namu {
-
-    class visitor;
-
     class _nout defPropExpr : public expr {
-        NAMU(CLASS(defPropExpr, expr, expr::exprType), VISIT())
-        friend class func;
+        NAMU(CLASS(defPropExpr, expr))
         friend class verifier;
 
     public:
-        defPropExpr(const std::string& name, const node& org);
-        defPropExpr(const std::string& name, const node& org, const scope& where);
+        defPropExpr(const std::string& name, const node& rhs);
+        defPropExpr(const std::string& name, const node& rhs, const node& to);
 
     public:
         using super::run;
         str run(const args& a) override;
 
-        void setOrigin(const node& newOrg);
-        const node& getOrigin() const;
-
         const std::string& getName() const;
 
-        /// @return null of scope if this variable will be defined to local scope.
-        const scope& getWhere() const;
-        void setWhere(const scope& new1);
+        node& getRight();
+        const node& getRight() const NAMU_UNCONST_FUNC(getRight())
+        void setRight(const node& rhs);
+
+        node& getTo();
+        const node& getTo() const NAMU_UNCONST_FUNC(getTo())
+        nbool isToFrame() const;
+        void setTo(const node& to);
 
         str getEval() const override;
 
+        clonable* cloneDeep() const override;
+
     private:
-        str _org;
+        scope& _getToScope();
+
+    private:
         std::string _name;
-        tstr<scope> _where;
+        str _rhs;
+        str _to;
     };
 }
