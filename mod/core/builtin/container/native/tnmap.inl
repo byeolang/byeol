@@ -37,7 +37,6 @@ namespace namu {
 
     TEMPL
     nbool ME::add(const K& key, const V& new1) {
-
         _map.insert({key, wrap(new1)});
         return true;
     }

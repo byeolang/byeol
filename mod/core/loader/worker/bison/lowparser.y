@@ -524,7 +524,7 @@ def-prop-inline: def-prop-without-value { $$ = $1; }
 def-prop-without-value: NAME type { // exp means 'explicitly'
                         $$ = PS.onDefVar(*$1, *$2);
                         free($1);
-                   }
+                    }
 def-prop-value: NAME DEFASSIGN expr-inline9 {
               $$ = PS.onDefAssign(*$1, *$3);
               free($1);

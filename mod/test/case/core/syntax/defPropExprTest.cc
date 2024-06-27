@@ -103,5 +103,20 @@ TEST_F(defPropExprTest, defVoidContainerNegative) {
     )SRC").shouldParsed(false);
     shouldVerified(false);
 }
+
+TEST_F(defPropExprTest, defPropWithObj) {
+    make().parse(R"SRC(
+        def a
+            age := 22
+        a1 a
+        a2 a
+        main() int
+            a2.age
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 22);
+}
 /* TODO: TEST_F(defPropExprTest, defineVarWithoutCtorNegative) {
 }*/
