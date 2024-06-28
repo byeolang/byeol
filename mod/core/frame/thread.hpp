@@ -17,6 +17,7 @@ namespace namu {
         friend class func; // for frames.
         friend class blockExpr; // for frames.
         friend class defPropExpr;
+        friend class defVarExpr;
         friend class assignExpr;
         friend class verifier;
         friend class runExpr;

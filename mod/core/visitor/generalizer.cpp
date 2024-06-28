@@ -48,13 +48,13 @@ namespace namu {
     }
 
     nbool me::onVisit(visitInfo i, defPropExpr& me) {
-        const node& org = _findOrigin(me.getOrigin());
+        const node& org = _findOrigin(me.getRight());
         if(nul(org)) return true;
 
         NAMU_DI("* inject '%s %s' --> '%s %s'",
-               me.getName().c_str(), me.getOrigin().getType().getName().c_str(),
+               me.getName().c_str(), me.getRight().getType().getName().c_str(),
                me.getName().c_str(), org.getType().getName().c_str());
-        me.setOrigin(org);
+        me.setRight(org);
         return true;
     }
 

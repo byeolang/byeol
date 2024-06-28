@@ -526,9 +526,9 @@ def-prop-without-value: NAME type { // exp means 'explicitly'
                         free($1);
                     }
 def-prop-value: NAME DEFASSIGN expr-inline9 {
-              $$ = PS.onDefProp(*$1, *$3);
+              $$ = PS.onDefAssign(*$1, *$3);
               free($1);
-          }
+            }
 def-prop-accessor: NEWLINE INDENT def-prop-accessor-items DEDENT {
                    // ??
                }
@@ -543,7 +543,7 @@ def-prop-accessor-items: def-prop-accessor-item {
                      }
 
 def-prop-compound: NAME DEFASSIGN expr-compound {
-                    $$ = PS.onDefProp(*$1, *$3);
+                    $$ = PS.onDefAssign(*$1, *$3);
                     free($1);
                } | def-prop-inline def-prop-accessor {
                     // ??

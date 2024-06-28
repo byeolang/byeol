@@ -237,10 +237,10 @@ namespace namu {
         if(nul(s))
             return posError(errCode::IS_NULL, "s"), new defBlock();
 
-        defPropExpr& defProp = stmt.cast<defPropExpr>();
-        if(!nul(defProp)) {
-            defProp.setTo(*_maker.make<getExpr>("me"));
-            s.asPreCtor->add(defProp);
+        defVarExpr& defVar = stmt.cast<defVarExpr>();
+        if(!nul(defVar)) {
+            defVar.setTo(*_maker.make<getExpr>("me"));
+            s.asPreCtor->add(defVar);
             return &s;
         }
 
@@ -248,10 +248,16 @@ namespace namu {
         return &s;
     }
 
-    node* me::onDefProp(const std::string& name, const node& origin) {
-        NAMU_DI("tokenEvent: onDefProp(%s, %s)", origin.getType().getName().c_str(), name.c_str());
+    node* me::onDefProp(const std::string& name, const node& rhs) {
+        NAMU_DI("tokenEvent: onDefProp(%s, %s)", rhs.getType().getName().c_str(), name.c_str());
 
-        return _maker.make<defPropExpr>(name, origin);
+        return _maker.make<defPropExpr>(name, rhs);
+    }
+
+    node* me::onDefAssign(const std::string& name, const node& rhs) {
+        NAMU_DI("tokenEvent: onDefAssign(%s, %s)", rhs.getType().getName().c_str(), name.c_str());
+
+        return _maker.make<defAssignExpr>(name, rhs);
     }
 
     node* me::onDefArray(const narr& items) {

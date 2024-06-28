@@ -162,7 +162,8 @@ namespace namu {
             NAMU_DI("on%s(...)", ttype<T>::get().getName().c_str());
             return new T(args...);
         }
-        node* onDefProp(const std::string& name, const node& origin);
+        node* onDefProp(const std::string& name, const node& rhs);
+        node* onDefAssign(const std::string& name, const node& rhs);
         //          obj:
         obj* onDefObj(const std::string& name, defBlock& blk);
         node* onDefObjGeneric(const std::string& name, const args& typeParams, defBlock& blk);
