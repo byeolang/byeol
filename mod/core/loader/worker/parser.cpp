@@ -241,6 +241,13 @@ namespace namu {
 
         defVarExpr& defVar = stmt.cast<defVarExpr>();
         if(!nul(defVar)) {
+            node& rhs = defVar.getRight();
+            baseObj& org = rhs.cast<baseObj>();
+            if(!nul(org) && org.isPreEvaluated()) {
+                s.asScope->add(defVar.getName(), new mockNode(org));
+                return &s;
+            }
+
             defVar.setTo(*_maker.make<getExpr>("me"));
             s.asPreCtor->add(defVar);
             return &s;

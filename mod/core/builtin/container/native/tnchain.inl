@@ -10,7 +10,7 @@ namespace namu {
 
     TEMPL
     nbool ME::has(const K& key) const {
-        for(tstr<me> e(this); e ;e.bind(e->getNext()))
+        for(const me* e=this; e ;e=&e->getNext())
             if(e->getContainer().has(key))
                 return true;
         return false;
@@ -18,7 +18,7 @@ namespace namu {
 
     TEMPL
     nbool ME::has(const V& val) const {
-        for(tstr<me> e(this); e ;e.bind(e->getNext()))
+        for(const me* e=this; e ;e=&e->getNext())
             if(e->getContainer().has(val))
                 return true;
         return false;
@@ -28,7 +28,7 @@ namespace namu {
     ncnt ME::len() const {
         ncnt len = 0;
 
-        for(tstr<me> e(this); e ;e.bind(e->getNext()))
+        for(const me* e=this; e ;e=&e->getNext())
             len += e->getContainer().len();
         return len;
     }
@@ -36,7 +36,7 @@ namespace namu {
     TEMPL
     ncnt ME::chainLen() const {
         ncnt len = 0;
-        for(tstr<me> e(this); e ;e.bind(e->getNext()))
+        for(const me* e=this; e ;e=&e->getNext())
             len++;
 
         return len;
@@ -44,7 +44,7 @@ namespace namu {
 
     TEMPL
     V& ME::get(const K& key) {
-        for(tstr<me> e(this); e ;e.bind(e->getNext())) {
+        for(me* e=this; e ;e=&e->getNext()) {
             V& got = e->getContainer().get(key);
             if(!nul(got))
                 return got;
@@ -55,7 +55,7 @@ namespace namu {
 
     TEMPL
     void ME::_getAll(const K& key, narr& tray) const {
-        for(tstr<me> e(this); e ;e.bind(e->getNext()))
+        for(const me* e=this; e ;e=&e->getNext())
             e->getContainer()._getAll(key, tray);
     }
 
@@ -67,7 +67,7 @@ namespace namu {
     TEMPL
     nbool ME::del(const K& key) {
         nbool ret = true;
-        for(tstr<me> e(this); e ;e.bind(e->getNext()))
+        for(me* e=this; e ;e=&e->getNext())
             if(e->has(key))
                 ret = e->getContainer().del(key) ? ret : false;
         return ret;
@@ -77,8 +77,8 @@ namespace namu {
     nbool ME::del(const iter& at) {
         const me& owner = (const me&) at.getContainer();
 
-        for(tstr<me> e(this); e ;e.bind(e->getNext()))
-            if(&e.get() == &owner)
+        for(me* e=this; e ;e=&e->getNext())
+            if(e == &owner)
                 return e->getContainer().del(_getMapIterFromChainIter(at));
         return false;
     }
@@ -184,7 +184,7 @@ namespace namu {
 
     TEMPL
     void ME::rel() {
-        for(tstr<me> e(this); e ;e.bind(e->getNext()))
+        for(me* e=this; e ;e=&e->getNext())
             e->getContainer().rel();
     }
 

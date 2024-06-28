@@ -109,7 +109,10 @@ namespace namu {
         return _isComplete;
     }
 
-    nbool me::isPreEvaluated() const { return nul(mySubs()->get(baseObj::PRECTOR_NAME)); }
+    nbool me::isPreEvaluated() const {
+        auto subs = mySubs();
+        return nul(subs->get(baseObj::PRECTOR_NAME));
+    }
 
     void me::_inFrame(frame& fr, const bicontainable& args) {
         if(_subpack)

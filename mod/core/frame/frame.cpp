@@ -36,7 +36,7 @@ namespace namu {
         if(_stack.size() <= 0)
             return NAMU_E("couldn't push new node. the top scope is null"), void();
         auto& locals = getLocals();
-        if(!nul(locals))
+        if(nul(locals))
             return NAMU_E("it's tried to add variable into %s. it's not valid."), void();
         locals.add(name, n);
     }

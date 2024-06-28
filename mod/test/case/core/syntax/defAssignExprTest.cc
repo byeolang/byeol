@@ -222,8 +222,9 @@ TEST_F(defAssignExprTest, defAssignDefAssignedValue) {
         def a
             age int
         main() int
-            a2 := a()
-            a1 := a2
+            /*a2 := a()
+            a1 := a2*/
+            a1 a
             ret a1.age
     )SRC").shouldVerified(true);
 

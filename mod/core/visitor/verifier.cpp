@@ -167,9 +167,11 @@ namespace namu {
         if(eval->isSub<nVoid>())
             return posError(errCode::VOID_CANT_DEFINED, me);
         obj& cast = eval->cast<obj>();
-        if(!nul(cast))
-            if(!cast.getOrigin().isPreEvaluated())
+        if(!nul(cast)) {
+            const obj& org = cast.getOrigin();
+            if(!org.isPreEvaluated())
                 return posError(errCode::TYPE_IS_NOT_PRE_EVALUATED, me);
+        }
 
         NAMU_I("verify: defVarExpr: does rhs[%s] have 'ret' in its blockStmt?", eval->getType().getName().c_str());
         if(eval->isSub<retStateExpr>())
@@ -190,8 +192,9 @@ namespace namu {
             posError(errCode::CANT_DEF_VAR, me, name.c_str(), typeName);
         if(eval->isSub<nVoid>()) return posError(errCode::VOID_CANT_DEFINED, me);
 
-        std::string to = nul(me.getTo()) ? "null" : me.getTo().getType().getName();
-        NAMU_I("verify: defVarExpr: is 'to'[%s] valid", to.c_str());
+        node& to = me.getTo();
+        std::string toName = nul(to) ? "null" : to.getType().getName();
+        NAMU_I("verify: defVarExpr: is 'to'[%s] valid", toName.c_str());
         // only if to is 'frame', I need to make property when verify:
         //  local variables are required to verify further statements. but it's okay. it'll been
         //  removed after blockExpr::outFrame().

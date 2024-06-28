@@ -64,7 +64,7 @@ namespace namu {
         NAMU_DI("run: 'me' was evaluated to %s", evalMe->getType().getName().c_str());
 
         std::string argsName = _args ? _args->asStr().c_str() : "{}";
-        NAMU_DI("run: %s.sub(%s, %s)", evalMe->getType().getName().c_str(), _name.c_str(), argsName.c_str());
+        NAMU_DI("run: %s.sub(\"%s\", %s)", evalMe->getType().getName().c_str(), _name.c_str(), argsName.c_str());
         if(!_args)
             return priorities(evalMe->sub(_name));
 
