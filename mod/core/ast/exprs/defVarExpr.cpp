@@ -1,8 +1,9 @@
 #include "defVarExpr.hpp"
+#include "../../visitor/visitor.hpp"
 #include "../../frame/thread.hpp"
 
 namespace namu {
-    NAMU(DEF_ME(defVarExpr))
+    NAMU(DEF_ME(defVarExpr), DEF_VISIT())
 
     me::defVarExpr(const std::string& name, const node& rhs): _name(name), _rhs(rhs) {}
     me::defVarExpr(const std::string& name, const node& rhs, const node& to): _name(name), _rhs(rhs), _to(to) {}

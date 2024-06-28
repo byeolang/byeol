@@ -20,7 +20,7 @@ namespace namu {
         void onLeave(visitInfo i, asExpr& me) override;
         void onLeave(visitInfo i, assignExpr& me) override;
         void onLeave(visitInfo i, blockExpr& me) override;
-        void onLeave(visitInfo i, defPropExpr& me) override;
+        void onLeave(visitInfo i, defVarExpr& me) override;
         void onLeave(visitInfo i, defSeqExpr& me) override;
         void onLeave(visitInfo i, defArrayExpr& me) override;
         void onLeave(visitInfo i, FBOExpr& me) override;

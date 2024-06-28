@@ -47,7 +47,7 @@ PAIRX(PACK_NOT_MATCH,               "pack %s expected, but it was %s")
 // expr:
 PAIRX(NOT_EXPR,                     "\'%s\' isn't a expression")
 PAIRX(EXPR_EVAL_NULL,               "expression evaluated as null type")
-//  defProp:
+//  defVar:
 PAIRX(CANT_DEF_VAR,                 "definining variable '%s %s' wouldn't allowed here")
 PAIRX(ALREADY_DEFINED_VAR,          "variable '%s %s' was already defined in this scope")
 PAIRX(HAS_NO_NAME,                  "variable should have a name")
@@ -56,6 +56,7 @@ PAIRX(TYPE_NOT_EXIST,               "when defines variable '%s', couldn't find t
 PAIRX(DONT_HAVE_CTOR,               "%s's type doesn't have a constructor without parameter.")
 PAIRX(TYPE_NOT_DEDUCED,             "type can't be deduced into meaningful one.")
 PAIRX(NO_VOID_CONTAINER,            "you can't make a void container")
+PAIRX(TYPE_IS_NOT_PRE_EVALUATED,    "there is something wrong in pre-evaluation to define %s variable.")
 //  defSeq:
 PAIRX(SEQ_SHOULD_INT_COMPATIBLE,    "start and end of a sequence should be sort of an int.")
 //  assign:

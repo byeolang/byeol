@@ -152,7 +152,7 @@ namespace namu {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, defPropExpr& e) {
+    nbool me::onVisit(visitInfo i, defVarExpr& e) {
         onVisit(i, (node&) e);
 
         clog << foreColor(LIGHTGRAY) << " = "

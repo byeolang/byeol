@@ -150,7 +150,7 @@ namespace namu {
             right.accept(visitInfo {"rhs", &a, n++, len, i.depth+1}, *this);
     }
 
-    void me::onTraverse(visitInfo i, defPropExpr& d) {
+    void me::onTraverse(visitInfo i, defVarExpr& d) {
         node& r = (node&) d.getRight();
         if(!nul(r))
             r.accept(visitInfo {d.getName(), &d, 0, 1, i.depth+1}, *this);

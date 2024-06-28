@@ -56,6 +56,8 @@ namespace namu {
         return *_src;
     }
 
+    nbool me::isPreEvaluated() const { return true; }
+
     void me::_setSrc(const src& s) {
         _src.bind(s);
     }

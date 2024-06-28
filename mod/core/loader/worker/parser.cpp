@@ -174,8 +174,10 @@ namespace namu {
         for(int n=1; n < dotnames.size(); n++) {
             const std::string& name = dotnames[n];
             obj* sub = &e->sub<obj>(name);
-            if(nul(sub))
+            if(nul(sub)) {
                 e->subs().add(name, sub = new obj(new mgdType(name)));
+                sub->_setOrigin(sub);
+            }
             e = sub;
         }
 

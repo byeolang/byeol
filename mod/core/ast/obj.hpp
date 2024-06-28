@@ -17,6 +17,7 @@ namespace namu {
              VISIT())
         friend class slot; // for _onRunSub
         friend class parser;
+        friend class preEvaluator;
         friend class genericObj; // for _setOrigin(), _setType
         friend class exprMaker;
 
@@ -50,6 +51,8 @@ namespace namu {
         typedef ntype metaType;
         const ntype& getType() const override;
         nbool isComplete() const override;
+
+        nbool isPreEvaluated() const override;
 
     protected:
         void _inFrame(frame& fr, const bicontainable& args) override;

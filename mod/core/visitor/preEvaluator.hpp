@@ -39,11 +39,12 @@ namespace namu {
         nbool _tryPreEvals(errReport& rpt);
         /// @return true if there is a change.
         nbool _tryPreEval(errReport& rpt, evaluation& eval);
-        void _delEval(nidx n);
+        void _delEval(std::map<obj*, evaluation>::iterator e);
         void _preEval();
+        nbool _isAllEvaluated(obj& key) const;
 
     private:
-        std::vector<evaluation> _stack;
+        std::map<obj*, evaluation> _stack;
         tstr<obj> _obj;
         tstr<func> _func;
     };

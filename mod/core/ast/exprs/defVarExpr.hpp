@@ -6,7 +6,7 @@
 
 namespace namu {
     class _nout defVarExpr : public expr {
-        NAMU(ADT(defVarExpr, expr))
+        NAMU(ADT(defVarExpr, expr), VISIT())
 
     public:
         defVarExpr(const std::string& name, const node& rhs);

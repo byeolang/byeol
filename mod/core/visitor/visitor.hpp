@@ -36,7 +36,7 @@ namespace namu {
         virtual void onTraverse(visitInfo i, asExpr& a);
         virtual void onTraverse(visitInfo i, assignExpr& a);
         virtual void onTraverse(visitInfo i, blockExpr& b);
-        virtual void onTraverse(visitInfo i, defPropExpr& d);
+        virtual void onTraverse(visitInfo i, defVarExpr& d);
         virtual void onTraverse(visitInfo i, FBOExpr& f);
         virtual void onTraverse(visitInfo i, getExpr& e);
         virtual void onTraverse(visitInfo i, retExpr& b);

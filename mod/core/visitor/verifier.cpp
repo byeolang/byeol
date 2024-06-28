@@ -153,43 +153,45 @@ namespace namu {
         _recentLoops.pop_back();
     }
 
-    void me::onLeave(visitInfo i, defPropExpr& me) {
-        GUARD("verify: %s defPropExpr@%s: onLeave()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
+    void me::onLeave(visitInfo i, defVarExpr& me) {
+        GUARD("verify: %s defVarExpr@%s: onLeave()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
 
-        NAMU_I("verify: defPropExpr: is definable?");
+        NAMU_I("verify: defVarExpr: is definable?");
         const node& rhs = me.getRight();
         if(nul(rhs))
             return posError(errCode::CANT_DEF_VAR, me, me.getName().c_str(), "null");
 
-        NAMU_I("verify: defPropExpr: to define a void type property isn't allowed.");
+        NAMU_I("verify: defVarExpr: to define a void type property isn't allowed.");
         str eval = rhs.getEval();
         if(!eval) return posError(errCode::RHS_IS_NULL, me);
         if(eval->isSub<nVoid>())
             return posError(errCode::VOID_CANT_DEFINED, me);
+        obj& cast = eval->cast<obj>();
+        if(!nul(cast))
+            if(!cast.getOrigin().isPreEvaluated())
+                return posError(errCode::TYPE_IS_NOT_PRE_EVALUATED, me);
 
-        NAMU_I("verify: defPropExpr: does rhs[%s] have 'ret' in its blockStmt?", eval->getType().getName().c_str());
+        NAMU_I("verify: defVarExpr: does rhs[%s] have 'ret' in its blockStmt?", eval->getType().getName().c_str());
         if(eval->isSub<retStateExpr>())
             return posError(errCode::CANT_ASSIGN_RET, me);
 
-        NAMU_I("verify: defPropExpr: check whether make a void container.");
+        NAMU_I("verify: defVarExpr: check whether make a void container.");
         const narr& beans = eval->getType().getBeans();
         for(const node& bean : beans)
             if(bean.isSub<nVoid>())
                 return posError(errCode::NO_VOID_CONTAINER, me);
 
-
         std::string name = me.getName();
         if(name == "") return posError(errCode::HAS_NO_NAME, me);
-        NAMU_I("verify: defPropExpr: is %s definable?", name.c_str());
+        NAMU_I("verify: defVarExpr: is %s definable?", name.c_str());
         const ntype& t = eval->getType();
         const nchar* typeName = nul(t) ? "null" : t.getName().c_str();
         if(nul(t))
             posError(errCode::CANT_DEF_VAR, me, name.c_str(), typeName);
-        if(!eval->isComplete()) return posError(errCode::ACCESS_TO_INCOMPLETE, me);
         if(eval->isSub<nVoid>()) return posError(errCode::VOID_CANT_DEFINED, me);
 
         std::string to = nul(me.getTo()) ? "null" : me.getTo().getType().getName();
-        NAMU_I("verify: defPropExpr: is 'to'[%s] valid", to.c_str());
+        NAMU_I("verify: defVarExpr: is 'to'[%s] valid", to.c_str());
         // only if to is 'frame', I need to make property when verify:
         //  local variables are required to verify further statements. but it's okay. it'll been
         //  removed after blockExpr::outFrame().
@@ -202,11 +204,11 @@ namespace namu {
         if(!nul(to)) return;
 
         frame& fr = thread::get()._getNowFrame();
-        NAMU_I("verify: defPropExpr: duplication of variable with name[%s]", name.c_str());
+        NAMU_I("verify: defVarExpr: duplication of variable with name[%s]", name.c_str());
         if(fr.mySubs()->has(name))
             return posError(errCode::ALREADY_DEFINED_VAR, me, name.c_str(), typeName);
 
-        NAMU_I("verify: defPropExpr: ok. defining local temporary var... %s %s", name.c_str(), typeName);
+        NAMU_I("verify: defVarExpr: ok. defining local temporary var... %s %s", name.c_str(), typeName);
         fr.addLocal(name, *new mockNode(*eval));
     }
 

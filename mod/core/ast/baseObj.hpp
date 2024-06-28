@@ -38,6 +38,8 @@ namespace namu {
 
         const src& getSrc() const override;
 
+        virtual nbool isPreEvaluated() const;
+
     protected:
         str _onRunSub(node& sub, const args& a) override;
         void _setSrc(const src& s) override;

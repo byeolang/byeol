@@ -47,7 +47,7 @@ namespace namu {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, defPropExpr& me) {
+    nbool me::onVisit(visitInfo i, defVarExpr& me) {
         const node& org = _findOrigin(me.getRight());
         if(nul(org)) return true;
 

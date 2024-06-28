@@ -64,7 +64,7 @@ namespace namu {
 
         if(i.name == baseObj::PRECTOR_NAME) {
             NAMU_I("preEval: func: found prector");
-            _stack.push_back({*_obj, me});
+            _stack[&_obj.get()] = {*_obj, me};
         }
 
         me.getBlock().inFrame();
@@ -113,6 +113,8 @@ namespace namu {
                 NAMU_E("* * *");
                 NAMU_E("I couldn't finish pre-evaluation. may be because of circular dependency.");
                 NAMU_E("total %d pre-evaluations remains.", _stack.size());
+                NAMU_E("errors:");
+                e.dump();
                 NAMU_E("* * *");
                 break;
             }
@@ -127,16 +129,16 @@ namespace namu {
     nbool me::_tryPreEvals(errReport& rpt) {
         GUARD("|--- preEval: tryPreEvals: evaluation[%d] remains ---|", _stack.size());
         nbool isChanged = false;
-        for(nint n = 0; n < _stack.size() ;) {
-            evaluation& eval = _stack[n];
+        for(auto e=_stack.begin(); e != _stack.end() ;) {
+            auto& eval = e->second;
             if(_tryPreEval(rpt, eval)) {
                 isChanged = true;
                 if(eval.isEvaluated()) {
-                    _delEval(n);
+                    _delEval(e++);
                     continue;
                 }
             }
-            n++;
+            ++e;
         }
         return isChanged;
     }
@@ -167,6 +169,7 @@ namespace namu {
                         }
 
                         stmts[n].run();
+
                         GUARD("|--- preEval: evalFunc(%x): SUCCESS! stmt[%d] pre-evaluated.", &fun, n);
                         stmts.del(n);
                         isChanged = true;
@@ -179,10 +182,8 @@ namespace namu {
         }
     }
 
-    void me::_delEval(nidx n) {
-        evaluation& eval = _stack[n];
-        eval.me->subs().del(baseObj::PRECTOR_NAME);
-
-        _stack.erase(_stack.begin() + n);
+    void me::_delEval(std::map<obj*, evaluation>::iterator e) {
+        e->second.me->subs().del(baseObj::PRECTOR_NAME);
+        _stack.erase(e);
     }
 }

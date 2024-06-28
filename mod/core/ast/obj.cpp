@@ -20,7 +20,6 @@ namespace namu {
         // complete attribute is unique:
         //  all unique attributes looses when instance got cloned.
         _isComplete = true;
-
         return *this;
     }
 
@@ -38,7 +37,8 @@ namespace namu {
         _setType(newType);
     }
 
-    me::obj(mgdType* newType, scope& shares, scope& owns): super(), _org(this), _type(nullptr), _isComplete(true) {
+    me::obj(mgdType* newType, scope& shares, scope& owns): super(), _org(this), _type(nullptr),
+        _isComplete(true) {
         owns.link(shares);
         _subs.bind(owns);
         _setType(newType);
@@ -108,6 +108,8 @@ namespace namu {
     nbool me::isComplete() const {
         return _isComplete;
     }
+
+    nbool me::isPreEvaluated() const { return nul(mySubs()->get(baseObj::PRECTOR_NAME)); }
 
     void me::_inFrame(frame& fr, const bicontainable& args) {
         if(_subpack)
