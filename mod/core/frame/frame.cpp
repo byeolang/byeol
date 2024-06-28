@@ -61,7 +61,7 @@ namespace namu {
 
     scope& me::getLocals() {
         auto& top = _getTop();
-        if(nul(top) || !top.owner) return nulOf<scope>();
+        if(nul(top) || top.owner) return nulOf<scope>();
         return *top.s;
     }
 
