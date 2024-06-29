@@ -253,7 +253,7 @@ TEST_F(defAssignExprTest, defAssignVoidNegative2) {
 }
 
 TEST_F(defAssignExprTest, defAssignIfWithoutElseNegative) {
-    make().negative().parse(R"SRC(
+    make().parse(R"SRC(
         main() void
             a := if true
                 "hello"

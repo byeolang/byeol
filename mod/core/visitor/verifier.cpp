@@ -220,7 +220,7 @@ namespace namu {
         GUARD("verify: %s defAssignExpr@%s: onVisit()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
         const node& rhs = me.getRight();
         str eval = !nul(rhs) ? rhs.getEval() : str();
-        if(!eval) return NAMU_DI("eval is null"), void();
+        if(!eval) return posError(errCode::RHS_IS_NULL, me);
         if(!eval->isComplete())
             return posError(errCode::ACCESS_TO_INCOMPLETE, me);
 
