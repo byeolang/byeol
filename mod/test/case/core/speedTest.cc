@@ -135,7 +135,7 @@ TEST_F(speedTest, benchmarkSumOfSequence) {
             sum := 0
             for n in 1..10000
                 sum = sum + n
-            return sum
+            ret sum
     )SRC").shouldVerified(true);
 
     auto start2 = chrono::steady_clock::now();
