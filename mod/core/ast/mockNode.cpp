@@ -49,6 +49,12 @@ namespace namu {
         return super::getSrc();
     }
 
+    void* me::cast(const type& to) {
+        if(ttype<me>::get().isSub(to)) return this;
+        if(_org) return _org->cast(to);
+        return nullptr;
+    }
+
     void me::_setSrc(const src& s) {
         if(!_org) return;
         _org->_setSrc(s);

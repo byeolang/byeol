@@ -31,6 +31,8 @@ namespace namu {
 
         const src& getSrc() const override;
 
+        void* cast(const type& to) override;
+
     protected:
         void _setSrc(const src& s) override;
 

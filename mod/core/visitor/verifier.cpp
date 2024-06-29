@@ -303,8 +303,8 @@ namespace namu {
         NAMU_I("verify: getExpr: isRunnable: got=%s, me=%s", got->getType().getName().c_str(),
                 me.getType().getName().c_str());
 
-        NAMU_I("verify: getExpr: accesses to incomplete 'me' object");
         str asedMe = me.getMe().getEval();
+        NAMU_I("verify: getExpr: accesses to incomplete 'me[%s]' object?", asedMe ? asedMe->getType().getName().c_str() : "null");
         if(asedMe && !asedMe->isComplete())
             return posError(errCode::ACCESS_TO_INCOMPLETE, me);
     }

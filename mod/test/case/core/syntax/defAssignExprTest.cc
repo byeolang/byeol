@@ -224,7 +224,7 @@ TEST_F(defAssignExprTest, defAssignDefAssignedValue) {
         main() int
             /*a2 := a()
             a1 := a2*/
-            a1 a
+            a1 := a()
             ret a1.age
     )SRC").shouldVerified(true);
 
