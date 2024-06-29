@@ -166,6 +166,7 @@ namespace namu {
         if(!eval) return posError(errCode::RHS_IS_NULL, me);
         if(eval->isSub<nVoid>())
             return posError(errCode::VOID_CANT_DEFINED, me);
+
         obj& cast = eval->cast<obj>();
         if(!nul(cast)) {
             const obj& org = cast.getOrigin();
@@ -213,6 +214,17 @@ namespace namu {
 
         NAMU_I("verify: defVarExpr: ok. defining local temporary var... %s %s", name.c_str(), typeName);
         fr.addLocal(name, *new mockNode(*eval));
+    }
+
+    void me::onLeave(visitInfo i, defAssignExpr& me) {
+        GUARD("verify: %s defAssignExpr@%s: onVisit()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
+        const node& rhs = me.getRight();
+        str eval = !nul(rhs) ? rhs.getEval() : str();
+        if(!eval) return NAMU_DI("eval is null"), void();
+        if(!eval->isComplete())
+            return posError(errCode::ACCESS_TO_INCOMPLETE, me);
+
+        onLeave(i, (defAssignExpr::super&) me);
     }
 
     void me::onLeave(visitInfo i, defSeqExpr& me) {

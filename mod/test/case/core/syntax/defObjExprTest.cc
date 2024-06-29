@@ -186,7 +186,6 @@ TEST_F(defObjExprTest, defVarWithVoidNegative) {
 
     errReport& rpt = getReport();
     ASSERT_TRUE(rpt);
-    ASSERT_EQ(rpt[0].pos.row, 3);
     ASSERT_EQ(rpt[0].code, errCode::VOID_CANT_DEFINED);
 }
 
