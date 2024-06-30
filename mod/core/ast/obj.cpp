@@ -9,7 +9,7 @@ namespace namu {
     NAMU(DEF_ME(obj), DEF_VISIT())
 
     me& me::_assign(const me& rhs) {
-        scope* clonedOwns = scope::wrap<scope>(*(scope::super*) rhs.getOwns().getContainer().cloneDeep());
+        scope* clonedOwns = scope::wrap<scope>(*(scope::super*) rhs.getOwns().cloneDeep());
         clonedOwns->link(rhs.getShares());
         _subs.bind(*clonedOwns);
 
@@ -92,9 +92,9 @@ namespace namu {
         return _subs->getNext().cast<scope>();
     }
 
-    scope& me::getOwns() {
-        if(!_subs) return nulOf<scope>();
-        return _subs->cast<scope>();
+    scope::super& me::getOwns() {
+        if(!_subs) return nulOf<scope::super>();
+        return _subs->getContainer();
     }
 
     const obj& me::getOrigin() const {
@@ -135,7 +135,7 @@ namespace namu {
     clonable* me::cloneDeep() const {
         NAMU_DI("%s.cloneDeep()", getType().getName().c_str());
         me* ret = new me(*this);
-        ret->getOwns().link(*(scope*) getShares().cloneDeep());
+        ret->subs().link(*(scope*) getShares().cloneDeep());
         return ret;
     }
 }

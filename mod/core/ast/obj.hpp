@@ -42,8 +42,8 @@ namespace namu {
 
         scope& getShares();
         const scope& getShares() const NAMU_UNCONST_FUNC(getShares())
-        scope& getOwns();
-        const scope& getOwns() const NAMU_UNCONST_FUNC(getOwns())
+        scope::super& getOwns();
+        const scope::super& getOwns() const NAMU_UNCONST_FUNC(getOwns())
         const obj& getOrigin() const override;
         const obj& getSubPack() const;
 

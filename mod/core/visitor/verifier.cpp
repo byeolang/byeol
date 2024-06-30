@@ -434,7 +434,7 @@ namespace namu {
 
         //  obj or property shouldn't have same name to any func.
         NAMU_I("verify: check func has same name to field");
-        if(!nul(meObj.getOwns().getContainer().get(i.name)))
+        if(!nul(meObj.getOwns().get(i.name)))
             posError(errCode::ALREADY_DEFINED_IDENTIFIER, me, i.name.c_str());
 
         NAMU_I("verify: func: main func return type should be int or void");
