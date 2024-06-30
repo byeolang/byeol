@@ -18,7 +18,7 @@ namespace namu {
         if(nul(cast)) return nulOf<node>();
 
         for(param p : _params)
-            if(cast.getSubName() == p.getName())
+            if(cast.getName() == p.getName())
                 return p.getOrigin();
         return nulOf<node>();
     }
@@ -63,9 +63,9 @@ namespace namu {
         if(!nul(org))
             me.setMe(*org);
 
-        org = &_findOrigin(me.getSubject());
+        org = &_findOrigin(me.getSubj());
         if(!nul(org))
-            me.setSubject(*org);
+            me.setSubj(*org);
 
         args& as = me.getArgs();
         for(int n=0; n < as.len(); n++) {

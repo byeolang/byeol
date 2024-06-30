@@ -28,23 +28,23 @@ namespace namu {
         return _get(false).getMatch();
     }
 
-    const std::string& me::getSubName() const {
+    const std::string& me::getName() const {
         return _name;
     }
 
-    void me::setSubName(const std::string& new1) {
+    void me::setName(const std::string& new1) {
         _name = new1;
     }
 
     /// @return nullable
-    const args& me::getSubArgs() const {
+    const args& me::getArgs() const {
         static args dummy;
         if(!_args.isBind()) return dummy;
 
         return *_args;
     }
 
-    void me::setSubArgs(const args& new1) {
+    void me::setArgs(const args& new1) {
         if(new1.len() <= 0)
             _args.rel();
         else

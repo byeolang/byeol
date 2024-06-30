@@ -16,14 +16,14 @@ namespace namu {
         genericObj& generic = _getGenericObj();
         if(nul(generic)) return NAMU_E("generic == null"), priorities();
 
-        return priorities(*generic.run(getSubArgs()));
+        return priorities(*generic.run(getArgs()));
     }
 
     genericObj& me::_getGenericObj() const {
-        const args& typs = getSubArgs();
-        const std::string& name = getSubName();
+        const args& typs = getArgs();
+        const std::string& name = getName();
         if(nul(typs) || !typs.len()) return NAMU_E("_args.len() == 0"), nulOf<genericObj>();
-        NAMU_DI("_name=%s, _args[%d]", getSubName().c_str(), typs.len());
+        NAMU_DI("_name=%s, _args[%d]", getName().c_str(), typs.len());
 
         str evalMe = getMe().isSub<expr>() ? getMe().as<node>() : getMe();
         if(!evalMe) return NAMU_E("from == null"), nulOf<genericObj>();

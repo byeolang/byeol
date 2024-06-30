@@ -36,7 +36,7 @@ namespace namu {
                 return eval->getType().getName();
             const getExpr& cast = value.cast<getExpr>();
             if(!nul(cast))
-                return cast.getSubName();
+                return cast.getName();
             return value.getType().getName();
         }
     }

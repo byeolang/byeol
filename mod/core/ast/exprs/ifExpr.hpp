@@ -14,13 +14,13 @@ namespace namu {
         ifExpr(const node& exp, const blockExpr& thenBlk, const blockExpr& elseBlk);
 
     public:
-        const blockExpr& getThenBlk() const NAMU_UNCONST_FUNC(getThenBlk())
-        blockExpr& getThenBlk();
-        void setThenBlk(const blockExpr& newThen);
+        const blockExpr& getThen() const NAMU_UNCONST_FUNC(getThen())
+        blockExpr& getThen();
+        void setThen(const blockExpr& newThen);
 
-        const blockExpr& getElseBlk() const NAMU_UNCONST_FUNC(getElseBlk())
-        blockExpr& getElseBlk();
-        void setElseBlk(const blockExpr& newElse);
+        const blockExpr& getElse() const NAMU_UNCONST_FUNC(getElse())
+        blockExpr& getElse();
+        void setElse(const blockExpr& newElse);
 
         const node& getCondition() const NAMU_UNCONST_FUNC(getCondition())
         node& getCondition();
@@ -33,7 +33,7 @@ namespace namu {
 
     private:
         str _expr;
-        tstr<blockExpr> _thenBlk;
-        tstr<blockExpr> _elseBlk;
+        tstr<blockExpr> _then;
+        tstr<blockExpr> _else;
     };
 }

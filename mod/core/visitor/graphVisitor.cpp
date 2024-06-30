@@ -92,10 +92,10 @@ namespace namu {
 
         const node& me = e.getMe();
         string from = nul(me) ? "frame" : _getNameFrom(me);
-        string args = e.getSubArgs().toStr();
+        string args = e.getArgs().toStr();
 
         clog << foreColor(LIGHTGRAY) << " = "
-             << foreColor(MAGENTA) << from << foreColor(LIGHTGRAY) << "." << foreColor(YELLOW) << e.getSubName();
+             << foreColor(MAGENTA) << from << foreColor(LIGHTGRAY) << "." << foreColor(YELLOW) << e.getName();
         if(!args.empty())
             clog << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN) << args << foreColor(LIGHTGRAY) << ")";
         return true;
@@ -109,7 +109,7 @@ namespace namu {
 
         clog << foreColor(LIGHTGRAY) << " = "
              << foreColor(MAGENTA) << me << foreColor(LIGHTGRAY) << "."
-             << foreColor(YELLOW) << _getNameFrom(e.getSubject())
+             << foreColor(YELLOW) << _getNameFrom(e.getSubj())
              << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << e.getArgs().toStr() << foreColor(LIGHTGRAY) << ")";
         return true;
     }
@@ -120,13 +120,13 @@ namespace namu {
         clog << foreColor(LIGHTGRAY) << " = "
              << foreColor(CYAN) << e.getLeft().getType().getName();
         str leftVal = e.getLeft();
-        const std::string& leftName = leftVal->isSub<getExpr>() ? leftVal->cast<getExpr>().getSubName() : leftVal->getType().getName();
+        const std::string& leftName = leftVal->isSub<getExpr>() ? leftVal->cast<getExpr>().getName() : leftVal->getType().getName();
         clog << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(leftName) << foreColor(LIGHTGRAY) << ")";
 
         clog << " " << foreColor(LIGHTGRAY) << e.getRuleName(e.getRule()) << " "
              << foreColor(CYAN) << e.getRight().getType().getName();
         str rightVal = e.getRight();
-        const std::string& rightName = rightVal->isSub<getExpr>() ? rightVal->cast<getExpr>().getSubName() : rightVal->getType().getName();
+        const std::string& rightName = rightVal->isSub<getExpr>() ? rightVal->cast<getExpr>().getName() : rightVal->getType().getName();
         clog << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(rightName) << foreColor(LIGHTGRAY) << ")";
 
         return !e.getLeft().isSub<arithmeticObj>() || !e.getRight().isSub<arithmeticObj>();
@@ -165,7 +165,7 @@ namespace namu {
         string ret = it.getType().getName();
         const getExpr& cast = it.cast<getExpr>();
         if(!nul(cast))
-            ret = cast.getSubName();
+            ret = cast.getName();
         return ret;
     }
 

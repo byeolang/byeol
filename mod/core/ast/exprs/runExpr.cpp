@@ -44,15 +44,15 @@ namespace namu {
         return *_me;
     }
 
-    const node& me::getSubject() const {
+    const node& me::getSubj() const {
         return *_subject;
     }
 
-    node& me::getSubject() {
+    node& me::getSubj() {
         return *_subject;
     }
 
-    void me::setSubject(const node& new1) {
+    void me::setSubj(const node& new1) {
         _subject.bind(new1);
     }
 

@@ -9,16 +9,16 @@ namespace namu {
 
     NAMU(DEF_ME(ifExpr), DEF_VISIT())
 
-    me::ifExpr(const node& exp, const blockExpr& thenBlk): _expr(exp), _thenBlk(thenBlk) {}
+    me::ifExpr(const node& exp, const blockExpr& thenBlk): _expr(exp), _then(thenBlk) {}
     me::ifExpr(const node& exp, const blockExpr& thenBlk, const blockExpr& elseBlk):
-        _expr(exp), _thenBlk(thenBlk), _elseBlk(elseBlk) {}
+        _expr(exp), _then(thenBlk), _else(elseBlk) {}
 
-    blockExpr& me::getThenBlk() {
-        return *_thenBlk;
+    blockExpr& me::getThen() {
+        return *_then;
     }
 
-    blockExpr& me::getElseBlk() {
-        return *_elseBlk;
+    blockExpr& me::getElse() {
+        return *_else;
     }
 
     node& me::getCondition() {
@@ -32,12 +32,12 @@ namespace namu {
         nbool cond = res->cast<nbool>();
         NAMU_DI("ifExpr: condition[%s]", cond ? "true" : "false");
         if(cond) {
-            frameInteract f1(*_thenBlk); {
-                return _thenBlk->run();
+            frameInteract f1(*_then); {
+                return _then->run();
             }
-        } else if(_elseBlk) {
-            frameInteract f2(*_elseBlk); {
-                return _elseBlk->run();
+        } else if(_else) {
+            frameInteract f2(*_else); {
+                return _else->run();
             }
         }
 
@@ -45,9 +45,9 @@ namespace namu {
     }
 
     str me::getEval() const {
-        str thenEval = _thenBlk->getEval();
+        str thenEval = _then->getEval();
         if(!thenEval) return NAMU_E("thenEval is null"), thenEval;
-        str elseEval = _elseBlk ? _elseBlk->getEval() : str();
+        str elseEval = _else ? _else->getEval() : str();
         if(!elseEval) return NAMU_E("elseEval is null"), elseEval;
 
         if(thenEval->isSub<retStateExpr>())
@@ -69,12 +69,12 @@ namespace namu {
         return ret;
     }
 
-    void me::setThenBlk(const blockExpr& newThen) {
-        _thenBlk.bind(newThen);
+    void me::setThen(const blockExpr& newThen) {
+        _then.bind(newThen);
     }
 
-    void me::setElseBlk(const blockExpr& newElse) {
-        _elseBlk.bind(newElse);
+    void me::setElse(const blockExpr& newElse) {
+        _else.bind(newElse);
     }
 
     void me::setCondition(const node& newCondition) {

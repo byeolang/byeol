@@ -24,9 +24,9 @@ namespace namu {
         const node& getMe() const NAMU_UNCONST_FUNC(getMe())
         void setMe(const node& newMe);
 
-        node& getSubject();
-        const node& getSubject() const;
-        void setSubject(const node& new1);
+        node& getSubj();
+        const node& getSubj() const;
+        void setSubj(const node& new1);
 
         args& getArgs();
         const args& getArgs() const;

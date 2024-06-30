@@ -73,7 +73,7 @@ namespace namu {
 
     void me::onTraverse(visitInfo i, getExpr& e) {
         // check me:
-        const args& args = e.getSubArgs();
+        const args& args = e.getArgs();
         nint n = 0;
         node& me = *e._me;
         ncnt len = (nul(args) ? 0 : args.len()) + (nul(me) ? 0 : 1);
@@ -82,7 +82,7 @@ namespace namu {
 
         // check arguments:
         if(!nul(args))
-            for(auto& elem : e.getSubArgs())
+            for(auto& elem : e.getArgs())
                 elem.accept(visitInfo {"subArg", &e, n++, len, i.depth+1}, *this);
     }
 
@@ -93,7 +93,7 @@ namespace namu {
     void me::onTraverse(visitInfo i, runExpr& e) {
         int n = 0;
         node& me = e.getMe();
-        node& subject = e.getSubject();
+        node& subject = e.getSubj();
         int len = e.getArgs().len() + (nul(me) ? 0 : 1) + (nul(subject) ? 0 : 1);
         if(!nul(me))
             me.accept(visitInfo {"me", &e, n++, len, i.depth+1}, *this);
@@ -179,12 +179,12 @@ namespace namu {
     void me::onTraverse(visitInfo i, retStateExpr& r) {}
 
     void me::onTraverse(visitInfo i, ifExpr& f) {
-        blockExpr& elseBlk = f.getElseBlk();
+        blockExpr& elseBlk = f.getElse();
         int len = !nul(elseBlk) ? 3 : 2;
 
         f.getCondition().accept(visitInfo {"condition", &f, 0, len, i.depth+1}, *this);
 
-        f.getThenBlk().accept(visitInfo {"then", &f, 1, len, i.depth+1}, *this);
+        f.getThen().accept(visitInfo {"then", &f, 1, len, i.depth+1}, *this);
         if(!nul(elseBlk)) {
             onTraverse(f, elseBlk);
             elseBlk.accept(visitInfo {"else", &f, 2, len, i.depth+1}, *this);

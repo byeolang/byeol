@@ -300,8 +300,8 @@ namespace namu {
 
         // TODO: I have to check that the evalType has what matched to given _params.
         // Until then, I rather use as() func and it makes slow emmersively.
-        NAMU_I("verify: getExpr: isRunnable: %s.%s", me.getType().getName().c_str(), me.getSubName().c_str());
-        if(!me.getEval()) return posError(errCode::WHAT_IS_THIS_IDENTIFIER, me, me.getSubName().c_str());
+        NAMU_I("verify: getExpr: isRunnable: %s.%s", me.getType().getName().c_str(), me.getName().c_str());
+        if(!me.getEval()) return posError(errCode::WHAT_IS_THIS_IDENTIFIER, me, me.getName().c_str());
         auto matches = me._get(true);
         if(matches.isEmpty()) {
             const node& from = me.getMe();
@@ -356,7 +356,7 @@ namespace namu {
         args& a = me.getArgs();
         a.setMe(*ased);
 
-        node& anySub = me.getSubject();
+        node& anySub = me.getSubj();
         if(nul(anySub)) return posError(errCode::FUNC_NOT_EXIST, me);
         NAMU_I("verify: runExpr: anySub[%s]", anySub.getType().getName().c_str());
 
@@ -620,7 +620,7 @@ namespace namu {
 
     nbool me::onVisit(visitInfo i, ifExpr& me) {
         GUARD("verify: %s ifExpr@%s: onVisit()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
-        me.getThenBlk().inFrame();
+        me.getThen().inFrame();
         return true;
     }
 
@@ -634,7 +634,7 @@ namespace namu {
         GUARD("verify: ifExpr@%s: onTraverse()", platformAPI::toAddrId(&me).c_str());
         if(nul(blk)) return;
 
-        me.getThenBlk().outFrame();
+        me.getThen().outFrame();
         blk.inFrame();
     }
 }

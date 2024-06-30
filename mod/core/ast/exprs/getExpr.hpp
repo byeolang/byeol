@@ -25,13 +25,13 @@ namespace namu {
         str run(const args& a) override;
         str getEval() const override;
         const node& getMe() const;
-        const std::string& getSubName() const;
-        void setSubName(const std::string& new1);
+        const std::string& getName() const;
+        void setName(const std::string& new1);
         void setMe(const node& newMe);
 
         /// @return nullable
-        const args& getSubArgs() const;
-        void setSubArgs(const args& new1);
+        const args& getArgs() const;
+        void setArgs(const args& new1);
 
         clonable* cloneDeep() const override;
 

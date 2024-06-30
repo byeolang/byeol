@@ -77,8 +77,8 @@ TEST_F(visitorTest, visitComplexExpressions) {
 
         using visitor::onVisit;
         nbool onVisit(visitInfo i, getExpr& got) override {
-            NAMU_DI("subname=%s", got.getSubName().c_str());
-            if(got.getSubName() == "o")
+            NAMU_DI("subname=%s", got.getName().c_str());
+            if(got.getName() == "o")
                 metO++;
             return true;
         }
@@ -154,7 +154,7 @@ TEST_F(visitorTest, visitComplexExpressions2) {
             getExpr& leftGet = ((node&) a.getLeft()).cast<getExpr>();
             if(nul(leftGet)) return true;
 
-            if(leftGet.getSubName() != "res") return true;
+            if(leftGet.getName() != "res") return true;
             metRet = true;
             return true;
         }

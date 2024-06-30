@@ -302,9 +302,9 @@ namespace namu {
 
     func* me::onAbstractFunc(const getExpr& access, const node& retType) {
         NAMU_DI("tokenEvent: onAbstractFunc(access: %s(%d), retType:%s)",
-                access.getSubName().c_str(), access.getSubArgs().len(), retType.getType().getName().c_str());
+                access.getName().c_str(), access.getArgs().len(), retType.getType().getName().c_str());
 
-        return _maker.birth<func>(access.getSubName(), _asParams(access.getSubArgs()), retType);
+        return _maker.birth<func>(access.getName(), _asParams(access.getArgs()), retType);
     }
 
     func* me::onAbstractFunc(node& it, const node& retType) {
@@ -414,7 +414,7 @@ namespace namu {
                 return posError(errCode::SHOULD_TYPE_PARAM_NAME, a.getType().getName().c_str()),
                        std::vector<std::string>();
 
-            ret.push_back(cast.getSubName());
+            ret.push_back(cast.getName());
         }
 
         return ret;
@@ -429,7 +429,7 @@ namespace namu {
         }
 
         do {
-            ret.push_back(iter->getSubName());
+            ret.push_back(iter->getName());
             const node& next = iter->getMe();
             if(!nul(next) && !next.is<getExpr>()) {
                 error(errCode::PACK_ONLY_ALLOW_VAR_ACCESS);
@@ -568,7 +568,7 @@ namespace namu {
             return &from;
         }
 
-        NAMU_DI("tokenEvent: onGet(%s, %s)", from.getType().getName().c_str(), cast.getSubName().c_str());
+        NAMU_DI("tokenEvent: onGet(%s, %s)", from.getType().getName().c_str(), cast.getName().c_str());
         cast.setMe(from);
         return &cast;
     }
@@ -581,7 +581,7 @@ namespace namu {
             return new getExpr("");
         }
 
-        cast.setSubArgs(*new args(as));
+        cast.setArgs(*new args(as));
         return &cast;
     }
 
@@ -628,9 +628,9 @@ namespace namu {
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
         runExpr& cast = lhs.cast<runExpr>();
         if(!nul(cast)) {
-            getExpr& subject = cast.getSubject().cast<getExpr>();
+            getExpr& subject = cast.getSubj().cast<getExpr>();
             if(!nul(subject))
-                if(subject.getSubName() == "get")
+                if(subject.getName() == "get")
                     return _onSetElem(cast, rhs);
         }
 
@@ -663,7 +663,7 @@ namespace namu {
         NAMU_DI("tokenEvent:: _onSetElem(%s, %s)", lhs.getType().getName().c_str(),
                 rhs.getType().getName().c_str());
 
-        getExpr& subject = lhs.getSubject().cast<getExpr>();
+        getExpr& subject = lhs.getSubj().cast<getExpr>();
         subject._name = "set";
         subject._args.rel();
         lhs.getArgs().add(rhs);
@@ -679,9 +679,9 @@ namespace namu {
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
         runExpr& cast = lhs.cast<runExpr>();
         if(!nul(cast)) {
-            getExpr& subject = cast.getSubject().cast<getExpr>();
+            getExpr& subject = cast.getSubj().cast<getExpr>();
             if(!nul(subject))
-                if(subject.getSubName() == "get")
+                if(subject.getName() == "get")
                     return _onConvertAssignElem(cast, *_maker.make<FBOExpr>(type, lhs, rhs));
         }
         return onAssign(lhs, *_maker.make<FBOExpr>(type, *(node*) lhs.clone(), rhs));
@@ -718,7 +718,7 @@ namespace namu {
                 rhs.getType().getName().c_str());
 
         runExpr& setter = *(runExpr*) lhs.clone();
-        getExpr& newSubj = *(getExpr*) setter.getSubject().clone();
+        getExpr& newSubj = *(getExpr*) setter.getSubj().clone();
         newSubj._name = "set";
         newSubj._args.rel();
         setter._subject.bind(newSubj);
@@ -730,7 +730,7 @@ namespace namu {
         runExpr* ret = _maker.make<runExpr>(nulOf<node>(), trg, a);
         getExpr& cast = trg.cast<getExpr>();
         if(!nul(cast) && !cast.isSub<getGenericExpr>())
-            cast.setSubArgs(a);
+            cast.setArgs(a);
         return ret;
     }
 
@@ -959,13 +959,13 @@ namespace namu {
         NAMU_DI("tokenEvent: onIf(condition, then, elseBlk)");
         ifExpr* ret = onIf(condition, then);
 
-        ret->setElseBlk(elseBlk);
+        ret->setElse(elseBlk);
         return ret;
     }
     ifExpr* me::onIf(const node& condition, const blockExpr& then, const ifExpr& elseIf) {
         NAMU_DI("tokenEvent: onIf(condition, then, elseIf)");
         ifExpr* ret = onIf(condition, then);
-        ret->setElseBlk(*new blockExpr(elseIf));
+        ret->setElse(*new blockExpr(elseIf));
         return ret;
     }
 

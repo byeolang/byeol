@@ -46,7 +46,7 @@ namespace namu {
         str ased = cast.getMe().as<node>();
         if(!ased) return NAMU_E("ased == null"), iter();
 
-        iter ret = ased->subs().iterate(cast.getSubName());
+        iter ret = ased->subs().iterate(cast.getName());
         while(ret) {
             if(!nul(ret.getVal<baseObj>()))
                 return ret;
