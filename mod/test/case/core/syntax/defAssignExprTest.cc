@@ -355,5 +355,35 @@ TEST_F(defAssignExprTest, assignFromForExprDeclaringLocalVariable) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res->cast<nint>(), 12);
 }
+
+TEST_F(defAssignExprTest, selfDefAssigningIsNotAllowedNegative) {
+    make().negative().parse(R"SRC(
+        def a
+            a1 := a()
+        main() void
+            a().a1
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(defAssignExprTest, selfDefAssigningIsNotAllowedNegative2) {
+    make().negative().parse(R"SRC(
+        def a
+            a1 a // if a1 is nullable of a, this is valid syntax.
+        main() void
+            a().a1
+    )SRC").shouldVerified(false);
+}
 /* TODO: TEST_F(defAssignExprTest, defineVarWithoutCtorNegative) {
+}
+TEST_F(defAssignExprTest, selfDefAssigningOfNullableIsAllowed) {
+    make().parse(R"SRC(
+        def a
+            a1 a?
+        main() int
+            a().a1 == null
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
 }*/
