@@ -47,6 +47,9 @@ namespace namu {
         // etc:
         void rel() override;
 
+        /// @remark unlike 'clone()' func, this does deepcopy. so, the output isFrom
+        ///         completely different instance compared to 'this'.
+        ///         however, it doesn't mean that deepcopy for each element.
         clonable* cloneDeep() const override;
 
     protected:

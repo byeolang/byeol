@@ -12,8 +12,8 @@ TEST_F(defAssignExprTest, simpleGlobalDefAssign) {
     make().parse(R"SRC(
         age int // age is age
         main() int // main is also a main
-        age := 5
-        ret 0
+            age := 5
+            ret 0
     )SRC").shouldVerified(true);
 
     auto& owns = (scope::super&) getSlot().subs().getContainer();
@@ -33,10 +33,10 @@ TEST_F(defAssignExprTest, simpleLocalDefAssign) {
     make().parse(R"SRC(
         age int // age is age
         main() int // main is also a main
-        age = 3
-        age := 5
-        age = 2
-        ret 0
+            age = 3
+            age := 5
+            age = 2
+            ret 0
     )SRC").shouldVerified(true);
 
     run();

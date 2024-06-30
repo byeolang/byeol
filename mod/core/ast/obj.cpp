@@ -8,8 +8,19 @@ namespace namu {
 
     NAMU(DEF_ME(obj), DEF_VISIT())
 
+    namespace {
+        scope::defaultContainer* _cloneEach(const me& rhs) {
+            auto* new1 = new scope::defaultContainer();
+            rhs.getOwns().each([&](const auto& key, const node& val) {
+                new1->add(key, (node*) val.clone());
+                return true;
+            });
+            return new1;
+        }
+    }
+
     me& me::_assign(const me& rhs) {
-        scope* clonedOwns = scope::wrap<scope>(*(scope::super*) rhs.getOwns().cloneDeep());
+        scope* clonedOwns = scope::wrap<scope>(*(scope::super*) _cloneEach(rhs));
         clonedOwns->link(rhs.getShares());
         _subs.bind(*clonedOwns);
 
