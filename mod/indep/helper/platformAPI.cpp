@@ -13,6 +13,7 @@
 #   include <regex>
 #   include <sys/time.h>
 #   include <dlfcn.h> // for dladdr()
+#   include <sstream>
 #endif
 #if NAMU_BUILD_PLATFORM == NAMU_TYPE_MACOS
 #   include <mach-o/dyld.h>
