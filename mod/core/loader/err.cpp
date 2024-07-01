@@ -13,7 +13,7 @@ namespace namu {
         constexpr nint MAX_BUF = 512;
 
         class logFunc : public tApiBridge<err, nVoid> {
-            typedef tApiBridge<err, void> __super9;
+            typedef tApiBridge<err, nVoid> __super9;
             NAMU(CLASS(logFunc, __super9))
 
         public:
@@ -32,7 +32,7 @@ namespace namu {
         };
 
         class logStackFunc : public tApiBridge<err, nVoid> {
-            typedef tApiBridge<err, void> __super10;
+            typedef tApiBridge<err, nVoid> __super10;
             NAMU(CLASS(logStackFunc, __super10))
 
         public:

@@ -12,5 +12,5 @@ namespace namu {
     ///         inherits from given SuperType.
     ///         this eventually make user add API to want to ttype class.
     template<typename T>
-    class ttype : public ttypeBase<T> {};
+    class ttype : public ttypeBase<T, typename tmetaTypeDef<T>::is> {};
 }

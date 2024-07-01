@@ -90,9 +90,9 @@ namespace namu {
             static dumThread inner;
             return inner;
         }
-    }
 
-    thread_local thread* me::_instance = nullptr;
+        static thread_local thread* _instance = nullptr;
+    }
 
     const nmap& me::getSlots() const {
         static tstr<nmap> _inner;

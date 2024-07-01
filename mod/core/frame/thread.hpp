@@ -74,7 +74,6 @@ namespace namu {
         tstr<nmap> _initSlots() const;
 
     private:
-        thread_local static thread* _instance;
         frames _frames;
         tstr<errReport> _ex;
     };

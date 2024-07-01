@@ -6,7 +6,7 @@
 
 namespace namu {
     template <typename W>
-    class _nout defaultSigZone : public sigZone {
+    class defaultSigZone : public sigZone {
         NAMU(ME(defaultSigZone, sigZone))
 
     public:
@@ -31,8 +31,5 @@ namespace namu {
 
             // signale will *terminate* the process after all.
         }) {}
-
-    private:
-        void _logFrames();
     };
 }

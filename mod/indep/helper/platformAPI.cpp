@@ -1,7 +1,8 @@
 #include "platformAPI.hpp"
 #include "nulr.hpp"
 #if NAMU_BUILD_PLATFORM == NAMU_TYPE_WINDOWS
-#  include <windows.h>
+#   include <windows.h>
+#   include <sstream>
 #elif NAMU_BUILD_PLATFORM == NAMU_TYPE_LINUX || NAMU_BUILD_PLATFORM == NAMU_TYPE_MACOS
 #   include <unistd.h>
 #   include <vector>
@@ -48,7 +49,7 @@ namespace namu {
             static string inner = "";
             return inner;
 #elif NAMU_BUILD_PLATFORM == NAMU_TYPE_WINDOWS
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), platformAPI::BLACK << 4 | fore);
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BLACK << 4 | fore);
             static string inner;
             return inner;
 #elif NAMU_BUILD_PLATFORM == NAMU_TYPE_LINUX || NAMU_BUILD_PLATFORM == NAMU_TYPE_MACOS
@@ -111,10 +112,10 @@ namespace namu {
 #endif
         }
 
-        std::string toAddrId(void* inst) {
+        string toAddrId(void* inst) {
             stringstream ss;
             ss << inst;
-            std::string raw = ss.str();
+            string raw = ss.str();
             return raw.substr(raw.length() - 4);
         }
 

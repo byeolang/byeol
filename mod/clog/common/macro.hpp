@@ -23,7 +23,7 @@
 #   define NAMU_DW(fmt, ...) NAMU_W(fmt, ## __VA_ARGS__)
 #   define NAMU_DI(fmt, ...) NAMU_I(fmt, ## __VA_ARGS__)
 #else
-#   define NAMU_DE(fmt, ...)
-#   define NAMU_DW(fmt, ...)
-#   define NAMU_DI(fmt, ...)
+#   define NAMU_DE(fmt, ...) void()
+#   define NAMU_DW(fmt, ...) void()
+#   define NAMU_DI(fmt, ...) void()
 #endif
