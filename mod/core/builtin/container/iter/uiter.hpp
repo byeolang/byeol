@@ -20,9 +20,9 @@ public:
     me operator++(int);
     me& operator+=(ncnt step);
     R operator*();
-    const R operator*() const NM_UNCONST_FUNC(operator*())
+    const R operator*() const NM_CONST_FUNC(operator*())
     typename std::remove_reference<R>::type* operator->();
-    const typename std::remove_reference<R>::type* operator->() const NM_UNCONST_FUNC(operator->())
+    const typename std::remove_reference<R>::type* operator->() const NM_CONST_FUNC(operator->())
     explicit operator nbool() const;
 
 public:
@@ -39,7 +39,7 @@ public:
     }
 
     tucontainable<T, R>& getContainer() override;
-    const tucontainable<T, R>& getContainer() const NM_UNCONST_FUNC(getContainer());
+    const tucontainable<T, R>& getContainer() const NM_CONST_FUNC(getContainer());
 
 private:
     me& _assign(const me& rhs);

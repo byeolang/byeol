@@ -12,7 +12,7 @@ namespace nm {
         whileExpr(const node& condition, const blockExpr& blk);
 
     public:
-        const node& getCondition() const NM_UNCONST_FUNC(getCondition())
+        const node& getCondition() const NM_CONST_FUNC(getCondition())
         node& getCondition();
 
     protected:

@@ -66,7 +66,7 @@ namespace nm {
         }
         /// return most not null next element of this chain.
         me& getTail();
-        const me& getTail() const NM_UNCONST_FUNC(getTail())
+        const me& getTail() const NM_CONST_FUNC(getTail())
 
         /// returned deep cloned of this instance with all chained ones.
         /// @remark when the chain has already linked to the another chain instance,

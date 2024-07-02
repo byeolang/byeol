@@ -24,12 +24,12 @@ namespace nm {
     public:
         T* operator->();
         T& operator*();
-        const T* operator->() const NM_UNCONST_FUNC(operator->())
-        const T& operator*() const NM_UNCONST_FUNC(operator*())
+        const T* operator->() const NM_CONST_FUNC(operator->())
+        const T& operator*() const NM_CONST_FUNC(operator*())
 
     public:
         T& get();
-        const T& get() const NM_UNCONST_FUNC(get())
+        const T& get() const NM_CONST_FUNC(get())
 
         /// @brief precedence is more detail concept of priority.
         ///        it considers the owner of them are equal above priority.
@@ -61,7 +61,7 @@ namespace nm {
 
         using super::get;
         T& get();
-        const T& get() const NM_UNCONST_FUNC(get())
+        const T& get() const NM_CONST_FUNC(get())
 
         /// @return priority of matched one.
         ///         this'll be NO_MATCH if isMatched() returns false.
@@ -87,7 +87,7 @@ namespace nm {
         ///         if there is any ambigious err, this will return nulOf<T>().
         tmatches<T> getMatches() const;
         tstr<T> getMatch();
-        const tstr<T> getMatch() const NM_UNCONST_FUNC(getMatch())
+        const tstr<T> getMatch() const NM_CONST_FUNC(getMatch())
         tpriorities split(priorType by) const;
     };
 

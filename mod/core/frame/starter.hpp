@@ -21,7 +21,7 @@ namespace nm {
     public:
         me& setPack(node& pak);
         node& getPack();
-        const node& getPack() const NM_UNCONST_FUNC(getPack())
+        const node& getPack() const NM_CONST_FUNC(getPack())
 
     protected:
         str _onWork() override;

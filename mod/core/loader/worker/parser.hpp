@@ -38,10 +38,10 @@ namespace nm {
 
     public:
         obj& getSubPack();
-        const obj& getSubPack() const NM_UNCONST_FUNC(getSubPack())
+        const obj& getSubPack() const NM_CONST_FUNC(getSubPack())
 
         srcSupplies& getSrcSupplies();
-        const srcSupplies& getSrcSupplies() const NM_UNCONST_FUNC(getSrcSupplies())
+        const srcSupplies& getSrcSupplies() const NM_CONST_FUNC(getSrcSupplies())
         me& addSupply(const srcSupply& new1);
         me& relSupplies();
 

@@ -24,7 +24,7 @@ namespace nm {
                 push_back(elem());
             return this->super::operator[](n);
         }
-        const tnarr<tprior<T>>& operator[](nidx n) const NM_UNCONST_FUNC(tprioritiesBucket<T>, operator[](n))
+        const tnarr<tprior<T>>& operator[](nidx n) const NM_CONST_FUNC(tprioritiesBucket<T>, operator[](n))
 
     public:
         tpriorities<T> join() const {

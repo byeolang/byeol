@@ -41,15 +41,15 @@ namespace nm {
 
         // get:
         virtual V& get(const K& key) = 0;
-        const V& get(const K& key) const NM_UNCONST_FUNC(get(key))
+        const V& get(const K& key) const NM_CONST_FUNC(get(key))
         template <typename V1> V1& get();
-        template <typename V1> const V1& get() const NM_UNCONST_FUNC(get<V1>())
+        template <typename V1> const V1& get() const NM_CONST_FUNC(get<V1>())
         template <typename V1> V1& get(const K& key);
-        template <typename V1> const V1& get(const K& key) const NM_UNCONST_FUNC(get<V1>(key))
+        template <typename V1> const V1& get(const K& key) const NM_CONST_FUNC(get<V1>(key))
         template <typename V1> V1& get(std::function<nbool(const K&, const V1&)> l);
         V& get(std::function<nbool(const K&, const V&)> l);
-        template <typename V1> const V1& get(std::function<nbool(const K&, const V1&)> l) const NM_UNCONST_FUNC(get(l))
-        const V& get(std::function<nbool(const K&, const V&)> l) const NM_UNCONST_FUNC(get(l))
+        template <typename V1> const V1& get(std::function<nbool(const K&, const V1&)> l) const NM_CONST_FUNC(get(l))
+        const V& get(std::function<nbool(const K&, const V&)> l) const NM_CONST_FUNC(get(l))
 
         tnarr<V, strTactic> getAll(const K& key) const;
         template <typename V1> tnarr<V1, strTactic> getAll() const;
@@ -58,8 +58,8 @@ namespace nm {
 
         template <typename V1> void each(std::function<nbool(const K&, V1&)> l);
         void each(std::function<nbool(const K&, V&)> l);
-        template <typename V1> void each(std::function<nbool(const K&, const V1&)> l) const NM_UNCONST_FUNC(each(l))
-        void each(std::function<nbool(const K&, const V&)> l) const NM_UNCONST_FUNC(each(l))
+        template <typename V1> void each(std::function<nbool(const K&, const V1&)> l) const NM_CONST_FUNC(each(l))
+        void each(std::function<nbool(const K&, const V&)> l) const NM_CONST_FUNC(each(l))
 
         // iter:
         iter begin() const {

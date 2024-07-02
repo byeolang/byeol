@@ -20,7 +20,7 @@ namespace nm {
         const manifest& getManifest() const;
         nbool isValid() const;
         virtual obj& getPack();
-        const obj& getPack() const NM_UNCONST_FUNC(getPack())
+        const obj& getPack() const NM_CONST_FUNC(getPack())
         void rel() override;
         void addDependent(me& dependent);
         const tnarr<me>& getDependents() const;

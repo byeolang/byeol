@@ -21,7 +21,7 @@ namespace nm {
         using super::run;
         str run(const args& a) override;
         str getEval() const override;
-        const narr& getStmts() const NM_UNCONST_FUNC(getStmts())
+        const narr& getStmts() const NM_CONST_FUNC(getStmts())
         narr& getStmts();
 
         using super::inFrame;

@@ -24,7 +24,7 @@ namespace nm {
 
         // get:
         virtual R get(nidx n) = 0;
-        const R get(nidx n) const NM_UNCONST_FUNC(get(n))
+        const R get(nidx n) const NM_CONST_FUNC(get(n))
 
         // set:
         virtual nbool set(nidx n, const T& new1) = 0;

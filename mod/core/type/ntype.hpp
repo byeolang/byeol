@@ -68,7 +68,7 @@ namespace nm {
         /// @return null it it's not relative between l & r.
         static const ntype& deduce(const ntype& l, const ntype& r);
 
-        virtual const narr& getBeans() const NM_UNCONST_FUNC(getBeans())
+        virtual const narr& getBeans() const NM_CONST_FUNC(getBeans())
         narr& getBeans();
 
     protected:

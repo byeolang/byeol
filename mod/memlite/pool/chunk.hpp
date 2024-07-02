@@ -38,12 +38,12 @@ namespace nm {
         ///         can return garbage if size is bigger than n.
         void* _get(nidx n) override;
         nuchar* _getHeap();
-        const nuchar* _getHeap() const NM_UNCONST_FUNC(_getHeap())
+        const nuchar* _getHeap() const NM_CONST_FUNC(_getHeap())
         nbool _resize(ncnt newSz);
 
     private:
         //  chunk:
-        const nuchar* _getEOB() const NM_UNCONST_FUNC(_getEOB())
+        const nuchar* _getEOB() const NM_CONST_FUNC(_getEOB())
         nuchar* _getEOB();
         nbool _index(nidx start);
         ncnt _getRealBlkSize();

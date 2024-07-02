@@ -79,7 +79,7 @@ TEST(macroTest, UnconstCalltest) {
         nbool foo() {
             return true;
         }
-        nbool foo() const NM_UNCONST_FUNC(foo())
+        nbool foo() const NM_CONST_FUNC(foo())
     } a;
 
     const A& aConst = a;

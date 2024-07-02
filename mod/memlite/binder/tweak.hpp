@@ -23,14 +23,14 @@ namespace nm {
     public:
         T* operator->();
         T& operator*();
-        const T* operator->() const NM_UNCONST_FUNC(operator->())
-        const T& operator*() const NM_UNCONST_FUNC(operator*())
+        const T* operator->() const NM_CONST_FUNC(operator->())
+        const T& operator*() const NM_CONST_FUNC(operator*())
         me& operator=(const binder& rhs);
 
     public:
         using super::get;
         T& get();
-        const T& get() const NM_UNCONST_FUNC(get())
+        const T& get() const NM_CONST_FUNC(get())
 
         using tbindable::bind;
         nbool bind(const T& new1);

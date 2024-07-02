@@ -20,8 +20,8 @@ public:
     me& operator+=(ncnt step);
     V& operator*();
     V* operator->();
-    const V& operator*() const NM_UNCONST_FUNC(operator*())
-    const V* operator->() const NM_UNCONST_FUNC(operator->())
+    const V& operator*() const NM_CONST_FUNC(operator*())
+    const V* operator->() const NM_CONST_FUNC(operator->())
     explicit operator nbool() const;
 
     nbool isFrom(const tbicontainable& it) const override;
@@ -47,7 +47,7 @@ public:
 
     tbicontainable<K, V>& getContainer() override;
 
-    const tbicontainable<K, V>& getContainer() const NM_UNCONST_FUNC(getContainer());
+    const tbicontainable<K, V>& getContainer() const NM_CONST_FUNC(getContainer());
 
 private:
     me& _assign(const me& rhs);

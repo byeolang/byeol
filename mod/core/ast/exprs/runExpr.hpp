@@ -21,7 +21,7 @@ namespace nm {
         str getEval() const override;
 
         node& getMe();
-        const node& getMe() const NM_UNCONST_FUNC(getMe())
+        const node& getMe() const NM_CONST_FUNC(getMe())
         void setMe(const node& newMe);
 
         node& getSubj();

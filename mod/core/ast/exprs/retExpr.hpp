@@ -18,7 +18,7 @@ namespace nm {
         str run(const args& a) override;
 
         node& getRet();
-        const node& getRet() const NM_UNCONST_FUNC(getRet())
+        const node& getRet() const NM_CONST_FUNC(getRet())
         priorType prioritize(const args& a) const override;
         str getEval() const override;
 

@@ -29,7 +29,7 @@ namespace nm {
         str run(const args& a) override;
 
         node& getOperand();
-        const node& getOperand() const NM_UNCONST_FUNC(getOperand())
+        const node& getOperand() const NM_CONST_FUNC(getOperand())
         str getEval() const override;
         rule getRule() const;
         static const nchar* getRuleName(rule r);

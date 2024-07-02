@@ -14,15 +14,15 @@ namespace nm {
         ifExpr(const node& exp, const blockExpr& thenBlk, const blockExpr& elseBlk);
 
     public:
-        const blockExpr& getThen() const NM_UNCONST_FUNC(getThen())
+        const blockExpr& getThen() const NM_CONST_FUNC(getThen())
         blockExpr& getThen();
         void setThen(const blockExpr& newThen);
 
-        const blockExpr& getElse() const NM_UNCONST_FUNC(getElse())
+        const blockExpr& getElse() const NM_CONST_FUNC(getElse())
         blockExpr& getElse();
         void setElse(const blockExpr& newElse);
 
-        const node& getCondition() const NM_UNCONST_FUNC(getCondition())
+        const node& getCondition() const NM_CONST_FUNC(getCondition())
         node& getCondition();
         void setCondition(const node& newCondition);
 

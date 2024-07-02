@@ -19,7 +19,7 @@ namespace nm {
         str getEval() const override;
         const node& getArrayType() const;
         const arr& getOrigin() const;
-        const narr& getElems() const NM_UNCONST_FUNC(getElems())
+        const narr& getElems() const NM_CONST_FUNC(getElems())
 
     private:
         str _deduceElems() const;

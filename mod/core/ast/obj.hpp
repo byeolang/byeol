@@ -41,9 +41,9 @@ namespace nm {
         str run(const args& a) override;
 
         scope& getShares();
-        const scope& getShares() const NM_UNCONST_FUNC(getShares())
+        const scope& getShares() const NM_CONST_FUNC(getShares())
         scope::super& getOwns();
-        const scope::super& getOwns() const NM_UNCONST_FUNC(getOwns())
+        const scope::super& getOwns() const NM_CONST_FUNC(getOwns())
         const obj& getOrigin() const override;
         const obj& getSubPack() const;
 

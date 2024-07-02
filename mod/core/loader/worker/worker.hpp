@@ -32,7 +32,7 @@ namespace nm {
 
     public:
         errReport& getReport();
-        const errReport& getReport() const NM_UNCONST_FUNC(getReport())
+        const errReport& getReport() const NM_CONST_FUNC(getReport())
         me& setReport(errReport& rpt);
 
         me& setFlag(nint newFlag);
@@ -43,7 +43,7 @@ namespace nm {
 
         me& setTask(const T& root);
         T& getTask();
-        const T& getTask() const NM_UNCONST_FUNC(getTask())
+        const T& getTask() const NM_CONST_FUNC(getTask())
 
         template <typename... Args> void error(Args... args) { _report(err::newErr(args...)); }
         template <typename... Args> void warn(Args... args) { _report(err::newWarn(args...)); }
@@ -53,7 +53,7 @@ namespace nm {
 
         R work();
 
-        const area& getArea() const NM_UNCONST_FUNC(_getArea())
+        const area& getArea() const NM_CONST_FUNC(_getArea())
 
         nbool isOk() const;
 

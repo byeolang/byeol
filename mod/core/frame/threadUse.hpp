@@ -13,7 +13,7 @@ namespace nm {
 
     public:
         thread& get();
-        const thread& get() const NM_UNCONST_FUNC(get())
+        const thread& get() const NM_CONST_FUNC(get())
 
         void use();
         void rel();

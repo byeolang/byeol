@@ -16,14 +16,14 @@ namespace nm {
     public:
         chunks& operator[](nidx n);
         chunks& operator[](const instance& inst);
-        const chunks& operator[](nidx n) const NM_UNCONST_FUNC(operator[](n))
-        const chunks& operator[](const instance& inst) const NM_UNCONST_FUNC(operator[](inst))
+        const chunks& operator[](nidx n) const NM_CONST_FUNC(operator[](n))
+        const chunks& operator[](const instance& inst) const NM_CONST_FUNC(operator[](inst))
 
     public:
         chunks& get(const instance& inst);
         chunks& get(nidx n);
-        const chunks& get(const instance& inst) const NM_UNCONST_FUNC(get(inst))
-        const chunks& get(nidx n) const NM_UNCONST_FUNC(get(n))
+        const chunks& get(const instance& inst) const NM_CONST_FUNC(get(inst))
+        const chunks& get(nidx n) const NM_CONST_FUNC(get(n))
         //  memoryHaver:
         nbool has(const instance& it) const override;
         ncnt size() const override;

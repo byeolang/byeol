@@ -27,7 +27,7 @@ namespace nm {
         nbool isComplete() const override;
 
         node& getTarget();
-        const node& getTarget() const NM_UNCONST_FUNC(getTarget());
+        const node& getTarget() const NM_CONST_FUNC(getTarget());
 
         const src& getSrc() const override;
 
