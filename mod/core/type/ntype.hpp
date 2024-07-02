@@ -10,7 +10,7 @@ namespace nm {
     typedef tnarr<node, strTactic> narr;
 
     class _nout ntype : public type {
-        NAMU_ME(ntype, type)
+        NM_ME(ntype, type)
 
     private:
         typedef std::map<const ntype*, const ntype*> deducer;
@@ -68,7 +68,7 @@ namespace nm {
         /// @return null it it's not relative between l & r.
         static const ntype& deduce(const ntype& l, const ntype& r);
 
-        virtual const narr& getBeans() const NAMU_UNCONST_FUNC(getBeans())
+        virtual const narr& getBeans() const NM_UNCONST_FUNC(getBeans())
         narr& getBeans();
 
     protected:

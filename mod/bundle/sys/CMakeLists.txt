@@ -1,10 +1,10 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 set(packName "sys")
-set(packOutDir "${NAMU_PACK_OUTPUT_DIRECTORY}/${packName}")
+set(packOutDir "${NM_PACK_OUTPUT_DIRECTORY}/${packName}")
 set(dependencies ${dependencies} core)
 
-set(defCandidates "NAMU_TAG=\"${packName}\"" "__${packName}=1")
+set(defCandidates "NM_TAG=\"${packName}\"" "__${packName}=1")
 foreach(def ${defCandidates})
     message("\tadd define ${def}")
     set(defines ${defines} -D${def})
@@ -23,11 +23,11 @@ file(GLOB_RECURSE sources
     "*.cpp"
 )
 
-message("put module to ${NAMU_PACK_OUTPUT_DIRECTORY}")
+message("put module to ${NM_PACK_OUTPUT_DIRECTORY}")
 
 add_library(${packName} SHARED ${sources})
 set_target_properties(${packName} PROPERTIES PREFIX "")
-set_target_properties(${packName} PROPERTIES SUFFIX ".${NAMU_PACK_EXTENSION}")
+set_target_properties(${packName} PROPERTIES SUFFIX ".${NM_PACK_EXTENSION}")
 set_target_properties(${packName} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${packOutDir}")
 target_link_libraries(${packName} ${dependencies})
 

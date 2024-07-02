@@ -7,7 +7,7 @@ namespace nm {
 
     template <typename R, typename T>
     class worker : public typeProvidable, public clonable {
-        NAMU(ADT(worker))
+        NM(ADT(worker))
         template <typename R1, typename T1>
         friend struct workerAdapter;
         typedef R RetType;
@@ -20,7 +20,7 @@ namespace nm {
             INTERNAL = 1 << 3, // logs all except above case.
             LOG_ON_END = 1 << 4, // log all report info when the work ends.
             DUMP_ON_END = 1 << 5, // log and leave callstack for all report info when the work ends.
-#if NAMU_IS_DBG
+#if NM_IS_DBG
             DEFAULT = DUMP_ON_EX | GUARD | INTERNAL | LOG_ON_END
 #else
             DEFAULT = DUMP_ON_EX | LOG_ON_END
@@ -32,7 +32,7 @@ namespace nm {
 
     public:
         errReport& getReport();
-        const errReport& getReport() const NAMU_UNCONST_FUNC(getReport())
+        const errReport& getReport() const NM_UNCONST_FUNC(getReport())
         me& setReport(errReport& rpt);
 
         me& setFlag(nint newFlag);
@@ -43,7 +43,7 @@ namespace nm {
 
         me& setTask(const T& root);
         T& getTask();
-        const T& getTask() const NAMU_UNCONST_FUNC(getTask())
+        const T& getTask() const NM_UNCONST_FUNC(getTask())
 
         template <typename... Args> void error(Args... args) { _report(err::newErr(args...)); }
         template <typename... Args> void warn(Args... args) { _report(err::newWarn(args...)); }
@@ -53,7 +53,7 @@ namespace nm {
 
         R work();
 
-        const area& getArea() const NAMU_UNCONST_FUNC(_getArea())
+        const area& getArea() const NM_UNCONST_FUNC(_getArea())
 
         nbool isOk() const;
 

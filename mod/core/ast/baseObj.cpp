@@ -10,7 +10,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(baseObj))
+    NM(DEF_ME(baseObj))
 
     me::baseObj(): _src(dumSrc::singletone()) {}
 
@@ -29,7 +29,7 @@ namespace nm {
 
     void me::inFrame(const bicontainable& args) {
         frames& frs = nm::thread::get()._getFrames();
-        NAMU_DI("%s.inFrame() frames.len[%d]", getType().getName().c_str(), frs.len());
+        NM_DI("%s.inFrame() frames.len[%d]", getType().getName().c_str(), frs.len());
 
         frame& fr = *new frame();
         frs.add(fr);
@@ -47,7 +47,7 @@ namespace nm {
 
     void me::outFrame(const bicontainable& args) {
         frames& frs = nm::thread::get()._getFrames();
-        NAMU_DI("%s._outFrame() frames.len[%d]", getType().getName().c_str(), frs.len()-1);
+        NM_DI("%s._outFrame() frames.len[%d]", getType().getName().c_str(), frs.len()-1);
 
         frs.del();
     }

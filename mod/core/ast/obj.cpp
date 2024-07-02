@@ -6,7 +6,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(obj), DEF_VISIT())
+    NM(DEF_ME(obj), DEF_VISIT())
 
     namespace {
         scope::defaultContainer* _cloneEach(const me& rhs) {
@@ -72,12 +72,12 @@ namespace nm {
         auto matches = p.getMatches();
         switch(matches.len()) {
             case 1: return run(baseObj::CTOR_NAME, a);
-            case 0: return NAMU_W("there is no such ctor."), str();
+            case 0: return NM_W("there is no such ctor."), str();
         }
         /*// TODO: 1. change err management module to use 'err' class, not errCode.
           //       2. let it log all ambigious funcs here.
-          return NAMU_W("")*/
-        return NAMU_E("ambigious call found: %s", "TODO:"), str();
+          return NM_W("")*/
+        return NM_E("ambigious call found: %s", "TODO:"), str();
     }
 
     const ntype& me::getType() const {
@@ -144,7 +144,7 @@ namespace nm {
     }
 
     clonable* me::cloneDeep() const {
-        NAMU_DI("%s.cloneDeep()", getType().getName().c_str());
+        NM_DI("%s.cloneDeep()", getType().getName().c_str());
         me* ret = new me(*this);
         ret->subs().link(*(scope*) getShares().cloneDeep());
         return ret;

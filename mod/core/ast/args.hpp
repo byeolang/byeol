@@ -6,7 +6,7 @@
 namespace nm {
 
     class _nout args : public narr {
-        NAMU(CLASS(args, narr))
+        NM(CLASS(args, narr))
 
     public:
         args();

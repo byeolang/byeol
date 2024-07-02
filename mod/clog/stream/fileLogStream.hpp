@@ -6,7 +6,7 @@
 namespace nm {
 
     class _nout fileLogStream : public stream {
-        NAMU_ME(fileLogStream, stream)
+        NM_ME(fileLogStream, stream)
 
     public:
         //  fileLogStream:

@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(bufferSrcFlag)
+    NM_DEF_ME(bufferSrcFlag)
 
     const nchar* me::getName() const {
         return "-s";
@@ -24,7 +24,7 @@ namespace nm {
     }
 
     nbool me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
-        if(tray.size() < 2) return NAMU_E("invalid flagArgument size < 2"), false;
+        if(tray.size() < 2) return NM_E("invalid flagArgument size < 2"), false;
 
         ip.addSupply(*new bufSupply(tray[1]));
         return true;

@@ -8,7 +8,7 @@ namespace nm {
     class verifier;
 
     class _nout genericObj : public baseObj {
-        NAMU(CLASS(genericObj, baseObj), VISIT())
+        NM(CLASS(genericObj, baseObj), VISIT())
         friend class verifier;
         friend class graphVisitor;
         friend class exprMaker;

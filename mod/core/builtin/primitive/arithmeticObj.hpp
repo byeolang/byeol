@@ -6,7 +6,7 @@
 namespace nm {
 
     class _nout arithmeticObj : public baseObj {
-        NAMU(ADT(arithmeticObj, baseObj))
+        NM(ADT(arithmeticObj, baseObj))
 
     public:
         using super::run;

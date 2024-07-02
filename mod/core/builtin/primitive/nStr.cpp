@@ -15,7 +15,7 @@ namespace nm {
     namespace {
         class lenFunc : public tApiBridge<nStr, nInt> {
             typedef tApiBridge<nStr, nInt> __super__;
-            NAMU(CLASS(lenFunc, __super__))
+            NM(CLASS(lenFunc, __super__))
 
         protected:
             str _onRun(nStr& cast, const args& a) const override {
@@ -25,7 +25,7 @@ namespace nm {
 
         class getFunc : public tApiBridge<nStr, nChar> {
             typedef tApiBridge<nStr, nStr> __super__;
-            NAMU(CLASS(getFunc, __super__))
+            NM(CLASS(getFunc, __super__))
 
         protected:
             str _onRun(nStr& cast, const args& a) const override {
@@ -50,7 +50,7 @@ namespace nm {
 
         class getSeqFunc : public tApiBridge<nStr, nStr> {
             typedef tApiBridge<nStr, nStr> __super__;
-            NAMU(CLASS(getSeqFunc, __super__))
+            NM(CLASS(getSeqFunc, __super__))
 
         protected:
             str _onRun(nStr& cast, const args& a) const override {
@@ -80,7 +80,7 @@ namespace nm {
         typedef tcppBridge<niter> __superMgdIter;
 
         class bridgeIteration : public iteration {
-            NAMU(CLASS(bridgeIteration, iteration));
+            NM(CLASS(bridgeIteration, iteration));
 
         public:
             bridgeIteration(nStr& own, nidx n): _own(own), _n(n) {}
@@ -129,7 +129,7 @@ namespace nm {
         };
 
         class _nout mgdIter : public __superMgdIter {
-            NAMU(CLASS(mgdIter, __superMgdIter))
+            NM(CLASS(mgdIter, __superMgdIter))
 
         public:
             mgdIter(niter* real): super(real) {}
@@ -150,7 +150,7 @@ namespace nm {
         };
 
         class iterateFunc : public baseFunc {
-            NAMU(CLASS(iterateFunc, baseFunc))
+            NM(CLASS(iterateFunc, baseFunc))
 
         public:
             str getRet() const override {
@@ -167,13 +167,13 @@ namespace nm {
 
             str run(const args& a) override {
                 const params& ps = getParams();
-                if(a.len() != ps.len()) return NAMU_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
+                if(a.len() != ps.len()) return NM_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
                 nStr& me = a.getMe().cast<nStr>();
-                if(nul(me)) return NAMU_E("me as nStr == null"), str();
+                if(nul(me)) return NM_E("me as nStr == null"), str();
 
                 str eval = a[0].as(ps[0].getOrigin().as<node>());
                 if(!eval)
-                    return NAMU_E("evaluation of arg[%s] -> param[%s] has been failed",
+                    return NM_E("evaluation of arg[%s] -> param[%s] has been failed",
                             a[0].getType().getName().c_str(), ps[0].getType().getName().c_str()),
                            str();
 
@@ -183,7 +183,7 @@ namespace nm {
         };
 
         class getElemType : public baseFunc {
-            NAMU(CLASS(getElemType, baseFunc))
+            NM(CLASS(getElemType, baseFunc))
 
         public:
             str getRet() const override {
@@ -197,7 +197,7 @@ namespace nm {
         };
     }
 
-    NAMU(DEF_ME(nStr), DEF_VISIT())
+    NM(DEF_ME(nStr), DEF_VISIT())
 
     nbool me::nStrType::isImmutable() const { return true; }
 

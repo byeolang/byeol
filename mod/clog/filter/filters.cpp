@@ -1,7 +1,7 @@
 #include "filters.hpp"
 
 namespace nm {
-    NAMU(DEF_ME(filters))
+    NM(DEF_ME(filters))
 
     me::~filters() { rel(); }
 

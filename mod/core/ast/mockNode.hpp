@@ -5,7 +5,7 @@
 namespace nm {
 
     class _nout mockNode : public node {
-        NAMU(ME(mockNode, node), VISIT())
+        NM(ME(mockNode, node), VISIT())
         friend class exprMaker;
 
     public:
@@ -27,7 +27,7 @@ namespace nm {
         nbool isComplete() const override;
 
         node& getTarget();
-        const node& getTarget() const NAMU_UNCONST_FUNC(getTarget());
+        const node& getTarget() const NM_UNCONST_FUNC(getTarget());
 
         const src& getSrc() const override;
 

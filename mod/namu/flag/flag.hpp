@@ -8,7 +8,7 @@ namespace nm {
 
     struct cli;
     class flag : public instance {
-        NAMU(ADT(flag, instance))
+        NM(ADT(flag, instance))
 
     public:
         virtual const nchar* getName() const = 0;

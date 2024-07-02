@@ -6,7 +6,7 @@
 
 namespace nm {
 
-#ifdef NAMU_BUILD_PLATFORM_IS_WINDOWS
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
     typedef HMODULE libHandle;
 #else
     typedef void* libHandle;
@@ -14,7 +14,7 @@ namespace nm {
     typedef std::vector<libHandle> libHandles;
 
     class _nout cppPackLoading : public trustPackLoading{
-        NAMU(CLASS(cppPackLoading, trustPackLoading))
+        NM(CLASS(cppPackLoading, trustPackLoading))
         typedef void (*entrypointFunc)(bicontainable*);
 
     public:

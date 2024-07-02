@@ -19,7 +19,7 @@ namespace nm {
         //
         //  the most appropriate getter for wrapType of arr is to call getType() of instance
         //  to arr.
-        NAMU(ME(seq, __seqSuperClass),
+        NM(ME(seq, __seqSuperClass),
              INIT_META(seq),
              CLONE(seq),
              VISIT())

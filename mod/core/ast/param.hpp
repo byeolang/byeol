@@ -6,7 +6,7 @@
 
 namespace nm {
     class _nout param : public instance {
-        NAMU(CLASS(param, instance))
+        NM(CLASS(param, instance))
 
     public:
         param(const std::string& newName, const node& org);

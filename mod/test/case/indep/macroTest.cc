@@ -17,7 +17,7 @@ TEST(macroTest, nul) {
     ASSERT_FALSE(nul(aPtr));
 }
 
-TEST(macroTest, NAMU_GETtest) {
+TEST(macroTest, NM_GETtest) {
     struct A {};
     struct B {
         A& getA() {
@@ -47,39 +47,39 @@ TEST(macroTest, NAMU_GETtest) {
         C c;
     } d;
 
-    A& a = NAMU_GETS(b, getA());
+    A& a = NM_GETS(b, getA());
     ASSERT_FALSE(nul(a));
-    A* aNul = &NAMU_GETS(b, getNul());
+    A* aNul = &NM_GETS(b, getNul());
     ASSERT_TRUE(nul(aNul));
 
-    A& a0 = NAMU_GETS(b.getNul());
+    A& a0 = NM_GETS(b.getNul());
     ASSERT_TRUE(nul(a0));
 
-    A& a2 = NAMU_GETS(c,getB(),getA());
+    A& a2 = NM_GETS(c,getB(),getA());
     ASSERT_FALSE(nul(a2));
-    A* a2Nul = &NAMU_GETS(c,getNul(),getA());
+    A* a2Nul = &NM_GETS(c,getNul(),getA());
     ASSERT_TRUE(nul(a2Nul));
 
-    A& a3 = NAMU_GETS(d,getC(),getB(),getA());
+    A& a3 = NM_GETS(d,getC(),getB(),getA());
     ASSERT_FALSE(nul(a3));
-    A* a3Nul = &NAMU_GETS(d,getNul(),getB(),getA());
+    A* a3Nul = &NM_GETS(d,getNul(),getB(),getA());
     ASSERT_TRUE(nul(a3Nul));
 
-    A& a4 = NAMU_GETS(d.getC().getB(),getA());
+    A& a4 = NM_GETS(d.getC().getB(),getA());
     ASSERT_FALSE(nul(a4));
-    A* a4Nul = &NAMU_GETS(d.getC().getB(),getNul());
+    A* a4Nul = &NM_GETS(d.getC().getB(),getNul());
     ASSERT_TRUE(nul(a4Nul));
 }
 
 TEST(macroTest, UnconstCalltest) {
     struct A {
-        NAMU_ME(A)
+        NM_ME(A)
 
     public:
         nbool foo() {
             return true;
         }
-        nbool foo() const NAMU_UNCONST_FUNC(foo())
+        nbool foo() const NM_UNCONST_FUNC(foo())
     } a;
 
     const A& aConst = a;

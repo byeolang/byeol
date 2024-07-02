@@ -8,8 +8,8 @@ namespace nm {
     template <typename T, typename TACTIC = strTactic>
     class tstr : public tweak<T, TACTIC> {
         typedef tweak<T, TACTIC> _super_;
-        NAMU_ME(tstr, _super_)
-        NAMU_INIT_META(me)
+        NM_ME(tstr, _super_)
+        NM_INIT_META(me)
         friend class ref;
 
     public:

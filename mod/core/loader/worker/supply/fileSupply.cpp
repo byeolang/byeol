@@ -2,7 +2,7 @@
 #include "../parser.hpp"
 
 namespace nm {
-    NAMU(DEF_ME(fileSupply))
+    NM(DEF_ME(fileSupply))
 
     me::fileSupply(const std::string& newPath):  _path(newPath) {}
 

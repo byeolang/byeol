@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(arr), DEF_VISIT())
+    NM(DEF_ME(arr), DEF_VISIT())
 
     namespace {
         static inline const std::string TYPENAME = "T";
@@ -14,7 +14,7 @@ namespace nm {
         typedef tcppBridge<niter> __superMgdIter;
 
         class _nout mgdIter : public __superMgdIter {
-            NAMU(CLASS(mgdIter, __superMgdIter))
+            NM(CLASS(mgdIter, __superMgdIter))
 
         public:
             mgdIter(niter* real): super(real) {}
@@ -35,7 +35,7 @@ namespace nm {
         };
 
         class iterateFunc : public baseFunc {
-            NAMU(CLASS(iterateFunc, baseFunc))
+            NM(CLASS(iterateFunc, baseFunc))
 
         public:
             str getRet() const override {
@@ -53,13 +53,13 @@ namespace nm {
 
             str run(const args& a) override {
                 const params& ps = getParams();
-                if(a.len() != ps.len()) return NAMU_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
+                if(a.len() != ps.len()) return NM_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
                 arr& meObj = a.getMe().cast<arr>();
-                if(nul(meObj)) return NAMU_E("meObj as arr == null"), str();
+                if(nul(meObj)) return NM_E("meObj as arr == null"), str();
 
                 str eval = a[0].as(ps[0].getOrigin().as<node>());
                 if(!eval)
-                    return NAMU_E("evaluation of arg[%s] -> param[%s] has been failed",
+                    return NM_E("evaluation of arg[%s] -> param[%s] has been failed",
                             a[0].getType().getName().c_str(), ps[0].getType().getName().c_str()),
                            str();
 
@@ -69,7 +69,7 @@ namespace nm {
         };
 
         class getElemTypeFunc : public baseFunc {
-            NAMU(CLASS(getElemTypeFunc, baseFunc))
+            NM(CLASS(getElemTypeFunc, baseFunc))
 
         public:
             getElemTypeFunc(): _ret(new getExpr(TYPENAME)) {}
@@ -218,12 +218,12 @@ namespace nm {
 
         _cache.insert({key, clone}); // this avoids infinite loop.
 
-        NAMU_DI("|==============================================|");
-        NAMU_DI("|--- generic: make arr<%s> generic class ---|", key->getName().c_str());
+        NM_DI("|==============================================|");
+        NM_DI("|--- generic: make arr<%s> generic class ---|", key->getName().c_str());
         generalizer g;
         g.add(*new param(TYPENAME, getType().getBeans()[0]))
          .setTask(*this).setFlag(generalizer::INTERNAL).work();
-        NAMU_DI("|============================|");
+        NM_DI("|============================|");
 
         return *clone;
     }

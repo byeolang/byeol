@@ -3,7 +3,7 @@
 #include "../../frame/thread.hpp"
 
 namespace nm {
-    NAMU(DEF_ME(defVarExpr), DEF_VISIT())
+    NM(DEF_ME(defVarExpr), DEF_VISIT())
 
     me::defVarExpr(const std::string& name, const node& rhs): _name(name), _rhs(rhs) {}
     me::defVarExpr(const std::string& name, const node& rhs, const node& to): _name(name), _rhs(rhs), _to(to) {}
@@ -11,7 +11,7 @@ namespace nm {
     str me::run(const args& a) {
         str new1 = _onMakeNew();//getRight().run();
         if(!new1)
-            return NAMU_E("new1 is null"), str();
+            return NM_E("new1 is null"), str();
 
         str to = _to ? _to->as<node>() : str(); // here 'as' is mandatory.
                                                 // assume that user wrotes 'getExpr("me")' into 'as'.
@@ -33,7 +33,7 @@ namespace nm {
     str me::getEval() const { return _rhs->getEval(); }
 
     clonable* me::cloneDeep() const {
-        NAMU_DI("%s.cloneDeep()", getType().getName().c_str());
+        NM_DI("%s.cloneDeep()", getType().getName().c_str());
 
         me* ret = (me*) clone();
         if(_to) ret->_to.bind((node*) _to->cloneDeep());

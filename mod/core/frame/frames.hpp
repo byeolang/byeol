@@ -6,7 +6,7 @@
 
 namespace nm {
     class _nout frames : public tnarr<frame>, public dumpable {
-        NAMU(CLASS(frames, tnarr<frame>))
+        NM(CLASS(frames, tnarr<frame>))
 
     public:
         void dump() const override;

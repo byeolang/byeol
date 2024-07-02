@@ -5,7 +5,7 @@ using namespace nm;
 namespace {
 
     struct myObj : public obj {
-        NAMU(CLASS(myObj, obj))
+        NM(CLASS(myObj, obj))
 
     public:
         myObj(int newVal = 0): val(newVal) {}
@@ -19,14 +19,14 @@ namespace {
     };
 
     class myfunc : public func {
-        NAMU(CLASS(myfunc, func))
+        NM(CLASS(myfunc, func))
 
         class myBlock : public blockExpr {
-            NAMU(CLASS(myBlock, blockExpr))
+            NM(CLASS(myBlock, blockExpr))
 
         public:
             str run(const args& a) override {
-                NAMU_I("hello world!");
+                NM_I("hello world!");
                 _executed = true;
 
                 if(_lambda)
@@ -45,10 +45,10 @@ namespace {
 
     public:
         myfunc(): super(params(), *new nVoid(), *new myBlock()) {
-            NAMU_I("myfunc(%x) new", this);
+            NM_I("myfunc(%x) new", this);
         }
         ~myfunc() {
-            NAMU_I("myfunc(%x) delete", this);
+            NM_I("myfunc(%x) delete", this);
         }
 
         nbool isRun() const {
@@ -142,13 +142,13 @@ TEST_F(immutableTest, testFrameImmutability) {
         frame& fr = (frame&) nm::thread::get().getNowFrame();
         // test assign:
         auto e = fr.subs().iterate("age");
-        if(e.isEnd()) return NAMU_E("there is no key"), false;
+        if(e.isEnd()) return NM_E("there is no key"), false;
 
         fr.addLocal("age1", age);
 
         nInt& age1 = fr.sub<nInt>("age1");
-        if(age1 != age) return NAMU_E("age1 != age"), false;
-        if(&age1 == &age) return NAMU_E("address of age1 and age are different"), false;
+        if(age1 != age) return NM_E("age1 != age"), false;
+        if(&age1 == &age) return NM_E("address of age1 and age are different"), false;
 
         return true;
     });

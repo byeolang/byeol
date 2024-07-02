@@ -4,7 +4,7 @@
 
 namespace nm {
     class _nout threadUse {
-        NAMU(ME(threadUse))
+        NM(ME(threadUse))
 
     public:
         threadUse();
@@ -13,7 +13,7 @@ namespace nm {
 
     public:
         thread& get();
-        const thread& get() const NAMU_UNCONST_FUNC(get())
+        const thread& get() const NM_UNCONST_FUNC(get())
 
         void use();
         void rel();

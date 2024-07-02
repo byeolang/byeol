@@ -1,7 +1,7 @@
 #include "sigZone.hpp"
 
 namespace nm {
-    NAMU(DEF_ME(sigZone))
+    NM(DEF_ME(sigZone))
 
     me::sigZone(sigHandler handler): _handler(handler) {
         prepare(handler).setHandler();

@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(strTactic)
+    NM_DEF_ME(strTactic)
 
     void me::rel(binder& me) {
         if(!me.isBind()) return;
@@ -18,7 +18,7 @@ namespace nm {
     nbool me::bind(binder& me, const instance& it) {
         nbool res = super::bind(me, it);
         if(!res) {
-            NAMU_E("super::bind() was failed.");
+            NM_E("super::bind() was failed.");
             return res;
         }
 

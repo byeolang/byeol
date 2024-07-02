@@ -6,35 +6,35 @@ struct ttypeTest : public namuTest {};
 
 namespace {
     struct B {
-        NAMU_INIT_META(B);
+        NM_INIT_META(B);
 
         B(nbool newValue): value(newValue) {}
         nbool value;
     };
 
     class myClass {
-        NAMU_INIT_META(myClass);
+        NM_INIT_META(myClass);
     };
 
     struct myDerivedClass : public myClass {
-        NAMU_INIT_META(myDerivedClass);
+        NM_INIT_META(myDerivedClass);
         typedef myClass super;
     };
 
     struct A {
-        NAMU_INIT_META(A);
+        NM_INIT_META(A);
 
         A(): value(true) {}
         nbool value;
     };
 
     struct myDerivedClass2 : public myClass {
-        NAMU_INIT_META(myDerivedClass2);
+        NM_INIT_META(myDerivedClass2);
         typedef myClass super;
     };
 
     struct myDerivedClass3 : public myDerivedClass {
-        NAMU_INIT_META(myDerivedClass3);
+        NM_INIT_META(myDerivedClass3);
         typedef myDerivedClass super;
     };
 }

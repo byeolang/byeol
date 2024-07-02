@@ -6,7 +6,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(ntype)
+    NM_DEF_ME(ntype)
 
     me::ntype(): _beans(nullptr) {}
 

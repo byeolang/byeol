@@ -5,14 +5,14 @@
 namespace nm {
 
     class _nout whileExpr : public loopExpr {
-        NAMU(CLASS(whileExpr, loopExpr, expr::exprType), VISIT())
+        NM(CLASS(whileExpr, loopExpr, expr::exprType), VISIT())
         friend class verifier;
 
     public:
         whileExpr(const node& condition, const blockExpr& blk);
 
     public:
-        const node& getCondition() const NAMU_UNCONST_FUNC(getCondition())
+        const node& getCondition() const NM_UNCONST_FUNC(getCondition())
         node& getCondition();
 
     protected:

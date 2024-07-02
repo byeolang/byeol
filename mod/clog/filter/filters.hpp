@@ -4,7 +4,7 @@
 
 namespace nm {
     class _nout filters : public filterable {
-        NAMU(ME(filters))
+        NM(ME(filters))
 
     public:
         filters() {}

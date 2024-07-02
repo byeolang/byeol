@@ -8,15 +8,15 @@ struct funcTest : public namuTest {};
 
 namespace {
     class myfunc : public func {
-        NAMU(CLASS(myfunc, func))
+        NM(CLASS(myfunc, func))
 
         class myBlock : public blockExpr {
-            NAMU(CLASS(myBlock, blockExpr))
+            NM(CLASS(myBlock, blockExpr))
 
         public:
             str run(const args& a) override {
                 if(!canRun(a)) return str();
-                NAMU_I("hello world!");
+                NM_I("hello world!");
                 _executed = true;
 
                 if(_lambda)
@@ -35,10 +35,10 @@ namespace {
 
     public:
         myfunc(): super(params(), *new nVoid(), *new myBlock()) {
-            NAMU_I("myfunc(%x) new", this);
+            NM_I("myfunc(%x) new", this);
         }
         ~myfunc() {
-            NAMU_I("myfunc(%x) delete", this);
+            NM_I("myfunc(%x) delete", this);
         }
 
         void setUp() {
@@ -83,29 +83,29 @@ namespace {
         if(nul(fr)) return false;
 
         int n = 0;
-        NAMU_I("fr.len=%d", fr.subs().len());
+        NM_I("fr.len=%d", fr.subs().len());
         for(auto e=fr.subs().begin(); e ;e++)
-            NAMU_I(" - func(\"%s\") calls: fr[%d]=%s", e.getKey().c_str(), n++, e.getVal().getType().getName().c_str());
+            NM_I(" - func(\"%s\") calls: fr[%d]=%s", e.getKey().c_str(), n++, e.getVal().getType().getName().c_str());
 
         const scope& funcScope = fr.subs().cast<scope>();
-        if(nul(funcScope)) return NAMU_I("nul(funcScope)"), false;
+        if(nul(funcScope)) return NM_I("nul(funcScope)"), false;
         if(!_isFrameLinkScope(fr, funcScope))
-            return NAMU_I("frame not contain the funcScope(%x)", &funcScope), false;
+            return NM_I("frame not contain the funcScope(%x)", &funcScope), false;
 
         for(int n=0; n < funcNameSize; n++) {
             const char* name = funcNames[n];
             if(!fr.subAll(name).getMatches().isMatched())
-                return NAMU_I("fr.sub(%s) is 0 or +2 founds", name), false;
+                return NM_I("fr.sub(%s) is 0 or +2 founds", name), false;
         }
 
         if(!fr.subAll(name).getMatches().isMatched())
-            return NAMU_I("couldn't find %s func on frame(%x)", name.c_str(), &fr), false;
+            return NM_I("couldn't find %s func on frame(%x)", name.c_str(), &fr), false;
 
         return true;
     }
 
     struct myObj : public obj {
-        NAMU(CLASS(myObj, obj))
+        NM(CLASS(myObj, obj))
     };
 
     const char* func1Name = "obj1func1";
@@ -118,10 +118,10 @@ TEST_F(funcTest, testfuncConstructNewFrame) {
     myfunc func;
 
     obj.subs().add(funcNames[0], func);
-    NAMU_I("obj.len=%d", obj.subs().len());
+    NM_I("obj.len=%d", obj.subs().len());
     int n = 0;
     for(auto e=obj.subs().begin(); e ;e++) {
-        NAMU_I(" - fr[%d]=%s", n++, e->getType().getName().c_str());
+        NM_I(" - fr[%d]=%s", n++, e->getType().getName().c_str());
     }
 
     func.setLambda([&](const auto& a, const auto& sf) {
@@ -159,17 +159,17 @@ TEST_F(funcTest, testCallfuncInsidefunc) {
     obj2.subs().add("obj2func1", obj2func1);
 
     obj1func1.setLambda([&](const auto& a, const auto& sf) {
-        if(sf.len() != 1) return NAMU_I("%s: sf.len() != 1", func1Name), false;
+        if(sf.len() != 1) return NM_I("%s: sf.len() != 1", func1Name), false;
         if(!checkFrameHasfuncAndObjScope(sf[0], obj1func1, func1Name, obj1, obj1FuncNames, 2)) return false;
 
         narr funcArgs;
         obj1.run(func2Name, funcArgs);
         if(sf.len() != 1)
-            return NAMU_I("return of %s: sf.len() != 1", func1Name), false;
+            return NM_I("return of %s: sf.len() != 1", func1Name), false;
         return true;
     });
     obj1func2.setLambda([&](const auto& a, const auto& sf) {
-        if(sf.len() != 2) return NAMU_I("%s: sf.len(%d) > 2", func2Name, sf.len()), false;
+        if(sf.len() != 2) return NM_I("%s: sf.len(%d) > 2", func2Name, sf.len()), false;
 
         if(!checkFrameHasfuncAndObjScope(sf[1], obj1func2, func2Name, obj1, obj1FuncNames, 2)) return false;
 
@@ -178,7 +178,7 @@ TEST_F(funcTest, testCallfuncInsidefunc) {
         funcArgs.setMe(obj2);
         obj2.run(obj2FuncNames[0], funcArgs);
         if(sf.len() != 2)
-            return NAMU_I("return of %s: sf.len() != 2", func2Name), false;
+            return NM_I("return of %s: sf.len() != 2", func2Name), false;
         return true;
     });
     obj2func1.setLambda([&](const auto& a, const auto& sf) {

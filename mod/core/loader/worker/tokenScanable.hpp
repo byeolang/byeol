@@ -10,7 +10,7 @@ namespace nm {
 
     class parser;
     class _nout tokenScanable {
-        NAMU(ME(tokenScanable))
+        NM(ME(tokenScanable))
 
     public:
         nint onScan(parser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner);

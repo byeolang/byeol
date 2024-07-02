@@ -14,7 +14,7 @@ namespace nm {
     template <size_t... index>
     str ME::_marshal(args& a, std::index_sequence<index...> s) {
         auto* me = (tcppBridge<T, S>*) &a.getMe();
-        if(nul(me)) return NAMU_E("object from frame does not exists."), str();
+        if(nul(me)) return NM_E("object from frame does not exists."), str();
         if(me->template isSub<mockNode>()) {
             mockNode& mock = me->template cast<mockNode>();
             me = (tcppBridge<T, S>*) &mock.getTarget();
@@ -33,7 +33,7 @@ namespace nm {
     template <size_t... index>
     str ME::_marshal(args& a, std::index_sequence<index...>) {
         auto* me = (tcppBridge<T, S>*) &a.getMe();
-        if(nul(me)) return NAMU_E("object from frame does not exists."), str();
+        if(nul(me)) return NM_E("object from frame does not exists."), str();
         if(me->template isSub<mockNode>()) {
             mockNode& mock = me->template cast<mockNode>();
             me = (tcppBridge<T, S>*) &mock.getTarget();

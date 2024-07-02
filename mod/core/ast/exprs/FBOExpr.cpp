@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(FBOExpr), DEF_VISIT())
+    NM(DEF_ME(FBOExpr), DEF_VISIT())
 
     me::FBOExpr(rule rule, const node& lhs, const node& rhs): _rule(rule), _lhs(str(lhs)), _rhs(str(rhs)) {}
 
@@ -30,7 +30,7 @@ namespace nm {
 
         tstr<arithmeticObj> lhs(_lhs->as<arithmeticObj>());
         tstr<arithmeticObj> rhs(_rhs->as<arithmeticObj>());
-        if(!lhs || !rhs) return NAMU_E("one of operand is null"), str();
+        if(!lhs || !rhs) return NM_E("one of operand is null"), str();
 
         switch(_rule) {
             case ADD: return lhs->add(*rhs);

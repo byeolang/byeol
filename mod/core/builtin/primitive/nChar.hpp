@@ -15,7 +15,7 @@ namespace nm {
             const ases& _getAses() const override;
         };
 
-        NAMU(CLASS(nChar, primitiveObj, nCharType), VISIT())
+        NM(CLASS(nChar, primitiveObj, nCharType), VISIT())
 
     public:
         nChar();

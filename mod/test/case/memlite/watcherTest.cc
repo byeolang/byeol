@@ -124,8 +124,8 @@ TEST_F(watcherTest, heapVariableBindTagTest) {
         ASSERT_TRUE(tag.canBind(ttype<instance>()));
 
         id i = tag.getId();
-        ASSERT_NE(i.tagN, NAMU_INDEX_ERROR);
-        ASSERT_NE(i.chkN, NAMU_INDEX_ERROR);
+        ASSERT_NE(i.tagN, NM_INDEX_ERROR);
+        ASSERT_NE(i.chkN, NM_INDEX_ERROR);
         ASSERT_GT(i.serial, 0);
         ASSERT_TRUE(i.isHeap());
 

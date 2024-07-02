@@ -1,7 +1,7 @@
 #include "params.hpp"
 
 namespace nm {
-    NAMU(DEF_ME(params))
+    NM(DEF_ME(params))
 
     std::string me::toStr() const {
         int n=0;

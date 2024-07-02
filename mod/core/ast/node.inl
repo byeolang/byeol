@@ -24,7 +24,7 @@ namespace nm {
                 push_back(elem());
             return this->super::operator[](n);
         }
-        const tnarr<tprior<T>>& operator[](nidx n) const NAMU_UNCONST_FUNC(tprioritiesBucket<T>, operator[](n))
+        const tnarr<tprior<T>>& operator[](nidx n) const NM_UNCONST_FUNC(tprioritiesBucket<T>, operator[](n))
 
     public:
         tpriorities<T> join() const {
@@ -53,11 +53,11 @@ namespace nm {
 
     TEMPLATE
     T& ME::sub(const std::string& name) {
-#if NAMU_IS_DBG
+#if NM_IS_DBG
         ncnt n = 0;
 #endif
         return subs().get<T>([&](const std::string& key, const T& val) {
-            NAMU_DI("sub: [%d/%d] %s --> %s", ++n, subs().len(), name.c_str(), key.c_str());
+            NM_DI("sub: [%d/%d] %s --> %s", ++n, subs().len(), name.c_str(), key.c_str());
             return key == name;
         });
     }
@@ -67,7 +67,7 @@ namespace nm {
         if(nul(a))
             return sub<T>(name);
 
-#if NAMU_IS_DBG
+#if NM_IS_DBG
         ncnt n = 0;
 #endif
         std::string argStr = a.toStr();
@@ -75,7 +75,7 @@ namespace nm {
             priorType p = NO_MATCH;
             if(key == name) p = val.prioritize(a);
 
-            NAMU_DI("sub: [%d/%d] %s(%s) --> %s = %s", ++n, subs().len(), name.c_str(), argStr.c_str(), key.c_str(), getPriorTypeName(p));
+            NM_DI("sub: [%d/%d] %s(%s) --> %s = %s", ++n, subs().len(), name.c_str(), argStr.c_str(), key.c_str(), getPriorTypeName(p));
             return p != NO_MATCH;
         });
     }
@@ -100,7 +100,7 @@ namespace nm {
         // subs is arranged already to its scope:
         //  so if priorType of sub was same level, I need to keep the priorType of original container.
 
-#if NAMU_IS_DBG
+#if NM_IS_DBG
         ncnt n = 0;
         const nchar* myName = getType().getName().c_str();
         std::string argStr = !nul(a) ? "(" + a.toStr() + ")" : "";
@@ -118,7 +118,7 @@ namespace nm {
                     ps.push_back(*new tprior<T>(val, p, lv));
                 const baseFunc& f = val.template cast<baseFunc>();
                 std::string valArgs = !nul(f) ? "(" + f.getParams().toStr() + ")": "";
-                NAMU_DI("subAll: [%d/%d] %s%s --> %s.%s%s = priority(type=%s, lv=%d)", n++,
+                NM_DI("subAll: [%d/%d] %s%s --> %s.%s%s = priority(type=%s, lv=%d)", n++,
                         subs().len(), name.c_str(), argStr.c_str(), myName, key.c_str(), valArgs.c_str(), getPriorTypeName(p), lv);
                 return true;
             });

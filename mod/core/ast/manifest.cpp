@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(manifest)
+    NM_DEF_ME(manifest)
 
     entrypoint::entrypoint(const std::string& newLang, const std::vector<std::string> newPaths):
             lang(newLang), paths(newPaths) {}

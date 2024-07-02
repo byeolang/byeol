@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(stream)
+    NM_DEF_ME(stream)
 
     me::stream(nbool isEnable): _isEnable(isEnable) {}
     me::~stream() {}

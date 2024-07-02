@@ -8,11 +8,11 @@ namespace nm {
     typedef std::vector<type*> types;
 }
 
-#define NAMU_INIT_META(me) \
-    NAMU_INITIATOR(initMeta, { \
+#define NM_INIT_META(me) \
+    NM_INITIATOR(initMeta, { \
         ::nm::ttype<me>().init(); \
     })
 
 // namuMeta macro's sub-commands:
-//  INIT META: it redirects to NAMU_INIT_META macro.
-#define __NAMU__DECL_INIT_META(ME) NAMU_INIT_META(ME)
+//  INIT META: it redirects to NM_INIT_META macro.
+#define __NM__DECL_INIT_META(ME) NM_INIT_META(ME)

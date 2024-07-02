@@ -4,7 +4,7 @@
 
 namespace nm {
     class _nout dumSrc : public src {
-        NAMU(CLASS(dumSrc, src))
+        NM(CLASS(dumSrc, src))
 
     private:
         dumSrc();

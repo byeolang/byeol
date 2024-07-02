@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(srcFile), DEF_VISIT())
+    NM(DEF_ME(srcFile), DEF_VISIT())
 
     me::srcFile(const std::string& fileName, const std::string& contents):
         _fileName(fileName), _contents(contents) {}

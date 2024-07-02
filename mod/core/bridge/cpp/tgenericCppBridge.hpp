@@ -8,7 +8,7 @@ namespace nm {
     template <typename T>
     class tgenericCppBridge : public tcppBridge<T, obj> {
         typedef tcppBridge<T, obj> __super__;
-        NAMU(CLASS(tgenericCppBridge, __super__))
+        NM(CLASS(tgenericCppBridge, __super__))
 
     public:
         tgenericCppBridge(): super() {}

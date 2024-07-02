@@ -11,7 +11,7 @@ namespace nm {
 
     /// baseObj handles frame injection event of all objects.
     class _nout baseObj : public node {
-        NAMU(ADT(baseObj, node))
+        NM(ADT(baseObj, node))
         friend class verifier;
         friend class obj;
         friend class defaultMakeCtor;

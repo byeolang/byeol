@@ -5,7 +5,7 @@
 namespace nm {
 
     class frameInteract {
-        NAMU(ME(frameInteract))
+        NM(ME(frameInteract))
 
     public:
         frameInteract(frameInteractable& it, const bicontainable& args);

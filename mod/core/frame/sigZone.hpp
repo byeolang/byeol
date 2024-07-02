@@ -4,7 +4,7 @@
 
 namespace nm {
     class _nout sigZone {
-        NAMU(ME(sigZone))
+        NM(ME(sigZone))
 
     public:
         sigZone(sigHandler handler);

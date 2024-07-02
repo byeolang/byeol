@@ -9,7 +9,7 @@ namespace nm {
     class visitor;
 
     class _nout slot : public node {
-        NAMU(CLASS(slot, node), VISIT())
+        NM(CLASS(slot, node), VISIT())
 
     public:
         slot(const manifest& manifest);
@@ -20,7 +20,7 @@ namespace nm {
         const manifest& getManifest() const;
         nbool isValid() const;
         virtual obj& getPack();
-        const obj& getPack() const NAMU_UNCONST_FUNC(getPack())
+        const obj& getPack() const NM_UNCONST_FUNC(getPack())
         void rel() override;
         void addDependent(me& dependent);
         const tnarr<me>& getDependents() const;

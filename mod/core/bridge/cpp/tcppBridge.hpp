@@ -21,7 +21,7 @@ namespace nm {
         //  however, type object is dynamically belongs to this bridge object, when user
         //  tries to get ttype<T>, it's not derived from ntype so it won't have any 'as()'
         //  func. user can't operate conversion in this way.
-        NAMU(CLASS(tcppBridge, S))
+        NM(CLASS(tcppBridge, S))
         template <typename Ret, typename T1, typename S1, template <typename, typename, nbool> class Marshaling, typename...Args>
         friend class tcppBridgeFunc;
 

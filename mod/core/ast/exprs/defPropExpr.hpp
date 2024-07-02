@@ -4,7 +4,7 @@
 
 namespace nm {
     class _nout defPropExpr : public defVarExpr {
-        NAMU(CLASS(defPropExpr, defVarExpr, expr::exprType), VISIT())
+        NM(CLASS(defPropExpr, defVarExpr, expr::exprType), VISIT())
 
     public:
         defPropExpr(const std::string& name, const node& rhs);

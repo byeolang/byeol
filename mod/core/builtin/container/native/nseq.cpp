@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(nseq))
+    NM(DEF_ME(nseq))
 
     me::nseq(nInt start, nInt end): _start(start), _end(end) {
         _updateStep();

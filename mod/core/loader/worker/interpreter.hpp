@@ -7,7 +7,7 @@ namespace nm {
 
     class _nout interpreter : public worker<tstr<slot>, slot> {
         typedef worker<tstr<slot>, slot> __super7;
-        NAMU(CLASS(interpreter, __super7))
+        NM(CLASS(interpreter, __super7))
 
     public:
         enum logFlag2 {
@@ -24,7 +24,7 @@ namespace nm {
         nbool isParsed() const;
         nbool isVerified() const;
         node& getSubPack();
-        const node& getSubPack() const NAMU_UNCONST_FUNC(getSubPack())
+        const node& getSubPack() const NM_UNCONST_FUNC(getSubPack())
 
         void rel() override;
 

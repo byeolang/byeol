@@ -1,7 +1,7 @@
 #include "threadUse.hpp"
 
 namespace nm {
-    NAMU(DEF_ME(threadUse))
+    NM(DEF_ME(threadUse))
 
     me::threadUse(): _thr() {
         use();

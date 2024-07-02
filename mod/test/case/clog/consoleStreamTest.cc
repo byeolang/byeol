@@ -19,7 +19,7 @@ namespace {
         }
 
         static void delLogFile() {
-            NAMU_I("delLogFile");
+            NM_I("delLogFile");
             std::remove(getLogFilePath());
         }
 
@@ -52,7 +52,7 @@ namespace {
 
 TEST_F(consoleStreamTest, logFormat) {
     logger::get().logBypass("hello");
-    logger::get().logFormatBypass("%s " NAMU_TAG " %s <%s::%s#%d> " "hello",
+    logger::get().logFormatBypass("%s " NM_TAG " %s <%s::%s#%d> " "hello",
         nm::platformAPI::createNowTime("%b %d %Y  %X").c_str(), "I",
         __FILENAME__, __func__, __LINE__);
 
@@ -62,8 +62,8 @@ TEST_F(consoleStreamTest, logFormat) {
 TEST_F(consoleStreamTest, macro) {
     ASSERT_FALSE(thisTest::hasLogFile());
 
-    NAMU_W("world!");
-    NAMU_E("this is not an error.");
+    NM_W("world!");
+    NM_E("this is not an error.");
 
     ASSERT_TRUE(thisTest::hasLogFile());
 }
@@ -71,7 +71,7 @@ TEST_F(consoleStreamTest, macro) {
 TEST_F(consoleStreamTest, debugLogFormat) {
     nbool isDbg = buildFeature::config::get() == buildFeature::DEBUG;
 
-    NAMU_DW("if it's debug mode, this msg should be shown.");
+    NM_DW("if it's debug mode, this msg should be shown.");
 
     ASSERT_EQ(isDbg, thisTest::hasLogFile());
 }

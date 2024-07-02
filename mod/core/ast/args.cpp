@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(args))
+    NM(DEF_ME(args))
 
     me::args() {}
     me::args(const baseObj& me): _me(me) {}

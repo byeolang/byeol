@@ -5,7 +5,7 @@
 namespace nm {
 
     class _nout preEvaluator : public visitor {
-        NAMU(CLASS(preEvaluator, visitor))
+        NM(CLASS(preEvaluator, visitor))
 
         struct _nout evaluation {
             nbool isEvaluated() const;

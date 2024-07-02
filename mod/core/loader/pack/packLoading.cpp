@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(packLoading)
+    NM_DEF_ME(packLoading)
 
     void me::addPath(const std::string& filePath) {
         _paths.push_back(filePath);

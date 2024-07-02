@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(pool, memoryHaver)
+    NM_DEF_ME(pool, memoryHaver)
 
     me::pool() {}
     me::~pool() { rel(); }
@@ -27,7 +27,7 @@ namespace nm {
     nbool me::has(const instance& it) const {
         const chunks& got = get(it.getType().size());
         if(nul(got))
-            return NAMU_W("got == null"), false;
+            return NM_W("got == null"), false;
 
         return got.has(it);
     }

@@ -7,7 +7,7 @@ namespace nm {
     class visitor;
 
     class _nout retExpr : public retStateExpr {
-        NAMU(CLASS(retExpr, retStateExpr, expr::exprType), VISIT())
+        NM(CLASS(retExpr, retStateExpr, expr::exprType), VISIT())
 
     public:
         retExpr(const node& ret);
@@ -18,7 +18,7 @@ namespace nm {
         str run(const args& a) override;
 
         node& getRet();
-        const node& getRet() const NAMU_UNCONST_FUNC(getRet())
+        const node& getRet() const NM_UNCONST_FUNC(getRet())
         priorType prioritize(const args& a) const override;
         str getEval() const override;
 

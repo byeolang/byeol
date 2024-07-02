@@ -6,7 +6,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(getExpr), DEF_VISIT())
+    NM(DEF_ME(getExpr), DEF_VISIT())
 
     me::getExpr(const std::string& name): _name(name) {}
     me::getExpr(const std::string& name, const args& a): _name(name), _args(a) {}
@@ -53,18 +53,18 @@ namespace nm {
 
     priorities me::_get(nbool evalMode) const {
         const node& me = getMe();
-        NAMU_DI("getExpr: looking for '%s.%s' evalMode[%s]",
+        NM_DI("getExpr: looking for '%s.%s' evalMode[%s]",
                 nul(me) ? "null" : me.getType().getName().c_str(), _name.c_str(), evalMode ? "true" : "false");
-        if(nul(me)) return NAMU_E("me == null"), priorities();
+        if(nul(me)) return NM_E("me == null"), priorities();
 
         str evalMe = evalMode ? me.getEval() : me.as<node>();
-        if(!evalMe) return NAMU_E("me == null"), priorities();
+        if(!evalMe) return NM_E("me == null"), priorities();
         if(evalMode)
             evalMe = evalMe->as<node>();
-        NAMU_DI("run: 'me' was evaluated to %s", evalMe->getType().getName().c_str());
+        NM_DI("run: 'me' was evaluated to %s", evalMe->getType().getName().c_str());
 
         std::string argsName = _args ? _args->asStr().c_str() : "{}";
-        NAMU_DI("run: %s.sub(\"%s\", %s)", evalMe->getType().getName().c_str(), _name.c_str(), argsName.c_str());
+        NM_DI("run: %s.sub(\"%s\", %s)", evalMe->getType().getName().c_str(), _name.c_str(), argsName.c_str());
         if(!_args)
             return priorities(evalMe->sub(_name));
 
@@ -76,7 +76,7 @@ namespace nm {
     }
 
     clonable* me::cloneDeep() const {
-        NAMU_DI("%s.cloneDeep()", getType().getName().c_str());
+        NM_DI("%s.cloneDeep()", getType().getName().c_str());
         me* ret = (me*) clone();
         if(_args) ret->_args.bind((args*) _args->cloneDeep());
 

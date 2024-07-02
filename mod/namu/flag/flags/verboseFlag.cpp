@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(verboseFlag)
+    NM_DEF_ME(verboseFlag)
 
     const nchar* me::getName() const {
         return "-v";

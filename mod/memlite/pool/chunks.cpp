@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(chunks, allocator)
+    NM_DEF_ME(chunks, allocator)
 
     me::chunks(ncnt blkbyte) : super(blkbyte), _s(0) {}
 

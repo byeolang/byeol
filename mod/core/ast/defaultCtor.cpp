@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(defaultCtor), DEF_VISIT())
+    NM(DEF_ME(defaultCtor), DEF_VISIT())
 
     me::defaultCtor(const node& org): super(org) {}
 

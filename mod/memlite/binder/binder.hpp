@@ -51,7 +51,7 @@ namespace nm {
     ///             type T. of course these are based on class 'bind', user can use loose-check API
     ///             case by case.
     class _nout binder : public typeProvidable, public tbindable<instance> {
-        NAMU(ME(binder, instance),
+        NM(ME(binder, instance),
             INIT_META(me))
 
         friend class weakTactic;
@@ -67,8 +67,8 @@ namespace nm {
     public:
         instance* operator->();
         instance& operator*();
-        const instance* operator->() const NAMU_UNCONST_FUNC(operator->())
-        const instance& operator*() const NAMU_UNCONST_FUNC(operator*())
+        const instance* operator->() const NM_UNCONST_FUNC(operator->())
+        const instance& operator*() const NM_UNCONST_FUNC(operator*())
         me& operator=(const me& rhs);
 
     public:
@@ -83,7 +83,7 @@ namespace nm {
         nbool bind(const instance& it) override;
 
         instance& get();
-        const instance& get() const NAMU_UNCONST_FUNC(get())
+        const instance& get() const NM_UNCONST_FUNC(get())
         template <typename E>
         E& get() {
             instance& got = get();
@@ -92,7 +92,7 @@ namespace nm {
             return got.template cast<E>();
         }
         template <typename E>
-        const E& get() const NAMU_UNCONST_FUNC(get<E>())
+        const E& get() const NM_UNCONST_FUNC(get<E>())
 
         //  typeProvidable:
         const type& getType() const override;

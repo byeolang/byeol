@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(typeProvidable)
+    NM_DEF_ME(typeProvidable)
 
     nbool me::operator==(const me& rhs) const {
         if(nul(rhs)) return false;

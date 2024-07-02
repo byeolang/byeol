@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(smartDedent)
+    NM_DEF_ME(smartDedent)
 
     me::smartDedent() { setEnable(false); }
 

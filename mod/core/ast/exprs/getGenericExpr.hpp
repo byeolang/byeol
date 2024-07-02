@@ -8,7 +8,7 @@ namespace nm {
     class genericObj;
 
     class _nout getGenericExpr : public getExpr {
-        NAMU(CLASS(getGenericExpr, getExpr, expr::exprType), VISIT())
+        NM(CLASS(getGenericExpr, getExpr, expr::exprType), VISIT())
         friend class verifier;
 
     public:

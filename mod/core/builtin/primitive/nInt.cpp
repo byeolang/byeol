@@ -10,7 +10,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(nInt), DEF_VISIT())
+    NM(DEF_ME(nInt), DEF_VISIT())
 
     void me::_onMakeSubs(scope& tray) const {
         static nInt inner;

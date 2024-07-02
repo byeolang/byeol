@@ -6,7 +6,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(graphVisitor))
+    NM(DEF_ME(graphVisitor))
     using platformAPI::foreColor;
     using namespace std;
 

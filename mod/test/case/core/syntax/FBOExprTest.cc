@@ -155,7 +155,7 @@ TEST_F(FBOExprTest, testStringAddBoolean) {
     shouldVerified(true);
 
 
-    NAMU_E("start run!");
+    NM_E("start run!");
     nm::str res = run();
     ASSERT_EQ(res.cast<nint>(), 1);
 }

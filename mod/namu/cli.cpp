@@ -3,7 +3,7 @@ using namespace nm;
 
 namespace nm {
 
-    NAMU(DEF_ME(cli))
+    NM(DEF_ME(cli))
 
     nbool me::run(flagArgs& a) {
         _res = -1;

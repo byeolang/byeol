@@ -87,7 +87,7 @@ namespace nm {
     nbool ME::del(const iter& from, const iter& last) {
         const me* fromChain = (const me*) &from.getContainer();
         const me* lastChain = (const me*) &last.getContainer();
-        if(nul(lastChain)) return NAMU_W("iterator 'end' owned by null chain instance."), false;
+        if(nul(lastChain)) return NM_W("iterator 'end' owned by null chain instance."), false;
         const me* endChain = &lastChain->getNext(); // now, endChain can be null but it's okay.
 
         me* e = (me*) fromChain;
@@ -116,7 +116,7 @@ namespace nm {
     nbool ME::link(const ME& new1) {
         if(nul(new1) || nul(new1.getContainer())) return false;
         if(&new1 == this)
-            return NAMU_W("recursive link detected!! new1(%x) is this(%x).", &new1, this), false;
+            return NM_W("recursive link detected!! new1(%x) is this(%x).", &new1, this), false;
 
         return _next.bind(new1);
     }

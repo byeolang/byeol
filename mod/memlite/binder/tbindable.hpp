@@ -6,8 +6,8 @@ namespace nm {
 
     template <typename T>
     class tbindable {
-        NAMU_ME(tbindable)
-        NAMU_INIT_META(me)
+        NM_ME(tbindable)
+        NM_INIT_META(me)
 
     public:
         //  tbindable:

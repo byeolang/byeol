@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(errReport)
+    NM_DEF_ME(errReport)
 
     nbool me::operator==(const me& rhs) const {
         if(len() != rhs.len()) return false;

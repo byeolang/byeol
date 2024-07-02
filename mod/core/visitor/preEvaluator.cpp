@@ -10,14 +10,14 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(preEvaluator))
+    NM(DEF_ME(preEvaluator))
 
     nbool me::evaluation::isEvaluated() const {
         if(!fun) return true;
         return fun->getBlock().getStmts().len() <= 0;
     }
 
-#define GUARD(...) if(isFlag(me::GUARD)) NAMU_I(__VA_ARGS__)
+#define GUARD(...) if(isFlag(me::GUARD)) NM_I(__VA_ARGS__)
 
 
     me::preEvaluator() {
@@ -38,7 +38,7 @@ namespace nm {
     nbool me::onVisit(visitInfo i, obj& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
-        NAMU_DI("preEval: obj: %s", i.name.c_str());
+        NM_DI("preEval: obj: %s", i.name.c_str());
 
         _obj.bind(me);
         me.inFrame();
@@ -58,12 +58,12 @@ namespace nm {
         _func.bind(me);
         me.inFrame(); // don't need to inFrame for args.
                       // because what this want to do is just collect @preCtor funcs.
-        NAMU_I("preEval: func: %s", i.name.c_str());
+        NM_I("preEval: func: %s", i.name.c_str());
         for(const auto& p : me.getParams())
             ((node&) p.getOrigin()).accept(i, *this);
 
         if(i.name == baseObj::PRECTOR_NAME) {
-            NAMU_I("preEval: func: found prector");
+            NM_I("preEval: func: found prector");
             _stack[&_obj.get()] = {*_obj, me};
         }
 
@@ -110,12 +110,12 @@ namespace nm {
             if(!_tryPreEvals(e)) { // this func actually remove elements of _stack if the func consumes it.
                 // ok. there is no change after running one loop, which means, I think that
                 // preEvaluator just found circular dependencies.
-                NAMU_E("* * *");
-                NAMU_E("I couldn't finish pre-evaluation. may be because of circular dependency.");
-                NAMU_E("total %d pre-evaluations remains.", _stack.size());
-                NAMU_E("errors:");
+                NM_E("* * *");
+                NM_E("I couldn't finish pre-evaluation. may be because of circular dependency.");
+                NM_E("total %d pre-evaluations remains.", _stack.size());
+                NM_E("errors:");
                 e.dump();
-                NAMU_E("* * *");
+                NM_E("* * *");
                 break;
             }
         }

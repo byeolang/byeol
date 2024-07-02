@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(weakTactic)
+    NM_DEF_ME(weakTactic)
 
     void me::rel(binder& me) {
         me._itsId.rel();

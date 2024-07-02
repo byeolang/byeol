@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(chunk, allocator)
+    NM_DEF_ME(chunk, allocator)
 
     me::chunk(ncnt blksize, ncnt sz)
         : super(blksize), _head(0), _len(0), _sz(0), _heap(0) {
@@ -39,7 +39,7 @@ namespace nm {
 
     void* me::new1() {
         if(_len >= _sz)
-            return NAMU_E("new1() failed. chunk was full. you should have not called this in this situtation."),
+            return NM_E("new1() failed. chunk was full. you should have not called this in this situtation."),
                    nullptr;
 
         nidx* ret = (nidx*)_get(_head);
@@ -58,7 +58,7 @@ namespace nm {
         _head = ((nuchar*)used - _heap) / _getRealBlkSize();
         _len--;
         if(_head < 0)
-            return NAMU_E("chunk corrupted! used(%x) apparently wasn't on heap(%x).", used, _heap),
+            return NM_E("chunk corrupted! used(%x) apparently wasn't on heap(%x).", used, _heap),
                    false;
         return true;
     }

@@ -7,7 +7,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(ifExpr), DEF_VISIT())
+    NM(DEF_ME(ifExpr), DEF_VISIT())
 
     me::ifExpr(const node& exp, const blockExpr& thenBlk): _expr(exp), _then(thenBlk) {}
     me::ifExpr(const node& exp, const blockExpr& thenBlk, const blockExpr& elseBlk):
@@ -30,7 +30,7 @@ namespace nm {
         if(!res) return nVoid::singletone();
 
         nbool cond = res->cast<nbool>();
-        NAMU_DI("ifExpr: condition[%s]", cond ? "true" : "false");
+        NM_DI("ifExpr: condition[%s]", cond ? "true" : "false");
         if(cond) {
             frameInteract f1(*_then); {
                 return _then->run();
@@ -46,23 +46,23 @@ namespace nm {
 
     str me::getEval() const {
         str thenEval = _then->getEval();
-        if(!thenEval) return NAMU_E("thenEval is null"), thenEval;
+        if(!thenEval) return NM_E("thenEval is null"), thenEval;
         str elseEval = _else ? _else->getEval() : str();
-        if(!elseEval) return NAMU_E("elseEval is null"), elseEval;
+        if(!elseEval) return NM_E("elseEval is null"), elseEval;
 
         if(thenEval->isSub<retStateExpr>())
-            return NAMU_DI("thenEval is %s, accept elseEval[%s]",
+            return NM_DI("thenEval is %s, accept elseEval[%s]",
                            thenEval->getType().getName().c_str(),
                            elseEval ? elseEval->getType().getName().c_str() : "null"), elseEval;
         if(elseEval->isSub<retStateExpr>())
-            return NAMU_DI("elseEval is %s, accept thenEval[%s]",
+            return NM_DI("elseEval is %s, accept thenEval[%s]",
                            elseEval->getType().getName().c_str(),
                            thenEval->getType().getName().c_str()), thenEval;
 
         // when you try to get eval from ifExpr, `then` and else block must be declared first.
         // if one of blocks has omitted, evaluation of ifExpr should be null.
         str ret = thenEval->deduce(*elseEval); // if elseEval is null, then thenEval only left.
-        NAMU_DI("thenEval[%s] + elseVal[%s] -> %s",
+        NM_DI("thenEval[%s] + elseVal[%s] -> %s",
                 thenEval->getType().getName().c_str(),
                 elseEval->getType().getName().c_str(),
                 ret ? ret->getType().getName().c_str() : "null");

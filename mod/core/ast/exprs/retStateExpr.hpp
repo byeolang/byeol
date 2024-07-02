@@ -6,11 +6,11 @@
 namespace nm {
 
     class _nout retState : public nVoid {
-        NAMU(CLASS(retState, nVoid))
+        NM(CLASS(retState, nVoid))
     };
 
     class _nout retStateExpr : public expr {
-        NAMU(ADT(retStateExpr, expr), VISIT())
+        NM(ADT(retStateExpr, expr), VISIT())
 
     public:
         using super::run;

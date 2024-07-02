@@ -7,7 +7,7 @@ struct nchainTest : public namuTest {};
 
 namespace {
     class myNode : public node {
-        NAMU(CLASS(myNode, node))
+        NM(CLASS(myNode, node))
 
     public:
         myNode(int num): number(num) {}
@@ -50,7 +50,7 @@ namespace {
     }
 
     class myMyNode : public myNode {
-        NAMU(CLASS(myMyNode, myNode))
+        NM(CLASS(myMyNode, myNode))
 
     public:
         myMyNode(int num): super(num) {}
@@ -62,7 +62,7 @@ namespace {
     }
 
     struct myNode2 : public myNode {
-        NAMU(CLASS(myNode2, myNode))
+        NM(CLASS(myNode2, myNode))
 
     public:
         myNode2(int val) : super(val) {}
@@ -461,7 +461,7 @@ TEST_F(nchainTest, testDelWithLink) {
         ASSERT_FALSE(map2Weak.isBind());
         ASSERT_EQ(chn.len(), 1 + map1.len());
 
-        NAMU_DI("chn.len()=%d", chn.len());
+        NM_DI("chn.len()=%d", chn.len());
         auto e = chn.iterate(chn.len() - 1);
 
         myNode& last = e->cast<myNode>();

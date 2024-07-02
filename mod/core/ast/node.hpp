@@ -19,20 +19,20 @@ namespace nm {
 
     /// node provides common API to manipulate its sub nodes.
     class _nout node : public instance, public frameInteractable, public exceptional {
-        NAMU(ADT(node, instance))
+        NM(ADT(node, instance))
         friend class exprMaker; // for _setSrc
         friend class mockNode;
 
     public:
         node& operator[](const std::string& name);
-        const node& operator[](const std::string& name) const NAMU_UNCONST_FUNC(operator[](name))
+        const node& operator[](const std::string& name) const NM_UNCONST_FUNC(operator[](name))
 
     public:
         nbool has(const node& elem) const;
         nbool has(const node* elem) const;
 
         virtual scope& subs() = 0;
-        const scope& subs() const NAMU_UNCONST_FUNC(subs())
+        const scope& subs() const NM_UNCONST_FUNC(subs())
         virtual tstr<nbicontainer> mySubs() const;
 
         /// @param r type to be deduced to this type.
@@ -42,13 +42,13 @@ namespace nm {
         const node& deduce(const node& r) const;
 
         template <typename T> T& sub(std::function<nbool(const std::string&, const T&)> l);
-        template <typename T> const T& sub(std::function<nbool(const std::string&, const T&)> l) const NAMU_UNCONST_FUNC(sub<T>(l))
+        template <typename T> const T& sub(std::function<nbool(const std::string&, const T&)> l) const NM_UNCONST_FUNC(sub<T>(l))
         template <typename T = me> T& sub();
-        template <typename T = me> const T& sub() const NAMU_UNCONST_FUNC(sub<T>())
+        template <typename T = me> const T& sub() const NM_UNCONST_FUNC(sub<T>())
         template <typename T = me> T& sub(const std::string& name);
-        template <typename T = me> const T& sub(const std::string& name) const NAMU_UNCONST_FUNC(sub<T>(name))
+        template <typename T = me> const T& sub(const std::string& name) const NM_UNCONST_FUNC(sub<T>(name))
         template <typename T = me> T& sub(const std::string& name, const args& a);
-        template <typename T = me> const T& sub(const std::string& name, const args& a) const NAMU_UNCONST_FUNC(sub<T>(name, a))
+        template <typename T = me> const T& sub(const std::string& name, const args& a) const NM_UNCONST_FUNC(sub<T>(name, a))
 
         template <typename T> tnarr<T, strTactic> subAll(std::function<nbool(const std::string&, const T&)> l) const;
         template <typename T = me> tnarr<T, strTactic> subAll() const;

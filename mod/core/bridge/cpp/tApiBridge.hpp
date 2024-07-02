@@ -8,13 +8,13 @@ namespace nm {
     /// that's why this kind of func template required.
     template <typename T, typename Ret>
     class tApiBridge : public baseFunc {
-        NAMU(ADT(tApiBridge, baseFunc))
+        NM(ADT(tApiBridge, baseFunc))
 
     public:
         using super::run;
         str run(const args& a) override {
             T& cast = a.getMe().cast<T>();
-            if(nul(cast)) return NAMU_W("cast is null"), str();
+            if(nul(cast)) return NM_W("cast is null"), str();
 
             return _onRun(cast, a);
         }

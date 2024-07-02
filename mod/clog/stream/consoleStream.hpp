@@ -5,7 +5,7 @@
 namespace nm {
 
     class _nout consoleStream : public stream {
-        NAMU_ME(consoleStream, stream)
+        NM_ME(consoleStream, stream)
 
     public:
         consoleStream();

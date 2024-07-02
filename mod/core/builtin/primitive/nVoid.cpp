@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(nVoid), DEF_VISIT())
+    NM(DEF_ME(nVoid), DEF_VISIT())
 
     nbool me::wVoidType::isImmutable() const { return true; }
 

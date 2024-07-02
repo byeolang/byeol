@@ -12,7 +12,7 @@ namespace nm {
     public:
         // expr can be casted to node. it's proxy of a node.
         class _nout exprType : public ntype {
-            NAMU(ME(exprType, ntype))
+            NM(ME(exprType, ntype))
 
         public:
             using super::asImpli;
@@ -20,7 +20,7 @@ namespace nm {
             str asImpli(const node& from, const type& to) const override;
         };
 
-        NAMU(ADT(expr, node, exprType))
+        NM(ADT(expr, node, exprType))
         friend class exprMaker;
         friend struct ::exprTest;
 

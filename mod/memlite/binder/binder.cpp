@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(binder)
+    NM_DEF_ME(binder)
 
     binder::binder(const type& type, bindTacticable& tactic): _type(&type.getStatic()), _tactic(&tactic) {}
     binder::binder(const me& rhs): _type(rhs._type), _tactic(rhs._tactic) { _assign(rhs); }
@@ -44,7 +44,7 @@ namespace nm {
     }
 
     instance& me::get() {
-        return NAMU_GETS(_getBindTag(),get());
+        return NM_GETS(_getBindTag(),get());
     }
 
     nbool me::_assign(const binder& rhs) {

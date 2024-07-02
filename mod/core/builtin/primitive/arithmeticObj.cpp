@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(arithmeticObj)
+    NM_DEF_ME(arithmeticObj)
 
 #define _X(FUNC) \
     tstr<arithmeticObj> me::FUNC(const arithmeticObj& rhs) const { \
@@ -16,7 +16,7 @@ namespace nm {
         return winner._ ## FUNC(loser, !normalOrder); \
     }
 
-    NAMU_EACH(_X, add, sub, mul, div, mod, bitwiseAnd, bitwiseXor, bitwiseOr, rshift, lshift)
+    NM_EACH(_X, add, sub, mul, div, mod, bitwiseAnd, bitwiseXor, bitwiseOr, rshift, lshift)
 
 #undef _X
 
@@ -27,13 +27,13 @@ namespace nm {
         return _ ## FUNC(rhs); \
     }
 
-    NAMU_EACH(_X, eq, ne, gt, lt, ge, le, logicalAnd, logicalOr)
+    NM_EACH(_X, eq, ne, gt, lt, ge, le, logicalAnd, logicalOr)
 
 #undef _X
 
     str me::run(const args& a) {
         baseFunc& found = sub<baseFunc>(baseObj::CTOR_NAME, a);
-        if(nul(found)) return NAMU_W("there is no such ctor."), str();
+        if(nul(found)) return NM_W("there is no such ctor."), str();
 
         return run(baseObj::CTOR_NAME, a);
     }

@@ -7,14 +7,14 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(err)
+    NM_DEF_ME(err)
 
     namespace {
         constexpr nint MAX_BUF = 512;
 
         class logFunc : public tApiBridge<err, nVoid> {
             typedef tApiBridge<err, nVoid> __super9;
-            NAMU(CLASS(logFunc, __super9))
+            NM(CLASS(logFunc, __super9))
 
         public:
             const params& getParams() const override {
@@ -33,7 +33,7 @@ namespace nm {
 
         class logStackFunc : public tApiBridge<err, nVoid> {
             typedef tApiBridge<err, nVoid> __super10;
-            NAMU(CLASS(logStackFunc, __super10))
+            NM(CLASS(logStackFunc, __super10))
 
         public:
             const params& getParams() const override {
@@ -192,12 +192,12 @@ namespace nm {
         auto matches = p.getMatches();
         switch(matches.len()) {
             case 1: return run(baseObj::CTOR_NAME, a);
-            case 0: return NAMU_W("there is no such ctor."), str();
+            case 0: return NM_W("there is no such ctor."), str();
         }
         /*// TODO: 1. change err management module to use 'err' class, not errCode.
           //       2. let it log all ambigious funcs here.
-          return NAMU_W("")*/
-        return NAMU_E("ambigious call found: %s", "TODO:"), str();
+          return NM_W("")*/
+        return NM_E("ambigious call found: %s", "TODO:"), str();
     }
 
     const baseObj& me::getOrigin() const { return singletone(); }

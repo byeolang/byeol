@@ -5,7 +5,7 @@
 namespace nm {
 
     class _nout fileSupply : public srcSupply {
-        NAMU(CLASS(fileSupply, srcSupply))
+        NM(CLASS(fileSupply, srcSupply))
 
     public:
         fileSupply(const std::string& newPath);

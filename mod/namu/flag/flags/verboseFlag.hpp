@@ -5,7 +5,7 @@
 namespace nm {
 
     class verboseFlag : public flag {
-        NAMU(CLASS(verboseFlag, flag))
+        NM(CLASS(verboseFlag, flag))
 
     public:
         const nchar* getName() const override;

@@ -10,13 +10,13 @@
         return inner; \
     }
 
-#define NAMU_SINGLETON_GETTER_3(SIGNATURE, StaticType, initValue) \
+#define NM_SINGLETON_GETTER_3(SIGNATURE, StaticType, initValue) \
     _SINGLETON_GETTER(SIGNATURE, StaticType, = initValue)
 
-#define NAMU_SINGLETON_GETTER_2(SIGNATURE, StaticType) \
-    _SINGLETON_GETTER(SIGNATURE, StaticType, NAMU_VOID())
+#define NM_SINGLETON_GETTER_2(SIGNATURE, StaticType) \
+    _SINGLETON_GETTER(SIGNATURE, StaticType, NM_VOID())
 
-#define NAMU_SINGLETON_GETTER_1(type) \
-    _SINGLETON_GETTER(type& get(), type, NAMU_VOID())
+#define NM_SINGLETON_GETTER_1(type) \
+    _SINGLETON_GETTER(type& get(), type, NM_VOID())
 
-#define NAMU_SINGLETON_GETTER(...)   NAMU_OVERLOAD(NAMU_SINGLETON_GETTER, __VA_ARGS__)
+#define NM_SINGLETON_GETTER(...)   NM_OVERLOAD(NM_SINGLETON_GETTER, __VA_ARGS__)

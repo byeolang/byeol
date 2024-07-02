@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(frameInteract))
+    NM(DEF_ME(frameInteract))
 
     me::frameInteract(frameInteractable& it, const bicontainable& args): _it(it), _args(args) {
         _it.inFrame(_args);

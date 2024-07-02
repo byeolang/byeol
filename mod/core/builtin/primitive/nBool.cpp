@@ -10,7 +10,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(nBool), DEF_VISIT())
+    NM(DEF_ME(nBool), DEF_VISIT())
 
     nbool me::wBoolType::isImmutable() const { return true; }
 

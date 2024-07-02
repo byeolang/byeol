@@ -3,7 +3,7 @@
 #include "../bison/lowscanner.hpp"
 
 namespace nm {
-    NAMU_DEF_ME(srcSupply)
+    NM_DEF_ME(srcSupply)
 
     void* me::_scanString(parser& ps, const nchar* src, void* scanner) const {
         if(nul(src) || src[0] == '\0')

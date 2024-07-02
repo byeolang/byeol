@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(retExpr), DEF_VISIT())
+    NM(DEF_ME(retExpr), DEF_VISIT())
 
     me::retExpr(const node& ret): _ret(ret) {}
     me::retExpr(): _ret(nVoid::singletone()) {}
@@ -20,11 +20,11 @@ namespace nm {
     }
 
     str me::run(const args& a) {
-        NAMU_DI("retExpr:...");
+        NM_DI("retExpr:...");
         auto& fr = thread::get().getNowFrame();
         if(!_ret) return str(nVoid::singletone());
 
-        NAMU_DI("retExpr: _ret[%s]", _ret->getType().getName().c_str());
+        NM_DI("retExpr: _ret[%s]", _ret->getType().getName().c_str());
         if(_ret->isSub<baseObj>()) return fr.setRet(*_ret), _ret;
 
         str ret = _ret->as<node>(); // # check retValue is null or not.
@@ -35,7 +35,7 @@ namespace nm {
         if(_isEx(*ret, *fRet))
             return _returnEx(ret->cast<err>());
 
-        NAMU_DI("retExpr: frame.setRet(%s)", ret->getType().getName().c_str());
+        NM_DI("retExpr: frame.setRet(%s)", ret->getType().getName().c_str());
         fr.setRet(*ret);
         return ret;
     }

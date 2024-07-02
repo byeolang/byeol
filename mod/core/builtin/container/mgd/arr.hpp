@@ -17,7 +17,7 @@ namespace nm {
         //
         //  the most appropriate getter for ntype of arr is to call getType() of instance
         //  to arr.
-        NAMU(ME(arr, __arrSuperClass),
+        NM(ME(arr, __arrSuperClass),
              INIT_META(arr),
              CLONE(arr),
              VISIT())

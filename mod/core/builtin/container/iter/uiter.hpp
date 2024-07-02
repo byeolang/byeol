@@ -4,7 +4,7 @@
 // nested class of tucontainable.hpp:
 //  this file allows to be refered by 'tucontainable.hpp' file only.
 class iter : public iterable, public clonable, public typeProvidable {
-    NAMU(CLASS(iter))
+    NM(CLASS(iter))
     friend class iteration;
     template <typename E, typename TACTIC> friend class tnarr;
     template <typename K, typename V, typename defaultContainer> friend class tnchain;
@@ -20,9 +20,9 @@ public:
     me operator++(int);
     me& operator+=(ncnt step);
     R operator*();
-    const R operator*() const NAMU_UNCONST_FUNC(operator*())
+    const R operator*() const NM_UNCONST_FUNC(operator*())
     typename std::remove_reference<R>::type* operator->();
-    const typename std::remove_reference<R>::type* operator->() const NAMU_UNCONST_FUNC(operator->())
+    const typename std::remove_reference<R>::type* operator->() const NM_UNCONST_FUNC(operator->())
     explicit operator nbool() const;
 
 public:
@@ -39,7 +39,7 @@ public:
     }
 
     tucontainable<T, R>& getContainer() override;
-    const tucontainable<T, R>& getContainer() const NAMU_UNCONST_FUNC(getContainer());
+    const tucontainable<T, R>& getContainer() const NM_UNCONST_FUNC(getContainer());
 
 private:
     me& _assign(const me& rhs);

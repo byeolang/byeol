@@ -5,7 +5,7 @@
 namespace nm {
     /// @remark type returning ttype<type> as result of getType()
     class _nout type {
-        NAMU_ME(type)
+        NM_ME(type)
 
     public:
         virtual ~type() {}
@@ -46,7 +46,7 @@ namespace nm {
         template <typename T> nbool isSuper() const;
         nbool isSub(const type& it) const;
         template <typename T> nbool isSub() const;
-        const type& getStatic() const NAMU_UNCONST_FUNC(_getStatic())
+        const type& getStatic() const NM_UNCONST_FUNC(_getStatic())
 
         virtual const void* getExtra() const;
 

@@ -7,7 +7,7 @@ namespace nm {
     class visitor;
 
     class _nout runExpr : public expr {
-        NAMU(CLASS(runExpr, expr, expr::exprType), VISIT())
+        NM(CLASS(runExpr, expr, expr::exprType), VISIT())
         friend class parser;
 
     public:
@@ -21,7 +21,7 @@ namespace nm {
         str getEval() const override;
 
         node& getMe();
-        const node& getMe() const NAMU_UNCONST_FUNC(getMe())
+        const node& getMe() const NM_UNCONST_FUNC(getMe())
         void setMe(const node& newMe);
 
         node& getSubj();

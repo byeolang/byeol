@@ -5,7 +5,7 @@
 namespace nm {
     struct point;
     class _nout exceptional {
-        NAMU(ME(exceptional))
+        NM(ME(exceptional))
 
     public:
         void ex(nint code, ...);

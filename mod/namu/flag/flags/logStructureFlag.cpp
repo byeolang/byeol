@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(logStructureFlag)
+    NM_DEF_ME(logStructureFlag)
 
     const nchar* me::getName() const {
         return "--show-structure";

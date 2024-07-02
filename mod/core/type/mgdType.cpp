@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(mgdType))
+    NM(DEF_ME(mgdType))
 
     me::mgdType(const std::string& name): _name(name) {
         _initSupers(ttype<obj>::get());

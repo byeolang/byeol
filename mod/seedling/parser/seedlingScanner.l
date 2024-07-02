@@ -31,10 +31,10 @@ void changeRule(const char* name, int new1) {
 
     shiftRules(new1);
     BEGIN(new1);
-    NAMU_DI(" ---- CHANGE RULE to %s(%d)", name, new1);
+    NM_DI(" ---- CHANGE RULE to %s(%d)", name, new1);
 }
 void changePrevRule() {
-    NAMU_DI(" ---- CHANGE PREV RULE TO %d", prevRule);
+    NM_DI(" ---- CHANGE PREV RULE TO %d", prevRule);
     BEGIN(prevRule);
 }
 %}
@@ -70,13 +70,13 @@ true|false {
 }
 
 <DEDENTING>\/\/[^\n]* {
-    NAMU_DI("!!!!2");
+    NM_DI("!!!!2");
 }
 <INDENTING>\/\/[^\n]* {
-    NAMU_DI("!!!!3");
+    NM_DI("!!!!3");
 }
 \/\/[^\n]* {
-    NAMU_DI("!!!!1");
+    NM_DI("!!!!1");
 }
 
 "/*" {
@@ -90,13 +90,13 @@ true|false {
 }
 <COMMENTING>"*/" {
     changePrevRule();
-    NAMU_DI("!!!!!!!!!!!end");
+    NM_DI("!!!!!!!!!!!end");
 }
 <COMMENTING>. {
-    NAMU_DI("1");
+    NM_DI("1");
 }
 <COMMENTING>\n {
-    NAMU_DI("2");
+    NM_DI("2");
 }
 
 
@@ -115,7 +115,7 @@ true|false {
 }
 
 <ARRAYING>\{ {
-    NAMU_DI("----------lex: found '{' ");
+    NM_DI("----------lex: found '{' ");
     return yytext[0];
 }
 <ARRAYING>\}\{ {
@@ -124,7 +124,7 @@ true|false {
 }
 <ARRAYING>\} {
     changePrevRule();
-    NAMU_DI("----------lex: found '}' ");
+    NM_DI("----------lex: found '}' ");
     return yytext[0];
 }
 <ARRAYING>[a-zA-Z0-9_]+\} {
@@ -132,7 +132,7 @@ true|false {
     temp = temp.substr(0, temp.size()-1);
     unput('}');
     yylval.strVal = strdup(temp.c_str());
-    NAMU_DI("----------lex: tid is %s ----", yylval.strVal);
+    NM_DI("----------lex: tid is %s ----", yylval.strVal);
     return tid;
 }
 
@@ -165,7 +165,7 @@ true|false {
     return teol;
 }
 <DEDENTING>[ ] {
-    NAMU_DI("<DEDENTING> nowIndent=%d", nowIndent);
+    NM_DI("<DEDENTING> nowIndent=%d", nowIndent);
     nowIndent++;
 }
 <DEDENTING>\t {
@@ -176,7 +176,7 @@ true|false {
     char ch = yytext[0];
 
     int prevIndentLv = indentLvs.size() ? indentLvs.top() : 0;
-    NAMU_DI("  ---  ch=%c(%d) dedent check finish. prevIndentLv=%d intentLvs.size()=%d nowIndent=%d",
+    NM_DI("  ---  ch=%c(%d) dedent check finish. prevIndentLv=%d intentLvs.size()=%d nowIndent=%d",
         ch, ch, prevIndentLv, indentLvs.size(), nowIndent);
 
     if (nowIndent < prevIndentLv) {
@@ -223,16 +223,16 @@ true|false {
     nowIndent = (nowIndent + TAB_WIDTH) & ~(TAB_WIDTH - 1);
 }
 <INDENTING>\n {
-    NAMU_DI("---------------- indent newline");
+    NM_DI("---------------- indent newline");
     nowIndent = 0;
 }
 <INDENTING>. {
     char ch = yytext[0];
 
     int prevIndentLv = indentLvs.size() ? indentLvs.top() : 0;
-    NAMU_DI("  ---  indent check finish. nowIndent=%d, prevIndentLv=%d indentLvs.size()=%d", nowIndent, prevIndentLv, indentLvs.size());
+    NM_DI("  ---  indent check finish. nowIndent=%d, prevIndentLv=%d indentLvs.size()=%d", nowIndent, prevIndentLv, indentLvs.size());
     if (nowIndent > prevIndentLv) {
-        NAMU_DI("nowIndent(%d) > prevIndentLv(%d)", nowIndent, prevIndentLv);
+        NM_DI("nowIndent(%d) > prevIndentLv(%d)", nowIndent, prevIndentLv);
         indentLvs.push(nowIndent);
         unput(ch);
         return tindent;
@@ -245,13 +245,13 @@ true|false {
 }
 
 <INDENTING><<EOF>> {
-    NAMU_DI("----------------------EOF!!!!!");
+    NM_DI("----------------------EOF!!!!!");
     if (goOutdent(yytext[0]) == tdedent) {
-        NAMU_DI("----------- return tdedent from EOF!");
+        NM_DI("----------- return tdedent from EOF!");
         return tdedent;
     }
 
-    NAMU_DI("----------- return meetEof()");
+    NM_DI("----------- return meetEof()");
     return meetEof();
 }
 
@@ -277,13 +277,13 @@ nm::sobj* root = nullptr;
 
 int meetEof() {
     static int cnt = 0;
-    NAMU_DI("----------- meetEOF(%d)", cnt);
+    NM_DI("----------- meetEOF(%d)", cnt);
     switch (++cnt) {
         case 0:
-            NAMU_DI("-------- return teol");
+            NM_DI("-------- return teol");
             return teol;
         case 1:
-            NAMU_DI("-------- return teof");
+            NM_DI("-------- return teof");
             return teof;
     }
     return 0;
@@ -296,23 +296,23 @@ int goOutdent(char prev)
 
     indentLvs.pop();
     unput(prev);
-    NAMU_DI(" ----- prev=%d nowIndent=%d", prev, nowIndent);
+    NM_DI(" ----- prev=%d nowIndent=%d", prev, nowIndent);
     for (int n=0; n < nowIndent ;n++)
         unput(' ');
     if ((prev != ',' && prev != ')') || top - nowIndent != TAB_WIDTH) {
-        NAMU_DI(" ----- dedent and newline!");
+        NM_DI(" ----- dedent and newline!");
         unput('\n');
     } else {
-        NAMU_DI(" ----- dedent only!");
+        NM_DI(" ----- dedent only!");
     }
 
     changeRule("DEDENTING", DEDENTING);
-    NAMU_DI(" ----- dedent: pop! now %d dedentLv left.", indentLvs.size());
+    NM_DI(" ----- dedent: pop! now %d dedentLv left.", indentLvs.size());
     nowIndent = 0;
     return tdedent;
 }
 
 void yyerror(const char* s) {
-    NAMU_E("error #%d: %s, %s", yylineno, s, yytext);
+    NM_E("error #%d: %s, %s", yylineno, s, yytext);
 }
 #pragma clang diagnostic pop

@@ -8,7 +8,7 @@ struct nmapTest : public namuTest {};
 
 namespace {
     class myNode : public node {
-        NAMU(CLASS(myNode, node))
+        NM(CLASS(myNode, node))
 
     public:
         myNode(int num): number(num) {}
@@ -36,7 +36,7 @@ namespace {
         auto removingElapsed = end - startDeleting;
         auto totalElapsed = end - start;
 
-        NAMU_I("[benchMarkNMap]: map took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
+        NM_I("[benchMarkNMap]: map took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
                 totalElapsed / chrono::milliseconds(1), addingElapsed / chrono::milliseconds(1),
                 removingElapsed / chrono::milliseconds(1), sz);
 
@@ -55,13 +55,13 @@ namespace {
         removingElapsed = end - startDeleting;
         totalElapsed = end - start;
 
-        NAMU_I("[benchMarkNMap]: nmap took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
+        NM_I("[benchMarkNMap]: nmap took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
                 totalElapsed / chrono::milliseconds(1), addingElapsed / chrono::milliseconds(1),
                 removingElapsed / chrono::milliseconds(1), sz);
     }
 
     class myMyNode : public myNode {
-        NAMU(CLASS(myMyNode, myNode))
+        NM(CLASS(myMyNode, myNode))
 
     public:
         myMyNode(int num): super(num) {}

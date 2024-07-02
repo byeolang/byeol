@@ -9,7 +9,7 @@ namespace nm {
 
     class _nout nseq : public tnucontainer<nInt, nInt>, public tarrayable<nInt, nInt> {
         typedef tnucontainer<nInt, nInt> _super3;
-        NAMU(CLASS(nseq, _super3))
+        NM(CLASS(nseq, _super3))
         friend class seq;
 
     public:

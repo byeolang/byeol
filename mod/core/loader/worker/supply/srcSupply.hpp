@@ -8,7 +8,7 @@ namespace nm {
     class parser;
     class exprMaker;
     class _nout srcSupply : public instance {
-        NAMU(ADT(srcSupply, instance))
+        NM(ADT(srcSupply, instance))
 
     public:
         /// @return true if there is no more data to process.

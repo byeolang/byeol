@@ -3,7 +3,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 message("building ${moduleName}...")
 
 set(moduleName "meta")
-set(defCandidates "NAMU_TAG=\"${moduleName}\"" "${moduleName}=1")
+set(defCandidates "NM_TAG=\"${moduleName}\"" "${moduleName}=1")
 foreach(def ${defCandidates})
     message("\tadd define ${def}")
     set(defines ${defines} -D${def})
@@ -34,7 +34,7 @@ IF(EMSCRIPTEN)
 ELSE(EMSCRIPTEN)
     add_library(${moduleName} SHARED ${sources})
 ENDIF(EMSCRIPTEN)
-set_target_properties(${moduleName} PROPERTIES SUFFIX ".${NAMU_LIBRARY_EXTENSION}")
+set_target_properties(${moduleName} PROPERTIES SUFFIX ".${NM_LIBRARY_EXTENSION}")
 target_link_libraries(${moduleName} ${dependencies})
 
 #       let MSVC follow macro expansion of standard:

@@ -1,7 +1,7 @@
 #include "type.hpp"
 
 namespace nm {
-    NAMU_DEF_ME(type)
+    NM_DEF_ME(type)
 
     nbool me::operator==(const me& rhs) const {
         return getName() == rhs.getName();
@@ -110,7 +110,7 @@ namespace nm {
 
     nbool me::_logInitOk(nbool res) {
         if(!res)
-            return NAMU_E("couldn't init meta of %s class.", getName().c_str()), res;
+            return NM_E("couldn't init meta of %s class.", getName().c_str()), res;
 
         return res;
     }

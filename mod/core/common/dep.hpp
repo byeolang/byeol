@@ -2,7 +2,7 @@
 
 #include <seedling.hpp>
 #include <functional>
-#ifndef NAMU_BUILD_PLATFORM_IS_WINDOWS
+#ifndef NM_BUILD_PLATFORM_IS_WINDOWS
 #   include <dirent.h> // not compatible to winOs
 #   include <dlfcn.h>
 #else

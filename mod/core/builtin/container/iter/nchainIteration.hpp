@@ -1,7 +1,7 @@
 // nested class of tnchain.hpp:
 //  this file allows to be refered by 'tnchain.hpp' file only.
 class chainIteration : public iteration {
-    NAMU(CLASS(chainIteration, iteration))
+    NM(CLASS(chainIteration, iteration))
     friend class tnchain;
 
 public:

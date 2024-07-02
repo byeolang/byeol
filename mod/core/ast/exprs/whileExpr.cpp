@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(whileExpr), DEF_VISIT())
+    NM(DEF_ME(whileExpr), DEF_VISIT())
 
     me::whileExpr(const node& condition, const blockExpr& blk): super(blk), _condition(condition) {}
 
@@ -15,7 +15,7 @@ namespace nm {
 
     namespace {
         class whileLoop : public me::loop {
-            NAMU(CLASS(whileLoop, loop))
+            NM(CLASS(whileLoop, loop))
 
         public:
             whileLoop(arr& ret, const whileExpr& owner): super(ret), _owner(owner) {}
@@ -23,7 +23,7 @@ namespace nm {
         public:
             nbool isLooping() override {
                 str ased = _owner.getCondition().asImpli<nBool>();
-                if(!ased) return NAMU_E("cast to bool has been failed."), false;
+                if(!ased) return NM_E("cast to bool has been failed."), false;
                 return ased->cast<nbool>();
             }
 
@@ -33,7 +33,7 @@ namespace nm {
     }
 
     tstr<me::loop> me::_makeLoop(arr& ret) const {
-        NAMU_DI("whileExpr: loop");
+        NM_DI("whileExpr: loop");
         return new whileLoop(ret, *this);
     }
 }

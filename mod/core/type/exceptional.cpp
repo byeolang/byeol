@@ -2,7 +2,7 @@
 #include "../frame/thread.hpp"
 
 namespace nm {
-    NAMU(DEF_ME(exceptional))
+    NM(DEF_ME(exceptional))
 
     void me::ex(nint code, ...) {
         errReport& rpt = thread::get().getEx();

@@ -103,7 +103,7 @@ namespace nm {
         if(!isFlag(DUMP_ON_END | LOG_ON_END))
 
         if(!rpt) return; // ## print errors.
-        NAMU_I("errors:");
+        NM_I("errors:");
         if(isFlag(DUMP_ON_END))
             return rpt.dump(), void();
         if(isFlag(LOG_ON_END))
@@ -116,7 +116,7 @@ namespace nm {
     TEMPLATE
     R ME::adaptWork(worker<R, T>& w) {
         if(w.isFlag(worker<R, T>::GUARD))
-            NAMU_I("|=== %s.work()... ==============|", w.getType().getName().c_str());
+            NM_I("|=== %s.work()... ==============|", w.getType().getName().c_str());
 
         w._prepare();
 
@@ -127,12 +127,12 @@ namespace nm {
         internal.setPrev().rel();
 
         if(w.isFlag(worker<R, T>::GUARD))
-            NAMU_I("|--- %s._onEndWork()... --------|", w.getType().getName().c_str());
+            NM_I("|--- %s._onEndWork()... --------|", w.getType().getName().c_str());
 
         w._onEndWork();
 
         if(w.isFlag(worker<R, T>::GUARD))
-            NAMU_I("|=== %s ends! ==================|", w.getType().getName().c_str());
+            NM_I("|=== %s ends! ==================|", w.getType().getName().c_str());
         return ret;
     }
 
@@ -144,7 +144,7 @@ namespace nm {
     TEMPLATE
     void ME::adaptWork(worker<void, T>& w) {
         if(w.isFlag(worker<void, T>::GUARD))
-            NAMU_I("|=== %s.work()... ==============|", w.getType().getName().c_str());
+            NM_I("|=== %s.work()... ==============|", w.getType().getName().c_str());
 
         w._prepare();
 
@@ -156,13 +156,13 @@ namespace nm {
         }
 
         if(w.isFlag(worker<void, T>::GUARD))
-            NAMU_I("|--- %s._onEndWork()... --------|", w.getType().getName().c_str());
+            NM_I("|--- %s._onEndWork()... --------|", w.getType().getName().c_str());
 
         prev.setPrev();
         w._onEndWork();
 
         if(w.isFlag(worker<void, T>::GUARD))
-            NAMU_I("|=== %s ends! ==================|", w.getType().getName().c_str());
+            NM_I("|=== %s ends! ==================|", w.getType().getName().c_str());
     }
 
 #undef ME

@@ -2,14 +2,14 @@
 
 #include "overload.hpp"
 
-#define __NAMU__DECL_DEF_ME_2(ME, SUPER) \
-    __NAMU__DECL_DEF_ME_1(NAMU_UNWRAP(ME)) \
-    typedef NAMU_UNWRAP(SUPER) super;
+#define __NM__DECL_DEF_ME_2(ME, SUPER) \
+    __NM__DECL_DEF_ME_1(NM_UNWRAP(ME)) \
+    typedef NM_UNWRAP(SUPER) super;
 
-#define __NAMU__DECL_DEF_ME_1(ME) typedef NAMU_UNWRAP(ME) me;
+#define __NM__DECL_DEF_ME_1(ME) typedef NM_UNWRAP(ME) me;
 
-#define __NAMU__DECL_DEF_ME(...) NAMU_OVERLOAD(NAMU_DEF_ME, __VA_ARGS__)
+#define __NM__DECL_DEF_ME(...) NM_OVERLOAD(NM_DEF_ME, __VA_ARGS__)
 
-#define NAMU_DEF_ME_2(ME, SUPER) __NAMU__DECL_DEF_ME_2(ME, SUPER)
-#define NAMU_DEF_ME_1(ME) __NAMU__DECL_DEF_ME_1(ME)
-#define NAMU_DEF_ME(...) NAMU_OVERLOAD(NAMU_DEF_ME, __VA_ARGS__)
+#define NM_DEF_ME_2(ME, SUPER) __NM__DECL_DEF_ME_2(ME, SUPER)
+#define NM_DEF_ME_1(ME) __NM__DECL_DEF_ME_1(ME)
+#define NM_DEF_ME(...) NM_OVERLOAD(NM_DEF_ME, __VA_ARGS__)

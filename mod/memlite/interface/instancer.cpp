@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(instancer)
+    NM_DEF_ME(instancer)
 
     nbool me::bind(const instance& new1) {
         watchCell& un = *(watchCell*) _watcher.new1();
@@ -34,6 +34,6 @@ namespace nm {
     }
 
     nbool me::_hasBindTag(const instance& it) const {
-        return it._id.tagN != NAMU_INDEX_ERROR;
+        return it._id.tagN != NM_INDEX_ERROR;
     }
 }

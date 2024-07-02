@@ -1,7 +1,7 @@
 #include "termSobj.hpp"
 
 namespace nm {
-    NAMU(DEF_ME(termSobj))
+    NM(DEF_ME(termSobj))
 
     me::termSobj(const std::string& rawVal, const std::string& name): _rawVal(rawVal) {}
     me::termSobj(nbool val, const std::string& name): super(name), _rawVal(val ? "true" : "false") {}

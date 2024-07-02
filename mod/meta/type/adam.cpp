@@ -3,5 +3,5 @@
 #include "ttypeBase.inl"
 
 namespace nm {
-    NAMU_INIT_META(adam)
+    NM_INIT_META(adam)
 }

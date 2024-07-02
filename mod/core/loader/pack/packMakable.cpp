@@ -3,5 +3,5 @@
 #include "../errReport.hpp"
 
 namespace nm {
-    NAMU_DEF_ME(packMakable)
+    NM_DEF_ME(packMakable)
 }

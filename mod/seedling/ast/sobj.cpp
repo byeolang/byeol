@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(sobj)
+    NM_DEF_ME(sobj)
 
     me& me::sub(const std::string& name) {
 #pragma clang diagnostic push

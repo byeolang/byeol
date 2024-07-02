@@ -10,7 +10,7 @@ namespace nm {
 
     template <typename T>
     class primitiveObj : public arithmeticObj {
-        NAMU(ADT(primitiveObj, arithmeticObj))
+        NM(ADT(primitiveObj, arithmeticObj))
         typedef T trait;
 
     protected:
@@ -67,7 +67,7 @@ namespace nm {
 
     template <>
     class primitiveObj<void> : public arithmeticObj {
-        NAMU(ADT(primitiveObj, arithmeticObj))
+        NM(ADT(primitiveObj, arithmeticObj))
 
     public:
         const super& getOrigin() const override {

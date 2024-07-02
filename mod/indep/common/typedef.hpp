@@ -30,5 +30,5 @@ namespace nm {
     typedef nuchar              nubyte;
     typedef nint64              nid;
     typedef nint                ncnt;
-    constexpr nidx NAMU_INDEX_ERROR = -1;
+    constexpr nidx NM_INDEX_ERROR = -1;
 }

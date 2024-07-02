@@ -6,7 +6,7 @@
 #include "thread.hpp"
 
 namespace nm {
-    NAMU(DEF_ME(frame), DEF_VISIT())
+    NM(DEF_ME(frame), DEF_VISIT())
 
     me::frame() { _rel(); }
     me::~frame() { _rel(); }
@@ -30,14 +30,14 @@ namespace nm {
         if(!cloned) return;
         cloned->getTail().link(*_getTop().s);
         _stack.push_back(scopeRegister{owner, cloned});
-        NAMU_DI("scope added: frame.len[%d] scope.owner[%s]", _stack.size(), nul(owner) ? "null" : owner.getType().getName().c_str());
+        NM_DI("scope added: frame.len[%d] scope.owner[%s]", _stack.size(), nul(owner) ? "null" : owner.getType().getName().c_str());
     }
     void me::addLocal(const std::string& name, const node& n) {
         if(_stack.size() <= 0)
-            return NAMU_E("couldn't push new node. the top scope is null"), void();
+            return NM_E("couldn't push new node. the top scope is null"), void();
         auto& locals = getLocals();
         if(nul(locals))
-            return NAMU_E("it's tried to add variable into %s. it's not valid."), void();
+            return NM_E("it's tried to add variable into %s. it's not valid."), void();
         locals.add(name, n);
     }
 
@@ -46,12 +46,12 @@ namespace nm {
         for(auto& reg : _stack) {
             nbool isOwner = reg.s->has(sub);
             node& owner = *reg.owner;
-            NAMU_DI("sub[%s] is in owner[%s]? == %s", name, nul(owner) ? "null" : owner.getType().getName().c_str(), isOwner ? "true" : "false");
+            NM_DI("sub[%s] is in owner[%s]? == %s", name, nul(owner) ? "null" : owner.getType().getName().c_str(), isOwner ? "true" : "false");
             if(isOwner)
                 return *reg.owner;
         }
 
-        NAMU_E("couldn't find owner of %s", sub.getType().getName().c_str());
+        NM_E("couldn't find owner of %s", sub.getType().getName().c_str());
         return nulOf<node>();
     }
 
@@ -67,7 +67,7 @@ namespace nm {
 
     void me::del() {
         _stack.pop_back();
-        NAMU_DI("scope deleted. frames.len[%d] thisFrame.len[%d]", thread::get().getFrames().len(), _stack.size());
+        NM_DI("scope deleted. frames.len[%d] thisFrame.len[%d]", thread::get().getFrames().len(), _stack.size());
     }
 
     scopeRegister& me::_getTop() {

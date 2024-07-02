@@ -26,10 +26,10 @@ TEST_F(rttiTest, metaTypeDefTest) {
     ASSERT_TRUE((tifSub<hasSuper, noSuper>::is));
 
     void* instance = tinstanceMaker<noSuper>::make();
-    NAMU_I("instance=%x", instance);
+    NM_I("instance=%x", instance);
     ASSERT_FALSE(instance);
     instance = tinstanceMaker<hasSuper>::make();
-    NAMU_I("instance=%x", instance);
+    NM_I("instance=%x", instance);
     ASSERT_TRUE(instance);
 
     ASSERT_FALSE(tifHasSuperTypedef<noSuper>::is);

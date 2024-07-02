@@ -6,7 +6,7 @@
 
 namespace nm {
     class _nout defVarExpr : public expr {
-        NAMU(ADT(defVarExpr, expr), VISIT())
+        NM(ADT(defVarExpr, expr), VISIT())
 
     public:
         defVarExpr(const std::string& name, const node& rhs);
@@ -19,11 +19,11 @@ namespace nm {
         const std::string& getName() const;
 
         node& getRight();
-        const node& getRight() const NAMU_UNCONST_FUNC(getRight())
+        const node& getRight() const NM_UNCONST_FUNC(getRight())
         void setRight(const node& rhs);
 
         node& getTo();
-        const node& getTo() const NAMU_UNCONST_FUNC(getTo())
+        const node& getTo() const NM_UNCONST_FUNC(getTo())
         nbool isToFrame() const;
         void setTo(const node& to);
 

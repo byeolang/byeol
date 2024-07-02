@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(id)
+    NM_DEF_ME(id)
 
     id::id(nint newTagN, nint newChkN, nuint newSerial) : tagN(newTagN), chkN(newChkN), serial(newSerial) {}
     id::id() { rel(); }
@@ -15,7 +15,7 @@ namespace nm {
     }
 
     void me::rel() {
-        tagN = chkN = NAMU_INDEX_ERROR;
+        tagN = chkN = NM_INDEX_ERROR;
         serial = 0;
     }
 

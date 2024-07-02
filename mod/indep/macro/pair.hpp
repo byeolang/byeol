@@ -11,12 +11,12 @@
 //                    passed 4 arguments, not 2.
 //
 //        Then, Use Funnel macro instead:
-//            My_2(NAMU_PAIR(MyMap<T, U>), NAMU_PAIR(template <typename T, typename U))
+//            My_2(NM_PAIR(MyMap<T, U>), NM_PAIR(template <typename T, typename U))
 #include "helper.hpp"
 #include "overload.hpp"
 
-#define NAMU_PAIR_1(x)           x
-#define NAMU_PAIR_2(x, y)        x, y
-#define NAMU_PAIR_3(x, y, z)     NAMU_PAIR_2(x, y), z
-#define NAMU_PAIR_4(x, y, z, a)  NAMU_PAIR_2(x, y) , NAMU_PAIR_2(z, a)
-#define NAMU_PAIR(...)           NAMU_OVERLOAD(NAMU_PAIR, __VA_ARGS__)
+#define NM_PAIR_1(x)           x
+#define NM_PAIR_2(x, y)        x, y
+#define NM_PAIR_3(x, y, z)     NM_PAIR_2(x, y), z
+#define NM_PAIR_4(x, y, z, a)  NM_PAIR_2(x, y) , NM_PAIR_2(z, a)
+#define NM_PAIR(...)           NM_OVERLOAD(NM_PAIR, __VA_ARGS__)

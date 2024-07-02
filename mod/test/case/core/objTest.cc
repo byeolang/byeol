@@ -7,7 +7,7 @@ struct objTest : public namuTest {};
 
 namespace {
     class originObj : public obj {
-        NAMU(CLASS(originObj, obj))
+        NM(CLASS(originObj, obj))
 
     public:
         originObj(): super(new mgdType("originObj")), _subs(*new scope()) {}

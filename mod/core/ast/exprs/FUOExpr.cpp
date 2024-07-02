@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(FUOExpr), DEF_VISIT())
+    NM(DEF_ME(FUOExpr), DEF_VISIT())
 
     me::FUOExpr(rule rule, const node& it): _rule(rule), _it(it) {}
 

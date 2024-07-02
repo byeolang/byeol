@@ -7,7 +7,7 @@ struct nodeTest : public namuTest {};
 
 namespace {
     class myFunc : public func {
-        NAMU(CLASS(myFunc, func))
+        NM(CLASS(myFunc, func))
 
     public:
         myFunc(): super(params(), new nVoid()) {}
@@ -17,7 +17,7 @@ namespace {
         }
 
         str run(const args& a) override {
-            NAMU_I("hello world!");
+            NM_I("hello world!");
             _executed = true;
             return str();
         }
@@ -41,7 +41,7 @@ namespace {
     };
 
     struct myObj : public obj {
-        NAMU(CLASS(myObj, obj))
+        NM(CLASS(myObj, obj))
 
     public:
         myObj(int newVal = 0): val(newVal) {}
@@ -55,7 +55,7 @@ namespace {
     };
 
     class food : public obj {
-        NAMU(CLASS(food, obj))
+        NM(CLASS(food, obj))
 
     public:
         food(string newName, int newCalorie): name(newName), calorie(newCalorie) {}
@@ -67,7 +67,7 @@ namespace {
     class chef : public obj {
 
         class myType : public ntype {
-            NAMU_ME(myType, ntype);
+            NM_ME(myType, ntype);
 
         protected:
             const ases& _getImpliAses() const override {
@@ -88,7 +88,7 @@ namespace {
                 return *inner;
             }
         };
-        NAMU(CLASS(chef, obj, myType))
+        NM(CLASS(chef, obj, myType))
 
     public:
         string foodName;
@@ -101,14 +101,14 @@ TEST_F(nodeTest, testManuallyMakeNodeStructure) {
     tstr<scope> frameEmulator;
     myObj obj;
     myFunc func;
-    NAMU_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
+    NM_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
 
     obj.subs().add("myFunc", func);
     myFunc funcOffunc;
     func.subs().add("funcOfFunc", funcOffunc);
 
-    NAMU_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
-    NAMU_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag().getId().chkN);
+    NM_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
+    NM_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag().getId().chkN);
 
     // when:
     frameEmulator.bind(obj.subs());
@@ -117,8 +117,8 @@ TEST_F(nodeTest, testManuallyMakeNodeStructure) {
     chnOffunc->link(*frameEmulator);
     frameEmulator.bind(*chnOffunc);
 
-    NAMU_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
-    NAMU_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag().getId().chkN);
+    NM_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
+    NM_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag().getId().chkN);
 
     // then:
     ASSERT_EQ(chnOffunc->len(), 2);
@@ -127,14 +127,14 @@ TEST_F(nodeTest, testManuallyMakeNodeStructure) {
 
     int n=0;
     for(const auto& elem : *chnOffunc)
-        NAMU_I("[%d]=%s", n++, elem.getType().getName().c_str());
+        NM_I("[%d]=%s", n++, elem.getType().getName().c_str());
 
-    NAMU_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
-    NAMU_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag().getId().chkN);
+    NM_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
+    NM_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag().getId().chkN);
 
     ASSERT_EQ(n, 2);
-    NAMU_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
-    NAMU_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag().getId().chkN);
+    NM_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
+    NM_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag().getId().chkN);
 }
 
 TEST_F(nodeTest, testManualNativefuncCall) {

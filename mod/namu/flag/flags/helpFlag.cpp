@@ -33,7 +33,7 @@ namespace nm {
     }
 
     void helpFlag::_printUsage() const {
-        std::cout << "NAMU interpreter by kniz. " << buildFeature::config::getName() << " on " << buildFeature::date::getMonth()
+        std::cout << "NM interpreter by kniz. " << buildFeature::config::getName() << " on " << buildFeature::date::getMonth()
                 << "-" << buildFeature::date::getYear() << ". v" << buildFeature::version::getValue() << "\n";
         std::cout << "Usage: <option> <filepath>\n";
     }

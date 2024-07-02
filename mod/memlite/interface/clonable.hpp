@@ -5,8 +5,8 @@
 namespace nm {
 
     class _nout clonable {
-        NAMU_ME(clonable)
-        NAMU_INIT_META(me)
+        NM_ME(clonable)
+        NM_INIT_META(me)
 
     public:
         virtual ~clonable() {}

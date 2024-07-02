@@ -155,7 +155,7 @@ TEST_F(bridgeCPPTest, passArray) {
 
 namespace {
     struct myObj : public obj {
-        NAMU(CLASS(myObj, obj))
+        NM(CLASS(myObj, obj))
 
     public:
         myObj(): age(0) {}
@@ -184,7 +184,7 @@ TEST_F(bridgeCPPTest, passRawObj) {
 
 namespace {
     struct yourObj : public obj {
-        NAMU(CLASS(yourObj, obj))
+        NM(CLASS(yourObj, obj))
     };
 
     struct testObj {

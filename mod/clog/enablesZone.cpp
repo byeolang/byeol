@@ -2,7 +2,7 @@
 #include "logger.hpp"
 
 namespace nm {
-    NAMU(DEF_ME(enablesZone))
+    NM(DEF_ME(enablesZone))
 
     me::enablesZone() {
         _enables = logger::get().getEnables();

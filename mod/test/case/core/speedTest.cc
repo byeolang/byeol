@@ -21,11 +21,11 @@ namespace  {
         auto totalElapsed = end - start;
 
         logger::get().setEnable(prevEnable);
-        NAMU_I("[%s]: it took total %d ms.", name.c_str(), totalElapsed / chrono::milliseconds(1));
+        NM_I("[%s]: it took total %d ms.", name.c_str(), totalElapsed / chrono::milliseconds(1));
     }
 
     struct myObj : public obj {
-        NAMU(CLASS(myObj, obj))
+        NM(CLASS(myObj, obj))
     };
 
     struct dummy {
@@ -122,7 +122,7 @@ TEST_F(speedTest, benchmarkStringCreation) {
 }
 
 TEST_F(speedTest, benchmarkSumOfSequence) {
-    NAMU_I("sum 10000 of integer:");
+    NM_I("sum 10000 of integer:");
 
     nint sum = 0;
     auto start = chrono::steady_clock::now();
@@ -148,6 +148,6 @@ TEST_F(speedTest, benchmarkSumOfSequence) {
     auto end2 = chrono::steady_clock::now();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), sum);
-    NAMU_I("native time: %d", (end - start) / chrono::milliseconds(1));
-    NAMU_I("managed time: %d", (end2 - start2) / chrono::milliseconds(1));
+    NM_I("native time: %d", (end - start) / chrono::milliseconds(1));
+    NM_I("managed time: %d", (end2 - start2) / chrono::milliseconds(1));
 }

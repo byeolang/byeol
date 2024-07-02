@@ -9,7 +9,7 @@ namespace nm {
     class tnchain : public tnbicontainer<K, V> {
         typedef tnbicontainer<K, V> _super_;
         typedef tnchain<K, V, _defaultContainer> _me_;
-        NAMU(CLASS(_me_, _super_))
+        NM(CLASS(_me_, _super_))
 
     public:
         typedef typename super::iter iter;
@@ -66,7 +66,7 @@ namespace nm {
         }
         /// return most not null next element of this chain.
         me& getTail();
-        const me& getTail() const NAMU_UNCONST_FUNC(getTail())
+        const me& getTail() const NM_UNCONST_FUNC(getTail())
 
         /// returned deep cloned of this instance with all chained ones.
         /// @remark when the chain has already linked to the another chain instance,

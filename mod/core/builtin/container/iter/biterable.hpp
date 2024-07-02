@@ -1,6 +1,6 @@
 // nested class of bicontainable.hpp
 class iterable {
-    NAMU_ME(iterable)
+    NM_ME(iterable)
 
 public:
     virtual ~iterable() {}
@@ -15,10 +15,10 @@ public:
     virtual ncnt next(ncnt step) = 0;
     virtual const K& getKey() const = 0;
     virtual V& getVal() = 0;
-    const V& getVal() const NAMU_UNCONST_FUNC(getVal())
+    const V& getVal() const NM_UNCONST_FUNC(getVal())
     virtual void setVal(const V& newVal) = 0;
     void setVal(const V* newVal) { return setVal(*newVal); }
     virtual nbool isFrom(const tbicontainable& it) const = 0;
     virtual tbicontainable<K, V>& getContainer() = 0;
-    const tbicontainable<K, V>& getContainer() const NAMU_UNCONST_FUNC(getContainer())
+    const tbicontainable<K, V>& getContainer() const NM_UNCONST_FUNC(getContainer())
 };

@@ -11,7 +11,7 @@ namespace nm {
 
     // FAO: Fundermental Unary Operation.
     class _nout FUOExpr : public expr {
-        NAMU(CLASS(FUOExpr, expr, expr::exprType), VISIT())
+        NM(CLASS(FUOExpr, expr, expr::exprType), VISIT())
 
     public:
         enum rule {
@@ -29,7 +29,7 @@ namespace nm {
         str run(const args& a) override;
 
         node& getOperand();
-        const node& getOperand() const NAMU_UNCONST_FUNC(getOperand())
+        const node& getOperand() const NM_UNCONST_FUNC(getOperand())
         str getEval() const override;
         rule getRule() const;
         static const nchar* getRuleName(rule r);

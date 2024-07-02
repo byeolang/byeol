@@ -1,7 +1,7 @@
 // nested class of tnmap.hpp:
 //  this file allows to be refered by 'tnmap.hpp' file only.
 class nmapIteration : public iteration {
-    NAMU(CLASS(nmapIteration, iteration))
+    NM(CLASS(nmapIteration, iteration))
     friend class tnmap;
 
 public:

@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(instance)
+    NM_DEF_ME(instance)
     me::vault instance::_vault;
 
     me::instance() {
@@ -39,7 +39,7 @@ namespace nm {
     }
 
     id me::getId() const {
-        if(_id.tagN == NAMU_INDEX_ERROR)
+        if(_id.tagN == NM_INDEX_ERROR)
             _getMgr().bind((me&)*this);
         return _id;
     }
@@ -69,8 +69,8 @@ namespace nm {
 
     nidx me::vault::get(void* ptr) {
         auto e = _vaults.find(ptr);
-        nidx ret = e == _vaults.end() ? NAMU_INDEX_ERROR : _vaults[ptr];
-        if(ret > NAMU_INDEX_ERROR)
+        nidx ret = e == _vaults.end() ? NM_INDEX_ERROR : _vaults[ptr];
+        if(ret > NM_INDEX_ERROR)
             _vaults.erase(ptr);
         return ret;
     }

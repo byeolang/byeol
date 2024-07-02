@@ -12,8 +12,8 @@ namespace nm {
     class instancer;
 
     class _nout instance : public typeProvidable, public clonable {
-        NAMU_ME(instance)
-        NAMU_INIT_META(me)
+        NM_ME(instance)
+        NM_INIT_META(me)
         friend class bindTag;
         friend class watcher; // for vault.
         friend class chunks; // for vault.

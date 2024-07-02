@@ -9,7 +9,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(nChar), DEF_VISIT())
+    NM(DEF_ME(nChar), DEF_VISIT())
 
     nbool me::nCharType::isImmutable() const { return true; }
 

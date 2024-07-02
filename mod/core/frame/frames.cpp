@@ -3,7 +3,7 @@
 #include "thread.hpp"
 
 namespace nm {
-    NAMU(DEF_ME(frames))
+    NM(DEF_ME(frames))
 
     void me::dump() const {
         nidx n = 0;

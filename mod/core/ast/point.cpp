@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(point))
+    NM(DEF_ME(point))
 
     nbool me::isOrigin() const {
         return row == 0 && col == 0;

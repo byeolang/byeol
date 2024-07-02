@@ -5,8 +5,8 @@
 namespace nm {
 
     class _nout verSobj : public termSobj {
-        NAMU_ME(verSobj, termSobj)
-        NAMU_INIT_META(verSobj)
+        NM_ME(verSobj, termSobj)
+        NM_INIT_META(verSobj)
 
     public:
         verSobj(int major, int minor, int fix);

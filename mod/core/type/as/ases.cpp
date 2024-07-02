@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(ases)
+    NM_DEF_ME(ases)
 
     str me::as(const node& from, const type& to) const {
         const type& fromType = from.getType();

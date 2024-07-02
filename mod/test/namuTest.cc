@@ -22,6 +22,6 @@ nm::instance::vault& me::_getVault() {
 
 void me::_assertVault() {
     auto& v = _getVault();
-    NAMU_DI("vault[%x].len()=%d", &v, v.len());
+    NM_DI("vault[%x].len()=%d", &v, v.len());
     ASSERT_EQ(v.len(), 0);
 }

@@ -7,8 +7,8 @@ namespace nm {
 
     class chunk;
     class _nout bindTag : public typeProvidable, public tbindable<instance> {
-        NAMU_ME(bindTag)
-        NAMU_INIT_META(me)
+        NM_ME(bindTag)
+        NM_INIT_META(me)
         template <typename T, typename TACTIC> friend class tweak;
         template <typename T, typename TACTIC> friend class tstr;
         friend class weakTactic;
@@ -23,8 +23,8 @@ namespace nm {
     public:
         instance* operator->();
         instance& operator*();
-        const instance* operator->() const NAMU_UNCONST_FUNC(operator->())
-        const instance& operator*() const NAMU_UNCONST_FUNC(operator*())
+        const instance* operator->() const NM_UNCONST_FUNC(operator->())
+        const instance& operator*() const NM_UNCONST_FUNC(operator*())
 
     public:
         const chunk& getChunk() const;
@@ -36,7 +36,7 @@ namespace nm {
         using tbindable::canBind;
 
         instance& get();
-        const instance& get() const NAMU_UNCONST_FUNC(get())
+        const instance& get() const NM_UNCONST_FUNC(get())
         template <typename E>
         E& get() {
             instance& got = get();
@@ -45,7 +45,7 @@ namespace nm {
             return got.template cast<E>();
         }
         template <typename E>
-        const E& get() const NAMU_UNCONST_FUNC(get<E>())
+        const E& get() const NM_UNCONST_FUNC(get<E>())
 
         nbool canBind(const type& cls) const override;
         nbool bind(const instance& new1) override;

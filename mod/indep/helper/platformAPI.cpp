@@ -1,9 +1,9 @@
 #include "platformAPI.hpp"
 #include "nulr.hpp"
-#if NAMU_BUILD_PLATFORM == NAMU_TYPE_WINDOWS
+#if NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
 #   include <windows.h>
 #   include <sstream>
-#elif NAMU_BUILD_PLATFORM == NAMU_TYPE_LINUX || NAMU_BUILD_PLATFORM == NAMU_TYPE_MACOS
+#elif NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
 #   include <unistd.h>
 #   include <vector>
 #   include <string>
@@ -16,7 +16,7 @@
 #   include <dlfcn.h> // for dladdr()
 #   include <sstream>
 #endif
-#if NAMU_BUILD_PLATFORM == NAMU_TYPE_MACOS
+#if NM_BUILD_PLATFORM == NM_TYPE_MACOS
 #   include <mach-o/dyld.h>
 #endif
 #include <time.h>
@@ -27,7 +27,7 @@ namespace nm {
         constexpr nint PATH_MAX_LEN = 256;
         using namespace std;
 
-#if defined(NAMU_BUILD_PLATFORM_IS_LINUX) || defined(NAMU_BUILD_PLATFORM_IS_MAC)
+#if defined(NM_BUILD_PLATFORM_IS_LINUX) || defined(NM_BUILD_PLATFORM_IS_MAC)
         namespace {
             bool _isAnsiColorTerminal() {
                 static vector<const nchar*> samples = {
@@ -48,11 +48,11 @@ namespace nm {
             //       find solution not to use this ifdef __EMSCRIPTEN__ block.
             static string inner = "";
             return inner;
-#elif NAMU_BUILD_PLATFORM == NAMU_TYPE_WINDOWS
+#elif NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BLACK << 4 | fore);
             static string inner;
             return inner;
-#elif NAMU_BUILD_PLATFORM == NAMU_TYPE_LINUX || NAMU_BUILD_PLATFORM == NAMU_TYPE_MACOS
+#elif NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
             static bool is_terminal_supporting = _isAnsiColorTerminal();
             if(!is_terminal_supporting) {
                 static string inner;
@@ -73,11 +73,11 @@ namespace nm {
             static string inner;
 #if defined(__EMSCRIPTEN__)
             return inner;
-#elif NAMU_BUILD_PLATFORM == NAMU_TYPE_WINDOWS
+#elif NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), back << 4 | WHITE);
             return inner;
 
-#elif NAMU_BUILD_PLATFORM == NAMU_TYPE_LINUX || NAMU_BUILD_PLATFORM == NAMU_TYPE_MACOS
+#elif NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
             static bool is_terminal_supporting = _isAnsiColorTerminal();
             if( ! is_terminal_supporting)
                 return inner;
@@ -103,7 +103,7 @@ namespace nm {
         }
 
         nulong getNowMs() {
-#if NAMU_BUILD_PLATFORM == NAMU_TYPE_LINUX || NAMU_BUILD_PLATFORM == NAMU_TYPE_MACOS
+#if NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
             struct timeval tval;
             gettimeofday(&tval, NULL);
             return tval.tv_usec / 1000;
@@ -122,10 +122,10 @@ namespace nm {
         string getExecPath() {
             nchar res[PATH_MAX_LEN];
 
-#if NAMU_BUILD_PLATFORM == NAMU_TYPE_LINUX
+#if NM_BUILD_PLATFORM == NM_TYPE_LINUX
             nuint count = readlink("/proc/self/exe", res, PATH_MAX_LEN);
             return string(res, (count > 0) ? count : 0);
-#elif NAMU_BUILD_PLATFORM == NAMU_TYPE_MACOS
+#elif NM_BUILD_PLATFORM == NM_TYPE_MACOS
             nuint size = PATH_MAX_LEN + 1;
             _NSGetExecutablePath(res, &size);
             return string(res, size);
@@ -135,7 +135,7 @@ namespace nm {
         }
 
         string exec(const string& cmd) {
-#if NAMU_BUILD_PLATFORM == NAMU_TYPE_LINUX || NAMU_BUILD_PLATFORM == NAMU_TYPE_MACOS
+#if NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
             nchar buf[128] = {0, };
             string res;
             shared_ptr<FILE> pipe(popen(cmd.c_str(), "r"), pclose);
@@ -152,7 +152,7 @@ namespace nm {
 
         vector<string> callstack() {
             vector<string> ret;
-#if NAMU_BUILD_PLATFORM == NAMU_TYPE_LINUX || NAMU_BUILD_PLATFORM == NAMU_TYPE_MACOS
+#if NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
 
             constexpr int BT_SIZE = 100;
             void* rawCallstacks[BT_SIZE] = {nullptr, };
@@ -177,7 +177,7 @@ namespace nm {
         }
 
         string demangle(const nchar* org) {
-#if !defined(NAMU_BUILD_PLATFORM_IS_WINDOWS) && !defined(__EMSCRIPTEN__)
+#if !defined(NM_BUILD_PLATFORM_IS_WINDOWS) && !defined(__EMSCRIPTEN__)
             nchar* demangled = nullptr;
             int status = 0;
             if(nul(org)) org = "";
@@ -191,7 +191,7 @@ namespace nm {
         }
 
         string filterDemangle(const nchar* org) {
-#ifdef NAMU_BUILD_PLATFORM_IS_WINDOWS
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
             string raw(org);
             int n = raw.rfind(" ");
 #else

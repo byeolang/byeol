@@ -55,7 +55,7 @@
 //          only way to resolve error condition so far is replace all return type of clone() to
 //          'clonable', not to use covarint.
 
-#define __NAMU__DECL_CLONE(ME) \
+#define __NM__DECL_CLONE(ME) \
     public: \
         clonable* clone() const override { \
             return new ME(*this); \
@@ -66,7 +66,7 @@
 //      defines super meta type.
 //      for instance, if you set TYPE(type), then when you call getType() of your class,
 //      it will returns instance of type of type.
-#define __NAMU__DECL_TYPE(METATYPE) \
+#define __NM__DECL_TYPE(METATYPE) \
     public: \
         typedef METATYPE metaType; \
         const ntype& getType() const override { \

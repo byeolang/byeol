@@ -6,8 +6,8 @@
 namespace nm {
 
     class _nout instancer {
-        NAMU_ME(instancer)
-        NAMU_INIT_META(me)
+        NM_ME(instancer)
+        NM_INIT_META(me)
         friend class instance;
 
     public:
@@ -15,7 +15,7 @@ namespace nm {
         nbool rel(const instance& old);
         const pool& getPool() const;
         const watcher& getWatcher() const;
-        static NAMU_SINGLETON_GETTER(me)
+        static NM_SINGLETON_GETTER(me)
 
     private:
         void* _new1(size_t sz);

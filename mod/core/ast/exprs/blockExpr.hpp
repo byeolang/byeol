@@ -8,7 +8,7 @@ namespace nm {
     class errReport;
 
     class _nout blockExpr : public expr {
-        NAMU(CLASS(blockExpr, expr, expr::exprType), VISIT())
+        NM(CLASS(blockExpr, expr, expr::exprType), VISIT())
         friend class verifier;
         friend class func;
 
@@ -21,7 +21,7 @@ namespace nm {
         using super::run;
         str run(const args& a) override;
         str getEval() const override;
-        const narr& getStmts() const NAMU_UNCONST_FUNC(getStmts())
+        const narr& getStmts() const NM_UNCONST_FUNC(getStmts())
         narr& getStmts();
 
         using super::inFrame;

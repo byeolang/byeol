@@ -7,7 +7,7 @@
 namespace nm {
     template <typename W>
     class defaultSigZone : public sigZone {
-        NAMU(ME(defaultSigZone, sigZone))
+        NM(ME(defaultSigZone, sigZone))
 
     public:
         defaultSigZone(const W& worker): super([&](const err& e) {

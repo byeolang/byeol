@@ -11,7 +11,7 @@ namespace nm {
     /// owned sub nodes of a object can only be manipulated through API provided obj.
     /// because native object won't have owned nodes but only shared ones.
     class _nout obj : public baseObj {
-        NAMU(ME(obj, baseObj),
+        NM(ME(obj, baseObj),
              INIT_META(obj),
              CLONE(obj),
              VISIT())
@@ -41,9 +41,9 @@ namespace nm {
         str run(const args& a) override;
 
         scope& getShares();
-        const scope& getShares() const NAMU_UNCONST_FUNC(getShares())
+        const scope& getShares() const NM_UNCONST_FUNC(getShares())
         scope::super& getOwns();
-        const scope::super& getOwns() const NAMU_UNCONST_FUNC(getOwns())
+        const scope::super& getOwns() const NM_UNCONST_FUNC(getOwns())
         const obj& getOrigin() const override;
         const obj& getSubPack() const;
 
@@ -77,7 +77,7 @@ namespace nm {
         nbool _isComplete;
     };
 
-#ifdef NAMU_BUILD_PLATFORM_IS_WINDOWS
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
     // f***ing annoying another MSVC bug here:
     //  first of all, I'm so sorry to start my slang. but I couldn't help spitting it out after
     //  I used plenty hours of heading to the ground.

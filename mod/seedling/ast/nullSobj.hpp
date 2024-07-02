@@ -5,7 +5,7 @@
 namespace nm {
 
     class _nout nullSobj : public sobj {
-        NAMU(ME(nullSobj, sobj),
+        NM(ME(nullSobj, sobj),
             CLONE(me),
             INIT_META(nullSobj))
 

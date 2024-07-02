@@ -5,7 +5,7 @@
 namespace nm {
 
     class _nout inputFunc : public baseFunc {
-        NAMU(CLASS(inputFunc, baseFunc))
+        NM(CLASS(inputFunc, baseFunc))
 
     public:
         const params& getParams() const override;

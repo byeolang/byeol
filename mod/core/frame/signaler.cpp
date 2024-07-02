@@ -11,7 +11,7 @@ namespace nm {
         return !operator==(rhs);
     }
 
-    NAMU(DEF_ME(signaler))
+    NM(DEF_ME(signaler))
 
     namespace {
         const sig signals[] = {
@@ -24,7 +24,7 @@ namespace nm {
         };
 
         void _onSignal(nint code) {
-            NAMU_E("# signal %d caught.", code);
+            NM_E("# signal %d caught.", code);
             me::get().onSignal(code);
         }
     }
@@ -39,16 +39,16 @@ namespace nm {
         if(_closures.size() <= 0)
             _setSignal(_onSignal);
         _closures.push_back(closure);
-        NAMU_DI("total %d signal handler planted.", _closures.size());
+        NM_DI("total %d signal handler planted.", _closures.size());
     }
 
     void me::onSignal(nint code) {
         _setSignal(SIG_DFL); // prevent infinite loop if another signal occurs during handling the signal here.
 
         tstr<err> e(_getErrBy(code));
-        if(!e) return NAMU_E("%d exception occurs but couldn't make err object", code), void();
+        if(!e) return NM_E("%d exception occurs but couldn't make err object", code), void();
 
-        NAMU_I("dispatching %d handlers.", _closures.size());
+        NM_I("dispatching %d handlers.", _closures.size());
         for(sigHandler handler : _closures)
             handler(*e);
 
@@ -67,7 +67,7 @@ namespace nm {
         _closures.erase(std::remove_if(_closures.begin(), _closures.end(), [&](sigHandler elem) { return _getAddr(elem) == closureAddr; }), _closures.end());
         if(_closures.size() <= 0)
             _setSignal(SIG_DFL);
-        NAMU_DI("signal handler deleted. total %d handlers remains", _closures.size());
+        NM_DI("signal handler deleted. total %d handlers remains", _closures.size());
     }
 
     void me::_setSignal(void(*csignalHandler)(nint)) {

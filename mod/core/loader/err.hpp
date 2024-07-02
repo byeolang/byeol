@@ -16,7 +16,7 @@ namespace nm {
 
     class pos;
     struct _nout err : public baseObj, public dumpable {
-        NAMU(CLASS(err, baseObj))
+        NM(CLASS(err, baseObj))
 
     public:
         err(logLv::level t, nint newCode);
@@ -75,7 +75,7 @@ namespace nm {
     };
 
     struct _nout dummyErr : public err {
-        NAMU(CLASS(dummyErr, err))
+        NM(CLASS(dummyErr, err))
 
     public:
         dummyErr();

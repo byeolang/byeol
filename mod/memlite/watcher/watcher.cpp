@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(watcher, chunk)
+    NM_DEF_ME(watcher, chunk)
 
     me::watcher() : chunk(sizeof(watchCell), false) {}
 
@@ -24,7 +24,7 @@ namespace nm {
 
         id gotId = got.blk.getId();
         if(gotId.tagN != newId.tagN) {
-            NAMU_W("bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)",
+            NM_W("bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)",
                     gotId.tagN, gotId.chkN, gotId.serial, newId.tagN, newId.chkN, newId.serial);
             return nulOf<watchCell>();
         }
@@ -38,7 +38,7 @@ namespace nm {
     void* me::new1() {
         if(isFull())
             if(!_resize(size()*2 + 1))
-                return NAMU_E("resize watcher failed! this damage system seriously !!!!"), nullptr;
+                return NM_E("resize watcher failed! this damage system seriously !!!!"), nullptr;
 
         watchCell* res = (watchCell*)super::new1();
         if(!res)
@@ -60,7 +60,7 @@ namespace nm {
         // watcher concern about bkl_n at Id. on the other hand, chunk is chkN.
         // eventually, if Instance was born from heap, first it take chkN from chunk when it borns.
         // and take tagN from watcher when user try to access its Block instance.
-        return id(_getIdx(pt), NAMU_INDEX_ERROR, ++serial);
+        return id(_getIdx(pt), NM_INDEX_ERROR, ++serial);
     }
 
     nidx me::_getIdx(void* it) const {

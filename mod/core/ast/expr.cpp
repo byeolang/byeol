@@ -7,7 +7,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(expr)
+    NM_DEF_ME(expr)
 
     nbool me::exprType::isImpli(const type& to) const {
         return to.isSub<node>();

@@ -2,7 +2,7 @@
 
 // nested class of tbicontainable.hpp
 class iteration : public instance, public iterable {
-    NAMU(ADT(iteration, instance))
+    NM(ADT(iteration, instance))
     friend class iter;
 
 public:

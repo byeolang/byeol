@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(bindTag)
+    NM_DEF_ME(bindTag)
 
     me::bindTag(): _pt(NULL), _strong(0) {}
     me::bindTag(id newId): _pt(NULL), _strong(0), _id(newId) {}
@@ -51,7 +51,7 @@ namespace nm {
     nbool me::_onStrong(ncnt vote) {
         if(!_id.isHeap()) return false;
         if(!vote) {
-            NAMU_I("vote is 0");
+            NM_I("vote is 0");
             return false;
         }
 
@@ -88,7 +88,7 @@ namespace nm {
     }
 
     const bindTag& me::getBindTag(id newId) {
-        return const_cast<bindTag&>(NAMU_GETS(instancer::get().getWatcher()[newId], blk));
+        return const_cast<bindTag&>(NM_GETS(instancer::get().getWatcher()[newId], blk));
     }
 
     instance* me::operator->() {

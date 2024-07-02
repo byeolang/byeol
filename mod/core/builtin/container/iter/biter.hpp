@@ -3,7 +3,7 @@
 // nested class of tbicontainable.hpp:
 //  this file allows to be refered by 'tbicontainable.hpp' file only.
 class iter : public iterable, public clonable, public typeProvidable {
-    NAMU(CLASS(iter))
+    NM(CLASS(iter))
     friend class iteration;
     template <typename K1, typename V1, typename defaultContainer1> friend class tnchain;
     template <typename K1, typename V1, typename TACTIC> friend class tnmap;
@@ -20,8 +20,8 @@ public:
     me& operator+=(ncnt step);
     V& operator*();
     V* operator->();
-    const V& operator*() const NAMU_UNCONST_FUNC(operator*())
-    const V* operator->() const NAMU_UNCONST_FUNC(operator->())
+    const V& operator*() const NM_UNCONST_FUNC(operator*())
+    const V* operator->() const NM_UNCONST_FUNC(operator->())
     explicit operator nbool() const;
 
     nbool isFrom(const tbicontainable& it) const override;
@@ -47,7 +47,7 @@ public:
 
     tbicontainable<K, V>& getContainer() override;
 
-    const tbicontainable<K, V>& getContainer() const NAMU_UNCONST_FUNC(getContainer());
+    const tbicontainable<K, V>& getContainer() const NM_UNCONST_FUNC(getContainer());
 
 private:
     me& _assign(const me& rhs);

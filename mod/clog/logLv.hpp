@@ -4,7 +4,7 @@
 
 namespace nm {
     class logLv {
-        NAMU(ME(logLv))
+        NM(ME(logLv))
 
     public:
         enum level {

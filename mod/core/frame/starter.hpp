@@ -7,7 +7,7 @@ namespace nm {
     class frames;
     class _nout starter : public worker<str, args> {
         typedef worker<str, args> __super8;
-        NAMU(CLASS(starter, __super8))
+        NM(CLASS(starter, __super8))
 
     public:
         enum logFlag3 {
@@ -21,7 +21,7 @@ namespace nm {
     public:
         me& setPack(node& pak);
         node& getPack();
-        const node& getPack() const NAMU_UNCONST_FUNC(getPack())
+        const node& getPack() const NM_UNCONST_FUNC(getPack())
 
     protected:
         str _onWork() override;

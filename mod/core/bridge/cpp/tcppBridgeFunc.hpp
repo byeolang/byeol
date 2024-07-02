@@ -8,7 +8,7 @@ namespace nm {
 
     template <typename Ret, typename T, typename S, template <typename, typename, nbool> class Marshaling, typename... Args>
     class tcppBridgeFuncBase : public baseFunc {
-        NAMU(ADT(tcppBridgeFuncBase, baseFunc))
+        NM(ADT(tcppBridgeFuncBase, baseFunc))
     protected:
         typedef Ret (T::*fptrType)(Args...);
 
@@ -25,7 +25,7 @@ namespace nm {
             args tray;
             args& evaluated = _evalArgs(a, tray);
             if(nul(evaluated))
-                return NAMU_E("evaluated == null"), str();
+                return NM_E("evaluated == null"), str();
 
             return _runNative(evaluated);
         }
@@ -64,7 +64,7 @@ namespace nm {
         args& _evalArgs(const args& a, args& tray) {
             const params& ps = getParams();
             if(a.len() != ps.len())
-                return NAMU_E("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len()),
+                return NM_E("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len()),
                        nulOf<args>();
 
             int n = 0;
@@ -89,7 +89,7 @@ namespace nm {
              typename... Args>
     class tcppBridgeFunc : public tcppBridgeFuncBase<Ret, T, S, Marshaling, Args...> {
         typedef tcppBridgeFuncBase<Ret, T, S, Marshaling, Args...> _super_;
-        NAMU(CLASS(tcppBridgeFunc, _super_))
+        NM(CLASS(tcppBridgeFunc, _super_))
 
     public:
         tcppBridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
@@ -107,7 +107,7 @@ namespace nm {
              typename... Args>
     class tcppBridgeFunc<void, T, S, Marshaling, Args...> : public tcppBridgeFuncBase<void, T, S, Marshaling, Args...> {
         typedef tcppBridgeFuncBase<void, T, S, Marshaling, Args...> _super_;
-        NAMU(CLASS(tcppBridgeFunc, _super_))
+        NM(CLASS(tcppBridgeFunc, _super_))
 
     public:
         tcppBridgeFunc(typename _super_::fptrType fptr): super(fptr) {}

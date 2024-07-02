@@ -74,7 +74,7 @@ namespace nm {
         auto matches = getMatches();
         if(!matches.isMatched()) return tstr<T>();
 
-        NAMU_DI("priorities.getMatch[%s]", matches[0].getType().getName().c_str());
+        NM_DI("priorities.getMatch[%s]", matches[0].getType().getName().c_str());
         return tstr<T>(matches[0]);
     }
 

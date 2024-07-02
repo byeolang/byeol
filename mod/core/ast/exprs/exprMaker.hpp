@@ -5,7 +5,7 @@
 namespace nm {
 
     class _nout exprMaker : public typeProvidable, public clonable {
-        NAMU(CLASS(exprMaker))
+        NM(CLASS(exprMaker))
 
     public:
         exprMaker();

@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(mockNode), DEF_VISIT())
+    NM(DEF_ME(mockNode), DEF_VISIT())
 
     me::mockNode(): super() {}
     me::mockNode(const node& org): super(), _org(org) {}

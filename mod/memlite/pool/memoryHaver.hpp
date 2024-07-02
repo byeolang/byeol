@@ -6,8 +6,8 @@ namespace nm {
 
     class instance;
     class _nout memoryHaver {
-        NAMU_ME(memoryHaver)
-        NAMU_INIT_META(me)
+        NM_ME(memoryHaver)
+        NM_INIT_META(me)
 
     public:
         virtual ~memoryHaver() {}

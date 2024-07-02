@@ -8,7 +8,7 @@
 namespace nm {
 
     class _nout errReport : public instance, public dumpable {
-        NAMU(CLASS(errReport, instance))
+        NM(CLASS(errReport, instance))
 
     public:
         nbool operator==(const me& rhs) const;
@@ -49,7 +49,7 @@ namespace nm {
     };
 
     class _nout dummyErrReport : public errReport {
-        NAMU(CLASS(dummyErrReport, errReport))
+        NM(CLASS(dummyErrReport, errReport))
 
     public:
         const err& add(const err* new1) override;

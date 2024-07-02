@@ -7,7 +7,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(runExpr), DEF_VISIT())
+    NM(DEF_ME(runExpr), DEF_VISIT())
 
     me::runExpr(const node& meObj, const node& subject, const args& a):
             _me(meObj), _args(a), _subject(subject)  {}
@@ -15,25 +15,25 @@ namespace nm {
 
     str me::run(const args& a) {
         node& me = getMe();
-        if(nul(me)) return NAMU_E("run: me is null. no thread found"), str();
+        if(nul(me)) return NM_E("run: me is null. no thread found"), str();
         str evaledMe = me.as<node>();
-        if(!evaledMe) return NAMU_E("run: evaledMe is null. no thread found"), str();
+        if(!evaledMe) return NM_E("run: evaledMe is null. no thread found"), str();
 
-        NAMU_DI("run: getting sub: me[%s]", evaledMe->getType().getName().c_str());
+        NM_DI("run: getting sub: me[%s]", evaledMe->getType().getName().c_str());
         str sub = _getSub(*evaledMe, _args);
-        if(!sub) return NAMU_E("_subject.as<node>() returns null"), str();
+        if(!sub) return NM_E("_subject.as<node>() returns null"), str();
 
-        NAMU_DI("run: assigning me: me[%s] sub[%s]", evaledMe->getType().getName().c_str(), sub->getType().getName().c_str());
+        NM_DI("run: assigning me: me[%s] sub[%s]", evaledMe->getType().getName().c_str(), sub->getType().getName().c_str());
         if(!sub->isSub<baseObj>() && !nul(_args)) { // if sub is a baseObj, this expr will runs ctor of it which doesn't need me obj.
             frame& fr = evaledMe->cast<frame>();
             _args.setMe(!nul(fr) ? fr.getOwner(*sub) : *evaledMe);
-            NAMU_DI("run: setting me on args. args.me[%s]", !evaledMe ? "null" : _args.getMe().getType().getName().c_str());
+            NM_DI("run: setting me on args. args.me[%s]", !evaledMe ? "null" : _args.getMe().getType().getName().c_str());
         }
 
-        NAMU_DI("run: running sub with args[%s]", _args.toStr().c_str());
+        NM_DI("run: running sub with args[%s]", _args.toStr().c_str());
         str ret = sub->run(_args);
 
-        NAMU_DI("run: done. ret[%s]", ret ? ret->getType().getName().c_str() : "null");
+        NM_DI("run: done. ret[%s]", ret ? ret->getType().getName().c_str() : "null");
         _args.setMe(nulOf<baseObj>());
         return ret;
     }
@@ -65,7 +65,7 @@ namespace nm {
     }
 
     clonable* me::cloneDeep() const {
-        NAMU_DI("%s.cloneDeep()", getType().getName().c_str());
+        NM_DI("%s.cloneDeep()", getType().getName().c_str());
 
         me* ret = (me*) clone();
         if(_me) ret->_me.bind((node*) _me->cloneDeep());
@@ -84,8 +84,8 @@ namespace nm {
     }
 
     str me::_getSub(str me, const args& a) const {
-        if(!me) return NAMU_E("me Obj == null"), str();
-        if(!_subject) return NAMU_E("_subject as node == null"), str();
+        if(!me) return NM_E("me Obj == null"), str();
+        if(!_subject) return NM_E("_subject as node == null"), str();
 
         getExpr& cast = _subject->cast<getExpr>();
         if(!nul(cast))
@@ -99,12 +99,12 @@ namespace nm {
         if(nul(me)) return str();
 
         str sub = _getSub(me.getEval(), nulOf<args>());
-        if(!sub) return NAMU_E("_subject.as<node>() returns null"), str();
+        if(!sub) return NM_E("_subject.as<node>() returns null"), str();
 
         const baseFunc& f = sub.cast<baseFunc>();
         str ret = nul(f) ? sub : f.getRet();
         if(!ret)
-            return NAMU_E("ret is null"), str();
+            return NM_E("ret is null"), str();
         return new mockNode(*ret->getEval());
     }
 }

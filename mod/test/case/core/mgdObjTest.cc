@@ -7,7 +7,7 @@ struct mgdObjTest : public namuSyntaxTest {};
 
 namespace {
     struct myObj : public obj {
-        NAMU(CLASS(myObj, obj))
+        NM(CLASS(myObj, obj))
     };
 }
 

@@ -9,7 +9,7 @@ namespace nm {
 
     class visitor;
     class _nout func : public baseFunc {
-        NAMU(CLASS(func, baseFunc), VISIT())
+        NM(CLASS(func, baseFunc), VISIT())
         friend class verifier;
         friend class exprMaker;
 

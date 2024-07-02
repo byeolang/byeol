@@ -15,7 +15,7 @@ namespace nm {
         protected:
             const ases& _getAses() const override;
         };
-        NAMU(CLASS(nStr, primitiveObj, nStrType), VISIT())
+        NM(CLASS(nStr, primitiveObj, nStrType), VISIT())
 
         typedef typename tucontainable<nChar>::iter iter;
         typedef typename tucontainable<nChar>::iteration iteration;

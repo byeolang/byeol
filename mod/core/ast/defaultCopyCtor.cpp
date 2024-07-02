@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(defaultCopyCtor), DEF_VISIT())
+    NM(DEF_ME(defaultCopyCtor), DEF_VISIT())
 
     me::defaultCopyCtor(const node& org): super(org) {
         _params.add(*new param("rhs", org));

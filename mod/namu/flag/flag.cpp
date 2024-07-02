@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(flag)
+    NM_DEF_ME(flag)
 
     nbool me::take(interpreter& ip, starter& s, cli& c, flagArgs& a) const {
         std::regex re(_getRegExpr());

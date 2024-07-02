@@ -1,4 +1,4 @@
-/// @file   NAMU_OVERLOAD.hpp
+/// @file   NM_OVERLOAD.hpp
 /// @brief  Make it possible to provide overloaded macro.
 /// @remark These are codes inspired from Boost library. added the PATCH for VS.
 #pragma once
@@ -16,13 +16,13 @@
 //          #define MyMacro_0() 100
 //          #define MyMacro_1(x) (x)+5
 //          #define MyMacro_2(x, y) (x)+(y)
-//          #define MyMacro(...)    NAMU_OVERLOAD(MyMacro, __VA_ARGS__)
+//          #define MyMacro(...)    NM_OVERLOAD(MyMacro, __VA_ARGS__)
 //
 //          //  using:
 //          cout << MyMacro(5) << ", " << MyMacro(3, 5) << ", " << MyMacro() << "\n";
 //
 //      output:
 //          10, 8, 100
-#define _OVERLOAD(macro_name, argcount) NAMU_CONCAT(macro_name, argcount)
-#define NAMU_OVERLOAD(macro_name, ...)   \
-    _OVERLOAD(macro_name, NAMU_CONCAT(_, NAMU_ARGCNT(__VA_ARGS__)))(__VA_ARGS__)
+#define _OVERLOAD(macro_name, argcount) NM_CONCAT(macro_name, argcount)
+#define NM_OVERLOAD(macro_name, ...)   \
+    _OVERLOAD(macro_name, NM_CONCAT(_, NM_ARGCNT(__VA_ARGS__)))(__VA_ARGS__)

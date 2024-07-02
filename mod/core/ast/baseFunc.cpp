@@ -8,7 +8,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(baseFunc), DEF_VISIT())
+    NM(DEF_ME(baseFunc), DEF_VISIT())
 
     priorType me::prioritize(const args& a) const {
         const params& ps = getParams();
@@ -18,7 +18,7 @@ namespace nm {
         priorType max = EXACT_MATCH; // begining from lv0.
         for(const auto& e : a) {
             str t = e.getEval();
-            if(!t) return NAMU_W("t == null"), NO_MATCH;
+            if(!t) return NM_W("t == null"), NO_MATCH;
             str p = ps[n++].getOrigin().as<node>();
             if(!t->isComplete()) return NO_MATCH;
 

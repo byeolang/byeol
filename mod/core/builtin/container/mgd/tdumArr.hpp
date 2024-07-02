@@ -6,7 +6,7 @@ namespace nm {
     template <typename T, typename defaultElemType = T>
     class _nout tdumArr : public tarr<T, defaultElemType> {
         typedef tarr<T, defaultElemType> __super9;
-        NAMU(CLASS(tdumArr, __super9))
+        NM(CLASS(tdumArr, __super9))
         typedef typename super::iter iter;
 
     public:

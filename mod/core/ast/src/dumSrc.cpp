@@ -1,7 +1,7 @@
 #include "dumSrc.hpp"
 
 namespace nm {
-    NAMU(DEF_ME(dumSrc))
+    NM(DEF_ME(dumSrc))
 
     namespace {
         static srcFile _inner("<no_name>", "");

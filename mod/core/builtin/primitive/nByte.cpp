@@ -9,7 +9,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(nByte), DEF_VISIT())
+    NM(DEF_ME(nByte), DEF_VISIT())
 
     nbool me::nByteType::isImmutable() const { return true; }
 

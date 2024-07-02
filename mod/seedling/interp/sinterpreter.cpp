@@ -7,7 +7,7 @@ void yyrestart(FILE*);
 
 namespace nm {
 
-    NAMU_DEF_ME(sinterpreter)
+    NM_DEF_ME(sinterpreter)
 
     tstr<sobj> me::interp(const nchar* script) {
         YY_BUFFER_STATE buffer = yy_scan_string(script);
@@ -24,16 +24,16 @@ namespace nm {
         yyin = fopen(path, "r");
         yyrestart(yyin);
         if(!yyin)
-            return NAMU_E("invalid file path %s.", path), tstr<sobj>();
+            return NM_E("invalid file path %s.", path), tstr<sobj>();
 
         std::string fileName = _extractFileName(path);
-        NAMU_I("interpreting file '%s'...", fileName.c_str());
+        NM_I("interpreting file '%s'...", fileName.c_str());
 
         tstr<sobj> ret = _runParser();
 
         ret->setName(fileName);
         fclose(yyin);
-        NAMU_I("%s seedling file interpreted.", fileName.c_str());
+        NM_I("%s seedling file interpreted.", fileName.c_str());
         return ret;
     }
 
@@ -44,9 +44,9 @@ namespace nm {
     tstr<sobj> me::_runParser() {
         int res = yyparse();
         if(res)
-            return NAMU_E("interpretion has been failed. res=%d", res), tstr<sobj>();
+            return NM_E("interpretion has been failed. res=%d", res), tstr<sobj>();
         if(!root)
-            NAMU_E("nothing interpreted.");
+            NM_E("nothing interpreted.");
 
         return tstr<sobj>(root);
     }

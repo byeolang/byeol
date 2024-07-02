@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(exprMaker))
+    NM(DEF_ME(exprMaker))
 
     me::exprMaker(): _pos {0, 0} {}
 

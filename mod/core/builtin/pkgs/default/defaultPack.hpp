@@ -4,7 +4,7 @@
 
 namespace nm {
     class _nout defaultPack : public baseObj {
-        NAMU(CLASS(defaultPack, baseObj))
+        NM(CLASS(defaultPack, baseObj))
 
     public:
         using super::subs;

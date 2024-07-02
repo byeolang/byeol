@@ -2,7 +2,7 @@
 #include "../../visitor/visitor.hpp"
 
 namespace nm {
-    NAMU(DEF_ME(defAssignExpr), DEF_VISIT())
+    NM(DEF_ME(defAssignExpr), DEF_VISIT())
 
     me::defAssignExpr(const std::string& name, const node& rhs): super(name, rhs) {}
     me::defAssignExpr(const std::string& name, const node& rhs, const node& to): super(name, rhs, to) {}

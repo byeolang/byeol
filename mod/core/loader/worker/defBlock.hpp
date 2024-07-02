@@ -6,7 +6,7 @@
 namespace nm {
 
     class _nout defBlock : public instance {
-        NAMU(CLASS(defBlock, instance))
+        NM(CLASS(defBlock, instance))
 
     public:
         defBlock();

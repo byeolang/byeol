@@ -8,7 +8,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(func), DEF_VISIT())
+    NM(DEF_ME(func), DEF_VISIT())
 
     me::func(const params& ps, const node& retType):
             super(), _params(ps), _retType(retType), _blk(new blockExpr()) {}
@@ -32,15 +32,15 @@ namespace nm {
     const params& me::getParams() const { return _params; }
 
     str me::run(const args& a) {
-        if(nul(a)) return NAMU_E("a == null"), str();
+        if(nul(a)) return NM_E("a == null"), str();
         if(!thread::get().isInteractable())
-            return NAMU_E("thread isn't interactable"), err::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD);
+            return NM_E("thread isn't interactable"), err::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD);
 
         // s is from heap space. but freed by _outFrame() of this class.
         scope& s = *_evalArgs(a);
         if(nul(s)) return str();
         node& meObj = a.getMe();
-        if(nul(meObj)) return NAMU_E("meObj == null"), str();
+        if(nul(meObj)) return NM_E("meObj == null"), str();
 
         str ret;
         nidx exN = thread::get().getEx().len() - 1;
@@ -57,7 +57,7 @@ namespace nm {
         frame& fr = thread::get()._getNowFrame();
         node* retVal = &fr.getRet();
         if(nul(retVal)) retVal = &ret.get();
-        if(nul(retVal)) return NAMU_E("retVal == null"), str();
+        if(nul(retVal)) return NM_E("retVal == null"), str();
         if(!thread::get().getEx().hasErr(exN)) // if I got new exception, I just return it.
             ret = retVal->as(*getRet()->as<node>());
         fr.setRet();
@@ -67,7 +67,7 @@ namespace nm {
     scope* me::_evalArgs(const ucontainable& args) {
         const params& ps = getParams();
         if(args.len() != ps.len())
-            return NAMU_E("length of args(%d) and typs(%d) doesn't match.", args.len(), ps.len()), nullptr;
+            return NM_E("length of args(%d) and typs(%d) doesn't match.", args.len(), ps.len()), nullptr;
 
         scope* ret = new scope();
         int n = 0;
@@ -75,7 +75,7 @@ namespace nm {
             const param& p = ps[n++];
             str evaluated = e.asImpli(*p.getOrigin().as<node>());
             if(!evaluated)
-                return NAMU_E("evaluation of arg[%s] -> param[%s] has been failed.", e.getType().getName().c_str(),
+                return NM_E("evaluation of arg[%s] -> param[%s] has been failed.", e.getType().getName().c_str(),
                         p.getOrigin().getType().getName().c_str()), ret;
 
             ret->add(p.getName(), *evaluated);
@@ -86,11 +86,11 @@ namespace nm {
     void me::inFrame(const bicontainable& args) {
         frame& fr = thread::get()._getNowFrame();
         if(nul(fr)) {
-            NAMU_E("fr == null");
+            NM_E("fr == null");
             return;
         }
 
-        NAMU_DI("'%s func'._inFrame() frames.len[%d]", getSrc().getName().c_str(),
+        NM_DI("'%s func'._inFrame() frames.len[%d]", getSrc().getName().c_str(),
                 getType().getName().c_str(), thread::get().getFrames().len());
         fr.setFunc(*this);
         fr.add(*this);
@@ -98,7 +98,7 @@ namespace nm {
     }
 
     void me::outFrame(const bicontainable& args) {
-        NAMU_DI("'%s func'._outFrame() frames.len[%d]", getSrc().getName().c_str(), thread::get().getFrames().len());
+        NM_DI("'%s func'._outFrame() frames.len[%d]", getSrc().getName().c_str(), thread::get().getFrames().len());
 
         frame& fr = thread::get()._getNowFrame();
         baseFunc& f = fr.getFunc();
@@ -110,7 +110,7 @@ namespace nm {
     }
 
     clonable* me::cloneDeep() const {
-        NAMU_DI("%s.cloneDeep()", getType().getName().c_str());
+        NM_DI("%s.cloneDeep()", getType().getName().c_str());
         me* ret = (me*) clone();
         // params:
         ret->_params.rel();

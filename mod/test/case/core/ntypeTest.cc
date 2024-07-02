@@ -5,7 +5,7 @@ using namespace std;
 
 namespace {
     class myObj : public obj {
-        NAMU(CLASS(myObj, obj))
+        NM(CLASS(myObj, obj))
 
     public:
         const obj& getOrigin() const override { return *this; }

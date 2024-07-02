@@ -11,7 +11,7 @@ namespace nm {
 
     // FAO: Fundermental Binary Operation.
     class _nout FBOExpr : public expr {
-        NAMU(CLASS(FBOExpr, expr, expr::exprType), VISIT())
+        NM(CLASS(FBOExpr, expr, expr::exprType), VISIT())
 
     public:
         enum rule {

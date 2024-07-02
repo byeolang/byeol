@@ -2,20 +2,20 @@
 
 #include "defThis.hpp"
 
-#define NAMU_ME_2(ME, SUPER) \
+#define NM_ME_2(ME, SUPER) \
     public: \
-        NAMU_DEF_ME_2(ME, SUPER) \
+        NM_DEF_ME_2(ME, SUPER) \
     private:
 
-#define NAMU_ME_1(ME) \
+#define NM_ME_1(ME) \
     public: \
-        NAMU_DEF_ME_1(ME) \
+        NM_DEF_ME_1(ME) \
     private:
 
-#define NAMU_ME(...)  NAMU_OVERLOAD(NAMU_ME, __VA_ARGS__)
+#define NM_ME(...)  NM_OVERLOAD(NM_ME, __VA_ARGS__)
 
 // namuMeta macro's sub-commands:
-//  ME: actually it redirects builtin macro 'NAMU_ME'.
-#define __NAMU__DECL_ME_1(ME) NAMU_ME_1(ME)
-#define __NAMU__DECL_ME_2(ME, SUPER) NAMU_ME_2(ME, SUPER)
-#define __NAMU__DECL_ME(...) NAMU_OVERLOAD(__NAMU__DECL_ME, __VA_ARGS__)
+//  ME: actually it redirects builtin macro 'NM_ME'.
+#define __NM__DECL_ME_1(ME) NM_ME_1(ME)
+#define __NM__DECL_ME_2(ME, SUPER) NM_ME_2(ME, SUPER)
+#define __NM__DECL_ME(...) NM_OVERLOAD(__NM__DECL_ME, __VA_ARGS__)

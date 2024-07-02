@@ -6,7 +6,7 @@ namespace nm {
 
     class frame;
     class _nout forExpr : public loopExpr {
-        NAMU(CLASS(forExpr, loopExpr, expr::exprType), VISIT())
+        NM(CLASS(forExpr, loopExpr, expr::exprType), VISIT())
         friend class verifier;
 
     public:

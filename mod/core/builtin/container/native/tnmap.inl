@@ -49,8 +49,8 @@ namespace nm {
 
     TEMPL
     nbool ME::del(const iter& at) {
-        if(!at.isFrom(*this)) return NAMU_W("from is not an iterator of this container."), false;
-        if(at.isEnd()) return NAMU_W("at is end of the container. skip function."), false;
+        if(!at.isFrom(*this)) return NM_W("from is not an iterator of this container."), false;
+        if(at.isEnd()) return NM_W("at is end of the container. skip function."), false;
 
         _map.erase(_getIterationFrom(at)._citer);
         return true;
@@ -59,7 +59,7 @@ namespace nm {
     TEMPL
     nbool ME::del(const iter& from, const iter& end) {
         if(!from.isFrom(*this) || !end.isFrom(*this))
-            return NAMU_W("from or end is not an iterator of this container"), false;
+            return NM_W("from or end is not an iterator of this container"), false;
 
         _map.erase(_getIterationFrom(from)._citer, _getIterationFrom(end)._citer);
         return true;

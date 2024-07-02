@@ -8,7 +8,7 @@ namespace nm {
     class errReport;
 
     class _nout slotLoader : public typeProvidable, public clonable {
-        NAMU(CLASS(slotLoader))
+        NM(CLASS(slotLoader))
 
     public:
         slotLoader();

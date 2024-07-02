@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(immutableTactic)
+    NM_DEF_ME(immutableTactic)
 
     me me:: singletone;
 

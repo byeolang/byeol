@@ -6,7 +6,7 @@
 
 namespace nm {
     class _nout params : public tnarr<param> {
-        NAMU(CLASS(params, tnarr<param>))
+        NM(CLASS(params, tnarr<param>))
 
     public:
         /// @param  elems   instances to derived type of T.

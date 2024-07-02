@@ -8,7 +8,7 @@
 #include "../../../loader/err.hpp"
 
 namespace nm {
-    NAMU(DEF_ME(defaultPack))
+    NM(DEF_ME(defaultPack))
 
     scope& me::subs() {
         static scope inner;

@@ -4,7 +4,7 @@
 
 namespace nm {
     class _nout bufSupply : public srcSupply {
-        NAMU(CLASS(bufSupply, srcSupply))
+        NM(CLASS(bufSupply, srcSupply))
 
     public:
         bufSupply(const std::string& buf);

@@ -10,7 +10,7 @@ namespace nm {
     class visitor;
 
     class _nout baseFunc : public expr {
-        NAMU(ADT(baseFunc, expr), VISIT())
+        NM(ADT(baseFunc, expr), VISIT())
 
     public:
         static inline const std::string ME = "me";

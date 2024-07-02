@@ -8,7 +8,7 @@ namespace nm {
 
     template class _nout worker<void, node>;
 
-    NAMU_DEF_ME(visitor)
+    NM_DEF_ME(visitor)
 
 #define X(T) \
     void me::visit(visitInfo i, T& me) { \

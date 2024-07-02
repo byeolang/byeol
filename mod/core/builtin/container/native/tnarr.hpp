@@ -7,7 +7,7 @@ namespace nm {
 
     template <typename T, typename TACTIC = strTactic>
     class tnarr : public tnucontainer<T>, public tarrayable<T> {
-        NAMU(ADT(tnarr, tnucontainer<T>))
+        NM(ADT(tnarr, tnucontainer<T>))
 
     public:
         friend class arr;

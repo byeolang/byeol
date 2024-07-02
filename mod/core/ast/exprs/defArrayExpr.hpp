@@ -6,7 +6,7 @@
 namespace nm {
 
     class _nout defArrayExpr : public expr {
-        NAMU(CLASS(defArrayExpr, expr, expr::exprType), VISIT())
+        NM(CLASS(defArrayExpr, expr, expr::exprType), VISIT())
         friend class visitor; // for getElems()
 
     public:
@@ -19,7 +19,7 @@ namespace nm {
         str getEval() const override;
         const node& getArrayType() const;
         const arr& getOrigin() const;
-        const narr& getElems() const NAMU_UNCONST_FUNC(getElems())
+        const narr& getElems() const NM_UNCONST_FUNC(getElems())
 
     private:
         str _deduceElems() const;

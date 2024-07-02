@@ -10,7 +10,7 @@ namespace nm {
     class frame;
     class frames;
     class _nout calltrace : public instance {
-        NAMU(CLASS(calltrace, instance))
+        NM(CLASS(calltrace, instance))
 
     public:
         calltrace(const frame& newFrame);
@@ -23,7 +23,7 @@ namespace nm {
     typedef tnarr<calltrace> calltraces;
 
     class _nout callstack : public instance, public dumpable {
-        NAMU(CLASS(callstack, instance))
+        NM(CLASS(callstack, instance))
 
     public:
         callstack();

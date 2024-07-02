@@ -12,7 +12,7 @@ namespace nm {
     class tokenDispatcher;
 
     class _nout tokenScan : public tokenScanable, public typeProvidable, public clonable {
-        NAMU(ADT(tokenScan))
+        NM(ADT(tokenScan))
 
     public:
         using tokenScanable::onScan;
@@ -23,7 +23,7 @@ namespace nm {
     };
 
     class _nout normalScan: public tokenScan {
-        NAMU(CLASS(normalScan, tokenScan))
+        NM(CLASS(normalScan, tokenScan))
         friend class parser;
 
     public:
@@ -35,7 +35,7 @@ namespace nm {
     };
 
     class _nout indentScan : public tokenScan {
-        NAMU(CLASS(indentScan, tokenScan))
+        NM(CLASS(indentScan, tokenScan))
         friend class parser;
 
     public:

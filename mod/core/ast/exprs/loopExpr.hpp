@@ -8,12 +8,12 @@ namespace nm {
     class frame;
     class arr;
     class _nout loopExpr : public expr {
-        NAMU(ADT(loopExpr, expr, expr::exprType), VISIT())
+        NM(ADT(loopExpr, expr, expr::exprType), VISIT())
         friend class loop;
 
     public:
         class _nout loop : public instance {
-            NAMU(ADT(loop))
+            NM(ADT(loop))
 
         public:
             loop(arr& ret);

@@ -4,7 +4,7 @@
 
 namespace nm {
     class _nout dumScope : public scope {
-        NAMU(CLASS(dumScope, scope))
+        NM(CLASS(dumScope, scope))
 
     public:
         dumScope();

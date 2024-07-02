@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(tokenDispatcher)
+    NM_DEF_ME(tokenDispatcher)
 
     void me::add(nint newToken) {
         _toks.push_back(newToken);

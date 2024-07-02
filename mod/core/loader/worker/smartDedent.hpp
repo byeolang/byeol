@@ -4,7 +4,7 @@
 
 namespace nm {
     class _nout smartDedent : public typeProvidable, public clonable {
-        NAMU(CLASS(smartDedent))
+        NM(CLASS(smartDedent))
 
         enum Status {
             OFF = -1,

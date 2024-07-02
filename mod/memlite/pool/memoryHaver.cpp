@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(memoryHaver)
+    NM_DEF_ME(memoryHaver)
 
     nbool me::isFull() const {
         return len() >= size();

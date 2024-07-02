@@ -6,7 +6,7 @@ set(SHOW_CMAKE_VARIABLES 1)
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 2)
 set(VERSION_FIX 6)
-set(BUILD_COUNT 824)
+set(BUILD_COUNT 825)
 set(VERSION_NAME "Mana")
 set(VERSION_VALUE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_FIX}")
 set(VERSION "${PROJECT_NAME} ${UPDATE_NAME} v${VERSION_VALUE}")
@@ -50,45 +50,45 @@ IF(CMAKE_SYSTEM_NAME STREQUAL Darwin OR CMAKE_SYSTEM_NAME STREQUAL Linux OR CMAK
     set(CMAKE_MACOSX_RPATH 1)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fdiagnostics-color=always")  #default options.
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-delete-null-pointer-checks -Wno-address -Wno-unused-local-typedefs -Wno-undefined-bool-conversion")  #compiler options.
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g -O0 -DNAMU_DEBUG -D_GLIBCXX_DEBUG")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g -O0 -DNM_DEBUG -D_GLIBCXX_DEBUG")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O2")
     if(CMAKE_SYSTEM_NAME STREQUAL Darwin)
         set(CMAKE_SHARED_LINKER_FLAGS "-rpath .")
         set(CMAKE_EXE_LINKER_FLAGS "-rpath .")
-        set(NAMU_LIBRARY_EXTENSION "dylib")
+        set(NM_LIBRARY_EXTENSION "dylib")
     ELSE(CMAKE_SYSTEM_NAME STREQUAL Darwin)
         IF(EMSCRIPTEN)
-            set(NAMU_LIBRARY_EXTENSION "a")
+            set(NM_LIBRARY_EXTENSION "a")
         ELSE(EMSCRIPTEN)
-            set(NAMU_LIBRARY_EXTENSION "so")
+            set(NM_LIBRARY_EXTENSION "so")
         ENDIF(EMSCRIPTEN)
     ENDIF(CMAKE_SYSTEM_NAME STREQUAL Darwin)
 ENDIF(CMAKE_SYSTEM_NAME STREQUAL Darwin OR CMAKE_SYSTEM_NAME STREQUAL Linux OR CMAKE_SYSTEM_NAME STREQUAL Emscripten)
 IF(CMAKE_SYSTEM_NAME STREQUAL Windows)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Zi /bigobj")
     set(defines -DWIN32)
-    set(NAMU_LIBRARY_EXTENSION "dll")
+    set(NM_LIBRARY_EXTENSION "dll")
 ENDIF(CMAKE_SYSTEM_NAME STREQUAL Windows)
 
 cmake_policy(SET CMP0015 NEW)
 cmake_policy(SET CMP0042 NEW)
 
 
-set(NAMU_PACK_EXTENSION "pack")
-get_filename_component(NAMU_DIR ${CMAKE_SOURCE_DIR} DIRECTORY)
-set(NAMU_DEFAULT_INC_DIR
-    ${NAMU_DIR}/mod/indep
-    ${NAMU_DIR}/mod/clog
-    ${NAMU_DIR}/mod/meta
-    ${NAMU_DIR}/mod/memlite
-    ${NAMU_DIR}/mod/core/
-    ${NAMU_DIR}/mod/seedling
+set(NM_PACK_EXTENSION "pack")
+get_filename_component(NM_DIR ${CMAKE_SOURCE_DIR} DIRECTORY)
+set(NM_DEFAULT_INC_DIR
+    ${NM_DIR}/mod/indep
+    ${NM_DIR}/mod/clog
+    ${NM_DIR}/mod/meta
+    ${NM_DIR}/mod/memlite
+    ${NM_DIR}/mod/core/
+    ${NM_DIR}/mod/seedling
     /usr/local/include)
-include_directories(${NAMU_DEFAULT_INC_DIR})
+include_directories(${NM_DEFAULT_INC_DIR})
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NAMU_DIR}/bin)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${NAMU_DIR}/bin)
-set(NAMU_PACK_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/pack)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NM_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${NM_DIR}/bin)
+set(NM_PACK_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/pack)
 set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} /usr/local/lib)
 
 if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
@@ -155,9 +155,9 @@ message("\tcompile options are ${CMAKE_CXX_FLAGS}")
 message("\tcommon definitions are ${CXX_DEFINITIONS}")
 message("\tc++ standard is {CMAKE_CXX_STANDARD}")
 message("\tbuilded outputs will be placed to ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-message("\tbuilt modules will be at ${NAMU_PACK_OUTPUT_DIRECTORY}")
-message("\tall libraries extension is ${NAMU_LIBRARY_EXTENSION}")
-message("\tworld project directory is ${NAMU_DIR}")
-message("\tdefault include directory is ${NAMU_DEFAULT_INC_DIR}")
+message("\tbuilt modules will be at ${NM_PACK_OUTPUT_DIRECTORY}")
+message("\tall libraries extension is ${NM_LIBRARY_EXTENSION}")
+message("\tworld project directory is ${NM_DIR}")
+message("\tdefault include directory is ${NM_DEFAULT_INC_DIR}")
 add_definitions(${CXX_DEFINITIONS})
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../mod ${CMAKE_CURRENT_BINARY_DIR}/mod)

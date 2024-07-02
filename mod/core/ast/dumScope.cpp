@@ -3,7 +3,7 @@
 
 namespace nm {
     
-    NAMU(DEF_ME(dumScope))
+    NM(DEF_ME(dumScope))
 
     me::dumScope() {}
     me::dumScope(const scope::super& org): super(org) {}

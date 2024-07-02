@@ -5,8 +5,8 @@
 namespace nm {
 
     class _nout chunks : public allocator {
-        NAMU_ME(chunks, allocator)
-        NAMU_INIT_META(me)
+        NM_ME(chunks, allocator)
+        NM_INIT_META(me)
 
     public:
         //  chunks:
@@ -15,16 +15,16 @@ namespace nm {
 
     public:
         chunk& operator[](nidx n);
-        const chunk& operator[](nidx n) const NAMU_UNCONST_FUNC(operator[](n))
+        const chunk& operator[](nidx n) const NM_UNCONST_FUNC(operator[](n))
         chunk& operator[](const instance& inst);
-        const chunk& operator[](const instance& inst) const NAMU_UNCONST_FUNC(operator[](inst))
+        const chunk& operator[](const instance& inst) const NM_UNCONST_FUNC(operator[](inst))
 
     public:
         //  chunks:
         chunk& get(nidx n);
         chunk& get(const instance& it);
-        const chunk& get(nidx n) const NAMU_UNCONST_FUNC(get(n))
-        const chunk& get(const instance& it) const NAMU_UNCONST_FUNC(get(it))
+        const chunk& get(nidx n) const NM_UNCONST_FUNC(get(n))
+        const chunk& get(const instance& it) const NM_UNCONST_FUNC(get(it))
         //  allocator:
         void* new1() override;
         nbool del(void* pt, ncnt sz) override;

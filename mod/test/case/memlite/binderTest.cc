@@ -265,7 +265,7 @@ TEST_F(binderTest, bindNullShouldUnbindPrevious) {
 // we will verify that this memlite module can handle the situation properly.
 TEST_F(binderTest, bindStaticVariable) {
     class myInstance : public instance {
-        NAMU(ME(myInstance, instance))
+        NM(ME(myInstance, instance))
 
     public:
         const type& getType() const override {

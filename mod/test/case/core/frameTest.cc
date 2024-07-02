@@ -4,7 +4,7 @@ using namespace nm;
 
 namespace {
     struct myNode : public node {
-        NAMU(CLASS(myNode, node))
+        NM(CLASS(myNode, node))
 
     public:
         myNode(int n): num(n) {}

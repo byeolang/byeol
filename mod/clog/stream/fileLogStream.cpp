@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(fileLogStream)
+    NM_DEF_ME(fileLogStream)
     typedef std::string string;
 
     me::fileLogStream() {}

@@ -8,7 +8,7 @@ namespace nm {
     class visitor;
 
     class _nout defaultCopyCtor : public ctor {
-        NAMU(CLASS(defaultCopyCtor, ctor), VISIT())
+        NM(CLASS(defaultCopyCtor, ctor), VISIT())
 
     public:
         defaultCopyCtor(const node& org);

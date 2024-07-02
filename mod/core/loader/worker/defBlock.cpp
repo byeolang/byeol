@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(defBlock))
+    NM(DEF_ME(defBlock))
 
     me::defBlock(): asScope(new scope()), asPreCtor(new narr()) {}
 }

@@ -6,7 +6,7 @@
 namespace nm {
 
     class _nout generalizer: public visitor {
-        NAMU(CLASS(generalizer, visitor))
+        NM(CLASS(generalizer, visitor))
 
     public:
         me& add(const param& newParam);

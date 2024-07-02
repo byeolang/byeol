@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(nullSobj)
+    NM_DEF_ME(nullSobj)
 
     me::nullSobj(): super() {}
 

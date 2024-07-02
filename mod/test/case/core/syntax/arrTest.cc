@@ -8,7 +8,7 @@ struct arrTest : public namuSyntaxTest {};
 
 namespace {
     class myNode : public node {
-        NAMU(CLASS(myNode, node))
+        NM(CLASS(myNode, node))
 
     public:
         myNode(): number(0) {}
@@ -23,7 +23,7 @@ namespace {
     };
 
     class myMyNode : public myNode {
-        NAMU(CLASS(myMyNode, myNode))
+        NM(CLASS(myMyNode, myNode))
 
     public:
         myMyNode(int num): super(num) {}
@@ -46,7 +46,7 @@ namespace {
         auto removingElapsed = end - startDeleting;
         auto totalElapsed = end - start;
 
-        NAMU_I("[benchMarkArr]: vector took total %d ms for adding(%dms) & removing(%dms) of %d elems.", totalElapsed / chrono::milliseconds(1), addingElapsed / chrono::milliseconds(1), removingElapsed / chrono::milliseconds(1), sz);
+        NM_I("[benchMarkArr]: vector took total %d ms for adding(%dms) & removing(%dms) of %d elems.", totalElapsed / chrono::milliseconds(1), addingElapsed / chrono::milliseconds(1), removingElapsed / chrono::milliseconds(1), sz);
 
         arr arr1;
         start = chrono::steady_clock::now();
@@ -62,7 +62,7 @@ namespace {
         removingElapsed = end - startDeleting;
         totalElapsed = end - start;
 
-        NAMU_I("[benchMarkArr]: arr took total %d ms for adding(%dms) & removing(%dms) of %d elems.", totalElapsed / chrono::milliseconds(1), addingElapsed / chrono::milliseconds(1), removingElapsed / chrono::milliseconds(1), sz);
+        NM_I("[benchMarkArr]: arr took total %d ms for adding(%dms) & removing(%dms) of %d elems.", totalElapsed / chrono::milliseconds(1), addingElapsed / chrono::milliseconds(1), removingElapsed / chrono::milliseconds(1), sz);
     }
 }
 

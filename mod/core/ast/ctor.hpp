@@ -5,7 +5,7 @@
 namespace nm {
 
     class ctor: public baseFunc {
-        NAMU(ADT(ctor, baseFunc), VISIT())
+        NM(ADT(ctor, baseFunc), VISIT())
         friend class generalizer; // for _setOrigin()
 
     public:

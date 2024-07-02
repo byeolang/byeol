@@ -13,8 +13,8 @@ namespace nm {
     typedef tnarr<src, strTactic> srcs;
 
     class _nout packMakable {
-        NAMU_ME(packMakable)
-        NAMU_INIT_META(me)
+        NM_ME(packMakable)
+        NM_INIT_META(me)
 
     public:
         virtual tstr<srcs> parse(errReport& rpt, bicontainable& tray) = 0;

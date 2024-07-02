@@ -6,7 +6,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(forExpr), DEF_VISIT())
+    NM(DEF_ME(forExpr), DEF_VISIT())
 
     me::forExpr(const std::string& localName, const node& container, const blockExpr& blk):
         super(blk), _container(container), _name(localName) {}
@@ -22,7 +22,7 @@ namespace nm {
     str me::_makeEval() const {
         str ased = _container->getEval();
         str elemType = ased->run("getElemType");
-        if(!elemType) return NAMU_E("elemType == null"), str();
+        if(!elemType) return NM_E("elemType == null"), str();
 
         auto& fr = thread::get()._getNowFrame();
         if(nul(fr)) return str();
@@ -34,7 +34,7 @@ namespace nm {
 
     namespace {
         class forLoop : public me::loop {
-            NAMU(CLASS(forLoop, loop))
+            NM(CLASS(forLoop, loop))
 
         public:
             forLoop(arr& ret, str container, str iter, const forExpr& owner):
@@ -48,7 +48,7 @@ namespace nm {
             void run(blockExpr& blk, frame& fr) override {
                 str elem = _iter->run("get");
                 if(!elem)
-                    return NAMU_E("elem is null"), void();
+                    return NM_E("elem is null"), void();
                 fr.addLocal(_owner.getLocalName(), *elem);
 
                 super::run(blk, fr);
@@ -68,11 +68,11 @@ namespace nm {
 
     tstr<me::loop> me::_makeLoop(arr& ret) const {
         str ased = _container->as<node>();
-        if(!ased) return NAMU_E("ased is null"), str();
+        if(!ased) return NM_E("ased is null"), str();
         str iter = ased->run("iterate", args{narr{*new nInt(0)}});
-        if(!iter) return NAMU_E("iter is null"), str();
+        if(!iter) return NM_E("iter is null"), str();
 
-        NAMU_DI("forExpr: loop %s in %s", getLocalName().c_str(), ased->getSrc().getName().c_str());
+        NM_DI("forExpr: loop %s in %s", getLocalName().c_str(), ased->getSrc().getName().c_str());
         return new forLoop(ret, ased, iter, *this);
     }
 }

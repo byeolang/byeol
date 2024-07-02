@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(ctor), DEF_VISIT())
+    NM(DEF_ME(ctor), DEF_VISIT())
 
     me::ctor(const node& org): _org(org) {}
 

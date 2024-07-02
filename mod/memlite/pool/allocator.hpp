@@ -5,8 +5,8 @@
 namespace nm {
 
     class _nout allocator : public memoryHaver {
-        NAMU_ME(allocator)
-        NAMU_INIT_META(me)
+        NM_ME(allocator)
+        NM_INIT_META(me)
 
     public:
         //  allocator:

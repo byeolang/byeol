@@ -13,12 +13,12 @@ struct con {
     }
 
     const string& print(const std::string& msg) {
-        NAMU_W("=========================");
+        NM_W("=========================");
         for(int n = 0; n < 10; n++) {
             const nchar* c = msg.c_str();
-            NAMU_W("[%d]=%d", n, (int) c[n]);
+            NM_W("[%d]=%d", n, (int) c[n]);
         }
-        NAMU_W("=========================");
+        NM_W("=========================");
         std::cout << msg;
         return msg;
     }

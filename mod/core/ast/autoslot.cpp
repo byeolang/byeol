@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(autoslot), DEF_VISIT())
+    NM(DEF_ME(autoslot), DEF_VISIT())
 
     me::autoslot(const manifest& manifest, const packLoadings& loadings): super(manifest),
             _loadings(loadings) { _rel(); }
@@ -30,7 +30,7 @@ namespace nm {
         if(_state == RELEASED) {
             const std::string& name = getManifest().name;
             _pak.bind(new obj(new mgdType(name)));
-            NAMU_I("%s pack is about to interpret lazy.", name.c_str());
+            NM_I("%s pack is about to interpret lazy.", name.c_str());
             // TODO: check _rpt error count increased or not.
             //       if increased, then parse() function has been failed.
             parse(*_rpt, _pak->getShares()); // recursive call wasn't allowed.

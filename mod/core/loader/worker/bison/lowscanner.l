@@ -7,7 +7,7 @@
 #include "lowparser.hpp"
 #include "../parser.hpp"
 #include <iostream>
-#ifdef NAMU_BUILD_PLATFORM_IS_WINDOWS
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
 #   define YY_NO_UNISTD_H 1
 #endif
 namespace {
@@ -92,13 +92,13 @@ namespace {
 
 [-]*[[:digit:]]+ {
     yylval->asInt = std::stoi(yytext, nullptr, 0);
-    NAMU_DI("scanner: INTVAL=%s", yytext);
+    NM_DI("scanner: INTVAL=%s", yytext);
     return INTVAL;
 }
 
 [[:digit:]]+\.[[:digit:]]+ {
     yylval->asFlt = std::stod(yytext);
-    NAMU_DI("scanner: FLTVAL=%f", yylval->asFlt);
+    NM_DI("scanner: FLTVAL=%f", yylval->asFlt);
     return FLTVAL;
 }
 
@@ -128,58 +128,58 @@ nul { return NUL; }
 pack { return PACK; }
 true {
     yylval->asBool = true;
-    NAMU_DI("scanner: BOOLVAL=true");
+    NM_DI("scanner: BOOLVAL=true");
     return BOOLVAL;
 }
 
 false {
     yylval->asBool = false;
-    NAMU_DI("scanner: BOOLVAL=false");
+    NM_DI("scanner: BOOLVAL=false");
     return BOOLVAL;
 }
 
 0x[0-9a-fA-F]+ {
     yylval->asInt = std::stoi(yytext, nullptr, 0);
-    NAMU_DI("scanner: INTVAL=%s(%d)", yytext, yylval->asInt);
+    NM_DI("scanner: INTVAL=%s(%d)", yytext, yylval->asInt);
     return INTVAL;
 }
 
 [a-zA-Z0-9][a-zA-Z0-9_]* {
     yylval->asStr = new std::string(yytext);
-    NAMU_DI("scanner: NAME=%s", yytext);
+    NM_DI("scanner: NAME=%s", yytext);
     return NAME;
 }
 
 \'([^\r\f\n\'\\])\' {
     yylval->asChar = yytext[1];
-    NAMU_DI("scanner: CHARVAL=\'%c\'", yytext[1]);
+    NM_DI("scanner: CHARVAL=\'%c\'", yytext[1]);
     return CHARVAL;
 }
 
 \'\\([^\r\f\n0-9])\' {
     std::string str(yytext);
     yylval->asChar = unescape(str.substr(1, str.size()-2));
-    NAMU_DI("scanner: CHARVAL=%c", yylval->asChar);
+    NM_DI("scanner: CHARVAL=%c", yylval->asChar);
     return CHARVAL;
 }
 
 \'\\([0-9]+)\' {
     std::string str(yytext);
     yylval->asChar = unescape(str.substr(1, str.size()-2));
-    NAMU_DI("scanner: CHARVAL=%c", yylval->asChar);
+    NM_DI("scanner: CHARVAL=%c", yylval->asChar);
     return CHARVAL;
 }
 
 \'\\0x([0-9a-fA-F]+)\' {
     std::string str(yytext);
     yylval->asChar = unescape(str.substr(1, str.size()-2));
-    NAMU_DI("scanner: CHARVAL=%c", yylval->asChar);
+    NM_DI("scanner: CHARVAL=%c", yylval->asChar);
     return CHARVAL;
 }
 
 \"([^\r\f\n\"\\]*)\" {
     yylval->asStr = new std::string(yytext + 1, yyleng - 2);
-    NAMU_DI("scanner: STRVAL=\"%s\"", yylval->asStr->c_str());
+    NM_DI("scanner: STRVAL=\"%s\"", yylval->asStr->c_str());
     return STRVAL;
 }
 
@@ -198,7 +198,7 @@ false {
 }
 
 <<EOF>> {
-    NAMU_DI("scanner: ENDOFFILE");
+    NM_DI("scanner: ENDOFFILE");
     yylloc->colcnt = 0;
     return ENDOFFILE;
 }

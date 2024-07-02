@@ -33,46 +33,46 @@
 #include "helper.hpp"
 #include "evaluator.hpp"
 
-#define _NAMU_EACH_GET_END2() 0, NAMU_CONSUME_ARGS
-#define _NAMU_EACH_GET_END1(...) _NAMU_EACH_GET_END2
-#define _NAMU_EACH_GET_END(...) _NAMU_EACH_GET_END1
-#define _NAMU_EACH_NEXT0(test, next, ...) next NAMU_VOID()
-#define _NAMU_EACH_NEXT1(test, next) _NAMU_EACH_NEXT0(test, next, 0)
-#define _NAMU_EACH_NEXT(test, next)  _NAMU_EACH_NEXT1(_NAMU_EACH_GET_END test, next)
+#define _NM_EACH_GET_END2() 0, NM_CONSUME_ARGS
+#define _NM_EACH_GET_END1(...) _NM_EACH_GET_END2
+#define _NM_EACH_GET_END(...) _NM_EACH_GET_END1
+#define _NM_EACH_NEXT0(test, next, ...) next NM_VOID()
+#define _NM_EACH_NEXT1(test, next) _NM_EACH_NEXT0(test, next, 0)
+#define _NM_EACH_NEXT(test, next)  _NM_EACH_NEXT1(_NM_EACH_GET_END test, next)
 
-#define _NAMU_EACH_LIST_NEXT1(test, next) _NAMU_EACH_NEXT0(test, NAMU_COMMA next, 0)
-#define _NAMU_EACH_LIST_NEXT(test, next)  _NAMU_EACH_LIST_NEXT1(_NAMU_EACH_GET_END test, next)
+#define _NM_EACH_LIST_NEXT1(test, next) _NM_EACH_NEXT0(test, NM_COMMA next, 0)
+#define _NM_EACH_LIST_NEXT(test, next)  _NM_EACH_LIST_NEXT1(_NM_EACH_GET_END test, next)
 
 //    Applies the function macro `f` to each of the remaining parameters.
-#define _NAMU_EACH0(f, x, peek, ...) f(x) _NAMU_EACH_NEXT(peek, _NAMU_EACH1)(f, peek, __VA_ARGS__)
-#define _NAMU_EACH1(f, x, peek, ...) f(x) _NAMU_EACH_NEXT(peek, _NAMU_EACH0)(f, peek, __VA_ARGS__)
-#define NAMU_EACH(f, ...) NAMU_EVAL(_NAMU_EACH1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
+#define _NM_EACH0(f, x, peek, ...) f(x) _NM_EACH_NEXT(peek, _NM_EACH1)(f, peek, __VA_ARGS__)
+#define _NM_EACH1(f, x, peek, ...) f(x) _NM_EACH_NEXT(peek, _NM_EACH0)(f, peek, __VA_ARGS__)
+#define NM_EACH(f, ...) NM_EVAL(_NM_EACH1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
 
 //    EACH macro for various parametered function:
 //        usage:
 //            #define X(x, y) cout << (x+y);
-//            NAMU_EACH_TUPLE(X, (1,2), (2,3)) // please be careful to wrap with a paranthesis each set of parameters.
+//            NM_EACH_TUPLE(X, (1,2), (2,3)) // please be careful to wrap with a paranthesis each set of parameters.
 //
 //        output:
 //            37
-#define _NAMU_EACH_TUPLE0(f, x, peek, ...) f x _NAMU_EACH_NEXT(peek, _NAMU_EACH_TUPLE1)(f, peek, __VA_ARGS__)
-#define _NAMU_EACH_TUPLE1(f, x, peek, ...) f x _NAMU_EACH_NEXT(peek, _NAMU_EACH_TUPLE0)(f, peek, __VA_ARGS__)
-#define NAMU_EACH_TUPLE(f, ...) NAMU_EVAL(_NAMU_EACH_TUPLE1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
+#define _NM_EACH_TUPLE0(f, x, peek, ...) f x _NM_EACH_NEXT(peek, _NM_EACH_TUPLE1)(f, peek, __VA_ARGS__)
+#define _NM_EACH_TUPLE1(f, x, peek, ...) f x _NM_EACH_NEXT(peek, _NM_EACH_TUPLE0)(f, peek, __VA_ARGS__)
+#define NM_EACH_TUPLE(f, ...) NM_EVAL(_NM_EACH_TUPLE1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
 
 //    EACH macro for expanding:
 //        usage:
 //            #define X(x, y) cout << (x+y);
 //            int b = 5;
-//            NAMU_EACH_EXPAND(X, b, 1,2,3)
+//            NM_EACH_EXPAND(X, b, 1,2,3)
 //            //== cout << (b+1); cout << (b+2); cout << (b+3);
 //
 //        output:
 //            678
-#define _NAMU_EACH_EXPAND0(f, s, x, peek, ...) f(s, x) _NAMU_EACH_NEXT(peek, _NAMU_EACH_EXPAND1)(f, s, peek, __VA_ARGS__)
-#define _NAMU_EACH_EXPAND1(f, s, x, peek, ...) f(s, x) _NAMU_EACH_NEXT(peek, _NAMU_EACH_EXPAND0)(f, s, peek, __VA_ARGS__)
-#define NAMU_EACH_EXPAND(f, ...) NAMU_EVAL(_NAMU_EACH_EXPAND1(f, s, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
+#define _NM_EACH_EXPAND0(f, s, x, peek, ...) f(s, x) _NM_EACH_NEXT(peek, _NM_EACH_EXPAND1)(f, s, peek, __VA_ARGS__)
+#define _NM_EACH_EXPAND1(f, s, x, peek, ...) f(s, x) _NM_EACH_NEXT(peek, _NM_EACH_EXPAND0)(f, s, peek, __VA_ARGS__)
+#define NM_EACH_EXPAND(f, ...) NM_EVAL(_NM_EACH_EXPAND1(f, s, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
 
 //    Applies the function macro `f` to each of the remaining parameters and inserts commas between the results.
-#define _NAMU_EACH_LIST0(f, x, peek, ...) f(x) _NAMU_EACH_LIST_NEXT(peek, _NAMU_EACH_LIST1)(f, peek, __VA_ARGS__)
-#define _NAMU_EACH_LIST1(f, x, peek, ...) f(x) _NAMU_EACH_LIST_NEXT(peek, _NAMU_EACH_LIST0)(f, peek, __VA_ARGS__)
-#define NAMU_EACH_LIST(f, ...) NAMU_EVAL(_NAMU_EACH_LIST1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
+#define _NM_EACH_LIST0(f, x, peek, ...) f(x) _NM_EACH_LIST_NEXT(peek, _NM_EACH_LIST1)(f, peek, __VA_ARGS__)
+#define _NM_EACH_LIST1(f, x, peek, ...) f(x) _NM_EACH_LIST_NEXT(peek, _NM_EACH_LIST0)(f, peek, __VA_ARGS__)
+#define NM_EACH_LIST(f, ...) NM_EVAL(_NM_EACH_LIST1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))

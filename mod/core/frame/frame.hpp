@@ -19,7 +19,7 @@ namespace nm {
     class obj;
     class baseFunc;
     class _nout frame : public node, public dumpable { // TODO: may be obj, not node.
-        NAMU(CLASS(frame, node), VISIT())
+        NM(CLASS(frame, node), VISIT())
         friend class verifier;
         friend struct ::frameTest;
         friend class baseObj;
@@ -39,19 +39,19 @@ namespace nm {
 
         virtual nbool setMe(const baseObj& obj);
         void setMe();
-        const baseObj& getMe() const NAMU_UNCONST_FUNC(getMe())
+        const baseObj& getMe() const NM_UNCONST_FUNC(getMe())
         baseObj& getMe();
 
         scope& getLocals();
-        const scope& getLocals() const NAMU_UNCONST_FUNC(getLocals())
+        const scope& getLocals() const NM_UNCONST_FUNC(getLocals())
 
         virtual nbool setFunc(baseFunc& new1);
         void setFunc();
         baseFunc& getFunc();
-        const baseFunc& getFunc() const NAMU_UNCONST_FUNC(getFunc())
+        const baseFunc& getFunc() const NM_UNCONST_FUNC(getFunc())
 
         node& getOwner(const node& sub);
-        const node& getOwner(const node& sub) const NAMU_UNCONST_FUNC(getOwner(sub))
+        const node& getOwner(const node& sub) const NM_UNCONST_FUNC(getOwner(sub))
 
         // node:
         using node::subs;
@@ -74,7 +74,7 @@ namespace nm {
     private:
         void _rel();
         scopeRegister& _getTop();
-        const scopeRegister& _getTop() const NAMU_UNCONST_FUNC(_getTop())
+        const scopeRegister& _getTop() const NM_UNCONST_FUNC(_getTop())
 
     private:
         tstr<baseObj> _me;

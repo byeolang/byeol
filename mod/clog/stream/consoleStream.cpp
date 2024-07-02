@@ -3,7 +3,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(consoleStream)
+    NM_DEF_ME(consoleStream)
 
     me::consoleStream(): super(true) {}
 

@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(slot), DEF_VISIT())
+    NM(DEF_ME(slot), DEF_VISIT())
 
 
     scope& me::subs() {

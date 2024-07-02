@@ -2,7 +2,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(fsystem)
+    NM_DEF_ME(fsystem)
 
     const std::string& me::iterator::get() const {
         return _nowPath;
@@ -14,7 +14,7 @@ namespace nm {
         //  then the most top element of entries should be removed.
         while(!isEnd()) {
             entry& e = _entries[_entries.size()-1];
-#ifdef NAMU_BUILD_PLATFORM_IS_WINDOWS
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
             int res = _findnext(e.dir, &e.file);
             if(res == -1) {
 #else
@@ -24,7 +24,7 @@ namespace nm {
                 _popDir();
                 continue;
             }
-#ifdef NAMU_BUILD_PLATFORM_IS_WINDOWS
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
             std::string name = e.file.name;
             char delimiter = '\\';
 #else
@@ -34,7 +34,7 @@ namespace nm {
             if(name == ".." || name == ".")
                 continue;
             std::string path = e.path + delimiter + name;
-#ifdef NAMU_BUILD_PLATFORM_IS_WINDOWS
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
             if(e.file.attrib & _A_SUBDIR) {
 #else
             if(file->d_type == DT_DIR) {
@@ -79,7 +79,7 @@ namespace nm {
 
     std::string me::iterator::getName() const {
         const std::string& path = get();
-#if NAMU_BUILD_PLATFORM == NAMU_TYPE_WINDOWS
+#if NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
         nidx slash = path.rfind('\\');
 #else
         nidx slash = path.rfind('/');
@@ -89,7 +89,7 @@ namespace nm {
 
     std::string me::iterator::getDir() const {
         const std::string& path = get();
-#if NAMU_BUILD_PLATFORM == NAMU_TYPE_WINDOWS
+#if NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
         nidx slash = path.rfind('\\');
 #else
         nidx slash = path.rfind('/');
@@ -104,7 +104,7 @@ namespace nm {
     void me::iterator::_addDir(const std::string& dirPath) {
         if(dirPath.empty()) return;
         std::string path = _filterPath(dirPath);
-#ifdef NAMU_BUILD_PLATFORM_IS_WINDOWS
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
         _finddata_t file;
         intptr_t newDir = _findfirst((path + "\\*.*").c_str(), &file);
         if (newDir == -1) return;
@@ -118,7 +118,7 @@ namespace nm {
 
     void me::iterator::_popDir() {
         entry& e = _entries[_entries.size()-1];
-#ifdef NAMU_BUILD_PLATFORM_IS_WINDOWS
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
         _findclose(e.dir);
 #else
         closedir(e.dir);
@@ -129,7 +129,7 @@ namespace nm {
     std::string me::iterator::_filterPath(const std::string& org) {
         int idx = org.length() - 1;
         char last = org[idx];
-#ifdef NAMU_BUILD_PLATFORM_IS_WINDOWS
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
         if (last == '\\' || last == '/')
 #else
         if (last == '/')

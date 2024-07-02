@@ -9,7 +9,7 @@ namespace nm {
     typedef std::function<void(const err&)> sigHandler;
 
     struct _nout sig {
-        NAMU(ME(sig))
+        NM(ME(sig))
 
     public:
         nbool operator==(const sig& rhs) const;
@@ -21,7 +21,7 @@ namespace nm {
     };
 
     class _nout signaler {
-        NAMU(ME(signaler))
+        NM(ME(signaler))
 
     private:
         signaler();

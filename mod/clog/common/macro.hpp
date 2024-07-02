@@ -12,18 +12,18 @@
 //      only if you use dbg configuration.
 //
 //      usage:
-//          NAMU_I("just message.")
-//          NAMU_I("with format=%x string=%s", &format, format.c_str())
-#define NAMU_E(fmt, ...) ::nm::logger::get().log(nm::logLv::ERR, NAMU_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
-#define NAMU_W(fmt, ...) ::nm::logger::get().log(nm::logLv::WARN, NAMU_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
-#define NAMU_I(fmt, ...) ::nm::logger::get().log(nm::logLv::INFO, NAMU_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
-#define NAMU_EX(code, ...) this->ex(code, __VA_ARGS__)
-#ifdef NAMU_DEBUG
-#   define NAMU_DE(fmt, ...) NAMU_E(fmt, ## __VA_ARGS__)
-#   define NAMU_DW(fmt, ...) NAMU_W(fmt, ## __VA_ARGS__)
-#   define NAMU_DI(fmt, ...) NAMU_I(fmt, ## __VA_ARGS__)
+//          NM_I("just message.")
+//          NM_I("with format=%x string=%s", &format, format.c_str())
+#define NM_E(fmt, ...) ::nm::logger::get().log(nm::logLv::ERR, NM_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
+#define NM_W(fmt, ...) ::nm::logger::get().log(nm::logLv::WARN, NM_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
+#define NM_I(fmt, ...) ::nm::logger::get().log(nm::logLv::INFO, NM_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
+#define NM_EX(code, ...) this->ex(code, __VA_ARGS__)
+#ifdef NM_DEBUG
+#   define NM_DE(fmt, ...) NM_E(fmt, ## __VA_ARGS__)
+#   define NM_DW(fmt, ...) NM_W(fmt, ## __VA_ARGS__)
+#   define NM_DI(fmt, ...) NM_I(fmt, ## __VA_ARGS__)
 #else
-#   define NAMU_DE(fmt, ...) void()
-#   define NAMU_DW(fmt, ...) void()
-#   define NAMU_DI(fmt, ...) void()
+#   define NM_DE(fmt, ...) void()
+#   define NM_DW(fmt, ...) void()
+#   define NM_DI(fmt, ...) void()
 #endif

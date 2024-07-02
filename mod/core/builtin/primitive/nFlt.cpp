@@ -9,7 +9,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(nFlt), DEF_VISIT())
+    NM(DEF_ME(nFlt), DEF_VISIT())
 
     nbool me::wFltType::isImmutable() const { return true; }
 

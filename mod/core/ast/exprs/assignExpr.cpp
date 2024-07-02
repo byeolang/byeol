@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(assignExpr), DEF_VISIT())
+    NM(DEF_ME(assignExpr), DEF_VISIT())
 
     me::assignExpr(const node& lhs, const node& rhs): _lhs(lhs), _rhs(rhs) {}
 
@@ -44,7 +44,7 @@ namespace nm {
         // TODO: elementExpr
 
         str ased = cast.getMe().as<node>();
-        if(!ased) return NAMU_E("ased == null"), iter();
+        if(!ased) return NM_E("ased == null"), iter();
 
         iter ret = ased->subs().iterate(cast.getName());
         while(ret) {

@@ -8,7 +8,7 @@ namespace nm {
     /// @remark arrayable has API treating index as its parameter.
     template <typename T, typename R = T&>
     class tarrayable {
-        NAMU_ME(tarrayable)
+        NM_ME(tarrayable)
 
     public:
         virtual ~tarrayable() {}
@@ -24,7 +24,7 @@ namespace nm {
 
         // get:
         virtual R get(nidx n) = 0;
-        const R get(nidx n) const NAMU_UNCONST_FUNC(get(n))
+        const R get(nidx n) const NM_UNCONST_FUNC(get(n))
 
         // set:
         virtual nbool set(nidx n, const T& new1) = 0;

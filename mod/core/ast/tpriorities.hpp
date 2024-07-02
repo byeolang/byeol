@@ -16,7 +16,7 @@ namespace nm {
 
     template <typename T>
     struct tprior: instance {
-        NAMU(CLASS(tprior, instance))
+        NM(CLASS(tprior, instance))
 
     public:
         tprior(const node& newElem, priorType type, ncnt lv);
@@ -24,12 +24,12 @@ namespace nm {
     public:
         T* operator->();
         T& operator*();
-        const T* operator->() const NAMU_UNCONST_FUNC(operator->())
-        const T& operator*() const NAMU_UNCONST_FUNC(operator*())
+        const T* operator->() const NM_UNCONST_FUNC(operator->())
+        const T& operator*() const NM_UNCONST_FUNC(operator*())
 
     public:
         T& get();
-        const T& get() const NAMU_UNCONST_FUNC(get())
+        const T& get() const NM_UNCONST_FUNC(get())
 
         /// @brief precedence is more detail concept of priority.
         ///        it considers the owner of them are equal above priority.
@@ -43,7 +43,7 @@ namespace nm {
 
     template <typename T>
     class tmatches : public tnarr<T> {
-        NAMU(CLASS(tmatches, tnarr<T>))
+        NM(CLASS(tmatches, tnarr<T>))
         template <typename E> friend class tpriorities;
 
     public:
@@ -61,7 +61,7 @@ namespace nm {
 
         using super::get;
         T& get();
-        const T& get() const NAMU_UNCONST_FUNC(get())
+        const T& get() const NM_UNCONST_FUNC(get())
 
         /// @return priority of matched one.
         ///         this'll be NO_MATCH if isMatched() returns false.
@@ -76,7 +76,7 @@ namespace nm {
 
     template <typename T>
     class tpriorities : public tnarr<tprior<T>> {
-        NAMU(CLASS(tpriorities, tprior<T>))
+        NM(CLASS(tpriorities, tprior<T>))
 
     public:
         tpriorities();
@@ -87,7 +87,7 @@ namespace nm {
         ///         if there is any ambigious err, this will return nulOf<T>().
         tmatches<T> getMatches() const;
         tstr<T> getMatch();
-        const tstr<T> getMatch() const NAMU_UNCONST_FUNC(getMatch())
+        const tstr<T> getMatch() const NM_UNCONST_FUNC(getMatch())
         tpriorities split(priorType by) const;
     };
 

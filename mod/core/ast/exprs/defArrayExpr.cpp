@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(defArrayExpr), DEF_VISIT())
+    NM(DEF_ME(defArrayExpr), DEF_VISIT())
 
     me::defArrayExpr(const node& type): _type(type) {}
     me::defArrayExpr(const narr& elems): _elems(elems) {}
@@ -35,22 +35,22 @@ namespace nm {
 
     str me::_deduceElems() const {
         ncnt len = _elems.len();
-        NAMU_DI("deduceElems: len[%d]", len);
-        if(!len) return NAMU_DI("len == 0. deduced type as 'void'"), nVoid::singletone();
+        NM_DI("deduceElems: len[%d]", len);
+        if(!len) return NM_DI("len == 0. deduced type as 'void'"), nVoid::singletone();
 
         str ased1 = _elems[0].getEval();
         const node* ret = &ased1.get();
         if(!ret)
-            return NAMU_DI("deduceElem: elem0 is null"), str();
+            return NM_DI("deduceElem: elem0 is null"), str();
         str ased;
 
         for(int n=1; n < len; n++) {
             ased = _elems[n].as<node>();
             ret = &ret->deduce(*ased);
-            NAMU_DI("deduceElem: prevElem + elem%d[%s] --> %s",
+            NM_DI("deduceElem: prevElem + elem%d[%s] --> %s",
                     n, ased->getType().getName().c_str(), ret ? ret->getType().getName().c_str() : "null");
             if(!ret)
-                return NAMU_DI("deduceElem: elem%d was null.", n), str();
+                return NM_DI("deduceElem: elem%d was null.", n), str();
         }
 
         return *ret;

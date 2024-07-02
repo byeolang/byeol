@@ -1,6 +1,6 @@
 // nested class of ucontainable.hpp
 class iterable {
-    NAMU_ME(iterable)
+    NM_ME(iterable)
 
 public:
     virtual ~iterable() {}
@@ -14,8 +14,8 @@ public:
     ///         it'll return '0' if it already reached to the end.
     virtual ncnt next(ncnt step) = 0;
     virtual R get() = 0;
-    const R get() const NAMU_UNCONST_FUNC(get())
+    const R get() const NM_UNCONST_FUNC(get())
     virtual nbool isFrom(const tucontainable& it) const = 0;
     virtual tucontainable<T, R>& getContainer() = 0;
-    const tucontainable<T, R>& getContainer() const NAMU_UNCONST_FUNC(getContainer())
+    const tucontainable<T, R>& getContainer() const NM_UNCONST_FUNC(getContainer())
 };

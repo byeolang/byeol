@@ -8,7 +8,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(genericObj), DEF_VISIT())
+    NM(DEF_ME(genericObj), DEF_VISIT())
 
     me::genericObj(const obj& orgObj, const strings& paramNames): _orgObj(orgObj),
             _paramNames(paramNames) {}
@@ -53,7 +53,7 @@ namespace nm {
 
     str me::run(const args& a) {
         std::string key = _makeKey(a);
-        if(key.empty()) return NAMU_E("key is empty"), tstr<obj>();
+        if(key.empty()) return NM_E("key is empty"), tstr<obj>();
 
         if(!_cache.count(key))
             _cache.insert({key, _makeGeneric(key, a)});
@@ -61,17 +61,17 @@ namespace nm {
     }
 
     std::string me::_makeKey(const args& a) const {
-        if(a.len() != _paramNames.size()) return NAMU_E("len of args doesn't match to _paramNames"), std::string();
+        if(a.len() != _paramNames.size()) return NM_E("len of args doesn't match to _paramNames"), std::string();
         return a.asStr();
     }
 
     /// make a generic object.
     tstr<obj> me::_makeGeneric(const std::string& argName, const args& a) const {
-        if(!_orgObj) return NAMU_E("_orgObj is null"), tstr<obj>();
+        if(!_orgObj) return NM_E("_orgObj is null"), tstr<obj>();
 
         std::string name = _orgObj->getType().getName() + "<" + argName + ">";
-        NAMU_DI("|==========================================|");
-        NAMU_DI("|--- generic: make %s generic class ---|", name.c_str());
+        NM_DI("|==========================================|");
+        NM_DI("|--- generic: make %s generic class ---|", name.c_str());
         tstr<obj> ret = (obj*) _orgObj->cloneDeep(); // clone all of shares including func.
         src* s = new src(_orgObj->getSrc());
         s->_setName(name);
@@ -93,7 +93,7 @@ namespace nm {
             g.add(*new param(_paramNames[n++], e));
 
         g.setFlag(generalizer::INTERNAL).setTask(*ret).work();
-        NAMU_DI("|============================|");
+        NM_DI("|============================|");
         return ret;
     }
 }

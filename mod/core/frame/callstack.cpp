@@ -21,7 +21,7 @@ namespace nm {
             in = file.getFileName() + ":" + std::to_string(s.getPos().row);
     }
 
-    NAMU(DEF_ME(callstack))
+    NM(DEF_ME(callstack))
 
     me::callstack() {}
 

@@ -10,7 +10,7 @@ namespace nm {
 
     template class _nout worker<tstr<slot>, slot>;
 
-    NAMU_DEF_ME(interpreter)
+    NM_DEF_ME(interpreter)
 
     me::interpreter(): _isParsed(false) {}
 
@@ -65,9 +65,9 @@ namespace nm {
     }
 
     void me::_parse() {
-        NAMU_DI("======================================");
-        NAMU_DI("|               parse                |");
-        NAMU_DI("======================================");
+        NM_DI("======================================");
+        NM_DI("|               parse                |");
+        NM_DI("======================================");
 
         _pser.setReport(getReport())
              .setTask(getTask())
@@ -80,12 +80,12 @@ namespace nm {
     }
 
     void me::_preEval() {
-        NAMU_DI("======================================");
-        NAMU_DI("|               preEval              |");
-        NAMU_DI("======================================");
+        NM_DI("======================================");
+        NM_DI("|               preEval              |");
+        NM_DI("======================================");
 
         if(nul(getTask()))
-            return NAMU_E("_slot is null"), void();
+            return NM_E("_slot is null"), void();
 
         threadUse thr;
         preEvaluator evaler;
@@ -96,12 +96,12 @@ namespace nm {
     }
 
     void me::_verify() {
-        NAMU_DI("======================================");
-        NAMU_DI("|                verify              |");
-        NAMU_DI("======================================");
+        NM_DI("======================================");
+        NM_DI("|                verify              |");
+        NM_DI("======================================");
 
         if(nul(getTask()))
-            return NAMU_E("_slot is null"), void();
+            return NM_E("_slot is null"), void();
 
         // verify:
         threadUse thr;

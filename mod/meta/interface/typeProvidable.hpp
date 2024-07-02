@@ -4,7 +4,7 @@
 
 namespace nm {
     class _nout typeProvidable {
-        NAMU_ME(typeProvidable)
+        NM_ME(typeProvidable)
 
     public:
         nbool operator==(const me& rhs) const;
@@ -36,10 +36,10 @@ namespace nm {
             return *(T*) cast(ttype<T>::get());
         }
 
-        template <typename T> const T& cast() const NAMU_UNCONST_FUNC(cast<T>())
+        template <typename T> const T& cast() const NM_UNCONST_FUNC(cast<T>())
 
         virtual void* cast(const type& to);
-        const void* cast(const type& to) const NAMU_UNCONST_FUNC(cast(to))
+        const void* cast(const type& to) const NM_UNCONST_FUNC(cast(to))
 
     protected:
         virtual nbool _onSame(const me& rhs) const;

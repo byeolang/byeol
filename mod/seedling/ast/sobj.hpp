@@ -5,7 +5,7 @@
 namespace nm {
 
     class _nout sobj : public instance {
-        NAMU(ME(sobj, instance),
+        NM(ME(sobj, instance),
             CLONE(me),
             INIT_META(sobj))
 
@@ -19,14 +19,14 @@ namespace nm {
 
     public:
         me& operator[](const std::string& name);
-        const me& operator[](const std::string& name) const NAMU_UNCONST_FUNC(operator[](name))
+        const me& operator[](const std::string& name) const NM_UNCONST_FUNC(operator[](name))
         me& operator[](nidx n);
-        const me& operator[](nidx n) const NAMU_UNCONST_FUNC(operator[](n))
+        const me& operator[](nidx n) const NM_UNCONST_FUNC(operator[](n))
 
         explicit operator nbool() const;
 
         me& sub(const std::string& name);
-        const me& sub(const std::string& name) const NAMU_UNCONST_FUNC(sub(name))
+        const me& sub(const std::string& name) const NM_UNCONST_FUNC(sub(name))
 
         nbool has(const std::string& name) const;
 

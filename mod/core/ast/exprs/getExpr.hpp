@@ -8,7 +8,7 @@ namespace nm {
     class visitor;
 
     class _nout getExpr : public expr {
-        NAMU(CLASS(getExpr, expr, expr::exprType), VISIT())
+        NM(CLASS(getExpr, expr, expr::exprType), VISIT())
         friend class verifier;
         friend class parser;
         friend class visitor; // for _me

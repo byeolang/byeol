@@ -15,7 +15,7 @@ namespace nm {
 
     TEMPL
     T& ME::get(nidx n) {
-        if(!has(n)) return NAMU_EX(errCode::OUT_OF_RANGE, n, len()), nulOf<T>();
+        if(!has(n)) return NM_EX(errCode::OUT_OF_RANGE, n, len()), nulOf<T>();
 
         binder& ret = _vec[n];
         return (T&) *ret;
@@ -91,7 +91,7 @@ namespace nm {
         narrIteration&  endIter = _getIterationFrom(end),
                     &   fromIter = _getIterationFrom(from);
         if(nul(endIter) || nul(fromIter))
-            return NAMU_E("from(%x) or end(%x) one of these is null.", &endIter, &fromIter), false;
+            return NM_E("from(%x) or end(%x) one of these is null.", &endIter, &fromIter), false;
 
         nidx fromN = fromIter.isEnd() ? len()-1 : fromIter._n;
         ncnt cnt = endIter._n - fromN;

@@ -30,7 +30,7 @@ namespace nm {
     class defPropExpr;
     class _nout parser : public worker<tstr<obj>, slot>, public tokenScanable {
         typedef worker<tstr<obj>, slot> __super5;
-        NAMU(CLASS(parser, __super5))
+        NM(CLASS(parser, __super5))
         friend class srcSupply;
 
     public:
@@ -38,10 +38,10 @@ namespace nm {
 
     public:
         obj& getSubPack();
-        const obj& getSubPack() const NAMU_UNCONST_FUNC(getSubPack())
+        const obj& getSubPack() const NM_UNCONST_FUNC(getSubPack())
 
         srcSupplies& getSrcSupplies();
-        const srcSupplies& getSrcSupplies() const NAMU_UNCONST_FUNC(getSrcSupplies())
+        const srcSupplies& getSrcSupplies() const NM_UNCONST_FUNC(getSrcSupplies())
         me& addSupply(const srcSupply& new1);
         me& relSupplies();
 
@@ -52,7 +52,7 @@ namespace nm {
 
         template <typename T>
         void setScan() {
-            NAMU_DI("change scanmode(%s -> %s)", !_mode ? "<null>" : _mode->getType().getName().c_str(),
+            NM_DI("change scanmode(%s -> %s)", !_mode ? "<null>" : _mode->getType().getName().c_str(),
                     T::_instance->getType().getName().c_str());
             _mode = T::_instance;
         }
@@ -159,7 +159,7 @@ namespace nm {
         //          var:
         template <typename T, typename... Args>
         T* onPrimitive(Args... args) {
-            NAMU_DI("on%s(...)", ttype<T>::get().getName().c_str());
+            NM_DI("on%s(...)", ttype<T>::get().getName().c_str());
             return new T(args...);
         }
         node* onDefProp(const std::string& name, const node& rhs);

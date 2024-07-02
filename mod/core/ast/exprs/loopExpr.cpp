@@ -10,7 +10,7 @@
 
 namespace nm {
 
-    NAMU(DEF_ME(loopExpr), DEF_VISIT())
+    NM(DEF_ME(loopExpr), DEF_VISIT())
 
     me::loop::loop(arr& ret): _ret(ret) {}
 
@@ -55,10 +55,10 @@ namespace nm {
 
     str me::run(const args& a) {
         blockExpr& blk = getBlock();
-        if(nul(blk)) return NAMU_E("blk is null"), str();
+        if(nul(blk)) return NM_E("blk is null"), str();
 
         auto l = _makeLoop(*_makeRet());
-        if(!l) return NAMU_E("loop is null"), str();
+        if(!l) return NM_E("loop is null"), str();
 
         frame& fr = thread::get()._getNowFrame();
         while(l->isLooping()) {
@@ -74,7 +74,7 @@ namespace nm {
     tstr<arr> me::_makeRet() const {
         static dumArr inner;
         node& eval = *getEval();
-        if(nul(eval)) return NAMU_E("eval is null "), nulOf<arr>();
+        if(nul(eval)) return NM_E("eval is null "), nulOf<arr>();
         if(!eval.isSub<arr>()) return nulOf<arr>();
 
         return *new arr(eval.getType().getBeans()[0]);

@@ -6,7 +6,7 @@ namespace nm {
 
     template <typename T, typename defaultElemType = T>
     class tarr : public arr {
-        NAMU(ME(tarr, arr),
+        NM(ME(tarr, arr),
              INIT_META(tarr),
              CLONE(tarr))
 

@@ -4,7 +4,7 @@
 
 namespace nm {
     class _nout src : public instance {
-        NAMU(CLASS(src, instance))
+        NM(CLASS(src, instance))
         friend class parser;
         friend class genericObj; // for _setName() at genericObj::_makeGeneric()
 

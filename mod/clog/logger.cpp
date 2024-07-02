@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    NAMU_DEF_ME(logger)
+    NM_DEF_ME(logger)
     typedef std::string string;
 
     const std::string& me::getName() const {

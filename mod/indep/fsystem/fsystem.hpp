@@ -2,7 +2,7 @@
 
 #include "../macro.hpp"
 #include "../common.hpp"
-#ifdef NAMU_BUILD_PLATFORM_IS_WINDOWS
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
 #   include <direct.h>
 #   include <io.h>
 #   define getcwd _getcwd
@@ -17,10 +17,10 @@ namespace nm {
     /// fsystem is going to be used before filesystem library fully supported.
     /// to apply fsystem on clang++ is quite hard now.
     class _nout fsystem {
-        NAMU(ME(fsystem))
+        NM(ME(fsystem))
 
         struct entry {
-#ifdef NAMU_BUILD_PLATFORM_IS_WINDOWS
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
             _finddata_t file;
             intptr_t dir;
 #else
@@ -31,7 +31,7 @@ namespace nm {
         typedef std::vector<entry> entries;
 
         class _nout iterator {
-            NAMU(ME(iterator))
+            NM(ME(iterator))
             friend class fsystem;
 
         private:
@@ -68,7 +68,7 @@ namespace nm {
         static std::string getCurrentDir();
 
     public:
-#if NAMU_BILD_PLATFORM == NAMU_TYPE_WINDOWS
+#if NM_BILD_PLATFORM == NM_TYPE_WINDOWS
         static inline std::string DELIMITER = "\\";
 #else
         static inline std::string DELIMITER = "/";

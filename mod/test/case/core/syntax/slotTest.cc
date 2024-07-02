@@ -7,14 +7,14 @@ namespace {
     struct slotTest : public namuSyntaxTest {};
 
     class myfunc : public func {
-        NAMU(CLASS(myfunc, func))
+        NM(CLASS(myfunc, func))
 
         class myBlock : public blockExpr {
-            NAMU(CLASS(myBlock, blockExpr))
+            NM(CLASS(myBlock, blockExpr))
 
         public:
             str run(const args& a) override {
-                NAMU_I("hello world!");
+                NM_I("hello world!");
                 _executed = true;
 
                 if(_lambda)
@@ -33,10 +33,10 @@ namespace {
 
     public:
         myfunc(): super(params(), new nVoid(), *new myBlock()) {
-            NAMU_I("myfunc(%x) new", this);
+            NM_I("myfunc(%x) new", this);
         }
         ~myfunc() {
-            NAMU_I("myfunc(%x) delete", this);
+            NM_I("myfunc(%x) delete", this);
         }
 
         nbool isRun() const {
@@ -64,7 +64,7 @@ namespace {
     };
 
     class nativeFunc : public baseFunc {
-        NAMU(CLASS(nativeFunc, baseFunc))
+        NM(CLASS(nativeFunc, baseFunc))
 
     public:
         nativeFunc(): super() {}
@@ -163,7 +163,7 @@ TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
     ps.add(new param("grade", ttype<nFlt>::get()));
     f1.setLambda([](const auto& contain, const auto& sf) {
         const frame& fr = sf[sf.len() - 1];
-        if(!nul(fr)) return NAMU_E("fr == null"), false;
+        if(!nul(fr)) return NM_E("fr == null"), false;
 
         return true;
     });
