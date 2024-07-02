@@ -2,7 +2,7 @@
 
 #include "srcSupply.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout fileSupply : public srcSupply {
         NAMU(CLASS(fileSupply, srcSupply))

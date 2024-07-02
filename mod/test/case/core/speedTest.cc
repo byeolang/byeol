@@ -4,7 +4,7 @@
 #include <chrono>
 #include <cstdint>
 
-using namespace namu;
+using namespace nm;
 using namespace std;
 
 struct speedTest : namuSyntaxTest {};

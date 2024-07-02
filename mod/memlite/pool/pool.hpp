@@ -2,7 +2,7 @@
 
 #include "chunks.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout pool : public memoryHaver {
         NAMU_ME(pool, memoryHaver)

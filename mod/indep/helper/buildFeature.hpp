@@ -3,7 +3,7 @@
 #include "../macro.hpp"
 #include "../common.hpp"
 
-namespace namu {
+namespace nm {
     using std::string;
 
     class _nout buildFeature {

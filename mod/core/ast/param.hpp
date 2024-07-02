@@ -4,7 +4,7 @@
 #include "immutableTactic.hpp"
 #include "../type/ntype.hpp"
 
-namespace namu {
+namespace nm {
     class _nout param : public instance {
         NAMU(CLASS(param, instance))
 

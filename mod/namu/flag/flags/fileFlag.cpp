@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 
-namespace namu {
+namespace nm {
     NAMU_DEF_ME(fileFlag)
 
     const nchar* me::getName() const {

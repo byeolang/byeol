@@ -11,7 +11,7 @@ namespace {
     };
 }
 
-using namespace namu;
+using namespace nm;
 
 struct rttiTest : public namuTest {};
 

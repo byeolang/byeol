@@ -3,7 +3,7 @@
 #include "../node.inl"
 #include "../genericObj.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(getGenericExpr), DEF_VISIT())
 

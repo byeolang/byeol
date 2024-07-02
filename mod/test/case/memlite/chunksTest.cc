@@ -1,6 +1,6 @@
 #include "../../namuTest.hpp"
 
-using namespace namu;
+using namespace nm;
 
 struct chunksTest : public namuTest {
     void TearDown() {

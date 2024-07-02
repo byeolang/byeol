@@ -6,7 +6,7 @@
 #include "../../ast/dumScope.hpp"
 #include "../../ast/src/dumSrc.hpp"
 
-namespace namu {
+namespace nm {
 
     template <typename T>
     class primitiveObj : public arithmeticObj {

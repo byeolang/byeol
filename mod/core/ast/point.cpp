@@ -1,6 +1,6 @@
 #include "point.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(point))
 

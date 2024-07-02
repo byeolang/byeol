@@ -7,7 +7,7 @@
 #include "../frame/starter.hpp"
 #include "../loader/worker/worker.inl"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(verifier)
 

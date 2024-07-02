@@ -4,7 +4,7 @@
 #include "../loader/errReport.hpp"
 #include "obj.hpp"
 
-namespace namu {
+namespace nm {
 
     class visitor;
 

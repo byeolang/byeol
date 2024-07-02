@@ -3,7 +3,7 @@
 #include "baseObj.hpp"
 #include "scope.hpp"
 
-namespace namu {
+namespace nm {
 
     class mgdType;
 

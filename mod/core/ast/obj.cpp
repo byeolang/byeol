@@ -4,7 +4,7 @@
 #include "baseFunc.hpp"
 #include "node.inl"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(obj), DEF_VISIT())
 

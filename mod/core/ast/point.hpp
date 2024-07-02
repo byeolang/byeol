@@ -2,7 +2,7 @@
 
 #include "../common/dep.hpp"
 
-namespace namu {
+namespace nm {
     struct _nout point {
         point& operator++();
 

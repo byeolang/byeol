@@ -2,7 +2,7 @@
 
 #include "../common.hpp"
 
-namespace namu {
+namespace nm {
     struct _nout visitInfo {
         std::string name;
         node* parent;

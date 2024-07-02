@@ -2,7 +2,7 @@
 #include <iostream>
 #include "stream.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(logger)
     typedef std::string string;

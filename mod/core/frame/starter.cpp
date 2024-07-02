@@ -8,7 +8,7 @@
 #include <csignal>
 #include "../visitor/graphVisitor.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(starter)
 

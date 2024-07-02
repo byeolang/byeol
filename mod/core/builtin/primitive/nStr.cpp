@@ -10,7 +10,7 @@
 #include "../container/mgd/seq.hpp"
 #include "../../bridge/cpp.hpp"
 
-namespace namu {
+namespace nm {
 
     namespace {
         class lenFunc : public tApiBridge<nStr, nInt> {

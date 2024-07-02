@@ -2,7 +2,7 @@
 
 #include "../common.hpp"
 
-namespace namu {
+namespace nm {
 
     class instance;
     class _nout memoryHaver {

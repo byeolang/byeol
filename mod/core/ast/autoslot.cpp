@@ -3,7 +3,7 @@
 #include "../visitor/visitor.hpp"
 #include "../type/mgdType.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(autoslot), DEF_VISIT())
 

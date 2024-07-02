@@ -3,14 +3,14 @@
 #include "dep.hpp"
 #include "common/_nout.hpp"
 
-namespace namu {
+namespace nm {
     class type;
     typedef std::vector<type*> types;
 }
 
 #define NAMU_INIT_META(me) \
     NAMU_INITIATOR(initMeta, { \
-        ::namu::ttype<me>().init(); \
+        ::nm::ttype<me>().init(); \
     })
 
 // namuMeta macro's sub-commands:

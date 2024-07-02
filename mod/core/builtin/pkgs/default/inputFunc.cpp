@@ -5,7 +5,7 @@
 #   include <emscripten/emscripten.h>
 #endif
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(inputFunc))
 

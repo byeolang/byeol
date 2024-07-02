@@ -2,7 +2,7 @@
 
 #include "tas.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout ases: public asable {
     public:

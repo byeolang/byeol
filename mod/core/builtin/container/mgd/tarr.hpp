@@ -2,7 +2,7 @@
 
 #include "arr.hpp"
 
-namespace namu {
+namespace nm {
 
     template <typename T, typename defaultElemType = T>
     class tarr : public arr {

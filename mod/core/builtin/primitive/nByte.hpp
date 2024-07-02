@@ -2,7 +2,7 @@
 
 #include "primitiveObj.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout nByte : public primitiveObj<nuchar> {
 

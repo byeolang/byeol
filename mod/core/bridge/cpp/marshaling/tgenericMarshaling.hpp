@@ -4,7 +4,7 @@
 #include "../../../ast/exprs/getExpr.hpp"
 #include "../../../ast/obj.hpp"
 
-namespace namu {
+namespace nm {
     template <typename T, typename S, nbool isNode = tifSub<T, node>::is>
     struct tgenericMarshaling : public tmarshaling<T, S, isNode> {};
 

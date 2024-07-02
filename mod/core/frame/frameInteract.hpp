@@ -2,7 +2,7 @@
 
 #include "frameInteractable.hpp"
 
-namespace namu {
+namespace nm {
 
     class frameInteract {
         NAMU(ME(frameInteract))

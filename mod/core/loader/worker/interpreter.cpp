@@ -6,7 +6,7 @@
 #include "../../frame/threadUse.hpp"
 #include "worker.inl"
 
-namespace namu {
+namespace nm {
 
     template class _nout worker<tstr<slot>, slot>;
 

@@ -3,7 +3,7 @@
 #include "../../../type/ntype.hpp"
 #include "../../../builtin/container/native/tnarr.hpp"
 
-namespace namu {
+namespace nm {
 
     class parser;
     class exprMaker;

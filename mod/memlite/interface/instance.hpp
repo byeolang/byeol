@@ -6,7 +6,7 @@
 
 struct namuTest;
 
-namespace namu {
+namespace nm {
 
     class bindTag;
     class instancer;

@@ -1,7 +1,7 @@
 #include "exceptional.hpp"
 #include "../frame/thread.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(exceptional))
 
     void me::ex(nint code, ...) {

@@ -2,7 +2,7 @@
 
 #include "../interface/instance.hpp"
 
-namespace namu {
+namespace nm {
 
     template <typename T>
     class tbindable {

@@ -2,7 +2,7 @@
 
 #include "worker.hpp"
 
-namespace namu {
+namespace nm {
 
     template <typename R, typename T>
     struct workerAdapter {

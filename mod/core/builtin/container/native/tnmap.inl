@@ -4,7 +4,7 @@
 #include "../../../ast/node.hpp"
 #include "tnbicontainer.inl"
 
-namespace namu {
+namespace nm {
 
 #define TEMPL template <typename K, typename V, typename TACTIC>
 #define ME tnmap<K, V, TACTIC>

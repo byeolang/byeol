@@ -2,7 +2,7 @@
 
 #include "../common.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout clonable {
         NAMU_ME(clonable)

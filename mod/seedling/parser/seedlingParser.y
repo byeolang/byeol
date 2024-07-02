@@ -2,14 +2,14 @@
 #include "../common.hpp"
 #include "../interp/sinterpreter.hpp"
 
-namespace namu {
+namespace nm {
     class obj;
 }
 
-using namespace namu;
+using namespace nm;
 
 int yylex();
-extern namu::sobj* root;
+extern nm::sobj* root;
 extern int yylineno;
 extern char* yytext;
 
@@ -24,7 +24,7 @@ void yyerror(const char* s);
     bool boolVal;
     char charVal;
     const char* strVal;
-    namu::sobj* obj;
+    nm::sobj* obj;
 }
 
 %verbose
@@ -155,7 +155,7 @@ tdefBlock   : tdefStmt {
 
 tfile       : tdefBlock {
                 $$ = root = $1;
-                namu::id id = $1->getId();
+                nm::id id = $1->getId();
                 NAMU_DI("$1 = %x, %d.%d.%d", $1, id.tagN, id.chkN, id.serial);
                 NAMU_DI("tfile(%x) <-- tdefBlock(%x)", $$, $1);
             }

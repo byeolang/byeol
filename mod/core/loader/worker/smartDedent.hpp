@@ -2,7 +2,7 @@
 
 #include "../../type/ntype.hpp"
 
-namespace namu {
+namespace nm {
     class _nout smartDedent : public typeProvidable, public clonable {
         NAMU(CLASS(smartDedent))
 

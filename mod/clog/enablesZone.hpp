@@ -2,7 +2,7 @@
 
 #include "common.hpp"
 
-namespace namu {
+namespace nm {
 
     typedef std::map<std::string, nbool> enables;
 

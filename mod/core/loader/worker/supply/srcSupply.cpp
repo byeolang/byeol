@@ -2,7 +2,7 @@
 #include "srcSupply.hpp"
 #include "../bison/lowscanner.hpp"
 
-namespace namu {
+namespace nm {
     NAMU_DEF_ME(srcSupply)
 
     void* me::_scanString(parser& ps, const nchar* src, void* scanner) const {

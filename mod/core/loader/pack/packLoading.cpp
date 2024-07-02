@@ -1,7 +1,7 @@
 #include "packLoading.hpp"
 #include "../../frame/thread.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(packLoading)
 

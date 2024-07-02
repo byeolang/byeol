@@ -3,7 +3,7 @@
 #include "../tbicontainable.hpp"
 #include "../../../type/exceptional.hpp"
 
-namespace namu {
+namespace nm {
 
     template <typename K, typename V>
     class tnbicontainer : public instance, public tbicontainable<K, V>, public exceptional {

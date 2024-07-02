@@ -1,7 +1,7 @@
 #include "chunks.hpp"
 #include "../interface/instance.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(chunks, allocator)
 

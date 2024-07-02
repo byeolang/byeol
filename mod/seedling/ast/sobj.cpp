@@ -1,7 +1,7 @@
 #include "sobj.hpp"
 #include "nullSobj.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(sobj)
 

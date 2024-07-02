@@ -1,6 +1,6 @@
 #include "termSobj.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(termSobj))
 
     me::termSobj(const std::string& rawVal, const std::string& name): _rawVal(rawVal) {}

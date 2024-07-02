@@ -1,6 +1,6 @@
 #include "allocator.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(allocator, memoryHaver)
 

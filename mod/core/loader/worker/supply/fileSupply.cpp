@@ -1,7 +1,7 @@
 #include "fileSupply.hpp"
 #include "../parser.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(fileSupply))
 
     me::fileSupply(const std::string& newPath):  _path(newPath) {}

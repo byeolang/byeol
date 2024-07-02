@@ -3,7 +3,7 @@
 #include "parser.hpp"
 #include "../../visitor/verifier.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout interpreter : public worker<tstr<slot>, slot> {
         typedef worker<tstr<slot>, slot> __super7;

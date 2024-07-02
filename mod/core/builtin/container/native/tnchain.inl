@@ -3,7 +3,7 @@
 #include "tnmap.inl"
 #include "tnchain.hpp"
 
-namespace namu {
+namespace nm {
 
 #define TEMPL template <typename K, typename V, typename defaultContainer>
 #define ME tnchain<K, V, defaultContainer>

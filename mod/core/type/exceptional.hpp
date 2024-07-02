@@ -2,7 +2,7 @@
 
 #include "../common.hpp"
 
-namespace namu {
+namespace nm {
     struct point;
     class _nout exceptional {
         NAMU(ME(exceptional))

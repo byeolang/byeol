@@ -4,7 +4,7 @@
 #include "../../../ast/src/src.hpp"
 #include "../../../ast/slot.hpp"
 
-namespace namu {
+namespace nm {
 
 #ifdef NAMU_BUILD_PLATFORM_IS_WINDOWS
     typedef HMODULE libHandle;

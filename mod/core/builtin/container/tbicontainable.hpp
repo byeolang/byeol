@@ -2,7 +2,7 @@
 
 #include "../../ast/param.hpp"
 
-namespace namu {
+namespace nm {
 
     class node;
     template <typename K, typename V>

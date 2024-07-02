@@ -2,7 +2,7 @@
 
 #include "../../common.hpp"
 
-namespace namu {
+namespace nm {
 
     template <typename L, typename R>
     struct tpair {

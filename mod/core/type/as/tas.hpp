@@ -2,7 +2,7 @@
 
 #include "asable.hpp"
 
-namespace namu {
+namespace nm {
 
     class ntype;
     template <typename T>

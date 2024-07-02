@@ -4,7 +4,7 @@
 
 #include "../../../ast/node.hpp"
 
-namespace namu {
+namespace nm {
 
 #define TEMPL template <typename T, typename R>
 #define ME tucontainable<T, R>::iter

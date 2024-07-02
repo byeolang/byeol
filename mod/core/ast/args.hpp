@@ -3,7 +3,7 @@
 #include "../builtin/container/native/tnarr.hpp"
 #include "obj.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout args : public narr {
         NAMU(CLASS(args, narr))

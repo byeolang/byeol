@@ -2,7 +2,7 @@
 
 #include "../common.hpp"
 
-namespace namu {
+namespace nm {
 
     class node;
     template <typename K, typename V> class tbicontainable;

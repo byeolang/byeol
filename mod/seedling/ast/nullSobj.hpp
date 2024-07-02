@@ -2,7 +2,7 @@
 
 #include "sobj.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout nullSobj : public sobj {
         NAMU(ME(nullSobj, sobj),

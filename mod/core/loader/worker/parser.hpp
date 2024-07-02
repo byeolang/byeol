@@ -13,7 +13,7 @@
 #include "supply/srcSupply.hpp"
 #include "worker.hpp"
 
-namespace namu {
+namespace nm {
 
     class expr;
     class func;

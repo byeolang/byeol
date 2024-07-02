@@ -5,7 +5,7 @@
 #include "../../ast/obj.hpp"
 #include "packMakable.hpp"
 
-namespace namu {
+namespace nm {
 
     class slot;
     struct manifest;

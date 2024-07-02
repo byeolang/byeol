@@ -5,7 +5,7 @@
 
 void yyrestart(FILE*);
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(sinterpreter)
 

@@ -1,7 +1,7 @@
 #include "defBlock.hpp"
 #include "../../ast/node.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(defBlock))
 

@@ -2,7 +2,7 @@
 
 #include "../loader/err.hpp"
 
-namespace namu {
+namespace nm {
 
     typedef err*(*errMaker)(nint);
     typedef void(*sigFunc)(const err&);

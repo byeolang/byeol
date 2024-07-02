@@ -1,6 +1,6 @@
 #include "type.hpp"
 
-namespace namu {
+namespace nm {
     NAMU_DEF_ME(type)
 
     nbool me::operator==(const me& rhs) const {

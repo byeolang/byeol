@@ -7,7 +7,7 @@
 #include "../../../bridge/cpp/tcppBridgeFunc.inl"
 #include "../../../loader/err.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(defaultPack))
 
     scope& me::subs() {

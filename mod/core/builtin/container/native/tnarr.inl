@@ -5,7 +5,7 @@
 #include "tnucontainer.inl"
 #include "../../../loader/errCode.hpp"
 
-namespace namu {
+namespace nm {
 
     class thread;
     struct err;

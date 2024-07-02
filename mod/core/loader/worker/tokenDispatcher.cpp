@@ -1,6 +1,6 @@
 #include "tokenDispatcher.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(tokenDispatcher)
 

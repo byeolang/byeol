@@ -1,6 +1,6 @@
 #include "params.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(params))
 
     std::string me::toStr() const {

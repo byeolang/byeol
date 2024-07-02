@@ -2,7 +2,7 @@
 #include "../../builtin/primitive.hpp"
 #include "../../visitor/visitor.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(FUOExpr), DEF_VISIT())
 

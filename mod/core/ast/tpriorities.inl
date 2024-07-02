@@ -2,7 +2,7 @@
 
 #include "tpriorities.hpp"
 
-namespace namu {
+namespace nm {
 
 #define TEMPLATE template <typename T>
 #define ME tprior<T>

@@ -3,7 +3,7 @@
 #include "stream.hpp"
 #include <fstream>
 
-namespace namu {
+namespace nm {
 
     class _nout fileLogStream : public stream {
         NAMU_ME(fileLogStream, stream)

@@ -3,7 +3,7 @@
 #include "src/src.hpp"
 #include "../frame/frameInteractable.hpp"
 
-namespace namu {
+namespace nm {
 
     class baseFunc;
     typedef tnarr<baseFunc> funcs;

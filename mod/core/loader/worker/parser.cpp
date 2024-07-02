@@ -10,7 +10,7 @@
 #include "bison/tokenScan.hpp"
 #include "worker.inl"
 
-namespace namu {
+namespace nm {
 
     using std::string;
     template class _nout worker<tstr<obj>, slot>;

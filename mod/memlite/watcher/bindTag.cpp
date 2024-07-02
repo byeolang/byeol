@@ -2,7 +2,7 @@
 #include "../interface/instancer.hpp"
 #include "../binder/tbindable.inl"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(bindTag)
 

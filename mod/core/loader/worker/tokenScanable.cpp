@@ -1,6 +1,6 @@
 #include "tokenScanable.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(tokenScanable))
 

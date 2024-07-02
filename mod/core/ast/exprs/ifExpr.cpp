@@ -5,7 +5,7 @@
 #include "../../frame/frameInteract.hpp"
 #include "retStateExpr.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(ifExpr), DEF_VISIT())
 

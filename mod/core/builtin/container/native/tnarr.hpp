@@ -3,7 +3,7 @@
 #include "tnucontainer.hpp"
 #include "../tarrayable.hpp"
 
-namespace namu {
+namespace nm {
 
     template <typename T, typename TACTIC = strTactic>
     class tnarr : public tnucontainer<T>, public tarrayable<T> {

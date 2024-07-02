@@ -8,7 +8,7 @@
 #include "nChar.hpp"
 #include "../../visitor/visitor.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(nBool), DEF_VISIT())
 

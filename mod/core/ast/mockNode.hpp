@@ -2,7 +2,7 @@
 
 #include "node.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout mockNode : public node {
         NAMU(ME(mockNode, node), VISIT())

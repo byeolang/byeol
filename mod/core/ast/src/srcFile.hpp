@@ -3,7 +3,7 @@
 #include "../node.hpp"
 #include "../../builtin/container/native/tnchain.inl"
 
-namespace namu {
+namespace nm {
 
     /// srcFile represents src file of namulang source codes.
     class _nout srcFile : public node {

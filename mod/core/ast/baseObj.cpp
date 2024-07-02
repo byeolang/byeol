@@ -8,7 +8,7 @@
 #include "node.inl"
 #include "src/dumSrc.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(baseObj))
 
@@ -28,7 +28,7 @@ namespace namu {
     }
 
     void me::inFrame(const bicontainable& args) {
-        frames& frs = namu::thread::get()._getFrames();
+        frames& frs = nm::thread::get()._getFrames();
         NAMU_DI("%s.inFrame() frames.len[%d]", getType().getName().c_str(), frs.len());
 
         frame& fr = *new frame();
@@ -46,7 +46,7 @@ namespace namu {
     }
 
     void me::outFrame(const bicontainable& args) {
-        frames& frs = namu::thread::get()._getFrames();
+        frames& frs = nm::thread::get()._getFrames();
         NAMU_DI("%s._outFrame() frames.len[%d]", getType().getName().c_str(), frs.len()-1);
 
         frs.del();

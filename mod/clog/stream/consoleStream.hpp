@@ -2,7 +2,7 @@
 
 #include "stream.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout consoleStream : public stream {
         NAMU_ME(consoleStream, stream)

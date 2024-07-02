@@ -1,6 +1,6 @@
 #include "../../namuSyntaxTest.hpp"
 
-using namespace namu;
+using namespace nm;
 using namespace std;
 
 struct mgdObjTest : public namuSyntaxTest {};

@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(instance)
     me::vault instance::_vault;

@@ -7,7 +7,7 @@
 #include "../../ast/defaultCopyCtor.hpp"
 #include "../../ast/defaultCtor.hpp"
 
-namespace namu {
+namespace nm {
 
     /// bridge object only can shares 'shared' sub nodes.
     /// @param T represents native class.

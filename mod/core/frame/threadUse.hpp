@@ -2,7 +2,7 @@
 
 #include "thread.hpp"
 
-namespace namu {
+namespace nm {
     class _nout threadUse {
         NAMU(ME(threadUse))
 

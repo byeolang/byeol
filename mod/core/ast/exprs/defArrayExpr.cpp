@@ -2,7 +2,7 @@
 #include "../../visitor/visitor.hpp"
 #include "../../builtin/container/mgd/arr.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(defArrayExpr), DEF_VISIT())
 

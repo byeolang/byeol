@@ -3,7 +3,7 @@
 #include "../loader/worker/worker.inl"
 #include "defaultSigZone.hpp"
 
-namespace namu {
+namespace nm {
     class frames;
     class _nout starter : public worker<str, args> {
         typedef worker<str, args> __super8;

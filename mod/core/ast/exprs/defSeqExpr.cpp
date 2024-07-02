@@ -2,7 +2,7 @@
 #include "../../visitor/visitor.hpp"
 #include "../../builtin/container/mgd/seq.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(defSeqExpr), DEF_VISIT())
 

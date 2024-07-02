@@ -2,7 +2,7 @@
 
 #include "baseFunc.hpp"
 
-namespace namu {
+namespace nm {
 
     class ctor: public baseFunc {
         NAMU(ADT(ctor, baseFunc), VISIT())

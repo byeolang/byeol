@@ -3,7 +3,7 @@
 #include "../../../builtin/primitive.hpp"
 #include "../../../ast/mockNode.hpp"
 
-namespace namu {
+namespace nm {
 
     struct marshalErr {};
     template <typename T, typename S> class tcppBridge;

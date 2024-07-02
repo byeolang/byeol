@@ -6,7 +6,7 @@
 
 struct verifierTest;
 
-namespace namu {
+namespace nm {
 
     class loopExpr;
     class thread;

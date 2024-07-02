@@ -2,7 +2,7 @@
 
 #include "../flag.hpp"
 
-namespace namu {
+namespace nm {
 
     class verboseFlag : public flag {
         NAMU(CLASS(verboseFlag, flag))

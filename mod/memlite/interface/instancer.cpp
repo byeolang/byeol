@@ -1,6 +1,6 @@
 #include "instancer.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(instancer)
 

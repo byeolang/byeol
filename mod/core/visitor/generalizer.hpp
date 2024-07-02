@@ -3,7 +3,7 @@
 #include "visitor.hpp"
 #include "../ast/params.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout generalizer: public visitor {
         NAMU(CLASS(generalizer, visitor))

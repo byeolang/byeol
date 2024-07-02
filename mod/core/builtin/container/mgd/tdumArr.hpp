@@ -2,7 +2,7 @@
 
 #include "tarr.hpp"
 
-namespace namu {
+namespace nm {
     template <typename T, typename defaultElemType = T>
     class _nout tdumArr : public tarr<T, defaultElemType> {
         typedef tarr<T, defaultElemType> __super9;

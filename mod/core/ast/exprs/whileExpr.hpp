@@ -2,7 +2,7 @@
 
 #include "loopExpr.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout whileExpr : public loopExpr {
         NAMU(CLASS(whileExpr, loopExpr, expr::exprType), VISIT())

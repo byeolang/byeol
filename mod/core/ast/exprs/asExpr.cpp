@@ -1,7 +1,7 @@
 #include "asExpr.hpp"
 #include "../../visitor/visitor.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(asExpr), DEF_VISIT())
 

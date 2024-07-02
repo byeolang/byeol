@@ -1,7 +1,7 @@
 #include "../tucontainable.inl"
 #include "nseq.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(nseq))
 

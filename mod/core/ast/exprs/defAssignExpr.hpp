@@ -2,7 +2,7 @@
 
 #include "defVarExpr.hpp"
 
-namespace namu {
+namespace nm {
     class _nout defAssignExpr : public defVarExpr {
         NAMU(CLASS(defAssignExpr, defVarExpr, expr::exprType), VISIT())
 

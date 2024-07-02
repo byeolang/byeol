@@ -1,7 +1,7 @@
 #include "../../common/dep.hpp"
 #include <iostream>
 
-using namespace namu;
+using namespace nm;
 using namespace std;
 
 namespace {

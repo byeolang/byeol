@@ -3,7 +3,7 @@
 #include "../pool/chunk.hpp"
 #include "watchCell.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout watcher : public chunk {
         NAMU_ME(watcher, chunk)

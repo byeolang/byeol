@@ -2,7 +2,7 @@
 
 #include "allocator.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout chunk : public allocator {
         NAMU_ME(chunk, allocator)

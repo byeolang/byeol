@@ -3,7 +3,7 @@
 #include "../../../ast/baseFunc.hpp"
 #include "../../../ast/params.hpp"
 
-namespace namu {
+namespace nm {
 
     template <typename T>
     class _nout printFunc : public baseFunc {

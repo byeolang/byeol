@@ -5,7 +5,7 @@
 #include "../loader/pack/packMakable.hpp"
 #include "scope.hpp"
 
-namespace namu {
+namespace nm {
 
     class visitor;
 

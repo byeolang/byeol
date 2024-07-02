@@ -1,7 +1,7 @@
 #include "defPropExpr.hpp"
 #include "../../visitor/visitor.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(defPropExpr), DEF_VISIT())
 
     me::defPropExpr(const std::string& name, const node& rhs): super(name, rhs) {}

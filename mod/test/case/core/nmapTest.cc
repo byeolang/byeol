@@ -1,7 +1,7 @@
 #include "../../namuTest.hpp"
 #include <chrono>
 
-using namespace namu;
+using namespace nm;
 using namespace std;
 
 struct nmapTest : public namuTest {};

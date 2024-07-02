@@ -3,7 +3,7 @@
 #include "../expr.hpp"
 #include "blockExpr.hpp"
 
-namespace namu {
+namespace nm {
 
     class frame;
     class arr;

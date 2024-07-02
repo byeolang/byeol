@@ -1,6 +1,6 @@
 #include "dumSrc.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(dumSrc))
 
     namespace {

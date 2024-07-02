@@ -1,7 +1,7 @@
 #include "../../namuTest.hpp"
 
 using namespace std;
-using namespace namu;
+using namespace nm;
 
 struct watcherTest : public namuTest {};
 

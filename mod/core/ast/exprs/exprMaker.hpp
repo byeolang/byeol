@@ -2,7 +2,7 @@
 
 #include "../expr.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout exprMaker : public typeProvidable, public clonable {
         NAMU(CLASS(exprMaker))

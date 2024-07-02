@@ -3,7 +3,7 @@
 #include "../../type/ntype.hpp"
 #include "../../common.hpp"
 
-namespace namu {
+namespace nm {
 
     /// @remark arrayable has API treating index as its parameter.
     template <typename T, typename R = T&>

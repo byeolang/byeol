@@ -3,7 +3,7 @@
 #include "builtin/container/mgd/arr.hpp"
 #include "tmarshaling.hpp"
 
-namespace namu {
+namespace nm {
 
 #define TEMPL template <typename T, typename E, typename S>
 #define ME tmarshaling<tarr<T, E>, S, true>

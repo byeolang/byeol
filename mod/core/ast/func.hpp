@@ -5,7 +5,7 @@
 #include "scope.hpp"
 #include "params.hpp"
 
-namespace namu {
+namespace nm {
 
     class visitor;
     class _nout func : public baseFunc {

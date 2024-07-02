@@ -8,7 +8,7 @@
 #include "../../builtin/container/mgd/arr.hpp"
 #include "../../builtin/container/mgd/tdumArr.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(loopExpr), DEF_VISIT())
 

@@ -5,7 +5,7 @@
 #include "../ast/dumScope.hpp"
 #include "thread.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(frame), DEF_VISIT())
 
     me::frame() { _rel(); }

@@ -3,7 +3,7 @@
 #include "type.hpp"
 #include "../rtti.hpp"
 
-namespace namu {
+namespace nm {
 
     /// @remark ttypeBase returns ttypeBase<type> as its meta class.
     ///         however, this makes impossible to get specific ttypeBase instance

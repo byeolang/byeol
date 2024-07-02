@@ -5,7 +5,7 @@
 #include "../tarrayable.hpp"
 #include "../../primitive/nInt.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout nseq : public tnucontainer<nInt, nInt>, public tarrayable<nInt, nInt> {
         typedef tnucontainer<nInt, nInt> _super3;

@@ -3,7 +3,7 @@
 #include "../../common.hpp"
 #include <list>
 
-namespace namu {
+namespace nm {
 
     class _nout tokenDispatcher {
     public:

@@ -2,7 +2,7 @@
 
 #include "weakTactic.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout strTactic : public weakTactic {
         NAMU_ME(strTactic, weakTactic);

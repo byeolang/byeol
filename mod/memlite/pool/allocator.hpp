@@ -2,7 +2,7 @@
 
 #include "memoryHaver.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout allocator : public memoryHaver {
         NAMU_ME(allocator)

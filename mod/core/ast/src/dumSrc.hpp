@@ -2,7 +2,7 @@
 
 #include "src.hpp"
 
-namespace namu {
+namespace nm {
     class _nout dumSrc : public src {
         NAMU(CLASS(dumSrc, src))
 

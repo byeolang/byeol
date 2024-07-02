@@ -6,7 +6,7 @@ typedef union YYSTYPE YYSTYPE;
 typedef struct lloc YYLTYPE;
 typedef void* yyscan_t;
 
-namespace namu {
+namespace nm {
 
     class parser;
     class _nout tokenScanable {

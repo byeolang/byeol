@@ -1,6 +1,6 @@
 #include "fileLogStream.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(fileLogStream)
     typedef std::string string;

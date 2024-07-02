@@ -6,7 +6,7 @@ YY_DECL;
 
 std::string getTokenName(int tok);
 
-namespace namu {
+namespace nm {
 
     nint tokenScan::onScan(parser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner, nbool& isBypass) {
         tokenDispatcher& disp = ps.getDispatcher();

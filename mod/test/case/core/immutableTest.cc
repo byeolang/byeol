@@ -1,6 +1,6 @@
 #include "../../namuTest.hpp"
 
-using namespace namu;
+using namespace nm;
 
 namespace {
 
@@ -30,7 +30,7 @@ namespace {
                 _executed = true;
 
                 if(_lambda)
-                    _res = _lambda(a, (frames&) namu::thread::get().getFrames());
+                    _res = _lambda(a, (frames&) nm::thread::get().getFrames());
                 return str();
             }
 
@@ -139,7 +139,7 @@ TEST_F(immutableTest, testFrameImmutability) {
 
     myfunc mf;
     mf.setLambda([&](const ucontainable&, const frames&) {
-        frame& fr = (frame&) namu::thread::get().getNowFrame();
+        frame& fr = (frame&) nm::thread::get().getNowFrame();
         // test assign:
         auto e = fr.subs().iterate("age");
         if(e.isEnd()) return NAMU_E("there is no key"), false;

@@ -3,7 +3,7 @@
 #include "../obj.hpp"
 #include "../../visitor/visitor.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(assignExpr), DEF_VISIT())
 

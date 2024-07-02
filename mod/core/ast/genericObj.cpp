@@ -6,7 +6,7 @@
 #include "baseFunc.hpp"
 #include "../type/mgdType.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(genericObj), DEF_VISIT())
 

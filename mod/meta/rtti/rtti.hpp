@@ -4,7 +4,7 @@
 #include <iostream>
 #include "./type/adam.hpp"
 
-namespace namu {
+namespace nm {
 
     struct _nout metaIf {
         typedef short yes;

@@ -3,7 +3,7 @@
 #include "bindTacticable.hpp"
 #include "../interface/instance.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout weakTactic : public bindTacticable {
         NAMU_ME(weakTactic, bindTacticable);

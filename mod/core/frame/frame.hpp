@@ -9,7 +9,7 @@
 struct immutableTest;
 struct frameTest;
 
-namespace namu {
+namespace nm {
 
     struct _nout scopeRegister {
         str owner;

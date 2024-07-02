@@ -3,7 +3,7 @@
 #include "../../ast/defaultCopyCtor.hpp"
 #include "../../visitor/visitor.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(nVoid), DEF_VISIT())
 

@@ -2,7 +2,7 @@
 #include "../../visitor/visitor.hpp"
 #include "../../frame/thread.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(defVarExpr), DEF_VISIT())
 
     me::defVarExpr(const std::string& name, const node& rhs): _name(name), _rhs(rhs) {}

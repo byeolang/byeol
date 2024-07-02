@@ -8,7 +8,7 @@
 #include "../frame/thread.hpp"
 #include "../loader/worker/worker.inl"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(preEvaluator))
 

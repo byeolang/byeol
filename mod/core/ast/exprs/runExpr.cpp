@@ -5,7 +5,7 @@
 #include "../../visitor/visitor.hpp"
 #include "../mockNode.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(runExpr), DEF_VISIT())
 

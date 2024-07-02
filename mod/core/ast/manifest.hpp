@@ -2,7 +2,7 @@
 
 #include "validable.hpp"
 
-namespace namu {
+namespace nm {
 
     // TODO: entrypoints[== filePath] can be various. but not language.
     struct _nout entrypoint : public validable {

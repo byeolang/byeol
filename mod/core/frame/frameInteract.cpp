@@ -1,6 +1,6 @@
 #include "frameInteract.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(frameInteract))
 

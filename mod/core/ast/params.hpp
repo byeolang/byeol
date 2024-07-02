@@ -4,7 +4,7 @@
 #include "../builtin/container/native/tnarr.inl"
 #include "../ast/scope.hpp"
 
-namespace namu {
+namespace nm {
     class _nout params : public tnarr<param> {
         NAMU(CLASS(params, tnarr<param>))
 

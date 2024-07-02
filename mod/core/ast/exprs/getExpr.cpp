@@ -4,7 +4,7 @@
 #include "../../visitor/visitor.hpp"
 #include "../../visitor/graphVisitor.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(getExpr), DEF_VISIT())
 

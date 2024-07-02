@@ -2,7 +2,7 @@
 
 #include "common.hpp"
 
-namespace namu {
+namespace nm {
     class logLv {
         NAMU(ME(logLv))
 

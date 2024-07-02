@@ -5,7 +5,7 @@
 #include "../visitor/visitor.hpp"
 #include "src/dumSrc.hpp"
 
-namespace namu {
+namespace nm {
 
     template class _nout tnarr<node>;
     template class _nout tucontainable<node>;

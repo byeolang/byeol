@@ -3,7 +3,7 @@
 #include "../visitor/visitor.hpp"
 #include "dumScope.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(mockNode), DEF_VISIT())
 

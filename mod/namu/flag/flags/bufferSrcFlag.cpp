@@ -2,7 +2,7 @@
 #include "../../cli.hpp"
 #include <iostream>
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(bufferSrcFlag)
 

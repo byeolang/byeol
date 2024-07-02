@@ -1,12 +1,12 @@
 #include "../../namuTest.hpp"
 
-using namespace namu;
+using namespace nm;
 using namespace std;
 
 struct slotLoaderTest : public namuTest {};
 
 TEST_F(slotLoaderTest, testDefaultLoaderInit) {
-    nmap& systemSlots = const_cast<nmap&>(namu::thread::get().getSlots()); // don't worry. I know what I'm doing >_o
+    nmap& systemSlots = const_cast<nmap&>(nm::thread::get().getSlots()); // don't worry. I know what I'm doing >_o
     ASSERT_FALSE(nul(systemSlots));
 
     slot& s = systemSlots.get<slot>([](const std::string& name, const slot& e) { return name == "sys"; });

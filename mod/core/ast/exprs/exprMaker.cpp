@@ -1,6 +1,6 @@
 #include "exprMaker.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(exprMaker))
 

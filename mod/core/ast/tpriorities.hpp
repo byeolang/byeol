@@ -2,7 +2,7 @@
 
 #include "../builtin/container/native/tnarr.hpp"
 
-namespace namu {
+namespace nm {
     enum priorType {
         EXACT_MATCH = 0,      // lv0: exact match.
         NUMERIC_MATCH = 1,    // lv1: numeric match.

@@ -2,7 +2,7 @@
 
 #include "flag.hpp"
 
-namespace namu {
+namespace nm {
 
     /// flag which takes one flag value.
     /// e.g. '-o fast'

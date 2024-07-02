@@ -1,6 +1,6 @@
 #include "../../common/dep.hpp"
 
-using namespace namu;
+using namespace nm;
 
 struct binderTest : public ::testing::Test {
     const bindTacticable& getTactic(const binder& b) {

@@ -3,7 +3,7 @@
 #include "../../ast/slot.hpp"
 #include "../pack/packLoading.hpp"
 
-namespace namu {
+namespace nm {
 
     class errReport;
 

@@ -3,7 +3,7 @@
 #include "../../type/ntype.hpp"
 #include "../errReport.hpp"
 
-namespace namu {
+namespace nm {
 
     template <typename R, typename T>
     class worker : public typeProvidable, public clonable {

@@ -5,7 +5,7 @@
 #include "../../visitor/visitor.hpp"
 #include "retStateExpr.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(blockExpr), DEF_VISIT())
 
@@ -30,7 +30,7 @@ namespace namu {
         NAMU_DI("%s._onInFrame() %d stmts. frames.len[%d]", getType().getName().c_str(), getStmts()
                 .len(), thread::get().getFrames().len());
 
-        frame& fr = namu::thread::get()._getNowFrame();
+        frame& fr = nm::thread::get()._getNowFrame();
         if(nul(fr)) {
             NAMU_E("fr == null");
             return;
@@ -43,7 +43,7 @@ namespace namu {
         NAMU_DI("%s._onOutFrame() frames.len[%d]", getType().getName().c_str(), thread::get()
                 .getFrames().len());
 
-        frame& fr = namu::thread::get()._getNowFrame();
+        frame& fr = nm::thread::get()._getNowFrame();
         if(nul(fr)) {
             NAMU_E("fr == null");
             return;

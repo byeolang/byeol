@@ -4,7 +4,7 @@
 #include "../visitor/graphVisitor.hpp"
 #include "thread.hpp"
 
-namespace namu {
+namespace nm {
     template <typename W>
     class defaultSigZone : public sigZone {
         NAMU(ME(defaultSigZone, sigZone))

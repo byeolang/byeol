@@ -2,13 +2,13 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-const-variable"
 #pragma clang diagnostic ignored "-Wunneeded-internal-declaration"
-namespace namu {
+namespace nm {
     class sobj;
 }
 #include "seedlingParser.hpp"
 #include "../common.hpp"
 using namespace std;
-using namespace namu;
+using namespace nm;
 
 int nowIndent = 0;
 stack<int> indentLvs;
@@ -273,7 +273,7 @@ true|false {
 
 int nowRule = INITIAL;
 int prevRule = INITIAL;
-namu::sobj* root = nullptr;
+nm::sobj* root = nullptr;
 
 int meetEof() {
     static int cnt = 0;

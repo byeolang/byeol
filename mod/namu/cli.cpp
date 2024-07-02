@@ -1,7 +1,7 @@
 #include "cli.hpp"
-using namespace namu;
+using namespace nm;
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(cli))
 

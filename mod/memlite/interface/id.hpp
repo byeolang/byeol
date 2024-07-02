@@ -3,7 +3,7 @@
 #include "../common.hpp"
 #include <iostream>
 
-namespace namu {
+namespace nm {
 
     struct _nout id {
         id(nint new_tagN, nint newChkN, nuint newSerial);

@@ -4,7 +4,7 @@
 #include "../loader/worker/worker.inl"
 #include <regex>
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(graphVisitor))
     using platformAPI::foreColor;

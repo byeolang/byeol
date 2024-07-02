@@ -14,9 +14,9 @@
 //      usage:
 //          NAMU_I("just message.")
 //          NAMU_I("with format=%x string=%s", &format, format.c_str())
-#define NAMU_E(fmt, ...) ::namu::logger::get().log(namu::logLv::ERR, NAMU_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
-#define NAMU_W(fmt, ...) ::namu::logger::get().log(namu::logLv::WARN, NAMU_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
-#define NAMU_I(fmt, ...) ::namu::logger::get().log(namu::logLv::INFO, NAMU_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
+#define NAMU_E(fmt, ...) ::nm::logger::get().log(nm::logLv::ERR, NAMU_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
+#define NAMU_W(fmt, ...) ::nm::logger::get().log(nm::logLv::WARN, NAMU_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
+#define NAMU_I(fmt, ...) ::nm::logger::get().log(nm::logLv::INFO, NAMU_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
 #define NAMU_EX(code, ...) this->ex(code, __VA_ARGS__)
 #ifdef NAMU_DEBUG
 #   define NAMU_DE(fmt, ...) NAMU_E(fmt, ## __VA_ARGS__)

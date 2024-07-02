@@ -2,7 +2,7 @@
 
 #include "overload.hpp"
 
-namespace namu {
+namespace nm {
     template <typename T>
     class _TGet {
     public:

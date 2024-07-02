@@ -9,7 +9,7 @@
 #include "scope.hpp"
 #include "../builtin/container/tbicontainable.inl"
 
-namespace namu {
+namespace nm {
 
 #define ME node
 #define TEMPLATE template <typename T>

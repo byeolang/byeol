@@ -3,7 +3,7 @@
 #include "../../../visitor/generalizer.hpp"
 #include "../../../bridge/cpp.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(arr), DEF_VISIT())
 

@@ -3,7 +3,7 @@
 #include "../errReport.hpp"
 #include "../../ast/autoslot.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(slotLoader)
 

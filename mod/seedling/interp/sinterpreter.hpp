@@ -2,7 +2,7 @@
 
 #include "../ast.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout sinterpreter {
         NAMU_ME(sinterpreter)

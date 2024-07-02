@@ -8,7 +8,7 @@
 #include "../frame/frameInteractable.hpp"
 #include "tpriorities.hpp"
 
-namespace namu {
+namespace nm {
 
     class ases;
     class args;

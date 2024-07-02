@@ -2,7 +2,7 @@
 
 #include "flag/flags.hpp"
 
-namespace namu {
+namespace nm {
 
     struct cli {
         const flags& getFlags() const;

@@ -7,7 +7,7 @@
     using std::cout;
     #include "../parser.hpp"
     #include "../../../builtin.hpp"
-    using namespace namu;
+    using namespace nm;
 
     #define YYLLOC_DEFAULT(Current, Rhs, N) \
         do { \
@@ -35,7 +35,7 @@
 
     typedef void* yyscan_t;
 
-    namespace namu {
+    namespace nm {
         class node;
         class obj;
         class immutableTactic;
@@ -45,12 +45,12 @@
         typedef tnarr<node> narr;
     }
 
-    struct lloc : public namu::area {
+    struct lloc : public nm::area {
         int colcnt;
 
         void rel() {
             colcnt = 0;
-            namu::area::rel();
+            nm::area::rel();
         }
     };
 }
@@ -58,14 +58,14 @@
 %code provides {
     extern int yylineno;
     extern char* yytext;
-    namespace namu {
+    namespace nm {
         class parser;
     }
 
     extern "C" {
         int yylex(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner);
         void yyset_lineno(int linenumber, yyscan_t scanner);
-        namu::parser* yyget_extra(yyscan_t scanner);
+        nm::parser* yyget_extra(yyscan_t scanner);
         char* yyget_text(yyscan_t scanner);
         void yyerror(YYLTYPE* loc, yyscan_t scanner, const char* msg);
     }
@@ -79,17 +79,17 @@
     ============================================================================================  */
 
 %union {
-    namu::nchar asChar;
+    nm::nchar asChar;
     int asInt;
     std::string* asStr;
     bool asBool;
     float asFlt;
-    namu::node* asNode;
-    namu::obj* asObj;
-    namu::narr* asNarr;
-    namu::scope* asScope;
-    namu::defBlock* asDefBlock;
-    namu::args* asArgs;
+    nm::node* asNode;
+    nm::obj* asObj;
+    nm::narr* asNarr;
+    nm::scope* asScope;
+    nm::defBlock* asDefBlock;
+    nm::args* asArgs;
 }
 
 %define api.pure

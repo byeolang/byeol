@@ -1,7 +1,7 @@
 #include "immutableTactic.hpp"
 #include "node.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(immutableTactic)
 

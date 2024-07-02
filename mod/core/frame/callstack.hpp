@@ -5,7 +5,7 @@
 #include "../type/dumpable.hpp"
 #include "../frame/frames.hpp"
 
-namespace namu {
+namespace nm {
 
     class frame;
     class frames;

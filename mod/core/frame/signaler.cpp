@@ -1,7 +1,7 @@
 #include "signaler.hpp"
 #include <csignal>
 
-namespace namu {
+namespace nm {
 
     nbool sig::operator==(const me& rhs) const {
         return code == rhs.code;

@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 using namespace std;
-using namespace namu;
+using namespace nm;
 
 namespace {
     typedef struct consoleStreamTest : public ::testing::Test {
@@ -53,7 +53,7 @@ namespace {
 TEST_F(consoleStreamTest, logFormat) {
     logger::get().logBypass("hello");
     logger::get().logFormatBypass("%s " NAMU_TAG " %s <%s::%s#%d> " "hello",
-        namu::platformAPI::createNowTime("%b %d %Y  %X").c_str(), "I",
+        nm::platformAPI::createNowTime("%b %d %Y  %X").c_str(), "I",
         __FILENAME__, __func__, __LINE__);
 
     ASSERT_TRUE(thisTest::hasLogFile());

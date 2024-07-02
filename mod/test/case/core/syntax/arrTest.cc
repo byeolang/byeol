@@ -1,7 +1,7 @@
 #include "../../../namuSyntaxTest.hpp"
 #include <chrono>
 
-using namespace namu;
+using namespace nm;
 using namespace std;
 
 struct arrTest : public namuSyntaxTest {};

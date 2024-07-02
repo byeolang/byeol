@@ -1,7 +1,7 @@
 #include "args.hpp"
 #include "exprs/getExpr.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(args))
 

@@ -2,7 +2,7 @@
 
 #include "tnmap.hpp"
 
-namespace namu {
+namespace nm {
 
     class node;
     template <typename K, typename V, typename _defaultContainer = tnmap<K, V>>

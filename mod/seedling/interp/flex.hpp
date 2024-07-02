@@ -1,10 +1,10 @@
 #pragma once
 
 extern FILE *yyin;
-namespace namu {
+namespace nm {
     class sobj;
 }
-extern namu::sobj* root;
+extern nm::sobj* root;
 int yyparse();
 typedef struct yy_buffer_state* YY_BUFFER_STATE;
 extern YY_BUFFER_STATE yy_scan_string(const char* str);

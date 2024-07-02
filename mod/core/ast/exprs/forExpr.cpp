@@ -4,7 +4,7 @@
 #include "../../frame/thread.hpp"
 #include "../../frame/frameInteract.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(forExpr), DEF_VISIT())
 

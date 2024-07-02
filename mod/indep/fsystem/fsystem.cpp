@@ -1,6 +1,6 @@
 #include "fsystem.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(fsystem)
 

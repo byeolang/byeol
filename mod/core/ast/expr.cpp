@@ -5,7 +5,7 @@
 #include "../frame/frame.hpp"
 #include "dumScope.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(expr)
 

@@ -2,7 +2,7 @@
 #include "visitor/visitor.hpp"
 #include "../dumScope.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(srcFile), DEF_VISIT())
 

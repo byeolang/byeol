@@ -1,7 +1,7 @@
 #include "dumScope.hpp"
 #include "node.hpp"
 
-namespace namu {
+namespace nm {
     
     NAMU(DEF_ME(dumScope))
 

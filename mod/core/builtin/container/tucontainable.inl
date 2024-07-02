@@ -6,7 +6,7 @@
 #include "../../ast/node.hpp"
 #include "native/tnarr.inl"
 
-namespace namu {
+namespace nm {
 
 #define TEMPL template <typename T, typename R>
 #define ME tucontainable<T, R>

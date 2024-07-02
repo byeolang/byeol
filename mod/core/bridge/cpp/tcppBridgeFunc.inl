@@ -5,7 +5,7 @@
 #include "../../frame/thread.hpp"
 #include "../../ast/params.hpp"
 
-namespace namu {
+namespace nm {
 
 #define TEMPL template <typename Ret, typename T, typename S, template <typename, typename, nbool> class Marshaling, typename... Args>
 #define ME tcppBridgeFunc<Ret, T, S, Marshaling, Args...>

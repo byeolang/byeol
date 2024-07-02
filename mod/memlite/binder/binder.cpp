@@ -3,7 +3,7 @@
 #include "bindTacticable.hpp"
 #include "tbindable.inl"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(binder)
 

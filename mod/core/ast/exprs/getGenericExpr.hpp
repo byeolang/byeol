@@ -2,7 +2,7 @@
 
 #include "getExpr.hpp"
 
-namespace namu {
+namespace nm {
 
     class visitor;
     class genericObj;

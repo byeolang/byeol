@@ -4,7 +4,7 @@
 #include "../ast/exprs/breakExpr.hpp"
 #include "../ast/exprs/nextExpr.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(ntype)
 

@@ -1,6 +1,6 @@
 #include "verSobj.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(verSobj))
 

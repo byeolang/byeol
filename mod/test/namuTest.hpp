@@ -9,11 +9,11 @@ struct namuTest : public ::testing::Test {
     void TearDown();
 
 protected:
-    namu::instance::vault& _getVault();
+    nm::instance::vault& _getVault();
 
 private:
     void _assertVault();
 
 private:
-    namu::tstr<namu::thread> thr;
+    nm::tstr<nm::thread> thr;
 };

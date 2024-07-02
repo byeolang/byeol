@@ -4,7 +4,7 @@
 #include "filter/filters.hpp"
 #include "enablesZone.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout logger : public stream {
         NAMU_ME(logger, stream)

@@ -1,7 +1,7 @@
 #include "tpriorities.inl"
 #include "node.hpp"
 
-namespace namu {
+namespace nm {
     _nout const nchar* getPriorTypeName(priorType type) {
         switch(type) {
             case EXACT_MATCH: return "EXACT_MATCH";

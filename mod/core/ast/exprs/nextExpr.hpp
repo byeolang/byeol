@@ -2,7 +2,7 @@
 
 #include "retStateExpr.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout nextRet : public retState {
         NAMU(CLASS(nextRet, retState))

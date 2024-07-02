@@ -6,7 +6,7 @@
 #include "../ast/baseFunc.hpp"
 #include "../ast/params.hpp"
 
-namespace namu {
+namespace nm {
 
     calltrace::calltrace(const frame& newFrame) {
         fr.bind(newFrame);

@@ -4,7 +4,7 @@
 #include "../../ast/args.hpp"
 #include "../../ast/params.hpp"
 
-namespace namu {
+namespace nm {
 
     template <typename Ret, typename T, typename S, template <typename, typename, nbool> class Marshaling, typename... Args>
     class tcppBridgeFuncBase : public baseFunc {

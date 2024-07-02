@@ -1,6 +1,6 @@
 #include "../../common/dep.hpp"
 
-using namespace namu;
+using namespace nm;
 using namespace std;
 
 struct verifierTest : public ::testing::Test {

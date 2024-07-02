@@ -2,7 +2,7 @@
 
 #include "packLoading.hpp"
 
-namespace namu {
+namespace nm {
 
     class errReport;
     class _nout trustPackLoading : public packLoading {

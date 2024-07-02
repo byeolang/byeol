@@ -3,7 +3,7 @@
 #include "dep.hpp"
 #include "_nout.hpp"
 
-namespace namu {
+namespace nm {
 
     const std::string MANIFEST_FILENAME = "manifest.seedling";
 

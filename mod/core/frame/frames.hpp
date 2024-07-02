@@ -4,7 +4,7 @@
 #include "../builtin/container/native/tnarr.hpp"
 #include "frame.hpp"
 
-namespace namu {
+namespace nm {
     class _nout frames : public tnarr<frame>, public dumpable {
         NAMU(CLASS(frames, tnarr<frame>))
 

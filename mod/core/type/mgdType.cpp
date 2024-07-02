@@ -1,6 +1,6 @@
 #include "mgdType.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(mgdType))
 

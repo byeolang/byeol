@@ -3,7 +3,7 @@
 #include "../expr.hpp"
 #include "blockExpr.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout ifExpr : public expr {
         NAMU(CLASS(ifExpr, expr, expr::exprType), VISIT())

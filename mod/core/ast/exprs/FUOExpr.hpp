@@ -5,7 +5,7 @@
 #include "../../builtin/primitive/arithmeticObj.hpp"
 #include "../scope.hpp"
 
-namespace namu {
+namespace nm {
 
     class visitor;
 

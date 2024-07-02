@@ -2,6 +2,6 @@
 #include "ttype.hpp"
 #include "ttypeBase.inl"
 
-namespace namu {
+namespace nm {
     NAMU_INIT_META(adam)
 }

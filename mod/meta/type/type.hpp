@@ -2,7 +2,7 @@
 
 #include "../common.hpp"
 
-namespace namu {
+namespace nm {
     /// @remark type returning ttype<type> as result of getType()
     class _nout type {
         NAMU_ME(type)

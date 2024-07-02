@@ -2,7 +2,7 @@
 
 #include "../../builtin/res/tpair.hpp"
 
-namespace namu {
+namespace nm {
 
     class obj;
     class src;

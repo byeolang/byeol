@@ -2,7 +2,7 @@
 
 #include "filterable.hpp"
 
-namespace namu {
+namespace nm {
     class _nout filters : public filterable {
         NAMU(ME(filters))
 

@@ -2,7 +2,7 @@
 
 #include "ctor.hpp"
 
-namespace namu {
+namespace nm {
 
     class visitor;
 

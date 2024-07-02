@@ -2,7 +2,7 @@
 
 #include "obj.hpp"
 
-namespace namu {
+namespace nm {
 
     class visitor;
     class verifier;

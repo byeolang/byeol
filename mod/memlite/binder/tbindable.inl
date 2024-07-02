@@ -2,7 +2,7 @@
 
 #include "tbindable.hpp"
 
-namespace namu {
+namespace nm {
 
 #define TEMPL template <typename T>
 #define ME tbindable<T>

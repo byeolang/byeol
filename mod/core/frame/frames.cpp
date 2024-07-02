@@ -2,7 +2,7 @@
 #include "../ast/baseFunc.hpp"
 #include "thread.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(frames))
 
     void me::dump() const {

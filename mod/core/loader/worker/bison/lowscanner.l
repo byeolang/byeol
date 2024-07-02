@@ -28,7 +28,7 @@ namespace {
     ============================================================================================  */
 
 %option reentrant bison-bridge bison-locations
-%option extra-type="namu::parser*"
+%option extra-type="nm::parser*"
 %option yylineno
 %option nounistd
 %option noyywrap
@@ -225,9 +225,9 @@ false {
     ============================================================================================  */
 
 int yylex(YYSTYPE* yylval_param, YYLTYPE* yylloc_param, yyscan_t yyscanner) {
-    namu::parser& ps = PS;
+    nm::parser& ps = PS;
     if(!ps.isInit()) // init: tokenScanable
-        ps.setScan<namu::indentScan>();
+        ps.setScan<nm::indentScan>();
 
     int tok;
     do

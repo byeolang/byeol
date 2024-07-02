@@ -9,7 +9,7 @@
 
 #include "../def/common.hpp"
 
-namespace namu {
+namespace nm {
     typedef int                 nint;
     typedef unsigned int        nuint;
     typedef bool                nbool;

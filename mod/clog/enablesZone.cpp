@@ -1,7 +1,7 @@
 #include "enablesZone.hpp"
 #include "logger.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(enablesZone))
 
     me::enablesZone() {

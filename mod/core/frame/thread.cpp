@@ -6,7 +6,7 @@
 #include "../builtin/pkgs/default/defaultPack.hpp"
 #include "../ast/dumScope.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(thread)
 

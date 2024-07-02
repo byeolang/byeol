@@ -2,7 +2,7 @@
 
 #include "visitor.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout preEvaluator : public visitor {
         NAMU(CLASS(preEvaluator, visitor))

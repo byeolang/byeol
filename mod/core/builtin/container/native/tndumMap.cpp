@@ -1,6 +1,6 @@
 #include "tndumMap.hpp"
 
-namespace namu {
+namespace nm {
     template <>
     ndumMap ndumMap::singletone;
 }

@@ -2,7 +2,7 @@
 
 #include "signaler.hpp"
 
-namespace namu {
+namespace nm {
     class _nout sigZone {
         NAMU(ME(sigZone))
 

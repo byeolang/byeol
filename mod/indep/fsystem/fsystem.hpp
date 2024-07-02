@@ -12,7 +12,7 @@
 #endif
 #include <vector>
 
-namespace namu {
+namespace nm {
 
     /// fsystem is going to be used before filesystem library fully supported.
     /// to apply fsystem on clang++ is quite hard now.

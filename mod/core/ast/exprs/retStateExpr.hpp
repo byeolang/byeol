@@ -3,7 +3,7 @@
 #include "../expr.hpp"
 #include "../../builtin/primitive/nVoid.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout retState : public nVoid {
         NAMU(CLASS(retState, nVoid))

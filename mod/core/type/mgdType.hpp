@@ -3,7 +3,7 @@
 #include "ntype.hpp"
 #include "../ast/obj.hpp"
 
-namespace namu {
+namespace nm {
 
     class node;
     template <typename T, typename TACTIC> class tnarr;

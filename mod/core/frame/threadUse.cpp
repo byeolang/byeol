@@ -1,6 +1,6 @@
 #include "threadUse.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(threadUse))
 
     me::threadUse(): _thr() {

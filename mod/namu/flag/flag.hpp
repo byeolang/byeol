@@ -4,7 +4,7 @@
 #include "../common.hpp"
 #include <regex>
 
-namespace namu {
+namespace nm {
 
     struct cli;
     class flag : public instance {

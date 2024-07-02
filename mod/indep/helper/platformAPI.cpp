@@ -21,7 +21,7 @@
 #endif
 #include <time.h>
 
-namespace namu {
+namespace nm {
 
     namespace platformAPI {
         constexpr nint PATH_MAX_LEN = 256;

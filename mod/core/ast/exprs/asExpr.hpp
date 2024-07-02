@@ -4,7 +4,7 @@
 #include "../param.hpp"
 #include "../scope.hpp"
 
-namespace namu {
+namespace nm {
 
     class visitor;
 

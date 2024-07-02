@@ -1,7 +1,7 @@
 #include <core.hpp>
 #include <iostream>
 #include "common.hpp"
-using namespace namu;
+using namespace nm;
 
 struct con {
     void say() {

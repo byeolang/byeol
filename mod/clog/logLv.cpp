@@ -1,6 +1,6 @@
 #include "logLv.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(logLv))
 
     const std::string& me::getName(level lv) {

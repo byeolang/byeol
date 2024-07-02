@@ -1,6 +1,6 @@
 #include "watcher.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(watcher, chunk)
 

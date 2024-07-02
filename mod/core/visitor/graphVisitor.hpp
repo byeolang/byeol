@@ -2,7 +2,7 @@
 
 #include "visitor.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout graphVisitor : public visitor {
         NAMU(CLASS(graphVisitor, visitor))

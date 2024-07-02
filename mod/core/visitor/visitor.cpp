@@ -4,7 +4,7 @@
 #include "../builtin.hpp"
 #include "../loader/worker/worker.inl"
 
-namespace namu {
+namespace nm {
 
     template class _nout worker<void, node>;
 

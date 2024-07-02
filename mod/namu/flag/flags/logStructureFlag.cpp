@@ -1,7 +1,7 @@
 #include "logStructureFlag.hpp"
 #include "../../cli.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(logStructureFlag)
 

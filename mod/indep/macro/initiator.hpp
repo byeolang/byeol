@@ -3,7 +3,7 @@
 #define NAMU_INITIATOR(name, body) \
     static inline Initiator* NAMU_CONCAT(__initi__ ## name ##_, __COUNTER__) = new Initiator([]() body);
 
-namespace namu {
+namespace nm {
     /// Initiator can runs statements before main().
     /// @Usage  just @refer NAMU_INITIATOR(myIniti) { <your codes> };
     ///         static<optional> Initiator <name>([]() { <your codes> });

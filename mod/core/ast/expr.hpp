@@ -6,7 +6,7 @@
 
 struct exprTest;
 
-namespace namu {
+namespace nm {
 
     class _nout expr : public node {
     public:

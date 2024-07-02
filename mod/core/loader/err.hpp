@@ -10,7 +10,7 @@
 #include "../frame/frame.hpp"
 #include <unordered_map>
 
-namespace namu {
+namespace nm {
 
     typedef std::unordered_map<nidx, std::string> msgMap;
 

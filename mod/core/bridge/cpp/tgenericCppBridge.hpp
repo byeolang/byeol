@@ -3,7 +3,7 @@
 #include "tcppBridge.hpp"
 #include "../../ast/obj.hpp"
 
-namespace namu {
+namespace nm {
 
     template <typename T>
     class tgenericCppBridge : public tcppBridge<T, obj> {

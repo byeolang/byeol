@@ -5,7 +5,7 @@
 #include "../bridge/cpp/tApiBridge.hpp"
 #include "../ast/defaultCopyCtor.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(err)
 

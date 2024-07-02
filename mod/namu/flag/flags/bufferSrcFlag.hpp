@@ -2,7 +2,7 @@
 
 #include "../flag.hpp"
 
-namespace namu {
+namespace nm {
 
     class bufferSrcFlag : public flag {
         NAMU(CLASS(bufferSrcFlag, flag))

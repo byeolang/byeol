@@ -7,7 +7,7 @@
 
 struct exprTest;
 
-namespace namu {
+namespace nm {
 
     class slotLoader;
     class _nout thread : public node, public dumpable {

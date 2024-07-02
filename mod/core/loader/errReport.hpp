@@ -5,7 +5,7 @@
 #include "../type/dumpable.hpp"
 #include "../common.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout errReport : public instance, public dumpable {
         NAMU(CLASS(errReport, instance))

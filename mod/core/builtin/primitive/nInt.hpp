@@ -2,7 +2,7 @@
 
 #include "nStr.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout nInt : public primitiveObj<nint> {
 

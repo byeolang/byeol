@@ -2,7 +2,7 @@
 
 #include "../../ast/baseFunc.hpp"
 
-namespace namu {
+namespace nm {
     /// tApiBridge is a function template for API of primitive types.
     /// primitiveObj can't be tcppbridge object. it's already obj of namu.
     /// that's why this kind of func template required.

@@ -2,7 +2,7 @@
 
 #include "../expr.hpp"
 
-namespace namu {
+namespace nm {
 
     class visitor;
 

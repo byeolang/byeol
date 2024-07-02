@@ -1,6 +1,6 @@
 #include "sigZone.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(sigZone))
 
     me::sigZone(sigHandler handler): _handler(handler) {

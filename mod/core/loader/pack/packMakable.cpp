@@ -2,6 +2,6 @@
 #include "../../ast/src/src.hpp"
 #include "../errReport.hpp"
 
-namespace namu {
+namespace nm {
     NAMU_DEF_ME(packMakable)
 }

@@ -2,7 +2,7 @@
 
 #include "../../../ast/baseFunc.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout inputFunc : public baseFunc {
         NAMU(CLASS(inputFunc, baseFunc))

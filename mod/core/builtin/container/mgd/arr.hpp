@@ -2,7 +2,7 @@
 
 #include "../../../bridge/cpp/tgenericCppBridge.hpp"
 
-namespace namu {
+namespace nm {
 
     // another f**king annoying MSVC Hack:
     //  to avoid C2901 error, I need to declare sort of dllexport(import) things at here.

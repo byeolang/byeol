@@ -2,7 +2,7 @@
 
 #include "srcFile.hpp"
 
-namespace namu {
+namespace nm {
     class _nout src : public instance {
         NAMU(CLASS(src, instance))
         friend class parser;

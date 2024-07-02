@@ -1,7 +1,7 @@
 #include "helpFlag.hpp"
 #include "../../cli.hpp"
 
-namespace namu {
+namespace nm {
 
     const nchar* helpFlag::getName() const {
         return "-h";

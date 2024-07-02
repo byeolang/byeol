@@ -5,7 +5,7 @@
 #include "../ast/node.hpp"
 #include "../ast/src.hpp"
 
-namespace namu {
+namespace nm {
 
     class retStateExpr;
 #define X(T) class T;

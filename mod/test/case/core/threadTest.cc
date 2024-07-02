@@ -1,6 +1,6 @@
 #include "../../namuTest.hpp"
 
-using namespace namu;
+using namespace nm;
 
 struct threadTest : public namuTest {
     thread* thr = nullptr;

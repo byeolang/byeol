@@ -1,6 +1,6 @@
 #include "memoryHaver.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(memoryHaver)
 

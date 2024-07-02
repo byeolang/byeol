@@ -1,6 +1,6 @@
 #include "../../namuTest.hpp"
 
-using namespace namu;
+using namespace nm;
 using namespace std;
 
 namespace {
@@ -25,7 +25,7 @@ struct exprTest : public namuTest {
     }
 
     static frames& getFrames() {
-        return namu::thread::get()._getFrames();
+        return nm::thread::get()._getFrames();
     }
 };
 

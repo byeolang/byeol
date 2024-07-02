@@ -2,7 +2,7 @@
 
 #include "expr.hpp"
 
-namespace namu {
+namespace nm {
 
     class param;
     template <typename T, typename TACTIC> class tnarr;

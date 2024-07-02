@@ -6,7 +6,7 @@
 #include "../builtin/primitive/nInt.hpp"
 #include "../builtin/primitive/nByte.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU(DEF_ME(baseFunc), DEF_VISIT())
 

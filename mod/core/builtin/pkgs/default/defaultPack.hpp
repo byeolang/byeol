@@ -2,7 +2,7 @@
 
 #include "../../../ast/baseObj.hpp"
 
-namespace namu {
+namespace nm {
     class _nout defaultPack : public baseObj {
         NAMU(CLASS(defaultPack, baseObj))
 

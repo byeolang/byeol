@@ -2,7 +2,7 @@
 
 #include "tnarr.inl"
 
-namespace namu {
+namespace nm {
 
     template <typename T, typename TACTIC = strTactic>
     class tndumArr: public tnarr<T, TACTIC> {

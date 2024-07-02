@@ -2,7 +2,7 @@
 
 #include "tnmap.inl"
 
-namespace namu {
+namespace nm {
 
     template <typename K, typename V, typename TACTIC = strTactic>
     class tndumMap : public tnmap<K, V, TACTIC> {

@@ -3,7 +3,7 @@
 #include "../common/dep.hpp"
 #include "../logLv.hpp"
 
-namespace namu {
+namespace nm {
     class _nout filterable {
     public:
         virtual ~filterable() {}

@@ -4,7 +4,7 @@
 #include "nChar.hpp"
 #include "../container/tucontainable.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout nStr : public primitiveObj<std::string>, public tucontainable<nChar> {
 

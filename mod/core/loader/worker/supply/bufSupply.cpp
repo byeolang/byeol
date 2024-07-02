@@ -2,7 +2,7 @@
 #include "bufSupply.hpp"
 #include "../../../ast/exprs/exprMaker.hpp"
 
-namespace namu {
+namespace nm {
     NAMU_DEF_ME(bufSupply)
 
     me::bufSupply(const std::string& buf): _buf(buf) {}

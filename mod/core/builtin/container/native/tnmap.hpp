@@ -2,7 +2,7 @@
 
 #include "tnbicontainer.hpp"
 
-namespace namu {
+namespace nm {
 
     template <typename K, typename V, typename TACTIC = strTactic>
     class tnmap : public tnbicontainer<K, V> {

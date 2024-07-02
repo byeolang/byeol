@@ -3,7 +3,7 @@
 #include "../../ast/scope.hpp"
 #include "../../builtin/container/native/tnarr.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout defBlock : public instance {
         NAMU(CLASS(defBlock, instance))

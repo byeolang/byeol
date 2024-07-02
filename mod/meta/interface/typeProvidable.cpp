@@ -1,7 +1,7 @@
 #include "../type/ttype.hpp"
 #include "typeProvidable.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(typeProvidable)
 

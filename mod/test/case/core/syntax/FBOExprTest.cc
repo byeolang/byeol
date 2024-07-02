@@ -1,6 +1,6 @@
 #include "../../../namuSyntaxTest.hpp"
 
-using namespace namu;
+using namespace nm;
 using namespace std;
 
 namespace {
@@ -139,7 +139,7 @@ TEST_F(FBOExprTest, testStringAddSequence) {
         ret (Helloworld(4) as str + "low\n") == "4low\n"
     )SRC").shouldVerified(true);
 
-    namu::str res = run();
+    nm::str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res->cast<nint>(), 1);
 }
@@ -156,7 +156,7 @@ TEST_F(FBOExprTest, testStringAddBoolean) {
 
 
     NAMU_E("start run!");
-    namu::str res = run();
+    nm::str res = run();
     ASSERT_EQ(res.cast<nint>(), 1);
 }
 
@@ -170,7 +170,7 @@ TEST_F(FBOExprTest, testStringAddBoolean2) {
     )SRC").shouldParsed(true);
     shouldVerified(true);
 
-    namu::str res = run();
+    nm::str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res->cast<nint>(), 1);
 }

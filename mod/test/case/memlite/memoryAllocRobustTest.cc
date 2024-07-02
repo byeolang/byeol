@@ -1,7 +1,7 @@
 #include "../../namuTest.hpp"
 #include <ctime>
 
-using namespace namu;
+using namespace nm;
 
 struct memoryAllocRobustTest : public namuTest {};
 

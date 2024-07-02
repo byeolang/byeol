@@ -2,7 +2,7 @@
 #include "../../ast/node.hpp"
 #include "../../builtin/primitive/nVoid.hpp"
 
-namespace namu {
+namespace nm {
 
     NAMU_DEF_ME(ases)
 

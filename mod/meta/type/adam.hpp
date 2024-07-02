@@ -2,6 +2,6 @@
 
 #include "../common.hpp"
 
-namespace namu {
+namespace nm {
     class _nout adam {};
 }

@@ -3,7 +3,7 @@
 #include "../expr.hpp"
 #include "../../builtin/container/mgd/arr.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout defArrayExpr : public expr {
         NAMU(CLASS(defArrayExpr, expr, expr::exprType), VISIT())

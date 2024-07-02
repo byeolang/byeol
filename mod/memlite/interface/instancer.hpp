@@ -3,7 +3,7 @@
 #include "../pool/pool.hpp"
 #include "../watcher/watcher.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout instancer {
         NAMU_ME(instancer)

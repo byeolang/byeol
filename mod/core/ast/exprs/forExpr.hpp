@@ -2,7 +2,7 @@
 
 #include "loopExpr.hpp"
 
-namespace namu {
+namespace nm {
 
     class frame;
     class _nout forExpr : public loopExpr {

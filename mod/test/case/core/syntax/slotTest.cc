@@ -1,6 +1,6 @@
 #include "../../../namuSyntaxTest.hpp"
 
-using namespace namu;
+using namespace nm;
 using namespace std;
 
 namespace {
@@ -18,7 +18,7 @@ namespace {
                 _executed = true;
 
                 if(_lambda)
-                    _res = _lambda(a, (frames&) namu::thread::get().getFrames());
+                    _res = _lambda(a, (frames&) nm::thread::get().getFrames());
                 return str();
             }
 
@@ -89,7 +89,7 @@ namespace {
 
         str run(const args& a) override {
             _executed = true;
-            _res = _lambda(a, (frames&) namu::thread::get().getFrames());
+            _res = _lambda(a, (frames&) nm::thread::get().getFrames());
             return str();
         }
 

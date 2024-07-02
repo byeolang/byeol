@@ -1,7 +1,7 @@
 #include "param.hpp"
 #include "node.hpp"
 
-namespace namu {
+namespace nm {
     NAMU_DEF_ME(param)
 
     me::param(const std::string& newName, const node& org): _name(newName) {

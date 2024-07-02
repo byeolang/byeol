@@ -1,6 +1,6 @@
 #include "../../namuTest.hpp"
 
-using namespace namu;
+using namespace nm;
 using namespace std;
 
 struct nchainTest : public namuTest {};

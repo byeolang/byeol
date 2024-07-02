@@ -3,7 +3,7 @@
 #include "../../ast/scope.hpp"
 #include "../../ast/baseObj.hpp"
 
-namespace namu {
+namespace nm {
 
     class _nout arithmeticObj : public baseObj {
         NAMU(ADT(arithmeticObj, baseObj))

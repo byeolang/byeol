@@ -1,6 +1,6 @@
 #include "filters.hpp"
 
-namespace namu {
+namespace nm {
     NAMU(DEF_ME(filters))
 
     me::~filters() { rel(); }
