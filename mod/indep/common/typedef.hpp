@@ -24,6 +24,7 @@ namespace nm {
     typedef long                nlong;
     typedef unsigned long       nulong;
     typedef int64_t             nint64;
+    typedef uint64_t            nuint64;
 
     typedef nint                nidx;
     typedef nchar               nbyte;

@@ -110,7 +110,7 @@ namespace nm {
 
     nbool me::_logInitOk(nbool res) {
         if(!res)
-            return NM_E("couldn't init meta of %s class.", getName().c_str()), res;
+            return NM_E("couldn't init meta of %s class.", getName()), res;
 
         return res;
     }

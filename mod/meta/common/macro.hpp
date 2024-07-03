@@ -1,5 +1,7 @@
 #pragma once
 
+#include "dep.hpp"
+
 // namuMeta macro's sub-commands:
 //  CLONE:
 //      defines normal clone func. it have to be defined if you
@@ -74,3 +76,10 @@
         } \
     private:
 
+namespace nm {
+    class type;
+    class typeProvidable;
+
+    std::string convert(const typeProvidable& it);
+    std::string convert(const type& it);
+}

@@ -11,7 +11,9 @@ namespace nm {
 
     NM_DEF_ME(verifier)
 
-#define GUARD(...) if(isFlag(GUARD)) NM_I(__VA_ARGS__)
+    using platformAPI::toAddrId;
+
+#define GUARD(...) if(isFlag(GUARD)) NM_RI(__VA_ARGS__)
 
     namespace {
         str primitives[] = {
@@ -35,9 +37,9 @@ namespace nm {
 
     // verification:
     void me::onLeave(visitInfo i, node& me) {
-        GUARD("verify: %s node@%s: onVisit()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
+        GUARD("verify: %s node@%s: onVisit()", i, toAddrId(&me));
 
-        NM_I("verify: node: no same variable=%d", me.subs().len());
+        NM_RI("verify: node: no same variable=%s", me.subs().len());
         if(me.isSub<frame>()) return;
 
         for(auto e=me.subs().begin(); e ;++e) {
@@ -48,27 +50,27 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, asExpr& me) {
-        GUARD("verify: %s asExpr@%s: [%x] onVisit()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
+        GUARD("verify: %s asExpr@%s: onVisit()", i, toAddrId(&me));
 
-        NM_I("verify: asExpr: _me & _as aren't null");
+        NM_RI("verify: asExpr: _me & _as aren't null");
         if(nul(me.getMe())) return posError(errCode::LHS_IS_NULL, me);
         if(nul(me.getAs())) return posError(errCode::RHS_IS_NULL, me);
         if(me.getAs().isSub<nVoid>()) return posError(errCode::VOID_NOT_CAST, me);
 
-        NM_I("verify: asExpr: checks that me can cast to 'as'");
+        NM_RI("verify: asExpr: checks that me can cast to 'as'");
         if(!me.getMe().is(me.getAs()))
             return posError(errCode::CAST_NOT_AVAILABLE, me, me.getMe().getType().getName().c_str(),
                     me.getAs().getType().getName().c_str());
 
-        NM_I("verify: asExpr: rhs shouldn't be expression");
+        NM_RI("verify: asExpr: rhs shouldn't be expression");
         if(!me.getAs().isImpli<node>())
             return posError(errCode::CAST_TO_UNKNOWN, me);
     }
 
     void me::onLeave(visitInfo i, assignExpr& me) {
-        GUARD("verify: %s assignExpr@%x: onVisit()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
+        GUARD("verify: %s assignExpr@%s: onVisit()", i, toAddrId(&me));
 
-        NM_I("verify: assignExpr: set evalType");
+        NM_RI("verify: assignExpr: set evalType");
         str leftEval = me.getLeft().getEval();
         if(!leftEval) return posError(errCode::LHS_IS_NULL, me);
         const ntype& ltype = leftEval->getType();
@@ -119,7 +121,7 @@ namespace nm {
         //          AssignExpr(getExpr(getExpr(A, B), NAME), nInt(5))
         //      so, only I need to check is, lhs of AssignExpr is kind of getExpr() or not.
         //      I can care about that the last expression is valid.
-        NM_I("verify: assignExpr: checks rvalue");
+        NM_RI("verify: assignExpr: checks rvalue");
         const node& lhs = me.getLeft();
         if(!lhs.isSub<getExpr>()/* TODO: && !lhs.isSub<ElementExpr>()*/)
             return posError(errCode::ASSIGN_TO_RVALUE, me, me.getRight().getType().getName().c_str(),
@@ -127,9 +129,9 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, blockExpr& me) {
-        GUARD("verify: %s blockExpr@%x: onLeave()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
+        GUARD("verify: %s blockExpr@%s: onLeave()", i, toAddrId(&me));
 
-        NM_I("verify: blockExpr: last stmt should match to ret type");
+        NM_RI("verify: blockExpr: last stmt should match to ret type");
         const narr& stmts = me.getStmts();
         if(nul(stmts) || stmts.len() <= 0) return; // will be catched to another verification.
 
@@ -141,14 +143,12 @@ namespace nm {
     void me::_onLeave(const loopExpr& me) {
         str eval = me.getEval(); // it's okay forExpr not to have 'eval'.
         if(eval) {
-            NM_I("verify: %s: eval Value check: eval[%s] is an array?",
-                   me.getType().getName().c_str(),
-                   eval->getType().getName().c_str());
+            NM_RI("verify: %s: eval Value check: eval[%s] is an array?", me, eval);
             if(!eval->isSub<retStateExpr>() && !eval->isSub<arr>())
                 return posError(errCode::LOOP_NO_RET_ARR, me);
         }
 
-        NM_I("verify: %s: onLeave", me.getType().getName().c_str());
+        NM_RI("verify: %s: onLeave", me);
         me.getBlock().outFrame();
         _recentLoops.pop_back();
     }

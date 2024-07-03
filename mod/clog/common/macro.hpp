@@ -1,8 +1,5 @@
 #pragma once
 
-#define _LOG(func, level, fmt, ...) {                                         \
-}
-
 //  Log macro:
 //      prints debug log on console and file.
 //      you can check the file recorded logs at your current work directory
@@ -14,9 +11,9 @@
 //      usage:
 //          NM_I("just message.")
 //          NM_I("with format=%x string=%s", &format, format.c_str())
-#define NM_E(fmt, ...) ::nm::logger::get().log(nm::logLv::ERR, NM_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
-#define NM_W(fmt, ...) ::nm::logger::get().log(nm::logLv::WARN, NM_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
-#define NM_I(fmt, ...) ::nm::logger::get().log(nm::logLv::INFO, NM_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
+#define NM_E(fmt, ...) ::nm::richLog(nm::logLv::ERR, NM_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
+#define NM_W(fmt, ...) ::nm::richLog(nm::logLv::WARN, NM_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
+#define NM_I(fmt, ...) ::nm::richLog(nm::logLv::INFO, NM_TAG, __FILENAME__, __func__, __LINE__, fmt "\n", ## __VA_ARGS__)
 #ifdef NM_DEBUG
 #   define NM_DE(fmt, ...) NM_E(fmt, ## __VA_ARGS__)
 #   define NM_DW(fmt, ...) NM_W(fmt, ## __VA_ARGS__)

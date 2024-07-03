@@ -11,4 +11,6 @@ namespace nm {
         void ex(nint code, ...);
         void ex(const point& src, int code, ...);
     };
+
+#define NM_EX(code, ...) this->ex(code, __VA_ARGS__)
 }
