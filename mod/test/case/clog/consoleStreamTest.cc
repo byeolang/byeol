@@ -75,3 +75,7 @@ TEST_F(consoleStreamTest, debugLogFormat) {
 
     ASSERT_EQ(isDbg, thisTest::hasLogFile());
 }
+
+TEST_F(consoleStreamTest, richLogTest) {
+    richLog(logLv::INFO, "test", "filename", "func", 1, "%s.%s\n", nInt(1), obj());
+}

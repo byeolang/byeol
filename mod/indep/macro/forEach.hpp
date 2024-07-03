@@ -63,8 +63,7 @@
 //        usage:
 //            #define X(x, y) cout << (x+y);
 //            int b = 5;
-//            NM_EACH_EXPAND(X, b, 1,2,3)
-//            //== cout << (b+1); cout << (b+2); cout << (b+3);
+//            NM_EACH_EXPAND(X, b, 1,2,3) // ==> cout << (b+1); cout << (b+2); cout << (b+3);
 //
 //        output:
 //            678
