@@ -24,7 +24,7 @@ namespace nm {
 
         id gotId = got.blk.getId();
         if(gotId.tagN != newId.tagN) {
-            NM_W("bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)",
+            NM_W("bindTag was corrupted! watchCell.id(%s.%s.%s) != id(%s.%s.%s)",
                     gotId.tagN, gotId.chkN, gotId.serial, newId.tagN, newId.chkN, newId.serial);
             return nulOf<watchCell>();
         }

@@ -154,14 +154,14 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, defVarExpr& me) {
-        GUARD("verify: %s defVarExpr@%s: onLeave()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
+        GUARD("verify: %s defVarExpr@%s: onLeave()", i, toAddrId(&me));
 
-        NM_I("verify: defVarExpr: is definable?");
+        NM_RI("verify: defVarExpr: is definable?");
         const node& rhs = me.getRight();
         if(nul(rhs))
             return posError(errCode::CANT_DEF_VAR, me, me.getName().c_str(), "null");
 
-        NM_I("verify: defVarExpr: to define a void type property isn't allowed.");
+        NM_RI("verify: defVarExpr: to define a void type property isn't allowed.");
         str eval = rhs.getEval();
         if(!eval) return posError(errCode::RHS_IS_NULL, me);
         if(eval->isSub<nVoid>())
@@ -174,11 +174,11 @@ namespace nm {
                 return posError(errCode::TYPE_IS_NOT_PRE_EVALUATED, me);
         }
 
-        NM_I("verify: defVarExpr: does rhs[%s] have 'ret' in its blockStmt?", eval->getType().getName().c_str());
+        NM_RI("verify: defVarExpr: does rhs[%s] have 'ret' in its blockStmt?", eval);
         if(eval->isSub<retStateExpr>())
             return posError(errCode::CANT_ASSIGN_RET, me);
 
-        NM_I("verify: defVarExpr: check whether make a void container.");
+        NM_RI("verify: defVarExpr: check whether make a void container.");
         const narr& beans = eval->getType().getBeans();
         for(const node& bean : beans)
             if(bean.isSub<nVoid>())
@@ -186,7 +186,7 @@ namespace nm {
 
         std::string name = me.getName();
         if(name == "") return posError(errCode::HAS_NO_NAME, me);
-        NM_I("verify: defVarExpr: is %s definable?", name.c_str());
+        NM_RI("verify: defVarExpr: is %s definable?", name);
         const ntype& t = eval->getType();
         const nchar* typeName = nul(t) ? "null" : t.getName().c_str();
         if(nul(t))
@@ -195,7 +195,7 @@ namespace nm {
 
         node& to = me.getTo();
         std::string toName = nul(to) ? "null" : to.getType().getName();
-        NM_I("verify: defVarExpr: is 'to'[%s] valid", toName.c_str());
+        NM_RI("verify: defVarExpr: is 'to'[%s] valid", toName);
         // only if to is 'frame', I need to make property when verify:
         //  local variables are required to verify further statements. but it's okay. it'll been
         //  removed after blockExpr::outFrame().
@@ -208,16 +208,16 @@ namespace nm {
         if(!nul(to)) return;
 
         frame& fr = thread::get()._getNowFrame();
-        NM_I("verify: defVarExpr: duplication of variable with name[%s]", name.c_str());
+        NM_RI("verify: defVarExpr: duplication of variable with name[%s]", name);
         if(fr.mySubs()->has(name))
             return posError(errCode::ALREADY_DEFINED_VAR, me, name.c_str(), typeName);
 
-        NM_I("verify: defVarExpr: ok. defining local temporary var... %s %s", name.c_str(), typeName);
+        NM_RI("verify: defVarExpr: ok. defining local temporary var... %s %s", name, typeName);
         fr.addLocal(name, *new mockNode(*eval));
     }
 
     void me::onLeave(visitInfo i, defAssignExpr& me) {
-        GUARD("verify: %s defAssignExpr@%s: onVisit()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
+        GUARD("verify: %s defAssignExpr@%s: onVisit()", i, toAddrId(&me));
         const node& rhs = me.getRight();
         str eval = !nul(rhs) ? rhs.getEval() : str();
         if(!eval) return posError(errCode::RHS_IS_NULL, me);
@@ -228,13 +228,13 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, defSeqExpr& me) {
-        GUARD("verify: %s defSeqExpr@%s: onVisit()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
+        GUARD("verify: %s defSeqExpr@%s: onVisit()", i, toAddrId(&me));
 
-        NM_I("verify: defSeqExpr: check lhs & rhs");
+        NM_RI("verify: defSeqExpr: check lhs & rhs");
         if(nul(me.getStart())) return posError(errCode::LHS_IS_NULL, me);
         if(nul(me.getEnd())) return posError(errCode::RHS_IS_NULL, me);
 
-        NM_I("verify: defSeqExpr: lhs & rhs is sort of Int?");
+        NM_RI("verify: defSeqExpr: lhs & rhs is sort of Int?");
         if(!me.getStart().isImpli<nInt>()) return posError(errCode::SEQ_SHOULD_INT_COMPATIBLE, me);
         if(!me.getEnd().isImpli<nInt>()) return posError(errCode::SEQ_SHOULD_INT_COMPATIBLE, me);
     }

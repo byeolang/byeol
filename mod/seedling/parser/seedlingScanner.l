@@ -31,10 +31,10 @@ void changeRule(const char* name, int new1) {
 
     shiftRules(new1);
     BEGIN(new1);
-    NM_DI(" ---- CHANGE RULE to %s(%d)", name, new1);
+    NM_DI(" ---- CHANGE RULE to %s(%s)", name, new1);
 }
 void changePrevRule() {
-    NM_DI(" ---- CHANGE PREV RULE TO %d", prevRule);
+    NM_DI(" ---- CHANGE PREV RULE TO %s", prevRule);
     BEGIN(prevRule);
 }
 %}
@@ -165,7 +165,7 @@ true|false {
     return teol;
 }
 <DEDENTING>[ ] {
-    NM_DI("<DEDENTING> nowIndent=%d", nowIndent);
+    NM_DI("<DEDENTING> nowIndent=%s", nowIndent);
     nowIndent++;
 }
 <DEDENTING>\t {
@@ -176,7 +176,7 @@ true|false {
     char ch = yytext[0];
 
     int prevIndentLv = indentLvs.size() ? indentLvs.top() : 0;
-    NM_DI("  ---  ch=%c(%d) dedent check finish. prevIndentLv=%d intentLvs.size()=%d nowIndent=%d",
+    NM_DI("  ---  ch=%s(%s) dedent check finish. prevIndentLv=%s intentLvs.size()=%s nowIndent=%s",
         ch, ch, prevIndentLv, indentLvs.size(), nowIndent);
 
     if (nowIndent < prevIndentLv) {
