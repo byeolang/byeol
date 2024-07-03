@@ -230,9 +230,9 @@ true|false {
     char ch = yytext[0];
 
     int prevIndentLv = indentLvs.size() ? indentLvs.top() : 0;
-    NM_DI("  ---  indent check finish. nowIndent=%d, prevIndentLv=%d indentLvs.size()=%d", nowIndent, prevIndentLv, indentLvs.size());
+    NM_DI("  ---  indent check finish. nowIndent=%s, prevIndentLv=%s indentLvs.size()=%s", nowIndent, prevIndentLv, indentLvs.size());
     if (nowIndent > prevIndentLv) {
-        NM_DI("nowIndent(%d) > prevIndentLv(%d)", nowIndent, prevIndentLv);
+        NM_DI("nowIndent(%s) > prevIndentLv(%s)", nowIndent, prevIndentLv);
         indentLvs.push(nowIndent);
         unput(ch);
         return tindent;
@@ -277,7 +277,7 @@ nm::sobj* root = nullptr;
 
 int meetEof() {
     static int cnt = 0;
-    NM_DI("----------- meetEOF(%d)", cnt);
+    NM_DI("----------- meetEOF(%s)", cnt);
     switch (++cnt) {
         case 0:
             NM_DI("-------- return teol");
@@ -296,7 +296,7 @@ int goOutdent(char prev)
 
     indentLvs.pop();
     unput(prev);
-    NM_DI(" ----- prev=%d nowIndent=%d", prev, nowIndent);
+    NM_DI(" ----- prev=%s nowIndent=%s", prev, nowIndent);
     for (int n=0; n < nowIndent ;n++)
         unput(' ');
     if ((prev != ',' && prev != ')') || top - nowIndent != TAB_WIDTH) {
@@ -307,12 +307,12 @@ int goOutdent(char prev)
     }
 
     changeRule("DEDENTING", DEDENTING);
-    NM_DI(" ----- dedent: pop! now %d dedentLv left.", indentLvs.size());
+    NM_DI(" ----- dedent: pop! now %s dedentLv left.", indentLvs.size());
     nowIndent = 0;
     return tdedent;
 }
 
 void yyerror(const char* s) {
-    NM_E("error #%d: %s, %s", yylineno, s, yytext);
+    NM_E("error #%s: %s, %s", yylineno, s, yytext);
 }
 #pragma clang diagnostic pop

@@ -24,7 +24,7 @@ namespace nm {
         auto& fr = thread::get().getNowFrame();
         if(!_ret) return str(nVoid::singletone());
 
-        NM_DI("retExpr: _ret[%s]", _ret->getType().getName().c_str());
+        NM_DI("retExpr: _ret[%s]", _ret);
         if(_ret->isSub<baseObj>()) return fr.setRet(*_ret), _ret;
 
         str ret = _ret->as<node>(); // # check retValue is null or not.
@@ -35,7 +35,7 @@ namespace nm {
         if(_isEx(*ret, *fRet))
             return _returnEx(ret->cast<err>());
 
-        NM_DI("retExpr: frame.setRet(%s)", ret->getType().getName().c_str());
+        NM_DI("retExpr: frame.setRet(%s)", ret);
         fr.setRet(*ret);
         return ret;
     }

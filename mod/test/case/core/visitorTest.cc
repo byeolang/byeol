@@ -77,7 +77,7 @@ TEST_F(visitorTest, visitComplexExpressions) {
 
         using visitor::onVisit;
         nbool onVisit(visitInfo i, getExpr& got) override {
-            NM_DI("subname=%s", got.getName().c_str());
+            NM_DI("subname=%s", got.getName());
             if(got.getName() == "o")
                 metO++;
             return true;

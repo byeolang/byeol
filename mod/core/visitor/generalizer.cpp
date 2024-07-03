@@ -27,8 +27,7 @@ namespace nm {
         const node& org = _findOrigin(me.getAs());
         if(nul(org)) return true;
 
-        NM_DI("* inject 'as %s' --> 'as %s'",
-               me.getAs().getType().getName().c_str(), org.getType().getName().c_str());
+        NM_DI("* inject 'as %s' --> 'as %s'", me.getAs(), org);
         me.setAs(org);
         return true;
     }
@@ -40,8 +39,7 @@ namespace nm {
             const node& org = _findOrigin(stmt);
             if(nul(org)) continue;
 
-            NM_DI("* inject 'stmt %s' --> 'stmt %s'",
-                   stmt.getType().getName().c_str(), org.getType().getName().c_str());
+            NM_DI("* inject 'stmt %s' --> 'stmt %s'", stmt, org);
             stmts.set(n, org);
         }
         return true;
@@ -51,9 +49,7 @@ namespace nm {
         const node& org = _findOrigin(me.getRight());
         if(nul(org)) return true;
 
-        NM_DI("* inject '%s %s' --> '%s %s'",
-               me.getName().c_str(), me.getRight().getType().getName().c_str(),
-               me.getName().c_str(), org.getType().getName().c_str());
+        NM_DI("* inject '%s %s' --> '%s %s'", me.getName(), me.getRight(), me.getName(), org);
         me.setRight(org);
         return true;
     }
@@ -73,8 +69,7 @@ namespace nm {
             const node& org = _findOrigin(a);
             if(nul(org)) continue;
 
-            NM_DI("* inject arg '%s' --> '%s'",
-                   a.getType().getName().c_str(), org.getType().getName().c_str());
+            NM_DI("* inject arg '%s' --> '%s'", a, org);
             as.set(n, org);
         }
         return true;
@@ -86,8 +81,7 @@ namespace nm {
             const node& org = _findOrigin(p.getOrigin());
             if(nul(org)) continue;
 
-            NM_DI("* inject param '%s' --> '%s'",
-                   p.getOrigin().getType().getName().c_str(), org.getType().getName().c_str());
+            NM_DI("* inject param '%s' --> '%s'", p.getOrigin(), org);
             p.setOrigin(org);
         }
         return true;
@@ -112,9 +106,7 @@ namespace nm {
 
         const node& retOrg = _findOrigin(*me.getRet());
         if(!nul(retOrg)) {
-            NM_DI("* inject retType of '%s(%s) %s' --> '%s'",
-                    i.name.c_str(), me.getParams().toStr().c_str(), me.getRet()->getEval().getType().getName().c_str(),
-                    retOrg.getType().getName().c_str());
+            NM_DI("* inject retType of '%s(%s) %s' --> '%s'", i, me.getParams().toStr(), me.getRet()->getEval(), retOrg);
             me.setRet(retOrg);
             if(nul(i.parent))
                 getReport().add(err::newErr(errCode::IS_NULL, "parent"));
@@ -131,8 +123,7 @@ namespace nm {
             const node& org = _findOrigin(prevVal);
             if(nul(org)) continue;
 
-            NM_DI("* inject '%s' at '%s.%s' to '%s", prevVal.getType().getName().c_str(),
-                    i.name.c_str(), e.getKey().c_str(), org.getType().getName().c_str());
+            NM_DI("* inject '%s' at '%s.%s' to '%s", prevVal, i, e.getKey(), org);
             e.setVal(org);
         }
 

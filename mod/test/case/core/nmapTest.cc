@@ -36,7 +36,7 @@ namespace {
         auto removingElapsed = end - startDeleting;
         auto totalElapsed = end - start;
 
-        NM_I("[benchMarkNMap]: map took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
+        NM_I("[benchMarkNMap]: map took total %s ms for adding(%sms) & removing(%sms) of %s elems.",
                 totalElapsed / chrono::milliseconds(1), addingElapsed / chrono::milliseconds(1),
                 removingElapsed / chrono::milliseconds(1), sz);
 
@@ -55,7 +55,7 @@ namespace {
         removingElapsed = end - startDeleting;
         totalElapsed = end - start;
 
-        NM_I("[benchMarkNMap]: nmap took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
+        NM_I("[benchMarkNMap]: nmap took total %s ms for adding(%sms) & removing(%sms) of %s elems.",
                 totalElapsed / chrono::milliseconds(1), addingElapsed / chrono::milliseconds(1),
                 removingElapsed / chrono::milliseconds(1), sz);
     }

@@ -88,7 +88,7 @@ namespace nm {
         nint* them[] = {&_maj, &_min, &_fix};
         for(int n = 0; n < VER_LEN; n++) {
             if(!std::getline(ss, token, DELIMITER[0])) {
-                NM_E("error parsing to %s", verStr.c_str());
+                NM_E("error parsing to %s", verStr);
                 return;
             }
 

@@ -116,7 +116,7 @@ namespace nm {
     TEMPLATE
     R ME::adaptWork(worker<R, T>& w) {
         if(w.isFlag(worker<R, T>::GUARD))
-            NM_I("|=== %s.work()... ==============|", w.getType().getName().c_str());
+            NM_I("|=== %s.work()... ==============|", w);
 
         w._prepare();
 
@@ -127,12 +127,12 @@ namespace nm {
         internal.setPrev().rel();
 
         if(w.isFlag(worker<R, T>::GUARD))
-            NM_I("|--- %s._onEndWork()... --------|", w.getType().getName().c_str());
+            NM_I("|--- %s._onEndWork()... --------|", w);
 
         w._onEndWork();
 
         if(w.isFlag(worker<R, T>::GUARD))
-            NM_I("|=== %s ends! ==================|", w.getType().getName().c_str());
+            NM_I("|=== %s ends! ==================|", w);
         return ret;
     }
 
@@ -144,7 +144,7 @@ namespace nm {
     TEMPLATE
     void ME::adaptWork(worker<void, T>& w) {
         if(w.isFlag(worker<void, T>::GUARD))
-            NM_I("|=== %s.work()... ==============|", w.getType().getName().c_str());
+            NM_I("|=== %s.work()... ==============|", w);
 
         w._prepare();
 
@@ -156,13 +156,13 @@ namespace nm {
         }
 
         if(w.isFlag(worker<void, T>::GUARD))
-            NM_I("|--- %s._onEndWork()... --------|", w.getType().getName().c_str());
+            NM_I("|--- %s._onEndWork()... --------|", w);
 
         prev.setPrev();
         w._onEndWork();
 
         if(w.isFlag(worker<void, T>::GUARD))
-            NM_I("|=== %s ends! ==================|", w.getType().getName().c_str());
+            NM_I("|=== %s ends! ==================|", w);
     }
 
 #undef ME

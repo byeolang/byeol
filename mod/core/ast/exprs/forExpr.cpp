@@ -72,7 +72,7 @@ namespace nm {
         str iter = ased->run("iterate", args{narr{*new nInt(0)}});
         if(!iter) return NM_E("iter is null"), str();
 
-        NM_DI("forExpr: loop %s in %s", getLocalName().c_str(), ased->getSrc().getName().c_str());
+        NM_DI("forExpr: loop %s in %s", getLocalName(), ased->getSrc());
         return new forLoop(ret, ased, iter, *this);
     }
 }

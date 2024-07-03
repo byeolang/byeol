@@ -15,7 +15,7 @@ namespace nm {
             // ret.r variables won't be assigned to new data till this procedure has done.
             if(!_loadLibs(rpt, tray)) {
                 tray.rel();
-                return NM_E("couldn't load c++ library at %s", path.c_str()), ret;
+                return NM_E("couldn't load c++ library at %s", path), ret;
             }
         }
 
@@ -33,9 +33,9 @@ namespace nm {
 #endif
             if(!newHandle) {
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
-                NM_E("couldn't open %s slot: %d", path.c_str(), GetLastError());
+                NM_E("couldn't open %s slot: %s", path, GetLastError());
 #else
-                NM_E("couldn't open %s slot: %s", path.c_str(), dlerror());
+                NM_E("couldn't open %s slot: %s", path, dlerror());
 #endif
                 goto FINALIZE;
             }
@@ -47,9 +47,9 @@ namespace nm {
 #endif
             if(!ep) {
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
-                NM_E("couldn't locate entrypoint of %s slot: %d", path.c_str(), GetLastError());
+                NM_E("couldn't locate entrypoint of %s slot: %s", path, GetLastError());
 #else
-                NM_E("couldn't locate entrypoint of %s slot: %s", path.c_str(), dlerror());
+                NM_E("couldn't locate entrypoint of %s slot: %s", path, dlerror());
 #endif
                 goto FINALIZE;
             }
@@ -61,10 +61,10 @@ namespace nm {
             }
 
             _handles.push_back(newHandle); // don't close yet.
-            NM_I("slot[%s] loads origins from %s", getName().c_str(), path.c_str());
+            NM_I("slot[%s] loads origins from %s", getName(), path);
         }
 
-        NM_I("slot[%s] origins loaded.", getName().c_str());
+        NM_I("slot[%s] origins loaded.", getName());
         return true;
 
 FINALIZE:

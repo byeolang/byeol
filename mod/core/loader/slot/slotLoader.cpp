@@ -21,7 +21,7 @@ namespace nm {
         // TODO: open slot zip file -> extract manifest.seedling file -> interpret it & load values
         tstr<sobj> loaded = sinterpreter().interpFile(manPath);
         if(!loaded)
-            return NM_E("error to load %s: interpretion err", manPath.c_str()), manifest();
+            return NM_E("error to load %s: interpretion err", manPath), manifest();
 
         std::string name = loaded->sub("name").asStr();
         std::string ver = loaded->sub("ver").asStr();
@@ -32,7 +32,7 @@ namespace nm {
         for(auto& pair: entrypoints) {
             const std::string& path = dir + fsystem::DELIMITER + pair.second->sub("path").asStr();
             if(nul(path))
-                return NM_E("error to load %s: no entrypoint path", manPath.c_str()), manifest();
+                return NM_E("error to load %s: no entrypoint path", manPath), manifest();
 
             // TODO: path should be multiple
             points.push_back(entrypoint {pair.first, {path}});
@@ -49,7 +49,7 @@ namespace nm {
             for(const type* sub : ttype<packLoading>::get().getLeafs()) {
                 packLoading* new1 = sub->makeAs<packLoading>();
                 if(nul(new1)) {
-                    NM_E("fail to make slotMaking named to %s", sub->getName().c_str());
+                    NM_E("fail to make slotMaking named to %s", sub->getName());
                     continue;
                 }
 
@@ -80,7 +80,7 @@ namespace nm {
 
     me& me::addRelativePath(const std::string& path) {
         std::string cwd = fsystem::getCurrentDir() + fsystem::DELIMITER;
-        NM_I("finding slots relative to %s or absolute", cwd.c_str());
+        NM_I("finding slots relative to %s or absolute", cwd);
         return addPath(cwd + path);
     }
 
@@ -96,7 +96,7 @@ namespace nm {
 
     void me::_makeSlots(nmap& tray) {
         for(const std::string& path : _paths) {
-            NM_I("try slot path: %s", path.c_str());
+            NM_I("try slot path: %s", path);
 
             auto e = fsystem::find(path);
             while(e.next())
@@ -107,7 +107,7 @@ namespace nm {
 
     void me::_addNewSlot(nmap& tray, const std::string& dirPath, const std::string& manifestName) {
         std::string manifestPath = dirPath + fsystem::DELIMITER + manifestName;
-        NM_I("manifest path: %s", manifestPath.c_str());
+        NM_I("manifest path: %s", manifestPath);
 
         manifest mani = _interpManifest(dirPath, manifestPath);
         if(!mani.isValid()) {
@@ -119,7 +119,7 @@ namespace nm {
         for(entrypoint& point : mani.points) {
             packLoading* newLoading = _makeLoading(point.lang);
             if(!newLoading) {
-                NM_W("%s language not supported for loading %s slot.", mani.points[0].lang.c_str(), mani.name.c_str());
+                NM_W("%s language not supported for loading %s slot.", mani.points[0].lang, mani.name);
                 continue;
             }
 
@@ -133,18 +133,18 @@ namespace nm {
     }
 
     void me::_logSlot(const slot& pak) const {
-        NM_I("new slot [%s] has been added.", pak.getManifest().name.c_str());
+        NM_I("new slot [%s] has been added.", pak.getManifest().name);
 
 #if NM_IS_DBG
         const manifest& mani = pak.getManifest();
-        NM_DI("\t.filePath=%s", mani.filePath.c_str());
-        NM_DI("\t.author=%s", mani.author.c_str());
-        NM_DI("\t.ver=%s", mani.ver.c_str());
+        NM_DI("\t.filePath=%s", mani.filePath);
+        NM_DI("\t.author=%s", mani.author);
+        NM_DI("\t.ver=%s", mani.ver);
 
         NM_DI("\t.entrypoints=");
         for(const entrypoint& point : mani.points) {
-            NM_DI("\t\t.lang=%s", point.lang.c_str());
-            NM_DI("\t\t.paths=%s", point.paths[0].c_str());
+            NM_DI("\t\t.lang=%s", point.lang);
+            NM_DI("\t\t.paths=%s", point.paths[0]);
         }
 #endif
     }
@@ -154,7 +154,7 @@ namespace nm {
             if(e->getName() == name)
                 return (packLoading*) e->clone();
 
-        NM_E("can't find exact packLoading like %s", name.c_str());
+        NM_E("can't find exact packLoading like %s", name);
         return nullptr;
     }
 }

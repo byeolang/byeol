@@ -203,7 +203,5 @@ namespace nm {
     std::string convert(const nuint& it) { return std::to_string(it); }
     std::string convert(const nlong& it) { return std::to_string(it); }
     std::string convert(const nulong& it) { return std::to_string(it); }
-    std::string convert(const nint64& it) { return std::to_string(it); }
-    std::string convert(const nuint64& it) { return std::to_string(it); }
-    std::string convert(void* it) { return platformAPI::toAddrId(it); }
+    std::string convert(void* it) { return it ? platformAPI::toAddrId(it) : "null"; }
 }

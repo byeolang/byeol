@@ -23,7 +23,7 @@ namespace nm {
         const args& typs = getArgs();
         const std::string& name = getName();
         if(nul(typs) || !typs.len()) return NM_E("_args.len() == 0"), nulOf<genericObj>();
-        NM_DI("_name=%s, _args[%d]", getName().c_str(), typs.len());
+        NM_DI("_name=%s, _args[%s]", getName(), typs.len());
 
         str evalMe = getMe().isSub<expr>() ? getMe().as<node>() : getMe();
         if(!evalMe) return NM_E("from == null"), nulOf<genericObj>();

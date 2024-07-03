@@ -115,7 +115,7 @@ namespace nm {
     void me::set(thread* new1) {
         thread& prev = get();
         _instance = new1 ? new1 : &_getDumThread();
-        NM_DI("thread::set(%s -> %s)", prev.getType().getName().c_str(), _instance->getType().getName().c_str());
+        NM_DI("thread::set(%s -> %s)", prev, _instance);
     }
     void me::set(thread& new1) { set(&new1); }
     void me::set() { set(nullptr); }
@@ -167,7 +167,7 @@ namespace nm {
 
         _loadBuiltIns(*ret);
 
-        NM_I("%d system slots has been loaded.", ret->len());
+        NM_I("%s system slots has been loaded.", ret->len());
 
 #if NM_IS_DBG
         NM_I("next following is list for them.");
@@ -181,7 +181,7 @@ namespace nm {
             if(nul(sl)) continue;
 
             const manifest& mani = sl.getManifest();
-            NM_DI(" - %s v%s", mani.name.c_str(), mani.version.c_str());
+            NM_DI(" - %s v%s", mani.name, mani.version);
         }
 #endif
         return ret;

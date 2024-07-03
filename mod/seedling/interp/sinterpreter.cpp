@@ -27,13 +27,13 @@ namespace nm {
             return NM_E("invalid file path %s.", path), tstr<sobj>();
 
         std::string fileName = _extractFileName(path);
-        NM_I("interpreting file '%s'...", fileName.c_str());
+        NM_I("interpreting file '%s'...", fileName);
 
         tstr<sobj> ret = _runParser();
 
         ret->setName(fileName);
         fclose(yyin);
-        NM_I("%s seedling file interpreted.", fileName.c_str());
+        NM_I("%s seedling file interpreted.", fileName);
         return ret;
     }
 
@@ -44,7 +44,7 @@ namespace nm {
     tstr<sobj> me::_runParser() {
         int res = yyparse();
         if(res)
-            return NM_E("interpretion has been failed. res=%d", res), tstr<sobj>();
+            return NM_E("interpretion has been failed. res=%s", res), tstr<sobj>();
         if(!root)
             NM_E("nothing interpreted.");
 

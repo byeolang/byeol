@@ -38,7 +38,7 @@ namespace nm {
     nbool me::onVisit(visitInfo i, obj& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
-        NM_DI("preEval: obj: %s", i.name.c_str());
+        NM_DI("preEval: obj: %s", i);
 
         _obj.bind(me);
         me.inFrame();
@@ -58,7 +58,7 @@ namespace nm {
         _func.bind(me);
         me.inFrame(); // don't need to inFrame for args.
                       // because what this want to do is just collect @preCtor funcs.
-        NM_I("preEval: func: %s", i.name.c_str());
+        NM_I("preEval: func: %s", i);
         for(const auto& p : me.getParams())
             ((node&) p.getOrigin()).accept(i, *this);
 
@@ -112,7 +112,7 @@ namespace nm {
                 // preEvaluator just found circular dependencies.
                 NM_E("* * *");
                 NM_E("I couldn't finish pre-evaluation. may be because of circular dependency.");
-                NM_E("total %d pre-evaluations remains.", _stack.size());
+                NM_E("total %s pre-evaluations remains.", _stack.size());
                 NM_E("errors:");
                 e.dump();
                 NM_E("* * *");

@@ -18,8 +18,8 @@ namespace nm {
             tok = ps.onTokenEndOfFile();
 
         std::string tokName = getTokenName(tok);
-        NM_DI("%s: dispatcher[%d]%s(token: \"%s\" [%d]) at %d,%d", getType().getName().c_str(), disp.len(), isBypass ? ".dispatch" : " lowscanner",
-                tokName.c_str(), tok, loc->start.row, loc->start.col);
+        NM_DI("%s: dispatcher[%s]%s(token: \"%s\" [%s]) at %s,%s", *this, disp.len(), isBypass ? ".dispatch" : " lowscanner",
+                tokName, tok, loc->start.row, loc->start.col);
         return tok;
     }
 
@@ -52,12 +52,12 @@ namespace nm {
         ncnt cur = loc->start.col;
         std::vector<ncnt>& ind = ps.getIndents();
         if(ind.size() == 0) {
-            NM_DI("indentScan: initial indent lv: %d", cur);
+            NM_DI("indentScan: initial indent lv: %s", cur);
             ind.push_back(cur);
         }
 
         ncnt prev = ind.back();
-        NM_DI("indentScan: column check: cur[%d] prev[%d]", cur, prev);
+        NM_DI("indentScan: column check: cur[%s] prev[%s]", cur, prev);
 
         if(cur > prev)
             return ps.onIndent(cur, tok);

@@ -19,21 +19,21 @@ namespace nm {
         str evaledMe = me.as<node>();
         if(!evaledMe) return NM_E("run: evaledMe is null. no thread found"), str();
 
-        NM_DI("run: getting sub: me[%s]", evaledMe->getType().getName().c_str());
+        NM_DI("run: getting sub: me[%s]", evaledMe);
         str sub = _getSub(*evaledMe, _args);
         if(!sub) return NM_E("_subject.as<node>() returns null"), str();
 
-        NM_DI("run: assigning me: me[%s] sub[%s]", evaledMe->getType().getName().c_str(), sub->getType().getName().c_str());
+        NM_DI("run: assigning me: me[%s] sub[%s]", evaledMe, sub);
         if(!sub->isSub<baseObj>() && !nul(_args)) { // if sub is a baseObj, this expr will runs ctor of it which doesn't need me obj.
             frame& fr = evaledMe->cast<frame>();
             _args.setMe(!nul(fr) ? fr.getOwner(*sub) : *evaledMe);
             NM_DI("run: setting me on args. args.me[%s]", !evaledMe ? "null" : _args.getMe().getType().getName().c_str());
         }
 
-        NM_DI("run: running sub with args[%s]", _args.toStr().c_str());
+        NM_DI("run: running sub with args[%s]", _args.toStr());
         str ret = sub->run(_args);
 
-        NM_DI("run: done. ret[%s]", ret ? ret->getType().getName().c_str() : "null");
+        NM_DI("run: done. ret[%s]", ret);
         _args.setMe(nulOf<baseObj>());
         return ret;
     }
@@ -65,7 +65,7 @@ namespace nm {
     }
 
     clonable* me::cloneDeep() const {
-        NM_DI("%s.cloneDeep()", getType().getName().c_str());
+        NM_DI("%s.cloneDeep()", *this);
 
         me* ret = (me*) clone();
         if(_me) ret->_me.bind((node*) _me->cloneDeep());

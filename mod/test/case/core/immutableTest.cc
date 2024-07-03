@@ -45,10 +45,10 @@ namespace {
 
     public:
         myfunc(): super(params(), *new nVoid(), *new myBlock()) {
-            NM_I("myfunc(%x) new", this);
+            NM_I("myfunc(%s) new", this);
         }
         ~myfunc() {
-            NM_I("myfunc(%x) delete", this);
+            NM_I("myfunc(%s) delete", this);
         }
 
         nbool isRun() const {

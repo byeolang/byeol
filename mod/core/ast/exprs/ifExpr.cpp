@@ -30,7 +30,7 @@ namespace nm {
         if(!res) return nVoid::singletone();
 
         nbool cond = res->cast<nbool>();
-        NM_DI("ifExpr: condition[%s]", cond ? "true" : "false");
+        NM_DI("ifExpr: condition[%s]", cond);
         if(cond) {
             frameInteract f1(*_then); {
                 return _then->run();
@@ -51,21 +51,14 @@ namespace nm {
         if(!elseEval) return NM_E("elseEval is null"), elseEval;
 
         if(thenEval->isSub<retStateExpr>())
-            return NM_DI("thenEval is %s, accept elseEval[%s]",
-                           thenEval->getType().getName().c_str(),
-                           elseEval ? elseEval->getType().getName().c_str() : "null"), elseEval;
+            return NM_DI("thenEval is %s, accept elseEval[%s]", thenEval, elseEval), elseEval;
         if(elseEval->isSub<retStateExpr>())
-            return NM_DI("elseEval is %s, accept thenEval[%s]",
-                           elseEval->getType().getName().c_str(),
-                           thenEval->getType().getName().c_str()), thenEval;
+            return NM_DI("elseEval is %s, accept thenEval[%s]", elseEval, thenEval), thenEval;
 
         // when you try to get eval from ifExpr, `then` and else block must be declared first.
         // if one of blocks has omitted, evaluation of ifExpr should be null.
         str ret = thenEval->deduce(*elseEval); // if elseEval is null, then thenEval only left.
-        NM_DI("thenEval[%s] + elseVal[%s] -> %s",
-                thenEval->getType().getName().c_str(),
-                elseEval->getType().getName().c_str(),
-                ret ? ret->getType().getName().c_str() : "null");
+        NM_DI("thenEval[%s] + elseVal[%s] -> %s", thenEval, elseEval, ret);
         return ret;
     }
 

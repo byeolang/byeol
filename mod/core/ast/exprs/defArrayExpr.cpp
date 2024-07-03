@@ -35,7 +35,7 @@ namespace nm {
 
     str me::_deduceElems() const {
         ncnt len = _elems.len();
-        NM_DI("deduceElems: len[%d]", len);
+        NM_DI("deduceElems: len[%s]", len);
         if(!len) return NM_DI("len == 0. deduced type as 'void'"), nVoid::singletone();
 
         str ased1 = _elems[0].getEval();
@@ -47,10 +47,9 @@ namespace nm {
         for(int n=1; n < len; n++) {
             ased = _elems[n].as<node>();
             ret = &ret->deduce(*ased);
-            NM_DI("deduceElem: prevElem + elem%d[%s] --> %s",
-                    n, ased->getType().getName().c_str(), ret ? ret->getType().getName().c_str() : "null");
+            NM_DI("deduceElem: prevElem + elem%s[%s] --> %s", n, ased, ret);
             if(!ret)
-                return NM_DI("deduceElem: elem%d was null.", n), str();
+                return NM_DI("deduceElem: elem%s was null.", n), str();
         }
 
         return *ret;

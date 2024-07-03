@@ -73,8 +73,6 @@ namespace nm {
     std::string convert(const nuint& it);
     std::string convert(const nlong& it);
     std::string convert(const nulong& it);
-    std::string convert(const nint64& it);
-    std::string convert(const nuint64& it);
     std::string convert(void* it);
 
     template <typename... Ts>

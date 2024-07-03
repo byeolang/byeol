@@ -58,8 +58,7 @@ namespace nm {
         _head = ((nuchar*)used - _heap) / _getRealBlkSize();
         _len--;
         if(_head < 0)
-            return NM_E("chunk corrupted! used(%x) apparently wasn't on heap(%x).", used, (void*)_heap),
-                   false;
+            return NM_E("chunk corrupted! used(%s) apparently wasn't on heap(%s).", used, (void*)_heap), false;
         return true;
     }
 

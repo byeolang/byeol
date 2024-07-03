@@ -16,7 +16,7 @@ namespace nm {
     }
 
     clonable* me::cloneDeep() const {
-        NM_DI("%s.cloneDeep()", getType().getName().c_str());
+        NM_DI("%s.cloneDeep()", *this);
 
         me* ret = (me*) clone();
         ret->_exprs.rel();
@@ -27,7 +27,7 @@ namespace nm {
     }
 
     void me::inFrame(const bicontainable& args) {
-        NM_DI("%s._onInFrame() %d stmts. frames.len[%d]", getType().getName().c_str(), getStmts()
+        NM_DI("%s._onInFrame() %s stmts. frames.len[%s]", *this, getStmts()
                 .len(), thread::get().getFrames().len());
 
         frame& fr = nm::thread::get()._getNowFrame();
@@ -40,7 +40,7 @@ namespace nm {
     }
 
     void me::outFrame(const bicontainable& args) {
-        NM_DI("%s._onOutFrame() frames.len[%d]", getType().getName().c_str(), thread::get()
+        NM_DI("%s._onOutFrame() frames.len[%s]", *this, thread::get()
                 .getFrames().len());
 
         frame& fr = nm::thread::get()._getNowFrame();
@@ -61,12 +61,12 @@ namespace nm {
         const auto& ex = th.getEx();
         const frame& fr = th.getNowFrame();
         nidx exN = ex.len() - 1; // blockExpr will judge exception occurs when exN is changed to after running one of its stmt.
-        NM_DI("blockExpr: loop %d stmts", _exprs.len());
+        NM_DI("blockExpr: loop %s stmts", _exprs.len());
         for(auto& e : _exprs) {
             ret = e.as<node>(); // if e is expr, it runs(). if not, it returns itself.
             if(ex.len() > (exN + 1)) {
                 tstr<err> last = *ex.last();
-                NM_DI("err%d: '%s' exception found in block.\n", last->code, last->msg.c_str());
+                NM_DI("err%s: '%s' exception found in block.\n", last->code, last->msg);
                 return last; // return last err instance I got.
                              // so it's not the return type of what the func told, but it's okay.
                              // all derived err object can be assigned to any type.

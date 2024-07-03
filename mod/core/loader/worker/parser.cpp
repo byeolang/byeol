@@ -55,7 +55,7 @@ namespace nm {
     }
 
     nint me::onTokenEndOfFile() {
-        NM_DI("tokenEvent: onTokenEndOfFile() indents.size()=%d", _indents.size());
+        NM_DI("tokenEvent: onTokenEndOfFile() indents.size()=%s", _indents.size());
         if(_indents.size() <= 1)
             _dispatcher.add(SCAN_MODE_END);
         else
@@ -88,21 +88,21 @@ namespace nm {
     nint me::_onTokenEndOfInlineBlock(nint tok) {
         if(!_dedent.canDedent()) return tok;
 
-        NM_DI("tokenEvent: onTokenEndOfInlineBlock: '%c' [%d] use smart dedent!", (char) tok, tok);
+        NM_DI("tokenEvent: onTokenEndOfInlineBlock: '%s' [%s] use smart dedent!", (char) tok, tok);
         _dispatcher.addFront(tok);
         _dedent.setEnable(false);
         return NEWLINE;
     }
 
     nint me::onIndent(ncnt col, nint tok) {
-        NM_DI("tokenEvent: onIndent(col: %d, tok: %d) indents.size()=%d", col, tok, _indents.size());
+        NM_DI("tokenEvent: onIndent(col: %s, tok: %s) indents.size()=%s", col, tok, _indents.size());
         _indents.push_back(col);
         _dispatcher.add(tok);
         return INDENT;
     }
 
     nint me::onDedent(ncnt col, nint tok) {
-        NM_DI("tokenEvent: onDedent(col: %d, tok: %d) indents.size()=%d", col, tok, _indents.size());
+        NM_DI("tokenEvent: onDedent(col: %s, tok: %s) indents.size()=%s", col, tok, _indents.size());
 
         _indents.pop_back();
         nint now = _indents.back();
@@ -110,7 +110,7 @@ namespace nm {
             posWarn(errCode::WRONG_INDENT_LV, col, now, now);
 
         while(_indents.back() > col) {
-            NM_DI("tokenEvent: onDedent: indentlv become %d -> %d",
+            NM_DI("tokenEvent: onDedent: indentlv become %s -> %s",
                     _indents.back(), _indents.size() > 1 ? _indents[_indents.size()-2] : -1);
             _dispatcher.add(DEDENT);
             _indents.pop_back();
@@ -122,8 +122,7 @@ namespace nm {
     }
 
     nint me::onTokenNewLine(nint tok) {
-        NM_DI("tokenEvent: onNewLine: _isIgnoreWhitespace=%s, _indents.size()=%d",
-            _isIgnoreWhitespace ? "true" : "false", _indents.size());
+        NM_DI("tokenEvent: onNewLine: _isIgnoreWhitespace=%s, _indents.size()=%s", _isIgnoreWhitespace, _indents.size());
         if(!_isIgnoreWhitespace && _indents.size() >= 1)
             _dispatcher.add(SCAN_MODE_INDENT);
         _dedent.setEnable(false);
@@ -136,7 +135,7 @@ namespace nm {
     }
 
     nint me::onIgnoreIndent(nint tok) {
-        NM_DI("tokenEvent: onIgnoreIndent(%d)", tok);
+        NM_DI("tokenEvent: onIgnoreIndent(%s)", tok);
         _dispatcher.add(SCAN_MODE_INDENT_IGNORE);
         return tok;
     }
@@ -144,14 +143,14 @@ namespace nm {
     void me::_onEndWork() {
 #if NM_IS_DBG
         const point& pt = getArea().start;
-        NM_DI("tokenEvent: _onEndWork(%d,%d)", pt.row, pt.col);
+        NM_DI("tokenEvent: _onEndWork(%s,%s)", pt.row, pt.col);
 #endif
         super::_onEndWork();
     }
 
     obj* me::onPack(const node& path) {
         std::vector<string> dotnames = _toDotnames(path);
-        NM_DI("tokenEvent: onPack(%s)", join(dotnames).c_str());
+        NM_DI("tokenEvent: onPack(%s)", join(dotnames));
 
         // pack syntax rule #1:
         //  if there is no specified name of pack, I create an one.
@@ -205,17 +204,17 @@ namespace nm {
     }
 
     blockExpr* me::onBlock(const node& stmt) {
-        NM_DI("tokenEvent: onBlock(%s)", stmt.getType().getName().c_str());
+        NM_DI("tokenEvent: onBlock(%s)", stmt);
         return _maker.make<blockExpr>(stmt);
     }
 
     blockExpr* me::onBlock(blockExpr& blk, const node& stmt) {
-        NM_DI("tokenEvent: onBlock(blk, %s)", stmt.getType().getName().c_str());
+        NM_DI("tokenEvent: onBlock(blk, %s)", stmt);
         if(nul(blk))
             return posError(errCode::IS_NULL, "blk"), _maker.make<blockExpr>();
 
         blk.getStmts().add(stmt);
-        NM_DI("tokenEvent: onBlock(%d).add(%s)", blk.getStmts().len(), stmt.getType().getName().c_str());
+        NM_DI("tokenEvent: onBlock(%s).add(%s)", blk.getStmts().len(), stmt);
         return &blk;
     }
 
@@ -230,12 +229,12 @@ namespace nm {
     }
 
     defBlock* me::onDefBlock(node& stmt) {
-        NM_DI("tokenEvent: onDefBlock(%s)", stmt.getType().getName().c_str());
+        NM_DI("tokenEvent: onDefBlock(%s)", stmt);
         return onDefBlock(*new defBlock(), stmt);
     }
 
     defBlock* me::onDefBlock(defBlock& s, node& stmt) {
-        NM_DI("tokenEvent: onDefBlock(s, %s)", stmt.getType().getName().c_str());
+        NM_DI("tokenEvent: onDefBlock(s, %s)", stmt);
         if(nul(s))
             return posError(errCode::IS_NULL, "s"), new defBlock();
 
@@ -258,19 +257,19 @@ namespace nm {
     }
 
     node* me::onDefProp(const std::string& name, const node& rhs) {
-        NM_DI("tokenEvent: onDefProp(%s, %s)", rhs.getType().getName().c_str(), name.c_str());
+        NM_DI("tokenEvent: onDefProp(%s, %s)", rhs, name);
 
         return _maker.make<defPropExpr>(name, rhs);
     }
 
     node* me::onDefAssign(const std::string& name, const node& rhs) {
-        NM_DI("tokenEvent: onDefAssign(%s, %s)", rhs.getType().getName().c_str(), name.c_str());
+        NM_DI("tokenEvent: onDefAssign(%s, %s)", rhs, name);
 
         return _maker.make<defAssignExpr>(name, rhs);
     }
 
     node* me::onDefArray(const narr& items) {
-        NM_DI("tokenEvent: onDefArray(items.len[%d])", items.len());
+        NM_DI("tokenEvent: onDefArray(items.len[%s])", items.len());
         return _maker.make<defArrayExpr>(items);
     }
 
@@ -301,19 +300,19 @@ namespace nm {
     }
 
     func* me::onAbstractFunc(const getExpr& access, const node& retType) {
-        NM_DI("tokenEvent: onAbstractFunc(access: %s(%d), retType:%s)",
-                access.getName().c_str(), access.getArgs().len(), retType.getType().getName().c_str());
+        NM_DI("tokenEvent: onAbstractFunc(access: %s(%s), retType:%s)",
+                access.getName(), access.getArgs().len(), retType);
 
         return _maker.birth<func>(access.getName(), _asParams(access.getArgs()), retType);
     }
 
     func* me::onAbstractFunc(node& it, const node& retType) {
-        NM_DI("tokenEvent: onAbstractFunc(it: %s, retType: %s)", it.getType().getName().c_str(), retType.getType().getName().c_str());
+        NM_DI("tokenEvent: onAbstractFunc(it: %s, retType: %s)", it, retType);
         return onAbstractFunc(onCallAccess(it, *new narr())->cast<getExpr>(), retType);
     }
 
     func* me::onFunc(func& f, const blockExpr& blk) {
-        NM_DI("tokenEvent: onFunc: func[%x] blk.len()=%d", (void*) &f, blk.getStmts().len());
+        NM_DI("tokenEvent: onFunc: func[%s] blk.len()=%s", (void*) &f, blk.getStmts().len());
 
         f.setBlock(blk);
         return &f;
@@ -324,19 +323,19 @@ namespace nm {
         return new narr();
     }
     narr* me::onParams(const defPropExpr& elem) {
-        NM_DI("tokenEvent: onParams(%s %s)", elem.getName().c_str(), elem.getRight().getType().getName().c_str());
+        NM_DI("tokenEvent: onParams(%s %s)", elem.getName(), elem.getRight());
         narr* ret = new narr();
         ret->add(elem);
         return ret;
     }
     narr* me::onParams(narr& it, const defPropExpr& elem) {
-        NM_DI("tokenEvent: onParams(narr(%d), %s %s)", it.len(), elem.getName().c_str(), elem.getRight().getType().getName().c_str());
+        NM_DI("tokenEvent: onParams(narr(%s), %s %s)", it.len(), elem.getName(), elem.getRight());
         it.add(elem);
         return &it;
     }
 
     node* me::onParanthesisAsTuple(narr& tuple) {
-        NM_DI("tokenEnvent: onParanthesisAsTuple(%x.size=%d)", &tuple, tuple.len());
+        NM_DI("tokenEnvent: onParanthesisAsTuple(%s.size=%s)", &tuple, tuple.len());
 
         if(tuple.len() != 1) {
             error(errCode::PARANTHESIS_WAS_TUPLE);
@@ -352,14 +351,14 @@ namespace nm {
     }
 
     args* me::onTuple(const node& elem) {
-        NM_DI("tokenEvent: onTuple(%s[%x])", elem.getType().getName().c_str(), &elem);
+        NM_DI("tokenEvent: onTuple(%s[%s])", elem, &elem);
         args* ret = new args();
         ret->add(elem);
         return ret;
     }
 
     args* me::onTuple(args& as, const node& elem) {
-        NM_DI("tokenEvent: onTuple(as[%x], %s[%x])", &as, elem.getType().getName().c_str(), &elem);
+        NM_DI("tokenEvent: onTuple(as[%s], %s[%s])", &as, elem, &elem);
         as.add(elem);
         return &as;
     }
@@ -370,33 +369,33 @@ namespace nm {
     }
 
     args* me::onFuncCallTuple(const node& elem) {
-        NM_DI("tokenEvent: onFuncCallTuple(elem[%s]=%x)", elem.getType().getName().c_str(), &elem);
+        NM_DI("tokenEvent: onFuncCallTuple(elem[%s]=%s)", elem, &elem);
         args* ret = new args();
         ret->add(elem);
         return ret;
     }
 
     args* me::onFuncCallTuple(args& as, const node& elem) {
-        NM_DI("tokenEvent: onFuncCallTuple(as[%x], elem[%s])", &as, elem.getType().getName().c_str());
+        NM_DI("tokenEvent: onFuncCallTuple(as[%s], elem[%s])", &as, elem);
         as.add(elem);
         return &as;
     }
 
     args* me::onTypeNames(const node& param) {
-        NM_DI("tokenEvent: onTypeNames(%s)", param.getType().getName().c_str());
+        NM_DI("tokenEvent: onTypeNames(%s)", param);
         auto* ret = new args();
         ret->add(param);
         return ret;
     }
 
     args* me::onTypeNames(args& params, const node& param) {
-        NM_DI("tokenEvent: onTypeNames(len[%d], %s)", params.len(), param.getType().getName().c_str());
+        NM_DI("tokenEvent: onTypeNames(len[%s], %s)", params.len(), param);
         params.add(param);
         return &params;
     }
 
     obj* me::onDefObj(const std::string& name, defBlock& blk) {
-        NM_DI("tokenEvent: onDefObj(%s, defBlock[%x])", name.c_str(), &blk);
+        NM_DI("tokenEvent: onDefObj(%s, defBlock[%s])", name, &blk);
 
         obj& ret = *_maker.birth<obj>(name, new mgdType(name));
         ret._setComplete(false);
@@ -441,8 +440,7 @@ namespace nm {
     }
 
     node* me::onDefObjGeneric(const std::string& name, const args& typeParams, defBlock& blk) {
-        NM_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], defBlock[%x]", name.c_str(),
-                typeParams.len(), &blk);
+        NM_DI("tokenEvent: onDefObjGeneric(%s, type.len[%s], defBlock[%s]", name, typeParams.len(), &blk);
 
         obj& org = *_maker.birth<obj>(name, new mgdType(name, typeParams));
         org._setComplete(false);
@@ -465,14 +463,14 @@ namespace nm {
     }
 
     void me::onCompilationUnit(obj& subpack) {
-        NM_DI("tokenEvent: onCompilationUnit(%x)", &subpack);
+        NM_DI("tokenEvent: onCompilationUnit(%s)", &subpack);
 
         tstr<defBlock> blkLife(new defBlock());
         _onCompilationUnit(subpack, *blkLife);
     }
 
     void me::onCompilationUnit(obj& subpack, defBlock& blk) {
-        NM_DI("tokenEvent: onCompilationUnit(%x, defBlock[%x].preCtor.len()=%d)",
+        NM_DI("tokenEvent: onCompilationUnit(%s, defBlock[%s].preCtor.len()=%s)",
                 &subpack, &blk, blk.asPreCtor ? blk.asPreCtor->len() : 0);
 
         _onCompilationUnit(subpack, blk);
@@ -486,16 +484,16 @@ namespace nm {
 
         // link system slots:
         subpack.getShares().link(thread::get().getSlots());
-        NM_DI("link system slots[%d]: len=%d", thread::get().getSlots().len(), subpack.subs().len());
+        NM_DI("link system slots[%s]: len=%s", thread::get().getSlots().len(), subpack.subs().len());
 
         // at this far, subpack must have at least 1 default ctor created just before:
-        NM_DI("tokenEvent: onCompilationUnit: run preconstructor(%d lines)",
+        NM_DI("tokenEvent: onCompilationUnit: run preconstructor(%s lines)",
                 (!nul(blk) && blk.asPreCtor) ? blk.asPreCtor->len() : 0);
         subpack.run(baseObj::CTOR_NAME); // don't need argument. it's default ctor.
     }
 
     nbool me::_onInjectObjSubs(obj& it, defBlock& blk) {
-        NM_DI("tokenEvent: _onInjectObjSubs(%s, defBlock[%x])", it.getType().getName().c_str(), &blk);
+        NM_DI("tokenEvent: _onInjectObjSubs(%s, defBlock[%s])", it, &blk);
         if(nul(it)) return false;
 
         bicontainable& share = it.getShares().getContainer();
@@ -511,7 +509,7 @@ namespace nm {
 
     nbool me::_onInjectCtor(obj& it, defBlock& blk) {
         nbool hasCtor = !nul(it.sub(baseObj::CTOR_NAME));
-        NM_DI("tokenEvent: _onInjectDefaultCtor(%s, has=%d)", it.getType().getName().c_str(), hasCtor);
+        NM_DI("tokenEvent: _onInjectDefaultCtor(%s, has=%s)", it, hasCtor);
         if(hasCtor) return false;
 
         // TODO: ctor need to call superclass's ctor.
@@ -534,7 +532,7 @@ namespace nm {
     }
 
     retExpr* me::onRet(node& exp) {
-        NM_DI("tokenEvent: onRet(%s)", exp.getType().getName().c_str());
+        NM_DI("tokenEvent: onRet(%s)", exp);
 
         return _maker.make<retExpr>(exp);
     }
@@ -552,12 +550,12 @@ namespace nm {
     }
 
     node* me::onGet(const std::string& name) {
-        NM_DI("tokenEvent: onGet(%s)", name.c_str());
+        NM_DI("tokenEvent: onGet(%s)", name);
         return _maker.make<getExpr>(name);
     }
 
     node* me::onGet(const std::string& name, const narr& args) {
-        NM_DI("tokenEvent: onGet(%s, %d)", name.c_str(), args.len());
+        NM_DI("tokenEvent: onGet(%s, %s)", name, args.len());
         return _maker.make<getExpr>(name, args);
     }
 
@@ -568,7 +566,7 @@ namespace nm {
             return &from;
         }
 
-        NM_DI("tokenEvent: onGet(%s, %s)", from.getType().getName().c_str(), cast.getName().c_str());
+        NM_DI("tokenEvent: onGet(%s, %s)", from, cast.getName());
         cast.setMe(from);
         return &cast;
     }
@@ -586,44 +584,42 @@ namespace nm {
     }
 
     node* me::onGetArray(node& elemType) {
-        NM_DI("tokenEvent: onGetArray(%s)", elemType.getType().getName().c_str());
+        NM_DI("tokenEvent: onGetArray(%s)", elemType);
         if(elemType.isSub<nVoid>()) error(elemType.getSrc().getPos(), errCode::ELEM_TYPE_NOT_VOID);
         return new arr(elemType);
     }
 
     node* me::onGetElem(const node& arr, const node& idx) {
-        NM_DI("tokenEvent: onGetElem(%s, %s)", arr.getType().getName().c_str(),
-                idx.getType().getName().c_str());
+        NM_DI("tokenEvent: onGetElem(%s, %s)", arr, idx);
 
         return _maker.make<runExpr>(arr, *_maker.make<getExpr>(arr, "get", *new args{narr{idx}}),
                 args{narr{idx}});
     }
 
     node* me::onGetGeneric(const std::string& genericObjName, const args& typeParams) {
-        NM_DI("tokenEvent: onGetGeneric(%s, params.len[%d])", genericObjName.c_str(), typeParams.len());
+        NM_DI("tokenEvent: onGetGeneric(%s, params.len[%s])", genericObjName, typeParams.len());
         return _maker.make<getGenericExpr>(genericObjName, typeParams);
     }
 
     runExpr* me::onRunExpr(node& trg, const narr& a) {
-        NM_DI("tokenEvent: onRunExpr(%s, narr[%d])", trg.getType().getName().c_str(), a.len());
+        NM_DI("tokenEvent: onRunExpr(%s, narr[%s])", trg, a.len());
         return _onRunExpr(trg, *new args(a));
     }
     runExpr* me::onRunExpr(node& trg, const args& a) {
-        NM_DI("tokenEvent: onRunExpr(%s, args[%d])", trg.getType().getName().c_str(), a.len());
+        NM_DI("tokenEvent: onRunExpr(%s, args[%s])", trg, a.len());
         return _onRunExpr(trg, a);
     }
 
     // @param from  can be expr. so I need to evaluate it through 'as()'.
     runExpr* me::onFillFromOfFuncCall(const node& me, runExpr& to) {
-        NM_DI("tokenEvent: onFillFromOfFuncCall(%s, runExpr[%x])", me.getType().getName().c_str(), &to);
+        NM_DI("tokenEvent: onFillFromOfFuncCall(%s, runExpr[%s])", me, &to);
 
         to.setMe(me);
         return &to;
     }
 
     node* me::onAssign(node& lhs, node& rhs) {
-        NM_DI("tokenEvent: onAssign(%s, %s)", lhs.getType().getName().c_str(),
-                rhs.getType().getName().c_str());
+        NM_DI("tokenEvent: onAssign(%s, %s)", lhs, rhs);
         // _onSetElem branch:
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
         runExpr& cast = lhs.cast<runExpr>();
@@ -660,8 +656,7 @@ namespace nm {
         //      1. rename 'get' of 'lhs[1].getExpr.getSubName to 'set'.
         //      2. unbind subArgs of (1).
         //      3. lhs.getArgs().add(rhs).
-        NM_DI("tokenEvent:: _onSetElem(%s, %s)", lhs.getType().getName().c_str(),
-                rhs.getType().getName().c_str());
+        NM_DI("tokenEvent:: _onSetElem(%s, %s)", lhs, rhs);
 
         getExpr& subject = lhs.getSubj().cast<getExpr>();
         subject._name = "set";
@@ -672,8 +667,7 @@ namespace nm {
     }
 
     node* me::_onAssignElem(FBOExpr::rule type, node& lhs, node& rhs) {
-        NM_DI("tokenEvent: onFBOAssign(%s, %s)", lhs.getType().getName().c_str(),
-                rhs.getType().getName().c_str());
+        NM_DI("tokenEvent: onFBOAssign(%s, %s)", lhs, rhs);
 
         // _onConvertAssignElem branch:
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
@@ -714,8 +708,7 @@ namespace nm {
         // conclusion:
         //  1. deep clone lhs and set its[1].subName to 'set'
         //  2. (1).getArgs.add(rhs)
-        NM_DI("tokenEvent: _onConvertAssignElem(%s, %s)", lhs.getType().getName().c_str(),
-                rhs.getType().getName().c_str());
+        NM_DI("tokenEvent: _onConvertAssignElem(%s, %s)", lhs, rhs);
 
         runExpr& setter = *(runExpr*) lhs.clone();
         getExpr& newSubj = *(getExpr*) setter.getSubj().clone();
@@ -735,217 +728,194 @@ namespace nm {
     }
 
     node* me::onAddAssign(node& lhs, node& rhs) {
-        NM_DI("tokenEvent: onAddAssign(%s, %s)", lhs.getType().getName().c_str(),
-                rhs.getType().getName().c_str());
+        NM_DI("tokenEvent: onAddAssign(%s, %s)", lhs, rhs);
         return _onAssignElem(FBOExpr::ADD, lhs, rhs);
     }
 
     node* me::onSubAssign(node& lhs, node& rhs) {
-        NM_DI("tokenEvent: onSubAssign(%s, %s)", lhs.getType().getName().c_str(),
-                rhs.getType().getName().c_str());
+        NM_DI("tokenEvent: onSubAssign(%s, %s)", lhs, rhs);
         return _onAssignElem(FBOExpr::SUB, lhs, rhs);
     }
 
     node* me::onMulAssign(node& lhs, node& rhs) {
-        NM_DI("tokenEvent: onMulAssign(%s, %s)", lhs.getType().getName().c_str(),
-                rhs.getType().getName().c_str());
+        NM_DI("tokenEvent: onMulAssign(%s, %s)", lhs, rhs);
         return _onAssignElem(FBOExpr::MUL, lhs, rhs);
     }
 
     node* me::onDivAssign(node& lhs, node& rhs) {
-        NM_DI("tokenEvent: onDivAssign(%s, %s)", lhs.getType().getName().c_str(),
-                rhs.getType().getName().c_str());
+        NM_DI("tokenEvent: onDivAssign(%s, %s)", lhs, rhs);
         return _onAssignElem(FBOExpr::DIV, lhs, rhs);
     }
 
     node* me::onModAssign(node& lhs, node& rhs) {
-        NM_DI("tokenEvent: onModAssign(%s, %s)", lhs.getType().getName().c_str(),
-                rhs.getType().getName().c_str());
+        NM_DI("tokenEvent: onModAssign(%s, %s)", lhs, rhs);
         return _onAssignElem(FBOExpr::MOD, lhs, rhs);
     }
 
     asExpr* me::onAs(const node& me, const node& as) {
-        NM_DI("tokenEvent: onAs(%s, %s)", me.getType().getName().c_str(), as.getType().getName().c_str());
+        NM_DI("tokenEvent: onAs(%s, %s)", me, as);
 
         return _maker.make<asExpr>(me, as);
     }
 
     FBOExpr* me::onUnaryMinus(const node& it) {
-        NM_DI("tokenEvent: onUnaryMinus(%s)", it.getType().getName().c_str());
+        NM_DI("tokenEvent: onUnaryMinus(%s)", it);
 
         return _maker.make<FBOExpr>(FBOExpr::MUL, it, *new nInt(-1));
     }
 
     node* me::onUnaryDoublePlus(node& it) {
-        NM_DI("tokenEvent: onUnaryDoublePlus(%s)", it.getType().getName().c_str());
+        NM_DI("tokenEvent: onUnaryDoublePlus(%s)", it);
 
         return onAssign(it, *_maker.make<FBOExpr>(FBOExpr::ADD, it, *new nInt(1)));
     }
 
     node* me::onUnaryDoubleMinus(node& it) {
-        NM_DI("tokenEvent: onUnaryDoubleMinus(%s)", it.getType().getName().c_str());
+        NM_DI("tokenEvent: onUnaryDoubleMinus(%s)", it);
 
         return onAssign(it, *_maker.make<FBOExpr>(FBOExpr::SUB, it, *new nInt(1)));
     }
 
     FUOExpr* me::onUnaryPostfixDoublePlus(const node& it) {
-        NM_DI("tokenEvent: onUnaryPostfixDoublePlus(%s)", it.getType().getName().c_str());
+        NM_DI("tokenEvent: onUnaryPostfixDoublePlus(%s)", it);
 
         return _maker.make<FUOExpr>(FUOExpr::POSTFIX_DOUBLE_PLUS, it);
     }
 
     FUOExpr* me::onUnaryPostfixDoubleMinus(const node& it) {
-        NM_DI("tokenEvent: onUnaryPostfixDoubleMinus(%s)", it.getType().getName().c_str());
+        NM_DI("tokenEvent: onUnaryPostfixDoubleMinus(%s)", it);
 
         return _maker.make<FUOExpr>(FUOExpr::POSTFIX_DOUBLE_MINUS, it);
     }
 
     FBOExpr* me::onUnaryNot(const node& it) {
-        NM_DI("tokenEvent: onUnaryNot(%s)", it.getType().getName().c_str());
+        NM_DI("tokenEvent: onUnaryNot(%s)", it);
 
         return _maker.make<FBOExpr>(FBOExpr::EQ, it, *new nBool(false));
     }
 
     FUOExpr* me::onUnaryBitwiseNot(const node& it) {
-        NM_DI("tokenEvent: onUnaryBitwiseNot(%s)", it.getType().getName().c_str());
+        NM_DI("tokenEvent: onUnaryBitwiseNot(%s)", it);
 
         return _maker.make<FUOExpr>(FUOExpr::BITWISE_NOT, it);
     }
 
     FBOExpr* me::onAdd(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onAdd(%s, %s)", lhs.getType().getName().c_str(), rhs.getType().getName()
-                .c_str());
+        NM_DI("tokenEvent: onAdd(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::ADD, lhs, rhs);
     }
 
     FBOExpr* me::onSub(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onSub(%s, %s)", lhs.getType().getName().c_str(), rhs.getType().getName()
-                .c_str());
+        NM_DI("tokenEvent: onSub(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::SUB, lhs, rhs);
     }
 
     FBOExpr* me::onMul(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onMul(%s, %s)", lhs.getType().getName().c_str(), rhs.getType().getName()
-                .c_str());
+        NM_DI("tokenEvent: onMul(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::MUL, lhs, rhs);
     }
 
     FBOExpr* me::onDiv(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onDiv(%s, %s)", lhs.getType().getName().c_str(), rhs.getType().getName()
-                .c_str());
+        NM_DI("tokenEvent: onDiv(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::DIV, lhs, rhs);
     }
 
     FBOExpr* me::onMod(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onMod(%s, %s)", lhs.getType().getName().c_str(), rhs.getType().getName()
-                .c_str());
+        NM_DI("tokenEvent: onMod(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::MOD, lhs, rhs);
     }
 
     FBOExpr* me::onBitwiseAnd(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onBitwiseAnd(%s, %s)", lhs.getType().getName().c_str(), rhs.getType()
-                .getName().c_str());
+        NM_DI("tokenEvent: onBitwiseAnd(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::BITWISE_AND, lhs, rhs);
     }
 
     FBOExpr* me::onBitwiseOr(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onBitwiseOr(%s, %s)", lhs.getType().getName().c_str(), rhs.getType()
-                .getName().c_str());
+        NM_DI("tokenEvent: onBitwiseOr(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::BITWISE_OR, lhs, rhs);
     }
 
     FBOExpr* me::onBitwiseXor(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onBitwiseXor(%s, %s)", lhs.getType().getName().c_str(), rhs.getType()
-                .getName().c_str());
+        NM_DI("tokenEvent: onBitwiseXor(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::BITWISE_XOR, lhs, rhs);
     }
 
     FBOExpr* me::onLShift(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: LShift(%s, %s)", lhs.getType().getName().c_str(), rhs.getType()
-                .getName().c_str());
+        NM_DI("tokenEvent: LShift(%s, %s)", lhs, rhs);
 
        return _maker.make<FBOExpr>(FBOExpr::LSHIFT, lhs, rhs);
     }
 
     FBOExpr* me::onRShift(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: RShift(%s, %s)", lhs.getType().getName().c_str(), rhs.getType()
-                .getName().c_str());
+        NM_DI("tokenEvent: RShift(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::RSHIFT, lhs, rhs);
     }
 
     FBOExpr* me::onGt(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onGt(%s, %s)", lhs.getType().getName().c_str(), rhs.getType().getName()
-                .c_str());
+        NM_DI("tokenEvent: onGt(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::GT, lhs, rhs);
     }
 
     FBOExpr* me::onLt(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onLt(%s, %s)", lhs.getType().getName().c_str(), rhs.getType().getName()
-                .c_str());
+        NM_DI("tokenEvent: onLt(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::LT, lhs, rhs);
     }
 
     FBOExpr* me::onGe(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onGe(%s, %s)", lhs.getType().getName().c_str(), rhs.getType().getName()
-                .c_str());
+        NM_DI("tokenEvent: onGe(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::GE, lhs, rhs);
     }
 
     FBOExpr* me::onLe(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onLe(%s, %s)", lhs.getType().getName().c_str(), rhs.getType().getName()
-                .c_str());
+        NM_DI("tokenEvent: onLe(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::LE, lhs, rhs);
     }
 
     FBOExpr* me::onEq(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onEq(%s, %s)", lhs.getType().getName().c_str(), rhs.getType().getName()
-                .c_str());
+        NM_DI("tokenEvent: onEq(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::EQ, lhs, rhs);
     }
 
     FBOExpr* me::onNe(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onNe(%s, %s)", lhs.getType().getName().c_str(), rhs.getType().getName()
-                .c_str());
+        NM_DI("tokenEvent: onNe(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::NE, lhs, rhs);
     }
 
     FBOExpr* me::onAnd(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onAnd(%s, %s)", lhs.getType().getName().c_str(), rhs.getType().getName()
-                .c_str());
+        NM_DI("tokenEvent: onAnd(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::AND, lhs, rhs);
     }
 
     FBOExpr* me::onOr(const node& lhs, const node& rhs) {
-        NM_DI("tokenEvent: onOr(%s, %s)", lhs.getType().getName().c_str(), rhs.getType().getName()
-                .c_str());
+        NM_DI("tokenEvent: onOr(%s, %s)", lhs, rhs);
 
         return _maker.make<FBOExpr>(FBOExpr::OR, lhs, rhs);
     }
 
     node* me::onFor(const std::string& iterName, const node& expr, const blockExpr& blk) {
-        NM_DI("tokenEvent: onFor(%s, %s)", iterName.c_str(), expr.getType().getName().c_str());
+        NM_DI("tokenEvent: onFor(%s, %s)", iterName, expr);
 
         return _maker.make<forExpr>(iterName, expr, blk);
     }
 
     node* me::onWhile(const node& condition, const blockExpr& blk) {
-        NM_DI("tokenEvent: onWhile(%s)", condition.getType().getName().c_str());
+        NM_DI("tokenEvent: onWhile(%s)", condition);
 
         return _maker.make<whileExpr>(condition, blk);
     }
@@ -970,7 +940,7 @@ namespace nm {
     }
 
     runExpr* me::onIn(const node& it, const node& container) {
-        NM_DI("tokenEvent: onIn(%s, %s)", it.getType().getName().c_str(), container.getType().getName().c_str());
+        NM_DI("tokenEvent: onIn(%s, %s)", it, container);
         return _maker.make<runExpr>(container, *_maker.make<getExpr>("has"), args(narr{it}));
     }
 
@@ -1032,7 +1002,7 @@ namespace nm {
     }
 
     int me::pushState(int newState) {
-        NM_I("push state %d -> %d", _states.back(), newState);
+        NM_I("push state %s -> %s", _states.back(), newState);
         _states.push_back(newState);
         return _states.back();
     }
@@ -1041,7 +1011,7 @@ namespace nm {
     int me::popState() {
         int previous = _states.back();
         _states.pop_back();
-        NM_I("pop state %d <- %d", _states.back(), previous);
+        NM_I("pop state %s <- %s", _states.back(), previous);
         return _states.back();
     }
 
@@ -1050,7 +1020,7 @@ namespace nm {
         if(supplies.isEmpty())
             return error(NO_SRC), tstr<obj>();
 
-        NM_I("parse starts: %d src will be supplied.", supplies.len());
+        NM_I("parse starts: %s src will be supplied.", supplies.len());
         for(const auto& supply : supplies) {
             _prepare();
 

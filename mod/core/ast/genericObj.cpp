@@ -71,7 +71,7 @@ namespace nm {
 
         std::string name = _orgObj->getType().getName() + "<" + argName + ">";
         NM_DI("|==========================================|");
-        NM_DI("|--- generic: make %s generic class ---|", name.c_str());
+        NM_DI("|--- generic: make %s generic class ---|", name);
         tstr<obj> ret = (obj*) _orgObj->cloneDeep(); // clone all of shares including func.
         src* s = new src(_orgObj->getSrc());
         s->_setName(name);

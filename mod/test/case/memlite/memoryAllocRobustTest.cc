@@ -74,8 +74,8 @@ namespace {
 }
 
 #define SPRINT(n) \
-NM_W("%s times new/delete : %s ms elapsed. crc=%s", n, ((float) run1(crc, (n))) / CLOCKS_PER_SEC*1000.0f, crc); \
-NM_W("%s times mempool    : %s ms elapsed. crc=%s", n, ((float) run2(crc, (n))) / CLOCKS_PER_SEC*1000.0f, crc);
+    NM_W("%s times new/delete : %s ms elapsed. crc=%s", n, ((float) run1(crc, (n))) / CLOCKS_PER_SEC*1000.0f, crc); \
+    NM_W("%s times mempool    : %s ms elapsed. crc=%s", n, ((float) run2(crc, (n))) / CLOCKS_PER_SEC*1000.0f, crc);
 
 TEST_F(memoryAllocRobustTest, sprint10) {
     int crc = 0;

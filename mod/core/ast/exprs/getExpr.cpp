@@ -53,18 +53,17 @@ namespace nm {
 
     priorities me::_get(nbool evalMode) const {
         const node& me = getMe();
-        NM_DI("getExpr: looking for '%s.%s' evalMode[%s]",
-                nul(me) ? "null" : me.getType().getName().c_str(), _name.c_str(), evalMode ? "true" : "false");
+        NM_DI("getExpr: looking for '%s.%s' evalMode[%s]", me, _name, evalMode);
         if(nul(me)) return NM_E("me == null"), priorities();
 
         str evalMe = evalMode ? me.getEval() : me.as<node>();
         if(!evalMe) return NM_E("me == null"), priorities();
         if(evalMode)
             evalMe = evalMe->as<node>();
-        NM_DI("run: 'me' was evaluated to %s", evalMe->getType().getName().c_str());
+        NM_DI("run: 'me' was evaluated to %s", evalMe);
 
         std::string argsName = _args ? _args->asStr().c_str() : "{}";
-        NM_DI("run: %s.sub(\"%s\", %s)", evalMe->getType().getName().c_str(), _name.c_str(), argsName.c_str());
+        NM_DI("run: %s.sub(\"%s\", %s)", evalMe, _name, argsName);
         if(!_args)
             return priorities(evalMe->sub(_name));
 
@@ -76,7 +75,7 @@ namespace nm {
     }
 
     clonable* me::cloneDeep() const {
-        NM_DI("%s.cloneDeep()", getType().getName().c_str());
+        NM_DI("%s.cloneDeep()", *this);
         me* ret = (me*) clone();
         if(_args) ret->_args.bind((args*) _args->cloneDeep());
 

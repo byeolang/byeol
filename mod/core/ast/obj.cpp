@@ -144,7 +144,7 @@ namespace nm {
     }
 
     clonable* me::cloneDeep() const {
-        NM_DI("%s.cloneDeep()", getType().getName().c_str());
+        NM_DI("%s.cloneDeep()", *this);
         me* ret = new me(*this);
         ret->subs().link(*(scope*) getShares().cloneDeep());
         return ret;

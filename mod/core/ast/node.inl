@@ -57,7 +57,7 @@ namespace nm {
         ncnt n = 0;
 #endif
         return subs().get<T>([&](const std::string& key, const T& val) {
-            NM_DI("sub: [%d/%d] %s --> %s", ++n, subs().len(), name.c_str(), key.c_str());
+            NM_DI("sub: [%s/%s] %s --> %s", ++n, subs().len(), name, key);
             return key == name;
         });
     }
@@ -75,7 +75,7 @@ namespace nm {
             priorType p = NO_MATCH;
             if(key == name) p = val.prioritize(a);
 
-            NM_DI("sub: [%d/%d] %s(%s) --> %s = %s", ++n, subs().len(), name.c_str(), argStr.c_str(), key.c_str(), getPriorTypeName(p));
+            NM_DI("sub: [%s/%s] %s(%s) --> %s = %s", ++n, subs().len(), name, argStr, key, getPriorTypeName(p));
             return p != NO_MATCH;
         });
     }
@@ -118,8 +118,8 @@ namespace nm {
                     ps.push_back(*new tprior<T>(val, p, lv));
                 const baseFunc& f = val.template cast<baseFunc>();
                 std::string valArgs = !nul(f) ? "(" + f.getParams().toStr() + ")": "";
-                NM_DI("subAll: [%d/%d] %s%s --> %s.%s%s = priority(type=%s, lv=%d)", n++,
-                        subs().len(), name.c_str(), argStr.c_str(), myName, key.c_str(), valArgs.c_str(), getPriorTypeName(p), lv);
+                NM_DI("subAll: [%s/%s] %s%s --> %s.%s%s = priority(type=%s, lv=%s)", n++,
+                        subs().len(), name, argStr, myName, key, valArgs, getPriorTypeName(p), lv);
                 return true;
             });
 

@@ -91,7 +91,7 @@ namespace nm {
         narrIteration&  endIter = _getIterationFrom(end),
                     &   fromIter = _getIterationFrom(from);
         if(nul(endIter) || nul(fromIter))
-            return NM_E("from(%x) or end(%x) one of these is null.", &endIter, &fromIter), false;
+            return NM_E("from(%s) or end(%s) one of these is null.", (void*) &endIter, (void*) &fromIter), false;
 
         nidx fromN = fromIter.isEnd() ? len()-1 : fromIter._n;
         ncnt cnt = endIter._n - fromN;

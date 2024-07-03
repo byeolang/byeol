@@ -33,7 +33,7 @@ namespace nm {
     }
 
     clonable* me::cloneDeep() const {
-        NM_DI("%s.cloneDeep()", getType().getName().c_str());
+        NM_DI("%s.cloneDeep()", *this);
         me* ret = (me*) clone();
         if(_me) ret->_me.bind((node*) _me->cloneDeep());
         if(_as) ret->_as.bind((node*) _as->cloneDeep());

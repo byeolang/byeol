@@ -116,7 +116,7 @@ namespace nm {
     nbool ME::link(const ME& new1) {
         if(nul(new1) || nul(new1.getContainer())) return false;
         if(&new1 == this)
-            return NM_W("recursive link detected!! new1(%x) is this(%x).", &new1, this), false;
+            return NM_W("recursive link detected!! new1(%s) is this(%s).", (void*) &new1, (void*) this), false;
 
         return _next.bind(new1);
     }

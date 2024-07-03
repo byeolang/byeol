@@ -64,7 +64,7 @@ namespace nm {
         args& _evalArgs(const args& a, args& tray) {
             const params& ps = getParams();
             if(a.len() != ps.len())
-                return NM_E("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len()),
+                return NM_E("length of a(%s) and typs(%s) doesn't match.", a.len(), ps.len()),
                        nulOf<args>();
 
             int n = 0;

@@ -16,7 +16,7 @@ struct con {
         NM_W("=========================");
         for(int n = 0; n < 10; n++) {
             const nchar* c = msg.c_str();
-            NM_W("[%d]=%d", n, (int) c[n]);
+            NM_W("[%s]=%s", n, (int) c[n]);
         }
         NM_W("=========================");
         std::cout << msg;

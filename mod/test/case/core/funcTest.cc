@@ -35,10 +35,10 @@ namespace {
 
     public:
         myfunc(): super(params(), *new nVoid(), *new myBlock()) {
-            NM_I("myfunc(%x) new", this);
+            NM_I("myfunc(%s) new", (void*) this);
         }
         ~myfunc() {
-            NM_I("myfunc(%x) delete", this);
+            NM_I("myfunc(%s) delete", (void*) this);
         }
 
         void setUp() {
@@ -83,14 +83,14 @@ namespace {
         if(nul(fr)) return false;
 
         int n = 0;
-        NM_I("fr.len=%d", fr.subs().len());
+        NM_I("fr.len=%s", fr.subs().len());
         for(auto e=fr.subs().begin(); e ;e++)
-            NM_I(" - func(\"%s\") calls: fr[%d]=%s", e.getKey().c_str(), n++, e.getVal().getType().getName().c_str());
+            NM_I(" - func(\"%s\") calls: fr[%s]=%s", e.getKey(), n++, e.getVal());
 
         const scope& funcScope = fr.subs().cast<scope>();
         if(nul(funcScope)) return NM_I("nul(funcScope)"), false;
         if(!_isFrameLinkScope(fr, funcScope))
-            return NM_I("frame not contain the funcScope(%x)", &funcScope), false;
+            return NM_I("frame not contain the funcScope(%s)", (void*) &funcScope), false;
 
         for(int n=0; n < funcNameSize; n++) {
             const char* name = funcNames[n];
@@ -99,7 +99,7 @@ namespace {
         }
 
         if(!fr.subAll(name).getMatches().isMatched())
-            return NM_I("couldn't find %s func on frame(%x)", name.c_str(), &fr), false;
+            return NM_I("couldn't find %s func on frame(%s)", name, (void*) &fr), false;
 
         return true;
     }
@@ -118,10 +118,10 @@ TEST_F(funcTest, testfuncConstructNewFrame) {
     myfunc func;
 
     obj.subs().add(funcNames[0], func);
-    NM_I("obj.len=%d", obj.subs().len());
+    NM_I("obj.len=%s", obj.subs().len());
     int n = 0;
     for(auto e=obj.subs().begin(); e ;e++) {
-        NM_I(" - fr[%d]=%s", n++, e->getType().getName().c_str());
+        NM_I(" - fr[%s]=%s", n++, e);
     }
 
     func.setLambda([&](const auto& a, const auto& sf) {
@@ -169,7 +169,7 @@ TEST_F(funcTest, testCallfuncInsidefunc) {
         return true;
     });
     obj1func2.setLambda([&](const auto& a, const auto& sf) {
-        if(sf.len() != 2) return NM_I("%s: sf.len(%d) > 2", func2Name, sf.len()), false;
+        if(sf.len() != 2) return NM_I("%s: sf.len(%s) > 2", func2Name, sf.len()), false;
 
         if(!checkFrameHasfuncAndObjScope(sf[1], obj1func2, func2Name, obj1, obj1FuncNames, 2)) return false;
 

@@ -67,7 +67,7 @@ namespace nm {
     scope* me::_evalArgs(const ucontainable& args) {
         const params& ps = getParams();
         if(args.len() != ps.len())
-            return NM_E("length of args(%d) and typs(%d) doesn't match.", args.len(), ps.len()), nullptr;
+            return NM_E("length of args(%s) and typs(%s) doesn't match.", args.len(), ps.len()), nullptr;
 
         scope* ret = new scope();
         int n = 0;
@@ -75,8 +75,7 @@ namespace nm {
             const param& p = ps[n++];
             str evaluated = e.asImpli(*p.getOrigin().as<node>());
             if(!evaluated)
-                return NM_E("evaluation of arg[%s] -> param[%s] has been failed.", e.getType().getName().c_str(),
-                        p.getOrigin().getType().getName().c_str()), ret;
+                return NM_E("evaluation of arg[%s] -> param[%s] has been failed.", e, p.getOrigin()), ret;
 
             ret->add(p.getName(), *evaluated);
         }
@@ -90,15 +89,14 @@ namespace nm {
             return;
         }
 
-        NM_DI("'%s func'._inFrame() frames.len[%d]", getSrc().getName().c_str(),
-                getType().getName().c_str(), thread::get().getFrames().len());
+        NM_DI("'%s func'._inFrame() frames.len[%s]", getSrc(), getType(), thread::get().getFrames().len());
         fr.setFunc(*this);
         fr.add(*this);
         fr.add(*scope::wrap<scope>(nul(args) ? nulOf<nbicontainer>() : (nbicontainer&) args)); // including 'me'
     }
 
     void me::outFrame(const bicontainable& args) {
-        NM_DI("'%s func'._outFrame() frames.len[%d]", getSrc().getName().c_str(), thread::get().getFrames().len());
+        NM_DI("'%s func'._outFrame() frames.len[%s]", getSrc(), thread::get().getFrames().len());
 
         frame& fr = thread::get()._getNowFrame();
         baseFunc& f = fr.getFunc();
@@ -110,7 +108,7 @@ namespace nm {
     }
 
     clonable* me::cloneDeep() const {
-        NM_DI("%s.cloneDeep()", getType().getName().c_str());
+        NM_DI("%s.cloneDeep()", getType());
         me* ret = (me*) clone();
         // params:
         ret->_params.rel();

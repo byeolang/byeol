@@ -30,7 +30,7 @@ namespace nm {
         if(_state == RELEASED) {
             const std::string& name = getManifest().name;
             _pak.bind(new obj(new mgdType(name)));
-            NM_I("%s pack is about to interpret lazy.", name.c_str());
+            NM_I("%s pack is about to interpret lazy.", name);
             // TODO: check _rpt error count increased or not.
             //       if increased, then parse() function has been failed.
             parse(*_rpt, _pak->getShares()); // recursive call wasn't allowed.

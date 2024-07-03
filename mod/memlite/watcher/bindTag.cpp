@@ -50,10 +50,8 @@ namespace nm {
 
     nbool me::_onStrong(ncnt vote) {
         if(!_id.isHeap()) return false;
-        if(!vote) {
-            NM_I("vote is 0");
-            return false;
-        }
+        if(!vote)
+            return NM_I("vote is 0"), false;
 
         _strong += vote;
         if(_strong <= 0)
