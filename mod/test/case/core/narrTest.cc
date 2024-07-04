@@ -36,7 +36,9 @@ namespace {
         auto removingElapsed = end - startDeleting;
         auto totalElapsed = end - start;
 
-        NM_I("[benchMarkNArr]: vector took total %d ms for adding(%sms) & removing(%sms) of %s elems.", totalElapsed / chrono::milliseconds(1), addingElapsed / chrono::milliseconds(1), removingElapsed / chrono::milliseconds(1), sz);
+        NM_I("[benchMarkNArr]: vector took total %s ms for adding(%sms) & removing(%sms) of %s elems.",
+             (nlong) (totalElapsed / chrono::milliseconds(1)), (nlong) (addingElapsed / chrono::milliseconds(1)),
+             (nlong) (removingElapsed / chrono::milliseconds(1)), sz);
 
         narr arr;
         start = chrono::steady_clock::now();
@@ -52,7 +54,9 @@ namespace {
         removingElapsed = end - startDeleting;
         totalElapsed = end - start;
 
-        NM_I("[benchMarkNArr]: narr took total %s ms for adding(%sms) & removing(%sms) of %s elems.", totalElapsed / chrono::milliseconds(1), addingElapsed / chrono::milliseconds(1), removingElapsed / chrono::milliseconds(1), sz);
+        NM_I("[benchMarkNArr]: narr took total %s ms for adding(%sms) & removing(%sms) of %s elems.",
+             (nlong) (totalElapsed / chrono::milliseconds(1)), (nlong) (addingElapsed / chrono::milliseconds(1)),
+             (nlong) (removingElapsed / chrono::milliseconds(1)), sz);
     }
 
     class myMyNode : public myNode {
