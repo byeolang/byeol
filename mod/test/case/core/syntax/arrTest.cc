@@ -343,6 +343,8 @@ TEST_F(arrTest, testIteratorBridgedFunc) {
 
 TEST_F(arrTest, testBasicDefSyntax) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         getIndex() int
             ret 1
 
@@ -364,6 +366,8 @@ TEST_F(arrTest, testBasicDefSyntax) {
 
 TEST_F(arrTest, testImplicitlyDefSyntax) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         sum(arr int[]) int
             ret arr[0] + arr[1] + arr[2]
 
@@ -377,7 +381,7 @@ TEST_F(arrTest, testImplicitlyDefSyntax) {
     ASSERT_EQ(res.cast<nint>(), 6);
 }
 
-TEST_F(arrTest, testImplicitlyDefSyntax2) {
+TEST_F(arrTest, testImplicitlyefSyntax2) {
     make().parse(R"SRC(
         sum(arr flt[]) flt
             ret arr[0] + arr[2]
@@ -515,6 +519,8 @@ TEST_F(arrTest, test2DArray2) {
 
 TEST_F(arrTest, test2DArray3) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         foo(m byte[]) void
             for n in 0..m.len()
                 print(m[n] as str)

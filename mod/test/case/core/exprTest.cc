@@ -6,7 +6,6 @@ using namespace std;
 namespace {
     struct helloWorld {
         void main(const string msg) {
-            cout << "wow, how do you feel? ==> " << msg << "\n";
             isRun = true;
         }
 

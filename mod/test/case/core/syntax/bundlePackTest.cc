@@ -9,6 +9,8 @@ namespace {
 
 TEST_F(bundlePackTest, defaultDef) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         main() void
             print("hello \\tworld!\n")
     )SRC").shouldVerified(true);
@@ -17,6 +19,8 @@ TEST_F(bundlePackTest, defaultDef) {
 
 TEST_F(bundlePackTest, defaultDef2) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         msg := "hello\t"
         main() void
             print(msg + "world!\n")
@@ -39,6 +43,8 @@ TEST_F(bundlePackTest, withAsNegative) {
 
 TEST_F(bundlePackTest, withAs) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         Helloworld(age int) int
             ret age
 
@@ -52,6 +58,8 @@ TEST_F(bundlePackTest, withAs) {
 
 TEST_F(bundlePackTest, defaultDef3) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         age int
         ge int
 

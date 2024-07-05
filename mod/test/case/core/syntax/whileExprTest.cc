@@ -9,13 +9,14 @@ namespace {
 
 TEST_F(whileExprTest, simple) {
     make().parse(R"SRC(
+        foo(msg str) void: 1
         main() int
             sum := 0
             n := 0
             while n <= 3
                 sum = sum + n
                 n = n + 1
-                print("sum=" + sum as str + ", n=" + n as str + "\n")
+                foo("sum=" + sum as str + ", n=" + n as str + "\n")
             ret sum
     )SRC").shouldVerified(true);
     str res = run();
@@ -38,6 +39,8 @@ TEST_F(whileExprTest, conditionClauseCheckNegative) {
 
 TEST_F(whileExprTest, conditionClauseCheck) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         foo() int
             ret 3
 

@@ -65,11 +65,12 @@ TEST_F(seqTest, eachReturnedValueShouldBeDifferent) {
 
 TEST_F(seqTest, basicSyntax) {
     make().parse(R"SRC(
-    main() int
-        seq := 2..4 // [2, 4)
-        print("seq.len=" + seq.len() as str + "\n")
-        print("seq[1]=" + seq[1] as str + "\n")
-        ret seq[2]
+        print(msg str) void: 1
+        main() int
+            seq := 2..4 // [2, 4)
+            print("seq.len=" + seq.len() as str + "\n")
+            print("seq[1]=" + seq[1] as str + "\n")
+            ret seq[2]
     )SRC").shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);

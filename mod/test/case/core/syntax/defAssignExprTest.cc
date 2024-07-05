@@ -95,6 +95,8 @@ TEST_F(defAssignExprTest, testDefAssign1) {
 
 TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative) {
     make().negative().parse(R"SRC(
+        print(msg str) void: 1
+
         nickname := foo()
 
         foo() str

@@ -295,6 +295,8 @@ TEST_F(FBOExprTest, testLogicalAndOpNegative) {
 
 TEST_F(FBOExprTest, testLogicalAndOp2) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         foo() bool
             true
 
@@ -313,6 +315,8 @@ TEST_F(FBOExprTest, testLogicalAndOp2) {
 
 TEST_F(FBOExprTest, testLogicalAndOpShortCircuit) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         main() int
             if true || false
                 print("ok")

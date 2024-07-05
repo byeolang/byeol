@@ -9,6 +9,8 @@ namespace {
 
 TEST_F(forExprTest, simpleTest) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         main() int
             sum := 0
             for n in {1, 2, 3}
@@ -23,6 +25,8 @@ TEST_F(forExprTest, simpleTest) {
 
 TEST_F(forExprTest, simpleTest2) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         main() int
             sum := 0
             for n in {1, 2, 3}
@@ -37,6 +41,8 @@ TEST_F(forExprTest, simpleTest2) {
 
 TEST_F(forExprTest, testWhatFromFunc) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         foo() int[]
             ret {1, 2, 3}
 
@@ -55,6 +61,8 @@ TEST_F(forExprTest, testWhatFromFunc) {
 
 TEST_F(forExprTest, putAkaMiddleOfLoop) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         foo() int[]
             ret {1, 2, 3}
 
@@ -73,6 +81,8 @@ TEST_F(forExprTest, putAkaMiddleOfLoop) {
 
 TEST_F(forExprTest, sequenceLoop) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         main() int
             sum := 0
             for n in 2..5
@@ -97,6 +107,8 @@ TEST_F(forExprTest, validationCheckNegative) {
 
 TEST_F(forExprTest, loopObjects) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         def person1
             name := "unknown"
             age := 0
@@ -127,6 +139,7 @@ TEST_F(forExprTest, loopObjects) {
 
 TEST_F(forExprTest, useObjectAsContainer) {
     make().parse(R"SRC(
+        print(msg str) void: 1
         def person
             name := ""
 

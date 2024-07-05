@@ -179,6 +179,8 @@ TEST_F(defFuncTest, nameLikeStr) {
 
 TEST_F(defFuncTest, defFuncAtSubPack) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         foo(msg str[]) str
             print(msg[0])
             msg[0]

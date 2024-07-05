@@ -52,6 +52,8 @@ TEST_F(defObjExprTest, objMakeScopeWithOwnsAndSharesButNotPackScope) {
 
 TEST_F(defObjExprTest, simpleDefineObject2) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         def A
             foo() void
                 print("hello")
@@ -76,6 +78,8 @@ TEST_F(defObjExprTest, simpleDefineObjectNegative) {
 
 TEST_F(defObjExprTest, assignMemberVariable) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         def obj
             index := 5
 

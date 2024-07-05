@@ -374,6 +374,8 @@ TEST_F(asExprTest, deduceTest1) {
 
 TEST_F(asExprTest, doubleAs) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         foo(idx int) int
            ret idx
 
@@ -388,6 +390,8 @@ TEST_F(asExprTest, doubleAs) {
 
 TEST_F(asExprTest, floatAs) {
     make().parse(R"SRC(
+        print(msg str) void: 1
+
         def obj
             foo() int
                 5

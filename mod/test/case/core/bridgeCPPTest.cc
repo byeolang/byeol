@@ -11,7 +11,6 @@ namespace {
             isRun = true;
         }
         int say(string msg) {
-            cout << "They let me say '" << msg << "'\n";
             isRun = true;
             return 0;
         }
