@@ -302,16 +302,16 @@ namespace nm {
         // Until then, I rather use as() func and it makes slow emmersively.
         NM_I("verify: getExpr: isRunnable: %s.%s", me, me.getName());
         if(!me.getEval()) return posError(errCode::WHAT_IS_THIS_IDENTIFIER, me, me.getName().c_str());
-        auto matches = me._get(true);
+        auto matches = me._get(true).getMatches();
         if(matches.isEmpty()) {
             const node& from = me.getMe();
             return posError(errCode::CANT_ACCESS, me, me._name.c_str(), from.getType().getName().c_str());
         }
-        if(matches.len() >= 2) {
-            // TODO: leave all ambigious candidates as err.
+        if(!matches.isMatched()) {
+            // TODO: leave logs for all ambigious candidates as err.
             return posError(errCode::AMBIGIOUS_ACCESS, me, i.name.c_str());
         }
-        str got = matches.getMatch();
+        str got = matches.get();
         NM_I("verify: getExpr: isRunnable: got=%s, me=%s", got, me.getType());
 
         str asedMe = me.getMe().getEval();
