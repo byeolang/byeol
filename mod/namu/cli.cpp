@@ -69,16 +69,12 @@ namespace nm {
     }
 }
 
-void foo();
-
 int main(int argc, char* argv[]) {
-    foo();
-    return 0;
-    /*cli ep;
+    cli ep;
     flagArgs a;
     for(int n=1; n < argc ;n++)
         a.push_back(argv[n]);
 
     ep.run(a);
-    return ep.getRes();*/
+    return ep.getRes();
 }
