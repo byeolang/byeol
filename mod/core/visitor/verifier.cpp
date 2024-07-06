@@ -403,7 +403,7 @@ namespace nm {
         if(nul(meObj)) return posError(errCode::FUNC_REDIRECTED_OBJ, me), true;
 
         NM_I("verify: check func duplication");
-        const nbicontainer& top = meObj.getShares();
+        const nbicontainer& top = meObj.getShares().getContainer();
         ncnt len = me.getParams().len();
         const node& errFound = top.get([&](const std::string& key, const node& val) {
             if(key != i.name) return false;

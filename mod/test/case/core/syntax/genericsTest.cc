@@ -10,7 +10,7 @@ namespace {
 TEST_F(genericsTest, simpleDefineGenerics) {
     // as, defObj
     make().parse(R"SRC(
-        print(msg str) void: 1
+        print(msg str) str: msg
         def object<T>
             foo() str
                 ret print(1 as T)
@@ -45,7 +45,7 @@ TEST_F(genericsTest, defineGenerics) {
 
 TEST_F(genericsTest, defineGenerics1) {
     make().parse(R"SRC(
-        print(msg str) void: 1
+        print(msg str) str: msg
         def object<T>
             foo(a T) T
                 age := T() + T()
@@ -65,6 +65,8 @@ TEST_F(genericsTest, defineGenerics1) {
 
 TEST_F(genericsTest, genericTwice1) {
     make().parse(R"SRC(
+        print(msg str) str: msg
+
         def object<T>
             foo() void
                 print("1")
@@ -107,7 +109,7 @@ TEST_F(genericsTest, genericTwice2Negative) {
 
 TEST_F(genericsTest, genericTwice2) {
     make().parse(R"SRC(
-        print(msg str) void: 1
+        print(msg str) str: msg
         def object<T>
             foo(val T) T
                 age := T()
@@ -126,7 +128,7 @@ TEST_F(genericsTest, genericTwice2) {
 
 TEST_F(genericsTest, simpleUseGenerics) {
     make().parse(R"SRC(
-        print(msg str) void: 1
+        print(msg str) str: msg
         def object<T>
             foo(msg T) str
                 print(msg)
@@ -160,7 +162,7 @@ TEST_F(genericsTest, implicitReturnTest) {
 
 TEST_F(genericsTest, simpleUseGenerics2) {
     make().parse(R"SRC(
-        print(msg str) void: 1
+        print(msg str) str: msg
         def object<T>
             foo(val T) T
                 age := T()

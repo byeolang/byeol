@@ -107,7 +107,7 @@ TEST_F(forExprTest, validationCheckNegative) {
 
 TEST_F(forExprTest, loopObjects) {
     make().parse(R"SRC(
-        print(msg str) void: 1
+        print(msg str) str: msg
 
         def person1
             name := "unknown"
