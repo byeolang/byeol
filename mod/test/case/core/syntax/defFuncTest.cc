@@ -309,9 +309,12 @@ TEST_F(defFuncTest, overloadingSimilarParameters) {
 
     {
         threadUse th;
-        args args1(narr{*new nBool(), *new nByte(), *new nStr()}); // byte <--> int are overloading priority lv1. refers func.cpp
+        args args1(narr{*new nBool(), *new nByte(), *new nStr()});
         auto subs = a.subAll<func>("foo", args1);
-        ASSERT_EQ(subs.len(), 2);
+        ASSERT_EQ(subs.len(), 1); // there are 2 implicit match in above code but,
+                                  // foo(bool, int, str) has higher priority compare to foo(bool, bool, str)
+                                  // the reason is, byte <--> int casting is priority lv1. @refers func.cpp
+                                  // so subs only contains 1 priority element.
         ASSERT_EQ(subs.getPriorType(), IMPLICIT_MATCH);
         str res = a.run("foo", args1);
         ASSERT_TRUE(res);

@@ -54,11 +54,12 @@ namespace nm {
     }
 
     str me::run(const args& a) {
+        auto addr = platformAPI::toAddrId(this);
         blockExpr& blk = getBlock();
-        if(nul(blk)) return NM_E("blk is null"), str();
+        if(nul(blk)) return NM_E("%s blk is null", addr), str();
 
         auto l = _makeLoop(*_makeRet());
-        if(!l) return NM_E("loop is null"), str();
+        if(!l) return NM_E("%s loop is null", addr), str();
 
         frame& fr = thread::get()._getNowFrame();
         while(l->isLooping()) {

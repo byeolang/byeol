@@ -30,7 +30,7 @@ namespace nm {
         if(!res) return nVoid::singletone();
 
         nbool cond = res->cast<nbool>();
-        NM_DI("ifExpr: condition[%s]", cond);
+        NM_DI("%s ifExpr: condition[%s]", platformAPI::toAddrId(this), cond);
         if(cond) {
             frameInteract f1(*_then); {
                 return _then->run();

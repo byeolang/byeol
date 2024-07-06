@@ -14,26 +14,28 @@ namespace nm {
     me::runExpr(const node& meObj, const args& a): _me(meObj), _args(a), _subject(meObj) {}
 
     str me::run(const args& a) {
+        auto addr = platformAPI::toAddrId(this);
+
         node& me = getMe();
-        if(nul(me)) return NM_E("run: me is null. no thread found"), str();
+        if(nul(me)) return NM_E("%s run: me is null. no thread found", addr), str();
         str evaledMe = me.as<node>();
-        if(!evaledMe) return NM_E("run: evaledMe is null. no thread found"), str();
+        if(!evaledMe) return NM_E("%s run: evaledMe is null. no thread found", addr), str();
 
-        NM_DI("run: getting sub: me[%s]", evaledMe);
+        NM_DI("%s run: getting sub: me[%s]", addr, evaledMe);
         str sub = _getSub(*evaledMe, _args);
-        if(!sub) return NM_E("_subject.as<node>() returns null"), str();
+        if(!sub) return NM_E("%s _subject.as<node>() returns null", addr), str();
 
-        NM_DI("run: assigning me: me[%s] sub[%s]", evaledMe, sub);
+        NM_DI("%s run: assigning me: me[%s] sub[%s]", addr, evaledMe, sub);
         if(!sub->isSub<baseObj>() && !nul(_args)) { // if sub is a baseObj, this expr will runs ctor of it which doesn't need me obj.
             frame& fr = evaledMe->cast<frame>();
             _args.setMe(!nul(fr) ? fr.getOwner(*sub) : *evaledMe);
-            NM_DI("run: setting me on args. args.me[%s]", !evaledMe ? "null" : _args.getMe().getType().getName().c_str());
+            NM_DI("%s run: setting me on args. args.me[%s]", addr, !evaledMe ? "null" : _args.getMe().getType().getName().c_str());
         }
 
-        NM_DI("run: running sub with args[%s]", _args.toStr());
+        NM_DI("%s run: running sub with args[%s]", addr, _args.toStr());
         str ret = sub->run(_args);
 
-        NM_DI("run: done. ret[%s]", ret);
+        NM_DI("%s run: done. ret[%s]", addr, ret);
         _args.setMe(nulOf<baseObj>());
         return ret;
     }
