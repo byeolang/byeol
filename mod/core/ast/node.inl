@@ -18,10 +18,14 @@ namespace nm {
     class _nout tprioritiesBucket : public std::vector<tnarr<tprior<T>>> {
         typedef tnarr<tprior<T>> elem;
         typedef std::vector<elem> super;
+
+    public:
+        tprioritiesBucket(): _topPriority(priorType(priorType::NO_MATCH-1)) {}
+
     public:
         tnarr<tprior<T>>& operator[](nidx n) {
             while(n >= this->size())
-                push_back(elem());
+                this->super::push_back(elem());
             return this->super::operator[](n);
         }
         const tnarr<tprior<T>>& operator[](nidx n) const NM_CONST_FUNC(tprioritiesBucket<T>, operator[](n))
@@ -30,15 +34,33 @@ namespace nm {
         tpriorities<T> join() const {
             tpriorities<T> ret;
             for(int n=0; n < this->size(); n++) {
-                for(const tprior<T>& elem : (*this)[n])
-                    ret.add(new tprior<T>(*elem, priorType(n), elem.lv));
+                const auto& matches = (*this)[n];
+                if(matches.len() == 0) continue;
+                const tprior<T>* first = nullptr;
+                for(const tprior<T>& match: matches) {
+                    const tprior<T>* elem = new tprior<T>(*match, priorType(n), match.lv);
+                    if(!first) {
+                        first = elem;
+                        ret._setPriorType(first->type);
+                    }
+                    if(!first->isSamePrecedence(*elem)) break;
+
+                    ret.add(*elem->elem);
+                }
+                break;
             }
             return ret;
         }
         using super::push_back;
         void push_back(const tprior<T>& elem) {
+            if(elem.type > _topPriority) return; // optimization.
+
             (*this)[elem.type].add(elem);
+            _topPriority = _topPriority < elem.type ? _topPriority : elem.type;
         }
+
+    private:
+        priorType _topPriority;
     };
 
     TEMPLATE

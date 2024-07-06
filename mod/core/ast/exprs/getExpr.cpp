@@ -20,12 +20,12 @@ namespace nm {
     }
 
     str me::getEval() const {
-        return _get(true).getMatch();
+        return _get(true).get();
     }
 
     str me::run(const args& a) {
         // believe that this expression was checked to be valid.
-        return _get(false).getMatch();
+        return _get(false).get();
     }
 
     const std::string& me::getName() const {

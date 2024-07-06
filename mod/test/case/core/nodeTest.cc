@@ -147,11 +147,11 @@ TEST_F(nodeTest, testManualNativefuncCall) {
     args a;
     auto subs = ((const myObj&) obj).subAll("myFunc", a);
     ASSERT_EQ(subs.len(), 1);
-    ASSERT_TRUE(subs[0]->canRun(a));
+    ASSERT_TRUE(subs[0].canRun(a));
 
     // when:
     func.setUp();
-    subs[0]->run(a);
+    subs[0].run(a);
     ASSERT_TRUE(func.isRun());
 }
 
@@ -186,7 +186,7 @@ TEST_F(nodeTest, ShouldNotSameNameVariableIntoSubs) {
 
     c.subs().add("age1", new nInt(22));
     ASSERT_EQ(c.subs().len(), 2);
-    auto matches = c.subAll<nInt>("age1").getMatches();
+    auto matches = c.subAll<nInt>("age1");
     ASSERT_TRUE(matches.isMatched());
     ASSERT_EQ(matches.get().get(), 22);
 

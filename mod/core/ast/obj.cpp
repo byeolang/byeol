@@ -68,8 +68,7 @@ namespace nm {
     }
 
     str me::run(const args& a) {
-        tpriorities<baseFunc> p = subAll<baseFunc>(baseObj::CTOR_NAME, a);
-        auto matches = p.getMatches();
+        tpriorities<baseFunc> matches = subAll<baseFunc>(baseObj::CTOR_NAME, a);
         switch(matches.len()) {
             case 1: return run(baseObj::CTOR_NAME, a);
             case 0: return NM_W("there is no such ctor."), str();

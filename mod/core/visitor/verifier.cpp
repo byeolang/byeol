@@ -43,7 +43,7 @@ namespace nm {
         if(me.isSub<frame>()) return;
 
         for(auto e=me.subs().begin(); e ;++e) {
-            auto matches = me.subAll<baseObj>(e.getKey()).getMatches();
+            auto matches = me.subAll<baseObj>(e.getKey());
             if(matches.len() > 1)
                 return posError(errCode::DUP_VAR, *e, e.getKey().c_str());
         }
@@ -302,16 +302,16 @@ namespace nm {
         // Until then, I rather use as() func and it makes slow emmersively.
         NM_I("verify: getExpr: isRunnable: %s.%s", me, me.getName());
         if(!me.getEval()) return posError(errCode::WHAT_IS_THIS_IDENTIFIER, me, me.getName().c_str());
-        auto matches = me._get(true).getMatches();
+        auto matches = me._get(true);
         if(matches.isEmpty()) {
             const node& from = me.getMe();
             return posError(errCode::CANT_ACCESS, me, me._name.c_str(), from.getType().getName().c_str());
         }
-        if(!matches.isMatched()) {
+        node& got = matches.get();
+        if(nul(got)) {
             // TODO: leave logs for all ambigious candidates as err.
             return posError(errCode::AMBIGIOUS_ACCESS, me, i.name.c_str());
         }
-        str got = matches.get();
         NM_I("verify: getExpr: isRunnable: got=%s, me=%s", got, me.getType());
 
         str asedMe = me.getMe().getEval();

@@ -44,7 +44,7 @@ namespace nm {
         template <typename T> T& sub(std::function<nbool(const std::string&, const T&)> l);
         template <typename T> const T& sub(std::function<nbool(const std::string&, const T&)> l) const NM_CONST_FUNC(sub<T>(l))
         template <typename T = me> T& sub();
-        template <typename T = me> const T& sub() const NM_CONST_FUNC(sub<T>())
+        template <typename T = me> const T&sub() const NM_CONST_FUNC(sub<T>())
         template <typename T = me> T& sub(const std::string& name);
         template <typename T = me> const T& sub(const std::string& name) const NM_CONST_FUNC(sub<T>(name))
         template <typename T = me> T& sub(const std::string& name, const args& a);

@@ -57,10 +57,10 @@ namespace nm {
 
     str me::run(const std::string& name, const args& a) {
         if(name.empty()) return run(a);
-        str found = subAll(name, a).getMatch();
-        if(!found) return str();
+        node& found = subAll(name, a).get();
+        if(nul(found)) return str();
 
-        return _onRunSub(*found, a);
+        return _onRunSub(found, a);
     }
 
     nbool me::is(const typeProvidable& to) const {

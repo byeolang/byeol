@@ -24,7 +24,7 @@ namespace nm {
     }
 
     priorType me::prioritize(const args& a) const {
-        return subAll<baseFunc>(baseObj::CTOR_NAME, a).getMatches().getPriorType();
+        return subAll<baseFunc>(baseObj::CTOR_NAME, a).getPriorType();
     }
 
     void me::inFrame(const bicontainable& args) {

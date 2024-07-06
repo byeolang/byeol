@@ -273,8 +273,8 @@ TEST_F(defFuncTest, overloadingDifferentParameters) {
         args args1(narr{nInt()});
         auto subs = a.subAll<func>("foo", args1);
         ASSERT_EQ(subs.len(), 1);
-        ASSERT_EQ(subs[0].type, EXACT_MATCH);
-        const params& ps = subs[0]->getParams();
+        ASSERT_EQ(subs.getPriorType(), EXACT_MATCH);
+        const params& ps = subs[0].getParams();
         ASSERT_EQ(ps.len(), 1);
         ASSERT_EQ(ps[0].getOrigin().getType(), ttype<nInt>());
         str res = a.run("foo", args1);
@@ -302,8 +302,7 @@ TEST_F(defFuncTest, overloadingSimilarParameters) {
         args args1(narr{*new nBool(), *new nChar(), *new nStr()});
         auto subs = a.subAll<func>("foo", args1);
         ASSERT_EQ(subs.len(), 2);
-        ASSERT_EQ(subs[0].type, subs[1].type);
-        ASSERT_EQ(subs[0].type, IMPLICIT_MATCH);
+        ASSERT_EQ(subs.getPriorType(), IMPLICIT_MATCH);
         str res = a.run("foo", args1);
         ASSERT_FALSE(res);
     }
@@ -313,8 +312,7 @@ TEST_F(defFuncTest, overloadingSimilarParameters) {
         args args1(narr{*new nBool(), *new nByte(), *new nStr()}); // byte <--> int are overloading priority lv1. refers func.cpp
         auto subs = a.subAll<func>("foo", args1);
         ASSERT_EQ(subs.len(), 2);
-        ASSERT_EQ(subs[0].type, NUMERIC_MATCH);
-        ASSERT_EQ(subs[1].type, IMPLICIT_MATCH);
+        ASSERT_EQ(subs.getPriorType(), IMPLICIT_MATCH);
         str res = a.run("foo", args1);
         ASSERT_TRUE(res);
         ASSERT_EQ(res.cast<nint>(), 1);
@@ -333,7 +331,7 @@ TEST_F(defFuncTest, overloadingAmbigiousNegative) {
 
     obj& a = getSubPack().sub<obj>("a");
     ASSERT_FALSE(nul(a));
-    auto p = a.subAll<func>("foo", args(narr{nChar(), nChar()})).getMatches();
+    auto p = a.subAll<func>("foo", args(narr{nChar(), nChar()}));
     ASSERT_FALSE(p.isMatched());
     ASSERT_EQ(p.len(), 2);
 }

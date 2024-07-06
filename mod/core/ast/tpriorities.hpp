@@ -3,6 +3,7 @@
 #include "../builtin/container/native/tnarr.hpp"
 
 namespace nm {
+    // the lower value, the higher priority.
     enum priorType {
         EXACT_MATCH = 0,      // lv0: exact match.
         NUMERIC_MATCH = 1,    // lv1: numeric match.
@@ -42,18 +43,16 @@ namespace nm {
     };
 
     template <typename T>
-    class tmatches : public tnarr<T> {
-        NM(CLASS(tmatches, tnarr<T>))
-        template <typename E> friend class tpriorities;
+    class tpriorities : public tnarr<T> {
+        NM(CLASS(tpriorities, tnarr<T>))
+        template <typename E> friend class tprioritiesBucket;
 
     public:
-        tmatches();
-        /// @param  elems   instances to derived type of T.
-        ///                 should be created on Heap.
+        tpriorities();
         template <typename... Es>
-        explicit tmatches(const Es&... elems) {
-            static_assert(areBaseOfT<T, Es...>::value, "some of type of args are not base of type 'T'");
-            add( { (T*) &elems... } );
+        tpriorities(const Es&... elems) {
+            static_assert(areBaseOfT<T, Es...>::value, "some of type of args are not based on type 'T'");
+            this->add( { (T*) &elems... } );
         }
 
     public:
@@ -72,23 +71,6 @@ namespace nm {
 
     private:
         priorType _type;
-    };
-
-    template <typename T>
-    class tpriorities : public tnarr<tprior<T>> {
-        NM(CLASS(tpriorities, tprior<T>))
-
-    public:
-        tpriorities();
-        tpriorities(const node& elem);
-
-    public:
-        /// @return finally matched sub when you want to access.
-        ///         if there is any ambigious err, this will return nulOf<T>().
-        tmatches<T> getMatches() const;
-        tstr<T> getMatch();
-        const tstr<T> getMatch() const NM_CONST_FUNC(getMatch())
-        tpriorities split(priorType by) const;
     };
 
     typedef tpriorities<node> priorities;

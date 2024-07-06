@@ -146,7 +146,10 @@ namespace nm {
     }
 
     frame& me::_getNowFrame() {
-        return _getFrames()[_getFrames().len() - 1];
+        ncnt n = _getFrames().len() - 1;
+        if(n >= _getFrames().len()) return nulOf<frame>();
+
+        return _getFrames()[n];
     }
 
     void me::_loadBuiltIns(nmap& tray) const {
