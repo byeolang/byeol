@@ -315,7 +315,7 @@ TEST_F(defFuncTest, overloadingSimilarParameters) {
                                   // foo(bool, int, str) has higher priority compare to foo(bool, bool, str)
                                   // the reason is, byte <--> int casting is priority lv1. @refers func.cpp
                                   // so subs only contains 1 priority element.
-        ASSERT_EQ(subs.getPriorType(), IMPLICIT_MATCH);
+        ASSERT_EQ(subs.getPriorType(), NUMERIC_MATCH);
         str res = a.run("foo", args1);
         ASSERT_TRUE(res);
         ASSERT_EQ(res.cast<nint>(), 1);

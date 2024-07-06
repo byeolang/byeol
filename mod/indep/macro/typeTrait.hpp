@@ -1,9 +1,11 @@
 #pragma once
 
+#include "../common/typedef.hpp"
+
 namespace nm
 {
     template <typename T>
-    class TypeTrait {
+    class typeTrait {
     public:
         typedef T Org;
         typedef T& Ref;
@@ -13,7 +15,7 @@ namespace nm
     };
 
     template <typename T>
-    class TypeTrait<T&> {
+    class typeTrait<T&> {
     public:
         typedef T Org;
         typedef T& Ref;
@@ -24,7 +26,7 @@ namespace nm
     };
 
     template <typename T>
-    class TypeTrait<T*> {
+    class typeTrait<T*> {
     public:
         typedef T Org;
         typedef T& Ref;
