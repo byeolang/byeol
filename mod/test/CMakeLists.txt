@@ -8,13 +8,6 @@ ENDIF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
 
 message("building ${moduleName}..." "${moduleName}=1")
 
-set(defCandidates "NM_TAG=\"${moduleName}\"")
-foreach(def ${defCandidates})
-    message("\tadd define ${def}")
-    set(defines ${defines} -D${def})
-endforeach(def)
-add_definitions(${defines})
-
 find_library(pathGtest
     NAMES gtest
     REQUIRED)
