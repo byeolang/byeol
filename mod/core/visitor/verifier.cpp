@@ -13,8 +13,6 @@ namespace nm {
 
     using platformAPI::toAddrId;
 
-#define GUARD(...) if(isFlag(GUARD)) NM_I(__VA_ARGS__)
-
     namespace {
         str primitives[] = {
             new nInt(),
@@ -35,9 +33,11 @@ namespace nm {
         }
     }
 
+#define _GUARD(klass, msg) if(isFlag(GUARD)) NM_I("verify: '%s' " #klass "@%s: " msg, i, toAddrId(&me))
+
     // verification:
     void me::onLeave(visitInfo i, node& me) {
-        GUARD("verify: %s node@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(node, "onLeave()");
 
         NM_I("verify: node: no same variable=%s", me.subs().len());
         if(me.isSub<frame>()) return;
@@ -50,7 +50,7 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, asExpr& me) {
-        GUARD("verify: %s asExpr@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(asExpr, "onVisit()");
 
         NM_I("verify: asExpr: _me & _as aren't null");
         if(nul(me.getMe())) return posError(errCode::LHS_IS_NULL, me);
@@ -68,7 +68,7 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, assignExpr& me) {
-        GUARD("verify: %s assignExpr@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(assignExpr, "onVisit()");
 
         NM_I("verify: assignExpr: set evalType");
         str leftEval = me.getLeft().getEval();
@@ -129,7 +129,7 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, blockExpr& me) {
-        GUARD("verify: %s blockExpr@%s: onLeave()", i, toAddrId(&me));
+        _GUARD(blockExpr, "onLeave()");
 
         NM_I("verify: blockExpr: last stmt should match to ret type");
         const narr& stmts = me.getStmts();
@@ -154,7 +154,7 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, defVarExpr& me) {
-        GUARD("verify: %s defVarExpr@%s: onLeave()", i, toAddrId(&me));
+        _GUARD(defVarExpr, "onLeave()");
 
         NM_I("verify: defVarExpr: is definable?");
         const node& rhs = me.getRight();
@@ -217,7 +217,8 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, defAssignExpr& me) {
-        GUARD("verify: %s defAssignExpr@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(defAssignExpr, "onVisit()");
+
         const node& rhs = me.getRight();
         str eval = !nul(rhs) ? rhs.getEval() : str();
         if(!eval) return posError(errCode::RHS_IS_NULL, me);
@@ -228,7 +229,7 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, defSeqExpr& me) {
-        GUARD("verify: %s defSeqExpr@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(defSeqExpr, "onVisit()");
 
         NM_I("verify: defSeqExpr: check lhs & rhs");
         if(nul(me.getStart())) return posError(errCode::LHS_IS_NULL, me);
@@ -240,7 +241,7 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, defArrayExpr& me) {
-        GUARD("verify: %s defArrayExpr@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(defArrayExpr, "onVisit()");
 
         NM_I("verify: defArrayExpr: check all elements");
         const node& type = me.getArrayType();
@@ -252,7 +253,7 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, FBOExpr& me) {
-        GUARD("verify: %s FBOExpr@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(FBOExpr, "onVisit()");
 
         NM_I("verify: FBOExpr: lhs & rhs should bind something.");
         const node& lhs = me.getLeft();
@@ -287,7 +288,7 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, FUOExpr& me) {
-        GUARD("verify: %s FUOExpr@%s: onLeave()", i, toAddrId(&me));
+        _GUARD(FUOExpr, "onLeave()");
 
         NM_I("verify: FUOExpr: string isn't proper to any FUO operator");
         str eval = me.getEval();
@@ -296,7 +297,7 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, getExpr& me) {
-        GUARD("verify: %s getExpr@%s: onLeave()", i, toAddrId(&me));
+        _GUARD(getExpr, "onLeave()");
 
         // TODO: I have to check that the evalType has what matched to given _params.
         // Until then, I rather use as() func and it makes slow emmersively.
@@ -321,7 +322,7 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, retExpr& me) {
-        GUARD("verify: %s retExpr@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(retExpr, "onVisit()");
 
         NM_I("verify: retExpr: should be at last stmt");
         if(i.index != i.len-1)
@@ -343,7 +344,7 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, runExpr& me) {
-        GUARD("verify: %s runExpr@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(runExpr, "onVisit()");
 
         NM_I("verify: runExpr: is it possible to run?");
         if(nul(me.getMe())) return posError(errCode::DONT_KNOW_ME, me);
@@ -395,7 +396,7 @@ namespace nm {
     }
 
     nbool me::onVisit(visitInfo i, func& me) {
-        GUARD("verify: %s func@%s: onVisit()", i.name.c_str(), platformAPI::toAddrId(&me).c_str());
+        _GUARD(func, "onVisit()");
 
         onLeave(i, (func::super&) me);
 
@@ -514,13 +515,13 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, func& me) {
-        GUARD("verify: %s func@%s: onLeave()", i, toAddrId(&me));
+        _GUARD(func, "onLeave()");
 
         me.outFrame(scope());
     }
 
     nbool me::onVisit(visitInfo i, baseObj& me) {
-        GUARD("verify: %s baseObj@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(baseObj, "onVisit()");
 
         me.inFrame();
 
@@ -537,12 +538,12 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, baseObj& me) {
-        GUARD("verify: %s baseObj@%s: onLeave()", i, toAddrId(&me));
+        _GUARD(baseObj, "onLeave()");
         me.outFrame();
     }
 
     nbool me::onVisit(visitInfo i, genericObj& me) {
-        GUARD("verify: %s genericObj@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(genericObj, "onVisit()");
 
         NM_I("verify: genericObj: cache check");
         for(auto e : me._cache)
@@ -552,7 +553,7 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, genericObj& me) {
-        GUARD("verify: %s genericObj@%s: onLeave()", i, toAddrId(&me));
+        _GUARD(genericObj, "onLeave()");
 
         // DO NOTHING, BUT LEAVE THIS FUNC:
         //  if I don't have this func, getGenericExpr::super (=baseObj)'s one will be called.
@@ -560,7 +561,7 @@ namespace nm {
     }
 
     nbool me::onVisit(visitInfo i, forExpr& me) {
-        GUARD("verify: %s forExpr@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(forExpr, "onVisit()");
 
         str container = me._container;
         str conAsed = container->getEval();
@@ -580,12 +581,13 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, forExpr& me) {
-        GUARD("verify: %s forExpr@%s: onLeave()", i, toAddrId(&me));
+        _GUARD(forExpr, "onLeave()");
+
         _onLeave(me);
     }
 
     nbool me::onVisit(visitInfo i, whileExpr& me) {
-        GUARD("verify: %s whileExpr@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(whileExpr, "onVisit()");
 
         NM_I("verify: whileExpr: onVisit");
         me.getBlock().inFrame();
@@ -594,38 +596,37 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, whileExpr& me) {
-        GUARD("verify: %s whileExpr@%s: onLeave()", i, toAddrId(&me));
+        _GUARD(whileExpr, "onLeave()");
         _onLeave(me);
     }
 
     void me::onLeave(visitInfo i, breakExpr& me) {
-        GUARD("verify: %s breakExpr@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(breakExpr, "onVisit()");
 
         NM_I("verify: breakExpr: declared outside of loop?");
         if(_recentLoops.size() <= 0) return posError(errCode::BREAK_OUTSIDE_OF_LOOP, me);
     }
 
     void me::onLeave(visitInfo i, nextExpr& me) {
-        GUARD("verify: %s nextExpr@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(nextExpr, "onVisit()");
 
         NM_I("verify: nextExpr: declared outside of loop?");
         if(_recentLoops.size() <= 0) return posError(errCode::NEXT_OUTSIDE_OF_LOOP, me);
     }
 
     nbool me::onVisit(visitInfo i, ifExpr& me) {
-        GUARD("verify: %s ifExpr@%s: onVisit()", i, toAddrId(&me));
+        _GUARD(ifExpr, "onVisit()");
         me.getThen().inFrame();
         return true;
     }
 
     void me::onLeave(visitInfo i, ifExpr& me) {
-        GUARD("verify: %s ifExpr@%s: onLeave()", i, toAddrId(&me));
+        _GUARD(ifExpr, "onLeave()");
         blockExpr().outFrame(); // it doesn't matter getting blockExpr from 'me'.
                                 // because conceptually, blockExpr::outFrame() is just like static func.
     }
 
     void me::onTraverse(ifExpr& me, blockExpr& blk) {
-        GUARD("verify: ifExpr@%s: onTraverse()", toAddrId(&me));
         if(nul(blk)) return;
 
         me.getThen().outFrame();
