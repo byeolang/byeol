@@ -1,6 +1,8 @@
 #include "logger.hpp"
 #include <iostream>
 #include "stream.hpp"
+#include <sstream>
+#include <iomanip>
 
 namespace nm {
 
@@ -107,13 +109,35 @@ namespace nm {
     }
 
     namespace {
-        std::string _makeTag(const std::string filename) {
-            auto n = filename.find(".cpp");
-            n = n == string::npos ? filename.find(".cc") : n;
-            if(n == string::npos)
-                return filename;
+        std::string _extractTag(const std::string& filename) {
+            static std::vector<std::string> exts;
+            if(exts.size() <= 0) {
+                exts.push_back(".cc");
+                exts.push_back(".inl");
+                exts.push_back(".cpp");
+                exts.push_back(".hpp");
+            }
 
-            return filename.substr(n);
+            for(auto ext : exts) {
+                nint newN = filename.find(ext.c_str());
+                if(newN != string::npos)
+                    return filename.substr(0, newN);
+            }
+
+            return filename;
+        }
+
+        std::string _makeTag(const std::string& filename) {
+            // limit tag:
+            std::string ret = _extractTag(filename);
+
+            constexpr ncnt MAX = 9;
+            if(ret.length() > MAX)
+                ret = ret.substr(0, MAX);
+
+            std::stringstream ss;
+            ss << std::setw(MAX) << std::left << ret;
+            return ss.str();
         }
     }
 
