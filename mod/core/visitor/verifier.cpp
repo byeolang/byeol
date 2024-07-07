@@ -11,8 +11,6 @@ namespace nm {
 
     NM_DEF_ME(verifier)
 
-    using platformAPI::toAddrId;
-
     namespace {
         str primitives[] = {
             new nInt(),
@@ -31,15 +29,25 @@ namespace nm {
 
             return false;
         }
+
+        static ncnt _stepN = 0;
     }
 
-#define _GUARD(klass, msg) if(isFlag(GUARD)) NM_I("verify: '%s' " #klass "@%s: " msg, i, toAddrId(&me))
+#define _GUARD(msg) \
+    if(isFlag(GUARD)) do { \
+        NM_I("verify: '%s' %s@%s: " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), platformAPI::toAddrId(&me)); \
+        _stepN = 0; \
+    } while(0)
+
+#define _STEP(msg, ...) NM_I("verify: '%s' %s@%s: step#%s --> " msg, i, \
+    ttype<typeTrait<decltype(me)>::Org>::get(), platformAPI::toAddrId(&me), ++_stepN, ## __VA_ARGS__)
 
     // verification:
     void me::onLeave(visitInfo i, node& me) {
-        _GUARD(node, "onLeave()");
+        _GUARD("onLeave()");
 
-        NM_I("verify: node: no same variable=%s", me.subs().len());
+        //NM_I("verify: node: no same variable=%s", me.subs().len());
+        _STEP("no same variable=%s", me.subs().len());
         if(me.isSub<frame>()) return;
 
         for(auto e=me.subs().begin(); e ;++e) {
@@ -50,27 +58,27 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, asExpr& me) {
-        _GUARD(asExpr, "onVisit()");
+        _GUARD("onVisit()");
 
-        NM_I("verify: asExpr: _me & _as aren't null");
+        _STEP("_me & _as aren't null");
         if(nul(me.getMe())) return posError(errCode::LHS_IS_NULL, me);
         if(nul(me.getAs())) return posError(errCode::RHS_IS_NULL, me);
         if(me.getAs().isSub<nVoid>()) return posError(errCode::VOID_NOT_CAST, me);
 
-        NM_I("verify: asExpr: checks that me can cast to 'as'");
+        _STEP("checks that me can cast to 'as'");
         if(!me.getMe().is(me.getAs()))
             return posError(errCode::CAST_NOT_AVAILABLE, me, me.getMe().getType().getName().c_str(),
                     me.getAs().getType().getName().c_str());
 
-        NM_I("verify: asExpr: rhs shouldn't be expression");
+        _STEP("rhs shouldn't be expression");
         if(!me.getAs().isImpli<node>())
             return posError(errCode::CAST_TO_UNKNOWN, me);
     }
 
     void me::onLeave(visitInfo i, assignExpr& me) {
-        _GUARD(assignExpr, "onVisit()");
+        _GUARD("onVisit()");
 
-        NM_I("verify: assignExpr: set evalType");
+        _STEP("set evalType");
         str leftEval = me.getLeft().getEval();
         if(!leftEval) return posError(errCode::LHS_IS_NULL, me);
         const ntype& ltype = leftEval->getType();
@@ -121,7 +129,7 @@ namespace nm {
         //          AssignExpr(getExpr(getExpr(A, B), NAME), nInt(5))
         //      so, only I need to check is, lhs of AssignExpr is kind of getExpr() or not.
         //      I can care about that the last expression is valid.
-        NM_I("verify: assignExpr: checks rvalue");
+        _STEP("checks rvalue");
         const node& lhs = me.getLeft();
         if(!lhs.isSub<getExpr>()/* TODO: && !lhs.isSub<ElementExpr>()*/)
             return posError(errCode::ASSIGN_TO_RVALUE, me, me.getRight().getType().getName().c_str(),
@@ -129,9 +137,9 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, blockExpr& me) {
-        _GUARD(blockExpr, "onLeave()");
+        _GUARD("onLeave()");
 
-        NM_I("verify: blockExpr: last stmt should match to ret type");
+        _STEP("last stmt should match to ret type");
         const narr& stmts = me.getStmts();
         if(nul(stmts) || stmts.len() <= 0) return; // will be catched to another verification.
 
@@ -140,28 +148,29 @@ namespace nm {
             _verifyMgdFuncImplicitReturn(parent);
     }
 
-    void me::_onLeave(const loopExpr& me) {
+    void me::_onLeave(const visitInfo& i, const loopExpr& me) {
+        _GUARD("onLeave()");
+
         str eval = me.getEval(); // it's okay forExpr not to have 'eval'.
         if(eval) {
-            NM_I("verify: %s: eval Value check: eval[%s] is an array?", me, eval);
+            _STEP("eval Value check: eval[%s] is an array?", eval);
             if(!eval->isSub<retStateExpr>() && !eval->isSub<arr>())
                 return posError(errCode::LOOP_NO_RET_ARR, me);
         }
 
-        NM_I("verify: %s: onLeave", me);
         me.getBlock().outFrame();
         _recentLoops.pop_back();
     }
 
     void me::onLeave(visitInfo i, defVarExpr& me) {
-        _GUARD(defVarExpr, "onLeave()");
+        _GUARD("onLeave()");
 
-        NM_I("verify: defVarExpr: is definable?");
+        _STEP("is definable?");
         const node& rhs = me.getRight();
         if(nul(rhs))
             return posError(errCode::CANT_DEF_VAR, me, me.getName().c_str(), "null");
 
-        NM_I("verify: defVarExpr: to define a void type property isn't allowed.");
+        _STEP("to define a void type property isn't allowed.");
         str eval = rhs.getEval();
         if(!eval) return posError(errCode::RHS_IS_NULL, me);
         if(eval->isSub<nVoid>())
@@ -174,11 +183,11 @@ namespace nm {
                 return posError(errCode::TYPE_IS_NOT_PRE_EVALUATED, me);
         }
 
-        NM_I("verify: defVarExpr: does rhs[%s] have 'ret' in its blockStmt?", eval);
+        _STEP("does rhs[%s] have 'ret' in its blockStmt?", eval);
         if(eval->isSub<retStateExpr>())
             return posError(errCode::CANT_ASSIGN_RET, me);
 
-        NM_I("verify: defVarExpr: check whether make a void container.");
+        _STEP("check whether make a void container.");
         const narr& beans = eval->getType().getBeans();
         for(const node& bean : beans)
             if(bean.isSub<nVoid>())
@@ -186,7 +195,7 @@ namespace nm {
 
         std::string name = me.getName();
         if(name == "") return posError(errCode::HAS_NO_NAME, me);
-        NM_I("verify: defVarExpr: is %s definable?", name);
+        _STEP("is %s definable?", name);
         const ntype& t = eval->getType();
         const nchar* typeName = nul(t) ? "null" : t.getName().c_str();
         if(nul(t))
@@ -194,8 +203,7 @@ namespace nm {
         if(eval->isSub<nVoid>()) return posError(errCode::VOID_CANT_DEFINED, me);
 
         node& to = me.getTo();
-        std::string toName = nul(to) ? "null" : to.getType().getName();
-        NM_I("verify: defVarExpr: is 'to'[%s] valid", toName);
+        _STEP("is 'to'[%s] valid", to);
         // only if to is 'frame', I need to make property when verify:
         //  local variables are required to verify further statements. but it's okay. it'll been
         //  removed after blockExpr::outFrame().
@@ -208,16 +216,16 @@ namespace nm {
         if(!nul(to)) return;
 
         frame& fr = thread::get()._getNowFrame();
-        NM_I("verify: defVarExpr: duplication of variable with name[%s]", name);
+        _STEP("duplication of variable with name[%s]", name);
         if(fr.mySubs()->has(name))
             return posError(errCode::ALREADY_DEFINED_VAR, me, name.c_str(), typeName);
 
-        NM_I("verify: defVarExpr: ok. defining local temporary var... %s %s", name, typeName);
+        _STEP("ok. defining local temporary var... %s %s", name, typeName);
         fr.addLocal(name, *new mockNode(*eval));
     }
 
     void me::onLeave(visitInfo i, defAssignExpr& me) {
-        _GUARD(defAssignExpr, "onVisit()");
+        _GUARD("onVisit()");
 
         const node& rhs = me.getRight();
         str eval = !nul(rhs) ? rhs.getEval() : str();
@@ -229,21 +237,21 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, defSeqExpr& me) {
-        _GUARD(defSeqExpr, "onVisit()");
+        _GUARD("onVisit()");
 
-        NM_I("verify: defSeqExpr: check lhs & rhs");
+        _STEP("check lhs & rhs");
         if(nul(me.getStart())) return posError(errCode::LHS_IS_NULL, me);
         if(nul(me.getEnd())) return posError(errCode::RHS_IS_NULL, me);
 
-        NM_I("verify: defSeqExpr: lhs & rhs is sort of Int?");
+        _STEP("lhs & rhs is sort of Int?");
         if(!me.getStart().isImpli<nInt>()) return posError(errCode::SEQ_SHOULD_INT_COMPATIBLE, me);
         if(!me.getEnd().isImpli<nInt>()) return posError(errCode::SEQ_SHOULD_INT_COMPATIBLE, me);
     }
 
     void me::onLeave(visitInfo i, defArrayExpr& me) {
-        _GUARD(defArrayExpr, "onVisit()");
+        _GUARD("onVisit()");
 
-        NM_I("verify: defArrayExpr: check all elements");
+        _STEP("check all elements");
         const node& type = me.getArrayType();
         if(nul(type)) return posError(errCode::ELEM_TYPE_DEDUCED_NULL, me);
         if(type.isSuper<obj>())
@@ -253,15 +261,15 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, FBOExpr& me) {
-        _GUARD(FBOExpr, "onVisit()");
+        _GUARD("onVisit()");
 
-        NM_I("verify: FBOExpr: lhs & rhs should bind something.");
+        _STEP("lhs & rhs should bind something.");
         const node& lhs = me.getLeft();
         const node& rhs = me.getRight();
         if(nul(lhs)) return posError(errCode::LHS_IS_NULL, me);
         if(nul(rhs)) return posError(errCode::RHS_IS_NULL, me);
 
-        NM_I("verify: FBOExpr: finding eval of l(r)hs.");
+        _STEP("finding eval of l(r)hs.");
         str lEval = lhs.getEval();
         str rEval = rhs.getEval();
         if(!lEval) return posError(errCode::LHS_IS_NULL, me);
@@ -288,20 +296,20 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, FUOExpr& me) {
-        _GUARD(FUOExpr, "onLeave()");
+        _GUARD("onLeave()");
 
-        NM_I("verify: FUOExpr: string isn't proper to any FUO operator");
+        _STEP("string isn't proper to any FUO operator");
         str eval = me.getEval();
         if(eval && eval->isImpli<nStr>())
             return posError(errCode::STRING_IS_NOT_PROPER_TO_OP, me);
     }
 
     void me::onLeave(visitInfo i, getExpr& me) {
-        _GUARD(getExpr, "onLeave()");
+        _GUARD("onLeave()");
 
         // TODO: I have to check that the evalType has what matched to given _params.
         // Until then, I rather use as() func and it makes slow emmersively.
-        NM_I("verify: getExpr: isRunnable: %s.%s", me, me.getName());
+        _STEP("isRunnable: %s.%s", me, me.getName());
         if(!me.getEval()) return posError(errCode::WHAT_IS_THIS_IDENTIFIER, me, me.getName().c_str());
         auto matches = me._get(true);
         if(matches.isEmpty()) {
@@ -313,22 +321,22 @@ namespace nm {
             // TODO: leave logs for all ambigious candidates as err.
             return posError(errCode::AMBIGIOUS_ACCESS, me, i.name.c_str());
         }
-        NM_I("verify: getExpr: isRunnable: got=%s, me=%s", got, me.getType());
+        _STEP("isRunnable: got=%s, me=%s", got, me.getType());
 
         str asedMe = me.getMe().getEval();
-        NM_I("verify: getExpr: accesses to incomplete 'me[%s]' object?", asedMe);
+        _STEP("accesses to incomplete 'me[%s]' object?", asedMe);
         if(asedMe && !asedMe->isComplete())
             return posError(errCode::ACCESS_TO_INCOMPLETE, me);
     }
 
     void me::onLeave(visitInfo i, retExpr& me) {
-        _GUARD(retExpr, "onVisit()");
+        _GUARD("onVisit()");
 
-        NM_I("verify: retExpr: should be at last stmt");
+        _STEP("should be at last stmt");
         if(i.index != i.len-1)
             return posError(errCode::RET_AT_MIDDLE_OF_BLOCK, me);
 
-        NM_I("verify: retExpr: checks evalType of func is matched to me");
+        _STEP("checks evalType of func is matched to me");
         const baseFunc& f = thread::get().getNowFrame().getFunc();
         if(nul(f)) return posError(errCode::NO_FUNC_INFO, me);
 
@@ -336,7 +344,7 @@ namespace nm {
         if(!myRet) return posError(errCode::EXPR_EVAL_NULL, me);
 
         str funRet = f.getRet()->as<node>();
-        NM_I("verify: retExpr: checks return[%s] == func[%s]", myRet, funRet);
+        _STEP("checks return[%s] == func[%s]", myRet, funRet);
 
         if(!myRet->isSub<err>() && !myRet->isImpli(*funRet))
             return posError(errCode::RET_TYPE_NOT_MATCH, me, myRet->getType().getName().c_str(),
@@ -344,9 +352,9 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, runExpr& me) {
-        _GUARD(runExpr, "onVisit()");
+        _GUARD("onVisit()");
 
-        NM_I("verify: runExpr: is it possible to run?");
+        _STEP("is it possible to run?");
         if(nul(me.getMe())) return posError(errCode::DONT_KNOW_ME, me);
 
         str ased = me.getMe().getEval();
@@ -357,12 +365,12 @@ namespace nm {
 
         node& anySub = me.getSubj();
         if(nul(anySub)) return posError(errCode::FUNC_NOT_EXIST, me);
-        NM_I("verify: runExpr: anySub[%s]", anySub);
+        _STEP("anySub[%s]", anySub);
 
         str derivedSub = anySub.getEval();
         if(!derivedSub) return posError(errCode::CANT_ACCESS, me, ased->getType().getName().c_str(), "sub-node");
 
-        NM_I("verify: runExpr: derivedSub[%s]", derivedSub);
+        _STEP("derivedSub[%s]", derivedSub);
         if(!derivedSub->canRun(me.getArgs())) {
             const baseFunc& derivedCast = derivedSub->cast<baseFunc>();
             std::string params = nul(derivedCast) ? "ctor" : _asStr(derivedCast.getParams());
@@ -396,14 +404,14 @@ namespace nm {
     }
 
     nbool me::onVisit(visitInfo i, func& me) {
-        _GUARD(func, "onVisit()");
+        _GUARD("onVisit()");
 
         onLeave(i, (func::super&) me);
 
         obj& meObj = thread::get()._getNowFrame().getMe().cast<obj>(); // TODO: same to 'thread::get().getNowFrame().getMe().cast<obj>();'
         if(nul(meObj)) return posError(errCode::FUNC_REDIRECTED_OBJ, me), true;
 
-        NM_I("verify: check func duplication");
+        _STEP("check func duplication");
         const nbicontainer& top = meObj.getShares().getContainer();
         ncnt len = me.getParams().len();
         const node& errFound = top.get([&](const std::string& key, const node& val) {
@@ -432,18 +440,18 @@ namespace nm {
             posError(errCode::ALREADY_DEFINED_FUNC, me, i.name.c_str());
 
         //  obj or property shouldn't have same name to any func.
-        NM_I("verify: check func has same name to field");
+        _STEP("check func has same name to field");
         if(!nul(meObj.getOwns().get(i.name)))
             posError(errCode::ALREADY_DEFINED_IDENTIFIER, me, i.name.c_str());
 
-        NM_I("verify: func: main func return type should be int or void");
+        _STEP("main func return type should be int or void");
         if(i.name == starter::MAIN) {
             str ret = me.getRet();
             if(!ret->isSub<nInt>() && !ret->isSub<nVoid>())
                 posError(errCode::MAIN_FUNC_RET_TYPE, me);
         }
 
-        NM_I("verify: func: retType exists and stmts exist one at least");
+        _STEP("retType exists and stmts exist one at least");
         str retType = me.getRet();
         if(!retType) return posError(errCode::NO_RET_TYPE, me), true;
         if(!retType->isSub(ttype<node>::get()))
@@ -460,12 +468,12 @@ namespace nm {
             return true;
         }
 
-        NM_I("verify: func: 'break' or 'next' can't be used to last stmt");
+        _STEP("'break' or 'next' can't be used to last stmt");
         const node& lastStmt = *blk.getStmts().last();
         if(lastStmt.isSub<retStateExpr>() && !lastStmt.isSub<retExpr>())
             return posError(errCode::FUNC_SHOULD_RETURN_SOMETHING, lastStmt), true;
 
-        NM_I("verify: func[%s]: %s iterateBlock[%s]", i, me, me._blk->subs().len());
+        _STEP("func[%s]: %s iterateBlock[%s]", i, me, me._blk->subs().len());
 
         // sequence of adding frame matters:
         //  object scope was added at 'onVisit(visitInfo, baseObj&)
@@ -515,20 +523,20 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, func& me) {
-        _GUARD(func, "onLeave()");
+        _GUARD("onLeave()");
 
         me.outFrame(scope());
     }
 
     nbool me::onVisit(visitInfo i, baseObj& me) {
-        _GUARD(baseObj, "onVisit()");
+        _GUARD("onVisit()");
 
         me.inFrame();
 
         frame& fr = thread::get()._getNowFrame();
-        NM_I("verify: baseObj: %s push me[%s] len=%s", fr.getMe(), (void*) &fr.getMe(), me.subs().len());
+        _STEP("%s push me[%s] len=%s", fr.getMe(), (void*) &fr.getMe(), me.subs().len());
 
-        NM_I("verify: baseObj: iterate all subs and checks void type variable");
+        _STEP("iterate all subs and checks void type variable");
         for(const node& elem : me.subs())
             if(elem.isSub<nVoid>())
                 posError(errCode::VOID_CANT_DEFINED, elem);
@@ -538,14 +546,14 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, baseObj& me) {
-        _GUARD(baseObj, "onLeave()");
+        _GUARD("onLeave()");
         me.outFrame();
     }
 
     nbool me::onVisit(visitInfo i, genericObj& me) {
-        _GUARD(genericObj, "onVisit()");
+        _GUARD("onVisit()");
 
-        NM_I("verify: genericObj: cache check");
+        _STEP("cache check");
         for(auto e : me._cache)
             if(nul(e.second))
                 posError(errCode::MAKE_GENERIC_FAIL, me, e.first.c_str());
@@ -553,7 +561,7 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, genericObj& me) {
-        _GUARD(genericObj, "onLeave()");
+        _GUARD("onLeave()");
 
         // DO NOTHING, BUT LEAVE THIS FUNC:
         //  if I don't have this func, getGenericExpr::super (=baseObj)'s one will be called.
@@ -561,7 +569,7 @@ namespace nm {
     }
 
     nbool me::onVisit(visitInfo i, forExpr& me) {
-        _GUARD(forExpr, "onVisit()");
+        _GUARD("onVisit()");
 
         str container = me._container;
         str conAsed = container->getEval();
@@ -572,7 +580,7 @@ namespace nm {
             return posError(errCode::ELEM_TYPE_IS_NULL, me), true;
 
         const std::string& name = me.getLocalName();
-        NM_I("verify: forExpr: define iterator '%s %s'", elemType, name);
+        _STEP("define iterator '%s %s'", elemType, name);
 
         me.getBlock().inFrame();
         thread::get()._getNowFrame().addLocal(name, *((node*) elemType->clone()));
@@ -581,47 +589,47 @@ namespace nm {
     }
 
     void me::onLeave(visitInfo i, forExpr& me) {
-        _GUARD(forExpr, "onLeave()");
+        _GUARD("onLeave()");
 
-        _onLeave(me);
+        _onLeave(i, me);
     }
 
     nbool me::onVisit(visitInfo i, whileExpr& me) {
-        _GUARD(whileExpr, "onVisit()");
+        _GUARD("onVisit()");
 
-        NM_I("verify: whileExpr: onVisit");
         me.getBlock().inFrame();
         _recentLoops.push_back(&me);
         return true;
     }
 
     void me::onLeave(visitInfo i, whileExpr& me) {
-        _GUARD(whileExpr, "onLeave()");
-        _onLeave(me);
+        _GUARD("onLeave()");
+
+        _onLeave(i, me);
     }
 
     void me::onLeave(visitInfo i, breakExpr& me) {
-        _GUARD(breakExpr, "onVisit()");
+        _GUARD("onVisit()");
 
-        NM_I("verify: breakExpr: declared outside of loop?");
+        _STEP("declared outside of loop?");
         if(_recentLoops.size() <= 0) return posError(errCode::BREAK_OUTSIDE_OF_LOOP, me);
     }
 
     void me::onLeave(visitInfo i, nextExpr& me) {
-        _GUARD(nextExpr, "onVisit()");
+        _GUARD("onVisit()");
 
-        NM_I("verify: nextExpr: declared outside of loop?");
+        _STEP("declared outside of loop?");
         if(_recentLoops.size() <= 0) return posError(errCode::NEXT_OUTSIDE_OF_LOOP, me);
     }
 
     nbool me::onVisit(visitInfo i, ifExpr& me) {
-        _GUARD(ifExpr, "onVisit()");
+        _GUARD("onVisit()");
         me.getThen().inFrame();
         return true;
     }
 
     void me::onLeave(visitInfo i, ifExpr& me) {
-        _GUARD(ifExpr, "onLeave()");
+        _GUARD("onLeave()");
         blockExpr().outFrame(); // it doesn't matter getting blockExpr from 'me'.
                                 // because conceptually, blockExpr::outFrame() is just like static func.
     }

@@ -54,7 +54,7 @@ namespace nm {
 
         // @param newInfo is not a heap instance.
         void _verifyMgdFuncImplicitReturn(func& me);
-        void _onLeave(const loopExpr& me);
+        void _onLeave(const visitInfo& i, const loopExpr& me);
 
     private:
         std::vector<loopExpr*> _recentLoops;

@@ -112,7 +112,7 @@ namespace nm {
 #endif
         }
 
-        string toAddrId(void* inst) {
+        string toAddrId(const void* inst) {
             stringstream ss;
             ss << inst;
             string raw = ss.str();
