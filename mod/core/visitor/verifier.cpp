@@ -78,9 +78,9 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("set evalType");
-        const ntype& ltype = safeGet(me, getLeft(), getType());
+        const ntype& ltype = safeGet(me, getLeft(), getEval(), getType());
         if(nul(ltype)) return posError(errCode::LHS_IS_NULL, me);
-        const ntype& rtype = safeGet(me, getRight(), getType());
+        const ntype& rtype = safeGet(me, getRight(), getEval(), getType());
         if(nul(rtype)) return posError(errCode::RHS_IS_NULL, me);
         if(rtype.isSub<retStateExpr>()) return posError(errCode::CANT_ASSIGN_RET, me);
         if(!rtype.isImpli(ltype))

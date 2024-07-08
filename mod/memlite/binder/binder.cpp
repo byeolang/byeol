@@ -49,6 +49,8 @@ namespace nm {
 
     nbool me::_assign(const binder& rhs) {
         rel();
+        if(nul(rhs)) return true;
+
         _type = rhs._type;
         if (nul(_tactic))
             _tactic = rhs._tactic;
