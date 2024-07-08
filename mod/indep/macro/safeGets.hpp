@@ -40,10 +40,8 @@ namespace nm {
         a = rhs;
         return &a;
     }
-    template <typename T>
-    static T* _proceed(T& rhs) { return &rhs; }
-    template <typename T>
-    static T* _proceed(T* rhs) { return rhs; }
+    template <typename T> static T* _proceed(T& rhs) { return &rhs; }
+    template <typename T> static T* _proceed(T* rhs) { return rhs; }
 }
 
 #define _PUT(exp) _tget<decltype(exp)>::set(exp)

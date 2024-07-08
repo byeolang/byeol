@@ -44,7 +44,7 @@ namespace nm {
     }
 
     instance& me::get() {
-        return safeGet(_getBindTag(),get());
+        return safeGet(_getBindTag(), get());
     }
 
     nbool me::_assign(const binder& rhs) {

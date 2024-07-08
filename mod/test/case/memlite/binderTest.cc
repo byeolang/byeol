@@ -46,15 +46,17 @@ namespace {
     };
 
     struct offering : public instance {
+        offering(const A* a1): a(a1) {}
+
         const type& getType() const override {
             return ttype<offering>::get();
         }
 
         clonable* clone() const override {
-            return new offering();
+            return new offering(&a.get());
         }
 
-        A a;
+        tstr<A> a;
     };
 
     struct shell : public instance {
@@ -302,6 +304,14 @@ TEST_F(binderTest, memberVariableShouldntHaveBindtag) {
     //  2. (new) of 'offering'
     //  3. ctor of 'offering'
     //  4. ctor of 'A'
-    tstr<shell> ptr(new shell(new offering()));
-    ASSERT_FALSE(ptr->o->a.isHeap());
+    tstr<shell> ptr(new shell(new offering(new A())));
+    ASSERT_FALSE(ptr->o->a->isHeap());
+}
+
+TEST_F(binderTest, safeGetWithBinder) {
+    tstr<shell> ptr(new shell(new offering(new A())));
+    ptr->o->a->age = 57;
+
+    ASSERT_TRUE(safeGet(ptr, o, a, isHeap()));
+    ASSERT_EQ(safeGet(ptr, o, a, age), 57);
 }
