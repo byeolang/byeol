@@ -35,18 +35,17 @@ namespace nm {
 
 #define _GUARD(msg) \
     if(isFlag(GUARD)) do { \
-        NM_I("verify: '%s' %s@%s: " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), platformAPI::toAddrId(&me)); \
+        NM_I("'%s' %s@%s: " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), platformAPI::toAddrId(&me)); \
         _stepN = 0; \
     } while(0)
 
-#define _STEP(msg, ...) NM_I("verify: '%s' %s@%s: step#%s --> " msg, i, \
+#define _STEP(msg, ...) NM_I("'%s' %s@%s: step#%s --> " msg, i, \
     ttype<typeTrait<decltype(me)>::Org>::get(), platformAPI::toAddrId(&me), ++_stepN, ## __VA_ARGS__)
 
     // verification:
     void me::onLeave(visitInfo i, node& me) {
         _GUARD("onLeave()");
 
-        //NM_I("verify: node: no same variable=%s", me.subs().len());
         _STEP("no same variable=%s", me.subs().len());
         if(me.isSub<frame>()) return;
 
@@ -498,7 +497,7 @@ namespace nm {
         const node& lastStmt = *me.getBlock().getStmts().last();
 
         if(retType == ttype<nVoid>::get())
-            return NM_I("verify: func: implicit return won't verify when retType is void."), void();
+            return NM_I("func: implicit return won't verify when retType is void."), void();
 
         str eval = me.getBlock().getEval();
         if(!eval) return posError(NO_RET_TYPE, lastStmt);
@@ -506,11 +505,11 @@ namespace nm {
         const ntype& lastType = eval->getType(); // to get type of expr, always uses evalType.
         if(nul(lastType)) return posError(NO_RET_TYPE, lastStmt);
 
-        NM_I("verify: func: last stmt[%s] should matches to return type[%s]", eval, retType);
+        NM_I("func: last stmt[%s] should matches to return type[%s]", eval, retType);
 
         if(eval->isSub<retStateExpr>())
             // @see retExpr::getEval() for more info.
-            return NM_I("verify: func: skip verification when lastStmt is retStateExpr."), void();
+            return NM_I("func: skip verification when lastStmt is retStateExpr."), void();
 
         if(!lastType.isSub<err>() && !lastType.isImpli(retType))
             return posError(errCode::RET_TYPE_NOT_MATCH, lastStmt,

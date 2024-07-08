@@ -30,7 +30,7 @@ namespace nm {
 
         tstr<arithmeticObj> lhs(_lhs->as<arithmeticObj>());
         tstr<arithmeticObj> rhs(_rhs->as<arithmeticObj>());
-        if(!lhs || !rhs) return NM_E("one of operand is null"), str();
+        NM_ERR_IF(!lhs || !rhs, str());
 
         switch(_rule) {
             case ADD: return lhs->add(*rhs);
