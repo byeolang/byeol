@@ -78,13 +78,9 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("set evalType");
-        str leftEval = me.getLeft().getEval();
-        if(!leftEval) return posError(errCode::LHS_IS_NULL, me);
-        const ntype& ltype = leftEval->getType();
+        const ntype& ltype = safeGet(me, getLeft(), getType());
         if(nul(ltype)) return posError(errCode::LHS_IS_NULL, me);
-        str rightEval = me.getRight().getEval();
-        if(!rightEval) return posError(errCode::RHS_IS_NULL, me);
-        const ntype& rtype = rightEval->getType();
+        const ntype& rtype = safeGet(me, getRight(), getType());
         if(nul(rtype)) return posError(errCode::RHS_IS_NULL, me);
         if(rtype.isSub<retStateExpr>()) return posError(errCode::CANT_ASSIGN_RET, me);
         if(!rtype.isImpli(ltype))
@@ -164,13 +160,8 @@ namespace nm {
     void me::onLeave(visitInfo i, defVarExpr& me) {
         _GUARD("onLeave()");
 
-        _STEP("is definable?");
-        const node& rhs = me.getRight();
-        if(nul(rhs))
-            return posError(errCode::CANT_DEF_VAR, me, me.getName().c_str(), "null");
-
         _STEP("to define a void type property isn't allowed.");
-        str eval = rhs.getEval();
+        str eval = safeGet(me.getRight(), getEval());
         if(!eval) return posError(errCode::RHS_IS_NULL, me);
         if(eval->isSub<nVoid>())
             return posError(errCode::VOID_CANT_DEFINED, me);
@@ -198,7 +189,7 @@ namespace nm {
         const ntype& t = eval->getType();
         const nchar* typeName = nul(t) ? "null" : t.getName().c_str();
         if(nul(t))
-            posError(errCode::CANT_DEF_VAR, me, name.c_str(), typeName);
+            posError(errCode::CANT_DEF_VAR, me, name.c_str(), "null");
         if(eval->isSub<nVoid>()) return posError(errCode::VOID_CANT_DEFINED, me);
 
         node& to = me.getTo();
@@ -226,8 +217,7 @@ namespace nm {
     void me::onLeave(visitInfo i, defAssignExpr& me) {
         _GUARD("onVisit()");
 
-        const node& rhs = me.getRight();
-        str eval = !nul(rhs) ? rhs.getEval() : str();
+        str eval = safeGet(me, getRight(), getEval());
         if(!eval) return posError(errCode::RHS_IS_NULL, me);
         if(!eval->isComplete())
             return posError(errCode::ACCESS_TO_INCOMPLETE, me);
@@ -239,12 +229,14 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("check lhs & rhs");
-        if(nul(me.getStart())) return posError(errCode::LHS_IS_NULL, me);
-        if(nul(me.getEnd())) return posError(errCode::RHS_IS_NULL, me);
+        auto& start = me.getStart();
+        if(nul(start)) return posError(errCode::LHS_IS_NULL, me);
+        auto& end = me.getEnd();
+        if(nul(end)) return posError(errCode::RHS_IS_NULL, me);
 
         _STEP("lhs & rhs is sort of Int?");
-        if(!me.getStart().isImpli<nInt>()) return posError(errCode::SEQ_SHOULD_INT_COMPATIBLE, me);
-        if(!me.getEnd().isImpli<nInt>()) return posError(errCode::SEQ_SHOULD_INT_COMPATIBLE, me);
+        if(!start.isImpli<nInt>()) return posError(errCode::SEQ_SHOULD_INT_COMPATIBLE, me);
+        if(!end.isImpli<nInt>()) return posError(errCode::SEQ_SHOULD_INT_COMPATIBLE, me);
     }
 
     void me::onLeave(visitInfo i, defArrayExpr& me) {
@@ -262,15 +254,9 @@ namespace nm {
     void me::onLeave(visitInfo i, FBOExpr& me) {
         _GUARD("onVisit()");
 
-        _STEP("lhs & rhs should bind something.");
-        const node& lhs = me.getLeft();
-        const node& rhs = me.getRight();
-        if(nul(lhs)) return posError(errCode::LHS_IS_NULL, me);
-        if(nul(rhs)) return posError(errCode::RHS_IS_NULL, me);
-
         _STEP("finding eval of l(r)hs.");
-        str lEval = lhs.getEval();
-        str rEval = rhs.getEval();
+        str lEval = safeGet(me, getLeft(), getEval());
+        str rEval = safeGet(me, getRight(), getEval());
         if(!lEval) return posError(errCode::LHS_IS_NULL, me);
         if(!rEval) return posError(errCode::RHS_IS_NULL, me);
 
@@ -316,10 +302,10 @@ namespace nm {
             return posError(errCode::CANT_ACCESS, me, me._name.c_str(), from.getType().getName().c_str());
         }
         node& got = matches.get();
-        if(nul(got)) {
+        if(nul(got))
             // TODO: leave logs for all ambigious candidates as err.
             return posError(errCode::AMBIGIOUS_ACCESS, me, i.name.c_str());
-        }
+
         _STEP("isRunnable: got=%s, me=%s", got, me.getType());
 
         str asedMe = me.getMe().getEval();
@@ -380,10 +366,7 @@ namespace nm {
     }
 
     void me::onTraverse(runExpr& me, node& subject) {
-        node& meSubj = me.getMe();
-        if(nul(meSubj)) return;
-
-        str ased = meSubj.getEval();
+        str ased = safeGet(me.getMe(), getEval());
         if(!ased) return;
 
         getExpr& cast = subject.cast<getExpr>();
