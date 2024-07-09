@@ -52,7 +52,7 @@ namespace {
 
 TEST_F(consoleStreamTest, logFormat) {
     logger::get().logBypass("hello");
-    logger::get().logFormatBypass("%s " NM_TAG " %s <%s::%s#%d> " "hello",
+    logger::get().logFormatBypass("%s %s <%s::%s#%d> " "hello",
         nm::platformAPI::createNowTime("%b %d %Y  %X").c_str(), "I",
         __FILENAME__, __func__, __LINE__);
 

@@ -26,11 +26,9 @@ namespace nm {
     }
 
     str me::run(const args& a) {
-        if(!_lhs || !_rhs) return str();
-
-        tstr<arithmeticObj> lhs(_lhs->as<arithmeticObj>());
-        tstr<arithmeticObj> rhs(_rhs->as<arithmeticObj>());
-        NM_ERR_IF(!lhs || !rhs, str());
+        tstr<arithmeticObj> lhs(safeGet(_lhs, as<arithmeticObj>()));
+        tstr<arithmeticObj> rhs(safeGet(_rhs, as<arithmeticObj>()));
+        if(!lhs || !rhs) return NM_I("lhs or rhs is null"), str();
 
         switch(_rule) {
             case ADD: return lhs->add(*rhs);
