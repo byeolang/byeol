@@ -7,7 +7,9 @@ namespace nm {
 #define TEMPL template <typename T>
 #define ME tbindable<T>
 
-    TEMPL ME::operator nbool() const { return isBind(); }
+    TEMPL ME::operator nbool() const {
+        return !nul(this) && isBind();
+    }
 
     TEMPL nbool ME::canBind(const T& it) const {
         if(nul(it)) return false;

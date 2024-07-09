@@ -137,30 +137,26 @@ namespace nm {
     }
 
     nbool me::set(const iter& at, const node& new1) {
-        if(nul(new1)) return false;
-        str ased = new1.asImpli(getType().getBeans()[0]);
+        str ased = safeGet(new1, asImpli(getType().getBeans()[0]));
         if(!ased || ased->isSub<nVoid>()) return false;
 
         return get().set(at, *ased);
     }
     nbool me::set(nidx n, const node& new1) {
-        if(nul(new1)) return false;
-        str ased = new1.asImpli(getType().getBeans()[0]);
+        str ased = safeGet(new1, asImpli(getType().getBeans()[0]));
         if(!ased || ased->isSub<nVoid>()) return false;
         return get().set(n, *ased);
     }
 
     nbool me::add(const iter& at, const node& new1) {
-        if(nul(new1)) return false;
-        str ased = new1.asImpli(getType().getBeans()[0]);
+        str ased = safeGet(new1, asImpli(getType().getBeans()[0]));
         if(!ased || ased->isSub<nVoid>()) return false;
 
         return get().add(at, *ased);
     }
 
     nbool me::add(nidx n, const node& new1) {
-        if(nul(new1)) return false;
-        str ased = new1.asImpli(getType().getBeans()[0]);
+        str ased = safeGet(new1, asImpli(getType().getBeans()[0]));
         if(!ased || ased->isSub<nVoid>()) return false;
 
         return get().add(n, *ased);

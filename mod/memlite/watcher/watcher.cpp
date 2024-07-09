@@ -22,7 +22,7 @@ namespace nm {
         watchCell& got = get(newId.tagN);
         if(nul(got)) return nulOf<watchCell>();
 
-        id gotId = got.blk.getId();
+        id gotId = safeGet(get(newId.tagN), blk.getId());
         if(gotId.tagN != newId.tagN) {
             NM_W("bindTag was corrupted! watchCell.id(%s.%s.%s) != id(%s.%s.%s)",
                     gotId.tagN, gotId.chkN, gotId.serial, newId.tagN, newId.chkN, newId.serial);

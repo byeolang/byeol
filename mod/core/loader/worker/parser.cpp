@@ -239,20 +239,20 @@ namespace nm {
             return posError(errCode::IS_NULL, "s"), new defBlock();
 
         defVarExpr& defVar = stmt.cast<defVarExpr>();
-        if(!nul(defVar)) {
-            node& rhs = defVar.getRight();
-            baseObj& org = rhs.cast<baseObj>();
-            if(!nul(org) && org.isPreEvaluated()) {
-                s.asScope->add(defVar.getName(), new mockNode(org));
-                return &s;
-            }
-
-            defVar.setTo(*_maker.make<getExpr>("me"));
-            s.asPreCtor->add(defVar);
+        if(nul(defVar)) {
+            s.asScope->add(stmt.getSrc().getName(), &stmt);
             return &s;
         }
 
-        s.asScope->add(stmt.getSrc().getName(), &stmt);
+        node& rhs = defVar.getRight();
+        baseObj& org = rhs.cast<baseObj>();
+        if(!nul(org) && org.isPreEvaluated()) {
+            s.asScope->add(defVar.getName(), new mockNode(org));
+            return &s;
+        }
+
+        defVar.setTo(*_maker.make<getExpr>("me"));
+        s.asPreCtor->add(defVar);
         return &s;
     }
 
@@ -410,8 +410,7 @@ namespace nm {
             // all args should be getExpr instances.
             const getExpr& cast = a.cast<getExpr>();
             if(nul(cast))
-                return posError(errCode::SHOULD_TYPE_PARAM_NAME, a.getType().getName().c_str()),
-                       std::vector<std::string>();
+                return posError(errCode::SHOULD_TYPE_PARAM_NAME, a.getType().getName().c_str()), std::vector<std::string>();
 
             ret.push_back(cast.getName());
         }
@@ -622,12 +621,11 @@ namespace nm {
         NM_DI("tokenEvent: onAssign(%s, %s)", lhs, rhs);
         // _onSetElem branch:
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
-        runExpr& cast = lhs.cast<runExpr>();
-        if(!nul(cast)) {
-            getExpr& subject = cast.getSubj().cast<getExpr>();
-            if(!nul(subject))
-                if(subject.getName() == "get")
-                    return _onSetElem(cast, rhs);
+        runExpr& r = lhs.cast<runExpr>();
+        if(!nul(r)) {
+            auto& name = safeGet(r, getSubj().cast<getExpr>(), getName());
+            if(!nul(name) && name == "get")
+                return _onSetElem(r, rhs);
         }
 
         return _maker.make<assignExpr>(lhs, rhs);
@@ -673,11 +671,11 @@ namespace nm {
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
         runExpr& cast = lhs.cast<runExpr>();
         if(!nul(cast)) {
-            getExpr& subject = cast.getSubj().cast<getExpr>();
-            if(!nul(subject))
-                if(subject.getName() == "get")
-                    return _onConvertAssignElem(cast, *_maker.make<FBOExpr>(type, lhs, rhs));
+            auto& name = safeGet(cast.getSubj(), cast<getExpr>(), getName());
+            if(!nul(name) && name == "get")
+                return _onConvertAssignElem(cast, *_maker.make<FBOExpr>(type, lhs, rhs));
         }
+
         return onAssign(lhs, *_maker.make<FBOExpr>(type, *(node*) lhs.clone(), rhs));
     }
 
@@ -1059,10 +1057,7 @@ namespace nm {
     }
 
     void me::_report(err* new1) {
-        errReport& rpt = getReport();
-        if(nul(rpt)) return;
-
-        rpt.add(new1);
+        safeGet(getReport(), add(new1));
     }
 
     exprMaker& me::_getMaker() {

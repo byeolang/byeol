@@ -32,9 +32,8 @@ namespace nm {
     }
 
     const node& me::deduce(const node& r) const {
-        if(nul(r)) return nulOf<node>();
         const ntype& ltype = getType();
-        const ntype& rtype = r.getType();
+        const ntype& rtype = safeGet(r, getType());
         const ntype& res = ltype.deduce(rtype);
         if(nul(res)) return nulOf<node>();
         if(res == ltype) return *this;

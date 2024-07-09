@@ -90,12 +90,10 @@ namespace nm {
     nbool me::onVisit(visitInfo i, getExpr& e) {
         onVisit(i, (node&) e);
 
-        const node& me = e.getMe();
-        string from = nul(me) ? "frame" : _getNameFrom(me);
         string args = e.getArgs().toStr();
 
         clog << foreColor(LIGHTGRAY) << " = "
-             << foreColor(MAGENTA) << from << foreColor(LIGHTGRAY) << "." << foreColor(YELLOW) << e.getName();
+             << foreColor(MAGENTA) << _getNameFrom(e.getMe()) << foreColor(LIGHTGRAY) << "." << foreColor(YELLOW) << e.getName();
         if(!args.empty())
             clog << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN) << args << foreColor(LIGHTGRAY) << ")";
         return true;
@@ -104,11 +102,8 @@ namespace nm {
     nbool me::onVisit(visitInfo i, runExpr& e) {
         onVisit(i, (node&) e);
 
-        const node& meExpr = e.getMe();
-        string me = nul(meExpr) ? "frame" : _getNameFrom(meExpr);
-
         clog << foreColor(LIGHTGRAY) << " = "
-             << foreColor(MAGENTA) << me << foreColor(LIGHTGRAY) << "."
+             << foreColor(MAGENTA) << _getNameFrom(e.getMe()) << foreColor(LIGHTGRAY) << "."
              << foreColor(YELLOW) << _getNameFrom(e.getSubj())
              << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << e.getArgs().toStr() << foreColor(LIGHTGRAY) << ")";
         return true;
@@ -162,10 +157,12 @@ namespace nm {
     }
 
     string me::_getNameFrom(const node& it) const {
+        if(nul(it)) return "frame";
+
         string ret = it.getType().getName();
-        const getExpr& cast = it.cast<getExpr>();
-        if(!nul(cast))
-            ret = cast.getName();
+        const auto& name = safeGet(it.cast<getExpr>(), getName());
+        if(!nul(name))
+            ret = name;
         return ret;
     }
 

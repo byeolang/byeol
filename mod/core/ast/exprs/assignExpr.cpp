@@ -37,13 +37,12 @@ namespace nm {
     }
 
     me::iter me::_getScopeIterOfLhs() {
-        if(!_lhs) return iter();
-
-        getExpr& cast = _lhs->cast<getExpr>();
+        getExpr& cast = safeGet(_lhs, cast<getExpr>());
         if(nul(cast)) return iter();
+
         // TODO: elementExpr
 
-        str ased = cast.getMe().as<node>();
+        str ased = safeGet(cast, getMe().as<node>());
         if(!ased) return NM_E("ased == null"), iter();
 
         iter ret = ased->subs().iterate(cast.getName());

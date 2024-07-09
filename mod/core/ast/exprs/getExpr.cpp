@@ -52,11 +52,9 @@ namespace nm {
     }
 
     priorities me::_get(nbool evalMode) const {
-        const node& me = getMe();
-        NM_DI("getExpr: looking for '%s.%s' evalMode[%s]", me, _name, evalMode);
-        if(nul(me)) return NM_E("me == null"), priorities();
+        NM_DI("getExpr: looking for '%s.%s' evalMode[%s]", getMe(), _name, evalMode);
 
-        str evalMe = evalMode ? me.getEval() : me.as<node>();
+        str evalMe = evalMode ? safeGet(getMe(), getEval()) : safeGet(getMe(), as<node>());
         if(!evalMe) return NM_E("me == null"), priorities();
         if(evalMode)
             evalMe = evalMe->as<node>();

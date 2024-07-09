@@ -44,6 +44,7 @@ namespace nm {
     ttype<typeTrait<decltype(me)>::Org>::get(), platformAPI::toAddrId(&me), ++_stepN, ## __VA_ARGS__)
 
 #define when(condition) if(condition) return (*this)
+#define isNul(condition) if(nul(condition)) return (*this)
 
 #define ret_2(code, a1) posError(errCode::code, a1)
 #define ret_3(code, a1, a2) posError(errCode::code, a1, a2)
@@ -69,8 +70,8 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("_me & _as aren't null");
-        when(nul(me.getMe())).ret(LHS_IS_NULL, me);
-        when(nul(me.getAs())).ret(RHS_IS_NULL, me);
+        isNul(me.getMe()).ret(LHS_IS_NULL, me);
+        isNul(me.getAs()).ret(RHS_IS_NULL, me);
         when(me.getAs().isSub<nVoid>()).ret(VOID_NOT_CAST, me);
 
         _STEP("checks that me can cast to 'as'");
@@ -86,9 +87,9 @@ namespace nm {
 
         _STEP("set evalType");
         const ntype& ltype = safeGet(me, getLeft(), getEval(), getType());
-        when(nul(ltype)).ret(LHS_IS_NULL, me);
+        isNul(ltype).ret(LHS_IS_NULL, me);
         const ntype& rtype = safeGet(me, getRight(), getEval(), getType());
-        when(nul(rtype)).ret(RHS_IS_NULL, me);
+        isNul(rtype).ret(RHS_IS_NULL, me);
         when(rtype.isSub<retStateExpr>()).ret(CANT_ASSIGN_RET, me);
         when(!rtype.isImpli(ltype)).ret(TYPE_NOT_COMPATIBLE, me, rtype.getName().c_str(),
                 ltype.getName().c_str());
@@ -143,7 +144,7 @@ namespace nm {
         const narr& stmts = me.getStmts();
         if(nul(stmts) || stmts.len() <= 0) return; // will be catched to another verification.
 
-        func& parent = i.parent ? i.parent->cast<func>() : nulOf<func>();
+        func& parent = safeGet(i.parent, cast<func>());
         if(!nul(parent))
             _verifyMgdFuncImplicitReturn(parent);
     }
@@ -229,9 +230,9 @@ namespace nm {
 
         _STEP("check lhs & rhs");
         auto& start = me.getStart();
-        when(nul(start)).ret(LHS_IS_NULL, me);
+        isNul(start).ret(LHS_IS_NULL, me);
         auto& end = me.getEnd();
-        when(nul(end)).ret(RHS_IS_NULL, me);
+        isNul(end).ret(RHS_IS_NULL, me);
 
         _STEP("lhs & rhs is sort of Int?");
         when(!start.isImpli<nInt>()).ret(SEQ_SHOULD_INT_COMPATIBLE, me);
@@ -243,7 +244,7 @@ namespace nm {
 
         _STEP("check all elements");
         const node& type = me.getArrayType();
-        when(nul(type)).ret(ELEM_TYPE_DEDUCED_NULL, me);
+        isNul(type).ret(ELEM_TYPE_DEDUCED_NULL, me);
         when(type.isSuper<obj>()).ret(ELEM_TYPE_DEDUCED_WRONG, me, type.getType().getName().c_str());
         when(type.isSub<nVoid>()).ret(ELEM_TYPE_NOT_VOID, me);
     }
@@ -260,7 +261,7 @@ namespace nm {
         when(!checkEvalType(*lEval)).ret(LHS_IS_NOT_ARITH, me, lEval->getType().getName().c_str());
         when(!checkEvalType(*rEval)).ret(RHS_IS_NOT_ARITH, me, rEval->getType().getName().c_str());
 
-        when(nul(lEval->deduce(*rEval))).ret(IMPLICIT_CAST_NOT_AVAILABLE, me,
+        isNul(lEval->deduce(*rEval)).ret(IMPLICIT_CAST_NOT_AVAILABLE, me,
                                              lEval->getType().getName().c_str(), rEval->getType().getName().c_str());
 
         auto r = me.getRule();
@@ -298,7 +299,7 @@ namespace nm {
         }
         node& got = matches.get();
          // TODO: leave logs for all ambigious candidates as err.
-        when(nul(got)).ret(AMBIGIOUS_ACCESS, me, i.name.c_str());
+        isNul(got).ret(AMBIGIOUS_ACCESS, me, i.name.c_str());
 
         _STEP("isRunnable: got=%s, me=%s", got, me.getType());
 
@@ -315,7 +316,7 @@ namespace nm {
 
         _STEP("checks evalType of func is matched to me");
         const baseFunc& f = thread::get().getNowFrame().getFunc();
-        when(nul(f)).ret(NO_FUNC_INFO, me);
+        isNul(f).ret(NO_FUNC_INFO, me);
 
         str myRet = me.getRet().getEval();
         when(!myRet).ret(EXPR_EVAL_NULL, me);
@@ -331,7 +332,7 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("is it possible to run?");
-        when(nul(me.getMe())).ret(DONT_KNOW_ME, me);
+        isNul(me.getMe()).ret(DONT_KNOW_ME, me);
 
         str ased = me.getMe().getEval();
         if(!ased) return;
@@ -340,7 +341,7 @@ namespace nm {
         a.setMe(*ased);
 
         node& anySub = me.getSubj();
-        when(nul(anySub)).ret(FUNC_NOT_EXIST, me);
+        isNul(anySub).ret(FUNC_NOT_EXIST, me);
         _STEP("anySub[%s]", anySub);
 
         str derivedSub = anySub.getEval();
@@ -382,7 +383,7 @@ namespace nm {
         onLeave(i, (func::super&) me);
 
         obj& meObj = thread::get()._getNowFrame().getMe().cast<obj>(); // TODO: same to 'thread::get().getNowFrame().getMe().cast<obj>();'
-        when(nul(meObj)).ret(FUNC_REDIRECTED_OBJ, me), true;
+        isNul(meObj).ret(FUNC_REDIRECTED_OBJ, me), true;
 
         _STEP("check func duplication");
         const nbicontainer& top = meObj.getShares().getContainer();
@@ -476,7 +477,7 @@ namespace nm {
         when(!eval).ret(NO_RET_TYPE, lastStmt);
 
         const ntype& lastType = eval->getType(); // to get type of expr, always uses evalType.
-        when(nul(lastType)).ret(NO_RET_TYPE, lastStmt);
+        isNul(lastType).ret(NO_RET_TYPE, lastStmt);
 
         NM_I("func: last stmt[%s] should matches to return type[%s]", eval, retType);
 

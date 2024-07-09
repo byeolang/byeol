@@ -34,9 +34,10 @@ namespace nm {
             str eval = value.getEval();
             if(eval)
                 return eval->getType().getName();
-            const getExpr& cast = value.cast<getExpr>();
-            if(!nul(cast))
-                return cast.getName();
+
+            const auto& name = safeGet(value.cast<getExpr>(), getName());
+            if(!nul(name))
+                return name;
             return value.getType().getName();
         }
     }

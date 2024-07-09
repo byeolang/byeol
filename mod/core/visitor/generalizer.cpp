@@ -12,13 +12,12 @@ namespace nm {
     }
 
     const node& me::_findOrigin(const node& toReplace) const {
-        const getGenericExpr& generic = toReplace.cast<getGenericExpr>();
-        if(!nul(generic)) return nulOf<node>();
-        const getExpr& cast = toReplace.cast<getExpr>();
-        if(nul(cast)) return nulOf<node>();
+        if(!nul(toReplace.cast<getGenericExpr>())) return nulOf<node>();
+        const auto& name = safeGet(toReplace.cast<getExpr>(), getName());
+        if(nul(name)) return nulOf<node>();
 
         for(param p : _params)
-            if(cast.getName() == p.getName())
+            if(name == p.getName())
                 return p.getOrigin();
         return nulOf<node>();
     }
@@ -91,11 +90,9 @@ namespace nm {
         baseObj& cast = getTask().cast<baseObj>();
         if(nul(cast))
             getReport().add(err::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
-        else {
-            if(i.parent && i.parent == &cast)
-                // if this ctor belongs to root object(== generic obj):
-                me._setOrigin(cast.getOrigin());
-        }
+        else if(i.parent && i.parent == &cast)
+            // if this ctor belongs to root object(== generic obj):
+            me._setOrigin(cast.getOrigin());
 
         onVisit(i, (baseFunc&) me);
         return true;

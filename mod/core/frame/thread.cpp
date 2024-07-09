@@ -175,15 +175,9 @@ namespace nm {
 #if NM_IS_DBG
         NM_I("next following is list for them.");
         for(const auto& s : *ret) {
-            if(nul(s)) {
-                NM_E("cast isn't type of slot&");
-                continue;
-            }
+            const manifest& mani = safeGet(s, cast<slot>(), getManifest());
+            if(nul(mani)) continue;
 
-            const slot& sl = s.cast<slot>();
-            if(nul(sl)) continue;
-
-            const manifest& mani = sl.getManifest();
             NM_DI(" - %s v%s", mani.name, mani.version);
         }
 #endif

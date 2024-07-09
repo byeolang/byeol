@@ -16,9 +16,7 @@ namespace nm {
     str me::run(const args& a) {
         auto addr = platformAPI::toAddrId(this);
 
-        node& me = getMe();
-        if(nul(me)) return NM_E("%s run: me is null. no thread found", addr), str();
-        str evaledMe = me.as<node>();
+        str evaledMe = safeGet(getMe(), as<node>());
         if(!evaledMe) return NM_E("%s run: evaledMe is null. no thread found", addr), str();
 
         NM_DI("%s run: getting sub: me[%s]", addr, evaledMe);

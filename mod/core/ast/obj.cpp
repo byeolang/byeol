@@ -98,13 +98,11 @@ namespace nm {
     }
 
     scope& me::getShares() {
-        if(!_subs) return nulOf<scope>();
-        return _subs->getNext().cast<scope>();
+        return safeGet(_subs, getNext(), cast<scope>());
     }
 
     scope::super& me::getOwns() {
-        if(!_subs) return nulOf<scope::super>();
-        return _subs->getContainer();
+        return safeGet(_subs, getContainer());
     }
 
     const obj& me::getOrigin() const {
