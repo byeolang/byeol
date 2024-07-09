@@ -80,6 +80,6 @@ namespace nm {
     class type;
     class typeProvidable;
 
-    std::string convert(const typeProvidable& it);
-    std::string convert(const type& it);
+    _nout strWrap __convert__(const typeProvidable& rhs);
+    _nout strWrap __convert__(const type& rhs);
 }

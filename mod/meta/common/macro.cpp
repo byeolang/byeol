@@ -3,6 +3,6 @@
 #include "../interface/typeProvidable.hpp"
 
 namespace nm {
-    std::string convert(const typeProvidable& it) { return !nul(it) ? it.getType().getName() : "null"; }
-    std::string convert(const type& it) { return it.getName(); }
+    strWrap __convert__(const typeProvidable& rhs) { return !nul(rhs) ? rhs.getType().getName() : "null"; }
+    strWrap __convert__(const type& rhs) { return !nul(rhs) ? rhs.getName() : "null"; }
 }
