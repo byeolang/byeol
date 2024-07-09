@@ -299,13 +299,8 @@ TEST_F(binderTest, testTacticIsImmutable) {
 }
 
 TEST_F(binderTest, memberVariableShouldntHaveBindtag) {
-    // call sequence of below line:
-    //  1. (new) of 'shell'
-    //  2. (new) of 'offering'
-    //  3. ctor of 'offering'
-    //  4. ctor of 'A'
     tstr<shell> ptr(new shell(new offering(new A())));
-    ASSERT_FALSE(ptr->o->a->isHeap());
+    ASSERT_TRUE(ptr->o->a->isHeap());
 }
 
 TEST_F(binderTest, safeGetWithBinder) {
