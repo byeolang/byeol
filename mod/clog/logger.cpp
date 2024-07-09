@@ -229,16 +229,4 @@ namespace nm {
         vsnprintf(buf, 1024, fmt, va);
         return std::string(buf);
     }
-
-    std::string convert(const nint& it) { return std::to_string(it); }
-    std::string convert(const nflt& it) { return std::to_string(it); }
-    std::string convert(const nchar& it) { return std::to_string(it); }
-    std::string convert(const nbool& it) { return it ? "true" : "false"; }
-    std::string convert(const std::string& it) { return it; }
-    std::string convert(const nchar* it) { return std::string(it); }
-    std::string convert(const ndbl& it) { return std::to_string(it); }
-    std::string convert(const nuint& it) { return std::to_string(it); }
-    std::string convert(const nlong& it) { return std::to_string(it); }
-    std::string convert(const nulong& it) { return std::to_string(it); }
-    std::string convert(void* it) { return it ? platformAPI::toAddrId(it) : "null"; }
 }

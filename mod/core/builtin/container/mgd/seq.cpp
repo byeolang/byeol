@@ -85,7 +85,7 @@ namespace nm {
 
             str run(const args& a) override {
                 const params& ps = getParams();
-                if(a.len() != ps.len()) return NM_W("a.len(%s) != ps.len(%s)", a.len(), ps.len()), str();
+                if(a.len() != ps.len()) return NM_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
                 seq& meObj = a.getMe().cast<seq>();
                 if(nul(meObj)) return NM_E("meObj as arr == null"), str();
 

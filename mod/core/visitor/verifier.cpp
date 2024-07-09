@@ -36,12 +36,12 @@ namespace nm {
 
 #define _GUARD(msg) \
     if(isFlag(GUARD)) do { \
-        NM_I("'%s' %s@%s: " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), platformAPI::toAddrId(&me)); \
+        NM_I("'%s' %s@%s: " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), &me); \
         _stepN = 0; \
     } while(0)
 
-#define _STEP(msg, ...) NM_I("'%s' %s@%s: step#%s --> " msg, i, \
-    ttype<typeTrait<decltype(me)>::Org>::get(), platformAPI::toAddrId(&me), ++_stepN, ## __VA_ARGS__)
+#define _STEP(msg, ...) NM_I("'%s' %s@%s: step#%d --> " msg, i, \
+    ttype<typeTrait<decltype(me)>::Org>::get(), &me, ++_stepN, ## __VA_ARGS__)
 
 #define when(condition) if(condition) return (*this)
 #define isNul(condition) if(nul(condition)) return (*this)
@@ -56,7 +56,7 @@ namespace nm {
     void me::onLeave(visitInfo i, node& me) {
         _GUARD("onLeave()");
 
-        _STEP("no same variable=%s", me.subs().len());
+        _STEP("no same variable=%d", me.subs().len());
         if(me.isSub<frame>()) return;
 
         for(auto e=me.subs().begin(); e ;++e) {
@@ -446,7 +446,7 @@ namespace nm {
         when(lastStmt.isSub<retStateExpr>() && !lastStmt.isSub<retExpr>())
             .ret(FUNC_SHOULD_RETURN_SOMETHING, lastStmt), true;
 
-        _STEP("func[%s]: %s iterateBlock[%s]", i, me, me._blk->subs().len());
+        _STEP("func[%s]: %s iterateBlock[%d]", i, me, me._blk->subs().len());
 
         // sequence of adding frame matters:
         //  object scope was added at 'onVisit(visitInfo, baseObj&)
@@ -506,7 +506,7 @@ namespace nm {
         me.inFrame();
 
         frame& fr = thread::get()._getNowFrame();
-        _STEP("%s push me[%s] len=%s", fr.getMe(), (void*) &fr.getMe(), me.subs().len());
+        _STEP("%s push me[%s] len=%d", fr.getMe(), (void*) &fr.getMe(), me.subs().len());
 
         _STEP("iterate all subs and checks void type variable");
         for(const node& elem : me.subs())

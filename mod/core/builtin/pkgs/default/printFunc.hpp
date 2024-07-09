@@ -23,7 +23,7 @@ namespace nm {
         str run(const args& a) override {
             const params& ps = getParams();
             if(a.len() != ps.len())
-                return NM_E("length of args(%s) and typs(%s) doesn't match.", a.len(), ps.len()), nullptr;
+                return NM_E("length of args(%d) and typs(%d) doesn't match.", a.len(), ps.len()), nullptr;
 
             const node& org = ps[0].getOrigin();
             tstr<T> evaluated = a[0].asImpli(*org.as<T>());

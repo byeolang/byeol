@@ -46,7 +46,7 @@ namespace {
         auto removingElapsed = end - startDeleting;
         auto totalElapsed = end - start;
 
-        NM_I("[benchMarkArr]: vector took total %s ms for adding(%sms) & removing(%sms) of %s elems.",
+        NM_I("[benchMarkArr]: vector took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
              (nlong) (totalElapsed / chrono::milliseconds(1)), (nlong) (addingElapsed / chrono::milliseconds(1)),
              (nlong) (removingElapsed / chrono::milliseconds(1)), sz);
 
@@ -64,7 +64,7 @@ namespace {
         removingElapsed = end - startDeleting;
         totalElapsed = end - start;
 
-        NM_I("[benchMarkArr]: arr took total %s ms for adding(%sms) & removing(%sms) of %s elems.",
+        NM_I("[benchMarkArr]: arr took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
              (nlong) (totalElapsed / chrono::milliseconds(1)), (nlong) (addingElapsed / chrono::milliseconds(1)),
              (nlong) (removingElapsed / chrono::milliseconds(1)), sz);
     }

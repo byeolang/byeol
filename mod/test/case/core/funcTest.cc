@@ -83,9 +83,9 @@ namespace {
         if(nul(fr)) return false;
 
         int n = 0;
-        NM_I("fr.len=%s", fr.subs().len());
+        NM_I("fr.len=%d", fr.subs().len());
         for(auto e=fr.subs().begin(); e ;e++)
-            NM_I(" - func(\"%s\") calls: fr[%s]=%s", e.getKey(), n++, e.getVal());
+            NM_I(" - func(\"%s\") calls: fr[%d]=%s", e.getKey(), n++, e.getVal());
 
         const scope& funcScope = fr.subs().cast<scope>();
         if(nul(funcScope)) return NM_I("nul(funcScope)"), false;
@@ -118,10 +118,10 @@ TEST_F(funcTest, testfuncConstructNewFrame) {
     myfunc func;
 
     obj.subs().add(funcNames[0], func);
-    NM_I("obj.len=%s", obj.subs().len());
+    NM_I("obj.len=%d", obj.subs().len());
     int n = 0;
     for(auto e=obj.subs().begin(); e ;e++) {
-        NM_I(" - fr[%s]=%s", n++, e);
+        NM_I(" - fr[%d]=%s", n++, e);
     }
 
     func.setLambda([&](const auto& a, const auto& sf) {
@@ -169,7 +169,7 @@ TEST_F(funcTest, testCallfuncInsidefunc) {
         return true;
     });
     obj1func2.setLambda([&](const auto& a, const auto& sf) {
-        if(sf.len() != 2) return NM_I("%s: sf.len(%s) > 2", func2Name, sf.len()), false;
+        if(sf.len() != 2) return NM_I("%s: sf.len(%d) > 2", func2Name, sf.len()), false;
 
         if(!checkFrameHasfuncAndObjScope(sf[1], obj1func2, func2Name, obj1, obj1FuncNames, 2)) return false;
 

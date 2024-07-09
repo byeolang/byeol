@@ -33,7 +33,7 @@ namespace nm {
 #endif
             if(!newHandle) {
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
-                NM_E("couldn't open %s slot: %s", path, GetLastError());
+                NM_E("couldn't open %s slot: %d", path, GetLastError());
 #else
                 NM_E("couldn't open %s slot: %s", path, dlerror());
 #endif
@@ -47,7 +47,7 @@ namespace nm {
 #endif
             if(!ep) {
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
-                NM_E("couldn't locate entrypoint of %s slot: %s", path, GetLastError());
+                NM_E("couldn't locate entrypoint of %s slot: %d", path, GetLastError());
 #else
                 NM_E("couldn't locate entrypoint of %s slot: %s", path, dlerror());
 #endif

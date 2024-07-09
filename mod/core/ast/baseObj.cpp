@@ -29,7 +29,7 @@ namespace nm {
 
     void me::inFrame(const bicontainable& args) {
         frames& frs = nm::thread::get()._getFrames();
-        NM_DI("%s.inFrame() frames.len[%s]", *this, frs.len());
+        NM_DI("%s.inFrame() frames.len[%d]", *this, frs.len());
 
         frame& fr = *new frame();
         frs.add(fr);
@@ -47,7 +47,7 @@ namespace nm {
 
     void me::outFrame(const bicontainable& args) {
         frames& frs = nm::thread::get()._getFrames();
-        NM_DI("%s._outFrame() frames.len[%s]", *this, frs.len()-1);
+        NM_DI("%s._outFrame() frames.len[%d]", *this, frs.len()-1);
 
         frs.del();
     }

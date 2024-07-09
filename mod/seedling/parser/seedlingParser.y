@@ -63,11 +63,11 @@ trhsexpr    : tbool {
             }
             | tfloat {
                 $$ = new termSobj($1);
-                NM_DI("trhsexpr(%s) <-- %s", $$, $1);
+                NM_DI("trhsexpr(%s) <-- %f", $$, $1);
             }
             | tint {
                 $$ = new termSobj($1);
-                NM_DI("trhsexpr(%s) <-- %s", $$, $1);
+                NM_DI("trhsexpr(%s) <-- %d", $$, $1);
             }
             | tokStr {
                 $$ = new termSobj($1);
@@ -75,7 +75,7 @@ trhsexpr    : tbool {
             }
             | tokChar {
                 $$ = new termSobj($1);
-                NM_DI("trhsexpr(%s) <-- tokChar(%s)", $$, $1);
+                NM_DI("trhsexpr(%s) <-- tokChar(%c)", $$, $1);
             }
             | tarray {
                 $$ = $1;

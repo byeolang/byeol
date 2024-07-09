@@ -98,7 +98,7 @@ namespace {
 
 [[:digit:]]+\.[[:digit:]]+ {
     yylval->asFlt = std::stod(yytext);
-    NM_DI("scanner: FLTVAL=%s", yylval->asFlt);
+    NM_DI("scanner: FLTVAL=%f", yylval->asFlt);
     return FLTVAL;
 }
 
@@ -140,7 +140,7 @@ false {
 
 0x[0-9a-fA-F]+ {
     yylval->asInt = std::stoi(yytext, nullptr, 0);
-    NM_DI("scanner: INTVAL=%s(%s)", yytext, yylval->asInt);
+    NM_DI("scanner: INTVAL=%s(%d)", yytext, yylval->asInt);
     return INTVAL;
 }
 
@@ -152,7 +152,7 @@ false {
 
 \'([^\r\f\n\'\\])\' {
     yylval->asChar = yytext[1];
-    NM_DI("scanner: CHARVAL=\'%s\'", yytext[1]);
+    NM_DI("scanner: CHARVAL=\'%c\'", yytext[1]);
     return CHARVAL;
 }
 

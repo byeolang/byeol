@@ -101,14 +101,14 @@ TEST_F(nodeTest, testManuallyMakeNodeStructure) {
     tstr<scope> frameEmulator;
     myObj obj;
     myFunc func;
-    NM_DI("func.tag.chkId=%s", func.getBindTag().getId().chkN);
+    NM_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
 
     obj.subs().add("myFunc", func);
     myFunc funcOffunc;
     func.subs().add("funcOfFunc", funcOffunc);
 
-    NM_DI("func.tag.chkId=%s", func.getBindTag().getId().chkN);
-    NM_DI("funcOffunc.tag.chkId=%s", funcOffunc.getBindTag().getId().chkN);
+    NM_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
+    NM_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag().getId().chkN);
 
     // when:
     frameEmulator.bind(obj.subs());
@@ -117,8 +117,8 @@ TEST_F(nodeTest, testManuallyMakeNodeStructure) {
     chnOffunc->link(*frameEmulator);
     frameEmulator.bind(*chnOffunc);
 
-    NM_DI("func.tag.chkId=%s", func.getBindTag().getId().chkN);
-    NM_DI("funcOffunc.tag.chkId=%s", funcOffunc.getBindTag().getId().chkN);
+    NM_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
+    NM_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag().getId().chkN);
 
     // then:
     ASSERT_EQ(chnOffunc->len(), 2);
@@ -127,14 +127,14 @@ TEST_F(nodeTest, testManuallyMakeNodeStructure) {
 
     int n=0;
     for(const auto& elem : *chnOffunc)
-        NM_I("[%s]=%s", n++, elem);
+        NM_I("[%d]=%s", n++, elem);
 
-    NM_DI("func.tag.chkId=%s", func.getBindTag().getId().chkN);
-    NM_DI("funcOffunc.tag.chkId=%s", funcOffunc.getBindTag().getId().chkN);
+    NM_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
+    NM_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag().getId().chkN);
 
     ASSERT_EQ(n, 2);
-    NM_DI("func.tag.chkId=%s", func.getBindTag().getId().chkN);
-    NM_DI("funcOffunc.tag.chkId=%s", funcOffunc.getBindTag().getId().chkN);
+    NM_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
+    NM_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag().getId().chkN);
 }
 
 TEST_F(nodeTest, testManualNativefuncCall) {

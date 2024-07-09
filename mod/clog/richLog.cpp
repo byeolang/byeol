@@ -10,7 +10,11 @@ namespace nm {
     noWrap<nuint> __convert__(nuint rhs) { return rhs; }
     noWrap<nflt> __convert__(nflt rhs) { return rhs; }
     noWrap<nchar> __convert__(nchar rhs) { return rhs; }
-    noWrap<nbool> __convert__(nbool rhs) { return rhs; }
+    strWrap __convert__(nbool rhs) {
+        std::string d = rhs ? "true" : "false";
+        strWrap ret(std::string("true"));
+        return ret;
+    }
     noWrap<const nchar*> __convert__(const nchar* rhs) { return rhs; }
     noWrap<ndbl> __convert__(ndbl rhs) { return rhs; }
     noWrap<nlong> __convert__(nlong rhs) { return rhs; }

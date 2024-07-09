@@ -112,7 +112,7 @@ namespace nm {
                 // preEvaluator just found circular dependencies.
                 NM_E("* * *");
                 NM_E("I couldn't finish pre-evaluation. may be because of circular dependency.");
-                NM_E("total %s pre-evaluations remains.", _stack.size());
+                NM_E("total %d pre-evaluations remains.", _stack.size());
                 NM_E("errors:");
                 e.dump();
                 NM_E("* * *");

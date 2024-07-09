@@ -63,20 +63,4 @@ namespace nm {
         const filters* _filters;
     };
 
-    std::string convert(const nint& it);
-    std::string convert(const nflt& it);
-    std::string convert(const nchar& it);
-    std::string convert(const nbool& it);
-    std::string convert(const std::string& it);
-    std::string convert(const nchar* it);
-    std::string convert(const ndbl& it);
-    std::string convert(const nuint& it);
-    std::string convert(const nlong& it);
-    std::string convert(const nulong& it);
-    std::string convert(void* it);
-
-    template <typename... Ts>
-    void richLog(logLv::level lv, const std::string& filename, const nchar* func, nint line, const nchar* fmt, const Ts&... args) {
-        ::nm::logger::get().log(lv, filename, func, line, fmt, convert((const Ts&) args).c_str()...);
-    }
 }

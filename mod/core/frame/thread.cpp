@@ -170,7 +170,7 @@ namespace nm {
 
         _loadBuiltIns(*ret);
 
-        NM_I("%s system slots has been loaded.", ret->len());
+        NM_I("%d system slots has been loaded.", ret->len());
 
 #if NM_IS_DBG
         NM_I("next following is list for them.");

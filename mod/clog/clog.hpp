@@ -2,4 +2,4 @@
 
 #include "stream.hpp"
 #include "filter.hpp"
-#include "logger.hpp"
+#include "richLog.hpp"

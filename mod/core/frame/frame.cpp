@@ -30,7 +30,7 @@ namespace nm {
         if(!cloned) return;
         cloned->getTail().link(*_getTop().s);
         _stack.push_back(scopeRegister{owner, cloned});
-        NM_DI("scope added: frame.len[%s] scope.owner[%s]", _stack.size(), owner);
+        NM_DI("scope added: frame.len[%d] scope.owner[%s]", _stack.size(), owner);
     }
     void me::addLocal(const std::string& name, const node& n) {
         if(_stack.size() <= 0)
@@ -67,7 +67,7 @@ namespace nm {
 
     void me::del() {
         _stack.pop_back();
-        NM_DI("scope deleted. frames.len[%s] thisFrame.len[%s]", thread::get().getFrames().len(), _stack.size());
+        NM_DI("scope deleted. frames.len[%d] thisFrame.len[%d]", thread::get().getFrames().len(), _stack.size());
     }
 
     scopeRegister& me::_getTop() {

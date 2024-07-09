@@ -167,7 +167,7 @@ namespace nm {
 
             str run(const args& a) override {
                 const params& ps = getParams();
-                if(a.len() != ps.len()) return NM_W("a.len(%s) != ps.len(%s)", a.len(), ps.len()), str();
+                if(a.len() != ps.len()) return NM_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
                 nStr& me = a.getMe().cast<nStr>();
                 if(nul(me)) return NM_E("me as nStr == null"), str();
 

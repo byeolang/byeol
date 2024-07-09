@@ -44,7 +44,7 @@ namespace nm {
     tstr<sobj> me::_runParser() {
         int res = yyparse();
         if(res)
-            return NM_E("interpretion has been failed. res=%s", res), tstr<sobj>();
+            return NM_E("interpretion has been failed. res=%d", res), tstr<sobj>();
         if(!root)
             NM_E("nothing interpreted.");
 
