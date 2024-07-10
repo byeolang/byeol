@@ -68,7 +68,7 @@ namespace nm {
         static std::string getCurrentDir();
 
     public:
-#if NM_BILD_PLATFORM == NM_TYPE_WINDOWS
+#if NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
         static inline std::string DELIMITER = "\\";
 #else
         static inline std::string DELIMITER = "/";

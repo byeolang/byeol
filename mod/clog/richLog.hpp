@@ -35,6 +35,8 @@ namespace nm {
     _nout noWrap<ndbl> __convert__(ndbl rhs);
     _nout noWrap<nlong> __convert__(nlong rhs);
     _nout noWrap<nulong> __convert__(nulong rhs);
+    _nout noWrap<nint64> __convert__(nint64 rhs);
+    _nout noWrap<nuint64> __convert__(nuint64 rhs);
     _nout strWrap __convert__(const std::string& rhs);
     _nout strWrap __convert__(void* rhs);
 
