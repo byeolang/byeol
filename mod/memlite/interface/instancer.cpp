@@ -33,6 +33,11 @@ namespace nm {
         return _watcher;
     }
 
+    me& me::get() {
+        static me inner;
+        return inner;
+    }
+
     nbool me::_hasBindTag(const instance& it) const {
         return it._id.tagN != NM_INDEX_ERROR;
     }

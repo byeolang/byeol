@@ -7,7 +7,9 @@ struct memoryAllocRobustTest : public namuTest {};
 
 namespace {
     struct A : public instance {
-        NM_SINGLETON_GETTER(const type& getType() const, ttype<A>)
+        const type& getType() const {
+            return ttype<A>::get();
+        }
 
         clonable* clone() const {
             return new A();
@@ -18,7 +20,9 @@ namespace {
 
 
     struct B : public A {
-        NM_SINGLETON_GETTER(const type& getType() const, ttype<B>)
+        const type& getType() const {
+            return ttype<B>::get();
+        }
 
         clonable* clone() const {
             return new B();
@@ -32,13 +36,17 @@ namespace {
     struct pobject : public pnode {};
 
     struct PA : public pobject {
-        NM_SINGLETON_GETTER(const type& getType() const, ttype<PA>)
+        const type& getType() const {
+            return ttype<PA>::get();
+        }
 
         int age;
     };
 
     struct PB : public PA {
-        NM_SINGLETON_GETTER(const type& getType() const, ttype<PB>)
+        const type& getType() const {
+            return ttype<PB>::get();
+        }
 
         float grade;
     };

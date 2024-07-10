@@ -8,7 +8,6 @@
 #include "macro/helper.hpp"
 #include "macro/pair.hpp"
 #include "macro/declThis.hpp"
-#include "macro/singletoneGetter.hpp"
 #include "macro/initiator.hpp"
 #include "macro/typeTrait.hpp"
 #include "macro/safeGet.hpp"

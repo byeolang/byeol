@@ -15,7 +15,7 @@ namespace nm {
         nbool rel(const instance& old);
         const pool& getPool() const;
         const watcher& getWatcher() const;
-        static NM_SINGLETON_GETTER(me)
+        static me& get();
 
     private:
         void* _new1(size_t sz);

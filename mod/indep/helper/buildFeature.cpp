@@ -1,10 +1,12 @@
 #include "buildFeature.hpp"
 
 namespace nm {
-
-    using namespace std;
-
     NM_DEF_ME(buildFeature)
+
+    const std::string& me::date::get() {
+        static std::string inner(NM_BUILD_DATE);
+        return inner;
+    }
 
     nint me::date::getYear() {
         return NM_BUILD_DATE_YEAR;
@@ -18,6 +20,11 @@ namespace nm {
         return NM_BUILD_DATE_DAY;
     }
 
+    const std::string& me::time::get() {
+        static std::string inner(NM_BUILD_TIME);
+        return inner;
+    }
+
     nint me::time::getHour() {
         return NM_BUILD_TIME_HOUR;
     }
@@ -28,6 +35,21 @@ namespace nm {
 
     nint me::time::getSec() {
         return NM_BUILD_TIME_SECOND;
+    }
+
+    const std::string& me::version::get() {
+        static std::string inner(NM_BUILD_VERSION);
+        return inner;
+    }
+
+    const std::string& me::version::getValue() {
+        static std::string inner(NM_BUILD_VERSION_VALUE);
+        return inner;
+    }
+
+    const std::string& me::version::getName() {
+        static std::string inner(NM_BUILD_VERSION_NAME);
+        return inner;
     }
 
     nint me::version::getMajor() {
@@ -44,9 +66,8 @@ namespace nm {
 
     me::platformType me::platform::get() {
         static platformType inner = PLATFORM_TYPE_START;
-        if(inner == PLATFORM_TYPE_START)
-        {
-            const string& name = getName();
+        if(inner == PLATFORM_TYPE_START) {
+            const std::string& name = getName();
             const char* map[] = {"Windows", "Linux", "Darwin", "Others", nullptr};
             int n=-1;
             while(map[++n])
@@ -60,11 +81,20 @@ namespace nm {
         return inner;
     }
 
+    const std::string& me::platform::getName() {
+        static std::string inner(NM_BUILD_PLATFORM_NAME);
+        return inner;
+    }
+
+    const std::string& me::platform::getVersion() {
+        static std::string inner(NM_BUILD_PLATFORM_VERSION);
+        return inner;
+    }
+
     me::buildType me::config::get() {
         static buildType inner = BUILD_TYPE_START;
-        if(inner == BUILD_TYPE_START)
-        {
-            const string& name = getName();
+        if(inner == BUILD_TYPE_START) {
+            const std::string& name = getName();
             const char* map[] = {"Debug", "Release", nullptr};
             int n=-1;
             while(map[++n])
@@ -84,5 +114,10 @@ namespace nm {
 #else
         return false;
 #endif
+    }
+
+    const std::string& me::config::getName() {
+        static std::string inner(NM_BUILD_TYPENAME);
+        return inner;
     }
 }

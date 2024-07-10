@@ -4,8 +4,6 @@
 #include "../common.hpp"
 
 namespace nm {
-    using std::string;
-
     class _nout buildFeature {
         NM_ME(buildFeature)
 
@@ -14,7 +12,7 @@ namespace nm {
             NM_ME(date)
 
         public:
-            static NM_SINGLETON_GETTER(const string& get(), string, NM_BUILD_DATE)
+            static const std::string& get();
             static nint getYear();
             static nint getMonth();
             static nint getDay();
@@ -24,7 +22,7 @@ namespace nm {
             NM_ME(time)
 
         public:
-            static NM_SINGLETON_GETTER(const string& get(), string, NM_BUILD_TIME)
+            static const std::string& get();
             static nint getHour();
             static nint getMin();
             static nint getSec();
@@ -34,9 +32,9 @@ namespace nm {
             NM_ME(version)
 
         public:
-            static NM_SINGLETON_GETTER(const string& get(), string, NM_BUILD_VERSION)
-            static NM_SINGLETON_GETTER(const string& getValue(), string, NM_BUILD_VERSION_VALUE)
-            static NM_SINGLETON_GETTER(const string& getName(), string, NM_BUILD_VERSION_NAME)
+            static const std::string& get();
+            static const std::string& getValue();
+            static const std::string& getName();
             static nint getMajor();
             static nint getMinor();
             static nint getFix();
@@ -56,8 +54,8 @@ namespace nm {
 
         public:
             static platformType get();
-            static NM_SINGLETON_GETTER(const string& getName(), string, NM_BUILD_PLATFORM_NAME)
-            static NM_SINGLETON_GETTER(const string& getVersion(), string, NM_BUILD_PLATFORM_VERSION)
+            static const std::string& getName();
+            static const std::string& getVersion();
         };
 
         enum buildType {
@@ -73,7 +71,7 @@ namespace nm {
         public:
             static buildType get();
             static nbool isDbg();
-            static NM_SINGLETON_GETTER(const string& getName(), string, NM_BUILD_TYPENAME)
+            static const std::string& getName();
         };
     };
 }
