@@ -12,7 +12,7 @@ struct con {
         return a + b;
     }
 
-    const string& print(const std::string& msg) {
+    const std::string& print(const std::string& msg) {
         NM_W("=========================");
         for(int n = 0; n < 10; n++) {
             const nchar* c = msg.c_str();

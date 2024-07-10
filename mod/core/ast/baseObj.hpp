@@ -46,8 +46,8 @@ namespace nm {
         virtual void _inFrame(frame& fr, const bicontainable& args);
 
     public:
-         inline static const string CTOR_NAME = "@ctor";
-         inline static const string PRECTOR_NAME = "@preCtor";
+         inline static const std::string CTOR_NAME = "@ctor";
+         inline static const std::string PRECTOR_NAME = "@preCtor";
 
     protected:
         tstr<src> _src;

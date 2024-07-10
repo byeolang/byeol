@@ -1,8 +1,15 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
+set(moduleName "clog")
 message("\nbuilding ${moduleName}...")
 
-set(moduleName "clog")
+set(defCandidates "__${moduleName}=1")
+foreach(def ${defCandidates})
+    message("\tadd define ${def}")
+    set(defines ${defines} -D${def})
+endforeach(def)
+add_definitions(${defines})
+
 
 #   defines:
 #       define sources:

@@ -1,9 +1,15 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
-message("building ${moduleName}...")
 set(moduleName "seedling")
+message("building ${moduleName}...")
 
 message("\tconfigure_files...")
+set(defCandidates "__${moduleName}=1")
+foreach(def ${defCandidates})
+    message("\tadd define ${def}")
+    set(defines ${defines} -D${def})
+endforeach(def)
+add_definitions(${defines})
 
 find_package(BISON)
 find_package(FLEX)
