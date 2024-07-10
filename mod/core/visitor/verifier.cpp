@@ -62,7 +62,7 @@ namespace nm {
         for(auto e=me.subs().begin(); e ;++e) {
             auto matches = me.subAll<baseObj>(e.getKey());
 
-            when(matches.len() > 1).ret(DUP_VAR, *e, e.getKey().c_str());
+            when(matches.len() > 1).ret(DUP_VAR, *e, e.getKey());
         }
     }
 
@@ -75,8 +75,7 @@ namespace nm {
         when(me.getAs().isSub<nVoid>()).ret(VOID_NOT_CAST, me);
 
         _STEP("checks that me can cast to 'as'");
-        when(!me.getMe().is(me.getAs())).ret(CAST_NOT_AVAILABLE, me, me.getMe().getType().getName().c_str(),
-                me.getAs().getType().getName().c_str());
+        when(!me.getMe().is(me.getAs())).ret(CAST_NOT_AVAILABLE, me, me.getMe(), me.getAs());
 
         _STEP("rhs shouldn't be expression");
         when(!me.getAs().isImpli<node>()).ret(CAST_TO_UNKNOWN, me);
@@ -91,8 +90,7 @@ namespace nm {
         const ntype& rtype = safeGet(me, getRight(), getEval(), getType());
         isNul(rtype).ret(RHS_IS_NULL, me);
         when(rtype.isSub<retStateExpr>()).ret(CANT_ASSIGN_RET, me);
-        when(!rtype.isImpli(ltype)).ret(TYPE_NOT_COMPATIBLE, me, rtype.getName().c_str(),
-                ltype.getName().c_str());
+        when(!rtype.isImpli(ltype)).ret(TYPE_NOT_COMPATIBLE, me, rtype, ltype);
 
         // verify rvalue and lvalue:
         //  first of all:
@@ -134,7 +132,7 @@ namespace nm {
         _STEP("checks rvalue");
         const node& lhs = me.getLeft();
         when(!lhs.isSub<getExpr>()/*TODO: && !lhs.isSub<ElementExpr>()*/)
-            .ret(ASSIGN_TO_RVALUE, me, me.getRight().getType().getName().c_str(), lhs.getType().getName().c_str());
+            .ret(ASSIGN_TO_RVALUE, me, me.getRight(), lhs);
     }
 
     void me::onLeave(visitInfo i, blockExpr& me) {
@@ -189,7 +187,6 @@ namespace nm {
 
         _STEP("is %s definable?", name);
         const ntype& t = eval->getType();
-        const nchar* typeName = nul(t) ? "null" : t.getName().c_str();
         if(nul(t))
             posError(errCode::CANT_DEF_VAR, me, name.c_str(), "null");
         when(eval->isSub<nVoid>()).ret(VOID_CANT_DEFINED, me);
@@ -209,9 +206,9 @@ namespace nm {
 
         frame& fr = thread::get()._getNowFrame();
         _STEP("duplication of variable with name[%s]", name);
-        when(fr.mySubs()->has(name)).ret(ALREADY_DEFINED_VAR, me, name.c_str(), typeName);
+        when(fr.mySubs()->has(name)).ret(ALREADY_DEFINED_VAR, me, name, t);
 
-        _STEP("ok. defining local temporary var... %s %s", name, typeName);
+        _STEP("ok. defining local temporary var... %s %s", name, t);
         fr.addLocal(name, *new mockNode(*eval));
     }
 
@@ -245,7 +242,7 @@ namespace nm {
         _STEP("check all elements");
         const node& type = me.getArrayType();
         isNul(type).ret(ELEM_TYPE_DEDUCED_NULL, me);
-        when(type.isSuper<obj>()).ret(ELEM_TYPE_DEDUCED_WRONG, me, type.getType().getName().c_str());
+        when(type.isSuper<obj>()).ret(ELEM_TYPE_DEDUCED_WRONG, me, type);
         when(type.isSub<nVoid>()).ret(ELEM_TYPE_NOT_VOID, me);
     }
 
@@ -258,11 +255,10 @@ namespace nm {
         when(!lEval).ret(LHS_IS_NULL, me);
         when(!rEval).ret(RHS_IS_NULL, me);
 
-        when(!checkEvalType(*lEval)).ret(LHS_IS_NOT_ARITH, me, lEval->getType().getName().c_str());
-        when(!checkEvalType(*rEval)).ret(RHS_IS_NOT_ARITH, me, rEval->getType().getName().c_str());
+        when(!checkEvalType(*lEval)).ret(LHS_IS_NOT_ARITH, me, lEval);
+        when(!checkEvalType(*rEval)).ret(RHS_IS_NOT_ARITH, me, rEval);
 
-        isNul(lEval->deduce(*rEval)).ret(IMPLICIT_CAST_NOT_AVAILABLE, me,
-                                             lEval->getType().getName().c_str(), rEval->getType().getName().c_str());
+        isNul(lEval->deduce(*rEval)).ret(IMPLICIT_CAST_NOT_AVAILABLE, me, lEval, rEval);
 
         auto r = me.getRule();
         if((lEval->isSub<nStr>() || rEval->isSub<nStr>())) {
@@ -291,7 +287,7 @@ namespace nm {
         // TODO: I have to check that the evalType has what matched to given _params.
         // Until then, I rather use as() func and it makes slow emmersively.
         _STEP("isRunnable: %s.%s", me, me.getName());
-        when(!me.getEval()).ret(WHAT_IS_THIS_IDENTIFIER, me, me.getName().c_str());
+        when(!me.getEval()).ret(WHAT_IS_THIS_IDENTIFIER, me, me.getName());
         auto matches = me._get(true);
         if(matches.isEmpty()) {
             const node& from = me.getMe();
@@ -299,7 +295,7 @@ namespace nm {
         }
         node& got = matches.get();
          // TODO: leave logs for all ambigious candidates as err.
-        isNul(got).ret(AMBIGIOUS_ACCESS, me, i.name.c_str());
+        isNul(got).ret(AMBIGIOUS_ACCESS, me, i);
 
         _STEP("isRunnable: got=%s, me=%s", got, me.getType());
 
@@ -324,8 +320,7 @@ namespace nm {
         str funRet = f.getRet()->as<node>();
         _STEP("checks return[%s] == func[%s]", myRet, funRet);
 
-        when(!myRet->isSub<err>() && !myRet->isImpli(*funRet))
-            .ret(RET_TYPE_NOT_MATCH, me, myRet->getType().getName().c_str(), funRet->getType().getName().c_str());
+        when(!myRet->isSub<err>() && !myRet->isImpli(*funRet)).ret(RET_TYPE_NOT_MATCH, me, myRet, funRet);
     }
 
     void me::onLeave(visitInfo i, runExpr& me) {
@@ -345,7 +340,7 @@ namespace nm {
         _STEP("anySub[%s]", anySub);
 
         str derivedSub = anySub.getEval();
-        when(!derivedSub).ret(CANT_ACCESS, me, ased->getType().getName().c_str(), "sub-node");
+        when(!derivedSub).ret(CANT_ACCESS, me, ased, "sub-node");
 
         _STEP("derivedSub[%s]", derivedSub);
         if(!derivedSub->canRun(me.getArgs())) {
@@ -428,7 +423,7 @@ namespace nm {
         _STEP("retType exists and stmts exist one at least");
         str retType = me.getRet();
         if(!retType) return posError(errCode::NO_RET_TYPE, me), true;
-        when(!retType->isSub(ttype<node>::get())).ret(WRONG_RET_TYPE, me, retType->getType().getName().c_str()), true;
+        when(!retType->isSub(ttype<node>::get())).ret(WRONG_RET_TYPE, me, retType), true;
 
         blockExpr& blk = (blockExpr&) me.getBlock();
         if(nul(blk) || blk.getStmts().len() <= 0) {
@@ -486,7 +481,7 @@ namespace nm {
             return NM_I("func: skip verification when lastStmt is retStateExpr."), void();
 
         when(!lastType.isSub<err>() && !lastType.isImpli(retType))
-            .ret(RET_TYPE_NOT_MATCH, lastStmt, lastType.getName().c_str(), retType.getName().c_str());
+            .ret(RET_TYPE_NOT_MATCH, lastStmt, lastType, retType);
     }
 
     void me::_prepare() {

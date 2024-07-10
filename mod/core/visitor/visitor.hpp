@@ -55,18 +55,18 @@ namespace nm {
 
         using super::warn;
         template <typename... Args>
-        void posWarn(errCode code, const node& it, Args... args) {
-            _report(err::newWarn(it.getSrc().getPos(), code, args...));
+        void posWarn(errCode code, const node& it, const Args&... args) {
+            _report(err::newWarn(it.getSrc().getPos(), code, __convert__((const Args&) args).unwrap()...));
         }
 
         template <typename... Args>
-        void posError(errCode code, const node& it, Args... args) {
-            _report(err::newErr(it.getSrc().getPos(), code, args...));
+        void posError(errCode code, const node& it, const Args&... args) {
+            _report(err::newErr(it.getSrc().getPos(), code, __convert__((const Args&) args).unwrap()...));
         }
 
         template <typename... Args>
-        void posInfo(errCode code, const node& it, Args... args) {
-            _report(err::newInfo(it.getSrc().getPos(), code, args...));
+        void posInfo(errCode code, const node& it, const Args&... args) {
+            _report(err::newInfo(it.getSrc().getPos(), code, __convert__((const Args&) args).unwrap()...));
         }
 
     protected:
