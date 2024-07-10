@@ -31,14 +31,10 @@ namespace nm {
 
         nbool cond = res->cast<nbool>();
         NM_DI("%s ifExpr: condition[%s]", platformAPI::toAddrId(this), cond);
-        if(cond) {
-            frameInteract f1(*_then); {
-                return _then->run();
-            }
-        } else if(_else) {
-            frameInteract f2(*_else); {
-                return _else->run();
-            }
+        auto& blk = cond ? *_then : *_else;
+        if(!nul(blk)) {
+            frameInteract f1(blk);
+            return blk.run();
         }
 
         return str(nVoid::singletone());
