@@ -26,6 +26,7 @@ namespace nm {
         const T* operator->() const NM_CONST_FUNC(operator->())
         const T& operator*() const NM_CONST_FUNC(operator*())
         me& operator=(const binder& rhs);
+        me& operator=(const me& rhs);
 
     public:
         using super::get;

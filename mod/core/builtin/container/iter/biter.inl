@@ -45,6 +45,12 @@ namespace nm {
     }
 
     TEMPL
+    typename ME& ME::operator=(const me& rhs) {
+        _assign(rhs);
+        return *this;
+    }
+
+    TEMPL
     ME::operator nbool() const {
         return !isEnd();
     }

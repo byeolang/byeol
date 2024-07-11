@@ -27,6 +27,10 @@ namespace nm {
         return *this;
     }
 
+    TEMPL ME& ME::operator=(const me& rhs) {
+        return operator=((const binder&) rhs);
+    }
+
     TEMPL T& ME::get() {
         instance& got = SUPER::get();
         if(nul(got)) return nulOf<T>();

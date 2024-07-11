@@ -20,7 +20,6 @@ namespace nm {
         tstr(const type& subtype);
         tstr(const T& it);
         tstr(const T* it);
-        tstr(const me& rhs);
         tstr(const binder& rhs);
 
         using super::operator=;

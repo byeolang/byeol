@@ -119,7 +119,7 @@ namespace nm {
             }
 
             for(auto ext : exts) {
-                nint newN = filename.find(ext.c_str());
+                auto newN = filename.find(ext.c_str());
                 if(newN != string::npos)
                     return filename.substr(0, newN);
             }

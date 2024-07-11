@@ -23,6 +23,7 @@ public:
     const R operator*() const NM_CONST_FUNC(operator*())
     typename std::remove_reference<R>::type* operator->();
     const typename std::remove_reference<R>::type* operator->() const NM_CONST_FUNC(operator->())
+    me& operator=(const me& rhs);
     explicit operator nbool() const;
 
 public:

@@ -14,7 +14,6 @@ namespace nm {
     TEMPL ME::tstr(const type& subtype): SUPER(subtype) {}
     TEMPL ME::tstr(const T& it): SUPER() { this->bind(it); }
     TEMPL ME::tstr(const T* it): SUPER() { this->bind(*it); }
-    TEMPL ME::tstr(const ME& rhs): SUPER() { this->_assign(rhs); }
     TEMPL ME::tstr(const binder& rhs): SUPER() { this->bind(*rhs); }
 
 #undef SUPER

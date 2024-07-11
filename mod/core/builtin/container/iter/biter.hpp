@@ -22,6 +22,7 @@ public:
     V* operator->();
     const V& operator*() const NM_CONST_FUNC(operator*())
     const V* operator->() const NM_CONST_FUNC(operator->())
+    me& operator=(const me& rhs);
     explicit operator nbool() const;
 
     nbool isFrom(const tbicontainable& it) const override;
