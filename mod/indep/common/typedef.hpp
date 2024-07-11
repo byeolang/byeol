@@ -8,6 +8,7 @@
 #pragma once
 
 #include "../def/common.hpp"
+#include "dep.hpp"
 
 namespace nm {
     typedef int                 nint;
@@ -21,10 +22,8 @@ namespace nm {
     typedef unsigned short int  nushort;
     typedef float               nflt;
     typedef double              ndbl;
-    typedef long                nlong;
-    typedef unsigned long       nulong;
-    typedef int64_t             nint64;
-    typedef uint64_t            nuint64;
+    typedef std::int64_t        nint64;
+    typedef std::uint64_t       nuint64;
 
     typedef nint                nidx;
     typedef nchar               nbyte;

@@ -47,8 +47,8 @@ namespace {
         auto totalElapsed = end - start;
 
         NM_I("[benchMarkArr]: vector took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
-             (nlong) (totalElapsed / chrono::milliseconds(1)), (nlong) (addingElapsed / chrono::milliseconds(1)),
-             (nlong) (removingElapsed / chrono::milliseconds(1)), sz);
+             (nint64) (totalElapsed / chrono::milliseconds(1)), (nint64) (addingElapsed / chrono::milliseconds(1)),
+             (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
 
         arr arr1;
         start = chrono::steady_clock::now();
@@ -65,8 +65,8 @@ namespace {
         totalElapsed = end - start;
 
         NM_I("[benchMarkArr]: arr took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
-             (nlong) (totalElapsed / chrono::milliseconds(1)), (nlong) (addingElapsed / chrono::milliseconds(1)),
-             (nlong) (removingElapsed / chrono::milliseconds(1)), sz);
+             (nint64) (totalElapsed / chrono::milliseconds(1)), (nint64) (addingElapsed / chrono::milliseconds(1)),
+             (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
     }
 }
 

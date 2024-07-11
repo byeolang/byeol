@@ -10,3 +10,4 @@
 #	include <unistd.h> // not for winOS
 #endif
 #include <string>
+#include <cstdint>

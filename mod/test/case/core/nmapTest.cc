@@ -37,8 +37,8 @@ namespace {
         auto totalElapsed = end - start;
 
         NM_I("[benchMarkNMap]: map took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
-                (nlong) (totalElapsed / chrono::milliseconds(1)), (nlong) (addingElapsed / chrono::milliseconds(1)),
-                (nlong) (removingElapsed / chrono::milliseconds(1)), sz);
+                (nint64) (totalElapsed / chrono::milliseconds(1)), (nint64) (addingElapsed / chrono::milliseconds(1)),
+                (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
 
 
         nmap map1;
@@ -56,8 +56,8 @@ namespace {
         totalElapsed = end - start;
 
         NM_I("[benchMarkNMap]: nmap took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
-                (nlong) (totalElapsed / chrono::milliseconds(1)), (nlong) (addingElapsed / chrono::milliseconds(1)),
-                (nlong) (removingElapsed / chrono::milliseconds(1)), sz);
+                (nint64) (totalElapsed / chrono::milliseconds(1)), (nint64) (addingElapsed / chrono::milliseconds(1)),
+                (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
     }
 
     class myMyNode : public myNode {

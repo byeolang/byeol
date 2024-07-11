@@ -102,7 +102,7 @@ namespace nm {
             return buffer;
         }
 
-        nulong getNowMs() {
+        nuint64 getNowMs() {
 #if NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
             struct timeval tval;
             gettimeofday(&tval, NULL);

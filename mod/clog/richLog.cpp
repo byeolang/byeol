@@ -12,8 +12,6 @@ namespace nm {
     noWrap<nchar> __convert__(nchar rhs) { return rhs; }
     noWrap<const nchar*> __convert__(const nchar* rhs) { return rhs; }
     noWrap<ndbl> __convert__(ndbl rhs) { return rhs; }
-    noWrap<nlong> __convert__(nlong rhs) { return rhs; }
-    noWrap<nulong> __convert__(nulong rhs) { return rhs; }
     noWrap<nint64> __convert__(nint64 rhs) { return rhs; }
     noWrap<nuint64> __convert__(nuint64 rhs) { return rhs; }
     strWrap __convert__(nbool rhs) { return strWrap(rhs ? "true" : "false"); }

@@ -22,7 +22,7 @@ namespace nm {
         _nout std::string filterDemangle(const nchar* org);
         _nout std::string getExecPath();
         _nout std::string exec(const std::string& cmd);
-        _nout nulong getNowMs();
+        _nout nuint64 getNowMs();
         _nout std::string toAddrId(const void* inst);
     };
 }
