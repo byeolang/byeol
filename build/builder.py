@@ -67,6 +67,8 @@ def branch(command):
         return rebuild()
     elif command == "rel":
         return relBuild()
+    elif command == "reldbg":
+        return relDbgBuild()
     elif command == "dbg":
         return dbgBuild()
     elif command == "wasm":
@@ -240,6 +242,14 @@ def relBuild():
     clean()
     winProp="-t:Rebuild -p:Configuration=Release"
     config="-DCMAKE_BUILD_TYPE=Release"
+    return build(True)
+
+def relDbgBuild():
+    global config, winProp
+
+    clean()
+    winProp="-t:Rebuild -p:Configuration=Release"
+    config="-DCMAKE_BUILD_TYPE=Release -DCMAKE_RELEASE_INCLUDE_DBG_INFO=True"
     return build(True)
 
 # currently this application only supports window and linux.
@@ -666,6 +676,7 @@ def help():
     print("\t * clean\tclear all cache files of cmake outputs.")
     print("\t * dbg\t\tbuild new binary with debug configuration.")
     print("\t * rel\t\tbuild new binary with release configuration. binary optimized, debug logs will be hidden.")
+    print("\t * reldbg\tsame as rel. but this includes dbg info.")
     print("\t * test\t\truns unit tests but skip build if they are built already.")
     print("\t * doc\t\tgenerate documents only.")
 
