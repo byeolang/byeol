@@ -88,7 +88,7 @@ TEST_F(objTest, cloneByRunFunc) {
 }
 
 TEST_F(objTest, addElementIntoOwns) {
-    obj my(new mgdType("my"));
+    origin my(mgdType("my"));
     ASSERT_EQ(my.subs().len(), 0);
 
     my.subs().add("banana", new nInt(1));
