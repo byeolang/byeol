@@ -34,9 +34,11 @@ namespace nm {
                     "xterm", "rxvt", "vt100",
                     "linux", "screen", "tmux"
                 };
-                return find_if(samples.begin(), samples.end(), [](const string& e) {
-                    string use = getenv("TERM");
-                    return use.find(e) != string::npos;
+                if(!getenv("TERM")) return false;
+                string var = getenv("TERM");
+
+                return find_if(samples.begin(), samples.end(), [&](const string& e) {
+                    return var.find(e) != string::npos;
                 }) != samples.end();
             }
         }
@@ -193,10 +195,10 @@ namespace nm {
         string filterDemangle(const nchar* org) {
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
             string raw(org);
-            int n = raw.rfind(" ");
+            auto n = raw.rfind(" ");
 #else
             const string& raw = demangle(org);
-            int n = raw.rfind(":");
+            auto n = raw.rfind(':');
 #endif
             return raw.substr(n + 1);
         }

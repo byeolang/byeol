@@ -2,17 +2,19 @@ Checks: >
   -*,
   bugprone-*,
     -bugprone-exception-escape,
+    -bugprone-narrowing-conversions, # this can be enabled in future.
 
-  #cert-*, this can be enabled in future.
+  #cert-*, can be enabled.
   clang-analyzer-*,
     -clang-analyzer-cplusplus.StringChecker,
 
-  #concurrency-*, this can be enabled in future.
+  #concurrency-*, can be enabled.
   cppcoreguidelines-*,
     -cppcoreguidelines-non-private-member-variables-in-classes,
 
   misc-*,
     -misc-non-private-member-variables-in-classes,
+    -misc-unused-parameters,
 
   performance-*,
   portability-*,

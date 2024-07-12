@@ -80,9 +80,9 @@ namespace nm {
     std::string me::iterator::getName() const {
         const std::string& path = get();
 #if NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
-        nidx slash = path.rfind('\\');
+        auto slash = path.rfind('\\');
 #else
-        nidx slash = path.rfind('/');
+        auto slash = path.rfind('/');
 #endif
         return path.substr(slash + 1);
     }
@@ -90,9 +90,9 @@ namespace nm {
     std::string me::iterator::getDir() const {
         const std::string& path = get();
 #if NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
-        nidx slash = path.rfind('\\');
+        auto slash = path.rfind('\\');
 #else
-        nidx slash = path.rfind('/');
+        auto slash = path.rfind('/');
 #endif
         return path.substr(0, slash);
     }
@@ -127,7 +127,7 @@ namespace nm {
     }
 
     std::string me::iterator::_filterPath(const std::string& org) {
-        int idx = org.length() - 1;
+        auto idx = org.length() - 1;
         char last = org[idx];
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
         if (last == '\\' || last == '/')

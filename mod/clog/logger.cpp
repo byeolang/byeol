@@ -118,7 +118,7 @@ namespace nm {
                 exts.push_back(".hpp");
             }
 
-            for(auto ext : exts) {
+            for(const auto& ext : exts) {
                 auto newN = filename.find(ext.c_str());
                 if(newN != string::npos)
                     return filename.substr(0, newN);
@@ -197,7 +197,7 @@ namespace nm {
     void me::setEnables(const enables& enbs) {
         if(enbs.size() <= 0 || enbs.size() != _streams.size()) return;
 
-        for(auto e : enbs) {
+        for(const auto& e : enbs) {
             auto& s = getStream(e.first);
             if(!nul(s))
                 s.setEnable(e.second);
