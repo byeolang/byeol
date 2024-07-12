@@ -229,10 +229,11 @@ def wasmBuild(arg):
     os.system("emmake make -j8 -s")
 
 def dbgBuild():
-    global config
+    global config, cwd
 
     winProp="-t:Rebuild -p:Configuration=Debug"
     config="-DCMAKE_BUILD_TYPE=Debug"
+    print(config)
     clean()
     return build(True)
 
@@ -451,7 +452,7 @@ def rebuild():
     return build(true)
 
 def build(incVer):
-    if checkDependencies(["git", "cmake", "bison", "flex"]):
+    if checkDependencies(["git", "cmake", "bison", "flex", "clang-tidy"]):
         printErr("This program needs following softwares to be fully functional.")
         return -1
 
