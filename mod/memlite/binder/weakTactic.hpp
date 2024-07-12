@@ -6,7 +6,7 @@
 namespace nm {
 
     class _nout weakTactic : public bindTacticable {
-        NM_ME(weakTactic, bindTacticable);
+        NM_ME(weakTactic, bindTacticable)
 
     public:
         void rel(binder& me) override;

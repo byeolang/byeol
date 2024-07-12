@@ -24,8 +24,8 @@ namespace nm {
     public:
         watchCell& get(nidx n);
         watchCell& get(id newId);
-        const watchCell& get(nidx n) const NM_CONST_FUNC(get(n));
-        const watchCell& get(id newId) const NM_CONST_FUNC(get(newId));
+        const watchCell& get(nidx n) const NM_CONST_FUNC(get(n))
+        const watchCell& get(id newId) const NM_CONST_FUNC(get(newId))
         //  Allocator:
         void* new1() override;
 

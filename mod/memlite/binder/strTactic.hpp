@@ -5,7 +5,7 @@
 namespace nm {
 
     class _nout strTactic : public weakTactic {
-        NM_ME(strTactic, weakTactic);
+        NM_ME(strTactic, weakTactic)
 
     public:
         void rel(binder& me) override;

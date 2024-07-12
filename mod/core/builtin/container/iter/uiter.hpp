@@ -40,7 +40,7 @@ public:
     }
 
     tucontainable<T, R>& getContainer() override;
-    const tucontainable<T, R>& getContainer() const NM_CONST_FUNC(getContainer());
+    const tucontainable<T, R>& getContainer() const NM_CONST_FUNC(getContainer())
 
 private:
     me& _assign(const me& rhs);

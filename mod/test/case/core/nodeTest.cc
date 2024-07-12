@@ -67,7 +67,7 @@ namespace {
     class chef : public obj {
 
         class myType : public ntype {
-            NM_ME(myType, ntype);
+            NM_ME(myType, ntype)
 
         protected:
             const ases& _getImpliAses() const override {

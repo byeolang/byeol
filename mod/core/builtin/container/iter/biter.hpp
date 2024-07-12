@@ -48,7 +48,7 @@ public:
 
     tbicontainable<K, V>& getContainer() override;
 
-    const tbicontainable<K, V>& getContainer() const NM_CONST_FUNC(getContainer());
+    const tbicontainable<K, V>& getContainer() const NM_CONST_FUNC(getContainer())
 
 private:
     me& _assign(const me& rhs);

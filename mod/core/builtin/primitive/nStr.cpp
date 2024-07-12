@@ -80,7 +80,7 @@ namespace nm {
         typedef tcppBridge<niter> __superMgdIter;
 
         class bridgeIteration : public iteration {
-            NM(CLASS(bridgeIteration, iteration));
+            NM(CLASS(bridgeIteration, iteration))
 
         public:
             bridgeIteration(nStr& own, nidx n): _own(own), _n(n) {}
