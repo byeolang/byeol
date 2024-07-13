@@ -113,9 +113,8 @@ namespace nm {
     }
 
     void me::set(thread* new1) {
-        thread& prev = get();
         _instance = new1 ? new1 : &_getDumThread();
-        NM_DI("thread::set(%s -> %s)", prev, _instance);
+        NM_DI("thread::set(%s -> %s)", get(), _instance);
     }
     void me::set(thread& new1) { set(&new1); }
     void me::set() { set(nullptr); }

@@ -42,11 +42,10 @@ namespace nm {
     }
 
     node& me::getOwner(const node& sub) {
-        const nchar* name = sub.getType().getName().c_str();
+        [[maybe_unused]] const nchar* name = sub.getType().getName().c_str();
         for(auto& reg : _stack) {
             nbool isOwner = reg.s->has(sub);
-            node& owner = *reg.owner;
-            NM_DI("sub[%s] is in owner[%s]? == %s", name, owner, isOwner);
+            NM_DI("sub[%s] is in owner[%s]? == %s", name, *reg.owner, isOwner);
             if(isOwner)
                 return *reg.owner;
         }

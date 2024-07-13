@@ -155,9 +155,11 @@ tdefBlock   : tdefStmt {
 
 tfile       : tdefBlock {
                 $$ = root = $1;
+#ifdef NM_DEBUG
                 nm::id id = $1->getId();
                 NM_DI("$1 = %x, %d.%d.%d", $1, id.tagN, id.chkN, id.serial);
                 NM_DI("tfile(%s) <-- tdefBlock(%s)", $$, $1);
+#endif
             }
             | teol {
                 $$ = root = new sobj();
