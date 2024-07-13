@@ -41,8 +41,8 @@ namespace nm {
         virtual ~instance();
 
     public:
-        void* operator new(size_t sz);
-        void operator delete(void* pt, size_t sz);
+        void* operator new(size_t sz) noexcept;
+        void operator delete(void* pt, size_t sz) noexcept;
 
     public:
         virtual id getId() const;

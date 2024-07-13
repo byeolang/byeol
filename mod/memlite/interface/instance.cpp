@@ -30,11 +30,11 @@ namespace nm {
         return _vaults;
     }
 
-    void* me::operator new(size_t sz) {
+    void* me::operator new(size_t sz) noexcept {
         return _getMgr()._new1(sz);
     }
 
-    void me::operator delete(void* pt, size_t sz) {
+    void me::operator delete(void* pt, size_t sz) noexcept {
         _getMgr()._del(pt, sz);
     }
 

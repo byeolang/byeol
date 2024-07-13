@@ -103,10 +103,9 @@ namespace nm {
     protected:
         nbool _assign(const binder& rhs);
         nbool _onSame(const typeProvidable& rhs) const override;
-
-    protected:
         bindTag& _getBindTag() const;
 
+    protected:
         id _itsId; // id for binded one
         const type* _type;
         bindTacticable* _tactic;

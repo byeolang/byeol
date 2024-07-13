@@ -1,12 +1,21 @@
+# some of these checkers are disabled because it's harmful to implement feature fast.
+# they are mostly,
+#   * relative to type issues(sign, unsigned, overflow, ...)
+#   * cost pretty much time to fix (recursion, virtual call in ctor, ...)
+#   * probably occurs in a chance of very rarely.
+#   # false positive when it's about a nullable reference.
+#
+# when the project goes into sustainable state, and more people get involved,
+# then I can set all of them to enable.
 Checks: >
   -*,
-  bugprone-*,
-    -bugprone-exception-escape,
-    -bugprone-narrowing-conversions, # this can be enabled in future.
-
-  #cert-*, can be enabled.
+  #bugprone-*,
+  #cert-*,
   clang-analyzer-*,
     -clang-analyzer-cplusplus.StringChecker,
+    -clang-analyzer-core.uninitialized.UndefReturn,
+    -clang-analyzer-optin.cplusplus.VirtualCall,
+    -clang-analyzer-core.StackAddressEscape,
 
   #concurrency-*, can be enabled.
   cppcoreguidelines-*,
@@ -15,6 +24,8 @@ Checks: >
   misc-*,
     -misc-non-private-member-variables-in-classes,
     -misc-unused-parameters,
+    -misc-no-recursion,
+    -misc-new-delete-overloads,
 
   performance-*,
   portability-*,

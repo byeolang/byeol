@@ -27,8 +27,10 @@ namespace nm {
 
         nuchar* new1 = (nuchar*) _allocHeap(newSz);
         // considered if user resize far smaller rather than what it had.
-        ncnt min = _sz < newSz ? _sz : newSz;
-        memcpy(new1, _heap, min*_getRealBlkSize());
+        if(_heap) {
+            ncnt min = _sz < newSz ? _sz : newSz;
+            memcpy(new1, _heap, min*_getRealBlkSize());
+        }
 
         //  post:
         _freeHeap(&_heap);
