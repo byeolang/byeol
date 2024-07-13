@@ -9,6 +9,9 @@ namespace nm {
     struct tas : public asable, public typeProvidable {
 
     public:
+        virtual ~tas() {}
+
+    public:
         const type& getType() const override {
             return ttype<T>::get();
         }

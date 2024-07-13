@@ -72,7 +72,6 @@ namespace nm {
         tstr<scope> _subs;
         tstr<obj> _subpack; // TODO: this should be beloned to originObj class only.
         obj* _org; // TODO: this should be 'originObj*' type.
-        point _pos;
         const mgdType* _type; // TODO: memory leak
         nbool _isComplete;
     };

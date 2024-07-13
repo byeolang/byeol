@@ -147,23 +147,21 @@ namespace nm {
         return new err(logLv::INFO, pos, code, args);
     }
 
-    me::err(logLv::level t, nint newCode): super(), fType(t), code((errCode) newCode) {
-        msg = getErrMsg(code);
+    me::err(logLv::level t, nint newCode): super(), fType(t), code((errCode) newCode), msg(getErrMsg(code)), pos{} {
         _initStack();
     }
 
-    me::err(logLv::level t, nint newCode, va_list args): super(), fType(t), code((errCode) newCode) {
-        msg = _format(getErrMsg(code), args);
+    me::err(logLv::level t, nint newCode, va_list args): super(), fType(t), code((errCode) newCode),
+        msg(_format(getErrMsg(code), args)), pos{} {
         _initStack();
     }
 
     me::err(logLv::level t, const point& ps, nint newCode, va_list args)
-        : super(), fType(t), code((errCode) newCode), pos(ps) {
-        msg = _format(getErrMsg(code), args);
+        : super(), fType(t), code((errCode) newCode), msg(_format(getErrMsg(code), args)), pos(ps) {
         _initStack();
     }
 
-    me::err(const me& rhs): fType(rhs.fType), code(rhs.code), msg(rhs.msg) {
+    me::err(const me& rhs): fType(rhs.fType), code(rhs.code), msg(rhs.msg), pos{} {
         if(rhs._stack.hasTraces())
             _stack = rhs._stack;
         _initStack();

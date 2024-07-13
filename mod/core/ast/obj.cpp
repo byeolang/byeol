@@ -55,7 +55,7 @@ namespace nm {
         _setType(newType);
     }
 
-    me::obj(const me& rhs): super(rhs), _type(nullptr) {
+    me::obj(const me& rhs): super(rhs), _org(nullptr), _type(nullptr), _isComplete(true) {
         _assign(rhs);
     }
 

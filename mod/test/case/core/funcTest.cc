@@ -1,5 +1,6 @@
 #include "../../namuTest.hpp"
 #include <functional>
+#include <utility>
 
 using namespace nm;
 using namespace std;
@@ -25,7 +26,7 @@ namespace {
             }
 
             void setLambda(function<nbool(const ucontainable&, const frames&)> lambda) {
-                _lambda = lambda;
+                _lambda = std::move(lambda);
             }
 
             function<nbool(const ucontainable&, const frames&)> _lambda;
@@ -37,7 +38,7 @@ namespace {
         myfunc(): super(params(), *new nVoid(), *new myBlock()) {
             NM_I("myfunc(%s) new", (void*) this);
         }
-        ~myfunc() {
+        ~myfunc() override {
             NM_I("myfunc(%s) delete", (void*) this);
         }
 
@@ -52,7 +53,7 @@ namespace {
         }
 
         void setLambda(function<nbool(const ucontainable&, const frames&)> lambda) {
-            getBlock().cast<myBlock>()._lambda = lambda;
+            getBlock().cast<myBlock>()._lambda = std::move(lambda);
         }
 
         nbool isSuccess() const {

@@ -224,9 +224,13 @@ namespace nm {
         return ret;
     }
 
+    namespace {
+        constexpr ncnt BUF_LEN = 1024;
+    }
+
     std::string me::_makeStr(const nchar* fmt, va_list va) {
-        nchar buf[1024];
-        vsnprintf(buf, 1024, fmt, va);
+        nchar buf[BUF_LEN];
+        vsnprintf(buf, BUF_LEN, fmt, va);
         return std::string(buf);
     }
 }

@@ -3,7 +3,7 @@
 namespace nm {
     NM(DEF_ME(sigZone))
 
-    me::sigZone(sigHandler handler): _handler(handler) {
+    me::sigZone(const sigHandler& handler): _handler(handler) {
         prepare(handler).setHandler();
     }
     me::sigZone() {}
@@ -13,7 +13,7 @@ namespace nm {
     }
 
     me& me::prepare(sigHandler handler) {
-        _handler = handler;
+        _handler = std::move(handler);
         return *this;
     }
 

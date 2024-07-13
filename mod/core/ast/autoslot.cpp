@@ -7,8 +7,8 @@ namespace nm {
 
     NM(DEF_ME(autoslot), DEF_VISIT())
 
-    me::autoslot(const manifest& manifest, const packLoadings& loadings): super(manifest),
-            _loadings(loadings) { _rel(); }
+    me::autoslot(const manifest& manifest, const packLoadings& loadings):
+        super(manifest), _loadings(loadings), _state(RELEASED), _rpt(dummyErrReport::singletone) {}
 
     me::~autoslot() {
         // release all instance first:

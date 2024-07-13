@@ -30,8 +30,8 @@ namespace nm {
         typedef typename tucontainable<nInt, nInt>::iteration iteration;
 
     public:
-        seq(nInt start, nInt end);
-        seq(nInt start, nInt end, nInt step);
+        seq(const nInt& start, const nInt& end);
+        seq(const nInt& start, const nInt& end, const nInt& step);
 
     public:
         using tarrayable<nInt, nInt>::operator[];

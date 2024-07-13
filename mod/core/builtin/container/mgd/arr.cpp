@@ -1,4 +1,6 @@
 #include "arr.hpp"
+
+#include <utility>
 #include "../../../visitor/visitor.hpp"
 #include "../../../visitor/generalizer.hpp"
 #include "../../../bridge/cpp.hpp"
@@ -129,11 +131,11 @@ namespace nm {
     }
 
     node& me::get(std::function<nbool(const node&)> l) const {
-        return this->get<node>(l);
+        return this->get<node>(std::move(l));
     }
 
     narr me::getAll(std::function<nbool(const node&)> l) const {
-        return this->getAll<node>(l);
+        return this->getAll<node>(std::move(l));
     }
 
     nbool me::set(const iter& at, const node& new1) {

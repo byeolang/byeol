@@ -6,10 +6,8 @@ namespace nm {
 
     me::exprMaker(): _pos {0, 0} {}
 
-    me::exprMaker(const srcFile& s, ncnt row, ncnt col) {
+    me::exprMaker(const srcFile& s, ncnt row, ncnt col): _pos {row, col} {
         setSrcFile(s);
-        setCol(row);
-        setCol(col);
     }
 
     me& me::addRow() {

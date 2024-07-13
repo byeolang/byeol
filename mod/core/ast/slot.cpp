@@ -24,13 +24,11 @@ namespace nm {
         return getPack().getEval();
     }
 
-    me::slot(const manifest& manifest): _manifest(manifest) {
-        _rel();
+    me::slot(const manifest& manifest): _manifest(manifest), _isValid(true) {
         _pak.bind(new obj(new mgdType(_manifest.name)));
     }
 
-    me::slot(const manifest& manifest, const obj& pack): _manifest(manifest) {
-        _rel();
+    me::slot(const manifest& manifest, const obj& pack): _manifest(manifest), _isValid(true) {
         _pak.bind(pack);
     }
 

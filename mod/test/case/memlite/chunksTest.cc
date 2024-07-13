@@ -3,7 +3,7 @@
 using namespace nm;
 
 struct chunksTest : public namuTest {
-    void TearDown() {
+    void TearDown() override {
         _getVault().getVaults().clear();
     }
 

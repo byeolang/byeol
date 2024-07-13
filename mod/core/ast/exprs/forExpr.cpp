@@ -3,6 +3,7 @@
 #include "../../visitor/visitor.hpp"
 #include "../../frame/thread.hpp"
 #include "../../frame/frameInteract.hpp"
+#include <utility>
 
 namespace nm {
 
@@ -38,7 +39,7 @@ namespace nm {
 
         public:
             forLoop(arr& ret, str container, str iter, const forExpr& owner):
-                super(ret), _container(container), _iter(iter), _owner(owner) {}
+                super(ret), _container(std::move(container)), _iter(std::move(iter)), _owner(owner) {}
 
         public:
             nbool isLooping() override {

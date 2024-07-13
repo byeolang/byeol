@@ -23,11 +23,11 @@ namespace nm {
 
         using super::onVisit;
 
-        nbool onVisit(visitInfo i, obj& me) override;
-        void onLeave(visitInfo i, obj& me) override;
-        nbool onVisit(visitInfo i, func& me) override;
-        void onLeave(visitInfo i, func& me) override;
-        nbool onVisit(visitInfo i, getGenericExpr& me) override;
+        nbool onVisit(const visitInfo& i, obj& me) override;
+        void onLeave(const visitInfo& i, obj& me) override;
+        nbool onVisit(const visitInfo& i, func& me) override;
+        void onLeave(const visitInfo& i, func& me) override;
+        nbool onVisit(const visitInfo& i, getGenericExpr& me) override;
 
     protected:
         void _onWork() override;
@@ -39,7 +39,7 @@ namespace nm {
         nbool _tryPreEvals(errReport& rpt);
         /// @return true if there is a change.
         nbool _tryPreEval(errReport& rpt, evaluation& eval);
-        void _delEval(std::map<obj*, evaluation>::iterator e);
+        void _delEval(const std::map<obj*, evaluation>::iterator& e);
         void _preEval();
         nbool _isAllEvaluated(obj& key) const;
 

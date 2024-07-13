@@ -2,12 +2,13 @@
 
 namespace {
     struct noSuper {
+        virtual ~noSuper() = default;
         virtual void abstract() = 0;
         static void staticMethod() {}
     };
     struct hasSuper : public noSuper {
         typedef noSuper super;
-        void abstract() {}
+        void abstract() override {}
     };
 }
 

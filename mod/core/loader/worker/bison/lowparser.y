@@ -4,7 +4,6 @@
     ============================================================================================  */
     #include <iostream>
     #include <sstream>
-    using std::cout;
     #include "../parser.hpp"
     #include "../../../builtin.hpp"
     using namespace nm;

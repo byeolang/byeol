@@ -12,8 +12,7 @@ TEST(macroTest, nul) {
 
     ASSERT_TRUE(nul(refNul));
     ASSERT_FALSE(nul(refA));
-    nbool isNul = nul(aNul);
-    ASSERT_TRUE((void*) isNul);
+    ASSERT_TRUE(nul(aNul));
     ASSERT_FALSE(nul(aPtr));
 }
 

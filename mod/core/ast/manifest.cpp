@@ -4,7 +4,7 @@ namespace nm {
 
     NM_DEF_ME(manifest)
 
-    entrypoint::entrypoint(const std::string& newLang, const std::vector<std::string> newPaths):
+    entrypoint::entrypoint(const std::string& newLang, const std::vector<std::string>& newPaths):
             lang(newLang), paths(newPaths) {}
     entrypoint::~entrypoint() {}
 
@@ -24,7 +24,7 @@ namespace nm {
          if(name == "" || filePath == "" || filePath == "" || author == "" || ver == "")
              return false;
 
-         for(entrypoint point : points)
+         for(const entrypoint& point : points)
             if(!point.isValid()) return false;
 
         return true;

@@ -83,17 +83,17 @@ namespace nm {
             NM(CLASS(bridgeIteration, iteration))
 
         public:
-            bridgeIteration(nStr& own, nidx n): _own(own), _n(n) {}
+            bridgeIteration(nStr& own, nidx n): _own(&own), _n(n) {}
 
             nbool isEnd() const override {
-                return !_own.has(_n);
+                return !_own->has(_n);
             }
 
             ncnt next(ncnt step) override {
                 if(step <= 0) return 0;
                 if(isEnd()) return 0;
 
-                int len = _own.len(),
+                int len = _own->len(),
                     lastN = len - 1;
                 int toLast = lastN - _n;
 
@@ -107,13 +107,13 @@ namespace nm {
 
             nChar& get() override {
                 if(isEnd()) return nulOf<nChar>();
-                _val.get() = _own[_n];
+                _val.get() = (*_own)[_n];
                 return _val;
             }
 
             using super::getContainer;
             tucontainable<nChar>& getContainer() override {
-                return _own;
+                return *_own;
             }
 
         protected:
@@ -123,7 +123,7 @@ namespace nm {
             }
 
         private:
-            nStr& _own;
+            nStr* _own;
             nChar _val;
             nidx _n;
         };

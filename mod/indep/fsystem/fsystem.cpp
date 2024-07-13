@@ -144,7 +144,8 @@ namespace nm {
     }
 
     std::string me::getCurrentDir() {
-        char buf[256] = {};
-        return getcwd(buf, 256);
+        constexpr ncnt BUF_LEN = 256;
+        char buf[BUF_LEN] = {};
+        return getcwd(buf, BUF_LEN);
     }
 }

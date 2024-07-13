@@ -16,8 +16,8 @@ namespace nm {
 #include "../iter/nseqIteration.hpp"
 
     public:
-        nseq(nInt start, nInt end);
-        nseq(nInt start, nInt end, nInt step);
+        nseq(const nInt& start, const nInt& end);
+        nseq(const nInt& start, const nInt& end, const nInt& step);
 
     public:
         using tarrayable<nInt, nInt>::operator[];

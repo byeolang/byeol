@@ -36,13 +36,13 @@
 #define __NM__DECL_VISIT_1(SUPER) \
         public: \
             using SUPER::accept; \
-            void accept(visitInfo i, visitor& v) override; \
+            void accept(const visitInfo& i, visitor& v) override; \
         private:
 #define __NM__DECL_VISIT(...) NM_OVERLOAD(__NM__DECL_VISIT, __VA_ARGS__)
 
 #define __NM__DECL_DEF_VISIT_0() __NM__DECL_DEF_VISIT_1(me)
 #define __NM__DECL_DEF_VISIT_1(ME) \
-            void ME::accept(visitInfo i, visitor& v) { \
+            void ME::accept(const visitInfo& i, visitor& v) { \
                 v.visit(i, *this); \
             }
 #define __NM__DECL_DEF_VISIT(...) NM_OVERLOAD(__NM__DECL_DEF_VISIT, __VA_ARGS__)

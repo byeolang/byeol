@@ -28,20 +28,20 @@ namespace nm {
         _indents.push_back((isParentLast ? "   " : "┃  "));
     }
 
-    nbool me::onVisit(visitInfo i, nInt& e) { return _onVisitPrimitive<nInt>(i, e); }
-    nbool me::onVisit(visitInfo i, nFlt& e) { return _onVisitPrimitive<nFlt>(i, e); }
-    nbool me::onVisit(visitInfo i, nStr& e) {
+    nbool me::onVisit(const visitInfo& i, nInt& e) { return _onVisitPrimitive<nInt>(i, e); }
+    nbool me::onVisit(const visitInfo& i, nFlt& e) { return _onVisitPrimitive<nFlt>(i, e); }
+    nbool me::onVisit(const visitInfo& i, nStr& e) {
         _drawFrame(i);
         clog << foreColor(LIGHTRED) << i.name << " "
              << foreColor(CYAN) << e.getType().getName()
              << foreColor(LIGHTGRAY) << " = " << foreColor(YELLOW) << _encodeNewLine(e.get());
         return false;
     }
-    nbool me::onVisit(visitInfo i, nChar& e) { return _onVisitPrimitive<nChar>(i, e); }
-    nbool me::onVisit(visitInfo i, nByte& e) { return _onVisitPrimitive<nByte>(i, e); }
-    nbool me::onVisit(visitInfo i, nBool& e) { return _onVisitPrimitive<nBool>(i, e); }
+    nbool me::onVisit(const visitInfo& i, nChar& e) { return _onVisitPrimitive<nChar>(i, e); }
+    nbool me::onVisit(const visitInfo& i, nByte& e) { return _onVisitPrimitive<nByte>(i, e); }
+    nbool me::onVisit(const visitInfo& i, nBool& e) { return _onVisitPrimitive<nBool>(i, e); }
 
-    nbool me::onVisit(visitInfo i, node& visitee) {
+    nbool me::onVisit(const visitInfo& i, node& visitee) {
         _drawFrame(i);
         clog << foreColor(LIGHTRED) << i.name << " "
              << foreColor(CYAN) << visitee.getType().getName()
@@ -49,7 +49,7 @@ namespace nm {
         return true;
     }
 
-    void me::_drawFrame(visitInfo i) {
+    void me::_drawFrame(const visitInfo& i) {
         if(_isStart)
             clog << "\n";
         _isStart = true;
@@ -62,12 +62,12 @@ namespace nm {
         _parentsLast.push_back(isLast);
     }
 
-    void me::onLeave(visitInfo i, node& visitee) {
+    void me::onLeave(const visitInfo& i, node& visitee) {
         _indents.pop_back();
         _parentsLast.pop_back();
     }
 
-    nbool me::onVisit(visitInfo i, baseFunc& fun) {
+    nbool me::onVisit(const visitInfo& i, baseFunc& fun) {
         _drawFrame(i);
 
         clog << foreColor(LIGHTGRAY) << "@" << foreColor(RED) << platformAPI::toAddrId(&fun) << " "
@@ -77,7 +77,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, genericObj& o) {
+    nbool me::onVisit(const visitInfo& i, genericObj& o) {
         onVisit(i, (node&) o);
 
         int n = 0;
@@ -87,7 +87,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, getExpr& e) {
+    nbool me::onVisit(const visitInfo& i, getExpr& e) {
         onVisit(i, (node&) e);
 
         string args = e.getArgs().toStr();
@@ -99,7 +99,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, runExpr& e) {
+    nbool me::onVisit(const visitInfo& i, runExpr& e) {
         onVisit(i, (node&) e);
 
         clog << foreColor(LIGHTGRAY) << " = "
@@ -109,7 +109,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, FBOExpr& e) {
+    nbool me::onVisit(const visitInfo& i, FBOExpr& e) {
         onVisit(i, (node&) e);
 
         clog << foreColor(LIGHTGRAY) << " = "
@@ -127,7 +127,7 @@ namespace nm {
         return !e.getLeft().isSub<arithmeticObj>() || !e.getRight().isSub<arithmeticObj>();
     }
 
-    nbool me::onVisit(visitInfo i, FUOExpr& e) {
+    nbool me::onVisit(const visitInfo& i, FUOExpr& e) {
         onVisit(i, (node&) e);
 
         const node& op = e.getOperand();
@@ -137,7 +137,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, assignExpr& e) {
+    nbool me::onVisit(const visitInfo& i, assignExpr& e) {
         onVisit(i, (node&) e);
 
         clog << foreColor(LIGHTGRAY) << " = "
@@ -147,7 +147,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, defVarExpr& e) {
+    nbool me::onVisit(const visitInfo& i, defVarExpr& e) {
         onVisit(i, (node&) e);
 
         clog << foreColor(LIGHTGRAY) << " = "

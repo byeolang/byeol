@@ -6,14 +6,14 @@ using namespace nm;
 
 namespace {
     typedef struct consoleStreamTest : public ::testing::Test {
-        void SetUp() {
+        void SetUp() override {
             logger& log = logger::get();
             _isVerbose = log.isEnable();
             log.setEnable(true);
             delLogFile();
             ASSERT_FALSE(consoleStreamTest::hasLogFile());
         }
-        void TearDown() {
+        void TearDown() override {
             delLogFile();
             logger::get().setEnable(_isVerbose);
         }

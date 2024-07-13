@@ -27,7 +27,7 @@ namespace nm {
     void me::_findLeafs(const type& cls, types& tray) const {
         for(const type* sub : cls.getSubs()) {
             if(sub->getSubs().size() == 0)
-                tray.push_back(const_cast<type*>(sub));
+                tray.push_back((type*) sub);
 
             _findLeafs(*sub, tray);
         }
@@ -58,7 +58,7 @@ namespace nm {
         //  get supers info from super:
         //      at this point ttype<super> is instantiated, and "super" also is all of this
         //      sequences.
-        type& super = const_cast<type&>(getSuper());
+        type& super = (type&) getSuper();
         super.init();
         //        constructing SuperType:
         types& mySupers = _getSupers();
@@ -116,15 +116,15 @@ namespace nm {
     }
 
     const types& me::getSubs() const {
-        return (const_cast<me*>(this))->_getSubs();
+        return ((me*) this)->_getSubs();
     }
     const types& me::getSupers() const {
-        return (const_cast<me*>(this))->_getSupers();
+        return ((me*) this)->_getSupers();
     }
 
     void me::_setInit(nbool newState) {
         const nbool& res = isInit();
-        nbool& isInit = const_cast<nbool&>(res);
+        nbool& isInit = (nbool&) res;
 
         isInit = newState;
     }

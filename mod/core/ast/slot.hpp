@@ -38,7 +38,7 @@ namespace nm {
     protected:
         virtual nbool _invalidate();
         void _setValid(nbool valid);
-        virtual str _onRunSub(node& sub, const args& a) override;
+        str _onRunSub(node& sub, const args& a) override;
 
     private:
         void _rel();

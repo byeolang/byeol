@@ -23,7 +23,7 @@ TEST_F(visitorTest, iterateManuallyConstructedNodes) {
 
         myVisitor(): metFoo1(false), metVal1(false), metFoo2(false), metVal2(false) {}
 
-        nbool onVisit(visitInfo i, func& fun) override {
+        nbool onVisit(const visitInfo& i, func& fun) override {
             if(i.name == "foo1")
                 metFoo1 = true;
             if(i.name == "foo2") {
@@ -32,12 +32,12 @@ TEST_F(visitorTest, iterateManuallyConstructedNodes) {
             }
             return true;
         }
-        nbool onVisit(visitInfo i, nInt& o) override {
+        nbool onVisit(const visitInfo& i, nInt& o) override {
             if(i.name == "val1")
                 metVal1 = true;
             return true;
         }
-        nbool onVisit(visitInfo i, nFlt& o) override {
+        nbool onVisit(const visitInfo& i, nFlt& o) override {
             if(i.name == "val2")
                 metVal2 = true;
             return true;
@@ -76,20 +76,20 @@ TEST_F(visitorTest, visitComplexExpressions) {
         myVisitor(): metO(0), metAsFlt(0), metFlt5(false) {}
 
         using visitor::onVisit;
-        nbool onVisit(visitInfo i, getExpr& got) override {
+        nbool onVisit(const visitInfo& i, getExpr& got) override {
             NM_DI("subname=%s", got.getName());
             if(got.getName() == "o")
                 metO++;
             return true;
         }
 
-        nbool onVisit(visitInfo i, asExpr& as) override {
+        nbool onVisit(const visitInfo& i, asExpr& as) override {
             if(as.getAs().as<node>()->isSub<nInt>())
                 metAsFlt++;
             return true;
         }
 
-        nbool onVisit(visitInfo i, nFlt& f) override {
+        nbool onVisit(const visitInfo& i, nFlt& f) override {
             if(f.get() == 5.0f)
                 metFlt5 = true;
             return true;
@@ -141,7 +141,7 @@ TEST_F(visitorTest, visitComplexExpressions2) {
         myVisitor(): metInt2(false), metRet(false) {}
 
         using visitor::onVisit;
-        nbool onVisit(visitInfo i, FBOExpr& fao) override {
+        nbool onVisit(const visitInfo& i, FBOExpr& fao) override {
             tstr<nInt> num2 = ((node&) fao.getRight()).as<nInt>();
             if(!num2) return true;
 
@@ -150,7 +150,7 @@ TEST_F(visitorTest, visitComplexExpressions2) {
             return true;
         }
 
-        nbool onVisit(visitInfo i, assignExpr& a) override {
+        nbool onVisit(const visitInfo& i, assignExpr& a) override {
             getExpr& leftGet = ((node&) a.getLeft()).cast<getExpr>();
             if(nul(leftGet)) return true;
 

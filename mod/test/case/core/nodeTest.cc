@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "../../namuTest.hpp"
 
 using namespace nm;
@@ -58,7 +60,7 @@ namespace {
         NM(CLASS(food, obj))
 
     public:
-        food(string newName, int newCalorie): name(newName), calorie(newCalorie) {}
+        food(string newName, int newCalorie): name(std::move(newName)), calorie(newCalorie) {}
 
         string name;
         int calorie;

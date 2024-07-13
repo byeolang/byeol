@@ -63,7 +63,7 @@ namespace nm {
     }
 
     bindTag& me::_getBindTag() const {
-        return const_cast<bindTag&>(bindTag::getBindTag(_itsId));
+        return (bindTag&) bindTag::getBindTag(_itsId);
     }
 
     void* me::cast(const type& to) {

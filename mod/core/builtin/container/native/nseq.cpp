@@ -5,11 +5,11 @@ namespace nm {
 
     NM(DEF_ME(nseq))
 
-    me::nseq(nInt start, nInt end): _start(start), _end(end) {
+    me::nseq(const nInt& start, const nInt& end): _start(start), _end(end) {
         _updateStep();
     }
 
-    me::nseq(nInt start, nInt end, nInt step): _start(start), _end(end), _step(step) {}
+    me::nseq(const nInt& start, const nInt& end, const nInt& step): _start(start), _end(end), _step(step) {}
 
     nInt me::operator[](nidx n) {
         return get(n);
@@ -68,7 +68,7 @@ namespace nm {
     }
 
     me::iteration* me::_onMakeIteration(ncnt step) const {
-        me* unconst = const_cast<me*>(this);
+        me* unconst = (me*) this;
         return new nseqIteration(*unconst, step);
     }
 

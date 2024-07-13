@@ -24,9 +24,11 @@ namespace {
         vector<str> vec;
 
         auto start = chrono::steady_clock::now();
-        for(int n=0; n < cnt; n++) {
+
+        vec.reserve(cnt);
+        for(int n=0; n < cnt; n++)
             vec.push_back(str(new myNode(n)));
-        }
+
         int sz = vec.size();
         auto startDeleting = chrono::steady_clock::now();
         vec.clear();

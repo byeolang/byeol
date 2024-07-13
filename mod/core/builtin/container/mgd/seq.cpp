@@ -7,8 +7,8 @@ namespace nm {
 
     NM(DEF_ME(seq), DEF_VISIT())
 
-    me::seq(nInt start, nInt end): super(new nseq(start, end)) {}
-    me::seq(nInt start, nInt end, nInt step): super(new nseq(start, end, step)) {}
+    me::seq(const nInt& start, const nInt& end): super(new nseq(start, end)) {}
+    me::seq(const nInt& start, const nInt& end, const nInt& step): super(new nseq(start, end, step)) {}
 
     nInt me::operator[](nidx n) {
         return get()[n];

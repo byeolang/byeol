@@ -86,7 +86,7 @@ namespace nm {
     }
 
     const bindTag& me::getBindTag(id newId) {
-        return const_cast<bindTag&>(safeGet(instancer::get().getWatcher()[newId], blk));
+        return (bindTag&) safeGet(instancer::get().getWatcher()[newId], blk);
     }
 
     instance* me::operator->() {

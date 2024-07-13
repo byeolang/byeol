@@ -10,7 +10,7 @@ namespace {
             cout << "I'm kniz. have lived in Korea.\n";
             isRun = true;
         }
-        int say(string msg) {
+        int say(string msg) { // NOLINT
             isRun = true;
             return 0;
         }
@@ -24,7 +24,7 @@ namespace {
     };
 
     struct bridgeCPPTest : public ::testing::Test {
-        void TearDown() {
+        void TearDown() override {
             kniz::isRun = false;
         }
     };
@@ -187,12 +187,12 @@ namespace {
     };
 
     struct testObj {
-        int len;
+        int len = 0;
         tstr<arr> _arr;
 
-        testObj(): len(0) {}
+        testObj() {}
 
-        int updateLen(tarr<myObj> a) {
+        int updateLen(tarr<myObj> a) { // NOLINT: to test whether bridge can support byval parameter.
             len = a.len();
             _arr.bind((tarr<myObj>*)a.clone());
             return len;

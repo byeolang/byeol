@@ -23,9 +23,8 @@ namespace {
 
     struct A {
         NM_INIT_META(A)
-
-        A(): value(true) {}
-        nbool value;
+        A() {}
+        nbool value = true;
     };
 
     struct myDerivedClass2 : public myClass {
@@ -65,7 +64,7 @@ TEST_F(ttypeTest, customTypeInheritTest) {
             int foo() const {
                 return fooRet;
             }
-            const std::string& getName() const {
+            const std::string& getName() const override {
                 return trg;
             }
         } metaType;
@@ -78,14 +77,18 @@ TEST_F(ttypeTest, customTypeInheritTest) {
 TEST_F(ttypeTest, makeInstanceTest) {
     ttype<A> type;
     A* arr[] = {(A*) type.make(), type.makeAs<A>()};
-    ASSERT_TRUE(arr[0]);
-    ASSERT_TRUE(arr[1]);
-    ASSERT_NE(arr[0], arr[1]);
+    EXPECT_TRUE(arr[0]);
+    EXPECT_TRUE(arr[1]);
+    EXPECT_NE(arr[0], arr[1]);
+    delete arr[0];
+    delete arr[1];
 }
 
 TEST_F(ttypeTest, makeInstanceNegativeTest) {
     ttype<B> type;
-    ASSERT_FALSE(type.make());
+    B* made = (B*) type.make();
+    EXPECT_FALSE(made);
+    delete made;
 }
 
 TEST_F(ttypeTest, iterateLeafClassTest) {

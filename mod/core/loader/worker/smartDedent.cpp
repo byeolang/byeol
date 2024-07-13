@@ -4,7 +4,7 @@ namespace nm {
 
     NM_DEF_ME(smartDedent)
 
-    me::smartDedent() { setEnable(false); }
+    me::smartDedent(): _cnt(OFF) { setEnable(false); }
 
     void me::countDown() { if(_cnt > OFF) _cnt--; }
     void me::countUp() { if(_cnt > OFF) _cnt++;   }

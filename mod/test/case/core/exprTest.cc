@@ -5,7 +5,7 @@ using namespace std;
 
 namespace {
     struct helloWorld {
-        void main(const string msg) {
+        void main(string msg) { // NOLINT
             isRun = true;
         }
 
@@ -14,8 +14,8 @@ namespace {
 }
 
 struct exprTest : public namuTest {
-    void SetUp();
-    void TearDown();
+    void SetUp() override;
+    void TearDown() override;
 
     tstr<obj> bridge;
 

@@ -109,7 +109,7 @@ namespace nm {
         ///         process.
         virtual str getEval() const;
 
-        virtual void accept(visitInfo i, visitor& v);
+        virtual void accept(const visitInfo& i, visitor& v);
 
         using frameInteractable::inFrame;
         void inFrame(const bicontainable& args) override;

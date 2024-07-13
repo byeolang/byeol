@@ -27,8 +27,8 @@ namespace nm {
         signaler();
 
     public:
-        void addSignal(sigHandler closure);
-        void delSignal(sigHandler closure);
+        void addSignal(const sigHandler& closure);
+        void delSignal(const sigHandler& closure);
         void relSignal();
 
         /// report that signal has occured. and terminate the process after reporting.

@@ -11,7 +11,7 @@ namespace nm {
     NM_DEF_ME(visitor)
 
 #define X(T) \
-    void me::visit(visitInfo i, T& me) { \
+    void me::visit(const visitInfo& i, T& me) { \
         if(nul(me)) return; \
         \
         if(!_markVisited(me)) return; \
@@ -20,8 +20,8 @@ namespace nm {
             onTraverse(i, me); \
         onLeave(i, me); \
     } \
-    nbool me::onVisit(visitInfo i, T& me) { return onVisit(i, (T::super&) me); } \
-    void me::onLeave(visitInfo i, T& me) { onLeave(i, (T::super&) me); }
+    nbool me::onVisit(const visitInfo& i, T& me) { return onVisit(i, (T::super&) me); } \
+    void me::onLeave(const visitInfo& i, T& me) { onLeave(i, (T::super&) me); }
 
 #   include "visitee.inl"
 #undef X
@@ -31,7 +31,7 @@ namespace nm {
         _visited.clear();
     }
 
-    void me::visit(visitInfo i, node& me) {
+    void me::visit(const visitInfo& i, node& me) {
         if(nul(me)) return;
         if(!_markVisited(me)) return;
 
@@ -39,8 +39,8 @@ namespace nm {
             onTraverse(i, me);
         onLeave(i, me);
     }
-    nbool me::onVisit(visitInfo i, node& me) { return true; }
-    void me::onLeave(visitInfo i, node& me) {}
+    nbool me::onVisit(const visitInfo& i, node& me) { return true; }
+    void me::onLeave(const visitInfo& i, node& me) {}
 
     void me::_onWork() {
         if(nul(getTask())) return;
@@ -55,10 +55,9 @@ namespace nm {
         return _visited[&me] = true;
     }
 
-    void me::onTraverse(visitInfo i, node& me) {
+    void me::onTraverse(const visitInfo& i, node& me) {
         scope& subs = me.subs();
-        ncnt len = subs.len();
-        len = subs.getContainer().len();
+        ncnt len = subs.getContainer().len();
         const auto& next = subs.getNext();
         if(!nul(next))
             len += next.getContainer().len();
@@ -71,7 +70,7 @@ namespace nm {
         }
     }
 
-    void me::onTraverse(visitInfo i, getExpr& e) {
+    void me::onTraverse(const visitInfo& i, getExpr& e) {
         // check me:
         const args& args = e.getArgs();
         nint n = 0;
@@ -86,11 +85,11 @@ namespace nm {
                 elem.accept(visitInfo {"subArg", &e, n++, len, i.depth+1}, *this);
     }
 
-    void me::onTraverse(visitInfo i, frame& f) {
+    void me::onTraverse(const visitInfo& i, frame& f) {
         // do nothing.
     }
 
-    void me::onTraverse(visitInfo i, runExpr& e) {
+    void me::onTraverse(const visitInfo& i, runExpr& e) {
         int n = 0;
         node& me = e.getMe();
         node& subject = e.getSubj();
@@ -109,11 +108,11 @@ namespace nm {
 
     void me::onTraverse(runExpr& e, node& subject) {}
 
-    void me::onTraverse(visitInfo i, func& f) {
+    void me::onTraverse(const visitInfo& i, func& f) {
         f.getBlock().accept(visitInfo {"codes", &f, 0, 1, i.depth+1}, *this);
     }
 
-    void me::onTraverse(visitInfo i, blockExpr& b) {
+    void me::onTraverse(const visitInfo& i, blockExpr& b) {
         int n = 0;
         narr& stmts = b.getStmts();
         int len = stmts.len();
@@ -121,14 +120,14 @@ namespace nm {
             stmt.accept(visitInfo {"", &b, n++, len, i.depth+1}, *this);
     }
 
-    void me::onTraverse(visitInfo i, retExpr& b) {
+    void me::onTraverse(const visitInfo& i, retExpr& b) {
         int n = 0;
         node& ret = b.getRet();
         if(!nul(ret))
             ret.accept(visitInfo {"", &b, n++, 1, i.depth+1}, *this);
     }
 
-    void me::onTraverse(visitInfo i, asExpr& a) {
+    void me::onTraverse(const visitInfo& i, asExpr& a) {
         int n = 0;
         node& me = (node&) a.getMe();
         node& as = (node&) a.getAs();
@@ -139,7 +138,7 @@ namespace nm {
             as.accept(visitInfo {"as", &a, n++, len, i.depth+1}, *this);
     }
 
-    void me::onTraverse(visitInfo i, assignExpr& a) {
+    void me::onTraverse(const visitInfo& i, assignExpr& a) {
         int n = 0;
         node& left = (node&) a.getLeft();
         node& right = (node&) a.getRight();
@@ -150,13 +149,13 @@ namespace nm {
             right.accept(visitInfo {"rhs", &a, n++, len, i.depth+1}, *this);
     }
 
-    void me::onTraverse(visitInfo i, defVarExpr& d) {
+    void me::onTraverse(const visitInfo& i, defVarExpr& d) {
         node& r = (node&) d.getRight();
         if(!nul(r))
             r.accept(visitInfo {d.getName(), &d, 0, 1, i.depth+1}, *this);
     }
 
-    void me::onTraverse(visitInfo i, FBOExpr& f) {
+    void me::onTraverse(const visitInfo& i, FBOExpr& f) {
         int n = 0;
         node& left = (node&) f.getLeft();
         node& right = (node&) f.getRight();
@@ -167,7 +166,7 @@ namespace nm {
             right.accept(visitInfo {"rhs", &f, n++, len, i.depth+1}, *this);
     }
 
-    void me::onTraverse(visitInfo i, forExpr& f) {
+    void me::onTraverse(const visitInfo& i, forExpr& f) {
         node& con = *f.getContainer();
         ncnt len = nul(con) ? 1 : 2;
         ncnt n = 0;
@@ -176,9 +175,9 @@ namespace nm {
         f.getBlock().accept(visitInfo {"codes", &f, n++, len, i.depth+1}, *this);
     }
 
-    void me::onTraverse(visitInfo i, retStateExpr& r) {}
+    void me::onTraverse(const visitInfo& i, retStateExpr& r) {}
 
-    void me::onTraverse(visitInfo i, ifExpr& f) {
+    void me::onTraverse(const visitInfo& i, ifExpr& f) {
         blockExpr& elseBlk = f.getElse();
         int len = !nul(elseBlk) ? 3 : 2;
 
@@ -193,12 +192,12 @@ namespace nm {
 
     void me::onTraverse(ifExpr& e, blockExpr& blk) {}
 
-    void me::onTraverse(visitInfo i, whileExpr& w) {
+    void me::onTraverse(const visitInfo& i, whileExpr& w) {
         w.getCondition().accept(visitInfo {"condition", &w, 0, 2, i.depth+1}, *this);
         w.getBlock().accept(visitInfo {"codes", &w, 1, 2, i.depth+1}, *this);
     }
 
-    void me::onTraverse(visitInfo i, defArrayExpr& d) {
+    void me::onTraverse(const visitInfo& i, defArrayExpr& d) {
         narr& elems = d.getElems();
         int len = elems.len(),
             n = 0;
@@ -206,7 +205,7 @@ namespace nm {
             e.accept(visitInfo {"arg" + std::to_string(n), &d, n++, len, i.depth+1}, *this);
     }
 
-    void me::onTraverse(visitInfo i, genericObj& g) {
+    void me::onTraverse(const visitInfo& i, genericObj& g) {
         auto& cache = (std::map<std::string, tstr<obj>>&) g.getCache();
         ncnt len = cache.size();
         nint n = 0;

@@ -5,12 +5,12 @@ using namespace nm;
 struct threadTest : public namuTest {
     thread* thr = nullptr;
 
-    void SetUp() {
+    void SetUp() override {
         thr = new thread();
         thread::set(thr);
     }
 
-    void TearDown() {
+    void TearDown() override {
         thread::set(nullptr);
         if(thr)
             delete thr;

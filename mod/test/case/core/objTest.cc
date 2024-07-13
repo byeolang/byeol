@@ -12,9 +12,7 @@ namespace {
     public:
         originObj(): super(new mgdType("originObj")), _subs(*new scope()) {}
         originObj(const scope& subs): super(new mgdType("originObj")), _subs(subs) {}
-        originObj(const me& rhs) {
-            _subs = rhs._subs;
-        }
+        originObj(const me& rhs): _subs(rhs._subs) {}
 
         const obj& getOrigin() const override {
             return *this;

@@ -35,7 +35,7 @@ namespace nm {
             void rel() override {}
 
             using super::setRet;
-            virtual nbool setRet(const node& newRet) const override { return true; }
+            nbool setRet(const node& newRet) const override { return true; }
         };
 
         class dumFrames : public frames {

@@ -22,12 +22,12 @@ struct frameTest : public namuTest {
         return (frames&) thread::get().getFrames();
     }
 
-    void SetUp() {
+    void SetUp() override {
         namuTest::SetUp();
         getFrames().add(new frame());
     }
 
-    void TearDown() {
+    void TearDown() override {
         getFrames().rel();
         namuTest::TearDown();
     }

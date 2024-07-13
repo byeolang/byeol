@@ -35,7 +35,7 @@ namespace nm {
         _preEval();
     }
 
-    nbool me::onVisit(visitInfo i, obj& me) {
+    nbool me::onVisit(const visitInfo& i, obj& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
         NM_DI("preEval: obj: %s", i);
@@ -45,14 +45,14 @@ namespace nm {
         return true;
     }
 
-    void me::onLeave(visitInfo i, obj& me) {
+    void me::onLeave(const visitInfo& i, obj& me) {
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
         me.outFrame();
         _obj.rel();
     }
 
-    nbool me::onVisit(visitInfo i, func& me) {
+    nbool me::onVisit(const visitInfo& i, func& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
         _func.bind(me);
@@ -71,7 +71,7 @@ namespace nm {
         return true;
     }
 
-    void me::onLeave(visitInfo i, func& me) {
+    void me::onLeave(const visitInfo& i, func& me) {
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
         me.getBlock().outFrame();
@@ -79,7 +79,7 @@ namespace nm {
         _func.rel();
     }
 
-    nbool me::onVisit(visitInfo i, getGenericExpr& me) {
+    nbool me::onVisit(const visitInfo& i, getGenericExpr& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
         // this lets genericObj make a their generic obj.
@@ -182,7 +182,7 @@ namespace nm {
         }
     }
 
-    void me::_delEval(std::map<obj*, evaluation>::iterator e) {
+    void me::_delEval(const std::map<obj*, evaluation>::iterator& e) {
         e->second.me->subs().del(baseObj::PRECTOR_NAME);
         _stack.erase(e);
     }

@@ -946,7 +946,7 @@ namespace nm {
         error(getArea().start, errCode::SYNTAX_ERR, msg.c_str(), symbolName);
     }
 
-    me::parser() { rel(); }
+    me::parser(): _mode(nullptr), _isIgnoreWhitespace(false) { rel(); }
 
     obj& me::getSubPack() {
         return *_subpack; // TODO: can I remove subpack variable?

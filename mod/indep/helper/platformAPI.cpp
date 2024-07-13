@@ -95,20 +95,22 @@ namespace nm {
         }
 
         string createNowTime(const string& strftime_format) {
+            constexpr ncnt TIME_BUF_LEN = 80;
             time_t t = time(0);
             struct tm* timeinfo = localtime(&t);
 
-            char buffer[80];
-            strftime(buffer, 80, strftime_format.c_str(), timeinfo);
+            char buffer[TIME_BUF_LEN];
+            strftime(buffer, TIME_BUF_LEN, strftime_format.c_str(), timeinfo);
 
             return buffer;
         }
 
         nuint64 getNowMs() {
 #if NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
-            struct timeval tval;
+            constexpr ncnt MILLI_PER_USEC = 1000;
+            struct timeval tval{};
             gettimeofday(&tval, NULL);
-            return tval.tv_usec / 1000;
+            return tval.tv_usec / MILLI_PER_USEC;
 #else
             return 0L;
 #endif
@@ -138,12 +140,13 @@ namespace nm {
 
         string exec(const string& cmd) {
 #if NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
-            nchar buf[128] = {0, };
+            constexpr ncnt EXE_BUF_LEN = 128;
+            nchar buf[EXE_BUF_LEN] = {0, };
             string res;
             shared_ptr<FILE> pipe(popen(cmd.c_str(), "r"), pclose);
 
             while(!feof(pipe.get()))
-                if(fgets(buf, 128, pipe.get()) != nullptr)
+                if(fgets(buf, EXE_BUF_LEN, pipe.get()) != nullptr)
                     res += buf;
 
             return res;

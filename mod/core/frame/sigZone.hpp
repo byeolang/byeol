@@ -7,7 +7,7 @@ namespace nm {
         NM(ME(sigZone))
 
     public:
-        sigZone(sigHandler handler);
+        sigZone(const sigHandler& handler);
         sigZone();
         ~sigZone();
 

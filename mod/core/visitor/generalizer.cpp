@@ -16,13 +16,13 @@ namespace nm {
         const auto& name = safeGet(toReplace.cast<getExpr>(), getName());
         if(nul(name)) return nulOf<node>();
 
-        for(param p : _params)
+        for(const auto& p : _params)
             if(name == p.getName())
                 return p.getOrigin();
         return nulOf<node>();
     }
 
-    nbool me::onVisit(visitInfo i, asExpr& me) {
+    nbool me::onVisit(const visitInfo& i, asExpr& me) {
         const node& org = _findOrigin(me.getAs());
         if(nul(org)) return true;
 
@@ -31,7 +31,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, blockExpr& me) {
+    nbool me::onVisit(const visitInfo& i, blockExpr& me) {
         narr& stmts = me.getStmts();
         for(int n=0; n < stmts.len() ;n++) {
             const node& stmt = stmts[n];
@@ -44,7 +44,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, defVarExpr& me) {
+    nbool me::onVisit(const visitInfo& i, defVarExpr& me) {
         const node& org = _findOrigin(me.getRight());
         if(nul(org)) return true;
 
@@ -53,7 +53,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, runExpr& me) {
+    nbool me::onVisit(const visitInfo& i, runExpr& me) {
         const node* org = &_findOrigin(me.getMe());
         if(!nul(org))
             me.setMe(*org);
@@ -74,7 +74,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, params& me) {
+    nbool me::onVisit(const visitInfo& i, params& me) {
         for(int n=0; n < me.len(); n++) {
             param& p = me[n];
             const node& org = _findOrigin(p.getOrigin());
@@ -86,7 +86,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, ctor& me) {
+    nbool me::onVisit(const visitInfo& i, ctor& me) {
         baseObj& cast = getTask().cast<baseObj>();
         if(nul(cast))
             getReport().add(err::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
@@ -98,7 +98,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, baseFunc& me) {
+    nbool me::onVisit(const visitInfo& i, baseFunc& me) {
         onVisit(i, (params&) me.getParams());
 
         const node& retOrg = _findOrigin(*me.getRet());
@@ -113,7 +113,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, baseObj& me) {
+    nbool me::onVisit(const visitInfo& i, baseObj& me) {
         scope& subs = me.subs();
         for(auto e=subs.begin(); e ;++e) {
             const node& prevVal = e.getVal();
@@ -128,7 +128,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, FBOExpr& me) {
+    nbool me::onVisit(const visitInfo& i, FBOExpr& me) {
         const node* org = &_findOrigin(me.getLeft());
         if(!nul(org))
             me.setLeft(*org);
@@ -139,7 +139,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(visitInfo i, getGenericExpr& me) {
+    nbool me::onVisit(const visitInfo& i, getGenericExpr& me) {
         args& a = *me._args;
         if(nul(a)) return true;
 

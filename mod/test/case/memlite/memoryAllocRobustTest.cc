@@ -7,11 +7,11 @@ struct memoryAllocRobustTest : public namuTest {};
 
 namespace {
     struct A : public instance {
-        const type& getType() const {
+        const type& getType() const override {
             return ttype<A>::get();
         }
 
-        clonable* clone() const {
+        clonable* clone() const override {
             return new A();
         }
 
@@ -20,11 +20,11 @@ namespace {
 
 
     struct B : public A {
-        const type& getType() const {
+        const type& getType() const override {
             return ttype<B>::get();
         }
 
-        clonable* clone() const {
+        clonable* clone() const override {
             return new B();
         }
 

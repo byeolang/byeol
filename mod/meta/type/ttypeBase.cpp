@@ -58,7 +58,7 @@ namespace nm {
     }
 
     type& ME::_getStatic() const {
-        return const_cast<ME&>(get());
+        return (ME&) get();
     }
 
     ME::ttypeBase(nbool) {}

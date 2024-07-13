@@ -27,7 +27,7 @@ namespace {
     struct B : public instance {
         B() { ++get(); }
         B(const B&) { ++get(); }
-        ~B() { --get(); }
+        ~B() override { --get(); }
 
         float grade;
 
@@ -61,7 +61,7 @@ namespace {
 
     struct shell : public instance {
         shell(offering* newO): o(newO) {}
-        ~shell() {
+        ~shell() override {
             if(!nul(o))
                 delete o;
         }
@@ -209,7 +209,7 @@ TEST_F(binderTest, bindByValueTest) {
     ASSERT_EQ(tag.getStrongCnt(), 1);
 
     {
-        binder bindA2(bindA);
+        binder bindA2(bindA); // NOLINT: checks whether bindTag of memory pool has increased or not.
         ASSERT_EQ(tag.getStrongCnt(), 2);
     }
 

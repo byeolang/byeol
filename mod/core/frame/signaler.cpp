@@ -35,7 +35,7 @@ namespace nm {
         return inner;
     }
 
-    void me::addSignal(sigHandler closure) {
+    void me::addSignal(const sigHandler& closure) {
         if(_closures.size() <= 0)
             _setSignal(_onSignal);
         _closures.push_back(closure);
@@ -49,7 +49,7 @@ namespace nm {
         if(!e) return NM_E("%d exception occurs but couldn't make err object", code), void();
 
         NM_I("dispatching %d handlers.", _closures.size());
-        for(sigHandler handler : _closures)
+        for(const sigHandler& handler : _closures)
             handler(*e);
 
         _closures.clear();
@@ -62,9 +62,12 @@ namespace nm {
         }
     }
 
-    void me::delSignal(sigHandler closure) {
+    void me::delSignal(const sigHandler& closure) {
         void* closureAddr = _getAddr(closure);
-        _closures.erase(std::remove_if(_closures.begin(), _closures.end(), [&](sigHandler elem) { return _getAddr(elem) == closureAddr; }), _closures.end());
+        _closures.erase(std::remove_if(_closures.begin(), _closures.end(), [&](sigHandler elem) {
+            return _getAddr(std::move(elem)) == closureAddr;
+        }), _closures.end());
+
         if(_closures.size() <= 0)
             _setSignal(SIG_DFL);
         NM_DI("signal handler deleted. total %d handlers remains", _closures.size());

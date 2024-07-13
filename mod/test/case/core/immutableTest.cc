@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "../../namuTest.hpp"
 
 using namespace nm;
@@ -35,7 +37,7 @@ namespace {
             }
 
             void setLambda(std::function<nbool(const ucontainable&, const frames&)> lambda) {
-                _lambda = lambda;
+                _lambda = std::move(lambda);
             }
 
             std::function<nbool(const ucontainable&, const frames&)> _lambda;
@@ -47,7 +49,7 @@ namespace {
         myfunc(): super(params(), *new nVoid(), *new myBlock()) {
             NM_I("myfunc(%s) new", this);
         }
-        ~myfunc() {
+        ~myfunc() override {
             NM_I("myfunc(%s) delete", this);
         }
 
@@ -56,7 +58,7 @@ namespace {
         }
 
         void setLambda(std::function<nbool(const ucontainable&, const frames&)> lambda) {
-            getBlock().cast<myBlock>()._lambda = lambda;
+            getBlock().cast<myBlock>()._lambda = std::move(lambda);
         }
 
         nbool isSuccess() const {
@@ -81,12 +83,12 @@ struct immutableTest : public namuTest {
         return (frames&) thread::get().getFrames();
     }
 
-    void SetUp() {
+    void SetUp() override {
         namuTest::SetUp();
         getFrames().add(new frame());
     }
 
-    void TearDown() {
+    void TearDown() override {
         thread::get().rel();
         namuTest::TearDown();
     }

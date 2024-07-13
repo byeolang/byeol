@@ -6,7 +6,7 @@ namespace nm {
 
     // TODO: entrypoints[== filePath] can be various. but not language.
     struct _nout entrypoint : public validable {
-        entrypoint(const std::string& newLang, const std::vector<std::string> newPaths);
+        entrypoint(const std::string& newLang, const std::vector<std::string>& newPaths);
         virtual ~entrypoint();
 
     public:

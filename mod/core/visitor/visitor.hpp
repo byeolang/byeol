@@ -18,38 +18,38 @@ namespace nm {
 
     public:
 #define X(T) \
-        virtual void visit(visitInfo i, T& me); \
-        virtual nbool onVisit(visitInfo i, T& me); \
-        virtual void onLeave(visitInfo i, T& me);
+        virtual void visit(const visitInfo& i, T& me); \
+        virtual nbool onVisit(const visitInfo& i, T& me); \
+        virtual void onLeave(const visitInfo& i, T& me);
 #   include "visitee.inl"
 #undef X
 
-        virtual void visit(visitInfo i, node& me);
-        virtual nbool onVisit(visitInfo i, node& me);
-        virtual void onLeave(visitInfo i, node& me);
+        virtual void visit(const visitInfo& i, node& me);
+        virtual nbool onVisit(const visitInfo& i, node& me);
+        virtual void onLeave(const visitInfo& i, node& me);
 
         //  traverse:
         //      generalized-way:
         //  @ return false if the node is already visited.
-        virtual void onTraverse(visitInfo i, node& me);
+        virtual void onTraverse(const visitInfo& i, node& me);
         //      specific-way:
-        virtual void onTraverse(visitInfo i, asExpr& a);
-        virtual void onTraverse(visitInfo i, assignExpr& a);
-        virtual void onTraverse(visitInfo i, blockExpr& b);
-        virtual void onTraverse(visitInfo i, defVarExpr& d);
-        virtual void onTraverse(visitInfo i, FBOExpr& f);
-        virtual void onTraverse(visitInfo i, getExpr& e);
-        virtual void onTraverse(visitInfo i, retExpr& b);
-        virtual void onTraverse(visitInfo i, runExpr& e);
+        virtual void onTraverse(const visitInfo& i, asExpr& a);
+        virtual void onTraverse(const visitInfo& i, assignExpr& a);
+        virtual void onTraverse(const visitInfo& i, blockExpr& b);
+        virtual void onTraverse(const visitInfo& i, defVarExpr& d);
+        virtual void onTraverse(const visitInfo& i, FBOExpr& f);
+        virtual void onTraverse(const visitInfo& i, getExpr& e);
+        virtual void onTraverse(const visitInfo& i, retExpr& b);
+        virtual void onTraverse(const visitInfo& i, runExpr& e);
         virtual void onTraverse(runExpr& e, node& subject);
-        virtual void onTraverse(visitInfo i, func& f);
-        virtual void onTraverse(visitInfo i, frame& f);
-        virtual void onTraverse(visitInfo i, forExpr& f);
-        virtual void onTraverse(visitInfo i, retStateExpr& r);
-        virtual void onTraverse(visitInfo i, ifExpr& f);
-        virtual void onTraverse(visitInfo i, whileExpr& w);
-        virtual void onTraverse(visitInfo i, defArrayExpr& d);
-        virtual void onTraverse(visitInfo i, genericObj& g);
+        virtual void onTraverse(const visitInfo& i, func& f);
+        virtual void onTraverse(const visitInfo& i, frame& f);
+        virtual void onTraverse(const visitInfo& i, forExpr& f);
+        virtual void onTraverse(const visitInfo& i, retStateExpr& r);
+        virtual void onTraverse(const visitInfo& i, ifExpr& f);
+        virtual void onTraverse(const visitInfo& i, whileExpr& w);
+        virtual void onTraverse(const visitInfo& i, defArrayExpr& d);
+        virtual void onTraverse(const visitInfo& i, genericObj& g);
 
         virtual void onTraverse(ifExpr& e, blockExpr& blk);
 
