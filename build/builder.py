@@ -71,6 +71,8 @@ def branch(command):
         return relDbgBuild()
     elif command == "dbg":
         return dbgBuild()
+    elif command == "prepare-pr":
+        return preparePr();
     elif command == "wasm":
         arg3 = None if len(sys.argv) < 3 else sys.argv[2]
         return wasmBuild(arg3)
@@ -233,6 +235,16 @@ def dbgBuild():
 
     winProp="-t:Rebuild -p:Configuration=Debug"
     config="-DCMAKE_BUILD_TYPE=Debug"
+    print(config)
+    clean()
+    return build(True)
+
+def preparePr():
+    global config, cwd
+
+    winProp="-t:Rebuild -p:Configuration=Debug"
+    # clang-tidy: see build/.clang-tidy file for more info.
+    config="-DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy;-config-file=" + cwd + "/../.clang-tidy\""
     print(config)
     clean()
     return build(True)
