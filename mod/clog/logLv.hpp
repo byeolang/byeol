@@ -3,7 +3,7 @@
 #include "common.hpp"
 
 namespace nm {
-    class logLv {
+    class _nout logLv {
         NM(ME(logLv))
 
     public:
