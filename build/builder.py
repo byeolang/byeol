@@ -7,6 +7,7 @@ import platform
 import subprocess
 from operator import eq
 from tempfile import gettempdir
+from git import Repo
 
 frame = "======================================================="
 
@@ -73,6 +74,8 @@ def branch(command):
         return dbgBuild()
     elif command == "prepare-pr":
         return preparePr();
+    elif command == "format":
+        return formatCodes(True)
     elif command == "wasm":
         arg3 = None if len(sys.argv) < 3 else sys.argv[2]
         return wasmBuild(arg3)
@@ -196,6 +199,42 @@ def doc():
     docDoxygen()
     return 0
 
+def _isThereAnyGitStatusChange():
+    global cwd
+    root = cwd + "/../"
+    repo = Repo(root)
+    repo.git.add("-A")
+    unstaged = repo.index.diff("HEAD")
+    return len(unstaged) > 0
+
+def formatCodes(showLog):
+    global cwd
+    root = cwd + "/../"
+    if showLog: print("code formatting:")
+    for path, dirs, files in os.walk(root):
+        if "../mod/" not in path: continue
+        if "/worker/bison" in path: continue
+        if "/seedling/parser" in path: continue
+        for file in files:
+            filePath = os.path.join(path, file)
+            ext = os.path.splitext(file)[1]
+            if  ext != ".cc" and ext != ".cpp" and ext != ".hpp" and ext != ".inl":
+                continue
+            if showLog: print("\t formatting " + filePath + ", ext=" + ext + " file...")
+            os.system("clang-format -i " + filePath)
+
+def checkViolatesCodeFormat():
+    printInfoEnd("checking whether some files violates convention rule...")
+    if _isThereAnyGitStatusChange():
+        print("there is already some changes.")
+        return -1
+    formatCodes(False)
+    if _isThereAnyGitStatusChange():
+        print("some files aren't formatted properly.")
+        return -1
+    printOk("ok. all files formatted.")
+    return 0
+
 def _publishDoc():
     if checkDependencies(["git"]):
         printErr("This program needs following softwares to be fully functional.")
@@ -241,6 +280,10 @@ def dbgBuild():
 
 def preparePr():
     global config, cwd
+
+    if checkViolatesCodeFormat() != 0:
+        printErr("pull request failed!")
+        return -1
 
     winProp="-t:Rebuild -p:Configuration=Debug"
     # clang-tidy: see build/.clang-tidy file for more info.
@@ -464,7 +507,7 @@ def rebuild():
     return build(true)
 
 def build(incVer):
-    if checkDependencies(["git", "cmake", "bison", "flex", "clang-tidy"]):
+    if checkDependencies(["git", "cmake", "bison", "flex", "clang-tidy", "clang-format"]):
         printErr("This program needs following softwares to be fully functional.")
         return -1
 
