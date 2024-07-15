@@ -54,13 +54,13 @@ void changePrevRule() {
 %%
 
 "def"[\(]* {
-    string temp = yytext;
+    /*string temp = yytext;
     if(temp[temp.size()-1] == '(') {
         temp = temp.substr(0, temp.size()-1);
         unput('(');
     }
 
-    yylval.strVal = strdup(temp.c_str());
+    yylval.strVal = strdup(temp.c_str());*/
     return tdef;
 }
 
@@ -137,7 +137,7 @@ true|false {
 }
 
 [a-zA-Z][a-zA-Z0-9_]*   {
-   yylval.strVal = strdup(yytext);
+    yylval.strVal = strdup(yytext);
     return tid;
 }
 

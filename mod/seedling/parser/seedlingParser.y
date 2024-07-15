@@ -72,6 +72,7 @@ trhsexpr    : tbool {
             | tokStr {
                 $$ = new termSobj($1);
                 NM_DI("trhsexpr(%s) <-- '%s'", $$, $1);
+                free((void*) $1);
             }
             | tokChar {
                 $$ = new termSobj($1);
@@ -87,6 +88,7 @@ tdefexpr    : tid topDefAssign trhsexpr {
                 $3->setName($1);
                 $$ = $3;
                 NM_DI("tdefexpr(%s) <-- %s := trhsexpr(%s)", $$, $1, $3);
+                free((void*) $1);
             }
             | tdefOrigin {
                 $$ = $1;
@@ -127,6 +129,7 @@ tdefOrigin  : tdef tid tdefIndentBlock {
                 $3->setName($2);
                 $$ = $3;
                 NM_DI("tdefOrigin(%s) <-- def %s tdefIndentBlock(%s)", $$, $2, $3);
+                free((void*) $2);
             }
             ;
 
