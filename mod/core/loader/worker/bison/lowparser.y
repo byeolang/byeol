@@ -245,7 +245,7 @@ postfix: primary { $$ = $1; }
 primary: INTVAL { $$ = PS.onPrimitive<nInt>($1); }
        | STRVAL {
         $$ = PS.onPrimitive<nStr>(*$1);
-        free($1);
+        delete $1;
      } | FLTVAL { $$ = PS.onPrimitive<nFlt>($1); }
        | BOOLVAL { $$ = PS.onPrimitive<nBool>($1); }
        | CHARVAL { $$ = PS.onPrimitive<nChar>($1); }
@@ -443,12 +443,12 @@ type: _VOID_ { $$ = PS.onPrimitive<nVoid>(); }
     | FLT { $$ = PS.onPrimitive<nFlt>(); }
     | NAME {
         $$ = PS.onGet(*$1);
-        free($1);
+        delete $1;
   } | type OPEN_CLOSE_SQUARE_BRACKET { $$ = PS.onGetArray(*$1); }
     | NAME typeparams {
         tstr<args> argsLife($2);
         $$ = PS.onGetGeneric(*$1, *argsLife);
-        free($1);
+        delete $1;
   }
 
 typeparams: '<' typenames '>' { $$ = $2; }
@@ -513,7 +513,7 @@ while: _WHILE_ expr-inline9 indentblock {
 
 for: FOR NAME _IN_ expr-inline9 indentblock {
     $$ = PS.onFor(std::string(*$2), *$4, $5->cast<blockExpr>());
-    free($2);
+    delete $2;
  }
 
 //      define:
@@ -522,11 +522,11 @@ def-prop-inline: def-prop-without-value { $$ = $1; }
               | def-prop-value { $$ = $1; }
 def-prop-without-value: NAME type { // exp means 'explicitly'
                         $$ = PS.onDefProp(*$1, *$2);
-                        free($1);
+                        delete $1;
                     }
 def-prop-value: NAME DEFASSIGN expr-inline9 {
               $$ = PS.onDefAssign(*$1, *$3);
-              free($1);
+              delete $1;
             }
 def-prop-accessor: NEWLINE INDENT def-prop-accessor-items DEDENT {
                    // ??
@@ -543,7 +543,7 @@ def-prop-accessor-items: def-prop-accessor-item {
 
 def-prop-compound: NAME DEFASSIGN expr-compound {
                     $$ = PS.onDefAssign(*$1, *$3);
-                    free($1);
+                    delete $1;
                } | def-prop-inline def-prop-accessor {
                     // ??
                }
@@ -588,12 +588,12 @@ def-obj: def-obj-default { $$ = $1; }
        | def-obj-default-generic { $$ = $1; }
 def-obj-default: DEF NAME indentDefBlock {
                 $$ = PS.onDefObj(std::string(*$2), *$3);
-                free($2);
+                delete $2;
              }
 def-obj-default-generic: DEF NAME typeparams indentDefBlock {
                         tstr<args> argsLife($3);
                         $$ = PS.onDefObjGeneric(*$2, *argsLife, *$4);
-                        free($2);
+                        delete $2;
                      }
 
 //              container:

@@ -275,6 +275,7 @@ def dbgBuild():
     winProp="-t:Rebuild -p:Configuration=Debug"
     config="-DCMAKE_BUILD_TYPE=Debug"
     print(config)
+
     clean()
     return build(True)
 
