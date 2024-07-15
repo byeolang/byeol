@@ -6,6 +6,10 @@ namespace nm {
 
     NM_DEF_ME(ases)
 
+    me::~ases() {
+        rel();
+    }
+
     str me::as(const node& from, const type& to) const {
         const type& fromType = from.getType();
         if(to.isSuper(fromType)) return str(from);
@@ -16,6 +20,12 @@ namespace nm {
         // there is no null in namulang:
         //  returns void if no valid casting found.
         return str(nVoid::singletone());
+    }
+
+    void me::rel() {
+        for(auto* e : _casts)
+            delete e;
+        _casts.clear();
     }
 
     void me::add(const asable& newCast) {
