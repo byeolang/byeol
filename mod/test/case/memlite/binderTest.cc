@@ -96,6 +96,69 @@ namespace {
         }
     }
 
+    static nbool isDTerminated = false;
+
+    struct D : public instance {
+        NM(ME(D, instance))
+
+    public:
+        ~D() override {
+            std::cout << "~D\n";
+            isDTerminated = true;
+        }
+
+        int age;
+
+        const type& getType() const override { return ttype<D>::get(); }
+        clonable* clone() const override { return new D(*this); }
+    };
+
+    static nbool isETerminated = false;
+
+    struct E : public D {
+        NM(ME(E, D))
+
+    public:
+        ~E() override {
+            std::cout << "~E\n";
+            isETerminated = true;
+        }
+
+        float grade;
+
+        const type& getType() const override { return ttype<E>::get(); }
+        clonable* clone() const override { return new E(*this); }
+    };
+}
+
+TEST_F(binderTest, inheritanceDeleteSizeTest) {
+    {
+        tstr<D> d = new D();
+        tstr<E> e = new E();
+        ASSERT_TRUE(d);
+        ASSERT_TRUE(e);
+        isDTerminated = false;
+        isETerminated = false;
+        std::cout << "sizeof(D)=" << sizeof(D) << ", sizeof(E)=" << sizeof(E) << "\n";
+    }
+
+    ASSERT_TRUE(isDTerminated);
+    ASSERT_TRUE(isETerminated);
+}
+
+TEST_F(binderTest, inheritanceDeleteSizeTest2) {
+    {
+        tstr<D> d = new D();
+        tstr<D> e = new E();
+        ASSERT_TRUE(d);
+        ASSERT_TRUE(e);
+        isDTerminated = false;
+        isETerminated = false;
+        std::cout << "sizeof(D)=" << sizeof(D) << ", sizeof(E)=" << sizeof(E) << "\n";
+    }
+
+    ASSERT_TRUE(isDTerminated);
+    ASSERT_TRUE(isETerminated);
 }
 
 TEST_F(binderTest, defaultBehaviorTest) {
