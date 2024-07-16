@@ -299,9 +299,11 @@ namespace nm {
         // TODO: throw error
     }
 
-    const me& me::getOrigin() const {
-        static me inner;
-        return inner;
+    const obj& me::getOrigin() const {
+        // TODO:
+        return nulOf<obj>();
+        /*static me inner;
+        return inner;*/
     }
 
     /// @param end is exclusive.

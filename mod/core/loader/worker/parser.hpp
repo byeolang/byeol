@@ -12,6 +12,7 @@
 #include "smartDedent.hpp"
 #include "supply/srcSupply.hpp"
 #include "worker.hpp"
+#include "../../ast/origin.hpp"
 
 namespace nm {
 
@@ -28,6 +29,7 @@ namespace nm {
     class ifExpr;
     class FUOExpr;
     class defPropExpr;
+    class genericObj;
     class _nout parser : public worker<tstr<obj>, slot>, public tokenScanable {
         typedef worker<tstr<obj>, slot> __super5;
         NM(CLASS(parser, __super5))
@@ -37,8 +39,8 @@ namespace nm {
         parser();
 
     public:
-        obj& getSubPack();
-        const obj& getSubPack() const NM_CONST_FUNC(getSubPack())
+        origin& getSubPack();
+        const origin& getSubPack() const NM_CONST_FUNC(getSubPack())
 
         srcSupplies& getSrcSupplies();
         const srcSupplies& getSrcSupplies() const NM_CONST_FUNC(getSrcSupplies())
@@ -130,9 +132,9 @@ namespace nm {
         node* onGetArray(node& elemType);
 
         //  keyword:
-        obj* onPack(const node& path);
-        obj* onPack();
-        obj* onSubPack(obj& subpack);
+        origin* onPack(const node& path);
+        origin* onPack();
+        origin* onSubPack(origin& subpack);
         blockExpr* onBlock(const node& stmt);
         blockExpr* onBlock(blockExpr& blk, const node& stmt);
         blockExpr* onBlock();
@@ -164,8 +166,8 @@ namespace nm {
         node* onDefProp(const std::string& name, const node& rhs);
         node* onDefAssign(const std::string& name, const node& rhs);
         //          obj:
-        obj* onDefObj(const std::string& name, defBlock& blk);
-        node* onDefObjGeneric(const std::string& name, const args& typeParams, defBlock& blk);
+        origin* onDefOrigin(const std::string& name, defBlock& blk);
+        genericObj* onDefObjGeneric(const std::string& name, const args& typeParams, defBlock& blk);
         //          container:
         node* onDefArray(const narr& items);
         node* onDefSeq(const node& start, const node& end);
@@ -245,7 +247,7 @@ namespace nm {
         nbool _isIgnoreWhitespace;
         tokenDispatcher _dispatcher;
         std::vector<ncnt> _indents;
-        tstr<obj> _subpack;
+        tstr<origin> _subpack;
         tstr<scope> _filescope;
         std::vector<nint> _states;
         exprMaker _maker;

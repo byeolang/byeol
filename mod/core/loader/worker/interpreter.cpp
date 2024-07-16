@@ -5,6 +5,7 @@
 #include "../../visitor/preEvaluator.hpp"
 #include "../../frame/threadUse.hpp"
 #include "worker.inl"
+#include "../../ast/origin.hpp"
 
 namespace nm {
 
@@ -32,7 +33,7 @@ namespace nm {
         return isParsed() && (!nul(getReport()) && !getReport().hasErr());
     }
 
-    node& me::getSubPack() {
+    origin& me::getSubPack() {
         return _pser.getSubPack();
     }
 

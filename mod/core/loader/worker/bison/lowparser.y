@@ -587,7 +587,7 @@ lambda-deduction: tuple indentblock {
 def-obj: def-obj-default { $$ = $1; }
        | def-obj-default-generic { $$ = $1; }
 def-obj-default: DEF NAME indentDefBlock {
-                $$ = PS.onDefObj(std::string(*$2), *$3);
+                $$ = PS.onDefOrigin(std::string(*$2), *$3);
                 delete $2;
              }
 def-obj-default-generic: DEF NAME typeparams indentDefBlock {

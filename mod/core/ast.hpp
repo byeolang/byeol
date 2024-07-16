@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ast/node.inl"
-#include "ast/obj.hpp"
+#include "ast/origin.hpp"
 #include "ast/mgd.hpp"
 #include "ast/autoslot.hpp"
 #include "ast/src.hpp"

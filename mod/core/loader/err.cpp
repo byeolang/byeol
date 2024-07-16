@@ -197,7 +197,11 @@ namespace nm {
         return NM_E("ambigious call found: %s", "TODO:"), str();
     }
 
-    const baseObj& me::getOrigin() const { return singletone(); }
+    const obj& me::getOrigin() const {
+        // TODO:
+        //return singletone();
+        return nulOf<obj>();
+    }
 
     void me::log() const {
         using platformAPI::foreColor;

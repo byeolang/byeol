@@ -31,9 +31,11 @@ namespace nm {
         return *this;
     }
 
-    const me& me::getOrigin() const {
-        static nVoid inner;
-        return inner;
+    const obj& me::getOrigin() const {
+        return nulOf<obj>();
+        // TODO:
+        //static nVoid inner;
+        //return inner;
     }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {

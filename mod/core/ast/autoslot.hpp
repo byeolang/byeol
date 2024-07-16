@@ -27,7 +27,7 @@ namespace nm {
     public:
         state getState() const;
         using super::getPack;
-        obj& getPack() override;
+        origin& getPack() override;
         void rel() override;
         /// this report will be used while interpret pack source code.
         /// @remark when 'subs()' func of the pack has been called, it interprets src codes

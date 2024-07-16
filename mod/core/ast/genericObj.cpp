@@ -5,16 +5,16 @@
 #include "dumScope.hpp"
 #include "baseFunc.hpp"
 #include "../type/mgdType.hpp"
+#include "origin.hpp"
 
 namespace nm {
 
     NM(DEF_ME(genericObj), DEF_VISIT())
 
-    me::genericObj(const obj& orgObj, const strings& paramNames): _orgObj(orgObj),
-            _paramNames(paramNames) {}
+    me::genericObj(const origin& org, const strings& paramNames): _org(org), _paramNames(paramNames) {}
 
     const obj& me::getOrigin() const {
-        return *_orgObj;
+        return *_org;
     }
 
     const me::strings& me::getParamNames() const {
@@ -22,7 +22,7 @@ namespace nm {
     }
 
     str me::getEval() const {
-        return _orgObj;
+        return _org;
     }
 
     const std::map<std::string, tstr<obj>>& me::getCache() const {
@@ -66,26 +66,20 @@ namespace nm {
     }
 
     /// make a generic object.
-    tstr<obj> me::_makeGeneric(const std::string& argName, const args& a) const {
-        if(!_orgObj) return NM_E("_orgObj is null"), tstr<obj>();
+    tstr<origin> me::_makeGeneric(const std::string& argName, const args& a) const {
+        if(!_org) return NM_E("_orgObj is null"), tstr<obj>();
 
-        std::string name = _orgObj->getType().getName() + "<" + argName + ">";
+        std::string name = _org->getType().getName() + "<" + argName + ">";
         NM_DI("|==========================================|");
         NM_DI("|--- generic: make %s generic class ---|", name);
-        tstr<obj> ret = (obj*) _orgObj->cloneDeep(); // clone all of shares including func.
-        src* s = new src(_orgObj->getSrc());
+        tstr<origin> ret = (origin*) _org->cloneDeep(); // clone all of shares including func.
+        src* s = new src(_org->getSrc());
         s->_setName(name);
         ret->_setSrc(*s);
-        // update origin:
-        //  genericObj makes an origin object. but ret->getOrigin() is pointing _orgObj now.
-        //  I need to update it.
-        ret->_setOrigin(&ret.get());
         // clone type:
-        if(ret->_type) {
-            mgdType* newType = new mgdType(name, ret->_type->getSupers());
-            newType->getBeans() = a;
-            ret->_setType(newType);
-        }
+        mgdType newType(name, ret->getType().getSupers());
+        newType.getBeans() = a;
+        ret->_setType(newType);
 
         ncnt n = 0;
         generalizer g;

@@ -2,6 +2,7 @@
 #include "baseFunc.hpp"
 #include "../visitor/visitor.hpp"
 #include "../type/mgdType.hpp"
+#include "origin.hpp"
 
 namespace nm {
 
@@ -26,10 +27,10 @@ namespace nm {
         _rpt.bind(dummyErrReport::singletone);
     }
 
-    obj& me::getPack() {
+    origin& me::getPack() {
         if(_state == RELEASED) {
             const std::string& name = getManifest().name;
-            _pak.bind(new obj(new mgdType(name)));
+            _pak.bind(new origin(mgdType(name)));
             NM_I("%s pack is about to interpret lazy.", name);
             // TODO: check _rpt error count increased or not.
             //       if increased, then parse() function has been failed.

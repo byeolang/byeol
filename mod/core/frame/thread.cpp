@@ -3,7 +3,8 @@
 #include "../loader/errReport.hpp"
 #include "../ast/node.inl"
 #include "../ast/baseFunc.hpp"
-#include "../builtin/pkgs/default/defaultPack.hpp"
+#include "../builtin/pkgs/default/inputFunc.hpp"
+#include "../builtin/pkgs/default/printFunc.hpp"
 #include "../ast/dumScope.hpp"
 
 namespace nm {
@@ -21,7 +22,7 @@ namespace nm {
 
         public:
             using super::add;
-            void add(node& owner, scope& s) override {}
+            void add(const node& owner, const scope& s) override {}
             void addLocal(const std::string& name, const node& n) override {}
 
             void del() override {}
@@ -152,7 +153,9 @@ namespace nm {
     }
 
     void me::_loadBuiltIns(nmap& tray) const {
-        tray.add(defaultPack().subs());
+        tray.add("input", new inputFunc());
+        tray.add("print", new printFunc<nStr>());
+        tray.add("err", err::singletone().getOrigin());
     }
 
     tstr<nmap> me::_initSlots() const {

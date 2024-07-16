@@ -1,6 +1,6 @@
 #pragma once
 
-#include "obj.hpp"
+#include "origin.hpp"
 
 namespace nm {
 
@@ -15,7 +15,7 @@ namespace nm {
         typedef std::vector<std::string> strings;
 
     public:
-        genericObj(const obj& orgObj, const strings& paramNames);
+        genericObj(const origin& org, const strings& paramNames);
 
     public:
         const obj& getOrigin() const override;
@@ -26,7 +26,7 @@ namespace nm {
 
         str getEval() const override;
 
-        virtual scope& subs() override;
+        scope& subs() override;
 
         const std::map<std::string, tstr<obj>>& getCache() const;
 
@@ -42,11 +42,11 @@ namespace nm {
         std::string _makeKey(const args& a) const;
 
         /// make a generic object.
-        tstr<obj> _makeGeneric(const std::string& argName, const args& a) const;
+        tstr<origin> _makeGeneric(const std::string& argName, const args& a) const;
 
     private:
         std::map<std::string, tstr<obj>> _cache;
-        tstr<obj> _orgObj;
+        tstr<origin> _org;
         strings _paramNames;
     };
 }

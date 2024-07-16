@@ -53,9 +53,10 @@ namespace nm {
         // TODO: throw error
     }
 
-    const me& me::getOrigin() const {
-        static me inner;
-        return inner;
+    const obj& me::getOrigin() const {
+        // TODO:
+        //static me inner;
+        return nulOf<obj>();
     }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {

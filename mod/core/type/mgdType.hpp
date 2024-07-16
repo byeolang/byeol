@@ -9,8 +9,9 @@ namespace nm {
     template <typename T, typename TACTIC> class tnarr;
     typedef tnarr<node, strTactic> narr;
 
-    class _nout mgdType : public ttype<obj> {
-        NM_ME(mgdType, ttype<obj>)
+    class _nout mgdType : public ttype<obj>, public clonable {
+        NM(ME(mgdType, ttype<obj>),
+           CLONE(mgdType))
 
     public:
         mgdType(const std::string& name);

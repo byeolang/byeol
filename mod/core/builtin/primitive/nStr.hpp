@@ -32,7 +32,7 @@ namespace nm {
         nint len() const override;
 
         tstr<arithmeticObj> bitwiseNot() const override;
-        const me& getOrigin() const override;
+        const obj& getOrigin() const override;
 
         /// @param end is exclusive.
         tstr<nStr> substr(nint start, nint end);

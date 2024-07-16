@@ -177,8 +177,11 @@ namespace nm {
         _STEP("does rhs[%s] have 'ret' in its blockStmt?", eval);
         when(eval->isSub<retStateExpr>()).ret(CANT_ASSIGN_RET, me);
 
-        _STEP("check whether make a void container.");
+        _STEP("check arr has exactly 1 type parameter.");
         const narr& beans = eval->getType().getBeans();
+        when(beans.len() != 1).ret(ARR_DOESNT_HAVE_TYPE_PARAM, me);
+
+        _STEP("check whether make a void container.");
         for(const node& bean : beans)
             when(bean.isSub<nVoid>()).ret(NO_VOID_CONTAINER, me);
 

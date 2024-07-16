@@ -4,10 +4,10 @@
 #include <iostream>
 
 struct namuSyntaxTest : public namuTest {
-    void TearDown();
+    void TearDown() override;
 
-    nm::node& getSubPack();
-    const nm::node& getSubPack() const;
+    nm::origin& getSubPack();
+    const nm::origin& getSubPack() const;
     nm::slot& getSlot();
     const nm::slot& getSlot() const;
     nm::errReport& getReport();

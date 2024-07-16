@@ -6,6 +6,7 @@
 namespace nm {
 
     class mgdType;
+    class origin;
 
     /// obj is a object structured in managed programming environment like 'namu'.
     /// owned sub nodes of a object can only be manipulated through API provided obj.
@@ -15,18 +16,17 @@ namespace nm {
              INIT_META(obj),
              CLONE(obj),
              VISIT())
-        friend class slot; // for _onRunSub
+        typedef ntype metaType;
         friend class parser;
-        friend class preEvaluator;
-        friend class genericObj; // for _setOrigin(), _setType
-        friend class exprMaker;
 
     public:
-        explicit obj();
-        explicit obj(scope& shares, scope& owns);
-        explicit obj(mgdType* newType);
-        explicit obj(mgdType* newType, scope& shares, scope& owns);
+        explicit obj(); // this means 'any' class.
         explicit obj(const me& rhs);
+        explicit obj(const origin& org);
+
+    protected:
+        explicit obj(scope& shares, scope& owns);
+        explicit obj(nbool isComplete);
 
     public:
         me& operator=(const me& rhs);
@@ -45,10 +45,9 @@ namespace nm {
         scope::super& getOwns();
         const scope::super& getOwns() const NM_CONST_FUNC(getOwns())
         const obj& getOrigin() const override;
-        const obj& getSubPack() const;
 
-        clonable* cloneDeep() const override;
-        typedef ntype metaType;
+        virtual const origin& getSubPack() const;
+
         const ntype& getType() const override;
         nbool isComplete() const override;
 
@@ -58,11 +57,9 @@ namespace nm {
         void _inFrame(frame& fr, const bicontainable& args) override;
 
     private:
-        void _setType(const mgdType* new1);
         // update origin pointer of an object.
         // to modify origin* is very dangerous. only permitted module should do this.
-        void _setOrigin(obj* newOrg);
-        void _setSubPack(const obj& newSub);
+        void _setOrigin(const origin& newOrg);
 
         me& _assign(const me& rhs);
 
@@ -70,9 +67,7 @@ namespace nm {
 
     private:
         tstr<scope> _subs;
-        tstr<obj> _subpack; // TODO: this should be beloned to originObj class only.
-        obj* _org; // TODO: this should be 'originObj*' type.
-        const mgdType* _type; // TODO: memory leak
+        tstr<obj> _org;
         nbool _isComplete;
     };
 

@@ -2,7 +2,7 @@
 
 #include "manifest.hpp"
 #include "../loader/errReport.hpp"
-#include "obj.hpp"
+#include "origin.hpp"
 
 namespace nm {
 
@@ -19,8 +19,8 @@ namespace nm {
         manifest& getManifest();
         const manifest& getManifest() const;
         nbool isValid() const;
-        virtual obj& getPack();
-        const obj& getPack() const NM_CONST_FUNC(getPack())
+        virtual origin& getPack();
+        const origin& getPack() const NM_CONST_FUNC(getPack())
         void rel() override;
         void addDependent(me& dependent);
         const tnarr<me>& getDependents() const;
@@ -44,7 +44,7 @@ namespace nm {
         void _rel();
 
     protected:
-        tstr<obj> _pak;
+        tstr<origin> _pak;
 
     private:
         manifest _manifest;

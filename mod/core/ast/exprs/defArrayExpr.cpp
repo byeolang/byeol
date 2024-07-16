@@ -19,7 +19,7 @@ namespace nm {
     }
 
     const node& me::getArrayType() const {
-        return getOrigin().getType().getBeans()[0];
+        return safeGet(getOrigin().getType().getBeans(), get(0));
     }
 
     const arr& me::getOrigin() const {

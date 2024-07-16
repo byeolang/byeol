@@ -2,6 +2,7 @@
 #include "baseFunc.hpp"
 #include "../visitor/visitor.hpp"
 #include "../type/mgdType.hpp"
+#include "origin.hpp"
 
 namespace nm {
 
@@ -25,7 +26,7 @@ namespace nm {
     }
 
     me::slot(const manifest& manifest): _manifest(manifest), _isValid(true) {
-        _pak.bind(new obj(new mgdType(_manifest.name)));
+        _pak.bind(new origin(mgdType(_manifest.name)));
     }
 
     me::slot(const manifest& manifest, const obj& pack): _manifest(manifest), _isValid(true) {
@@ -38,7 +39,7 @@ namespace nm {
         _isValid = true;
     }
 
-    obj& me::getPack() {
+    origin& me::getPack() {
         return *_pak;
     }
 

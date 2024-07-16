@@ -65,9 +65,9 @@ namespace nm {
         return nInt(!get());
     }
 
-    const me& me::getOrigin() const {
-        static me inner;
-        return inner;
+    const obj& me::getOrigin() const {
+        // TODO:
+        return nulOf<obj>();
     }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {

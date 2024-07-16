@@ -7,17 +7,18 @@
 #include "threadUse.hpp"
 #include <csignal>
 #include "../visitor/graphVisitor.hpp"
+#include "../ast/origin.hpp"
 
 namespace nm {
 
     NM_DEF_ME(starter)
 
-    me& me::setPack(node& pak) {
+    me& me::setPack(origin& pak) {
         _pak.bind(pak);
         return *this;
     }
 
-    node& me::getPack() { return *_pak; }
+    origin& me::getPack() { return *_pak; }
 
     void me::_prepare() {
         super::_prepare();
@@ -33,7 +34,7 @@ namespace nm {
         // TODO: don't use static variable '_cache':
         //  instead, put cache onto origin object, and if arr instance is origin, remove the cache.
         arr::_cache.clear();
-        node& pak = getPack();
+        origin& pak = getPack();
         if(nul(pak)) return NM_E("there is no pack!"), str();
 
         NM_I("run a pack");
@@ -68,7 +69,7 @@ namespace nm {
         fr.rel();
     }
 
-    node& me::_findMain(node& pak, const args& a) {
+    node& me::_findMain(origin& pak, const args& a) {
         // TODO: now, only find to main() but I need to find main(argc, argv) case, too.
         node& ret = pak.sub(MAIN);
         if(nul(ret))
