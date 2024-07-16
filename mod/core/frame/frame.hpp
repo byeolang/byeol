@@ -29,10 +29,10 @@ namespace nm {
         ~frame() override;
 
         /// @param existing don't need to cloneChain() before passing this func.
-        void add(scope& existing);
-        void add(nbicontainer& existing);
-        void add(node& owner);
-        virtual void add(node& owner, scope& s);
+        void add(const scope& existing);
+        void add(const nbicontainer& existing);
+        void add(const node& owner);
+        virtual void add(const node& owner, const scope& s);
         virtual void addLocal(const std::string& name, const node& n);
 
         virtual void del();

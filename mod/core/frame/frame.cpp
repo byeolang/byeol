@@ -11,17 +11,17 @@ namespace nm {
     me::frame() { _rel(); }
     me::~frame() { _rel(); }
 
-    void me::add(scope& existing) {
+    void me::add(const scope& existing) {
         add(nulOf<node>(), existing);
     }
-    void me::add(nbicontainer& existing) {
+    void me::add(const nbicontainer& existing) {
         tstr<scope> wrap = scope::wrap<scope>(existing);
         add(*wrap);
     }
-    void me::add(node& owner) {
+    void me::add(const node& owner) {
         add(owner, owner.subs());
     }
-    void me::add(node& owner, scope& existing) {
+    void me::add(const node& owner, const scope& existing) {
         if(nul(existing)) return;
         if(_stack.size() <= 0)
             return _stack.push_back(scopeRegister{owner, existing}), void();
