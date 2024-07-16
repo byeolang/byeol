@@ -9,8 +9,8 @@ namespace nm {
     class _nout origin : public obj {
         NM(ME(origin, obj),
            INIT_META(origin),
-           CLONE(origin),
-           VISIT())
+           CLONE(origin))
+        typedef ntype metaType;
         friend class genericObj; // for _setOrigin(), _setType
         friend class slot; // for _onRunSub
         friend class preEvaluator;
@@ -22,6 +22,9 @@ namespace nm {
         explicit origin(const mgdType& newType, scope& shares, scope& owns);
         explicit origin(const mgdType& newType, const origin& subpack, nbool isComplete);
         explicit origin(const me& rhs);
+
+    public:
+        me& operator=(const me& rhs);
 
     public:
         const ntype& getType() const override;

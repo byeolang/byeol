@@ -2,12 +2,20 @@
 #include "../type/mgdType.hpp"
 
 namespace nm {
+
     NM(DEF_ME(origin))
 
     me::origin(const mgdType& newType): super(), _type(newType) {}
     me::origin(const mgdType& newType, scope& shares, scope& owns): super(shares, owns), _type(newType) {}
     me::origin(const mgdType& newType, const origin& subpack, nbool isComplete): super(isComplete), _type(newType), _subpack(subpack) {}
     me::origin(const me& rhs): super(rhs), _type(rhs._type), _subpack(rhs._subpack), _src(rhs._src) {}
+
+    me& me::operator=(const me& rhs) {
+        if(this == &rhs) return*this;
+
+        super::operator=(rhs);
+        return _assign(rhs);
+    }
 
     const ntype& me::getType() const {
         return _type;
