@@ -105,3 +105,14 @@ TEST_F(ttypeTest, iterateLeafClassTest) {
     ASSERT_TRUE(*subs[0] == ttype<myDerivedClass3>());
     ASSERT_TRUE(*subs[1] == ttype<myDerivedClass2>());
 }
+
+namespace {
+    struct type1 : public ttype<myDerivedClass2> {
+        typedef ttype<myDerivedClass2> super;
+    };
+}
+
+TEST_F(ttypeTest, typeOfType) {
+    const auto& t = ttype<type1>::get();
+    ASSERT_TRUE(t.isSub<ttype<myDerivedClass2>>());
+}
