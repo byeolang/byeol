@@ -32,7 +32,7 @@ namespace nm {
 
         priorType prioritize(const args& a) const override;
 
-        virtual const obj& getOrigin() const = 0;
+        virtual const baseObj& getOrigin() const = 0;
 
         using super::inFrame;
         void inFrame(const bicontainable& args) override;
@@ -42,6 +42,8 @@ namespace nm {
         const src& getSrc() const override;
 
         virtual nbool isPreEvaluated() const;
+
+        virtual const origin& getSubPack() const;
 
         virtual baseObj* make() const;
 

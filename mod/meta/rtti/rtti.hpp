@@ -99,11 +99,19 @@ namespace nm {
     //  if user defined metaType on their own, we let their TType classes inherit their superType class.
     //  otherwise, just use Type as base class.
     template <typename T, typename = void>
+    struct tifHasMetaTypeDef : public metaIf {
+        static inline constexpr nbool is = false;
+    };
+    template <typename T>
+    struct tifHasMetaTypeDef<T, typename taEmptyCan<typename T::metaType>::is> : public metaIf {
+        static inline constexpr nbool is = true;
+    };
+    template <typename T, nbool hasMeta = tifHasMetaTypeDef<T>::is>
     struct tmetaTypeDef {
         using is = type;
     };
     template <typename T>
-    struct tmetaTypeDef<T, void_t<int T::metaType::*>> {
+    struct tmetaTypeDef<T, true> {
         using is = typename T::metaType;
     };
 

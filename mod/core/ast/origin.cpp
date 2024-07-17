@@ -37,7 +37,7 @@ namespace nm {
         return ret;
     }
 
-    const obj& me::getOrigin() const { return *this; }
+    const baseObj& me::getOrigin() const { return *this; }
 
     baseObj* me::make() const {
         return new obj(*this);

@@ -240,7 +240,7 @@ namespace {
 
         scope& subs() override { return org->subs(); }
 
-        const obj& getOrigin() const override { return *org; }
+        const baseObj& getOrigin() const override { return *org; }
 
         static tstr<obj> org;
         nint age;

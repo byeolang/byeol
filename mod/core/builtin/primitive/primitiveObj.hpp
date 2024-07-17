@@ -70,7 +70,7 @@ namespace nm {
         NM(ADT(primitiveObj, arithmeticObj))
 
     public:
-        const obj& getOrigin() const override {
+        const baseObj& getOrigin() const override {
             // TODO:
             return nulOf<obj>();
             //return *this;

@@ -14,5 +14,8 @@ namespace nm {
         // add:
         using super::add;
         nbool add(const std::string& key, const node& val) override;
+
+    public:
+        static me& singletone();
     };
 }

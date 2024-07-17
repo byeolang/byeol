@@ -8,7 +8,7 @@ namespace {
         NM(CLASS(myObj, obj))
 
     public:
-        const obj& getOrigin() const override { return *this; }
+        const baseObj& getOrigin() const override { return *this; }
 
         using super::subs;
         scope& subs() override { return *_subs; }

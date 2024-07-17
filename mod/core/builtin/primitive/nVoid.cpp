@@ -31,7 +31,7 @@ namespace nm {
         return *this;
     }
 
-    const obj& me::getOrigin() const {
+    const baseObj& me::getOrigin() const {
         return nulOf<obj>();
         // TODO:
         //static nVoid inner;

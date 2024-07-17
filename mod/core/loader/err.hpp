@@ -34,7 +34,7 @@ namespace nm {
         using super::run;
         str run(const args& a) override;
 
-        const obj& getOrigin() const override;
+        const baseObj& getOrigin() const override;
 
         virtual void log() const;
         void dbgLog() const;

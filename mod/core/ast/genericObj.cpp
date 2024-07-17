@@ -13,7 +13,7 @@ namespace nm {
 
     me::genericObj(const origin& org, const strings& paramNames): _org(org), _paramNames(paramNames) {}
 
-    const obj& me::getOrigin() const {
+    const baseObj& me::getOrigin() const {
         return *_org;
     }
 

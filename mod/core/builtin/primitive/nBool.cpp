@@ -65,7 +65,7 @@ namespace nm {
         return nInt(!get());
     }
 
-    const obj& me::getOrigin() const {
+    const baseObj& me::getOrigin() const {
         // TODO:
         return nulOf<obj>();
     }

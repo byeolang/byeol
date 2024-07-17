@@ -24,12 +24,12 @@ namespace nm {
         public:
             using super::subs;
             scope& subs() override {
-                static super* inner = nullptr;
+                static tbridger<niter>* inner = nullptr;
                 if(nul(inner)) {
-                    inner = new super();
+                    inner = new tbridger<niter>(new niter());
                     inner->func("isEnd", &niter::isEnd)
-                          .func("next", &niter::next)
-                          .funcNonConst<node&>("get", &niter::get);
+                        .func("next", &niter::next)
+                        .funcNonConst<node&>("get", &niter::get);
                 }
 
                 return inner->subs();
@@ -64,7 +64,7 @@ namespace nm {
                     return NM_E("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]), str();
 
                 nint step = eval->cast<nint>();
-                return new mgdIter(new niter(meObj.getNative().iterate(step)));
+                return new mgdIter(new niter(meObj.get().iterate(step)));
             }
         };
 
@@ -94,10 +94,10 @@ namespace nm {
 
     me::arr(): super() { _type.getBeans().add(*new obj()); }
     me::arr(const node& newType): super() { _type.getBeans().add(newType); }
-    me::arr(const me& rhs): super(rhs), _arr(rhs._arr) { _type.getBeans().add(rhs._type.getBeans()[0]); }
+    me::arr(const me& rhs): super(rhs) { _type.getBeans().add(rhs._type.getBeans()[0]); }
 
     node& me::operator[](nidx n) {
-        return _arr[n];
+        return get()[n];
     }
 
     const ntype& me::getType() const {
@@ -127,7 +127,7 @@ namespace nm {
     }
 
     node& me::get(nidx n) {
-        return get().get(n);
+        return get()[n];
     }
 
     node& me::get(std::function<nbool(const node&)> l) const {
@@ -194,7 +194,7 @@ namespace nm {
        get().rel();
     }
 
-    const obj& me::getOrigin() const {
+    const baseObj& me::getOrigin() const {
         if(!_org)
             _org.bind(new me(getType().getBeans()[0]));
         return *_org;
@@ -203,8 +203,6 @@ namespace nm {
     std::string me::asStr() const {
         return get().asStr();
     }
-
-    narr& me::getNative() { return _arr; }
 
     me::iteration* me::_onMakeIteration(ncnt step) const {
         return get()._onMakeIteration(step);
@@ -227,20 +225,21 @@ namespace nm {
     }
 
     scope& me::_getOriginScope() {
-        static super* inner = nullptr;
+        static tbridger<narr>* inner = nullptr;
         if(nul(inner)) {
-            inner = &super::def();
+            static narr a;
+            inner = new tbridger(&a);
             inner->genericFunc("len", &narr::len)
-                  .genericFunc("rel", &narr::rel)
-                  .genericFunc<nbool, nidx>("del", &narr::del)
-                  .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
-                  .genericFunc<nbool, nidx, const node&>("add", &narr::add)
-                  .genericFunc<nbool, nidx, const node&>("set", &narr::set)
-                  .genericFuncNonConst<node&, nidx>("get", &narr::get)
-                  .genericFunc<nbool, const node&>("has", &narr::has);
-            inner->subs().add("iterate", new iterateFunc());
+                .genericFunc("rel", &narr::rel)
+                .genericFunc<nbool, nidx>("del", &narr::del)
+                .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
+                .genericFunc<nbool, nidx, const node&>("add", &narr::add)
+                .genericFunc<nbool, nidx, const node&>("set", &narr::set)
+                .genericFuncNonConst<node&, nidx>("get", &narr::get)
+                .genericFunc<nbool, const node&>("has", &narr::has)
+                .subs().add("iterate", new iterateFunc());
         }
 
-        return inner->subs().cast<scope>();
+        return inner->subs();
     }
 }

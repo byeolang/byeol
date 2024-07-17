@@ -18,7 +18,7 @@ namespace nm {
         genericObj(const origin& org, const strings& paramNames);
 
     public:
-        const obj& getOrigin() const override;
+        const baseObj& getOrigin() const override;
         const strings& getParamNames() const;
 
         priorType prioritize(const args& a) const override;

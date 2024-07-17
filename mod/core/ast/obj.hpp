@@ -16,6 +16,8 @@ namespace nm {
              INIT_META(obj),
              CLONE(obj),
              VISIT())
+
+    public:
         typedef ntype metaType;
         friend class parser;
 
@@ -44,9 +46,9 @@ namespace nm {
         const scope& getShares() const NM_CONST_FUNC(getShares())
         scope::super& getOwns();
         const scope::super& getOwns() const NM_CONST_FUNC(getOwns())
-        const obj& getOrigin() const override;
+        const baseObj& getOrigin() const override;
 
-        virtual const origin& getSubPack() const;
+        const origin& getSubPack() const override;
 
         const ntype& getType() const override;
         nbool isComplete() const override;
@@ -67,7 +69,7 @@ namespace nm {
 
     private:
         tstr<scope> _subs;
-        tstr<obj> _org;
+        tstr<baseObj> _org;
         nbool _isComplete;
     };
 

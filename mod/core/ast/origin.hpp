@@ -10,7 +10,8 @@ namespace nm {
         NM(ME(origin, obj),
            INIT_META(origin),
            CLONE(origin))
-        typedef ntype metaType;
+
+    public:
         friend class genericObj; // for _setOrigin(), _setType
         friend class slot; // for _onRunSub
         friend class preEvaluator;
@@ -31,7 +32,7 @@ namespace nm {
         const origin& getSubPack() const override;
         const src& getSrc() const override;
         clonable* cloneDeep() const override;
-        const obj& getOrigin() const override;
+        const baseObj& getOrigin() const override;
         baseObj* make() const override;
 
     private:

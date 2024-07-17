@@ -14,7 +14,7 @@ namespace {
         originObj(const scope& subs): super(new mgdType("originObj")), _subs(subs) {}
         originObj(const me& rhs): _subs(rhs._subs) {}
 
-        const obj& getOrigin() const override {
+        const baseObj& getOrigin() const override {
             return *this;
         }
 

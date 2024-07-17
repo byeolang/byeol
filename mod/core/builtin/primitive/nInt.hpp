@@ -22,7 +22,7 @@ namespace nm {
 
     public:
         tstr<arithmeticObj> bitwiseNot() const override;
-        const obj& getOrigin() const override;
+        const baseObj& getOrigin() const override;
 
     protected:
         void _onMakeSubs(scope& tray) const override;

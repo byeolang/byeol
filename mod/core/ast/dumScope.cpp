@@ -11,4 +11,9 @@ namespace nm {
     nbool me::add(const std::string& key, const node& val) {
         return false;
     }
+
+    me& me::singletone() {
+        static me inner;
+        return inner;
+    }
 }

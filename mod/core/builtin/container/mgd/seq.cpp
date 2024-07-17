@@ -54,9 +54,9 @@ namespace nm {
         public:
             using super::subs;
             scope& subs() override {
-                static super* inner = nullptr;
+                static tbridger<niter>* inner = nullptr;
                 if(nul(inner)) {
-                    inner = new super();
+                    inner = new tbridger<niter>(new niter());
                     inner->func("isEnd", &niter::isEnd)
                           .func("next", &niter::next)
                           .func<nInt>("get", &niter::get);
@@ -115,13 +115,14 @@ namespace nm {
     }
 
     scope& me::subs() {
-        static super* inner;
+        static tbridger<nseq>* inner = nullptr;
         if(nul(inner)) {
-            inner = new super();
+            static nseq a(1, 2);
+            inner = new tbridger<nseq>(&a);
             inner->func("len", &nseq::len)
-                  .func<nInt, nint>("get", &nseq::get)
-                  .func("has", &nseq::has);
-            inner->subs().add("iterate", new iterateFunc());
+                .func<nInt, nint>("get", &nseq::get)
+                .func("has", &nseq::has)
+                .subs().add("iterate", new iterateFunc());
             inner->subs().add("getElemType", new getElemTypeFunc());
         }
 

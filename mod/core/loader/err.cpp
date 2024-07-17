@@ -197,7 +197,7 @@ namespace nm {
         return NM_E("ambigious call found: %s", "TODO:"), str();
     }
 
-    const obj& me::getOrigin() const {
+    const baseObj& me::getOrigin() const {
         // TODO:
         //return singletone();
         return nulOf<obj>();

@@ -6,7 +6,7 @@
 namespace nm {
 
     struct marshalErr {};
-    template <typename T, typename S, nbool isBaseObj> class tcppBridge;
+    template <typename T, typename S> class tcppBridge;
     template <typename T, typename defaultElemType> class tarr;
     class arr;
 
@@ -63,26 +63,26 @@ namespace nm {
     };
     template <typename T, typename S>
     struct tmarshaling<T&, S, false> : public metaIf {
-        typedef class tcppBridge<T, S, tifSub<S, baseObj>::is> mgd;
+        typedef class tcppBridge<T, S> mgd;
         template <typename E>
         static str toMgd(E& it) {
             return new mgd(&it);
         }
 
-        static T& toNative(node& it) { return it.cast<tcppBridge<T, S, tifSub<S, baseObj>::is>>().get(); }
+        static T& toNative(node& it) { return it.cast<tcppBridge<T, S>>().get(); }
         static mgd& onAddParam() { return *new mgd(); }
         static mgd& onGetRet() { return *new mgd(); }
         static yes canMarshal();
     };
     template <typename T, typename S>
     struct tmarshaling<T*, S, false> : public metaIf {
-        typedef tcppBridge<T, S, tifSub<S, baseObj>::is> mgd;
+        typedef tcppBridge<T, S> mgd;
         template <typename E>
         static str toMgd(E* it) {
             return new mgd(it);
         }
 
-        static T* toNative(node& it) { return &it.cast<tcppBridge<T, S, tifSub<S, baseObj>::is>>().get(); }
+        static T* toNative(node& it) { return &it.cast<tcppBridge<T, S>>().get(); }
         static mgd& onAddParam() { return *new mgd(); }
         static mgd& onGetRet() { return *new mgd(); }
         static yes canMarshal();

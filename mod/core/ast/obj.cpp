@@ -96,7 +96,7 @@ namespace nm {
         return safeGet(_subs, getContainer());
     }
 
-    const obj& me::getOrigin() const {
+    const baseObj& me::getOrigin() const {
         return *_org;
     }
 

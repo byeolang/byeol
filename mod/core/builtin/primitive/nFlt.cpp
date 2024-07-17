@@ -53,7 +53,7 @@ namespace nm {
         // TODO: throw error
     }
 
-    const obj& me::getOrigin() const {
+    const baseObj& me::getOrigin() const {
         // TODO:
         //static me inner;
         return nulOf<obj>();
