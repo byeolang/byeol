@@ -167,6 +167,8 @@ namespace nm {
         _initStack();
     }
 
+    me::err(): me(logLv::ERR, errCode::UNKNOWN) {}
+
     nbool me::operator==(const me& rhs) const {
         return fType == rhs.fType && code == rhs.code && code == rhs.code;
     }
@@ -176,9 +178,12 @@ namespace nm {
 
     scope& me::subs() {
         static tbridger<me>* inner = nullptr;
-        if(nul(inner))
-            inner->func("log", &me::log)
+        if(nul(inner)) {
+            inner = new tbridger<me>();
+            inner->ctor<me>()
+                .func("log", &me::log)
                 .func("logStack", &me::logStack);
+        }
         return inner->subs();
     }
 
@@ -195,9 +200,7 @@ namespace nm {
     }
 
     const baseObj& me::getOrigin() const {
-        // TODO:
-        //return singletone();
-        return nulOf<obj>();
+        return singletone();
     }
 
     void me::log() const {

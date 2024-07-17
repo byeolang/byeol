@@ -23,8 +23,8 @@ namespace nm {
     }
 
     scope& me::_onMakeSubs() const {
-        static tbridger<me> inner(org);
-        return inner.subs();
+        static scope inner = tbridger<me>().ctor().ctor<me>().subs();
+        return inner;
     }
 
     const ases& me::wBoolType::_getImpliAses() const {

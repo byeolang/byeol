@@ -6,24 +6,49 @@
 namespace nm {
 
     struct marshalErr {};
-    template <typename T, typename S> class tcppBridge;
+    template <typename T> class tcppBridge;
     template <typename T, typename defaultElemType> class tarr;
     class arr;
 
-    template <typename T, typename S, nbool isNode = tifSub<T, node>::is>
+    template <typename T, nbool isNode = tifSub<T, node>::is>
     struct tmarshaling : public metaIf {
+        typedef T mgd;
         template <typename E>
         static str toMgd(E& it) {
             throw marshalErr();
         }
 
-        static T& toNative(node& it) { throw marshalErr(); }
-        static T& onAddParam() { return *new T(); }
-        static T& onGetRet() { throw marshalErr(); }
+        static T& toNative(const str& it) { throw marshalErr(); }
+        static const mgd& onAddParam() { return *new mgd(); }
+        static const mgd& onGetRet() { throw marshalErr(); }
         static no canMarshal();
     };
-    template <typename S>
-    struct tmarshaling<node&, S, true> : public metaIf {
+    template <typename T, typename TACTIC>
+    struct tmarshaling<tweak<T, TACTIC>, true> : public metaIf {
+        typedef tcppBridge<tweak<T, TACTIC>> mgd;
+        template <typename E>
+        static str toMgd(E& it) {
+            return it;
+        }
+        static tweak<T, TACTIC> toNative(node& it) { return it; }
+        static const mgd& onAddParam() { return *new mgd(new T()); }
+        static const mgd& onGetRet() { return *new mgd(new T()); }
+        static yes canMarshal();
+    };
+    template <typename T, typename TACTIC>
+    struct tmarshaling<tstr<T, TACTIC>, true> : public metaIf {
+        typedef tcppBridge<tstr<T, TACTIC>> mgd;
+        template <typename E>
+        static str toMgd(E& it) {
+            return it;
+        }
+        static tstr<T, TACTIC> toNative(node& it) { return it; }
+        static const mgd& onAddParam() { return *new mgd(new T()); }
+        static const mgd& onGetRet() { return *new mgd(new T()); }
+        static yes canMarshal();
+    };
+    template <>
+    struct tmarshaling<node&, true> : public metaIf {
         typedef node mgd;
         template <typename E>
         static str toMgd(E& it) {
@@ -31,12 +56,12 @@ namespace nm {
         }
 
         static node& toNative(node& it) { return it; }
-        static mgd& onAddParam() { return *new mockNode(); }
-        static mgd& onGetRet() { return *new mockNode(); }
+        static const mgd& onAddParam() { return *new mockNode(); }
+        static const mgd& onGetRet() { return *new mockNode(); }
         static yes canMarshal();
     };
-    template <typename T, typename S>
-    struct tmarshaling<T&, S, true> : public metaIf {
+    template <typename T>
+    struct tmarshaling<T&, true> : public metaIf {
         typedef T mgd;
         template <typename E>
         static str toMgd(E& it) {
@@ -44,12 +69,25 @@ namespace nm {
         }
 
         static T& toNative(node& it) { return it.cast<T>(); }
-        static mgd& onAddParam() { return *new mgd(); }
-        static mgd& onGetRet() { return *new mgd(); }
+        static const mgd& onAddParam() { return *new mgd(); }
+        static const mgd& onGetRet() { return *new mgd(); }
         static yes canMarshal();
     };
-    template <typename T, typename S>
-    struct tmarshaling<T, S, true> : public metaIf {
+    template <typename T>
+    struct tmarshaling<T*, true> : public metaIf {
+        typedef T mgd;
+        template <typename E>
+        static str toMgd(E* it) {
+            return it;
+        }
+
+        static T* toNative(node& it) { return it.cast<T>(); }
+        static const mgd& onAddParam() { return *new mgd(); }
+        static const mgd& onGetRet() { return *new mgd(); }
+        static yes canMarshal();
+    };
+    template <typename T>
+    struct tmarshaling<T, true> : public metaIf {
         typedef T mgd;
         template <typename E>
         static str toMgd(const E& it) {
@@ -57,38 +95,51 @@ namespace nm {
         }
 
         static T& toNative(node& it) { return it.cast<T>(); }
-        static mgd& onAddParam() { return *new mgd(); }
-        static mgd& onGetRet() { return *new mgd(); }
+        static const mgd& onAddParam() { return *new mgd(); }
+        static const mgd& onGetRet() { return *new mgd(); }
         static yes canMarshal();
     };
-    template <typename T, typename S>
-    struct tmarshaling<T&, S, false> : public metaIf {
-        typedef class tcppBridge<T, S> mgd;
+    template <typename T>
+    struct tmarshaling<T, false> : public metaIf {
+        typedef class tcppBridge<T> mgd;
+        template <typename E>
+        static str toMgd(const E& it) {
+            return new mgd(new E(it));
+        }
+
+        static T& toNative(node& it) { return it.cast<T>(); }
+        static const mgd& onAddParam() { return *new mgd(); }
+        static const mgd& onGetRet() { return *new mgd(); }
+        static yes canMarshal();
+    };
+    template <typename T>
+    struct tmarshaling<T&, false> : public metaIf {
+        typedef class tcppBridge<T> mgd;
         template <typename E>
         static str toMgd(E& it) {
             return new mgd(&it);
         }
 
-        static T& toNative(node& it) { return it.cast<tcppBridge<T, S>>().get(); }
-        static mgd& onAddParam() { return *new mgd(); }
-        static mgd& onGetRet() { return *new mgd(); }
+        static T& toNative(node& it) { return it.cast<tcppBridge<T>>().get(); }
+        static const mgd& onAddParam() { return *new mgd(); }
+        static const mgd& onGetRet() { return *new mgd(); }
         static yes canMarshal();
     };
-    template <typename T, typename S>
-    struct tmarshaling<T*, S, false> : public metaIf {
-        typedef tcppBridge<T, S> mgd;
+    template <typename T>
+    struct tmarshaling<T*, false> : public metaIf {
+        typedef tcppBridge<T> mgd;
         template <typename E>
         static str toMgd(E* it) {
             return new mgd(it);
         }
 
-        static T* toNative(node& it) { return &it.cast<tcppBridge<T, S>>().get(); }
-        static mgd& onAddParam() { return *new mgd(); }
-        static mgd& onGetRet() { return *new mgd(); }
+        static T* toNative(node& it) { return &it.cast<tcppBridge<T>>().get(); }
+        static const mgd& onAddParam() { return *new mgd(); }
+        static const mgd& onGetRet() { return *new mgd(); }
         static yes canMarshal();
     };
-    template <typename T, typename E, typename S>
-    struct tmarshaling<tarr<T, E>, S, true> : public metaIf {
+    template <typename T, typename E>
+    struct tmarshaling<tarr<T, E>, true> : public metaIf {
         typedef arr mgd;
 
         static tarr<T, E> toNative(node& it);
@@ -96,42 +147,42 @@ namespace nm {
         template <typename E2>
         static str toMgd(E2* it);
 
-        static mgd& onAddParam();
-        static mgd& onGetRet();
+        static const mgd& onAddParam();
+        static const mgd& onGetRet();
         static yes canMarshal();
     };
 
-    template <typename tnativeType, typename tnativeGenericType, typename tmarshalType>
+    template <typename tnativeType, typename tmarshalType>
     struct tnormalMarshaling : public metaIf {
         typedef tmarshalType mgd;
         typedef tnativeType native;
 
         static native toNative(node& it) { return ((mgd&) it).get(); }
         static str toMgd(native it) { return str(new mgd(it)); }
-        static mgd& onAddParam() { return *new mgd(); }
-        static mgd& onGetRet() { return *new mgd(); }
+        static const mgd& onAddParam() { return *new mgd(); }
+        static const mgd& onGetRet() { return *new mgd(); }
         static yes canMarshal();
     };
-    template <typename S>
-    struct _nout tnormalMarshaling<void, S, nVoid> : public metaIf {
+    template <>
+    struct _nout tnormalMarshaling<void, nVoid> : public metaIf {
         typedef nVoid mgd;
         typedef void native;
 
         static str toMgd() { return str(new nVoid()); }
-        static mgd& onAddParam() { return *new mgd(); }
-        static mgd& onGetRet() { return *new mgd(); }
+        static const mgd& onAddParam() { return *new mgd(); }
+        static const mgd& onGetRet() { return *new mgd(); }
         static yes canMarshal();
     };
 
-    template <typename S> struct _nout tmarshaling<nint, S, false> : public tnormalMarshaling<nint, S, nInt> {};
-    template <typename S> struct _nout tmarshaling<nint&, S, false> : public tnormalMarshaling<nint, S, nInt> {};
-    template <typename S> struct _nout tmarshaling<const nint&, S, false> : public tnormalMarshaling<nint, S, nInt> {};
-    template <typename S> struct _nout tmarshaling<nbool, S, false> : public tnormalMarshaling<nbool, S, nBool> {};
-    template <typename S> struct _nout tmarshaling<nflt, S, false> : public tnormalMarshaling<nflt, S, nFlt> {};
-    template <typename S> struct _nout tmarshaling<nchar, S, false> : public tnormalMarshaling<nchar, S, nByte> {};
-    template <typename S> struct _nout tmarshaling<std::string, S, false> : public tnormalMarshaling<const std::string&, S, nStr> {};
-    template <typename S> struct _nout tmarshaling<std::string&, S, false> : public tnormalMarshaling<const std::string&, S, nStr> {};
-    template <typename S> struct _nout tmarshaling<const std::string&, S, false> : public tnormalMarshaling<const std::string&, S, nStr> {};
-    template <typename S> struct _nout tmarshaling<const std::string, S, false> : public tnormalMarshaling<const std::string&, S, nStr> {};
-    template <typename S> struct _nout tmarshaling<void, S, false> : public tnormalMarshaling<void, S, nVoid> {};
+    template <> struct _nout tmarshaling<nint, false> : public tnormalMarshaling<nint, nInt> {};
+    template <> struct _nout tmarshaling<nint&, false> : public tnormalMarshaling<nint, nInt> {};
+    template <> struct _nout tmarshaling<const nint&, false> : public tnormalMarshaling<nint, nInt> {};
+    template <> struct _nout tmarshaling<nbool, false> : public tnormalMarshaling<nbool, nBool> {};
+    template <> struct _nout tmarshaling<nflt, false> : public tnormalMarshaling<nflt, nFlt> {};
+    template <> struct _nout tmarshaling<nchar, false> : public tnormalMarshaling<nchar, nByte> {};
+    template <> struct _nout tmarshaling<std::string, false> : public tnormalMarshaling<const std::string&, nStr> {};
+    template <> struct _nout tmarshaling<std::string&, false> : public tnormalMarshaling<const std::string&, nStr> {};
+    template <> struct _nout tmarshaling<const std::string&, false> : public tnormalMarshaling<const std::string&, nStr> {};
+    template <> struct _nout tmarshaling<const std::string, false> : public tnormalMarshaling<const std::string&, nStr> {};
+    template <> struct _nout tmarshaling<void, false> : public tnormalMarshaling<void, nVoid> {};
 }

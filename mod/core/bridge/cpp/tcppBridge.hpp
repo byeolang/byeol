@@ -11,9 +11,8 @@ namespace nm {
 
     /// bridge object only can shares 'shared' sub nodes.
     /// @param T represents native class.
-    /// @param S represents whether it's generic obj or not.
-    template <typename T, typename S = baseObj>
-    class tcppBridge : public S {
+    template <typename T>
+    class tcppBridge : public baseObj {
         // TODO: how to impement 'as()' on bridge obj:
         //  each tcppBridge obj has its unique type object. when it got called 'getType()'
         //  it returns its type object.
@@ -21,21 +20,24 @@ namespace nm {
         //  however, type object is dynamically belongs to this bridge object, when user
         //  tries to get ttype<T>, it's not derived from ntype so it won't have any 'as()'
         //  func. user can't operate conversion in this way.
-        NM(ME(tcppBridge, S),
+        NM(ME(tcppBridge, baseObj),
            INIT_META(tcppBridge),
            CLONE(tcppBridge))
 
     public:
         typedef ntype metaType;
-        template <typename Ret, typename T1, typename S1, nbool, template <typename, typename, nbool> class Marshaling, typename...Args>
+        template <typename Ret, typename T1, nbool, template <typename, nbool> class Marshaling, typename...Args>
         friend class tcppBridgeFunc;
-        template <typename T1, typename S1, nbool>
+        template <typename T1, nbool>
         friend class tbridger;
+        template <typename T1, nbool>
+        friend struct tmarshaling;
 
         static_assert(!tifSub<T, baseObj>::is, "parameterized type 'T' shouldn't be a derived class to baseObj. override subs() if it is.");
 
     protected:
-        tcppBridge(): me(dumScope::singletone(), new T()) {}
+        /// @hidden this api is only available to tmarshaling.
+        tcppBridge(): me(nullptr) {}
         tcppBridge(T* real): me(dumScope::singletone(), real) {}
         tcppBridge(const scope& subs, T* real): super(), _real(real) {
             _subs.bind(subs);

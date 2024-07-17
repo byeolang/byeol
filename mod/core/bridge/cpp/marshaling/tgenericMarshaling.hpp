@@ -5,11 +5,11 @@
 #include "../../../ast/obj.hpp"
 
 namespace nm {
-    template <typename T, typename S, nbool isNode = tifSub<T, node>::is>
-    struct tgenericMarshaling : public tmarshaling<T, S, isNode> {};
+    template <typename T, nbool isNode = tifSub<T, node>::is>
+    struct tgenericMarshaling : public tmarshaling<T, isNode> {};
 
     template <>
-    struct _nout tgenericMarshaling<node&, obj, true> : public metaIf {
+    struct _nout tgenericMarshaling<node&, true> : public metaIf {
         typedef getExpr mgdType;
 
         template <typename E>
@@ -24,7 +24,7 @@ namespace nm {
     };
 
     template <>
-    struct _nout tgenericMarshaling<node*, obj, true> : public metaIf {
+    struct _nout tgenericMarshaling<node*, true> : public metaIf {
         typedef getExpr mgdType;
 
         template <typename E>
@@ -38,7 +38,7 @@ namespace nm {
         static yes canMarshal();
     };
     template <>
-    struct _nout tgenericMarshaling<const node&, obj, true> : public metaIf {
+    struct _nout tgenericMarshaling<const node&, true> : public metaIf {
         typedef getExpr mgdType;
 
         template <typename E>
@@ -53,7 +53,7 @@ namespace nm {
     };
 
     template <>
-    struct _nout tgenericMarshaling<const node*, obj, true> : public metaIf {
+    struct _nout tgenericMarshaling<const node*, true> : public metaIf {
         typedef getExpr mgdType;
 
         template <typename E>

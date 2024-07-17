@@ -31,9 +31,11 @@ struct con {
 };
 
 extern "C" _nout void namu_bridge_cpp_entrypoint(bicontainable* tray) {
-    tray->add("con", tcppBridge<con>::def()
+    tray->add("con", tbridger<con>()
+        .ctor()
+        .ctor<con>()
         .func("say", &con::say)
         .func("add", &con::add)
         .func("print", &con::print)
-        .func("input", &con::input));
+        .func("input", &con::input).make(new con()));
 }

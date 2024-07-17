@@ -3,19 +3,25 @@
 #include "../../ast/baseFunc.hpp"
 #include "../../ast/args.hpp"
 #include "../../ast/params.hpp"
+#include "ast/mockNode.hpp"
 
 namespace nm {
 
-    template <typename Ret, typename T, typename S, template <typename, typename, nbool> class Marshaling, typename... Args>
+    template <typename Ret, typename T, template <typename, nbool> class Marshaling, typename... Args>
     class tcppBridgeFuncBase : public baseFunc {
         NM(ADT(tcppBridgeFuncBase, baseFunc))
     protected:
         typedef Ret (T::*fptrType)(Args...);
 
     public:
+        /// @param mgdOrg it's managed pointer.
+        ///               the instance refered by this pointer should be managed at somewhere.
+        ///               that is, this class will just get the value of address and won't release
+        ///               memory.
         tcppBridgeFuncBase(fptrType fptr): super(), _fptr(fptr) {}
 
-        static_assert(allTrues<(sizeof(Marshaling<Args, S, tifSub<Args, node>::is>::canMarshal() ) ==
+    public:
+        static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal() ) ==
                 sizeof(metaIf::yes))...>::value,
                 "can't marshal one of this func's parameter ntypes.");
 
@@ -30,13 +36,6 @@ namespace nm {
             return _runNative(evaluated);
         }
 
-        str getRet() const override {
-            if(!_ret)
-                _ret.bind(Marshaling<Ret, S, tifSub<Ret, node>::is>::onGetRet());
-
-            return _ret;
-        }
-
         nbool setRet(const node& newRet) override {
             return _ret.bind(newRet);
         }
@@ -44,7 +43,7 @@ namespace nm {
         const params& getParams() const override {
             if(!_params) {
                 _params.bind(new params());
-                (_params->add(new param("", Marshaling<Args, S, tifSub<Args, node>::is>::onAddParam())), ...);
+                (_params->add(new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())), ...);
             }
             return *_params;
         }
@@ -85,14 +84,22 @@ namespace nm {
         mutable str _ret;
     };
 
-    template <typename Ret, typename T, typename S, nbool isBaseObj, template <typename, typename, nbool> class Marshaling,
+    template <typename Ret, typename T, nbool isBaseObj, template <typename, nbool> class Marshaling,
              typename... Args>
-    class tcppBridgeFunc : public tcppBridgeFuncBase<Ret, T, S, Marshaling, Args...> {
-        typedef tcppBridgeFuncBase<Ret, T, S, Marshaling, Args...> _super_;
+    class tcppBridgeFunc : public tcppBridgeFuncBase<Ret, T, Marshaling, Args...> {
+        typedef tcppBridgeFuncBase<Ret, T, Marshaling, Args...> _super_;
         NM(CLASS(tcppBridgeFunc, _super_))
 
     public:
         tcppBridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
+
+    public:
+        str getRet() const override {
+            if(!this->_ret)
+                this->_ret.bind(Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet());
+
+            return this->_ret;
+        }
 
     protected:
         str _runNative(args& args) override {
@@ -102,14 +109,22 @@ namespace nm {
         template <size_t... index>
         str _marshal(args& args, std::index_sequence<index...>);
     };
-    template <typename T, typename S, template <typename, typename, nbool> class Marshaling,
+    template <typename T, template <typename, nbool> class Marshaling,
              typename... Args>
-    class tcppBridgeFunc<void, T, S, false, Marshaling, Args...> : public tcppBridgeFuncBase<void, T, S, Marshaling, Args...> {
-        typedef tcppBridgeFuncBase<void, T, S, Marshaling, Args...> _super_;
+    class tcppBridgeFunc<void, T, false, Marshaling, Args...> : public tcppBridgeFuncBase<void, T, Marshaling, Args...> {
+        typedef tcppBridgeFuncBase<void, T, Marshaling, Args...> _super_;
         NM(CLASS(tcppBridgeFunc, _super_))
 
     public:
         tcppBridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
+
+    public:
+        str getRet() const override {
+            if(!this->_ret)
+                this->_ret.bind(Marshaling<void, false>::onGetRet());
+
+            return this->_ret;
+        }
 
     protected:
         str _runNative(args& args) override {
@@ -119,15 +134,22 @@ namespace nm {
         template <size_t... index>
         str _marshal(args& args, std::index_sequence<index...>);
     };
-
-    template <typename Ret, typename T, typename S, template <typename, typename, nbool> class Marshaling,
+    template <typename T, template <typename, nbool> class Marshaling,
              typename... Args>
-    class tcppBridgeFunc<Ret, T, S, true, Marshaling, Args...> : public tcppBridgeFuncBase<Ret, T, S, Marshaling, Args...> {
-        typedef tcppBridgeFuncBase<Ret, T, S, Marshaling, Args...> _super_;
+    class tcppBridgeFunc<void, T, true, Marshaling, Args...> : public tcppBridgeFuncBase<void, T, Marshaling, Args...> {
+        typedef tcppBridgeFuncBase<void, T, Marshaling, Args...> _super_;
         NM(CLASS(tcppBridgeFunc, _super_))
 
     public:
         tcppBridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
+
+    public:
+        str getRet() const override {
+            if(!this->_ret)
+                this->_ret.bind(Marshaling<void, false>::onGetRet());
+
+            return this->_ret;
+        }
 
     protected:
         str _runNative(args& args) override {
@@ -135,16 +157,33 @@ namespace nm {
         }
 
         template <size_t... index>
-        str _marshal(args& args, std::index_sequence<index...>);
+        str _marshal(args& a, std::index_sequence<index...>) {
+            T* me = (T*) &a.getMe();
+            if(nul(me)) return NM_E("object from frame does not exists."), str();
+            if(me->template isSub<mockNode>()) {
+                mockNode& mock = me->template cast<mockNode>();
+                me = (T*) &mock.getTarget();
+            }
+            (me->*(this->_fptr))(Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...);
+            return Marshaling<void, tifSub<void, node>::is>::toMgd();
+        }
     };
-    template <typename T, typename S, template <typename, typename, nbool> class Marshaling,
+    template <typename Ret, typename T, template <typename, nbool> class Marshaling,
              typename... Args>
-    class tcppBridgeFunc<void, T, S, true, Marshaling, Args...> : public tcppBridgeFuncBase<void, T, S, Marshaling, Args...> {
-        typedef tcppBridgeFuncBase<void, T, S, Marshaling, Args...> _super_;
+    class tcppBridgeFunc<Ret, T, true, Marshaling, Args...> : public tcppBridgeFuncBase<Ret, T, Marshaling, Args...> {
+        typedef tcppBridgeFuncBase<Ret, T, Marshaling, Args...> _super_;
         NM(CLASS(tcppBridgeFunc, _super_))
 
     public:
         tcppBridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
+
+    public:
+        str getRet() const override {
+            if(!this->_ret)
+                this->_ret.bind(Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet());
+
+            return this->_ret;
+        }
 
     protected:
         str _runNative(args& args) override {
@@ -152,6 +191,15 @@ namespace nm {
         }
 
         template <size_t... index>
-        str _marshal(args& args, std::index_sequence<index...>);
+        str _marshal(args& a, std::index_sequence<index...>) {
+            T* me = (T*) &a.getMe();
+            if(nul(me)) return NM_E("object from frame does not exists."), str();
+            if(me->template isSub<mockNode>()) {
+                mockNode& mock = me->template cast<mockNode>();
+                me = (T*) &mock.getTarget();
+            }
+            return Marshaling<Ret, tifSub<Ret, node>::is>::toMgd((me->*(this->_fptr)) // funcptr
+                    (Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...)); // and args.ZZZ
+        }
     };
 }

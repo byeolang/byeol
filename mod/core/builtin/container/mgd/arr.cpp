@@ -24,15 +24,15 @@ namespace nm {
         public:
             using super::subs;
             scope& subs() override {
-                static tbridger<niter>* inner = nullptr;
-                if(nul(inner)) {
-                    inner = new tbridger<niter>(new niter());
-                    inner->func("isEnd", &niter::isEnd)
-                        .func("next", &niter::next)
-                        .funcNonConst<node&>("get", &niter::get);
-                }
+                static scope inner = tbridger<niter>()
+                    .ctor()
+                    .ctor<niter>()
+                    .func("isEnd", &niter::isEnd)
+                    .func("next", &niter::next)
+                    .funcNonConst<node&>("get", &niter::get)
+                    .subs();
 
-                return inner->subs();
+                return inner;
             }
         };
 
@@ -92,8 +92,8 @@ namespace nm {
         };
     }
 
-    me::arr(): super() { _type.getBeans().add(*new obj()); }
-    me::arr(const node& newType): super() { _type.getBeans().add(newType); }
+    me::arr(): super(new narr()) { _type.getBeans().add(*new obj()); }
+    me::arr(const node& newType): super(new narr()) { _type.getBeans().add(newType); }
     me::arr(const me& rhs): super(rhs) { _type.getBeans().add(rhs._type.getBeans()[0]); }
 
     node& me::operator[](nidx n) {
@@ -227,9 +227,10 @@ namespace nm {
     scope& me::_getOriginScope() {
         static tbridger<narr>* inner = nullptr;
         if(nul(inner)) {
-            static narr a;
-            inner = new tbridger(&a);
-            inner->genericFunc("len", &narr::len)
+            inner = new tbridger<narr>();
+            inner->ctor()
+                .ctor<narr>()
+                .genericFunc("len", &narr::len)
                 .genericFunc("rel", &narr::rel)
                 .genericFunc<nbool, nidx>("del", &narr::del)
                 .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)

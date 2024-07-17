@@ -31,8 +31,9 @@ struct exprTest : public namuTest {
 void exprTest::SetUp() {
     namuTest::SetUp();
 
-    bridge.bind(tcppBridge<helloWorld>::def()
-        .func("main", &helloWorld::main));
+    bridge.bind(tbridger<helloWorld>()
+        .ctor().ctor<helloWorld>()
+        .func("main", &helloWorld::main).make(new helloWorld()));
 }
 
 void exprTest::TearDown() {

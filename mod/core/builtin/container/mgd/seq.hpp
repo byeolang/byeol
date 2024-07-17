@@ -28,10 +28,16 @@ namespace nm {
         typedef ntype metaType; // for ttype<T>
         typedef typename tucontainable<nInt, nInt>::iter iter;
         typedef typename tucontainable<nInt, nInt>::iteration iteration;
+        template <typename T, nbool>
+        friend struct tmarshaling;
 
     public:
         seq(const nInt& start, const nInt& end);
         seq(const nInt& start, const nInt& end, const nInt& step);
+
+    private:
+        // @hidden this's only available to marshaling.
+        seq();
 
     public:
         using tarrayable<nInt, nInt>::operator[];

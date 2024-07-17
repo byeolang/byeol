@@ -9,6 +9,7 @@ namespace nm {
 
     me::seq(const nInt& start, const nInt& end): super(new nseq(start, end)) {}
     me::seq(const nInt& start, const nInt& end, const nInt& step): super(new nseq(start, end, step)) {}
+    me::seq(): super(new nseq(0, 0)) {}
 
     nInt me::operator[](nidx n) {
         return get()[n];
@@ -56,10 +57,12 @@ namespace nm {
             scope& subs() override {
                 static tbridger<niter>* inner = nullptr;
                 if(nul(inner)) {
-                    inner = new tbridger<niter>(new niter());
-                    inner->func("isEnd", &niter::isEnd)
-                          .func("next", &niter::next)
-                          .func<nInt>("get", &niter::get);
+                    inner = new tbridger<niter>();
+                    inner->ctor()
+                        .ctor<niter>()
+                        .func("isEnd", &niter::isEnd)
+                        .func("next", &niter::next)
+                        .func<nInt>("get", &niter::get);
                 }
 
                 return inner->subs();
@@ -117,9 +120,11 @@ namespace nm {
     scope& me::subs() {
         static tbridger<nseq>* inner = nullptr;
         if(nul(inner)) {
-            static nseq a(1, 2);
-            inner = new tbridger<nseq>(&a);
-            inner->func("len", &nseq::len)
+            inner = new tbridger<nseq>();
+            inner->ctor<nint, nint>()
+                .ctor<nint, nint, nint>()
+                .ctor<nseq>()
+                .func("len", &nseq::len)
                 .func<nInt, nint>("get", &nseq::get)
                 .func("has", &nseq::has)
                 .subs().add("iterate", new iterateFunc());

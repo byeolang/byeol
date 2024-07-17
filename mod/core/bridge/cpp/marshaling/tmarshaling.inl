@@ -5,8 +5,8 @@
 
 namespace nm {
 
-#define TEMPL template <typename T, typename E, typename S>
-#define ME tmarshaling<tarr<T, E>, S, true>
+#define TEMPL template <typename T, typename E>
+#define ME tmarshaling<tarr<T, E>, true>
 
     TEMPL
     tarr<T, E> ME::toNative(node& it) {
@@ -20,13 +20,13 @@ namespace nm {
     }
 
     TEMPL
-    typename ME::mgd& ME::onAddParam() {
-        return *new mgd(tmarshaling<T, S>::onAddParam());
+    const typename ME::mgd& ME::onAddParam() {
+        return *new mgd(*new T());
     }
 
     TEMPL
-    typename ME::mgd& ME::onGetRet() {
-        return *new mgd();
+    const typename ME::mgd& ME::onGetRet() {
+        return *new mgd(*new T());
     }
 
 #undef ME

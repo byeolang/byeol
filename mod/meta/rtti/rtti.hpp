@@ -10,6 +10,16 @@ namespace nm {
         typedef short yes;
         typedef char no;
     };
+    template <typename T>
+    struct tifHasDefaultCtor : public metaIf {
+        template <typename X, typename = decltype(X())>
+        static yes test(X*);
+
+        template <typename X>
+        static no test(...);
+
+        static constexpr nbool is = sizeof(decltype(test<T>(nullptr))) == sizeof(yes);
+    };
 
     template <typename T>
     struct tifTemplate : public metaIf {

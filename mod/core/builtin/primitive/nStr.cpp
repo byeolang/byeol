@@ -140,15 +140,15 @@ namespace nm {
         public:
             using super::subs;
             scope& subs() override {
-                static tbridger<niter>* inner = nullptr;
-                if(nul(inner)) {
-                    inner = new tbridger<niter>(new niter());
-                    inner->func("isEnd", &niter::isEnd)
-                          .func("next", &niter::next)
-                          .funcNonConst<nChar&>("get", &niter::get);
-                }
+                static scope inner = tbridger<niter>()
+                    .ctor()
+                    .ctor<niter>()
+                    .func("isEnd", &niter::isEnd)
+                    .func("next", &niter::next)
+                    .funcNonConst<nChar&>("get", &niter::get)
+                    .subs();
 
-                return inner->subs();
+                return inner;
             }
         };
 
@@ -205,17 +205,18 @@ namespace nm {
     me::nStr(const std::string& val): super(val) {}
 
     scope& me::_onMakeSubs() const {
-        static tbridger<me>* inner = nullptr;
-        if(nul(inner)) {
-            inner = new tbridger<me>(org);
-            inner->func("len", &me::len)
+        static tbridger<me> inner = tbridger<me>();
+        if(inner.subs().isEmpty()) {
+            inner.ctor()
+                .ctor<nStr>()
+                .func("len", &me::len)
                 .func<nchar, nidx>("get", &me::get)
                 .func("substr", &me::substr);
-            inner->subs().add("iterate", new iterateFunc());
-            inner->subs().add("getElemType", new getElemType());
+            inner.subs().add("iterate", new iterateFunc());
+            inner.subs().add("getElemType", new getElemType());
         }
 
-        return inner->subs();
+        return inner.subs();
     }
 
     me::iteration* me::_onMakeIteration(ncnt step) const {

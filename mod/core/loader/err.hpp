@@ -17,12 +17,18 @@ namespace nm {
     class pos;
     struct _nout err : public baseObj, public dumpable {
         NM(CLASS(err, baseObj))
+        template <typename T, nbool>
+        friend struct tmarshaling;
 
     public:
         err(logLv::level t, nint newCode);
         err(logLv::level t, nint newCode, va_list args);
         err(logLv::level t, const point& ps, nint newCode, va_list args);
         err(const me& rhs);
+
+    private:
+        /// @hidden this's only available to marsharling.
+        err();
 
     public:
         nbool operator==(const me& rhs) const;

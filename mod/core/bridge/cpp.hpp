@@ -5,3 +5,4 @@
 #include "cpp/tcppBridgeFunc.inl"
 #include "cpp/tbridger.hpp"
 #include "cpp/marshaling.hpp"
+#include "cpp/tbridgeCtor.hpp"

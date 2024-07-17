@@ -31,7 +31,9 @@ namespace {
 }
 
 TEST_F(bridgeCPPTest, testNormalWrapping) {
-    tstr<tcppBridge<kniz>> bridge(tbridger<kniz>(new kniz())
+    tstr<tcppBridge<kniz>> bridge(tbridger<kniz>()
+        .ctor()
+        .ctor<kniz>()
         .func<int, string>("say", &kniz::say).make(new kniz()));
         // TODO: how to handle void return & void parameter
         //.func<void, void>(&kniz::say);
@@ -44,7 +46,9 @@ TEST_F(bridgeCPPTest, testNormalWrapping) {
 }
 
 TEST_F(bridgeCPPTest, testFuncDoesntHaveObjNegative) {
-    tstr<tcppBridge<kniz>> bridge(tbridger<kniz>(new kniz())
+    tstr<tcppBridge<kniz>> bridge(tbridger<kniz>()
+        .ctor()
+        .ctor<kniz>()
         .func<int, string>("say", &kniz::say).make(new kniz()));
         // TODO: how to handle void return & void parameter
         //.func<void, void>(&kniz::say);
@@ -61,7 +65,9 @@ TEST_F(bridgeCPPTest, testFuncDoesntHaveObjNegative) {
 }
 
 TEST_F(bridgeCPPTest, testHasName) {
-    tstr<baseObj> bridge(tbridger<kniz>(new kniz())
+    tstr<baseObj> bridge(tbridger<kniz>()
+        .ctor()
+        .ctor<kniz>()
         .func<int, string>("say", &kniz::say).make(new kniz()));
     nmap m;
     ASSERT_TRUE(bridge);
@@ -92,11 +98,15 @@ namespace {
 }
 
 TEST_F(bridgeCPPTest, passObj) {
-    str winBridge(tbridger<window>(new window())
+    str winBridge(tbridger<window>()
+            .ctor()
+            .ctor<window>()
             .func("getX", &window::getX)
             .func("getY", &window::getY)
             .func("setY", &window::setY).make(new window()));
-    str winOpenGL(tbridger<openGL>(new openGL())
+    str winOpenGL(tbridger<openGL>()
+            .ctor()
+            .ctor<openGL>()
             .func("init", &openGL::init).make(new openGL()));
 
     winBridge->run("setY", args{ narr{*new nInt(20)}});
@@ -106,12 +116,14 @@ TEST_F(bridgeCPPTest, passObj) {
 }
 
 TEST_F(bridgeCPPTest, returnObj) {
-    str winBridge(tbridger<window>(new window())
+    str winBridge(tbridger<window>()
+            .ctor().ctor<window>()
             .func("getX", &window::getX)
             .func("getY", &window::getY)
             .func("setY", &window::setY)
             .func("new1", &window::new1).make(new window()));
-    str winOpenGL(tbridger<openGL>(new openGL())
+    str winOpenGL(tbridger<openGL>()
+            .ctor().ctor<openGL>()
             .func("init", &openGL::init).make(new openGL()));
 
     str newWin = winBridge->run("new1", args{ narr{*new nInt(15)}});
@@ -134,11 +146,12 @@ namespace {
 }
 
 TEST_F(bridgeCPPTest, passArray) {
-    str mgrBridge(tbridger<windowManager>(new windowManager())
+    str mgrBridge(tbridger<windowManager>()
+            .ctor().ctor<windowManager>()
             .func("add", &windowManager::add)
             .func("del", &windowManager::del).make(new windowManager()));
 
-    tstr<tcppBridge<narr>> narrBridge(tbridger<narr>(new narr()).make(new narr()));
+    tstr<tcppBridge<narr>> narrBridge(tbridger<narr>().make(new narr()));
     narrBridge->get().add(*new nInt(0)); // call func directly.
     narrBridge->get().add(*new nInt(1));
     narrBridge->get().add(*new nInt(2));
@@ -174,7 +187,8 @@ TEST_F(bridgeCPPTest, passRawObj) {
     myObj o1;
     o1.age = 5;
 
-    str stg(tbridger<stage>(new stage())
+    str stg(tbridger<stage>()
+            .ctor().ctor<stage>()
             .func("foo", &stage::foo).make(new stage()));
     str res = stg->run("foo", args{narr{o1}});
     ASSERT_TRUE(res);
@@ -217,7 +231,8 @@ TEST_F(bridgeCPPTest, passArr) {
     a.add(new myObj(3));
     ASSERT_EQ(a.len(), 3);
 
-    str testobj(tbridger<testObj>(new testObj())
+    str testobj(tbridger<testObj>()
+        .ctor().ctor<testObj>()
         .func("updateLen", &testObj::updateLen)
         .func("sumOfLen", &testObj::sumOfLen).make(new testObj()));
     str res = testobj->run("updateLen", args{narr{a}});
@@ -243,8 +258,10 @@ namespace {
             static tbridger<A>* inner = nullptr;
             if(nul(inner)) {
                 static me org;
-                inner = new tbridger<A>(org);
-                inner->func("foo", &A::foo);
+                inner = new tbridger<A>();
+                inner->ctor()
+                    .ctor<A>()
+                    .func("foo", &A::foo);
             }
 
             return inner->subs();
