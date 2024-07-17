@@ -43,12 +43,7 @@ namespace nm {
 
         using super::subs;
         scope& subs() override {
-            static tstr<scope> inner;
-            if(!inner) {
-                scope* scapegoat = new scope();
-                _onMakeSubs(*scapegoat);
-                inner.bind(new dumScope(*scapegoat));
-            }
+            static tstr<scope> inner(new dumScope(_onMakeSubs()));
 
             return *inner;
         }
@@ -59,7 +54,7 @@ namespace nm {
             return _val == cast._val;
         }
 
-        virtual void _onMakeSubs(scope& tray) const = 0;
+        virtual scope& _onMakeSubs() const = 0;
 
     private:
         T _val;
@@ -78,12 +73,7 @@ namespace nm {
 
         using super::subs;
         scope& subs() override {
-            static tstr<scope> inner;
-            if(!inner) {
-                scope* scapegoat = new scope();
-                _onMakeSubs(*scapegoat);
-                inner.bind(new dumScope(*scapegoat));
-            }
+            static tstr<scope> inner(new dumScope(_onMakeSubs()));
 
             return *inner;
         }
@@ -93,6 +83,6 @@ namespace nm {
             return !nul(rhs);
         }
 
-        virtual void _onMakeSubs(scope& tray) const = 0;
+        virtual scope& _onMakeSubs() const = 0;
     };
 }

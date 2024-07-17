@@ -26,7 +26,7 @@ namespace nm {
         const baseObj& getOrigin() const override;
 
     protected:
-        void _onMakeSubs(scope& tray) const override;
+        scope& _onMakeSubs() const override;
 
         tstr<arithmeticObj> _add(const arithmeticObj& rhs, nbool reversed) const override;
         tstr<arithmeticObj> _sub(const arithmeticObj& rhs, nbool reversed) const override;

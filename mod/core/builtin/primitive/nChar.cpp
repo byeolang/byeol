@@ -1,6 +1,7 @@
 #include "nChar.hpp"
 #include "../../ast/defaultCtor.hpp"
 #include "../../ast/defaultCopyCtor.hpp"
+#include "bridge/cpp/tbridger.hpp"
 #include "nInt.hpp"
 #include "nFlt.hpp"
 #include "nBool.hpp"
@@ -44,10 +45,13 @@ namespace nm {
     me::nChar() {}
     me::nChar(nchar val): super(val) {}
 
-    void me::_onMakeSubs(scope& tray) const {
-        static nChar inner;
-        tray.add(baseObj::CTOR_NAME, new defaultCtor(inner));
-        tray.add(baseObj::CTOR_NAME, new defaultCopyCtor(inner));
+    namespace {
+        static me org;
+    }
+
+    scope& me::_onMakeSubs() const {
+        static tbridger<me> inner(org);
+        return inner.subs();
     }
 
     tstr<arithmeticObj> me::bitwiseNot() const {
@@ -55,8 +59,7 @@ namespace nm {
     }
 
     const baseObj& me::getOrigin() const {
-        // TODO:
-        return nulOf<obj>();
+        return org;
     }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {

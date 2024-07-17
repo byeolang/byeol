@@ -2,6 +2,7 @@
 #include "../../ast/defaultCtor.hpp"
 #include "../../ast/defaultCopyCtor.hpp"
 #include "../../visitor/visitor.hpp"
+#include "bridge/cpp/tbridger.hpp"
 
 namespace nm {
 
@@ -21,10 +22,13 @@ namespace nm {
         return inner;
     }
 
-    void me::_onMakeSubs(scope& tray) const {
-        static nVoid inner;
-        tray.add(baseObj::CTOR_NAME, new defaultCtor(inner));
-        tray.add(baseObj::CTOR_NAME, new defaultCopyCtor(inner));
+    namespace {
+        static me org;
+    }
+
+    scope& me::_onMakeSubs() const {
+        static tbridger<me> inner(org);
+        return inner.subs();
     }
 
     tstr<arithmeticObj> me::bitwiseNot() const {
@@ -32,10 +36,7 @@ namespace nm {
     }
 
     const baseObj& me::getOrigin() const {
-        return nulOf<obj>();
-        // TODO:
-        //static nVoid inner;
-        //return inner;
+        return org;
     }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {

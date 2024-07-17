@@ -1,6 +1,7 @@
 #include "nFlt.hpp"
 #include "../../ast/defaultCtor.hpp"
 #include "../../ast/defaultCopyCtor.hpp"
+#include "bridge/cpp/tbridger.hpp"
 #include "nInt.hpp"
 #include "nByte.hpp"
 #include "nChar.hpp"
@@ -42,10 +43,13 @@ namespace nm {
     me::nFlt() {}
     me::nFlt(nflt val): super(val) {}
 
-    void me::_onMakeSubs(scope& tray) const {
-        static nFlt inner;
-        tray.add(baseObj::CTOR_NAME, new defaultCtor(inner));
-        tray.add(baseObj::CTOR_NAME, new defaultCopyCtor(inner));
+    namespace {
+        static me org;
+    }
+
+    scope& me::_onMakeSubs() const {
+        static tbridger<me> inner(org);
+        return inner.subs();
     }
 
     tstr<arithmeticObj> me::bitwiseNot() const {
@@ -54,9 +58,7 @@ namespace nm {
     }
 
     const baseObj& me::getOrigin() const {
-        // TODO:
-        //static me inner;
-        return nulOf<obj>();
+        return org;
     }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {

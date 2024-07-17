@@ -170,7 +170,7 @@ namespace nm {
 
         obj& cast = eval->cast<obj>();
         if(!nul(cast)) {
-            const obj& org = cast.getOrigin();
+            const baseObj& org = cast.getOrigin();
             when(!org.isPreEvaluated()).ret(TYPE_IS_NOT_PRE_EVALUATED, me);
         }
 

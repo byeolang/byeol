@@ -1,6 +1,7 @@
 #include "nBool.hpp"
 #include "../../ast/defaultCtor.hpp"
 #include "../../ast/defaultCopyCtor.hpp"
+#include "bridge/cpp/tbridger.hpp"
 #include "nInt.hpp"
 #include "nFlt.hpp"
 #include "nByte.hpp"
@@ -17,10 +18,13 @@ namespace nm {
     me::nBool() {}
     me::nBool(nbool val): super(val) {}
 
-    void me::_onMakeSubs(scope& tray) const {
-        static nBool inner;
-        tray.add(baseObj::CTOR_NAME, new defaultCtor(inner));
-        tray.add(baseObj::CTOR_NAME, new defaultCopyCtor(inner));
+    namespace {
+        static me org;
+    }
+
+    scope& me::_onMakeSubs() const {
+        static tbridger<me> inner(org);
+        return inner.subs();
     }
 
     const ases& me::wBoolType::_getImpliAses() const {
@@ -66,8 +70,7 @@ namespace nm {
     }
 
     const baseObj& me::getOrigin() const {
-        // TODO:
-        return nulOf<obj>();
+        return org;
     }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {

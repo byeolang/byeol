@@ -12,8 +12,11 @@
 
 namespace nm {
 
+    NM(DEF_ME(nStr), DEF_VISIT())
+
     namespace {
-        class lenFunc : public tApiBridge<nStr, nInt> {
+        static me org;
+        /*class lenFunc : public tApiBridge<nStr, nInt> {
             typedef tApiBridge<nStr, nInt> __super__;
             NM(CLASS(lenFunc, __super__))
 
@@ -73,7 +76,7 @@ namespace nm {
 
                 return inner;
             }
-        };
+        };*/
 
         typedef tucontainable<nChar>::iter niter;
         typedef tucontainable<nChar>::iteration iteration;
@@ -137,9 +140,9 @@ namespace nm {
         public:
             using super::subs;
             scope& subs() override {
-                static super* inner = nullptr;
+                static tbridger<niter>* inner = nullptr;
                 if(nul(inner)) {
-                    inner = new super();
+                    inner = new tbridger<niter>(new niter());
                     inner->func("isEnd", &niter::isEnd)
                           .func("next", &niter::next)
                           .funcNonConst<nChar&>("get", &niter::get);
@@ -195,23 +198,24 @@ namespace nm {
         };
     }
 
-    NM(DEF_ME(nStr), DEF_VISIT())
-
     nbool me::nStrType::isImmutable() const { return true; }
 
     me::nStr() {}
     me::nStr(const nchar* val): super(std::string(val)) {}
     me::nStr(const std::string& val): super(val) {}
 
-    void me::_onMakeSubs(scope& tray) const {
-        static nStr inner;
-        tray.add(baseObj::CTOR_NAME, new defaultCtor(inner));
-        tray.add(baseObj::CTOR_NAME, new defaultCopyCtor(inner));
-        tray.add("len", new lenFunc());
-        tray.add("get", new getFunc());
-        tray.add("get", new getSeqFunc());
-        tray.add("iterate", new iterateFunc());
-        tray.add("getElemType", new getElemType());
+    scope& me::_onMakeSubs() const {
+        static tbridger<me>* inner = nullptr;
+        if(nul(inner)) {
+            inner = new tbridger<me>(org);
+            inner->func("len", &me::len)
+                .func<nchar, nidx>("get", &me::get)
+                .func("substr", &me::substr);
+            inner->subs().add("iterate", new iterateFunc());
+            inner->subs().add("getElemType", new getElemType());
+        }
+
+        return inner->subs();
     }
 
     me::iteration* me::_onMakeIteration(ncnt step) const {
@@ -300,10 +304,7 @@ namespace nm {
     }
 
     const baseObj& me::getOrigin() const {
-        // TODO:
-        return nulOf<obj>();
-        /*static me inner;
-        return inner;*/
+        return org;
     }
 
     /// @param end is exclusive.

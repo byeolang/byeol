@@ -2,8 +2,8 @@
 #include "err.hpp"
 #include "../frame/frame.hpp"
 #include "../frame/thread.hpp"
-#include "../bridge/cpp/tApiBridge.hpp"
 #include "../ast/defaultCopyCtor.hpp"
+#include "bridge/cpp/tbridger.hpp"
 
 namespace nm {
 
@@ -12,7 +12,7 @@ namespace nm {
     namespace {
         constexpr nint MAX_BUF = 512;
 
-        class logFunc : public tApiBridge<err, nVoid> {
+        /*class logFunc : public tApiBridge<err, nVoid> {
             typedef tApiBridge<err, nVoid> __super9;
             NM(CLASS(logFunc, __super9))
 
@@ -48,7 +48,7 @@ namespace nm {
                 cast.logStack();
                 return str(nVoid::singletone());
             }
-        };
+        };*/
     }
 
     const err& me::singletone() {
@@ -175,14 +175,11 @@ namespace nm {
     }
 
     scope& me::subs() {
-        static scope inner;
-        if(inner.len() <= 0) {
-            inner.add("log", new logFunc());
-            inner.add("logStack", new logStackFunc());
-            inner.add(baseObj::CTOR_NAME, new defaultCtor(singletone()));
-            inner.add(baseObj::CTOR_NAME, new defaultCopyCtor(singletone()));
-        }
-        return inner;
+        static tbridger<me>* inner = nullptr;
+        if(nul(inner))
+            inner->func("log", &me::log)
+                .func("logStack", &me::logStack);
+        return inner->subs();
     }
 
     str me::run(const args& a) {

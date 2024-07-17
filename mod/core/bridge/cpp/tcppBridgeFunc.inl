@@ -72,7 +72,7 @@ namespace nm {
         if(nul(me)) return NM_E("object from frame does not exists."), str();
         if(me->template isSub<mockNode>()) {
             mockNode& mock = me->template cast<mockNode>();
-            me = (tcppBridge<T, S>*) &mock.getTarget();
+            me = (T*) &mock.getTarget();
         }
         (me->*(this->_fptr))(Marshaling<Args, S, tifSub<Args, node>::is>::toNative(a[index])...);
         return Marshaling<void, S, tifSub<void, node>::is>::toMgd();

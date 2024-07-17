@@ -27,7 +27,7 @@ namespace nm {
         friend class tcppBridgeFunc;
 
     public:
-        tbridger(const T* org) {
+        tbridger(T* org) {
             static tcppBridge<T, S> inner(org);
             // TODO: need to handle ctor with argument properly.
             subs().add(baseObj::CTOR_NAME, new defaultCtor(inner));
@@ -51,22 +51,22 @@ namespace nm {
 
         template <typename Ret, typename... Args>
         me& genericFunc(const std::string& name, Ret(T::* fptr)(Args...)) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, S, true, tgenericMarshaling, Args...>(fptr));
+            subs().add(name, new tcppBridgeFunc<Ret, T, S, tifSub<S, baseObj>::is, tgenericMarshaling, Args...>(fptr));
             return *this;
         }
         template <typename Ret, typename... Args>
         me& genericFuncNonConst(const std::string& name, Ret(T::* fptr)(Args...)) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, S, true, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
+            subs().add(name, new tcppBridgeFunc<Ret, T, S, tifSub<S, baseObj>::is, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
             return *this;
         }
         template <typename Ret, typename... Args>
         me& genericFunc(const std::string& name, Ret(T::*fptr)(Args...) const) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, S, true, tgenericMarshaling, Args...>( (Ret(T::*)(Args...)) fptr));
+            subs().add(name, new tcppBridgeFunc<Ret, T, S, tifSub<S, baseObj>::is, tgenericMarshaling, Args...>( (Ret(T::*)(Args...)) fptr));
             return *this;
         }
         template <typename Ret, typename... Args>
         me& genericFuncConst(const std::string& name, Ret(T::* fptr)(Args...) const) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, S, true, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
+            subs().add(name, new tcppBridgeFunc<Ret, T, S, tifSub<S, baseObj>::is, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
             return *this;
         }
 
@@ -80,9 +80,7 @@ namespace nm {
         NM(ME(tbridger))
 
     public:
-        tbridger(const T* org) {
-            static tcppBridge<T, S> inner(org);
-
+        tbridger(const T& org) {
             subs().add(baseObj::CTOR_NAME, new defaultCtor(org));
             subs().add(baseObj::CTOR_NAME, new defaultCopyCtor(org));
         }

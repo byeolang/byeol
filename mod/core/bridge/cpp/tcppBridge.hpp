@@ -35,11 +35,11 @@ namespace nm {
         static_assert(!tifSub<T, baseObj>::is, "parameterized type 'T' shouldn't be a derived class to baseObj. override subs() if it is.");
 
     protected:
+        tcppBridge(): me(dumScope::singletone(), new T()) {}
         tcppBridge(T* real): me(dumScope::singletone(), real) {}
         tcppBridge(const scope& subs, T* real): super(), _real(real) {
             _subs.bind(subs);
         }
-        tcppBridge(): me(dumScope::singletone(), nullptr), _real(new T()) {}
 
     public:
         tcppBridge(const me& rhs): super(rhs), _real(rhs._real ? new T(*rhs._real) : nullptr), _subs(rhs._subs) {}
