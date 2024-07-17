@@ -85,7 +85,7 @@ namespace nm {
         mutable str _ret;
     };
 
-    template <typename Ret, typename T, typename S, template <typename, typename, nbool> class Marshaling,
+    template <typename Ret, typename T, typename S, nbool isBaseObj, template <typename, typename, nbool> class Marshaling,
              typename... Args>
     class tcppBridgeFunc : public tcppBridgeFuncBase<Ret, T, S, Marshaling, Args...> {
         typedef tcppBridgeFuncBase<Ret, T, S, Marshaling, Args...> _super_;
@@ -102,10 +102,44 @@ namespace nm {
         template <size_t... index>
         str _marshal(args& args, std::index_sequence<index...>);
     };
-
     template <typename T, typename S, template <typename, typename, nbool> class Marshaling,
              typename... Args>
-    class tcppBridgeFunc<void, T, S, Marshaling, Args...> : public tcppBridgeFuncBase<void, T, S, Marshaling, Args...> {
+    class tcppBridgeFunc<void, T, S, false, Marshaling, Args...> : public tcppBridgeFuncBase<void, T, S, Marshaling, Args...> {
+        typedef tcppBridgeFuncBase<void, T, S, Marshaling, Args...> _super_;
+        NM(CLASS(tcppBridgeFunc, _super_))
+
+    public:
+        tcppBridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
+
+    protected:
+        str _runNative(args& args) override {
+            return _marshal(args, std::index_sequence_for<Args...>());
+        }
+
+        template <size_t... index>
+        str _marshal(args& args, std::index_sequence<index...>);
+    };
+
+    template <typename Ret, typename T, typename S, template <typename, typename, nbool> class Marshaling,
+             typename... Args>
+    class tcppBridgeFunc<Ret, T, S, true, Marshaling, Args...> : public tcppBridgeFuncBase<Ret, T, S, Marshaling, Args...> {
+        typedef tcppBridgeFuncBase<Ret, T, S, Marshaling, Args...> _super_;
+        NM(CLASS(tcppBridgeFunc, _super_))
+
+    public:
+        tcppBridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
+
+    protected:
+        str _runNative(args& args) override {
+            return _marshal(args, std::index_sequence_for<Args...>());
+        }
+
+        template <size_t... index>
+        str _marshal(args& args, std::index_sequence<index...>);
+    };
+    template <typename T, typename S, template <typename, typename, nbool> class Marshaling,
+             typename... Args>
+    class tcppBridgeFunc<void, T, S, true, Marshaling, Args...> : public tcppBridgeFuncBase<void, T, S, Marshaling, Args...> {
         typedef tcppBridgeFuncBase<void, T, S, Marshaling, Args...> _super_;
         NM(CLASS(tcppBridgeFunc, _super_))
 

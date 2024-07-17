@@ -7,9 +7,7 @@ namespace nm {
     // another f**king annoying MSVC Hack:
     //  to avoid C2901 error, I need to declare sort of dllexport(import) things at here.
     //  spended plenty of hours again to find out the reason. thank you so much.
-    typedef class _nout tgenericCppBridge<narr> __arrSuperClass;
-
-    class _nout arr : public __arrSuperClass, public tucontainable<node>, public tarrayable<node> {
+    class _nout arr : public obj, public tucontainable<node>, public tarrayable<node> {
         // arr uses instance variable 'ntype':
         //  ntype contains beanType as 'const type*' instance variable. so user should be
         //  careful when calling ttype<arr>. because it will also return ntype instance
@@ -17,13 +15,13 @@ namespace nm {
         //
         //  the most appropriate getter for ntype of arr is to call getType() of instance
         //  to arr.
-        NM(ME(arr, __arrSuperClass),
+        typedef ntype metaType; // for ttype<T>
+        NM(ME(arr, obj),
              INIT_META(arr),
              CLONE(arr),
              VISIT())
 
     public:
-        typedef ntype metaType; // for ttype<T>
         typedef typename tucontainable<node>::iter iter;
         typedef typename tucontainable<node>::iteration iteration;
         typedef std::map<const type*, tstr<scope>> cache;
@@ -50,7 +48,6 @@ namespace nm {
 
         //  get:
         using tarrayable<node>::get;
-        using super::get;
         template <typename E>
         E& get(std::function<nbool(const E&)> l) const {
             for(const node& elem : *this) {
@@ -107,6 +104,9 @@ namespace nm {
 
         std::string asStr() const;
 
+        narr& getNative();
+        const narr& getNative() const NM_CONST_FUNC(getNative())
+
     protected:
         iteration* _onMakeIteration(ncnt step) const override;
 
@@ -116,6 +116,7 @@ namespace nm {
 
     private:
         static inline cache _cache;
+        narr _arr;
         mutable tstr<obj> _org;
         ttype<arr> _type;
     };

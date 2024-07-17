@@ -64,7 +64,7 @@ namespace nm {
                     return NM_E("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]), str();
 
                 nint step = eval->cast<nint>();
-                return new mgdIter(new niter(meObj.get().iterate(step)));
+                return new mgdIter(new niter(meObj.getNative().iterate(step)));
             }
         };
 
@@ -92,12 +92,12 @@ namespace nm {
         };
     }
 
-    me::arr(): super(new narr()) { _type.getBeans().add(*new obj()); }
-    me::arr(const node& newType): super(new narr()) { _type.getBeans().add(newType); }
-    me::arr(const me& rhs): super(new narr(rhs.get())) { _type.getBeans().add(rhs._type.getBeans()[0]); }
+    me::arr(): super() { _type.getBeans().add(*new obj()); }
+    me::arr(const node& newType): super() { _type.getBeans().add(newType); }
+    me::arr(const me& rhs): super(rhs), _arr(rhs._arr) { _type.getBeans().add(rhs._type.getBeans()[0]); }
 
     node& me::operator[](nidx n) {
-        return get()[n];
+        return _arr[n];
     }
 
     const ntype& me::getType() const {
@@ -203,6 +203,8 @@ namespace nm {
     std::string me::asStr() const {
         return get().asStr();
     }
+
+    narr& me::getNative() { return _arr; }
 
     me::iteration* me::_onMakeIteration(ncnt step) const {
         return get()._onMakeIteration(step);
