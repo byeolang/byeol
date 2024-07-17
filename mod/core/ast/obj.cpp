@@ -75,7 +75,7 @@ namespace nm {
     }
 
     const ntype& me::getType() const {
-        if(nul(_org))
+        if(!_org)
             return ttype<obj>::get();
         return _org->getType();
     }

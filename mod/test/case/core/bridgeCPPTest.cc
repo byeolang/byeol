@@ -228,3 +228,50 @@ TEST_F(bridgeCPPTest, passArr) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 6);
 }
+
+namespace {
+    struct A : public baseObj {
+        NM(CLASS(A, baseObj))
+
+    public:
+        nint foo(nint a) {
+            return age + a;
+        }
+
+        scope& subs() override { return org->subs(); }
+
+        const obj& getOrigin() const override { return *org; }
+
+        static tstr<obj> org;
+        nint age;
+    };
+    tstr<obj> A::org;
+}
+
+TEST_F(bridgeCPPTest, baseObjWithBridgeOrigin) {
+    tstr<obj> origin(tcppBridge<A>::def()
+                     .func("foo", &A::foo));
+    A::org = origin;
+
+    A a1, a2;
+    a1.age = 1;
+    a2.age = 2;
+    ASSERT_EQ(a1.foo(1), 2);
+    ASSERT_EQ(a2.foo(1), 3);
+
+    auto& foo = origin->sub<baseFunc>("foo");
+    ASSERT_FALSE(nul(foo));
+    const auto& ps = foo.getParams();
+    ASSERT_EQ(ps.len(), 1);
+    ASSERT_TRUE(ps[0].getOrigin().isSub<nInt>());
+
+    auto res = a1.run("foo", {narr{nInt(1)}});
+    ASSERT_TRUE(res);
+    ASSERT_TRUE(res->isSub<nInt>());
+    ASSERT_EQ(res->cast<nint>(), 2);
+
+    res = a2.run("foo", {narr{nInt(1)}});
+    ASSERT_TRUE(res);
+    ASSERT_TRUE(res->isSub<nInt>());
+    ASSERT_EQ(res->cast<nint>(), 3);
+}

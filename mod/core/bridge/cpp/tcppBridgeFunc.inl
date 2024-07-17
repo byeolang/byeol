@@ -19,8 +19,9 @@ namespace nm {
             mockNode& mock = me->template cast<mockNode>();
             me = (tcppBridge<T, S>*) &mock.getTarget();
         }
+        T* thisp = me->template isSub<tcppBridge<T, S>>() ? me->_real : (T*) me;
 
-        return Marshaling<Ret, S, tifSub<Ret, node>::is>::toMgd((me->_real->*(this->_fptr)) // funcptr
+        return Marshaling<Ret, S, tifSub<Ret, node>::is>::toMgd((thisp->*(this->_fptr)) // funcptr
                 (Marshaling<Args, S, tifSub<Args, node>::is>::toNative(a[index])...)); // and args.
     }
 
@@ -38,8 +39,9 @@ namespace nm {
             mockNode& mock = me->template cast<mockNode>();
             me = (tcppBridge<T, S>*) &mock.getTarget();
         }
+        T* thisp = me->template isSub<tcppBridge<T, S>>() ? me->_real : (T*) me;
 
-        (me->_real->*(this->_fptr))(Marshaling<Args, S, tifSub<Args, node>::is>::toNative(a[index])...);
+        (thisp->*(this->_fptr))(Marshaling<Args, S, tifSub<Args, node>::is>::toNative(a[index])...);
         return Marshaling<void, S, tifSub<void, node>::is>::toMgd();
     }
 
