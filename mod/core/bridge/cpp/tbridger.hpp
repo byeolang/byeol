@@ -15,11 +15,11 @@ namespace nm {
         virtual ~baseBridger() = default;
 
     public:
-        scope& subs() { return _subs; }
+        scope& subs() { return *_subs; }
         const scope& subs() const NM_CONST_FUNC(subs())
 
     private:
-        scope _subs;
+        tstr<scope> _subs = new scope();
     };
 
     template <typename T, nbool isBaseObj = tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>

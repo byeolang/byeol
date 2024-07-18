@@ -30,6 +30,29 @@ namespace {
     };
 }
 
+TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
+    scope inner = tbridger<kniz>().ctor().ctor<kniz>().func("sayCharPtr", &kniz::sayCharPtr).subs();
+    // tbridger object released.
+    // but does scope still bridge funcs?
+    ASSERT_EQ(inner.len(), 3);
+    ASSERT_FALSE(nul(inner.get<baseFunc>("sayCharPtr")));
+
+    {
+        str b = tbridger<kniz>().ctor().func<int, string>("say", &kniz::say).make(new kniz());
+        ASSERT_EQ(b->subs().len(), 2);
+
+        kniz::isRun = false;
+        b->run("say", narr{nStr("hello")});
+        ASSERT_EQ(kniz::isRun, true);
+
+        str new1 = b->run();
+        ASSERT_TRUE(new1);
+        tstr<tbridge<kniz>> cast = new1;
+        ASSERT_TRUE(cast);
+        ASSERT_EQ(cast->get().isRun, true);
+    }
+}
+
 TEST_F(bridgeTest, testNormalWrapping) {
     tstr<tbridge<kniz>> bridge(tbridger<kniz>()
         .ctor()
