@@ -6,7 +6,7 @@
 namespace nm {
 
     struct marshalErr {};
-    template <typename T> class tcppBridge;
+    template <typename T> class tbridge;
     template <typename T, typename defaultElemType> class tarr;
     class arr;
 
@@ -25,7 +25,7 @@ namespace nm {
     };
     template <typename T, typename TACTIC>
     struct tmarshaling<tweak<T, TACTIC>, true> : public metaIf {
-        typedef tcppBridge<tweak<T, TACTIC>> mgd;
+        typedef tbridge<tweak<T, TACTIC>> mgd;
         template <typename E>
         static str toMgd(E& it) {
             return it;
@@ -37,7 +37,7 @@ namespace nm {
     };
     template <typename T, typename TACTIC>
     struct tmarshaling<tstr<T, TACTIC>, true> : public metaIf {
-        typedef tcppBridge<tstr<T, TACTIC>> mgd;
+        typedef tbridge<tstr<T, TACTIC>> mgd;
         template <typename E>
         static str toMgd(E& it) {
             return it;
@@ -101,7 +101,7 @@ namespace nm {
     };
     template <typename T>
     struct tmarshaling<T, false> : public metaIf {
-        typedef class tcppBridge<T> mgd;
+        typedef class tbridge<T> mgd;
         template <typename E>
         static str toMgd(const E& it) {
             return new mgd(new E(it));
@@ -114,26 +114,26 @@ namespace nm {
     };
     template <typename T>
     struct tmarshaling<T&, false> : public metaIf {
-        typedef class tcppBridge<T> mgd;
+        typedef class tbridge<T> mgd;
         template <typename E>
         static str toMgd(E& it) {
             return new mgd(&it);
         }
 
-        static T& toNative(node& it) { return it.cast<tcppBridge<T>>().get(); }
+        static T& toNative(node& it) { return it.cast<tbridge<T>>().get(); }
         static const mgd& onAddParam() { return *new mgd(); }
         static const mgd& onGetRet() { return *new mgd(); }
         static yes canMarshal();
     };
     template <typename T>
     struct tmarshaling<T*, false> : public metaIf {
-        typedef tcppBridge<T> mgd;
+        typedef tbridge<T> mgd;
         template <typename E>
         static str toMgd(E* it) {
             return new mgd(it);
         }
 
-        static T* toNative(node& it) { return &it.cast<tcppBridge<T>>().get(); }
+        static T* toNative(node& it) { return &it.cast<tbridge<T>>().get(); }
         static const mgd& onAddParam() { return *new mgd(); }
         static const mgd& onGetRet() { return *new mgd(); }
         static yes canMarshal();

@@ -2,14 +2,14 @@
 
 #include "../../../ast.hpp"
 #include "../native/nseq.hpp"
-#include "../../../bridge/cpp/tcppBridge.hpp"
+#include "../../../bridge/cpp/tbridge.hpp"
 
 namespace nm {
 
     // another f**king annoying MSVC Hack:
     //  to avoid C2901 error, I need to declare sort of dllexport(import) things at here.
     //  spended plenty of hours again to find out the reason. thank you so much.
-    typedef class _nout tcppBridge<nseq> __seqSuperClass;
+    typedef class _nout tbridge<nseq> __seqSuperClass;
 
     class _nout seq : public __seqSuperClass, public tucontainable<nInt, nInt>, tarrayable<nInt, nInt> {
         // seq uses wrapType:

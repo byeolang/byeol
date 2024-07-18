@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../../../bridge/cpp/tcppBridge.hpp"
+#include "../../../bridge/cpp/tbridge.hpp"
 
 namespace nm {
 
     // another f**king annoying MSVC Hack:
     //  to avoid C2901 error, I need to declare sort of dllexport(import) things at here.
     //  spended plenty of hours again to find out the reason. thank you so much.
-    class _nout arr : public tcppBridge<narr>, public tucontainable<node>, public tarrayable<node> {
+    class _nout arr : public tbridge<narr>, public tucontainable<node>, public tarrayable<node> {
         // arr uses instance variable 'ntype':
         //  ntype contains beanType as 'const type*' instance variable. so user should be
         //  careful when calling ttype<arr>. because it will also return ntype instance
@@ -15,7 +15,7 @@ namespace nm {
         //
         //  the most appropriate getter for ntype of arr is to call getType() of instance
         //  to arr.
-        NM(ME(arr, tcppBridge<narr>),
+        NM(ME(arr, tbridge<narr>),
              INIT_META(arr),
              CLONE(arr),
              VISIT())

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tcppBridgeFunc.hpp"
+#include "tbridgeFunc.hpp"
 #include "marshaling/tgenericMarshaling.hpp"
 #include "../../ast/obj.hpp"
 #include "../../type/mgdType.hpp"
@@ -26,7 +26,7 @@ namespace nm {
     class tbridger : public baseBridger {
         NM(ME(tbridger, baseBridger))
         template <typename Ret, typename T1, nbool, template <typename, nbool> class Marshaling, typename...Args>
-        friend class tcppBridgeFunc;
+        friend class tbridgeFunc;
 
     public:
         template <typename... Args>
@@ -41,38 +41,38 @@ namespace nm {
         me& func(const std::string& name, Ret(T::* fptr)(Args...) const) { return funcConst(name, fptr); }
         template <typename Ret, typename... Args>
         me& funcNonConst(const std::string& name, Ret(T::* fptr)(Args...)) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, isBaseObj, tmarshaling, Args...>(fptr));
+            subs().add(name, new tbridgeFunc<Ret, T, isBaseObj, tmarshaling, Args...>(fptr));
             return *this;
         }
         template <typename Ret, typename... Args>
         me& funcConst(const std::string& name, Ret(T::* fptr)(Args...) const) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, isBaseObj, tmarshaling, Args...>((Ret(T::*)(Args...)) fptr));
+            subs().add(name, new tbridgeFunc<Ret, T, isBaseObj, tmarshaling, Args...>((Ret(T::*)(Args...)) fptr));
             return *this;
         }
 
         template <typename Ret, typename... Args>
         me& genericFunc(const std::string& name, Ret(T::* fptr)(Args...)) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>(fptr));
+            subs().add(name, new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>(fptr));
             return *this;
         }
         template <typename Ret, typename... Args>
         me& genericFuncNonConst(const std::string& name, Ret(T::* fptr)(Args...)) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
+            subs().add(name, new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
             return *this;
         }
         template <typename Ret, typename... Args>
         me& genericFunc(const std::string& name, Ret(T::*fptr)(Args...) const) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>( (Ret(T::*)(Args...)) fptr));
+            subs().add(name, new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>( (Ret(T::*)(Args...)) fptr));
             return *this;
         }
         template <typename Ret, typename... Args>
         me& genericFuncConst(const std::string& name, Ret(T::* fptr)(Args...) const) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
+            subs().add(name, new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
             return *this;
         }
 
-        tcppBridge<T>* make(T* real) {
-            return new tcppBridge(subs(), real);
+        tbridge<T>* make(T* real) {
+            return new tbridge(subs(), real);
         }
     };
 
@@ -93,34 +93,34 @@ namespace nm {
         me& func(const std::string& name, Ret(T::* fptr)(Args...) const) { return funcConst(name, fptr); }
         template <typename Ret, typename... Args>
         me& funcNonConst(const std::string& name, Ret(T::* fptr)(Args...)) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, true, tmarshaling, Args...>(fptr));
+            subs().add(name, new tbridgeFunc<Ret, T, true, tmarshaling, Args...>(fptr));
             return *this;
         }
         template <typename Ret, typename... Args>
         me& funcConst(const std::string& name, Ret(T::* fptr)(Args...) const) {
             typedef typename T::super s;
-            subs().add(name, new tcppBridgeFunc<Ret, T, true, tmarshaling, Args...>((Ret(T::*)(Args...)) fptr));
+            subs().add(name, new tbridgeFunc<Ret, T, true, tmarshaling, Args...>((Ret(T::*)(Args...)) fptr));
             return *this;
         }
 
         template <typename Ret, typename... Args>
         me& genericFunc(const std::string& name, Ret(T::* fptr)(Args...)) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(fptr));
+            subs().add(name, new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(fptr));
             return *this;
         }
         template <typename Ret, typename... Args>
         me& genericFuncNonConst(const std::string& name, Ret(T::* fptr)(Args...)) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, true, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
+            subs().add(name, new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
             return *this;
         }
         template <typename Ret, typename... Args>
         me& genericFunc(const std::string& name, Ret(T::*fptr)(Args...) const) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, true, tgenericMarshaling, Args...>( (Ret(T::*)(Args...)) fptr));
+            subs().add(name, new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>( (Ret(T::*)(Args...)) fptr));
             return *this;
         }
         template <typename Ret, typename... Args>
         me& genericFuncConst(const std::string& name, Ret(T::* fptr)(Args...) const) {
-            subs().add(name, new tcppBridgeFunc<Ret, T, true, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
+            subs().add(name, new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
             return *this;
         }
     };

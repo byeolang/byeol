@@ -23,15 +23,15 @@ namespace {
         static inline nbool isRun = false;
     };
 
-    struct bridgeCPPTest : public ::testing::Test {
+    struct bridgeTest : public ::testing::Test {
         void TearDown() override {
             kniz::isRun = false;
         }
     };
 }
 
-TEST_F(bridgeCPPTest, testNormalWrapping) {
-    tstr<tcppBridge<kniz>> bridge(tbridger<kniz>()
+TEST_F(bridgeTest, testNormalWrapping) {
+    tstr<tbridge<kniz>> bridge(tbridger<kniz>()
         .ctor()
         .ctor<kniz>()
         .func<int, string>("say", &kniz::say).make(new kniz()));
@@ -45,8 +45,8 @@ TEST_F(bridgeCPPTest, testNormalWrapping) {
     ASSERT_TRUE(kniz::isRun);
 }
 
-TEST_F(bridgeCPPTest, testFuncDoesntHaveObjNegative) {
-    tstr<tcppBridge<kniz>> bridge(tbridger<kniz>()
+TEST_F(bridgeTest, testFuncDoesntHaveObjNegative) {
+    tstr<tbridge<kniz>> bridge(tbridger<kniz>()
         .ctor()
         .ctor<kniz>()
         .func<int, string>("say", &kniz::say).make(new kniz()));
@@ -64,7 +64,7 @@ TEST_F(bridgeCPPTest, testFuncDoesntHaveObjNegative) {
     ASSERT_TRUE(kniz::isRun);
 }
 
-TEST_F(bridgeCPPTest, testHasName) {
+TEST_F(bridgeTest, testHasName) {
     tstr<baseObj> bridge(tbridger<kniz>()
         .ctor()
         .ctor<kniz>()
@@ -97,7 +97,7 @@ namespace {
     };
 }
 
-TEST_F(bridgeCPPTest, passObj) {
+TEST_F(bridgeTest, passObj) {
     str winBridge(tbridger<window>()
             .ctor()
             .ctor<window>()
@@ -115,7 +115,7 @@ TEST_F(bridgeCPPTest, passObj) {
     ASSERT_EQ(res->cast<nint>(), 25);
 }
 
-TEST_F(bridgeCPPTest, returnObj) {
+TEST_F(bridgeTest, returnObj) {
     str winBridge(tbridger<window>()
             .ctor().ctor<window>()
             .func("getX", &window::getX)
@@ -145,20 +145,20 @@ namespace {
     };
 }
 
-TEST_F(bridgeCPPTest, passArray) {
+TEST_F(bridgeTest, passArray) {
     str mgrBridge(tbridger<windowManager>()
             .ctor().ctor<windowManager>()
             .func("add", &windowManager::add)
             .func("del", &windowManager::del).make(new windowManager()));
 
-    tstr<tcppBridge<narr>> narrBridge(tbridger<narr>().make(new narr()));
+    tstr<tbridge<narr>> narrBridge(tbridger<narr>().make(new narr()));
     narrBridge->get().add(*new nInt(0)); // call func directly.
     narrBridge->get().add(*new nInt(1));
     narrBridge->get().add(*new nInt(2));
     mgrBridge->run("add", args{narr{*narrBridge}});
     mgrBridge->run("del", args{narr{*new nInt(1)}}); // 0, 2 remains.
 
-    const narr& res = mgrBridge->cast<tcppBridge<windowManager>>().get()._wins;
+    const narr& res = mgrBridge->cast<tbridge<windowManager>>().get()._wins;
     ASSERT_FALSE(nul(res));
     ASSERT_EQ(res.len(), 2);
     ASSERT_EQ(res[0].cast<nint>(), 0);
@@ -183,7 +183,7 @@ namespace {
     };
 }
 
-TEST_F(bridgeCPPTest, passRawObj) {
+TEST_F(bridgeTest, passRawObj) {
     myObj o1;
     o1.age = 5;
 
@@ -221,7 +221,7 @@ namespace {
     };
 }
 
-TEST_F(bridgeCPPTest, passArr) {
+TEST_F(bridgeTest, passArr) {
     myObj obj;
     arr a(obj);
     a.add(new myObj(1));
@@ -273,7 +273,7 @@ namespace {
     };
 }
 
-TEST_F(bridgeCPPTest, baseObjWithBridgeOrigin) {
+TEST_F(bridgeTest, baseObjWithBridgeOrigin) {
     A a1, a2;
     a1.age = 1;
     a2.age = 2;

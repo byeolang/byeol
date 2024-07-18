@@ -8,8 +8,8 @@
 namespace nm {
 
     template <typename Ret, typename T, template <typename, nbool> class Marshaling, typename... Args>
-    class tcppBridgeFuncBase : public baseFunc {
-        NM(ADT(tcppBridgeFuncBase, baseFunc))
+    class tbaseBridgeFunc : public baseFunc {
+        NM(ADT(tbaseBridgeFunc, baseFunc))
     protected:
         typedef Ret (T::*fptrType)(Args...);
 
@@ -18,7 +18,7 @@ namespace nm {
         ///               the instance refered by this pointer should be managed at somewhere.
         ///               that is, this class will just get the value of address and won't release
         ///               memory.
-        tcppBridgeFuncBase(fptrType fptr): super(), _fptr(fptr) {}
+        tbaseBridgeFunc(fptrType fptr): super(), _fptr(fptr) {}
 
     public:
         static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal() ) ==
@@ -86,12 +86,12 @@ namespace nm {
 
     template <typename Ret, typename T, nbool isBaseObj, template <typename, nbool> class Marshaling,
              typename... Args>
-    class tcppBridgeFunc : public tcppBridgeFuncBase<Ret, T, Marshaling, Args...> {
-        typedef tcppBridgeFuncBase<Ret, T, Marshaling, Args...> _super_;
-        NM(CLASS(tcppBridgeFunc, _super_))
+    class tbridgeFunc : public tbaseBridgeFunc<Ret, T, Marshaling, Args...> {
+        typedef tbaseBridgeFunc<Ret, T, Marshaling, Args...> _super_;
+        NM(CLASS(tbridgeFunc, _super_))
 
     public:
-        tcppBridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
+        tbridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
 
     public:
         str getRet() const override {
@@ -111,12 +111,12 @@ namespace nm {
     };
     template <typename T, template <typename, nbool> class Marshaling,
              typename... Args>
-    class tcppBridgeFunc<void, T, false, Marshaling, Args...> : public tcppBridgeFuncBase<void, T, Marshaling, Args...> {
-        typedef tcppBridgeFuncBase<void, T, Marshaling, Args...> _super_;
-        NM(CLASS(tcppBridgeFunc, _super_))
+    class tbridgeFunc<void, T, false, Marshaling, Args...> : public tbaseBridgeFunc<void, T, Marshaling, Args...> {
+        typedef tbaseBridgeFunc<void, T, Marshaling, Args...> _super_;
+        NM(CLASS(tbridgeFunc, _super_))
 
     public:
-        tcppBridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
+        tbridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
 
     public:
         str getRet() const override {
@@ -136,12 +136,12 @@ namespace nm {
     };
     template <typename T, template <typename, nbool> class Marshaling,
              typename... Args>
-    class tcppBridgeFunc<void, T, true, Marshaling, Args...> : public tcppBridgeFuncBase<void, T, Marshaling, Args...> {
-        typedef tcppBridgeFuncBase<void, T, Marshaling, Args...> _super_;
-        NM(CLASS(tcppBridgeFunc, _super_))
+    class tbridgeFunc<void, T, true, Marshaling, Args...> : public tbaseBridgeFunc<void, T, Marshaling, Args...> {
+        typedef tbaseBridgeFunc<void, T, Marshaling, Args...> _super_;
+        NM(CLASS(tbridgeFunc, _super_))
 
     public:
-        tcppBridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
+        tbridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
 
     public:
         str getRet() const override {
@@ -170,12 +170,12 @@ namespace nm {
     };
     template <typename Ret, typename T, template <typename, nbool> class Marshaling,
              typename... Args>
-    class tcppBridgeFunc<Ret, T, true, Marshaling, Args...> : public tcppBridgeFuncBase<Ret, T, Marshaling, Args...> {
-        typedef tcppBridgeFuncBase<Ret, T, Marshaling, Args...> _super_;
-        NM(CLASS(tcppBridgeFunc, _super_))
+    class tbridgeFunc<Ret, T, true, Marshaling, Args...> : public tbaseBridgeFunc<Ret, T, Marshaling, Args...> {
+        typedef tbaseBridgeFunc<Ret, T, Marshaling, Args...> _super_;
+        NM(CLASS(tbridgeFunc, _super_))
 
     public:
-        tcppBridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
+        tbridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
 
     public:
         str getRet() const override {

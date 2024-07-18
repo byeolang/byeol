@@ -3,12 +3,12 @@
 #include "../../ast/baseFunc.hpp"
 #include "ast/params.hpp"
 #include "bridge/cpp/marshaling/tmarshaling.hpp"
-#include "bridge/cpp/tcppBridgeFunc.hpp"
+#include "bridge/cpp/tbridgeFunc.hpp"
 
 namespace nm {
     template <typename T, typename... Args>
-    class tbridgeCtor : public tcppBridgeFunc<T, T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is, tmarshaling, Args...> {
-        typedef tcppBridgeFunc<T, T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is, tmarshaling, Args...> __super9;
+    class tbridgeCtor : public tbridgeFunc<T, T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is, tmarshaling, Args...> {
+        typedef tbridgeFunc<T, T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is, tmarshaling, Args...> __super9;
         NM(CLASS(tbridgeCtor, __super9))
 
     public:

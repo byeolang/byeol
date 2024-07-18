@@ -13,7 +13,7 @@ namespace nm {
         static inline const std::string TYPENAME = "T";
 
         typedef tucontainable<node>::iter niter;
-        typedef tcppBridge<niter> __superMgdIter;
+        typedef tbridge<niter> __superMgdIter;
 
         class _nout mgdIter : public __superMgdIter {
             NM(CLASS(mgdIter, __superMgdIter))

@@ -80,7 +80,7 @@ namespace nm {
 
         typedef tucontainable<nChar>::iter niter;
         typedef tucontainable<nChar>::iteration iteration;
-        typedef tcppBridge<niter> __superMgdIter;
+        typedef tbridge<niter> __superMgdIter;
 
         class bridgeIteration : public iteration {
             NM(CLASS(bridgeIteration, iteration))
