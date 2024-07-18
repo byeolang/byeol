@@ -20,12 +20,9 @@ namespace nm {
         //  however, type object is dynamically belongs to this bridge object, when user
         //  tries to get ttype<T>, it's not derived from ntype so it won't have any 'as()'
         //  func. user can't operate conversion in this way.
-        NM(ME(tbridge, baseObj),
-           INIT_META(tbridge),
-           CLONE(tbridge))
+        NM(CLASS(tbridge, baseObj))
 
     public:
-        typedef ntype metaType;
         template <typename Ret, typename T1, nbool, template <typename, nbool> class Marshaling, typename...Args>
         friend class tbridgeFunc;
         template <typename T1, nbool>
@@ -51,11 +48,6 @@ namespace nm {
         }
 
     public:
-        const ntype& getType() const override {
-            static mgdType inner(ttype<T>::get().getName());
-            return inner;
-        }
-
         using super::subs;
         scope& subs() override { return *_subs; }
 

@@ -9,7 +9,7 @@ namespace nm {
     template <typename T, typename TACTIC> class tnarr;
     typedef tnarr<node, strTactic> narr;
 
-    class _nout mgdType : public ttype<obj>, public clonable {
+    class _nout mgdType : public ttype<baseObj>, public clonable {
         NM(ME(mgdType, ttype<obj>),
            CLONE(mgdType))
 

@@ -5,13 +5,13 @@ namespace nm {
     NM(DEF_ME(mgdType))
 
     me::mgdType(const std::string& name): _name(name) {
-        _initSupers(ttype<obj>::get());
+        _initSupers(ttype<baseObj>::get());
     }
     me::mgdType(const std::string& name, const mgdType& super): _name(name) {
         _initSupers(super);
     }
     me::mgdType(const std::string& name, const narr& beans): _name(name) {
-        _initSupers(ttype<obj>::get());
+        _initSupers(ttype<baseObj>::get());
         getBeans() = beans;
     }
     me::mgdType(const std::string& name, const mgdType& super, const narr& beans): _name(name) {
