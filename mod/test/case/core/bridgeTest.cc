@@ -322,3 +322,26 @@ TEST_F(bridgeTest, baseObjWithBridgeOrigin) {
     ASSERT_TRUE(res->isSub<nInt>());
     ASSERT_EQ(res->cast<nint>(), 3);
 }
+
+namespace {
+    struct B {
+        B(int newAge): age(newAge) {}
+
+        int getAge() const { return age; }
+
+        int age;
+    };
+}
+
+TEST_F(bridgeTest, bridgeWhatDoesntHaveDefaultCtor) {
+    tstr<tbridge<B>> bridge = tbridger<B>().ctor<int>().func("getAge", &B::getAge).make(new B(1));
+    ASSERT_TRUE(bridge);
+    ASSERT_EQ(bridge->get().age, 1);
+
+    tstr<tbridge<B>> res = bridge->run(narr{nInt(5)});
+    ASSERT_TRUE(res);
+
+    str age = res->run("getAge");
+    ASSERT_TRUE(age);
+    ASSERT_EQ(age.cast<nint>(), 5);
+}

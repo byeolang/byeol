@@ -39,9 +39,6 @@ namespace nm {
 
         tstr<nbicontainer> mySubs() const override;
 
-        using super::run;
-        str run(const args& a) override;
-
         scope& getShares();
         const scope& getShares() const NM_CONST_FUNC(getShares())
         scope::super& getOwns();

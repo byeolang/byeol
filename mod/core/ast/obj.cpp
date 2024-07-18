@@ -57,18 +57,6 @@ namespace nm {
         return _assign(rhs);
     }
 
-    str me::run(const args& a) {
-        tpriorities<baseFunc> matches = subAll<baseFunc>(baseObj::CTOR_NAME, a);
-        switch(matches.len()) {
-            case 1: return run(baseObj::CTOR_NAME, a);
-            case 0: return NM_W("there is no such ctor."), str();
-        }
-        /*// TODO: 1. change err management module to use 'err' class, not errCode.
-          //       2. let it log all ambigious funcs here.
-          return NM_W("")*/
-        return NM_E("ambigious call found: %s", "TODO:"), str();
-    }
-
     const origin& me::getSubPack() const {
         me* c = (me*) this;
         return safeGet(c->_org, getSubPack());
