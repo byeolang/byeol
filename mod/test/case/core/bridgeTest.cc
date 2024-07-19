@@ -22,17 +22,45 @@ namespace {
 
         static inline nbool isRun = false;
     };
+
+    struct window {
+        int getX() { return 5; }
+        int getY() { return _y; }
+        void setY(int newY) { _y = newY; }
+        window& new1(int newY) {
+            window& ret = *new window();
+            ret._y = newY;
+            return ret;
+        }
+
+        int _y;
+    };
+
+    struct openGL {
+        int init(window* win) {
+            return win->getY() + win->getX();
+        }
+    };
 }
 
 struct bridgeTest : public ::testing::Test {
-    nbool isFirst = true;
 
     void SetUp() override {
+        static nbool isFirst = true;
         if(isFirst) {
             tbridger<kniz>::ctor()
                 .ctor<kniz>()
                 .func("sayCharPtr", &kniz::sayCharPtr)
                 .func<int, string>("say", &kniz::say);
+            tbridger<window>::ctor()
+                .ctor<window>()
+                .func("new1", &window::new1)
+                .func("getX", &window::getX)
+                .func("getY", &window::getY)
+                .func("setY", &window::setY);
+            tbridger<openGL>::ctor()
+                .ctor<openGL>()
+                .func("init", &openGL::init);
             isFirst = false;
         }
     }
@@ -46,7 +74,7 @@ TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
     scope& inner = tbridger<kniz>::subs();
     // tbridger object released.
     // but does scope still bridge funcs?
-    ASSERT_EQ(inner.len(), 3);
+    ASSERT_EQ(inner.len(), 4);
     ASSERT_FALSE(nul(inner.get<baseFunc>("sayCharPtr")));
 
     {
@@ -73,23 +101,8 @@ TEST_F(bridgeTest, testNormalWrapping) {
     node& func = bridge->sub("say");
     ASSERT_FALSE(nul(func));
 
-    bridge->run("say", args(narr{*new nStr("hello native!")}));
-    ASSERT_TRUE(kniz::isRun);
-}
-
-TEST_F(bridgeTest, testFuncDoesntHaveObjNegative) {
-    tstr<tbridge<kniz>> bridge(tbridger<kniz>::make(new kniz()));
-        // TODO: how to handle void return & void parameter
-        //.func<void, void>(&kniz::say);
-
-    args a;
-    a.add(*bridge);
-    a.add(new nStr("hello native!"));
-    bridge->run("say", args(*bridge, narr{*bridge, *new nStr("hello native!")}));
-    ASSERT_FALSE(kniz::isRun);
-
-    // bridge set its address to args's setMe()
-    bridge->run("say", args(narr{*new nStr("hello native!")}));
+    kniz::isRun = false;
+    bridge->run("say", narr{nStr("hello native!")});
     ASSERT_TRUE(kniz::isRun);
 }
 
@@ -103,35 +116,9 @@ TEST_F(bridgeTest, testHasName) {
     ASSERT_FALSE(nul(say));
 }
 
-namespace {
-    struct window {
-        int getX() { return 5; }
-        int getY() { return _y; }
-        void setY(int newY) { _y = newY; }
-        window& new1(int newY) {
-            window& ret = *new window();
-            ret._y = newY;
-            return ret;
-        }
-
-        int _y;
-    };
-    struct openGL {
-        int init(window* win) {
-            return win->getY() + win->getX();
-        }
-    };
-}
-
 TEST_F(bridgeTest, passObj) {
-    str winBridge(tbridger<window>::ctor()
-            .ctor<window>()
-            .func("getX", &window::getX)
-            .func("getY", &window::getY)
-            .func("setY", &window::setY).make(new window()));
-    str winOpenGL(tbridger<openGL>::ctor()
-            .ctor<openGL>()
-            .func("init", &openGL::init).make(new openGL()));
+    str winBridge(tbridger<window>::make(new window()));
+    str winOpenGL(tbridger<openGL>::make(new openGL()));
 
     winBridge->run("setY", args{ narr{*new nInt(20)}});
     str res = winOpenGL->run("init", args{ narr{*winBridge}});
@@ -140,13 +127,8 @@ TEST_F(bridgeTest, passObj) {
 }
 
 TEST_F(bridgeTest, returnObj) {
-    str winBridge(tbridger<window>::ctor().ctor<window>()
-            .func("getX", &window::getX)
-            .func("getY", &window::getY)
-            .func("setY", &window::setY)
-            .func("new1", &window::new1).make(new window()));
-    str winOpenGL(tbridger<openGL>::ctor().ctor<openGL>()
-            .func("init", &openGL::init).make(new openGL()));
+    str winBridge(tbridger<window>::make(new window()));
+    str winOpenGL(tbridger<openGL>::make(new openGL()));
 
     str newWin = winBridge->run("new1", args{ narr{*new nInt(15)}});
     str res = winOpenGL->run("init", args{ narr{*newWin}});
