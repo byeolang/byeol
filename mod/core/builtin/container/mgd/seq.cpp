@@ -55,17 +55,14 @@ namespace nm {
         public:
             using super::subs;
             scope& subs() override {
-                static tbridger<niter>* inner = nullptr;
-                if(nul(inner)) {
-                    inner = new tbridger<niter>();
-                    inner->ctor()
-                        .ctor<niter>()
-                        .func("isEnd", &niter::isEnd)
-                        .func("next", &niter::next)
-                        .func<nInt>("get", &niter::get);
-                }
+                static scope inner = tbridger<niter>::ctor()
+                    .ctor<niter>()
+                    .func("isEnd", &niter::isEnd)
+                    .func("next", &niter::next)
+                    .func<nInt>("get", &niter::get)
+                    .subs();
 
-                return inner->subs();
+                return inner;
             }
         };
 
@@ -118,20 +115,17 @@ namespace nm {
     }
 
     scope& me::subs() {
-        static tbridger<nseq>* inner = nullptr;
-        if(nul(inner)) {
-            inner = new tbridger<nseq>();
-            inner->ctor<nint, nint>()
-                .ctor<nint, nint, nint>()
-                .ctor<nseq>()
-                .func("len", &nseq::len)
-                .func<nInt, nint>("get", &nseq::get)
-                .func("has", &nseq::has)
-                .subs().add("iterate", new iterateFunc());
-            inner->subs().add("getElemType", new getElemTypeFunc());
-        }
+        static scope inner = tbridger<nseq>::ctor<nint, nint>()
+            .ctor<nint, nint, nint>()
+            .ctor<nseq>()
+            .func("len", &nseq::len)
+            .func<nInt, nint>("get", &nseq::get)
+            .func("has", &nseq::has)
+            .func("iterate", new iterateFunc())
+            .func("getElemType", new getElemTypeFunc())
+            .subs();
 
-        return inner->subs();
+        return inner;
     }
 
     me::iteration* me::_onMakeIteration(ncnt step) const {

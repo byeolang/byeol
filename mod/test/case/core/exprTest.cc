@@ -31,8 +31,8 @@ struct exprTest : public namuTest {
 void exprTest::SetUp() {
     namuTest::SetUp();
 
-    bridge.bind(tbridger<helloWorld>()
-        .ctor().ctor<helloWorld>()
+    bridge.bind(tbridger<helloWorld>::ctor()
+        .ctor<helloWorld>()
         .func("main", &helloWorld::main).make(new helloWorld()));
 }
 

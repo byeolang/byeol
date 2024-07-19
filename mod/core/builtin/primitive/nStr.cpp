@@ -140,8 +140,7 @@ namespace nm {
         public:
             using super::subs;
             scope& subs() override {
-                static scope inner = tbridger<niter>()
-                    .ctor()
+                static scope inner = tbridger<niter>::ctor()
                     .ctor<niter>()
                     .func("isEnd", &niter::isEnd)
                     .func("next", &niter::next)
@@ -205,18 +204,16 @@ namespace nm {
     me::nStr(const std::string& val): super(val) {}
 
     scope& me::_onMakeSubs() const {
-        static tbridger<me> inner = tbridger<me>();
-        if(inner.subs().isEmpty()) {
-            inner.ctor()
-                .ctor<nStr>()
-                .func("len", &me::len)
-                .func<nchar, nidx>("get", &me::get)
-                .func("substr", &me::substr);
-            inner.subs().add("iterate", new iterateFunc());
-            inner.subs().add("getElemType", new getElemType());
-        }
+        static scope inner = tbridger<me>::ctor()
+            .ctor<nStr>()
+            .func("len", &me::len)
+            .func<nchar, nidx>("get", &me::get)
+            .func("substr", &me::substr)
+            .func("iterate", new iterateFunc())
+            .func("getElemType", new getElemType())
+            .subs();
 
-        return inner.subs();
+        return inner;
     }
 
     me::iteration* me::_onMakeIteration(ncnt step) const {

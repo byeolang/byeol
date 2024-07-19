@@ -177,14 +177,12 @@ namespace nm {
     }
 
     scope& me::subs() {
-        static tbridger<me>* inner = nullptr;
-        if(nul(inner)) {
-            inner = new tbridger<me>();
-            inner->ctor<me>()
-                .func("log", &me::log)
-                .func("logStack", &me::logStack);
-        }
-        return inner->subs();
+        static scope inner = tbridger<me>::ctor<me>()
+            .func("log", &me::log)
+            .func("logStack", &me::logStack)
+            .subs();
+
+        return inner;
     }
 
     str me::run(const args& a) {

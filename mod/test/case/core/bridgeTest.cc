@@ -31,14 +31,14 @@ namespace {
 }
 
 TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
-    scope inner = tbridger<kniz>().ctor().ctor<kniz>().func("sayCharPtr", &kniz::sayCharPtr).subs();
+    scope inner = tbridger<kniz>::ctor().ctor<kniz>().func("sayCharPtr", &kniz::sayCharPtr).subs();
     // tbridger object released.
     // but does scope still bridge funcs?
     ASSERT_EQ(inner.len(), 3);
     ASSERT_FALSE(nul(inner.get<baseFunc>("sayCharPtr")));
 
     {
-        str b = tbridger<kniz>().ctor().func<int, string>("say", &kniz::say).make(new kniz());
+        str b = tbridger<kniz>::ctor().func<int, string>("say", &kniz::say).make(new kniz());
         ASSERT_EQ(b->subs().len(), 2);
 
         kniz::isRun = false;
@@ -54,8 +54,7 @@ TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
 }
 
 TEST_F(bridgeTest, testNormalWrapping) {
-    tstr<tbridge<kniz>> bridge(tbridger<kniz>()
-        .ctor()
+    tstr<tbridge<kniz>> bridge(tbridger<kniz>::ctor()
         .ctor<kniz>()
         .func<int, string>("say", &kniz::say).make(new kniz()));
         // TODO: how to handle void return & void parameter
@@ -69,8 +68,7 @@ TEST_F(bridgeTest, testNormalWrapping) {
 }
 
 TEST_F(bridgeTest, testFuncDoesntHaveObjNegative) {
-    tstr<tbridge<kniz>> bridge(tbridger<kniz>()
-        .ctor()
+    tstr<tbridge<kniz>> bridge(tbridger<kniz>::ctor()
         .ctor<kniz>()
         .func<int, string>("say", &kniz::say).make(new kniz()));
         // TODO: how to handle void return & void parameter
@@ -88,8 +86,7 @@ TEST_F(bridgeTest, testFuncDoesntHaveObjNegative) {
 }
 
 TEST_F(bridgeTest, testHasName) {
-    tstr<baseObj> bridge(tbridger<kniz>()
-        .ctor()
+    tstr<baseObj> bridge(tbridger<kniz>::ctor()
         .ctor<kniz>()
         .func<int, string>("say", &kniz::say).make(new kniz()));
     nmap m;
@@ -121,14 +118,12 @@ namespace {
 }
 
 TEST_F(bridgeTest, passObj) {
-    str winBridge(tbridger<window>()
-            .ctor()
+    str winBridge(tbridger<window>::ctor()
             .ctor<window>()
             .func("getX", &window::getX)
             .func("getY", &window::getY)
             .func("setY", &window::setY).make(new window()));
-    str winOpenGL(tbridger<openGL>()
-            .ctor()
+    str winOpenGL(tbridger<openGL>::ctor()
             .ctor<openGL>()
             .func("init", &openGL::init).make(new openGL()));
 
@@ -139,14 +134,12 @@ TEST_F(bridgeTest, passObj) {
 }
 
 TEST_F(bridgeTest, returnObj) {
-    str winBridge(tbridger<window>()
-            .ctor().ctor<window>()
+    str winBridge(tbridger<window>::ctor().ctor<window>()
             .func("getX", &window::getX)
             .func("getY", &window::getY)
             .func("setY", &window::setY)
             .func("new1", &window::new1).make(new window()));
-    str winOpenGL(tbridger<openGL>()
-            .ctor().ctor<openGL>()
+    str winOpenGL(tbridger<openGL>::ctor().ctor<openGL>()
             .func("init", &openGL::init).make(new openGL()));
 
     str newWin = winBridge->run("new1", args{ narr{*new nInt(15)}});
@@ -169,12 +162,12 @@ namespace {
 }
 
 TEST_F(bridgeTest, passArray) {
-    str mgrBridge(tbridger<windowManager>()
-            .ctor().ctor<windowManager>()
+    str mgrBridge(tbridger<windowManager>::ctor()
+            .ctor<windowManager>()
             .func("add", &windowManager::add)
             .func("del", &windowManager::del).make(new windowManager()));
 
-    tstr<tbridge<narr>> narrBridge(tbridger<narr>().make(new narr()));
+    tstr<tbridge<narr>> narrBridge(tbridger<narr>::ctor().make(new narr()));
     narrBridge->get().add(*new nInt(0)); // call func directly.
     narrBridge->get().add(*new nInt(1));
     narrBridge->get().add(*new nInt(2));
@@ -210,8 +203,7 @@ TEST_F(bridgeTest, passRawObj) {
     myObj o1;
     o1.age = 5;
 
-    str stg(tbridger<stage>()
-            .ctor().ctor<stage>()
+    str stg(tbridger<stage>::ctor().ctor<stage>()
             .func("foo", &stage::foo).make(new stage()));
     str res = stg->run("foo", args{narr{o1}});
     ASSERT_TRUE(res);
@@ -254,8 +246,7 @@ TEST_F(bridgeTest, passArr) {
     a.add(new myObj(3));
     ASSERT_EQ(a.len(), 3);
 
-    str testobj(tbridger<testObj>()
-        .ctor().ctor<testObj>()
+    str testobj(tbridger<testObj>::ctor().ctor<testObj>()
         .func("updateLen", &testObj::updateLen)
         .func("sumOfLen", &testObj::sumOfLen).make(new testObj()));
     str res = testobj->run("updateLen", args{narr{a}});
@@ -278,16 +269,12 @@ namespace {
 
         using super::subs;
         scope& subs() override {
-            static tbridger<A>* inner = nullptr;
-            if(nul(inner)) {
-                static me org;
-                inner = new tbridger<A>();
-                inner->ctor()
-                    .ctor<A>()
-                    .func("foo", &A::foo);
-            }
+            static scope inner = tbridger<A>::ctor()
+                .ctor<A>()
+                .func("foo", &A::foo)
+                .subs();
 
-            return inner->subs();
+            return inner;
         }
 
         const baseObj& getOrigin() const override { return *this; }
@@ -334,7 +321,7 @@ namespace {
 }
 
 TEST_F(bridgeTest, bridgeWhatDoesntHaveDefaultCtor) {
-    tstr<tbridge<B>> bridge = tbridger<B>().ctor<int>().func("getAge", &B::getAge).make(new B(1));
+    tstr<tbridge<B>> bridge = tbridger<B>::ctor<int>().func("getAge", &B::getAge).make(new B(1));
     ASSERT_TRUE(bridge);
     ASSERT_EQ(bridge->get().age, 1);
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "bridge/cpp/tbridger.hpp"
 #include "tbridgeFunc.hpp"
 #include "marshaling/tgenericMarshaling.hpp"
 #include "../../ast/obj.hpp"
@@ -35,13 +36,10 @@ namespace nm {
     protected:
         /// @hidden this api is only available to tmarshaling.
         tbridge(): me(nullptr) {}
-        tbridge(T* real): me(dumScope::singletone(), real) {}
-        tbridge(const scope& subs, T* real): super(), _real(real) {
-            _subs.bind(subs);
-        }
+        tbridge(T* real): _real(real) {}
 
     public:
-        tbridge(const me& rhs): super(rhs), _real(rhs._real ? new T(*rhs._real) : nullptr), _subs(rhs._subs) {}
+        tbridge(const me& rhs): super(rhs), _real(rhs._real ? new T(*rhs._real) : nullptr) {}
         ~tbridge() override {
             if(_ownReal && _real)
                 delete _real;
@@ -49,7 +47,7 @@ namespace nm {
 
     public:
         using super::subs;
-        scope& subs() override { return *_subs; }
+        scope& subs() override { return tbridger<T>::_me.subs(); }
 
         T& get() {
             return *_real;
@@ -67,6 +65,5 @@ namespace nm {
     private:
         T* _real;
         nbool _ownReal = _real;
-        tstr<scope> _subs;
     };
 }

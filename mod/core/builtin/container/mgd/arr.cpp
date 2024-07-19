@@ -24,8 +24,7 @@ namespace nm {
         public:
             using super::subs;
             scope& subs() override {
-                static scope inner = tbridger<niter>()
-                    .ctor()
+                static scope inner = tbridger<niter>::ctor()
                     .ctor<niter>()
                     .func("isEnd", &niter::isEnd)
                     .func("next", &niter::next)
@@ -225,22 +224,19 @@ namespace nm {
     }
 
     scope& me::_getOriginScope() {
-        static tbridger<narr>* inner = nullptr;
-        if(nul(inner)) {
-            inner = new tbridger<narr>();
-            inner->ctor()
-                .ctor<narr>()
-                .genericFunc("len", &narr::len)
-                .genericFunc("rel", &narr::rel)
-                .genericFunc<nbool, nidx>("del", &narr::del)
-                .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
-                .genericFunc<nbool, nidx, const node&>("add", &narr::add)
-                .genericFunc<nbool, nidx, const node&>("set", &narr::set)
-                .genericFuncNonConst<node&, nidx>("get", &narr::get)
-                .genericFunc<nbool, const node&>("has", &narr::has)
-                .subs().add("iterate", new iterateFunc());
-        }
+        static scope inner = tbridger<narr>::ctor()
+            .ctor<narr>()
+            .genericFunc("len", &narr::len)
+            .genericFunc("rel", &narr::rel)
+            .genericFunc<nbool, nidx>("del", &narr::del)
+            .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
+            .genericFunc<nbool, nidx, const node&>("add", &narr::add)
+            .genericFunc<nbool, nidx, const node&>("set", &narr::set)
+            .genericFuncNonConst<node&, nidx>("get", &narr::get)
+            .genericFunc<nbool, const node&>("has", &narr::has)
+            .func("iterate", new iterateFunc())
+            .subs();
 
-        return inner->subs();
+        return inner;
     }
 }
