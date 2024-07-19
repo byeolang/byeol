@@ -22,24 +22,36 @@ namespace {
 
         static inline nbool isRun = false;
     };
-
-    struct bridgeTest : public ::testing::Test {
-        void TearDown() override {
-            kniz::isRun = false;
-        }
-    };
 }
 
+struct bridgeTest : public ::testing::Test {
+    nbool isFirst = true;
+
+    void SetUp() override {
+        if(isFirst) {
+            tbridger<kniz>::ctor()
+                .ctor<kniz>()
+                .func("sayCharPtr", &kniz::sayCharPtr)
+                .func<int, string>("say", &kniz::say);
+            isFirst = false;
+        }
+    }
+
+    void TearDown() override {
+        kniz::isRun = false;
+    }
+};
+
 TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
-    scope inner = tbridger<kniz>::ctor().ctor<kniz>().func("sayCharPtr", &kniz::sayCharPtr).subs();
+    scope& inner = tbridger<kniz>::subs();
     // tbridger object released.
     // but does scope still bridge funcs?
     ASSERT_EQ(inner.len(), 3);
     ASSERT_FALSE(nul(inner.get<baseFunc>("sayCharPtr")));
 
     {
-        str b = tbridger<kniz>::ctor().func<int, string>("say", &kniz::say).make(new kniz());
-        ASSERT_EQ(b->subs().len(), 2);
+        str b = tbridger<kniz>::make(new kniz());
+        ASSERT_EQ(b->subs().len(), 4);
 
         kniz::isRun = false;
         b->run("say", narr{nStr("hello")});
@@ -54,9 +66,7 @@ TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
 }
 
 TEST_F(bridgeTest, testNormalWrapping) {
-    tstr<tbridge<kniz>> bridge(tbridger<kniz>::ctor()
-        .ctor<kniz>()
-        .func<int, string>("say", &kniz::say).make(new kniz()));
+    tstr<tbridge<kniz>> bridge(tbridger<kniz>::make(new kniz()));
         // TODO: how to handle void return & void parameter
         //.func<void, void>(&kniz::say);
 
@@ -68,9 +78,7 @@ TEST_F(bridgeTest, testNormalWrapping) {
 }
 
 TEST_F(bridgeTest, testFuncDoesntHaveObjNegative) {
-    tstr<tbridge<kniz>> bridge(tbridger<kniz>::ctor()
-        .ctor<kniz>()
-        .func<int, string>("say", &kniz::say).make(new kniz()));
+    tstr<tbridge<kniz>> bridge(tbridger<kniz>::make(new kniz()));
         // TODO: how to handle void return & void parameter
         //.func<void, void>(&kniz::say);
 
@@ -86,9 +94,7 @@ TEST_F(bridgeTest, testFuncDoesntHaveObjNegative) {
 }
 
 TEST_F(bridgeTest, testHasName) {
-    tstr<baseObj> bridge(tbridger<kniz>::ctor()
-        .ctor<kniz>()
-        .func<int, string>("say", &kniz::say).make(new kniz()));
+    tstr<baseObj> bridge(tbridger<kniz>::make(new kniz()));
     nmap m;
     ASSERT_TRUE(bridge);
     m.add("kniz", *bridge);

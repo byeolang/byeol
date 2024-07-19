@@ -8,23 +8,9 @@
 
 namespace nm {
 
-    class _nout baseBridger {
-        NM(ME(baseBridger))
-
-    public:
-        virtual ~baseBridger() = default;
-
-    public:
-        scope& subs() { return _subs; }
-        const scope& subs() const NM_CONST_FUNC(subs())
-
-    private:
-        scope _subs;
-    };
-
     template <typename T, nbool isBaseObj = tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>
-    class tbridger : public baseBridger {
-        NM(ME(tbridger, baseBridger))
+    class tbridger {
+        NM(ME(tbridger))
         template <typename Ret, typename T1, nbool, template <typename, nbool> class Marshaling, typename...Args>
         friend class tbridgeFunc;
         template <typename T1>
@@ -34,6 +20,8 @@ namespace nm {
         tbridger() = default;
 
     public:
+        static scope& subs() { return _me._subs; }
+
         static me& func(const std::string& name, const baseFunc& bridgeFunc) {
             _me.subs().add(name, bridgeFunc);
             return _me;
@@ -76,22 +64,25 @@ namespace nm {
             return func(name, new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
         }
 
-        tbridge<T>* make(T* real) {
+        static tbridge<T>* make(T* real) {
             return new tbridge(real);
         }
 
     private:
         inline static me _me;
+        scope _subs;
     };
 
     template <typename T>
-    class tbridger<T, true> : public baseBridger {
+    class tbridger<T, true> {
         NM(ME(tbridger))
 
     private:
         tbridger() = default;
 
     public:
+        static scope& subs() { return _me._subs; }
+
         static me& func(const std::string& name, const baseFunc& bridgeFunc) {
             _me.subs().add(name, bridgeFunc);
             return _me;
@@ -138,5 +129,6 @@ namespace nm {
 
     private:
         inline static me _me;
+        scope _subs;
     };
 }
