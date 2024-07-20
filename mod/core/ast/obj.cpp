@@ -27,7 +27,7 @@ namespace nm {
         _assign(org);
     }
 
-    me::obj(): super(), _isComplete(true) {}
+    me::obj(): me(*new scope(), *new scope()) {}
 
     me::obj(scope& shares, scope& owns): super(), _isComplete(true) {
         owns.link(shares);
