@@ -17,7 +17,7 @@ struct exprTest : public namuTest {
     void SetUp() override;
     void TearDown() override;
 
-    tstr<obj> bridge;
+    tstr<baseObj> bridge;
 
     static void setLine(expr& exp, ncnt row, ncnt col) {
         exp._pos = {row, col};
@@ -31,9 +31,14 @@ struct exprTest : public namuTest {
 void exprTest::SetUp() {
     namuTest::SetUp();
 
-    bridge.bind(tbridger<helloWorld>::ctor()
-        .ctor<helloWorld>()
-        .func("main", &helloWorld::main).make(new helloWorld()));
+    static nbool isFirst = true;
+    if(isFirst) {
+        tbridger<helloWorld>::ctor()
+            .ctor<helloWorld>()
+            .func("main", &helloWorld::main);
+        isFirst = false;
+    }
+    bridge.bind(tbridger<helloWorld>::make(new helloWorld()));
 }
 
 void exprTest::TearDown() {
