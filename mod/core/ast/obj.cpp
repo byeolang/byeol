@@ -27,7 +27,7 @@ namespace nm {
         _assign(org);
     }
 
-    me::obj(): super(), _org(*this), _isComplete(true) {}
+    me::obj(): super(), _isComplete(true) {}
 
     me::obj(scope& shares, scope& owns): super(), _isComplete(true) {
         owns.link(shares);
@@ -85,7 +85,7 @@ namespace nm {
     }
 
     const baseObj& me::getOrigin() const {
-        return *_org;
+        return _org ? *_org : *this;
     }
 
     nbool me::isComplete() const {
