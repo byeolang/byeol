@@ -205,7 +205,7 @@ namespace nm {
             e.accept(visitInfo {"arg" + std::to_string(n), &d, n++, len, i.depth+1}, *this);
     }
 
-    void me::onTraverse(const visitInfo& i, genericObj& g) {
+    void me::onTraverse(const visitInfo& i, genericOrigin& g) {
         auto& cache = (std::map<std::string, tstr<obj>>&) g.getCache();
         ncnt len = cache.size();
         nint n = 0;

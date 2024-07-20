@@ -520,7 +520,7 @@ namespace nm {
         me.outFrame();
     }
 
-    nbool me::onVisit(const visitInfo& i, genericObj& me) {
+    nbool me::onVisit(const visitInfo& i, genericOrigin& me) {
         _GUARD("onVisit()");
 
         _STEP("cache check");
@@ -530,7 +530,7 @@ namespace nm {
         return true;
     }
 
-    void me::onLeave(const visitInfo& i, genericObj& me) {
+    void me::onLeave(const visitInfo& i, genericOrigin& me) {
         _GUARD("onLeave()");
 
         // DO NOTHING, BUT LEAVE THIS FUNC:

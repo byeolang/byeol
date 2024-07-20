@@ -6,7 +6,7 @@ namespace nm {
     class _nout src : public instance {
         NM(CLASS(src, instance))
         friend class parser;
-        friend class genericObj; // for _setName() at genericObj::_makeGeneric()
+        friend class genericOrigin; // for _setName() at genericOrigin::_makeGeneric()
 
     public:
         src(const srcFile& file, const std::string& name, const point& pos);

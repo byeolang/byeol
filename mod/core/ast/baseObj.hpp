@@ -18,7 +18,7 @@ namespace nm {
         friend class obj;
         friend class defaultMakeCtor;
         friend class parser;
-        friend class genericObj; // from genericObj::_makeGeneric()
+        friend class genericOrigin; // from genericOrigin::_makeGeneric()
         friend class exprMaker;
 
     protected:

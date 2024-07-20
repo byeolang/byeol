@@ -1,7 +1,7 @@
 #include "getGenericExpr.hpp"
 #include "../../visitor/visitor.hpp"
 #include "../node.inl"
-#include "../genericObj.hpp"
+#include "../genericOrigin.hpp"
 
 namespace nm {
 
@@ -13,21 +13,21 @@ namespace nm {
             super(me, genericName, typeParams) {}
 
     priorities me::_get(nbool evalMode) const {
-        genericObj& generic = _getGenericObj();
+        genericOrigin& generic = _getGenericOrigin();
         if(nul(generic)) return NM_E("generic == null"), priorities();
 
         return priorities(*generic.run(getArgs()));
     }
 
-    genericObj& me::_getGenericObj() const {
+    genericOrigin& me::_getGenericOrigin() const {
         const args& typs = getArgs();
         const std::string& name = getName();
-        if(nul(typs) || !typs.len()) return NM_E("_args.len() == 0"), nulOf<genericObj>();
+        if(nul(typs) || !typs.len()) return NM_E("_args.len() == 0"), nulOf<genericOrigin>();
         NM_DI("_name=%s, _args[%d]", getName(), typs.len());
 
         str evalMe = getMe().isSub<expr>() ? getMe().as<node>() : getMe();
-        if(!evalMe) return NM_E("from == null"), nulOf<genericObj>();
+        if(!evalMe) return NM_E("from == null"), nulOf<genericOrigin>();
 
-        return evalMe->sub<genericObj>(name);
+        return evalMe->sub<genericOrigin>(name);
     }
 }

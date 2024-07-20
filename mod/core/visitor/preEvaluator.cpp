@@ -82,13 +82,13 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, getGenericExpr& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
-        // this lets genericObj make a their generic obj.
-        obj& genericObj = me.getEval().cast<obj>();
-        if(nul(genericObj)) return true;
+        // this lets genericOrigin make a their generic obj.
+        obj& genericOrigin = me.getEval().cast<obj>();
+        if(nul(genericOrigin)) return true;
 
         obj& prevObj = *_obj;
         func& prevFunc = *_func;
-        genericObj.accept(i, *this);
+        genericOrigin.accept(i, *this);
         _func.bind(prevFunc);
         _obj.bind(prevObj);
         return true;

@@ -12,7 +12,7 @@ namespace nm {
            CLONE(origin))
 
     public:
-        friend class genericObj; // for _setOrigin(), _setType
+        friend class genericOrigin; // for _setOrigin(), _setType
         friend class slot; // for _onRunSub
         friend class preEvaluator;
         friend class exprMaker;

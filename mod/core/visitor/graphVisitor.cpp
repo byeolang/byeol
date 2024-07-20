@@ -77,7 +77,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, genericObj& o) {
+    nbool me::onVisit(const visitInfo& i, genericOrigin& o) {
         onVisit(i, (node&) o);
 
         int n = 0;

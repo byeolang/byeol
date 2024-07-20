@@ -1,4 +1,4 @@
-#include "genericObj.hpp"
+#include "genericOrigin.hpp"
 #include "../visitor/generalizer.hpp"
 #include "args.hpp"
 #include "../visitor/verifier.hpp"
@@ -9,9 +9,9 @@
 
 namespace nm {
 
-    NM(DEF_ME(genericObj), DEF_VISIT())
+    NM(DEF_ME(genericOrigin), DEF_VISIT())
 
-    me::genericObj(const origin& org, const strings& paramNames): _org(org), _paramNames(paramNames) {}
+    me::genericOrigin(const origin& org, const strings& paramNames): _org(org), _paramNames(paramNames) {}
 
     const baseObj& me::getOrigin() const {
         return *_org;

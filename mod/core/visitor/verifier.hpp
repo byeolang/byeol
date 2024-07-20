@@ -13,7 +13,7 @@ namespace nm {
     class _nout verifier : public visitor {
         NM(CLASS(verifier, visitor))
         friend struct ::verifierTest;
-        friend class genericObj;
+        friend class genericOrigin;
 
     public:
         void onLeave(const visitInfo& i, node& me) override;
@@ -34,8 +34,8 @@ namespace nm {
         void onLeave(const visitInfo& i, func& me) override;
         nbool onVisit(const visitInfo& i, baseObj& me) override;
         void onLeave(const visitInfo& i, baseObj& me) override;
-        nbool onVisit(const visitInfo& i, genericObj& me) override;
-        void onLeave(const visitInfo& i, genericObj& me) override;
+        nbool onVisit(const visitInfo& i, genericOrigin& me) override;
+        void onLeave(const visitInfo& i, genericOrigin& me) override;
         nbool onVisit(const visitInfo& i, forExpr& me) override;
         void onLeave(const visitInfo& i, forExpr& me) override;
         nbool onVisit(const visitInfo& i, whileExpr& me) override;

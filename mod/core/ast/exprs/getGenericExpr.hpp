@@ -5,7 +5,7 @@
 namespace nm {
 
     class visitor;
-    class genericObj;
+    class genericOrigin;
 
     class _nout getGenericExpr : public getExpr {
         NM(CLASS(getGenericExpr, getExpr, expr::exprType), VISIT())
@@ -16,7 +16,7 @@ namespace nm {
         getGenericExpr(const node& me, const std::string& genericName, const args& typeParams);
 
     protected:
-        genericObj& _getGenericObj() const;
+        genericOrigin& _getGenericOrigin() const;
 
     protected:
         priorities _get(nbool evalMode) const override;

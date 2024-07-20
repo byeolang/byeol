@@ -5,7 +5,7 @@
 #include "../../ast/func.hpp"
 #include "../../builtin/primitive.hpp"
 #include "../../frame/thread.hpp"
-#include "../../ast/genericObj.hpp"
+#include "../../ast/genericOrigin.hpp"
 #include "../../type/mgdType.hpp"
 #include "bison/tokenScan.hpp"
 #include "worker.inl"
@@ -437,7 +437,7 @@ namespace nm {
         return ret;
     }
 
-    genericObj* me::onDefObjGeneric(const std::string& name, const args& typeParams, defBlock& blk) {
+    genericOrigin* me::onDefObjGeneric(const std::string& name, const args& typeParams, defBlock& blk) {
         NM_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], defBlock[%s]", name, typeParams.len(), &blk);
 
         origin& org = *_maker.birth<origin>(name, mgdType(name, typeParams));
@@ -447,7 +447,7 @@ namespace nm {
 
         std::vector<std::string> paramNames = _extractParamTypeNames(typeParams);
         std::string paramName = _joinVectorString(paramNames);
-        return _maker.birth<genericObj>(name, org, paramNames);
+        return _maker.birth<genericOrigin>(name, org, paramNames);
     }
 
     std::string me::_joinVectorString(const std::vector<std::string>& container) const {
@@ -594,9 +594,9 @@ namespace nm {
                 args{narr{idx}});
     }
 
-    node* me::onGetGeneric(const std::string& genericObjName, const args& typeParams) {
-        NM_DI("tokenEvent: onGetGeneric(%s, params.len[%d])", genericObjName, typeParams.len());
-        return _maker.make<getGenericExpr>(genericObjName, typeParams);
+    node* me::onGetGeneric(const std::string& orgName, const args& typeParams) {
+        NM_DI("tokenEvent: onGetGeneric(%s, params.len[%d])", orgName, typeParams.len());
+        return _maker.make<getGenericExpr>(orgName, typeParams);
     }
 
     runExpr* me::onRunExpr(node& trg, const narr& a) {

@@ -10,4 +10,4 @@
 #include "ast/params.hpp"
 #include "ast/defaultCtor.hpp"
 #include "ast/defaultCopyCtor.hpp"
-#include "ast/genericObj.hpp"
+#include "ast/genericOrigin.hpp"

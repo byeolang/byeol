@@ -29,7 +29,7 @@ namespace nm {
     class ifExpr;
     class FUOExpr;
     class defPropExpr;
-    class genericObj;
+    class genericOrigin;
     class _nout parser : public worker<tstr<obj>, slot>, public tokenScanable {
         typedef worker<tstr<obj>, slot> __super5;
         NM(CLASS(parser, __super5))
@@ -126,7 +126,7 @@ namespace nm {
         FBOExpr* onOr(const node& lhs, const node& rhs);
 
         //  generic:
-        node* onGetGeneric(const std::string& genericObjName, const args& typeParams);
+        node* onGetGeneric(const std::string& orgName, const args& typeParams);
         node* onGetElem(const node& arr, const node& idx);
         //  container:
         node* onGetArray(node& elemType);
@@ -167,7 +167,7 @@ namespace nm {
         node* onDefAssign(const std::string& name, const node& rhs);
         //          obj:
         origin* onDefOrigin(const std::string& name, defBlock& blk);
-        genericObj* onDefObjGeneric(const std::string& name, const args& typeParams, defBlock& blk);
+        genericOrigin* onDefObjGeneric(const std::string& name, const args& typeParams, defBlock& blk);
         //          container:
         node* onDefArray(const narr& items);
         node* onDefSeq(const node& start, const node& end);

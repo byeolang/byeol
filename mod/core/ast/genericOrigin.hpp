@@ -7,15 +7,15 @@ namespace nm {
     class visitor;
     class verifier;
 
-    class _nout genericObj : public baseObj {
-        NM(CLASS(genericObj, baseObj), VISIT())
+    class _nout genericOrigin : public baseObj {
+        NM(CLASS(genericOrigin, baseObj), VISIT())
         friend class verifier;
         friend class graphVisitor;
         friend class exprMaker;
         typedef std::vector<std::string> strings;
 
     public:
-        genericObj(const origin& org, const strings& paramNames);
+        genericOrigin(const origin& org, const strings& paramNames);
 
     public:
         const baseObj& getOrigin() const override;
