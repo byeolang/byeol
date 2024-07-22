@@ -61,10 +61,7 @@ namespace {
 
     struct shell : public instance {
         shell(offering* newO): o(newO) {}
-        ~shell() override {
-            if(!nul(o))
-                delete o;
-        }
+        ~shell() override {}
 
         const type& getType() const override {
             return ttype<shell>::get();
@@ -74,7 +71,7 @@ namespace {
             return new shell(nullptr);
         }
 
-        offering* o;
+        tstr<offering> o;
     };
 
     void integrity(int cnt) {
@@ -372,4 +369,10 @@ TEST_F(binderTest, safeGetWithBinder) {
 
     ASSERT_TRUE(safeGet(ptr, o, a, isHeap()));
     ASSERT_EQ(safeGet(ptr, o, a, age), 57);
+}
+
+TEST_F(binderTest, safeGetNegative) {
+    tstr<shell> ptr(new shell(nullptr));
+    ASSERT_TRUE(nul(safeGet(ptr, o, a)));
+    ASSERT_TRUE(nul(safeGet(ptr, o, a, isHeap())));
 }

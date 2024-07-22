@@ -45,9 +45,9 @@ namespace nm {
     template <typename T> static T* __proceed__(T& rhs) { return &rhs; }
     template <typename T> static T* __proceed__(T* rhs) { return rhs; }
 
-    template <typename T> static nbool __isNul__(T&& rhs) { return nul(rhs); }
-    template <typename T> static nbool __isNul__(T& rhs) { return nul(rhs); }
-    template <typename T> static nbool __isNul__(T* rhs) { return nul(rhs); }
+    template <typename T> static nbool __isNul__(const T&& rhs) { return nul(rhs); }
+    template <typename T> static nbool __isNul__(const T& rhs) { return nul(rhs); }
+    template <typename T> static nbool __isNul__(const T* rhs) { return nul(rhs); }
 }
 
 #define _PUT(exp) _tget<decltype(exp)>::set(exp)
