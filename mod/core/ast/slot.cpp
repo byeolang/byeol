@@ -26,7 +26,7 @@ namespace nm {
     }
 
     me::slot(const manifest& manifest): _manifest(manifest), _isValid(true) {
-        _pak.bind(new origin(mgdType(_manifest.name)));
+        _pak.bind(new origin(mgdType::make(_manifest.name)));
     }
 
     me::slot(const manifest& manifest, const obj& pack): _manifest(manifest), _isValid(true) {
@@ -39,7 +39,7 @@ namespace nm {
         _isValid = true;
     }
 
-    origin& me::getPack() {
+    obj& me::getPack() {
         return *_pak;
     }
 

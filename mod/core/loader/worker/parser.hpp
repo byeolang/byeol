@@ -39,8 +39,8 @@ namespace nm {
         parser();
 
     public:
-        origin& getSubPack();
-        const origin& getSubPack() const NM_CONST_FUNC(getSubPack())
+        obj& getSubPack();
+        const obj& getSubPack() const NM_CONST_FUNC(getSubPack())
 
         srcSupplies& getSrcSupplies();
         const srcSupplies& getSrcSupplies() const NM_CONST_FUNC(getSrcSupplies())
@@ -132,9 +132,9 @@ namespace nm {
         node* onGetArray(node& elemType);
 
         //  keyword:
-        origin* onPack(const node& path);
-        origin* onPack();
-        origin* onSubPack(origin& subpack);
+        obj* onPack(const node& path);
+        obj* onPack();
+        obj* onSubPack(obj& subpack);
         blockExpr* onBlock(const node& stmt);
         blockExpr* onBlock(blockExpr& blk, const node& stmt);
         blockExpr* onBlock();
@@ -166,7 +166,7 @@ namespace nm {
         node* onDefProp(const std::string& name, const node& rhs);
         node* onDefAssign(const std::string& name, const node& rhs);
         //          obj:
-        origin* onDefOrigin(const std::string& name, defBlock& blk);
+        obj* onDefOrigin(const std::string& name, defBlock& blk);
         genericOrigin* onDefObjGeneric(const std::string& name, const args& typeParams, defBlock& blk);
         //          container:
         node* onDefArray(const narr& items);
@@ -247,7 +247,7 @@ namespace nm {
         nbool _isIgnoreWhitespace;
         tokenDispatcher _dispatcher;
         std::vector<ncnt> _indents;
-        tstr<origin> _subpack;
+        tstr<obj> _subpack;
         tstr<scope> _filescope;
         std::vector<nint> _states;
         exprMaker _maker;

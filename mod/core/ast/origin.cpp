@@ -7,7 +7,7 @@ namespace nm {
 
     me::origin(const mgdType& newType): super(), _type(newType) {}
     me::origin(const mgdType& newType, scope& shares, scope& owns): super(shares, owns), _type(newType) {}
-    me::origin(const mgdType& newType, const origin& subpack, nbool isComplete): super(isComplete), _type(newType), _subpack(subpack) {}
+    me::origin(const mgdType& newType, const obj& subpack, nbool isComplete): super(isComplete), _type(newType), _subpack(subpack) {}
     me::origin(const me& rhs): super(rhs), _type(rhs._type), _subpack(rhs._subpack), _src(rhs._src) {}
 
     me& me::operator=(const me& rhs) {
@@ -21,7 +21,7 @@ namespace nm {
         return _type;
     }
 
-    const origin& me::getSubPack() const { return *_subpack; }
+    const obj& me::getSubPack() const { return *_subpack; }
 
     const src& me::getSrc() const {
         return *_src;

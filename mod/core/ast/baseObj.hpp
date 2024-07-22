@@ -43,7 +43,7 @@ namespace nm {
 
         virtual nbool isPreEvaluated() const;
 
-        virtual const origin& getSubPack() const;
+        virtual const obj& getSubPack() const;
 
         virtual baseObj* make() const;
 

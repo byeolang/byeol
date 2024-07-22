@@ -4,17 +4,10 @@ namespace nm {
 
     NM(DEF_ME(mgdType))
 
-    me::mgdType(const std::string& name): _name(name) {
-        _initSupers(ttype<baseObj>::get());
-    }
-    me::mgdType(const std::string& name, const mgdType& super): _name(name) {
+    me::mgdType(const std::string& name, const type& super): _name(name) {
         _initSupers(super);
     }
-    me::mgdType(const std::string& name, const narr& beans): _name(name) {
-        _initSupers(ttype<baseObj>::get());
-        getBeans() = beans;
-    }
-    me::mgdType(const std::string& name, const mgdType& super, const narr& beans): _name(name) {
+    me::mgdType(const std::string& name, const type& super, const narr& beans): _name(name) {
         _initSupers(super);
         getBeans() = beans;
     }
@@ -30,6 +23,14 @@ namespace nm {
     }
 
     const std::string& me::getName() const { return _name; }
+
+    mgdType me::make(const std::string& name) {
+        return make<obj>(name);
+    }
+
+    mgdType* me::makeNew(const std::string& name) {
+        return makeNew<obj>(name);
+    }
 
     types& me::_getSupers() {
         return _supers;

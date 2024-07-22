@@ -5,6 +5,7 @@
 
 namespace nm {
 
+    class origin;
     template <typename T, typename TACTIC = weakTactic>
     class tweak : public binder {
         NM_ME(tweak, binder)

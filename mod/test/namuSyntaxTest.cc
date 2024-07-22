@@ -9,11 +9,11 @@ void me::TearDown() {
     _ip.rel();
 }
 
-nm::origin& me::getSubPack() {
+nm::obj& me::getSubPack() {
     return _ip.getSubPack();
 }
 
-const nm::origin& me::getSubPack() const {
+const nm::obj& me::getSubPack() const {
     return _ip.getSubPack();
 }
 

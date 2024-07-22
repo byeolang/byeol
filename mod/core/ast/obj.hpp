@@ -20,11 +20,12 @@ namespace nm {
     public:
         typedef ntype metaType;
         friend class parser;
+        friend class slot;
+        friend class genericOrigin;
 
     public:
         explicit obj(); // this means 'any' class.
         explicit obj(const me& rhs);
-        explicit obj(const origin& org);
 
     protected:
         explicit obj(scope& shares, scope& owns);
@@ -45,7 +46,7 @@ namespace nm {
         const scope::super& getOwns() const NM_CONST_FUNC(getOwns())
         const baseObj& getOrigin() const override;
 
-        const origin& getSubPack() const override;
+        const obj& getSubPack() const override;
 
         const ntype& getType() const override;
         nbool isComplete() const override;
@@ -58,11 +59,13 @@ namespace nm {
     private:
         // update origin pointer of an object.
         // to modify origin* is very dangerous. only permitted module should do this.
-        void _setOrigin(const origin& newOrg);
+        void _setOrigin(const obj& newOrg);
 
         me& _assign(const me& rhs);
 
         void _setComplete(nbool isComplete);
+
+        virtual void _setType(const mgdType& new1);
 
     private:
         tstr<scope> _subs;

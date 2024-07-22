@@ -19,8 +19,8 @@ namespace nm {
         manifest& getManifest();
         const manifest& getManifest() const;
         nbool isValid() const;
-        virtual origin& getPack();
-        const origin& getPack() const NM_CONST_FUNC(getPack())
+        virtual obj& getPack();
+        const obj& getPack() const NM_CONST_FUNC(getPack())
         void rel() override;
         void addDependent(me& dependent);
         const tnarr<me>& getDependents() const;
@@ -44,7 +44,7 @@ namespace nm {
         void _rel();
 
     protected:
-        tstr<origin> _pak;
+        tstr<obj> _pak;
 
     private:
         manifest _manifest;

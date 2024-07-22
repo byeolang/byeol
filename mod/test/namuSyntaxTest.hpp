@@ -6,8 +6,8 @@
 struct namuSyntaxTest : public namuTest {
     void TearDown() override;
 
-    nm::origin& getSubPack();
-    const nm::origin& getSubPack() const;
+    nm::obj& getSubPack();
+    const nm::obj& getSubPack() const;
     nm::slot& getSlot();
     const nm::slot& getSlot() const;
     nm::errReport& getReport();

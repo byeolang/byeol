@@ -10,14 +10,12 @@ namespace nm {
     typedef tnarr<node, strTactic> narr;
 
     class _nout mgdType : public ttype<baseObj>, public clonable {
-        NM(ME(mgdType, ttype<obj>),
+        NM(ME(mgdType, ttype<baseObj>),
            CLONE(mgdType))
 
     public:
-        mgdType(const std::string& name);
-        mgdType(const std::string& name, const mgdType& super);
-        mgdType(const std::string& name, const narr& bean);
-        mgdType(const std::string& name, const mgdType& super, const narr& bean);
+        mgdType(const std::string& name, const type& super);
+        mgdType(const std::string& name, const type& super, const narr& bean);
         mgdType(const std::string& name, const types& supersFromRhs);
 
     public:
@@ -26,6 +24,17 @@ namespace nm {
         const std::string& getName() const override;
 
         // TODO: getSubs(), getLeafs()
+
+        template <typename S>
+        static mgdType make(const std::string& name) {
+            return mgdType(name, ttype<S>::get());
+        }
+        static mgdType make(const std::string& name);
+        template <typename S>
+        static mgdType* makeNew(const std::string& name) {
+            return new mgdType(name, ttype<S>::get());
+        }
+        static mgdType* makeNew(const std::string& name);
 
     protected:
         types& _getSupers() override;

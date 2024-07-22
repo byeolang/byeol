@@ -149,7 +149,7 @@ namespace nm {
         super::_onEndWork();
     }
 
-    origin* me::onPack(const node& path) {
+    obj* me::onPack(const node& path) {
         std::vector<string> dotnames = _toDotnames(path);
         NM_DI("tokenEvent: onPack(%s)", join(dotnames));
 
@@ -158,7 +158,7 @@ namespace nm {
         const std::string& firstName = dotnames[0];
         if(nul(getTask()))
             _setTask(new slot(manifest(firstName)));
-        origin* e = &getTask().getPack();
+        obj* e = &getTask().getPack();
 
         const std::string& realName = getTask().getManifest().name;
         if(realName != firstName)
@@ -175,7 +175,7 @@ namespace nm {
             const std::string& name = dotnames[n];
             origin* sub = &e->sub<origin>(name);
             if(nul(sub)) {
-                e->subs().add(name, sub = new origin(mgdType(name)));
+                e->subs().add(name, sub = new origin(mgdType::make(name)));
                 sub->_setOrigin(*sub);
             }
             e = sub;
@@ -184,13 +184,13 @@ namespace nm {
         return onSubPack(*e);
     }
 
-    origin* me::onSubPack(origin& subpack) {
+    obj* me::onSubPack(obj& subpack) {
         NM_DI("tokenEvent: onSubPack()");
         _subpack.bind(subpack);
         return &subpack;
     }
 
-    origin* me::onPack() {
+    obj* me::onPack() {
         NM_DI("tokenEvent: onPack()");
 
         if(nul(getTask()))
@@ -395,10 +395,10 @@ namespace nm {
         return &params;
     }
 
-    origin* me::onDefOrigin(const std::string& name, defBlock& blk) {
+    obj* me::onDefOrigin(const std::string& name, defBlock& blk) {
         NM_DI("tokenEvent: onDefObj(%s, defBlock[%s])", name, &blk);
 
-        origin& ret = *_maker.birth<origin>(name, mgdType(name), *_subpack, false);
+        obj& ret = *_maker.birth<origin>(name, mgdType::make(name), *_subpack, false);
         _onInjectObjSubs(ret, blk);
         return &ret;
     }
@@ -440,7 +440,7 @@ namespace nm {
     genericOrigin* me::onDefObjGeneric(const std::string& name, const args& typeParams, defBlock& blk) {
         NM_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], defBlock[%s]", name, typeParams.len(), &blk);
 
-        origin& org = *_maker.birth<origin>(name, mgdType(name, typeParams));
+        origin& org = *_maker.birth<origin>(name, mgdType(name, ttype<obj>::get(), typeParams));
         org._setComplete(false);
         _onInjectObjSubs(org, blk);
         org._setSubPack(*_subpack);
@@ -947,7 +947,7 @@ namespace nm {
 
     me::parser(): _mode(nullptr), _isIgnoreWhitespace(false) { rel(); }
 
-    origin& me::getSubPack() {
+    obj& me::getSubPack() {
         return *_subpack; // TODO: can I remove subpack variable?
     }
 

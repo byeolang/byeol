@@ -33,7 +33,7 @@ namespace nm {
         return isParsed() && (!nul(getReport()) && !getReport().hasErr());
     }
 
-    origin& me::getSubPack() {
+    obj& me::getSubPack() {
         return _pser.getSubPack();
     }
 

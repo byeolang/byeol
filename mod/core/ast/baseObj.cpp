@@ -48,7 +48,7 @@ namespace nm {
 
     nbool me::isPreEvaluated() const { return true; }
 
-    const origin& me::getSubPack() const { return getOrigin().getSubPack(); }
+    const obj& me::getSubPack() const { return getOrigin().getSubPack(); }
 
     baseObj* me::make() const { return (baseObj*) clone(); }
 

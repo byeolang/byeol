@@ -10,8 +10,8 @@ namespace {
         NM(CLASS(originObj, obj))
 
     public:
-        originObj(): super(new mgdType("originObj")), _subs(*new scope()) {}
-        originObj(const scope& subs): super(new mgdType("originObj")), _subs(subs) {}
+        originObj(): super(mgdType::makeNew<obj>("originObj")), _subs(*new scope()) {}
+        originObj(const scope& subs): super(mgdType::makeNew<obj>("originObj")), _subs(subs) {}
         originObj(const me& rhs): _subs(rhs._subs) {}
 
         const baseObj& getOrigin() const override {
@@ -86,7 +86,7 @@ TEST_F(objTest, cloneByRunFunc) {
 }
 
 TEST_F(objTest, addElementIntoOwns) {
-    origin my(mgdType("my"));
+    origin my(mgdType::make("my"));
     ASSERT_EQ(my.subs().len(), 0);
 
     my.subs().add("banana", new nInt(1));

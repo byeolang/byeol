@@ -23,10 +23,6 @@ namespace nm {
         _assign(rhs);
     }
 
-    me::obj(const origin& org): super(org), _org(org), _isComplete(true) {
-        _assign(org);
-    }
-
     me::obj(): me(*new scope(), *new scope()) {}
 
     me::obj(scope& shares, scope& owns): super(), _isComplete(true) {
@@ -57,7 +53,7 @@ namespace nm {
         return _assign(rhs);
     }
 
-    const origin& me::getSubPack() const {
+    const obj& me::getSubPack() const {
         me* c = (me*) this;
         return safeGet(c->_org, getSubPack());
     }
@@ -98,7 +94,7 @@ namespace nm {
     }
 
     void me::_inFrame(frame& fr, const bicontainable& args) {
-        const origin& subpack = safeGet(getOrigin(), getSubPack());
+        const obj& subpack = safeGet(getOrigin(), getSubPack());
         if(!nul(subpack))
             fr.add(subpack);
         super::_inFrame(fr, args);
@@ -108,7 +104,9 @@ namespace nm {
         _isComplete = isComplete;
     }
 
-    void me::_setOrigin(const origin& newOrg) {
+    void me::_setOrigin(const obj& newOrg) {
         _org.bind(newOrg);
     }
+
+    void me::_setType(const mgdType& new1) {}
 }

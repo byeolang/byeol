@@ -5,8 +5,18 @@
 
 namespace nm {
 
+    /// origin class is represents user defined classes in managed codes.
+    /// one important thing you must remember is, origin should be shadowed to 'obj' type.
+    /// every interaction you can take with origin could be handled with obj class.
+    /// and inherits something too origin class aren't allowed.
+    ///
+    /// this limitation affects to usage of binder too:
+    /// simply, declaring binder with type parameter 'origin' is not allowed. use 'obj' type instead of.
+    ///     e.g.
+    ///         tstr<origin> a; // X, unexpected behavior may happen.
+    ///         tstr<obj> a; // O
     class src;
-    class _nout origin : public obj {
+    class _nout origin final : public obj {
         NM(ME(origin, obj),
            INIT_META(origin),
            CLONE(origin))
@@ -21,7 +31,7 @@ namespace nm {
     public:
         explicit origin(const mgdType& newType);
         explicit origin(const mgdType& newType, scope& shares, scope& owns);
-        explicit origin(const mgdType& newType, const origin& subpack, nbool isComplete);
+        explicit origin(const mgdType& newType, const obj& subpack, nbool isComplete);
         explicit origin(const me& rhs);
 
     public:
@@ -29,21 +39,21 @@ namespace nm {
 
     public:
         const ntype& getType() const override;
-        const origin& getSubPack() const override;
+        const obj& getSubPack() const override;
         const src& getSrc() const override;
         clonable* cloneDeep() const override;
         const baseObj& getOrigin() const override;
         baseObj* make() const override;
 
     private:
-        void _setType(const mgdType& new1);
+        void _setType(const mgdType& new1) override;
         void _setSubPack(const obj& newSub);
         void _setSrc(const src& s) override;
         me& _assign(const me& rhs);
 
     private:
         mgdType _type; // TODO: memory leak
-        tstr<origin> _subpack;
+        tstr<obj> _subpack;
         tstr<src> _src;
     };
 }

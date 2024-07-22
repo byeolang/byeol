@@ -20,20 +20,20 @@ namespace nm {
         static inline const std::string MAIN = "main";
 
     public:
-        me& setPack(origin& pak);
-        origin& getPack();
-        const origin& getPack() const NM_CONST_FUNC(getPack())
+        me& setPack(obj& pak);
+        obj& getPack();
+        const obj& getPack() const NM_CONST_FUNC(getPack())
 
     protected:
         str _onWork() override;
         void _prepare() override;
 
     private:
-        node& _findMain(origin& pak, const args& a);
+        node& _findMain(obj& pak, const args& a);
         void _prepareFrame(frames& fr);
         str _postprocess(str res);
 
     private:
-        tstr<origin> _pak;
+        tstr<obj> _pak;
     };
 }
