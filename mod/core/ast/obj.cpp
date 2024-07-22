@@ -30,7 +30,9 @@ namespace nm {
         _subs.bind(owns);
     }
 
-    me::obj(nbool isComplete): super(), _isComplete(isComplete) {}
+    me::obj(nbool isComplete): me() {
+        _isComplete = isComplete;
+    }
 
     me& me::_assign(const me& rhs) {
         scope* clonedOwns = scope::wrap<scope>(*(scope::super*) _cloneEach(rhs));
