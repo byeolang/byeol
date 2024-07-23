@@ -44,11 +44,19 @@ namespace nm {
         frs.del();
     }
 
-    const src& me::getSrc() const { return getOrigin().getSrc(); }
+    const src& me::getSrc() const {
+        if(&getOrigin() == this) // which means, the derived origin class doesn't override getSrc().
+            return dumSrc::singletone(); // to prevent infinite loop.
+        return getOrigin().getSrc();
+    }
 
     nbool me::isPreEvaluated() const { return true; }
 
-    const obj& me::getSubPack() const { return getOrigin().getSubPack(); }
+    const obj& me::getSubPack() const {
+        if(&getOrigin() == this) // which means, the derived origin class doesn't override getSrc().
+            return nulOf<obj>(); // to prevent infinite loop.
+        return getOrigin().getSubPack();
+    }
 
     baseObj* me::make() const { return (baseObj*) clone(); }
 

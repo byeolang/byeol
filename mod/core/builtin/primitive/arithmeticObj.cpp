@@ -44,4 +44,8 @@ namespace nm {
 
         return tstr<me>(_mov(rhs));
     }
+
+    const src& me::getSrc() const {
+        return dumSrc::singletone();
+    }
 }
