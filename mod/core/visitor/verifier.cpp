@@ -177,11 +177,8 @@ namespace nm {
         _STEP("does rhs[%s] have 'ret' in its blockStmt?", eval);
         when(eval->isSub<retStateExpr>()).ret(CANT_ASSIGN_RET, me);
 
-        _STEP("check arr has exactly 1 type parameter.");
-        const narr& beans = eval->getType().getBeans();
-        when(beans.len() != 1).ret(ARR_DOESNT_HAVE_TYPE_PARAM, me);
-
         _STEP("check whether make a void container.");
+        const narr& beans = eval->getType().getBeans();
         for(const node& bean : beans)
             when(bean.isSub<nVoid>()).ret(NO_VOID_CONTAINER, me);
 
@@ -247,6 +244,11 @@ namespace nm {
         isNul(type).ret(ELEM_TYPE_DEDUCED_NULL, me);
         when(type.isSuper<obj>()).ret(ELEM_TYPE_DEDUCED_WRONG, me, type);
         when(type.isSub<nVoid>()).ret(ELEM_TYPE_NOT_VOID, me);
+
+        _STEP("check arr has exactly 1 type parameter.");
+        const auto& beans = safeGet(me.getOrigin(), getType(), getBeans());
+        isNul(beans).ret(ELEM_TYPE_IS_NULL, me);
+        when(beans.len() != 1).ret(ARR_DOESNT_HAVE_TYPE_PARAM, me);
     }
 
     void me::onLeave(const visitInfo& i, FBOExpr& me) {
