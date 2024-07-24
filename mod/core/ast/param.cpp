@@ -27,4 +27,8 @@ namespace nm {
     const node& me::getOrigin() const {
         return *_org;
     }
+
+    clonable* me::cloneDeep() const {
+        return new me(_name, _org ? (node*) _org->cloneDeep() : nullptr);
+    }
 }

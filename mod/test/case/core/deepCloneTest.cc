@@ -23,3 +23,21 @@ TEST_F(cloneDeepTest, narrCloneDeep) {
     ASSERT_NE(&s1, &i1);
     ASSERT_NE(&s2, &i2);
 }
+
+TEST_F(cloneDeepTest, paramsDeepClone) {
+    params p;
+    p.add(new param("1", new nInt(1)));
+    p.add(new param("2", new nFlt(1.5f)));
+    ASSERT_EQ(p.len(), 2);
+    ASSERT_EQ(p[0].getOrigin().cast<nint>(), 1);
+    ASSERT_EQ(p[1].getOrigin().cast<nflt>(), 1.5f);
+
+    params* p1 = (params*) p.cloneDeep();
+    ASSERT_FALSE(nul(p1));
+    ASSERT_EQ(p1->len(), p.len());
+    for(nidx n = 0; n < p.len() ;n++) {
+        ASSERT_EQ(p1->get(n).getOrigin().cast<nint>(), p[n].getOrigin().cast<nint>());
+        ASSERT_NE(&p1->get(n), &p[n]);
+        ASSERT_NE(&p1->get(n).getOrigin(), &p[n].getOrigin());
+    }
+}

@@ -18,6 +18,8 @@ namespace nm {
         const node& getOrigin() const;
         void setOrigin(const node& newType);
 
+        clonable* cloneDeep() const override;
+
     public:
         std::string _name;
         str _org;
