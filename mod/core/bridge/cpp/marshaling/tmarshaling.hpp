@@ -10,7 +10,7 @@ namespace nm {
     template <typename T, typename defaultElemType> class tarr;
     class arr;
 
-    template <typename T, nbool isNode = tifSub<T, node>::is>
+    template <typename T, nbool isNode = tifSub<typename typeTrait<T>::Org, node>::is>
     struct tmarshaling : public metaIf {
         typedef T mgd;
         template <typename E>

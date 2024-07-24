@@ -201,8 +201,8 @@ namespace nm {
     scope& me::_defGeneric(const node& paramType) {
         scope* clone = (scope*) _getOriginScope().cloneDeep();
         _cache.insert({&paramType.getType(), clone}); // this avoids infinite loop.
-        clone->add(baseObj::CTOR_NAME, new tbridgeClosure<arr, arr, tmarshaling>([&paramType](arr&) -> arr& {
-            return *new me(paramType);
+        clone->add(baseObj::CTOR_NAME, new tbridgeClosure<arr*, arr, tmarshaling>([&paramType](arr&) -> arr* {
+            return new me(paramType);
         }));
         clone->add("getElemType", new getElemTypeFunc());
 
@@ -217,7 +217,7 @@ namespace nm {
     }
 
     scope& me::_getOriginScope() {
-        static scope inner = tbridger<narr>::ctor<arr, arr>()
+        static scope inner = tbridger<narr>::ctor<arr>()
             .genericFunc("len", &narr::len)
             .genericFunc("rel", &narr::rel)
             .genericFunc<nbool, nidx>("del", &narr::del)

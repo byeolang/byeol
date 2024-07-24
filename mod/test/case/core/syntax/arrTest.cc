@@ -353,17 +353,17 @@ TEST_F(arrTest, newInstanceSharesFuncs) {
 
     arr b(*new nFlt(0.0f));
     tstr<arr> res2 = b.run();
-    ASSERT_FALSE(res2);
+    ASSERT_TRUE(res2);
 
     ASSERT_EQ(res2->subs().len(), res->subs().len());
     ASSERT_NE(&res2->subs(), &res->subs());
 
     ASSERT_EQ(res2->len(), 0);
-    res2->add(new nInt(1));
+    res2->run("add", narr{*new nStr("1")});
     ASSERT_EQ(res2->len(), 0);
     res2->add(new nFlt(1.0f));
     ASSERT_EQ(res2->len(), 1);
-    ASSERT_EQ(res->get(0).cast<nflt>(), 1.0f);
+    ASSERT_EQ(res2->get(0).cast<nflt>(), 1.0f);
 }
 
 TEST_F(arrTest, testBasicDefSyntax) {

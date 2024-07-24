@@ -30,7 +30,7 @@ namespace nm {
         }
 
         str getRet() const override {
-            static str ret(Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet());
+            static str ret(Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::onGetRet());
             return ret;
         }
 
@@ -61,7 +61,7 @@ namespace nm {
                 me = (T*) &mock.getTarget();
             }
 
-            return Marshaling<Ret, tifSub<Ret, node>::is>::toMgd(
+            return Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::toMgd(
                 _closure(*me, Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...));
         }
 
