@@ -97,7 +97,6 @@ namespace nm {
         nbool del(const iter& from, const iter& to) override;
 
         //  etc:
-        clonable* cloneDeep() const override;
         void rel() override;
 
         const baseObj& getOrigin() const override;
@@ -108,7 +107,7 @@ namespace nm {
         iteration* _onMakeIteration(ncnt step) const override;
 
     private:
-        scope& _defGeneric(const type* key);
+        scope& _defGeneric(const node& paramType);
         scope& _getOriginScope();
 
     private:

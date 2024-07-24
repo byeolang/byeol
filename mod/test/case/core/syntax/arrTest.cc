@@ -341,6 +341,31 @@ TEST_F(arrTest, testIteratorBridgedFunc) {
     ASSERT_TRUE(resOfIter->cast<nbool>());
 }
 
+TEST_F(arrTest, newInstanceSharesFuncs) {
+    arr a(*new nInt(0));
+    ASSERT_TRUE(a.canRun(args{}));
+    tstr<arr> res = a.run();
+    ASSERT_FALSE(nul(res));
+
+    ASSERT_TRUE(res->canRun(args{}));
+    ASSERT_EQ(a.subs().len(), res->subs().len());
+    ASSERT_EQ(&a.subs(), &res->subs()); // if type is same, subs should be same too.
+
+    arr b(*new nFlt(0.0f));
+    tstr<arr> res2 = b.run();
+    ASSERT_FALSE(res2);
+
+    ASSERT_EQ(res2->subs().len(), res->subs().len());
+    ASSERT_NE(&res2->subs(), &res->subs());
+
+    ASSERT_EQ(res2->len(), 0);
+    res2->add(new nInt(1));
+    ASSERT_EQ(res2->len(), 0);
+    res2->add(new nFlt(1.0f));
+    ASSERT_EQ(res2->len(), 1);
+    ASSERT_EQ(res->get(0).cast<nflt>(), 1.0f);
+}
+
 TEST_F(arrTest, testBasicDefSyntax) {
     make().parse(R"SRC(
         print(msg str) void: 1
