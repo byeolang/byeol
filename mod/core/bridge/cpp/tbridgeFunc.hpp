@@ -50,8 +50,9 @@ namespace nm {
 
         clonable* cloneDeep() const override {
             me* ret = (me*) clone();
-            if(_params)
-                ret->_params.bind((params*) _params->cloneDeep());
+            const params& ps = getParams();
+            if(!nul(ps))
+                ret->_params.bind((params*) ps.cloneDeep());
 
             return ret;
         }

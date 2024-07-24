@@ -1,4 +1,5 @@
 #include "generalizer.hpp"
+
 #include "../ast.hpp"
 #include "../loader/worker/worker.inl"
 
@@ -16,9 +17,8 @@ namespace nm {
         const auto& name = safeGet(toReplace.cast<getExpr>(), getName());
         if(nul(name)) return nulOf<node>();
 
-        for(const auto& p : _params)
-            if(name == p.getName())
-                return p.getOrigin();
+        for(const auto& p: _params)
+            if(name == p.getName()) return p.getOrigin();
         return nulOf<node>();
     }
 
@@ -33,7 +33,7 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, blockExpr& me) {
         narr& stmts = me.getStmts();
-        for(int n=0; n < stmts.len() ;n++) {
+        for(int n = 0; n < stmts.len(); n++) {
             const node& stmt = stmts[n];
             const node& org = _findOrigin(stmt);
             if(nul(org)) continue;
@@ -55,15 +55,13 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, runExpr& me) {
         const node* org = &_findOrigin(me.getMe());
-        if(!nul(org))
-            me.setMe(*org);
+        if(!nul(org)) me.setMe(*org);
 
         org = &_findOrigin(me.getSubj());
-        if(!nul(org))
-            me.setSubj(*org);
+        if(!nul(org)) me.setSubj(*org);
 
         args& as = me.getArgs();
-        for(int n=0; n < as.len(); n++) {
+        for(int n = 0; n < as.len(); n++) {
             node& a = as[n];
             const node& org = _findOrigin(a);
             if(nul(org)) continue;
@@ -75,12 +73,12 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, params& me) {
-        for(int n=0; n < me.len(); n++) {
+        for(int n = 0; n < me.len(); n++) {
             param& p = me[n];
             const node& org = _findOrigin(p.getOrigin());
             if(nul(org)) continue;
 
-            NM_DI("* inject param '%s' --> '%s'", p.getOrigin(), org);
+            NM_DI("* inject %s() func's param: '%s' --> '%s'", i, p.getOrigin(), org);
             p.setOrigin(org);
         }
         return true;
@@ -88,8 +86,7 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, ctor& me) {
         baseObj& cast = getTask().cast<baseObj>();
-        if(nul(cast))
-            getReport().add(err::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
+        if(nul(cast)) getReport().add(err::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
         else if(i.parent && i.parent == &cast)
             // if this ctor belongs to root object(== generic obj):
             me._setOrigin(cast.getOrigin());
@@ -103,7 +100,8 @@ namespace nm {
 
         const node& retOrg = _findOrigin(*me.getRet());
         if(!nul(retOrg)) {
-            NM_DI("* inject retType of '%s(%s) %s' --> '%s'", i, me.getParams().toStr(), me.getRet()->getEval(), retOrg);
+            NM_DI("* inject func: retType of '%s(%s) %s' --> '%s'", i, me.getParams().toStr(),
+                me.getRet()->getEval(), retOrg);
             me.setRet(retOrg);
             if(nul(i.parent))
                 getReport().add(err::newErr(errCode::IS_NULL, "parent"));
@@ -150,4 +148,4 @@ namespace nm {
         }
         return true;
     }
-}
+} // namespace nm

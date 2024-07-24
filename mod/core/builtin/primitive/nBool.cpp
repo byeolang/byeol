@@ -1,6 +1,4 @@
 #include "nBool.hpp"
-#include "../../ast/defaultCtor.hpp"
-#include "../../ast/defaultCopyCtor.hpp"
 #include "bridge/cpp/tbridger.hpp"
 #include "nInt.hpp"
 #include "nFlt.hpp"

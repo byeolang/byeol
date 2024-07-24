@@ -1,6 +1,4 @@
 #include "nVoid.hpp"
-#include "../../ast/defaultCtor.hpp"
-#include "../../ast/defaultCopyCtor.hpp"
 #include "../../visitor/visitor.hpp"
 #include "bridge/cpp/tbridger.hpp"
 

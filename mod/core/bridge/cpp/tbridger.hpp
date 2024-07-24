@@ -5,6 +5,7 @@
 #include "../../ast/obj.hpp"
 #include "../../type/mgdType.hpp"
 #include "tbridgeCtor.hpp"
+#include "tbridgeClosure.hpp"
 
 namespace nm {
 
@@ -30,9 +31,19 @@ namespace nm {
             return func(name, *bridgeFunc);
         }
 
-        template <typename... Args>
+        template <typename T1 = T, typename... Args>
         static me& ctor() {
-            return func(baseObj::CTOR_NAME, new tbridgeCtor<T, Args...>());
+            return func(baseObj::CTOR_NAME, new tbridgeCtor<T1, Args...>());
+        }
+
+        template <typename Ret, typename T1 = T, typename... Args>
+        static me& closure(const std::string& name, std::function<Ret(T1&, Args...)> c) {
+            return func(name, new tbridgeClosure<Ret, T1, tmarshaling, Args...>(c));
+        }
+
+        template <typename Ret, typename T1 = T>
+        static me& closure(const std::string& name, std::function<Ret(T1&)> c) {
+            return func(name, new tbridgeClosure<Ret, T1, tmarshaling>(c));
         }
 
         template <typename Ret, typename... Args>
@@ -91,9 +102,19 @@ namespace nm {
             return func(name, *bridgeFunc);
         }
 
-        template <typename... Args>
+        template <typename T1 = T, typename... Args>
         static me& ctor() {
-            return func(baseObj::CTOR_NAME, new tbridgeCtor<T, Args...>());
+            return func(baseObj::CTOR_NAME, new tbridgeCtor<T1, Args...>());
+        }
+
+        template <typename Ret, typename T1 = T, typename... Args>
+        static me& closure(const std::string& name, std::function<Ret(T1&, Args...)> c) {
+            return func(name, new tbridgeClosure<Ret, T1, tmarshaling, Args...>(c));
+        }
+
+        template <typename Ret, typename T1 = T>
+        static me& closure(const std::string& name, std::function<Ret(T1&)> c) {
+            return func(name, new tbridgeClosure<Ret, T1, tmarshaling>(c));
         }
 
         template <typename Ret, typename... Args>

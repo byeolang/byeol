@@ -1,6 +1,4 @@
 #include "nStr.hpp"
-#include "../../ast/defaultCtor.hpp"
-#include "../../ast/defaultCopyCtor.hpp"
 #include "nBool.hpp"
 #include "nInt.hpp"
 #include "nFlt.hpp"

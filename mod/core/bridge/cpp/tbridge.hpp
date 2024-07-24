@@ -5,8 +5,6 @@
 #include "marshaling/tgenericMarshaling.hpp"
 #include "../../ast/obj.hpp"
 #include "../../type/mgdType.hpp"
-#include "../../ast/defaultCopyCtor.hpp"
-#include "../../ast/defaultCtor.hpp"
 
 namespace nm {
 

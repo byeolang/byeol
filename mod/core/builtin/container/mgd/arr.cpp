@@ -224,8 +224,8 @@ namespace nm {
     }
 
     scope& me::_getOriginScope() {
-        static scope inner = tbridger<narr>::ctor()
-            .ctor<narr>()
+        static scope inner = tbridger<narr>::ctor<arr>()
+            .ctor<arr>()
             .genericFunc("len", &narr::len)
             .genericFunc("rel", &narr::rel)
             .genericFunc<nbool, nidx>("del", &narr::del)

@@ -1,7 +1,5 @@
 #include "nInt.hpp"
 #include "../../ast/param.hpp"
-#include "../../ast/defaultCtor.hpp"
-#include "../../ast/defaultCopyCtor.hpp"
 #include "bridge/cpp/tbridger.hpp"
 #include "nFlt.hpp"
 #include "nByte.hpp"
