@@ -203,7 +203,7 @@ namespace nm {
 
     scope& me::_onMakeSubs() const {
         static scope inner = tbridger<me>::ctor()
-            .ctor<nStr>()
+            .ctor<nStr, nStr>()
             .func("len", &me::len)
             .func<nchar, nidx>("get", &me::get)
             .func("substr", &me::substr)

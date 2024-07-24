@@ -177,8 +177,7 @@ namespace nm {
     }
 
     scope& me::subs() {
-        static scope inner = tbridger<me>::ctor<me>()
-            .func("log", &me::log)
+        static scope inner = tbridger<me>::func("log", &me::log)
             .func("logStack", &me::logStack)
             .subs();
 

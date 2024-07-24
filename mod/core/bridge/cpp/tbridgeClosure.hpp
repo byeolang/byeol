@@ -16,7 +16,7 @@ namespace nm {
                 "can't marshal one of this func's parameter ntypes.");
 
     public:
-        tbridgeClosure(std::function<Ret(T&, Args...)>&& closure): _closure(closure) {}
+        tbridgeClosure(std::function<Ret(T&, Args...)> closure): _closure(closure) {}
 
     public:
         using super::run;
@@ -26,14 +26,12 @@ namespace nm {
             if(nul(evaluated))
                 return NM_E("evaluated == null"), str();
 
-            return _marshal(evaluated);
+            return _marshal(evaluated, std::index_sequence_for<Args...>());
         }
 
         str getRet() const override {
-            if(!this->_ret)
-                this->_ret.bind(Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet());
-
-            return this->_ret;
+            static str ret(Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet());
+            return ret;
         }
 
         const params& getParams() const override {
@@ -88,7 +86,7 @@ namespace nm {
 
     private:
         mutable tstr<params> _params;
-        std::function<Ret(Args...)> _closure;
+        std::function<Ret(T&, Args...)> _closure;
     };
 
     template <typename T, template <typename, nbool> class Marshaling, typename... Args>
@@ -109,14 +107,12 @@ namespace nm {
             if(nul(evaluated))
                 return NM_E("evaluated == null"), str();
 
-            return _marshal(evaluated);
+            return _marshal(evaluated, std::index_sequence_for<Args...>());
         }
 
         str getRet() const override {
-            if(!this->_ret)
-                this->_ret.bind(Marshaling<void, false>::onGetRet());
-
-            return this->_ret;
+            static str ret(Marshaling<void, false>::onGetRet());
+            return ret;
         }
 
         const params& getParams() const override {
@@ -171,6 +167,6 @@ namespace nm {
 
     private:
         mutable tstr<params> _params;
-        std::function<void(Args...)> _closure;
+        std::function<void(T&, Args...)> _closure;
     };
 }

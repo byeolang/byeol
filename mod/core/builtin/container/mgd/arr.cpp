@@ -223,9 +223,31 @@ namespace nm {
         return *clone;
     }
 
+    /*
+        key unmatch일 경우:
+        0. param::deepClone()시 origin도 복제가 되어야 한다. ===> 이걸 위한 TC를 만들고 테스트.
+            params.deepClone() 후, 원본.origin의 일부 속성을 변경. 그후, 복제된 params는 변경된 객체를 가리키는지 체크.
+        1. 맨 먼저 origin 객체에서 복제한 새로운 origin 객체를 하나 만듬. 이 key에 대한 origin.
+        2. _getOriginScope()의 동작은 기존 유지. 이때 기본생성자는 bridge하지 않아야 함.
+        3. 갸져온 _getOriginScope()를 deepClone() 하여 새로운 untemplated origin에 넣음.
+        4. _untemplated에 기본생성자에 대한 tbridgeClosure() 도 넣음 (bridger사용 X)
+            넣을때 tstr<untemplated> 을 bridgeClosure() 안에 넣을 건데, 이 untemplated가 사라지지 않도록 처리 & 사전 검증 필요.
+            예시:
+                tstr<baseObj> untemplated = deepClone()....;
+                cache.insert(..., untemplated); // 이제 tstr 자체는 사라져도, untemplated 자체는 사라지지 않음.
+                untemplated->subs().add(baseObj::PRECTOR_NAME, [&untemplated](arr&) -> arr& {
+                    return new arr(*untemplated);
+                })
+
+            이처럼 tstr을 lambda에서 catch 하는 경우, reference count는 어떻게 되는지, googling해보고, TC도 만들어야 한다.
+        5. 이 untemplated를 generalizer를 돌려서 최종 완성시킴. --> templated.
+        4. 이제 이 복제한 templated를 cache에 넣음 (cache는 scope에 대한 cache가 아니라 obj에 대한 cache.)
+    */
+
     scope& me::_getOriginScope() {
-        static scope inner = tbridger<narr>::ctor<arr>()
-            .ctor<arr>()
+        static scope inner = tbridger<narr>::closure<arr&, arr>(baseObj::PRECTOR_NAME, [](arr&) -> arr& {
+            return *new arr();
+        }).ctor<arr, arr>()
             .genericFunc("len", &narr::len)
             .genericFunc("rel", &narr::rel)
             .genericFunc<nbool, nidx>("del", &narr::del)

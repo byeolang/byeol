@@ -36,7 +36,7 @@ TEST_F(cloneDeepTest, paramsDeepClone) {
     ASSERT_FALSE(nul(p1));
     ASSERT_EQ(p1->len(), p.len());
     for(nidx n = 0; n < p.len() ;n++) {
-        ASSERT_EQ(p1->get(n).getOrigin().cast<nint>(), p[n].getOrigin().cast<nint>());
+        ASSERT_EQ(p1->get(n).getOrigin().as<nInt>().get(), p[n].getOrigin().as<nInt>().get());
         ASSERT_NE(&p1->get(n), &p[n]);
         ASSERT_NE(&p1->get(n).getOrigin(), &p[n].getOrigin());
     }

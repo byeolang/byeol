@@ -31,9 +31,9 @@ namespace nm {
             return func(name, *bridgeFunc);
         }
 
-        template <typename T1 = T, typename... Args>
+        template <typename... Args>
         static me& ctor() {
-            return func(baseObj::CTOR_NAME, new tbridgeCtor<T1, Args...>());
+            return func(baseObj::CTOR_NAME, new tbridgeCtor<T, Args...>());
         }
 
         template <typename Ret, typename T1 = T, typename... Args>
@@ -102,7 +102,11 @@ namespace nm {
             return func(name, *bridgeFunc);
         }
 
-        template <typename T1 = T, typename... Args>
+        static me& ctor() {
+            return func(baseObj::CTOR_NAME, new tbridgeCtor<T>());
+        }
+
+        template <typename T1, typename... Args>
         static me& ctor() {
             return func(baseObj::CTOR_NAME, new tbridgeCtor<T1, Args...>());
         }

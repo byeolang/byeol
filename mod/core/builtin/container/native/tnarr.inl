@@ -116,7 +116,7 @@ namespace nm {
     clonable* ME::cloneDeep() const {
         me* ret = new me();
         for(auto e=this->begin(); e ;e++)
-            ret->add((T*) e->clone());
+            ret->add((T*) e->cloneDeep());
 
         return ret;
     }
