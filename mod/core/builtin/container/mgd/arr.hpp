@@ -2,6 +2,8 @@
 
 #include "../../../bridge/cpp/tbridge.hpp"
 
+struct arrTest;
+
 namespace nm {
 
     // another f**king annoying MSVC Hack:
@@ -25,6 +27,7 @@ namespace nm {
         typedef typename tucontainable<node>::iteration iteration;
         typedef std::map<const type*, tstr<scope>> cache;
         friend class starter; // for _cache
+        friend struct ::arrTest;
 
     public:
         arr();

@@ -4,7 +4,11 @@
 using namespace nm;
 using namespace std;
 
-struct arrTest : public namuSyntaxTest {};
+struct arrTest : public namuSyntaxTest {
+    void SetUp() override {
+        arr::_cache.clear();
+    }
+};
 
 namespace {
     class myNode : public node {

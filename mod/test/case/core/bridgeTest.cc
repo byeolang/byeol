@@ -155,7 +155,10 @@ TEST_F(bridgeTest, passArray) {
             .func("add", &windowManager::add)
             .func("del", &windowManager::del).make(new windowManager()));
 
-    tstr<tbridge<narr>> narrBridge(tbridger<narr>::ctor().make(new narr()));
+    arr a(*new nInt(0));
+    a.subs(); // for bridging narr.
+    tstr<tbridge<narr>> narrBridge(tbridger<narr>::make(new narr()));
+
     narrBridge->get().add(*new nInt(0)); // call func directly.
     narrBridge->get().add(*new nInt(1));
     narrBridge->get().add(*new nInt(2));
