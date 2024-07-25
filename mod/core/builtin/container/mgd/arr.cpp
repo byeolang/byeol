@@ -185,9 +185,7 @@ namespace nm {
     }
 
     const baseObj& me::getOrigin() const {
-        if(!_org)
-            _org.bind(new me(getType().getBeans()[0]));
-        return *_org;
+        return *this;
     }
 
     std::string me::asStr() const {
