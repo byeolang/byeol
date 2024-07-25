@@ -63,15 +63,15 @@ namespace nm {
             return func(name, new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>(fptr));
         }
         template <typename Ret, typename... Args>
-        me& genericFuncNonConst(const std::string& name, Ret(T::* fptr)(Args...)) {
+        static me& genericFuncNonConst(const std::string& name, Ret(T::* fptr)(Args...)) {
             return func(name, new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
         }
         template <typename Ret, typename... Args>
-        me& genericFunc(const std::string& name, Ret(T::*fptr)(Args...) const) {
+        static me& genericFunc(const std::string& name, Ret(T::*fptr)(Args...) const) {
             return func(name, new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>( (Ret(T::*)(Args...)) fptr));
         }
         template <typename Ret, typename... Args>
-        me& genericFuncConst(const std::string& name, Ret(T::* fptr)(Args...) const) {
+        static me& genericFuncConst(const std::string& name, Ret(T::* fptr)(Args...) const) {
             return func(name, new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
         }
 

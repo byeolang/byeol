@@ -198,12 +198,40 @@ namespace nm {
         return get()._onMakeIteration(step);
     }
 
+    namespace {
+        class __copyCtor : public baseFunc {
+            NM(CLASS(__copyCtor, baseFunc))
+
+        public:
+            __copyCtor(const node& newType): _org(new arr(newType)) {}
+
+        public:
+            str getRet() const override { return *_org; }
+
+            const params& getParams() const override {
+                static params inner{*new param("src", *_org)};
+                return inner;
+            }
+
+            str run(const args& a) override {
+                node& src = a.getMe();
+                if(nul(src)) return str();
+
+                return (node*) src.clone();
+            }
+
+        private:
+            tstr<arr> _org;
+        };
+    }
+
     scope& me::_defGeneric(const node& paramType) {
         scope* clone = (scope*) _getOriginScope().cloneDeep();
         _cache.insert({&paramType.getType(), clone}); // this avoids infinite loop.
         clone->add(baseObj::CTOR_NAME, new tbridgeClosure<arr*, arr, tmarshaling>([&paramType](arr&) -> arr* {
             return new me(paramType);
         }));
+        clone->add(baseObj::CTOR_NAME, new __copyCtor(paramType));
         clone->add("getElemType", new getElemTypeFunc());
 
         NM_DI("|==============================================|");
@@ -217,8 +245,7 @@ namespace nm {
     }
 
     scope& me::_getOriginScope() {
-        static scope inner = tbridger<narr>::ctor<arr>()
-            .genericFunc("len", &narr::len)
+        static scope inner = tbridger<narr>::genericFunc("len", &narr::len)
             .genericFunc("rel", &narr::rel)
             .genericFunc<nbool, nidx>("del", &narr::del)
             .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
