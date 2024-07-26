@@ -89,7 +89,7 @@ namespace nm {
             return;
         }
 
-        NM_DI("'%s func'._inFrame() frames.len[%d]", getSrc(), getType(), thread::get().getFrames().len());
+        NM_DI("'%s func'._inFrame() frames.len[%d]", getSrc(), thread::get().getFrames().len());
         fr.setFunc(*this);
         fr.add(*this);
         fr.add(*scope::wrap<scope>(nul(args) ? nulOf<nbicontainer>() : (nbicontainer&) args)); // including 'me'

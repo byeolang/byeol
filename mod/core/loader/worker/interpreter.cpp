@@ -71,6 +71,7 @@ namespace nm {
         NM_DI("======================================");
 
         _pser.setReport(getReport())
+             .setFlag(getFlag())
              .setTask(getTask())
              .work();
 

@@ -76,16 +76,16 @@ namespace nm {
         src* s = new src(_org->getSrc());
         s->_setName(name);
         ret->_setSrc(*s);
+
         // clone type:
         mgdType newType(name, ret->getType().getSupers());
-        newType.getBeans() = a;
+        newType.getBeans().add(a);
         ret->_setType(newType);
 
         ncnt n = 0;
         generalizer g;
-        for(auto& e : a)
+        for(node& e : a)
             g.add(*new param(_paramNames[n++], e));
-
         g.setFlag(generalizer::INTERNAL).setTask(*ret).work();
         NM_DI("|============================|");
         return ret;
