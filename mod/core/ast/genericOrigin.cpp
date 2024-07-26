@@ -79,7 +79,7 @@ namespace nm {
 
         // clone type:
         mgdType newType(name, ret->getType().getSupers());
-        newType.getBeans().add(a);
+        newType._getBeans().add(a);
         ret->_setType(newType);
 
         ncnt n = 0;

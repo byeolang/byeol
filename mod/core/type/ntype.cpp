@@ -207,7 +207,7 @@ namespace nm {
         return *this;
     }
 
-    narr& me::getBeans() {
+    narr& me::_getBeans() {
         if(nul(_beans))
             _beans = new narr();
         return *_beans;

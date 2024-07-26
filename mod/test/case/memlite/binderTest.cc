@@ -376,3 +376,17 @@ TEST_F(binderTest, safeGetNegative) {
     ASSERT_TRUE(nul(safeGet(ptr, o, a)));
     ASSERT_TRUE(nul(safeGet(ptr, o, a, isHeap())));
 }
+
+TEST_F(binderTest, refCountingCorruptionWhenVectorAssignOperator) {
+    using namespace std;
+    vector<tstr<A>> v;
+    v.push_back(new A(1));
+
+    {
+        vector<tstr<A>> v2;
+        v2 = v;
+        ASSERT_FALSE(nul(*v2[0]));
+    }
+
+    ASSERT_FALSE(nul(*v[0]));
+}

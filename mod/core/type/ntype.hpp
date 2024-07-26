@@ -11,10 +11,11 @@ namespace nm {
 
     class _nout ntype : public type {
         NM_ME(ntype, type)
-
-    private:
         typedef std::map<const ntype*, const ntype*> deducer;
         typedef std::map<const ntype*, deducer> deducers;
+        friend class seq;
+        friend class arr;
+        friend class genericOrigin;
 
     public:
         ntype();
@@ -68,13 +69,13 @@ namespace nm {
         /// @return null it it's not relative between l & r.
         static const ntype& deduce(const ntype& l, const ntype& r);
 
-        virtual const narr& getBeans() const NM_CONST_FUNC(getBeans())
-        narr& getBeans();
+        virtual const narr& getBeans() const NM_CONST_FUNC(_getBeans())
 
     protected:
         // ntype:
         virtual const ases& _getImpliAses() const;
         virtual const ases& _getAses() const;
+        narr& _getBeans();
 
     private:
         static deducers* _makeDeducers();

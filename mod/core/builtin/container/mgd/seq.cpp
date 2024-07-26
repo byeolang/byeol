@@ -19,7 +19,7 @@ namespace nm {
         static ntype* inner = nullptr;
         if(nul(inner)) {
             inner = new ttype<seq>();
-            inner->getBeans().add(*new nInt());
+            inner->_getBeans().add(*new nInt());
         }
 
         return *inner;

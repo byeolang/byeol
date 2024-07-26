@@ -91,9 +91,9 @@ namespace nm {
         };
     }
 
-    me::arr(): super(new narr()) { _type.getBeans().add(*new obj()); }
-    me::arr(const node& newType): super(new narr()) { _type.getBeans().add(newType); }
-    me::arr(const me& rhs): super(rhs) { _type.getBeans().add(rhs._type.getBeans()[0]); }
+    me::arr(): super(new narr()) { _type._getBeans().add(*new obj()); }
+    me::arr(const node& newType): super(new narr()) { _type._getBeans().add(newType); }
+    me::arr(const me& rhs): super(rhs) { _type._getBeans().add(rhs._type.getBeans()[0]); }
 
     node& me::operator[](nidx n) {
         return get()[n];

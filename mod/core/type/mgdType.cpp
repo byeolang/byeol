@@ -9,7 +9,7 @@ namespace nm {
     }
     me::mgdType(const std::string& name, const type& super, const narr& beans): _name(name) {
         _initSupers(super);
-        getBeans() = beans;
+        _getBeans().add(beans);
     }
     me::mgdType(const std::string& name, const types& supersFromRhs): _name(name), _supers(supersFromRhs) {}
 
