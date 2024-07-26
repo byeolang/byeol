@@ -13,68 +13,34 @@ namespace nm {
     NM(DEF_ME(nStr), DEF_VISIT())
 
     namespace {
-        static me org;
-        /*class lenFunc : public tApiBridge<nStr, nInt> {
-            typedef tApiBridge<nStr, nInt> __super__;
-            NM(CLASS(lenFunc, __super__))
 
-        protected:
-            str _onRun(nStr& cast, const args& a) const override {
-                return new nInt(cast.len());
-            }
-        };
-
-        class getFunc : public tApiBridge<nStr, nChar> {
-            typedef tApiBridge<nStr, nStr> __super__;
-            NM(CLASS(getFunc, __super__))
-
-        protected:
-            str _onRun(nStr& cast, const args& a) const override {
-                if(a.len() != 1) return str();
-
-                tstr<nInt> idx = a[0].as<nInt>();
-                if(!idx)
-                    return str();
-                return new nChar(cast[idx->get()]);
-            }
+        class getSeqFunc : public baseFunc {
+            NM(CLASS(getSeqFunc, baseFunc))
 
         public:
-            const params& getParams() const override {
-                static params inner;
-                if(inner.len() <= 0) {
-                    inner.add(new param("index", new nInt()));
-                }
-
-                return inner;
-            }
-        };
-
-        class getSeqFunc : public tApiBridge<nStr, nStr> {
-            typedef tApiBridge<nStr, nStr> __super__;
-            NM(CLASS(getSeqFunc, __super__))
-
-        protected:
-            str _onRun(nStr& cast, const args& a) const override {
+            str run(const args& a) override {
                 if(a.len() != 1) return str();
+                nStr& me = a.getMe().cast<nStr>();
+                if(nul(me)) return str();
 
                 tstr<seq> s = a[0].as<seq>();
                 if(!s) return str();
 
-                nint start = (*s)[0].cast<nint>();
-                nint end = (*s)[s->len()-1].cast<nint>() + 1;
-                return cast.substr(start, end);
+                nint start = (*s).get().getStart().get();
+                nint end = (*s).get().getEnd().get();
+                return me.substr(start, end);
             }
 
-        public:
             const params& getParams() const override {
-                static params inner;
-                if(inner.len() <= 0) {
-                    inner.add(new param("index", new seq(nInt(0), nInt(1))));
-                }
-
+                static params inner{*new param("range", new seq(nInt(0), nInt(1)))};
                 return inner;
             }
-        };*/
+
+            str getRet() const override {
+                static nStr inner;
+                return inner;
+            }
+        };
 
         typedef tucontainable<nChar>::iter niter;
         typedef tucontainable<nChar>::iteration iteration;
@@ -207,6 +173,7 @@ namespace nm {
             .func("len", &me::len)
             .func<nchar, nidx>("get", &me::get)
             .func("substr", &me::substr)
+            .func("get", new getSeqFunc())
             .func("iterate", new iterateFunc())
             .func("getElemType", new getElemType())
             .subs();
@@ -300,6 +267,7 @@ namespace nm {
     }
 
     const baseObj& me::getOrigin() const {
+        static me org;
         return org;
     }
 
