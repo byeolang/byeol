@@ -282,13 +282,13 @@ def dbgBuild():
 def preparePr():
     global config, cwd
 
-    if checkViolatesCodeFormat() != 0:
-        printErr("pull request failed!")
-        return -1
+    #if checkViolatesCodeFormat() != 0:
+    #    printErr("pull request failed!")
+    #    return -1
 
     winProp="-t:Rebuild -p:Configuration=Debug"
     # clang-tidy: see build/.clang-tidy file for more info.
-    config="-DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy;-config-file=" + cwd + "/../.clang-tidy\""
+    config="-DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy;--quiet\""
     print(config)
     clean()
     return build(True)

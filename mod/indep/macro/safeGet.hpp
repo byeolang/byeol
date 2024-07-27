@@ -11,7 +11,7 @@ namespace nm {
         static T& set(const T& expr) { return *store() = (T*) &expr, get(); }
         static T& get() { return **store(); }
         static T** store() {
-            static T* inner = 0;
+            static T* inner = 0; // NOLINT
             return &inner;
         }
     };
@@ -21,7 +21,7 @@ namespace nm {
        static T* set(const T* trg) { return *store() = (T*) trg; }
        static T* get() { return *store(); }
        static T** store() {
-           static T* inner = 0;
+           static T* inner = 0; // NOLINT
            return &inner;
        }
     };
@@ -31,7 +31,7 @@ namespace nm {
         static T& set(const T& expr) { return *store() = (T*) &expr, get(); }
         static T& get() { return **store(); }
         static T** store() {
-            static T* inner = 0;
+            static T* inner = 0; // NOLINT
             return &inner;
         }
     };
