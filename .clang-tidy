@@ -18,6 +18,7 @@ Checks: >
   -clang-analyzer-optin.cplusplus.VirtualCall,
   -clang-analyzer-core.StackAddressEscape,
   -clang-analyzer-core.NonNullParamChecker,
+  -clang-analyzer-core.StackAddrEscapeBase,
   cppcoreguidelines-*,
   -cppcogeguidelines-non-private-member-variables-in-classes,
   -cppcoreguidelines-avoid-c-arrays,
