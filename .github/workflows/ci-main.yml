@@ -46,7 +46,9 @@ jobs:
     steps:
     - name: install native dependencies.
       run: |
-        brew install python3 cmake wget bison flex graphviz clang-tidy
+        brew install python3 cmake wget bison flex graphviz llvm
+        ln -s "/usr/local/opt/llvm/bin/clang-format" "/usr/local/bin/clang-format"
+        ln -s "/usr/local/opt/llvm/bin/clang-tidy" "/usr/local/bin/clang-tidy"
         sudo pip install GitPython
 
     - name: checkout repository codes
