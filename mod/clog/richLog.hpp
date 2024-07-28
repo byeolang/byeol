@@ -26,15 +26,31 @@ namespace nm {
         std::string data;
     };
 
-    _nout noWrap<nint> __convert__(nint rhs);
-    _nout noWrap<nuint> __convert__(nuint rhs);
+    template <typename T, bool Signed, int Size>
+    using tifIntType =
+        typename std::enable_if<
+            std::is_signed<T>{} == Signed && sizeof(T) * 8 == Size
+        >::type;
+
+    template <typename T>
+    noWrap<T> __convert__(T rhs, tifIntType<T, true, 32>* = nullptr) { return rhs; }
+
+    template <typename T>
+    noWrap<T> __convert__(T rhs, tifIntType<T, true, 64>* = nullptr) { return rhs; }
+
+    template <typename T>
+    noWrap<T> __convert__(T rhs, tifIntType<T, false, 32>* = nullptr) { return rhs; }
+
+    template <typename T>
+    noWrap<T> __convert__(T rhs, tifIntType<T, false, 64>* = nullptr) { return rhs; }
+
     _nout noWrap<nflt> __convert__(nflt rhs);
     _nout noWrap<nchar> __convert__(nchar rhs);
     _nout strWrap __convert__(nbool rhs);
     _nout noWrap<const nchar*> __convert__(const nchar* rhs);
     _nout noWrap<ndbl> __convert__(ndbl rhs);
-    _nout noWrap<nint64> __convert__(nint64 rhs);
-    _nout noWrap<nuint64> __convert__(nuint64 rhs);
+    _nout noWrap<nshort> __convert__(nshort rhs);
+    _nout noWrap<nushort> __convert__(nushort rhs);
     _nout strWrap __convert__(const std::string& rhs);
     _nout strWrap __convert__(void* rhs);
 
