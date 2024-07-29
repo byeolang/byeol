@@ -1,10 +1,10 @@
-#include "exceptional.hpp"
+#include "exMaker.hpp"
 #include "../frame/thread.hpp"
 
 namespace nm {
-    NM(DEF_ME(exceptional))
+    NM(DEF_ME(exMaker))
 
-    void me::ex(nint code, ...) {
+    void me::make(nint code, ...) {
         errReport& rpt = thread::get().getEx();
         va_list args;
         va_start(args, code);
@@ -12,7 +12,7 @@ namespace nm {
         va_end(args);
     }
 
-    void me::ex(const point& pos, int code, ...) {
+    void me::make(const point& pos, int code, ...) {
         errReport& rpt = thread::get().getEx();
         va_list args;
         va_start(args, code);

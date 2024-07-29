@@ -4,6 +4,7 @@
 #include "../../../ast/node.hpp"
 #include "tnucontainer.inl"
 #include "../../../loader/errCode.hpp"
+#include "../../../type/exMaker.hpp"
 
 namespace nm {
 
@@ -15,7 +16,7 @@ namespace nm {
 
     TEMPL
     T& ME::get(nidx n) {
-        if(!has(n)) return NM_EX(errCode::OUT_OF_RANGE, n, len()), nulOf<T>();
+        NM_WHEN(!has(n)).ex(OUT_OF_RANGE, n, len()), nulOf<T>();
 
         binder& ret = _vec[n];
         return (T&) *ret;

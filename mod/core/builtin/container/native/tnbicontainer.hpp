@@ -1,12 +1,11 @@
 #pragma once
 
 #include "../tbicontainable.hpp"
-#include "../../../type/exceptional.hpp"
 
 namespace nm {
 
     template <typename K, typename V>
-    class tnbicontainer : public instance, public tbicontainable<K, V>, public exceptional {
+    class tnbicontainer : public instance, public tbicontainable<K, V> {
         NM(ADT(tnbicontainer, instance))
     };
 

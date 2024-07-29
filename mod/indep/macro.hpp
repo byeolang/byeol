@@ -14,3 +14,4 @@
 #include "macro/unconstFunc.hpp"
 #include "macro/staticAsserts.hpp"
 #include "macro/pairx.hpp"
+#include "macro/when.hpp"

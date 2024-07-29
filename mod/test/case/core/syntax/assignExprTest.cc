@@ -121,7 +121,7 @@ TEST_F(assignExprTest, assignClassNegative2) {
 }
 
 TEST_F(assignExprTest, assignAssignedValueNegative) {
-    make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         main() int
             a1 int
             a1 = a2 := 55

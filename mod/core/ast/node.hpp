@@ -18,7 +18,7 @@ namespace nm {
     class src;
 
     /// node provides common API to manipulate its sub nodes.
-    class _nout node : public instance, public frameInteractable, public exceptional {
+    class _nout node : public instance, public frameInteractable {
         NM(ADT(node, instance))
         friend class exprMaker; // for _setSrc
         friend class mockNode;
