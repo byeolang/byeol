@@ -30,7 +30,7 @@ namespace nm {
         entrypoints points;
         sobj& entrypoints = loaded->sub("entrypoints");
         for(auto& pair: entrypoints) {
-            const std::string& path = dir + fsystem::DELIMITER + pair.second->sub("path").asStr();
+            const std::string& path = dir + fsystem::getDelimiter() + pair.second->sub("path").asStr();
             if(nul(path))
                 return NM_E("error to load %s: no entrypoint path", manPath), manifest();
 
@@ -79,7 +79,7 @@ namespace nm {
     }
 
     me& me::addRelativePath(const std::string& path) {
-        std::string cwd = fsystem::getCurrentDir() + fsystem::DELIMITER;
+        std::string cwd = fsystem::getCurrentDir() + fsystem::getDelimiter();
         NM_I("finding slots relative to %s or absolute", cwd);
         return addPath(cwd + path);
     }
@@ -106,7 +106,7 @@ namespace nm {
     }
 
     void me::_addNewSlot(nmap& tray, const std::string& dirPath, const std::string& manifestName) {
-        std::string manifestPath = dirPath + fsystem::DELIMITER + manifestName;
+        std::string manifestPath = dirPath + fsystem::getDelimiter() + manifestName;
         NM_I("manifest path: %s", manifestPath);
 
         manifest mani = _interpManifest(dirPath, manifestPath);

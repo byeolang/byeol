@@ -21,11 +21,11 @@ namespace nm {
         tbridger() = default;
 
     public:
-        static scope& subs() { return _me._subs; }
+        static scope& subs() { return _get()._subs; }
 
         static me& func(const std::string& name, const baseFunc& bridgeFunc) {
-            _me.subs().add(name, bridgeFunc);
-            return _me;
+            _get().subs().add(name, bridgeFunc);
+            return _get();
         }
         static me& func(const std::string& name, const baseFunc* bridgeFunc) {
             return func(name, *bridgeFunc);
@@ -80,7 +80,12 @@ namespace nm {
         }
 
     private:
-        inline static me _me;
+        static me& _get() {
+            static me _inner;
+            return _inner;
+        }
+
+    private:
         scope _subs;
     };
 
@@ -92,11 +97,11 @@ namespace nm {
         tbridger() = default;
 
     public:
-        static scope& subs() { return _me._subs; }
+        static scope& subs() { return _get()._subs; }
 
         static me& func(const std::string& name, const baseFunc& bridgeFunc) {
-            _me.subs().add(name, bridgeFunc);
-            return _me;
+            _get().subs().add(name, bridgeFunc);
+            return _get();
         }
         static me& func(const std::string& name, const baseFunc* bridgeFunc) {
             return func(name, *bridgeFunc);
@@ -153,7 +158,12 @@ namespace nm {
         }
 
     private:
-        inline static me _me;
+        static me& _get() {
+            static me _inner;
+            return _inner;
+        }
+
+    private:
         scope _subs;
     };
 }

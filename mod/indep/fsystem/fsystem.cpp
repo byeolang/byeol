@@ -8,6 +8,15 @@ namespace nm {
         return _nowPath;
     }
 
+    const std::string& me::getDelimiter() {    
+#if NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
+        static std::string inner = "\\";
+#else
+        static std::string inner = "/";
+#endif
+        return inner;
+    }
+
     nbool me::iterator::next() {
         // assume that all of data to _entries was valid:
         //  which means, if returning value from readdir() was null,
@@ -26,14 +35,12 @@ namespace nm {
             }
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
             std::string name = e.file.name;
-            char delimiter = '\\';
 #else
             std::string name = file->d_name;
-            char delimiter = '/';
 #endif
             if(name == ".." || name == ".")
                 continue;
-            std::string path = e.path + delimiter + name;
+            std::string path = e.path + getDelimiter() + name;
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
             if(e.file.attrib & _A_SUBDIR) {
 #else

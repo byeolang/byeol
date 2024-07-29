@@ -66,12 +66,6 @@ namespace nm {
     public:
         static iterator find(const std::string& path);
         static std::string getCurrentDir();
-
-    public:
-#if NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
-        static inline std::string DELIMITER = "\\";
-#else
-        static inline std::string DELIMITER = "/";
-#endif
+        static const std::string& getDelimiter();
     };
 }
