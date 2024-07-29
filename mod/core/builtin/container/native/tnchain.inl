@@ -162,15 +162,16 @@ namespace nm {
 
     TEMPL
     ME* ME::cloneChain(const super& until) const {
-        const me* e = this;
+        tstr<me> e(getNext());
         ME* ret = new ME(this->getContainer());
         ME* retElem = ret;
-        while((e = &e->_next.get())) {
+        while(e) {
             ME* new1 = new ME(e->getContainer());
             retElem->_next.bind(new1);
             retElem = new1;
 
             if(&e->getContainer() == &until) break;
+            e.bind(e->_next.get());
         }
 
         return ret;
