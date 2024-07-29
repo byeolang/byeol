@@ -10,7 +10,7 @@ namespace nm {
 
     TEMPL
     nbool ME::has(const K& key) const {
-        for(const me* e=this; e ;e=&e->getNext())
+        for(tstr<me> e(this); e ;e.bind(e->getNext()))
             if(e->getContainer().has(key))
                 return true;
         return false;
@@ -18,7 +18,7 @@ namespace nm {
 
     TEMPL
     nbool ME::has(const V& val) const {
-        for(const me* e=this; e ;e=&e->getNext())
+        for(tstr<me> e(this); e ;e.bind(e->getNext()))
             if(e->getContainer().has(val))
                 return true;
         return false;
@@ -27,8 +27,7 @@ namespace nm {
     TEMPL
     ncnt ME::len() const {
         ncnt len = 0;
-
-        for(const me* e=this; e ;e=&e->getNext())
+        for(tstr<me> e(this); e ;e.bind(e->getNext()))
             len += e->getContainer().len();
         return len;
     }
@@ -36,7 +35,7 @@ namespace nm {
     TEMPL
     ncnt ME::chainLen() const {
         ncnt len = 0;
-        for(const me* e=this; e ;e=&e->getNext())
+        for(tstr<me> e(this); e ;e.bind(e->getNext()))
             len++;
 
         return len;
@@ -44,7 +43,7 @@ namespace nm {
 
     TEMPL
     V& ME::get(const K& key) {
-        for(me* e=this; e ;e=&e->getNext()) {
+        for(tstr<me> e(this); e ;e.bind(e->getNext())) {
             V& got = e->getContainer().get(key);
             if(!nul(got))
                 return got;
@@ -55,7 +54,7 @@ namespace nm {
 
     TEMPL
     void ME::_getAll(const K& key, narr& tray) const {
-        for(const me* e=this; e ;e=&e->getNext())
+        for(tstr<me> e(this); e ;e.bind(e->getNext()))
             e->getContainer()._getAll(key, tray);
     }
 
@@ -67,7 +66,7 @@ namespace nm {
     TEMPL
     nbool ME::del(const K& key) {
         nbool ret = true;
-        for(me* e=this; e ;e=&e->getNext())
+        for(tstr<me> e(this); e ;e.bind(e->getNext()))
             if(e->has(key))
                 ret = e->getContainer().del(key) ? ret : false;
         return ret;
@@ -77,8 +76,8 @@ namespace nm {
     nbool ME::del(const iter& at) {
         const me& owner = (const me&) at.getContainer();
 
-        for(me* e=this; e ;e=&e->getNext())
-            if(e == &owner)
+        for(tstr<me> e(this); e ;e.bind(e->getNext()))
+            if(&e.get() == &owner)
                 return e->getContainer().del(_getMapIterFromChainIter(at));
         return false;
     }
@@ -152,7 +151,7 @@ namespace nm {
     template <typename T>
     T* ME::wrap(const super& toShallowWrap) {
         if(nul(toShallowWrap)) return nullptr;
-        T* ret = const_cast<T*>(&toShallowWrap.template cast<T>());
+        T* ret = (T*) &toShallowWrap.template cast<T>();
         if(nul(ret)) {
             ret = new T();
             ret->_map.bind(toShallowWrap);
@@ -184,7 +183,7 @@ namespace nm {
 
     TEMPL
     void ME::rel() {
-        for(me* e=this; e ;e=&e->getNext())
+        for(tstr<me> e(this); e ;e.bind(e->getNext()))
             e->getContainer().rel();
     }
 
