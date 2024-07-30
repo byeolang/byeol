@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../macro.hpp"
 #include "../common.hpp"
+#include "../macro.hpp"
 
 namespace nm {
     class _nout buildFeature {
@@ -74,4 +74,4 @@ namespace nm {
             static const std::string& getName();
         };
     };
-}
+} // namespace nm

@@ -3,16 +3,16 @@
 #include "defThis.hpp"
 
 #define NM_ME_2(ME, SUPER) \
-    public: \
-        NM_DEF_ME_2(ME, SUPER) \
-    private:
+public:                    \
+    NM_DEF_ME_2(ME, SUPER) \
+private:
 
 #define NM_ME_1(ME) \
-    public: \
-        NM_DEF_ME_1(ME) \
-    private:
+public:             \
+    NM_DEF_ME_1(ME) \
+private:
 
-#define NM_ME(...)  NM_OVERLOAD(NM_ME, __VA_ARGS__)
+#define NM_ME(...) NM_OVERLOAD(NM_ME, __VA_ARGS__)
 
 // namuMeta macro's sub-commands:
 //  ME: actually it redirects builtin macro 'NM_ME'.

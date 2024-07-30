@@ -8,34 +8,22 @@ namespace nm {
         return inner;
     }
 
-    nint me::date::getYear() {
-        return NM_BUILD_DATE_YEAR;
-    }
+    nint me::date::getYear() { return NM_BUILD_DATE_YEAR; }
 
-    nint me::date::getMonth() {
-        return NM_BUILD_DATE_MONTH;
-    }
+    nint me::date::getMonth() { return NM_BUILD_DATE_MONTH; }
 
-    nint me::date::getDay() {
-        return NM_BUILD_DATE_DAY;
-    }
+    nint me::date::getDay() { return NM_BUILD_DATE_DAY; }
 
     const std::string& me::time::get() {
         static std::string inner(NM_BUILD_TIME);
         return inner;
     }
 
-    nint me::time::getHour() {
-        return NM_BUILD_TIME_HOUR;
-    }
+    nint me::time::getHour() { return NM_BUILD_TIME_HOUR; }
 
-    nint me::time::getMin() {
-        return NM_BUILD_TIME_MINUTE;
-    }
+    nint me::time::getMin() { return NM_BUILD_TIME_MINUTE; }
 
-    nint me::time::getSec() {
-        return NM_BUILD_TIME_SECOND;
-    }
+    nint me::time::getSec() { return NM_BUILD_TIME_SECOND; }
 
     const std::string& me::version::get() {
         static std::string inner(NM_BUILD_VERSION);
@@ -52,27 +40,20 @@ namespace nm {
         return inner;
     }
 
-    nint me::version::getMajor() {
-        return NM_BUILD_VERSION_MAJOR;
-    }
+    nint me::version::getMajor() { return NM_BUILD_VERSION_MAJOR; }
 
-    nint me::version::getMinor() {
-        return NM_BUILD_VERSION_MINOR;
-    }
+    nint me::version::getMinor() { return NM_BUILD_VERSION_MINOR; }
 
-    nint me::version::getFix() {
-        return NM_BUILD_VERSION_FIX;
-    }
+    nint me::version::getFix() { return NM_BUILD_VERSION_FIX; }
 
     me::platformType me::platform::get() {
         static platformType inner = PLATFORM_TYPE_START;
         if(inner == PLATFORM_TYPE_START) {
             const std::string& name = getName();
             const char* map[] = {"Windows", "Linux", "Darwin", "Others", nullptr};
-            int n=-1;
+            int n = -1;
             while(map[++n])
-                if(name == map[n])
-                {
+                if(name == map[n]) {
                     inner = platformType(n);
                     break;
                 }
@@ -96,10 +77,9 @@ namespace nm {
         if(inner == BUILD_TYPE_START) {
             const std::string& name = getName();
             const char* map[] = {"Debug", "Release", nullptr};
-            int n=-1;
+            int n = -1;
             while(map[++n])
-                if(name == map[n])
-                {
+                if(name == map[n]) {
                     inner = buildType(n);
                     break;
                 }
@@ -120,4 +100,4 @@ namespace nm {
         static std::string inner(NM_BUILD_TYPENAME);
         return inner;
     }
-}
+} // namespace nm

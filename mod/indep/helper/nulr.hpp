@@ -4,17 +4,18 @@
 
 namespace nm {
 
-    template <typename T>
-    struct nulr {
+    template <typename T> struct nulr {
         static T get() { return T(); }
+
         static nbool isNul(T) { return false; }
     };
-    template <typename T>
-    struct nulr<T&> {
+
+    template <typename T> struct nulr<T&> {
         static T& get() {
             T* ret = 0;
             return *ret;
         }
+
         static nbool isNul(const T& it) {
             // reference-null-check hack:
             //  in c++ standard reference, it's not allow to check pointer of reference whether
@@ -28,33 +29,22 @@ namespace nm {
             //  but if we do some pointer arithmetic to an address of nulled reference, it won't be
             //  optimized.
             //  and we need to add '1' as a pointer to char type. because it's the only type that
-            //  we can guarantee it'll be always size 1 when this software is built on any platform or
-            //  architecture.
+            //  we can guarantee it'll be always size 1 when this software is built on any platform
+            //  or architecture.
             return ((char*) &it) + 1 == (char*) 1;
         }
     };
-    template <typename T>
-    struct nulr<T*> {
-        static T* get() {
-            return nullptr;
-        }
-        static nbool isNul(const T* it) {
-            return it == nullptr;
-        }
+
+    template <typename T> struct nulr<T*> {
+        static T* get() { return nullptr; }
+
+        static nbool isNul(const T* it) { return it == nullptr; }
     };
 
     /// short version of nulr.
-    template <typename T>
-    T& nulOf() {
-        return nulr<T&>::get();
-    }
+    template <typename T> T& nulOf() { return nulr<T&>::get(); }
 
-    template <typename T>
-    inline nbool nul(T& it) {
-        return nulr<T&>::isNul(it);
-    }
-    template <typename T>
-    nbool nul(T* it) {
-        return nulr<T*>::isNul(it);
-    }
-}
+    template <typename T> inline nbool nul(T& it) { return nulr<T&>::isNul(it); }
+
+    template <typename T> nbool nul(T* it) { return nulr<T*>::isNul(it); }
+} // namespace nm

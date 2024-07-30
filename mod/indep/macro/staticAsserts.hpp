@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../common/typedef.hpp"
 #include <type_traits>
+
+#include "../common/typedef.hpp"
 
 namespace nm {
 

@@ -1,23 +1,26 @@
 #include "platformAPI.hpp"
+
 #include "nulr.hpp"
 #if NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
-#   include <windows.h>
-#   include <sstream>
+#    include <windows.h>
+
+#    include <sstream>
 #elif NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
-#   include <unistd.h>
-#   include <vector>
-#   include <string>
-#   include <algorithm>
-#   include <iostream>
-#   include <execinfo.h>
-#   include <cxxabi.h>
-#   include <regex>
-#   include <sys/time.h>
-#   include <dlfcn.h> // for dladdr()
-#   include <sstream>
+#    include <cxxabi.h>
+#    include <dlfcn.h> // for dladdr()
+#    include <execinfo.h>
+#    include <sys/time.h>
+#    include <unistd.h>
+
+#    include <algorithm>
+#    include <iostream>
+#    include <regex>
+#    include <sstream>
+#    include <string>
+#    include <vector>
 #endif
 #if NM_BUILD_PLATFORM == NM_TYPE_MACOS
-#   include <mach-o/dyld.h>
+#    include <mach-o/dyld.h>
 #endif
 #include <time.h>
 
@@ -30,10 +33,8 @@ namespace nm {
 #if defined(NM_BUILD_PLATFORM_IS_LINUX) || defined(NM_BUILD_PLATFORM_IS_MAC)
         namespace {
             bool _isAnsiColorTerminal() {
-                static vector<const nchar*> samples = {
-                    "xterm", "rxvt", "vt100",
-                    "linux", "screen", "tmux"
-                };
+                static vector<const nchar*> samples = {"xterm", "rxvt", "vt100", "linux", "screen",
+                    "tmux"};
                 if(!getenv("TERM")) return false;
                 string var = getenv("TERM");
 
@@ -61,12 +62,13 @@ namespace nm {
                 return inner;
             }
 
-            static vector<string> fores = {
-                "\x1B[0;30m", "\x1B[0;34m", "\x1B[0;32m", "\x1B[0;36m", // black, blue, green, cyan
-                "\x1B[0;31m", "\x1B[0;35m", "\x1B[0;33m", "\x1B[0;37m", // red, purple, yellow, white
-                "\x1B[1;30m", "\x1B[1;34m", "\x1B[1;32m", "\x1B[1;36m", // same ones but more lighter than above.
-                "\x1B[1;31m", "\x1B[1;35m", "\x1B[1;33m", "\x1B[1;37m"
-            };
+            static vector<string> fores = {"\x1B[0;30m", "\x1B[0;34m", "\x1B[0;32m",
+                "\x1B[0;36m", // black, blue, green, cyan
+                "\x1B[0;31m", "\x1B[0;35m", "\x1B[0;33m",
+                "\x1B[0;37m", // red, purple, yellow, white
+                "\x1B[1;30m", "\x1B[1;34m", "\x1B[1;32m",
+                "\x1B[1;36m", // same ones but more lighter than above.
+                "\x1B[1;31m", "\x1B[1;35m", "\x1B[1;33m", "\x1B[1;37m"};
             return fores[fore];
 #endif
         }
@@ -81,14 +83,15 @@ namespace nm {
 
 #elif NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
             static bool is_terminal_supporting = _isAnsiColorTerminal();
-            if( ! is_terminal_supporting)
-                return inner;
+            if(!is_terminal_supporting) return inner;
 
             static vector<string> backs = {
                 "\x1B[0;40m", "\x1B[0;44m", "\x1B[0;42m", "\x1B[0;46m", // black, blue, green, cyan
-                "\x1B[0;41m", "\x1B[0;45m", "\x1B[0;43m", "\x1B[0;47m", // red, purple, yellow, white
+                "\x1B[0;41m", "\x1B[0;45m", "\x1B[0;43m",
+                "\x1B[0;47m", // red, purple, yellow, white
                 "\x1B[1;40m", "\x1B[1;44m", "\x1B[1;42m", "\x1B[1;46m", // black, blue, green, cyan
-                "\x1B[1;41m", "\x1B[1;45m", "\x1B[1;43m", "\x1B[1;47m", // red, purple, yellow, white
+                "\x1B[1;41m", "\x1B[1;45m", "\x1B[1;43m",
+                "\x1B[1;47m", // red, purple, yellow, white
             };
             return backs[back];
 #endif
@@ -108,7 +111,9 @@ namespace nm {
         nuint64 getNowMs() {
 #if NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
             constexpr ncnt MILLI_PER_USEC = 1000;
-            struct timeval tval{};
+
+            struct timeval tval {};
+
             gettimeofday(&tval, NULL);
             return tval.tv_usec / MILLI_PER_USEC;
 #else
@@ -141,13 +146,14 @@ namespace nm {
         string exec(const string& cmd) {
 #if NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
             constexpr ncnt EXE_BUF_LEN = 128;
-            nchar buf[EXE_BUF_LEN] = {0, };
+            nchar buf[EXE_BUF_LEN] = {
+                0,
+            };
             string res;
             shared_ptr<FILE> pipe(popen(cmd.c_str(), "r"), pclose);
 
             while(!feof(pipe.get()))
-                if(fgets(buf, EXE_BUF_LEN, pipe.get()) != nullptr)
-                    res += buf;
+                if(fgets(buf, EXE_BUF_LEN, pipe.get()) != nullptr) res += buf;
 
             return res;
 #else
@@ -160,13 +166,15 @@ namespace nm {
 #if NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
 
             constexpr int BT_SIZE = 100;
-            void* rawCallstacks[BT_SIZE] = {nullptr, };
+            void* rawCallstacks[BT_SIZE] = {
+                nullptr,
+            };
 
             int len = backtrace(rawCallstacks, BT_SIZE);
             char** callstacks = backtrace_symbols(rawCallstacks, len);
             if(nul(callstacks)) return ret;
 
-            for (int n=0; n < len ; n++) {
+            for(int n = 0; n < len; n++) {
                 Dl_info info;
                 if(dladdr(rawCallstacks[n], &info)) {
                     auto demangled = demangle(info.dli_sname);
@@ -205,5 +213,5 @@ namespace nm {
 #endif
             return raw.substr(n + 1);
         }
-    }
-}
+    } // namespace platformAPI
+} // namespace nm

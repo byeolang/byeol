@@ -30,18 +30,18 @@
 
 #pragma once
 
-#include "helper.hpp"
 #include "evaluator.hpp"
+#include "helper.hpp"
 
 #define _NM_EACH_GET_END2() 0, NM_CONSUME_ARGS
 #define _NM_EACH_GET_END1(...) _NM_EACH_GET_END2
 #define _NM_EACH_GET_END(...) _NM_EACH_GET_END1
 #define _NM_EACH_NEXT0(test, next, ...) next NM_VOID()
 #define _NM_EACH_NEXT1(test, next) _NM_EACH_NEXT0(test, next, 0)
-#define _NM_EACH_NEXT(test, next)  _NM_EACH_NEXT1(_NM_EACH_GET_END test, next)
+#define _NM_EACH_NEXT(test, next) _NM_EACH_NEXT1(_NM_EACH_GET_END test, next)
 
 #define _NM_EACH_LIST_NEXT1(test, next) _NM_EACH_NEXT0(test, NM_COMMA next, 0)
-#define _NM_EACH_LIST_NEXT(test, next)  _NM_EACH_LIST_NEXT1(_NM_EACH_GET_END test, next)
+#define _NM_EACH_LIST_NEXT(test, next) _NM_EACH_LIST_NEXT1(_NM_EACH_GET_END test, next)
 
 //    Applies the function macro `f` to each of the remaining parameters.
 #define _NM_EACH0(f, x, peek, ...) f(x) _NM_EACH_NEXT(peek, _NM_EACH1)(f, peek, __VA_ARGS__)
@@ -51,12 +51,15 @@
 //    EACH macro for various parametered function:
 //        usage:
 //            #define X(x, y) cout << (x+y);
-//            NM_EACH_TUPLE(X, (1,2), (2,3)) // please be careful to wrap with a paranthesis each set of parameters.
+//            NM_EACH_TUPLE(X, (1,2), (2,3)) // please be careful to wrap with a paranthesis each
+//            set of parameters.
 //
 //        output:
 //            37
-#define _NM_EACH_TUPLE0(f, x, peek, ...) f x _NM_EACH_NEXT(peek, _NM_EACH_TUPLE1)(f, peek, __VA_ARGS__)
-#define _NM_EACH_TUPLE1(f, x, peek, ...) f x _NM_EACH_NEXT(peek, _NM_EACH_TUPLE0)(f, peek, __VA_ARGS__)
+#define _NM_EACH_TUPLE0(f, x, peek, ...) \
+    f x _NM_EACH_NEXT(peek, _NM_EACH_TUPLE1)(f, peek, __VA_ARGS__)
+#define _NM_EACH_TUPLE1(f, x, peek, ...) \
+    f x _NM_EACH_NEXT(peek, _NM_EACH_TUPLE0)(f, peek, __VA_ARGS__)
 #define NM_EACH_TUPLE(f, ...) NM_EVAL(_NM_EACH_TUPLE1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
 
 //    EACH macro for expanding:
@@ -67,11 +70,17 @@
 //
 //        output:
 //            678
-#define _NM_EACH_EXPAND0(f, s, x, peek, ...) f(s, x) _NM_EACH_NEXT(peek, _NM_EACH_EXPAND1)(f, s, peek, __VA_ARGS__)
-#define _NM_EACH_EXPAND1(f, s, x, peek, ...) f(s, x) _NM_EACH_NEXT(peek, _NM_EACH_EXPAND0)(f, s, peek, __VA_ARGS__)
-#define NM_EACH_EXPAND(f, ...) NM_EVAL(_NM_EACH_EXPAND1(f, s, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
+#define _NM_EACH_EXPAND0(f, s, x, peek, ...) \
+    f(s, x) _NM_EACH_NEXT(peek, _NM_EACH_EXPAND1)(f, s, peek, __VA_ARGS__)
+#define _NM_EACH_EXPAND1(f, s, x, peek, ...) \
+    f(s, x) _NM_EACH_NEXT(peek, _NM_EACH_EXPAND0)(f, s, peek, __VA_ARGS__)
+#define NM_EACH_EXPAND(f, ...) \
+    NM_EVAL(_NM_EACH_EXPAND1(f, s, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
 
-//    Applies the function macro `f` to each of the remaining parameters and inserts commas between the results.
-#define _NM_EACH_LIST0(f, x, peek, ...) f(x) _NM_EACH_LIST_NEXT(peek, _NM_EACH_LIST1)(f, peek, __VA_ARGS__)
-#define _NM_EACH_LIST1(f, x, peek, ...) f(x) _NM_EACH_LIST_NEXT(peek, _NM_EACH_LIST0)(f, peek, __VA_ARGS__)
+//    Applies the function macro `f` to each of the remaining parameters and inserts commas between
+//    the results.
+#define _NM_EACH_LIST0(f, x, peek, ...) \
+    f(x) _NM_EACH_LIST_NEXT(peek, _NM_EACH_LIST1)(f, peek, __VA_ARGS__)
+#define _NM_EACH_LIST1(f, x, peek, ...) \
+    f(x) _NM_EACH_LIST_NEXT(peek, _NM_EACH_LIST0)(f, peek, __VA_ARGS__)
 #define NM_EACH_LIST(f, ...) NM_EVAL(_NM_EACH_LIST1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))

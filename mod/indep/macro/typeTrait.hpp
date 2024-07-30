@@ -2,10 +2,8 @@
 
 #include "../common/typedef.hpp"
 
-namespace nm
-{
-    template <typename T>
-    class typeTrait {
+namespace nm {
+    template <typename T> class typeTrait {
     public:
         typedef T Org;
         typedef T& Ref;
@@ -14,8 +12,7 @@ namespace nm
         static constexpr nbool is_ref = false;
     };
 
-    template <typename T>
-    class typeTrait<T&> {
+    template <typename T> class typeTrait<T&> {
     public:
         typedef T Org;
         typedef T& Ref;
@@ -25,8 +22,7 @@ namespace nm
         static constexpr nbool is_ref = true;
     };
 
-    template <typename T>
-    class typeTrait<T*> {
+    template <typename T> class typeTrait<T*> {
     public:
         typedef T Org;
         typedef T& Ref;

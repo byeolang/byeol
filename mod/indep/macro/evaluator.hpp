@@ -32,4 +32,4 @@
 #define _NM_EVAL2(...) _NM_EVAL1(_NM_EVAL1(_NM_EVAL1(__VA_ARGS__)))
 #define _NM_EVAL3(...) _NM_EVAL2(_NM_EVAL2(_NM_EVAL2(__VA_ARGS__)))
 #define _NM_EVAL4(...) _NM_EVAL3(_NM_EVAL3(_NM_EVAL3(__VA_ARGS__)))
-#define NM_EVAL(...)  _NM_EVAL4(_NM_EVAL4(_NM_EVAL4(__VA_ARGS__)))
+#define NM_EVAL(...) _NM_EVAL4(_NM_EVAL4(_NM_EVAL4(__VA_ARGS__)))

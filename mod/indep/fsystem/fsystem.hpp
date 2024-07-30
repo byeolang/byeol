@@ -1,14 +1,14 @@
 #pragma once
 
-#include "../macro.hpp"
 #include "../common.hpp"
+#include "../macro.hpp"
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
-#   include <direct.h>
-#   include <io.h>
-#   define getcwd _getcwd
+#    include <direct.h>
+#    include <io.h>
+#    define getcwd _getcwd
 #else
-#   include <dirent.h>
-#   include <unistd.h>
+#    include <dirent.h>
+#    include <unistd.h>
 #endif
 #include <vector>
 
@@ -28,6 +28,7 @@ namespace nm {
 #endif
             std::string path;
         };
+
         typedef std::vector<entry> entries;
 
         class _nout iterator {
@@ -68,4 +69,4 @@ namespace nm {
         static std::string getCurrentDir();
         static const std::string& getDelimiter();
     };
-}
+} // namespace nm

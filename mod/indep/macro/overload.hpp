@@ -3,8 +3,8 @@
 /// @remark These are codes inspired from Boost library. added the PATCH for VS.
 #pragma once
 
-#include "helper.hpp"
 #include "argCounter.hpp"
+#include "helper.hpp"
 
 /// Implementing Macro Overloding:
 ///     by count of given arguments, let compiler determine which macro should works.
@@ -24,5 +24,5 @@
 //      output:
 //          10, 8, 100
 #define _OVERLOAD(macro_name, argcount) NM_CONCAT(macro_name, argcount)
-#define NM_OVERLOAD(macro_name, ...)   \
+#define NM_OVERLOAD(macro_name, ...) \
     _OVERLOAD(macro_name, NM_CONCAT(_, NM_ARGCNT(__VA_ARGS__)))(__VA_ARGS__)
