@@ -15,11 +15,12 @@ namespace nm {
         nbool isSub(const type& it) const;
         nbool isSub(const typeProvidable& it) const;
         nbool isSuper(const type& it) const;
+
         template <typename T> nbool isSub() const { return getType().isSub<T>(); }
+
         template <typename T> nbool isSuper() const { return getType().isSuper<T>(); }
 
-        template <typename T>
-        T& cast() {
+        template <typename T> T& cast() {
             // this protection:
             //  this c namu interpreter uses references in default, and not any pointers.
             //  so you always care about a refer can be nulled.
@@ -29,8 +30,7 @@ namespace nm {
             //  ordinary cpp.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wtautological-undefined-compare"
-            if (this == nullptr)
-                return nulOf<T>();
+            if(this == nullptr) return nulOf<T>();
 #pragma clang diagnostic pop
 
             return *(T*) cast(ttype<T>::get());
@@ -44,4 +44,4 @@ namespace nm {
     protected:
         virtual nbool _onSame(const me& rhs) const;
     };
-}
+} // namespace nm

@@ -7,30 +7,20 @@ namespace nm {
 
     ME::ttypeBase() { this->init(); }
 
-    nbool ME::isTemplate() const {
-        return false;
-    }
+    nbool ME::isTemplate() const { return false; }
 
-    nbool ME::isAbstract() const {
-        return true;
-    }
+    nbool ME::isAbstract() const { return true; }
 
     const std::string& ME::getName() const {
         static const std::string inner = "void";
         return inner;
     }
 
-    void* ME::make() const {
-        return nullptr;
-    }
+    void* ME::make() const { return nullptr; }
 
-    ncnt ME::size() const {
-        return 0;
-    }
+    ncnt ME::size() const { return 0; }
 
-    const type& ME::getSuper() const {
-        return ttype<typename tadaptiveSuper<void>::super>::get();
-    }
+    const type& ME::getSuper() const { return ttype<typename tadaptiveSuper<void>::super>::get(); }
 
     const nbool& ME::isInit() const {
         static nbool inner = typeid(void) == typeid(adam);
@@ -57,9 +47,7 @@ namespace nm {
         return inner;
     }
 
-    type& ME::_getStatic() const {
-        return (ME&) get();
-    }
+    type& ME::_getStatic() const { return (ME&) get(); }
 
     ME::ttypeBase(nbool) {}
 
@@ -72,11 +60,10 @@ namespace nm {
         super::_onAddSubClass(subClass);
 
         types** leafs = _onGetLeafs();
-        if(*leafs)
-            this->_setLeafs(nullptr);
+        if(*leafs) this->_setLeafs(nullptr);
     }
 
 #undef TEMPL
 #undef ME
 #undef SUPER
-}
+} // namespace nm

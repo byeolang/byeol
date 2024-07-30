@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class _nout consoleStream : public stream {
+    class _nout consoleStream: public stream {
         NM_ME(consoleStream, stream)
 
     public:

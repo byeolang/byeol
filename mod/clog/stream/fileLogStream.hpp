@@ -1,11 +1,12 @@
 #pragma once
 
-#include "stream.hpp"
 #include <fstream>
+
+#include "stream.hpp"
 
 namespace nm {
 
-    class _nout fileLogStream : public stream {
+    class _nout fileLogStream: public stream {
         NM_ME(fileLogStream, stream)
 
     public:

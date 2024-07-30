@@ -4,10 +4,8 @@
 
 namespace nm {
 
-    class _nout sobj : public instance {
-        NM(ME(sobj, instance),
-            CLONE(me),
-            INIT_META(sobj))
+    class _nout sobj: public instance {
+        NM(ME(sobj, instance), CLONE(me), INIT_META(sobj))
 
         typedef std::map<std::string, tstr<me>> myMap;
         typedef myMap::iterator iterator;
@@ -55,4 +53,4 @@ namespace nm {
         myMap _subs;
         std::string _name;
     };
-}
+} // namespace nm

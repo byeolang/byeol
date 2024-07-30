@@ -1,13 +1,12 @@
 #include "weakTactic.hpp"
+
 #include "binder.hpp"
 
 namespace nm {
 
     NM_DEF_ME(weakTactic)
 
-    void me::rel(binder& me) {
-        me._itsId.rel();
-    }
+    void me::rel(binder& me) { me._itsId.rel(); }
 
     nbool me::bind(binder& me, const instance& it) {
         // regardless of result from _onStrong binder can bind:

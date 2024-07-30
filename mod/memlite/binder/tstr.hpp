@@ -1,12 +1,11 @@
 #pragma once
 
-#include "tweak.hpp"
 #include "strTactic.hpp"
+#include "tweak.hpp"
 
 namespace nm {
 
-    template <typename T, typename TACTIC = strTactic>
-    class tstr : public tweak<T, TACTIC> {
+    template <typename T, typename TACTIC = strTactic> class tstr: public tweak<T, TACTIC> {
         typedef tweak<T, TACTIC> _super_;
         NM_ME(tstr, _super_)
         NM_INIT_META(me)

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "bindTacticable.hpp"
 #include "../interface/instance.hpp"
+#include "bindTacticable.hpp"
 
 namespace nm {
 
-    class _nout weakTactic : public bindTacticable {
+    class _nout weakTactic: public bindTacticable {
         NM_ME(weakTactic, bindTacticable)
 
     public:

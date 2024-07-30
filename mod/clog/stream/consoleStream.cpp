@@ -1,4 +1,5 @@
 #include "consoleStream.hpp"
+
 #include <iostream>
 
 namespace nm {

@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class _nout chunks : public allocator {
+    class _nout chunks: public allocator {
         NM_ME(chunks, allocator)
         NM_INIT_META(me)
 
@@ -48,4 +48,4 @@ namespace nm {
         std::vector<chunk*> _chunks;
         int _s;
     };
-}
+} // namespace nm

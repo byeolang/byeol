@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class _nout allocator : public memoryHaver {
+    class _nout allocator: public memoryHaver {
         NM_ME(allocator)
         NM_INIT_META(me)
 

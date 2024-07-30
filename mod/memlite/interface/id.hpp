@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../common.hpp"
 #include <iostream>
+
+#include "../common.hpp"
 
 namespace nm {
 
@@ -19,8 +20,8 @@ namespace nm {
         nbool isValid() const;
 
     public:
-        nint tagN:21;
-        nint chkN:22;
-        nuint serial:21;
+        nint tagN: 21;
+        nint chkN: 22;
+        nuint serial: 21;
     };
 }

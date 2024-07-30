@@ -4,19 +4,13 @@ namespace nm {
 
     NM_DEF_ME(watcher, chunk)
 
-    me::watcher() : chunk(sizeof(watchCell), false) {}
+    me::watcher(): chunk(sizeof(watchCell), false) {}
 
-    watchCell& me::operator[](nidx n) {
-        return get(n);
-    }
+    watchCell& me::operator[](nidx n) { return get(n); }
 
-    watchCell& me::operator[](id newId) {
-        return get(newId);
-    }
+    watchCell& me::operator[](id newId) { return get(newId); }
 
-    watchCell& me::get(nidx n) {
-        return *(watchCell*)_get(n);
-    }
+    watchCell& me::get(nidx n) { return *(watchCell*) _get(n); }
 
     watchCell& me::get(id newId) {
         watchCell& got = get(newId.tagN);
@@ -24,8 +18,8 @@ namespace nm {
 
         id gotId = got.blk.getId();
         if(gotId.tagN != newId.tagN) {
-            NM_W("bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)",
-                    gotId.tagN, gotId.chkN, gotId.serial, newId.tagN, newId.chkN, newId.serial);
+            NM_W("bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN,
+                gotId.chkN, gotId.serial, newId.tagN, newId.chkN, newId.serial);
             return nulOf<watchCell>();
         }
         if(gotId.chkN != newId.chkN || gotId.serial != newId.serial)
@@ -37,14 +31,13 @@ namespace nm {
 
     void* me::new1() {
         if(isFull())
-            if(!_resize(size()*2 + 1))
+            if(!_resize(size() * 2 + 1))
                 return NM_E("resize watcher failed! this damage system seriously !!!!"), nullptr;
 
-        watchCell* res = (watchCell*)super::new1();
-        if(!res)
-            return res;
+        watchCell* res = (watchCell*) super::new1();
+        if(!res) return res;
 
-        ::new (&res->blk) bindTag(_genId(res));
+        ::new(&res->blk) bindTag(_genId(res));
         return res;
     }
 
@@ -64,10 +57,10 @@ namespace nm {
     }
 
     nidx me::_getIdx(void* it) const {
-        if(!has(*(instance*)it)) // "has" func will treat it as void*, too.
+        if(!has(*(instance*) it)) // "has" func will treat it as void*, too.
             return -1;
 
-        nidx ret = ((nuchar*)it - _getHeap()) / getBlkSize();
+        nidx ret = ((nuchar*) it - _getHeap()) / getBlkSize();
         return ret;
     }
-}
+} // namespace nm

@@ -4,10 +4,8 @@
 
 namespace nm {
 
-    class _nout nullSobj : public sobj {
-        NM(ME(nullSobj, sobj),
-            CLONE(me),
-            INIT_META(nullSobj))
+    class _nout nullSobj: public sobj {
+        NM(ME(nullSobj, sobj), CLONE(me), INIT_META(nullSobj))
 
     public:
         nullSobj();

@@ -4,8 +4,7 @@
 
 namespace nm {
 
-    template <typename T>
-    class tbindable {
+    template <typename T> class tbindable {
         NM_ME(tbindable)
         NM_INIT_META(me)
 

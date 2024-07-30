@@ -4,19 +4,15 @@
 
 namespace nm {
 
-    template <typename T>
-    struct noWrap {
+    template <typename T> struct noWrap {
         noWrap(T rhs): data(rhs) {}
 
-        T unwrap() const {
-            return data;
-        }
+        T unwrap() const { return data; }
 
         T data;
     };
 
-    template <typename T>
-    struct useWrap {
+    template <typename T> struct useWrap {
         static_assert(true, "not supported wrapper for richLog");
     };
 
@@ -28,21 +24,23 @@ namespace nm {
 
     template <typename T, bool Signed, int Size>
     using tifIntType =
-        typename std::enable_if<
-            std::is_signed<T>{} == Signed && sizeof(T) * 8 == Size
-        >::type;
+        typename std::enable_if<std::is_signed<T>{} == Signed && sizeof(T) * 8 == Size>::type;
 
-    template <typename T>
-    noWrap<T> __convert__(T rhs, tifIntType<T, true, 32>* = nullptr) { return rhs; }
+    template <typename T> noWrap<T> __convert__(T rhs, tifIntType<T, true, 32>* = nullptr) {
+        return rhs;
+    }
 
-    template <typename T>
-    noWrap<T> __convert__(T rhs, tifIntType<T, true, 64>* = nullptr) { return rhs; }
+    template <typename T> noWrap<T> __convert__(T rhs, tifIntType<T, true, 64>* = nullptr) {
+        return rhs;
+    }
 
-    template <typename T>
-    noWrap<T> __convert__(T rhs, tifIntType<T, false, 32>* = nullptr) { return rhs; }
+    template <typename T> noWrap<T> __convert__(T rhs, tifIntType<T, false, 32>* = nullptr) {
+        return rhs;
+    }
 
-    template <typename T>
-    noWrap<T> __convert__(T rhs, tifIntType<T, false, 64>* = nullptr) { return rhs; }
+    template <typename T> noWrap<T> __convert__(T rhs, tifIntType<T, false, 64>* = nullptr) {
+        return rhs;
+    }
 
     _nout noWrap<nflt> __convert__(nflt rhs);
     _nout noWrap<nchar> __convert__(nchar rhs);
@@ -55,7 +53,9 @@ namespace nm {
     _nout strWrap __convert__(void* rhs);
 
     template <typename... Ts>
-    void richLog(logLv::level lv, const std::string& filename, const nchar* func, nint line, const nchar* fmt, const Ts&... args) {
-        ::nm::logger::get().log(lv, filename, func, line, fmt, __convert__((const Ts&) args).unwrap()...);
+    void richLog(logLv::level lv, const std::string& filename, const nchar* func, nint line,
+        const nchar* fmt, const Ts&... args) {
+        ::nm::logger::get().log(lv, filename, func, line, fmt,
+            __convert__((const Ts&) args).unwrap()...);
     }
-}
+} // namespace nm

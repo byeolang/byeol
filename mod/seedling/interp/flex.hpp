@@ -1,9 +1,11 @@
 #pragma once
 
-extern FILE *yyin;
+extern FILE* yyin;
+
 namespace nm {
     class sobj;
 }
+
 extern nm::sobj* root;
 int yyparse();
 typedef struct yy_buffer_state* YY_BUFFER_STATE;

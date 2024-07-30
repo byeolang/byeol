@@ -1,6 +1,7 @@
 #include "strTactic.hpp"
-#include "binder.hpp"
+
 #include "../watcher/bindTag.hpp"
+#include "binder.hpp"
 
 namespace nm {
 
@@ -10,8 +11,7 @@ namespace nm {
         if(!me.isBind()) return;
 
         bindTag& tag = me._getBindTag();
-        if(!nul(tag))
-            tag._onStrong(-1);
+        if(!nul(tag)) tag._onStrong(-1);
         super::rel(me);
     }
 
@@ -22,8 +22,7 @@ namespace nm {
             return res;
         }
 
-        if(!it.isHeap())
-            return true;
+        if(!it.isHeap()) return true;
 
         // initially, when instance got created by new operator, the value 'strong' set to 0.
         // if strongBinder doesn't bind the instance in this circumstance, this instance keep

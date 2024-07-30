@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    class _nout watcher : public chunk {
+    class _nout watcher: public chunk {
         NM_ME(watcher, chunk)
         NM_INIT_META(me)
         friend class instancer;
@@ -36,4 +36,4 @@ namespace nm {
         id _genId(void* pt) const;
         nidx _getIdx(void* it) const;
     };
-}
+} // namespace nm

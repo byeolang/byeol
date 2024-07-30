@@ -1,43 +1,28 @@
 #include "chunks.hpp"
+
 #include "../interface/instance.hpp"
 
 namespace nm {
 
     NM_DEF_ME(chunks, allocator)
 
-    me::chunks(ncnt blkbyte) : super(blkbyte), _s(0) {}
+    me::chunks(ncnt blkbyte): super(blkbyte), _s(0) {}
 
-    me::~chunks() {
-        _rel();
-    }
+    me::~chunks() { _rel(); }
 
-    chunk& me::operator[](nidx n) {
-        return get(n);
-    }
+    chunk& me::operator[](nidx n) { return get(n); }
 
-    chunk& me::operator[](const instance& inst) {
-        return get(inst);
-    }
+    chunk& me::operator[](const instance& inst) { return get(inst); }
 
-    chunk& me::get(nidx n) {
-        return *(chunk*)_get(n);
-    }
+    chunk& me::get(nidx n) { return *(chunk*) _get(n); }
 
-    chunk& me::get(const instance& it) {
-        return *(chunk*)_get(it.getId().chkN);
-    }
+    chunk& me::get(const instance& it) { return *(chunk*) _get(it.getId().chkN); }
 
-    nbool me::rel() {
-        return _rel();
-    }
+    nbool me::rel() { return _rel(); }
 
-    ncnt me::len() const {
-        return _chunks.size();
-    }
+    ncnt me::len() const { return _chunks.size(); }
 
-    ncnt me::size() const {
-        return len();
-    }
+    ncnt me::size() const { return len(); }
 
     void* me::new1() {
         nidx n = _findCapable();
@@ -60,8 +45,7 @@ namespace nm {
 
         do {
             chunk& e = get(_s);
-            if(!nul(e) && e.isCapable())
-                return _s;
+            if(!nul(e) && e.isCapable()) return _s;
             _s++;
             if(_s >= sz) _s = 0;
         } while(_s != end);
@@ -74,7 +58,7 @@ namespace nm {
 
     nbool me::resize(ncnt new1) {
         _s = _chunks.size();
-        if(_s > new1) _s = new1-1;
+        if(_s > new1) _s = new1 - 1;
         if(_s < 0) _s = 0;
 
         while(_chunks.size() < new1)
@@ -83,7 +67,7 @@ namespace nm {
     }
 
     nbool me::_rel() {
-        for(chunk* e : _chunks)
+        for(chunk* e: _chunks)
             e->rel();
         _chunks.clear();
         _s = 0;
@@ -95,4 +79,4 @@ namespace nm {
 
         return _chunks[n];
     }
-}
+} // namespace nm

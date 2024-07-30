@@ -11,28 +11,18 @@ namespace nm {
         return inner;
     }
 
-    nchar me::asChar() const {
-        return '\0';
-    }
+    nchar me::asChar() const { return '\0'; }
 
-    nint me::asInt() const {
-        return 0;
-    }
+    nint me::asInt() const { return 0; }
 
-    nbool me::asBool() const {
-        return false;
-    }
+    nbool me::asBool() const { return false; }
 
-    const type& me::getType() const {
-        return ttype<me>::get();
-    }
+    const type& me::getType() const { return ttype<me>::get(); }
 
-    nbool me::isExist() const {
-        return false;
-    }
+    nbool me::isExist() const { return false; }
 
     me& me::get() {
         static me inner;
         return inner;
     }
-}
+} // namespace nm

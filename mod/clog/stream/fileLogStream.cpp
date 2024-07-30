@@ -6,6 +6,7 @@ namespace nm {
     typedef std::string string;
 
     me::fileLogStream() {}
+
     me::fileLogStream(const string& new_path): stream(), _path(new_path) {}
 
     const std::string& me::getName() const {
@@ -19,9 +20,7 @@ namespace nm {
         return false;
     }
 
-    const string& me::getPath() const {
-        return _path;
-    }
+    const string& me::getPath() const { return _path; }
 
     nbool me::logBypass(const char* message) {
         if(!isInit()) return true;
@@ -33,4 +32,4 @@ namespace nm {
         return false;
     }
 
-}
+} // namespace nm

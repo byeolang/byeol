@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class _nout pool : public memoryHaver {
+    class _nout pool: public memoryHaver {
         NM_ME(pool, memoryHaver)
         NM_INIT_META(me)
 
@@ -37,4 +37,4 @@ namespace nm {
     private:
         std::vector<chunks*> _chunks;
     };
-}
+} // namespace nm

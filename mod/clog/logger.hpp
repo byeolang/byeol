@@ -1,12 +1,12 @@
 #pragma once
 
-#include "stream/stream.hpp"
-#include "filter/filters.hpp"
 #include "enablesZone.hpp"
+#include "filter/filters.hpp"
+#include "stream/stream.hpp"
 
 namespace nm {
 
-    class _nout logger : public stream {
+    class _nout logger: public stream {
         NM_ME(logger, stream)
 
     public:
@@ -34,7 +34,8 @@ namespace nm {
         void setEnables(const enables& enbs);
         ncnt getStreamCount() const;
         nbool logFormatBypass(const nchar* fmt, ...);
-        nbool log(logLv::level lv, const std::string& filename, const nchar* func, int line, const nchar* fmt, ...);
+        nbool log(logLv::level lv, const std::string& filename, const nchar* func, int line,
+            const nchar* fmt, ...);
         nbool pushStream(stream* new_stream);
         static logger& get();
         //  stream:
@@ -63,4 +64,4 @@ namespace nm {
         const filters* _filters;
     };
 
-}
+} // namespace nm

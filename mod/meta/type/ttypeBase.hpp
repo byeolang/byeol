@@ -1,7 +1,7 @@
 #pragma once
 
-#include "type.hpp"
 #include "../rtti.hpp"
+#include "type.hpp"
 
 namespace nm {
 
@@ -12,8 +12,7 @@ namespace nm {
     ///         if user typedefs SuperType at their type T, then ttypeBase
     ///         inherits from given SuperType.
     ///         this eventually make user add API to want to ttypeBase class.
-    template <typename T, typename S = typename tmetaTypeDef<T>::is>
-    class ttypeBase : public S {
+    template <typename T, typename S = typename tmetaTypeDef<T>::is> class ttypeBase: public S {
         typedef ttypeBase<T, S> _T;
         NM_ME(_T, S)
 
@@ -41,9 +40,7 @@ namespace nm {
         ttypeBase(nbool); // for skipping recursive static variable init.
     };
 
-
-    template <>
-    class ttypeBase<void, type> : public type {
+    template <> class ttypeBase<void, type>: public type {
         typedef ttypeBase<void, type> _T;
         NM_ME(_T, type)
 
@@ -74,4 +71,4 @@ namespace nm {
     private:
         ttypeBase(nbool);
     };
-}
+} // namespace nm

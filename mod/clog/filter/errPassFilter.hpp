@@ -3,7 +3,7 @@
 #include "filterable.hpp"
 
 namespace nm {
-    class _nout errPassFilter : public filterable {
+    class _nout errPassFilter: public filterable {
         NM(ME(errPassFilter, filterable))
 
     public:

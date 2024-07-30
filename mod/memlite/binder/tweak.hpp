@@ -6,8 +6,8 @@
 namespace nm {
 
     class origin;
-    template <typename T, typename TACTIC = weakTactic>
-    class tweak : public binder {
+
+    template <typename T, typename TACTIC = weakTactic> class tweak: public binder {
         NM_ME(tweak, binder)
         NM_INIT_META(me)
         friend class bindTag;
@@ -37,4 +37,4 @@ namespace nm {
         using tbindable::bind;
         nbool bind(const T& new1);
     };
-}
+} // namespace nm

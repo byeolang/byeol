@@ -6,6 +6,7 @@ namespace nm {
 
     class binder;
     class instance;
+
     class _nout bindTacticable {
     public:
         virtual void rel(binder& me) = 0;

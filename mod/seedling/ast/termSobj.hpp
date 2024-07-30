@@ -4,10 +4,8 @@
 
 namespace nm {
 
-    class _nout termSobj : public sobj {
-        NM(ME(termSobj, sobj),
-            CLONE(me),
-            INIT_META(termSobj))
+    class _nout termSobj: public sobj {
+        NM(ME(termSobj, sobj), CLONE(me), INIT_META(termSobj))
 
     public:
         termSobj(const std::string& rawVal, const std::string& name = "");

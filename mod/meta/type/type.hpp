@@ -24,8 +24,8 @@ namespace nm {
         /// @return return an address of new instance, however, if ctor without any params
         ///         isn't defined, then returns null.
         virtual void* make() const = 0;
-        template <typename T>
-        T* makeAs() const {
+
+        template <typename T> T* makeAs() const {
             // c++ is not allow for covariant against void*.
             // that's is why I make another variant func of already made make().
             return (T*) make();
@@ -64,4 +64,4 @@ namespace nm {
         nbool _logInitOk(nbool res);
         void _findLeafs(const type& cls, types& tray) const;
     };
-}
+} // namespace nm

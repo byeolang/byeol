@@ -1,9 +1,10 @@
 #pragma once
 
+#include <algorithm>
 #include <map>
+#include <memlite.hpp>
+#include <sstream>
 #include <stack>
 #include <string>
-#include <memlite.hpp>
-#include <algorithm>
-#include <sstream>
+
 #include "common/_nout.hpp"

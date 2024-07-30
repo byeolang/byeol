@@ -1,17 +1,14 @@
 #pragma once
 
-#include "dep.hpp"
 #include "common/_nout.hpp"
+#include "dep.hpp"
 
 namespace nm {
     class type;
     typedef std::vector<type*> types;
 }
 
-#define NM_INIT_META(me) \
-    NM_INITIATOR(initMeta, { \
-        ::nm::ttype<me>().init(); \
-    })
+#define NM_INIT_META(me) NM_INITIATOR(initMeta, { ::nm::ttype<me>().init(); })
 
 // namuMeta macro's sub-commands:
 //  INIT META: it redirects to NM_INIT_META macro.

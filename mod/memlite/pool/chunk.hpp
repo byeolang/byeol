@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class _nout chunk : public allocator {
+    class _nout chunk: public allocator {
         NM_ME(chunk, allocator)
         NM_INIT_META(me)
         friend class watcher;
@@ -14,7 +14,7 @@ namespace nm {
         static constexpr ncnt MIN_SZ = 20;
 
     public:
-        explicit chunk(ncnt blockSz=1, ncnt sz=MIN_SZ);
+        explicit chunk(ncnt blockSz = 1, ncnt sz = MIN_SZ);
         ~chunk();
 
     public:
@@ -54,4 +54,4 @@ namespace nm {
         ncnt _len, _sz;
         nuchar* _heap;
     };
-}
+} // namespace nm

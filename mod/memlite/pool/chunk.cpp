@@ -4,22 +4,15 @@ namespace nm {
 
     NM_DEF_ME(chunk, allocator)
 
-    me::chunk(ncnt blksize, ncnt sz)
-        : super(blksize), _head(0), _len(0), _sz(0), _heap(0) {
+    me::chunk(ncnt blksize, ncnt sz): super(blksize), _head(0), _len(0), _sz(0), _heap(0) {
         _resize(sz);
     }
 
-    me::~chunk() {
-        me::rel();
-    }
+    me::~chunk() { me::rel(); }
 
-    ncnt me::len() const {
-        return _len;
-    }
+    ncnt me::len() const { return _len; }
 
-    ncnt me::size() const {
-        return _sz;
-    }
+    ncnt me::size() const { return _sz; }
 
     nbool me::_resize(ncnt newSz) {
         if(newSz < MIN_SZ) newSz = MIN_SZ;
@@ -29,7 +22,7 @@ namespace nm {
         // considered if user resize far smaller rather than what it had.
         if(_heap) {
             ncnt min = _sz < newSz ? _sz : newSz;
-            memcpy(new1, _heap, min*_getRealBlkSize());
+            memcpy(new1, _heap, min * _getRealBlkSize());
         }
 
         //  post:
@@ -41,12 +34,13 @@ namespace nm {
 
     void* me::new1() {
         if(_len >= _sz)
-            return NM_E("new1() failed. chunk was full. you should have not called this in this situtation."),
+            return NM_E(
+                       "new1() failed. chunk was full. you should have not called this in this "
+                       "situtation."),
                    nullptr;
 
-        nidx* ret = (nidx*)_get(_head);
-        if(nul(ret))
-            return nullptr;
+        nidx* ret = (nidx*) _get(_head);
+        if(nul(ret)) return nullptr;
 
         _head = *ret;
         _len++;
@@ -56,11 +50,13 @@ namespace nm {
     nbool me::del(void* used, ncnt) {
         if(!used) return false;
 
-        *(nidx*)used = _head;
-        _head = ((nuchar*)used - _heap) / _getRealBlkSize();
+        *(nidx*) used = _head;
+        _head = ((nuchar*) used - _heap) / _getRealBlkSize();
         _len--;
         if(_head < 0)
-            return NM_E("chunk corrupted! used(%s) apparently wasn't on heap(%s).", used, (void*)_heap), false;
+            return NM_E("chunk corrupted! used(%s) apparently wasn't on heap(%s).", used,
+                       (void*) _heap),
+                   false;
         return true;
     }
 
@@ -80,20 +76,19 @@ namespace nm {
     void* me::_get(nidx n) {
         if(n < 0 || n >= size()) return nullptr;
 
-        return _heap + n*_getRealBlkSize();
+        return _heap + n * _getRealBlkSize();
     }
 
     nuchar* me::_getEOB() {
         nuchar* org = (nuchar*) _get(_sz - 1);
-        if(!org)
-            return nullptr;
+        if(!org) return nullptr;
 
         return org + _getRealBlkSize() - 1;
     }
 
     nbool me::_index(nidx start) {
-        for(ncnt n=start; n < _sz ;n++)
-            *(nidx*)_get(n) = n+1;
+        for(ncnt n = start; n < _sz; n++)
+            *(nidx*) _get(n) = n + 1;
 
         return true;
     }
@@ -112,4 +107,4 @@ namespace nm {
         }
         return true;
     }
-}
+} // namespace nm

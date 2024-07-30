@@ -4,9 +4,12 @@ namespace nm {
 
     NM(DEF_ME(verSobj))
 
-    me::verSobj(int major, int minor, int fix)
-        : super(std::to_string(major) + DELIMITER + std::to_string(minor) + DELIMITER + std::to_string(fix)),
-        _maj(major), _min(minor), _fix(fix) {}
+    me::verSobj(int major, int minor, int fix):
+        super(std::to_string(major) + DELIMITER + std::to_string(minor) + DELIMITER +
+            std::to_string(fix)),
+        _maj(major),
+        _min(minor),
+        _fix(fix) {}
 
     me::verSobj(const std::string& verStr): super(verStr), _maj(0), _min(0), _fix(0) {
         _parseVerStr(verStr);
@@ -39,38 +42,22 @@ namespace nm {
     nbool me::operator==(const me& rhs) const {
         if(this == &rhs) return true;
 
-        return _maj == rhs._maj &&
-            _min == rhs._min &&
-            _fix == rhs._fix;
+        return _maj == rhs._maj && _min == rhs._min && _fix == rhs._fix;
     }
 
-    nbool me::operator!=(const me& rhs) const {
-        return !operator==(rhs);
-    }
+    nbool me::operator!=(const me& rhs) const { return !operator==(rhs); }
 
-    nbool me::operator<=(const me& rhs) const {
-        return !operator>(rhs);
-    }
+    nbool me::operator<=(const me& rhs) const { return !operator>(rhs); }
 
-    nbool me::operator>=(const me& rhs) const {
-        return !operator<(rhs);
-    }
+    nbool me::operator>=(const me& rhs) const { return !operator<(rhs); }
 
-    nint me::asMajor() const {
-        return _maj;
-    }
+    nint me::asMajor() const { return _maj; }
 
-    nint me::asMinor() const {
-        return _min;
-    }
+    nint me::asMinor() const { return _min; }
 
-    nint me::asFix() const {
-        return _fix;
-    }
+    nint me::asFix() const { return _fix; }
 
-    const type& me::getType() const {
-        return ttype<me>::get();
-    }
+    const type& me::getType() const { return ttype<me>::get(); }
 
     nint me::_isFromBigger(nint from, nint to) {
         if(from > to) return 1;
@@ -92,4 +79,4 @@ namespace nm {
             *them[n] = std::stoi(token);
         }
     }
-}
+} // namespace nm

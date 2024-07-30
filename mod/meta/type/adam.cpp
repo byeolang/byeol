@@ -1,4 +1,5 @@
 #include "adam.hpp"
+
 #include "ttype.hpp"
 #include "ttypeBase.inl"
 

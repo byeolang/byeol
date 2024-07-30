@@ -5,6 +5,7 @@
 namespace nm {
 
     class instance;
+
     class _nout memoryHaver {
         NM_ME(memoryHaver)
         NM_INIT_META(me)

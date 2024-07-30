@@ -3,16 +3,13 @@
 #include "filterable.hpp"
 
 namespace nm {
-    class _nout filters : public filterable {
+    class _nout filters: public filterable {
         NM(ME(filters))
 
     public:
         filters() {}
 
-        template <typename... Es>
-        explicit filters(const Es*... elems) {
-            (add(elems),...);
-        }
+        template <typename... Es> explicit filters(const Es*... elems) { (add(elems), ...); }
 
         virtual ~filters();
 

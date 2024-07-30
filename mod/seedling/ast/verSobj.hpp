@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class _nout verSobj : public termSobj {
+    class _nout verSobj: public termSobj {
         NM_ME(verSobj, termSobj)
         NM_INIT_META(verSobj)
 
@@ -38,5 +38,4 @@ namespace nm {
         static constexpr nint VER_LEN = 3;
         static constexpr const nchar* DELIMITER = ".";
     };
-}
-
+} // namespace nm

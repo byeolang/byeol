@@ -1,4 +1,5 @@
 #include "richLog.hpp"
+
 #include "../ast/sobj.hpp"
 
 namespace nm {

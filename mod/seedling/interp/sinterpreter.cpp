@@ -1,7 +1,8 @@
-#include "seedling.hpp"
-#include "../parser/seedlingParser.hpp"
 #include <fstream>
+
+#include "../parser/seedlingParser.hpp"
 #include "flex.hpp"
+#include "seedling.hpp"
 
 void yyrestart(FILE*);
 
@@ -16,15 +17,12 @@ namespace nm {
         return ret;
     }
 
-    tstr<sobj> me::interp(const std::string& script) {
-        return interp(script.c_str());
-    }
+    tstr<sobj> me::interp(const std::string& script) { return interp(script.c_str()); }
 
     tstr<sobj> me::interpFile(const nchar* path) {
         yyin = fopen(path, "r");
         yyrestart(yyin);
-        if(!yyin)
-            return NM_E("invalid file path %s.", path), tstr<sobj>();
+        if(!yyin) return NM_E("invalid file path %s.", path), tstr<sobj>();
 
         std::string fileName = _extractFileName(path);
         NM_I("interpreting file '%s'...", fileName);
@@ -37,16 +35,12 @@ namespace nm {
         return ret;
     }
 
-    tstr<sobj> me::interpFile(const std::string& path) {
-        return interpFile(path.c_str());
-    }
+    tstr<sobj> me::interpFile(const std::string& path) { return interpFile(path.c_str()); }
 
     tstr<sobj> me::_runParser() {
         int res = yyparse();
-        if(res)
-            return NM_E("interpretion has been failed. res=%d", res), tstr<sobj>();
-        if(!root)
-            NM_E("nothing interpreted.");
+        if(res) return NM_E("interpretion has been failed. res=%d", res), tstr<sobj>();
+        if(!root) NM_E("nothing interpreted.");
 
         return tstr<sobj>(root);
     }
@@ -57,4 +51,4 @@ namespace nm {
 
         return path.substr(atSlash + 1);
     }
-}
+} // namespace nm

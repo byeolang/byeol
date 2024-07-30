@@ -12,6 +12,7 @@ namespace nm {
         virtual ~clonable() {}
 
         virtual me* clone() const = 0;
+
         virtual me* cloneDeep() const { return clone(); }
     };
 }

@@ -3,13 +3,9 @@
 namespace nm {
     NM_DEF_ME(type)
 
-    nbool me::operator==(const me& rhs) const {
-        return getName() == rhs.getName();
-    }
+    nbool me::operator==(const me& rhs) const { return getName() == rhs.getName(); }
 
-    nbool me::operator!=(const me& rhs) const {
-        return !operator==(rhs);
-    }
+    nbool me::operator!=(const me& rhs) const { return !operator==(rhs); }
 
     const types& me::getLeafs() const {
         types* leafs = *_onGetLeafs();
@@ -25,9 +21,8 @@ namespace nm {
     }
 
     void me::_findLeafs(const type& cls, types& tray) const {
-        for(const type* sub : cls.getSubs()) {
-            if(sub->getSubs().size() == 0)
-                tray.push_back((type*) sub);
+        for(const type* sub: cls.getSubs()) {
+            if(sub->getSubs().size() == 0) tray.push_back((type*) sub);
 
             _findLeafs(*sub, tray);
         }
@@ -70,9 +65,7 @@ namespace nm {
         return _logInitOk(true);
     }
 
-    void me::_onAddSubClass(const me& subClass) {
-        _getSubs().push_back(&subClass._getStatic());
-    }
+    void me::_onAddSubClass(const me& subClass) { _getSubs().push_back(&subClass._getStatic()); }
 
     nbool me::rel() {
         _setInit(false);
@@ -88,39 +81,29 @@ namespace nm {
         //        would must be the class of "this".
         if(nul(it)) return false;
         const types& its = it.getSupers();
-        ncnt myTier = getSupers().size(),
-             itsTier = its.size();
+        ncnt myTier = getSupers().size(), itsTier = its.size();
         if(myTier > itsTier) return false;
 
 
         //  main:
-        const type& target = itsTier == myTier ? it :
-            (const type&) *its[myTier];
+        const type& target = itsTier == myTier ? it : (const type&) *its[myTier];
 
         return *this == target; // operator== is virtual func.
     }
 
-    nbool me::isSub(const type& it) const {
-        return it.isSuper(*this);
-    }
+    nbool me::isSub(const type& it) const { return it.isSuper(*this); }
 
-    const void* me::getExtra() const {
-        return nullptr;
-    }
+    const void* me::getExtra() const { return nullptr; }
 
     nbool me::_logInitOk(nbool res) {
-        if(!res)
-            return NM_E("couldn't init meta of %s class.", getName()), res;
+        if(!res) return NM_E("couldn't init meta of %s class.", getName()), res;
 
         return res;
     }
 
-    const types& me::getSubs() const {
-        return ((me*) this)->_getSubs();
-    }
-    const types& me::getSupers() const {
-        return ((me*) this)->_getSupers();
-    }
+    const types& me::getSubs() const { return ((me*) this)->_getSubs(); }
+
+    const types& me::getSupers() const { return ((me*) this)->_getSupers(); }
 
     void me::_setInit(nbool newState) {
         const nbool& res = isInit();
@@ -133,9 +116,8 @@ namespace nm {
         types** leafs = _onGetLeafs();
         if(*leafs == newLeafs) return;
 
-        if(*leafs)
-            delete *leafs;
+        if(*leafs) delete *leafs;
 
         *leafs = newLeafs;
     }
-}
+} // namespace nm

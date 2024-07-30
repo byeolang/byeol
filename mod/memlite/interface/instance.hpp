@@ -1,8 +1,9 @@
 #pragma once
 
-#include "id.hpp"
-#include "clonable.hpp"
 #include <map>
+
+#include "clonable.hpp"
+#include "id.hpp"
 
 struct namuTest;
 
@@ -11,18 +12,17 @@ namespace nm {
     class bindTag;
     class instancer;
 
-    class _nout instance : public typeProvidable, public clonable {
+    class _nout instance: public typeProvidable, public clonable {
         NM_ME(instance)
         NM_INIT_META(me)
         friend class bindTag;
-        friend class watcher; // for vault.
-        friend class chunks; // for vault.
-        friend class instancer; // for _id.
+        friend class watcher;     // for vault.
+        friend class chunks;      // for vault.
+        friend class instancer;   // for _id.
         friend struct ::namuTest; // for vault.
 
     public:
         class vault {
-
         public:
             void set(void* ptr, nidx chkN);
             nidx get(void* ptr);
@@ -58,4 +58,4 @@ namespace nm {
         id _id;
         static vault _vault;
     };
-}
+} // namespace nm
