@@ -4,17 +4,20 @@ namespace {
     struct noSuper {
         virtual ~noSuper() = default;
         virtual void abstract() = 0;
+
         static void staticMethod() {}
     };
-    struct hasSuper : public noSuper {
+
+    struct hasSuper: public noSuper {
         typedef noSuper super;
+
         void abstract() override {}
     };
 }
 
 using namespace nm;
 
-struct rttiTest : public namuTest {};
+struct rttiTest: public namuTest {};
 
 TEST_F(rttiTest, metaTypeDefTest) {
     ASSERT_FALSE(tifHasSuperTypedef<noSuper>::is);
@@ -42,11 +45,10 @@ TEST_F(rttiTest, metaTypeDefTest) {
 
 TEST_F(rttiTest, superTypeDefTest) {
     struct A {};
+
     struct customA {
-        typedef struct myType : type {
-            int foo() {
-                return 22;
-            }
+        typedef struct myType: type {
+            int foo() { return 22; }
         } metaType;
     };
 

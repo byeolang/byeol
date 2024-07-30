@@ -1,9 +1,10 @@
 #pragma once
 
-#include "namuTest.hpp"
 #include <iostream>
 
-struct namuSyntaxTest : public namuTest {
+#include "namuTest.hpp"
+
+struct namuSyntaxTest: public namuTest {
     void TearDown() override;
 
     nm::obj& getSubPack();

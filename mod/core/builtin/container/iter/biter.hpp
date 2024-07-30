@@ -2,7 +2,7 @@
 
 // nested class of tbicontainable.hpp:
 //  this file allows to be refered by 'tbicontainable.hpp' file only.
-class iter : public iterable, public clonable, public typeProvidable {
+class iter: public iterable, public clonable, public typeProvidable {
     NM(CLASS(iter))
     friend class iteration;
     template <typename K1, typename V1, typename defaultContainer1> friend class tnchain;
@@ -10,7 +10,9 @@ class iter : public iterable, public clonable, public typeProvidable {
 
 public:
     iter() { _nextToMatchParamType(); }
+
     explicit iter(iteration* newStep): _step(newStep) { _nextToMatchParamType(); }
+
     iter(const me& rhs) { _assign(rhs); }
 
 public:
@@ -31,17 +33,13 @@ public:
     ncnt next(ncnt step) override;
 
     const K& getKey() const override;
-    template <typename E>
-    const E& getKey() const {
-        return getKey().template cast<E>();
-    }
+
+    template <typename E> const E& getKey() const { return getKey().template cast<E>(); }
 
     using iterable::getVal;
     V& getVal() override;
-    template <typename E>
-    E& getVal() {
-        return getVal().template cast<E>();
-    }
+
+    template <typename E> E& getVal() { return getVal().template cast<E>(); }
 
     using iterable::setVal;
     void setVal(const V& new1) override;

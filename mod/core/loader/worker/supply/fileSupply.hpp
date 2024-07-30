@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class _nout fileSupply : public srcSupply {
+    class _nout fileSupply: public srcSupply {
         NM(CLASS(fileSupply, srcSupply))
 
     public:

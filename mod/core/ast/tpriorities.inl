@@ -13,6 +13,7 @@ namespace nm {
     }
 
     TEMPLATE T* ME::operator->() { return &get(); }
+
     TEMPLATE T& ME::operator*() { return get(); }
 
     TEMPLATE T& ME::get() { return elem.get(); }
@@ -31,9 +32,7 @@ namespace nm {
     nbool ME::isMatched() const { return this->len() == 1; }
 
     TEMPLATE
-    priorType ME::getPriorType() const {
-        return _type;
-    }
+    priorType ME::getPriorType() const { return _type; }
 
     TEMPLATE
     T& ME::get() {
@@ -43,10 +42,8 @@ namespace nm {
     }
 
     TEMPLATE
-    void ME::_setPriorType(priorType new1) {
-        _type = new1;
-    }
+    void ME::_setPriorType(priorType new1) { _type = new1; }
 
 #undef ME
 #undef TEMPLATE
-}
+} // namespace nm

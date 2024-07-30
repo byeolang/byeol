@@ -1,16 +1,18 @@
 #include "getGenericExpr.hpp"
+
 #include "../../visitor/visitor.hpp"
-#include "../node.inl"
 #include "../genericOrigin.hpp"
+#include "../node.inl"
 
 namespace nm {
 
     NM(DEF_ME(getGenericExpr), DEF_VISIT())
 
     me::getGenericExpr(const std::string& genericName, const args& typeParams):
-            super(genericName, typeParams) {}
+        super(genericName, typeParams) {}
+
     me::getGenericExpr(const node& me, const std::string& genericName, const args& typeParams):
-            super(me, genericName, typeParams) {}
+        super(me, genericName, typeParams) {}
 
     priorities me::_get(nbool evalMode) const {
         genericOrigin& generic = _getGenericOrigin();

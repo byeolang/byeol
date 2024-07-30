@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class _nout whileExpr : public loopExpr {
+    class _nout whileExpr: public loopExpr {
         NM(CLASS(whileExpr, loopExpr, expr::exprType), VISIT())
         friend class verifier;
 

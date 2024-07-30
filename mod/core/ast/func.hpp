@@ -2,13 +2,14 @@
 
 #include "baseFunc.hpp"
 #include "exprs/blockExpr.hpp"
-#include "scope.hpp"
 #include "params.hpp"
+#include "scope.hpp"
 
 namespace nm {
 
     class visitor;
-    class _nout func : public baseFunc {
+
+    class _nout func: public baseFunc {
         NM(CLASS(func, baseFunc), VISIT())
         friend class verifier;
         friend class exprMaker;
@@ -48,4 +49,4 @@ namespace nm {
         str _retType;
         tstr<blockExpr> _blk;
     };
-}
+} // namespace nm

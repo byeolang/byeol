@@ -4,17 +4,19 @@ using namespace nm;
 using namespace std;
 
 namespace {
-    struct defAssignExprTest : public namuSyntaxTest {};
+    struct defAssignExprTest: public namuSyntaxTest {};
 }
 
 TEST_F(defAssignExprTest, simpleGlobalDefAssign) {
     // control group.
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         age int // age is age
         main() int // main is also a main
             age := 5
             ret 0
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     auto& owns = (scope::super&) getSlot().subs().getContainer();
     auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
@@ -30,14 +32,16 @@ TEST_F(defAssignExprTest, simpleGlobalDefAssign) {
 
 TEST_F(defAssignExprTest, simpleLocalDefAssign) {
     // control group.
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         age int // age is age
         main() int // main is also a main
             age = 3
             age := 5
             age = 2
             ret 0
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     run();
 
@@ -45,7 +49,9 @@ TEST_F(defAssignExprTest, simpleLocalDefAssign) {
 }
 
 TEST_F(defAssignExprTest, testCircularDependencies) {
-    make("holymoly").negative().parse(R"SRC(
+    make("holymoly")
+        .negative()
+        .parse(R"SRC(
         pack holymoly
 
         a := c
@@ -54,14 +60,16 @@ TEST_F(defAssignExprTest, testCircularDependencies) {
 
         main() int
             ret 0
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
 
     shouldVerified(false);
     // however when runs it, it throws an error.
 }
 
 TEST_F(defAssignExprTest, testNearCircularDependencies) {
-    make("holymoly").parse(R"SRC(
+    make("holymoly")
+        .parse(R"SRC(
         pack holymoly
 
         c := 1 // type can be defined.
@@ -72,7 +80,8 @@ TEST_F(defAssignExprTest, testNearCircularDependencies) {
             print(a as str)
             print(b as str)
             ret 0
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(true);
 
     // however when runs it, it throws an error.
@@ -80,7 +89,8 @@ TEST_F(defAssignExprTest, testNearCircularDependencies) {
 }
 
 TEST_F(defAssignExprTest, testDefAssign1) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo() int
             a = 2
 
@@ -89,12 +99,15 @@ TEST_F(defAssignExprTest, testDefAssign1) {
         main() int
             print("a=" + a as str)
             ret 0
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     run();
 }
 
 TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         print(msg str) void: 1
 
         nickname := foo()
@@ -105,12 +118,15 @@ TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative) {
 
         main() void
             print("your nickname is " + nickname)
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         nickname := boo() // refers the func that doesn't exist.
 
         foo() str
@@ -119,45 +135,56 @@ TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative2) {
 
         main() void
             print("your nickname is " + nickname)
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(defAssignExprTest, defAssignRefersItsIdentifier) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         con := sys.con
         con1 := con.add(1, 2)
 
         main() void
             print("res=" + con1 as str)
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(true);
 }
 
 TEST_F(defAssignExprTest, defAssignRefersItsIdentifierNegative1) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         con := sys.con
         con := con.add(1, 2)
 
         main() void
             print("res=" + con)
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(defAssignExprTest, defAssignRefersItsIdentifierNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         con := sys.con
         con := con.add(1, 2)
 
         main() void
             print("res=" + con.add(1, 2))
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(defAssignExprTest, defAssignAsParameter) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def f
             foo(a int, b int) int
                 ret a + b
@@ -166,7 +193,8 @@ TEST_F(defAssignExprTest, defAssignAsParameter) {
             f1 f
             a := 5
             a = f1.foo(a, 5)
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -174,7 +202,9 @@ TEST_F(defAssignExprTest, defAssignAsParameter) {
 }
 
 TEST_F(defAssignExprTest, defAssignAsParameter2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def f
             foo(a int, b int) int
                 ret a + b
@@ -183,7 +213,8 @@ TEST_F(defAssignExprTest, defAssignAsParameter2) {
             f1 f
             a := 5
             a = f1.foo((a), 5)
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(true);
 
     str res = run();
@@ -192,7 +223,9 @@ TEST_F(defAssignExprTest, defAssignAsParameter2) {
 }
 
 TEST_F(defAssignExprTest, defAssignAsParameterNegative3) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def f
             foo(a int, b int) int
                 ret a + b
@@ -201,11 +234,13 @@ TEST_F(defAssignExprTest, defAssignAsParameterNegative3) {
             f1 f
             a2 = f1.foo(a2 := 5, 5)
             a2 = a2 + a
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defAssignExprTest, defAssignAsParameter3) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def f
             foo(a int, b int) int
                 ret a + b
@@ -215,12 +250,14 @@ TEST_F(defAssignExprTest, defAssignAsParameter3) {
             a := 5
             a2 := f1.foo(a, 5)
             a2 = a2 + a
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(true);
 }
 
 TEST_F(defAssignExprTest, defAssignDefAssignedValue) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def a
             age int
         main() int
@@ -228,7 +265,8 @@ TEST_F(defAssignExprTest, defAssignDefAssignedValue) {
             a1 := a2*/
             a1 := a()
             ret a1.age
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -236,14 +274,19 @@ TEST_F(defAssignExprTest, defAssignDefAssignedValue) {
 }
 
 TEST_F(defAssignExprTest, defAssignVoidNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             a := void()
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defAssignExprTest, defAssignVoidNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         foo() void
             ret
 
@@ -251,26 +294,32 @@ TEST_F(defAssignExprTest, defAssignVoidNegative2) {
             a := for n in 0..1
                 foo()
             ret a
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defAssignExprTest, defAssignIfWithoutElseNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             a := if true
                 "hello"
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defAssignExprTest, defAssignIfWithElse) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := if true
                 "hello"
             else
                 "world"
             ret a == "hello"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -278,7 +327,8 @@ TEST_F(defAssignExprTest, defAssignIfWithElse) {
 }
 
 TEST_F(defAssignExprTest, defAssignEvalOfSetElemConversion) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo() int
             0
         boo() int
@@ -288,7 +338,8 @@ TEST_F(defAssignExprTest, defAssignEvalOfSetElemConversion) {
             arr[foo()] -= boo()
             val := arr[foo()]
             val == true
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -296,13 +347,15 @@ TEST_F(defAssignExprTest, defAssignEvalOfSetElemConversion) {
 }
 
 TEST_F(defAssignExprTest, defAssignAtIf) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             res := 0.3
             if res
                 ret res == 0.3
             ret 0
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -310,26 +363,33 @@ TEST_F(defAssignExprTest, defAssignAtIf) {
 }
 
 TEST_F(defAssignExprTest, defAssignAtBlockNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             if true
                 res := 0.8
             ret res == 0.8
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomethingNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             abc := for strArr in {{"hello"}}
                 for s in strArr
                     ret s
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomething) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             abc := for strArr in {{"child", "hello"}, {"parent", "world"}}
                 for s in strArr
@@ -337,7 +397,8 @@ TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomething) {
                         ret s.len()
                     else: s
             ret abc[1][0] == "parent"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -345,13 +406,15 @@ TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomething) {
 }
 
 TEST_F(defAssignExprTest, assignFromForExprDeclaringLocalVariable) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             abc := for n in 0..5
                 x := n * 2
                 x + n
             abc[4] // abc = {0, 3, 6, 9, 12}
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -359,22 +422,29 @@ TEST_F(defAssignExprTest, assignFromForExprDeclaringLocalVariable) {
 }
 
 TEST_F(defAssignExprTest, selfDefAssigningIsNotAllowedNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def a
             a1 := a()
         main() void
             a().a1
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defAssignExprTest, selfDefAssigningIsNotAllowedNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def a
             a1 a // if a1 is nullable of a, this is valid syntax.
         main() void
             a().a1
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
+
 /* TODO: TEST_F(defAssignExprTest, defineVarWithoutCtorNegative) {
 }
 TEST_F(defAssignExprTest, selfDefAssigningOfNullableIsAllowed) {

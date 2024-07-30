@@ -7,12 +7,13 @@ namespace nm {
 
     class frame;
     class arr;
-    class _nout loopExpr : public expr {
+
+    class _nout loopExpr: public expr {
         NM(ADT(loopExpr, expr, expr::exprType), VISIT())
         friend class loop;
 
     public:
-        class _nout loop : public instance {
+        class _nout loop: public instance {
             NM(ADT(loop))
 
         public:
@@ -51,4 +52,4 @@ namespace nm {
         mutable tstr<blockExpr> _blk;
         mutable str _eval;
     };
-}
+} // namespace nm

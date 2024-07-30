@@ -4,27 +4,17 @@ namespace nm {
 
     NM(DEF_ME(exprMaker))
 
-    me::exprMaker(): _pos {0, 0} {}
+    me::exprMaker(): _pos{0, 0} {}
 
-    me::exprMaker(const srcFile& s, ncnt row, ncnt col): _pos {row, col} {
-        setSrcFile(s);
-    }
+    me::exprMaker(const srcFile& s, ncnt row, ncnt col): _pos{row, col} { setSrcFile(s); }
 
-    me& me::addRow() {
-        return addRow(1);
-    }
+    me& me::addRow() { return addRow(1); }
 
-    me& me::addRow(ncnt step) {
-        return setRow(_pos.row + step);
-    }
+    me& me::addRow(ncnt step) { return setRow(_pos.row + step); }
 
-    me& me::addCol() {
-        return addCol(1);
-    }
+    me& me::addCol() { return addCol(1); }
 
-    me& me::addCol(ncnt step) {
-        return setCol(_pos.col + step);
-    }
+    me& me::addCol(ncnt step) { return setCol(_pos.col + step); }
 
     me& me::setRow(ncnt row) {
         _pos.row = row;
@@ -46,11 +36,7 @@ namespace nm {
         _pos.rel();
     }
 
-    const point& me::getPos() const {
-        return _pos;
-    }
+    const point& me::getPos() const { return _pos; }
 
-    const srcFile& me::getSrcFile() const {
-        return *_file;
-    }
-}
+    const srcFile& me::getSrcFile() const { return *_file; }
+} // namespace nm

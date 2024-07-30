@@ -4,11 +4,11 @@
 
 namespace nm {
 
-    class _nout breakRet : public retState {
+    class _nout breakRet: public retState {
         NM(CLASS(breakRet, retState))
     };
 
-    class _nout breakExpr : public retStateExpr {
+    class _nout breakExpr: public retStateExpr {
         NM(CLASS(breakExpr, retStateExpr, expr::exprType), VISIT())
 
     public:

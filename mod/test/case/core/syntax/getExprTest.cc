@@ -4,14 +4,16 @@ using namespace nm;
 using namespace std;
 
 namespace {
-    struct getExprTest : public namuSyntaxTest {};
+    struct getExprTest: public namuSyntaxTest {};
 }
 
 TEST_F(getExprTest, getSymbolOnPackScope) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() void
             main
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(true); // retType is void so implicit return won't work.
     auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
     ASSERT_FALSE(nul(shares));
@@ -20,11 +22,13 @@ TEST_F(getExprTest, getSymbolOnPackScope) {
 
 TEST_F(getExprTest, getSymbolOnPackScope1) {
     // control group.
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         age int
         main() int
             ret 0
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
     ASSERT_FALSE(nul(shares));
     ASSERT_EQ(shares.len(), 3);
@@ -32,11 +36,13 @@ TEST_F(getExprTest, getSymbolOnPackScope1) {
 
 TEST_F(getExprTest, getSymbolOnPackScope2) {
     // experimental group.
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         age int
         main() int
             ret age
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
     ASSERT_FALSE(nul(shares));
     ASSERT_EQ(shares.len(), 3);
@@ -48,11 +54,14 @@ TEST_F(getExprTest, getSymbolOnPackScope2) {
 }
 
 TEST_F(getExprTest, getSymbolOnPackScope3Negative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         age str
         main() int
             ret age
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
     auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
     ASSERT_FALSE(nul(shares));
@@ -65,36 +74,44 @@ TEST_F(getExprTest, getSymbolOnPackScope3Negative) {
 }
 
 TEST_F(getExprTest, getInvalidVariableNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         age str
         main() str
             ret age1
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(getExprTest, getInnerScopeVar) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         age int
         main() int
             age
             age int
             age
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 }
 
 TEST_F(getExprTest, getInnerScopeVarNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             age int
             age
             age int
             age
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
-struct myObj : public obj {
+struct myObj: public obj {
     NM(CLASS(myObj, obj))
 
 public:
@@ -117,7 +134,7 @@ TEST_F(getExprTest, getExprSkipEvalToPrimitiveObj) {
     ASSERT_FALSE(obj1.executed);
 }
 
-struct myGetExpr : public getExpr {
+struct myGetExpr: public getExpr {
     NM(CLASS(myGetExpr, getExpr, expr::exprType))
 
 public:

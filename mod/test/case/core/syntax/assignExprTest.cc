@@ -4,15 +4,17 @@ using namespace nm;
 using namespace std;
 
 namespace {
-    struct assignExprTest : public namuSyntaxTest {};
+    struct assignExprTest: public namuSyntaxTest {};
 }
 
 TEST_F(assignExprTest, simpleAssign) {
-    if(make().parse(R"SRC(
+    if(make()
+            .parse(R"SRC(
         age int
         main() int
             age = 5 // ret age implicitly
-    )SRC").shouldVerified(true)) {
+    )SRC")
+            .shouldVerified(true)) {
         run();
         node& res = getSubPack();
         ASSERT_FALSE(nul(res));
@@ -24,12 +26,14 @@ TEST_F(assignExprTest, simpleAssign) {
 }
 
 TEST_F(assignExprTest, simpleAssign1) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             ans := ""
             ans += 'l'
             ans == "l"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -37,25 +41,31 @@ TEST_F(assignExprTest, simpleAssign1) {
 }
 
 TEST_F(assignExprTest, simpleAssignNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             ans := '0'
             ans += "l"
             ret ans == "l"
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(assignExprTest, simpleAssignReturn) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         age int
         main() void
             age = 5
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 }
 
 TEST_F(assignExprTest, assignLocalVariable) {
-    if(make().parse(R"SRC(
+    if(make()
+            .parse(R"SRC(
         age int
         main() int
             age = 5
@@ -63,7 +73,8 @@ TEST_F(assignExprTest, assignLocalVariable) {
             age int
             age = 3
             ret age
-    )SRC").shouldVerified(true)) {
+    )SRC")
+            .shouldVerified(true)) {
         run();
         node& res = getSubPack();
         ASSERT_FALSE(nul(res));
@@ -75,26 +86,33 @@ TEST_F(assignExprTest, assignLocalVariable) {
 }
 
 TEST_F(assignExprTest, assignTypeNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         age int
         main() int
             ret age = "wow"
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 }
 
 TEST_F(assignExprTest, mysteriousDeath) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         age := 0
         main() int
             age = age + 1 // assignment is not expression but it can be returned.
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<int>(), 1);
 }
 
 TEST_F(assignExprTest, assignClassNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def A
             foo() void
                 ret
@@ -102,12 +120,15 @@ TEST_F(assignExprTest, assignClassNegative) {
         main() void
             a A
             a = 5
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(assignExprTest, assignClassNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def A
             foo() void
                 ret
@@ -116,27 +137,33 @@ TEST_F(assignExprTest, assignClassNegative2) {
             a := 25
             b A
             a = b
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(assignExprTest, assignAssignedValueNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             a1 int
             a1 = a2 := 55
             ret a1
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 }
 
 TEST_F(assignExprTest, assignAssignedValue) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a1 int
             a2 := 55
             a1 = a2
             ret a1
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -144,14 +171,16 @@ TEST_F(assignExprTest, assignAssignedValue) {
 }
 
 TEST_F(assignExprTest, assignAssignedValue2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a1 int
             a2 int
             a2 = 55
             a1 = a2
             ret a1
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -159,14 +188,16 @@ TEST_F(assignExprTest, assignAssignedValue2) {
 }
 
 TEST_F(assignExprTest, assignForExprDeclaringLocalVariable) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             abc int[]
             abc = for n in 0..5
                 x := n + 1
                 x * 2
             abc[3] // abc = {2, 4, 6, 8, 10}
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

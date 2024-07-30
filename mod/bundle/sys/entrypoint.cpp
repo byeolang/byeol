@@ -1,16 +1,13 @@
 #include <core.hpp>
 #include <iostream>
+
 #include "common.hpp"
 using namespace nm;
 
 struct con {
-    void say() {
-        std::cout << "hello world!\n";
-    }
+    void say() { std::cout << "hello world!\n"; }
 
-    int add(int a, int b) {
-        return a + b;
-    }
+    int add(int a, int b) { return a + b; }
 
     const std::string& print(const std::string& msg) {
         NM_W("=========================");
@@ -31,10 +28,12 @@ struct con {
 };
 
 extern "C" _nout void namu_bridge_cpp_entrypoint(bicontainable* tray) {
-    tray->add("con", tbridger<con>::ctor()
-        .ctor<con>()
-        .func("say", &con::say)
-        .func("add", &con::add)
-        .func("print", &con::print)
-        .func("input", &con::input).make(new con()));
+    tray->add("con",
+        tbridger<con>::ctor()
+            .ctor<con>()
+            .func("say", &con::say)
+            .func("add", &con::add)
+            .func("print", &con::print)
+            .func("input", &con::input)
+            .make(new con()));
 }

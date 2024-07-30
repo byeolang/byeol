@@ -3,38 +3,30 @@
 using namespace std;
 using namespace nm;
 
-struct watcherTest : public namuTest {};
+struct watcherTest: public namuTest {};
 
 namespace {
-    struct A : public instance {
+    struct A: public instance {
         int age;
 
-        const type& getType() const override {
-            return ttype<A>::get();
-        }
+        const type& getType() const override { return ttype<A>::get(); }
 
-        clonable* clone() const override {
-            return new A();
-        }
+        clonable* clone() const override { return new A(); }
     };
 
-    struct B : public A {
+    struct B: public A {
         float grade;
 
-        const type& getType() const override {
-            return ttype<B>::get();
-        }
+        const type& getType() const override { return ttype<B>::get(); }
 
-        clonable* clone() const override {
-            return new B();
-        }
+        clonable* clone() const override { return new B(); }
     };
 
     void addRemoveIntegrityTest(int cnt) {
         vector<A*> tray;
         vector<id> ids;
 
-        for(int n=0; n < cnt ;n++) {
+        for(int n = 0; n < cnt; n++) {
             A* new1 = new B();
             tray.push_back(new1);
 
@@ -43,16 +35,15 @@ namespace {
             ids.push_back(newId);
         }
 
-        for(int n=0; n < cnt; n++) {
+        for(int n = 0; n < cnt; n++)
             ASSERT_EQ(tray[n]->getId(), ids[n]);
-        }
     }
 
     void addIntegrityTest(int cnt) {
         vector<A*> tray;
         vector<id> ids;
 
-        for(int n=0; n < cnt ;n++) {
+        for(int n = 0; n < cnt; n++) {
             A* new1 = new B();
             tray.push_back(new1);
 
@@ -61,11 +52,10 @@ namespace {
             ids.push_back(newId);
         }
 
-        for(int n=0; n < cnt; n++) {
+        for(int n = 0; n < cnt; n++)
             ASSERT_EQ(tray[n]->getId(), ids[n]);
-        }
     }
-}
+} // namespace
 
 TEST_F(watcherTest, localVariableBindTagTest) {
     A a;
@@ -78,28 +68,20 @@ TEST_F(watcherTest, localVariableBindTagTest) {
 }
 
 TEST_F(watcherTest, NestedClassBindTest) {
-    class inner : public instance {
+    class inner: public instance {
     public:
-        const type& getType() const override {
-            return ttype<inner>::get();
-        }
+        const type& getType() const override { return ttype<inner>::get(); }
 
-        clonable* clone() const override {
-            return new inner();
-        }
+        clonable* clone() const override { return new inner(); }
     };
 
-    class outer : public instance {
+    class outer: public instance {
     public:
         outer(inner* in): inner(in) {}
 
-        const type& getType() const override {
-            return ttype<outer>::get();
-        }
+        const type& getType() const override { return ttype<outer>::get(); }
 
-        clonable* clone() const override {
-            return new outer(inner);
-        }
+        clonable* clone() const override { return new outer(inner); }
 
         inner* inner;
     };
@@ -112,8 +94,7 @@ TEST_F(watcherTest, NestedClassBindTest) {
 TEST_F(watcherTest, heapVariableBindTagTest) {
     vector<A*> arr;
 
-    for(int n=0; n < 10; n++)
-    {
+    for(int n = 0; n < 10; n++) {
         A* new1 = new A();
 
         const bindTag& tag = new1->getBindTag();
@@ -133,24 +114,18 @@ TEST_F(watcherTest, heapVariableBindTagTest) {
         ASSERT_FALSE(nul(chk));
         ASSERT_TRUE(chk.has(*new1));
         ASSERT_GT(chk.len(), 0);
-        ASSERT_GT(chk.size(),  0);
+        ASSERT_GT(chk.size(), 0);
         new1->age = n;
         arr.push_back(new1);
     }
 
-    for(A* e : arr)
+    for(A* e: arr)
         delete e;
     arr.clear();
 }
 
-TEST_F(watcherTest, addIntegrityTest100) {
-    addIntegrityTest(100);
-}
+TEST_F(watcherTest, addIntegrityTest100) { addIntegrityTest(100); }
 
-TEST_F(watcherTest, addIntegrityTest10000) {
-    addIntegrityTest(1000);
-}
+TEST_F(watcherTest, addIntegrityTest10000) { addIntegrityTest(1000); }
 
-TEST_F(watcherTest, addRemoveIntegrityTest100) {
-    addRemoveIntegrityTest(100);
-}
+TEST_F(watcherTest, addRemoveIntegrityTest100) { addRemoveIntegrityTest(100); }

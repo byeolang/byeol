@@ -5,7 +5,7 @@
 namespace nm {
 
     // TODO: entrypoints[== filePath] can be various. but not language.
-    struct _nout entrypoint : public validable {
+    struct _nout entrypoint: public validable {
         entrypoint(const std::string& newLang, const std::vector<std::string>& newPaths);
         virtual ~entrypoint();
 
@@ -19,14 +19,13 @@ namespace nm {
 
     typedef std::vector<entrypoint> entrypoints;
 
-    struct manifest : public validable {
-
+    struct manifest: public validable {
         static constexpr const nchar* DEFAULT_NAME = "{default}";
 
         manifest();
         manifest(const std::string& newName);
-        manifest(const std::string& newName, const std::string& newFilePath, const std::string& newAuthor,
-                const std::string& newVer, const entrypoints& newPoints);
+        manifest(const std::string& newName, const std::string& newFilePath,
+            const std::string& newAuthor, const std::string& newVer, const entrypoints& newPoints);
         virtual ~manifest();
 
         nbool isValid() const override;
@@ -42,4 +41,4 @@ namespace nm {
     };
 
     typedef std::vector<manifest> manifests;
-}
+} // namespace nm

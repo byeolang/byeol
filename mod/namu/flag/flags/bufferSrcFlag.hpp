@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class bufferSrcFlag : public flag {
+    class bufferSrcFlag: public flag {
         NM(CLASS(bufferSrcFlag, flag))
 
     public:

@@ -2,27 +2,25 @@
 
 using namespace nm;
 
-struct chunksTest : public namuTest {
-    void TearDown() override {
-        _getVault().getVaults().clear();
-    }
+struct chunksTest: public namuTest {
+    void TearDown() override { _getVault().getVaults().clear(); }
 
-    int getVaultsSize() {
-        return _getVault().len();
-    }
+    int getVaultsSize() { return _getVault().len(); }
 };
 
 namespace {
     class heap {
     public:
         void new1(chunks& chk, ncnt cnt) {
-            for(int n=0; n < cnt ; n++)
+            for(int n = 0; n < cnt; n++)
                 ptrs.push_back(chk.new1());
         }
+
         void rel(chunks& chk) {
             chk.rel();
             ptrs.clear();
         }
+
         std::vector<void*> ptrs;
     };
 }

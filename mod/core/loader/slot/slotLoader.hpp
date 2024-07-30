@@ -7,7 +7,7 @@ namespace nm {
 
     class errReport;
 
-    class _nout slotLoader : public typeProvidable, public clonable {
+    class _nout slotLoader: public typeProvidable, public clonable {
         NM(CLASS(slotLoader))
 
     public:
@@ -40,4 +40,4 @@ namespace nm {
         std::vector<std::string> _paths;
         static constexpr nchar DELIMITER = '/';
     };
-}
+} // namespace nm

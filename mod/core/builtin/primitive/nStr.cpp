@@ -1,12 +1,13 @@
 #include "nStr.hpp"
-#include "nBool.hpp"
-#include "nInt.hpp"
-#include "nFlt.hpp"
-#include "nChar.hpp"
-#include "nByte.hpp"
+
+#include "../../bridge/cpp.hpp"
 #include "../../visitor/visitor.hpp"
 #include "../container/mgd/seq.hpp"
-#include "../../bridge/cpp.hpp"
+#include "nBool.hpp"
+#include "nByte.hpp"
+#include "nChar.hpp"
+#include "nFlt.hpp"
+#include "nInt.hpp"
 
 namespace nm {
 
@@ -14,7 +15,7 @@ namespace nm {
 
     namespace {
 
-        class getSeqFunc : public baseFunc {
+        class getSeqFunc: public baseFunc {
             NM(CLASS(getSeqFunc, baseFunc))
 
         public:
@@ -46,22 +47,19 @@ namespace nm {
         typedef tucontainable<nChar>::iteration iteration;
         typedef tbridge<niter> __superMgdIter;
 
-        class bridgeIteration : public iteration {
+        class bridgeIteration: public iteration {
             NM(CLASS(bridgeIteration, iteration))
 
         public:
             bridgeIteration(nStr& own, nidx n): _own(&own), _n(n) {}
 
-            nbool isEnd() const override {
-                return !_own->has(_n);
-            }
+            nbool isEnd() const override { return !_own->has(_n); }
 
             ncnt next(ncnt step) override {
                 if(step <= 0) return 0;
                 if(isEnd()) return 0;
 
-                int len = _own->len(),
-                    lastN = len - 1;
+                int len = _own->len(), lastN = len - 1;
                 int toLast = lastN - _n;
 
                 _n += step;
@@ -79,9 +77,8 @@ namespace nm {
             }
 
             using super::getContainer;
-            tucontainable<nChar>& getContainer() override {
-                return *_own;
-            }
+
+            tucontainable<nChar>& getContainer() override { return *_own; }
 
         protected:
             nbool _onSame(const typeProvidable& rhs) const override {
@@ -95,7 +92,7 @@ namespace nm {
             nidx _n;
         };
 
-        class _nout mgdIter : public __superMgdIter {
+        class _nout mgdIter: public __superMgdIter {
             NM(CLASS(mgdIter, __superMgdIter))
 
         public:
@@ -103,19 +100,20 @@ namespace nm {
 
         public:
             using super::subs;
+
             scope& subs() override {
                 static scope inner = tbridger<niter>::ctor()
-                    .ctor<niter>()
-                    .func("isEnd", &niter::isEnd)
-                    .func("next", &niter::next)
-                    .funcNonConst<nChar&>("get", &niter::get)
-                    .subs();
+                                         .ctor<niter>()
+                                         .func("isEnd", &niter::isEnd)
+                                         .func("next", &niter::next)
+                                         .funcNonConst<nChar&>("get", &niter::get)
+                                         .subs();
 
                 return inner;
             }
         };
 
-        class iterateFunc : public baseFunc {
+        class iterateFunc: public baseFunc {
             NM(CLASS(iterateFunc, baseFunc))
 
         public:
@@ -126,27 +124,28 @@ namespace nm {
 
             const params& getParams() const override {
                 static params inner;
-                if(inner.len() <= 0)
-                    inner.add(new param("step", *new nInt()));
+                if(inner.len() <= 0) inner.add(new param("step", *new nInt()));
                 return inner;
             }
 
             str run(const args& a) override {
                 const params& ps = getParams();
-                if(a.len() != ps.len()) return NM_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
+                if(a.len() != ps.len())
+                    return NM_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
                 nStr& me = a.getMe().cast<nStr>();
                 if(nul(me)) return NM_E("me as nStr == null"), str();
 
                 str eval = a[0].as(ps[0].getOrigin().as<node>());
                 if(!eval)
-                    return NM_E("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]), str();
+                    return NM_E("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]),
+                           str();
 
                 nint step = eval->cast<nint>();
                 return new mgdIter(new niter(me.iterate(step)));
             }
         };
 
-        class getElemType : public baseFunc {
+        class getElemType: public baseFunc {
             NM(CLASS(getElemType, baseFunc))
 
         public:
@@ -155,28 +154,28 @@ namespace nm {
                 return inner;
             }
 
-            str run(const args& a) override {
-                return getRet();
-            }
+            str run(const args& a) override { return getRet(); }
         };
-    }
+    } // namespace
 
     nbool me::nStrType::isImmutable() const { return true; }
 
     me::nStr() {}
+
     me::nStr(const nchar* val): super(std::string(val)) {}
+
     me::nStr(const std::string& val): super(val) {}
 
     scope& me::_onMakeSubs() const {
         static scope inner = tbridger<me>::ctor()
-            .ctor<nStr, nStr>()
-            .func("len", &me::len)
-            .func<nchar, nidx>("get", &me::get)
-            .func("substr", &me::substr)
-            .func("get", new getSeqFunc())
-            .func("iterate", new iterateFunc())
-            .func("getElemType", new getElemType())
-            .subs();
+                                 .ctor<nStr, nStr>()
+                                 .func("len", &me::len)
+                                 .func<nchar, nidx>("get", &me::get)
+                                 .func("substr", &me::substr)
+                                 .func("get", new getSeqFunc())
+                                 .func("iterate", new iterateFunc())
+                                 .func("getElemType", new getElemType())
+                                 .subs();
 
         return inner;
     }
@@ -188,49 +187,46 @@ namespace nm {
     const ases& me::nStrType::_getAses() const {
         static ases inner;
         if(inner.len() <= 0) {
-            struct asBool : public tas<nBool> {
+            struct asBool: public tas<nBool> {
                 str as(const node& me, const type& to) const override {
                     const std::string& val = me.cast<std::string>();
                     try {
                         bool boolean = false;
-                        if(val == "false")
-                            boolean = false;
-                        else if(val == "true")
-                            boolean = "true";
-                        else
-                            boolean = stoi(val, nullptr, 0) == 0;
+                        if(val == "false") boolean = false;
+                        else if(val == "true") boolean = "true";
+                        else boolean = stoi(val, nullptr, 0) == 0;
                         return str(new nBool(boolean));
-                    } catch (std::invalid_argument& ex) {
-                        return str();
-                    }
+                    } catch(std::invalid_argument& ex) { return str(); }
                 }
             };
+
             inner.add(new asBool());
-            struct asFlt : public tas<nFlt> {
+
+            struct asFlt: public tas<nFlt> {
                 str as(const node& me, const type& to) const override {
                     const std::string& val = me.cast<std::string>();
                     try {
                         nflt converted = stof(val);
                         return str(new nFlt(converted));
-                    } catch (std::invalid_argument& ex) {
-                        return str();
-                    }
+                    } catch(std::invalid_argument& ex) { return str(); }
                 }
             };
+
             inner.add(new asFlt());
+
             struct asInt: public tas<nInt> {
                 str as(const node& me, const type& to) const override {
                     const std::string& val = me.cast<std::string>();
                     try {
                         nint converted = stoi(val, nullptr, 0);
                         return str(new nInt(converted));
-                    } catch (std::invalid_argument& ex) {
-                        return str();
-                    }
+                    } catch(std::invalid_argument& ex) { return str(); }
                 }
             };
+
             inner.add(new asInt());
-            struct asByte : public tas<nByte> {
+
+            struct asByte: public tas<nByte> {
                 str as(const node& me, const type& to) const override {
                     const std::string& val = me.cast<std::string>();
                     if(val.length() <= 0) return str();
@@ -238,8 +234,10 @@ namespace nm {
                     return new nByte(val[0]);
                 }
             };
+
             inner.add(new asByte());
-            struct asChar : public tas<nChar> {
+
+            struct asChar: public tas<nChar> {
                 str as(const node& me, const type& to) const override {
                     const std::string& val = me.cast<std::string>();
                     if(val.length() <= 0) return str();
@@ -247,19 +245,16 @@ namespace nm {
                     return new nChar(val[0]);
                 }
             };
+
             inner.add(new asChar());
         }
 
         return inner;
     }
 
-    nchar me::operator[](nint n) const {
-        return get()[n];
-    }
+    nchar me::operator[](nint n) const { return get()[n]; }
 
-    nint me::len() const {
-        return get().length();
-    }
+    nint me::len() const { return get().length(); }
 
     tstr<arithmeticObj> me::bitwiseNot() const {
         return *this;
@@ -276,38 +271,24 @@ namespace nm {
         return tstr<nStr>(new nStr(get().substr(start, end - start)));
     }
 
-    nbool me::has(nidx n) const {
-        return 0 <= n && n < get().size();
-    }
+    nbool me::has(nidx n) const { return 0 <= n && n < get().size(); }
 
-    nchar me::get(nidx n) const {
-        return get()[n];
-    }
+    nchar me::get(nidx n) const { return get()[n]; }
 
     void me::add(const iter& here, const iter& from, const iter& to) {}
 
-    nbool me::add(const iter& at, const nChar& new1) {
-        return false; /* nStr is immutable*/
-    }
+    nbool me::add(const iter& at, const nChar& new1) { return false; /* nStr is immutable*/ }
 
-    nbool me::set(const iter& at, const nChar& new1) {
-        return false;
-    }
+    nbool me::set(const iter& at, const nChar& new1) { return false; }
 
-    nbool me::del(const iter& at) {
-        return false;
-    }
+    nbool me::del(const iter& at) { return false; }
 
-    nbool me::del(const iter& from, const iter& end) {
-        return false;
-    }
+    nbool me::del(const iter& from, const iter& end) { return false; }
 
     void me::rel() {}
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {
-        return reversed ?
-                new me(rhs.as<me>()->get() + get()):
-                new me(get() + rhs.as<me>()->get());
+        return reversed ? new me(rhs.as<me>()->get() + get()) : new me(get() + rhs.as<me>()->get());
     }
 
     tstr<arithmeticObj> me::_sub(const arithmeticObj& rhs, nbool reversed) const {
@@ -355,29 +336,17 @@ namespace nm {
         // TODO: throw error
     }
 
-    nbool me::_eq(const arithmeticObj& rhs) const {
-        return get() == rhs.asImpli<me>()->get();
-    }
+    nbool me::_eq(const arithmeticObj& rhs) const { return get() == rhs.asImpli<me>()->get(); }
 
-    nbool me::_ne(const arithmeticObj& rhs) const {
-        return get() != rhs.asImpli<me>()->get();
-    }
+    nbool me::_ne(const arithmeticObj& rhs) const { return get() != rhs.asImpli<me>()->get(); }
 
-    nbool me::_gt(const arithmeticObj& rhs) const {
-        return get() > rhs.asImpli<me>()->get();
-    }
+    nbool me::_gt(const arithmeticObj& rhs) const { return get() > rhs.asImpli<me>()->get(); }
 
-    nbool me::_lt(const arithmeticObj& rhs) const {
-        return get() < rhs.asImpli<me>()->get();
-    }
+    nbool me::_lt(const arithmeticObj& rhs) const { return get() < rhs.asImpli<me>()->get(); }
 
-    nbool me::_ge(const arithmeticObj& rhs) const {
-        return get() >= rhs.asImpli<me>()->get();
-    }
+    nbool me::_ge(const arithmeticObj& rhs) const { return get() >= rhs.asImpli<me>()->get(); }
 
-    nbool me::_le(const arithmeticObj& rhs) const {
-        return get() <= rhs.asImpli<me>()->get();
-    }
+    nbool me::_le(const arithmeticObj& rhs) const { return get() <= rhs.asImpli<me>()->get(); }
 
     nbool me::_logicalAnd(const arithmeticObj& rhs) const {
         // TODO: throw error
@@ -393,4 +362,4 @@ namespace nm {
         get() = rhs.asImpli<me>()->get();
         return *this;
     }
-}
+} // namespace nm

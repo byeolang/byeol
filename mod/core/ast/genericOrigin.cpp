@@ -1,41 +1,33 @@
 #include "genericOrigin.hpp"
-#include "../visitor/generalizer.hpp"
-#include "args.hpp"
-#include "../visitor/verifier.hpp"
-#include "dumScope.hpp"
-#include "baseFunc.hpp"
+
 #include "../type/mgdType.hpp"
+#include "../visitor/generalizer.hpp"
+#include "../visitor/verifier.hpp"
+#include "args.hpp"
+#include "baseFunc.hpp"
+#include "dumScope.hpp"
 #include "origin.hpp"
 
 namespace nm {
 
     NM(DEF_ME(genericOrigin), DEF_VISIT())
 
-    me::genericOrigin(const origin& org, const strings& paramNames): _org(org), _paramNames(paramNames) {}
+    me::genericOrigin(const origin& org, const strings& paramNames):
+        _org(org), _paramNames(paramNames) {}
 
-    const baseObj& me::getOrigin() const {
-        return *_org;
-    }
+    const baseObj& me::getOrigin() const { return *_org; }
 
-    const me::strings& me::getParamNames() const {
-        return _paramNames;
-    }
+    const me::strings& me::getParamNames() const { return _paramNames; }
 
-    str me::getEval() const {
-        return _org;
-    }
+    str me::getEval() const { return _org; }
 
-    const std::map<std::string, tstr<obj>>& me::getCache() const {
-        return _cache;
-    }
+    const std::map<std::string, tstr<obj>>& me::getCache() const { return _cache; }
 
     void me::inFrame(const bicontainable& args) {}
 
     void me::outFrame(const bicontainable& args) {}
 
-    str me::_onRunSub(node& sub, const args& a) {
-        return str();
-    }
+    str me::_onRunSub(node& sub, const args& a) { return str(); }
 
     scope& me::subs() {
         static dumScope inner;
@@ -55,13 +47,13 @@ namespace nm {
         std::string key = _makeKey(a);
         if(key.empty()) return NM_E("key is empty"), tstr<obj>();
 
-        if(!_cache.count(key))
-            _cache.insert({key, _makeGeneric(key, a)});
+        if(!_cache.count(key)) _cache.insert({key, _makeGeneric(key, a)});
         return _cache[key];
     }
 
     std::string me::_makeKey(const args& a) const {
-        if(a.len() != _paramNames.size()) return NM_E("len of args doesn't match to _paramNames"), std::string();
+        if(a.len() != _paramNames.size())
+            return NM_E("len of args doesn't match to _paramNames"), std::string();
         return a.asStr();
     }
 
@@ -84,10 +76,10 @@ namespace nm {
 
         ncnt n = 0;
         generalizer g;
-        for(node& e : a)
+        for(node& e: a)
             g.add(*new param(_paramNames[n++], e));
         g.setFlag(generalizer::INTERNAL).setTask(*ret).work();
         NM_DI("|============================|");
         return ret;
     }
-}
+} // namespace nm

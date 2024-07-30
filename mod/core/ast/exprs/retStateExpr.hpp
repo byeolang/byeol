@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../expr.hpp"
 #include "../../builtin/primitive/nVoid.hpp"
+#include "../expr.hpp"
 
 namespace nm {
 
-    class _nout retState : public nVoid {
+    class _nout retState: public nVoid {
         NM(CLASS(retState, nVoid))
     };
 
-    class _nout retStateExpr : public expr {
+    class _nout retStateExpr: public expr {
         NM(ADT(retStateExpr, expr), VISIT())
 
     public:

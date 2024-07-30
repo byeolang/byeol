@@ -1,9 +1,10 @@
-#include "uiteration.hpp"
 #include <type_traits>
+
+#include "uiteration.hpp"
 
 // nested class of tucontainable.hpp:
 //  this file allows to be refered by 'tucontainable.hpp' file only.
-class iter : public iterable, public clonable, public typeProvidable {
+class iter: public iterable, public clonable, public typeProvidable {
     NM(CLASS(iter))
     friend class iteration;
     template <typename E, typename TACTIC> friend class tnarr;
@@ -11,7 +12,9 @@ class iter : public iterable, public clonable, public typeProvidable {
 
 public:
     iter() { _nextToMatchParamType(); }
+
     explicit iter(iteration* newStep): _step(newStep) { _nextToMatchParamType(); }
+
     iter(const me& rhs) { _assign(rhs); }
 
 public:
@@ -34,10 +37,7 @@ public:
     using iterable::get;
     R get() override;
 
-    template <typename E>
-    E& get() {
-        return get().template cast<E>();
-    }
+    template <typename E> E& get() { return get().template cast<E>(); }
 
     tucontainable<T, R>& getContainer() override;
     const tucontainable<T, R>& getContainer() const NM_CONST_FUNC(getContainer())

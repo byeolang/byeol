@@ -3,7 +3,7 @@
 #include "srcSupply.hpp"
 
 namespace nm {
-    class _nout bufSupply : public srcSupply {
+    class _nout bufSupply: public srcSupply {
         NM(CLASS(bufSupply, srcSupply))
 
     public:

@@ -4,13 +4,14 @@ using namespace nm;
 using namespace std;
 
 namespace {
-    class myObj : public obj {
+    class myObj: public obj {
         NM(CLASS(myObj, obj))
 
     public:
         const baseObj& getOrigin() const override { return *this; }
 
         using super::subs;
+
         scope& subs() override { return *_subs; }
 
     private:

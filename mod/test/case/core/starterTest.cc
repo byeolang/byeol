@@ -2,7 +2,7 @@
 
 using namespace nm;
 
-struct starterTest : public namuSyntaxTest {};
+struct starterTest: public namuSyntaxTest {};
 
 TEST_F(starterTest, simpleStarter) {
     make().parse(R"SRC(
@@ -16,10 +16,12 @@ TEST_F(starterTest, simpleStarter) {
 }
 
 TEST_F(starterTest, mainReturnInt) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             ret 23
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     tstr<nInt> res = starter().setPack(getSlot().getPack()).work();
     ASSERT_EQ(res->cast<nInt>().get(), 23);
@@ -27,12 +29,14 @@ TEST_F(starterTest, mainReturnInt) {
 }
 
 TEST_F(starterTest, mainCallFuncAndCheckReturn) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo() int
             ret 23
         main() int
             ret foo()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     tstr<nInt> res = starter().setPack(getSlot().getPack()).work();
     ASSERT_EQ(res->cast<nInt>().get(), 23);

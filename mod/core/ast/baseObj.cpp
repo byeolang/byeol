@@ -1,6 +1,6 @@
-#include "../builtin/container/mgd/arr.hpp"
 #include "baseObj.hpp"
-#include "baseFunc.hpp"
+
+#include "../builtin/container/mgd/arr.hpp"
 #include "../builtin/container/tucontainable.inl"
 #include "../frame/thread.hpp"
 #include "args.hpp"
@@ -39,7 +39,7 @@ namespace nm {
 
     void me::outFrame(const bicontainable& args) {
         frames& frs = nm::thread::get()._getFrames();
-        NM_DI("%s._outFrame() frames.len[%d]", *this, frs.len()-1);
+        NM_DI("%s._outFrame() frames.len[%d]", *this, frs.len() - 1);
 
         frs.del();
     }
@@ -75,4 +75,4 @@ namespace nm {
         s->add("me", *this);
         fr.add(*s);
     }
-}
+} // namespace nm

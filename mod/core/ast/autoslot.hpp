@@ -1,15 +1,15 @@
 #pragma once
 
-#include "slot.hpp"
 #include "../loader/pack/packLoading.hpp"
 #include "../loader/pack/packMakable.hpp"
 #include "scope.hpp"
+#include "slot.hpp"
 
 namespace nm {
 
     class visitor;
 
-    class _nout autoslot : public slot, public packMakable {
+    class _nout autoslot: public slot, public packMakable {
         NM(CLASS(autoslot, slot), VISIT())
 
     public:
@@ -53,4 +53,4 @@ namespace nm {
         srcs _srcs;
         tstr<errReport> _rpt;
     };
-}
+} // namespace nm

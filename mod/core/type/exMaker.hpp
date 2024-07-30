@@ -4,6 +4,7 @@
 
 namespace nm {
     struct point;
+
     struct _nout exMaker {
         NM(ME(exMaker))
 

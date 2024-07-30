@@ -1,13 +1,13 @@
 #pragma once
 
-#include "err.hpp"
-#include "../type/ntype.hpp"
-#include "../type/dumpable.hpp"
 #include "../common.hpp"
+#include "../type/dumpable.hpp"
+#include "../type/ntype.hpp"
+#include "err.hpp"
 
 namespace nm {
 
-    class _nout errReport : public instance, public dumpable {
+    class _nout errReport: public instance, public dumpable {
         NM(CLASS(errReport, instance))
 
     public:
@@ -48,7 +48,7 @@ namespace nm {
         std::vector<tstr<err>> _errs;
     };
 
-    class _nout dummyErrReport : public errReport {
+    class _nout dummyErrReport: public errReport {
         NM(CLASS(dummyErrReport, errReport))
 
     public:
@@ -56,4 +56,4 @@ namespace nm {
 
         static me singletone;
     };
-}
+} // namespace nm

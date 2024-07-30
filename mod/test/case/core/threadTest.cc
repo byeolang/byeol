@@ -2,7 +2,7 @@
 
 using namespace nm;
 
-struct threadTest : public namuTest {
+struct threadTest: public namuTest {
     thread* thr = nullptr;
 
     void SetUp() override {
@@ -12,18 +12,13 @@ struct threadTest : public namuTest {
 
     void TearDown() override {
         thread::set(nullptr);
-        if(thr)
-            delete thr;
+        if(thr) delete thr;
         thr = nullptr;
     }
 
-    nbool didExceptionOccurs() const {
-        return getExceptions().hasErr();
-    }
+    nbool didExceptionOccurs() const { return getExceptions().hasErr(); }
 
-    const errReport& getExceptions() const {
-        return thread::get().getEx();
-    }
+    const errReport& getExceptions() const { return thread::get().getEx(); }
 };
 
 TEST_F(threadTest, testExceptionOccurs) {

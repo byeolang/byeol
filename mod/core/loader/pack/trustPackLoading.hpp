@@ -5,7 +5,8 @@
 namespace nm {
 
     class errReport;
-    class _nout trustPackLoading : public packLoading {
+
+    class _nout trustPackLoading: public packLoading {
         NM(ADT(trustPackLoading, packLoading))
 
     public:

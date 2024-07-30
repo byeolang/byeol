@@ -1,18 +1,18 @@
 #pragma once
 
-#include "../../ast/node.hpp"
-#include "tokenDispatcher.hpp"
-#include "bison/tokenScan.hpp"
-#include "../errReport.hpp"
-#include "../../ast/slot.hpp"
-#include "../../ast/params.hpp"
-#include "defBlock.hpp"
-#include "../../ast/exprs/exprMaker.hpp"
 #include "../../ast/exprs/FBOExpr.hpp"
+#include "../../ast/exprs/exprMaker.hpp"
+#include "../../ast/node.hpp"
+#include "../../ast/origin.hpp"
+#include "../../ast/params.hpp"
+#include "../../ast/slot.hpp"
+#include "../errReport.hpp"
+#include "bison/tokenScan.hpp"
+#include "defBlock.hpp"
 #include "smartDedent.hpp"
 #include "supply/srcSupply.hpp"
+#include "tokenDispatcher.hpp"
 #include "worker.hpp"
-#include "../../ast/origin.hpp"
 
 namespace nm {
 
@@ -30,7 +30,8 @@ namespace nm {
     class FUOExpr;
     class defPropExpr;
     class genericOrigin;
-    class _nout parser : public worker<tstr<obj>, slot>, public tokenScanable {
+
+    class _nout parser: public worker<tstr<obj>, slot>, public tokenScanable {
         typedef worker<tstr<obj>, slot> __super5;
         NM(CLASS(parser, __super5))
         friend class srcSupply;
@@ -52,9 +53,9 @@ namespace nm {
 
         nbool isInit() const;
 
-        template <typename T>
-        void setScan() {
-            NM_DI("change scanmode(%s -> %s)", nul(_mode) ? "null" :  _mode->getType().getName(), T::_instance);
+        template <typename T> void setScan() {
+            NM_DI("change scanmode(%s -> %s)", nul(_mode) ? "null" : _mode->getType().getName(),
+                T::_instance);
             _mode = T::_instance;
         }
 
@@ -66,7 +67,8 @@ namespace nm {
         // events:
         //  scan:
         using tokenScanable::onScan;
-        nint onScan(parser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner, nbool& isBypass) override;
+        nint onScan(parser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner,
+            nbool& isBypass) override;
         nint onTokenEndOfFile();
         nint onTokenColon(nint tok);
         nint onTokenNewLine(nint tok);
@@ -157,17 +159,19 @@ namespace nm {
         //          typenames:
         args* onTypeNames(const node& param);
         args* onTypeNames(args& params, const node& param);
+
         //          var:
-        template <typename T, typename... Args>
-        T* onPrimitive(Args... args) {
+        template <typename T, typename... Args> T* onPrimitive(Args... args) {
             NM_DI("on%s(...)", ttype<T>::get());
             return new T(args...);
         }
+
         node* onDefProp(const std::string& name, const node& rhs);
         node* onDefAssign(const std::string& name, const node& rhs);
         //          obj:
         obj* onDefOrigin(const std::string& name, defBlock& blk);
-        genericOrigin* onDefObjGeneric(const std::string& name, const args& typeParams, defBlock& blk);
+        genericOrigin* onDefObjGeneric(const std::string& name, const args& typeParams,
+            defBlock& blk);
         //          container:
         node* onDefArray(const narr& items);
         node* onDefSeq(const node& start, const node& end);
@@ -182,6 +186,7 @@ namespace nm {
         narr* onParams();
         narr* onParams(const defPropExpr& elem);
         narr* onParams(narr& it, const defPropExpr& elem);
+
         // stmt:
         node* onDeclStmt(const narr& dotnames) {
             // TODO:
@@ -208,9 +213,17 @@ namespace nm {
 
         void onParseErr(const std::string& msg, const nchar* symbolName);
 
-        template <typename... Args> void posError(Args... args) { _report(err::newErr(getArea().start, args...)); }
-        template <typename... Args> void posWarn(Args... args) { _report(err::newWarn(getArea().start, args...)); }
-        template <typename... Args> void posInfo(Args... args) { _report(err::newInfo(getArea().start, args...)); }
+        template <typename... Args> void posError(Args... args) {
+            _report(err::newErr(getArea().start, args...));
+        }
+
+        template <typename... Args> void posWarn(Args... args) {
+            _report(err::newWarn(getArea().start, args...));
+        }
+
+        template <typename... Args> void posInfo(Args... args) {
+            _report(err::newInfo(getArea().start, args...));
+        }
 
     protected:
         void* _scanString(const std::string& src, void* scanner);
@@ -254,4 +267,4 @@ namespace nm {
         smartDedent _dedent;
         srcSupplies _supplies;
     };
-}
+} // namespace nm

@@ -1,7 +1,8 @@
 #include "slotLoader.hpp"
+
+#include "../../ast/autoslot.hpp"
 #include "../../frame/thread.hpp"
 #include "../errReport.hpp"
-#include "../../ast/autoslot.hpp"
 
 namespace nm {
 
@@ -11,8 +12,7 @@ namespace nm {
 
     void me::load() {
         // TODO: returns result when it's fail
-        if(!_slots)
-            _slots.bind(new nmap());
+        if(!_slots) _slots.bind(new nmap());
 
         _makeSlots(*_slots);
     }
@@ -20,8 +20,7 @@ namespace nm {
     manifest me::_interpManifest(const std::string& dir, const std::string& manPath) const {
         // TODO: open slot zip file -> extract manifest.seedling file -> interpret it & load values
         tstr<sobj> loaded = sinterpreter().interpFile(manPath);
-        if(!loaded)
-            return NM_E("error to load %s: interpretion err", manPath), manifest();
+        if(!loaded) return NM_E("error to load %s: interpretion err", manPath), manifest();
 
         std::string name = loaded->sub("name").asStr();
         std::string ver = loaded->sub("ver").asStr();
@@ -30,23 +29,23 @@ namespace nm {
         entrypoints points;
         sobj& entrypoints = loaded->sub("entrypoints");
         for(auto& pair: entrypoints) {
-            const std::string& path = dir + fsystem::getDelimiter() + pair.second->sub("path").asStr();
-            if(nul(path))
-                return NM_E("error to load %s: no entrypoint path", manPath), manifest();
+            const std::string& path =
+                dir + fsystem::getDelimiter() + pair.second->sub("path").asStr();
+            if(nul(path)) return NM_E("error to load %s: no entrypoint path", manPath), manifest();
 
             // TODO: path should be multiple
-            points.push_back(entrypoint {pair.first, {path}});
+            points.push_back(entrypoint{pair.first, {path}});
         }
 
         // post: all data interpreted. merge to manifest.
-        return manifest {name, manPath, author, ver, points};
+        return manifest{name, manPath, author, ver, points};
     }
 
     const packLoadings& me::_getLoadings() const {
         static packLoadings* inner = nullptr;
         if(!inner) {
             inner = new packLoadings();
-            for(const type* sub : ttype<packLoading>::get().getLeafs()) {
+            for(const type* sub: ttype<packLoading>::get().getLeafs()) {
                 packLoading* new1 = sub->makeAs<packLoading>();
                 if(nul(new1)) {
                     NM_E("fail to make slotMaking named to %s", sub->getName());
@@ -73,7 +72,7 @@ namespace nm {
     }
 
     me& me::addPath(std::initializer_list<const nchar*> paths) {
-        for(const nchar* e : paths)
+        for(const nchar* e: paths)
             addPath(e);
         return *this;
     }
@@ -95,13 +94,12 @@ namespace nm {
     }
 
     void me::_makeSlots(nmap& tray) {
-        for(const std::string& path : _paths) {
+        for(const std::string& path: _paths) {
             NM_I("try slot path: %s", path);
 
             auto e = fsystem::find(path);
             while(e.next())
-                if(e.getName() == MANIFEST_FILENAME)
-                    _addNewSlot(tray, e.getDir(), e.getName());
+                if(e.getName() == MANIFEST_FILENAME) _addNewSlot(tray, e.getDir(), e.getName());
         }
     }
 
@@ -116,10 +114,11 @@ namespace nm {
         }
 
         packLoadings loadings;
-        for(entrypoint& point : mani.points) {
+        for(entrypoint& point: mani.points) {
             packLoading* newLoading = _makeLoading(point.lang);
             if(!newLoading) {
-                NM_W("%s language not supported for loading %s slot.", mani.points[0].lang, mani.name);
+                NM_W("%s language not supported for loading %s slot.", mani.points[0].lang,
+                    mani.name);
                 continue;
             }
 
@@ -142,7 +141,7 @@ namespace nm {
         NM_DI("\t.ver=%s", mani.ver);
 
         NM_DI("\t.entrypoints=");
-        for(const entrypoint& point : mani.points) {
+        for(const entrypoint& point: mani.points) {
             NM_DI("\t\t.lang=%s", point.lang);
             NM_DI("\t\t.paths=%s", point.paths[0]);
         }
@@ -150,11 +149,10 @@ namespace nm {
     }
 
     packLoading* me::_makeLoading(const std::string& name) const {
-        for(const packLoading* e : _getLoadings())
-            if(e->getName() == name)
-                return (packLoading*) e->clone();
+        for(const packLoading* e: _getLoadings())
+            if(e->getName() == name) return (packLoading*) e->clone();
 
         NM_E("can't find exact packLoading like %s", name);
         return nullptr;
     }
-}
+} // namespace nm

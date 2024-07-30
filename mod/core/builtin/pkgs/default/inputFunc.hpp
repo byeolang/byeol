@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class _nout inputFunc : public baseFunc {
+    class _nout inputFunc: public baseFunc {
         NM(CLASS(inputFunc, baseFunc))
 
     public:

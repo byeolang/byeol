@@ -1,6 +1,7 @@
 #include "defSeqExpr.hpp"
-#include "../../visitor/visitor.hpp"
+
 #include "../../builtin/container/mgd/seq.hpp"
+#include "../../visitor/visitor.hpp"
 
 namespace nm {
 
@@ -9,13 +10,11 @@ namespace nm {
     me::defSeqExpr(const node& start, const node& end): _start(start), _end(end) {}
 
     str me::run(const args& a) {
-        if(!_start || !_end)
-            return NM_E("_start or _end is null"), str();
+        if(!_start || !_end) return NM_E("_start or _end is null"), str();
 
         str start(_start->as<node>());
         str end(_end->as<node>());
-        if(!start || !end)
-            return NM_E("ased start or end is null"), str();
+        if(!start || !end) return NM_E("ased start or end is null"), str();
 
         return str(new seq(start->cast<nInt>(), end->cast<nInt>()));
     }
@@ -25,11 +24,7 @@ namespace nm {
         return inner;
     }
 
-    const node& me::getStart() const {
-        return *_start;
-    }
+    const node& me::getStart() const { return *_start; }
 
-    const node& me::getEnd() const {
-        return *_end;
-    }
+    const node& me::getEnd() const { return *_end; }
 }

@@ -4,11 +4,12 @@ using namespace nm;
 using namespace std;
 
 namespace {
-    struct forExprTest : public namuSyntaxTest {};
+    struct forExprTest: public namuSyntaxTest {};
 }
 
 TEST_F(forExprTest, simpleTest) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         print(msg str) void: 1
 
         main() int
@@ -17,14 +18,16 @@ TEST_F(forExprTest, simpleTest) {
                 print("sum=" + sum as str + ", n=" + n as str + "\n")
                 sum = sum + n
             ret sum
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 6);
 }
 
 TEST_F(forExprTest, simpleTest2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         print(msg str) void: 1
 
         main() int
@@ -33,14 +36,16 @@ TEST_F(forExprTest, simpleTest2) {
                 sum = sum + n
                 print("sum=" + sum as str + ", n=" + n as str + "\n")
             ret sum
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 6);
 }
 
 TEST_F(forExprTest, testWhatFromFunc) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         print(msg str) void: 1
 
         foo() int[]
@@ -53,14 +58,16 @@ TEST_F(forExprTest, testWhatFromFunc) {
                 print("sum=" + sum as str + ", n=" + n as str + "\n")
 
             ret sum
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 6);
 }
 
 TEST_F(forExprTest, putAkaMiddleOfLoop) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         print(msg str) void: 1
 
         foo() int[]
@@ -73,14 +80,16 @@ TEST_F(forExprTest, putAkaMiddleOfLoop) {
                 print("sum=" + sum as str + ", n=" + n as str + "\n")
 
             ret sum
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 6);
 }
 
 TEST_F(forExprTest, sequenceLoop) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         print(msg str) void: 1
 
         main() int
@@ -90,23 +99,28 @@ TEST_F(forExprTest, sequenceLoop) {
                 print("sum=" + sum as str + ", n=" + n as str + "\n")
 
             ret sum
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 9);
 }
 
 TEST_F(forExprTest, validationCheckNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() str
             for n in {1, 2, 3}
                 print(n)
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(forExprTest, loopObjects) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         print(msg str) str: msg
 
         def person1
@@ -130,7 +144,8 @@ TEST_F(forExprTest, loopObjects) {
             for p in {p1, p2, p3}
                 sum = sum + p.say()
             ret sum == "I'm Chales and 36 years old.\n" + "I'm Mario and 45 years old.\n" + "I'm Peach and 44 years old.\n"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -138,7 +153,8 @@ TEST_F(forExprTest, loopObjects) {
 }
 
 TEST_F(forExprTest, useObjectAsContainer) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         print(msg str) void: 1
         def person
             name := ""
@@ -150,12 +166,14 @@ TEST_F(forExprTest, useObjectAsContainer) {
 
             for p in people
                 print(p.name)
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     run();
 }
 
 TEST_F(forExprTest, returnMiddleOfLoop) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             name := ""
 
@@ -166,14 +184,16 @@ TEST_F(forExprTest, returnMiddleOfLoop) {
             for p in {p1, person()}
                 ret p.name == "Chales"
             ret 0
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 1);
 }
 
 TEST_F(forExprTest, returnMiddleOfLoop1) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             name := ""
 
@@ -187,14 +207,17 @@ TEST_F(forExprTest, returnMiddleOfLoop1) {
                 p.name
             )
             ret (res[0] + " Lee") == "Chales Lee"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 1);
 }
 
 TEST_F(forExprTest, returnMiddleOfLoop1WithoutParenthesisNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def person
             name := ""
 
@@ -205,11 +228,13 @@ TEST_F(forExprTest, returnMiddleOfLoop1WithoutParenthesisNegative) {
             res := for p in {p1, person()}
                 ret p1.name == "Chales" // <-- you can't (def)assign what return something inside.
             ret 0
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(forExprTest, returnMiddleOfLoop1WithoutParenthesis) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             name := ""
 
@@ -222,14 +247,16 @@ TEST_F(forExprTest, returnMiddleOfLoop1WithoutParenthesis) {
                     ret 100
                 p.name == "Chales"
             res[0] // {1, 0}
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 100);
 }
 
 TEST_F(forExprTest, retMiddleOfLoop) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             name := ""
 
@@ -241,14 +268,16 @@ TEST_F(forExprTest, retMiddleOfLoop) {
                 p1.name
             )
             ret res[1] + " Lee" == "Chales Lee"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 1);
 }
 
 TEST_F(forExprTest, retMiddleOfLoopWithoutParenthesis) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             name := ""
 
@@ -259,14 +288,17 @@ TEST_F(forExprTest, retMiddleOfLoopWithoutParenthesis) {
             res := for p in {p1, person()}
                 p1.name // it's p1, not p.
             ret res[1] + " Lee" == "Chales Lee"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 1);
 }
 
 TEST_F(forExprTest, retMiddleOfLoopNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def person
             name := ""
 
@@ -279,11 +311,13 @@ TEST_F(forExprTest, retMiddleOfLoopNegative) {
                 p1.name
             )
             ret res // res is array.
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(forExprTest, evalForExprWithoutRet) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             name := ""
 
@@ -295,14 +329,16 @@ TEST_F(forExprTest, evalForExprWithoutRet) {
                 p.name
             )
             ret res[1] == ""
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 1);
 }
 
 TEST_F(forExprTest, simpleBreakTest) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             res := (for n in 1..10
                 if n < 5
@@ -311,14 +347,16 @@ TEST_F(forExprTest, simpleBreakTest) {
                     break
             ) // res will be {1, 2, 3, 4}
             ret res[res.len() - 1] // 4
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 4);
 }
 
 TEST_F(forExprTest, simpleBreakTest2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             res := (for n in 1..10
                 if n >= 5
@@ -327,14 +365,16 @@ TEST_F(forExprTest, simpleBreakTest2) {
                     n
             ) // res will be {1, 2, 3, 4}
             ret res[res.len() - 1] // 4
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 4);
 }
 
 TEST_F(forExprTest, simpleBreakTestWithoutParenthesis) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             res := for n in 1..10
                 if n < 5
@@ -344,14 +384,16 @@ TEST_F(forExprTest, simpleBreakTestWithoutParenthesis) {
                 else
                     n
             ret res[0] + res.len() // 5 + 1
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 6);
 }
 
 TEST_F(forExprTest, retForExpr) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             answer := for n in 1..10
                 if true
@@ -359,41 +401,50 @@ TEST_F(forExprTest, retForExpr) {
                 else
                     7
             answer[3]
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 5);
 }
 
 TEST_F(forExprTest, breakIsNotExpressionNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         foo() int: 3
         main() int
             answer := for n in 1..5
                 foo(break)
             answer[0]
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 }
 
 TEST_F(forExprTest, nextIsNotExpressionNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         foo() int: 3
         main() int
             answer := for n in 1..5
                 foo(next)
             answer[0]
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 }
 
 TEST_F(forExprTest, breakInsideOfFor) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             answer := for n in 1..5
                 if n < 4
                     n
                 else: break
             answer[answer.len() - 1]
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -401,16 +452,21 @@ TEST_F(forExprTest, breakInsideOfFor) {
 }
 
 TEST_F(forExprTest, breakInsideOfIfExprNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             for n in 1..5
                 if n == 3
                     break
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(forExprTest, breakInsideOfIfExprNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             // this stmt returns what forExpr evaluated.
             // but its type is void. because ifExpr doesn't have else
@@ -419,11 +475,13 @@ TEST_F(forExprTest, breakInsideOfIfExprNegative2) {
                 if n == 3
                     break
             ret res[res.len() - 1]
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(forExprTest, breakInsideOfIfExpr2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             res := for n in 1..5
                 if n == 3
@@ -431,7 +489,8 @@ TEST_F(forExprTest, breakInsideOfIfExpr2) {
                 else
                     n
             ret res[res.len() - 1] // res = {1, 2}
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -439,7 +498,8 @@ TEST_F(forExprTest, breakInsideOfIfExpr2) {
 }
 
 TEST_F(forExprTest, breakNestedForLoop) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             sum := 0
             for n in 0..7
@@ -450,7 +510,8 @@ TEST_F(forExprTest, breakNestedForLoop) {
                 if sum > 15
                     break
             sum
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -458,7 +519,8 @@ TEST_F(forExprTest, breakNestedForLoop) {
 }
 
 TEST_F(forExprTest, evalOfForLoop) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             sum := 0
             ans := for n in 0..8
@@ -466,7 +528,8 @@ TEST_F(forExprTest, evalOfForLoop) {
                     break
                 print(++sum as str)
             ret ans[ans.len() - 1] == "4"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -474,7 +537,8 @@ TEST_F(forExprTest, evalOfForLoop) {
 }
 
 TEST_F(forExprTest, evalOfForLoop2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             sum := 0
             for n in 0..8
@@ -482,7 +546,8 @@ TEST_F(forExprTest, evalOfForLoop2) {
                     break
                 sum += n // sum = 0, 1, 3, 6
             sum
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -490,7 +555,8 @@ TEST_F(forExprTest, evalOfForLoop2) {
 }
 
 TEST_F(forExprTest, evalOfForLoop3) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def a
             val := 0
 
@@ -502,15 +568,17 @@ TEST_F(forExprTest, evalOfForLoop3) {
                 a1.val = n
                 a1
             ret res[res.len() - 1].val
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 3);
 }
- 
+
 TEST_F(forExprTest, evalOfForLoop4) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             sum int
             answer := for n in 0..8
@@ -519,7 +587,8 @@ TEST_F(forExprTest, evalOfForLoop4) {
                         break
                 sum += n
             answer[answer.len() - 1] // answer = {0, 1, 3, 6, 10, 15}
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -527,7 +596,8 @@ TEST_F(forExprTest, evalOfForLoop4) {
 }
 
 TEST_F(forExprTest, evalOfForLoop5) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def a
             foo() void
                 ret
@@ -539,7 +609,8 @@ TEST_F(forExprTest, evalOfForLoop5) {
                     break
                 ++sum
             sum
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -547,7 +618,8 @@ TEST_F(forExprTest, evalOfForLoop5) {
 }
 
 TEST_F(forExprTest, evalOfForLoopIntAndBoolIsCompatible) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             sum := 0
             answer := for n in 0..8
@@ -556,7 +628,8 @@ TEST_F(forExprTest, evalOfForLoopIntAndBoolIsCompatible) {
                         break
                 ++sum
             answer[answer.len() - 1]
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -564,7 +637,8 @@ TEST_F(forExprTest, evalOfForLoopIntAndBoolIsCompatible) {
 }
 
 TEST_F(forExprTest, evalOfForLoopIntAndBoolIsCompatible2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             sum := 0
             answer := for n in 0..8
@@ -573,7 +647,8 @@ TEST_F(forExprTest, evalOfForLoopIntAndBoolIsCompatible2) {
                         break
                 ++sum
             answer[answer.len() - 1]
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -582,12 +657,14 @@ TEST_F(forExprTest, evalOfForLoopIntAndBoolIsCompatible2) {
 }
 
 TEST_F(forExprTest, defAssignWhatLoops) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := for n in 0..2
                 n++
             ret a[a.len() - 1]
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -595,14 +672,16 @@ TEST_F(forExprTest, defAssignWhatLoops) {
 }
 
 TEST_F(forExprTest, callFuncWithForExprArgument) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo(age int) int: age + 1
         main() int
             foo((for n in 0..5
                 x := n + 1
                 x * 2
             )[3]) // {2, 4, 6, 8, 10}
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

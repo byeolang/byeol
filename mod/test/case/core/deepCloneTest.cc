@@ -4,7 +4,7 @@ using namespace nm;
 using namespace std;
 
 namespace {
-    struct cloneDeepTest : public namuSyntaxTest {};
+    struct cloneDeepTest: public namuSyntaxTest {};
 }
 
 TEST_F(cloneDeepTest, narrCloneDeep) {
@@ -35,7 +35,7 @@ TEST_F(cloneDeepTest, paramsDeepClone) {
     params* p1 = (params*) p.cloneDeep();
     ASSERT_FALSE(nul(p1));
     ASSERT_EQ(p1->len(), p.len());
-    for(nidx n = 0; n < p.len() ;n++) {
+    for(nidx n = 0; n < p.len(); n++) {
         ASSERT_EQ(p1->get(n).getOrigin().as<nInt>().get(), p[n].getOrigin().as<nInt>().get());
         ASSERT_NE(&p1->get(n), &p[n]);
         ASSERT_NE(&p1->get(n).getOrigin(), &p[n].getOrigin());

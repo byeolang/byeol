@@ -2,13 +2,14 @@
 
 using namespace nm;
 
-struct ttypeTest : public namuTest {};
+struct ttypeTest: public namuTest {};
 
 namespace {
     struct B {
         NM_INIT_META(B)
 
         B(nbool newValue): value(newValue) {}
+
         nbool value;
     };
 
@@ -16,27 +17,29 @@ namespace {
         NM_INIT_META(myClass)
     };
 
-    struct myDerivedClass : public myClass {
+    struct myDerivedClass: public myClass {
         NM_INIT_META(myDerivedClass)
         typedef myClass super;
     };
 
     struct A {
         NM_INIT_META(A)
+
         A() {}
+
         nbool value = true;
     };
 
-    struct myDerivedClass2 : public myClass {
+    struct myDerivedClass2: public myClass {
         NM_INIT_META(myDerivedClass2)
         typedef myClass super;
     };
 
-    struct myDerivedClass3 : public myDerivedClass {
+    struct myDerivedClass3: public myDerivedClass {
         NM_INIT_META(myDerivedClass3)
         typedef myDerivedClass super;
     };
-}
+} // namespace
 
 TEST_F(ttypeTest, initSystem) {}
 
@@ -59,14 +62,12 @@ TEST_F(ttypeTest, customTypeInheritTest) {
     static const int fooRet = 22;
 
     struct A {};
+
     struct customA {
-        typedef struct myType : type {
-            int foo() const {
-                return fooRet;
-            }
-            const std::string& getName() const override {
-                return trg;
-            }
+        typedef struct myType: type {
+            int foo() const { return fooRet; }
+
+            const std::string& getName() const override { return trg; }
         } metaType;
     };
 
@@ -107,7 +108,7 @@ TEST_F(ttypeTest, iterateLeafClassTest) {
 }
 
 namespace {
-    struct type1 : public ttype<myDerivedClass2> {
+    struct type1: public ttype<myDerivedClass2> {
         typedef ttype<myDerivedClass2> super;
     };
 }

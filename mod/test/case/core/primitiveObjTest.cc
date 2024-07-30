@@ -3,7 +3,7 @@
 using namespace nm;
 using namespace std;
 
-struct primitiveObjTest : public namuTest {};
+struct primitiveObjTest: public namuTest {};
 
 TEST_F(primitiveObjTest, testCloneWIntInMgd) {
     nInt origin(1);

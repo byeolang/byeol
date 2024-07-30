@@ -9,39 +9,26 @@ void me::TearDown() {
     _ip.rel();
 }
 
-nm::obj& me::getSubPack() {
-    return _ip.getSubPack();
-}
+nm::obj& me::getSubPack() { return _ip.getSubPack(); }
 
-const nm::obj& me::getSubPack() const {
-    return _ip.getSubPack();
-}
+const nm::obj& me::getSubPack() const { return _ip.getSubPack(); }
 
-nm::slot& me::getSlot() {
-    return _ip.getTask();
-}
+nm::slot& me::getSlot() { return _ip.getTask(); }
 
-const nm::slot& me::getSlot() const {
-    return _ip.getTask();
-}
+const nm::slot& me::getSlot() const { return _ip.getTask(); }
 
-nm::errReport& me::getReport() {
-    return _rpt;
-}
+nm::errReport& me::getReport() { return _rpt; }
 
-namuSyntaxTest& me::make(const std::string& name) {
-    return make(nm::manifest(name));
-}
+namuSyntaxTest& me::make(const std::string& name) { return make(nm::manifest(name)); }
 
-namuSyntaxTest& me::make() {
-    return make(nm::manifest());
-}
+namuSyntaxTest& me::make() { return make(nm::manifest()); }
 
 namuSyntaxTest& me::make(const nm::manifest& mani) {
     _rel();
     nbool isVerbose = logger::get().isEnable();
-    int flag = isVerbose ? interpreter::DEFAULT | interpreter::LOG_STRUCTURE | interpreter::GUARD | interpreter::LOG_GRAPH_ON_EX :
-        interpreter::DUMP_ON_EX | interpreter::LOG_ON_END;
+    int flag = isVerbose ? interpreter::DEFAULT | interpreter::LOG_STRUCTURE | interpreter::GUARD |
+            interpreter::LOG_GRAPH_ON_EX :
+                           interpreter::DUMP_ON_EX | interpreter::LOG_ON_END;
     _ip.setTask(*new nm::slot(mani)).setFlag(flag);
     return *this;
 }
@@ -50,9 +37,7 @@ namuSyntaxTest& me::parse(const nm::nchar* src) {
     using namespace nm;
 
     defaultSigZone<interpreter> zone(_ip);
-    _ip.addSupply(*new nm::bufSupply(std::string(src)))
-       .setReport(_rpt)
-       .work();
+    _ip.addSupply(*new nm::bufSupply(std::string(src))).setReport(_rpt).work();
     return *this;
 }
 
@@ -77,7 +62,8 @@ nm::nbool me::shouldVerified(nm::nbool expect) {
 nm::str me::run() {
     using nm::starter;
     return starter()
-        .setPack(getSubPack()).setReport(_rpt)
+        .setPack(getSubPack())
+        .setReport(_rpt)
         .setFlag(starter::LOG_STRUCTURE | starter::LOG_GRAPH_ON_EX | starter::DEFAULT)
         .work();
 }

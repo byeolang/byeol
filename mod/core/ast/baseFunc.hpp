@@ -9,7 +9,7 @@ namespace nm {
     class params;
     class visitor;
 
-    class _nout baseFunc : public expr {
+    class _nout baseFunc: public expr {
         NM(ADT(baseFunc, expr), VISIT())
 
     public:

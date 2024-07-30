@@ -1,11 +1,11 @@
 #pragma once
 
 #include "../common.hpp"
-#include "immutableTactic.hpp"
 #include "../type/ntype.hpp"
+#include "immutableTactic.hpp"
 
 namespace nm {
-    class _nout param : public instance {
+    class _nout param: public instance {
         NM(CLASS(param, instance))
 
     public:

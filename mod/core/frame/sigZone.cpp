@@ -3,14 +3,11 @@
 namespace nm {
     NM(DEF_ME(sigZone))
 
-    me::sigZone(const sigHandler& handler): _handler(handler) {
-        prepare(handler).setHandler();
-    }
+    me::sigZone(const sigHandler& handler): _handler(handler) { prepare(handler).setHandler(); }
+
     me::sigZone() {}
 
-    me::~sigZone() {
-        relHandler();
-    }
+    me::~sigZone() { relHandler(); }
 
     me& me::prepare(sigHandler handler) {
         _handler = std::move(handler);
@@ -22,7 +19,5 @@ namespace nm {
         return *this;
     }
 
-    void me::relHandler() {
-        signaler::get().delSignal(_handler);
-    }
+    void me::relHandler() { signaler::get().delSignal(_handler); }
 }

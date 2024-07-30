@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class logStructureFlag : public flag {
+    class logStructureFlag: public flag {
         NM(CLASS(logStructureFlag, flag))
 
     public:

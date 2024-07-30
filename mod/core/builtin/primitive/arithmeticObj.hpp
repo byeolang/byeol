@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../../ast/scope.hpp"
 #include "../../ast/baseObj.hpp"
+#include "../../ast/scope.hpp"
 
 namespace nm {
 
-    class _nout arithmeticObj : public baseObj {
+    class _nout arithmeticObj: public baseObj {
         NM(ADT(arithmeticObj, baseObj))
 
     public:
@@ -62,4 +62,4 @@ namespace nm {
 
         virtual me& _mov(const me& rhs) = 0;
     };
-}
+} // namespace nm

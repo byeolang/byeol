@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class helpFlag : public flag {
+    class helpFlag: public flag {
         NM(CLASS(helpFlag, flag))
 
     public:

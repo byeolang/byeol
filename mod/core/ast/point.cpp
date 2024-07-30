@@ -4,13 +4,9 @@ namespace nm {
 
     NM(DEF_ME(point))
 
-    nbool me::isOrigin() const {
-        return row == 0 && col == 0;
-    }
+    nbool me::isOrigin() const { return row == 0 && col == 0; }
 
-    void me::rel() {
-        row = col = 0;
-    }
+    void me::rel() { row = col = 0; }
 
     me& me::operator++() {
         ++row;

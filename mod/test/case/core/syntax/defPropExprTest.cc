@@ -4,15 +4,17 @@ using namespace nm;
 using namespace std;
 
 namespace {
-    struct defPropExprTest : public namuSyntaxTest {};
+    struct defPropExprTest: public namuSyntaxTest {};
 }
 
 TEST_F(defPropExprTest, simpleDefineVariable) {
-    if(make().parse(R"SRC(
+    if(make()
+            .parse(R"SRC(
         main() void
             age int
             ret
-    )SRC").shouldVerified(true)) {
+    )SRC")
+            .shouldVerified(true)) {
         node& res = getSubPack();
         ASSERT_FALSE(nul(res));
 
@@ -29,26 +31,31 @@ TEST_F(defPropExprTest, simpleDefineVariable) {
 }
 
 TEST_F(defPropExprTest, definePackVariableNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         name str
         age int
         grade flt
         main() void
             age int
             ret age
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(defPropExprTest, definePackVariable2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         name str
         age int
         grade flt
         main() int
             age int
             ret age
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(true);
     slot& s = getSlot();
     ASSERT_EQ(s.getManifest().name, manifest::DEFAULT_NAME);
@@ -76,20 +83,25 @@ TEST_F(defPropExprTest, definePackVariable2) {
 }
 
 TEST_F(defPropExprTest, defPropVoidNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             a void
             ret a
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defPropExprTest, passingVoidIsOk) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo() void
             ret
         main() void
             ret foo() // <-- ok
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -97,22 +109,27 @@ TEST_F(defPropExprTest, passingVoidIsOk) {
 }
 
 TEST_F(defPropExprTest, defVoidContainerNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             a void[]
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
     shouldVerified(false);
 }
 
 TEST_F(defPropExprTest, defPropWithObj) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def a
             age := 22
         a1 a
         a2 a
         main() int
             a2.age
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

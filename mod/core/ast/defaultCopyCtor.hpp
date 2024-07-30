@@ -7,7 +7,7 @@ namespace nm {
 
     class visitor;
 
-    class _nout defaultCopyCtor : public ctor {
+    class _nout defaultCopyCtor: public ctor {
         NM(CLASS(defaultCopyCtor, ctor), VISIT())
 
     public:

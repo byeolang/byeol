@@ -3,7 +3,7 @@
 using namespace nm;
 using namespace std;
 
-struct visitorTest : public namuSyntaxTest {};
+struct visitorTest: public namuSyntaxTest {};
 
 TEST_F(visitorTest, iterateManuallyConstructedNodes) {
     obj o;
@@ -15,7 +15,7 @@ TEST_F(visitorTest, iterateManuallyConstructedNodes) {
     o2.subs().add("val2", new nFlt());
     o2.subs().add("o", o);
 
-    struct myVisitor : public visitor {
+    struct myVisitor: public visitor {
         nbool metFoo1;
         nbool metVal1;
         nbool metFoo2;
@@ -24,25 +24,25 @@ TEST_F(visitorTest, iterateManuallyConstructedNodes) {
         myVisitor(): metFoo1(false), metVal1(false), metFoo2(false), metVal2(false) {}
 
         nbool onVisit(const visitInfo& i, func& fun) override {
-            if(i.name == "foo1")
-                metFoo1 = true;
+            if(i.name == "foo1") metFoo1 = true;
             if(i.name == "foo2") {
                 metFoo2 = true;
                 EXPECT_TRUE(fun.getRet()->isSub<nFlt>());
             }
             return true;
         }
+
         nbool onVisit(const visitInfo& i, nInt& o) override {
-            if(i.name == "val1")
-                metVal1 = true;
+            if(i.name == "val1") metVal1 = true;
             return true;
         }
+
         nbool onVisit(const visitInfo& i, nFlt& o) override {
-            if(i.name == "val2")
-                metVal2 = true;
+            if(i.name == "val2") metVal2 = true;
             return true;
         }
     };
+
     myVisitor v;
     ASSERT_FALSE(v.metFoo1);
     ASSERT_FALSE(v.metFoo2);
@@ -58,7 +58,8 @@ TEST_F(visitorTest, iterateManuallyConstructedNodes) {
 }
 
 TEST_F(visitorTest, visitComplexExpressions) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def obj
             foo() flt
                 5.0
@@ -67,31 +68,30 @@ TEST_F(visitorTest, visitComplexExpressions) {
             o := obj()
             print(o.foo() as str)
             ret o.foo() as int
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     node& root = getSubPack();
     ASSERT_FALSE(nul(root));
 
-    struct myVisitor : public visitor {
+    struct myVisitor: public visitor {
         myVisitor(): metO(0), metAsFlt(0), metFlt5(false) {}
 
         using visitor::onVisit;
+
         nbool onVisit(const visitInfo& i, getExpr& got) override {
             NM_DI("subname=%s", got.getName());
-            if(got.getName() == "o")
-                metO++;
+            if(got.getName() == "o") metO++;
             return true;
         }
 
         nbool onVisit(const visitInfo& i, asExpr& as) override {
-            if(as.getAs().as<node>()->isSub<nInt>())
-                metAsFlt++;
+            if(as.getAs().as<node>()->isSub<nInt>()) metAsFlt++;
             return true;
         }
 
         nbool onVisit(const visitInfo& i, nFlt& f) override {
-            if(f.get() == 5.0f)
-                metFlt5 = true;
+            if(f.get() == 5.0f) metFlt5 = true;
             return true;
         }
 
@@ -108,7 +108,9 @@ TEST_F(visitorTest, visitComplexExpressions) {
 }
 
 TEST_F(visitorTest, visitComplexExpressions2Negative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def obj
             foo(a int) int
                 ret 5.0 + a
@@ -118,11 +120,13 @@ TEST_F(visitorTest, visitComplexExpressions2Negative) {
             res := o.foo() as int
             res = res * 2
             ret res
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(visitorTest, visitComplexExpressions2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def obj
             foo(a int) int
                 ret 5.0 + a
@@ -132,21 +136,22 @@ TEST_F(visitorTest, visitComplexExpressions2) {
             res := o.foo(5) as int
             res = res * 2
             ret res
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     node& root = getSubPack();
     ASSERT_FALSE(nul(root));
 
-    struct myVisitor : public visitor {
+    struct myVisitor: public visitor {
         myVisitor(): metInt2(false), metRet(false) {}
 
         using visitor::onVisit;
+
         nbool onVisit(const visitInfo& i, FBOExpr& fao) override {
             tstr<nInt> num2 = ((node&) fao.getRight()).as<nInt>();
             if(!num2) return true;
 
-            if(num2->cast<nint>() == 2)
-                metInt2 = true;
+            if(num2->cast<nint>() == 2) metInt2 = true;
             return true;
         }
 

@@ -1,8 +1,9 @@
 #include "tpriorities.inl"
+
 #include "node.hpp"
 
 namespace nm {
-    _nout const nchar* getPriorTypeName(priorType type) {
+    const _nout nchar* getPriorTypeName(priorType type) {
         switch(type) {
             case EXACT_MATCH: return "EXACT_MATCH";
             case NUMERIC_MATCH: return "NUMERIC_MATCH";

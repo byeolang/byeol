@@ -4,34 +4,39 @@ using namespace nm;
 using namespace std;
 
 namespace {
-    struct ifExprTest : public namuSyntaxTest {};
+    struct ifExprTest: public namuSyntaxTest {};
 }
 
 TEST_F(ifExprTest, simpleNestedTest) {
-    make("demo").parse(R"SRC(
+    make("demo")
+        .parse(R"SRC(
         pack demo
         main() void
             if 11
                         22
                         if 22
-                                33)SRC").shouldVerified(true);
+                                33)SRC")
+        .shouldVerified(true);
 }
 
 TEST_F(ifExprTest, simpleIfTest) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             if true
                 ret 11
             else
                 ret 22
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 11);
 }
 
 TEST_F(ifExprTest, simpleIfAssignTest) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             age := (if false
                 11
@@ -39,74 +44,87 @@ TEST_F(ifExprTest, simpleIfAssignTest) {
                 22
             )
             ret age
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 22);
 }
 
 TEST_F(ifExprTest, simpleIfAssignWithoutParenthesisTest) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             age := if false
                 11
             else
                 22
             ret age
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 22);
 }
 
 TEST_F(ifExprTest, simpleReturnIfWithoutParenthesisTest) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             ret if true
                 11
             else
                 22
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 11);
 }
 
 TEST_F(ifExprTest, simpleReturnDefAssignWithoutParenthesisTest) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := if true
                 11
             else
                 22
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 11);
 }
 
 TEST_F(ifExprTest, NestIfTest) {
-    make("demo").parse(R"SRC(
+    make("demo")
+        .parse(R"SRC(
         pack demo
         foo(abc int) void
            if "hello"
                        "hell  '  o"
                        if 33
-                               "hel'lo")SRC").shouldVerified(true);
+                               "hel'lo")SRC")
+        .shouldVerified(true);
 }
 
 TEST_F(ifExprTest, NestIfTestNegative) {
-    make("demo").negative().parse(R"SRC(
+    make("demo")
+        .negative()
+        .parse(R"SRC(
         pack demo
         foo(abc int) int
            if "hello"
                        "hell  '  o"
                        if 33
-                               "hel'lo")SRC").shouldVerified(false);
+                               "hel'lo")SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(ifExprTest, ifAsArgument) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         abc(val int, val2 int) int
             ret val + val2
 
@@ -116,14 +134,16 @@ TEST_F(ifExprTest, ifAsArgument) {
             else
                 11
             , 5)
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 16);
 }
 
 TEST_F(ifExprTest, elif) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             if 222 < 33
                 0
@@ -135,7 +155,8 @@ TEST_F(ifExprTest, elif) {
                 3
             else
                 7
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -143,7 +164,9 @@ TEST_F(ifExprTest, elif) {
 }
 
 TEST_F(ifExprTest, elifNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             if 222 < 33
                 0
@@ -155,11 +178,14 @@ TEST_F(ifExprTest, elifNegative) {
                 7
             else if 77 < 113
                 3
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 }
 
 TEST_F(ifExprTest, elifNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             if 222 < 33
                 0
@@ -171,12 +197,14 @@ TEST_F(ifExprTest, elifNegative2) {
                 3
             // there is no else block. so ifExpr eventually will be evaluated
             // to the void.
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(ifExprTest, elif2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             if 222 < 33
                 0
@@ -186,7 +214,8 @@ TEST_F(ifExprTest, elif2) {
                 2
             else
                 3
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -194,27 +223,35 @@ TEST_F(ifExprTest, elif2) {
 }
 
 TEST_F(ifExprTest, evalIfWithStrAndIntNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             if 23 == 23.0
                 "hello"
             else
                 22
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(ifExprTest, evalIfWithStrAndIntNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             if 23 == 23.0
                 "hello"
             else
                 22
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(ifExprTest, evalIfWithStrAndIntNegative3) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             a := if 23 == 23.0
                 if true
@@ -224,11 +261,13 @@ TEST_F(ifExprTest, evalIfWithStrAndIntNegative3) {
             else
                 22
             ret a
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(ifExprTest, evalIfWithStrAndInt) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := if 23 == 23.0
                 if true
@@ -238,7 +277,8 @@ TEST_F(ifExprTest, evalIfWithStrAndInt) {
             else
                 "false"
             ret a == "true"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -246,7 +286,8 @@ TEST_F(ifExprTest, evalIfWithStrAndInt) {
 }
 
 TEST_F(ifExprTest, testAssignWithCompoundExpr) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := "initial"
             a = if 23 == 23.0
@@ -257,7 +298,8 @@ TEST_F(ifExprTest, testAssignWithCompoundExpr) {
             else
                 "false"
             ret a == "true"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -265,7 +307,8 @@ TEST_F(ifExprTest, testAssignWithCompoundExpr) {
 }
 
 TEST_F(ifExprTest, evalIfExprReturningSomething) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             val := 2 > 5
             a := if val
@@ -273,7 +316,8 @@ TEST_F(ifExprTest, evalIfExprReturningSomething) {
             else
                 23 as str + "wow"
             ret a.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -281,7 +325,8 @@ TEST_F(ifExprTest, evalIfExprReturningSomething) {
 }
 
 TEST_F(ifExprTest, evalIfExprReturningSomething2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             val := 2 > 5
             a := if val
@@ -289,11 +334,13 @@ TEST_F(ifExprTest, evalIfExprReturningSomething2) {
             else
                 23 as str + "wow"
             ret a.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 }
 
 TEST_F(ifExprTest, evalIfExprReturningSomething3) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             val := 2 > 5
             a := if val
@@ -301,11 +348,14 @@ TEST_F(ifExprTest, evalIfExprReturningSomething3) {
             else
                 ret -1 // if whole block uses 'ret', then it would be ignored when deduce type of ifExpr.
             ret a.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 }
 
 TEST_F(ifExprTest, evalIfExprReturningSomethingNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             val := 2 > 5
             a := if val
@@ -313,7 +363,8 @@ TEST_F(ifExprTest, evalIfExprReturningSomethingNegative2) {
             else
                 ret 1
             ret a
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 
     const auto& rpt = getReport();
     ASSERT_TRUE(rpt.has(errCode::CANT_ASSIGN_RET));

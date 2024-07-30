@@ -1,12 +1,13 @@
 #include "loopExpr.hpp"
-#include "../../visitor/visitor.hpp"
-#include "../../frame/thread.hpp"
+
+#include "../../builtin/container/mgd/arr.hpp"
+#include "../../builtin/container/mgd/tdumArr.hpp"
 #include "../../frame/frameInteract.hpp"
+#include "../../frame/thread.hpp"
+#include "../../visitor/visitor.hpp"
 #include "breakExpr.hpp"
 #include "nextExpr.hpp"
 #include "retExpr.hpp"
-#include "../../builtin/container/mgd/arr.hpp"
-#include "../../builtin/container/mgd/tdumArr.hpp"
 
 namespace nm {
 
@@ -18,8 +19,7 @@ namespace nm {
 
     void me::loop::run(blockExpr& blk, frame& fr) {
         str res = blk.run();
-        if(_ret)
-            _ret->add(*res);
+        if(_ret) _ret->add(*res);
     }
 
     nbool me::loop::postprocess(frame& fr) {
@@ -27,16 +27,15 @@ namespace nm {
         if(nul(ret)) return true;
 
         if(ret.isSub<nextRet>()) return fr.setRet(), true;
-        if(ret.isSub<breakRet>()) return fr.setRet(), false; // after I go out of the loop, I should clear break state.
+        if(ret.isSub<breakRet>())
+            return fr.setRet(), false; // after I go out of the loop, I should clear break state.
         // or stop the loop. I found the return value of the func.
         return false;
     }
 
     me::loopExpr(const blockExpr& blk): _blk(blk) {}
 
-    blockExpr& me::getBlock() const {
-        return *_blk;
-    }
+    blockExpr& me::getBlock() const { return *_blk; }
 
     str me::getEval() const {
         if(_eval) return *_eval;
@@ -48,8 +47,7 @@ namespace nm {
         str res = getBlock().getEval();
         if(!res) return str();
 
-        if(res->isSub<retExpr>())
-            return res;
+        if(res->isSub<retExpr>()) return res;
         return new arr(*res);
     }
 
@@ -63,10 +61,10 @@ namespace nm {
 
         frame& fr = thread::get()._getNowFrame();
         while(l->isLooping()) {
-            frameInteract f1(getBlock()); {
+            frameInteract f1(getBlock());
+            {
                 l->run(blk, fr);
-                if(!l->postprocess(fr))
-                    break;
+                if(!l->postprocess(fr)) break;
             }
         }
         return l->getRet();
@@ -80,4 +78,4 @@ namespace nm {
 
         return *new arr(eval.getType().getBeans()[0]);
     }
-}
+} // namespace nm

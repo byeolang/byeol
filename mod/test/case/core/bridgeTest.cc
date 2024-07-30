@@ -1,5 +1,6 @@
-#include "../../common/dep.hpp"
 #include <iostream>
+
+#include "../../common/dep.hpp"
 
 using namespace nm;
 using namespace std;
@@ -10,10 +11,12 @@ namespace {
             cout << "I'm kniz. have lived in Korea.\n";
             isRun = true;
         }
+
         int say(string msg) { // NOLINT
             isRun = true;
             return 0;
         }
+
         bool sayCharPtr(const char* msg) {
             cout << "Oh, it's charactor pointer. Of course I can say it without problem like '"
                  << msg << "'. were you suprise?\n";
@@ -25,8 +28,11 @@ namespace {
 
     struct window {
         int getX() { return 5; }
+
         int getY() { return _y; }
+
         void setY(int newY) { _y = newY; }
+
         window& new1(int newY) {
             window& ret = *new window();
             ret._y = newY;
@@ -37,14 +43,11 @@ namespace {
     };
 
     struct openGL {
-        int init(window* win) {
-            return win->getY() + win->getX();
-        }
+        int init(window* win) { return win->getY() + win->getX(); }
     };
-}
+} // namespace
 
-struct bridgeTest : public ::testing::Test {
-
+struct bridgeTest: public ::testing::Test {
     void SetUp() override {
         static nbool isFirst = true;
         if(isFirst) {
@@ -58,16 +61,12 @@ struct bridgeTest : public ::testing::Test {
                 .func("getX", &window::getX)
                 .func("getY", &window::getY)
                 .func("setY", &window::setY);
-            tbridger<openGL>::ctor()
-                .ctor<openGL>()
-                .func("init", &openGL::init);
+            tbridger<openGL>::ctor().ctor<openGL>().func("init", &openGL::init);
             isFirst = false;
         }
     }
 
-    void TearDown() override {
-        kniz::isRun = false;
-    }
+    void TearDown() override { kniz::isRun = false; }
 };
 
 TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
@@ -95,8 +94,8 @@ TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
 
 TEST_F(bridgeTest, testNormalWrapping) {
     tstr<tbridge<kniz>> bridge(tbridger<kniz>::make(new kniz()));
-        // TODO: how to handle void return & void parameter
-        //.func<void, void>(&kniz::say);
+    // TODO: how to handle void return & void parameter
+    //.func<void, void>(&kniz::say);
 
     node& func = bridge->sub("say");
     ASSERT_FALSE(nul(func));
@@ -120,8 +119,8 @@ TEST_F(bridgeTest, passObj) {
     str winBridge(tbridger<window>::make(new window()));
     str winOpenGL(tbridger<openGL>::make(new openGL()));
 
-    winBridge->run("setY", args{ narr{*new nInt(20)}});
-    str res = winOpenGL->run("init", args{ narr{*winBridge}});
+    winBridge->run("setY", args{narr{*new nInt(20)}});
+    str res = winOpenGL->run("init", args{narr{*winBridge}});
     ASSERT_TRUE(res);
     ASSERT_EQ(res->cast<nint>(), 25);
 }
@@ -130,20 +129,17 @@ TEST_F(bridgeTest, returnObj) {
     str winBridge(tbridger<window>::make(new window()));
     str winOpenGL(tbridger<openGL>::make(new openGL()));
 
-    str newWin = winBridge->run("new1", args{ narr{*new nInt(15)}});
-    str res = winOpenGL->run("init", args{ narr{*newWin}});
+    str newWin = winBridge->run("new1", args{narr{*new nInt(15)}});
+    str res = winOpenGL->run("init", args{narr{*newWin}});
     ASSERT_TRUE(res);
     ASSERT_EQ(res->cast<nint>(), 20);
 }
 
 namespace {
     struct windowManager {
-        void add(narr& wins) {
-            _wins.add(wins);
-        }
-        void del(int n) {
-            _wins.del(n);
-        }
+        void add(narr& wins) { _wins.add(wins); }
+
+        void del(int n) { _wins.del(n); }
 
         narr _wins;
     };
@@ -151,9 +147,10 @@ namespace {
 
 TEST_F(bridgeTest, passArray) {
     str mgrBridge(tbridger<windowManager>::ctor()
-            .ctor<windowManager>()
-            .func("add", &windowManager::add)
-            .func("del", &windowManager::del).make(new windowManager()));
+                      .ctor<windowManager>()
+                      .func("add", &windowManager::add)
+                      .func("del", &windowManager::del)
+                      .make(new windowManager()));
 
     arr a(*new nInt(0));
     a.subs(); // for bridging narr.
@@ -173,20 +170,19 @@ TEST_F(bridgeTest, passArray) {
 }
 
 namespace {
-    struct myObj : public obj {
+    struct myObj: public obj {
         NM(CLASS(myObj, obj))
 
     public:
         myObj(): age(0) {}
+
         myObj(int newAge): age(newAge) {}
 
         int age;
     };
 
     struct stage {
-        int foo(myObj& o) {
-            return o.age;
-        }
+        int foo(myObj& o) { return o.age; }
     };
 }
 
@@ -194,15 +190,14 @@ TEST_F(bridgeTest, passRawObj) {
     myObj o1;
     o1.age = 5;
 
-    str stg(tbridger<stage>::ctor().ctor<stage>()
-            .func("foo", &stage::foo).make(new stage()));
+    str stg(tbridger<stage>::ctor().ctor<stage>().func("foo", &stage::foo).make(new stage()));
     str res = stg->run("foo", args{narr{o1}});
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 5);
 }
 
 namespace {
-    struct yourObj : public obj {
+    struct yourObj: public obj {
         NM(CLASS(yourObj, obj))
     };
 
@@ -212,15 +207,16 @@ namespace {
 
         testObj() {}
 
-        int updateLen(tarr<myObj> a) { // NOLINT: to test whether bridge can support byval parameter.
+        int updateLen(
+            tarr<myObj> a) { // NOLINT: to test whether bridge can support byval parameter.
             len = a.len();
-            _arr.bind((tarr<myObj>*)a.clone());
+            _arr.bind((tarr<myObj>*) a.clone());
             return len;
         }
 
         int sumOfLen() const {
             int ret = 0;
-            for(const auto& elem : *_arr)
+            for(const auto& elem: *_arr)
                 ret += elem.cast<myObj>().age;
             return ret;
         }
@@ -237,9 +233,11 @@ TEST_F(bridgeTest, passArr) {
     a.add(new myObj(3));
     ASSERT_EQ(a.len(), 3);
 
-    str testobj(tbridger<testObj>::ctor().ctor<testObj>()
-        .func("updateLen", &testObj::updateLen)
-        .func("sumOfLen", &testObj::sumOfLen).make(new testObj()));
+    str testobj(tbridger<testObj>::ctor()
+                    .ctor<testObj>()
+                    .func("updateLen", &testObj::updateLen)
+                    .func("sumOfLen", &testObj::sumOfLen)
+                    .make(new testObj()));
     str res = testobj->run("updateLen", args{narr{a}});
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 3);
@@ -250,20 +248,16 @@ TEST_F(bridgeTest, passArr) {
 }
 
 namespace {
-    struct A : public baseObj {
+    struct A: public baseObj {
         NM(CLASS(A, baseObj))
 
     public:
-        nint foo(nint a) {
-            return age + a;
-        }
+        nint foo(nint a) { return age + a; }
 
         using super::subs;
+
         scope& subs() override {
-            static scope inner = tbridger<A>::ctor()
-                .ctor<A, A>()
-                .func("foo", &A::foo)
-                .subs();
+            static scope inner = tbridger<A>::ctor().ctor<A, A>().func("foo", &A::foo).subs();
 
             return inner;
         }

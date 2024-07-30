@@ -1,7 +1,7 @@
 #pragma once
 
-#include "src/src.hpp"
 #include "../frame/frameInteractable.hpp"
+#include "src/src.hpp"
 
 namespace nm {
 
@@ -12,7 +12,7 @@ namespace nm {
     class obj;
 
     /// baseObj handles frame injection event of all objects.
-    class _nout baseObj : public node {
+    class _nout baseObj: public node {
         NM(ADT(baseObj, node))
         friend class verifier;
         friend class obj;
@@ -22,8 +22,8 @@ namespace nm {
         friend class exprMaker;
 
     protected:
-        /// if you don't give any subs when construct an baseObj, _subs will be assigned to dummy array.
-        /// instance on ctor of derived class.
+        /// if you don't give any subs when construct an baseObj, _subs will be assigned to dummy
+        /// array. instance on ctor of derived class.
         explicit baseObj() = default;
 
     public:
@@ -53,7 +53,7 @@ namespace nm {
         virtual void _inFrame(frame& fr, const bicontainable& args);
 
     public:
-         inline static const std::string CTOR_NAME = "@ctor";
-         inline static const std::string PRECTOR_NAME = "@preCtor";
+        inline static const std::string CTOR_NAME = "@ctor";
+        inline static const std::string PRECTOR_NAME = "@preCtor";
     };
-}
+} // namespace nm

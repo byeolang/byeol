@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class _nout preEvaluator : public visitor {
+    class _nout preEvaluator: public visitor {
         NM(CLASS(preEvaluator, visitor))
 
         struct _nout evaluation {
@@ -48,4 +48,4 @@ namespace nm {
         tstr<obj> _obj;
         tstr<func> _func;
     };
-}
+} // namespace nm

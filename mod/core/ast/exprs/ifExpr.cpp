@@ -1,8 +1,9 @@
 #include "ifExpr.hpp"
-#include "../../builtin/primitive/nVoid.hpp"
-#include "../../visitor/visitor.hpp"
+
 #include "../../builtin/primitive/nBool.hpp"
+#include "../../builtin/primitive/nVoid.hpp"
 #include "../../frame/frameInteract.hpp"
+#include "../../visitor/visitor.hpp"
 #include "retStateExpr.hpp"
 
 namespace nm {
@@ -10,20 +11,15 @@ namespace nm {
     NM(DEF_ME(ifExpr), DEF_VISIT())
 
     me::ifExpr(const node& exp, const blockExpr& thenBlk): _expr(exp), _then(thenBlk) {}
+
     me::ifExpr(const node& exp, const blockExpr& thenBlk, const blockExpr& elseBlk):
         _expr(exp), _then(thenBlk), _else(elseBlk) {}
 
-    blockExpr& me::getThen() {
-        return *_then;
-    }
+    blockExpr& me::getThen() { return *_then; }
 
-    blockExpr& me::getElse() {
-        return *_else;
-    }
+    blockExpr& me::getElse() { return *_else; }
 
-    node& me::getCondition() {
-        return *_expr;
-    }
+    node& me::getCondition() { return *_expr; }
 
     str me::run(const args& a) {
         tstr<nBool> res = _expr->as<node>()->asImpli<nBool>();
@@ -58,15 +54,9 @@ namespace nm {
         return ret;
     }
 
-    void me::setThen(const blockExpr& newThen) {
-        _then.bind(newThen);
-    }
+    void me::setThen(const blockExpr& newThen) { _then.bind(newThen); }
 
-    void me::setElse(const blockExpr& newElse) {
-        _else.bind(newElse);
-    }
+    void me::setElse(const blockExpr& newElse) { _else.bind(newElse); }
 
-    void me::setCondition(const node& newCondition) {
-        _expr.bind(newCondition);
-    }
-}
+    void me::setCondition(const node& newCondition) { _expr.bind(newCondition); }
+} // namespace nm

@@ -1,7 +1,8 @@
 #include "assignExpr.hpp"
+
 #include "../../frame/thread.hpp"
-#include "../obj.hpp"
 #include "../../visitor/visitor.hpp"
+#include "../obj.hpp"
 
 namespace nm {
 
@@ -17,17 +18,11 @@ namespace nm {
         return ret;
     }
 
-    str me::getEval() const {
-        return _rhs->getEval();
-    }
+    str me::getEval() const { return _rhs->getEval(); }
 
-    const node& me::getLeft() const {
-        return *_lhs;
-    }
+    const node& me::getLeft() const { return *_lhs; }
 
-    const node& me::getRight() const {
-        return *_rhs;
-    }
+    const node& me::getRight() const { return *_rhs; }
 
     clonable* me::cloneDeep() const {
         me* ret = (me*) clone();
@@ -47,12 +42,11 @@ namespace nm {
 
         iter ret = ased->subs().iterate(cast.getName());
         while(ret) {
-            if(!nul(ret.getVal<baseObj>()))
-                return ret;
+            if(!nul(ret.getVal<baseObj>())) return ret;
 
             ++ret;
         }
 
         return iter();
     }
-}
+} // namespace nm

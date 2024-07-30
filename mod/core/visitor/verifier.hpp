@@ -1,8 +1,8 @@
 #pragma once
 
-#include "visitor.hpp"
-#include "../frame/frame.hpp"
 #include "../ast/params.hpp"
+#include "../frame/frame.hpp"
+#include "visitor.hpp"
 
 struct verifierTest;
 
@@ -10,7 +10,8 @@ namespace nm {
 
     class loopExpr;
     class thread;
-    class _nout verifier : public visitor {
+
+    class _nout verifier: public visitor {
         NM(CLASS(verifier, visitor))
         friend struct ::verifierTest;
         friend class genericOrigin;
@@ -59,4 +60,4 @@ namespace nm {
     private:
         std::vector<loopExpr*> _recentLoops;
     };
-}
+} // namespace nm

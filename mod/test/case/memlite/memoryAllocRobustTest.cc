@@ -1,89 +1,85 @@
-#include "../../namuTest.hpp"
 #include <ctime>
+
+#include "../../namuTest.hpp"
 
 using namespace nm;
 
-struct memoryAllocRobustTest : public namuTest {};
+struct memoryAllocRobustTest: public namuTest {};
 
 namespace {
-    struct A : public instance {
-        const type& getType() const override {
-            return ttype<A>::get();
-        }
+    struct A: public instance {
+        const type& getType() const override { return ttype<A>::get(); }
 
-        clonable* clone() const override {
-            return new A();
-        }
+        clonable* clone() const override { return new A(); }
 
         int age;
     };
 
+    struct B: public A {
+        const type& getType() const override { return ttype<B>::get(); }
 
-    struct B : public A {
-        const type& getType() const override {
-            return ttype<B>::get();
-        }
-
-        clonable* clone() const override {
-            return new B();
-        }
+        clonable* clone() const override { return new B(); }
 
         float grade;
     };
 
-    struct pinstance { id _id; };
-    struct pnode : public pinstance {};
-    struct pobject : public pnode {};
+    struct pinstance {
+        id _id;
+    };
 
-    struct PA : public pobject {
-        const type& getType() const {
-            return ttype<PA>::get();
-        }
+    struct pnode: public pinstance {};
+
+    struct pobject: public pnode {};
+
+    struct PA: public pobject {
+        const type& getType() const { return ttype<PA>::get(); }
 
         int age;
     };
 
-    struct PB : public PA {
-        const type& getType() const {
-            return ttype<PB>::get();
-        }
+    struct PB: public PA {
+        const type& getType() const { return ttype<PB>::get(); }
 
         float grade;
     };
 
-    time_t run1(int& crc, int n)
-    {
-        PA* parr[100000] = {0, };
+    time_t run1(int& crc, int n) {
+        PA* parr[100000] = {
+            0,
+        };
         time_t start = clock();
         crc = 0;
-        for(int i=0; i < n ;i++) {
+        for(int i = 0; i < n; i++) {
             parr[i] = new PB();
             crc += *(int*) parr[i];
         }
-        for(int i=0; i < n ;i++)
+        for(int i = 0; i < n; i++)
             delete parr[i];
         return clock() - start;
     }
 
-    time_t run2(int& crc, int n)
-    {
+    time_t run2(int& crc, int n) {
         crc = 0;
-        A* arr[100000] = {0, };
+        A* arr[100000] = {
+            0,
+        };
         time_t start = clock();
-        for(int i=0; i < n ;i++) {
+        for(int i = 0; i < n; i++) {
             arr[i] = new B();
             crc += *(int*) arr[i];
         }
-        for(int i=0; i < n ;i++)
+        for(int i = 0; i < n; i++)
             delete arr[i];
         return clock() - start;
     }
 
-}
+} // namespace
 
-#define SPRINT(n) \
-    NM_W("%d times new/delete : %f ms elapsed. crc=%d", n, ((float) run1(crc, (n))) / CLOCKS_PER_SEC*1000.0f, crc); \
-    NM_W("%d times mempool    : %f ms elapsed. crc=%d", n, ((float) run2(crc, (n))) / CLOCKS_PER_SEC*1000.0f, crc);
+#define SPRINT(n)                                                  \
+    NM_W("%d times new/delete : %f ms elapsed. crc=%d", n,         \
+        ((float) run1(crc, (n))) / CLOCKS_PER_SEC * 1000.0f, crc); \
+    NM_W("%d times mempool    : %f ms elapsed. crc=%d", n,         \
+        ((float) run2(crc, (n))) / CLOCKS_PER_SEC * 1000.0f, crc);
 
 TEST_F(memoryAllocRobustTest, sprint10) {
     int crc = 0;

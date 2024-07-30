@@ -3,7 +3,7 @@
 #include "scope.hpp"
 
 namespace nm {
-    class _nout dumScope : public scope {
+    class _nout dumScope: public scope {
         NM(CLASS(dumScope, scope))
 
     public:

@@ -6,7 +6,7 @@ namespace nm {
 
     class visitor;
 
-    class _nout defSeqExpr : public expr {
+    class _nout defSeqExpr: public expr {
         NM(CLASS(defSeqExpr, expr, expr::exprType), VISIT())
         friend class func;
         friend class verifier;

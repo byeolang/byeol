@@ -1,21 +1,22 @@
-#include "../../common/dep.hpp"
-#include "../../namuSyntaxTest.hpp"
-#include <functional>
 #include <chrono>
 #include <cstdint>
+#include <functional>
+
+#include "../../common/dep.hpp"
+#include "../../namuSyntaxTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct speedTest : namuSyntaxTest {};
+struct speedTest: namuSyntaxTest {};
 
-namespace  {
+namespace {
     void benchMark(string name, int cnt, function<void(void)> func) {
         nbool prevEnable = logger::get().isEnable();
         logger::get().setEnable(false);
 
         auto start = chrono::steady_clock::now();
-        for(int n=0; n < cnt; n++)
+        for(int n = 0; n < cnt; n++)
             func();
         auto end = chrono::steady_clock::now();
         auto totalElapsed = end - start;
@@ -24,12 +25,13 @@ namespace  {
         NM_I("[%s]: it took total %d ms.", name, (nint64) (totalElapsed / chrono::milliseconds(1)));
     }
 
-    struct myObj : public obj {
+    struct myObj: public obj {
         NM(CLASS(myObj, obj))
     };
 
     struct dummy {
         dummy() {}
+
         dummy(const std::string& newName): name(newName) {}
 
         std::string name;
@@ -126,17 +128,19 @@ TEST_F(speedTest, benchmarkSumOfSequence) {
 
     nint sum = 0;
     auto start = chrono::steady_clock::now();
-    for(int n=0; n < 10000;n++)
+    for(int n = 0; n < 10000; n++)
         sum += n;
     auto end = chrono::steady_clock::now();
 
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             sum := 0
             for n in 1..10000
                 sum = sum + n
             ret sum
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     auto start2 = chrono::steady_clock::now();
     const filters& prevFilters = logger::get().getFilters();

@@ -1,14 +1,14 @@
 #pragma once
 
-#include "manifest.hpp"
 #include "../loader/errReport.hpp"
+#include "manifest.hpp"
 #include "origin.hpp"
 
 namespace nm {
 
     class visitor;
 
-    class _nout slot : public node {
+    class _nout slot: public node {
         NM(CLASS(slot, node), VISIT())
 
     public:
@@ -55,4 +55,4 @@ namespace nm {
     typedef tnmap<std::string, slot> slots;
     typedef tnchain<std::string, slot> slotChain;
     typedef tnbicontainer<std::string, slot> slotContainer;
-}
+} // namespace nm

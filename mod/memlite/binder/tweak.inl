@@ -1,8 +1,8 @@
 #pragma once
 
+#include "tbindable.inl"
 #include "tweak.hpp"
 #include "weakTactic.hpp"
-#include "tbindable.inl"
 
 namespace nm {
 
@@ -10,14 +10,25 @@ namespace nm {
 #define ME tweak<T, TACTIC>
 #define SUPER binder
 
-    TEMPL ME::tweak() : SUPER(ttype<T>::get(), TACTIC::singletone) {}
-    TEMPL ME::tweak(const type& subtype): SUPER(subtype.isSub(ttype<T>::get()) ? subtype : ttype<T>::get(), TACTIC::singletone) {}
+    TEMPL ME::tweak(): SUPER(ttype<T>::get(), TACTIC::singletone) {}
+
+    TEMPL ME::tweak(const type& subtype):
+        SUPER(subtype.isSub(ttype<T>::get()) ? subtype : ttype<T>::get(), TACTIC::singletone) {}
+
     TEMPL ME::tweak(const T& it): SUPER(ttype<T>::get(), TACTIC::singletone) { this->bind(it); }
+
     TEMPL ME::tweak(const T* it): SUPER(ttype<T>::get(), TACTIC::singletone) { this->bind(*it); }
-    TEMPL ME::tweak(const ME& rhs): SUPER(ttype<T>::get(), TACTIC::singletone) { this->_assign(rhs); }
-    TEMPL ME::tweak(const binder& rhs): SUPER(ttype<T>::get(), TACTIC::singletone) { this->bind(*rhs); }
+
+    TEMPL ME::tweak(const ME& rhs): SUPER(ttype<T>::get(), TACTIC::singletone) {
+        this->_assign(rhs);
+    }
+
+    TEMPL ME::tweak(const binder& rhs): SUPER(ttype<T>::get(), TACTIC::singletone) {
+        this->bind(*rhs);
+    }
 
     TEMPL T* ME::operator->() { return &this->get(); }
+
     TEMPL T& ME::operator*() { return this->get(); }
 
     TEMPL ME& ME::operator=(const binder& rhs) {
@@ -27,9 +38,7 @@ namespace nm {
         return *this;
     }
 
-    TEMPL ME& ME::operator=(const me& rhs) {
-        return operator=((const binder&) rhs);
-    }
+    TEMPL ME& ME::operator=(const me& rhs) { return operator=((const binder&) rhs); }
 
     TEMPL T& ME::get() {
         instance& got = SUPER::get();
@@ -44,4 +53,4 @@ namespace nm {
 #undef ME
 #undef TEMPL
 
-}
+} // namespace nm

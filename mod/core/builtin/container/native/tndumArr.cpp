@@ -1,6 +1,5 @@
 #include "tndumArr.hpp"
 
 namespace nm {
-    template <>
-    ndumArr ndumArr::singletone;
+    template <> ndumArr ndumArr::singletone;
 }

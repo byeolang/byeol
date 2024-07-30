@@ -3,20 +3,20 @@
 using namespace nm;
 using namespace std;
 
-struct objTest : public namuTest {};
+struct objTest: public namuTest {};
 
 namespace {
-    class originObj : public obj {
+    class originObj: public obj {
         NM(CLASS(originObj, obj))
 
     public:
         originObj(): super(mgdType::makeNew<obj>("originObj")), _subs(*new scope()) {}
+
         originObj(const scope& subs): super(mgdType::makeNew<obj>("originObj")), _subs(subs) {}
+
         originObj(const me& rhs): _subs(rhs._subs) {}
 
-        const baseObj& getOrigin() const override {
-            return *this;
-        }
+        const baseObj& getOrigin() const override { return *this; }
 
         me& operator=(const me& rhs) {
             if(this == &rhs) return *this;
@@ -26,6 +26,7 @@ namespace {
         }
 
         using super::subs;
+
         scope& subs() override { return *_subs; }
 
     private:

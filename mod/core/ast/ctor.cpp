@@ -1,4 +1,5 @@
 #include "ctor.hpp"
+
 #include "../visitor/visitor.hpp"
 
 namespace nm {
@@ -7,19 +8,11 @@ namespace nm {
 
     me::ctor(const node& org): _org(org) {}
 
-    str me::getRet() const {
-        return _org->getEval();
-    }
+    str me::getRet() const { return _org->getEval(); }
 
-    str me::getEval() const {
-        return getRet();
-    }
+    str me::getEval() const { return getRet(); }
 
-    const node& me::getOrigin() const {
-        return *_org;
-    }
+    const node& me::getOrigin() const { return *_org; }
 
-    void me::_setOrigin(const node& newOrg) {
-        _org.bind(newOrg);
-    }
+    void me::_setOrigin(const node& newOrg) { _org.bind(newOrg); }
 }

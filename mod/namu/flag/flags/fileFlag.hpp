@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class fileFlag : public flag {
+    class fileFlag: public flag {
         NM(CLASS(fileFlag, flag))
 
     public:

@@ -1,43 +1,48 @@
 #pragma once
 
-#include "../../ast/baseFunc.hpp"
+#include <functional>
+
 #include "../../ast/args.hpp"
+#include "../../ast/baseFunc.hpp"
 #include "../../ast/params.hpp"
 #include "ast/mockNode.hpp"
-#include <functional>
 
 namespace nm {
 
-    template <typename Ret, typename T, template <typename, nbool> class Marshaling, typename... Args>
-    class tbridgeClosure : public baseFunc {
+    template <typename Ret, typename T, template <typename, nbool> class Marshaling,
+        typename... Args>
+    class tbridgeClosure: public baseFunc {
         NM(CLASS(tbridgeClosure, baseFunc))
-        static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal() ) ==
-                sizeof(metaIf::yes))...>::value,
-                "can't marshal one of this func's parameter ntypes.");
+        static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal()) ==
+                          sizeof(metaIf::yes))...>::value,
+            "can't marshal one of this func's parameter ntypes.");
 
     public:
         tbridgeClosure(std::function<Ret(T&, Args...)> closure): _closure(closure) {}
 
     public:
         using super::run;
+
         str run(const args& a) override {
             args tray;
             args& evaluated = _evalArgs(a, tray);
-            if(nul(evaluated))
-                return NM_E("evaluated == null"), str();
+            if(nul(evaluated)) return NM_E("evaluated == null"), str();
 
             return _marshal(evaluated, std::index_sequence_for<Args...>());
         }
 
         str getRet() const override {
-            static str ret(Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::onGetRet());
+            static str ret(
+                Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::onGetRet());
             return ret;
         }
 
         const params& getParams() const override {
             if(!_params) {
                 _params.bind(new params());
-                (_params->add(new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())), ...);
+                (_params->add(
+                     new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())),
+                    ...);
             }
             return *_params;
         }
@@ -45,15 +50,13 @@ namespace nm {
         clonable* cloneDeep() const override {
             me* ret = (me*) clone();
             const params& ps = getParams();
-            if(!nul(ps))
-                ret->_params.bind((params*) ps.cloneDeep());
+            if(!nul(ps)) ret->_params.bind((params*) ps.cloneDeep());
 
             return ret;
         }
 
     private:
-        template <size_t... index>
-        str _marshal(args& a, std::index_sequence<index...>) {
+        template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
             T* me = (T*) &a.getMe();
             if(nul(me)) return NM_E("object from frame does not exists."), str();
             if(me->template isSub<mockNode>()) {
@@ -74,8 +77,7 @@ namespace nm {
             int n = 0;
             for(const node& e: a) {
                 str ased = e.as(ps[n++].getOrigin());
-                if(!ased)
-                    return nulOf<args>();
+                if(!ased) return nulOf<args>();
 
                 tray.add(*ased);
             }
@@ -90,22 +92,22 @@ namespace nm {
     };
 
     template <typename T, template <typename, nbool> class Marshaling, typename... Args>
-    class tbridgeClosure<void, T, Marshaling, Args...> : public baseFunc {
+    class tbridgeClosure<void, T, Marshaling, Args...>: public baseFunc {
         NM(CLASS(tbridgeClosure, baseFunc))
-        static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal() ) ==
-                sizeof(metaIf::yes))...>::value,
-                "can't marshal one of this func's parameter ntypes.");
+        static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal()) ==
+                          sizeof(metaIf::yes))...>::value,
+            "can't marshal one of this func's parameter ntypes.");
 
     public:
         tbridgeClosure(std::function<void(T&, Args...)>&& closure): _closure(closure) {}
 
     public:
         using super::run;
+
         str run(const args& a) override {
             args tray;
             args& evaluated = _evalArgs(a, tray);
-            if(nul(evaluated))
-                return NM_E("evaluated == null"), str();
+            if(nul(evaluated)) return NM_E("evaluated == null"), str();
 
             return _marshal(evaluated, std::index_sequence_for<Args...>());
         }
@@ -118,7 +120,9 @@ namespace nm {
         const params& getParams() const override {
             if(!_params) {
                 _params.bind(new params());
-                (_params->add(new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())), ...);
+                (_params->add(
+                     new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())),
+                    ...);
             }
             return *_params;
         }
@@ -126,15 +130,13 @@ namespace nm {
         clonable* cloneDeep() const override {
             me* ret = (me*) clone();
             const params& ps = getParams();
-            if(!nul(ps))
-                ret->_params.bind((params*) ps.cloneDeep());
+            if(!nul(ps)) ret->_params.bind((params*) ps.cloneDeep());
 
             return ret;
         }
 
     private:
-        template <size_t... index>
-        str _marshal(args& a, std::index_sequence<index...>) {
+        template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
             T* me = (T*) &a.getMe();
             if(nul(me)) return NM_E("object from frame does not exists."), str();
             if(me->template isSub<mockNode>()) {
@@ -155,8 +157,7 @@ namespace nm {
             int n = 0;
             for(const node& e: a) {
                 str ased = e.as(ps[n++].getOrigin());
-                if(!ased)
-                    return nulOf<args>();
+                if(!ased) return nulOf<args>();
 
                 tray.add(*ased);
             }
@@ -169,4 +170,4 @@ namespace nm {
         mutable tstr<params> _params;
         std::function<void(T&, Args...)> _closure;
     };
-}
+} // namespace nm

@@ -3,17 +3,19 @@
 using namespace nm;
 using namespace std;
 
-struct nchainTest : public namuTest {};
+struct nchainTest: public namuTest {};
 
 namespace {
-    class myNode : public node {
+    class myNode: public node {
         NM(CLASS(myNode, node))
 
     public:
         myNode(int num): number(num) {}
 
         scope& subs() override { return nulOf<scope>(); }
+
         priorType prioritize(const args& types) const override { return NO_MATCH; }
+
         str run(const args& a) override { return str(); }
 
         int number;
@@ -27,7 +29,7 @@ namespace {
         ASSERT_TRUE(nul(chn.getNext()));
 
         std::map<std::string, myNode*> tray;
-        for(int n=0; n < cnt ;n++) {
+        for(int n = 0; n < cnt; n++) {
             myNode* new1 = new myNode(n);
             m->add("name" + std::to_string(n), new1);
             tray.insert({"name" + std::to_string(n), new1});
@@ -39,7 +41,7 @@ namespace {
         ASSERT_EQ(chn.len(), cnt);
 
         ASSERT_TRUE(nul(chn.getNext()));
-        for(auto e=chn.begin(); e ;++e) {
+        for(auto e = chn.begin(); e; ++e) {
             ASSERT_FALSE(nul(e.getKey()));
             ASSERT_NE(e.getKey(), "");
             const myNode& elem = e.getVal();
@@ -49,7 +51,7 @@ namespace {
         }
     }
 
-    class myMyNode : public myNode {
+    class myMyNode: public myNode {
         NM(CLASS(myMyNode, myNode))
 
     public:
@@ -61,50 +63,45 @@ namespace {
         ASSERT_TRUE(chn.has(std::to_string(val2)));
     }
 
-    struct myNode2 : public myNode {
+    struct myNode2: public myNode {
         NM(CLASS(myNode2, myNode))
 
     public:
-        myNode2(int val) : super(val) {}
+        myNode2(int val): super(val) {}
     };
 
     bool vectorHas(std::vector<float>& v, float val) {
-        for(int n=0; n < v.size() ;n++)
-            if(v[n] == val)
-                return true;
+        for(int n = 0; n < v.size(); n++)
+            if(v[n] == val) return true;
         return false;
     }
 
     template <typename T = myNode>
-    static nbool isMyNodesHasEqualIntArray(const tnchain<float, myNode>& root, float expects[], int expectSize) {
+    static nbool isMyNodesHasEqualIntArray(const tnchain<float, myNode>& root, float expects[],
+        int expectSize) {
         auto myE = root.begin();
         vector<float> actuals;
-        for(const auto& elem : root)
-            if(elem.isSub<T>())
-                actuals.push_back((float) elem.number);
+        for(const auto& elem: root)
+            if(elem.isSub<T>()) actuals.push_back((float) elem.number);
 
         if(actuals.size() != expectSize) return false;
-        for(int n=0; n < expectSize ;n++)
+        for(int n = 0; n < expectSize; n++)
             if(!vectorHas(actuals, expects[n])) return false;
         return true;
     }
 
-}
+} // namespace
 
 TEST_F(nchainTest, instantiateTest) {
     nchain chn;
     ASSERT_FALSE(nul(chn.getContainer()));
 }
 
-TEST_F(nchainTest, simpleAddDelTest10) {
-    simpleAddDelTest(10);
-}
-TEST_F(nchainTest, simpleAddDelTest1000) {
-    simpleAddDelTest(1000);
-}
-TEST_F(nchainTest, simpleAddDelTest10000) {
-    simpleAddDelTest(10000);
-}
+TEST_F(nchainTest, simpleAddDelTest10) { simpleAddDelTest(10); }
+
+TEST_F(nchainTest, simpleAddDelTest1000) { simpleAddDelTest(1000); }
+
+TEST_F(nchainTest, simpleAddDelTest10000) { simpleAddDelTest(10000); }
 
 TEST_F(nchainTest, testucontainableAPI) {
     //  initial state:
@@ -127,14 +124,13 @@ TEST_F(nchainTest, testucontainableAPI) {
     ASSERT_EQ(con->len(), 2);
 
     //  add:
-    for(int n=0; n < con->len() ;n++)
+    for(int n = 0; n < con->len(); n++)
         ASSERT_EQ(con->get(std::to_string(n)).cast<myNode>().number, n);
 
     //  get & each:
     {
-        tnarr<myNode> tray = arr->getAll<myNode>([](const std::string& name, const myNode& elem) {
-            return true;
-        });
+        tnarr<myNode> tray =
+            arr->getAll<myNode>([](const std::string& name, const myNode& elem) { return true; });
         ASSERT_EQ(tray.len(), 2);
 
         int cnt = 0;
@@ -182,14 +178,14 @@ TEST_F(nchainTest, testucontainableAPI) {
 
     ASSERT_EQ(con->len(), 1);
     ncnt count = 0;
-    for(auto e=arr2.iterate(1); e != arr2.iterate(3) ;++e)
+    for(auto e = arr2.iterate(1); e != arr2.iterate(3); ++e)
         count += con->add(to_string(count), *e);
     ASSERT_EQ(count, 2);
     ASSERT_EQ(con->len(), 3);
 
     // con = {0, 1, 6}
 
-    auto e2=con->begin();
+    auto e2 = con->begin();
     myNode* elem = &e2->cast<myNode>();
     ASSERT_FALSE(nul(elem));
     ASSERT_EQ(elem->number, 0);
@@ -208,7 +204,7 @@ TEST_F(nchainTest, testucontainableAPI) {
     ASSERT_TRUE(con->len() == 0);
 
     count = 0;
-    for(auto e=arr2.iterate(2); e ;++e)
+    for(auto e = arr2.iterate(2); e; ++e)
         count += con->add(to_string(count), *e);
     ASSERT_EQ(count, 4);
     e2 = con->begin();
@@ -253,8 +249,8 @@ TEST_F(nchainTest, testLinkedChainWithOnly1Element) {
     chn2.link(chn1);
     ASSERT_EQ(chn2.len(), 2);
 
-    int n=0;
-    for(auto e=chn2.begin(); e ;++e)
+    int n = 0;
+    for(auto e = chn2.begin(); e; ++e)
         n++;
     ASSERT_EQ(n, 2);
 }
@@ -310,16 +306,15 @@ TEST_F(nchainTest, testLinkedChainWithNContainerAPI) {
     // each with link:
     int cnt = 0;
     auto lambda = [&cnt, &expectElementNums](const nbicontainer& chn) -> void {
-        for(const auto& e : chn) {
+        for(const auto& e: chn) {
             const myNode& elem = e.cast<myNode>();
             if(nul(elem)) {
                 cnt = -1;
                 return;
             }
-
         }
 
-        for(int n=0; n < chn.len() ;++n, cnt++)
+        for(int n = 0; n < chn.len(); ++n, cnt++)
             if(!chn.has(std::to_string(expectElementNums[cnt]))) {
                 cnt = -1;
                 return;
@@ -345,7 +340,7 @@ TEST_F(nchainTest, testLinkedChainWithNContainerAPI) {
     ASSERT_EQ(chn3.len(), 2);
     ASSERT_EQ(chn3.getContainer().len(), 2);
 
-    ASSERT_TRUE(chn1.del(chn1.begin()+1, chn2.begin()+1));
+    ASSERT_TRUE(chn1.del(chn1.begin() + 1, chn2.begin() + 1));
     ASSERT_EQ(chn1.len(), 4);
     ASSERT_EQ(chn2.len(), 3);
 }
@@ -372,7 +367,8 @@ TEST_F(nchainTest, testcloneDeep) {
     ASSERT_EQ(chn["2"].cast<myNode>().number, 2);
     ASSERT_EQ(chn["3"].cast<myNode>().number, 3);
 
-    tstr<nchain> it((nchain*) chn.cloneDeep()); // cloneDeep() clones all element in all chained container.
+    tstr<nchain> it(
+        (nchain*) chn.cloneDeep()); // cloneDeep() clones all element in all chained container.
     nchain& itsChn = *it;
     ASSERT_EQ(itsChn["0"].cast<myNode>().number, 0);
     ASSERT_EQ(itsChn["1"].cast<myNode>().number, 1);
@@ -495,27 +491,26 @@ TEST_F(nchainTest, testRangeBasedForLoop) {
     map1.link(map2);
 
     int sum = 0;
-    for(auto& e : map1) {
+    for(auto& e: map1) {
         myNode& cast = e.cast<myNode>();
         sum += cast.number;
     }
 
     int sum2 = 0;
-    for(const node& e : map1) {
+    for(const node& e: map1) {
         const myNode& cast = e.cast<myNode>();
         sum2 += cast.number;
     }
     ASSERT_EQ(sum2, sum);
 
     int expect = 0;
-    for(auto e=map1.begin(); e ; e++)
+    for(auto e = map1.begin(); e; e++)
         expect += e->cast<myNode>().number;
 
     ASSERT_EQ(sum, expect);
 }
 
 TEST_F(nchainTest, testLinkArrayAndChain) {
-
     nmap map1;
     map1.add("1", new myNode(1));
     map1.add("2", new myNode(2));
@@ -537,7 +532,7 @@ TEST_F(nchainTest, testLinkArrayAndChain) {
     int cnt = 5;
     ASSERT_EQ(chn.len(), cnt);
 
-    for(int n=1; n <= 5; n++) {
+    for(int n = 1; n <= 5; n++) {
         std::string key = std::to_string(n);
         ASSERT_TRUE(chn.has(key));
         ASSERT_EQ(chn[key].cast<myNode>().number, n);
@@ -595,13 +590,13 @@ TEST_F(nchainTest, testChainCopy) {
 
 
     std::vector<float> tray;
-    for(auto e=cloned2->begin(); e ;++e) {
+    for(auto e = cloned2->begin(); e; ++e) {
         ASSERT_EQ(e.getKey(), (float) e->cast<myNode>().number);
         tray.push_back(e.getKey());
     }
 
 
-    for(int n=1; n <= 7; n++)
+    for(int n = 1; n <= 7; n++)
         ASSERT_TRUE(vectorHas(tray, n));
 }
 
@@ -663,7 +658,7 @@ TEST_F(nchainTest, testDeepChainAddDel) {
     }
 
     bool found = false;
-    for(const auto& elem : *root)
+    for(const auto& elem: *root)
         if(elem.isSub<myNode2>()) {
             found = true;
             break;
@@ -682,12 +677,9 @@ TEST_F(nchainTest, delWhileIteration) {
     m.add("meat", new nInt(7));
     m.add("banana", new nInt(8));
 
-    for(auto e = m.begin(); e ;) {
-        if(e.getKey() == "banana")
-            m.del(e++);
-        else
-            ++e;
-    }
+    for(auto e = m.begin(); e;)
+        if(e.getKey() == "banana") m.del(e++);
+        else ++e;
 
     ASSERT_EQ(m.len(), 4);
     ASSERT_EQ(m.get("apple").cast<int>(), 3);

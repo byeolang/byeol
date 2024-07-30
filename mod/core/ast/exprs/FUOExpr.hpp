@@ -1,8 +1,8 @@
 #pragma once
 
+#include "../../builtin/primitive/arithmeticObj.hpp"
 #include "../expr.hpp"
 #include "../param.hpp"
-#include "../../builtin/primitive/arithmeticObj.hpp"
 #include "../scope.hpp"
 
 namespace nm {
@@ -10,14 +10,15 @@ namespace nm {
     class visitor;
 
     // FAO: Fundermental Unary Operation.
-    class _nout FUOExpr : public expr {
+    class _nout FUOExpr: public expr {
         NM(CLASS(FUOExpr, expr, expr::exprType), VISIT())
 
     public:
         enum rule {
             POSTFIX_DOUBLE_PLUS = 0,
             START = POSTFIX_DOUBLE_PLUS,
-            POSTFIX_DOUBLE_MINUS, BITWISE_NOT,
+            POSTFIX_DOUBLE_MINUS,
+            BITWISE_NOT,
             END
         };
 
@@ -38,4 +39,4 @@ namespace nm {
         rule _rule;
         str _it;
     };
-}
+} // namespace nm

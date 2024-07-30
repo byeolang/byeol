@@ -1,10 +1,11 @@
 #include "baseFunc.hpp"
-#include "params.hpp"
+
+#include "../builtin/primitive/nByte.hpp"
+#include "../builtin/primitive/nInt.hpp"
+#include "../frame/frame.hpp"
 #include "../frame/frameInteract.hpp"
 #include "../visitor/visitor.hpp"
-#include "../frame/frame.hpp"
-#include "../builtin/primitive/nInt.hpp"
-#include "../builtin/primitive/nByte.hpp"
+#include "params.hpp"
 
 namespace nm {
 
@@ -16,7 +17,7 @@ namespace nm {
 
         int n = 0;
         priorType max = EXACT_MATCH; // begining from lv0.
-        for(const auto& e : a) {
+        for(const auto& e: a) {
             str t = e.getEval();
             if(!t) return NM_W("t == null"), NO_MATCH;
             str p = ps[n++].getOrigin().as<node>();
@@ -24,12 +25,11 @@ namespace nm {
 
             // overloading priority algorithm:
             //  each subs can be categorized into 3 level of priority.
-            //  the priority against func call will be computed maximum priority value between the argument and its paramter.
-            //  the lower value of 'max', the more check needed.
+            //  the priority against func call will be computed maximum priority value between the
+            //  argument and its paramter. the lower value of 'max', the more check needed.
             priorType newP = _prioritize(*p, *t);
             max = newP > max ? newP : max;
-            if(max == NO_MATCH)
-                return NO_MATCH;
+            if(max == NO_MATCH) return NO_MATCH;
         }
 
         return max;
@@ -53,4 +53,4 @@ namespace nm {
     nbool me::_isNatureNumber(const node& it) const {
         return it.isSub<nInt>() || it.isSub<nByte>();
     }
-}
+} // namespace nm

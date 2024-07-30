@@ -9,7 +9,7 @@ namespace nm {
     // another f**king annoying MSVC Hack:
     //  to avoid C2901 error, I need to declare sort of dllexport(import) things at here.
     //  spended plenty of hours again to find out the reason. thank you so much.
-    class _nout arr : public tbridge<narr>, public tucontainable<node>, public tarrayable<node> {
+    class _nout arr: public tbridge<narr>, public tucontainable<node>, public tarrayable<node> {
         // arr uses instance variable 'ntype':
         //  ntype contains beanType as 'const type*' instance variable. so user should be
         //  careful when calling ttype<arr>. because it will also return ntype instance
@@ -17,10 +17,7 @@ namespace nm {
         //
         //  the most appropriate getter for ntype of arr is to call getType() of instance
         //  to arr.
-        NM(ME(arr, tbridge<narr>),
-             INIT_META(arr),
-             CLONE(arr),
-             VISIT())
+        NM(ME(arr, tbridge<narr>), INIT_META(arr), CLONE(arr), VISIT())
 
     public:
         typedef typename tucontainable<node>::iter iter;
@@ -51,9 +48,9 @@ namespace nm {
         //  get:
         using tarrayable<node>::get;
         using super::get;
-        template <typename E>
-        E& get(std::function<nbool(const E&)> l) const {
-            for(const node& elem : *this) {
+
+        template <typename E> E& get(std::function<nbool(const E&)> l) const {
+            for(const node& elem: *this) {
                 const E& cast = elem.template cast<E>();
                 if(!nul(cast) && l(cast)) // elem should be typeProvidable.
                     return (E&) cast;
@@ -64,13 +61,11 @@ namespace nm {
 
         node& get(std::function<nbool(const node&)> l) const;
 
-        template <typename E>
-        tnarr<E, strTactic> getAll(std::function<nbool(const E&)> l) const {
+        template <typename E> tnarr<E, strTactic> getAll(std::function<nbool(const E&)> l) const {
             tnarr<E> ret;
-            for(const node& elem : *this) {
+            for(const node& elem: *this) {
                 const E& cast = elem.template cast<E>();
-                if(!nul(cast) && l(cast))
-                    ret.add(cast);
+                if(!nul(cast) && l(cast)) ret.add(cast);
             }
 
             return ret;
@@ -118,4 +113,4 @@ namespace nm {
         mutable tstr<baseObj> _org;
         ttype<arr> _type;
     };
-}
+} // namespace nm

@@ -1,4 +1,5 @@
 #include "mockNode.hpp"
+
 #include "../builtin/container/native/tndumMap.hpp"
 #include "../visitor/visitor.hpp"
 #include "dumScope.hpp"
@@ -8,6 +9,7 @@ namespace nm {
     NM(DEF_ME(mockNode), DEF_VISIT())
 
     me::mockNode(): super() {}
+
     me::mockNode(const node& org): super(), _org(org) {}
 
     const ntype& me::getType() const {
@@ -40,9 +42,7 @@ namespace nm {
         return true; // always. this's the main reason why I use this class.
     }
 
-    node& me::getTarget() {
-        return *_org;
-    }
+    node& me::getTarget() { return *_org; }
 
     const src& me::getSrc() const {
         if(_org) return _org->getSrc();
@@ -59,4 +59,4 @@ namespace nm {
         if(!_org) return;
         _org->_setSrc(s);
     }
-}
+} // namespace nm

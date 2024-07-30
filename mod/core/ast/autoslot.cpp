@@ -1,7 +1,8 @@
 #include "autoslot.hpp"
-#include "baseFunc.hpp"
-#include "../visitor/visitor.hpp"
+
 #include "../type/mgdType.hpp"
+#include "../visitor/visitor.hpp"
+#include "baseFunc.hpp"
 #include "origin.hpp"
 
 namespace nm {
@@ -17,7 +18,7 @@ namespace nm {
         //  before release the handle of it by releasing packLoading instance.
         me::rel();
 
-        for(auto* e : _loadings)
+        for(auto* e: _loadings)
             delete e;
         _loadings.clear();
     }
@@ -42,13 +43,9 @@ namespace nm {
         return super::getPack();
     }
 
-    me::state me::getState() const {
-        return _state;
-    }
+    me::state me::getState() const { return _state; }
 
-    void me::setReport(errReport& rpt) {
-        _rpt.bind(rpt);
-    }
+    void me::setReport(errReport& rpt) { _rpt.bind(rpt); }
 
     void me::rel() {
         _rel();
@@ -60,7 +57,7 @@ namespace nm {
         //  there is a scenario which _subs containing parsed instance when
         //  this function called.
         //  Only you can do here is adding new parsed instances into _subs.
-        for(packLoading* load : _loadings) {
+        for(packLoading* load: _loadings) {
             auto res = load->parse(rpt, tray);
             _srcs.add(*res);
         }
@@ -69,7 +66,7 @@ namespace nm {
     }
 
     nbool me::verify(errReport& rpt, obj& pak) {
-        for(packLoading* load : _loadings)
+        for(packLoading* load: _loadings)
             load->verify(rpt, pak);
 
         _state = VERIFIED;
@@ -88,4 +85,4 @@ namespace nm {
 
         return super::_invalidate();
     }
-}
+} // namespace nm

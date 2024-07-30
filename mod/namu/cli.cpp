@@ -13,11 +13,10 @@ namespace nm {
         starter s;
         s.setFlag(starter::DUMP_ON_EX | starter::LOG_ON_END);
 
-        for(const auto& op : getFlags()) {
+        for(const auto& op: getFlags()) {
             op->take(ip, s, *this, a);
 
-            if(a.size() <= 0)
-                break;
+            if(a.size() <= 0) break;
         }
 
         {
@@ -25,8 +24,7 @@ namespace nm {
             ip.work();
         }
 
-        if(!ip.isVerified())
-            return _res;
+        if(!ip.isVerified()) return _res;
 
         str res;
         {
@@ -35,10 +33,8 @@ namespace nm {
         }
         _res = 0;
         if(res) {
-            if(res->isSub<nInt>())
-                _res = res->cast<nint>();
-            else if(res->isSub<err>())
-                _res = -1;
+            if(res->isSub<nInt>()) _res = res->cast<nint>();
+            else if(res->isSub<err>()) _res = -1;
         }
 
 #ifdef __EMSCRIPTEN__
@@ -51,9 +47,7 @@ namespace nm {
         return _res;
     }
 
-    nint me::getRes() const {
-        return _res;
-    }
+    nint me::getRes() const { return _res; }
 
     const flags& cli::getFlags() const {
         static flags inner;
@@ -67,12 +61,12 @@ namespace nm {
 
         return inner;
     }
-}
+} // namespace nm
 
 int main(int argc, char* argv[]) {
     cli ep;
     flagArgs a;
-    for(int n=1; n < argc ;n++)
+    for(int n = 1; n < argc; n++)
         a.push_back(argv[n]);
 
     ep.run(a);

@@ -1,4 +1,5 @@
 #include "retStateExpr.hpp"
+
 #include "../../frame/thread.hpp"
 #include "../../visitor/visitor.hpp"
 
@@ -11,7 +12,5 @@ namespace nm {
         return getEval();
     }
 
-    priorType me::prioritize(const args& a) const {
-        return NO_MATCH;
-    }
+    priorType me::prioritize(const args& a) const { return NO_MATCH; }
 }

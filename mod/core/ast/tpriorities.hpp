@@ -5,18 +5,19 @@
 namespace nm {
     // the lower value, the higher priority.
     enum priorType {
-        EXACT_MATCH = 0,      // lv0: exact match.
-        NUMERIC_MATCH = 1,    // lv1: numeric match.
-                              //      it's almost same level of lv0. except lv1 allows numeric implicit type cast ('byte to int' or reverse order)
-        IMPLICIT_MATCH = 2,   // lv2: implicit cast match.
-                              //      it's almost same level of lv1 except it allows all kind of implicit type cast.
-        NO_MATCH,             // lv+: no match.
+        EXACT_MATCH = 0,   // lv0: exact match.
+        NUMERIC_MATCH = 1, // lv1: numeric match.
+                           //      it's almost same level of lv0. except lv1 allows numeric implicit
+                           //      type cast ('byte to int' or reverse order)
+        IMPLICIT_MATCH = 2, // lv2: implicit cast match.
+                            //      it's almost same level of lv1 except it allows all kind of
+                            //      implicit type cast.
+        NO_MATCH,           // lv+: no match.
     };
 
-    _nout const nchar* getPriorTypeName(priorType type);
+    const _nout nchar* getPriorTypeName(priorType type);
 
-    template <typename T>
-    struct tprior: instance {
+    template <typename T> struct tprior: instance {
         NM(CLASS(tprior, instance))
 
     public:
@@ -42,17 +43,17 @@ namespace nm {
         ncnt lv;
     };
 
-    template <typename T>
-    class tpriorities : public tnarr<T> {
+    template <typename T> class tpriorities: public tnarr<T> {
         NM(CLASS(tpriorities, tnarr<T>))
         template <typename E> friend class tprioritiesBucket;
 
     public:
         tpriorities();
-        template <typename... Es>
-        tpriorities(const Es&... elems) {
-            static_assert(areBaseOfT<T, Es...>::value, "some of type of args are not based on type 'T'");
-            this->add( { (T*) &elems... } );
+
+        template <typename... Es> tpriorities(const Es&... elems) {
+            static_assert(areBaseOfT<T, Es...>::value,
+                "some of type of args are not based on type 'T'");
+            this->add({(T*) &elems...});
         }
 
     public:
@@ -74,4 +75,4 @@ namespace nm {
     };
 
     typedef tpriorities<node> priorities;
-}
+} // namespace nm

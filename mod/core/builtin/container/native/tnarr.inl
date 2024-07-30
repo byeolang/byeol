@@ -1,10 +1,10 @@
 #pragma once
 
-#include "tnarr.hpp"
 #include "../../../ast/node.hpp"
-#include "tnucontainer.inl"
 #include "../../../loader/errCode.hpp"
 #include "../../../type/exMaker.hpp"
+#include "tnarr.hpp"
+#include "tnucontainer.inl"
 
 namespace nm {
 
@@ -50,7 +50,8 @@ namespace nm {
 
     TEMPL
     nbool ME::add(nidx n, const T& new1) {
-        if(n < 0 || n > len()) return false; // if n equals to len(), it means that will be added at end of container.
+        if(n < 0 || n > len())
+            return false; // if n equals to len(), it means that will be added at end of container.
         if(nul(new1)) return false;
 
         _vec.insert(_vec.begin() + n, wrap(new1));
@@ -65,7 +66,8 @@ namespace nm {
         const narrIteration& toCast = (narrIteration&) *to._step;
         if(nul(hereCast) || nul(fromCast) || nul(toCast)) return;
 
-        if(hereCast._n < 0 || hereCast._n > len()) return; // if n equals to len(), it means that will be added at end of container.
+        if(hereCast._n < 0 || hereCast._n > len())
+            return; // if n equals to len(), it means that will be added at end of container.
 
         auto fromBegin = ((me&) from.getContainer())._vec.begin();
         _vec.insert(_vec.begin() + hereCast._n, fromBegin + fromCast._n, fromBegin + toCast._n);
@@ -89,34 +91,31 @@ namespace nm {
 
     TEMPL
     nbool ME::del(const iter& from, const iter& end) {
-        narrIteration&  endIter = _getIterationFrom(end),
-                    &   fromIter = _getIterationFrom(from);
+        narrIteration &endIter = _getIterationFrom(end), &fromIter = _getIterationFrom(from);
         if(nul(endIter) || nul(fromIter))
-            return NM_E("from(%s) or end(%s) one of these is null.", (void*) &endIter, (void*) &fromIter), false;
+            return NM_E("from(%s) or end(%s) one of these is null.", (void*) &endIter,
+                       (void*) &fromIter),
+                   false;
 
-        nidx fromN = fromIter.isEnd() ? len()-1 : fromIter._n;
+        nidx fromN = fromIter.isEnd() ? len() - 1 : fromIter._n;
         ncnt cnt = endIter._n - fromN;
         if(cnt <= 0) return false;
 
-        for(int n=0; n < cnt ;n++)
+        for(int n = 0; n < cnt; n++)
             _vec.erase(_vec.begin() + fromN);
         return true;
     }
 
     TEMPL
-    ncnt ME::len() const {
-        return _vec.size();
-    };
+    ncnt ME::len() const { return _vec.size(); };
 
     TEMPL
-    void ME::rel() {
-        _vec.clear();
-    }
+    void ME::rel() { _vec.clear(); }
 
     TEMPL
     clonable* ME::cloneDeep() const {
         me* ret = new me();
-        for(auto e=this->begin(); e ;e++)
+        for(auto e = this->begin(); e; e++)
             ret->add((T*) e->cloneDeep());
 
         return ret;
@@ -124,4 +123,4 @@ namespace nm {
 
 #undef TEMPL
 #undef ME
-}
+} // namespace nm

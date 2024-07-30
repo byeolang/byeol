@@ -1,27 +1,27 @@
 #pragma once
 
-#include "visitInfo.hpp"
-#include "../loader/worker/worker.hpp"
 #include "../ast/node.hpp"
 #include "../ast/src.hpp"
+#include "../loader/worker/worker.hpp"
+#include "visitInfo.hpp"
 
 namespace nm {
 
     class retStateExpr;
 #define X(T) class T;
-#   include "visitee.inl"
+#include "visitee.inl"
 #undef X
 
-    class _nout visitor : public worker<void, node> {
+    class _nout visitor: public worker<void, node> {
         typedef worker<void, node> __super6;
         NM(CLASS(visitor, __super6))
 
     public:
-#define X(T) \
-        virtual void visit(const visitInfo& i, T& me); \
-        virtual nbool onVisit(const visitInfo& i, T& me); \
-        virtual void onLeave(const visitInfo& i, T& me);
-#   include "visitee.inl"
+#define X(T)                                          \
+    virtual void visit(const visitInfo& i, T& me);    \
+    virtual nbool onVisit(const visitInfo& i, T& me); \
+    virtual void onLeave(const visitInfo& i, T& me);
+#include "visitee.inl"
 #undef X
 
         virtual void visit(const visitInfo& i, node& me);
@@ -54,19 +54,23 @@ namespace nm {
         virtual void onTraverse(ifExpr& e, blockExpr& blk);
 
         using super::warn;
+
         template <typename... Args>
         void posWarn(errCode code, const node& it, const Args&... args) {
-            _report(err::newWarn(it.getSrc().getPos(), code, __convert__((const Args&) args).unwrap()...));
+            _report(err::newWarn(it.getSrc().getPos(), code,
+                __convert__((const Args&) args).unwrap()...));
         }
 
         template <typename... Args>
         void posError(errCode code, const node& it, const Args&... args) {
-            _report(err::newErr(it.getSrc().getPos(), code, __convert__((const Args&) args).unwrap()...));
+            _report(err::newErr(it.getSrc().getPos(), code,
+                __convert__((const Args&) args).unwrap()...));
         }
 
         template <typename... Args>
         void posInfo(errCode code, const node& it, const Args&... args) {
-            _report(err::newInfo(it.getSrc().getPos(), code, __convert__((const Args&) args).unwrap()...));
+            _report(err::newInfo(it.getSrc().getPos(), code,
+                __convert__((const Args&) args).unwrap()...));
         }
 
     protected:
@@ -86,4 +90,4 @@ namespace nm {
         //  func or obj, already got visited.
         std::map<node*, nbool> _visited;
     };
-}
+} // namespace nm

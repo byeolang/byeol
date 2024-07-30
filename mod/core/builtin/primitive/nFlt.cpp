@@ -1,10 +1,11 @@
 #include "nFlt.hpp"
+
+#include "../../visitor/visitor.hpp"
 #include "bridge/cpp/tbridger.hpp"
-#include "nInt.hpp"
+#include "nBool.hpp"
 #include "nByte.hpp"
 #include "nChar.hpp"
-#include "nBool.hpp"
-#include "../../visitor/visitor.hpp"
+#include "nInt.hpp"
 
 namespace nm {
 
@@ -27,11 +28,13 @@ namespace nm {
         static ases inner;
         if(inner.len() <= 0) {
             inner.add(new asPrimitive<nChar, nflt>());
-            struct asStr : public tas<nStr> {
+
+            struct asStr: public tas<nStr> {
                 str as(const node& me, const type& to) const override {
                     return str(new nStr(std::to_string(me.cast<nflt>())));
                 }
             };
+
             inner.add(new asStr());
         }
 
@@ -39,6 +42,7 @@ namespace nm {
     }
 
     me::nFlt() {}
+
     me::nFlt(nflt val): super(val) {}
 
     namespace {
@@ -55,32 +59,22 @@ namespace nm {
         // TODO: throw error
     }
 
-    const baseObj& me::getOrigin() const {
-        return org;
-    }
+    const baseObj& me::getOrigin() const { return org; }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {
-        return reversed ?
-                new me(rhs.as<me>()->get() + get()):
-                new me(get() + rhs.as<me>()->get());
+        return reversed ? new me(rhs.as<me>()->get() + get()) : new me(get() + rhs.as<me>()->get());
     }
 
     tstr<arithmeticObj> me::_sub(const arithmeticObj& rhs, nbool reversed) const {
-        return reversed ?
-                new me(rhs.as<me>()->get() - get()):
-                new me(get() - rhs.as<me>()->get());
+        return reversed ? new me(rhs.as<me>()->get() - get()) : new me(get() - rhs.as<me>()->get());
     }
 
     tstr<arithmeticObj> me::_mul(const arithmeticObj& rhs, nbool reversed) const {
-        return reversed ?
-                new me(rhs.as<me>()->get() * get()):
-                new me(get() * rhs.as<me>()->get());
+        return reversed ? new me(rhs.as<me>()->get() * get()) : new me(get() * rhs.as<me>()->get());
     }
 
     tstr<arithmeticObj> me::_div(const arithmeticObj& rhs, nbool reversed) const {
-        return reversed ?
-                new me(rhs.as<me>()->get() / get()):
-                new me(get() / rhs.as<me>()->get());
+        return reversed ? new me(rhs.as<me>()->get() / get()) : new me(get() / rhs.as<me>()->get());
     }
 
     tstr<arithmeticObj> me::_mod(const arithmeticObj& rhs, nbool reversed) const {
@@ -113,29 +107,17 @@ namespace nm {
         // TODO: throw error
     }
 
-    nbool me::_eq(const arithmeticObj& rhs) const {
-        return get() == rhs.asImpli<me>()->get();
-    }
+    nbool me::_eq(const arithmeticObj& rhs) const { return get() == rhs.asImpli<me>()->get(); }
 
-    nbool me::_ne(const arithmeticObj& rhs) const {
-        return get() != rhs.asImpli<me>()->get();
-    }
+    nbool me::_ne(const arithmeticObj& rhs) const { return get() != rhs.asImpli<me>()->get(); }
 
-    nbool me::_gt(const arithmeticObj& rhs) const {
-        return get() > rhs.asImpli<me>()->get();
-    }
+    nbool me::_gt(const arithmeticObj& rhs) const { return get() > rhs.asImpli<me>()->get(); }
 
-    nbool me::_lt(const arithmeticObj& rhs) const {
-        return get() < rhs.asImpli<me>()->get();
-    }
+    nbool me::_lt(const arithmeticObj& rhs) const { return get() < rhs.asImpli<me>()->get(); }
 
-    nbool me::_ge(const arithmeticObj& rhs) const {
-        return get() >= rhs.asImpli<me>()->get();
-    }
+    nbool me::_ge(const arithmeticObj& rhs) const { return get() >= rhs.asImpli<me>()->get(); }
 
-    nbool me::_le(const arithmeticObj& rhs) const {
-        return get() <= rhs.asImpli<me>()->get();
-    }
+    nbool me::_le(const arithmeticObj& rhs) const { return get() <= rhs.asImpli<me>()->get(); }
 
     nbool me::_logicalAnd(const arithmeticObj& rhs) const {
         return get() && rhs.asImpli<me>()->get();
@@ -149,4 +131,4 @@ namespace nm {
         get() = rhs.asImpli<me>()->get();
         return *this;
     }
-}
+} // namespace nm

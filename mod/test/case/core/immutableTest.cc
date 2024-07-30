@@ -6,7 +6,7 @@ using namespace nm;
 
 namespace {
 
-    struct myObj : public obj {
+    struct myObj: public obj {
         NM(CLASS(myObj, obj))
 
     public:
@@ -20,10 +20,10 @@ namespace {
         }
     };
 
-    class myfunc : public func {
+    class myfunc: public func {
         NM(CLASS(myfunc, func))
 
-        class myBlock : public blockExpr {
+        class myBlock: public blockExpr {
             NM(CLASS(myBlock, blockExpr))
 
         public:
@@ -31,8 +31,7 @@ namespace {
                 NM_I("hello world!");
                 _executed = true;
 
-                if(_lambda)
-                    _res = _lambda(a, (frames&) nm::thread::get().getFrames());
+                if(_lambda) _res = _lambda(a, (frames&) nm::thread::get().getFrames());
                 return str();
             }
 
@@ -46,24 +45,17 @@ namespace {
         };
 
     public:
-        myfunc(): super(params(), *new nVoid(), *new myBlock()) {
-            NM_I("myfunc(%s) new", this);
-        }
-        ~myfunc() override {
-            NM_I("myfunc(%s) delete", this);
-        }
+        myfunc(): super(params(), *new nVoid(), *new myBlock()) { NM_I("myfunc(%s) new", this); }
 
-        nbool isRun() const {
-            return getBlock().cast<myBlock>()._executed;
-        }
+        ~myfunc() override { NM_I("myfunc(%s) delete", this); }
+
+        nbool isRun() const { return getBlock().cast<myBlock>()._executed; }
 
         void setLambda(std::function<nbool(const ucontainable&, const frames&)> lambda) {
             getBlock().cast<myBlock>()._lambda = std::move(lambda);
         }
 
-        nbool isSuccess() const {
-            return getBlock().cast<myBlock>()._res;
-        }
+        nbool isSuccess() const { return getBlock().cast<myBlock>()._res; }
 
         str getRet() const override {
             static str inner(new nVoid());
@@ -71,17 +63,16 @@ namespace {
         }
 
         const params& getParams() const override { return _params; }
+
         params& getParams() { return _params; }
 
     private:
         params _params;
     };
-}
+} // namespace
 
-struct immutableTest : public namuTest {
-    frames& getFrames() {
-        return (frames&) thread::get().getFrames();
-    }
+struct immutableTest: public namuTest {
+    frames& getFrames() { return (frames&) thread::get().getFrames(); }
 
     void SetUp() override {
         namuTest::SetUp();

@@ -2,31 +2,28 @@
 
 using namespace nm;
 
-struct binderTest : public ::testing::Test {
-    const bindTacticable& getTactic(const binder& b) {
-        return *b._tactic;
-    }
+struct binderTest: public ::testing::Test {
+    const bindTacticable& getTactic(const binder& b) { return *b._tactic; }
 };
 
 namespace {
-    struct A : public instance {
+    struct A: public instance {
         A(): age(0) {}
+
         A(int newAge): age(newAge) {}
 
         int age;
 
-        const type& getType() const override {
-            return ttype<A>::get();
-        }
+        const type& getType() const override { return ttype<A>::get(); }
 
-        clonable* clone() const override {
-            return new A();
-        }
+        clonable* clone() const override { return new A(); }
     };
 
-    struct B : public instance {
+    struct B: public instance {
         B() { ++get(); }
+
         B(const B&) { ++get(); }
+
         ~B() override { --get(); }
 
         float grade;
@@ -36,40 +33,29 @@ namespace {
             return n;
         }
 
-        const type& getType() const override {
-            return ttype<B>::get();
-        }
+        const type& getType() const override { return ttype<B>::get(); }
 
-        clonable* clone() const override {
-            return new B();
-        }
+        clonable* clone() const override { return new B(); }
     };
 
-    struct offering : public instance {
+    struct offering: public instance {
         offering(const A* a1): a(a1) {}
 
-        const type& getType() const override {
-            return ttype<offering>::get();
-        }
+        const type& getType() const override { return ttype<offering>::get(); }
 
-        clonable* clone() const override {
-            return new offering(&a.get());
-        }
+        clonable* clone() const override { return new offering(&a.get()); }
 
         tstr<A> a;
     };
 
-    struct shell : public instance {
+    struct shell: public instance {
         shell(offering* newO): o(newO) {}
+
         ~shell() override {}
 
-        const type& getType() const override {
-            return ttype<shell>::get();
-        }
+        const type& getType() const override { return ttype<shell>::get(); }
 
-        clonable* clone() const override {
-            return new shell(nullptr);
-        }
+        clonable* clone() const override { return new shell(nullptr); }
 
         tstr<offering> o;
     };
@@ -77,14 +63,14 @@ namespace {
     void integrity(int cnt) {
         std::vector<tstr<A>> tray;
         std::vector<id> ids;
-        for(int n=0; n < cnt; n++) {
+        for(int n = 0; n < cnt; n++) {
             A* new1 = new A(n);
             tray.push_back(tstr<A>(new1));
             ids.push_back(new1->getId());
         }
 
         const watcher& watcher = instancer::get().getWatcher();
-        for(int n=0; n < cnt;n++) {
+        for(int n = 0; n < cnt; n++) {
             id i = ids[n];
             ASSERT_EQ(tray[n]->getId(), i);
 
@@ -95,7 +81,7 @@ namespace {
 
     static nbool isDTerminated = false;
 
-    struct D : public instance {
+    struct D: public instance {
         NM(ME(D, instance))
 
     public:
@@ -107,12 +93,13 @@ namespace {
         int age;
 
         const type& getType() const override { return ttype<D>::get(); }
+
         clonable* clone() const override { return new D(*this); }
     };
 
     static nbool isETerminated = false;
 
-    struct E : public D {
+    struct E: public D {
         NM(ME(E, D))
 
     public:
@@ -124,9 +111,10 @@ namespace {
         float grade;
 
         const type& getType() const override { return ttype<E>::get(); }
+
         clonable* clone() const override { return new E(*this); }
     };
-}
+} // namespace
 
 TEST_F(binderTest, inheritanceDeleteSizeTest) {
     {
@@ -169,7 +157,7 @@ TEST_F(binderTest, defaultBehaviorTest) {
 
     id i = tag.getId();
     ASSERT_GT(i.serial, 0);
-    ASSERT_GE(i.tagN,  0);
+    ASSERT_GE(i.tagN, 0);
 }
 
 TEST_F(binderTest, shouldBindTagInaccessibleAfterInstanceTermination) {
@@ -210,9 +198,7 @@ TEST_F(binderTest, bindSameInstanceFewTimesTest) {
         ASSERT_EQ(B::get(), 1);
         ASSERT_EQ(b1.getBindTag().getStrongCnt(), 0);
 
-        tstr<B> bb1(b1),
-                bb2(tstr<B>(new B(b1))),
-                bb3;
+        tstr<B> bb1(b1), bb2(tstr<B>(new B(b1))), bb3;
         ASSERT_EQ(B::get(), 2);
         ASSERT_TRUE(bb1.isBind());
         ASSERT_FALSE(nul(bb1->getBindTag()));
@@ -326,16 +312,13 @@ TEST_F(binderTest, bindNullShouldUnbindPrevious) {
 // watchcell info would be failed by returning null reference.
 // we will verify that this memlite module can handle the situation properly.
 TEST_F(binderTest, bindStaticVariable) {
-    class myInstance : public instance {
+    class myInstance: public instance {
         NM(ME(myInstance, instance))
 
     public:
-        const type& getType() const override {
-            return ttype<myInstance>::get();
-        };
-        clonable* clone() const override {
-            return new me();
-        }
+        const type& getType() const override { return ttype<myInstance>::get(); };
+
+        clonable* clone() const override { return new me(); }
     };
 
     // this static object of an instance will trigger release of watchcell on its

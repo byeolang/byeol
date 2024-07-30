@@ -3,25 +3,15 @@
 namespace nm {
     NM(DEF_ME(threadUse))
 
-    me::threadUse(): _thr() {
-        use();
-    }
-    me::threadUse(const errReport& new1): _thr(new1) {
-        use();
-    }
-    me::~threadUse() {
-        rel();
-    }
+    me::threadUse(): _thr() { use(); }
 
-    thread& me::get() {
-        return _thr;
-    }
+    me::threadUse(const errReport& new1): _thr(new1) { use(); }
 
-    void me::use() {
-        thread::set(_thr);
-    }
+    me::~threadUse() { rel(); }
 
-    void me::rel() {
-        thread::set();
-    }
+    thread& me::get() { return _thr; }
+
+    void me::use() { thread::set(_thr); }
+
+    void me::rel() { thread::set(); }
 }

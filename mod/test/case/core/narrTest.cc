@@ -1,20 +1,23 @@
-#include "../../namuTest.hpp"
 #include <chrono>
+
+#include "../../namuTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct narrTest : public namuTest {};
+struct narrTest: public namuTest {};
 
 namespace {
-    class myNode : public node {
+    class myNode: public node {
         NM(CLASS(myNode, node))
 
     public:
         myNode(int num): number(num) {}
 
         scope& subs() override { return nulOf<scope>(); }
+
         priorType prioritize(const args& types) const override { return NO_MATCH; }
+
         str run(const args& a) override { return str(); }
 
         int number;
@@ -26,7 +29,7 @@ namespace {
         auto start = chrono::steady_clock::now();
 
         vec.reserve(cnt);
-        for(int n=0; n < cnt; n++)
+        for(int n = 0; n < cnt; n++)
             vec.push_back(str(new myNode(n)));
 
         int sz = vec.size();
@@ -38,15 +41,17 @@ namespace {
         auto removingElapsed = end - startDeleting;
         auto totalElapsed = end - start;
 
-        NM_I("[benchMarkNArr]: vector took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
-             (nint64) (totalElapsed / chrono::milliseconds(1)), (nint64) (addingElapsed / chrono::milliseconds(1)),
-             (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
+        NM_I(
+            "[benchMarkNArr]: vector took total %d ms for adding(%dms) & removing(%dms) of %d "
+            "elems.",
+            (nint64) (totalElapsed / chrono::milliseconds(1)),
+            (nint64) (addingElapsed / chrono::milliseconds(1)),
+            (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
 
         narr arr;
         start = chrono::steady_clock::now();
-        for(int n=0; n < cnt; n++) {
+        for(int n = 0; n < cnt; n++)
             arr.add(*(new myNode(n)));
-        }
         sz = arr.len();
         startDeleting = chrono::steady_clock::now();
         arr.rel();
@@ -56,22 +61,22 @@ namespace {
         removingElapsed = end - startDeleting;
         totalElapsed = end - start;
 
-        NM_I("[benchMarkNArr]: narr took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
-             (nint64) (totalElapsed / chrono::milliseconds(1)), (nint64) (addingElapsed / chrono::milliseconds(1)),
-             (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
+        NM_I(
+            "[benchMarkNArr]: narr took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
+            (nint64) (totalElapsed / chrono::milliseconds(1)),
+            (nint64) (addingElapsed / chrono::milliseconds(1)),
+            (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
     }
 
-    class myMyNode : public myNode {
+    class myMyNode: public myNode {
         NM(CLASS(myMyNode, myNode))
 
     public:
         myMyNode(int num): super(num) {}
     };
-}
+} // namespace
 
-TEST_F(narrTest, instantiateTest) {
-    narr arr;
-}
+TEST_F(narrTest, instantiateTest) { narr arr; }
 
 TEST_F(narrTest, shouldNotCanAddLocalObject) {
     tnarr<myNode> arr;
@@ -105,9 +110,8 @@ TEST_F(narrTest, simpleAddDelTest) {
 TEST_F(narrTest, addDel10Elems) {
     tnarr<myNode> arr;
     const int cnt = 10;
-    for(int n=0; n < cnt; n++) {
+    for(int n = 0; n < cnt; n++)
         ASSERT_TRUE(arr.add(*(new myNode(n))));
-    }
 
     ASSERT_EQ(arr.len(), cnt);
 }
@@ -128,7 +132,7 @@ TEST_F(narrTest, testIter) {
     auto head = e++;
     auto index2 = ++e;
 
-    EXPECT_TRUE(arr.begin()+2 == index2);
+    EXPECT_TRUE(arr.begin() + 2 == index2);
     EXPECT_TRUE(arr.begin() == head);
 
     ASSERT_EQ(e.next(1), 0);
@@ -151,7 +155,7 @@ TEST_F(narrTest, testucontainableAPI) {
 
     // add:
     int expectVal = 0;
-    for(auto e=con->begin(); e != con->end() ;e++) {
+    for(auto e = con->begin(); e != con->end(); e++) {
         myNode& elem = e->cast<myNode>();
         ASSERT_FALSE(nul(elem));
         ASSERT_EQ(elem.number, expectVal++);
@@ -159,16 +163,14 @@ TEST_F(narrTest, testucontainableAPI) {
 
     // get & each:
     expectVal = 0;
-    for(int n=0; n < arr->len() ;n++) {
+    for(int n = 0; n < arr->len(); n++) {
         myNode& elem = arr->get(n).cast<myNode>();
         ASSERT_FALSE(nul(elem));
         ASSERT_EQ(elem.number, expectVal++);
     }
 
     {
-        tnarr<myNode> tray = arr->getAll<myNode>([](const myNode& elem) {
-            return true;
-        });
+        tnarr<myNode> tray = arr->getAll<myNode>([](const myNode& elem) { return true; });
         ASSERT_EQ(tray.len(), 2);
 
         int cnt = 0;
@@ -216,7 +218,7 @@ TEST_F(narrTest, testucontainableAPI) {
     ASSERT_EQ(con->len(), 1);
     con->add(arr2.iterate(1), arr2.iterate(3));
     ASSERT_EQ(con->len(), 3);
-    auto e2=arr->begin();
+    auto e2 = arr->begin();
     myNode* elem = &e2.get();
     ASSERT_FALSE(nul(elem));
     ASSERT_EQ(elem->number, 0);
@@ -269,42 +271,37 @@ TEST_F(narrTest, testucontainableAPI) {
 }
 
 TEST_F(narrTest, testRangeBasedForLoop) {
-
     narr arr1;
     arr1.add(new myNode(3));
     arr1.add(new myNode(7));
 
     int sum = 0;
-    for(auto& e : arr1) {
+    for(auto& e: arr1) {
         myNode& cast = e.cast<myNode>();
         sum += cast.number;
     }
 
     int sum2 = 0;
-    for(const node& e : arr1) {
+    for(const node& e: arr1) {
         const myNode& cast = e.cast<myNode>();
         sum2 += cast.number;
     }
     ASSERT_EQ(sum2, sum);
 
     int expect = 0;
-    for(int n=0; n < arr1.len(); n++)
+    for(int n = 0; n < arr1.len(); n++)
         expect += arr1[n].cast<myNode>().number;
 
     ASSERT_EQ(sum, expect);
 }
 
 TEST_F(narrTest, testEach) {
-    narr arr1 {*new nInt(1), *new nByte(100), *new nInt(2)};
+    narr arr1{*new nInt(1), *new nByte(100), *new nInt(2)};
     nint sum = 0;
-    arr1.each<nInt>([&](const auto& elem) {
-        return sum += elem.get(), true;
-    });
+    arr1.each<nInt>([&](const auto& elem) { return sum += elem.get(), true; });
     ASSERT_EQ(sum, 3);
 
-    auto arr2 = arr1.getAll<nInt>([&](const auto& elem) -> nbool {
-        return elem.get() > 1;
-    });
+    auto arr2 = arr1.getAll<nInt>([&](const auto& elem) -> nbool { return elem.get() > 1; });
     ASSERT_EQ(arr2.len(), 1);
     ASSERT_EQ(arr2[0].get(), 2);
 }

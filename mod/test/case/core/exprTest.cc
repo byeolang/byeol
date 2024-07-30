@@ -13,19 +13,15 @@ namespace {
     };
 }
 
-struct exprTest : public namuTest {
+struct exprTest: public namuTest {
     void SetUp() override;
     void TearDown() override;
 
     tstr<baseObj> bridge;
 
-    static void setLine(expr& exp, ncnt row, ncnt col) {
-        exp._pos = {row, col};
-    }
+    static void setLine(expr& exp, ncnt row, ncnt col) { exp._pos = {row, col}; }
 
-    static frames& getFrames() {
-        return nm::thread::get()._getFrames();
-    }
+    static frames& getFrames() { return nm::thread::get()._getFrames(); }
 };
 
 void exprTest::SetUp() {
@@ -33,9 +29,7 @@ void exprTest::SetUp() {
 
     static nbool isFirst = true;
     if(isFirst) {
-        tbridger<helloWorld>::ctor()
-            .ctor<helloWorld>()
-            .func("main", &helloWorld::main);
+        tbridger<helloWorld>::ctor().ctor<helloWorld>().func("main", &helloWorld::main);
         isFirst = false;
     }
     bridge.bind(tbridger<helloWorld>::make(new helloWorld()));
@@ -51,12 +45,12 @@ TEST_F(exprTest, standbyHelloWorldBridgeObj) {
     ASSERT_TRUE(bridge.isBind());
 
     tstr<nStr> msg(new nStr());
-    args a(*bridge, narr {msg.get()});
+    args a(*bridge, narr{msg.get()});
 
     node& mainFunc = bridge->sub("main", a);
     ASSERT_FALSE(nul(mainFunc));
     ASSERT_TRUE(mainFunc.canRun(a));
-    ASSERT_FALSE(mainFunc.canRun(args(*bridge, narr {*bridge, *msg})));
+    ASSERT_FALSE(mainFunc.canRun(args(*bridge, narr{*bridge, *msg})));
     ASSERT_FALSE(helloWorld::isRun);
     str res = mainFunc.run(a);
     ASSERT_TRUE(res.isBind());

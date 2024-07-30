@@ -169,7 +169,7 @@ ReflowComments: true
 RemoveBracesLLVM: true
 SeparateDefinitionBlocks: Always
 ShortNamespaceLines: 25
-SortIncludes: CaseSensitive
+SortIncludes: false
 SortJavaStaticImport: Before
 SortUsingDeclarations: true
 SpaceAfterCStyleCast: true

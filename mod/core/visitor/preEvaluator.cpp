@@ -1,12 +1,13 @@
 #include "preEvaluator.hpp"
+
+#include "../ast/exprs/getGenericExpr.hpp"
+#include "../ast/func.hpp"
 #include "../ast/node.inl"
 #include "../ast/obj.hpp"
-#include "../ast/func.hpp"
 #include "../frame/frameInteract.hpp"
-#include "verifier.hpp"
-#include "../ast/exprs/getGenericExpr.hpp"
 #include "../frame/thread.hpp"
 #include "../loader/worker/worker.inl"
+#include "verifier.hpp"
 
 namespace nm {
 
@@ -17,12 +18,10 @@ namespace nm {
         return fun->getBlock().getStmts().len() <= 0;
     }
 
-#define GUARD(...) if(isFlag(me::GUARD)) NM_I(__VA_ARGS__)
+#define GUARD(...) \
+    if(isFlag(me::GUARD)) NM_I(__VA_ARGS__)
 
-
-    me::preEvaluator() {
-        rel();
-    }
+    me::preEvaluator() { rel(); }
 
     void me::rel() {
         _rel();
@@ -59,7 +58,7 @@ namespace nm {
         me.inFrame(); // don't need to inFrame for args.
                       // because what this want to do is just collect @preCtor funcs.
         NM_I("preEval: func: %s", i);
-        for(const auto& p : me.getParams())
+        for(const auto& p: me.getParams())
             ((node&) p.getOrigin()).accept(i, *this);
 
         if(i.name == baseObj::PRECTOR_NAME) {
@@ -94,9 +93,7 @@ namespace nm {
         return true;
     }
 
-    void me::_rel() {
-        _stack.clear();
-    }
+    void me::_rel() { _stack.clear(); }
 
     void me::_preEval() {
         GUARD(" ===================================");
@@ -107,7 +104,8 @@ namespace nm {
         while(_stack.size() > 0) {
             e.rel();
             GUARD("|--- %dth try: running %d pre evaluation track... ---|", ++n, _stack.size());
-            if(!_tryPreEvals(e)) { // this func actually remove elements of _stack if the func consumes it.
+            if(!_tryPreEvals(
+                   e)) { // this func actually remove elements of _stack if the func consumes it.
                 // ok. there is no change after running one loop, which means, I think that
                 // preEvaluator just found circular dependencies.
                 NM_E("* * *");
@@ -129,7 +127,7 @@ namespace nm {
     nbool me::_tryPreEvals(errReport& rpt) {
         GUARD("|--- preEval: tryPreEvals: evaluation[%d] remains ---|", _stack.size());
         nbool isChanged = false;
-        for(auto e=_stack.begin(); e != _stack.end() ;) {
+        for(auto e = _stack.begin(); e != _stack.end();) {
             auto& eval = e->second;
             if(_tryPreEval(rpt, eval)) {
                 isChanged = true;
@@ -145,17 +143,20 @@ namespace nm {
 
     nbool me::_tryPreEval(errReport& rpt, evaluation& eval) {
         obj& me = *eval.me;
-        frameInteract f1(me); {
+        frameInteract f1(me);
+        {
             func& fun = *eval.fun;
-            frameInteract f2(fun); {
+            frameInteract f2(fun);
+            {
                 blockExpr& blk = fun.getBlock();
-                frameInteract f3(blk); {
+                frameInteract f3(blk);
+                {
                     narr& stmts = blk.getStmts();
 
                     GUARD("|--- preEval: evalFunc(%x).len = %d ---|", &fun, stmts.len());
 
                     nbool isChanged = false;
-                    for(int n=0; n < stmts.len() ;) {
+                    for(int n = 0; n < stmts.len();) {
                         ncnt prevErrCnt = rpt.len();
                         verifier v;
                         v.setReport(rpt).setTask(stmts[n]).setFlag(0).work();
@@ -163,19 +164,22 @@ namespace nm {
                             // if there was an error, proceed next stmt.
                             // TODO: it uses len() for counting errors.
                             //       but one of them could be just warning.
-                            GUARD("|--- preEval: evalFunc(%x): eval failed on stmt[%d] ---|", &fun, n);
+                            GUARD("|--- preEval: evalFunc(%x): eval failed on stmt[%d] ---|", &fun,
+                                n);
                             n++;
                             continue;
                         }
 
                         stmts[n].run();
 
-                        GUARD("|--- preEval: evalFunc(%x): SUCCESS! stmt[%d] pre-evaluated.", &fun, n);
+                        GUARD("|--- preEval: evalFunc(%x): SUCCESS! stmt[%d] pre-evaluated.", &fun,
+                            n);
                         stmts.del(n);
                         isChanged = true;
                     } // end of inner
 
-                    GUARD("|--- preEval: end of evalFunc(%x) stmt[%d] left ---|", &fun, stmts.len());
+                    GUARD("|--- preEval: end of evalFunc(%x) stmt[%d] left ---|", &fun,
+                        stmts.len());
                     return isChanged;
                 }
             }
@@ -186,4 +190,4 @@ namespace nm {
         e->second.me->subs().del(baseObj::PRECTOR_NAME);
         _stack.erase(e);
     }
-}
+} // namespace nm

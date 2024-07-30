@@ -1,12 +1,12 @@
 #pragma once
 
-#include "tnucontainer.hpp"
 #include "../tarrayable.hpp"
+#include "tnucontainer.hpp"
 
 namespace nm {
 
     template <typename T, typename TACTIC = strTactic>
-    class tnarr : public tnucontainer<T>, public tarrayable<T> {
+    class tnarr: public tnucontainer<T>, public tarrayable<T> {
         NM(ADT(tnarr, tnucontainer<T>))
 
     public:
@@ -19,16 +19,18 @@ namespace nm {
 
     public:
         tnarr() {}
+
         /// @param  elems   instances to derived type of T.
         ///                 should be created on Heap.
-        template <typename... Es>
-        explicit tnarr(const Es&... elems) {
-            static_assert(areBaseOfT<T, Es...>::value, "some of type of args are not base of type 'T'");
-            add( { (T*) &elems... } );
+        template <typename... Es> explicit tnarr(const Es&... elems) {
+            static_assert(areBaseOfT<T, Es...>::value,
+                "some of type of args are not base of type 'T'");
+            add({(T*) &elems...});
         }
 
     public:
         using tarrayable<T>::operator[];
+
         T& operator[](nidx n) override { return get(n); }
 
     public:
@@ -37,9 +39,8 @@ namespace nm {
 
         // has:
         using super::has;
-        nbool has(nidx n) const override {
-            return 0 <= n && n < len();
-        }
+
+        nbool has(nidx n) const override { return 0 <= n && n < len(); }
 
         // get:
         using super::get;
@@ -65,15 +66,14 @@ namespace nm {
         // etc:
         void rel() override;
 
-        clonable* clone() const override {
-            return new me(*this);
-        }
+        clonable* clone() const override { return new me(*this); }
+
         clonable* cloneDeep() const override;
 
         std::string asStr() const {
             std::string ret;
             nbool first = true;
-            for(const auto& e : *this) {
+            for(const auto& e: *this) {
                 ret += (first ? "" : ",") + e.getType().getName();
                 first = false;
             }
@@ -101,4 +101,4 @@ namespace nm {
 
     class node;
     typedef tnarr<node> narr;
-}
+} // namespace nm

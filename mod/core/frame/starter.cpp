@@ -1,12 +1,14 @@
-#include "../ast/obj.hpp"
+#include "starter.hpp"
+
+#include <csignal>
+
 #include "../ast/baseFunc.hpp"
 #include "../ast/dumScope.hpp"
-#include "../ast/slot.hpp"
 #include "../ast/node.inl"
-#include "starter.hpp"
-#include "threadUse.hpp"
-#include <csignal>
+#include "../ast/obj.hpp"
+#include "../ast/slot.hpp"
 #include "../visitor/graphVisitor.hpp"
+#include "threadUse.hpp"
 
 namespace nm {
 
@@ -21,10 +23,8 @@ namespace nm {
 
     void me::_prepare() {
         super::_prepare();
-        if(nul(getTask()))
-            setTask(*new args());
-        if(getReport().isSub<dummyErrReport>())
-            setReport(*new errReport());
+        if(nul(getTask())) setTask(*new args());
+        if(getReport().isSub<dummyErrReport>()) setReport(*new errReport());
     }
 
     str me::_onWork() {
@@ -38,8 +38,7 @@ namespace nm {
 
         NM_I("run a pack");
         node& main = _findMain(pak, args());
-        if(nul(main))
-            return NM_E("there is 0 or more than 2 main() found."), str();
+        if(nul(main)) return NM_E("there is 0 or more than 2 main() found."), str();
 
         if(main.canRun(a)) {
             threadUse thr(getReport());
@@ -64,16 +63,13 @@ namespace nm {
         return res;
     }
 
-    void me::_prepareFrame(frames& fr) {
-        fr.rel();
-    }
+    void me::_prepareFrame(frames& fr) { fr.rel(); }
 
     node& me::_findMain(obj& pak, const args& a) {
         // TODO: now, only find to main() but I need to find main(argc, argv) case, too.
         node& ret = pak.sub(MAIN);
-        if(nul(ret))
-            NM_E("couldn't find main().");
+        if(nul(ret)) NM_E("couldn't find main().");
 
         return ret;
     }
-}
+} // namespace nm

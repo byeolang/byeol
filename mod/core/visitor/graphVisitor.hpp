@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class _nout graphVisitor : public visitor {
+    class _nout graphVisitor: public visitor {
         NM(CLASS(graphVisitor, visitor))
 
     public:
@@ -32,15 +32,16 @@ namespace nm {
         void _drawIndent();
         void _onIndent();
         void _drawFrame(const visitInfo& i);
-        template <typename T>
-        nbool _onVisitPrimitive(const visitInfo& i, T& e) {
+
+        template <typename T> nbool _onVisitPrimitive(const visitInfo& i, T& e) {
             _drawFrame(i);
             using platformAPI::foreColor;
-            std::clog << foreColor(LIGHTRED) << i.name << " "
-                      << foreColor(CYAN) << e.getType().getName()
-                      << foreColor(LIGHTGRAY) << " = " << foreColor(YELLOW) << e.get();
+            std::clog << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN)
+                      << e.getType().getName() << foreColor(LIGHTGRAY) << " = " << foreColor(YELLOW)
+                      << e.get();
             return false;
         }
+
         std::string _encodeNewLine(const std::string& msg) const;
         std::string _getNameFrom(const node& it) const;
 
@@ -49,4 +50,4 @@ namespace nm {
         std::vector<const char*> _indents;
         nbool _isStart;
     };
-}
+} // namespace nm

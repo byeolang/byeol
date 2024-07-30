@@ -1,4 +1,5 @@
 #include "nVoid.hpp"
+
 #include "../../visitor/visitor.hpp"
 #include "bridge/cpp/tbridger.hpp"
 
@@ -29,33 +30,19 @@ namespace nm {
         return inner;
     }
 
-    tstr<arithmeticObj> me::bitwiseNot() const {
-        return *this;
-    }
+    tstr<arithmeticObj> me::bitwiseNot() const { return *this; }
 
-    const baseObj& me::getOrigin() const {
-        return org;
-    }
+    const baseObj& me::getOrigin() const { return org; }
 
-    tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {
-        return *this;
-    }
+    tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const { return *this; }
 
-    tstr<arithmeticObj> me::_sub(const arithmeticObj& rhs, nbool reversed) const {
-        return *this;
-    }
+    tstr<arithmeticObj> me::_sub(const arithmeticObj& rhs, nbool reversed) const { return *this; }
 
-    tstr<arithmeticObj> me::_mul(const arithmeticObj& rhs, nbool reversed) const {
-        return *this;
-    }
+    tstr<arithmeticObj> me::_mul(const arithmeticObj& rhs, nbool reversed) const { return *this; }
 
-    tstr<arithmeticObj> me::_div(const arithmeticObj& rhs, nbool reversed) const {
-        return *this;
-    }
+    tstr<arithmeticObj> me::_div(const arithmeticObj& rhs, nbool reversed) const { return *this; }
 
-    tstr<arithmeticObj> me::_mod(const arithmeticObj& rhs, nbool reversed) const {
-        return *this;
-    }
+    tstr<arithmeticObj> me::_mod(const arithmeticObj& rhs, nbool reversed) const { return *this; }
 
     tstr<arithmeticObj> me::_bitwiseAnd(const arithmeticObj& rhs, nbool reversed) const {
         return *this;
@@ -77,32 +64,21 @@ namespace nm {
         return *this;
     }
 
-    nbool me::_eq(const arithmeticObj& rhs) const {
-        return false;
-    }
-    nbool me::_ne(const arithmeticObj& rhs) const {
-        return false;
-    }
-    nbool me::_gt(const arithmeticObj& rhs) const {
-        return false;
-    }
-    nbool me::_lt(const arithmeticObj& rhs) const {
-        return false;
-    }
-    nbool me::_ge(const arithmeticObj& rhs) const {
-        return false;
-    }
-    nbool me::_le(const arithmeticObj& rhs) const {
-        return false;
-    }
-    nbool me::_logicalAnd(const arithmeticObj& rhs) const {
-        return false;
-    }
-    nbool me::_logicalOr(const arithmeticObj& rhs) const {
-        return false;
-    }
+    nbool me::_eq(const arithmeticObj& rhs) const { return false; }
 
-    arithmeticObj& me::_mov(const arithmeticObj& rhs) {
-        return *this;
-    }
-}
+    nbool me::_ne(const arithmeticObj& rhs) const { return false; }
+
+    nbool me::_gt(const arithmeticObj& rhs) const { return false; }
+
+    nbool me::_lt(const arithmeticObj& rhs) const { return false; }
+
+    nbool me::_ge(const arithmeticObj& rhs) const { return false; }
+
+    nbool me::_le(const arithmeticObj& rhs) const { return false; }
+
+    nbool me::_logicalAnd(const arithmeticObj& rhs) const { return false; }
+
+    nbool me::_logicalOr(const arithmeticObj& rhs) const { return false; }
+
+    arithmeticObj& me::_mov(const arithmeticObj& rhs) { return *this; }
+} // namespace nm

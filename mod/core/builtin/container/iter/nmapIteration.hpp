@@ -1,15 +1,13 @@
 // nested class of tnmap.hpp:
 //  this file allows to be refered by 'tnmap.hpp' file only.
-class nmapIteration : public iteration {
+class nmapIteration: public iteration {
     NM(CLASS(nmapIteration, iteration))
     friend class tnmap;
 
 public:
     nmapIteration(tnmap& own, citer start, citer end): _own(own), _citer(start), _end(end) {}
 
-    nbool isEnd() const override {
-        return _citer == _end;
-    }
+    nbool isEnd() const override { return _citer == _end; }
 
     /// if iteration reached to the last element to iterate, it can precede to next,
     /// which means to the End of a buffer.
@@ -17,10 +15,9 @@ public:
     ncnt next(ncnt step) override {
         if(isEnd()) return 0;
 
-        for(int n=0; n < step; n++) {
+        for(int n = 0; n < step; n++) {
             ++_citer;
-            if(isEnd())
-                return n;
+            if(isEnd()) return n;
         }
         return step;
     }
@@ -31,6 +28,7 @@ public:
     }
 
     using super::getVal;
+
     V& getVal() override {
         if(isEnd()) return nulOf<V>();
         return *_citer->second;
@@ -42,9 +40,8 @@ public:
     }
 
     using super::getContainer;
-    tbicontainable<K, V>& getContainer() override {
-        return _own;
-    }
+
+    tbicontainable<K, V>& getContainer() override { return _own; }
 
 protected:
     nbool _onSame(const typeProvidable& rhs) const override {

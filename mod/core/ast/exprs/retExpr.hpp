@@ -6,7 +6,7 @@ namespace nm {
 
     class visitor;
 
-    class _nout retExpr : public retStateExpr {
+    class _nout retExpr: public retStateExpr {
         NM(CLASS(retExpr, retStateExpr, expr::exprType), VISIT())
 
     public:

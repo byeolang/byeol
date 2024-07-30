@@ -1,11 +1,12 @@
-#include "../../common/dep.hpp"
 #include <stdio.h>
+
+#include "../../common/dep.hpp"
 
 using namespace std;
 using namespace nm;
 
 namespace {
-    typedef struct consoleStreamTest : public ::testing::Test {
+    typedef struct consoleStreamTest: public ::testing::Test {
         void SetUp() override {
             logger& log = logger::get();
             _isVerbose = log.isEnable();
@@ -13,6 +14,7 @@ namespace {
             delLogFile();
             ASSERT_FALSE(consoleStreamTest::hasLogFile());
         }
+
         void TearDown() override {
             delLogFile();
             logger::get().setEnable(_isVerbose);
@@ -28,7 +30,7 @@ namespace {
 
             if(name == NULL) {
                 logger& log = logger::get();
-                for (int n=0; n < log.getStreamCount() ;n++) {
+                for(int n = 0; n < log.getStreamCount(); n++) {
                     fileLogStream* as = dynamic_cast<fileLogStream*>(&log[n]);
                     if(as) {
                         name = as->getPath().c_str();
@@ -48,13 +50,15 @@ namespace {
         nbool _isVerbose;
 
     } thisTest;
-}
+} // namespace
 
 TEST_F(consoleStreamTest, logFormat) {
     logger::get().logBypass("hello");
-    logger::get().logFormatBypass("%s %s <%s::%s#%d> " "hello",
-        nm::platformAPI::createNowTime("%b %d %Y  %X").c_str(), "I",
-        __FILENAME__, __func__, __LINE__);
+    logger::get().logFormatBypass(
+        "%s %s <%s::%s#%d> "
+        "hello",
+        nm::platformAPI::createNowTime("%b %d %Y  %X").c_str(), "I", __FILENAME__, __func__,
+        __LINE__);
 
     ASSERT_TRUE(thisTest::hasLogFile());
 }

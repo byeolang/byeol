@@ -3,24 +3,24 @@
 using namespace nm;
 
 namespace {
-    struct myNode : public node {
+    struct myNode: public node {
         NM(CLASS(myNode, node))
 
     public:
         myNode(int n): num(n) {}
 
         scope& subs() override { return nulOf<scope>(); }
+
         priorType prioritize(const args& a) const override { return NO_MATCH; }
+
         str run(const args& a) override { return str(); }
 
         int num;
     };
 }
 
-struct frameTest : public namuTest {
-    frames& getFrames() {
-        return (frames&) thread::get().getFrames();
-    }
+struct frameTest: public namuTest {
+    frames& getFrames() { return (frames&) thread::get().getFrames(); }
 
     void SetUp() override {
         namuTest::SetUp();
@@ -32,14 +32,10 @@ struct frameTest : public namuTest {
         namuTest::TearDown();
     }
 
-    scope& getScopeStack(frame& fr) {
-        return fr.subs();
-    }
+    scope& getScopeStack(frame& fr) { return fr.subs(); }
 };
 
-TEST_F(frameTest, testAccessFrame) {
-    getFrames().add(new frame);
-}
+TEST_F(frameTest, testAccessFrame) { getFrames().add(new frame); }
 
 TEST_F(frameTest, testFrameManipulateChainObjNegative) {
     frame& fr = getFrames()[getFrames().len() - 1];

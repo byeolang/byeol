@@ -6,7 +6,7 @@ namespace nm {
 
     class visitor;
 
-    class _nout runExpr : public expr {
+    class _nout runExpr: public expr {
         NM(CLASS(runExpr, expr, expr::exprType), VISIT())
         friend class parser;
 
@@ -41,4 +41,4 @@ namespace nm {
         args _args;
         mutable str _subject;
     };
-}
+} // namespace nm

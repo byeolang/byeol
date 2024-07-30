@@ -5,7 +5,7 @@
 #include "../scope.hpp"
 
 namespace nm {
-    class _nout defVarExpr : public expr {
+    class _nout defVarExpr: public expr {
         NM(ADT(defVarExpr, expr), VISIT())
 
     public:

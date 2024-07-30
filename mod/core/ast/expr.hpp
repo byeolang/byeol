@@ -1,17 +1,17 @@
 #pragma once
 
-#include "src/src.hpp"
-#include "point.hpp"
 #include "args.hpp"
+#include "point.hpp"
+#include "src/src.hpp"
 
 struct exprTest;
 
 namespace nm {
 
-    class _nout expr : public node {
+    class _nout expr: public node {
     public:
         // expr can be casted to node. it's proxy of a node.
-        class _nout exprType : public ntype {
+        class _nout exprType: public ntype {
             NM(ME(exprType, ntype))
 
         public:
@@ -44,4 +44,4 @@ namespace nm {
         tstr<src> _src;
         point _pos;
     };
-}
+} // namespace nm

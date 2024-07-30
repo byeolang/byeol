@@ -1,7 +1,7 @@
 #pragma once
 
-#include "dep.hpp"
 #include "_nout.hpp"
+#include "dep.hpp"
 
 namespace nm {
 

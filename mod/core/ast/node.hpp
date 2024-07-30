@@ -1,12 +1,12 @@
 #pragma once
 
-#include "validable.hpp"
-#include "scope.hpp"
 #include "../builtin/container/native/tnarr.hpp"
-#include "point.hpp"
-#include "../type/ntype.hpp"
 #include "../frame/frameInteractable.hpp"
+#include "../type/ntype.hpp"
+#include "point.hpp"
+#include "scope.hpp"
 #include "tpriorities.hpp"
+#include "validable.hpp"
 
 namespace nm {
 
@@ -18,7 +18,7 @@ namespace nm {
     class src;
 
     /// node provides common API to manipulate its sub nodes.
-    class _nout node : public instance, public frameInteractable {
+    class _nout node: public instance, public frameInteractable {
         NM(ADT(node, instance))
         friend class exprMaker; // for _setSrc
         friend class mockNode;
@@ -42,18 +42,24 @@ namespace nm {
         const node& deduce(const node& r) const;
 
         template <typename T> T& sub(std::function<nbool(const std::string&, const T&)> l);
-        template <typename T> const T& sub(std::function<nbool(const std::string&, const T&)> l) const NM_CONST_FUNC(sub<T>(l))
+        template <typename T>
+        const T& sub(std::function<nbool(const std::string&, const T&)> l) const
+            NM_CONST_FUNC(sub<T>(l))
         template <typename T = me> T& sub();
-        template <typename T = me> const T&sub() const NM_CONST_FUNC(sub<T>())
+        template <typename T = me> const T& sub() const NM_CONST_FUNC(sub<T>())
         template <typename T = me> T& sub(const std::string& name);
-        template <typename T = me> const T& sub(const std::string& name) const NM_CONST_FUNC(sub<T>(name))
+        template <typename T = me>
+        const T& sub(const std::string& name) const NM_CONST_FUNC(sub<T>(name))
         template <typename T = me> T& sub(const std::string& name, const args& a);
-        template <typename T = me> const T& sub(const std::string& name, const args& a) const NM_CONST_FUNC(sub<T>(name, a))
+        template <typename T = me>
+        const T& sub(const std::string& name, const args& a) const NM_CONST_FUNC(sub<T>(name, a))
 
-        template <typename T> tnarr<T, strTactic> subAll(std::function<nbool(const std::string&, const T&)> l) const;
+        template <typename T>
+        tnarr<T, strTactic> subAll(std::function<nbool(const std::string&, const T&)> l) const;
         template <typename T = me> tnarr<T, strTactic> subAll() const;
         template <typename T = me> tpriorities<T> subAll(const std::string& name) const;
-        template <typename T = me> tpriorities<T> subAll(const std::string& name, const args& a) const;
+        template <typename T = me>
+        tpriorities<T> subAll(const std::string& name, const args& a) const;
 
         bool canRun(const args& a) const;
         virtual priorType prioritize(const args& a) const = 0;
@@ -68,19 +74,22 @@ namespace nm {
         virtual void rel() {}
 
         template <typename T> nbool is() const { return is(ttype<T>::get()); }
+
         nbool is(const typeProvidable& to) const;
         nbool is(const type& to) const;
 
         template <typename T> tstr<T> as() const { return as(ttype<T>::get()); }
+
         str as(const typeProvidable& to) const;
         str as(const type& to) const;
 
-        template <typename T>
-        nbool isImpli() const { return isImpli(ttype<T>::get()); }
+        template <typename T> nbool isImpli() const { return isImpli(ttype<T>::get()); }
+
         nbool isImpli(const typeProvidable& to) const;
         virtual nbool isImpli(const type& to) const;
 
         template <typename T> tstr<T> asImpli() const { return asImpli(ttype<T>::get()); }
+
         str asImpli(const typeProvidable& to) const;
         virtual str asImpli(const type& to) const;
 
@@ -123,4 +132,4 @@ namespace nm {
 
     typedef tnmap<std::string, node> nmap;
     typedef tnchain<std::string, node> nchain;
-}
+} // namespace nm

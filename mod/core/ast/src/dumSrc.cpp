@@ -7,7 +7,7 @@ namespace nm {
         static srcFile _inner("<no_name>", "");
     }
 
-    dumSrc::dumSrc(): src(_inner, "", point {0, 0}) {}
+    dumSrc::dumSrc(): src(_inner, "", point{0, 0}) {}
 
     me& me::singletone() {
         static dumSrc inner;

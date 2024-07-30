@@ -1,4 +1,5 @@
 #include "defaultCtor.hpp"
+
 #include "../visitor/visitor.hpp"
 
 namespace nm {

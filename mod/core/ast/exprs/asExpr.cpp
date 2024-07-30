@@ -1,4 +1,5 @@
 #include "asExpr.hpp"
+
 #include "../../visitor/visitor.hpp"
 
 namespace nm {
@@ -16,21 +17,13 @@ namespace nm {
         return str(eval->as(*_as));
     }
 
-    str me::getEval() const {
-        return _as;
-    }
+    str me::getEval() const { return _as; }
 
-    const node& me::getMe() const {
-        return *_me;
-    }
+    const node& me::getMe() const { return *_me; }
 
-    const node& me::getAs() const {
-        return *_as;
-    }
+    const node& me::getAs() const { return *_as; }
 
-    void me::setAs(const node& new1) {
-        _as.bind(new1);
-    }
+    void me::setAs(const node& new1) { _as.bind(new1); }
 
     clonable* me::cloneDeep() const {
         NM_DI("%s.cloneDeep()", *this);
@@ -39,4 +32,4 @@ namespace nm {
         if(_as) ret->_as.bind((node*) _as->cloneDeep());
         return ret;
     }
-}
+} // namespace nm

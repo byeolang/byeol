@@ -1,12 +1,13 @@
 #pragma once
 
+#include "../ast/origin.hpp"
 #include "../loader/worker/worker.inl"
 #include "defaultSigZone.hpp"
-#include "../ast/origin.hpp"
 
 namespace nm {
     class frames;
-    class _nout starter : public worker<str, args> {
+
+    class _nout starter: public worker<str, args> {
         typedef worker<str, args> __super8;
         NM(CLASS(starter, __super8))
 

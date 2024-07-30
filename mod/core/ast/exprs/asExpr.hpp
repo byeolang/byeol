@@ -8,7 +8,7 @@ namespace nm {
 
     class visitor;
 
-    class _nout asExpr : public expr {
+    class _nout asExpr: public expr {
         NM(CLASS(asExpr, expr, expr::exprType), VISIT())
         friend class verifier;
         friend class func;

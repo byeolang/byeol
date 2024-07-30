@@ -1,9 +1,10 @@
 #include "arr.hpp"
 
 #include <utility>
-#include "../../../visitor/visitor.hpp"
-#include "../../../visitor/generalizer.hpp"
+
 #include "../../../bridge/cpp.hpp"
+#include "../../../visitor/generalizer.hpp"
+#include "../../../visitor/visitor.hpp"
 
 namespace nm {
 
@@ -15,7 +16,7 @@ namespace nm {
         typedef tucontainable<node>::iter niter;
         typedef tbridge<niter> __superMgdIter;
 
-        class _nout mgdIter : public __superMgdIter {
+        class _nout mgdIter: public __superMgdIter {
             NM(CLASS(mgdIter, __superMgdIter))
 
         public:
@@ -23,19 +24,20 @@ namespace nm {
 
         public:
             using super::subs;
+
             scope& subs() override {
                 static scope inner = tbridger<niter>::ctor()
-                    .ctor<niter>()
-                    .func("isEnd", &niter::isEnd)
-                    .func("next", &niter::next)
-                    .funcNonConst<node&>("get", &niter::get)
-                    .subs();
+                                         .ctor<niter>()
+                                         .func("isEnd", &niter::isEnd)
+                                         .func("next", &niter::next)
+                                         .funcNonConst<node&>("get", &niter::get)
+                                         .subs();
 
                 return inner;
             }
         };
 
-        class iterateFunc : public baseFunc {
+        class iterateFunc: public baseFunc {
             NM(CLASS(iterateFunc, baseFunc))
 
         public:
@@ -46,62 +48,55 @@ namespace nm {
 
             const params& getParams() const override {
                 static params inner;
-                if(inner.len() <= 0)
-                    inner.add(new param("step", *new nInt()));
+                if(inner.len() <= 0) inner.add(new param("step", *new nInt()));
 
                 return inner;
             }
 
             str run(const args& a) override {
                 const params& ps = getParams();
-                if(a.len() != ps.len()) return NM_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
+                if(a.len() != ps.len())
+                    return NM_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
                 arr& meObj = a.getMe().cast<arr>();
                 if(nul(meObj)) return NM_E("meObj as arr == null"), str();
 
                 str eval = a[0].as(ps[0].getOrigin().as<node>());
                 if(!eval)
-                    return NM_E("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]), str();
+                    return NM_E("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]),
+                           str();
 
                 nint step = eval->cast<nint>();
                 return new mgdIter(new niter(meObj.get().iterate(step)));
             }
         };
 
-        class getElemTypeFunc : public baseFunc {
+        class getElemTypeFunc: public baseFunc {
             NM(CLASS(getElemTypeFunc, baseFunc))
 
         public:
             getElemTypeFunc(): _ret(new getExpr(TYPENAME)) {}
 
         public:
-            str getRet() const override {
-                return _ret;
-            }
+            str getRet() const override { return _ret; }
 
-            str run(const args& a) override {
-                return _ret ? _ret->as<node>() : *_ret;
-            }
+            str run(const args& a) override { return _ret ? _ret->as<node>() : *_ret; }
 
-            nbool setRet(const node& newRet) override {
-                return _ret.bind(newRet);
-            }
+            nbool setRet(const node& newRet) override { return _ret.bind(newRet); }
 
         private:
             str _ret;
         };
-    }
+    } // namespace
 
     me::arr(): super(new narr()) { _type._getBeans().add(*new obj()); }
+
     me::arr(const node& newType): super(new narr()) { _type._getBeans().add(newType); }
+
     me::arr(const me& rhs): super(rhs) { _type._getBeans().add(rhs._type.getBeans()[0]); }
 
-    node& me::operator[](nidx n) {
-        return get()[n];
-    }
+    node& me::operator[](nidx n) { return get()[n]; }
 
-    const ntype& me::getType() const {
-        return _type;
-    }
+    const ntype& me::getType() const { return _type; }
 
     scope& me::subs() {
         static dumScope dummy;
@@ -110,24 +105,17 @@ namespace nm {
 
         const node& paramType = beans[0];
         auto e = _cache.find(&paramType.getType());
-        if(e != _cache.end())
-            return e->second.get();
+        if(e != _cache.end()) return e->second.get();
 
         // this is first try to generalize type T:
         return _defGeneric(paramType);
     }
 
-    ncnt me::len() const {
-        return get().len();
-    }
+    ncnt me::len() const { return get().len(); }
 
-    nbool me::has(nidx n) const {
-        return get().has(n);
-    }
+    nbool me::has(nidx n) const { return get().has(n); }
 
-    node& me::get(nidx n) {
-        return get()[n];
-    }
+    node& me::get(nidx n) { return get()[n]; }
 
     node& me::get(std::function<nbool(const node&)> l) const {
         return this->get<node>(std::move(l));
@@ -143,6 +131,7 @@ namespace nm {
 
         return get().set(at, *ased);
     }
+
     nbool me::set(nidx n, const node& new1) {
         str ased = safeGet(new1, asImpli(getType().getBeans()[0]));
         if(!ased || ased->isSub<nVoid>()) return false;
@@ -163,41 +152,25 @@ namespace nm {
         return get().add(n, *ased);
     }
 
-    void me::add(const iter& here, const iter& from, const iter& to) {
-        get().add(here, from, to);
-    }
+    void me::add(const iter& here, const iter& from, const iter& to) { get().add(here, from, to); }
 
     //  del:
-    nbool me::del(nidx n) {
-        return get().del(n);
-    }
+    nbool me::del(nidx n) { return get().del(n); }
 
-    nbool me::del(const iter& it) {
-        return get().del(it);
-    }
+    nbool me::del(const iter& it) { return get().del(it); }
 
-    nbool me::del(const iter& from, const iter& to) {
-        return get().del(from, to);
-    }
+    nbool me::del(const iter& from, const iter& to) { return get().del(from, to); }
 
-    void me::rel() {
-       get().rel();
-    }
+    void me::rel() { get().rel(); }
 
-    const baseObj& me::getOrigin() const {
-        return *this;
-    }
+    const baseObj& me::getOrigin() const { return *this; }
 
-    std::string me::asStr() const {
-        return get().asStr();
-    }
+    std::string me::asStr() const { return get().asStr(); }
 
-    me::iteration* me::_onMakeIteration(ncnt step) const {
-        return get()._onMakeIteration(step);
-    }
+    me::iteration* me::_onMakeIteration(ncnt step) const { return get()._onMakeIteration(step); }
 
     namespace {
-        class __copyCtor : public baseFunc {
+        class __copyCtor: public baseFunc {
             NM(CLASS(__copyCtor, baseFunc))
 
         public:
@@ -226,17 +199,16 @@ namespace nm {
     scope& me::_defGeneric(const node& paramType) {
         scope* clone = (scope*) _getOriginScope().cloneDeep();
         _cache.insert({&paramType.getType(), clone}); // this avoids infinite loop.
-        clone->add(baseObj::CTOR_NAME, new tbridgeClosure<arr*, arr, tmarshaling>([&paramType](arr&) -> arr* {
-            return new me(paramType);
-        }));
+        clone->add(baseObj::CTOR_NAME,
+            new tbridgeClosure<arr*, arr, tmarshaling>(
+                [&paramType](arr&) -> arr* { return new me(paramType); }));
         clone->add(baseObj::CTOR_NAME, new __copyCtor(paramType));
         clone->add("getElemType", new getElemTypeFunc());
 
         NM_DI("|==============================================|");
         NM_DI("|--- generic: make arr<%s> generic class ---|", paramType);
         generalizer g;
-        g.add(*new param(TYPENAME, paramType))
-         .setTask(*this).setFlag(generalizer::INTERNAL).work();
+        g.add(*new param(TYPENAME, paramType)).setTask(*this).setFlag(generalizer::INTERNAL).work();
         NM_DI("|============================|");
 
         return *clone;
@@ -244,16 +216,16 @@ namespace nm {
 
     scope& me::_getOriginScope() {
         static scope inner = tbridger<narr>::genericFunc("len", &narr::len)
-            .genericFunc("rel", &narr::rel)
-            .genericFunc<nbool, nidx>("del", &narr::del)
-            .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
-            .genericFunc<nbool, nidx, const node&>("add", &narr::add)
-            .genericFunc<nbool, nidx, const node&>("set", &narr::set)
-            .genericFuncNonConst<node&, nidx>("get", &narr::get)
-            .genericFunc<nbool, const node&>("has", &narr::has)
-            .func("iterate", new iterateFunc())
-            .subs();
+                                 .genericFunc("rel", &narr::rel)
+                                 .genericFunc<nbool, nidx>("del", &narr::del)
+                                 .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
+                                 .genericFunc<nbool, nidx, const node&>("add", &narr::add)
+                                 .genericFunc<nbool, nidx, const node&>("set", &narr::set)
+                                 .genericFuncNonConst<node&, nidx>("get", &narr::get)
+                                 .genericFunc<nbool, const node&>("has", &narr::has)
+                                 .func("iterate", new iterateFunc())
+                                 .subs();
 
         return inner;
     }
-}
+} // namespace nm

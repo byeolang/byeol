@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    class _nout ifExpr : public expr {
+    class _nout ifExpr: public expr {
         NM(CLASS(ifExpr, expr, expr::exprType), VISIT())
         friend class verifier;
 

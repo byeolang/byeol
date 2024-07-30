@@ -1,13 +1,13 @@
 #pragma once
 
 #include "../../../ast/node.hpp"
-#include "tnucontainer.hpp"
-#include "../tarrayable.hpp"
 #include "../../primitive/nInt.hpp"
+#include "../tarrayable.hpp"
+#include "tnucontainer.hpp"
 
 namespace nm {
 
-    class _nout nseq : public tnucontainer<nInt, nInt>, public tarrayable<nInt, nInt> {
+    class _nout nseq: public tnucontainer<nInt, nInt>, public tarrayable<nInt, nInt> {
         typedef tnucontainer<nInt, nInt> _super3;
         NM(CLASS(nseq, _super3))
         friend class seq;
@@ -64,4 +64,4 @@ namespace nm {
         nInt _end;
         nInt _step;
     };
-}
+} // namespace nm

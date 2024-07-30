@@ -7,11 +7,11 @@ namespace nm {
 
     class visitor;
 
-    class _nout getExpr : public expr {
+    class _nout getExpr: public expr {
         NM(CLASS(getExpr, expr, expr::exprType), VISIT())
         friend class verifier;
         friend class parser;
-        friend class visitor; // for _me
+        friend class visitor;     // for _me
         friend class generalizer; // for _args
 
     public:
@@ -43,4 +43,4 @@ namespace nm {
         std::string _name;
         tstr<args> _args;
     };
-}
+} // namespace nm

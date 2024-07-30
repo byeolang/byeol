@@ -7,11 +7,13 @@ namespace {
 }
 
 TEST_F(patternMatchingTest, simpleIn) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             arr := {1, 2, 3}
             3 in arr
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -19,11 +21,13 @@ TEST_F(patternMatchingTest, simpleIn) {
 }
 
 TEST_F(patternMatchingTest, strNegative) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             arr := {"1", "2", "3"}
             "hello" in arr
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -31,19 +35,24 @@ TEST_F(patternMatchingTest, strNegative) {
 }
 
 TEST_F(patternMatchingTest, wrongTypeNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             arr := {"1", "2", "3"}
             true in arr
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(patternMatchingTest, withStr) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             arr := {"1", "2", "3"}
             "2" in arr
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

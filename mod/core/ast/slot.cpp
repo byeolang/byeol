@@ -1,29 +1,21 @@
 #include "slot.hpp"
-#include "baseFunc.hpp"
-#include "../visitor/visitor.hpp"
+
 #include "../type/mgdType.hpp"
+#include "../visitor/visitor.hpp"
+#include "baseFunc.hpp"
 #include "origin.hpp"
 
 namespace nm {
 
     NM(DEF_ME(slot), DEF_VISIT())
 
+    scope& me::subs() { return getPack().subs(); }
 
-    scope& me::subs() {
-        return getPack().subs();
-    }
+    priorType me::prioritize(const args& a) const { return getPack().prioritize(a); }
 
-    priorType me::prioritize(const args& a) const {
-        return getPack().prioritize(a);
-    }
+    str me::run(const args& a) { return getPack().run(a); }
 
-    str me::run(const args& a) {
-        return getPack().run(a);
-    }
-
-    str me::getEval() const {
-        return getPack().getEval();
-    }
+    str me::getEval() const { return getPack().getEval(); }
 
     me::slot(const manifest& manifest): _manifest(manifest), _isValid(true) {
         _pak.bind(new origin(mgdType::make(_manifest.name)));
@@ -39,40 +31,30 @@ namespace nm {
         _isValid = true;
     }
 
-    obj& me::getPack() {
-        return *_pak;
-    }
+    obj& me::getPack() { return *_pak; }
 
     manifest& me::getManifest() { return _manifest; }
+
     const manifest& me::getManifest() const { return _manifest; }
+
     nbool me::isValid() const { return _isValid; }
 
-    void me::rel() {
-        _rel();
-    }
+    void me::rel() { _rel(); }
 
-    void me::addDependent(slot& dependent) {
-        _dependents.add(dependent);
-    }
+    void me::addDependent(slot& dependent) { _dependents.add(dependent); }
 
-    const tnarr<slot>& me::getDependents() const {
-        return _dependents;
-    }
+    const tnarr<slot>& me::getDependents() const { return _dependents; }
 
-    void me::_setValid(nbool valid) {
-        _isValid = valid;
-    }
+    void me::_setValid(nbool valid) { _isValid = valid; }
 
     nbool me::_invalidate() {
         _setValid(false);
 
         // propagate result only if it's not valid.
-        for(auto& e : _dependents)
+        for(auto& e: _dependents)
             e._invalidate();
         return true;
     }
 
-    str me::_onRunSub(node& sub, const args& a) {
-        return getPack()._onRunSub(sub, a);
-    }
-}
+    str me::_onRunSub(node& sub, const args& a) { return getPack()._onRunSub(sub, a); }
+} // namespace nm

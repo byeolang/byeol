@@ -1,15 +1,16 @@
 #include "parser.hpp"
-#include "bison/lowparser.hpp"
-#include "bison/lowscanner.hpp"
+
 #include "../../ast.hpp"
 #include "../../ast/func.hpp"
+#include "../../ast/genericOrigin.hpp"
+#include "../../ast/origin.hpp"
 #include "../../builtin/primitive.hpp"
 #include "../../frame/thread.hpp"
-#include "../../ast/genericOrigin.hpp"
 #include "../../type/mgdType.hpp"
+#include "bison/lowparser.hpp"
+#include "bison/lowscanner.hpp"
 #include "bison/tokenScan.hpp"
 #include "worker.inl"
-#include "../../ast/origin.hpp"
 
 namespace nm {
 
@@ -21,7 +22,7 @@ namespace nm {
     namespace {
         string join(const std::vector<string>& dotnames) {
             string ret;
-            for (const string& name : dotnames)
+            for(const string& name: dotnames)
                 ret += name;
             return ret;
         }
@@ -29,7 +30,7 @@ namespace nm {
 
     nint me::_onScan(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner) {
         int tok = _mode->onScan(*this, val, loc, scanner);
-        if (_isIgnoreWhitespace && tok == NEWLINE) return SCAN_AGAIN;
+        if(_isIgnoreWhitespace && tok == NEWLINE) return SCAN_AGAIN;
         _isIgnoreWhitespace = false;
 
         switch(tok) {
@@ -46,9 +47,9 @@ namespace nm {
         int tok;
         do
             // why do you put redundant _onScan() func?:
-            //  because of definately, clang++ bug. when I use continue at switch statement inside of
-            //  do-while loop here, it doesn't work like usual 'continue' keyword does, but it does like
-            //  'break'.
+            //  because of definately, clang++ bug. when I use continue at switch statement inside
+            //  of do-while loop here, it doesn't work like usual 'continue' keyword does, but it
+            //  does like 'break'.
             tok = _onScan(val, loc, scanner);
         while(tok == SCAN_AGAIN);
 
@@ -57,10 +58,8 @@ namespace nm {
 
     nint me::onTokenEndOfFile() {
         NM_DI("tokenEvent: onTokenEndOfFile() indents.size()=%d", _indents.size());
-        if(_indents.size() <= 1)
-            _dispatcher.add(SCAN_MODE_END);
-        else
-            _dispatcher.addFront(onDedent(_indents.front(), SCAN_MODE_END));
+        if(_indents.size() <= 1) _dispatcher.add(SCAN_MODE_END);
+        else _dispatcher.addFront(onDedent(_indents.front(), SCAN_MODE_END));
 
         NM_DI("tokenEvent: onEndOfFile: finalize by adding 'NEWLINE', then dispatch end-of-file.");
         return NEWLINE;
@@ -96,23 +95,24 @@ namespace nm {
     }
 
     nint me::onIndent(ncnt col, nint tok) {
-        NM_DI("tokenEvent: onIndent(col: %d, tok: %d) indents.size()=%d", col, tok, _indents.size());
+        NM_DI("tokenEvent: onIndent(col: %d, tok: %d) indents.size()=%d", col, tok,
+            _indents.size());
         _indents.push_back(col);
         _dispatcher.add(tok);
         return INDENT;
     }
 
     nint me::onDedent(ncnt col, nint tok) {
-        NM_DI("tokenEvent: onDedent(col: %d, tok: %d) indents.size()=%d", col, tok, _indents.size());
+        NM_DI("tokenEvent: onDedent(col: %d, tok: %d) indents.size()=%d", col, tok,
+            _indents.size());
 
         _indents.pop_back();
         nint now = _indents.back();
-        if(now < col)
-            posWarn(errCode::WRONG_INDENT_LV, col, now, now);
+        if(now < col) posWarn(errCode::WRONG_INDENT_LV, col, now, now);
 
         while(_indents.back() > col) {
-            NM_DI("tokenEvent: onDedent: indentlv become %d -> %d",
-                    _indents.back(), _indents.size() > 1 ? _indents[_indents.size()-2] : -1);
+            NM_DI("tokenEvent: onDedent: indentlv become %d -> %d", _indents.back(),
+                _indents.size() > 1 ? _indents[_indents.size() - 2] : -1);
             _dispatcher.add(DEDENT);
             _indents.pop_back();
             if(_indents.size() <= 0) break;
@@ -123,9 +123,9 @@ namespace nm {
     }
 
     nint me::onTokenNewLine(nint tok) {
-        NM_DI("tokenEvent: onNewLine: _isIgnoreWhitespace=%s, _indents.size()=%d", _isIgnoreWhitespace, _indents.size());
-        if(!_isIgnoreWhitespace && _indents.size() >= 1)
-            _dispatcher.add(SCAN_MODE_INDENT);
+        NM_DI("tokenEvent: onNewLine: _isIgnoreWhitespace=%s, _indents.size()=%d",
+            _isIgnoreWhitespace, _indents.size());
+        if(!_isIgnoreWhitespace && _indents.size() >= 1) _dispatcher.add(SCAN_MODE_INDENT);
         _dedent.setEnable(false);
         return tok;
     }
@@ -156,8 +156,7 @@ namespace nm {
         // pack syntax rule #1:
         //  if there is no specified name of pack, I create an one.
         const std::string& firstName = dotnames[0];
-        if(nul(getTask()))
-            _setTask(new slot(manifest(firstName)));
+        if(nul(getTask())) _setTask(new slot(manifest(firstName)));
         obj* e = &getTask().getPack();
 
         const std::string& realName = getTask().getManifest().name;
@@ -171,7 +170,7 @@ namespace nm {
         //      'pack mypack.component.ui'
         //  in this scenario, mypack instance should be created before. and component sub
         //  pack object can be created in this parsing keyword.
-        for(int n=1; n < dotnames.size(); n++) {
+        for(int n = 1; n < dotnames.size(); n++) {
             const std::string& name = dotnames[n];
             origin* sub = &e->sub<origin>(name);
             if(nul(sub)) {
@@ -193,15 +192,16 @@ namespace nm {
     obj* me::onPack() {
         NM_DI("tokenEvent: onPack()");
 
-        if(nul(getTask()))
-            _setTask(new slot(manifest()));
+        if(nul(getTask())) _setTask(new slot(manifest()));
 
         auto& newSlot = getTask();
         const std::string& name = getTask().getManifest().name;
         if(name != manifest::DEFAULT_NAME)
-            return error(errCode::PACK_NOT_MATCH, manifest::DEFAULT_NAME, name.c_str()), &newSlot.getPack();
+            return error(errCode::PACK_NOT_MATCH, manifest::DEFAULT_NAME, name.c_str()),
+                   &newSlot.getPack();
 
-        return onSubPack(newSlot.getPack()); // this is a default pack containing name as '{default}'.
+        return onSubPack(
+            newSlot.getPack()); // this is a default pack containing name as '{default}'.
     }
 
     blockExpr* me::onBlock(const node& stmt) {
@@ -211,8 +211,7 @@ namespace nm {
 
     blockExpr* me::onBlock(blockExpr& blk, const node& stmt) {
         NM_DI("tokenEvent: onBlock(blk, %s)", stmt);
-        if(nul(blk))
-            return posError(errCode::IS_NULL, "blk"), _maker.make<blockExpr>();
+        if(nul(blk)) return posError(errCode::IS_NULL, "blk"), _maker.make<blockExpr>();
 
         blk.getStmts().add(stmt);
         NM_DI("tokenEvent: onBlock(%d).add(%s)", blk.getStmts().len(), stmt);
@@ -236,8 +235,7 @@ namespace nm {
 
     defBlock* me::onDefBlock(defBlock& s, node& stmt) {
         NM_DI("tokenEvent: onDefBlock(s, %s)", stmt);
-        if(nul(s))
-            return posError(errCode::IS_NULL, "s"), new defBlock();
+        if(nul(s)) return posError(errCode::IS_NULL, "s"), new defBlock();
 
         defVarExpr& defVar = stmt.cast<defVarExpr>();
         if(nul(defVar)) {
@@ -289,10 +287,9 @@ namespace nm {
 
     params me::_asParams(const args& as) {
         params ret;
-        for(auto& a : as) {
+        for(auto& a: as) {
             tstr<defPropExpr> defProp(a.cast<defPropExpr>());
-            if(!defProp)
-                return posError(errCode::PARAM_HAS_VAL), ret;
+            if(!defProp) return posError(errCode::PARAM_HAS_VAL), ret;
 
             ret.add(new param(defProp->getName(), defProp->getRight()));
         }
@@ -301,8 +298,8 @@ namespace nm {
     }
 
     func* me::onAbstractFunc(const getExpr& access, const node& retType) {
-        NM_DI("tokenEvent: onAbstractFunc(access: %s(%d), retType:%s)",
-                access.getName(), access.getArgs().len(), retType);
+        NM_DI("tokenEvent: onAbstractFunc(access: %s(%d), retType:%s)", access.getName(),
+            access.getArgs().len(), retType);
 
         return _maker.birth<func>(access.getName(), _asParams(access.getArgs()), retType);
     }
@@ -323,12 +320,14 @@ namespace nm {
         NM_DI("tokenEvent: onParams()");
         return new narr();
     }
+
     narr* me::onParams(const defPropExpr& elem) {
         NM_DI("tokenEvent: onParams(%s %s)", elem.getName(), elem.getRight());
         narr* ret = new narr();
         ret->add(elem);
         return ret;
     }
+
     narr* me::onParams(narr& it, const defPropExpr& elem) {
         NM_DI("tokenEvent: onParams(narr(%d), %s %s)", it.len(), elem.getName(), elem.getRight());
         it.add(elem);
@@ -405,11 +404,12 @@ namespace nm {
 
     std::vector<std::string> me::_extractParamTypeNames(const args& types) {
         std::vector<std::string> ret;
-        for(const auto& a : types) {
+        for(const auto& a: types) {
             // all args should be getExpr instances.
             const getExpr& cast = a.cast<getExpr>();
             if(nul(cast))
-                return posError(errCode::SHOULD_TYPE_PARAM_NAME, a.getType().getName().c_str()), std::vector<std::string>();
+                return posError(errCode::SHOULD_TYPE_PARAM_NAME, a.getType().getName().c_str()),
+                       std::vector<std::string>();
 
             ret.push_back(cast.getName());
         }
@@ -437,8 +437,10 @@ namespace nm {
         return ret;
     }
 
-    genericOrigin* me::onDefObjGeneric(const std::string& name, const args& typeParams, defBlock& blk) {
-        NM_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], defBlock[%s]", name, typeParams.len(), &blk);
+    genericOrigin* me::onDefObjGeneric(const std::string& name, const args& typeParams,
+        defBlock& blk) {
+        NM_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], defBlock[%s]", name, typeParams.len(),
+            &blk);
 
         origin& org = *_maker.birth<origin>(name, mgdType(name, ttype<obj>::get(), typeParams));
         org._setComplete(false);
@@ -452,10 +454,9 @@ namespace nm {
 
     std::string me::_joinVectorString(const std::vector<std::string>& container) const {
         std::string ret;
-        for(ncnt n=0; n < container.size(); n++) {
+        for(ncnt n = 0; n < container.size(); n++) {
             ret += container[n];
-            if(n > 0)
-                ret += ", ";
+            if(n > 0) ret += ", ";
         }
         return ret;
     }
@@ -468,25 +469,25 @@ namespace nm {
     }
 
     void me::onCompilationUnit(obj& subpack, defBlock& blk) {
-        NM_DI("tokenEvent: onCompilationUnit(%s, defBlock[%s].preCtor.len()=%d)",
-                &subpack, &blk, blk.asPreCtor ? blk.asPreCtor->len() : 0);
+        NM_DI("tokenEvent: onCompilationUnit(%s, defBlock[%s].preCtor.len()=%d)", &subpack, &blk,
+            blk.asPreCtor ? blk.asPreCtor->len() : 0);
 
         _onCompilationUnit(subpack, blk);
     }
 
     void me::_onCompilationUnit(obj& subpack, defBlock& blk) {
-        if(nul(subpack))
-            return error(errCode::NO_PACK_TRAY), void();
+        if(nul(subpack)) return error(errCode::NO_PACK_TRAY), void();
 
         _onInjectObjSubs(subpack, blk);
 
         // link system slots:
         subpack.getShares().link(thread::get().getSlots());
-        NM_DI("link system slots[%d]: len=%d", thread::get().getSlots().len(), subpack.subs().len());
+        NM_DI("link system slots[%d]: len=%d", thread::get().getSlots().len(),
+            subpack.subs().len());
 
         // at this far, subpack must have at least 1 default ctor created just before:
         NM_DI("tokenEvent: onCompilationUnit: run preconstructor(%d lines)",
-                (!nul(blk) && blk.asPreCtor) ? blk.asPreCtor->len() : 0);
+            (!nul(blk) && blk.asPreCtor) ? blk.asPreCtor->len() : 0);
         subpack.run(baseObj::CTOR_NAME); // don't need argument. it's default ctor.
     }
 
@@ -496,7 +497,7 @@ namespace nm {
 
         bicontainable& share = it.getShares().getContainer();
         bicontainable& own = it.getOwns();
-        for(auto e=blk.asScope->begin(); e ;++e) {
+        for(auto e = blk.asScope->begin(); e; ++e) {
             // TODO: not only func, but also shared variable.
             bicontainable& con = nul(e.getVal<baseFunc>()) ? own : share;
             con.add(e.getKey(), *e);
@@ -511,8 +512,10 @@ namespace nm {
         if(hasCtor) return false;
 
         // TODO: ctor need to call superclass's ctor.
-        it.getShares().getContainer().add(baseObj::CTOR_NAME, *_maker.make<defaultCtor>(it.getOrigin()));
-        it.getShares().getContainer().add(baseObj::CTOR_NAME, *_maker.make<defaultCopyCtor>(it.getOrigin()));
+        it.getShares().getContainer().add(baseObj::CTOR_NAME,
+            *_maker.make<defaultCtor>(it.getOrigin()));
+        it.getShares().getContainer().add(baseObj::CTOR_NAME,
+            *_maker.make<defaultCopyCtor>(it.getOrigin()));
 
         // add preCtor:
         if(blk.asPreCtor && blk.asPreCtor->len()) {
@@ -591,7 +594,7 @@ namespace nm {
         NM_DI("tokenEvent: onGetElem(%s, %s)", arr, idx);
 
         return _maker.make<runExpr>(arr, *_maker.make<getExpr>(arr, "get", *new args{narr{idx}}),
-                args{narr{idx}});
+            args{narr{idx}});
     }
 
     node* me::onGetGeneric(const std::string& orgName, const args& typeParams) {
@@ -603,6 +606,7 @@ namespace nm {
         NM_DI("tokenEvent: onRunExpr(%s, narr[%d])", trg, a.len());
         return _onRunExpr(trg, *new args(a));
     }
+
     runExpr* me::onRunExpr(node& trg, const args& a) {
         NM_DI("tokenEvent: onRunExpr(%s, args[%d])", trg, a.len());
         return _onRunExpr(trg, a);
@@ -623,8 +627,7 @@ namespace nm {
         runExpr& r = lhs.cast<runExpr>();
         if(!nul(r)) {
             auto& name = safeGet(r, getSubj().cast<getExpr>(), getName());
-            if(!nul(name) && name == "get")
-                return _onSetElem(r, rhs);
+            if(!nul(name) && name == "get") return _onSetElem(r, rhs);
         }
 
         return _maker.make<assignExpr>(lhs, rhs);
@@ -719,8 +722,7 @@ namespace nm {
     runExpr* me::_onRunExpr(node& trg, const args& a) {
         runExpr* ret = _maker.make<runExpr>(nulOf<node>(), trg, a);
         getExpr& cast = trg.cast<getExpr>();
-        if(!nul(cast) && !cast.isSub<getGenericExpr>())
-            cast.setArgs(a);
+        if(!nul(cast) && !cast.isSub<getGenericExpr>()) cast.setArgs(a);
         return ret;
     }
 
@@ -848,7 +850,7 @@ namespace nm {
     FBOExpr* me::onLShift(const node& lhs, const node& rhs) {
         NM_DI("tokenEvent: LShift(%s, %s)", lhs, rhs);
 
-       return _maker.make<FBOExpr>(FBOExpr::LSHIFT, lhs, rhs);
+        return _maker.make<FBOExpr>(FBOExpr::LSHIFT, lhs, rhs);
     }
 
     FBOExpr* me::onRShift(const node& lhs, const node& rhs) {
@@ -922,6 +924,7 @@ namespace nm {
 
         return _maker.make<ifExpr>(condition, then);
     }
+
     ifExpr* me::onIf(const node& condition, const blockExpr& then, const blockExpr& elseBlk) {
         NM_DI("tokenEvent: onIf(condition, then, elseBlk)");
         ifExpr* ret = onIf(condition, then);
@@ -929,6 +932,7 @@ namespace nm {
         ret->setElse(elseBlk);
         return ret;
     }
+
     ifExpr* me::onIf(const node& condition, const blockExpr& then, const ifExpr& elseIf) {
         NM_DI("tokenEvent: onIf(condition, then, elseIf)");
         ifExpr* ret = onIf(condition, then);
@@ -951,9 +955,7 @@ namespace nm {
         return *_subpack; // TODO: can I remove subpack variable?
     }
 
-    srcSupplies& me::getSrcSupplies() {
-        return _supplies;
-    }
+    srcSupplies& me::getSrcSupplies() { return _supplies; }
 
     me& me::addSupply(const srcSupply& new1) {
         _supplies.add(new1);
@@ -965,16 +967,11 @@ namespace nm {
         return *this;
     }
 
-    tokenDispatcher& me::getDispatcher() {
-        return _dispatcher;
-    }
+    tokenDispatcher& me::getDispatcher() { return _dispatcher; }
 
-    std::vector<ncnt>& me::getIndents() {
-        return _indents;
-    }
-    nbool me::isInit() const {
-        return _mode;
-    }
+    std::vector<ncnt>& me::getIndents() { return _indents; }
+
+    nbool me::isInit() const { return _mode; }
 
     void me::rel() {
         super::rel();
@@ -1004,7 +1001,6 @@ namespace nm {
         return _states.back();
     }
 
-
     int me::popState() {
         int previous = _states.back();
         _states.pop_back();
@@ -1014,11 +1010,10 @@ namespace nm {
 
     tstr<obj> me::_onWork() {
         const auto& supplies = getSrcSupplies();
-        if(supplies.isEmpty())
-            return error(NO_SRC), tstr<obj>();
+        if(supplies.isEmpty()) return error(NO_SRC), tstr<obj>();
 
         NM_I("parse starts: %d src will be supplied.", supplies.len());
-        for(const auto& supply : supplies) {
+        for(const auto& supply: supplies) {
             _prepare();
 
             yyscan_t scanner;
@@ -1038,8 +1033,9 @@ namespace nm {
             yy_switch_to_buffer(bufState, scanner);
 
 #if YYDEBUG
-            //yyset_debug(1, scanner); // For Flex (no longer a global, but rather a member of yyguts_t)
-            //yydebug = 1;             // For Bison (still global, even in a reentrant parser)
+            // yyset_debug(1, scanner); // For Flex (no longer a global, but rather a member of
+            // yyguts_t) yydebug = 1;             // For Bison (still global, even in a reentrant
+            // parser)
 #endif
 
             int res = yyparse(scanner);
@@ -1055,11 +1051,7 @@ namespace nm {
         return getSubPack();
     }
 
-    void me::_report(err* new1) {
-        safeGet(getReport(), add(new1));
-    }
+    void me::_report(err* new1) { safeGet(getReport(), add(new1)); }
 
-    exprMaker& me::_getMaker() {
-        return _maker;
-    }
-}
+    exprMaker& me::_getMaker() { return _maker; }
+} // namespace nm

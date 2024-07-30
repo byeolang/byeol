@@ -1,4 +1,5 @@
 #include "obj.hpp"
+
 #include "../visitor/visitor.hpp"
 #include "baseFunc.hpp"
 #include "node.inl"
@@ -19,9 +20,7 @@ namespace nm {
         }
     }
 
-    me::obj(const me& rhs): super(rhs), _isComplete(true) {
-        _assign(rhs);
-    }
+    me::obj(const me& rhs): super(rhs), _isComplete(true) { _assign(rhs); }
 
     me::obj(): me(*new scope(), *new scope()) {}
 
@@ -30,9 +29,7 @@ namespace nm {
         _subs.bind(owns);
     }
 
-    me::obj(nbool isComplete): me() {
-        _isComplete = isComplete;
-    }
+    me::obj(nbool isComplete): me() { _isComplete = isComplete; }
 
     me& me::_assign(const me& rhs) {
         scope* clonedOwns = scope::wrap<scope>(*(scope::super*) _cloneEach(rhs));
@@ -48,7 +45,7 @@ namespace nm {
     }
 
     me& me::operator=(const me& rhs) {
-        if (&rhs == this) return *this;
+        if(&rhs == this) return *this;
 
         super::operator=(rhs);
 
@@ -61,34 +58,21 @@ namespace nm {
     }
 
     const ntype& me::getType() const {
-        if(!_org)
-            return ttype<obj>::get();
+        if(!_org) return ttype<obj>::get();
         return _org->getType();
     }
 
-    scope& me::subs() {
-        return *_subs;
-    }
+    scope& me::subs() { return *_subs; }
 
-    tstr<nbicontainer> me::mySubs() const {
-        return _subs->cloneChain(getShares());
-    }
+    tstr<nbicontainer> me::mySubs() const { return _subs->cloneChain(getShares()); }
 
-    scope& me::getShares() {
-        return safeGet(_subs, getNext(), cast<scope>());
-    }
+    scope& me::getShares() { return safeGet(_subs, getNext(), cast<scope>()); }
 
-    scope::super& me::getOwns() {
-        return safeGet(_subs, getContainer());
-    }
+    scope::super& me::getOwns() { return safeGet(_subs, getContainer()); }
 
-    const baseObj& me::getOrigin() const {
-        return _org ? *_org : *this;
-    }
+    const baseObj& me::getOrigin() const { return _org ? *_org : *this; }
 
-    nbool me::isComplete() const {
-        return _isComplete;
-    }
+    nbool me::isComplete() const { return _isComplete; }
 
     nbool me::isPreEvaluated() const {
         auto subs = mySubs();
@@ -97,18 +81,13 @@ namespace nm {
 
     void me::_inFrame(frame& fr, const bicontainable& args) {
         const obj& subpack = safeGet(getOrigin(), getSubPack());
-        if(!nul(subpack))
-            fr.add(subpack);
+        if(!nul(subpack)) fr.add(subpack);
         super::_inFrame(fr, args);
     }
 
-    void me::_setComplete(nbool isComplete) {
-        _isComplete = isComplete;
-    }
+    void me::_setComplete(nbool isComplete) { _isComplete = isComplete; }
 
-    void me::_setOrigin(const obj& newOrg) {
-        _org.bind(newOrg);
-    }
+    void me::_setOrigin(const obj& newOrg) { _org.bind(newOrg); }
 
     void me::_setType(const mgdType& new1) {}
-}
+} // namespace nm

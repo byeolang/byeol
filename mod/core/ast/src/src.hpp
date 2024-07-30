@@ -3,7 +3,7 @@
 #include "srcFile.hpp"
 
 namespace nm {
-    class _nout src : public instance {
+    class _nout src: public instance {
         NM(CLASS(src, instance))
         friend class parser;
         friend class genericOrigin; // for _setName() at genericOrigin::_makeGeneric()

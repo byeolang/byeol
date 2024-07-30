@@ -1,8 +1,8 @@
 #pragma once
 
-#include "type.inl"
-#include "ttypeBase.hpp"
 #include "../rtti/rtti.hpp"
+#include "ttypeBase.hpp"
+#include "type.inl"
 
 namespace nm {
 
@@ -11,6 +11,7 @@ namespace nm {
 #define SUPER S
 
     TEMPL ME::ttypeBase() { this->init(); }
+
     TEMPL nbool ME::isTemplate() const {
         static nbool inner = tifTemplate<T>::is;
         return inner;
@@ -27,6 +28,7 @@ namespace nm {
     }
 
     TEMPL void* ME::make() const { return tinstanceMaker<T>::make(); }
+
     TEMPL ncnt ME::size() const { return sizeof(T); }
 
     TEMPL const type& ME::getSuper() const {
@@ -67,14 +69,14 @@ namespace nm {
         super::_onAddSubClass(subClass);
 
         types** leafs = _onGetLeafs();
-        if(*leafs)
-            this->_setLeafs(nullptr);
+        if(*leafs) this->_setLeafs(nullptr);
     }
 
     TEMPL type& ME::_getStatic() const { return const_cast<ME&>(get()); }
+
     TEMPL ME::ttypeBase(nbool) {}
 
 #undef TEMPL
 #undef ME
 #undef SUPER
-}
+} // namespace nm

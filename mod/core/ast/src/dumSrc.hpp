@@ -3,7 +3,7 @@
 #include "src.hpp"
 
 namespace nm {
-    class _nout dumSrc : public src {
+    class _nout dumSrc: public src {
         NM(CLASS(dumSrc, src))
 
     private:

@@ -1,7 +1,8 @@
 #include "whileExpr.hpp"
-#include "../../visitor/visitor.hpp"
-#include "../../frame/thread.hpp"
+
 #include "../../frame/frameInteract.hpp"
+#include "../../frame/thread.hpp"
+#include "../../visitor/visitor.hpp"
 
 namespace nm {
 
@@ -9,12 +10,10 @@ namespace nm {
 
     me::whileExpr(const node& condition, const blockExpr& blk): super(blk), _condition(condition) {}
 
-    node& me::getCondition() {
-        return *_condition;
-    }
+    node& me::getCondition() { return *_condition; }
 
     namespace {
-        class whileLoop : public me::loop {
+        class whileLoop: public me::loop {
             NM(CLASS(whileLoop, loop))
 
         public:
@@ -36,4 +35,4 @@ namespace nm {
         NM_DI("whileExpr: loop");
         return new whileLoop(ret, *this);
     }
-}
+} // namespace nm

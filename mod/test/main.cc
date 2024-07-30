@@ -1,9 +1,8 @@
 #include "common/dep.hpp"
 
 static bool _isVerbose(int argc, char** argv) {
-    for(int n=1; n < argc ;n++)
-        if(argv[n] == std::string("verbose"))
-            return true;
+    for(int n = 1; n < argc; n++)
+        if(argv[n] == std::string("verbose")) return true;
     return false;
 }
 

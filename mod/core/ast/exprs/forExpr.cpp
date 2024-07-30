@@ -1,9 +1,11 @@
 #include "forExpr.hpp"
-#include "../../builtin.hpp"
-#include "../../visitor/visitor.hpp"
-#include "../../frame/thread.hpp"
-#include "../../frame/frameInteract.hpp"
+
 #include <utility>
+
+#include "../../builtin.hpp"
+#include "../../frame/frameInteract.hpp"
+#include "../../frame/thread.hpp"
+#include "../../visitor/visitor.hpp"
 
 namespace nm {
 
@@ -12,13 +14,9 @@ namespace nm {
     me::forExpr(const std::string& localName, const node& container, const blockExpr& blk):
         super(blk), _container(container), _name(localName) {}
 
-    const std::string& me::getLocalName() const {
-        return _name;
-    }
+    const std::string& me::getLocalName() const { return _name; }
 
-    str me::getContainer() {
-        return *_container;
-    }
+    str me::getContainer() { return *_container; }
 
     str me::_makeEval() const {
         str ased = _container->getEval();
@@ -27,29 +25,30 @@ namespace nm {
 
         auto& fr = thread::get()._getNowFrame();
         if(nul(fr)) return str();
-        frameInteract f1(getBlock()); {
+        frameInteract f1(getBlock());
+        {
             fr.addLocal(getLocalName(), *((node*) elemType->clone()));
             return super::_makeEval();
         }
     }
 
     namespace {
-        class forLoop : public me::loop {
+        class forLoop: public me::loop {
             NM(CLASS(forLoop, loop))
 
         public:
             forLoop(arr& ret, str container, str iter, const forExpr& owner):
-                super(ret), _container(std::move(container)), _iter(std::move(iter)), _owner(owner) {}
+                super(ret),
+                _container(std::move(container)),
+                _iter(std::move(iter)),
+                _owner(owner) {}
 
         public:
-            nbool isLooping() override {
-                return !_iter->run("isEnd")->cast<nbool>();
-            }
+            nbool isLooping() override { return !_iter->run("isEnd")->cast<nbool>(); }
 
             void run(blockExpr& blk, frame& fr) override {
                 str elem = _iter->run("get");
-                if(!elem)
-                    return NM_E("elem is null"), void();
+                if(!elem) return NM_E("elem is null"), void();
                 fr.addLocal(_owner.getLocalName(), *elem);
 
                 super::run(blk, fr);
@@ -76,4 +75,4 @@ namespace nm {
         NM_DI("forExpr: loop %s in %s", getLocalName(), ased->getSrc());
         return new forLoop(ret, ased, iter, *this);
     }
-}
+} // namespace nm

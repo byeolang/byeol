@@ -1,24 +1,25 @@
 #pragma once
 
-#include "errCode.hpp"
+#include <unordered_map>
+
 #include "../ast/point.hpp"
-#include "../common/namuMetaExtension.hpp"
-#include "../type/ntype.hpp"
-#include "../type/dumpable.hpp"
 #include "../builtin/container/native/tnbicontainer.hpp"
+#include "../common/namuMetaExtension.hpp"
 #include "../frame/callstack.hpp"
 #include "../frame/frame.hpp"
-#include <unordered_map>
+#include "../type/dumpable.hpp"
+#include "../type/ntype.hpp"
+#include "errCode.hpp"
 
 namespace nm {
 
     typedef std::unordered_map<nidx, std::string> msgMap;
 
     class pos;
-    struct _nout err : public baseObj, public dumpable {
+
+    struct _nout err: public baseObj, public dumpable {
         NM(CLASS(err, baseObj))
-        template <typename T, nbool>
-        friend struct tmarshaling;
+        template <typename T, nbool> friend struct tmarshaling;
 
     public:
         err(logLv::level t, nint newCode);
@@ -80,7 +81,7 @@ namespace nm {
         static constexpr nint BASE_TEST_CODE = 99999990; // not to be duplicated.
     };
 
-    struct _nout dummyErr : public err {
+    struct _nout dummyErr: public err {
         NM(CLASS(dummyErr, err))
 
     public:
@@ -89,4 +90,4 @@ namespace nm {
     public:
         void log() const override;
     };
-}
+} // namespace nm

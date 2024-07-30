@@ -3,10 +3,10 @@
 using namespace nm;
 using namespace std;
 
-struct mgdObjTest : public namuSyntaxTest {};
+struct mgdObjTest: public namuSyntaxTest {};
 
 namespace {
-    struct myObj : public obj {
+    struct myObj: public obj {
         NM(CLASS(myObj, obj))
     };
 }
@@ -22,7 +22,8 @@ TEST_F(mgdObjTest, testGetOriginPointingThis) {
 }
 
 TEST_F(mgdObjTest, testAccessCompleteObject) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def a
             age := 3
         main() int
@@ -30,7 +31,8 @@ TEST_F(mgdObjTest, testAccessCompleteObject) {
             b.age = 7
             c := b()
             ret c.age
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str ret = run();
     ASSERT_TRUE(ret);
@@ -38,7 +40,9 @@ TEST_F(mgdObjTest, testAccessCompleteObject) {
 }
 
 TEST_F(mgdObjTest, testAccessInCompleteObjectNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def a
             age := 3
         main() int
@@ -46,27 +50,33 @@ TEST_F(mgdObjTest, testAccessInCompleteObjectNegative) {
             b.age = 7
             c := b()
             ret c.age
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(mgdObjTest, testAccessInCompleteObjectNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def a
             age := 3
         main() str
             b := a()
             b.age = 7
             ret b.age as str + a.age as str
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(mgdObjTest, distinguishPackScopeAndObjScopeByItsOwner) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         // there are {default} pack.@ctor()
         def a
             // 'a' also has @ctor.
             age := 0
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     obj& a = getSubPack().sub<obj>("a");
     ASSERT_FALSE(nul(a));
@@ -79,7 +89,8 @@ TEST_F(mgdObjTest, distinguishPackScopeAndObjScopeByItsOwner) {
 }
 
 TEST_F(mgdObjTest, clonedObjDoesntCloneSharesDeeply) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def b
             grade := 3.5
             foo() void
@@ -91,7 +102,8 @@ TEST_F(mgdObjTest, clonedObjDoesntCloneSharesDeeply) {
         o2 a
         main() void
             print("ok")
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     obj& o1 = getSubPack().sub<obj>("o1");
     obj& o2 = getSubPack().sub<obj>("o2");

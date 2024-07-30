@@ -1,4 +1,5 @@
 #include "FBOExpr.hpp"
+
 #include "../../builtin/primitive.hpp"
 #include "../../visitor/visitor.hpp"
 
@@ -6,7 +7,8 @@ namespace nm {
 
     NM(DEF_ME(FBOExpr), DEF_VISIT())
 
-    me::FBOExpr(rule rule, const node& lhs, const node& rhs): _rule(rule), _lhs(str(lhs)), _rhs(str(rhs)) {}
+    me::FBOExpr(rule rule, const node& lhs, const node& rhs):
+        _rule(rule), _lhs(str(lhs)), _rhs(str(rhs)) {}
 
     str me::getEval() const {
         static str inner(new nBool());
@@ -21,9 +23,7 @@ namespace nm {
         return lhsEval->deduce(*rhsEval);
     }
 
-    nbool me::isLogicalOp() const {
-        return LOGIC_START <= _rule && _rule < LOGIC_END;
-    }
+    nbool me::isLogicalOp() const { return LOGIC_START <= _rule && _rule < LOGIC_END; }
 
     str me::run(const args& a) {
         tstr<arithmeticObj> lhs(safeGet(_lhs, as<arithmeticObj>()));
@@ -49,30 +49,19 @@ namespace nm {
             case LE: return str(new nBool(lhs->le(*rhs)));
             case AND: return str(new nBool(lhs->logicalAnd(*rhs)));
             case OR: return str(new nBool(lhs->logicalOr(*rhs)));
-            default:
-                return str();
+            default: return str();
         }
     }
 
-    const node& me::getLeft() const {
-        return *_lhs;
-    }
+    const node& me::getLeft() const { return *_lhs; }
 
-    void me::setLeft(const node& new1) {
-        _lhs.bind(new1);
-    }
+    void me::setLeft(const node& new1) { _lhs.bind(new1); }
 
-    const node& me::getRight() const {
-        return *_rhs;
-    }
+    const node& me::getRight() const { return *_rhs; }
 
-    void me::setRight(const node& new1) {
-        _rhs.bind(new1);
-    }
+    void me::setRight(const node& new1) { _rhs.bind(new1); }
 
-    me::rule me::getRule() const {
-        return _rule;
-    }
+    me::rule me::getRule() const { return _rule; }
 
     const nchar* me::getRuleName(rule r) {
         switch(r) {
@@ -96,4 +85,4 @@ namespace nm {
             default: return "";
         }
     }
-}
+} // namespace nm

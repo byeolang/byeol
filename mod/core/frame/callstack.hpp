@@ -1,15 +1,16 @@
 #pragma once
 
-#include "../builtin/container/native/tnbicontainer.hpp"
 #include "../builtin/container/native/tnarr.hpp"
-#include "../type/dumpable.hpp"
+#include "../builtin/container/native/tnbicontainer.hpp"
 #include "../frame/frames.hpp"
+#include "../type/dumpable.hpp"
 
 namespace nm {
 
     class frame;
     class frames;
-    class _nout calltrace : public instance {
+
+    class _nout calltrace: public instance {
         NM(CLASS(calltrace, instance))
 
     public:
@@ -20,9 +21,10 @@ namespace nm {
         std::string at;
         std::string in;
     };
+
     typedef tnarr<calltrace> calltraces;
 
-    class _nout callstack : public instance, public dumpable {
+    class _nout callstack: public instance, public dumpable {
         NM(CLASS(callstack, instance))
 
     public:
@@ -41,4 +43,4 @@ namespace nm {
         frames _stacks;
         mutable tstr<calltraces> _traces;
     };
-}
+} // namespace nm

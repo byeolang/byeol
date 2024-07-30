@@ -35,14 +35,10 @@ namespace nm {
     }
 
     TEMPL
-    R ME::operator*() {
-        return get();
-    }
+    R ME::operator*() { return get(); }
 
     TEMPL
-    typename std::remove_reference<R>::type* ME::operator->() {
-        return &get();
-    }
+    typename std::remove_reference<R>::type* ME::operator->() { return &get(); }
 
     TEMPL
     typename ME& ME::operator=(const me& rhs) {
@@ -51,9 +47,7 @@ namespace nm {
     }
 
     TEMPL
-    ME::operator nbool() const {
-        return !isEnd();
-    }
+    ME::operator nbool() const { return !isEnd(); }
 
     TEMPL
     nbool ME::isFrom(const tucontainable& it) const {
@@ -71,7 +65,7 @@ namespace nm {
     ncnt ME::next(ncnt step) {
         if(!_step) return false;
 
-        for(int n=0; n < step ; n++) {
+        for(int n = 0; n < step; n++) {
             if(_step->next(1) <= 0) return n;
             _nextToMatchParamType();
         }
@@ -114,4 +108,4 @@ namespace nm {
 
 #undef ME
 #undef TEMPL
-}
+} // namespace nm

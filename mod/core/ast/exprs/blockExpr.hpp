@@ -7,15 +7,15 @@ namespace nm {
     class visitor;
     class errReport;
 
-    class _nout blockExpr : public expr {
+    class _nout blockExpr: public expr {
         NM(CLASS(blockExpr, expr, expr::exprType), VISIT())
         friend class verifier;
         friend class func;
 
     public:
         blockExpr();
-        template <typename... Es>
-        blockExpr(const Es&... elems): _exprs(elems...) {}
+
+        template <typename... Es> blockExpr(const Es&... elems): _exprs(elems...) {}
 
     public:
         using super::run;

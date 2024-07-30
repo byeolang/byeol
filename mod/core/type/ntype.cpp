@@ -1,8 +1,9 @@
 #include "ntype.hpp"
-#include "../ast/node.hpp"
-#include "../builtin/primitive.hpp"
+
 #include "../ast/exprs/breakExpr.hpp"
 #include "../ast/exprs/nextExpr.hpp"
+#include "../ast/node.hpp"
+#include "../builtin/primitive.hpp"
 
 namespace nm {
 
@@ -10,9 +11,7 @@ namespace nm {
 
     me::ntype(): _beans(nullptr) {}
 
-    me::ntype(const me& rhs): _beans(nullptr) {
-        _assign(rhs);
-    }
+    me::ntype(const me& rhs): _beans(nullptr) { _assign(rhs); }
 
     nbool me::operator==(const type& rhs) const {
         if(!super::operator==(rhs)) return false;
@@ -28,9 +27,8 @@ namespace nm {
         if(nul(cast._beans)) return false;
         if(_beans->len() != cast._beans->len()) return false;
 
-        for(int n=0; n < _beans->len() ;n++)
-            if((*_beans)[n].getType() != (*cast._beans)[n].getType())
-                return false;
+        for(int n = 0; n < _beans->len(); n++)
+            if((*_beans)[n].getType() != (*cast._beans)[n].getType()) return false;
         return true;
     }
 
@@ -40,14 +38,11 @@ namespace nm {
         return _assign(rhs);
     }
 
-    nbool me::isImpli(const type& to) const {
-        return _getImpliAses().is(*this, to);
-    }
+    nbool me::isImpli(const type& to) const { return _getImpliAses().is(*this, to); }
+
     nbool me::isImpli(const typeProvidable& to) const { return isImpli(to.getType()); }
 
-    str me::asImpli(const node& from, const type& to) const {
-        return _getImpliAses().as(from, to);
-    }
+    str me::asImpli(const node& from, const type& to) const { return _getImpliAses().as(from, to); }
 
     nbool me::is(const type& to) const {
         if(isImpli(to)) return true;
@@ -56,15 +51,12 @@ namespace nm {
     }
 
     str me::as(const node& from, const type& to) const {
-        if(isImpli(to))
-            return asImpli(from, to);
+        if(isImpli(to)) return asImpli(from, to);
 
         return _getAses().as(from, to);
     }
 
-    nbool me::isImmutable() const {
-        return false;
-    }
+    nbool me::isImmutable() const { return false; }
 
     const ases& me::_getImpliAses() const {
         static ases inner;
@@ -76,9 +68,7 @@ namespace nm {
         return inner;
     }
 
-    const ntype& me::deduce(const ntype& r) const {
-        return deduce(*this, r);
-    }
+    const ntype& me::deduce(const ntype& r) const { return deduce(*this, r); }
 
     const ntype& me::deduce(const typeProvidable& r) const {
         return deduce((const ntype&) r.getType());
@@ -86,14 +76,12 @@ namespace nm {
 
     const ntype& me::deduce(const ntype& l, const ntype& r) {
         static deducers* inner = nullptr;
-        if(nul(inner))
-            inner = _makeDeducers();
+        if(nul(inner)) inner = _makeDeducers();
 
         if(inner->find(&l) != inner->end()) {
             deducer& dd = inner->at(&l);
 
-            if(dd.find(&r) != dd.end())
-                return *dd.at(&r);
+            if(dd.find(&r) != dd.end()) return *dd.at(&r);
         }
 
         return _deduceSuperType(l, r);
@@ -104,71 +92,79 @@ namespace nm {
 #define _X(A) &ttype<A>::get()
 
         deducers red = {
-            {_X(nInt), {
-                {_X(nInt), _X(nInt)},
-                {_X(nFlt), _X(nFlt)}, // if nInt + nFlt ==> nFlt
-                {_X(nByte), _X(nInt)},
-                {_X(nBool), _X(nInt)},
-                {_X(nChar), _X(nChar)},
-                {_X(breakRet), _X(nInt)},
-                {_X(nextRet), _X(nInt)},
-            }},
-            {_X(nFlt), {
-                {_X(nInt), _X(nFlt)},
-                {_X(nFlt), _X(nFlt)},
-                {_X(nByte), _X(nFlt)},
-                {_X(nBool), _X(nFlt)},
-                {_X(breakRet), _X(nFlt)},
-                {_X(nextRet), _X(nFlt)},
-            }},
-            {_X(nStr), {
-                {_X(nStr), _X(nStr)},
-                {_X(nChar), _X(nStr)},
-                {_X(breakRet), _X(nStr)},
-                {_X(nextRet), _X(nStr)},
-            }},
-            {_X(nByte), {
-                {_X(nInt), _X(nInt)},
-                {_X(nByte), _X(nByte)},
-                {_X(nBool), _X(nByte)},
-                {_X(nChar), _X(nChar)},
-                {_X(breakRet), _X(nChar)},
-                {_X(nextRet), _X(nChar)},
-            }},
-            {_X(nBool), {
-                {_X(nInt), _X(nInt)},
-                {_X(nFlt), _X(nFlt)},
-                {_X(nByte), _X(nByte)},
-                {_X(nBool), _X(nBool)},
-                {_X(nChar), _X(nChar)},
-                {_X(breakRet), _X(nBool)},
-                {_X(nextRet), _X(nBool)},
-            }},
-            {_X(nChar), {
-                {_X(nChar), _X(nChar)},
-                {_X(nBool), _X(nChar)},
-                {_X(nByte), _X(nChar)},
-                {_X(nInt), _X(nChar)},
-                {_X(nStr), _X(nStr)},
-                {_X(breakRet), _X(nChar)},
-                {_X(nextRet), _X(nChar)},
-            }},
-            {_X(breakRet), {
-                {_X(nInt), _X(nInt)},
-                {_X(nBool), _X(nBool)},
-                {_X(nChar), _X(nChar)},
-                {_X(nByte), _X(nByte)},
-                {_X(nStr), _X(nStr)},
-                {_X(nFlt), _X(nFlt)},
-            }},
-            {_X(nextRet), {
-                {_X(nInt), _X(nInt)},
-                {_X(nBool), _X(nBool)},
-                {_X(nChar), _X(nChar)},
-                {_X(nByte), _X(nByte)},
-                {_X(nStr), _X(nStr)},
-                {_X(nFlt), _X(nFlt)},
-            }}
+            {_X(nInt),
+             {
+                    {_X(nInt), _X(nInt)},
+                    {_X(nFlt), _X(nFlt)}, // if nInt + nFlt ==> nFlt
+                    {_X(nByte), _X(nInt)},
+                    {_X(nBool), _X(nInt)},
+                    {_X(nChar), _X(nChar)},
+                    {_X(breakRet), _X(nInt)},
+                    {_X(nextRet), _X(nInt)},
+                }},
+            {_X(nFlt),
+             {
+                    {_X(nInt), _X(nFlt)},
+                    {_X(nFlt), _X(nFlt)},
+                    {_X(nByte), _X(nFlt)},
+                    {_X(nBool), _X(nFlt)},
+                    {_X(breakRet), _X(nFlt)},
+                    {_X(nextRet), _X(nFlt)},
+                }},
+            {_X(nStr),
+             {
+                    {_X(nStr), _X(nStr)},
+                    {_X(nChar), _X(nStr)},
+                    {_X(breakRet), _X(nStr)},
+                    {_X(nextRet), _X(nStr)},
+                }},
+            {_X(nByte),
+             {
+                    {_X(nInt), _X(nInt)},
+                    {_X(nByte), _X(nByte)},
+                    {_X(nBool), _X(nByte)},
+                    {_X(nChar), _X(nChar)},
+                    {_X(breakRet), _X(nChar)},
+                    {_X(nextRet), _X(nChar)},
+                }},
+            {_X(nBool),
+             {
+                    {_X(nInt), _X(nInt)},
+                    {_X(nFlt), _X(nFlt)},
+                    {_X(nByte), _X(nByte)},
+                    {_X(nBool), _X(nBool)},
+                    {_X(nChar), _X(nChar)},
+                    {_X(breakRet), _X(nBool)},
+                    {_X(nextRet), _X(nBool)},
+                }},
+            {_X(nChar),
+             {
+                    {_X(nChar), _X(nChar)},
+                    {_X(nBool), _X(nChar)},
+                    {_X(nByte), _X(nChar)},
+                    {_X(nInt), _X(nChar)},
+                    {_X(nStr), _X(nStr)},
+                    {_X(breakRet), _X(nChar)},
+                    {_X(nextRet), _X(nChar)},
+                }},
+            {_X(breakRet),
+             {
+                    {_X(nInt), _X(nInt)},
+                    {_X(nBool), _X(nBool)},
+                    {_X(nChar), _X(nChar)},
+                    {_X(nByte), _X(nByte)},
+                    {_X(nStr), _X(nStr)},
+                    {_X(nFlt), _X(nFlt)},
+                }},
+            {_X(nextRet),
+             {
+                    {_X(nInt), _X(nInt)},
+                    {_X(nBool), _X(nBool)},
+                    {_X(nChar), _X(nChar)},
+                    {_X(nByte), _X(nByte)},
+                    {_X(nStr), _X(nStr)},
+                    {_X(nFlt), _X(nFlt)},
+                }}
         };
 
 #undef _X
@@ -184,15 +180,14 @@ namespace nm {
         const types& lAncestor = l.getSupers();
         const types& rAncestor = r.getSupers();
         ncnt lTier = lAncestor.size() - 1, // tier is the index
-             rTier = rAncestor.size() - 1;
+            rTier = rAncestor.size() - 1;
         ncnt minTier = lTier > rTier ? rTier : lTier;
 
         //  main:
-        for(int n = minTier; n >= 0 ;n--)
+        for(int n = minTier; n >= 0; n--)
             if(lAncestor[n] == rAncestor[n]) {
                 const ntype& ret = (const ntype&) *lAncestor[n];
-                if(!ret.isCustom())
-                    break;
+                if(!ret.isCustom()) break;
                 return ret;
             }
 
@@ -201,20 +196,17 @@ namespace nm {
     }
 
     me& me::_assign(const me& rhs) {
-        if(_beans)
-            delete _beans;
+        if(_beans) delete _beans;
         _beans = !nul(rhs._beans) ? (narr*) rhs._beans->clone() : nullptr;
         return *this;
     }
 
     narr& me::_getBeans() {
-        if(nul(_beans))
-            _beans = new narr();
+        if(nul(_beans)) _beans = new narr();
         return *_beans;
     }
 
     me::~ntype() {
-        if(_beans)
-            delete _beans;
+        if(_beans) delete _beans;
     }
-}
+} // namespace nm

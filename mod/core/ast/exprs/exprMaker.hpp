@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class _nout exprMaker : public typeProvidable, public clonable {
+    class _nout exprMaker: public typeProvidable, public clonable {
         NM(CLASS(exprMaker))
 
     public:
@@ -30,16 +30,13 @@ namespace nm {
         template <typename T, typename... Args>
         T* birth(const std::string& name, const Args&... args) const {
             T* ret = new T(args...);
-            if(_file)
-                ret->_setSrc(*new src(*_file, name, _pos));
+            if(_file) ret->_setSrc(*new src(*_file, name, _pos));
             return ret;
         }
 
-        template <typename T, typename... Args>
-        T* make(const Args&... args) const {
+        template <typename T, typename... Args> T* make(const Args&... args) const {
             T* ret = new T(args...);
-            if(_file)
-                ret->_setSrc(*new src(*_file, "", _pos));
+            if(_file) ret->_setSrc(*new src(*_file, "", _pos));
             return ret;
         }
 
@@ -47,4 +44,4 @@ namespace nm {
         tstr<srcFile> _file;
         point _pos;
     };
-}
+} // namespace nm

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "tnmap.hpp"
 #include "../../../ast/node.hpp"
 #include "tnbicontainer.inl"
+#include "tnmap.hpp"
 
 namespace nm {
 
@@ -10,15 +10,11 @@ namespace nm {
 #define ME tnmap<K, V, TACTIC>
 
     TEMPL
-    nbool ME::has(const K& key) const {
-        return _map.find(key) != _map.end();
-    }
+    nbool ME::has(const K& key) const { return _map.find(key) != _map.end(); }
 
     TEMPL
     nbool ME::has(const V& val) const {
-        return !nul(get([&](const K&, const V& elem) {
-            return &elem == &val;
-        }));
+        return !nul(get([&](const K&, const V& elem) { return &elem == &val; }));
     }
 
     TEMPL
@@ -31,7 +27,7 @@ namespace nm {
     TEMPL
     void ME::_getAll(const K& key, narr& tray) const {
         auto end = _map.upper_bound(key);
-        for(auto e=_map.lower_bound(key); e != end ;++e)
+        for(auto e = _map.lower_bound(key); e != end; ++e)
             tray.add(*e->second);
     }
 
@@ -66,19 +62,15 @@ namespace nm {
     }
 
     TEMPL
-    ncnt ME::len() const {
-        return _map.size();
-    };
+    ncnt ME::len() const { return _map.size(); };
 
     TEMPL
-    void ME::rel() {
-        _map.clear();
-    }
+    void ME::rel() { _map.clear(); }
 
     TEMPL
     clonable* ME::cloneDeep() const {
         me* ret = (me*) getType().make();
-        for(iter e=this->begin(); e ;++e)
+        for(iter e = this->begin(); e; ++e)
             ret->add(e.getKey(), (V*) e.getVal().cloneDeep());
 
         return ret;
@@ -86,4 +78,4 @@ namespace nm {
 
 #undef TEMPL
 #undef ME
-}
+} // namespace nm

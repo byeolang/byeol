@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../../../ast.hpp"
-#include "../native/nseq.hpp"
 #include "../../../bridge/cpp/tbridge.hpp"
+#include "../native/nseq.hpp"
 
 namespace nm {
 
@@ -11,7 +11,9 @@ namespace nm {
     //  spended plenty of hours again to find out the reason. thank you so much.
     typedef class _nout tbridge<nseq> __seqSuperClass;
 
-    class _nout seq : public __seqSuperClass, public tucontainable<nInt, nInt>, tarrayable<nInt, nInt> {
+    class _nout seq: public __seqSuperClass,
+                     public tucontainable<nInt, nInt>,
+                     tarrayable<nInt, nInt> {
         // seq uses wrapType:
         //  wrapType contains beanType as 'const type*' instance variable. so user should be
         //  careful when calling ttype<arr>. because it will also return wrapType instance
@@ -19,17 +21,13 @@ namespace nm {
         //
         //  the most appropriate getter for wrapType of arr is to call getType() of instance
         //  to arr.
-        NM(ME(seq, __seqSuperClass),
-             INIT_META(seq),
-             CLONE(seq),
-             VISIT())
+        NM(ME(seq, __seqSuperClass), INIT_META(seq), CLONE(seq), VISIT())
 
     public:
         typedef ntype metaType; // for ttype<T>
         typedef typename tucontainable<nInt, nInt>::iter iter;
         typedef typename tucontainable<nInt, nInt>::iteration iteration;
-        template <typename T, nbool>
-        friend struct tmarshaling;
+        template <typename T, nbool> friend struct tmarshaling;
 
     public:
         seq(const nInt& start, const nInt& end);
@@ -83,4 +81,4 @@ namespace nm {
         nbool del(const iter& it) override;
         nbool del(const iter& from, const iter& to) override;
     };
-}
+} // namespace nm

@@ -1,13 +1,15 @@
 #pragma once
 
-#include "flagArgs.hpp"
-#include "../common.hpp"
 #include <regex>
+
+#include "../common.hpp"
+#include "flagArgs.hpp"
 
 namespace nm {
 
     struct cli;
-    class flag : public instance {
+
+    class flag: public instance {
         NM(ADT(flag, instance))
 
     public:

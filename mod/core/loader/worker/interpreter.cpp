@@ -1,11 +1,12 @@
+#include "interpreter.hpp"
+
 #include "../../ast/exprs/blockExpr.hpp"
 #include "../../ast/func.hpp"
-#include "interpreter.hpp"
+#include "../../ast/origin.hpp"
+#include "../../frame/threadUse.hpp"
 #include "../../visitor/graphVisitor.hpp"
 #include "../../visitor/preEvaluator.hpp"
-#include "../../frame/threadUse.hpp"
 #include "worker.inl"
-#include "../../ast/origin.hpp"
 
 namespace nm {
 
@@ -25,22 +26,17 @@ namespace nm {
         return *this;
     }
 
-    nbool me::isParsed() const {
-        return _isParsed;
-    }
+    nbool me::isParsed() const { return _isParsed; }
 
     nbool me::isVerified() const {
         return isParsed() && (!nul(getReport()) && !getReport().hasErr());
     }
 
-    obj& me::getSubPack() {
-        return _pser.getSubPack();
-    }
+    obj& me::getSubPack() { return _pser.getSubPack(); }
 
     tstr<slot> me::_onWork() {
         _parse();
-        if(getReport())
-            return getTask();
+        if(getReport()) return getTask();
         _preEval();
         _verify();
         _showGraph();
@@ -61,22 +57,16 @@ namespace nm {
         _pser.rel();
     }
 
-    nbool me::_isPackExist() {
-        return !nul(_pser.getSubPack()) && !nul(getTask());
-    }
+    nbool me::_isPackExist() { return !nul(_pser.getSubPack()) && !nul(getTask()); }
 
     void me::_parse() {
         NM_DI("======================================");
         NM_DI("|               parse                |");
         NM_DI("======================================");
 
-        _pser.setReport(getReport())
-             .setFlag(getFlag())
-             .setTask(getTask())
-             .work();
+        _pser.setReport(getReport()).setFlag(getFlag()).setTask(getTask()).work();
 
-        if(nul(getTask()))
-            setTask(_pser.getTask());
+        if(nul(getTask())) setTask(_pser.getTask());
 
         _isParsed = _isPackExist() && _pser.isOk();
     }
@@ -86,15 +76,11 @@ namespace nm {
         NM_DI("|               preEval              |");
         NM_DI("======================================");
 
-        if(nul(getTask()))
-            return NM_E("_slot is null"), void();
+        if(nul(getTask())) return NM_E("_slot is null"), void();
 
         threadUse thr;
         preEvaluator evaler;
-        evaler.setReport(getReport())
-              .setFlag(getFlag())
-              .setTask(getTask().getPack())
-              .work();
+        evaler.setReport(getReport()).setFlag(getFlag()).setTask(getTask().getPack()).work();
     }
 
     void me::_verify() {
@@ -102,16 +88,12 @@ namespace nm {
         NM_DI("|                verify              |");
         NM_DI("======================================");
 
-        if(nul(getTask()))
-            return NM_E("_slot is null"), void();
+        if(nul(getTask())) return NM_E("_slot is null"), void();
 
         // verify:
         threadUse thr;
-        _veri.setReport(getReport())
-             .setFlag(getFlag());
-        if(isFlag(LOG_ON_END | DUMP_ON_END))
-            _veri.delFlag(LOG_ON_END | DUMP_ON_END);
-        _veri.setTask(getTask().getPack())
-             .work();
+        _veri.setReport(getReport()).setFlag(getFlag());
+        if(isFlag(LOG_ON_END | DUMP_ON_END)) _veri.delFlag(LOG_ON_END | DUMP_ON_END);
+        _veri.setTask(getTask().getPack()).work();
     }
-}
+} // namespace nm

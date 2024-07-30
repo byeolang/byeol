@@ -1,10 +1,11 @@
 #include "verifier.hpp"
+
+#include "../ast.hpp"
+#include "../builtin/primitive.hpp"
 #include "../frame/frame.hpp"
+#include "../frame/starter.hpp"
 #include "../frame/thread.hpp"
 #include "../loader/errReport.hpp"
-#include "../builtin/primitive.hpp"
-#include "../ast.hpp"
-#include "../frame/starter.hpp"
 #include "../loader/worker/worker.inl"
 #include "common/macro.hpp"
 
@@ -24,9 +25,8 @@ namespace nm {
 
         nbool checkEvalType(const node& eval) {
             if(nul(eval)) return false;
-            for(str e : primitives)
-                if(eval.isSub(*e))
-                    return true;
+            for(str e: primitives)
+                if(eval.isSub(*e)) return true;
 
             return false;
         }
@@ -34,14 +34,15 @@ namespace nm {
         static ncnt _stepN = 0;
     }
 
-#define _GUARD(msg) \
-    if(isFlag(GUARD)) do { \
-        NM_I("'%s' %s@%s: " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), &me); \
-        _stepN = 0; \
+#define _GUARD(msg)                                                                       \
+    if(isFlag(GUARD)) do {                                                                \
+            NM_I("'%s' %s@%s: " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), &me); \
+            _stepN = 0;                                                                   \
     } while(0)
 
-#define _STEP(msg, ...) NM_I("'%s' %s@%s: step#%d --> " msg, i, \
-    ttype<typeTrait<decltype(me)>::Org>::get(), &me, ++_stepN, ## __VA_ARGS__)
+#define _STEP(msg, ...)                                                                      \
+    NM_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), &me, \
+        ++_stepN, ##__VA_ARGS__)
 
 #define ret_2(code, a1) nothing(), posError(errCode::code, a1)
 #define ret_3(code, a1, a2) nothing(), posError(errCode::code, a1, a2)
@@ -56,7 +57,7 @@ namespace nm {
         _STEP("no same variable=%d", me.subs().len());
         if(me.isSub<frame>()) return;
 
-        for(auto e=me.subs().begin(); e ;++e) {
+        for(auto e = me.subs().begin(); e; ++e) {
             auto matches = me.subAll<baseObj>(e.getKey());
 
             NM_WHEN(matches.len() > 1).ret(DUP_VAR, *e, e.getKey());
@@ -128,7 +129,7 @@ namespace nm {
         //      I can care about that the last expression is valid.
         _STEP("checks rvalue");
         const node& lhs = me.getLeft();
-        NM_WHEN(!lhs.isSub<getExpr>()/*TODO: && !lhs.isSub<ElementExpr>()*/)
+        NM_WHEN(!lhs.isSub<getExpr>() /*TODO: && !lhs.isSub<ElementExpr>()*/)
             .ret(ASSIGN_TO_RVALUE, me, me.getRight(), lhs);
     }
 
@@ -140,8 +141,7 @@ namespace nm {
         if(nul(stmts) || stmts.len() <= 0) return; // will be catched to another verification.
 
         func& parent = safeGet(i.parent, cast<func>());
-        if(!nul(parent))
-            _verifyMgdFuncImplicitReturn(parent);
+        if(!nul(parent)) _verifyMgdFuncImplicitReturn(parent);
     }
 
     void me::_onLeave(const visitInfo& i, const loopExpr& me) {
@@ -176,7 +176,7 @@ namespace nm {
 
         _STEP("check whether make a void container.");
         const narr& beans = eval->getType().getBeans();
-        for(const node& bean : beans)
+        for(const node& bean: beans)
             NM_WHEN(bean.isSub<nVoid>()).ret(NO_VOID_CONTAINER, me);
 
         std::string name = me.getName();
@@ -184,8 +184,7 @@ namespace nm {
 
         _STEP("is %s definable?", name);
         const ntype& t = eval->getType();
-        if(nul(t))
-            posError(errCode::CANT_DEF_VAR, me, name.c_str(), "null");
+        if(nul(t)) posError(errCode::CANT_DEF_VAR, me, name.c_str(), "null");
         NM_WHEN(eval->isSub<nVoid>()).ret(VOID_CANT_DEFINED, me);
 
         node& to = me.getTo();
@@ -265,10 +264,16 @@ namespace nm {
         auto r = me.getRule();
         if((lEval->isSub<nStr>() || rEval->isSub<nStr>())) {
             switch(r) {
-                case FBOExpr::AND: case FBOExpr::OR: case FBOExpr::SUB: case FBOExpr::DIV:
-                case FBOExpr::MOD: case FBOExpr::BITWISE_AND: case FBOExpr::BITWISE_XOR:
-                case FBOExpr::BITWISE_OR: case FBOExpr::LSHIFT: case FBOExpr::RSHIFT:
-                    return posError(errCode::STRING_IS_NOT_PROPER_TO_OP, me);
+                case FBOExpr::AND:
+                case FBOExpr::OR:
+                case FBOExpr::SUB:
+                case FBOExpr::DIV:
+                case FBOExpr::MOD:
+                case FBOExpr::BITWISE_AND:
+                case FBOExpr::BITWISE_XOR:
+                case FBOExpr::BITWISE_OR:
+                case FBOExpr::LSHIFT:
+                case FBOExpr::RSHIFT: return posError(errCode::STRING_IS_NOT_PROPER_TO_OP, me);
 
                 default:;
             }
@@ -293,10 +298,11 @@ namespace nm {
         auto matches = me._get(true);
         if(matches.isEmpty()) {
             const node& from = me.getMe();
-            return posError(errCode::CANT_ACCESS, me, me._name.c_str(), from.getType().getName().c_str());
+            return posError(errCode::CANT_ACCESS, me, me._name.c_str(),
+                from.getType().getName().c_str());
         }
         node& got = matches.get();
-         // TODO: leave logs for all ambigious candidates as err.
+        // TODO: leave logs for all ambigious candidates as err.
         NM_WHENNUL(got).ret(AMBIGIOUS_ACCESS, me, i);
 
         _STEP("isRunnable: got=%s, me=%s", got, me.getType());
@@ -310,7 +316,7 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("should be at last stmt");
-        NM_WHEN(i.index != i.len-1).ret(RET_AT_MIDDLE_OF_BLOCK, me);
+        NM_WHEN(i.index != i.len - 1).ret(RET_AT_MIDDLE_OF_BLOCK, me);
 
         _STEP("checks evalType of func is matched to me");
         const baseFunc& f = thread::get().getNowFrame().getFunc();
@@ -322,7 +328,8 @@ namespace nm {
         str funRet = f.getRet()->as<node>();
         _STEP("checks return[%s] == func[%s]", myRet, funRet);
 
-        NM_WHEN(!myRet->isSub<err>() && !myRet->isImpli(*funRet)).ret(RET_TYPE_NOT_MATCH, me, myRet, funRet);
+        NM_WHEN(!myRet->isSub<err>() && !myRet->isImpli(*funRet))
+            .ret(RET_TYPE_NOT_MATCH, me, myRet, funRet);
     }
 
     void me::onLeave(const visitInfo& i, runExpr& me) {
@@ -348,7 +355,8 @@ namespace nm {
         if(!derivedSub->canRun(me.getArgs())) {
             const baseFunc& derivedCast = derivedSub->cast<baseFunc>();
             std::string params = nul(derivedCast) ? "ctor" : _asStr(derivedCast.getParams());
-            return posError(errCode::OBJ_WRONG_ARGS, me, i.name.c_str(), me.getArgs().asStr().c_str(), params.c_str());
+            return posError(errCode::OBJ_WRONG_ARGS, me, i.name.c_str(),
+                me.getArgs().asStr().c_str(), params.c_str());
         }
 
         a.setMe(nulOf<baseObj>());
@@ -359,14 +367,13 @@ namespace nm {
         if(!ased) return;
 
         getExpr& cast = subject.cast<getExpr>();
-        if(!nul(cast))
-            cast.setMe(*ased);
+        if(!nul(cast)) cast.setMe(*ased);
     }
 
     std::string me::_asStr(const params& ps) {
         std::string ret;
         nbool first = true;
-        for(const param& p : ps) {
+        for(const param& p: ps) {
             ret += (first ? "" : ",") + p.getOrigin().getType().getName();
             first = false;
         }
@@ -379,7 +386,11 @@ namespace nm {
 
         onLeave(i, (func::super&) me);
 
-        obj& meObj = thread::get()._getNowFrame().getMe().cast<obj>(); // TODO: same to 'thread::get().getNowFrame().getMe().cast<obj>();'
+        obj& meObj =
+            thread::get()
+                ._getNowFrame()
+                .getMe()
+                .cast<obj>(); // TODO: same to 'thread::get().getNowFrame().getMe().cast<obj>();'
         NM_WHENNUL(meObj).ret(FUNC_REDIRECTED_OBJ, me), true;
 
         _STEP("check func duplication");
@@ -398,17 +409,15 @@ namespace nm {
             const params& castPs = cast.getParams();
             if(castPs.len() != len) return false;
 
-            for(int n=0; n < castPs.len() ;n++) {
+            for(int n = 0; n < castPs.len(); n++) {
                 str lhs = castPs[n].getOrigin().getEval();
                 str rhs = me.getParams()[n].getOrigin().getEval();
-                if(lhs->getType() != rhs->getType())
-                    return false;
+                if(lhs->getType() != rhs->getType()) return false;
             }
 
             return true;
         });
-        if(!nul(errFound))
-            posError(errCode::ALREADY_DEFINED_FUNC, me, i.name.c_str());
+        if(!nul(errFound)) posError(errCode::ALREADY_DEFINED_FUNC, me, i.name.c_str());
 
         //  obj or property shouldn't have same name to any func.
         _STEP("check func has same name to field");
@@ -429,8 +438,7 @@ namespace nm {
 
         blockExpr& blk = (blockExpr&) me.getBlock();
         if(nul(blk) || blk.getStmts().len() <= 0) {
-            if(i.name == starter::MAIN)
-                posError(errCode::MAIN_SHOULD_HAVE_STMTS, blk);
+            if(i.name == starter::MAIN) posError(errCode::MAIN_SHOULD_HAVE_STMTS, blk);
             /*TODO: uncomment after implement abstract:
             if(!func.isAbstract() && !retType->isSub<nVoid>())
                 error(...)
@@ -441,7 +449,8 @@ namespace nm {
         _STEP("'break' or 'next' can't be used to last stmt");
         const node& lastStmt = *blk.getStmts().last();
         NM_WHEN(lastStmt.isSub<retStateExpr>() && !lastStmt.isSub<retExpr>())
-            .ret(FUNC_SHOULD_RETURN_SOMETHING, lastStmt), true;
+            .ret(FUNC_SHOULD_RETURN_SOMETHING, lastStmt),
+            true;
 
         _STEP("func[%s]: %s iterateBlock[%d]", i, me, me._blk->subs().len());
 
@@ -449,7 +458,7 @@ namespace nm {
         //  object scope was added at 'onVisit(visitInfo, baseObj&)
         //  parameters of func is second:
         scope* s = new scope();
-        for(const auto& p : me.getParams()) {
+        for(const auto& p: me.getParams()) {
             if(p.getOrigin().isSub<nVoid>()) {
                 posError(errCode::PARAM_NOT_VOID, me, p.getName().c_str());
                 continue;
@@ -506,9 +515,8 @@ namespace nm {
         _STEP("%s push me[%s] len=%d", fr.getMe(), (void*) &fr.getMe(), me.subs().len());
 
         _STEP("iterate all subs and checks void type variable");
-        for(const node& elem : me.subs())
-            if(elem.isSub<nVoid>())
-                posError(errCode::VOID_CANT_DEFINED, elem);
+        for(const node& elem: me.subs())
+            if(elem.isSub<nVoid>()) posError(errCode::VOID_CANT_DEFINED, elem);
 
         onLeave(i, (baseObj::super&) me);
         return true;
@@ -523,9 +531,8 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("cache check");
-        for(auto e : me._cache)
-            if(nul(e.second))
-                posError(errCode::MAKE_GENERIC_FAIL, me, e.first.c_str());
+        for(auto e: me._cache)
+            if(nul(e.second)) posError(errCode::MAKE_GENERIC_FAIL, me, e.first.c_str());
         return true;
     }
 
@@ -597,8 +604,9 @@ namespace nm {
 
     void me::onLeave(const visitInfo& i, ifExpr& me) {
         _GUARD("onLeave()");
-        blockExpr().outFrame(); // it doesn't matter getting blockExpr from 'me'.
-                                // because conceptually, blockExpr::outFrame() is just like static func.
+        blockExpr()
+            .outFrame(); // it doesn't matter getting blockExpr from 'me'.
+                         // because conceptually, blockExpr::outFrame() is just like static func.
     }
 
     void me::onTraverse(ifExpr& me, blockExpr& blk) {
@@ -607,4 +615,4 @@ namespace nm {
         me.getThen().outFrame();
         blk.inFrame();
     }
-}
+} // namespace nm

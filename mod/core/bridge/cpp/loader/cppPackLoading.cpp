@@ -9,7 +9,7 @@ namespace nm {
 
     tstr<srcs> me::parse(errReport& rpt, bicontainable& tray) {
         tstr<srcs> ret(dummySrcs);
-        for(const std::string& path : _getPaths()) {
+        for(const std::string& path: _getPaths()) {
             // With the current implementation, it is not yet possible to create an srcs
             // object for a C++ class.
             // ret.r variables won't be assigned to new data till this procedure has done.
@@ -25,7 +25,7 @@ namespace nm {
     nbool me::_loadLibs(errReport& rpt, bicontainable& tray) {
         // TODO: use 'rpt' variable.
         libHandle newHandle = nullptr;
-        for(const std::string& path : _getPaths()) {
+        for(const std::string& path: _getPaths()) {
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
             newHandle = LoadLibraryA(path.c_str());
 #else
@@ -67,7 +67,7 @@ namespace nm {
         NM_I("slot[%s] origins loaded.", getName());
         return true;
 
-FINALIZE:
+    FINALIZE:
         if(newHandle)
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
             FreeLibrary(newHandle);
@@ -79,8 +79,8 @@ FINALIZE:
     }
 
     void me::rel() {
-        for (libHandle e : _handles)
-            if (e)
+        for(libHandle e: _handles)
+            if(e)
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
                 FreeLibrary(e);
 #else
@@ -95,4 +95,4 @@ FINALIZE:
         static std::string inner = "cpp";
         return inner;
     }
-}
+} // namespace nm

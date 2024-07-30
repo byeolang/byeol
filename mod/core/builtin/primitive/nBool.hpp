@@ -4,9 +4,8 @@
 
 namespace nm {
 
-    class _nout nBool : public primitiveObj<nbool> {
-
-        class _nout wBoolType : public ntype {
+    class _nout nBool: public primitiveObj<nbool> {
+        class _nout wBoolType: public ntype {
         public:
             nbool isImmutable() const override;
 
@@ -50,4 +49,4 @@ namespace nm {
 
         arithmeticObj& _mov(const arithmeticObj& rhs) override;
     };
-}
+} // namespace nm

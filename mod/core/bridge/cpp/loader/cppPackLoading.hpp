@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../loader/pack/trustPackLoading.hpp"
-#include "../../../ast/src/src.hpp"
 #include "../../../ast/slot.hpp"
+#include "../../../ast/src/src.hpp"
+#include "../../../loader/pack/trustPackLoading.hpp"
 
 namespace nm {
 
@@ -13,7 +13,7 @@ namespace nm {
 #endif
     typedef std::vector<libHandle> libHandles;
 
-    class _nout cppPackLoading : public trustPackLoading{
+    class _nout cppPackLoading: public trustPackLoading {
         NM(CLASS(cppPackLoading, trustPackLoading))
         typedef void (*entrypointFunc)(bicontainable*);
 

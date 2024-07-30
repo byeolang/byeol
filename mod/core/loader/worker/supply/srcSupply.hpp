@@ -1,13 +1,14 @@
 #pragma once
 
-#include "../../../type/ntype.hpp"
 #include "../../../builtin/container/native/tnarr.hpp"
+#include "../../../type/ntype.hpp"
 
 namespace nm {
 
     class parser;
     class exprMaker;
-    class _nout srcSupply : public instance {
+
+    class _nout srcSupply: public instance {
         NM(ADT(srcSupply, instance))
 
     public:

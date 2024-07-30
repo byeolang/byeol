@@ -2,7 +2,7 @@
 
 using namespace nm;
 
-struct parserTest : public namuSyntaxTest {};
+struct parserTest: public namuSyntaxTest {};
 
 TEST_F(parserTest, testHelloWorld) {
     parser p;
@@ -14,9 +14,7 @@ TEST_F(parserTest, testHelloWorld) {
 
     tstr<obj> rootBinder = p.addSupply(*new bufSupply(script)).work();
     ASSERT_TRUE(rootBinder);
-    rootBinder = p.relSupplies()
-                  .addSupply(*new bufSupply(stringScript))
-                  .work();
+    rootBinder = p.relSupplies().addSupply(*new bufSupply(stringScript)).work();
     ASSERT_TRUE(rootBinder);
 
     slot s((manifest()));
@@ -74,20 +72,25 @@ TEST_F(parserTest, slotNoOnTrayWithoutMake) {
 TEST_F(parserTest, slotNotSpecifiedButCodeSpecifyPackNegative) {
     // make without name:
     //  slot will be generated. but its name is '{default}'.
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         pack demo
         main() void
             ret
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 }
 
 TEST_F(parserTest, slotProperlySpecified) {
     // make with name:
     //  pack will be generated and its name is 'demo'.
-    make("demo").parse(R"SRC(
+    make("demo")
+        .parse(R"SRC(
         pack demo
         main() void
             ret
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(true);
 }

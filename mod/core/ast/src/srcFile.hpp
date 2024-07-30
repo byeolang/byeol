@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../node.hpp"
 #include "../../builtin/container/native/tnchain.inl"
+#include "../node.hpp"
 
 namespace nm {
 
     /// srcFile represents src file of namulang source codes.
-    class _nout srcFile : public node {
+    class _nout srcFile: public node {
         NM(CLASS(srcFile, node), VISIT())
 
     public:

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../ast/baseObj.hpp"
 #include "../ast/baseFunc.hpp"
-#include "../builtin/res/tpair.hpp"
+#include "../ast/baseObj.hpp"
 #include "../ast/mockNode.hpp"
+#include "../builtin/res/tpair.hpp"
 #include "../type/dumpable.hpp"
 
 struct immutableTest;
@@ -18,7 +18,8 @@ namespace nm {
 
     class obj;
     class baseFunc;
-    class _nout frame : public node, public dumpable { // TODO: may be obj, not node.
+
+    class _nout frame: public node, public dumpable { // TODO: may be obj, not node.
         NM(CLASS(frame, node), VISIT())
         friend class verifier;
         friend struct ::frameTest;
@@ -82,4 +83,4 @@ namespace nm {
         std::vector<scopeRegister> _stack;
         mutable str _ret;
     };
-}
+} // namespace nm

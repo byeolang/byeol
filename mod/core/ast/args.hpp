@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    class _nout args : public narr {
+    class _nout args: public narr {
         NM(CLASS(args, narr))
 
     public:

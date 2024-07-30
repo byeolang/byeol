@@ -5,18 +5,16 @@
 using namespace nm;
 using namespace std;
 
-struct nodeTest : public namuTest {};
+struct nodeTest: public namuTest {};
 
 namespace {
-    class myFunc : public func {
+    class myFunc: public func {
         NM(CLASS(myFunc, func))
 
     public:
         myFunc(): super(params(), new nVoid()) {}
 
-        void setUp() {
-            _executed = false;
-        }
+        void setUp() { _executed = false; }
 
         str run(const args& a) override {
             NM_I("hello world!");
@@ -24,9 +22,7 @@ namespace {
             return str();
         }
 
-        nbool isRun() const {
-            return _executed;
-        }
+        nbool isRun() const { return _executed; }
 
         str getRet() const override {
             static str inner(new nVoid());
@@ -42,7 +38,7 @@ namespace {
         nbool _executed;
     };
 
-    struct myObj : public obj {
+    struct myObj: public obj {
         NM(CLASS(myObj, obj))
 
     public:
@@ -56,7 +52,7 @@ namespace {
         }
     };
 
-    class food : public obj {
+    class food: public obj {
         NM(CLASS(food, obj))
 
     public:
@@ -66,9 +62,8 @@ namespace {
         int calorie;
     };
 
-    class chef : public obj {
-
-        class myType : public ntype {
+    class chef: public obj {
+        class myType: public ntype {
             NM_ME(myType, ntype)
 
         protected:
@@ -77,7 +72,8 @@ namespace {
                 if(inner) return *inner;
 
                 inner = new ases();
-                struct tofood : public tas<food> {
+
+                struct tofood: public tas<food> {
                     str as(const node& it, const type& to) const override {
                         const chef& chef1 = it.cast<chef>();
                         if(nul(chef1)) return str();
@@ -85,6 +81,7 @@ namespace {
                         return str(new food(chef1.foodName, chef1.foodCalorie));
                     }
                 };
+
                 inner->add(new tofood());
 
                 return *inner;
@@ -96,7 +93,7 @@ namespace {
         string foodName;
         int foodCalorie;
     };
-}
+} // namespace
 
 TEST_F(nodeTest, testManuallyMakeNodeStructure) {
     // prepare:
@@ -127,8 +124,8 @@ TEST_F(nodeTest, testManuallyMakeNodeStructure) {
     ASSERT_EQ(chnOffunc->len(), 2);
     ASSERT_EQ(chnOffunc->len(), 2);
 
-    int n=0;
-    for(const auto& elem : *chnOffunc)
+    int n = 0;
+    for(const auto& elem: *chnOffunc)
         NM_I("[%d]=%s", n++, elem);
 
     NM_DI("func.tag.chkId=%d", func.getBindTag().getId().chkN);
@@ -201,4 +198,3 @@ TEST_F(nodeTest, ShouldNotSameNameVariableIntoSubs) {
     v.setTask(c).work();
     ASSERT_TRUE(rpt);
 }
-

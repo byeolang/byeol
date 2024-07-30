@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class _nout mockNode : public node {
+    class _nout mockNode: public node {
         NM(ME(mockNode, node), VISIT())
         friend class exprMaker;
 

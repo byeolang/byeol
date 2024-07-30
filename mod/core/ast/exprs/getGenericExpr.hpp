@@ -7,7 +7,7 @@ namespace nm {
     class visitor;
     class genericOrigin;
 
-    class _nout getGenericExpr : public getExpr {
+    class _nout getGenericExpr: public getExpr {
         NM(CLASS(getGenericExpr, getExpr, expr::exprType), VISIT())
         friend class verifier;
 

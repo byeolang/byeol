@@ -4,18 +4,20 @@ using namespace nm;
 using namespace std;
 
 namespace {
-    struct defFuncTest : public namuSyntaxTest {};
+    struct defFuncTest: public namuSyntaxTest {};
 }
 
 TEST_F(defFuncTest, distinguishDefineFuncOrCall) {
-    if(make().parse(R"SRC(
+    if(make()
+            .parse(R"SRC(
         foo(x int, y int) void
             ret
 
         main() void
             a := 22
             foo(a, 22)
-    )SRC").shouldParsed(true)) {
+    )SRC")
+            .shouldParsed(true)) {
         node& res = getSubPack();
         ASSERT_FALSE(nul(res));
 
@@ -25,13 +27,15 @@ TEST_F(defFuncTest, distinguishDefineFuncOrCall) {
         ASSERT_EQ(f.getRet()->getType(), ttype<nVoid>());
     }
 
-    if(make().parse(R"SRC(
+    if(make()
+            .parse(R"SRC(
         foo(x int, y int) void
             ret
 
         main(argc int, argv str) void
             foo(argc, 22)
-    )SRC").shouldParsed(true)) {
+    )SRC")
+            .shouldParsed(true)) {
         node& res = getSubPack();
         ASSERT_FALSE(nul(res));
 
@@ -56,129 +60,180 @@ TEST_F(defFuncTest, distinguishDefineFuncOrCall) {
 }
 
 TEST_F(defFuncTest, distinguishDefineFuncOrCall2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             foo(a, 22) void
                 a.doSomething(22)
             foo(a, 22)
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 }
 
 TEST_F(defFuncTest, distinguishDefineLambdaOrCall) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             (a, 22) // this is not lambda
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 }
 
 TEST_F(defFuncTest, distinguishDefineLambdaOrCallNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             (a, 22) // lambda should be declared in func call.
                 a.doSomething(22)
             foo(a, 22)
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 }
 
 TEST_F(defFuncTest, lambda1) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             a.sendPacket((packet)
                 doSomething()
-            ))SRC").shouldParsed(true);
+            ))SRC")
+        .shouldParsed(true);
 }
 
 TEST_F(defFuncTest, lambda2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             a.sendPacket((packet)
                 doSomething()
-            ))SRC").shouldParsed(true);
+            ))SRC")
+        .shouldParsed(true);
 }
 
 TEST_F(defFuncTest, lambda3) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             a.sendPacket((packet))
             (packet)
             a + 5
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
 }
 
 TEST_F(defFuncTest, lambda4) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             a.sendPacket(() void
                 doSomething()
-            ))SRC").shouldParsed(true);
+            ))SRC")
+        .shouldParsed(true);
 }
 
 TEST_F(defFuncTest, lambda5Negative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             a.sendPacket(((a int, b) void // no paranthesis for lambda
                 a.doSomething()
             ))
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 }
 
 TEST_F(defFuncTest, lambda6) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             a.sendPacket((a int, b) void
                 a.doSomething()
             )
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 }
 
 TEST_F(defFuncTest, noBodyNegative) {
-    make().negative().parse(R"SRC(
-        main() void)SRC").shouldParsed(true);
+    make()
+        .negative()
+        .parse(R"SRC(
+        main() void)SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main(n int) void
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(defFuncTest, wrongParamNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main(a) void
             22
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main(age int()) void
             22
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main(age + 22, age int) void
             22
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main(age + 22, age int) void
             22
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main(aka int -> i) void
             22
-    )SRC").shouldParsed(false);
+    )SRC")
+        .shouldParsed(false);
 }
 
 TEST_F(defFuncTest, nameLikeStr) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main(str_ str) int
             ret "wow".len()
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(true);
 }
 
 TEST_F(defFuncTest, defFuncAtSubPack) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         print(msg str) void: 1
 
         foo(msg str[]) str
@@ -188,14 +243,16 @@ TEST_F(defFuncTest, defFuncAtSubPack) {
         main() int
             msgs := {"hello", "world"}
             foo(msgs) == "hello"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 1);
 }
 
 TEST_F(defFuncTest, defFuncReturnClass) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo() A
             A()
         def A
@@ -203,7 +260,8 @@ TEST_F(defFuncTest, defFuncReturnClass) {
         main() int
             a := 'r'
             foo().age
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -211,29 +269,36 @@ TEST_F(defFuncTest, defFuncReturnClass) {
 }
 
 TEST_F(defFuncTest, defFuncDuplicateNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         a(n int) void
             ret
         a(n int) int
             ret n
         main() void
             ret
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defFuncTest, defFuncDuplicate) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         a() void
             ret
         a(n int) int
             ret n
         main() void
             ret
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 }
 
 TEST_F(defFuncTest, funcHasSameNameToFieldNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def A
             a() void
 
@@ -241,23 +306,28 @@ TEST_F(defFuncTest, funcHasSameNameToFieldNegative) {
 
         main() void
             ret
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defFuncTest, funcButNoStmts) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo() void:;
         main() void
             foo()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 }
 
 TEST_F(defFuncTest, overloadingDifferentParameters) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def a
             foo() int: 0
             foo(n int) int: 1
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     node& pak = getSubPack();
     obj& a = pak.sub<obj>("a");
@@ -284,18 +354,18 @@ TEST_F(defFuncTest, overloadingDifferentParameters) {
 }
 
 TEST_F(defFuncTest, overloadingSimilarParameters) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def a
             foo(b bool, n bool, s str) int: 0
             foo(b bool, n int, s str) int: 1
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     obj& a = getSubPack().sub<obj>("a");
     ASSERT_FALSE(nul(a));
 
-    {
-        ASSERT_EQ(a.subAll<func>("foo", args(narr{nBool(), nChar()})).len(), 0);
-    }
+    { ASSERT_EQ(a.subAll<func>("foo", args(narr{nBool(), nChar()})).len(), 0); }
 
     {
         threadUse th;
@@ -312,9 +382,9 @@ TEST_F(defFuncTest, overloadingSimilarParameters) {
         args args1(narr{*new nBool(), *new nByte(), *new nStr()});
         auto subs = a.subAll<func>("foo", args1);
         ASSERT_EQ(subs.len(), 1); // there are 2 implicit match in above code but,
-                                  // foo(bool, int, str) has higher priority compare to foo(bool, bool, str)
-                                  // the reason is, byte <--> int casting is priority lv1. @refers func.cpp
-                                  // so subs only contains 1 priority element.
+                                  // foo(bool, int, str) has higher priority compare to foo(bool,
+                                  // bool, str) the reason is, byte <--> int casting is priority
+                                  // lv1. @refers func.cpp so subs only contains 1 priority element.
         ASSERT_EQ(subs.getPriorType(), NUMERIC_MATCH);
         str res = a.run("foo", args1);
         ASSERT_TRUE(res);
@@ -323,13 +393,16 @@ TEST_F(defFuncTest, overloadingSimilarParameters) {
 }
 
 TEST_F(defFuncTest, overloadingAmbigiousNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def a
             foo(b bool, c int) int: 1
             foo(b int, c bool) int: 2
         main() void
             foo('1', '2')
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 
     obj& a = getSubPack().sub<obj>("a");

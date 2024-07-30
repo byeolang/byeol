@@ -1,7 +1,7 @@
 #pragma once
 
-#include "obj.hpp"
 #include "../type/mgdType.hpp"
+#include "obj.hpp"
 
 namespace nm {
 
@@ -11,19 +11,19 @@ namespace nm {
     /// and inherits something too origin class aren't allowed.
     ///
     /// this limitation affects to usage of binder too:
-    /// simply, declaring binder with type parameter 'origin' is not allowed. use 'obj' type instead of.
+    /// simply, declaring binder with type parameter 'origin' is not allowed. use 'obj' type instead
+    /// of.
     ///     e.g.
     ///         tstr<origin> a; // X, unexpected behavior may happen.
     ///         tstr<obj> a; // O
     class src;
-    class _nout origin final : public obj {
-        NM(ME(origin, obj),
-           INIT_META(origin),
-           CLONE(origin))
+
+    class _nout origin final: public obj {
+        NM(ME(origin, obj), INIT_META(origin), CLONE(origin))
 
     public:
         friend class genericOrigin; // for _setOrigin(), _setType
-        friend class slot; // for _onRunSub
+        friend class slot;          // for _onRunSub
         friend class preEvaluator;
         friend class exprMaker;
         friend class parser;
@@ -56,4 +56,4 @@ namespace nm {
         tstr<obj> _subpack;
         tstr<src> _src;
     };
-}
+} // namespace nm

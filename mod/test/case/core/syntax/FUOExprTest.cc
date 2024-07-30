@@ -4,15 +4,17 @@ using namespace nm;
 using namespace std;
 
 namespace {
-    struct FUOExprTest : public namuSyntaxTest {};
+    struct FUOExprTest: public namuSyntaxTest {};
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOp) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := 3
             ++a
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -20,11 +22,13 @@ TEST_F(FUOExprTest, testUnaryPrefixOp) {
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOp2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := 3
             --a
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -32,11 +36,13 @@ TEST_F(FUOExprTest, testUnaryPrefixOp2) {
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOp3) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := 3
             -a
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -44,14 +50,16 @@ TEST_F(FUOExprTest, testUnaryPrefixOp3) {
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOp4) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := 3
             if !(a < 3)
                 11
             else
                 22
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -59,14 +67,16 @@ TEST_F(FUOExprTest, testUnaryPrefixOp4) {
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOp5) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := 3
             if !a
                 22
             else
                 11
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -74,14 +84,16 @@ TEST_F(FUOExprTest, testUnaryPrefixOp5) {
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOp6) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := 0
             if !a
                 22
             else
                 11
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -89,41 +101,52 @@ TEST_F(FUOExprTest, testUnaryPrefixOp6) {
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOpNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             a := "false"
             if !a
                 22
             else
                 11
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOpNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             a := "false"
             ++a
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOpNegative3) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             a := "false"
             --a
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(FUOExprTest, testUnaryPostfixDoublePlus) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := 2
             ret a++
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -131,12 +154,14 @@ TEST_F(FUOExprTest, testUnaryPostfixDoublePlus) {
 }
 
 TEST_F(FUOExprTest, testUnaryPostfixDoublePlus2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := 2
             a++
             ret a
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -144,11 +169,13 @@ TEST_F(FUOExprTest, testUnaryPostfixDoublePlus2) {
 }
 
 TEST_F(FUOExprTest, testUnaryPostfixDoubleMinus) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := 2
             ret a--
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -156,12 +183,14 @@ TEST_F(FUOExprTest, testUnaryPostfixDoubleMinus) {
 }
 
 TEST_F(FUOExprTest, testUnaryPostfixDoubleMinus2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := 2
             a--
             ret a
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -169,26 +198,35 @@ TEST_F(FUOExprTest, testUnaryPostfixDoubleMinus2) {
 }
 
 TEST_F(FUOExprTest, testUnaryPostfixDoubleMinus3) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             a := "hello"
             a--
             ret a == "hello"
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(FUOExprTest, strNotSuitableToOpNegative1) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             a := "wow"
             ++a
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(FUOExprTest, strNotSuitableToOpNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             a := "wow"
             a--
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }

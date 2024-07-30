@@ -1,8 +1,10 @@
 #include "inputFunc.hpp"
-#include "../../primitive/nStr.hpp"
+
 #include <iostream>
+
+#include "../../primitive/nStr.hpp"
 #ifdef __EMSCRIPTEN__
-#   include <emscripten/emscripten.h>
+#    include <emscripten/emscripten.h>
 #endif
 
 namespace nm {
@@ -22,7 +24,8 @@ namespace nm {
     str me::run(const args& a) {
         const params& ps = getParams();
         if(a.len() != ps.len())
-            return NM_E("length of args(%d) and typs(%d) doesn't match.", a.len(), ps.len()), nullptr;
+            return NM_E("length of args(%d) and typs(%d) doesn't match.", a.len(), ps.len()),
+                   nullptr;
 
         nStr* ret = new nStr();
 

@@ -1,32 +1,35 @@
-#include "../../../namuSyntaxTest.hpp"
 #include <chrono>
+
+#include "../../../namuSyntaxTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct arrTest : public namuSyntaxTest {
-    void SetUp() override {
-        arr::_cache.clear();
-    }
+struct arrTest: public namuSyntaxTest {
+    void SetUp() override { arr::_cache.clear(); }
 };
 
 namespace {
-    class myNode : public node {
+    class myNode: public node {
         NM(CLASS(myNode, node))
 
     public:
         myNode(): number(0) {}
+
         myNode(int num): number(num) {}
 
         scope& subs() override { return nulOf<scope>(); }
+
         priorType prioritize(const args& a) const override { return NO_MATCH; }
+
         using super::run;
+
         str run(const args& a) override { return str(); }
 
         int number;
     };
 
-    class myMyNode : public myNode {
+    class myMyNode: public myNode {
         NM(CLASS(myMyNode, myNode))
 
     public:
@@ -37,10 +40,9 @@ namespace {
         vector<str> vec;
 
         auto start = chrono::steady_clock::now();
-        for(int n=0; n < cnt; n++) {
+        for(int n = 0; n < cnt; n++)
 
             vec.push_back(str(new myNode(n)));
-        }
         int sz = vec.size();
         auto startDeleting = chrono::steady_clock::now();
         vec.clear();
@@ -50,15 +52,17 @@ namespace {
         auto removingElapsed = end - startDeleting;
         auto totalElapsed = end - start;
 
-        NM_I("[benchMarkArr]: vector took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
-             (nint64) (totalElapsed / chrono::milliseconds(1)), (nint64) (addingElapsed / chrono::milliseconds(1)),
-             (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
+        NM_I(
+            "[benchMarkArr]: vector took total %d ms for adding(%dms) & removing(%dms) of %d "
+            "elems.",
+            (nint64) (totalElapsed / chrono::milliseconds(1)),
+            (nint64) (addingElapsed / chrono::milliseconds(1)),
+            (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
 
         arr arr1;
         start = chrono::steady_clock::now();
-        for(int n=0; n < cnt; n++) {
+        for(int n = 0; n < cnt; n++)
             arr1.add(*(new myNode(n)));
-        }
         sz = arr1.len();
         startDeleting = chrono::steady_clock::now();
         arr1.rel();
@@ -69,14 +73,13 @@ namespace {
         totalElapsed = end - start;
 
         NM_I("[benchMarkArr]: arr took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
-             (nint64) (totalElapsed / chrono::milliseconds(1)), (nint64) (addingElapsed / chrono::milliseconds(1)),
-             (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
+            (nint64) (totalElapsed / chrono::milliseconds(1)),
+            (nint64) (addingElapsed / chrono::milliseconds(1)),
+            (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
     }
-}
+} // namespace
 
-TEST_F(arrTest, instantiateTest) {
-    arr arr1;
-}
+TEST_F(arrTest, instantiateTest) { arr arr1; }
 
 TEST_F(arrTest, shouldNotCanAddLocalObject) {
     tarr<myNode> arr1;
@@ -110,9 +113,8 @@ TEST_F(arrTest, simpleAddDelTest) {
 TEST_F(arrTest, addDel10Elems) {
     tarr<myNode> arr1;
     const int cnt = 10;
-    for(int n=0; n < cnt; n++) {
+    for(int n = 0; n < cnt; n++)
         ASSERT_TRUE(arr1.add(*(new myNode(n))));
-    }
 
     ASSERT_EQ(arr1.len(), cnt);
 }
@@ -133,7 +135,7 @@ TEST_F(arrTest, testIter) {
     auto head = e++;
     auto index2 = ++e;
 
-    EXPECT_TRUE(arr1.begin()+2 == index2);
+    EXPECT_TRUE(arr1.begin() + 2 == index2);
     EXPECT_TRUE(arr1.begin() == head);
 
     ASSERT_EQ(e.next(1), 0);
@@ -155,7 +157,7 @@ TEST_F(arrTest, testContainableAPI) {
 
     // add:
     int expectVal = 0;
-    for(auto e=arr1->begin(); e != arr1->end() ;e++) {
+    for(auto e = arr1->begin(); e != arr1->end(); e++) {
         myNode& elem = e->cast<myNode>();
         ASSERT_FALSE(nul(elem));
         ASSERT_EQ(elem.number, expectVal++);
@@ -163,16 +165,14 @@ TEST_F(arrTest, testContainableAPI) {
 
     // get & each:
     expectVal = 0;
-    for(int n=0; n < arr1->len() ;n++) {
+    for(int n = 0; n < arr1->len(); n++) {
         myNode& elem = arr1->get(n).cast<myNode>();
         ASSERT_FALSE(nul(elem));
         ASSERT_EQ(elem.number, expectVal++);
     }
 
     {
-        tnarr<myNode> tray = arr1->getAll<myNode>([](const myNode& elem) {
-            return true;
-        });
+        tnarr<myNode> tray = arr1->getAll<myNode>([](const myNode& elem) { return true; });
         ASSERT_EQ(tray.len(), 2);
 
         int cnt = 0;
@@ -207,33 +207,32 @@ TEST_F(arrTest, testcloneDeep) {
     narr& arr2 = *arr2wrap;
     ASSERT_EQ(arr1.len(), arr2.len());
 
-    for(int n=0; n < 2; n++) {
+    for(int n = 0; n < 2; n++) {
         ASSERT_EQ(arr1[n].cast<myNode>().number, arr2[n].cast<myNode>().number);
         ASSERT_NE(&arr1[n], &arr2[n]);
     }
 }
 
 TEST_F(arrTest, testRangeBasedForLoop) {
-
     narr arr1;
     arr1.add(new myNode(3));
     arr1.add(new myNode(7));
 
     int sum = 0;
-    for(auto& e : arr1) {
+    for(auto& e: arr1) {
         myNode& cast = e.cast<myNode>();
         sum += cast.number;
     }
 
     int sum2 = 0;
-    for(const node& e : arr1) {
+    for(const node& e: arr1) {
         const myNode& cast = e.cast<myNode>();
         sum2 += cast.number;
     }
     ASSERT_EQ(sum2, sum);
 
     int expect = 0;
-    for(int n=0; n < arr1.len(); n++)
+    for(int n = 0; n < arr1.len(); n++)
         expect += arr1[n].cast<myNode>().number;
 
     ASSERT_EQ(sum, expect);
@@ -289,7 +288,10 @@ TEST_F(arrTest, testSimpleBridgedFuncs2) {
     str res = it.run("add", args{narr{*new nInt(1)}});
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nbool>(), true);
-    res = it.run("add", args{narr{*new nInt(0), *new nInt(2)}}); // arr: {2, 1}
+    res = it.run("add",
+        args{
+            narr{*new nInt(0), *new nInt(2)}
+    }); // arr: {2, 1}
 
     ASSERT_EQ(arr1.len(), 2);
     res = it.run("len");
@@ -300,7 +302,10 @@ TEST_F(arrTest, testSimpleBridgedFuncs2) {
     ASSERT_EQ(res.cast<nint>(), 2);
     ASSERT_EQ(arr1[0].cast<nint>(), 2);
 
-    res = it.run("set", args{narr{*new nInt(1), *new nInt(2)}}); // arr: {2, 2}
+    res = it.run("set",
+        args{
+            narr{*new nInt(1), *new nInt(2)}
+    }); // arr: {2, 2}
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nbool>(), true);
     ASSERT_EQ(arr1[0].cast<nint>(), arr1[1].cast<nint>());
@@ -371,7 +376,8 @@ TEST_F(arrTest, newInstanceSharesFuncs) {
 }
 
 TEST_F(arrTest, testBasicDefSyntax) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         print(msg str) void: 1
 
         getIndex() int
@@ -387,14 +393,16 @@ TEST_F(arrTest, testBasicDefSyntax) {
             print("arr[1]=" + arr[1] as str + "\n")
             ret arr[
                 getIndex()]
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res->cast<nint>(), 2); // 2.5(flt) --> 2(int)
 }
 
 TEST_F(arrTest, testImplicitlyDefSyntax) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         print(msg str) void: 1
 
         sum(arr int[]) int
@@ -404,14 +412,16 @@ TEST_F(arrTest, testImplicitlyDefSyntax) {
             s := sum({1, 2, 3})
             print("sum = " + s as str + "\n")
             ret s
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 6);
 }
 
 TEST_F(arrTest, testImplicitlyefSyntax2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         sum(arr flt[]) flt
             ret arr[0] + arr[2]
 
@@ -419,21 +429,25 @@ TEST_F(arrTest, testImplicitlyefSyntax2) {
             g := {1.5, 3, 5.5}
             s := sum(g)
             ret s as int
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 7);
 }
 
 TEST_F(arrTest, arrDeductionFailNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def obj
             name := "kniz"
 
         main() void
             arr := {1, 2.5, obj()}
             print(arr.len())
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 
     errReport& errs = getReport();
     ASSERT_TRUE(errs);
@@ -441,39 +455,49 @@ TEST_F(arrTest, arrDeductionFailNegative) {
 }
 
 TEST_F(arrTest, arrDeductionFailNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def obj
             name := "kniz"
 
         main() void
             arr := {1, 2.5, obj()}
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(arrTest, arrDeductionFailNegative3) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def obj
             name := "kniz"
 
         main() void
             arr := {1, 2.5, obj()}
             print(arr[0].name)
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(arrTest, arrDeductionFailNegative4) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def obj
             name := "kniz"
         def obj2
             name := "kniz"
         main() void
             arr := {obj(), obj2()}
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(arrTest, addFromEmptyArray) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             value str
         main() int
@@ -488,17 +512,20 @@ TEST_F(arrTest, addFromEmptyArray) {
             for elem in arr
                 res = res + elem.value
             res.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 }
 
 TEST_F(arrTest, testDeepCopy) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             org := {1, 2}
             copy := org(org)
             org.set(1, 3)
             ret copy[1]
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -506,13 +533,15 @@ TEST_F(arrTest, testDeepCopy) {
 }
 
 TEST_F(arrTest, testShallowCopy) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             org := {1, 2}
             copy := org
             org.set(1, 3)
             ret copy[1]
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -520,11 +549,13 @@ TEST_F(arrTest, testShallowCopy) {
 }
 
 TEST_F(arrTest, test2DArray) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             arr := {{0, 1}, {1, 2}}
             ret arr[0][1]
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -532,14 +563,16 @@ TEST_F(arrTest, test2DArray) {
 }
 
 TEST_F(arrTest, test2DArray2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             arr := {{0, 1}, {1, 2}}
             arr3 int[][]
             arr3 = arr
             arr[1].set(1, 4)
             arr3[1][1]
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -547,7 +580,8 @@ TEST_F(arrTest, test2DArray2) {
 }
 
 TEST_F(arrTest, test2DArray3) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         print(msg str) void: 1
 
         foo(m byte[]) void
@@ -560,7 +594,8 @@ TEST_F(arrTest, test2DArray3) {
             for n in 0..msgs.len()
                 foo(msgs[n])
             ret 0
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -568,11 +603,13 @@ TEST_F(arrTest, test2DArray3) {
 }
 
 TEST_F(arrTest, testCallCtor) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := {1, 2, 3}
             a().len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -580,22 +617,27 @@ TEST_F(arrTest, testCallCtor) {
 }
 
 TEST_F(arrTest, addDifferentElemTypeNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             map := {{"hello", "world"}, {"I'm", "kniz"}}
             f int[]
             f.add(1)
             f.add(2)
             map.add(f)
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
 TEST_F(arrTest, namelessArr) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             {"hello", "world"}.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -603,7 +645,8 @@ TEST_F(arrTest, namelessArr) {
 }
 
 TEST_F(arrTest, accessElementOnce) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def p
             cnt := 0
             arr := {"h", "e"}
@@ -614,7 +657,8 @@ TEST_F(arrTest, accessElementOnce) {
             p1 p
             p1.foo()[1]
             p1.cnt
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -622,12 +666,14 @@ TEST_F(arrTest, accessElementOnce) {
 }
 
 TEST_F(arrTest, setElemConversion) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             arr := {'a', 'c'}
             arr[1] = 'd'
             arr[1] == 'd'
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -635,18 +681,22 @@ TEST_F(arrTest, setElemConversion) {
 }
 
 TEST_F(arrTest, setElemConversionNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         foo() int
             3
         main() int
             arr := {'a', 'c'}
             arr[1] = foo()
             arr[1] == 'd'
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(arrTest, setElemConversion1) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo() int
             0
         boo() char
@@ -655,7 +705,8 @@ TEST_F(arrTest, setElemConversion1) {
             arr := {'a', 'c'}
             arr[foo()] = (boo() + 1) as char
             arr[0] == 'd'
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -663,7 +714,8 @@ TEST_F(arrTest, setElemConversion1) {
 }
 
 TEST_F(arrTest, setElemAddAssignConversion) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo() int
             0
         boo() int
@@ -672,7 +724,8 @@ TEST_F(arrTest, setElemAddAssignConversion) {
             arr := {1, 2}
             arr[foo()] += boo()
             arr[0] == 2
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -680,7 +733,8 @@ TEST_F(arrTest, setElemAddAssignConversion) {
 }
 
 TEST_F(arrTest, setElemAddAssignConversion2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo() int
             1
         boo() int
@@ -689,7 +743,8 @@ TEST_F(arrTest, setElemAddAssignConversion2) {
             arr := {6, 9}
             arr[foo() - 1] /= boo()
             arr[0] == 2
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -697,7 +752,8 @@ TEST_F(arrTest, setElemAddAssignConversion2) {
 }
 
 TEST_F(arrTest, setFieldOfElemAfterGetIt) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def A
             age int
         main() int
@@ -705,7 +761,8 @@ TEST_F(arrTest, setFieldOfElemAfterGetIt) {
             a.add(A())
             a[0].age = 22
             ret a[0].age == 22
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -713,14 +770,16 @@ TEST_F(arrTest, setFieldOfElemAfterGetIt) {
 }
 
 TEST_F(arrTest, setFieldOfElemAfterGetIt1) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def A
             age int
         main() int
             a A[]
             a.add(A())
             a[0].age = 22
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -728,7 +787,8 @@ TEST_F(arrTest, setFieldOfElemAfterGetIt1) {
 }
 
 TEST_F(arrTest, outOfBoundExOccurs) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def A
             arr str[]
             foo() str
@@ -737,7 +797,8 @@ TEST_F(arrTest, outOfBoundExOccurs) {
         main() void
             a A
             print(a.foo())
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -748,7 +809,7 @@ TEST_F(arrTest, outOfBoundExOccurs) {
 
     {
         auto& A = getSubPack().sub("A"); // A.arr is mockNode
-        str a((node*) A.clone()); // now, a.arr is not mockNode, but obj.
+        str a((node*) A.clone());        // now, a.arr is not mockNode, but obj.
         threadUse th;
         str res = a->run("foo");
         ASSERT_TRUE(res);

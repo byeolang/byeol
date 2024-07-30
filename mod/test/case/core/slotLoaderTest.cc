@@ -3,13 +3,15 @@
 using namespace nm;
 using namespace std;
 
-struct slotLoaderTest : public namuTest {};
+struct slotLoaderTest: public namuTest {};
 
 TEST_F(slotLoaderTest, testDefaultLoaderInit) {
-    nmap& systemSlots = (nmap&) nm::thread::get().getSlots(); // don't worry for casting. I know what I'm doing >_o
+    nmap& systemSlots =
+        (nmap&) nm::thread::get().getSlots(); // don't worry for casting. I know what I'm doing >_o
     ASSERT_FALSE(nul(systemSlots));
 
-    slot& s = systemSlots.get<slot>([](const std::string& name, const slot& e) { return name == "sys"; });
+    slot& s =
+        systemSlots.get<slot>([](const std::string& name, const slot& e) { return name == "sys"; });
     ASSERT_FALSE(nul(s));
 
     ASSERT_EQ(s.subs().len(), 1);
@@ -24,7 +26,7 @@ TEST_F(slotLoaderTest, testDefaultLoaderInit) {
 
         args a(narr{origin});
         str res = sayFunc.run(a);
-        ASSERT_FALSE(res); // don't run func itself.
+        ASSERT_FALSE(res);          // don't run func itself.
         res = origin.run("say", a); // don't need to pass 'me' argument
         ASSERT_FALSE(res);
         res = origin.run("say", args());
@@ -42,7 +44,7 @@ TEST_F(slotLoaderTest, testDefaultLoaderInit) {
         ASSERT_EQ(argTypes[1].getOrigin().getType(), ttype<nInt>::get());
 
         nInt arg1(5);
-        str retVal = add.run(narr {arg1} ); // should nothing happen
+        str retVal = add.run(narr{arg1}); // should nothing happen
         ASSERT_FALSE(retVal);
 
         args a;

@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    class _nout defBlock : public instance {
+    class _nout defBlock: public instance {
         NM(CLASS(defBlock, instance))
 
     public:

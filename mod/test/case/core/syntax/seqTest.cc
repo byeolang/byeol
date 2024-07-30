@@ -3,7 +3,7 @@
 using namespace nm;
 using namespace std;
 
-struct seqTest : public namuSyntaxTest {};
+struct seqTest: public namuSyntaxTest {};
 
 TEST_F(seqTest, basicBehaviour) {
     nseq s(1, 10);
@@ -64,35 +64,42 @@ TEST_F(seqTest, eachReturnedValueShouldBeDifferent) {
 }
 
 TEST_F(seqTest, basicSyntax) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         print(msg str) void: 1
         main() int
             seq := 2..4 // [2, 4)
             print("seq.len=" + seq.len() as str + "\n")
             print("seq[1]=" + seq[1] as str + "\n")
             ret seq[2]
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res->cast<nint>(), 3);
 }
 
 TEST_F(seqTest, addSeqElement) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
     main() int
         seq := 2..4
         ret seq[0] + seq[1]
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res->cast<nint>(), 5);
 }
 
 TEST_F(seqTest, verifyStartEndNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() void
             out := "kniz awesome"
             for n in 0..out
                 print(out[n])
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }

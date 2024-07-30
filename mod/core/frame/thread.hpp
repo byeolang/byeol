@@ -2,19 +2,20 @@
 
 #include "../builtin/container/mgd/tarr.hpp"
 #include "../builtin/container/native/tnmap.hpp"
-#include "frames.hpp"
 #include "../loader/errReport.hpp"
+#include "frames.hpp"
 
 struct exprTest;
 
 namespace nm {
 
     class slotLoader;
-    class _nout thread : public node, public dumpable {
+
+    class _nout thread: public node, public dumpable {
         NM(CLASS(thread, node))
-        friend class verifier; // for frames
-        friend class baseObj; // for frames.
-        friend class func; // for frames.
+        friend class verifier;  // for frames
+        friend class baseObj;   // for frames.
+        friend class func;      // for frames.
         friend class blockExpr; // for frames.
         friend class defPropExpr;
         friend class defVarExpr;
@@ -77,4 +78,4 @@ namespace nm {
         frames _frames;
         tstr<errReport> _ex;
     };
-}
+} // namespace nm

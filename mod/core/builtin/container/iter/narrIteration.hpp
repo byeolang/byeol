@@ -1,15 +1,13 @@
 // nested class of tnarr.hpp:
 //  this file allows to be refered by 'tnarr.hpp' file only.
-class narrIteration : public iteration {
+class narrIteration: public iteration {
     NM(CLASS(narrIteration, iteration))
     friend class tnarr;
 
 public:
     narrIteration(tnarr& own, nidx n): _n(n), _own(own) {}
 
-    nbool isEnd() const override {
-        return !_own.has(_n);
-    }
+    nbool isEnd() const override { return !_own.has(_n); }
 
     /// if iteration reached to the last element to iterate, it can precede to next,
     /// which means to the End of a buffer.
@@ -18,8 +16,7 @@ public:
         if(step <= 0) return 0;
         if(isEnd()) return 0;
 
-        int len = _own.len(),
-            lastN = len - 1;
+        int len = _own.len(), lastN = len - 1;
         int toLast = lastN - _n;
 
         _n += step;
@@ -31,15 +28,15 @@ public:
     }
 
     using super::get;
+
     T& get() override {
         if(isEnd()) return nulOf<T>();
         return _own.get(_n);
     }
 
     using super::getContainer;
-    tucontainable<T>& getContainer() override {
-        return _own;
-    }
+
+    tucontainable<T>& getContainer() override { return _own; }
 
 protected:
     nbool _onSame(const typeProvidable& rhs) const override {

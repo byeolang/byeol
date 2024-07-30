@@ -4,12 +4,11 @@
 
 namespace nm {
 
-    template <typename R, typename T>
-    struct workerAdapter {
+    template <typename R, typename T> struct workerAdapter {
         static R adaptWork(worker<R, T>& w);
     };
-    template <typename T>
-    struct workerAdapter<void, T> {
+
+    template <typename T> struct workerAdapter<void, T> {
         static void adaptWork(worker<void, T>& w);
     };
 
@@ -37,12 +36,15 @@ namespace nm {
         _logFlag |= newFlag;
         return *this;
     }
+
     TEMPLATE
     ME& ME::delFlag(nint clear) {
         _logFlag &= ~clear;
         return *this;
     }
+
     TEMPLATE nbool ME::isFlag(nint flag) const { return (_logFlag & flag) == flag; }
+
     TEMPLATE nint ME::getFlag() const { return _logFlag; }
 
     TEMPLATE
@@ -63,9 +65,7 @@ namespace nm {
     }
 
     TEMPLATE
-    void ME::_prepare() {
-        _area.rel();
-    }
+    void ME::_prepare() { _area.rel(); }
 
     TEMPLATE
     void ME::_report(err* e) {
@@ -73,8 +73,7 @@ namespace nm {
         if(isFlag(LOG_ON_EX)) {
             enablesZone zone(true);
             e->log();
-        }
-        else if(isFlag(DUMP_ON_EX)) {
+        } else if(isFlag(DUMP_ON_EX)) {
             enablesZone zone(true);
             e->dump();
         }
@@ -91,23 +90,20 @@ namespace nm {
     }
 
     TEMPLATE
-    R ME::work() {
-        return workerAdapter<R, T>::adaptWork(*this);
-    }
+    R ME::work() { return workerAdapter<R, T>::adaptWork(*this); }
 
     TEMPLATE void ME::_setTask(const T& new1) { _task.bind(new1); }
+
     TEMPLATE void ME::_setTask(const T* new1) { _setTask(*new1); }
 
     TEMPLATE
     void ME::_onEndErrReport(const errReport& rpt) const {
         if(!isFlag(DUMP_ON_END | LOG_ON_END))
 
-        if(!rpt) return; // ## print errors.
+            if(!rpt) return; // ## print errors.
         NM_I("errors:");
-        if(isFlag(DUMP_ON_END))
-            return rpt.dump(), void();
-        if(isFlag(LOG_ON_END))
-            rpt.log();
+        if(isFlag(DUMP_ON_END)) return rpt.dump(), void();
+        if(isFlag(LOG_ON_END)) rpt.log();
     }
 
 #undef ME
@@ -115,8 +111,7 @@ namespace nm {
 
     TEMPLATE
     R ME::adaptWork(worker<R, T>& w) {
-        if(w.isFlag(worker<R, T>::GUARD))
-            NM_I("|=== %s.work()... ==============|", w);
+        if(w.isFlag(worker<R, T>::GUARD)) NM_I("|=== %s.work()... ==============|", w);
 
         w._prepare();
 
@@ -126,13 +121,11 @@ namespace nm {
         ret = w._onWork();
         internal.setPrev().rel();
 
-        if(w.isFlag(worker<R, T>::GUARD))
-            NM_I("|--- %s._onEndWork()... --------|", w);
+        if(w.isFlag(worker<R, T>::GUARD)) NM_I("|--- %s._onEndWork()... --------|", w);
 
         w._onEndWork();
 
-        if(w.isFlag(worker<R, T>::GUARD))
-            NM_I("|=== %s ends! ==================|", w);
+        if(w.isFlag(worker<R, T>::GUARD)) NM_I("|=== %s ends! ==================|", w);
         return ret;
     }
 
@@ -143,8 +136,7 @@ namespace nm {
 
     TEMPLATE
     void ME::adaptWork(worker<void, T>& w) {
-        if(w.isFlag(worker<void, T>::GUARD))
-            NM_I("|=== %s.work()... ==============|", w);
+        if(w.isFlag(worker<void, T>::GUARD)) NM_I("|=== %s.work()... ==============|", w);
 
         w._prepare();
 
@@ -155,16 +147,14 @@ namespace nm {
             w._onWork();
         }
 
-        if(w.isFlag(worker<void, T>::GUARD))
-            NM_I("|--- %s._onEndWork()... --------|", w);
+        if(w.isFlag(worker<void, T>::GUARD)) NM_I("|--- %s._onEndWork()... --------|", w);
 
         prev.setPrev();
         w._onEndWork();
 
-        if(w.isFlag(worker<void, T>::GUARD))
-            NM_I("|=== %s ends! ==================|", w);
+        if(w.isFlag(worker<void, T>::GUARD)) NM_I("|=== %s ends! ==================|", w);
     }
 
 #undef ME
 #undef TEMPLATE
-}
+} // namespace nm

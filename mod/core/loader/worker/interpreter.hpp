@@ -1,11 +1,11 @@
 #pragma once
 
-#include "parser.hpp"
 #include "../../visitor/verifier.hpp"
+#include "parser.hpp"
 
 namespace nm {
 
-    class _nout interpreter : public worker<tstr<slot>, slot> {
+    class _nout interpreter: public worker<tstr<slot>, slot> {
         typedef worker<tstr<slot>, slot> __super7;
         NM(CLASS(interpreter, __super7))
 
@@ -45,4 +45,4 @@ namespace nm {
         parser _pser;
         nbool _isParsed;
     };
-}
+} // namespace nm

@@ -1,8 +1,8 @@
 #pragma once
 
+#include "../../builtin/primitive/arithmeticObj.hpp"
 #include "../expr.hpp"
 #include "../param.hpp"
-#include "../../builtin/primitive/arithmeticObj.hpp"
 #include "../scope.hpp"
 
 namespace nm {
@@ -10,7 +10,7 @@ namespace nm {
     class visitor;
 
     // FAO: Fundermental Binary Operation.
-    class _nout FBOExpr : public expr {
+    class _nout FBOExpr: public expr {
         NM(CLASS(FBOExpr, expr, expr::exprType), VISIT())
 
     public:
@@ -18,12 +18,21 @@ namespace nm {
             ADD = 0,
             START = ADD,
             ARITH_START = START,
-            SUB, MUL, DIV, MOD,
+            SUB,
+            MUL,
+            DIV,
+            MOD,
             ARITH_END,
 
             EQ,
             LOGIC_START = EQ,
-            NE, GT, LT, GE, LE, AND, OR,
+            NE,
+            GT,
+            LT,
+            GE,
+            LE,
+            AND,
+            OR,
             LOGIC_END,
             END = LOGIC_END
         };
@@ -48,4 +57,4 @@ namespace nm {
         str _lhs;
         str _rhs;
     };
-}
+} // namespace nm

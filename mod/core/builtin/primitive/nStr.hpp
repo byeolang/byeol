@@ -1,14 +1,13 @@
 #pragma once
 
-#include "primitiveObj.hpp"
-#include "nChar.hpp"
 #include "../container/tucontainable.hpp"
+#include "nChar.hpp"
+#include "primitiveObj.hpp"
 
 namespace nm {
 
-    class _nout nStr : public primitiveObj<std::string>, public tucontainable<nChar> {
-
-        struct _nout nStrType : public ntype {
+    class _nout nStr: public primitiveObj<std::string>, public tucontainable<nChar> {
+        struct _nout nStrType: public ntype {
         public:
             nbool isImmutable() const override;
 
@@ -77,4 +76,4 @@ namespace nm {
 
         arithmeticObj& _mov(const arithmeticObj& rhs) override;
     };
-}
+} // namespace nm

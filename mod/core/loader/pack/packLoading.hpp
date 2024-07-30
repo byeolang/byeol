@@ -1,8 +1,8 @@
 #pragma once
 
+#include "../../ast/obj.hpp"
 #include "../../builtin/container/native/tnarr.inl"
 #include "../../builtin/container/native/tnchain.inl"
-#include "../../ast/obj.hpp"
 #include "packMakable.hpp"
 
 namespace nm {
@@ -11,7 +11,7 @@ namespace nm {
     struct manifest;
     typedef tnchain<std::string, slot> slotChain;
 
-    class _nout packLoading : public instance, public packMakable {
+    class _nout packLoading: public instance, public packMakable {
         NM(ADT(packLoading, instance))
 
         typedef nbool (me::*packEvent)(const slotChain&);

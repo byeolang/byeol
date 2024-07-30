@@ -103,8 +103,7 @@ namespace nm {
             NM_DI("* inject func: retType of '%s(%s) %s' --> '%s'", i, me.getParams().toStr(),
                 me.getRet()->getEval(), retOrg);
             me.setRet(retOrg);
-            if(nul(i.parent))
-                getReport().add(err::newErr(errCode::IS_NULL, "parent"));
+            if(nul(i.parent)) getReport().add(err::newErr(errCode::IS_NULL, "parent"));
         }
 
         onVisit(i, (baseFunc::super&) me);
@@ -113,7 +112,7 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, baseObj& me) {
         scope& subs = me.subs();
-        for(auto e=subs.begin(); e ;++e) {
+        for(auto e = subs.begin(); e; ++e) {
             const node& prevVal = e.getVal();
             const node& org = _findOrigin(prevVal);
             if(nul(org)) continue;
@@ -128,12 +127,10 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, FBOExpr& me) {
         const node* org = &_findOrigin(me.getLeft());
-        if(!nul(org))
-            me.setLeft(*org);
+        if(!nul(org)) me.setLeft(*org);
 
         org = &_findOrigin(me.getRight());
-        if(!nul(org))
-            me.setRight(*org);
+        if(!nul(org)) me.setRight(*org);
         return true;
     }
 
@@ -141,10 +138,9 @@ namespace nm {
         args& a = *me._args;
         if(nul(a)) return true;
 
-        for(nint n=0; n < a.len(); n++) {
+        for(nint n = 0; n < a.len(); n++) {
             const node& org = _findOrigin(a[n]);
-            if(!nul(org))
-                a.set(n, org);
+            if(!nul(org)) a.set(n, org);
         }
         return true;
     }

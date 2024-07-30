@@ -1,15 +1,13 @@
 // nested class of nseq.hpp:
 //  this file allows to be refered by 'nseq.hpp' file only.
-class nseqIteration : public iteration {
+class nseqIteration: public iteration {
     NM(CLASS(nseqIteration, iteration))
     friend class tnseq;
 
 public:
     nseqIteration(nseq& own, nidx n): _n(n), _own(own) {}
 
-    nbool isEnd() const override {
-        return !_own.has(_n);
-    }
+    nbool isEnd() const override { return !_own.has(_n); }
 
     /// if iteration reached to the last element to iterate, it can precede to next,
     /// which means to the End of a buffer.
@@ -18,8 +16,7 @@ public:
         if(step <= 0) return 0;
         if(isEnd()) return 0;
 
-        int len = _own.len(),
-            lastN = len - 1;
+        int len = _own.len(), lastN = len - 1;
         int toLast = lastN - _n;
 
         _n += step;
@@ -29,16 +26,17 @@ public:
         }
         return step;
     }
+
     using super::get;
+
     nInt get() override {
         if(isEnd()) return nulOf<nInt>();
         return _own[_n];
     }
 
     using super::getContainer;
-    tucontainable<nInt, nInt>& getContainer() override {
-        return _own;
-    }
+
+    tucontainable<nInt, nInt>& getContainer() override { return _own; }
 
 protected:
     nbool _onSame(const typeProvidable& rhs) const override {

@@ -7,7 +7,7 @@ namespace nm {
     class visitor;
     class verifier;
 
-    class _nout genericOrigin : public baseObj {
+    class _nout genericOrigin: public baseObj {
         NM(CLASS(genericOrigin, baseObj), VISIT())
         friend class verifier;
         friend class graphVisitor;
@@ -49,4 +49,4 @@ namespace nm {
         tstr<obj> _org;
         strings _paramNames;
     };
-}
+} // namespace nm

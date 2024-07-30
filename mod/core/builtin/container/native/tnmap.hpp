@@ -5,7 +5,7 @@
 namespace nm {
 
     template <typename K, typename V, typename TACTIC = strTactic>
-    class tnmap : public tnbicontainer<K, V> {
+    class tnmap: public tnbicontainer<K, V> {
         typedef tnbicontainer<K, V> _super_;
         NM(CLASS(tnmap, _super_))
 
@@ -55,13 +55,16 @@ namespace nm {
     protected:
         iteration* _onMakeIteration(ncnt step) const override {
             me* unconst = const_cast<me*>(this);
-            iteration* ret = new nmapIteration(*unconst, unconst->_map.begin(), unconst->_map.end());
+            iteration* ret =
+                new nmapIteration(*unconst, unconst->_map.begin(), unconst->_map.end());
             ret->next(step);
             return ret;
         }
+
         iteration* _onMakeIteration(const K& key) const override {
             me* unconst = const_cast<me*>(this);
-            return new nmapIteration(*unconst, unconst->_map.lower_bound(key), unconst->_map.upper_bound(key));
+            return new nmapIteration(*unconst, unconst->_map.lower_bound(key),
+                unconst->_map.upper_bound(key));
         }
 
         void _getAll(const K& key, narr& tray) const override;
@@ -76,4 +79,4 @@ namespace nm {
     private:
         cmap _map;
     };
-}
+} // namespace nm

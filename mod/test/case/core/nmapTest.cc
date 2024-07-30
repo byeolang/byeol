@@ -1,20 +1,23 @@
-#include "../../namuTest.hpp"
 #include <chrono>
+
+#include "../../namuTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct nmapTest : public namuTest {};
+struct nmapTest: public namuTest {};
 
 namespace {
-    class myNode : public node {
+    class myNode: public node {
         NM(CLASS(myNode, node))
 
     public:
         myNode(int num): number(num) {}
 
         scope& subs() override { return nulOf<scope>(); }
+
         priorType prioritize(const args& types) const override { return NO_MATCH; }
+
         str run(const args& a) override { return str(); }
 
         int number;
@@ -24,9 +27,8 @@ namespace {
         map<std::string, str> vec;
 
         auto start = chrono::steady_clock::now();
-        for(int n=0; n < cnt; n++) {
+        for(int n = 0; n < cnt; n++)
             vec.insert({"hello", str(new myNode(n))});
-        }
         int sz = vec.size();
         auto startDeleting = chrono::steady_clock::now();
         vec.clear();
@@ -37,15 +39,15 @@ namespace {
         auto totalElapsed = end - start;
 
         NM_I("[benchMarkNMap]: map took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
-                (nint64) (totalElapsed / chrono::milliseconds(1)), (nint64) (addingElapsed / chrono::milliseconds(1)),
-                (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
+            (nint64) (totalElapsed / chrono::milliseconds(1)),
+            (nint64) (addingElapsed / chrono::milliseconds(1)),
+            (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
 
 
         nmap map1;
         start = chrono::steady_clock::now();
-        for(int n=0; n < cnt; n++) {
+        for(int n = 0; n < cnt; n++)
             map1.add("hello", *(new myNode(n)));
-        }
         sz = map1.len();
         startDeleting = chrono::steady_clock::now();
         map1.rel();
@@ -55,22 +57,22 @@ namespace {
         removingElapsed = end - startDeleting;
         totalElapsed = end - start;
 
-        NM_I("[benchMarkNMap]: nmap took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
-                (nint64) (totalElapsed / chrono::milliseconds(1)), (nint64) (addingElapsed / chrono::milliseconds(1)),
-                (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
+        NM_I(
+            "[benchMarkNMap]: nmap took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
+            (nint64) (totalElapsed / chrono::milliseconds(1)),
+            (nint64) (addingElapsed / chrono::milliseconds(1)),
+            (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
     }
 
-    class myMyNode : public myNode {
+    class myMyNode: public myNode {
         NM(CLASS(myMyNode, myNode))
 
     public:
         myMyNode(int num): super(num) {}
     };
-}
+} // namespace
 
-TEST_F(nmapTest, instantiateTest) {
-    nmap map1;
-}
+TEST_F(nmapTest, instantiateTest) { nmap map1; }
 
 TEST_F(nmapTest, shouldNotCanAddLocalObject) {
     tnmap<std::string, myNode> map1;
@@ -104,9 +106,8 @@ TEST_F(nmapTest, simpleAddDelTest) {
 TEST_F(nmapTest, addDel10Elems) {
     tnmap<float, myNode> map1;
     const float cnt = 10;
-    for(int n=0; n < cnt; n++) {
+    for(int n = 0; n < cnt; n++)
         ASSERT_TRUE(map1.add((float) n, *(new myNode(n))));
-    }
 
     ASSERT_EQ(map1.len(), cnt);
 }
@@ -127,7 +128,7 @@ TEST_F(nmapTest, testIter) {
     auto head = e++;
     auto index2 = ++e;
 
-    EXPECT_TRUE(map1.begin()+2 == index2);
+    EXPECT_TRUE(map1.begin() + 2 == index2);
     EXPECT_TRUE(map1.begin() == head);
 
     ASSERT_FALSE(e.isEnd());
@@ -137,18 +138,17 @@ TEST_F(nmapTest, testIter) {
 
 nbool hasSequentialValueOf(int val, tbicontainable<std::string, myNode>& from) {
     std::vector<int> tray;
-    for(auto& elem : from)
+    for(auto& elem: from)
         tray.push_back(elem.number);
 
-    for(int n=0; n < val ;n++) {
+    for(int n = 0; n < val; n++) {
         nbool found = false;
-        for(int n2=0; n < tray.size() ;n2++)
+        for(int n2 = 0; n < tray.size(); n2++)
             if(tray[n2] == n) {
                 found = true;
                 break;
             }
-        if(!found)
-            return false;
+        if(!found) return false;
     }
     return true;
 }
@@ -173,9 +173,8 @@ TEST_F(nmapTest, testucontainableAPI) {
     ASSERT_TRUE(hasSequentialValueOf(1, *con));
 
     {
-        tnarr<myNode> tray = map1->getAll<myNode>([](const std::string&, const myNode& elem) {
-            return true;
-        });
+        tnarr<myNode> tray =
+            map1->getAll<myNode>([](const std::string&, const myNode& elem) { return true; });
         ASSERT_EQ(tray.len(), 2);
 
         int cnt = 0;
@@ -235,19 +234,18 @@ TEST_F(nmapTest, testucontainableAPI) {
 }
 
 TEST_F(nmapTest, testRangeBasedForLoop) {
-
     nmap map1;
     map1.add("3", new myNode(3));
     map1.add("7", new myNode(7));
 
     int sum = 0;
-    for(auto& e : map1) {
+    for(auto& e: map1) {
         myNode& cast = e.cast<myNode>();
         sum += cast.number;
     }
 
     int sum2 = 0;
-    for(const node& e : map1) {
+    for(const node& e: map1) {
         const myNode& cast = e.cast<myNode>();
         sum2 += cast.number;
     }
@@ -262,9 +260,8 @@ TEST_F(nmapTest, addMultipleKey) {
     m.add("3", new myNode(4));
 
     ncnt key1found = 0;
-    for(auto e=m.begin(); e ;++e)
-        if(e.getKey() == "1")
-            key1found++;
+    for(auto e = m.begin(); e; ++e)
+        if(e.getKey() == "1") key1found++;
     ASSERT_EQ(key1found, 2);
 }
 
@@ -281,8 +278,7 @@ TEST_F(nmapTest, searchMultipleKey) {
     auto founds = m.getAll("1");
     ASSERT_EQ(founds.len(), 2);
     auto e = founds.begin();
-    nint val1 = e++.get<myNode>().number,
-         val2 = e.get<myNode>().number;
+    nint val1 = e++.get<myNode>().number, val2 = e.get<myNode>().number;
     ASSERT_TRUE(val1 == 1 || val1 == 3);
     ASSERT_TRUE(val2 == 1 || val2 == 3);
     ASSERT_NE(val1, val2);
@@ -316,8 +312,7 @@ TEST_F(nmapTest, testDeletionByIter) {
 
     e = m.begin();
     ASSERT_EQ(e.getKey(), "1");
-    nint val1 = e++.getVal<myNode>().number,
-         val2 = e.getVal<myNode>().number;
+    nint val1 = e++.getVal<myNode>().number, val2 = e.getVal<myNode>().number;
     ASSERT_EQ(e.getKey(), "1");
 
     ASSERT_TRUE(val1 == 1 || val1 == 3);
@@ -333,18 +328,15 @@ TEST_F(nmapTest, testSetValue) {
 
     m.iterate("2").setVal(new myNode(4));
     nbool found = false;
-    for(auto& e : m)
-       if(e.cast<myNode>().number == 4)
-           found = true;
+    for(auto& e: m)
+        if(e.cast<myNode>().number == 4) found = true;
     ASSERT_TRUE(found);
 
-    for(auto e = m.iterate("1"); e ;++e)
-        if(e.getVal<myNode>().number == 3)
-            e.setVal(new myNode(1));
+    for(auto e = m.iterate("1"); e; ++e)
+        if(e.getVal<myNode>().number == 3) e.setVal(new myNode(1));
 
-    for(auto e = m.iterate("1"); e ;++e)
-        if(e.getVal<myNode>().number != 1)
-            found = false;
+    for(auto e = m.iterate("1"); e; ++e)
+        if(e.getVal<myNode>().number != 1) found = false;
     ASSERT_TRUE(found);
 }
 
@@ -359,12 +351,9 @@ TEST_F(nmapTest, delWhileIteration) {
     m.add("meat", new nInt(7));
     m.add("banana", new nInt(8));
 
-    for(auto e = m.begin(); e ;) {
-        if(e.getKey() == "banana")
-            m.del(e++);
-        else
-            ++e;
-    }
+    for(auto e = m.begin(); e;)
+        if(e.getKey() == "banana") m.del(e++);
+        else ++e;
 
     ASSERT_EQ(m.len(), 4);
     ASSERT_EQ(m.get("apple").cast<int>(), 3);
@@ -378,14 +367,11 @@ TEST_F(nmapTest, testEach) {
     map1.add("val3", *new nInt(2));
 
     nint sum = 0;
-    map1.each<nInt>([&](const std::string&, const nInt& elem) {
-        return sum += elem.get(), true;
-    });
+    map1.each<nInt>([&](const std::string&, const nInt& elem) { return sum += elem.get(), true; });
     ASSERT_EQ(sum, 3);
 
-    auto arr2 = map1.getAll<nInt>([&](const std::string&, const auto& elem) -> nbool {
-        return elem.get() > 1;
-    });
+    auto arr2 = map1.getAll<nInt>(
+        [&](const std::string&, const auto& elem) -> nbool { return elem.get() > 1; });
     ASSERT_EQ(arr2.len(), 1);
     ASSERT_EQ(arr2[0].get(), 2);
 }

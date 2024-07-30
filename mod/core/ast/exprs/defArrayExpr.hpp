@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../expr.hpp"
 #include "../../builtin/container/mgd/arr.hpp"
+#include "../expr.hpp"
 
 namespace nm {
 
-    class _nout defArrayExpr : public expr {
+    class _nout defArrayExpr: public expr {
         NM(CLASS(defArrayExpr, expr, expr::exprType), VISIT())
         friend class visitor; // for getElems()
 

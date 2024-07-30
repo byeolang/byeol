@@ -3,7 +3,8 @@
 using namespace nm;
 using namespace std;
 
-struct helloProgrammerTest : public namuTest {};
+struct helloProgrammerTest: public namuTest {};
+
 /*
 TEST_F(helloProgrammerTest, testScript) {
     const std::string script =

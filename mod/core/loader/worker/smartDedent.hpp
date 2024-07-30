@@ -3,7 +3,7 @@
 #include "../../type/ntype.hpp"
 
 namespace nm {
-    class _nout smartDedent : public typeProvidable, public clonable {
+    class _nout smartDedent: public typeProvidable, public clonable {
         NM(CLASS(smartDedent))
 
         enum Status {

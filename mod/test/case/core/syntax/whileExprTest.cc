@@ -4,11 +4,12 @@ using namespace nm;
 using namespace std;
 
 namespace {
-    struct whileExprTest : public namuSyntaxTest {};
+    struct whileExprTest: public namuSyntaxTest {};
 }
 
 TEST_F(whileExprTest, simple) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo(msg str) void: 1
         main() int
             sum := 0
@@ -18,14 +19,17 @@ TEST_F(whileExprTest, simple) {
                 n = n + 1
                 foo("sum=" + sum as str + ", n=" + n as str + "\n")
             ret sum
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 6);
 }
 
 TEST_F(whileExprTest, conditionClauseCheckNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             sum := 0
             n := 0
@@ -34,11 +38,13 @@ TEST_F(whileExprTest, conditionClauseCheckNegative) {
                 n = n + 1
                 print("sum=" + sum as str + ", n=" + n as str + "\n")
             ret sum
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(whileExprTest, conditionClauseCheck) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         print(msg str) void: 1
 
         foo() int
@@ -52,7 +58,8 @@ TEST_F(whileExprTest, conditionClauseCheck) {
                 n = n + 1
                 print("sum=" + sum as str + ", n=" + n as str + "\n")
             ret sum
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -60,13 +67,15 @@ TEST_F(whileExprTest, conditionClauseCheck) {
 }
 
 TEST_F(whileExprTest, breakInsideOfFor) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             n := 0
             (while n < 5
                 break
             ).len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -74,7 +83,8 @@ TEST_F(whileExprTest, breakInsideOfFor) {
 }
 
 TEST_F(whileExprTest, breakInsideOfIfExpr) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             n := 0
             (while n < 5
@@ -83,7 +93,8 @@ TEST_F(whileExprTest, breakInsideOfIfExpr) {
                 else
                     n
             )[1] // {1, 2}
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -91,7 +102,8 @@ TEST_F(whileExprTest, breakInsideOfIfExpr) {
 }
 
 TEST_F(whileExprTest, breakNestedForLoop) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             sum := 0
             n := 0
@@ -106,7 +118,8 @@ TEST_F(whileExprTest, breakNestedForLoop) {
                 if sum > 15
                     break
             sum
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -114,7 +127,8 @@ TEST_F(whileExprTest, breakNestedForLoop) {
 }
 
 TEST_F(whileExprTest, evalOfForLoop) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             sum := 0
             n := 0
@@ -123,7 +137,8 @@ TEST_F(whileExprTest, evalOfForLoop) {
                     break
                 sum += n
             )[2] // {1, 3, 6}
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -131,7 +146,8 @@ TEST_F(whileExprTest, evalOfForLoop) {
 }
 
 TEST_F(whileExprTest, evalOfForLoop2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             sum := 0
             n := 0
@@ -140,7 +156,8 @@ TEST_F(whileExprTest, evalOfForLoop2) {
                     break
                 ++sum
             sum
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

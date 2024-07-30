@@ -1,13 +1,12 @@
 #include "verboseFlag.hpp"
+
 #include "../../cli.hpp"
 
 namespace nm {
 
     NM_DEF_ME(verboseFlag)
 
-    const nchar* me::getName() const {
-        return "-v";
-    }
+    const nchar* me::getName() const { return "-v"; }
 
     const nchar* me::getDescription() const {
         return R"DESC(
@@ -17,13 +16,11 @@ namespace nm {
     this info will be useful if you know how src to be interpreted.)DESC";
     }
 
-    const nchar* me::_getRegExpr() const {
-        return "^\\-v$";
-    }
+    const nchar* me::_getRegExpr() const { return "^\\-v$"; }
 
     nbool me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
-        //ip.addFlag(interpreter::DEFAULT);
-        //s.addFlag(starter::DEFAULT | starter::LOG_GRAPH_ON_EX);
+        // ip.addFlag(interpreter::DEFAULT);
+        // s.addFlag(starter::DEFAULT | starter::LOG_GRAPH_ON_EX);
         return true;
     }
 }

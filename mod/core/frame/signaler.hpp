@@ -4,8 +4,8 @@
 
 namespace nm {
 
-    typedef err*(*errMaker)(nint);
-    typedef void(*sigFunc)(const err&);
+    typedef err* (*errMaker)(nint);
+    typedef void (*sigFunc)(const err&);
     typedef std::function<void(const err&)> sigHandler;
 
     struct _nout sig {
@@ -37,10 +37,10 @@ namespace nm {
         static signaler& get();
 
     private:
-        void _setSignal(void(*csignalHandler)(nint));
+        void _setSignal(void (*csignalHandler)(nint));
         const err* _getErrBy(nint code) const;
 
     private:
         std::vector<sigHandler> _closures;
     };
-}
+} // namespace nm

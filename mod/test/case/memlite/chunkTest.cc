@@ -1,17 +1,18 @@
-#include "../../common/dep.hpp"
 #include <vector>
+
+#include "../../common/dep.hpp"
 
 using namespace nm;
 using namespace std;
 
 namespace {
     void addIntegrityTest(chunk& chk, int cnt) {
-        for(int n=0; n < cnt ; n++) {
+        for(int n = 0; n < cnt; n++) {
             int* val = (int*) chk.new1();
             *val = n;
         }
 
-        for(int n=0; n < cnt ;n++) {
+        for(int n = 0; n < cnt; n++) {
             int* actual = (int*) chk[n];
             EXPECT_EQ(*actual, n);
         }
@@ -44,11 +45,9 @@ TEST(chunkTest, chunkListTest) {
     class heap {
     public:
         nbool new1(chunk& chk, ncnt cnt) {
-            for(int n=0; n < cnt ; n++)
-            {
+            for(int n = 0; n < cnt; n++) {
                 void* ptr = chk.new1();
-                if(!ptr)
-                    return false;
+                if(!ptr) return false;
             }
             return true;
         }
@@ -66,7 +65,7 @@ TEST(chunkTest, chunkListTest) {
     EXPECT_EQ(chk.len(), 2);
     EXPECT_GE(chk.size(), chk.len());
     EXPECT_TRUE(chk[1]);
-    EXPECT_TRUE(chk.has(*(instance*)chk[1]));
+    EXPECT_TRUE(chk.has(*(instance*) chk[1]));
     EXPECT_EQ(chk.getBlkSize(), 4);
 
     EXPECT_EQ(chk.len(), 2);
@@ -98,13 +97,13 @@ TEST(chunkTest, chunkListTest) {
     EXPECT_FALSE(chk[0]);
     EXPECT_TRUE(chk.isFull());
     EXPECT_FALSE(chk.isCapable());
-
 }
 
 TEST(chunkTest, addIntegrityTest100) {
     chunk chk(4, 100);
     addIntegrityTest(chk, 100);
 }
+
 TEST(chunkTest, addIntegrityTest10000) {
     chunk chk(4, 10000);
     addIntegrityTest(chk, 10000);

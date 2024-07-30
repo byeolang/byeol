@@ -3,8 +3,9 @@
 using namespace nm;
 using namespace std;
 
-struct verifierTest : public ::testing::Test {
+struct verifierTest: public ::testing::Test {
     void SetUp() override {}
+
     void TearDown() override {}
 };
 

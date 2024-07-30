@@ -3,7 +3,7 @@
 #include "defVarExpr.hpp"
 
 namespace nm {
-    class _nout defPropExpr : public defVarExpr {
+    class _nout defPropExpr: public defVarExpr {
         NM(CLASS(defPropExpr, defVarExpr, expr::exprType), VISIT())
 
     public:

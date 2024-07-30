@@ -1,18 +1,20 @@
 #include "defArrayExpr.hpp"
-#include "../../visitor/visitor.hpp"
+
 #include "../../builtin/container/mgd/arr.hpp"
+#include "../../visitor/visitor.hpp"
 
 namespace nm {
 
     NM(DEF_ME(defArrayExpr), DEF_VISIT())
 
     me::defArrayExpr(const node& type): _type(type) {}
+
     me::defArrayExpr(const narr& elems): _elems(elems) {}
 
     str me::run(const args& a) {
         arr& ret = *new arr(getArrayType());
 
-        for(const node& elem : _elems)
+        for(const node& elem: _elems)
             ret.add(*elem.as<node>());
 
         return ret;
@@ -26,7 +28,7 @@ namespace nm {
         if(!_org) {
             str typ = _type ? _type->as<node>() : *_deduceElems();
             _org.bind(new arr(*typ));
-            for(const node& e : _elems)
+            for(const node& e: _elems)
                 _org->add(e);
         }
 
@@ -40,26 +42,20 @@ namespace nm {
 
         str ased1 = _elems[0].getEval();
         const node* ret = &ased1.get();
-        if(!ret)
-            return NM_DI("deduceElem: elem0 is null"), str();
+        if(!ret) return NM_DI("deduceElem: elem0 is null"), str();
         str ased;
 
-        for(int n=1; n < len; n++) {
+        for(int n = 1; n < len; n++) {
             ased = _elems[n].as<node>();
             ret = &ret->deduce(*ased);
             NM_DI("deduceElem: prevElem + elem%d[%s] --> %s", n, ased, ret);
-            if(!ret)
-                return NM_DI("deduceElem: elem%d was null.", n), str();
+            if(!ret) return NM_DI("deduceElem: elem%d was null.", n), str();
         }
 
         return *ret;
     }
 
-    str me::getEval() const {
-        return str(getOrigin());
-    }
+    str me::getEval() const { return str(getOrigin()); }
 
-    narr& me::getElems() {
-        return _elems;
-    }
-}
+    narr& me::getElems() { return _elems; }
+} // namespace nm
