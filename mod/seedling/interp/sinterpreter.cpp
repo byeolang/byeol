@@ -1,8 +1,8 @@
 #include <fstream>
 
-#include "../parser/seedlingParser.hpp"
 #include "flex.hpp"
 #include "seedling.hpp"
+#include "../parser/seedlingParser.hpp"
 
 void yyrestart(FILE*);
 
