@@ -25,7 +25,7 @@ namespace nm {
     TEMPL
     nbool ME::set(const iter& at, const T& new1) {
         narrIteration& cast = _getIterationFrom(at);
-        if(nul(cast)) return false;
+        NM_WHENNUL(cast).ex(ITERATOR_IS_NUL), false;
         if(cast.isEnd()) return false;
 
         return set(cast._n, new1);
@@ -33,25 +33,25 @@ namespace nm {
 
     TEMPL
     nbool ME::set(nidx n, const T& new1) {
-        if(!has(n)) return false;
+        NM_WHEN(!has(n)).ex(OUT_OF_RANGE, n, len()), false;
 
         return _vec[n].bind(new1);
     }
 
     TEMPL
     nbool ME::add(const iter& e, const T& new1) {
-        if(nul(e) || nul(new1)) return false;
-        if(!e.isFrom(*this)) return false;
+        NM_WHENNUL(e).ex(ITERATOR_IS_NUL), false;
+        if(nul(new1)) return false;
+        NM_WHEN(!e.isFrom(*this)).ex(ITERATOR_NOT_BELONG_TO_CONTAINER), false;
         narrIteration& cast = (narrIteration&) *e._step;
-        if(nul(cast)) return false;
+        NM_WHENNUL(cast).ex(CAST_NOT_AVAILABLE, "this iterator", "arr iterator"), false;
 
         return add(cast._n, new1);
     }
 
     TEMPL
     nbool ME::add(nidx n, const T& new1) {
-        if(n < 0 || n > len())
-            return false; // if n equals to len(), it means that will be added at end of container.
+        NM_WHEN(n < 0 || n > len()).ex(OUT_OF_RANGE, n, len()), false;
         if(nul(new1)) return false;
 
         _vec.insert(_vec.begin() + n, wrap(new1));
@@ -60,11 +60,11 @@ namespace nm {
 
     TEMPL
     void ME::add(const iter& here, const iter& from, const iter& to) {
-        if(!from.isFrom(to.getContainer())) return;
+        NM_WHEN(!from.isFrom(to.getContainer())).ex(ITERATOR_NOT_BELONG_TO_CONTAINER);
         const narrIteration& hereCast = _getIterationFrom(here);
         const narrIteration& fromCast = (narrIteration&) *from._step;
         const narrIteration& toCast = (narrIteration&) *to._step;
-        if(nul(hereCast) || nul(fromCast) || nul(toCast)) return;
+        NM_WHENNUL(hereCast, fromCast, toCast).ex(CAST_NOT_AVAILABLE, "one of these iterator", "arr iterator");
 
         if(hereCast._n < 0 || hereCast._n > len())
             return; // if n equals to len(), it means that will be added at end of container.
@@ -76,7 +76,7 @@ namespace nm {
     TEMPL
     nbool ME::del(const iter& at) {
         narrIteration& cast = _getIterationFrom(at);
-        if(nul(cast)) return false;
+        NM_WHENNUL(cast).ex(CAST_NOT_AVAILABLE, "'at' iterator", "arr iterator"), false;
         if(cast.isEnd()) return false;
 
         return del(cast._n);
@@ -84,7 +84,8 @@ namespace nm {
 
     TEMPL
     nbool ME::del(nidx n) {
-        if(!has(n)) return false;
+        NM_WHEN(!has(n)).ex(OUT_OF_RANGE, n, len()), false;
+
         _vec.erase(_vec.begin() + n);
         return true;
     }
@@ -92,10 +93,7 @@ namespace nm {
     TEMPL
     nbool ME::del(const iter& from, const iter& end) {
         narrIteration &endIter = _getIterationFrom(end), &fromIter = _getIterationFrom(from);
-        if(nul(endIter) || nul(fromIter))
-            return NM_E("from(%s) or end(%s) one of these is null.", (void*) &endIter,
-                       (void*) &fromIter),
-                   false;
+        NM_WHENNUL(endIter, fromIter).ex(ITERATOR_IS_NUL), false;
 
         nidx fromN = fromIter.isEnd() ? len() - 1 : fromIter._n;
         ncnt cnt = endIter._n - fromN;

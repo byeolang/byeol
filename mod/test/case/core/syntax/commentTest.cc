@@ -62,9 +62,10 @@ TEST_F(commentTest, multiLineComment2) {
     ASSERT_EQ(shares.len(), 3); // 1 for main() 2 for @ctor
 }
 
-TEST_F(commentTest, multiLineComment3) {
+TEST_F(commentTest, multiLineComment3Negative) {
     // control group.
     make()
+        .negative()
         .parse(R"SRC(
         age int /* age is age
         main() int

@@ -9,7 +9,11 @@ namespace nm {
         errReport& rpt = thread::get().getEx();
         va_list args;
         va_start(args, code);
-        rpt.add(err::newErr(code, args));
+
+        err* new1 = err::newErr(code, args);
+        new1->dbgLog();
+        rpt.add(new1);
+
         va_end(args);
     }
 
@@ -17,7 +21,11 @@ namespace nm {
         errReport& rpt = thread::get().getEx();
         va_list args;
         va_start(args, code);
-        rpt.add(err::newErr(pos, code, args));
+
+        err* new1 = err::newErr(pos, code, args);
+        new1->dbgLog();
+        rpt.add(new1);
+
         va_end(args);
     }
 }
