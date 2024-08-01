@@ -72,8 +72,8 @@ def branch(command):
         return relDbgBuild()
     elif command == "dbg":
         return dbgBuild()
-    elif command == "prepare-pr":
-        return preparePr();
+    elif command == "checkFormat":
+        return checkViolationFormat();
     elif command == "format":
         return formatCodes(True)
     elif command == "wasm":
@@ -223,18 +223,6 @@ def formatCodes(showLog):
             if showLog: print("\t formatting " + filePath + ", ext=" + ext + " file...")
             os.system("clang-format -i " + filePath)
 
-def checkViolatesCodeFormat():
-    printInfoEnd("checking whether some files violates convention rule...")
-    if _isThereAnyGitStatusChange():
-        print("there is already some changes.")
-        return -1
-    formatCodes(False)
-    if _isThereAnyGitStatusChange():
-        print("some files aren't formatted properly.")
-        return -1
-    printOk("ok. all files formatted.")
-    return 0
-
 def _publishDoc():
     if checkDependencies(["git"]):
         printErr("This program needs following softwares to be fully functional.")
@@ -279,26 +267,24 @@ def dbgBuild():
     clean()
     return build(True)
 
-def preparePr():
-    global config, cwd
-
-    if checkViolatesCodeFormat() != 0:
-        printErr("pull request failed!")
+def checkViolationFormat():
+    printInfoEnd("checking whether some files violates convention rule...")
+    if _isThereAnyGitStatusChange():
+        print("there is already some changes.")
         return -1
-
-    winProp="-t:Rebuild -p:Configuration=Release"
-    # clang-tidy: see build/.clang-tidy file for more info.
-    config="-DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy;--quiet\""
-    print(config)
-    clean()
-    return build(True)
+    formatCodes(False)
+    if _isThereAnyGitStatusChange():
+        print("some files aren't formatted properly.")
+        return -1
+    printOk("ok. all files formatted.")
+    return 0
 
 def relBuild():
     global config, winProp
 
     clean()
     winProp="-t:Rebuild -p:Configuration=Release"
-    config="-DCMAKE_BUILD_TYPE=Release"
+    config="-DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy;--quite\""
     return build(True)
 
 def relDbgBuild():
