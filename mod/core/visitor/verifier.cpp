@@ -68,8 +68,8 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("_me & _as aren't null");
-        NM_WHENNUL(me.getMe()).ret(LHS_IS_NULL, me);
-        NM_WHENNUL(me.getAs()).ret(RHS_IS_NULL, me);
+        NM_WHENNUL(me.getMe()).ret(LHS_IS_NUL, me);
+        NM_WHENNUL(me.getAs()).ret(RHS_IS_NUL, me);
         NM_WHEN(me.getAs().isSub<nVoid>()).ret(VOID_NOT_CAST, me);
 
         _STEP("checks that me can cast to 'as'");
@@ -84,9 +84,9 @@ namespace nm {
 
         _STEP("set evalType");
         const ntype& ltype = safeGet(me, getLeft(), getEval(), getType());
-        NM_WHENNUL(ltype).ret(LHS_IS_NULL, me);
+        NM_WHENNUL(ltype).ret(LHS_IS_NUL, me);
         const ntype& rtype = safeGet(me, getRight(), getEval(), getType());
-        NM_WHENNUL(rtype).ret(RHS_IS_NULL, me);
+        NM_WHENNUL(rtype).ret(RHS_IS_NUL, me);
         NM_WHEN(rtype.isSub<retStateExpr>()).ret(CANT_ASSIGN_RET, me);
         NM_WHEN(!rtype.isImpli(ltype)).ret(TYPE_NOT_COMPATIBLE, me, rtype, ltype);
 
@@ -162,7 +162,7 @@ namespace nm {
 
         _STEP("to define a void type property isn't allowed.");
         str eval = safeGet(me.getRight(), getEval());
-        NM_WHEN(!eval).ret(RHS_IS_NULL, me);
+        NM_WHEN(!eval).ret(RHS_IS_NUL, me);
         NM_WHEN(eval->isSub<nVoid>()).ret(VOID_CANT_DEFINED, me);
 
         obj& cast = eval->cast<obj>();
@@ -212,7 +212,7 @@ namespace nm {
         _GUARD("onVisit()");
 
         str eval = safeGet(me, getRight(), getEval());
-        NM_WHEN(!eval).ret(RHS_IS_NULL, me);
+        NM_WHEN(!eval).ret(RHS_IS_NUL, me);
         NM_WHEN(!eval->isComplete()).ret(ACCESS_TO_INCOMPLETE, me);
 
         onLeave(i, (defAssignExpr::super&) me);
@@ -223,9 +223,9 @@ namespace nm {
 
         _STEP("check lhs & rhs");
         auto& start = me.getStart();
-        NM_WHENNUL(start).ret(LHS_IS_NULL, me);
+        NM_WHENNUL(start).ret(LHS_IS_NUL, me);
         auto& end = me.getEnd();
-        NM_WHENNUL(end).ret(RHS_IS_NULL, me);
+        NM_WHENNUL(end).ret(RHS_IS_NUL, me);
 
         _STEP("lhs & rhs is sort of Int?");
         NM_WHEN(!start.isImpli<nInt>()).ret(SEQ_SHOULD_INT_COMPATIBLE, me);
@@ -237,13 +237,13 @@ namespace nm {
 
         _STEP("check all elements");
         const node& type = me.getArrayType();
-        NM_WHENNUL(type).ret(ELEM_TYPE_DEDUCED_NULL, me);
+        NM_WHENNUL(type).ret(ELEM_TYPE_DEDUCED_NUL, me);
         NM_WHEN(type.isSuper<obj>()).ret(ELEM_TYPE_DEDUCED_WRONG, me, type);
         NM_WHEN(type.isSub<nVoid>()).ret(ELEM_TYPE_NOT_VOID, me);
 
         _STEP("check arr has exactly 1 type parameter.");
         const auto& beans = safeGet(me.getOrigin(), getType(), getBeans());
-        NM_WHENNUL(beans).ret(ELEM_TYPE_IS_NULL, me);
+        NM_WHENNUL(beans).ret(ELEM_TYPE_IS_NUL, me);
         NM_WHEN(beans.len() != 1).ret(ARR_DOESNT_HAVE_TYPE_PARAM, me);
     }
 
@@ -253,8 +253,8 @@ namespace nm {
         _STEP("finding eval of l(r)hs.");
         str lEval = safeGet(me, getLeft(), getEval());
         str rEval = safeGet(me, getRight(), getEval());
-        NM_WHEN(!lEval).ret(LHS_IS_NULL, me);
-        NM_WHEN(!rEval).ret(RHS_IS_NULL, me);
+        NM_WHEN(!lEval).ret(LHS_IS_NUL, me);
+        NM_WHEN(!rEval).ret(RHS_IS_NUL, me);
 
         NM_WHEN(!checkEvalType(*lEval)).ret(LHS_IS_NOT_ARITH, me, lEval);
         NM_WHEN(!checkEvalType(*rEval)).ret(RHS_IS_NOT_ARITH, me, rEval);
@@ -323,7 +323,7 @@ namespace nm {
         NM_WHENNUL(f).ret(NO_FUNC_INFO, me);
 
         str myRet = me.getRet().getEval();
-        NM_WHEN(!myRet).ret(EXPR_EVAL_NULL, me);
+        NM_WHEN(!myRet).ret(EXPR_EVAL_NUL, me);
 
         str funRet = f.getRet()->as<node>();
         _STEP("checks return[%s] == func[%s]", myRet, funRet);
@@ -549,9 +549,9 @@ namespace nm {
 
         str container = me._container;
         str conAsed = container->getEval();
-        NM_WHEN(!conAsed).ret(CONTAINER_IS_NULL, me), true;
+        NM_WHEN(!conAsed).ret(CONTAINER_IS_NUL, me), true;
         str elemType = conAsed->run("getElemType");
-        NM_WHEN(!elemType).ret(ELEM_TYPE_IS_NULL, me), true;
+        NM_WHEN(!elemType).ret(ELEM_TYPE_IS_NUL, me), true;
 
         const std::string& name = me.getLocalName();
         _STEP("define iterator '%s %s'", elemType, name);

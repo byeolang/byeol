@@ -1,7 +1,7 @@
 // common:
 PAIRX(UNKNOWN, "unknown")
 PAIRX(MSG, "%s")
-PAIRX(IS_NULL, "%s is null")
+PAIRX(IS_NUL, "%s is null")
 PAIRX(FILE_NOT_OPEN, "can't open %s file.")
 
 // location:
@@ -26,7 +26,7 @@ PAIRX(MAIN_FUNC_RET_TYPE, "\'main\' func return type should be int or void")
 PAIRX(ALREADY_DEFINED_FUNC,
     "same name and params of the func '%s' was already defined in this scope")
 PAIRX(ALREADY_DEFINED_IDENTIFIER, "same identifier of func '%s' was already defined in this scope")
-PAIRX(RETURN_VALUE_IS_NULL, "return value of %s() was null.")
+PAIRX(RETURN_VALUE_IS_NUL, "return value of %s() was null.")
 
 // parser:
 PAIRX(SYNTAX_ERR, "syntax error %s expected, but %s found")
@@ -49,7 +49,7 @@ PAIRX(PACK_NOT_MATCH, "pack %s expected, but it was %s")
 
 // expr:
 PAIRX(NOT_EXPR, "\'%s\' isn't a expression")
-PAIRX(EXPR_EVAL_NULL, "expression evaluated as null type")
+PAIRX(EXPR_EVAL_NUL, "expression evaluated as null type")
 //  defVar:
 PAIRX(CANT_DEF_VAR, "definining variable '%s %s' wouldn't allowed here")
 PAIRX(ALREADY_DEFINED_VAR, "variable '%s %s' was already defined in this scope")
@@ -68,8 +68,8 @@ PAIRX(TYPE_NOT_COMPATIBLE, "rhs type '%s' is not compatible to lhs '%s' of this 
 PAIRX(ASSIGN_TO_RVALUE, "you can't assign %s to this unamed %s. please define it first")
 //  type:
 PAIRX(CAST_NOT_AVAILABLE, "couldn't cast %s type as %s")
-PAIRX(LHS_IS_NULL, "lhs of the expression is null")
-PAIRX(RHS_IS_NULL, "rhs of the expression is null")
+PAIRX(LHS_IS_NUL, "lhs of the expression is null")
+PAIRX(RHS_IS_NUL, "rhs of the expression is null")
 PAIRX(EXPR_SHOULDNT_BE_HERE, "expression shouldn't be here")
 PAIRX(IMPLICIT_CAST_NOT_AVAILABLE, "couldn't implicit cast %s type as %s")
 PAIRX(VOID_NOT_CAST, "casting to the void type isn't allowed")
@@ -122,11 +122,14 @@ PAIRX(RET_AT_MIDDLE_OF_BLOCK, "use 'ret' at last of block stmt.")
 PAIRX(BLK_CANT_MAKE_FRAME, "block statement failed to construct frame structure")
 
 // container:
-PAIRX(ELEM_TYPE_IS_NULL, "there is no elem type")
-PAIRX(ELEM_TYPE_DEDUCED_NULL, "elem type has been deduced to null")
+PAIRX(ELEM_TYPE_IS_NUL, "there is no elem type")
+PAIRX(ELEM_TYPE_DEDUCED_NUL, "elem type has been deduced to null")
 PAIRX(ELEM_TYPE_DEDUCED_WRONG, "elem type has been deduced to %s type")
 PAIRX(ELEM_TYPE_NOT_VOID, "elem type shouldn't be the void type")
-PAIRX(CONTAINER_IS_NULL, "there is no container")
+PAIRX(CONTAINER_IS_NUL, "there is no container")
+PAIRX(ITERATOR_IS_NUL, "null iterator has been used")
+PAIRX(VALUE_IS_NUL, "tried to add/delete null value")
+PAIRX(ITERATOR_NOT_BELONG_TO_CONTAINER, "this iterator is not belonged to this container.")
 PAIRX(OUT_OF_RANGE, "given index '%d' is out of range. container's length is %d")
 
 // operator:

@@ -103,7 +103,7 @@ namespace nm {
             NM_DI("* inject func: retType of '%s(%s) %s' --> '%s'", i, me.getParams().toStr(),
                 me.getRet()->getEval(), retOrg);
             me.setRet(retOrg);
-            if(nul(i.parent)) getReport().add(err::newErr(errCode::IS_NULL, "parent"));
+            if(nul(i.parent)) getReport().add(err::newErr(errCode::IS_NUL, "parent"));
         }
 
         onVisit(i, (baseFunc::super&) me);

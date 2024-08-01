@@ -211,7 +211,7 @@ namespace nm {
 
     blockExpr* me::onBlock(blockExpr& blk, const node& stmt) {
         NM_DI("tokenEvent: onBlock(blk, %s)", stmt);
-        if(nul(blk)) return posError(errCode::IS_NULL, "blk"), _maker.make<blockExpr>();
+        if(nul(blk)) return posError(errCode::IS_NUL, "blk"), _maker.make<blockExpr>();
 
         blk.getStmts().add(stmt);
         NM_DI("tokenEvent: onBlock(%d).add(%s)", blk.getStmts().len(), stmt);
@@ -235,7 +235,7 @@ namespace nm {
 
     defBlock* me::onDefBlock(defBlock& s, node& stmt) {
         NM_DI("tokenEvent: onDefBlock(s, %s)", stmt);
-        if(nul(s)) return posError(errCode::IS_NULL, "s"), new defBlock();
+        if(nul(s)) return posError(errCode::IS_NUL, "s"), new defBlock();
 
         defVarExpr& defVar = stmt.cast<defVarExpr>();
         if(nul(defVar)) {
@@ -1021,7 +1021,7 @@ namespace nm {
 
             YY_BUFFER_STATE bufState = (YY_BUFFER_STATE) supply.onSupplySrc(*this, scanner);
             if(!bufState) {
-                error(errCode::IS_NULL, "bufState");
+                error(errCode::IS_NUL, "bufState");
                 return tstr<obj>();
             }
 
