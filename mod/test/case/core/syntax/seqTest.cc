@@ -63,7 +63,7 @@ TEST_F(seqTest, eachReturnedValueShouldBeDifferent) {
     ASSERT_EQ(ret->cast<nInt>(), s[0]);
 }
 
-TEST_F(seqTest, basicSyntax) {
+TEST_F(seqTest, basicSyntaxNegative) {
     make()
         .parse(R"SRC(
         print(msg str) void: 1
@@ -76,7 +76,7 @@ TEST_F(seqTest, basicSyntax) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 3);
+    ASSERT_TRUE(res->isSub<err>());
 }
 
 TEST_F(seqTest, addSeqElement) {

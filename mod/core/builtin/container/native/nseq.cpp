@@ -47,8 +47,8 @@ namespace nm {
     }
 
     nInt me::get(nidx n) {
-        NM_WHEN(n >= len()).ex(OUT_OF_RANGE, n, len()), nInt(_start.get() + _step.get() * n);
-        NM_WHEN(n < 0).ex(OUT_OF_RANGE, n, len()), nInt(_start.get());
+        if(n >= len()) exMaker::make(OUT_OF_RANGE, n, len()), n = len() - 1;
+        if(n < 0) exMaker::make(OUT_OF_RANGE, n, len()), n = 0;
 
         return nInt(_start.get() + _step.get() * n);
     }
