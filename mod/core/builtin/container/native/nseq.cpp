@@ -47,8 +47,8 @@ namespace nm {
     }
 
     nInt me::get(nidx n) {
-        if(n >= len()) n = len() - 1;
-        if(n < 0) n = 0;
+        NM_WHEN(n >= len()).ex(OUT_OF_RANGE, n, len()), nInt(_start.get() + _step.get() * n);
+        NM_WHEN(n < 0).ex(OUT_OF_RANGE, n, len()), nInt(_start.get());
 
         return nInt(_start.get() + _step.get() * n);
     }

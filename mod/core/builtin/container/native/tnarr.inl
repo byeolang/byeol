@@ -64,7 +64,8 @@ namespace nm {
         const narrIteration& hereCast = _getIterationFrom(here);
         const narrIteration& fromCast = (narrIteration&) *from._step;
         const narrIteration& toCast = (narrIteration&) *to._step;
-        NM_WHENNUL(hereCast, fromCast, toCast).ex(CAST_NOT_AVAILABLE, "one of these iterator", "arr iterator");
+        NM_WHENNUL(hereCast, fromCast, toCast)
+            .ex(CAST_NOT_AVAILABLE, "one of these iterator", "arr iterator");
 
         if(hereCast._n < 0 || hereCast._n > len())
             return; // if n equals to len(), it means that will be added at end of container.
