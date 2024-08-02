@@ -15,13 +15,13 @@
 #    include <algorithm>
 #    include <iostream>
 #    include <regex>
-#    include <sstream>
 #    include <string>
 #    include <vector>
 #endif
 #if NM_BUILD_PLATFORM == NM_TYPE_MACOS
 #    include <mach-o/dyld.h>
 #endif
+#include <sstream>
 #include <time.h>
 
 namespace nm {
@@ -129,13 +129,15 @@ namespace nm {
         }
 
         string getExecPath() {
-            nchar res[PATH_MAX_LEN];
-
 #if NM_BUILD_PLATFORM == NM_TYPE_LINUX
+            nchar res[PATH_MAX_LEN];
             nuint count = readlink("/proc/self/exe", res, PATH_MAX_LEN);
+
             return string(res, (count > 0) ? count : 0);
 #elif NM_BUILD_PLATFORM == NM_TYPE_MACOS
+            nchar res[PATH_MAX_LEN];
             nuint size = PATH_MAX_LEN + 1;
+
             _NSGetExecutablePath(res, &size);
             return string(res, size);
 #else
