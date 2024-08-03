@@ -376,7 +376,8 @@ TEST_F(arrTest, newInstanceSharesFuncs) {
 }
 
 TEST_F(arrTest, testBasicDefSyntax) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         print(msg str) void: 1
 
         getIndex() int
