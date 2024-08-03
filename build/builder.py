@@ -7,7 +7,6 @@ import platform
 import subprocess
 from operator import eq
 from tempfile import gettempdir
-from git import Repo
 
 frame = "======================================================="
 
@@ -72,8 +71,6 @@ def branch(command):
         return relDbgBuild()
     elif command == "dbg":
         return dbgBuild()
-    elif command == "checkFormat":
-        return checkViolationFormat();
     elif command == "format":
         return formatCodes(True)
     elif command == "wasm":
@@ -199,19 +196,6 @@ def doc():
     docDoxygen()
     return 0
 
-def _isThereAnyGitStatusChange():
-    global cwd
-    root = cwd + "/../"
-    repo = Repo(root)
-    repo.git.add("-A")
-    unstaged = repo.index.diff("HEAD")
-    if len(unstaged) > 0:
-        print("\n")
-        for file in unstaged:
-            print("\t" + file.a_path + "\n")
-        return True
-    return False
-
 def formatCodes(showLog):
     global cwd
     root = cwd + "/../"
@@ -271,18 +255,6 @@ def dbgBuild():
 
     clean()
     return build(True)
-
-def checkViolationFormat():
-    printInfoEnd("checking whether some files violates convention rule...")
-    if _isThereAnyGitStatusChange():
-        print("there is already some changes.")
-        return -1
-    formatCodes(False)
-    if _isThereAnyGitStatusChange():
-        print("some files aren't formatted properly.")
-        return -1
-    printOk("ok. all files formatted.")
-    return 0
 
 def relBuild():
     global config, winProp
