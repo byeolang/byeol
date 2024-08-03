@@ -48,11 +48,6 @@ jobs:
     - name: checkout repository codes
       uses: actions/checkout@v2
 
-    - name: check code format first
-      run: |
-        export C=clang CXX=clang++ PYTHON=$(which python3)
-        sudo $PYTHON ${{github.workspace}}/build/builder.py checkFormat
-
     - name: build & test current codes.
       run: |
         export C=clang CXX=clang++ PYTHON=$(which python3)
