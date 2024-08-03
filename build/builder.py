@@ -205,7 +205,12 @@ def _isThereAnyGitStatusChange():
     repo = Repo(root)
     repo.git.add("-A")
     unstaged = repo.index.diff("HEAD")
-    return len(unstaged) > 0
+    if len(unstaged) > 0:
+        print("\n")
+        for file in unstaged:
+            print("\t" + file.a_path + "\n")
+        return True
+    return False
 
 def formatCodes(showLog):
     global cwd
