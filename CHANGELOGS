@@ -1,4 +1,180 @@
 # Changelogs
+## v0.2.7 Mana Update
+released on 06-15 2024
+build#957
+
+* apply code integration tools.
+    1. clang-tidy, clang-format.
+    add compiler options like '-Wextra', 'Wpedantic' to warn defect codes.
+
+    2. generate language server file for LSP.
+
+    values from rich obj. for instance,
+        NM_E("type name of obj is %s, value 'name' of std::string is %s", objptr->getType().getName().c_str(), name.c_str())
+
+    Now, richLog converts automatically depends on its dynamic type.
+    if you pass an object class, richLog will convert and get const char* from its type name.
+    if you pass an std::string class, it'll get const char* by running 'it.c_str()' instead of you.
+    and it can handle nevertheless you put a pointer/reference type of T!
+    for instance,
+        NM_E("type name of obj is %s, value 'name' of std::string is %s", objptr, name); // very intuitive and code was shorten!
+
+    5. rename genericObj to genericOrigin
+
+    6. make safeGet macro.
+    this is like safe-navigation feature of other modern languages.
+    this let me implement far consice code.
+    e.g.
+        // as-is:
+        if(nul(context)) return NM_E("context is null"), false;
+
+        canvas& c = context.getCanvas();
+        if(nul(c)) return NM_E("canvas is null"), false;
+
+        paint* p = canvas.getPaint();
+        if(nul(p)) return NM_E("paint is null"), false;
+
+        brush& b = p->getBrush();
+        if(nul(b)) return NM_E("brush is null"), false;
+        b.doSomething();
+
+        // to be:
+        brush& b = safeGet(context, getCanvas(), getPaint(), getBrush());
+        if(nul(b)) return NM_E("brush is null"), false;
+        b.doSomething();
+
+* made new bridge API.
+    tbridger defines a bridge to a func.
+    tbridge is bridgeObj can take bridge instances made with tbridger.
+    but if you cares, you can define a baseObj which can bridge funcs with bridger.
+    with for previous bridge version, you can't do this. because bridges to func always got attached to
+    bridgeObj, not baseObj.
+
+    so code duplication removed by defining a func based on baseFunc with tbridger.
+
+    and tbridger also now can provide API to make a constructor which takes various parameters.
+    and tbridger provide making a bridger func to your lambda.
+
+    however, when you define a bridge func to this new bridger API, bridge funcs are stored into static variable.
+    please take care of it.
+
+    here is sample codes.
+
+        ```cpp
+            struct yourClass2 {};
+            struct yourClass {
+                yourClass(int n, yourClass2* p) {}
+
+                int say(int n) {
+                    return n + 1;
+                }
+                void fly() {}
+                std::string fly(const char* msg) {
+                    return std::string(msg);
+                }
+            };
+
+            tbridger<yourClass>::ctor<int, yourClass2*>()
+                .ctor<yourClass>()
+                .func("say", &yourClass::say)
+                .func<std::string, const char*>("fly", &yourClass::fly)
+                .closure<yourClass*, yourClass, int, yourClass2*>("runMyLambda", [&](int n, yourClass2* ptr) -> yourClass* {
+                    return new yourClass(n, ptr);
+                });
+            // now 'tbridger<yourClass>' contains 5 bridge funcs in static memory.
+
+            scope& managedFuncs = tbridger<yourClass>::subs(); // usage-way 1)
+
+            str derivedBaseObj = tbridger<yourClass>::make(new yourClass(0, nullptr)); // usage-way 2)
+            derivedBaseObj->isSub<baseObj>() // true.
+            str res = derivedBaseObj->run("say", narr{nInt(23)});
+            res->cast<nint>(); // 24
+
+            str arg2 = tbridger<yourClass2>::ctor().make(new yourClass2());
+            str res = derivedBaseObj->run("runMyLambda", narr{nInt(0), *args2})
+            // res is new tbridge<yourClass> instance.
+        ```
+
+* origin object has been added.
+    origin shouldn't be visible to most places. so when you pass, handle origin object,
+    you treat it just as a baseObj. there is no specific API which is only available
+    to origin class, not baseObj.
+
+* fix minor memory leak issues.
+
+* add reldbg build mode.
+    it's code has been optimized out just like rel mode, but still includes debug info.
+
+* logging readability improved.
+    1. mostly NM_TAG value was redundant. so removed.
+    add some padding to align values.
+
+    2. when AST structure display, prints pointer address by representing 4 hex digit.
+
+    3. on verification, prints what it verifies, step by step.
+
+* code refactoring to get better class structure.
+    * make defVarExpr to reduce code duplication between defPropExpr and defAssignExpr.
+
+    * remove code duplication between whileExpr, forExpr.
+
+    * delete redundant classes.
+
+    * add 'worker' as common class of 'verifier, interpreter, visitor, parser, preEvaluator, starter'.
+
+* add new frame API
+
+* signal catch.
+    * when system interrupt raised, it can be catched to our signaler class.
+    * before crash app, prints all current running AST structure.
+
+* exception handling.
+    * when unexpected 'err' instance found on running one of statements in blockExpr, it'll be judged to an exception.
+    * when exception found, leave to errReport, codes keep unwinding. and finally app will stop its doing if there is proper
+      handling logic somewhere.
+    * native call stack can be shown.
+
+* enhanced graphVisitor
+    * show more text in color.
+    * show more info to debug and know in detail.
+    * show each node's address in 4 hex digit. very useful when you debug.
+
+* performance optimization
+    * add 'mockNode'
+    this is literally doesn't contains copied object info but have only origin object info.
+    but when this mockNode placed on verification, verifier regards that this is something cloned by origin object.
+    so it think this as complete object. and that's what I want.
+    in consequences, I don't copy each nodes and member variables for verification.
+
+* new syntax, 'break'.
+
+* new syntax, 'overloading'.
+    function overloading is now functional.
+    when you call a function and it could be one of possible functions in your context,
+    verification will calculate affinity of each possible calls and score it.
+    I named it as 'match'.
+    each match represents function-call against all available functions in current frame.
+    there are 4 kind of matches now.
+
+        EXACT_MATCH:        this means perfect score match. this is probably what user wants.
+        NUMERIC_MATCH:      to call this function, some of user's parameter should numeric
+                            implicit cast. numeric implicit cast has slightly high priority to
+                            usual cast.
+        IMPLICIT_MATCH:     to call this func, some of user's paremeter should usual cast.
+                            mostly, it would be upcasting. (e.g. DerivedClass --> SuperClass)
+        NO_MATCH:           with implicit casting, there is no way to be enough to call this func.
+                            explicit casting may required.
+
+    and each match also has calling score(== lv). the lower the higher priority.
+    each score can easily be calculated. it's how far distance does it to top of the current frame.
+
+* new syntax, ': ;'.
+    it's inline empty block.
+
+* remove old syntax, 'elif'
+    use 'else if' instead.
+
+
 ## v0.2.6 Mana Update
 released on 05-07 2023
 build#684
@@ -9,6 +185,10 @@ build#684
 * e7bf4db35 - core: refactor: preEvaluation
 * 0024b87ac - core: feat: supports escape sequence
 * a2f4e3838 - core: fix: type deduction doesn't work on add operation
+* enhanced graphVisitor
+    * show more text in color.
+    * show more info to debug and know in detail.
+    * show each node's address in 4 hex digit. very useful when you debug.
 * d0fa146d3 - core: feat: return integer when program exit
 * d84a15aa0 - core: feat: setElem conversion for addAssign
 * ea5807303 - fix: memlite: optimization of vaults has defect scenario

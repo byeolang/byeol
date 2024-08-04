@@ -1,6 +1,14 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 set(packName "sys")
+
+set(defCandidates "__${packName}=1")
+foreach(def ${defCandidates})
+    message("\tadd define ${def}")
+    set(defines ${defines} -D${def})
+endforeach(def)
+add_definitions(${defines})
+
 set(packOutDir "${NM_PACK_OUTPUT_DIRECTORY}/${packName}")
 set(dependencies ${dependencies} core)
 

@@ -471,7 +471,7 @@ def rebuild():
     return build(true)
 
 def build(incVer):
-    if checkDependencies(["git", "cmake", "bison", "flex", "clang-tidy", "clang-format"]):
+    if checkDependencies(["git", "cmake", "bison", "flex", "clang-tidy"]):
         printErr("This program needs following softwares to be fully functional.")
         return -1
 
