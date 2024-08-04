@@ -1,0 +1,77 @@
+From a74e4419017de4fa7bdc5da2655616e4fc884a2d Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Fri, 14 Jun 2024 09:27:33 +0900
+Subject: [PATCH 1/2] chore: fix: invalid flags '--quite' for clang-tidy
+
+---
+ build/CMakeLists.txt | 2 +-
+ build/builder.py     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/build/CMakeLists.txt b/build/CMakeLists.txt
+index bf9aa6617..61a0f9301 100644
+--- a/build/CMakeLists.txt
++++ b/build/CMakeLists.txt
+@@ -6,7 +6,7 @@ set(SHOW_CMAKE_VARIABLES 1)
+ set(VERSION_MAJOR 0)
+ set(VERSION_MINOR 2)
+ set(VERSION_FIX 6)
+-set(BUILD_COUNT 954)
++set(BUILD_COUNT 956)
+ set(VERSION_NAME "Mana")
+ set(VERSION_VALUE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_FIX}")
+ set(VERSION "${PROJECT_NAME} ${UPDATE_NAME} v${VERSION_VALUE}")
+diff --git a/build/builder.py b/build/builder.py
+index 0b35e44ed..024d3c5d5 100644
+--- a/build/builder.py
++++ b/build/builder.py
+@@ -261,7 +261,7 @@ def relBuild():
+
+     clean()
+     winProp="-t:Rebuild -p:Configuration=Release"
+-    config="-DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy;--quite\""
++    config="-DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy;--quiet\""
+     return build(True)
+
+ def relDbgBuild():
+--
+2.34.1
+
+
+From 62e17b39933dd15453b28b8851417847a08abfbd Mon Sep 17 00:00:00 2001
+From: "tae-hoon.lee" <tae-hoon.lee@samsung.com>
+Date: Fri, 14 Jun 2024 10:50:19 +0900
+Subject: [PATCH 2/2] core: fix: window compatibility issue for
+ __declspec(dllexport)
+
+---
+ mod/core/common/richLog.hpp     | 1 +
+ mod/seedling/common/richLog.hpp | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/mod/core/common/richLog.hpp b/mod/core/common/richLog.hpp
+index 70a73e68b..c1355144f 100644
+--- a/mod/core/common/richLog.hpp
++++ b/mod/core/common/richLog.hpp
+@@ -1,6 +1,7 @@
+ #pragma once
+
+ #include "dep.hpp"
++#include "_nout.hpp"
+
+ namespace nm {
+     class arithmeticObj;
+diff --git a/mod/seedling/common/richLog.hpp b/mod/seedling/common/richLog.hpp
+index 23cafe365..5caaa4e18 100644
+--- a/mod/seedling/common/richLog.hpp
++++ b/mod/seedling/common/richLog.hpp
+@@ -1,6 +1,7 @@
+ #pragma once
+
+ #include "dep.hpp"
++#include "_nout.hpp"
+
+ namespace nm {
+     class sobj;
+--
+2.34.1

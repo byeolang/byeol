@@ -2,7 +2,7 @@
 
 #ifdef WIN32
 #    undef _nout
-#    ifdef indep = 1 // I'm currently building indep module
+#    ifdef __indep = 1 // I'm currently building indep module
 #        define _nout __declspec(dllexport)
 #    else
 #        define _nout __declspec(dllimport)

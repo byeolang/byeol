@@ -10,4 +10,6 @@ namespace nm {
         static me inner;
         return inner;
     }
+
+    void me::nothing() const {}
 }

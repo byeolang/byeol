@@ -9,7 +9,7 @@ namespace nm {
     public:
         static const __dummy_class__& get();
 
-        inline void nothing() const {}
+        void nothing() const;
     };
 
 #define __NM_WHEN__POSTFIX return ::nm::__dummy_class__::get()
