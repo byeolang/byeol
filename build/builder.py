@@ -261,7 +261,7 @@ def relBuild():
 
     clean()
     winProp="-t:Rebuild -p:Configuration=Release"
-    config="-DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy;--quite\""
+    config="-DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy;--quiet\""
     return build(True)
 
 def relDbgBuild():
