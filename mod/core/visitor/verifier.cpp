@@ -14,18 +14,22 @@ namespace nm {
     NM_DEF_ME(verifier)
 
     namespace {
-        str primitives[] = {
-            new nInt(),
-            new nFlt(),
-            new nStr(),
-            new nByte(),
-            new nChar(),
-            new nBool(),
-        };
+        static std::vector<str> _getPrimitives() {
+            static std::vector<str> inner;
+            if(inner.size() <= 0) {
+                inner.push_back(new nInt());
+                inner.push_back(new nFlt());
+                inner.push_back(new nStr());
+                inner.push_back(new nByte());
+                inner.push_back(new nChar());
+                inner.push_back(new nBool());
+            };
+            return inner;
+        }
 
         nbool checkEvalType(const node& eval) {
             if(nul(eval)) return false;
-            for(str e: primitives)
+            for(str e: _getPrimitives())
                 if(eval.isSub(*e)) return true;
 
             return false;
