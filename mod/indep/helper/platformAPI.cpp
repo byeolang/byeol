@@ -130,9 +130,9 @@ namespace nm {
 
         void log(const std::string& msg) {
 #ifndef __EMSCRIPTEN__
-                std::clog << msg;
+            std::clog << msg;
 #else
-                std::cout << msg;
+            std::cout << msg;
 #endif
         }
 
