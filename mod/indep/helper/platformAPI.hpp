@@ -37,5 +37,6 @@ namespace nm {
         _nout std::string exec(const std::string& cmd);
         _nout nuint64 getNowMs();
         _nout std::string toAddrId(const void* inst);
+        _nout void log(const std::string& msg);
     };
 } // namespace nm

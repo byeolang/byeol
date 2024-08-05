@@ -128,6 +128,14 @@ namespace nm {
             return raw.substr(raw.length() - 4);
         }
 
+        void log(const std::string& msg) {
+#ifndef __EMSCRIPTEN__
+                std::clog << msg;
+#else
+                std::cout << msg;
+#endif
+        }
+
         string getExecPath() {
 #if NM_BUILD_PLATFORM == NM_TYPE_LINUX
             nchar res[PATH_MAX_LEN];

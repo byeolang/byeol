@@ -13,11 +13,10 @@ namespace nm {
         return inner;
     }
 
-    nbool me::logBypass(const char* message) {
-        using std::clog;
-        if(super::logBypass(message)) return true;
+    nbool me::logBypass(const char* msg) {
+        if(super::logBypass(msg)) return true;
 
-        clog << message;
+        platformAPI::log(msg);
         return false;
     }
 }

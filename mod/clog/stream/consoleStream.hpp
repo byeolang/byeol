@@ -13,6 +13,6 @@ namespace nm {
     public:
         //  Stream:
         const std::string& getName() const override;
-        nbool logBypass(const char* message) override;
+        nbool logBypass(const char* msg) override;
     };
 }
