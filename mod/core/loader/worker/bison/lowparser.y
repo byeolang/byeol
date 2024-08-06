@@ -185,7 +185,7 @@
 %type <asNarr> def-prop-accessor-items
 %type <asNode> def-prop-compound
 //          func:
-%type <asNode> abstract-func def-func end
+%type <asNode> abstract-func def-func def-ctor end
 %type <asNode> lambda lambda-default lambda-deduction
 //          obj:
 %type <asNode> def-obj def-obj-default def-obj-default-generic
@@ -370,6 +370,7 @@ def-expr-inline: with-inline { $$ = $1; }
 def-expr-compound: with-compound { $$ = $1; }
                  | def-obj { $$ = $1; }
                  | def-func { $$ = $1; }
+                 | def-ctor { $$ = $1; }
                  | def-prop-compound { $$ = $1; }
 def-stmt: def-expr-inline NEWLINE { $$ = $1; }
         | def-expr-compound { $$ = $1; }
@@ -559,6 +560,11 @@ abstract-func: call-access type {
 def-func: abstract-func indentblock {
         $$ = PS.onFunc($1->cast<func>(), $2->cast<blockExpr>());
      }
+
+def-ctor: CTOR params indentblock {
+        tstr<narr> paramsLife(*$2);
+        $$ = PS.onCtor(*$2, $3->cast<blockExpr>());
+      }
 
 end: END indentblock {
     // ??

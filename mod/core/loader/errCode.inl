@@ -28,6 +28,9 @@ PAIRX(ALREADY_DEFINED_FUNC,
 PAIRX(ALREADY_DEFINED_IDENTIFIER, "same identifier of func '%s' was already defined in this scope")
 PAIRX(RETURN_VALUE_IS_NUL, "return value of %s() was null.")
 
+// ctor:
+PAIRX(CTOR_NOT_IN_DEF_OBJ, "ctor should be inside of 'def' block.")
+
 // parser:
 PAIRX(SYNTAX_ERR, "syntax error %s expected, but %s found")
 PAIRX(UNEXPECTED_TOK, "unexpected token '%s' found")

@@ -390,6 +390,9 @@ namespace nm {
 
         onLeave(i, (func::super&) me);
 
+        ctor& c = me.cast<ctor>();
+        NM_WHEN(!nul(c) && !c.getRet()).ret(CTOR_NOT_IN_DEF_OBJ, me), true;
+
         obj& meObj =
             thread::get()
                 ._getNowFrame()

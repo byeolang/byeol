@@ -317,10 +317,10 @@ namespace nm {
         return &f;
     }
 
-    func* me::onCtor(const narr& a) {
+    func* me::onCtor(const narr& a, const blockExpr& blk) {
         NM_DI("tokenEvent: onCtor: args.len[%d]", a.len());
 
-        return _maker.birth<ctor>(args(a));
+        return _maker.birth<ctor>(baseObj::CTOR_NAME, _asParams(args(a)), blk);
     }
 
     narr* me::onParams() {
@@ -505,6 +505,11 @@ namespace nm {
         bicontainable& share = it.getShares().getContainer();
         bicontainable& own = it.getOwns();
         for(auto e = blk.asScope->begin(); e; ++e) {
+            // ctor case:
+            ctor& c = e.getVal<ctor>();
+            if(!nul(c)) c.setRet(it);
+
+            // shares case:
             // TODO: not only func, but also shared variable.
             bicontainable& con = nul(e.getVal<baseFunc>()) ? own : share;
             con.add(e.getKey(), *e);

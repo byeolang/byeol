@@ -151,7 +151,7 @@ false {
     return NAME;
 }
 
-c\'([^\r\f\n\'\\])\' {
+\'([^\r\f\n\'\\])\' {
     yylval->asChar = yytext[1];
     NM_DI("scanner: CHARVAL=\'%c\'", yytext[1]);
     return CHARVAL;

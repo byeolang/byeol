@@ -7,11 +7,10 @@ namespace nm {
         NM(CLASS(ctor, func))
 
     public:
-        ctor(const params& ps);
+        ctor(const params& ps, const blockExpr& blk);
 
     public:
         str run(const args& a) override;
         str getEval() const override;
-        const obj& getOrigin() const;
     };
 }

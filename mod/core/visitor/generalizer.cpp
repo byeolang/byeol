@@ -84,7 +84,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, ctor& me) {
+    nbool me::onVisit(const visitInfo& i, baseCtor& me) {
         baseObj& cast = getTask().cast<baseObj>();
         if(nul(cast)) getReport().add(err::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
         else if(i.parent && i.parent == &cast)
