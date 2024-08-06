@@ -1,12 +1,12 @@
-#include "ctor.hpp"
+#include "baseCtor.hpp"
 
-#include "../visitor/visitor.hpp"
+#include "../../visitor/visitor.hpp"
 
 namespace nm {
 
-    NM(DEF_ME(ctor), DEF_VISIT())
+    NM(DEF_ME(baseCtor), DEF_VISIT())
 
-    me::ctor(const node& org): _org(org) {}
+    me::baseCtor(const node& org): _org(org) {}
 
     str me::getRet() const { return _org->getEval(); }
 

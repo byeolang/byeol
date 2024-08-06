@@ -182,6 +182,7 @@ namespace nm {
         func* onAbstractFunc(const getExpr& access, const node& retType);
         func* onAbstractFunc(node& it, const node& retType);
         func* onFunc(func& func, const blockExpr& blk);
+        func* onCtor(const narr& args);
         //          params:
         narr* onParams();
         narr* onParams(const defPropExpr& elem);

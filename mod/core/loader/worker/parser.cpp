@@ -1,6 +1,7 @@
 #include "parser.hpp"
 
 #include "../../ast.hpp"
+#include "../../ast/ctor.hpp"
 #include "../../ast/func.hpp"
 #include "../../ast/genericOrigin.hpp"
 #include "../../ast/origin.hpp"
@@ -314,6 +315,12 @@ namespace nm {
 
         f.setBlock(blk);
         return &f;
+    }
+
+    func* me::onCtor(const narr& a) {
+        NM_DI("tokenEvent: onCtor: args.len[%d]", a.len());
+
+        return _maker.birth<ctor>(args(a));
     }
 
     narr* me::onParams() {

@@ -126,6 +126,7 @@ char { return _CHAR_; }
 flt { return FLT; }
 nul { return NUL; }
 pack { return PACK; }
+ctor { return CTOR; }
 true {
     yylval->asBool = true;
     NM_DI("scanner: BOOLVAL=true");
@@ -150,7 +151,7 @@ false {
     return NAME;
 }
 
-\'([^\r\f\n\'\\])\' {
+c\'([^\r\f\n\'\\])\' {
     yylval->asChar = yytext[1];
     NM_DI("scanner: CHARVAL=\'%c\'", yytext[1]);
     return CHARVAL;

@@ -1,6 +1,6 @@
 #include "err.hpp"
 
-#include "../ast/defaultCopyCtor.hpp"
+#include "../ast/ctor/defaultCopyCtor.hpp"
 #include "../ast/node.hpp"
 #include "../frame/frame.hpp"
 #include "../frame/thread.hpp"

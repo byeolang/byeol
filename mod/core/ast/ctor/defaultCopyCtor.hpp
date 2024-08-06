@@ -1,14 +1,14 @@
 #pragma once
 
-#include "ctor.hpp"
-#include "params.hpp"
+#include "baseCtor.hpp"
+#include "../params.hpp"
 
 namespace nm {
 
     class visitor;
 
-    class _nout defaultCopyCtor: public ctor {
-        NM(CLASS(defaultCopyCtor, ctor), VISIT())
+    class _nout defaultCopyCtor: public baseCtor {
+        NM(CLASS(defaultCopyCtor, baseCtor), VISIT())
 
     public:
         defaultCopyCtor(const node& org);
