@@ -428,7 +428,7 @@ TEST_F(asExprTest, AsAllowed) {
         foo(age str) void
             main()
         main() void
-            foo("False" as str) // "False" will cause runtime error
+            foo("False" as str) # "False" will cause runtime error
     )SRC")
         .shouldParsed(true);
     shouldVerified(true);
@@ -528,7 +528,7 @@ TEST_F(asExprTest, castStrToIntIsParsing) {
         .parse(R"SRC(
         main() int
             out := "01010"
-            ans := "hello"[2] + out[2] as str as int // 'l' + 0 == 'l'
+            ans := "hello"[2] + out[2] as str as int # 'l' + 0 == 'l'
             ans == 'l'
     )SRC")
         .shouldVerified(true);
@@ -543,7 +543,7 @@ TEST_F(asExprTest, castCharToIntIsNotParsing) {
         .parse(R"SRC(
         main() int
             out := "01010"
-            ans := "00000"[2] + out[2] as int // 'l' + 49('0')
+            ans := "00000"[2] + out[2] as int # 'l' + 49('0')
             ans as int == 96
     )SRC")
         .shouldVerified(true);

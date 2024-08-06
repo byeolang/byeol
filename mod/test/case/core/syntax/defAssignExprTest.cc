@@ -11,8 +11,8 @@ TEST_F(defAssignExprTest, simpleGlobalDefAssign) {
     // control group.
     make()
         .parse(R"SRC(
-        age int // age is age
-        main() int // main is also a main
+        age int # age is age
+        main() int # main is also a main
             age := 5
             ret 0
     )SRC")
@@ -34,8 +34,8 @@ TEST_F(defAssignExprTest, simpleLocalDefAssign) {
     // control group.
     make()
         .parse(R"SRC(
-        age int // age is age
-        main() int // main is also a main
+        age int # age is age
+        main() int # main is also a main
             age = 3
             age := 5
             age = 2
@@ -56,7 +56,7 @@ TEST_F(defAssignExprTest, testCircularDependencies) {
 
         a := c
         b := a
-        c := b // type can't be defined.
+        c := b # type can't be defined.
 
         main() int
             ret 0
@@ -72,7 +72,7 @@ TEST_F(defAssignExprTest, testNearCircularDependencies) {
         .parse(R"SRC(
         pack holymoly
 
-        c := 1 // type can be defined.
+        c := 1 # type can be defined.
         a := c
         b := a
 
@@ -114,7 +114,7 @@ TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative) {
 
         foo() str
             print("I'm foo!\n")
-            ret 1 // this is invalid function.
+            ret 1 # this is invalid function.
 
         main() void
             print("your nickname is " + nickname)
@@ -127,11 +127,11 @@ TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative2) {
     make()
         .negative()
         .parse(R"SRC(
-        nickname := boo() // refers the func that doesn't exist.
+        nickname := boo() # refers the func that doesn't exist.
 
         foo() str
             print("I'm foo!\n")
-            ret 1 // this is invalid function.
+            ret 1 # this is invalid function.
 
         main() void
             print("your nickname is " + nickname)
@@ -261,8 +261,8 @@ TEST_F(defAssignExprTest, defAssignDefAssignedValue) {
         def a
             age int
         main() int
-            /*a2 := a()
-            a1 := a2*/
+            ##a2 := a()
+            a1 := a2##
             a1 := a()
             ret a1.age
     )SRC")
@@ -412,7 +412,7 @@ TEST_F(defAssignExprTest, assignFromForExprDeclaringLocalVariable) {
             abc := for n in 0..5
                 x := n * 2
                 x + n
-            abc[4] // abc = {0, 3, 6, 9, 12}
+            abc[4] # abc = {0, 3, 6, 9, 12}
     )SRC")
         .shouldVerified(true);
 
@@ -438,7 +438,7 @@ TEST_F(defAssignExprTest, selfDefAssigningIsNotAllowedNegative2) {
         .negative()
         .parse(R"SRC(
         def a
-            a1 a // if a1 is nullable of a, this is valid syntax.
+            a1 a # if a1 is nullable of a, this is valid syntax.
         main() void
             a().a1
     )SRC")

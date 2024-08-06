@@ -71,9 +71,9 @@ TEST_F(mgdObjTest, testAccessInCompleteObjectNegative2) {
 TEST_F(mgdObjTest, distinguishPackScopeAndObjScopeByItsOwner) {
     make()
         .parse(R"SRC(
-        // there are {default} pack.@ctor()
+        # there are {default} pack.@ctor()
         def a
-            // 'a' also has @ctor.
+            # 'a' also has @ctor.
             age := 0
     )SRC")
         .shouldVerified(true);

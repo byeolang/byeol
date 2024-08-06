@@ -11,8 +11,8 @@ TEST_F(commentTest, singleLineComment) {
     // control group.
     make()
         .parse(R"SRC(
-        age int // age is age
-        main() int // main is also a main
+        age int # age is age
+        main() int # main is also a main
             ret 0
     )SRC")
         .shouldVerified(true);
@@ -29,8 +29,8 @@ TEST_F(commentTest, multiLineComment) {
     // control group.
     make()
         .parse(R"SRC(
-        age int /* age is age
-        main() int */
+        age int ### age is age
+        main() int ###
         main() int
             ret 2
     )SRC")
@@ -47,9 +47,9 @@ TEST_F(commentTest, multiLineComment2) {
     // control group.
     make()
         .parse(R"SRC(
-        age /* age is age
-        main() int
- sdfas   */int
+        age ### age is age
+        main() int #
+ sdfas   ###int
         main() void
             ret
     )SRC")
@@ -67,9 +67,9 @@ TEST_F(commentTest, multiLineComment3Negative) {
     make()
         .negative()
         .parse(R"SRC(
-        age int /* age is age
+        age int ### age is age
         main() int
- sdfas*/main() int
+ sdfas###main() int
             ret 33
     )SRC")
         .shouldParsed(false);

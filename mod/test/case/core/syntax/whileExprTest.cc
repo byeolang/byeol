@@ -92,7 +92,7 @@ TEST_F(whileExprTest, breakInsideOfIfExpr) {
                     break
                 else
                     n
-            )[1] // {1, 2}
+            )[1] # {1, 2}
     )SRC")
         .shouldVerified(true);
 
@@ -136,7 +136,7 @@ TEST_F(whileExprTest, evalOfForLoop) {
                 if sum > 3
                     break
                 sum += n
-            )[2] // {1, 3, 6}
+            )[2] # {1, 3, 6}
     )SRC")
         .shouldVerified(true);
 

@@ -123,7 +123,7 @@
 //      define:
 %token DEF WITH AS ENUM ONLY END
 //  predefined-type:
-%token _VOID_ _INT_ _STR_ _BOOL_ FLT NUL _BYTE_ _CHAR_ ME SUPER IT CTOR PACK 
+%token _VOID_ _INT_ _STR_ _BOOL_ FLT NUL _BYTE_ _CHAR_ ME SUPER IT CTOR PACK
 //  valueless-token:
 %token NEWLINE INDENT DEDENT ENDOFFILE DOUBLE_MINUS DOUBLE_PLUS DOUBLE_DOT ARROW TAB ASSIGN DEFASSIGN
 %token OPEN_CLOSE_SQUARE_BRACKET GE LE EQ NE LOGICAL_AND LOGICAL_OR LSHIFT RSHIFT
@@ -168,7 +168,7 @@
 %type <asArgs> tuple tuple-items
 %type <asArgs> func-call-tuple func-call-tuple-items
 %type <asNode> func-call-tuple-item tuple-item
-%type <asNarr> params param-items 
+%type <asNarr> params param-items
 //      type:
 %type <asNode> type
 %type <asArgs> typenames typeparams

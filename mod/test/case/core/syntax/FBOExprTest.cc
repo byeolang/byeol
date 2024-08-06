@@ -329,7 +329,7 @@ TEST_F(FBOExprTest, testLogicalAndOpNegative) {
 
         main() int
             a := 0
-            if (foo() && a = 1) // assignment is not expression
+            if (foo() && a = 1) # assignment is not expression
                 print("ok")
             ret a
     )SRC")

@@ -99,7 +99,7 @@ TEST_F(defPropExprTest, passingVoidIsOk) {
         foo() void
             ret
         main() void
-            ret foo() // <-- ok
+            ret foo() # <-- ok
     )SRC")
         .shouldVerified(true);
 

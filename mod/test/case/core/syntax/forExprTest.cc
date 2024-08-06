@@ -226,7 +226,7 @@ TEST_F(forExprTest, returnMiddleOfLoop1WithoutParenthesisNegative) {
             p1.name = "Chales"
 
             res := for p in {p1, person()}
-                ret p1.name == "Chales" // <-- you can't (def)assign what return something inside.
+                ret p1.name == "Chales" # <-- you can't (def)assign what return something inside.
             ret 0
     )SRC")
         .shouldVerified(false);
@@ -246,7 +246,7 @@ TEST_F(forExprTest, returnMiddleOfLoop1WithoutParenthesis) {
                 if p.name == "Chales"
                     ret 100
                 p.name == "Chales"
-            res[0] // {1, 0}
+            res[0] # {1, 0}
     )SRC")
         .shouldVerified(true);
     str res = run();
@@ -286,7 +286,7 @@ TEST_F(forExprTest, retMiddleOfLoopWithoutParenthesis) {
             p1.name = "Chales"
 
             res := for p in {p1, person()}
-                p1.name // it's p1, not p.
+                p1.name # it's p1, not p.
             ret res[1] + " Lee" == "Chales Lee"
     )SRC")
         .shouldVerified(true);
@@ -310,7 +310,7 @@ TEST_F(forExprTest, retMiddleOfLoopNegative) {
             res = (for p in {p1, person()}
                 p1.name
             )
-            ret res // res is array.
+            ret res # res is array.
     )SRC")
         .shouldVerified(false);
 }
@@ -345,8 +345,8 @@ TEST_F(forExprTest, simpleBreakTest) {
                     n
                 else
                     break
-            ) // res will be {1, 2, 3, 4}
-            ret res[res.len() - 1] // 4
+            ) # res will be {1, 2, 3, 4}
+            ret res[res.len() - 1] # 4
     )SRC")
         .shouldVerified(true);
     str res = run();
@@ -363,8 +363,8 @@ TEST_F(forExprTest, simpleBreakTest2) {
                     break
                 else
                     n
-            ) // res will be {1, 2, 3, 4}
-            ret res[res.len() - 1] // 4
+            ) # res will be {1, 2, 3, 4}
+            ret res[res.len() - 1] # 4
     )SRC")
         .shouldVerified(true);
     str res = run();
@@ -383,7 +383,7 @@ TEST_F(forExprTest, simpleBreakTestWithoutParenthesis) {
                     break
                 else
                     n
-            ret res[0] + res.len() // 5 + 1
+            ret res[0] + res.len() # 5 + 1
     )SRC")
         .shouldVerified(true);
     str res = run();
@@ -468,9 +468,9 @@ TEST_F(forExprTest, breakInsideOfIfExprNegative2) {
         .negative()
         .parse(R"SRC(
         main() int
-            // this stmt returns what forExpr evaluated.
-            // but its type is void. because ifExpr doesn't have else
-            // block.
+            ## this stmt returns what forExpr evaluated.
+               but its type is void. because ifExpr doesn't have else
+               block. ##
             res := for n in 1..5
                 if n == 3
                     break
@@ -488,7 +488,7 @@ TEST_F(forExprTest, breakInsideOfIfExpr2) {
                     break
                 else
                     n
-            ret res[res.len() - 1] // res = {1, 2}
+            ret res[res.len() - 1] # res = {1, 2}
     )SRC")
         .shouldVerified(true);
 
@@ -544,7 +544,7 @@ TEST_F(forExprTest, evalOfForLoop2) {
             for n in 0..8
                 if sum > 3
                     break
-                sum += n // sum = 0, 1, 3, 6
+                sum += n # sum = 0, 1, 3, 6
             sum
     )SRC")
         .shouldVerified(true);
@@ -586,7 +586,7 @@ TEST_F(forExprTest, evalOfForLoop4) {
                     if true
                         break
                 sum += n
-            answer[answer.len() - 1] // answer = {0, 1, 3, 6, 10, 15}
+            answer[answer.len() - 1] # answer = {0, 1, 3, 6, 10, 15}
     )SRC")
         .shouldVerified(true);
 
@@ -679,7 +679,7 @@ TEST_F(forExprTest, callFuncWithForExprArgument) {
             foo((for n in 0..5
                 x := n + 1
                 x * 2
-            )[3]) // {2, 4, 6, 8, 10}
+            )[3]) # {2, 4, 6, 8, 10}
     )SRC")
         .shouldVerified(true);
 

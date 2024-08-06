@@ -793,7 +793,7 @@ TEST_F(arrTest, outOfBoundExOccurs) {
             arr str[]
             foo() str
                 arr.add("hello")
-                arr[2] // ex occurs here!
+                arr[2] # ex occurs here!
         main() void
             a A
             print(a.foo())

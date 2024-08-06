@@ -68,7 +68,7 @@ TEST_F(seqTest, basicSyntaxNegative) {
         .parse(R"SRC(
         print(msg str) void: 1
         main() int
-            seq := 2..4 // [2, 4)
+            seq := 2..4 # [2, 4)
             print("seq.len=" + seq.len() as str + "\n")
             print("seq[1]=" + seq[1] as str + "\n")
             ret seq[2]

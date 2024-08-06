@@ -76,7 +76,7 @@ TEST_F(defFuncTest, distinguishDefineLambdaOrCall) {
         .negative()
         .parse(R"SRC(
         main() void
-            (a, 22) // this is not lambda
+            (a, 22) # this is not lambda
     )SRC")
         .shouldParsed(false);
 }
@@ -86,7 +86,7 @@ TEST_F(defFuncTest, distinguishDefineLambdaOrCallNegative) {
         .negative()
         .parse(R"SRC(
         main() void
-            (a, 22) // lambda should be declared in func call.
+            (a, 22) # lambda should be declared in func call.
                 a.doSomething(22)
             foo(a, 22)
     )SRC")
@@ -143,7 +143,7 @@ TEST_F(defFuncTest, lambda5Negative) {
         .negative()
         .parse(R"SRC(
         main() void
-            a.sendPacket(((a int, b) void // no paranthesis for lambda
+            a.sendPacket(((a int, b) void # no paranthesis for lambda
                 a.doSomething()
             ))
     )SRC")

@@ -51,7 +51,7 @@ namespace {
 /* actual-pattern: */
 %%
 
-[\%\*\+\-\/\.\{\[\^\|\&\~\!] { return PS.onIgnoreIndent(yytext[0]); }
+[\%\*\+\-\/\#\.\{\[\^\|\&\~\!] { return PS.onIgnoreIndent(yytext[0]); }
 [\}\]<>\;] { return yytext[0]; }
 [,] { return PS.onTokenComma(yytext[0]); }
 [\:] { return PS.onTokenColon(yytext[0]); }
@@ -183,7 +183,8 @@ false {
     return STRVAL;
 }
 
-\"[^"\\]* { yylval->asStr = new std::string(yytext + 1, yyleng - 1);
+\"[^"\\]* {
+    yylval->asStr = new std::string(yytext + 1, yyleng - 1);
     BEGIN(PS.pushState(escSeq));
 }
 
@@ -203,13 +204,16 @@ false {
     return ENDOFFILE;
 }
 
-\/\/[^\n]* {}
-
-\/\* {
+\#\#\# {
+    NM_DI("!!!!!!!!match multiline comment!!!!!!");
     BEGIN(PS.pushState(stateComment));
 }
 
-<stateComment>"*/" {
+\#[^\n]* {
+    NM_DI("!!!!!!!!!match comment!!!!!!!!");
+}
+
+<stateComment>\#\#\# {
     BEGIN(PS.popState());
 }
 <stateComment>\n {}

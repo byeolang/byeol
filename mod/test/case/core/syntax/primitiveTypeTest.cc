@@ -108,7 +108,7 @@ TEST_F(primitiveTypeTest, deduceAndImplicitCast) {
     make()
         .parse(R"SRC(
         main() void
-            a := 'a' + 1 // a should be char
+            a := 'a' + 1 # a should be char
             print(a)
     )SRC")
         .shouldVerified(true);
@@ -118,7 +118,7 @@ TEST_F(primitiveTypeTest, deduceAndImplicitCast2) {
     make()
         .parse(R"SRC(
         main() void
-            a := 1 + 'a' // a should be char
+            a := 1 + 'a' # a should be char
             print(a)
     )SRC")
         .shouldVerified(true);

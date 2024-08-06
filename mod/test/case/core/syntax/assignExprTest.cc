@@ -12,7 +12,7 @@ TEST_F(assignExprTest, simpleAssign) {
             .parse(R"SRC(
         age int
         main() int
-            age = 5 // ret age implicitly
+            age = 5 # ret age implicitly
     )SRC")
             .shouldVerified(true)) {
         run();
@@ -101,7 +101,7 @@ TEST_F(assignExprTest, mysteriousDeath) {
         .parse(R"SRC(
         age := 0
         main() int
-            age = age + 1 // assignment is not expression but it can be returned.
+            age = age + 1 # assignment is not expression but it can be returned.
     )SRC")
         .shouldVerified(true);
     str res = run();
@@ -195,7 +195,7 @@ TEST_F(assignExprTest, assignForExprDeclaringLocalVariable) {
             abc = for n in 0..5
                 x := n + 1
                 x * 2
-            abc[3] // abc = {2, 4, 6, 8, 10}
+            abc[3] # abc = {2, 4, 6, 8, 10}
     )SRC")
         .shouldVerified(true);
 

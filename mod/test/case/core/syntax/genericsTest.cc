@@ -81,7 +81,7 @@ TEST_F(genericsTest, genericTwice1) {
         main() void
             a := object<str>()
             b := object<bool>()
-            c := object<flt>() // run 'b.foo()' occurs F/C
+            c := object<flt>() # run 'b.foo()' occurs F/C
     )SRC")
         .shouldVerified(true);
     run();
@@ -209,7 +209,7 @@ TEST_F(genericsTest, genericNegative) {
                 ret val + age
 
         main() int
-            b := object<int>() // error at print(int)
+            b := object<int>() # error at print(int)
             ret b.foo(3.5)
     )SRC")
         .shouldVerified(false);
@@ -380,7 +380,7 @@ TEST_F(genericsTest, genericsWillBeVerifiedWhenItIsUsedNegative) {
         .negative()
         .parse(R"SRC(
         def A<E>
-            age := B<E>().grade + grade // err: grade is circular dependency
+            age := B<E>().grade + grade # err: grade is circular dependency
             grade := age
         def B<T>
             grade := 0
