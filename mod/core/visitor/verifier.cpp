@@ -38,15 +38,16 @@ namespace nm {
         static ncnt _stepN = 0;
     }
 
-#define _GUARD(msg)                                                                       \
-    if(isFlag(GUARD)) do {                                                                \
-            NM_I("'%s' %s@%s: " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), &me); \
-            _stepN = 0;                                                                   \
+#define _GUARD(msg)                                                                 \
+    if(isFlag(GUARD)) do {                                                          \
+            NM_I("'%s' %s@%s: " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), \
+                platformAPI::toAddrId(&me));                                        \
+            _stepN = 0;                                                             \
     } while(0)
 
-#define _STEP(msg, ...)                                                                      \
-    NM_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), &me, \
-        ++_stepN, ##__VA_ARGS__)
+#define _STEP(msg, ...)                                                                 \
+    NM_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), \
+        platformAPI::toAddrId(&me), ++_stepN, ##__VA_ARGS__)
 
 #define ret_2(code, a1) nothing(), posError(errCode::code, a1)
 #define ret_3(code, a1, a2) nothing(), posError(errCode::code, a1, a2)
@@ -363,7 +364,7 @@ namespace nm {
                 me.getArgs().asStr().c_str(), params.c_str());
         }
 
-        a.setMe(nulOf<baseObj>());
+        a.setMe(nulOf<node>());
     }
 
     void me::onTraverse(runExpr& me, node& subject) {
@@ -385,13 +386,24 @@ namespace nm {
         return ret;
     }
 
+    nbool me::onVisit(const visitInfo& i, ctor& me) {
+        _GUARD("onVisit()");
+
+        NM_WHEN(!me.getRet()).ret(CTOR_NOT_IN_DEF_OBJ, me), true;
+
+        frame& fr = thread::get()._getNowFrame();
+        str prev = fr.getMe();
+        fr.setMe(*me.getRet()); // don't use 'cast<baseObj>'. it lets mockNode call 'cast' to its original instance.
+
+        nbool ret = super::onVisit(i, me);
+        fr.setMe(*prev);
+        return ret;
+    }
+
     nbool me::onVisit(const visitInfo& i, func& me) {
         _GUARD("onVisit()");
 
         onLeave(i, (func::super&) me);
-
-        ctor& c = me.cast<ctor>();
-        NM_WHEN(!nul(c) && !c.getRet()).ret(CTOR_NOT_IN_DEF_OBJ, me), true;
 
         obj& meObj =
             thread::get()
