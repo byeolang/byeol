@@ -20,6 +20,7 @@ namespace nm {
         void onLeave(const visitInfo& i, node& me) override;
         void onLeave(const visitInfo& i, asExpr& me) override;
         void onLeave(const visitInfo& i, assignExpr& me) override;
+        nbool onVisit(const visitInfo& i, blockExpr& me) override;
         void onLeave(const visitInfo& i, blockExpr& me) override;
         void onLeave(const visitInfo& i, defVarExpr& me) override;
         void onLeave(const visitInfo& i, defAssignExpr& me) override;
@@ -41,12 +42,10 @@ namespace nm {
         nbool onVisit(const visitInfo& i, forExpr& me) override;
         void onLeave(const visitInfo& i, forExpr& me) override;
         nbool onVisit(const visitInfo& i, whileExpr& me) override;
-        void onLeave(const visitInfo& i, whileExpr& me) override;
         void onLeave(const visitInfo& i, breakExpr& me) override;
         void onLeave(const visitInfo& i, nextExpr& me) override;
         nbool onVisit(const visitInfo& i, ifExpr& me) override;
         void onLeave(const visitInfo& i, ifExpr& me) override;
-        void onTraverse(ifExpr& me, blockExpr& blk) override;
 
     protected:
         void _prepare() override;

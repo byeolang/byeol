@@ -172,13 +172,8 @@ namespace nm {
         f.getCondition().accept(visitInfo{"condition", &f, 0, len, i.depth + 1}, *this);
 
         f.getThen().accept(visitInfo{"then", &f, 1, len, i.depth + 1}, *this);
-        if(!nul(elseBlk)) {
-            onTraverse(f, elseBlk);
-            elseBlk.accept(visitInfo{"else", &f, 2, len, i.depth + 1}, *this);
-        }
+        if(!nul(elseBlk)) elseBlk.accept(visitInfo{"else", &f, 2, len, i.depth + 1}, *this);
     }
-
-    void me::onTraverse(ifExpr& e, blockExpr& blk) {}
 
     void me::onTraverse(const visitInfo& i, whileExpr& w) {
         w.getCondition().accept(visitInfo{"condition", &w, 0, 2, i.depth + 1}, *this);

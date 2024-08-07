@@ -77,7 +77,12 @@ namespace nm {
     }
 
     str me::getEval() const {
-        if(_exprs.isEmpty()) return str();
+        if(_eval) return _eval;
+
         return _exprs.last()->getEval();
+    }
+
+    void me::setEval(const node& newEval) {
+        _eval.bind(newEval);
     }
 } // namespace nm

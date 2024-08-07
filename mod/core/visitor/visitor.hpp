@@ -51,8 +51,6 @@ namespace nm {
         virtual void onTraverse(const visitInfo& i, defArrayExpr& d);
         virtual void onTraverse(const visitInfo& i, genericOrigin& g);
 
-        virtual void onTraverse(ifExpr& e, blockExpr& blk);
-
         using super::warn;
 
         template <typename... Args>

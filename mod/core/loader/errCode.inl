@@ -119,6 +119,7 @@ PAIRX(MAIN_SHOULD_HAVE_STMTS, "'main' function need to contain more than 1 state
 PAIRX(RET_TYPE_NOT_MATCH, "return type is %s. and it's not valid to return type of func, %s")
 PAIRX(PARAM_NOT_VOID, "parameter '%s' shouldn't be a void type")
 PAIRX(FUNC_SHOULD_RETURN_SOMETHING, "function should return something")
+PAIRX(RET_ERR_ON_CTOR, "returning err on function not allowed")
 
 // block:
 PAIRX(RET_AT_MIDDLE_OF_BLOCK, "use 'ret' at last of block stmt.")

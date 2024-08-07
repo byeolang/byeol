@@ -138,6 +138,23 @@ namespace nm {
             .ret(ASSIGN_TO_RVALUE, me, me.getRight(), lhs);
     }
 
+    namespace {
+        // this func should be called when frame stacked.
+        str _extractEvalFrom(blockExpr& blk) {
+            const auto& stmts = blk.getStmts();
+            if(stmts.isEmpty()) return nVoid::singletone();
+
+            return stmts.last()->getEval();
+        }
+    }
+
+    nbool me::onVisit(const visitInfo& i, blockExpr& me) {
+        _GUARD("onVisit()");
+
+        me.inFrame();
+        return true;
+    }
+
     void me::onLeave(const visitInfo& i, blockExpr& me) {
         _GUARD("onLeave()");
 
@@ -147,6 +164,9 @@ namespace nm {
 
         func& parent = safeGet(i.parent, cast<func>());
         if(!nul(parent)) _verifyMgdFuncImplicitReturn(parent);
+
+        me.setEval(*_extractEvalFrom(me));
+        me.outFrame();
     }
 
     void me::_onLeave(const visitInfo& i, const loopExpr& me) {
@@ -158,7 +178,6 @@ namespace nm {
             NM_WHEN(!eval->isSub<retStateExpr>() && !eval->isSub<arr>()).ret(LOOP_NO_RET_ARR, me);
         }
 
-        me.getBlock().outFrame();
         _recentLoops.pop_back();
     }
 
@@ -579,8 +598,10 @@ namespace nm {
         const std::string& name = me.getLocalName();
         _STEP("define iterator '%s %s'", elemType, name);
 
-        me.getBlock().inFrame();
-        thread::get()._getNowFrame().addLocal(name, *((node*) elemType->clone()));
+        scope* s = new scope();
+        s->add(name, *((node*) elemType->clone()));
+
+        thread::get()._getNowFrame().add(*s);
         _recentLoops.push_back(&me);
         return true;
     }
@@ -588,21 +609,14 @@ namespace nm {
     void me::onLeave(const visitInfo& i, forExpr& me) {
         _GUARD("onLeave()");
 
+        thread::get()._getNowFrame().del(); // for a scope containing iterator.
         _onLeave(i, me);
     }
 
     nbool me::onVisit(const visitInfo& i, whileExpr& me) {
         _GUARD("onVisit()");
-
-        me.getBlock().inFrame();
         _recentLoops.push_back(&me);
         return true;
-    }
-
-    void me::onLeave(const visitInfo& i, whileExpr& me) {
-        _GUARD("onLeave()");
-
-        _onLeave(i, me);
     }
 
     void me::onLeave(const visitInfo& i, breakExpr& me) {
@@ -621,21 +635,10 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, ifExpr& me) {
         _GUARD("onVisit()");
-        me.getThen().inFrame();
         return true;
     }
 
     void me::onLeave(const visitInfo& i, ifExpr& me) {
         _GUARD("onLeave()");
-        blockExpr()
-            .outFrame(); // it doesn't matter getting blockExpr from 'me'.
-                         // because conceptually, blockExpr::outFrame() is just like static func.
-    }
-
-    void me::onTraverse(ifExpr& me, blockExpr& blk) {
-        if(nul(blk)) return;
-
-        me.getThen().outFrame();
-        blk.inFrame();
     }
 } // namespace nm
