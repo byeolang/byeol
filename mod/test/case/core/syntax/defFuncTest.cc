@@ -412,6 +412,22 @@ TEST_F(defFuncTest, overloadingAmbigiousNegative) {
     ASSERT_EQ(p.len(), 2);
 }
 
+TEST_F(defFuncTest, simpleCtor) {
+    make().parse(R"SRC(
+        def person
+            name str
+            ctor(name str)
+                me.name = name
+        main() str
+            p1 := person("kniz")
+            ret p1.name
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res->cast<std::string>(), "kniz");
+}
+
 /* TODO: uncomment after implement isAbstract() on func/originObj
 TEST_F(defFuncTest, funcButNoStmtsNegative) {
     make().negative().parse(R"SRC(
