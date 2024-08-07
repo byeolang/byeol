@@ -158,12 +158,8 @@ namespace nm {
     void me::onLeave(const visitInfo& i, blockExpr& me) {
         _GUARD("onLeave()");
 
-        _STEP("last stmt should match to ret type");
         const narr& stmts = me.getStmts();
         if(nul(stmts) || stmts.len() <= 0) return; // will be catched to another verification.
-
-        func& parent = safeGet(i.parent, cast<func>());
-        if(!nul(parent)) _verifyMgdFuncImplicitReturn(parent);
 
         me.setEval(*_extractEvalFrom(me));
         me.outFrame();
@@ -419,6 +415,17 @@ namespace nm {
         return ret;
     }
 
+    void me::onLeave(const visitInfo& i, ctor& me) {
+        _GUARD("onLeave()");
+
+        _STEP("no error allowed during running ctor");
+        const node& eval = *me.getBlock().getEval();
+        NM_WHENNUL(eval).ret(EXPR_EVAL_NUL, me);
+        NM_WHEN(eval.isSub<err>()).ret(RET_ERR_ON_CTOR, me);
+
+        me.outFrame(scope());
+    }
+
     nbool me::onVisit(const visitInfo& i, func& me) {
         _GUARD("onVisit()");
 
@@ -509,7 +516,15 @@ namespace nm {
         return true;
     }
 
-    void me::_verifyMgdFuncImplicitReturn(func& me) {
+    void me::_prepare() {
+        super::_prepare();
+        _recentLoops.clear();
+    }
+
+    void me::onLeave(const visitInfo& i, func& me) {
+        _GUARD("onLeave()");
+
+        _STEP("last stmt should match to ret type");
         str ret = me.getRet()->as<node>();
         const type& retType = ret->getType();
         const node& lastStmt = *me.getBlock().getStmts().last();
@@ -523,23 +538,12 @@ namespace nm {
         const ntype& lastType = eval->getType(); // to get type of expr, always uses evalType.
         NM_WHENNUL(lastType).ret(NO_RET_TYPE, lastStmt);
 
-        NM_I("func: last stmt[%s] should matches to return type[%s]", eval, retType);
-
+        _STEP("last stmt[%s] should matches to return type[%s]", eval, retType);
         if(eval->isSub<retStateExpr>())
             // @see retExpr::getEval() for more info.
             return NM_I("func: skip verification NM_WHEN lastStmt is retStateExpr."), void();
-
         NM_WHEN(!lastType.isSub<err>() && !lastType.isImpli(retType))
             .ret(RET_TYPE_NOT_MATCH, lastStmt, lastType, retType);
-    }
-
-    void me::_prepare() {
-        super::_prepare();
-        _recentLoops.clear();
-    }
-
-    void me::onLeave(const visitInfo& i, func& me) {
-        _GUARD("onLeave()");
 
         me.outFrame(scope());
     }

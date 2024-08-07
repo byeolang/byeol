@@ -436,14 +436,14 @@ TEST_F(defFuncTest, simpleCtor) {
             name str
             ctor(name str)
                 me.name = name
-        main() str
+        main() int
             p1 := person("kniz")
-            ret p1.name
+            ret p1.name.len()
     )SRC").shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<std::string>(), "kniz");
+    ASSERT_EQ(res->cast<int>(), 4);
 }
 
 /* TODO: uncomment after implement isAbstract() on func/originObj

@@ -8,12 +8,10 @@ namespace nm {
 
     str me::run(const args& a) {
         str ret = (node*) getRet()->clone();
-
         a.setMe(*ret);
-        return super::run(a);
+        super::run(a);
+        return ret;
     }
 
-    str me::getEval() const {
-        return getRet();
-    }
+    str me::getEval() const { return getRet(); }
 }

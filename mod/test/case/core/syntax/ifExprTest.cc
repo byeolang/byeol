@@ -369,3 +369,21 @@ TEST_F(ifExprTest, evalIfExprReturningSomethingNegative2) {
     const auto& rpt = getReport();
     ASSERT_TRUE(rpt.has(errCode::CANT_ASSIGN_RET));
 }
+
+TEST_F(ifExprTest, nestedIfBlockReturnSomething) {
+    make().parse(R"SRC(
+        main() int
+            a := if 3 > 5
+                "no"
+            else
+                if 35 > 22
+                    "yes"
+                else
+                    "no"
+            ret a.len()
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 3);
+}
