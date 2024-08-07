@@ -53,11 +53,11 @@ namespace nm {
         return nulOf<node>();
     }
 
-    nbool me::setMe(const baseObj& new1) { return _me.bind(new1); }
+    nbool me::setMe(const node& new1) { return _me.bind(new1); }
 
     void me::setMe() { _me.rel(); }
 
-    baseObj& me::getMe() { return *_me; }
+    node& me::getMe() { return *_me; }
 
     scope& me::getLocals() {
         auto& top = _getTop();

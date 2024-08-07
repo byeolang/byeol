@@ -30,7 +30,7 @@ namespace nm {
 
             using super::setMe;
 
-            nbool setMe(const baseObj& obj) override { return true; }
+            nbool setMe(const node& obj) override { return true; }
 
             using super::setFunc;
 

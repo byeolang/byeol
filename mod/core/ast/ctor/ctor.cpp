@@ -2,7 +2,7 @@
 #include "visitor/visitor.hpp"
 
 namespace nm {
-    NM(DEF_ME(ctor))
+    NM(DEF_ME(ctor), DEF_VISIT())
 
     me::ctor(const params& ps, const blockExpr& blk): super(ps, nullptr, blk) {}
 

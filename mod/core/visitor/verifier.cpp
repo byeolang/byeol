@@ -529,8 +529,12 @@ namespace nm {
         _GUARD("onVisit()");
 
         me.inFrame();
-
         frame& fr = thread::get()._getNowFrame();
+        if(!me.isComplete()) {
+            fr.subs().del("me");
+            fr.subs().add("me", new mockNode(me));
+        }
+
         _STEP("%s push me[%s] len=%d", fr.getMe(), (void*) &fr.getMe(), me.subs().len());
 
         _STEP("iterate all subs and checks void type variable");

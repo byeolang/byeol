@@ -33,6 +33,7 @@ namespace nm {
         void onTraverse(runExpr& me, node& subject) override;
         nbool onVisit(const visitInfo& i, func& me) override;
         void onLeave(const visitInfo& i, func& me) override;
+        nbool onVisit(const visitInfo& i, ctor& me) override;
         nbool onVisit(const visitInfo& i, baseObj& me) override;
         void onLeave(const visitInfo& i, baseObj& me) override;
         nbool onVisit(const visitInfo& i, genericOrigin& me) override;

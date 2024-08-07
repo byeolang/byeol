@@ -412,6 +412,24 @@ TEST_F(defFuncTest, overloadingAmbigiousNegative) {
     ASSERT_EQ(p.len(), 2);
 }
 
+TEST_F(defFuncTest, accessMeShouldBeComplete) {
+    make().parse(R"SRC(
+        def a
+            age int
+            say(n int) void
+                me.age = n
+
+        main() int
+            a1 := a()
+            a1.say(22)
+            ret a1.age
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 22);
+}
+
 TEST_F(defFuncTest, simpleCtor) {
     make().parse(R"SRC(
         def person

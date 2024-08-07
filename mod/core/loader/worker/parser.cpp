@@ -507,7 +507,7 @@ namespace nm {
         for(auto e = blk.asScope->begin(); e; ++e) {
             // ctor case:
             ctor& c = e.getVal<ctor>();
-            if(!nul(c)) c.setRet(it);
+            if(!nul(c)) c.setRet(*new mockNode(it));
 
             // shares case:
             // TODO: not only func, but also shared variable.

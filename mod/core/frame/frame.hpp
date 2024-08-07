@@ -38,10 +38,10 @@ namespace nm {
 
         virtual void del();
 
-        virtual nbool setMe(const baseObj& obj);
+        virtual nbool setMe(const node& obj); // 'me' can be a mockNode during verification.
         void setMe();
-        const baseObj& getMe() const NM_CONST_FUNC(getMe())
-        baseObj& getMe();
+        const node& getMe() const NM_CONST_FUNC(getMe())
+        node& getMe();
 
         scope& getLocals();
         const scope& getLocals() const NM_CONST_FUNC(getLocals())
@@ -78,7 +78,7 @@ namespace nm {
         const scopeRegister& _getTop() const NM_CONST_FUNC(_getTop())
 
     private:
-        tstr<baseObj> _me;
+        str _me;
         tstr<baseFunc> _func;
         std::vector<scopeRegister> _stack;
         mutable str _ret;
