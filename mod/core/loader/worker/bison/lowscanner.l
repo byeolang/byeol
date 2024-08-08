@@ -38,6 +38,7 @@ namespace {
     |                                           STATE                                          |
     ============================================================================================  */
 
+%x stateBlockComment
 %x stateComment
 %x escSeq
 
@@ -51,7 +52,7 @@ namespace {
 /* actual-pattern: */
 %%
 
-[\%\*\+\-\/\#\.\{\[\^\|\&\~\!] { return PS.onIgnoreIndent(yytext[0]); }
+[\%\*\+\-\/\.\{\[\^\|\&\~\!] { return PS.onIgnoreIndent(yytext[0]); }
 [\}\]<>\;] { return yytext[0]; }
 [,] { return PS.onTokenComma(yytext[0]); }
 [\:] { return PS.onTokenColon(yytext[0]); }
@@ -205,20 +206,25 @@ false {
     return ENDOFFILE;
 }
 
-\#\#\# {
-    NM_DI("!!!!!!!!match multiline comment!!!!!!");
+# {
+    NM_DI("!!!!!!!!!match comment!!!!!!!!");
     BEGIN(PS.pushState(stateComment));
 }
 
-\#[^\n]* {
-    NM_DI("!!!!!!!!!match comment!!!!!!!!");
+## {
+    NM_DI("!!!!!!!!match multiline comment!!!!!!");
+    BEGIN(PS.pushState(stateBlockComment));
 }
 
-<stateComment>\#\#\# {
+<stateComment>\n {
     BEGIN(PS.popState());
+    yylloc->colcnt = yylloc->start.col = yylloc->end.col = 0;
+    return PS.onTokenNewLine(NEWLINE);
 }
-<stateComment>\n {}
 <stateComment>. {}
+
+<stateBlockComment>\#\# { BEGIN(PS.popState()); }
+<stateBlockComment>. {}
 
 . {
     return PS.onScanUnexpected(yytext);
@@ -228,7 +234,6 @@ false {
 /*  ============================================================================================
     |                                         EPILOGUE                                         |
     ============================================================================================  */
-
 int yylex(YYSTYPE* yylval_param, YYLTYPE* yylloc_param, yyscan_t yyscanner) {
     nm::parser& ps = PS;
     if(!ps.isInit()) // init: tokenScanable
