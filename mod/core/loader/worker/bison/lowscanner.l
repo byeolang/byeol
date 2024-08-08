@@ -223,7 +223,7 @@ false {
 }
 <stateComment>. {}
 
-<stateBlockComment>\#\# { BEGIN(PS.popState()); }
+<stateBlockComment>## { BEGIN(PS.popState()); }
 <stateBlockComment>. {}
 
 . {

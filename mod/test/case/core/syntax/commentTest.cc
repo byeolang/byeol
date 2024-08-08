@@ -48,8 +48,8 @@ TEST_F(commentTest, multiLineComment2) {
     make()
         .parse(R"SRC(
         age ### age is age
-        main() int #
- sdfas   ###int
+        main() int # <- this singleline comment and new line should be ignored.
+ sdfas   ##int
         main() void
             ret
     )SRC")
@@ -60,6 +60,17 @@ TEST_F(commentTest, multiLineComment2) {
     ASSERT_FALSE(nul(owns));
     ASSERT_EQ(owns.len(), 1);   // 1 for age
     ASSERT_EQ(shares.len(), 3); // 1 for main() 2 for @ctor
+}
+
+TEST_F(commentTest, negativeMultiLineComment) {
+    make().negative().parse(R"SRC(
+        age ### age is age
+        main() int # <-- still comment this entire line.
+sdfjwer ###int
+        main() void
+            # you should not close multline comment with more than 3 '#'.
+            ret
+    )SRC").shouldVerified(false);
 }
 
 TEST_F(commentTest, multiLineComment3Negative) {
