@@ -521,7 +521,8 @@ namespace nm {
     }
 
     nbool me::_onInjectCtor(obj& it, defBlock& blk) {
-        nbool hasCtor = !nul(it.sub(baseObj::CTOR_NAME));
+        nbool hasDefaultCtor = !nul(it.sub(baseObj::CTOR_NAME, args()));
+        nbool hasCopyCtor = !nul(it.sub(baseObj::CTOR_NAME, args{nulOf<baseObj>(), it.getOrigin()}))
         NM_DI("tokenEvent: _onInjectDefaultCtor(%s, has=%s)", it, hasCtor);
         if(hasCtor) return false;
 
@@ -956,7 +957,7 @@ namespace nm {
 
     runExpr* me::onIn(const node& it, const node& container) {
         NM_DI("tokenEvent: onIn(%s, %s)", it, container);
-        return _maker.make<runExpr>(container, *_maker.make<getExpr>("has"), args(narr{it}));
+        return _maker.make<runExpr>(container, *_maker.make<getExpr>("has"), args{nulOf<baseObj>(), it});
     }
 
     void me::onParseErr(const std::string& msg, const nchar* symbolName) {

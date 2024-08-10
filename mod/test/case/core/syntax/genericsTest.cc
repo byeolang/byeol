@@ -86,9 +86,9 @@ TEST_F(genericsTest, genericTwice1) {
         .shouldVerified(true);
     run();
     node& object = getSubPack().sub("object");
-    str a = object.run(args(narr{*new nStr()}));
+    str a = object.run(args{nulOf<baseObj>(), *new nStr()});
     ASSERT_TRUE(a);
-    str b = object.run(args(narr{*new nFlt()}));
+    str b = object.run(args{nulOf<baseObj>(), *new nFlt()});
     ASSERT_TRUE(b);
     ASSERT_NE(&a.get(), &b.get());
 

@@ -365,7 +365,7 @@ TEST_F(defFuncTest, overloadingSimilarParameters) {
     obj& a = getSubPack().sub<obj>("a");
     ASSERT_FALSE(nul(a));
 
-    { ASSERT_EQ(a.subAll<func>("foo", args(narr{nBool(), nChar()})).len(), 0); }
+    { ASSERT_EQ(a.subAll<func>("foo", args{nulOf<baseObj>(), nBool(), nChar()}).len(), 0); }
 
     {
         threadUse th;
@@ -407,7 +407,7 @@ TEST_F(defFuncTest, overloadingAmbigiousNegative) {
 
     obj& a = getSubPack().sub<obj>("a");
     ASSERT_FALSE(nul(a));
-    auto p = a.subAll<func>("foo", args(narr{nChar(), nChar()}));
+    auto p = a.subAll<func>("foo", args{nulOf<baseObj>(), nChar(), nChar()});
     ASSERT_FALSE(p.isMatched());
     ASSERT_EQ(p.len(), 2);
 }
@@ -464,7 +464,7 @@ TEST_F(defFuncTest, multipleCtor) {
 }
 
 TEST_F(defFuncTest, simpleCtorNegative) {
-    make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         def person
             name str
             ctor(name str)
@@ -472,11 +472,7 @@ TEST_F(defFuncTest, simpleCtorNegative) {
         main() int
             p1 := person()
             ret p1.name.len()
-    )SRC").shouldVerified(true);
-
-    str res = run();
-    ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<int>(), 4);
+    )SRC").shouldVerified(false);
 }
 
 /* TODO: uncomment after implement isAbstract() on func/originObj
