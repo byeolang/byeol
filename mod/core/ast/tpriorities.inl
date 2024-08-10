@@ -26,7 +26,7 @@ namespace nm {
 #define ME tpriorities<T>
 
     TEMPLATE
-    ME::tpriorities(): _type(priorType::EXACT_MATCH) {}
+    ME::tpriorities(): _type(priorType::NO_MATCH) {}
 
     TEMPLATE
     nbool ME::isMatched() const { return this->len() == 1; }
