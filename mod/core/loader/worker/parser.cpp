@@ -317,11 +317,13 @@ namespace nm {
         return &f;
     }
 
-    func* me::onCtor(const narr& a, const blockExpr& blk) {
-        NM_DI("tokenEvent: onCtor: args.len[%d]", a.len());
+    ctor* me::onCtor(const narr& a, const blockExpr& blk) {
+        NM_DI("tokenEvent: onCtor(args): args.len[%d]", a.len());
 
         return _maker.birth<ctor>(baseObj::CTOR_NAME, _asParams(args(a)), blk);
     }
+
+    ctor* me::onCtor(const blockExpr& blk) { return onCtor(narr(), blk); }
 
     narr* me::onParams() {
         NM_DI("tokenEvent: onParams()");

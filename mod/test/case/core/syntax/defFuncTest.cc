@@ -446,6 +446,39 @@ TEST_F(defFuncTest, simpleCtor) {
     ASSERT_EQ(res->cast<int>(), 4);
 }
 
+TEST_F(defFuncTest, multipleCtor) {
+    make().parse(R"SRC(
+        def person
+            name str
+            ctor(): me.name = "hello"
+            ctor(name str)
+                me.name = name
+        main() int
+            p1 := person("kniz")
+            ret p1.name.len() + person().name.len()
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res->cast<int>(), 9);
+}
+
+TEST_F(defFuncTest, simpleCtorNegative) {
+    make().parse(R"SRC(
+        def person
+            name str
+            ctor(name str)
+                me.name = name
+        main() int
+            p1 := person()
+            ret p1.name.len()
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res->cast<int>(), 4);
+}
+
 /* TODO: uncomment after implement isAbstract() on func/originObj
 TEST_F(defFuncTest, funcButNoStmtsNegative) {
     make().negative().parse(R"SRC(

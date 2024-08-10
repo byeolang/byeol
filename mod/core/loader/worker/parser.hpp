@@ -18,6 +18,7 @@ namespace nm {
 
     class expr;
     class func;
+    class ctor;
     class blockExpr;
     class runExpr;
     class asExpr;
@@ -182,7 +183,8 @@ namespace nm {
         func* onAbstractFunc(const getExpr& access, const node& retType);
         func* onAbstractFunc(node& it, const node& retType);
         func* onFunc(func& func, const blockExpr& blk);
-        func* onCtor(const narr& args, const blockExpr& blk);
+        ctor* onCtor(const narr& args, const blockExpr& blk);
+        ctor* onCtor(const blockExpr& blk);
         //          params:
         narr* onParams();
         narr* onParams(const defPropExpr& elem);

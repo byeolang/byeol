@@ -564,6 +564,8 @@ def-func: abstract-func indentblock {
 def-ctor: CTOR params indentblock {
         tstr<narr> paramsLife(*$2);
         $$ = PS.onCtor(*$2, $3->cast<blockExpr>());
+      } | CTOR '(' ')' indentblock {
+        $$ = PS.onCtor($4->cast<blockExpr>());
       }
 
 end: END indentblock {
