@@ -522,15 +522,18 @@ namespace nm {
 
     nbool me::_onInjectCtor(obj& it, defBlock& blk) {
         nbool hasDefaultCtor = !nul(it.sub(baseObj::CTOR_NAME, args()));
-        nbool hasCopyCtor = !nul(it.sub(baseObj::CTOR_NAME, args{nulOf<baseObj>(), it.getOrigin()}))
-        NM_DI("tokenEvent: _onInjectDefaultCtor(%s, has=%s)", it, hasCtor);
-        if(hasCtor) return false;
+        nbool hasCopyCtor =
+            !nul(it.sub(baseObj::CTOR_NAME, args{nulOf<baseObj>(), it.getOrigin()}));
+        NM_DI("tokenEvent: _onInjectDefaultCtor(%s, hasDefaultCtor=%s, hasCopyCtor)", it,
+            hasDefaultCtor, hasCopyCtor);
 
         // TODO: ctor need to call superclass's ctor.
-        it.getShares().getContainer().add(baseObj::CTOR_NAME,
-            *_maker.make<defaultCtor>(it.getOrigin()));
-        it.getShares().getContainer().add(baseObj::CTOR_NAME,
-            *_maker.make<defaultCopyCtor>(it.getOrigin()));
+        if(!hasDefaultCtor)
+            it.getShares().getContainer().add(baseObj::CTOR_NAME,
+                *_maker.make<defaultCtor>(it.getOrigin()));
+        if(!hasCopyCtor)
+            it.getShares().getContainer().add(baseObj::CTOR_NAME,
+                *_maker.make<defaultCopyCtor>(it.getOrigin()));
 
         // add preCtor:
         if(blk.asPreCtor && blk.asPreCtor->len()) {
@@ -957,7 +960,8 @@ namespace nm {
 
     runExpr* me::onIn(const node& it, const node& container) {
         NM_DI("tokenEvent: onIn(%s, %s)", it, container);
-        return _maker.make<runExpr>(container, *_maker.make<getExpr>("has"), args{nulOf<baseObj>(), it});
+        return _maker.make<runExpr>(container, *_maker.make<getExpr>("has"),
+            args{nulOf<baseObj>(), it});
     }
 
     void me::onParseErr(const std::string& msg, const nchar* symbolName) {
