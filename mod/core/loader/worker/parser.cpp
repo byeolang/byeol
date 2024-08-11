@@ -530,7 +530,19 @@ namespace nm {
             if(!nul(cast) && cast.getName() == it.getSrc().getName()) return true;
             return &org == &it;
         }));
-        nbool hasCtor = ctors.len() > 1 || !hasCopyCtor;
+
+        // algorithm:
+        //  case1: user defined ctor and copy ctor.
+        //  case1-1: user defined more than 2 normal ctors.
+        //      in this case, there are more than 1 ctor defined.
+        //
+        //  case2: user defined copy ctor only.
+        //      if len of ctors was 1, copyCtor must not be defined.
+        //
+        //  case3: neither ctor, copyctor has been defined.
+        //      hasCtor must be false.
+        ncnt len = ctors.len();
+        nbool hasCtor = len > 1 || (len == 1 && !hasCopyCtor);
         NM_DI("tokenEvent: _onInjectDefaultCtor(%s, hasCtor=%s, hasCopyCtor)", it, hasCtor,
             hasCopyCtor);
 
