@@ -521,14 +521,21 @@ namespace nm {
     }
 
     nbool me::_onInjectCtor(obj& it, defBlock& blk) {
-        nbool hasDefaultCtor = !nul(it.sub(baseObj::CTOR_NAME, args()));
-        nbool hasCopyCtor =
-            !nul(it.sub(baseObj::CTOR_NAME, args{nulOf<baseObj>(), it.getOrigin()}));
-        NM_DI("tokenEvent: _onInjectDefaultCtor(%s, hasDefaultCtor=%s, hasCopyCtor)", it,
-            hasDefaultCtor, hasCopyCtor);
+        const auto& ctors = it.subAll<func>(baseObj::CTOR_NAME);
+        nbool hasCopyCtor = !nul(ctors.get<func>([&](const func& f) -> nbool {
+            const params& ps = f.getParams();
+            if(ps.len() != 1) return false;
+            const node& org = ps[0].getOrigin();
+            const getExpr& cast = org.cast<getExpr>();
+            if(!nul(cast) && cast.getName() == it.getSrc().getName()) return true;
+            return &org == &it;
+        }));
+        nbool hasCtor = ctors.len() > 1 || !hasCopyCtor;
+        NM_DI("tokenEvent: _onInjectDefaultCtor(%s, hasCtor=%s, hasCopyCtor)", it, hasCtor,
+            hasCopyCtor);
 
         // TODO: ctor need to call superclass's ctor.
-        if(!hasDefaultCtor)
+        if(!hasCtor)
             it.getShares().getContainer().add(baseObj::CTOR_NAME,
                 *_maker.make<defaultCtor>(it.getOrigin()));
         if(!hasCopyCtor)
