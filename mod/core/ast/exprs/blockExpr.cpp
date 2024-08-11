@@ -5,6 +5,7 @@
 #include "../../frame/thread.hpp"
 #include "../../visitor/visitor.hpp"
 #include "retStateExpr.hpp"
+#include "../../loader/nerr.hpp"
 
 namespace nm {
 
@@ -64,9 +65,8 @@ namespace nm {
         for(auto& e: _exprs) {
             ret = e.as<node>(); // if e is expr, it runs(). if not, it returns itself.
             if(ex.len() > (exN + 1)) {
-                tstr<err> last = *ex.last();
-                NM_DI("%s err%d(%s): '%s' exception found in block.\n", addr, last->code,
-                    err::getErrName(last->code), last->msg);
+                tstr<baseErr> last = *ex.last();
+                NM_DI("%s '%s' exception found in block.\n", addr, last->getMsg());
                 return last; // return last err instance I got.
                              // so it's not the return type of what the func told, but it's okay.
                              // all derived err object can be assigned to any type.
@@ -82,7 +82,5 @@ namespace nm {
         return _exprs.last()->getEval();
     }
 
-    void me::setEval(const node& newEval) {
-        _eval.bind(newEval);
-    }
+    void me::setEval(const node& newEval) { _eval.bind(newEval); }
 } // namespace nm

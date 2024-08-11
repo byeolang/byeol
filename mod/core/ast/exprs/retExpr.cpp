@@ -3,6 +3,7 @@
 #include "../../builtin/primitive/nVoid.hpp"
 #include "../../frame/thread.hpp"
 #include "../../visitor/visitor.hpp"
+#include "../../loader/nerr.hpp"
 
 namespace nm {
 
@@ -13,7 +14,7 @@ namespace nm {
     me::retExpr(): _ret(nVoid::singletone()) {}
 
     namespace {
-        tstr<err> _returnEx(tstr<err> e) {
+        tstr<baseErr> _returnEx(tstr<baseErr> e) {
             thread& thr = thread::get();
             thr.getEx().add(*e);
             thr.getNowFrame().setRet(*e);
@@ -31,10 +32,10 @@ namespace nm {
 
         str ret = _ret->as<node>(); // # check retValue is null or not.
         if(!ret) // ret should be void if there is no value to return. so 'null' not allowed here.
-            return _returnEx(err::newErr(errCode::RETURN_VALUE_IS_NUL, getSrc().getName().c_str()));
+            return _returnEx(nerr::newErr(errCode::RETURN_VALUE_IS_NUL, getSrc().getName().c_str()));
 
         str fRet = fr.getFunc().getRet(); // # check exception occured during running func.
-        if(_isEx(*ret, *fRet)) return _returnEx(ret->cast<err>());
+        if(_isEx(*ret, *fRet)) return _returnEx(ret->cast<baseErr>());
 
         NM_DI("retExpr: frame.setRet(%s)", ret);
         fr.setRet(*ret);
@@ -42,7 +43,7 @@ namespace nm {
     }
 
     nbool me::_isEx(const node& got, const node& funcRet) {
-        return got.isSub<err>() && !funcRet.isSub<err>();
+        return got.isSub<baseErr>() && !funcRet.isSub<baseErr>();
     }
 
     node& me::getRet() { return *_ret; }

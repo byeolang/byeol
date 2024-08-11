@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../loader/err.hpp"
+#include "../loader/nerr.hpp"
 
 namespace nm {
 
-    typedef err* (*errMaker)(nint);
-    typedef void (*sigFunc)(const err&);
-    typedef std::function<void(const err&)> sigHandler;
+    typedef nerr* (*errMaker)(nint);
+    typedef void (*sigFunc)(const nerr&);
+    typedef std::function<void(const nerr&)> sigHandler;
 
     struct _nout sig {
         NM(ME(sig))
@@ -38,7 +38,7 @@ namespace nm {
 
     private:
         void _setSignal(void (*csignalHandler)(nint));
-        const err* _getErrBy(nint code) const;
+        const nerr* _getErrBy(nint code) const;
 
     private:
         std::vector<sigHandler> _closures;

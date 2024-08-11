@@ -25,7 +25,7 @@ TEST_F(FBOExprTest, simpleAdd) {
 
     str res(getSubPack().run("main"));
     ASSERT_TRUE(res);
-    ASSERT_TRUE(res->isSub<err>());
+    ASSERT_TRUE(res->isSub<baseErr>());
 
     {
         threadUse thr;

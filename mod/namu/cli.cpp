@@ -34,7 +34,7 @@ namespace nm {
         _res = 0;
         if(res) {
             if(res->isSub<nInt>()) _res = res->cast<nint>();
-            else if(res->isSub<err>()) _res = -1;
+            else if(res->isSub<baseErr>()) _res = -1;
         }
 
 #ifdef __EMSCRIPTEN__

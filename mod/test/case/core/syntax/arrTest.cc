@@ -803,7 +803,7 @@ TEST_F(arrTest, outOfBoundExOccurs) {
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_TRUE(nul(res.cast<nint>())); // which means, program ended with error code.
-    err& resErr = res.cast<err>();
+    nerr& resErr = res.cast<nerr>();
     ASSERT_FALSE(nul(resErr));
     ASSERT_EQ(resErr.code, errCode::OUT_OF_RANGE);
 
@@ -813,7 +813,7 @@ TEST_F(arrTest, outOfBoundExOccurs) {
         threadUse th;
         str res = a->run("foo");
         ASSERT_TRUE(res);
-        err& cast = res->cast<err>();
+        nerr& cast = res->cast<nerr>();
         ASSERT_FALSE(nul(cast));
         ASSERT_EQ(cast.fType, logLv::ERR);
         ASSERT_EQ(cast.code, errCode::OUT_OF_RANGE);

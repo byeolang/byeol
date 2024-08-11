@@ -27,7 +27,7 @@ TEST_F(parserTest, testHelloWorld) {
     p.relSupplies().addSupply(*new bufSupply(script)).work();
     ASSERT_EQ(shares.len(), 4); // @ctor*2 + main + 'hello': @preCtor doesn't exist.
     p.relSupplies().addSupply(*new bufSupply(script)).work();
-    ASSERT_EQ(shares.len(), 5); // add func main on every parse() call.
+    ASSERT_EQ(shares.len(), 7); // add (main() + @ctor*2) on every parse() call.
 
     ASSERT_TRUE(shares.get<nStr>("hello") == nStr("hello"));
 }

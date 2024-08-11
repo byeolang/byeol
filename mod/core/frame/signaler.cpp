@@ -13,28 +13,28 @@ namespace nm {
     namespace {
         const sig signals[] = {
             {SIGSEGV,
-             [](nint code) -> err* {
-                    return new err(logLv::ERR, errCode::SIG_SEGV);
+             [](nint code) -> nerr* {
+                    return new nerr(logLv::ERR, errCode::SIG_SEGV);
                 }},
             {SIGINT,
-             [](nint code) -> err* {
-                    return new err(logLv::ERR, errCode::SIG_INT);
+             [](nint code) -> nerr* {
+                    return new nerr(logLv::ERR, errCode::SIG_INT);
                 }},
             {SIGILL,
-             [](nint code) -> err* {
-                    return new err(logLv::ERR, errCode::SIG_ILL);
+             [](nint code) -> nerr* {
+                    return new nerr(logLv::ERR, errCode::SIG_ILL);
                 }},
             {SIGABRT,
-             [](nint code) -> err* {
-                    return new err(logLv::ERR, errCode::SIG_ABORT);
+             [](nint code) -> nerr* {
+                    return new nerr(logLv::ERR, errCode::SIG_ABORT);
                 }},
             {SIGFPE,
-             [](nint code) -> err* {
-                    return new err(logLv::ERR, errCode::SIG_FPE);
+             [](nint code) -> nerr* {
+                    return new nerr(logLv::ERR, errCode::SIG_FPE);
                 }},
             {SIGTERM,
-             [](nint code) -> err* {
-                    return new err(logLv::ERR, errCode::SIG_TERM);
+             [](nint code) -> nerr* {
+                    return new nerr(logLv::ERR, errCode::SIG_TERM);
                 }},
         };
 
@@ -61,7 +61,7 @@ namespace nm {
         _setSignal(SIG_DFL); // prevent infinite loop if another signal occurs during handling the
                              // signal here.
 
-        tstr<err> e(_getErrBy(code));
+        tstr<nerr> e(_getErrBy(code));
         if(!e) return NM_E("%d exception occurs but couldn't make err object", code), void();
 
         NM_I("dispatching %d handlers.", _closures.size());
@@ -97,7 +97,7 @@ namespace nm {
         _closures.clear();
     }
 
-    const err* me::_getErrBy(nint code) const {
+    const nerr* me::_getErrBy(nint code) const {
         for(const sig& e: signals)
             if(e.code == code) return e.maker(code);
         return nullptr;

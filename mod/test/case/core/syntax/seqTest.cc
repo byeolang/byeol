@@ -76,7 +76,7 @@ TEST_F(seqTest, basicSyntaxNegative) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_TRUE(res->isSub<err>());
+    ASSERT_TRUE(res->isSub<baseErr>());
 }
 
 TEST_F(seqTest, addSeqElement) {

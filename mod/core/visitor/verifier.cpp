@@ -348,7 +348,7 @@ namespace nm {
         str funRet = f.getRet()->as<node>();
         _STEP("checks return[%s] == func[%s]", myRet, funRet);
 
-        NM_WHEN(!myRet->isSub<err>() && !myRet->isImpli(*funRet))
+        NM_WHEN(!myRet->isSub<baseErr>() && !myRet->isImpli(*funRet))
             .ret(RET_TYPE_NOT_MATCH, me, myRet, funRet);
     }
 
@@ -408,7 +408,8 @@ namespace nm {
 
         frame& fr = thread::get()._getNowFrame();
         str prev = fr.getMe();
-        fr.setMe(*me.getRet()); // don't use 'cast<baseObj>'. it lets mockNode call 'cast' to its original instance.
+        fr.setMe(*me.getRet()); // don't use 'cast<baseObj>'. it lets mockNode call 'cast' to its
+                                // original instance.
 
         nbool ret = super::onVisit(i, me);
         fr.setMe(*prev);
@@ -421,7 +422,7 @@ namespace nm {
         _STEP("no error allowed during running ctor");
         const node& eval = *me.getBlock().getEval();
         NM_WHENNUL(eval).ret(EXPR_EVAL_NUL, me);
-        NM_WHEN(eval.isSub<err>()).ret(RET_ERR_ON_CTOR, me);
+        NM_WHEN(eval.isSub<baseErr>()).ret(RET_ERR_ON_CTOR, me);
 
         me.outFrame(scope());
     }
@@ -542,7 +543,7 @@ namespace nm {
         if(eval->isSub<retStateExpr>())
             // @see retExpr::getEval() for more info.
             return NM_I("func: skip verification NM_WHEN lastStmt is retStateExpr."), void();
-        NM_WHEN(!lastType.isSub<err>() && !lastType.isImpli(retType))
+        NM_WHEN(!lastType.isSub<baseErr>() && !lastType.isImpli(retType))
             .ret(RET_TYPE_NOT_MATCH, lastStmt, lastType, retType);
 
         me.outFrame(scope());
@@ -642,7 +643,5 @@ namespace nm {
         return true;
     }
 
-    void me::onLeave(const visitInfo& i, ifExpr& me) {
-        _GUARD("onLeave()");
-    }
+    void me::onLeave(const visitInfo& i, ifExpr& me) { _GUARD("onLeave()"); }
 } // namespace nm

@@ -178,7 +178,7 @@ TEST_F(retExprTest, retException) {
 
     str res = run();
     ASSERT_FALSE(nul(res));
-    err& cast = res.cast<err>();
+    baseErr& cast = res.cast<baseErr>();
     ASSERT_FALSE(nul(cast));
 
     const auto& ex = getReport();
@@ -199,7 +199,7 @@ TEST_F(retExprTest, retExceptionNoThrowAgain) {
 
     str res = run();
     ASSERT_FALSE(nul(res));
-    err& cast = res.cast<err>();
+    baseErr& cast = res.cast<baseErr>();
     ASSERT_FALSE(nul(cast));
 
     const auto& ex = getReport();
@@ -219,7 +219,7 @@ TEST_F(retExprTest, retExceptionNoThrowAgain2) {
 
     str res = run();
     ASSERT_FALSE(nul(res));
-    err& cast = res.cast<err>();
+    baseErr& cast = res.cast<baseErr>();
     ASSERT_FALSE(nul(cast));
 
     const auto& ex = getReport();

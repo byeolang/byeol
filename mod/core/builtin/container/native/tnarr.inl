@@ -9,7 +9,7 @@
 namespace nm {
 
     class thread;
-    struct err;
+    class baseErr;
 
 #define TEMPL template <typename T, typename TACTIC>
 #define ME tnarr<T, TACTIC>

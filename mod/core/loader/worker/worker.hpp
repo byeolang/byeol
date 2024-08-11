@@ -44,11 +44,11 @@ namespace nm {
         T& getTask();
         const T& getTask() const NM_CONST_FUNC(getTask())
 
-        template <typename... Args> void error(Args... args) { _report(err::newErr(args...)); }
+        template <typename... Args> void error(Args... args) { _report(baseErr::newErr(args...)); }
 
-        template <typename... Args> void warn(Args... args) { _report(err::newWarn(args...)); }
+        template <typename... Args> void warn(Args... args) { _report(baseErr::newWarn(args...)); }
 
-        template <typename... Args> void info(Args... args) { _report(err::newInfo(args...)); }
+        template <typename... Args> void info(Args... args) { _report(baseErr::newInfo(args...)); }
 
         virtual void rel();
 
@@ -61,7 +61,7 @@ namespace nm {
     protected:
         virtual void _prepare();
 
-        void _report(err* e);
+        void _report(baseErr* e);
 
         virtual void _onEndWork();
         virtual R _onWork() = 0;

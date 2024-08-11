@@ -3,7 +3,7 @@
 #include "../common.hpp"
 #include "../type/dumpable.hpp"
 #include "../type/ntype.hpp"
-#include "err.hpp"
+#include "baseErr.hpp"
 
 namespace nm {
 
@@ -13,7 +13,7 @@ namespace nm {
     public:
         nbool operator==(const me& rhs) const;
         nbool operator!=(const me& rhs) const;
-        const err& operator[](nidx n) const;
+        const baseErr& operator[](nidx n) const;
         operator nbool() const;
 
     public:
@@ -23,19 +23,18 @@ namespace nm {
         nbool hasWarn(nidx since) const;
         nbool has(logLv::level type) const;
         nbool has(logLv::level type, nidx since) const;
-        nbool has(errCode code) const;
 
-        const err& get(nidx n) const;
+        const baseErr& get(nidx n) const;
 
         ncnt len() const;
 
-        virtual const err& add(const err* new1);
-        const err& add(const err& new1);
+        virtual const baseErr& add(const baseErr* new1);
+        const baseErr& add(const baseErr& new1);
         void add(const me& rhs);
 
-        std::vector<tstr<err>>::const_iterator begin() const;
-        std::vector<tstr<err>>::const_iterator last() const;
-        std::vector<tstr<err>>::const_iterator end() const;
+        std::vector<tstr<baseErr>>::const_iterator begin() const;
+        std::vector<tstr<baseErr>>::const_iterator last() const;
+        std::vector<tstr<baseErr>>::const_iterator end() const;
 
         void log(nidx since) const;
         void log() const;
@@ -45,14 +44,14 @@ namespace nm {
         void rel();
 
     private:
-        std::vector<tstr<err>> _errs;
+        std::vector<tstr<baseErr>> _errs;
     };
 
     class _nout dummyErrReport: public errReport {
         NM(CLASS(dummyErrReport, errReport))
 
     public:
-        const err& add(const err* new1) override;
+        const baseErr& add(const baseErr* new1) override;
 
         static me singletone;
     };

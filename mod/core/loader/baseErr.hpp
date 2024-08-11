@@ -1,0 +1,44 @@
+#pragma once
+
+#include "../ast/baseObj.hpp"
+#include "../type/dumpable.hpp"
+#include "../frame/callstack.hpp"
+
+namespace nm {
+    class _nout baseErr: public baseObj, public dumpable {
+        NM(ADT(baseErr, baseObj))
+        template <typename T, nbool> friend struct tmarshaling;
+
+    public:
+        baseErr(logLv::level t);
+        baseErr(const baseErr& rhs);
+
+    protected:
+        baseErr();
+
+    public:
+        virtual nbool operator==(const me& rhs) const = 0;
+        nbool operator!=(const me& rhs) const;
+
+    public:
+        using super::run;
+        str run(const args& a) override;
+        virtual std::string getMsg() const = 0;
+
+        virtual void log() const = 0;
+        void dbgLog() const;
+        const callstack& getStack() const;
+        virtual void logStack() const;
+        void dump() const override;
+        const std::string& getLevelName() const;
+
+    private:
+        void _initStack();
+
+    public:
+        logLv::level fType;
+
+    private:
+        callstack _stack;
+    };
+}
