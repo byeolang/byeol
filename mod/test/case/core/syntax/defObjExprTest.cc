@@ -339,3 +339,19 @@ TEST_F(defObjExprTest, frameNotCreatedWhenCallPackFunc) {
     // because it doesn't make a frame object and add to current thread when frame::inFrame() func
     // get called. so it reuses previous frame instance when boo() called.
 }
+
+TEST_F(defObjExprTest, defPropAllowedIfThereIsProperCtor) {
+    make().parse(R"SRC(
+        def a
+            age int
+            ctor()
+                age = 22
+        main() int
+            a1 a
+            a1.age
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 22);
+}
