@@ -86,7 +86,7 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, baseCtor& me) {
         baseObj& cast = getTask().cast<baseObj>();
-        if(nul(cast)) getReport().add(err::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
+        if(nul(cast)) getReport().add(nerr::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
         else if(i.parent && i.parent == &cast)
             // if this ctor belongs to root object(== generic obj):
             me._setOrigin(cast.getOrigin());
@@ -103,7 +103,7 @@ namespace nm {
             NM_DI("* inject func: retType of '%s(%s) %s' --> '%s'", i, me.getParams().toStr(),
                 me.getRet()->getEval(), retOrg);
             me.setRet(retOrg);
-            if(nul(i.parent)) getReport().add(err::newErr(errCode::IS_NUL, "parent"));
+            if(nul(i.parent)) getReport().add(nerr::newErr(errCode::IS_NUL, "parent"));
         }
 
         onVisit(i, (baseFunc::super&) me);

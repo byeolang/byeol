@@ -4,12 +4,21 @@
 namespace nm {
     NM(DEF_ME(baseErr))
 
-    me::baseErr() {}
+    me::baseErr(): _lv(logLv::ERR), _pos{} {}
 
-    me::baseErr(logLv::level t): fType(t) { _initStack(); }
+    me::baseErr(logLv::level t): _lv(t), _pos{} { _initStack(); }
+
+    me::baseErr(logLv::level t, const point& pos): _lv(t), _pos(pos) { _initStack(); }
 
     me::baseErr(const me& rhs) {
-        if(rhs._stack.hasTraces()) _stack = rhs._stack;
+        _assign(rhs);
+    }
+
+    me& me::operator=(const me& rhs) {
+        if(this == &rhs) return *this;
+        super::operator=(rhs);
+
+        return _assign(rhs);
     }
 
     nbool me::operator!=(const me& rhs) const { return !operator==(rhs); }
@@ -39,12 +48,24 @@ namespace nm {
         if(!nul(thr)) _stack.setStack(thread::get().getFrames());
     }
 
+    me& me::_assign(const me& rhs) {
+        if(rhs._stack.hasTraces()) _stack = rhs._stack;
+        _lv = rhs._lv;
+        _pos = rhs._pos;
+
+        return *this;
+    }
+
     void me::dump() const {
         log();
         logStack();
     }
 
     const std::string& me::getLevelName() const {
-        return logLv::getName(fType);
+        return logLv::getName(_lv);
     }
+
+    logLv::level me::getLv() const { return _lv; }
+
+    const point& me::getPos() const { return _pos; }
 } // namespace nm

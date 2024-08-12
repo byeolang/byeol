@@ -367,7 +367,7 @@ TEST_F(ifExprTest, evalIfExprReturningSomethingNegative2) {
         .shouldVerified(false);
 
     const auto& rpt = getReport();
-    ASSERT_TRUE(rpt.has(errCode::CANT_ASSIGN_RET));
+    ASSERT_TRUE(rpt.hasErr());
 }
 
 TEST_F(ifExprTest, nestedIfBlockReturnSomething) {

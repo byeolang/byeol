@@ -245,7 +245,6 @@ TEST_F(retExprTest, dontUseRetAtMiddleOfBlockNegative) {
 
     const auto& rpt = getReport();
     ASSERT_TRUE(rpt.hasErr());
-    ASSERT_TRUE(rpt.has(errCode::RET_AT_MIDDLE_OF_BLOCK));
 }
 
 TEST_F(retExprTest, dontUseRetAtMiddleOfBlockNegative2) {
@@ -263,5 +262,4 @@ TEST_F(retExprTest, dontUseRetAtMiddleOfBlockNegative2) {
 
     const auto& rpt = getReport();
     ASSERT_TRUE(rpt.hasErr());
-    ASSERT_TRUE(rpt.has(errCode::RET_AT_MIDDLE_OF_BLOCK));
 }

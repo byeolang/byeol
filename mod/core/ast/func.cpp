@@ -6,6 +6,7 @@
 #include "../visitor/visitor.hpp"
 #include "obj.hpp"
 #include "params.hpp"
+#include "../loader/nerr.hpp"
 
 namespace nm {
 
@@ -41,7 +42,7 @@ namespace nm {
         if(nul(a)) return NM_E("a == null"), str();
         if(!thread::get().isInteractable())
             return NM_E("thread isn't interactable"),
-                   err::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD);
+                   nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD);
 
         // s is from heap space. but freed by _outFrame() of this class.
         scope& s = *_evalArgs(a);

@@ -65,7 +65,6 @@ namespace nm {
     public:
         errCode code;
         std::string msg;
-        point pos;
         static constexpr nint BASE_TEST_CODE = 99999990; // not to be duplicated.
     };
 

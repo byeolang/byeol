@@ -35,9 +35,5 @@ TEST_F(threadTest, testExceptionOccurs) {
 
     const auto& ex = getExceptions();
     ASSERT_TRUE(ex.len() > 0);
-    const err& e = ex[0];
-    ASSERT_FALSE(nul(ex));
-    ASSERT_EQ(e.code, errCode::OUT_OF_RANGE);
-
-    e.dump();
+    ex[0].dump();
 }

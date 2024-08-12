@@ -2,6 +2,7 @@
 
 #include "../../type/ntype.hpp"
 #include "../errReport.hpp"
+#include "../nerr.hpp"
 
 namespace nm {
 
@@ -44,11 +45,11 @@ namespace nm {
         T& getTask();
         const T& getTask() const NM_CONST_FUNC(getTask())
 
-        template <typename... Args> void error(Args... args) { _report(baseErr::newErr(args...)); }
+        template <typename... Args> void error(Args... args) { _report(nerr::newErr(args...)); }
 
-        template <typename... Args> void warn(Args... args) { _report(baseErr::newWarn(args...)); }
+        template <typename... Args> void warn(Args... args) { _report(nerr::newWarn(args...)); }
 
-        template <typename... Args> void info(Args... args) { _report(baseErr::newInfo(args...)); }
+        template <typename... Args> void info(Args... args) { _report(nerr::newInfo(args...)); }
 
         virtual void rel();
 

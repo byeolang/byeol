@@ -1089,7 +1089,7 @@ namespace nm {
         return getSubPack();
     }
 
-    void me::_report(err* new1) { safeGet(getReport(), add(new1)); }
+    void me::_report(baseErr* new1) { safeGet(getReport(), add(new1)); }
 
     exprMaker& me::_getMaker() { return _maker; }
 } // namespace nm

@@ -1,6 +1,7 @@
 #include "exMaker.hpp"
 
 #include "../frame/thread.hpp"
+#include "../loader/nerr.hpp"
 
 namespace nm {
     NM(DEF_ME(exMaker))
@@ -10,7 +11,7 @@ namespace nm {
         va_list args;
         va_start(args, code);
 
-        err* new1 = err::newErr(code, args);
+        baseErr* new1 = nerr::newErr(code, args);
         new1->dbgLog();
         rpt.add(new1);
 
@@ -22,7 +23,7 @@ namespace nm {
         va_list args;
         va_start(args, code);
 
-        err* new1 = err::newErr(pos, code, args);
+        baseErr* new1 = nerr::newErr(pos, code, args);
         new1->dbgLog();
         rpt.add(new1);
 

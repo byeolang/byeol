@@ -10,7 +10,7 @@ namespace nm {
 
     public:
         defaultSigZone(const W& worker):
-            super([&](const err& e) {
+            super([&](const baseErr& e) {
                 enablesZone zone;
                 zone.setEnable(true);
 

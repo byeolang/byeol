@@ -68,7 +68,7 @@ namespace nm {
     void ME::_prepare() { _area.rel(); }
 
     TEMPLATE
-    void ME::_report(err* e) {
+    void ME::_report(baseErr* e) {
         _rpt->add(e);
         if(isFlag(LOG_ON_EX)) {
             enablesZone zone(true);

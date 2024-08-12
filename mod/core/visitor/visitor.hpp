@@ -55,19 +55,19 @@ namespace nm {
 
         template <typename... Args>
         void posWarn(errCode code, const node& it, const Args&... args) {
-            _report(err::newWarn(it.getSrc().getPos(), code,
+            _report(nerr::newWarn(it.getSrc().getPos(), code,
                 __convert__((const Args&) args).unwrap()...));
         }
 
         template <typename... Args>
         void posError(errCode code, const node& it, const Args&... args) {
-            _report(err::newErr(it.getSrc().getPos(), code,
+            _report(nerr::newErr(it.getSrc().getPos(), code,
                 __convert__((const Args&) args).unwrap()...));
         }
 
         template <typename... Args>
         void posInfo(errCode code, const node& it, const Args&... args) {
-            _report(err::newInfo(it.getSrc().getPos(), code,
+            _report(nerr::newInfo(it.getSrc().getPos(), code,
                 __convert__((const Args&) args).unwrap()...));
         }
 

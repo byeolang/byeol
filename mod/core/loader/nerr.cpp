@@ -116,15 +116,15 @@ namespace nm {
     }
 
     me::nerr(logLv::level t, nint newCode):
-        super(t), code((errCode) newCode), msg(getErrMsg(code)), pos{} {}
+        super(t), code((errCode) newCode), msg(getErrMsg(code)) {}
 
     me::nerr(logLv::level t, nint newCode, va_list args):
-        super(t), code((errCode) newCode), msg(_format(getErrMsg(code), args)), pos{} {}
+        super(t), code((errCode) newCode), msg(_format(getErrMsg(code), args)) {}
 
     me::nerr(logLv::level t, const point& ps, nint newCode, va_list args):
-        super(t), code((errCode) newCode), msg(_format(getErrMsg(code), args)), pos(ps) {}
+        super(t, ps), code((errCode) newCode), msg(_format(getErrMsg(code), args)) {}
 
-    me::nerr(const me& rhs): super(rhs), code(rhs.code), msg(rhs.msg), pos{} {}
+    me::nerr(const me& rhs): super(rhs), code(rhs.code), msg(rhs.msg) {}
 
     me::nerr(): super() {}
 
@@ -132,7 +132,7 @@ namespace nm {
         const me& cast = rhs.cast<me>();
         if(nul(cast)) return false;
 
-        return fType == cast.fType && code == cast.code && code == cast.code;
+        return getLv() == cast.getLv() && code == cast.code && code == cast.code;
     }
 
     scope& me::subs() {
@@ -147,7 +147,8 @@ namespace nm {
     void me::log() const {
         using platformAPI::foreColor;
         auto& log = logger::get();
-        switch(fType) {
+        const point& pos = getPos();
+        switch(getLv()) {
             case logLv::ERR:
                 if(pos.isOrigin())
                     log.logFormatBypass("%serr%d(%s)", foreColor(LIGHTRED).c_str(), code,
@@ -181,6 +182,8 @@ namespace nm {
     std::string me::getMsg() const {
         std::stringstream ss;
         ss << getLevelName() << code << "(" << getErrName(code) << ")";
+
+        const point& pos = getPos();
         if(!pos.isOrigin()) ss << " row" << pos.row << " col" << pos.col << ": " << msg;
         return ss.str();
     }

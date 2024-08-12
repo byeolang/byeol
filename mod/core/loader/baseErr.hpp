@@ -11,12 +11,14 @@ namespace nm {
 
     public:
         baseErr(logLv::level t);
+        baseErr(logLv::level t, const point& pos);
         baseErr(const baseErr& rhs);
 
     protected:
         baseErr();
 
     public:
+        me& operator=(const me& rhs);
         virtual nbool operator==(const me& rhs) const = 0;
         nbool operator!=(const me& rhs) const;
 
@@ -31,14 +33,16 @@ namespace nm {
         virtual void logStack() const;
         void dump() const override;
         const std::string& getLevelName() const;
+        logLv::level getLv() const;
+        const point& getPos() const;
 
     private:
         void _initStack();
-
-    public:
-        logLv::level fType;
+        me& _assign(const me& rhs);
 
     private:
         callstack _stack;
+        logLv::level _lv;
+        point _pos;
     };
 }

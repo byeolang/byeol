@@ -217,15 +217,15 @@ namespace nm {
         void onParseErr(const std::string& msg, const nchar* symbolName);
 
         template <typename... Args> void posError(Args... args) {
-            _report(err::newErr(getArea().start, args...));
+            _report(nerr::newErr(getArea().start, args...));
         }
 
         template <typename... Args> void posWarn(Args... args) {
-            _report(err::newWarn(getArea().start, args...));
+            _report(nerr::newWarn(getArea().start, args...));
         }
 
         template <typename... Args> void posInfo(Args... args) {
-            _report(err::newInfo(getArea().start, args...));
+            _report(nerr::newInfo(getArea().start, args...));
         }
 
     protected:
@@ -247,7 +247,7 @@ namespace nm {
         runExpr* _onRunExpr(node& type, const args& a);
 
         nint _onScan(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner);
-        void _report(err* new1);
+        void _report(baseErr* new1);
         params _asParams(const args& exprs);
 
         nbool _onInjectObjSubs(obj& it, defBlock& blk);

@@ -11,5 +11,5 @@ struct verifierTest: public ::testing::Test {
 
 TEST_F(verifierTest, errMsgFor0ShouldExist) {
     ASSERT_TRUE(errCode::ERR_CODE_END > 0);
-    ASSERT_EQ(err::getErrMsg(UNKNOWN), "unknown");
+    ASSERT_EQ(nerr::getErrMsg(UNKNOWN), "unknown");
 }

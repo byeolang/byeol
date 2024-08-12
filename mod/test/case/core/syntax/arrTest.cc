@@ -451,7 +451,7 @@ TEST_F(arrTest, arrDeductionFailNegative) {
 
     errReport& errs = getReport();
     ASSERT_TRUE(errs);
-    ASSERT_EQ(errs[0].pos.row, 6);
+    ASSERT_EQ(errs[0].getPos().row, 6);
 }
 
 TEST_F(arrTest, arrDeductionFailNegative2) {
@@ -815,7 +815,7 @@ TEST_F(arrTest, outOfBoundExOccurs) {
         ASSERT_TRUE(res);
         nerr& cast = res->cast<nerr>();
         ASSERT_FALSE(nul(cast));
-        ASSERT_EQ(cast.fType, logLv::ERR);
+        ASSERT_EQ(cast.getLv(), logLv::ERR);
         ASSERT_EQ(cast.code, errCode::OUT_OF_RANGE);
     }
 }

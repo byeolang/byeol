@@ -32,7 +32,7 @@ namespace nm {
     nbool me::has(logLv::level type, nidx since) const {
         if(since < 0) since = 0;
         for(nidx n = since; n < _errs.size(); n++)
-            if(_errs[n]->fType == type) return true;
+            if(_errs[n]->getLv() == type) return true;
         return false;
     }
 
