@@ -41,6 +41,10 @@ namespace nm {
             return func(baseObj::CTOR_NAME, new tbridgeCtor<T, Args...>());
         }
 
+        /*template <typename T1, typename... Args> static me& ctorIndirect() {
+            return func(baseObj::CTOR_NAME, new tbridgeCtor<T1, Args...>());
+        }*/
+
         template <typename Ret, typename T1 = T, typename... Args>
         static me& closure(const std::string& name, std::function<Ret(T1&, Args...)> c) {
             return func(name, new tbridgeClosure<Ret, T1, tmarshaling, Args...>(c));
@@ -137,9 +141,13 @@ namespace nm {
 
         static me& ctor() { return func(baseObj::CTOR_NAME, new tbridgeCtor<T>()); }
 
-        template <typename T1, typename... Args> static me& ctor() {
-            return func(baseObj::CTOR_NAME, new tbridgeCtor<T1, Args...>());
+        template <typename... Args> static me& ctor() {
+            return func(baseObj::CTOR_NAME, new tbridgeCtor<T, Args...>());
         }
+
+        /*template <typename T1, typename... Args> static me& ctorIndirect() {
+            return func(baseObj::CTOR_NAME, new tbridgeCtor<T1, Args...>());
+        }*/
 
         template <typename Ret, typename T1 = T, typename... Args>
         static me& closure(const std::string& name, std::function<Ret(T1&, Args...)> c) {
