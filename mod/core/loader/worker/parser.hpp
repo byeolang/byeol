@@ -6,7 +6,7 @@
 #include "../../ast/origin.hpp"
 #include "../../ast/params.hpp"
 #include "../../ast/slot.hpp"
-#include "../errReport.hpp"
+#include "../../err/errReport.hpp"
 #include "bison/tokenScan.hpp"
 #include "defBlock.hpp"
 #include "smartDedent.hpp"

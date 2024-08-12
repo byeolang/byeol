@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../loader/errReport.hpp"
+#include "../err/errReport.hpp"
 #include "manifest.hpp"
 #include "origin.hpp"
 

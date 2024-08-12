@@ -6,7 +6,7 @@
 #include "../visitor/visitor.hpp"
 #include "obj.hpp"
 #include "params.hpp"
-#include "../loader/nerr.hpp"
+#include "../err/nerr.hpp"
 
 namespace nm {
 

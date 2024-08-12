@@ -5,7 +5,7 @@
 #include "../frame/frame.hpp"
 #include "../frame/starter.hpp"
 #include "../frame/thread.hpp"
-#include "../loader/errReport.hpp"
+#include "../err/errReport.hpp"
 #include "../loader/worker/worker.inl"
 #include "common/macro.hpp"
 

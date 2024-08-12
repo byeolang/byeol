@@ -1,7 +1,7 @@
 #include "exMaker.hpp"
 
 #include "../frame/thread.hpp"
-#include "../loader/nerr.hpp"
+#include "../err/nerr.hpp"
 
 namespace nm {
     NM(DEF_ME(exMaker))

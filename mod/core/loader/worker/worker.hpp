@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../../type/ntype.hpp"
-#include "../errReport.hpp"
-#include "../nerr.hpp"
+#include "../../err/errReport.hpp"
+#include "../../err/nerr.hpp"
 
 namespace nm {
 

@@ -2,7 +2,7 @@
 
 #include "../../ast/autoslot.hpp"
 #include "../../frame/thread.hpp"
-#include "../errReport.hpp"
+#include "../../err/errReport.hpp"
 
 namespace nm {
 

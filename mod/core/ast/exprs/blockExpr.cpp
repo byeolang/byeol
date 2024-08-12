@@ -5,7 +5,7 @@
 #include "../../frame/thread.hpp"
 #include "../../visitor/visitor.hpp"
 #include "retStateExpr.hpp"
-#include "../../loader/nerr.hpp"
+#include "../../err/nerr.hpp"
 
 namespace nm {
 

@@ -2,7 +2,7 @@
 
 #include "../../../ast/node.hpp"
 #include "../bison/lowscanner.hpp"
-#include "../../nerr.hpp"
+#include "../../../err/nerr.hpp"
 
 namespace nm {
     NM_DEF_ME(srcSupply)

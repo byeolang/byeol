@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../loader/nerr.hpp"
+#include "../err/nerr.hpp"
 
 namespace nm {
 

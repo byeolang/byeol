@@ -2,7 +2,7 @@
 
 #include "../builtin/container/mgd/tarr.hpp"
 #include "../builtin/container/native/tnmap.hpp"
-#include "../loader/errReport.hpp"
+#include "../err/errReport.hpp"
 #include "frames.hpp"
 
 struct exprTest;

@@ -1,7 +1,7 @@
 #include "errReport.hpp"
 
 #include "../ast/node.hpp"
-#include "loader/nerr.hpp"
+#include "nerr.hpp"
 
 namespace nm {
 
