@@ -56,6 +56,7 @@ build/.clangd/
 build/mod/
 build/compile_commands.json
 build/.cmake/
+.idea/
 tags
 docs/html/
 docs/xml/
