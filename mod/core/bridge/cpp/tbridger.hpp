@@ -23,6 +23,11 @@ namespace nm {
     public:
         static scope& subs() { return _get()._subs; }
 
+        static me& extend(const scope& src) {
+            subs().link(src);
+            return _get();
+        }
+
         static me& func(const std::string& name, const baseFunc& bridgeFunc) {
             _get().subs().add(name, bridgeFunc);
             return _get();
@@ -115,6 +120,11 @@ namespace nm {
 
     public:
         static scope& subs() { return _get()._subs; }
+
+        static me& extend(const scope& src) {
+            subs().link(src);
+            return _get();
+        }
 
         static me& func(const std::string& name, const baseFunc& bridgeFunc) {
             _get().subs().add(name, bridgeFunc);
