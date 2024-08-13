@@ -228,6 +228,14 @@ namespace nm {
         fr.addLocal(name, *new mockNode(*eval));
     }
 
+    void me::onLeave(const visitInfo& i, defPropExpr& me) {
+        _GUARD("onLeave()");
+
+        _STEP("whether the 'type' object has a ctor without any paramters?");
+        const node& type = me.getRight();
+        NM_WHENNUL(type.sub(baseObj::CTOR_NAME, args{})).ret(DONT_HAVE_CTOR, me, i);
+    }
+
     void me::onLeave(const visitInfo& i, defAssignExpr& me) {
         _GUARD("onVisit()");
 

@@ -23,6 +23,7 @@ namespace nm {
         nbool onVisit(const visitInfo& i, blockExpr& me) override;
         void onLeave(const visitInfo& i, blockExpr& me) override;
         void onLeave(const visitInfo& i, defVarExpr& me) override;
+        void onLeave(const visitInfo& i, defPropExpr& me) override;
         void onLeave(const visitInfo& i, defAssignExpr& me) override;
         void onLeave(const visitInfo& i, defSeqExpr& me) override;
         void onLeave(const visitInfo& i, defArrayExpr& me) override;

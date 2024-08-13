@@ -359,3 +359,18 @@ TEST_F(defObjExprTest, defPropAllowedIfThereIsProperCtor) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 22);
 }
+
+TEST_F(defObjExprTest, defPropNotAllowedIfThereIsNoProperCtorNegative) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        def a
+            age int
+            ctor(n int)
+                age = n
+        main() int
+            a1 a
+            a1.age
+    )SRC")
+        .shouldVerified(false);
+}
