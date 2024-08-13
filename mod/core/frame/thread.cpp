@@ -7,7 +7,7 @@
 #include "../builtin/pkgs/default/printFunc.hpp"
 #include "../err/errReport.hpp"
 #include "../loader/slot/slotLoader.hpp"
-#include "../err/nerr.hpp"
+#include "../err/err.hpp"
 
 namespace nm {
 
@@ -160,7 +160,7 @@ namespace nm {
     void me::_loadBuiltIns(nmap& tray) const {
         tray.add("input", new inputFunc());
         tray.add("print", new printFunc<nStr>());
-        tray.add("err", nerr::singletone().getOrigin());
+        tray.add("err", new err(""));
     }
 
     tstr<nmap> me::_initSlots() const {

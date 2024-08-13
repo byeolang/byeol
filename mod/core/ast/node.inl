@@ -134,6 +134,7 @@ namespace nm {
 
                 p = !nul(a) ? val.prioritize(a) : EXACT_MATCH;
                 if(p != NO_MATCH) ps.push_back(*new tprior<T>(val, p, lv));
+
                 const baseFunc& f = val.template cast<baseFunc>();
                 std::string valArgs = !nul(f) ? "(" + f.getParams().toStr() + ")" : "";
                 NM_DI("subAll: [%d/%d] %s%s --> %s.%s%s = priority(type=%s, lv=%d)", n++,

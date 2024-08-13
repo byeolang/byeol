@@ -13,6 +13,8 @@ TEST_F(defObjExprTest, simpleDefineObject) {
         def A
             foo() void
                 print("hello")
+        main() void
+            a1 := A()
     )SRC")
         .shouldVerified(true);
     run();
