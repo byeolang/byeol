@@ -3,7 +3,7 @@
 #include "../func.hpp"
 
 namespace nm {
-    class _nout ctor : public func {
+    class _nout ctor: public func {
         NM(CLASS(ctor, func), VISIT())
 
     public:

@@ -150,9 +150,9 @@ namespace nm {
             case logLv::WARN: clrLv = YELLOW; break;
             case logLv::INFO: clrLv = LIGHTBLUE; break;
         }
-        msg += _makeStr("%s%c %s%s <%s%s#%d> %s", foreColor(clrLv).c_str(),
-            logLv::getName(lv)[0], foreColor(LIGHTMAGENTA).c_str(), tag.c_str(),
-            foreColor(GREEN).c_str(), func, line, foreColor(LIGHTGRAY).c_str());
+        msg += _makeStr("%s%c %s%s <%s%s#%d> %s", foreColor(clrLv).c_str(), logLv::getName(lv)[0],
+            foreColor(LIGHTMAGENTA).c_str(), tag.c_str(), foreColor(GREEN).c_str(), func, line,
+            foreColor(LIGHTGRAY).c_str());
 
         va_list va;
         va_start(va, fmt);

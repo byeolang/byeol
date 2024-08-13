@@ -63,14 +63,17 @@ TEST_F(commentTest, multiLineComment2) {
 }
 
 TEST_F(commentTest, negativeMultiLineComment) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         age ### age is age
         main() int # <-- still comment this entire line.
 sdfjwer ###int
         main() void
             # you should not close multline comment with more than 3 '#'.
             ret
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(commentTest, multiLineComment3Negative) {

@@ -343,7 +343,8 @@ TEST_F(defObjExprTest, frameNotCreatedWhenCallPackFunc) {
 }
 
 TEST_F(defObjExprTest, defPropAllowedIfThereIsProperCtor) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def a
             age int
             ctor()
@@ -351,7 +352,8 @@ TEST_F(defObjExprTest, defPropAllowedIfThereIsProperCtor) {
         main() int
             a1 a
             a1.age
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

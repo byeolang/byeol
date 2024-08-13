@@ -371,7 +371,8 @@ TEST_F(ifExprTest, evalIfExprReturningSomethingNegative2) {
 }
 
 TEST_F(ifExprTest, nestedIfBlockReturnSomething) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := if 3 > 5
                 "no"
@@ -381,7 +382,8 @@ TEST_F(ifExprTest, nestedIfBlockReturnSomething) {
                 else
                     "no"
             ret a.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

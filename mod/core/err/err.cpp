@@ -5,6 +5,7 @@ namespace nm {
     NM(DEF_ME(err))
 
     me::err(const nStr& msg): _msg(msg) {}
+
     me::err() {}
 
     nbool me::operator==(const super& rhs) const {
@@ -17,11 +18,7 @@ namespace nm {
 
     scope& me::subs() {
         static scope* inner = nullptr;
-        if(nul(inner)) {
-            inner = &tbridger<me>::ctor<nStr>()
-                .extend(super::subs())
-                .subs();
-        }
+        if(nul(inner)) inner = &tbridger<me>::ctor<nStr>().extend(super::subs()).subs();
 
         return *inner;
     }

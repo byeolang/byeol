@@ -36,4 +36,4 @@ namespace nm {
         narr _exprs;
         str _eval;
     };
-}
+} // namespace nm

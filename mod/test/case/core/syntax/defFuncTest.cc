@@ -413,7 +413,8 @@ TEST_F(defFuncTest, overloadingAmbigiousNegative) {
 }
 
 TEST_F(defFuncTest, accessMeShouldBeComplete) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def a
             age int
             say(n int) void
@@ -423,7 +424,8 @@ TEST_F(defFuncTest, accessMeShouldBeComplete) {
             a1 := a()
             a1.say(22)
             ret a1.age
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -431,7 +433,8 @@ TEST_F(defFuncTest, accessMeShouldBeComplete) {
 }
 
 TEST_F(defFuncTest, simpleCtor) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             name str
             ctor(name str)
@@ -439,7 +442,8 @@ TEST_F(defFuncTest, simpleCtor) {
         main() int
             p1 := person("kniz")
             ret p1.name.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -447,7 +451,8 @@ TEST_F(defFuncTest, simpleCtor) {
 }
 
 TEST_F(defFuncTest, multipleCtor) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             name str
             ctor(): me.name = "hello"
@@ -456,7 +461,8 @@ TEST_F(defFuncTest, multipleCtor) {
         main() int
             p1 := person("kniz")
             ret p1.name.len() + person().name.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -464,7 +470,8 @@ TEST_F(defFuncTest, multipleCtor) {
 }
 
 TEST_F(defFuncTest, simpleCtorNegative) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             name str
             ctor(name str)
@@ -472,7 +479,8 @@ TEST_F(defFuncTest, simpleCtorNegative) {
         main() int
             p1 := person()
             ret p1.name.len()
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 /* TODO: uncomment after implement isAbstract() on func/originObj

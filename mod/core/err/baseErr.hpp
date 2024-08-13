@@ -46,4 +46,4 @@ namespace nm {
         callstack _stack;
         logLv::level _lv;
     };
-}
+} // namespace nm
