@@ -451,7 +451,7 @@ TEST_F(arrTest, arrDeductionFailNegative) {
 
     errReport& errs = getReport();
     ASSERT_TRUE(errs);
-    ASSERT_EQ(errs[0].getPos().row, 6);
+    ASSERT_EQ(errs[0].cast<nerr>().getPos().row, 6);
 }
 
 TEST_F(arrTest, arrDeductionFailNegative2) {
@@ -805,7 +805,7 @@ TEST_F(arrTest, outOfBoundExOccurs) {
     ASSERT_TRUE(nul(res.cast<nint>())); // which means, program ended with error code.
     nerr& resErr = res.cast<nerr>();
     ASSERT_FALSE(nul(resErr));
-    ASSERT_EQ(resErr.code, errCode::OUT_OF_RANGE);
+    ASSERT_EQ(resErr.getErrCode(), errCode::OUT_OF_RANGE);
 
     {
         auto& A = getSubPack().sub("A"); // A.arr is mockNode
@@ -816,6 +816,6 @@ TEST_F(arrTest, outOfBoundExOccurs) {
         nerr& cast = res->cast<nerr>();
         ASSERT_FALSE(nul(cast));
         ASSERT_EQ(cast.getLv(), logLv::ERR);
-        ASSERT_EQ(cast.code, errCode::OUT_OF_RANGE);
+        ASSERT_EQ(cast.getErrCode(), errCode::OUT_OF_RANGE);
     }
 }

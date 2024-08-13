@@ -23,9 +23,12 @@ namespace nm {
         nbool operator!=(const me& rhs) const;
 
     public:
+        using super::subs;
+        scope& subs() override;
+
         using super::run;
         str run(const args& a) override;
-        virtual std::string getMsg() const = 0;
+        virtual const std::string& getMsg() const = 0;
 
         virtual void log() const = 0;
         void dbgLog() const;
@@ -34,7 +37,6 @@ namespace nm {
         void dump() const override;
         const std::string& getLevelName() const;
         logLv::level getLv() const;
-        const point& getPos() const;
 
     private:
         void _initStack();
@@ -43,6 +45,5 @@ namespace nm {
     private:
         callstack _stack;
         logLv::level _lv;
-        point _pos;
     };
 }

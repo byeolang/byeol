@@ -4,15 +4,11 @@
 namespace nm {
     NM(DEF_ME(baseErr))
 
-    me::baseErr(): _lv(logLv::ERR), _pos{} {}
+    me::baseErr(): _lv(logLv::ERR) {}
 
-    me::baseErr(logLv::level t): _lv(t), _pos{} { _initStack(); }
+    me::baseErr(logLv::level t): _lv(t) { _initStack(); }
 
-    me::baseErr(logLv::level t, const point& pos): _lv(t), _pos(pos) { _initStack(); }
-
-    me::baseErr(const me& rhs) {
-        _assign(rhs);
-    }
+    me::baseErr(const me& rhs) { _assign(rhs); }
 
     me& me::operator=(const me& rhs) {
         if(this == &rhs) return *this;
@@ -22,6 +18,14 @@ namespace nm {
     }
 
     nbool me::operator!=(const me& rhs) const { return !operator==(rhs); }
+
+    scope& me::subs() {
+        static scope inner = tbridger<me>::func("log", &me::log)
+                                 .func("logStack", &me::logStack)
+                                 .func("getMsg", &me::getMsg)
+                                 .subs();
+        return inner;
+    }
 
     str me::run(const args& a) {
         tpriorities<baseFunc> matches = subAll<baseFunc>(baseObj::CTOR_NAME, a);
@@ -51,7 +55,6 @@ namespace nm {
     me& me::_assign(const me& rhs) {
         if(rhs._stack.hasTraces()) _stack = rhs._stack;
         _lv = rhs._lv;
-        _pos = rhs._pos;
 
         return *this;
     }
@@ -61,11 +64,8 @@ namespace nm {
         logStack();
     }
 
-    const std::string& me::getLevelName() const {
-        return logLv::getName(_lv);
-    }
+    const std::string& me::getLevelName() const { return logLv::getName(_lv); }
 
     logLv::level me::getLv() const { return _lv; }
 
-    const point& me::getPos() const { return _pos; }
 } // namespace nm

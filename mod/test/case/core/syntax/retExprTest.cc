@@ -169,7 +169,7 @@ TEST_F(retExprTest, retException) {
     make()
         .parse(R"SRC(
         foo(n int) int
-            ret err()
+            ret err("err found")
         main() void
             print(foo(2) as str)
             print(foo(5) as str)
@@ -191,7 +191,7 @@ TEST_F(retExprTest, retExceptionNoThrowAgain) {
     make()
         .parse(R"SRC(
         foo(n int) int
-            ret err()
+            ret err("just an err")
         main() int
             foo(3)
     )SRC")
@@ -205,13 +205,14 @@ TEST_F(retExprTest, retExceptionNoThrowAgain) {
     const auto& ex = getReport();
     ASSERT_FALSE(nul(ex));
     ASSERT_EQ(ex.len(), 1);
+    ASSERT_EQ(ex[0].getMsg(), "just an err");
 }
 
 TEST_F(retExprTest, retExceptionNoThrowAgain2) {
     make()
         .parse(R"SRC(
         foo(n int) int
-            ret err()
+            ret err("just an err")
         main() int
             ret foo(3)
     )SRC")

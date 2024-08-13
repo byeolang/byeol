@@ -6,15 +6,15 @@ namespace nm {
     const std::string& me::getName(level lv) {
         switch(lv) {
             case ERR: {
-                static std::string msg("E");
+                static std::string msg("ERR");
                 return msg;
             }
             case WARN: {
-                static std::string msg("W");
+                static std::string msg("WARN");
                 return msg;
             }
             case INFO: {
-                static std::string msg("I");
+                static std::string msg("INFO");
                 return msg;
             }
         }

@@ -115,16 +115,27 @@ namespace nm {
         return new me(logLv::INFO, pos, code, args);
     }
 
+    namespace {
+        std::string _format(const std::string& fmt, va_list args) {
+            nchar buf[MAX_BUF] = {
+                0,
+            };
+            vsnprintf(buf, MAX_BUF, fmt.c_str(), args);
+
+            return buf;
+        }
+    }
+
     me::nerr(logLv::level t, nint newCode):
-        super(t), code((errCode) newCode), msg(getErrMsg(code)) {}
+        super(t), _code((errCode) newCode), _pos{}, _msg(getErrMsg(_code)) {}
 
     me::nerr(logLv::level t, nint newCode, va_list args):
-        super(t), code((errCode) newCode), msg(_format(getErrMsg(code), args)) {}
+        super(t), _code((errCode) newCode), _pos{}, _msg(_format(getErrMsg(_code), args)) {}
 
     me::nerr(logLv::level t, const point& ps, nint newCode, va_list args):
-        super(t, ps), code((errCode) newCode), msg(_format(getErrMsg(code), args)) {}
+        super(t), _code((errCode) newCode), _pos(ps), _msg(_format(getErrMsg(_code), args)) {}
 
-    me::nerr(const me& rhs): super(rhs), code(rhs.code), msg(rhs.msg) {}
+    me::nerr(const me& rhs): super(rhs), _code(rhs._code), _pos(rhs._pos), _msg(rhs._msg) {}
 
     me::nerr(): super() {}
 
@@ -132,14 +143,7 @@ namespace nm {
         const me& cast = rhs.cast<me>();
         if(nul(cast)) return false;
 
-        return getLv() == cast.getLv() && code == cast.code && code == cast.code;
-    }
-
-    scope& me::subs() {
-        static scope inner =
-            tbridger<super>::func("log", &super::log).func("logStack", &super::logStack).subs();
-
-        return inner;
+        return getLv() == cast.getLv() && _code == cast.getErrCode();
     }
 
     const baseObj& me::getOrigin() const { return singletone(); }
@@ -147,46 +151,42 @@ namespace nm {
     void me::log() const {
         using platformAPI::foreColor;
         auto& log = logger::get();
-        const point& pos = getPos();
         switch(getLv()) {
             case logLv::ERR:
-                if(pos.isOrigin())
-                    log.logFormatBypass("%serr%d(%s)", foreColor(LIGHTRED).c_str(), code,
-                        getErrName(code).c_str());
+                if(_pos.isOrigin())
+                    log.logFormatBypass("%serr%d(%s)", foreColor(LIGHTRED).c_str(), _code,
+                        getErrName(_code).c_str());
                 else
                     log.logFormatBypass("%serr%d(%s) row%d col%d", foreColor(LIGHTRED).c_str(),
-                        code, getErrName(code).c_str(), pos.row, pos.col);
+                        _code, getErrName(_code).c_str(), _pos.row, _pos.col);
                 break;
 
             case logLv::WARN:
-                if(pos.isOrigin())
-                    log.logFormatBypass("%swarn%d(%s)", foreColor(YELLOW).c_str(), code,
-                        getErrName(code).c_str());
+                if(_pos.isOrigin())
+                    log.logFormatBypass("%swarn%d(%s)", foreColor(YELLOW).c_str(), _code,
+                        getErrName(_code).c_str());
                 else
-                    log.logFormatBypass("%swarn%d(%s) row%d col%d", foreColor(YELLOW).c_str(), code,
-                        getErrName(code).c_str(), pos.row, pos.col);
+                    log.logFormatBypass("%swarn%d(%s) row%d col%d", foreColor(YELLOW).c_str(),
+                        _code, getErrName(_code).c_str(), _pos.row, _pos.col);
                 break;
 
             case logLv::INFO:
-                if(pos.isOrigin())
-                    log.logFormatBypass("%sinfo%d(%s)", foreColor(BLUE).c_str(), code,
-                        getErrName(code).c_str());
+                if(_pos.isOrigin())
+                    log.logFormatBypass("%sinfo%d(%s)", foreColor(BLUE).c_str(), _code,
+                        getErrName(_code).c_str());
                 else
-                    log.logFormatBypass("%sinfo%d(%s) row%d col%d", foreColor(BLUE).c_str(), code,
-                        getErrName(code).c_str(), pos.row, pos.col);
+                    log.logFormatBypass("%sinfo%d(%s) row%d col%d", foreColor(BLUE).c_str(), _code,
+                        getErrName(_code).c_str(), _pos.row, _pos.col);
                 break;
         }
-        log.logFormatBypass("%s: %s\n", foreColor(LIGHTGRAY).c_str(), msg.c_str());
+        log.logFormatBypass("%s: %s\n", foreColor(LIGHTGRAY).c_str(), getMsg().c_str());
     }
 
-    std::string me::getMsg() const {
-        std::stringstream ss;
-        ss << getLevelName() << code << "(" << getErrName(code) << ")";
+    const std::string& me::getMsg() const { return _msg; }
 
-        const point& pos = getPos();
-        if(!pos.isOrigin()) ss << " row" << pos.row << " col" << pos.col << ": " << msg;
-        return ss.str();
-    }
+    errCode me::getErrCode() const { return _code; }
+
+    const point& me::getPos() const { return _pos; }
 
     void me::logStack() const {
         super::logStack();
@@ -208,18 +208,12 @@ namespace nm {
         }
     }
 
-    std::string me::_format(const std::string& fmt, va_list args) {
-        nchar buf[MAX_BUF] = {
-            0,
-        };
-        vsnprintf(buf, MAX_BUF, fmt.c_str(), args);
-
-        return buf;
-    }
-
     ndummyErr::ndummyErr(): super(logLv::ERR, 0) {}
 
     void ndummyErr::log() const {}
 
-    std::string ndummyErr::getMsg() const { return ""; }
+    const std::string& ndummyErr::getMsg() const {
+        static std::string inner = "";
+        return inner;
+    }
 } // namespace nm

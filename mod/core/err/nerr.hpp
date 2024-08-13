@@ -33,14 +33,13 @@ namespace nm {
         nbool operator==(const super& rhs) const override;
 
     public:
-        using super::subs;
-        scope& subs() override;
-
         const baseObj& getOrigin() const override;
 
         void log() const override;
         void logStack() const override;
-        std::string getMsg() const override;
+        const std::string& getMsg() const override;
+        errCode getErrCode() const;
+        const point& getPos() const;
 
         static const nerr& singletone();
         static const std::string& getErrMsg(errCode code);
@@ -59,13 +58,12 @@ namespace nm {
         static nerr* newInfo(const point& src, int code, va_list args);
 
     private:
-        std::string _format(const std::string& fmt, va_list args);
         void _logNativeStack() const;
 
-    public:
-        errCode code;
-        std::string msg;
-        static constexpr nint BASE_TEST_CODE = 99999990; // not to be duplicated.
+    private:
+        errCode _code;
+        point _pos;
+        std::string _msg;
     };
 
     struct _nout ndummyErr: public nerr {
@@ -76,6 +74,6 @@ namespace nm {
 
     public:
         void log() const override;
-        std::string getMsg() const override;
+        const std::string& getMsg() const override;
     };
 } // namespace nm

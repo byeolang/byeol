@@ -26,7 +26,7 @@ namespace nm {
     }
 
     scope& me::_onMakeSubs() const {
-        static scope inner = tbridger<me>::ctor().ctor<me, me>().subs();
+        static scope inner = tbridger<me>::ctor().ctor<me>().subs();
         return inner;
     }
 

@@ -257,7 +257,7 @@ namespace {
         using super::subs;
 
         scope& subs() override {
-            static scope inner = tbridger<A>::ctor().ctor<A, A>().func("foo", &A::foo).subs();
+            static scope inner = tbridger<A>::ctor().ctor<A>().func("foo", &A::foo).subs();
 
             return inner;
         }
