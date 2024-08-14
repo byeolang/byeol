@@ -232,8 +232,9 @@ namespace nm {
         _GUARD("onLeave()");
 
         _STEP("whether the 'type' object has a ctor without any paramters?");
-        const node& type = me.getRight();
-        NM_WHENNUL(type.sub(baseObj::CTOR_NAME, args{})).ret(DONT_HAVE_CTOR, me, i);
+        str eval = safeGet(me, getRight(), getEval());
+        NM_WHEN(!eval).ret(RHS_IS_NUL, me);
+        NM_WHENNUL(eval->sub(baseObj::CTOR_NAME, args{})).ret(DONT_HAVE_CTOR, me, eval);
 
         onLeave(i, (defPropExpr::super&) me);
     }
