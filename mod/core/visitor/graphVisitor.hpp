@@ -36,7 +36,7 @@ namespace nm {
         template <typename T> nbool _onVisitPrimitive(const visitInfo& i, T& e) {
             _drawFrame(i);
             using platformAPI::foreColor;
-            std::clog << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN)
+            std::cout << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN)
                       << e.getType().getName() << foreColor(LIGHTGRAY) << " = " << foreColor(YELLOW)
                       << e.get();
             return false;

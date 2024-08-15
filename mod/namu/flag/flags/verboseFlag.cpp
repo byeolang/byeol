@@ -19,8 +19,10 @@ namespace nm {
     const nchar* me::_getRegExpr() const { return "^\\-v$"; }
 
     nbool me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
-        // ip.addFlag(interpreter::DEFAULT);
-        // s.addFlag(starter::DEFAULT | starter::LOG_GRAPH_ON_EX);
+        nint flag = interpreter::DUMP_ON_EX | interpreter::GUARD | interpreter::INTERNAL |
+            interpreter::LOG_ON_END | interpreter::LOG_GRAPH_ON_EX;
+        ip.setFlag(flag);
+        s.setFlag(flag);
         return true;
     }
 }

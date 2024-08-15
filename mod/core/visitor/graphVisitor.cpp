@@ -17,12 +17,12 @@ namespace nm {
         _isStart = false;
         super::_onWork();
 
-        clog << "\n";
+        cout << "\n";
     }
 
     void me::_drawIndent() {
         for(const char* e: _indents)
-            clog << platformAPI::foreColor(LIGHTGRAY) << e;
+            cout << platformAPI::foreColor(LIGHTGRAY) << e;
     }
 
     void me::_onIndent() {
@@ -36,7 +36,7 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, nStr& e) {
         _drawFrame(i);
-        clog << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN) << e.getType().getName()
+        cout << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN) << e.getType().getName()
              << foreColor(LIGHTGRAY) << " = " << foreColor(YELLOW) << _encodeNewLine(e.get());
         return false;
     }
@@ -49,21 +49,21 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, node& visitee) {
         _drawFrame(i);
-        clog << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN)
+        cout << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN)
              << visitee.getType().getName() << foreColor(LIGHTGRAY) << "@" << foreColor(RED)
              << platformAPI::toAddrId(&visitee);
         return true;
     }
 
     void me::_drawFrame(const visitInfo& i) {
-        if(_isStart) clog << "\n";
+        if(_isStart) cout << "\n";
         _isStart = true;
 
         _onIndent();
         _drawIndent();
 
         nbool isLast = nul(i.parent) ? true : i.index >= i.len - 1;
-        clog << foreColor(LIGHTGRAY) << (isLast ? "┗━[" : "┣━[") << foreColor(YELLOW) << i.index
+        cout << foreColor(LIGHTGRAY) << (isLast ? "┗━[" : "┣━[") << foreColor(YELLOW) << i.index
              << foreColor(LIGHTGRAY) << "] ";
         _parentsLast.push_back(isLast);
     }
@@ -76,7 +76,7 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, baseFunc& fun) {
         _drawFrame(i);
 
-        clog << foreColor(LIGHTGRAY) << "@" << foreColor(RED) << platformAPI::toAddrId(&fun) << " "
+        cout << foreColor(LIGHTGRAY) << "@" << foreColor(RED) << platformAPI::toAddrId(&fun) << " "
              << foreColor(LIGHTBLUE) << i.name << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN)
              << fun.getParams().toStr() << foreColor(LIGHTGRAY) << ") " << foreColor(CYAN)
              << fun.getRet()->getType().getName();
@@ -98,10 +98,10 @@ namespace nm {
 
         string args = e.getArgs().toStr();
 
-        clog << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getMe())
+        cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getMe())
              << foreColor(LIGHTGRAY) << "." << foreColor(YELLOW) << e.getName();
         if(!args.empty())
-            clog << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN) << args << foreColor(LIGHTGRAY)
+            cout << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN) << args << foreColor(LIGHTGRAY)
                  << ")";
         return true;
     }
@@ -109,7 +109,7 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, runExpr& e) {
         onVisit(i, (node&) e);
 
-        clog << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getMe())
+        cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getMe())
              << foreColor(LIGHTGRAY) << "." << foreColor(YELLOW) << _getNameFrom(e.getSubj())
              << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << e.getArgs().toStr()
              << foreColor(LIGHTGRAY) << ")";
@@ -119,21 +119,21 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, FBOExpr& e) {
         onVisit(i, (node&) e);
 
-        clog << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN) << e.getLeft().getType().getName();
+        cout << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN) << e.getLeft().getType().getName();
         str leftVal = e.getLeft();
         const std::string& leftName = leftVal->isSub<getExpr>() ?
             leftVal->cast<getExpr>().getName() :
             leftVal->getType().getName();
-        clog << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(leftName)
+        cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(leftName)
              << foreColor(LIGHTGRAY) << ")";
 
-        clog << " " << foreColor(LIGHTGRAY) << e.getRuleName(e.getRule()) << " " << foreColor(CYAN)
+        cout << " " << foreColor(LIGHTGRAY) << e.getRuleName(e.getRule()) << " " << foreColor(CYAN)
              << e.getRight().getType().getName();
         str rightVal = e.getRight();
         const std::string& rightName = rightVal->isSub<getExpr>() ?
             rightVal->cast<getExpr>().getName() :
             rightVal->getType().getName();
-        clog << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(rightName)
+        cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(rightName)
              << foreColor(LIGHTGRAY) << ")";
 
         return !e.getLeft().isSub<arithmeticObj>() || !e.getRight().isSub<arithmeticObj>();
@@ -143,7 +143,7 @@ namespace nm {
         onVisit(i, (node&) e);
 
         const node& op = e.getOperand();
-        clog << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN) << op.getType().getName() << " "
+        cout << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN) << op.getType().getName() << " "
              << foreColor(LIGHTGRAY) << e.getRuleName(e.getRule());
         return true;
     }
@@ -151,7 +151,7 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, assignExpr& e) {
         onVisit(i, (node&) e);
 
-        clog << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getLeft())
+        cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getLeft())
              << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getRight());
 
         return true;
@@ -160,7 +160,7 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, defVarExpr& e) {
         onVisit(i, (node&) e);
 
-        clog << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << e.getName()
+        cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << e.getName()
              << foreColor(LIGHTGRAY) << " := " << foreColor(CYAN) << _getNameFrom(e.getRight());
         return true;
     }
