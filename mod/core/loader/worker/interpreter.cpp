@@ -64,7 +64,11 @@ namespace nm {
         NM_DI("|               parse                |");
         NM_DI("======================================");
 
-        _pser.setReport(getReport()).setFlag(getFlag()).setTask(getTask()).work();
+        _pser.setReport(getReport())
+            .setFlag(getFlag())
+            .delFlag(LOG_ON_END | DUMP_ON_END)
+            .setTask(getTask())
+            .work();
 
         if(nul(getTask())) setTask(_pser.getTask());
 
@@ -80,7 +84,11 @@ namespace nm {
 
         threadUse thr;
         preEvaluator evaler;
-        evaler.setReport(getReport()).setFlag(getFlag()).setTask(getTask().getPack()).work();
+        evaler.setReport(getReport())
+            .setFlag(getFlag())
+            .delFlag(LOG_ON_END | DUMP_ON_END)
+            .setTask(getTask().getPack())
+            .work();
     }
 
     void me::_verify() {
@@ -94,6 +102,7 @@ namespace nm {
         threadUse thr;
         _veri.setReport(getReport())
             .setFlag(getFlag())
+            .delFlag(LOG_ON_END | DUMP_ON_END)
             .setTask(getTask().getPack())
             .work();
     }
