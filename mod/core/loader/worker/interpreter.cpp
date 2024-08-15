@@ -92,8 +92,9 @@ namespace nm {
 
         // verify:
         threadUse thr;
-        _veri.setReport(getReport()).setFlag(getFlag());
-        if(isFlag(LOG_ON_END | DUMP_ON_END)) _veri.delFlag(LOG_ON_END | DUMP_ON_END);
-        _veri.setTask(getTask().getPack()).work();
+        _veri.setReport(getReport())
+            .setFlag(getFlag())
+            .setTask(getTask().getPack())
+            .work();
     }
 } // namespace nm

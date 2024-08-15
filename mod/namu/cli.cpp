@@ -9,9 +9,9 @@ namespace nm {
         _res = -1;
         interpreter ip;
         errReport rpt;
-        ip.setReport(rpt).setFlag(interpreter::DUMP_ON_EX | interpreter::LOG_ON_END);
+        ip.setReport(rpt).setFlag(interpreter::DEFAULT);
         starter s;
-        s.setFlag(starter::DUMP_ON_EX | starter::LOG_ON_END);
+        s.setFlag(starter::DUMP_ON_EX);
 
         for(const auto& op: getFlags()) {
             op->take(ip, s, *this, a);

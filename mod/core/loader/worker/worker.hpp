@@ -23,7 +23,7 @@ namespace nm {
 #if NM_IS_DBG
             DEFAULT = DUMP_ON_EX | GUARD | INTERNAL | LOG_ON_END
 #else
-            DEFAULT = DUMP_ON_EX | LOG_ON_END
+            DEFAULT = LOG_ON_EX
 #endif
         };
 
