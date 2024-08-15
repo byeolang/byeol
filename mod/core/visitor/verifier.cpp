@@ -138,16 +138,6 @@ namespace nm {
             .ret(ASSIGN_TO_RVALUE, me, me.getRight(), lhs);
     }
 
-    namespace {
-        // this func should be called when frame stacked.
-        str _extractEvalFrom(blockExpr& blk) {
-            const auto& stmts = blk.getStmts();
-            if(stmts.isEmpty()) return nVoid::singletone();
-
-            return stmts.last()->getEval();
-        }
-    }
-
     nbool me::onVisit(const visitInfo& i, blockExpr& me) {
         _GUARD("onVisit()");
 
@@ -161,7 +151,7 @@ namespace nm {
         const narr& stmts = me.getStmts();
         if(nul(stmts) || stmts.len() <= 0) return; // will be catched to another verification.
 
-        me.setEval(*_extractEvalFrom(me));
+        me.setEval(*me.getEval());
         me.outFrame();
     }
 
