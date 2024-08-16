@@ -51,7 +51,7 @@ TEST_F(starterTest, managedCallStack) {
                 setAge(n)
             age int
             setAge(n int) void
-                age = n2
+                age = n
                 ret err("you didn't expect this err, don't you?")
             say() void
                 print("I'm " + age as str + " years old\n")
@@ -77,9 +77,12 @@ TEST_F(starterTest, managedCallStack) {
     //      at setAge()
     //      at say(int)
     //      at main()
-    const calltraces& traces = cs.getTraces();
-    ASSERT_TRUE(traces.len() > 2);
+    ASSERT_TRUE(cs.len() > 2);
 
-    const auto& tr1 = traces[0];
-    ASSERT_FALSE(nul(tr1));
+    ASSERT_FALSE(nul(cs[0]));
+    ASSERT_EQ(cs[0].at, "setAge");
+    ASSERT_FALSE(nul(cs[1]));
+    ASSERT_EQ(cs[1].at, "say");
+    ASSERT_FALSE(nul(cs[2]));
+    ASSERT_EQ(cs[2].at, "main");
 }

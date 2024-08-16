@@ -24,35 +24,18 @@ namespace nm {
     NM(DEF_ME(callstack))
 
     me::callstack() {}
-
-    tucontainable<frame>::iter me::begin() const { return _stacks.begin(); }
-
-    tucontainable<frame>::iter me::end() const { return _stacks.end(); }
-
-    const calltraces& me::getTraces() const {
-        if(!_traces) {
-            _traces.bind(new calltraces());
-            for(const auto& fr: *this)
-                _traces->add(new calltrace(fr));
-        }
-        return *_traces;
+    me::callstack(const frames& frs) {
+        for(const auto& fr: frs)
+            add(new calltrace(fr));
     }
-
-    nbool me::hasTraces() const { return _stacks.len() > 0; }
 
     void me::dump() const {
         using platformAPI::foreColor;
         auto& log = logger::get();
-        for(const auto& c: getTraces()) {
+        for(const auto& c: *this) {
             log.logFormatBypass("\tat %s%s %sin %s%s%s\n", foreColor(YELLOW).c_str(), c.at.c_str(),
                 foreColor(LIGHTGRAY).c_str(), foreColor(GREEN).c_str(), c.in.c_str(),
                 foreColor(LIGHTGRAY).c_str());
         }
-    }
-
-    void me::setStack(const frames& stack) {
-        _stacks.rel();
-        _stacks.add(stack);
-        _traces.rel();
     }
 } // namespace nm

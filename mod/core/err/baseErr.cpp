@@ -4,7 +4,7 @@
 namespace nm {
     NM(DEF_ME(baseErr))
 
-    me::baseErr(): _lv(logLv::ERR) {}
+    me::baseErr(): _lv(logLv::ERR) { _initStack(); }
 
     me::baseErr(logLv::level t): _lv(t) { _initStack(); }
 
@@ -43,17 +43,19 @@ namespace nm {
         if(buildFeature::config::isDbg()) log();
     }
 
-    const callstack& me::getStack() const { return _stack; }
+    const callstack& me::getStack() const { return *_stack; }
 
-    void me::logStack() const { _stack.dump(); }
+    void me::logStack() const { _stack->dump(); }
 
     void me::_initStack() {
         thread& thr = thread::get();
-        if(!nul(thr)) _stack.setStack(thread::get().getFrames());
+        if(nul(thr)) return;
+
+        _stack.bind(new callstack(thr.getFrames()));
     }
 
     me& me::_assign(const me& rhs) {
-        if(rhs._stack.hasTraces()) _stack = rhs._stack;
+        _stack = rhs._stack;
         _lv = rhs._lv;
 
         return *this;

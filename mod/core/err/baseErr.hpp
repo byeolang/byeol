@@ -43,7 +43,7 @@ namespace nm {
         me& _assign(const me& rhs);
 
     private:
-        callstack _stack;
+        tstr<callstack> _stack;
         logLv::level _lv;
     };
 } // namespace nm

@@ -22,25 +22,14 @@ namespace nm {
         std::string in;
     };
 
-    typedef tnarr<calltrace> calltraces;
-
-    class _nout callstack: public instance, public dumpable {
+    class _nout callstack: public tnarr<calltrace>, public dumpable {
         NM(CLASS(callstack, instance))
 
     public:
         callstack();
+        callstack(const frames& frs);
 
     public:
-        tucontainable<frame>::iter begin() const;
-        tucontainable<frame>::iter end() const;
-
-        const calltraces& getTraces() const;
-        nbool hasTraces() const;
         void dump() const override;
-        void setStack(const frames& frs);
-
-    private:
-        frames _stacks;
-        mutable tstr<calltraces> _traces;
     };
 } // namespace nm
