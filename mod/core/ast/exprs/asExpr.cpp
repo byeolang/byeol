@@ -14,7 +14,7 @@ namespace nm {
         str eval = _me->as<node>();
         if(!eval) return NM_E("!eval.isBind()"), str();
 
-        return str(eval->as(*_as));
+        return str(eval->as(*_as->getEval()));
     }
 
     str me::getEval() const { return _as; }

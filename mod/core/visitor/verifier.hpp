@@ -19,6 +19,7 @@ namespace nm {
     public:
         void onLeave(const visitInfo& i, node& me) override;
         void onLeave(const visitInfo& i, asExpr& me) override;
+        void onLeave(const visitInfo& i, isExpr& me) override;
         void onLeave(const visitInfo& i, assignExpr& me) override;
         nbool onVisit(const visitInfo& i, blockExpr& me) override;
         void onLeave(const visitInfo& i, blockExpr& me) override;

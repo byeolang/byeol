@@ -6,13 +6,9 @@ namespace nm {
 
     class ntype;
 
-    template <typename T> struct tas: public asable, public typeProvidable {
-    public:
-        virtual ~tas() {}
+    template <typename T> struct tas: public asable {
+        virtual ~tas() = default;
 
-    public:
-        const type& getType() const override { return ttype<T>::get(); }
-
-        nbool is(const type& from, const type& to) const override { return true; }
+        nbool is(const type& from, const type& to) const override { return to == ttype<T>::get(); }
     };
 }

@@ -22,6 +22,7 @@ namespace nm {
     class blockExpr;
     class runExpr;
     class asExpr;
+    class isExpr;
     class addExpr;
     class getExpr;
     class retExpr;
@@ -206,6 +207,7 @@ namespace nm {
         runExpr* onRunExpr(node& type, const narr& a);
         runExpr* onRunExpr(node& type, const args& a);
         //      cast:
+        isExpr* onIs(const node& me, const node& to);
         asExpr* onAs(const node& me, const node& as);
         //      if:
         ifExpr* onIf(const node& condition, const blockExpr& then);

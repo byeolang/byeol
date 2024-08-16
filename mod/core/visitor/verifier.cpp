@@ -70,7 +70,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, asExpr& me) {
-        _GUARD("onVisit()");
+        _GUARD("onLeave()");
 
         _STEP("_me & _as aren't null");
         NM_WHENNUL(me.getMe()).ret(LHS_IS_NUL, me);
@@ -82,6 +82,20 @@ namespace nm {
 
         _STEP("rhs shouldn't be expression");
         NM_WHEN(!me.getAs().isImpli<node>()).ret(CAST_TO_UNKNOWN, me);
+    }
+
+    void me::onLeave(const visitInfo& i, isExpr& me) {
+        _GUARD("onLeave()");
+
+        _STEP("_me & _to aren't null");
+        NM_WHENNUL(me.getMe()).ret(LHS_IS_NUL, me);
+        NM_WHENNUL(me.getTo()).ret(RHS_IS_NUL, me);
+
+        _STEP("checks that me can cast to 'as'");
+        NM_WHEN(!me.getMe().is(me.getTo())).ret(CAST_NOT_AVAILABLE, me, me.getMe(), me.getTo());
+
+        _STEP("rhs shouldn't be expression");
+        NM_WHEN(!me.getTo().isImpli<node>()).ret(CAST_TO_UNKNOWN, me);
     }
 
     void me::onLeave(const visitInfo& i, assignExpr& me) {

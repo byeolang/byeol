@@ -3,6 +3,7 @@
 #include "exprs/FBOExpr.hpp"
 #include "exprs/FUOExpr.hpp"
 #include "exprs/asExpr.hpp"
+#include "exprs/isExpr.hpp"
 #include "exprs/assignExpr.hpp"
 #include "exprs/blockExpr.hpp"
 #include "exprs/breakExpr.hpp"

@@ -788,6 +788,12 @@ namespace nm {
         return _onAssignElem(FBOExpr::MOD, lhs, rhs);
     }
 
+    isExpr* me::onIs(const node& me, const node& to) {
+        NM_DI("tokenEvent: onIs(%s, %s)", me, to);
+
+        return _maker.make<isExpr>(me, to);
+    }
+
     asExpr* me::onAs(const node& me, const node& as) {
         NM_DI("tokenEvent: onAs(%s, %s)", me, as);
 

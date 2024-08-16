@@ -8,6 +8,7 @@
 //  accept() baseFunc on that type. please refer 'obj' class for your example.
 X(obj)
 X(asExpr)
+X(isExpr)
 X(assignExpr)
 X(blockExpr)
 X(defVarExpr)

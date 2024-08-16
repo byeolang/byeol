@@ -283,9 +283,8 @@ expr-inline7: expr-inline6 { $$ = $1; }
           | expr-inline6 NE expr-inline6 { $$ = PS.onNe(*$1, *$3); }
 expr-inline6: expr-inline5 { $$ = $1; }
           | expr-inline6 '|' expr-inline5 { $$ = PS.onBitwiseOr(*$1, *$3); }
-          | expr-inline6 IS type {
-            // ??
-        } | expr-inline6 _IN_ expr-inline5 { $$ = PS.onIn(*$1, *$3); }
+          | expr-inline6 IS type { $$ = PS.onIs(*$1, *$3); }
+          | expr-inline6 _IN_ expr-inline5 { $$ = PS.onIn(*$1, *$3); }
 expr-inline5: expr-inline4 { $$ = $1; }
           | expr-inline5 '^' expr-inline4 { $$ = PS.onBitwiseXor(*$1, *$3); }
 expr-inline4: expr-inline3 { $$ = $1; }
