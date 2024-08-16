@@ -13,6 +13,6 @@ namespace nm {
     public:
         const type& getType() const override { return ttype<T>::get(); }
 
-        nbool is(const type& from, const type& to) const override { return getType() == to; }
+        nbool is(const type& from, const type& to) const override { return true; }
     };
 }
