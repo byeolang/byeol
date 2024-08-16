@@ -25,8 +25,8 @@ namespace nm {
 
     me::callstack() {}
     me::callstack(const frames& frs) {
-        for(const auto& fr: frs)
-            add(new calltrace(fr));
+        for(nidx n = frs.len()-1; n >= 0 ;n--)
+            add(new calltrace(frs[n]));
     }
 
     void me::dump() const {
