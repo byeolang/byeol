@@ -389,3 +389,27 @@ TEST_F(genericsTest, genericsWillBeVerifiedWhenItIsUsedNegative) {
     )SRC")
         .shouldVerified(false);
 }
+
+TEST_F(genericsTest, simpleCompleteObj) {
+    make().parse(R"SRC(
+        def person<E>
+            grade E
+            age := 33
+        main() int
+            person<flt>.age + person<flt>.grade
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 33);
+}
+
+TEST_F(genericsTest, simpleCompleteObjNegative) {
+    make().negative().parse(R"SRC(
+        def person<E>
+            age := 33
+            ctor(n E): age = n
+        main() int
+            person<int>.age
+    )SRC").shouldVerified(false);
+}

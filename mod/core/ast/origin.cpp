@@ -15,7 +15,11 @@ namespace nm {
         super(isComplete), _type(newType), _subpack(subpack) {}
 
     me::origin(const me& rhs):
-        super(rhs), _type(rhs._type), _subpack(rhs._subpack), _src(rhs._src) {}
+        super(rhs), _type(rhs._type), _subpack(rhs._subpack), _src(rhs._src) {
+        // usually all obj called by copyctor is complete object.
+        // but, origin obj should not.
+        _setComplete(rhs.isComplete());
+    }
 
     me& me::operator=(const me& rhs) {
         if(this == &rhs) return *this;

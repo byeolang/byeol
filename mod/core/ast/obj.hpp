@@ -53,14 +53,14 @@ namespace nm {
     protected:
         void _inFrame(frame& fr, const bicontainable& args) override;
 
+        void _setComplete(nbool isComplete);
+
     private:
         // update origin pointer of an object.
         // to modify origin* is very dangerous. only permitted module should do this.
         void _setOrigin(const obj& newOrg);
 
         me& _assign(const me& rhs);
-
-        void _setComplete(nbool isComplete);
 
         virtual void _setType(const mgdType& new1);
 
