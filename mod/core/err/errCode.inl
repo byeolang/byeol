@@ -84,6 +84,8 @@ PAIRX(LHS_IS_NOT_ARITH, "lhs '%s' is not arithmetic type")
 PAIRX(RHS_IS_NOT_ARITH, "rhs '%s' is not arithmetic type")
 //  defObj:
 PAIRX(MAKE_GENERIC_FAIL, "construction '%s' for generic obj has failed.")
+PAIRX(ORIGIN_OBJ_CANT_BE_CONST, "origin object can't be defined with 'const'")
+PAIRX(COMPLETE_OBJ_BUT_NO_CTOR, "complete object should have a ctor without any parameters")
 //  generics:
 PAIRX(SHOULD_TYPE_PARAM_NAME, "'%s' type parameter wasn't be defined as new name.")
 //  func-call:

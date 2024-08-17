@@ -12,6 +12,8 @@
 #include "bison/lowscanner.hpp"
 #include "bison/tokenScan.hpp"
 #include "worker.inl"
+#include <algorithm>
+#include <cctype>
 
 namespace nm {
 
@@ -27,6 +29,7 @@ namespace nm {
                 ret += name;
             return ret;
         }
+
     }
 
     nint me::_onScan(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner) {
@@ -406,7 +409,7 @@ namespace nm {
     obj* me::onDefOrigin(const std::string& name, defBlock& blk) {
         NM_DI("tokenEvent: onDefObj(%s, defBlock[%s])", name, &blk);
 
-        obj& ret = *_maker.birth<origin>(name, mgdType::make(name), *_subpack, false);
+        obj& ret = *_maker.birth<origin>(name, mgdType::make(name), *_subpack, util::_checkTypeAttrWith(name) == COMPLETE_OBJ);
         _onInjectObjSubs(ret, blk);
         return &ret;
     }
@@ -452,7 +455,7 @@ namespace nm {
             &blk);
 
         origin& org = *_maker.birth<origin>(name, mgdType(name, ttype<obj>::get(), typeParams));
-        org._setComplete(false);
+        org._setComplete(util::_checkTypeAttrWith(name) == COMPLETE_OBJ);
         _onInjectObjSubs(org, blk);
         org._setSubPack(*_subpack);
 

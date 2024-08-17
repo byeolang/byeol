@@ -374,3 +374,61 @@ TEST_F(defObjExprTest, defPropNotAllowedIfThereIsNoProperCtorNegative) {
     )SRC")
         .shouldVerified(false);
 }
+
+TEST_F(defObjExprTest, simpleCompleteObj) {
+    make().parse(R"SRC(
+        def person # complete object
+            age := 33
+        main() int
+            person.age
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 33);
+}
+
+TEST_F(defObjExprTest, simpleCompleteObjNegative) {
+    make().parse(R"SRC(
+        def person
+            age := 33
+            ctor(n int): age = n
+        main() int
+            person.age
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(defObjExprTest, constToOriginObjNotAllowedNegative) {
+    make().parse(R"SRC(
+        def PERSON
+            age := 33
+        main() int
+            PERSON().age
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(defObjExprTest, ifAtLeastOneLetterIsLowerCaseThenItIsNotConst) {
+    make().parse(R"SRC(
+        def PERSOn
+            age := 33
+        main() int
+            PERSOn().age
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 33);
+}
+
+TEST_F(defObjExprTest, ifFirstLetterBeginsWithLowerCaseThenItIsComplete) {
+    make().parse(R"SRC(
+        def pERSON
+            age := 33
+        main() int
+            pERSON.age
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 33);
+}
