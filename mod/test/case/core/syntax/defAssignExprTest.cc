@@ -142,7 +142,6 @@ TEST_F(defAssignExprTest, defAssignInObjectRefersInvalidFuncNegative2) {
 
 TEST_F(defAssignExprTest, defAssignRefersItsIdentifier) {
     make()
-        .negative()
         .parse(R"SRC(
         con := sys.con
         con1 := con.add(1, 2)

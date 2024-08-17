@@ -8,6 +8,9 @@ namespace nm {
     static srcs dummySrcs;
 
     tstr<srcs> me::parse(errReport& rpt, bicontainable& tray) {
+        enablesZone zone(true); // set clog enable temporary.
+                                // because when importing modules failed, to leave related logs is
+                                // very important.
         tstr<srcs> ret(dummySrcs);
         for(const std::string& path: _getPaths()) {
             // With the current implementation, it is not yet possible to create an srcs
