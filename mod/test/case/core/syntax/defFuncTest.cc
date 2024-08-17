@@ -471,6 +471,7 @@ TEST_F(defFuncTest, multipleCtor) {
 
 TEST_F(defFuncTest, simpleCtorNegative) {
     make()
+        .negative()
         .parse(R"SRC(
         def person
             name str
