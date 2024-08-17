@@ -435,12 +435,12 @@ TEST_F(defFuncTest, accessMeShouldBeComplete) {
 TEST_F(defFuncTest, simpleCtor) {
     make()
         .parse(R"SRC(
-        def person
+        def Person
             name str
             ctor(name str)
                 me.name = name
         main() int
-            p1 := person("kniz")
+            p1 := Person("kniz")
             ret p1.name.len()
     )SRC")
         .shouldVerified(true);

@@ -43,10 +43,10 @@ TEST_F(mgdObjTest, testAccessInCompleteObjectNegative) {
     make()
         .negative()
         .parse(R"SRC(
-        def a
+        def A
             age := 3
         main() int
-            b := a
+            b := A
             b.age = 7
             c := b()
             ret c.age

@@ -175,8 +175,9 @@ TEST_F(nodeTest, ShouldNotSameNameVariableIntoSubs) {
     chef c;
     ASSERT_EQ(c.subs().len(), 0);
     c.subs().add("age", new nInt(22));
+    c.subs().add(baseObj::CTOR_NAME, new defaultCtor(c));
 
-    ASSERT_EQ(c.subs().len(), 1);
+    ASSERT_EQ(c.subs().len(), 2);
     ASSERT_EQ(c.sub<nInt>("age").get(), 22);
     errReport rpt;
     verifier v;
@@ -184,7 +185,7 @@ TEST_F(nodeTest, ShouldNotSameNameVariableIntoSubs) {
     ASSERT_FALSE(rpt);
 
     c.subs().add("age1", new nInt(22));
-    ASSERT_EQ(c.subs().len(), 2);
+    ASSERT_EQ(c.subs().len(), 3);
     auto matches = c.subAll<nInt>("age1");
     ASSERT_TRUE(matches.isMatched());
     ASSERT_EQ(matches.get().get(), 22);
@@ -193,7 +194,7 @@ TEST_F(nodeTest, ShouldNotSameNameVariableIntoSubs) {
     ASSERT_FALSE(rpt);
 
     c.subs().add("age", new nInt(23));
-    ASSERT_EQ(c.subs().len(), 3);
+    ASSERT_EQ(c.subs().len(), 4);
     ASSERT_EQ(c.subAll<nInt>("age").len(), 2);
     v.setTask(c).work();
     ASSERT_TRUE(rpt);
