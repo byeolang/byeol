@@ -530,7 +530,7 @@ namespace nm {
                 posError(errCode::PARAM_NOT_VOID, me, p.getName().c_str());
                 continue;
             }
-            s->add(p.getName(), *(node*) p.getOrigin().getEval()->clone());
+            s->add(p.getName(), *(node*) safeGet(p, getOrigin(), getEval(), clone()));
         }
 
         //  function's subs are third:
