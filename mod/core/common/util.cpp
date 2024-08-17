@@ -5,10 +5,9 @@ namespace nm {
 
     typeAttr me::_checkTypeAttrWith(const std::string& name) {
         if(name.empty()) return NOTHING;
+        if(islower(name[0])) return COMPLETE_OBJ;
+        if(name.size() == 1) return NOTHING; // size==1 && first letter is uppercase.
 
-        nchar first = name[0];
-        if(islower(first))
-            return COMPLETE_OBJ;
         return std::all_of(name.begin(), name.end(), isupper) ? CONST : NOTHING;
     }
 }
