@@ -30,6 +30,8 @@ namespace nm {
     str me::_onRunSub(node& sub, const args& a) { return str(); }
 
     scope& me::subs() {
+        if(_org) return _org->subs();
+
         static dumScope inner;
         return inner;
     }

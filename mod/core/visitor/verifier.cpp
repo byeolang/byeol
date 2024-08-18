@@ -608,6 +608,14 @@ namespace nm {
         _STEP("cache check");
         for(auto e: me._cache)
             if(nul(e.second)) posError(errCode::MAKE_GENERIC_FAIL, me, e.first.c_str());
+
+        _STEP("did user set the name of this object like 'const'?");
+        NM_WHEN(util::_checkTypeAttrWith(i.name) == CONST).err(ORIGIN_OBJ_CANT_BE_CONST, me), true;
+
+        _STEP("if obj is complete, does it have ctor without params?");
+        if(me.isComplete())
+            NM_WHENNUL(me.sub(baseObj::CTOR_NAME, args{})).err(COMPLETE_OBJ_BUT_NO_CTOR, me), true;
+
         return true;
     }
 

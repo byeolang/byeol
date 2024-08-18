@@ -413,3 +413,40 @@ TEST_F(genericsTest, simpleCompleteObjNegative) {
             person<int>.age
     )SRC").shouldVerified(false);
 }
+
+TEST_F(genericsTest, constToOriginObjNotAllowedNegative) {
+    make().parse(R"SRC(
+        def PERSON<E>
+            age E
+        main() int
+            PERSON<int>().age
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(genericsTest, ifAtLeastOneLetterIsLowerCaseThenItIsNotConst) {
+    make().parse(R"SRC(
+        def PERSOn<E>
+            age E
+        main() int
+            PERSOn<flt>().age
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 0);
+}
+
+TEST_F(genericsTest, ifFirstLetterBeginsWithLowerCaseThenItIsComplete) {
+    make().parse(R"SRC(
+        def pERSON<E>
+            age E
+            say(value E) E
+                age + value
+        main() int
+            pERSON<flt>.say(4) == 4
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
+}
