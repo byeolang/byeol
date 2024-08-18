@@ -69,6 +69,7 @@ PAIRX(SEQ_SHOULD_INT_COMPATIBLE, "start and end of a sequence should be sort of 
 //  assign:
 PAIRX(TYPE_NOT_COMPATIBLE, "rhs type '%s' is not compatible to lhs '%s' of this assigment")
 PAIRX(ASSIGN_TO_RVALUE, "you can't assign %s to this unamed %s. please define it first")
+PAIRX(ASSIGN_TO_CONST, "to assign value to '%s' const object is not allowed")
 //  type:
 PAIRX(CAST_NOT_AVAILABLE, "couldn't cast %s type as %s")
 PAIRX(LHS_IS_NUL, "lhs of the expression is null")

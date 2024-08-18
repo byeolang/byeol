@@ -156,6 +156,10 @@ namespace nm {
         const node& lhs = me.getLeft();
         NM_WHEN(!lhs.isSub<getExpr>() /*TODO: && !lhs.isSub<ElementExpr>()*/)
             .err(ASSIGN_TO_RVALUE, me, me.getRight(), lhs);
+
+        const getExpr& leftCast = me.getLeft().cast<getExpr>();
+        NM_WHEN(util::_checkTypeAttrWith(leftCast.getName()) == CONST)
+            .err(ASSIGN_TO_CONST, me, leftCast.getName());
     }
 
     nbool me::onVisit(const visitInfo& i, blockExpr& me) {

@@ -204,6 +204,18 @@ TEST_F(assignExprTest, assignForExprDeclaringLocalVariable) {
     ASSERT_EQ(res->cast<nint>(), 8);
 }
 
+TEST_F(assignExprTest, assignConstNegative) {
+    make().parse(R"SRC(
+        def person
+            AGE := 33
+            foo() void
+                AGE = 22
+                ret AGE
+        main() int
+            person.foo()
+    )SRC").shouldVerified(false);
+}
+
 // TODO: assignNegative inheritence
 // TODO: assignDotChain: A.B.name
 // TODO: assignComplexDotChain: B[A.foo() + 3].name
