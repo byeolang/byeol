@@ -172,7 +172,7 @@ namespace nm {
             .setReport(report)
             .setBaseSlots(*ret)
 #ifdef NM_BUILD_PLATFORM_IS_LINUX
-            .addPath("/usr/share/namu/pack/")
+            .addPath("/usr/share/pack/")
 #endif
             .addPath("pack/")
             .load();

@@ -31,6 +31,14 @@ set_target_properties(${packName} PROPERTIES PREFIX "")
 set_target_properties(${packName} PROPERTIES SUFFIX ".${NM_PACK_EXTENSION}")
 set_target_properties(${packName} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${packOutDir}")
 target_link_libraries(${packName} ${dependencies})
+install(TARGETS ${packName} DESTINATION bin/pack PERMISSIONS
+    OWNER_WRITE OWNER_READ OWNER_EXECUTE
+    GROUP_READ GROUP_EXECUTE
+    WORLD_READ WORLD_EXECUTE)
+install(FILES manifest.seedling DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/pack PERMISSIONS
+    OWNER_WRITE OWNER_READ
+    GROUP_READ
+    WORLD_READ)
 
 #       let MSVC follow macro expansion of standard:
 if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))

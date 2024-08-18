@@ -31,6 +31,10 @@ IF(EMSCRIPTEN)
     add_library(${moduleName} ${sources})
 ELSE(EMSCRIPTEN)
     add_library(${moduleName} SHARED ${sources})
+    install(TARGETS ${moduleName} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib PERMISSIONS
+        OWNER_WRITE OWNER_READ OWNER_EXECUTE
+        GROUP_READ GROUP_EXECUTE
+        WORLD_READ WORLD_EXECUTE)
 ENDIF(EMSCRIPTEN)
 set_target_properties(${moduleName} PROPERTIES SUFFIX ".${NM_LIBRARY_EXTENSION}")
 target_link_libraries(${moduleName} ${dependencies})

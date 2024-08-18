@@ -290,7 +290,7 @@ def isWindow():
 #                 os.system("astyle --style=world " + file_path)
 
 def _createMakefiles():
-    global generator
+    global generator, config
     print("")
 
     printInfoEnd("generating makefiles as " + generator + "...")
