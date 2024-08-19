@@ -10,9 +10,9 @@ namespace {
         NM(CLASS(originObj, obj))
 
     public:
-        originObj(): super(mgdType::makeNew<obj>("originObj")), _subs(*new scope()) {}
+        originObj(): super(), _subs(*new scope()) {}
 
-        originObj(const scope& subs): super(mgdType::makeNew<obj>("originObj")), _subs(subs) {}
+        originObj(const scope& subs): super(), _subs(subs) {}
 
         originObj(const me& rhs): _subs(rhs._subs) {}
 

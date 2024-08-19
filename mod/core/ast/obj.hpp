@@ -26,7 +26,6 @@ namespace nm {
 
     protected:
         explicit obj(scope& shares, scope& owns);
-        explicit obj(nbool isComplete);
 
     public:
         me& operator=(const me& rhs);
@@ -53,8 +52,6 @@ namespace nm {
     protected:
         void _inFrame(frame& fr, const bicontainable& args) override;
 
-        void _setComplete(nbool isComplete);
-
     private:
         // update origin pointer of an object.
         // to modify origin* is very dangerous. only permitted module should do this.
@@ -67,7 +64,6 @@ namespace nm {
     private:
         tstr<scope> _subs;
         tstr<baseObj> _org;
-        nbool _isComplete;
     };
 
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS

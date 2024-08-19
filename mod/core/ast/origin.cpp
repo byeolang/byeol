@@ -1,6 +1,7 @@
 #include "origin.hpp"
 
 #include "../type/mgdType.hpp"
+#include "exprs/runExpr.hpp"
 
 namespace nm {
 
@@ -11,14 +12,17 @@ namespace nm {
     me::origin(const mgdType& newType, scope& shares, scope& owns):
         super(shares, owns), _type(newType) {}
 
-    me::origin(const mgdType& newType, const obj& subpack, nbool isComplete):
-        super(isComplete), _type(newType), _subpack(subpack) {}
+    me::origin(const mgdType& newType, const obj& subpack):
+        super(), _type(newType), _subpack(subpack) {}
 
     me::origin(const me& rhs):
-        super(rhs), _type(rhs._type), _subpack(rhs._subpack), _src(rhs._src) {
+        super(rhs),
+        _type(rhs._type),
+        _subpack(rhs._subpack),
+        _src(rhs._src),
+        _callComplete(rhs._callComplete) {
         // usually all obj called by copyctor is complete object.
         // but, origin obj should not.
-        _setComplete(rhs.isComplete());
     }
 
     me& me::operator=(const me& rhs) {
@@ -48,6 +52,12 @@ namespace nm {
 
     baseObj* me::make() const { return new obj(*this); }
 
+    const runExpr& me::getCallComplete() const { return *_callComplete; }
+
+    void me::setCallComplete(const runExpr& new1) { _callComplete.bind(new1); }
+
+    nbool me::isComplete() const { return _callComplete.isBind(); }
+
     void me::_setType(const mgdType& new1) { _type = new1; }
 
     void me::_setSubPack(const obj& subpack) { _subpack.bind(subpack); }
@@ -58,6 +68,7 @@ namespace nm {
         _type = rhs._type;
         _subpack = rhs._subpack;
         _src = rhs._src;
+        _callComplete = rhs._callComplete;
         return *this;
     }
 } // namespace nm

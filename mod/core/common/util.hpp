@@ -13,6 +13,6 @@ namespace nm {
         NM(ME(util))
 
     public:
-        static typeAttr _checkTypeAttrWith(const std::string& name);
+        static typeAttr checkTypeAttr(const std::string& name);
     };
 }

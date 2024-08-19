@@ -17,6 +17,7 @@ namespace nm {
     ///         tstr<origin> a; // X, unexpected behavior may happen.
     ///         tstr<obj> a; // O
     class src;
+    class runExpr;
 
     class _nout origin final: public obj {
         NM(ME(origin, obj), INIT_META(origin), CLONE(origin))
@@ -31,7 +32,7 @@ namespace nm {
     public:
         explicit origin(const mgdType& newType);
         explicit origin(const mgdType& newType, scope& shares, scope& owns);
-        explicit origin(const mgdType& newType, const obj& subpack, nbool isComplete);
+        explicit origin(const mgdType& newType, const obj& subpack);
         explicit origin(const me& rhs);
 
     public:
@@ -44,6 +45,9 @@ namespace nm {
         clonable* cloneDeep() const override;
         const baseObj& getOrigin() const override;
         baseObj* make() const override;
+        const runExpr& getCallComplete() const;
+        void setCallComplete(const runExpr& new1);
+        nbool isComplete() const override;
 
     private:
         void _setType(const mgdType& new1) override;
@@ -55,5 +59,6 @@ namespace nm {
         mgdType _type; // TODO: memory leak
         tstr<obj> _subpack;
         tstr<src> _src;
+        tstr<runExpr> _callComplete;
     };
 } // namespace nm

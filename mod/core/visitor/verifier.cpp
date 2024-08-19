@@ -158,7 +158,7 @@ namespace nm {
             .err(ASSIGN_TO_RVALUE, me, me.getRight(), lhs);
 
         const getExpr& leftCast = me.getLeft().cast<getExpr>();
-        NM_WHEN(util::_checkTypeAttrWith(leftCast.getName()) == CONST)
+        NM_WHEN(util::checkTypeAttr(leftCast.getName()) == CONST)
             .err(ASSIGN_TO_CONST, me, leftCast.getName());
     }
 
@@ -591,7 +591,7 @@ namespace nm {
             if(elem.isSub<nVoid>()) posError(errCode::VOID_CANT_DEFINED, elem);
 
         _STEP("did user set the name of this object like 'const'?");
-        NM_WHEN(util::_checkTypeAttrWith(i.name) == CONST).err(ORIGIN_OBJ_CANT_BE_CONST, me), true;
+        NM_WHEN(util::checkTypeAttr(i.name) == CONST).err(ORIGIN_OBJ_CANT_BE_CONST, me), true;
 
         _STEP("if obj is complete, does it have ctor without params?");
         if(me.isComplete())
@@ -614,7 +614,7 @@ namespace nm {
             if(nul(e.second)) posError(errCode::MAKE_GENERIC_FAIL, me, e.first.c_str());
 
         _STEP("did user set the name of this object like 'const'?");
-        NM_WHEN(util::_checkTypeAttrWith(i.name) == CONST).err(ORIGIN_OBJ_CANT_BE_CONST, me), true;
+        NM_WHEN(util::checkTypeAttr(i.name) == CONST).err(ORIGIN_OBJ_CANT_BE_CONST, me), true;
 
         _STEP("if obj is complete, does it have ctor without params?");
         if(me.isComplete())

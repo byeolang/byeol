@@ -188,7 +188,8 @@
 %type <asNode> abstract-func def-func def-ctor end
 %type <asNode> lambda lambda-default lambda-deduction
 //          obj:
-%type <asNode> def-obj def-obj-default def-obj-default-generic
+%type <asNode> def-obj def-obj-default def-obj-call-complete
+%type <asNode> def-obj-generic-default def-obj-generic-call-complete
 //              container:
 %type <asNode> def-array-value
 //              with:
@@ -592,16 +593,27 @@ lambda-deduction: tuple indentblock {
 
 //          obj:
 def-obj: def-obj-default { $$ = $1; }
-       | def-obj-default-generic { $$ = $1; }
+       | def-obj-call-complete { $$ = $1; }
+       | def-obj-generic-default { $$ = $1; }
+       | def-obj-generic-call-complete { $$ = $1; }
 def-obj-default: DEF NAME indentDefBlock {
                 $$ = PS.onDefOrigin(std::string(*$2), *$3);
                 delete $2;
              }
-def-obj-default-generic: DEF NAME typeparams indentDefBlock {
+def-obj-call-complete: DEF NAME func-call-tuple indentDefBlock {
+                        tstr<narr> argsLife($3);
+                        $$ = PS.onDefOrigin(std::string(*$2), *argsLife, *$4);
+                   }
+def-obj-generic-default: DEF NAME typeparams indentDefBlock {
                         tstr<args> argsLife($3);
                         $$ = PS.onDefObjGeneric(*$2, *argsLife, *$4);
                         delete $2;
                      }
+def-obj-generic-call-complete: DEF NAME typeparams func-call-tuple indentDefBlock {
+                                tstr<args> paramsLife($3);
+                                tstr<narr> argsLife($4);
+                                $$ = PS.onDefObjGeneric(*$2, *paramsLife, *argsLife, *$5);
+                            }
 
 //              container:
 def-array-value: '{' tuple-items '}' { $$ = PS.onDefArray(*$2); }

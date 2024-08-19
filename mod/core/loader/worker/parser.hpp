@@ -172,8 +172,11 @@ namespace nm {
         node* onDefAssign(const std::string& name, const node& rhs);
         //          obj:
         obj* onDefOrigin(const std::string& name, defBlock& blk);
+        obj* onDefOrigin(const std::string& name, const narr& args, defBlock& blk);
         genericOrigin* onDefObjGeneric(const std::string& name, const args& typeParams,
             defBlock& blk);
+        genericOrigin* onDefObjGeneric(const std::string& name, const args& typeParams,
+            const narr& args, defBlock& blk);
         //          container:
         node* onDefArray(const narr& items);
         node* onDefSeq(const node& start, const node& end);

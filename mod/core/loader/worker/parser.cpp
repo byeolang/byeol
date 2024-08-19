@@ -407,9 +407,17 @@ namespace nm {
     }
 
     obj* me::onDefOrigin(const std::string& name, defBlock& blk) {
-        NM_DI("tokenEvent: onDefObj(%s, defBlock[%s])", name, &blk);
+        return onDefOrigin(name, narr(), blk);
+    }
 
-        obj& ret = *_maker.birth<origin>(name, mgdType::make(name), *_subpack, util::_checkTypeAttrWith(name) == COMPLETE_OBJ);
+    obj* me::onDefOrigin(const std::string& name, const narr& a, defBlock& blk) {
+        args* newArgs = new args(a);
+        std::string argNames = _joinVectorString(_extractParamTypeNames(*newArgs));
+        NM_DI("tokenEvent: onDefOrigin(%s, %s, defBlock[%s])", name, argNames, &blk);
+
+        origin& ret = *_maker.birth<origin>(name, mgdType::make(name), *_subpack);
+        if(util::checkTypeAttr(name) == COMPLETE_OBJ)
+            ret.setCallComplete(*_maker.make<runExpr>(ret, *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
         _onInjectObjSubs(ret, blk);
         return &ret;
     }
@@ -451,11 +459,19 @@ namespace nm {
 
     genericOrigin* me::onDefObjGeneric(const std::string& name, const args& typeParams,
         defBlock& blk) {
-        NM_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], defBlock[%s]", name, typeParams.len(),
-            &blk);
+        return onDefObjGeneric(name, typeParams, narr(), blk);
+    }
+
+    genericOrigin* me::onDefObjGeneric(const std::string& name, const args& typeParams,
+        const narr& a, defBlock& blk) {
+        args* newArgs = new args(a);
+        std::string argNames = _joinVectorString(_extractParamTypeNames(*newArgs));
+        NM_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], args[%s], defBlock[%s]", name, typeParams.len(),
+            argNames, &blk);
 
         origin& org = *_maker.birth<origin>(name, mgdType(name, ttype<obj>::get(), typeParams));
-        org._setComplete(util::_checkTypeAttrWith(name) == COMPLETE_OBJ);
+        if(util::checkTypeAttr(name) == COMPLETE_OBJ)
+            org.setCallComplete(*_maker.make<runExpr>(org, *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
         _onInjectObjSubs(org, blk);
         org._setSubPack(*_subpack);
 

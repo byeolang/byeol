@@ -20,16 +20,14 @@ namespace nm {
         }
     }
 
-    me::obj(const me& rhs): super(rhs), _isComplete(true) { _assign(rhs); }
+    me::obj(const me& rhs): super(rhs) { _assign(rhs); }
 
     me::obj(): me(*new scope(), *new scope()) {}
 
-    me::obj(scope& shares, scope& owns): super(), _isComplete(true) {
+    me::obj(scope& shares, scope& owns): super() {
         owns.link(shares);
         _subs.bind(owns);
     }
-
-    me::obj(nbool isComplete): me() { _isComplete = isComplete; }
 
     me& me::_assign(const me& rhs) {
         scope* clonedOwns = scope::wrap<scope>(*(scope::super*) _cloneEach(rhs));
@@ -37,9 +35,6 @@ namespace nm {
         _subs.bind(*clonedOwns);
 
         _org.bind(rhs.getOrigin()); // don't '_org = rhs'. it doesn't work when rhs is origin class.
-        // complete attribute is unique:
-        //  all unique attributes looses when instance got cloned.
-        _isComplete = true;
 
         return *this;
     }
@@ -62,6 +57,12 @@ namespace nm {
         return _org->getType();
     }
 
+    nbool me::isComplete() const {
+        if(!_org) return super::isComplete();
+
+        return _org->isComplete();
+    }
+
     scope& me::subs() { return *_subs; }
 
     tstr<nbicontainer> me::mySubs() const { return _subs->cloneChain(getShares()); }
@@ -71,8 +72,6 @@ namespace nm {
     scope::super& me::getOwns() { return safeGet(_subs, getContainer()); }
 
     const baseObj& me::getOrigin() const { return _org ? *_org : *this; }
-
-    nbool me::isComplete() const { return _isComplete; }
 
     nbool me::isPreEvaluated() const {
         auto subs = mySubs();
@@ -84,8 +83,6 @@ namespace nm {
         if(!nul(subpack)) fr.add(subpack);
         super::_inFrame(fr, args);
     }
-
-    void me::_setComplete(nbool isComplete) { _isComplete = isComplete; }
 
     void me::_setOrigin(const obj& newOrg) { _org.bind(newOrg); }
 
