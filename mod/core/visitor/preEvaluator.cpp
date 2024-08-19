@@ -49,6 +49,9 @@ namespace nm {
 
         me.outFrame();
         _obj.rel();
+
+        if(nul(me.sub(baseObj::PRECTOR_NAME)))
+            me.setState(PARSED);
     }
 
     nbool me::onVisit(const visitInfo& i, func& me) {
@@ -175,6 +178,7 @@ namespace nm {
                         GUARD("|--- preEval: evalFunc(%x): SUCCESS! stmt[%d] pre-evaluated.", &fun,
                             n);
                         stmts.del(n);
+                        me.setState(PARSED);
                         isChanged = true;
                     } // end of inner
 

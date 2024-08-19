@@ -604,6 +604,7 @@ namespace nm {
     void me::onLeave(const visitInfo& i, baseObj& me) {
         _GUARD("onLeave()");
         me.outFrame();
+        me.setState(VERIFIED);
     }
 
     nbool me::onVisit(const visitInfo& i, genericOrigin& me) {
@@ -626,7 +627,8 @@ namespace nm {
     void me::onLeave(const visitInfo& i, genericOrigin& me) {
         _GUARD("onLeave()");
 
-        // DO NOTHING, BUT LEAVE THIS FUNC:
+        me.setState(VERIFIED);
+        // DON'T CALL 'super::onLeave()':
         //  if I don't have this func, getGenericExpr::super (=baseObj)'s one will be called.
         //  and me pointer will be erased too inside the func.
     }

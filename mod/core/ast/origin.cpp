@@ -7,20 +7,22 @@ namespace nm {
 
     NM(DEF_ME(origin))
 
-    me::origin(const mgdType& newType): super(), _type(newType) {}
+    me::origin(const mgdType& newType): super(), _type(newType), _state(RELEASED) {}
 
     me::origin(const mgdType& newType, scope& shares, scope& owns):
-        super(shares, owns), _type(newType) {}
+        super(shares, owns), _type(newType), _state(RELEASED) {}
 
     me::origin(const mgdType& newType, const obj& subpack):
-        super(), _type(newType), _subpack(subpack) {}
+        super(), _type(newType), _subpack(subpack), _state(RELEASED) {}
 
     me::origin(const me& rhs):
         super(rhs),
         _type(rhs._type),
         _subpack(rhs._subpack),
         _src(rhs._src),
-        _callComplete(rhs._callComplete) {
+        _callComplete(rhs._callComplete),
+        _state(rhs._state) {
+
         // usually all obj called by copyctor is complete object.
         // but, origin obj should not.
     }
@@ -73,6 +75,7 @@ namespace nm {
         _subpack = rhs._subpack;
         _src = rhs._src;
         _callComplete = rhs._callComplete;
+        _state = rhs._state;
         return *this;
     }
 } // namespace nm
