@@ -205,7 +205,7 @@ TEST_F(assignExprTest, assignForExprDeclaringLocalVariable) {
 }
 
 TEST_F(assignExprTest, assignConstNegative) {
-    make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         def person
             AGE := 33
             foo() void

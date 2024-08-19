@@ -415,7 +415,7 @@ TEST_F(genericsTest, simpleCompleteObjNegative) {
 }
 
 TEST_F(genericsTest, constToOriginObjNotAllowedNegative) {
-    make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         def PERSON<E>
             age E
         main() int
