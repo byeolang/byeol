@@ -39,6 +39,8 @@ namespace nm {
         me& operator=(const me& rhs);
 
     public:
+        state getState() const override;
+        void setState(state new1) override;
         const ntype& getType() const override;
         const obj& getSubPack() const override;
         const src& getSrc() const override;
@@ -60,5 +62,6 @@ namespace nm {
         tstr<obj> _subpack;
         tstr<src> _src;
         tstr<runExpr> _callComplete;
+        state _state;
     };
 } // namespace nm

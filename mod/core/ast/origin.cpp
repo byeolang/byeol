@@ -32,6 +32,10 @@ namespace nm {
         return _assign(rhs);
     }
 
+    state me::getState() const { return _state; }
+
+    void me::setState(state new1) { _state = new1; }
+
     const ntype& me::getType() const { return _type; }
 
     const obj& me::getSubPack() const { return *_subpack; }

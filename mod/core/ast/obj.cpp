@@ -67,6 +67,12 @@ namespace nm {
 
     tstr<nbicontainer> me::mySubs() const { return _subs->cloneChain(getShares()); }
 
+    state me::getState() const {
+        if(_org) return _org->getState();
+
+        return LINKED;
+    }
+
     scope& me::getShares() { return safeGet(_subs, getNext(), cast<scope>()); }
 
     scope::super& me::getOwns() { return safeGet(_subs, getContainer()); }

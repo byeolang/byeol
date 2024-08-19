@@ -2,6 +2,7 @@
 
 #include "../frame/frameInteractable.hpp"
 #include "src/src.hpp"
+#include "statable.hpp"
 
 namespace nm {
 
@@ -12,7 +13,7 @@ namespace nm {
     class obj;
 
     /// baseObj handles frame injection event of all objects.
-    class _nout baseObj: public node {
+    class _nout baseObj: public node, public statable {
         NM(ADT(baseObj, node))
         friend class verifier;
         friend class obj;
@@ -29,6 +30,9 @@ namespace nm {
     public:
         using super::run;
         str run(const args& a) override;
+
+        state getState() const override;
+        void setState(state new1) override;
 
         priorType prioritize(const args& a) const override;
 

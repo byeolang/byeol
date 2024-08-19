@@ -2,6 +2,7 @@
 
 #include "baseObj.hpp"
 #include "scope.hpp"
+#include "statable.hpp"
 
 namespace nm {
 
@@ -35,6 +36,8 @@ namespace nm {
         scope& subs() override;
 
         tstr<nbicontainer> mySubs() const override;
+
+        state getState() const override;
 
         scope& getShares();
         const scope& getShares() const NM_CONST_FUNC(getShares())

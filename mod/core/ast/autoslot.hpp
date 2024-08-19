@@ -2,6 +2,7 @@
 
 #include "../loader/pack/packLoading.hpp"
 #include "../loader/pack/packMakable.hpp"
+#include "statable.hpp"
 #include "scope.hpp"
 #include "slot.hpp"
 
@@ -9,23 +10,18 @@ namespace nm {
 
     class visitor;
 
-    class _nout autoslot: public slot, public packMakable {
+    class _nout autoslot: public slot, public packMakable, public statable {
         NM(CLASS(autoslot, slot), VISIT())
 
     public:
-        enum state {
-            RELEASED = 0,
-            PARSED = 1,
-            VERIFIED,
-            LINKED,
-        };
 
     public:
         autoslot(const manifest& manifest, const packLoadings& loadingsInHeap);
         ~autoslot() override;
 
     public:
-        state getState() const;
+        state getState() const override;
+        void setState(state new1) override;
         using super::getPack;
         obj& getPack() override;
         void rel() override;

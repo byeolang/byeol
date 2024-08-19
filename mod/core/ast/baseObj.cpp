@@ -24,6 +24,10 @@ namespace nm {
         return NM_E("ambigious call found: %s", "TODO:"), str();
     }
 
+    state me::getState() const { return LINKED; }
+
+    void me::setState(state new1) {}
+
     priorType me::prioritize(const args& a) const {
         return subAll<baseFunc>(baseObj::CTOR_NAME, a).getPriorType();
     }

@@ -43,7 +43,9 @@ namespace nm {
         return super::getPack();
     }
 
-    me::state me::getState() const { return _state; }
+    state me::getState() const { return _state; }
+
+    void me::setState(state new1) { _state = new1; }
 
     void me::setReport(errReport& rpt) { _rpt.bind(rpt); }
 
