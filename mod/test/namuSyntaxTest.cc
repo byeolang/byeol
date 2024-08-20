@@ -33,6 +33,21 @@ namuSyntaxTest& me::make(const nm::manifest& mani) {
     return *this;
 }
 
+namuSyntaxTest& me::setFlag(nint newFlag) {
+    _ip.setFlag(newFlag);
+    return *this;
+}
+
+namuSyntaxTest& me::addFlag(nint flag) {
+    _ip.addFlag(flag);
+    return *this;
+}
+
+namuSyntaxTest& me::delFlag(nint flag) {
+    _ip.delFlag(flag);
+    return *this;
+}
+
 namuSyntaxTest& me::parse(const nm::nchar* src) {
     using namespace nm;
 
