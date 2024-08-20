@@ -2,8 +2,8 @@
 
 #include "../../builtin/primitive/nVoid.hpp"
 #include "../../frame/thread.hpp"
-#include "../../visitor/visitor.hpp"
-#include "../../err/nerr.hpp"
+#include "../../worker/visitor/visitor.hpp"
+#include "../../builtin/err/nerr.hpp"
 
 namespace nm {
 

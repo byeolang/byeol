@@ -7,7 +7,7 @@
 #include "../ast/node.inl"
 #include "../ast/obj.hpp"
 #include "../ast/slot.hpp"
-#include "../visitor/graphVisitor.hpp"
+#include "../worker/visitor/graphVisitor.hpp"
 #include "threadUse.hpp"
 
 namespace nm {

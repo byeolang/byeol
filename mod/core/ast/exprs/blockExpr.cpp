@@ -3,9 +3,9 @@
 #include "../../builtin/container/mgd/arr.hpp"
 #include "../../builtin/primitive/nVoid.hpp"
 #include "../../frame/thread.hpp"
-#include "../../visitor/visitor.hpp"
+#include "../../worker/visitor/visitor.hpp"
 #include "retStateExpr.hpp"
-#include "../../err/nerr.hpp"
+#include "../../builtin/err/nerr.hpp"
 
 namespace nm {
 

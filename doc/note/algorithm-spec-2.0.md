@@ -21,13 +21,17 @@
 
 ## TODO
 * [X] RELEASED는 삭제 가능한지 검토할 것.
-* [ ] statable 만들 것. getState()만 갖는다.
-* [ ] autoslot은 statable에서 상속받도록
-* [ ] obj은 statable을 상속받도록.
-* [ ] obj.getState() = getOrigin().getState()
-* [ ] virtual obj::setState(state) {}
-* [ ] origin에 `_state` 두기
-* [ ] origin.getState(), setState() 구헌하기
+* [X] statable 만들 것. getState()만 갖는다.
+* [X] autoslot은 statable에서 상속받도록
+* [X] obj은 statable을 상속받도록.
+* [X] obj.getState() = getOrigin().getState()
+* [X] virtual obj::setState(state) {}
+* [X] origin에 `_state` 두기
+* [X] origin.getState(), setState() 구헌하기
+* [X] isPreEvaluated를 getState로 대체하기
+* [ ] RELEASED, PARSED, VERIFIED, LINKED를 autoslot과 origin 모두 만족하는
+적절한 용어로 바꾸기
+* [ ] PARSED만 된 순간, VERIFIED만 된 순간 등 중간에 제대로 되었는지 TC를 작성하기
 * [ ] origin.subs()에서 if (_state == VERIFIED) 라면 callComplete() 실행하고 LINKED로 set하기
 * [ ] verifier.onLeave(obj&) 추가하기
 * [ ] visitor는 obj 에서 callComplete가 있다면 이것도 검증하기

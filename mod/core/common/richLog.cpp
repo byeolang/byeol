@@ -2,7 +2,7 @@
 
 #include "../builtin/primitive/nInt.hpp"
 #include "../builtin/primitive/nStr.hpp"
-#include "../visitor/visitInfo.hpp"
+#include "../worker/visitor/visitInfo.hpp"
 
 namespace nm {
     strWrap __convert__(const arithmeticObj& it) {

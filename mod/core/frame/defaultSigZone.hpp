@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../visitor/graphVisitor.hpp"
+#include "../worker/visitor/graphVisitor.hpp"
 #include "sigZone.hpp"
 #include "thread.hpp"
 

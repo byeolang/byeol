@@ -1,6 +1,6 @@
 #include "getGenericExpr.hpp"
 
-#include "../../visitor/visitor.hpp"
+#include "../../worker/visitor/visitor.hpp"
 #include "../genericOrigin.hpp"
 #include "../node.inl"
 

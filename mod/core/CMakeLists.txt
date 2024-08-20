@@ -14,7 +14,7 @@ add_definitions(${defines})
 find_package(BISON)
 find_package(FLEX)
 
-set(PARSER_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/loader/worker/bison)
+set(PARSER_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/worker/bison)
 set(BISON_COMPILE_FLAGS "-l --feature=diagnostics-show-caret --warnings --color")
 
 if (${CMAKE_BUILD_TYPE} STREQUAL Debug)

@@ -1,8 +1,8 @@
 #include "seq.hpp"
 
 #include "../../../bridge/cpp.hpp"
-#include "../../../visitor/visitInfo.hpp"
-#include "../../../visitor/visitor.hpp"
+#include "../../../worker/visitor/visitInfo.hpp"
+#include "../../../worker/visitor/visitor.hpp"
 
 namespace nm {
 

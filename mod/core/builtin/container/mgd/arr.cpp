@@ -3,8 +3,8 @@
 #include <utility>
 
 #include "../../../bridge/cpp.hpp"
-#include "../../../visitor/generalizer.hpp"
-#include "../../../visitor/visitor.hpp"
+#include "../../../worker/visitor/generalizer.hpp"
+#include "../../../worker/visitor/visitor.hpp"
 
 namespace nm {
 

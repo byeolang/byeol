@@ -4,7 +4,7 @@
 #include "../builtin/primitive/nInt.hpp"
 #include "../frame/frame.hpp"
 #include "../frame/frameInteract.hpp"
-#include "../visitor/visitor.hpp"
+#include "../worker/visitor/visitor.hpp"
 #include "params.hpp"
 
 namespace nm {

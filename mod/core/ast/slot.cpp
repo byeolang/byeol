@@ -1,7 +1,7 @@
 #include "slot.hpp"
 
 #include "../type/mgdType.hpp"
-#include "../visitor/visitor.hpp"
+#include "../worker/visitor/visitor.hpp"
 #include "baseFunc.hpp"
 #include "origin.hpp"
 

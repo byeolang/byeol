@@ -1,7 +1,7 @@
 #include "nInt.hpp"
 
 #include "../../ast/param.hpp"
-#include "../../visitor/visitor.hpp"
+#include "../../worker/visitor/visitor.hpp"
 #include "bridge/cpp/tbridger.hpp"
 #include "nBool.hpp"
 #include "nByte.hpp"

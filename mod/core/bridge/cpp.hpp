@@ -1,6 +1,5 @@
 #pragma once
 
-#include "cpp/loader.hpp"
 #include "cpp/marshaling.hpp"
 #include "cpp/tbridge.hpp"
 #include "cpp/tbridgeClosure.hpp"

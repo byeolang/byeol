@@ -110,6 +110,16 @@ namespace nm {
         return true;
     }
 
+    nbool me::onVisit(const visitInfo& i, ctor& me) {
+        baseObj& cast = getTask().cast<baseObj>();
+        if(nul(cast)) getReport().add(nerr::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
+        else if(i.parent && i.parent == &cast)
+            // if this ctor belongs to root object(== generic obj):
+            me.setRet(cast);
+
+        return super::onVisit(i, me);
+    }
+
     nbool me::onVisit(const visitInfo& i, baseObj& me) {
         scope& subs = me.subs();
         for(auto e = subs.begin(); e; ++e) {

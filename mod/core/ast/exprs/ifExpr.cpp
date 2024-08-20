@@ -3,7 +3,7 @@
 #include "../../builtin/primitive/nBool.hpp"
 #include "../../builtin/primitive/nVoid.hpp"
 #include "../../frame/frameInteract.hpp"
-#include "../../visitor/visitor.hpp"
+#include "../../worker/visitor/visitor.hpp"
 #include "retStateExpr.hpp"
 
 namespace nm {

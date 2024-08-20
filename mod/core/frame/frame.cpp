@@ -3,7 +3,7 @@
 #include "../ast/baseFunc.hpp"
 #include "../ast/dumScope.hpp"
 #include "../ast/obj.hpp"
-#include "../visitor/visitor.hpp"
+#include "../worker/visitor/visitor.hpp"
 #include "thread.hpp"
 
 namespace nm {

@@ -1,8 +1,8 @@
 #include "getExpr.hpp"
 
 #include "../../frame/thread.hpp"
-#include "../../visitor/graphVisitor.hpp"
-#include "../../visitor/visitor.hpp"
+#include "../../worker/visitor/graphVisitor.hpp"
+#include "../../worker/visitor/visitor.hpp"
 #include "../node.inl"
 
 namespace nm {

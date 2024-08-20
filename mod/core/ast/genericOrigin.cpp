@@ -1,8 +1,8 @@
 #include "genericOrigin.hpp"
 
 #include "../type/mgdType.hpp"
-#include "../visitor/generalizer.hpp"
-#include "../visitor/verifier.hpp"
+#include "../worker/visitor/generalizer.hpp"
+#include "../worker/visitor/verifier.hpp"
 #include "args.hpp"
 #include "baseFunc.hpp"
 #include "dumScope.hpp"

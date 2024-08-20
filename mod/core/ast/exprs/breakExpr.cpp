@@ -1,7 +1,7 @@
 #include "breakExpr.hpp"
 
 #include "../../frame/thread.hpp"
-#include "../../visitor/visitor.hpp"
+#include "../../worker/visitor/visitor.hpp"
 
 namespace nm {
 

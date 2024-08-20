@@ -115,10 +115,10 @@ def _cleanParser():
 
     pathDir= namuDir
     if isWindow():
-        pathDir += "\\mod\\core\\loader\\worker\\bison\\"
+        pathDir += "\\mod\\core\\worker\\bison\\"
         seedlingPathDir = cwd + "\\..\\mod\\seedling\\parser\\"
     else:
-        pathDir += "/mod/core/loader/worker/bison/"
+        pathDir += "/mod/core/worker/bison/"
         seedlingPathDir = cwd + "/../mod/seedling/parser/"
 
     printInfoEnd("removing generated parser...")

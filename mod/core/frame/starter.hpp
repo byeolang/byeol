@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../ast/origin.hpp"
-#include "../loader/worker/worker.inl"
+#include "../worker/worker.inl"
 #include "defaultSigZone.hpp"
 
 namespace nm {

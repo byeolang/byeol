@@ -3,10 +3,10 @@
 #include "../builtin/container/native/tnchain.inl"
 #include "../frame/frameInteract.hpp"
 #include "../frame/thread.hpp"
-#include "../visitor/visitor.hpp"
+#include "../worker/visitor/visitor.hpp"
 #include "obj.hpp"
 #include "params.hpp"
-#include "../err/nerr.hpp"
+#include "../builtin/err/nerr.hpp"
 
 namespace nm {
 

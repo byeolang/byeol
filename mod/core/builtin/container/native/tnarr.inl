@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../../ast/node.hpp"
-#include "../../../err/errCode.hpp"
+#include "../../../builtin/err/errCode.hpp"
 #include "../../../type/exMaker.hpp"
 #include "tnarr.hpp"
 #include "tnucontainer.inl"

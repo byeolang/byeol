@@ -5,9 +5,9 @@
 #include "../ast/node.inl"
 #include "../builtin/pkgs/default/inputFunc.hpp"
 #include "../builtin/pkgs/default/printFunc.hpp"
-#include "../err/errReport.hpp"
+#include "../builtin/err/errReport.hpp"
+#include "../builtin/err/err.hpp"
 #include "../loader/slot/slotLoader.hpp"
-#include "../err/err.hpp"
 
 namespace nm {
 

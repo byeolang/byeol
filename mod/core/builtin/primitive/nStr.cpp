@@ -1,7 +1,7 @@
 #include "nStr.hpp"
 
 #include "../../bridge/cpp.hpp"
-#include "../../visitor/visitor.hpp"
+#include "../../worker/visitor/visitor.hpp"
 #include "../container/mgd/seq.hpp"
 #include "nBool.hpp"
 #include "nByte.hpp"

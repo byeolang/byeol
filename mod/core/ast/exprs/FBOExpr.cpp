@@ -1,7 +1,7 @@
 #include "FBOExpr.hpp"
 
 #include "../../builtin/primitive.hpp"
-#include "../../visitor/visitor.hpp"
+#include "../../worker/visitor/visitor.hpp"
 
 namespace nm {
 

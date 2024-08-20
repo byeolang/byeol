@@ -1,7 +1,7 @@
 #include "mockNode.hpp"
 
 #include "../builtin/container/native/tndumMap.hpp"
-#include "../visitor/visitor.hpp"
+#include "../worker/visitor/visitor.hpp"
 #include "dumScope.hpp"
 
 namespace nm {

@@ -1,7 +1,7 @@
 #include "defVarExpr.hpp"
 
 #include "../../frame/thread.hpp"
-#include "../../visitor/visitor.hpp"
+#include "../../worker/visitor/visitor.hpp"
 
 namespace nm {
     NM(DEF_ME(defVarExpr), DEF_VISIT())

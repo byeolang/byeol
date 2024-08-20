@@ -1,6 +1,6 @@
 #include "defaultCtor.hpp"
 
-#include "../../visitor/visitor.hpp"
+#include "../../worker/visitor/visitor.hpp"
 
 namespace nm {
 

@@ -1,6 +1,6 @@
 #include "obj.hpp"
 
-#include "../visitor/visitor.hpp"
+#include "../worker/visitor/visitor.hpp"
 #include "baseFunc.hpp"
 #include "node.inl"
 #include "origin.hpp"

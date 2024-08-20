@@ -1,7 +1,7 @@
 #include "autoslot.hpp"
 
 #include "../type/mgdType.hpp"
-#include "../visitor/visitor.hpp"
+#include "../worker/visitor/visitor.hpp"
 #include "baseFunc.hpp"
 #include "origin.hpp"
 
@@ -63,7 +63,7 @@ namespace nm {
             auto res = load->parse(rpt, tray);
             _srcs.add(*res);
         }
-        _state = PARSED;
+        _state = PARSED; // don't need to expand.
         return _srcs;
     }
 
