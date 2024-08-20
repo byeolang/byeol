@@ -45,8 +45,6 @@ namespace nm {
 
         const src& getSrc() const override;
 
-        virtual nbool isPreEvaluated() const;
-
         virtual const obj& getSubPack() const;
 
         virtual baseObj* make() const;

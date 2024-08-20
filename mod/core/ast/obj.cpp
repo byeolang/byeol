@@ -79,11 +79,6 @@ namespace nm {
 
     const baseObj& me::getOrigin() const { return _org ? *_org : *this; }
 
-    nbool me::isPreEvaluated() const {
-        auto subs = mySubs();
-        return nul(subs->get(baseObj::PRECTOR_NAME));
-    }
-
     void me::_inFrame(frame& fr, const bicontainable& args) {
         const obj& subpack = safeGet(getOrigin(), getSubPack());
         if(!nul(subpack)) fr.add(subpack);

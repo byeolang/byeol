@@ -50,8 +50,6 @@ namespace nm {
         const ntype& getType() const override;
         nbool isComplete() const override;
 
-        nbool isPreEvaluated() const override;
-
     protected:
         void _inFrame(frame& fr, const bicontainable& args) override;
 

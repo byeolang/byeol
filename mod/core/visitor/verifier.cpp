@@ -202,7 +202,7 @@ namespace nm {
         obj& cast = eval->cast<obj>();
         if(!nul(cast)) {
             const baseObj& org = cast.getOrigin();
-            NM_WHEN(!org.isPreEvaluated()).err(TYPE_IS_NOT_PRE_EVALUATED, me, me.getName());
+            NM_WHEN(org.getState() < PARSED).err(TYPE_IS_NOT_PRE_EVALUATED, me, me.getName());
         }
 
         _STEP("does rhs[%s] have 'ret' in its blockStmt?", eval);

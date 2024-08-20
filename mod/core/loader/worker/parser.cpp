@@ -249,7 +249,7 @@ namespace nm {
 
         node& rhs = defVar.getRight();
         baseObj& org = rhs.cast<baseObj>();
-        if(!nul(org) && org.isPreEvaluated()) {
+        if(!nul(org) && org.getState() >= PARSED) {
             s.asScope->add(defVar.getName(), new mockNode(org));
             return &s;
         }
