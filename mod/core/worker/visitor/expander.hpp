@@ -4,8 +4,8 @@
 
 namespace nm {
 
-    class _nout preEvaluator: public visitor {
-        NM(CLASS(preEvaluator, visitor))
+    class _nout expander: public visitor {
+        NM(CLASS(expander, visitor))
 
         struct _nout evaluation {
             nbool isEvaluated() const;
@@ -16,7 +16,7 @@ namespace nm {
         };
 
     public:
-        preEvaluator();
+        expander();
 
     public:
         void rel() override;

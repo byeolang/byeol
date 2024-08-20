@@ -5,7 +5,7 @@
 #include "../ast/origin.hpp"
 #include "../frame/threadUse.hpp"
 #include "visitor/graphVisitor.hpp"
-#include "visitor/preEvaluator.hpp"
+#include "visitor/expander.hpp"
 #include "worker.inl"
 
 namespace nm {
@@ -83,7 +83,7 @@ namespace nm {
         if(nul(getTask())) return NM_E("_slot is null"), void();
 
         threadUse thr;
-        preEvaluator evaler;
+        expander evaler;
         evaler.setReport(getReport())
             .setFlag(getFlag())
             .delFlag(LOG_ON_END | DUMP_ON_END)

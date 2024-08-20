@@ -25,7 +25,7 @@ namespace nm {
     public:
         friend class genericOrigin; // for _setOrigin(), _setType
         friend class slot;          // for _onRunSub
-        friend class preEvaluator;
+        friend class expander;
         friend class exprMaker;
         friend class parser;
 

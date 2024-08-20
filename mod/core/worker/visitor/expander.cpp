@@ -1,4 +1,4 @@
-#include "preEvaluator.hpp"
+#include "expander.hpp"
 
 #include "../../ast/exprs/getGenericExpr.hpp"
 #include "../../ast/func.hpp"
@@ -11,7 +11,7 @@
 
 namespace nm {
 
-    NM(DEF_ME(preEvaluator))
+    NM(DEF_ME(expander))
 
     nbool me::evaluation::isEvaluated() const {
         if(!fun) return true;
@@ -21,7 +21,7 @@ namespace nm {
 #define GUARD(...) \
     if(isFlag(me::GUARD)) NM_I(__VA_ARGS__)
 
-    me::preEvaluator() { rel(); }
+    me::expander() { rel(); }
 
     void me::rel() {
         _rel();
@@ -110,7 +110,7 @@ namespace nm {
             if(!_tryPreEvals(
                    e)) { // this func actually remove elements of _stack if the func consumes it.
                 // ok. there is no change after running one loop, which means, I think that
-                // preEvaluator just found circular dependencies.
+                // expander just found circular dependencies.
                 NM_E("* * *");
                 NM_E("I couldn't finish pre-evaluation. may be because of circular dependency.");
                 NM_E("total %d pre-evaluations remains.", _stack.size());
