@@ -79,6 +79,8 @@ namespace nm {
 
     const baseObj& me::getOrigin() const { return _org ? *_org : *this; }
 
+    runExpr& me::getCallComplete() { return nulOf<runExpr>(); }
+
     void me::_inFrame(frame& fr, const bicontainable& args) {
         const obj& subpack = safeGet(getOrigin(), getSubPack());
         if(!nul(subpack)) fr.add(subpack);

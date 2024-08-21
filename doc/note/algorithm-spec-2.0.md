@@ -29,10 +29,10 @@
 * [X] origin에 `_state` 두기
 * [X] origin.getState(), setState() 구헌하기
 * [X] isPreEvaluated를 getState로 대체하기
-* [ ] RELEASED, PARSED, VERIFIED, LINKED를 autoslot과 origin 모두 만족하는
+* [X] RELEASED, PARSED, VERIFIED, LINKED를 autoslot과 origin 모두 만족하는
 적절한 용어로 바꾸기
-* [ ] PARSED만 된 순간, VERIFIED만 된 순간 등 중간에 제대로 되었는지 TC를 작성하기
-* [ ] origin.subs()에서 if (_state == VERIFIED) 라면 callComplete() 실행하고 LINKED로 set하기
+* [X] PARSED만 된 순간, VERIFIED만 된 순간 등 중간에 제대로 되었는지 TC를 작성하기
+* [X] origin.subs()에서 if (_state == VERIFIED) 라면 callComplete() 실행하고 LINKED로 set하기
 * [ ] verifier.onLeave(obj&) 추가하기
 * [ ] visitor는 obj 에서 callComplete가 있다면 이것도 검증하기
 * [ ] verifier.onLeave(obj&) 에서 setState(VERIFIED)로 변경하기

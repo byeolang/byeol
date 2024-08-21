@@ -50,7 +50,8 @@ namespace nm {
         clonable* cloneDeep() const override;
         const baseObj& getOrigin() const override;
         baseObj* make() const override;
-        const runExpr& getCallComplete() const;
+        using super::getCallComplete;
+        runExpr& getCallComplete() override;
         void setCallComplete(const runExpr& new1);
         nbool isComplete() const override;
 

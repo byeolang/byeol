@@ -194,4 +194,12 @@ namespace nm {
         for(auto& e: cache)
             e.second->accept(visitInfo{e.first, &g, n++, len, i.depth + 1}, *this);
     }
+
+    void me::onTraverse(const visitInfo& i, obj& o) {
+        onTraverse(i, (obj::super&) o);
+
+        auto& cc = o.getCallComplete();
+        if(!nul(cc))
+            cc.accept(visitInfo{"callComplete", &o, 0, 1, i.depth + 1}, *this);
+    }
 } // namespace nm

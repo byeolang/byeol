@@ -8,6 +8,7 @@ namespace nm {
 
     class mgdType;
     class origin;
+    class runExpr;
 
     /// obj is a object structured in managed programming environment like 'namu'.
     /// owned sub nodes of a object can only be manipulated through API provided obj.
@@ -49,6 +50,9 @@ namespace nm {
 
         const ntype& getType() const override;
         nbool isComplete() const override;
+
+        virtual runExpr& getCallComplete();
+        const runExpr& getCallComplete() const NM_CONST_FUNC(getCallComplete())
 
     protected:
         void _inFrame(frame& fr, const bicontainable& args) override;

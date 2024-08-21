@@ -465,3 +465,26 @@ TEST_F(defObjExprTest, isStateOfDefObjVerified) {
     person.subs();
     ASSERT_EQ(person.getState(), LINKED);
 }
+
+TEST_F(defObjExprTest, verifierShouldVerifyCallComplete) {
+    make().parse(R"SRC(
+        def person("unknown") # <-- complete obj. and this'll be looking for ctor(str).
+            name str
+            ctor(): name = "no"
+            ctor(newName flt): name = newName # <-- but look! it's not str, but flt.
+        main() int: 0
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(defObjExprTest, callCompleteForDefaultCtor) {
+    make().parse(R"SRC(
+        def person
+            name str
+            ctor(): name = "kniz"
+        main() int: person.name == "kniz"
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
+}
