@@ -444,3 +444,24 @@ TEST_F(defObjExprTest, ifFirstLetterBeginsWithLowerCaseThenItIsComplete) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 33);
 }
+
+TEST_F(defObjExprTest, isStateOfDefObjVerified) {
+    make()
+        // if I set LOG_STRUCTURE flag, graphVisitor will all Person.subs(),
+        // and it lets the object set to LINKED state.
+        .delFlag(interpreter::LOG_STRUCTURE)
+        .parse(R"SRC(
+        def Person
+            age int
+        main() int: 0
+    )SRC").shouldVerified(true);
+
+    const obj& subpack = getSubPack();
+    ASSERT_TRUE(subpack.getState() >= VERIFIED);
+    const obj& person = subpack.sub<obj>("Person");
+    ASSERT_FALSE(nul(person));
+    ASSERT_EQ(person.getState(), VERIFIED);
+
+    person.subs();
+    ASSERT_EQ(person.getState(), LINKED);
+}

@@ -2,6 +2,7 @@
 
 #include "../type/mgdType.hpp"
 #include "exprs/runExpr.hpp"
+#include "frame/frameInteract.hpp"
 
 namespace nm {
 
@@ -32,6 +33,16 @@ namespace nm {
 
         super::operator=(rhs);
         return _assign(rhs);
+    }
+
+    scope& me::subs() {
+        if(_state == VERIFIED) {
+            if(_callComplete)
+                _callComplete->run();
+            _state = LINKED;
+        }
+
+        return super::subs();
     }
 
     state me::getState() const { return _state; }

@@ -39,6 +39,9 @@ namespace nm {
         me& operator=(const me& rhs);
 
     public:
+        using super::subs;
+        scope& subs() override;
+
         state getState() const override;
         void setState(state new1) override;
         const ntype& getType() const override;
