@@ -9,9 +9,6 @@ namespace nm {
         NM(ADT(arithmeticObj, baseObj))
 
     public:
-        using super::run;
-        str run(const args& a) override;
-
         tstr<me> add(const me& rhs) const;
         using super::sub;
         tstr<me> sub(const me& rhs) const;

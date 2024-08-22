@@ -15,7 +15,11 @@ namespace nm {
     str me::run(const args& a) {
         tpriorities<baseFunc> matches = subAll<baseFunc>(baseObj::CTOR_NAME, a);
         switch(matches.len()) {
-            case 1: return run(baseObj::CTOR_NAME, a);
+            case 1: {
+                str ret = (node*) getOrigin().clone();
+                ret->run(baseObj::CTOR_NAME, a);
+                return ret;
+            }
             case 0: return NM_W("there is no such ctor."), str();
         }
         /*// TODO: 1. change err management module to use 'err' class, not errCode.

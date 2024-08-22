@@ -26,8 +26,6 @@ namespace nm {
         using super::subs;
         scope& subs() override;
 
-        using super::run;
-        str run(const args& a) override;
         virtual const std::string& getMsg() const = 0;
 
         virtual void log() const = 0;

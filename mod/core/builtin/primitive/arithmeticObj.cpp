@@ -31,13 +31,6 @@ namespace nm {
 
 #undef _X
 
-            str me::run(const args& a) {
-                baseFunc& found = sub<baseFunc>(baseObj::CTOR_NAME, a);
-                if(nul(found)) return NM_W("there is no such ctor."), str();
-
-                return run(baseObj::CTOR_NAME, a);
-            }
-
     tstr<me> me::mov(const me& rhs) {
         if(!rhs.isImpli(getType())) return tstr<me>();
 
