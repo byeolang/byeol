@@ -1,7 +1,7 @@
 #include "generalizer.hpp"
 
-#include "../ast.hpp"
-#include "../loader/worker/worker.inl"
+#include "../../ast.hpp"
+#include "../worker.inl"
 
 namespace nm {
 
