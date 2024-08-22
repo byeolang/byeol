@@ -547,6 +547,13 @@ namespace nm {
         _recentLoops.clear();
     }
 
+    void me::_onEndWork() {
+        for(baseObj* org : _orgs)
+            org->setState(VERIFIED);
+
+        super::_onEndWork();
+    }
+
     void me::onLeave(const visitInfo& i, func& me) {
         _GUARD("onLeave()");
 
@@ -604,7 +611,7 @@ namespace nm {
     void me::onLeave(const visitInfo& i, baseObj& me) {
         _GUARD("onLeave()");
         me.outFrame();
-        me.setState(VERIFIED);
+        _orgs.push_back(&me);
     }
 
     nbool me::onVisit(const visitInfo& i, genericOrigin& me) {
@@ -627,7 +634,7 @@ namespace nm {
     void me::onLeave(const visitInfo& i, genericOrigin& me) {
         _GUARD("onLeave()");
 
-        me.setState(VERIFIED);
+        _orgs.push_back(&me);
         // DON'T CALL 'super::onLeave()':
         //  if I don't have this func, getGenericExpr::super (=baseObj)'s one will be called.
         //  and me pointer will be erased too inside the func.

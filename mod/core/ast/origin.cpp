@@ -37,9 +37,9 @@ namespace nm {
 
     scope& me::subs() {
         if(_state == VERIFIED) {
+            _state = LINKED;
             if(_callComplete)
                 _callComplete->run();
-            _state = LINKED;
         }
 
         return super::subs();

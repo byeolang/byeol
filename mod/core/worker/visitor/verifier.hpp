@@ -52,6 +52,7 @@ namespace nm {
 
     protected:
         void _prepare() override;
+        void _onEndWork() override;
 
     private:
         std::string _asStr(const params& ps);
@@ -62,5 +63,6 @@ namespace nm {
 
     private:
         std::vector<loopExpr*> _recentLoops;
+        std::vector<baseObj*> _orgs;
     };
 } // namespace nm
