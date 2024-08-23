@@ -44,10 +44,8 @@ namespace nm {
     scope& me::subs() {
         if(_state == VERIFIED) {
             _state = LINKED; // set to LINKED to prevent infinite loop.
-            if(_callComplete) {
-                str res = _callComplete->run();
-                if(!res || !nul(res->cast<baseErr>())) _state = VERIFIED;
-            }
+            if(_callComplete)
+                _callComplete->run();
         }
 
         return super::subs();
