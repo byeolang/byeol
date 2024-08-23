@@ -17,6 +17,7 @@ namespace nm {
         switch(matches.len()) {
             case 1: {
                 str ret = (node*) getOrigin().clone();
+                ret->run(baseObj::COMMON_NAME); // even if there is no @common, that's okay.
                 ret->run(baseObj::CTOR_NAME, a);
                 return ret;
             }
