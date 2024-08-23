@@ -242,10 +242,8 @@ namespace nm {
         if(nul(s)) return posError(errCode::IS_NUL, "s"), new defBlock();
 
         defVarExpr& defVar = stmt.cast<defVarExpr>();
-        if(nul(defVar)) {
-            s.addScope(stmt.getSrc().getName(), defVar);
-            return &s.addCommon(*_maker.makeAssignExprFrom(defVar));
-        }
+        if(nul(defVar))
+            return &s.addScope(stmt.getSrc().getName(), stmt);
 
         node& rhs = defVar.getRight();
         baseObj& org = rhs.cast<baseObj>();

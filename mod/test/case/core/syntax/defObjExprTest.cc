@@ -488,3 +488,11 @@ TEST_F(defObjExprTest, callCompleteForDefaultCtor) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 1);
 }
+
+TEST_F(defObjExprTest, doesItHaveCommonCtor) {
+    make().parse(R"SRC(
+        def person
+            name str
+            ctor(): name = "kniz"
+    )SRC").shouldVerified(true);
+}

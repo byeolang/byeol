@@ -9,13 +9,19 @@ namespace nm {
 
     NM(DEF_ME(origin))
 
-    me::origin(const mgdType& newType): super(), _type(newType), _state(RELEASED) {}
+    me::origin(const mgdType& newType): super(), _type(newType), _state(RELEASED) {
+        _setOrigin(*this);
+    }
 
     me::origin(const mgdType& newType, scope& shares, scope& owns):
-        super(shares, owns), _type(newType), _state(RELEASED) {}
+        super(shares, owns), _type(newType), _state(RELEASED) {
+        _setOrigin(*this);
+    }
 
     me::origin(const mgdType& newType, const obj& subpack):
-        super(), _type(newType), _subpack(subpack), _state(RELEASED) {}
+        super(), _type(newType), _subpack(subpack), _state(RELEASED) {
+        _setOrigin(*this);
+    }
 
     me::origin(const me& rhs):
         super(rhs),
