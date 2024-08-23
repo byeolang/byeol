@@ -3,6 +3,7 @@
 #include "../type/mgdType.hpp"
 #include "exprs/runExpr.hpp"
 #include "frame/frameInteract.hpp"
+#include "../builtin/err/baseErr.hpp"
 
 namespace nm {
 
@@ -23,7 +24,6 @@ namespace nm {
         _src(rhs._src),
         _callComplete(rhs._callComplete),
         _state(rhs._state) {
-
         // usually all obj called by copyctor is complete object.
         // but, origin obj should not.
     }
@@ -37,9 +37,11 @@ namespace nm {
 
     scope& me::subs() {
         if(_state == VERIFIED) {
-            _state = LINKED;
-            if(_callComplete)
-                _callComplete->run();
+            _state = LINKED; // set to LINKED to prevent infinite loop.
+            if(_callComplete) {
+                str res = _callComplete->run();
+                if(!res || !nul(res->cast<baseErr>())) _state = VERIFIED;
+            }
         }
 
         return super::subs();
