@@ -2,6 +2,7 @@
 
 #include "../../frame/thread.hpp"
 #include "../../worker/visitor/visitor.hpp"
+#include "ast/exprs/assignExpr.hpp"
 
 namespace nm {
     NM(DEF_ME(defVarExpr), DEF_VISIT())

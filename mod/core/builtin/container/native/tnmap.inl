@@ -33,6 +33,8 @@ namespace nm {
 
     TEMPL
     nbool ME::add(const K& key, const V& new1) {
+        if(nul(new1)) return false;
+
         _map.insert({key, wrap(new1)});
         return true;
     }

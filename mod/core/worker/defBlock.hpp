@@ -5,6 +5,7 @@
 
 namespace nm {
 
+    class defVarExpr;
     class _nout defBlock: public instance {
         NM(CLASS(defBlock, instance))
 
@@ -12,7 +13,17 @@ namespace nm {
         defBlock();
 
     public:
-        tstr<scope> asScope;
-        tstr<narr> asPreCtor;
+        me& addCommon(node& stmt);
+        me& addScope(const std::string& name, node& stmt);
+        me& postpone(node& stmt);
+        const narr& getPostpones() const;
+        scope& getScope();
+        const scope& getScope() const NM_CONST_FUNC(getScope())
+        const narr& getCommon() const;
+
+    private:
+        tstr<scope> _scope;
+        tstr<narr> _common;
+        tstr<narr> _postpones;
     };
 }

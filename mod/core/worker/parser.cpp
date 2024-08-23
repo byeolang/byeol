@@ -243,20 +243,17 @@ namespace nm {
 
         defVarExpr& defVar = stmt.cast<defVarExpr>();
         if(nul(defVar)) {
-            s.asScope->add(stmt.getSrc().getName(), &stmt);
-            return &s;
+            s.addScope(stmt.getSrc().getName(), defVar);
+            return &s.addCommon(*_maker.makeAssignExprFrom(defVar));
         }
 
         node& rhs = defVar.getRight();
         baseObj& org = rhs.cast<baseObj>();
-        if(!nul(org) && org.getState() >= PARSED) {
-            s.asScope->add(defVar.getName(), new mockNode(org));
-            return &s;
-        }
+        if(!nul(org) && org.getState() >= PARSED)
+            return &s.addScope(defVar.getName(), *new mockNode(org));
 
         defVar.setTo(*_maker.make<getExpr>("me"));
-        s.asPreCtor->add(defVar);
-        return &s;
+        return &s.postpone(defVar);
     }
 
     node* me::onDefProp(const std::string& name, const node& rhs) {
@@ -498,7 +495,7 @@ namespace nm {
 
     void me::onCompilationUnit(obj& subpack, defBlock& blk) {
         NM_DI("tokenEvent: onCompilationUnit(%s, defBlock[%s].preCtor.len()=%d)", &subpack, &blk,
-            blk.asPreCtor ? blk.asPreCtor->len() : 0);
+            blk.getPostpones().len());
 
         _onCompilationUnit(subpack, blk);
     }
@@ -515,7 +512,7 @@ namespace nm {
 
         // at this far, subpack must have at least 1 default ctor created just before:
         NM_DI("tokenEvent: onCompilationUnit: run preconstructor(%d lines)",
-            (!nul(blk) && blk.asPreCtor) ? blk.asPreCtor->len() : 0);
+            !nul(blk) ? blk.getPostpones().len() : 0);
         subpack.run(baseObj::CTOR_NAME); // don't need argument. it's default ctor.
     }
 
@@ -525,7 +522,7 @@ namespace nm {
 
         bicontainable& share = it.getShares().getContainer();
         bicontainable& own = it.getOwns();
-        for(auto e = blk.asScope->begin(); e; ++e) {
+        for(auto e = blk.getScope().begin(); e; ++e) {
             // ctor case:
             func& c = e.getVal<func>();
             if(!nul(c) && e.getKey() == baseObj::CTOR_NAME) c.setRet(*new mockNode(it));
@@ -573,12 +570,11 @@ namespace nm {
             it.getShares().getContainer().add(baseObj::CTOR_NAME,
                 *_maker.make<defaultCopyCtor>(it.getOrigin()));
 
-        // add preCtor:
-        if(blk.asPreCtor && blk.asPreCtor->len()) {
-            func* preCtor = _maker.make<func>(params(), new nVoid());
-            preCtor->getBlock().getStmts().add(*blk.asPreCtor);
-            it.subs().add(baseObj::PRECTOR_NAME, preCtor);
-        }
+        // add postpones & common:
+        //  if there is no postpones, add() will just return false.
+        auto& subs = it.subs();
+        subs.add(baseObj::PRECTOR_NAME, _maker.makePostponeFunc(blk));
+        subs.add(baseObj::COMMON_NAME, _maker.makeCommonFunc(blk));
         return true;
     }
 

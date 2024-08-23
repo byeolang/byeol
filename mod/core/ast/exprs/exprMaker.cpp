@@ -1,4 +1,10 @@
 #include "exprMaker.hpp"
+#include "ast/exprs/defVarExpr.hpp"
+#include "ast/exprs/assignExpr.hpp"
+#include "ast/exprs/getExpr.hpp"
+#include "ast/params.hpp"
+#include "builtin/primitive/nVoid.hpp"
+#include "worker/defBlock.hpp"
 
 namespace nm {
 
@@ -39,4 +45,26 @@ namespace nm {
     const point& me::getPos() const { return _pos; }
 
     const srcFile& me::getSrcFile() const { return *_file; }
+
+    func* me::makePostponeFunc(const defBlock& blk) const {
+        const auto& postpones = blk.getPostpones();
+        if(postpones.isEmpty()) return nullptr;
+
+        func* ret = make<func>(params(), new nVoid());
+        ret->getBlock().getStmts().add(postpones);
+        return ret;
+    }
+
+    assignExpr* me::makeAssignExprFrom(const defVarExpr& e) const {
+        return make<assignExpr>(*make<getExpr>(e.getName()), e.getRight());
+    }
+
+    func* me::makeCommonFunc(const defBlock& blk) const {
+        const auto& commons = blk.getCommon();
+        if(commons.isEmpty()) return nullptr;
+
+        func* ret = make<func>(params(), new nVoid());
+        ret->getBlock().getStmts().add(commons);
+        return ret;
+    }
 } // namespace nm

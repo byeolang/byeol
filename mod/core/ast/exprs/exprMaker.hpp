@@ -4,6 +4,10 @@
 
 namespace nm {
 
+    class func;
+    class defBlock;
+    class assignExpr;
+    class defVarExpr;
     class _nout exprMaker: public typeProvidable, public clonable {
         NM(CLASS(exprMaker))
 
@@ -39,6 +43,10 @@ namespace nm {
             if(_file) ret->_setSrc(*new src(*_file, "", _pos));
             return ret;
         }
+
+        func* makePostponeFunc(const defBlock& blk) const;
+        assignExpr* makeAssignExprFrom(const defVarExpr& e) const;
+        func* makeCommonFunc(const defBlock& blk) const;
 
     private:
         tstr<srcFile> _file;

@@ -56,6 +56,7 @@ namespace nm {
 
     public:
         inline static const std::string CTOR_NAME = "@ctor";
+        inline static const std::string COMMON_NAME = "@common";
         inline static const std::string PRECTOR_NAME = "@preCtor";
     };
 } // namespace nm
