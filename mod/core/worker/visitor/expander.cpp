@@ -50,7 +50,7 @@ namespace nm {
         me.outFrame();
         _obj.rel();
 
-        if(nul(me.sub(baseObj::PRECTOR_NAME)))
+        if(nul(me.sub(baseObj::EXPAND_NAME)))
             me.setState(PARSED);
     }
 
@@ -59,12 +59,12 @@ namespace nm {
 
         _func.bind(me);
         me.inFrame(); // don't need to inFrame for args.
-                      // because what this want to do is just collect @preCtor funcs.
+                      // because what this want to do is just collect @expand funcs.
         NM_I("preEval: func: %s", i);
         for(const auto& p: me.getParams())
             ((node&) p.getOrigin()).accept(i, *this);
 
-        if(i.name == baseObj::PRECTOR_NAME) {
+        if(i.name == baseObj::EXPAND_NAME) {
             NM_I("preEval: func: found prector");
             _stack[&_obj.get()] = {*_obj, me};
         }
@@ -191,7 +191,7 @@ namespace nm {
     }
 
     void me::_delEval(const std::map<obj*, evaluation>::iterator& e) {
-        e->second.me->subs().del(baseObj::PRECTOR_NAME);
+        e->second.me->subs().del(baseObj::EXPAND_NAME);
         _stack.erase(e);
     }
 } // namespace nm

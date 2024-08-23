@@ -7,7 +7,7 @@ namespace nm {
 
     NM(DEF_ME(defBlock))
 
-    me::defBlock(): _scope(new scope()), _common(new narr()), _postpones(new narr()) {}
+    me::defBlock(): _scope(new scope()), _common(new narr()), _expands(new narr()) {}
 
     me& me::addCommon(node& stmt) {
         _common->add(&stmt);
@@ -19,14 +19,14 @@ namespace nm {
         return *this;
     }
 
-    me& me::postpone(node& stmt) {
-        _postpones->add(stmt);
+    me& me::expand(node& stmt) {
+        _expands->add(stmt);
         return *this;
     }
 
-    const narr& me::getPostpones() const {
+    const narr& me::getExpands() const {
         static ndumArr inner;
-        return _postpones ? *_postpones : inner;
+        return _expands ? *_expands : inner;
     }
 
     scope& me::getScope() { return *_scope; }

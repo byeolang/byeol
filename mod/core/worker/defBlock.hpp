@@ -15,8 +15,8 @@ namespace nm {
     public:
         me& addCommon(node& stmt);
         me& addScope(const std::string& name, node& stmt);
-        me& postpone(node& stmt);
-        const narr& getPostpones() const;
+        me& expand(node& stmt);
+        const narr& getExpands() const;
         scope& getScope();
         const scope& getScope() const NM_CONST_FUNC(getScope())
         const narr& getCommon() const;
@@ -24,6 +24,6 @@ namespace nm {
     private:
         tstr<scope> _scope;
         tstr<narr> _common;
-        tstr<narr> _postpones;
+        tstr<narr> _expands;
     };
 }

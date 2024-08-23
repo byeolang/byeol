@@ -253,7 +253,7 @@ namespace nm {
             return &s.addScope(defVar.getName(), *new mockNode(org));
 
         defVar.setTo(*_maker.make<getExpr>("me"));
-        return &s.postpone(defVar);
+        return &s.expand(defVar);
     }
 
     node* me::onDefProp(const std::string& name, const node& rhs) {
@@ -494,8 +494,8 @@ namespace nm {
     }
 
     void me::onCompilationUnit(obj& subpack, defBlock& blk) {
-        NM_DI("tokenEvent: onCompilationUnit(%s, defBlock[%s].preCtor.len()=%d)", &subpack, &blk,
-            blk.getPostpones().len());
+        NM_DI("tokenEvent: onCompilationUnit(%s, defBlock[%s].expand.len()=%d)", &subpack, &blk,
+            blk.getExpands().len());
 
         _onCompilationUnit(subpack, blk);
     }
@@ -512,7 +512,7 @@ namespace nm {
 
         // at this far, subpack must have at least 1 default ctor created just before:
         NM_DI("tokenEvent: onCompilationUnit: run preconstructor(%d lines)",
-            !nul(blk) ? blk.getPostpones().len() : 0);
+            !nul(blk) ? blk.getExpands().len() : 0);
         subpack.run(baseObj::CTOR_NAME); // don't need argument. it's default ctor.
     }
 
@@ -573,7 +573,7 @@ namespace nm {
         // add postpones & common:
         //  if there is no postpones, add() will just return false.
         auto& subs = it.subs();
-        subs.add(baseObj::PRECTOR_NAME, _maker.makePostponeFunc(blk));
+        subs.add(baseObj::EXPAND_NAME, _maker.makePostponeFunc(blk));
         subs.add(baseObj::COMMON_NAME, _maker.makeCommonFunc(blk));
         return true;
     }

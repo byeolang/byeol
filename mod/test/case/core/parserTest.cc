@@ -25,7 +25,7 @@ TEST_F(parserTest, testHelloWorld) {
     ASSERT_TRUE(shares.len() == 1);
 
     p.relSupplies().addSupply(*new bufSupply(script)).work();
-    ASSERT_EQ(shares.len(), 4); // @ctor*2 + main + 'hello': @preCtor doesn't exist.
+    ASSERT_EQ(shares.len(), 4); // @ctor*2 + main + 'hello': @expand doesn't exist.
     p.relSupplies().addSupply(*new bufSupply(script)).work();
     ASSERT_EQ(shares.len(), 7); // add (main() + @ctor*2) on every parse() call.
 

@@ -280,7 +280,7 @@ TEST_F(defObjExprTest, testPrectorCircularNegative) {
         .shouldVerified(false);
 }
 
-TEST_F(defObjExprTest, preCtorReversedSequence) {
+TEST_F(defObjExprTest, expandReversedSequence) {
     make()
         .parse(R"SRC(
         def A
