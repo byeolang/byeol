@@ -96,10 +96,6 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, baseFunc& me) {
-        func& cast = me.cast<func>();
-        if(i.name == baseObj::CTOR_NAME && !nul(cast))
-            return _onVisitCtor(i, cast);
-
         onVisit(i, (params&) me.getParams());
 
         const node& retOrg = _findOrigin(*me.getRet());
@@ -114,7 +110,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::_onVisitCtor(const visitInfo& i, func& me) {
+    nbool me::onVisit(const visitInfo& i, ctor& me) {
         baseObj& cast = getTask().cast<baseObj>();
         if(nul(cast)) getReport().add(nerr::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
         else if(i.parent && i.parent == &cast)

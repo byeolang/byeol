@@ -36,6 +36,8 @@ namespace nm {
         void onTraverse(runExpr& me, node& subject) override;
         nbool onVisit(const visitInfo& i, func& me) override;
         void onLeave(const visitInfo& i, func& me) override;
+        nbool onVisit(const visitInfo& i, ctor& me) override;
+        void onLeave(const visitInfo& i, ctor& me) override;
         nbool onVisit(const visitInfo& i, baseObj& me) override;
         void onLeave(const visitInfo& i, baseObj& me) override;
         nbool onVisit(const visitInfo& i, genericOrigin& me) override;
@@ -58,8 +60,6 @@ namespace nm {
         // @param newInfo is not a heap instance.
         void _verifyMgdFuncImplicitReturn(func& me);
         void _onLeave(const visitInfo& i, const loopExpr& me);
-        nbool _onVisitCtor(const visitInfo& i, func& me);
-        void _onLeaveCtor(const visitInfo& i, func& me);
 
     private:
         std::vector<loopExpr*> _recentLoops;

@@ -7,10 +7,8 @@ namespace nm {
     me::ctor(const params& ps, const blockExpr& blk): super(ps, nullptr, blk) {}
 
     str me::run(const args& a) {
-        str ret = (node*) getRet()->clone();
-        a.setMe(*ret);
         super::run(a);
-        return ret;
+        return a.getMe();
     }
 
     str me::getEval() const { return getRet(); }

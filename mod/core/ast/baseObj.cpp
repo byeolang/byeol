@@ -18,8 +18,7 @@ namespace nm {
             case 1: {
                 str ret = (node*) getOrigin().clone();
                 ret->run(baseObj::COMMON_NAME); // even if there is no @common, that's okay.
-                ret->run(baseObj::CTOR_NAME, a);
-                return ret;
+                return ret->run(baseObj::CTOR_NAME, a);
             }
             case 0: return NM_W("there is no such ctor."), str();
         }

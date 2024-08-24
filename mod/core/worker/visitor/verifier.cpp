@@ -426,8 +426,8 @@ namespace nm {
         return ret;
     }
 
-    nbool me::_onVisitCtor(const visitInfo& i, func& me) {
-        _GUARD("onVisitCtor()");
+    nbool me::onVisit(const visitInfo& i, ctor& me) {
+        _GUARD("onVisit()");
 
         NM_WHEN(!me.getRet()).err(CTOR_NOT_IN_DEF_OBJ, me), true;
 
@@ -441,8 +441,8 @@ namespace nm {
         return ret;
     }
 
-    void me::_onLeaveCtor(const visitInfo& i, func& me) {
-        _GUARD("onLeaveCtor()");
+    void me::onLeave(const visitInfo& i, ctor& me) {
+        _GUARD("onLeave()");
 
         _STEP("no error allowed during running ctor");
         const node& eval = *me.getBlock().getEval();
@@ -453,9 +453,6 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, func& me) {
-        if(i.name == baseObj::CTOR_NAME)
-            return _onVisitCtor(i, me);
-
         _GUARD("onVisit()");
 
         onLeave(i, (func::super&) me);
@@ -558,9 +555,6 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, func& me) {
-        if(i.name == baseObj::CTOR_NAME)
-            return _onLeaveCtor(i, me);
-
         _GUARD("onLeave()");
 
         _STEP("last stmt should match to ret type");

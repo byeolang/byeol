@@ -17,6 +17,7 @@ namespace nm {
         nbool onVisit(const visitInfo& i, defVarExpr& me) override;
         nbool onVisit(const visitInfo& i, runExpr& me) override;
         nbool onVisit(const visitInfo& i, baseFunc& me) override;
+        nbool onVisit(const visitInfo& i, ctor& me) override;
         nbool onVisit(const visitInfo& i, baseCtor& me) override;
         nbool onVisit(const visitInfo& i, params& me);
         nbool onVisit(const visitInfo& i, FBOExpr& me) override;
@@ -25,7 +26,6 @@ namespace nm {
 
     private:
         const node& _findOrigin(const node& toReplace) const;
-        nbool _onVisitCtor(const visitInfo& i, func& me);
 
     private:
         params _params;
