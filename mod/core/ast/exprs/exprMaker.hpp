@@ -44,7 +44,7 @@ namespace nm {
             return ret;
         }
 
-        func* makePostponeFunc(const defBlock& blk) const;
+        func* makeExpandFunc(const defBlock& blk) const;
         assignExpr* makeAssignExprFrom(const defVarExpr& e) const;
         func* makeCommonFunc(const defBlock& blk) const;
 

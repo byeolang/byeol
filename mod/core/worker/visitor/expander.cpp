@@ -13,7 +13,7 @@ namespace nm {
 
     NM(DEF_ME(expander))
 
-    nbool me::evaluation::isEvaluated() const {
+    nbool me::expansion::isExpanded() const {
         if(!fun) return true;
         return fun->getBlock().getStmts().len() <= 0;
     }
@@ -31,13 +31,13 @@ namespace nm {
 
     void me::_onWork() {
         super::_onWork();
-        _preEval();
+        _expand();
     }
 
     nbool me::onVisit(const visitInfo& i, obj& me) {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
-        NM_DI("preEval: obj: %s", i);
+        NM_DI("expand: obj: %s", i);
 
         _obj.bind(me);
         me.inFrame();
@@ -60,12 +60,12 @@ namespace nm {
         _func.bind(me);
         me.inFrame(); // don't need to inFrame for args.
                       // because what this want to do is just collect @expand funcs.
-        NM_I("preEval: func: %s", i);
+        NM_I("expand: func: %s", i);
         for(const auto& p: me.getParams())
             ((node&) p.getOrigin()).accept(i, *this);
 
         if(i.name == baseObj::EXPAND_NAME) {
-            NM_I("preEval: func: found prector");
+            NM_I("expand: func: found expand");
             _stack[&_obj.get()] = {*_obj, me};
         }
 
@@ -98,22 +98,22 @@ namespace nm {
 
     void me::_rel() { _stack.clear(); }
 
-    void me::_preEval() {
+    void me::_expand() {
         GUARD(" ===================================");
-        GUARD("          preEvaluationLoop         ");
+        GUARD("          expandLoop");
         GUARD(" ===================================");
         errReport e;
         ncnt n = 0;
         while(_stack.size() > 0) {
             e.rel();
-            GUARD("|--- %dth try: running %d pre evaluation track... ---|", ++n, _stack.size());
-            if(!_tryPreEvals(
+            GUARD("|--- %dth try: running %d expand track... ---|", ++n, _stack.size());
+            if(!_expandAll(
                    e)) { // this func actually remove elements of _stack if the func consumes it.
                 // ok. there is no change after running one loop, which means, I think that
                 // expander just found circular dependencies.
                 NM_E("* * *");
-                NM_E("I couldn't finish pre-evaluation. may be because of circular dependency.");
-                NM_E("total %d pre-evaluations remains.", _stack.size());
+                NM_E("I couldn't finish expansion. may be because of circular dependency.");
+                NM_E("total %d expanding remains.", _stack.size());
                 NM_E("errors:");
                 e.dump();
                 NM_E("* * *");
@@ -124,17 +124,17 @@ namespace nm {
         _onEndErrReport(e);
         getReport().add(e);
         _stack.clear();
-        GUARD(" ==== end of preEvaluationLoop ==== ");
+        GUARD(" ==== end of expandLoop ==== ");
     }
 
-    nbool me::_tryPreEvals(errReport& rpt) {
-        GUARD("|--- preEval: tryPreEvals: evaluation[%d] remains ---|", _stack.size());
+    nbool me::_expandAll(errReport& rpt) {
+        GUARD("|--- expand: tryExpand: evaluation[%d] remains ---|", _stack.size());
         nbool isChanged = false;
         for(auto e = _stack.begin(); e != _stack.end();) {
             auto& eval = e->second;
-            if(_tryPreEval(rpt, eval)) {
+            if(_expand(rpt, eval)) {
                 isChanged = true;
-                if(eval.isEvaluated()) {
+                if(eval.isExpanded()) {
                     _delEval(e++);
                     continue;
                 }
@@ -144,7 +144,7 @@ namespace nm {
         return isChanged;
     }
 
-    nbool me::_tryPreEval(errReport& rpt, evaluation& eval) {
+    nbool me::_expand(errReport& rpt, expansion& eval) {
         obj& me = *eval.me;
         frameInteract f1(me);
         {
@@ -156,7 +156,7 @@ namespace nm {
                 {
                     narr& stmts = blk.getStmts();
 
-                    GUARD("|--- preEval: evalFunc(%x).len = %d ---|", &fun, stmts.len());
+                    GUARD("|--- expand: evalFunc(%x).len = %d ---|", &fun, stmts.len());
 
                     nbool isChanged = false;
                     for(int n = 0; n < stmts.len();) {
@@ -167,7 +167,7 @@ namespace nm {
                             // if there was an error, proceed next stmt.
                             // TODO: it uses len() for counting errors.
                             //       but one of them could be just warning.
-                            GUARD("|--- preEval: evalFunc(%x): eval failed on stmt[%d] ---|", &fun,
+                            GUARD("|--- expand: evalFunc(%x): eval failed on stmt[%d] ---|", &fun,
                                 n);
                             n++;
                             continue;
@@ -175,14 +175,14 @@ namespace nm {
 
                         stmts[n].run();
 
-                        GUARD("|--- preEval: evalFunc(%x): SUCCESS! stmt[%d] pre-evaluated.", &fun,
+                        GUARD("|--- expand: evalFunc(%x): SUCCESS! stmt[%d] pre-evaluated.", &fun,
                             n);
                         stmts.del(n);
                         me.setState(PARSED);
                         isChanged = true;
                     } // end of inner
 
-                    GUARD("|--- preEval: end of evalFunc(%x) stmt[%d] left ---|", &fun,
+                    GUARD("|--- expand: end of evalFunc(%x) stmt[%d] left ---|", &fun,
                         stmts.len());
                     return isChanged;
                 }
@@ -190,7 +190,7 @@ namespace nm {
         }
     }
 
-    void me::_delEval(const std::map<obj*, evaluation>::iterator& e) {
+    void me::_delEval(const std::map<obj*, expansion>::iterator& e) {
         e->second.me->subs().del(baseObj::EXPAND_NAME);
         _stack.erase(e);
     }

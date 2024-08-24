@@ -571,7 +571,7 @@ namespace nm {
         // add postpones & common:
         //  if there is no postpones, add() will just return false.
         auto& subs = it.subs();
-        subs.add(baseObj::EXPAND_NAME, _maker.makePostponeFunc(blk));
+        subs.add(baseObj::EXPAND_NAME, _maker.makeExpandFunc(blk));
         subs.add(baseObj::COMMON_NAME, _maker.makeCommonFunc(blk));
         return true;
     }

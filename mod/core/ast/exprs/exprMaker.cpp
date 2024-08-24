@@ -46,7 +46,7 @@ namespace nm {
 
     const srcFile& me::getSrcFile() const { return *_file; }
 
-    func* me::makePostponeFunc(const defBlock& blk) const {
+    func* me::makeExpandFunc(const defBlock& blk) const {
         const auto& postpones = blk.getExpands();
         if(postpones.isEmpty()) return nullptr;
 

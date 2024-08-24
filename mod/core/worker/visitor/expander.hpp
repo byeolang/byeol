@@ -7,8 +7,8 @@ namespace nm {
     class _nout expander: public visitor {
         NM(CLASS(expander, visitor))
 
-        struct _nout evaluation {
-            nbool isEvaluated() const;
+        struct _nout expansion {
+            nbool isExpanded() const;
 
         public:
             tweak<obj> me;
@@ -36,15 +36,15 @@ namespace nm {
         void _rel();
 
         /// @return true if there is a change.
-        nbool _tryPreEvals(errReport& rpt);
+        nbool _expandAll(errReport& rpt);
         /// @return true if there is a change.
-        nbool _tryPreEval(errReport& rpt, evaluation& eval);
-        void _delEval(const std::map<obj*, evaluation>::iterator& e);
-        void _preEval();
-        nbool _isAllEvaluated(obj& key) const;
+        nbool _expand(errReport& rpt, expansion& eval);
+        void _delEval(const std::map<obj*, expansion>::iterator& e);
+        void _expand();
+        nbool _isAllExpanded(obj& key) const;
 
     private:
-        std::map<obj*, evaluation> _stack;
+        std::map<obj*, expansion> _stack;
         tstr<obj> _obj;
         tstr<func> _func;
     };
