@@ -44,8 +44,7 @@ namespace nm {
     scope& me::subs() {
         if(_state == VERIFIED) {
             _state = LINKED; // set to LINKED to prevent infinite loop.
-            if(_callComplete)
-                _callComplete->run();
+            if(_callComplete) _callComplete->run();
         }
 
         return super::subs();
@@ -80,6 +79,8 @@ namespace nm {
     void me::setCallComplete(const runExpr& new1) { _callComplete.bind(new1); }
 
     nbool me::isComplete() const { return _callComplete.isBind(); }
+
+    clonable* me::clone() const { return new obj(*this); }
 
     void me::_setType(const mgdType& new1) { _type = new1; }
 

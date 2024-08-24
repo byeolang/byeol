@@ -20,7 +20,7 @@ namespace nm {
     class runExpr;
 
     class _nout origin final: public obj {
-        NM(ME(origin, obj), INIT_META(origin), CLONE(origin))
+        NM(ME(origin, obj), INIT_META(origin))
 
     public:
         friend class genericOrigin; // for _setOrigin(), _setType
@@ -54,6 +54,7 @@ namespace nm {
         runExpr& getCallComplete() override;
         void setCallComplete(const runExpr& new1);
         nbool isComplete() const override;
+        clonable* clone() const override;
 
     private:
         void _setType(const mgdType& new1) override;
