@@ -4,6 +4,7 @@
 #include "exprs/runExpr.hpp"
 #include "frame/frameInteract.hpp"
 #include "../builtin/err/baseErr.hpp"
+#include "../frame/thread.hpp"
 
 namespace nm {
 
@@ -42,10 +43,7 @@ namespace nm {
     }
 
     scope& me::subs() {
-        if(_state == VERIFIED) {
-            _state = LINKED; // set to LINKED to prevent infinite loop.
-            if(_callComplete) _callComplete->run();
-        }
+        if(_state == VERIFIED && !thread::get().getFrames().isEmpty()) _runCallComplete();
 
         return super::subs();
     }
@@ -95,5 +93,10 @@ namespace nm {
         _callComplete = rhs._callComplete;
         _state = rhs._state;
         return *this;
+    }
+
+    void me::_runCallComplete() {
+        _state = LINKED; // set to LINKED to prevent infinite loop.
+        if(_callComplete) _callComplete->run();
     }
 } // namespace nm

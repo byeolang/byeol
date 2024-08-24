@@ -456,13 +456,20 @@ TEST_F(defObjExprTest, isStateOfDefObjVerified) {
         main() int: 0
     )SRC").shouldVerified(true);
 
-    const obj& subpack = getSubPack();
+    obj& subpack = getSubPack();
     ASSERT_TRUE(subpack.getState() >= VERIFIED);
-    const obj& person = subpack.sub<obj>("Person");
+    obj& person = subpack.sub<obj>("Person");
     ASSERT_FALSE(nul(person));
     ASSERT_EQ(person.getState(), VERIFIED);
 
     person.subs();
+    ASSERT_EQ(person.getState(), VERIFIED); // it's not work because there is no frame.
+
+    threadUse thr1; {
+        frameInteract f1(person); {
+            person.subs();
+        }
+    }
     ASSERT_EQ(person.getState(), LINKED);
 }
 

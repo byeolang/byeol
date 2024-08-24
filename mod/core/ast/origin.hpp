@@ -61,6 +61,7 @@ namespace nm {
         void _setSubPack(const obj& newSub);
         void _setSrc(const src& s) override;
         me& _assign(const me& rhs);
+        void _runCallComplete();
 
     private:
         mgdType _type; // TODO: memory leak
