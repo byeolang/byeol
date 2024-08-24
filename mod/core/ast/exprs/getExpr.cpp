@@ -65,7 +65,6 @@ namespace nm {
     void me::setMe(const node& newMe) { _me.bind(newMe); }
 
     clonable* me::cloneDeep() const {
-        NM_DI("%s.cloneDeep()", *this);
         me* ret = (me*) clone();
         if(_args) ret->_args.bind((args*) _args->cloneDeep());
 

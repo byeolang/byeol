@@ -121,7 +121,6 @@ namespace nm {
     }
 
     clonable* me::cloneDeep() const {
-        NM_DI("%s.cloneDeep()", getType());
         me* ret = (me*) clone();
         // params:
         ret->_params.rel();

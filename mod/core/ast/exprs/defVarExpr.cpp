@@ -39,8 +39,6 @@ namespace nm {
     str me::getEval() const { return _rhs->getEval(); }
 
     clonable* me::cloneDeep() const {
-        NM_DI("%s.cloneDeep()", *this);
-
         me* ret = (me*) clone();
         if(_to) ret->_to.bind((node*) _to->cloneDeep());
         if(_rhs) ret->_rhs.bind((node*) _rhs->cloneDeep());

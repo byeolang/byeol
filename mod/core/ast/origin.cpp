@@ -62,7 +62,6 @@ namespace nm {
         // update origin:
         //  this makes an origin object. and cloned origin object's origin should itself.
         //  but don't bind _org to this. it's circular dependency.
-        NM_DI("%s.cloneDeep()", *this);
         me* ret = new me(*this);
         ret->subs().link(*(scope*) getShares().cloneDeep());
         return ret;

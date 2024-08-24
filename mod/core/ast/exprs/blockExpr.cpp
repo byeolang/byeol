@@ -16,8 +16,6 @@ namespace nm {
     narr& me::getStmts() { return _exprs; }
 
     clonable* me::cloneDeep() const {
-        NM_DI("%s.cloneDeep()", *this);
-
         me* ret = (me*) clone();
         ret->_exprs.rel();
         for(auto e = _exprs.begin(); e; e++)
