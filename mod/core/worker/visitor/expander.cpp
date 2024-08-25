@@ -85,12 +85,12 @@ namespace nm {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
         // this lets genericOrigin make a their generic obj.
-        obj& genericOrigin = me.getEval().cast<obj>();
-        if(nul(genericOrigin)) return true;
+        obj& generalizedOrg = me.getEval().cast<obj>();
+        if(nul(generalizedOrg)) return true;
 
         obj& prevObj = *_obj;
         func& prevFunc = *_func;
-        genericOrigin.accept(i, *this);
+        generalizedOrg.accept(i, *this);
         _func.bind(prevFunc);
         _obj.bind(prevObj);
         return true;

@@ -242,8 +242,7 @@ namespace nm {
         if(nul(s)) return posError(errCode::IS_NUL, "s"), new defBlock();
 
         defVarExpr& defVar = stmt.cast<defVarExpr>();
-        if(nul(defVar))
-            return &s.addScope(stmt.getSrc().getName(), stmt);
+        if(nul(defVar)) return &s.addScope(stmt.getSrc().getName(), stmt);
 
         node& rhs = defVar.getRight();
         baseObj& org = rhs.cast<baseObj>();
@@ -412,7 +411,8 @@ namespace nm {
 
         origin& ret = *_maker.birth<origin>(name, mgdType::make(name), *_subpack);
         if(util::checkTypeAttr(name) == COMPLETE_OBJ)
-            ret.setCallComplete(*_maker.make<runExpr>(ret, *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
+            ret.setCallComplete(*_maker.make<runExpr>(ret,
+                *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
         _onInjectObjSubs(ret, blk);
         return &ret;
     }
@@ -461,12 +461,14 @@ namespace nm {
         const narr& a, defBlock& blk) {
         args* newArgs = new args(a);
         std::string argNames = _joinVectorString(_extractParamTypeNames(*newArgs));
-        NM_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], args[%s], defBlock[%s]", name, typeParams.len(),
-            argNames, &blk);
+        NM_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], args[%s], defBlock[%s]", name,
+            typeParams.len(), argNames, &blk);
 
         origin& org = *_maker.birth<origin>(name, mgdType(name, ttype<obj>::get(), typeParams));
         if(util::checkTypeAttr(name) == COMPLETE_OBJ)
-            org.setCallComplete(*_maker.make<runExpr>(org, *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
+            org.setCallComplete(
+                *_maker.make<runExpr>(*_maker.make<getGenericExpr>(name, typeParams),
+                    *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
         _onInjectObjSubs(org, blk);
         org._setSubPack(*_subpack);
 
