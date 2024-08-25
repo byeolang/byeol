@@ -244,6 +244,9 @@ namespace nm {
         defVarExpr& defVar = stmt.cast<defVarExpr>();
         if(nul(defVar)) return &s.addScope(stmt.getSrc().getName(), stmt);
 
+        // checks whether rhs was primitive type:
+        //  if rhs isn't primitive, rhs will be getExpr type.
+        //  mockNode will be created
         node& rhs = defVar.getRight();
         baseObj& org = rhs.cast<baseObj>();
         if(!nul(org) && org.getState() >= PARSED)

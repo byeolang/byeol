@@ -503,3 +503,36 @@ TEST_F(defObjExprTest, doesItHaveCommonCtor) {
             ctor(): name = "kniz"
     )SRC").shouldVerified(true);
 }
+
+TEST_F(defObjExprTest, memberVariableShouldBeNotMockNode) {
+    make().parse(R"SRC(
+        def person
+            age int # <-- if this is mockNode, age is origin of int.
+        def fish
+            age int # <-- if so, this age would be the just same instance of person's.
+        main() int
+            fish.age = 17
+            person.age
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 0);
+}
+
+TEST_F(defObjExprTest, memberVariableShouldBeNotMockNode2) {
+    make().parse(R"SRC(
+        def person
+            age int # <-- if this is mockNode, age is origin of int.
+        def fish
+            p1 person
+        main() int
+            person.age = 17
+            fish.p1.age
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 0);
+}
+
