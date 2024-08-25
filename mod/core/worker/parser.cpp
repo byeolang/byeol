@@ -179,7 +179,7 @@ namespace nm {
             origin* sub = &e->sub<origin>(name);
             if(nul(sub)) {
                 sub = new origin(mgdType::make(name));
-                sub->setCallComplete(*new runExpr(*sub, *new getExpr(baseObj::CTOR_NAME), *new args()));
+                sub->setCallComplete(*new mockNode());
                 e->subs().add(name, sub);
                 sub->_setOrigin(*sub);
             }

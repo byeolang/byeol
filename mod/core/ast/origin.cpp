@@ -71,9 +71,9 @@ namespace nm {
 
     baseObj* me::make() const { return new obj(*this); }
 
-    runExpr& me::getCallComplete() { return *_callComplete; }
+    node& me::getCallComplete() { return *_callComplete; }
 
-    void me::setCallComplete(const runExpr& new1) { _callComplete.bind(new1); }
+    void me::setCallComplete(const node& new1) { _callComplete.bind(new1); }
 
     nbool me::isComplete() const { return _callComplete.isBind(); }
 

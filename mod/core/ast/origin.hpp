@@ -51,8 +51,8 @@ namespace nm {
         const baseObj& getOrigin() const override;
         baseObj* make() const override;
         using super::getCallComplete;
-        runExpr& getCallComplete() override;
-        void setCallComplete(const runExpr& new1);
+        node& getCallComplete() override;
+        void setCallComplete(const node& new1);
         nbool isComplete() const override;
         clonable* clone() const override;
 
@@ -67,7 +67,7 @@ namespace nm {
         mgdType _type; // TODO: memory leak
         tstr<obj> _subpack;
         tstr<src> _src;
-        tstr<runExpr> _callComplete;
+        str _callComplete;
         state _state;
     };
 } // namespace nm

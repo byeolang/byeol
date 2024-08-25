@@ -34,7 +34,7 @@ namespace nm {
         if(_state == RELEASED) {
             const std::string& name = getManifest().name;
             origin& org = *new origin(mgdType::make(name));
-            org.setCallComplete(*new runExpr(org, *new getExpr(baseObj::CTOR_NAME), *new args()));
+            org.setCallComplete(*new mockNode());
             _pak.bind(org);
             NM_I("%s pack is about to interpret lazy.", name);
             // TODO: check _rpt error count increased or not.

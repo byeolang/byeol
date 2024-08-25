@@ -51,8 +51,8 @@ namespace nm {
         const ntype& getType() const override;
         nbool isComplete() const override;
 
-        virtual runExpr& getCallComplete();
-        const runExpr& getCallComplete() const NM_CONST_FUNC(getCallComplete())
+        virtual node& getCallComplete();
+        const node& getCallComplete() const NM_CONST_FUNC(getCallComplete())
 
     protected:
         void _inFrame(frame& fr, const bicontainable& args) override;

@@ -21,7 +21,7 @@ namespace nm {
 
     me::slot(const manifest& manifest): _manifest(manifest), _isValid(true) {
         origin& org = *new origin(mgdType::make(_manifest.name));
-        org.setCallComplete(*new runExpr(org, *new getExpr(baseObj::CTOR_NAME), *new args()));
+        org.setCallComplete(*new mockNode());
         _pak.bind(org);
     }
 
