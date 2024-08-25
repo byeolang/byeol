@@ -2,6 +2,8 @@
 
 #include "../type/mgdType.hpp"
 #include "../worker/visitor/visitor.hpp"
+#include "exprs/getExpr.hpp"
+#include "exprs/runExpr.hpp"
 #include "baseFunc.hpp"
 #include "origin.hpp"
 
@@ -31,7 +33,9 @@ namespace nm {
     obj& me::getPack() {
         if(_state == RELEASED) {
             const std::string& name = getManifest().name;
-            _pak.bind(new origin(mgdType::make(name)));
+            origin& org = *new origin(mgdType::make(name));
+            org.setCallComplete(*new runExpr(org, *new getExpr(baseObj::CTOR_NAME), *new args()));
+            _pak.bind(org);
             NM_I("%s pack is about to interpret lazy.", name);
             // TODO: check _rpt error count increased or not.
             //       if increased, then parse() function has been failed.

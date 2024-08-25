@@ -85,3 +85,11 @@ TEST_F(bundlePackTest, defaultDef3) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<int>(), 48268 + 3985);
 }
+
+TEST_F(bundlePackTest, cloneBridgeObj) {
+    make().parse(R"SRC(
+        main() int
+            s := sys.con()
+            ret s.add(1, 2)
+    )SRC").shouldVerified(true);
+}

@@ -2,6 +2,8 @@
 
 #include "../type/mgdType.hpp"
 #include "../worker/visitor/visitor.hpp"
+#include "ast/exprs/getExpr.hpp"
+#include "ast/exprs/runExpr.hpp"
 #include "baseFunc.hpp"
 #include "origin.hpp"
 
@@ -18,7 +20,9 @@ namespace nm {
     str me::getEval() const { return getPack().getEval(); }
 
     me::slot(const manifest& manifest): _manifest(manifest), _isValid(true) {
-        _pak.bind(new origin(mgdType::make(_manifest.name)));
+        origin& org = *new origin(mgdType::make(_manifest.name));
+        org.setCallComplete(*new runExpr(org, *new getExpr(baseObj::CTOR_NAME), *new args()));
+        _pak.bind(org);
     }
 
     me::slot(const manifest& manifest, const obj& pack): _manifest(manifest), _isValid(true) {

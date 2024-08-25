@@ -178,7 +178,9 @@ namespace nm {
             const std::string& name = dotnames[n];
             origin* sub = &e->sub<origin>(name);
             if(nul(sub)) {
-                e->subs().add(name, sub = new origin(mgdType::make(name)));
+                sub = new origin(mgdType::make(name));
+                sub->setCallComplete(*new runExpr(*sub, *new getExpr(baseObj::CTOR_NAME), *new args()));
+                e->subs().add(name, sub);
                 sub->_setOrigin(*sub);
             }
             e = sub;
@@ -250,7 +252,7 @@ namespace nm {
         node& rhs = defVar.getRight();
         baseObj& org = rhs.cast<baseObj>();
         if(!nul(org) && org.getState() >= PARSED)
-            return &s.addScope(defVar.getName(), *new mockNode(org));
+            return &s.addScope(defVar.getName(), *(node*) org.clone());
 
         defVar.setTo(*_maker.make<getExpr>("me"));
         return &s.expand(defVar);
