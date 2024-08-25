@@ -5,7 +5,6 @@
 #include "../../ast/args.hpp"
 #include "../../ast/baseFunc.hpp"
 #include "../../ast/params.hpp"
-#include "ast/mockNode.hpp"
 
 namespace nm {
 
@@ -59,10 +58,6 @@ namespace nm {
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
             T* me = (T*) &a.getMe();
             if(nul(me)) return NM_E("object from frame does not exists."), str();
-            if(me->template isSub<mockNode>()) {
-                mockNode& mock = me->template cast<mockNode>();
-                me = (T*) &mock.getTarget();
-            }
 
             return Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::toMgd(
                 _closure(*me, Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...));
@@ -139,10 +134,6 @@ namespace nm {
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
             T* me = (T*) &a.getMe();
             if(nul(me)) return NM_E("object from frame does not exists."), str();
-            if(me->template isSub<mockNode>()) {
-                mockNode& mock = me->template cast<mockNode>();
-                me = (T*) &mock.getTarget();
-            }
 
             _closure(*me, Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...);
             return Marshaling<void, tifSub<void, node>::is>::toMgd();

@@ -42,9 +42,8 @@ namespace nm {
         return true; // always. this's the main reason why I use this class.
     }
 
-    node& me::getTarget() { return *_org; }
-
     const src& me::getSrc() const {
+
         if(_org) return _org->getSrc();
         return super::getSrc();
     }
