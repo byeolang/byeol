@@ -37,7 +37,7 @@ namespace nm {
     tstr<slot> me::_onWork() {
         _parse();
         if(getReport()) return getTask();
-        _preEval();
+        _expand();
         _verify();
         _showGraph();
 
@@ -75,9 +75,9 @@ namespace nm {
         _isParsed = _isPackExist() && _pser.isOk();
     }
 
-    void me::_preEval() {
+    void me::_expand() {
         NM_DI("======================================");
-        NM_DI("|               preEval              |");
+        NM_DI("|               expand               |");
         NM_DI("======================================");
 
         if(nul(getTask())) return NM_E("_slot is null"), void();

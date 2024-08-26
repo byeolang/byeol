@@ -63,6 +63,15 @@ namespace nm {
         return _org->isComplete();
     }
 
+    clonable* me::cloneDeep() const {
+        // update obj:
+        //  this makes an object. and cloned this object's origin should itself.
+        //  but don't bind _org to this. it's circular dependency.
+        me* ret = new me(*this);
+        ret->subs().link(*(scope*) getShares().cloneDeep());
+        return ret;
+    }
+
     scope& me::subs() { return *_subs; }
 
     tstr<nbicontainer> me::mySubs() const { return _subs->cloneChain(getShares()); }

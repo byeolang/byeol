@@ -35,7 +35,7 @@ namespace nm {
         nbool _isPackExist();
 
         void _parse();
-        void _preEval();
+        void _expand();
         void _verify();
         void _log() const;
         void _showGraph() const;
