@@ -37,9 +37,8 @@ namespace nm {
     id me::getId() const { return _id; }
 
     nbool me::_onStrong(ncnt vote) {
-        if(_strong <= 0) return false;
+        if(vote < 0 && _strong <= 0) return false;
         if(!_id.isHeap()) return false;
-        if(!vote) return NM_I("vote is 0"), false;
 
         _strong += vote;
         if(_strong <= 0) rel();
