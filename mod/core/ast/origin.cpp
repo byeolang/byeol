@@ -25,8 +25,7 @@ namespace nm {
     }
 
     me::origin(const me& rhs): super(rhs), _type(rhs._type) {
-        _setOrigin(*this);
-        _assign(*this);
+        _assign(rhs);
         // usually all obj called by copyctor is always complete object.
         // but, origin obj may not.
     }
@@ -58,7 +57,7 @@ namespace nm {
         // update origin:
         //  this makes an origin object. and cloned origin object's origin should itself.
         //  but don't bind _org to this. it's circular dependency.
-        me* ret = new me(*this);
+        obj* ret = new obj(*this);
         ret->subs().link(*(scope*) getShares().cloneDeep());
         return ret;
     }
