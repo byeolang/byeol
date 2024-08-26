@@ -24,15 +24,11 @@ namespace nm {
         _setOrigin(*this);
     }
 
-    me::origin(const me& rhs):
-        super(rhs),
-        _type(rhs._type),
-        _subpack(rhs._subpack),
-        _src(rhs._src),
-        _callComplete(rhs._callComplete),
-        _state(rhs._state) {
-        // usually all obj called by copyctor is complete object.
-        // but, origin obj should not.
+    me::origin(const me& rhs): super(rhs), _type(rhs._type) {
+        _setOrigin(*this);
+        _assign(*this);
+        // usually all obj called by copyctor is always complete object.
+        // but, origin obj may not.
     }
 
     me& me::operator=(const me& rhs) {
@@ -91,6 +87,7 @@ namespace nm {
         _src = rhs._src;
         _callComplete = rhs._callComplete;
         _state = rhs._state;
+        _setOrigin(*this); // in super(rhs), it assign _org with rhs._org, not 'this' ptr.
         return *this;
     }
 
