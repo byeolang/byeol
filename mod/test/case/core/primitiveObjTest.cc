@@ -14,14 +14,16 @@ TEST_F(primitiveObjTest, testCloneWIntInMgd) {
     ASSERT_NE(&origin, &(*inst));
 }
 
-TEST_F(primitiveObjTest, subsIsDummy) {
+TEST_F(primitiveObjTest, subsIsNotDummy) {
     nInt val(2);
     int initial = val.subs().len();
 
     bicontainable& subs = val.subs();
     ASSERT_FALSE(nul(subs));
     subs.add("not work", new nInt(3));
+    ASSERT_EQ(subs.len(), initial + 1);
+    ASSERT_TRUE(subs.has("not work"));
+
+    subs.del("not work");
     ASSERT_EQ(subs.len(), initial);
-    ASSERT_FALSE(subs.has("not work"));
-    ASSERT_FALSE(subs.begin().isEnd());
 }
