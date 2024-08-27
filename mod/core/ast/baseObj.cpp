@@ -55,8 +55,8 @@ namespace nm {
     }
 
     const src& me::getSrc() const {
-        if(&getOrigin() == this) // which means, the derived origin class doesn't override getSrc().
-            return dumSrc::singletone(); // to prevent infinite loop.
+        if(&getOrigin() == this) return dumSrc::singletone();
+
         return getOrigin().getSrc();
     }
 

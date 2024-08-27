@@ -34,8 +34,6 @@ namespace nm {
         /// same to 'assign'.
         tstr<me> mov(const me& rhs);
 
-        const src& getSrc() const override;
-
     private:
         virtual tstr<me> _add(const me& rhs, nbool reversed) const = 0;
         virtual tstr<me> _sub(const me& rhs, nbool reversed) const = 0;

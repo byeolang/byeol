@@ -43,8 +43,6 @@ namespace nm {
         scope::super& getOwns();
         const scope::super& getOwns() const NM_CONST_FUNC(getOwns())
 
-        const obj& getSubPack() const override;
-
         const ntype& getType() const override;
         nbool isComplete() const override;
 

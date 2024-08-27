@@ -47,11 +47,6 @@ namespace nm {
         return _assign(rhs);
     }
 
-    const obj& me::getSubPack() const {
-        me* c = (me*) this;
-        return safeGet(c->_org, getSubPack());
-    }
-
     const ntype& me::getType() const {
         if(!_org) return ttype<obj>::get();
         return _org->getType();
