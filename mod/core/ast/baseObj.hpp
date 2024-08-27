@@ -11,6 +11,7 @@ namespace nm {
     class frame;
     class origin;
     class obj;
+    class mgdType;
 
     /// baseObj handles frame injection event of all objects.
     class _nout baseObj: public node, public statable {
@@ -18,8 +19,8 @@ namespace nm {
         friend class verifier;
         friend class obj;
         friend class defaultMakeCtor;
-        friend class parser;
-        friend class genericOrigin; // from genericOrigin::_makeGeneric()
+        friend class parser; // _setOrigin()
+        friend class genericOrigin; // from genericOrigin::_makeGeneric(), _setOrigin()
         friend class exprMaker;
 
     protected:
@@ -36,7 +37,7 @@ namespace nm {
 
         priorType prioritize(const args& a) const override;
 
-        virtual const baseObj& getOrigin() const = 0;
+        virtual const baseObj& getOrigin() const;
 
         using super::inFrame;
         void inFrame(const bicontainable& args) override;
@@ -54,9 +55,18 @@ namespace nm {
         void _setSrc(const src& s) override;
         virtual void _inFrame(frame& fr, const bicontainable& args);
 
+        // update origin pointer of an object.
+        // to modify origin* is very dangerous. only permitted module should do this.
+        void _setOrigin(const obj& newOrg);
+
+        virtual void _setType(const mgdType& new1);
+
     public:
         inline static const std::string CTOR_NAME = "@ctor";
         inline static const std::string COMMON_NAME = "@common";
         inline static const std::string EXPAND_NAME = "@expand";
+
+    private:
+        tstr<baseObj> _org;
     };
 } // namespace nm

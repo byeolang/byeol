@@ -18,9 +18,7 @@ namespace nm {
 
     public:
         typedef ntype metaType;
-        friend class parser;
         friend class slot;
-        friend class genericOrigin;
 
     public:
         explicit obj(); // this means 'any' class.
@@ -44,7 +42,6 @@ namespace nm {
         const scope& getShares() const NM_CONST_FUNC(getShares())
         scope::super& getOwns();
         const scope::super& getOwns() const NM_CONST_FUNC(getOwns())
-        const baseObj& getOrigin() const override;
 
         const obj& getSubPack() const override;
 
@@ -58,19 +55,12 @@ namespace nm {
 
     protected:
         void _inFrame(frame& fr, const bicontainable& args) override;
-        // update origin pointer of an object.
-        // to modify origin* is very dangerous. only permitted module should do this.
-        void _setOrigin(const obj& newOrg);
 
     private:
-
         me& _assign(const me& rhs);
-
-        virtual void _setType(const mgdType& new1);
 
     private:
         tstr<scope> _subs;
-        tstr<baseObj> _org;
     };
 
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS

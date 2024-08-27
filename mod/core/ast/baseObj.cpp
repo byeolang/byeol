@@ -36,6 +36,8 @@ namespace nm {
         return subAll<baseFunc>(baseObj::CTOR_NAME, a).getPriorType();
     }
 
+    const baseObj& me::getOrigin() const { return _org ? *_org : *this; }
+
     void me::inFrame(const bicontainable& args) {
         frames& frs = nm::thread::get()._getFrames();
         NM_DI("%s.inFrame() frames.len[%d]", *this, frs.len());
@@ -81,4 +83,8 @@ namespace nm {
         s->add("me", *this);
         fr.add(*s);
     }
+
+    void me::_setOrigin(const obj& newOrg) { _org.bind(newOrg); }
+
+    void me::_setType(const mgdType& new1) {}
 } // namespace nm

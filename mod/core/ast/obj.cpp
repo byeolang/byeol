@@ -86,8 +86,6 @@ namespace nm {
 
     scope::super& me::getOwns() { return safeGet(_subs, getContainer()); }
 
-    const baseObj& me::getOrigin() const { return _org ? *_org : *this; }
-
     node& me::getCallComplete() { return nulOf<node>(); }
 
     void me::_inFrame(frame& fr, const bicontainable& args) {
@@ -95,8 +93,4 @@ namespace nm {
         if(!nul(subpack)) fr.add(subpack);
         super::_inFrame(fr, args);
     }
-
-    void me::_setOrigin(const obj& newOrg) { _org.bind(newOrg); }
-
-    void me::_setType(const mgdType& new1) {}
 } // namespace nm
