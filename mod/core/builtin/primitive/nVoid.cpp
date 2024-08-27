@@ -14,25 +14,18 @@ namespace nm {
         return inner;
     }
 
-    me::nVoid() {}
+    namespace {
+        static baseObjOrigin org(/*TODO:*/dumSrc::singletone(), tbridger<me>::ctor().ctor<me>().subs());
+    }
+
+    me::nVoid(): super(org) {}
 
     me& me::singletone() {
         static me inner;
         return inner;
     }
 
-    namespace {
-        static me org;
-    }
-
-    scope& me::_onMakeSubs() const {
-        static scope inner = tbridger<me>::ctor().ctor<me>().subs();
-        return inner;
-    }
-
     tstr<arithmeticObj> me::bitwiseNot() const { return *this; }
-
-    const baseObj& me::getOrigin() const { return org; }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const { return *this; }
 

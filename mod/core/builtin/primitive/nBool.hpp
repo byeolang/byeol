@@ -22,11 +22,8 @@ namespace nm {
 
     public:
         tstr<arithmeticObj> bitwiseNot() const override;
-        const baseObj& getOrigin() const override;
 
     protected:
-        scope& _onMakeSubs() const override;
-
         tstr<arithmeticObj> _add(const arithmeticObj& rhs, nbool reversed) const override;
         tstr<arithmeticObj> _sub(const arithmeticObj& rhs, nbool reversed) const override;
         tstr<arithmeticObj> _mul(const arithmeticObj& rhs, nbool reversed) const override;

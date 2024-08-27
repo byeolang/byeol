@@ -41,22 +41,15 @@ namespace nm {
         return inner;
     }
 
-    me::nChar() {}
-
-    me::nChar(nchar val): super(val) {}
-
     namespace {
-        static me org;
+        static baseObjOrigin org(/*TODO:*/ dumSrc::singletone(), tbridger<me>::ctor().ctor<me>().subs());
     }
 
-    scope& me::_onMakeSubs() const {
-        static scope inner = tbridger<me>::ctor().ctor<me>().subs();
-        return inner;
-    }
+    me::nChar(): super(org) {}
+
+    me::nChar(nchar val): super(val, org) {}
 
     tstr<arithmeticObj> me::bitwiseNot() const { return new me(~get()); }
-
-    const baseObj& me::getOrigin() const { return org; }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {
         return reversed ? new me(rhs.as<me>()->get() + get()) : new me(get() + rhs.as<me>()->get());

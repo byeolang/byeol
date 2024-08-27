@@ -14,18 +14,13 @@ namespace nm {
 
     nbool me::wBoolType::isImmutable() const { return true; }
 
-    me::nBool() {}
-
-    me::nBool(nbool val): super(val) {}
-
     namespace {
-        static me org;
+        static baseObjOrigin org(/*TODO:*/ dumSrc::singletone(), tbridger<me>::ctor().ctor<me>().subs());
     }
 
-    scope& me::_onMakeSubs() const {
-        static scope inner = tbridger<me>::ctor().ctor<me>().subs();
-        return inner;
-    }
+    me::nBool(): super(org) {}
+
+    me::nBool(nbool val): super(val, org) {}
 
     const ases& me::wBoolType::_getImpliAses() const {
         static ases inner;
@@ -66,8 +61,6 @@ namespace nm {
     }
 
     tstr<arithmeticObj> me::bitwiseNot() const { return nInt(!get()); }
-
-    const baseObj& me::getOrigin() const { return org; }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {
         return reversed ? new me(rhs.as<me>()->get() + get()) : new me(get() + rhs.as<me>()->get());

@@ -12,15 +12,6 @@ namespace nm {
 
     NM(DEF_ME(nInt), DEF_VISIT())
 
-    namespace {
-        static me org;
-    }
-
-    scope& me::_onMakeSubs() const {
-        static scope inner = tbridger<me>::ctor().ctor<me>().subs();
-        return inner;
-    }
-
     nbool me::wIntType::isImmutable() const { return true; }
 
     const ases& me::wIntType::_getImpliAses() const {
@@ -51,13 +42,16 @@ namespace nm {
         return inner;
     }
 
-    me::nInt() {}
+    namespace {
+        static baseObjOrigin org(/*TODO:*/ dumSrc::singletone(),
+            tbridger<me>::ctor().ctor<me>().subs());
+    }
 
-    me::nInt(nint val): super(val) {}
+    me::nInt(): super(org) {}
+
+    me::nInt(nint val): super(val, org) {}
 
     tstr<arithmeticObj> me::bitwiseNot() const { return new me(~get()); }
-
-    const baseObj& me::getOrigin() const { return org; }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {
         return reversed ? new me(rhs.as<me>()->get() + get()) : new me(get() + rhs.as<me>()->get());

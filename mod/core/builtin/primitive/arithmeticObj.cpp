@@ -7,6 +7,8 @@ namespace nm {
 
     NM_DEF_ME(arithmeticObj)
 
+    me::arithmeticObj(const baseObjOrigin& org): super(org) {}
+
 #define _X(FUNC)                                                                    \
     tstr<arithmeticObj> me::FUNC(const arithmeticObj& rhs) const {                  \
         const ntype& deduced = getType().deduce(rhs);                               \

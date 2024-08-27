@@ -4,9 +4,14 @@
 namespace nm {
     NM(DEF_ME(err))
 
-    me::err(const nStr& msg): _msg(msg) {}
+    namespace {
+        static baseObjOrigin org(/*TODO:*/ dumSrc::singletone(),
+             tbridger<me>::ctor<nStr>().extend(me::super::makeSubs()).subs());
+    }
 
-    me::err() {}
+    me::err(const nStr& msg): super(org), _msg(msg) {}
+
+    me::err(): super(org) {}
 
     nbool me::operator==(const super& rhs) const {
         const me& cast = rhs.cast<me>();
@@ -15,15 +20,6 @@ namespace nm {
 
         return &_msg.get() == &cast._msg.get();
     }
-
-    scope& me::subs() {
-        static scope* inner = nullptr;
-        if(nul(inner)) inner = &tbridger<me>::ctor<nStr>().extend(super::subs()).subs();
-
-        return *inner;
-    }
-
-    const baseObj& me::getOrigin() const { return *this; }
 
     void me::log() const {
         using platformAPI::foreColor;

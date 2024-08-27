@@ -160,25 +160,24 @@ namespace nm {
 
     nbool me::nStrType::isImmutable() const { return true; }
 
-    me::nStr() {}
-
-    me::nStr(const nchar* val): super(std::string(val)) {}
-
-    me::nStr(const std::string& val): super(val) {}
-
-    scope& me::_onMakeSubs() const {
-        static scope inner = tbridger<me>::ctor()
-                                 .ctor<nStr>()
-                                 .func("len", &me::len)
-                                 .func<nchar, nidx>("get", &me::get)
-                                 .func("substr", &me::substr)
-                                 .func("get", new getSeqFunc())
-                                 .func("iterate", new iterateFunc())
-                                 .func("getElemType", new getElemType())
-                                 .subs();
-
-        return inner;
+    namespace {
+        static baseObjOrigin org(/*TODO:*/ dumSrc::singletone(),
+            tbridger<me>::ctor()
+                .ctor<nStr>()
+                .func("len", &me::len)
+                .func<nchar, nidx>("get", &me::get)
+                .func("substr", &me::substr)
+                .func("get", new getSeqFunc())
+                .func("iterate", new iterateFunc())
+                .func("getElemType", new getElemType())
+                .subs());
     }
+
+    me::nStr(): super(org) {}
+
+    me::nStr(const nchar* val): super(std::string(val), org) {}
+
+    me::nStr(const std::string& val): super(val, org) {}
 
     me::iteration* me::_onMakeIteration(ncnt step) const {
         return new bridgeIteration((me&) *this, step);
@@ -259,11 +258,6 @@ namespace nm {
     tstr<arithmeticObj> me::bitwiseNot() const {
         return *this;
         // TODO: throw error
-    }
-
-    const baseObj& me::getOrigin() const {
-        static me org;
-        return org;
     }
 
     /// @param end is exclusive.

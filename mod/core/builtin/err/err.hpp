@@ -18,10 +18,6 @@ namespace nm {
         nbool operator==(const super& rhs) const override;
 
     public:
-        using super::subs;
-        scope& subs() override;
-
-        const baseObj& getOrigin() const override;
         void log() const override;
         const std::string& getMsg() const override;
 

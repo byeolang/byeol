@@ -4,9 +4,9 @@
 namespace nm {
     NM(DEF_ME(baseErr))
 
-    me::baseErr(): _lv(logLv::ERR) { _initStack(); }
+    me::baseErr(const baseObjOrigin& org): super(org), _lv(logLv::ERR) { _initStack(); }
 
-    me::baseErr(logLv::level t): _lv(t) { _initStack(); }
+    me::baseErr(logLv::level t, const baseObjOrigin& org): super(org), _lv(t) { _initStack(); }
 
     me::baseErr(const me& rhs) { _assign(rhs); }
 
@@ -19,12 +19,11 @@ namespace nm {
 
     nbool me::operator!=(const me& rhs) const { return !operator==(rhs); }
 
-    scope& me::subs() {
-        static scope inner = tbridger<me>::func("log", &me::log)
-                                 .func("logStack", &me::logStack)
-                                 .func("getMsg", &me::getMsg)
-                                 .subs();
-        return inner;
+    scope& me::makeSubs() {
+        return tbridger<me>::func("log", &me::log)
+            .func("logStack", &me::logStack)
+            .func("getMsg", &me::getMsg)
+            .subs();
     }
 
     void me::dbgLog() const {

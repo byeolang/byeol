@@ -12,6 +12,8 @@ namespace nm {
 
     NM(DEF_ME(baseObj))
 
+    me::baseObj(const baseObjOrigin& org): _org(org) {}
+
     str me::run(const args& a) {
         tpriorities<baseFunc> matches = subAll<baseFunc>(baseObj::CTOR_NAME, a);
         switch(matches.len()) {
@@ -26,6 +28,13 @@ namespace nm {
           //       2. let it log all ambigious funcs here.
           return NM_W("")*/
         return NM_E("ambigious call found: %s", "TODO:"), str();
+    }
+
+    scope& me::subs() {
+        static dumScope inner;
+        if(!_org) return inner;
+
+        return _org->subs();
     }
 
     state me::getState() const { return LINKED; }
@@ -84,7 +93,7 @@ namespace nm {
         fr.add(*s);
     }
 
-    void me::_setOrigin(const obj& newOrg) { _org.bind(newOrg); }
+    void me::_setOrigin(const baseObj& newOrg) { _org.bind(newOrg); }
 
     void me::_setType(const mgdType& new1) {}
 } // namespace nm

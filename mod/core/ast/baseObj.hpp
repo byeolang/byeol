@@ -12,6 +12,7 @@ namespace nm {
     class origin;
     class obj;
     class mgdType;
+    class baseObjOrigin;
 
     /// baseObj handles frame injection event of all objects.
     class _nout baseObj: public node, public statable {
@@ -27,10 +28,14 @@ namespace nm {
         /// if you don't give any subs when construct an baseObj, _subs will be assigned to dummy
         /// array. instance on ctor of derived class.
         explicit baseObj() = default;
+        explicit baseObj(const baseObjOrigin& org);
 
     public:
         using super::run;
         str run(const args& a) override;
+
+        using super::subs;
+        scope& subs() override;
 
         state getState() const override;
         void setState(state new1) override;
@@ -57,7 +62,7 @@ namespace nm {
 
         // update origin pointer of an object.
         // to modify origin* is very dangerous. only permitted module should do this.
-        void _setOrigin(const obj& newOrg);
+        void _setOrigin(const baseObj& newOrg);
 
         virtual void _setType(const mgdType& new1);
 

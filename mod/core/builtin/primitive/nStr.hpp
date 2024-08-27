@@ -31,7 +31,6 @@ namespace nm {
         nint len() const override;
 
         tstr<arithmeticObj> bitwiseNot() const override;
-        const baseObj& getOrigin() const override;
 
         /// @param end is exclusive.
         tstr<nStr> substr(nint start, nint end);
@@ -51,8 +50,6 @@ namespace nm {
 
     protected:
         iteration* _onMakeIteration(ncnt step) const override;
-
-        scope& _onMakeSubs() const override;
 
         tstr<arithmeticObj> _add(const arithmeticObj& rhs, nbool reversed) const override;
         tstr<arithmeticObj> _sub(const arithmeticObj& rhs, nbool reversed) const override;

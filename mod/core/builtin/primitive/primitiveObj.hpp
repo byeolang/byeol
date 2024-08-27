@@ -20,9 +20,9 @@ namespace nm {
         };
 
     public:
-        primitiveObj(): _val() {}
+        primitiveObj(const baseObjOrigin& org): super(org), _val() {}
 
-        primitiveObj(const T& val): _val(val) {}
+        primitiveObj(const T& val, const baseObjOrigin& org): super(org), _val(val) {}
 
     public:
         T& get() { return _val; }
@@ -37,21 +37,11 @@ namespace nm {
             return super::cast(to);
         }
 
-        using super::subs;
-
-        scope& subs() override {
-            static tstr<scope> inner(new dumScope(_onMakeSubs()));
-
-            return *inner;
-        }
-
     protected:
         nbool _onSame(const typeProvidable& rhs) const override {
             const me& cast = (const me&) rhs;
             return _val == cast._val;
         }
-
-        virtual scope& _onMakeSubs() const = 0;
 
     private:
         T _val;
@@ -61,23 +51,9 @@ namespace nm {
         NM(ADT(primitiveObj, arithmeticObj))
 
     public:
-        const baseObj& getOrigin() const override {
-            // TODO:
-            return nulOf<obj>();
-            // return *this;
-        }
-
-        using super::subs;
-
-        scope& subs() override {
-            static tstr<scope> inner(new dumScope(_onMakeSubs()));
-
-            return *inner;
-        }
+        primitiveObj(const baseObjOrigin& org): super(org) {}
 
     protected:
         nbool _onSame(const typeProvidable& rhs) const override { return !nul(rhs); }
-
-        virtual scope& _onMakeSubs() const = 0;
     };
 } // namespace nm

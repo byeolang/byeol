@@ -10,12 +10,11 @@ namespace nm {
         template <typename T, nbool> friend struct tmarshaling;
 
     public:
-        baseErr(logLv::level t);
-        baseErr(logLv::level t, const point& pos);
+        baseErr(logLv::level t, const baseObjOrigin& org);
         baseErr(const baseErr& rhs);
 
     protected:
-        baseErr();
+        baseErr(const baseObjOrigin& org);
 
     public:
         me& operator=(const me& rhs);
@@ -23,9 +22,6 @@ namespace nm {
         nbool operator!=(const me& rhs) const;
 
     public:
-        using super::subs;
-        scope& subs() override;
-
         virtual const std::string& getMsg() const = 0;
 
         virtual void log() const = 0;
@@ -35,6 +31,7 @@ namespace nm {
         void dump() const override;
         const std::string& getLevelName() const;
         logLv::level getLv() const;
+        static scope& makeSubs();
 
     private:
         void _initStack();

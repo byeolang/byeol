@@ -126,18 +126,22 @@ namespace nm {
         }
     }
 
+    namespace {
+        static baseObjOrigin org(/*TODO:*/ dumSrc::singletone(), me::super::makeSubs());
+    }
+
     me::nerr(logLv::level t, nint newCode):
-        super(t), _code((errCode) newCode), _pos{}, _msg(getErrMsg(_code)) {}
+        super(t, org), _code((errCode) newCode), _pos{}, _msg(getErrMsg(_code)) {}
 
     me::nerr(logLv::level t, nint newCode, va_list args):
-        super(t), _code((errCode) newCode), _pos{}, _msg(_format(getErrMsg(_code), args)) {}
+        super(t, org), _code((errCode) newCode), _pos{}, _msg(_format(getErrMsg(_code), args)) {}
 
     me::nerr(logLv::level t, const point& ps, nint newCode, va_list args):
-        super(t), _code((errCode) newCode), _pos(ps), _msg(_format(getErrMsg(_code), args)) {}
+        super(t, org), _code((errCode) newCode), _pos(ps), _msg(_format(getErrMsg(_code), args)) {}
 
     me::nerr(const me& rhs): super(rhs), _code(rhs._code), _pos(rhs._pos), _msg(rhs._msg) {}
 
-    me::nerr(): super() {}
+    me::nerr(): super(org) {}
 
     nbool me::operator==(const super& rhs) const {
         const me& cast = rhs.cast<me>();
@@ -146,7 +150,9 @@ namespace nm {
         return getLv() == cast.getLv() && _code == cast.getErrCode();
     }
 
-    const baseObj& me::getOrigin() const { return singletone(); }
+    const baseObj& me::getOrigin() const {
+        return org;
+    }
 
     void me::log() const {
         using platformAPI::foreColor;

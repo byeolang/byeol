@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../ast/obj.hpp"
+#include "../../ast/baseObjOrigin.hpp"
 #include "../../type/mgdType.hpp"
 #include "marshaling/tgenericMarshaling.hpp"
 #include "tbridgeClosure.hpp"
@@ -104,7 +105,10 @@ namespace nm {
                     (Ret(T::*)(Args...)) fptr));
         }
 
-        static tbridge<T>* make(T* real) { return new tbridge(real); }
+        static tbridge<T>* make(T* real) {
+            static baseObjOrigin org(/*TODO:*/dumSrc::singletone(), _get().subs());
+            return new tbridge(real, org);
+        }
 
     private:
         static me& _get() {
