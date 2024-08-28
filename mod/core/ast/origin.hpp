@@ -31,7 +31,6 @@ namespace nm {
 
     public:
         explicit origin(const mgdType& newType);
-        explicit origin(const mgdType& newType, scope& shares, scope& owns);
         explicit origin(const mgdType& newType, const obj& subpack);
         explicit origin(const me& rhs);
 
@@ -60,6 +59,7 @@ namespace nm {
         void _setType(const mgdType& new1) override;
         void _setSubPack(const obj& newSub);
         void _setSrc(const src& s) override;
+        void _setModifier(const modifier& mod) override;
         me& _assign(const me& rhs);
         void _runCallComplete();
 
@@ -67,6 +67,7 @@ namespace nm {
         mgdType _type; // TODO: memory leak
         tstr<obj> _subpack;
         tstr<src> _src;
+        tstr<modifier> _mod;
         str _callComplete;
         state _state;
     };

@@ -40,9 +40,14 @@ namespace nm {
         /// @return whether setting new return-type has been done or not.
         virtual nbool setRet(const node& newRet);
 
+        const modifier& getModifier() const override;
+
     private:
         nbool _isNatureNumber(const node& it) const;
         priorType _prioritize(const node& param, const node& arg) const;
+
+    private:
+        tstr<modifier> _mod;
     };
 
     typedef tnarr<baseFunc> funcs;

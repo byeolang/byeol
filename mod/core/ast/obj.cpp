@@ -4,6 +4,7 @@
 #include "baseFunc.hpp"
 #include "node.inl"
 #include "origin.hpp"
+#include "modifier/dumModifier.hpp"
 
 namespace nm {
 
@@ -18,6 +19,8 @@ namespace nm {
             });
             return new1;
         }
+
+        static dumModifier defaultMod;
     }
 
     me::obj(const me& rhs): super(rhs) { _assign(rhs); }

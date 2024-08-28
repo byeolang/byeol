@@ -31,6 +31,7 @@
     #include "../../ast/point.hpp"
     #include "../../ast/args.hpp"
     #include "../defBlock.hpp"
+    #include "../../ast/modifier.hpp"
 
     typedef void* yyscan_t;
 
@@ -89,6 +90,7 @@
     nm::scope* asScope;
     nm::defBlock* asDefBlock;
     nm::args* asArgs;
+    nm::modifier* asModifier;
 }
 
 %define api.pure
@@ -138,7 +140,7 @@
 // nonterminal:
 //  basic component:
 %type <asNode> compilation-unit unary postfix primary
-%type <asStr> visibility
+%type <asModifier> visibility
 //      expr:
 //          normal:
 %type <asNode> expr-inline expr-inline1 expr-inline2 expr-inline3 expr-inline4 expr-inline5 expr-inline6 expr-inline7 expr-inline8 expr-inline9
@@ -254,17 +256,10 @@ primary: INTVAL { $$ = PS.onPrimitive<nInt>($1); }
         // ??
      } | def-array-value { $$ = $1; }
        | access { $$ = $1; }
-visibility: '_' '+' {
-            // ??
-        } | '+' '_' {
-            // ??
-        } | '_' {
-            // ??
-        } | '+' {
-            // ??
-        } | %empty {
-            // ??
-        }
+visibility: '_' '+' { $$ = PS.onModifier(false, true); }
+          | '+' '_' { $$ = PS.onModifier(false, true); }
+          | '_' { $$ = PS.onModifier(false, false); }
+          | '+' { $$ = PS.onModifier(true, true); }
 
 //  expr:
 //      inline:
@@ -520,18 +515,27 @@ for: FOR NAME _IN_ expr-inline9 indentblock {
 //          value:
 def-prop-inline: def-prop-without-value { $$ = $1; }
               | def-prop-value { $$ = $1; }
-def-prop-without-value: NAME type { // exp means 'explicitly'
+def-prop-without-value: visibility NAME type { // exp means 'explicitly'
+                        $$ = PS.onDefProp(*$1, *$2, *$3);
+                        delete $2;
+                    } | NAME type {
                         $$ = PS.onDefProp(*$1, *$2);
                         delete $1;
                     }
-def-prop-value: NAME DEFASSIGN expr-inline9 {
-              $$ = PS.onDefAssign(*$1, *$3);
-              delete $1;
+def-prop-value: visibility NAME DEFASSIGN expr-inline9 {
+                $$ = PS.onDefAssign(*$1, *$2, *$4);
+                delete $2;
+            } | NAME DEFASSIGN expr-inline9 {
+                $$ = PS.onDefAssign(*$1, *$3);
+                delete $1;
             }
 def-prop-accessor: NEWLINE INDENT def-prop-accessor-items DEDENT {
                    // ??
                }
 def-prop-accessor-item: visibility NAME indentblock {
+                        // ??
+                        // TODO: NAME should 'get' or 'set'
+                    } | NAME indentblock {
                         // ??
                         // TODO: NAME should 'get' or 'set'
                     }
@@ -541,7 +545,10 @@ def-prop-accessor-items: def-prop-accessor-item {
                         // ??
                      }
 
-def-prop-compound: NAME DEFASSIGN expr-compound {
+def-prop-compound: visibility NAME DEFASSIGN expr-compound {
+                    $$ = PS.onDefAssign(*$1, *$2, *$4);
+                    delete $2;
+               } | NAME DEFASSIGN expr-compound {
                     $$ = PS.onDefAssign(*$1, *$3);
                     delete $1;
                } | def-prop-inline def-prop-accessor {
@@ -549,9 +556,16 @@ def-prop-compound: NAME DEFASSIGN expr-compound {
                }
 
 //          func:
-abstract-func: call-access type {
+abstract-func: visibility call-access type {
+                // TODO: apply visibility
+                str accessLife(*$2);
+                $$ = PS.onAbstractFunc(accessLife->cast<getExpr>(), *$3);
+           } | call-access type {
                 str accessLife(*$1);
                 $$ = PS.onAbstractFunc(accessLife->cast<getExpr>(), *$2);
+           } | visibility type '(' ')' type {
+                // TODO: apply visibility
+                $$ = PS.onAbstractFunc(*$2, *$5);
            } | type '(' ')' type {
                 $$ = PS.onAbstractFunc(*$1, *$4);
            }

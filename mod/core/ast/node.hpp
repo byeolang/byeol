@@ -16,6 +16,7 @@ namespace nm {
     struct visitInfo;
     class baseObj;
     class src;
+    class modifier;
 
     /// node provides common API to manipulate its sub nodes.
     class _nout node: public instance, public frameInteractable {
@@ -124,6 +125,8 @@ namespace nm {
         void inFrame(const bicontainable& args) override;
         using frameInteractable::outFrame;
         void outFrame(const bicontainable& args) override;
+
+        virtual const modifier& getModifier() const;
 
     protected:
         virtual str _onRunSub(node& sub, const args& a);

@@ -7,8 +7,8 @@ namespace nm {
 
     me::defPropExpr(const std::string& name, const node& rhs): super(name, rhs) {}
 
-    me::defPropExpr(const std::string& name, const node& rhs, const node& to):
-        super(name, rhs, to) {}
+    me::defPropExpr(const std::string& name, const node& rhs, const node& to, const src& s, const modifier& mod):
+        super(name, rhs, to, s, mod) {}
 
-    str me::_onMakeNew() const { return getRight().as<node>()->run(); }
+    tstr<baseObj> me::_onMakeNew() const { return getRight().as<node>()->run(); }
 }

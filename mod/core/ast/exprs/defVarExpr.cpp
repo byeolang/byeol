@@ -9,8 +9,9 @@ namespace nm {
 
     me::defVarExpr(const std::string& name, const node& rhs): _name(name), _rhs(rhs) {}
 
-    me::defVarExpr(const std::string& name, const node& rhs, const node& to):
-        _name(name), _rhs(rhs), _to(to) {}
+    me::defVarExpr(const std::string& name, const node& rhs, const node& to, const src& s,
+        const modifier& mod):
+        _name(name), _rhs(rhs), _to(to), _src(s), _mod(mod) {}
 
     str me::run(const args& a) {
         str new1 = _onMakeNew(); // getRight().run();
@@ -43,6 +44,16 @@ namespace nm {
         if(_to) ret->_to.bind((node*) _to->cloneDeep());
         if(_rhs) ret->_rhs.bind((node*) _rhs->cloneDeep());
 
+        return ret;
+    }
+
+    str me::makeNew() const {
+        auto ret = _onMakeNew();
+        baseObj* newOrg = (baseObj*) ret->getOrigin().clone();
+        if(_src) newOrg->_setSrc(*_src);
+        if(_mod) newOrg->_setModifier(*_mod);
+
+        ret->_setOrigin(*newOrg);
         return ret;
     }
 } // namespace nm

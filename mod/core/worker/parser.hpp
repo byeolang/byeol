@@ -168,7 +168,9 @@ namespace nm {
             return new T(args...);
         }
 
+        node* onDefProp(const modifier& mod, const std::string& name, const node& rhs);
         node* onDefProp(const std::string& name, const node& rhs);
+        node* onDefAssign(const modifier& mod, const std::string& name, const node& rhs);
         node* onDefAssign(const std::string& name, const node& rhs);
         //          obj:
         obj* onDefOrigin(const std::string& name, defBlock& blk);
@@ -193,6 +195,8 @@ namespace nm {
         narr* onParams();
         narr* onParams(const defPropExpr& elem);
         narr* onParams(narr& it, const defPropExpr& elem);
+        //          modifier:
+        modifier* onModifier(nbool isPublic, nbool isOverriden);
 
         // stmt:
         node* onDeclStmt(const narr& dotnames) {

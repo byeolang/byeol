@@ -4,6 +4,7 @@
 #include "../type/as.hpp"
 #include "../worker/visitor/visitor.hpp"
 #include "args.hpp"
+#include "modifier/dumModifier.hpp"
 #include "src/dumSrc.hpp"
 
 namespace nm {
@@ -88,6 +89,11 @@ namespace nm {
     void me::inFrame(const bicontainable& args) {}
 
     void me::outFrame(const bicontainable& args) {}
+
+    const modifier& me::getModifier() const {
+        static dumModifier inner;
+        return inner;
+    }
 
     const src& me::getSrc() const { return dumSrc::singletone(); }
 

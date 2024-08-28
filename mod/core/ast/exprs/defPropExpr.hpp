@@ -8,9 +8,9 @@ namespace nm {
 
     public:
         defPropExpr(const std::string& name, const node& rhs);
-        defPropExpr(const std::string& name, const node& rhs, const node& to);
+        defPropExpr(const std::string& name, const node& rhs, const node& to, const src& s, const modifier& mod);
 
     protected:
-        str _onMakeNew() const override;
+        tstr<baseObj> _onMakeNew() const override;
     };
 }

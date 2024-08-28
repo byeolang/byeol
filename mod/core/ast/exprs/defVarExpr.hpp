@@ -3,6 +3,7 @@
 #include "../expr.hpp"
 #include "../param.hpp"
 #include "../scope.hpp"
+#include "../modifier/modifier.hpp"
 
 namespace nm {
 
@@ -12,7 +13,7 @@ namespace nm {
 
     public:
         defVarExpr(const std::string& name, const node& rhs);
-        defVarExpr(const std::string& name, const node& rhs, const node& to);
+        defVarExpr(const std::string& name, const node& rhs, const node& to, const src& src, const modifier& mod);
 
     public:
         using super::run;
@@ -33,12 +34,16 @@ namespace nm {
 
         clonable* cloneDeep() const override;
 
+        str makeNew() const;
+
     protected:
-        virtual str _onMakeNew() const = 0;
+        virtual tstr<baseObj> _onMakeNew() const = 0;
 
     private:
         std::string _name;
         str _rhs;
         str _to;
+        tstr<src> _src;
+        tstr<modifier> _mod;
     };
 }

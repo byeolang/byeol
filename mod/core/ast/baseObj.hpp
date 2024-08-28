@@ -3,6 +3,7 @@
 #include "../frame/frameInteractable.hpp"
 #include "src/src.hpp"
 #include "statable.hpp"
+#include "modifier/modifier.hpp"
 
 namespace nm {
 
@@ -23,6 +24,7 @@ namespace nm {
         friend class parser; // _setOrigin()
         friend class genericOrigin; // from genericOrigin::_makeGeneric(), _setOrigin()
         friend class exprMaker;
+        friend class defVarExpr; // for _setModifier
 
     protected:
         /// if you don't give any subs when construct an baseObj, _subs will be assigned to dummy
@@ -55,6 +57,8 @@ namespace nm {
 
         virtual baseObj* make() const;
 
+        const modifier& getModifier() const override;
+
     protected:
         str _onRunSub(node& sub, const args& a) override;
         void _setSrc(const src& s) override;
@@ -65,6 +69,8 @@ namespace nm {
         void _setOrigin(const baseObj& newOrg);
 
         virtual void _setType(const mgdType& new1);
+
+        virtual void _setModifier(const modifier& mod);
 
     public:
         inline static const std::string CTOR_NAME = "@ctor";

@@ -50,6 +50,11 @@ namespace nm {
 
     nbool me::setRet(const node& newRet) { return false; }
 
+    const modifier& me::getModifier() const {
+        if(_mod) return *_mod;
+        return super::getModifier();
+    }
+
     nbool me::_isNatureNumber(const node& it) const {
         return it.isSub<nInt>() || it.isSub<nByte>();
     }

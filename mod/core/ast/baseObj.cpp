@@ -70,12 +70,18 @@ namespace nm {
     }
 
     const obj& me::getSubPack() const {
+        static obj dummy;
         if(&getOrigin() == this) // which means, the derived origin class doesn't override getSrc().
-            return nulOf<obj>(); // to prevent infinite loop.
+            return dummy;        // to prevent infinite loop.
         return getOrigin().getSubPack();
     }
 
     baseObj* me::make() const { return (baseObj*) clone(); }
+
+    const modifier& me::getModifier() const {
+        if(&getOrigin() == this) return super::getModifier();
+        return getOrigin().getModifier();
+    }
 
     str me::_onRunSub(node& sub, const args& a) {
         a.setMe(*this);
@@ -96,4 +102,6 @@ namespace nm {
     void me::_setOrigin(const baseObj& newOrg) { _org.bind(newOrg); }
 
     void me::_setType(const mgdType& new1) {}
+
+    void me::_setModifier(const modifier& mod) {}
 } // namespace nm

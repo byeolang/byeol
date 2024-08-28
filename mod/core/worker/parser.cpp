@@ -250,7 +250,7 @@ namespace nm {
         //  if rhs isn't primitive, rhs will be getExpr type.
         //  mockNode will be created
         node& rhs = defVar.getRight();
-        baseObj& org = rhs.cast<baseObj>();
+        const baseObj& org = safeGet(rhs.cast<baseObj>(), getOrigin());
         if(!nul(org) && org.getState() >= PARSED)
             return &s.addScope(defVar.getName(), *(node*) org.clone());
 
@@ -258,16 +258,24 @@ namespace nm {
         return &s.expand(defVar);
     }
 
-    node* me::onDefProp(const std::string& name, const node& rhs) {
+    node* me::onDefProp(const modifier& mod, const std::string& name, const node& rhs) {
         NM_DI("tokenEvent: onDefProp(%s, %s)", rhs, name);
 
-        return _maker.make<defPropExpr>(name, rhs);
+        return _maker.make<defPropExpr>(name, rhs, nulOf<node>(), *_maker.makeSrc(name), mod);
+    }
+
+    node* me::onDefProp(const std::string& name, const node& rhs) {
+        return onDefProp(*onModifier(true, false), name, rhs);
+    }
+
+    node* me::onDefAssign(const modifier& mod, const std::string& name, const node& rhs) {
+        NM_DI("tokenEvent: onDefAssign(%s, %s)", rhs, name);
+
+        return _maker.make<defAssignExpr>(name, rhs, nulOf<node>(), *_maker.makeSrc(name), mod);
     }
 
     node* me::onDefAssign(const std::string& name, const node& rhs) {
-        NM_DI("tokenEvent: onDefAssign(%s, %s)", rhs, name);
-
-        return _maker.make<defAssignExpr>(name, rhs);
+        return onDefAssign(*onModifier(true, false), name, rhs);
     }
 
     node* me::onDefArray(const narr& items) {
@@ -343,6 +351,12 @@ namespace nm {
         NM_DI("tokenEvent: onParams(narr(%d), %s %s)", it.len(), elem.getName(), elem.getRight());
         it.add(elem);
         return &it;
+    }
+
+    modifier* me::onModifier(nbool isPublic, nbool isExplicitOverriden) {
+        NM_DI("tokenEvent: onModifier(isPublic[%s], isExplicitOverriden[%s])", isPublic, isExplicitOverriden);
+
+        return new modifier{isPublic, isExplicitOverriden};
     }
 
     node* me::onParanthesisAsTuple(narr& tuple) {

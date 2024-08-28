@@ -8,9 +8,10 @@ namespace nm {
 
     public:
         defAssignExpr(const std::string& name, const node& rhs);
-        defAssignExpr(const std::string& name, const node& rhs, const node& to);
+        defAssignExpr(const std::string& name, const node& rhs, const node& to, const src& s,
+            const modifier& mod);
 
     protected:
-        str _onMakeNew() const override;
+        tstr<baseObj> _onMakeNew() const override;
     };
 }
