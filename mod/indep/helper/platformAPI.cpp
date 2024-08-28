@@ -219,9 +219,9 @@ namespace nm {
             auto n = raw.rfind(" ");
 #else
             const string& raw = demangle(org);
-            auto n = raw.rfind(':');
+            auto n = raw.find("::");
 #endif
-            return raw.substr(n + 1);
+            return raw.substr(n + 2);
         }
     } // namespace platformAPI
 } // namespace nm
