@@ -229,7 +229,6 @@ compilation-unit: pack defblock {
 unary: postfix { $$ = $1; }
      | DOUBLE_PLUS unary { $$ = PS.onUnaryDoublePlus(*$2); }
      | DOUBLE_MINUS unary { $$ = PS.onUnaryDoubleMinus(*$2); }
-     | '+' unary { $$ = $2; }
      | '-' unary { $$ = PS.onUnaryMinus(*$2); }
      | '!' unary { $$ = PS.onUnaryNot(*$2); }
      | '~' unary { $$ = PS.onUnaryBitwiseNot(*$2); }
