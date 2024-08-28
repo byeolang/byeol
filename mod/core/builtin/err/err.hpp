@@ -11,7 +11,7 @@ namespace nm {
     public:
         err(const nStr& msg);
 
-    private:
+    protected:
         err();
 
     public:

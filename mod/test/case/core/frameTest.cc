@@ -63,6 +63,6 @@ TEST_F(frameTest, testFrameManipulateChainObjNegative) {
     ASSERT_EQ(obj1.subs().len(), 2);
 
     ASSERT_EQ(fr.subAll<myNode>(lambda).len(), 2);
-    ASSERT_EQ(owns.getAll<myNode>(lambda).len(), 2);
-    ASSERT_EQ(owns.getContainer().getAll<myNode>(lambda).len(), 1);
+    ASSERT_EQ(obj1.subs().getAll<myNode>(lambda).len(), 2);
+    ASSERT_EQ(obj1.subs().getContainer().getAll<myNode>(lambda).len(), 1);
 }

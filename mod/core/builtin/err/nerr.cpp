@@ -127,7 +127,7 @@ namespace nm {
     }
 
     namespace {
-        static baseObjOrigin org(/*TODO:*/ dumSrc::singletone(), me::super::makeSubs());
+        static tbaseObjOrigin<me> org(/*TODO:*/ dumSrc::singletone(), me::super::makeSubs());
     }
 
     me::nerr(logLv::level t, nint newCode):

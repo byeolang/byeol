@@ -25,7 +25,7 @@ namespace nm {
         nerr(logLv::level t, const point& ps, nint newCode, va_list args);
         nerr(const me& rhs);
 
-    private:
+    protected:
         /// @hidden this's only available to marsharling.
         nerr();
 

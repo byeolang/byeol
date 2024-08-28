@@ -161,7 +161,7 @@ namespace nm {
     nbool me::nStrType::isImmutable() const { return true; }
 
     namespace {
-        static baseObjOrigin org(/*TODO:*/ dumSrc::singletone(),
+        static tbaseObjOrigin<me> org(/*TODO:*/ dumSrc::singletone(),
             tbridger<me>::ctor()
                 .ctor<nStr>()
                 .func("len", &me::len)

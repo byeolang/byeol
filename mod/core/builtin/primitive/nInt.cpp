@@ -43,7 +43,7 @@ namespace nm {
     }
 
     namespace {
-        static baseObjOrigin org(/*TODO:*/ dumSrc::singletone(),
+        static tbaseObjOrigin<me> org(/*TODO:*/ dumSrc::singletone(),
             tbridger<me>::ctor().ctor<me>().subs());
     }
 

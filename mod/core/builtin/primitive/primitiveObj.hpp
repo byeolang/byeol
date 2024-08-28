@@ -20,9 +20,9 @@ namespace nm {
         };
 
     public:
-        primitiveObj(const baseObjOrigin& org): super(org), _val() {}
+        primitiveObj(const baseObj& org): super(org), _val() {}
 
-        primitiveObj(const T& val, const baseObjOrigin& org): super(org), _val(val) {}
+        primitiveObj(const T& val, const baseObj& org): super(org), _val(val) {}
 
     public:
         T& get() { return _val; }
@@ -51,7 +51,7 @@ namespace nm {
         NM(ADT(primitiveObj, arithmeticObj))
 
     public:
-        primitiveObj(const baseObjOrigin& org): super(org) {}
+        primitiveObj(const baseObj& org): super(org) {}
 
     protected:
         nbool _onSame(const typeProvidable& rhs) const override { return !nul(rhs); }

@@ -9,7 +9,7 @@ namespace nm {
         NM(ADT(arithmeticObj, baseObj))
 
     public:
-        arithmeticObj(const baseObjOrigin& org);
+        arithmeticObj(const baseObj& org);
 
     public:
         tstr<me> add(const me& rhs) const;

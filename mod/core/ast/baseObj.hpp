@@ -13,7 +13,7 @@ namespace nm {
     class origin;
     class obj;
     class mgdType;
-    class baseObjOrigin;
+    template <typename T> class tbaseObjOrigin;
 
     /// baseObj handles frame injection event of all objects.
     class _nout baseObj: public node, public statable {
@@ -30,7 +30,7 @@ namespace nm {
         /// if you don't give any subs when construct an baseObj, _subs will be assigned to dummy
         /// array. instance on ctor of derived class.
         explicit baseObj() = default;
-        explicit baseObj(const baseObjOrigin& org);
+        explicit baseObj(const baseObj& org, nbool);
 
     public:
         using super::run;

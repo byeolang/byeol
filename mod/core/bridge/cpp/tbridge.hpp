@@ -35,9 +35,7 @@ namespace nm {
         /// @hidden this api is only available to tmarshaling.
         tbridge(): me(nullptr) {}
 
-        tbridge(T* real, const baseObj& origin = nulOf<baseObj>()): _real(real) {
-            _setOrigin(origin);
-        }
+        tbridge(T* real, const baseObj& origin = nulOf<baseObj>()): super(origin, false), _real(real) {}
 
     public:
         tbridge(const me& rhs): super(rhs), _real(rhs._real ? new T(*rhs._real) : nullptr) {}
