@@ -14,7 +14,7 @@ namespace nm {
         _setOrigin(*this);
     }
 
-    me::origin(const mgdType& newType, const obj& subpack):
+    me::origin(const mgdType& newType, const node& subpack):
         super(), _type(newType), _subpack(subpack), _state(RELEASED) {
         _setOrigin(*this);
     }
@@ -44,7 +44,7 @@ namespace nm {
 
     const ntype& me::getType() const { return _type; }
 
-    const obj& me::getSubPack() const { return *_subpack; }
+    const node& me::getSubPack() const { return *_subpack; }
 
     const src& me::getSrc() const { return *_src; }
 
@@ -71,7 +71,7 @@ namespace nm {
 
     void me::_setType(const mgdType& new1) { _type = new1; }
 
-    void me::_setSubPack(const obj& subpack) { _subpack.bind(subpack); }
+    void me::_setSubPack(const node& subpack) { _subpack.bind(subpack); }
 
     void me::_setSrc(const src& s) { _src.bind(s); }
 

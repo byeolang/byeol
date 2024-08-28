@@ -13,7 +13,7 @@ namespace nm {
         baseObjOrigin(const src& s, const scope& subs, const modifier& mod);
 
     public:
-        const obj& getSubPack() const override;
+        const node& getSubPack() const override;
 
         const src& getSrc() const override;
 

@@ -31,7 +31,7 @@ namespace nm {
 
     public:
         explicit origin(const mgdType& newType);
-        explicit origin(const mgdType& newType, const obj& subpack);
+        explicit origin(const mgdType& newType, const node& subpack);
         explicit origin(const me& rhs);
 
     public:
@@ -44,7 +44,7 @@ namespace nm {
         state getState() const override;
         void setState(state new1) override;
         const ntype& getType() const override;
-        const obj& getSubPack() const override;
+        const node& getSubPack() const override;
         const src& getSrc() const override;
         clonable* cloneDeep() const override;
         const baseObj& getOrigin() const override;
@@ -57,7 +57,7 @@ namespace nm {
 
     private:
         void _setType(const mgdType& new1) override;
-        void _setSubPack(const obj& newSub);
+        void _setSubPack(const node& newSub);
         void _setSrc(const src& s) override;
         void _setModifier(const modifier& mod) override;
         me& _assign(const me& rhs);
@@ -65,7 +65,7 @@ namespace nm {
 
     private:
         mgdType _type; // TODO: memory leak
-        tstr<obj> _subpack;
+        str _subpack;
         tstr<src> _src;
         tstr<modifier> _mod;
         str _callComplete;

@@ -33,8 +33,8 @@ namespace nm {
     class defPropExpr;
     class genericOrigin;
 
-    class _nout parser: public worker<tstr<obj>, slot>, public tokenScanable {
-        typedef worker<tstr<obj>, slot> __super5;
+    class _nout parser: public worker<str, slot>, public tokenScanable {
+        typedef worker<str, slot> __super5;
         NM(CLASS(parser, __super5))
         friend class srcSupply;
 
@@ -42,8 +42,8 @@ namespace nm {
         parser();
 
     public:
-        obj& getSubPack();
-        const obj& getSubPack() const NM_CONST_FUNC(getSubPack())
+        node& getSubPack();
+        const node& getSubPack() const NM_CONST_FUNC(getSubPack())
 
         srcSupplies& getSrcSupplies();
         const srcSupplies& getSrcSupplies() const NM_CONST_FUNC(getSrcSupplies())
@@ -246,7 +246,7 @@ namespace nm {
         /// parse with given srcSupply instances.
         /// @param script is null terminated cstring.
         /// @return last parsed sub pack.
-        tstr<obj> _onWork() override;
+        str _onWork() override;
 
     private:
         nint _onTokenEndOfInlineBlock(nint tok);
@@ -272,7 +272,7 @@ namespace nm {
         nbool _isIgnoreWhitespace;
         tokenDispatcher _dispatcher;
         std::vector<ncnt> _indents;
-        tstr<obj> _subpack;
+        str _subpack;
         tstr<scope> _filescope;
         std::vector<nint> _states;
         exprMaker _maker;

@@ -69,7 +69,7 @@ namespace nm {
         return getOrigin().getSrc();
     }
 
-    const obj& me::getSubPack() const {
+    const node& me::getSubPack() const {
         static obj dummy;
         if(&getOrigin() == this) // which means, the derived origin class doesn't override getSrc().
             return dummy;        // to prevent infinite loop.

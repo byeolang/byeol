@@ -9,7 +9,7 @@ namespace nm {
     me::baseObjOrigin(const src& s, const scope& subs, const modifier& mod):
         super(), _src(s), _subs(subs), _mod(mod) {}
 
-    const obj& me::getSubPack() const {
+    const node& me::getSubPack() const {
         static obj inner;
         return inner;
     }

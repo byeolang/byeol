@@ -32,7 +32,7 @@ namespace nm {
         return isParsed() && (!nul(getReport()) && !getReport().hasErr());
     }
 
-    obj& me::getSubPack() { return _pser.getSubPack(); }
+    node& me::getSubPack() { return _pser.getSubPack(); }
 
     tstr<slot> me::_onWork() {
         _parse();

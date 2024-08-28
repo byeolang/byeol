@@ -18,7 +18,7 @@
 namespace nm {
 
     using std::string;
-    template class _nout worker<tstr<obj>, slot>;
+    template class _nout worker<str, slot>;
 
     NM_DEF_ME(parser)
 
@@ -1029,7 +1029,7 @@ namespace nm {
 
     me::parser(): _mode(nullptr), _isIgnoreWhitespace(false) { rel(); }
 
-    obj& me::getSubPack() {
+    node& me::getSubPack() {
         return *_subpack; // TODO: can I remove subpack variable?
     }
 
@@ -1086,7 +1086,7 @@ namespace nm {
         return _states.back();
     }
 
-    tstr<obj> me::_onWork() {
+    str me::_onWork() {
         const auto& supplies = getSrcSupplies();
         if(supplies.isEmpty()) return error(NO_SRC), tstr<obj>();
 

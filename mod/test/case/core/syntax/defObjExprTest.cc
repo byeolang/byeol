@@ -456,7 +456,7 @@ TEST_F(defObjExprTest, isStateOfDefObjVerified) {
         main() int: 0
     )SRC").shouldVerified(true);
 
-    obj& subpack = getSubPack();
+    obj& subpack = getSubPack().cast<obj>();
     ASSERT_TRUE(subpack.getState() >= VERIFIED);
     obj& person = subpack.sub<obj>("Person");
     ASSERT_FALSE(nul(person));

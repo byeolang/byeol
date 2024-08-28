@@ -14,12 +14,12 @@ namespace nm {
 
     NM_DEF_ME(starter)
 
-    me& me::setPack(obj& pak) {
+    me& me::setPack(node& pak) {
         _pak.bind(pak);
         return *this;
     }
 
-    obj& me::getPack() { return *_pak; }
+    node& me::getPack() { return *_pak; }
 
     void me::_prepare() {
         super::_prepare();
@@ -33,7 +33,7 @@ namespace nm {
         // TODO: don't use static variable '_cache':
         //  instead, put cache onto origin object, and if arr instance is origin, remove the cache.
         arr::_cache.clear();
-        obj& pak = getPack();
+        node& pak = getPack();
         if(nul(pak)) return NM_E("there is no pack!"), str();
 
         NM_I("run a pack");
@@ -65,7 +65,7 @@ namespace nm {
 
     void me::_prepareFrame(frames& fr) { fr.rel(); }
 
-    node& me::_findMain(obj& pak, const args& a) {
+    node& me::_findMain(node& pak, const args& a) {
         // TODO: now, only find to main() but I need to find main(argc, argv) case, too.
         node& ret = pak.sub(MAIN);
         if(nul(ret)) NM_E("couldn't find main().");

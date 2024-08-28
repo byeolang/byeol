@@ -53,7 +53,7 @@ namespace nm {
 
         const src& getSrc() const override;
 
-        virtual const obj& getSubPack() const;
+        virtual const node& getSubPack() const;
 
         virtual baseObj* make() const;
 

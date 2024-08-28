@@ -23,8 +23,8 @@ namespace nm {
         me& relSupplies();
         nbool isParsed() const;
         nbool isVerified() const;
-        obj& getSubPack();
-        const obj& getSubPack() const NM_CONST_FUNC(getSubPack())
+        node& getSubPack();
+        const node& getSubPack() const NM_CONST_FUNC(getSubPack())
 
         void rel() override;
 
