@@ -46,7 +46,11 @@ namespace nm {
 
         const modifier& getModifier() const override { return *_mod; }
 
-        clonable* clone() const override { return new super(*this); }
+        clonable* clone() const override {
+            baseObj* ret = new super(*this);
+            ret->_setOrigin(*this);
+            return ret;
+        }
 
         clonable* cloneDeep() const override {
             // TODO: deelcopy member variables.

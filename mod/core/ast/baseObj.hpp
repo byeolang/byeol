@@ -25,6 +25,7 @@ namespace nm {
         friend class genericOrigin; // from genericOrigin::_makeGeneric(), _setOrigin()
         friend class exprMaker;
         friend class defVarExpr; // for _setModifier
+        template <typename T> friend class tbaseObjOrigin;
 
     protected:
         /// if you don't give any subs when construct an baseObj, _subs will be assigned to dummy
