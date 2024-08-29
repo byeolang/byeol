@@ -5,16 +5,13 @@ namespace nm {
     NM(DEF_ME(err))
 
     namespace {
-        static baseObj& _getOrigin() {
-            static tbaseObjOrigin<me> org(/*TODO:*/ dumSrc::singletone(),
-                 tbridger<me>::ctor<nStr>().extend(me::super::makeSubs()).subs());
-            return org;
-        }
+        static tbaseObjOrigin<me> org(/*TODO:*/ dumSrc::singletone(),
+            tbridger<me>::ctor<nStr>().extend(me::super::makeSubs()).subs());
     }
 
-    me::err(const nStr& msg): super(_getOrigin(), false), _msg(msg) {}
+    me::err(const nStr& msg): super(logLv::ERR, org), _msg(msg) {}
 
-    me::err(): super(_getOrigin(), false) {}
+    me::err(): super(org, false) {}
 
     nbool me::operator==(const super& rhs) const {
         const me& cast = rhs.cast<me>();

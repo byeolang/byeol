@@ -4,7 +4,7 @@
 namespace nm {
     NM(DEF_ME(baseErr))
 
-    me::baseErr(const baseObj& org, nbool): super(org, false), _lv(logLv::ERR) { _initStack(); }
+    me::baseErr(const baseObj& org, nbool): super(org, false), _lv(logLv::ERR) {}
 
     me::baseErr(logLv::level t, const baseObj& org): super(org, false), _lv(t) { _initStack(); }
 
