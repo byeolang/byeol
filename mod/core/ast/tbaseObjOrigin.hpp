@@ -11,21 +11,26 @@ namespace nm {
     /// and inherits something too origin class aren't allowed.
     ///
     /// this limitation affects to usage of binder too:
-    /// simply, declaring binder with type parameter 'baseObjOrigin' is not allowed. use 'baseObj' type instead
-    /// of.
+    /// simply, declaring binder with type parameter 'baseObjOrigin' is not allowed. use 'baseObj'
+    /// type instead of.
     ///     e.g.
     ///         tstr<baseObjOrigin> a; // X, unexpected behavior may happen.
     ///         tstr<baseObj> a; // O
     template <typename T> class tbaseObjOrigin: public T {
         NM(ME(tbaseObjOrigin, T), INIT_META(tbaseObjOrigin))
+        static_assert(tifSub<T, baseObj>::is, "you need to input 'T' as derived class of baseObj.");
 
     public:
-        tbaseObjOrigin() = default;
+        tbaseObjOrigin() { this->_setOrigin(*this); }
 
-        tbaseObjOrigin(const src& s, const scope& subs): me(s, subs, *new modifier(true, false)) {}
+        tbaseObjOrigin(const src& s, const scope& subs): me(s, subs, *new modifier(true, false)) {
+            this->_setOrigin(*this);
+        }
 
         tbaseObjOrigin(const src& s, const scope& subs, const modifier& mod):
-            super(), _src(s), _subs(subs), _mod(mod) {}
+            super(), _src(s), _subs(subs), _mod(mod) {
+            this->_setOrigin(*this);
+        }
 
     public:
         const node& getSubPack() const override {
@@ -36,8 +41,6 @@ namespace nm {
         const ntype& getType() const override { return ttype<super>::get(); }
 
         const src& getSrc() const override { return *_src; }
-
-        const baseObj& getOrigin() const override { return *this; }
 
         using super::subs;
 

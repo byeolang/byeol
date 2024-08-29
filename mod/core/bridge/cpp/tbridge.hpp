@@ -53,12 +53,6 @@ namespace nm {
 
         const T& get() const { return *_real; }
 
-        const baseObj& getOrigin() const override {
-            // if an object doesn't have owned sub nodes it means that all instances of that classes
-            // are same and origin simulteneously.
-            return *this;
-        }
-
     private:
         T* _real;
         nbool _ownReal = _real;

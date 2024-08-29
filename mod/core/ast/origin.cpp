@@ -57,8 +57,6 @@ namespace nm {
         return ret;
     }
 
-    const baseObj& me::getOrigin() const { return *this; }
-
     baseObj* me::make() const { return new obj(*this); }
 
     node& me::getCallComplete() { return *_callComplete; }

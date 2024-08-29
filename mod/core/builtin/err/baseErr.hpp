@@ -14,7 +14,7 @@ namespace nm {
         baseErr(const baseErr& rhs);
 
     protected:
-        baseErr(const baseObj& org);
+        baseErr(const baseObj& org, nbool);
 
     public:
         me& operator=(const me& rhs);
