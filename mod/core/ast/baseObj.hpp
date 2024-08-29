@@ -73,6 +73,8 @@ namespace nm {
 
         virtual void _setModifier(const modifier& mod);
 
+        virtual str _onBeforeCtor();
+
     public:
         inline static const std::string CTOR_NAME = "@ctor";
         inline static const std::string COMMON_NAME = "@common";

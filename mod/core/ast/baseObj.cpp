@@ -17,11 +17,7 @@ namespace nm {
     str me::run(const args& a) {
         tpriorities<baseFunc> matches = subAll<baseFunc>(baseObj::CTOR_NAME, a);
         switch(matches.len()) {
-            case 1: {
-                str ret = (node*) getOrigin().clone();
-                ret->run(baseObj::COMMON_NAME); // even if there is no @common, that's okay.
-                return ret->run(baseObj::CTOR_NAME, a);
-            }
+            case 1: return _onBeforeCtor()->run(baseObj::CTOR_NAME, a);
             case 0: return NM_W("there is no such ctor."), str();
         }
         /*// TODO: 1. change err management module to use 'err' class, not errCode.
@@ -104,4 +100,8 @@ namespace nm {
     void me::_setType(const mgdType& new1) {}
 
     void me::_setModifier(const modifier& mod) {}
+
+    str me::_onBeforeCtor() {
+        return getOrigin();
+    }
 } // namespace nm
