@@ -5,8 +5,19 @@
 
 namespace nm {
 
+    /// this baseObjOrigin class is represents user defined classes in unmanaged codes.
+    /// one important thing you must remember is, origin should be shadowed to 'baseObj' type.
+    /// every interaction you can take with origin could be handled with baseObj class.
+    /// and inherits something too origin class aren't allowed.
+    ///
+    /// this limitation affects to usage of binder too:
+    /// simply, declaring binder with type parameter 'baseObjOrigin' is not allowed. use 'baseObj' type instead
+    /// of.
+    ///     e.g.
+    ///         tstr<baseObjOrigin> a; // X, unexpected behavior may happen.
+    ///         tstr<baseObj> a; // O
     template <typename T> class tbaseObjOrigin: public T {
-        NM(CLASS(tbaseObjOrigin, T))
+        NM(ME(tbaseObjOrigin, T), INIT_META(tbaseObjOrigin))
 
     public:
         tbaseObjOrigin() = default;
@@ -22,6 +33,8 @@ namespace nm {
             return inner;
         }
 
+        const ntype& getType() const override { return ttype<super>::get(); }
+
         const src& getSrc() const override { return *_src; }
 
         const baseObj& getOrigin() const override { return *this; }
@@ -31,6 +44,13 @@ namespace nm {
         scope& subs() override { return *_subs; }
 
         const modifier& getModifier() const override { return *_mod; }
+
+        clonable* clone() const override { return new super(*this); }
+
+        clonable* cloneDeep() const override {
+            // TODO: deelcopy member variables.
+            return new me(*this);
+        }
 
     private:
         tstr<src> _src;
