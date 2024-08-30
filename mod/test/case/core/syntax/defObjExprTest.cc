@@ -536,3 +536,16 @@ TEST_F(defObjExprTest, memberVariableShouldBeNotMockNode2) {
     ASSERT_EQ(res.cast<nint>(), 0);
 }
 
+TEST_F(defObjExprTest, simpleModifier) {
+    make().parse(R"SRC(
+        def person
+            _age := 23
+            say() int: age
+        main() int
+            person.say()
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 23);
+}

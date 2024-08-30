@@ -36,6 +36,8 @@ namespace nm {
 
         str makeNew() const;
 
+        const modifier& getNewModifier() const;
+
     protected:
         virtual tstr<baseObj> _onMakeNew() const = 0;
 

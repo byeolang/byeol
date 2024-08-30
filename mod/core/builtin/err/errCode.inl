@@ -43,6 +43,7 @@ PAIRX(SRC_EMPTY, "source code was empty string.")
 
 // thread:
 PAIRX(THERE_IS_NO_FRAMES_IN_THREAD, "there is no frames in current thread.")
+PAIRX(FRAME_DOESNT_HAVE_OBJ_SCOPE, "current frame doesn't have any obj scope.")
 
 // pack:
 PAIRX(PACK_ONLY_ALLOW_VAR_ACCESS, "variable path only allowed when you define a pack")
@@ -64,6 +65,9 @@ PAIRX(TYPE_NOT_DEDUCED, "type can't be deduced into meaningful one.")
 PAIRX(NO_VOID_CONTAINER, "you can't make a void container")
 PAIRX(TYPE_IS_NOT_PRE_EVALUATED,
     "there is something wrong in pre-evaluation to define %s variable.")
+PAIRX(MODIFIER_NOT_ALLOWED_FOR_LOCAL, "you can't declare modifier for a local variable")
+PAIRX(MODIFIER_NOT_FOUND, "parser didn't make a modifier for this symbol, %s")
+PAIRX(CANT_ACCESS_TO_PROTECTED_VARIABLE, "you can't access this %s variable. it's protected.")
 //  defSeq:
 PAIRX(SEQ_SHOULD_INT_COMPATIBLE, "start and end of a sequence should be sort of an int.")
 //  assign:

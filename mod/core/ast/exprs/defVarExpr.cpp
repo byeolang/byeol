@@ -56,4 +56,6 @@ namespace nm {
         ret->_setOrigin(*newOrg);
         return ret;
     }
+
+    const modifier& me::getNewModifier() const { return *_mod; }
 } // namespace nm

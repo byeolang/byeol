@@ -194,6 +194,9 @@ namespace nm {
     void me::onLeave(const visitInfo& i, defVarExpr& me) {
         _GUARD("onLeave()");
 
+        _STEP("modifier not allowed for local variables.");
+        NM_WHEN(!nul(me.getNewModifier())).err(MODIFIER_NOT_ALLOWED_FOR_LOCAL, me);
+
         _STEP("to define a void type property isn't allowed.");
         str eval = safeGet(me.getRight(), getEval());
         NM_WHEN(!eval).err(RHS_IS_NUL, me);
@@ -355,6 +358,17 @@ namespace nm {
         str asedMe = me.getMe().getEval();
         _STEP("accesses to incomplete 'me[%s]' object?", asedMe);
         NM_WHEN(asedMe && !asedMe->isComplete()).err(ACCESS_TO_INCOMPLETE, me);
+
+        _STEP("check modifier.");
+        const auto& mod = got.getModifier();
+        NM_WHENNUL(mod).err(MODIFIER_NOT_FOUND, me, me.getName());
+        if(!mod.isPublic()) { // we only need to run verify routine when there is protected modifier.
+            baseObj& castedMe = asedMe->cast<baseObj>();
+            if(!nul(castedMe)) { // if getExpr's castedMe is not derived one of baseObj, it's frame.
+                const node& currentMe = thread::get().getNowFrame().getMe();
+                NM_WHEN(castedMe.isSuper(currentMe)).err(CANT_ACCESS_TO_PROTECTED_VARIABLE, me, me.getName());
+            }
+        }
     }
 
     void me::onLeave(const visitInfo& i, retExpr& me) {
