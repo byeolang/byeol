@@ -549,3 +549,12 @@ TEST_F(defObjExprTest, simpleModifier) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 23);
 }
+
+TEST_F(defObjExprTest, simpleModifierNegative) {
+    make().parse(R"SRC(
+        def person
+            _age := 23
+        main() int
+            person.age
+    )SRC").shouldVerified(false);
+}

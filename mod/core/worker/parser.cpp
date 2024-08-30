@@ -268,7 +268,7 @@ namespace nm {
     }
 
     node* me::onDefAssign(const modifier& mod, const std::string& name, const node& rhs) {
-        NM_DI("tokenEvent: onDefAssign(%s, %s)", rhs, name);
+        NM_DI("tokenEvent: onDefAssign(%s, %s, %s)", mod, rhs, name);
 
         return _maker.make<defAssignExpr>(name, rhs, nulOf<node>(), *_maker.makeSrc(name), mod);
     }
