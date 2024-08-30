@@ -14,8 +14,9 @@ namespace nm {
     public:
         virtual const type& getType() const = 0;
         nbool isSub(const type& it) const;
-        nbool isSub(const typeProvidable& it) const;
+        nbool isSub(const me& it) const;
         nbool isSuper(const type& it) const;
+        nbool isSuper(const me& it) const;
 
         template <typename T> nbool isSub() const { return getType().isSub<T>(); }
 

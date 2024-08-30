@@ -15,11 +15,13 @@ namespace nm {
 
     nbool me::operator!=(const me& rhs) const { return !operator==(rhs); }
 
-    nbool me::isSub(const typeProvidable& it) const { return isSub(it.getType()); }
+    nbool me::isSub(const me& it) const { return isSub(it.getType()); }
 
     nbool me::isSub(const type& it) const { return getType().isSub(it); }
 
     nbool me::isSuper(const type& it) const { return getType().isSuper(it); }
+
+    nbool me::isSuper(const me& it) const { return isSuper(it.getType()); }
 
     void* me::cast(const type& to) {
         if(!getType().isSub(to)) return nullptr;

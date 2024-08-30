@@ -366,7 +366,7 @@ namespace nm {
             baseObj& castedMe = asedMe->cast<baseObj>();
             if(!nul(castedMe)) { // if getExpr's castedMe is not derived one of baseObj, it's frame.
                 const node& currentMe = thread::get().getNowFrame().getMe();
-                NM_WHEN(castedMe.isSuper(currentMe)).err(CANT_ACCESS_TO_PROTECTED_VARIABLE, me, me.getName());
+                NM_WHEN(!castedMe.isSuper(currentMe)).err(CANT_ACCESS_TO_PROTECTED_VARIABLE, me, me.getName());
             }
         }
     }
