@@ -250,8 +250,9 @@ namespace nm {
         //  if rhs isn't primitive, rhs will be getExpr type.
         //  mockNode will be created
         const baseObj& rhs = defVar.getRight().cast<baseObj>();
-        if(!nul(rhs) && rhs.getState() >= PARSED)
-            return &s.addScope(defVar.getName(), *(node*) rhs.clone());
+        if(!nul(rhs) && rhs.getState() >= PARSED) {
+            return &s.addScope(defVar.getName(), *defVar.makeNew());
+        }
 
         defVar.setTo(*_maker.make<getExpr>("me"));
         return &s.expand(defVar);
