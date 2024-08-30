@@ -49,7 +49,9 @@ namespace nm {
 
     str me::makeNew() const {
         auto ret = _onMakeNew();
-        baseObj* newOrg = (baseObj*) ret->getOrigin().clone();
+        // origin's clone is making a object, not an origin:
+        //  so I've to call cloneDeep().
+        baseObj* newOrg = (baseObj*) ret->getOrigin().cloneDeep();
         if(_src) newOrg->_setSrc(*_src);
         if(_mod) newOrg->_setModifier(*_mod);
 
