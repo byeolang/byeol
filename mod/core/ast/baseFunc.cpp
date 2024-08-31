@@ -11,6 +11,8 @@ namespace nm {
 
     NM(DEF_ME(baseFunc), DEF_VISIT())
 
+    me::baseFunc(const modifier& mod): _mod(mod) {}
+
     priorType me::prioritize(const args& a) const {
         const params& ps = getParams();
         if(a.len() != ps.len()) return NO_MATCH;

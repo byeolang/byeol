@@ -12,17 +12,17 @@ namespace nm {
 
     NM(DEF_ME(func), DEF_VISIT())
 
-    me::func(const params& ps, const node& retType):
-        super(), _params(ps), _retType(retType), _blk(new blockExpr()) {}
+    me::func(const modifier& mod, const params& ps, const node& retType):
+        super(mod), _params(ps), _retType(retType), _blk(new blockExpr()) {}
 
-    me::func(const params& ps, const node* retType):
-        super(), _params(ps), _retType(retType), _blk(new blockExpr()) {}
+    me::func(const modifier& mod, const params& ps, const node* retType):
+        super(mod), _params(ps), _retType(retType), _blk(new blockExpr()) {}
 
-    me::func(const params& ps, const node& retType, const blockExpr& newBlock):
-        super(), _params(ps), _retType(retType), _blk(newBlock) {}
+    me::func(const modifier& mod, const params& ps, const node& retType, const blockExpr& newBlock):
+        super(mod), _params(ps), _retType(retType), _blk(newBlock) {}
 
-    me::func(const params& ps, const node* retType, const blockExpr& newBlock):
-        super(), _params(ps), _retType(retType), _blk(newBlock) {}
+    me::func(const modifier& mod, const params& ps, const node* retType, const blockExpr& newBlock):
+        super(mod), _params(ps), _retType(retType), _blk(newBlock) {}
 
     blockExpr& me::getBlock() { return *_blk; }
 

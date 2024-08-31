@@ -7,7 +7,7 @@ namespace nm {
         NM(CLASS(ctor, func), VISIT())
 
     public:
-        ctor(const params& ps, const blockExpr& blk);
+        ctor(const modifier& mod, const params& ps, const blockExpr& blk);
 
     public:
         str run(const args& a) override;

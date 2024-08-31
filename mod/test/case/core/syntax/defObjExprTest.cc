@@ -609,7 +609,7 @@ TEST_F(defObjExprTest, modifierForAnotherObjScope2) {
 }
 
 TEST_F(defObjExprTest, simpleModifierForFuncNegative) {
-    make().negative().parse(R"SRC(
+    make().parse(R"SRC(
         def person
             _age := 23
             _say() int: age

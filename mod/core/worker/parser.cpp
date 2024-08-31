@@ -308,10 +308,19 @@ namespace nm {
     }
 
     func* me::onAbstractFunc(const getExpr& access, const node& retType) {
-        NM_DI("tokenEvent: onAbstractFunc(access: %s(%d), retType:%s)", access.getName(),
+        return onAbstractFunc(*new modifier(true, false), access, retType);
+    }
+
+    func* me::onAbstractFunc(const modifier& mod, const getExpr& access, const node& retType) {
+        NM_DI("tokenEvent: onAbstractFunc(%s, access: %s(%d), retType:%s)", mod, access.getName(),
             access.getArgs().len(), retType);
 
-        return _maker.birth<func>(access.getName(), _asParams(access.getArgs()), retType);
+        return _maker.birth<func>(access.getName(), mod, _asParams(access.getArgs()), retType);
+    }
+
+    func* me::onAbstractFunc(const modifier& mod, node& it, const node& retType) {
+        NM_DI("tokenEvent: onAbstractFunc(%s, it: %s, retType: %s)", mod, it, retType);
+        return onAbstractFunc(mod, onCallAccess(it, *new narr())->cast<getExpr>(), retType);
     }
 
     func* me::onAbstractFunc(node& it, const node& retType) {
@@ -326,11 +335,17 @@ namespace nm {
         return &f;
     }
 
-    ctor* me::onCtor(const narr& a, const blockExpr& blk) {
-        NM_DI("tokenEvent: onCtor(args): args.len[%d]", a.len());
+    ctor* me::onCtor(const modifier& mod, const narr& a, const blockExpr& blk) {
+        NM_DI("tokenEvent: onCtor(%s, args): args.len[%d]", mod, a.len());
 
-        return _maker.birth<ctor>(baseObj::CTOR_NAME, _asParams(args(a)), blk);
+        return _maker.birth<ctor>(baseObj::CTOR_NAME, mod, _asParams(args(a)), blk);
     }
+
+    ctor* me::onCtor(const narr& a, const blockExpr& blk) {
+        return onCtor(*new modifier(true, false), a, blk);
+    }
+
+    ctor* me::onCtor(const modifier& mod, const blockExpr& blk) { return onCtor(mod, narr(), blk); }
 
     ctor* me::onCtor(const blockExpr& blk) { return onCtor(narr(), blk); }
 
@@ -353,7 +368,8 @@ namespace nm {
     }
 
     modifier* me::onModifier(nbool isPublic, nbool isExplicitOverriden) {
-        NM_DI("tokenEvent: onModifier(isPublic[%s], isExplicitOverriden[%s])", isPublic, isExplicitOverriden);
+        NM_DI("tokenEvent: onModifier(isPublic[%s], isExplicitOverriden[%s])", isPublic,
+            isExplicitOverriden);
 
         return new modifier{isPublic, isExplicitOverriden};
     }

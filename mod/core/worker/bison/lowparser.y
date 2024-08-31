@@ -557,9 +557,8 @@ def-prop-compound: visibility NAME DEFASSIGN expr-compound {
 
 //          func:
 abstract-func: visibility call-access type {
-                // TODO: apply visibility
                 str accessLife(*$2);
-                $$ = PS.onAbstractFunc(accessLife->cast<getExpr>(), *$3);
+                $$ = PS.onAbstractFunc(*$1, accessLife->cast<getExpr>(), *$3);
            } | call-access type {
                 str accessLife(*$1);
                 $$ = PS.onAbstractFunc(accessLife->cast<getExpr>(), *$2);
@@ -574,9 +573,14 @@ def-func: abstract-func indentblock {
         $$ = PS.onFunc($1->cast<func>(), $2->cast<blockExpr>());
      }
 
-def-ctor: CTOR params indentblock {
+def-ctor: visibility CTOR params indentblock {
+        tstr<narr> paramsLife(*$3);
+        $$ = PS.onCtor(*$1, *$3, $4->cast<blockExpr>());
+      } | CTOR params indentblock {
         tstr<narr> paramsLife(*$2);
         $$ = PS.onCtor(*$2, $3->cast<blockExpr>());
+      } | visibility CTOR '(' ')' indentblock {
+        $$ = PS.onCtor(*$1, $5->cast<blockExpr>());
       } | CTOR '(' ')' indentblock {
         $$ = PS.onCtor($4->cast<blockExpr>());
       }

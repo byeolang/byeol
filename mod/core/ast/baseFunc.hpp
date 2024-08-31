@@ -13,7 +13,8 @@ namespace nm {
         NM(ADT(baseFunc, expr), VISIT())
 
     public:
-        static inline const std::string ME = "me";
+        baseFunc() = default;
+        baseFunc(const modifier& mod);
 
     public:
         priorType prioritize(const args& a) const override;
@@ -48,6 +49,9 @@ namespace nm {
 
     private:
         tstr<modifier> _mod;
+
+    public:
+        static inline const std::string ME = "me";
     };
 
     typedef tnarr<baseFunc> funcs;
