@@ -551,10 +551,59 @@ TEST_F(defObjExprTest, simpleModifier) {
 }
 
 TEST_F(defObjExprTest, simpleModifierNegative) {
-    make().parse(R"SRC(
+    make().negative().parse(R"SRC(
         def person
             _age := 23
         main() int
             person.age
     )SRC").shouldVerified(false);
+}
+
+TEST_F(defObjExprTest, clonedObjModifierNegative) {
+    make().negative().parse(R"SRC(
+        def person
+            _age := 23
+        main() int
+            p person
+            p.age
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(defObjExprTest, clonedObjModifierNegative2) {
+    make().negative().parse(R"SRC(
+        def person
+            _age := 23
+        main() int
+            p := person()
+            p.age
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(defObjExprTest, modifierForAnotherObjScope) {
+    make().parse(R"SRC(
+        def person
+            _age := 22
+            say() int
+                person.age
+        main() int
+            person.say()
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 22);
+}
+
+TEST_F(defObjExprTest, modifierForAnotherObjScope2) {
+    make().parse(R"SRC(
+        age := 33
+        def person
+            _age := 22
+        main() int
+            age
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 33);
 }
