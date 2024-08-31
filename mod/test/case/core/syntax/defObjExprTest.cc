@@ -607,3 +607,72 @@ TEST_F(defObjExprTest, modifierForAnotherObjScope2) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 33);
 }
+
+TEST_F(defObjExprTest, simpleModifierForFuncNegative) {
+    make().negative().parse(R"SRC(
+        def person
+            _age := 23
+            _say() int: age
+        main() int
+            person.say()
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(defObjExprTest, simpleModifierForfunc) {
+    make().parse(R"SRC(
+        def person
+            _age := 23
+            _say() int: age + 1
+            boo(): say() + 1
+        main() int
+            boo()
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 25);
+}
+
+TEST_F(defObjExprTest, clonedObjModifierForFuncNegative) {
+    make().negative().parse(R"SRC(
+        def person
+            _age := 23
+            _say() int: age + 1
+            boo(): say() + 1
+        main() int
+            p := person()
+            p.boo()
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(defObjExprTest, modifierForFuncAndAnotherObjScope) {
+    make().parse(R"SRC(
+        def person
+            ctor(): ;
+            ctor(newAge int): age = newAge
+            age := 22
+            _say() int: age
+            boo(): person.say()
+        main() int
+            p := person(38)
+            ret p.boo()
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 22);
+}
+
+TEST_F(defObjExprTest, modifierForFuncAndAnotherObjScope2) {
+    make().parse(R"SRC(
+        foo() int: 3
+        def person
+            _foo() int: 2
+            say(): foo()
+        main() int: person.say()
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 2);
+}
