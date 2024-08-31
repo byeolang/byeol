@@ -195,7 +195,10 @@ namespace nm {
         _GUARD("onLeave()");
 
         _STEP("modifier not allowed for local variables.");
-        NM_WHEN(!nul(me.getNewModifier())).err(MODIFIER_NOT_ALLOWED_FOR_LOCAL, me);
+        const auto& mod = me.getNewModifier();
+        NM_WHENNUL(mod).err(MODIFIER_NOT_FOUND, me, me.getName());
+        NM_WHEN(!mod.isPublic()).err(PROTECTED_NOT_ALLOWED_FOR_LOCAL, me, me.getName());
+        NM_WHEN(mod.isExplicitOverride()).err(OVERRIDE_NOT_ALLOWED_FOR_LOCAL, me, me.getName());
 
         _STEP("to define a void type property isn't allowed.");
         str eval = safeGet(me.getRight(), getEval());
