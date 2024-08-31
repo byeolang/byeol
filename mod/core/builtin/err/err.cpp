@@ -5,7 +5,7 @@ namespace nm {
     NM(DEF_ME(err))
 
     namespace {
-        static tbaseObjOrigin<me> org(/*TODO:*/ dumSrc::singletone(),
+        static tbaseObjOrigin<me> org(
             tbridger<me>::ctor<nStr>().extend(me::super::makeSubs()).subs());
     }
 

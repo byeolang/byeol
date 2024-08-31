@@ -15,7 +15,7 @@ namespace nm {
     nbool me::wBoolType::isImmutable() const { return true; }
 
     namespace {
-        static tbaseObjOrigin<me> org(/*TODO:*/ dumSrc::singletone(), tbridger<me>::ctor().ctor<me>().subs());
+        static tbaseObjOrigin<me> org(tbridger<me>::ctor().ctor<me>().subs());
     }
 
     me::nBool(): super(org) {}

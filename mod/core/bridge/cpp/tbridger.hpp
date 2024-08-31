@@ -106,7 +106,7 @@ namespace nm {
         }
 
         static tbridge<T>* make(T* real) {
-            static tbaseObjOrigin<tbridge<T>> org(/*TODO:*/dumSrc::singletone(), _get().subs());
+            static tbaseObjOrigin<tbridge<T>> org(_get().subs());
             return new tbridge(real, org);
         }
 

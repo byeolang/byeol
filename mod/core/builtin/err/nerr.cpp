@@ -127,7 +127,7 @@ namespace nm {
     }
 
     namespace {
-        static tbaseObjOrigin<me> org(/*TODO:*/ dumSrc::singletone(), me::super::makeSubs());
+        static tbaseObjOrigin<me> org(me::super::makeSubs());
     }
 
     me::nerr(logLv::level t, nint newCode):
@@ -150,9 +150,7 @@ namespace nm {
         return getLv() == cast.getLv() && _code == cast.getErrCode();
     }
 
-    const baseObj& me::getOrigin() const {
-        return org;
-    }
+    const baseObj& me::getOrigin() const { return org; }
 
     void me::log() const {
         using platformAPI::foreColor;

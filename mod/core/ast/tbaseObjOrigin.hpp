@@ -23,10 +23,9 @@ namespace nm {
     public:
         tbaseObjOrigin() { this->_setOrigin(*this); }
 
-        tbaseObjOrigin(const src& s, const scope& subs): me(s, subs, *new modifier(true, false)) {}
+        tbaseObjOrigin(const scope& subs): me(subs, *new modifier(true, false)) {}
 
-        tbaseObjOrigin(const src& s, const scope& subs, const modifier& mod):
-            super(), _src(s), _subs(subs), _mod(mod) {
+        tbaseObjOrigin(const scope& subs, const modifier& mod): super(), _subs(subs), _mod(mod) {
             this->_setOrigin(*this);
         }
 
@@ -37,8 +36,6 @@ namespace nm {
         }
 
         const ntype& getType() const override { return ttype<super>::get(); }
-
-        const src& getSrc() const override { return *_src; }
 
         using super::subs;
 
@@ -57,8 +54,10 @@ namespace nm {
             return new me(*this);
         }
 
+    protected:
+        void _setModifier(const modifier& mod) override { _mod.bind(mod); }
+
     private:
-        tstr<src> _src;
         tstr<scope> _subs;
         tstr<modifier> _mod;
     };

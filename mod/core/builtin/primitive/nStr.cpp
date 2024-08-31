@@ -161,16 +161,15 @@ namespace nm {
     nbool me::nStrType::isImmutable() const { return true; }
 
     namespace {
-        static tbaseObjOrigin<me> org(/*TODO:*/ dumSrc::singletone(),
-            tbridger<me>::ctor()
-                .ctor<nStr>()
-                .func("len", &me::len)
-                .func<nchar, nidx>("get", &me::get)
-                .func("substr", &me::substr)
-                .func("get", new getSeqFunc())
-                .func("iterate", new iterateFunc())
-                .func("getElemType", new getElemType())
-                .subs());
+        static tbaseObjOrigin<me> org(tbridger<me>::ctor()
+                                          .ctor<nStr>()
+                                          .func("len", &me::len)
+                                          .func<nchar, nidx>("get", &me::get)
+                                          .func("substr", &me::substr)
+                                          .func("get", new getSeqFunc())
+                                          .func("iterate", new iterateFunc())
+                                          .func("getElemType", new getElemType())
+                                          .subs());
     }
 
     me::nStr(): super(org) {}
