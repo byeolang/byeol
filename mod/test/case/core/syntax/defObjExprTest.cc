@@ -454,7 +454,8 @@ TEST_F(defObjExprTest, isStateOfDefObjVerified) {
         def Person
             age int
         main() int: 0
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     obj& subpack = getSubPack().cast<obj>();
     ASSERT_TRUE(subpack.getState() >= VERIFIED);
@@ -465,31 +466,35 @@ TEST_F(defObjExprTest, isStateOfDefObjVerified) {
     person.subs();
     ASSERT_EQ(person.getState(), VERIFIED); // it's not work because there is no frame.
 
-    threadUse thr1; {
-        frameInteract f1(person); {
-            person.subs();
-        }
+    threadUse thr1;
+    {
+        frameInteract f1(person);
+        { person.subs(); }
     }
     ASSERT_EQ(person.getState(), LINKED);
 }
 
 TEST_F(defObjExprTest, verifierShouldVerifyCallComplete) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person("unknown") # <-- complete obj. and this'll be looking for ctor(str).
             name str
             ctor(): name = "no"
             ctor(newName flt): name = newName # <-- but look! it's not str, but flt.
         main() int: 0
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defObjExprTest, callCompleteForDefaultCtor) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             name str
             ctor(): name = "kniz"
         main() int: person.name == "kniz"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -497,25 +502,31 @@ TEST_F(defObjExprTest, callCompleteForDefaultCtor) {
 }
 
 TEST_F(defObjExprTest, NoCallCompleteForIncompleteNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def Person("unkown")
             _name str
             ctor(): ;
             ctor(newName str): name = newName
         main() int: 0
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defObjExprTest, doesItHaveCommonCtor) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             name str
             ctor(): name = "kniz"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 }
 
 TEST_F(defObjExprTest, memberVariableShouldBeNotMockNode) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             age int # <-- if this is mockNode, age is origin of int.
         def fish
@@ -523,7 +534,8 @@ TEST_F(defObjExprTest, memberVariableShouldBeNotMockNode) {
         main() int
             fish.age = 17
             person.age
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -531,7 +543,8 @@ TEST_F(defObjExprTest, memberVariableShouldBeNotMockNode) {
 }
 
 TEST_F(defObjExprTest, memberVariableShouldBeNotMockNode2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             age int # <-- if this is mockNode, age is origin of int.
         def fish
@@ -539,7 +552,8 @@ TEST_F(defObjExprTest, memberVariableShouldBeNotMockNode2) {
         main() int
             person.age = 17
             fish.p1.age
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -547,13 +561,15 @@ TEST_F(defObjExprTest, memberVariableShouldBeNotMockNode2) {
 }
 
 TEST_F(defObjExprTest, simpleModifier) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             _age := 23
             say() int: age
         main() int
             person.say()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -561,43 +577,54 @@ TEST_F(defObjExprTest, simpleModifier) {
 }
 
 TEST_F(defObjExprTest, simpleModifierNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def person
             _age := 23
         main() int
             person.age
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defObjExprTest, clonedObjModifierNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def person
             _age := 23
         main() int
             p person
             p.age
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defObjExprTest, clonedObjModifierNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def person
             _age := 23
         main() int
             p := person()
             p.age
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defObjExprTest, modifierForAnotherObjScope) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             _age := 22
             say() int
                 person.age
         main() int
             person.say()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -605,13 +632,15 @@ TEST_F(defObjExprTest, modifierForAnotherObjScope) {
 }
 
 TEST_F(defObjExprTest, modifierForAnotherObjScope2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         age := 33
         def person
             _age := 22
         main() int
             age
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -619,24 +648,29 @@ TEST_F(defObjExprTest, modifierForAnotherObjScope2) {
 }
 
 TEST_F(defObjExprTest, simpleModifierForFuncNegative) {
-    make().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def person
             _age := 23
             _say() int: age
         main() int
             person.say()
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defObjExprTest, simpleModifierForFunc) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             _age := 23
             _say() int: age + 1
             boo() int: say() + 1
         main() int
             person.boo()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -644,19 +678,22 @@ TEST_F(defObjExprTest, simpleModifierForFunc) {
 }
 
 TEST_F(defObjExprTest, clonedObjModifierForFuncNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def person
             _age := 23
             _say() int: age + 1
-            boo() int: say() + 1
         main() int
             p := person()
-            p.boo()
-    )SRC").shouldVerified(false);
+            p._say()
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defObjExprTest, modifierForFuncAndAnotherObjScope) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             ctor(): ;
             ctor(newAge int): age = newAge
@@ -666,7 +703,8 @@ TEST_F(defObjExprTest, modifierForFuncAndAnotherObjScope) {
         main() int
             p := person(38)
             ret p.boo()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -674,13 +712,15 @@ TEST_F(defObjExprTest, modifierForFuncAndAnotherObjScope) {
 }
 
 TEST_F(defObjExprTest, modifierForFuncAndAnotherObjScope2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo() int: 3
         def person
             _foo() int: 2
             say() int: foo()
         main() int: person.say()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
