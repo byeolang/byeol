@@ -7,6 +7,6 @@ namespace nm {
         NM(ME(errPassFilter, filterable))
 
     public:
-        std::string filt(logLv::level lv, const nchar* tag, const std::string& msg) const override;
+        nbool filt(logLv::level lv, const std::string& tag) const override;
     };
 }

@@ -3,8 +3,7 @@
 namespace nm {
     NM(DEF_ME(errPassFilter))
 
-    std::string me::filt(logLv::level lv, const nchar* tag, const std::string& msg) const {
-        if(lv > logLv::ERR) return "";
-        return msg;
+    nbool me::filt(logLv::level lv, const std::string& tag) const {
+        return lv <= logLv::ERR;
     }
 }

@@ -8,8 +8,14 @@
 
 namespace nm {
 
+
     NM_DEF_ME(logger)
     typedef std::string string;
+
+    me& operator<<(me& log, const std::string& msg) {
+        log.logBypass(msg);
+        return log;
+    }
 
     const std::string& me::getName() const {
         static std::string inner("logger");
@@ -138,11 +144,12 @@ namespace nm {
 
     nbool me::log(logLv::level lv, const std::string& filename, const nchar* func, int line,
         const nchar* fmt, ...) {
-        using platformAPI::foreColor;
-        std::string msg;
-        msg += foreColor(BROWN);
-        msg += _makeStr("%s ", platformAPI::createNowTime("%b %d %Y  %X").c_str());
         std::string tag = _makeTag(filename);
+        if(_filters && _filters->filt(lv, tag.c_str())) return false;
+
+        using platformAPI::foreColor;
+        *this << foreColor(BROWN)
+              << _makeStr("%s ", platformAPI::createNowTime("%b %d %Y  %X").c_str());
 
         consoleColor clrLv = WHITE;
         switch(lv) {
@@ -150,18 +157,14 @@ namespace nm {
             case logLv::WARN: clrLv = YELLOW; break;
             case logLv::INFO: clrLv = LIGHTBLUE; break;
         }
-        msg += _makeStr("%s%c %s%s <%s%s#%d> %s", foreColor(clrLv).c_str(), logLv::getName(lv)[0],
-            foreColor(LIGHTMAGENTA).c_str(), tag.c_str(), foreColor(GREEN).c_str(), func, line,
-            foreColor(LIGHTGRAY).c_str());
+        *this << foreColor(clrLv) << std::string(1, logLv::getName(lv)[0]) << " "
+              << foreColor(LIGHTMAGENTA) << tag << foreColor(GREEN) << "<" << func << "#"
+              << std::to_string(line) << "> " << foreColor(LIGHTGRAY);
 
         va_list va;
         va_start(va, fmt);
-        msg += _makeStr(fmt, va);
+        *this << _makeStr(fmt, va);
         va_end(va);
-
-        if(_filters) msg = _filters->filt(lv, tag.c_str(), msg);
-
-        if(!msg.empty()) return logBypass(msg.c_str());
         return false;
     }
 

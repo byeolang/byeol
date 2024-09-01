@@ -18,7 +18,7 @@ namespace nm {
         void rel();
         void add(const filterable* new1);
         void del();
-        std::string filt(logLv::level lv, const nchar* tag, const std::string& msg) const;
+        nbool filt(logLv::level lv, const std::string& tag) const;
 
     private:
         std::vector<const filterable*> _arr;

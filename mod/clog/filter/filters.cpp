@@ -22,10 +22,9 @@ namespace nm {
         delete e;
     }
 
-    std::string me::filt(logLv::level lv, const nchar* tag, const std::string& msg) const {
-        std::string ret = msg;
+    nbool me::filt(logLv::level lv, const std::string& tag) const {
         for(auto* f: _arr)
-            ret = f->filt(lv, tag, ret);
-        return ret;
+            if(!f->filt(lv, tag)) return false;
+        return true;
     }
 } // namespace nm

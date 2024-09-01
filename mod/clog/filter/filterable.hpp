@@ -10,7 +10,6 @@ namespace nm {
 
     public:
         /// @return true means an error.
-        virtual std::string filt(logLv::level lv, const nchar* tag,
-            const std::string& msg) const = 0;
+        virtual nbool filt(logLv::level lv, const std::string& tag) const = 0;
     };
 }

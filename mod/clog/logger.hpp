@@ -64,4 +64,5 @@ namespace nm {
         const filters* _filters;
     };
 
+    logger& operator<<(logger& log, const std::string& msg);
 } // namespace nm
