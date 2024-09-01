@@ -81,6 +81,8 @@ def branch(command):
         return test(arg1);
     elif command == "run":
         return run()
+    elif command == "cov":
+        return covBuild()
     elif command == "doc":
         return doc()
     elif command == "pubdoc":
@@ -251,6 +253,14 @@ def dbgBuild():
 
     winProp="-t:Rebuild -p:Configuration=Debug"
     config="-DCMAKE_BUILD_TYPE=Debug"
+    print(config)
+
+    clean()
+    return build(True)
+
+def covBuild():
+    global config, cwd
+    config="-DCMAKE_BUILD_TYPE=Debug -DCOVERAGE_TOOL=gcov"
     print(config)
 
     clean()
