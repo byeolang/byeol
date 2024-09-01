@@ -496,6 +496,16 @@ TEST_F(defObjExprTest, callCompleteForDefaultCtor) {
     ASSERT_EQ(res.cast<nint>(), 1);
 }
 
+TEST_F(defObjExprTest, NoCallCompleteForIncompleteNegative) {
+    make().negative().parse(R"SRC(
+        def Person("unkown")
+            _name str
+            ctor(): ;
+            ctor(newName str): name = newName
+        main() int: 0
+    )SRC").shouldVerified(false);
+}
+
 TEST_F(defObjExprTest, doesItHaveCommonCtor) {
     make().parse(R"SRC(
         def person

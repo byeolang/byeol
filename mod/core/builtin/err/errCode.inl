@@ -92,6 +92,7 @@ PAIRX(RHS_IS_NOT_ARITH, "rhs '%s' is not arithmetic type")
 PAIRX(MAKE_GENERIC_FAIL, "construction '%s' for generic obj has failed.")
 PAIRX(ORIGIN_OBJ_CANT_BE_CONST, "origin object can't be defined with 'const'")
 PAIRX(COMPLETE_OBJ_BUT_NO_CTOR, "complete object should have a ctor without any parameters")
+PAIRX(CANT_CALL_COMPLETE_FOR_INCOMPLETE, "incomplete object couldn't have any call complete.")
 //  generics:
 PAIRX(SHOULD_TYPE_PARAM_NAME, "'%s' type parameter wasn't be defined as new name.")
 //  func-call:

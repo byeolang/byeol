@@ -618,8 +618,13 @@ namespace nm {
         NM_WHEN(util::checkTypeAttr(i.name) == CONST).err(ORIGIN_OBJ_CANT_BE_CONST, me), true;
 
         _STEP("if obj is complete, does it have ctor without params?");
-        if(me.isComplete())
+        if(me.isComplete()) {
             NM_WHENNUL(me.sub(baseObj::CTOR_NAME, args{})).err(COMPLETE_OBJ_BUT_NO_CTOR, me), true;
+        } else {
+            _STEP("if me's origin is obj & incomplete, it shouldn't have any callComplete");
+            const obj& org = me.getOrigin().cast<obj>();
+            NM_WHEN(!nul(org) && !nul(org.getCallComplete())).err(CANT_CALL_COMPLETE_FOR_INCOMPLETE, me), true;
+        }
 
         onLeave(i, (baseObj::super&) me);
         return true;
