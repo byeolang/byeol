@@ -7,11 +7,11 @@ struct visitorTest: public namuSyntaxTest {};
 
 TEST_F(visitorTest, iterateManuallyConstructedNodes) {
     obj o;
-    o.subs().add("foo1", new func(params(), *new nInt()));
+    o.subs().add("foo1", new func(*new modifier(), params(), *new nInt()));
     o.subs().add("val1", new nInt());
 
     obj o2;
-    o2.subs().add("foo2", new func(params(), *new nFlt()));
+    o2.subs().add("foo2", new func(*new modifier(), params(), *new nFlt()));
     o2.subs().add("val2", new nFlt());
     o2.subs().add("o", o);
 

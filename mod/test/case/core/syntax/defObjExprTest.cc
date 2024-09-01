@@ -618,14 +618,14 @@ TEST_F(defObjExprTest, simpleModifierForFuncNegative) {
     )SRC").shouldVerified(false);
 }
 
-TEST_F(defObjExprTest, simpleModifierForfunc) {
+TEST_F(defObjExprTest, simpleModifierForFunc) {
     make().parse(R"SRC(
         def person
             _age := 23
             _say() int: age + 1
-            boo(): say() + 1
+            boo() int: say() + 1
         main() int
-            boo()
+            person.boo()
     )SRC").shouldVerified(true);
 
     str res = run();
@@ -638,7 +638,7 @@ TEST_F(defObjExprTest, clonedObjModifierForFuncNegative) {
         def person
             _age := 23
             _say() int: age + 1
-            boo(): say() + 1
+            boo() int: say() + 1
         main() int
             p := person()
             p.boo()
@@ -652,7 +652,7 @@ TEST_F(defObjExprTest, modifierForFuncAndAnotherObjScope) {
             ctor(newAge int): age = newAge
             age := 22
             _say() int: age
-            boo(): person.say()
+            boo() int: person.say()
         main() int
             p := person(38)
             ret p.boo()
@@ -668,7 +668,7 @@ TEST_F(defObjExprTest, modifierForFuncAndAnotherObjScope2) {
         foo() int: 3
         def person
             _foo() int: 2
-            say(): foo()
+            say() int: foo()
         main() int: person.say()
     )SRC").shouldVerified(true);
 

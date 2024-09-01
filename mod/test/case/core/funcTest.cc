@@ -35,7 +35,7 @@ namespace {
         };
 
     public:
-        myfunc(): super(params(), *new nVoid(), *new myBlock()) {
+        myfunc(): super(*new modifier(), params(), *new nVoid(), *new myBlock()) {
             NM_I("myfunc(%s) new", (void*) this);
         }
 

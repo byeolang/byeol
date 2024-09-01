@@ -563,8 +563,7 @@ abstract-func: visibility call-access type {
                 str accessLife(*$1);
                 $$ = PS.onAbstractFunc(accessLife->cast<getExpr>(), *$2);
            } | visibility type '(' ')' type {
-                // TODO: apply visibility
-                $$ = PS.onAbstractFunc(*$2, *$5);
+                $$ = PS.onAbstractFunc(*$1, *$2, *$5);
            } | type '(' ')' type {
                 $$ = PS.onAbstractFunc(*$1, *$4);
            }

@@ -308,7 +308,7 @@ namespace nm {
     }
 
     func* me::onAbstractFunc(const getExpr& access, const node& retType) {
-        return onAbstractFunc(*new modifier(true, false), access, retType);
+        return onAbstractFunc(*new modifier(), access, retType);
     }
 
     func* me::onAbstractFunc(const modifier& mod, const getExpr& access, const node& retType) {
@@ -342,7 +342,7 @@ namespace nm {
     }
 
     ctor* me::onCtor(const narr& a, const blockExpr& blk) {
-        return onCtor(*new modifier(true, false), a, blk);
+        return onCtor(*new modifier(), a, blk);
     }
 
     ctor* me::onCtor(const modifier& mod, const blockExpr& blk) { return onCtor(mod, narr(), blk); }

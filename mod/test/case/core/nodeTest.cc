@@ -12,7 +12,7 @@ namespace {
         NM(CLASS(myFunc, func))
 
     public:
-        myFunc(): super(params(), new nVoid()) {}
+        myFunc(): super(*new modifier(), params(), new nVoid()) {}
 
         void setUp() { _executed = false; }
 

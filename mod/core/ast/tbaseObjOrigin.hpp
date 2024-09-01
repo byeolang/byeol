@@ -23,7 +23,7 @@ namespace nm {
     public:
         tbaseObjOrigin() { this->_setOrigin(*this); }
 
-        tbaseObjOrigin(const scope& subs): me(subs, *new modifier(true, false)) {}
+        tbaseObjOrigin(const scope& subs): me(subs, *new modifier()) {}
 
         tbaseObjOrigin(const scope& subs, const modifier& mod): super(), _subs(subs), _mod(mod) {
             this->_setOrigin(*this);

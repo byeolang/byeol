@@ -45,7 +45,7 @@ namespace {
         };
 
     public:
-        myfunc(): super(params(), *new nVoid(), *new myBlock()) { NM_I("myfunc(%s) new", this); }
+        myfunc(): super(*new modifier(), params(), *new nVoid(), *new myBlock()) { NM_I("myfunc(%s) new", this); }
 
         ~myfunc() override { NM_I("myfunc(%s) delete", this); }
 
