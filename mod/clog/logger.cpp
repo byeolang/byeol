@@ -158,7 +158,7 @@ namespace nm {
             case logLv::INFO: clrLv = LIGHTBLUE; break;
         }
         *this << foreColor(clrLv) << std::string(1, logLv::getName(lv)[0]) << " "
-              << foreColor(LIGHTMAGENTA) << tag << foreColor(GREEN) << "<" << func << "#"
+              << foreColor(LIGHTMAGENTA) << tag << foreColor(GREEN) << " <" << func << "#"
               << std::to_string(line) << "> " << foreColor(LIGHTGRAY);
 
         va_list va;
