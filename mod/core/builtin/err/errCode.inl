@@ -65,8 +65,10 @@ PAIRX(TYPE_NOT_DEDUCED, "type can't be deduced into meaningful one.")
 PAIRX(NO_VOID_CONTAINER, "you can't make a void container")
 PAIRX(TYPE_IS_NOT_PRE_EVALUATED,
     "there is something wrong in pre-evaluation to define %s variable.")
-PAIRX(PROTECTED_NOT_ALLOWED_FOR_LOCAL, "you can't declare 'protected' modifier for a local variable, %s")
-PAIRX(OVERRIDE_NOT_ALLOWED_FOR_LOCAL, "you can't decalre 'explicit-override' for a local varaible, %s")
+PAIRX(PROTECTED_NOT_ALLOWED_FOR_LOCAL,
+    "you can't declare 'protected' modifier for a local variable, %s")
+PAIRX(OVERRIDE_NOT_ALLOWED_FOR_LOCAL,
+    "you can't decalre 'explicit-override' for a local varaible, %s")
 PAIRX(MODIFIER_NOT_FOUND, "parser didn't make a modifier for this symbol, %s")
 PAIRX(CANT_ACCESS_TO_PROTECTED_VARIABLE, "you can't access this %s variable. it's protected.")
 //  defSeq:

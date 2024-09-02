@@ -46,9 +46,7 @@ namespace nm {
 
     const srcFile& me::getSrcFile() const { return *_file; }
 
-    tstr<src> me::makeSrc(const std::string& name) const {
-        return new src(*_file, name, _pos);
-    }
+    tstr<src> me::makeSrc(const std::string& name) const { return new src(*_file, name, _pos); }
 
     func* me::makeExpandFunc(const defBlock& blk) const {
         const auto& postpones = blk.getExpands();

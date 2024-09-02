@@ -8,6 +8,7 @@ namespace nm {
     class defBlock;
     class assignExpr;
     class defVarExpr;
+
     class _nout exprMaker: public typeProvidable, public clonable {
         NM(CLASS(exprMaker))
 

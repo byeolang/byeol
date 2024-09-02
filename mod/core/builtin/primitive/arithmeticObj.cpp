@@ -33,9 +33,9 @@ namespace nm {
 
 #undef _X
 
-    tstr<me> me::mov(const me& rhs) {
-        if(!rhs.isImpli(getType())) return tstr<me>();
+            tstr<me> me::mov(const me& rhs) {
+                if(!rhs.isImpli(getType())) return tstr<me>();
 
-        return tstr<me>(_mov(rhs));
-    }
+                return tstr<me>(_mov(rhs));
+            }
 } // namespace nm

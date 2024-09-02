@@ -8,12 +8,14 @@
 namespace nm {
 
     class assignExpr;
+
     class _nout defVarExpr: public expr {
         NM(ADT(defVarExpr, expr), VISIT())
 
     public:
         defVarExpr(const std::string& name, const node& rhs);
-        defVarExpr(const std::string& name, const node& rhs, const node& to, const src& src, const modifier& mod);
+        defVarExpr(const std::string& name, const node& rhs, const node& to, const src& src,
+            const modifier& mod);
 
     public:
         using super::run;
@@ -48,4 +50,4 @@ namespace nm {
         tstr<src> _src;
         tstr<modifier> _mod;
     };
-}
+} // namespace nm

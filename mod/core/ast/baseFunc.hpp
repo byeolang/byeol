@@ -55,4 +55,4 @@ namespace nm {
     };
 
     typedef tnarr<baseFunc> funcs;
-}
+} // namespace nm

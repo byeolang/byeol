@@ -17,8 +17,10 @@ namespace nm {
     public:
         explicit func(const modifier& mod, const params& ps, const node& retType);
         explicit func(const modifier& mod, const params& ps, const node* retType);
-        explicit func(const modifier& mod, const params& ps, const node& retType, const blockExpr& newBlock);
-        explicit func(const modifier& mod, const params& ps, const node* retType, const blockExpr& newBlock);
+        explicit func(const modifier& mod, const params& ps, const node& retType,
+            const blockExpr& newBlock);
+        explicit func(const modifier& mod, const params& ps, const node* retType,
+            const blockExpr& newBlock);
 
     public:
         blockExpr& getBlock();

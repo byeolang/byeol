@@ -12,7 +12,7 @@ namespace nm {
 
     NM(DEF_ME(baseObj))
 
-    me::baseObj(const baseObj& org, /*UNUSED*/nbool): _org(org) {}
+    me::baseObj(const baseObj& org, /*UNUSED*/ nbool): _org(org) {}
 
     str me::run(const args& a) {
         tpriorities<baseFunc> matches = subAll<baseFunc>(baseObj::CTOR_NAME, a);
@@ -101,7 +101,5 @@ namespace nm {
 
     void me::_setModifier(const modifier& mod) {}
 
-    str me::_onBeforeCtor() {
-        return getOrigin();
-    }
+    str me::_onBeforeCtor() { return getOrigin(); }
 } // namespace nm

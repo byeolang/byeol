@@ -8,7 +8,5 @@ namespace nm {
 
     me::defaultCtor(const node& org): super(org) {}
 
-    str me::run(const args& a) {
-        return a.getMe();
-    }
+    str me::run(const args& a) { return a.getMe(); }
 }

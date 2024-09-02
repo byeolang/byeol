@@ -43,7 +43,6 @@ namespace nm {
     }
 
     const src& me::getSrc() const {
-
         if(_org) return _org->getSrc();
         return super::getSrc();
     }

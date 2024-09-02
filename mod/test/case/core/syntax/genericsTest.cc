@@ -391,13 +391,15 @@ TEST_F(genericsTest, genericsWillBeVerifiedWhenItIsUsedNegative) {
 }
 
 TEST_F(genericsTest, simpleCompleteObj) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person<E>
             grade E
             age := 33
         main() int
             person<flt>.age + person<flt>.grade
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -405,31 +407,39 @@ TEST_F(genericsTest, simpleCompleteObj) {
 }
 
 TEST_F(genericsTest, simpleCompleteObjNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def person<E>
             age := 33
             ctor(n E): age = n
         main() int
             person<int>.age
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(genericsTest, constToOriginObjNotAllowedNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def PERSON<E>
             age E
         main() int
             PERSON<int>().age
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(genericsTest, ifAtLeastOneLetterIsLowerCaseThenItIsNotConst) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def PERSOn<E>
             age E
         main() int
             PERSOn<flt>().age
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -437,14 +447,16 @@ TEST_F(genericsTest, ifAtLeastOneLetterIsLowerCaseThenItIsNotConst) {
 }
 
 TEST_F(genericsTest, ifFirstLetterBeginsWithLowerCaseThenItIsComplete) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def pERSON<E>
             age E
             say(value E) E
                 age + value
         main() int
             pERSON<flt>.say(4) == 4
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

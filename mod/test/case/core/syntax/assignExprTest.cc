@@ -205,7 +205,9 @@ TEST_F(assignExprTest, assignForExprDeclaringLocalVariable) {
 }
 
 TEST_F(assignExprTest, assignConstNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def person
             AGE := 33
             foo() void
@@ -213,7 +215,8 @@ TEST_F(assignExprTest, assignConstNegative) {
                 ret AGE
         main() int
             person.foo()
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 // TODO: assignNegative inheritence

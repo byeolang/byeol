@@ -14,7 +14,6 @@ namespace nm {
         NM(CLASS(autoslot, slot), VISIT())
 
     public:
-
     public:
         autoslot(const manifest& manifest, const packLoadings& loadingsInHeap);
         ~autoslot() override;

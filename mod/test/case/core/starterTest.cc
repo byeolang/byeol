@@ -44,7 +44,8 @@ TEST_F(starterTest, mainCallFuncAndCheckReturn) {
 }
 
 TEST_F(starterTest, managedCallStack) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def Person
             ctor():;
             ctor(n int)
@@ -61,7 +62,8 @@ TEST_F(starterTest, managedCallStack) {
         main() void
             p1 Person
             p1.say(5)
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     const auto& rpt = getReport();

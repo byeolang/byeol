@@ -3,7 +3,7 @@
 #include "../expr.hpp"
 
 namespace nm {
-    class _nout isExpr : public expr {
+    class _nout isExpr: public expr {
         NM(CLASS(isExpr, expr, expr::exprType), VISIT())
 
     public:

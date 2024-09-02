@@ -50,8 +50,7 @@ namespace nm {
         me.outFrame();
         _obj.rel();
 
-        if(nul(me.sub(baseObj::EXPAND_NAME)))
-            me.setState(PARSED);
+        if(nul(me.sub(baseObj::EXPAND_NAME))) me.setState(PARSED);
     }
 
     nbool me::onVisit(const visitInfo& i, func& me) {
@@ -182,8 +181,7 @@ namespace nm {
                         isChanged = true;
                     } // end of inner
 
-                    GUARD("|--- expand: end of evalFunc(%x) stmt[%d] left ---|", &fun,
-                        stmts.len());
+                    GUARD("|--- expand: end of evalFunc(%x) stmt[%d] left ---|", &fun, stmts.len());
                     return isChanged;
                 }
             }

@@ -365,11 +365,13 @@ namespace nm {
         _STEP("check modifier.");
         const auto& mod = got.getModifier();
         NM_WHENNUL(mod).err(MODIFIER_NOT_FOUND, me, me.getName());
-        if(!mod.isPublic()) { // we only need to run verify routine when there is protected modifier.
+        if(!mod.isPublic()) { // we only need to run verify routine when there is protected
+                              // modifier.
             baseObj& castedMe = asedMe->cast<baseObj>();
             if(!nul(castedMe)) { // if getExpr's castedMe is not derived one of baseObj, it's frame.
                 const node& currentMe = thread::get().getNowFrame().getMe();
-                NM_WHEN(!castedMe.isSuper(currentMe)).err(CANT_ACCESS_TO_PROTECTED_VARIABLE, me, me.getName());
+                NM_WHEN(!castedMe.isSuper(currentMe))
+                    .err(CANT_ACCESS_TO_PROTECTED_VARIABLE, me, me.getName());
             }
         }
     }
@@ -565,7 +567,7 @@ namespace nm {
     }
 
     void me::_onEndWork() {
-        for(baseObj* org : _orgs)
+        for(baseObj* org: _orgs)
             org->setState(VERIFIED);
 
         super::_onEndWork();
@@ -623,7 +625,9 @@ namespace nm {
         } else {
             _STEP("if me's origin is obj & incomplete, it shouldn't have any callComplete");
             const obj& org = me.getOrigin().cast<obj>();
-            NM_WHEN(!nul(org) && !nul(org.getCallComplete())).err(CANT_CALL_COMPLETE_FOR_INCOMPLETE, me), true;
+            NM_WHEN(!nul(org) && !nul(org.getCallComplete()))
+                .err(CANT_CALL_COMPLETE_FOR_INCOMPLETE, me),
+                true;
         }
 
         onLeave(i, (baseObj::super&) me);

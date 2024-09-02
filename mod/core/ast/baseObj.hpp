@@ -21,7 +21,7 @@ namespace nm {
         friend class verifier;
         friend class obj;
         friend class defaultMakeCtor;
-        friend class parser; // _setOrigin()
+        friend class parser;        // _setOrigin()
         friend class genericOrigin; // from genericOrigin::_makeGeneric(), _setOrigin()
         friend class exprMaker;
         friend class defVarExpr; // for _setModifier

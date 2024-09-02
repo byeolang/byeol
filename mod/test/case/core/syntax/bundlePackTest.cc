@@ -87,9 +87,11 @@ TEST_F(bundlePackTest, defaultDef3) {
 }
 
 TEST_F(bundlePackTest, cloneBridgeObj) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             s := sys.con()
             ret s.add(1, 2)
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 }

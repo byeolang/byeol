@@ -16,8 +16,7 @@ namespace nm {
     strWrap __convert__(const visitInfo& it) { return it.name; }
 
     strWrap __convert__(const modifier& it) {
-        return std::string("modifier(") +
-            (it.isPublic() ? "public" : "protected") +
+        return std::string("modifier(") + (it.isPublic() ? "public" : "protected") +
             (it.isExplicitOverride() ? std::string(", override)") : std::string(")"));
     }
 }

@@ -199,7 +199,6 @@ namespace nm {
         onTraverse(i, (obj::super&) o);
 
         auto& cc = o.getCallComplete();
-        if(!nul(cc))
-            cc.accept(visitInfo{"callComplete", &o, 0, 1, i.depth + 1}, *this);
+        if(!nul(cc)) cc.accept(visitInfo{"callComplete", &o, 0, 1, i.depth + 1}, *this);
     }
 } // namespace nm

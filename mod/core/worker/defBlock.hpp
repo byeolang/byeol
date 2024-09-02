@@ -6,6 +6,7 @@
 namespace nm {
 
     class defVarExpr;
+
     class _nout defBlock: public instance {
         NM(CLASS(defBlock, instance))
 

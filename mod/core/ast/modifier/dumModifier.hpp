@@ -3,7 +3,7 @@
 #include "modifier.hpp"
 
 namespace nm {
-    class _nout dumModifier : public modifier {
+    class _nout dumModifier: public modifier {
         NM(CLASS(dumModifier, modifier))
 
     public:
