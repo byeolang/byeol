@@ -144,6 +144,7 @@ def _cleanIntermediates():
     os.system("git config --unset user.name") # remove local config only
     os.system("git config --unset user.email")
     printOk("done.")
+    _cleanCoverageFiles()
 
 def cleanGhPages():
     global cwd, python3, externalDir
@@ -258,13 +259,55 @@ def dbgBuild():
     clean()
     return build(True)
 
+def _cleanCoverageFiles():
+    if isWindow(): return
+
+    global cwd
+    printInfoEnd("removing coverage report files...")
+    os.system("rm -rf " + cwd + "/coverage")
+    os.system("rm " + cwd + "/*.profraw")
+    os.system("rm " + cwd + "/logs")
+    os.system("rm " + cwd + "/cov.info")
+    printOk("done.")
+
 def covBuild():
-    global config, cwd
+    if isWindow():
+        printErr("I can collect coverages in linux only.")
+        return -1
+
+    global config, cwd, namuDir
     config="-DCMAKE_BUILD_TYPE=Debug -DCOVERAGE_TOOL=gcov"
     print(config)
 
     clean()
-    return build(True)
+    build(True)
+    printInfoEnd("running TC files...")
+    res = os.system("cd " + namuDir + "/bin && ./test")
+    if res != 0:
+        printErr("failed to pass TCs.")
+        return -1
+
+    printOk("done.")
+
+    printInfoEnd("collects gcov results...")
+    if checkDependencies(["llvm-cov", "gcov", "lcov", "genhtml"]):
+        printErr("you didn't install some package or tools.")
+        return -1
+
+    res = os.system("lcov --directory " + cwd + " --base-directory " + cwd + " --gcov-tool " + cwd + "/llvm-gcov.sh --capture -o cov.info")
+    if res != 0:
+        printErr("fail to collect gcov results")
+        return -1
+
+    printOk("done")
+
+    printInfoEnd("generating coverage info in html...")
+    res = os.system("genhtml " + cwd + "/cov.info -o coverage")
+    if res != 0:
+        printErr("fail to generate report html files.")
+        return -1
+
+    printOk("done")
 
 def relBuild():
     global config, winProp
