@@ -57,6 +57,10 @@ build/mod/
 build/compile_commands.json
 build/.cmake/
 build/install_manifest.txt
+build/cov.info
+build/coverage/
+*.profraw
+*.profdata
 .idea/
 tags
 docs/html/
