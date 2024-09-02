@@ -753,6 +753,8 @@ def help():
     print("\t * reldbg\tsame as rel. but this includes dbg info.")
     print("\t * test\t\truns unit tests but skip build if they are built already.")
     print("\t * doc\t\tgenerate documents only.")
+    print("\t * cov\t\tgenerate coverage file and visualize data with html")
+    print("\t * format\tapply our code convention rules to current repository.")
 
 def clean():
     printInfo("Clearing next following files...")
