@@ -684,18 +684,19 @@ def checkDependencies(deps):
     print("")
     printInfoEnd("checking dependencies...")
 
+    hasErr = False;
     for e in deps:
         if e == "flex":
             (isCompatible, ver) = isFlexCompatible()
             if isCompatible == False:
                 printErr("your flex version is " + ver + ". it requires v" +
                     str(flexVerExpect[0]) + "." + str(flexVerExpect[1]) + "." + str(flexVerExpect[2]))
-                return -1
+                hasErr = True
             printOkEnd("flex")
 
         elif not shutil.which(e):
             printErr(e + " is NOT installed!")
-            return -1
+            hasErr = True
         else:
             printOkEnd(e)
 
@@ -703,21 +704,21 @@ def checkDependencies(deps):
 
     if not isWindow() and not shutil.which("make"):
         printErr("make is NOT installed!")
-        return -1
+        hasErr = True
 
     if not isWindow() and not shutil.which("clang"):
         printErr("clang is NOT installed!")
-        return -1
+        hasErr = True
 
     if _extractPythonVersion(cmdstr(python3 + " --version")) < 3.6:
         printErr("requires python over v3.6")
-        return -1
+        hasErr = True
 
     if isWindow() and not shutil.which("msbuild"):
         printErr("couldn't find 'msbuild.exe' on your $PATH env. please add it.")
-        return -1
+        hasErr = True
 
-    return 0
+    return hasErr
 
 def isFlexCompatible():
     global flexVerExpect
