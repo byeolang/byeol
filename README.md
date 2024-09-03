@@ -3,6 +3,7 @@
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/namulang/namu/ci-main.yml?style=flat-square)](https://github.com/namulang/namu/actions)
 [![codecov](https://codecov.io/gh/namulang/namu/branch/main/graph/badge.svg?token=C7fR6WGbJZ)](https://codecov.io/gh/namulang/namu)
 ![](https://img.shields.io/github/languages/code-size/namulang/namu.svg?style=flat-square)
+[![line of codes](https://img.shields.io/endpoint?url=https%3A%2F%2Fghloc.vercel.app%2Fapi%2Fnamulang%2Fnamu%2Fbadge&style=flat-square)](https://ghloc.vercel.app/namulang/namu?branch=main)
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/namulang/namu/total?style=flat-square)
 [![Discord](https://img.shields.io/discord/1080131343012339712?style=flat-square)](https://discord.com/channels/1080131343012339712/)
 
