@@ -5,7 +5,7 @@
 namespace nm {
     enum typeAttr {
         NOTHING,
-        CONST,
+        CONSTANT,
         COMPLETE_OBJ,
     };
 
