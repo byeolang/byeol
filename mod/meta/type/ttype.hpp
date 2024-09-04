@@ -11,5 +11,5 @@ namespace nm {
     ///         if user typedefs SuperType at their type T, then ttype
     ///         inherits from given SuperType.
     ///         this eventually make user add API to want to ttype class.
-    template <typename T> class ttype: public ttypeBase<T, typename tmetaTypeDef<T>::is> {};
+    template <typename T> class ttype: public ttypeBase<T, typename tmetaTypeDef<T, tifHasMetaTypeDef<T>::is>::is> {};
 }

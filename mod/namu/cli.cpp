@@ -28,7 +28,7 @@ namespace nm {
 
         str res;
         {
-            defaultSigZone<starter> zone(starter);
+            defaultSigZone<starter> zone(s);
             res = s.setPack(ip.getSubPack()).work();
         }
         _res = 0;
