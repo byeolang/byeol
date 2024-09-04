@@ -25,6 +25,14 @@
 #	pragma warning(disable : 5105)
 #	pragma warning(disable : 4903)
 #	pragma warning(disable : 4275)
+#	pragma warning(disable : 4244)
+#	pragma warning(disable : 4005)
+#	pragma warning(disable : 4661)
+#	pragma warning(disable : 4996)
+#	pragma warning(disable : 4065)
+#	pragma warning(disable : 4068)
+#	pragma warning(disable : 4819)
+#	pragma warning(disable : 4661)
 #endif
 #include <cstdint>
 #include <string>
