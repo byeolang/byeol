@@ -14,26 +14,27 @@ namespace nm {
 
     NM_DEF_ME(starter)
 
-    me& me::setPack(node& pak) {
-        _pak.bind(pak);
-        return *this;
-    }
-
-    node& me::getPack() { return *_pak; }
-
     void me::_prepare() {
         super::_prepare();
-        if(nul(getTask())) setTask(*new args());
         if(getReport().isSub<dummyErrReport>()) setReport(*new errReport());
     }
 
+    void me::setArgs(const args& a) {
+        _args.bind(a);
+    }
+
+    args& me::getArgs() {
+        static args inner;
+        return _args ? *_args : inner;
+    }
+
     str me::_onWork() {
-        args& a = getTask();
+        args& a = getArgs();
 
         // TODO: don't use static variable '_cache':
         //  instead, put cache onto origin object, and if arr instance is origin, remove the cache.
         arr::_cache.clear();
-        node& pak = getPack();
+        node& pak = getTask();
         if(nul(pak)) return NM_E("there is no pack!"), str();
 
         NM_I("run a pack");

@@ -7,8 +7,8 @@
 namespace nm {
     class frames;
 
-    class _nout starter: public worker<str, args> {
-        typedef worker<str, args> __super8;
+    class _nout starter: public worker<str, node> {
+        typedef worker<str, node> __super8;
         NM(CLASS(starter, __super8))
 
     public:
@@ -21,9 +21,9 @@ namespace nm {
         static inline const std::string MAIN = "main";
 
     public:
-        me& setPack(node& pak);
-        node& getPack();
-        const node& getPack() const NM_CONST_FUNC(getPack())
+        void setArgs(const args& a);
+        args& getArgs();
+        const args& getArgs() const NM_CONST_FUNC(getArgs())
 
     protected:
         str _onWork() override;
@@ -36,5 +36,6 @@ namespace nm {
 
     private:
         str _pak;
+        tstr<args> _args;
     };
 }

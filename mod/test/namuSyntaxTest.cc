@@ -77,7 +77,7 @@ nm::nbool me::shouldVerified(nm::nbool expect) {
 nm::str me::run() {
     using nm::starter;
     return starter()
-        .setPack(getSubPack())
+        .setTask(getSubPack())
         .setReport(_rpt)
         .setFlag(starter::LOG_STRUCTURE | starter::LOG_GRAPH_ON_EX | starter::DEFAULT)
         .work();
