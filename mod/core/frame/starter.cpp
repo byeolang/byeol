@@ -19,9 +19,7 @@ namespace nm {
         if(getReport().isSub<dummyErrReport>()) setReport(*new errReport());
     }
 
-    void me::setArgs(const args& a) {
-        _args.bind(a);
-    }
+    void me::setArgs(const args& a) { _args.bind(a); }
 
     args& me::getArgs() {
         static args inner;

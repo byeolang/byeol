@@ -38,4 +38,4 @@ namespace nm {
         str _pak;
         tstr<args> _args;
     };
-}
+} // namespace nm
