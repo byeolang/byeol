@@ -15,6 +15,6 @@
 //  clang, gcc didn't complain about this.
 namespace {
     static const inline scope s1;
-    static const inline slotContainer* p1 = new tnmap<std::string, slot>(); 
+    static const inline slotContainer* p1 = new tnmap<std::string, slot>();
 }
 #endif

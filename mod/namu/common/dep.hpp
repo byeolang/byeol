@@ -14,6 +14,6 @@
 //
 //  clang, gcc didn't complain about this.
 namespace nm {
-	static const inline nmap inner;
+    static const inline nmap inner;
 }
 #endif
