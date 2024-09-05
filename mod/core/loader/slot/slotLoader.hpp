@@ -1,11 +1,12 @@
 #pragma once
 
 #include "../../ast/slot.hpp"
-#include "../pack/packLoading.hpp"
 
 namespace nm {
 
     class errReport;
+    class packLoading;
+    typedef std::vector<packLoading*> packLoadings;
 
     class _nout slotLoader: public typeProvidable, public clonable {
         NM(CLASS(slotLoader))

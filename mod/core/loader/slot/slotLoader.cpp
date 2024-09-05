@@ -3,6 +3,7 @@
 #include "../../ast/autoslot.hpp"
 #include "../../frame/thread.hpp"
 #include "../../builtin/err/errReport.hpp"
+#include "../pack/packLoading.hpp"
 
 namespace nm {
 
