@@ -135,3 +135,19 @@ TEST_F(defPropExprTest, defPropWithObj) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 22);
 }
+
+TEST_F(defPropExprTest, defPropWithAccess) {
+    make()
+        .parse(R"SRC(
+        def a
+            def b
+                def c
+                    name := "chales"
+                    age := 38
+        main() int
+            age a.b.c.age
+            age = a.b.c.age
+            age
+    )SRC")
+        .shouldVerified(true);
+}

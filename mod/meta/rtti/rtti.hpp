@@ -44,9 +44,7 @@ namespace nm {
         static inline constexpr nbool is = std::is_base_of<super, T>::value;
     };
 
-    template <typename T> struct taEmptyCan {
-        typedef void is;
-    };
+    template <typename T> struct taEmptyCan { typedef void is; };
 
     template <typename T, typename = void> struct tifHasSuperTypedef: public metaIf {
         static inline constexpr nbool is = false;
@@ -62,9 +60,7 @@ namespace nm {
         typedef adam super;
     };
 
-    template <typename T> struct tadaptiveSuper<T, true> {
-        typedef typename T::super super;
-    };
+    template <typename T> struct tadaptiveSuper<T, true> { typedef typename T::super super; };
 
     template <typename T, nbool canMake = std::is_constructible<T>::value> struct tinstanceMaker {
         static void* make() { return nullptr; }
@@ -116,9 +112,7 @@ namespace nm {
         using is = type;
     };
 
-    template <typename T> struct tmetaTypeDef<T, true> {
-        using is = typename T::metaType;
-    };
+    template <typename T> struct tmetaTypeDef<T, true> { using is = typename T::metaType; };
 
     template <typename T, typename... Es>
     using areBaseOfT = std::conjunction<std::is_base_of<T, Es>...>;

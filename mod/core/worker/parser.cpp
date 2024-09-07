@@ -646,6 +646,8 @@ namespace nm {
         return _maker.make<getExpr>(name, args);
     }
 
+    node* me::onGet(node& from, const std::string& name) { return onGet(from, *onGet(name)); }
+
     node* me::onGet(node& from, node& it) {
         getExpr& cast = it.cast<getExpr>();
         if(nul(cast)) {

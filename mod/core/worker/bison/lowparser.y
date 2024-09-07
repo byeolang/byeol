@@ -164,6 +164,7 @@
 %type <asDefBlock> declBlock indentDeclBlock
 //      access:
 %type <asNode> access call-access
+%type <asNode> name-access
 //      func:
 %type <asNode> func-call
 //      tuple:
@@ -234,6 +235,14 @@ unary: postfix { $$ = $1; }
      | '-' unary { $$ = PS.onUnaryMinus(*$2); }
      | '!' unary { $$ = PS.onUnaryNot(*$2); }
      | '~' unary { $$ = PS.onUnaryBitwiseNot(*$2); }
+
+name-access: NAME {
+            $$ = PS.onGet(*$1);
+            delete $1;
+         } | name-access '.' NAME {
+            $$ = PS.onGet(*$1, *$3);
+            delete $3;
+         }
 
 postfix: primary { $$ = $1; }
        | postfix DOUBLE_MINUS { $$ = PS.onUnaryPostfixDoubleMinus(*$1); }
@@ -515,10 +524,10 @@ for: FOR NAME _IN_ expr-inline9 indentblock {
 //          value:
 def-prop-inline: def-prop-without-value { $$ = $1; }
               | def-prop-value { $$ = $1; }
-def-prop-without-value: visibility NAME type { // exp means 'explicitly'
+def-prop-without-value: visibility NAME name-access {
                         $$ = PS.onDefProp(*$1, *$2, *$3);
                         delete $2;
-                    } | NAME type {
+                    } | NAME name-access {
                         $$ = PS.onDefProp(*$1, *$2);
                         delete $1;
                     }
@@ -646,9 +655,8 @@ with-compound: with-inline indentblock {
            }
 
 //  predefined-type:
-pack: PACK postfix NEWLINE { $$ = PS.onPack(*$2); }
+pack: PACK name-access NEWLINE { $$ = PS.onPack(*$2); }
     | %empty { $$ = PS.onPack(); }
-
 
 %%
 

@@ -726,3 +726,21 @@ TEST_F(defObjExprTest, modifierForFuncAndAnotherObjScope2) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 2);
 }
+
+TEST_F(defObjExprTest, nested) {
+    make()
+        .parse(R"SRC(
+        def a
+            def b
+                year := 2024
+                def c
+                    age := 38
+
+        main() int: a.b.year + a.b.c.age
+    )SRC")
+        .shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 2062);
+}
