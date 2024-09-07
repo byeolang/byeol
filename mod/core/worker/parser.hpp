@@ -139,6 +139,7 @@ namespace nm {
 
         //  keyword:
         obj* onPack(const node& path);
+        obj* onPack(const std::string& path);
         obj* onPack();
         obj* onSubPack(obj& subpack);
         blockExpr* onBlock(const node& stmt);

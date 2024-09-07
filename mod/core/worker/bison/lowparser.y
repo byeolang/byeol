@@ -663,7 +663,10 @@ with-compound: with-inline indentblock {
 
 //  predefined-type:
 pack: PACK name-access NEWLINE { $$ = PS.onPack(*$2); }
-    | %empty { $$ = PS.onPack(); }
+    | PACK NAME NEWLINE {
+        $$ = PS.onPack(*$2);
+        delete $2;
+  } | %empty { $$ = PS.onPack(); }
 
 %%
 

@@ -189,6 +189,10 @@ namespace nm {
         return onSubPack(*e);
     }
 
+    obj* me::onPack(const std::string& name) {
+        return onPack(*onGet(name));
+    }
+
     obj* me::onSubPack(obj& subpack) {
         NM_DI("tokenEvent: onSubPack()");
         _subpack.bind(subpack);
