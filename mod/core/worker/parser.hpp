@@ -90,6 +90,7 @@ namespace nm {
         node* onGet(const std::string& name, const narr& args);
         node* onGet(node& from, const std::string& name);
         node* onGet(node& from, node& it);
+        node* onGet(const std::string& name, const std::string& name2);
         node* onCallAccess(node& it, const narr& args);
 
         //      unary operation:

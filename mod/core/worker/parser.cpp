@@ -660,6 +660,10 @@ namespace nm {
         return &cast;
     }
 
+    node* me::onGet(const std::string& name, const std::string& name2) {
+        return onGet(*onGet(name), *onGet(name2));
+    }
+
     node* me::onCallAccess(node& it, const narr& as) {
         getExpr& cast = it.cast<getExpr>();
         if(nul(cast)) {

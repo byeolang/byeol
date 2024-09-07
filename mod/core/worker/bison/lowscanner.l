@@ -91,7 +91,7 @@ namespace {
     return PS.onTokenNewLine(NEWLINE);
 }
 
-[-]*[[:digit:]]+ {
+[[:digit:]]+ {
     yylval->asInt = std::stoi(yytext, nullptr, 0);
     NM_DI("scanner: INTVAL=%s", yytext);
     return INTVAL;

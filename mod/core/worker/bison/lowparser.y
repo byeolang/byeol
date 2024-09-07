@@ -236,9 +236,10 @@ unary: postfix { $$ = $1; }
      | '!' unary { $$ = PS.onUnaryNot(*$2); }
      | '~' unary { $$ = PS.onUnaryBitwiseNot(*$2); }
 
-name-access: NAME {
-            $$ = PS.onGet(*$1);
+name-access: NAME '.' NAME {
+            $$ = PS.onGet(*$1, *$3);
             delete $1;
+            delete $3;
          } | name-access '.' NAME {
             $$ = PS.onGet(*$1, *$3);
             delete $3;
@@ -530,6 +531,12 @@ def-prop-without-value: visibility NAME name-access {
                     } | NAME name-access {
                         $$ = PS.onDefProp(*$1, *$2);
                         delete $1;
+                    } | NAME type {
+                        $$ = PS.onDefProp(*$1, *$2);
+                        delete $1;
+                    } | visibility NAME type {
+                        $$ = PS.onDefProp(*$1, *$2, *$3);
+                        delete $2;
                     }
 def-prop-value: visibility NAME DEFASSIGN expr-inline9 {
                 $$ = PS.onDefAssign(*$1, *$2, *$4);
