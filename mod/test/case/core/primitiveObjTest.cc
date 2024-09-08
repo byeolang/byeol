@@ -22,7 +22,7 @@ TEST_F(primitiveObjTest, subsIsNotDummy) {
     ASSERT_FALSE(nul(subs));
     subs.add("not work", new nInt(3));
     ASSERT_EQ(subs.len(), initial + 1);
-    ASSERT_TRUE(subs.has("not work"));
+    ASSERT_TRUE(subs.in("not work"));
 
     subs.del("not work");
     ASSERT_EQ(subs.len(), initial);

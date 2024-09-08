@@ -17,8 +17,8 @@ namespace nm {
 
         const R operator[](nidx n) const { return get(n); }
 
-        // has:
-        virtual nbool has(nidx n) const = 0;
+        // in:
+        virtual nbool in(nidx n) const = 0;
 
         // get:
         virtual R get(nidx n) = 0;

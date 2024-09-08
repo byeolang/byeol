@@ -9,16 +9,16 @@ namespace nm {
 #define ME tnchain<K, V, defaultContainer>
 
     TEMPL
-    nbool ME::has(const K& key) const {
+    nbool ME::in(const K& key) const {
         for(tstr<me> e(this); e; e.bind(e->getNext()))
-            if(e->getContainer().has(key)) return true;
+            if(e->getContainer().in(key)) return true;
         return false;
     }
 
     TEMPL
-    nbool ME::has(const V& val) const {
+    nbool ME::in(const V& val) const {
         for(tstr<me> e(this); e; e.bind(e->getNext()))
-            if(e->getContainer().has(val)) return true;
+            if(e->getContainer().in(val)) return true;
         return false;
     }
 
@@ -62,7 +62,7 @@ namespace nm {
     nbool ME::del(const K& key) {
         nbool ret = true;
         for(tstr<me> e(this); e; e.bind(e->getNext()))
-            if(e->has(key)) ret = e->getContainer().del(key) ? ret : false;
+            if(e->in(key)) ret = e->getContainer().del(key) ? ret : false;
         return ret;
     }
 

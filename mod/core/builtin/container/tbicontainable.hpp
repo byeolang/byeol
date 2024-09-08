@@ -31,8 +31,8 @@ namespace nm {
         ncnt isEmpty() const { return len() <= 0; }
 
         // has:
-        virtual nbool has(const K& key) const = 0;
-        virtual nbool has(const V& val) const = 0;
+        virtual nbool in(const K& key) const = 0;
+        virtual nbool in(const V& val) const = 0;
 
         // get:
         virtual V& get(const K& key) = 0;

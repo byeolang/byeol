@@ -245,7 +245,7 @@ TEST_F(retExprTest, dontUseRetAtMiddleOfBlockNegative) {
         .shouldVerified(false);
 
     const auto& rpt = getReport();
-    ASSERT_TRUE(rpt.hasErr());
+    ASSERT_TRUE(rpt.inErr());
 }
 
 TEST_F(retExprTest, dontUseRetAtMiddleOfBlockNegative2) {
@@ -262,5 +262,5 @@ TEST_F(retExprTest, dontUseRetAtMiddleOfBlockNegative2) {
         .shouldVerified(false);
 
     const auto& rpt = getReport();
-    ASSERT_TRUE(rpt.hasErr());
+    ASSERT_TRUE(rpt.inErr());
 }

@@ -43,7 +43,7 @@ namespace nm {
 
         ncnt len() const override;
 
-        nbool has(nidx n) const override;
+        nbool in(nidx n) const override;
 
         //  get:
         using tarrayable<node>::get;

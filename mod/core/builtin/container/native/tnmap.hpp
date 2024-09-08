@@ -28,8 +28,8 @@ namespace nm {
         ncnt len() const override;
 
         // has:
-        nbool has(const K& key) const override;
-        nbool has(const V& val) const override;
+        nbool in(const K& key) const override;
+        nbool in(const V& val) const override;
 
         // get:
         using super::get;

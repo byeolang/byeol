@@ -17,9 +17,9 @@ namespace nm {
 
     node& me::operator[](const std::string& name) { return sub(name); }
 
-    nbool me::has(const node* elem) const { return has(*elem); }
+    nbool me::in(const node* elem) const { return in(*elem); }
 
-    nbool me::has(const node& elem) const {
+    nbool me::in(const node& elem) const {
         return !nul(subs().get([&](const std::string& key, const node& e) { return &e == &elem; }));
     }
 

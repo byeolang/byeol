@@ -17,12 +17,12 @@ namespace nm {
         operator nbool() const;
 
     public:
-        nbool hasErr() const;
-        nbool hasErr(nidx since) const;
-        nbool hasWarn() const;
-        nbool hasWarn(nidx since) const;
-        nbool has(logLv::level type) const;
-        nbool has(logLv::level type, nidx since) const;
+        nbool inErr() const;
+        nbool inErr(nidx since) const;
+        nbool inWarn() const;
+        nbool inWarn(nidx since) const;
+        nbool in(logLv::level type) const;
+        nbool in(logLv::level type, nidx since) const;
 
         const baseErr& get(nidx n) const;
 

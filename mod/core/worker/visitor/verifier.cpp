@@ -242,7 +242,7 @@ namespace nm {
 
         frame& fr = thread::get()._getNowFrame();
         _STEP("duplication of variable with name[%s]", name);
-        NM_WHEN(fr.mySubs()->has(name)).err(ALREADY_DEFINED_VAR, me, name, t);
+        NM_WHEN(fr.mySubs()->in(name)).err(ALREADY_DEFINED_VAR, me, name, t);
 
         _STEP("ok. defining local temporary var... %s %s", name, t);
         fr.addLocal(name, *new mockNode(*eval));

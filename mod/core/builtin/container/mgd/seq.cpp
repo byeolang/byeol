@@ -29,7 +29,7 @@ namespace nm {
 
     ncnt me::len() const { return get().len(); }
 
-    nbool me::has(nidx n) const { return get().has(n); }
+    nbool me::in(nidx n) const { return get().in(n); }
 
     //  get:
     nInt me::get(nidx n) { return get().get(n); }
@@ -116,7 +116,7 @@ namespace nm {
                                  .ctor<nseq>()
                                  .func("len", &nseq::len)
                                  .func<nInt, nint>("get", &nseq::get)
-                                 .func("has", &nseq::has)
+                                 .func("in", &nseq::in)
                                  .func("iterate", new iterateFunc())
                                  .func("getElemType", new getElemTypeFunc())
                                  .subs();

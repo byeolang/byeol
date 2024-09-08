@@ -29,8 +29,8 @@ namespace nm {
         const node& operator[](const std::string& name) const NM_CONST_FUNC(operator[](name))
 
     public:
-        nbool has(const node& elem) const;
-        nbool has(const node* elem) const;
+        nbool in(const node& elem) const;
+        nbool in(const node* elem) const;
 
         virtual scope& subs() = 0;
         const scope& subs() const NM_CONST_FUNC(subs())

@@ -7,7 +7,7 @@ class nseqIteration: public iteration {
 public:
     nseqIteration(nseq& own, nidx n): _n(n), _own(own) {}
 
-    nbool isEnd() const override { return !_own.has(_n); }
+    nbool isEnd() const override { return !_own.in(_n); }
 
     /// if iteration reached to the last element to iterate, it can precede to next,
     /// which means to the End of a buffer.

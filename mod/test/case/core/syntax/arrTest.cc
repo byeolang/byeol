@@ -310,13 +310,13 @@ TEST_F(arrTest, testSimpleBridgedFuncs2) {
     ASSERT_EQ(res.cast<nbool>(), true);
     ASSERT_EQ(arr1[0].cast<nint>(), arr1[1].cast<nint>());
 
-    res = it.run("has", args{narr{*new nInt(0)}});
+    res = it.run("in", args{narr{*new nInt(0)}});
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nbool>(), false);
-    res = it.run("has", args{narr{*new nInt(1)}});
+    res = it.run("in", args{narr{*new nInt(1)}});
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nbool>(), false);
-    res = it.run("has", args{narr{*new nInt(2)}});
+    res = it.run("in", args{narr{*new nInt(2)}});
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nbool>(), true);
 }

@@ -19,24 +19,24 @@ namespace nm {
 
     const baseErr& me::operator[](nidx n) const { return get(n); }
 
-    me::operator nbool() const { return hasErr(); }
+    me::operator nbool() const { return inErr(); }
 
-    nbool me::hasErr() const { return has(logLv::ERR); }
+    nbool me::inErr() const { return in(logLv::ERR); }
 
-    nbool me::hasErr(nidx since) const { return has(logLv::ERR, since); }
+    nbool me::inErr(nidx since) const { return in(logLv::ERR, since); }
 
-    nbool me::hasWarn() const { return has(logLv::WARN); }
+    nbool me::inWarn() const { return in(logLv::WARN); }
 
-    nbool me::hasWarn(nidx since) const { return has(logLv::WARN, since); }
+    nbool me::inWarn(nidx since) const { return in(logLv::WARN, since); }
 
-    nbool me::has(logLv::level type, nidx since) const {
+    nbool me::in(logLv::level type, nidx since) const {
         if(since < 0) since = 0;
         for(nidx n = since; n < _errs.size(); n++)
             if(_errs[n]->getLv() == type) return true;
         return false;
     }
 
-    nbool me::has(logLv::level type) const { return has(type, 0); }
+    nbool me::in(logLv::level type) const { return in(type, 0); }
 
     const baseErr& me::get(nidx n) const { return *_errs[n]; }
 

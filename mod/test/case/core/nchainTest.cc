@@ -59,8 +59,8 @@ namespace {
     };
 
     void examineChain2Element(nchain& chn, int val1, int val2) {
-        ASSERT_TRUE(chn.has(std::to_string(val1)));
-        ASSERT_TRUE(chn.has(std::to_string(val2)));
+        ASSERT_TRUE(chn.in(std::to_string(val1)));
+        ASSERT_TRUE(chn.in(std::to_string(val2)));
     }
 
     struct myNode2: public myNode {
@@ -315,7 +315,7 @@ TEST_F(nchainTest, testLinkedChainWithNContainerAPI) {
         }
 
         for(int n = 0; n < chn.len(); ++n, cnt++)
-            if(!chn.has(std::to_string(expectElementNums[cnt]))) {
+            if(!chn.in(std::to_string(expectElementNums[cnt]))) {
                 cnt = -1;
                 return;
             }
@@ -475,9 +475,9 @@ TEST_F(nchainTest, testLastIterator) {
     chn.add("4", new myNode(2));
 
     nbool sorted = true;
-    ASSERT_TRUE(chn.has("1"));
-    ASSERT_TRUE(chn.has("3"));
-    ASSERT_TRUE(chn.has("4"));
+    ASSERT_TRUE(chn.in("1"));
+    ASSERT_TRUE(chn.in("3"));
+    ASSERT_TRUE(chn.in("4"));
     ASSERT_TRUE(sorted);
 }
 
@@ -534,7 +534,7 @@ TEST_F(nchainTest, testLinkArrayAndChain) {
 
     for(int n = 1; n <= 5; n++) {
         std::string key = std::to_string(n);
-        ASSERT_TRUE(chn.has(key));
+        ASSERT_TRUE(chn.in(key));
         ASSERT_EQ(chn[key].cast<myNode>().number, n);
     }
 }

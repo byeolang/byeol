@@ -59,7 +59,7 @@ namespace nm {
             return (this->*specifier)(len());
         }
 
-        nbool has(const T& it) const {
+        nbool in(const T& it) const {
             for(const T& elem: *this)
                 if(it == elem) return true;
             return false;

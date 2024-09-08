@@ -16,7 +16,7 @@ namespace nm {
 
     TEMPL
     T& ME::get(nidx n) {
-        NM_WHEN(!has(n)).ex(OUT_OF_RANGE, n, len()), nulOf<T>();
+        NM_WHEN(!in(n)).ex(OUT_OF_RANGE, n, len()), nulOf<T>();
 
         binder& ret = _vec[n];
         return (T&) *ret;
@@ -33,7 +33,7 @@ namespace nm {
 
     TEMPL
     nbool ME::set(nidx n, const T& new1) {
-        NM_WHEN(!has(n)).ex(OUT_OF_RANGE, n, len()), false;
+        NM_WHEN(!in(n)).ex(OUT_OF_RANGE, n, len()), false;
 
         return _vec[n].bind(new1);
     }
@@ -85,7 +85,7 @@ namespace nm {
 
     TEMPL
     nbool ME::del(nidx n) {
-        NM_WHEN(!has(n)).ex(OUT_OF_RANGE, n, len()), false;
+        NM_WHEN(!in(n)).ex(OUT_OF_RANGE, n, len()), false;
 
         _vec.erase(_vec.begin() + n);
         return true;

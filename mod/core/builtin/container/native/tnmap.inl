@@ -10,16 +10,16 @@ namespace nm {
 #define ME tnmap<K, V, TACTIC>
 
     TEMPL
-    nbool ME::has(const K& key) const { return _map.find(key) != _map.end(); }
+    nbool ME::in(const K& key) const { return _map.find(key) != _map.end(); }
 
     TEMPL
-    nbool ME::has(const V& val) const {
+    nbool ME::in(const V& val) const {
         return !nul(get([&](const K&, const V& elem) { return &elem == &val; }));
     }
 
     TEMPL
     V& ME::get(const K& key) {
-        if(!has(key)) return nulOf<V>();
+        if(!in(key)) return nulOf<V>();
 
         return *_map.lower_bound(key)->second;
     }

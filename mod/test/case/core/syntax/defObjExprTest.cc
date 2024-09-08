@@ -53,7 +53,7 @@ TEST_F(defObjExprTest, objMakeScopeWithOwnsAndSharesButNotPackScope) {
     const auto& nextArr = next.getContainer();
     ASSERT_FALSE(nul(nextArr));
     ASSERT_EQ(nextArr.len(), 3);
-    ASSERT_TRUE(nextArr.has("foo"));
+    ASSERT_TRUE(nextArr.in("foo"));
 }
 
 TEST_F(defObjExprTest, simpleDefineObject2) {

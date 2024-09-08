@@ -113,7 +113,7 @@ namespace nm {
 
     ncnt me::len() const { return get().len(); }
 
-    nbool me::has(nidx n) const { return get().has(n); }
+    nbool me::in(nidx n) const { return get().in(n); }
 
     node& me::get(nidx n) { return get()[n]; }
 
@@ -222,7 +222,7 @@ namespace nm {
                                  .genericFunc<nbool, nidx, const node&>("add", &narr::add)
                                  .genericFunc<nbool, nidx, const node&>("set", &narr::set)
                                  .genericFuncNonConst<node&, nidx>("get", &narr::get)
-                                 .genericFunc<nbool, const node&>("has", &narr::has)
+                                 .genericFunc<nbool, const node&>("in", &narr::in)
                                  .func("iterate", new iterateFunc())
                                  .subs();
 

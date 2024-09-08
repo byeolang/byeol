@@ -53,7 +53,7 @@ namespace nm {
         public:
             bridgeIteration(nStr& own, nidx n): _own(&own), _n(n) {}
 
-            nbool isEnd() const override { return !_own->has(_n); }
+            nbool isEnd() const override { return !_own->in(_n); }
 
             ncnt next(ncnt step) override {
                 if(step <= 0) return 0;
@@ -264,7 +264,7 @@ namespace nm {
         return tstr<nStr>(new nStr(get().substr(start, end - start)));
     }
 
-    nbool me::has(nidx n) const { return 0 <= n && n < get().size(); }
+    nbool me::in(nidx n) const { return 0 <= n && n < get().size(); }
 
     nchar me::get(nidx n) const { return get()[n]; }
 

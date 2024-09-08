@@ -1044,7 +1044,7 @@ namespace nm {
 
     runExpr* me::onIn(const node& it, const node& container) {
         NM_DI("tokenEvent: onIn(%s, %s)", it, container);
-        return _maker.make<runExpr>(container, *_maker.make<getExpr>("has"),
+        return _maker.make<runExpr>(container, *_maker.make<getExpr>("in"),
             args{nulOf<baseObj>(), it});
     }
 

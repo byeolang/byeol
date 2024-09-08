@@ -38,9 +38,9 @@ namespace nm {
         ncnt len() const override;
 
         // has:
-        using super::has;
+        using super::in;
 
-        nbool has(nidx n) const override { return 0 <= n && n < len(); }
+        nbool in(nidx n) const override { return 0 <= n && n < len(); }
 
         // get:
         using super::get;

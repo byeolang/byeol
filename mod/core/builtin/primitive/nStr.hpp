@@ -35,7 +35,7 @@ namespace nm {
         /// @param end is exclusive.
         tstr<nStr> substr(nint start, nint end);
 
-        nbool has(nidx n) const;
+        nbool in(nidx n) const;
 
         using super::get;
         nchar get(nidx n) const;

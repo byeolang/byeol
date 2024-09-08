@@ -16,7 +16,7 @@ struct threadTest: public namuTest {
         thr = nullptr;
     }
 
-    nbool didExceptionOccurs() const { return getExceptions().hasErr(); }
+    nbool didExceptionOccurs() const { return getExceptions().inErr(); }
 
     const errReport& getExceptions() const { return thread::get().getEx(); }
 };

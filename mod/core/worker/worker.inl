@@ -79,7 +79,7 @@ namespace nm {
 
     TEMPLATE area& ME::_getArea() { return _area; }
 
-    TEMPLATE nbool ME::isOk() const { return !_rpt->hasErr(); }
+    TEMPLATE nbool ME::isOk() const { return !_rpt->inErr(); }
 
     TEMPLATE
     void ME::_onEndWork() {

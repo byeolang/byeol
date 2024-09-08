@@ -29,7 +29,7 @@ namespace nm {
     nbool me::isParsed() const { return _isParsed; }
 
     nbool me::isVerified() const {
-        return isParsed() && (!nul(getReport()) && !getReport().hasErr());
+        return isParsed() && (!nul(getReport()) && !getReport().inErr());
     }
 
     node& me::getSubPack() { return _pser.getSubPack(); }

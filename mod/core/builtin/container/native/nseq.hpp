@@ -35,7 +35,7 @@ namespace nm {
         using super::get;
         nInt get(nidx n) override;
 
-        nbool has(nidx n) const override;
+        nbool in(nidx n) const override;
 
     protected:
         iteration* _onMakeIteration(ncnt step) const override;

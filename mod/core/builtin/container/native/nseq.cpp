@@ -53,5 +53,5 @@ namespace nm {
         return nInt(_start.get() + _step.get() * n);
     }
 
-    nbool me::has(nidx n) const { return len() > n && n >= 0; }
+    nbool me::in(nidx n) const { return len() > n && n >= 0; }
 } // namespace nm
