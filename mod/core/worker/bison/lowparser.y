@@ -370,7 +370,10 @@ stmt-compound: ret-compound { $$ = $1; }
 //      def:
 def-expr-inline: with-inline { $$ = $1; }
                | def-prop-inline { $$ = $1; }
-               | abstract-func { $$ = $1; }
+               | abstract-func {
+                PS.onEndFunc();
+                $$ = $1;
+             }
 def-expr-compound: with-compound { $$ = $1; }
                  | def-obj { $$ = $1; }
                  | def-func { $$ = $1; }

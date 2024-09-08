@@ -215,12 +215,12 @@ namespace nm {
     }
 
     blockExpr* me::onBlock(const node& stmt) {
-        NM_DI("tokenEvent: onBlock(%s)", stmt);
+        NM_DI("tokenEvent: onBlock(%s) insideOf %s func", stmt, _func ? _func->getSrc().getName() : "<null>");
         return _maker.make<blockExpr>(stmt);
     }
 
     blockExpr* me::onBlock(blockExpr& blk, const node& stmt) {
-        NM_DI("tokenEvent: onBlock(blk, %s)", stmt);
+        NM_DI("tokenEvent: onBlock(blk, %s) inside of %s func", stmt, _func ? _func->getSrc().getName() : "<null>");
         if(nul(blk)) return posError(errCode::IS_NUL, "blk"), _maker.make<blockExpr>();
 
         blk.getStmts().add(stmt);
@@ -319,7 +319,8 @@ namespace nm {
         NM_DI("tokenEvent: onAbstractFunc(%s, access: %s(%d), retType:%s)", mod, access.getName(),
             access.getArgs().len(), retType);
 
-        return _maker.birth<func>(access.getName(), mod, _asParams(access.getArgs()), retType);
+        _func.bind(_maker.birth<func>(access.getName(), mod, _asParams(access.getArgs()), retType));
+        return &_func.get();
     }
 
     func* me::onAbstractFunc(const modifier& mod, node& it, const node& retType) {
@@ -336,6 +337,7 @@ namespace nm {
         NM_DI("tokenEvent: onFunc: func[%s] blk.len()=%d", (void*) &f, blk.getStmts().len());
 
         f.setBlock(blk);
+        onEndFunc();
         return &f;
     }
 
@@ -1046,6 +1048,10 @@ namespace nm {
         NM_DI("tokenEvent: onIn(%s, %s)", it, container);
         return _maker.make<runExpr>(container, *_maker.make<getExpr>("in"),
             args{nulOf<baseObj>(), it});
+    }
+
+    void me::onEndFunc() {
+        _func.rel();
     }
 
     void me::onParseErr(const std::string& msg, const nchar* symbolName) {

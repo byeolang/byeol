@@ -6,6 +6,7 @@
 #include "../ast/origin.hpp"
 #include "../ast/params.hpp"
 #include "../ast/slot.hpp"
+#include "../ast/func.hpp"
 #include "../builtin/err/errReport.hpp"
 #include "bison/tokenScan.hpp"
 #include "defBlock.hpp"
@@ -17,7 +18,6 @@
 namespace nm {
 
     class expr;
-    class func;
     class ctor;
     class blockExpr;
     class runExpr;
@@ -230,6 +230,7 @@ namespace nm {
         //      in:
         runExpr* onIn(const node& it, const node& container);
 
+        void onEndFunc();
         void onParseErr(const std::string& msg, const nchar* symbolName);
 
         template <typename... Args> void posError(Args... args) {
@@ -285,5 +286,6 @@ namespace nm {
         exprMaker _maker;
         smartDedent _dedent;
         srcSupplies _supplies;
+        tweak<func> _func;
     };
 } // namespace nm
