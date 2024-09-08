@@ -12,4 +12,7 @@ namespace nm {
     public:
         str getEval() const override;
     };
+
+    template <typename T, typename TACTIC> class tnarr;
+    typedef tnarr<endExpr, strTactic> ends;
 }

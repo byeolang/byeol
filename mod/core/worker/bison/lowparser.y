@@ -182,13 +182,15 @@
 %type <asNarr> matcher-equal-rhs
 //      loop
 %type <asNode> while for
+//      end
+%type <asNode> end
 //      define:
 //          value:
 %type <asNode> def-prop-inline def-prop-value def-prop-without-value def-prop-accessor def-prop-accessor-item
 %type <asNarr> def-prop-accessor-items
 %type <asNode> def-prop-compound
 //          func:
-%type <asNode> abstract-func def-func def-ctor end
+%type <asNode> abstract-func def-func def-ctor
 %type <asNode> lambda lambda-default lambda-deduction
 //          obj:
 %type <asNode> def-obj def-obj-default def-obj-call-complete
@@ -604,7 +606,7 @@ def-ctor: visibility CTOR params indentblock {
       }
 
 end: END indentblock {
-    // ??
+    $$ = PS.onEnd($2->cast<blockExpr>());
  }
 
 lambda: lambda-default {

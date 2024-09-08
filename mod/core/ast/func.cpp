@@ -57,7 +57,10 @@ namespace nm {
             frameInteract f2(*this, s);
             {
                 frameInteract f3(*_blk);
-                { return _postprocess(_blk->run(), exN); }
+                {
+                    _runEnds();
+                    return _postprocess(_blk->run(), exN);
+                }
             }
         }
     }
@@ -71,6 +74,11 @@ namespace nm {
             ret = retVal->as(*getRet()->as<node>());
         fr.setRet();
         return ret;
+    }
+
+    void me::_runEnds() {
+        for(nidx n = _ends.len() - 1; n >= 0 ;n--)
+            _ends[n].run();
     }
 
     scope* me::_evalArgs(const ucontainable& args) {
@@ -119,6 +127,8 @@ namespace nm {
         if(!nul(args)) fr.del();
         fr.del();
     }
+
+    ends& me::getEnds() { return _ends; }
 
     clonable* me::cloneDeep() const {
         me* ret = (me*) clone();

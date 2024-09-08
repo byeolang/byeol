@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ast/exprs/endExpr.hpp"
 #include "baseFunc.hpp"
 #include "exprs/blockExpr.hpp"
 #include "params.hpp"
@@ -39,16 +40,21 @@ namespace nm {
         using super::outFrame;
         void outFrame(const bicontainable& args) override;
 
+        ends& getEnds();
+        const ends& getEnds() const NM_CONST_FUNC(getEnds())
+
         clonable* cloneDeep() const override;
 
     private:
         scope* _evalArgs(const ucontainable& args);
         str _postprocess(str ret, nidx exN);
+        void _runEnds();
 
     private:
         params _params;
         scope _shares;
         str _retType;
         tstr<blockExpr> _blk;
+        ends _ends;
     };
 } // namespace nm

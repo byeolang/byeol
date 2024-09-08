@@ -10,6 +10,7 @@ namespace nm {
 
     class loopExpr;
     class thread;
+    class endExpr;
 
     class _nout verifier: public visitor {
         NM(CLASS(verifier, visitor))

@@ -199,6 +199,13 @@ namespace nm {
         return &subpack;
     }
 
+    endExpr* me::onEnd(const blockExpr& blk) {
+        endExpr* ret = _maker.make<endExpr>(blk);
+        if(_func) _func->getEnds().add(*ret);
+
+        return ret;
+    }
+
     obj* me::onPack() {
         NM_DI("tokenEvent: onPack()");
 
@@ -216,12 +223,14 @@ namespace nm {
 
     blockExpr* me::onBlock(const node& stmt) {
         NM_DI("tokenEvent: onBlock(%s) insideOf %s func", stmt, _func ? _func->getSrc().getName() : "<null>");
+        if(!nul(stmt.cast<endExpr>())) return _maker.make<blockExpr>();
         return _maker.make<blockExpr>(stmt);
     }
 
     blockExpr* me::onBlock(blockExpr& blk, const node& stmt) {
         NM_DI("tokenEvent: onBlock(blk, %s) inside of %s func", stmt, _func ? _func->getSrc().getName() : "<null>");
         if(nul(blk)) return posError(errCode::IS_NUL, "blk"), _maker.make<blockExpr>();
+        if(!nul(stmt.cast<endExpr>())) return &blk;
 
         blk.getStmts().add(stmt);
         NM_DI("tokenEvent: onBlock(%d).add(%s)", blk.getStmts().len(), stmt);
@@ -247,6 +256,7 @@ namespace nm {
         NM_DI("tokenEvent: onDefBlock(s, %s)", stmt);
         if(nul(s)) return posError(errCode::IS_NUL, "s"), new defBlock();
 
+        if(!nul(stmt.cast<endExpr>())) return posError(errCode::END_ONLY_BE_IN_A_FUNC), &s;
         defVarExpr& defVar = stmt.cast<defVarExpr>();
         if(nul(defVar)) return &s.addScope(stmt.getSrc().getName(), stmt);
 

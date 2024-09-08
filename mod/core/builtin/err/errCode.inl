@@ -117,6 +117,9 @@ PAIRX(RHS_NOT_EVALUATED,
 PAIRX(VOID_CANT_DEFINED, "you can't define a variable to void type")
 PAIRX(CANT_ASSIGN_RET, "rhs has 'ret' which is not appropriate to assign.")
 
+// end:
+PAIRX(END_ONLY_BE_IN_A_FUNC, "you've to use 'end' inside of a func.")
+
 // func:("verify: arithmeticExpr: lhs & rhs should bind something.");
 //
 // if(nul(it.getLeft) || nul(it.getRight()))

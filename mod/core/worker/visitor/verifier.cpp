@@ -377,7 +377,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, retExpr& me) {
-        _GUARD("onVisit()");
+        _GUARD("onLeave()");
 
         _STEP("should be at last stmt");
         NM_WHEN(i.index != i.len - 1).err(RET_AT_MIDDLE_OF_BLOCK, me);
@@ -397,7 +397,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, runExpr& me) {
-        _GUARD("onVisit()");
+        _GUARD("onLeave()");
 
         _STEP("is it possible to run?");
         NM_WHENNUL(me.getMe()).err(DONT_KNOW_ME, me);

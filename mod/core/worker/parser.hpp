@@ -32,6 +32,7 @@ namespace nm {
     class FUOExpr;
     class defPropExpr;
     class genericOrigin;
+    class endExpr;
 
     class _nout parser: public worker<str, slot>, public tokenScanable {
         typedef worker<str, slot> __super5;
@@ -142,6 +143,7 @@ namespace nm {
         obj* onPack(const std::string& path);
         obj* onPack();
         obj* onSubPack(obj& subpack);
+        endExpr* onEnd(const blockExpr& blk);
         blockExpr* onBlock(const node& stmt);
         blockExpr* onBlock(blockExpr& blk, const node& stmt);
         blockExpr* onBlock();
