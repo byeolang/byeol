@@ -30,23 +30,11 @@ namespace nm {
         return ret;
     }
 
-    namespace {
-        std::string getEvalTypeFrom(const node& value) {
-            if(nul(value)) return "null";
-            str eval = value.getEval();
-            if(eval) return eval->getType().getName();
-
-            const auto& name = safeGet(value.cast<getExpr>(), getName());
-            if(!nul(name)) return name;
-            return value.getType().getName();
-        }
-    }
-
     std::string me::toStr() const {
         int n = 0;
         std::string msg;
         each([&](const auto& val) {
-            return msg += getEvalTypeFrom(val) + (++n >= len() ? "" : ","), true;
+            return msg += util::getEvalTypeFrom(val) + (++n >= len() ? "" : ","), true;
         });
         return msg;
     }

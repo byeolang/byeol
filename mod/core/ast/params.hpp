@@ -18,6 +18,7 @@ namespace nm {
         }
 
     public:
+        /// @remark in order to call this func, you must have prepared thread and frames.
         std::string toStr() const;
     };
 }

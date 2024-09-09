@@ -3,6 +3,9 @@
 #include "dep.hpp"
 
 namespace nm {
+
+    class node;
+
     enum typeAttr {
         NOTHING,
         CONSTANT,
@@ -14,5 +17,6 @@ namespace nm {
 
     public:
         static typeAttr checkTypeAttr(const std::string& name);
+        static std::string getEvalTypeFrom(const node& n);
     };
 }

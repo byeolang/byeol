@@ -10,4 +10,14 @@ namespace nm {
 
         return std::all_of(name.begin(), name.end(), isupper) ? CONSTANT : NOTHING;
     }
+
+    std::string me::getEvalTypeFrom(const node& value) {
+        if(nul(value)) return "null";
+        str eval = value.getEval();
+        if(eval) return eval->getType().getName();
+
+        const auto& name = safeGet(value.cast<getExpr>(), getName());
+        if(!nul(name)) return name;
+        return value.getType().getName();
+    }
 }
