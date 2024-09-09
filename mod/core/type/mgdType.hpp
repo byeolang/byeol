@@ -14,7 +14,7 @@ namespace nm {
 
     public:
         mgdType(const std::string& name, const type& super);
-        mgdType(const std::string& name, const type& super, const narr& bean);
+        mgdType(const std::string& name, const type& super, const params& ps);
         mgdType(const std::string& name, const types& supersFromRhs);
 
     public:

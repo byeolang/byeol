@@ -514,7 +514,7 @@ namespace nm {
         NM_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], args[%s], defBlock[%s]", name,
             typeParams.len(), argNames, &blk);
 
-        origin& org = *_maker.birth<origin>(name, mgdType(name, ttype<obj>::get(), typeParams));
+        origin& org = *_maker.birth<origin>(name, mgdType(name, ttype<obj>::get(), params::make(typeParams)));
         if(util::checkTypeAttr(name) == COMPLETE_OBJ)
             org.setCallComplete(
                 *_maker.make<runExpr>(*_maker.make<getGenericExpr>(name, typeParams),

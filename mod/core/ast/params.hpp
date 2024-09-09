@@ -5,6 +5,8 @@
 #include "param.hpp"
 
 namespace nm {
+    typedef std::vector<std::string> strings;
+
     class _nout params: public tnarr<param> {
         NM(CLASS(params, tnarr<param>))
 
@@ -20,5 +22,8 @@ namespace nm {
     public:
         /// @remark in order to call this func, you must have prepared thread and frames.
         std::string toStr() const;
+
+        static me make(const strings& names, const narr& args);
+        static me make(const narr& args);
     };
 }

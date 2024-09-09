@@ -42,7 +42,7 @@ namespace nm {
         std::string _makeKey(const args& a) const;
 
         /// make a generic object.
-        tstr<obj> _makeGeneric(const std::string& argName, const args& a) const;
+        tstr<obj> _makeGeneric(const std::string& argName, const params& ps) const;
 
     private:
         std::map<std::string, tstr<obj>> _cache;

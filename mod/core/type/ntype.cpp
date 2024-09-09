@@ -9,9 +9,9 @@ namespace nm {
 
     NM_DEF_ME(ntype)
 
-    me::ntype(): _beans(nullptr) {}
+    me::ntype(): _params(nullptr) {}
 
-    me::ntype(const me& rhs): _beans(nullptr) { _assign(rhs); }
+    me::ntype(const me& rhs): _params(nullptr) { _assign(rhs); }
 
     nbool me::operator==(const type& rhs) const {
         if(!super::operator==(rhs)) return false;
@@ -23,12 +23,12 @@ namespace nm {
         //  in this case,
         //      tstr<arr> wrap(new tarr<nInt>())
         //  above code doesn't work.
-        if(nul(_beans) || !_beans->len()) return true;
-        if(nul(cast._beans)) return false;
-        if(_beans->len() != cast._beans->len()) return false;
+        if(nul(_params) || !_params->len()) return true;
+        if(nul(cast._params)) return false;
+        if(_params->len() != cast._params->len()) return false;
 
-        for(int n = 0; n < _beans->len(); n++)
-            if((*_beans)[n].getType() != (*cast._beans)[n].getType()) return false;
+        for(int n = 0; n < _params->len(); n++)
+            if((*_params)[n].getType() != (*cast._params)[n].getType()) return false;
         return true;
     }
 
@@ -196,17 +196,17 @@ namespace nm {
     }
 
     me& me::_assign(const me& rhs) {
-        if(_beans) delete _beans;
-        _beans = !nul(rhs._beans) ? (narr*) rhs._beans->clone() : nullptr;
+        if(_params) delete _params;
+        _params = !nul(rhs._params) ? (params*) rhs._params->clone() : nullptr;
         return *this;
     }
 
-    narr& me::_getBeans() {
-        if(nul(_beans)) _beans = new narr();
-        return *_beans;
+    params& me::_getParams() {
+        if(nul(_params)) _params = new params();
+        return *_params;
     }
 
     me::~ntype() {
-        if(_beans) delete _beans;
+        if(_params) delete _params;
     }
 } // namespace nm

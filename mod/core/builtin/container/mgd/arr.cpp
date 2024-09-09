@@ -86,13 +86,15 @@ namespace nm {
         private:
             str _ret;
         };
+
+        const static std::string paramName = "typeParam";
     } // namespace
 
-    me::arr(): super(new narr()) { _type._getBeans().add(*new obj()); }
+    me::arr(): super(new narr()) { _type._getParams().add(*new param(paramName, *new obj())); }
 
-    me::arr(const node& newType): super(new narr()) { _type._getBeans().add(newType); }
+    me::arr(const node& newType): super(new narr()) { _type._getParams().add(*new param(paramName, newType)); }
 
-    me::arr(const me& rhs): super(rhs) { _type._getBeans().add(rhs._type.getBeans()[0]); }
+    me::arr(const me& rhs): super(rhs) { _type._getParams().add(rhs._type.getParams()[0]); }
 
     node& me::operator[](nidx n) { return get()[n]; }
 
@@ -100,10 +102,10 @@ namespace nm {
 
     scope& me::subs() {
         static dumScope dummy;
-        const auto& beans = getType().getBeans();
+        const auto& beans = getType().getParams();
         if(beans.isEmpty()) return dummy;
 
-        const node& paramType = beans[0];
+        const node& paramType = beans[0].getOrigin();
         auto e = _cache.find(&paramType.getType());
         if(e != _cache.end()) return e->second.get();
 
@@ -126,27 +128,27 @@ namespace nm {
     }
 
     nbool me::set(const iter& at, const node& new1) {
-        str ased = safeGet(new1, asImpli(getType().getBeans()[0]));
+        str ased = safeGet(new1, asImpli(getType().getParams()[0].getOrigin()));
         if(!ased || ased->isSub<nVoid>()) return false;
 
         return get().set(at, *ased);
     }
 
     nbool me::set(nidx n, const node& new1) {
-        str ased = safeGet(new1, asImpli(getType().getBeans()[0]));
+        str ased = safeGet(new1, asImpli(getType().getParams()[0].getOrigin()));
         if(!ased || ased->isSub<nVoid>()) return false;
         return get().set(n, *ased);
     }
 
     nbool me::add(const iter& at, const node& new1) {
-        str ased = safeGet(new1, asImpli(getType().getBeans()[0]));
+        str ased = safeGet(new1, asImpli(getType().getParams()[0].getOrigin()));
         if(!ased || ased->isSub<nVoid>()) return false;
 
         return get().add(at, *ased);
     }
 
     nbool me::add(nidx n, const node& new1) {
-        str ased = safeGet(new1, asImpli(getType().getBeans()[0]));
+        str ased = safeGet(new1, asImpli(getType().getParams()[0].getOrigin()));
         if(!ased || ased->isSub<nVoid>()) return false;
 
         return get().add(n, *ased);

@@ -76,6 +76,6 @@ namespace nm {
         if(nul(eval)) return NM_E("eval is null "), nulOf<arr>();
         if(!eval.isSub<arr>()) return nulOf<arr>();
 
-        return *new arr(eval.getType().getBeans()[0]);
+        return *new arr(eval.getType().getParams()[0].getOrigin());
     }
 } // namespace nm

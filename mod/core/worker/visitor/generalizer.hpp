@@ -10,6 +10,7 @@ namespace nm {
 
     public:
         me& add(const param& newParam);
+        me& add(const params& newParams);
 
         using super::onVisit;
         nbool onVisit(const visitInfo& i, asExpr& me) override;

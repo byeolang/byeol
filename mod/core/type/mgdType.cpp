@@ -1,4 +1,5 @@
 #include "mgdType.hpp"
+#include "../ast/params.hpp"
 
 namespace nm {
 
@@ -6,9 +7,9 @@ namespace nm {
 
     me::mgdType(const std::string& name, const type& super): _name(name) { _initSupers(super); }
 
-    me::mgdType(const std::string& name, const type& super, const narr& beans): _name(name) {
+    me::mgdType(const std::string& name, const type& super, const params& ps): _name(name) {
         _initSupers(super);
-        _getBeans().add(beans);
+        _getParams().add(ps);
     }
 
     me::mgdType(const std::string& name, const types& supersFromRhs):

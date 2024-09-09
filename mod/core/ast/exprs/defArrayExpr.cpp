@@ -21,7 +21,7 @@ namespace nm {
     }
 
     const node& me::getArrayType() const {
-        return safeGet(getOrigin().getType().getBeans(), get(0));
+        return safeGet(getOrigin().getType().getParams(), get(0), getOrigin());
     }
 
     const arr& me::getOrigin() const {
@@ -42,14 +42,14 @@ namespace nm {
 
         str ased1 = _elems[0].getEval();
         const node* ret = &ased1.get();
-        if(!ret) return NM_DI("deduceElem: elem0 is null"), str();
+        if(!ret) return NM_DI("deduceElem: elem0 is null"), nVoid::singletone();
         str ased;
 
         for(int n = 1; n < len; n++) {
             ased = _elems[n].as<node>();
             ret = &ret->deduce(*ased);
             NM_DI("deduceElem: prevElem + elem%d[%s] --> %s", n, ased, ret);
-            if(!ret) return NM_DI("deduceElem: elem%d was null.", n), str();
+            if(!ret) return NM_DI("deduceElem: elem%d was null.", n), nVoid::singletone();
         }
 
         return *ret;

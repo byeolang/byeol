@@ -12,6 +12,11 @@ namespace nm {
         return *this;
     }
 
+    me& me::add(const params& newParams) {
+        _params.add(newParams);
+        return *this;
+    }
+
     const node& me::_findOrigin(const node& toReplace) const {
         if(!nul(toReplace.cast<getGenericExpr>())) return nulOf<node>();
         const auto& name = safeGet(toReplace.cast<getExpr>(), getName());

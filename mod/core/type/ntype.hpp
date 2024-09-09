@@ -8,6 +8,7 @@ namespace nm {
     class node;
     template <typename T, typename TACTIC> class tnarr;
     typedef tnarr<node, strTactic> narr;
+    class params;
 
     class _nout ntype: public type {
         NM_ME(ntype, type)
@@ -64,13 +65,13 @@ namespace nm {
         /// @return null it it's not relative between l & r.
         static const ntype& deduce(const ntype& l, const ntype& r);
 
-        virtual const narr& getBeans() const NM_CONST_FUNC(_getBeans())
+        virtual const params& getParams() const NM_CONST_FUNC(_getParams())
 
     protected:
         // ntype:
         virtual const ases& _getImpliAses() const;
         virtual const ases& _getAses() const;
-        narr& _getBeans();
+        params& _getParams();
 
     private:
         static deducers* _makeDeducers();
@@ -78,7 +79,7 @@ namespace nm {
         me& _assign(const me& rhs);
 
     private:
-        narr* _beans;
+        params* _params;
     };
 
     typedef std::vector<const ntype*> ntypes;

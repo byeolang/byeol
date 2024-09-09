@@ -49,7 +49,7 @@ namespace nm {
         std::string key = _makeKey(a);
         if(key.empty()) return NM_E("key is empty"), tstr<obj>();
 
-        if(!_cache.count(key)) _cache.insert({key, _makeGeneric(key, a)});
+        if(!_cache.count(key)) _cache.insert({key, _makeGeneric(key, params::make(_paramNames, a))});
         return _cache[key];
     }
 
@@ -60,7 +60,7 @@ namespace nm {
     }
 
     /// make a generic object.
-    tstr<obj> me::_makeGeneric(const std::string& argName, const args& a) const {
+    tstr<obj> me::_makeGeneric(const std::string& argName, const params& ps) const {
         if(!_org) return NM_E("_orgObj is null"), tstr<obj>();
 
         std::string name = _org->getType().getName() + "<" + argName + ">";
@@ -73,14 +73,10 @@ namespace nm {
 
         // clone type:
         mgdType newType(name, ret->getType().getSupers());
-        newType._getBeans().add(a);
+        newType._getParams().add(ps);
         ret->_setType(newType);
 
-        ncnt n = 0;
-        generalizer g;
-        for(node& e: a)
-            g.add(*new param(_paramNames[n++], e));
-        g.setFlag(generalizer::INTERNAL).setTask(*ret).work();
+        generalizer().add(ps).setFlag(generalizer::INTERNAL).setTask(*ret).work();
         NM_DI("|============================|");
         return ret;
     }

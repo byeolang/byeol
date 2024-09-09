@@ -21,7 +21,7 @@ namespace nm {
         static ntype* inner = nullptr;
         if(nul(inner)) {
             inner = new ttype<seq>();
-            inner->_getBeans().add(*new nInt());
+            inner->_getParams().add(*new param("typeParam", *new nInt()));
         }
 
         return *inner;

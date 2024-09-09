@@ -338,8 +338,8 @@ TEST_F(arrTest, testIteratorBridgedFunc) {
     str elem = res->run("get");
     ASSERT_TRUE(elem);
     ASSERT_EQ(elem->cast<nint>(), 1);
-    ASSERT_EQ(arr1.getType().getBeans().len(), 1);
-    ASSERT_EQ(elem->getType(), arr1.getType().getBeans()[0].getType());
+    ASSERT_EQ(arr1.getType().getParams().len(), 1);
+    ASSERT_EQ(elem->getType(), arr1.getType().getParams()[0].getOrigin().getType());
 
     str step = res->run("next", args{narr{*new nInt(1)}});
     ASSERT_TRUE(step);

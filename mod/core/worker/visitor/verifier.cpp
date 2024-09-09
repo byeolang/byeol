@@ -215,9 +215,9 @@ namespace nm {
         NM_WHEN(eval->isSub<retStateExpr>()).err(CANT_ASSIGN_RET, me);
 
         _STEP("check whether make a void container.");
-        const narr& beans = eval->getType().getBeans();
-        for(const node& bean: beans)
-            NM_WHEN(bean.isSub<nVoid>()).err(NO_VOID_CONTAINER, me);
+        const auto& ps = eval->getType().getParams();
+        for(const auto& p : ps)
+            NM_WHEN(p.getOrigin().isSub<nVoid>()).err(NO_VOID_CONTAINER, me);
 
         std::string name = me.getName();
         NM_WHEN(name == "").err(HAS_NO_NAME, me);
@@ -293,9 +293,9 @@ namespace nm {
         NM_WHEN(type.isSub<nVoid>()).err(ELEM_TYPE_NOT_VOID, me);
 
         _STEP("check arr has exactly 1 type parameter.");
-        const auto& beans = safeGet(me.getOrigin(), getType(), getBeans());
-        NM_WHENNUL(beans).err(ELEM_TYPE_IS_NUL, me);
-        NM_WHEN(beans.len() != 1).err(ARR_DOESNT_HAVE_TYPE_PARAM, me);
+        const auto& ps = safeGet(me.getOrigin(), getType(), getParams());
+        NM_WHENNUL(ps).err(ELEM_TYPE_IS_NUL, me);
+        NM_WHEN(ps.len() != 1).err(ARR_DOESNT_HAVE_TYPE_PARAM, me);
     }
 
     void me::onLeave(const visitInfo& i, FBOExpr& me) {
