@@ -61,6 +61,7 @@ namespace {
         }
 
         using super::getParams;
+
         params& getParams() override { return _params; }
 
     private:
@@ -259,11 +260,31 @@ TEST_F(funcTest, testArgsAttachedName) {
     ASSERT_FALSE(f.isRun());
 }
 
-/* TODO: uncomment this when I provide function as parameter
-TEST_F(funcTest, funcAsParam) {
+TEST_F(funcTest, putFuncManuallyAsParam) {
     myObj o;
-    myfunc f;
+    myfunc lambda; // type is '(int) void'
+    params& lambdaPs = lambda.getParams();
+    lambdaPs.add(new param("value", new nInt()));
+    o.subs().add("lambda", lambda);
+
+    myfunc f; // type is '(l lambda) void'
     o.subs().add("myfunc", f);
     params& ps = f.getParams();
-    ps.add(new param("lambda", ))
-}*/
+    ps.add(new param("lambda", new getExpr(o, "lambda")));
+
+    myfunc lambda2; // type is "(flt) void'
+    params& lambda2Ps = lambda2.getParams();
+    lambda2Ps.add(new param("value", new nFlt()));
+    o.subs().add("lambda2", lambda2);
+
+    // is lambda runnable?
+    str res = o.run("myfunc", args{narr{*new getExpr(o, "lambda")}});
+    ASSERT_TRUE(res);
+    ASSERT_TRUE(f.isSuccess());
+
+    // check lambda1 is compatible to lambda2?
+    f.setUp();
+    res = o.run("myfunc", args{narr{*new getExpr(o, "lambda2")}});
+    ASSERT_FALSE(res);
+    ASSERT_FALSE(f.isSuccess());
+}

@@ -20,6 +20,8 @@ namespace nm {
         return _owner ? _owner->getParams() : dummy;
     }
 
+    str me::funcType::getRet() const { return _owner ? _owner->getRet() : str(); }
+
     me::baseFunc(): _type(*this) {}
 
     me::baseFunc(const modifier& mod): _mod(mod), _type(*this) {}

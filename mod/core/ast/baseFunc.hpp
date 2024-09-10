@@ -22,6 +22,7 @@ namespace nm {
 
         protected:
             params& getParams() override;
+            str getRet() const;
 
         private:
             tstr<baseFunc> _owner;
