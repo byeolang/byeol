@@ -64,9 +64,8 @@ namespace {
             return inner;
         }
 
-        const params& getParams() const override { return _params; }
-
-        params& getParams() { return _params; }
+        using super::getParams;
+        params& getParams() override { return _params; }
 
     private:
         params _params;

@@ -15,5 +15,5 @@ namespace nm {
         return str((node*) a.begin()->as(p)->clone());
     }
 
-    const params& me::getParams() const { return _params; }
+    params& me::getParams() { return _params; }
 }

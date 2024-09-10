@@ -60,9 +60,8 @@ namespace {
             return inner;
         }
 
-        const params& getParams() const override { return _params; }
-
-        params& getParams() { return _params; }
+        using super::getParams;
+        params& getParams() override { return _params; }
 
     private:
         params _params;
@@ -259,3 +258,12 @@ TEST_F(funcTest, testArgsAttachedName) {
     o.run("myfunc", a);
     ASSERT_FALSE(f.isRun());
 }
+
+/* TODO: uncomment this when I provide function as parameter
+TEST_F(funcTest, funcAsParam) {
+    myObj o;
+    myfunc f;
+    o.subs().add("myfunc", f);
+    params& ps = f.getParams();
+    ps.add(new param("lambda", ))
+}*/

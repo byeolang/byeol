@@ -30,7 +30,9 @@ namespace nm {
         str getRet() const override;
         nbool setRet(const node& newRet) override;
         scope& subs() override;
-        const params& getParams() const override;
+
+        using super::getParams;
+        params& getParams() override;
 
         using super::run;
         str run(const args& a) override;

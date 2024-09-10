@@ -8,7 +8,8 @@ namespace nm {
         NM(CLASS(inputFunc, baseFunc))
 
     public:
-        const params& getParams() const override;
+        using super::getParams;
+        params& getParams() override;
 
         str getRet() const override;
 

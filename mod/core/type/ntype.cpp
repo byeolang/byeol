@@ -202,7 +202,7 @@ namespace nm {
         return *this;
     }
 
-    params& me::_getParams() {
+    params& me::getParams() {
         if(nul(_params)) _params = new params();
         return *_params;
     }

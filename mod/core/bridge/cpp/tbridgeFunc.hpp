@@ -38,7 +38,8 @@ namespace nm {
 
         nbool setRet(const node& newRet) override { return _ret.bind(newRet); }
 
-        const params& getParams() const override {
+        using super::getParams;
+        params& getParams() override {
             if(!_params) {
                 _params.bind(new params());
                 (_params->add(

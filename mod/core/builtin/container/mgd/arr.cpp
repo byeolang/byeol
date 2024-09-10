@@ -46,7 +46,8 @@ namespace nm {
                 return inner;
             }
 
-            const params& getParams() const override {
+            using super::getParams;
+            params& getParams() override {
                 static params inner;
                 if(inner.len() <= 0) inner.add(new param("step", *new nInt()));
 
@@ -90,13 +91,13 @@ namespace nm {
         const static std::string paramName = "typeParam";
     } // namespace
 
-    me::arr(): super(new narr()) { _type._getParams().add(*new param(paramName, *new obj())); }
+    me::arr(): super(new narr()) { _type.getParams().add(*new param(paramName, *new obj())); }
 
     me::arr(const node& newType): super(new narr()) {
-        _type._getParams().add(*new param(paramName, newType));
+        _type.getParams().add(*new param(paramName, newType));
     }
 
-    me::arr(const me& rhs): super(rhs) { _type._getParams().add(rhs._type.getParams()[0]); }
+    me::arr(const me& rhs): super(rhs) { _type.getParams().add(rhs._type.getParams()[0]); }
 
     node& me::operator[](nidx n) { return get()[n]; }
 
@@ -183,7 +184,8 @@ namespace nm {
         public:
             str getRet() const override { return *_org; }
 
-            const params& getParams() const override {
+            using super::getParams;
+            params& getParams() override {
                 static params inner{*new param("src", *_org)};
                 return inner;
             }

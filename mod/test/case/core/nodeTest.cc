@@ -29,7 +29,8 @@ namespace {
             return inner;
         }
 
-        const params& getParams() const override {
+        using super::getParams;
+        params& getParams() override {
             static params inner;
             return inner;
         }

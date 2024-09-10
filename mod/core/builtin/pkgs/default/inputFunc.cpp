@@ -11,7 +11,7 @@ namespace nm {
 
     NM(DEF_ME(inputFunc))
 
-    const params& me::getParams() const {
+    params& me::getParams() {
         static params inner;
         return inner;
     }

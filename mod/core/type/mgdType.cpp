@@ -9,7 +9,7 @@ namespace nm {
 
     me::mgdType(const std::string& name, const type& super, const params& ps): _name(name) {
         _initSupers(super);
-        _getParams().add(ps);
+        getParams().add(ps);
     }
 
     me::mgdType(const std::string& name, const types& supersFromRhs):

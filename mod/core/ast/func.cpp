@@ -36,7 +36,7 @@ namespace nm {
 
     scope& me::subs() { return _shares; }
 
-    const params& me::getParams() const { return _params; }
+    params& me::getParams() { return _params; }
 
     str me::run(const args& a) {
         if(nul(a)) return NM_E("a == null"), str();

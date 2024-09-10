@@ -17,7 +17,8 @@ namespace nm {
         using super::run;
         str run(const args& a) override;
 
-        const params& getParams() const override;
+        using super::getParams;
+        params& getParams() override;
 
     public:
         params _params;

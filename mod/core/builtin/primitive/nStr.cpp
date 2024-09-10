@@ -32,7 +32,8 @@ namespace nm {
                 return me.substr(start, end);
             }
 
-            const params& getParams() const override {
+            using super::getParams;
+            params& getParams() override {
                 static params inner{*new param("range", new seq(nInt(0), nInt(1)))};
                 return inner;
             }
@@ -122,7 +123,8 @@ namespace nm {
                 return inner;
             }
 
-            const params& getParams() const override {
+            using super::getParams;
+            params& getParams() override {
                 static params inner;
                 if(inner.len() <= 0) inner.add(new param("step", *new nInt()));
                 return inner;

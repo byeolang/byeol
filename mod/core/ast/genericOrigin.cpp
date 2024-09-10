@@ -74,7 +74,7 @@ namespace nm {
 
         // clone type:
         mgdType newType(name, ret->getType().getSupers());
-        newType._getParams().add(ps);
+        newType.getParams().add(ps);
         ret->_setType(newType);
 
         generalizer().add(ps).setFlag(generalizer::INTERNAL).setTask(*ret).work();

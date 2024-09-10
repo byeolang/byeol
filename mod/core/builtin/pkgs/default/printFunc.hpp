@@ -9,7 +9,8 @@ namespace nm {
         NM(CLASS(printFunc, baseFunc))
 
     public:
-        const params& getParams() const override {
+        using super::getParams;
+        params& getParams() override {
             static params inner(*new param("msg", new T()));
             return inner;
         }

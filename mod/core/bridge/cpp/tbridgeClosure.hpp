@@ -36,7 +36,8 @@ namespace nm {
             return ret;
         }
 
-        const params& getParams() const override {
+        using super::getParams;
+        params& getParams() override {
             if(!_params) {
                 _params.bind(new params());
                 (_params->add(
@@ -112,7 +113,8 @@ namespace nm {
             return ret;
         }
 
-        const params& getParams() const override {
+        using super::getParams;
+        params& getParams() override {
             if(!_params) {
                 _params.bind(new params());
                 (_params->add(

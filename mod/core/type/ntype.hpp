@@ -65,13 +65,13 @@ namespace nm {
         /// @return null it it's not relative between l & r.
         static const ntype& deduce(const ntype& l, const ntype& r);
 
-        virtual const params& getParams() const NM_CONST_FUNC(_getParams())
+        const params& getParams() const NM_CONST_FUNC(getParams())
+        virtual params& getParams();
 
     protected:
         // ntype:
         virtual const ases& _getImpliAses() const;
         virtual const ases& _getAses() const;
-        params& _getParams();
 
     private:
         static deducers* _makeDeducers();
