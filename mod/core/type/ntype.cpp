@@ -28,7 +28,7 @@ namespace nm {
         if(_params->len() != cast._params->len()) return false;
 
         for(int n = 0; n < _params->len(); n++)
-            if((*_params)[n].getType() != (*cast._params)[n].getType()) return false;
+            if((*_params)[n].getOrigin().getType() != (*cast._params)[n].getOrigin().getType()) return false;
         return true;
     }
 
