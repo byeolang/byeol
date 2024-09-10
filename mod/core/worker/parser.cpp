@@ -189,9 +189,7 @@ namespace nm {
         return onSubPack(*e);
     }
 
-    obj* me::onPack(const std::string& name) {
-        return onPack(*onGet(name));
-    }
+    obj* me::onPack(const std::string& name) { return onPack(*onGet(name)); }
 
     obj* me::onSubPack(obj& subpack) {
         NM_DI("tokenEvent: onSubPack()");
@@ -222,13 +220,15 @@ namespace nm {
     }
 
     blockExpr* me::onBlock(const node& stmt) {
-        NM_DI("tokenEvent: onBlock(%s) insideOf %s func", stmt, _func ? _func->getSrc().getName() : "<null>");
+        NM_DI("tokenEvent: onBlock(%s) insideOf %s func", stmt,
+            _func ? _func->getSrc().getName() : "<null>");
         if(!nul(stmt.cast<endExpr>())) return _maker.make<blockExpr>();
         return _maker.make<blockExpr>(stmt);
     }
 
     blockExpr* me::onBlock(blockExpr& blk, const node& stmt) {
-        NM_DI("tokenEvent: onBlock(blk, %s) inside of %s func", stmt, _func ? _func->getSrc().getName() : "<null>");
+        NM_DI("tokenEvent: onBlock(blk, %s) inside of %s func", stmt,
+            _func ? _func->getSrc().getName() : "<null>");
         if(nul(blk)) return posError(errCode::IS_NUL, "blk"), _maker.make<blockExpr>();
         if(!nul(stmt.cast<endExpr>())) return &blk;
 
@@ -514,7 +514,8 @@ namespace nm {
         NM_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], args[%s], defBlock[%s]", name,
             typeParams.len(), argNames, &blk);
 
-        origin& org = *_maker.birth<origin>(name, mgdType(name, ttype<obj>::get(), params::make(typeParams)));
+        origin& org =
+            *_maker.birth<origin>(name, mgdType(name, ttype<obj>::get(), params::make(typeParams)));
         if(util::checkTypeAttr(name) == COMPLETE_OBJ)
             org.setCallComplete(
                 *_maker.make<runExpr>(*_maker.make<getGenericExpr>(name, typeParams),
@@ -1060,9 +1061,7 @@ namespace nm {
             args{nulOf<baseObj>(), it});
     }
 
-    void me::onEndFunc() {
-        _func.rel();
-    }
+    void me::onEndFunc() { _func.rel(); }
 
     void me::onParseErr(const std::string& msg, const nchar* symbolName) {
         error(getArea().start, errCode::SYNTAX_ERR, msg.c_str(), symbolName);

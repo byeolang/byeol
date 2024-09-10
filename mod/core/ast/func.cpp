@@ -77,7 +77,7 @@ namespace nm {
     }
 
     void me::_runEnds() {
-        for(nidx n = _ends.len() - 1; n >= 0 ;n--)
+        for(nidx n = _ends.len() - 1; n >= 0; n--)
             _ends[n].run();
     }
 

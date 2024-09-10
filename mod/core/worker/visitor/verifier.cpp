@@ -216,7 +216,7 @@ namespace nm {
 
         _STEP("check whether make a void container.");
         const auto& ps = eval->getType().getParams();
-        for(const auto& p : ps)
+        for(const auto& p: ps)
             NM_WHEN(p.getOrigin().isSub<nVoid>()).err(NO_VOID_CONTAINER, me);
 
         std::string name = me.getName();

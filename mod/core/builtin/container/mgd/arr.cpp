@@ -92,7 +92,9 @@ namespace nm {
 
     me::arr(): super(new narr()) { _type._getParams().add(*new param(paramName, *new obj())); }
 
-    me::arr(const node& newType): super(new narr()) { _type._getParams().add(*new param(paramName, newType)); }
+    me::arr(const node& newType): super(new narr()) {
+        _type._getParams().add(*new param(paramName, newType));
+    }
 
     me::arr(const me& rhs): super(rhs) { _type._getParams().add(rhs._type.getParams()[0]); }
 

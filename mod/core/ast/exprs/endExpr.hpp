@@ -3,7 +3,7 @@
 #include "blockExpr.hpp"
 
 namespace nm {
-    class _nout endExpr : public blockExpr {
+    class _nout endExpr: public blockExpr {
         NM(CLASS(endExpr, blockExpr), VISIT())
 
     public:

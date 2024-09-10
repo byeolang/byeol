@@ -49,7 +49,8 @@ namespace nm {
         std::string key = _makeKey(a);
         if(key.empty()) return NM_E("key is empty"), tstr<obj>();
 
-        if(!_cache.count(key)) _cache.insert({key, _makeGeneric(key, params::make(_paramNames, a))});
+        if(!_cache.count(key))
+            _cache.insert({key, _makeGeneric(key, params::make(_paramNames, a))});
         return _cache[key];
     }
 

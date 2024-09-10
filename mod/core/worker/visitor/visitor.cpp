@@ -109,8 +109,8 @@ namespace nm {
         ends& es = f.getEnds();
         ncnt len = es.len() + 1;
         f.getBlock().accept(visitInfo{"codes", &f, 0, len, i.depth + 1}, *this);
-        for(nint n=es.len()-1; n >= 0; n--)
-            es[n].accept(visitInfo{"end", &f, n+1, len, i.depth + 1}, *this);
+        for(nint n = es.len() - 1; n >= 0; n--)
+            es[n].accept(visitInfo{"end", &f, n + 1, len, i.depth + 1}, *this);
     }
 
     void me::onTraverse(const visitInfo& i, blockExpr& b) {
