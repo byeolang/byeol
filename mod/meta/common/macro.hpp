@@ -55,7 +55,7 @@
 //          but obviously it's very hard to notice the reason of error has been related to covariant
 //          with the description above.
 //          only way to resolve error condition so far is replace all return type of clone() to
-//          'clonable', not to use covarint.
+//          'clonable', not to use covarint.ZZ
 
 #define __NM__DECL_CLONE(ME)                                   \
 public:                                                        \
@@ -73,11 +73,3 @@ public:                                                                \
     const ntype& getType() const override { return ttype<me>::get(); } \
                                                                        \
 private:
-
-namespace nm {
-    class type;
-    class typeProvidable;
-
-    _nout strWrap __convert__(const typeProvidable& rhs);
-    _nout strWrap __convert__(const type& rhs);
-}

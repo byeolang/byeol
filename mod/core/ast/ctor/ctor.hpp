@@ -4,7 +4,8 @@
 
 namespace nm {
     class _nout ctor: public func {
-        NM(ME(ctor, func), VISIT())
+        NM(ME(ctor, func), INIT_META(ctor), CLONE(ctor), VISIT())
+        typedef ntype metaType;
 
     public:
         ctor(const modifier& mod, const params& ps, const blockExpr& blk);
