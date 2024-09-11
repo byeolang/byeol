@@ -278,10 +278,10 @@ TEST_F(funcTest, putFuncManuallyAsParam) {
 
     // is lambda runnable?
     str res = o.run("myfunc", args{narr{*new getExpr(o, "lambda")}});
-    ASSERT_TRUE(f.isSuccess());
+    ASSERT_TRUE(f.isRun());
 
     // check lambda1 is compatible to lambda2?
     f.setUp();
     res = o.run("myfunc", args{narr{*new getExpr(o, "lambda2")}});
-    ASSERT_FALSE(f.isSuccess());
+    ASSERT_FALSE(f.isRun());
 }

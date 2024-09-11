@@ -11,7 +11,7 @@ namespace nm {
 
     class _nout baseFunc: public expr {
 
-        class _nout funcType : public ttype<me>, public clonable {
+        class _nout funcType : public ttype<baseFunc>, public clonable {
             NM(ME(funcType, ttype<me>), CLONE(funcType))
 
         public:
