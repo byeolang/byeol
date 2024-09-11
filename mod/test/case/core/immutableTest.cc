@@ -21,7 +21,7 @@ namespace {
     };
 
     class myfunc: public func {
-        NM(CLASS(myfunc, func))
+        NM(ME(myfunc, func))
 
         class myBlock: public blockExpr {
             NM(CLASS(myBlock, blockExpr))

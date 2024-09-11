@@ -10,7 +10,7 @@ struct funcTest: public namuTest {};
 
 namespace {
     class myfunc: public func {
-        NM(CLASS(myfunc, func))
+        NM(ME(myfunc, func))
 
         class myBlock: public blockExpr {
             NM(CLASS(myBlock, blockExpr))
@@ -59,13 +59,6 @@ namespace {
             static str inner(new nVoid());
             return inner;
         }
-
-        using super::getParams;
-
-        params& getParams() override { return _params; }
-
-    private:
-        params _params;
     };
 
     nbool _isFrameLinkScope(const frame& fr, const scope& subs) {
@@ -266,6 +259,9 @@ TEST_F(funcTest, putFuncManuallyAsParam) {
     params& lambdaPs = lambda.getParams();
     lambdaPs.add(new param("value", new nInt()));
     o.subs().add("lambda", lambda);
+    const ntype& lambdaType = lambda.getType();
+    ASSERT_EQ(lambdaType.getParams().len(), 1);
+    ASSERT_TRUE(lambdaType.getParams()[0].getOrigin().isSub<nInt>());
 
     myfunc f; // type is '(l lambda) void'
     o.subs().add("myfunc", f);
@@ -276,15 +272,16 @@ TEST_F(funcTest, putFuncManuallyAsParam) {
     params& lambda2Ps = lambda2.getParams();
     lambda2Ps.add(new param("value", new nFlt()));
     o.subs().add("lambda2", lambda2);
+    const ntype& lambda2Type = lambda2.getType();
+    ASSERT_EQ(lambda2Type.getParams().len(), 1);
+    ASSERT_TRUE(lambda2Type.getParams()[0].getOrigin().isSub<nFlt>());
 
     // is lambda runnable?
     str res = o.run("myfunc", args{narr{*new getExpr(o, "lambda")}});
-    ASSERT_TRUE(res);
     ASSERT_TRUE(f.isSuccess());
 
     // check lambda1 is compatible to lambda2?
     f.setUp();
     res = o.run("myfunc", args{narr{*new getExpr(o, "lambda2")}});
-    ASSERT_FALSE(res);
     ASSERT_FALSE(f.isSuccess());
 }

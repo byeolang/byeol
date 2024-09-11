@@ -38,7 +38,7 @@ namespace nm {
         };
 
         class iterateFunc: public baseFunc {
-            NM(CLASS(iterateFunc, baseFunc))
+            NM(ME(iterateFunc, baseFunc), CLONE(iterateFunc))
 
         public:
             str getRet() const override {
@@ -72,7 +72,7 @@ namespace nm {
         };
 
         class getElemTypeFunc: public baseFunc {
-            NM(CLASS(getElemTypeFunc, baseFunc))
+            NM(ME(getElemTypeFunc, baseFunc), CLONE(getElemTypeFunc))
 
         public:
             getElemTypeFunc(): _ret(new getExpr(TYPENAME)) {}
@@ -176,7 +176,7 @@ namespace nm {
 
     namespace {
         class __copyCtor: public baseFunc {
-            NM(CLASS(__copyCtor, baseFunc))
+            NM(ME(__copyCtor, baseFunc), CLONE(__copyCtor))
 
         public:
             __copyCtor(const node& newType): _org(new arr(newType)) {}

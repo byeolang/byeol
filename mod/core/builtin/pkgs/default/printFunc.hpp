@@ -6,7 +6,7 @@
 namespace nm {
 
     template <typename T> class _nout printFunc: public baseFunc {
-        NM(CLASS(printFunc, baseFunc))
+        NM(ME(printFunc, baseFunc), CLONE(printFunc))
 
     public:
         using super::getParams;

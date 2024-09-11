@@ -9,7 +9,7 @@ struct nodeTest: public namuTest {};
 
 namespace {
     class myFunc: public func {
-        NM(CLASS(myFunc, func))
+        NM(ME(myFunc, func))
 
     public:
         myFunc(): super(*new modifier(), params(), new nVoid()) {}

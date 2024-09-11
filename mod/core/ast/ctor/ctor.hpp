@@ -4,7 +4,7 @@
 
 namespace nm {
     class _nout ctor: public func {
-        NM(CLASS(ctor, func), VISIT())
+        NM(ME(ctor, func), VISIT())
 
     public:
         ctor(const modifier& mod, const params& ps, const blockExpr& blk);

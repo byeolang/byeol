@@ -11,7 +11,7 @@ namespace nm {
     class visitor;
 
     class _nout func: public baseFunc {
-        NM(CLASS(func, baseFunc), VISIT())
+        NM(ME(func, baseFunc), CLONE(func), VISIT())
         friend class verifier;
         friend class exprMaker;
 

@@ -5,7 +5,7 @@
 namespace nm {
 
     class _nout inputFunc: public baseFunc {
-        NM(CLASS(inputFunc, baseFunc))
+        NM(ME(inputFunc, baseFunc), CLONE(inputFunc))
 
     public:
         using super::getParams;

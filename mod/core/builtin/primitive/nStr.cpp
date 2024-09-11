@@ -16,7 +16,7 @@ namespace nm {
     namespace {
 
         class getSeqFunc: public baseFunc {
-            NM(CLASS(getSeqFunc, baseFunc))
+            NM(ME(getSeqFunc, baseFunc), CLONE(getSeqFunc))
 
         public:
             str run(const args& a) override {
@@ -115,7 +115,7 @@ namespace nm {
         };
 
         class iterateFunc: public baseFunc {
-            NM(CLASS(iterateFunc, baseFunc))
+            NM(ME(iterateFunc, baseFunc), CLONE(iterateFunc))
 
         public:
             str getRet() const override {
@@ -148,7 +148,7 @@ namespace nm {
         };
 
         class getElemType: public baseFunc {
-            NM(CLASS(getElemType, baseFunc))
+            NM(ME(getElemType, baseFunc), CLONE(getElemType))
 
         public:
             str getRet() const override {

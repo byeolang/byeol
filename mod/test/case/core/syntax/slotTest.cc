@@ -9,7 +9,7 @@ namespace {
     struct slotTest: public namuSyntaxTest {};
 
     class myfunc: public func {
-        NM(CLASS(myfunc, func))
+        NM(ME(myfunc, func))
 
         class myBlock: public blockExpr {
             NM(CLASS(myBlock, blockExpr))
@@ -60,7 +60,7 @@ namespace {
     };
 
     class nativeFunc: public baseFunc {
-        NM(CLASS(nativeFunc, baseFunc))
+        NM(ME(nativeFunc, baseFunc), CLONE(nativeFunc))
 
     public:
         nativeFunc(): super(*new modifier) {}
