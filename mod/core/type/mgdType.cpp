@@ -4,11 +4,15 @@ namespace nm {
 
     NM(DEF_ME(mgdType))
 
-    me::mgdType(const std::string& name, const type& super): _name(name), _isAdt(false) { _initSupers(super); }
+    me::mgdType(const std::string& name, const type& super): _name(name), _isAdt(false) {
+        _initSupers(super);
+    }
 
-    me::mgdType(const std::string& name, const type& super, const params& ps): me(name, super, ps, false) {}
+    me::mgdType(const std::string& name, const type& super, const params& ps):
+        me(name, super, ps, false) {}
 
-    me::mgdType(const std::string& name, const type& super, const params& ps, nbool isAdt): _name(name), _isAdt(isAdt) {
+    me::mgdType(const std::string& name, const type& super, const params& ps, nbool isAdt):
+        _name(name), _isAdt(isAdt) {
         _initSupers(super);
         getParams().add(ps);
     }

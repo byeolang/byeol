@@ -13,16 +13,24 @@ namespace nm {
     NM(DEF_ME(func), DEF_VISIT())
 
     me::func(const modifier& mod, const params& ps, const node& retType):
-        super(mod), _params(ps), _retType(retType), _blk(new blockExpr()) {}
+        super(mod),
+        _type("func", ttype<super>::get(), ps),
+        _retType(retType),
+        _blk(new blockExpr()) {}
 
     me::func(const modifier& mod, const params& ps, const node* retType):
-        super(mod), _params(ps), _retType(retType), _blk(new blockExpr()) {}
+        super(mod),
+        _type("func", ttype<super>::get(), ps),
+        _retType(retType),
+        _blk(new blockExpr()) {}
 
     me::func(const modifier& mod, const params& ps, const node& retType, const blockExpr& newBlock):
-        super(mod), _params(ps), _retType(retType), _blk(newBlock) {}
+        super(mod), _type("func", ttype<super>::get(), ps), _retType(retType), _blk(newBlock) {}
 
     me::func(const modifier& mod, const params& ps, const node* retType, const blockExpr& newBlock):
-        super(mod), _params(ps), _retType(retType), _blk(newBlock) {}
+        super(mod), _type("func", ttype<super>::get(), ps), _retType(retType), _blk(newBlock) {}
+
+    const ntype& me::getType() const { return _type; }
 
     blockExpr& me::getBlock() { return *_blk; }
 
@@ -35,8 +43,6 @@ namespace nm {
     nbool me::setRet(const node& newRet) { return _retType.bind(newRet); }
 
     scope& me::subs() { return _shares; }
-
-    params& me::getParams() { return _params; }
 
     str me::run(const args& a) {
         if(nul(a)) return NM_E("a == null"), str();
@@ -132,10 +138,6 @@ namespace nm {
 
     clonable* me::cloneDeep() const {
         me* ret = (me*) clone();
-        // params:
-        ret->_params.rel();
-        for(auto e = _params.begin(); e; ++e)
-            ret->_params.add((param*) e->cloneDeep());
         // shares:
         ret->_shares.rel();
         for(auto e = _shares.begin(); e; ++e)

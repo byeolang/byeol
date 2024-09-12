@@ -26,6 +26,12 @@ namespace nm {
             "can't marshal one of this func's parameter ntypes.");
 
     public:
+        const ntype& getType() const override {
+            static mgdType inner("bridgeFunc", ttype<super>::get(),
+                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...));
+            return inner;
+        }
+
         using super::run;
 
         str run(const args& a) override {
@@ -37,25 +43,6 @@ namespace nm {
         }
 
         nbool setRet(const node& newRet) override { return _ret.bind(newRet); }
-
-        using super::getParams;
-        params& getParams() override {
-            if(!_params) {
-                _params.bind(new params());
-                (_params->add(
-                     new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())),
-                    ...);
-            }
-            return *_params;
-        }
-
-        clonable* cloneDeep() const override {
-            me* ret = (me*) clone();
-            const params& ps = getParams();
-            if(!nul(ps)) ret->_params.bind((params*) ps.cloneDeep());
-
-            return ret;
-        }
 
     protected:
         virtual str _runNative(args& args) = 0;
@@ -80,7 +67,6 @@ namespace nm {
 
     protected:
         fptrType _fptr;
-        mutable tstr<params> _params;
         mutable str _ret;
     };
 

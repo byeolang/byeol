@@ -27,8 +27,7 @@ namespace nm {
         if(ps.len() != theirPs.len()) return false;
 
         for(int n = 0; n < ps.len(); n++)
-            if(ps[n].getOrigin().getType() != theirPs[n].getOrigin().getType())
-                return false;
+            if(ps[n].getOrigin().getType() != theirPs[n].getOrigin().getType()) return false;
         return true;
     }
 

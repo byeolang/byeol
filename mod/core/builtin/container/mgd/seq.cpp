@@ -71,11 +71,9 @@ namespace nm {
                 return inner;
             }
 
-            using super::getParams;
-            params& getParams() override {
-                static params inner;
-                if(inner.len() <= 0) inner.add(new param("step", *new nInt()));
-
+            const ntype& getType() const override {
+                static mgdType inner("iterate", ttype<super>::get(),
+                    params(*new param("step", *new nInt())));
                 return inner;
             }
 
@@ -102,6 +100,11 @@ namespace nm {
             NM(ME(getElemTypeFunc, baseFunc), CLONE(getElemTypeFunc))
 
         public:
+            const ntype& getType() const override {
+                static mgdType inner("getElemType", ttype<super>::get());
+                return inner;
+            }
+
             str getRet() const override {
                 static str inner(new nInt());
                 return inner;

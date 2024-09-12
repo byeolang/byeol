@@ -1,6 +1,7 @@
 #pragma once
 
 #include "expr.hpp"
+#include "../type/mgdType.hpp"
 
 namespace nm {
 
@@ -10,35 +11,14 @@ namespace nm {
     class visitor;
 
     class _nout baseFunc: public expr {
-
-        class _nout funcType : public ttype<baseFunc>, public clonable {
-            NM(ME(funcType, ttype<me>), CLONE(funcType))
-
-        public:
-            funcType(const baseFunc& owner);
-
-        public:
-            const baseFunc& getOwner() const;
-
-        protected:
-            params& getParams() override;
-            str getRet() const;
-
-        private:
-            tstr<baseFunc> _owner;
-        };
-
-        NM(ME(baseFunc, expr), INIT_META(baseFunc), VISIT())
-        typedef ntype metaType;
+        NM(ADT(baseFunc, expr), VISIT())
 
     public:
-        baseFunc();
+        baseFunc() = default;
         baseFunc(const modifier& mod);
 
     public:
         priorType prioritize(const args& a) const override;
-
-        const ntype& getType() const override;
 
         /// @return parameters of run() func.
         ///         parameter is just a type. and I don't care about the value of each parameters.
@@ -71,7 +51,6 @@ namespace nm {
 
     private:
         tstr<modifier> _mod;
-        funcType _type;
 
     public:
         static inline const std::string ME = "me";

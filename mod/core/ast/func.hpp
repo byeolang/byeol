@@ -24,15 +24,14 @@ namespace nm {
             const blockExpr& newBlock);
 
     public:
+        const ntype& getType() const override;
+
         blockExpr& getBlock();
         const blockExpr& getBlock() const;
         void setBlock(const blockExpr& new1);
         str getRet() const override;
         nbool setRet(const node& newRet) override;
         scope& subs() override;
-
-        using super::getParams;
-        params& getParams() override;
 
         using super::run;
         str run(const args& a) override;
@@ -53,7 +52,7 @@ namespace nm {
         void _runEnds();
 
     private:
-        params _params;
+        mgdType _type;
         scope _shares;
         str _retType;
         tstr<blockExpr> _blk;

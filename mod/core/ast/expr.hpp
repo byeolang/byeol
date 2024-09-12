@@ -29,7 +29,7 @@ namespace nm {
         scope& subs() override;
 
         nbool isImpli(const type& to) const override;
-        virtual str asImpli(const type& to) const override;
+        str asImpli(const type& to) const override;
 
         /// run of expr class get treated like 'evaluate' in namu.
         /// it should not take any argument to run()

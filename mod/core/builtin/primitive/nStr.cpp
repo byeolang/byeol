@@ -32,9 +32,9 @@ namespace nm {
                 return me.substr(start, end);
             }
 
-            using super::getParams;
-            params& getParams() override {
-                static params inner{*new param("range", new seq(nInt(0), nInt(1)))};
+            const ntype& getType() const override {
+                static mgdType inner("get", ttype<baseFunc>::get(),
+                    params(*new param("range", new seq(nInt(0), nInt(1)))));
                 return inner;
             }
 
@@ -123,10 +123,9 @@ namespace nm {
                 return inner;
             }
 
-            using super::getParams;
-            params& getParams() override {
-                static params inner;
-                if(inner.len() <= 0) inner.add(new param("step", *new nInt()));
+            const ntype& getType() const override {
+                static mgdType inner("iterate", ttype<super>::get(),
+                    params(*new param("step", *new nInt())));
                 return inner;
             }
 
@@ -151,6 +150,11 @@ namespace nm {
             NM(ME(getElemType, baseFunc), CLONE(getElemType))
 
         public:
+            const ntype& getType() const override {
+                static mgdType inner("getElemType", ttype<super>::get());
+                return inner;
+            }
+
             str getRet() const override {
                 static str inner(new nChar());
                 return inner;

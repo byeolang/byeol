@@ -23,8 +23,8 @@ namespace nm {
     };
 
     template <typename T, bool Signed, int Size>
-    using tifIntType =
-        typename std::enable_if<std::is_integral_v<T> == true && std::is_signed<T>{} == Signed && sizeof(T) * 8 == Size>::type;
+    using tifIntType = typename std::enable_if<std::is_integral_v<T> == true &&
+        std::is_signed<T>{} == Signed && sizeof(T) * 8 == Size>::type;
 
     template <typename T> noWrap<T> __convert__(T rhs, tifIntType<T, true, 32>* = nullptr) {
         return rhs;

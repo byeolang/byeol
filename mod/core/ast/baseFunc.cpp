@@ -11,20 +11,7 @@ namespace nm {
 
     NM(DEF_ME(baseFunc), DEF_VISIT())
 
-    me::funcType::funcType(const baseFunc& owner): _owner(owner) {}
-
-    const me& me::funcType::getOwner() const { return *_owner; }
-
-    params& me::funcType::getParams() {
-        static params dummy;
-        return _owner ? _owner->getParams() : dummy;
-    }
-
-    str me::funcType::getRet() const { return _owner ? _owner->getRet() : str(); }
-
-    me::baseFunc(): _type(*this) {}
-
-    me::baseFunc(const modifier& mod): _mod(mod), _type(*this) {}
+    me::baseFunc(const modifier& mod): _mod(mod) {}
 
     priorType me::prioritize(const args& a) const {
         const params& ps = getParams();
@@ -50,8 +37,6 @@ namespace nm {
         return max;
     }
 
-    const ntype& me::getType() const { return _type; }
-
     priorType me::_prioritize(const node& param, const node& arg) const {
         if(arg.getType() == param.getType()) return EXACT_MATCH;
         if(_isNatureNumber(param) && _isNatureNumber(arg)) return NUMERIC_MATCH;
@@ -60,10 +45,7 @@ namespace nm {
         return NO_MATCH;
     }
 
-    params& me::getParams() {
-        static params inner;
-        return inner;
-    }
+    params& me::getParams() { return ((ntype&) getType()).getParams(); }
 
     nbool me::setRet(const node& newRet) { return false; }
 

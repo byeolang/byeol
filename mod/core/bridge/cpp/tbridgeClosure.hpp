@@ -22,6 +22,12 @@ namespace nm {
     public:
         using super::run;
 
+        const ntype& getType() const override {
+            static mgdType inner("ctor", ttype<super>::get(),
+                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...));
+            return inner;
+        }
+
         str run(const args& a) override {
             args tray;
             args& evaluated = _evalArgs(a, tray);
@@ -33,25 +39,6 @@ namespace nm {
         str getRet() const override {
             static str ret(
                 Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::onGetRet());
-            return ret;
-        }
-
-        using super::getParams;
-        params& getParams() override {
-            if(!_params) {
-                _params.bind(new params());
-                (_params->add(
-                     new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())),
-                    ...);
-            }
-            return *_params;
-        }
-
-        clonable* cloneDeep() const override {
-            me* ret = (me*) clone();
-            const params& ps = getParams();
-            if(!nul(ps)) ret->_params.bind((params*) ps.cloneDeep());
-
             return ret;
         }
 
@@ -81,9 +68,7 @@ namespace nm {
             return tray;
         }
 
-
     private:
-        mutable tstr<params> _params;
         std::function<Ret(T&, Args...)> _closure;
     };
 
@@ -98,6 +83,12 @@ namespace nm {
         tbridgeClosure(std::function<void(T&, Args...)>&& closure): _closure(closure) {}
 
     public:
+        const ntype& getType() const override {
+            static mgdType inner("ctor", ttype<super>::get(),
+                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...));
+            return inner;
+        }
+
         using super::run;
 
         str run(const args& a) override {
@@ -110,25 +101,6 @@ namespace nm {
 
         str getRet() const override {
             static str ret(Marshaling<void, false>::onGetRet());
-            return ret;
-        }
-
-        using super::getParams;
-        params& getParams() override {
-            if(!_params) {
-                _params.bind(new params());
-                (_params->add(
-                     new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())),
-                    ...);
-            }
-            return *_params;
-        }
-
-        clonable* cloneDeep() const override {
-            me* ret = (me*) clone();
-            const params& ps = getParams();
-            if(!nul(ps)) ret->_params.bind((params*) ps.cloneDeep());
-
             return ret;
         }
 
@@ -158,9 +130,7 @@ namespace nm {
             return tray;
         }
 
-
     private:
-        mutable tstr<params> _params;
         std::function<void(T&, Args...)> _closure;
     };
 } // namespace nm

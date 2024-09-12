@@ -46,11 +46,9 @@ namespace nm {
                 return inner;
             }
 
-            using super::getParams;
-            params& getParams() override {
-                static params inner;
-                if(inner.len() <= 0) inner.add(new param("step", *new nInt()));
-
+            const ntype& getType() const override {
+                static mgdType inner("iterate", ttype<super>::get(),
+                    params(*new param("step", *new nInt())));
                 return inner;
             }
 
@@ -78,6 +76,11 @@ namespace nm {
             getElemTypeFunc(): _ret(new getExpr(TYPENAME)) {}
 
         public:
+            const ntype& getType() const override {
+                static mgdType inner("getElemType", ttype<super>::get());
+                return inner;
+            }
+
             str getRet() const override { return _ret; }
 
             str run(const args& a) override { return _ret ? _ret->as<node>() : *_ret; }
@@ -184,9 +187,9 @@ namespace nm {
         public:
             str getRet() const override { return *_org; }
 
-            using super::getParams;
-            params& getParams() override {
-                static params inner{*new param("src", *_org)};
+            const ntype& getType() const override {
+                static mgdType inner("copyctor", ttype<super>::get(),
+                    params(*new param("rhs", *_org)));
                 return inner;
             }
 

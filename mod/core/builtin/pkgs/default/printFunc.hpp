@@ -9,9 +9,8 @@ namespace nm {
         NM(ME(printFunc, baseFunc), CLONE(printFunc))
 
     public:
-        using super::getParams;
-        params& getParams() override {
-            static params inner(*new param("msg", new T()));
+        const ntype& getType() const override {
+            static mgdType inner("print", ttype<super>::get(), params(*new param("msg", new T())));
             return inner;
         }
 

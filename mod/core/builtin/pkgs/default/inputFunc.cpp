@@ -11,8 +11,8 @@ namespace nm {
 
     NM(DEF_ME(inputFunc))
 
-    params& me::getParams() {
-        static params inner;
+    const ntype& me::getType() const {
+        static mgdType inner("input", ttype<super>::get());
         return inner;
     }
 

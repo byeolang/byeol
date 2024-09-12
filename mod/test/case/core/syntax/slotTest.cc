@@ -53,6 +53,7 @@ namespace {
         }
 
         using super::getParams;
+
         params& getParams() override { return _params; }
 
     private:
@@ -65,6 +66,7 @@ namespace {
     public:
         nativeFunc(): super(*new modifier) {}
 
+    public:
         nbool isRun() const { return _executed; }
 
         void setLambda(function<nbool(const ucontainable&, const frames&)> lambda) {
@@ -79,6 +81,7 @@ namespace {
         }
 
         using super::getParams;
+
         params& getParams() override { return _params; }
 
         str run(const args& a) override {

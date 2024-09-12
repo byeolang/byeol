@@ -30,6 +30,7 @@ namespace {
         }
 
         using super::getParams;
+
         params& getParams() override {
             static params inner;
             return inner;

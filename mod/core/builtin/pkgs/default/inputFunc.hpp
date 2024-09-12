@@ -8,8 +8,7 @@ namespace nm {
         NM(ME(inputFunc, baseFunc), CLONE(inputFunc))
 
     public:
-        using super::getParams;
-        params& getParams() override;
+        const ntype& getType() const override;
 
         str getRet() const override;
 

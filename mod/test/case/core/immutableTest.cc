@@ -65,6 +65,7 @@ namespace {
         }
 
         using super::getParams;
+
         params& getParams() override { return _params; }
 
     private:
