@@ -94,13 +94,15 @@ namespace nm {
         const static std::string paramName = "typeParam";
     } // namespace
 
-    me::arr(): super(new narr()) { _type.getParams().add(*new param(paramName, *new obj())); }
+    me::arr():
+        super(new narr()),
+        _type("arr", ttype<super>::get(), params(*new param(paramName, *new obj()))) {}
 
-    me::arr(const node& newType): super(new narr()) {
-        _type.getParams().add(*new param(paramName, newType));
-    }
+    me::arr(const node& newType):
+        super(new narr()),
+        _type("arr", ttype<super>::get(), params(*new param(paramName, *new obj()))) {}
 
-    me::arr(const me& rhs): super(rhs) { _type.getParams().add(rhs._type.getParams()[0]); }
+    me::arr(const me& rhs): super(rhs), _type(rhs._type) {}
 
     node& me::operator[](nidx n) { return get()[n]; }
 

@@ -12,9 +12,8 @@ namespace nm {
         me(name, super, ps, false) {}
 
     me::mgdType(const std::string& name, const type& super, const params& ps, nbool isAdt):
-        _name(name), _isAdt(isAdt) {
+        _name(name), _params(ps), _isAdt(isAdt) {
         _initSupers(super);
-        getParams().add(ps);
     }
 
     me::mgdType(const std::string& name, const types& supersFromRhs):

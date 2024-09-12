@@ -111,6 +111,6 @@ namespace nm {
     private:
         static inline cache _cache;
         mutable tstr<baseObj> _org;
-        ttype<arr> _type;
+        mgdType _type;
     };
 } // namespace nm

@@ -189,7 +189,7 @@ namespace nm {
     }
 
     params& me::getParams() {
-        static params dummy;
+        static dumParams dummy;
         return dummy;
     }
 } // namespace nm
