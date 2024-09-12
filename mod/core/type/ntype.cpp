@@ -9,34 +9,27 @@ namespace nm {
 
     NM_DEF_ME(ntype)
 
-    me::ntype(): _params(nullptr) {}
-
-    me::ntype(const me& rhs): _params(nullptr) { _assign(rhs); }
-
     nbool me::operator==(const type& rhs) const {
         if(!super::operator==(rhs)) return false;
 
         const ntype& cast = dynamic_cast<const ntype&>(rhs);
         if(nul(cast)) return false;
+
         // if there is no specified bean type, don't bean type check:
         //  mostly, bean type should specified. except for binder. so if I return false
         //  in this case,
         //      tstr<arr> wrap(new tarr<nInt>())
         //  above code doesn't work.
-        if(nul(_params) || !_params->len()) return true;
-        if(nul(cast._params)) return false;
-        if(_params->len() != cast._params->len()) return false;
+        const params& ps = getParams();
+        const params& theirPs = cast.getParams();
+        if(nul(ps) || !ps.len()) return true;
+        if(nul(theirPs)) return false;
+        if(ps.len() != theirPs.len()) return false;
 
-        for(int n = 0; n < _params->len(); n++)
-            if((*_params)[n].getOrigin().getType() != (*cast._params)[n].getOrigin().getType())
+        for(int n = 0; n < ps.len(); n++)
+            if(ps[n].getOrigin().getType() != theirPs[n].getOrigin().getType())
                 return false;
         return true;
-    }
-
-    me& me::operator=(const me& rhs) {
-        if(this == &rhs) return *this;
-
-        return _assign(rhs);
     }
 
     nbool me::isImpli(const type& to) const { return _getImpliAses().is(*this, to); }
@@ -196,18 +189,8 @@ namespace nm {
         return ttype<nVoid>::get();
     }
 
-    me& me::_assign(const me& rhs) {
-        if(_params) delete _params;
-        _params = !nul(rhs._params) ? (params*) rhs._params->clone() : nullptr;
-        return *this;
-    }
-
     params& me::getParams() {
-        if(nul(_params)) _params = new params();
-        return *_params;
-    }
-
-    me::~ntype() {
-        if(_params) delete _params;
+        static params dummy;
+        return dummy;
     }
 } // namespace nm

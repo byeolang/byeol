@@ -19,14 +19,10 @@ namespace nm {
         friend class genericOrigin;
 
     public:
-        ntype();
-        ntype(const me& rhs);
-
-        ~ntype() override;
+        ntype() = default;
 
     public:
         nbool operator==(const type& rhs) const override;
-        me& operator=(const me& rhs);
 
     public:
         // ntype:
@@ -76,10 +72,6 @@ namespace nm {
     private:
         static deducers* _makeDeducers();
         static const ntype& _deduceSuperType(const ntype& l, const ntype& r);
-        me& _assign(const me& rhs);
-
-    private:
-        params* _params;
     };
 
     typedef std::vector<const ntype*> ntypes;
