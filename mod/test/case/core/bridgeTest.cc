@@ -120,7 +120,11 @@ TEST_F(bridgeTest, passObj) {
     str winOpenGL(tbridger<openGL>::make(new openGL()));
 
     winBridge->run("setY", args{narr{*new nInt(20)}});
-    str res = winOpenGL->run("init", args{narr{*winBridge}});
+    str res = winBridge->run("getY");
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 20);
+
+    res = winOpenGL->run("init", args{narr{*winBridge}});
     ASSERT_TRUE(res);
     ASSERT_EQ(res->cast<nint>(), 25);
 }

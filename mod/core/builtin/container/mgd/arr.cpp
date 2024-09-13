@@ -100,7 +100,7 @@ namespace nm {
 
     me::arr(const node& newType):
         super(new narr()),
-        _type("arr", ttype<me>::get(), params(*new param(paramName, *new obj()))) {}
+        _type("arr", ttype<me>::get(), params(*new param(paramName, newType))) {}
 
     me::arr(const me& rhs): super(rhs), _type(rhs._type) {}
 

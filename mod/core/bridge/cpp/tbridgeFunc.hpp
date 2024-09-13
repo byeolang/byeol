@@ -98,7 +98,7 @@ namespace nm {
     class tbridgeFunc<void, T, false, Marshaling, Args...>
         : public tbaseBridgeFunc<void, T, Marshaling, Args...> {
         typedef tbaseBridgeFunc<void, T, Marshaling, Args...> _super_;
-        NM(CLASS(tbridgeFunc, _super_))
+        NM(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
         tbridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
