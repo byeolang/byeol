@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../ast/obj.hpp"
 #include "../ast/params.hpp"
 #include "ntype.hpp"
 

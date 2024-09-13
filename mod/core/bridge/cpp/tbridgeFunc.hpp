@@ -18,7 +18,12 @@ namespace nm {
         ///               the instance refered by this pointer should be managed at somewhere.
         ///               that is, this class will just get the value of address and won't release
         ///               memory.
-        tbaseBridgeFunc(fptrType fptr): super(), _fptr(fptr) {}
+        tbaseBridgeFunc(fptrType fptr):
+            super(),
+            _fptr(fptr),
+            _type("bridgeFunc", ttype<me>::get(),
+                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...)) {
+        }
 
     public:
         static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal()) ==
@@ -27,9 +32,7 @@ namespace nm {
 
     public:
         const ntype& getType() const override {
-            static mgdType inner("bridgeFunc", ttype<me>::get(),
-                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...));
-            return inner;
+            return _type;
         }
 
         using super::run;
@@ -68,6 +71,7 @@ namespace nm {
     protected:
         fptrType _fptr;
         mutable str _ret;
+        mutable mgdType _type;
     };
 
     template <typename Ret, typename T, nbool isBaseObj,

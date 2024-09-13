@@ -1,4 +1,5 @@
 #include "mgdType.hpp"
+#include "../ast/obj.hpp"
 
 namespace nm {
 

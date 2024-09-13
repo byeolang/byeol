@@ -22,7 +22,7 @@ namespace nm {
     public:
         typedef typename tucontainable<node>::iter iter;
         typedef typename tucontainable<node>::iteration iteration;
-        typedef std::map<const type*, tstr<scope>> cache;
+        typedef std::map<std::string, tstr<scope>> cache;
         friend class starter; // for _cache
         friend struct ::arrTest;
 

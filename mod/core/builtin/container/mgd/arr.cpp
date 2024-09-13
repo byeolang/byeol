@@ -99,8 +99,7 @@ namespace nm {
         _type("arr", ttype<me>::get(), params(*new param(paramName, *new obj()))) {}
 
     me::arr(const node& newType):
-        super(new narr()),
-        _type("arr", ttype<me>::get(), params(*new param(paramName, newType))) {}
+        super(new narr()), _type("arr", ttype<me>::get(), params(*new param(paramName, newType))) {}
 
     me::arr(const me& rhs): super(rhs), _type(rhs._type) {}
 
@@ -110,11 +109,11 @@ namespace nm {
 
     scope& me::subs() {
         static dumScope dummy;
-        const auto& beans = getType().getParams();
-        if(beans.isEmpty()) return dummy;
+        const auto& ps = getType().getParams();
+        if(ps.isEmpty()) return dummy;
 
-        const node& paramType = beans[0].getOrigin();
-        auto e = _cache.find(&paramType.getType());
+        const node& paramType = ps[0].getOrigin();
+        auto e = _cache.find(paramType.getType().getName());
         if(e != _cache.end()) return e->second.get();
 
         // this is first try to generalize type T:
@@ -209,7 +208,7 @@ namespace nm {
 
     scope& me::_defGeneric(const node& paramType) {
         scope* clone = (scope*) _getOriginScope().cloneDeep();
-        _cache.insert({&paramType.getType(), clone}); // this avoids infinite loop.
+        _cache.insert({paramType.getType().getName(), clone}); // this avoids infinite loop.
         clone->add(baseObj::CTOR_NAME,
             new tbridgeClosure<arr*, arr, tmarshaling>(
                 [&paramType](arr&) -> arr* { return new me(paramType); }));
