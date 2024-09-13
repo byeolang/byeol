@@ -18,7 +18,7 @@ namespace nm {
     nInt me::operator[](nidx n) { return get()[n]; }
 
     const ntype& me::getType() const {
-        static mgdType inner("seq", ttype<super>::get(),
+        static mgdType inner("seq", ttype<me>::get(),
             params(*new param("typeParam", *new nInt())));
         return inner;
     }
@@ -68,7 +68,7 @@ namespace nm {
             }
 
             const ntype& getType() const override {
-                static mgdType inner("iterate", ttype<super>::get(),
+                static mgdType inner("iterate", ttype<me>::get(),
                     params(*new param("step", *new nInt())));
                 return inner;
             }
@@ -97,7 +97,7 @@ namespace nm {
 
         public:
             const ntype& getType() const override {
-                static mgdType inner("getElemType", ttype<super>::get());
+                static mgdType inner("getElemType", ttype<me>::get());
                 return inner;
             }
 

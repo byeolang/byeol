@@ -23,6 +23,10 @@ namespace nm {
         explicit func(const modifier& mod, const params& ps, const node* retType,
             const blockExpr& newBlock);
 
+    protected:
+        explicit func(const modifier& mod, const mgdType& newType, const node& retType,
+            const blockExpr& newBlock);
+
     public:
         const ntype& getType() const override;
 

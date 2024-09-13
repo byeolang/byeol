@@ -27,7 +27,7 @@ namespace nm {
 
     public:
         const ntype& getType() const override {
-            static mgdType inner("bridgeFunc", ttype<super>::get(),
+            static mgdType inner("bridgeFunc", ttype<me>::get(),
                 params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...));
             return inner;
         }

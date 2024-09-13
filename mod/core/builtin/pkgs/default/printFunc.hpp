@@ -10,7 +10,7 @@ namespace nm {
 
     public:
         const ntype& getType() const override {
-            static mgdType inner("print", ttype<super>::get(), params(*new param("msg", new T())));
+            static mgdType inner("print", ttype<me>::get(), params(*new param("msg", new T())));
             return inner;
         }
 

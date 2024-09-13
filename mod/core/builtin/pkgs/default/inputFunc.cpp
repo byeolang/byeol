@@ -12,7 +12,7 @@ namespace nm {
     NM(DEF_ME(inputFunc))
 
     const ntype& me::getType() const {
-        static mgdType inner("input", ttype<super>::get());
+        static mgdType inner("input", ttype<me>::get());
         return inner;
     }
 

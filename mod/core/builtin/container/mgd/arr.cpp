@@ -47,7 +47,7 @@ namespace nm {
             }
 
             const ntype& getType() const override {
-                static mgdType inner("iterate", ttype<super>::get(),
+                static mgdType inner("iterate", ttype<me>::get(),
                     params(*new param("step", *new nInt())));
                 return inner;
             }
@@ -77,7 +77,7 @@ namespace nm {
 
         public:
             const ntype& getType() const override {
-                static mgdType inner("getElemType", ttype<super>::get());
+                static mgdType inner("getElemType", ttype<me>::get());
                 return inner;
             }
 
@@ -96,11 +96,11 @@ namespace nm {
 
     me::arr():
         super(new narr()),
-        _type("arr", ttype<super>::get(), params(*new param(paramName, *new obj()))) {}
+        _type("arr", ttype<me>::get(), params(*new param(paramName, *new obj()))) {}
 
     me::arr(const node& newType):
         super(new narr()),
-        _type("arr", ttype<super>::get(), params(*new param(paramName, *new obj()))) {}
+        _type("arr", ttype<me>::get(), params(*new param(paramName, *new obj()))) {}
 
     me::arr(const me& rhs): super(rhs), _type(rhs._type) {}
 
@@ -190,7 +190,7 @@ namespace nm {
             str getRet() const override { return *_org; }
 
             const ntype& getType() const override {
-                static mgdType inner("copyctor", ttype<super>::get(),
+                static mgdType inner("copyctor", ttype<me>::get(),
                     params(*new param("rhs", *_org)));
                 return inner;
             }

@@ -23,7 +23,7 @@ namespace nm {
         using super::run;
 
         const ntype& getType() const override {
-            static mgdType inner("ctor", ttype<super>::get(),
+            static mgdType inner("ctor", ttype<me>::get(),
                 params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...));
             return inner;
         }
@@ -84,7 +84,7 @@ namespace nm {
 
     public:
         const ntype& getType() const override {
-            static mgdType inner("ctor", ttype<super>::get(),
+            static mgdType inner("ctor", ttype<me>::get(),
                 params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...));
             return inner;
         }

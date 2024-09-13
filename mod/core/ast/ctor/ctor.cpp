@@ -5,7 +5,7 @@ namespace nm {
     NM(DEF_ME(ctor), DEF_VISIT())
 
     me::ctor(const modifier& mod, const params& ps, const blockExpr& blk):
-        super(mod, ps, nullptr, blk) {}
+        super(mod, mgdType(baseObj::CTOR_NAME, ttype<me>::get(), ps), nulOf<node>(), blk) {}
 
     str me::run(const args& a) {
         super::run(a);

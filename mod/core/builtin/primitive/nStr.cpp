@@ -124,7 +124,7 @@ namespace nm {
             }
 
             const ntype& getType() const override {
-                static mgdType inner("iterate", ttype<super>::get(),
+                static mgdType inner("iterate", ttype<me>::get(),
                     params(*new param("step", *new nInt())));
                 return inner;
             }
@@ -151,7 +151,7 @@ namespace nm {
 
         public:
             const ntype& getType() const override {
-                static mgdType inner("getElemType", ttype<super>::get());
+                static mgdType inner("getElemType", ttype<me>::get());
                 return inner;
             }
 

@@ -14,21 +14,24 @@ namespace nm {
 
     me::func(const modifier& mod, const params& ps, const node& retType):
         super(mod),
-        _type("func", ttype<super>::get(), ps),
+        _type("func", ttype<me>::get(), ps),
         _retType(retType),
         _blk(new blockExpr()) {}
 
     me::func(const modifier& mod, const params& ps, const node* retType):
         super(mod),
-        _type("func", ttype<super>::get(), ps),
+        _type("func", ttype<me>::get(), ps),
         _retType(retType),
         _blk(new blockExpr()) {}
 
     me::func(const modifier& mod, const params& ps, const node& retType, const blockExpr& newBlock):
-        super(mod), _type("func", ttype<super>::get(), ps), _retType(retType), _blk(newBlock) {}
+        super(mod), _type("func", ttype<me>::get(), ps), _retType(retType), _blk(newBlock) {}
 
     me::func(const modifier& mod, const params& ps, const node* retType, const blockExpr& newBlock):
-        super(mod), _type("func", ttype<super>::get(), ps), _retType(retType), _blk(newBlock) {}
+        super(mod), _type("func", ttype<me>::get(), ps), _retType(retType), _blk(newBlock) {}
+
+    me::func(const modifier& mod, const mgdType& newType, const node& retType, const blockExpr& newBlock):
+        super(mod), _type(newType), _retType(retType), _blk(newBlock) {}
 
     const ntype& me::getType() const { return _type; }
 
