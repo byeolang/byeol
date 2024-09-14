@@ -18,6 +18,9 @@ namespace nm {
         mgdType(const std::string& name, const type& super, const params& ps, nbool isAdt);
         mgdType(const std::string& name, const types& supersFromRhs);
 
+    private:
+        mgdType(const std::string& name, const types& supers, const types& subs, const params& ps, nbool isAdt);
+
     public:
         nbool isTemplate() const override;
         nbool isAbstract() const override;
@@ -28,6 +31,8 @@ namespace nm {
         void* make() const override;
 
         ncnt size() const override;
+
+        clonable* cloneDeep() const override;
 
         using super::getParams;
         params& getParams() override;

@@ -17,6 +17,10 @@ namespace nm {
         _initSupers(super);
     }
 
+    me::mgdType(const std::string& name, const types& supers, const types& subs, const params& ps,
+        nbool isAdt):
+        _name(name), _supers(supers), _subs(subs), _params(ps), _isAdt(isAdt) {}
+
     me::mgdType(const std::string& name, const types& supersFromRhs):
         _name(name), _supers(supersFromRhs) {}
 
@@ -36,6 +40,11 @@ namespace nm {
     void* me::make() const { return nullptr; }
 
     ncnt me::size() const { return 0; }
+
+    clonable* me::cloneDeep() const {
+        // TODO: you may need to cloneDeep those vectors, _supers, _subs.
+        return new mgdType(_name, _supers, _subs, *(params*) _params.cloneDeep(), _isAdt);
+    }
 
     params& me::getParams() { return _params; }
 

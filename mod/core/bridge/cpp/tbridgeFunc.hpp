@@ -19,11 +19,13 @@ namespace nm {
         ///               that is, this class will just get the value of address and won't release
         ///               memory.
         tbaseBridgeFunc(fptrType fptr):
-            super(),
-            _fptr(fptr),
-            _type("bridgeFunc", ttype<me>::get(),
-                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...)) {
-        }
+            me(fptr, str(),
+                mgdType("bridgeFunc", ttype<me>::get(),
+                    params(*new param("",
+                        Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...))) {}
+
+        tbaseBridgeFunc(fptrType fptr, str&& ret, mgdType&& newType):
+            _fptr(fptr), _ret(ret), _type(newType) {}
 
     public:
         static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal()) ==
@@ -31,9 +33,7 @@ namespace nm {
             "can't marshal one of this func's parameter ntypes.");
 
     public:
-        const ntype& getType() const override {
-            return _type;
-        }
+        const ntype& getType() const override { return _type; }
 
         using super::run;
 
@@ -88,6 +88,10 @@ namespace nm {
             if(!this->_ret) this->_ret.bind(Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet());
 
             return this->_ret;
+        }
+
+        clonable* cloneDeep() const override {
+            return new me()
         }
 
     protected:
