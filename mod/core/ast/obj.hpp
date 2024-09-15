@@ -37,6 +37,7 @@ namespace nm {
         tstr<nbicontainer> mySubs() const override;
 
         state getState() const override;
+        void setState(state new1) override;
 
         scope& getShares();
         const scope& getShares() const NM_CONST_FUNC(getShares())

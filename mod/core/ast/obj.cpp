@@ -80,6 +80,11 @@ namespace nm {
         return LINKED;
     }
 
+    void me::setState(state new1) {
+        if(!_org) return;
+        _org->setState(new1);
+    }
+
     scope& me::getShares() { return safeGet(_subs, getNext(), cast<scope>()); }
 
     scope::super& me::getOwns() { return safeGet(_subs, getContainer()); }
