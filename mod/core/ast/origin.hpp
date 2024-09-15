@@ -46,7 +46,7 @@ namespace nm {
         const ntype& getType() const override;
         const node& getSubPack() const override;
         const src& getSrc() const override;
-        clonable* cloneDeep() const override;
+        void onCloneDeep(const clonable& from) override;
         baseObj* make() const override;
         using super::getCallComplete;
         node& getCallComplete() override;

@@ -64,10 +64,8 @@ namespace nm {
 
     void me::setMe(const node& newMe) { _me.bind(newMe); }
 
-    clonable* me::cloneDeep() const {
-        me* ret = (me*) clone();
-        if(_args) ret->_args.bind((args*) _args->cloneDeep());
-
-        return ret;
+    void me::onCloneDeep(const clonable& from) {
+        me& rhs = (me&) from;
+        if(rhs._args) _args.bind((args*) rhs._args->cloneDeep());
     }
 } // namespace nm

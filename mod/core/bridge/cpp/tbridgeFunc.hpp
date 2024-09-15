@@ -19,13 +19,10 @@ namespace nm {
         ///               that is, this class will just get the value of address and won't release
         ///               memory.
         tbaseBridgeFunc(fptrType fptr):
-            me(fptr, str(),
-                mgdType("bridgeFunc", ttype<me>::get(),
-                    params(*new param("",
-                        Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...))) {}
-
-        tbaseBridgeFunc(fptrType fptr, str&& ret, mgdType&& newType):
-            _fptr(fptr), _ret(ret), _type(newType) {}
+            _fptr(fptr),
+            _type("bridgeFunc", ttype<me>::get(),
+                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...)) {
+        }
 
     public:
         static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal()) ==
@@ -46,6 +43,11 @@ namespace nm {
         }
 
         nbool setRet(const node& newRet) override { return _ret.bind(newRet); }
+
+        void onCloneDeep(const clonable& from) override {
+            me& rhs = (me&) from;
+            this->_type.onCloneDeep(rhs._type);
+        }
 
     protected:
         virtual str _runNative(args& args) = 0;
@@ -81,17 +83,13 @@ namespace nm {
         NM(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
-        tbridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
+        tbridgeFunc(typename super::fptrType fptr): super(fptr) {}
 
     public:
         str getRet() const override {
             if(!this->_ret) this->_ret.bind(Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet());
 
             return this->_ret;
-        }
-
-        clonable* cloneDeep() const override {
-            return new me()
         }
 
     protected:
@@ -109,7 +107,7 @@ namespace nm {
         NM(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
-        tbridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
+        tbridgeFunc(typename super::fptrType fptr): super(fptr) {}
 
     public:
         str getRet() const override {
@@ -133,7 +131,7 @@ namespace nm {
         NM(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
-        tbridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
+        tbridgeFunc(typename super::fptrType fptr): super(fptr) {}
 
     public:
         str getRet() const override {

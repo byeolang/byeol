@@ -30,7 +30,7 @@ namespace nm {
         using super::outFrame;
         void outFrame(const bicontainable& args) override;
 
-        clonable* cloneDeep() const override;
+        void onCloneDeep(const clonable& from) override;
 
     private:
         narr _exprs;

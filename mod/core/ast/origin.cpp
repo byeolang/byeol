@@ -48,13 +48,13 @@ namespace nm {
 
     const src& me::getSrc() const { return *_src; }
 
-    clonable* me::cloneDeep() const {
+    void me::onCloneDeep(const clonable& from) {
+        const me& rhs = (const me&) from;
+
         // update origin:
         //  this makes an origin object. and cloned origin object's origin should itself.
         //  but don't bind _org to this. it's circular dependency.
-        me* ret = new me(*this);
-        ret->subs().link(*(scope*) getShares().cloneDeep());
-        return ret;
+        subs().link(*(scope*) rhs.getShares().cloneDeep());
     }
 
     baseObj* me::make() const { return new obj(*this); }

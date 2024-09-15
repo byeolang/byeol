@@ -82,8 +82,6 @@ namespace nm {
 
     str me::_onRunSub(node& sub, const args& a) { return sub.run(a); }
 
-    clonable* me::cloneDeep() const { return (me*) clone(); }
-
     nbool me::isComplete() const { return true; }
 
     void me::inFrame(const bicontainable& args) {}

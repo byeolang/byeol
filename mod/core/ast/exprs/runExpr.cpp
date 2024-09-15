@@ -57,17 +57,12 @@ namespace nm {
 
     const args& me::getArgs() const { return _args; }
 
-    clonable* me::cloneDeep() const {
-        me* ret = (me*) clone();
-        if(_me) ret->_me.bind((node*) _me->cloneDeep());
+    void me::onCloneDeep(const clonable& from) {
+        const me& rhs = (const me&) from;
 
-        ret->_args.rel();
-        for(const auto& a: _args)
-            ret->_args.add((node*) a.cloneDeep());
-
-        if(_subject) ret->_subject.bind((node*) _subject->cloneDeep());
-
-        return ret;
+        if(rhs._me) _me.bind((node*) rhs._me->cloneDeep());
+        _args.onCloneDeep(rhs._args);
+        if(rhs._subject) _subject.bind((node*) rhs._subject->cloneDeep());
     }
 
     void me::setMe(const node& newMe) { _me.bind(newMe); }

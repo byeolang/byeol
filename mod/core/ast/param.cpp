@@ -17,7 +17,8 @@ namespace nm {
 
     const node& me::getOrigin() const { return *_org; }
 
-    clonable* me::cloneDeep() const {
-        return new me(_name, _org ? (node*) _org->cloneDeep() : nullptr);
+    void me::onCloneDeep(const clonable& new1) {
+        me& rhs = (me&) new1;
+        _org.bind((node*) (rhs._org ? rhs._org->cloneDeep() : nullptr));
     }
 }

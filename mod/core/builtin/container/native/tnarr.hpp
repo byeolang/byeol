@@ -68,7 +68,7 @@ namespace nm {
 
         clonable* clone() const override { return new me(*this); }
 
-        clonable* cloneDeep() const override;
+        void onCloneDeep(const clonable& from) override;
 
         std::string asStr() const {
             std::string ret;

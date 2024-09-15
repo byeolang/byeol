@@ -34,7 +34,7 @@ namespace nm {
 
         str getEval() const override;
 
-        clonable* cloneDeep() const override;
+        void onCloneDeep(const clonable& rhs) override;
 
         str makeNew() const;
 

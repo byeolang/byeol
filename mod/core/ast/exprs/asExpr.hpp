@@ -23,7 +23,7 @@ namespace nm {
         const node& getMe() const;
         const node& getAs() const;
         void setAs(const node& new1);
-        clonable* cloneDeep() const override;
+        void onCloneDeep(const clonable& from) override;
 
     private:
         str _me;

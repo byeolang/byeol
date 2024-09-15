@@ -130,16 +130,17 @@ namespace nm {
     }
 
     TEMPL
-    clonable* ME::cloneDeep() const {
-        me* ret = new me(*(super*) getContainer().cloneDeep(), getNext());
-        me* e = ret;
-        const me* next = &getNext();
+    void ME::onCloneDeep(const clonable& from) {
+        me& rhs = (me&) from;
+        _map.bind(*(super*) rhs._map->cloneDeep());
+
+        me* e = this;
+        const me* next = &rhs.getNext();
         while(next) {
             e->_next.bind(new me(*(super*) next->getContainer().cloneDeep()));
             e = &e->getNext();
             next = &next->getNext();
         }
-        return ret;
     }
 
     TEMPL

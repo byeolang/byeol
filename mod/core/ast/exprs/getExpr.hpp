@@ -33,7 +33,7 @@ namespace nm {
         const args& getArgs() const;
         void setArgs(const args& new1);
 
-        clonable* cloneDeep() const override;
+        void onCloneDeep(const clonable& new1) override;
 
     protected:
         virtual priorities _get(nbool evalMode) const;

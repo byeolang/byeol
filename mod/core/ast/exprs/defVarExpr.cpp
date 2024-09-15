@@ -39,12 +39,10 @@ namespace nm {
 
     str me::getEval() const { return _rhs->getEval(); }
 
-    clonable* me::cloneDeep() const {
-        me* ret = (me*) clone();
-        if(_to) ret->_to.bind((node*) _to->cloneDeep());
-        if(_rhs) ret->_rhs.bind((node*) _rhs->cloneDeep());
-
-        return ret;
+    void me::onCloneDeep(const clonable& from) {
+        me& rhs = (me&) from;
+        if(rhs._to) _to.bind((node*) rhs._to->cloneDeep());
+        if(rhs._rhs) _rhs.bind((node*) rhs._rhs->cloneDeep());
     }
 
     str me::makeNew() const {

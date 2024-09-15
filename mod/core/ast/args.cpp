@@ -21,15 +21,6 @@ namespace nm {
 
     node& me::getMe() const { return *_me; }
 
-    clonable* me::cloneDeep() const {
-        me* ret = new me();
-        for(auto e = this->begin(); e; e++)
-            ret->add((node*) e->clone());
-
-        ret->_me = _me;
-        return ret;
-    }
-
     std::string me::toStr() const {
         int n = 0;
         std::string msg;

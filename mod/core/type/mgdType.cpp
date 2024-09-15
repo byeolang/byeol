@@ -41,9 +41,11 @@ namespace nm {
 
     ncnt me::size() const { return 0; }
 
-    clonable* me::cloneDeep() const {
+    void me::onCloneDeep(const clonable& from) {
+        const me& rhs = (const me&) from;
+
         // TODO: you may need to cloneDeep those vectors, _supers, _subs.
-        return new mgdType(_name, _supers, _subs, *(params*) _params.cloneDeep(), _isAdt);
+        _params.onCloneDeep(rhs._params);
     }
 
     params& me::getParams() { return _params; }

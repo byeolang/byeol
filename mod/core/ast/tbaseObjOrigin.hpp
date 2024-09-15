@@ -49,9 +49,9 @@ namespace nm {
             return ret;
         }
 
-        clonable* cloneDeep() const override {
-            // TODO: deelcopy member variables.
-            return new me(*this);
+        void onCloneDeep(const clonable& from) override {
+            const me& rhs = (const me&) from;
+            if(rhs._subs) _subs.bind((scope&) *rhs._subs->cloneDeep());
         }
 
     protected:

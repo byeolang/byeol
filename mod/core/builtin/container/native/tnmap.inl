@@ -70,12 +70,11 @@ namespace nm {
     void ME::rel() { _map.clear(); }
 
     TEMPL
-    clonable* ME::cloneDeep() const {
-        me* ret = (me*) getType().make();
-        for(iter e = this->begin(); e; ++e)
-            ret->add(e.getKey(), (V*) e.getVal().cloneDeep());
-
-        return ret;
+    void ME::onCloneDeep(const clonable& from) {
+        me& rhs = (me&) from;
+        rel();
+        for(iter e = rhs.begin(); e; ++e)
+            add(e.getKey(), (V*) e.getVal().cloneDeep());
     }
 
 #undef TEMPL

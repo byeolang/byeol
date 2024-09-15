@@ -48,7 +48,7 @@ namespace nm {
         ends& getEnds();
         const ends& getEnds() const NM_CONST_FUNC(getEnds())
 
-        clonable* cloneDeep() const override;
+        void onCloneDeep(const clonable& from) override;
 
     private:
         scope* _evalArgs(const ucontainable& args);

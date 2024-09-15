@@ -13,16 +13,10 @@ namespace nm {
     NM(DEF_ME(func), DEF_VISIT())
 
     me::func(const modifier& mod, const params& ps, const node& retType):
-        super(mod),
-        _type("func", ttype<me>::get(), ps),
-        _retType(retType),
-        _blk(new blockExpr()) {}
+        super(mod), _type("func", ttype<me>::get(), ps), _retType(retType), _blk(new blockExpr()) {}
 
     me::func(const modifier& mod, const params& ps, const node* retType):
-        super(mod),
-        _type("func", ttype<me>::get(), ps),
-        _retType(retType),
-        _blk(new blockExpr()) {}
+        super(mod), _type("func", ttype<me>::get(), ps), _retType(retType), _blk(new blockExpr()) {}
 
     me::func(const modifier& mod, const params& ps, const node& retType, const blockExpr& newBlock):
         super(mod), _type("func", ttype<me>::get(), ps), _retType(retType), _blk(newBlock) {}
@@ -30,7 +24,8 @@ namespace nm {
     me::func(const modifier& mod, const params& ps, const node* retType, const blockExpr& newBlock):
         super(mod), _type("func", ttype<me>::get(), ps), _retType(retType), _blk(newBlock) {}
 
-    me::func(const modifier& mod, const mgdType& newType, const node& retType, const blockExpr& newBlock):
+    me::func(const modifier& mod, const mgdType& newType, const node& retType,
+        const blockExpr& newBlock):
         super(mod), _type(newType), _retType(retType), _blk(newBlock) {}
 
     const ntype& me::getType() const { return _type; }
@@ -139,17 +134,10 @@ namespace nm {
 
     ends& me::getEnds() { return _ends; }
 
-    clonable* me::cloneDeep() const {
-        me* ret = (me*) clone();
-        // shares:
-        ret->_shares.rel();
-        for(auto e = _shares.begin(); e; ++e)
-            ret->_shares.add(e.getKey(), (node*) e->cloneDeep());
-        // retType:
-        ret->_retType.bind((node*) _retType->cloneDeep());
-        // blk:
-        ret->_blk.bind((blockExpr*) _blk->cloneDeep());
-
-        return ret;
+    void me::onCloneDeep(const clonable& from) {
+        const me& rhs = (const me&) from;
+        _shares.onCloneDeep(rhs._shares);
+        _retType.bind((node*) rhs._retType->cloneDeep());
+        _blk.bind((blockExpr*) rhs._blk->cloneDeep());
     }
 } // namespace nm

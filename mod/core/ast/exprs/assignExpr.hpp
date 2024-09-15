@@ -23,7 +23,7 @@ namespace nm {
         str getEval() const override;
         const node& getLeft() const;
         const node& getRight() const;
-        clonable* cloneDeep() const override;
+        void onCloneDeep(const clonable& from) override;
 
     private:
         iter _getScopeIterOfLhs();

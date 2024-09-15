@@ -112,12 +112,11 @@ namespace nm {
     void ME::rel() { _vec.clear(); }
 
     TEMPL
-    clonable* ME::cloneDeep() const {
-        me* ret = new me();
-        for(auto e = this->begin(); e; e++)
-            ret->add((T*) e->cloneDeep());
-
-        return ret;
+    void ME::onCloneDeep(const clonable& from) {
+        const me& rhs = (const me&) from;
+        rel();
+        for(const auto& e: rhs)
+            add((T*) e.cloneDeep());
     }
 
 #undef TEMPL

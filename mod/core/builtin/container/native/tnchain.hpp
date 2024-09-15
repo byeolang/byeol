@@ -71,7 +71,7 @@ namespace nm {
         /// returned deep cloned of this instance with all chained ones.
         /// @remark when the chain has already linked to the another chain instance,
         ///         not only this object, but also all of chained instances will be deep cloned.
-        clonable* cloneDeep() const override;
+        void onCloneDeep(const clonable& from) override;
 
         /// wrap given container as the same level to this chain.
         /// @param toShallowWrap

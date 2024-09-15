@@ -55,7 +55,7 @@
 //          but obviously it's very hard to notice the reason of error has been related to covariant
 //          with the description above.
 //          only way to resolve error condition so far is replace all return type of clone() to
-//          'clonable', not to use covarint.ZZ
+//          'clonable', not to use covarint.
 
 #define __NM__DECL_CLONE(ME)                                   \
 public:                                                        \

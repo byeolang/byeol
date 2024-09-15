@@ -24,11 +24,10 @@ namespace nm {
 
     const node& me::getRight() const { return *_rhs; }
 
-    clonable* me::cloneDeep() const {
-        me* ret = (me*) clone();
-        if(_lhs) ret->_lhs.bind((node*) _lhs->cloneDeep());
-        if(_rhs) ret->_rhs.bind((node*) _rhs->cloneDeep());
-        return ret;
+    void me::onCloneDeep(const clonable& from) {
+        me& rhs = (me&) from;
+        if(rhs._lhs) _lhs.bind((node*) rhs._lhs->cloneDeep());
+        if(rhs._rhs) _rhs.bind((node*) rhs._rhs->cloneDeep());
     }
 
     me::iter me::_getScopeIterOfLhs() {

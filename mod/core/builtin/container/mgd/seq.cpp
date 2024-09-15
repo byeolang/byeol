@@ -18,8 +18,7 @@ namespace nm {
     nInt me::operator[](nidx n) { return get()[n]; }
 
     const ntype& me::getType() const {
-        static mgdType inner("seq", ttype<me>::get(),
-            params(*new param("typeParam", *new nInt())));
+        static mgdType inner("seq", ttype<me>::get(), params(*new param("typeParam", *new nInt())));
         return inner;
     }
 

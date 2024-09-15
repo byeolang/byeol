@@ -61,13 +61,13 @@ namespace nm {
         return _org->isComplete();
     }
 
-    clonable* me::cloneDeep() const {
+    void me::onCloneDeep(const clonable& from) {
         // update obj:
         //  this makes an object. and cloned this object's origin should itself.
         //  but don't bind _org to this. it's circular dependency.
-        me* ret = new me(*this);
-        ret->subs().link(*(scope*) getShares().cloneDeep());
-        return ret;
+        me& ret = (me&)
+            from; // 'owns' will be deepcopied already when you clone(). see @me::_assign() func.
+        subs().link(*(scope*) ret.getShares().cloneDeep());
     }
 
     scope& me::subs() { return *_subs; }

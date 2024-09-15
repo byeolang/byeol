@@ -46,7 +46,7 @@ namespace nm {
         const ntype& getType() const override;
         nbool isComplete() const override;
 
-        clonable* cloneDeep() const override;
+        void onCloneDeep(const clonable& from) override;
 
         virtual node& getCallComplete();
         const node& getCallComplete() const NM_CONST_FUNC(getCallComplete())

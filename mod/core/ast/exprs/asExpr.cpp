@@ -25,10 +25,9 @@ namespace nm {
 
     void me::setAs(const node& new1) { _as.bind(new1); }
 
-    clonable* me::cloneDeep() const {
-        me* ret = (me*) clone();
-        if(_me) ret->_me.bind((node*) _me->cloneDeep());
-        if(_as) ret->_as.bind((node*) _as->cloneDeep());
-        return ret;
+    void me::onCloneDeep(const clonable& from) {
+        me& rhs = (me&) from;
+        if(rhs._me) _me.bind((node*) rhs._me->cloneDeep());
+        if(rhs._as) _as.bind((node*) rhs._as->cloneDeep());
     }
 } // namespace nm

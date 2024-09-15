@@ -28,8 +28,6 @@ namespace nm {
         const me& setMe(const node& me) const;
         node& getMe() const;
 
-        clonable* cloneDeep() const override;
-
         /// @remark in order to call this func, you must have prepared thread and frames.
         std::string toStr() const;
 

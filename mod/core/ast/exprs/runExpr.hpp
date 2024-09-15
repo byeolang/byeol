@@ -31,7 +31,7 @@ namespace nm {
         args& getArgs();
         const args& getArgs() const;
 
-        clonable* cloneDeep() const override;
+        void onCloneDeep(const clonable& from) override;
 
     private:
         str _getSub(str me, const args& a) const;

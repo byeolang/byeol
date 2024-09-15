@@ -13,6 +13,12 @@ namespace nm {
 
         virtual me* clone() const = 0;
 
-        virtual me* cloneDeep() const { return clone(); }
+        me* cloneDeep() const {
+            me* ret = clone();
+            ret->onCloneDeep(*this);
+            return ret;
+        }
+
+        virtual void onCloneDeep(const me& from) {}
     };
 }
