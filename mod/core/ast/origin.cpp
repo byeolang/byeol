@@ -50,7 +50,6 @@ namespace nm {
 
     void me::onCloneDeep(const clonable& from) {
         const me& rhs = (const me&) from;
-
         // update origin:
         //  this makes an origin object. and cloned origin object's origin should itself.
         //  but don't bind _org to this. it's circular dependency.
@@ -66,6 +65,12 @@ namespace nm {
     nbool me::isComplete() const { return _callComplete.isBind(); }
 
     clonable* me::clone() const { return new obj(*this); }
+
+    clonable* me::cloneDeep() const {
+        me* ret = new me(*this);
+        ret->onCloneDeep(*this);
+        return ret;
+    }
 
     void me::_setType(const mgdType& new1) { _type = new1; }
 

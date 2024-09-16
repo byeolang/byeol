@@ -53,6 +53,7 @@ namespace nm {
         void setCallComplete(const node& new1);
         nbool isComplete() const override;
         clonable* clone() const override;
+        clonable* cloneDeep() const override;
 
     private:
         void _setType(const mgdType& new1) override;

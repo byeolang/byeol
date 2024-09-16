@@ -65,9 +65,9 @@ namespace nm {
         if(!_org) return NM_E("_orgObj is null"), tstr<obj>();
 
         std::string name = _org->getType().getName() + "<" + argName + ">";
-        NM_DI("|==========================================|");
-        NM_DI("|--- generic: make %s generic class ---|", name);
         tstr<obj> ret = (obj*) _org->cloneDeep(); // clone all of shares including func.
+        NM_DI("|==========================================|");
+        NM_DI("|--- generic: make %s generic obj[%s] ---|", name, platformAPI::toAddrId(&ret.get()));
         src* s = new src(_org->getSrc());
         s->_setName(name);
         ret->_setSrc(*s);
