@@ -49,9 +49,16 @@ namespace nm {
             return ret;
         }
 
+        clonable* cloneDeep() const override {
+            me* ret = new me(*this);
+            ret->onCloneDeep(*this);
+            return ret;
+        }
+
         void onCloneDeep(const clonable& from) override {
             const me& rhs = (const me&) from;
             if(rhs._subs) _subs.bind((scope&) *rhs._subs->cloneDeep());
+            if(rhs._mod) _mod.bind((modifier&) *rhs._mod->cloneDeep());
         }
 
     protected:

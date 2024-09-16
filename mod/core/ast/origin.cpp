@@ -54,6 +54,7 @@ namespace nm {
         //  this makes an origin object. and cloned origin object's origin should itself.
         //  but don't bind _org to this. it's circular dependency.
         subs().link(*(scope*) rhs.getShares().cloneDeep());
+        if(rhs._mod) _mod.bind((const modifier*) rhs._mod->cloneDeep());
     }
 
     baseObj* me::make() const { return new obj(*this); }
