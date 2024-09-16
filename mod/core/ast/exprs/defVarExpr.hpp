@@ -36,7 +36,7 @@ namespace nm {
 
         void onCloneDeep(const clonable& rhs) override;
 
-        str makeNew() const;
+        str makeNewOrigin() const;
 
         const modifier& getNewModifier() const;
 

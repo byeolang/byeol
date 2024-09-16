@@ -265,7 +265,7 @@ namespace nm {
         //  mockNode will be created
         const baseObj& rhs = defVar.getRight().cast<baseObj>();
         if(!nul(rhs) && rhs.getState() >= PARSED)
-            return &s.addScope(defVar.getName(), *defVar.makeNew());
+            return &s.addScope(defVar.getName(), *defVar.makeNewOrigin());
 
         defVar.setTo(*_maker.make<getExpr>("me"));
         return &s.expand(defVar);
