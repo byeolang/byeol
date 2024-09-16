@@ -65,9 +65,9 @@ namespace nm {
         // update obj:
         //  this makes an object. and cloned this object's origin should itself.
         //  but don't bind _org to this. it's circular dependency.
-        me& ret = (me&)
-            from; // 'owns' will be deepcopied already when you clone(). see @me::_assign() func.
-        subs().link(*(scope*) ret.getShares().cloneDeep());
+        me& rhs = (me&) from; // 'owns' will be deepcopied already when you clone().
+                              // see @me::_assign() func.
+        subs().link(*(scope*) rhs.getShares().cloneDeep());
     }
 
     scope& me::subs() { return *_subs; }

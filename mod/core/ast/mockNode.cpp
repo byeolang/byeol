@@ -32,6 +32,10 @@ namespace nm {
         return new me(*this);
     }
 
+    clonable* me::cloneDeep() const { return clone(); }
+
+    void me::onCloneDeep(const clonable& from) {}
+
     scope& me::subs() {
         if(_org) return _org->subs();
         static dumScope inner;

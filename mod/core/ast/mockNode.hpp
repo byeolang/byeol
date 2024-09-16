@@ -30,6 +30,10 @@ namespace nm {
 
         void* cast(const type& to) override;
 
+        clonable* cloneDeep() const override;
+
+        void onCloneDeep(const clonable& from) override;
+
     protected:
         void _setSrc(const src& s) override;
 
