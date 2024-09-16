@@ -408,6 +408,7 @@ TEST_F(genericsTest, simpleCompleteObj) {
 
 TEST_F(genericsTest, simpleCompleteObjNegative) {
     make()
+        .negative()
         .parse(R"SRC(
         def person<E>
             age := 33

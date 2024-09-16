@@ -9,7 +9,7 @@ namespace {
     struct slotTest: public namuSyntaxTest {};
 
     class myfunc: public func {
-        NM(ME(myfunc, func))
+        NM(ME(myfunc, func), CLONE(myfunc))
 
         class myBlock: public blockExpr {
             NM(CLASS(myBlock, blockExpr))
@@ -33,11 +33,15 @@ namespace {
         };
 
     public:
-        myfunc(): super(*new modifier(), params(), new nVoid(), *new myBlock()) {
+        myfunc():
+            super(*new modifier(), params(), new nVoid(), *new myBlock()),
+            _type("myfunc", ttype<me>::get(), params()) {
             NM_I("myfunc(%s) new", this);
         }
 
         ~myfunc() override { NM_I("myfunc(%s) delete", this); }
+
+        const ntype& getType() const override { return _type; }
 
         nbool isRun() const { return getBlock().cast<myBlock>()._executed; }
 
@@ -52,12 +56,10 @@ namespace {
             return inner;
         }
 
-        using super::getParams;
-
-        params& getParams() override { return _params; }
+        mgdType& getType() { return _type; }
 
     private:
-        params _params;
+        mgdType _type;
     };
 
     class nativeFunc: public baseFunc {

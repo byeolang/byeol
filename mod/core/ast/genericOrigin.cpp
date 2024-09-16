@@ -67,7 +67,8 @@ namespace nm {
         std::string name = _org->getType().getName() + "<" + argName + ">";
         tstr<obj> ret = (obj*) _org->cloneDeep(); // clone all of shares including func.
         NM_DI("|==========================================|");
-        NM_DI("|--- generic: make %s generic obj[%s] ---|", name, platformAPI::toAddrId(&ret.get()));
+        NM_DI("|--- generic: make %s generic obj[%s] ---|", name,
+            platformAPI::toAddrId(&ret.get()));
         src* s = new src(_org->getSrc());
         s->_setName(name);
         ret->_setSrc(*s);
