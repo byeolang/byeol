@@ -136,6 +136,7 @@ namespace nm {
 
     void me::onCloneDeep(const clonable& from) {
         const me& rhs = (const me&) from;
+        _type.onCloneDeep(rhs._type);
         _shares.onCloneDeep(rhs._shares);
         _retType.bind((node*) rhs._retType->cloneDeep());
         _blk.bind((blockExpr*) rhs._blk->cloneDeep());
