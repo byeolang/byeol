@@ -47,8 +47,17 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, nBool& e) { return _onVisitPrimitive<nBool>(i, e); }
 
+    namespace {
+        void _showModifier(const modifier& mod) {
+            if(!mod.isPublic()) cout << foreColor(GREEN) << "_";
+            if(mod.isExplicitOverride()) cout << foreColor(GREEN) << "+";
+        }
+    }
+
     nbool me::onVisit(const visitInfo& i, node& visitee) {
         _drawFrame(i);
+        _showModifier(visitee.getModifier());
+
         cout << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN)
              << visitee.getType().getName() << foreColor(LIGHTGRAY) << "@" << foreColor(RED)
              << platformAPI::toAddrId(&visitee);
@@ -76,8 +85,11 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, baseFunc& fun) {
         _drawFrame(i);
 
-        cout << foreColor(LIGHTGRAY) << "@" << foreColor(RED) << platformAPI::toAddrId(&fun) << " "
-             << foreColor(LIGHTBLUE) << i.name << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN)
+        cout << foreColor(LIGHTGRAY) << "@" << foreColor(RED) << platformAPI::toAddrId(&fun) << " ";
+
+        _showModifier(fun.getModifier());
+
+        cout << foreColor(LIGHTBLUE) << i.name << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN)
              << fun.getParams().toStr() << foreColor(LIGHTGRAY) << ") " << foreColor(CYAN)
              << fun.getRet()->getType().getName();
         return true;
