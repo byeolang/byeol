@@ -8,7 +8,6 @@ namespace {
 
 TEST_F(stmtChainTest, simpleChain) {
     make()
-        .negative()
         .parse(R"SRC(
         age := for n in 2..5: n
     )SRC")
@@ -74,7 +73,6 @@ TEST_F(stmtChainTest, chain5) {
 
 TEST_F(stmtChainTest, lambdaWithChain) {
     make()
-        .negative()
         .parse(R"SRC(
         main() void
             foo((a, b): a + b
@@ -85,7 +83,6 @@ TEST_F(stmtChainTest, lambdaWithChain) {
 
 TEST_F(stmtChainTest, lambdaWithChainAndSmartDedent) {
     make()
-        .negative()
         .parse(R"SRC(
         main() void
             foo((a, b): a + b) # when smartDedent enabled.
@@ -95,7 +92,6 @@ TEST_F(stmtChainTest, lambdaWithChainAndSmartDedent) {
 
 TEST_F(stmtChainTest, lambdaWithChainAndSmartDedent2) {
     make()
-        .negative()
         .parse(R"SRC(
         main() void
             foo((a, b): for n in 2..5: foo(3))
@@ -105,7 +101,6 @@ TEST_F(stmtChainTest, lambdaWithChainAndSmartDedent2) {
 
 TEST_F(stmtChainTest, lambdaAndSmartDedentDisabled) {
     make()
-        .negative()
         .parse(R"SRC(
         main() void
             a := 5
@@ -119,7 +114,6 @@ TEST_F(stmtChainTest, lambdaAndSmartDedentDisabled) {
 
 TEST_F(stmtChainTest, lambdaWithChainAndSmartDedent3) {
     make()
-        .negative()
         .parse(R"SRC(
         main() void
             foo((a, b): for n in 2..5: foo(3), boo(2, 3), (): for n in 2..5

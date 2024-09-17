@@ -16,9 +16,10 @@ namespace nm {
         smartDedent();
 
     public:
-        void countDown();
-        void countUp();
-        void setEnable();
+        me& countDown();
+        me& countUp();
+        me& useLater();
+        nint dedent();
         void rel();
         nbool canDedent() const;
         nbool isOn() const;

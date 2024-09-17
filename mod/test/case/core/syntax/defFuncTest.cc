@@ -494,3 +494,46 @@ TEST_F(defFuncTest, funcButNoStmtsNegative) {
     )SRC")
         .shouldVerified(false);
 }
+
+TEST_F(defFuncTest, mainFuncWithInlineBlock) {
+    make()
+        .parse(R"SRC(
+        foo(n int, x int) int: n + x
+        age := 2
+        main() int: foo(age, 1))SRC")
+        .shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 3);
+}
+
+TEST_F(defFuncTest, mainFuncWithInlineBlock2) {
+    make()
+        .parse(R"SRC(
+        age := 2
+        main() int: foo(age, 1)
+        foo(n int, x int) int: n + x
+   )SRC")
+        .shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 3);
+}
+
+TEST_F(defFuncTest, funcTakingFunc) {
+    make()
+        .parse(R"SRC(
+        foo(n int) int: n + 1
+        boo(f foo, n int) int
+            f(n + 1)
+        main() int
+            boo(foo, 1)
+    )SRC")
+        .shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 3);
+}

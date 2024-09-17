@@ -70,12 +70,11 @@ namespace nm {
     }
 
     nint me::onTokenColon(nint tok) {
-        _dedent.setEnable();
+        _dedent.useLater();
         return tok;
     }
 
     nint me::onTokenComma(nint tok) {
-        _dedent.countDown();
         return _onTokenEndOfInlineBlock(onIgnoreIndent(tok));
     }
 
@@ -85,8 +84,9 @@ namespace nm {
     }
 
     nint me::onTokenRParan(nint tok) {
+        nint ret = _onTokenEndOfInlineBlock(tok);
         _dedent.countDown();
-        return _onTokenEndOfInlineBlock(tok);
+        return ret;
     }
 
     nint me::_onTokenEndOfInlineBlock(nint tok) {
@@ -94,8 +94,7 @@ namespace nm {
 
         NM_DI("tokenEvent: onTokenEndOfInlineBlock: '%c' [%d] use smart dedent!", (char) tok, tok);
         _dispatcher.addFront(tok);
-        _dedent.rel();
-        return NEWLINE;
+        return _dedent.dedent();
     }
 
     nint me::onIndent(ncnt col, nint tok) {

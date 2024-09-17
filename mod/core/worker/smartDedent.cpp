@@ -1,4 +1,5 @@
 #include "smartDedent.hpp"
+#include "bison/lowparser.hpp"
 
 namespace nm {
 
@@ -6,17 +7,27 @@ namespace nm {
 
     me::smartDedent(): _cnt(OFF), _isEnable(false) {}
 
-    void me::countDown() {
-        if(_cnt > OFF) _cnt--;
+    me& me::countDown() {
+        _cnt--;
+        return *this;
     }
 
-    void me::countUp() {
-        if(_cnt > OFF) _cnt++;
+    me& me::countUp() {
+        _cnt++;
+        return *this;
     }
 
     nbool me::canDedent() const { return _cnt == CAUGHT && _isEnable; }
 
-    void me::setEnable() { if(_cnt > OFF) _isEnable = true; }
+    me& me::markToUse() {
+        if(_cnt > OFF) _isEnable = true;
+        return *this;
+    }
+
+    nint me::dedent() {
+        _isEnable = false;
+        return NEWLINE;
+    }
 
     void me::rel() {
         _isEnable = false;
@@ -24,4 +35,4 @@ namespace nm {
     }
 
     nbool me::isOn() const { return _cnt > OFF; }
-}
+} // namespace nm
