@@ -7,9 +7,10 @@ namespace nm {
     class node;
 
     enum typeAttr {
-        NOTHING,
-        CONSTANT,
-        COMPLETE_OBJ,
+        ATTR_ERR,
+        ATTR_CONST,
+        ATTR_COMPLETE,
+        ATTR_INCOMPLETE
     };
 
     class _nout util {

@@ -459,7 +459,7 @@ namespace nm {
         NM_DI("tokenEvent: onDefOrigin(%s, %s, defBlock[%s])", name, argNames, &blk);
 
         origin& ret = *_maker.birth<origin>(name, mgdType::make(name), *_subpack);
-        if(util::checkTypeAttr(name) == COMPLETE_OBJ)
+        if(util::checkTypeAttr(name) == ATTR_COMPLETE)
             ret.setCallComplete(*_maker.make<runExpr>(ret,
                 *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
         _onInjectObjSubs(ret, blk);
@@ -515,7 +515,7 @@ namespace nm {
 
         origin& org =
             *_maker.birth<origin>(name, mgdType(name, ttype<obj>::get(), params::make(typeParams)));
-        if(util::checkTypeAttr(name) == COMPLETE_OBJ)
+        if(util::checkTypeAttr(name) == ATTR_COMPLETE)
             org.setCallComplete(
                 *_maker.make<runExpr>(*_maker.make<getGenericExpr>(name, typeParams),
                     *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));

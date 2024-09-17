@@ -19,7 +19,7 @@ namespace nm {
 
     nbool me::canDedent() const { return _cnt == CAUGHT && _isEnable; }
 
-    me& me::markToUse() {
+    me& me::useLater() {
         if(_cnt > OFF) _isEnable = true;
         return *this;
     }
