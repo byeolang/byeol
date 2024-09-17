@@ -70,7 +70,7 @@ namespace nm {
     }
 
     nint me::onTokenColon(nint tok) {
-        _dedent.setEnable(true);
+        _dedent.setEnable();
         return tok;
     }
 
@@ -94,7 +94,7 @@ namespace nm {
 
         NM_DI("tokenEvent: onTokenEndOfInlineBlock: '%c' [%d] use smart dedent!", (char) tok, tok);
         _dispatcher.addFront(tok);
-        _dedent.setEnable(false);
+        _dedent.rel();
         return NEWLINE;
     }
 
@@ -130,7 +130,7 @@ namespace nm {
         NM_DI("tokenEvent: onNewLine: _isIgnoreWhitespace=%s, _indents.size()=%d",
             _isIgnoreWhitespace, _indents.size());
         if(!_isIgnoreWhitespace && _indents.size() >= 1) _dispatcher.add(SCAN_MODE_INDENT);
-        _dedent.setEnable(false);
+        _dedent.rel();
         return tok;
     }
 
@@ -1096,7 +1096,7 @@ namespace nm {
 
         _states.clear();
         _states.push_back(0); // 0 for default state
-        _dedent.setEnable(false);
+        _dedent.rel();
         _supplies.rel();
         _maker.rel();
         _prepare();
@@ -1151,9 +1151,8 @@ namespace nm {
             yy_switch_to_buffer(bufState, scanner);
 
 #if YYDEBUG
-            // yyset_debug(1, scanner); // For Flex (no longer a global, but rather a member of
-            // yyguts_t) yydebug = 1;             // For Bison (still global, even in a reentrant
-            // parser)
+            // yyset_debug(1, scanner); // For Flex (no longer a global, but rather a member of)
+            // yydebug = 1;             // For Bison (still global, even in a reentrant)
 #endif
 
             int res = yyparse(scanner);

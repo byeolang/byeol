@@ -18,12 +18,13 @@ namespace nm {
     public:
         void countDown();
         void countUp();
-        void setEnable(nbool to);
-        void setDedentNow();
+        void setEnable();
+        void rel();
         nbool canDedent() const;
         nbool isOn() const;
 
     private:
         nint _cnt;
+        nbool _isEnable;
     };
 }
