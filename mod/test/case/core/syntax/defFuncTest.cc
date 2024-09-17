@@ -485,9 +485,12 @@ TEST_F(defFuncTest, simpleCtorNegative) {
 }
 
 TEST_F(defFuncTest, funcButNoStmtsNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         foo() int:; # err: no return stmt
         main() void
             foo()
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
