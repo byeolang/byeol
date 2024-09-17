@@ -253,7 +253,7 @@ TEST_F(funcTest, testArgsAttachedName) {
     ASSERT_FALSE(f.isRun());
 }
 
-TEST_F(funcTest, putFuncManuallyAsParam) {
+TEST_F(funcTest, putFuncManuallyAsParamGettingLambda) {
     myObj o;
     myfunc lambda; // type is '(int) void'
     params& lambdaPs = lambda.getParams();
@@ -267,6 +267,39 @@ TEST_F(funcTest, putFuncManuallyAsParam) {
     o.subs().add("myfunc", f);
     params& ps = f.getParams();
     ps.add(new param("lambda", new getExpr(o, "lambda")));
+
+    myfunc lambda2; // type is "(flt) void'
+    params& lambda2Ps = lambda2.getParams();
+    lambda2Ps.add(new param("value", new nFlt()));
+    o.subs().add("lambda2", lambda2);
+    const ntype& lambda2Type = lambda2.getType();
+    ASSERT_EQ(lambda2Type.getParams().len(), 1);
+    ASSERT_TRUE(lambda2Type.getParams()[0].getOrigin().isSub<nFlt>());
+
+    // is lambda runnable?
+    str res = o.run("myfunc", args{narr{*new getExpr(o, "lambda")}});
+    ASSERT_TRUE(f.isRun());
+
+    // check lambda1 is compatible to lambda2?
+    f.setUp();
+    res = o.run("myfunc", args{narr{*new getExpr(o, "lambda2")}});
+    ASSERT_FALSE(f.isRun());
+}
+
+TEST_F(funcTest, putFuncManuallyAsParamLambda) {
+    myObj o;
+    myfunc lambda; // type is '(int) void'
+    params& lambdaPs = lambda.getParams();
+    lambdaPs.add(new param("value", new nInt()));
+    o.subs().add("lambda", lambda);
+    const ntype& lambdaType = lambda.getType();
+    ASSERT_EQ(lambdaType.getParams().len(), 1);
+    ASSERT_TRUE(lambdaType.getParams()[0].getOrigin().isSub<nInt>());
+
+    myfunc f; // type is '(l lambda) void'
+    o.subs().add("myfunc", f);
+    params& ps = f.getParams();
+    ps.add(new param("lambda", lambda));
 
     myfunc lambda2; // type is "(flt) void'
     params& lambda2Ps = lambda2.getParams();
