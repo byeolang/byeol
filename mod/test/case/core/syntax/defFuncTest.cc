@@ -484,11 +484,10 @@ TEST_F(defFuncTest, simpleCtorNegative) {
         .shouldVerified(false);
 }
 
-/* TODO: uncomment after implement isAbstract() on func/originObj
 TEST_F(defFuncTest, funcButNoStmtsNegative) {
     make().negative().parse(R"SRC(
-        foo() int:; // err: no return stmt
+        foo() int:; # err: no return stmt
         main() void
             foo()
     )SRC").shouldVerified(false);
-}*/
+}

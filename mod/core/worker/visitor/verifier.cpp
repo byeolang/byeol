@@ -595,7 +595,7 @@ namespace nm {
             // @see retExpr::getEval() for more info.
             return NM_I("func: skip verification NM_WHEN lastStmt is retStateExpr."), void();
         NM_WHEN(!lastType.isSub<baseErr>() && !lastType.isImpli(retType))
-            .err(RET_TYPE_NOT_MATCH, lastStmt, lastType, retType);
+            .err(RET_TYPE_NOT_MATCH, nul(lastStmt) ? me : lastStmt, lastType, retType);
 
         me.outFrame(scope());
     }
