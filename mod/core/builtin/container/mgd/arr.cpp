@@ -41,14 +41,9 @@ namespace nm {
             NM(ME(iterateFunc, baseFunc), CLONE(iterateFunc))
 
         public:
-            str getRet() const override {
-                static str inner(new mgdIter(nullptr));
-                return inner;
-            }
-
             const ntype& getType() const override {
                 static mgdType inner("iterate", ttype<me>::get(),
-                    params(*new param("step", *new nInt())));
+                    params(*new param("step", *new nInt())), false, *new mgdIter(nullptr));
                 return inner;
             }
 
@@ -73,22 +68,13 @@ namespace nm {
             NM(ME(getElemTypeFunc, baseFunc), CLONE(getElemTypeFunc))
 
         public:
-            getElemTypeFunc(): _ret(new getExpr(TYPENAME)) {}
-
-        public:
             const ntype& getType() const override {
-                static mgdType inner("getElemType", ttype<me>::get());
+                static mgdType inner("getElemType", ttype<me>::get(), params(), false,
+                    *new getExpr(TYPENAME));
                 return inner;
             }
 
-            str getRet() const override { return _ret; }
-
-            str run(const args& a) override { return _ret ? _ret->as<node>() : *_ret; }
-
-            nbool setRet(const node& newRet) override { return _ret.bind(newRet); }
-
-        private:
-            str _ret;
+            str run(const args& a) override { return safeGet(getType().getRet(), as<node>()); }
         };
 
         const static std::string paramName = "typeParam";

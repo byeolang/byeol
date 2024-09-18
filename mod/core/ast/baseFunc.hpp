@@ -12,6 +12,8 @@ namespace nm {
 
     class _nout baseFunc: public expr {
         NM(ADT(baseFunc, expr), VISIT())
+        friend class generalizer; // for _getType()
+        friend class parser; // for _getType()
 
     public:
         baseFunc() = default;
@@ -38,12 +40,12 @@ namespace nm {
         ///         that's completely different to Return type of the function.
         ///         if there is a runExpr instance, and it takes the func and proper argument,
         ///         then it can be evaluated and its evalType is the return type of the func.
-        virtual str getRet() const = 0;
-
-        /// @return whether setting new return-type has been done or not.
-        virtual nbool setRet(const node& newRet);
+        virtual str getRet() const;
 
         const modifier& getModifier() const override;
+
+    protected:
+        ntype& _getType(); // for generalizer.
 
     private:
         nbool _isNatureNumber(const node& it) const;

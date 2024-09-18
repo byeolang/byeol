@@ -13,9 +13,9 @@ namespace nm {
         NM(ME(mgdType, ntype), CLONE(mgdType))
 
     public:
-        mgdType(const std::string& name, const type& super);
         mgdType(const std::string& name, const type& super, const params& ps);
-        mgdType(const std::string& name, const type& super, const params& ps, nbool isAdt);
+        mgdType(const std::string& name, const type& super, const params& ps, nbool isAdt,
+            const node& ret);
         mgdType(const std::string& name, const types& supersFromRhs);
 
     private:
@@ -36,13 +36,20 @@ namespace nm {
         using super::getParams;
         params& getParams() override;
 
+        const node& getRet() const override;
+        void setRet(const node& new1) override;
+
         // TODO: getSubs(), getLeafs()
 
         void* make() const override;
 
-        template <typename T>
-        mgdType make(const params& ps, const node& ret) {
-            const ttype<T>& t = ttype<T>::get();
+        template <typename T> static mgdType make(const std::string& name) {
+            return mgdType(name, ttype<T>::get(), params(), !std::is_constructible<T>::value,
+                nulOf<node>());
+        }
+
+        template <typename T> static mgdType make(const params& ps, const node& ret) {
+            const auto& t = ttype<T>::get();
             return mgdType(t.getName(), t, ps, !std::is_constructible<T>::value, ret);
         }
 
@@ -61,5 +68,6 @@ namespace nm {
         types _subs;
         params _params;
         nbool _isAdt;
+        str _ret;
     };
 } // namespace nm

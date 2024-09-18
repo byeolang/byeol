@@ -16,16 +16,8 @@ namespace nm {
         friend class exprMaker;
 
     public:
-        explicit func(const modifier& mod, const params& ps, const node& retType);
-        explicit func(const modifier& mod, const params& ps, const node* retType);
-        explicit func(const modifier& mod, const params& ps, const node& retType,
-            const blockExpr& newBlock);
-        explicit func(const modifier& mod, const params& ps, const node* retType,
-            const blockExpr& newBlock);
-
-    protected:
-        explicit func(const modifier& mod, const mgdType& newType, const node& retType,
-            const blockExpr& newBlock);
+        explicit func(const modifier& mod, const mgdType& type);
+        explicit func(const modifier& mod, const mgdType& type, const blockExpr& newBlock);
 
     public:
         const ntype& getType() const override;
@@ -33,8 +25,6 @@ namespace nm {
         blockExpr& getBlock();
         const blockExpr& getBlock() const;
         void setBlock(const blockExpr& new1);
-        str getRet() const override;
-        nbool setRet(const node& newRet) override;
         scope& subs() override;
 
         using super::run;
@@ -58,7 +48,6 @@ namespace nm {
     private:
         mgdType _type;
         scope _shares;
-        str _retType;
         tstr<blockExpr> _blk;
         ends _ends;
     };

@@ -34,12 +34,7 @@ namespace nm {
 
             const ntype& getType() const override {
                 static mgdType inner("get", ttype<baseFunc>::get(),
-                    params(*new param("range", new seq(nInt(0), nInt(1)))));
-                return inner;
-            }
-
-            str getRet() const override {
-                static nStr inner;
+                    params(*new param("range", new seq(nInt(0), nInt(1)))), false, *new nStr());
                 return inner;
             }
         };
@@ -118,14 +113,9 @@ namespace nm {
             NM(ME(iterateFunc, baseFunc), CLONE(iterateFunc))
 
         public:
-            str getRet() const override {
-                static str inner(new mgdIter(nullptr));
-                return inner;
-            }
-
             const ntype& getType() const override {
                 static mgdType inner("iterate", ttype<me>::get(),
-                    params(*new param("step", *new nInt())));
+                    params(*new param("step", *new nInt())), false, *new mgdIter(nullptr));
                 return inner;
             }
 
@@ -151,12 +141,7 @@ namespace nm {
 
         public:
             const ntype& getType() const override {
-                static mgdType inner("getElemType", ttype<me>::get());
-                return inner;
-            }
-
-            str getRet() const override {
-                static str inner(new nChar());
+                static mgdType inner("getElemType", ttype<me>::get(), params(), false, *new nChar());
                 return inner;
             }
 

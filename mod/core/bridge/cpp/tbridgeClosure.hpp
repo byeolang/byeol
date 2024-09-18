@@ -24,7 +24,8 @@ namespace nm {
 
         const ntype& getType() const override {
             static mgdType inner("ctor", ttype<me>::get(),
-                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...));
+                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...),
+                false, Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::onGetRet());
             return inner;
         }
 
@@ -34,12 +35,6 @@ namespace nm {
             if(nul(evaluated)) return NM_E("evaluated == null"), str();
 
             return _marshal(evaluated, std::index_sequence_for<Args...>());
-        }
-
-        str getRet() const override {
-            static str ret(
-                Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::onGetRet());
-            return ret;
         }
 
     private:
@@ -85,7 +80,8 @@ namespace nm {
     public:
         const ntype& getType() const override {
             static mgdType inner("ctor", ttype<me>::get(),
-                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...));
+                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...),
+                false, Marshaling<void, false>::onGetRet());
             return inner;
         }
 
@@ -97,11 +93,6 @@ namespace nm {
             if(nul(evaluated)) return NM_E("evaluated == null"), str();
 
             return _marshal(evaluated, std::index_sequence_for<Args...>());
-        }
-
-        str getRet() const override {
-            static str ret(Marshaling<void, false>::onGetRet());
-            return ret;
         }
 
     private:

@@ -74,9 +74,7 @@ namespace nm {
         return tok;
     }
 
-    nint me::onTokenComma(nint tok) {
-        return _onTokenEndOfInlineBlock(onIgnoreIndent(tok));
-    }
+    nint me::onTokenComma(nint tok) { return _onTokenEndOfInlineBlock(onIgnoreIndent(tok)); }
 
     nint me::onTokenLParan(nint tok) {
         _dedent.countUp();
@@ -177,7 +175,7 @@ namespace nm {
             const std::string& name = dotnames[n];
             origin* sub = &e->sub<origin>(name);
             if(nul(sub)) {
-                sub = new origin(mgdType(name, ttype<obj>()));
+                sub = new origin(mgdType::make<obj>(name));
                 sub->setCallComplete(*new mockNode());
                 e->subs().add(name, sub);
                 sub->_setOrigin(*sub);
@@ -328,7 +326,8 @@ namespace nm {
         NM_DI("tokenEvent: onAbstractFunc(%s, access: %s(%d), retType:%s)", mod, access.getName(),
             access.getArgs().len(), retType);
 
-        _func.bind(_maker.birth<func>(access.getName(), mod, _asParams(access.getArgs()), retType));
+        _func.bind(_maker.birth<func>(access.getName(), mod,
+            mgdType::make<func>(_asParams(access.getArgs()), retType)));
         return &_func.get();
     }
 
@@ -458,7 +457,7 @@ namespace nm {
         std::string argNames = _joinVectorString(_extractParamTypeNames(*newArgs));
         NM_DI("tokenEvent: onDefOrigin(%s, %s, defBlock[%s])", name, argNames, &blk);
 
-        origin& ret = *_maker.birth<origin>(name, mgdType(name, ttype<obj>::get()), *_subpack);
+        origin& ret = *_maker.birth<origin>(name, mgdType::make<obj>(name), *_subpack);
         if(util::checkTypeAttr(name) == ATTR_COMPLETE)
             ret.setCallComplete(*_maker.make<runExpr>(ret,
                 *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
@@ -513,9 +512,11 @@ namespace nm {
         NM_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], args[%s], defBlock[%s]", name,
             typeParams.len(), argNames, &blk);
 
-        origin& org =
-            *_maker.birth<origin>(name, mgdType(name, ttype<obj>::get(), params::make(typeParams)));
-        if(util::checkTypeAttr(name) == ATTR_COMPLETE)
+        nbool isConcerete = util::checkTypeAttr(name) == ATTR_COMPLETE;
+        origin& org = *_maker.birth<origin>(name,
+            mgdType(name, ttype<obj>::get(), params::make(typeParams), !isConcerete,
+                nulOf<node>()));
+        if(isConcerete)
             org.setCallComplete(
                 *_maker.make<runExpr>(*_maker.make<getGenericExpr>(name, typeParams),
                     *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
@@ -575,7 +576,7 @@ namespace nm {
         for(auto e = blk.getScope().begin(); e; ++e) {
             // ctor case:
             ctor& c = e.getVal<ctor>();
-            if(!nul(c)) c.setRet(*new mockNode(it));
+            if(!nul(c)) c._getType().setRet(*new mockNode(it));
 
             // shares case:
             // TODO: not only func, but also shared variable.

@@ -52,7 +52,7 @@ namespace nm {
         const auto& postpones = blk.getExpands();
         if(postpones.isEmpty()) return nullptr;
 
-        func* ret = make<func>(*new modifier(), params(), new nVoid());
+        func* ret = make<func>(*new modifier(), mgdType::make<func>(params(), *new nVoid()));
         ret->getBlock().getStmts().add(postpones);
         return ret;
     }
@@ -65,7 +65,7 @@ namespace nm {
         const auto& commons = blk.getCommon();
         if(commons.isEmpty()) return nullptr;
 
-        func* ret = make<func>(*new modifier(), params(), new nVoid());
+        func* ret = make<func>(*new modifier(), mgdType::make<func>(params(), *new nVoid()));
         ret->getBlock().getStmts().add(commons);
         return ret;
     }

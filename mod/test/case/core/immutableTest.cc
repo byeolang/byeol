@@ -45,7 +45,7 @@ namespace {
         };
 
     public:
-        myfunc(): super(*new modifier(), params(), *new nVoid(), *new myBlock()) {
+        myfunc(): super(*new modifier(), mgdType("myfunc", ttype<me>::get(), params(), false, *new nVoid()), *new myBlock()) {
             NM_I("myfunc(%s) new", this);
         }
 
@@ -59,13 +59,7 @@ namespace {
 
         nbool isSuccess() const { return getBlock().cast<myBlock>()._res; }
 
-        str getRet() const override {
-            static str inner(new nVoid());
-            return inner;
-        }
-
         using super::getParams;
-
         params& getParams() override { return _params; }
 
     private:

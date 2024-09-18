@@ -45,9 +45,11 @@ namespace nm {
         return NO_MATCH;
     }
 
+    ntype& me::_getType() { return (ntype&) getType(); }
+
     params& me::getParams() { return ((ntype&) getType()).getParams(); }
 
-    nbool me::setRet(const node& newRet) { return false; }
+    str me::getRet() const { return getType().getRet(); }
 
     const modifier& me::getModifier() const {
         if(_mod) return *_mod;

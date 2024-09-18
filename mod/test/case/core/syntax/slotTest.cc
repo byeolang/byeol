@@ -34,14 +34,11 @@ namespace {
 
     public:
         myfunc():
-            super(*new modifier(), params(), new nVoid(), *new myBlock()),
-            _type("myfunc", ttype<me>::get(), params()) {
+            super(*new modifier(), mgdType("myfunc", ttype<me>::get(), params(), false, *new nVoid()), *new myBlock()) {
             NM_I("myfunc(%s) new", this);
         }
 
         ~myfunc() override { NM_I("myfunc(%s) delete", this); }
-
-        const ntype& getType() const override { return _type; }
 
         nbool isRun() const { return getBlock().cast<myBlock>()._executed; }
 
@@ -50,16 +47,6 @@ namespace {
         }
 
         nbool isSuccess() const { return getBlock().cast<myBlock>()._res; }
-
-        str getRet() const override {
-            static str inner(new nVoid());
-            return inner;
-        }
-
-        mgdType& getType() { return _type; }
-
-    private:
-        mgdType _type;
     };
 
     class nativeFunc: public baseFunc {

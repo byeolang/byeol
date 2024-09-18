@@ -33,7 +33,7 @@ namespace nm {
     obj& me::getPack() {
         if(_state == RELEASED) {
             const std::string& name = getManifest().name;
-            origin& org = *new origin(mgdType(name, ttype<obj>::get()));
+            origin& org = *new origin(mgdType::make<obj>(name));
             org.setCallComplete(*new mockNode());
             _pak.bind(org);
             NM_I("%s pack is about to interpret lazy.", name);

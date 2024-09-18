@@ -10,8 +10,6 @@ namespace nm {
     public:
         const ntype& getType() const override;
 
-        str getRet() const override;
-
         str run(const args& a) override;
     };
 }

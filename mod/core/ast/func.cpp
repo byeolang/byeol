@@ -12,21 +12,11 @@ namespace nm {
 
     NM(DEF_ME(func), DEF_VISIT())
 
-    me::func(const modifier& mod, const params& ps, const node& retType):
-        super(mod), _type("func", ttype<me>::get(), ps), _retType(retType), _blk(new blockExpr()) {}
+    me::func(const modifier& mod, const mgdType& type):
+        super(mod), _type(type), _blk(new blockExpr()) {}
 
-    me::func(const modifier& mod, const params& ps, const node* retType):
-        super(mod), _type("func", ttype<me>::get(), ps), _retType(retType), _blk(new blockExpr()) {}
-
-    me::func(const modifier& mod, const params& ps, const node& retType, const blockExpr& newBlock):
-        super(mod), _type("func", ttype<me>::get(), ps), _retType(retType), _blk(newBlock) {}
-
-    me::func(const modifier& mod, const params& ps, const node* retType, const blockExpr& newBlock):
-        super(mod), _type("func", ttype<me>::get(), ps), _retType(retType), _blk(newBlock) {}
-
-    me::func(const modifier& mod, const mgdType& newType, const node& retType,
-        const blockExpr& newBlock):
-        super(mod), _type(newType), _retType(retType), _blk(newBlock) {}
+    me::func(const modifier& mod, const mgdType& type, const blockExpr& newBlock):
+        super(mod), _type(type), _blk(newBlock) {}
 
     const ntype& me::getType() const { return _type; }
 
@@ -35,10 +25,6 @@ namespace nm {
     const blockExpr& me::getBlock() const { return *_blk; }
 
     void me::setBlock(const blockExpr& new1) { _blk.bind(new1); }
-
-    str me::getRet() const { return _retType; }
-
-    nbool me::setRet(const node& newRet) { return _retType.bind(newRet); }
 
     scope& me::subs() { return _shares; }
 
@@ -138,7 +124,6 @@ namespace nm {
         const me& rhs = (const me&) from;
         _type.onCloneDeep(rhs._type);
         _shares.onCloneDeep(rhs._shares);
-        _retType.bind((node*) rhs._retType->cloneDeep());
         _blk.bind((blockExpr*) rhs._blk->cloneDeep());
     }
 } // namespace nm

@@ -87,7 +87,7 @@ TEST_F(objTest, cloneByRunFunc) {
 }
 
 TEST_F(objTest, addElementIntoOwns) {
-    origin my(mgdType("my", ttype<obj>()));
+    origin my(mgdType::make<obj>("my"));
     ASSERT_EQ(my.subs().len(), 0);
 
     my.subs().add("banana", new nInt(1));

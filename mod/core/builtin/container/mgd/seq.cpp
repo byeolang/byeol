@@ -61,14 +61,9 @@ namespace nm {
             NM(ME(iterateFunc, baseFunc), CLONE(iterateFunc))
 
         public:
-            str getRet() const override {
-                static str inner(new mgdIter(nullptr));
-                return inner;
-            }
-
             const ntype& getType() const override {
                 static mgdType inner("iterate", ttype<me>::get(),
-                    params(*new param("step", *new nInt())));
+                    params(*new param("step", *new nInt())), false, *new mgdIter(nullptr));
                 return inner;
             }
 
@@ -96,12 +91,7 @@ namespace nm {
 
         public:
             const ntype& getType() const override {
-                static mgdType inner("getElemType", ttype<me>::get());
-                return inner;
-            }
-
-            str getRet() const override {
-                static str inner(new nInt());
+                static mgdType inner("getElemType", ttype<me>::get(), params(), false, *new nInt());
                 return inner;
             }
 

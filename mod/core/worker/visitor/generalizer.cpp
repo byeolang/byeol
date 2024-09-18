@@ -107,7 +107,7 @@ namespace nm {
         if(!nul(retOrg)) {
             NM_DI("* inject func: retType of '%s(%s) %s' --> '%s'", i, me.getParams().toStr(),
                 me.getRet()->getEval(), retOrg);
-            me.setRet(retOrg);
+            me._getType().setRet(retOrg);
             if(nul(i.parent)) getReport().add(nerr::newErr(errCode::IS_NUL, "parent"));
         }
 
@@ -120,7 +120,7 @@ namespace nm {
         if(nul(cast)) getReport().add(nerr::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
         else if(i.parent && i.parent == &cast)
             // if this ctor belongs to root object(== generic obj):
-            me.setRet(cast);
+            me._getType().setRet(cast);
 
         return super::onVisit(i, me);
     }

@@ -5,24 +5,21 @@ namespace nm {
 
     NM(DEF_ME(mgdType))
 
-    me::mgdType(const std::string& name, const type& super): _name(name), _isAdt(false) {
-        _initSupers(super);
-    }
-
     me::mgdType(const std::string& name, const type& super, const params& ps):
-        me(name, super, ps, false) {}
+        me(name, super, ps, false, nulOf<node>()) {}
 
-    me::mgdType(const std::string& name, const type& super, const params& ps, nbool isAdt):
-        _name(name), _params(ps), _isAdt(isAdt) {
+    me::mgdType(const std::string& name, const type& super, const params& ps, nbool isAdt,
+        const node& ret):
+        _name(name), _params(ps), _isAdt(isAdt), _ret(ret) {
         _initSupers(super);
     }
+
+    me::mgdType(const std::string& name, const types& supersFromRhs):
+        _name(name), _supers(supersFromRhs) {}
 
     me::mgdType(const std::string& name, const types& supers, const types& subs, const params& ps,
         nbool isAdt):
         _name(name), _supers(supers), _subs(subs), _params(ps), _isAdt(isAdt) {}
-
-    me::mgdType(const std::string& name, const types& supersFromRhs):
-        _name(name), _supers(supersFromRhs) {}
 
     nbool me::isTemplate() const { return false; }
 
@@ -44,11 +41,16 @@ namespace nm {
 
         // TODO: you may need to cloneDeep those vectors, _supers, _subs.
         _params.onCloneDeep(rhs._params);
+        if(rhs._ret) _ret.bind((node*) rhs._ret->cloneDeep());
     }
 
     params& me::getParams() { return _params; }
 
     void* me::make() const { return nullptr; }
+
+    const node& me::getRet() const { return *_ret; }
+
+    void me::setRet(const node& new1) { _ret.bind(new1); }
 
     types& me::_getSupers() { return _supers; }
 

@@ -57,7 +57,7 @@ TEST_F(frameTest, testFrameManipulateChainObjNegative) {
     };
     ASSERT_FALSE(nul(owns.get<myNode>(lambda)));
 
-    origin obj1(mgdType("", ttype<obj>::get()));
+    origin obj1(mgdType::make<obj>(""));
     obj1.subs().add(owns);
     obj1.subs().link(shares);
     ASSERT_EQ(obj1.subs().len(), 2);

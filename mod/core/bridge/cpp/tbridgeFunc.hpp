@@ -18,11 +18,11 @@ namespace nm {
         ///               the instance refered by this pointer should be managed at somewhere.
         ///               that is, this class will just get the value of address and won't release
         ///               memory.
-        tbaseBridgeFunc(fptrType fptr):
+        tbaseBridgeFunc(fptrType fptr, str ret):
             _fptr(fptr),
             _type("bridgeFunc", ttype<me>::get(),
-                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...)) {
-        }
+                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...),
+                false, *ret) {}
 
     public:
         static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal()) ==
@@ -41,8 +41,6 @@ namespace nm {
 
             return _runNative(evaluated);
         }
-
-        nbool setRet(const node& newRet) override { return _ret.bind(newRet); }
 
         void onCloneDeep(const clonable& from) override {
             me& rhs = (me&) from;
@@ -72,7 +70,6 @@ namespace nm {
 
     protected:
         fptrType _fptr;
-        mutable str _ret;
         mutable mgdType _type;
     };
 
@@ -83,14 +80,7 @@ namespace nm {
         NM(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
-        tbridgeFunc(typename super::fptrType fptr): super(fptr) {}
-
-    public:
-        str getRet() const override {
-            if(!this->_ret) this->_ret.bind(Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet());
-
-            return this->_ret;
-        }
+        tbridgeFunc(typename super::fptrType fptr): super(fptr, Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet()) {}
 
     protected:
         str _runNative(args& args) override {
@@ -107,14 +97,7 @@ namespace nm {
         NM(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
-        tbridgeFunc(typename super::fptrType fptr): super(fptr) {}
-
-    public:
-        str getRet() const override {
-            if(!this->_ret) this->_ret.bind(Marshaling<void, false>::onGetRet());
-
-            return this->_ret;
-        }
+        tbridgeFunc(typename super::fptrType fptr): super(fptr, Marshaling<void, false>::onGetRet()) {}
 
     protected:
         str _runNative(args& args) override {
@@ -131,14 +114,7 @@ namespace nm {
         NM(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
-        tbridgeFunc(typename super::fptrType fptr): super(fptr) {}
-
-    public:
-        str getRet() const override {
-            if(!this->_ret) this->_ret.bind(Marshaling<void, false>::onGetRet());
-
-            return this->_ret;
-        }
+        tbridgeFunc(typename super::fptrType fptr): super(fptr, Marshaling<void, false>::onGetRet()) {}
 
     protected:
         str _runNative(args& args) override {
@@ -161,14 +137,7 @@ namespace nm {
         NM(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
-        tbridgeFunc(typename _super_::fptrType fptr): super(fptr) {}
-
-    public:
-        str getRet() const override {
-            if(!this->_ret) this->_ret.bind(Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet());
-
-            return this->_ret;
-        }
+        tbridgeFunc(typename _super_::fptrType fptr): super(fptr, Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet()) {}
 
     protected:
         str _runNative(args& args) override {

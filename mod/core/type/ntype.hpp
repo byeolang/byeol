@@ -64,6 +64,9 @@ namespace nm {
         const params& getParams() const NM_CONST_FUNC(getParams())
         virtual params& getParams();
 
+        virtual const node& getRet() const;
+        virtual void setRet(const node& new1);
+
     protected:
         // ntype:
         virtual const ases& _getImpliAses() const;

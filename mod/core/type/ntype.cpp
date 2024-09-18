@@ -192,4 +192,8 @@ namespace nm {
         static dumParams dummy;
         return dummy;
     }
+
+    const node& me::getRet() const { return nulOf<node>(); }
+
+    void me::setRet(const node& new1) {}
 } // namespace nm
