@@ -29,8 +29,6 @@ namespace nm {
         const nbool& isInit() const override;
         const std::string& getName() const override;
 
-        void* make() const override;
-
         ncnt size() const override;
 
         void onCloneDeep(const clonable& from) override;
@@ -40,18 +38,13 @@ namespace nm {
 
         // TODO: getSubs(), getLeafs()
 
-        template <typename S> static mgdType make(const std::string& name) {
-            return mgdType(name, ttype<S>::get());
+        void* make() const override;
+
+        template <typename T>
+        mgdType make(const params& ps, const node& ret) {
+            const ttype<T>& t = ttype<T>::get();
+            return mgdType(t.getName(), t, ps, !std::is_constructible<T>::value, ret);
         }
-
-        using super::make;
-        static mgdType make(const std::string& name);
-
-        template <typename S> static mgdType* makeNew(const std::string& name) {
-            return new mgdType(name, ttype<S>::get());
-        }
-
-        static mgdType* makeNew(const std::string& name);
 
     protected:
         types& _getSupers() override;

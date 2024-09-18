@@ -177,7 +177,7 @@ namespace nm {
             const std::string& name = dotnames[n];
             origin* sub = &e->sub<origin>(name);
             if(nul(sub)) {
-                sub = new origin(mgdType::make(name));
+                sub = new origin(mgdType(name, ttype<obj>()));
                 sub->setCallComplete(*new mockNode());
                 e->subs().add(name, sub);
                 sub->_setOrigin(*sub);
@@ -458,7 +458,7 @@ namespace nm {
         std::string argNames = _joinVectorString(_extractParamTypeNames(*newArgs));
         NM_DI("tokenEvent: onDefOrigin(%s, %s, defBlock[%s])", name, argNames, &blk);
 
-        origin& ret = *_maker.birth<origin>(name, mgdType::make(name), *_subpack);
+        origin& ret = *_maker.birth<origin>(name, mgdType(name, ttype<obj>::get()), *_subpack);
         if(util::checkTypeAttr(name) == ATTR_COMPLETE)
             ret.setCallComplete(*_maker.make<runExpr>(ret,
                 *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));

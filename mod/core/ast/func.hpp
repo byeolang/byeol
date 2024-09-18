@@ -50,12 +50,6 @@ namespace nm {
 
         void onCloneDeep(const clonable& from) override;
 
-        template <typename T>
-        mgdType make(const params& ps, const node& ret) {
-            const ttype<T>& t = ttype<T>::get();
-            return mgdType(t.getName(), t, ps, !std::is_constructible<T>::value, ret);
-        }
-
     private:
         scope* _evalArgs(const ucontainable& args);
         str _postprocess(str ret, nidx exN);

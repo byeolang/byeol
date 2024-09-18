@@ -20,7 +20,7 @@ namespace nm {
     str me::getEval() const { return getPack().getEval(); }
 
     me::slot(const manifest& manifest): _manifest(manifest), _isValid(true) {
-        origin& org = *new origin(mgdType::make(_manifest.name));
+        origin& org = *new origin(mgdType(_manifest.name, ttype<obj>::get()));
         org.setCallComplete(*new mockNode());
         _pak.bind(org);
     }

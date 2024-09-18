@@ -37,8 +37,6 @@ namespace nm {
 
     const std::string& me::getName() const { return _name; }
 
-    void* me::make() const { return nullptr; }
-
     ncnt me::size() const { return 0; }
 
     void me::onCloneDeep(const clonable& from) {
@@ -50,9 +48,7 @@ namespace nm {
 
     params& me::getParams() { return _params; }
 
-    mgdType me::make(const std::string& name) { return make<obj>(name); }
-
-    mgdType* me::makeNew(const std::string& name) { return makeNew<obj>(name); }
+    void* me::make() const { return nullptr; }
 
     types& me::_getSupers() { return _supers; }
 
