@@ -181,14 +181,13 @@ namespace nm {
 
     void me::_onLeave(const visitInfo& i, const loopExpr& me) {
         _GUARD("onLeave()");
+        _recentLoops.pop_back();
 
         str eval = me.getEval(); // it's okay forExpr not to have 'eval'.
         if(eval) {
             _STEP("eval Value check: eval[%s] is an array?", eval);
             NM_WHEN(!eval->isSub<retStateExpr>() && !eval->isSub<arr>()).err(LOOP_NO_RET_ARR, me);
         }
-
-        _recentLoops.pop_back();
     }
 
     void me::onLeave(const visitInfo& i, defVarExpr& me) {
@@ -668,6 +667,7 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, forExpr& me) {
         _GUARD("onVisit()");
+        _recentLoops.push_back(&me);
 
         str container = me._container;
         str conAsed = container->getEval();
@@ -682,7 +682,6 @@ namespace nm {
         s->add(name, *((node*) elemType->clone()));
 
         thread::get()._getNowFrame().add(*s);
-        _recentLoops.push_back(&me);
         return true;
     }
 
