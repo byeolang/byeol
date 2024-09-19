@@ -62,12 +62,12 @@ namespace {
             _lambda = std::move(lambda);
         }
 
-        nbool isSuccess() const { return _res; }
-
-        str getRet() const override {
-            static str inner(new nVoid());
+        const ntype& getType() const override {
+            static mgdType inner = mgdType::make<me>(params(), nVoid::singletone());
             return inner;
         }
+
+        nbool isSuccess() const { return _res; }
 
         using super::getParams;
 

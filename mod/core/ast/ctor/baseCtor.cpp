@@ -8,8 +8,6 @@ namespace nm {
 
     me::baseCtor(const node& org): _org(org) {}
 
-    str me::getRet() const { return _org->getEval(); }
-
     str me::getEval() const { return getRet(); }
 
     const node& me::getOrigin() const { return *_org; }

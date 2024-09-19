@@ -40,7 +40,7 @@ namespace nm {
         ///         that's completely different to Return type of the function.
         ///         if there is a runExpr instance, and it takes the func and proper argument,
         ///         then it can be evaluated and its evalType is the return type of the func.
-        virtual str getRet() const;
+        str getRet() const;
 
         const modifier& getModifier() const override;
 

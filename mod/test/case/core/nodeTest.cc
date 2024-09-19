@@ -24,11 +24,6 @@ namespace {
 
         nbool isRun() const { return _executed; }
 
-        str getRet() const override {
-            static str inner(new nVoid());
-            return inner;
-        }
-
         using super::getParams;
 
         params& getParams() override {

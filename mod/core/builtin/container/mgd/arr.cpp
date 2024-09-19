@@ -175,8 +175,6 @@ namespace nm {
             __copyCtor(const node& newType): _org(new arr(newType)) {}
 
         public:
-            str getRet() const override { return *_org; }
-
             const ntype& getType() const override {
                 static mgdType inner("copyctor", ttype<me>::get(),
                     params(*new param("rhs", *_org)));

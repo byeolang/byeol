@@ -12,7 +12,6 @@ namespace nm {
         baseCtor(const node& org);
 
     public:
-        str getRet() const override;
         str getEval() const override;
         const node& getOrigin() const;
 
