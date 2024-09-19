@@ -69,10 +69,6 @@ namespace {
 
         nbool isSuccess() const { return _res; }
 
-        using super::getParams;
-
-        params& getParams() override { return _params; }
-
         str run(const args& a) override {
             _executed = true;
             _res = _lambda(a, (frames&) nm::thread::get().getFrames());
@@ -81,7 +77,6 @@ namespace {
 
     private:
         function<nbool(const ucontainable&, const frames&)> _lambda;
-        params _params;
         nbool _res;
         nbool _executed;
     };

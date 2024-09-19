@@ -24,13 +24,6 @@ namespace {
 
         nbool isRun() const { return _executed; }
 
-        using super::getParams;
-
-        params& getParams() override {
-            static params inner;
-            return inner;
-        }
-
     private:
         nbool _executed;
     };

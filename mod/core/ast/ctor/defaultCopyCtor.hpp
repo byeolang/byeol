@@ -8,7 +8,8 @@ namespace nm {
     class visitor;
 
     class _nout defaultCopyCtor: public baseCtor {
-        NM(CLASS(defaultCopyCtor, baseCtor), VISIT())
+        NM(ME(defaultCopyCtor, baseCtor), INIT_META(defaultCopyCtor), CLONE(defaultCopyCtor),
+            VISIT())
 
     public:
         defaultCopyCtor(const node& org);
@@ -17,10 +18,9 @@ namespace nm {
         using super::run;
         str run(const args& a) override;
 
-        using super::getParams;
-        params& getParams() override;
+        const ntype& getType() const override;
 
-    public:
-        params _params;
+    private:
+        mgdType _type;
     };
 }

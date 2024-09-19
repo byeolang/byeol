@@ -28,7 +28,7 @@ namespace nm {
         ///
         ///         I need the name and which types should be casted and binded from given arguments
         ///         are matters.
-        virtual params& getParams();
+        params& getParams();
         const params& getParams() const NM_CONST_FUNC(getParams())
 
         /// @return node which has same type of the func.

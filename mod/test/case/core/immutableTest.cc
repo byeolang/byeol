@@ -58,12 +58,6 @@ namespace {
         }
 
         nbool isSuccess() const { return getBlock().cast<myBlock>()._res; }
-
-        using super::getParams;
-        params& getParams() override { return _params; }
-
-    private:
-        params _params;
     };
 } // namespace
 
