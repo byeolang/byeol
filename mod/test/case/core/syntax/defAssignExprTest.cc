@@ -376,6 +376,7 @@ TEST_F(defAssignExprTest, defAssignAtBlockNegative) {
 
 TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomethingNegative) {
     make()
+        .negative()
         .parse(R"SRC(
         main() int
             abc := for strArr in {{"hello"}}

@@ -68,13 +68,16 @@ namespace nm {
             NM(ME(getElemTypeFunc, baseFunc), CLONE(getElemTypeFunc))
 
         public:
-            const ntype& getType() const override {
-                static mgdType inner("getElemType", ttype<me>::get(), params(), false,
-                    *new getExpr(TYPENAME));
-                return inner;
-            }
+            getElemTypeFunc():
+                _type("getElemType", ttype<me>::get(), params(), false, *new getExpr(TYPENAME)) {}
+
+        public:
+            const ntype& getType() const override { return _type; }
 
             str run(const args& a) override { return safeGet(getType().getRet(), as<node>()); }
+
+        private:
+            mgdType _type;
         };
 
         const static std::string paramName = "typeParam";
