@@ -7,7 +7,7 @@ namespace nm {
     class visitor;
 
     class _nout defaultCtor: public baseCtor {
-        NM(CLASS(defaultCtor, baseCtor), VISIT())
+        NM(ME(defaultCtor, baseCtor), CLONE(defaultCtor), VISIT())
 
     public:
         defaultCtor(const node& org);
