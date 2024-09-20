@@ -21,7 +21,7 @@ TEST_F(slotLoaderTest, testDefaultLoaderInit) {
         baseFunc& sayFunc = origin["say"].cast<baseFunc>();
         ASSERT_FALSE(nul(sayFunc));
 
-        ASSERT_EQ(sayFunc.getRet()->getType(), nVoid().getType());
+        ASSERT_EQ(sayFunc.getRet().getType(), nVoid().getType());
         ASSERT_EQ(sayFunc.getParams().len(), 0); // 'me' of func won't be passed as an argument.
 
         args a(narr{origin});

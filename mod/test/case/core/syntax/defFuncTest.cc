@@ -24,7 +24,7 @@ TEST_F(defFuncTest, distinguishDefineFuncOrCall) {
         const baseFunc& f = res.sub<baseFunc>("main", narr());
         ASSERT_FALSE(nul(f));
         ASSERT_EQ(f.getParams().len(), 0);
-        ASSERT_EQ(f.getRet()->getType(), ttype<nVoid>());
+        ASSERT_EQ(f.getRet().getType(), ttype<nVoid>());
     }
 
     if(make()
@@ -44,7 +44,7 @@ TEST_F(defFuncTest, distinguishDefineFuncOrCall) {
         const baseFunc& f = res.sub<baseFunc>("main", narr(nInt(), nStr()));
         ASSERT_FALSE(nul(f));
         ASSERT_EQ(f.getParams().len(), 2);
-        ASSERT_EQ(f.getRet()->getType(), ttype<nVoid>());
+        ASSERT_EQ(f.getRet().getType(), ttype<nVoid>());
 
         const params& ps = f.getParams();
         ASSERT_FALSE(nul(ps));

@@ -388,7 +388,7 @@ namespace nm {
         str myRet = me.getRet().getEval();
         NM_WHEN(!myRet).err(EXPR_EVAL_NUL, me);
 
-        str funRet = f.getRet()->as<node>();
+        str funRet = f.getRet().as<node>();
         _STEP("checks return[%s] == func[%s]", myRet, funRet);
 
         NM_WHEN(!myRet->isSub<baseErr>() && !myRet->isImpli(*funRet))
@@ -447,11 +447,11 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, ctor& me) {
         _GUARD("onVisit()");
 
-        NM_WHEN(!me.getRet()).err(CTOR_NOT_IN_DEF_OBJ, me), true;
+        NM_WHENNUL(me.getRet()).err(CTOR_NOT_IN_DEF_OBJ, me), true;
 
         frame& fr = thread::get()._getNowFrame();
         str prev = fr.getMe();
-        fr.setMe(*me.getRet()); // don't use 'cast<baseObj>'. it lets mockNode call 'cast' to its
+        fr.setMe(me.getRet()); // don't use 'cast<baseObj>'. it lets mockNode call 'cast' to its
                                 // original instance.
 
         nbool ret = super::onVisit(i, me);
@@ -576,7 +576,7 @@ namespace nm {
         _GUARD("onLeave()");
 
         _STEP("last stmt should match to ret type");
-        str ret = me.getRet()->as<node>();
+        str ret = me.getRet().as<node>();
         const type& retType = ret->getType();
         const node& lastStmt = *me.getBlock().getStmts().last();
 

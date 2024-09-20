@@ -103,10 +103,10 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, baseFunc& me) {
         onVisit(i, (params&) me.getParams());
 
-        const node& retOrg = _findOrigin(*me.getRet());
+        const node& retOrg = _findOrigin(me.getRet());
         if(!nul(retOrg)) {
             NM_DI("* inject func: retType of '%s(%s) %s' --> '%s'", i, me.getParams().toStr(),
-                me.getRet()->getEval(), retOrg);
+                me.getRet().getEval(), retOrg);
             me._getType().setRet(retOrg);
             if(nul(i.parent)) getReport().add(nerr::newErr(errCode::IS_NUL, "parent"));
         }

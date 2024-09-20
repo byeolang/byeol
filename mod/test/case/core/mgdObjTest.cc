@@ -119,7 +119,7 @@ TEST_F(mgdObjTest, clonedObjDoesntCloneSharesDeeply) {
 
     const auto& b1foo = o1b1.getShares().get<func>("foo");
     ASSERT_EQ(b1foo.getParams().len(), 0);
-    ASSERT_TRUE(b1foo.getRet()->isSub<nVoid>());
+    ASSERT_TRUE(b1foo.getRet().isSub<nVoid>());
 
 
     ASSERT_EQ(o2.getOwns().len(), 2);
@@ -131,7 +131,7 @@ TEST_F(mgdObjTest, clonedObjDoesntCloneSharesDeeply) {
 
     const auto& b2foo = o2b1.getShares().get<func>("foo");
     ASSERT_EQ(b2foo.getParams().len(), 0);
-    ASSERT_TRUE(b2foo.getRet()->isSub<nVoid>());
+    ASSERT_TRUE(b2foo.getRet().isSub<nVoid>());
 
     ASSERT_NE(&o1b1.getOwns()["grade"], &o2b1.getOwns()["grade"]);
     ASSERT_EQ(&b1foo, &b2foo);

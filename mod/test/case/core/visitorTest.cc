@@ -27,7 +27,7 @@ TEST_F(visitorTest, iterateManuallyConstructedNodes) {
             if(i.name == "foo1") metFoo1 = true;
             if(i.name == "foo2") {
                 metFoo2 = true;
-                EXPECT_TRUE(fun.getRet()->isSub<nFlt>());
+                EXPECT_TRUE(fun.getRet().isSub<nFlt>());
             }
             return true;
         }

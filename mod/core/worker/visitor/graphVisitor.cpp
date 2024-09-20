@@ -89,9 +89,10 @@ namespace nm {
 
         _showModifier(fun.getModifier());
 
+        const node& ret = fun.getRet();
         cout << foreColor(LIGHTBLUE) << i.name << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN)
              << fun.getParams().toStr() << foreColor(LIGHTGRAY) << ") " << foreColor(CYAN)
-             << (fun.getRet() ? fun.getRet()->getType().getName() : "null");
+             << (!nul(ret) ? ret.getType().getName() : "null");
         return true;
     }
 
