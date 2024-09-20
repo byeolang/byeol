@@ -6,11 +6,11 @@ namespace nm {
 
     NM(DEF_ME(baseCtor), DEF_VISIT())
 
-    me::baseCtor(const node& org): _org(org) {}
+    me::baseCtor(const mgdType& type): _type(type) {}
 
     str me::getEval() const { return getRet(); }
 
-    const node& me::getOrigin() const { return *_org; }
+    const ntype& me::getType() const { return _type; }
 
-    void me::_setOrigin(const node& newOrg) { _org.bind(newOrg); }
+    void me::_setOrigin(const node& newOrg) { _type.setRet(newOrg); }
 }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "baseCtor.hpp"
-#include "../params.hpp"
 
 namespace nm {
 
@@ -17,10 +16,5 @@ namespace nm {
     public:
         using super::run;
         str run(const args& a) override;
-
-        const ntype& getType() const override;
-
-    private:
-        mgdType _type;
     };
 }

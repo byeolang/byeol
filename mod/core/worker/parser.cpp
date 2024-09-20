@@ -610,7 +610,7 @@ namespace nm {
         //      hasCtor must be false.
         ncnt len = ctors.len();
         nbool hasCtor = len > 1 || (len == 1 && !hasCopyCtor);
-        NM_DI("tokenEvent: _onInjectDefaultCtor(%s, hasCtor=%s, hasCopyCtor)", it, hasCtor,
+        NM_DI("tokenEvent: _onInjectDefaultCtor(%s, hasCtor=%s, hasCopyCtor=%s)", it, hasCtor,
             hasCopyCtor);
 
         // TODO: ctor need to call superclass's ctor.

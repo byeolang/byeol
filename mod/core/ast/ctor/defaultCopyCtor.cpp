@@ -7,7 +7,7 @@ namespace nm {
     NM(DEF_ME(defaultCopyCtor), DEF_VISIT())
 
     me::defaultCopyCtor(const node& org):
-        super(org), _type(mgdType::make<me>(params(*new param("rhs", org)), org)) {}
+        super(mgdType::make<me>(params(*new param("rhs", org)), org)) {}
 
     str me::run(const args& a) {
         if(!canRun(a)) return str();
@@ -15,6 +15,4 @@ namespace nm {
         const node& p = getParams()[0].getOrigin();
         return str((node*) a.begin()->as(p)->clone());
     }
-
-    const ntype& me::getType() const { return _type; }
 }

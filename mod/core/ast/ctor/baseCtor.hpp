@@ -9,16 +9,16 @@ namespace nm {
         friend class generalizer; // for _setOrigin()
 
     public:
-        baseCtor(const node& org);
+        baseCtor(const mgdType& type);
 
     public:
         str getEval() const override;
-        const node& getOrigin() const;
+        const ntype& getType() const override;
 
     private:
         void _setOrigin(const node& newOrg);
 
     private:
-        str _org;
+        mgdType _type;
     };
 }

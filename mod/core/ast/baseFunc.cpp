@@ -49,7 +49,7 @@ namespace nm {
 
     params& me::getParams() { return ((ntype&) getType()).getParams(); }
 
-    str me::getRet() const { return getType().getRet(); }
+    const node& me::getRet() const { return getType().getRet(); }
 
     const modifier& me::getModifier() const {
         if(_mod) return *_mod;
