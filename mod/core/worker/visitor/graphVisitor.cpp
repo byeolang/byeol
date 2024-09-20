@@ -91,7 +91,7 @@ namespace nm {
 
         cout << foreColor(LIGHTBLUE) << i.name << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN)
              << fun.getParams().toStr() << foreColor(LIGHTGRAY) << ") " << foreColor(CYAN)
-             << fun.getRet()->getType().getName();
+             << (fun.getRet() ? fun.getRet()->getType().getName() : "null");
         return true;
     }
 
