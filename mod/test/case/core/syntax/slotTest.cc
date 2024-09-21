@@ -34,7 +34,9 @@ namespace {
 
     public:
         myfunc():
-            super(*new modifier(), mgdType("myfunc", ttype<me>::get(), params(), false, *new nVoid()), *new myBlock()) {
+            super(*new modifier(),
+                mgdType("myfunc", ttype<me>::get(), params(), false, *new nVoid()),
+                *new myBlock()) {
             NM_I("myfunc(%s) new", this);
         }
 

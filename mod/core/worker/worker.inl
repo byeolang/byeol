@@ -4,9 +4,7 @@
 
 namespace nm {
 
-    template <typename R, typename T> struct workerAdapter {
-        static R adaptWork(worker<R, T>& w);
-    };
+    template <typename R, typename T> struct workerAdapter { static R adaptWork(worker<R, T>& w); };
 
     template <typename T> struct workerAdapter<void, T> {
         static void adaptWork(worker<void, T>& w);

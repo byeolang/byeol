@@ -7,7 +7,7 @@ namespace nm {
     nbool me::operator==(const me& rhs) const {
         if(len() != rhs.len()) return false;
 
-        for(nidx n=0; n < len() ;n++)
+        for(nidx n = 0; n < len(); n++)
             if(get(n) != rhs[n]) return false;
         return true;
     }
@@ -41,4 +41,4 @@ namespace nm {
             names.push_back(std::to_string(n));
         return make(names, args);
     }
-}
+} // namespace nm

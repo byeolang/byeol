@@ -141,7 +141,8 @@ namespace nm {
 
         public:
             const ntype& getType() const override {
-                static mgdType inner("getElemType", ttype<me>::get(), params(), false, *new nChar());
+                static mgdType inner("getElemType", ttype<me>::get(), params(), false,
+                    *new nChar());
                 return inner;
             }
 

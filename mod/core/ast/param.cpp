@@ -9,7 +9,9 @@ namespace nm {
 
     me::param(const std::string& newName, const node* org): _name(newName) { setOrigin(*org); }
 
-    nbool me::operator==(const me& rhs) const { return getOrigin().getType() == rhs.getOrigin().getType(); }
+    nbool me::operator==(const me& rhs) const {
+        return getOrigin().getType() == rhs.getOrigin().getType();
+    }
 
     nbool me::operator!=(const me& rhs) const { return !operator==(rhs); }
 
@@ -25,4 +27,4 @@ namespace nm {
         me& rhs = (me&) new1;
         _org.bind((node*) (rhs._org ? rhs._org->cloneDeep() : nullptr));
     }
-}
+} // namespace nm

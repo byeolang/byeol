@@ -452,7 +452,7 @@ namespace nm {
         frame& fr = thread::get()._getNowFrame();
         str prev = fr.getMe();
         fr.setMe(me.getRet()); // don't use 'cast<baseObj>'. it lets mockNode call 'cast' to its
-                                // original instance.
+                               // original instance.
 
         nbool ret = super::onVisit(i, me);
         fr.setMe(*prev);
@@ -616,7 +616,9 @@ namespace nm {
             if(elem.isSub<nVoid>()) posError(errCode::VOID_CANT_DEFINED, elem);
 
         _STEP("did user set the name of this object like 'const'?");
-        NM_WHEN(util::checkTypeAttr(i.name) == ATTR_CONST && i.name.length() > 1).err(ORIGIN_OBJ_CANT_BE_CONST, me), true;
+        NM_WHEN(util::checkTypeAttr(i.name) == ATTR_CONST && i.name.length() > 1)
+            .err(ORIGIN_OBJ_CANT_BE_CONST, me),
+            true;
 
         _STEP("if obj is complete, does it have ctor without params?");
         if(me.isComplete()) {
@@ -647,7 +649,9 @@ namespace nm {
             if(nul(e.second)) posError(errCode::MAKE_GENERIC_FAIL, me, e.first.c_str());
 
         _STEP("did user set the name of this object like 'const'?");
-        NM_WHEN(util::checkTypeAttr(i.name) == ATTR_CONST && i.name.length() > 1).err(ORIGIN_OBJ_CANT_BE_CONST, me), true;
+        NM_WHEN(util::checkTypeAttr(i.name) == ATTR_CONST && i.name.length() > 1)
+            .err(ORIGIN_OBJ_CANT_BE_CONST, me),
+            true;
 
         _STEP("if obj is complete, does it have ctor without params?");
         if(me.isComplete())

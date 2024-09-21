@@ -13,8 +13,8 @@ namespace nm {
     class _nout baseFunc: public node {
         NM(ADT(baseFunc, node), VISIT())
         friend class generalizer; // for _getType()
-        friend class parser; // for _getType()
-        friend class exprMaker; // for _setSrc()
+        friend class parser;      // for _getType()
+        friend class exprMaker;   // for _setSrc()
 
     public:
         baseFunc() = default;

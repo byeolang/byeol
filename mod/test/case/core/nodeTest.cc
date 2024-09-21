@@ -12,7 +12,9 @@ namespace {
         NM(ME(myFunc, func))
 
     public:
-        myFunc(): super(*new modifier(), mgdType("myFunc", ttype<me>::get(), params(), false, *new nVoid())) {}
+        myFunc():
+            super(*new modifier(),
+                mgdType("myFunc", ttype<me>::get(), params(), false, *new nVoid())) {}
 
         void setUp() { _executed = false; }
 
