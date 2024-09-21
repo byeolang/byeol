@@ -1,6 +1,6 @@
 #pragma once
 
-#include "expr.hpp"
+#include "node.hpp"
 #include "../type/mgdType.hpp"
 
 namespace nm {
@@ -10,16 +10,20 @@ namespace nm {
     class params;
     class visitor;
 
-    class _nout baseFunc: public expr {
-        NM(ADT(baseFunc, expr), VISIT())
+    class _nout baseFunc: public node {
+        NM(ADT(baseFunc, node), VISIT())
         friend class generalizer; // for _getType()
         friend class parser; // for _getType()
+        friend class exprMaker; // for _setSrc()
 
     public:
         baseFunc() = default;
         baseFunc(const modifier& mod);
 
     public:
+        using super::subs;
+        scope& subs() override;
+
         priorType prioritize(const args& a) const override;
 
         /// @return parameters of run() func.
@@ -42,6 +46,8 @@ namespace nm {
         ///         then it can be evaluated and its evalType is the return type of the func.
         const node& getRet() const;
 
+        const src& getSrc() const override;
+
         const modifier& getModifier() const override;
 
     protected:
@@ -50,9 +56,11 @@ namespace nm {
     private:
         nbool _isNatureNumber(const node& it) const;
         priorType _prioritize(const node& param, const node& arg) const;
+        void _setSrc(const src& newSrc) override;
 
     private:
         tstr<modifier> _mod;
+        tstr<src> _src;
 
     public:
         static inline const std::string ME = "me";

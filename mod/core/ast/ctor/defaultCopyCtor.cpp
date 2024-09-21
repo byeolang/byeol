@@ -1,6 +1,7 @@
 #include "defaultCopyCtor.hpp"
 
 #include "../../worker/visitor/visitor.hpp"
+#include "../args.hpp"
 
 namespace nm {
 

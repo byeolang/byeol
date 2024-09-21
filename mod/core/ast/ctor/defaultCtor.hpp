@@ -1,6 +1,7 @@
 #pragma once
 
 #include "baseCtor.hpp"
+#include "../args.hpp"
 
 namespace nm {
 

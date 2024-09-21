@@ -13,6 +13,11 @@ namespace nm {
 
     me::baseFunc(const modifier& mod): _mod(mod) {}
 
+    scope& me::subs() {
+        static dumScope inner;
+        return inner;
+    }
+
     priorType me::prioritize(const args& a) const {
         const params& ps = getParams();
         if(a.len() != ps.len()) return NO_MATCH;
@@ -45,11 +50,18 @@ namespace nm {
         return NO_MATCH;
     }
 
+    void me::_setSrc(const src& newSrc) { _src.bind(newSrc); }
+
     ntype& me::_getType() { return (ntype&) getType(); }
 
     params& me::getParams() { return ((ntype&) getType()).getParams(); }
 
     const node& me::getRet() const { return getType().getRet(); }
+
+    const src& me::getSrc() const {
+        if(!_src) return super::getSrc();
+        return *_src;
+    }
 
     const modifier& me::getModifier() const {
         if(_mod) return *_mod;
