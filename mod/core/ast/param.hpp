@@ -13,6 +13,10 @@ namespace nm {
         param(const std::string& newName, const node* org);
 
     public:
+        nbool operator==(const me& rhs) const;
+        nbool operator!=(const me& rhs) const;
+
+    public:
         const std::string& getName() const;
         void setName(const std::string& new1);
         const node& getOrigin() const;

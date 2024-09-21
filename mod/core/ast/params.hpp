@@ -20,6 +20,10 @@ namespace nm {
         }
 
     public:
+        nbool operator==(const me& rhs) const;
+        nbool operator!=(const me& rhs) const;
+
+    public:
         /// @remark in order to call this func, you must have prepared thread and frames.
         std::string toStr() const;
 

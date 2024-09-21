@@ -9,6 +9,10 @@ namespace nm {
 
     me::param(const std::string& newName, const node* org): _name(newName) { setOrigin(*org); }
 
+    nbool me::operator==(const me& rhs) const { return getOrigin().getType() == rhs.getOrigin().getType(); }
+
+    nbool me::operator!=(const me& rhs) const { return !operator==(rhs); }
+
     void me::setOrigin(const node& newType) { _org.bind(newType); }
 
     const std::string& me::getName() const { return _name; }

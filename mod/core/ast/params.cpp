@@ -4,6 +4,16 @@
 namespace nm {
     NM(DEF_ME(params))
 
+    nbool me::operator==(const me& rhs) const {
+        if(len() != rhs.len()) return false;
+
+        for(nidx n=0; n < len() ;n++)
+            if(get(n) != rhs[n]) return false;
+        return true;
+    }
+
+    nbool me::operator!=(const me& rhs) const { return !operator==(rhs); }
+
     std::string me::toStr() const {
         int n = 0;
         std::string msg;

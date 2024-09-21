@@ -24,11 +24,7 @@ namespace nm {
         const params& theirPs = cast.getParams();
         if(nul(ps) || !ps.len()) return true;
         if(nul(theirPs)) return false;
-        if(ps.len() != theirPs.len()) return false;
-
-        for(int n = 0; n < ps.len(); n++)
-            if(ps[n].getOrigin().getType() != theirPs[n].getOrigin().getType()) return false;
-        return true;
+        return ps == theirPs;
     }
 
     nbool me::isImpli(const type& to) const { return _getImpliAses().is(*this, to); }
