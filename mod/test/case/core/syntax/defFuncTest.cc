@@ -537,3 +537,31 @@ TEST_F(defFuncTest, funcTakingFunc) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 3);
 }
+
+TEST_F(defFuncTest, funcTakingFunc2) {
+    make()
+        .parse(R"SRC(
+        foo(n int) flt: n + 1.5
+        boo(f foo, n int) flt: f(n + 1.5) # flt -> int is allowed to use a func type
+        main() int: boo(foo, 1) + 0.5
+    )SRC")
+        .shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 4);
+}
+
+TEST_F(defFuncTest, funcTypeDontHaveImplicitCasting) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        foo1(n int) int: n + 1
+        foo2(n flt) int: n + 1
+        boo(f foo1, n int) int
+            f(n + 1)
+        main() int: boo(foo2, 1) # flt -> int implicit casting
+                                 # doesn't work for a func type
+    )SRC")
+        .shouldVerified(false);
+}
