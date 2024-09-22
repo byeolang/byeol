@@ -55,30 +55,31 @@ namespace nm {
         }
     }
 
-    str me::_postprocess(str ret, nidx exN) {
+    str me::_postprocess(str blkRes, nidx exN) {
         frame& fr = thread::get()._getNowFrame();
-        str res = fr.getRet();
+        str frRes = fr.getRet();
+        str res = frRes ? frRes : blkRes;
         fr.setRet();
-        if(nul(res)) res = ret;
         if(nul(res)) return NM_E("res == null"), str();
 
         // if I got new exception, I just return it.
         if(thread::get().getEx().inErr(exN)) return res->as(*getRet().as<node>());
+        if(frRes) return frRes; // if you 'ret' for retuning a func, retExpr will make a closure.
 
-        // if you are returning func, then I'll make a closure for it.
-        // if you use 'ret' for retuning a func, retExpr will make a closure.
-        // so don't think about that scenario. only I should care is last stmt of block, that is,
-        // 'ret'.
-        baseFunc& cast = res->cast<baseFunc>();
-        if(!res && !nul(cast)) {
-            // ok. implicit returning for last stmt was func.
-            // getExpr is suitable to make a closure.
+        // implicit closure:
+        //  if you are returning func, then I'll make a closure for it.
+        //  so don't think about that scenario. only I should care is last stmt of block, that is,
+        //  'ret'.
+        const node& lastStmt = *_blk->getStmts().last();
+        const getExpr& get = safeGet(lastStmt, cast<getExpr>());
+        if(!nul(get)) {
+            // ok. implicit returning for last stmt was func. getExpr is suitable to make a closure.
             getExpr& get = _blk->getStmts().last()->cast<getExpr>();
             NM_WHENNUL(get).ex(CANT_RETURN_A_CLOSURE), str();
             return get.makeClosure();
         }
 
-        return ret;
+        return blkRes;
     }
 
     void me::_runEnds() {

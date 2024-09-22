@@ -38,6 +38,10 @@ namespace nm {
         str fRet = fr.getFunc().getRet(); // # check exception occured during running func.
         if(_isEx(*ret, *fRet)) return _returnEx(ret->cast<baseErr>());
 
+        // implicit closure:
+        getExpr& get = _ret->cast<getExpr>();
+        if(!nul(get)) return get.makeClosure();
+
         NM_DI("retExpr: frame.setRet(%s)", ret);
         fr.setRet(*ret);
         return ret;

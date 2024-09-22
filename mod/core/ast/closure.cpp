@@ -2,6 +2,8 @@
 #include "../frame/thread.hpp"
 #include "../frame/frameInteract.hpp"
 #include "../worker/visitor/visitor.hpp"
+#include "exprs/getExpr.hpp"
+#include "baseFunc.hpp"
 
 namespace nm {
     NM(DEF_ME(closure), DEF_VISIT())
