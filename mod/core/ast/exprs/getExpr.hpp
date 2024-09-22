@@ -36,7 +36,10 @@ namespace nm {
         void onCloneDeep(const clonable& new1) override;
 
     protected:
-        virtual priorities _get(nbool evalMode) const;
+        virtual node& _onGet(node& me) const;
+
+    private:
+        str _get(nbool evalMode) const;
 
     private:
         str _me;

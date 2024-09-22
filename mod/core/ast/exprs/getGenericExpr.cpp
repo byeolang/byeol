@@ -14,22 +14,15 @@ namespace nm {
     me::getGenericExpr(const node& me, const std::string& genericName, const args& typeParams):
         super(me, genericName, typeParams) {}
 
-    priorities me::_get(nbool evalMode) const {
-        genericOrigin& generic = _getGenericOrigin();
-        if(nul(generic)) return NM_E("generic == null"), priorities();
-
-        return priorities(*generic.run(getArgs()));
-    }
-
-    genericOrigin& me::_getGenericOrigin() const {
+    node& me::_onGet(node& me) const {
         const args& typs = getArgs();
         const std::string& name = getName();
         if(nul(typs) || !typs.len()) return NM_E("_args.len() == 0"), nulOf<genericOrigin>();
         NM_DI("_name=%s, _args[%d]", getName(), typs.len());
 
-        str evalMe = getMe().isSub<expr>() ? getMe().as<node>() : getMe();
-        if(!evalMe) return NM_E("from == null"), nulOf<genericOrigin>();
+        node& generic = me.sub<genericOrigin>(name);
+        if(nul(generic)) return NM_E("generic == null"), nulOf<node>();
 
-        return evalMe->sub<genericOrigin>(name);
+        return *generic.run(getArgs());
     }
 }

@@ -23,11 +23,11 @@ namespace nm {
         return *_me;
     }
 
-    str me::getEval() const { return _get(true).get(); }
+    str me::getEval() const { return _get(true); }
 
     str me::run(const args& a) {
         // believe that this expression was checked to be valid.
-        return _get(false).get();
+        return _get(false);
     }
 
     const std::string& me::getName() const { return _name; }
@@ -47,19 +47,21 @@ namespace nm {
         else _args.bind(new1);
     }
 
-    priorities me::_get(nbool evalMode) const {
+    str me::_get(nbool evalMode) const {
         NM_DI("getExpr: looking for '%s.%s' evalMode[%s]", getMe(), _name, evalMode);
-
         str evalMe = evalMode ? safeGet(getMe(), getEval()) : safeGet(getMe(), as<node>());
-        if(!evalMe) return NM_E("me == null"), priorities();
-        if(evalMode) evalMe = evalMe->as<node>();
-        NM_DI("run: 'me' was evaluated to %s", evalMe);
+        if(!evalMe) return NM_E("me == null"), str();
 
+        // NM_DI("run: 'me' was evaluated to %s", evalMe);
+        return _onGet(*evalMe);
+    }
+
+    node& me::_onGet(node& me) const {
         std::string argsName = _args ? _args->asStr().c_str() : "{}";
-        NM_DI("run: %s.sub(\"%s\", %s)", evalMe, _name, argsName);
-        if(!_args) return priorities(evalMe->sub(_name));
+        NM_DI("run: %s.sub(\"%s\", %s)", me, _name, argsName);
+        if(!_args) return me.sub(_name);
 
-        return evalMe->subAll(_name, *_args);
+        return me.subAll(_name, *_args).get();
     }
 
     void me::setMe(const node& newMe) { _me.bind(newMe); }

@@ -345,24 +345,23 @@ namespace nm {
         // Until then, I rather use as() func and it makes slow emmersively.
         _STEP("isRunnable: %s.%s", me, me.getName());
         NM_WHEN(!me.getEval()).err(WHAT_IS_THIS_IDENTIFIER, me, me.getName());
-        auto matches = me._get(true);
-        if(matches.isEmpty()) {
+        str match = me._get(true);
+        if(!match) {
             const node& from = me.getMe();
             return posError(errCode::CANT_ACCESS, me, me._name.c_str(),
                 from.getType().getName().c_str());
         }
-        node& got = matches.get();
         // TODO: leave logs for all ambigious candidates as err.
-        NM_WHENNUL(got).err(AMBIGIOUS_ACCESS, me, i);
+        NM_WHENNUL(*match).err(AMBIGIOUS_ACCESS, me, i);
 
-        _STEP("isRunnable: got=%s, me=%s", got, me.getType());
+        _STEP("isRunnable: got=%s, me=%s", match, me.getType());
 
         str asedMe = me.getMe().getEval();
         _STEP("accesses to incomplete 'me[%s]' object?", asedMe);
         NM_WHEN(asedMe && !asedMe->isComplete()).err(ACCESS_TO_INCOMPLETE, me);
 
         _STEP("check modifier.");
-        const auto& mod = got.getModifier();
+        const auto& mod = match->getModifier();
         NM_WHENNUL(mod).err(MODIFIER_NOT_FOUND, me, me.getName());
         if(!mod.isPublic()) { // we only need to run verify routine when there is protected
                               // modifier.
