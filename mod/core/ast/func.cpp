@@ -57,17 +57,27 @@ namespace nm {
 
     str me::_postprocess(str ret, nidx exN) {
         frame& fr = thread::get()._getNowFrame();
-        node* retVal = &fr.getRet();
-        if(nul(retVal)) retVal = &ret.get();
-        if(nul(retVal)) return NM_E("retVal == null"), str();
-        if(!thread::get().getEx().inErr(exN)) // if I got new exception, I just return it.
-            ret = retVal->as(*getRet().as<node>());
-
-        baseFunc& cast = retVal->cast<baseFunc>();
-        thread
-        if(!nul(cast)) return new closure(evalMe->subs(), cast);
-
+        str res = fr.getRet();
         fr.setRet();
+        if(nul(res)) res = ret;
+        if(nul(res)) return NM_E("res == null"), str();
+
+        // if I got new exception, I just return it.
+        if(thread::get().getEx().inErr(exN)) return res->as(*getRet().as<node>());
+
+        // if you are returning func, then I'll make a closure for it.
+        // if you use 'ret' for retuning a func, retExpr will make a closure.
+        // so don't think about that scenario. only I should care is last stmt of block, that is,
+        // 'ret'.
+        baseFunc& cast = res->cast<baseFunc>();
+        if(!res && !nul(cast)) {
+            // ok. implicit returning for last stmt was func.
+            // getExpr is suitable to make a closure.
+            getExpr& get = _blk->getStmts().last()->cast<getExpr>();
+            NM_WHENNUL(get).ex(CANT_RETURN_A_CLOSURE), str();
+            return get.makeClosure();
+        }
+
         return ret;
     }
 

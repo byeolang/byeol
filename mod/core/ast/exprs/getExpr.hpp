@@ -6,6 +6,7 @@
 namespace nm {
 
     class visitor;
+    class closure;
 
     class _nout getExpr: public expr {
         NM(CLASS(getExpr, expr, expr::exprType), VISIT())
@@ -35,11 +36,14 @@ namespace nm {
 
         void onCloneDeep(const clonable& new1) override;
 
+        tstr<closure> makeClosure() const;
+
     protected:
         virtual node& _onGet(node& me) const;
 
     private:
         str _get(nbool evalMode) const;
+        str _evalMe(nbool evalMode) const;
 
     private:
         str _me;

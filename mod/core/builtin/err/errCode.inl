@@ -138,6 +138,7 @@ PAIRX(RET_ERR_ON_CTOR, "returning err on function not allowed")
 // closure:
 PAIRX(NOT_CAPTURED, "closure don't capture any scopes.")
 PAIRX(NOT_HAS_FUNC, "closure don't refer a func")
+PAIRX(CANT_RETURN_A_CLOSURE, "it seems that you tried to return a closure of a func, but I couldn't")
 
 // block:
 PAIRX(RET_AT_MIDDLE_OF_BLOCK, "use 'ret' at last of block stmt.")

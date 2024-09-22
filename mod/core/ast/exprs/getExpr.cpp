@@ -49,14 +49,17 @@ namespace nm {
     }
 
     str me::_get(nbool evalMode) const {
-        NM_DI("getExpr: looking for '%s.%s' evalMode[%s]", getMe(), _name, evalMode);
-        str evalMe = evalMode ? safeGet(getMe(), getEval()) : safeGet(getMe(), as<node>());
-        if(!evalMe) return NM_E("me == null"), str();
+        NM_DI("getExpr: looking for '%s.%s'", getMe(), _name);
+        return _onGet(*_evalMe(evalMode));
+    }
 
-        return _onGet(*evalMe);
+    str me::_evalMe(nbool evalMode) const {
+        return evalMode ? safeGet(getMe(), getEval()) : safeGet(getMe(), as<node>());
     }
 
     node& me::_onGet(node& me) const {
+        if(nul(me)) return nulOf<node>();
+
         std::string argsName = _args ? _args->asStr().c_str() : "{}";
         NM_DI("run: %s.sub(\"%s\", %s)", me, _name, argsName);
         if(!_args) return me.sub(_name);
@@ -69,5 +72,13 @@ namespace nm {
     void me::onCloneDeep(const clonable& from) {
         me& rhs = (me&) from;
         if(rhs._args) _args.bind((args*) rhs._args->cloneDeep());
+    }
+
+    tstr<closure> me::makeClosure() const {
+        str me = _evalMe(true);
+        baseFunc& cast = _onGet(*me).cast<baseFunc>();
+        if(nul(cast)) return tstr<closure>();
+
+        return new closure(me->subs(), cast);
     }
 } // namespace nm
