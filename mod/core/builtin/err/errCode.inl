@@ -135,6 +135,10 @@ PAIRX(PARAM_NOT_VOID, "parameter '%s' shouldn't be a void type")
 PAIRX(FUNC_SHOULD_RETURN_SOMETHING, "function should return something")
 PAIRX(RET_ERR_ON_CTOR, "returning err on function not allowed")
 
+// closure:
+PAIRX(NOT_CAPTURED, "closure don't capture any scopes.")
+PAIRX(NOT_HAS_FUNC, "closure don't refer a func")
+
 // block:
 PAIRX(RET_AT_MIDDLE_OF_BLOCK, "use 'ret' at last of block stmt.")
 PAIRX(BLK_CANT_MAKE_FRAME, "block statement failed to construct frame structure")

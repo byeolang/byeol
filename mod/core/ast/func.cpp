@@ -62,6 +62,11 @@ namespace nm {
         if(nul(retVal)) return NM_E("retVal == null"), str();
         if(!thread::get().getEx().inErr(exN)) // if I got new exception, I just return it.
             ret = retVal->as(*getRet().as<node>());
+
+        baseFunc& cast = retVal->cast<baseFunc>();
+        thread
+        if(!nul(cast)) return new closure(evalMe->subs(), cast);
+
         fr.setRet();
         return ret;
     }

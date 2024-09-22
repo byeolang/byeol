@@ -29,6 +29,7 @@ namespace nm {
         friend class starter;
         friend struct ::exprTest;
         friend class loopExpr;
+        friend class closure; // for _getFrames()
 
     public:
         thread();

@@ -565,3 +565,18 @@ TEST_F(defFuncTest, funcTypeDontHaveImplicitCasting) {
     )SRC")
         .shouldVerified(false);
 }
+
+TEST_F(defFuncTest, funcTypeCompatibleToDifferentObjScope) {
+    make().parse(R"SRC(
+        def a
+            foo(n int) int: n + 5
+        def b
+            foo(n int) int: n - 2
+        foo(f a.foo, n int) int: f(n)
+        main() int: foo(a.foo, 1) + foo(b.foo, 1) # 6 + -1
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 5);
+}

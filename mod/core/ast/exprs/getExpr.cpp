@@ -4,6 +4,7 @@
 #include "../../worker/visitor/graphVisitor.hpp"
 #include "../../worker/visitor/visitor.hpp"
 #include "../node.inl"
+#include "../closure.hpp"
 
 namespace nm {
 
@@ -52,7 +53,6 @@ namespace nm {
         str evalMe = evalMode ? safeGet(getMe(), getEval()) : safeGet(getMe(), as<node>());
         if(!evalMe) return NM_E("me == null"), str();
 
-        // NM_DI("run: 'me' was evaluated to %s", evalMe);
         return _onGet(*evalMe);
     }
 

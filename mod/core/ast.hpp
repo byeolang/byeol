@@ -10,3 +10,5 @@
 #include "ast/params.hpp"
 #include "ast/point.hpp"
 #include "ast/src.hpp"
+#include "ast/closure.hpp"
+#include "ast/tbaseObjOrigin.hpp"
