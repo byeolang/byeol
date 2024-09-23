@@ -40,7 +40,10 @@ namespace nm {
 
         // implicit closure:
         getExpr& get = _ret->cast<getExpr>();
-        if(!nul(get)) return get.makeClosure();
+        if(!nul(get)) {
+            str closure = get.makeClosure();
+            if(closure) ret = closure;
+        }
 
         NM_DI("retExpr: frame.setRet(%s)", ret);
         fr.setRet(*ret);

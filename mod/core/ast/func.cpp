@@ -78,7 +78,8 @@ namespace nm {
             // ok. implicit returning for last stmt was func. getExpr is suitable to make a closure.
             getExpr& get = _blk->getStmts().last()->cast<getExpr>();
             NM_WHENNUL(get).ex(CANT_RETURN_A_CLOSURE), str();
-            return get.makeClosure();
+            str closure = get.makeClosure();
+            if(closure) blkRes = closure;
         }
 
         return blkRes;
