@@ -70,7 +70,7 @@ namespace nm {
             if(closure) res = closure;
         }
 
-        return res->as(*getRet().as<node>());
+        return res ? res->as(*getRet().as<node>()) : res;
     }
 
     void me::_runEnds() {
