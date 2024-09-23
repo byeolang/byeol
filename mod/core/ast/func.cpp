@@ -49,7 +49,9 @@ namespace nm {
                 frameInteract f3(*_blk);
                 {
                     _runEnds();
-                    return _postprocess(_blk->run(), exN);
+                    str ret = _postprocess(_blk->run(), exN);
+                    NM_I("%s returning %s", *this, ret);
+                    return ret;
                 }
             }
         }

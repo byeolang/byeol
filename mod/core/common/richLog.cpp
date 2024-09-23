@@ -13,6 +13,8 @@ namespace nm {
 
     strWrap __convert__(const src& it) { return it.getName(); }
 
+    strWrap __convert__(const baseFunc& it) { return it.getSrc().getName() + "(" + it.getParams().toStr() + ")"; }
+
     strWrap __convert__(const visitInfo& it) { return it.name; }
 
     strWrap __convert__(const modifier& it) {
