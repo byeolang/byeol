@@ -81,12 +81,16 @@ namespace nm {
     }
 
     str me::_tryMakeClosure() const {
+        const node& lastStmt = *_blk->getStmts().last();
+        return _tryMakeClosure(lastStmt);
+    }
+
+    str me::_tryMakeClosure(const node& stmt) const {
         // implicit closure:
         //  if you are returning func, then I'll make a closure for it.
         //  so don't think about that scenario. only I should care is last stmt of block, that is,
         //  'ret'.
-        const node& lastStmt = *_blk->getStmts().last();
-        const getExpr& get = safeGet(lastStmt, cast<getExpr>());
+        const getExpr& get = safeGet(stmt, cast<getExpr>());
         if(nul(get)) return str();
 
         // ok. implicit returning for last stmt was func. getExpr is suitable to make a closure.
@@ -104,12 +108,12 @@ namespace nm {
         int n = 0;
         for(const node& e: args) {
             const param& p = ps[n++];
-            str evaluated = e.asImpli(*p.getOrigin().as<node>());
+            str evaluated = _tryMakeClosure(e);
+            if(!evaluated) evaluated = e.asImpli(*p.getOrigin().as<node>());
             if(!evaluated)
                 return NM_E("evaluation of arg[%s] -> param[%s] has been failed.", e,
                            p.getOrigin()),
                        ret;
-
             ret->add(p.getName(), *evaluated);
         }
         return ret;

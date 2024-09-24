@@ -45,6 +45,7 @@ namespace nm {
         str _postprocess(str ret, nidx exN);
         void _runEnds();
         str _tryMakeClosure() const;
+        str _tryMakeClosure(const node& stmt) const;
 
     private:
         mgdType _type;
