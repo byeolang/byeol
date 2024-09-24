@@ -30,8 +30,7 @@ namespace nm {
                                                     // of it which doesn't need me obj.
             frame& fr = evaledMe->cast<frame>();
             _args.setMe(!nul(fr) ? fr.getOwner(*sub) : *evaledMe);
-            NM_DI("%s run: setting me on args. args.me[%s]", addr,
-                !evaledMe ? "null" : _args.getMe().getType().getName().c_str());
+            NM_DI("%s run: setting me on args. args.me[%s]", addr, safeGet(_args,getMe()));
         }
 
         NM_DI("%s run: running sub with args[%s]", addr, _args.toStr());
