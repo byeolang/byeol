@@ -20,7 +20,7 @@ namespace nm {
 
     strWrap __convert__(nbool rhs) { return strWrap(rhs ? "true" : "false"); }
 
-    strWrap __convert__(const std::string& rhs) { return rhs; }
+    strWrap __convert__(const std::string& rhs) { return nul(rhs) ? "null" : rhs; }
 
     strWrap __convert__(void* rhs) { return rhs ? platformAPI::toAddrId(rhs) : "null"; }
 } // namespace nm

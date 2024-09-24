@@ -9,16 +9,16 @@ namespace nm {
         return !nul(it) ? it.as<nStr>()->get() : "null";
     }
 
-    strWrap __convert__(const str& it) { return it ? it->getType().getName() : "null"; }
+    strWrap __convert__(const str& it) { return !nul(it) && it ? it->getType().getName() : "null"; }
 
-    strWrap __convert__(const src& it) { return it.getName(); }
+    strWrap __convert__(const src& it) { return nul(it) ? "null" : it.getName(); }
 
-    strWrap __convert__(const baseFunc& it) { return it.getSrc().getName() + "(" + it.getParams().toStr() + ")"; }
+    strWrap __convert__(const baseFunc& it) { return nul(it) ? "null" : it.getSrc().getName() + "(" + it.getParams().toStr() + ")"; }
 
-    strWrap __convert__(const visitInfo& it) { return it.name; }
+    strWrap __convert__(const visitInfo& it) { return nul(it) ? "null" : it.name; }
 
     strWrap __convert__(const modifier& it) {
-        return std::string("modifier(") + (it.isPublic() ? "public" : "protected") +
+        return nul(it) ? "null" : std::string("modifier(") + (it.isPublic() ? "public" : "protected") +
             (it.isExplicitOverride() ? std::string(", override)") : std::string(")"));
     }
 }
