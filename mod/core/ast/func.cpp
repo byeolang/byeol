@@ -64,7 +64,9 @@ namespace nm {
         fr.setRet();
 
         if(nul(res)) return NM_E("res == null"), str();
-        if(thread::get().getEx().inErr(exN)) return res; // if new exception, I just return it.
+        const errReport& errs = thread::get().getEx();
+        if(errs.inErr(exN)) // if new exception, I just return it.
+            return *errs.last();
         if(!frRes) { // if you 'ret' for retuning a func, retExpr will make a closure.
             str closure = _tryMakeClosure();
             if(closure) res = closure;
