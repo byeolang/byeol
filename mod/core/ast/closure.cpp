@@ -8,7 +8,7 @@
 namespace nm {
     NM(DEF_ME(closure), DEF_VISIT())
 
-    me::closure(const scope& captured, const baseFunc& func): _capture(captured), _func(func) {}
+    me::closure(const node& capture, const baseFunc& func): _capture(capture), _func(func) {}
 
     scope& me::subs() { return _func->subs(); }
 
@@ -19,22 +19,12 @@ namespace nm {
     const modifier& me::getModifier() const { return _func->getModifier(); }
 
     str me::run(const args& a) {
-        frameInteract f1(*this);
-        {
-            NM_I("running closure for %s.%s", *_capture, *_func);
-            return _func->run(a);
-        }
+        NM_I("running closure for %s.%s", *_capture, *_func);
+        a.setMe(*_capture);
+        return _func->run(a);
     }
 
-    void me::inFrame(const bicontainable& args) {
-        frame* fr = new frame();
-        fr->add(*_capture);
-        thread::get()._getFrames().add(fr);
-    }
-
-    void me::outFrame(const bicontainable& args) { thread::get()._getFrames().del(); }
-
-    scope& me::getCaptured() { return *_capture; }
+    node& me::getCapture() { return *_capture; }
 
     baseFunc& me::getFunc() { return *_func; }
 } // namespace nm

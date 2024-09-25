@@ -80,6 +80,6 @@ namespace nm {
         if(nul(cast)) return tstr<closure>();
 
         NM_I("make a closure for %s.%s", me, cast);
-        return new closure(me->subs(), cast);
+        return new closure(*me, cast);
     }
 } // namespace nm
