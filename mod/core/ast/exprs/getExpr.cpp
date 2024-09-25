@@ -74,7 +74,7 @@ namespace nm {
         if(rhs._args) _args.bind((args*) rhs._args->cloneDeep());
     }
 
-    tstr<closure> me::makeClosure() const {
+    str me::makeClosure() const {
         str me = _evalMe(true);
         baseFunc& cast = _onGet(*me).cast<baseFunc>();
         if(nul(cast)) return tstr<closure>();

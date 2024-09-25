@@ -36,7 +36,7 @@ namespace nm {
 
         void onCloneDeep(const clonable& new1) override;
 
-        tstr<closure> makeClosure() const;
+        str makeClosure() const;
 
     protected:
         virtual node& _onGet(node& me) const;
