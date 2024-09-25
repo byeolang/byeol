@@ -20,11 +20,12 @@ namespace nm {
         //  in this case,
         //      tstr<arr> wrap(new tarr<nInt>())
         //  above code doesn't work.
-        const params& ps = getParams();
-        const params& theirPs = cast.getParams();
-        if(nul(ps) || !ps.len()) return true;
-        if(nul(theirPs)) return false;
-        return ps == theirPs;
+        if(getParams() != cast.getParams()) return false;
+
+        const ntype& ret = safeGet(getRet(),getType());
+        const ntype& rhsRet = safeGet(getRet(),getType());
+        if(nul(ret) && nul(rhsRet)) return true;
+        return ret == rhsRet;
     }
 
     nbool me::isImpli(const type& to) const { return _getImpliAses().is(*this, to); }

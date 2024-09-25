@@ -3,7 +3,10 @@
 namespace nm {
     NM_DEF_ME(type)
 
-    nbool me::operator==(const me& rhs) const { return getName() == rhs.getName(); }
+    nbool me::operator==(const me& rhs) const {
+        if(nul(rhs)) return false;
+        return getName() == rhs.getName();
+    }
 
     nbool me::operator!=(const me& rhs) const { return !operator==(rhs); }
 
