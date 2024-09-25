@@ -20,7 +20,10 @@ namespace nm {
 
     str me::run(const args& a) {
         frameInteract f1(*this);
-        { return _func->run(a); }
+        {
+            NM_I("running closure for %s.%s", *_capture, *_func);
+            return _func->run(a);
+        }
     }
 
     void me::inFrame(const bicontainable& args) {

@@ -94,7 +94,6 @@ namespace nm {
         if(nul(get)) return str();
 
         // ok. implicit returning for last stmt was func. getExpr is suitable to make a closure.
-        NM_WHENNUL(get).ex(CANT_RETURN_A_CLOSURE), str();
         return get.makeClosure();
     }
 
