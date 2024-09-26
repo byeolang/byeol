@@ -14,7 +14,7 @@ namespace nm {
     me::getGenericExpr(const node& me, const std::string& genericName, const args& typeParams):
         super(me, genericName, typeParams) {}
 
-    node& me::_onGet(node& me) const {
+    node& me::_onGet(baseObj& me) const {
         const args& typs = getArgs();
         const std::string& name = getName();
         if(nul(typs) || !typs.len()) return NM_E("_args.len() == 0"), nulOf<genericOrigin>();

@@ -580,3 +580,17 @@ TEST_F(defFuncTest, funcTypeCompatibleToDifferentObjScope) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 5);
 }
+
+TEST_F(defFuncTest, parameterOfInObjScope) {
+    make().parse(R"SRC(
+        def person
+            age int
+            foo(newAge age) age: age = newAge; newAge # assignment is not expr.
+        main() int
+            person.foo(5)
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 5);
+}

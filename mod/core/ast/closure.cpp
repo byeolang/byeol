@@ -8,7 +8,7 @@
 namespace nm {
     NM(DEF_ME(closure), DEF_VISIT())
 
-    me::closure(const node& capture, const baseFunc& func): _capture(capture), _func(func) {}
+    me::closure(const baseObj& org, const baseFunc& func): _org(org), _func(func) {}
 
     scope& me::subs() { return _func->subs(); }
 
@@ -19,12 +19,12 @@ namespace nm {
     const modifier& me::getModifier() const { return _func->getModifier(); }
 
     str me::run(const args& a) {
-        NM_I("running closure for %s.%s", *_capture, *_func);
-        a.setMe(*_capture);
+        NM_I("running closure for %s.%s", *_org, *_func);
+        a.setMe(*_org);
         return _func->run(a);
     }
 
-    node& me::getCapture() { return *_capture; }
+    const baseObj& me::getOrigin() const { return *_org; }
 
-    baseFunc& me::getFunc() { return *_func; }
+    const baseFunc& me::getFunc() const { return *_func; }
 } // namespace nm

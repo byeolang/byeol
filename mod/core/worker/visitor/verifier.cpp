@@ -563,7 +563,7 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("is me captured?");
-        NM_WHENNUL(me.getCapture()).err(NOT_CAPTURED, me), true;
+        NM_WHENNUL(me.getOrigin()).err(NOT_CAPTURED, me), true;
 
         _STEP("does it have a func info?");
         NM_WHENNUL(me.getFunc()).err(NOT_HAS_FUNC, me), true;

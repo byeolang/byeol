@@ -12,7 +12,7 @@ namespace nm {
         NM(ME(closure, baseFunc), CLONE(closure), VISIT())
 
     public:
-        closure(const node& capture, const baseFunc& func);
+        closure(const baseObj& org, const baseFunc& func);
 
     public:
         using super::subs;
@@ -26,14 +26,12 @@ namespace nm {
 
         str run(const args& a) override;
 
-        node& getCapture();
-        const node& getCapture() const NM_CONST_FUNC(getCapture());
+        const baseObj& getOrigin() const;
 
-        baseFunc& getFunc();
-        const baseFunc& getFunc() const NM_CONST_FUNC(getFunc());
+        const baseFunc& getFunc() const;
 
     private:
-        str _capture;
+        tstr<baseObj> _org;
         tstr<baseFunc> _func;
     };
 }

@@ -53,11 +53,11 @@ namespace nm {
         return _onGet(*_evalMe(evalMode));
     }
 
-    str me::_evalMe(nbool evalMode) const {
+    tstr<baseObj> me::_evalMe(nbool evalMode) const {
         return evalMode ? safeGet(getMe(), getEval()) : safeGet(getMe(), as<node>());
     }
 
-    node& me::_onGet(node& me) const {
+    node& me::_onGet(baseObj& me) const {
         if(nul(me)) return nulOf<node>();
 
         std::string argsName = _args ? _args->asStr().c_str() : "{}";
@@ -75,7 +75,7 @@ namespace nm {
     }
 
     str me::makeClosure() const {
-        str me = _evalMe(true);
+        tstr<baseObj> me = _evalMe(true);
         baseFunc& cast = _onGet(*me).cast<baseFunc>();
         if(nul(cast)) return tstr<closure>();
 
