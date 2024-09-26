@@ -43,6 +43,7 @@ namespace nm {
     }
 
     priorType me::_prioritize(const node& param, const node& arg) const {
+        if(nul(param) || nul(arg)) return NO_MATCH;
         if(arg.getType() == param.getType()) return EXACT_MATCH;
         if(_isNatureNumber(param) && _isNatureNumber(arg)) return NUMERIC_MATCH;
         if(arg.isImpli(param)) return IMPLICIT_MATCH;
