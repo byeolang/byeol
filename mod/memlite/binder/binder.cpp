@@ -48,7 +48,13 @@ namespace nm {
         return _tactic->bind(*this, it);
     }
 
-    instance& me::get() { return safeGet(_getBindTag(), get()); }
+    instance& me::get() {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wtautological-undefined-compare"
+        if(this == nullptr) return nulOf<instance>();
+#pragma clang diagnostic pop
+        return safeGet(_getBindTag(), get());
+    }
 
     nbool me::_assign(const binder& rhs) {
         rel();
