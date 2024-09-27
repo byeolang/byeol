@@ -39,11 +39,11 @@ namespace nm {
         str makeClosure() const;
 
     protected:
-        virtual node& _onGet(baseObj& me) const;
+        virtual node& _onGet(node& me) const;
 
     private:
         str _get(nbool evalMode) const;
-        tstr<baseObj> _evalMe(nbool evalMode) const;
+        str _evalMe(nbool evalMode) const;
 
     private:
         str _me;

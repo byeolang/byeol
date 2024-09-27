@@ -53,11 +53,11 @@ namespace nm {
         return _onGet(*_evalMe(evalMode));
     }
 
-    tstr<baseObj> me::_evalMe(nbool evalMode) const {
+    str me::_evalMe(nbool evalMode) const {
         return evalMode ? safeGet(getMe(), getEval()) : safeGet(getMe(), as<node>());
     }
 
-    node& me::_onGet(baseObj& me) const {
+    node& me::_onGet(node& me) const {
         if(nul(me)) return nulOf<node>();
 
         std::string argsName = _args ? _args->asStr().c_str() : "{}";
@@ -75,9 +75,13 @@ namespace nm {
     }
 
     str me::makeClosure() const {
-        tstr<baseObj> me = _evalMe(true);
+        str mayMe = _evalMe(true);
+        frame& fr = mayMe->cast<frame>();
+        tstr<baseObj> me = !nul(fr) ? fr.getMe().cast<baseObj>() : mayMe->cast<baseObj>();
+        if(!me) return str();
+
         baseFunc& cast = _onGet(*me).cast<baseFunc>();
-        if(nul(cast)) return tstr<closure>();
+        if(nul(cast)) return str();
 
         NM_I("make a closure for %s.%s", me, cast);
         return new closure(*me, cast);

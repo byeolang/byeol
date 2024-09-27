@@ -16,6 +16,6 @@ namespace nm {
         getGenericExpr(const node& me, const std::string& genericName, const args& typeParams);
 
     protected:
-        node& _onGet(baseObj& me) const override;
+        node& _onGet(node& me) const override;
     };
 }
