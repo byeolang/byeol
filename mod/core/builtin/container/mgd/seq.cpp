@@ -9,7 +9,10 @@ namespace nm {
     NM(DEF_ME(seq), DEF_VISIT())
 
     namespace {
-        static seq org(0, 0);
+        static const baseObj& _getOrigin() {
+            static seq inner(0, 0);
+            return inner;
+        }
     }
 
     me::seq(const nInt& start, const nInt& end): super(new nseq(start, end)) {}
@@ -71,7 +74,7 @@ namespace nm {
                 return inner;
             }
 
-            const baseObj& getOrigin() const override { return org; }
+            const baseObj& getOrigin() const override { return _getOrigin(); }
 
             str run(const args& a) override {
                 const params& ps = getParams();
@@ -101,7 +104,7 @@ namespace nm {
                 return inner;
             }
 
-            const baseObj& getOrigin() const override { return org; }
+            const baseObj& getOrigin() const override { return _getOrigin(); }
 
             str run(const args& a) override { return getRet(); }
         };

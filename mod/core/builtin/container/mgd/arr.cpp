@@ -11,11 +11,15 @@ namespace nm {
     NM(DEF_ME(arr), DEF_VISIT())
 
     namespace {
-        static arr org;
         static inline const std::string TYPENAME = "T";
 
         typedef tucontainable<node>::iter niter;
         typedef tbridge<niter> __superMgdIter;
+
+        static const baseObj& _getOrigin() {
+            static me inner;
+            return inner;
+        }
 
         class _nout mgdIter: public __superMgdIter {
             NM(CLASS(mgdIter, __superMgdIter))
@@ -48,7 +52,7 @@ namespace nm {
                 return inner;
             }
 
-            const baseObj& getOrigin() const override { return org; }
+            const baseObj& getOrigin() const override { return _getOrigin(); }
 
             str run(const args& a) override {
                 const params& ps = getParams();
@@ -77,7 +81,7 @@ namespace nm {
         public:
             const ntype& getType() const override { return _type; }
 
-            const baseObj& getOrigin() const override { return org; }
+            const baseObj& getOrigin() const override { return _getOrigin(); }
 
             str run(const args& a) override { return safeGet(getType().getRet(), as<node>()); }
 
@@ -186,7 +190,7 @@ namespace nm {
                 return inner;
             }
 
-            const baseObj& getOrigin() const override { return org; }
+            const baseObj& getOrigin() const override { return *_org; }
 
             str run(const args& a) override {
                 node& src = a.getMe();
