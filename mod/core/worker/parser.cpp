@@ -580,6 +580,8 @@ namespace nm {
 
             // shares case:
             // TODO: not only func, but also shared variable.
+            func& f = e.getVal<func>();
+            if(!nul(f)) f._setOrigin(it);
             bicontainable& con = nul(e.getVal<baseFunc>()) ? own : share;
             con.add(e.getKey(), *e);
         }

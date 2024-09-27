@@ -14,6 +14,7 @@ namespace nm {
         NM(ME(func, baseFunc), CLONE(func), VISIT())
         friend class verifier;
         friend class exprMaker;
+        friend class parser;
 
     public:
         explicit func(const modifier& mod, const mgdType& type);
