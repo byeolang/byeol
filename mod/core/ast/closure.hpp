@@ -26,7 +26,7 @@ namespace nm {
 
         str run(const args& a) override;
 
-        const baseObj& getOrigin() const;
+        const baseObj& getOrigin() const override;
 
         const baseFunc& getFunc() const;
 

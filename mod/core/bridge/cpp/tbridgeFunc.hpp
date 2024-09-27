@@ -7,6 +7,8 @@
 
 namespace nm {
 
+    template <typename T, nbool isBaseObj> class tbridger;
+
     template <typename Ret, typename T, template <typename, nbool> class Marshaling,
         typename... Args>
     class tbaseBridgeFunc: public baseFunc {
@@ -28,6 +30,11 @@ namespace nm {
 
     public:
         const ntype& getType() const override { return _type; }
+
+        const baseObj& getOrigin() const override {
+            static obj inner(tbridger<T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>::subs());
+            return inner;
+        }
 
         using super::run;
 

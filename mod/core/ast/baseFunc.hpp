@@ -50,6 +50,8 @@ namespace nm {
 
         const modifier& getModifier() const override;
 
+        virtual const baseObj& getOrigin() const = 0;
+
     protected:
         ntype& _getType(); // for generalizer.
 

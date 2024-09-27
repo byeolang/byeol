@@ -25,9 +25,9 @@ namespace nm {
 
     public:
         tnmap() {}
-        tnmap(const std::initializer_list<std::pair<K, V>>& elems) {
+        tnmap(const std::initializer_list<std::pair<K, V*>>& elems) {
             for(const auto& e : elems)
-                add(e.first, e.second);
+                add(e.first, *e.second);
         }
 
         // len:

@@ -71,6 +71,13 @@ namespace {
 
         nbool isSuccess() const { return _res; }
 
+        const baseObj& getOrigin() const override {
+            static obj inner(scope{
+                {"nativeFunc", new nativeFunc()}
+            });
+            return inner;
+        }
+
         str run(const args& a) override {
             _executed = true;
             _res = _lambda(a, (frames&) nm::thread::get().getFrames());

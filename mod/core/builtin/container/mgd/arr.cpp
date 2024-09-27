@@ -11,6 +11,7 @@ namespace nm {
     NM(DEF_ME(arr), DEF_VISIT())
 
     namespace {
+        static arr org;
         static inline const std::string TYPENAME = "T";
 
         typedef tucontainable<node>::iter niter;
@@ -47,6 +48,8 @@ namespace nm {
                 return inner;
             }
 
+            const baseObj& getOrigin() const override { return org; }
+
             str run(const args& a) override {
                 const params& ps = getParams();
                 if(a.len() != ps.len())
@@ -73,6 +76,8 @@ namespace nm {
 
         public:
             const ntype& getType() const override { return _type; }
+
+            const baseObj& getOrigin() const override { return org; }
 
             str run(const args& a) override { return safeGet(getType().getRet(), as<node>()); }
 
@@ -180,6 +185,8 @@ namespace nm {
                     params(*new param("rhs", *_org)));
                 return inner;
             }
+
+            const baseObj& getOrigin() const override { return org; }
 
             str run(const args& a) override {
                 node& src = a.getMe();

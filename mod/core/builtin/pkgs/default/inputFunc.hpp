@@ -10,6 +10,8 @@ namespace nm {
     public:
         const ntype& getType() const override;
 
+        const baseObj& getOrigin() const override;
+
         str run(const args& a) override;
     };
 }

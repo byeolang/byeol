@@ -12,5 +12,7 @@ namespace nm {
 
     const ntype& me::getType() const { return _type; }
 
-    void me::_setOrigin(const node& newOrg) { _type.setRet(newOrg); }
+    const baseObj& me::getOrigin() const { return _type.getRet().cast<baseObj>(); }
+
+    void me::_setOrigin(const baseObj& newOrg) { _type.setRet(newOrg); }
 }

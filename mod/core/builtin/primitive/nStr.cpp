@@ -37,6 +37,8 @@ namespace nm {
                     params(*new param("range", new seq(nInt(0), nInt(1)))), false, *new nStr());
                 return inner;
             }
+
+            const baseObj& getOrigin() const override;
         };
 
         typedef tucontainable<nChar>::iter niter;
@@ -119,6 +121,8 @@ namespace nm {
                 return inner;
             }
 
+            const baseObj& getOrigin() const override;
+
             str run(const args& a) override {
                 const params& ps = getParams();
                 if(a.len() != ps.len())
@@ -146,13 +150,11 @@ namespace nm {
                 return inner;
             }
 
+            const baseObj& getOrigin() const override;
+
             str run(const args& a) override { return getRet(); }
         };
-    } // namespace
 
-    nbool me::nStrType::isImmutable() const { return true; }
-
-    namespace {
         static tbaseObjOrigin<me> org(tbridger<me>::ctor()
                                           .ctor<nStr>()
                                           .func("len", &me::len)
@@ -162,7 +164,15 @@ namespace nm {
                                           .func("iterate", new iterateFunc())
                                           .func("getElemType", new getElemType())
                                           .subs());
-    }
+
+        const baseObj& getSeqFunc::getOrigin() const { return org; }
+
+        const baseObj& iterateFunc::getOrigin() const { return org; }
+
+        const baseObj& getElemType::getOrigin() const { return org; }
+    } // namespace
+
+    nbool me::nStrType::isImmutable() const { return true; }
 
     me::nStr(): super(org) {}
 

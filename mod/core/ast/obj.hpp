@@ -22,10 +22,11 @@ namespace nm {
 
     public:
         explicit obj(); // this means 'any' class.
+        explicit obj(const scope& subs);
         explicit obj(const me& rhs);
 
     protected:
-        explicit obj(scope& shares, scope& owns);
+        explicit obj(const scope& shares, scope& owns);
 
     public:
         me& operator=(const me& rhs);

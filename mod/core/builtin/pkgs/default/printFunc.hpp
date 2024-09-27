@@ -2,6 +2,7 @@
 
 #include "../../../ast/baseFunc.hpp"
 #include "../../../ast/params.hpp"
+#include "../../../ast/args.hpp"
 
 namespace nm {
 
@@ -12,6 +13,13 @@ namespace nm {
         const ntype& getType() const override {
             static mgdType inner("print", ttype<me>::get(), params(*new param("msg", new T())),
                 false, *new T());
+            return inner;
+        }
+
+        const baseObj& getOrigin() const override {
+            static obj inner(scope{
+                {"print", new me()}
+            });
             return inner;
         }
 

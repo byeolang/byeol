@@ -14,9 +14,10 @@ namespace nm {
     public:
         str getEval() const override;
         const ntype& getType() const override;
+        const baseObj& getOrigin() const override;
 
     private:
-        void _setOrigin(const node& newOrg);
+        void _setOrigin(const baseObj& newOrg);
 
     private:
         mgdType _type;

@@ -27,7 +27,9 @@ namespace nm {
 
     me::obj(): me(*new scope(), *new scope()) {}
 
-    me::obj(scope& shares, scope& owns): super() {
+    me::obj(const scope& subs): me(subs, *new scope()) {}
+
+    me::obj(const scope& shares, scope& owns): super() {
         owns.link(shares);
         _subs.bind(owns);
     }

@@ -8,6 +8,10 @@ namespace nm {
 
     NM(DEF_ME(seq), DEF_VISIT())
 
+    namespace {
+        static seq org(0, 0);
+    }
+
     me::seq(const nInt& start, const nInt& end): super(new nseq(start, end)) {}
 
     me::seq(const nInt& start, const nInt& end, const nInt& step):
@@ -67,6 +71,8 @@ namespace nm {
                 return inner;
             }
 
+            const baseObj& getOrigin() const override { return org; }
+
             str run(const args& a) override {
                 const params& ps = getParams();
                 if(a.len() != ps.len())
@@ -94,6 +100,8 @@ namespace nm {
                 static mgdType inner("getElemType", ttype<me>::get(), params(), false, *new nInt());
                 return inner;
             }
+
+            const baseObj& getOrigin() const override { return org; }
 
             str run(const args& a) override { return getRet(); }
         };

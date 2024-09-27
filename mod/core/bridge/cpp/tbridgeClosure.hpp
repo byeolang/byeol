@@ -8,6 +8,8 @@
 
 namespace nm {
 
+    template <typename T, nbool isBaseObj> class tbridger;
+
     template <typename Ret, typename T, template <typename, nbool> class Marshaling,
         typename... Args>
     class tbridgeClosure: public baseFunc {
@@ -26,6 +28,11 @@ namespace nm {
             static mgdType inner("ctor", ttype<me>::get(),
                 params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...),
                 false, Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::onGetRet());
+            return inner;
+        }
+
+        const baseObj& getOrigin() const override {
+            static obj inner(tbridger<T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>::subs());
             return inner;
         }
 

@@ -97,6 +97,10 @@ namespace nm {
         return get.makeClosure();
     }
 
+    void me::_setOrigin(const baseObj& org) {
+        _org.bind(org);
+    }
+
     scope* me::_evalArgs(const ucontainable& args) {
         const params& ps = getParams();
         if(args.len() != ps.len())
@@ -143,6 +147,8 @@ namespace nm {
         if(!nul(args)) fr.del();
         fr.del();
     }
+
+    const baseObj& me::getOrigin() const { return *_org; }
 
     ends& me::getEnds() { return _ends; }
 

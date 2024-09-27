@@ -16,6 +16,13 @@ namespace nm {
         return inner;
     }
 
+    const baseObj& me::getOrigin() const {
+        static obj inner(scope{
+            {"input", new me()}
+        });
+        return inner;
+    }
+
     str me::run(const args& a) {
         const params& ps = getParams();
         if(a.len() != ps.len())

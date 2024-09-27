@@ -35,6 +35,8 @@ namespace nm {
         using super::outFrame;
         void outFrame(const bicontainable& args) override;
 
+        const baseObj& getOrigin() const override;
+
         ends& getEnds();
         const ends& getEnds() const NM_CONST_FUNC(getEnds())
 
@@ -46,8 +48,10 @@ namespace nm {
         void _runEnds();
         str _tryMakeClosure() const;
         str _tryMakeClosure(const node& stmt) const;
+        void _setOrigin(const baseObj& org);
 
     private:
+        tstr<obj> _org;
         mgdType _type;
         scope _shares;
         tstr<blockExpr> _blk;
