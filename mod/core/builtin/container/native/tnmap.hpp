@@ -2,6 +2,8 @@
 
 #include <type/ttype.hpp>
 #include "tnbicontainer.hpp"
+#include <initializer_list>
+#include <utility>
 
 namespace nm {
 
@@ -23,6 +25,10 @@ namespace nm {
 
     public:
         tnmap() {}
+        tnmap(const std::initializer_list<std::pair<K, V>>& elems) {
+            for(const auto& e : elems)
+                add(e.first, e.second);
+        }
 
         // len:
         ncnt len() const override;

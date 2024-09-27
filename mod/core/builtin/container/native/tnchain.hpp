@@ -26,6 +26,8 @@ namespace nm {
 
         explicit tnchain(const super& org, const me& next): _map(org), _next(next) {}
 
+        explicit tnchain(const std::initializer_list<std::pair<K, V>>& elems): _map(elems) {}
+
     public:
         // has:
         nbool in(const K& key) const override;
