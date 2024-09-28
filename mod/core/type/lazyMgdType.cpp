@@ -4,9 +4,16 @@ namespace nm {
 
     NM(DEF_ME(lazyMgdType))
 
-    me::lazyMgdType(const std::string& name, const type& s, const params& ps,
-        std::function<const node&()> retLazy):
-        super(name, s, ps), _retLazy(retLazy) {}
+    me::lazyMgdType(const std::string& name, const type& s, paramLambda psLazy, retLambda retLazy):
+        super(name, s, params()), _psLazy(psLazy), _retLazy(retLazy) {}
+
+    params& me::getParams() {
+        params& ps = super::getParams();
+        if(!nul(ps)) return ps;
+
+        _psLazy(ps);
+        return ps;
+    }
 
     const node& me::getRet() const {
         const node& ret = super::getRet();

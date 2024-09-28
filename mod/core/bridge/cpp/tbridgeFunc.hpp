@@ -17,10 +17,14 @@ namespace nm {
         typedef Ret (T::*fptrType)(Args...);
 
     public:
-        tbaseBridgeFunc(fptrType fptr, std::function<const node&()> retLazy):
+        tbaseBridgeFunc(fptrType fptr, lazyMgdType::retLambda retLazy):
             _fptr(fptr),
-            _type("bridgeFunc", ttype<me>::get(),
-                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...),
+            _type(
+                "bridgeFunc", ttype<me>::get(),
+                [](params& ps) -> void {
+                    (ps.add(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())),
+                        ...);
+                },
                 retLazy) {}
 
     public:
@@ -32,7 +36,8 @@ namespace nm {
         const ntype& getType() const override { return _type; }
 
         const baseObj& getOrigin() const override {
-            static obj inner(tbridger<T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>::subs());
+            static obj inner(
+                tbridger<T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>::subs());
             return inner;
         }
 

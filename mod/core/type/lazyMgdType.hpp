@@ -35,13 +35,21 @@ namespace nm {
         NM(ME(lazyMgdType, mgdType), CLONE(mgdType))
 
     public:
-        lazyMgdType(const std::string& name, const type& s, const params& ps,
-            std::function<const node&()> retLazy);
+        typedef std::function<void(params&)> paramLambda;
+        typedef std::function<const node&()> retLambda;
+
+    public:
+        lazyMgdType(const std::string& name, const type& s, paramLambda psLazy, retLambda retLazy);
+
+    public:
+        using super::getParams;
+        params& getParams() override;
 
     public:
         const node& getRet() const override;
 
     private:
-        std::function<const node&()> _retLazy;
+        paramLambda _psLazy;
+        retLambda _retLazy;
     };
 }
