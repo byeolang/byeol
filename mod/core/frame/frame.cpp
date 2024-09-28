@@ -78,7 +78,7 @@ namespace nm {
         return _stack[len - 1];
     }
 
-    nbool me::setFunc(baseFunc& new1) { return _func.bind(new1); }
+    nbool me::setFunc(const baseFunc& new1) { return _func.bind(new1); }
 
     void me::setFunc() { setFunc(nulOf<baseFunc>()); }
 

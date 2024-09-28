@@ -46,7 +46,7 @@ namespace nm {
         scope& getLocals();
         const scope& getLocals() const NM_CONST_FUNC(getLocals())
 
-        virtual nbool setFunc(baseFunc& new1);
+        virtual nbool setFunc(const baseFunc& new1);
         void setFunc();
         baseFunc& getFunc();
         const baseFunc& getFunc() const NM_CONST_FUNC(getFunc())

@@ -122,7 +122,7 @@ namespace nm {
         return ret;
     }
 
-    void me::inFrame(const bicontainable& args) {
+    void me::inFrame(const bicontainable& args) const {
         frame& fr = thread::get()._getNowFrame();
         if(nul(fr)) {
             NM_E("fr == null");
@@ -136,7 +136,7 @@ namespace nm {
             nul(args) ? nulOf<nbicontainer>() : (nbicontainer&) args)); // including 'me'
     }
 
-    void me::outFrame(const bicontainable& args) {
+    void me::outFrame(const bicontainable& args) const {
         NM_DI("'%s func'._outFrame() frames.len[%d]", getSrc(), thread::get().getFrames().len());
 
         frame& fr = thread::get()._getNowFrame();

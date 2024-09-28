@@ -35,7 +35,7 @@ namespace nm {
 
             using super::setFunc;
 
-            nbool setFunc(baseFunc& new1) override { return true; }
+            nbool setFunc(const baseFunc& new1) override { return true; }
 
             void rel() override {}
 

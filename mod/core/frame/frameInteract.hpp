@@ -8,12 +8,12 @@ namespace nm {
         NM(ME(frameInteract))
 
     public:
-        frameInteract(frameInteractable& it, const bicontainable& args);
-        frameInteract(frameInteractable& it);
+        frameInteract(const frameInteractable& it, const bicontainable& args);
+        frameInteract(const frameInteractable& it);
         ~frameInteract();
 
     private:
-        frameInteractable& _it;
+        const frameInteractable& _it;
         const bicontainable& _args;
     };
 }

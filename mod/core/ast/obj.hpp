@@ -54,7 +54,7 @@ namespace nm {
         const node& getCallComplete() const NM_CONST_FUNC(getCallComplete())
 
     protected:
-        void _inFrame(frame& fr, const bicontainable& args) override;
+        void _inFrame(frame& fr, const bicontainable& args) const override;
         str _onBeforeCtor() override;
 
     private:

@@ -26,9 +26,9 @@ namespace nm {
         narr& getStmts();
 
         using super::inFrame;
-        void inFrame(const bicontainable& args) override;
+        void inFrame(const bicontainable& args) const override;
         using super::outFrame;
-        void outFrame(const bicontainable& args) override;
+        void outFrame(const bicontainable& args) const override;
 
         void onCloneDeep(const clonable& from) override;
 

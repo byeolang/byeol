@@ -93,7 +93,7 @@ namespace nm {
 
     node& me::getCallComplete() { return nulOf<node>(); }
 
-    void me::_inFrame(frame& fr, const bicontainable& args) {
+    void me::_inFrame(frame& fr, const bicontainable& args) const {
         const node& subpack = safeGet(getOrigin(), getSubPack());
         if(!nul(subpack)) fr.add(subpack);
         super::_inFrame(fr, args);

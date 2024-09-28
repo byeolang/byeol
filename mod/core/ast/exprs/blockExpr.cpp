@@ -20,7 +20,7 @@ namespace nm {
         _exprs.onCloneDeep(rhs._exprs);
     }
 
-    void me::inFrame(const bicontainable& args) {
+    void me::inFrame(const bicontainable& args) const {
         NM_DI("%s._onInFrame() %d stmts. frames.len[%d]", *this, getStmts().len(),
             thread::get().getFrames().len());
 
@@ -33,7 +33,7 @@ namespace nm {
         fr.add(*new scope());
     }
 
-    void me::outFrame(const bicontainable& args) {
+    void me::outFrame(const bicontainable& args) const {
         NM_DI("%s._onOutFrame() frames.len[%d]", *this, thread::get().getFrames().len());
 
         frame& fr = nm::thread::get()._getNowFrame();
