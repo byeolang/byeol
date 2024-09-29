@@ -697,7 +697,7 @@ namespace nm {
 
     node* me::onGetArray(node& elemType) {
         NM_DI("tokenEvent: onGetArray(%s)", elemType);
-        if(elemType.isSub<nVoid>()) error(elemType.getSrc().getPos(), errCode::ELEM_TYPE_NOT_VOID);
+        if(elemType.isSub<nVoid>()) _report(nerr::newErr(elemType.getSrc().getPos(), ELEM_TYPE_NOT_VOID));
         return new arr(elemType);
     }
 
@@ -1066,7 +1066,7 @@ namespace nm {
     void me::onEndFunc() { _func.rel(); }
 
     void me::onParseErr(const std::string& msg, const nchar* symbolName) {
-        error(getArea().start, errCode::SYNTAX_ERR, msg.c_str(), symbolName);
+        posError(errCode::SYNTAX_ERR, msg, symbolName);
     }
 
     me::parser(): _mode(nullptr), _isIgnoreWhitespace(false) { rel(); }

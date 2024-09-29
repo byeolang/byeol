@@ -45,11 +45,11 @@ namespace nm {
         T& getTask();
         const T& getTask() const NM_CONST_FUNC(getTask())
 
-        template <typename... Args> void error(Args... args) { _report(nerr::newErr(args...)); }
+        template <typename... Args> void error(errCode code, Args... args) { _report(nerr::newErr(code, __convert__((const Args&) args).unwrap()...)); }
 
-        template <typename... Args> void warn(Args... args) { _report(nerr::newWarn(args...)); }
+        template <typename... Args> void warn(errCode code, Args... args) { _report(nerr::newWarn(code, __convert__((const Args&) args).unwrap()...)); }
 
-        template <typename... Args> void info(Args... args) { _report(nerr::newInfo(args...)); }
+        template <typename... Args> void info(errCode code, Args... args) { _report(nerr::newInfo(code, __convert__((const Args&) args).unwrap()...)); }
 
         virtual void rel();
 

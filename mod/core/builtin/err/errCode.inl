@@ -87,6 +87,8 @@ PAIRX(VOID_NOT_CAST, "casting to the void type isn't allowed")
 PAIRX(CAST_TO_UNKNOWN, "cast to unknown type")
 PAIRX(ARR_DOESNT_HAVE_TYPE_PARAM, "array doesn't have type parameter.")
 PAIRX(ARR_RETURNING_SOMETHING, "block returning something can't be evaluated as an array.")
+PAIRX(CONVERGE_INFO_IS_NULL, "couldn't converge types. some type info was null")
+PAIRX(CONVERGE_INFO_NOT_ACCESSIBLE, "couldn't converge type of %s")
 //  arithmetic operation:
 PAIRX(LHS_IS_NOT_ARITH, "lhs '%s' is not arithmetic type")
 PAIRX(RHS_IS_NOT_ARITH, "rhs '%s' is not arithmetic type")
