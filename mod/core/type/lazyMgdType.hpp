@@ -50,6 +50,6 @@ namespace nm {
 
     private:
         paramLambda _psLazy;
-        retLambda _retLazy;
+        mutable retLambda _retLazy;
     };
 }

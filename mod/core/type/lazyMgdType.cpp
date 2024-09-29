@@ -9,18 +9,20 @@ namespace nm {
 
     params& me::getParams() {
         params& ps = super::getParams();
-        if(!nul(ps)) return ps;
+        if(_psLazy) {
+            _psLazy(ps);
+            _psLazy = nullptr;
+        }
 
-        _psLazy(ps);
         return ps;
     }
 
     const node& me::getRet() const {
-        const node& ret = super::getRet();
-        if(!nul(ret)) return ret;
-
-        me& unconst = (me&) *this;
-        unconst.setRet(unconst._retLazy());
+        if(_retLazy) {
+            me& unconst = (me&) *this;
+            unconst.setRet(unconst._retLazy());
+            _retLazy = nullptr;
+        }
         return super::getRet();
     }
 }
