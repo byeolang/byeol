@@ -581,7 +581,7 @@ TEST_F(defFuncTest, funcTypeCompatibleToDifferentObjScope) {
     ASSERT_EQ(res.cast<nint>(), 5);
 }
 
-/*TEST_F(defFuncTest, parameterOfInObjScope) {
+TEST_F(defFuncTest, parameterOfInObjScope) {
     make().parse(R"SRC(
         def person
             age int
@@ -593,4 +593,4 @@ TEST_F(defFuncTest, funcTypeCompatibleToDifferentObjScope) {
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 5);
-}*/
+}

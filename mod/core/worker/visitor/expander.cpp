@@ -60,8 +60,12 @@ namespace nm {
         me.inFrame(); // don't need to inFrame for args.
                       // because what this want to do is just collect @expand funcs.
         NM_I("expand: func: %s", i);
-        for(const auto& p: me.getParams())
-            ((node&) p.getOrigin()).accept(i, *this);
+        for(auto& p: me.getParams()) {
+            node& org = (node&) p.getOrigin();
+            const getExpr& get = org.cast<getExpr>();
+            if(!nul(get)) _onVisitParamIfGetExpr(me, p);
+            else org.accept(i, *this);
+        }
 
         if(i.name == baseObj::EXPAND_NAME) {
             NM_I("expand: func: found expand");
@@ -95,6 +99,35 @@ namespace nm {
         return true;
     }
 
+    void me::_onVisitParamIfGetExpr(func& f, param& p) {
+        str org = p.getOrigin().getEval();
+        if(!org) return;
+        const node& owner = f.getOrigin();
+        if(nul(owner)) return;
+
+        const frame& fr = thread::get().getNowFrame();
+        if(&fr.getOwner(*org) == &owner)
+            // need to converge type:
+            //  parser registered all obj in some obj.
+            //  and expander is now visiting all object's sub nodes while interaction frames.
+            //  in spite of that, getEval() of origin has been failed. which means,
+            //  the origin, actually getExpr holding for a name, is refering variable not expanded yet.
+            //
+            //  I need to replace 'getExpr(<name>)' type to proper real origin obj.
+            //  if I don't do that, before on every try to access parameters or return type of a func,
+            //  user must interacts proper scope of it to the frame. it's very tedious and redundant
+            //  job.
+            _cons.push_back(typeConvergence{&p, &org.get()}); // this requests of type convergence will be
+                                                      // done when expand() done successfully.
+    }
+
+    void me::_convergeTypes(errReport& rpt) {
+        if(rpt) return NM_E("type convergence cancelled. there is error during expand()"), void();
+
+        for(auto& req : _cons)
+            req.converge();
+    }
+
     void me::_rel() { _stack.clear(); }
 
     void me::_expand() {
@@ -120,6 +153,7 @@ namespace nm {
             }
         }
 
+        _convergeTypes(e);
         _onEndErrReport(e);
         getReport().add(e);
         _stack.clear();
