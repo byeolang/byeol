@@ -102,14 +102,6 @@ namespace nm {
         const getExpr& isGet = org.cast<getExpr>();
         if(nul(isGet)) return false;
 
-        str eval = org.getEval();
-        if(!eval) return false;
-        const node& owner = f.getOrigin();
-        if(nul(owner)) return false;
-
-        const frame& fr = thread::get().getNowFrame();
-        if(&fr.getOwner(*eval) != &owner) return false;
-
         // need to converge type:
         //  parser registered all obj in some obj.
         //  and expander is now visiting all object's sub nodes while interaction frames.
@@ -122,7 +114,17 @@ namespace nm {
         //  job.
         //
         // this requests of type convergence will be done when expand() done successfully.
-        _cons.push_back(convergence([&] { p.setOrigin(*eval); }));
+        _cons.push_back(convergence([&] {
+            str eval = org.getEval();
+            if(!eval) return;
+            const node& owner = f.getOrigin();
+            if(nul(owner)) return;
+
+            const frame& fr = thread::get().getNowFrame();
+            if(&fr.getOwner(*eval) != &owner) return;
+
+            p.setOrigin(*eval);
+        }));
         return true;
     }
 
@@ -131,16 +133,19 @@ namespace nm {
         if(nul(type)) return;
         const getExpr& ret = type.getRet().cast<getExpr>();
         if(nul(ret)) return;
-        str eval = ret.getEval();
-        if(!eval) return;
-        const node& owner = f.getOrigin();
-        if(nul(owner)) return;
-
-        const frame& fr = thread::get().getNowFrame();
-        if(&fr.getOwner(*eval) != &owner) return;
 
         // need to converge return type:
-        type.setRet(*eval);
+        _cons.push_back(convergence([&] {
+            str eval = ret.getEval();
+            if(!eval) return;
+            const node& owner = f.getOrigin();
+            if(nul(owner)) return;
+
+            const frame& fr = thread::get().getNowFrame();
+            if(&fr.getOwner(*eval) != &owner) return;
+
+            type.setRet(*eval);
+        }));
     }
 
     void me::_convergeTypes(errReport& rpt) {
