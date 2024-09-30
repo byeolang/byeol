@@ -4,23 +4,7 @@
 
 namespace nm {
 
-    class func;
-    class param;
-
-    struct typeConvergence {
-        typeConvergence(param* p, node* org): _p(p), _org(org) {}
-
-    public:
-        void converge() {
-            if(!_p || !_org) return;
-            _p->setOrigin(*_org);
-            NM_DI("typeConverge: %s", *_org);
-        }
-
-    private:
-        param* _p;
-        node* _org;
-    };
+    typedef std::function<void()> convergence;
 
     class _nout expander: public visitor {
         NM(CLASS(expander, visitor))
@@ -51,7 +35,8 @@ namespace nm {
         void _onWork() override;
 
     private:
-        void _onVisitParamIfGetExpr(func& f, param& p);
+        nbool _onVisitParams(func& f, param& p);
+        void _onVisitFuncRet(func& f);
 
         void _convergeTypes(errReport& rpt);
 
@@ -67,7 +52,7 @@ namespace nm {
 
     private:
         std::map<obj*, expansion> _stack;
-        std::vector<typeConvergence> _cons;
+        std::vector<convergence> _cons;
         tstr<obj> _obj;
         tstr<func> _func;
     };
