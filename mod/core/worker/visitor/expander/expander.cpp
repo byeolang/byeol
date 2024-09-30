@@ -1,13 +1,15 @@
 #include "expander.hpp"
 
-#include "../../ast/exprs/getGenericExpr.hpp"
-#include "../../ast/func.hpp"
-#include "../../ast/node.inl"
-#include "../../ast/obj.hpp"
-#include "../../frame/frameInteract.hpp"
-#include "../../frame/thread.hpp"
-#include "../worker.inl"
-#include "verifier.hpp"
+#include "../../../ast/exprs/getGenericExpr.hpp"
+#include "../../../ast/func.hpp"
+#include "../../../ast/node.inl"
+#include "../../../ast/obj.hpp"
+#include "../../../frame/frameInteract.hpp"
+#include "../../../frame/thread.hpp"
+#include "../../worker.inl"
+#include "../verifier.hpp"
+#include "paramConvergence.hpp"
+#include "retConvergence.hpp"
 
 namespace nm {
 
@@ -103,28 +105,12 @@ namespace nm {
         if(nul(isGet)) return false;
 
         // need to converge type:
-        //  parser registered all obj in some obj.
-        //  and expander is now visiting all object's sub nodes while interaction frames.
-        //  in spite of that, getEval() of origin has been failed. which means,
-        //  the origin, actually getExpr holding for a name, is refering variable not expanded yet.
-        //
-        //  I need to replace 'getExpr(<name>)' type to proper real origin obj.
-        //  if I don't do that, before on every try to access parameters or return type of a func,
-        //  user must interacts proper scope of it to the frame. it's very tedious and redundant
-        //  job.
-        //
-        // this requests of type convergence will be done when expand() done successfully.
-        _cons.push_back(convergence([&] {
-            str eval = org.getEval();
-            if(!eval) return;
-            const node& owner = f.getOrigin();
-            if(nul(owner)) return;
-
-            const frame& fr = thread::get().getNowFrame();
-            if(&fr.getOwner(*eval) != &owner) return;
-
-            p.setOrigin(*eval);
-        }));
+        //  try once now. if it's not successful, it may refered symbol not expanded yet.
+        //  so in that case, I put it to a queue to process after expansion.
+        NM_I("converge type request for param[%s] of %s", p, f);
+        tstr<convergence> req = new paramConvergence(f, p, org);
+        if(!req->converge()) // I'll converge it later.
+            _cons.add(*req);
         return true;
     }
 
@@ -135,23 +121,18 @@ namespace nm {
         if(nul(ret)) return;
 
         // need to converge return type:
-        _cons.push_back(convergence([&] {
-            str eval = ret.getEval();
-            if(!eval) return;
-            const node& owner = f.getOrigin();
-            if(nul(owner)) return;
-
-            const frame& fr = thread::get().getNowFrame();
-            if(&fr.getOwner(*eval) != &owner) return;
-
-            type.setRet(*eval);
-        }));
+        NM_I("converge type request for ret[%s] of %s", ret.getName(), f);
+        tstr<convergence> req = new retConvergence(f, ret);
+        if(!req->converge()) // I'll converge it later
+            _cons.add(*req);
     }
 
     void me::_convergeTypes(errReport& rpt) {
         if(rpt) return NM_E("type convergence cancelled. there is error during expand()"), void();
 
-        for(auto& req: _cons) req();
+        for(auto& req: _cons)
+            req.converge(); // only try once. and don't emit any errors when it fails.
+                            // verifier will catch it.
     }
 
     void me::_rel() { _stack.clear(); }

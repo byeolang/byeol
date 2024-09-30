@@ -581,7 +581,7 @@ TEST_F(defFuncTest, funcTypeCompatibleToDifferentObjScope) {
     ASSERT_EQ(res.cast<nint>(), 5);
 }
 
-TEST_F(defFuncTest, parameterOfInObjScope) {
+TEST_F(defFuncTest, simpleParamConvergence) {
     make().parse(R"SRC(
         def person
             age int
