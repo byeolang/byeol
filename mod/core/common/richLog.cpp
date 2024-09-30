@@ -15,6 +15,12 @@ namespace nm {
 
     strWrap __convert__(const baseFunc& it) { return nul(it) ? "null" : it.getSrc().getName() + "(" + it.getParams().toStr() + ")"; }
 
+    strWrap __convert__(const param& it) {
+        if(nul(it)) return strWrap("null");
+        const node& org = it.getOrigin();
+        return it.getName() + " " + (nul(org) ? "null" : org.getType().getName());
+    }
+
     strWrap __convert__(const visitInfo& it) { return nul(it) ? "null" : it.name; }
 
     strWrap __convert__(const modifier& it) {
