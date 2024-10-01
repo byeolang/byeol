@@ -3,7 +3,8 @@
 #include "safeGet.hpp"
 
 namespace nm {
-    #define orRet
-    #define orNul(T) nulOf<T>()
-    #define getOr(expr) _PUT(expr); if (__isNul__(_GET(expr))) return
+    #define orRet return
+    #define orNul(T) return nulOf<T>()
+    #define orDo
+    #define getOr(expr) _PUT(expr); if (__isNul__(_GET(expr)))
 }
