@@ -538,7 +538,7 @@ TEST_F(defFuncTest, funcTakingFunc) {
     ASSERT_EQ(res.cast<nint>(), 3);
 }
 
-TEST_F(defFuncTest, funcTakingFunc2) {
+TEST_F(defFuncTest, funcTakingClosure) {
     make()
         .parse(R"SRC(
         foo(n int) flt: n + 1.5
@@ -552,7 +552,7 @@ TEST_F(defFuncTest, funcTakingFunc2) {
     ASSERT_EQ(res.cast<nint>(), 4);
 }
 
-TEST_F(defFuncTest, funcTypeDontHaveImplicitCasting) {
+TEST_F(defFuncTest, closureDontHaveImplicitCasting) {
     make()
         .negative()
         .parse(R"SRC(
@@ -566,31 +566,65 @@ TEST_F(defFuncTest, funcTypeDontHaveImplicitCasting) {
         .shouldVerified(false);
 }
 
-TEST_F(defFuncTest, funcTypeCompatibleToDifferentObjScope) {
-    make().parse(R"SRC(
+TEST_F(defFuncTest, simpleClosure) {
+    make()
+        .parse(R"SRC(
         def a
             foo(n int) int: n + 5
         def b
             foo(n int) int: n - 2
         foo(f a.foo, n int) int: f(n)
         main() int: foo(a.foo, 1) + foo(b.foo, 1) # 6 + -1
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 5);
 }
 
-TEST_F(defFuncTest, simpleParamConvergence) {
-    make().parse(R"SRC(
+TEST_F(defFuncTest, simpleConvergence) {
+    make()
+        .parse(R"SRC(
         def person
             age int
             foo(newAge age) age: age = newAge; newAge # assignment is not expr.
         main() int
             person.foo(5)
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 5);
+}
+
+TEST_F(defFuncTest, complexConvergence) {
+    make()
+        .parse(R"SRC(
+        def person
+            age := name.len() + 20    # 1)
+            addAge(newAge age) void   # 2)
+                age += newAge
+            name := defaultName + "1" # 3)
+            defaultName := "kniz"     # 4)
+
+        main() int
+            person.age # == 25
+    )SRC")
+        .shouldVerified(true);
+
+    // what this test do?:
+    //  this is to check whether type convergence works even in complex code that is not sequential
+    //  and has step-by-step dependencies.
+    //
+    //  parser and expander read and evaluate codes from top to bottom.
+    //  so they visit codes like '1 -> 2 -> 3' flow.
+    //  however, when expander visit code #1, it can't deduce type because name wasn't define yet.
+    //  so when expander visit code #2, it also couldn't converge parameter type because age is not
+    //  expanded. therefore, the appropriate expand sequence should be: 4 -> 3 -> 1 -> 2.
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 25);
 }
