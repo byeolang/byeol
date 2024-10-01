@@ -11,6 +11,7 @@
 #include "macro/pair.hpp"
 #include "macro/pairx.hpp"
 #include "macro/safeGet.hpp"
+#include "macro/getOr.hpp"
 #include "macro/staticAsserts.hpp"
 #include "macro/typeTrait.hpp"
 #include "macro/unconstFunc.hpp"
