@@ -12,8 +12,7 @@ namespace nm {
     nbool me::rel(const instance& old) {
         if(!_hasBindTag(old)) return true; // optimization.
 
-        watchCell& un = _watcher[old.getId()];
-        if(nul(un)) return false;
+        watchCell& un = getOr(_watcher[old.getId()]) orRet false;
         return _watcher.del(&un, sizeof(watchCell));
     }
 
