@@ -44,7 +44,10 @@ namespace nm {
     /// short version of nulr.
     template <typename T> T& nulOf() { return nulr<T&>::get(); }
 
-    template <typename T> inline nbool nul(const T& it) { return nulr<T&>::isNul(it); }
+    template <typename T>
+    inline typename std::enable_if<!std::is_pointer_v<T>, nbool>::type nul(const T& it) {
+        return nulr<T&>::isNul(it);
+    }
 
-    template <typename T> nbool nul(const T* it) { return nulr<T*>::isNul(it); }
+    template <typename T> inline nbool nul(const T* it) { return true; }//nulr<T*>::isNul(it); }
 } // namespace nm
