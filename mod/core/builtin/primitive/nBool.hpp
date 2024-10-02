@@ -17,11 +17,13 @@ namespace nm {
         NM(CLASS(nBool, primitiveObj, wBoolType), VISIT())
 
     public:
-        nBool();
+        nBool() = default;
         nBool(nbool val);
 
     public:
         tstr<arithmeticObj> bitwiseNot() const override;
+
+        const baseObj& getOrigin() const override;
 
     protected:
         tstr<arithmeticObj> _add(const arithmeticObj& rhs, nbool reversed) const override;

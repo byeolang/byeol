@@ -14,18 +14,18 @@ namespace nm {
         return inner;
     }
 
-    namespace {
-        static tbaseObjOrigin<me> org(tbridger<me>::ctor().ctor<me>().subs());
-    }
-
-    me::nVoid(): super(org) {}
-
     me& me::singletone() {
         static me inner;
         return inner;
     }
 
     tstr<arithmeticObj> me::bitwiseNot() const { return *this; }
+
+    const baseObj& me::getOrigin() const {
+        static tbaseObjOrigin<me> org(tbridger<me>::ctor().ctor<me>().subs());
+        const baseObj& supers = super::getOrigin();
+        return nul(supers) ? org : supers;
+    }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const { return *this; }
 

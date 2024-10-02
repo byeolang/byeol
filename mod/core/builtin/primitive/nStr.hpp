@@ -20,7 +20,7 @@ namespace nm {
         typedef typename tucontainable<nChar>::iteration iteration;
 
     public:
-        nStr();
+        nStr() = default;
         nStr(const nchar* val);
         nStr(const std::string& val);
 
@@ -29,6 +29,8 @@ namespace nm {
 
     public:
         nint len() const override;
+
+        const baseObj& getOrigin() const override;
 
         tstr<arithmeticObj> bitwiseNot() const override;
 

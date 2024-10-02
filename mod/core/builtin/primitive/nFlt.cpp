@@ -41,17 +41,17 @@ namespace nm {
         return inner;
     }
 
-    namespace {
-        static tbaseObjOrigin<me> org(tbridger<me>::ctor().ctor<me>().subs());
-    }
-
-    me::nFlt(): super(org) {}
-
-    me::nFlt(nflt val): super(val, org) {}
+    me::nFlt(nflt val): super(val) {}
 
     tstr<arithmeticObj> me::bitwiseNot() const {
         return *this;
         // TODO: throw error
+    }
+
+    const baseObj& me::getOrigin() const {
+        static tbaseObjOrigin<me> org(tbridger<me>::ctor().ctor<me>().subs());
+        const baseObj& supers = super::getOrigin();
+        return nul(supers) ? org : supers;
     }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {

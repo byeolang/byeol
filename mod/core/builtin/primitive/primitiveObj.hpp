@@ -20,9 +20,9 @@ namespace nm {
         };
 
     public:
-        primitiveObj(const baseObj& org): super(org), _val() {}
+        primitiveObj() = default;
 
-        primitiveObj(const T& val, const baseObj& org): super(org), _val(val) {}
+        primitiveObj(const T& val): _val(val) {}
 
     public:
         T& get() { return _val; }
@@ -49,9 +49,6 @@ namespace nm {
 
     template <> class primitiveObj<void>: public arithmeticObj {
         NM(ADT(primitiveObj, arithmeticObj))
-
-    public:
-        primitiveObj(const baseObj& org): super(org) {}
 
     protected:
         nbool _onSame(const typeProvidable& rhs) const override { return !nul(rhs); }

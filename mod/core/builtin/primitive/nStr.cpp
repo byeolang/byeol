@@ -155,30 +155,30 @@ namespace nm {
             str run(const args& a) override { return getRet(); }
         };
 
-        static tbaseObjOrigin<me> org(tbridger<me>::ctor()
-                                          .ctor<nStr>()
-                                          .func("len", &me::len)
-                                          .func<nchar, nidx>("get", &me::get)
-                                          .func("substr", &me::substr)
-                                          .func("get", new getSeqFunc())
-                                          .func("iterate", new iterateFunc())
-                                          .func("getElemType", new getElemType())
-                                          .subs());
+        static const baseObj& _defaultOrg() {
+            static tbaseObjOrigin<me> org(tbridger<me>::ctor()
+                                              .ctor<nStr>()
+                                              .func("len", &me::len)
+                                              .func<nchar, nidx>("get", &me::get)
+                                              .func("substr", &me::substr)
+                                              .func("get", new getSeqFunc())
+                                              .func("iterate", new iterateFunc())
+                                              .func("getElemType", new getElemType())
+                                              .subs());
+            return org;
+        }
+        const baseObj& getSeqFunc::getOrigin() const { return _defaultOrg(); }
 
-        const baseObj& getSeqFunc::getOrigin() const { return org; }
+        const baseObj& iterateFunc::getOrigin() const { return _defaultOrg(); }
 
-        const baseObj& iterateFunc::getOrigin() const { return org; }
-
-        const baseObj& getElemType::getOrigin() const { return org; }
+        const baseObj& getElemType::getOrigin() const { return _defaultOrg(); }
     } // namespace
 
     nbool me::nStrType::isImmutable() const { return true; }
 
-    me::nStr(): super(org) {}
+    me::nStr(const nchar* val): super(std::string(val)) {}
 
-    me::nStr(const nchar* val): super(std::string(val), org) {}
-
-    me::nStr(const std::string& val): super(val, org) {}
+    me::nStr(const std::string& val): super(val) {}
 
     me::iteration* me::_onMakeIteration(ncnt step) const {
         return new bridgeIteration((me&) *this, step);
@@ -259,6 +259,11 @@ namespace nm {
     tstr<arithmeticObj> me::bitwiseNot() const {
         return *this;
         // TODO: throw error
+    }
+
+    const baseObj& me::getOrigin() const {
+        const baseObj& supers = super::getOrigin();
+        return nul(supers) ? _defaultOrg() : supers;
     }
 
     /// @param end is exclusive.

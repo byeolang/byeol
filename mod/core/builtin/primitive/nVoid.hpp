@@ -15,10 +15,9 @@ namespace nm {
         NM(CLASS(nVoid, primitiveObj<void>, wVoidType), VISIT())
 
     public:
-        nVoid();
-
-    public:
         tstr<arithmeticObj> bitwiseNot() const override;
+
+        const baseObj& getOrigin() const override;
 
     public:
         static me& singletone();

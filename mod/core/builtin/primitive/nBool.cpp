@@ -14,13 +14,7 @@ namespace nm {
 
     nbool me::wBoolType::isImmutable() const { return true; }
 
-    namespace {
-        static tbaseObjOrigin<me> org(tbridger<me>::ctor().ctor<me>().subs());
-    }
-
-    me::nBool(): super(org) {}
-
-    me::nBool(nbool val): super(val, org) {}
+    me::nBool(nbool val): super(val) {}
 
     const ases& me::wBoolType::_getImpliAses() const {
         static ases inner;
@@ -61,6 +55,12 @@ namespace nm {
     }
 
     tstr<arithmeticObj> me::bitwiseNot() const { return nInt(!get()); }
+
+    const baseObj& me::getOrigin() const {
+        static tbaseObjOrigin<me> org(tbridger<me>::ctor().ctor<me>().subs());
+        const baseObj& supers = super::getOrigin();
+        return nul(supers) ? org : supers;
+    }
 
     tstr<arithmeticObj> me::_add(const arithmeticObj& rhs, nbool reversed) const {
         return reversed ? new me(rhs.as<me>()->get() + get()) : new me(get() + rhs.as<me>()->get());
