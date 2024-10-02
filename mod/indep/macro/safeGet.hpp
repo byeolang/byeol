@@ -3,42 +3,64 @@
 #include "../common/typedef.hpp"
 #include "../helper/nulr.hpp"
 #include "overload.hpp"
+#include <vector>
 
 namespace nm {
     template <typename T> class _tget {
     public:
-        static T& set(const T& expr) { return *store() = (T*) &expr, get(); }
-
-        static T& get() { return **store(); }
-
-        static T** store() {
-            static T* inner = 0; // NOLINT
-            return &inner;
+        static T& push(const T& expr) {
+            inner.push_back((T*) &expr);
+            return (T&) expr;
         }
+
+        static T& get() { return inner.empty() ? nulOf<T>() : *inner.back(); }
+
+        static T& pop() {
+            T& ret = get();
+            inner.pop_back();
+            return ret;
+        }
+
+    private:
+        static inline std::vector<T*> inner; // NOLINT
     };
 
     template <typename T> class _tget<T*> {
     public:
-        static T* set(const T* trg) { return *store() = (T*) trg; }
-
-        static T* get() { return *store(); }
-
-        static T** store() {
-            static T* inner = 0; // NOLINT
-            return &inner;
+        static T* push(const T* trg) {
+            inner.push_back((T*) trg);
+            return (T*) trg;
         }
+
+        static T* get() { return inner.empty() ? nullptr : inner.back(); }
+
+        static T& pop() {
+            T* ret = get();
+            inner.pop_back();
+            return *ret;
+        }
+
+    private:
+        static inline std::vector<T*> inner; // NOLINT
     };
 
     template <typename T> class _tget<T&> {
     public:
-        static T& set(const T& expr) { return *store() = (T*) &expr, get(); }
-
-        static T& get() { return **store(); }
-
-        static T** store() {
-            static T* inner = 0; // NOLINT
-            return &inner;
+        static T& push(const T& expr) {
+            inner.push_back((T*) &expr);
+            return (T&) expr;
         }
+
+        static T& get() { return inner.empty() ? nulOf<T>() : *inner.back(); }
+
+        static T& pop() {
+            T& ret = get();
+            inner.pop_back();
+            return ret;
+        }
+
+    private:
+        static inline std::vector<T*> inner; // NOLINT
     };
 
     template <typename T> static T* ___proceed__(T&& rhs) {
@@ -58,8 +80,9 @@ namespace nm {
     template <typename T> static nbool __isNul__(const T* rhs) { return nul(rhs); }
 } // namespace nm
 
-#define _PUT(exp) _tget<decltype(exp)>::set(exp)
+#define _PUSH(exp) _tget<decltype(exp)>::push(exp)
 #define _GET(exp) _tget<decltype(exp)>::get()
+#define _POP(exp) _tget<decltype(exp)>::pop()
 #define _NULR(exp) nulOf<decltype(exp)>()
 
 /// safeGet is safe navigation feature of c++:
@@ -98,15 +121,21 @@ namespace nm {
 ///                 return code;
 ///             }
 ///       ```
-#define safeGet_1(e1) (__isNul__(_PUT(e1)) ? _NULR(e1) : (_GET(e1)))
+#define safeGet_1(e1) (__isNul__(_PUSH(e1)) ? _NULR(e1) : (_POP(e1)))
 #define safeGet_2(e1, e2) \
-    (__isNul__(_PUT(e1)) ? _NULR((__proceed__(e1)->e2)) : _PUT(__proceed__(_GET(e1))->e2))
-#define safeGet_3(e1, e2, e3)                                                     \
-    (__isNul__(safeGet_2(e1, e2)) ? _NULR(__proceed__(__proceed__(e1)->e2)->e3) : \
-                                    _PUT(__proceed__(_GET(__proceed__(e1)->e2))->e3))
+    (__isNul__(_PUSH(e1)) ? _NULR(__proceed__(e1)->e2) : __proceed__(_POP(e1))->e2)
+
+#define safeGet_3(e1, e2, e3) \
+    (__isNul__(_PUSH(safeGet_2(e1, e2))) ? _NULR(__proceed__(__proceed__(e1)->e2)->e3) : \
+                                    __proceed__(_POP(__proceed__(e1)->e2))->e3)
 #define safeGet_4(e1, e2, e3, e4)                                          \
-    (__isNul__(safeGet_3(e1, e2, e3)) ?                                    \
+    (__isNul__(_PUSH(safeGet_3(e1, e2, e3))) ?                             \
             _NULR(__proceed__(__proceed__(__proceed__(e1)->e2)->e3)->e4) : \
-            _PUT(__proceed__(_GET(__proceed__(__proceed__(e1)->e2)->e3))->e4))
-#define safeGet_5(e1, e2, e3, e4, e5) (__isNul__(safeGet_4(e1, e2, e3, e4)) ? _NULR(__proceed__(__proceed__(__proceed__(__proceed__(e1)->e2)->e3)->e4)->e5) : _PUT(__proceed__(_GET(__proceed__(__proceed__(__proceed__(e1)->e2)->e3)->e4)->e5))
+            __proceed__(_POP(__proceed__(__proceed__(e1)->e2)->e3))->e4)
+
+#define safeGet_5(e1, e2, e3, e4, e5) \
+    (__isNul__(_PUSH(safeGet_4(e1, e2, e3, e4))) ? \
+        _NULR(__proceed__(__proceed__(__proceed__(__proceed__(e1)->e2)->e3)->e4)->e5) : \
+        __proceed__(_POP(__proceed__(__proceed__(__proceed__(e1)->e2)->e3)->e4))->e5)
+
 #define safeGet(...) NM_OVERLOAD(safeGet, __VA_ARGS__)
