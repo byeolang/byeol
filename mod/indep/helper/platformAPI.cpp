@@ -220,7 +220,7 @@ namespace nm {
             const string& raw = demangle(org);
             auto n = raw.find("::");
 #endif
-            return raw.substr(n + 2);
+            return raw.size() > 3 ? raw.substr(n + 2) : org;
         }
     } // namespace platformAPI
 } // namespace nm
