@@ -44,7 +44,7 @@ namespace nm {
     /// short version of nulr.
     template <typename T> T& nulOf() { return nulr<T&>::get(); }
 
-    template <typename T> inline nbool nul(T& it) { return nulr<T&>::isNul(it); }
+    template <typename T> inline nbool nul(const T& it) { return nulr<T&>::isNul(it); }
 
-    template <typename T> nbool nul(T* it) { return nulr<T*>::isNul(it); }
+    template <typename T> nbool nul(const T* it) { return nulr<T*>::isNul(it); }
 } // namespace nm
