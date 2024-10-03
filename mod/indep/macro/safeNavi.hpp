@@ -6,6 +6,39 @@
 #include <vector>
 
 namespace nm {
+
+    template <typename T>
+    struct __empty__ {
+        static T ret() { return T{}; }
+    };
+    template <typename T>
+    struct __empty__<T&> {
+        static T& ret() {
+            T* ret = nullptr;
+            return *ret;
+        }
+    };
+    template <>
+    struct __empty__<void> {
+        static void ret() {}
+    };
+
+    template <typename T, typename F>
+    auto operator->*(T&& t, F&& f) {
+      return f(std::forward<T>(t));
+    }
+
+#define __pcall__(fn)                                                            \
+      [&](auto&& __p) {                                                          \
+        if constexpr (std::is_pointer_v<std::remove_reference_t<decltype(__p)>>) \
+          return __p ? __p->fn : __empty__<decltype(__p->fn)>::ret(); \
+        else                                                                     \
+          return &__p ? __p.fn : __empty__<decltype(__p.fn)>::ret(); \
+      }
+#define THEN ->*__pcall__
+
+
+
     template <typename T> class _tget {
     public:
         static T& push(const T& expr) {
