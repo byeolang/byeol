@@ -10,7 +10,7 @@
 #include "macro/namuMeta.hpp"
 #include "macro/pair.hpp"
 #include "macro/pairx.hpp"
-#include "macro/safeGet.hpp"
+#include "macro/then.hpp"
 #include "macro/getOr.hpp"
 #include "macro/staticAsserts.hpp"
 #include "macro/typeTrait.hpp"
