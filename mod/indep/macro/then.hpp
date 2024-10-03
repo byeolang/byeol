@@ -24,6 +24,10 @@ namespace nm {
     };
 
     template <typename T> struct __to_ref__ {
+        static T to(T it) { return it; }
+    };
+
+    template <typename T> struct __to_ref__<T&> {
         static T& to(T& it) { return it; }
     };
 
@@ -36,31 +40,27 @@ namespace nm {
     };
 
     template <typename T, typename F>
-    auto operator->*(T* t, F&& f) -> decltype(f(__to_ref__<std::remove_reference_t<T*>>::to(t))) {
-        return f(__to_ref__<std::remove_reference_t<T*>>::to(t));
+    auto operator->*(T* t, F&& f) -> decltype(f(__to_ref__<T*>::to(t))) {
+        return f(__to_ref__<T*>::to(t));
     }
 
     template <typename T, typename F>
-    auto operator->*(T& t, F&& f) -> decltype(f(__to_ref__<std::remove_reference_t<T&>>::to(t))) {
-        return f(__to_ref__<std::remove_reference_t<T&>>::to(t));
+    auto operator->*(T& t, F&& f) -> decltype(f(__to_ref__<T&>::to(t))) {
+        return f(__to_ref__<T&>::to(t));
     }
 
-    template <typename T, typename F>
-    auto operator->*(const T& t, F&& f)
-        -> decltype(f(__to_ref__<std::remove_reference_t<const T>>::to(t))) {
-        return f(__to_ref__<std::remove_reference_t<const T>>::to(t));
+#define __nextAccess__(fn)                                         \
+    [&](auto& __p) -> decltype(__p.fn) {                           \
+        return &__p ? __p.fn : __empty__<decltype(__p.fn)>::ret(); \
     }
 
-#define __nextAccess__(fn)                                             \
-    [&](auto& __p) -> auto& {                                          \
-        if constexpr(std::is_reference_v<decltype(__p.fn)>)            \
-            return &__p ? __p.fn : __empty__<decltype(__p.fn)>::ret(); \
-        else                                                           \
-            return &__p ? (const decltype(__p.fn)&) __p.fn :           \
-                          __empty__<const decltype(__p.fn)&>::ret();   \
+#define __refAccess__(fn)                                          \
+    [&](auto& __p) -> const decltype(__p.fn)& {                    \
+        return &__p ? __p.fn : __empty__<decltype(__p.fn)>::ret(); \
     }
 
 #define THEN ->*__nextAccess__
+#define THEN_REF ->* __refAccess__
 
 } // namespace nm
 
