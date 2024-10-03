@@ -54,4 +54,20 @@ namespace nm {
     template <typename T, typename TACTIC> static nbool __isNul__(const tweak<T, TACTIC>* rhs) {
         return !rhs || !*rhs;
     }
+
+    template <typename T> struct __to_ref__<tstr<T>> {
+        static T& to(tstr<T> it) { return *it; }
+    };
+
+    template <typename T> struct __to_ref__<tstr<T>&> {
+        static T& to(tstr<T>& it) { return *it; }
+    };
+
+    template <typename T> struct __to_ref__<tstr<T>*> {
+        static T& to(tstr<T>* it) { return it->get(); }
+    };
+
+    template <typename T> struct __to_ref__<tstr<T>&&> {
+        static T& to(tstr<T>&& it) { return *it; }
+    };
 } // namespace nm
