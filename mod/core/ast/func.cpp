@@ -90,7 +90,7 @@ namespace nm {
         //  if you are returning func, then I'll make a closure for it.
         //  so don't think about that scenario. only I should care is last stmt of block, that is,
         //  'ret'.
-        const getExpr& get = safeGet(stmt, cast<getExpr>());
+        const getExpr& get = stmt THEN(template cast<getExpr>());
         if(nul(get)) return str();
 
         // ok. implicit returning for last stmt was func. getExpr is suitable to make a closure.

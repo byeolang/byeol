@@ -21,7 +21,7 @@ namespace nm {
     }
 
     const node& me::getArrayType() const {
-        return safeGet(getOrigin().getType().getParams(), get(0), getOrigin());
+        return getOrigin().getType().getParams() THEN(get(0)) THEN(getOrigin());
     }
 
     const arr& me::getOrigin() const {

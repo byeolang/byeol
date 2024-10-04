@@ -108,9 +108,10 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("set evalType");
-        const ntype& ltype = safeGet(me, getLeft(), getEval(), getType());
+
+        const ntype& ltype = me THEN(getLeft()) THEN(getEval()) THEN(getType());
         NM_WHENNUL(ltype).err(LHS_IS_NUL, me);
-        const ntype& rtype = safeGet(me, getRight(), getEval(), getType());
+        const ntype& rtype = me THEN(getRight()) THEN(getEval()) THEN(getType());
         NM_WHENNUL(rtype).err(RHS_IS_NUL, me);
         NM_WHEN(rtype.isSub<retStateExpr>()).err(CANT_ASSIGN_RET, me);
         NM_WHEN(!rtype.isImpli(ltype)).err(TYPE_NOT_COMPATIBLE, me, rtype, ltype);
@@ -200,7 +201,7 @@ namespace nm {
         NM_WHEN(mod.isExplicitOverride()).err(OVERRIDE_NOT_ALLOWED_FOR_LOCAL, me, me.getName());
 
         _STEP("to define a void type property isn't allowed.");
-        str eval = safeGet(me.getRight(), getEval());
+        str eval = me.getRight() THEN(getEval());
         NM_WHEN(!eval).err(RHS_IS_NUL, me);
         NM_WHEN(eval->isSub<nVoid>()).err(VOID_CANT_DEFINED, me);
 
@@ -251,7 +252,7 @@ namespace nm {
         _GUARD("onLeave()");
 
         _STEP("whether the 'type' object has a ctor without any paramters?");
-        str eval = safeGet(me, getRight(), getEval());
+        str eval = me THEN(getRight()) THEN(getEval());
         NM_WHEN(!eval).err(RHS_IS_NUL, me);
         NM_WHENNUL(eval->sub(baseObj::CTOR_NAME, args{})).err(DONT_HAVE_CTOR, me, eval);
 
@@ -261,7 +262,7 @@ namespace nm {
     void me::onLeave(const visitInfo& i, defAssignExpr& me) {
         _GUARD("onVisit()");
 
-        str eval = safeGet(me, getRight(), getEval());
+        str eval = me THEN(getRight()) THEN(getEval());
         NM_WHEN(!eval).err(RHS_IS_NUL, me);
         NM_WHEN(!eval->isComplete()).err(ACCESS_TO_INCOMPLETE, me);
 
@@ -292,7 +293,7 @@ namespace nm {
         NM_WHEN(type.isSub<nVoid>()).err(ELEM_TYPE_NOT_VOID, me);
 
         _STEP("check arr has exactly 1 type parameter.");
-        const auto& ps = safeGet(me.getOrigin(), getType(), getParams());
+        const auto& ps = me.getOrigin() THEN(getType()) THEN(getParams());
         NM_WHENNUL(ps).err(ELEM_TYPE_IS_NUL, me);
         NM_WHEN(ps.len() != 1).err(ARR_DOESNT_HAVE_TYPE_PARAM, me);
     }
@@ -301,8 +302,8 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("finding eval of l(r)hs.");
-        str lEval = safeGet(me, getLeft(), getEval());
-        str rEval = safeGet(me, getRight(), getEval());
+        str lEval = me THEN(getLeft()) THEN(getEval());
+        str rEval = me THEN(getRight()) THEN(getEval());
         NM_WHEN(!lEval).err(LHS_IS_NUL, me);
         NM_WHEN(!rEval).err(RHS_IS_NUL, me);
 
@@ -425,7 +426,7 @@ namespace nm {
     }
 
     void me::onTraverse(runExpr& me, node& subject) {
-        str ased = safeGet(me.getMe(), getEval());
+        str ased = me.getMe() THEN(getEval());
         if(!ased) return;
 
         getExpr& cast = subject.cast<getExpr>();
@@ -551,7 +552,7 @@ namespace nm {
                 posError(errCode::PARAM_NOT_VOID, me, p.getName().c_str());
                 continue;
             }
-            s->add(p.getName(), *(node*) safeGet(p, getOrigin(), getEval(), clone()));
+            s->add(p.getName(), *(node*) (p THEN(getOrigin()) THEN(getEval()) THEN(clone())));
         }
 
         //  function's subs are third:

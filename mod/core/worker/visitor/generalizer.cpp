@@ -19,7 +19,7 @@ namespace nm {
 
     const node& me::_findOrigin(const node& toReplace) const {
         if(!nul(toReplace.cast<getGenericExpr>())) return nulOf<node>();
-        const auto& name = safeGet(toReplace.cast<getExpr>(), getName());
+        const auto& name = toReplace.cast<getExpr>() THEN(getName());
         if(nul(name)) return nulOf<node>();
 
         for(const auto& p: _params)

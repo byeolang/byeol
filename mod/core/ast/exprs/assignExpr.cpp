@@ -31,12 +31,12 @@ namespace nm {
     }
 
     me::iter me::_getScopeIterOfLhs() {
-        getExpr& cast = safeGet(_lhs, cast<getExpr>());
+        getExpr& cast = _lhs THEN(template cast<getExpr>());
         if(nul(cast)) return iter();
 
         // TODO: elementExpr
 
-        str ased = safeGet(cast, getMe().as<node>());
+        str ased = cast THEN(getMe()) THEN(template as<node>());
         if(!ased) return NM_E("ased == null"), iter();
 
         iter ret = ased->subs().iterate(cast.getName());

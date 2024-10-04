@@ -83,7 +83,7 @@ namespace nm {
 
             const baseObj& getOrigin() const override { return _getOrigin(); }
 
-            str run(const args& a) override { return safeGet(getType().getRet(), as<node>()); }
+            str run(const args& a) override { return getType().getRet() THEN(template as<node>()); }
 
         private:
             mgdType _type;
@@ -133,27 +133,27 @@ namespace nm {
     }
 
     nbool me::set(const iter& at, const node& new1) {
-        str ased = safeGet(new1, asImpli(getType().getParams()[0].getOrigin()));
+        str ased = new1 THEN(asImpli(getType().getParams()[0].getOrigin()));
         if(!ased || ased->isSub<nVoid>()) return false;
 
         return get().set(at, *ased);
     }
 
     nbool me::set(nidx n, const node& new1) {
-        str ased = safeGet(new1, asImpli(getType().getParams()[0].getOrigin()));
+        str ased = new1 THEN(asImpli(getType().getParams()[0].getOrigin()));
         if(!ased || ased->isSub<nVoid>()) return false;
         return get().set(n, *ased);
     }
 
     nbool me::add(const iter& at, const node& new1) {
-        str ased = safeGet(new1, asImpli(getType().getParams()[0].getOrigin()));
+        str ased = new1 THEN(asImpli(getType().getParams()[0].getOrigin()));
         if(!ased || ased->isSub<nVoid>()) return false;
 
         return get().add(at, *ased);
     }
 
     nbool me::add(nidx n, const node& new1) {
-        str ased = safeGet(new1, asImpli(getType().getParams()[0].getOrigin()));
+        str ased = new1 THEN(asImpli(getType().getParams()[0].getOrigin()));
         if(!ased || ased->isSub<nVoid>()) return false;
 
         return get().add(n, *ased);

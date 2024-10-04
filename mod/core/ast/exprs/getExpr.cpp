@@ -54,7 +54,7 @@ namespace nm {
     }
 
     str me::_evalMe(nbool evalMode) const {
-        return evalMode ? safeGet(getMe(), getEval()) : safeGet(getMe(), as<node>());
+        return evalMode ? getMe() THEN(getEval()) : getMe() THEN(template as<node>());
     }
 
     node& me::_onGet(node& me) const {

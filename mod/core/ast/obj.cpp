@@ -87,14 +87,14 @@ namespace nm {
         _org->setState(new1);
     }
 
-    scope& me::getShares() { return safeGet(_subs, getNext(), cast<scope>()); }
+    scope& me::getShares() { return _subs THEN(getNext()) THEN(template cast<scope>()); }
 
-    scope::super& me::getOwns() { return safeGet(_subs, getContainer()); }
+    scope::super& me::getOwns() { return _subs THEN(getContainer()); }
 
     node& me::getCallComplete() { return nulOf<node>(); }
 
     void me::_inFrame(frame& fr, const bicontainable& args) const {
-        const node& subpack = safeGet(getOrigin(), getSubPack());
+        const node& subpack = getOrigin() THEN(getSubPack());
         if(!nul(subpack)) fr.add(subpack);
         super::_inFrame(fr, args);
     }

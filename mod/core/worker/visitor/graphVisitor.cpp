@@ -182,7 +182,7 @@ namespace nm {
         if(nul(it)) return "frame";
 
         string ret = it.getType().getName();
-        const auto& name = safeGet(it.cast<getExpr>(), getName());
+        const auto& name = it.cast<getExpr>() THEN(getName());
         if(!nul(name)) ret = name;
         return ret;
     }

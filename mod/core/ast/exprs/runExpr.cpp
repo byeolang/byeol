@@ -18,7 +18,7 @@ namespace nm {
     str me::run(const args& a) {
         auto addr = platformAPI::toAddrId(this);
 
-        str evaledMe = safeGet(getMe(), as<node>());
+        str evaledMe = getMe() THEN(template as<node>());
         if(!evaledMe) return NM_E("%s run: evaledMe is null. no thread found", addr), str();
 
         NM_DI("%s run: getting sub: me[%s]", addr, evaledMe);
@@ -30,7 +30,7 @@ namespace nm {
                                                     // of it which doesn't need me obj.
             frame& fr = evaledMe->cast<frame>();
             _args.setMe(!nul(fr) ? fr.getOwner(*sub) : *evaledMe);
-            NM_DI("%s run: setting me on args. args.me[%s]", addr, safeGet(_args,getMe()));
+            NM_DI("%s run: setting me on args. args.me[%s]", addr, _args THEN(getMe()));
         }
 
         NM_DI("%s run: running sub with args[%s]", addr, _args.toStr());

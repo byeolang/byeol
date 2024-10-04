@@ -737,7 +737,7 @@ namespace nm {
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
         runExpr& r = lhs.cast<runExpr>();
         if(!nul(r)) {
-            auto& name = safeGet(r, getSubj().cast<getExpr>(), getName());
+            auto& name = r THEN(getSubj().template cast<getExpr>()) THEN(getName());
             if(!nul(name) && name == "get") return _onSetElem(r, rhs);
         }
 
@@ -784,7 +784,7 @@ namespace nm {
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
         runExpr& cast = lhs.cast<runExpr>();
         if(!nul(cast)) {
-            auto& name = safeGet(cast.getSubj(), cast<getExpr>(), getName());
+            auto& name = cast.getSubj() THEN(template cast<getExpr>()) THEN(getName());
             if(!nul(name) && name == "get")
                 return _onConvertAssignElem(cast, *_maker.make<FBOExpr>(type, lhs, rhs));
         }
@@ -1170,7 +1170,7 @@ namespace nm {
         return getSubPack();
     }
 
-    void me::_report(baseErr* new1) { safeGet(getReport(), add(new1)); }
+    void me::_report(baseErr* new1) { getReport() THEN(add(new1)); }
 
     exprMaker& me::_getMaker() { return _maker; }
 } // namespace nm

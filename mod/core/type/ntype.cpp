@@ -22,8 +22,8 @@ namespace nm {
         //  above code doesn't work.
         if(getParams() != cast.getParams()) return false;
 
-        const ntype& ret = safeGet(getRet(),getType());
-        const ntype& rhsRet = safeGet(getRet(),getType());
+        const ntype& ret = getRet() THEN(getType());
+        const ntype& rhsRet = getRet() THEN(getType());
         if(nul(ret) && nul(rhsRet)) return true;
         return ret == rhsRet;
     }

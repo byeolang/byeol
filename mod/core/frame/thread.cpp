@@ -184,7 +184,7 @@ namespace nm {
 #if NM_IS_DBG
         NM_I("next following is list for them.");
         for(const auto& s: *ret) {
-            const manifest& mani = safeGet(s, cast<slot>(), getManifest());
+            const manifest& mani = s THEN(template cast<slot>()) THEN(getManifest());
             if(nul(mani)) continue;
 
             NM_DI(" - %s v%s", mani.name, mani.version);
