@@ -31,6 +31,10 @@ namespace nm {
         static T& to(T& it) { return it; }
     };
 
+    template <typename T> struct __to_ref__<const T&> {
+        static const T& to(const T& it) { return it; }
+    };
+
     template <typename T> struct __to_ref__<T*> {
         static T& to(T* it) { return *it; }
     };
@@ -49,6 +53,11 @@ namespace nm {
         return f(__to_ref__<T&>::to(t));
     }
 
+    template <typename T, typename F>
+    auto operator->*(const T& t, F&& f) -> decltype(f(__to_ref__<const T&>::to(t))) {
+        return f(__to_ref__<const T&>::to(t));
+    }
+
 #define __nextAccess__(fn)                                         \
     [&](auto& __p) -> decltype(__p.fn) {                           \
         return &__p ? __p.fn : __empty__<decltype(__p.fn)>::ret(); \
@@ -56,7 +65,7 @@ namespace nm {
 
 #define __refAccess__(fn)                                          \
     [&](auto& __p) -> const decltype(__p.fn)& {                    \
-        return &__p ? __p.fn : __empty__<decltype(__p.fn)>::ret(); \
+        return &__p ? __p.fn : __empty__<decltype(__p.fn)&>::ret(); \
     }
 
 #define THEN ->*__nextAccess__
