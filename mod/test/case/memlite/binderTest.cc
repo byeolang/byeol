@@ -346,18 +346,18 @@ TEST_F(binderTest, memberVariableShouldntHaveBindtag) {
     ASSERT_TRUE(ptr->o->a->isHeap());
 }
 
-TEST_F(binderTest, safeGetWithBinder) {
+TEST_F(binderTest, thenWithBinder) {
     tstr<shell> ptr(new shell(new offering(new A())));
     ptr->o->a->age = 57;
 
-    ASSERT_TRUE(safeGet(ptr, o, a, isHeap()));
-    ASSERT_EQ(safeGet(ptr, o, a, age), 57);
+    ASSERT_TRUE(ptr THEN(o) THEN(a) THEN(isHeap()));
+    ASSERT_EQ(ptr THEN(o) THEN(a) THEN(age), 57);
 }
 
-TEST_F(binderTest, safeGetNegative) {
+TEST_F(binderTest, thenNegative) {
     tstr<shell> ptr(new shell(nullptr));
-    ASSERT_TRUE(nul(safeGet(ptr, o, a)));
-    ASSERT_TRUE(nul(safeGet(ptr, o, a, isHeap())));
+    ASSERT_TRUE(nul(ptr THEN(o) THEN(a)));
+    ASSERT_TRUE(nul(ptr THEN(o) THEN(a) THEN(isHeap())));
 }
 
 TEST_F(binderTest, refCountingCorruptionWhenVectorAssignOperator) {

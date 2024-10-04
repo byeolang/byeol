@@ -42,27 +42,27 @@ TEST(macroTest, NM_GETtest) {
         C c;
     } d;
 
-    A& a = safeGet(b, getA());
+    A& a = b THEN(getA());
     ASSERT_FALSE(nul(a));
-    A* aNul = &safeGet(b, getNul());
+    A* aNul = &(b THEN(getNul()));
     ASSERT_TRUE(nul(aNul));
 
-    A& a0 = safeGet(b.getNul());
+    A& a0 = b.getNul();
     ASSERT_TRUE(nul(a0));
 
-    A& a2 = safeGet(c, getB(), getA());
+    A& a2 = c THEN(getB()) THEN(getA());
     ASSERT_FALSE(nul(a2));
-    A* a2Nul = &safeGet(c, getNul(), getA());
+    A* a2Nul = &(c THEN(getNul()) THEN(getA()));
     ASSERT_TRUE(nul(a2Nul));
 
-    A& a3 = safeGet(d, getC(), getB(), getA());
+    A& a3 = d THEN(getC()) THEN(getB()) THEN(getA());
     ASSERT_FALSE(nul(a3));
-    A* a3Nul = &safeGet(d, getNul(), getB(), getA());
+    A* a3Nul = &(d THEN(getNul()) THEN(getB()) THEN(getA()));
     ASSERT_TRUE(nul(a3Nul));
 
-    A& a4 = safeGet(d.getC().getB(), getA());
+    A& a4 = d.getC().getB() THEN(getA());
     ASSERT_FALSE(nul(a4));
-    A* a4Nul = &safeGet(d.getC().getB(), getNul());
+    A* a4Nul = &(d.getC().getB() THEN(getNul()));
     ASSERT_TRUE(nul(a4Nul));
 }
 
