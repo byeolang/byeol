@@ -67,6 +67,14 @@ namespace nm {
         static T& to(tstr<T>* it) { return it->get(); }
     };
 
+    template <typename T> struct __to_ref__<const tstr<T>&> {
+        static const T& to(const tstr<T>& it) { return *it; }
+    };
+
+    template <typename T> struct __to_ref__<const tstr<T>*> {
+        static const T& to(const tstr<T>* it) { return it->get(); }
+    };
+
     template <typename T> struct __to_ref__<tstr<T>&&> {
         static T& to(tstr<T>&& it) { return *it; }
     };
