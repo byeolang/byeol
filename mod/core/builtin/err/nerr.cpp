@@ -126,22 +126,18 @@ namespace nm {
         }
     }
 
-    namespace {
-        static tbaseObjOrigin<me> org(me::super::makeSubs());
-    }
-
     me::nerr(logLv::level t, nint newCode):
-        super(t, org), _code((errCode) newCode), _pos{}, _msg(getErrMsg(_code)) {}
+        super(t), _code((errCode) newCode), _pos{}, _msg(getErrMsg(_code)) {}
 
     me::nerr(logLv::level t, nint newCode, va_list args):
-        super(t, org), _code((errCode) newCode), _pos{}, _msg(_format(getErrMsg(_code), args)) {}
+        super(t), _code((errCode) newCode), _pos{}, _msg(_format(getErrMsg(_code), args)) {}
 
     me::nerr(logLv::level t, const point& ps, nint newCode, va_list args):
-        super(t, org), _code((errCode) newCode), _pos(ps), _msg(_format(getErrMsg(_code), args)) {}
+        super(t), _code((errCode) newCode), _pos(ps), _msg(_format(getErrMsg(_code), args)) {}
 
     me::nerr(const me& rhs): super(rhs), _code(rhs._code), _pos(rhs._pos), _msg(rhs._msg) {}
 
-    me::nerr(): super(org) {}
+    me::nerr(): super(logLv::ERR) {}
 
     nbool me::operator==(const super& rhs) const {
         const me& cast = rhs.cast<me>();
@@ -150,7 +146,11 @@ namespace nm {
         return getLv() == cast.getLv() && _code == cast.getErrCode();
     }
 
-    const baseObj& me::getOrigin() const { return org; }
+    const baseObj& me::getOrigin() const {
+        static tbaseObjOrigin<me> org(me::super::makeSubs());
+        const baseObj& supers = super::getOrigin();
+        return nul(supers) ? org : supers;
+    }
 
     void me::log() const {
         using platformAPI::foreColor;

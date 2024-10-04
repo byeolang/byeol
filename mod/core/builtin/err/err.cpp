@@ -4,14 +4,8 @@
 namespace nm {
     NM(DEF_ME(err))
 
-    namespace {
-        static tbaseObjOrigin<me> org(
-            tbridger<me>::ctor<nStr>().extend(me::super::makeSubs()).subs());
-    }
-
-    me::err(const nStr& msg): super(logLv::ERR, org), _msg(msg) {}
-
-    me::err(): super(org, false) {}
+    me::err(const nStr& msg): super(logLv::ERR), _msg(msg) {}
+    me::err(): super(logLv::ERR) {}
 
     nbool me::operator==(const super& rhs) const {
         const me& cast = rhs.cast<me>();
@@ -28,4 +22,10 @@ namespace nm {
     }
 
     const std::string& me::getMsg() const { return _msg->get(); }
+
+    const baseObj& me::getOrigin() const {
+        static tbaseObjOrigin<me> org(tbridger<me>::ctor<nStr>().extend(me::super::makeSubs()).subs());
+        const baseObj& supers = super::getOrigin();
+        return nul(supers) ? org : supers;
+    }
 } // namespace nm

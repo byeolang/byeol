@@ -10,8 +10,6 @@ namespace nm {
 
     public:
         err(const nStr& msg);
-
-    protected:
         err();
 
     public:
@@ -20,6 +18,8 @@ namespace nm {
     public:
         void log() const override;
         const std::string& getMsg() const override;
+
+        const baseObj& getOrigin() const override;
 
     private:
         tstr<nStr> _msg;

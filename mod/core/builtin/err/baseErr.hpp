@@ -10,11 +10,8 @@ namespace nm {
         template <typename T, nbool> friend struct tmarshaling;
 
     public:
-        baseErr(logLv::level t, const baseObj& org);
+        baseErr(logLv::level t);
         baseErr(const baseErr& rhs);
-
-    protected:
-        baseErr(const baseObj& org, nbool);
 
     public:
         me& operator=(const me& rhs);
