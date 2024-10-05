@@ -9,6 +9,12 @@ namespace nm {
         return &a.get();
     }
 
+    template <typename T> struct nulr<tstr<T>> {
+        static tstr<T> get() { return tstr<T>(); }
+
+        static nbool isNul(const tstr<T>& it) { return nul(it) || it.isBind(); }
+    };
+
     template <typename T> static T* __proceed__(tweak<T>& rhs) { return &rhs.get(); }
 
     template <typename T> static T* __proceed__(tweak<T>* rhs) { return &rhs->get(); }

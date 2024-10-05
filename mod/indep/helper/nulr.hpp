@@ -49,5 +49,5 @@ namespace nm {
         return nulr<T&>::isNul(it);
     }
 
-    template <typename T> inline nbool nul(const T* it) { return true; }//nulr<T*>::isNul(it); }
+    template <typename T> inline nbool nul(const T* it) { return nulr<T*>::isNul(it); }
 } // namespace nm
