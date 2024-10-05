@@ -60,12 +60,12 @@ namespace nm {
 
 #define __nextAccess__(fn)                                         \
     [&](auto& __p) -> decltype(__p.fn) {                           \
-        return &__p ? __p.fn : __empty__<decltype(__p.fn)>::ret(); \
+        return !nul(__p) ? __p.fn : __empty__<decltype(__p.fn)>::ret(); \
     }
 
 #define __refAccess__(fn)                                          \
     [&](auto& __p) -> const decltype(__p.fn)& {                    \
-        return &__p ? __p.fn : __empty__<decltype(__p.fn)&>::ret(); \
+        return !nul(__p) ? __p.fn : __empty__<decltype(__p.fn)&>::ret(); \
     }
 
 #define THEN ->*__nextAccess__

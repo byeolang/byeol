@@ -357,7 +357,7 @@ TEST_F(binderTest, thenWithBinder) {
 TEST_F(binderTest, thenNegative) {
     tstr<shell> ptr(new shell(nullptr));
     ASSERT_TRUE(nul(ptr THEN(o) THEN(a)));
-    ASSERT_TRUE(nul(ptr THEN(o) THEN(a) THEN(isHeap())));
+    ASSERT_FALSE(ptr THEN(o) THEN(a) THEN(isHeap()));
 }
 
 TEST_F(binderTest, refCountingCorruptionWhenVectorAssignOperator) {

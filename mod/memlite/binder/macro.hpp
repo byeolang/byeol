@@ -12,7 +12,16 @@ namespace nm {
     template <typename T> struct nulr<tstr<T>> {
         static tstr<T> get() { return tstr<T>(); }
 
-        static nbool isNul(const tstr<T>& it) { return nul(it) || it.isBind(); }
+        static nbool isNul(const tstr<T>& it) { return nul(&it) || !it.isBind(); }
+    };
+
+    template <typename T> struct nulr<tstr<T>&> {
+        static tstr<T>& get() {
+            tstr<T>* ret = nullptr;
+            return *ret;
+        }
+
+        static nbool isNul(const tstr<T>& it) { return nul(&it) || !it.isBind(); }
     };
 
     template <typename T> static T* __proceed__(tweak<T>& rhs) { return &rhs.get(); }
