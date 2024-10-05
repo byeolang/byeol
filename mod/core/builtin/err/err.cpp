@@ -26,6 +26,6 @@ namespace nm {
     const baseObj& me::getOrigin() const {
         static tbaseObjOrigin<me> org(tbridger<me>::ctor<nStr>().extend(me::super::makeSubs()).subs());
         const baseObj& supers = super::getOrigin();
-        return nul(supers) ? org : supers;
+        return &supers == this ? org : supers;
     }
 } // namespace nm

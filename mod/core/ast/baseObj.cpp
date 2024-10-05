@@ -28,9 +28,8 @@ namespace nm {
 
     scope& me::subs() {
         static dumScope inner;
-        if(!_org) return inner;
-
-        return _org->subs();
+        const baseObj& org = getOrigin();
+        return &org == this ? inner : (scope&) org.subs();
     }
 
     state me::getState() const { return LINKED; }

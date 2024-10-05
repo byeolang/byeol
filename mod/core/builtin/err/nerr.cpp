@@ -149,7 +149,7 @@ namespace nm {
     const baseObj& me::getOrigin() const {
         static tbaseObjOrigin<me> org(me::super::makeSubs());
         const baseObj& supers = super::getOrigin();
-        return nul(supers) ? org : supers;
+        return &supers == this ? org : supers;
     }
 
     void me::log() const {

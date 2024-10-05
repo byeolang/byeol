@@ -263,7 +263,7 @@ namespace nm {
 
     const baseObj& me::getOrigin() const {
         const baseObj& supers = super::getOrigin();
-        return nul(supers) ? _defaultOrg() : supers;
+        return &supers == this ? _defaultOrg() : supers;
     }
 
     /// @param end is exclusive.
