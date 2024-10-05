@@ -6,14 +6,12 @@ namespace nm {
 
     template <typename T> class _tget {
     public:
-        static T& set(const T& expr) { return *store() = (T*) &expr, get(); }
+        static T set(T expr) { return inner = expr, get(); }
 
-        static T& get() { return **store(); }
+        static T get() { return inner; }
 
-        static T** store() {
-            static T* inner = 0; // NOLINT
-            return &inner;
-        }
+    private:
+        inline static T inner; // NOLINT
     };
 
     template <typename T> class _tget<T*> {
