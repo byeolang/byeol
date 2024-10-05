@@ -27,7 +27,7 @@ namespace nm {
         explicit tnchain(const super& org, const me& next): _map(org), _next(next) {}
 
         explicit tnchain(const std::initializer_list<std::pair<K, V*>>& elems) {
-            for(const auto& e : elems)
+            for(const auto& e: elems)
                 _map->add(e.first, *e.second);
         }
 

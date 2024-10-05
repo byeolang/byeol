@@ -167,6 +167,7 @@ namespace nm {
                                               .subs());
             return org;
         }
+
         const baseObj& getSeqFunc::getOrigin() const { return _defaultOrg(); }
 
         const baseObj& iterateFunc::getOrigin() const { return _defaultOrg(); }

@@ -3,7 +3,7 @@
 #include "../../../type/ntype.hpp"
 
 namespace nm {
-    class convergence : public instance {
+    class convergence: public instance {
         NM(ADT(convergence, instance))
 
     public:

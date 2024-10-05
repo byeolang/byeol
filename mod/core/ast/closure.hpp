@@ -8,7 +8,7 @@ namespace nm {
     /// closure is a proxy for a func with captured object scope.
     /// when you input arguments, its object scope was replaced to the captured scope.
     /// so eventually, you don't need to refer any object if you carry a func with closure.
-    class _nout closure : public baseFunc {
+    class _nout closure: public baseFunc {
         NM(ME(closure, baseFunc), CLONE(closure), VISIT())
 
     public:

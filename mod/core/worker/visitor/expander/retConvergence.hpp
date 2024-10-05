@@ -6,7 +6,7 @@ namespace nm {
     class func;
     class node;
 
-    class retConvergence : public convergence {
+    class retConvergence: public convergence {
         NM(CLASS(retConvergence, convergence))
 
     public:

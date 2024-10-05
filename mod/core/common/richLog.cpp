@@ -13,7 +13,9 @@ namespace nm {
 
     strWrap __convert__(const src& it) { return nul(it) ? "null" : it.getName(); }
 
-    strWrap __convert__(const baseFunc& it) { return nul(it) ? "null" : it.getSrc().getName() + "(" + it.getParams().toStr() + ")"; }
+    strWrap __convert__(const baseFunc& it) {
+        return nul(it) ? "null" : it.getSrc().getName() + "(" + it.getParams().toStr() + ")";
+    }
 
     strWrap __convert__(const param& it) {
         if(nul(it)) return strWrap("null");
@@ -24,7 +26,8 @@ namespace nm {
     strWrap __convert__(const visitInfo& it) { return nul(it) ? "null" : it.name; }
 
     strWrap __convert__(const modifier& it) {
-        return nul(it) ? "null" : std::string("modifier(") + (it.isPublic() ? "public" : "protected") +
-            (it.isExplicitOverride() ? std::string(", override)") : std::string(")"));
+        return nul(it) ? "null" :
+                         std::string("modifier(") + (it.isPublic() ? "public" : "protected") +
+                (it.isExplicitOverride() ? std::string(", override)") : std::string(")"));
     }
 }

@@ -697,7 +697,8 @@ namespace nm {
 
     node* me::onGetArray(node& elemType) {
         NM_DI("tokenEvent: onGetArray(%s)", elemType);
-        if(elemType.isSub<nVoid>()) _report(nerr::newErr(elemType.getSrc().getPos(), ELEM_TYPE_NOT_VOID));
+        if(elemType.isSub<nVoid>())
+            _report(nerr::newErr(elemType.getSrc().getPos(), ELEM_TYPE_NOT_VOID));
         return new arr(elemType);
     }
 

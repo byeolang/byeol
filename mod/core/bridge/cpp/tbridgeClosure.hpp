@@ -32,7 +32,8 @@ namespace nm {
         }
 
         const baseObj& getOrigin() const override {
-            static obj inner(tbridger<T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>::subs());
+            static obj inner(
+                tbridger<T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>::subs());
             return inner;
         }
 

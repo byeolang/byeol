@@ -5,6 +5,7 @@ namespace nm {
     NM(DEF_ME(err))
 
     me::err(const nStr& msg): super(logLv::ERR), _msg(msg) {}
+
     me::err(): super(logLv::ERR) {}
 
     nbool me::operator==(const super& rhs) const {
@@ -24,7 +25,8 @@ namespace nm {
     const std::string& me::getMsg() const { return _msg->get(); }
 
     const baseObj& me::getOrigin() const {
-        static tbaseObjOrigin<me> org(tbridger<me>::ctor<nStr>().extend(me::super::makeSubs()).subs());
+        static tbaseObjOrigin<me> org(
+            tbridger<me>::ctor<nStr>().extend(me::super::makeSubs()).subs());
         const baseObj& supers = super::getOrigin();
         return &supers == this ? org : supers;
     }
