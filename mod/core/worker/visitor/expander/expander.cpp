@@ -88,9 +88,7 @@ namespace nm {
         GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
         // this lets genericOrigin make a their generic obj.
-        obj& generalizedOrg = me.getEval().cast<obj>();
-        if(nul(generalizedOrg)) return true;
-
+        obj& generalizedOrg = getOr(me.getEval().cast<obj>()) orRet true;
         obj& prevObj = *_obj;
         func& prevFunc = *_func;
         generalizedOrg.accept(i, *this);
@@ -101,8 +99,7 @@ namespace nm {
 
     nbool me::_onVisitParams(func& f, param& p) {
         node& org = (node&) p.getOrigin();
-        const getExpr& isGet = org.cast<getExpr>();
-        if(nul(isGet)) return false;
+        [[maybe_unused]] const getExpr& isGet = getOr(org.cast<getExpr>()) orRet false;
 
         // need to converge type:
         //  try once now. if it's not successful, it may refered symbol not expanded yet.
@@ -115,10 +112,8 @@ namespace nm {
     }
 
     void me::_onVisitFuncRet(func& f) {
-        ntype& type = (ntype&) f.getType();
-        if(nul(type)) return;
-        const getExpr& ret = type.getRet().cast<getExpr>();
-        if(nul(ret)) return;
+        ntype& type = getOr((ntype&) f.getType()) orRet;
+        const getExpr& ret = getOr(type.getRet().cast<getExpr>()) orRet;
 
         // need to converge return type:
         NM_I("converge type request for ret[%s] of %s", ret.getName(), f);

@@ -32,12 +32,10 @@ namespace nm {
         // TODO: don't use static variable '_cache':
         //  instead, put cache onto origin object, and if arr instance is origin, remove the cache.
         arr::_cache.clear();
-        node& pak = getTask();
-        if(nul(pak)) return NM_E("there is no pack!"), str();
+        node& pak = getOr(getTask()) orRet NM_E("there is no pack!"), str();
 
         NM_I("run a pack");
-        node& main = _findMain(pak, args());
-        if(nul(main)) return NM_E("there is 0 or more than 2 main() found."), str();
+        node& main = getOr(_findMain(pak, args())) orRet NM_E("there is 0 or more than 2 main() found."), str();
 
         if(main.canRun(a)) {
             threadUse thr(getReport());
@@ -66,8 +64,7 @@ namespace nm {
 
     node& me::_findMain(node& pak, const args& a) {
         // TODO: now, only find to main() but I need to find main(argc, argv) case, too.
-        node& ret = pak.sub(MAIN);
-        if(nul(ret)) NM_E("couldn't find main().");
+        node& ret = getOr(pak.sub(MAIN)) orDo NM_E("couldn't find main().");
 
         return ret;
     }

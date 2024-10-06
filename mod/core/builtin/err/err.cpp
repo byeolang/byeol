@@ -9,8 +9,7 @@ namespace nm {
     me::err(): super(logLv::ERR) {}
 
     nbool me::operator==(const super& rhs) const {
-        const me& cast = rhs.cast<me>();
-        if(nul(cast)) return false;
+        const me& cast = getOr(rhs.cast<me>()) orRet false;
         if(!_msg || !cast._msg) return false;
 
         return &_msg.get() == &cast._msg.get();

@@ -24,24 +24,14 @@ namespace nm {
         NM_DI("%s._onInFrame() %d stmts. frames.len[%d]", *this, getStmts().len(),
             thread::get().getFrames().len());
 
-        frame& fr = nm::thread::get()._getNowFrame();
-        if(nul(fr)) {
-            NM_E("fr == null");
-            return;
-        }
-
+        frame& fr = getOr(nm::thread::get()._getNowFrame()) orRet NM_E("fr == null");
         fr.add(*new scope());
     }
 
     void me::outFrame(const bicontainable& args) const {
         NM_DI("%s._onOutFrame() frames.len[%d]", *this, thread::get().getFrames().len());
 
-        frame& fr = nm::thread::get()._getNowFrame();
-        if(nul(fr)) {
-            NM_E("fr == null");
-            return;
-        }
-
+        frame& fr = getOr(nm::thread::get()._getNowFrame()) orRet NM_E("fr == null");
         fr.del();
     }
 

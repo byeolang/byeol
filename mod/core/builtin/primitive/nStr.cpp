@@ -21,11 +21,8 @@ namespace nm {
         public:
             str run(const args& a) override {
                 if(a.len() != 1) return str();
-                nStr& me = a.getMe().cast<nStr>();
-                if(nul(me)) return str();
-
-                tstr<seq> s = a[0].as<seq>();
-                if(!s) return str();
+                nStr& me = getOr(a.getMe().cast<nStr>()) orRet str();
+                tstr<seq> s = getOr(a[0].as<seq>()) orRet str();
 
                 nint start = (*s).get().getStart().get();
                 nint end = (*s).get().getEnd().get();
@@ -127,13 +124,11 @@ namespace nm {
                 const params& ps = getParams();
                 if(a.len() != ps.len())
                     return NM_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
-                nStr& me = a.getMe().cast<nStr>();
-                if(nul(me)) return NM_E("me as nStr == null"), str();
+                nStr &me = getOr(a.getMe().cast<nStr>()) orRet NM_E("me as nStr == null"), str();
 
-                str eval = a[0].as(ps[0].getOrigin().as<node>());
-                if(!eval)
-                    return NM_E("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]),
-                           str();
+                str eval = getOr(a[0].as(ps[0].getOrigin().as<node>()))
+                    orRet NM_E("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]),
+                    str();
 
                 nint step = eval->cast<nint>();
                 return new mgdIter(new niter(me.iterate(step)));

@@ -12,10 +12,10 @@ namespace nm {
     calltrace::calltrace(const frame& newFrame) {
         fr.bind(newFrame);
         if(!fr) return;
-        const baseFunc& f = fr->getFunc();
-        if(nul(f)) return;
 
+        const baseFunc& f = getOr(fr->getFunc()) orRet;
         const src& s = f.getSrc();
+
         at = s.getName() + "(" + f.getParams().toStr() + ")";
         const srcFile& file = s.getFile();
         if(!nul(file)) in = file.getFileName() + ":" + std::to_string(s.getPos().row);

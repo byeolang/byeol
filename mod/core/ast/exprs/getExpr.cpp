@@ -77,11 +77,9 @@ namespace nm {
     str me::makeClosure() const {
         str mayMe = _evalMe(true);
         frame& fr = mayMe->cast<frame>();
-        tstr<baseObj> me = !nul(fr) ? fr.getMe().cast<baseObj>() : mayMe->cast<baseObj>();
-        if(!me) return str();
-
-        baseFunc& cast = _onGet(*me).cast<baseFunc>();
-        if(nul(cast)) return str();
+        tstr<baseObj> me =
+            getOr(!nul(fr) ? fr.getMe().cast<baseObj>() : mayMe->cast<baseObj>()) orRet str();
+        baseFunc& cast = getOr(_onGet(*me).cast<baseFunc>()) orRet str();
 
         NM_I("make a closure for %s.%s", me, cast);
         return new closure(*me, cast);

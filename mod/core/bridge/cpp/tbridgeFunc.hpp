@@ -45,8 +45,7 @@ namespace nm {
 
         str run(const args& a) override {
             args tray;
-            args& evaluated = _evalArgs(a, tray);
-            if(nul(evaluated)) return NM_E("evaluated == null"), str();
+            args &evaluated = getOr(_evalArgs(a, tray)) orRet NM_E("evaluated == null"), str();
 
             return _runNative(evaluated);
         }
@@ -136,8 +135,7 @@ namespace nm {
         }
 
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
-            T* me = (T*) &a.getMe();
-            if(nul(me)) return NM_E("object from frame does not exists."), str();
+            T *me = getOr((T*) &a.getMe()) orRet NM_E("object from frame does not exists."), str();
             (me->*(this->_fptr))(Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...);
             return Marshaling<void, tifSub<void, node>::is>::toMgd();
         }
@@ -162,8 +160,7 @@ namespace nm {
         }
 
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
-            T* me = (T*) &a.getMe();
-            if(nul(me)) return NM_E("object from frame does not exists."), str();
+            T* me = getOr((T*) &a.getMe()) orRet NM_E("object from frame does not exists."), str();
             return Marshaling<Ret, tifSub<Ret, node>::is>::toMgd((me->*(this->_fptr)) // funcptr
                 (Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...)); // and args.ZZZ
         }

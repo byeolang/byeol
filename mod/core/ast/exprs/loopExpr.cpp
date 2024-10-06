@@ -23,9 +23,7 @@ namespace nm {
     }
 
     nbool me::loop::postprocess(frame& fr) {
-        const node& ret = fr.getRet();
-        if(nul(ret)) return true;
-
+        const node& ret = getOr(fr.getRet()) orRet true;
         if(ret.isSub<nextRet>()) return fr.setRet(), true;
         if(ret.isSub<breakRet>())
             return fr.setRet(), false; // after I go out of the loop, I should clear break state.
@@ -69,8 +67,7 @@ namespace nm {
 
     tstr<arr> me::_makeRet() const {
         static dumArr inner;
-        node& eval = *getEval();
-        if(nul(eval)) return NM_E("eval is null "), nulOf<arr>();
+        node& eval = getOr(*getEval()) orRet NM_E("eval is null "), nulOf<arr>();
         if(!eval.isSub<arr>()) return nulOf<arr>();
 
         return *new arr(eval.getType().getParams()[0].getOrigin());

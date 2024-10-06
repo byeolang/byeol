@@ -114,8 +114,7 @@ namespace nm {
     private:
         iter& _getMapIterFromChainIter(const iter& wrapper) {
             if(!wrapper._step->getType().template isSub<chainIteration>()) return nulOf<iter>();
-            chainIteration& cast = (chainIteration&) *wrapper._step;
-            if(nul(cast)) return nulOf<iter>();
+            chainIteration& cast = getOr((chainIteration&) *wrapper._step) orNul(iter);
 
             return cast._iter;
         }

@@ -30,9 +30,10 @@ namespace nm {
         entrypoints points;
         sobj& entrypoints = loaded->sub("entrypoints");
         for(auto& pair: entrypoints) {
-            const std::string& path =
-                dir + fsystem::getDelimiter() + pair.second->sub("path").asStr();
-            if(nul(path)) return NM_E("error to load %s: no entrypoint path", manPath), manifest();
+            const std::string &path =
+                getOr(dir + fsystem::getDelimiter() + pair.second->sub("path").asStr())
+                    orRet NM_E("error to load %s: no entrypoint path", manPath),
+                              manifest();
 
             // TODO: path should be multiple
             points.push_back(entrypoint{pair.first, {path}});

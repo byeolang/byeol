@@ -11,10 +11,8 @@ namespace nm {
     nbool me::converge() const {
         if(!_org || !_p || !_f) return NM_E("some paramConvergence info is null"), false;
 
-        str eval = _org->getEval();
-        if(!eval) return false;
-        const node& owner = _f->getOrigin();
-        if(nul(owner)) return false;
+        str eval = getOr(_org->getEval()) orRet false;
+        const node& owner = getOr(_f->getOrigin()) orRet false;
 
         const frame& fr = thread::get().getNowFrame();
         if(&fr.getOwner(*eval) != &owner) return false;

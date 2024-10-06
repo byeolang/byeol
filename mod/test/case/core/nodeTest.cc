@@ -67,9 +67,7 @@ namespace {
 
                 struct tofood: public tas<food> {
                     str as(const node& it, const type& to) const override {
-                        const chef& chef1 = it.cast<chef>();
-                        if(nul(chef1)) return str();
-
+                        const chef& chef1 = getOr(it.cast<chef>()) orRet str();
                         return str(new food(chef1.foodName, chef1.foodCalorie));
                     }
                 };

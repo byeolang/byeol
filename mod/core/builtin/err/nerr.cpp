@@ -140,8 +140,7 @@ namespace nm {
     me::nerr(): super(logLv::ERR) {}
 
     nbool me::operator==(const super& rhs) const {
-        const me& cast = rhs.cast<me>();
-        if(nul(cast)) return false;
+        const me& cast = getOr(rhs.cast<me>()) orRet false;
 
         return getLv() == cast.getLv() && _code == cast.getErrCode();
     }
