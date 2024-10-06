@@ -77,15 +77,13 @@ namespace nm {
     }
 
     str me::getEval() const {
-        const node& me = getMe();
-        if(nul(me)) return str();
-
-        str sub = _getSub(me.getEval(), nulOf<args>());
-        if(!sub) return NM_E("_subject.as<node>() returns null"), str();
+        const node& me = getOr(getMe()) orRet str();
+        str sub = getOr(_getSub(me.getEval(), nulOf<args>()))
+            orRet NM_E("_subject.as<node>() returns null"),
+            str();
 
         const baseFunc& f = sub.cast<baseFunc>();
-        str ret = nul(f) ? sub : f.getRet();
-        if(!ret) return NM_E("ret is null"), str();
+        str ret = getOr(nul(f) ? sub : f.getRet()) orRet NM_E("ret is null"), str();
         return new mockNode(*ret->getEval());
     }
 } // namespace nm

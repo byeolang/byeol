@@ -28,8 +28,7 @@ namespace nm {
     const node& me::deduce(const node& r) const {
         const ntype& ltype = getType();
         const ntype& rtype = r THEN(getType());
-        const ntype& res = ltype.deduce(rtype);
-        if(nul(res)) return nulOf<node>();
+        const ntype& res = getOr(ltype.deduce(rtype)) orNul(node);
         if(res == ltype) return *this;
         if(res == rtype) return r;
 
@@ -44,8 +43,7 @@ namespace nm {
 
     str me::run(const std::string& name, const args& a) {
         if(name.empty()) return run(a);
-        node& found = subAll(name, a).get();
-        if(nul(found)) return str();
+        node& found = getOr(subAll(name, a).get()) orRet str();
 
         return _onRunSub(found, a);
     }
