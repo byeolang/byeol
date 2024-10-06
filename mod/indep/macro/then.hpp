@@ -58,18 +58,15 @@ namespace nm {
         return f(__to_ref__<const T&>::to(t));
     }
 
-#define __nextAccess__(fn)                                         \
-    [&](auto& __p) -> decltype(__p.fn) {                           \
+#define THEN(fn)                                                        \
+    ->*[&](auto& __p) -> decltype(__p.fn) {                             \
         return !nul(__p) ? __p.fn : __empty__<decltype(__p.fn)>::ret(); \
     }
 
-#define __refAccess__(fn)                                          \
-    [&](auto& __p) -> const decltype(__p.fn)& {                    \
+#define THEN_REF(fn)                                                     \
+    ->*[&](auto& __p) -> const decltype(__p.fn)& {                       \
         return !nul(__p) ? __p.fn : __empty__<decltype(__p.fn)&>::ret(); \
     }
-
-#define THEN ->*__nextAccess__
-#define THEN_REF ->* __refAccess__
 
 } // namespace nm
 
