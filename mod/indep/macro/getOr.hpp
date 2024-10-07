@@ -89,7 +89,7 @@ namespace nm {
 
 #define __orRet__                        \
     ->*[&](auto& __p) -> decltype(__p) { \
-        __orRetStack__::push(&__p == nullptr); \
+        __orRetStack__::push(nul(__p)); \
         return __p;                      \
     };
 
@@ -102,6 +102,6 @@ namespace nm {
 
 #define orRet1 orDo1 return
 #define orNul1(T) orRet1 nulOf<T>()
-#define orDo1 __orRet__ if(nul(__orRetStack__::pop()))
+#define orDo1 __orRet__ if(__orRetStack__::pop())
 
 } // namespace nm

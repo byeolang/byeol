@@ -27,7 +27,7 @@ namespace nm {
     }
 
     nbool me::isBind() const {
-        const bindTag& tag = getOr(_getBindTag()) orRet(false);
+        const bindTag& tag = _getBindTag() orRet1 false;
         return tag.isBind();
     }
 

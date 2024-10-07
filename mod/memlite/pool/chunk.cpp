@@ -39,7 +39,7 @@ namespace nm {
                        "situtation."),
                    nullptr;
 
-        nidx* ret = getOr((nidx*) _get(_head)) orRet nullptr;
+        nidx* ret = (nidx*) _get(_head) orRet1 nullptr;
         _head = *ret;
         _len++;
         return ret;
