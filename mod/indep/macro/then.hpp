@@ -43,29 +43,37 @@ namespace nm {
         static T& to(T*&& it) { return (T&) *it; }
     };
 
-    template <typename T, typename F>
-    auto operator->*(T* t, F&& f) -> decltype(f(__to_ref__<T*>::to(t))) {
-        return f(__to_ref__<T*>::to(t));
+    template <typename T, typename F> auto operator->*(T* t, F&& f) -> decltype(f(t)) {
+        return f(t);
     }
 
-    template <typename T, typename F>
-    auto operator->*(T& t, F&& f) -> decltype(f(__to_ref__<T&>::to(t))) {
-        return f(__to_ref__<T&>::to(t));
+    template <typename T, typename F> auto operator->*(T& t, F&& f) -> decltype(f(t)) {
+        return f(t);
     }
 
-    template <typename T, typename F>
-    auto operator->*(const T& t, F&& f) -> decltype(f(__to_ref__<const T&>::to(t))) {
-        return f(__to_ref__<const T&>::to(t));
+    template <typename T, typename F> auto operator->*(const T& t, F&& f) -> decltype(f(t)) {
+        return f(t);
     }
 
-#define THEN(fn)                                                        \
-    ->*[&](auto& __p) -> decltype(__p.fn) {                             \
-        return !nul(__p) ? __p.fn : __empty__<decltype(__p.fn)>::ret(); \
+#define THEN(fn)                                                                                   \
+    ->*[&](auto& __p)                                                                              \
+        -> decltype(__to_ref__<typename std::remove_reference<decltype(__p)>::type>::to(__p).fn) { \
+        return !nul(__p) ?                                                                         \
+            __to_ref__<typename std::remove_reference<decltype(__p)>::type>::to(__p).fn :          \
+            __empty__<                                                                             \
+                decltype(__to_ref__<typename std::remove_reference<decltype(__p)>::type>::to(__p)  \
+                             .fn)>::ret();                                                         \
     }
 
-#define THEN_REF(fn)                                                     \
-    ->*[&](auto& __p) -> const decltype(__p.fn)& {                       \
-        return !nul(__p) ? __p.fn : __empty__<decltype(__p.fn)&>::ret(); \
+#define THEN_REF(fn)                                                                               \
+    ->*[&](auto& __p)                                                                              \
+        -> const decltype(__to_ref__<typename std::remove_reference<decltype(__p)>::type>::to(__p) \
+                              .fn)& {                                                              \
+        return !nul(__p) ?                                                                         \
+            __to_ref__<const typename std::remove_reference<decltype(__p)>::type&>::to(__p).fn :   \
+            __empty__<const decltype(__to_ref__<typename std::remove_reference<                    \
+                                         decltype(__p)>::type&>::to(__p)                           \
+                                         .fn)&>::ret();                                            \
     }
 
 } // namespace nm
