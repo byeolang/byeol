@@ -53,15 +53,15 @@ namespace nm {
         static T& to(T& it) { return it; }
     };
 
-    template <typename T, typename F> auto operator->*(T* t, F&& f) -> decltype(f(t)) {
+    template <typename T, typename F> auto operator->*(T* t, F&& f) -> decltype(f(__unwrap_binder__<decltype(t)>::to(t))) {
         return f(__unwrap_binder__<decltype(t)>::to(t));
     }
 
-    template <typename T, typename F> auto operator->*(T& t, F&& f) -> decltype(f(t)) {
+    template <typename T, typename F> auto operator->*(T& t, F&& f) -> decltype(f(__unwrap_binder__<decltype(t)>::to(t))) {
         return f(__unwrap_binder__<decltype(t)>::to(t));
     }
 
-    template <typename T, typename F> auto operator->*(const T& t, F&& f) -> decltype(f(t)) {
+    template <typename T, typename F> auto operator->*(const T& t, F&& f) -> decltype(f(__unwrap_binder__<decltype(t)>::to(t))) {
         return f(__unwrap_binder__<decltype(t)>::to(t));
     }
 
