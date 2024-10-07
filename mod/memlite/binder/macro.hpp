@@ -24,6 +24,30 @@ namespace nm {
         static nbool isNul(const tstr<T>& it) { return nul(&it) || !it.isBind(); }
     };
 
+    template <typename T> struct __unwrap_binder__<tstr<T>> {
+        static T& to(tstr<T> it) { return *it; }
+    };
+
+    template <typename T> struct __unwrap_binder__<tstr<T>&> {
+        static T& to(tstr<T>& it) { return *it; }
+    };
+
+    template <typename T> struct __unwrap_binder__<tstr<T>*> {
+        static T& to(tstr<T>* it) { return it->get(); }
+    };
+
+    template <typename T> struct __unwrap_binder__<tweak<T>> {
+        static T& to(tstr<T> it) { return *it; }
+    };
+
+    template <typename T> struct __unwrap_binder__<tweak<T>&> {
+        static T& to(tstr<T>& it) { return *it; }
+    };
+
+    template <typename T> struct __unwrap_binder__<tweak<T>*> {
+        static T& to(tstr<T>* it) { return it->get(); }
+    };
+
     template <typename T> static T* __proceed__(tweak<T>& rhs) { return &rhs.get(); }
 
     template <typename T> static T* __proceed__(tweak<T>* rhs) { return &rhs->get(); }
