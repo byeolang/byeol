@@ -156,7 +156,7 @@ TEST_F(visitorTest, visitComplexExpressions2) {
         }
 
         nbool onVisit(const visitInfo& i, assignExpr& a) override {
-            getExpr& leftGet = ((node&) a.getLeft()).cast<getExpr>() orRet1 true;
+            getExpr& leftGet = ((node&) a.getLeft()).cast<getExpr>() orRet true;
 
             if(leftGet.getName() != "res") return true;
             metRet = true;

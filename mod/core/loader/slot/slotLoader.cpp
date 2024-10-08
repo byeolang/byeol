@@ -32,7 +32,7 @@ namespace nm {
         for(auto& pair: entrypoints) {
             const std::string &path = dir + fsystem::getDelimiter() +
                 pair.second->sub("path").asStr()
-                    orRet1 NM_E("error to load %s: no entrypoint path", manPath),
+                    orRet NM_E("error to load %s: no entrypoint path", manPath),
                               manifest();
 
             // TODO: path should be multiple

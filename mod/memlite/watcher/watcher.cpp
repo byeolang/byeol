@@ -13,7 +13,7 @@ namespace nm {
     watchCell& me::get(nidx n) { return *(watchCell*) _get(n); }
 
     watchCell& me::get(id newId) {
-        watchCell& got = getOr(get(newId.tagN)) orNul(watchCell);
+        watchCell& got = get(newId.tagN) orNul(watchCell);
 
         id gotId = got.blk.getId();
         if(gotId.tagN != newId.tagN) {

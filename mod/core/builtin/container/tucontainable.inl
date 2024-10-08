@@ -53,7 +53,7 @@ namespace nm {
     TEMPL
     template <typename T1> void ME::each(std::function<nbool(T1&)> l) {
         for(auto e = begin(); e; ++e) {
-            T1& val = getOr(e->template cast<T1>()) orDo continue;
+            T1& val = e->template cast<T1>() orDo continue;
             if(!l(val)) break;
         }
     }

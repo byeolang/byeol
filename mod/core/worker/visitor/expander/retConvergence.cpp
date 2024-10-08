@@ -10,8 +10,8 @@ namespace nm {
     nbool me::converge() const {
         if(!_f || !_org) return NM_E("some retConverge info is null"), false;
 
-        str eval = _org->getEval() orRet1 false;
-        const node& owner = _f->getOrigin() orRet1 false;
+        str eval = _org->getEval() orRet false;
+        const node& owner = _f->getOrigin() orRet false;
         const frame& fr = thread::get().getNowFrame();
         if(&fr.getOwner(*eval) != &owner) return false;
 

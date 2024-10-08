@@ -58,9 +58,9 @@ namespace nm {
                 const params& ps = getParams();
                 if(a.len() != ps.len())
                     return NM_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
-                arr &meObj = a.getMe().cast<arr>() orRet1 NM_E("meObj as arr == null"), str();
+                arr &meObj = a.getMe().cast<arr>() orRet NM_E("meObj as arr == null"), str();
                 str eval = a[0].as(ps[0].getOrigin().as<node>())
-                    orRet1 NM_E("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]),
+                    orRet NM_E("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]),
                     str();
 
                 nint step = eval->cast<nint>();
@@ -190,7 +190,7 @@ namespace nm {
             const baseObj& getOrigin() const override { return *_org; }
 
             str run(const args& a) override {
-                node& src = a.getMe() orRet1 str();
+                node& src = a.getMe() orRet str();
                 return (node*) src.clone();
             }
 

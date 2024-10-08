@@ -23,7 +23,7 @@ namespace nm {
         str elemType = ased->run("getElemType");
         if(!elemType) return NM_E("elemType == null"), str();
 
-        auto& fr = thread::get()._getNowFrame() orRet1 str();
+        auto& fr = thread::get()._getNowFrame() orRet str();
         frameInteract f1(getBlock());
         {
             fr.addLocal(getLocalName(), *((node*) elemType->clone()));

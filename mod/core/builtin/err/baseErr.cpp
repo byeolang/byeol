@@ -33,7 +33,7 @@ namespace nm {
     void me::logStack() const { _stack->dump(); }
 
     void me::_initStack() {
-        thread& thr = thread::get() orRet1;
+        thread& thr = thread::get() orRet;
         _stack.bind(new callstack(thr.getFrames()));
     }
 

@@ -19,7 +19,7 @@ namespace nm {
     chunks& me::get(nidx n) { return *(chunks*) _get(n); }
 
     nbool me::has(const instance& it) const {
-        const chunks &got = get(it.getType().size()) orRet1 NM_W("got == null"), false;
+        const chunks &got = get(it.getType().size()) orRet NM_W("got == null"), false;
         return got.has(it);
     }
 

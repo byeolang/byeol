@@ -23,7 +23,7 @@ namespace nm {
     }
 
     nbool me::loop::postprocess(frame& fr) {
-        const node& ret = fr.getRet() orRet1 true;
+        const node& ret = fr.getRet() orRet true;
         if(ret.isSub<nextRet>()) return fr.setRet(), true;
         if(ret.isSub<breakRet>())
             return fr.setRet(), false; // after I go out of the loop, I should clear break state.
@@ -51,8 +51,8 @@ namespace nm {
 
     str me::run(const args& a) {
         auto addr = platformAPI::toAddrId(this);
-        blockExpr& blk = getBlock() orRet1 NM_E("%s blk is null", addr), str();
-        tstr<loop> l = _makeLoop(*_makeRet()) orRet1 NM_E("%s loop is null", addr), str();
+        blockExpr& blk = getBlock() orRet NM_E("%s blk is null", addr), str();
+        tstr<loop> l = _makeLoop(*_makeRet()) orRet NM_E("%s loop is null", addr), str();
 
         frame& fr = thread::get()._getNowFrame();
         while(l->isLooping()) {
@@ -67,7 +67,7 @@ namespace nm {
 
     tstr<arr> me::_makeRet() const {
         static dumArr inner;
-        node& eval = *getEval() orRet1 NM_E("eval is null "), nulOf<arr>();
+        node& eval = *getEval() orRet NM_E("eval is null "), nulOf<arr>();
         if(!eval.isSub<arr>()) return nulOf<arr>();
 
         return *new arr(eval.getType().getParams()[0].getOrigin());

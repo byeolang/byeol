@@ -39,14 +39,14 @@ namespace nm {
 
         str run(const args& a) override {
             args tray;
-            args &evaluated = _evalArgs(a, tray) orRet1 NM_E("evaluated == null"), str();
+            args &evaluated = _evalArgs(a, tray) orRet NM_E("evaluated == null"), str();
 
             return _marshal(evaluated, std::index_sequence_for<Args...>());
         }
 
     private:
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
-            T *me = (T*) &a.getMe() orRet1 NM_E("object from frame does not exists."), str();
+            T *me = (T*) &a.getMe() orRet NM_E("object from frame does not exists."), str();
 
             return Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::toMgd(
                 _closure(*me, Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...));
@@ -95,14 +95,14 @@ namespace nm {
 
         str run(const args& a) override {
             args tray;
-            args &evaluated = _evalArgs(a, tray) orRet1 NM_E("evaluated == null"), str();
+            args &evaluated = _evalArgs(a, tray) orRet NM_E("evaluated == null"), str();
 
             return _marshal(evaluated, std::index_sequence_for<Args...>());
         }
 
     private:
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
-            T* me = (T*) &a.getMe() orRet1 NM_E("object from frame does not exists."), str();
+            T* me = (T*) &a.getMe() orRet NM_E("object from frame does not exists."), str();
 
             _closure(*me, Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...);
             return Marshaling<void, tifSub<void, node>::is>::toMgd();

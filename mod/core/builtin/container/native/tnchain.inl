@@ -79,7 +79,7 @@ namespace nm {
     nbool ME::del(const iter& from, const iter& last) {
         const me* fromChain = (const me*) &from.getContainer();
         const me *lastChain = (const me*) &last.getContainer()
-            orRet1 NM_W("iterator 'end' owned by null chain instance."),
+            orRet NM_W("iterator 'end' owned by null chain instance."),
                  false;
         const me* endChain = &lastChain->getNext(); // now, endChain can be null but it's okay.
 
