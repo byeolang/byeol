@@ -491,7 +491,7 @@ namespace nm {
 
             // this has same name on shares, but it's not func! it's not valid.
             // this could be an origin obj.
-            const baseFunc& cast = getOr(val.cast<baseFunc>()) orRet true;
+            const baseFunc& cast = val.cast<baseFunc>() orRet1 true;
             const params& castPs = cast.getParams();
             if(castPs.len() != len) return false;
 

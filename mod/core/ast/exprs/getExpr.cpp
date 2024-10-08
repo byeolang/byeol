@@ -78,8 +78,8 @@ namespace nm {
         str mayMe = _evalMe(true);
         frame& fr = mayMe->cast<frame>();
         tstr<baseObj> me =
-            getOr(!nul(fr) ? fr.getMe().cast<baseObj>() : mayMe->cast<baseObj>()) orRet str();
-        baseFunc& cast = getOr(_onGet(*me).cast<baseFunc>()) orRet str();
+            (!nul(fr) ? fr.getMe().cast<baseObj>() : mayMe->cast<baseObj>()) orRet1 str();
+        baseFunc& cast = _onGet(*me).cast<baseFunc>() orRet1 str();
 
         NM_I("make a closure for %s.%s", me, cast);
         return new closure(*me, cast);

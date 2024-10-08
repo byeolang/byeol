@@ -28,7 +28,7 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, asExpr& me) {
-        const node& org = getOr(_findOrigin(me.getAs())) orRet true;
+        const node& org = _findOrigin(me.getAs()) orRet1 true;
 
         NM_DI("* inject 'as %s' --> 'as %s'", me.getAs(), org);
         me.setAs(org);
@@ -48,7 +48,7 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, defVarExpr& me) {
-        const node& org = getOr(_findOrigin(me.getRight())) orRet true;
+        const node& org = _findOrigin(me.getRight()) orRet1 true;
 
         NM_DI("* inject '%s %s' --> '%s %s'", me.getName(), me.getRight(), me.getName(), org);
         me.setRight(org);
@@ -144,7 +144,7 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, getGenericExpr& me) {
-        args& a = getOr(*me._args) orRet true;
+        args& a = *me._args orRet1 true;
 
         for(nint n = 0; n < a.len(); n++) {
             const node& org = _findOrigin(a[n]);

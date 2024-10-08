@@ -35,8 +35,8 @@ namespace nm {
                    nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD);
 
         // s is from heap space. but freed by _outFrame() of this class.
-        scope& s = getOr(*_evalArgs(a)) orRet str();
-        node& meObj = getOr(a.getMe()) orRet NM_E("meObj == null"), str();
+        scope& s = *_evalArgs(a) orRet1 str();
+        node& meObj = a.getMe() orRet1 NM_E("meObj == null"), str();
 
         str ret;
         nidx exN = thread::get().getEx().len() - 1;
@@ -119,7 +119,7 @@ namespace nm {
     }
 
     void me::inFrame(const bicontainable& args) const {
-        frame& fr = getOr(thread::get()._getNowFrame()) orRet NM_E("fr == null");
+        frame& fr = thread::get()._getNowFrame() orRet1 NM_E("fr == null");
 
         NM_DI("'%s func'._inFrame() frames.len[%d]", getSrc(), thread::get().getFrames().len());
         fr.setFunc(*this);

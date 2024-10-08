@@ -43,7 +43,7 @@ namespace nm {
 
     str me::run(const std::string& name, const args& a) {
         if(name.empty()) return run(a);
-        node& found = getOr(subAll(name, a).get()) orRet str();
+        node& found = subAll(name, a).get() orRet1 str();
 
         return _onRunSub(found, a);
     }

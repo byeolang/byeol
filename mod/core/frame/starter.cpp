@@ -32,10 +32,10 @@ namespace nm {
         // TODO: don't use static variable '_cache':
         //  instead, put cache onto origin object, and if arr instance is origin, remove the cache.
         arr::_cache.clear();
-        node& pak = getOr(getTask()) orRet NM_E("there is no pack!"), str();
+        node& pak = getTask() orRet1 NM_E("there is no pack!"), str();
 
         NM_I("run a pack");
-        node& main = getOr(_findMain(pak, args())) orRet NM_E("there is 0 or more than 2 main() found."), str();
+        node& main = _findMain(pak, args()) orRet1 NM_E("there is 0 or more than 2 main() found."), str();
 
         if(main.canRun(a)) {
             threadUse thr(getReport());

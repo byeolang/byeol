@@ -255,7 +255,7 @@ namespace nm {
 
         if(!nul(stmt.cast<endExpr>())) return posError(errCode::END_ONLY_BE_IN_A_FUNC), &s;
         defVarExpr& defVar =
-            getOr(stmt.cast<defVarExpr>()) orRet & s.addScope(stmt.getSrc().getName(), stmt);
+            stmt.cast<defVarExpr>() orRet1 & s.addScope(stmt.getSrc().getName(), stmt);
 
         // checks whether rhs was primitive type:
         //  if rhs isn't primitive, rhs will be getExpr type.
@@ -668,8 +668,8 @@ namespace nm {
     node* me::onGet(node& from, const std::string& name) { return onGet(from, *onGet(name)); }
 
     node* me::onGet(node& from, node& it) {
-        getExpr &cast = getOr(it.cast<getExpr>())
-            orRet error(errCode::IDENTIFIER_ONLY, it.getType().getName().c_str()),
+        getExpr &cast = it.cast<getExpr>()
+                            orRet1 error(errCode::IDENTIFIER_ONLY, it.getType().getName().c_str()),
                 &from;
 
         NM_DI("tokenEvent: onGet(%s, %s)", from, cast.getName());
@@ -683,8 +683,8 @@ namespace nm {
 
     node* me::onCallAccess(node& it, const narr& as) {
         // it can be generic or primitive values. track it, leave as specific errs.
-        getExpr &cast = getOr(it.cast<getExpr>())
-            orRet error(errCode::IDENTIFIER_ONLY, it.getType().getName().c_str()),
+        getExpr &cast = it.cast<getExpr>()
+            orRet1 error(errCode::IDENTIFIER_ONLY, it.getType().getName().c_str()),
                 new getExpr("");
 
         cast.setArgs(*new args(as));
