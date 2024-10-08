@@ -104,8 +104,7 @@ namespace nm {
         if(newDir == -1) return;
         _entries.push_back(entry{file, newDir, path});
 #else
-        DIR* newDir = opendir(path.c_str());
-        if(!newDir) return;
+        DIR* newDir = opendir(path.c_str()) orRet;
         _entries.push_back(entry{newDir, path});
 #endif
     }

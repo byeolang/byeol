@@ -42,8 +42,7 @@ namespace nm {
     }
 
     str me::_makeEval() const {
-        str res = getBlock().getEval();
-        if(!res) return str();
+        str res = getBlock().getEval() orRet str();
 
         if(res->isSub<retExpr>()) return res;
         return new arr(*res);

@@ -11,9 +11,7 @@ namespace nm {
 #pragma clang diagnostic ignored "-Wtautological-undefined-compare"
         if(this == nullptr) return nulOf<me>();
 #pragma clang diagnostic pop
-        tstr<me>& ret = _subs[name];
-        if(!ret) return nullSobj::get();
-
+        tstr<me> ret = _subs[name] orRet nullSobj::get();
         return *ret;
     }
 

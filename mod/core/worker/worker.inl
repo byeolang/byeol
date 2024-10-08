@@ -96,9 +96,8 @@ namespace nm {
 
     TEMPLATE
     void ME::_onEndErrReport(const errReport& rpt) const {
-        if(!isFlag(DUMP_ON_END | LOG_ON_END))
+        if(!isFlag(DUMP_ON_END | LOG_ON_END) && !rpt) return; // ## print errors.
 
-            if(!rpt) return; // ## print errors.
         NM_I("errors:");
         if(isFlag(DUMP_ON_END)) return rpt.dump(), void();
         if(isFlag(LOG_ON_END)) rpt.log();

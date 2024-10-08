@@ -60,9 +60,7 @@ namespace nm {
 
             int n = 0;
             for(const node& e: a) {
-                str ased = e.as(ps[n++].getOrigin());
-                if(!ased) return nulOf<args>();
-
+                str ased = e.as(ps[n++].getOrigin()) orNul(args);
                 tray.add(*ased);
             }
             tray.setMe(a.getMe());
@@ -116,8 +114,7 @@ namespace nm {
 
             int n = 0;
             for(const node& e: a) {
-                str ased = e.as(ps[n++].getOrigin());
-                if(!ased) return nulOf<args>();
+                str ased = e.as(ps[n++].getOrigin()) orNul(args);
 
                 tray.add(*ased);
             }

@@ -401,9 +401,7 @@ namespace nm {
         _STEP("is it possible to run?");
         NM_WHENNUL(me.getMe()).err(DONT_KNOW_ME, me);
 
-        str ased = me.getMe().getEval();
-        if(!ased) return;
-
+        str ased = me.getMe().getEval() orRet;
         args& a = me.getArgs();
         a.setMe(*ased);
 
@@ -426,8 +424,7 @@ namespace nm {
     }
 
     void me::onTraverse(runExpr& me, node& subject) {
-        str ased = me.getMe() THEN(getEval());
-        if(!ased) return;
+        str ased = me.getMe() THEN(getEval()) orRet;
 
         getExpr& cast = subject.cast<getExpr>();
         if(!nul(cast)) cast.setMe(*ased);
@@ -518,8 +515,7 @@ namespace nm {
         }
 
         _STEP("retType exists and stmts exist one at least");
-        str retType = me.getRet();
-        if(!retType) return posError(errCode::NO_RET_TYPE, me), true;
+        str retType = me.getRet() orRet posError(errCode::NO_RET_TYPE, me), true;
         NM_WHEN(!retType->isSub(ttype<node>::get())).err(WRONG_RET_TYPE, me, retType), true;
 
         blockExpr& blk = (blockExpr&) me.getBlock();

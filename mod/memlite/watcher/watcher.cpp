@@ -33,8 +33,7 @@ namespace nm {
             if(!_resize(size() * 2 + 1))
                 return NM_E("resize watcher failed! this damage system seriously !!!!"), nullptr;
 
-        watchCell* res = (watchCell*) super::new1();
-        if(!res) return res;
+        watchCell* res = (watchCell*) super::new1() orRet res;
 
         ::new(&res->blk) bindTag(_genId(res));
         return res;

@@ -88,8 +88,7 @@ namespace nm {
         //  if you are returning func, then I'll make a closure for it.
         //  so don't think about that scenario. only I should care is last stmt of block, that is,
         //  'ret'.
-        const getExpr& get = stmt THEN(template cast<getExpr>());
-        if(nul(get)) return str();
+        const getExpr& get = stmt THEN(template cast<getExpr>()) orRet str();
 
         // ok. implicit returning for last stmt was func. getExpr is suitable to make a closure.
         return get.makeClosure();
@@ -107,8 +106,7 @@ namespace nm {
         int n = 0;
         for(const node& e: args) {
             const param& p = ps[n++];
-            str evaluated = _tryMakeClosure(e);
-            if(!evaluated) evaluated = e.asImpli(*p.getOrigin().as<node>());
+            str evaluated = _tryMakeClosure(e) orDo evaluated = e.asImpli(*p.getOrigin().as<node>());
             if(!evaluated)
                 return NM_E("evaluation of arg[%s] -> param[%s] has been failed.", e,
                            p.getOrigin()),

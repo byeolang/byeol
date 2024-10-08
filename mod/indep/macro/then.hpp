@@ -53,18 +53,59 @@ namespace nm {
         static T& to(T& it) { return it; }
     };
 
-    template <typename T, typename F> auto operator->*(T* t, F&& f) -> decltype(f(__unwrap_binder__<decltype(t)>::to(t))) {
+    template <typename T, typename F>
+    auto operator->*(T* t, F&& f) -> decltype(f(__unwrap_binder__<decltype(t)>::to(t))) {
         return f(__unwrap_binder__<decltype(t)>::to(t));
     }
 
-    template <typename T, typename F> auto operator->*(T& t, F&& f) -> decltype(f(__unwrap_binder__<decltype(t)>::to(t))) {
+    template <typename T, typename F>
+    auto operator->*(T& t, F&& f) -> decltype(f(__unwrap_binder__<decltype(t)>::to(t))) {
         return f(__unwrap_binder__<decltype(t)>::to(t));
     }
 
-    template <typename T, typename F> auto operator->*(const T& t, F&& f) -> decltype(f(__unwrap_binder__<decltype(t)>::to(t))) {
+    template <typename T, typename F>
+    auto operator->*(const T& t, F&& f) -> decltype(f(__unwrap_binder__<decltype(t)>::to(t))) {
         return f(__unwrap_binder__<decltype(t)>::to(t));
     }
 
+    /// then is safe navigation feature of c++:
+    /// usage:
+    ///     as-is:
+    ///     ```cpp
+    ///         int getBrushColorCode(Resource r) {
+    ///             auto& pallete = r.getPallete();
+    ///             if(nul(pallete)) {
+    ///                 log("pallete is null");
+    ///                 return -1;
+    ///             }
+    ///
+    ///             auto& canvas = pallete.getCanvas();
+    ///             if(nul(canvas)) {
+    ///                 log("canvas is null");
+    ///                 return -1;
+    ///             }
+    ///
+    ///             auto& brush = canvas.getBrush(BushType.SYSTEM);
+    ///             if(nul(brush)) {
+    ///                 log("brush is null");
+    ///                 return -1;
+    ///             }
+    ///
+    ///             return brush.getColorCode();
+    ///         }
+    ///     ```
+    ///
+    ///     to be:
+    ///     ```cpp
+    ///         int getBrushColorCode(Resource r) {
+    ///             const int& code = r THEN(getPallete()) THEN(getCanvas()) THEN(getBrush())
+    ///             THEN(getColorCode());
+    ///             if(nul(code)) // if null returns during safe-navigation, output is nul
+    ///             reference.
+    ///                 return log("code is null"), -1;
+    ///             return code;
+    ///         }
+    ///     ```
 #define THEN(fn)                                                                              \
     ->*[&](auto& __p) -> decltype(__to_ref__<decltype(__p)>::to(__p).fn) {                    \
         return !nul(__p) ? __to_ref__<decltype(__p)>::to(__p).fn :                            \
@@ -79,41 +120,3 @@ namespace nm {
     }
 
 } // namespace nm
-
-/// then is safe navigation feature of c++:
-/// usage:
-///     as-is:
-///     ```cpp
-///         int getBrushColorCode(Resource r) {
-///             auto& pallete = r.getPallete();
-///             if(nul(pallete)) {
-///                 log("pallete is null");
-///                 return -1;
-///             }
-///
-///             auto& canvas = pallete.getCanvas();
-///             if(nul(canvas)) {
-///                 log("canvas is null");
-///                 return -1;
-///             }
-///
-///             auto& brush = canvas.getBrush(BushType.SYSTEM);
-///             if(nul(brush)) {
-///                 log("brush is null");
-///                 return -1;
-///             }
-///
-///             return brush.getColorCode();
-///         }
-///     ```
-///
-///     to be:
-///     ```cpp
-///         int getBrushColorCode(Resource r) {
-///             const int& code = r THEN(getPallete()) THEN(getCanvas()) THEN(getBrush())
-///             THEN(getColorCode());
-///             if(nul(code)) // if null returns during safe-navigation, output is nul reference.
-///                 return log("code is null"), -1;
-///             return code;
-///         }
-///     ```

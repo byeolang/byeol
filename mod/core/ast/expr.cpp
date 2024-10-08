@@ -25,8 +25,7 @@ namespace nm {
 
     str me::asImpli(const type& to) const {
         me* unconst = (me*) this;
-        str run = unconst->run();
-        if(!run) return run;
+        str run = unconst->run() orRet run;
         return run->asImpli(to);
     }
 

@@ -21,8 +21,9 @@ namespace nm {
 
         public:
             nbool isLooping() override {
-                str ased = _owner.getCondition().asImpli<nBool>();
-                if(!ased) return NM_E("cast to bool has been failed."), false;
+                str ased = _owner.getCondition().asImpli<nBool>()
+                               orRet NM_E("cast to bool has been failed."),
+                    false;
                 return ased->cast<nbool>();
             }
 

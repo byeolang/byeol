@@ -41,8 +41,8 @@ namespace nm {
         if(!len) return NM_DI("len == 0. deduced type as 'void'"), nVoid::singletone();
 
         str ased1 = _elems[0].getEval();
-        const node* ret = &ased1.get();
-        if(!ret) return NM_DI("deduceElem: elem0 is null"), nVoid::singletone();
+        const node *ret = &ased1.get() orRet NM_DI("deduceElem: elem0 is null"),
+                   nVoid::singletone();
         str ased;
 
         for(int n = 1; n < len; n++) {

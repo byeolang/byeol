@@ -22,9 +22,7 @@ namespace nm {
     node& me::getCondition() { return *_expr; }
 
     str me::run(const args& a) {
-        tstr<nBool> res = _expr->as<node>()->asImpli<nBool>();
-        if(!res) return nVoid::singletone();
-
+        tstr<nBool> res = _expr->as<node>()->asImpli<nBool>() orRet nVoid::singletone();
         nbool cond = res->cast<nbool>();
         NM_DI("%s ifExpr: condition[%s]", platformAPI::toAddrId(this), cond);
         auto& blk = cond ? *_then : *_else;
@@ -37,10 +35,8 @@ namespace nm {
     }
 
     str me::getEval() const {
-        str thenEval = _then->getEval();
-        if(!thenEval) return NM_E("thenEval is null"), thenEval;
-        str elseEval = _else ? _else->getEval() : str();
-        if(!elseEval) return NM_E("elseEval is null"), elseEval;
+        str thenEval = _then->getEval() orRet NM_E("thenEval is null"), thenEval;
+        str elseEval = (_else ? _else->getEval() : str()) orRet NM_E("elseEval is null"), elseEval;
 
         if(thenEval->isSub<retStateExpr>())
             return NM_DI("thenEval is %s, accept elseEval[%s]", thenEval, elseEval), elseEval;

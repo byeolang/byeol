@@ -15,10 +15,8 @@ namespace nm {
         if(isLogicalOp()) return inner;
 
         if(!_lhs || !_rhs) return str();
-        str lhsEval = _lhs->getEval();
-        if(!lhsEval) return lhsEval;
-        str rhsEval = _rhs->getEval();
-        if(!rhsEval) return rhsEval;
+        str lhsEval = _lhs->getEval() orRet lhsEval;
+        str rhsEval = _rhs->getEval() orRet rhsEval;
 
         return lhsEval->deduce(*rhsEval);
     }

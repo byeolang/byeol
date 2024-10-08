@@ -78,9 +78,7 @@ namespace nm {
     }
 
     nuchar* me::_getEOB() {
-        nuchar* org = (nuchar*) _get(_sz - 1);
-        if(!org) return nullptr;
-
+        nuchar* org = (nuchar*) _get(_sz - 1) orRet nullptr;
         return org + _getRealBlkSize() - 1;
     }
 

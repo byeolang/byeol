@@ -25,8 +25,7 @@ namespace nm {
         int n = 0;
         priorType max = EXACT_MATCH; // begining from lv0.
         for(const auto& e: a) {
-            str t = e.getEval();
-            if(!t) return NM_W("t == null"), NO_MATCH;
+            str t = e.getEval() orRet NM_W("t == null"), NO_MATCH;
             str p = ps[n++].getOrigin().as<node>();
             if(!t->isComplete()) return NO_MATCH;
 

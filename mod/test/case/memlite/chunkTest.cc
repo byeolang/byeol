@@ -46,8 +46,7 @@ TEST(chunkTest, chunkListTest) {
     public:
         nbool new1(chunk& chk, ncnt cnt) {
             for(int n = 0; n < cnt; n++) {
-                void* ptr = chk.new1();
-                if(!ptr) return false;
+                [[maybe_unused]] void* ptr = chk.new1() orRet false;
             }
             return true;
         }

@@ -30,10 +30,10 @@ namespace nm {
         NM_DI("retExpr: _ret[%s]", _ret);
         if(_ret->isSub<baseObj>()) return fr.setRet(*_ret), _ret;
 
-        str ret = _ret->as<node>(); // # check retValue is null or not.
-        if(!ret) // ret should be void if there is no value to return. so 'null' not allowed here.
-            return _returnEx(
-                nerr::newErr(errCode::RETURN_VALUE_IS_NUL, getSrc().getName().c_str()));
+        // # check retValue is null or not.
+        //  ret should be void if there is no value to return. so 'null' not allowed here.
+        str ret = _ret->as<node>() orRet _returnEx(
+            nerr::newErr(errCode::RETURN_VALUE_IS_NUL, getSrc().getName().c_str()));
 
         str fRet = fr.getFunc().getRet(); // # check exception occured during running func.
         if(_isEx(*ret, *fRet)) return _returnEx(ret->cast<baseErr>());

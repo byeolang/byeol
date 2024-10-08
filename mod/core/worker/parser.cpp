@@ -309,9 +309,7 @@ namespace nm {
     params me::_asParams(const args& as) {
         params ret;
         for(auto& a: as) {
-            tstr<defPropExpr> defProp(a.cast<defPropExpr>());
-            if(!defProp) return posError(errCode::PARAM_HAS_VAL), ret;
-
+            tstr<defPropExpr> defProp = a.cast<defPropExpr>() orRet posError(errCode::PARAM_HAS_VAL), ret;
             ret.add(new param(defProp->getName(), defProp->getRight()));
         }
 
@@ -469,10 +467,9 @@ namespace nm {
         std::vector<std::string> ret;
         for(const auto& a: types) {
             // all args should be getExpr instances.
-            const getExpr& cast = a.cast<getExpr>();
-            if(nul(cast))
-                return posError(errCode::SHOULD_TYPE_PARAM_NAME, a.getType().getName().c_str()),
-                       std::vector<std::string>();
+            const getExpr &cast = a.cast<getExpr>() orRet posError(errCode::SHOULD_TYPE_PARAM_NAME,
+                a.getType().getName().c_str()),
+                          std::vector<std::string>();
 
             ret.push_back(cast.getName());
         }
@@ -684,7 +681,7 @@ namespace nm {
     node* me::onCallAccess(node& it, const narr& as) {
         // it can be generic or primitive values. track it, leave as specific errs.
         getExpr &cast = it.cast<getExpr>()
-            orRet error(errCode::IDENTIFIER_ONLY, it.getType().getName().c_str()),
+                            orRet error(errCode::IDENTIFIER_ONLY, it.getType().getName().c_str()),
                 new getExpr("");
 
         cast.setArgs(*new args(as));

@@ -18,12 +18,13 @@ namespace nm {
     str me::run(const args& a) {
         auto addr = platformAPI::toAddrId(this);
 
-        str evaledMe = getMe() THEN(template as<node>());
-        if(!evaledMe) return NM_E("%s run: evaledMe is null. no thread found", addr), str();
+        str evaledMe = getMe() THEN(template as<node>())
+            orRet NM_E("%s run: evaledMe is null. no thread found", addr),
+            str();
 
         NM_DI("%s run: getting sub: me[%s]", addr, evaledMe);
-        str sub = _getSub(*evaledMe, _args);
-        if(!sub) return NM_E("%s _subject.as<node>() returns null", addr), str();
+        str sub = _getSub(*evaledMe, _args) orRet NM_E("%s _subject.as<node>() returns null", addr),
+            str();
 
         NM_DI("%s run: assigning me: me[%s] sub[%s]", addr, evaledMe, sub);
         if(!sub->isSub<baseObj>() && !nul(_args)) { // if sub is a baseObj, this expr will runs ctor
