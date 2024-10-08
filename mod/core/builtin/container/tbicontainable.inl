@@ -65,7 +65,7 @@ namespace nm {
     TEMPL
     template <typename V1> void ME::each(std::function<nbool(const K&, V1&)> l) {
         for(auto e = begin(); e; ++e) {
-            V1& val = e.getVal().template cast<V1>() orDo continue;
+            V1& val = e.getVal().template cast<V1>() orContinue;
             if(!l(e.getKey(), val)) break;
         }
     }

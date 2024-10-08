@@ -39,7 +39,7 @@ namespace nm {
         narr& stmts = me.getStmts();
         for(int n = 0; n < stmts.len(); n++) {
             const node& stmt = stmts[n];
-            const node& org = _findOrigin(stmt) orDo continue;
+            const node& org = _findOrigin(stmt) orContinue;
 
             NM_DI("* inject 'stmt %s' --> 'stmt %s'", stmt, org);
             stmts.set(n, org);
@@ -65,7 +65,7 @@ namespace nm {
         args& as = me.getArgs();
         for(int n = 0; n < as.len(); n++) {
             node& a = as[n];
-            const node& org = _findOrigin(a) orDo continue;
+            const node& org = _findOrigin(a) orContinue;
 
             NM_DI("* inject arg '%s' --> '%s'", a, org);
             as.set(n, org);
@@ -76,7 +76,7 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, params& me) {
         for(int n = 0; n < me.len(); n++) {
             param& p = me[n];
-            const node& org = _findOrigin(p.getOrigin()) orDo continue;
+            const node& org = _findOrigin(p.getOrigin()) orContinue;
 
             NM_DI("* inject %s() func's param: '%s' --> '%s'", i, p.getOrigin(), org);
             p.setOrigin(org);
@@ -124,7 +124,7 @@ namespace nm {
         scope& subs = me.subs();
         for(auto e = subs.begin(); e; ++e) {
             const node& prevVal = e.getVal();
-            const node& org = _findOrigin(prevVal) orDo continue;
+            const node& org = _findOrigin(prevVal) orContinue;
 
             NM_DI("* inject '%s' at '%s.%s' to '%s", prevVal, i, e.getKey(), org);
             e.setVal(org);
