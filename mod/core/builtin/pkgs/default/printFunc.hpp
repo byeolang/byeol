@@ -30,9 +30,10 @@ namespace nm {
                        nullptr;
 
             const node& org = ps[0].getOrigin();
-            tstr<T> evaluated = a[0].asImpli(*org.as<T>()) orRet NM_E(
-                "evaluation of arg[%s] -> param[%s] has been failed.", a[0], org),
-                    str();
+            tstr<T> evaluated = a[0].asImpli(*org.as<T>());
+            if(!evaluated)
+                return NM_E("evaluation of arg[%s] -> param[%s] has been failed.", a[0], org),
+                       str();
 
             std::cout << evaluated->get();
             return evaluated;
