@@ -74,7 +74,7 @@ namespace {
         for(auto e = fr.subs().begin(); e; e++)
             NM_I(" - func(\"%s\") calls: fr[%d]=%s", e.getKey(), n++, e.getVal());
 
-        const scope& funcScope = fr.subs().cast<scope>() orRet NM_I("nul(funcScope)"), false;
+        const scope &funcScope = fr.subs().cast<scope>() orRet NM_I("nul(funcScope)"), false;
         if(!_isFrameLinkScope(fr, funcScope))
             return NM_I("frame not contain the funcScope(%s)", (void*) &funcScope), false;
 

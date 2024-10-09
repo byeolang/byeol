@@ -309,7 +309,9 @@ namespace nm {
     params me::_asParams(const args& as) {
         params ret;
         for(auto& a: as) {
-            tstr<defPropExpr> defProp = a.cast<defPropExpr>() orRet posError(errCode::PARAM_HAS_VAL), ret;
+            tstr<defPropExpr> defProp =
+                a.cast<defPropExpr>() orRet posError(errCode::PARAM_HAS_VAL),
+                              ret;
             ret.add(new param(defProp->getName(), defProp->getRight()));
         }
 

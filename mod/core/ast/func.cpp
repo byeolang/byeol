@@ -36,7 +36,7 @@ namespace nm {
 
         // s is from heap space. but freed by _outFrame() of this class.
         scope& s = *_evalArgs(a) orRet str();
-        node& meObj = a.getMe() orRet NM_E("meObj == null"), str();
+        node &meObj = a.getMe() orRet NM_E("meObj == null"), str();
 
         str ret;
         nidx exN = thread::get().getEx().len() - 1;
@@ -106,7 +106,8 @@ namespace nm {
         int n = 0;
         for(const node& e: args) {
             const param& p = ps[n++];
-            str evaluated = _tryMakeClosure(e) orDo evaluated = e.asImpli(*p.getOrigin().as<node>());
+            str evaluated = _tryMakeClosure(e) orDo evaluated =
+                e.asImpli(*p.getOrigin().as<node>());
             if(!evaluated)
                 return NM_E("evaluation of arg[%s] -> param[%s] has been failed.", e,
                            p.getOrigin()),

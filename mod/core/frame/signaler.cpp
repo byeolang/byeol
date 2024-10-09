@@ -61,9 +61,9 @@ namespace nm {
         _setSignal(SIG_DFL); // prevent infinite loop if another signal occurs during handling the
                              // signal here.
 
-        tstr<nerr> e = _getErrBy(code)
-            orRet NM_E("%d exception occurs but couldn't make err object", code),
-            void();
+        tstr<nerr> e =
+            _getErrBy(code) orRet NM_E("%d exception occurs but couldn't make err object", code),
+                   void();
 
         NM_I("dispatching %d handlers.", _closures.size());
         for(const sigHandler& handler: _closures)

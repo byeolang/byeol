@@ -100,7 +100,7 @@ namespace nm {
 
     private:
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
-            T* me = (T*) &a.getMe() orRet NM_E("object from frame does not exists."), str();
+            T *me = (T*) &a.getMe() orRet NM_E("object from frame does not exists."), str();
 
             _closure(*me, Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...);
             return Marshaling<void, tifSub<void, node>::is>::toMgd();

@@ -46,10 +46,6 @@ namespace nm {
         }
 
     public:
-        using super::subs;
-
-        scope& subs() override { return tbridger<T>::_get().subs(); }
-
         T& get() { return *_real; }
 
         const T& get() const { return *_real; }

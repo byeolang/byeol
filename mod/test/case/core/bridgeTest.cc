@@ -321,3 +321,9 @@ TEST_F(bridgeTest, bridgeWhatDoesntHaveDefaultCtor) {
     ASSERT_TRUE(age);
     ASSERT_EQ(age.cast<nint>(), 5);
 }
+
+TEST_F(bridgeTest, accessOrigin) {
+    tstr<tbridge<kniz>> bStr = tbridger<kniz>::make(new kniz());
+    tbridge<kniz>& b = *bStr;
+    ASSERT_NE(&b.getOrigin(), &b);
+}

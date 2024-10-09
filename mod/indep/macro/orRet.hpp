@@ -19,7 +19,7 @@ namespace nm {
 
 #define __orRet__                        \
     ->*[&](auto& __p) -> decltype(__p) { \
-        __orRetStack__::push(nul(__p)); \
+        __orRetStack__::push(nul(__p));  \
         return __p;                      \
     };
 
