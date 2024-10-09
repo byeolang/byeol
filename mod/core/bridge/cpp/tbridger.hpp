@@ -102,8 +102,7 @@ namespace nm {
         }
 
         static tbridge<T>* make(T* real) {
-            static tbaseObjOrigin<tbridge<T>> org(_get().subs());
-            return new tbridge(real, org);
+            return new tbridge(real);
         }
 
     private:

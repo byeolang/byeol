@@ -50,6 +50,13 @@ namespace nm {
 
         const T& get() const { return *_real; }
 
+        const baseObj& getOrigin() const override {
+            static tbaseObjOrigin<tbridge<T>> org(
+                tbridger<T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>::subs());
+            const baseObj& supers = super::getOrigin();
+            return &supers == this ? org : supers;
+        }
+
     private:
         T* _real;
         nbool _ownReal = _real;
