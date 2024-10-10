@@ -2,6 +2,7 @@
 
 #include "../../ast/node.hpp"
 #include "nerr.hpp"
+#include "../../common/MSVCHack.hpp"
 
 namespace nm {
 

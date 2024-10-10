@@ -1,20 +1,21 @@
 #pragma once
 
-#include "dep.hpp"
+#include "../ast/scope.hpp"
+#include "../ast/slot.hpp"
 
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+
 // f***ing annoying another MSVC bug here:
-//  first of all, I'm so sorry to start my slang. but I couldn't help spitting it out after
-//  I used plenty hours of heading to the ground.
+//  MSVC is not able to handle `dllexport` for class templates if it's not defined variable at least
+//  once. c++ standards note that supports this functionality, but MSVC couldn't do it yet even
+//  still 2024. so I have to let include this file for all every `cpp` files using scope or tnmap.
+//  they are class templates to be dllexported.
 //
-//  I don't know why, but unless define below variable here, I'll observe that the member-variable
-//  '_subs' above was tried to be instantiated but failed.
-//  error message said that 'You've used undefined type "identifiertstr<scope>"'.
-//  however, MSVC definately knows about tstr<T> and scope types.
-//
-//  clang, gcc didn't complain about this.
-namespace {
-    static const inline scope s1;
-    static const inline slotContainer* p1 = new tnmap<std::string, slot>();
+//  however clang, gcc supports the feature so they didn't complain about this.
+namespace nm {
+    namespace {
+        static const inline scope s1;
+        static const inline slotContainer* p1 = new tnmap<std::string, slot>();
+    }
 }
 #endif

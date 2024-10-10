@@ -1,6 +1,7 @@
 #include "baseCtor.hpp"
 
 #include "../../worker/visitor/visitor.hpp"
+#include "../../common/MSVCHack.hpp"
 
 namespace nm {
 

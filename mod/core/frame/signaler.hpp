@@ -1,8 +1,10 @@
 #pragma once
 
-#include "../builtin/err/nerr.hpp"
+#include "../common.hpp"
 
 namespace nm {
+
+    struct nerr;
 
     typedef nerr* (*errMaker)(nint);
     typedef void (*sigFunc)(const nerr&);

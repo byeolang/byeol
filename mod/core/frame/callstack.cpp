@@ -2,10 +2,8 @@
 
 #include "../ast/baseFunc.hpp"
 #include "../ast/params.hpp"
-#include "../ast/scope.hpp"
 #include "../ast/src/src.hpp"
-#include "../builtin/container/native/tnarr.inl"
-#include "../builtin/container/native/tnchain.inl"
+#include "../common/MSVCHack.hpp"
 
 namespace nm {
 
