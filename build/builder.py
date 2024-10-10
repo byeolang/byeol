@@ -369,7 +369,7 @@ def _extractBuildInfo(): # from CHANGELOGS at root directory.
     else:
         path = cwd + "/../CHANGELOGS"
 
-    fp = open(path, "r")
+    fp = open(path, "r", encoding="UTF8")
     while True:
         line = fp.readline()
         if not line: break
