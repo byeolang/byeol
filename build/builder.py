@@ -354,7 +354,7 @@ def _createMakefiles():
 
     printOk("done")
 
-# World uses BuildInfo at CHANGELOGS
+# World uses BuildInfo at CHANGELOGS.md
 # and builder.py drives to all world libraries and make it sync all build-info including
 # doc releasing.
 ver_major = 0
@@ -362,12 +362,12 @@ ver_minor = 0
 ver_fix = 0
 ver_name = ""
 ver_buildcnt = 0
-def _extractBuildInfo(): # from CHANGELOGS at root directory.
+def _extractBuildInfo(): # from CHANGELOGS.md at root directory.
     global cwd, ver_major, ver_minor, ver_fix, ver_name, ver_buildcnt
     if isWindow():
-        path = cwd + "\\..\\CHANGELOGS"
+        path = cwd + "\\..\\CHANGELOGS.md"
     else:
-        path = cwd + "/../CHANGELOGS"
+        path = cwd + "/../CHANGELOGS.md"
 
     fp = open(path, "r", encoding="UTF8")
     while True:
@@ -600,9 +600,9 @@ def pub(arg):
         os.chdir(binDir)
         os.system("rm ./test")
         os.system("rm ./logs")
-        os.system("cp ../LICENSE .")
+        os.system("cp ../LICENSE.md .")
         os.system("cp ../README.md .")
-        os.system("cp ../CHANGELOGS .")
+        os.system("cp ../CHANGELOGS.md .")
 
         printOk("done")
         printInfoEnd("make an archive")
@@ -620,9 +620,9 @@ def pub(arg):
         os.system("del /S test\\*")
         os.system("rmdir test")
         os.system("del logs")
-        os.system("copy ..\\LICENSE .")
+        os.system("copy ..\\LICENSE.md .")
         os.system("copy ..\\README.md .")
-        os.system("copy ..\\CHANGELOGS .")
+        os.system("copy ..\\CHANGELOGS.md .")
         os.system("copy Release\\* .")
         os.system("del /S /Q Release\\*")
         os.system("rmdir Release")

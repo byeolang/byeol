@@ -101,9 +101,7 @@ namespace nm {
                     (Ret(T::*)(Args...)) fptr));
         }
 
-        static tbridge<T>* make(T* real) {
-            return new tbridge(real);
-        }
+        static tbridge<T>* make(T* real) { return new tbridge(real); }
 
     private:
         static me& _get() {

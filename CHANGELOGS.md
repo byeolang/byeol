@@ -1,4 +1,391 @@
 # Changelogs
+## v0.2.8 Mana Update
+released on 08-28 2024
+build#1064
+
+### namulang updates
+
+\+ We now use '#' to represent comments. This makes comments simpler to express.
+```namu
+def person
+    age int # You can write a comment like this.
+```
+
+\+ Supports multiline comments.
+   Use `##` to indicate the start and end.
+   However, be careful with whitespace when ending a multiline comment in the middle of code.
+```namu
+def Person
+    age int ## This is where the multiline comment starts.
+The comment is still valid: ##    grade flt # Make sure to put a four spaces before it so
+                                            # that they are in the same block.
+```
+
+\+ We can now define a custom constructor.
+   Specify it with the `ctor` identifier. and omit the return type.
+```namu
+def Person
+    age int
+    ctor(): ; # empty block statement.
+    ctor(newAge int): age = newAge
+
+main() int
+    p1 := Person # ctor() will be called.
+    p2 := Person(33) # ctor(int) will be called.
+```
+
+\+ An `err` object is added to `builtin`.
+   We can now represent an err.
+
+\+ `is` syntax is added.
+   returns a bool value indicating whether the given lhs object is compatible with the rhs object.
+
+\+ The `complete-object` syntax is added.
+   It is now possible to represent a complete object when defining an object with `def`.
+   In the namu language, all properties are represented by convention rules.
+   Similarly, if the first letter of an identifier is lowercase, it is treated as a complete object.
+```namu
+def pERSON # This is a complete object.
+   age := 23
+main int: pERSON.age # A complete object can be used just like a regular object.
+```
+   Incomplete objects have their first letter capitalized, and all identifiers must be non-capitalized.
+
+```namu
+def Person # This is an incomplete object.
+    age := 23
+main() int
+    ret Person().age # Incomplete objects must be created via constructor.
+```
+
+\+ `const` expressions are now added.
+   Again, following the philosophy of the NAMU language, we represent this as a convention rule.
+   Identifiers of two or more characters and all capitalized letters means `const`.
+   However, you cannot use `const` when defining an object.
+```namu
+def PERSON # Error. There is no point in using const when defining an object.
+    ...
+
+def Person
+    age := 23
+    ctor(newAge int): age = newAge
+
+PERSON := Person(20) # OK, this PERSON is a const.
+main() int
+    PERSON = Person(40) # ERROR. You can't assign another object to PERSON.
+```
+
+\+ `callComplete` syntax is added.
+   You can give a specific value when creating a complete object. To use this, when defining the object,
+   put any argument list besides of it.
+```namu
+def person(Teacher(“kniz”)) # using callComplete syntax.
+    t teacher
+    ctor(newTeacher teacher): t = newTeacher
+
+def Teacher
+    ctor(newName str): name = newName
+    name str
+
+main int
+    ret person.t.name.len() # this is just like, 'ret "kniz".len()'
+```
+
+\+ all packs are complete objects by default.
+
+\+ the unary `+` operator is removed.
+   it gets in the way of expressing visibility, which comes later, and it's not really needed.
+
+\+ visibility is now added.
+   again, following the philosophy of the namu language, this is represented as a convention rule.
+   - By default, we don't mark anything otherwise, it means `public`.
+   - If you prefix it with `_` at any an identifier, it means `protected`.
+   Note that the `_` is not part of the identifier.
+```namu
+def person
+    _age := 38
+    foo() void
+        # We're accessing age, not _age.
+        print("I'm " + age as str + " yo.")
+```
+
+You can explicitly represent a func that it is overrided with `+`.
+   This is currently meaningless because we have no extension yet,
+   but it allows you to explicitly state that a function/property is overrided.
+   The order with underscore, which represents the visibility, is irrelevant.
+```namu
+def student ... # Suppose we expanded from person here.
+    _+foo() void # We are stating that we have overridden the "foo() void" function in person.
+                # If person didn't have a foo() function, this would be an error.
+        print(“ok”)
+```
+
+\+ The `end` keyword is added.
+   `end` defines an additional block statement after it.
+   This causes the block statement to be executed just before the function ends.
+   If multiple `end`s are defined in a function, the most recently defined `end` will executed first.
+```namu
+foo() int
+    a := file()
+    end
+        a.close()      # 1)
+    if !a.isOpen()
+        b := file()
+        end: b.close() # 2)
+
+        # If the function was terminated at this point, the end block statements would be executed
+        # in the order 2 -> 1.
+```
+
+\+ Adds a function type.
+   You can use the name of the function as the function type.
+   More detailed usage will be covered in the below `closure` topic.
+```namu
+def Person
+    foo(n int) int: ....
+    getClosure() foo # Use the function name as the return type.
+        ..??..       # you don't know how to return it yet.
+```
+
+\+ closure is added.
+   A closure is an assignable function-call that captures the obj scope and arguments.
+   This allows for completely first-class-citizen like behavior.
+```namu
+def Person
+    someClosure(n int) int: 0
+    foo(n int) int
+        ret n + 3
+    getClosure() someClosure
+        ret foo # OK. foo and someClosure have the same parameters and the same return type.
+```
+
+   Implicit casting between function types is not supported.
+   This means that you can't pass a function to another function type just because some of the parameters are slightly different.
+
+```namu
+def Person
+    someClosure(n flt) int: 0 # note that n is now of flt type.
+    foo(n int) int: 3
+    getClosure() someClosure: foo # Error!
+        # Implicit casting is usually triggered when putting an int argument into an flt parameter.
+        # and it has worked fine so far.
+        #
+        # However, when dealing with function types, implicit casting is not allowed for any
+        # parameters and return type.
+        # So someClosure and foo are completely different types.
+```
+
+   Function types also capture obj scope.
+   the namu language can expect that you are about to want a closure,
+   when you put a function as an argument or return a function to current function scope.
+   in that case, namu language automatically makes a closure from a function call instead of you.
+   with this feature, we can write code like the following.
+```namu
+def a
+    foo(n int) int: n + 5
+def b
+    foo(n int) int: n - 2 # as you may know, a.foo and b.foo are same function type.
+
+foo(f a.foo, n int) int
+    f(n) # this runs closure. it doesn't care which object a given function belongs to.
+
+main() int
+    foo(a.foo, 1) + foo(b.foo, 1) # 6 + -1 ==> 5
+```
+
+\+ Supports type convergence.
+   Type convergence is the feature to convert and converge a given object to its type when executing code.
+   This means that not only objects defined by `def` function as types, but also function parameters,
+   properties, and even local variables.
+```namu
+def Person
+    ctor(newAge age) # newAge will eventually be converted to an int.
+        age = newAge # even if you don't know what actual type of newAge,
+                     # but you can be sure that it's compatible to age.
+    age := 25
+
+    foo() age
+        val age
+        val = age + 5
+        val2 val # local variables can also be used as types.
+        ret val2
+```
+
+   This contributes greatly to the philosophy of the NAMU language, which is to blur the distinction between objects and classes.
+   There are only objects and types, not class any longer. and every object has a type.
+
+   Type convergence is handled by the our `expander`, so it doesn't depend on the order of the sequence.
+   Look at the code example above again.
+   The `ctor` of `Person` defines `age` as a parameter type,
+   but `age` is actually defined two lines down in the line,
+   so if the interpreter was simply evaluating the code from top to bottom, it would have no choice but to resolve the above code as an error.
+   NAMU languages solves this problem easily thanks to expander.
+
+\- Fixed an issue with misreading dedication when expressing some complex lambdas.
+
+\- Fixed an issue that prevented syntax like `value a.b.c` from being used.
+
+\- Fixed an issue where it was possible to define a property even though there was no constructor with no arguments.
+```namu
+def Person
+    ctor(n int) # the constructor has an int parameter.
+        ... # doSomething
+
+main() int
+    p Person # Error. Because this code should be able to call Person() ctor.
+```
+
+### c++ framework updates
+
+\+ Print the four digits of the address value together to aid in debugging.
+   This little value, which I've named addrId, is represented as something like `@12d4`.
+   It acts like a sort of abbreviated hash value, making it easier to tell which object is at which address.
+
+\+ The tbridger class is now able to express inheritance. Use `extend()` to do so.
+
+\+ `err` can be exported as an exception.
+   blockExpr checks whether an exception has been added after eval every line.
+   To express err in native environments, inherit from or use `nerr`.
+
+\+ If an error occurs while fetching a pack, leave a detailed log.
+
+\+ Manage parsing, verification, and expanding as states.
+   This allows us to clearly express what stage each AST object is in and optimize it accordingly.
+   For example, on the first call to subs() for an object in the LINKED state, if it is a complete object,
+   `callComplete` will be executed.
+
+\+ Added common construcutor.
+   The initialization of an object's properties must be executed every time, no matter what constructor it goes through.
+   To manage this efficiently, the common constructor contains common logic that all constructors must execute.
+```namu
+def Person
+    age := 23
+    age2 := 24
+    age3 := 25
+    age4 .....
+
+    ctor(n int): .... # 1)
+    ctor(n flt): .... # 2)
+    ctor(n char): ... # 3)
+        ## If there is no common constructor, then for each constructor 1, 2, and 3, we'll use
+            age = 23
+            age2 = 24
+            age3 = 25
+        for each constructor, you would have to have all the above codes. ##
+```
+
+\+ Completely improves the design of constructors.
+   The traditional prespective was “call constructor == create object”, but this is problematic in the case of inheritance.
+   This is because inheritance requires calling multiple constructors.
+   The new perspective separates constructor calls and object creation.
+   This works well if you only want to call the constructor for an already created object (callComplete, etc.).
+   However, objects defined in native, such as bridge objects, are created immediately when the constructor is called.
+
+\+ `tbaseObjOrigin` is added to represent the origin of the native object.
+   It's all because of visibility, which doesn't need to be held for each cloned local object.
+   So the appropriate place to hold it would be the origin, but we've returned the origin of the native object as a constant so far.
+   This means that, using nInt as an example, once nInt's visibility is made public, all nInt objects's visibility will always be public.
+   To solve this, there is only one origin object for an nInt by default, but you have the flexibility to point to a cloned origin if needed.
+   This job is handled by tbaseObjOrigin.
+
+\+ Changed `has()` function in container to `in()`.
+   This is to pair with the `in` keyword.
+
+\+ Parameter information for functions is now managed in ntype.
+
+\+ Added lazyMgdType class to lazily evaluate parameter, ret, to avoid getting stuck in infinite recursion.
+
+\+ `orRet` macro is added.
+   If you define a variable with an initial value and it ends up in a null state,
+   you may `return` the function or `continue` a loop is very common and leads to a lot of redundant code.
+   The `orRet` macro will return the function with the appropriate value if the preceding initial value is determined to be null.
+```cpp
+// 1 - before:
+A* a = getPainter().getBrush().getA();
+if(!a)    return false;
+// 1 - after:
+A* a = getPainter().getBrush().getA() orRet false;
+
+
+// 2 - before:
+while(true) {
+    A* a = getA();
+    if(!a) continue;
+}
+// 2 - after:
+while(true) {
+    A* a = getA() orContinue;
+} // note that you need to use curly brackets. when you `orContinue`, it expands to 2 lines.
+````
+
+\+ a big improvement to the safe navigation macro.
+   Previously, we created and used `safeGet` macro, but it had a few problems.
+
+   - `orRet` required similar behavior to `safeGet`, but `safeGet` is not reusable structure.
+     I couldn't combine them into common logic.
+   - It was not possible to use `orRet` directly on the result of `safeGet(a, b, c)`.
+   - I had to put round brackets around the expr, `a.b.c`, which was kind of ugly.
+        e.g. safeGet(a, b, c)
+   - If you did a `safeGet(a, b(), c)` and then did another `safeGet` inside `b()`,
+     the value would sometimes be twisted.
+     This was because `safeGet` holds the value in a global variable instead of storing it in a temporary one.
+
+   The new and improved macro is the `THEN` macro, which solves all of the above problems.
+   Because it is designed to be generic so it was easy to create an `orRet` macro reusing it.
+   It is also possible to apply `orRet` to the result of using `THEN`.
+   Since we used `->*` overloading, which is a suffix operator, we don't need the outer curly brackets.
+   Also, since we're returning from function to function,
+   we don't need to store the value in a global variable somewhere. usage for it will follow.
+
+```namu
+// before:
+A* a = safeGet(c, getB(), getA());
+if(!a) return false;
+
+// after:
+A* a = c THEN(getB()) THEN(getA()) orRet false;
+```
+
+   Note that it has all the functionality of safeGet.
+   - If null is encountered in the middle of code, the final value will be null.
+     during running above codes, the program never crash.
+   - If you get a T* in the middle or if you get a T&& or if you get a T or if you get a T&,
+     it's all taken care of. Even if it's a pointer. I mean, dereferencing is not necessary.
+```namu
+// assume that when you call getB(), it returns nullptr of B*.
+const int& a = getC()->getB().getAge(); // this will crash your app.
+
+const int& a = getC() THEN(getB()) THEN(getAge()); // this won't crash your app.
+nul(a); // true
+```
+
+\- Fixed an issue where demangle would not work for templates.
+
+\- Fixed an issue where colors were not changing on windows.
+
+\- No default constructor is created if the user defines a constructor.
+
+\- Fixed an issue where overloading matching would misbehave.
+
+\- Fixed an issue that sometimes caused the error log to be printed twice.
+
+\- Fixed an issue where having an empty block statement would cause a crash.
+
+\- Fixed an issue where `is` could not be used for primitive types.
+
+\- baseFunc is no longer expr.
+   The characteristic of expr is that run is executed when you do as().
+   The as of a function should be the return value, not the execution of the function.
+
+### etc
+\- wasm binary couldn't leave some logs
+
+\+ The 'make install' command is now available in Linux environments. Hooray!
+
+\+ Support for code coverage.
+   If you use the `cov` command in builder.py, it will calculate coverage using `llvm-cov` and `lcov`.
+   Compute coverage via github action and you can check the result as a badge in the our README.
+
 ## v0.2.7 Mana Update
 released on 06-15 2024
 build#957
