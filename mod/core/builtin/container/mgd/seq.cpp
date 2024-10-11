@@ -82,7 +82,7 @@ namespace nm {
                     return NM_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
 
                 seq &meObj = a.getMe().cast<seq>() orRet NM_E("meObj as arr == null"), str();
-                str eval = a[0].as(ps[0].getOrigin().as<node>()) orRet NM_E(
+                str eval = a[0].as(ps[0].getOrigin()) orRet NM_E(
                     "evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]),
                     str();
 

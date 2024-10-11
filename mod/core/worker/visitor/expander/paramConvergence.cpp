@@ -6,7 +6,7 @@
 namespace nm {
     NM(DEF_ME(paramConvergence))
 
-    me::paramConvergence(func& f, param& p, const node& org): _f(&f), _p(&p), _org(&org) {}
+    me::paramConvergence(baseFunc& f, param& p, const node& org): _f(&f), _p(&p), _org(&org) {}
 
     nbool me::converge() const {
         if(!_org || !_p || !_f) return NM_E("some paramConvergence info is null"), false;

@@ -12,13 +12,13 @@ namespace nm {
         NM(CLASS(paramConvergence, convergence))
 
     public:
-        paramConvergence(func& f, param& p, const node& org);
+        paramConvergence(baseFunc& f, param& p, const node& org);
 
     public:
         nbool converge() const override;
 
     private:
-        func* _f;
+        baseFunc* _f;
         param* _p;
         const node* _org;
     };

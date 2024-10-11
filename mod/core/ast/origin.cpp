@@ -53,6 +53,10 @@ namespace nm {
         // update origin:
         //  this makes an origin object. and cloned origin object's origin should itself.
         //  but don't bind _org to this. it's circular dependency.
+        //
+        // here subs is scope for 'owns':
+        //  as you may know, all obj constructs its scope just like, 'owns' -> 'shares' flow.
+        //  so when you get `subs()`, it's `owns`.
         subs().link(*(scope*) rhs.getShares().cloneDeep());
         if(rhs._mod) _mod.bind((const modifier*) rhs._mod->cloneDeep());
     }

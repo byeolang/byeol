@@ -28,14 +28,16 @@ namespace nm {
         void onLeave(const visitInfo& i, obj& me) override;
         nbool onVisit(const visitInfo& i, func& me) override;
         void onLeave(const visitInfo& i, func& me) override;
+        nbool onVisit(const visitInfo& i, baseFunc& me) override;
+        void onLeave(const visitInfo& i, baseFunc& me) override;
         nbool onVisit(const visitInfo& i, getGenericExpr& me) override;
 
     protected:
         void _onWork() override;
 
     private:
-        nbool _onVisitParams(func& f, param& p);
-        void _onVisitFuncRet(func& f);
+        nbool _onVisitParams(baseFunc& f, param& p);
+        void _onVisitFuncRet(baseFunc& f);
 
         void _convergeTypes(errReport& rpt);
 

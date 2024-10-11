@@ -37,7 +37,7 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, obj& me) {
-        GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
+        GUARD("%s.onVisit(%s@%s)", getType().getName().c_str(), me.getType().getName().c_str(), platformAPI::toAddrId(&me));
 
         NM_DI("expand: obj: %s", i);
 
@@ -56,16 +56,7 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, func& me) {
-        GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
-
-        _func.bind(me);
-        me.inFrame(); // don't need to inFrame for args.
-                      // because what this want to do is just collect @expand funcs.
-        NM_I("expand: func: %s", i);
-        for(auto& p: me.getParams())
-            if(!_onVisitParams(me, p)) ((node&) p.getOrigin()).accept(i, *this);
-
-        _onVisitFuncRet(me);
+        if(!onVisit(i, (baseFunc&) me)) return false;
 
         if(i.name == baseObj::EXPAND_NAME) {
             NM_I("expand: func: found expand");
@@ -77,9 +68,39 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, func& me) {
+        me.getBlock().outFrame();
+
+        onVisit(i, (baseFunc&) me);
+    }
+
+    nbool me::onVisit(const visitInfo& i, baseFunc& me) {
+        // you may wonder why I declared parameter for 'baseFunc', not func:
+        //  becauase you may think that it's not necessary for an author of the baseFunc to use
+        //  getExpr instance as they can use define tbaseObjOrigin.
+        //
+        //  but please think about when genericOrigin comes to here.
+        //  arr and seq uses genericOrigin, and it can't tbaseObjOrigin because it's beyond
+        //  over static area, it's dynamic. only namu language user can define the type 'T'
+        //  in managed space.
+        //
+        //  So, eventually there is still a chance when baseFuncs instance should hold getExpr
+        //  for their retType or parameterType which requires typeConverence feature.
+        GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
+
+        _func.bind(me);
+        me.inFrame(); // don't need to inFrame for args.
+                      // because what this want to do is just collect @expand funcs.
+        NM_I("expand: func: %s", i);
+        for(auto& p: me.getParams())
+            if(!_onVisitParams(me, p)) ((node&) p.getOrigin()).accept(i, *this);
+
+        _onVisitFuncRet(me);
+        return true;
+    }
+
+    void me::onLeave(const visitInfo& i, baseFunc& me) {
         GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
 
-        me.getBlock().outFrame();
         me.outFrame();
         _func.rel();
     }
@@ -97,7 +118,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::_onVisitParams(func& f, param& p) {
+    nbool me::_onVisitParams(baseFunc& f, param& p) {
         node& org = (node&) p.getOrigin();
         [[maybe_unused]] const getExpr& isGet = org.cast<getExpr>() orRet false;
 
@@ -111,7 +132,7 @@ namespace nm {
         return true;
     }
 
-    void me::_onVisitFuncRet(func& f) {
+    void me::_onVisitFuncRet(baseFunc& f) {
         ntype& type = (ntype&) f.getType() orRet;
         const getExpr& ret = type.getRet().cast<getExpr>() orRet;
 
