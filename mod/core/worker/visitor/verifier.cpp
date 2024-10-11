@@ -388,10 +388,10 @@ namespace nm {
         str myRet = me.getRet().getEval();
         NM_WHEN(!myRet).err(EXPR_EVAL_NUL, me);
 
-        str funRet = f.getRet().as<node>();
+        const node& funRet = f.getRet();
         _STEP("checks return[%s] == func[%s]", myRet, funRet);
 
-        NM_WHEN(!myRet->isSub<baseErr>() && !myRet->isImpli(*funRet))
+        NM_WHEN(!myRet->isSub<baseErr>() && !myRet->isImpli(funRet))
             .err(RET_TYPE_NOT_MATCH, me, myRet, funRet);
     }
 
@@ -580,8 +580,7 @@ namespace nm {
         _GUARD("onLeave()");
 
         _STEP("last stmt should match to ret type");
-        str ret = me.getRet().as<node>();
-        const type& retType = ret->getType();
+        const type& retType = me.getRet() THEN(getType()) orRet NM_E("func.getRet() is null");
         const node& lastStmt = *me.getBlock().getStmts().last();
 
         if(retType == ttype<nVoid>::get())
