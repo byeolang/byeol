@@ -78,7 +78,7 @@ namespace nm {
         newType.getParams().add(ps);
         ret->_setType(newType);
 
-        generalizer().add(ps).setFlag(generalizer::INTERNAL).setTask(*ret).work();
+        generalizer().add(*_org).add(ps).setFlag(generalizer::INTERNAL).setTask(*ret).work();
         NM_DI("|============================|");
         return ret;
     }

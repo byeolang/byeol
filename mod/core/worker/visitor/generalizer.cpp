@@ -7,6 +7,11 @@ namespace nm {
 
     NM(DEF_ME(generalizer))
 
+    me& me::add(const obj& origin) {
+        _org.bind(origin);
+        return *this;
+    }
+
     me& me::add(const param& newParam) {
         _params.add(newParam);
         return *this;
@@ -18,6 +23,7 @@ namespace nm {
     }
 
     const node& me::_findOrigin(const node& toReplace) const {
+        if(&toReplace == &_org.get()) return getTask();
         if(!nul(toReplace.cast<getGenericExpr>())) return nulOf<node>();
         const auto& name = toReplace.cast<getExpr>() THEN(getName()) orNul(node);
 

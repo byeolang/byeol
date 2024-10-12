@@ -462,3 +462,24 @@ TEST_F(genericsTest, ifFirstLetterBeginsWithLowerCaseThenItIsComplete) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 1);
 }
+
+TEST_F(genericsTest, generalizedObjShouldRemoveExpandFunc) {
+    make().parse(R"SRC(
+        def Person<E>
+            value E
+            foo(rhs Person<E>) E
+                ret rhs.value
+        main() int
+            p := Person<int>()
+            p.age = 22
+            ret Person<int>().foo(p)
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 22);
+
+    str generic = getSubPack() THEN(sub("Person")) THEN(run(args{narr{nInt()}}));
+    ASSERT_TRUE(generic);
+    ASSERT_TRUE(nul(generic->sub(baseObj::EXPAND_NAME)));
+}

@@ -9,6 +9,8 @@ namespace nm {
         NM(CLASS(generalizer, visitor))
 
     public:
+        /// @param origin of generic object.
+        me& add(const obj& origin);
         me& add(const param& newParam);
         me& add(const params& newParams);
 
@@ -30,5 +32,6 @@ namespace nm {
 
     private:
         params _params;
+        tstr<obj> _org;
     };
 }
