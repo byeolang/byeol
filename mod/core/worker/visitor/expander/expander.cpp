@@ -130,7 +130,7 @@ namespace nm {
         //  try once now. if it's not successful, it may refered symbol not expanded yet.
         //  so in that case, I put it to a queue to process after expansion.
         NM_I("converge type request for param[%s] of %s", p, f);
-        tstr<convergence> req = new paramConvergence(f, p, org);
+        tstr<convergence> req = new paramConvergence(*_obj.back(), f, p, org);
         if(!req->converge()) // I'll converge it later.
             _cons.add(*req);
         return true;
@@ -142,7 +142,7 @@ namespace nm {
 
         // need to converge return type:
         NM_I("converge type request for ret[%s] of %s", ret.getName(), f);
-        tstr<convergence> req = new retConvergence(f, ret);
+        tstr<convergence> req = new retConvergence(*_obj.back(), f, ret);
         if(!req->converge()) // I'll converge it later
             _cons.add(*req);
     }

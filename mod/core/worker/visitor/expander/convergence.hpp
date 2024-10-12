@@ -1,10 +1,15 @@
 #pragma once
 
-#include "../../../type/ntype.hpp"
+#include "../../../ast/baseObj.hpp"
 
 namespace nm {
+
+
     class convergence: public instance {
         NM(ADT(convergence, instance))
+
+    public:
+        convergence(baseObj& obj, baseFunc& func);
 
     public:
         /// converge type to real obj type.
@@ -21,6 +26,13 @@ namespace nm {
         /// this requests of type convergence will be done when expand() done successfully.
         ///
         /// @return true if type has been converged successfully.
-        virtual nbool converge() const = 0;
+        nbool converge();
+
+    protected:
+        virtual nbool _onConverge(baseFunc& func) const = 0;
+
+    private:
+        tstr<baseObj> _obj;
+        tstr<baseFunc> _func;
     };
 }

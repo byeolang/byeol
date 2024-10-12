@@ -10,13 +10,12 @@ namespace nm {
         NM(CLASS(retConvergence, convergence))
 
     public:
-        retConvergence(baseFunc& f, const node& org);
+        retConvergence(baseObj& obj, baseFunc& f, const node& org);
 
-    public:
-        nbool converge() const override;
+    protected:
+        nbool _onConverge(baseFunc& f) const override;
 
     private:
-        baseFunc* _f;
         const node* _org;
     };
 }
