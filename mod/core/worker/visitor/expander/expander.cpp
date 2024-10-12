@@ -15,13 +15,20 @@ namespace nm {
 
     NM(DEF_ME(expander))
 
+    namespace {
+        static ncnt _stepN = 0;
+    }
+
     nbool me::expansion::isExpanded() const {
         if(!fun) return true;
         return fun->getBlock().getStmts().len() <= 0;
     }
 
-#define GUARD(...) \
-    if(isFlag(me::GUARD)) NM_I(__VA_ARGS__)
+#define _GUARD(msg)                                                                \
+    if(isFlag(GUARD)) do {                                                         \
+            NM_I("'%s' %s@%s: " msg, i, me.getType(), platformAPI::toAddrId(&me)); \
+            _stepN = 0;                                                            \
+    } while(0)
 
     me::expander() { rel(); }
 
@@ -37,30 +44,30 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, obj& me) {
-        GUARD("%s.onVisit(%s@%s)", getType().getName().c_str(), me.getType().getName().c_str(), platformAPI::toAddrId(&me));
+        _GUARD("obj.onVisit()");
 
-        NM_DI("expand: obj: %s", i);
-
-        _obj.bind(me);
+        _obj.push_back(&me);
         me.inFrame();
         return true;
     }
 
     void me::onLeave(const visitInfo& i, obj& me) {
-        GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
+        _GUARD("obj.onLeave()");
 
         me.outFrame();
-        _obj.rel();
+        _obj.pop_back();
 
         if(nul(me.sub(baseObj::EXPAND_NAME))) me.setState(PARSED);
     }
 
     nbool me::onVisit(const visitInfo& i, func& me) {
+        _GUARD("func.onVisit()");
         if(!onVisit(i, (baseFunc&) me)) return false;
 
         if(i.name == baseObj::EXPAND_NAME) {
-            NM_I("expand: func: found expand");
-            _stack[&_obj.get()] = {*_obj, me};
+            obj* o = _obj.back() orRet NM_E("obj stack is empty."), true;
+            NM_I("func: found expand[%s.%s]", *o, me);
+            _stack[o] = {*o, me};
         }
 
         me.getBlock().inFrame();
@@ -68,6 +75,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, func& me) {
+        _GUARD("func.onLeave()");
         me.getBlock().outFrame();
 
         onVisit(i, (baseFunc&) me);
@@ -85,9 +93,9 @@ namespace nm {
         //
         //  So, eventually there is still a chance when baseFuncs instance should hold getExpr
         //  for their retType or parameterType which requires typeConverence feature.
-        GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
+        _GUARD("onVisit()");
 
-        _func.bind(me);
+        _funcs.push_back(&me);
         me.inFrame(); // don't need to inFrame for args.
                       // because what this want to do is just collect @expand funcs.
         NM_I("expand: func: %s", i);
@@ -99,22 +107,18 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, baseFunc& me) {
-        GUARD("%s.onLeave(%s)", getType().getName().c_str(), me.getType().getName().c_str());
+        _GUARD("onLeave(%s)");
 
         me.outFrame();
-        _func.rel();
+        _funcs.pop_back();
     }
 
     nbool me::onVisit(const visitInfo& i, getGenericExpr& me) {
-        GUARD("%s.onVisit(%s)", getType().getName().c_str(), me.getType().getName().c_str());
+        _GUARD("onVisit(%s)");
 
         // this lets genericOrigin make a their generic obj.
         obj& generalizedOrg = me.getEval().cast<obj>() orRet true;
-        obj& prevObj = *_obj;
-        func& prevFunc = *_func;
         generalizedOrg.accept(i, *this);
-        _func.bind(prevFunc);
-        _obj.bind(prevObj);
         return true;
     }
 
@@ -154,14 +158,14 @@ namespace nm {
     void me::_rel() { _stack.clear(); }
 
     void me::_expand() {
-        GUARD(" ===================================");
-        GUARD("          expandLoop");
-        GUARD(" ===================================");
+        NM_I(" ===================================");
+        NM_I("          expandLoop");
+        NM_I(" ===================================");
         errReport e;
         ncnt n = 0;
         while(_stack.size() > 0) {
             e.rel();
-            GUARD("|--- %dth try: running %d expand track... ---|", ++n, _stack.size());
+            NM_I("|--- %dth try: running %d expand track... ---|", ++n, _stack.size());
             if(!_expandAll(
                    e)) { // this func actually remove elements of _stack if the func consumes it.
                 // ok. there is no change after running one loop, which means, I think that
@@ -180,11 +184,11 @@ namespace nm {
         _onEndErrReport(e);
         getReport().add(e);
         _stack.clear();
-        GUARD(" ==== end of expandLoop ==== ");
+        NM_I(" ==== end of expandLoop ==== ");
     }
 
     nbool me::_expandAll(errReport& rpt) {
-        GUARD("|--- expand: tryExpand: evaluation[%d] remains ---|", _stack.size());
+        NM_I("|--- expand: tryExpand: evaluation[%d] remains ---|", _stack.size());
         nbool isChanged = false;
         for(auto e = _stack.begin(); e != _stack.end();) {
             auto& eval = e->second;
@@ -212,7 +216,7 @@ namespace nm {
                 {
                     narr& stmts = blk.getStmts();
 
-                    GUARD("|--- expand: evalFunc(%x).len = %d ---|", &fun, stmts.len());
+                    NM_I("|--- expand: evalFunc(%x).len = %d ---|", &fun, stmts.len());
 
                     nbool isChanged = false;
                     for(int n = 0; n < stmts.len();) {
@@ -223,7 +227,7 @@ namespace nm {
                             // if there was an error, proceed next stmt.
                             // TODO: it uses len() for counting errors.
                             //       but one of them could be just warning.
-                            GUARD("|--- expand: evalFunc(%x): eval failed on stmt[%d] ---|", &fun,
+                            NM_I("|--- expand: evalFunc(%x): eval failed on stmt[%d] ---|", &fun,
                                 n);
                             n++;
                             continue;
@@ -231,14 +235,14 @@ namespace nm {
 
                         stmts[n].run();
 
-                        GUARD("|--- expand: evalFunc(%x): SUCCESS! stmt[%d] pre-evaluated.", &fun,
+                        NM_I("|--- expand: evalFunc(%x): SUCCESS! stmt[%d] pre-evaluated.", &fun,
                             n);
                         stmts.del(n);
                         me.setState(PARSED);
                         isChanged = true;
                     } // end of inner
 
-                    GUARD("|--- expand: end of evalFunc(%x) stmt[%d] left ---|", &fun, stmts.len());
+                    NM_I("|--- expand: end of evalFunc(%x) stmt[%d] left ---|", &fun, stmts.len());
                     return isChanged;
                 }
             }

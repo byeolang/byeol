@@ -54,7 +54,7 @@ namespace nm {
     private:
         std::map<obj*, expansion> _stack;
         tnarr<convergence> _cons;
-        tstr<obj> _obj;
-        tstr<func> _func;
+        std::vector<obj*> _obj;
+        std::vector<baseFunc*> _funcs;
     };
 } // namespace nm
