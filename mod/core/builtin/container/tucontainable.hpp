@@ -23,6 +23,13 @@ namespace nm {
         // len:
         virtual ncnt len() const = 0;
 
+        nbool in(const T& t) const {
+            return in([&](const T& elem) -> nbool { return elem == t; });
+        }
+
+        nbool in(std::function<nbool(const T&)> l) const;
+        template <typename T1> nbool in(std::function<nbool (const T1&)> l) const;
+
         nbool isEmpty() const { return len() <= 0; }
 
         // get:
@@ -57,12 +64,6 @@ namespace nm {
             //  to avoid ambigious error, I used specifier.
             static iter (me::*specifier)(ncnt) const = &me::iterate;
             return (this->*specifier)(len());
-        }
-
-        nbool in(const T& it) const {
-            for(const T& elem: *this)
-                if(it == elem) return true;
-            return false;
         }
 
         virtual iter last() const {

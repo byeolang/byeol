@@ -43,6 +43,7 @@ namespace nm {
 
         ncnt len() const override;
 
+        using super::in;
         nbool in(nidx n) const override;
 
         //  get:

@@ -33,8 +33,8 @@ namespace nm {
 
     public:
         // has:
+        using super::in;
         nbool in(const K& key) const override;
-        nbool in(const V& val) const override;
 
         // len:
         ncnt len() const override;

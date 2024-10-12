@@ -12,6 +12,18 @@ namespace nm {
 #define ME tucontainable<T, R>
 
     TEMPL
+    template <typename T1> nbool ME::in(std::function<nbool(const T1&)> l) const {
+        for(auto e = begin(); e; ++e) {
+            const T1& val = e->template cast<T1>() orContinue;
+            if(l(val)) return true;
+        }
+        return false;
+    }
+
+    TEMPL
+    nbool ME::in(std::function<nbool(const T&)> l) const { return this->in<T>(l); }
+
+    TEMPL
     template <typename K, typename V> ncnt ME::add(const tbicontainable<K, V>& rhs) {
         static_assert(areBaseOfT<T, V>::value, "given type 'V' is not subtype of 'T'");
         ncnt ret = 0;

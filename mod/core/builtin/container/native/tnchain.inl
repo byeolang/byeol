@@ -16,13 +16,6 @@ namespace nm {
     }
 
     TEMPL
-    nbool ME::in(const V& val) const {
-        for(tstr<me> e(this); e; e.bind(e->getNext()))
-            if(e->getContainer().in(val)) return true;
-        return false;
-    }
-
-    TEMPL
     ncnt ME::len() const {
         ncnt len = 0;
         for(tstr<me> e(this); e; e.bind(e->getNext()))

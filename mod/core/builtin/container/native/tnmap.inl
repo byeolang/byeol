@@ -13,11 +13,6 @@ namespace nm {
     nbool ME::in(const K& key) const { return _map.find(key) != _map.end(); }
 
     TEMPL
-    nbool ME::in(const V& val) const {
-        return !nul(get([&](const K&, const V& elem) { return &elem == &val; }));
-    }
-
-    TEMPL
     V& ME::get(const K& key) {
         if(!in(key)) return nulOf<V>();
 

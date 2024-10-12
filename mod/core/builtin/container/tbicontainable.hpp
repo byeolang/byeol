@@ -32,7 +32,9 @@ namespace nm {
 
         // has:
         virtual nbool in(const K& key) const = 0;
-        virtual nbool in(const V& val) const = 0;
+        nbool in(const V& val) const;
+        nbool in(std::function<nbool(const K& key, const V& val)> l) const;
+        template <typename V1> nbool in(std::function<nbool(const K& key, const V1& val)> l) const;
 
         // get:
         virtual V& get(const K& key) = 0;
