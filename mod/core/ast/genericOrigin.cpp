@@ -7,6 +7,7 @@
 #include "baseFunc.hpp"
 #include "dumScope.hpp"
 #include "origin.hpp"
+#include <algorithm>
 
 namespace nm {
 
@@ -48,6 +49,7 @@ namespace nm {
     str me::run(const args& a) {
         std::string key = _makeKey(a);
         if(key.empty()) return NM_E("key is empty"), tstr<obj>();
+        if(_isSelfMaking(key)) return NM_E("error: you tried to clone self generic object."), tstr<obj>();
 
         if(!_cache.count(key)) _makeGeneric(key, params::make(_paramNames, a));
         return _cache[key];
@@ -56,7 +58,7 @@ namespace nm {
     std::string me::_makeKey(const args& a) const {
         if(a.len() != _paramNames.size())
             return NM_E("len of args doesn't match to _paramNames"), std::string();
-        return a.asStr();
+        return a.toStr();
     }
 
     /// make a generic object.
@@ -89,5 +91,11 @@ namespace nm {
 
         NM_DI("|============================|");
         return ret;
+    }
+
+    nbool me::_isSelfMaking(const std::string& key) const {
+        return std::find_if(_paramNames.begin(), _paramNames.end(), [&](const auto& name) -> nbool {
+            return key == name;
+        }) != _paramNames.end();
     }
 } // namespace nm

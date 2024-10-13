@@ -14,11 +14,13 @@ namespace nm {
 
     me& me::add(const param& newParam) {
         _params.add(newParam);
+        _paramsKey = _makeParamsKey();
         return *this;
     }
 
     me& me::add(const params& newParams) {
         _params.add(newParams);
+        _paramsKey = _makeParamsKey();
         return *this;
     }
 
@@ -31,19 +33,12 @@ namespace nm {
 
     const node& me::_findOriginFrom(const getGenericExpr& expr) const {
         const auto& name = getTask().getType().getName();
-        NM_I("exprName[%s] == originName[%s]", expr.getName(), name);
+        auto argsKey = expr.getArgs().toStr();
+        NM_I("exprName[%s<%s>] == originName[%s<%s>]", expr.getName(), argsKey, name, _paramsKey);
         if(expr.getName() != name) return nulOf<node>();
+        if(argsKey == _paramsKey) return getTask();
 
-        for(const auto& a: expr.getArgs()) {
-            const ntype& argType = a.getType() orNul(node);
-            if(!_params.in([&](const param& p) -> nbool {
-                   const ntype& paramType = p.getOrigin() THEN(getType()) orRet(false);
-                   return argType == paramType;
-               }))
-                return nulOf<node>();
-        }
-
-        return getTask();
+        return nulOf<node>();
     }
 
     const node& me::_findOrigin(const node& toReplace) const {
@@ -180,5 +175,14 @@ namespace nm {
             if(!nul(org)) a.set(n, org);
         }
         return true;
+    }
+
+    std::string me::_makeParamsKey() const {
+        nint n = 0;
+        std::string msg;
+        ncnt len = _params.len();
+        for(const param& p : _params)
+            msg += p.getName() + (++n >= len ? "" : ",");
+        return msg;
     }
 } // namespace nm

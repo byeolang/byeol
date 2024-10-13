@@ -31,9 +31,11 @@ namespace nm {
         const node& _findOrigin(const node& toReplace) const;
         const node& _findOriginFrom(const getExpr& expr) const;
         const node& _findOriginFrom(const getGenericExpr& expr) const;
+        std::string _makeParamsKey() const;
 
     private:
         params _params;
+        mutable std::string _paramsKey;
         tstr<obj> _org;
     };
 }

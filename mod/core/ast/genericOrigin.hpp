@@ -43,6 +43,7 @@ namespace nm {
 
         /// make a generic object.
         tstr<obj> _makeGeneric(const std::string& argName, const params& ps);
+        nbool _isSelfMaking(const std::string& key) const;
 
     private:
         std::map<std::string, tstr<obj>> _cache;
