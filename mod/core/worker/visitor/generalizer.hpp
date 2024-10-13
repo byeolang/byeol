@@ -28,9 +28,9 @@ namespace nm {
         nbool onVisit(const visitInfo& i, getGenericExpr& me) override;
 
     private:
-        const node& _findOrigin(const node& toReplace) const;
-        const node& _findOriginFrom(const getExpr& expr) const;
-        const node& _findOriginFrom(const getGenericExpr& expr) const;
+        str _findOrigin(const node& toReplace) const;
+        str _findOriginFrom(const getExpr& expr) const;
+        str _findOriginFrom(const getGenericExpr& expr) const;
         std::string _makeParamsKey() const;
 
     private:
