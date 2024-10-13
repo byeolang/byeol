@@ -67,6 +67,8 @@ namespace nm {
         virtual const node& getRet() const;
         virtual void setRet(const node& new1);
 
+        std::string createNameWithParams() const;
+
     protected:
         // ntype:
         virtual const ases& _getImpliAses() const;

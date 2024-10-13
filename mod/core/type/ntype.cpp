@@ -192,4 +192,11 @@ namespace nm {
     const node& me::getRet() const { return nulOf<node>(); }
 
     void me::setRet(const node& new1) {}
+
+    std::string me::createNameWithParams() const {
+        std::string params = getParams().toStr();
+        if(params.empty()) return getName();
+
+        return getName() + "<" + params + ">";
+    }
 } // namespace nm
