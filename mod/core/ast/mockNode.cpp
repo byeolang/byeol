@@ -42,10 +42,6 @@ namespace nm {
         return inner;
     }
 
-    nbool me::isComplete() const {
-        return true; // always. this's the main reason why I use this class.
-    }
-
     const src& me::getSrc() const {
         if(_org) return _org->getSrc();
         return super::getSrc();

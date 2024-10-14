@@ -468,7 +468,7 @@ TEST_F(genericsTest, generalizedObjShouldRemoveExpandFunc) {
         def Person<E>
             age E
             foo(rhs Person<E>) E
-                ret rhs.value
+                ret rhs.age
         main() int
             p := Person<int>()
             p.age = 22

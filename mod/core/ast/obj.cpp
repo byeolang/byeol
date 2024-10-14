@@ -57,12 +57,6 @@ namespace nm {
         return _org->getType();
     }
 
-    nbool me::isComplete() const {
-        if(!_org) return super::isComplete();
-
-        return _org->isComplete();
-    }
-
     void me::onCloneDeep(const clonable& from) {
         // update obj:
         //  this makes an object. and cloned this object's origin should itself.

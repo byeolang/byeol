@@ -121,7 +121,7 @@ namespace nm {
 
 #if NM_IS_DBG
         ncnt n = 0;
-        const nchar* myName = getType().getName().c_str();
+        std::string myName = getType().createNameWithParams();
         std::string argStr = !nul(a) ? "(" + a.toStr() + ")" : "";
 #endif
         tprioritiesBucket<T> ps;

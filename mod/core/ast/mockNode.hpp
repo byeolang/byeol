@@ -24,8 +24,6 @@ namespace nm {
 
         clonable* clone() const override;
 
-        nbool isComplete() const override;
-
         const src& getSrc() const override;
 
         void* cast(const type& to) override;

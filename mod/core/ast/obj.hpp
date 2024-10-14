@@ -46,7 +46,6 @@ namespace nm {
         const scope::super& getOwns() const NM_CONST_FUNC(getOwns())
 
         const ntype& getType() const override;
-        nbool isComplete() const override;
 
         void onCloneDeep(const clonable& from) override;
 
