@@ -483,3 +483,35 @@ TEST_F(genericsTest, generalizedObjShouldRemoveExpandFunc) {
     ASSERT_TRUE(generic);
     ASSERT_TRUE(nul(generic->sub(baseObj::EXPAND_NAME)));
 }
+
+TEST_F(genericsTest, genericObjCallCompleteShouldDifferentEach) {
+    make().parse(R"SRC(
+        def person<E>
+            value E
+        main() int
+            ret person<str>().value.len() + person<int>().value
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 0);
+
+    str org = getSubPack()["person"];
+    ASSERT_TRUE(org);
+    tstr<obj> intObj = org->run(args{narr{nInt()}});
+    ASSERT_TRUE(intObj);
+    tstr<obj> strObj = org->run(args{narr{nStr()}});
+    ASSERT_TRUE(strObj);
+
+    runExpr& intRun = intObj->getCallComplete().cast<runExpr>();
+    ASSERT_FALSE(nul(intRun));
+    const node& intParam = intRun.getMe().getType().getParams()[0].getOrigin();
+    ASSERT_FALSE(nul(intParam));
+    ASSERT_FALSE(nul(intParam.cast<nInt>()));
+
+    runExpr& strRun = strObj->getCallComplete().cast<runExpr>();
+    ASSERT_FALSE(nul(strRun));
+    const node& strParam = strRun.getMe().getType().getParams()[0].getOrigin();
+    ASSERT_FALSE(nul(strParam));
+    ASSERT_FALSE(nul(strParam.cast<nStr>()));
+}

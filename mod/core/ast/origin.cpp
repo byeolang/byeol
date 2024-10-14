@@ -59,6 +59,7 @@ namespace nm {
         //  so when you get `subs()`, it's `owns`.
         subs().link(*(scope*) rhs.getShares().cloneDeep());
         if(rhs._mod) _mod.bind((const modifier*) rhs._mod->cloneDeep());
+        if(rhs._callComplete) _callComplete.bind((const node*) rhs._callComplete->cloneDeep());
     }
 
     baseObj* me::make() const { return new obj(*this); }

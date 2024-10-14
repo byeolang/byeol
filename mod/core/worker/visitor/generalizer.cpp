@@ -36,13 +36,13 @@ namespace nm {
         auto argsKey = expr.getArgs().toStr();
         NM_I("exprName[%s<%s>] == originName[%s<%s>]", expr.getName(), argsKey, name, _paramsKey);
         if(expr.getName() != name) return str();
-        if(argsKey == _paramsKey) return new mockNode(getTask());
+        if(argsKey == _paramsKey) return getTask();
 
         return str();
     }
 
     str me::_findOrigin(const node& toReplace) const {
-        if(&toReplace == &_org.get()) return new mockNode(getTask());
+        if(&toReplace == &_org.get()) return getTask();
         const getGenericExpr& generic = toReplace.cast<getGenericExpr>();
         if(!nul(generic)) return _findOriginFrom(generic);
         const getExpr& get = toReplace.cast<getExpr>();
