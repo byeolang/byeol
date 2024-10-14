@@ -466,7 +466,7 @@ TEST_F(genericsTest, ifFirstLetterBeginsWithLowerCaseThenItIsComplete) {
 TEST_F(genericsTest, generalizedObjShouldRemoveExpandFunc) {
     make().parse(R"SRC(
         def Person<E>
-            value E
+            age E
             foo(rhs Person<E>) E
                 ret rhs.value
         main() int

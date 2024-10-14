@@ -544,7 +544,8 @@ namespace nm {
                 posError(errCode::PARAM_NOT_VOID, me, p.getName().c_str());
                 continue;
             }
-            s->add(p.getName(), *(node*) (p THEN(getOrigin()) THEN(getEval()) THEN(clone())));
+            str eval = p THEN(getOrigin()) THEN(getEval()) orContinue;
+            s->add(p.getName(), *new mockNode(*eval));
         }
 
         //  function's subs are third:
