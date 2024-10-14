@@ -152,7 +152,7 @@ namespace nm {
 
     frame& me::_getNowFrame() {
         ncnt n = _getFrames().len() - 1;
-        if(n >= _getFrames().len()) return nulOf<frame>();
+        if(n < 0 || n >= _getFrames().len()) return nulOf<frame>();
 
         return _getFrames()[n];
     }
