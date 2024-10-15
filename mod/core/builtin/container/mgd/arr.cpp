@@ -183,7 +183,7 @@ namespace nm {
         public:
             const ntype& getType() const override {
                 static mgdType inner("copyctor", ttype<me>::get(),
-                    params(*new param("rhs", *_org)));
+                    params(*new param("rhs", *_org)), false, *_org);
                 return inner;
             }
 
