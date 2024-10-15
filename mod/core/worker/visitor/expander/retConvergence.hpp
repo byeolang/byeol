@@ -16,6 +16,6 @@ namespace nm {
         nbool _onConverge(baseFunc& f) const override;
 
     private:
-        const node* _org;
+        str _org;
     };
 }

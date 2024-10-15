@@ -181,7 +181,7 @@ namespace nm {
         nint n = 0;
         std::string msg;
         ncnt len = _params.len();
-        for(const param& p : _params)
+        for(const param& p: _params)
             msg += p.getName() + (++n >= len ? "" : ",");
         return msg;
     }

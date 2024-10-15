@@ -38,10 +38,10 @@ namespace nm {
         static ncnt _stepN = 0;
     }
 
-#define _GUARD(msg)                                                                 \
-    if(isFlag(GUARD)) do {                                                          \
+#define _GUARD(msg)                                                                \
+    if(isFlag(GUARD)) do {                                                         \
             NM_I("'%s' %s@%s: " msg, i, me.getType(), platformAPI::toAddrId(&me)); \
-            _stepN = 0;                                                             \
+            _stepN = 0;                                                            \
     } while(0)
 
 #define _STEP(msg, ...)                                                                 \

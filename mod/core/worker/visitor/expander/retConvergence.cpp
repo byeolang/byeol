@@ -5,7 +5,7 @@
 namespace nm {
     NM(DEF_ME(retConvergence))
 
-    me::retConvergence(baseObj& obj, baseFunc& f, const node& org): super(obj, f), _org(&org) {}
+    me::retConvergence(baseObj& obj, baseFunc& f, const node& org): super(obj, f), _org(org) {}
 
     nbool me::_onConverge(baseFunc& f) const {
         str eval = _org->getEval() orRet false;

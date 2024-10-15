@@ -464,7 +464,8 @@ TEST_F(genericsTest, ifFirstLetterBeginsWithLowerCaseThenItIsComplete) {
 }
 
 TEST_F(genericsTest, generalizedObjShouldRemoveExpandFunc) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def Person<E>
             age E
             foo(rhs Person<E>) E
@@ -473,7 +474,8 @@ TEST_F(genericsTest, generalizedObjShouldRemoveExpandFunc) {
             p := Person<int>()
             p.age = 22
             ret Person<int>().foo(p)
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -485,12 +487,14 @@ TEST_F(genericsTest, generalizedObjShouldRemoveExpandFunc) {
 }
 
 TEST_F(genericsTest, genericObjCallCompleteShouldDifferentEach) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person<E>
             value E
         main() int
             ret person<str>().value.len() + person<int>().value
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

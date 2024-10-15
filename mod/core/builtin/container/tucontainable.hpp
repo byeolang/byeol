@@ -28,7 +28,7 @@ namespace nm {
         }
 
         nbool in(std::function<nbool(const T&)> l) const;
-        template <typename T1> nbool in(std::function<nbool (const T1&)> l) const;
+        template <typename T1> nbool in(std::function<nbool(const T1&)> l) const;
 
         nbool isEmpty() const { return len() <= 0; }
 

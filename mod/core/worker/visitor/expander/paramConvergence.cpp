@@ -6,7 +6,8 @@
 namespace nm {
     NM(DEF_ME(paramConvergence))
 
-    me::paramConvergence(baseObj& o, baseFunc& f, param& p, const node& org): super(o, f), _p(&p), _org(&org) {}
+    me::paramConvergence(baseObj& o, baseFunc& f, param& p, const node& org):
+        super(o, f), _p(&p), _org(org) {}
 
     nbool me::_onConverge(baseFunc& f) const {
         str eval = _org->getEval() orRet false;

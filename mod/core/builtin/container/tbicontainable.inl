@@ -19,8 +19,7 @@ namespace nm {
     nbool ME::in(std::function<nbool(const K& key, const V& val)> l) const { return in<V>(l); }
 
     TEMPL
-    template <typename V1>
-    nbool ME::in(std::function<nbool(const K& key, const V1& val)> l) const {
+    template <typename V1> nbool ME::in(std::function<nbool(const K& key, const V1& val)> l) const {
         for(auto e = begin(); e; ++e) {
             V1& val = e->template cast<V1>() orContinue;
             if(l(e.getKey(), val)) return true;

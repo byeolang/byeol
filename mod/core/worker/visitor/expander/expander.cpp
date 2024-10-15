@@ -65,7 +65,7 @@ namespace nm {
         if(!onVisit(i, (baseFunc&) me)) return false;
 
         if(i.name == baseObj::EXPAND_NAME) {
-            obj* o = _obj.back() orRet NM_E("obj stack is empty."), true;
+            obj *o = _obj.back() orRet NM_E("obj stack is empty."), true;
             NM_I("func: found expand[%s.%s]", *o, me);
             _stack[o] = {*o, me};
         }

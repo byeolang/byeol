@@ -19,6 +19,6 @@ namespace nm {
 
     private:
         param* _p;
-        const node* _org;
+        str _org;
     };
 }

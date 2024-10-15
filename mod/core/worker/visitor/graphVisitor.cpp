@@ -36,8 +36,9 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, nStr& e) {
         _drawFrame(i);
-        cout << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN) << e.getType().createNameWithParams()
-             << foreColor(LIGHTGRAY) << " = " << foreColor(YELLOW) << _encodeNewLine(e.get());
+        cout << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN)
+             << e.getType().createNameWithParams() << foreColor(LIGHTGRAY) << " = "
+             << foreColor(YELLOW) << _encodeNewLine(e.get());
         return false;
     }
 
@@ -59,8 +60,8 @@ namespace nm {
         _showModifier(visitee.getModifier());
 
         cout << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN)
-             << visitee.getType().createNameWithParams() << foreColor(LIGHTGRAY) << "@" << foreColor(RED)
-             << platformAPI::toAddrId(&visitee);
+             << visitee.getType().createNameWithParams() << foreColor(LIGHTGRAY) << "@"
+             << foreColor(RED) << platformAPI::toAddrId(&visitee);
         return true;
     }
 
@@ -132,7 +133,8 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, FBOExpr& e) {
         onVisit(i, (node&) e);
 
-        cout << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN) << e.getLeft().getType().createNameWithParams();
+        cout << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN)
+             << e.getLeft().getType().createNameWithParams();
         str leftVal = e.getLeft();
         const std::string& leftName = leftVal->isSub<getExpr>() ?
             leftVal->cast<getExpr>().getName() :
@@ -156,8 +158,9 @@ namespace nm {
         onVisit(i, (node&) e);
 
         const node& op = e.getOperand();
-        cout << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN) << op.getType().createNameWithParams() << " "
-             << foreColor(LIGHTGRAY) << e.getRuleName(e.getRule());
+        cout << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN)
+             << op.getType().createNameWithParams() << " " << foreColor(LIGHTGRAY)
+             << e.getRuleName(e.getRule());
         return true;
     }
 

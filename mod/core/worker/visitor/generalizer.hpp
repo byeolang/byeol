@@ -38,4 +38,4 @@ namespace nm {
         mutable std::string _paramsKey;
         tstr<obj> _org;
     };
-}
+} // namespace nm
