@@ -15,7 +15,12 @@ namespace nm {
         const src& s, const modifier& mod):
         super(name, rhs, to, s, mod), _type(type) {}
 
-    tstr<baseObj> me::_onMakeNew() const { return getRight().as(*_type); }
+    str me::getEval() const {
+        if(_type) return _type->getEval();
+        return super::getEval();
+    }
 
-    str me::getEval() const { return *_type; }
+    str me::getExplicitType() const { return *_type; }
+
+    tstr<baseObj> me::_onMakeNew() const { return getRight().as(*_type); }
 }

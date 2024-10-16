@@ -261,9 +261,18 @@ namespace nm {
     void me::onLeave(const visitInfo& i, defAssignExpr& me) {
         _GUARD("onVisit()");
 
+        _STEP("check rhs");
         str eval = me THEN(getRight()) THEN(getEval());
         NM_WHEN(!eval).err(RHS_IS_NUL, me);
         NM_WHEN(!eval->isComplete()).err(ACCESS_TO_INCOMPLETE, me);
+
+        str explicitType = me THEN(getExplicitType());
+        if(explicitType) {
+            _STEP("check explicit type whether it's valid");
+            str type = me THEN(getEval());
+            NM_WHENNUL(type).err(EXPLICIT_TYPE_SHOULDNT_BE_NULL, me);
+            NM_WHEN(type->isSub<nVoid>()).err(NO_VOID_VARIABLE, me);
+        }
 
         onLeave(i, (defAssignExpr::super&) me);
     }

@@ -462,7 +462,7 @@ TEST_F(defAssignExprTest, defAssignWithTypes) {
             hello() str
                 ret "I'm " + age as str + "yo"
 
-        foo(newAge int): Person(newAge)
+        foo(newAge int) Person: Person(newAge)
 
         main() int
             p1 Person := foo(23)

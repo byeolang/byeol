@@ -15,6 +15,7 @@ namespace nm {
 
     public:
         str getEval() const override;
+        str getExplicitType() const;
 
     protected:
         tstr<baseObj> _onMakeNew() const override;
