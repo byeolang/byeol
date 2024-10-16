@@ -263,7 +263,8 @@ namespace nm {
         str _onWork() override;
 
     private:
-        node* _onDefAssign(const modifier& mod, const node& type, const std::string& name, const node& rhs);
+        node* _onDefAssign(const modifier& mod, const node& type, const std::string& name,
+            const node& rhs);
         nint _onTokenEndOfInlineBlock(nint tok);
         node* _onSetElem(runExpr& lhs, const node& rhs);
         node* _onAssignElem(FBOExpr::rule type, node& lhs, node& rhs);

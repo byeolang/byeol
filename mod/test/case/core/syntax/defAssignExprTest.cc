@@ -445,17 +445,21 @@ TEST_F(defAssignExprTest, selfDefAssigningIsNotAllowedNegative2) {
 }
 
 TEST_F(defAssignExprTest, defineVarWithoutCtorNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def A
             _age int
             ctor(n int): age = n
         main() int
             a1 A # err: A don't have 'ctor()' func.
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defAssignExprTest, defAssignWithTypes) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def Person
             age int
             ctor(a age): age = a
@@ -467,12 +471,14 @@ TEST_F(defAssignExprTest, defAssignWithTypes) {
         main() int
             p1 Person := foo(23)
             p1.hello() == "I'm 23yo"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 1);
 }
+
 /*
 TEST_F(defAssignExprTest, selfDefAssigningOfNullableIsAllowed) {
     make().parse(R"SRC(
