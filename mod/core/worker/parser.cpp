@@ -87,6 +87,11 @@ namespace nm {
         return ret;
     }
 
+    node* me::_onDefAssign(const modifier& mod, const node& type, const std::string& name, const node& rhs) {
+        NM_DI("tokenEvent: onDefAssign(%s, %s, %s, %s)", mod, type, rhs, name);
+        return _maker.make<defAssignExpr>(name, type, rhs, nulOf<node>(), *_maker.makeSrc(name), mod);
+    }
+
     nint me::_onTokenEndOfInlineBlock(nint tok) {
         if(!_dedent.canDedent()) return tok;
 
@@ -278,14 +283,17 @@ namespace nm {
         return onDefProp(*onModifier(true, false), name, rhs);
     }
 
-    node* me::onDefAssign(const modifier& mod, const std::string& name, const node& rhs) {
-        NM_DI("tokenEvent: onDefAssign(%s, %s, %s)", mod, rhs, name);
-
-        return _maker.make<defAssignExpr>(name, rhs, nulOf<node>(), *_maker.makeSrc(name), mod);
-    }
-
     node* me::onDefAssign(const std::string& name, const node& rhs) {
         return onDefAssign(*onModifier(true, false), name, rhs);
+    }
+
+    node* me::onDefAssign(const modifier& mod, const std::string& name, const node& rhs) {
+        return _onDefAssign(mod, nulOf<node>(), name, rhs);
+    }
+
+    node* me::onDefAssign(const defPropExpr& prop, const node& rhs) {
+        if(nul(prop)) return NM_E("prop is null"), nullptr;
+        return _onDefAssign(prop.getNewModifier(), prop.getRight(), prop.getName(), rhs);
     }
 
     node* me::onDefArray(const narr& items) {

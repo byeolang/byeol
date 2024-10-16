@@ -546,6 +546,10 @@ def-prop-without-value: visibility NAME name-access {
 def-prop-value: visibility NAME DEFASSIGN expr-inline9 {
                 $$ = PS.onDefAssign(*$1, *$2, *$4);
                 delete $2;
+            } | def-prop-without-value DEFASSIGN expr-inline9 {
+                str propLife(*$1);
+                $$ = PS.onDefAssign(propLife->cast<defPropExpr>(), *$3);
+                delete $3;
             } | NAME DEFASSIGN expr-inline9 {
                 $$ = PS.onDefAssign(*$1, *$3);
                 delete $1;
