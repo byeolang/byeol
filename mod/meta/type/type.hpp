@@ -3,6 +3,12 @@
 #include "../common.hpp"
 
 namespace nm {
+
+    constexpr nint NO_RELATION = 0;
+    constexpr nint SUPER = 1;
+    constexpr nint SUB = 1;
+    constexpr nint SAME = 2;
+
     /// @remark type returning ttype<type> as result of getType()
     class _nout type {
         NM_ME(type)
@@ -42,10 +48,10 @@ namespace nm {
         const types& getSubs() const;
         const types& getSupers() const;
 
-        nbool isSuper(const type& it) const;
-        template <typename T> nbool isSuper() const;
-        nbool isSub(const type& it) const;
-        template <typename T> nbool isSub() const;
+        nint isSuper(const type& it) const;
+        template <typename T> nint isSuper() const;
+        nint isSub(const type& it) const;
+        template <typename T> nint isSub() const;
         const type& getStatic() const NM_CONST_FUNC(_getStatic())
 
         virtual const void* getExtra() const;
