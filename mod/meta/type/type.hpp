@@ -54,8 +54,6 @@ namespace nm {
         template <typename T> nint isSub() const;
         const type& getStatic() const NM_CONST_FUNC(_getStatic())
 
-        virtual const void* getExtra() const;
-
     protected:
         //  type:
         virtual types& _getSubs() = 0;

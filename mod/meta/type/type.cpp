@@ -96,8 +96,6 @@ namespace nm {
 
     nint me::isSub(const type& it) const { return it.isSuper(*this); }
 
-    const void* me::getExtra() const { return nullptr; }
-
     nbool me::_logInitOk(nbool res) {
         if(!res) return NM_E("couldn't init meta of %s class.", getName()), res;
 
