@@ -11,8 +11,9 @@ namespace nm {
 
     nbool me::operator==(const type& rhs) const {
         if(!super::operator==(rhs)) return false;
+        if(getMetaTypeName() != rhs.getMetaTypeName()) return false;
 
-        const ntype& cast = dynamic_cast<const ntype&>(rhs) orRet false;
+        const ntype& cast = (const ntype&) rhs;
 
         // if there is no specified bean type, don't bean type check:
         //  mostly, bean type should specified. except for binder. so if I return false
@@ -199,4 +200,6 @@ namespace nm {
 
         return getName() + "<" + params + ">";
     }
+
+    const nchar* me::getMetaTypeName() const { return "ntype"; }
 } // namespace nm

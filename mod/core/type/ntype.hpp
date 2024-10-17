@@ -69,6 +69,8 @@ namespace nm {
 
         std::string createNameWithParams() const;
 
+        const nchar* getMetaTypeName() const override;
+
     protected:
         // ntype:
         virtual const ases& _getImpliAses() const;
