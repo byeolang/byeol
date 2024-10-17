@@ -819,3 +819,12 @@ TEST_F(arrTest, outOfBoundExOccurs) {
         ASSERT_EQ(cast.getErrCode(), errCode::OUT_OF_RANGE);
     }
 }
+
+TEST_F(arrTest, castingNotAllowed) {
+    make().negative().parse(R"SRC(
+        main() int
+            fltArr := {1.1, 1.2}
+            intArr int[]
+            intArr = fltArr as int[]
+    )SRC").shouldVerified(false);
+}

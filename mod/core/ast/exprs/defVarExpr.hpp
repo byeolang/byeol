@@ -36,12 +36,12 @@ namespace nm {
 
         void onCloneDeep(const clonable& rhs) override;
 
-        str makeNewOrigin() const;
+        str makeNewOrigin();
 
         const modifier& getNewModifier() const;
 
     protected:
-        virtual tstr<baseObj> _onMakeNew() const = 0;
+        virtual tstr<baseObj> _onMakeNew() = 0;
 
     private:
         std::string _name;

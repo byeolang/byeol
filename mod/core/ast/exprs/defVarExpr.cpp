@@ -46,7 +46,7 @@ namespace nm {
         if(rhs._rhs) _rhs.bind((node*) rhs._rhs->cloneDeep());
     }
 
-    str me::makeNewOrigin() const {
+    str me::makeNewOrigin() {
         auto ret = _onMakeNew();
         // origin's clone is making a object, not an origin:
         //  so I've to call cloneDeep().

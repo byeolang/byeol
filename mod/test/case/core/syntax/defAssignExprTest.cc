@@ -479,6 +479,29 @@ TEST_F(defAssignExprTest, defAssignWithTypes) {
     ASSERT_EQ(res.cast<nint>(), 1);
 }
 
+TEST_F(defAssignExprTest, defAssignWithTypesVoidNotAllowedNegative) {
+    make().negative().parse(R"SRC(
+        main() int
+            age void := 33
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(defAssignExprTest, defAssignWithTypesWithArray) {
+    make().parse(R"SRC(
+        main() int
+            arr := {1.1, 1.2, 1.3}
+            arr2 int[] := {1.1, 1.2, 1.3}
+            for n in 0..arr.len()
+                if arr[n] as int == arr2[n]: ret 0
+                if arr2[n] is flt: ret 0
+            ret 1
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
+}
+
 /*
 TEST_F(defAssignExprTest, selfDefAssigningOfNullableIsAllowed) {
     make().parse(R"SRC(

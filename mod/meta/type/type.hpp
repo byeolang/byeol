@@ -48,7 +48,7 @@ namespace nm {
         const types& getSubs() const;
         const types& getSupers() const;
 
-        nint isSuper(const type& it) const;
+        virtual nint isSuper(const type& it) const;
         template <typename T> nint isSuper() const;
         nint isSub(const type& it) const;
         template <typename T> nint isSub() const;

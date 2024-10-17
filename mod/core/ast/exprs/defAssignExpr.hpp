@@ -18,7 +18,7 @@ namespace nm {
         str getExplicitType() const;
 
     protected:
-        tstr<baseObj> _onMakeNew() const override;
+        tstr<baseObj> _onMakeNew() override;
 
     private:
         str _type;

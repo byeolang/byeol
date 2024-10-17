@@ -22,8 +22,8 @@ namespace nm {
 
     str me::getExplicitType() const { return *_type; }
 
-    tstr<baseObj> me::_onMakeNew() const {
-        if(_type) return getRight().as(*_type);
-        return getRight().as<node>();
+    tstr<baseObj> me::_onMakeNew() {
+        if(_type) return getRight().run()->as(*_type);
+        return getRight().run()->as<node>();
     }
 }
