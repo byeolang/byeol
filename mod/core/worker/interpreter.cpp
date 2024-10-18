@@ -35,6 +35,10 @@ namespace nm {
     node& me::getSubPack() { return _pser.getSubPack(); }
 
     tstr<slot> me::_onWork() {
+        // TODO: don't use static variable '_cache':
+        //  instead, put cache onto origin object, and if arr instance is origin, remove the cache.
+        arr::_cache.clear();
+
         _parse();
         if(getReport()) return getTask();
         _expand();

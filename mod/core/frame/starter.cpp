@@ -28,10 +28,6 @@ namespace nm {
 
     str me::_onWork() {
         args& a = getArgs();
-
-        // TODO: don't use static variable '_cache':
-        //  instead, put cache onto origin object, and if arr instance is origin, remove the cache.
-        arr::_cache.clear();
         node &pak = getTask() orRet NM_E("there is no pack!"), str();
 
         NM_I("run a pack");

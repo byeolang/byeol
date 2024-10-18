@@ -107,12 +107,12 @@ namespace nm {
         const auto& ps = getType().getParams();
         if(ps.isEmpty()) return dummy;
 
-        const node& paramType = ps[0].getOrigin();
-        auto e = _cache.find(paramType.getType().getName());
+        str paramOrg = ps[0].getOrigin().as<node>();
+        auto e = _cache.find(&paramOrg.get());
         if(e != _cache.end()) return e->second.get();
 
         // this is first try to generalize type T:
-        return _defGeneric(paramType);
+        return _defGeneric(*paramOrg);
     }
 
     ncnt me::len() const { return get().len(); }
@@ -199,19 +199,19 @@ namespace nm {
         };
     }
 
-    scope& me::_defGeneric(const node& paramType) {
+    scope& me::_defGeneric(const node& paramOrg) {
         scope* clone = (scope*) _getOriginScope().cloneDeep();
-        _cache.insert({paramType.getType().getName(), clone}); // this avoids infinite loop.
+        _cache.insert({&paramOrg, clone}); // this avoids infinite loop.
         clone->add(baseObj::CTOR_NAME,
             new tbridgeClosure<arr*, arr, tmarshaling>(
-                [&paramType](arr&) -> arr* { return new me(paramType); }));
-        clone->add(baseObj::CTOR_NAME, new __copyCtor(paramType));
+                [&paramOrg](arr&) -> arr* { return new me(paramOrg); }));
+        clone->add(baseObj::CTOR_NAME, new __copyCtor(paramOrg));
         clone->add("getElemType", new getElemTypeFunc());
 
         NM_DI("|==============================================|");
-        NM_DI("|--- generic: make arr<%s> generic class ---|", paramType);
+        NM_DI("|--- generic: make arr<%s> generic class ---|", paramOrg);
         generalizer g;
-        g.add(*new param(TYPENAME, paramType)).setTask(*this).setFlag(generalizer::INTERNAL).work();
+        g.add(*new param(TYPENAME, paramOrg)).setTask(*this).setFlag(generalizer::INTERNAL).work();
         NM_DI("|============================|");
 
         return *clone;
