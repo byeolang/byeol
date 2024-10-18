@@ -3,7 +3,7 @@
 #include "../../builtin/primitive/nVoid.hpp"
 #include "../../frame/thread.hpp"
 #include "../../worker/visitor/visitor.hpp"
-#include "../mockNode.hpp"
+#include "../tmock.hpp"
 #include "getExpr.hpp"
 
 namespace nm {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mockNode.hpp"
+#include "tmock.hpp"
 #include "baseObj.hpp"
 
 namespace nm {

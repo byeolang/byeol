@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../ast/mockNode.hpp"
+#include "../../../ast/tmock.hpp"
 #include "../../../builtin/primitive.hpp"
 
 namespace nm {

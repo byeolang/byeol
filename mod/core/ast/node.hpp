@@ -17,12 +17,13 @@ namespace nm {
     class baseObj;
     class src;
     class modifier;
+    template <typename T> class tmock;
 
     /// node provides common API to manipulate its sub nodes.
     class _nout node: public instance, public frameInteractable {
         NM(ADT(node, instance))
         friend class exprMaker; // for _setSrc
-        friend class mockNode;
+        friend class tmock<node>;
 
     public:
         node& operator[](const std::string& name);
