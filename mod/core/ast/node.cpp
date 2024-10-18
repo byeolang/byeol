@@ -56,7 +56,7 @@ namespace nm {
     nbool me::is(const type& to) const { return getType().is(to); }
 
     str me::as(const typeProvidable& to) const {
-       if(nul(to)) return str();
+        if(nul(to)) return str();
         return as(to.getType());
     }
 

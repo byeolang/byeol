@@ -65,14 +65,13 @@ namespace nm {
         /// but in that case, when you compare custom type class, you must compare extended data to
         /// 'rhs' variable to base type class, 'type'.
         ///
-        /// so how can you know that 'type' is actually instance of your derived custom type class in 'tier' algorithm?
-        /// please don't think about 'dynamic_cast'. it'll vanish our effectiveness to use 'tier' algorithm.
-        /// that's why I make 'getMetaTypeName()' func.
+        /// so how can you know that 'type' is actually instance of your derived custom type class
+        /// in 'tier' algorithm? please don't think about 'dynamic_cast'. it'll vanish our
+        /// effectiveness to use 'tier' algorithm. that's why I make 'getMetaTypeName()' func.
         ///
         /// @return static literal c-style string for meta type name.
-        ///         so you are able to use c-style casting if address of 'rhs' variables's getMetaTypeName() isn
-        ///         just same to yours.
-        ///         e.g.
+        ///         so you are able to use c-style casting if address of 'rhs' variables's
+        ///         getMetaTypeName() isn just same to yours. e.g.
         ///             yourType& a = ....;
         ///             type& rhs = ....;
         ///             if(a.getMetaTypeName() != rhs.getMetaTypeName()) return;

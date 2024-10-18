@@ -821,10 +821,13 @@ TEST_F(arrTest, outOfBoundExOccurs) {
 }
 
 TEST_F(arrTest, castingNotAllowed) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         main() int
             fltArr := {1.1, 1.2}
             intArr int[]
             intArr = fltArr as int[]
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
