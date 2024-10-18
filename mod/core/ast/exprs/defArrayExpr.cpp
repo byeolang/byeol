@@ -20,13 +20,14 @@ namespace nm {
         return ret;
     }
 
-    const node& me::getArrayType() const {
-        return getOrigin().getType().getParams() THEN(get(0)) THEN(getOrigin());
+    const baseObj& me::getArrayType() const {
+        return getOrigin().getType().getParams() THEN(get(0)) THEN(getOrigin())
+            THEN(template as<baseObj>().get());
     }
 
     const arr& me::getOrigin() const {
         if(!_org) {
-            str typ = _type ? _type->as<node>() : *_deduceElems();
+            tstr<baseObj> typ = _type ? _type->as<baseObj>() : *_deduceElems();
             _org.bind(new arr(*typ));
             for(const node& e: _elems)
                 _org->add(e);
@@ -35,7 +36,7 @@ namespace nm {
         return *_org;
     }
 
-    str me::_deduceElems() const {
+    tstr<baseObj> me::_deduceElems() const {
         ncnt len = _elems.len();
         NM_DI("deduceElems: len[%d]", len);
         if(!len) return NM_DI("len == 0. deduced type as 'void'"), nVoid::singletone();
@@ -52,7 +53,7 @@ namespace nm {
             if(!ret) return NM_DI("deduceElem: elem%d was null.", n), nVoid::singletone();
         }
 
-        return *ret;
+        return ret->cast<baseObj>();
     }
 
     str me::getEval() const { return str(getOrigin()); }

@@ -8,9 +8,9 @@ namespace nm {
         NM(ME(tarr, arr), INIT_META(tarr), CLONE(tarr))
 
     public:
-        tarr(): super(*new defaultElemType()) {}
+        tarr(): super(defaultElemType().getOrigin()) {}
 
-        tarr(const node& elemType): super(elemType) {}
+        tarr(const baseObj& elemType): super(elemType) {}
 
         tarr(const super& rhs): super(rhs) {}
     };

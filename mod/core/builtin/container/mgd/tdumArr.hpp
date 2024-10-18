@@ -1,6 +1,7 @@
 #pragma once
 
 #include "tarr.hpp"
+#include "../../../ast/origin.hpp"
 
 namespace nm {
     template <typename T, typename defaultElemType = T>
@@ -10,7 +11,7 @@ namespace nm {
         typedef typename super::iter iter;
 
     public:
-        tdumArr(): super(*new mockNode()) {}
+        tdumArr(): super(*new origin(*new mgdType("node", ttype<node>::get(), params()))) {}
 
         tdumArr(const node& elemType): super(elemType) {}
 
@@ -32,5 +33,5 @@ namespace nm {
         void add(const iter& here, const iter& from, const iter& to) override {}
     };
 
-    typedef tdumArr<node, mockNode> dumArr;
+    typedef tdumArr<node, mockObj> dumArr;
 } // namespace nm

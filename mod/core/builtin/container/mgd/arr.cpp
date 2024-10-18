@@ -93,8 +93,9 @@ namespace nm {
         super(new narr()),
         _type("arr", ttype<me>::get(), params(*new param(paramName, *new obj()))) {}
 
-    me::arr(const node& newType):
-        super(new narr()), _type("arr", ttype<me>::get(), params(*new param(paramName, newType))) {}
+    me::arr(const baseObj& newType):
+        super(new narr()),
+        _type("arr", ttype<me>::get(), params(*new param(paramName, newType.getOrigin()))) {}
 
     me::arr(const me& rhs): super(rhs), _type(rhs._type) {}
 
@@ -107,7 +108,7 @@ namespace nm {
         const auto& ps = getType().getParams();
         if(ps.isEmpty()) return dummy;
 
-        str paramOrg = ps[0].getOrigin().as<node>();
+        tstr<baseObj> paramOrg = ps[0].getOrigin().as<baseObj>(); // TODO: orEx
         auto e = _cache.find(&paramOrg.get());
         if(e != _cache.end()) return e->second.get();
 
@@ -178,7 +179,7 @@ namespace nm {
             NM(ME(__copyCtor, baseFunc), CLONE(__copyCtor))
 
         public:
-            __copyCtor(const node& newType): _org(new arr(newType)) {}
+            __copyCtor(const baseObj& newType): _org(new arr(newType)) {}
 
         public:
             const ntype& getType() const override {
@@ -199,7 +200,7 @@ namespace nm {
         };
     }
 
-    scope& me::_defGeneric(const node& paramOrg) {
+    scope& me::_defGeneric(const baseObj& paramOrg) {
         scope* clone = (scope*) _getOriginScope().cloneDeep();
         _cache.insert({&paramOrg, clone}); // this avoids infinite loop.
         clone->add(baseObj::CTOR_NAME,

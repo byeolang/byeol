@@ -17,12 +17,12 @@ namespace nm {
         using super::run;
         str run(const args& a) override;
         str getEval() const override;
-        const node& getArrayType() const;
+        const baseObj& getArrayType() const;
         const arr& getOrigin() const;
         const narr& getElems() const NM_CONST_FUNC(getElems())
 
     private:
-        str _deduceElems() const;
+        tstr<baseObj> _deduceElems() const;
         narr& getElems();
 
     private:

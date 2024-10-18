@@ -28,7 +28,7 @@ namespace nm {
 
     public:
         arr();
-        arr(const node& elemType);
+        arr(const baseObj& elemType);
         arr(const me& rhs);
 
     public:
@@ -106,7 +106,7 @@ namespace nm {
         iteration* _onMakeIteration(ncnt step) const override;
 
     private:
-        scope& _defGeneric(const node& paramType);
+        scope& _defGeneric(const baseObj& paramType);
         scope& _getOriginScope();
 
     private:

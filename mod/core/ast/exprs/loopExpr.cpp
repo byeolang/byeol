@@ -45,7 +45,7 @@ namespace nm {
         str res = getBlock().getEval() orRet str();
 
         if(res->isSub<retExpr>()) return res;
-        return new arr(*res);
+        return new arr(*res->as<baseObj>());
     }
 
     str me::run(const args& a) {
@@ -69,6 +69,6 @@ namespace nm {
         node &eval = *getEval() orRet NM_E("eval is null "), nulOf<arr>();
         if(!eval.isSub<arr>()) return nulOf<arr>();
 
-        return *new arr(eval.getType().getParams()[0].getOrigin());
+        return *new arr(*eval.getType().getParams()[0].getOrigin().as<baseObj>());
     }
 } // namespace nm

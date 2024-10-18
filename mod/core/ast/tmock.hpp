@@ -5,13 +5,13 @@
 
 namespace nm {
 
-    template <typename T>
-    class _nout tmock: public T {
+    template <typename T> class _nout tmock: public T {
         NM(ME(tmock, T))
         friend class exprMaker;
 
     public:
         tmock(): super() {}
+
         tmock(const T& org): super(), _org(org) {}
 
     public:
@@ -21,6 +21,7 @@ namespace nm {
         }
 
         using super::subs;
+
         scope& subs() override {
             if(_org) return _org->subs();
             static dumScope inner;
@@ -65,4 +66,4 @@ namespace nm {
     };
 
     typedef tmock<node> mockNode;
-}
+} // namespace nm

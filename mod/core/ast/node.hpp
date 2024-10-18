@@ -23,7 +23,7 @@ namespace nm {
     class _nout node: public instance, public frameInteractable {
         NM(ADT(node, instance))
         friend class exprMaker; // for _setSrc
-        friend class tmock<node>;
+        template <typename T> friend class tmock;
 
     public:
         node& operator[](const std::string& name);

@@ -4,6 +4,7 @@
 #include "src/src.hpp"
 #include "statable.hpp"
 #include "modifier/modifier.hpp"
+#include "tmock.hpp"
 
 namespace nm {
 
@@ -83,4 +84,6 @@ namespace nm {
     private:
         tstr<baseObj> _org;
     };
+
+    typedef tmock<baseObj> mockObj;
 } // namespace nm
