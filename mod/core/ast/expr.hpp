@@ -31,9 +31,6 @@ namespace nm {
         using super::isImpli;
         nbool isImpli(const type& to) const override;
 
-        using super::asImpli;
-        str asImpli(const type& to) const override;
-
         /// run of expr class get treated like 'evaluate' in namu.
         /// it should not take any argument to run()
         using super::prioritize;

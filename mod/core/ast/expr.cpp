@@ -13,7 +13,8 @@ namespace nm {
     nbool me::exprType::isImpli(const type& to) const { return to.isSub<node>(); }
 
     str me::exprType::asImpli(const node& from, const type& to) const {
-        return str(((node&) from).run());
+        str ret = ((node&) from).run() THEN(asImpli(to)) orRet str();
+        return ret;
     }
 
     scope& me::subs() {
@@ -22,12 +23,6 @@ namespace nm {
     }
 
     nbool me::isImpli(const type& to) const { return getEval()->isSub(to); }
-
-    str me::asImpli(const type& to) const {
-        me* unconst = (me*) this;
-        str run = unconst->run() orRet run;
-        return run->asImpli(to);
-    }
 
     priorType me::prioritize(const args& a) const { return a.len() == 0 ? EXACT_MATCH : NO_MATCH; }
 
