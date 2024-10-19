@@ -27,4 +27,6 @@ namespace nm {
     const baseObj& me::getOrigin() const { return *_org; }
 
     const baseFunc& me::getFunc() const { return *_func; }
+
+    params& me::getParams() { return _func THEN(getParams()); }
 } // namespace nm

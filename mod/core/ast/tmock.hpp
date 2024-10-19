@@ -28,7 +28,10 @@ namespace nm {
             return inner;
         }
 
-        priorType prioritize(const args& a) const override;
+        priorType prioritize(const args& a) const override {
+            if(_org) return _org->prioritize(a);
+            return NO_MATCH;
+        }
 
         str run(const args& a) override {
             if(_org) return _org->run(a);

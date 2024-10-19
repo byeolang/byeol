@@ -10,8 +10,8 @@ struct arrTest: public namuSyntaxTest {
 };
 
 namespace {
-    class myNode: public node {
-        NM(CLASS(myNode, node))
+    class myNode: public baseObj {
+        NM(CLASS(myNode, baseObj))
 
     public:
         myNode(): number(0) {}
