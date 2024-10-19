@@ -22,6 +22,11 @@ namespace {
 
         priorType prioritize(const args& a) const override { return NO_MATCH; }
 
+        const baseObj& getOrigin() const override {
+            static tbaseObjOrigin<me> org;
+            return org;
+        }
+
         using super::run;
 
         str run(const args& a) override { return str(); }
