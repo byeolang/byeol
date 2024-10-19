@@ -702,10 +702,9 @@ namespace nm {
 
     node* me::onGetArray(node& elemType) {
         NM_DI("tokenEvent: onGetArray(%s)", elemType);
-        baseObj& cast = elemType.cast<baseObj>() orRet nullptr;
-        if(cast.isSub<nVoid>())
+        if(elemType.isSub<nVoid>())
             _report(nerr::newErr(elemType.getSrc().getPos(), ELEM_TYPE_NOT_VOID));
-        return new arr(cast);
+        return new arr(elemType);
     }
 
     node* me::onGetElem(const node& arr, const node& idx) {

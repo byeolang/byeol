@@ -93,9 +93,9 @@ namespace nm {
         super(new narr()),
         _type("arr", ttype<me>::get(), params(*new param(paramName, *new obj()))) {}
 
-    me::arr(const baseObj& newType):
+    me::arr(const node& newType):
         super(new narr()),
-        _type("arr", ttype<me>::get(), params(*new param(paramName, newType.getOrigin()))) {}
+        _type("arr", ttype<me>::get(), params(*new param(paramName, newType))) {}
 
     me::arr(const me& rhs): super(rhs), _type(rhs._type) {}
 
@@ -108,7 +108,7 @@ namespace nm {
         const auto& ps = getType().getParams();
         if(ps.isEmpty()) return dummy;
 
-        tstr<baseObj> paramOrg = ps[0].getOrigin().as<baseObj>(); // TODO: orEx
+        tstr<baseObj> paramOrg = ps[0].getOrigin().as<baseObj>() THEN(getOrigin()); // TODO: orEx
         auto e = _cache.find(&paramOrg.get());
         if(e != _cache.end()) return e->second.get();
 

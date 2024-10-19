@@ -28,7 +28,7 @@ namespace nm {
 
     public:
         arr();
-        arr(const baseObj& elemType);
+        arr(const node& elemType);
         arr(const me& rhs);
 
     public:
@@ -111,7 +111,7 @@ namespace nm {
 
     private:
         static inline cache _cache;
-        mutable tstr<baseObj> _org;
+        mutable str _org;
         mgdType _type;
     };
 } // namespace nm
