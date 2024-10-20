@@ -1,15 +1,15 @@
 #pragma once
 
 #include "../../../ast/baseObj.hpp"
+#include <functional>
 
 namespace nm {
 
-
     class convergence: public instance {
-        NM(ADT(convergence, instance))
+        NM(CLASS(convergence, instance))
 
     public:
-        convergence(baseObj& obj, baseFunc& func);
+        convergence(baseObj& obj, baseFunc& func, std::function<nbool()> closure);
 
     public:
         /// converge type to real obj type.
@@ -28,11 +28,15 @@ namespace nm {
         /// @return true if type has been converged successfully.
         nbool converge();
 
-    protected:
-        virtual nbool _onConverge(baseFunc& func) const = 0;
+        baseFunc& getFunc();
+        const baseFunc& getFunc() const NM_CONST_FUNC(getFunc());
+
+        baseObj& getObj();
+        const baseObj& getObj() const NM_CONST_FUNC(getObj());
 
     private:
         tstr<baseObj> _obj;
         tstr<baseFunc> _func;
+        std::function<nbool()> _cl;
     };
 }

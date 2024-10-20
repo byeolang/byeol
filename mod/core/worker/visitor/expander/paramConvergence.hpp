@@ -14,9 +14,6 @@ namespace nm {
     public:
         paramConvergence(baseObj& o, baseFunc& f, param& p, const node& org);
 
-    protected:
-        nbool _onConverge(baseFunc& f) const override;
-
     private:
         param* _p;
         str _org;

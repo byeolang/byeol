@@ -7,16 +7,17 @@ namespace nm {
     NM(DEF_ME(paramConvergence))
 
     me::paramConvergence(baseObj& o, baseFunc& f, param& p, const node& org):
-        super(o, f), _p(&p), _org(org) {}
+        super(o, f,
+            [&]() {
+                str eval = _org->getEval() orRet false;
+                const node& owner = getFunc() THEN(getOrigin()) orRet false;
 
-    nbool me::_onConverge(baseFunc& f) const {
-        str eval = _org->getEval() orRet false;
-        const node& owner = f.getOrigin() orRet false;
+                const frame& fr = thread::get().getNowFrame();
+                if(&fr.getOwner(*eval) != &owner) return false;
 
-        const frame& fr = thread::get().getNowFrame();
-        if(&fr.getOwner(*eval) != &owner) return false;
-
-        _p->setOrigin(*eval);
-        return true;
-    }
+                _p->setOrigin(*eval);
+                return true;
+            }),
+        _p(&p),
+        _org(org) {}
 }

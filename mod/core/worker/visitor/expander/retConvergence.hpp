@@ -12,9 +12,6 @@ namespace nm {
     public:
         retConvergence(baseObj& obj, baseFunc& f, const node& org);
 
-    protected:
-        nbool _onConverge(baseFunc& f) const override;
-
     private:
         str _org;
     };

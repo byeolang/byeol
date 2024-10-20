@@ -5,7 +5,7 @@
 namespace nm {
     NM(DEF_ME(convergence))
 
-    me::convergence(baseObj& obj, baseFunc& func): _obj(obj), _func(func) {}
+    me::convergence(baseObj& obj, baseFunc& func, std::function<nbool()> closure): _obj(obj), _func(func), _cl(closure) {}
 
     nbool me::converge() {
         if(!_obj) return false;
@@ -14,7 +14,11 @@ namespace nm {
         frameInteract objScope(*_obj);
         {
             frameInteract funScope(fun);
-            { return _onConverge(fun); }
+            { return _cl(); }
         }
     }
+
+    baseObj& me::getObj() { return *_obj; }
+
+    baseFunc& me::getFunc() { return *_func; }
 }
