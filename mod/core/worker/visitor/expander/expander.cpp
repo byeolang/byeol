@@ -56,7 +56,7 @@ namespace nm {
                 me.setExplicitType(*type);
                 return true;
             });
-        if(!req->converge())
+        if(!req->getClosure()())
             _cons.add(*req);
         return true;
     }
@@ -70,7 +70,7 @@ namespace nm {
             me.setAs(*ased);
             return true;
         });
-        if(!req->converge())
+        if(!req->getClosure()())
             _cons.add(*req);
         return true;
     }
@@ -163,7 +163,7 @@ namespace nm {
         //  so in that case, I put it to a queue to process after expansion.
         NM_I("converge type request for param[%s] of %s", p, f);
         tstr<convergence> req = new paramConvergence(*_obj.back(), f, p, org);
-        if(!req->converge()) // I'll converge it later.
+        if(!req->getClosure()()) // I'll converge it later.
             _cons.add(*req);
         return true;
     }
@@ -175,7 +175,7 @@ namespace nm {
         // need to converge return type:
         NM_I("converge type request for ret[%s] of %s", ret.getName(), f);
         tstr<convergence> req = new retConvergence(*_obj.back(), f, ret);
-        if(!req->converge()) // I'll converge it later
+        if(!req->getClosure()()) // I'll converge it later
             _cons.add(*req);
     }
 

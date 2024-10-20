@@ -28,6 +28,8 @@ namespace nm {
         /// @return true if type has been converged successfully.
         nbool converge();
 
+        std::function<nbool()> getClosure();
+
         baseFunc& getFunc();
         const baseFunc& getFunc() const NM_CONST_FUNC(getFunc());
 

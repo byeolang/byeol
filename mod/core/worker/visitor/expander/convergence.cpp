@@ -18,6 +18,8 @@ namespace nm {
         }
     }
 
+    std::function<nbool()> me::getClosure() { return _cl; }
+
     baseObj& me::getObj() { return *_obj; }
 
     baseFunc& me::getFunc() { return *_func; }
