@@ -24,6 +24,8 @@ namespace nm {
 
         using super::onVisit;
 
+        nbool onVisit(const visitInfo& i, defAssignExpr& me) override;
+        nbool onVisit(const visitInfo& i, asExpr& me) override;
         nbool onVisit(const visitInfo& i, obj& me) override;
         void onLeave(const visitInfo& i, obj& me) override;
         nbool onVisit(const visitInfo& i, func& me) override;

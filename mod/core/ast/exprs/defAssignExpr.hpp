@@ -16,6 +16,7 @@ namespace nm {
     public:
         str getEval() const override;
         str getExplicitType() const;
+        void setExplicitType(const node& newType);
 
     protected:
         tstr<baseObj> _onMakeNew() override;

@@ -1,6 +1,8 @@
 #include "expander.hpp"
 
 #include "../../../ast/exprs/getGenericExpr.hpp"
+#include "../../../ast/exprs/defAssignExpr.hpp"
+#include "../../../ast/exprs/asExpr.hpp"
 #include "../../../ast/func.hpp"
 #include "../../../ast/node.inl"
 #include "../../../ast/obj.hpp"
@@ -41,6 +43,36 @@ namespace nm {
     void me::_onWork() {
         super::_onWork();
         _expand();
+    }
+
+    nbool me::onVisit(const visitInfo& i, defAssignExpr& me) {
+        if(!me.getExplicitType()) return true;
+        _GUARD("defAssignExpr.onVisit()");
+
+        tstr<convergence> req =
+            new convergence(*_obj.back(), *_funcs.back(), [&]() -> nbool {
+                str type = me.getExplicitType() THEN(template as<baseObj>()) orRet false;
+                if(type->isSub<expr>()) return false;
+                me.setExplicitType(*type);
+                return true;
+            });
+        if(!req->converge())
+            _cons.add(*req);
+        return true;
+    }
+
+    nbool me::onVisit(const visitInfo& i, asExpr& me) {
+        _GUARD("asExpr.onVisit()");
+
+        tstr<convergence> req = new convergence(*_obj.back(), *_funcs.back(), [&]() -> nbool {
+            str ased = me.getAs() THEN(template as<baseObj>()) orRet false;
+            if(ased->isSub<expr>()) return false;
+            me.setAs(*ased);
+            return true;
+        });
+        if(!req->converge())
+            _cons.add(*req);
+        return true;
     }
 
     nbool me::onVisit(const visitInfo& i, obj& me) {
