@@ -55,7 +55,7 @@ namespace nm {
         }
     }
 
-    str me::_postprocess(str blkRes, nidx exN) {
+    str me::_postprocess(const str& blkRes, nidx exN) {
         frame& fr = thread::get()._getNowFrame();
         str frRes = fr.getRet();
         str res = frRes ? frRes : blkRes;

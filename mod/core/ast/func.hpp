@@ -45,7 +45,7 @@ namespace nm {
 
     private:
         scope* _evalArgs(const ucontainable& args);
-        str _postprocess(str ret, nidx exN);
+        str _postprocess(const str& ret, nidx exN);
         void _runEnds();
         str _tryMakeClosure() const;
         str _tryMakeClosure(const node& stmt) const;

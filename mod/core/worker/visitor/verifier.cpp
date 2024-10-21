@@ -657,7 +657,7 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("cache check");
-        for(auto e: me._cache)
+        for(const auto& e : me._cache)
             if(nul(e.second)) posError(errCode::MAKE_GENERIC_FAIL, me, e.first.c_str());
 
         _STEP("did user set the name of this object like 'const'?");
