@@ -3,7 +3,6 @@
 #include "../../ast/args.hpp"
 #include "../../ast/baseFunc.hpp"
 #include "../../ast/params.hpp"
-#include "../../type/lazyMgdType.hpp"
 
 namespace nm {
 
@@ -17,15 +16,11 @@ namespace nm {
         typedef Ret (T::*fptrType)(Args...);
 
     public:
-        tbaseBridgeFunc(fptrType fptr, lazyMgdType::retLambda retLazy):
+        tbaseBridgeFunc(fptrType fptr, str ret):
             _fptr(fptr),
-            _type(
-                "bridgeFunc", ttype<me>::get(),
-                [](params& ps) -> void {
-                    (ps.add(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())),
-                        ...);
-                },
-                retLazy) {}
+            _type("bridgeFunc", ttype<me>::get(),
+                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...),
+                false, *ret) {}
 
     public:
         static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal()) ==
@@ -78,7 +73,7 @@ namespace nm {
 
     protected:
         fptrType _fptr;
-        mutable lazyMgdType _type;
+        mutable mgdType _type;
     };
 
     template <typename Ret, typename T, nbool isBaseObj,
@@ -89,9 +84,7 @@ namespace nm {
 
     public:
         tbridgeFunc(typename super::fptrType fptr):
-            super(fptr, []() -> const node& {
-                return Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet();
-            }) {}
+            super(fptr, Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet()) {}
 
     protected:
         str _runNative(args& args) override {
@@ -109,7 +102,7 @@ namespace nm {
 
     public:
         tbridgeFunc(typename super::fptrType fptr):
-            super(fptr, []() -> const node& { return Marshaling<void, false>::onGetRet(); }) {}
+            super(fptr, Marshaling<void, false>::onGetRet()) {}
 
     protected:
         str _runNative(args& args) override {
@@ -127,7 +120,7 @@ namespace nm {
 
     public:
         tbridgeFunc(typename super::fptrType fptr):
-            super(fptr, []() -> const node& { return Marshaling<void, false>::onGetRet(); }) {}
+            super(fptr, Marshaling<void, false>::onGetRet()) {}
 
     protected:
         str _runNative(args& args) override {
@@ -150,9 +143,7 @@ namespace nm {
 
     public:
         tbridgeFunc(typename _super_::fptrType fptr):
-            super(fptr, []() -> const node& {
-                return Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet();
-            }) {}
+            super(fptr, Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet()) {}
 
     protected:
         str _runNative(args& args) override {

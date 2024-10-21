@@ -5,7 +5,8 @@
 namespace nm {
     NM(DEF_ME(convergence))
 
-    me::convergence(baseObj& obj, baseFunc& func, std::function<nbool()> closure): _obj(obj), _func(func), _cl(closure) {}
+    me::convergence(baseObj& obj, baseFunc& func, std::function<nbool()> closure):
+        _obj(obj), _func(func), _cl(closure) {}
 
     nbool me::converge() {
         if(!_obj) return false;
