@@ -282,11 +282,13 @@ namespace nm {
     }
 
     node* me::onDefProp(const std::string& name, const node& rhs) {
-        return onDefProp(*onModifier(true, false), name, rhs);
+        tstr<modifier> mod(*onModifier(true, false));
+        return onDefProp(*mod, name, rhs);
     }
 
     node* me::onDefAssign(const std::string& name, const node& rhs) {
-        return onDefAssign(*onModifier(true, false), name, rhs);
+        tstr<modifier> mod(*onModifier(true, false));
+        return onDefAssign(*mod, name, rhs);
     }
 
     node* me::onDefAssign(const modifier& mod, const std::string& name, const node& rhs) {
