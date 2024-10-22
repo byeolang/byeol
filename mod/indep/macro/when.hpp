@@ -28,4 +28,5 @@ namespace nm {
 #define NM_WHENNUL_6(v1, v2, v3, v4, v5, v6) \
     if(nul(v1) || nul(v2) || nul(v3) || nul(v4) || nul(v5) || nul(v6)) __NM_WHEN__POSTFIX
 #define NM_WHENNUL(...) NM_OVERLOAD(NM_WHENNUL, __VA_ARGS__)
+
 } // namespace nm
