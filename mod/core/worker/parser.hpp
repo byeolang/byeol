@@ -175,6 +175,8 @@ namespace nm {
 
         node* onDefProp(const modifier& mod, const std::string& name, const node& rhs);
         node* onDefProp(const std::string& name, const node& rhs);
+        node* onDefProp(const node& rhs);
+        node* onDefProp(const modifier& mod, const node& rhs);
         node* onDefAssign(const modifier& mod, const std::string& name, const node& rhs);
         node* onDefAssign(const defPropExpr& prop, const node& rhs);
         node* onDefAssign(const std::string& name, const node& rhs);
@@ -236,17 +238,17 @@ namespace nm {
         void onEndFunc();
         void onParseErr(const std::string& msg, const nchar* symbolName);
 
-        template <typename... Args> void posError(errCode code, Args... args) {
+        template <typename... Args> void posError(errCode code, const Args&... args) {
             _report(
                 nerr::newErr(getArea().start, code, __convert__((const Args&) args).unwrap()...));
         }
 
-        template <typename... Args> void posWarn(errCode code, Args... args) {
+        template <typename... Args> void posWarn(errCode code, const Args&... args) {
             _report(
                 nerr::newWarn(getArea().start, code, __convert__((const Args&) args).unwrap()...));
         }
 
-        template <typename... Args> void posInfo(errCode code, Args... args) {
+        template <typename... Args> void posInfo(errCode code, const Args&... args) {
             _report(
                 nerr::newInfo(getArea().start, code, __convert__((const Args&) args).unwrap()...));
         }
@@ -282,6 +284,7 @@ namespace nm {
         const node& _onDefArrayType(const narr& items);
         std::vector<std::string> _toDotnames(const node& path);
         void _onCompilationUnit(obj& subpack, defBlock& blk);
+        tstr<modifier> _makeDefaultModifier();
 
     private:
         tokenScan* _mode;

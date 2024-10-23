@@ -22,6 +22,19 @@ namespace nm {
 
     NM_DEF_ME(parser)
 
+#define thenErr_1(code) nothing(), posError(errCode::code)
+#define thenErr_2(code, a1) nothing(), posError(errCode::code, a1)
+#define thenErr_3(code, a1, a2) nothing(), posError(errCode::code, a1, a2)
+#define thenErr_4(code, a1, a2, a3) nothing(), posError(errCode::code, a1, a2, a3)
+#define thenErr_5(code, a1, a2, a3, a4) nothing(), posError(errCode::code, a1, a2, a3, a4)
+#define thenErr(...) NM_OVERLOAD(thenErr, __VA_ARGS__)
+
+#define thenWarn_2(code, a1) nothing(), posWarn(errCode::code, a1)
+#define thenWarn_3(code, a1, a2) nothing(), posWarn(errCode::code, a1, a2)
+#define thenWarn_4(code, a1, a2, a3) nothing(), posWarn(errCode::code, a1, a2, a3)
+#define thenWarn_5(code, a1, a2, a3, a4) nothing(), posWarn(errCode::code, a1, a2, a3, a4)
+#define thenWarn(...) NM_OVERLOAD(thenWarn, __VA_ARGS__)
+
     namespace {
         string join(const std::vector<string>& dotnames) {
             string ret;
@@ -29,7 +42,6 @@ namespace nm {
                 ret += name;
             return ret;
         }
-
     }
 
     nint me::_onScan(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner) {
@@ -233,7 +245,7 @@ namespace nm {
     blockExpr* me::onBlock(blockExpr& blk, const node& stmt) {
         NM_DI("tokenEvent: onBlock(blk, %s) inside of %s func", stmt,
             _func ? _func->getSrc().getName() : "<null>");
-        if(nul(blk)) return posError(errCode::IS_NUL, "blk"), _maker.make<blockExpr>();
+        NM_WHENNUL(blk).thenErr(IS_NUL, "blk"), _maker.make<blockExpr>();
         if(!nul(stmt.cast<endExpr>())) return &blk;
 
         blk.getStmts().add(stmt);
@@ -258,9 +270,9 @@ namespace nm {
 
     defBlock* me::onDefBlock(defBlock& s, node& stmt) {
         NM_DI("tokenEvent: onDefBlock(s, %s)", stmt);
-        if(nul(s)) return posError(errCode::IS_NUL, "s"), new defBlock();
+        NM_WHENNUL(s).thenErr(IS_NUL, "s"), new defBlock();
 
-        if(!nul(stmt.cast<endExpr>())) return posError(errCode::END_ONLY_BE_IN_A_FUNC), &s;
+        NM_WHEN(!nul(stmt.cast<endExpr>())).thenErr(END_ONLY_BE_IN_A_FUNC), &s;
         defVarExpr& defVar =
             stmt.cast<defVarExpr>() orRet & s.addScope(stmt.getSrc().getName(), stmt);
 
@@ -282,13 +294,22 @@ namespace nm {
     }
 
     node* me::onDefProp(const std::string& name, const node& rhs) {
-        tstr<modifier> mod(*onModifier(true, false));
-        return onDefProp(*mod, name, rhs);
+        return onDefProp(*_makeDefaultModifier(), name, rhs);
+    }
+
+    node* me::onDefProp(const node& rhs) {
+        return onDefProp(*_makeDefaultModifier(), rhs);
+    }
+
+    node* me::onDefProp(const modifier& mod, const node& rhs) {
+        const getExpr& cast =
+            rhs.cast<getExpr>() orRet posError(SHORT_DEF_VAR_ONLY_ALLOWED_TO_CUSTOM_TYPE, rhs),
+                      nullptr;
+        return onDefProp(mod, cast.getName(), rhs);
     }
 
     node* me::onDefAssign(const std::string& name, const node& rhs) {
-        tstr<modifier> mod(*onModifier(true, false));
-        return onDefAssign(*mod, name, rhs);
+        return onDefAssign(*_makeDefaultModifier(), name, rhs);
     }
 
     node* me::onDefAssign(const modifier& mod, const std::string& name, const node& rhs) {
@@ -577,6 +598,8 @@ namespace nm {
             !nul(blk) ? blk.getExpands().len() : 0);
         subpack.run(baseObj::CTOR_NAME); // don't need argument. it's default ctor.
     }
+
+    tstr<modifier> me::_makeDefaultModifier() { return *onModifier(true, false); }
 
     nbool me::_onInjectObjSubs(obj& it, defBlock& blk) {
         NM_DI("tokenEvent: _onInjectObjSubs(%s, defBlock[%s])", it, &blk);
