@@ -53,7 +53,7 @@ namespace {
 %%
 
 [\%\*\+\-\/\.\{\[\^\|\&\~\!] { return PS.onIgnoreIndent(yytext[0]); }
-[\}\]<>\;\_\`] { return yytext[0]; }
+[\}\]<>\;\_\@] { return yytext[0]; }
 [,] { return PS.onTokenComma(yytext[0]); }
 [\:] { return PS.onTokenColon(yytext[0]); }
 [\(] { return PS.onTokenLParan(yytext[0]); }

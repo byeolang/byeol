@@ -542,9 +542,9 @@ def-prop-without-value: visibility NAME name-access {
                     } | visibility NAME type {
                         $$ = PS.onDefProp(*$1, *$2, *$3);
                         delete $2;
-                    } | '`' type {
+                    } | '@' type {
                         $$ = PS.onDefProp(*$2);
-                    } | visibility '`' type {
+                    } | visibility '@' type {
                         $$ = PS.onDefProp(*$1, *$3);
                     }
 def-prop-value: visibility NAME DEFASSIGN expr-inline9 {

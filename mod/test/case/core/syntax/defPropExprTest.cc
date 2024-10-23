@@ -151,3 +151,84 @@ TEST_F(defPropExprTest, defPropWithAccess) {
     )SRC")
         .shouldVerified(true);
 }
+
+TEST_F(defPropExprTest, shortDefinition) {
+    make().parse(R"SRC(
+        def person
+            age := 2
+
+        foo() int
+            @person
+            person.age = 3 # person is local variable.
+            ret person.age
+
+        main() int
+            ret foo() + person.age # this is for origin obj
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 5);
+}
+
+TEST_F(defPropExprTest, shortDefinitionOnParam) {
+    make().parse(R"SRC(
+        def person
+            age := 0
+            ctor(@person)
+                age = person.age + 1
+        foo(@person) int
+            person.age + 1
+
+        main() int
+            p1 := person(person) # p1.age == 1
+            foo(p1)
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 2);
+}
+
+TEST_F(defPropExprTest, shortDefinitionNotAllowPrimitiveNegative) {
+    make().negative().parse(R"SRC(
+        foo(@int) int: 1
+        main() int
+            foo(2)
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(defPropExprTest, shortDefinitionNotAllowContainerNegative) {
+    make().negative().parse(R"SRC(
+        foo(@int[]) int: 1
+        main() int
+            foo(2)
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(defPropExprTest, shortDefinitionNotAllowContainerNegative2) {
+    make().negative().parse(R"SRC(
+        def Person
+            age int
+        foo(@Person[]) int: 1
+        main() int
+            foo({Person()})
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(defPropExprTest, shortDefinitionWithGenerics) {
+    make().parse(R"SRC(
+        def Person<E>
+            value E
+        foo(@Person<int>) int
+            person.value + 1 # short-definition always replaces to define lowercased name.
+        main() int
+            p1 Person<int>
+            p1.value = 33
+            foo(p1)
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 34);
+}
