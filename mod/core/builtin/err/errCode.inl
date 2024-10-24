@@ -73,7 +73,8 @@ PAIRX(MODIFIER_NOT_FOUND, "parser didn't make a modifier for this symbol, %s")
 PAIRX(CANT_ACCESS_TO_PROTECTED_VARIABLE, "you can't access this %s variable. it's protected.")
 PAIRX(EXPLICIT_TYPE_SHOULDNT_BE_NULL, "explicit type shouldn't be null when you define it.")
 PAIRX(NO_VOID_VARIABLE, "you can't define a varaible as void type")
-PAIRX(SHORT_DEF_VAR_ONLY_ALLOWED_TO_CUSTOM_TYPE, "short definition isn't allowed to array or primitive types")
+PAIRX(SHORT_DEF_VAR_ONLY_ALLOWED_TO_CUSTOM_TYPE,
+    "short definition isn't allowed to array or primitive types")
 //  defSeq:
 PAIRX(SEQ_SHOULD_INT_COMPATIBLE, "start and end of a sequence should be sort of an int.")
 //  assign:

@@ -153,7 +153,8 @@ TEST_F(defPropExprTest, defPropWithAccess) {
 }
 
 TEST_F(defPropExprTest, shortDefinition) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             age := 2
 
@@ -164,7 +165,8 @@ TEST_F(defPropExprTest, shortDefinition) {
 
         main() int
             ret foo() + person.age # this is for origin obj
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -172,7 +174,8 @@ TEST_F(defPropExprTest, shortDefinition) {
 }
 
 TEST_F(defPropExprTest, shortDefinitionOnParam) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             age := 0
             ctor(@person)
@@ -183,7 +186,8 @@ TEST_F(defPropExprTest, shortDefinitionOnParam) {
         main() int
             p1 := person(person) # p1.age == 1
             foo(p1)
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -191,33 +195,43 @@ TEST_F(defPropExprTest, shortDefinitionOnParam) {
 }
 
 TEST_F(defPropExprTest, shortDefinitionNotAllowPrimitiveNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         foo(@int) int: 1
         main() int
             foo(2)
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defPropExprTest, shortDefinitionNotAllowContainerNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         foo(@int[]) int: 1
         main() int
             foo(2)
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defPropExprTest, shortDefinitionNotAllowContainerNegative2) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         def Person
             age int
         foo(@Person[]) int: 1
         main() int
             foo({Person()})
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defPropExprTest, shortDefinitionWithGenerics) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def Person<E>
             value E
         foo(@Person<int>) int
@@ -226,7 +240,8 @@ TEST_F(defPropExprTest, shortDefinitionWithGenerics) {
             p1 Person<int>
             p1.value = 33
             foo(p1)
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

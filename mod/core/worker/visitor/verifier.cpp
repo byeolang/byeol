@@ -187,7 +187,8 @@ namespace nm {
         str eval = me.getEval(); // it's okay forExpr not to have 'eval'.
         if(eval) {
             _STEP("eval Value check: eval[%s] is an array?", eval);
-            NM_WHEN(!eval->isSub<retStateExpr>() && !eval->isSub<arr>()).thenErr(LOOP_NO_RET_ARR, me);
+            NM_WHEN(!eval->isSub<retStateExpr>() && !eval->isSub<arr>())
+                .thenErr(LOOP_NO_RET_ARR, me);
         }
     }
 
@@ -635,7 +636,8 @@ namespace nm {
 
         _STEP("if obj is complete, does it have ctor without params?");
         if(me.isComplete()) {
-            NM_WHENNUL(me.sub(baseObj::CTOR_NAME, args{})).thenErr(COMPLETE_OBJ_BUT_NO_CTOR, me), true;
+            NM_WHENNUL(me.sub(baseObj::CTOR_NAME, args{})).thenErr(COMPLETE_OBJ_BUT_NO_CTOR, me),
+                true;
         } else {
             _STEP("if me's origin is obj & incomplete, it shouldn't have any callComplete");
             const obj& org = me.getOrigin().cast<obj>();
@@ -658,7 +660,7 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("cache check");
-        for(const auto& e : me._cache)
+        for(const auto& e: me._cache)
             if(nul(e.second)) posError(errCode::MAKE_GENERIC_FAIL, me, e.first.c_str());
 
         _STEP("did user set the name of this object like 'const'?");
@@ -668,7 +670,8 @@ namespace nm {
 
         _STEP("if obj is complete, does it have ctor without params?");
         if(me.isComplete())
-            NM_WHENNUL(me.sub(baseObj::CTOR_NAME, args{})).thenErr(COMPLETE_OBJ_BUT_NO_CTOR, me), true;
+            NM_WHENNUL(me.sub(baseObj::CTOR_NAME, args{})).thenErr(COMPLETE_OBJ_BUT_NO_CTOR, me),
+                true;
 
         return true;
     }
