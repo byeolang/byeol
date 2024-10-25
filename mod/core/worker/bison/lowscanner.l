@@ -40,7 +40,7 @@ namespace {
 
 %x stateBlockComment
 %x stateComment
-%x escSeq
+%x stateString
 
 
 /*  ============================================================================================
@@ -179,23 +179,30 @@ false {
     return CHARVAL;
 }
 
-\"([^\r\f\n\"\\]*)\" {
-    yylval->asStr = new std::string(yytext + 1, yyleng - 2);
-    NM_DI("scanner: STRVAL=\"%s\"", yylval->asStr);
-    return STRVAL;
+\" {
+    yylval->asStr = nullptr;
+    yylloc->strCol = yylloc->start.col;
+    NM_DI("!!!!!!!!! begin string !!!!!!!!!");
+    BEGIN(PS.pushState(stateString));
 }
 
-\"[^"\\]* {
-    yylval->asStr = new std::string(yytext + 1, yyleng - 1);
-    BEGIN(PS.pushState(escSeq));
+<stateString>[^"\\]+ {
+    NM_DI("!!!!!!!! string = %s !!!!!!", yytext);
+    if(!yylval->asStr)
+        yylval->asStr = new std::string(yytext);
+    else
+        yylval->asStr->append(yytext, yyleng);
 }
-
-<escSeq>[^"\\]+ { yylval->asStr->append(yytext, yyleng); }
-<escSeq>\\n     { (*yylval->asStr) += '\n'; }
-<escSeq>\\t     { (*yylval->asStr) += '\t'; }
-<escSeq>\\\n    { /* A backslash at the end of the line. Do nothing */ }
-<escSeq>\\.     { (*yylval->asStr) += yytext[1]; }
-<escSeq>\"      {
+<stateString>\\[\w]   {
+    if(!yylval->asStr)
+        yylval->asStr = new std::string{yytext[1]};
+    else
+        (*yylval->asStr) += yytext[1];
+}
+<stateString>\\\n     { /* A backslash at the end of the line. Do nothing */ }
+<stateString>\"       {
+    if(!yylval->asStr) yylval->asStr = new std::string();
+    yylloc->start.col = yylloc->strCol;
     BEGIN(PS.popState());
     return STRVAL;
 }
@@ -207,12 +214,10 @@ false {
 }
 
 # {
-    NM_DI("!!!!!!!!!match comment!!!!!!!!");
     BEGIN(PS.pushState(stateComment));
 }
 
 ## {
-    NM_DI("!!!!!!!!match multiline comment!!!!!!");
     BEGIN(PS.pushState(stateBlockComment));
 }
 

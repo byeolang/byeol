@@ -47,6 +47,7 @@
 
     struct lloc : public nm::area {
         int colcnt;
+        int strCol; // column position when it starts to parse string.
 
         void rel() {
             colcnt = 0;
