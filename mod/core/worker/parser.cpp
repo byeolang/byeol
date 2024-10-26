@@ -1164,7 +1164,7 @@ namespace nm {
     int me::popState() {
         int previous = _states.back();
         _states.pop_back();
-        NM_I("pop state %d <- %d", _states.back(), previous);
+        NM_I("pop state %d -> %d", previous, _states.back());
         return _states.back();
     }
 

@@ -58,7 +58,7 @@ namespace nm {
 
         template <typename T> void setScan() {
             NM_DI("change scanmode(%s -> %s)", nul(_mode) ? "null" : _mode->getType().getName(),
-                T::_instance);
+                *T::_instance);
             _mode = T::_instance;
         }
 
@@ -168,9 +168,13 @@ namespace nm {
         args* onTypeNames(args& params, const node& param);
 
         //          var:
-        template <typename T, typename... Args> T* onPrimitive(Args... args) {
-            NM_DI("on%s(...)", ttype<T>::get());
-            return new T(args...);
+        template <typename T, typename Arg> T* onPrimitive(const Arg& arg) {
+            NM_DI("on%s(%s)", ttype<T>::get(), arg);
+            return new T(arg);
+        }
+        template <typename T> T* onPrimitive() {
+            NM_DI("on%s()", ttype<T>::get());
+            return new T();
         }
 
         node* onDefProp(const modifier& mod, const std::string& name, const node& rhs);
