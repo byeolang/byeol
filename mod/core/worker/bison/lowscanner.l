@@ -53,7 +53,7 @@ namespace {
 %%
 
 [\%\*\+\-\/\.\{\[\^\|\&\~\!] { return PS.onIgnoreIndent(yytext[0]); }
-[\}\]<>\;\_\@] { return yytext[0]; }
+[\}\]<>\;\_\@\$] { return yytext[0]; }
 [,] { return PS.onTokenComma(yytext[0]); }
 [\:] { return PS.onTokenColon(yytext[0]); }
 [\(] { return PS.onTokenLParan(yytext[0]); }
@@ -146,7 +146,7 @@ false {
     return INTVAL;
 }
 
-[a-zA-Z0-9][a-zA-Z0-9_]* {
+[a-zA-Z_][a-zA-Z0-9_]* {
     yylval->asStr = new std::string(yytext);
     NM_DI("scanner: NAME=%s", yytext);
     return NAME;
@@ -186,14 +186,24 @@ false {
     BEGIN(PS.pushState(stateString));
 }
 
-<stateString>[^"\\]+ {
+<stateString>[^"\\\$]+ {
     NM_DI("!!!!!!!! string = %s !!!!!!", yytext);
     if(!yylval->asStr)
         yylval->asStr = new std::string(yytext);
     else
         yylval->asStr->append(yytext, yyleng);
 }
-<stateString>\\[\w]   {
+<stateString>\$[a-zA-Z_]+ {
+    std::string text = yytext;
+    unput('"'); // inputStream = "
+    unput('+'); // inputStream = + "
+    for(int n= yyleng - 1; n > 0 ;n--) {
+        unput(text[n]); // inputStream = <yourText> + "
+    }
+    unput('+'); // inputStream = + <yourText> + "
+    unput('"'); // inputStream = " + <yourText> + "
+}
+<stateString>\\[\w\$]   {
     if(!yylval->asStr)
         yylval->asStr = new std::string{yytext[1]};
     else
@@ -203,6 +213,7 @@ false {
 <stateString>\"       {
     if(!yylval->asStr) yylval->asStr = new std::string();
     yylloc->start.col = yylloc->strCol;
+    NM_DI("!!!!!!!! return string = %s !!!!!!!!", *yylval->asStr);
     BEGIN(PS.popState());
     return STRVAL;
 }

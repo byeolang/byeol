@@ -169,7 +169,7 @@ namespace nm {
 
         //          var:
         template <typename T, typename Arg> T* onPrimitive(const Arg& arg) {
-            NM_DI("on%s(%s)", ttype<T>::get(), arg);
+            NM_DI("on%s(...)", ttype<T>::get());
             return new T(arg);
         }
         template <typename T> T* onPrimitive() {
