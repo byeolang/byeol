@@ -146,7 +146,7 @@ false {
     return INTVAL;
 }
 
-[a-zA-Z_][a-zA-Z0-9_]* {
+[a-zA-Z][a-zA-Z0-9_]* {
     yylval->asStr = new std::string(yytext);
     NM_DI("scanner: NAME=%s", yytext);
     return NAME;
