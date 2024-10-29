@@ -197,11 +197,20 @@ false {
     std::string text = yytext;
     unput('"'); // inputStream = "
     unput('+'); // inputStream = + "
+    unput(')'); // inputStream = ) + "
+    unput('r');
+    unput('t');
+    unput('s'); // inputStream = str) + "
+    unput(' ');
+    unput('s');
+    unput('a'); // inputStream = as str) + "
+    unput(' ');
     for(int n= yyleng - 1; n > 0 ;n--) {
-        unput(text[n]); // inputStream = <yourText> + "
+        unput(text[n]); // inputStream = <yourText> as str) + "
     }
-    unput('+'); // inputStream = + <yourText> + "
-    unput('"'); // inputStream = " + <yourText> + "
+    unput('('); // inputStream = (<yourtext> as str) + "
+    unput('+');
+    unput('"'); // inputStream = "+(<yourText> as str)+"
 }
 <stateString>\\[\w\$]   {
     if(!yylval->asStr)
