@@ -88,6 +88,13 @@ namespace nm {
 
     nint me::onTokenComma(nint tok) { return _onTokenEndOfInlineBlock(onIgnoreIndent(tok)); }
 
+    nbool me::onTokenEndOfBraces() {
+        if(_strTemplateCnt > 0) return _strTemplateCnt--;
+        return false;
+    }
+
+    void me::onTokenStartOfStrTemplateBrace() { _strTemplateCnt++; }
+
     nint me::onTokenLParan(nint tok) {
         _dedent.countUp();
         return onIgnoreIndent(tok);
@@ -1153,6 +1160,7 @@ namespace nm {
         _dispatcher.rel();
         _indents.clear();
         _maker.setRow(0).setCol(0);
+        _strTemplateCnt = 0;
     }
 
     int me::pushState(int newState) {

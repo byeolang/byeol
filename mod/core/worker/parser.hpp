@@ -78,6 +78,8 @@ namespace nm {
         nint onTokenLParan(nint tok);
         nint onTokenRParan(nint tok);
         nint onTokenComma(nint tok);
+        nbool onTokenEndOfBraces();
+        void onTokenStartOfStrTemplateBrace();
         nint onIndent(ncnt col, nint tok);
         nint onDedent(ncnt col, nint tok);
         nint onIgnoreIndent(nint tok);
@@ -302,5 +304,6 @@ namespace nm {
         smartDedent _dedent;
         srcSupplies _supplies;
         tweak<func> _func;
+        ncnt _strTemplateCnt;
     };
 } // namespace nm

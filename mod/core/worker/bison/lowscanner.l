@@ -53,7 +53,20 @@ namespace {
 %%
 
 [\%\*\+\-\/\.\{\[\^\|\&\~\!] { return PS.onIgnoreIndent(yytext[0]); }
-[\}\]<>\;\_\@\$] { return yytext[0]; }
+[\]<>\;\_\@\$] { return yytext[0]; }
+\} {
+    if(!PS.onTokenEndOfBraces()) return '}'; // it wasn't str-templating.
+
+    unput('"');
+    unput('+'); // inputStream = + "
+    unput('r');
+    unput('t');
+    unput('s');
+    unput(' '); // inputStream = str + "
+    unput('s');
+    unput('a'); // inputStream = as str + "
+    return ')';
+}
 [,] { return PS.onTokenComma(yytext[0]); }
 [\:] { return PS.onTokenColon(yytext[0]); }
 [\(] { return PS.onTokenLParan(yytext[0]); }
@@ -211,6 +224,15 @@ false {
     unput('('); // inputStream = (<yourtext> as str) + "
     unput('+');
     unput('"'); // inputStream = "+(<yourText> as str)+"
+}
+<stateString>$\{ {
+    unput('(');
+    unput('+');
+    unput('"'); // inputStream = "+(
+    PS.onTokenStartOfStrTemplateBrace();
+    // don't return '"' here:
+    // we must leave '"' with 'unput()' so that the scanner will exit current 'stateString',
+    // when it meets '"' by next token.
 }
 <stateString>\\[\w\$]   {
     if(!yylval->asStr)
