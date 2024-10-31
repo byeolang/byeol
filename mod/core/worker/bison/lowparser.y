@@ -80,7 +80,6 @@
     ============================================================================================  */
 
 %union {
-    nm::nchar asChar;
     int asInt;
     std::string* asStr;
     bool asBool;
@@ -126,13 +125,12 @@
 //      define:
 %token DEF WITH AS ENUM ONLY END
 //  predefined-type:
-%token _VOID_ _INT_ _STR_ _BOOL_ FLT NUL _BYTE_ _CHAR_ ME SUPER IT CTOR PACK
+%token _VOID_ _INT_ _STR_ _BOOL_ FLT NUL _BYTE_ ME SUPER IT CTOR PACK
 //  valueless-token:
 %token NEWLINE INDENT DEDENT ENDOFFILE DOUBLE_MINUS DOUBLE_PLUS DOUBLE_DOT ARROW TAB ASSIGN DEFASSIGN
 %token OPEN_CLOSE_SQUARE_BRACKET GE LE EQ NE LOGICAL_AND LOGICAL_OR LSHIFT RSHIFT
 %token ADD_ASSIGN SUB_ASSIGN MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN OR_ASSIGN AND_ASSIGN XOR_ASSIGN
 //  value-holding-token:
-%token <asChar> CHARVAL
 %token <asInt> INTVAL
 %token <asFlt> FLTVAL
 %token <asBool> BOOLVAL
@@ -263,7 +261,6 @@ primary: INTVAL { $$ = PS.onPrimitive<nInt>($1); }
         delete $1;
      } | FLTVAL { $$ = PS.onPrimitive<nFlt>($1); }
        | BOOLVAL { $$ = PS.onPrimitive<nBool>($1); }
-       | CHARVAL { $$ = PS.onPrimitive<nChar>($1); }
        | tuple { $$ = PS.onParanthesisAsTuple(*$1); }
        | NUL {
         // ??
@@ -448,7 +445,6 @@ param-items: def-prop-without-value {
 type: _VOID_ { $$ = PS.onPrimitive<nVoid>(); }
     | _INT_ { $$ = PS.onPrimitive<nInt>(); }
     | _BYTE_ { $$ = PS.onPrimitive<nByte>(); }
-    | _CHAR_ { $$ = PS.onPrimitive<nChar>(); }
     | _STR_ { $$ = PS.onPrimitive<nStr>(); }
     | _BOOL_ { $$ = PS.onPrimitive<nBool>(); }
     | FLT { $$ = PS.onPrimitive<nFlt>(); }

@@ -88,7 +88,7 @@ TEST_F(opTest, exprAddFuncCall2) {
         .parse(R"SRC(
         pack demo
         main() void
-            2 + 3*27 + 44 - foo('a') * 27/34*43 - a.foo(b.boo(c.goo()))
+            2 + 3*27 + 44 - foo("a") * 27/34*43 - a.foo(b.boo(c.goo()))
     )SRC")
         .shouldParsed(true);
 }

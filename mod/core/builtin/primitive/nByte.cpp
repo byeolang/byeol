@@ -3,7 +3,6 @@
 #include "../../worker/visitor/visitor.hpp"
 #include "bridge/cpp/tbridger.hpp"
 #include "nBool.hpp"
-#include "nChar.hpp"
 #include "nFlt.hpp"
 #include "nInt.hpp"
 
@@ -27,7 +26,6 @@ namespace nm {
         static ases inner;
         if(inner.len() <= 0) {
             inner.add(new asPrimitive<nFlt, nuchar>());
-            inner.add(new asPrimitive<nChar, nuchar>());
 
             struct asStr: public tas<nStr> {
                 str as(const node& me, const type& to) const override {

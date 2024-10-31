@@ -30,7 +30,7 @@ TEST_F(assignExprTest, simpleAssign1) {
         .parse(R"SRC(
         main() int
             ans := ""
-            ans += 'l'
+            ans += "l"
             ans == "l"
     )SRC")
         .shouldVerified(true);
@@ -40,17 +40,14 @@ TEST_F(assignExprTest, simpleAssign1) {
     ASSERT_EQ(res.cast<nint>(), 1);
 }
 
-TEST_F(assignExprTest, simpleAssignNegative) {
+TEST_F(assignExprTest, simpleAssign2) {
     make()
-        .negative()
         .parse(R"SRC(
         main() int
-            ans := '0'
+            ans := "0"
             ans += "l"
-            ret ans == "l"
-    )SRC")
-        .shouldParsed(true);
-    shouldVerified(false);
+            ret ans == "0l"
+    )SRC").shouldVerified(true);
 }
 
 TEST_F(assignExprTest, simpleAssignReturn) {

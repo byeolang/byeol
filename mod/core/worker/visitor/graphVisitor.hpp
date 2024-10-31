@@ -21,7 +21,6 @@ namespace nm {
         nbool onVisit(const visitInfo& i, nInt& e) override;
         nbool onVisit(const visitInfo& i, nFlt& e) override;
         nbool onVisit(const visitInfo& i, nStr& e) override;
-        nbool onVisit(const visitInfo& i, nChar& e) override;
         nbool onVisit(const visitInfo& i, nByte& e) override;
         nbool onVisit(const visitInfo& i, nBool& e) override;
 

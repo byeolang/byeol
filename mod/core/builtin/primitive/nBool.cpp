@@ -3,7 +3,6 @@
 #include "../../worker/visitor/visitor.hpp"
 #include "bridge/cpp/tbridger.hpp"
 #include "nByte.hpp"
-#include "nChar.hpp"
 #include "nFlt.hpp"
 #include "nInt.hpp"
 #include "nStr.hpp"
@@ -30,8 +29,6 @@ namespace nm {
     const ases& me::wBoolType::_getAses() const {
         static ases inner;
         if(inner.len() <= 0) {
-            inner.add(new asPrimitive<nChar, nbool>());
-
             struct asStr: public tas<nStr> {
                 str as(const node& me, const type& to) const override {
                     return str(new nStr(me.cast<nbool>() ? "true" : "false"));

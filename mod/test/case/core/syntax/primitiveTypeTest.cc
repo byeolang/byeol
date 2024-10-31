@@ -25,7 +25,7 @@ TEST_F(primitiveTypeTest, strFuncGet) {
     make()
         .parse(R"SRC(
         main() int
-            "hello"[2] == 'l'
+            "hello"[2] == "l"
     )SRC")
         .shouldVerified(true);
 
@@ -38,7 +38,7 @@ TEST_F(primitiveTypeTest, concatCharAndStr) {
     make()
         .parse(R"SRC(
         main() int
-            ("hello" + '1' + "wow" + '2') == "hello1wow2"
+            ("hello" + "1" + "wow" + "2") == "hello1wow2"
     )SRC")
         .shouldVerified(true);
 
@@ -51,7 +51,7 @@ TEST_F(primitiveTypeTest, charConversion) {
     make()
         .parse(R"SRC(
         main() int
-            a := 'h'
+            a := "h"
             a as byte == 104
     )SRC")
         .shouldVerified(true);
@@ -66,7 +66,7 @@ TEST_F(primitiveTypeTest, byteConversion) {
         .parse(R"SRC(
         main() int
             b := 104
-            b as char == 'h'
+            b as char == "h"
     )SRC")
         .shouldVerified(true);
 
@@ -104,22 +104,13 @@ TEST_F(primitiveTypeTest, strIter) {
     ASSERT_EQ(res.cast<nint>(), 1);
 }
 
-TEST_F(primitiveTypeTest, deduceAndImplicitCast) {
+TEST_F(primitiveTypeTest, deduceAndImplicitCastNegative) {
     make()
+        .negative()
         .parse(R"SRC(
         main() void
-            a := 'a' + 1 # a should be char
+            a := "a" + 1 # str + int is not allowed.
             print(a)
     )SRC")
-        .shouldVerified(true);
-}
-
-TEST_F(primitiveTypeTest, deduceAndImplicitCast2) {
-    make()
-        .parse(R"SRC(
-        main() void
-            a := 1 + 'a' # a should be char
-            print(a)
-    )SRC")
-        .shouldVerified(true);
+        .shouldVerified(false);
 }

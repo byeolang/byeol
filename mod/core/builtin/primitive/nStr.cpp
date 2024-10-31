@@ -5,7 +5,6 @@
 #include "../container/mgd/seq.hpp"
 #include "nBool.hpp"
 #include "nByte.hpp"
-#include "nChar.hpp"
 #include "nFlt.hpp"
 #include "nInt.hpp"
 
@@ -38,8 +37,8 @@ namespace nm {
             const baseObj& getOrigin() const override;
         };
 
-        typedef tucontainable<nChar>::iter niter;
-        typedef tucontainable<nChar>::iteration iteration;
+        typedef tucontainable<nStr>::iter niter;
+        typedef tucontainable<nStr>::iteration iteration;
         typedef tbridge<niter> __superMgdIter;
 
         class bridgeIteration: public iteration {
@@ -65,15 +64,15 @@ namespace nm {
                 return step;
             }
 
-            nChar& get() override {
-                if(isEnd()) return nulOf<nChar>();
+            nStr& get() override {
+                if(isEnd()) return nulOf<nStr>();
                 _val.get() = (*_own)[_n];
                 return _val;
             }
 
             using super::getContainer;
 
-            tucontainable<nChar>& getContainer() override { return *_own; }
+            tucontainable<nStr>& getContainer() override { return *_own; }
 
         protected:
             nbool _onSame(const typeProvidable& rhs) const override {
@@ -83,7 +82,7 @@ namespace nm {
 
         private:
             nStr* _own;
-            nChar _val;
+            nStr _val;
             nidx _n;
         };
 
@@ -101,7 +100,7 @@ namespace nm {
                                          .ctor<niter>()
                                          .func("isEnd", &niter::isEnd)
                                          .func("next", &niter::next)
-                                         .funcNonConst<nChar&>("get", &niter::get)
+                                         .funcNonConst<nStr&>("get", &niter::get)
                                          .subs();
 
                 return inner;
@@ -141,7 +140,7 @@ namespace nm {
         public:
             const ntype& getType() const override {
                 static mgdType inner("getElemType", ttype<me>::get(), params(), false,
-                    *new nChar());
+                    *new nStr());
                 return inner;
             }
 
@@ -171,6 +170,8 @@ namespace nm {
     } // namespace
 
     nbool me::nStrType::isImmutable() const { return true; }
+
+    me::nStr(nchar character): super(std::string(1, character)) {}
 
     me::nStr(const nchar* val): super(std::string(val)) {}
 
@@ -232,17 +233,6 @@ namespace nm {
             };
 
             inner.add(new asByte());
-
-            struct asChar: public tas<nChar> {
-                str as(const node& me, const type& to) const override {
-                    const std::string& val = me.cast<std::string>();
-                    if(val.length() <= 0) return str();
-
-                    return new nChar(val[0]);
-                }
-            };
-
-            inner.add(new asChar());
         }
 
         return inner;
@@ -273,9 +263,9 @@ namespace nm {
 
     void me::add(const iter& here, const iter& from, const iter& to) {}
 
-    nbool me::add(const iter& at, const nChar& new1) { return false; /* nStr is immutable*/ }
+    nbool me::add(const iter& at, const nStr& new1) { return false; /* nStr is immutable*/ }
 
-    nbool me::set(const iter& at, const nChar& new1) { return false; }
+    nbool me::set(const iter& at, const nStr& new1) { return false; }
 
     nbool me::del(const iter& at) { return false; }
 

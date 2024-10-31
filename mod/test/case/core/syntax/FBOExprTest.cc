@@ -262,9 +262,9 @@ TEST_F(FBOExprTest, testLogicalBinaryOpChar) {
     make()
         .parse(R"SRC(
         main() int
-            a := 'l'
-            b := 'w'
-            a > b
+            a := "l"
+            b := "w"
+            (a as byte) > (b as byte)
     )SRC")
         .shouldVerified(true);
 

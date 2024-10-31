@@ -258,7 +258,6 @@ TEST_F(defFuncTest, defFuncReturnClass) {
         def A
             age := 0
         main() int
-            a := 'r'
             foo().age
     )SRC")
         .shouldVerified(true);
@@ -365,11 +364,11 @@ TEST_F(defFuncTest, overloadingSimilarParameters) {
     obj& a = getSubPack().sub<obj>("a");
     ASSERT_FALSE(nul(a));
 
-    { ASSERT_EQ(a.subAll<func>("foo", args{nulOf<baseObj>(), nBool(), nChar()}).len(), 0); }
+    { ASSERT_EQ(a.subAll<func>("foo", args{nulOf<baseObj>(), nBool(), nInt()}).len(), 0); }
 
     {
         threadUse th;
-        args args1(narr{*new nBool(), *new nChar(), *new nStr()});
+        args args1(narr{*new nBool(), *new nFlt(), *new nStr()});
         auto subs = a.subAll<func>("foo", args1);
         ASSERT_EQ(subs.len(), 2);
         ASSERT_EQ(subs.getPriorType(), IMPLICIT_MATCH);
@@ -400,14 +399,14 @@ TEST_F(defFuncTest, overloadingAmbigiousNegative) {
             foo(b bool, c int) int: 1
             foo(b int, c bool) int: 2
         main() void
-            foo('1', '2')
+            foo(1, 2)
     )SRC")
         .shouldParsed(true);
     shouldVerified(false);
 
     obj& a = getSubPack().sub<obj>("a");
     ASSERT_FALSE(nul(a));
-    auto p = a.subAll<func>("foo", args{nulOf<baseObj>(), nChar(), nChar()});
+    auto p = a.subAll<func>("foo", args{nulOf<baseObj>(), nInt(), nInt()});
     ASSERT_FALSE(p.isMatched());
     ASSERT_EQ(p.len(), 2);
 }

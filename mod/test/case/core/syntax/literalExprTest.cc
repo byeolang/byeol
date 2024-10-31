@@ -158,8 +158,8 @@ TEST_F(literalExprTest, escapeSequence1) {
     make()
         .parse(R"SRC(
         main() int
-            a := '\0x2B'
-            a == '+'
+            a := "\0x2B"
+            a == "+"
     )SRC")
         .shouldVerified(true);
 
@@ -172,8 +172,8 @@ TEST_F(literalExprTest, escapeSequence2) {
     make()
         .parse(R"SRC(
         main() int
-            a := '\43'
-            a == '+'
+            a := "\43"
+            a == "+"
     )SRC")
         .shouldVerified(true);
 
@@ -186,19 +186,9 @@ TEST_F(literalExprTest, escapeSequence3) {
     make()
         .parse(R"SRC(
         main() void
-            a := '\''
+            a := "\'"
     )SRC")
         .shouldVerified(true);
-}
-
-TEST_F(literalExprTest, escapeSequenceNegative) {
-    make()
-        .negative()
-        .parse(R"SRC(
-        main() void
-            a := '👍'
-    )SRC")
-        .shouldVerified(false);
 }
 
 TEST_F(literalExprTest, escapeSequence4) {
@@ -216,7 +206,7 @@ TEST_F(literalExprTest, escapeSequence5) {
         .negative()
         .parse(R"SRC(
         main() int
-            a := '\r'
+            a := "\r"
             a as int == 13
     )SRC")
         .shouldVerified(true);

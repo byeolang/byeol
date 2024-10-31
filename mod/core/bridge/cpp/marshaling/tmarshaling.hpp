@@ -165,7 +165,7 @@ namespace nm {
 
     template <> struct _nout tmarshaling<nflt, false>: public tnormalMarshaling<nflt, nFlt> {};
 
-    template <> struct _nout tmarshaling<nchar, false>: public tnormalMarshaling<nchar, nChar> {};
+    template <> struct _nout tmarshaling<nchar, false>: public tnormalMarshaling<nchar, nStr> {};
 
     template <>
     struct _nout tmarshaling<nchar*, false>: public tnormalMarshaling<const nchar*, nStr> {};

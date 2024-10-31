@@ -42,8 +42,6 @@ namespace nm {
         return false;
     }
 
-    nbool me::onVisit(const visitInfo& i, nChar& e) { return _onVisitPrimitive<nChar>(i, e); }
-
     nbool me::onVisit(const visitInfo& i, nByte& e) { return _onVisitPrimitive<nByte>(i, e); }
 
     nbool me::onVisit(const visitInfo& i, nBool& e) { return _onVisitPrimitive<nBool>(i, e); }

@@ -21,7 +21,6 @@ namespace nm {
                 inner.push_back(new nFlt());
                 inner.push_back(new nStr());
                 inner.push_back(new nByte());
-                inner.push_back(new nChar());
                 inner.push_back(new nBool());
             };
             return inner;

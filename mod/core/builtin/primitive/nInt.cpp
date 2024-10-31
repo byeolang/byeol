@@ -5,7 +5,6 @@
 #include "bridge/cpp/tbridger.hpp"
 #include "nBool.hpp"
 #include "nByte.hpp"
-#include "nChar.hpp"
 #include "nFlt.hpp"
 
 namespace nm {
@@ -28,8 +27,6 @@ namespace nm {
     const ases& me::wIntType::_getAses() const {
         static ases inner;
         if(inner.len() <= 0) {
-            inner.add(new asPrimitive<nChar, nint>());
-
             struct asStr: public tas<nStr> {
                 str as(const node& me, const type& to) const override {
                     return new nStr(std::to_string(me.cast<nint>()));

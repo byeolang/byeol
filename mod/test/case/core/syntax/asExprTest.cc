@@ -528,8 +528,8 @@ TEST_F(asExprTest, castStrToIntIsParsing) {
         .parse(R"SRC(
         main() int
             out := "01010"
-            ans := "hello"[2] + out[2] as str as int # 'l' + 0 == 'l'
-            ans == 'l'
+            ans := "hello"[2] + out[2] # "l" + "0"
+            ans == "l0"
     )SRC")
         .shouldVerified(true);
 
@@ -543,8 +543,8 @@ TEST_F(asExprTest, castCharToIntIsNotParsing) {
         .parse(R"SRC(
         main() int
             out := "01010"
-            ans := "00000"[2] + out[2] as int # 'l' + 49('0')
-            ans as int == 96
+            ans := "00300"[2] + out[1] # "3" + "1" ==> "31"
+            ans as int == 31
     )SRC")
         .shouldVerified(true);
 
@@ -572,7 +572,7 @@ TEST_F(asExprTest, castToObjectNegative) {
         def A
             age := 0
         main() void
-            a := 'r'
+            a := "r"
             a as A
     )SRC")
         .shouldVerified(true);

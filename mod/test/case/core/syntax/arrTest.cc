@@ -674,9 +674,9 @@ TEST_F(arrTest, setElemConversion) {
     make()
         .parse(R"SRC(
         main() int
-            arr := {'a', 'c'}
-            arr[1] = 'd'
-            arr[1] == 'd'
+            arr := {"a", "c"}
+            arr[1] = "d"
+            arr[1] == "d"
     )SRC")
         .shouldVerified(true);
 
@@ -685,31 +685,17 @@ TEST_F(arrTest, setElemConversion) {
     ASSERT_EQ(res.cast<nint>(), 1);
 }
 
-TEST_F(arrTest, setElemConversionNegative) {
-    make()
-        .negative()
-        .parse(R"SRC(
-        foo() int
-            3
-        main() int
-            arr := {'a', 'c'}
-            arr[1] = foo()
-            arr[1] == 'd'
-    )SRC")
-        .shouldVerified(false);
-}
-
 TEST_F(arrTest, setElemConversion1) {
     make()
         .parse(R"SRC(
         foo() int
             0
-        boo() char
-            'c'
+        boo() str
+            "c"
         main() int
-            arr := {'a', 'c'}
-            arr[foo()] = (boo() + 1) as char
-            arr[0] == 'd'
+            arr := {"a", "c"}
+            arr[foo()] = boo()
+            arr[0] == "c"
     )SRC")
         .shouldVerified(true);
 

@@ -57,7 +57,7 @@ TEST_F(bundlePackTest, withAs) {
             ret age
 
         main() int
-            a := Helloworld('g' as int)
+            a := Helloworld("g" as byte)
             print(a as str)
             ret 0
     )SRC")

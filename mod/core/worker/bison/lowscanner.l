@@ -13,6 +13,7 @@
 namespace {
     static constexpr int TAB_WIDTH = 4;
     char unescape(const std::string& seq);
+    void append(YYSTYPE* val, const char* new1);
 }
 
 #define YY_DECL int yylexOrigin(YYSTYPE* yylval_param, YYLTYPE* yylloc_param, yyscan_t yyscanner)
@@ -136,7 +137,6 @@ int { return _INT_; }
 str { return _STR_; }
 bool { return _BOOL_; }
 byte { return _BYTE_; }
-char { return _CHAR_; }
 flt { return FLT; }
 nul { return NUL; }
 pack { return PACK; }
@@ -165,31 +165,18 @@ false {
     return NAME;
 }
 
-\'([^\r\f\n\'\\])\' {
-    yylval->asChar = yytext[1];
-    NM_DI("scanner: CHARVAL=\'%c\'", yytext[1]);
-    return CHARVAL;
+<stateString>\\([0-9]+) {
+    std::string str(yytext);
+    NM_E("\\0-9 yytext=%s", yytext);
+    append(yylval, std::string(unescape(str), 1).c_str());
+    NM_DI("scanner: STRVAL=%s", yylval->asStr);
 }
 
-\'\\([^\r\f\n0-9])\' {
+<stateString>\\0x([0-9a-fA-F]+) {
     std::string str(yytext);
-    yylval->asChar = unescape(str.substr(1, str.size()-2));
-    NM_DI("scanner: CHARVAL=%c", yylval->asChar);
-    return CHARVAL;
-}
-
-\'\\([0-9]+)\' {
-    std::string str(yytext);
-    yylval->asChar = unescape(str.substr(1, str.size()-2));
-    NM_DI("scanner: CHARVAL=%c", yylval->asChar);
-    return CHARVAL;
-}
-
-\'\\0x([0-9a-fA-F]+)\' {
-    std::string str(yytext);
-    yylval->asChar = unescape(str.substr(1, str.size()-2));
-    NM_DI("scanner: CHARVAL=%c", yylval->asChar);
-    return CHARVAL;
+    NM_E("\\0x yytext=%s", yytext);
+    append(yylval, std::string(unescape(str), 1).c_str());
+    NM_DI("scanner: STRVAL=%s", yylval->asStr);
 }
 
 \" {
@@ -201,10 +188,7 @@ false {
 
 <stateString>[^"\\\$]+ {
     NM_DI("!!!!!!!! string = %s !!!!!!", yytext);
-    if(!yylval->asStr)
-        yylval->asStr = new std::string(yytext);
-    else
-        yylval->asStr->append(yytext, yyleng);
+    append(yylval, yytext);
 }
 <stateString>\$[a-zA-Z_]+ {
     std::string text = yytext;
@@ -235,10 +219,7 @@ false {
     // when it meets '"' by next token.
 }
 <stateString>\\[\w\$]   {
-    if(!yylval->asStr)
-        yylval->asStr = new std::string{yytext[1]};
-    else
-        (*yylval->asStr) += yytext[1];
+    append(yylval, std::string(yytext[1], 1).c_str());
 }
 <stateString>\\\n     { /* A backslash at the end of the line. Do nothing */ }
 <stateString>\"       {
@@ -297,6 +278,15 @@ int yylex(YYSTYPE* yylval_param, YYLTYPE* yylloc_param, yyscan_t yyscanner) {
 }
 
 namespace {
+    void append(YYSTYPE* val, const char* new1) {
+        if(!val->asStr) {
+            val->asStr = new std::string(new1);
+            return;
+        }
+
+        (*val->asStr) += new1;
+    }
+
     char unescape(const std::string& seq) {
         if(seq.size() < 2) return '\0';
 

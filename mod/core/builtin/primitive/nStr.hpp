@@ -1,12 +1,11 @@
 #pragma once
 
 #include "../container/tucontainable.hpp"
-#include "nChar.hpp"
 #include "primitiveObj.hpp"
 
 namespace nm {
 
-    class _nout nStr: public primitiveObj<std::string>, public tucontainable<nChar> {
+    class _nout nStr: public primitiveObj<std::string>, public tucontainable<nStr> {
         struct _nout nStrType: public ntype {
         public:
             nbool isImmutable() const override;
@@ -16,11 +15,12 @@ namespace nm {
         };
         NM(CLASS(nStr, primitiveObj, nStrType), VISIT())
 
-        typedef typename tucontainable<nChar>::iter iter;
-        typedef typename tucontainable<nChar>::iteration iteration;
+        typedef typename tucontainable<nStr>::iter iter;
+        typedef typename tucontainable<nStr>::iteration iteration;
 
     public:
         nStr() = default;
+        nStr(nchar character);
         nStr(const nchar* val);
         nStr(const std::string& val);
 
@@ -43,8 +43,8 @@ namespace nm {
         nchar get(nidx n) const;
 
         void add(const iter& here, const iter& from, const iter& to) override;
-        nbool add(const iter& at, const nChar& new1) override;
-        nbool set(const iter& at, const nChar& new1) override;
+        nbool add(const iter& at, const nStr& new1) override;
+        nbool set(const iter& at, const nStr& new1) override;
         nbool del(const iter& at) override;
         nbool del(const iter& from, const iter& end) override;
         void rel() override;
