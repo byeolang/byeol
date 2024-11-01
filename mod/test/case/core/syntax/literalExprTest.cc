@@ -207,7 +207,7 @@ TEST_F(literalExprTest, escapeSequence5) {
         .parse(R"SRC(
         main() int
             a := "\r"
-            a as int == 13
+            a as == 13
     )SRC")
         .shouldVerified(true);
 

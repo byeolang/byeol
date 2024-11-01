@@ -166,16 +166,20 @@ false {
 }
 
 <stateString>\\([0-9]+) {
-    std::string str(yytext);
-    NM_E("\\0-9 yytext=%s", yytext);
-    append(yylval, std::string(unescape(str), 1).c_str());
+    std::string str(yytext + 1);
+    NM_E("\\0-9 yytext=%s", yytext + 1);
+    std::string res(1, unescape(str));
+    NM_E("\\0-9 res=%s", ges);
+    append(yylval, res.c_str());
     NM_DI("scanner: STRVAL=%s", yylval->asStr);
 }
 
 <stateString>\\0x([0-9a-fA-F]+) {
-    std::string str(yytext);
-    NM_E("\\0x yytext=%s", yytext);
-    append(yylval, std::string(unescape(str), 1).c_str());
+    std::string str(yytext + 1);
+    NM_E("\\0x yytext=%s", yytext + 1);
+    std::string res(1, unescape(str));
+    NM_E("\\0x res=%s", res);
+    append(yylval, res.c_str());
     NM_DI("scanner: STRVAL=%s", yylval->asStr);
 }
 
@@ -290,7 +294,9 @@ namespace {
     char unescape(const std::string& seq) {
         if(seq.size() < 2) return '\0';
 
-        switch(seq[1]) {
+        NM_DI("unescape(%s)", seq);
+
+        switch(seq[0]) {
             case 'r': return '\r';
             case 'n': return '\n';
             case 't': return '\t';
@@ -300,11 +306,14 @@ namespace {
             case 'b': return '\b';
             // decimal:
             case '1': case '2': case '3': case '4': case '5':
-            case '6': case '7': case '8': case '9': case '0':
-                return (char) std::stoi(seq.substr(1), nullptr, 0);
+            case '6': case '7': case '8': case '9': case '0': {
+                char ret = (char) std::stoi(seq, nullptr, 0);
+                NM_DI("unescape(%s) = %c", seq, ret);
+                return ret;
+            }
 
             default:
-                return seq[1];
+                return seq[0];
         }
     }
 }
