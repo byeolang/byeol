@@ -19,6 +19,7 @@ set(BISON_COMPILE_FLAGS "-l --feature=diagnostics-show-caret --warnings --color"
 set(FLEX_COMPILE_FLAGS "-L --header-file=${PARSER_SRC_DIR}/lowscanner.hpp")
 
 if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+    set(FLEX_COMPILE_FLAGS "${FLEX_COMPILE_FLAGS} --debug")
     set(BISON_REPORT_FILENAME "bisonReport")
     set(BISON_COMPILE_FLAGS "${BISON_COMPILE_FLAGS} --verbose --report=all --debug --graph=${PARSER_SRC_DIR}/${BISON_REPORT_FILENAME}.gv")
 endif (${CMAKE_BUILD_TYPE} STREQUAL Debug)

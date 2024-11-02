@@ -14,6 +14,7 @@ namespace {
     static constexpr int TAB_WIDTH = 4;
     char unescape(const std::string& seq);
     void append(YYSTYPE* val, const char* new1);
+    void append(YYSTYPE* val, char new1);
 }
 
 #define YY_DECL int yylexOrigin(YYSTYPE* yylval_param, YYLTYPE* yylloc_param, yyscan_t yyscanner)
@@ -165,36 +166,29 @@ false {
     return NAME;
 }
 
+\" {
+    NM_DI("start of \" yytext=%s", yytext);
+    yylval->asStr = nullptr;
+    yylloc->strCol = yylloc->start.col;
+    BEGIN(PS.pushState(stateString));
+}
+
 <stateString>\\([0-9]+) {
     std::string str(yytext + 1);
-    NM_E("\\0-9 yytext=%s", yytext + 1);
-    std::string res(1, unescape(str));
-    NM_E("\\0-9 res=%s", ges);
-    append(yylval, res.c_str());
+    NM_DI("str=%s", str);
+    append(yylval, unescape(str));
     NM_DI("scanner: STRVAL=%s", yylval->asStr);
 }
 
 <stateString>\\0x([0-9a-fA-F]+) {
     std::string str(yytext + 1);
-    NM_E("\\0x yytext=%s", yytext + 1);
-    std::string res(1, unescape(str));
-    NM_E("\\0x res=%s", res);
-    append(yylval, res.c_str());
+    NM_DI("0x str=%s", str);
+    append(yylval, unescape(str));
     NM_DI("scanner: STRVAL=%s", yylval->asStr);
 }
 
-\" {
-    yylval->asStr = nullptr;
-    yylloc->strCol = yylloc->start.col;
-    NM_DI("!!!!!!!!! begin string !!!!!!!!!");
-    BEGIN(PS.pushState(stateString));
-}
-
-<stateString>[^"\\\$]+ {
-    NM_DI("!!!!!!!! string = %s !!!!!!", yytext);
-    append(yylval, yytext);
-}
 <stateString>\$[a-zA-Z_]+ {
+    NM_DI("\\$[a-zA-Z_]+ yytext=%s", yytext);
     std::string text = yytext;
     unput('"'); // inputStream = "
     unput('+'); // inputStream = + "
@@ -213,7 +207,16 @@ false {
     unput('+');
     unput('"'); // inputStream = "+(<yourText> as str)+"
 }
+<stateString>\\[a-zA-Z]   {
+    NM_DI("\\[\\w] STRVAL=%s", yytext);
+    append(yylval, unescape(std::string(yytext + 1)));
+}
+<stateString>[^"\\\$]+ {
+    NM_DI("[^\"\\$]+ STRVAL=%s", yytext);
+    append(yylval, yytext);
+}
 <stateString>$\{ {
+    NM_DI("${ yytext=%s", yytext);
     unput('(');
     unput('+');
     unput('"'); // inputStream = "+(
@@ -222,14 +225,11 @@ false {
     // we must leave '"' with 'unput()' so that the scanner will exit current 'stateString',
     // when it meets '"' by next token.
 }
-<stateString>\\[\w\$]   {
-    append(yylval, std::string(yytext[1], 1).c_str());
-}
-<stateString>\\\n     { /* A backslash at the end of the line. Do nothing */ }
+<stateString>\\\n     { NM_DI("\\n yytext=%s", yytext); /* A backslash at the end of the line. Do nothing */ }
 <stateString>\"       {
+    NM_DI("\" yytext=%s", yytext);
     if(!yylval->asStr) yylval->asStr = new std::string();
     yylloc->start.col = yylloc->strCol;
-    NM_DI("!!!!!!!! return string = %s !!!!!!!!", *yylval->asStr);
     BEGIN(PS.popState());
     return STRVAL;
 }
@@ -259,6 +259,7 @@ false {
 <stateBlockComment>. {}
 
 . {
+    NM_DI(". yytext=%s", yytext);
     return PS.onScanUnexpected(yytext);
 }
 
@@ -283,8 +284,19 @@ int yylex(YYSTYPE* yylval_param, YYLTYPE* yylloc_param, yyscan_t yyscanner) {
 
 namespace {
     void append(YYSTYPE* val, const char* new1) {
+        NM_DI("str append: %s += %s", val->asStr, new1);
         if(!val->asStr) {
             val->asStr = new std::string(new1);
+            return;
+        }
+
+        (*val->asStr) += new1;
+    }
+
+    void append(YYSTYPE* val, char new1) {
+        NM_DI("str append: %s += %c", val->asStr, new1);
+        if(!val->asStr) {
+            val->asStr = new std::string(1, new1);
             return;
         }
 

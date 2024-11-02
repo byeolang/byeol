@@ -193,7 +193,6 @@ TEST_F(literalExprTest, escapeSequence3) {
 
 TEST_F(literalExprTest, escapeSequence4) {
     make()
-        .negative()
         .parse(R"SRC(
         main() void
             a := "👍"
@@ -203,11 +202,10 @@ TEST_F(literalExprTest, escapeSequence4) {
 
 TEST_F(literalExprTest, escapeSequence5) {
     make()
-        .negative()
         .parse(R"SRC(
         main() int
             a := "\r"
-            a as == 13
+            a as byte == 13
     )SRC")
         .shouldVerified(true);
 
