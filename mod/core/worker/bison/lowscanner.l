@@ -167,7 +167,6 @@ false {
 }
 
 \" {
-    NM_DI("start of \" yytext=%s", yytext);
     yylval->asStr = nullptr;
     yylloc->strCol = yylloc->start.col;
     BEGIN(PS.pushState(stateString));
@@ -175,14 +174,12 @@ false {
 
 <stateString>\\([0-9]+) {
     std::string str(yytext + 1);
-    NM_DI("str=%s", str);
-    append(yylval, unescape(str));
+    append(yylval, unescape(std::string()));
     NM_DI("scanner: STRVAL=%s", yylval->asStr);
 }
 
 <stateString>\\0x([0-9a-fA-F]+) {
     std::string str(yytext + 1);
-    NM_DI("0x str=%s", str);
     append(yylval, unescape(str));
     NM_DI("scanner: STRVAL=%s", yylval->asStr);
 }
@@ -225,9 +222,8 @@ false {
     // we must leave '"' with 'unput()' so that the scanner will exit current 'stateString',
     // when it meets '"' by next token.
 }
-<stateString>\\\n     { NM_DI("\\n yytext=%s", yytext); /* A backslash at the end of the line. Do nothing */ }
+<stateString>\\\n     { /* A backslash at the end of the line. Do nothing */ }
 <stateString>\"       {
-    NM_DI("\" yytext=%s", yytext);
     if(!yylval->asStr) yylval->asStr = new std::string();
     yylloc->start.col = yylloc->strCol;
     BEGIN(PS.popState());
@@ -304,7 +300,7 @@ namespace {
     }
 
     char unescape(const std::string& seq) {
-        if(seq.size() < 2) return '\0';
+        if(seq.size() < 1) return '\0';
 
         NM_DI("unescape(%s)", seq);
 
@@ -318,11 +314,8 @@ namespace {
             case 'b': return '\b';
             // decimal:
             case '1': case '2': case '3': case '4': case '5':
-            case '6': case '7': case '8': case '9': case '0': {
-                char ret = (char) std::stoi(seq, nullptr, 0);
-                NM_DI("unescape(%s) = %c", seq, ret);
-                return ret;
-            }
+            case '6': case '7': case '8': case '9': case '0':
+                return std::stoi(seq, nullptr, 0);
 
             default:
                 return seq[0];
