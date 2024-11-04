@@ -12,7 +12,7 @@
 #endif
 namespace {
     static constexpr int TAB_WIDTH = 4;
-    char unescape(const std::string& seq);
+    char unescape(const char* seq);
     void append(YYSTYPE* val, const char* new1);
     void append(YYSTYPE* val, char new1);
 }
@@ -173,14 +173,12 @@ false {
 }
 
 <stateString>\\([0-9]+) {
-    std::string str(yytext + 1);
-    append(yylval, unescape(std::string()));
+    append(yylval, unescape(yytext + 1));
     NM_DI("scanner: STRVAL=%s", yylval->asStr);
 }
 
 <stateString>\\0x([0-9a-fA-F]+) {
-    std::string str(yytext + 1);
-    append(yylval, unescape(str));
+    append(yylval, unescape(yytext + 1));
     NM_DI("scanner: STRVAL=%s", yylval->asStr);
 }
 
@@ -206,7 +204,7 @@ false {
 }
 <stateString>\\[a-zA-Z]   {
     NM_DI("\\[\\w] STRVAL=%s", yytext);
-    append(yylval, unescape(std::string(yytext + 1)));
+    append(yylval, unescape(yytext + 1));
 }
 <stateString>[^"\\\$]+ {
     NM_DI("[^\"\\$]+ STRVAL=%s", yytext);
@@ -299,8 +297,8 @@ namespace {
         (*val->asStr) += new1;
     }
 
-    char unescape(const std::string& seq) {
-        if(seq.size() < 1) return '\0';
+    char unescape(const char* seq) {
+        if(!seq) return '\0';
 
         NM_DI("unescape(%s)", seq);
 
