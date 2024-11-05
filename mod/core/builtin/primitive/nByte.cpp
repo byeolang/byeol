@@ -29,7 +29,7 @@ namespace nm {
 
             struct asStr: public tas<nStr> {
                 str as(const node& me, const type& to) const override {
-                    return str(new nStr(std::to_string(me.cast<nuchar>())));
+                    return str(new nStr(std::string(1, me.cast<nuchar>())));
                 }
             };
 

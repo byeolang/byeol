@@ -65,8 +65,8 @@ TEST_F(primitiveTypeTest, byteConversion) {
     make()
         .parse(R"SRC(
         main() int
-            b := 104
-            b as char == "h"
+            b byte := 104
+            b as str == "h"
     )SRC")
         .shouldVerified(true);
 
