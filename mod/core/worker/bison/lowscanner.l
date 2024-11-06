@@ -55,7 +55,7 @@ namespace {
 %%
 
 [\%\*\+\-\/\.\{\[\^\|\&\~\!] { return PS.onIgnoreIndent(yytext[0]); }
-[\]<>\;\_\@\$] { return yytext[0]; }
+[\]<>\;\_\@\$\'] { return yytext[0]; }
 \} {
     if(!PS.onTokenEndOfBraces()) return '}'; // it wasn't str-templating.
 

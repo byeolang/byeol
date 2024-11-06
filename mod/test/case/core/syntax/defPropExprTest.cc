@@ -159,7 +159,7 @@ TEST_F(defPropExprTest, shortDefinition) {
             age := 2
 
         foo() int
-            @person
+            person'
             person.age = 3 # person is local variable.
             ret person.age
 
@@ -178,9 +178,9 @@ TEST_F(defPropExprTest, shortDefinitionOnParam) {
         .parse(R"SRC(
         def person
             age := 0
-            ctor(@person)
+            ctor(person')
                 age = person.age + 1
-        foo(@person) int
+        foo(person') int
             person.age + 1
 
         main() int
@@ -198,7 +198,7 @@ TEST_F(defPropExprTest, shortDefinitionNotAllowPrimitiveNegative) {
     make()
         .negative()
         .parse(R"SRC(
-        foo(@int) int: 1
+        foo(int') int: 1
         main() int
             foo(2)
     )SRC")
@@ -209,7 +209,7 @@ TEST_F(defPropExprTest, shortDefinitionNotAllowContainerNegative) {
     make()
         .negative()
         .parse(R"SRC(
-        foo(@int[]) int: 1
+        foo(int[]') int: 1
         main() int
             foo(2)
     )SRC")
@@ -222,7 +222,7 @@ TEST_F(defPropExprTest, shortDefinitionNotAllowContainerNegative2) {
         .parse(R"SRC(
         def Person
             age int
-        foo(@Person[]) int: 1
+        foo(Person[]') int: 1
         main() int
             foo({Person()})
     )SRC")
@@ -234,7 +234,7 @@ TEST_F(defPropExprTest, shortDefinitionWithGenerics) {
         .parse(R"SRC(
         def Person<E>
             value E
-        foo(@Person<int>) int
+        foo(Person<int>') int
             person.value + 1 # short-definition always replaces to define lowercased name.
         main() int
             p1 Person<int>
