@@ -47,7 +47,8 @@ TEST_F(assignExprTest, simpleAssign2) {
             ans := "0"
             ans += "l"
             ret ans == "0l"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 }
 
 TEST_F(assignExprTest, simpleAssignReturn) {

@@ -45,8 +45,8 @@ TEST(chunkTest, chunkListTest) {
     class heap {
     public:
         nbool new1(chunk& chk, ncnt cnt) {
-            for(int n = 0; n < cnt; n++) [[maybe_unused]]
-                void* ptr = chk.new1() orRet false;
+            for(int n = 0; n < cnt; n++)
+                [[maybe_unused]] void* ptr = chk.new1() orRet false;
             return true;
         }
     } heap;

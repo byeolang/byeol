@@ -174,6 +174,7 @@ namespace nm {
             NM_DI("on%s(...)", ttype<T>::get());
             return new T(arg);
         }
+
         template <typename T> T* onPrimitive() {
             NM_DI("on%s()", ttype<T>::get());
             return new T();

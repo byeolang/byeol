@@ -8,12 +8,14 @@ namespace {
 }
 
 TEST_F(stringTemplateTest, simpleTest) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo(value int) str
             "your value is $value"
         main() int
             foo(18) == "your value is 18"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -22,7 +24,8 @@ TEST_F(stringTemplateTest, simpleTest) {
 }
 
 TEST_F(stringTemplateTest, testWithExpr) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def person
             age := 232
             race := "elf"
@@ -30,7 +33,8 @@ TEST_F(stringTemplateTest, testWithExpr) {
                 "I'm $age yo, but still a child among ${race + "s"}."
         main() int
             person.hello() == "I'm 232 yo, but still a child among elfs."
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
