@@ -95,8 +95,7 @@ namespace nm {
     }
 
     nbool me::_isSelfMaking(const std::string& key) const {
-        return std::find_if(
-                   _paramNames.begin(), _paramNames.end(),
+        return std::find_if(_paramNames.begin(), _paramNames.end(),
                    [&](const auto& name) -> nbool { return key == name; }) != _paramNames.end();
     }
 } // namespace nm
