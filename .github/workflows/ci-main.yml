@@ -8,7 +8,7 @@ on:
 jobs:
   checking-code-format:
     name: check code format with clang-format
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         path:
@@ -26,7 +26,7 @@ jobs:
   build-on-linux:
     needs: [checking-code-format]
     name: build on linux
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - name: install native dependencies.
@@ -58,7 +58,7 @@ jobs:
   measure-coverage:
     needs: [build-on-linux]
     name: measure code coverage
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - name: install native dependencies
@@ -147,7 +147,7 @@ jobs:
   publish-doc:
     needs: [build-on-linux, build-on-macos, build-on-windows]
     name: publish doc
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: install native dependencies.
