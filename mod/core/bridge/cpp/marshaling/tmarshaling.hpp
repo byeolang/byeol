@@ -126,6 +126,24 @@ namespace nm {
         static yes canMarshal();
     };
 
+    template <> struct tnormalMarshaling<char, nStr>: public metaIf {
+        typedef nStr mgd;
+        typedef char native;
+
+        static native toNative(node& it) {
+            const std::string& cast = ((mgd&) it).get();
+            return cast.length() > 0 ? cast[0] : '\0';
+        }
+
+        static str toMgd(native it) { return str(new mgd(it)); }
+
+        static const mgd& onAddParam() { return *new mgd(); }
+
+        static const mgd& onGetRet() { return *new mgd(); }
+
+        static yes canMarshal();
+    };
+
     template <> struct tnormalMarshaling<const char*, nStr>: public metaIf {
         typedef nStr mgd;
         typedef const char* native;
