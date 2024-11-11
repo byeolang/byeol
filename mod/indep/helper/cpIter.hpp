@@ -19,6 +19,7 @@ namespace nm {
         me& operator+=(ncnt step);
         std::string operator*() const;
         explicit operator nbool() const;
+        nbool operator==(const me& rhs) const;
 
     public:
         nbool isEnd() const;

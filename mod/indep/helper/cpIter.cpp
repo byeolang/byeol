@@ -33,6 +33,8 @@ namespace nm {
 
     me::operator nbool() const { return !isEnd(); }
 
+    nbool me::operator==(const me& rhs) const { return _e == rhs._e; }
+
     nbool me::isEnd() const { return !_e || !*_e; }
 
     ncnt me::next(ncnt step) {

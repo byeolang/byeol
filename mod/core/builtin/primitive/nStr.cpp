@@ -45,28 +45,14 @@ namespace nm {
             NM(CLASS(bridgeIteration, iteration))
 
         public:
-            bridgeIteration(nStr& own, nidx n): _own(&own), _n(n) {}
+            bridgeIteration(nStr& own, nidx n): _own(&own), _e(own.get().c_str()) { _e.next(n); }
 
-            nbool isEnd() const override { return !_own->in(_n); }
+            nbool isEnd() const override { return _e.isEnd(); }
 
-            ncnt next(ncnt step) override {
-                if(step <= 0) return 0;
-                if(isEnd()) return 0;
-
-                int len = _own->len(), lastN = len - 1;
-                int toLast = lastN - _n;
-
-                _n += step;
-                if(_n > lastN) {
-                    _n = len;
-                    step = toLast;
-                }
-                return step;
-            }
+            ncnt next(ncnt step) override { return _e.next(step); }
 
             nStr& get() override {
-                if(isEnd()) return nulOf<nStr>();
-                _val.get() = (*_own)[_n];
+                _val = *_e;
                 return _val;
             }
 
@@ -77,13 +63,13 @@ namespace nm {
         protected:
             nbool _onSame(const typeProvidable& rhs) const override {
                 const me& cast = (const me&) rhs;
-                return isFrom(cast.getContainer()) && _n == cast._n;
+                return isFrom(cast.getContainer()) && _e == cast._e;
             }
 
         private:
             nStr* _own;
+            cpIter _e;
             nStr _val;
-            nidx _n;
         };
 
         class _nout mgdIter: public __superMgdIter {
@@ -239,7 +225,7 @@ namespace nm {
 
     nchar me::operator[](nint n) const { return get()[n]; }
 
-    nint me::len() const { return get().length(); }
+    nint me::len() const { return cpIter(get().c_str()).remainLen(); }
 
     tstr<arithmeticObj> me::bitwiseNot() const {
         return *this;
