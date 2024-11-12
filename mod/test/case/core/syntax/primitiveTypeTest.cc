@@ -114,3 +114,27 @@ TEST_F(primitiveTypeTest, deduceAndImplicitCastNegative) {
     )SRC")
         .shouldVerified(false);
 }
+
+TEST_F(primitiveTypeTest, codepointBasedLen) {
+    make().parse(R"SRC(
+        main() int
+            if "அம்மா".len() != 5: 0
+            else: 1
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
+}
+
+TEST_F(primitiveTypeTest, codepointBasedLen2) {
+    make().parse(R"SRC(
+        main() int
+            if "🏁🎌☃".len() != 3: 0
+            else: 1
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
+}
