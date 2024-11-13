@@ -138,3 +138,33 @@ TEST_F(primitiveTypeTest, codepointBasedLen2) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 1);
 }
+
+TEST_F(primitiveTypeTest, codepointBasedIteration) {
+    make().parse(R"SRC(
+        main() int
+            res str
+            for ch in "அம்மா"
+                res += ch
+            res == "அம்மா"
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
+}
+
+TEST_F(primitiveTypeTest, codepointBasedIteration2) {
+    make().parse(R"SRC(
+        main() int
+            res str
+            n int
+            for ch in "안1녕2하3세4요."
+                if n++ % 2 == 1: next
+                res += ch
+            res == "안녕하세요"
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
+}
