@@ -27,5 +27,4 @@ namespace nm {
 #define orNul(T) orRet nulOf<T>()
 #define orDo __orRet__ if(__orRetStack__::pop())
 #define orContinue orDo continue
-
 } // namespace nm

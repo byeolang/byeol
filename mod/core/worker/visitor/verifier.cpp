@@ -50,6 +50,8 @@ namespace nm {
 #define thenWarn_5(code, a1, a2, a3, a4) nothing(), posWarn(errCode::code, a1, a2, a3, a4)
 #define thenWarn(...) NM_OVERLOAD(thenWarn, __VA_ARGS__)
 
+#define orRetErr(...) orRet posError(__VA_ARGS__)
+
 #define _GUARD(msg)                                                                \
     if(isFlag(GUARD)) do {                                                         \
             NM_I("'%s' %s@%s: " msg, i, me.getType(), platformAPI::toAddrId(&me)); \
@@ -108,10 +110,10 @@ namespace nm {
 
         _STEP("set evalType");
 
-        const ntype& ltype = me THEN(getLeft()) THEN(getEval()) THEN(getType());
-        NM_WHENNUL(ltype).thenErr(LHS_IS_NUL, me);
-        const ntype& rtype = me THEN(getRight()) THEN(getEval()) THEN(getType());
-        NM_WHENNUL(rtype).thenErr(RHS_IS_NUL, me);
+        const ntype& ltype =
+            me THEN(getLeft()) THEN(getEval()) THEN(getType()) orRetErr(LHS_IS_NUL, me);
+        const ntype& rtype =
+            me THEN(getRight()) THEN(getEval()) THEN(getType()) orRetErr(RHS_IS_NUL, me);
         NM_WHEN(rtype.isSub<retStateExpr>()).thenErr(CANT_ASSIGN_RET, me);
         NM_WHEN(!rtype.isImpli(ltype)).thenErr(TYPE_NOT_COMPATIBLE, me, rtype, ltype);
 
@@ -195,14 +197,12 @@ namespace nm {
         _GUARD("onLeave()");
 
         _STEP("modifier not allowed for local variables.");
-        const auto& mod = me.getNewModifier();
-        NM_WHENNUL(mod).thenErr(MODIFIER_NOT_FOUND, me, me.getName());
+        const auto& mod = me.getNewModifier() orRetErr(MODIFIER_NOT_FOUND, me, me.getName());
         NM_WHEN(!mod.isPublic()).thenErr(PROTECTED_NOT_ALLOWED_FOR_LOCAL, me, me.getName());
         NM_WHEN(mod.isExplicitOverride()).thenErr(OVERRIDE_NOT_ALLOWED_FOR_LOCAL, me, me.getName());
 
         _STEP("to define a void type property isn't allowed.");
-        str eval = me.getRight() THEN(getEval());
-        NM_WHEN(!eval).thenErr(RHS_IS_NUL, me);
+        str eval = me.getRight() THEN(getEval()) orRetErr(RHS_IS_NUL, me);
         NM_WHEN(eval->isSub<nVoid>()).thenErr(VOID_CANT_DEFINED, me);
 
         obj& cast = eval->cast<obj>();
@@ -252,8 +252,7 @@ namespace nm {
         _GUARD("onLeave()");
 
         _STEP("whether the 'type' object has a ctor without any paramters?");
-        str eval = me THEN(getRight()) THEN(getEval());
-        NM_WHEN(!eval).thenErr(RHS_IS_NUL, me);
+        str eval = me THEN(getRight()) THEN(getEval()) orRetErr(RHS_IS_NUL, me);
         NM_WHENNUL(eval->sub(baseObj::CTOR_NAME, args{})).thenErr(DONT_HAVE_CTOR, me, eval);
 
         onLeave(i, (defPropExpr::super&) me);
@@ -263,8 +262,7 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("check rhs");
-        str eval = me THEN(getRight()) THEN(getEval());
-        NM_WHEN(!eval).thenErr(RHS_IS_NUL, me);
+        str eval = me THEN(getRight()) THEN(getEval()) orRetErr(RHS_IS_NUL, me);
         NM_WHEN(!eval->isComplete()).thenErr(ACCESS_TO_INCOMPLETE, me);
 
         str explicitType = me THEN(getExplicitType());
@@ -282,10 +280,8 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("check lhs & rhs");
-        auto& start = me.getStart();
-        NM_WHENNUL(start).thenErr(LHS_IS_NUL, me);
-        auto& end = me.getEnd();
-        NM_WHENNUL(end).thenErr(RHS_IS_NUL, me);
+        auto& start = me.getStart() orRetErr(LHS_IS_NUL, me);
+        auto& end = me.getEnd() orRetErr(RHS_IS_NUL, me);
 
         _STEP("lhs & rhs is sort of Int?");
         NM_WHEN(!start.isImpli<nInt>()).thenErr(SEQ_SHOULD_INT_COMPATIBLE, me);
@@ -296,14 +292,13 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("check all elements");
-        const node& type = me.getArrayType();
-        NM_WHENNUL(type).thenErr(ELEM_TYPE_DEDUCED_NUL, me);
+        const node& type = me.getArrayType() orRetErr(ELEM_TYPE_DEDUCED_NUL, me);
         NM_WHEN(type.isSuper<obj>()).thenErr(ELEM_TYPE_DEDUCED_WRONG, me, type);
         NM_WHEN(type.isSub<nVoid>()).thenErr(ELEM_TYPE_NOT_VOID, me);
 
         _STEP("check arr has exactly 1 type parameter.");
-        const auto& ps = me.getOrigin() THEN(getType()) THEN(getParams());
-        NM_WHENNUL(ps).thenErr(ELEM_TYPE_IS_NUL, me);
+        const auto& ps =
+            me.getOrigin() THEN(getType()) THEN(getParams()) orRetErr(ELEM_TYPE_IS_NUL, me);
         NM_WHEN(ps.len() != 1).thenErr(ARR_DOESNT_HAVE_TYPE_PARAM, me);
     }
 
@@ -311,10 +306,8 @@ namespace nm {
         _GUARD("onVisit()");
 
         _STEP("finding eval of l(r)hs.");
-        str lEval = me THEN(getLeft()) THEN(getEval());
-        str rEval = me THEN(getRight()) THEN(getEval());
-        NM_WHEN(!lEval).thenErr(LHS_IS_NUL, me);
-        NM_WHEN(!rEval).thenErr(RHS_IS_NUL, me);
+        str lEval = me THEN(getLeft()) THEN(getEval()) orRetErr(LHS_IS_NUL, me);
+        str rEval = me THEN(getRight()) THEN(getEval()) orRetErr(RHS_IS_NUL, me);
 
         NM_WHEN(!checkEvalType(*lEval)).thenErr(LHS_IS_NOT_ARITH, me, lEval);
         NM_WHEN(!checkEvalType(*rEval)).thenErr(RHS_IS_NOT_ARITH, me, rEval);
@@ -371,8 +364,7 @@ namespace nm {
         NM_WHEN(asedMe && !asedMe->isComplete()).thenErr(ACCESS_TO_INCOMPLETE, me);
 
         _STEP("check modifier.");
-        const auto& mod = match->getModifier();
-        NM_WHENNUL(mod).thenErr(MODIFIER_NOT_FOUND, me, me.getName());
+        const auto& mod = match->getModifier() orRetErr(MODIFIER_NOT_FOUND, me, me.getName());
         if(!mod.isPublic()) { // we only need to run verify routine when there is protected
                               // modifier.
             baseObj& castedMe = asedMe->cast<baseObj>();
@@ -391,11 +383,9 @@ namespace nm {
         NM_WHEN(i.index != i.len - 1).thenErr(RET_AT_MIDDLE_OF_BLOCK, me);
 
         _STEP("checks evalType of func is matched to me");
-        const baseFunc& f = thread::get().getNowFrame().getFunc();
-        NM_WHENNUL(f).thenErr(NO_FUNC_INFO, me);
+        const baseFunc& f = thread::get().getNowFrame().getFunc() orRetErr(NO_FUNC_INFO, me);
 
-        str myRet = me.getRet().getEval();
-        NM_WHEN(!myRet).thenErr(EXPR_EVAL_NUL, me);
+        str myRet = me.getRet().getEval() orRetErr(EXPR_EVAL_NUL, me);
 
         const node& funRet = f.getRet();
         _STEP("checks return[%s] == func[%s]", myRet, funRet);
@@ -414,12 +404,10 @@ namespace nm {
         args& a = me.getArgs();
         a.setMe(*ased);
 
-        node& anySub = me.getSubj();
-        NM_WHENNUL(anySub).thenErr(FUNC_NOT_EXIST, me);
+        node& anySub = me.getSubj() orRetErr(FUNC_NOT_EXIST, me);
         _STEP("anySub[%s]", anySub);
 
-        str derivedSub = anySub.getEval();
-        NM_WHEN(!derivedSub).thenErr(CANT_ACCESS, me, ased, "sub-node");
+        str derivedSub = anySub.getEval() orRetErr(CANT_ACCESS, me, ased, "sub-node");
 
         _STEP("derivedSub[%s]", derivedSub);
         if(!derivedSub->canRun(me.getArgs())) {
@@ -469,8 +457,7 @@ namespace nm {
         _GUARD("onLeave()");
 
         _STEP("no error allowed during running ctor");
-        const node& eval = *me.getBlock().getEval();
-        NM_WHENNUL(eval).thenErr(EXPR_EVAL_NUL, me);
+        const node& eval = *me.getBlock().getEval() orRetErr(EXPR_EVAL_NUL, me);
         NM_WHEN(eval.isSub<baseErr>()).thenErr(RET_ERR_ON_CTOR, me);
 
         me.outFrame(scope());
@@ -596,11 +583,10 @@ namespace nm {
         if(retType == ttype<nVoid>::get())
             return NM_I("func: implicit return won't verify NM_WHEN retType is void."), void();
 
-        str eval = me.getBlock().getEval();
-        NM_WHEN(!eval).thenErr(NO_RET_TYPE, lastStmt);
+        str eval = me.getBlock().getEval() orRetErr(NO_RET_TYPE, lastStmt);
 
-        const ntype& lastType = eval->getType(); // to get type of expr, always uses evalType.
-        NM_WHENNUL(lastType).thenErr(NO_RET_TYPE, lastStmt);
+        // to get type of expr, always uses evalType.
+        const ntype& lastType = eval->getType() orRetErr(NO_RET_TYPE, lastStmt);
 
         _STEP("last stmt[%s] should matches to return type[%s]", eval, retType);
         if(eval->isSub<retStateExpr>())
@@ -633,12 +619,9 @@ namespace nm {
             .thenErr(ORIGIN_OBJ_CANT_BE_CONST, me),
             true;
 
-        _STEP("if obj is complete, does it have ctor without params?");
-        if(me.isComplete()) {
-            NM_WHENNUL(me.sub(baseObj::CTOR_NAME, args{})).thenErr(COMPLETE_OBJ_BUT_NO_CTOR, me),
-                true;
-        } else {
-            _STEP("if me's origin is obj & incomplete, it shouldn't have any callComplete");
+        _STEP("if me's origin is obj & incomplete, it shouldn't have any callComplete");
+        //TODO: const baseObj& org = me.getOrigin() orRetErr()
+        if(!me.isComplete()) {
             const obj& org = me.getOrigin().cast<obj>();
             NM_WHEN(!nul(org) && !nul(org.getCallComplete()))
                 .thenErr(CANT_CALL_COMPLETE_FOR_INCOMPLETE, me),
@@ -653,6 +636,14 @@ namespace nm {
         _GUARD("onLeave()");
         me.outFrame();
         _orgs.push_back(&me);
+    }
+
+    nbool me::onVisit(const visitInfo& i, obj& me) {
+        _STEP("if obj isn't complete, it have ctor without params?");
+        if(me.isComplete())
+            NM_WHENNUL(me.sub(baseObj::CTOR_NAME, args{})).thenErr(COMPLETE_OBJ_BUT_NO_CTOR, me),
+                true;
+        return onVisit(i, (obj::super&) me);
     }
 
     nbool me::onVisit(const visitInfo& i, genericOrigin& me) {
@@ -689,10 +680,8 @@ namespace nm {
         _recentLoops.push_back(&me);
 
         str container = me._container;
-        str conAsed = container->getEval();
-        NM_WHEN(!conAsed).thenErr(CONTAINER_IS_NUL, me), true;
-        str elemType = conAsed->run("getElemType");
-        NM_WHEN(!elemType).thenErr(ELEM_TYPE_IS_NUL, me), true;
+        str conAsed = container->getEval() orRetErr(CONTAINER_IS_NUL, me), true;
+        str elemType = conAsed->run("getElemType") orRetErr(ELEM_TYPE_IS_NUL, me), true;
 
         const std::string& name = me.getLocalName();
         _STEP("define iterator '%s %s'", elemType, name);
@@ -737,4 +726,8 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, ifExpr& me) { _GUARD("onLeave()"); }
+
+#undef thenErr
+#undef thenWarn
+#undef orRetErr
 } // namespace nm
