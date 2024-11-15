@@ -36,6 +36,7 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, nStr& e) {
         _drawFrame(i);
+        _showModifier(e.getModifier());
         cout << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN)
              << e.getType().createNameWithParams() << foreColor(LIGHTGRAY) << " = "
              << foreColor(YELLOW) << _encodeNewLine(e.get());
@@ -46,20 +47,20 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, nBool& e) { return _onVisitPrimitive<nBool>(i, e); }
 
-    namespace {
-        void _showModifier(const modifier& mod) {
-            if(!mod.isPublic()) cout << foreColor(GREEN) << "_";
-            if(mod.isExplicitOverride()) cout << foreColor(GREEN) << "+";
-        }
-    }
-
     nbool me::onVisit(const visitInfo& i, node& visitee) {
         _drawFrame(i);
         _showModifier(visitee.getModifier());
 
         cout << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN)
              << visitee.getType().createNameWithParams() << foreColor(LIGHTGRAY) << "@"
-             << foreColor(RED) << platformAPI::toAddrId(&visitee);
+             << foreColor(BROWN) << platformAPI::toAddrId(&visitee);
+        return true;
+    }
+
+    nbool me::onVisit(const visitInfo& i, obj& o) {
+        onVisit(i, (obj::super&) o);
+
+        if(o.isComplete()) cout << foreColor(GREEN) << " [complete] ";
         return true;
     }
 
@@ -186,6 +187,11 @@ namespace nm {
         const auto& name = it.cast<getExpr>() THEN(getName());
         if(!nul(name)) ret = name;
         return ret;
+    }
+
+    void me::_showModifier(const modifier& mod) {
+        if(!mod.isPublic()) cout << foreColor(GREEN) << "_";
+        if(mod.isExplicitOverride()) cout << foreColor(GREEN) << "+";
     }
 
     string me::_encodeNewLine(const string& msg) const {
