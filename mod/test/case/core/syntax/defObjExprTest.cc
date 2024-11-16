@@ -744,3 +744,29 @@ TEST_F(defObjExprTest, nested) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 2062);
 }
+
+TEST_F(defObjExprTest, iterateObj) {
+    make().parse(R"SRC(
+        def Person
+            _age int
+            _name str := "Unknown"
+
+            ctor(newAge age): age = newAge
+            ctor(newAge age, newName name): age = newAge; setName(newName)
+
+            setName(newName str) void
+                name = newName
+
+            say() str: "$name: I'm $age years old.\n"
+
+        main() int
+            bookmarks str
+            for p in {Person(22), Person(38, "kniz"), Person(17, "Highscool")}
+                bookmarks += p.say()
+            bookmarks == "Unknown: I'm 22 years old.\nkniz: I'm 38 years old.\nHighscool: I'm 17 years old.\n"
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res->cast<nint>(), 1);
+}

@@ -619,14 +619,8 @@ namespace nm {
             .thenErr(ORIGIN_OBJ_CANT_BE_CONST, me),
             true;
 
-        _STEP("if me's origin is obj & incomplete, it shouldn't have any callComplete");
-        //TODO: const baseObj& org = me.getOrigin() orRetErr()
-        if(!me.isComplete()) {
-            const obj& org = me.getOrigin().cast<obj>();
-            NM_WHEN(!nul(org) && !nul(org.getCallComplete()))
-                .thenErr(CANT_CALL_COMPLETE_FOR_INCOMPLETE, me),
-                true;
-        }
+        _STEP("origin obj always must exist");
+        me.getOrigin() orRetErr(NO_ORIGIN, me, i.name), false;
 
         onLeave(i, (baseObj::super&) me);
         return true;
@@ -639,10 +633,15 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, obj& me) {
-        _STEP("if obj isn't complete, it have ctor without params?");
-        if(me.isComplete())
+        _STEP("if me's origin is obj & incomplete, it shouldn't have any callComplete");
+        const obj &org = me.getOrigin().cast<obj>() orRetErr(NO_ORIGIN, me, i.name), true;
+        if(org.isComplete()) {
             NM_WHENNUL(me.sub(baseObj::CTOR_NAME, args{})).thenErr(COMPLETE_OBJ_BUT_NO_CTOR, me),
                 true;
+        } else {
+            NM_WHEN(!nul(org.getCallComplete())).thenErr(CANT_CALL_COMPLETE_FOR_INCOMPLETE, me),
+                true;
+        }
         return onVisit(i, (obj::super&) me);
     }
 
