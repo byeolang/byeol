@@ -633,6 +633,8 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, obj& me) {
+        onVisit(i, (obj::super&) me);
+
         _STEP("if me's origin is obj & incomplete, it shouldn't have any callComplete");
         const obj &org = me.getOrigin().cast<obj>() orRetErr(NO_ORIGIN, me, i.name), true;
         if(org.isComplete()) {
@@ -642,7 +644,7 @@ namespace nm {
             NM_WHEN(!nul(org.getCallComplete())).thenErr(CANT_CALL_COMPLETE_FOR_INCOMPLETE, me),
                 true;
         }
-        return onVisit(i, (obj::super&) me);
+        return true;
     }
 
     nbool me::onVisit(const visitInfo& i, genericOrigin& me) {
