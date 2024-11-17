@@ -5,7 +5,7 @@
 
 namespace nm {
     /// iterator for codepoint of string.
-    class cpIter {
+    class _nout cpIter {
         NM(ME(cpIter))
 
     public:
