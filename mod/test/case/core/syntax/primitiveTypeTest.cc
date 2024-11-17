@@ -116,11 +116,13 @@ TEST_F(primitiveTypeTest, deduceAndImplicitCastNegative) {
 }
 
 TEST_F(primitiveTypeTest, codepointBasedLen) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             if "அம்மா".len() != 5: 0
             else: 1
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -128,11 +130,13 @@ TEST_F(primitiveTypeTest, codepointBasedLen) {
 }
 
 TEST_F(primitiveTypeTest, codepointBasedLen2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             if "🏁🎌☃".len() != 3: 0
             else: 1
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -140,13 +144,15 @@ TEST_F(primitiveTypeTest, codepointBasedLen2) {
 }
 
 TEST_F(primitiveTypeTest, codepointBasedIteration) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             res str
             for ch in "அம்மா"
                 res += ch
             res == "அம்மா"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -154,7 +160,8 @@ TEST_F(primitiveTypeTest, codepointBasedIteration) {
 }
 
 TEST_F(primitiveTypeTest, codepointBasedIteration2) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             res str
             n int
@@ -162,7 +169,8 @@ TEST_F(primitiveTypeTest, codepointBasedIteration2) {
                 if n++ % 2 == 1: next
                 res += ch
             res == "안녕하세요"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

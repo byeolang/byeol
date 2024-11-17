@@ -746,7 +746,8 @@ TEST_F(defObjExprTest, nested) {
 }
 
 TEST_F(defObjExprTest, iterateObj) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def Person
             _age int
             _name str := "Unknown"
@@ -764,7 +765,8 @@ TEST_F(defObjExprTest, iterateObj) {
             for p in {Person(22), Person(38, "kniz"), Person(17, "Highscool")}
                 bookmarks += p.say()
             bookmarks == "Unknown: I'm 22 years old.\nkniz: I'm 38 years old.\nHighscool: I'm 17 years old.\n"
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
