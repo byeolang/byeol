@@ -42,13 +42,13 @@ namespace nm {
     }
 
     tstr<arithmeticObj> me::_lshift(const arithmeticObj& rhs, nbool reversed) const {
-        return reversed ? new nInt(rhs.as<me>()->get() << get()) :
-                          new nInt(get() << rhs.as<me>()->get());
+        return reversed ? new nBool((rhs.as<me>()->get() << get()) != 0) :
+                          new nBool((get() << rhs.as<me>()->get()) != 0);
     }
 
     tstr<arithmeticObj> me::_rshift(const arithmeticObj& rhs, nbool reversed) const {
-        return reversed ? new nInt(rhs.as<me>()->get() >> get()) :
-                          new nInt(get() >> rhs.as<me>()->get());
+        return reversed ? new nBool((rhs.as<me>()->get() >> get()) != 0) :
+                          new nBool((get() >> rhs.as<me>()->get()) != 0);
     }
 
     tstr<arithmeticObj> me::bitwiseNot() const { return nInt(!get()); }
