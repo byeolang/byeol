@@ -5,12 +5,10 @@ using namespace std;
 
 struct helloProgrammerTest: public namuTest {};
 
-/*
 TEST_F(helloProgrammerTest, testScript) {
-    const std::string script =
-        "def programmer\n"
-        "   say := 'html is not a programming language!'\n"
-        "";
+    const std::string script = R"SRC(def programmer
+           say := 'html is not a programming language!'
+        )SRC";
 
     tstr<sobj> file = sinterpreter().interp(script);
     ASSERT_TRUE(file);
@@ -24,11 +22,12 @@ TEST_F(helloProgrammerTest, testScript) {
     ASSERT_STREQ(say.asStr().c_str(), "html is not a programming language!");
 }
 
+/*
 TEST_F(helloProgrammerTest, testScriptEndsWithEOF) {
-    const std::string script =
-        "def programmer\n"
-        "   say := 'html is not a programming language!'\n"
-        "   age := 12";
+    const std::string script = R"SRC(def programmer
+           say := 'html is not a programming language!'
+           age := 12
+    )SRC";
 
     tstr<sobj> file = sinterpreter().interp(script);
     ASSERT_TRUE(file);
@@ -47,10 +46,11 @@ TEST_F(helloProgrammerTest, testScriptEndsWithEOF) {
 
 TEST_F(helloProgrammerTest, testScriptWithPackScope) {
     const std::string script =
-        "say := 'html is not a programming language!'\n"
-        "age := 12\n"
-        "def ramen\n"
-        " name := 'doshirak'\n";
+R"SRC(say := 'html is not a programming language!'
+age := 12
+def ramen
+  name := 'doshirak'
+    )SRC";
 
     tstr<sobj> file = sinterpreter().interp(script);
     ASSERT_TRUE(file);
@@ -72,10 +72,11 @@ TEST_F(helloProgrammerTest, testScriptWithPackScope) {
 TEST_F(helloProgrammerTest, testNullObjNegative) {
 
     const std::string script =
-        "say := 'html is not a programming language!'\n"
-        "age := 12\n"
-        "def ramen\n"
-        " name := 'doshirak'\n";
+R"SRC(say := 'html is not a programming language!'
+age := 12
+def ramen
+ name := 'doshirak'
+    )SRC";
 
     tstr<sobj> file = sinterpreter().interp(script);
     ASSERT_TRUE(file);
@@ -90,10 +91,11 @@ TEST_F(helloProgrammerTest, testNullObjNegative) {
 
 TEST_F(helloProgrammerTest, testVerObject) {
     const std::string script =
-        "def man\n" // TODO: seedling parser only believe that def keyword will be front of script.
-        "   dummy := 5\n"
-        "   name := 'dark souls'\n"
-        "   ver := 1.0.8\n";
+R"SRC(def man
+   dummy := 5
+   name := 'dark souls'
+   ver := 1.0.8
+)SRC";
 
     tstr<sobj> file = sinterpreter().interp(script);
     ASSERT_TRUE(file);
@@ -124,8 +126,9 @@ TEST_F(helloProgrammerTest, testVerObject) {
 
 TEST_F(helloProgrammerTest, testNullThisTest) {
     const std::string script =
-        "def empty\n"
-        "  name := 'wow'\n";
+R"SRC(def empty
+    name := 'wow'
+    )SRC";
 
     tstr<sobj> file = sinterpreter().interp(script);
     ASSERT_TRUE(file);
@@ -138,10 +141,11 @@ TEST_F(helloProgrammerTest, testNullThisTest) {
 
 TEST_F(helloProgrammerTest, testIteration) {
     const std::string script =
-        "def person\n"
-        "   name := 'gorden freeman'\n"
-        "   lookingFor := 'crowbar'\n"
-        "   whenWillThereBeAHalflife := 3\n";
+R"SRC(def person
+   name := 'gorden freeman'
+   lookingFor := 'crowbar'
+   whenWillThereBeAHalflife := 3
+    )SRC";
 
     tstr<sobj> file = sinterpreter().interp(script);
     ASSERT_TRUE(file);
@@ -163,8 +167,9 @@ TEST_F(helloProgrammerTest, testIteration) {
 
 TEST_F(helloProgrammerTest, testNullThisAccess) {
     const std::string script =
-        "def empty\n"
-        "  name := 'wow'\n";
+R"SRC(def empty
+    name := 'wow'
+    )SRC";
 
     tstr<sobj> file = sinterpreter().interp(script);
     ASSERT_TRUE(file);
@@ -176,12 +181,13 @@ TEST_F(helloProgrammerTest, testNullThisAccess) {
 
 TEST_F(helloProgrammerTest, testManifestScript) {
     const std::string script =
-        "def entrypoints\n"
-        "   def cpp\n"
-        "       path := './libsamplePack.pack'\n"
-        "name := 'samplePack'\n"
-        "ver := 2.1.0\n"
-        "author := 'kniz'\n";
+R"SRC(def entrypoints
+   def cpp
+       path := './libsamplePack.pack'
+name := 'samplePack'
+ver := 2.1.0
+author := 'kniz'
+    )SRC";
 
     tstr<sobj> file = sinterpreter().interp(script);
     ASSERT_TRUE(file);
