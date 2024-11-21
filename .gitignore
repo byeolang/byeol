@@ -74,10 +74,10 @@ bin/
 **/worker/bison/*.output
 **/worker/bison/*.gv
 **/worker/bison/*.jpg
-**/parser/leafparser.cpp
-**/parser/leafparser.hpp
-**/parser/leafscanner.cpp
-**/parser/leafscanner.hpp
+**/parser/leafLowparser.cpp
+**/parser/leafLowparser.hpp
+**/parser/leafLowscanner.cpp
+**/parser/leafLowscanner.hpp
 **/parser/*.output
 **/parser/*.gv
 **/parser/*.jpg

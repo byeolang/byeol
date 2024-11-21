@@ -2,7 +2,7 @@
 
 #ifdef WIN32
 #    undef _nout
-#    ifdef __seedling = 1 // I'm currently building module
+#    ifdef __leaf = 1 // I'm currently building module
 #        define _nout __declspec(dllexport)
 #    else
 #        define _nout __declspec(dllimport)

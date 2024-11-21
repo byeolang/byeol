@@ -1,11 +1,14 @@
 %{
+/*  ============================================================================================
+    |                                          PROLOGUE                                        |
+    ============================================================================================  */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-const-variable"
 #pragma clang diagnostic ignored "-Wunneeded-internal-declaration"
 namespace nm {
     class sobj;
 }
-#include "seedlingParser.hpp"
+#include "leafLowparser.hpp"
 #include "../common.hpp"
 using namespace std;
 using namespace nm;
@@ -13,7 +16,6 @@ using namespace nm;
 int nowIndent = 0;
 stack<int> indentLvs;
 static const int TAB_WIDTH = 4;
-
 static const char _eof_ = 0x05;
 
 extern int nowRule;
@@ -33,8 +35,11 @@ void changeRule(const char* name, int new1) {
     BEGIN(new1);
     NM_DI(" ---- CHANGE RULE to %s(%d)", name, new1);
 }
+namespace nm {
+    class sobj;
+}
 void changePrevRule() {
-    NM_DI(" ---- CHANGE PREV RULE TO %d", prevRule);
+    NM_DI(" ---- CHANGE PREV RULE to %d", prevRule);
     BEGIN(prevRule);
 }
 %}
@@ -49,7 +54,6 @@ void changePrevRule() {
 
 %option nounistd
 %option noyywrap
-
 
 %%
 
@@ -108,6 +112,7 @@ true|false {
     string temp = yytext;
     changeRule("ARRAYING", ARRAYING);
 
+    cout << "<[a-zA-Z]>unput('{')\n";
     unput('{');
     temp = temp.substr(0, temp.size()-1);
     yylval.strVal = strdup(temp.c_str());
@@ -119,6 +124,7 @@ true|false {
     return yytext[0];
 }
 <ARRAYING>\}\{ {
+    cout << "<ARRAYING>unput('{')\n";
     unput('{');
     return yytext[0];
 }
@@ -130,6 +136,7 @@ true|false {
 <ARRAYING>[a-zA-Z0-9_]+\} {
     string temp = yytext;
     temp = temp.substr(0, temp.size()-1);
+    cout << "<ARRAYING>unput('}')\n";
     unput('}');
     yylval.strVal = strdup(temp.c_str());
     NM_DI("----------lex: tid is %s ----", yylval.strVal);
@@ -185,6 +192,7 @@ true|false {
         return res;
     }
     else if (nowIndent == prevIndentLv) {
+        cout << "<DEDENTING>unput(" << ch << ")\n";
         unput(ch);
         changeRule("INITIAL", INITIAL);
         nowIndent = 0;
@@ -234,10 +242,12 @@ true|false {
     if (nowIndent > prevIndentLv) {
         NM_DI("nowIndent(%d) > prevIndentLv(%d)", nowIndent, prevIndentLv);
         indentLvs.push(nowIndent);
+        cout << "<INDENTING>unput(" << ch << ")\n";
         unput(ch);
         return tindent;
     } else if (nowIndent == prevIndentLv) {
         changeRule("INITIAL", INITIAL);
+        cout << "<INDENTING>unput(" << ch << ")\n";
         unput(ch);
     } else {
         return goOutdent(ch);
@@ -295,12 +305,16 @@ int goOutdent(char prev)
     if (nowIndent >= top) return 0;
 
     indentLvs.pop();
+    cout << "<goOutDent>unput(" << prev << ")\n";
     unput(prev);
     NM_DI(" ----- prev=%c nowIndent=%d", prev, nowIndent);
-    for (int n=0; n < nowIndent ;n++)
+    for (int n=0; n < nowIndent ;n++) {
+        cout << "<goOutDent:for>unput(' ')\n";
         unput(' ');
+    }
     if ((prev != ',' && prev != ')') || top - nowIndent != TAB_WIDTH) {
         NM_DI(" ----- dedent and newline!");
+        cout << "<goOutDent:if prev != ','>unput('\n')\n";
         unput('\n');
     } else {
         NM_DI(" ----- dedent only!");

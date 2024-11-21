@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
-set(moduleName "seedling")
+set(moduleName "leaf")
 message("building ${moduleName}...")
 
 message("\tconfigure_files...")
@@ -14,9 +14,21 @@ add_definitions(${defines})
 find_package(BISON)
 find_package(FLEX)
 
-bison_target(seedlingParser parser/seedlingParser.y ${CMAKE_CURRENT_SOURCE_DIR}/parser/seedlingParser.cpp COMPILE_FLAGS "-l")
-flex_target(seedlingScanner parser/seedlingScanner.l ${CMAKE_CURRENT_SOURCE_DIR}/parser/seedlingScanner.cpp COMPILE_FLAGS "-L")
-add_flex_bison_dependency(seedlingScanner seedlingParser)
+set(LEAF_PARSER_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/parser)
+set(LEAF_BISON_COMPILE_FLAGS "-l --feature=diagnostics-show-caret --warnings --color")
+set(LEAF_FLEX_COMPILE_FLAGS "-L --header-file=${LEAF_PARSER_SRC_DIR}/leafLowscanner.hpp")
+
+if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+    set(LEAF_FLEX_COMPILE_FLAGS "${LEAF_FLEX_COMPILE_FLAGS} --debug")
+    set(LEAF_BISON_REPORT_FILENAME "bisonReport")
+    set(LEAF_BISON_COMPILE_FLAGS "${LEAF_BISON_COMPILE_FLAGS} --verbose --report=all --debug --graph=${LEAF_PARSER_SRC_DIR}/${LEAF_BISON_REPORT_FILENAME}.gv")
+endif (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+
+message("\tbison ${LEAF_BISON_COMPILE_FLAGS}")
+
+bison_target(leafLowparser ${LEAF_PARSER_SRC_DIR}/leafLowparser.y ${LEAF_PARSER_SRC_DIR}/leafLowparser.cpp COMPILE_FLAGS ${LEAF_BISON_COMPILE_FLAGS})
+flex_target(leafLowscanner ${LEAF_PARSER_SRC_DIR}/leafLowscanner.l ${LEAF_PARSER_SRC_DIR}/leafLowscanner.cpp COMPILE_FLAGS ${LEAF_FLEX_COMPILE_FLAGS})
+add_flex_bison_dependency(leafLowscanner leafLowparser)
 
 #  defines:
 #      define sources:
@@ -25,11 +37,11 @@ file(GLOB_RECURSE sources
     "*.cpp"
 )
 
-foreach(file ${BISON_seedlingParser_OUTPUTS})
+foreach(file ${BISON_leafLowparser_OUTPUTS})
     list(APPEND sources ${file})
 endforeach(file)
 
-foreach(file ${FLEX_seedlingScanner_OUTPUTS})
+foreach(file ${FLEX_leafLowscanner_OUTPUTS})
     list(APPEND sources ${file})
 endforeach(file)
 

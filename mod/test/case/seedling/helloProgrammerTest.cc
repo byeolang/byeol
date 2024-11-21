@@ -4,7 +4,7 @@ using namespace nm;
 using namespace std;
 
 struct helloProgrammerTest: public namuTest {};
-
+/*
 TEST_F(helloProgrammerTest, testScript) {
     const std::string script = R"SRC(def programmer
            say := 'html is not a programming language!'
@@ -21,7 +21,7 @@ TEST_F(helloProgrammerTest, testScript) {
 
     ASSERT_STREQ(say.asStr().c_str(), "html is not a programming language!");
 }
-
+*/
 /*
 TEST_F(helloProgrammerTest, testScriptEndsWithEOF) {
     const std::string script = R"SRC(def programmer

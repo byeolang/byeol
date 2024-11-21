@@ -19,7 +19,7 @@ namespace nm {
     }
 
     manifest me::_interpManifest(const std::string& dir, const std::string& manPath) const {
-        // TODO: open slot zip file -> extract manifest.seedling file -> interpret it & load values
+        // TODO: open slot zip file -> extract manifest.leaf file -> interpret it & load values
         tstr<sobj> loaded = sinterpreter().interpFile(manPath)
                                 orRet NM_E("error to load %s: interpretion err", manPath),
                    manifest();

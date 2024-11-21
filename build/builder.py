@@ -118,19 +118,20 @@ def _cleanParser():
     pathDir= namuDir
     if isWindow():
         pathDir += "\\mod\\core\\worker\\bison\\"
-        seedlingPathDir = cwd + "\\..\\mod\\seedling\\parser\\"
+        leafPathDir = cwd + "\\..\\mod\\leaf\\parser\\"
     else:
         pathDir += "/mod/core/worker/bison/"
-        seedlingPathDir = cwd + "/../mod/seedling/parser/"
+        leafPathDir = cwd + "/../mod/leaf/parser/"
 
     printInfoEnd("removing generated parser...")
     os.system("rm " + pathDir + "lowscanner.cpp")
     os.system("rm " + pathDir + "lowscanner.hpp")
     os.system("rm " + pathDir + "lowparser.cpp")
     os.system("rm " + pathDir + "lowparser.hpp")
-    os.system("rm " + seedlingPathDir + "seedlingParser.cpp")
-    os.system("rm " + seedlingPathDir + "seedlingParser.hpp")
-    os.system("rm " + seedlingPathDir + "seedlingScanner.cpp")
+    os.system("rm " + leafPathDir + "leafLowparser.cpp")
+    os.system("rm " + leafPathDir + "leafLowparser.hpp")
+    os.system("rm " + leafPathDir + "leafLowscanner.hpp")
+    os.system("rm " + leafPathDir + "leafLowscanner.cpp")
 
 def _cleanIntermediates():
     printInfoEnd("removing intermediate outputs...")

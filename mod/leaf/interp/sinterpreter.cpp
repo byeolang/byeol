@@ -1,8 +1,8 @@
 #include <fstream>
 
 #include "flex.hpp"
-#include "seedling.hpp"
-#include "../parser/seedlingParser.hpp"
+#include "../leaf.hpp"
+#include "../parser/leafLowparser.hpp"
 
 void yyrestart(FILE*);
 
@@ -31,7 +31,7 @@ namespace nm {
 
         ret->setName(fileName);
         fclose(yyin);
-        NM_I("%s seedling file interpreted.", fileName);
+        NM_I("%s leaf file interpreted.", fileName);
         return ret;
     }
 

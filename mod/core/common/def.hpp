@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    const std::string MANIFEST_FILENAME = "manifest.seedling";
+    const std::string MANIFEST_FILENAME = "manifest.leaf";
 
     class node;
     class ntype;
