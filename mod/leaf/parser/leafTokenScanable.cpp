@@ -4,7 +4,7 @@ namespace nm {
 
     NM(DEF_ME(leafTokenScanable))
 
-    nint me::onScan(leafParser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner) {
+    nint me::onScan(leafParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner) {
         nbool dum;
         return onScan(ps, val, loc, scanner, dum);
     }

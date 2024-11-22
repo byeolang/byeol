@@ -10,12 +10,12 @@ std::string getTokenName(int tok);
 
 namespace nm {
 
-    nint leafTokenScan::onScan(leafParser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner,
+    nint leafTokenScan::onScan(leafParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner,
         nbool& isBypass) {
         leafTokenDispatcher& disp = ps.getDispatcher();
         nint tok;
 
-        if(!(isBypass = disp.pop(tok))) tok = yylexOrigin(val, loc, scanner);
+        if(!(isBypass = disp.pop(tok))) tok = zzlexOrigin(val, loc, scanner);
         if(tok == ENDOFFILE) tok = ps.onTokenEndOfFile();
 
         std::string tokName = getTokenName(tok);
@@ -24,7 +24,7 @@ namespace nm {
         return tok;
     }
 
-    nint leafNormalScan::onScan(leafParser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner,
+    nint leafNormalScan::onScan(leafParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner,
         nbool& isBypass) {
         nint tok = super::onScan(ps, val, loc, scanner, isBypass);
         switch(tok) {
@@ -36,7 +36,7 @@ namespace nm {
 
     leafNormalScan* leafNormalScan::_instance = new leafNormalScan();
 
-    nint leafIndentScan::onScan(leafParser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner,
+    nint leafIndentScan::onScan(leafParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner,
         nbool& isBypass) {
         nint tok = super::onScan(ps, val, loc, scanner, isBypass);
         switch(tok) {

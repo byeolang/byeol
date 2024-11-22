@@ -33,7 +33,7 @@ namespace nm {
         // events:
         //  scan:
         using leafTokenScanable::onScan;
-        nint onScan(leafParser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner,
+        nint onScan(leafParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner,
             nbool& isBypass) override;
         nint onTokenEndOfFile();
         nint onTokenColon(nint tok);
@@ -75,7 +75,7 @@ namespace nm {
         void _prepare();
         void* _scanString(const nchar* src, void* scanner);
         nint _onTokenEndOfInlineBlock(nint tok);
-        nint _onScan(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner);
+        nint _onScan(ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner);
         leaf& _finalize();
 
     private:

@@ -18,7 +18,7 @@
           } \
         } while(0)
 
-    #define PS (*yyget_extra(scanner))
+    #define PS (*zzget_extra(scanner))
 }
 
 /*  ============================================================================================
@@ -28,7 +28,7 @@
 %code requires {
     #include "../../ast/point.hpp"
 
-    typedef void* yyscan_t;
+    typedef void* zzscan_t;
 
     namespace nm {
         class leaf;
@@ -46,21 +46,21 @@
 }
 
 %code provides {
-    extern int yylineno;
+    extern int zzlineno;
     extern char* yytext;
     namespace nm {
         class leafParser;
     }
 
     extern "C" {
-        int yylex(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner);
-        void yyset_lineno(int linenumber, yyscan_t scanner);
-        nm::leafParser* yyget_extra(yyscan_t scanner);
-        char* yyget_text(yyscan_t scanner);
-        void yyerror(YYLTYPE* loc, yyscan_t scanner, const char* msg);
+        int zzlex(ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner);
+        void zzset_lineno(int linenumber, zzscan_t scanner);
+        nm::leafParser* zzget_extra(zzscan_t scanner);
+        char* zzget_text(zzscan_t scanner);
+        void zzerror(ZZLTYPE* loc, zzscan_t scanner, const char* msg);
     }
 
-    void _onEndParse(yyscan_t scanner);
+    void _onEndParse(zzscan_t scanner);
     std::string getTokenName(int tok);
 }
 
@@ -81,9 +81,10 @@
 %define parse.error custom
 %glr-parser
 %locations
+%define api.prefix {zz}
 
-%lex-param {yyscan_t scanner}
-%parse-param {yyscan_t scanner}
+%lex-param {zzscan_t scanner}
+%parse-param {zzscan_t scanner}
 %define api.location.type {lloc}
 %expect 0
 %require "3.8.1"
@@ -235,7 +236,7 @@ compilation-unit: defblock { $$ = PS.onCompilationUnit(*$1); }
     |                                         EPILOGUE                                         |
     ============================================================================================  */
 
-static std::string traceErr(const yypcontext_t* ctx, yyscan_t scanner) {
+static std::string traceErr(const yypcontext_t* ctx, zzscan_t scanner) {
     constexpr nint TOKEN_MAX = 5;
     yysymbol_kind_t tokens[TOKEN_MAX];
     ncnt expected = yypcontext_expected_tokens(ctx, tokens, TOKEN_MAX);
@@ -253,15 +254,15 @@ static std::string traceErr(const yypcontext_t* ctx, yyscan_t scanner) {
 
 // when bison claims that it can't parse any further, this func will be called.
 // it means that error recovery has been failed already.
-static int yyreport_syntax_error(const yypcontext_t* ctx, yyscan_t scanner) {
+static int yyreport_syntax_error(const yypcontext_t* ctx, zzscan_t scanner) {
     yysymbol_kind_t symbol = yypcontext_token(ctx);
     PS.onParseErr(traceErr(ctx, scanner), yysymbol_name(symbol));
 
     return _onEndParse(scanner), 0;
 }
 
-void _onEndParse(yyscan_t scanner) {
-    yyset_lineno(0, scanner);
+void _onEndParse(zzscan_t scanner) {
+    zzset_lineno(0, scanner);
 }
 
 std::string getTokenName(int tok) {
@@ -272,6 +273,6 @@ std::string getTokenName(int tok) {
 }
 
 // errors except syntax will come here. for instance, when available memory doesn't exist.
-void yyerror(YYLTYPE* loc, yyscan_t scanner, const char* msg) {
+void zzerror(ZZLTYPE* loc, zzscan_t scanner, const char* msg) {
     PS.report(msg);
 }

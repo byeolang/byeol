@@ -2,9 +2,9 @@
 
 #include "../common.hpp"
 
-typedef union YYSTYPE YYSTYPE;
-typedef struct lloc YYLTYPE;
-typedef void* yyscan_t;
+typedef union ZZSTYPE ZZSTYPE;
+typedef struct lloc ZZLTYPE;
+typedef void* zzscan_t;
 
 namespace nm {
 
@@ -14,8 +14,8 @@ namespace nm {
         NM(ME(leafTokenScanable))
 
     public:
-        nint onScan(leafParser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner);
-        virtual nint onScan(leafParser& ps, YYSTYPE* yylval, YYLTYPE* loc, yyscan_t yyscanner,
+        nint onScan(leafParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner);
+        virtual nint onScan(leafParser& ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner,
             nbool& isBypass) = 0;
     };
 }

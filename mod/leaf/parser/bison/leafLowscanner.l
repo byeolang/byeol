@@ -13,15 +13,18 @@
 namespace {
     static constexpr int TAB_WIDTH = 4;
     char unescape(const char* seq);
-    void append(YYSTYPE* val, const char* new1);
-    void append(YYSTYPE* val, char new1);
+    void append(ZZSTYPE* val, const char* new1);
+    void append(ZZSTYPE* val, char new1);
 }
 
-#define YY_DECL int yylexOrigin(YYSTYPE* yylval_param, YYLTYPE* yylloc_param, yyscan_t yyscanner)
-#define YY_USER_ACTION yylloc->start.row = yylloc->end.row = yyget_lineno(yyscanner); \
+#define YY_DECL int zzlexOrigin(ZZSTYPE* yylval_param, ZZLTYPE* yylloc_param, zzscan_t yyscanner)
+#define YY_USER_ACTION yylloc->start.row = yylloc->end.row = zzget_lineno(yyscanner); \
                        yylloc->start.col = yylloc->colcnt; yylloc->end.col = yylloc->colcnt+yyleng-1; \
                        yylloc->colcnt += yyleng;
-#define PS (*yyget_extra(yyscanner))
+#define PS (*zzget_extra(yyscanner))
+
+typedef ZZSTYPE YYSTYPE;
+typedef ZZLTYPE YYLTYPE;
 }
 
 /*  ============================================================================================
@@ -32,6 +35,7 @@ namespace {
 %option yylineno
 %option nounistd
 %option noyywrap
+%option prefix="zz"
 
 
 /*  ============================================================================================
@@ -173,7 +177,7 @@ false {
 /*  ============================================================================================
     |                                         EPILOGUE                                         |
     ============================================================================================  */
-int yylex(YYSTYPE* yylval_param, YYLTYPE* yylloc_param, yyscan_t yyscanner) {
+int zzlex(ZZSTYPE* yylval_param, ZZLTYPE* yylloc_param, zzscan_t yyscanner) {
     nm::leafParser& ps = PS;
     if(!ps.isInit()) // init: tokenScanable
         ps.setScan<nm::leafIndentScan>();
@@ -189,7 +193,7 @@ int yylex(YYSTYPE* yylval_param, YYLTYPE* yylloc_param, yyscan_t yyscanner) {
 }
 
 namespace {
-    void append(YYSTYPE* val, const char* new1) {
+    void append(ZZSTYPE* val, const char* new1) {
         NM_DI("str append: %s += %s", val->asStr, new1);
         if(!val->asStr) {
             val->asStr = new std::string(new1);
@@ -199,7 +203,7 @@ namespace {
         (*val->asStr) += new1;
     }
 
-    void append(YYSTYPE* val, char new1) {
+    void append(ZZSTYPE* val, char new1) {
         NM_DI("str append: %s += %c", val->asStr, new1);
         if(!val->asStr) {
             val->asStr = new std::string(1, new1);

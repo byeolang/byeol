@@ -24,7 +24,7 @@ namespace nm {
         }
     }
 
-    nint me::_onScan(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner) {
+    nint me::_onScan(ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner) {
         int tok = _mode->onScan(*this, val, loc, scanner);
         if(_isIgnoreWhitespace && tok == NEWLINE) return SCAN_AGAIN;
         _isIgnoreWhitespace = false;
@@ -33,13 +33,13 @@ namespace nm {
             case SCAN_MODE_NORMAL: setScan<leafNormalScan>(); return SCAN_AGAIN;
             case SCAN_MODE_INDENT: setScan<leafIndentScan>(); return SCAN_AGAIN;
             case SCAN_MODE_INDENT_IGNORE: _isIgnoreWhitespace = true; return SCAN_AGAIN;
-            case SCAN_MODE_END: tok = 0; // == yyterminate();
+            case SCAN_MODE_END: tok = 0; // == zzterminate();
         }
 
         return tok;
     }
 
-    nint me::onScan(leafParser& ev, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner, nbool& isBypass) {
+    nint me::onScan(leafParser& ev, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner, nbool& isBypass) {
         int tok;
         do
             // why do you put redundant _onScan() func?:
@@ -182,8 +182,8 @@ namespace nm {
     leaf& me::parse(const std::string& path) {
         _prepare();
 
-        yyscan_t scanner;
-        yylex_init_extra(this, &scanner);
+        zzscan_t scanner;
+        zzlex_init_extra(this, &scanner);
 
         std::ifstream fout(path);
         if(fout.fail()) {
@@ -198,22 +198,22 @@ namespace nm {
         YY_BUFFER_STATE bufState = (YY_BUFFER_STATE) _scanString(codes.c_str(), scanner) orNul(leaf);
 
         // fix Flex Bug here:
-        //  when yy_scan_string get called, it returns bufState after malloc it.
-        //  but some variables wasn't initialized. yy_bs_lineno(used to calculate
+        //  when zz_scan_string get called, it returns bufState after malloc it.
+        //  but some variables wasn't initialized. zz_bs_lineno(used to calculate
         //  current cursor position) is one of them.
         bufState->yy_bs_lineno = bufState->yy_bs_column = 0;
-        yy_switch_to_buffer(bufState, scanner);
+        zz_switch_to_buffer(bufState, scanner);
 
-#if YYDEBUG
-        // yyset_debug(1, scanner); // For Flex (no longer a global, but rather a member of)
-        // yydebug = 1;             // For Bison (still global, even in a reentrant)
+#if ZZDEBUG
+        // zzset_debug(1, scanner); // For Flex (no longer a global, but rather a member of)
+        // zzdebug = 1;             // For Bison (still global, even in a reentrant)
 #endif
 
-        int res = yyparse(scanner);
+        int res = zzparse(scanner);
         if(res) report("parsing has error");
 
-        yy_delete_buffer(bufState, scanner);
-        yylex_destroy(scanner);
+        zz_delete_buffer(bufState, scanner);
+        zzlex_destroy(scanner);
 
         return _finalize();
     }
@@ -256,7 +256,7 @@ namespace nm {
             return nullptr;
         }
 
-        return yy_scan_string((nchar*) src, (yyscan_t) scanner);
+        return zz_scan_string((nchar*) src, (zzscan_t) scanner);
     }
 
     leaf& me::_finalize() {

@@ -2,9 +2,9 @@
 
 #include "../leafTokenScanable.hpp"
 
-typedef union YYSTYPE YYSTYPE;
-typedef struct lloc YYLTYPE;
-typedef void* yyscan_t;
+typedef union ZZSTYPE ZZSTYPE;
+typedef struct lloc ZZLTYPE;
+typedef void* zzscan_t;
 
 namespace nm {
 
@@ -16,7 +16,7 @@ namespace nm {
 
     public:
         using leafTokenScanable::onScan;
-        virtual nint onScan(leafParser& ps, YYSTYPE* yylval, YYLTYPE* loc, yyscan_t yyscanner,
+        virtual nint onScan(leafParser& ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner,
             nbool& isBypass) override;
     };
 
@@ -26,7 +26,7 @@ namespace nm {
 
     public:
         using super::onScan;
-        nint onScan(leafParser& ps, YYSTYPE* yylval, YYLTYPE* loc, yyscan_t yyscanner,
+        nint onScan(leafParser& ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner,
             nbool& isBypass) override;
 
     private:
@@ -39,7 +39,7 @@ namespace nm {
 
     public:
         using super::onScan;
-        nint onScan(leafParser& ps, YYSTYPE* yylval, YYLTYPE* loc, yyscan_t yyscanner,
+        nint onScan(leafParser& ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner,
             nbool& isBypass) override;
 
     private:
