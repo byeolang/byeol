@@ -1,10 +1,10 @@
-#include "nullSobj.hpp"
+#include "nulLeaf.hpp"
 
 namespace nm {
 
-    NM_DEF_ME(nullSobj)
+    NM_DEF_ME(nulLeaf)
 
-    me::nullSobj(): super() {}
+    me::nulLeaf(): super() {}
 
     const std::string& me::asStr() const {
         static std::string inner = "";

@@ -1,17 +1,17 @@
 #pragma once
 
-#include "termSobj.hpp"
+#include "valLeaf.hpp"
 
 namespace nm {
 
-    class _nout verSobj: public termSobj {
-        NM_ME(verSobj, termSobj)
-        NM_INIT_META(verSobj)
+    class _nout verLeaf: public valLeaf {
+        NM_ME(verLeaf, valLeaf)
+        NM_INIT_META(verLeaf)
 
     public:
-        verSobj(int major, int minor, int fix);
-        explicit verSobj(const std::string& verStr);
-        explicit verSobj(const nchar* verStr);
+        verLeaf(int major, int minor, int fix);
+        explicit verLeaf(const std::string& verStr);
+        explicit verLeaf(const nchar* verStr);
 
     public:
         nbool operator>(const me& rhs) const;

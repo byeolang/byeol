@@ -14,7 +14,7 @@ add_definitions(${defines})
 find_package(BISON)
 find_package(FLEX)
 
-set(LEAF_PARSER_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/parser)
+set(LEAF_PARSER_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/parser/bison)
 set(LEAF_BISON_COMPILE_FLAGS "-l --feature=diagnostics-show-caret --warnings --color")
 set(LEAF_FLEX_COMPILE_FLAGS "-L --header-file=${LEAF_PARSER_SRC_DIR}/leafLowscanner.hpp")
 

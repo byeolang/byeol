@@ -118,10 +118,10 @@ def _cleanParser():
     pathDir= namuDir
     if isWindow():
         pathDir += "\\mod\\core\\worker\\bison\\"
-        leafPathDir = cwd + "\\..\\mod\\leaf\\parser\\"
+        leafPathDir = cwd + "\\..\\mod\\leaf\\parser\\bison\\"
     else:
         pathDir += "/mod/core/worker/bison/"
-        leafPathDir = cwd + "/../mod/leaf/parser/"
+        leafPathDir = cwd + "/../mod/leaf/parser/bison/"
 
     printInfoEnd("removing generated parser...")
     os.system("rm " + pathDir + "lowscanner.cpp")

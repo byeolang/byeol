@@ -1,14 +1,14 @@
 #pragma once
 
-#include "sobj.hpp"
+#include "leaf.hpp"
 
 namespace nm {
 
-    class _nout nullSobj: public sobj {
-        NM(ME(nullSobj, sobj), CLONE(me), INIT_META(nullSobj))
+    class _nout nulLeaf: public leaf {
+        NM(ME(nulLeaf, leaf), CLONE(me), INIT_META(nulLeaf))
 
     public:
-        nullSobj();
+        nulLeaf();
 
     public:
         const std::string& asStr() const override;

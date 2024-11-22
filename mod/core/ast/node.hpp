@@ -3,7 +3,6 @@
 #include "../builtin/container/native/tnarr.hpp"
 #include "../frame/frameInteractable.hpp"
 #include "../type/ntype.hpp"
-#include "point.hpp"
 #include "scope.hpp"
 #include "tpriorities.hpp"
 #include "validable.hpp"

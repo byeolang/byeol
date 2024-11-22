@@ -1,21 +1,21 @@
-#include "verSobj.hpp"
+#include "verLeaf.hpp"
 
 namespace nm {
 
-    NM(DEF_ME(verSobj))
+    NM(DEF_ME(verLeaf))
 
-    me::verSobj(int major, int minor, int fix):
+    me::verLeaf(int major, int minor, int fix):
         super(std::to_string(major) + DELIMITER + std::to_string(minor) + DELIMITER +
             std::to_string(fix)),
         _maj(major),
         _min(minor),
         _fix(fix) {}
 
-    me::verSobj(const std::string& verStr): super(verStr), _maj(0), _min(0), _fix(0) {
+    me::verLeaf(const std::string& verStr): super(verStr), _maj(0), _min(0), _fix(0) {
         _parseVerStr(verStr);
     }
 
-    me::verSobj(const nchar* verStr): super(verStr), _maj(0), _min(0), _fix(0) {
+    me::verLeaf(const nchar* verStr): super(verStr), _maj(0), _min(0), _fix(0) {
         _parseVerStr(std::string(verStr));
     }
 

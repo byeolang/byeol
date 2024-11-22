@@ -5,7 +5,7 @@
 #include "../common.hpp"
 
 namespace nm {
-    class _nout tokenDispatcher {
+    class _nout leafTokenDispatcher {
     public:
         void add(nint newToken);
         void addFront(nint newToken);

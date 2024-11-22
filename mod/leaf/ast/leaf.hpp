@@ -4,16 +4,16 @@
 
 namespace nm {
 
-    class _nout sobj: public instance {
-        NM(ME(sobj, instance), CLONE(me), INIT_META(sobj))
+    class _nout leaf: public instance {
+        NM(ME(leaf, instance), CLONE(me), INIT_META(leaf))
 
         typedef std::map<std::string, tstr<me>> myMap;
         typedef myMap::iterator iterator;
 
     public:
-        sobj(std::initializer_list<me*> subs, const std::string& name = "");
-        sobj(const me& rhs, const std::string& name = "");
-        sobj(const std::string& name = "");
+        leaf(std::initializer_list<me*> subs, const std::string& name = "");
+        leaf(const me& rhs, const std::string& name = "");
+        leaf(const std::string& name = "");
 
     public:
         me& operator[](const std::string& name);
@@ -28,9 +28,9 @@ namespace nm {
 
         nbool has(const std::string& name) const;
 
-        void add(const sobj& new1);
-        void add(std::initializer_list<sobj*> subs);
-        void del(const sobj& it);
+        void add(const leaf& new1);
+        void add(std::initializer_list<leaf*> subs);
+        void del(const leaf& it);
         void del(const std::string& name);
 
         const std::string& getName() const;

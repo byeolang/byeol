@@ -1,25 +1,24 @@
-#include "sobj.hpp"
-
-#include "nullSobj.hpp"
+#include "leaf.hpp"
+#include "nulLeaf.hpp"
 
 namespace nm {
 
-    NM_DEF_ME(sobj)
+    NM_DEF_ME(leaf)
 
     me& me::sub(const std::string& name) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wtautological-undefined-compare"
         if(this == nullptr) return nulOf<me>();
 #pragma clang diagnostic pop
-        tstr<me> ret = _subs[name] orRet nullSobj::get();
+        tstr<me> ret = _subs[name] orRet nulLeaf::get();
         return *ret;
     }
 
-    me::sobj(std::initializer_list<me*> subs, const std::string& name): _name(name) { add(subs); }
+    me::leaf(std::initializer_list<me*> subs, const std::string& name): _name(name) { add(subs); }
 
-    me::sobj(const me& rhs, const std::string& name): _subs(rhs._subs), _name(name) {}
+    me::leaf(const me& rhs, const std::string& name): _subs(rhs._subs), _name(name) {}
 
-    me::sobj(const std::string& name): _name(name) {}
+    me::leaf(const std::string& name): _name(name) {}
 
     me& me::operator[](const std::string& name) { return sub(name); }
 
@@ -29,18 +28,18 @@ namespace nm {
 
     nbool me::has(const std::string& name) const { return _subs.find(name) != _subs.end(); }
 
-    void me::add(const sobj& new1) {
+    void me::add(const leaf& new1) {
         if(nul(new1)) return;
 
         _subs.insert(make_pair(new1.getName(), tstr<me>(new1)));
     }
 
-    void me::add(std::initializer_list<sobj*> subs) {
+    void me::add(std::initializer_list<leaf*> subs) {
         for(auto e: subs)
             add(*e);
     }
 
-    void me::del(const sobj& it) { del(it.getName()); }
+    void me::del(const leaf& it) { del(it.getName()); }
 
     void me::del(const std::string& name) { _subs.erase(name); }
 

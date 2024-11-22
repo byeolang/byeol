@@ -4,6 +4,6 @@
 #include "_nout.hpp"
 
 namespace nm {
-    class sobj;
-    _nout strWrap __convert__(const sobj* rhs);
+    class leaf;
+    _nout strWrap __convert__(const leaf* rhs);
 }

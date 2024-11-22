@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../common/dep.hpp"
+#include "../common.hpp"
 
 namespace nm {
     struct _nout point {

@@ -2,7 +2,6 @@
 
 #include <unordered_map>
 
-#include "../../ast/point.hpp"
 #include "baseErr.hpp"
 #include "../container/native/tnbicontainer.hpp"
 #include "../../common/namuMetaExtension.hpp"
