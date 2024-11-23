@@ -16,7 +16,8 @@ namespace nm {
         leafParser();
 
     public:
-        leaf& parse(const std::string& path);
+        leaf& parse(const std::string& codes);
+        leaf& parseFromFile(const std::string& path);
 
         leafTokenDispatcher& getDispatcher();
         std::vector<ncnt>& getIndents();

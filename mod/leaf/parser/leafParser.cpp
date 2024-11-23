@@ -179,12 +179,7 @@ namespace nm {
 
     std::vector<ncnt>& me::getIndents() { return _indents; }
 
-    leaf& me::parse(const std::string& path) {
-        _prepare();
-
-        zzscan_t scanner;
-        zzlex_init_extra(this, &scanner);
-
+    leaf& me::parseFromFile(const std::string& path) {
         std::ifstream fout(path);
         if(fout.fail()) {
             // there is no file.
@@ -194,7 +189,15 @@ namespace nm {
 
         std::stringstream buf;
         buf << fout.rdbuf();
-        std::string codes = buf.str();
+        return parse(buf.str());
+    }
+
+    leaf& me::parse(const std::string& codes) {
+        _prepare();
+
+        zzscan_t scanner;
+        zzlex_init_extra(this, &scanner);
+
         YY_BUFFER_STATE bufState = (YY_BUFFER_STATE) _scanString(codes.c_str(), scanner) orNul(leaf);
 
         // fix Flex Bug here:
