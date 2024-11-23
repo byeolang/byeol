@@ -1,7 +1,7 @@
 def entrypoints
     def cpp
-        path := './sys.pack'
+        path := "./sys.pack"
 
-name := 'sys'
+name := "sys"
 ver := 0.0.1
-author := 'kniz'
+author := "kniz"
