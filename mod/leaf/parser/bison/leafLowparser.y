@@ -265,7 +265,7 @@ void _onEndParse(zzscan_t scanner) {
     zzset_lineno(0, scanner);
 }
 
-std::string getTokenName(int tok) {
+std::string getLeafTokenName(int tok) {
     if(tok <= 127) return std::string(1, tok);
 
     auto token = YYTRANSLATE(tok);

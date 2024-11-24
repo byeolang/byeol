@@ -6,7 +6,7 @@
 
 YY_DECL;
 
-std::string getTokenName(int tok);
+std::string getLeafTokenName(int tok);
 
 namespace nm {
 
@@ -18,8 +18,8 @@ namespace nm {
         if(!(isBypass = disp.pop(tok))) tok = zzlexOrigin(val, loc, scanner);
         if(tok == ENDOFFILE) tok = ps.onTokenEndOfFile();
 
-        std::string tokName = getTokenName(tok);
-        NM_DI("leaf: dispatcher[%d]%s(token: \"%s\" [%c]) at %d,%d", disp.len(),
+        std::string tokName = getLeafTokenName(tok);
+        NM_DI("leaf: dispatcher[%d]%s(token: \"%s\" [%d]) at %d,%d", disp.len(),
             isBypass ? ".dispatch" : " lowscanner", tokName, tok, loc->start.row, loc->start.col);
         return tok;
     }
