@@ -113,7 +113,7 @@ false {
 
 ([0-9]+.[0-9]+.[0-9]+) {
     yylval->asStr = new std::string(yytext);
-    return STRVAL;
+    return VERVAL;
 }
 
 \" {
