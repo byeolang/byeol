@@ -222,7 +222,7 @@ namespace nm {
 
     endExpr* me::onEnd(const blockExpr& blk) {
         endExpr* ret = _maker.make<endExpr>(blk);
-        if(_func) _func->getEnds().add(*ret);
+        if(_funcs.size() > 0) _funcs.back()->getEnds().add(*ret);
 
         return ret;
     }
@@ -244,8 +244,9 @@ namespace nm {
 
     blockExpr* me::onBlock(const node& stmt) {
         NM_WHENNUL(stmt).thenErr(IS_NUL, "stmt"), _maker.make<blockExpr>();
+        func& f = _funcs.size() > 0 ? *_funcs.back() : nulOf<func>();
         NM_DI("tokenEvent: onBlock(%s) insideOf %s func", stmt,
-            _func ? _func->getSrc().getName() : "<null>");
+            !nul(f) ? f.getSrc().getName() : "<null>");
 
         if(!nul(stmt.cast<endExpr>())) return _maker.make<blockExpr>();
         return _maker.make<blockExpr>(stmt);
@@ -254,8 +255,9 @@ namespace nm {
     blockExpr* me::onBlock(blockExpr& blk, const node& stmt) {
         NM_WHENNUL(blk).thenErr(IS_NUL, "blk"), _maker.make<blockExpr>();
         NM_WHENNUL(stmt).thenErr(IS_NUL, "stmt"), &blk;
+        func& f = _funcs.size() > 0 ? *_funcs.back() : nulOf<func>();
         NM_DI("tokenEvent: onBlock(blk, %s) inside of %s func", stmt,
-            _func ? _func->getSrc().getName() : "<null>");
+            !nul(f) ? f.getSrc().getName() : "<null>");
 
         if(!nul(stmt.cast<endExpr>())) return &blk;
 
@@ -371,9 +373,10 @@ namespace nm {
         NM_DI("tokenEvent: onAbstractFunc(%s, access: %s(%d), retType:%s)", mod, access.getName(),
             access.getArgs().len(), retType);
 
-        _func.bind(_maker.birth<func>(access.getName(), mod,
-            mgdType::make<func>(_asParams(access.getArgs()), retType)));
-        return &_func.get();
+        func* new1 = _maker.birth<func>(access.getName(), mod,
+            mgdType::make<func>(_asParams(access.getArgs()), retType));
+        _funcs.push_back(new1);
+        return new1;
     }
 
     func* me::onAbstractFunc(const modifier& mod, node& it, const node& retType) {
@@ -1110,7 +1113,7 @@ namespace nm {
             args{nulOf<baseObj>(), it});
     }
 
-    void me::onEndFunc() { _func.rel(); }
+    void me::onEndFunc() { _funcs.pop_back(); }
 
     void me::onParseErr(const std::string& msg, const nchar* symbolName) {
         posError(errCode::SYNTAX_ERR, msg, symbolName);

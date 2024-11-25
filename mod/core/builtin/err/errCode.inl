@@ -40,6 +40,7 @@ PAIRX(WRONG_INDENT_LV,
 PAIRX(PARSING_HAS_ERR, "parsing has done. but something went wrong: %d")
 PAIRX(NO_SRC, "source code not provided")
 PAIRX(SRC_EMPTY, "source code was empty string.")
+PAIRX(NO_FUNC_REGISTERED, "there is no func info registering")
 
 // thread:
 PAIRX(THERE_IS_NO_FRAMES_IN_THREAD, "there is no frames in current thread.")

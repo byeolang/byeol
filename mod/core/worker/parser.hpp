@@ -304,7 +304,7 @@ namespace nm {
         exprMaker _maker;
         smartDedent _dedent;
         srcSupplies _supplies;
-        tweak<func> _func;
+        std::vector<func*> _funcs;
         ncnt _strTemplateCnt;
     };
 } // namespace nm
