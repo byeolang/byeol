@@ -171,11 +171,11 @@ TEST_F(primitiveObjTest, boolOperators) {
 
     tstr<nBool> res = b1.sub(b2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->get(), (nbool)(1 - 0));
+    ASSERT_EQ(res->get(), (nbool) (1 - 0));
 
     res = b1.add(b2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->get(), (nbool)(true + false));
+    ASSERT_EQ(res->get(), (nbool) (true + false));
 
     res = b1.mul(b2);
     ASSERT_TRUE(res);
@@ -219,7 +219,7 @@ TEST_F(primitiveObjTest, fltOperators) {
 
     tstr<nFlt> res = f1.sub(f2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->get(), (nflt)(12.25f - 0.25f));
+    ASSERT_EQ(res->get(), (nflt) (12.25f - 0.25f));
 
     res = f1.add(f2);
     ASSERT_TRUE(res);

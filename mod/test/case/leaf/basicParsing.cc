@@ -23,7 +23,6 @@ TEST_F(basicParsing, testScript) {
     ASSERT_STREQ(say.asStr().c_str(), "html is not a programming language!");
 }
 
-
 TEST_F(basicParsing, testScriptEndsWithEOF) {
     const std::string script = R"SRC(
         def programmer
@@ -70,7 +69,6 @@ TEST_F(basicParsing, testScriptWithPackScope) {
 }
 
 TEST_F(basicParsing, testNullObjNegative) {
-
     const std::string script = R"SRC(
         say := "html is not a programming language!"
         age := 12
@@ -159,7 +157,7 @@ TEST_F(basicParsing, testIteration) {
     leaf& person = file->sub("person");
     ASSERT_EQ(expects.size(), person.len());
 
-    for(const auto& pair : person) {
+    for(const auto& pair: person) {
         const string& name = pair.first;
 
         ASSERT_STREQ(pair.second->asStr().c_str(), expects[name].c_str());

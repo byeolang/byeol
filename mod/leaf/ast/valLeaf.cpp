@@ -5,8 +5,7 @@ namespace nm {
 
     me::valLeaf(const std::string& rawVal, const std::string& name): _rawVal(rawVal) {}
 
-    me::valLeaf(nbool val, const std::string& name):
-        super(name), _rawVal(val ? "true" : "false") {}
+    me::valLeaf(nbool val, const std::string& name): super(name), _rawVal(val ? "true" : "false") {}
 
     me::valLeaf(nint val, const std::string& name): super(name), _rawVal(std::to_string(val)) {}
 
