@@ -19,7 +19,7 @@ namespace nm {
         if(tok == ENDOFFILE) tok = ps.onTokenEndOfFile();
 
         std::string tokName = getTokenName(tok);
-        NM_DI("%s: dispatcher[%d]%s(token: \"%s\" [%c]) at %d,%d", *this, disp.len(),
+        NM_DI("%s: dispatcher[%d]%s(token: \"%s\" [%d]) at %d,%d", *this, disp.len(),
             isBypass ? ".dispatch" : " lowscanner", tokName, tok, loc->start.row, loc->start.col);
         return tok;
     }
