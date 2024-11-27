@@ -18,6 +18,9 @@ namespace nm {
     me::func(const modifier& mod, const mgdType& type, const blockExpr& newBlock):
         super(mod), _type(type), _blk(newBlock) {}
 
+    me::func(const modifier& mod, const mgdType& type, const scope& subs, const blockExpr& newBlock):
+        super(mod), _type(type), _subs(subs), _blk(newBlock) {}
+
     const ntype& me::getType() const { return _type; }
 
     blockExpr& me::getBlock() { return *_blk; }
@@ -26,7 +29,7 @@ namespace nm {
 
     void me::setBlock(const blockExpr& new1) { _blk.bind(new1); }
 
-    scope& me::subs() { return _shares; }
+    scope& me::subs() { return _subs; }
 
     str me::run(const args& a) {
         if(nul(a)) return NM_E("a == null"), str();
@@ -146,7 +149,7 @@ namespace nm {
     void me::onCloneDeep(const clonable& from) {
         const me& rhs = (const me&) from;
         _type.onCloneDeep(rhs._type);
-        _shares.onCloneDeep(rhs._shares);
+        _subs.onCloneDeep(rhs._subs);
         _blk.bind((blockExpr*) rhs._blk->cloneDeep());
     }
 } // namespace nm

@@ -205,7 +205,7 @@ namespace nm {
         func* onAbstractFunc(const getExpr& access, const node& retType);
         func* onAbstractFunc(const modifier& mod, node& it, const node& retType);
         func* onAbstractFunc(node& it, const node& retType);
-        func* onFunc(func& func, const blockExpr& blk);
+        node* onFunc(func& func, const blockExpr& blk);
         ctor* onCtor(const modifier& mod, const narr& args, const blockExpr& blk);
         ctor* onCtor(const narr& args, const blockExpr& blk);
         ctor* onCtor(const modifier& mod, const blockExpr& blk);

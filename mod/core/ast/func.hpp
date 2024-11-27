@@ -19,6 +19,7 @@ namespace nm {
     public:
         explicit func(const modifier& mod, const mgdType& type);
         explicit func(const modifier& mod, const mgdType& type, const blockExpr& newBlock);
+        explicit func(const modifier& mod, const mgdType& type, const scope& subs, const blockExpr& newBlock);
 
     public:
         const ntype& getType() const override;
@@ -54,7 +55,7 @@ namespace nm {
     private:
         tstr<obj> _org;
         mgdType _type;
-        scope _shares;
+        scope _subs;
         tstr<blockExpr> _blk;
         ends _ends;
     };

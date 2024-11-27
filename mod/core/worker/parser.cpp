@@ -389,11 +389,13 @@ namespace nm {
         return onAbstractFunc(onCallAccess(it, *new narr())->cast<getExpr>(), retType);
     }
 
-    func* me::onFunc(func& f, const blockExpr& blk) {
+    node* me::onFunc(func& f, const blockExpr& blk) {
         NM_DI("tokenEvent: onFunc: func[%s] blk.len()=%d", (void*) &f, blk.getStmts().len());
 
         f.setBlock(blk);
         onEndFunc();
+        if(_funcs.size() > 0) // if this is nested-func,
+            return new defNestedFuncExpr(f);
         return &f;
     }
 

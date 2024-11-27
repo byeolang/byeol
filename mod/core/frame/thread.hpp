@@ -19,6 +19,7 @@ namespace nm {
         friend class blockExpr; // for frames.
         friend class defPropExpr;
         friend class defVarExpr;
+        friend class defNestedFuncExpr;
         friend class assignExpr;
         friend class verifier;
         friend class runExpr;

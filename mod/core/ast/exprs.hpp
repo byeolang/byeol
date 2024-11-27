@@ -11,6 +11,7 @@
 #include "exprs/defAssignExpr.hpp"
 #include "exprs/defPropExpr.hpp"
 #include "exprs/defSeqExpr.hpp"
+#include "exprs/defNestedFuncExpr.hpp"
 #include "exprs/exprMaker.hpp"
 #include "exprs/forExpr.hpp"
 #include "exprs/getExpr.hpp"
