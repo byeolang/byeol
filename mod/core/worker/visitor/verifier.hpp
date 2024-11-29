@@ -29,6 +29,7 @@ namespace nm {
         void onLeave(const visitInfo& i, defAssignExpr& me) override;
         void onLeave(const visitInfo& i, defSeqExpr& me) override;
         void onLeave(const visitInfo& i, defArrayExpr& me) override;
+        void onLeave(const visitInfo& i, defNestedFuncExpr& me) override;
         void onLeave(const visitInfo& i, FBOExpr& me) override;
         void onLeave(const visitInfo& i, FUOExpr& me) override;
         void onLeave(const visitInfo& i, getExpr& me) override;

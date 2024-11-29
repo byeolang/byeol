@@ -243,13 +243,8 @@ namespace nm {
     }
 
     blockExpr* me::onBlock(const node& stmt) {
-        NM_WHENNUL(stmt).thenErr(IS_NUL, "stmt"), _maker.make<blockExpr>();
-        func& f = _funcs.size() > 0 ? *_funcs.back() : nulOf<func>();
-        NM_DI("tokenEvent: onBlock(%s) insideOf %s func", stmt,
-            !nul(f) ? f.getSrc().getName() : "<null>");
-
-        if(!nul(stmt.cast<endExpr>())) return _maker.make<blockExpr>();
-        return _maker.make<blockExpr>(stmt);
+        NM_DI("tokenEvent: onBlock(%s)", stmt);
+        return onBlock(*new blockExpr(), stmt);
     }
 
     blockExpr* me::onBlock(blockExpr& blk, const node& stmt) {
@@ -394,8 +389,11 @@ namespace nm {
 
         f.setBlock(blk);
         onEndFunc();
-        if(_funcs.size() > 0) // if this is nested-func,
-            return new defNestedFuncExpr(f);
+        if(_funcs.size() > 0) {// if this is nested-func,
+            auto* ret = new defNestedFuncExpr(f);
+            NM_I("tokenEvent: onFunc: add nested `%s` func in `%s` func", *ret, f);
+            f.subs().add(ret->getSrc().getName(), *ret);
+        }
         return &f;
     }
 

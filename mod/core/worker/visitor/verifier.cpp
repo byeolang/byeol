@@ -259,7 +259,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, defAssignExpr& me) {
-        _GUARD("onVisit()");
+        _GUARD("onLeave()");
 
         _STEP("check rhs");
         str eval = me THEN(getRight()) THEN(getEval()) orRetErr(RHS_IS_NUL, me);
@@ -277,7 +277,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, defSeqExpr& me) {
-        _GUARD("onVisit()");
+        _GUARD("onLeave()");
 
         _STEP("check lhs & rhs");
         auto& start = me.getStart() orRetErr(LHS_IS_NUL, me);
@@ -289,7 +289,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, defArrayExpr& me) {
-        _GUARD("onVisit()");
+        _GUARD("onLeave()");
 
         _STEP("check all elements");
         const node& type = me.getArrayType() orRetErr(ELEM_TYPE_DEDUCED_NUL, me);
@@ -302,8 +302,28 @@ namespace nm {
         NM_WHEN(ps.len() != 1).thenErr(ARR_DOESNT_HAVE_TYPE_PARAM, me);
     }
 
+    void me::onLeave(const visitInfo& i, defNestedFuncExpr& me) {
+        _GUARD("onLeave()");
+
+        _STEP("check me has origin");
+        NM_WHENNUL(me.getOrigin()).thenErr(NO_FUNC_INFO, me);
+
+        _STEP("does it have `eval`?");
+        frame& fr = thread::get()._getNowFrame();
+        NM_WHENNUL(fr).thenErr(THERE_IS_NO_FRAMES_IN_THREAD, me);
+        str eval = me.getEval();
+        NM_WHENNUL(eval).thenErr(EXPR_EVAL_NUL, me);
+
+        _STEP("does it have a name?");
+        const std::string& name = me.getOrigin().getSrc().getName();
+        NM_WHENNUL(name).thenErr(HAS_NO_NAME, me);
+
+        _STEP("define nested `%s` func in local", name);
+        fr.addLocal(name, *eval);
+    }
+
     void me::onLeave(const visitInfo& i, FBOExpr& me) {
-        _GUARD("onVisit()");
+        _GUARD("onLeave()");
 
         _STEP("finding eval of l(r)hs.");
         str lEval = me THEN(getLeft()) THEN(getEval()) orRetErr(LHS_IS_NUL, me);
