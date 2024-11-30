@@ -389,12 +389,13 @@ namespace nm {
 
         f.setBlock(blk);
         onEndFunc();
-        if(_funcs.size() > 0) {// if this is nested-func,
-            auto* ret = new defNestedFuncExpr(f);
-            NM_I("tokenEvent: onFunc: add nested `%s` func in `%s` func", *ret, f);
-            f.subs().add(ret->getSrc().getName(), *ret);
-        }
-        return &f;
+        if(_funcs.size() <= 0) return &f;
+
+        // ok. this is nested-func:
+        func& outer = *_funcs.back();
+        NM_I("tokenEvent: onFunc: add nested `%s` func in `%s` func", f, outer);
+        outer.subs().add(f.getSrc().getName(), f);
+        return new defNestedFuncExpr(f);
     }
 
     ctor* me::onCtor(const modifier& mod, const narr& a, const blockExpr& blk) {
