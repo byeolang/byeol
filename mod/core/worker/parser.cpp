@@ -391,10 +391,15 @@ namespace nm {
         onEndFunc();
         if(_funcs.size() <= 0) return &f;
 
-        // ok. this is nested-func:
+        // don't add nested-func in an outer func:
+        //  nested func appear in the middle of code, and context is important because they capture
+        //  local variables that came before them.
+        //  if you put a nested function in the subs() of a func like an ordinary sub-node, some
+        //  user may be able to pinpoint this nested function and try to take some action.
+        //  and of course the consequences will be dire. this is because you access it without
+        //  context.
         func& outer = *_funcs.back();
-        NM_I("tokenEvent: onFunc: add nested `%s` func in `%s` func", f, outer);
-        outer.subs().add(f.getSrc().getName(), f);
+        NM_I("tokenEvent: onFunc: nested `%s` func in `%s` func", f, outer);
         return new defNestedFuncExpr(f);
     }
 

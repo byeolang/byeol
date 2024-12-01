@@ -42,10 +42,12 @@ namespace nm {
 
     node& me::getOwner(const node& sub) {
         [[maybe_unused]] const nchar* name = sub.getType().getName().c_str();
+        node* lastOwner = nullptr;
         for(auto& reg: _stack) {
+            lastOwner = reg.owner ? &reg.owner.get() : lastOwner;
             nbool isOwner = reg.s->in(sub);
             NM_DI("sub[%s] is in owner[%s]? == %s", name, *reg.owner, isOwner);
-            if(isOwner) return *reg.owner;
+            if(isOwner) return *lastOwner;
         }
 
         NM_E("couldn't find owner of %s", sub);
