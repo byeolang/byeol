@@ -106,6 +106,8 @@ namespace nm {
     void me::onTraverse(runExpr& e, node& subject) {}
 
     void me::onTraverse(const visitInfo& i, func& f) {
+        onTraverse(i, (func::super&) f);
+
         ends& es = f.getEnds();
         ncnt len = es.len() + 1;
         f.getBlock().accept(visitInfo{"codes", &f, 0, len, i.depth + 1}, *this);

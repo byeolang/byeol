@@ -96,6 +96,18 @@ namespace nm {
         return true;
     }
 
+    nbool me::onVisit(const visitInfo& i, defNestedFuncExpr& e) {
+        onVisit(i, (defNestedFuncExpr::super&) e);
+
+        const func& fun = e.getOrigin();
+        std::string params = !nul(fun) ? fun.getParams().toStr() : "null";
+        const std::string& name = fun THEN(getSrc()) THEN(getName());
+        cout << " -> " << foreColor(LIGHTBLUE) << (!nul(name) ? name : "null")
+             << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN) << params << foreColor(LIGHTGRAY)
+             << ")";
+        return true;
+    }
+
     nbool me::onVisit(const visitInfo& i, genericOrigin& o) {
         onVisit(i, (node&) o);
 

@@ -12,6 +12,7 @@ namespace nm {
         void onLeave(const visitInfo& i, node& visitee) override;
         nbool onVisit(const visitInfo& i, obj& obj) override;
         nbool onVisit(const visitInfo& i, baseFunc& fun) override;
+        nbool onVisit(const visitInfo& i, defNestedFuncExpr& e) override;
         nbool onVisit(const visitInfo& i, genericOrigin& o) override;
         nbool onVisit(const visitInfo& i, getExpr& e) override;
         nbool onVisit(const visitInfo& i, runExpr& e) override;
