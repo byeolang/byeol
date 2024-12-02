@@ -627,3 +627,18 @@ TEST_F(defFuncTest, complexConvergence) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 25);
 }
+
+TEST_F(defFuncTest, simpleNestedFunc) {
+    make()
+        .parse(R"SRC(
+        main() int
+            foo(n int) flt: n + 0.5
+            value int := (foo(3) + 0.5)
+            ret value
+    )SRC")
+        .shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 4);
+}

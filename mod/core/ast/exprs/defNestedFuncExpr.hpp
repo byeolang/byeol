@@ -10,7 +10,7 @@ namespace nm {
     ///
     ///     it doesn't know about local variables after you define it.
     ///     it contains copied block scope. and will inject just before runs block stmt.
-    class _nout defNestedFuncExpr : public expr {
+    class _nout defNestedFuncExpr: public expr {
         NM(CLASS(defNestedFuncExpr, expr, expr::exprType), VISIT())
 
     public:

@@ -34,6 +34,7 @@ namespace nm {
             nbool setMe(const node& obj) override { return true; }
 
             using super::addFunc;
+
             nbool addFunc(const baseFunc& new1) override { return true; }
 
             void rel() override {}

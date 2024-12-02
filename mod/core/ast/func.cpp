@@ -18,7 +18,8 @@ namespace nm {
     me::func(const modifier& mod, const mgdType& type, const blockExpr& newBlock):
         super(mod), _type(type), _blk(newBlock) {}
 
-    me::func(const modifier& mod, const mgdType& type, const scope& subs, const blockExpr& newBlock):
+    me::func(const modifier& mod, const mgdType& type, const scope& subs,
+        const blockExpr& newBlock):
         super(mod), _type(type), _subs(subs), _blk(newBlock) {}
 
     const ntype& me::getType() const { return _type; }
@@ -40,22 +41,25 @@ namespace nm {
         // s is from heap space. but freed by _outFrame() of this class.
         scope& s = *_evalArgs(a) orRet str();
         node &meObj = a.getMe() orRet NM_E("meObj == null"), str();
+        return _interactFrame(meObj, s, thread::get().getEx().len() - 1);
+    }
 
-        str ret;
-        nidx exN = thread::get().getEx().len() - 1;
+    str me::_interactFrame(node& meObj, scope& s, nidx exN) {
         frameInteract f1(meObj);
         {
             frameInteract f2(*this, s);
             {
                 frameInteract f3(*_blk);
-                {
-                    _runEnds();
-                    str ret = _postprocess(_blk->run(), exN);
-                    NM_I("%s returning %s", *this, ret);
-                    return ret;
-                }
+                { return _run(exN); }
             }
         }
+    }
+
+    str me::_run(nidx exN) {
+        _runEnds();
+        str ret = _postprocess(_blk->run(), exN);
+        NM_I("%s returning %s", *this, ret);
+        return ret;
     }
 
     str me::_postprocess(const str& blkRes, nidx exN) {
@@ -124,7 +128,7 @@ namespace nm {
         frame& fr = thread::get()._getNowFrame() orRet NM_E("fr == null");
 
         NM_DI("'%s func'._inFrame() frames.len[%d]", getSrc(), thread::get().getFrames().len());
-        fr.setFunc(*this);
+        fr.addFunc(*this);
         fr.add(*this);
         fr.add(*scope::wrap<scope>(
             nul(args) ? nulOf<nbicontainer>() : (nbicontainer&) args)); // including 'me'
@@ -137,7 +141,7 @@ namespace nm {
         baseFunc& f = fr.getFunc();
         if(nul(f) || &f != this) return;
 
-        fr.setFunc();
+        fr.delFunc();
         if(!nul(args)) fr.del();
         fr.del();
     }

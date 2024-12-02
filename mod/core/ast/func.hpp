@@ -19,7 +19,8 @@ namespace nm {
     public:
         explicit func(const modifier& mod, const mgdType& type);
         explicit func(const modifier& mod, const mgdType& type, const blockExpr& newBlock);
-        explicit func(const modifier& mod, const mgdType& type, const scope& subs, const blockExpr& newBlock);
+        explicit func(const modifier& mod, const mgdType& type, const scope& subs,
+            const blockExpr& newBlock);
 
     public:
         const ntype& getType() const override;
@@ -43,6 +44,10 @@ namespace nm {
         const ends& getEnds() const NM_CONST_FUNC(getEnds())
 
         void onCloneDeep(const clonable& from) override;
+
+    protected:
+        virtual str _interactFrame(node& meObj, scope& s, nidx exN);
+        str _run(nidx exN);
 
     private:
         scope* _evalArgs(const ucontainable& args);

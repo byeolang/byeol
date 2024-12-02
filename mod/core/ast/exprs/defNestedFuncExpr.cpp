@@ -1,4 +1,5 @@
 #include "defNestedFuncExpr.hpp"
+#include "../nestedFunc.hpp"
 #include "../../frame/thread.hpp"
 #include "../../worker/visitor/visitor.hpp"
 
@@ -11,10 +12,8 @@ namespace nm {
         if(!_org) return NM_E("_org is null"), str();
         frame &fr = thread::get()._getNowFrame() orRet NM_E("frame doesn't exist"), str();
 
-        func* new1 = new func(*new modifier(false, false), (mgdType&) _org->getType(),
-            *new scope(*(scope::super*) fr.getLocals().getContainer().clone(), _org->subs()),
-            _org->getBlock());
-
+        nestedFunc* new1 = new nestedFunc(*_org,
+            *new scope(*(scope::super*) fr.getLocals().getContainer().clone()));
         NM_I("def nested `%s` func in local", *_org);
         fr.addLocal(_org->getSrc().getName(), *new1);
         return new1;
