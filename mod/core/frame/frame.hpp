@@ -46,8 +46,8 @@ namespace nm {
         scope& getLocals();
         const scope& getLocals() const NM_CONST_FUNC(getLocals())
 
-        virtual nbool setFunc(const baseFunc& new1);
-        void setFunc();
+        virtual nbool addFunc(const baseFunc& new1);
+        void delFunc();
         baseFunc& getFunc();
         const baseFunc& getFunc() const NM_CONST_FUNC(getFunc())
 
@@ -79,7 +79,7 @@ namespace nm {
 
     private:
         str _me;
-        tstr<baseFunc> _func;
+        tnarr<baseFunc> _funcs;
         std::vector<scopeRegister> _stack;
         mutable str _ret;
     };

@@ -79,11 +79,11 @@ namespace nm {
         return _stack[len - 1];
     }
 
-    nbool me::setFunc(const baseFunc& new1) { return _func.bind(new1); }
+    nbool me::addFunc(const baseFunc& new1) { return _funcs.add(new1); }
 
-    void me::setFunc() { setFunc(nulOf<baseFunc>()); }
+    void me::delFunc() { _funcs.del(); }
 
-    baseFunc& me::getFunc() { return *_func; }
+    baseFunc& me::getFunc() { return *_funcs.last(); }
 
     // node:
     scope& me::subs() {
@@ -134,7 +134,7 @@ namespace nm {
 
     void me::_rel() {
         _me.rel();
-        _func.rel();
+        _funcs.rel();
         _stack.clear();
         _ret.rel();
     }
