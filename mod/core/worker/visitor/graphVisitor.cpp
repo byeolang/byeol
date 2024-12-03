@@ -102,9 +102,10 @@ namespace nm {
         const func& fun = e.getOrigin();
         std::string params = !nul(fun) ? fun.getParams().toStr() : "null";
         const std::string& name = fun THEN(getSrc()) THEN(getName());
-        cout << " -> " << foreColor(LIGHTBLUE) << (!nul(name) ? name : "null")
-             << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN) << params << foreColor(LIGHTGRAY)
-             << ")";
+        cout << " -> " << foreColor(LIGHTGRAY) << "@" << foreColor(RED)
+             << platformAPI::toAddrId(&fun) << " " << foreColor(LIGHTBLUE)
+             << (!nul(name) ? name : "null") << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN)
+             << params << foreColor(LIGHTGRAY) << ")";
         return true;
     }
 
