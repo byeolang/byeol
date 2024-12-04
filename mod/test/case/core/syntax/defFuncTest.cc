@@ -642,3 +642,85 @@ TEST_F(defFuncTest, simpleNestedFunc) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 4);
 }
+
+TEST_F(defFuncTest, capturedNestedFunc) {
+    make().parse(R"SRC(
+        main() int
+            name := "chales"
+            hello(msg str) str
+                ret "$name: $msg"
+
+            res := hello("hello kniz!")
+            res == "chales: hello kniz!"
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
+}
+
+TEST_F(defFuncTest, capturedVariablePreservedEvenWhenAssigning) {
+    make().parse(R"SRC(
+        main() int
+            name := "chales"
+            hello(msg str) str
+                ret "$name: $msg"
+
+            name = "kniz" # did you expect variable `name` captured inside 'hello()' will change?
+            res := hello("hello kniz!")
+            res == "chales: hello kniz!" # nope. it shouldn't.
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
+}
+
+TEST_F(defFuncTest, capturedVariableCanChangeItsFields) {
+    make().parse(R"SRC(
+        def Person
+            ctor(newName str): name = newName
+            name str
+
+        main() int
+            p := Person("chales")
+            hello(msg str) str
+                ret "${p.name}: $msg"
+
+            p.name = "kniz" # did you expect that fields of variable `p` captured inside 'hello()' can change?
+            res := hello("hello kniz!")
+            res == "kniz: hello kniz!" # yes!
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
+}
+
+TEST_F(defFuncTest, variableInsideBlockCanBeCaptured) {
+    make().parse(R"SRC(
+        main() int
+            res := 0
+            if true
+                name := "chales"
+                hello(msg str) str
+                    ret "$name: $msg"
+                res = "chales: hello kniz!" == hello("hello kniz!")
+            res
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
+}
+
+TEST_F(defFuncTest, nestedFuncOnlyAvailableInBlockNegative) {
+    make().negative().parse(R"SRC(
+        main() int
+            if true
+                name := "chales"
+                hello(msg str) str
+                    ret "$name: $msg"
+            ret "chales: hello kniz!" == hello("hello kniz!")
+    )SRC").shouldVerified(false);
+}
