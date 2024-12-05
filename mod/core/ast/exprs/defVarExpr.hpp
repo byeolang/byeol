@@ -41,7 +41,7 @@ namespace nm {
         const modifier& getNewModifier() const;
 
     protected:
-        virtual tstr<baseObj> _onMakeNew() = 0;
+        virtual str _onMakeNew() = 0;
 
     private:
         std::string _name;

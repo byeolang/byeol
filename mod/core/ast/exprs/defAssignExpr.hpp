@@ -19,7 +19,7 @@ namespace nm {
         void setExplicitType(const node& newType);
 
     protected:
-        tstr<baseObj> _onMakeNew() override;
+        str _onMakeNew() override;
 
     private:
         str _type;

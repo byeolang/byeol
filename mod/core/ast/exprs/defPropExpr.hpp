@@ -12,6 +12,6 @@ namespace nm {
             const modifier& mod);
 
     protected:
-        tstr<baseObj> _onMakeNew() override;
+        str _onMakeNew() override;
     };
 }

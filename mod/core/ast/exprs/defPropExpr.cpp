@@ -11,5 +11,5 @@ namespace nm {
         const modifier& mod):
         super(name, rhs, to, s, mod) {}
 
-    tstr<baseObj> me::_onMakeNew() { return getRight().as<node>()->run(); }
+    str me::_onMakeNew() { return getRight().as<node>()->run(); }
 }

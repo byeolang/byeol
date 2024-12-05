@@ -48,13 +48,15 @@ namespace nm {
 
     str me::makeNewOrigin() {
         auto ret = _onMakeNew();
+        baseObj& cast = ret->cast<baseObj>() orRet ret; // `ret` can be a closure
+
         // origin's clone is making a object, not an origin:
         //  so I've to call cloneDeep().
-        baseObj* newOrg = (baseObj*) ret->getOrigin().cloneDeep();
+        baseObj* newOrg = (baseObj*) cast.getOrigin().cloneDeep();
         if(_src) newOrg->_setSrc(*_src);
         if(_mod) newOrg->_setModifier(*_mod);
 
-        ret->_setOrigin(*newOrg);
+        cast._setOrigin(*newOrg);
         return ret;
     }
 
