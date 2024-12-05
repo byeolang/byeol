@@ -12,11 +12,19 @@ namespace nm {
         if(!_org) return NM_E("_org is null"), str();
         frame &fr = thread::get()._getNowFrame() orRet NM_E("frame doesn't exist"), str();
 
-        nestedFunc* new1 = new nestedFunc(*_org,
-            *new scope(*(scope::super*) fr.getLocals().getContainer().clone()));
+        nestedFunc* new1 = new nestedFunc(*_org, *_cloneLocalScope(fr));
         NM_I("def nested `%s` func in local", *_org);
         fr.addLocal(_org->getSrc().getName(), *new1);
         return new1;
+    }
+
+    scope* me::_cloneLocalScope(frame& fr) const {
+        scope* ret = new scope();
+        for(const auto& sr : fr.getScopeRegisters()) {
+            if(sr.owner) break;
+            ret->add(*sr.s);
+        }
+        return ret;
     }
 
     const func& me::getOrigin() const { return *_org; }

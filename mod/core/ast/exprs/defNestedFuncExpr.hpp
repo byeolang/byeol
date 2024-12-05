@@ -25,6 +25,9 @@ namespace nm {
         str getEval() const override;
 
     private:
+        scope* _cloneLocalScope(frame& fr) const;
+
+    private:
         tstr<func> _org;
     };
 }
