@@ -724,3 +724,40 @@ TEST_F(defFuncTest, nestedFuncOnlyAvailableInBlockNegative) {
             ret "chales: hello kniz!" == hello("hello kniz!")
     )SRC").shouldVerified(false);
 }
+
+TEST_F(defFuncTest, nestedFuncShouldBeAbleToCaptureArgument) {
+    make().parse(R"SRC(
+        makeClosure(n int) int
+            ret if n >= 0
+                multiply(input int) int: input * n
+                multiply(3)
+            else
+                subtract(input int) int: input + n
+                subtract(-3)
+        main() int
+            ret makeClosure(3) + makeClosure(-3)
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 9 - 6);
+}
+
+TEST_F(defFuncTest, nestedFuncClosure) {
+    make().parse(R"SRC(
+        foo(input int) int: 0
+        makeClosure(n int) foo
+            ret if n >= 0
+                multiply(input int) int: input * n
+            else
+                subtract(input int) int: input + n
+        main() int
+            multi := makeClosure(-5)
+            sub := makeClosure(5)
+            multi(3) + sub(3)
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), -2 + 15);
+}
