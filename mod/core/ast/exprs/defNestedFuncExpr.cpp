@@ -20,9 +20,9 @@ namespace nm {
 
     scope* me::_cloneLocalScope(frame& fr) const {
         scope* ret = new scope();
-        for(const auto& sr : fr.getScopeRegisters()) {
-            if(sr.owner) break;
-            ret->add(*sr.s);
+        for(auto e = fr.getScopeRegisters().rbegin(); e != fr.getScopeRegisters().rend(); ++e) {
+            if(e->owner) break;
+            ret->add(*e->s);
         }
         return ret;
     }
