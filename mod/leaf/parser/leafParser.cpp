@@ -140,9 +140,7 @@ namespace nm {
         return &s;
     }
 
-    verLeaf* me::onVer(const std::string& version) {
-        return new verLeaf(version);
-    }
+    verLeaf* me::onVer(const std::string& version) { return new verLeaf(version); }
 
     leaf* me::onDefProp(const std::string& name, leaf& rhs) {
         rhs.setName(name);
@@ -198,7 +196,8 @@ namespace nm {
         zzscan_t scanner;
         zzlex_init_extra(this, &scanner);
 
-        YY_BUFFER_STATE bufState = (YY_BUFFER_STATE) _scanString(codes.c_str(), scanner) orNul(leaf);
+        YY_BUFFER_STATE bufState =
+            (YY_BUFFER_STATE) _scanString(codes.c_str(), scanner) orNul(leaf);
 
         // fix Flex Bug here:
         //  when zz_scan_string get called, it returns bufState after malloc it.
@@ -264,10 +263,10 @@ namespace nm {
 
     leaf& me::_finalize() {
         ncnt size = _errs.size();
-        if (size <= 0) return *_root;
+        if(size <= 0) return *_root;
 
         NM_DI("leaf: total %d errors found.", size);
-        for(const auto& e : _errs)
+        for(const auto& e: _errs)
             NM_DI("leaf: ERR: %s", e);
         return nulOf<leaf>();
     }

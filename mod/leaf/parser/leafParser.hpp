@@ -53,9 +53,7 @@ namespace nm {
         //  expr:
         //      def:
         //          var:
-        template <typename T> leaf* onPrimitive(const T& arg) {
-            return new valLeaf(arg);
-        }
+        template <typename T> leaf* onPrimitive(const T& arg) { return new valLeaf(arg); }
 
         verLeaf* onVer(const std::string& version);
 

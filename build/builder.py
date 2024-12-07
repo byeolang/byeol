@@ -207,7 +207,7 @@ def formatCodes(showLog):
     for path, dirs, files in os.walk(root):
         if "../mod/" not in path: continue
         if "/worker/bison" in path: continue
-        if "/leaf/parser" in path: continue
+        if "/leaf/parser/bison" in path: continue
         for file in files:
             filePath = os.path.join(path, file)
             ext = os.path.splitext(file)[1]
