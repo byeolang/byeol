@@ -370,8 +370,7 @@ stmt-compound: ret-compound { $$ = $1; }
 def-expr-inline: with-inline { $$ = $1; }
                | def-prop-inline { $$ = $1; }
                | abstract-func {
-                PS.onEndFunc();
-                $$ = $1;
+                $$ = PS.onAbstractFunc($1->cast<func>());
              }
 def-expr-compound: with-compound { $$ = $1; }
                  | def-obj { $$ = $1; }
@@ -582,14 +581,14 @@ def-prop-compound: visibility NAME DEFASSIGN expr-compound {
 //          func:
 abstract-func: visibility call-access type {
                 str accessLife(*$2);
-                $$ = PS.onAbstractFunc(*$1, accessLife->cast<getExpr>(), *$3);
+                $$ = PS.onFuncSignature(*$1, accessLife->cast<getExpr>(), *$3);
            } | call-access type {
                 str accessLife(*$1);
-                $$ = PS.onAbstractFunc(accessLife->cast<getExpr>(), *$2);
+                $$ = PS.onFuncSignature(accessLife->cast<getExpr>(), *$2);
            } | visibility type '(' ')' type {
-                $$ = PS.onAbstractFunc(*$1, *$2, *$5);
+                $$ = PS.onFuncSignature(*$1, *$2, *$5);
            } | type '(' ')' type {
-                $$ = PS.onAbstractFunc(*$1, *$4);
+                $$ = PS.onFuncSignature(*$1, *$4);
            }
 
 def-func: abstract-func indentblock {

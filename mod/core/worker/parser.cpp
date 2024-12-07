@@ -360,12 +360,12 @@ namespace nm {
         return ret;
     }
 
-    func* me::onAbstractFunc(const getExpr& access, const node& retType) {
-        return onAbstractFunc(*new modifier(), access, retType);
+    func* me::onFuncSignature(const getExpr& access, const node& retType) {
+        return onFuncSignature(*new modifier(), access, retType);
     }
 
-    func* me::onAbstractFunc(const modifier& mod, const getExpr& access, const node& retType) {
-        NM_DI("tokenEvent: onAbstractFunc(%s, access: %s(%d), retType:%s)", mod, access.getName(),
+    func* me::onFuncSignature(const modifier& mod, const getExpr& access, const node& retType) {
+        NM_DI("tokenEvent: onFuncSignature(%s, access: %s(%d), retType:%s)", mod, access.getName(),
             access.getArgs().len(), retType);
 
         func* new1 = _maker.birth<func>(access.getName(), mod,
@@ -374,21 +374,28 @@ namespace nm {
         return new1;
     }
 
-    func* me::onAbstractFunc(const modifier& mod, node& it, const node& retType) {
-        NM_DI("tokenEvent: onAbstractFunc(%s, it: %s, retType: %s)", mod, it, retType);
-        return onAbstractFunc(mod, onCallAccess(it, *new narr())->cast<getExpr>(), retType);
+    func* me::onFuncSignature(const modifier& mod, node& it, const node& retType) {
+        NM_DI("tokenEvent: onFuncSignature(%s, it: %s, retType: %s)", mod, it, retType);
+        return onFuncSignature(mod, onCallAccess(it, *new narr())->cast<getExpr>(), retType);
     }
 
-    func* me::onAbstractFunc(node& it, const node& retType) {
-        NM_DI("tokenEvent: onAbstractFunc(it: %s, retType: %s)", it, retType);
-        return onAbstractFunc(onCallAccess(it, *new narr())->cast<getExpr>(), retType);
+    func* me::onFuncSignature(node& it, const node& retType) {
+        NM_DI("tokenEvent: onFuncSignature(it: %s, retType: %s)", it, retType);
+        return onFuncSignature(onCallAccess(it, *new narr())->cast<getExpr>(), retType);
+    }
+
+    func* me::onAbstractFunc(func& f) {
+        NM_DI("tokenEvent: onAbstractFunc(%s)", f);
+        _funcs.pop_back();
+        f.getBlock().setEval(f.getRet());
+        return &f;
     }
 
     node* me::onFunc(func& f, const blockExpr& blk) {
         NM_DI("tokenEvent: onFunc: func[%s] blk.len()=%d", (void*) &f, blk.getStmts().len());
 
         f.setBlock(blk);
-        onEndFunc();
+        _funcs.pop_back();
         if(_funcs.size() <= 0) return &f;
 
         // don't add nested-func in an outer func:
@@ -1118,8 +1125,6 @@ namespace nm {
         return _maker.make<runExpr>(container, *_maker.make<getExpr>("in"),
             args{nulOf<baseObj>(), it});
     }
-
-    void me::onEndFunc() { _funcs.pop_back(); }
 
     void me::onParseErr(const std::string& msg, const nchar* symbolName) {
         posError(errCode::SYNTAX_ERR, msg, symbolName);
