@@ -30,4 +30,4 @@ namespace nm {
     const func& me::getOrigin() const { return *_org; }
 
     str me::getEval() const { return _org->getEval(); }
-}
+} // namespace nm
