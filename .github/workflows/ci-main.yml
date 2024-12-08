@@ -13,7 +13,7 @@ jobs:
       matrix:
         path:
           - check: 'mod'
-            exclude: '(seedlingParser|seedlingScanner|lowparser|lowscanner)'
+            exclude: '(leafLowparser|leafLowscanner|lowparser|lowscanner)'
     steps:
     - uses: actions/checkout@v4
     - name: run clang-format to verify current codes.
@@ -51,7 +51,7 @@ jobs:
     - name: build & test current codes.
       run: |
         export C=clang CXX=clang++ PYTHON=$(which python3)
-        ls -l ${{github.workspace}}/mod/seedling/parser
+        ls -l ${{github.workspace}}/mod/leaf/bison/parser
         sudo $PYTHON ${{github.workspace}}/build/builder.py rel
         sudo $PYTHON ${{github.workspace}}/build/builder.py test
 
@@ -111,7 +111,7 @@ jobs:
       run: |
         export PATH="/usr/local/opt/flex/bin:/usr/local/opt/bison/bin:$PATH"
         export C=clang CXX=clang++ PYTHON=$(which python3)
-        ls -l ${{github.workspace}}/mod/seedling/parser
+        ls -l ${{github.workspace}}/mod/leaf/parser/bison
         sudo $PYTHON ${{github.workspace}}/build/builder.py dbg
         sudo $PYTHON ${{github.workspace}}/build/builder.py test
 
