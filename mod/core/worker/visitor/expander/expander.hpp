@@ -24,15 +24,15 @@ namespace nm {
 
         using super::onVisit;
 
-        nbool onVisit(const visitInfo& i, defAssignExpr& me) override;
-        nbool onVisit(const visitInfo& i, asExpr& me) override;
-        nbool onVisit(const visitInfo& i, obj& me) override;
-        void onLeave(const visitInfo& i, obj& me) override;
-        nbool onVisit(const visitInfo& i, func& me) override;
-        void onLeave(const visitInfo& i, func& me) override;
-        nbool onVisit(const visitInfo& i, baseFunc& me) override;
-        void onLeave(const visitInfo& i, baseFunc& me) override;
-        nbool onVisit(const visitInfo& i, getGenericExpr& me) override;
+        nbool onVisit(const visitInfo& i, defAssignExpr& me, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, asExpr& me, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, obj& me, nbool alreadyVisited) override;
+        void onLeave(const visitInfo& i, obj& me, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, func& me, nbool alreadyVisited) override;
+        void onLeave(const visitInfo& i, func& me, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, baseFunc& me, nbool alreadyVisited) override;
+        void onLeave(const visitInfo& i, baseFunc& me, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, getGenericExpr& me, nbool alreadyVisited) override;
 
     protected:
         void _onWork() override;

@@ -26,6 +26,12 @@ namespace nm {
         return fun->getBlock().getStmts().len() <= 0;
     }
 
+#define _VISIT(msg)                 \
+    if(alreadyVisited) return true; \
+    _GUARD(msg)
+#define _LEAVE(msg)            \
+    if(alreadyVisited) return; \
+    _GUARD(msg)
 #define _GUARD(msg)                                                                \
     if(isFlag(GUARD)) do {                                                         \
             NM_I("'%s' %s@%s: " msg, i, me.getType(), platformAPI::toAddrId(&me)); \
@@ -45,9 +51,9 @@ namespace nm {
         _expand();
     }
 
-    nbool me::onVisit(const visitInfo& i, defAssignExpr& me) {
+    nbool me::onVisit(const visitInfo& i, defAssignExpr& me, nbool alreadyVisited) {
         if(!me.getExplicitType()) return true;
-        _GUARD("defAssignExpr.onVisit()");
+        _VISIT("defAssignExpr.onVisit()");
 
         tstr<convergence> req = new convergence(*_obj.back(), *_funcs.back(), [&]() -> nbool {
             str type = me.getExplicitType() THEN(template as<baseObj>()) orRet false;
@@ -59,8 +65,8 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, asExpr& me) {
-        _GUARD("asExpr.onVisit()");
+    nbool me::onVisit(const visitInfo& i, asExpr& me, nbool alreadyVisited) {
+        _VISIT("asExpr.onVisit()");
 
         tstr<convergence> req = new convergence(*_obj.back(), *_funcs.back(), [&]() -> nbool {
             str ased = me.getAs() THEN(template as<baseObj>()) orRet false;
@@ -72,16 +78,16 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, obj& me) {
-        _GUARD("obj.onVisit()");
+    nbool me::onVisit(const visitInfo& i, obj& me, nbool alreadyVisited) {
+        _VISIT("obj.onVisit()");
 
         _obj.push_back(&me);
         me.inFrame();
         return true;
     }
 
-    void me::onLeave(const visitInfo& i, obj& me) {
-        _GUARD("obj.onLeave()");
+    void me::onLeave(const visitInfo& i, obj& me, nbool alreadyVisited) {
+        _LEAVE("obj.onLeave()");
 
         me.outFrame();
         _obj.pop_back();
@@ -89,9 +95,9 @@ namespace nm {
         if(nul(me.sub(baseObj::EXPAND_NAME))) me.setState(PARSED);
     }
 
-    nbool me::onVisit(const visitInfo& i, func& me) {
-        _GUARD("func.onVisit()");
-        if(!onVisit(i, (baseFunc&) me)) return false;
+    nbool me::onVisit(const visitInfo& i, func& me, nbool alreadyVisited) {
+        _VISIT("func.onVisit()");
+        if(!onVisit(i, (baseFunc&) me, alreadyVisited)) return false;
 
         if(i.name == baseObj::EXPAND_NAME) {
             obj *o = _obj.back() orRet NM_E("obj stack is empty."), true;
@@ -103,14 +109,14 @@ namespace nm {
         return true;
     }
 
-    void me::onLeave(const visitInfo& i, func& me) {
-        _GUARD("func.onLeave()");
+    void me::onLeave(const visitInfo& i, func& me, nbool alreadyVisited) {
+        _LEAVE("func.onLeave()");
         me.getBlock().outFrame();
 
-        onVisit(i, (baseFunc&) me);
+        onVisit(i, (baseFunc&) me, alreadyVisited);
     }
 
-    nbool me::onVisit(const visitInfo& i, baseFunc& me) {
+    nbool me::onVisit(const visitInfo& i, baseFunc& me, nbool alreadyVisited) {
         // you may wonder why I declared parameter for 'baseFunc', not func:
         //  becauase you may think that it's not necessary for an author of the baseFunc to use
         //  getExpr instance as they can use define tbaseObjOrigin.
@@ -122,7 +128,7 @@ namespace nm {
         //
         //  So, eventually there is still a chance when baseFuncs instance should hold getExpr
         //  for their retType or parameterType which requires typeConverence feature.
-        _GUARD("onVisit()");
+        _VISIT("onVisit()");
 
         _funcs.push_back(&me);
         me.inFrame(); // don't need to inFrame for args.
@@ -135,15 +141,15 @@ namespace nm {
         return true;
     }
 
-    void me::onLeave(const visitInfo& i, baseFunc& me) {
-        _GUARD("onLeave(%s)");
+    void me::onLeave(const visitInfo& i, baseFunc& me, nbool alreadyVisited) {
+        _LEAVE("onLeave(%s)");
 
         me.outFrame();
         _funcs.pop_back();
     }
 
-    nbool me::onVisit(const visitInfo& i, getGenericExpr& me) {
-        _GUARD("onVisit(%s)");
+    nbool me::onVisit(const visitInfo& i, getGenericExpr& me, nbool alreadyVisited) {
+        _VISIT("onVisit(%s)");
 
         // this lets genericOrigin make a their generic obj.
         obj& generalizedOrg = me.getEval().cast<obj>() orRet true;

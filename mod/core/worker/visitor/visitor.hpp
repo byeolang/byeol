@@ -19,14 +19,14 @@ namespace nm {
     public:
 #define X(T)                                          \
     virtual void visit(const visitInfo& i, T& me);    \
-    virtual nbool onVisit(const visitInfo& i, T& me); \
-    virtual void onLeave(const visitInfo& i, T& me);
+    virtual nbool onVisit(const visitInfo& i, T& me, nbool alreadyVisited); \
+    virtual void onLeave(const visitInfo& i, T& me, nbool alreadyVisited);
 #include "visitee.inl"
 #undef X
 
         virtual void visit(const visitInfo& i, node& me);
-        virtual nbool onVisit(const visitInfo& i, node& me);
-        virtual void onLeave(const visitInfo& i, node& me);
+        virtual nbool onVisit(const visitInfo& i, node& me, nbool alreadyVisited);
+        virtual void onLeave(const visitInfo& i, node& me, nbool alreadyVisited);
 
         //  traverse:
         //      generalized-way:

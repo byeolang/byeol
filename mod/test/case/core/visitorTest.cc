@@ -23,7 +23,8 @@ TEST_F(visitorTest, iterateManuallyConstructedNodes) {
 
         myVisitor(): metFoo1(false), metVal1(false), metFoo2(false), metVal2(false) {}
 
-        nbool onVisit(const visitInfo& i, func& fun) override {
+        nbool onVisit(const visitInfo& i, func& fun, nbool alreadyVisited) override {
+            if(alreadyVisited) return false;
             if(i.name == "foo1") metFoo1 = true;
             if(i.name == "foo2") {
                 metFoo2 = true;
@@ -32,12 +33,14 @@ TEST_F(visitorTest, iterateManuallyConstructedNodes) {
             return true;
         }
 
-        nbool onVisit(const visitInfo& i, nInt& o) override {
+        nbool onVisit(const visitInfo& i, nInt& o, nbool alreadyVisited) override {
+            if(alreadyVisited) return false;
             if(i.name == "val1") metVal1 = true;
             return true;
         }
 
-        nbool onVisit(const visitInfo& i, nFlt& o) override {
+        nbool onVisit(const visitInfo& i, nFlt& o, nbool alreadyVisited) override {
+            if(alreadyVisited) return false;
             if(i.name == "val2") metVal2 = true;
             return true;
         }
@@ -79,18 +82,21 @@ TEST_F(visitorTest, visitComplexExpressions) {
 
         using visitor::onVisit;
 
-        nbool onVisit(const visitInfo& i, getExpr& got) override {
+        nbool onVisit(const visitInfo& i, getExpr& got, nbool alreadyVisited) override {
+            if(alreadyVisited) return false;
             NM_DI("subname=%s", got.getName());
             if(got.getName() == "o") metO++;
             return true;
         }
 
-        nbool onVisit(const visitInfo& i, asExpr& as) override {
+        nbool onVisit(const visitInfo& i, asExpr& as, nbool alreadyVisited) override {
+            if(alreadyVisited) return false;
             if(as.getAs().as<node>()->isSub<nInt>()) metAsFlt++;
             return true;
         }
 
-        nbool onVisit(const visitInfo& i, nFlt& f) override {
+        nbool onVisit(const visitInfo& i, nFlt& f, nbool alreadyVisited) override {
+            if(alreadyVisited) return false;
             if(f.get() == 5.0f) metFlt5 = true;
             return true;
         }
@@ -147,14 +153,16 @@ TEST_F(visitorTest, visitComplexExpressions2) {
 
         using visitor::onVisit;
 
-        nbool onVisit(const visitInfo& i, FBOExpr& fao) override {
+        nbool onVisit(const visitInfo& i, FBOExpr& fao, nbool alreadyVisited) override {
+            if(alreadyVisited) return false;
             tstr<nInt> num2 = ((node&) fao.getRight()).as<nInt>() orRet true;
 
             if(num2->cast<nint>() == 2) metInt2 = true;
             return true;
         }
 
-        nbool onVisit(const visitInfo& i, assignExpr& a) override {
+        nbool onVisit(const visitInfo& i, assignExpr& a, nbool alreadyVisited) override {
+            if(alreadyVisited) return false;
             getExpr& leftGet = ((node&) a.getLeft()).cast<getExpr>() orRet true;
 
             if(leftGet.getName() != "res") return true;

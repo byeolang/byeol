@@ -8,6 +8,9 @@
 
 namespace nm {
 
+#define _VISIT if(alreadyVisited) return false
+#define _LEAVE if(alreadyVisited) return
+
     NM(DEF_ME(graphVisitor))
     using platformAPI::foreColor;
     using namespace std;
@@ -30,11 +33,15 @@ namespace nm {
         _indents.push_back((isParentLast ? "   " : "┃  "));
     }
 
-    nbool me::onVisit(const visitInfo& i, nInt& e) { return _onVisitPrimitive<nInt>(i, e); }
+    nbool me::onVisit(const visitInfo& i, nInt& e, nbool alreadyVisited) {
+        return _onVisitPrimitive<nInt>(i, e);
+    }
 
-    nbool me::onVisit(const visitInfo& i, nFlt& e) { return _onVisitPrimitive<nFlt>(i, e); }
+    nbool me::onVisit(const visitInfo& i, nFlt& e, nbool alreadyVisited) {
+        return _onVisitPrimitive<nFlt>(i, e);
+    }
 
-    nbool me::onVisit(const visitInfo& i, nStr& e) {
+    nbool me::onVisit(const visitInfo& i, nStr& e, nbool alreadyVisited) {
         _drawFrame(i);
         _showModifier(e.getModifier());
         cout << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN)
@@ -43,11 +50,15 @@ namespace nm {
         return false;
     }
 
-    nbool me::onVisit(const visitInfo& i, nByte& e) { return _onVisitPrimitive<nByte>(i, e); }
+    nbool me::onVisit(const visitInfo& i, nByte& e, nbool alreadyVisited) {
+        return _onVisitPrimitive<nByte>(i, e);
+    }
 
-    nbool me::onVisit(const visitInfo& i, nBool& e) { return _onVisitPrimitive<nBool>(i, e); }
+    nbool me::onVisit(const visitInfo& i, nBool& e, nbool alreadyVisited) {
+        return _onVisitPrimitive<nBool>(i, e);
+    }
 
-    nbool me::onVisit(const visitInfo& i, node& visitee) {
+    nbool me::onVisit(const visitInfo& i, node& visitee, nbool alreadyVisited) {
         _drawFrame(i);
         _showModifier(visitee.getModifier());
 
@@ -57,11 +68,11 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, obj& o) {
-        onVisit(i, (obj::super&) o);
+    nbool me::onVisit(const visitInfo& i, obj& o, nbool alreadyVisited) {
+        onVisit(i, (obj::super&) o, alreadyVisited);
 
         if(o.isComplete()) cout << foreColor(GREEN) << " [complete] ";
-        return true;
+        return !alreadyVisited; // don't traverse sub nodes again.
     }
 
     void me::_drawFrame(const visitInfo& i) {
@@ -77,12 +88,12 @@ namespace nm {
         _parentsLast.push_back(isLast);
     }
 
-    void me::onLeave(const visitInfo& i, node& visitee) {
+    void me::onLeave(const visitInfo& i, node& visitee, nbool alreadyVisited) {
         _indents.pop_back();
         _parentsLast.pop_back();
     }
 
-    nbool me::onVisit(const visitInfo& i, baseFunc& fun) {
+    nbool me::onVisit(const visitInfo& i, baseFunc& fun, nbool alreadyVisited) {
         _drawFrame(i);
 
         cout << foreColor(LIGHTGRAY) << "@" << foreColor(RED) << platformAPI::toAddrId(&fun) << " ";
@@ -93,11 +104,11 @@ namespace nm {
         cout << foreColor(LIGHTBLUE) << i.name << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN)
              << fun.getParams().toStr() << foreColor(LIGHTGRAY) << ") " << foreColor(CYAN)
              << (!nul(ret) ? ret.getType().createNameWithParams() : "null");
-        return true;
+        return !alreadyVisited; // don't traverse subs again.
     }
 
-    nbool me::onVisit(const visitInfo& i, defNestedFuncExpr& e) {
-        onVisit(i, (defNestedFuncExpr::super&) e);
+    nbool me::onVisit(const visitInfo& i, defNestedFuncExpr& e, nbool alreadyVisited) {
+        onVisit(i, (defNestedFuncExpr::super&) e, alreadyVisited);
 
         const func& fun = e.getOrigin();
         std::string params = !nul(fun) ? fun.getParams().toStr() : "null";
@@ -109,8 +120,8 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, genericOrigin& o) {
-        onVisit(i, (node&) o);
+    nbool me::onVisit(const visitInfo& i, genericOrigin& o, nbool alreadyVisited) {
+        onVisit(i, (node&) o, alreadyVisited);
 
         int n = 0;
         ncnt len = o._cache.size();
@@ -119,8 +130,8 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, getExpr& e) {
-        onVisit(i, (node&) e);
+    nbool me::onVisit(const visitInfo& i, getExpr& e, nbool alreadyVisited) {
+        onVisit(i, (node&) e, alreadyVisited);
 
         string args = e.getArgs().toStr();
 
@@ -132,8 +143,8 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, runExpr& e) {
-        onVisit(i, (node&) e);
+    nbool me::onVisit(const visitInfo& i, runExpr& e, nbool alreadyVisited) {
+        onVisit(i, (node&) e, alreadyVisited);
 
         cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getMe())
              << foreColor(LIGHTGRAY) << "." << foreColor(YELLOW) << _getNameFrom(e.getSubj())
@@ -142,8 +153,8 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, FBOExpr& e) {
-        onVisit(i, (node&) e);
+    nbool me::onVisit(const visitInfo& i, FBOExpr& e, nbool alreadyVisited) {
+        onVisit(i, (node&) e, alreadyVisited);
 
         cout << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN)
              << e.getLeft().getType().createNameWithParams();
@@ -166,8 +177,8 @@ namespace nm {
         return !e.getLeft().isSub<arithmeticObj>() || !e.getRight().isSub<arithmeticObj>();
     }
 
-    nbool me::onVisit(const visitInfo& i, FUOExpr& e) {
-        onVisit(i, (node&) e);
+    nbool me::onVisit(const visitInfo& i, FUOExpr& e, nbool alreadyVisited) {
+        onVisit(i, (node&) e, alreadyVisited);
 
         const node& op = e.getOperand();
         cout << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN)
@@ -176,8 +187,8 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, assignExpr& e) {
-        onVisit(i, (node&) e);
+    nbool me::onVisit(const visitInfo& i, assignExpr& e, nbool alreadyVisited) {
+        onVisit(i, (node&) e, alreadyVisited);
 
         cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getLeft())
              << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getRight());
@@ -185,8 +196,8 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, defVarExpr& e) {
-        onVisit(i, (node&) e);
+    nbool me::onVisit(const visitInfo& i, defVarExpr& e, nbool alreadyVisited) {
+        onVisit(i, (node&) e, alreadyVisited);
 
         cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << e.getName()
              << foreColor(LIGHTGRAY) << " := " << foreColor(CYAN) << _getNameFrom(e.getRight());

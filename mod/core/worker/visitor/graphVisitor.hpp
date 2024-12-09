@@ -8,23 +8,23 @@ namespace nm {
         NM(CLASS(graphVisitor, visitor))
 
     public:
-        nbool onVisit(const visitInfo& i, node& visitee) override;
-        void onLeave(const visitInfo& i, node& visitee) override;
-        nbool onVisit(const visitInfo& i, obj& obj) override;
-        nbool onVisit(const visitInfo& i, baseFunc& fun) override;
-        nbool onVisit(const visitInfo& i, defNestedFuncExpr& e) override;
-        nbool onVisit(const visitInfo& i, genericOrigin& o) override;
-        nbool onVisit(const visitInfo& i, getExpr& e) override;
-        nbool onVisit(const visitInfo& i, runExpr& e) override;
-        nbool onVisit(const visitInfo& i, FBOExpr& e) override;
-        nbool onVisit(const visitInfo& i, FUOExpr& e) override;
-        nbool onVisit(const visitInfo& i, assignExpr& e) override;
-        nbool onVisit(const visitInfo& i, defVarExpr& e) override;
-        nbool onVisit(const visitInfo& i, nInt& e) override;
-        nbool onVisit(const visitInfo& i, nFlt& e) override;
-        nbool onVisit(const visitInfo& i, nStr& e) override;
-        nbool onVisit(const visitInfo& i, nByte& e) override;
-        nbool onVisit(const visitInfo& i, nBool& e) override;
+        nbool onVisit(const visitInfo& i, node& visitee, nbool alreadyVisited) override;
+        void onLeave(const visitInfo& i, node& visitee, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, obj& obj, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, baseFunc& fun, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, defNestedFuncExpr& e, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, genericOrigin& o, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, getExpr& e, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, runExpr& e, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, FBOExpr& e, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, FUOExpr& e, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, assignExpr& e, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, defVarExpr& e, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, nInt& e, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, nFlt& e, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, nStr& e, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, nByte& e, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, nBool& e, nbool alreadyVisited) override;
 
     protected:
         void _onWork() override;

@@ -11,17 +11,22 @@ namespace nm {
 
     NM_DEF_ME(visitor)
 
-#define X(T)                                                                            \
-    void me::visit(const visitInfo& i, T& me) {                                         \
-        if(nul(me)) return;                                                             \
-                                                                                        \
-        if(!_markVisited(me)) return;                                                   \
-                                                                                        \
-        if(onVisit(i, me)) onTraverse(i, me);                                           \
-        onLeave(i, me);                                                                 \
-    }                                                                                   \
-    nbool me::onVisit(const visitInfo& i, T& me) { return onVisit(i, (T::super&) me); } \
-    void me::onLeave(const visitInfo& i, T& me) { onLeave(i, (T::super&) me); }
+#define X(T)                                                                     \
+    void me::visit(const visitInfo& i, T& me) {                                  \
+        if(nul(me)) return;                                                      \
+                                                                                 \
+        nbool alreadyVisited = !_markVisited(me);                                \
+        if(onVisit(i, me, alreadyVisited) && !alreadyVisited) onTraverse(i, me); \
+        onLeave(i, me, alreadyVisited);                                          \
+    }                                                                            \
+                                                                                 \
+    nbool me::onVisit(const visitInfo& i, T& me, nbool alreadyVisited) {         \
+        return onVisit(i, (T::super&) me, alreadyVisited);                       \
+    }                                                                            \
+                                                                                 \
+    void me::onLeave(const visitInfo& i, T& me, nbool alreadyVisited) {          \
+        onLeave(i, (T::super&) me, alreadyVisited);                              \
+    }
 
 #include "visitee.inl"
 #undef X
@@ -33,15 +38,15 @@ namespace nm {
 
     void me::visit(const visitInfo& i, node& me) {
         if(nul(me)) return;
-        if(!_markVisited(me)) return;
 
-        if(onVisit(i, me)) onTraverse(i, me);
-        onLeave(i, me);
+        nbool alreadyVisited = !_markVisited(me);
+        if(onVisit(i, me, alreadyVisited) && !alreadyVisited) onTraverse(i, me);
+        onLeave(i, me, alreadyVisited);
     }
 
-    nbool me::onVisit(const visitInfo& i, node& me) { return true; }
+    nbool me::onVisit(const visitInfo& i, node& me, nbool alreadyVisited) { return true; }
 
-    void me::onLeave(const visitInfo& i, node& me) {}
+    void me::onLeave(const visitInfo& i, node& me, nbool alreadyVisited) {}
 
     void me::_onWork() {
         if(nul(getTask())) return;
