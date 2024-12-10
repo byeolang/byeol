@@ -11,11 +11,20 @@ namespace nm {
 
     NM_DEF_ME(visitor)
 
+    me::visitor(): me(false) {}
+
+    me::visitor(nbool isReturnable): _isReturnable(isReturnable) {}
+
+    nbool me::isReturnable() const { return _isReturnable; }
+
+    void me::setReturnable(nbool isReturnable) { _isReturnable = isReturnable; }
+
 #define X(T)                                                                     \
     void me::visit(const visitInfo& i, T& me) {                                  \
         if(nul(me)) return;                                                      \
                                                                                  \
         nbool alreadyVisited = !_markVisited(me);                                \
+        if(alreadyVisited && !_isReturnable) return;                             \
         if(onVisit(i, me, alreadyVisited) && !alreadyVisited) onTraverse(i, me); \
         onLeave(i, me, alreadyVisited);                                          \
     }                                                                            \
@@ -40,6 +49,7 @@ namespace nm {
         if(nul(me)) return;
 
         nbool alreadyVisited = !_markVisited(me);
+        if(alreadyVisited && !_isReturnable) return;
         if(onVisit(i, me, alreadyVisited) && !alreadyVisited) onTraverse(i, me);
         onLeave(i, me, alreadyVisited);
     }

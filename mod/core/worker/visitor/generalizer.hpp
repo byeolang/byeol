@@ -15,17 +15,17 @@ namespace nm {
         me& add(const params& newParams);
 
         using super::onVisit;
-        nbool onVisit(const visitInfo& i, asExpr& me, nbool alreadyVisited) override;
-        nbool onVisit(const visitInfo& i, blockExpr& me, nbool alreadyVisited) override;
-        nbool onVisit(const visitInfo& i, defVarExpr& me, nbool alreadyVisited) override;
-        nbool onVisit(const visitInfo& i, runExpr& me, nbool alreadyVisited) override;
-        nbool onVisit(const visitInfo& i, baseFunc& me, nbool alreadyVisited) override;
-        nbool onVisit(const visitInfo& i, ctor& me, nbool alreadyVisited) override;
-        nbool onVisit(const visitInfo& i, baseCtor& me, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, asExpr& me, nbool) override;
+        nbool onVisit(const visitInfo& i, blockExpr& me, nbool) override;
+        nbool onVisit(const visitInfo& i, defVarExpr& me, nbool) override;
+        nbool onVisit(const visitInfo& i, runExpr& me, nbool) override;
+        nbool onVisit(const visitInfo& i, baseFunc& me, nbool) override;
+        nbool onVisit(const visitInfo& i, ctor& me, nbool) override;
+        nbool onVisit(const visitInfo& i, baseCtor& me, nbool) override;
         nbool onVisit(const visitInfo& i, params& me);
-        nbool onVisit(const visitInfo& i, FBOExpr& me, nbool alreadyVisited) override;
-        nbool onVisit(const visitInfo& i, baseObj& me, nbool alreadyVisited) override;
-        nbool onVisit(const visitInfo& i, getGenericExpr& me, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, FBOExpr& me, nbool) override;
+        nbool onVisit(const visitInfo& i, baseObj& me, nbool) override;
+        nbool onVisit(const visitInfo& i, getGenericExpr& me, nbool) override;
 
     private:
         str _findOrigin(const node& toReplace) const;

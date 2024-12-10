@@ -5,8 +5,6 @@
 
 namespace nm {
 
-#define _VISIT if(alreadyVisited) return false
-
     NM(DEF_ME(generalizer))
 
     me& me::add(const obj& origin) {
@@ -53,8 +51,7 @@ namespace nm {
         return str();
     }
 
-    nbool me::onVisit(const visitInfo& i, asExpr& me, nbool alreadyVisited) {
-        _VISIT;
+    nbool me::onVisit(const visitInfo& i, asExpr& me, nbool) {
         str org = _findOrigin(me.getAs()) orRet true;
 
         NM_DI("* inject 'as %s' --> 'as %s'", me.getAs(), org);
@@ -62,8 +59,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, blockExpr& me, nbool alreadyVisited) {
-        _VISIT;
+    nbool me::onVisit(const visitInfo& i, blockExpr& me, nbool) {
         narr& stmts = me.getStmts();
         for(int n = 0; n < stmts.len(); n++) {
             const node& stmt = stmts[n];
@@ -75,8 +71,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, defVarExpr& me, nbool alreadyVisited) {
-        _VISIT;
+    nbool me::onVisit(const visitInfo& i, defVarExpr& me, nbool) {
         str org = _findOrigin(me.getRight()) orRet true;
 
         NM_DI("* inject '%s %s' --> '%s %s'", me.getName(), me.getRight(), me.getName(), org);
@@ -84,8 +79,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, runExpr& me, nbool alreadyVisited) {
-        _VISIT;
+    nbool me::onVisit(const visitInfo& i, runExpr& me, nbool) {
         str org = _findOrigin(me.getMe());
         if(org) me.setMe(*org);
 
@@ -114,20 +108,18 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, baseCtor& me, nbool alreadyVisited) {
-        _VISIT;
+    nbool me::onVisit(const visitInfo& i, baseCtor& me, nbool) {
         baseObj& cast = getTask().cast<baseObj>();
         if(nul(cast)) getReport().add(nerr::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
         else if(i.parent && i.parent == &cast)
             // if this ctor belongs to root object(== generic obj):
             me._setOrigin(cast.getOrigin());
 
-        onVisit(i, (baseFunc&) me, alreadyVisited);
+        onVisit(i, (baseFunc&) me, false);
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, baseFunc& me, nbool alreadyVisited) {
-        _VISIT;
+    nbool me::onVisit(const visitInfo& i, baseFunc& me, nbool) {
         onVisit(i, (params&) me.getParams());
 
         str retOrg = _findOrigin(me.getRet());
@@ -138,23 +130,21 @@ namespace nm {
             if(nul(i.parent)) getReport().add(nerr::newErr(errCode::IS_NUL, "parent"));
         }
 
-        onVisit(i, (baseFunc::super&) me, alreadyVisited);
+        onVisit(i, (baseFunc::super&) me, false);
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, ctor& me, nbool alreadyVisited) {
-        _VISIT;
+    nbool me::onVisit(const visitInfo& i, ctor& me, nbool) {
         baseObj& cast = getTask().cast<baseObj>();
         if(nul(cast)) getReport().add(nerr::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
         else if(i.parent && i.parent == &cast)
             // if this ctor belongs to root object(== generic obj):
             me._getType().setRet(cast);
 
-        return super::onVisit(i, me, alreadyVisited);
+        return super::onVisit(i, me, false);
     }
 
-    nbool me::onVisit(const visitInfo& i, baseObj& me, nbool alreadyVisited) {
-        _VISIT;
+    nbool me::onVisit(const visitInfo& i, baseObj& me, nbool) {
         scope& subs = me.subs();
         for(auto e = subs.begin(); e; ++e) {
             const node& prevVal = e.getVal();
@@ -164,12 +154,11 @@ namespace nm {
             e.setVal(*org);
         }
 
-        onVisit(i, (baseObj::super&) me, alreadyVisited);
+        onVisit(i, (baseObj::super&) me, false);
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, FBOExpr& me, nbool alreadyVisited) {
-        _VISIT;
+    nbool me::onVisit(const visitInfo& i, FBOExpr& me, nbool) {
         str org = _findOrigin(me.getLeft());
         if(org) me.setLeft(*org);
 
@@ -178,8 +167,7 @@ namespace nm {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, getGenericExpr& me, nbool alreadyVisited) {
-        _VISIT;
+    nbool me::onVisit(const visitInfo& i, getGenericExpr& me, nbool) {
         args& a = *me._args orRet true;
 
         for(nint n = 0; n < a.len(); n++) {

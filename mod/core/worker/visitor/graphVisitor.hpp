@@ -8,6 +8,9 @@ namespace nm {
         NM(CLASS(graphVisitor, visitor))
 
     public:
+        graphVisitor();
+
+    public:
         nbool onVisit(const visitInfo& i, node& visitee, nbool alreadyVisited) override;
         void onLeave(const visitInfo& i, node& visitee, nbool alreadyVisited) override;
         nbool onVisit(const visitInfo& i, obj& obj, nbool alreadyVisited) override;

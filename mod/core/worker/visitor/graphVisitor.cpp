@@ -8,12 +8,16 @@
 
 namespace nm {
 
-#define _VISIT if(alreadyVisited) return false
-#define _LEAVE if(alreadyVisited) return
+#define _VISIT \
+    if(alreadyVisited) return false
+#define _LEAVE \
+    if(alreadyVisited) return
 
     NM(DEF_ME(graphVisitor))
     using platformAPI::foreColor;
     using namespace std;
+
+    me::graphVisitor(): super(true) {}
 
     void me::_onWork() {
         _parentsLast.push_back(true);

@@ -17,8 +17,18 @@ namespace nm {
         NM(CLASS(visitor, __super6))
 
     public:
-#define X(T)                                          \
-    virtual void visit(const visitInfo& i, T& me);    \
+        visitor();
+        visitor(nbool isReturnable);
+
+    public:
+        /// if you set the visitor as returnable, nodes you have already been visited,
+        /// will be visited again if it's refered by different nodes.
+        /// in default, this value is false.
+        void setReturnable(nbool isReturnable);
+        nbool isReturnable() const;
+
+#define X(T)                                                                \
+    virtual void visit(const visitInfo& i, T& me);                          \
     virtual nbool onVisit(const visitInfo& i, T& me, nbool alreadyVisited); \
     virtual void onLeave(const visitInfo& i, T& me, nbool alreadyVisited);
 #include "visitee.inl"
@@ -88,5 +98,6 @@ namespace nm {
         //  to prevent it, I prepare a map instance. that map will return true if the key,
         //  func or obj, already got visited.
         std::map<node*, nbool> _visited;
+        nbool _isReturnable;
     };
 } // namespace nm
