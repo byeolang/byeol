@@ -265,9 +265,9 @@ namespace nm {
         ncnt size = _errs.size();
         if(size <= 0) return *_root;
 
-        NM_DI("leaf: total %d errors found.", size);
+        NM_I("leaf: total %d errors found.", size);
         for(const auto& e: _errs)
-            NM_DI("leaf: ERR: %s", e);
+            NM_I("leaf: ERR: %s", e);
         return nulOf<leaf>();
     }
 } // namespace nm
