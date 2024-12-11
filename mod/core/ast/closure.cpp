@@ -29,4 +29,29 @@ namespace nm {
     const baseFunc& me::getFunc() const { return *_func; }
 
     params& me::getParams() { return _func THEN(getParams()); }
+
+    closure* me::make(const node& e) {
+        if(e.isSub<func>()) return _make((func&) e);
+        if(e.isSub<getExpr>()) return _make((getExpr&) e);
+        return nullptr;
+    }
+
+    closure* me::_make(const func& e) {
+        const baseObj& meObj =
+            thread::get().getNowFrame() THEN(getMe()) THEN(template cast<baseObj>()) orRet nullptr;
+        return new me(meObj, e);
+    }
+
+    closure* me::_make(const getExpr& e) {
+        if(nul(e)) return nullptr;
+
+        str mayMe = e._evalMe(true);
+        frame& fr = mayMe->cast<frame>();
+        tstr<baseObj> meObj =
+            (!nul(fr) ? fr.getMe().cast<baseObj>() : mayMe->cast<baseObj>()) orRet nullptr;
+        baseFunc& cast = e._onGet(*meObj).cast<baseFunc>() orRet nullptr;
+
+        NM_I("make a closure for %s.%s", meObj, cast);
+        return new me(*meObj, cast);
+    }
 } // namespace nm

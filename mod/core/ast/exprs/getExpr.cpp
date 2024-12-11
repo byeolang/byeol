@@ -73,15 +73,4 @@ namespace nm {
         me& rhs = (me&) from;
         if(rhs._args) _args.bind((args*) rhs._args->cloneDeep());
     }
-
-    str me::makeClosure() const {
-        str mayMe = _evalMe(true);
-        frame& fr = mayMe->cast<frame>();
-        tstr<baseObj> me =
-            (!nul(fr) ? fr.getMe().cast<baseObj>() : mayMe->cast<baseObj>()) orRet str();
-        baseFunc& cast = _onGet(*me).cast<baseFunc>() orRet str();
-
-        NM_I("make a closure for %s.%s", me, cast);
-        return new closure(*me, cast);
-    }
 } // namespace nm

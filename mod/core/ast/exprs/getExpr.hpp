@@ -14,6 +14,7 @@ namespace nm {
         friend class parser;
         friend class visitor;     // for _me
         friend class generalizer; // for _args
+        friend class closure;     // for `_evalMe()`
 
     public:
         getExpr(const std::string& name);
@@ -35,8 +36,6 @@ namespace nm {
         void setArgs(const args& new1);
 
         void onCloneDeep(const clonable& new1) override;
-
-        str makeClosure() const;
 
     protected:
         virtual node& _onGet(node& me) const;

@@ -797,3 +797,22 @@ TEST_F(defFuncTest, nestedFuncClosureWithAbstractFunc) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), -2 + 15);
 }
+
+TEST_F(defFuncTest, nestedFuncClosureAndCallDirectly) {
+    make()
+        .parse(R"SRC(
+        foo(input int) int
+        makeClosure(n int) foo
+            ret if n >= 0
+                multiply(input int) int: input * n
+            else
+                subtract(input int) int: input + n
+        main() int
+            makeClosure(-5)(3) + makeClosure(5)(3)
+    )SRC")
+        .shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), -2 + 15);
+}

@@ -4,6 +4,7 @@
 #include "../../frame/thread.hpp"
 #include "../../worker/visitor/visitor.hpp"
 #include "../../builtin/err/nerr.hpp"
+#include "../closure.hpp"
 
 namespace nm {
 
@@ -39,11 +40,8 @@ namespace nm {
         if(_isEx(*ret, *fRet)) return _returnEx(ret->cast<baseErr>());
 
         // implicit closure:
-        getExpr& get = _ret->cast<getExpr>();
-        if(!nul(get)) {
-            str closure = get.makeClosure();
-            if(closure) ret = closure;
-        }
+        closure* closure = closure::make(*_ret);
+        if(closure) ret.bind(closure);
 
         NM_DI("retExpr: frame.setRet(%s)", ret);
         fr.setRet(*ret);

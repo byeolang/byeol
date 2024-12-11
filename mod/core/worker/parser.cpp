@@ -778,12 +778,17 @@ namespace nm {
 
     runExpr* me::onRunExpr(node& trg, const narr& a) {
         NM_DI("tokenEvent: onRunExpr(%s, narr[%d])", trg, a.len());
-        return _onRunExpr(trg, *new args(a));
+        return _onRunExpr(nulOf<node>(), trg, *new args(a));
     }
 
     runExpr* me::onRunExpr(node& trg, const args& a) {
         NM_DI("tokenEvent: onRunExpr(%s, args[%d])", trg, a.len());
-        return _onRunExpr(trg, a);
+        return _onRunExpr(nulOf<node>(), trg, a);
+    }
+
+    runExpr* me::onRunExprClosure(node& me, const narr& a) {
+        NM_DI("tokenEvent: onRunExprClosure(%s, args[%d])", me, a.len());
+        return _onRunExpr(nulOf<node>(), me, a);
     }
 
     // @param from  can be expr. so I need to evaluate it through 'as()'.
@@ -893,8 +898,8 @@ namespace nm {
         return &setter;
     }
 
-    runExpr* me::_onRunExpr(node& trg, const args& a) {
-        runExpr* ret = _maker.make<runExpr>(nulOf<node>(), trg, a);
+    runExpr* me::_onRunExpr(node& me, node& trg, const args& a) {
+        runExpr* ret = _maker.make<runExpr>(me, trg, a);
         getExpr& cast = trg.cast<getExpr>();
         if(!nul(cast) && !cast.isSub<getGenericExpr>()) cast.setArgs(a);
         return ret;

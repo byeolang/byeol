@@ -4,6 +4,7 @@
 #include "../../frame/thread.hpp"
 #include "../../worker/visitor/visitor.hpp"
 #include "../tmock.hpp"
+#include "../closure.hpp"
 #include "getExpr.hpp"
 
 namespace nm {
@@ -26,15 +27,18 @@ namespace nm {
         str sub = _getSub(*evaledMe, _args) orRet NM_E("%s _subject.as<node>() returns null", addr),
             str();
 
-        NM_DI("%s run: assigning me: me[%s] sub[%s]", addr, evaledMe, sub);
-        if(!sub->isSub<baseObj>() && !nul(_args)) { // if sub is a baseObj, this expr will runs ctor
-                                                    // of it which doesn't need me obj.
+        NM_DI("%s run: assigning me: me[%s] sub[%s@%s]", addr, evaledMe, sub,
+            platformAPI::toAddrId(&sub.get()));
+        nbool needMe = !sub->isSub<baseObj>() && !sub->isSub<closure>();
+        if(needMe && !nul(_args)) { // if sub is a baseObj, this expr will runs ctor
+                                    // of it which doesn't need me obj.
             frame& fr = evaledMe->cast<frame>();
             _args.setMe(!nul(fr) ? fr.getOwner(*sub) : *evaledMe);
             NM_DI("%s run: setting me on args. args.me[%s]", addr, _args THEN(getMe()));
         }
 
-        NM_DI("%s run: running sub with args[%s]", addr, _args.toStr());
+        NM_DI("%s run: running sub@%s with args[%s]", addr, platformAPI::toAddrId(&sub.get()),
+            _args.toStr());
         str ret = sub->run(_args);
 
         NM_DI("%s run: done. ret[%s]", addr, ret);

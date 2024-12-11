@@ -4,6 +4,7 @@
 #include "../frame/frameInteract.hpp"
 #include "../frame/thread.hpp"
 #include "../worker/visitor/visitor.hpp"
+#include "closure.hpp"
 #include "obj.hpp"
 #include "params.hpp"
 #include "../builtin/err/nerr.hpp"
@@ -70,28 +71,16 @@ namespace nm {
 
         if(nul(res)) return NM_E("res == null"), str();
         const errReport& errs = thread::get().getEx();
-        if(errs.inErr(exN)) // if new exception, I just return it.
-            return *errs.last();
+        if(errs.inErr(exN)) return *errs.last(); // if new exception, I just return it.
 
-        str closure = _tryMakeClosure(*res);
-        if(closure) res = closure;
+        auto* closure = closure::make(*res);
+        if(closure) res.bind(closure);
         return res ? res->as(*getRet().as<node>()) : res;
     }
 
     void me::_runEnds() {
         for(nidx n = _ends.len() - 1; n >= 0; n--)
             _ends[n].run();
-    }
-
-    str me::_tryMakeClosure(const node& stmt) const {
-        // implicit closure:
-        //  if you are returning func, then I'll make a closure for it.
-        //  so don't think about that scenario. only I should care is last stmt of block, that is,
-        //  'ret'.
-        const getExpr& get = stmt THEN(template cast<getExpr>()) orRet str();
-
-        // ok. implicit returning for last stmt was func. getExpr is suitable to make a closure.
-        return get.makeClosure();
     }
 
     void me::_setOrigin(const baseObj& org) { _org.bind(org); }
@@ -106,8 +95,7 @@ namespace nm {
         int n = 0;
         for(const node& e: args) {
             const param& p = ps[n++];
-            str evaluated = _tryMakeClosure(e) orDo evaluated =
-                e.asImpli(*p.getOrigin().as<node>());
+            str evaluated = closure::make(e) orDo evaluated = e.asImpli(*p.getOrigin().as<node>());
             if(!evaluated)
                 return NM_E("evaluation of arg[%s] -> param[%s] has been failed.", e,
                            p.getOrigin()),

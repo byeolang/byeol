@@ -53,7 +53,6 @@ namespace nm {
         scope* _evalArgs(const ucontainable& args);
         str _postprocess(const str& ret, nidx exN);
         void _runEnds();
-        str _tryMakeClosure(const node& stmt) const;
         void _setOrigin(const baseObj& org);
 
     private:

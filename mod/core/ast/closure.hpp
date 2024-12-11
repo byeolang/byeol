@@ -5,6 +5,9 @@
 
 namespace nm {
 
+    class getExpr;
+    class func;
+
     /// closure is a proxy for a func with captured object scope.
     /// when you input arguments, its object scope was replaced to the captured scope.
     /// so eventually, you don't need to refer any object if you carry a func with closure.
@@ -33,8 +36,14 @@ namespace nm {
         params& getParams();
         const params& getParams() const NM_CONST_FUNC(getParams())
 
+        static closure* make(const node& e);
+
+    private:
+        static closure* _make(const func& e);
+        static closure* _make(const getExpr& e);
+
     private:
         tstr<baseObj> _org;
         tstr<baseFunc> _func;
     };
-}
+} // namespace nm

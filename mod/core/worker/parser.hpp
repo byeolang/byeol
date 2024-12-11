@@ -233,6 +233,7 @@ namespace nm {
         runExpr* onFillFromOfFuncCall(const node& me, runExpr& to);
         runExpr* onRunExpr(node& type, const narr& a);
         runExpr* onRunExpr(node& type, const args& a);
+        runExpr* onRunExprClosure(node& me, const narr& a);
         //      cast:
         isExpr* onIs(const node& me, const node& to);
         asExpr* onAs(const node& me, const node& as);
@@ -279,7 +280,7 @@ namespace nm {
         node* _onSetElem(runExpr& lhs, const node& rhs);
         node* _onAssignElem(FBOExpr::rule type, node& lhs, node& rhs);
         node* _onConvertAssignElem(runExpr& lhs, node& rhs);
-        runExpr* _onRunExpr(node& type, const args& a);
+        runExpr* _onRunExpr(node& me, node& type, const args& a);
 
         nint _onScan(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner);
         void _report(baseErr* new1);
