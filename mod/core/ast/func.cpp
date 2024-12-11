@@ -72,22 +72,15 @@ namespace nm {
         const errReport& errs = thread::get().getEx();
         if(errs.inErr(exN)) // if new exception, I just return it.
             return *errs.last();
-        if(!frRes) { // if you 'ret' for retuning a func, retExpr will make a closure.
-            str closure = _tryMakeClosure();
-            if(closure) res = closure;
-        }
 
+        str closure = _tryMakeClosure(*res);
+        if(closure) res = closure;
         return res ? res->as(*getRet().as<node>()) : res;
     }
 
     void me::_runEnds() {
         for(nidx n = _ends.len() - 1; n >= 0; n--)
             _ends[n].run();
-    }
-
-    str me::_tryMakeClosure() const {
-        const node& lastStmt = *_blk->getStmts().last();
-        return _tryMakeClosure(lastStmt);
     }
 
     str me::_tryMakeClosure(const node& stmt) const {
