@@ -410,6 +410,12 @@ namespace nm {
         return new defNestedFuncExpr(f);
     }
 
+    func* me::onLambda(const narr& params, const node& retType, const blockExpr& blk) {
+        NM_DI("tokenEvent: onLambda(params:%d, retType:%s)", params.len(), retType);
+        return _maker.birth<func>(func::LAMBDA_NAME, *onModifier(true, false),
+            mgdType::make<func>(_asParams(args(params)), retType), blk);
+    }
+
     ctor* me::onCtor(const modifier& mod, const narr& a, const blockExpr& blk) {
         NM_DI("tokenEvent: onCtor(%s, args): args.len[%d]", mod, a.len());
 

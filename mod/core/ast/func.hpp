@@ -55,11 +55,15 @@ namespace nm {
         void _runEnds();
         void _setOrigin(const baseObj& org);
 
+    public:
+        inline static const std::string LAMBDA_NAME = "@lambda";
+
     private:
         tstr<obj> _org;
         mgdType _type;
         scope _subs;
         tstr<blockExpr> _blk;
         ends _ends;
+
     };
 } // namespace nm

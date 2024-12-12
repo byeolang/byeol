@@ -207,6 +207,7 @@ namespace nm {
         func* onFuncSignature(node& it, const node& retType);
         func* onAbstractFunc(func& f);
         node* onFunc(func& func, const blockExpr& blk);
+        func* onLambda(const narr& params, const node& retType, const blockExpr& blk);
         ctor* onCtor(const modifier& mod, const narr& args, const blockExpr& blk);
         ctor* onCtor(const narr& args, const blockExpr& blk);
         ctor* onCtor(const modifier& mod, const blockExpr& blk);

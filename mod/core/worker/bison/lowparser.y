@@ -624,7 +624,8 @@ lambda-default: tuple type indentblock {
                 // TODO: tuple should be checked whether it's defPropExpr or getExpr.
                 // ??
             } | params type indentblock {
-                // ??
+                tstr<narr> paramsLife(*$1);
+                $$ = PS.onLambda(*$1, *$2, *$3);
             }
 lambda-deduction: tuple indentblock {
                 // TODO: tuple should be checked whether it's defPropExpr or getExpr.
