@@ -37,8 +37,8 @@ namespace nm {
             NM_DI("%s run: setting me on args. args.me[%s]", addr, _args THEN(getMe()));
         }
 
-        NM_DI("%s run: running sub@%s with args[%s]", addr, platformAPI::toAddrId(&sub.get()),
-            _args.toStr());
+        NM_DI("%s run: try to run %s@%s with args[%s]", addr, sub->getSrc(),
+            platformAPI::toAddrId(&sub.get()), _args.toStr());
         str ret = sub->run(_args);
 
         NM_DI("%s run: done. ret[%s]", addr, ret);

@@ -54,11 +54,11 @@ namespace nm {
 
     protected:
         ntype& _getType(); // for generalizer.
+        void _setSrc(const src& newSrc) override;
 
     private:
         nbool _isNatureNumber(const node& it) const;
         priorType _prioritize(const node& param, const node& arg) const;
-        void _setSrc(const src& newSrc) override;
 
     private:
         tstr<modifier> _mod;
