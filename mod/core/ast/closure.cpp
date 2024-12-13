@@ -20,8 +20,14 @@ namespace nm {
 
     str me::run(const args& a) {
         NM_I("running closure for %s.%s", *_org, *_func);
-        a.setMe(*_org);
-        return _func->run(a);
+        if(!_func) return str();
+
+        args evaled;
+        func::evalArgs(a, _func->getParams(), [&](const std::string& name, const node& arg) {
+            evaled.add(arg);
+        });
+        evaled.setMe(*_org);
+        return _func->run(evaled);
     }
 
     const baseObj& me::getOrigin() const { return *_org; }

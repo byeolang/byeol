@@ -86,22 +86,10 @@ namespace nm {
     void me::_setOrigin(const baseObj& org) { _org.bind(org); }
 
     scope* me::_evalArgs(const ucontainable& args) {
-        const params& ps = getParams();
-        if(args.len() != ps.len())
-            return NM_E("length of args(%d) and typs(%d) doesn't match.", args.len(), ps.len()),
-                   nullptr;
-
         scope* ret = new scope();
-        int n = 0;
-        for(const node& e: args) {
-            const param& p = ps[n++];
-            str evaluated = closure::make(e) orDo evaluated = e.asImpli(*p.getOrigin().as<node>());
-            if(!evaluated)
-                return NM_E("evaluation of arg[%s] -> param[%s] has been failed.", e,
-                           p.getOrigin()),
-                       ret;
-            ret->add(p.getName(), *evaluated);
-        }
+        evalArgs(args, getParams(), [&](const std::string& name, const node& arg) {
+            ret->add(name, arg);
+        });
         return ret;
     }
 
@@ -136,5 +124,19 @@ namespace nm {
         _type.onCloneDeep(rhs._type);
         _subs.onCloneDeep(rhs._subs);
         _blk.bind((blockExpr*) rhs._blk->cloneDeep());
+    }
+
+    void me::evalArgs(const ucontainable& args, const params& ps, onEval lambda) {
+        if(args.len() != ps.len())
+            return NM_E("length of args(%d) and typs(%d) doesn't match.", args.len(), ps.len());
+        int n = 0;
+        for(const node& e: args) {
+            const param& p = ps[n++];
+            str evaluated = closure::make(e) orDo evaluated = e.asImpli(*p.getOrigin().as<node>());
+            if(!evaluated)
+                return NM_E("evaluation of arg[%s] -> param[%s] has been failed.", e,
+                    p.getOrigin());
+            lambda(p.getName(), *evaluated);
+        }
     }
 } // namespace nm

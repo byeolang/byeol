@@ -15,6 +15,7 @@ namespace nm {
         friend class verifier;
         friend class exprMaker;
         friend class parser;
+        typedef std::function<void(const std::string&, const node&)> onEval;
 
     public:
         explicit func(const modifier& mod, const mgdType& type);
@@ -45,6 +46,8 @@ namespace nm {
 
         void onCloneDeep(const clonable& from) override;
 
+        static void evalArgs(const ucontainable& args, const params& ps, onEval lambda);
+
     protected:
         virtual str _interactFrame(node& meObj, scope& s, nidx exN);
         str _run(nidx exN);
@@ -64,6 +67,5 @@ namespace nm {
         scope _subs;
         tstr<blockExpr> _blk;
         ends _ends;
-
     };
 } // namespace nm
