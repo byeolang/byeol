@@ -55,9 +55,9 @@ namespace nm {
         frame& fr = mayMe->cast<frame>();
         tstr<baseObj> meObj =
             (!nul(fr) ? fr.getMe().cast<baseObj>() : mayMe->cast<baseObj>()) orRet nullptr;
-        baseFunc& cast = e._onGet(*meObj).cast<baseFunc>() orRet nullptr;
+        baseFunc& cast = e._onGet(*mayMe) THEN(template cast<baseFunc>()) orRet nullptr;
 
-        NM_I("make a closure for %s.%s", meObj, cast);
+        NM_I("make a closure for %s.%s", meObj, cast.getSrc().getName());
         return new me(*meObj, cast);
     }
 } // namespace nm

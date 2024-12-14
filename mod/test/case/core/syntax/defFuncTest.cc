@@ -816,3 +816,19 @@ TEST_F(defFuncTest, nestedFuncClosureAndCallDirectly) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), -2 + 15);
 }
+
+TEST_F(defFuncTest, closureShouldCanCaptureInMainFunc) {
+    make().parse(R"SRC(
+        foo(inpux int) int
+        runClosure(foo', input int) int
+            foo(input) # interpreter misrecognize this as 'input()' builtin func
+
+        main() int
+            nestedAdd(n int) int: n + 3
+            runClosure(nestedAdd, 2)
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 5);
+}
