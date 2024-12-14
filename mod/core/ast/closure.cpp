@@ -3,6 +3,7 @@
 #include "../frame/frameInteract.hpp"
 #include "../worker/visitor/visitor.hpp"
 #include "exprs/getExpr.hpp"
+#include "exprs/defNestedFuncExpr.hpp"
 #include "baseFunc.hpp"
 
 namespace nm {
@@ -36,19 +37,22 @@ namespace nm {
 
     params& me::getParams() { return _func THEN(getParams()); }
 
-    closure* me::make(const node& e) {
+    me* me::make(const node& e) {
         if(e.isSub<func>()) return _make((func&) e);
         if(e.isSub<getExpr>()) return _make((getExpr&) e);
+        if(e.isSub<defNestedFuncExpr>()) return _make((defNestedFuncExpr&) e);
         return nullptr;
     }
 
-    closure* me::_make(const func& e) {
+    me* me::_make(const func& e) {
         const baseObj& meObj =
             thread::get().getNowFrame() THEN(getMe()) THEN(template cast<baseObj>()) orRet nullptr;
+
+        NM_I("make a closure for %s.%s", meObj, e);
         return new me(meObj, e);
     }
 
-    closure* me::_make(const getExpr& e) {
+    me* me::_make(const getExpr& e) {
         if(nul(e)) return nullptr;
 
         str mayMe = e._evalMe(true);
@@ -59,5 +63,11 @@ namespace nm {
 
         NM_I("make a closure for %s.%s", meObj, cast.getSrc().getName());
         return new me(*meObj, cast);
+    }
+
+    me* me::_make(defNestedFuncExpr& e) {
+        if(nul(e)) return nullptr;
+
+        return _make(e.run()->cast<func>());
     }
 } // namespace nm

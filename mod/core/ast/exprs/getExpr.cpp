@@ -61,7 +61,7 @@ namespace nm {
         if(nul(me)) return nulOf<node>();
 
         std::string argsName = _args ? _args->asStr().c_str() : "{}";
-        NM_DI("run: %s.sub(\"%s\", %s)", me, _name, argsName);
+        NM_DI("@%s %s.sub(\"%s\", %s)", platformAPI::toAddrId(this), me, _name, argsName);
         if(!_args) return me.sub(_name);
 
         return me.subAll(_name, *_args).get();

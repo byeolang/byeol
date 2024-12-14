@@ -34,6 +34,7 @@ namespace nm {
     scope& me::subs() { return _subs; }
 
     str me::run(const args& a) {
+        NM_I("%s func: `%s` is running...", platformAPI::toAddrId(this), getSrc().getName());
         if(nul(a)) return NM_E("a == null"), str();
         if(!thread::get().isInteractable())
             return NM_E("thread isn't interactable"),

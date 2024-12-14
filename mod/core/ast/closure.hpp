@@ -7,6 +7,7 @@ namespace nm {
 
     class getExpr;
     class func;
+    class defNestedFuncExpr;
 
     /// closure is a proxy for a func with captured object scope.
     /// when you input arguments, its object scope was replaced to the captured scope.
@@ -36,11 +37,12 @@ namespace nm {
         params& getParams();
         const params& getParams() const NM_CONST_FUNC(getParams())
 
-        static closure* make(const node& e);
+        static me* make(const node& e);
 
     private:
-        static closure* _make(const func& e);
-        static closure* _make(const getExpr& e);
+        static me* _make(const func& e);
+        static me* _make(const getExpr& e);
+        static me* _make(defNestedFuncExpr& e);
 
     private:
         tstr<baseObj> _org;

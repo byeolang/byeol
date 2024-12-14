@@ -832,3 +832,33 @@ TEST_F(defFuncTest, closureShouldCanCaptureInMainFunc) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 5);
 }
+
+TEST_F(defFuncTest, simpleLambda) {
+    make().parse(R"SRC(
+        foo(n int) int
+        add(foo', input int) int
+            ret foo(input)
+
+        main() int
+            ret add((n int) int # <-- lambda
+                 n + 3
+            , 10)
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 13);
+}
+
+TEST_F(defFuncTest, simpleLambdaInline) {
+    make().parse(R"SRC(
+        foo(n int) int
+        add(foo', input int) int: foo(input)
+        main() int
+            add((n int) int: n + 3, 10)
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 13);
+}
