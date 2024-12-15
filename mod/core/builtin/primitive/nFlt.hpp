@@ -8,6 +8,7 @@ namespace nm {
         class _nout wFltType: public ntype {
         public:
             nbool isImmutable() const override;
+            const std::string& getName() const override;
 
         protected:
             const ases& _getImpliAses() const override;

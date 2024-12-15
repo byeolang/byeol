@@ -9,6 +9,7 @@ namespace nm {
         struct _nout nStrType: public ntype {
         public:
             nbool isImmutable() const override;
+            const std::string& getName() const override;
 
         protected:
             const ases& _getAses() const override;

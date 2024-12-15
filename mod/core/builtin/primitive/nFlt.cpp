@@ -12,6 +12,11 @@ namespace nm {
 
     nbool me::wFltType::isImmutable() const { return true; }
 
+    const std::string& me::wFltType::getName() const {
+        static std::string inner("flt");
+        return inner;
+    }
+
     const ases& me::wFltType::_getImpliAses() const {
         static ases inner;
         if(inner.len() <= 0) {

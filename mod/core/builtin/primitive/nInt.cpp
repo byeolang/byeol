@@ -13,6 +13,11 @@ namespace nm {
 
     nbool me::wIntType::isImmutable() const { return true; }
 
+    const std::string& me::wIntType::getName() const {
+        static std::string inner("int");
+        return inner;
+    }
+
     const ases& me::wIntType::_getImpliAses() const {
         static ases inner;
         if(inner.len() <= 0) {

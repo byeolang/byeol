@@ -9,6 +9,11 @@ namespace nm {
 
     nbool me::wVoidType::isImmutable() const { return true; }
 
+    const std::string& me::wVoidType::getName() const {
+        static std::string inner("void");
+        return inner;
+    }
+
     const ases& me::wVoidType::_getImpliAses() const {
         static ases inner;
         return inner;

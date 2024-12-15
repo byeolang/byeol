@@ -156,6 +156,11 @@ namespace nm {
 
     nbool me::nStrType::isImmutable() const { return true; }
 
+    const std::string& me::nStrType::getName() const {
+        static std::string inner("str");
+        return inner;
+    }
+
     me::nStr(nchar character): super(std::string(1, character)) {}
 
     me::nStr(const nchar* val): super(std::string(val)) {}

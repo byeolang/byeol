@@ -12,6 +12,11 @@ namespace nm {
 
     nbool me::nByteType::isImmutable() const { return true; }
 
+    const std::string& me::nByteType::getName() const {
+        static std::string inner("byte");
+        return inner;
+    }
+
     const ases& me::nByteType::_getImpliAses() const {
         static ases inner;
         if(inner.len() <= 0) {

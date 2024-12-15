@@ -13,6 +13,11 @@ namespace nm {
 
     nbool me::wBoolType::isImmutable() const { return true; }
 
+    const std::string& me::wBoolType::getName() const {
+        static std::string inner("bool");
+        return inner;
+    }
+
     me::nBool(nbool val): super(val) {}
 
     const ases& me::wBoolType::_getImpliAses() const {
