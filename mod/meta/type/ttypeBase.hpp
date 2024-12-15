@@ -22,7 +22,6 @@ namespace nm {
     public:
         nbool isTemplate() const override;
         nbool isAbstract() const override;
-        const std::string& getName() const override;
         void* make() const override;
         ncnt size() const override;
         const type& getSuper() const override;
@@ -35,6 +34,7 @@ namespace nm {
         type& _getStatic() const override;
         types** _onGetLeafs() const override;
         void _onAddSubClass(const type& subClass) override;
+        const std::string& _getNativeName() const override;
 
     private:
         ttypeBase(nbool); // for skipping recursive static variable init.
@@ -51,8 +51,6 @@ namespace nm {
         nbool isTemplate() const override;
         nbool isAbstract() const override;
 
-        const std::string& getName() const override;
-
         void* make() const override;
         ncnt size() const override;
         const type& getSuper() const override;
@@ -67,6 +65,7 @@ namespace nm {
         type& _getStatic() const override;
         types** _onGetLeafs() const override;
         void _onAddSubClass(const type& subClass) override;
+        const std::string& _getNativeName() const override;
 
     private:
         ttypeBase(nbool);

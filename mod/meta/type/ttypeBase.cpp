@@ -11,11 +11,6 @@ namespace nm {
 
     nbool ME::isAbstract() const { return true; }
 
-    const std::string& ME::getName() const {
-        static const std::string inner = "void";
-        return inner;
-    }
-
     void* ME::make() const { return nullptr; }
 
     ncnt ME::size() const { return 0; }
@@ -61,6 +56,11 @@ namespace nm {
 
         types** leafs = _onGetLeafs();
         if(*leafs) this->_setLeafs(nullptr);
+    }
+
+    const std::string& ME::_getNativeName() const {
+        static const std::string inner = "void";
+        return inner;
     }
 
 #undef TEMPL

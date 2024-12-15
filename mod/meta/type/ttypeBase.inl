@@ -22,11 +22,6 @@ namespace nm {
         return inner;
     }
 
-    TEMPL const std::string& ME::getName() const {
-        static std::string inner = tnameGetter<T>::getName();
-        return inner;
-    }
-
     TEMPL void* ME::make() const { return tinstanceMaker<T>::make(); }
 
     TEMPL ncnt ME::size() const { return sizeof(T); }
@@ -73,6 +68,11 @@ namespace nm {
     }
 
     TEMPL type& ME::_getStatic() const { return const_cast<ME&>(get()); }
+
+    TEMPL const std::string& ME::_getNativeName() const {
+        static std::string inner = tnameGetter<T>::getName();
+        return inner;
+    }
 
     TEMPL ME::ttypeBase(nbool) {}
 

@@ -23,7 +23,7 @@ namespace nm {
     public:
         virtual nbool isTemplate() const = 0;
         virtual nbool isAbstract() const = 0;
-        virtual const std::string& getName() const = 0;
+        virtual const std::string& getName() const;
 
         /// @brief  create an instance to be refered this type.
         /// @remark available when the type defines a ctor without any params.
@@ -90,6 +90,7 @@ namespace nm {
         virtual void _onAddSubClass(const me& subClass);
         virtual types** _onGetLeafs() const = 0;
         void _setLeafs(types* newLeafs) const;
+        virtual const std::string& _getNativeName() const;
 
     private:
         nbool _logInitOk(nbool res);

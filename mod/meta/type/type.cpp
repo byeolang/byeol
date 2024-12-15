@@ -10,6 +10,8 @@ namespace nm {
 
     nbool me::operator!=(const me& rhs) const { return !operator==(rhs); }
 
+    const std::string& me::getName() const { return _getNativeName(); }
+
     const types& me::getLeafs() const {
         types* leafs = *_onGetLeafs();
         if(!leafs) {
@@ -122,5 +124,10 @@ namespace nm {
         if(*leafs) delete *leafs;
 
         *leafs = newLeafs;
+    }
+
+    const std::string& me::_getNativeName() const {
+        static std::string inner = "null";
+        return inner;
     }
 } // namespace nm
