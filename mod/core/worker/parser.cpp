@@ -412,9 +412,8 @@ namespace nm {
 
     defNestedFuncExpr* me::onLambda(const narr& params, const node& retType, const blockExpr& blk) {
         NM_DI("tokenEvent: onLambda(params:%d, retType:%s)", params.len(), retType);
-        return _maker.make<defNestedFuncExpr>(
-            *_maker.birth<func>(func::LAMBDA_NAME, *onModifier(true, false),
-            mgdType::make<func>(_asParams(args(params)), retType), blk));
+        return _maker.make<defNestedFuncExpr>(*_maker.birth<func>(func::LAMBDA_NAME,
+            *onModifier(true, false), mgdType::make<func>(_asParams(args(params)), retType), blk));
     }
 
     ctor* me::onCtor(const modifier& mod, const narr& a, const blockExpr& blk) {
@@ -530,22 +529,43 @@ namespace nm {
         NM_DI("tokenEvent: onDefOrigin(%s, %s, defBlock[%s])", name, argNames, &blk);
 
         origin& ret = *_maker.birth<origin>(name, mgdType::make<obj>(name), *_subpack);
-        if(util::checkTypeAttr(name) == ATTR_COMPLETE)
-            ret.setCallComplete(*_maker.make<runExpr>(ret,
-                *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
+        switch(util::checkTypeAttr(name)) {
+            case ATTR_COMPLETE: // newArgs.len() can be 0.
+                ret.setCallComplete(*_maker.make<runExpr>(ret,
+                    *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
+                break;
+
+            case ATTR_INCOMPLETE:
+            case ATTR_CONST:
+                if(newArgs->len() > 0) posError(CANT_CALL_COMPLETE_FOR_INCOMPLETE, ret);
+                break;
+
+            default: posError(UNEXPECTED_ATTR, ret);
+        }
         _onInjectObjSubs(ret, blk);
         return &ret;
+    }
+
+    namespace {
+        const std::string& _extractParamTypeName(const node& p) {
+            static std::string dummy;
+            if(nul(p)) return dummy;
+            if(p.isSub<getExpr>()) return ((const getExpr&) p).getName();
+
+            return p.getType().getName();
+        }
     }
 
     std::vector<std::string> me::_extractParamTypeNames(const args& types) {
         std::vector<std::string> ret;
         for(const auto& a: types) {
             // all args should be getExpr instances.
-            const getExpr &cast = a.cast<getExpr>() orRet posError(errCode::SHOULD_TYPE_PARAM_NAME,
-                a.getType().getName().c_str()),
-                          std::vector<std::string>();
+            const std::string& name = _extractParamTypeName(a);
+            if(name == "")
+                posError(errCode::SHOULD_TYPE_PARAM_NAME, a.getType().getName().c_str()),
+                    std::vector<std::string>();
 
-            ret.push_back(cast.getName());
+            ret.push_back(name);
         }
 
         return ret;

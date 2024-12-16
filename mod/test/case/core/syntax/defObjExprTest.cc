@@ -501,15 +501,30 @@ TEST_F(defObjExprTest, callCompleteForDefaultCtor) {
     ASSERT_EQ(res.cast<nint>(), 1);
 }
 
-TEST_F(defObjExprTest, NoCallCompleteForIncompleteNegative) {
+TEST_F(defObjExprTest, CallCompleteMakeIncompleteToCompleteType) {
     make()
-        .negative()
         .parse(R"SRC(
-        def Person("unkown")
-            _name str
+        def person("unkown")
+            name str
             ctor(): ;
             ctor(newName str): name = newName
-        main() int: 0
+        main() int: person.name.len()
+    )SRC")
+        .shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 6);
+}
+
+TEST_F(defObjExprTest, NoCallCompleteForIncompleteNegative) {
+    make()
+        .parse(R"SRC(
+        def Person("unkown")
+            name str
+            ctor(): ;
+            ctor(newName str): name = newName
+        main() int: Person().name.len()
     )SRC")
         .shouldVerified(false);
 }

@@ -651,21 +651,6 @@ namespace nm {
         _orgs.push_back(&me);
     }
 
-    nbool me::onVisit(const visitInfo& i, obj& me, nbool) {
-        onVisit(i, (obj::super&) me, false);
-
-        _STEP("if me's origin is obj & incomplete, it shouldn't have any callComplete");
-        const obj &org = me.getOrigin().cast<obj>() orRetErr(NO_ORIGIN, me, i.name), true;
-        if(org.isComplete()) {
-            NM_WHENNUL(me.sub(baseObj::CTOR_NAME, args{})).thenErr(COMPLETE_OBJ_BUT_NO_CTOR, me),
-                true;
-        } else {
-            NM_WHEN(!nul(org.getCallComplete())).thenErr(CANT_CALL_COMPLETE_FOR_INCOMPLETE, me),
-                true;
-        }
-        return true;
-    }
-
     nbool me::onVisit(const visitInfo& i, genericOrigin& me, nbool) {
         _GUARD("onVisit()");
 

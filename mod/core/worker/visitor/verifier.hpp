@@ -43,7 +43,6 @@ namespace nm {
         void onLeave(const visitInfo& i, ctor& me, nbool) override;
         nbool onVisit(const visitInfo& i, baseObj& me, nbool) override;
         void onLeave(const visitInfo& i, baseObj& me, nbool) override;
-        nbool onVisit(const visitInfo& i, obj& me, nbool) override;
         nbool onVisit(const visitInfo& i, genericOrigin& me, nbool) override;
         void onLeave(const visitInfo& i, genericOrigin& me, nbool) override;
         nbool onVisit(const visitInfo& i, forExpr& me, nbool) override;
