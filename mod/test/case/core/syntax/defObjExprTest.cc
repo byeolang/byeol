@@ -519,6 +519,7 @@ TEST_F(defObjExprTest, CallCompleteMakeIncompleteToCompleteType) {
 
 TEST_F(defObjExprTest, NoCallCompleteForIncompleteNegative) {
     make()
+        .negative()
         .parse(R"SRC(
         def Person("unkown")
             name str

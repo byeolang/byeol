@@ -82,9 +82,9 @@ TEST_F(starterTest, managedCallStack) {
     ASSERT_TRUE(cs.len() > 2);
 
     ASSERT_FALSE(nul(cs[0]));
-    ASSERT_EQ(cs[0].at, "setAge(n nInt)");
+    ASSERT_EQ(cs[0].at, "setAge(n int)");
     ASSERT_FALSE(nul(cs[1]));
-    ASSERT_EQ(cs[1].at, "say(n nInt)");
+    ASSERT_EQ(cs[1].at, "say(n int)");
     ASSERT_FALSE(nul(cs[2]));
     ASSERT_EQ(cs[2].at, "main()");
 }
