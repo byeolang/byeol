@@ -100,7 +100,7 @@
 %lex-param {yyscan_t scanner}
 %parse-param {yyscan_t scanner}
 %define api.location.type {lloc}
-%expect 9
+%expect 8
 %require "3.8.1"
 
 /*  ============================================================================================
@@ -433,8 +433,7 @@ func-call-tuple-items: func-call-tuple-item {
                    } | func-call-tuple-items ',' func-call-tuple-item {
                         $$ = PS.onFuncCallTuple(*$1, *$3);
                    }
-params: '(' _VOID_ ')' { $$ = PS.onParams(); }
-      | '(' param-items ')' { $$ = $2; }
+params: '(' param-items ')' { $$ = $2; }
 param-items: def-prop-without-value {
             $$ = PS.onParams($1->cast<defPropExpr>());
          } | param-items ',' def-prop-without-value {
