@@ -88,9 +88,8 @@ namespace nm {
 
     scope* me::_evalArgs(const ucontainable& args) {
         scope* ret = new scope();
-        evalArgs(args, getParams(), [&](const std::string& name, const node& arg) {
-            ret->add(name, arg);
-        });
+        evalArgs(args, getParams(),
+            [&](const std::string& name, const node& arg) { ret->add(name, arg); });
         return ret;
     }
 

@@ -24,9 +24,8 @@ namespace nm {
         if(!_func) return str();
 
         args evaled;
-        func::evalArgs(a, _func->getParams(), [&](const std::string& name, const node& arg) {
-            evaled.add(arg);
-        });
+        func::evalArgs(a, _func->getParams(),
+            [&](const std::string& name, const node& arg) { evaled.add(arg); });
         evaled.setMe(*_org);
         return _func->run(evaled);
     }

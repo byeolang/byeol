@@ -427,9 +427,7 @@ func-call-tuple: '(' func-call-tuple-items ')' { $$ = $2; }
                | '(' ')' { $$ = PS.onFuncCallTuple(); }
 func-call-tuple-item: expr-inline9 { $$ = $1; }
                     | expr-compound { $$ = $1; }
-                    | lambda {
-                        // ??
-                  }
+                    | lambda { $$ = $1; }
 func-call-tuple-items: func-call-tuple-item {
                         $$ = PS.onFuncCallTuple(*$1);
                    } | func-call-tuple-items ',' func-call-tuple-item {
@@ -615,10 +613,9 @@ end: END indentblock {
     $$ = PS.onEnd($2->cast<blockExpr>());
  }
 
-lambda: lambda-default {
-        // ??
-    } | lambda-deduction {
-        // ??
+lambda: lambda-default { $$ = $1; }
+      | lambda-deduction {
+      // ??
     }
 lambda-default: tuple type indentblock {
                 // TODO: tuple should be checked whether it's defPropExpr or getExpr.
@@ -633,7 +630,6 @@ lambda-deduction: tuple indentblock {
               } | params indentblock {
                 // ??
               }
-
 
 //          obj:
 def-obj: def-obj-default { $$ = $1; }
