@@ -59,6 +59,7 @@ namespace nm {
         virtual void onTraverse(const visitInfo& i, ifExpr& f);
         virtual void onTraverse(const visitInfo& i, whileExpr& w);
         virtual void onTraverse(const visitInfo& i, defArrayExpr& d);
+        virtual void onTraverse(const visitInfo& i, defNestedFuncExpr& e);
         virtual void onTraverse(const visitInfo& i, genericOrigin& g);
         virtual void onTraverse(const visitInfo& i, obj& o);
 

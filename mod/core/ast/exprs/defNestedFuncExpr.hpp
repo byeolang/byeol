@@ -12,6 +12,7 @@ namespace nm {
     ///     it contains copied block scope. and will inject just before runs block stmt.
     class _nout defNestedFuncExpr: public expr {
         NM(CLASS(defNestedFuncExpr, expr, expr::exprType), VISIT())
+        friend class visitor;
 
     public:
         defNestedFuncExpr(const func& org);
@@ -20,12 +21,13 @@ namespace nm {
         using super::run;
         str run(const args& a) override;
 
-        const func& getOrigin() const;
+        const func& getOrigin() const NM_CONST_FUNC(_getOrigin())
 
         str getEval() const override;
 
     private:
         scope* _cloneLocalScope(frame& fr) const;
+        func& _getOrigin();
 
     private:
         tstr<func> _org;

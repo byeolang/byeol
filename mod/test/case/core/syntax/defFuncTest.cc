@@ -862,3 +862,20 @@ TEST_F(defFuncTest, simpleLambdaInline) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 13);
 }
+
+TEST_F(defFuncTest, voidParameterNotAllowedNegative) {
+    make().parse(R"SRC(
+        foo(n void) int: ret 3
+        main() int: 0
+    )SRC").shouldVerified(false);
+}
+
+TEST_F(defFuncTest, voidParameterNotAllowedInLambdaNegative) {
+    make().parse(R"SRC(
+        foo() int
+        callClosure(foo') int
+            foo()
+        main() int
+            callClosure((n void) int: 6)
+    )SRC").shouldVerified(false);
+}

@@ -208,6 +208,10 @@ namespace nm {
             e.accept(visitInfo{"arg" + std::to_string(n), &d, n++, len, i.depth + 1}, *this);
     }
 
+    void me::onTraverse(const visitInfo& i, defNestedFuncExpr& d) {
+        d._getOrigin().accept(visitInfo{"origin", &d, 0, 1, i.depth + 1}, *this);
+    }
+
     void me::onTraverse(const visitInfo& i, genericOrigin& g) {
         auto& cache = (std::map<std::string, tstr<obj>>&) g.getCache();
         ncnt len = cache.size();
