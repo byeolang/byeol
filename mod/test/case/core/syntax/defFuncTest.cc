@@ -736,6 +736,18 @@ TEST_F(defFuncTest, nestedFuncOnlyAvailableInBlockNegative) {
         .shouldVerified(false);
 }
 
+TEST_F(defFuncTest, TheFuncShouldNotDefineReturnTypeAsNestedFuncItHas) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        foo() nestedFoo # <--- error?
+            ret nestedFoo(n int) int: n + 3
+        main() int
+            foo()(-3)
+    )SRC")
+        .shouldVerified(false);
+}
+
 TEST_F(defFuncTest, nestedFuncShouldBeAbleToCaptureArgument) {
     make()
         .parse(R"SRC(
@@ -818,7 +830,8 @@ TEST_F(defFuncTest, nestedFuncClosureAndCallDirectly) {
 }
 
 TEST_F(defFuncTest, closureShouldCanCaptureInMainFunc) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo(inpux int) int
         runClosure(foo', input int) int
             foo(input) # interpreter misrecognize this as 'input()' builtin func
@@ -826,7 +839,8 @@ TEST_F(defFuncTest, closureShouldCanCaptureInMainFunc) {
         main() int
             nestedAdd(n int) int: n + 3
             runClosure(nestedAdd, 2)
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -834,7 +848,8 @@ TEST_F(defFuncTest, closureShouldCanCaptureInMainFunc) {
 }
 
 TEST_F(defFuncTest, simpleLambda) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo(n int) int
         add(foo', input int) int
             ret foo(input)
@@ -843,7 +858,8 @@ TEST_F(defFuncTest, simpleLambda) {
             ret add((n int) int # <-- lambda
                  n + 3
             , 10)
-    )SRC").shouldVerified(true);
+   )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -851,12 +867,14 @@ TEST_F(defFuncTest, simpleLambda) {
 }
 
 TEST_F(defFuncTest, simpleLambdaInline) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         foo(n int) int
         add(foo', input int) int: foo(input)
         main() int
             add((n int) int: n + 3, 10)
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -864,18 +882,104 @@ TEST_F(defFuncTest, simpleLambdaInline) {
 }
 
 TEST_F(defFuncTest, voidParameterNotAllowedNegative) {
-    make().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         foo(n void) int: ret 3
         main() int: 0
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
 
 TEST_F(defFuncTest, voidParameterNotAllowedInLambdaNegative) {
-    make().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         foo() int
         callClosure(foo') int
             foo()
         main() int
             callClosure((n void) int: 6)
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
+
+/*TEST_F(defFuncTest, complexLambda) {
+    make()
+        .parse(R"SRC(
+        def Person
+            name str
+            ctor(n name): name = n
+
+        def class
+            def handler((Person') void: ;)
+                onHandle(Person') void
+                listener onHandle
+                ctor(onHandle'): listener = onHandle
+                handle(Person') void: listener(person)
+
+            _hdlr = handler
+            people Person[]
+
+            addHandler(handler'): hdlr = handler
+            add(Person')
+                people.add(person)
+                hdlr.handle(person)
+
+        main() int
+            sum := 0
+            h := class.handler((p Person) void
+                sum++
+            )
+            class.addHandle(h)
+            class.add(Person("Chales"))
+            class.add(Person("kniz"))
+            class.add(Person("Bill"))
+
+            ret sum == class.people.len()
+    )SRC")
+        .shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
+}
+
+TEST_F(defFuncTest, complexLambda) {
+    make().parse(R"SRC(
+        def Person
+            name str
+            ctor(n name): name = n
+
+        def class
+            def handler((Person') void: ;)
+                onHandle(Person') void
+                listener onHandle
+                ctor(onHandle'): listener = onHandle
+                handle(Person') void: listener(person)
+
+            _hdlr = handler
+            people Person[]
+
+            addHandler(handler'): hdlr = handler
+            add(Person')
+                people.add(person)
+                hdlr.handle(person)
+
+        main() int
+            sum := 0
+            h := class.handler((p Person) void
+                sum++
+            )
+            class.addHandle(h)
+            class.add(Person("Chales"))
+            class.add(Person("kniz"))
+            class.add(Person("Bill"))
+
+            ret sum == class.people.len()
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
+}*/

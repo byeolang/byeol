@@ -788,3 +788,21 @@ TEST_F(defObjExprTest, iterateObj) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res->cast<nint>(), 1);
 }
+
+TEST_F(defObjExprTest, passNestedFuncAsCompleteCallParam) {
+    make()
+        .parse(R"SRC(
+        onHandle(n int) int
+        def handler((n int) int: n + 3)
+            value int
+            ctor(onHandle'): value = onHandle(-3) # -3 + 3 = 0
+
+        main() int
+            handler.value
+    )SRC")
+        .shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 0);
+}
