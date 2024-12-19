@@ -107,7 +107,7 @@ namespace nm {
         const auto& ps = getType().getParams();
         if(ps.isEmpty()) return dummy;
 
-        tstr<baseObj> paramOrg = ps[0].getOrigin().as<baseObj>() THEN(getOrigin()); // TODO: orEx
+        tstr<baseObj> paramOrg = ps[0].getOrigin().as<baseObj>() THEN(getOrigin()) orRet dummy;
         auto e = _cache.find(&paramOrg.get());
         if(e != _cache.end()) return e->second.get();
 

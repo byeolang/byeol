@@ -822,3 +822,25 @@ TEST_F(arrTest, castingNotAllowed) {
     )SRC")
         .shouldVerified(false);
 }
+
+TEST_F(arrTest, defPropWithCustomTypeShouldWork) {
+    make().parse(R"SRC(
+        def Person
+            age int
+            name str
+            ctor(a age, n name): age = a; name = n
+
+        def b
+            people Person[]
+            ctor()
+                people.add(Person(11, "kid"))
+                people.add(Person(33, "parent"))
+
+        main() int
+            b.people.len()
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 2);
+}
