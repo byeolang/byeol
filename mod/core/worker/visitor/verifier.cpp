@@ -195,9 +195,13 @@ namespace nm {
     void me::onLeave(const visitInfo& i, defVarExpr& me, nbool) {
         _GUARD("onLeave()");
 
-        _STEP("modifier not allowed for local variables.");
+        _STEP("modifier not allowed for local variables in a func.");
         const auto& mod = me.getNewModifier() orRetErr(MODIFIER_NOT_FOUND, me, me.getName());
-        NM_WHEN(!mod.isPublic()).thenErr(PROTECTED_NOT_ALLOWED_FOR_LOCAL, me, me.getName());
+        frame& fr = thread::get()._getNowFrame() orRetErr(THERE_IS_NO_FRAMES_IN_THREAD, me);
+        const baseFunc& fun = fr.getFunc();
+        nbool isInLocal = nul(fun) || fun.getSrc().getName() != baseObj::EXPAND_NAME;
+        NM_WHEN(isInLocal && !mod.isPublic())
+            .thenErr(PROTECTED_NOT_ALLOWED_FOR_LOCAL, me, me.getName());
         NM_WHEN(mod.isExplicitOverride()).thenErr(OVERRIDE_NOT_ALLOWED_FOR_LOCAL, me, me.getName());
 
         _STEP("to define a void type property isn't allowed.");
@@ -239,7 +243,6 @@ namespace nm {
         //  the pre-evaluation step.
         if(!nul(to)) return;
 
-        frame& fr = thread::get()._getNowFrame();
         _STEP("duplication of variable with name[%s]", name);
         NM_WHEN(fr.mySubs()->in(name)).thenErr(ALREADY_DEFINED_VAR, me, name, t);
 

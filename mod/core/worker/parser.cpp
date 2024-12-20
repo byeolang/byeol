@@ -291,8 +291,7 @@ namespace nm {
         const baseObj& rhs = defVar.getRight().cast<baseObj>();
         if(!nul(rhs) && rhs.getState() >= PARSED) {
             str new1 = defVar.makeNewOrigin();
-            if(new1)
-                return &s.addScope(defVar.getName(), *defVar.makeNewOrigin());
+            if(new1) return &s.addScope(defVar.getName(), *defVar.makeNewOrigin());
         }
 
         defVar.setTo(*_maker.make<getExpr>("me"));

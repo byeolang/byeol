@@ -247,3 +247,24 @@ TEST_F(defPropExprTest, shortDefinitionWithGenerics) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 34);
 }
+
+TEST_F(defPropExprTest, userShouldBeAbleToDefineProtectedProperty) {
+    make()
+        .parse(R"SRC(
+        def Person
+            _phone Phone
+            ctor(b str): phone.brand = b
+            hello() str: "my name is ${phone.brand}"
+        def Phone
+            brand str
+            ctor(): ;
+            ctor(b brand): brand = b
+        main() int
+            Person("kniz").hello() == "my name is kniz"
+    )SRC")
+        .shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 1);
+}

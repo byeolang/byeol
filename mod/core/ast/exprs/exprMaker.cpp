@@ -51,8 +51,8 @@ namespace nm {
     func* me::_makeFunc(const std::string& name, const narr& stmts) const {
         if(stmts.isEmpty()) return nullptr;
 
-        func* ret = birth<func>(name, *new modifier(),
-            mgdType::make<func>(name, params(), *new nVoid()));
+        func* ret =
+            birth<func>(name, *new modifier(), mgdType::make<func>(name, params(), *new nVoid()));
         ret->getBlock().getStmts().add(stmts);
         return ret;
     }

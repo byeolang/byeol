@@ -824,7 +824,8 @@ TEST_F(arrTest, castingNotAllowed) {
 }
 
 TEST_F(arrTest, defPropWithCustomTypeShouldWork) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def Person
             age int
             name str
@@ -838,7 +839,8 @@ TEST_F(arrTest, defPropWithCustomTypeShouldWork) {
 
         main() int
             b.people.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
