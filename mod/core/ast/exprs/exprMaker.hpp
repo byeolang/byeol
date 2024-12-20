@@ -52,6 +52,9 @@ namespace nm {
         func* makeCommonFunc(const defBlock& blk) const;
 
     private:
+        func* _makeFunc(const std::string& name, const narr& stmts) const;
+
+    private:
         tstr<srcFile> _file;
         point _pos;
     };

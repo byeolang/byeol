@@ -48,13 +48,17 @@ namespace nm {
 
     tstr<src> me::makeSrc(const std::string& name) const { return new src(*_file, name, _pos); }
 
-    func* me::makeExpandFunc(const defBlock& blk) const {
-        const auto& postpones = blk.getExpands();
-        if(postpones.isEmpty()) return nullptr;
+    func* me::_makeFunc(const std::string& name, const narr& stmts) const {
+        if(stmts.isEmpty()) return nullptr;
 
-        func* ret = make<func>(*new modifier(), mgdType::make<func>(params(), *new nVoid()));
-        ret->getBlock().getStmts().add(postpones);
+        func* ret = birth<func>(name, *new modifier(),
+            mgdType::make<func>(name, params(), *new nVoid()));
+        ret->getBlock().getStmts().add(stmts);
         return ret;
+    }
+
+    func* me::makeExpandFunc(const defBlock& blk) const {
+        return _makeFunc(baseObj::EXPAND_NAME, blk.getExpands());
     }
 
     assignExpr* me::makeAssignExprFrom(const defVarExpr& e) const {
@@ -62,11 +66,6 @@ namespace nm {
     }
 
     func* me::makeCommonFunc(const defBlock& blk) const {
-        const auto& commons = blk.getCommon();
-        if(commons.isEmpty()) return nullptr;
-
-        func* ret = make<func>(*new modifier(), mgdType::make<func>(params(), *new nVoid()));
-        ret->getBlock().getStmts().add(commons);
-        return ret;
+        return _makeFunc(baseObj::COMMON_NAME, blk.getCommon());
     }
 } // namespace nm
