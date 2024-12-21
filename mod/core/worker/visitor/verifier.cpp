@@ -522,7 +522,7 @@ namespace nm {
 
         //  obj or property shouldn't have same name to any func.
         _STEP("check func has same name to field");
-        if(!nul(meObj.getOwns().get(i.name)))
+        if(!nul(meObj.getOwns().get(i.name).cast<baseObj>()))
             posError(errCode::ALREADY_DEFINED_IDENTIFIER, me, i.name.c_str());
 
         _STEP("main func return type should be int or void");

@@ -268,3 +268,34 @@ TEST_F(defPropExprTest, userShouldBeAbleToDefineProtectedProperty) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 1);
 }
+
+TEST_F(defPropExprTest, cantDefineFuncTypePropertyNegative) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        def handler
+            onHandle(n int) int
+            plus1(n int) int: n + 1
+            listener onHandle
+        int main()
+            handler.listener(1)
+    )SRC")
+        .shouldVerified(false);
+}
+
+TEST_F(defPropExprTest, canDefAssignFuncTypeProperty) {
+    make()
+        .parse(R"SRC(
+        def handler
+            onHandle(n int) int
+            plus1(n int) int: n + 1
+            listener onHandle := plus1
+        main() int
+            handler.listener(1)
+    )SRC")
+        .shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 2);
+}

@@ -50,8 +50,8 @@ namespace nm {
         _GUARD("defAssignExpr.onVisit()");
 
         tstr<convergence> req = new convergence(*_obj.back(), *_funcs.back(), [&]() -> nbool {
-            str type = me.getExplicitType() THEN(template as<baseObj>()) orRet false;
-            if(type->isSub<expr>()) return false;
+            str type = me.getExplicitType() THEN(template as<node>()) orRet false;
+            if(type->isSub<expr>() || type->isSub<nVoid>()) return false;
             me.setExplicitType(*type);
             return true;
         });
@@ -194,7 +194,7 @@ namespace nm {
         ncnt n = 0;
         while(_stack.size() > 0) {
             e.rel();
-            NM_I("|--- %dth try: running %d expand track... ---|", ++n, _stack.size());
+            NM_I("|--- %dth try: running %d expansions... ---|", ++n, _stack.size());
             if(!_expandAll(
                    e)) { // this func actually remove elements of _stack if the func consumes it.
                 // ok. there is no change after running one loop, which means, I think that
@@ -217,7 +217,6 @@ namespace nm {
     }
 
     nbool me::_expandAll(errReport& rpt) {
-        NM_I("|--- expand: tryExpand: evaluation[%d] remains ---|", _stack.size());
         nbool isChanged = false;
         for(auto e = _stack.begin(); e != _stack.end();) {
             auto& eval = e->second;
@@ -244,8 +243,7 @@ namespace nm {
                 frameInteract f3(blk);
                 {
                     narr& stmts = blk.getStmts();
-
-                    NM_I("|--- expand: evalFunc(%x).len = %d ---|", &fun, stmts.len());
+                    NM_I("|--- %s.%s has %d stmts ---|", me, fun, stmts.len());
 
                     nbool isChanged = false;
                     for(int n = 0; n < stmts.len();) {
@@ -256,22 +254,20 @@ namespace nm {
                             // if there was an error, proceed next stmt.
                             // TODO: it uses len() for counting errors.
                             //       but one of them could be just warning.
-                            NM_I("|--- expand: evalFunc(%x): eval failed on stmt[%d] ---|", &fun,
-                                n);
+                            NM_I("|--- %s.%s failed on %dth stmt ---|", me, fun, n);
                             n++;
                             continue;
                         }
 
                         stmts[n].run();
 
-                        NM_I("|--- expand: evalFunc(%x): SUCCESS! stmt[%d] pre-evaluated.", &fun,
-                            n);
+                        NM_I("|--- SUCCESS! stmt[%d] pre-evaluated.", n);
                         stmts.del(n);
                         me.setState(PARSED);
                         isChanged = true;
                     } // end of inner
 
-                    NM_I("|--- expand: end of evalFunc(%x) stmt[%d] left ---|", &fun, stmts.len());
+                    NM_I("|--- end of %s.%s %d stmts left ---|", me, fun, stmts.len());
                     return isChanged;
                 }
             }
