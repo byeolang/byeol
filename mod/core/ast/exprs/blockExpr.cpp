@@ -15,10 +15,17 @@ namespace nm {
 
     narr& me::getStmts() { return _exprs; }
 
+    void me::rel() {
+        _exprs.rel();
+        _eval.rel();
+    }
+
     void me::onCloneDeep(const clonable& from) {
         me& rhs = (me&) from;
         _exprs.onCloneDeep(rhs._exprs);
     }
+
+    nbool me::isAbstract() const { return _exprs.isEmpty() && _eval; }
 
     void me::inFrame(const bicontainable& args) const {
         NM_DI("%s._onInFrame() %d stmts. frames.len[%d]", *this, getStmts().len(),

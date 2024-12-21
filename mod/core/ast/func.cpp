@@ -139,4 +139,6 @@ namespace nm {
             lambda(p.getName(), *evaluated);
         }
     }
+
+    nbool me::isAbstract() const { return _blk ? _blk->isAbstract() : true; }
 } // namespace nm

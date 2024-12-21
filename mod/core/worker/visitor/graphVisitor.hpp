@@ -15,6 +15,7 @@ namespace nm {
         void onLeave(const visitInfo& i, node& visitee, nbool alreadyVisited) override;
         nbool onVisit(const visitInfo& i, obj& obj, nbool alreadyVisited) override;
         nbool onVisit(const visitInfo& i, baseFunc& fun, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, func& fun, nbool alreadyVisited) override;
         nbool onVisit(const visitInfo& i, defNestedFuncExpr& e, nbool alreadyVisited) override;
         nbool onVisit(const visitInfo& i, genericOrigin& o, nbool alreadyVisited) override;
         nbool onVisit(const visitInfo& i, getExpr& e, nbool alreadyVisited) override;

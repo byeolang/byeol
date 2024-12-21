@@ -24,6 +24,7 @@ namespace nm {
         void setEval(const node& newEval);
         const narr& getStmts() const NM_CONST_FUNC(getStmts())
         narr& getStmts();
+        void rel() override;
 
         using super::inFrame;
         void inFrame(const bicontainable& args) const override;
@@ -31,6 +32,8 @@ namespace nm {
         void outFrame(const bicontainable& args) const override;
 
         void onCloneDeep(const clonable& from) override;
+
+        nbool isAbstract() const;
 
     private:
         narr _exprs;

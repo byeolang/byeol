@@ -111,6 +111,12 @@ namespace nm {
         return !alreadyVisited; // don't traverse subs again.
     }
 
+    nbool me::onVisit(const visitInfo& i, func& fun, nbool alreadyVisited) {
+        nbool ret = onVisit(i, (func::super&) fun, alreadyVisited);
+        cout << foreColor(YELLOW) << (fun.isAbstract() ? "[abstract]" : "");
+        return ret;
+    }
+
     nbool me::onVisit(const visitInfo& i, defNestedFuncExpr& e, nbool alreadyVisited) {
         onVisit(i, (defNestedFuncExpr::super&) e, alreadyVisited);
 

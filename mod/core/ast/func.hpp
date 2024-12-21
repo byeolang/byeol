@@ -48,6 +48,8 @@ namespace nm {
 
         static void evalArgs(const ucontainable& args, const params& ps, onEval lambda);
 
+        nbool isAbstract() const;
+
     protected:
         virtual str _interactFrame(node& meObj, scope& s, nidx exN);
         str _run(nidx exN);

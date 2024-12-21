@@ -255,7 +255,10 @@ namespace nm {
 
         _STEP("whether the 'type' object has a ctor without any paramters?");
         str eval = me THEN(getRight()) THEN(getEval()) orRetErr(RHS_IS_NUL, me);
-        NM_WHENNUL(eval->sub(baseObj::CTOR_NAME, args{})).thenErr(DONT_HAVE_CTOR, me, eval);
+        NM_WHEN(eval->isSub<baseObj>() && nul(eval->sub(baseObj::CTOR_NAME, args{})))
+            .thenErr(DONT_HAVE_CTOR, me, eval);
+        func& fun = eval->cast<func>();
+        NM_WHEN(!nul(fun) && fun.isAbstract()).thenErr(YOU_CANT_DEFINE_PROPERTY_WITH_ABSTRACT_FUNC, me);
 
         onLeave(i, (defPropExpr::super&) me, false);
     }
