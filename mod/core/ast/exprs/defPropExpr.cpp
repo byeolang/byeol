@@ -11,5 +11,10 @@ namespace nm {
         const modifier& mod):
         super(name, rhs, to, s, mod) {}
 
-    str me::_onMakeNew() { return getRight().as<node>()->run(); }
+    str me::_onMakeNew() {
+        str ased = getRight().as<node>();
+        if(ased->isSub<baseFunc>()) return ased;
+
+        return ased->run();
+    }
 }

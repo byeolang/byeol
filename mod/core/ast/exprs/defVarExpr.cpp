@@ -15,7 +15,7 @@ namespace nm {
 
     str me::run(const args& a) {
         NM_DI("defVarExpr...");
-        str new1 = _onMakeNew() orEx(COULDNT_MAKE_INSTANCE_UNEXPECTEDLY), str();
+        str new1 = _onMakeNew() orRet NM_E("new1 is null"), str();
         str to =
             _to ? _to->as<node>() : str(); // here 'as' is mandatory.
                                            // assume that user wrotes 'getExpr("me")' into 'as'.
