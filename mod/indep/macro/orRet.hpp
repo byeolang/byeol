@@ -27,4 +27,5 @@ namespace nm {
 #define orNul(T) orRet nulOf<T>()
 #define orDo __orRet__ if(__orRetStack__::pop())
 #define orContinue orDo continue
+#define orEx(...) orDo ::nm::exMaker::make(__VA_ARGS__)
 } // namespace nm
