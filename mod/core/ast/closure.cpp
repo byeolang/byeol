@@ -36,6 +36,8 @@ namespace nm {
 
     params& me::getParams() { return _func THEN(getParams()); }
 
+    const src& me::getSrc() const { return _func ? _func->getSrc() : dumSrc::singletone(); }
+
     me* me::make(const node& e) {
         if(e.isSub<func>()) return _make((func&) e);
         if(e.isSub<getExpr>()) return _make((getExpr&) e);

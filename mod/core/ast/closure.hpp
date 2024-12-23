@@ -37,6 +37,8 @@ namespace nm {
         params& getParams();
         const params& getParams() const NM_CONST_FUNC(getParams())
 
+        const src& getSrc() const override;
+
         static me* make(const node& e);
 
     private:
