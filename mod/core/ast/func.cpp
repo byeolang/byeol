@@ -111,8 +111,8 @@ namespace nm {
         if(nul(f) || &f != this) return;
 
         fr.delFunc();
-        if(!nul(args)) fr.del();
         fr.del();
+        if(!nul(args)) fr.del();
     }
 
     const baseObj& me::getOrigin() const { return *_org; }

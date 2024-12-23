@@ -284,13 +284,15 @@ TEST_F(defPropExprTest, cantDefineFuncTypePropertyNegative) {
 }
 
 TEST_F(defPropExprTest, canDefineFuncTypePropertyIfItsNotAbstract) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def handler
             plus1(n int) int: n + 1
             listener plus1
         main() int
             handler.listener(1)
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

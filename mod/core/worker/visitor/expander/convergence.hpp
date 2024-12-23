@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../../../ast/baseObj.hpp"
-#include <functional>
 
 namespace nm {
 

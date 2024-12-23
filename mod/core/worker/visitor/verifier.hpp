@@ -18,6 +18,8 @@ namespace nm {
         friend class genericOrigin;
 
     public:
+        using super::onLeave;
+        using super::onVisit;
         void onLeave(const visitInfo& i, node& me, nbool) override;
         void onLeave(const visitInfo& i, asExpr& me, nbool) override;
         void onLeave(const visitInfo& i, isExpr& me, nbool) override;

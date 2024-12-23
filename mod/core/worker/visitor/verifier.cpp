@@ -258,7 +258,8 @@ namespace nm {
         NM_WHEN(eval->isSub<baseObj>() && nul(eval->sub(baseObj::CTOR_NAME, args{})))
             .thenErr(DONT_HAVE_CTOR, me, eval);
         func& fun = eval->cast<func>();
-        NM_WHEN(!nul(fun) && fun.isAbstract()).thenErr(YOU_CANT_DEFINE_PROPERTY_WITH_ABSTRACT_FUNC, me);
+        NM_WHEN(!nul(fun) && fun.isAbstract())
+            .thenErr(YOU_CANT_DEFINE_PROPERTY_WITH_ABSTRACT_FUNC, me);
 
         onLeave(i, (defPropExpr::super&) me, false);
     }
@@ -491,7 +492,7 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, func& me, nbool) {
         _GUARD("onVisit()");
 
-        onLeave(i, (func::super&) me, false);
+        onVisit(i, (func::super&) me, false);
 
         obj& meObj =
             thread::get()
@@ -602,6 +603,7 @@ namespace nm {
         _GUARD("onLeave()");
 
         _STEP("last stmt should match to ret type");
+        NM_END(me.outFrame(scope()));
         const type& retType = me.getRet() THEN(getType()) orRet NM_E("func.getRet() is null");
         const node& lastStmt = *me.getBlock().getStmts().last();
 

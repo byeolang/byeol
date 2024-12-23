@@ -1,6 +1,5 @@
 #include <chrono>
 #include <cstdint>
-#include <functional>
 
 #include "../../common/dep.hpp"
 #include "../../namuSyntaxTest.hpp"

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <functional>
 #include <leaf.hpp>
 #ifndef NM_BUILD_PLATFORM_IS_WINDOWS
 #    include <dirent.h> // not compatible to winOs

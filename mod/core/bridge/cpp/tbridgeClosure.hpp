@@ -1,7 +1,5 @@
 #pragma once
 
-#include <functional>
-
 #include "../../ast/args.hpp"
 #include "../../ast/baseFunc.hpp"
 #include "../../ast/params.hpp"
