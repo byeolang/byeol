@@ -494,11 +494,7 @@ namespace nm {
 
         onVisit(i, (func::super&) me, false);
 
-        obj& meObj =
-            thread::get()
-                ._getNowFrame()
-                .getMe()
-                .cast<obj>(); // TODO: same to 'thread::get().getNowFrame().getMe().cast<obj>();'
+        obj& meObj = thread::get()._getNowFrame() THEN(getMe()) THEN(template cast<obj>());
         NM_WHENNUL(meObj).thenErr(FUNC_REDIRECTED_OBJ, me), true;
 
         _STEP("check func duplication");
