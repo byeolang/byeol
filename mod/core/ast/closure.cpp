@@ -15,8 +15,6 @@ namespace nm {
 
     priorType me::prioritize(const args& a) const { return _func->prioritize(a); }
 
-    const ntype& me::getType() const { return _func->getType(); }
-
     const modifier& me::getModifier() const { return _func->getModifier(); }
 
     str me::run(const args& a) {

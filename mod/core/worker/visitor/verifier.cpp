@@ -156,9 +156,16 @@ namespace nm {
         //      I can care about that the last expression is valid.
         _STEP("checks rvalue");
         const node& lhs = me.getLeft();
-        NM_WHEN(!lhs.isSub<getExpr>() /*TODO: && !lhs.isSub<ElementExpr>()*/)
+        const getExpr& e = lhs.cast<getExpr>();
+        NM_WHENNUL(e /*TODO: && !lhs.isSub<ElementExpr>()*/)
             .thenErr(ASSIGN_TO_RVALUE, me, me.getRight(), lhs);
 
+        _STEP("checks that you can't assign to a func");
+        str lhsEval = e.getEval();
+        NM_WHEN(lhsEval->isSub<baseFunc>() && !lhsEval->isSub<closure>())
+            .thenErr(ASSIGN_TO_FUNC, me);
+
+        _STEP("checks that try to assign to a const variable");
         const getExpr& leftCast = me.getLeft().cast<getExpr>();
         NM_WHEN(util::checkTypeAttr(leftCast.getName()) == ATTR_CONST)
             .thenErr(ASSIGN_TO_CONST, me, leftCast.getName());
@@ -583,6 +590,13 @@ namespace nm {
         return true;
     }
 
+    void me::onLeave(const visitInfo& i, closure& me, nbool) {
+        _GUARD("onLeave()");
+        // do tnohing:
+        //  if I don't override this, closure::outFrame will be called.
+        //  I have overrided onVisit for clousre, so I override onLeave() too.
+    }
+
     void me::_prepare() {
         super::_prepare();
         _recentLoops.clear();
@@ -617,8 +631,6 @@ namespace nm {
             return NM_I("func: skip verification NM_WHEN lastStmt is retStateExpr."), void();
         NM_WHEN(!lastType.isSub<baseErr>() && !lastType.isImpli(retType))
             .thenErr(RET_TYPE_NOT_MATCH, nul(lastStmt) ? me : lastStmt, lastType, retType);
-
-        me.outFrame(scope());
     }
 
     nbool me::onVisit(const visitInfo& i, baseObj& me, nbool) {
