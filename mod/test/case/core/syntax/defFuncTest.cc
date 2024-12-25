@@ -904,7 +904,7 @@ TEST_F(defFuncTest, voidParameterNotAllowedInLambdaNegative) {
         .shouldVerified(false);
 }
 
-/*TEST_F(defFuncTest, complexLambda) {
+TEST_F(defFuncTest, complexLambda) {
     make()
         .parse(R"SRC(
         def Person
@@ -913,16 +913,16 @@ TEST_F(defFuncTest, voidParameterNotAllowedInLambdaNegative) {
 
         def class
             def handler((Person') void: ;)
-                onHandle(Person') void
-                listener onHandle
+                onHandle(Person') void: ;
+                listener := onHandle
                 ctor(onHandle'): listener = onHandle
                 handle(Person') void: listener(person)
 
-            _hdlr = handler
+            _hdlr := handler
             people Person[]
 
-            addHandler(handler'): hdlr = handler
-            add(Person')
+            addHandler(handler') void: hdlr = handler
+            add(Person') void
                 people.add(person)
                 hdlr.handle(person)
 
@@ -931,7 +931,7 @@ TEST_F(defFuncTest, voidParameterNotAllowedInLambdaNegative) {
             h := class.handler((p Person) void
                 sum++
             )
-            class.addHandle(h)
+            class.addHandler(h)
             class.add(Person("Chales"))
             class.add(Person("kniz"))
             class.add(Person("Bill"))
@@ -944,42 +944,3 @@ TEST_F(defFuncTest, voidParameterNotAllowedInLambdaNegative) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 1);
 }
-
-TEST_F(defFuncTest, complexLambda) {
-    make().parse(R"SRC(
-        def Person
-            name str
-            ctor(n name): name = n
-
-        def class
-            def handler((Person') void: ;)
-                onHandle(Person') void
-                listener onHandle
-                ctor(onHandle'): listener = onHandle
-                handle(Person') void: listener(person)
-
-            _hdlr = handler
-            people Person[]
-
-            addHandler(handler'): hdlr = handler
-            add(Person')
-                people.add(person)
-                hdlr.handle(person)
-
-        main() int
-            sum := 0
-            h := class.handler((p Person) void
-                sum++
-            )
-            class.addHandle(h)
-            class.add(Person("Chales"))
-            class.add(Person("kniz"))
-            class.add(Person("Bill"))
-
-            ret sum == class.people.len()
-    )SRC").shouldVerified(true);
-
-    str res = run();
-    ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
-}*/
