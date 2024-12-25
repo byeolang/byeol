@@ -34,15 +34,12 @@ namespace nm {
         getExpr& cast = _lhs THEN(template cast<getExpr>()) orRet iter();
 
         // TODO: elementExpr
-
         str ased = cast THEN(getMe()) THEN(template as<node>()) orRet NM_E("ased == null"), iter();
-        iter ret = ased->subs().iterate(cast.getName());
-        while(ret) {
-            if(!nul(ret.getVal<baseObj>())) return ret;
+        frame& fr = ased->cast<frame>();
+        if(!nul(fr)) ased.bind(fr.getOwner(*cast.as<node>()));
 
-            ++ret;
-        }
+        if(!ased) return exMaker::make(COULDNT_GET_ITER_FOR_LHS, cast.getName().c_str()), iter();
 
-        return iter();
+        return ased->subs().iterate(cast.getName());
     }
 } // namespace nm

@@ -1,6 +1,7 @@
 #include "defPropExpr.hpp"
 
 #include "../../worker/visitor/visitor.hpp"
+#include "../closure.hpp"
 
 namespace nm {
     NM(DEF_ME(defPropExpr), DEF_VISIT())
@@ -13,7 +14,9 @@ namespace nm {
 
     str me::_onMakeNew() {
         str ased = getRight().as<node>();
-        if(ased->isSub<baseFunc>()) return ased;
+        closure& cast = ased->cast<closure>();
+        if(!nul(cast)) return cast;
+        if(ased->isSub<baseFunc>()) return closure::make(*ased);
 
         return ased->run();
     }

@@ -2,7 +2,8 @@
 
 #include "../../frame/thread.hpp"
 #include "../../worker/visitor/visitor.hpp"
-#include "ast/exprs/assignExpr.hpp"
+#include "assignExpr.hpp"
+#include "../closure.hpp"
 
 namespace nm {
     NM(DEF_ME(defVarExpr), DEF_VISIT())
@@ -37,7 +38,11 @@ namespace nm {
 
     nbool me::isToFrame() const { return !_to; }
 
-    str me::getEval() const { return _rhs->getEval(); }
+    str me::getEval() const {
+        str ret = _rhs->getEval() orRet ret;
+        if(ret->isSub<baseFunc>()) return closure::make(*ret);
+        return ret;
+    }
 
     void me::onCloneDeep(const clonable& from) {
         me& rhs = (me&) from;
@@ -47,6 +52,7 @@ namespace nm {
 
     str me::makeNewOrigin() {
         auto ret = _onMakeNew();
+        if(ret->isSub<baseFunc>()) ret.bind(closure::make(*ret));
         baseObj& cast = ret->cast<baseObj>() orRet ret; // `ret` can be a closure
 
         // origin's clone is making a object, not an origin:
