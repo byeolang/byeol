@@ -934,7 +934,7 @@ TEST_F(defFuncTest, complexLambda) {
             class.addHandler(h)
             class.add(Person("Chales"))
             class.add(Person("kniz"))
-            class.add(Person("Bill"))
+            class.add(Person("Kojima"))
 
             ret sum == class.people.len()
     )SRC")

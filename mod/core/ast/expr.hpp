@@ -14,8 +14,9 @@ namespace nm {
             NM(ME(exprType, ntype))
 
         public:
-            using super::asImpli;
             nbool isImpli(const type& to) const override;
+
+            using super::asImpli;
             str asImpli(const node& from, const type& to) const override;
         };
 
