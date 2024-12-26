@@ -13,6 +13,13 @@ namespace nm {
     /// when you input arguments, its object scope was replaced to the captured scope.
     /// so eventually, you don't need to refer any object if you carry a func with closure.
     class _nout closure: public baseObj {
+        class _nout closureType : public ntype {
+            NM(ME(closureType, ntype))
+
+        protected:
+            const ases& _getImpliAses() const override;
+        };
+
         NM(CLASS(closure, baseObj), VISIT())
 
     public:
