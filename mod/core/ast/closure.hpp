@@ -1,6 +1,6 @@
 #pragma once
 
-#include "baseObj.hpp"
+#include "baseFunc.hpp"
 #include "../frame/frameInteractable.hpp"
 
 namespace nm {
@@ -12,15 +12,8 @@ namespace nm {
     /// closure is a proxy for a func with captured object scope.
     /// when you input arguments, its object scope was replaced to the captured scope.
     /// so eventually, you don't need to refer any object if you carry a func with closure.
-    class _nout closure: public baseObj {
-        class _nout closureType : public ntype {
-            NM(ME(closureType, ntype))
-
-        protected:
-            const ases& _getImpliAses() const override;
-        };
-
-        NM(CLASS(closure, baseObj), VISIT())
+    class _nout closure: public baseFunc {
+        NM(CLASS(closure, baseFunc), VISIT())
 
     public:
         closure(const baseObj& org, const baseFunc& func);
@@ -39,8 +32,10 @@ namespace nm {
 
         const baseFunc& getFunc() const;
 
-        params& getParams();
-        const params& getParams() const NM_CONST_FUNC(getParams())
+        using super::getParams;
+        params& getParams() override;
+
+        const node& getRet() const override;
 
         const src& getSrc() const override;
 

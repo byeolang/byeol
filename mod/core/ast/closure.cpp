@@ -9,20 +9,6 @@
 namespace nm {
     NM(DEF_ME(closure), DEF_VISIT())
 
-    const ases& me::closureType::_getImpliAses() const {
-        static ases inner;
-        if(inner.len() <= 0) {
-            struct asFunc : public tas<baseFunc> {
-                str as(const node& me, const type& to) const override {
-                    const closure& cast = me.cast<closure>() orRet str();
-                    return cast.getFunc();
-                }
-            };
-            inner.add(new asFunc());
-        }
-        return inner;
-    }
-
     me::closure(const baseObj& org, const baseFunc& func): _org(org), _func(func) {}
 
     scope& me::subs() { return _func->subs(); }
@@ -47,6 +33,8 @@ namespace nm {
     const baseFunc& me::getFunc() const { return *_func; }
 
     params& me::getParams() { return _func THEN(getParams()); }
+
+    const node& me::getRet() const { return _func THEN(getRet()); }
 
     const src& me::getSrc() const { return _func ? _func->getSrc() : dumSrc::singletone(); }
 

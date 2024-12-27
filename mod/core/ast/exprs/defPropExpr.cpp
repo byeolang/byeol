@@ -13,11 +13,7 @@ namespace nm {
         super(name, rhs, to, s, mod) {}
 
     str me::_onMakeNew() {
-        str ased = getRight().as<node>();
-        closure& cast = ased->cast<closure>();
-        if(!nul(cast)) return cast;
-        if(ased->isSub<baseFunc>()) return closure::make(*ased);
-
-        return ased->run();
+        str as = getRight() THEN(template as<node>()) orRet str();
+        return as->run();
     }
 }

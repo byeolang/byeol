@@ -162,8 +162,7 @@ namespace nm {
 
         _STEP("checks that you can't assign to a func");
         str lhsEval = e.getEval();
-        NM_WHEN(lhsEval->isSub<baseFunc>() && !lhsEval->isSub<closure>())
-            .thenErr(ASSIGN_TO_FUNC, me);
+        NM_WHEN(baseFunc::isFuncButNotClosure(*lhsEval)).thenErr(ASSIGN_TO_FUNC, me);
 
         _STEP("checks that try to assign to a const variable");
         const getExpr& leftCast = me.getLeft().cast<getExpr>();

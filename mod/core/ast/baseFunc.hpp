@@ -11,15 +11,7 @@ namespace nm {
     class visitor;
 
     class _nout baseFunc: public node {
-    public:
-        class _nout funcType: public ntype {
-            NM(ME(funcType, ntype))
-
-        protected:
-            const ases& _getImpliAses() const override;
-        };
-
-        NM(ADT(baseFunc, node, funcType), VISIT())
+        NM(ADT(baseFunc, node), VISIT())
         friend class generalizer; // for _getType()
         friend class parser;      // for _getType()
         friend class exprMaker;   // for _setSrc()
@@ -41,7 +33,7 @@ namespace nm {
         ///
         ///         I need the name and which types should be casted and binded from given arguments
         ///         are matters.
-        params& getParams();
+        virtual params& getParams();
         const params& getParams() const NM_CONST_FUNC(getParams())
 
         /// @return node which has same type of the func.
@@ -53,13 +45,15 @@ namespace nm {
         ///         that's completely different to Return type of the function.
         ///         if there is a runExpr instance, and it takes the func and proper argument,
         ///         then it can be evaluated and its evalType is the return type of the func.
-        const node& getRet() const;
+        virtual const node& getRet() const;
 
         const src& getSrc() const override;
 
         const modifier& getModifier() const override;
 
         virtual const baseObj& getOrigin() const = 0;
+
+        static nbool isFuncButNotClosure(const node& n);
 
     protected:
         ntype& _getType(); // for generalizer.

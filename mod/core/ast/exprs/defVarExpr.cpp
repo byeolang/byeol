@@ -40,7 +40,7 @@ namespace nm {
 
     str me::getEval() const {
         str ret = _rhs->getEval() orRet ret;
-        if(ret->isSub<baseFunc>()) return closure::make(*ret);
+        if(baseFunc::isFuncButNotClosure(*ret)) return closure::make(*ret);
         return ret;
     }
 
@@ -52,7 +52,7 @@ namespace nm {
 
     str me::makeNewOrigin() {
         auto ret = _onMakeNew();
-        if(ret->isSub<baseFunc>()) ret.bind(closure::make(*ret));
+        if(baseFunc::isFuncButNotClosure(*ret)) ret.bind(closure::make(*ret));
         baseObj& cast = ret->cast<baseObj>() orRet ret; // `ret` can be a closure
 
         // origin's clone is making a object, not an origin:

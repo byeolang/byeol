@@ -81,22 +81,15 @@ namespace nm {
         return _subject->as<node>();
     }
 
-    namespace {
-        str _evalFunc(const baseFunc& f) {
-            str ret = f.getRet() orRet NM_E("ret is null"), str();
-            return new mockNode(*ret->getEval());
-        }
-    }
-
     str me::getEval() const {
         const node& me = getMe() orRet str();
         str sub =
             _getSub(me.getEval(), nulOf<args>()) orRet NM_E("_subject.as<node>() returns null"),
             str();
-        if(sub->isSub<baseFunc>()) return _evalFunc((baseFunc&) *sub);
-        closure& cl = sub->cast<closure>();
-        if(sub->isSub<closure>()) return _evalFunc(cl.getFunc());
+        if(sub->isSub<baseObj>()) return sub;
 
-        return sub;
+        baseFunc &cast = sub->cast<baseFunc>() orRet NM_E("sub isn't obj or func. returns null"),
+                 str();
+        return new mockNode(cast.getRet());
     }
 } // namespace nm
