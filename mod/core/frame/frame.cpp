@@ -41,6 +41,8 @@ namespace nm {
     }
 
     node& me::getOwner(const node& sub) {
+        if(nul(sub)) return nulOf<node>();
+
         [[maybe_unused]] const nchar* name = sub.getType().getName().c_str();
         node* lastOwner = nullptr;
         for(auto& reg: _stack) {
