@@ -64,7 +64,7 @@ namespace nm {
 
     // verification:
     void me::onLeave(const visitInfo& i, node& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(node&)");
 
         _STEP("no same variable=%d", me.subs().len());
         if(me.isSub<frame>()) return;
@@ -77,7 +77,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, asExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(asExpr&)");
 
         _STEP("_me & _as aren't null");
         NM_WHENNUL(me.getMe()).thenErr(LHS_IS_NUL, me);
@@ -92,7 +92,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, isExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(isExpr&)");
 
         _STEP("_me & _to aren't null");
         NM_WHENNUL(me.getMe()).thenErr(LHS_IS_NUL, me);
@@ -106,7 +106,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, assignExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(assignExpr&)");
 
         _STEP("set evalType");
 
@@ -171,14 +171,14 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, blockExpr& me, nbool) {
-        _GUARD("onVisit()");
+        _GUARD("onVisit(blockExpr&)");
 
         me.inFrame();
         return true;
     }
 
     void me::onLeave(const visitInfo& i, blockExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(blockExpr&)");
 
         const narr& stmts = me.getStmts();
         if(nul(stmts) || stmts.len() <= 0) return; // will be catched to another verification.
@@ -199,7 +199,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, defVarExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(defVarExpr&)");
 
         _STEP("modifier not allowed for local variables in a func.");
         const auto& mod = me.getNewModifier() orRetErr(MODIFIER_NOT_FOUND, me, me.getName());
@@ -257,7 +257,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, defPropExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(defPropExpr&)");
 
         _STEP("whether the 'type' object has a ctor without any paramters?");
         str eval = me THEN(getRight()) THEN(getEval()) orRetErr(RHS_IS_NUL, me);
@@ -271,7 +271,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, defAssignExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(defAssignExpr&)");
 
         _STEP("check rhs");
         str eval = me THEN(getRight()) THEN(getEval()) orRetErr(RHS_IS_NUL, me);
@@ -289,7 +289,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, defSeqExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(defSeqExpr&)");
 
         _STEP("check lhs & rhs");
         auto& start = me.getStart() orRetErr(LHS_IS_NUL, me);
@@ -301,7 +301,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, defArrayExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(defArrayExpr&)");
 
         _STEP("check all elements");
         const node& type = me.getArrayType() orRetErr(ELEM_TYPE_DEDUCED_NUL, me);
@@ -315,7 +315,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, defNestedFuncExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(defNestedFuncExpr&)");
 
         _STEP("check me has origin");
         NM_WHENNUL(me.getOrigin()).thenErr(NO_FUNC_INFO, me);
@@ -335,7 +335,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, FBOExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(FBOEXpr&)");
 
         _STEP("finding eval of l(r)hs.");
         str lEval = me THEN(getLeft()) THEN(getEval()) orRetErr(LHS_IS_NUL, me);
@@ -366,7 +366,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, FUOExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(FUOExpr&)");
 
         _STEP("string isn't proper to any FUO operator");
         str eval = me.getEval();
@@ -374,7 +374,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, getExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(getExpr&)");
 
         // TODO: I have to check that the evalType has what matched to given _params.
         // Until then, I rather use as() func and it makes slow emmersively.
@@ -409,7 +409,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, retExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(retExpr&)");
 
         _STEP("should be at last stmt");
         NM_WHEN(i.index != i.len - 1).thenErr(RET_AT_MIDDLE_OF_BLOCK, me);
@@ -427,7 +427,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, runExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(runExpr&)");
 
         _STEP("is it possible to run?");
         NM_WHENNUL(me.getMe()).thenErr(DONT_KNOW_ME, me);
@@ -471,7 +471,7 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, ctor& me, nbool) {
-        _GUARD("onVisit()");
+        _GUARD("onVisit(ctor&)");
 
         NM_WHENNUL(me.getRet()).thenErr(CTOR_NOT_IN_DEF_OBJ, me), true;
 
@@ -486,7 +486,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, ctor& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(ctor&)");
 
         _STEP("no error allowed during running ctor");
         const node& eval = *me.getBlock().getEval() orRetErr(EXPR_EVAL_NUL, me);
@@ -496,7 +496,7 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, func& me, nbool) {
-        _GUARD("onVisit()");
+        _GUARD("onVisit(func&)");
 
         onVisit(i, (func::super&) me, false);
 
@@ -579,7 +579,7 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, closure& me, nbool) {
-        _GUARD("onVisit()");
+        _GUARD("onVisit(closure&)");
 
         _STEP("is me captured?");
         NM_WHENNUL(me.getOrigin()).thenErr(NOT_CAPTURED, me), true;
@@ -590,7 +590,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, closure& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(closure&)");
         // do tnohing:
         //  if I don't override this, closure::outFrame will be called.
         //  I have overrided onVisit for clousre, so I override onLeave() too.
@@ -609,7 +609,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, func& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(func&)");
 
         _STEP("last stmt should match to ret type");
         NM_END(me.outFrame(scope()));
@@ -633,7 +633,7 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, baseObj& me, nbool) {
-        _GUARD("onVisit()");
+        _GUARD("onVisit(baseObj&)");
 
         me.inFrame();
         frame& fr = thread::get()._getNowFrame();
@@ -661,13 +661,13 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, baseObj& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(baseObj&)");
         me.outFrame();
         _orgs.push_back(&me);
     }
 
     nbool me::onVisit(const visitInfo& i, genericOrigin& me, nbool) {
-        _GUARD("onVisit()");
+        _GUARD("onVisit(genericOrigin&)");
 
         _STEP("cache check");
         for(const auto& e: me._cache)
@@ -687,7 +687,7 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, genericOrigin& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(genericOrigin&)");
 
         _orgs.push_back(&me);
         // DON'T CALL 'super::onLeave()':
@@ -696,7 +696,7 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, forExpr& me, nbool) {
-        _GUARD("onVisit()");
+        _GUARD("onVisit(forExpr&)");
         _recentLoops.push_back(&me);
 
         str container = me._container;
@@ -714,38 +714,38 @@ namespace nm {
     }
 
     void me::onLeave(const visitInfo& i, forExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(forExpr&)");
 
         thread::get()._getNowFrame().del(); // for a scope containing iterator.
         _onLeave(i, me);
     }
 
     nbool me::onVisit(const visitInfo& i, whileExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(whileExpr&)");
         _recentLoops.push_back(&me);
         return true;
     }
 
     void me::onLeave(const visitInfo& i, breakExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(whileExpr&)");
 
         _STEP("declared outside of loop?");
         NM_WHEN(_recentLoops.size() <= 0).thenErr(BREAK_OUTSIDE_OF_LOOP, me);
     }
 
     void me::onLeave(const visitInfo& i, nextExpr& me, nbool) {
-        _GUARD("onLeave()");
+        _GUARD("onLeave(nextExpr&)");
 
         _STEP("declared outside of loop?");
         NM_WHEN(_recentLoops.size() <= 0).thenErr(NEXT_OUTSIDE_OF_LOOP, me);
     }
 
     nbool me::onVisit(const visitInfo& i, ifExpr& me, nbool) {
-        _GUARD("onVisit()");
+        _GUARD("onVisit(ifExpr&)");
         return true;
     }
 
-    void me::onLeave(const visitInfo& i, ifExpr& me, nbool) { _GUARD("onLeave()"); }
+    void me::onLeave(const visitInfo& i, ifExpr& me, nbool) { _GUARD("onLeave(ifExpr&)"); }
 
 #undef thenErr
 #undef thenWarn
