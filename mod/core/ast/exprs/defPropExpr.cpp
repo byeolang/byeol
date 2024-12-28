@@ -14,6 +14,6 @@ namespace nm {
 
     str me::_onMakeNew() {
         str as = getRight() THEN(template as<node>()) orRet str();
-        return as->run();
+        return as->isSub<baseFunc>() ? as : as->run();
     }
 }
