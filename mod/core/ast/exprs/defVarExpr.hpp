@@ -44,6 +44,9 @@ namespace nm {
         virtual str _onMakeNew() = 0;
 
     private:
+        str _makeNew();
+
+    private:
         std::string _name;
         str _rhs;
         str _to;

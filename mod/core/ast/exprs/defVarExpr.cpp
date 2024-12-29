@@ -16,10 +16,11 @@ namespace nm {
 
     str me::run(const args& a) {
         NM_DI("defVarExpr...");
-        str new1 = _onMakeNew() orRet NM_E("new1 is null"), str();
-        str to =
-            _to ? _to->as<node>() : str(); // here 'as' is mandatory.
-                                           // assume that user wrotes 'getExpr("me")' into 'as'.
+        str new1 = _makeNew() orRet NM_E("new1 is null"), str();
+        // below 'as' is mandatory.
+        // assume that user wrotes 'getExpr("me")' into 'as'.
+        str to = _to ? _to->as<node>() : str();
+
         scope& s = !to ? thread::get()._getNowFrame().getLocals() : to->subs();
         NM_DI("defVarExpr: %s %s", _name, *new1);
         s.add(_name, *new1);
@@ -51,8 +52,7 @@ namespace nm {
     }
 
     str me::makeNewOrigin() {
-        auto ret = _onMakeNew();
-        if(baseFunc::isFuncButNotClosure(*ret)) ret.bind(closure::make(*ret));
+        auto ret = _makeNew();
         baseObj& cast = ret->cast<baseObj>() orRet ret; // `ret` can be a closure
 
         // origin's clone is making a object, not an origin:
@@ -66,4 +66,10 @@ namespace nm {
     }
 
     const modifier& me::getNewModifier() const { return *_mod; }
+
+    str me::_makeNew() {
+        str ret = _onMakeNew();
+        if(baseFunc::isFuncButNotClosure(*ret)) ret.bind(closure::make(*ret));
+        return ret;
+    }
 } // namespace nm
