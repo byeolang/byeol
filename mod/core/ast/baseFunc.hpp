@@ -11,7 +11,15 @@ namespace nm {
     class visitor;
 
     class _nout baseFunc: public node {
-        NM(ADT(baseFunc, node), VISIT())
+    public:
+        class _nout baseFuncType : public ntype {
+            NM(ME(baseFuncType, ntype))
+
+        protected:
+            const ases& _getImpliAses() const override;
+        };
+
+        NM(ADT(baseFunc, node, baseFuncType), VISIT())
         friend class generalizer; // for _getType()
         friend class parser;      // for _getType()
         friend class exprMaker;   // for _setSrc()

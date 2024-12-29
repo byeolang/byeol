@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../common.hpp"
-#include "as/ases.hpp"
 
 namespace nm {
 
@@ -9,6 +8,7 @@ namespace nm {
     template <typename T, typename TACTIC> class tnarr;
     typedef tnarr<node, strTactic> narr;
     class params;
+    class ases;
 
     class _nout ntype: public type {
         NM_ME(ntype, type)
@@ -79,6 +79,9 @@ namespace nm {
     private:
         static deducers* _makeDeducers();
         static const ntype& _deduceSuperType(const ntype& l, const ntype& r);
+
+    public:
+        const static inline std::string META_TYPENAME = "ntype";
     };
 
     typedef std::vector<const ntype*> ntypes;

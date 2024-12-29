@@ -1,6 +1,7 @@
 #include "nVoid.hpp"
 
 #include "../../worker/visitor/visitor.hpp"
+#include "../../type/as/ases.hpp"
 #include "bridge/cpp/tbridger.hpp"
 
 namespace nm {

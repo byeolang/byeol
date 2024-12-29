@@ -4,6 +4,7 @@
 #include "../ast/exprs/nextExpr.hpp"
 #include "../ast/node.hpp"
 #include "../builtin/primitive.hpp"
+#include "as/ases.hpp"
 
 namespace nm {
 
@@ -183,5 +184,5 @@ namespace nm {
         return getName() + "<" + params + ">";
     }
 
-    const nchar* me::getMetaTypeName() const { return "ntype"; }
+    const nchar* me::getMetaTypeName() const { return META_TYPENAME.c_str(); }
 } // namespace nm

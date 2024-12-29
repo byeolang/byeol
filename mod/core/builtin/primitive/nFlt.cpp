@@ -1,6 +1,7 @@
 #include "nFlt.hpp"
 
 #include "../../worker/visitor/visitor.hpp"
+#include "../../type/as/ases.hpp"
 #include "bridge/cpp/tbridger.hpp"
 #include "nBool.hpp"
 #include "nByte.hpp"
@@ -28,15 +29,18 @@ namespace nm {
         return inner;
     }
 
+    struct asStr: public tas<nStr> {
+        NM(CLASS(asStr, tas<nStr>))
+
+    public:
+        str as(const node& me, const type& to) const override {
+            return str(new nStr(std::to_string(me.cast<nflt>())));
+        }
+    };
+
     const ases& me::wFltType::_getAses() const {
         static ases inner;
         if(inner.len() <= 0) {
-            struct asStr: public tas<nStr> {
-                str as(const node& me, const type& to) const override {
-                    return str(new nStr(std::to_string(me.cast<nflt>())));
-                }
-            };
-
             inner.add(new asStr());
         }
 

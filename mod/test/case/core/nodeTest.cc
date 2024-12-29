@@ -55,6 +55,17 @@ namespace {
     };
 
     class chef: public obj {
+
+        struct tofood: public tas<food> {
+            NM(CLASS(tofood, tas<food>))
+
+        public:
+            str as(const node& it, const type& to) const override {
+                const chef& chef1 = it.cast<chef>() orRet str();
+                return str(new food(chef1.foodName, chef1.foodCalorie));
+            }
+        };
+
         class myType: public ntype {
             NM_ME(myType, ntype)
 
@@ -64,16 +75,7 @@ namespace {
                 if(inner) return *inner;
 
                 inner = new ases();
-
-                struct tofood: public tas<food> {
-                    str as(const node& it, const type& to) const override {
-                        const chef& chef1 = it.cast<chef>() orRet str();
-                        return str(new food(chef1.foodName, chef1.foodCalorie));
-                    }
-                };
-
                 inner->add(new tofood());
-
                 return *inner;
             }
         };

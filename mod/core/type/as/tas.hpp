@@ -1,12 +1,14 @@
 #pragma once
 
-#include "asable.hpp"
+#include "aser.hpp"
+#include "../ntype.hpp"
 
 namespace nm {
 
-    class ntype;
+    template <typename T> struct tas: public aser {
+        NM(ADT(tas<T>, aser))
 
-    template <typename T> struct tas: public asable {
+    public:
         virtual ~tas() = default;
 
         nbool is(const type& from, const type& to) const override { return to == ttype<T>::get(); }

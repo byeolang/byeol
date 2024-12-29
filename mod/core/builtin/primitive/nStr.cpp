@@ -3,6 +3,7 @@
 #include "../../bridge/cpp.hpp"
 #include "../../worker/visitor/visitor.hpp"
 #include "../container/mgd/seq.hpp"
+#include "../../type/as/ases.hpp"
 #include "nBool.hpp"
 #include "nByte.hpp"
 #include "nFlt.hpp"
@@ -171,57 +172,66 @@ namespace nm {
         return new bridgeIteration((me&) *this, step);
     }
 
+    struct asBool: public tas<nBool> {
+        NM(CLASS(asBool, tas<nBool>))
+
+    public:
+        str as(const node& me, const type& to) const override {
+            const std::string& val = me.cast<std::string>();
+            try {
+                bool boolean = false;
+                if(val == "false") boolean = false;
+                else if(val == "true") boolean = "true";
+                else boolean = stoi(val, nullptr, 0) == 0;
+                return str(new nBool(boolean));
+            } catch(std::invalid_argument& ex) { return str(); }
+        }
+    };
+
+    struct asFlt: public tas<nFlt> {
+        NM(CLASS(asFlt, tas<nFlt>))
+
+    public:
+        str as(const node& me, const type& to) const override {
+            const std::string& val = me.cast<std::string>();
+            try {
+                nflt converted = stof(val);
+                return str(new nFlt(converted));
+            } catch(std::invalid_argument& ex) { return str(); }
+        }
+    };
+
+    struct asInt: public tas<nInt> {
+        NM(CLASS(asInt, tas<nInt>))
+
+    public:
+        str as(const node& me, const type& to) const override {
+            const std::string& val = me.cast<std::string>();
+            try {
+                nint converted = stoi(val, nullptr, 0);
+                return str(new nInt(converted));
+            } catch(std::invalid_argument& ex) { return str(); }
+        }
+    };
+
+    struct asByte: public tas<nByte> {
+        NM(CLASS(asByte, tas<nByte>))
+
+    public:
+        str as(const node& me, const type& to) const override {
+            const std::string& val = me.cast<std::string>();
+            if(val.length() <= 0) return str();
+
+            return new nByte(val[0]);
+        }
+    };
+
     const ases& me::nStrType::_getAses() const {
         static ases inner;
         if(inner.len() <= 0) {
-            struct asBool: public tas<nBool> {
-                str as(const node& me, const type& to) const override {
-                    const std::string& val = me.cast<std::string>();
-                    try {
-                        bool boolean = false;
-                        if(val == "false") boolean = false;
-                        else if(val == "true") boolean = "true";
-                        else boolean = stoi(val, nullptr, 0) == 0;
-                        return str(new nBool(boolean));
-                    } catch(std::invalid_argument& ex) { return str(); }
-                }
-            };
-
             inner.add(new asBool());
-
-            struct asFlt: public tas<nFlt> {
-                str as(const node& me, const type& to) const override {
-                    const std::string& val = me.cast<std::string>();
-                    try {
-                        nflt converted = stof(val);
-                        return str(new nFlt(converted));
-                    } catch(std::invalid_argument& ex) { return str(); }
-                }
-            };
-
             inner.add(new asFlt());
-
-            struct asInt: public tas<nInt> {
-                str as(const node& me, const type& to) const override {
-                    const std::string& val = me.cast<std::string>();
-                    try {
-                        nint converted = stoi(val, nullptr, 0);
-                        return str(new nInt(converted));
-                    } catch(std::invalid_argument& ex) { return str(); }
-                }
-            };
-
             inner.add(new asInt());
-
-            struct asByte: public tas<nByte> {
-                str as(const node& me, const type& to) const override {
-                    const std::string& val = me.cast<std::string>();
-                    if(val.length() <= 0) return str();
-
-                    return new nByte(val[0]);
-                }
-            };
-
             inner.add(new asByte());
         }
 

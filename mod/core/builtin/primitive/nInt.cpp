@@ -1,6 +1,7 @@
 #include "nInt.hpp"
 
 #include "../../ast/param.hpp"
+#include "../../type/as/ases.hpp"
 #include "../../worker/visitor/visitor.hpp"
 #include "bridge/cpp/tbridger.hpp"
 #include "nBool.hpp"
@@ -29,15 +30,18 @@ namespace nm {
         return inner;
     }
 
+    struct asStr: public tas<nStr> {
+        NM(CLASS(asStr, tas<nStr>))
+
+    public:
+        str as(const node& me, const type& to) const override {
+            return new nStr(std::to_string(me.cast<nint>()));
+        }
+    };
+
     const ases& me::wIntType::_getAses() const {
         static ases inner;
         if(inner.len() <= 0) {
-            struct asStr: public tas<nStr> {
-                str as(const node& me, const type& to) const override {
-                    return new nStr(std::to_string(me.cast<nint>()));
-                }
-            };
-
             inner.add(new asStr());
         }
 

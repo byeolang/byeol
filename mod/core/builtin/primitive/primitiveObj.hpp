@@ -4,6 +4,7 @@
 #include "../../ast/func.hpp"
 #include "../../ast/scope.hpp"
 #include "../../ast/src/dumSrc.hpp"
+#include "../../type/as/tas.hpp"
 #include "arithmeticObj.hpp"
 
 namespace nm {
@@ -14,6 +15,9 @@ namespace nm {
 
     protected:
         template <typename E, typename RAW> class asPrimitive: public tas<E> {
+            NM(CLASS(asPrimitive, tas<E>))
+
+        public:
             str as(const node& me, const type& to) const override {
                 return str(new E(me.cast<RAW>()));
             }

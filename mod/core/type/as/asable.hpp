@@ -12,6 +12,4 @@ namespace nm {
         virtual nbool is(const type& from, const type& to) const = 0;
         virtual str as(const node& from, const type& to) const = 0;
     };
-
-    typedef std::vector<asable*> asables;
 }
