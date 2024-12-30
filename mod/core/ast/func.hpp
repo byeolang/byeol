@@ -5,6 +5,7 @@
 #include "exprs/blockExpr.hpp"
 #include "params.hpp"
 #include "scope.hpp"
+#include "../type/funcMgdType.hpp"
 
 namespace nm {
 
@@ -18,9 +19,9 @@ namespace nm {
         typedef std::function<void(const std::string&, const node&)> onEval;
 
     public:
-        explicit func(const modifier& mod, const mgdType& type);
-        explicit func(const modifier& mod, const mgdType& type, const blockExpr& newBlock);
-        explicit func(const modifier& mod, const mgdType& type, const scope& subs,
+        explicit func(const modifier& mod, const funcMgdType& type);
+        explicit func(const modifier& mod, const funcMgdType& type, const blockExpr& newBlock);
+        explicit func(const modifier& mod, const funcMgdType& type, const scope& subs,
             const blockExpr& newBlock);
 
     public:
@@ -65,7 +66,7 @@ namespace nm {
 
     private:
         tstr<obj> _org;
-        mgdType _type;
+        funcMgdType _type;
         scope _subs;
         tstr<blockExpr> _blk;
         ends _ends;

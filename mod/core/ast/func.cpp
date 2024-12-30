@@ -13,13 +13,13 @@ namespace nm {
 
     NM(DEF_ME(func), DEF_VISIT())
 
-    me::func(const modifier& mod, const mgdType& type):
+    me::func(const modifier& mod, const funcMgdType& type):
         super(mod), _type(type), _blk(new blockExpr()) {}
 
-    me::func(const modifier& mod, const mgdType& type, const blockExpr& newBlock):
+    me::func(const modifier& mod, const funcMgdType& type, const blockExpr& newBlock):
         super(mod), _type(type), _blk(newBlock) {}
 
-    me::func(const modifier& mod, const mgdType& type, const scope& subs,
+    me::func(const modifier& mod, const funcMgdType& type, const scope& subs,
         const blockExpr& newBlock):
         super(mod), _type(type), _subs(subs), _blk(newBlock) {}
 
