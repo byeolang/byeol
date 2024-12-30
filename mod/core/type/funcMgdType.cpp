@@ -4,6 +4,10 @@
 namespace nm {
     NM(DEF_ME(funcMgdType))
 
+    me::funcMgdType(const std::string& name, const type& superType, const params& ps, nbool isAdt,
+        const node& ret):
+        super(name, superType, ps, isAdt, ret) {}
+
     struct asFunc: public aser {
         NM(CLASS(asFunc, aser))
 
@@ -35,10 +39,8 @@ namespace nm {
 
     const ases& me::_getImpliAses() const {
         static ases inner;
-        if(inner.len() <= 0) {
-            inner.add(new asFunc());
-        }
+        if(inner.len() <= 0) inner.add(new asFunc());
 
         return inner;
     }
-}
+} // namespace nm

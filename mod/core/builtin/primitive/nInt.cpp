@@ -41,9 +41,7 @@ namespace nm {
 
     const ases& me::wIntType::_getAses() const {
         static ases inner;
-        if(inner.len() <= 0) {
-            inner.add(new asStr());
-        }
+        if(inner.len() <= 0) inner.add(new asStr());
 
         return inner;
     }

@@ -14,7 +14,7 @@ namespace {
     public:
         myFunc():
             super(*new modifier(),
-                mgdType("myFunc", ttype<me>::get(), params(), false, *new nVoid())) {}
+                funcMgdType("myFunc", ttype<me>::get(), params(), false, *new nVoid())) {}
 
         void setUp() { _executed = false; }
 
@@ -55,7 +55,6 @@ namespace {
     };
 
     class chef: public obj {
-
         struct tofood: public tas<food> {
             NM(CLASS(tofood, tas<food>))
 

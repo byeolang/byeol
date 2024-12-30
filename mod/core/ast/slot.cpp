@@ -1,9 +1,9 @@
 #include "slot.hpp"
 
-#include "../type/mgdType.hpp"
+#include "../type/typeMaker.hpp"
 #include "../worker/visitor/visitor.hpp"
-#include "ast/exprs/getExpr.hpp"
-#include "ast/exprs/runExpr.hpp"
+#include "exprs/getExpr.hpp"
+#include "exprs/runExpr.hpp"
 #include "baseFunc.hpp"
 #include "origin.hpp"
 
@@ -20,7 +20,7 @@ namespace nm {
     str me::getEval() const { return getPack().getEval(); }
 
     me::slot(const manifest& manifest): _manifest(manifest), _isValid(true) {
-        origin& org = *new origin(mgdType::make<obj>(_manifest.name));
+        origin& org = *new origin(typeMaker::make<obj>(_manifest.name));
         org.setCallComplete(*new mockNode());
         _pak.bind(org);
     }

@@ -43,22 +43,6 @@ namespace nm {
 
         void* make() const override;
 
-        template <typename T> static mgdType make(const params& ps, const node& ret) {
-            const auto& t = ttype<T>::get();
-            return mgdType(t.getName(), t, ps, !std::is_constructible<T>::value, ret);
-        }
-
-        template <typename T> static mgdType make(const std::string& name) {
-            return mgdType(name, ttype<T>::get(), params(), !std::is_constructible<T>::value,
-                nulOf<node>());
-        }
-
-        template <typename T>
-        static mgdType make(const std::string& name, const params& ps, const node& ret) {
-            return mgdType(name, ttype<T>::get(), ps, !std::is_constructible<T>::value, ret);
-        }
-
-
     protected:
         types& _getSupers() override;
         types& _getSubs() override;

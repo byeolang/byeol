@@ -1,10 +1,11 @@
 #include "exprMaker.hpp"
-#include "ast/exprs/defVarExpr.hpp"
-#include "ast/exprs/assignExpr.hpp"
-#include "ast/exprs/getExpr.hpp"
-#include "ast/params.hpp"
-#include "builtin/primitive/nVoid.hpp"
-#include "worker/defBlock.hpp"
+#include "defVarExpr.hpp"
+#include "assignExpr.hpp"
+#include "getExpr.hpp"
+#include "../params.hpp"
+#include "../../builtin/primitive/nVoid.hpp"
+#include "../../worker/defBlock.hpp"
+#include "../../type/typeMaker.hpp"
 
 namespace nm {
 
@@ -52,7 +53,7 @@ namespace nm {
         if(stmts.isEmpty()) return nullptr;
 
         func* ret =
-            birth<func>(name, *new modifier(), mgdType::make<func>(name, params(), *new nVoid()));
+            birth<func>(name, *new modifier(), typeMaker::make<func>(name, params(), *new nVoid()));
         ret->getBlock().getStmts().add(stmts);
         return ret;
     }

@@ -40,9 +40,7 @@ namespace nm {
 
     const ases& me::wFltType::_getAses() const {
         static ases inner;
-        if(inner.len() <= 0) {
-            inner.add(new asStr());
-        }
+        if(inner.len() <= 0) inner.add(new asStr());
 
         return inner;
     }

@@ -2,13 +2,14 @@
 
 #include "../../worker/visitor/visitor.hpp"
 #include "../args.hpp"
+#include "../../type/typeMaker.hpp"
 
 namespace nm {
 
     NM(DEF_ME(defaultCopyCtor), DEF_VISIT())
 
     me::defaultCopyCtor(const node& org):
-        super(mgdType::make<me>(params(*new param("rhs", org)), org)) {}
+        super(typeMaker::make<me>(params(*new param("rhs", org)), org)) {}
 
     str me::run(const args& a) {
         if(!canRun(a)) return str();

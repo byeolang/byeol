@@ -43,9 +43,7 @@ namespace nm {
 
     const ases& me::wBoolType::_getAses() const {
         static ases inner;
-        if(inner.len() <= 0) {
-            inner.add(new asStr());
-        }
+        if(inner.len() <= 0) inner.add(new asStr());
 
         return inner;
     }

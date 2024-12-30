@@ -7,7 +7,7 @@
 #include "../ast/origin.hpp"
 #include "../builtin/primitive.hpp"
 #include "../frame/thread.hpp"
-#include "../type/mgdType.hpp"
+#include "../type/typeMaker.hpp"
 #include "bison/lowparser.hpp"
 #include "bison/lowscanner.hpp"
 #include "bison/tokenScan.hpp"
@@ -201,7 +201,7 @@ namespace nm {
             const std::string& name = dotnames[n];
             origin* sub = &e->sub<origin>(name);
             if(nul(sub)) {
-                sub = new origin(mgdType::make<obj>(name));
+                sub = new origin(typeMaker::make<obj>(name));
                 sub->setCallComplete(*new mockNode());
                 e->subs().add(name, sub);
                 sub->_setOrigin(*sub);
@@ -371,7 +371,7 @@ namespace nm {
             access.getArgs().len(), retType);
 
         func* new1 = _maker.birth<func>(access.getName(), mod,
-            mgdType::make<func>(_asParams(access.getArgs()), retType));
+            typeMaker::make<func>(_asParams(access.getArgs()), retType));
         _funcs.push_back(new1);
         return new1;
     }
@@ -414,8 +414,9 @@ namespace nm {
 
     defNestedFuncExpr* me::onLambda(const narr& params, const node& retType, const blockExpr& blk) {
         NM_DI("tokenEvent: onLambda(params:%d, retType:%s)", params.len(), retType);
-        return _maker.make<defNestedFuncExpr>(*_maker.birth<func>(func::LAMBDA_NAME,
-            *onModifier(true, false), mgdType::make<func>(_asParams(args(params)), retType), blk));
+        return _maker.make<defNestedFuncExpr>(
+            *_maker.birth<func>(func::LAMBDA_NAME, *onModifier(true, false),
+                typeMaker::make<func>(_asParams(args(params)), retType), blk));
     }
 
     ctor* me::onCtor(const modifier& mod, const narr& a, const blockExpr& blk) {
@@ -530,7 +531,7 @@ namespace nm {
         std::string argNames = _joinVectorString(_extractParamTypeNames(*newArgs));
         NM_DI("tokenEvent: onDefOrigin(%s, %s, defBlock[%s])", name, argNames, &blk);
 
-        origin& ret = *_maker.birth<origin>(name, mgdType::make<obj>(name), *_subpack);
+        origin& ret = *_maker.birth<origin>(name, typeMaker::make<obj>(name), *_subpack);
         switch(util::checkTypeAttr(name)) {
             case ATTR_COMPLETE: // newArgs.len() can be 0.
                 ret.setCallComplete(*_maker.make<runExpr>(ret,

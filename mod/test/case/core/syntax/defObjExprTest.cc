@@ -808,7 +808,8 @@ TEST_F(defObjExprTest, passNestedFuncAsCompleteCallParam) {
 }
 
 TEST_F(defObjExprTest, assignClosureShouldWork) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         def handler
             onHandle(n int) int: 0
             listener onHandle
@@ -818,7 +819,8 @@ TEST_F(defObjExprTest, assignClosureShouldWork) {
         main() int
             handler.setHandler((n int) int: n + 1)
             handler.handle(1)
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
