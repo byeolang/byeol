@@ -2,6 +2,7 @@
 
 #include "baseFunc.hpp"
 #include "../frame/frameInteractable.hpp"
+#include "../type/funcMgdType.hpp"
 
 namespace nm {
 
@@ -13,12 +14,14 @@ namespace nm {
     /// when you input arguments, its object scope was replaced to the captured scope.
     /// so eventually, you don't need to refer any object if you carry a func with closure.
     class _nout closure: public baseFunc {
-        NM(CLASS(closure, baseFunc), VISIT())
+        NM(ME(closure, baseFunc), CLONE(closure), VISIT())
 
     public:
         closure(const baseObj& org, const baseFunc& func);
 
     public:
+        const ntype& getType() const override;
+
         using super::subs;
         scope& subs() override;
 
@@ -49,5 +52,6 @@ namespace nm {
     private:
         tstr<baseObj> _org;
         tstr<baseFunc> _func;
+        funcMgdType _type;
     };
 } // namespace nm

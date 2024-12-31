@@ -5,11 +5,21 @@
 #include "exprs/getExpr.hpp"
 #include "exprs/defNestedFuncExpr.hpp"
 #include "baseFunc.hpp"
+#include "../type/typeMaker.hpp"
 
 namespace nm {
     NM(DEF_ME(closure), DEF_VISIT())
 
-    me::closure(const baseObj& org, const baseFunc& func): _org(org), _func(func) {}
+    namespace {
+        funcMgdType _makeClosureType(const baseFunc& from) {
+            const ntype& t = from.getType();
+            return typeMaker::make<closure>(t.getParams(), t.getRet());
+        }
+    }
+
+    me::closure(const baseObj& org, const baseFunc& func): _org(org), _func(func), _type(_makeClosureType(func)) {}
+
+    const ntype& me::getType() const { return _type; }
 
     scope& me::subs() { return _func->subs(); }
 
