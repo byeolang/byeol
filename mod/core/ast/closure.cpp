@@ -17,7 +17,8 @@ namespace nm {
         }
     }
 
-    me::closure(const baseObj& org, const baseFunc& func): _org(org), _func(func), _type(_makeClosureType(func)) {}
+    me::closure(const baseObj& org, const baseFunc& func):
+        _org(org), _func(func), _type(_makeClosureType(func)) {}
 
     const ntype& me::getType() const { return _type; }
 
