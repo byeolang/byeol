@@ -93,3 +93,120 @@ TEST(ntypeTest, allImplicitCastingForPrimitives) {
     ASSERT_FALSE(s.isImpli<nByte>());
     ASSERT_TRUE(s.isImpli<nStr>());
 }
+
+TEST(ntypeTest, funcAndClosureIsImplicitCastable) {
+    thread th;
+    thread::set(th);
+    obj dummy;
+    frameInteract f1(dummy);
+    {
+        params leftPs;
+        leftPs.add(new param("a", *new nInt()));
+        leftPs.add(new param("b", *new nFlt()));
+        str lhs = new func(*new modifier(), typeMaker::make<func>("left", leftPs, *new nInt()));
+        ASSERT_TRUE(lhs);
+        tstr<closure> rhs = closure::make(*lhs);
+        ASSERT_TRUE(rhs);
+
+        ASSERT_TRUE(lhs->isSub<baseFunc>());
+        ASSERT_TRUE(rhs->isSub<closure>());
+        ASSERT_FALSE(nul(rhs->getFunc()));
+
+        ASSERT_TRUE(lhs->isImpli(*rhs));
+        ASSERT_TRUE(rhs->isImpli(*lhs));
+    }
+    thread::set();
+}
+
+TEST(ntypeTest, funcAndClosureIsImplicitCastableWithDifferentSameFunc) {
+    thread th;
+    thread::set(th);
+    obj dummy;
+    frameInteract f1(dummy);
+    {
+        params leftPs;
+        leftPs.add(new param("a", *new nInt()));
+        leftPs.add(new param("b", *new nFlt()));
+        str lhs = new func(*new modifier(), typeMaker::make<func>("left", leftPs, *new nInt()));
+        ASSERT_TRUE(lhs);
+
+        str boo = new func(*new modifier(), typeMaker::make<func>("boo", leftPs, *new nInt()));
+        tstr<closure> rhs = closure::make(*boo);
+        ASSERT_TRUE(rhs);
+
+        ASSERT_TRUE(lhs->isSub<baseFunc>());
+        ASSERT_TRUE(rhs->isSub<closure>());
+        ASSERT_FALSE(nul(rhs->getFunc()));
+
+        ASSERT_TRUE(lhs->isImpli(*rhs));
+        ASSERT_TRUE(rhs->isImpli(*lhs));
+    }
+    thread::set();
+}
+
+TEST(ntypeTest, funcAndClosureIsNotCastableReturnTypeIsDifferentNegative) {
+    thread th;
+    thread::set(th);
+    obj dummy;
+    frameInteract f1(dummy);
+    {
+        params leftPs;
+        leftPs.add(new param("a", *new nInt()));
+        leftPs.add(new param("b", *new nFlt()));
+        str foo = new func(*new modifier(), typeMaker::make<func>("foo", leftPs, *new nInt()));
+        ASSERT_TRUE(foo);
+
+        // almost same to 'foo' except return type:
+        //  but you may think that this is implicit castable between int and byte when you try.
+        params booPs;
+        booPs.add(new param("r", *new nInt())); // it's okay to have different param name.
+        booPs.add(new param("x", *new nFlt()));
+        str boo = new func(*new modifier(), typeMaker::make<func>("boo", booPs, *new nByte()));
+        tstr<closure> rhs = closure::make(*boo);
+        ASSERT_TRUE(rhs);
+
+        ASSERT_TRUE(foo->isSub<baseFunc>());
+        ASSERT_TRUE(rhs->isSub<closure>());
+        ASSERT_FALSE(nul(rhs->getFunc()));
+
+        //  but truth is, it's not allowed to cast between func/closure if its return type isn't
+        //  exactly same.
+        ASSERT_FALSE(foo->isImpli(*rhs));
+        ASSERT_FALSE(rhs->isImpli(*foo));
+    }
+    thread::set();
+}
+
+TEST(ntypeTest, funcAndClosureIsNotCastableSomeParamIsDifferentNegative) {
+    thread th;
+    thread::set(th);
+    obj dummy;
+    frameInteract f1(dummy);
+    {
+        params leftPs;
+        leftPs.add(new param("a", *new nInt()));
+        leftPs.add(new param("b", *new nFlt()));
+        str foo = new func(*new modifier(), typeMaker::make<func>("foo", leftPs, *new nInt()));
+        ASSERT_TRUE(foo);
+
+        // almost same to 'foo' except return type:
+        params booPs;
+        booPs.add(new param("r", *new nByte())); // <-- it's byte, not int!
+        booPs.add(new param("x", *new nFlt()));
+        //  but you may still think that this is implicit castable between int and byte when you
+        //  try.
+        str boo = new func(*new modifier(), typeMaker::make<func>("boo", booPs, *new nByte()));
+        tstr<closure> rhs = closure::make(*boo);
+        ASSERT_TRUE(rhs);
+
+        ASSERT_TRUE(foo->isSub<baseFunc>());
+        ASSERT_TRUE(rhs->isSub<closure>());
+        ASSERT_FALSE(nul(rhs->getFunc()));
+
+        //  but truth is, it's not allowed to cast between func/closure if its any param type isn't
+        //  exactly same.
+        ASSERT_FALSE(foo->isImpli(*rhs));
+        ASSERT_FALSE(rhs->isImpli(*foo));
+    }
+    thread::set();
+}
