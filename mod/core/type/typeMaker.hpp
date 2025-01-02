@@ -28,9 +28,9 @@ namespace nm {
         }
 
         template <typename T>
-        static auto make(const std::string& name, const params& ps,
-            const node& ret) -> decltype(_make((T*) nullptr, name, ttype<T>::get(), ps,
-                                 !std::is_constructible<T>::value, ret)) {
+        static auto make(const std::string& name, const params& ps, const node& ret)
+            -> decltype(_make((T*) nullptr, name, ttype<T>::get(), ps,
+                !std::is_constructible<T>::value, ret)) {
             return _make((T*) nullptr, name, ttype<T>::get(), ps, !std::is_constructible<T>::value,
                 ret);
         }
