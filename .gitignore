@@ -90,3 +90,4 @@ build/debian/usr/
 .cache/
 *.patch
 code_coverage.info
+*.ninja
