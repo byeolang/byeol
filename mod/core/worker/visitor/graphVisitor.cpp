@@ -62,13 +62,17 @@ namespace nm {
         return _onVisitPrimitive<nBool>(i, e);
     }
 
+    void me::setShowData(nbool showData) { _isShowData = showData; }
+
+    nbool me::isShowData() const { return _isShowData; }
+
     nbool me::onVisit(const visitInfo& i, node& visitee, nbool alreadyVisited) {
         _drawFrame(i);
         _showModifier(visitee.getModifier());
 
-        cout << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN)
-             << visitee.getType().createNameWithParams() << foreColor(LIGHTGRAY) << "@"
-             << foreColor(BROWN) << platformAPI::toAddrId(&visitee);
+        cout << foreColor(LIGHTRED) << i.name << " ";
+        if(_isShowData) cout << foreColor(CYAN) << visitee.getType().createNameWithParams();
+        cout << foreColor(LIGHTGRAY) << "@" << foreColor(BROWN) << platformAPI::toAddrId(&visitee);
         return true;
     }
 
@@ -105,9 +109,12 @@ namespace nm {
         _showModifier(fun.getModifier());
 
         const node& ret = fun.getRet();
-        cout << foreColor(LIGHTBLUE) << i.name << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN)
-             << fun.getParams().toStr() << foreColor(LIGHTGRAY) << ") " << foreColor(CYAN)
-             << (!nul(ret) ? ret.getType().createNameWithParams() : "null");
+        cout << foreColor(LIGHTBLUE) << i.name;
+        if(_isShowData)
+            cout << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN) << fun.getParams().toStr()
+                 << foreColor(LIGHTGRAY) << ") " << foreColor(CYAN)
+                 << (!nul(ret) ? ret.getType().createNameWithParams() : "null");
+        else cout << foreColor(LIGHTGRAY) << "(?) ?";
         return !alreadyVisited; // don't traverse subs again.
     }
 
@@ -125,8 +132,11 @@ namespace nm {
         const std::string& name = fun THEN(getSrc()) THEN(getName());
         cout << " -> " << foreColor(LIGHTGRAY) << "@" << foreColor(RED)
              << platformAPI::toAddrId(&fun) << " " << foreColor(LIGHTBLUE)
-             << (!nul(name) ? name : "null") << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN)
-             << params << foreColor(LIGHTGRAY) << ")";
+             << (!nul(name) ? name : "null");
+        if(_isShowData)
+            cout << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN) << params << foreColor(LIGHTGRAY)
+                 << ")";
+        else cout << foreColor(LIGHTGRAY) << "(?)";
         return true;
     }
 
@@ -143,52 +153,62 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, getExpr& e, nbool alreadyVisited) {
         onVisit(i, (node&) e, alreadyVisited);
 
-        string args = e.getArgs().toStr();
 
-        cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getMe())
-             << foreColor(LIGHTGRAY) << "." << foreColor(YELLOW) << e.getName();
-        if(!args.empty())
-            cout << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN) << args << foreColor(LIGHTGRAY)
-                 << ")";
+        cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA);
+        if(_isShowData) {
+            cout << _getNameFrom(e.getMe()) << foreColor(LIGHTGRAY) << "." << foreColor(YELLOW)
+                 << e.getName();
+            string args = e.getArgs().toStr();
+            if(!args.empty())
+                cout << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN) << args
+                     << foreColor(LIGHTGRAY) << ")";
+        } else
+            cout << "?" << foreColor(LIGHTGRAY) << "." << foreColor(YELLOW) << e.getName()
+                 << foreColor(LIGHTGRAY) << "(?)";
+
         return true;
     }
 
     nbool me::onVisit(const visitInfo& i, runExpr& e, nbool alreadyVisited) {
         onVisit(i, (node&) e, alreadyVisited);
 
-        cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getMe())
-             << foreColor(LIGHTGRAY) << "." << foreColor(YELLOW) << _getNameFrom(e.getSubj())
-             << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << e.getArgs().toStr()
-             << foreColor(LIGHTGRAY) << ")";
+        if(_isShowData)
+            cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getMe())
+                 << foreColor(LIGHTGRAY) << "." << foreColor(YELLOW) << _getNameFrom(e.getSubj())
+                 << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << e.getArgs().toStr()
+                 << foreColor(LIGHTGRAY) << ")";
         return true;
     }
 
     nbool me::onVisit(const visitInfo& i, FBOExpr& e, nbool alreadyVisited) {
         onVisit(i, (node&) e, alreadyVisited);
 
-        cout << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN)
-             << e.getLeft().getType().createNameWithParams();
-        str leftVal = e.getLeft();
-        const std::string& leftName = leftVal->isSub<getExpr>() ?
-            leftVal->cast<getExpr>().getName() :
-            leftVal->getType().createNameWithParams();
-        cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(leftName)
-             << foreColor(LIGHTGRAY) << ")";
+        if(_isShowData) {
+            cout << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN)
+                 << e.getLeft().getType().createNameWithParams();
+            str leftVal = e.getLeft();
+            const std::string& leftName = leftVal->isSub<getExpr>() ?
+                leftVal->cast<getExpr>().getName() :
+                leftVal->getType().createNameWithParams();
+            cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(leftName)
+                 << foreColor(LIGHTGRAY) << ")";
 
-        cout << " " << foreColor(LIGHTGRAY) << e.getRuleName(e.getRule()) << " " << foreColor(CYAN)
-             << e.getRight().getType().createNameWithParams();
-        str rightVal = e.getRight();
-        const std::string& rightName = rightVal->isSub<getExpr>() ?
-            rightVal->cast<getExpr>().getName() :
-            rightVal->getType().createNameWithParams();
-        cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(rightName)
-             << foreColor(LIGHTGRAY) << ")";
+            cout << " " << foreColor(LIGHTGRAY) << e.getRuleName(e.getRule()) << " " << foreColor(CYAN)
+                 << e.getRight().getType().createNameWithParams();
+            str rightVal = e.getRight();
+            const std::string& rightName = rightVal->isSub<getExpr>() ?
+                rightVal->cast<getExpr>().getName() :
+                rightVal->getType().createNameWithParams();
+            cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(rightName)
+                 << foreColor(LIGHTGRAY) << ")";
+        }
 
         return !e.getLeft().isSub<arithmeticObj>() || !e.getRight().isSub<arithmeticObj>();
     }
 
     nbool me::onVisit(const visitInfo& i, FUOExpr& e, nbool alreadyVisited) {
         onVisit(i, (node&) e, alreadyVisited);
+        if(!_isShowData) return true;
 
         const node& op = e.getOperand();
         cout << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN)
@@ -199,6 +219,7 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, assignExpr& e, nbool alreadyVisited) {
         onVisit(i, (node&) e, alreadyVisited);
+        if(!_isShowData) return true;
 
         cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getLeft())
              << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getRight());
@@ -208,6 +229,7 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, defVarExpr& e, nbool alreadyVisited) {
         onVisit(i, (node&) e, alreadyVisited);
+        if(!_isShowData) return true;
 
         cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << e.getName()
              << foreColor(LIGHTGRAY) << " := " << foreColor(CYAN) << _getNameFrom(e.getRight());
