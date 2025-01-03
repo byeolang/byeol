@@ -38,7 +38,7 @@ namespace nm {
         void _expand();
         void _verify();
         void _log() const;
-        void _showGraph() const;
+        void _showGraph(nbool showData) const;
 
     private:
         verifier _veri;

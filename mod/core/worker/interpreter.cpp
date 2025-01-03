@@ -41,17 +41,18 @@ namespace nm {
 
         _parse();
         if(getReport()) return getTask();
+        _showGraph(false);
         _expand();
         _verify();
-        _showGraph();
+        _showGraph(true);
 
         return getTask();
     }
 
-    void me::_showGraph() const {
+    void me::_showGraph(nbool showData) const {
         // run with dumThread.
         if(isFlag(LOG_STRUCTURE) && !nul(_pser.getSubPack()) && !nul(getTask()))
-            graphVisitor().setFlag(0).setTask(getTask()).work();
+            graphVisitor().setShowData(showData).setFlag(0).setTask(getTask()).work();
     }
 
     void me::rel() {

@@ -29,7 +29,7 @@ namespace nm {
         nbool onVisit(const visitInfo& i, nStr& e, nbool alreadyVisited) override;
         nbool onVisit(const visitInfo& i, nByte& e, nbool alreadyVisited) override;
         nbool onVisit(const visitInfo& i, nBool& e, nbool alreadyVisited) override;
-        void setShowData(nbool showData);
+        me& setShowData(nbool showData);
         nbool isShowData() const;
 
     protected:

@@ -62,7 +62,10 @@ namespace nm {
         return _onVisitPrimitive<nBool>(i, e);
     }
 
-    void me::setShowData(nbool showData) { _isShowData = showData; }
+    me& me::setShowData(nbool showData) {
+        _isShowData = showData;
+        return *this;
+    }
 
     nbool me::isShowData() const { return _isShowData; }
 
