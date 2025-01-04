@@ -73,8 +73,9 @@ namespace nm {
         _drawFrame(i);
         _showModifier(visitee.getModifier());
 
-        cout << foreColor(LIGHTRED) << i.name << " ";
-        if(_isShowData) cout << foreColor(CYAN) << visitee.getType().createNameWithParams();
+        cout << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN);
+        if(_isShowData) cout << visitee.getType().createNameWithParams();
+        else cout << visitee.getType().getName();
         cout << foreColor(LIGHTGRAY) << "@" << foreColor(BROWN) << platformAPI::toAddrId(&visitee);
         return true;
     }
@@ -196,8 +197,8 @@ namespace nm {
             cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(leftName)
                  << foreColor(LIGHTGRAY) << ")";
 
-            cout << " " << foreColor(LIGHTGRAY) << e.getRuleName(e.getRule()) << " " << foreColor(CYAN)
-                 << e.getRight().getType().createNameWithParams();
+            cout << " " << foreColor(LIGHTGRAY) << e.getRuleName(e.getRule()) << " "
+                 << foreColor(CYAN) << e.getRight().getType().createNameWithParams();
             str rightVal = e.getRight();
             const std::string& rightName = rightVal->isSub<getExpr>() ?
                 rightVal->cast<getExpr>().getName() :
