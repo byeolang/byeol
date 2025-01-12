@@ -16,7 +16,7 @@ namespace nm {
     std::string me::getEvalTypeFrom(const node& value) {
         if(nul(value)) return "null";
         str eval = value.getEval();
-        if(eval) return eval->getType().getName();
+        if(eval) return (eval->isComplete() ? "" : "@incomplete ") + eval->getType().getName();
 
         const auto& name = value.cast<getExpr>() THEN(getName());
         if(!nul(name)) return name;
