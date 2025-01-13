@@ -21,6 +21,7 @@ namespace nm {
     }
 
     priorType me::prioritize(const args& a) const {
+        NM_DI("%s.prioritize(%s)", *this, nul(a) ? "()" : a.asStr());
         const params& ps = getParams();
         if(a.len() != ps.len()) return NO_MATCH;
 
