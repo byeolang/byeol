@@ -86,7 +86,7 @@ namespace nm {
         str sub =
             _getSub(me.getEval(), nulOf<args>()) orRet NM_E("_subject.as<node>() returns null"),
             str();
-        if(sub->isSub<baseObj>()) return sub;
+        if(sub->isSub<baseObj>()) return sub->isComplete() ? sub : new mockNode(*sub);
 
         baseFunc &cast = sub->cast<baseFunc>() orRet NM_E("sub isn't obj or func. returns null"),
                  str();
