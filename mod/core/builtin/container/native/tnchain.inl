@@ -7,6 +7,22 @@ namespace nm {
 
 #define TEMPL template <typename K, typename V, typename defaultContainer>
 #define ME tnchain<K, V, defaultContainer>
+#define SUPER typename ME::super
+
+    TEMPL
+    ME::tnchain(): _map(new defaultContainer()) {}
+
+    TEMPL
+    ME::tnchain(const super& arr): _map(arr) {}
+
+    TEMPL
+    ME::tnchain(const super& org, const me& next): _map(org), _next(next) {}
+
+    TEMPL
+    ME::tnchain(const std::initializer_list<std::pair<K, V*>>& elems) {
+        for(const auto& e: elems)
+            _map->add(e.first, *e.second);
+    }
 
     TEMPL
     nbool ME::in(const K& key) const {
@@ -138,18 +154,6 @@ namespace nm {
     }
 
     TEMPL
-    template <typename T> T* ME::wrap(const super& toShallowWrap) {
-        if(nul(toShallowWrap)) return nullptr;
-        T* ret = (T*) &toShallowWrap.template cast<T>();
-        if(nul(ret)) {
-            ret = new T();
-            ret->_map.bind(toShallowWrap);
-        }
-
-        return ret;
-    }
-
-    TEMPL
     ME* ME::cloneChain(const super& until) const {
         tstr<me> e(getNext());
         ME* ret = new ME(this->getContainer());
@@ -172,6 +176,9 @@ namespace nm {
     }
 
     TEMPL
+    ME* ME::cloneChain() const { return cloneChain(nulOf<me>()); }
+
+    TEMPL
     void ME::rel() {
         for(tstr<me> e(this); e; e.bind(e->getNext()))
             e->getContainer().rel();
@@ -180,6 +187,39 @@ namespace nm {
     TEMPL
     tnbicontainer<K, V>& ME::getContainer() { return *_map; }
 
+    TEMPL
+    const SUPER& ME::getContainer() const { return *_map; }
+
+    TEMPL
+    ME& ME::getNext() { return *_next; }
+
+    TEMPL
+    const ME& ME::getNext() const { return *_next; }
+
+    TEMPL
+    typename ME::iteration* ME::_onMakeIteration(ncnt step) const {
+        // TODO: optimize using containerIteration
+        me* unconst = const_cast<me*>(this);
+        iteration* ret = new chainIteration(*unconst, _map->begin());
+        ret->next(step);
+        return ret;
+    }
+
+    TEMPL
+    typename ME::iteration* ME::_onMakeIteration(const K& key) const {
+        me* unconst = const_cast<me*>(this);
+        return new chainIteration(*unconst, _map->iterate(key), key);
+    }
+
+    TEMPL
+    typename ME::iter& ME::_getMapIterFromChainIter(const iter& wrapper) {
+        if(!wrapper._step->getType().template isSub<chainIteration>()) return nulOf<iter>();
+        chainIteration& cast = (chainIteration&) *wrapper._step orNul(iter);
+
+        return cast._iter;
+    }
+
 #undef ME
 #undef TEMPL
+#undef SUPER
 } // namespace nm

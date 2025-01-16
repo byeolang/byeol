@@ -3,7 +3,7 @@
 #include "../builtin/container/native/tnarr.hpp"
 #include "../frame/frameInteractable.hpp"
 #include "../type/ntype.hpp"
-#include "scope.hpp"
+#include "../builtin/container/native/tnmap.hpp"
 #include "tpriorities.hpp"
 #include "validable.hpp"
 
@@ -16,6 +16,8 @@ namespace nm {
     class baseObj;
     class src;
     class modifier;
+    template <typename K, typename V, typename defaultContainer> class tnchain;
+    typedef tnchain<std::string, node, tnmap<std::string, node, immutableTactic>> scope;
     template <typename T> class tmock;
 
     /// node provides common API to manipulate its sub nodes.
@@ -132,5 +134,5 @@ namespace nm {
     };
 
     typedef tnmap<std::string, node> nmap;
-    typedef tnchain<std::string, node> nchain;
+    typedef tnchain<std::string, node, tnmap<std::string, node, strTactic>> nchain;
 } // namespace nm

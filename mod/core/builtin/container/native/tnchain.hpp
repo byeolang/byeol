@@ -20,16 +20,10 @@ namespace nm {
 #include "../iter/nchainIteration.hpp"
 
     public:
-        tnchain(): _map(new defaultContainer()) {}
-
-        explicit tnchain(const super& arr): _map(arr) {}
-
-        explicit tnchain(const super& org, const me& next): _map(org), _next(next) {}
-
-        explicit tnchain(const std::initializer_list<std::pair<K, V*>>& elems) {
-            for(const auto& e: elems)
-                _map->add(e.first, *e.second);
-        }
+        tnchain();
+        explicit tnchain(const super& arr);
+        explicit tnchain(const super& org, const me& next);
+        explicit tnchain(const std::initializer_list<std::pair<K, V*>>& elems);
 
     public:
         // has:
@@ -63,11 +57,11 @@ namespace nm {
 
         super& getContainer();
 
-        const super& getContainer() const { return *_map; }
+        const super& getContainer() const;
 
-        me& getNext() { return *_next; }
+        me& getNext();
 
-        const me& getNext() const { return *_next; }
+        const me& getNext() const;
 
         /// return most not null next element of this chain.
         me& getTail();
@@ -83,7 +77,16 @@ namespace nm {
         ///        if this is a chain, then the wrap func returns it as it is.
         ///        if this is any container except chain, then it returns after
         ///        wrapping given container.
-        template <typename T> static T* wrap(const super& toShallowWrap);
+        template <typename T> static T* wrap(const super& toShallowWrap) {
+            if(nul(toShallowWrap)) return nullptr;
+            T* ret = (T*) &toShallowWrap.template cast<T>();
+            if(nul(ret)) {
+                ret = new T();
+                ret->_map.bind(toShallowWrap);
+            }
+
+            return ret;
+        }
 
         /// mock this chain and let it chain another container differ to original.
         /// this func keep accessing next element to chain it.
@@ -93,34 +96,20 @@ namespace nm {
         me* cloneChain(const me& until) const;
 
         /// mock all of this chain until 'next' is null.
-        me* cloneChain() const { return cloneChain(nulOf<me>()); }
+        me* cloneChain() const;
 
     protected:
-        iteration* _onMakeIteration(ncnt step) const override {
-            // TODO: optimize using containerIteration
-            me* unconst = const_cast<me*>(this);
-            iteration* ret = new chainIteration(*unconst, _map->begin());
-            ret->next(step);
-            return ret;
-        }
-
-        iteration* _onMakeIteration(const K& key) const override {
-            me* unconst = const_cast<me*>(this);
-            return new chainIteration(*unconst, _map->iterate(key), key);
-        }
+        iteration* _onMakeIteration(ncnt step) const override;
+        iteration* _onMakeIteration(const K& key) const override;
 
         void _getAll(const K& key, narr& tray) const override;
 
     private:
-        iter& _getMapIterFromChainIter(const iter& wrapper) {
-            if(!wrapper._step->getType().template isSub<chainIteration>()) return nulOf<iter>();
-            chainIteration& cast = (chainIteration&) *wrapper._step orNul(iter);
-
-            return cast._iter;
-        }
+        iter& _getMapIterFromChainIter(const iter& wrapper);
 
     private:
         tstr<super> _map;
+        iter _e;
         tstr<me> _next;
     };
 } // namespace nm
