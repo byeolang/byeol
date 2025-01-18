@@ -38,11 +38,16 @@ namespace nm {
             wrap(wrap&& rhs);
 
         public:
+            wrap& operator=(wrap&);
+            wrap& operator=(wrap&&);
+
+        public:
             const K& getKey() const;
             V& getVal();
             const V& getVal() const;
-            wrap& operator=(wrap&);
-            wrap& operator=(wrap&&);
+
+        public:
+            void clear();
 
         private:
             const K* _key = nullptr;
@@ -53,12 +58,12 @@ namespace nm {
 
         class iterator {
         public:
-            iterator(smultimap<K, V>* owner, wrap* pair);
+            iterator(me* owner, wrap* pair);
             friend class smultimap<K, V>;
 
         public:
-            wrap& operator*();
-            wrap* operator->();
+            V& operator*();
+            V* operator->();
 
             virtual iterator& operator++();
             virtual iterator& operator--();
@@ -66,6 +71,8 @@ namespace nm {
             bool isEnd() const;
 
             const K& getKey() const;
+            const V& getVal() const;
+            V& getVal();
 
             bool operator!=(const iterator& rhs) const;
             bool operator==(const iterator& rhs) const;
@@ -90,10 +97,8 @@ namespace nm {
         smultimap() = default;
 
     public:
-        int len() const;
+        ncnt size() const;
 
-        bool in(const K& key) const;
-        V& get(const K& key);
         iterator begin();
         iterator end();
         filteredIterator begin(const K& key);
@@ -101,6 +106,8 @@ namespace nm {
         void insert(const K& key, V&& val);
         void erase(const K& key);
         void erase(const iterator& it);
+
+        void clear();
 
     private:
         typename stlMap::iterator _erase(const typename stlMap::iterator& e);

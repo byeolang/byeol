@@ -7,3 +7,4 @@
 #include "native/tndumChain.hpp"
 #include "native/tndumMap.hpp"
 #include "native/tnmap.inl"
+#include "native/smultimap.inl"

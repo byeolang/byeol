@@ -26,28 +26,34 @@ TEMPL
 const V& ME::wrap::getVal() const { return _value; }
 
 TEMPL
-ME::wrap& ME::wrap::operator=(wrap&) { return *this; }
+void ME::wrap::clear() {
+    _key = nullptr;
+    _prev = _next = this;
+}
 
 TEMPL
-ME::wrap& ME::wrap::operator=(wrap&&) { return *this; }
+typename ME::wrap& ME::wrap::operator=(wrap&) { return *this; }
 
 TEMPL
-ME::iterator::iterator(smultimap<K, V>* owner, wrap* pair): _owner(owner), _wrap(pair) {}
+typename ME::wrap& ME::wrap::operator=(wrap&&) { return *this; }
 
 TEMPL
-ME::wrap& ME::iterator::operator*() { return *_wrap; }
+ME::iterator::iterator(me* owner, wrap* pair): _owner(owner), _wrap(pair) {}
 
 TEMPL
-ME::wrap* ME::iterator::operator->() { return _wrap; }
+V& ME::iterator::operator*() { return _wrap->getVal(); }
 
 TEMPL
-ME::iterator& ME::iterator::operator++() {
+V* ME::iterator::operator->() { return &_wrap->getVal(); }
+
+TEMPL
+typename ME::iterator& ME::iterator::operator++() {
     _wrap = _wrap->_next;
     return *this;
 }
 
 TEMPL
-ME::iterator& ME::iterator::operator--() {
+typename ME::iterator& ME::iterator::operator--() {
     _wrap = _wrap->_prev;
     return *this;
 }
@@ -57,6 +63,12 @@ bool ME::iterator::isEnd() const { return _wrap == &_owner->_end; }
 
 TEMPL
 const K& ME::iterator::getKey() const { return _wrap->getKey(); }
+
+TEMPL
+const V& ME::iterator::getVal() const { return *_wrap; }
+
+TEMPL
+V& ME::iterator::getVal() { return _wrap->getVal(); }
 
 TEMPL
 bool ME::iterator::operator!=(const iterator& rhs) const { return _wrap != rhs._wrap; }
@@ -69,7 +81,7 @@ TEMPL
 ME::filteredIterator::filteredIterator(me* owner, wrap* pair, const K& key): iterator(owner, pair), _key(key) {}
 
 TEMPL
-ME::iterator& ME::filteredIterator::operator++() {
+typename ME::iterator& ME::filteredIterator::operator++() {
     while(!this->isEnd()) {
         iterator::operator++();
         if(this->getKey() == _key) break;
@@ -78,28 +90,16 @@ ME::iterator& ME::filteredIterator::operator++() {
 }
 
 TEMPL
-int ME::len() const { return _map.size(); }
+ncnt ME::size() const { return _map.size(); }
 
 TEMPL
-bool ME::in(const K& key) const {
-    return _map.find(key) != _map.end();
-}
+typename ME::iterator ME::begin() { return iterator(this, _end._next); }
 
 TEMPL
-V& ME::get(const K& key) {
-    if(!in(key)) return nulOf<V>();
-
-    return *_map.equal_range(key)->first;
-}
+typename ME::iterator ME::end() { return iterator(this, &_end); }
 
 TEMPL
-ME::iterator ME::begin() { return iterator(this, _end._next); }
-
-TEMPL
-ME::iterator ME::end() { return iterator(this, &_end); }
-
-TEMPL
-ME::filteredIterator ME::begin(const K& key) { return filteredIterator(this, _end._next, key); }
+typename ME::filteredIterator ME::begin(const K& key) { return filteredIterator(this, _end._next, key); }
 
 TEMPL
 void ME::insert(const K& key, V&& val) {
@@ -123,6 +123,12 @@ void ME::erase(const iterator& it) {
     for(auto e = range.first; e != range.second ; ++e)
         if(&(e->second) == it._wrap) return _erase(e), void();
     // not found.
+}
+
+TEMPL
+void ME::clear() {
+    _end.clear();
+    _map.clear();
 }
 
 TEMPL
