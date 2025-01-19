@@ -82,10 +82,10 @@ namespace nm {
 
     TEMPL
     typename ME::iterator& ME::filteredIterator::operator++() {
-        while(!this->isEnd()) {
+        do {
             iterator::operator++();
             if(this->getKey() == _key) break;
-        }
+        } while(!this->isEnd());
         return *this;
     }
 
