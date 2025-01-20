@@ -90,7 +90,7 @@ namespace nm {
             iterator& operator++() override;
 
         private:
-            const K& _key;
+            const K* _key;
         };
 
     public:

@@ -78,14 +78,14 @@ namespace nm {
 
     TEMPL
     ME::filteredIterator::filteredIterator(me* owner, wrap* pair, const K& key):
-        iterator(owner, pair), _key(key) {}
+        iterator(owner, pair), _key(&key) {}
 
     TEMPL
     typename ME::iterator& ME::filteredIterator::operator++() {
         do {
             iterator::operator++();
-            if(this->getKey() == _key) break;
-        } while(!this->isEnd());
+            if(this->isEnd()) break;
+        } while(this->getKey() != *_key);
         return *this;
     }
 
