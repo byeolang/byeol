@@ -78,6 +78,36 @@ TEST_F(smultimapTest, insertionOrder) {
     ASSERT_EQ(e.getVal().get().cast<nint>(), -1);
 }
 
+TEST_F(smultimapTest, eraseMultiPairs) {
+    for(nint n = 0; n < 7; ++n) {
+        scope.insert("apple", *new nInt(n));
+        if(n == 3)
+            scope.insert("banana", *new nInt(-1));
+    }
+    ASSERT_EQ(scope.size(), 8); // = {0, 1, 2, 3, -1, 4, 5, 6}
+
+    auto e = scope.begin(); // 0
+    ASSERT_EQ((e++)->get().cast<nint>(), 0); // e = 1
+    auto end = e;
+    ASSERT_EQ(end->get().cast<nint>(), 1);
+    ++end; // 2
+    ASSERT_EQ(end->get().cast<nint>(), 2);
+    ++end; // 3
+    ASSERT_EQ(end->get().cast<nint>(), 3);
+    ++end; // -1
+    ASSERT_EQ(end->get().cast<nint>(), -1);
+    scope.erase(e, end); // [1 ~ -1), erase 3 elements.
+    ASSERT_EQ(scope.size(), 5);
+
+    e = scope.begin();
+    ASSERT_EQ((e++)->get().cast<nint>(), 0);
+    ASSERT_EQ((e++)->get().cast<nint>(), -1);
+    ASSERT_EQ((e++)->get().cast<nint>(), 4);
+    ASSERT_EQ((e++)->get().cast<nint>(), 5);
+    ASSERT_EQ((e++)->get().cast<nint>(), 6);
+    ASSERT_EQ(e, scope.end());
+}
+
 TEST_F(smultimapTest, complexEraseTest) {
     for(nint n = 0; n < 10; ++n) {
         scope.insert("apple", *new nInt(n));

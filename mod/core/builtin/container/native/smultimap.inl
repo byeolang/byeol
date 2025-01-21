@@ -145,10 +145,8 @@ namespace nm {
 
     TEMPL
     void ME::erase(const iterator& from, const iterator& to) {
-        auto e = from;
-        iterator end = end();
-        while(e != to || e != end)
-            _erase(e++);
+        for(auto e = from; e != to && e != end() ;++e)
+            erase(e);
     }
 
     TEMPL
