@@ -66,7 +66,9 @@ namespace nm {
             V* operator->();
 
             virtual iterator& operator++();
+            iterator operator++(int);
             virtual iterator& operator--();
+            iterator operator--(int);
 
             bool isEnd() const;
 
@@ -106,6 +108,7 @@ namespace nm {
         void insert(const K& key, V&& val);
         void erase(const K& key);
         void erase(const iterator& it);
+        void erase(const iterator& from, const iterator& to);
 
         void clear();
 

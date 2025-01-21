@@ -53,9 +53,23 @@ namespace nm {
     }
 
     TEMPL
+    typename ME::iterator ME::iterator::operator++(int) {
+        iterator ret = *this;
+        operator++();
+        return ret;
+    }
+
+    TEMPL
     typename ME::iterator& ME::iterator::operator--() {
         _wrap = _wrap->_prev;
         return *this;
+    }
+
+    TEMPL
+    typename ME::iterator ME::iterator::operator--(int) {
+        iterator ret = *this;
+        operator--();
+        return ret;
     }
 
     TEMPL
@@ -127,6 +141,14 @@ namespace nm {
         for(auto e = range.first; e != range.second; ++e)
             if(&(e->second) == it._wrap) return _erase(e), void();
         // not found.
+    }
+
+    TEMPL
+    void ME::erase(const iterator& from, const iterator& to) {
+        auto e = from;
+        iterator end = end();
+        while(e != to || e != end)
+            _erase(e++);
     }
 
     TEMPL
