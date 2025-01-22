@@ -106,6 +106,19 @@ TEST_F(smultimapTest, eraseMultiPairs) {
     ASSERT_EQ((e++)->get().cast<nint>(), 5);
     ASSERT_EQ((e++)->get().cast<nint>(), 6);
     ASSERT_EQ(e, scope.end());
+
+    e = scope.find("banana");
+    ASSERT_NE(e, scope.end());
+    scope.erase(e);
+    ASSERT_EQ(scope.size(), 4);
+    ASSERT_EQ(scope.begin("banana"), scope.end());
+
+    e = scope.begin();
+    ASSERT_EQ((e++)->get().cast<nint>(), 0);
+    ASSERT_EQ((e++)->get().cast<nint>(), 4);
+    ASSERT_EQ((e++)->get().cast<nint>(), 5);
+    ASSERT_EQ((e++)->get().cast<nint>(), 6);
+    ASSERT_EQ(e, scope.end());
 }
 
 TEST_F(smultimapTest, complexEraseTest) {

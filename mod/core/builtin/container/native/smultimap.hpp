@@ -110,6 +110,8 @@ namespace nm {
         void erase(const iterator& it);
         void erase(const iterator& from, const iterator& to);
 
+        iterator find(const K& key);
+
         void clear();
 
     private:
