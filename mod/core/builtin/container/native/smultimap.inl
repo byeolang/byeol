@@ -38,13 +38,13 @@ namespace nm {
     typename ME::wrap& ME::wrap::operator=(wrap&&) { return *this; }
 
     TEMPL
-    ME::iterator::iterator(me* owner, wrap* pair): _owner(owner), _wrap(pair) {}
+    ME::iterator::iterator(const me* owner, const wrap* pair): _owner(owner), _wrap(pair) {}
 
     TEMPL
-    V& ME::iterator::operator*() { return _wrap->getVal(); }
+    V& ME::iterator::operator*() { return getVal(); }
 
     TEMPL
-    V* ME::iterator::operator->() { return &_wrap->getVal(); }
+    V* ME::iterator::operator->() { return &getVal(); }
 
     TEMPL
     typename ME::iterator& ME::iterator::operator++() {
@@ -82,7 +82,7 @@ namespace nm {
     const V& ME::iterator::getVal() const { return *_wrap; }
 
     TEMPL
-    V& ME::iterator::getVal() { return _wrap->getVal(); }
+    V& ME::iterator::getVal() { return ((wrap*) _wrap)->getVal(); }
 
     TEMPL
     bool ME::iterator::operator!=(const iterator& rhs) const { return _wrap != rhs._wrap; }
@@ -91,7 +91,7 @@ namespace nm {
     bool ME::iterator::operator==(const iterator& rhs) const { return _wrap == rhs._wrap; }
 
     TEMPL
-    ME::filteredIterator::filteredIterator(me* owner, wrap* pair, const K& key):
+    ME::filteredIterator::filteredIterator(const me* owner, const wrap* pair, const K& key):
         iterator(owner, pair), _key(&key) {}
 
     TEMPL
@@ -107,13 +107,13 @@ namespace nm {
     ncnt ME::size() const { return _map.size(); }
 
     TEMPL
-    typename ME::iterator ME::begin() { return iterator(this, _end._next); }
+    typename ME::iterator ME::begin() const { return iterator(this, _end._next); }
 
     TEMPL
-    typename ME::iterator ME::end() { return iterator(this, &_end); }
+    typename ME::iterator ME::end() const { return iterator(this, &_end); }
 
     TEMPL
-    typename ME::filteredIterator ME::begin(const K& key) {
+    typename ME::filteredIterator ME::begin(const K& key) const {
         auto ret = filteredIterator(this, &_end, key);
         ++ret;
         return ret;
@@ -150,7 +150,7 @@ namespace nm {
     }
 
     TEMPL
-    typename ME::iterator ME::find(const K& key) {
+    typename ME::iterator ME::find(const K& key) const {
         auto e = begin();
         auto endIter = end();
         while(e != endIter) {

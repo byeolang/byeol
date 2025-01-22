@@ -58,7 +58,7 @@ namespace nm {
 
         class iterator {
         public:
-            iterator(me* owner, wrap* pair);
+            iterator(const me* owner, const wrap* pair);
             friend class smultimap<K, V>;
 
         public:
@@ -80,13 +80,13 @@ namespace nm {
             bool operator==(const iterator& rhs) const;
 
         private:
-            smultimap<K, V>* _owner;
-            wrap* _wrap;
+            const smultimap<K, V>* _owner;
+            const wrap* _wrap;
         };
 
         class filteredIterator: public iterator {
         public:
-            filteredIterator(me* owner, wrap* pair, const K& key);
+            filteredIterator(const me* owner, const wrap* pair, const K& key);
 
         public:
             iterator& operator++() override;
@@ -101,16 +101,16 @@ namespace nm {
     public:
         ncnt size() const;
 
-        iterator begin();
-        iterator end();
-        filteredIterator begin(const K& key);
+        iterator begin() const;
+        iterator end() const;
+        filteredIterator begin(const K& key) const;
 
         void insert(const K& key, V&& val);
         void erase(const K& key);
         void erase(const iterator& it);
         void erase(const iterator& from, const iterator& to);
 
-        iterator find(const K& key);
+        iterator find(const K& key) const;
 
         void clear();
 
