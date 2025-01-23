@@ -4,6 +4,7 @@
 #include "tnbicontainer.hpp"
 #include <initializer_list>
 #include <utility>
+#include "smultimap.inl"
 
 namespace nm {
 
@@ -15,7 +16,7 @@ namespace nm {
     public:
         template <typename K1, typename V1> friend class tmap;
         typedef tstr<V, TACTIC> wrap;
-        typedef std::multimap<K, wrap> cmap;
+        typedef smultimap<K, wrap> cmap;
         typedef typename cmap::iterator citer;
         typedef std::pair<K, V> cpair;
         typedef typename super::iter iter;
@@ -71,8 +72,8 @@ namespace nm {
 
         iteration* _onMakeIteration(const K& key) const override {
             me* unconst = const_cast<me*>(this);
-            return new nmapIteration(*unconst, unconst->_map.lower_bound(key),
-                unconst->_map.upper_bound(key));
+            return new nmapIteration(*unconst, unconst->_map.begin(key),
+                unconst->_map.end());
         }
 
         void _getAll(const K& key, narr& tray) const override;

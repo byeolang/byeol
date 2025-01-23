@@ -24,19 +24,19 @@ public:
 
     const K& getKey() const override {
         if(isEnd()) return nulOf<K>();
-        return _citer->first;
+        return _citer.getKey();
     }
 
     using super::getVal;
 
     V& getVal() override {
         if(isEnd()) return nulOf<V>();
-        return *_citer->second;
+        return *_citer.getVal();
     }
 
     void setVal(const V& new1) override {
         if(isEnd()) return;
-        _citer->second.bind(new1);
+        _citer->bind(new1);
     }
 
     using super::getContainer;

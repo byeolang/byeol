@@ -25,8 +25,7 @@ namespace nm {
 
     public:
         class wrap;
-        typedef std::unordered_multimap<std::string, wrap> stlMap;
-        using stlMapPAir = typename stlMap::value_type;
+        typedef std::unordered_multimap<K, wrap> stlMap;
 
         class wrap {
             friend class smultimap<K, V>;

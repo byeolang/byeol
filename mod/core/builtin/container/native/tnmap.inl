@@ -16,21 +16,21 @@ namespace nm {
     V& ME::get(const K& key) {
         if(!in(key)) return nulOf<V>();
 
-        return *_map.lower_bound(key)->second;
+        return *_map.begin(key).getVal();
     }
 
     TEMPL
     void ME::_getAll(const K& key, narr& tray) const {
-        auto end = _map.upper_bound(key);
-        for(auto e = _map.lower_bound(key); e != end; ++e)
-            tray.add(*e->second);
+        auto end = _map.end();
+        for(auto e = _map.begin(key); e != end; ++e)
+            tray.add(*e.getVal());
     }
 
     TEMPL
     nbool ME::add(const K& key, const V& new1) {
         if(nul(new1)) return false;
 
-        _map.insert({key, wrap(new1)});
+        _map.insert(key, wrap(new1));
         return true;
     }
 
