@@ -25,6 +25,8 @@ namespace nm {
 
     public:
         class wrap;
+        class iterator;
+        friend class iterator;
         typedef std::unordered_multimap<K, wrap> stlMap;
 
         class wrap {
@@ -56,9 +58,10 @@ namespace nm {
         };
 
         class iterator {
+            typedef smultimap<K, V> owner;
         public:
             iterator(const me* owner, const wrap* pair);
-            friend class smultimap<K, V>;
+            friend owner;
 
         public:
             V& operator*();
@@ -79,7 +82,7 @@ namespace nm {
             bool operator==(const iterator& rhs) const;
 
         private:
-            const smultimap<K, V>* _owner;
+            const owner* _owner;
             const wrap* _wrap;
         };
 

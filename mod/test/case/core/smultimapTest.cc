@@ -153,3 +153,51 @@ TEST_F(smultimapTest, complexEraseTest) {
     e = scope.begin("banana");
     ASSERT_EQ(e.getVal().get().cast<nint>(), -1);
 }
+
+TEST_F(smultimapTest, deleteMiddleOfElementAndIterateSpecificKey) {
+    scope.insert("1", *new nInt(1));
+    scope.insert("2", *new nInt(2));
+    scope.insert("1", *new nInt(3));
+    scope.insert("2", *new nInt(4));
+    scope.insert("1", *new nInt(5));
+    ASSERT_EQ(scope.size(), 5);
+
+    nint expect = 1;
+    for(const auto& e : scope)
+        ASSERT_EQ(((nInt&) *e).get(), expect++);
+
+    expect = 1;
+    for(const auto& e : scope)
+        ASSERT_EQ(((nInt&) *e).get(), expect++);
+
+    auto e = scope.begin("2");
+    ASSERT_EQ(e.getKey(), "2");
+    ASSERT_EQ(((nInt&) e->get()).get(), 2);
+
+    ++e;
+    ASSERT_EQ(e.getKey(), "2");
+    ASSERT_EQ(((nInt&) e->get()).get(), 4);
+
+    ++e;
+    ASSERT_EQ(e, scope.end());
+}
+
+TEST_F(smultimapTest, setValue) {
+    scope.insert("1", *new nInt(1));
+    scope.insert("2", *new nInt(2));
+    scope.insert("1", *new nInt(3));
+    scope.insert("2", *new nInt(4));
+    scope.insert("1", *new nInt(5));
+    ASSERT_EQ(scope.size(), 5);
+
+    auto e = scope.begin();
+    ++e;
+    ++e;
+    ASSERT_EQ(((nInt&) e->get()).get(), 3);
+    e->bind(*new nInt(100));
+
+    int expects[] = {1, 2, 100, 4, 5};
+    int n = 0;
+    for(auto& val : scope)
+        ASSERT_EQ(((nInt&) *val).get(), expects[n++]);
+}

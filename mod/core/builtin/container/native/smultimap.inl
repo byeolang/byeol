@@ -48,6 +48,8 @@ namespace nm {
 
     TEMPL
     typename ME::iterator& ME::iterator::operator++() {
+        if(nul(_owner)) return *this;
+
         _wrap = _wrap->_next;
         return *this;
     }
@@ -145,7 +147,7 @@ namespace nm {
 
     TEMPL
     void ME::erase(const iterator& from, const iterator& to) {
-        for(auto e = from; e != to && e != end() ;++e)
+        for(auto e = from; e != to && e != end(); ++e)
             erase(e);
     }
 
