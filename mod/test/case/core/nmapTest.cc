@@ -333,10 +333,11 @@ TEST_F(nmapTest, testSetValue) {
     ASSERT_TRUE(found);
 
     for(auto e = m.iterate("1"); e; ++e)
-        if(e.getVal<myNode>().number == 3) e.setVal(new myNode(1));
+        if(e.getVal<myNode>().number == 3) e.setVal(new myNode(5));
 
+    found = false;
     for(auto e = m.iterate("1"); e; ++e)
-        if(e.getVal<myNode>().number != 1) found = false;
+        if(e.getVal<myNode>().number == 5) found = true;
     ASSERT_TRUE(found);
 }
 
