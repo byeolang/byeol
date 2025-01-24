@@ -201,3 +201,23 @@ TEST_F(smultimapTest, setValue) {
     for(auto& val : scope)
         ASSERT_EQ(((nInt&) *val).get(), expects[n++]);
 }
+
+TEST_F(smultimapTest, delElementButKeepOrder) {
+    scope.insert("1", *new nInt(1));
+    scope.insert("2", *new nInt(2));
+    scope.insert("1", *new nInt(3));
+    scope.insert("2", *new nInt(4));
+    scope.insert("1", *new nInt(5));
+    ASSERT_EQ(scope.size(), 5);
+
+    auto e = scope.begin(); // 1
+    ++e; // 2
+    ++e; // 3
+    scope.erase(e++);
+    ASSERT_EQ(((nInt&) e->get()).get(), 4);
+
+    int expects[] = {1, 2, 4, 5};
+    int n = 0;
+    for(auto& val : scope)
+        ASSERT_EQ(((nInt&) *val).get(), expects[n++]);
+}
