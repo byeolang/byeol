@@ -109,7 +109,6 @@ namespace nm {
 
     private:
         tstr<super> _map;
-        iter _e;
         tstr<me> _next;
     };
 } // namespace nm
