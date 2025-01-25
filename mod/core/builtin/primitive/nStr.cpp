@@ -137,14 +137,14 @@ namespace nm {
 
         static const baseObj& _defaultOrg() {
             static tbaseObjOrigin<me> org(tbridger<me>::ctor()
-                                              .ctor<nStr>()
-                                              .func("len", &me::len)
-                                              .func<nchar, nidx>("get", &me::get)
-                                              .func("substr", &me::substr)
-                                              .func("get", new getSeqFunc())
-                                              .func("iterate", new iterateFunc())
-                                              .func("getElemType", new getElemType())
-                                              .subs());
+                    .ctor<nStr>()
+                    .func("len", &me::len)
+                    .func<nchar, nidx>("get", &me::get)
+                    .func("substr", &me::substr)
+                    .func("get", new getSeqFunc())
+                    .func("iterate", new iterateFunc())
+                    .func("getElemType", new getElemType())
+                    .subs());
             return org;
         }
 
@@ -172,59 +172,62 @@ namespace nm {
         return new bridgeIteration((me&) *this, step);
     }
 
-    struct asBool: public tas<nBool> {
-        NM(CLASS(asBool, tas<nBool>))
+    namespace {
+        // define in unamed namespace in order to avoid symbol duplication.
+        struct asBool: public tas<nBool> {
+            NM(CLASS(asBool, tas<nBool>))
 
-    public:
-        str as(const node& me, const type& to) const override {
-            const std::string& val = me.cast<std::string>();
-            try {
-                bool boolean = false;
-                if(val == "false") boolean = false;
-                else if(val == "true") boolean = "true";
-                else boolean = stoi(val, nullptr, 0) == 0;
-                return str(new nBool(boolean));
-            } catch(std::invalid_argument& ex) { return str(); }
-        }
-    };
+        public:
+            str as(const node& me, const type& to) const override {
+                const std::string& val = me.cast<std::string>();
+                try {
+                    bool boolean = false;
+                    if(val == "false") boolean = false;
+                    else if(val == "true") boolean = "true";
+                    else boolean = stoi(val, nullptr, 0) == 0;
+                    return str(new nBool(boolean));
+                } catch(std::invalid_argument& ex) { return str(); }
+            }
+        };
 
-    struct asFlt: public tas<nFlt> {
-        NM(CLASS(asFlt, tas<nFlt>))
+        struct asFlt: public tas<nFlt> {
+            NM(CLASS(asFlt, tas<nFlt>))
 
-    public:
-        str as(const node& me, const type& to) const override {
-            const std::string& val = me.cast<std::string>();
-            try {
-                nflt converted = stof(val);
-                return str(new nFlt(converted));
-            } catch(std::invalid_argument& ex) { return str(); }
-        }
-    };
+        public:
+            str as(const node& me, const type& to) const override {
+                const std::string& val = me.cast<std::string>();
+                try {
+                    nflt converted = stof(val);
+                    return str(new nFlt(converted));
+                } catch(std::invalid_argument& ex) { return str(); }
+            }
+        };
 
-    struct asInt: public tas<nInt> {
-        NM(CLASS(asInt, tas<nInt>))
+        struct asInt: public tas<nInt> {
+            NM(CLASS(asInt, tas<nInt>))
 
-    public:
-        str as(const node& me, const type& to) const override {
-            const std::string& val = me.cast<std::string>();
-            try {
-                nint converted = stoi(val, nullptr, 0);
-                return str(new nInt(converted));
-            } catch(std::invalid_argument& ex) { return str(); }
-        }
-    };
+        public:
+            str as(const node& me, const type& to) const override {
+                const std::string& val = me.cast<std::string>();
+                try {
+                    nint converted = stoi(val, nullptr, 0);
+                    return str(new nInt(converted));
+                } catch(std::invalid_argument& ex) { return str(); }
+            }
+        };
 
-    struct asByte: public tas<nByte> {
-        NM(CLASS(asByte, tas<nByte>))
+        struct asByte: public tas<nByte> {
+            NM(CLASS(asByte, tas<nByte>))
 
-    public:
-        str as(const node& me, const type& to) const override {
-            const std::string& val = me.cast<std::string>();
-            if(val.length() <= 0) return str();
+        public:
+            str as(const node& me, const type& to) const override {
+                const std::string& val = me.cast<std::string>();
+                if(val.length() <= 0) return str();
 
-            return new nByte(val[0]);
-        }
-    };
+                return new nByte(val[0]);
+            }
+        };
+    } // namespace
 
     const ases& me::nStrType::_getAses() const {
         static ases inner;

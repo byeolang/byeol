@@ -32,14 +32,16 @@ namespace nm {
         return inner;
     }
 
-    struct asStr: public tas<nStr> {
-        NM(CLASS(asStr, tas<nStr>))
+    namespace {
+        struct asStr: public tas<nStr> {
+            NM(CLASS(asStr, tas<nStr>))
 
-    public:
-        str as(const node& me, const type& to) const override {
-            return str(new nStr(me.cast<nbool>() ? "true" : "false"));
-        }
-    };
+        public:
+            str as(const node& me, const type& to) const override {
+                return str(new nStr(me.cast<nbool>() ? "true" : "false"));
+            }
+        };
+    }
 
     const ases& me::wBoolType::_getAses() const {
         static ases inner;
