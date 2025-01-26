@@ -35,3 +35,35 @@ TEST(platformAPITest, iterateCodepointsMixedString) {
     e4.next(1);
     ASSERT_EQ(*e4, "");
 }
+
+TEST(platformAPITest, reverseCodepointIterator) {
+    std::string src = "abcd🏁efg";
+    cpIter e4(src.c_str() + src.size(), src.c_str()); // reversed.
+    e4.next(2);            // <end> -> 'f'
+    ASSERT_EQ(*e4++, "f"); // 'f' -> 'e'
+    ASSERT_EQ(*e4++, "e"); // 'e' -> '🏁'
+    ASSERT_EQ(*e4, "🏁");
+    e4.next(2);            // '🏁' -> 'c'
+    ASSERT_EQ(*e4++, "c"); // 'c' -> 'b'
+    ASSERT_EQ(*e4++, "b"); // 'b' -> 'a'
+    ASSERT_EQ(*e4++, "a"); // 'a' -> ""
+    ASSERT_EQ(*e4, "");
+    e4.next(1);
+    ASSERT_EQ(*e4, "");
+}
+
+TEST(platformAPITest, reverseCodepointIterator2) {
+    std::string src = "abcd🏁efg";
+    cpIter e4(src, true); // reversed.
+    e4.next(2);            // <end> -> 'f'
+    ASSERT_EQ(*e4++, "f"); // 'f' -> 'e'
+    ASSERT_EQ(*e4++, "e"); // 'e' -> '🏁'
+    ASSERT_EQ(*e4, "🏁");
+    e4.next(2);            // '🏁' -> 'c'
+    ASSERT_EQ(*e4++, "c"); // 'c' -> 'b'
+    ASSERT_EQ(*e4++, "b"); // 'b' -> 'a'
+    ASSERT_EQ(*e4++, "a"); // 'a' -> ""
+    ASSERT_EQ(*e4, "");
+    e4.next(1);
+    ASSERT_EQ(*e4, "");
+}

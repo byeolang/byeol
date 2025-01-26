@@ -34,7 +34,7 @@ namespace nm {
 
     private:
         const nchar* _begin;
-        const nchar* _e;
+        const nchar* _end;
         nbool _isReverse;
     };
 }
