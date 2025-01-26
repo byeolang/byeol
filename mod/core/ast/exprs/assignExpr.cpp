@@ -36,7 +36,11 @@ namespace nm {
         // TODO: elementExpr
         str ased = cast THEN(getMe()) THEN(template as<node>()) orRet NM_E("ased == null"), iter();
         frame& fr = ased->cast<frame>();
-        if(!nul(fr)) ased.bind(fr.getOwner(*cast.as<node>()));
+        if(!nul(fr)) {
+            node& owner = fr.getOwnerHaving(*cast.as<node>());
+            if(!nul(owner))
+                ased.bind(owner);
+        }
 
         if(!ased) return exMaker::make(COULDNT_GET_ITER_FOR_LHS, cast.getName().c_str()), iter();
 

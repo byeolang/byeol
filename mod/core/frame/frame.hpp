@@ -51,8 +51,10 @@ namespace nm {
         baseFunc& getFunc();
         const baseFunc& getFunc() const NM_CONST_FUNC(getFunc())
 
-        node& getOwner(const node& sub);
-        const node& getOwner(const node& sub) const NM_CONST_FUNC(getOwner(sub))
+        node& getMeHaving(const node& sub);
+        const node& getMeHaving(const node& sub) const NM_CONST_FUNC(getMeHaving(sub))
+        node& getOwnerHaving(const node& sub);
+        const node& getOWnerHaving(const node& sub) const NM_CONST_FUNC(getOwnerHaving(sub))
 
         // node:
         using node::subs;
@@ -76,6 +78,7 @@ namespace nm {
         void _rel();
         scopeRegister& _getTop();
         const scopeRegister& _getTop() const NM_CONST_FUNC(_getTop())
+        node& _getOwner(const node& toFind, std::function<node*(nbool, scopeRegister&)> cl);
 
     private:
         str _me;

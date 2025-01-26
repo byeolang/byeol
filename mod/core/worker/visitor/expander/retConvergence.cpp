@@ -11,7 +11,7 @@ namespace nm {
                 str eval = _org->getEval() orRet false;
                 const node& owner = getFunc() THEN(getOrigin()) orRet false;
                 const frame& fr = thread::get().getNowFrame();
-                if(&fr.getOwner(*eval) != &owner) return false;
+                if(&fr.getMeHaving(*eval) != &owner) return false;
 
                 NM_I(" -> retConvergence: %s ==> %s", getFunc().getType().getRet(), *eval);
                 ((ntype&) getFunc().getType()).setRet(*eval);

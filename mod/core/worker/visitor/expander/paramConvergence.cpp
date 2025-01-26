@@ -13,7 +13,7 @@ namespace nm {
                 const node& owner = getFunc() THEN(getOrigin()) orRet false;
 
                 const frame& fr = thread::get().getNowFrame();
-                if(&fr.getOwner(*eval) != &owner) return false;
+                if(&fr.getMeHaving(*eval) != &owner) return false;
 
                 _p->setOrigin(*eval);
                 return true;
