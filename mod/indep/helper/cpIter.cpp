@@ -4,9 +4,13 @@ namespace nm {
 
     NM(DEF_ME(cpIter))
 
-    me::cpIter(const nchar* from): _e(from) {}
+    me::cpIter(const nchar* begin, const nchar* from):
+        _begin(begin), _e(from), _isReverse(from > begin) {}
 
-    me::cpIter(const std::string& from): _e(from.c_str()) {}
+    me::cpIter(const std::string& from, nbool isReverse):
+        _begin(from.c_str()),
+        _e(_begin + (isReverse ? from.size() - 1 : 0)),
+        _isReverse(isReverse) {}
 
     me me::operator+(ncnt step) {
         next(step);
@@ -40,7 +44,7 @@ namespace nm {
     ncnt me::next(ncnt step) {
         nint n = 0;
         while(n++ < step) {
-            _e = _nextCodepoint(_e);
+            _e = _isReverse ? _prevCodepoint(_e) : _nextCodepoint(_e);
             if(isEnd()) break;
         }
         return n;
@@ -57,6 +61,12 @@ namespace nm {
     }
 
     const nchar* me::_nextCodepoint(const nchar* from) const { return from + _skipBytes(*from); }
+
+    const nchar* me::_prevCodepoint(const nchar* e) const {
+        while(--e >= _begin)
+            if(_skipBytes(*e)) return e;
+        return nullptr;
+    }
 
     ncnt me::_skipBytes(nchar ch) const {
         if(ch == 0) return 0;

@@ -9,8 +9,8 @@ namespace nm {
         NM(ME(cpIter))
 
     public:
-        cpIter(const nchar* from);
-        cpIter(const std::string& from);
+        cpIter(const nchar* begin, const nchar* from);
+        cpIter(const std::string& from, nbool isReverse = false);
 
     public:
         me operator+(ncnt step);
@@ -29,9 +29,12 @@ namespace nm {
 
     private:
         const nchar* _nextCodepoint(const nchar* from) const;
+        const nchar* _prevCodepoint(const nchar* e) const;
         ncnt _skipBytes(nchar ch) const;
 
     private:
+        const nchar* _begin;
         const nchar* _e;
+        nbool _isReverse;
     };
 }
