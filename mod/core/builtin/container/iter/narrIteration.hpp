@@ -5,7 +5,7 @@ class narrIteration: public iteration {
     friend class tnarr;
 
 public:
-    narrIteration(tnarr& own, nidx n): _n(n), _own(own) {}
+    narrIteration(tnarr& own, nidx n, nbool isReverse): _n(n), _own(own), _isReverse(isReverse) {}
 
     nbool isEnd() const override { return !_own.in(_n); }
 
@@ -15,16 +15,7 @@ public:
     ncnt next(ncnt step) override {
         if(step <= 0) return 0;
         if(isEnd()) return 0;
-
-        int len = _own.len(), lastN = len - 1;
-        int toLast = lastN - _n;
-
-        _n += step;
-        if(_n > lastN) {
-            _n = len;
-            step = toLast;
-        }
-        return step;
+        return _isReverse ? _nextBackward(step) : _nextForward(step);
     }
 
     using super::get;
@@ -45,6 +36,31 @@ protected:
     }
 
 private:
+    ncnt _nextForward(ncnt step) {
+        int len = _own.len(), lastN = len - 1;
+        int toLast = lastN - _n;
+
+        _n += step;
+        if(_n >= lastN) {
+            _n = len;
+            step = toLast;
+        }
+        return step;
+    }
+
+    ncnt _nextBackward(ncnt step) {
+        int toLast = _n;
+
+        _n -= step;
+        if(_n < 0) {
+            _n = -1;
+            step = toLast;
+        }
+        return step;
+    }
+
+private:
     nidx _n;
     tnarr& _own;
+    nbool _isReverse;
 };

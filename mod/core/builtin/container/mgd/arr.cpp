@@ -171,7 +171,9 @@ namespace nm {
 
     std::string me::asStr() const { return get().asStr(); }
 
-    me::iteration* me::_onMakeIteration(ncnt step) const { return get()._onMakeIteration(step); }
+    me::iteration* me::_onMakeIteration(ncnt step, nbool isReverse) const {
+        return get()._onMakeIteration(step, isReverse);
+    }
 
     namespace {
         class __copyCtor: public baseFunc {

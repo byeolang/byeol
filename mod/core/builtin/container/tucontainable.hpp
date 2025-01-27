@@ -54,6 +54,11 @@ namespace nm {
             return (this->*specifier)(0);
         }
 
+        iter rbegin() const {
+            static iter (me::*specifier)(ncnt) const = &me::riterate;
+            return (this->*specifier)(len()-1);
+        }
+
         virtual iter end() const {
             // why do you need specifier here?:
             //  please refer nseq. it requires tucontainable to contain nint as type parameter.
@@ -66,16 +71,30 @@ namespace nm {
             return (this->*specifier)(len());
         }
 
+        virtual iter rend() const {
+            static iter (me::*specifier)(ncnt) const = &me::riterate;
+            return (this->*specifier)(-1);
+        }
+
         virtual iter last() const {
             if(len() <= 0) return end();
             static iter (me::*specifier)(ncnt) const = &me::iterate;
             return (this->*specifier)(len() - 1);
         }
 
-        iter iterate(ncnt step) const { return iter(_onMakeIteration(step)); }
+        iter iterate(ncnt step) const { return iter(_onMakeIteration(step, false)); }
 
         iter iterate(const T& it) const {
             for(iter e = begin(); e; ++e)
+                if(&e.get() == &it) return iter(e);
+
+            return iter();
+        }
+
+        iter riterate(ncnt step) const { return iter(_onMakeIteration(step, true)); }
+
+        iter riterate(const T& it) const {
+            for(iter e = rbegin(); e; ++e)
                 if(&e.get() == &it) return iter(e);
 
             return iter();
@@ -149,7 +168,7 @@ namespace nm {
         virtual void rel() = 0;
 
     protected:
-        virtual iteration* _onMakeIteration(ncnt step) const = 0;
+        virtual iteration* _onMakeIteration(ncnt step, nbool isReverse) const = 0;
     };
 
     typedef tucontainable<node> ucontainable;
