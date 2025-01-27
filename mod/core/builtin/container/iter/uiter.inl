@@ -51,22 +51,22 @@ namespace nm {
 
     TEMPL
     nbool ME::isFrom(const tucontainable& it) const {
-        if(!_step) return false;
-        return _step->isFrom(it);
+        if(!_iteration) return false;
+        return _iteration->isFrom(it);
     }
 
     TEMPL
     nbool ME::isEnd() const {
-        if(!_step) return true;
-        return _step->isEnd();
+        if(!_iteration) return true;
+        return _iteration->isEnd();
     }
 
     TEMPL
-    ncnt ME::next(ncnt step) {
-        if(!_step) return false;
+    ncnt ME::_step(std::function<ncnt(void)> closure, ncnt step) {
+        if(!_iteration) return false;
 
         for(int n = 0; n < step; n++) {
-            if(_step->next(1) <= 0) return n;
+            if(closure() <= 0) return n;
             _nextToMatchParamType();
         }
 
@@ -74,27 +74,42 @@ namespace nm {
     }
 
     TEMPL
+    ncnt ME::next(ncnt step) {
+        return _step([&]()->ncnt { return _iteration->next(1); }, step);
+    }
+
+    TEMPL
+    ncnt ME::stepForward(ncnt step) {
+        return _step([&]()->ncnt { return _iteration->stepForward(1); }, step);
+    }
+
+    TEMPL
+    ncnt ME::stepBackward(ncnt step) {
+        return _step([&]()->ncnt { return _iteration->stepBackward(1); }, step);
+    }
+
+    TEMPL
     R ME::get() {
-        if(!_step) return nulr<R>::get();
-        return (R) _step->get();
+        if(!_iteration) return nulr<R>::get();
+        return (R) _iteration->get();
     }
 
     TEMPL
     tucontainable<T, R>& ME::getContainer() {
-        if(!_step) return nulOf<tnucontainer<T, R>>();
-        return _step->getContainer();
+        if(!_iteration) return nulOf<tnucontainer<T, R>>();
+        return _iteration->getContainer();
     }
 
     TEMPL
     typename ME& ME::_assign(const me& rhs) {
-        _step.bind((iteration*) rhs._step->clone());
+        _iteration.bind((iteration*) rhs._iteration->clone());
         return *this;
     }
 
     TEMPL
     nbool ME::_onSame(const typeProvidable& rhs) const {
         const me& cast = (const me&) rhs;
-        return _step == cast._step;
+        return _iteration == cast._iteration;
     }
 
     TEMPL

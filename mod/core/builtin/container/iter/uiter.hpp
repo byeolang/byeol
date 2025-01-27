@@ -13,7 +13,7 @@ class iter: public iterable, public clonable, public typeProvidable {
 public:
     iter() { _nextToMatchParamType(); }
 
-    explicit iter(iteration* newStep): _step(newStep) { _nextToMatchParamType(); }
+    explicit iter(iteration* newStep): _iteration(newStep) { _nextToMatchParamType(); }
 
     iter(const me& rhs) { _assign(rhs); }
 
@@ -33,6 +33,8 @@ public:
     nbool isFrom(const tucontainable& it) const override;
     nbool isEnd() const override;
     ncnt next(ncnt step) override;
+    ncnt stepForward(ncnt step) override;
+    ncnt stepBackward(ncnt step) override;
 
     using iterable::get;
     R get() override;
@@ -49,7 +51,8 @@ private:
     /// iterates until points to object of compatible type to given parameterized type T.
     /// iter should be alwyas stable state which points to object of proper type.
     void _nextToMatchParamType();
+    ncnt _step(std::function<ncnt(void)> closure, ncnt step);
 
 protected:
-    tstr<iteration> _step;
+    tstr<iteration> _iteration;
 };
