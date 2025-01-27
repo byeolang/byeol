@@ -23,11 +23,25 @@ namespace nm {
 
     public:
         nbool isEnd() const;
+
+        /// Moves the iterator in the direction you specified when you created it.
+        /// if you created a `reverse iterator`, this func will move it by steps in the reverse
+        /// direction.
+        /// @return stepped count.
         ncnt next(ncnt step);
+
+        /// moves `iterator` to  unconditionally forward by the given step.
+        /// note that creating a reverse iterator doesn't affect this function.
+        /// so it'll also move to forward direction.
+        /// @return stepped count.
+        ncnt stepForward(ncnt step);
+        ncnt stepBackward(ncnt step);
+
         std::string get() const;
         ncnt remainLen() const;
 
     private:
+        ncnt _step(std::function<const nchar*()> closure, ncnt step);
         const nchar* _nextCodepoint(const nchar* from) const;
         const nchar* _prevCodepoint(const nchar* e) const;
         ncnt _skipBytes(nchar ch) const;

@@ -2,7 +2,6 @@
 
 #include "../common.hpp"
 #include "../macro.hpp"
-#include <functional>
 
 namespace nm {
 

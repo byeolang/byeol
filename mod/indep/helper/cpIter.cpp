@@ -41,16 +41,19 @@ namespace nm {
 
     nbool me::isEnd() const { return !_begin || !*_begin; }
 
-    ncnt me::next(ncnt step) {
-        nint n = 0;
-        while(n++ < step) {
-            _begin = _isReverse ? _prevCodepoint(_begin) : _nextCodepoint(_begin);
-            if(isEnd()) break;
-        }
-        return n;
+    ncnt me::next(ncnt step) { return _isReverse ? stepBackward(step) : stepForward(step); }
+
+    ncnt me::stepForward(ncnt step) {
+        return _step([&]() { return _nextCodepoint(_begin); }, step);
     }
 
-    std::string me::get() const { return isEnd() ? "" : std::string(_begin, _nextCodepoint(_begin) - _begin); }
+    ncnt me::stepBackward(ncnt step) {
+        return _step([&]() { return _prevCodepoint(_begin); }, step);
+    }
+
+    std::string me::get() const {
+        return isEnd() ? "" : std::string(_begin, _nextCodepoint(_begin) - _begin);
+    }
 
     ncnt me::remainLen() const {
         me copy(*this);
@@ -58,6 +61,15 @@ namespace nm {
         while(copy++)
             len++;
         return len;
+    }
+
+    ncnt me::_step(std::function<const nchar*()> closure, ncnt step) {
+        nint n = 0;
+        while(n++ < step) {
+            _begin = closure();
+            if(isEnd()) break;
+        }
+        return n;
     }
 
     const nchar* me::_nextCodepoint(const nchar* from) const { return from + _skipBytes(*from); }
