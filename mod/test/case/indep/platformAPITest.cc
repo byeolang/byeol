@@ -67,3 +67,19 @@ TEST(platformAPITest, reverseCodepointIterator2) {
     e4.next(1);
     ASSERT_EQ(*e4, "");
 }
+
+TEST(platformAPITest, reverseCPIteratorToBackward) {
+    std::string src = "abcd🏁efg";
+    cpIter e4(src, true); // reversed.
+    while(*e4 != "")
+        ++e4;
+    ASSERT_EQ(*e4, "");
+
+    std::string expects[] = {
+        "g", "f", "e", "🏁", "d", "c", "b", "a"
+    };
+    for(int n = 0; n < 8; n++) {
+        e4.stepBackward(1);
+        ASSERT_EQ(*e4, expects[n]);
+    }
+}
