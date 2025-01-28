@@ -5,29 +5,27 @@ class chainIteration: public iteration {
     friend class tnchain;
 
 public:
-    chainIteration(const tnchain& iteratingChain, const iter& conIter, const K& byKey = nulOf<K>()):
-        _ownIter(iteratingChain), _iter(conIter), _byKey(byKey) {
+    chainIteration(const tnchain& iteratingChain, const iter& conIter, nbool isReversed):
+        me(iteratingChain, conIter, nulOf<K>(), isReversed) {}
+
+    chainIteration(const tnchain& iteratingChain, const iter& conIter, const K& byKey,
+        nbool isReversed):
+        super(isReversed), _ownIter(iteratingChain), _iter(conIter), _byKey(byKey) {
         if(!_iter) next(1);
     }
 
     nbool isEnd() const override { return !_ownIter->_next && !_iter; }
 
     ncnt next(ncnt step) override {
-        ncnt remain = step;
+        return _step([&](ncnt remain) -> ncnt { return _iter.next(remain); }, step);
+    }
 
-        // if _ownIter was invalidated then _iter too.
-        while(remain > 0) {
-            remain -= _iter.next(remain);
-            if(remain <= 0) break;
+    ncnt stepForward(ncnt step) override {
+        return _step([&](ncnt remain) -> ncnt { return _iter.stepForward(remain); }, step);
+    }
 
-            // _iter moved to 'End' state now.
-            if(isEnd()) break;
-            _ownIter = _ownIter->_next;
-            _iter = nul(_byKey) ? _ownIter->_map->begin() : _ownIter->_map->iterate(_byKey);
-            if(_iter) remain--;
-        }
-
-        return step - remain;
+    ncnt stepBackward(ncnt step) override {
+        return _step([&](ncnt remain) -> ncnt { return _iter.stepBackward(remain); }, step);
     }
 
     using super::getContainer;
@@ -51,6 +49,25 @@ protected:
         if(nul(_byKey) ? !nul(cast._byKey) : _byKey != cast._byKey) return false;
 
         return (isEnd() && cast.isEnd()) || _iter == cast._iter;
+    }
+
+private:
+    ncnt _step(std::function<ncnt(ncnt)> closure, ncnt step) {
+        ncnt remain = step;
+
+        // if _ownIter was invalidated then _iter too.
+        while(remain > 0) {
+            remain -= closure(remain);
+            if(remain <= 0) break;
+
+            // _iter moved to 'End' state now.
+            if(isEnd()) break;
+            _ownIter = _ownIter->_next;
+            _iter = nul(_byKey) ? _ownIter->_map->begin() : _ownIter->_map->iterate(_byKey);
+            if(_iter) remain--;
+        }
+
+        return step - remain;
     }
 
 private:

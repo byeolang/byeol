@@ -197,24 +197,24 @@ namespace nm {
     const ME& ME::getNext() const { return *_next; }
 
     TEMPL
-    typename ME::iteration* ME::_onMakeIteration(ncnt step) const {
+    typename ME::iteration* ME::_onMakeIteration(ncnt step, nbool isReverse) const {
         // TODO: optimize using containerIteration
         me* unconst = const_cast<me*>(this);
-        iteration* ret = new chainIteration(*unconst, _map->begin());
+        iteration* ret = new chainIteration(*unconst, _map->begin(), isReverse);
         ret->next(step);
         return ret;
     }
 
     TEMPL
-    typename ME::iteration* ME::_onMakeIteration(const K& key) const {
+    typename ME::iteration* ME::_onMakeIteration(const K& key, nbool isReverse) const {
         me* unconst = const_cast<me*>(this);
-        return new chainIteration(*unconst, _map->iterate(key), key);
+        return new chainIteration(*unconst, _map->iterate(key), key, isReverse);
     }
 
     TEMPL
     typename ME::iter& ME::_getMapIterFromChainIter(const iter& wrapper) {
-        if(!wrapper._step->getType().template isSub<chainIteration>()) return nulOf<iter>();
-        chainIteration& cast = (chainIteration&) *wrapper._step orNul(iter);
+        if(!wrapper._iteration->getType().template isSub<chainIteration>()) return nulOf<iter>();
+        chainIteration& cast = (chainIteration&) *wrapper._iteration orNul(iter);
 
         return cast._iter;
     }

@@ -50,6 +50,9 @@ namespace nm {
     ME::operator nbool() const { return !isEnd(); }
 
     TEMPL
+    nbool ME::isReversed() const { return _iteration ? _iteration->isReversed() : false; }
+
+    TEMPL
     nbool ME::isFrom(const tucontainable& it) const {
         if(!_iteration) return false;
         return _iteration->isFrom(it);

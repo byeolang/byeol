@@ -30,6 +30,8 @@ public:
     explicit operator nbool() const;
 
 public:
+    nbool isReversed() const override;
+
     nbool isFrom(const tucontainable& it) const override;
     nbool isEnd() const override;
     ncnt next(ncnt step) override;

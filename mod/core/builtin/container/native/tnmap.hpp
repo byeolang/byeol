@@ -62,18 +62,18 @@ namespace nm {
         void onCloneDeep(const clonable& from) override;
 
     protected:
-        iteration* _onMakeIteration(ncnt step) const override {
+        iteration* _onMakeIteration(ncnt step, nbool isReverse) const override {
             me* unconst = const_cast<me*>(this);
             iteration* ret =
-                new nmapIteration(*unconst, unconst->_map.begin(), unconst->_map.end());
+                new nmapIteration(*unconst, unconst->_map.begin(), unconst->_map.end(), isReverse);
             ret->next(step);
             return ret;
         }
 
-        iteration* _onMakeIteration(const K& key) const override {
+        iteration* _onMakeIteration(const K& key, nbool isReverse) const override {
             me* unconst = const_cast<me*>(this);
             return new nmapIteration(*unconst, unconst->_map.begin(key),
-                unconst->_map.end());
+                unconst->_map.end(), isReverse);
         }
 
         void _getAll(const K& key, narr& tray) const override;
@@ -82,7 +82,7 @@ namespace nm {
         nmapIteration& _getIterationFrom(const iter& it) {
             if(nul(it)) return nulOf<nmapIteration>();
             if(!it.isFrom(*this)) return nulOf<nmapIteration>();
-            return (nmapIteration&) *it._step;
+            return (nmapIteration&) *it._iteration;
         }
 
     private:

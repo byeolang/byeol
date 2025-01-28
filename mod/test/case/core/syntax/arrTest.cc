@@ -584,7 +584,7 @@ TEST_F(arrTest, test2DArray2) {
     ASSERT_EQ(res.cast<nint>(), 4);
 }
 
-TEST_F(arrTest, test2DArray3) {
+TEST_F(arrTest, test3DArray3) {
     make()
         .parse(R"SRC(
         print(msg str) void: 1

@@ -46,11 +46,15 @@ namespace nm {
             NM(CLASS(bridgeIteration, iteration))
 
         public:
-            bridgeIteration(nStr& own, nidx n): _own(&own), _e(own.get().c_str()) { _e.next(n); }
+            bridgeIteration(nStr& own, nidx n, nbool isReversed):
+                super(isReversed), _own(&own), _e(own.get().c_str(), isReversed) {
+                _e.next(n);
+            }
 
             nbool isEnd() const override { return _e.isEnd(); }
 
-            ncnt next(ncnt step) override { return _e.next(step); }
+            ncnt stepForward(ncnt step) override { return _e.stepForward(step); }
+            ncnt stepBackward(ncnt step) override { return _e.stepBackward(step); }
 
             nStr& get() override {
                 _val = *_e;
@@ -137,14 +141,14 @@ namespace nm {
 
         static const baseObj& _defaultOrg() {
             static tbaseObjOrigin<me> org(tbridger<me>::ctor()
-                    .ctor<nStr>()
-                    .func("len", &me::len)
-                    .func<nchar, nidx>("get", &me::get)
-                    .func("substr", &me::substr)
-                    .func("get", new getSeqFunc())
-                    .func("iterate", new iterateFunc())
-                    .func("getElemType", new getElemType())
-                    .subs());
+                                              .ctor<nStr>()
+                                              .func("len", &me::len)
+                                              .func<nchar, nidx>("get", &me::get)
+                                              .func("substr", &me::substr)
+                                              .func("get", new getSeqFunc())
+                                              .func("iterate", new iterateFunc())
+                                              .func("getElemType", new getElemType())
+                                              .subs());
             return org;
         }
 
@@ -168,8 +172,8 @@ namespace nm {
 
     me::nStr(const std::string& val): super(val) {}
 
-    me::iteration* me::_onMakeIteration(ncnt step) const {
-        return new bridgeIteration((me&) *this, step);
+    me::iteration* me::_onMakeIteration(ncnt step, nbool isReverse) const {
+        return new bridgeIteration((me&) *this, step, isReverse);
     }
 
     namespace {

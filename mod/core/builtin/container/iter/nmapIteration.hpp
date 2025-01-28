@@ -5,21 +5,20 @@ class nmapIteration: public iteration {
     friend class tnmap;
 
 public:
-    nmapIteration(tnmap& own, citer start, citer end): _own(own), _citer(start), _end(end) {}
+    nmapIteration(tnmap& own, citer start, citer end, nbool isReversed):
+        super(isReversed), _own(own), _citer(start), _end(end) {}
 
     nbool isEnd() const override { return _citer == _end; }
 
     /// if iteration reached to the last element to iterate, it can precede to next,
     /// which means to the End of a buffer.
     /// however, this step wasn't regarded to a step even though it proceeds.
-    ncnt next(ncnt step) override {
-        if(isEnd()) return 0;
+    ncnt stepForward(ncnt step) override {
+        return _step([&]() { ++_citer; }, step);
+    }
 
-        for(int n = 0; n < step; n++) {
-            ++_citer;
-            if(isEnd()) return n;
-        }
-        return step;
+    ncnt stepBackward(ncnt step) override {
+        return _step([&]() { --_citer; }, step);
     }
 
     const K& getKey() const override {
@@ -47,6 +46,16 @@ protected:
     nbool _onSame(const typeProvidable& rhs) const override {
         const me& cast = (const me&) rhs;
         return this->isFrom(cast.getContainer()) && _citer == cast._citer;
+    }
+
+private:
+    ncnt _step(std::function<void(void)> closure, ncnt step) {
+        if(isEnd()) return 0;
+        for(int n = 0; n < step; n++) {
+            closure();
+            if(isEnd()) return n;
+        }
+        return step;
     }
 
 private:

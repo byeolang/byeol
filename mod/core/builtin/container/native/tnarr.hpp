@@ -91,7 +91,7 @@ namespace nm {
         narrIteration& _getIterationFrom(const iter& it) {
             if(nul(it)) return nulOf<narrIteration>();
             if(!it.isFrom(*this)) return nulOf<narrIteration>();
-            return (narrIteration&) *it._step;
+            return (narrIteration&) *it._iteration;
         }
 
 

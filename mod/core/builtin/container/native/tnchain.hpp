@@ -41,8 +41,15 @@ namespace nm {
         using super::add;
         nbool add(const K& key, const V& val) override;
 
-        // link:
         tstr<me> link(const super& new1);
+        /// @brief link to another chain instance.
+        ///        if iterator is not the begin of another chain,
+        ///        this chain won't link unaccessible elements via given iterator.
+        ///        using this point, you can choose which elements to link and which elements not.
+        /// @param nextIter this iterator should be belong to another chain instance.
+        ///                 of course you can input this iterator with reversed one.
+        /// @return false when to make a link didn't work.
+        ///               for instance, if iterator is belonged to this chain or nullptr.
         virtual nbool link(const me& new1);
         nbool unlink();
 
@@ -99,8 +106,8 @@ namespace nm {
         me* cloneChain() const;
 
     protected:
-        iteration* _onMakeIteration(ncnt step) const override;
-        iteration* _onMakeIteration(const K& key) const override;
+        iteration* _onMakeIteration(ncnt step, nbool isReverse) const override;
+        iteration* _onMakeIteration(const K& key, nbool isReverse) const override;
 
         void _getAll(const K& key, narr& tray) const override;
 

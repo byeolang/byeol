@@ -41,9 +41,9 @@ namespace nm {
 
     ncnt me::len() const { return abs(_end.get() - _start.get()); }
 
-    me::iteration* me::_onMakeIteration(ncnt step) const {
+    me::iteration* me::_onMakeIteration(ncnt step, nbool isReverse) const {
         me* unconst = (me*) this;
-        return new nseqIteration(*unconst, step);
+        return new nseqIteration(*unconst, step, isReverse);
     }
 
     nInt me::get(nidx n) {

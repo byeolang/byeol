@@ -60,7 +60,7 @@ namespace nm {
         void rel() override;
 
     protected:
-        iteration* _onMakeIteration(ncnt step) const override;
+        iteration* _onMakeIteration(ncnt step, nbool isReverse) const override;
 
     private:
         // these method has been prohibited.

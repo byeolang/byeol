@@ -64,13 +64,21 @@ namespace nm {
         // iter:
         iter begin() const { return iterate(0); }
 
+        iter rbegin() const { return riterate(len() - 1); }
+
         virtual iter end() const { return iterate(len()); }
+
+        virtual iter rend() const { return riterate(-1); }
 
         virtual iter last() const { return iterate(len() - 1); }
 
-        iter iterate(ncnt step) const { return iter(_onMakeIteration(step)); }
+        iter iterate(ncnt step) const { return iter(_onMakeIteration(step, false)); }
 
-        iter iterate(const K& key) const { return iter(_onMakeIteration(key)); }
+        iter iterate(const K& key) const { return iter(_onMakeIteration(key, false)); }
+
+        iter riterate(ncnt step) const { return iter(_onMakeIteration(step, true)); }
+
+        iter riterate(const K& key) const { return iter(_onMakeIteration(key, true)); }
 
         // add:
         virtual nbool add(const K& key, const V& val) = 0;
@@ -98,8 +106,8 @@ namespace nm {
         virtual void rel() = 0;
 
     protected:
-        virtual iteration* _onMakeIteration(ncnt step) const = 0;
-        virtual iteration* _onMakeIteration(const K& key) const = 0;
+        virtual iteration* _onMakeIteration(ncnt step, nbool isReverse) const = 0;
+        virtual iteration* _onMakeIteration(const K& key, nbool isReverse) const = 0;
         virtual void _getAll(const K& key, narr& tray) const = 0;
     };
 
