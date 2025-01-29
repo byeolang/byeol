@@ -38,7 +38,8 @@ namespace nm {
     typename ME::wrap& ME::wrap::operator=(wrap&&) { return *this; }
 
     TEMPL
-    ME::iterator::iterator(const me* owner, const wrap* pair): _owner(owner), _wrap(pair) {}
+    ME::iterator::iterator(const me* owner, const wrap* pair, nbool isReversed):
+        _owner(owner), _wrap(pair), _isReversed(isReversed) {}
 
     TEMPL
     V& ME::iterator::operator*() { return getVal(); }
@@ -50,7 +51,7 @@ namespace nm {
     typename ME::iterator& ME::iterator::operator++() {
         if(nul(_owner)) return *this;
 
-        _wrap = _wrap->_next;
+        _wrap = _isReversed ? _wrap->_prev : _wrap->_next;
         return *this;
     }
 
@@ -63,7 +64,7 @@ namespace nm {
 
     TEMPL
     typename ME::iterator& ME::iterator::operator--() {
-        _wrap = _wrap->_prev;
+        _wrap = _isReversed ? _wrap->_next : _wrap->_prev;
         return *this;
     }
 
@@ -93,8 +94,9 @@ namespace nm {
     bool ME::iterator::operator==(const iterator& rhs) const { return _wrap == rhs._wrap; }
 
     TEMPL
-    ME::filteredIterator::filteredIterator(const me* owner, const wrap* pair, const K& key):
-        iterator(owner, pair), _key(&key) {}
+    ME::filteredIterator::filteredIterator(const me* owner, const wrap* pair, nbool isReversed,
+        const K& key):
+        iterator(owner, pair, isReversed), _key(&key) {}
 
     TEMPL
     typename ME::iterator& ME::filteredIterator::operator++() {
@@ -109,20 +111,24 @@ namespace nm {
     ncnt ME::size() const { return _map.size(); }
 
     TEMPL
-    typename ME::iterator ME::begin() const { return iterator(this, _end._next); }
+    typename ME::iterator ME::begin() const { return iterator(this, _end._next, false); }
 
     TEMPL
-    typename ME::iterator ME::end() const { return iterator(this, &_end); }
+    typename ME::iterator ME::end() const { return iterator(this, &_end, false); }
 
     TEMPL
-    typename ME::filteredIterator ME::begin(const K& key) const {
-        auto ret = filteredIterator(this, &_end, key);
-        ++ret;
-        return ret;
-    }
+    typename ME::filteredIterator ME::begin(const K& key) const { return _begin(key, false); }
 
     TEMPL
-    void ME::insert(const K& key, V&& val) {
+    typename ME::iterator ME::rbegin() const { return iterator(this, _end._prev, true); }
+
+    TEMPL
+    typename ME::iterator ME::rend() const { return iterator(this, &_end, true); }
+
+    TEMPL
+    typename ME::filteredIterator ME::rbegin(const K& key) const { return _begin(key, true); }
+
+    TEMPL void ME::insert(const K& key, V&& val) {
         auto e = _map.insert(typename stlMap::value_type(key, wrap(std::forward<V>(val))));
         if(e == _map.end()) return;
         e->second._key = &e->first;
@@ -189,6 +195,13 @@ namespace nm {
     void ME::_unlink(wrap& toDelete) {
         toDelete._prev->_next = toDelete._next;
         toDelete._next->_prev = toDelete._prev;
+    }
+
+    TEMPL
+    typename ME::filteredIterator ME::_begin(const K& key, nbool isReversed) const {
+        auto ret = filteredIterator(this, &_end, isReversed, key);
+        ++ret;
+        return ret;
     }
 
 #undef TEMPL

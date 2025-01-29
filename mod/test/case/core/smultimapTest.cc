@@ -221,3 +221,16 @@ TEST_F(smultimapTest, delElementButKeepOrder) {
     for(auto& val : scope)
         ASSERT_EQ(((nInt&) *val).get(), expects[n++]);
 }
+
+TEST_F(smultimapTest, reverseIterator) {
+    scope.insert("1", *new nInt(1));
+    scope.insert("2", *new nInt(2));
+    scope.insert("1", *new nInt(3));
+    scope.insert("2", *new nInt(4));
+    scope.insert("1", *new nInt(5));
+
+    int expects[] = {5, 4, 3, 2, 1};
+    int n = 0;
+    for(auto re = scope.rbegin(); re != scope.rend() ;++re)
+        ASSERT_EQ(re->cast<nint>(), expects[n++]);
+}
