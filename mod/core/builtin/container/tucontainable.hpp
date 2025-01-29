@@ -56,7 +56,7 @@ namespace nm {
 
         iter rbegin() const {
             static iter (me::*specifier)(ncnt) const = &me::riterate;
-            return (this->*specifier)(len()-1);
+            return (this->*specifier)(0);
         }
 
         virtual iter end() const {
@@ -73,7 +73,7 @@ namespace nm {
 
         virtual iter rend() const {
             static iter (me::*specifier)(ncnt) const = &me::riterate;
-            return (this->*specifier)(-1);
+            return (this->*specifier)(len());
         }
 
         virtual iter last() const {

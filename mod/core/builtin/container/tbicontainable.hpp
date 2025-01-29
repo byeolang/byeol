@@ -64,11 +64,11 @@ namespace nm {
         // iter:
         iter begin() const { return iterate(0); }
 
-        iter rbegin() const { return riterate(len() - 1); }
+        iter rbegin() const { return riterate(0); }
 
         virtual iter end() const { return iterate(len()); }
 
-        virtual iter rend() const { return riterate(-1); }
+        virtual iter rend() const { return riterate(len()); }
 
         virtual iter last() const { return iterate(len() - 1); }
 

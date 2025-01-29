@@ -5,12 +5,14 @@ class chainIteration: public iteration {
     friend class tnchain;
 
 public:
-    chainIteration(const tnchain& iteratingChain, const iter& conIter, nbool isReversed):
-        me(iteratingChain, conIter, nulOf<K>(), isReversed) {}
+    chainIteration(tnchain& iteratingChain, nbool isReversed):
+        me(iteratingChain, nulOf<K>(), isReversed) {}
 
-    chainIteration(const tnchain& iteratingChain, const iter& conIter, const K& byKey,
-        nbool isReversed):
-        super(isReversed), _ownIter(iteratingChain), _iter(conIter), _byKey(byKey) {
+    chainIteration(tnchain& iteratingChain, const K& byKey, nbool isReversed):
+        super(isReversed),
+        _ownIter(iteratingChain),
+        _iter(isReversed ? iteratingChain._map->rbegin() : iteratingChain._map->begin()),
+        _byKey(byKey) {
         if(!_iter) next(1);
     }
 

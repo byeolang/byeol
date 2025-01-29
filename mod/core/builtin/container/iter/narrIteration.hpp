@@ -5,7 +5,8 @@ class narrIteration: public iteration {
     friend class tnarr;
 
 public:
-    narrIteration(tnarr& own, nidx n, nbool isReversed): super(isReversed), _n(n), _own(own) {}
+    narrIteration(tnarr& own, nidx n, nbool isReversed):
+        super(isReversed), _n(isReversed ? own.len() - 1 - n : n), _own(own) {}
 
     nbool isEnd() const override { return !_own.in(_n); }
 

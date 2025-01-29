@@ -405,11 +405,10 @@ TEST_F(nmapTest, simpleReversedIterator) {
     map1.add("4", *new nInt(4));
 
     int expects[] = {4, 3, 2, 1};
-    int n = 0;
     auto re = map1.rbegin();
     ASSERT_FALSE(re.isEnd());
-    for(; re ;++re)
-        ASSERT_EQ(re->cast<nint>(), expects[n++]);
+    for(int n = 0; n < 4 ; n++, ++re)
+        ASSERT_EQ(re->cast<nint>(), expects[n]);
 }
 
 TEST_F(nmapTest, stepForwardReversedIterator) {
