@@ -82,9 +82,9 @@ namespace nm {
         }
 
     protected:
-        iteration* _onMakeIteration(ncnt step, nbool isReverse) const override {
+        iteration* _onMakeIteration(ncnt step, nbool isReversed) const override {
             me* unconst = const_cast<me*>(this);
-            return new narrIteration(*unconst, step, isReverse);
+            return new narrIteration(*unconst, step, isReversed);
         }
 
     private:

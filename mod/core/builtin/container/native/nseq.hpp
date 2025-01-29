@@ -38,7 +38,7 @@ namespace nm {
         nbool in(nidx n) const override;
 
     protected:
-        iteration* _onMakeIteration(ncnt step, nbool isReverse) const override;
+        iteration* _onMakeIteration(ncnt step, nbool isReversed) const override;
 
     private:
         // these method has been prohibited.

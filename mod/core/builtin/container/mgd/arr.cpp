@@ -171,8 +171,8 @@ namespace nm {
 
     std::string me::asStr() const { return get().asStr(); }
 
-    me::iteration* me::_onMakeIteration(ncnt step, nbool isReverse) const {
-        return get()._onMakeIteration(step, isReverse);
+    me::iteration* me::_onMakeIteration(ncnt step, nbool isReversed) const {
+        return get()._onMakeIteration(step, isReversed);
     }
 
     namespace {

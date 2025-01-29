@@ -10,7 +10,7 @@ namespace nm {
 
     public:
         cpIter(const nchar* begin, const nchar* from);
-        cpIter(const std::string& from, nbool isReverse = false);
+        cpIter(const std::string& from, nbool isReversed = false);
 
     public:
         me operator+(ncnt step);

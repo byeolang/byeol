@@ -7,10 +7,10 @@ namespace nm {
     me::cpIter(const nchar* begin, const nchar* end):
         _begin(begin), _end(end), _isReverse(begin > end) {}
 
-    me::cpIter(const std::string& from, nbool isReverse):
-        _begin(isReverse ? from.c_str() + from.size() : from.c_str()),
-        _end(isReverse ? from.c_str() : from.c_str() + from.size()),
-        _isReverse(isReverse) {}
+    me::cpIter(const std::string& from, nbool isReversed):
+        _begin(isReversed ? from.c_str() + from.size() : from.c_str()),
+        _end(isReversed ? from.c_str() : from.c_str() + from.size()),
+        _isReverse(isReversed) {}
 
     me me::operator+(ncnt step) {
         next(step);

@@ -376,3 +376,65 @@ TEST_F(nmapTest, testEach) {
     ASSERT_EQ(arr2.len(), 1);
     ASSERT_EQ(arr2[0].get(), 2);
 }
+
+TEST_F(nmapTest, insertionOrderShouldBeKept) {
+    nmap map1; // nmap is using smultimap, sequential multi map.
+               // it's a sort of a map but rememebers insertion order.
+    map1.add("1", *new nInt(1));
+    map1.add("2", *new nInt(2));
+    map1.add("3", *new nInt(3));
+    map1.add("4", *new nInt(4));
+
+    int expects[] = {1, 2, 3, 4};
+    int n = 0;
+    for(const auto& val : map1)
+        ASSERT_EQ(val.cast<nInt>().get(), expects[n++]);
+
+    n = 0;
+    map1.each<nInt>([&](const auto& key, const nInt& val) -> nbool {
+        EXPECT_EQ(val.get(), expects[n++]);
+        return true;
+    });
+}
+
+TEST_F(nmapTest, simpleReversedIterator) {
+    nmap map1;
+    map1.add("1", *new nInt(1));
+    map1.add("2", *new nInt(2));
+    map1.add("3", *new nInt(3));
+    map1.add("4", *new nInt(4));
+
+    int expects[] = {4, 3, 2, 1};
+    int n = 0;
+    auto re = map1.rbegin();
+    ASSERT_FALSE(re.isEnd());
+    for(; re ;++re)
+        ASSERT_EQ(re->cast<nint>(), expects[n++]);
+}
+
+TEST_F(nmapTest, stepForwardReversedIterator) {
+    nmap map1;
+    map1.add("1", *new nInt(1));
+    map1.add("2", *new nInt(2));
+    map1.add("3", *new nInt(3));
+    map1.add("4", *new nInt(4));
+
+    auto re = map1.rbegin();
+    ASSERT_TRUE(re.isReversed());
+    ASSERT_EQ(re->cast<nint>(), 4);
+    ASSERT_EQ(re.getKey(), "4");
+
+    ++re; // 3
+    ++re; // 2
+    ASSERT_EQ(re->cast<nint>(), 2);
+
+    re.stepForward(2); // 4
+    ASSERT_EQ(re->cast<nint>(), 4);
+
+    re.stepBackward(1); // 3
+    ASSERT_EQ(re.getVal<nInt>().cast<nint>(), 3);
+
+    ASSERT_EQ(re.next(6), 2);
+    ASSERT_TRUE(re.isEnd());
+    ASSERT_EQ(re, map1.rend());
+}

@@ -335,4 +335,5 @@ TEST_F(narrTest, stepForwardReversedIterator) {
 
     ASSERT_EQ(re.next(6), 1);
     ASSERT_EQ(re.isEnd(), true);
+    ASSERT_EQ(re, arr1.rend());
 }

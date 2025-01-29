@@ -103,7 +103,7 @@ namespace nm {
         std::string asStr() const;
 
     protected:
-        iteration* _onMakeIteration(ncnt step, nbool isReverse) const override;
+        iteration* _onMakeIteration(ncnt step, nbool isReversed) const override;
 
     private:
         scope& _defGeneric(const baseObj& paramType);

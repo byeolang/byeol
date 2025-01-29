@@ -168,7 +168,7 @@ namespace nm {
         virtual void rel() = 0;
 
     protected:
-        virtual iteration* _onMakeIteration(ncnt step, nbool isReverse) const = 0;
+        virtual iteration* _onMakeIteration(ncnt step, nbool isReversed) const = 0;
     };
 
     typedef tucontainable<node> ucontainable;

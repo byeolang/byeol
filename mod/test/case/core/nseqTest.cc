@@ -45,4 +45,5 @@ TEST_F(nseqTest, stepForwardReversedIterator) {
 
     ASSERT_EQ(re.next(6), 1);
     ASSERT_TRUE(re.isEnd());
+    ASSERT_EQ(re, s.rend());
 }

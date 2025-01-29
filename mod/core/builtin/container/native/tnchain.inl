@@ -197,18 +197,18 @@ namespace nm {
     const ME& ME::getNext() const { return *_next; }
 
     TEMPL
-    typename ME::iteration* ME::_onMakeIteration(ncnt step, nbool isReverse) const {
+    typename ME::iteration* ME::_onMakeIteration(ncnt step, nbool isReversed) const {
         // TODO: optimize using containerIteration
         me* unconst = const_cast<me*>(this);
-        iteration* ret = new chainIteration(*unconst, _map->begin(), isReverse);
+        iteration* ret = new chainIteration(*unconst, _map->begin(), isReversed);
         ret->next(step);
         return ret;
     }
 
     TEMPL
-    typename ME::iteration* ME::_onMakeIteration(const K& key, nbool isReverse) const {
+    typename ME::iteration* ME::_onMakeIteration(const K& key, nbool isReversed) const {
         me* unconst = const_cast<me*>(this);
-        return new chainIteration(*unconst, _map->iterate(key), key, isReverse);
+        return new chainIteration(*unconst, _map->iterate(key), key, isReversed);
     }
 
     TEMPL

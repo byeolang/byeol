@@ -172,8 +172,8 @@ namespace nm {
 
     me::nStr(const std::string& val): super(val) {}
 
-    me::iteration* me::_onMakeIteration(ncnt step, nbool isReverse) const {
-        return new bridgeIteration((me&) *this, step, isReverse);
+    me::iteration* me::_onMakeIteration(ncnt step, nbool isReversed) const {
+        return new bridgeIteration((me&) *this, step, isReversed);
     }
 
     namespace {

@@ -52,7 +52,7 @@ namespace nm {
 
 
     protected:
-        iteration* _onMakeIteration(ncnt step, nbool isReverse) const override;
+        iteration* _onMakeIteration(ncnt step, nbool isReversed) const override;
 
         tstr<arithmeticObj> _add(const arithmeticObj& rhs, nbool reversed) const override;
         tstr<arithmeticObj> _sub(const arithmeticObj& rhs, nbool reversed) const override;

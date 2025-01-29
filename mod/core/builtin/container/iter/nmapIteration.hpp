@@ -5,8 +5,17 @@ class nmapIteration: public iteration {
     friend class tnmap;
 
 public:
-    nmapIteration(tnmap& own, citer start, citer end, nbool isReversed):
-        super(isReversed), _own(own), _citer(start), _end(end) {}
+    nmapIteration(tnmap& own, nbool isReversed):
+        super(isReversed),
+        _own(own),
+        _citer(isReversed ? own._map.rbegin() : own._map.begin()),
+        _end(isReversed ? own._map.rend() : own._map.end()) {}
+
+    nmapIteration(tnmap& own, const K& key, nbool isReversed):
+        super(isReversed),
+        _own(own),
+        _citer(isReversed ? own._map.rbegin(key) : own._map.begin(key)),
+        _end(isReversed ? own._map.rend() : own._map.end()) {}
 
     nbool isEnd() const override { return _citer == _end; }
 
@@ -14,11 +23,11 @@ public:
     /// which means to the End of a buffer.
     /// however, this step wasn't regarded to a step even though it proceeds.
     ncnt stepForward(ncnt step) override {
-        return _step([&]() { ++_citer; }, step);
+        return _step([&]() { this->isReversed() ? --_citer : ++_citer; }, step);
     }
 
     ncnt stepBackward(ncnt step) override {
-        return _step([&]() { --_citer; }, step);
+        return _step([&]() { this->isReversed() ? ++_citer : --_citer; }, step);
     }
 
     const K& getKey() const override {
