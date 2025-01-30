@@ -24,6 +24,8 @@ namespace nm {
     public:
         nbool isEnd() const;
 
+        void rel();
+
         /// Moves the iterator in the direction you specified when you created it.
         /// if you created a `reverse iterator`, this func will move it by steps in the reverse
         /// direction.

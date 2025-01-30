@@ -10,6 +10,10 @@ public:
 
     nbool isEnd() const override { return !_own.in(_n); }
 
+    void rel() override {
+        _n = this->isReversed() ? -1 : _own.len();
+    }
+
     /// if iteration reached to the last element to iterate, it can precede to next,
     /// which means to the End of a buffer.
     /// however, this step wasn't regarded to a step even though it proceeds.

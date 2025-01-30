@@ -9,6 +9,8 @@ public:
 
     virtual nbool isReversed() const = 0;
 
+    virtual void rel() = 0;
+
     /// proceed iteration obj to point next element by given step.
     /// @param  step    how much it proceeds.
     ///                 positive value only.

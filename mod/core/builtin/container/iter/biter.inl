@@ -53,6 +53,9 @@ namespace nm {
     nbool ME::isReversed() const { return _iteration ? _iteration->isReversed() : false; }
 
     TEMPL
+    void ME::rel() { _iteration THEN(rel()); }
+
+    TEMPL
     nbool ME::isFrom(const tbicontainable& it) const {
         if(!_iteration) return false;
         return _iteration->isFrom(it);
@@ -78,17 +81,17 @@ namespace nm {
 
     TEMPL
     ncnt ME::next(ncnt step) {
-        return _step([&]()->ncnt { return _iteration->next(1); }, step);
+        return _step([&]() -> ncnt { return _iteration->next(1); }, step);
     }
 
     TEMPL
     ncnt ME::stepForward(ncnt step) {
-        return _step([&]()->ncnt { return _iteration->stepForward(1); }, step);
+        return _step([&]() -> ncnt { return _iteration->stepForward(1); }, step);
     }
 
     TEMPL
     ncnt ME::stepBackward(ncnt step) {
-        return _step([&]()->ncnt { return _iteration->stepBackward(1); }, step);
+        return _step([&]() -> ncnt { return _iteration->stepBackward(1); }, step);
     }
 
     TEMPL

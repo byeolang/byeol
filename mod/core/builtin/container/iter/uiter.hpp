@@ -32,6 +32,8 @@ public:
 public:
     nbool isReversed() const override;
 
+    void rel() override;
+
     nbool isFrom(const tucontainable& it) const override;
     nbool isEnd() const override;
     ncnt next(ncnt step) override;

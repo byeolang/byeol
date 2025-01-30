@@ -23,7 +23,7 @@ namespace nm {
         // link:
         using super::link;
 
-        nbool link(const super& new1) override { return false; }
+        nbool link(const typename super::iter& new1) override { return false; }
 
     public:
         static me singletone;

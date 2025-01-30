@@ -53,6 +53,10 @@ namespace nm {
 
             nbool isEnd() const override { return _e.isEnd(); }
 
+            void rel() override {
+                _e.rel();
+            }
+
             ncnt stepForward(ncnt step) override { return _e.stepForward(step); }
             ncnt stepBackward(ncnt step) override { return _e.stepBackward(step); }
 

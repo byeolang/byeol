@@ -45,11 +45,16 @@ namespace nm {
         ///        if iterator is not the begin of another chain,
         ///        this chain won't link unaccessible elements via given iterator.
         ///        using this point, you can choose which elements to link and which elements not.
-        /// @param nextIter this iterator should be belong to another chain instance.
+        ///        even if you specified a reverse iterator to link, this chain will only traverse
+        ///        in reverse way for that container refered by the reversed iterator.
+        /// @param portion this iterator should be belong to another chain instance.
         ///                 of course you can input this iterator with reversed one.
+        ///                 if this iterator reached to the end, chain iterator will be forward to
+        ///                 next chain instance.
         /// @return false when to make a link didn't work.
         ///               for instance, if iterator is belonged to this chain or nullptr.
-        virtual nbool link(const me& new1);
+        virtual nbool link(const iter& portion);
+        nbool link(const me& new1);
         nbool unlink();
 
         // del:
@@ -117,6 +122,6 @@ namespace nm {
 
     private:
         tstr<super> _map;
-        tstr<me> _next;
+        iter _next;
     };
 } // namespace nm

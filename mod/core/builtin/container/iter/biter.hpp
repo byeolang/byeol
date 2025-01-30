@@ -30,6 +30,8 @@ public:
 public:
     nbool isReversed() const override;
 
+    void rel() override;
+
     nbool isFrom(const tbicontainable& it) const override;
     nbool isEnd() const override;
 

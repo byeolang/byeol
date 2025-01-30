@@ -41,6 +41,10 @@ namespace nm {
 
     nbool me::isEnd() const { return !_begin || !*_begin; }
 
+    void me::rel() {
+        _begin = _end;
+    }
+
     ncnt me::next(ncnt step) { return _isReverse ? stepBackward(step) : stepForward(step); }
 
     ncnt me::stepForward(ncnt step) {

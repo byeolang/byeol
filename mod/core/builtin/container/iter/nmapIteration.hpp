@@ -19,6 +19,10 @@ public:
 
     nbool isEnd() const override { return _citer == _end; }
 
+    void rel() override {
+        _citer = _end;
+    }
+
     /// if iteration reached to the last element to iterate, it can precede to next,
     /// which means to the End of a buffer.
     /// however, this step wasn't regarded to a step even though it proceeds.

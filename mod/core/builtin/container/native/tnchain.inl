@@ -16,7 +16,7 @@ namespace nm {
     ME::tnchain(const super& arr): _map(arr) {}
 
     TEMPL
-    ME::tnchain(const super& org, const me& next): _map(org), _next(next) {}
+    ME::tnchain(const super& org, const me& next): _map(org) { link(next); }
 
     TEMPL
     ME::tnchain(const std::initializer_list<std::pair<K, V*>>& elems) {
@@ -105,25 +105,18 @@ namespace nm {
         return ret;
     }
 
-    /*TEMPL
-    tstr<ME> ME::link(const super& new1) {
-        if(nul(new1)) return tstr<ME>();
+    TEMPL
+    nbool ME::link(const iter& portion) {
+        ME& next = (ME&) (portion THEN(getContainer())) orRet false;
+        if(&next == this)
+            return NM_W("recursive link detected for portion(%s).", (void*) &next), false;
 
-        ME& ret = *wrap<ME>(new1);
-        link(ret);
-        return tstr<ME>(ret);
-    }*/
+        _next = portion;
+        return true;
+    }
 
     TEMPL
-    nbool ME::link(const ME& new1) {
-        if(nul(new1) || nul(new1.getContainer())) return false;
-        if(&new1 == this)
-            return NM_W("recursive link detected!! new1(%s) is this(%s).", (void*) &new1,
-                       (void*) this),
-                   false;
-
-        return _next.bind(new1);
-    }
+    nbool ME::link(const ME& new1) { return link(new1.begin()); }
 
     TEMPL
     nbool ME::unlink() {
@@ -134,8 +127,8 @@ namespace nm {
     TEMPL
     ME& ME::getTail() {
         me* ret = this;
-        while(ret->_next)
-            ret = &ret->_next.get();
+        while(ret && !ret->_next.isEnd())
+            ret = (ME*) &ret->_next.getContainer();
         return *ret;
     }
 
@@ -147,16 +140,14 @@ namespace nm {
         me* e = this;
         const me* next = &rhs.getNext();
         while(next) {
-            e->_next.bind(new me(*(super*) next->getContainer().cloneDeep()));
+            e->link(*new me(*(super*) next->getContainer().cloneDeep()));
             e = &e->getNext();
             next = &next->getNext();
         }
     }
 
     TEMPL
-    ME* ME::wrap(const super& toShallowWrap) {
-        return wrap<ME>(toShallowWrap);
-    }
+    ME* ME::wrap(const super& toShallowWrap) { return wrap<ME>(toShallowWrap); }
 
     TEMPL
     ME* ME::cloneChain(const super& until) const {
@@ -165,11 +156,11 @@ namespace nm {
         ME* retElem = ret;
         while(e) {
             ME* new1 = new ME(e->getContainer());
-            retElem->_next.bind(new1);
+            retElem->link(*new1);
             retElem = new1;
 
             if(&e->getContainer() == &until) break;
-            e.bind(e->_next.get());
+            e.bind((me&) e->_next.getContainer());
         }
 
         return ret;
@@ -196,10 +187,10 @@ namespace nm {
     const SUPER& ME::getContainer() const { return *_map; }
 
     TEMPL
-    ME& ME::getNext() { return *_next; }
+    ME& ME::getNext() { return (ME&) _next.getContainer(); }
 
     TEMPL
-    const ME& ME::getNext() const { return *_next; }
+    const ME& ME::getNext() const { return (ME&) _next.getContainer(); }
 
     TEMPL
     typename ME::iteration* ME::_onMakeIteration(ncnt step, nbool isReversed) const {

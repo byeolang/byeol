@@ -18,6 +18,10 @@ public:
 
     nbool isEnd() const override { return !_ownIter->_next && !_iter; }
 
+    void rel() override {
+        _iter.rel();
+    }
+
     ncnt next(ncnt step) override {
         return _step([&](ncnt remain) -> ncnt { return _iter.next(remain); }, step);
     }
@@ -64,7 +68,7 @@ private:
 
             // _iter moved to 'End' state now.
             if(isEnd()) break;
-            _ownIter = _ownIter->_next;
+            _ownIter.bind((tnchain&) _ownIter->_next.getContainer());
             _iter = nul(_byKey) ? _ownIter->_map->begin() : _ownIter->_map->iterate(_byKey);
             if(_iter) remain--;
         }
