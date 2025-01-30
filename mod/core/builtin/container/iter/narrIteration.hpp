@@ -16,11 +16,11 @@ public:
     ncnt stepForward(ncnt step) override {
         if(step <= 0) return 0;
         if(isEnd()) return 0;
-        int len = _own.len(), lastN = len - 1;
-        int toLast = lastN - _n;
+        int len = _own.len();
+        int toLast = len - 1 - _n;
 
         _n += step;
-        if(_n >= lastN) {
+        if(_n >= len) {
             _n = len;
             step = toLast;
         }
