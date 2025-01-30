@@ -651,7 +651,7 @@ namespace nm {
         _onInjectObjSubs(subpack, blk);
 
         // link system slots:
-        subpack.getShares().link(thread::get().getSlots());
+        subpack.getShares().link(*scope::wrap(thread::get().getSlots()));
         NM_DI("link system slots[%d]: len=%d", thread::get().getSlots().len(),
             subpack.subs().len());
 

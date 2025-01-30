@@ -399,7 +399,7 @@ TEST_F(nchainTest, testShouldLinkOverwritePrevious) {
     chn2.add("3", new myNode(3));
     ASSERT_EQ(chn2.len(), 2);
 
-    ASSERT_TRUE(chn2.link(*map1Str));
+    ASSERT_TRUE(chn2.link(*chn2.wrap(*map1Str)));
     ASSERT_EQ(map1tag->getStrongCnt(), 2);
     // chn2 --> unknown chain instance holding map1
     ASSERT_EQ(chn2.len(), 4);
@@ -411,7 +411,7 @@ TEST_F(nchainTest, testShouldLinkOverwritePrevious) {
 
     nmap map2;
     ASSERT_TRUE(map1Weak.isBind());
-    chn2.link(map2);
+    chn2.link(*chn2.wrap(map2));
     ASSERT_EQ(map1tag->getStrongCnt(), 0);
     // this overwrites chain containing map1. it's now dangling.
     // chn2(2, 3) --> unknown chain instance holding map2(null)
@@ -432,7 +432,8 @@ TEST_F(nchainTest, testDelWithLink) {
         map1.add("2", new myNode(2));
         map1.add("3", new myNode(3));
 
-        auto map1Str = chn.link(map1);
+        auto map1Str = chn.wrap(map1);
+        chn.link(*map1Str);
         // chn --> map1Str with map1
         //  ^
         //  |
@@ -444,7 +445,8 @@ TEST_F(nchainTest, testDelWithLink) {
             map2.add("4", new myNode(4));
             map2.add("5", new myNode(5));
             map2.add("6", new myNode(6));
-            auto map2Str = map1Str->link(map2);
+            auto map2Str = nchain::wrap(map2);
+            map1Str->link(*map2Str);
             map2Weak = map2Str;
             // now, chn --> map1Str with map1 --> map2Str with map2
             ASSERT_EQ(map2Str->len(), 3);
@@ -523,7 +525,7 @@ TEST_F(nchainTest, testLinkArrayAndChain) {
     nmap map2;
     map2.add("4", new myNode(4));
     map2.add("5", new myNode(5));
-    chn2.link(map2);
+    chn2.link(*chn2.wrap(map2));
     ASSERT_EQ(chn2.len(), 3);
     ASSERT_FALSE(nul(chn2.getNext()));
     ASSERT_EQ(&chn2.getNext().getContainer(), &map2);

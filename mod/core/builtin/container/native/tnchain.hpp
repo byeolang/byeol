@@ -41,7 +41,6 @@ namespace nm {
         using super::add;
         nbool add(const K& key, const V& val) override;
 
-        tstr<me> link(const super& new1);
         /// @brief link to another chain instance.
         ///        if iterator is not the begin of another chain,
         ///        this chain won't link unaccessible elements via given iterator.
@@ -94,6 +93,8 @@ namespace nm {
 
             return ret;
         }
+
+        static me* wrap(const super& toShallowWrap);
 
         /// mock this chain and let it chain another container differ to original.
         /// this func keep accessing next element to chain it.

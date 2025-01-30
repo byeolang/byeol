@@ -105,14 +105,14 @@ namespace nm {
         return ret;
     }
 
-    TEMPL
+    /*TEMPL
     tstr<ME> ME::link(const super& new1) {
         if(nul(new1)) return tstr<ME>();
 
         ME& ret = *wrap<ME>(new1);
         link(ret);
         return tstr<ME>(ret);
-    }
+    }*/
 
     TEMPL
     nbool ME::link(const ME& new1) {
@@ -151,6 +151,11 @@ namespace nm {
             e = &e->getNext();
             next = &next->getNext();
         }
+    }
+
+    TEMPL
+    ME* ME::wrap(const super& toShallowWrap) {
+        return wrap<ME>(toShallowWrap);
     }
 
     TEMPL

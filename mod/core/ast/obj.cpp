@@ -35,7 +35,7 @@ namespace nm {
     }
 
     me& me::_assign(const me& rhs) {
-        scope* clonedOwns = scope::wrap<scope>(*(scope::super*) _cloneEach(rhs));
+        scope* clonedOwns = scope::wrap(*(scope::super*) _cloneEach(rhs));
         clonedOwns->link(rhs.getShares());
         _subs.bind(*clonedOwns);
 
