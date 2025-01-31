@@ -108,7 +108,7 @@ namespace nm {
 
     TEMPL
     typename ME& ME::_assign(const me& rhs) {
-        _iteration.bind((iteration*) rhs._iteration->clone());
+        _iteration.bind(rhs._iteration ? (iteration*) rhs._iteration->clone() : nullptr);
         return *this;
     }
 
