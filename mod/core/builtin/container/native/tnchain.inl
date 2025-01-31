@@ -107,7 +107,7 @@ namespace nm {
 
     TEMPL
     nbool ME::link(const iter& portion) {
-        ME& next = (ME&) (portion THEN(getContainer())) orRet false;
+        ME& next = typeProvidable::safeCast<ME>((portion THEN(getContainer()))) orRet false;
         if(&next == this)
             return NM_W("recursive link detected for portion(%s).", (void*) &next), false;
 
@@ -187,10 +187,10 @@ namespace nm {
     const SUPER& ME::getContainer() const { return *_map; }
 
     TEMPL
-    ME& ME::getNext() { return (ME&) _next.getContainer(); }
+    ME& ME::getNext() { return typeProvidable::safeCast<ME>(_next.getContainer()); }
 
     TEMPL
-    const ME& ME::getNext() const { return (ME&) _next.getContainer(); }
+    const ME& ME::getNext() const { return typeProvidable::safeCast<ME>(_next.getContainer()); }
 
     TEMPL
     typename ME::iteration* ME::_onMakeIteration(ncnt step, nbool isReversed) const {

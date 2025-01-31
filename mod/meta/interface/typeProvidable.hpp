@@ -38,6 +38,18 @@ namespace nm {
             return *(T*) cast(ttype<T>::get());
         }
 
+        /// namu is using a null reference.
+        /// you should always try to cast null references to other types only via cast<T> or
+        /// safeCast<T> instead of (T&) because attempting to cast direclty a null reference to
+        /// another type can result in a garbage address.
+        template <typename T, typename A> static T& safeCast(const A& any) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wtautological-undefined-compare"
+            if(&any == nullptr) return nulOf<T>();
+#pragma clang diagnostic pop
+            return (T&) any;
+        }
+
         template <typename T> const T& cast() const NM_CONST_FUNC(cast<T>())
 
         virtual void* cast(const type& to);
