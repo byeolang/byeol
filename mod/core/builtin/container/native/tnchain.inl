@@ -134,7 +134,7 @@ namespace nm {
 
     TEMPL
     void ME::onCloneDeep(const clonable& from) {
-        me& rhs = (me&) from;
+        me& rhs = typeProvidable::safeCast<me>(from);
         _map.bind(*(super*) rhs._map->cloneDeep());
 
         me* e = this;
@@ -160,7 +160,7 @@ namespace nm {
             retElem = new1;
 
             if(&e->getContainer() == &until) break;
-            e.bind((me&) e->_next.getContainer());
+            e.bind(typeProvidable::safeCast<me>(e->_next.getContainer()));
         }
 
         return ret;

@@ -32,6 +32,7 @@ public:
 public:
     nbool isReversed() const override;
 
+    /// once rel(), an iterator enters a state where it can never be reused again.
     void rel() override;
 
     nbool isFrom(const tucontainable& it) const override;

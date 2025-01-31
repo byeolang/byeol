@@ -16,10 +16,14 @@ public:
         if(!_iter) next(1);
     }
 
-    nbool isEnd() const override { return !_ownIter->_next && !_iter; }
+    nbool isEnd() const override {
+        if(!_ownIter) return true;
+        return !_ownIter->_next && !_iter;
+    }
 
     void rel() override {
         _iter.rel();
+        _ownIter.rel();
     }
 
     ncnt next(ncnt step) override {
