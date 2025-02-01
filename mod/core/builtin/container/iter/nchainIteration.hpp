@@ -18,7 +18,7 @@ public:
 
     nbool isEnd() const override {
         if(!_ownIter) return true;
-        return !_ownIter->_next && !_iter;
+        return nul(_ownIter->_next.getContainer()) && !_iter;
     }
 
     void rel() override {
