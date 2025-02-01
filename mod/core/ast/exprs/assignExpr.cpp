@@ -37,9 +37,9 @@ namespace nm {
         str ased = cast THEN(getMe()) THEN(template as<node>()) orRet NM_E("ased == null"), iter();
         frame& fr = ased->cast<frame>();
         if(!nul(fr)) {
-            node& owner = fr.getOwnerHaving(*cast.as<node>());
-            if(!nul(owner))
-                ased.bind(owner);
+            scope& s = fr.getScopeHaving(*cast.as<node>());
+            if(!nul(s))
+                return s.iterate(cast.getName());
         }
 
         if(!ased) return exMaker::make(COULDNT_GET_ITER_FOR_LHS, cast.getName().c_str()), iter();

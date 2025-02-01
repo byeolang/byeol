@@ -40,30 +40,14 @@ namespace nm {
         locals.add(name, n);
     }
 
-    node& me::_getOwner(const node& toFind, std::function<node*(nbool, scopeRegister&)> cl) {
-        if(nul(toFind)) return nulOf<node>();
-
-        [[maybe_unused]] const nchar* name = toFind.getType().getName().c_str();
-        for(auto& reg: _stack) {
-            nbool isOwner = reg.s->in(toFind);
-            NM_DI("sub[%s] is in owner[%s]? == %s", name, *reg.owner, isOwner);
-            node* ret = cl(isOwner, reg);
-            if(ret) return *ret;
-        }
-
-        NM_E("couldn't find owner of %s", toFind);
-        return nulOf<node>();
-    }
-
-    node& me::getOwnerHaving(const node& sub) {
-        return _getOwner(sub, [&](nbool isOwner, scopeRegister& reg) -> node* {
-            return isOwner ? &reg.owner.get() : nullptr;
-        });
+    scope& me::getScopeHaving(const node& sub) {
+        return _getOwner<scope>(
+            sub, [&](nbool, auto& reg) { return &reg.s.get(); });
     }
 
     node& me::getMeHaving(const node& sub) {
         node* lastOwner = nullptr;
-        return _getOwner(sub, [&](nbool isOwner, scopeRegister& reg) -> node* {
+        return _getOwner<node>(sub, [&](nbool isOwner, scopeRegister& reg) -> node* {
             lastOwner = reg.owner ? &reg.owner.get() : lastOwner;
             return isOwner ? lastOwner : nullptr; // returning null let the loop keep searching.
         });

@@ -53,8 +53,8 @@ namespace nm {
 
         node& getMeHaving(const node& sub);
         const node& getMeHaving(const node& sub) const NM_CONST_FUNC(getMeHaving(sub))
-        node& getOwnerHaving(const node& sub);
-        const node& getOWnerHaving(const node& sub) const NM_CONST_FUNC(getOwnerHaving(sub))
+        scope& getScopeHaving(const node& sub);
+        const scope& getScopeHaving(const node& sub) const NM_CONST_FUNC(getScopeHaving(sub))
 
         // node:
         using node::subs;
@@ -78,7 +78,23 @@ namespace nm {
         void _rel();
         scopeRegister& _getTop();
         const scopeRegister& _getTop() const NM_CONST_FUNC(_getTop())
-        node& _getOwner(const node& toFind, std::function<node*(nbool, scopeRegister&)> cl);
+
+        template <typename T>
+        T& _getOwner(const node& toFind, std::function<T*(nbool, scopeRegister&)> cl) {
+            if(nul(toFind)) return nulOf<T>();
+
+            [[maybe_unused]] const nchar* name = toFind.getType().getName().c_str();
+            for(auto& reg: _stack) {
+                nbool has = reg.s->in(toFind);
+                NM_DI("`%s` is in `%s` scope? --> %s", name,
+                    reg.owner ? reg.owner->getSrc().getName() : "{local}", has);
+                T* ret = cl(has, reg);
+                if(ret) return *ret;
+            }
+
+            NM_E("couldn't find owner of %s", toFind);
+            return nulOf<T>();
+        }
 
     private:
         str _me;
