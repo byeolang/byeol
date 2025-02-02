@@ -11,6 +11,7 @@ namespace nm {
 
     public:
         srcFile(const std::string& fileName, const std::string& contents);
+        srcFile();
 
     public:
         priorType prioritize(const args& a) const override;

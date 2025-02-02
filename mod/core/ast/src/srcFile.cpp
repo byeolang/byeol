@@ -7,6 +7,8 @@ namespace nm {
 
     NM(DEF_ME(srcFile), DEF_VISIT())
 
+    me::srcFile(): me("", "") {}
+
     me::srcFile(const std::string& fileName, const std::string& contents):
         _fileName(fileName), _contents(contents) {}
 
