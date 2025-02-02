@@ -17,7 +17,7 @@ namespace nm {
     using platformAPI::foreColor;
     using namespace std;
 
-    me::graphVisitor(): super(true) {}
+    me::graphVisitor(): super(false) {}
 
     void me::_onWork() {
         _parentsLast.push_back(true);
