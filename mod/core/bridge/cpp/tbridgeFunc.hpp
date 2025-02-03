@@ -3,6 +3,7 @@
 #include "../../ast/args.hpp"
 #include "../../ast/baseFunc.hpp"
 #include "../../ast/params.hpp"
+#include "../../ast/src/dumSrc.hpp"
 
 namespace nm {
 
@@ -20,7 +21,8 @@ namespace nm {
             _fptr(fptr),
             _type("bridgeFunc", ttype<me>::get(),
                 params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...),
-                false, *ret) {}
+                false, *ret),
+            _src(dumSrc::singletone()) {}
 
     public:
         static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal()) ==
@@ -50,6 +52,10 @@ namespace nm {
             this->_type.onCloneDeep(rhs._type);
         }
 
+        const src& getSrc() const override { return *_src; }
+
+        void setSrc(const src& new1) { _src.bind(new1); }
+
     protected:
         virtual str _runNative(args& args) = 0;
 
@@ -74,6 +80,7 @@ namespace nm {
     protected:
         fptrType _fptr;
         mutable mgdType _type;
+        tstr<src> _src;
     };
 
     template <typename Ret, typename T, nbool isBaseObj,

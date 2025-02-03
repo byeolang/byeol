@@ -7,6 +7,7 @@
 #include "tbridgeClosure.hpp"
 #include "tbridgeCtor.hpp"
 #include "tbridgeFunc.hpp"
+#include "../../ast/src/dumSrcFile.hpp"
 
 namespace nm {
 
@@ -174,34 +175,41 @@ namespace nm {
         template <typename Ret, typename... Args>
         static me& funcConst(const std::string& name, Ret (T::*fptr)(Args...) const) {
             typedef typename T::super s;
-            return func(name,
-                new tbridgeFunc<Ret, T, true, tmarshaling, Args...>((Ret(T::*)(Args...)) fptr));
+            auto* fun =
+                new tbridgeFunc<Ret, T, true, tmarshaling, Args...>((Ret(T::*)(Args...)) fptr);
+            fun->setSrc(*new src(dumSrcFile::singletone(), name, point{0, 0}));
+            return func(name, fun);
         }
 
         template <typename Ret, typename... Args>
         static me& genericFunc(const std::string& name, Ret (T::*fptr)(Args...)) {
-            return func(name, new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(fptr));
+            auto* fun = new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(fptr);
+            fun->setSrc(*new src(dumSrcFile::singletone(), name, point{0, 0}));
+            return func(name, fun);
         }
 
         template <typename Ret, typename... Args>
         static me& genericFuncNonConst(const std::string& name, Ret (T::*fptr)(Args...)) {
-            return func(name,
-                new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(
-                    (Ret(T::*)(Args...)) fptr));
+            auto* fun = new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(
+                (Ret(T::*)(Args...)) fptr);
+            fun->setSrc(*new src(dumSrcFile::singletone(), name, point{0, 0}));
+            return func(name, fun);
         }
 
         template <typename Ret, typename... Args>
         static me& genericFunc(const std::string& name, Ret (T::*fptr)(Args...) const) {
-            return func(name,
-                new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(
-                    (Ret(T::*)(Args...)) fptr));
+            auto* fun = new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(
+                (Ret(T::*)(Args...)) fptr);
+            fun->setSrc(*new src(dumSrcFile::singletone(), name, point{0, 0}));
+            return func(name, fun);
         }
 
         template <typename Ret, typename... Args>
         static me& genericFuncConst(const std::string& name, Ret (T::*fptr)(Args...) const) {
-            return func(name,
-                new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(
-                    (Ret(T::*)(Args...)) fptr));
+            auto* fun = new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(
+                (Ret(T::*)(Args...)) fptr);
+            fun->setSrc(*new src(dumSrcFile::singletone(), name, point{0, 0}));
+            return func(name, fun);
         }
 
     private:
