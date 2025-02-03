@@ -84,7 +84,8 @@ namespace nm {
             if(nul(toFind)) return nulOf<T>();
 
             [[maybe_unused]] const nchar* name = toFind.getType().getName().c_str();
-            for(auto& reg: _stack) {
+            for(auto e = _stack.rbegin(); e != _stack.rend() ;++e) {
+                auto& reg = *e;
                 nbool has = reg.s->in(toFind);
                 NM_DI("`%s` is in `%s` scope? --> %s", name,
                     reg.owner ? reg.owner->getSrc().getName() : "{local}", has);
