@@ -72,13 +72,33 @@ namespace nm {
 
         virtual iter last() const { return iterate(len() - 1); }
 
-        iter iterate(ncnt step) const { return iter(_onMakeIteration(step, false)); }
+        iter iterate(ncnt step) const {
+            auto* e = _onMakeIteration(step, false);
+            e->next(step);
 
-        iter iterate(const K& key) const { return iter(_onMakeIteration(key, false)); }
+            return iter(e);
+        }
 
-        iter riterate(ncnt step) const { return iter(_onMakeIteration(step, true)); }
+        iter iterate(const K& key) const {
+            auto* e = _onMakeIteration(key, false);
+            if(!e->isEnd() && e->getKey() != key) e->next(1);
 
-        iter riterate(const K& key) const { return iter(_onMakeIteration(key, true)); }
+            return iter(e);
+        }
+
+        iter riterate(ncnt step) const {
+            auto* e = _onMakeIteration(step, true);
+            e->next(step);
+
+            return iter(e);
+        }
+
+        iter riterate(const K& key) const {
+            auto* e = _onMakeIteration(key, true);
+            if(!e->isEnd() && e->getKey() != key) e->next(1);
+
+            return iter(e);
+        }
 
         // add:
         virtual nbool add(const K& key, const V& val) = 0;

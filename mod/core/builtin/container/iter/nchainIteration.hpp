@@ -11,8 +11,7 @@ public:
     chainIteration(tnchain& iteratingChain, const K& byKey, nbool isReversed):
         super(isReversed),
         _ownIter(iteratingChain),
-        _iter(isReversed ? iteratingChain._map->rbegin() : iteratingChain._map->begin()),
-        _byKey(byKey) {
+        _iter(isReversed ? iteratingChain._map->riterate(byKey) : iteratingChain._map->iterate(byKey)) {
         if(!_iter) next(1);
     }
 
@@ -56,8 +55,6 @@ public:
 protected:
     nbool _onSame(const typeProvidable& rhs) const override {
         const me& cast = (const me&) rhs;
-        if(nul(_byKey) ? !nul(cast._byKey) : _byKey != cast._byKey) return false;
-
         return (isEnd() && cast.isEnd()) || _iter == cast._iter;
     }
 
@@ -73,7 +70,7 @@ private:
             // _iter moved to 'End' state now.
             if(isEnd()) break;
             _ownIter.bind((tnchain&) _ownIter->_next.getContainer());
-            _iter = nul(_byKey) ? _ownIter->_map->begin() : _ownIter->_map->iterate(_byKey);
+            _iter = _ownIter->_map->begin();
             if(_iter) remain--;
         }
 
@@ -83,5 +80,4 @@ private:
 private:
     tstr<tnchain> _ownIter; // _ownIter shouldn't be null always.
     iter _iter;
-    const K& _byKey;
 };

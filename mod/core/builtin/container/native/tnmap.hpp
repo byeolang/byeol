@@ -64,9 +64,7 @@ namespace nm {
     protected:
         iteration* _onMakeIteration(ncnt step, nbool isReversed) const override {
             me* unconst = const_cast<me*>(this);
-            iteration* ret = new nmapIteration(*unconst, isReversed);
-            ret->next(step);
-            return ret;
+            return new nmapIteration(*unconst, isReversed);
         }
 
         iteration* _onMakeIteration(const K& key, nbool isReversed) const override {

@@ -687,3 +687,39 @@ TEST_F(nchainTest, delWhileIteration) {
     ASSERT_EQ(m.get("apple").cast<int>(), 3);
     ASSERT_EQ(m.getAll("meat").len(), 3);
 }
+
+TEST_F(nchainTest, iterateForKey) {
+    nchain m;
+    m.add("meat", new nInt(1));
+    m.add("banana", new nInt(2));
+    m.add("apple", new nInt(3));
+    m.add("banana", new nInt(4));
+    m.add("meat", new nInt(5));
+    m.add("banana", new nInt(6));
+    m.add("meat", new nInt(7));
+    m.add("banana", new nInt(8));
+
+    {
+        auto e = m.iterate("apple");
+        ASSERT_FALSE(e.isEnd());
+        ASSERT_EQ(e.getKey(), "apple");
+        nInt& val = e->cast<nInt>();
+        ASSERT_EQ(val.get(), 3);
+    }
+
+    {
+        auto e = m.iterate("banana");
+        ASSERT_FALSE(e.isEnd());
+        ASSERT_EQ(e.getKey(), "banana");
+        nInt& val = e->cast<nInt>();
+        ASSERT_EQ(val.get(), 2);
+    }
+
+    {
+        auto e = m.riterate("banana");
+        ASSERT_FALSE(e.isEnd());
+        ASSERT_EQ(e.getKey(), "banana");
+        nInt& val = e->cast<nInt>();
+        ASSERT_EQ(val.get(), 8);
+    }
+}
