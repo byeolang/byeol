@@ -11,7 +11,10 @@ public:
     chainIteration(tnchain& iteratingChain, const K& byKey, nbool isReversed):
         super(isReversed),
         _ownIter(iteratingChain),
-        _iter(isReversed ? iteratingChain._map->riterate(byKey) : iteratingChain._map->iterate(byKey)) {
+        _iter(isReversed ?
+                (nul(byKey) ? iteratingChain._map->rbegin() :
+                              iteratingChain._map->riterate(byKey)) :
+                (nul(byKey) ? iteratingChain._map->begin() : iteratingChain._map->iterate(byKey))) {
         if(!_iter) next(1);
     }
 
