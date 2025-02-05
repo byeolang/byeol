@@ -11,8 +11,5 @@ namespace nm {
 
     public:
         retConvergence(baseObj& obj, baseFunc& f, const node& org);
-
-    private:
-        str _org;
     };
 }

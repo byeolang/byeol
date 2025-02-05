@@ -16,6 +16,5 @@ namespace nm {
 
     private:
         param* _p;
-        str _org;
     };
 }

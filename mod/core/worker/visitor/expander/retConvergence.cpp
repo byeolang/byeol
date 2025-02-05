@@ -6,16 +6,12 @@ namespace nm {
     NM(DEF_ME(retConvergence))
 
     me::retConvergence(baseObj& obj, baseFunc& f, const node& org):
-        super(obj, f,
-            [&]() {
-                str eval = _org->getEval() orRet false;
-                const node& owner = getFunc() THEN(getOrigin()) orRet false;
-                const frame& fr = thread::get().getNowFrame();
-                if(&fr.getMeHaving(*eval) != &owner) return false;
+        super(obj, f, org,
+            [&](const node& eval) {
+                auto& toConverge = (ntype&) getFunc().getType();
 
-                NM_I(" -> retConvergence: %s ==> %s", getFunc().getType().getRet(), *eval);
-                ((ntype&) getFunc().getType()).setRet(*eval);
+                NM_I(" -> retConvergence: %s ==> %s", toConverge.getRet(), eval);
+                toConverge.setRet(eval);
                 return true;
-            }),
-        _org(org) {}
+            }) {}
 }
