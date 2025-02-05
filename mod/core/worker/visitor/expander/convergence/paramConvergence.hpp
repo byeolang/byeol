@@ -1,6 +1,6 @@
 #pragma once
 
-#include "convergence.hpp"
+#include "evalConvergence.hpp"
 
 namespace nm {
 
@@ -8,8 +8,8 @@ namespace nm {
     class node;
     class func;
 
-    class paramConvergence: public convergence {
-        NM(CLASS(paramConvergence, convergence))
+    class paramConvergence: public evalConvergence {
+        NM(CLASS(paramConvergence, evalConvergence))
 
     public:
         paramConvergence(baseObj& o, baseFunc& f, param& p, const node& org);

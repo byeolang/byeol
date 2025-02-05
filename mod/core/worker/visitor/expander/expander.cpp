@@ -10,8 +10,7 @@
 #include "../../../frame/thread.hpp"
 #include "../../worker.inl"
 #include "../verifier.hpp"
-#include "paramConvergence.hpp"
-#include "retConvergence.hpp"
+#include "convergence.hpp"
 
 namespace nm {
 
@@ -55,7 +54,7 @@ namespace nm {
             me.setExplicitType(*type);
             return true;
         });
-        if(!req->getClosure()()) _cons.add(*req);
+        if(!req->convergeWithoutFrame()) _cons.add(*req);
         return true;
     }
 
@@ -68,7 +67,7 @@ namespace nm {
             me.setAs(*ased);
             return true;
         });
-        if(!req->getClosure()()) _cons.add(*req);
+        if(!req->convergeWithoutFrame()) _cons.add(*req);
         return true;
     }
 
@@ -159,8 +158,8 @@ namespace nm {
         //  try once now. if it's not successful, it may refered symbol not expanded yet.
         //  so in that case, I put it to a queue to process after expansion.
         NM_I("converge type request for param[%s] of %s", p, f);
-        tstr<convergence> req = new paramConvergence(*_obj.back(), f, p, org);
-        if(!req->getClosure()()) // I'll converge it later.
+        tstr<baseConvergence> req = new paramConvergence(*_obj.back(), f, p, org);
+        if(!req->convergeWithoutFrame()) // I'll converge it later.
             _cons.add(*req);
         return true;
     }
@@ -171,8 +170,8 @@ namespace nm {
 
         // need to converge return type:
         NM_I("converge type request for ret[%s] of %s", ret.getName(), f);
-        tstr<convergence> req = new retConvergence(*_obj.back(), f, ret);
-        if(!req->getClosure()()) // I'll converge it later
+        tstr<baseConvergence> req = new retConvergence(*_obj.back(), f, ret);
+        if(!req->convergeWithoutFrame()) // I'll converge it later
             _cons.add(*req);
     }
 

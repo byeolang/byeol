@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../visitor.hpp"
-#include "convergence.hpp"
+#include "convergence/baseConvergence.hpp"
 
 namespace nm {
 
@@ -55,7 +55,7 @@ namespace nm {
 
     private:
         std::map<obj*, expansion> _stack;
-        tnarr<convergence> _cons;
+        tnarr<baseConvergence> _cons;
         std::vector<obj*> _obj;
         std::vector<baseFunc*> _funcs;
     };
