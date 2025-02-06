@@ -2,6 +2,7 @@
 
 #include "../builtin/primitive/nInt.hpp"
 #include "../builtin/primitive/nStr.hpp"
+#include "../builtin/primitive/nVoid.hpp"
 #include "../worker/visitor/visitInfo.hpp"
 
 namespace nm {
@@ -9,7 +10,16 @@ namespace nm {
         return !nul(it) ? it.as<nStr>()->get() : "null";
     }
 
-    strWrap __convert__(const str& it) { return !nul(it) && it ? it->getType().getName() : "null"; }
+    strWrap __convert__(const str& it) {
+        if(nul(it)) return strWrap("null");
+
+        const std::string& name = it->getType().getName();
+        const arithmeticObj& cast = it->cast<arithmeticObj>();
+        if(nul(cast)) return name;
+        if(cast.isSub<nVoid>()) return name;
+
+        return strWrap(name + "(" + cast.as<nStr>()->get() + ")");
+    }
 
     strWrap __convert__(const src& it) { return nul(it) ? "null" : it.getName(); }
 
