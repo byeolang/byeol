@@ -13,11 +13,12 @@ namespace nm {
     class baseFunc;
     class param;
 
-    _nout strWrap __convert__(const arithmeticObj& rhs);
-    _nout strWrap __convert__(const str& rhs);
-    _nout strWrap __convert__(const src& rhs);
-    _nout strWrap __convert__(const baseFunc& rhs);
-    _nout strWrap __convert__(const param& rhs);
-    _nout strWrap __convert__(const visitInfo& rhs);
-    _nout strWrap __convert__(const modifier& rhs);
+    _nout strWrap __convert__(const node& it);
+    _nout strWrap __convert__(const str& it);
+    _nout strWrap __convert__(const arithmeticObj& it);
+    _nout strWrap __convert__(const src& it);
+    _nout strWrap __convert__(const baseFunc& it);
+    _nout strWrap __convert__(const param& it);
+    _nout strWrap __convert__(const visitInfo& it);
+    _nout strWrap __convert__(const modifier& it);
 }

@@ -6,19 +6,25 @@
 #include "../worker/visitor/visitInfo.hpp"
 
 namespace nm {
-    strWrap __convert__(const arithmeticObj& it) {
-        return !nul(it) ? it.as<nStr>()->get() : "null";
+
+    strWrap __convert__(const node& it) {
+        if(nul(it)) return strWrap("null");
+        const arithmeticObj& cast = it.cast<arithmeticObj>();
+        if(!nul(cast)) return __convert__(cast);
+
+        return __convert__((typeProvidable&) it);
     }
 
     strWrap __convert__(const str& it) {
+        return __convert__(*it);
+    }
+
+    strWrap __convert__(const arithmeticObj& it) {
+        const std::string& name = it.getType().getName();
         if(nul(it)) return strWrap("null");
+        if(it.isSub<nVoid>()) return name;
 
-        const std::string& name = it->getType().getName();
-        const arithmeticObj& cast = it->cast<arithmeticObj>();
-        if(nul(cast)) return name;
-        if(cast.isSub<nVoid>()) return name;
-
-        return strWrap(name + "(" + cast.as<nStr>()->get() + ")");
+        return strWrap(name + "(" + it.as<nStr>()->get() + ")");
     }
 
     strWrap __convert__(const src& it) { return nul(it) ? "null" : it.getName(); }
