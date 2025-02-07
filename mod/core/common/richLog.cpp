@@ -39,6 +39,8 @@ namespace nm {
         return it.getName() + " " + (nul(org) ? "null" : org.getType().getName());
     }
 
+    strWrap __convert__(const params& it) { return it.toStr(); }
+
     strWrap __convert__(const visitInfo& it) { return nul(it) ? "null" : it.name; }
 
     strWrap __convert__(const modifier& it) {
