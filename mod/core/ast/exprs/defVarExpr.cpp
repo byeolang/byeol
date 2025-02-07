@@ -15,14 +15,13 @@ namespace nm {
         _name(name), _rhs(rhs), _to(to), _src(s), _mod(mod) {}
 
     str me::run(const args& a) {
-        NM_DI("defVarExpr...");
+        NM_DI("define variable...");
         str new1 = _makeNew() orRet NM_E("new1 is null"), str();
         // below 'as' is mandatory.
         // assume that user wrotes 'getExpr("me")' into 'as'.
         str to = _to ? _to->as<node>() : str();
 
         scope& s = !to ? thread::get()._getNowFrame().getLocals() : to->subs();
-        NM_DI("defVarExpr: %s %s", _name, *new1);
         s.add(_name, *new1);
         return new1;
     }

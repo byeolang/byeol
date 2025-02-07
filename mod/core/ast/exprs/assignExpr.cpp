@@ -15,6 +15,7 @@ namespace nm {
 
         str ret = _rhs->as<node>();
         e.setVal(*ret);
+        NM_I("@%s `%s = %s`", this, e.getKey(), *ret);
         return ret;
     }
 

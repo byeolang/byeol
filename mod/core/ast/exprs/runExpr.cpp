@@ -18,30 +18,29 @@ namespace nm {
 
     str me::run(const args& a) {
         auto addr = platformAPI::toAddrId(this);
-
-        str evaledMe = getMe() THEN(template as<node>())
-            orRet NM_E("%s run: evaledMe is null. no thread found", addr),
+        str evaledMe =
+            getMe() THEN(template as<node>()) orRet NM_E("@%s `me` is null. no thread found", addr),
             str();
 
-        NM_DI("%s run: getting sub: me[%s]", addr, evaledMe);
-        str sub = _getSub(*evaledMe, _args) orRet NM_E("%s _subject.as<node>() returns null", addr),
+        str sub =
+            _getSub(*evaledMe, _args) orRet NM_E("@%s can't find the func to `%s`", addr, evaledMe),
             str();
 
-        NM_DI("%s run: assigning me: me[%s] sub[%s@%s]", addr, evaledMe, sub,
-            platformAPI::toAddrId(&sub.get()));
+        NM_DI("@%s run: assigning me: me[%s] sub[%s@%s]", addr, evaledMe, sub, &sub.get());
         nbool needMe = !sub->isSub<baseObj>() && !sub->isSub<closure>();
         if(needMe && !nul(_args)) { // if sub is a baseObj, this expr will runs ctor
                                     // of it which doesn't need me obj.
             frame& fr = evaledMe->cast<frame>();
             _args.setMe(!nul(fr) ? fr.getMeHaving(*sub) : *evaledMe);
-            NM_DI("%s run: setting me on args. args.me[%s]", addr, _args THEN(getMe()));
+            NM_DI("@%s run: setting me on args. args.me[%s]", addr, _args THEN(getMe()));
         }
 
-        NM_DI("%s run: try to run %s@%s with args[%s]", addr, sub->getSrc(),
-            platformAPI::toAddrId(&sub.get()), _args.toStr());
+        NM_I("@%s it'll call `%s.%s@%s(%s)", addr, evaledMe, sub->getSrc(), &sub.get(),
+            _args.toStr());
         str ret = sub->run(_args);
 
-        NM_DI("%s run: done. ret[%s]", addr, ret);
+        NM_DI("@%s `%s.%s@%s(%s) --returned--> %s`", addr, evaledMe, sub->getSrc(), &sub.get(), _args.toStr(),
+            ret);
         _args.setMe(nulOf<baseObj>());
         return ret;
     }

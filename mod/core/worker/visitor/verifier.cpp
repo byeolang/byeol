@@ -52,15 +52,15 @@ namespace nm {
 
 #define orRetErr(...) orRet posError(__VA_ARGS__)
 
-#define _GUARD(msg)                                                                \
-    if(isFlag(GUARD)) do {                                                         \
-            NM_I("'%s' %s@%s: " msg, i, me.getType(), platformAPI::toAddrId(&me)); \
-            _stepN = 0;                                                            \
+#define _GUARD(msg)                                         \
+    if(isFlag(GUARD)) do {                                  \
+            NM_I("'%s' %s@%s: " msg, i, me.getType(), &me); \
+            _stepN = 0;                                     \
     } while(0)
 
-#define _STEP(msg, ...)                                                                 \
-    NM_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), \
-        platformAPI::toAddrId(&me), ++_stepN, ##__VA_ARGS__)
+#define _STEP(msg, ...)                                                                      \
+    NM_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), &me, \
+        ++_stepN, ##__VA_ARGS__)
 
     // verification:
     void me::onLeave(const visitInfo& i, node& me, nbool) {

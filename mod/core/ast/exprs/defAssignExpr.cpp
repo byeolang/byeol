@@ -26,6 +26,8 @@ namespace nm {
 
     str me::_onMakeNew() {
         if(_type) return getRight().as(*_type);
-        return getRight().as<node>();
+        str ret = getRight().as<node>();
+        NM_I("@%s `%s := %s", this, getName(), *ret);
+        return ret;
     }
 }

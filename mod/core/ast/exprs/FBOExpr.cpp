@@ -28,27 +28,31 @@ namespace nm {
         tstr<arithmeticObj> rhs(_rhs THEN(template as<arithmeticObj>()));
         if(!lhs || !rhs) return NM_I("lhs or rhs is null"), str();
 
+        str ret;
         switch(_rule) {
-            case ADD: return lhs->add(*rhs);
-            case SUB: return lhs->sub(*rhs);
-            case MUL: return lhs->mul(*rhs);
-            case DIV: return lhs->div(*rhs);
-            case MOD: return lhs->mod(*rhs);
-            case BITWISE_AND: return lhs->bitwiseAnd(*rhs);
-            case BITWISE_XOR: return lhs->bitwiseXor(*rhs);
-            case BITWISE_OR: return lhs->bitwiseOr(*rhs);
-            case LSHIFT: return lhs->lshift(*rhs);
-            case RSHIFT: return lhs->rshift(*rhs);
-            case EQ: return str(new nBool(lhs->eq(*rhs)));
-            case NE: return str(new nBool(lhs->ne(*rhs)));
-            case GT: return str(new nBool(lhs->gt(*rhs)));
-            case LT: return str(new nBool(lhs->lt(*rhs)));
-            case GE: return str(new nBool(lhs->ge(*rhs)));
-            case LE: return str(new nBool(lhs->le(*rhs)));
-            case AND: return str(new nBool(lhs->logicalAnd(*rhs)));
-            case OR: return str(new nBool(lhs->logicalOr(*rhs)));
-            default: return str();
+            case ADD: ret = lhs->add(*rhs); break;
+            case SUB: ret = lhs->sub(*rhs); break;
+            case MUL: ret = lhs->mul(*rhs); break;
+            case DIV: ret = lhs->div(*rhs); break;
+            case MOD: ret = lhs->mod(*rhs); break;
+            case BITWISE_AND: ret = lhs->bitwiseAnd(*rhs); break;
+            case BITWISE_XOR: ret = lhs->bitwiseXor(*rhs); break;
+            case BITWISE_OR: ret = lhs->bitwiseOr(*rhs); break;
+            case LSHIFT: ret = lhs->lshift(*rhs); break;
+            case RSHIFT: ret = lhs->rshift(*rhs); break;
+            case EQ: ret.bind(new nBool(lhs->eq(*rhs))); break;
+            case NE: ret.bind(new nBool(lhs->ne(*rhs))); break;
+            case GT: ret.bind(new nBool(lhs->gt(*rhs))); break;
+            case LT: ret.bind(new nBool(lhs->lt(*rhs))); break;
+            case GE: ret.bind(new nBool(lhs->ge(*rhs))); break;
+            case LE: ret.bind(new nBool(lhs->le(*rhs))); break;
+            case AND: ret.bind(new nBool(lhs->logicalAnd(*rhs))); break;
+            case OR: ret.bind(new nBool(lhs->logicalOr(*rhs))); break;
+            default: ;
         }
+
+        NM_I("@%s %s --> %s", this, getRuleName(_rule), *ret);
+        return ret;
     }
 
     const node& me::getLeft() const { return *_lhs; }

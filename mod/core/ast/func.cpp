@@ -34,7 +34,7 @@ namespace nm {
     scope& me::subs() { return _subs; }
 
     str me::run(const args& a) {
-        NM_I("%s func: `%s` is running...", platformAPI::toAddrId(this), getSrc().getName());
+        NM_I("@%s prepare to run `%s(%s)`...", this, getSrc(), getParams());
         if(nul(a)) return NM_E("a == null"), str();
         if(!thread::get().isInteractable())
             return NM_E("thread isn't interactable"),
@@ -59,8 +59,11 @@ namespace nm {
 
     str me::_run(nidx exN) {
         _runEnds();
-        str ret = _postprocess(_blk->run(), exN);
-        NM_I("%s returning %s", *this, ret);
+        NM_I("@%s --> run `%s(%s)", this, getSrc(), getParams());
+        str ret = _blk->run();
+        NM_I("@%s <-- ended `%s(%s)", this, getSrc(), getParams());
+        ret = _postprocess(ret, exN);
+        NM_I("@%s `%s <--ret-- %s(%s)`", this, ret, getSrc(), getParams());
         return ret;
     }
 

@@ -14,6 +14,8 @@ namespace nm {
 
     str me::_onMakeNew() {
         str as = getRight() THEN(template as<node>()) orRet str();
-        return as->isSub<baseFunc>() ? as : as->run();
+        as = as->isSub<baseFunc>() ? as : as->run();
+        NM_DI("@%s `%s %s`", this, getName(), *as);
+        return as;
     }
 }

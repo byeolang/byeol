@@ -25,7 +25,7 @@ namespace nm {
         tstr<nBool> res =
             _expr->as<node>() THEN(template asImpli<nBool>()) orRet nVoid::singletone();
         nbool cond = res->cast<nbool>();
-        NM_DI("%s ifExpr: condition[%s]", platformAPI::toAddrId(this), cond);
+        NM_DI("@%s `if %s --> to %s`", this, *_expr, cond ? "THEN" : "ELSE");
         auto& blk = cond ? *_then : *_else;
         if(!nul(blk)) {
             frameInteract f1(blk);
