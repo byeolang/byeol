@@ -688,6 +688,68 @@ TEST_F(nchainTest, delWhileIteration) {
     ASSERT_EQ(m.getAll("meat").len(), 3);
 }
 
+TEST_F(nchainTest, chainMultipleLinkAndCheckPrev) {
+    nchain m;
+    m.add("meat", new nInt(1));
+    m.add("banana", new nInt(2));
+    nchain m2;
+    m2.add("apple", new nInt(3));
+    m2.add("mango", new nInt(4));
+    nchain m3;
+    m3.add("pineapple", new nInt(5));
+    m3.add("melon", new nInt(6));
+
+    ASSERT_TRUE(m.link(m2));
+    ASSERT_TRUE(m2.link(m3));
+    ASSERT_FALSE(m3.link(m3)); // exception handling for recursive linkage.
+
+    {
+        nchain* expects[] = {&m, &m2, &m3};
+        int n = 0;
+        for(nchain* e = &m; e ;e = &e->getNext())
+            ASSERT_EQ(e, expects[n++]);
+    }
+
+    {
+        nchain* expects[] = {&m3, &m2, &m};
+        int n = 0;
+        for(nchain* e = &m3; e ; e = &e->getPrev())
+            ASSERT_EQ(e, expects[n++]);
+    }
+}
+
+TEST_F(nchainTest, unlinkSuddenlyMiddleOfMultipleChain) {
+    nchain m;
+    m.add("meat", new nInt(1));
+    m.add("banana", new nInt(2));
+    nchain m2;
+    m2.add("apple", new nInt(3));
+    m2.add("mango", new nInt(4));
+    nchain m3;
+    m3.add("pineapple", new nInt(5));
+    m3.add("melon", new nInt(6));
+
+    ASSERT_TRUE(m.link(m2));
+    ASSERT_TRUE(m2.link(m3)); // m1 -> m2 -> m3
+
+    {
+        nchain* expects[] = {&m, &m2, &m3};
+        int n = 0;
+        for(nchain* e = &m; e ;e = &e->getNext())
+            ASSERT_EQ(e, expects[n++]);
+    }
+
+    m2.unlink(); // m1 -> m2 -> X
+
+    {
+        nchain* expects[] = {&m, &m2};
+        int n = 0;
+        for(nchain* e = &m; e ; e = &e->getNext())
+            ASSERT_EQ(e, expects[n++]);
+        ASSERT_TRUE(nul(m3.getPrev()));
+    }
+}
+
 TEST_F(nchainTest, iterateForKey) {
     nchain m;
     m.add("meat", new nInt(1));
@@ -721,5 +783,84 @@ TEST_F(nchainTest, iterateForKey) {
         ASSERT_EQ(e.getKey(), "banana");
         nInt& val = e->cast<nInt>();
         ASSERT_EQ(val.get(), 8);
+    }
+}
+
+TEST_F(nchainTest, iterateMultipleChain) {
+    nchain m;
+    m.add("meat", new nInt(1));
+    m.add("banana", new nInt(2));
+    nchain m2;
+    m2.add("apple", new nInt(3));
+    m2.add("banana", new nInt(4));
+
+    m2.link(m); // apple --> banana --> meat --> banana
+
+    std::string expects[] = {"apple", "banana", "meat", "banana"};
+    int n = 0;
+    for(auto e = m2.begin(); e ;++e)
+        ASSERT_EQ(e.getKey(), expects[n++]);
+}
+
+TEST_F(nchainTest, iterateMultipleChainReversedWay) {
+    nchain m;
+    m.add("meat", new nInt(1));
+    m.add("banana", new nInt(2));
+    nchain m2;
+    m2.add("apple", new nInt(3));
+    m2.add("banana", new nInt(4));
+
+    m2.link(m); // apple --> banana --> meat --> banana
+
+    std::string expects[] = {"banana", "meat", "banana", "apple"};
+    int n = 0;
+    for(auto e = m2.rbegin(); e ;++e)
+        ASSERT_EQ(e.getKey(), expects[n++]);
+}
+
+TEST_F(nchainTest, iterateForKeyInMultipleChain) {
+    nchain m;
+    m.add("meat", new nInt(1));
+    m.add("banana", new nInt(2));
+    nchain m2;
+    m2.add("apple", new nInt(3));
+    m2.add("banana", new nInt(4));
+
+    m2.link(m); // apple --> banana --> meat --> banana
+
+    {
+        auto e = m2.iterate("apple");
+        ASSERT_FALSE(e.isEnd());
+        ASSERT_EQ(e.getKey(), "apple");
+        nInt& val = e->cast<nInt>();
+        ASSERT_EQ(val.get(), 3);
+    }
+
+    {
+        auto e = m.iterate("banana");
+        ASSERT_FALSE(e.isEnd());
+        ASSERT_EQ(e.getKey(), "banana");
+        nInt& val = e->cast<nInt>();
+        ASSERT_EQ(val.get(), 4);
+
+        ++e;
+        ASSERT_FALSE(e.isEnd());
+        ASSERT_EQ(e.getKey(), "banana");
+        nInt& val2 = e->cast<nInt>();
+        ASSERT_EQ(val2.get(), 2);
+    }
+
+    {
+        auto e = m.riterate("banana");
+        ASSERT_FALSE(e.isEnd());
+        ASSERT_EQ(e.getKey(), "banana");
+        nInt& val = e->cast<nInt>();
+        ASSERT_EQ(val.get(), 2);
+
+        ++e;
+        ASSERT_FALSE(e.isEnd());
+        ASSERT_EQ(e.getKey(), "banana");
+        nInt& val2 = e->cast<nInt>();
+        ASSERT_EQ(val2.get(), 4);
     }
 }

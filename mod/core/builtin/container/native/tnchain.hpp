@@ -71,8 +71,10 @@ namespace nm {
         const super& getContainer() const;
 
         me& getNext();
+        const me& getNext() const NM_CONST_FUNC(getNext())
 
-        const me& getNext() const;
+        me& getPrev();
+        const me& getPrev() const NM_CONST_FUNC(getPrev())
 
         /// return most not null next element of this chain.
         me& getTail();
@@ -123,5 +125,6 @@ namespace nm {
     private:
         tstr<super> _map;
         iter _next;
+        iter _prev;
     };
 } // namespace nm

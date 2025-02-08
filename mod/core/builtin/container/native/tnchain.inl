@@ -112,6 +112,7 @@ namespace nm {
             return NM_W("recursive link detected for portion(%s).", (void*) &next), false;
 
         _next = portion;
+        next._prev = this->rbegin();
         return true;
     }
 
@@ -120,6 +121,9 @@ namespace nm {
 
     TEMPL
     nbool ME::unlink() {
+        ME& next = typeProvidable::safeCast<ME>((_next THEN(getContainer())));
+        if(!nul(next))
+            next._prev.rel();
         _next.rel();
         return true;
     }
@@ -190,7 +194,7 @@ namespace nm {
     ME& ME::getNext() { return typeProvidable::safeCast<ME>(_next.getContainer()); }
 
     TEMPL
-    const ME& ME::getNext() const { return typeProvidable::safeCast<ME>(_next.getContainer()); }
+    ME& ME::getPrev() { return typeProvidable::safeCast<ME>(_prev.getContainer()); }
 
     TEMPL
     typename ME::iteration* ME::_onMakeIteration(ncnt step, nbool isReversed) const {
