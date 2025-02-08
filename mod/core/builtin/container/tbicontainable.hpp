@@ -80,6 +80,7 @@ namespace nm {
         }
 
         iter iterate(const K& key) const {
+            if(nul(key)) return iterate(0);
             auto* e = _onMakeIteration(key, false);
             if(!e->isEnd() && e->getKey() != key) e->next(1);
 
@@ -94,6 +95,7 @@ namespace nm {
         }
 
         iter riterate(const K& key) const {
+            if(nul(key)) return riterate(0);
             auto* e = _onMakeIteration(key, true);
             if(!e->isEnd() && e->getKey() != key) e->next(1);
 

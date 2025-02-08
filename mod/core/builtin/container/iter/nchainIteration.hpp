@@ -8,13 +8,8 @@ public:
     chainIteration(tnchain& iteratingChain, nbool isReversed):
         me(iteratingChain, nulOf<K>(), isReversed) {}
 
-    chainIteration(tnchain& iteratingChain, const K& byKey, nbool isReversed):
-        super(isReversed),
-        _ownIter(iteratingChain),
-        _iter(isReversed ?
-                (nul(byKey) ? iteratingChain._map->rbegin() :
-                              iteratingChain._map->riterate(byKey)) :
-                (nul(byKey) ? iteratingChain._map->begin() : iteratingChain._map->iterate(byKey))) {
+    chainIteration(tnchain& iteratingChain, const K& key, nbool isReversed):
+        super(isReversed), _ownIter(iteratingChain), _key(key), _iter(_makeSubIter()) {
         if(!_iter) next(1);
     }
 
@@ -72,15 +67,20 @@ private:
 
             // _iter moved to 'End' state now.
             if(isEnd()) break;
-            _ownIter.bind((tnchain&) _ownIter->_next.getContainer());
-            _iter = _ownIter->_map->begin();
+            _ownIter.bind((tnchain&) (this->isReversed() ? _ownIter->_prev.getContainer() : _ownIter->_next.getContainer()));
+            _iter = _makeSubIter();
             if(_iter) remain--;
         }
 
         return step - remain;
     }
 
+    iter _makeSubIter() const {
+        return this->isReversed() ? _ownIter->_map->riterate(_key) : _ownIter->_map->iterate(_key);
+    }
+
 private:
     tstr<tnchain> _ownIter; // _ownIter shouldn't be null always.
+    const K& _key;
     iter _iter;
 };
