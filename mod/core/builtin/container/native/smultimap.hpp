@@ -58,9 +58,11 @@ namespace nm {
         };
 
         class iterator {
+            NM(ME(iterator))
             typedef smultimap<K, V> owner;
+
         public:
-            iterator(const me* owner, const wrap* pair, nbool isReversed);
+            iterator(const smultimap* owner, const wrap* pair, nbool isReversed);
             friend owner;
 
         public:
@@ -88,11 +90,17 @@ namespace nm {
         };
 
         class filteredIterator: public iterator {
+            NM(ME(filteredIterator, iterator))
+
         public:
-            filteredIterator(const me* owner, const wrap* pair, nbool isReversed, const K& key);
+            filteredIterator(const smultimap* owner, const wrap* pair, nbool isReversed, const K& key);
 
         public:
             iterator& operator++() override;
+            iterator& operator--() override;
+
+        private:
+            iterator& _step(nbool isReversed);
 
         private:
             const K* _key;

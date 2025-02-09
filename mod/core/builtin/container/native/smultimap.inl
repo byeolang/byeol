@@ -38,7 +38,7 @@ namespace nm {
     typename ME::wrap& ME::wrap::operator=(wrap&&) { return *this; }
 
     TEMPL
-    ME::iterator::iterator(const me* owner, const wrap* pair, nbool isReversed):
+    ME::iterator::iterator(const smultimap* owner, const wrap* pair, nbool isReversed):
         _owner(owner), _wrap(pair), _isReversed(isReversed) {}
 
     TEMPL
@@ -94,14 +94,20 @@ namespace nm {
     bool ME::iterator::operator==(const iterator& rhs) const { return _wrap == rhs._wrap; }
 
     TEMPL
-    ME::filteredIterator::filteredIterator(const me* owner, const wrap* pair, nbool isReversed,
-        const K& key):
+    ME::filteredIterator::filteredIterator(const smultimap* owner, const wrap* pair,
+        nbool isReversed, const K& key):
         iterator(owner, pair, isReversed), _key(&key) {}
 
     TEMPL
-    typename ME::iterator& ME::filteredIterator::operator++() {
+    typename ME::iterator& ME::filteredIterator::operator++() { return _step(false); }
+
+    TEMPL
+    typename ME::iterator& ME::filteredIterator::operator--() { return _step(true); }
+
+    TEMPL
+    typename ME::iterator& ME::filteredIterator::_step(nbool isReversed) {
         do {
-            iterator::operator++();
+            isReversed ? super::operator--() : super::operator++();
             if(this->isEnd()) break;
         } while(this->getKey() != *_key);
         return *this;
