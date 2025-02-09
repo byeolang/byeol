@@ -837,7 +837,7 @@ TEST_F(nchainTest, iterateForKeyInMultipleChain) {
     }
 
     {
-        auto e = m.iterate("banana");
+        auto e = m2.iterate("banana");
         ASSERT_FALSE(e.isEnd());
         ASSERT_EQ(e.getKey(), "banana");
         nInt& val = e->cast<nInt>();
@@ -851,7 +851,7 @@ TEST_F(nchainTest, iterateForKeyInMultipleChain) {
     }
 
     {
-        auto e = m.riterate("banana");
+        auto e = m2.riterate("banana");
         ASSERT_FALSE(e.isEnd());
         ASSERT_EQ(e.getKey(), "banana");
         nInt& val = e->cast<nInt>();

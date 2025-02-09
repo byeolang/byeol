@@ -112,7 +112,7 @@ namespace nm {
             return NM_W("recursive link detected for portion(%s).", (void*) &next), false;
 
         _next = portion;
-        next._prev = this->rbegin();
+        next._prev = _rbeginOfThisChain();
         return true;
     }
 
@@ -122,8 +122,7 @@ namespace nm {
     TEMPL
     nbool ME::unlink() {
         ME& next = typeProvidable::safeCast<ME>((_next THEN(getContainer())));
-        if(!nul(next))
-            next._prev.rel();
+        if(!nul(next)) next._prev.rel();
         _next.rel();
         return true;
     }
@@ -200,13 +199,14 @@ namespace nm {
     typename ME::iteration* ME::_onMakeIteration(ncnt step, nbool isReversed) const {
         // TODO: optimize using containerIteration
         me* unconst = const_cast<me*>(this);
-        return new chainIteration(*unconst, isReversed);
+        return new chainIteration(isReversed ? unconst->_getLastChain() : *unconst, isReversed);
     }
 
     TEMPL
     typename ME::iteration* ME::_onMakeIteration(const K& key, nbool isReversed) const {
         me* unconst = const_cast<me*>(this);
-        return new chainIteration(*unconst, key, isReversed);
+        return new chainIteration(isReversed ? unconst->_getLastChain() : *unconst, key,
+            isReversed);
     }
 
     TEMPL
@@ -215,6 +215,19 @@ namespace nm {
         chainIteration& cast = (chainIteration&) *wrapper._iteration orNul(iter);
 
         return cast._iter;
+    }
+
+    TEMPL
+    ME& ME::_getLastChain() {
+        tnchain* ret = this;
+        while(ret && !nul(ret->_next.getContainer()))
+            ret = (tnchain*) &ret->_next.getContainer();
+        return *ret;
+    }
+
+    TEMPL
+    typename ME::iter ME::_rbeginOfThisChain() {
+        return iter(new chainIteration(*this, true));
     }
 
 #undef ME

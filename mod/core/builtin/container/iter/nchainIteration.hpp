@@ -67,7 +67,8 @@ private:
 
             // _iter moved to 'End' state now.
             if(isEnd()) break;
-            _ownIter.bind((tnchain&) (this->isReversed() ? _ownIter->_prev.getContainer() : _ownIter->_next.getContainer()));
+            _ownIter.bind((tnchain&) (this->isReversed() ? _ownIter->_prev.getContainer() :
+                                                           _ownIter->_next.getContainer()));
             _iter = _makeSubIter();
             if(_iter) remain--;
         }

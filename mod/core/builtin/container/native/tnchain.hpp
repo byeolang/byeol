@@ -121,6 +121,8 @@ namespace nm {
 
     private:
         iter& _getMapIterFromChainIter(const iter& wrapper);
+        iter _rbeginOfThisChain();
+        me& _getLastChain();
 
     private:
         tstr<super> _map;
