@@ -4,6 +4,12 @@ class chainIteration: public iteration {
     NM(CLASS(chainIteration, iteration))
     friend class tnchain;
 
+    enum IterationType {
+        NEXT,
+        FORWARD,
+        BACKWARD
+    };
+
 public:
     chainIteration(tnchain& iteratingChain, nbool isReversed):
         me(iteratingChain, nulOf<K>(), isReversed) {}
@@ -23,17 +29,11 @@ public:
         _ownIter.rel();
     }
 
-    ncnt next(ncnt step) override {
-        return _step([&](ncnt remain) -> ncnt { return _iter.next(remain); }, step);
-    }
+    ncnt next(ncnt step) override { return _step(NEXT, step); }
 
-    ncnt stepForward(ncnt step) override {
-        return _step([&](ncnt remain) -> ncnt { return _iter.stepForward(remain); }, step);
-    }
+    ncnt stepForward(ncnt step) override { return _step(FORWARD, step); }
 
-    ncnt stepBackward(ncnt step) override {
-        return _step([&](ncnt remain) -> ncnt { return _iter.stepBackward(remain); }, step);
-    }
+    ncnt stepBackward(ncnt step) override { return _step(BACKWARD, step); }
 
     using super::getContainer;
 
@@ -57,12 +57,12 @@ protected:
     }
 
 private:
-    ncnt _step(std::function<ncnt(ncnt)> closure, ncnt step) {
+    ncnt _step(IterationType type, ncnt step) {
         ncnt remain = step;
 
         // if _ownIter was invalidated then _iter too.
         while(remain > 0) {
-            remain -= closure(remain);
+            remain -= _iterate(type, remain);
             if(remain <= 0) break;
 
             // _iter moved to 'End' state now.
@@ -73,6 +73,15 @@ private:
         }
 
         return step - remain;
+    }
+
+    ncnt _iterate(IterationType type, ncnt step) {
+        switch(type) {
+            case FORWARD: return _iter.stepForward(step);
+            case BACKWARD: return _iter.stepBackward(step);
+            default:
+            case NEXT: return _iter.next(step);
+        }
     }
 
     const tnchain& _getNextContainer() const {
