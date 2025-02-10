@@ -14,8 +14,8 @@ public:
     }
 
     nbool isEnd() const override {
-        if(!_ownIter) return true;
-        return nul(_ownIter->_next.getContainer()) && !_iter;
+        if(!nul(_getNextContainer())) return false;
+        return !_iter;
     }
 
     void rel() override {
@@ -67,13 +67,17 @@ private:
 
             // _iter moved to 'End' state now.
             if(isEnd()) break;
-            _ownIter.bind((tnchain&) (this->isReversed() ? _ownIter->_prev.getContainer() :
-                                                           _ownIter->_next.getContainer()));
+            _ownIter.bind(_getNextContainer());
             _iter = _makeSubIter();
             if(_iter) remain--;
         }
 
         return step - remain;
+    }
+
+    const tnchain& _getNextContainer() const {
+        if(!_ownIter) return nulOf<tnchain>();
+        return this->isReversed() ? _ownIter->getPrev() : _ownIter->getNext();
     }
 
     iter _makeSubIter() const {
