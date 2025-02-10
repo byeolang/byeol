@@ -159,17 +159,6 @@ namespace nm {
     }
 
     TEMPL
-    typename ME::iterator ME::find(const K& key) const {
-        auto e = begin();
-        auto endIter = end();
-        while(e != endIter) {
-            if(e.getKey() == key) break;
-            ++e;
-        }
-        return e;
-    }
-
-    TEMPL
     void ME::clear() {
         _end.clear();
         _map.clear();

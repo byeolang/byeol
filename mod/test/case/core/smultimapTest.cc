@@ -107,7 +107,7 @@ TEST_F(smultimapTest, eraseMultiPairs) {
     ASSERT_EQ((e++)->get().cast<nint>(), 6);
     ASSERT_EQ(e, scope.end());
 
-    e = scope.find("banana");
+    e = scope.begin("banana");
     ASSERT_NE(e, scope.end());
     scope.erase(e);
     ASSERT_EQ(scope.size(), 4);
