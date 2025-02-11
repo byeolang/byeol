@@ -4,12 +4,6 @@ class chainIteration: public iteration {
     NM(CLASS(chainIteration, iteration))
     friend class tnchain;
 
-    enum IterationType {
-        NEXT,
-        FORWARD,
-        BACKWARD
-    };
-
 public:
     chainIteration(tnchain& iteratingChain, const K& key, nbool isReversed):
         super(isReversed), _ownIter(iteratingChain), _key(key), _iter(_makeSubIter()) {
@@ -26,11 +20,11 @@ public:
         _ownIter.rel();
     }
 
-    ncnt next(ncnt step) override { return _step(NEXT, step); }
+    ncnt next(ncnt step) override { return _step(super::NEXT, step); }
 
-    ncnt stepForward(ncnt step) override { return _step(FORWARD, step); }
+    ncnt stepForward(ncnt step) override { return _step(super::FORWARD, step); }
 
-    ncnt stepBackward(ncnt step) override { return _step(BACKWARD, step); }
+    ncnt stepBackward(ncnt step) override { return _step(super::BACKWARD, step); }
 
     using super::getContainer;
 
@@ -54,7 +48,7 @@ protected:
     }
 
 private:
-    ncnt _step(IterationType type, ncnt step) {
+    ncnt _step(typename super::IterationType type, ncnt step) {
         ncnt remain = step;
 
         // if _ownIter was invalidated then _iter too.
@@ -72,12 +66,12 @@ private:
         return step - remain;
     }
 
-    ncnt _iterate(IterationType type, ncnt step) {
+    ncnt _iterate(typename super::IterationType type, ncnt step) {
         switch(type) {
-            case FORWARD: return _iter.stepForward(step);
-            case BACKWARD: return _iter.stepBackward(step);
+            case super::FORWARD: return _iter.stepForward(step);
+            case super::BACKWARD: return _iter.stepBackward(step);
             default:
-            case NEXT: return _iter.next(step);
+            case super::NEXT: return _iter.next(step);
         }
     }
 

@@ -2,6 +2,13 @@
 class iterable {
     NM_ME(iterable)
 
+protected:
+    enum IterationType {
+        NEXT,
+        FORWARD,
+        BACKWARD
+    };
+
 public:
     virtual ~iterable() {}
 

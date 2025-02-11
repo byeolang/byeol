@@ -63,7 +63,8 @@ private:
     /// iterates until points to object of compatible type to given parameterized type T.
     /// iter should be alwyas stable state which points to object of proper type.
     void _nextToMatchParamType();
-    ncnt _step(std::function<ncnt(void)> closure, ncnt step);
+    ncnt _step(typename iterable::IterationType type, ncnt step);
+    ncnt _iterate(typename iterable::IterationType type);
 
 protected:
     tstr<iteration> _iteration;

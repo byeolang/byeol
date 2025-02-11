@@ -68,11 +68,11 @@ namespace nm {
     }
 
     TEMPL
-    ncnt ME::_step(std::function<ncnt(void)> closure, ncnt step) {
+    ncnt ME::_step(typename iterable::IterationType type, ncnt step) {
         if(!_iteration) return false;
 
         for(int n = 0; n < step; n++) {
-            if(closure() <= 0) return n;
+            if(_iterate(type) <= 0) return n;
             _nextToMatchParamType();
         }
 
@@ -80,19 +80,13 @@ namespace nm {
     }
 
     TEMPL
-    ncnt ME::next(ncnt step) {
-        return _step([&]() -> ncnt { return _iteration->next(1); }, step);
-    }
+    ncnt ME::next(ncnt step) { return _step(iterable::NEXT, step); }
 
     TEMPL
-    ncnt ME::stepForward(ncnt step) {
-        return _step([&]() -> ncnt { return _iteration->stepForward(1); }, step);
-    }
+    ncnt ME::stepForward(ncnt step) { return _step(iterable::FORWARD, step); }
 
     TEMPL
-    ncnt ME::stepBackward(ncnt step) {
-        return _step([&]() -> ncnt { return _iteration->stepBackward(1); }, step);
-    }
+    ncnt ME::stepBackward(ncnt step) { return _step(iterable::BACKWARD, step); }
 
     TEMPL
     const K& ME::getKey() const {
@@ -136,6 +130,16 @@ namespace nm {
             if(!nul(getVal())) return;
 
             next(1);
+        }
+    }
+
+    TEMPL
+    ncnt ME::_iterate(typename iterable::IterationType type) {
+        switch(type) {
+            case iterable::FORWARD: return _iteration->stepForward(1);
+            case iterable::BACKWARD: return _iteration->stepBackward(1);
+            default:
+            case iterable::NEXT: return _iteration->next(1);
         }
     }
 
