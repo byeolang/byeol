@@ -5,12 +5,6 @@ class nmapIteration: public iteration {
     friend class tnmap;
 
 public:
-    nmapIteration(tnmap& own, nbool isReversed):
-        super(isReversed),
-        _own(own),
-        _citer(isReversed ? own._map.rbegin() : own._map.begin()),
-        _end(isReversed ? own._map.rend() : own._map.end()) {}
-
     nmapIteration(tnmap& own, const K& key, nbool isReversed):
         super(isReversed),
         _own(own),

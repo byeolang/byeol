@@ -196,13 +196,6 @@ namespace nm {
     ME& ME::getPrev() { return typeProvidable::safeCast<ME>(_prev.getContainer()); }
 
     TEMPL
-    typename ME::iteration* ME::_onMakeIteration(ncnt step, nbool isReversed) const {
-        // TODO: optimize using containerIteration
-        me* unconst = const_cast<me*>(this);
-        return new chainIteration(isReversed ? unconst->_getLastChain() : *unconst, isReversed);
-    }
-
-    TEMPL
     typename ME::iteration* ME::_onMakeIteration(const K& key, nbool isReversed) const {
         me* unconst = const_cast<me*>(this);
         return new chainIteration(isReversed ? unconst->_getLastChain() : *unconst, key,
@@ -227,7 +220,7 @@ namespace nm {
 
     TEMPL
     typename ME::iter ME::_rbeginOfThisChain() {
-        return iter(new chainIteration(*this, true));
+        return iter(new chainIteration(*this, nulOf<K>(), true));
     }
 
 #undef ME

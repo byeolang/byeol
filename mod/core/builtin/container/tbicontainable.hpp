@@ -73,7 +73,7 @@ namespace nm {
         virtual iter last() const { return iterate(len() - 1); }
 
         iter iterate(ncnt step) const {
-            auto* e = _onMakeIteration(step, false);
+            auto* e = _onMakeIteration(nulOf<K>(), false);
             e->next(step);
 
             return iter(e);
@@ -88,7 +88,7 @@ namespace nm {
         }
 
         iter riterate(ncnt step) const {
-            auto* e = _onMakeIteration(step, true);
+            auto* e = _onMakeIteration(nulOf<K>(), true);
             e->next(step);
 
             return iter(e);
@@ -128,7 +128,6 @@ namespace nm {
         virtual void rel() = 0;
 
     protected:
-        virtual iteration* _onMakeIteration(ncnt step, nbool isReversed) const = 0;
         virtual iteration* _onMakeIteration(const K& key, nbool isReversed) const = 0;
         virtual void _getAll(const K& key, narr& tray) const = 0;
     };

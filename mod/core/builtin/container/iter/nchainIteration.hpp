@@ -11,9 +11,6 @@ class chainIteration: public iteration {
     };
 
 public:
-    chainIteration(tnchain& iteratingChain, nbool isReversed):
-        me(iteratingChain, nulOf<K>(), isReversed) {}
-
     chainIteration(tnchain& iteratingChain, const K& key, nbool isReversed):
         super(isReversed), _ownIter(iteratingChain), _key(key), _iter(_makeSubIter()) {
         if(!_iter) next(1);

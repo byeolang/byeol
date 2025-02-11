@@ -114,7 +114,6 @@ namespace nm {
         me* cloneChain() const;
 
     protected:
-        iteration* _onMakeIteration(ncnt step, nbool isReversed) const override;
         iteration* _onMakeIteration(const K& key, nbool isReversed) const override;
 
         void _getAll(const K& key, narr& tray) const override;
