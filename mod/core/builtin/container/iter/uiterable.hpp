@@ -3,7 +3,7 @@ class iterable {
     NM_ME(iterable)
 
 protected:
-    enum IterationType {
+    enum iterationType {
         NEXT,
         FORWARD,
         BACKWARD

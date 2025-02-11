@@ -48,7 +48,7 @@ protected:
     }
 
 private:
-    ncnt _step(typename super::IterationType type, ncnt step) {
+    ncnt _step(typename super::iterationType type, ncnt step) {
         ncnt remain = step;
 
         // if _ownIter was invalidated then _iter too.
@@ -66,7 +66,7 @@ private:
         return step - remain;
     }
 
-    ncnt _iterate(typename super::IterationType type, ncnt step) {
+    ncnt _iterate(typename super::iterationType type, ncnt step) {
         switch(type) {
             case super::FORWARD: return _iter.stepForward(step);
             case super::BACKWARD: return _iter.stepBackward(step);

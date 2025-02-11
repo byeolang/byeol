@@ -68,7 +68,7 @@ namespace nm {
     }
 
     TEMPL
-    ncnt ME::_step(typename iterable::IterationType type, ncnt step) {
+    ncnt ME::_step(typename iterable::iterationType type, ncnt step) {
         if(!_iteration) return false;
 
         for(int n = 0; n < step; n++) {
@@ -134,7 +134,7 @@ namespace nm {
     }
 
     TEMPL
-    ncnt ME::_iterate(typename iterable::IterationType type) {
+    ncnt ME::_iterate(typename iterable::iterationType type) {
         switch(type) {
             case iterable::FORWARD: return _iteration->stepForward(1);
             case iterable::BACKWARD: return _iteration->stepBackward(1);
