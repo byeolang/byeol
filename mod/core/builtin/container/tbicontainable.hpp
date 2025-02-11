@@ -18,17 +18,17 @@ namespace nm {
 #include "iter/biter.hpp"
 
     public:
-        virtual ~tbicontainable() {}
+        virtual ~tbicontainable();
 
         // operator:
-        V& operator[](const K& key) { return get(key); }
+        V& operator[](const K& key);
 
-        const V& operator[](const K& key) const { return get(key); }
+        const V& operator[](const K& key) const;
 
         // len:
         virtual ncnt len() const = 0;
 
-        ncnt isEmpty() const { return len() <= 0; }
+        ncnt isEmpty() const;
 
         // has:
         virtual nbool in(const K& key) const = 0;
@@ -62,59 +62,28 @@ namespace nm {
         void each(std::function<nbool(const K&, const V&)> l) const NM_CONST_FUNC(each(l))
 
         // iter:
-        iter begin() const { return iterate(0); }
+        iter begin() const;
 
-        iter rbegin() const { return riterate(0); }
+        iter rbegin() const;
 
-        virtual iter end() const { return iterate(len()); }
+        virtual iter end() const;
 
-        virtual iter rend() const { return riterate(len()); }
+        virtual iter rend() const;
 
-        virtual iter last() const { return iterate(len() - 1); }
+        virtual iter last() const;
 
-        iter iterate(ncnt step) const {
-            auto* e = _onMakeIteration(nulOf<K>(), false);
-            e->next(step);
-
-            return iter(e);
-        }
-
-        iter iterate(const K& key) const {
-            if(nul(key)) return iterate(0);
-            auto* e = _onMakeIteration(key, false);
-            if(!e->isEnd() && e->getKey() != key) e->next(1);
-
-            return iter(e);
-        }
-
-        iter riterate(ncnt step) const {
-            auto* e = _onMakeIteration(nulOf<K>(), true);
-            e->next(step);
-
-            return iter(e);
-        }
-
-        iter riterate(const K& key) const {
-            if(nul(key)) return riterate(0);
-            auto* e = _onMakeIteration(key, true);
-            if(!e->isEnd() && e->getKey() != key) e->next(1);
-
-            return iter(e);
-        }
+        iter iterate(ncnt step) const;
+        iter iterate(const K& key) const;
+        iter riterate(ncnt step) const;
+        iter riterate(const K& key) const;
 
         // add:
         virtual nbool add(const K& key, const V& val) = 0;
 
-        nbool add(const K& key, const V* val) { return add(key, *val); }
+        nbool add(const K& key, const V* val);
 
-        ncnt add(const iter& from, const iter& to) {
-            int ret = 0;
-            for(iter e = from; e != to; ++e)
-                if(add(e.getKey(), e.getVal())) ret++;
-            return ret;
-        }
-
-        ncnt add(const tbicontainable& rhs) { return add(rhs.begin(), rhs.end()); }
+        ncnt add(const iter& from, const iter& to);
+        ncnt add(const tbicontainable& rhs);
 
         // del:
         /// delete last element if exists.
@@ -122,7 +91,7 @@ namespace nm {
         virtual nbool del(const iter& at) = 0;
         virtual nbool del(const iter& from, const iter& end) = 0;
 
-        nbool del(const tbicontainable& rhs) { return del(rhs.begin(), rhs.end()); }
+        nbool del(const tbicontainable& rhs);
 
         // etc:
         virtual void rel() = 0;

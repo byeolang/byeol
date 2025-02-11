@@ -70,30 +70,13 @@ namespace nm {
 
         void onCloneDeep(const clonable& from) override;
 
-        std::string asStr() const {
-            std::string ret;
-            nbool first = true;
-            for(const auto& e: *this) {
-                ret += (first ? "" : ",") + e.getType().getName();
-                first = false;
-            }
-
-            return ret;
-        }
+        std::string asStr() const;
 
     protected:
-        iteration* _onMakeIteration(ncnt step, nbool isReversed) const override {
-            me* unconst = const_cast<me*>(this);
-            return new narrIteration(*unconst, step, isReversed);
-        }
+        iteration* _onMakeIteration(ncnt step, nbool isReversed) const override;
 
     private:
-        narrIteration& _getIterationFrom(const iter& it) {
-            if(nul(it)) return nulOf<narrIteration>();
-            if(!it.isFrom(*this)) return nulOf<narrIteration>();
-            return (narrIteration&) *it._iteration;
-        }
-
+        narrIteration& _getIterationFrom(const iter& it);
 
     private:
         std::vector<wrap> _vec;

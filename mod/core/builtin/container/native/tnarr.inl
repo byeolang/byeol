@@ -119,6 +119,31 @@ namespace nm {
             add((T*) e.cloneDeep());
     }
 
+    TEMPL
+    std::string ME::asStr() const {
+        std::string ret;
+        nbool first = true;
+        for(const auto& e: *this) {
+            ret += (first ? "" : ",") + e.getType().getName();
+            first = false;
+        }
+
+        return ret;
+    }
+
+    TEMPL
+    typename ME::iteration* ME::_onMakeIteration(ncnt step, nbool isReversed) const {
+        me* unconst = const_cast<me*>(this);
+        return new narrIteration(*unconst, step, isReversed);
+    }
+
+    TEMPL
+    typename ME::narrIteration& ME::_getIterationFrom(const iter& it) {
+        if(nul(it)) return nulOf<narrIteration>();
+        if(!it.isFrom(*this)) return nulOf<narrIteration>();
+        return (narrIteration&) *it._iteration;
+    }
+
 #undef TEMPL
 #undef ME
 } // namespace nm

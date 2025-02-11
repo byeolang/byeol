@@ -20,10 +20,23 @@ namespace nm {
     }
 
     TEMPL
+    typename ME::iteration* ME::_onMakeIteration(const K& key, nbool isReversed) const {
+        me* unconst = const_cast<me*>(this);
+        return new nmapIteration(*unconst, key, isReversed);
+    }
+
+    TEMPL
     void ME::_getAll(const K& key, narr& tray) const {
         auto end = _map.end();
         for(auto e = _map.begin(key); e != end; ++e)
             tray.add(*e.getVal());
+    }
+
+    TEMPL
+    typename ME::nmapIteration& ME::_getIterationFrom(const iter& it) {
+        if(nul(it)) return nulOf<nmapIteration>();
+        if(!it.isFrom(*this)) return nulOf<nmapIteration>();
+        return (nmapIteration&) *it._iteration;
     }
 
     TEMPL

@@ -11,6 +11,18 @@ namespace nm {
 #define ME tbicontainable<K, V>
 
     TEMPL
+    ME::~tbicontainable() {}
+
+    TEMPL
+    V& ME::operator[](const K& key) { return get(key); }
+
+    TEMPL
+    const V& ME::operator[](const K& key) const { return get(key); }
+
+    TEMPL
+    ncnt ME::isEmpty() const { return len() <= 0; }
+
+    TEMPL
     nbool ME::in(const V& val) const {
         return !nul(get([&](const K&, const V& elem) { return &elem == &val; }));
     }
@@ -89,6 +101,72 @@ namespace nm {
 
     TEMPL
     void ME::each(std::function<nbool(const K&, V&)> l) { this->each<node>(l); }
+
+    TEMPL
+    typename ME::iter ME::begin() const { return iterate(0); }
+
+    TEMPL
+    typename ME::iter ME::rbegin() const { return riterate(0); }
+
+    TEMPL
+    typename ME::iter ME::end() const { return iterate(len()); }
+
+    TEMPL
+    typename ME::iter ME::rend() const { return riterate(len()); }
+
+    TEMPL
+    typename ME::iter ME::last() const { return iterate(len() - 1); }
+
+    TEMPL
+    typename ME::iter ME::iterate(ncnt step) const {
+        auto* e = _onMakeIteration(nulOf<K>(), false);
+        e->next(step);
+
+        return iter(e);
+    }
+
+    TEMPL
+    typename ME::iter ME::iterate(const K& key) const {
+        if(nul(key)) return iterate(0);
+        auto* e = _onMakeIteration(key, false);
+        if(!e->isEnd() && e->getKey() != key) e->next(1);
+
+        return iter(e);
+    }
+
+    TEMPL
+    typename ME::iter ME::riterate(ncnt step) const {
+        auto* e = _onMakeIteration(nulOf<K>(), true);
+        e->next(step);
+
+        return iter(e);
+    }
+
+    TEMPL
+    typename ME::iter ME::riterate(const K& key) const {
+        if(nul(key)) return riterate(0);
+        auto* e = _onMakeIteration(key, true);
+        if(!e->isEnd() && e->getKey() != key) e->next(1);
+
+        return iter(e);
+    }
+
+    TEMPL
+    nbool ME::add(const K& key, const V* val) { return add(key, *val); }
+
+    TEMPL
+    ncnt ME::add(const iter& from, const iter& to) {
+        int ret = 0;
+        for(iter e = from; e != to; ++e)
+            if(add(e.getKey(), e.getVal())) ret++;
+        return ret;
+    }
+
+    TEMPL
+    ncnt ME::add(const tbicontainable& rhs) { return add(rhs.begin(), rhs.end()); }
+
+    TEMPL
+    nbool ME::del(const tbicontainable& rhs) { return del(rhs.begin(), rhs.end()); }
 
 #undef ME
 #undef TEMPL
