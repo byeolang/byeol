@@ -10,6 +10,15 @@ namespace nm {
 #define ME tucontainable<T, R>::iter
 
     TEMPL
+    ME::iter() { _nextToMatchParamType(iterable::NEXT); }
+
+    TEMPL
+    ME::iter(iteration* newStep): _iteration(newStep) { _nextToMatchParamType(iterable::NEXT); }
+
+    TEMPL
+    ME::iter(const me& rhs) { _assign(rhs); }
+
+    TEMPL
     typename ME ME::operator+(ncnt step) {
         next(step);
         return *this;
@@ -73,7 +82,7 @@ namespace nm {
 
         for(int n = 0; n < step; n++) {
             if(_iterate(type, step) <= 0) return n;
-            _nextToMatchParamType();
+            _nextToMatchParamType(type);
         }
 
         return step;
@@ -113,11 +122,10 @@ namespace nm {
     }
 
     TEMPL
-    void ME::_nextToMatchParamType() {
+    void ME::_nextToMatchParamType(typename iterable::iterationType type) {
         while(!isEnd()) {
             if(!nulr<R>::isNul(get())) return;
-
-            next(1);
+            _iterate(type, 1);
         }
     }
 

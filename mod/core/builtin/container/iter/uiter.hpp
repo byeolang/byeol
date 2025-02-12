@@ -11,11 +11,9 @@ class iter: public iterable, public clonable, public typeProvidable {
     template <typename K, typename V, typename defaultContainer> friend class tnchain;
 
 public:
-    iter() { _nextToMatchParamType(); }
-
-    explicit iter(iteration* newStep): _iteration(newStep) { _nextToMatchParamType(); }
-
-    iter(const me& rhs) { _assign(rhs); }
+    iter();
+    explicit iter(iteration* newStep);
+    iter(const me& rhs);
 
 public:
     me operator+(ncnt step);
@@ -55,7 +53,7 @@ private:
 
     /// iterates until points to object of compatible type to given parameterized type T.
     /// iter should be alwyas stable state which points to object of proper type.
-    void _nextToMatchParamType();
+    void _nextToMatchParamType(typename iterable::iterationType type);
     ncnt _step(typename iterable::iterationType type, ncnt step);
     ncnt _iterate(typename iterable::iterationType type, ncnt step);
 

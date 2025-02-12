@@ -65,7 +65,7 @@ namespace nm {
             _wrap = isReversed ? (_isReversed ? _wrap->_next : _wrap->_prev) :
                                  (_isReversed ? _wrap->_prev : _wrap->_next);
             if(nul(_key)) break;
-            key = &this->getKey() orRet *this;
+            key = &this->getKey() orRet * this;
         } while(*key != *_key);
         return *this;
     }
