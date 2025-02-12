@@ -17,13 +17,6 @@ public:
         if(!_iter) next(1);
     }
 
-    chainIteration(const me& rhs):
-        super(rhs),
-        _ownIter(rhs._ownIter),
-        _key(rhs._key),
-        _iter(rhs._isBoundary ? _makeSubIter() : rhs._iter),
-        _isBoundary(rhs._isBoundary) {}
-
     nbool isEnd() const override {
         if(!nul(_getNextContainer())) return false;
         return !_iter;
@@ -104,14 +97,14 @@ private:
     }
 
     void _updateIter() {
-        const iter& nextOwnIter = _getNextIter();
-        if(nul(nextOwnIter)) {
+        const iter& nextIter = _getNextIter();
+        if(nul(nextIter)) {
             _ownIter.rel();
             _iter.rel();
         }
-
-        _ownIter.bind(typeProvidable::safeCast<tnchain>(nextOwnIter.getContainer()));
-        _iter = nextOwnIter;
+        _ownIter.bind(typeProvidable::safeCast<tnchain>(nextIter.getContainer()));
+        me& nextIteration = typeProvidable::safeCast<me>(*nextIter._iteration);
+        _iter = nextIteration._isBoundary ? _makeSubIter() : nextIteration._iter;
         if(!nul(_key) && (nul(_iter.getKey()) || _key != _iter.getKey())) _iter.next(1);
     }
 
@@ -120,8 +113,11 @@ private:
     }
 
 private:
-    tstr<tnchain> _ownIter; // _ownIter shouldn't be null always.
+    /// iter for tnchain.
+    /// this shouldn't be null always.
+    tstr<tnchain> _ownIter;
     const K& _key;
+    //// iter for container of tnchain
     iter _iter;
 
     /// the `_boundary` means that this `_iter` is at the boundary of the chain pointed to by

@@ -117,7 +117,7 @@ namespace nm {
     }
 
     TEMPL
-    nbool ME::link(const ME& new1) { return link(new1.end()); }
+    nbool ME::link(const ME& new1) { return link(new1.begin()); }
 
     TEMPL
     nbool ME::unlink() {
@@ -130,8 +130,8 @@ namespace nm {
     TEMPL
     ME& ME::getTail() {
         me* ret = this;
-        while(ret && !ret->_next.isEnd())
-            ret = (ME*) &ret->_next.getContainer();
+        while(ret && !nul(ret->_next.getContainer()))
+            ret = (me*) &ret->_next.getContainer();
         return *ret;
     }
 
@@ -158,9 +158,9 @@ namespace nm {
         ME* ret = new ME(this->getContainer());
         ME* retElem = ret;
         while(e) {
-            ME* new1 = new ME(e->getContainer());
+            tstr<me> new1(new ME(e->getContainer()));
             retElem->link(*new1);
-            retElem = new1;
+            retElem = &new1.get();
 
             if(&e->getContainer() == &until) break;
             e.bind(typeProvidable::safeCast<me>(e->_next.getContainer()));
@@ -199,7 +199,7 @@ namespace nm {
     typename ME::iteration* ME::_onMakeIteration(const K& key, nbool isReversed,
         nbool isBoundary) const {
         me* unconst = const_cast<me*>(this);
-        return new chainIteration(isReversed ? unconst->_getLastChain() : *unconst, key, isReversed,
+        return new chainIteration(isReversed ? unconst->getTail() : *unconst, key, isReversed,
             isBoundary);
     }
 
@@ -209,14 +209,6 @@ namespace nm {
         chainIteration& cast = (chainIteration&) *wrapper._iteration orNul(iter);
 
         return cast._iter;
-    }
-
-    TEMPL
-    ME& ME::_getLastChain() {
-        tnchain* ret = this;
-        while(ret && !nul(ret->_next.getContainer()))
-            ret = (tnchain*) &ret->_next.getContainer();
-        return *ret;
     }
 
     TEMPL

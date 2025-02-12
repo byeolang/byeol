@@ -79,7 +79,6 @@ namespace {
     template <typename T = myNode>
     static nbool isMyNodesHasEqualIntArray(const tnchain<float, myNode>& root, float expects[],
         int expectSize) {
-        auto myE = root.begin();
         vector<float> actuals;
         for(const auto& elem: root)
             if(elem.isSub<T>()) actuals.push_back((float) elem.number);
@@ -610,9 +609,11 @@ TEST_F(nchainTest, testDeepChainAddDel) {
     tnchain<float, myNode> chn2;
     chn2.add(3.0, new myNode2(3));
     chn2.add(4.0, new myNode(4));
-    chn1.link(chn2);
+    chn1.link(chn2); // chn1 -> chn2
 
     tstr<tnchain<float, myNode>> root(chn1.cloneChain());
+    // chn1 ---> chn2
+    // root --|
 
     tnchain<float, myNode> chn3;
     chn3.add(5.0, new myNode2(5));
