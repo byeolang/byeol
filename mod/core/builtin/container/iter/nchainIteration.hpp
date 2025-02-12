@@ -6,9 +6,23 @@ class chainIteration: public iteration {
 
 public:
     chainIteration(tnchain& iteratingChain, const K& key, nbool isReversed):
-        super(isReversed), _ownIter(iteratingChain), _key(key), _iter(_makeSubIter()) {
+        me(iteratingChain, key, isReversed, false) {}
+
+    chainIteration(tnchain& iteratingChain, const K& key, nbool isReversed, nbool isBoundary):
+        super(isReversed),
+        _ownIter(iteratingChain),
+        _key(key),
+        _iter(_makeSubIter()),
+        _isBoundary(isBoundary) {
         if(!_iter) next(1);
     }
+
+    chainIteration(const me& rhs):
+        super(rhs),
+        _ownIter(rhs._ownIter),
+        _key(rhs._key),
+        _iter(rhs._isBoundary ? _makeSubIter() : rhs._iter),
+        _isBoundary(rhs._isBoundary) {}
 
     nbool isEnd() const override {
         if(!nul(_getNextContainer())) return false;
@@ -20,7 +34,11 @@ public:
         _ownIter.rel();
     }
 
+    nbool isBoundary() const { return _isBoundary; }
+
     ncnt next(ncnt step) override { return _step(super::NEXT, step); }
+
+    ncnt prev(ncnt step) override { return _step(super::PREV, step); }
 
     ncnt stepForward(ncnt step) override { return _step(super::FORWARD, step); }
 
@@ -58,8 +76,7 @@ private:
 
             // _iter moved to 'End' state now.
             if(isEnd()) break;
-            _ownIter.bind(_getNextContainer());
-            _iter = _makeSubIter();
+            _updateIter();
             if(_iter) remain--;
         }
 
@@ -70,14 +87,32 @@ private:
         switch(type) {
             case super::FORWARD: return _iter.stepForward(step);
             case super::BACKWARD: return _iter.stepBackward(step);
+            case super::PREV: return _iter.prev(step);
             default:
             case super::NEXT: return _iter.next(step);
         }
     }
 
+    const iter& _getNextIter() const {
+        if(!_ownIter) return nulOf<iter>();
+        return this->isReversed() ? _ownIter->_prev : _ownIter->_next;
+    }
+
     const tnchain& _getNextContainer() const {
         if(!_ownIter) return nulOf<tnchain>();
         return this->isReversed() ? _ownIter->getPrev() : _ownIter->getNext();
+    }
+
+    void _updateIter() {
+        const iter& nextOwnIter = _getNextIter();
+        if(nul(nextOwnIter)) {
+            _ownIter.rel();
+            _iter.rel();
+        }
+
+        _ownIter.bind(typeProvidable::safeCast<tnchain>(nextOwnIter.getContainer()));
+        _iter = nextOwnIter;
+        if(!nul(_key) && (nul(_iter.getKey()) || _key != _iter.getKey())) _iter.next(1);
     }
 
     iter _makeSubIter() const {
@@ -88,4 +123,26 @@ private:
     tstr<tnchain> _ownIter; // _ownIter shouldn't be null always.
     const K& _key;
     iter _iter;
+
+    /// the `_boundary` means that this `_iter` is at the boundary of the chain pointed to by
+    /// `_ownIter` when it is updated.
+    ///
+    /// the chain is linked on an iterator basis. in special cases, chains may be linked by an
+    /// iterator based on a particular key.
+    /// in this case, you will have a link in a specific direction from the key, not the entire
+    /// chain with that key.
+    ///
+    /// in most cases, however, you'll want to have a link to the chain itself.
+    /// typically, you'll link to the `iter' returned by the chain's `begin()`.
+    /// but what happens if the pair that was the first iter is deleted?
+    /// in this case, it behaves just like linking a chain based on a specific key, which we
+    /// discussed earlier.
+    /// it'll go one step forward in the direction of the `iter` and find the next pair.
+    ///
+    /// the user should be able to put a new `pair` at the front of the chain after linking, or
+    /// delete the linked `pair`.
+    /// so, my linkage algorithm should be based on `iter`, but I'll need to distinguish between
+    /// linking the whole thing and linking a part of it.
+    /// and this is where `_boundary` comes in.
+    nbool _isBoundary;
 };

@@ -73,9 +73,13 @@ namespace nm {
         virtual iter last() const;
 
         iter iterate(ncnt step) const;
+        iter iterate(ncnt step, nbool isBoundary) const;
         iter iterate(const K& key) const;
+        iter iterate(const K& key, nbool isBoundary) const;
         iter riterate(ncnt step) const;
+        iter riterate(ncnt step, nbool isBoundary) const;
         iter riterate(const K& key) const;
+        iter riterate(const K& key, nbool isBoundary) const;
 
         // add:
         virtual nbool add(const K& key, const V& val) = 0;
@@ -97,7 +101,8 @@ namespace nm {
         virtual void rel() = 0;
 
     protected:
-        virtual iteration* _onMakeIteration(const K& key, nbool isReversed) const = 0;
+        virtual iteration* _onMakeIteration(const K& key, nbool isReversed,
+            nbool isBoundary) const = 0;
         virtual void _getAll(const K& key, narr& tray) const = 0;
     };
 

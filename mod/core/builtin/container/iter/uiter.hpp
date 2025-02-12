@@ -36,6 +36,7 @@ public:
     nbool isFrom(const tucontainable& it) const override;
     nbool isEnd() const override;
     ncnt next(ncnt step) override;
+    ncnt prev(ncnt step) override;
     ncnt stepForward(ncnt step) override;
     ncnt stepBackward(ncnt step) override;
 

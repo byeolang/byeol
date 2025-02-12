@@ -103,53 +103,65 @@ namespace nm {
     void ME::each(std::function<nbool(const K&, V&)> l) { this->each<node>(l); }
 
     TEMPL
-    typename ME::iter ME::begin() const { return iterate(0); }
+    typename ME::iter ME::begin() const { return iterate(0, true); }
 
     TEMPL
-    typename ME::iter ME::rbegin() const { return riterate(0); }
+    typename ME::iter ME::rbegin() const { return riterate(0, true); }
 
     TEMPL
-    typename ME::iter ME::end() const { return iterate(len()); }
+    typename ME::iter ME::end() const { return iterate(len(), true); }
 
     TEMPL
-    typename ME::iter ME::rend() const { return riterate(len()); }
+    typename ME::iter ME::rend() const { return riterate(len(), true); }
 
     TEMPL
     typename ME::iter ME::last() const { return iterate(len() - 1); }
 
     TEMPL
-    typename ME::iter ME::iterate(ncnt step) const {
-        auto* e = _onMakeIteration(nulOf<K>(), false);
+    typename ME::iter ME::iterate(ncnt step) const { return iterate(step, false); }
+
+    TEMPL
+    typename ME::iter ME::iterate(ncnt step, nbool isBoundary) const {
+        auto* e = _onMakeIteration(nulOf<K>(), false, isBoundary);
         e->next(step);
 
         return iter(e);
     }
 
     TEMPL
-    typename ME::iter ME::iterate(const K& key) const {
+    typename ME::iter ME::iterate(const K& key) const { return iterate(key, false); }
+
+    TEMPL
+    typename ME::iter ME::iterate(const K& key, nbool isBoundary) const {
         if(nul(key)) return iterate(0);
-        auto* e = _onMakeIteration(key, false);
+        auto* e = _onMakeIteration(key, false, isBoundary);
         if(!e->isEnd() && e->getKey() != key) e->next(1);
 
         return iter(e);
     }
 
     TEMPL
-    typename ME::iter ME::riterate(ncnt step) const {
-        auto* e = _onMakeIteration(nulOf<K>(), true);
+    typename ME::iter ME::riterate(ncnt step) const { return riterate(step, false); }
+
+    TEMPL
+    typename ME::iter ME::riterate(ncnt step, nbool isBoundary) const {
+        auto* e = _onMakeIteration(nulOf<K>(), true, isBoundary);
         e->next(step);
 
         return iter(e);
     }
 
     TEMPL
-    typename ME::iter ME::riterate(const K& key) const {
+    typename ME::iter ME::riterate(const K& key, nbool isBoundary) const {
         if(nul(key)) return riterate(0);
-        auto* e = _onMakeIteration(key, true);
+        auto* e = _onMakeIteration(key, true, isBoundary);
         if(!e->isEnd() && e->getKey() != key) e->next(1);
 
         return iter(e);
     }
+
+    TEMPL
+    typename ME::iter ME::riterate(const K& key) const { return riterate(key, false); }
 
     TEMPL
     nbool ME::add(const K& key, const V* val) { return add(key, *val); }

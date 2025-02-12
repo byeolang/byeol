@@ -114,13 +114,14 @@ namespace nm {
         me* cloneChain() const;
 
     protected:
-        iteration* _onMakeIteration(const K& key, nbool isReversed) const override;
+        iteration* _onMakeIteration(const K& key, nbool isReversed,
+            nbool isBoundary) const override;
 
         void _getAll(const K& key, narr& tray) const override;
 
     private:
         iter& _getMapIterFromChainIter(const iter& wrapper);
-        iter _rbeginOfThisChain();
+        iter _rendOfThisChain();
         me& _getLastChain();
 
     private:

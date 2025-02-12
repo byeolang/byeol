@@ -112,12 +112,12 @@ namespace nm {
             return NM_W("recursive link detected for portion(%s).", (void*) &next), false;
 
         _next = portion;
-        next._prev = _rbeginOfThisChain();
+        next._prev = _rendOfThisChain();
         return true;
     }
 
     TEMPL
-    nbool ME::link(const ME& new1) { return link(new1.begin()); }
+    nbool ME::link(const ME& new1) { return link(new1.end()); }
 
     TEMPL
     nbool ME::unlink() {
@@ -196,10 +196,11 @@ namespace nm {
     ME& ME::getPrev() { return typeProvidable::safeCast<ME>(_prev.getContainer()); }
 
     TEMPL
-    typename ME::iteration* ME::_onMakeIteration(const K& key, nbool isReversed) const {
+    typename ME::iteration* ME::_onMakeIteration(const K& key, nbool isReversed,
+        nbool isBoundary) const {
         me* unconst = const_cast<me*>(this);
-        return new chainIteration(isReversed ? unconst->_getLastChain() : *unconst, key,
-            isReversed);
+        return new chainIteration(isReversed ? unconst->_getLastChain() : *unconst, key, isReversed,
+            isBoundary);
     }
 
     TEMPL
@@ -219,8 +220,8 @@ namespace nm {
     }
 
     TEMPL
-    typename ME::iter ME::_rbeginOfThisChain() {
-        return iter(new chainIteration(*this, nulOf<K>(), true));
+    typename ME::iter ME::_rendOfThisChain() {
+        return iter(new chainIteration(*this, nulOf<K>(), true, true));
     }
 
 #undef ME
