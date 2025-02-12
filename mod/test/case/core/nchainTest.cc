@@ -864,3 +864,71 @@ TEST_F(nchainTest, iterateForKeyInMultipleChain) {
         ASSERT_EQ(val2.get(), 4);
     }
 }
+
+TEST_F(nchainTest, linkFirstAddSecond) {
+    nchain m;
+    m.add("meat", new nInt(1));
+    m.add("banana", new nInt(2));
+    nchain m2;
+    m2.add("banana", new nInt(3));
+
+    m.link(m2); // meat -> banan -> banana
+    ASSERT_EQ(m.len(), 3);
+
+    {
+        std::string expectKeys[] = {"meat", "banana", "banana"};
+        int n = 0;
+        for(auto e = m.begin(); e ;++e)
+            ASSERT_EQ(e.getKey(), expectKeys[n++]);
+    }
+
+    m2.add("apple", *new nInt(4));
+    m2.add("mango", *new nInt(5));
+
+    ASSERT_EQ(m.len(), 5);
+    {
+        std::string expectKeys[] = {"meat", "banana", "banana", "apple", "mango"};
+        int n = 0;
+        for(auto e = m.begin(); e ;++e) {
+            ASSERT_EQ(e.getKey(), expectKeys[n++]);
+            ASSERT_EQ(e.getVal().cast<nint>(), n);
+        }
+    }
+}
+
+TEST_F(nchainTest, linkREndAndAddingElemCanAffect) {
+    nchain m;
+    m.add("meat", new nInt(1));
+    m.add("banana", new nInt(2));
+    nchain m2;
+    m2.add("apple", new nInt(3));
+    m2.add("banana", new nInt(4));
+
+    m.link(m2.rend()); // meat -> banana -> banana -> apple
+    ASSERT_EQ(m.len(), 4);
+
+    {
+        std::string expectKeys[] = {"meat", "banana", "banana", "apple"};
+        int expects[] = {1, 2, 4, 3};
+        int n = 0;
+        for(auto e = m.begin(); e ;++e) {
+            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
+        }
+    }
+
+    // this adding 1 element at the end of m2.
+    // m has linked to `rend` of m2.
+    // in this case, `m` still can see m2's new element.
+    m2.add("melon", new nInt(5));
+    ASSERT_EQ(m.len(), 5);
+    {
+        std::string expectKeys[] = {"meat", "banana", "melon", "banana", "apple"};
+        int expects[] = {1, 2, 5, 4, 3};
+        int n = 0;
+        for(auto e = m.begin(); e ;++e) {
+            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
+        }
+    }
+}
