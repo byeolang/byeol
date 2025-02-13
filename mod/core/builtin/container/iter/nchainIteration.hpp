@@ -10,9 +10,9 @@ public:
 
     chainIteration(tnchain& iteratingChain, const K& key, nbool isReversed, nbool isBoundary):
         super(isReversed),
-        _ownIter(iteratingChain),
+        _chainIter(iteratingChain),
         _key(key),
-        _iter(_makeSubIter()),
+        _iter(_makeContainerIter(false)),
         _isBoundary(isBoundary) {
         if(!_iter) next(1);
     }
@@ -24,7 +24,7 @@ public:
 
     void rel() override {
         _iter.rel();
-        _ownIter.rel();
+        _chainIter.rel();
     }
 
     nbool isBoundary() const { return _isBoundary; }
@@ -40,8 +40,8 @@ public:
     using super::getContainer;
 
     tbicontainable<K, V>& getContainer() override {
-        if(!_ownIter) return nulOf<tbicontainable<K, V>>();
-        return *_ownIter;
+        if(!_chainIter) return nulOf<tbicontainable<K, V>>();
+        return *_chainIter;
     }
 
     const K& getKey() const override { return _iter.getKey(); }
@@ -62,7 +62,7 @@ private:
     ncnt _step(typename super::iterationType type, ncnt step) {
         ncnt remain = step;
 
-        // if _ownIter was invalidated then _iter too.
+        // if _chainIter was invalidated then _iter too.
         while(remain > 0) {
             remain -= _iterate(type, remain);
             if(remain <= 0) break;
@@ -87,41 +87,54 @@ private:
     }
 
     const iter& _getNextIter() const {
-        if(!_ownIter) return nulOf<iter>();
-        return this->isReversed() ? _ownIter->_prev : _ownIter->_next;
+        if(!_chainIter) return nulOf<iter>();
+        return this->isReversed() ? _chainIter->_prev : _chainIter->_next;
     }
 
     const tnchain& _getNextContainer() const {
-        if(!_ownIter) return nulOf<tnchain>();
-        return this->isReversed() ? _ownIter->getPrev() : _ownIter->getNext();
+        if(!_chainIter) return nulOf<tnchain>();
+        return this->isReversed() ? _chainIter->getPrev() : _chainIter->getNext();
     }
 
     void _updateIter() {
         const iter& nextIter = _getNextIter();
         if(nul(nextIter)) {
-            _ownIter.rel();
+            _chainIter.rel();
             _iter.rel();
         }
-        _ownIter.bind(typeProvidable::safeCast<tnchain>(nextIter.getContainer()));
+
+        // proceed to next chain:
+        _chainIter.bind(typeProvidable::safeCast<tnchain>(nextIter.getContainer()));
+        // init container iter:
         me& nextIteration = typeProvidable::safeCast<me>(*nextIter._iteration);
-        _iter = nextIteration._isBoundary ? _makeSubIter() : nextIteration._iter;
+        _iter = nextIteration._isBoundary ? _makeContainerIter(nextIteration.isReversed()) :
+                                            nextIteration._iter;
         if(!nul(_key) && (nul(_iter.getKey()) || _key != _iter.getKey())) _iter.next(1);
     }
 
-    iter _makeSubIter() const {
-        return this->isReversed() ? _ownIter->_map->riterate(_key) : _ownIter->_map->iterate(_key);
+    /// create a new iter to match the container iter currently held by `chainIter`.
+    /// @param isReversed you can specify a direction when linking a chain, and since this iter
+    ///                   currently has a direction of its own, the two directions will work
+    ///                   separately.
+    ///                   this `isReversed` is the direction value that each `iter` owned by `chain`
+    ///                   object, not from `this` pointer.
+    iter _makeContainerIter(nbool isReversed) const {
+        return isReversed ? (this->isReversed() ? _chainIter->_map->iterate(_key) :
+                                                  _chainIter->_map->riterate(_key)) :
+                            (this->isReversed() ? _chainIter->_map->riterate(_key) :
+                                                  _chainIter->_map->iterate(_key));
     }
 
 private:
     /// iter for tnchain.
     /// this shouldn't be null always.
-    tstr<tnchain> _ownIter;
+    tstr<tnchain> _chainIter;
     const K& _key;
     //// iter for container of tnchain
     iter _iter;
 
     /// the `_boundary` means that this `_iter` is at the boundary of the chain pointed to by
-    /// `_ownIter` when it is updated.
+    /// `_chainIter` when it is updated.
     ///
     /// the chain is linked on an iterator basis. in special cases, chains may be linked by an
     /// iterator based on a particular key.
