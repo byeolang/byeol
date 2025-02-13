@@ -121,7 +121,7 @@ namespace nm {
 
     private:
         iter& _getMapIterFromChainIter(const iter& wrapper);
-        iter _rendOfThisChain();
+        iter _rendOfThisChain(nbool isReversed);
         me& _getLastChain();
 
     private:

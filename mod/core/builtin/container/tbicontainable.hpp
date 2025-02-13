@@ -63,8 +63,10 @@ namespace nm {
 
         // iter:
         iter begin() const;
+        iter begin(const K& key) const;
 
         iter rbegin() const;
+        iter rbegin(const K& key) const;
 
         virtual iter end() const;
 

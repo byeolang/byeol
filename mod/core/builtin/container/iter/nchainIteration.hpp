@@ -119,10 +119,10 @@ private:
     ///                   this `isReversed` is the direction value that each `iter` owned by `chain`
     ///                   object, not from `this` pointer.
     iter _makeContainerIter(nbool isReversed) const {
-        return isReversed ? (this->isReversed() ? _chainIter->_map->iterate(_key) :
-                                                  _chainIter->_map->riterate(_key)) :
-                            (this->isReversed() ? _chainIter->_map->riterate(_key) :
-                                                  _chainIter->_map->iterate(_key));
+        return isReversed ? (this->isReversed() ? _chainIter->_map->begin(_key) :
+                                                  _chainIter->_map->rbegin(_key)) :
+                            (this->isReversed() ? _chainIter->_map->rbegin(_key) :
+                                                  _chainIter->_map->begin(_key));
     }
 
 private:

@@ -112,7 +112,10 @@ namespace nm {
             return NM_W("recursive link detected for portion(%s).", (void*) &next), false;
 
         _next = portion;
-        next._prev = _rendOfThisChain();
+        // this's not reversed to portion iterator:
+        // if we define this iteration as reversed, truly `reversed chain iter` will be
+        // recognized just like `reversed + reversed = forward` when it advances.
+        next._prev = _rendOfThisChain(portion.isReversed());
         return true;
     }
 
@@ -212,8 +215,8 @@ namespace nm {
     }
 
     TEMPL
-    typename ME::iter ME::_rendOfThisChain() {
-        return iter(new chainIteration(*this, nulOf<K>(), true, true));
+    typename ME::iter ME::_rendOfThisChain(nbool isReversed) {
+        return iter(new chainIteration(*this, nulOf<K>(), isReversed, true));
     }
 
 #undef ME

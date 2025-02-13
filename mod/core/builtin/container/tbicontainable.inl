@@ -106,7 +106,13 @@ namespace nm {
     typename ME::iter ME::begin() const { return iterate(0, true); }
 
     TEMPL
+    typename ME::iter ME::begin(const K& key) const { return iterate(key, true); }
+
+    TEMPL
     typename ME::iter ME::rbegin() const { return riterate(0, true); }
+
+    TEMPL
+    typename ME::iter ME::rbegin(const K& key) const { return riterate(key, true); }
 
     TEMPL
     typename ME::iter ME::end() const { return iterate(len(), true); }
