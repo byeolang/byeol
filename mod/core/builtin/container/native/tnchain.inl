@@ -113,9 +113,21 @@ namespace nm {
 
         _next = portion;
         // this's not reversed to portion iterator:
-        // if we define this iteration as reversed, truly `reversed chain iter` will be
-        // recognized just like `reversed + reversed = forward` when it advances.
-        next._prev = _rendOfThisChain(portion.isReversed());
+        // the direction of the `chain iter` is determined by the perspective from which the chain
+        // is viewed.
+        // if you are looking at a chain from a reversed viewpoint and you link a new
+        // chain to that chain from a normal viewpoint, the viewpoint from which the new chain looks
+        // at the reversed chain must be reversed.
+        //
+        // e.g.
+        //  A ----reversed--> B  ----normal--> C
+        //    <--normal-----     <--reversed--
+        //
+        // therefore, the value of `next._prev.isReversed()` must be the same as the value of
+        // `prev._next.isReversed()`. This ensures that advancing iters on both ends will produce
+        // the same result.
+        me& prev = getPrev();
+        next._prev = _rendOfThisChain(nul(prev) ? false : prev._next.isReversed());
         return true;
     }
 

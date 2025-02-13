@@ -933,3 +933,72 @@ TEST_F(nchainTest, linkREndAndAddingElemCanAffect) {
         }
     }
 }
+
+TEST_F(nchainTest, linkReversedKeySpecificAndAddingElemCantAffect) {
+    nchain m;
+    m.add("meat", new nInt(1));
+    m.add("banana", new nInt(2));
+    nchain m2;
+    m2.add("apple", new nInt(3));
+    m2.add("banana", new nInt(4));
+    m.link(m2.riterate(0, false)); // it's not boundary!
+    // meat -> banana -> banana -> apple
+
+    {
+        std::string expectKeys[] = {"meat", "banana", "banana", "apple"};
+        int expects[] = {1, 2, 4, 3};
+        int n = 0;
+        for(auto e = m.begin(); e ;++e) {
+            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
+        }
+    }
+
+    m2.add("melon", new nInt(5));
+
+    {
+        std::string expectKeys[] = {"meat", "banana", "banana", "apple"};
+        int expects[] = {1, 2, 4, 3};
+        int n = 0;
+        for(auto e = m.begin(); e ;++e) {
+            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
+        }
+    }
+}
+
+TEST_F(nchainTest, linkChainsButMiddleOfOneIsReversed) {
+    nchain m;
+    m.add("meat", new nInt(1));
+    m.add("banana", new nInt(2));
+    nchain m2;
+    m2.add("apple", new nInt(3));
+    m2.add("banana", new nInt(4));
+    nchain m3;
+    m3.add("mango", new nInt(5));
+    m3.add("melon", new nInt(6));
+
+    m.link(m2.rbegin());
+    m2.link(m3); // m -> m2(reversed) -> m3
+    // meat -> banana -> banana -> apple -> mango -> melon
+
+    {
+        std::string expectKeys[] = {"meat", "banana", "banana", "apple", "mango", "melon"};
+        int expects[] = {1, 2, 4, 3, 5, 6};
+        int n = 0;
+        for(auto e = m.begin(); e ;++e) {
+            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
+        }
+    }
+
+    {
+        std::string expectKeys[] = {"melon", "mango", "apple", "banana", "banana", "meat"};
+        int expects[] = {6, 5, 3, 4, 2, 1};
+        int n = 0;
+        for(auto e = m.rbegin(); e ;++e) {
+            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
+        }
+    }
+}
