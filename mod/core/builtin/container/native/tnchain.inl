@@ -96,6 +96,7 @@ namespace nm {
 
     TEMPL
     nbool ME::del(const iter& from, const iter& last) {
+        NM_WHEN(from.isReversed() != last.isReversed()).ex(ITERATORS_ARENT_SAME_DIRECTION), false;
         const me* fromChain = (const me*) &from.getContainer();
         const me *lastChain = (const me*) &last.getContainer()
                                   orRet NM_W("iterator 'end' owned by null chain instance."),
@@ -238,16 +239,18 @@ namespace nm {
 
     TEMPL
     typename ME::iter ME::_getBeginOfChain(me& it, const me& fromChain, const iter& from) {
-        me& prev = it.getPrev() orRet it.getContainer().begin();
-        const iter& next = (&it == &fromChain) ? from : prev._next;
-        return _getInnerIter(next.isReversed() ? prev.begin() : next);
+        me& prev = it.getPrev();
+        nbool isReversed = nul(prev) ? false : prev._next.isReversed();
+        const iter& next = &it == &fromChain ? (isReversed ? it.begin() : from) : it.begin();
+        return _getInnerIter(next);
     }
 
     TEMPL
     typename ME::iter ME::_getEndOfChain(me& it, const me& lastChain, const iter& last) {
-        me& prev = it.getPrev() orRet it.getContainer().end();
-        const iter& next = (&it == &lastChain) ? last : prev._next;
-        return _getInnerIter(next.isReversed() ? next : prev.end());
+        me& prev = it.getPrev();
+        nbool isReversed = nul(prev) ? false : prev._next.isReversed();
+        const iter& next = &it == &lastChain ? (isReversed ? it.end() : last) : it.end();
+        return _getInnerIter(next);
     }
 
     TEMPL

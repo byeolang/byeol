@@ -167,6 +167,7 @@ PAIRX(ITERATOR_IS_NUL, "null iterator has been used")
 PAIRX(VALUE_IS_NUL, "tried to add/delete null value")
 PAIRX(ITERATOR_NOT_BELONG_TO_CONTAINER, "this iterator is not belonged to this container.")
 PAIRX(OUT_OF_RANGE, "given index '%d' is out of range. container's length is %d")
+PAIRX(ITERATORS_ARENT_SAME_DIRECTION, "these iterators aren't same direction.")
 
 // operator:
 PAIRX(STRING_IS_NOT_PROPER_TO_OP, "string type isn't suitable to this operators.")
