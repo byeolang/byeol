@@ -74,7 +74,8 @@ namespace nm {
         nbool ret = true;
         for(auto e = this->begin(); e; ++e) {
             if(e.getKey() != key) continue;
-            if(!e.getContainer().del(e)) ret = false;
+            me& eChain = (me&) e.getContainer() orRet false;
+            if(!eChain.getContainer().del(e.getKey())) ret = false;
         }
         return ret;
     }
@@ -83,11 +84,12 @@ namespace nm {
     nbool ME::del(const iter& at) {
         const me* owner = (const me*) &at.getContainer();
         for(auto e = this->begin(); e; ++e) {
-            if(&e.getContainer() != owner) continue;
+            me& eChain = (me&) e.getContainer() orRet false;
+            if(&eChain != owner) continue;
             if(e.getKey() != at.getKey()) continue;
             if(&e.getVal() != &at.getVal()) continue;
 
-            e.getContainer().del(at);
+            eChain.getContainer().del(at);
         }
         return false;
     }
@@ -227,9 +229,9 @@ namespace nm {
     }
 
     TEMPL
-    typename ME::iter& ME::_getMapIterFromChainIter(const iter& wrapper) {
-        if(!wrapper._iteration->getType().template isSub<chainIteration>()) return nulOf<iter>();
-        chainIteration& cast = (chainIteration&) *wrapper._iteration orNul(iter);
+    typename ME::iter& ME::_getInnerIter(const iter& outer) {
+        if(!outer._iteration->getType().template isSub<chainIteration>()) return nulOf<iter>();
+        chainIteration& cast = (chainIteration&) *outer._iteration orNul(iter);
 
         return cast._iter;
     }
@@ -238,14 +240,14 @@ namespace nm {
     typename ME::iter ME::_getBeginOfChain(me& it, const me& fromChain, const iter& from) {
         me& prev = it.getPrev() orRet it.getContainer().begin();
         const iter& next = (&it == &fromChain) ? from : prev._next;
-        return _getMapIterFromChainIter(next.isReversed() ? prev.begin() : next);
+        return _getInnerIter(next.isReversed() ? prev.begin() : next);
     }
 
     TEMPL
     typename ME::iter ME::_getEndOfChain(me& it, const me& lastChain, const iter& last) {
         me& prev = it.getPrev() orRet it.getContainer().end();
         const iter& next = (&it == &lastChain) ? last : prev._next;
-        return _getMapIterFromChainIter(next.isReversed() ? next : prev.end());
+        return _getInnerIter(next.isReversed() ? next : prev.end());
     }
 
     TEMPL
