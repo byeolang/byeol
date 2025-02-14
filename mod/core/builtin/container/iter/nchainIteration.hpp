@@ -77,6 +77,7 @@ private:
     }
 
     ncnt _iterate(typename super::iterationType type, ncnt step) {
+        _isBoundary = false;
         switch(type) {
             case super::FORWARD: return _iter.stepForward(step);
             case super::BACKWARD: return _iter.stepBackward(step);
