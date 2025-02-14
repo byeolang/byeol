@@ -26,16 +26,15 @@ namespace nm {
 
     TEMPL
     nbool ME::in(const K& key) const {
-        for(tstr<me> e(this); e; e.bind(e->getNext()))
-            if(e->getContainer().in(key)) return true;
-        return false;
+        nbool ret = false;
+        this->each([&](const K& elemKey, const V&) { return ret = elemKey != key; });
+        return ret;
     }
 
     TEMPL
     ncnt ME::len() const {
         ncnt len = 0;
-        for(tstr<me> e(this); e; e.bind(e->getNext()))
-            len += e->getContainer().len();
+        this->each([&](const K&, const V&) { return len++, true; });
         return len;
     }
 
@@ -50,18 +49,21 @@ namespace nm {
 
     TEMPL
     V& ME::get(const K& key) {
-        for(tstr<me> e(this); e; e.bind(e->getNext())) {
-            V& got = e->getContainer().get(key);
-            if(!nul(got)) return got;
-        }
-
-        return nulOf<V>();
+        V* ret = nullptr;
+        this->each([&](const K& elemKey, V& val) {
+            if(elemKey != key) return true;
+            ret = &val;
+            return false;
+        });
+        return *ret;
     }
 
     TEMPL
     void ME::_getAll(const K& key, narr& tray) const {
-        for(tstr<me> e(this); e; e.bind(e->getNext()))
-            e->getContainer()._getAll(key, tray);
+        this->each([&](const K& elemKey, const V& val) {
+            if(elemKey == key) tray.add(val);
+            return true;
+        });
     }
 
     TEMPL
@@ -70,17 +72,23 @@ namespace nm {
     TEMPL
     nbool ME::del(const K& key) {
         nbool ret = true;
-        for(tstr<me> e(this); e; e.bind(e->getNext()))
-            if(e->in(key)) ret = e->getContainer().del(key) ? ret : false;
+        for(auto e = this->begin(); e; ++e) {
+            if(e.getKey() != key) continue;
+            if(!e.getContainer().del(e)) ret = false;
+        }
         return ret;
     }
 
     TEMPL
     nbool ME::del(const iter& at) {
-        const me& owner = (const me&) at.getContainer();
+        const me* owner = (const me*) &at.getContainer();
+        for(auto e = this->begin(); e; ++e) {
+            if(&e.getContainer() != owner) continue;
+            if(e.getKey() != at.getKey()) continue;
+            if(&e.getVal() != &at.getVal()) continue;
 
-        for(tstr<me> e(this); e; e.bind(e->getNext()))
-            if(&e.get() == &owner) return e->getContainer().del(_getMapIterFromChainIter(at));
+            e.getContainer().del(at);
+        }
         return false;
     }
 
@@ -96,8 +104,8 @@ namespace nm {
         nbool ret = true;
         do {
             super& eArr = e->getContainer();
-            iter arrBegin = e == fromChain ? _getMapIterFromChainIter(from) : eArr.begin(),
-                 arrLast = e == lastChain ? _getMapIterFromChainIter(last) : eArr.end();
+            iter arrBegin = _getBeginOfChain(*e, *fromChain, from),
+                 arrLast = _getEndOfChain(*e, *lastChain, last);
             ret = eArr.del(arrBegin, arrLast) ? ret : false;
             e = &e->getNext();
         } while(e != endChain);
@@ -224,6 +232,20 @@ namespace nm {
         chainIteration& cast = (chainIteration&) *wrapper._iteration orNul(iter);
 
         return cast._iter;
+    }
+
+    TEMPL
+    typename ME::iter ME::_getBeginOfChain(me& it, const me& fromChain, const iter& from) {
+        me& prev = it.getPrev() orRet it.getContainer().begin();
+        const iter& next = (&it == &fromChain) ? from : prev._next;
+        return _getMapIterFromChainIter(next.isReversed() ? prev.begin() : next);
+    }
+
+    TEMPL
+    typename ME::iter ME::_getEndOfChain(me& it, const me& lastChain, const iter& last) {
+        me& prev = it.getPrev() orRet it.getContainer().end();
+        const iter& next = (&it == &lastChain) ? last : prev._next;
+        return _getMapIterFromChainIter(next.isReversed() ? next : prev.end());
     }
 
     TEMPL

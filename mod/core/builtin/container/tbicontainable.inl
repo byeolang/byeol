@@ -100,7 +100,7 @@ namespace nm {
     }
 
     TEMPL
-    void ME::each(std::function<nbool(const K&, V&)> l) { this->each<node>(l); }
+    void ME::each(std::function<nbool(const K&, V&)> l) { this->each<V>(l); }
 
     TEMPL
     typename ME::iter ME::begin() const { return iterate(0, true); }
