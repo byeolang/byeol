@@ -121,8 +121,8 @@ namespace nm {
 
     private:
         iter& _getInnerIter(const iter& wrapper);
-        iter _getBeginOfChain(me& it, const me& fromChain, const iter& from);
-        iter _getEndOfChain(me& it, const me& lastChain, const iter& last);
+        iter _getInnerBeginOfChain(me& it, const me& fromChain, const iter& from);
+        iter _getInnerEndOfChain(me& it, const me& lastChain, const iter& last);
         iter _rendOfThisChain(nbool isReversed);
         me& _getLastChain();
 

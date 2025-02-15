@@ -107,9 +107,9 @@ namespace nm {
         nbool ret = true;
         do {
             super& eArr = e->getContainer();
-            iter arrBegin = _getBeginOfChain(*e, *fromChain, from),
-                 arrLast = _getEndOfChain(*e, *lastChain, last);
-            ret = eArr.del(arrBegin, arrLast) ? ret : false;
+            iter innerBegin = _getInnerBeginOfChain(*e, *fromChain, from),
+                 innerLast = _getInnerEndOfChain(*e, *lastChain, last);
+            ret = eArr.del(innerBegin, innerLast) ? ret : false;
             e = &e->getNext();
         } while(e != endChain);
 
@@ -238,19 +238,17 @@ namespace nm {
     }
 
     TEMPL
-    typename ME::iter ME::_getBeginOfChain(me& it, const me& fromChain, const iter& from) {
+    typename ME::iter ME::_getInnerBeginOfChain(me& it, const me& fromChain, const iter& from) {
         me& prev = it.getPrev();
         nbool isReversed = nul(prev) ? false : prev._next.isReversed();
-        const iter& next = &it == &fromChain ? (isReversed ? it.begin() : from) : it.begin();
-        return _getInnerIter(next);
+        return &it == &fromChain ? (isReversed ? it.getContainer().begin() : _getInnerIter(from)) : it.getContainer().begin();
     }
 
     TEMPL
-    typename ME::iter ME::_getEndOfChain(me& it, const me& lastChain, const iter& last) {
+    typename ME::iter ME::_getInnerEndOfChain(me& it, const me& lastChain, const iter& last) {
         me& prev = it.getPrev();
         nbool isReversed = nul(prev) ? false : prev._next.isReversed();
-        const iter& next = &it == &lastChain ? (isReversed ? it.end() : last) : it.end();
-        return _getInnerIter(next);
+        return &it == &lastChain ? (isReversed ? it.getContainer().end() : _getInnerIter(last)) : it.getContainer().end();
     }
 
     TEMPL
