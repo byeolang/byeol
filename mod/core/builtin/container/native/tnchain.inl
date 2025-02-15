@@ -28,7 +28,7 @@ namespace nm {
     nbool ME::in(const K& key) const {
         nbool ret = false;
         this->each([&](const K& elemKey, const V&) { return ret = elemKey != key; });
-        return ret;
+        return !ret;
     }
 
     TEMPL
