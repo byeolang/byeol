@@ -15,7 +15,7 @@ namespace nm {
     public:
         typedef typename super::iter iter;
         typedef typename super::iteration iteration;
-        friend class chainIteration;
+        friend class nchainIteration;
         typedef _defaultContainer defaultContainer;
 #include "../iter/nchainIteration.hpp"
 
@@ -114,7 +114,7 @@ namespace nm {
         me* cloneChain() const;
 
     protected:
-        iteration* _onMakeIteration(const K& key, nbool isReversed,
+        iteration* _onMakeIteration(const K& key, nbool isReversed, ncnt step,
             nbool isBoundary) const override;
 
         void _getAll(const K& key, narr& tray) const override;

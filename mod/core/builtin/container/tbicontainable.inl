@@ -128,10 +128,7 @@ namespace nm {
 
     TEMPL
     typename ME::iter ME::iterate(ncnt step, nbool isBoundary) const {
-        auto* e = _onMakeIteration(nulOf<K>(), false, isBoundary);
-        e->next(step);
-
-        return iter(e);
+        return iter(_onMakeIteration(nulOf<K>(), false, step, isBoundary));
     }
 
     TEMPL
@@ -140,7 +137,7 @@ namespace nm {
     TEMPL
     typename ME::iter ME::iterate(const K& key, nbool isBoundary) const {
         if(nul(key)) return iterate(0);
-        auto* e = _onMakeIteration(key, false, isBoundary);
+        auto* e = _onMakeIteration(key, false, 0, isBoundary);
         if(!e->isEnd() && e->getKey() != key) e->next(1);
 
         return iter(e);
@@ -151,16 +148,13 @@ namespace nm {
 
     TEMPL
     typename ME::iter ME::riterate(ncnt step, nbool isBoundary) const {
-        auto* e = _onMakeIteration(nulOf<K>(), true, isBoundary);
-        e->next(step);
-
-        return iter(e);
+        return iter(_onMakeIteration(nulOf<K>(), true, step, isBoundary));
     }
 
     TEMPL
     typename ME::iter ME::riterate(const K& key, nbool isBoundary) const {
         if(nul(key)) return riterate(0);
-        auto* e = _onMakeIteration(key, true, isBoundary);
+        auto* e = _onMakeIteration(key, true, 0, isBoundary);
         if(!e->isEnd() && e->getKey() != key) e->next(1);
 
         return iter(e);

@@ -118,6 +118,8 @@ namespace nm {
 
     TEMPL
     nbool ME::link(const iter& portion) {
+        const nchainIteration& iteration = (nchainIteration&) *portion._iteration;
+        NM_I("%s", iteration.isBoundary());
         ME& next = typeProvidable::safeCast<ME>((portion THEN(getContainer()))) orRet false;
         if(&next == this)
             return NM_W("recursive link detected for portion(%s).", (void*) &next), false;
@@ -222,17 +224,20 @@ namespace nm {
     ME& ME::getPrev() { return typeProvidable::safeCast<ME>(_prev.getContainer()); }
 
     TEMPL
-    typename ME::iteration* ME::_onMakeIteration(const K& key, nbool isReversed,
+    typename ME::iteration* ME::_onMakeIteration(const K& key, nbool isReversed, ncnt step,
         nbool isBoundary) const {
         me* unconst = const_cast<me*>(this);
-        return new chainIteration(isReversed ? unconst->getTail() : *unconst, key, isReversed,
+        auto* ret = new nchainIteration(isReversed ? unconst->getTail() : *unconst, key, isReversed,
             isBoundary);
+        ret->next(step);
+        ret->_setBoundary(isBoundary);
+        return ret;
     }
 
     TEMPL
     typename ME::iter& ME::_getInnerIter(const iter& outer) {
-        if(!outer._iteration->getType().template isSub<chainIteration>()) return nulOf<iter>();
-        chainIteration& cast = (chainIteration&) *outer._iteration orNul(iter);
+        if(!outer._iteration->getType().template isSub<nchainIteration>()) return nulOf<iter>();
+        nchainIteration& cast = (nchainIteration&) *outer._iteration orNul(iter);
 
         return cast._iter;
     }
@@ -241,19 +246,21 @@ namespace nm {
     typename ME::iter ME::_getInnerBeginOfChain(me& it, const me& fromChain, const iter& from) {
         me& prev = it.getPrev();
         nbool isReversed = nul(prev) ? false : prev._next.isReversed();
-        return &it == &fromChain ? (isReversed ? it.getContainer().begin() : _getInnerIter(from)) : it.getContainer().begin();
+        return &it == &fromChain ? (isReversed ? it.getContainer().begin() : _getInnerIter(from)) :
+                                   it.getContainer().begin();
     }
 
     TEMPL
     typename ME::iter ME::_getInnerEndOfChain(me& it, const me& lastChain, const iter& last) {
         me& prev = it.getPrev();
         nbool isReversed = nul(prev) ? false : prev._next.isReversed();
-        return &it == &lastChain ? (isReversed ? it.getContainer().end() : _getInnerIter(last)) : it.getContainer().end();
+        return &it == &lastChain ? (isReversed ? it.getContainer().end() : _getInnerIter(last)) :
+                                   it.getContainer().end();
     }
 
     TEMPL
     typename ME::iter ME::_rendOfThisChain(nbool isReversed) {
-        return iter(new chainIteration(*this, nulOf<K>(), isReversed, true));
+        return iter(new nchainIteration(*this, nulOf<K>(), isReversed, true));
     }
 
 #undef ME

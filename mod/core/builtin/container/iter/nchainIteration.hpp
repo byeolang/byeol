@@ -1,14 +1,14 @@
 // nested class of tnchain.hpp:
 //  this file allows to be refered by 'tnchain.hpp' file only.
-class chainIteration: public iteration {
-    NM(CLASS(chainIteration, iteration))
+class nchainIteration: public iteration {
+    NM(CLASS(nchainIteration, iteration))
     friend class tnchain;
 
 public:
-    chainIteration(tnchain& iteratingChain, const K& key, nbool isReversed):
+    nchainIteration(tnchain& iteratingChain, const K& key, nbool isReversed):
         me(iteratingChain, key, isReversed, false) {}
 
-    chainIteration(tnchain& iteratingChain, const K& key, nbool isReversed, nbool isBoundary):
+    nchainIteration(tnchain& iteratingChain, const K& key, nbool isReversed, nbool isBoundary):
         super(isReversed),
         _chainIter(iteratingChain),
         _key(key),
@@ -124,6 +124,10 @@ private:
                                                   _chainIter->_map->rbegin(_key)) :
                             (this->isReversed() ? _chainIter->_map->rbegin(_key) :
                                                   _chainIter->_map->begin(_key));
+    }
+
+    void _setBoundary(nbool new1) {
+        _isBoundary = new1;
     }
 
 private:

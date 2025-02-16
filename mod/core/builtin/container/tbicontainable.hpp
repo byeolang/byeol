@@ -103,7 +103,7 @@ namespace nm {
         virtual void rel() = 0;
 
     protected:
-        virtual iteration* _onMakeIteration(const K& key, nbool isReversed,
+        virtual iteration* _onMakeIteration(const K& key, nbool isReversed, ncnt step,
             nbool isBoundary) const = 0;
         virtual void _getAll(const K& key, narr& tray) const = 0;
     };
