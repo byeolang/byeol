@@ -89,7 +89,7 @@ namespace nm {
             if(e.getKey() != at.getKey()) continue;
             if(&e.getVal() != &at.getVal()) continue;
 
-            eChain.getContainer().del(at);
+            eChain.getContainer().del(_getInnerIter(at));
         }
         return false;
     }
