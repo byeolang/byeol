@@ -59,7 +59,8 @@ namespace nm {
 
         // del:
         using super::del;
-        nbool del(const K& at) override;
+        /// delete all elements matching by given key.
+        nbool del(const K& key) override;
         nbool del(const iter& at) override;
         nbool del(const iter& from, const iter& end) override;
 

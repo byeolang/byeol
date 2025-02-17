@@ -109,6 +109,8 @@ namespace nm {
         iterator rbegin(const K& key) const;
 
         void insert(const K& key, V&& val);
+    
+        /// delete all elements matching given key.
         void erase(const K& key);
         void erase(const iterator& it);
         void erase(const iterator& from, const iterator& to);

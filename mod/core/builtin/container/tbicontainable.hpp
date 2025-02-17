@@ -83,17 +83,14 @@ namespace nm {
         iter riterate(const K& key) const;
         iter riterate(const K& key, nbool isBoundary) const;
 
-        // add:
         virtual nbool add(const K& key, const V& val) = 0;
-
         nbool add(const K& key, const V* val);
-
         ncnt add(const iter& from, const iter& to);
         ncnt add(const tbicontainable& rhs);
 
-        // del:
-        /// delete last element if exists.
-        virtual nbool del(const K& it) = 0;
+        /// delete all elements matched by given key.
+        /// @param key key to be deleted
+        virtual nbool del(const K& key) = 0;
         virtual nbool del(const iter& at) = 0;
         virtual nbool del(const iter& from, const iter& end) = 0;
 

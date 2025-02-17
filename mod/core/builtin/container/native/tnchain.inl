@@ -72,7 +72,7 @@ namespace nm {
     TEMPL
     nbool ME::del(const K& key) {
         nbool ret = true;
-        for(auto e = this->begin(); e; ++e) {
+        for(auto e = this->begin(); e;) {
             if(e.getKey() != key) continue;
             me& eChain = (me&) e.getContainer() orRet false;
             if(!eChain.getContainer().del(e.getKey())) ret = false;

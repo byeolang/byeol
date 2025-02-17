@@ -50,8 +50,8 @@ namespace nm {
     }
 
     TEMPL
-    nbool ME::del(const K& it) {
-        _map.erase(it);
+    nbool ME::del(const K& key) {
+        _map.erase(key);
         return true;
     }
 
