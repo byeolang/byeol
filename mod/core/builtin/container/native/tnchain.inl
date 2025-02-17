@@ -41,9 +41,8 @@ namespace nm {
     TEMPL
     ncnt ME::chainLen() const {
         ncnt len = 0;
-        for(tstr<me> e(this); e; e.bind(e->getNext()))
+        for(me* e = this; e; e = &e->getNext())
             len++;
-
         return len;
     }
 
@@ -72,24 +71,17 @@ namespace nm {
     TEMPL
     nbool ME::del(const K& key) {
         nbool ret = true;
-        for(auto e = this->begin(); e;) {
-            if(e.getKey() != key) continue;
-            me& eChain = (me&) e.getContainer() orRet false;
-            if(!eChain.getContainer().del(e.getKey())) ret = false;
-        }
+        for(me* e = this; e; e = &e->getNext())
+            if(!e->getContainer().del(key)) ret = false;
         return ret;
     }
 
     TEMPL
     nbool ME::del(const iter& at) {
         const me* owner = (const me*) &at.getContainer();
-        for(auto e = this->begin(); e; ++e) {
-            me& eChain = (me&) e.getContainer() orRet false;
-            if(&eChain != owner) continue;
-            if(e.getKey() != at.getKey()) continue;
-            if(&e.getVal() != &at.getVal()) continue;
-
-            return eChain.getContainer().del(_getInnerIter(at));
+        for(me* e = this; e; e = &e->getNext()) {
+            if(e != owner) continue;
+            return e->getContainer().del(_getInnerIter(at));
         }
         return false;
     }

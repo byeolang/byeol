@@ -126,6 +126,7 @@ namespace nm {
         iter _getInnerEndOfChain(me& it, const me& lastChain, const iter& last);
         iter _rendOfThisChain(nbool isReversed);
         me& _getLastChain();
+        void _eachChain(std::function<void(me&)> closure);
 
     private:
         tstr<super> _map;
