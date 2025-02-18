@@ -234,3 +234,20 @@ TEST_F(smultimapTest, reverseIterator) {
     for(auto re = scope.rbegin(); re != scope.rend() ;++re)
         ASSERT_EQ(re->cast<nint>(), expects[n++]);
 }
+
+TEST_F(smultimapTest, delWithIterWithoutKey) {
+    scope.insert("1", *new nInt(1));
+    scope.insert("2", *new nInt(2));
+    scope.insert("1", *new nInt(3));
+    scope.insert("2", *new nInt(4));
+    scope.insert("1", *new nInt(5));
+
+    auto e = scope.begin() + 3; // `4`, without key.
+    scope.erase(e);
+    ASSERT_EQ(scope.size(), 4);
+
+    int expects[] = {1, 2, 3, 5};
+    int n = 0;
+    for(auto e = scope.begin(); e != scope.end(); ++e)
+        ASSERT_EQ(e->cast<nint>(), expects[n++]);
+}

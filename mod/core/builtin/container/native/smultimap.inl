@@ -55,18 +55,19 @@ namespace nm {
     TEMPL
     typename ME::iterator& ME::iterator::operator++() {
         if(nul(_owner)) return *this;
-        return _step(false);
+        return _step(1, false);
     }
 
     TEMPL
-    typename ME::iterator& ME::iterator::_step(nbool isReversed) {
+    typename ME::iterator& ME::iterator::_step(ncnt step, nbool isReversed) {
         const K* key = nullptr;
-        do {
-            _wrap = isReversed ? (_isReversed ? _wrap->_next : _wrap->_prev) :
-                                 (_isReversed ? _wrap->_prev : _wrap->_next);
-            if(nul(_key)) break;
-            key = &this->getKey() orRet * this;
-        } while(*key != *_key);
+        for(ncnt n = 0; n < step ;++n)
+            do {
+                _wrap = isReversed ? (_isReversed ? _wrap->_next : _wrap->_prev) :
+                                     (_isReversed ? _wrap->_prev : _wrap->_next);
+                if(nul(_key)) break;
+                key = &this->getKey() orRet * this;
+            } while(*key != *_key);
         return *this;
     }
 
@@ -80,13 +81,20 @@ namespace nm {
     TEMPL
     typename ME::iterator& ME::iterator::operator--() {
         if(nul(_owner)) return *this;
-        return _step(true);
+        return _step(1, true);
     }
 
     TEMPL
     typename ME::iterator ME::iterator::operator--(int) {
         iterator ret = *this;
         operator--();
+        return ret;
+    }
+
+    TEMPL
+    typename ME::iterator ME::iterator::operator+(ncnt step) {
+        iterator ret = *this;
+        ret._step(step, false);
         return ret;
     }
 
@@ -154,8 +162,8 @@ namespace nm {
 
     TEMPL
     void ME::erase(const iterator& from, const iterator& to) {
-        for(auto e = from; e != to && e != end(); ++e)
-            erase(e);
+        for(auto e = from; e != to && e != end();)
+            _erase(e++);
     }
 
     TEMPL
@@ -170,6 +178,16 @@ namespace nm {
 
         _unlink(e->second);
         return _map.erase(e);
+    }
+
+    TEMPL
+    void ME::_erase(const iterator& e) {
+        if(nul(e) || e.isEnd()) return; // not found.
+
+        const K& key = e._wrap->getKey() orRet;
+        auto range = _map.equal_range(key);
+        for(auto stlE = range.first; stlE != range.second; ++stlE)
+            if(&stlE->second == e._wrap) return _erase(stlE), void();
     }
 
     TEMPL

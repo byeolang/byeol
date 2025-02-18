@@ -74,6 +74,7 @@ namespace nm {
             iterator operator++(int);
             iterator& operator--();
             iterator operator--(int);
+            iterator operator+(ncnt step);
 
             bool isEnd() const;
 
@@ -85,7 +86,7 @@ namespace nm {
             bool operator==(const iterator& rhs) const;
 
         private:
-            iterator& _step(nbool isReversed);
+            iterator& _step(ncnt step, nbool isReversed);
 
         private:
             const owner* _owner;
@@ -121,6 +122,7 @@ namespace nm {
 
     private:
         typename stlMap::iterator _erase(const typename stlMap::iterator& e);
+        void _erase(const iterator& e);
         void _link(wrap& newTail);
         void _unlink(wrap& toDelete);
         iterator _begin(const K& key, nbool isReversed) const;

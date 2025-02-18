@@ -41,7 +41,7 @@ namespace nm {
     TEMPL
     ncnt ME::chainLen() const {
         ncnt len = 0;
-        for(me* e = this; e; e = &e->getNext())
+        for(const me* e = this; e; e = &e->getNext())
             len++;
         return len;
     }
