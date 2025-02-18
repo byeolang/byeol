@@ -1023,7 +1023,7 @@ TEST_F(nchainTest, complexLinkTest) {
     m3.add("strawberry", new nInt(9));
     m.add("pumpkin", new nInt(10));
 
-    // meat -> banana -> pumpkin -> banana -> apple -> melon -> strawberry
+    // [meat -> banana -> pumpkin] -> [banana -> apple] -> [melon -> strawberry]
 
     {
         std::string expectKeys[] = {"meat", "banana", "pumpkin", "banana", "apple", "melon",
