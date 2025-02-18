@@ -10,10 +10,10 @@ namespace nm {
 #define ME tbicontainable<K, V>::iter
 
     TEMPL
-    ME::iter() { _nextToMatchParamType(iterable::NEXT); }
+    ME::iter() {}
 
     TEMPL
-    ME::iter(iteration* newStep): _iteration(newStep) { _nextToMatchParamType(iterable::NEXT); }
+    ME::iter(iteration* newStep): _iteration(newStep) {}
 
     TEMPL
     ME::iter(const me& rhs) { _assign(rhs); }

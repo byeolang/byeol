@@ -1047,3 +1047,37 @@ TEST_F(nchainTest, complexLinkTest) {
         }
     }
 }
+
+TEST_F(nchainTest, toLinkEmptyChainIsValid) {
+    nchain m;
+    m.add("meat", new nInt(1));
+    m.add("banana", new nInt(2));
+    nchain m2;
+    nchain m3;
+    m3.add("mango", new nInt(3));
+    m.link(m2);
+    m2.link(m3);
+    m3.add("melon", new nInt(4));
+
+    ASSERT_EQ(m.len(), 4);
+
+    {
+        std::string expectKeys[] = {"meat", "banana", "mango", "melon"};
+        int expects[] = {1, 2, 3, 4};
+        int n = 0;
+        for(auto e = m.begin(); e ;++e) {
+            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(e->cast<nint>(), expects[n++]);
+        }
+    }
+
+    {
+        std::string expectKeys[] = {"melon", "mango", "banana", "meat"};
+        int expects[] = {4, 3, 2, 1};
+        int n = 0;
+        for(auto e = m.rbegin(); e ;++e) {
+            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(e->cast<nint>(), expects[n++]);
+        }
+    }
+}

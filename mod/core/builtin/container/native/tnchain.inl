@@ -110,8 +110,6 @@ namespace nm {
 
     TEMPL
     nbool ME::link(const iter& portion) {
-        const nchainIteration& iteration = (nchainIteration&) *portion._iteration;
-        NM_I("%s", iteration.isBoundary());
         ME& next = typeProvidable::safeCast<ME>((portion THEN(getContainer()))) orRet false;
         if(&next == this)
             return NM_W("recursive link detected for portion(%s).", (void*) &next), false;

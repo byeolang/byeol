@@ -13,9 +13,7 @@ public:
         _chainIter(iteratingChain),
         _key(key),
         _iter(_makeContainerIter(false)),
-        _isBoundary(isBoundary) {
-        if(!_iter) next(1);
-    }
+        _isBoundary(isBoundary) {}
 
     nbool isEnd() const override {
         if(!nul(_getNextContainer())) return false;
