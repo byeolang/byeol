@@ -20,8 +20,9 @@ namespace nm {
 
     TEMPL
     typename ME ME::operator+(ncnt step) {
-        next(step);
-        return *this;
+        ME ret = *this;
+        ret.next(step);
+        return ret;
     }
 
     TEMPL
