@@ -218,7 +218,7 @@ namespace nm {
         nbool isBoundary) const {
         me* unconst = const_cast<me*>(this);
         auto* ret = new nchainIteration(isReversed ? unconst->getTail() : *unconst, key, isReversed,
-            isBoundary);
+            isBoundary, true);
         ret->next(step);
         ret->_setBoundary(isBoundary);
         return ret;
@@ -250,10 +250,10 @@ namespace nm {
 
     TEMPL
     typename ME::iter ME::_rendOfThisChain(nbool isReversed) {
-        return iter(new nchainIteration(*this, nulOf<K>(), isReversed, true));
+        return iter(new nchainIteration(*this, nulOf<K>(), isReversed, true, false));
     }
 
 #undef ME
 #undef TEMPL
 #undef SUPER
-} // namespace nm
+} // namespace nmß

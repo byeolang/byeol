@@ -8,13 +8,13 @@ public:
     nchainIteration(tnchain& iteratingChain, const K& key, nbool isReversed):
         me(iteratingChain, key, isReversed, false) {}
 
-    nchainIteration(tnchain& iteratingChain, const K& key, nbool isReversed, nbool isBoundary):
+    nchainIteration(tnchain& iteratingChain, const K& key, nbool isReversed, nbool isBoundary, nbool isAutoAdvance):
         super(isReversed),
         _chainIter(iteratingChain),
         _key(key),
         _iter(_makeContainerIter(false)),
         _isBoundary(isBoundary) {
-        if(!_iter) {
+        if(isAutoAdvance && !_iter) {
             next(1);
             _setBoundary(isBoundary);
         }
