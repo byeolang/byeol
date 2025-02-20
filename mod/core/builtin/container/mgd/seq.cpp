@@ -122,7 +122,9 @@ namespace nm {
         return inner;
     }
 
-    me::iteration* me::_onMakeIteration(ncnt step, nbool isReversed) const { return get()._onMakeIteration(step, isReversed); }
+    me::iteration* me::_onMakeIteration(ncnt step, nbool isReversed) const {
+        return get()._onMakeIteration(step, isReversed);
+    }
 
     nbool me::set(const iter& at, const nInt& new1) { return false; }
 

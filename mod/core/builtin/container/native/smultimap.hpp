@@ -9,10 +9,10 @@ namespace nm {
     ///     in C++, a general map operates regardless of the insertion order when iteration is
     ///     performed.
     ///
-    ///     this class manages key and value as a pair like multimap, but when iteration is performed,
-    ///     it remembers the insertion order and iterates like a queue. This function is used in
-    ///     arguments capture features, etc., because when a nested function is exported to a closure,
-    ///     there is a requirement to capture and maintain the local scope at that time.
+    ///     this class manages key and value as a pair like multimap, but when iteration is
+    ///     performed, it remembers the insertion order and iterates like a queue. This function is
+    ///     used in arguments capture features, etc., because when a nested function is exported to
+    ///     a closure, there is a requirement to capture and maintain the local scope at that time.
     ///     Local variables that occurred after the time of capture should have no relation to the
     ///     nested function.
     ///
@@ -110,7 +110,7 @@ namespace nm {
         iterator rbegin(const K& key) const;
 
         void insert(const K& key, V&& val);
-    
+
         /// delete all elements matching given key.
         void erase(const K& key);
         void erase(const iterator& it);

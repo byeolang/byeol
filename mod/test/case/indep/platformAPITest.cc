@@ -39,9 +39,9 @@ TEST(platformAPITest, iterateCodepointsMixedString) {
 TEST(platformAPITest, reverseCodepointIterator) {
     std::string src = "abcd🏁efg";
     cpIter e4(src.c_str() + src.size(), src.c_str()); // reversed.
-    e4.next(2);            // <end> -> 'f'
-    ASSERT_EQ(*e4++, "f"); // 'f' -> 'e'
-    ASSERT_EQ(*e4++, "e"); // 'e' -> '🏁'
+    e4.next(2);                                       // <end> -> 'f'
+    ASSERT_EQ(*e4++, "f");                            // 'f' -> 'e'
+    ASSERT_EQ(*e4++, "e");                            // 'e' -> '🏁'
     ASSERT_EQ(*e4, "🏁");
     e4.next(2);            // '🏁' -> 'c'
     ASSERT_EQ(*e4++, "c"); // 'c' -> 'b'
@@ -54,7 +54,7 @@ TEST(platformAPITest, reverseCodepointIterator) {
 
 TEST(platformAPITest, reverseCodepointIterator2) {
     std::string src = "abcd🏁efg";
-    cpIter e4(src, true); // reversed.
+    cpIter e4(src, true);  // reversed.
     e4.next(2);            // <end> -> 'f'
     ASSERT_EQ(*e4++, "f"); // 'f' -> 'e'
     ASSERT_EQ(*e4++, "e"); // 'e' -> '🏁'
@@ -75,9 +75,7 @@ TEST(platformAPITest, reverseCPIteratorToBackward) {
         ++e4;
     ASSERT_EQ(*e4, "");
 
-    std::string expects[] = {
-        "g", "f", "e", "🏁", "d", "c", "b", "a"
-    };
+    std::string expects[] = {"g", "f", "e", "🏁", "d", "c", "b", "a"};
     for(int n = 0; n < 8; n++) {
         e4.stepBackward(1);
         ASSERT_EQ(*e4, expects[n]);

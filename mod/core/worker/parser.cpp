@@ -811,8 +811,8 @@ namespace nm {
     }
 
     node* me::onGetElem(const node& arr, const node& idx) {
-        node* ret = _maker.make<runExpr>(arr, *_maker.make<getExpr>(arr, "get", *new args{narr{idx}}),
-            args{narr{idx}});
+        node* ret = _maker.make<runExpr>(arr,
+            *_maker.make<getExpr>(arr, "get", *new args{narr{idx}}), args{narr{idx}});
         NM_DI("tokenEvent: onGetElem(%s, %s)", arr, idx);
         return ret;
     }

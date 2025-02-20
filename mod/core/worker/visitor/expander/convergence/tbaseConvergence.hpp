@@ -7,9 +7,13 @@
 
 namespace nm {
 
-    template <typename T> struct ConvergenceClosure { typedef std::function<nbool(const T&)> is; };
+    template <typename T> struct ConvergenceClosure {
+        typedef std::function<nbool(const T&)> is;
+    };
 
-    template <> struct ConvergenceClosure<void> { typedef std::function<nbool()> is; };
+    template <> struct ConvergenceClosure<void> {
+        typedef std::function<nbool()> is;
+    };
 
     template <typename T> class tbaseConvergence: public baseConvergence {
         NM(ADT(tbaseConvergence, baseConvergence))

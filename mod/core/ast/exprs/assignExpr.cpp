@@ -39,8 +39,7 @@ namespace nm {
         frame& fr = ased->cast<frame>();
         if(!nul(fr)) {
             scope& s = fr.getScopeHaving(*cast.as<node>());
-            if(!nul(s))
-                return s.iterate(cast.getName());
+            if(!nul(s)) return s.iterate(cast.getName());
         }
 
         if(!ased) return exMaker::make(COULDNT_GET_ITER_FOR_LHS, cast.getName().c_str()), iter();

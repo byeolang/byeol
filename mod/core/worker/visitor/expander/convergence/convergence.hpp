@@ -3,7 +3,7 @@
 #include "tbaseConvergence.hpp"
 
 namespace nm {
-    class convergence : public tbaseConvergence<void> {
+    class convergence: public tbaseConvergence<void> {
         NM(CLASS(convergence, tbaseConvergence))
 
     public:

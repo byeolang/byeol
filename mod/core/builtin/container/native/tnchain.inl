@@ -256,4 +256,4 @@ namespace nm {
 #undef ME
 #undef TEMPL
 #undef SUPER
-} // namespace nmß
+} // namespace nm

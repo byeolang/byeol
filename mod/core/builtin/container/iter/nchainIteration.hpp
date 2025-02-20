@@ -8,7 +8,8 @@ public:
     nchainIteration(tnchain& iteratingChain, const K& key, nbool isReversed):
         me(iteratingChain, key, isReversed, false) {}
 
-    nchainIteration(tnchain& iteratingChain, const K& key, nbool isReversed, nbool isBoundary, nbool isAutoAdvance):
+    nchainIteration(tnchain& iteratingChain, const K& key, nbool isReversed, nbool isBoundary,
+        nbool isAutoAdvance):
         super(isReversed),
         _chainIter(iteratingChain),
         _key(key),
@@ -123,27 +124,26 @@ private:
     ///                   this `isReversed` is the direction value that each `iter` owned by `chain`
     ///                   object, not from `this` pointer.
     iter _makeContainerIter(nbool isReversed) const {
-        return isReversed ? (this->isReversed() ? _chainIter->_map->begin(_key) :
-                                                  _chainIter->_map->rbegin(_key)) :
-                            (this->isReversed() ? _chainIter->_map->rbegin(_key) :
-                                                  _chainIter->_map->begin(_key));
+        return isReversed ?
+            (this->isReversed() ? _chainIter->_map->begin(_key) : _chainIter->_map->rbegin(_key)) :
+            (this->isReversed() ? _chainIter->_map->rbegin(_key) : _chainIter->_map->begin(_key));
     }
 
-    void _setBoundary(nbool new1) {
-        _isBoundary = new1;
-    }
+    void _setBoundary(nbool new1) { _isBoundary = new1; }
 
     me& _castIteration(const iter& e) {
         return nul(e) ? nulOf<me>() : typeProvidable::safeCast<me>(*e._iteration);
     }
     const me& _castIteration(const iter& e) const NM_CONST_FUNC(_castIteration(e))
+
     tnchain& _castChain(const iter& e) {
         return typeProvidable::safeCast<tnchain>(e.getContainer());
     }
+
     const tnchain& _castChain(const iter& e) const NM_CONST_FUNC(_castChain(e));
 
     // check whether sub iter has been reached to reversed non-boundary end iter.
-    // e.g. 
+    // e.g.
     //  chain A has {1, 2, 3} elements.
     //  chain B has {4, 5, 6} elements.
     //  when A linked B from the 2nd element, chains will be follow:
@@ -153,14 +153,14 @@ private:
     //      {6, 5, 3, 2, 1}
     //  our sub iterate can detect end of the sub container inside of its logic when
     //  you call `next()` in `_iterate()`.
-    //  however, in above example, after sub iter reached to `5`, it's not possible for it 
-    //  to detect the end of iteration of the sub container. because actually there is one 
+    //  however, in above example, after sub iter reached to `5`, it's not possible for it
+    //  to detect the end of iteration of the sub container. because actually there is one
     //  more element to iterate, `4`.
     //  so only who is capable of knowing that reversed iteration reached to the end for
     //  reversed iterator is need to be done by `nchainIteration` class.
     //  and this func is for that.
-    nbool _isSubIterEndAtMiddle() const {\
-        // if this iter is not reversed, there is no case you have the `end at middle`.
+    nbool _isSubIterEndAtMiddle()
+        const { // if this iter is not reversed, there is no case you have the `end at middle`.
         if(!this->isReversed()) return false;
 
         // if there is no prev chain, I'll just regard it as `end()` soon.

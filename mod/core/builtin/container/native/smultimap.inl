@@ -61,7 +61,7 @@ namespace nm {
     TEMPL
     typename ME::iterator& ME::iterator::_step(ncnt step, nbool isReversed) {
         const K* key = nullptr;
-        for(ncnt n = 0; n < step ;++n)
+        for(ncnt n = 0; n < step; ++n)
             do {
                 _wrap = isReversed ? (_isReversed ? _wrap->_next : _wrap->_prev) :
                                      (_isReversed ? _wrap->_prev : _wrap->_next);

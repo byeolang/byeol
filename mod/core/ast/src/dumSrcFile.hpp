@@ -3,7 +3,7 @@
 #include "srcFile.hpp"
 
 namespace nm {
-    class _nout dumSrcFile : public srcFile {
+    class _nout dumSrcFile: public srcFile {
         NM(ME(dumSrcFile, srcFile))
 
     public:

@@ -39,8 +39,8 @@ namespace nm {
             _args.toStr());
         str ret = sub->run(_args);
 
-        NM_DI("@%s `%s.%s@%s(%s) --returned--> %s`", addr, evaledMe, sub->getSrc(), &sub.get(), _args.toStr(),
-            ret);
+        NM_DI("@%s `%s.%s@%s(%s) --returned--> %s`", addr, evaledMe, sub->getSrc(), &sub.get(),
+            _args.toStr(), ret);
         _args.setMe(nulOf<baseObj>());
         return ret;
     }

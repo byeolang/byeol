@@ -112,7 +112,7 @@ namespace nm {
 #if NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
             constexpr ncnt MILLI_PER_USEC = 1000;
 
-            struct timeval tval {};
+            struct timeval tval{};
 
             gettimeofday(&tval, NULL);
             return tval.tv_usec / MILLI_PER_USEC;

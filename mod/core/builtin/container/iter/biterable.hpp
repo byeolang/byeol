@@ -26,6 +26,7 @@ public:
     ///         it won't be counted as returning value.
     ///         it'll return '0' if it already reached to the end.
     virtual ncnt next(ncnt step) { return isReversed() ? stepBackward(step) : stepForward(step); }
+
     virtual ncnt prev(ncnt step) { return isReversed() ? stepForward(step) : stepBackward(step); }
 
     virtual ncnt stepForward(ncnt step) = 0;

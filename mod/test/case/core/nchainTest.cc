@@ -707,14 +707,14 @@ TEST_F(nchainTest, chainMultipleLinkAndCheckPrev) {
     {
         nchain* expects[] = {&m, &m2, &m3};
         int n = 0;
-        for(nchain* e = &m; e ;e = &e->getNext())
+        for(nchain* e = &m; e; e = &e->getNext())
             ASSERT_EQ(e, expects[n++]);
     }
 
     {
         nchain* expects[] = {&m3, &m2, &m};
         int n = 0;
-        for(nchain* e = &m3; e ; e = &e->getPrev())
+        for(nchain* e = &m3; e; e = &e->getPrev())
             ASSERT_EQ(e, expects[n++]);
     }
 }
@@ -736,7 +736,7 @@ TEST_F(nchainTest, unlinkSuddenlyMiddleOfMultipleChain) {
     {
         nchain* expects[] = {&m, &m2, &m3};
         int n = 0;
-        for(nchain* e = &m; e ;e = &e->getNext())
+        for(nchain* e = &m; e; e = &e->getNext())
             ASSERT_EQ(e, expects[n++]);
     }
 
@@ -745,7 +745,7 @@ TEST_F(nchainTest, unlinkSuddenlyMiddleOfMultipleChain) {
     {
         nchain* expects[] = {&m, &m2};
         int n = 0;
-        for(nchain* e = &m; e ; e = &e->getNext())
+        for(nchain* e = &m; e; e = &e->getNext())
             ASSERT_EQ(e, expects[n++]);
         ASSERT_TRUE(nul(m3.getPrev()));
     }
@@ -799,7 +799,7 @@ TEST_F(nchainTest, iterateMultipleChain) {
 
     std::string expects[] = {"apple", "banana", "meat", "banana"};
     int n = 0;
-    for(auto e = m2.begin(); e ;++e)
+    for(auto e = m2.begin(); e; ++e)
         ASSERT_EQ(e.getKey(), expects[n++]);
 }
 
@@ -815,7 +815,7 @@ TEST_F(nchainTest, iterateMultipleChainReversedWay) {
 
     std::string expects[] = {"banana", "meat", "banana", "apple"};
     int n = 0;
-    for(auto e = m2.rbegin(); e ;++e)
+    for(auto e = m2.rbegin(); e; ++e)
         ASSERT_EQ(e.getKey(), expects[n++]);
 }
 
@@ -879,7 +879,7 @@ TEST_F(nchainTest, linkFirstAddSecond) {
     {
         std::string expectKeys[] = {"meat", "banana", "banana"};
         int n = 0;
-        for(auto e = m.begin(); e ;++e)
+        for(auto e = m.begin(); e; ++e)
             ASSERT_EQ(e.getKey(), expectKeys[n++]);
     }
 
@@ -890,7 +890,7 @@ TEST_F(nchainTest, linkFirstAddSecond) {
     {
         std::string expectKeys[] = {"meat", "banana", "banana", "apple", "mango"};
         int n = 0;
-        for(auto e = m.begin(); e ;++e) {
+        for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n++]);
             ASSERT_EQ(e.getVal().cast<nint>(), n);
         }
@@ -912,7 +912,7 @@ TEST_F(nchainTest, linkREndAndAddingElemCanAffect) {
         std::string expectKeys[] = {"meat", "banana", "banana", "apple"};
         int expects[] = {1, 2, 4, 3};
         int n = 0;
-        for(auto e = m.begin(); e ;++e) {
+        for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
             ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
         }
@@ -927,7 +927,7 @@ TEST_F(nchainTest, linkREndAndAddingElemCanAffect) {
         std::string expectKeys[] = {"meat", "banana", "melon", "banana", "apple"};
         int expects[] = {1, 2, 5, 4, 3};
         int n = 0;
-        for(auto e = m.begin(); e ;++e) {
+        for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
             ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
         }
@@ -948,7 +948,7 @@ TEST_F(nchainTest, linkReversedKeySpecificAndAddingElemCantAffect) {
         std::string expectKeys[] = {"meat", "banana", "banana", "apple"};
         int expects[] = {1, 2, 4, 3};
         int n = 0;
-        for(auto e = m.begin(); e ;++e) {
+        for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
             ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
         }
@@ -960,7 +960,7 @@ TEST_F(nchainTest, linkReversedKeySpecificAndAddingElemCantAffect) {
         std::string expectKeys[] = {"meat", "banana", "banana", "apple"};
         int expects[] = {1, 2, 4, 3};
         int n = 0;
-        for(auto e = m.begin(); e ;++e) {
+        for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
             ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
         }
@@ -986,7 +986,7 @@ TEST_F(nchainTest, linkChainsButMiddleOfOneIsReversed) {
         std::string expectKeys[] = {"meat", "banana", "banana", "apple", "mango", "melon"};
         int expects[] = {1, 2, 4, 3, 5, 6};
         int n = 0;
-        for(auto e = m.begin(); e ;++e) {
+        for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
             ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
         }
@@ -996,7 +996,7 @@ TEST_F(nchainTest, linkChainsButMiddleOfOneIsReversed) {
         std::string expectKeys[] = {"melon", "mango", "apple", "banana", "banana", "meat"};
         int expects[] = {6, 5, 3, 4, 2, 1};
         int n = 0;
-        for(auto e = m.rbegin(); e ;++e) {
+        for(auto e = m.rbegin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
             ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
         }
@@ -1031,17 +1031,18 @@ TEST_F(nchainTest, complexLinkTest) {
         int expects[] = {1, 2, 10, 4, 3, 7, 9};
         int n = 0;
         ASSERT_EQ(m.len(), 7);
-        for(auto e = m.begin(); e ; ++e) {
+        for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
             ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
         }
     }
 
     {
-        std::string expectKeys[] = {"strawberry", "melon", "apple", "banana", "pumpkin", "banana", "meat"};
+        std::string expectKeys[] = {"strawberry", "melon", "apple", "banana", "pumpkin", "banana",
+            "meat"};
         int expects[] = {9, 7, 3, 4, 10, 2, 1};
         int n = 0;
-        for(auto e = m.rbegin(); e ;++e) {
+        for(auto e = m.rbegin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
             ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
         }
@@ -1065,7 +1066,7 @@ TEST_F(nchainTest, toLinkEmptyChainIsValid) {
         std::string expectKeys[] = {"meat", "banana", "mango", "melon"};
         int expects[] = {1, 2, 3, 4};
         int n = 0;
-        for(auto e = m.begin(); e ;++e) {
+        for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
             ASSERT_EQ(e->cast<nint>(), expects[n++]);
         }
@@ -1075,7 +1076,7 @@ TEST_F(nchainTest, toLinkEmptyChainIsValid) {
         std::string expectKeys[] = {"melon", "mango", "banana", "meat"};
         int expects[] = {4, 3, 2, 1};
         int n = 0;
-        for(auto e = m.rbegin(); e ;++e) {
+        for(auto e = m.rbegin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
             ASSERT_EQ(e->cast<nint>(), expects[n++]);
         }

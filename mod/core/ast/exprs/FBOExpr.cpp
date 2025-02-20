@@ -48,7 +48,7 @@ namespace nm {
             case LE: ret.bind(new nBool(lhs->le(*rhs))); break;
             case AND: ret.bind(new nBool(lhs->logicalAnd(*rhs))); break;
             case OR: ret.bind(new nBool(lhs->logicalOr(*rhs))); break;
-            default: ;
+            default:;
         }
 
         NM_I("@%s %s --> %s", this, getRuleName(_rule), *ret);

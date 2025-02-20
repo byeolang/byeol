@@ -3,7 +3,7 @@
 using namespace nm;
 using namespace std;
 
-struct smultimapTest : public namuTest {
+struct smultimapTest: public namuTest {
     smultimap<std::string, str> scope;
 };
 
@@ -61,8 +61,7 @@ TEST_F(smultimapTest, insertionOrder) {
 
     for(nint n = 0; n < 10; ++n) {
         scope.insert("apple", *new nInt(n));
-        if(n == 5)
-            scope.insert("banana", *new nInt(-1));
+        if(n == 5) scope.insert("banana", *new nInt(-1));
     }
     ASSERT_EQ(scope.size(), 10 + 1); // 1 for banana
 
@@ -81,12 +80,11 @@ TEST_F(smultimapTest, insertionOrder) {
 TEST_F(smultimapTest, eraseMultiPairs) {
     for(nint n = 0; n < 7; ++n) {
         scope.insert("apple", *new nInt(n));
-        if(n == 3)
-            scope.insert("banana", *new nInt(-1));
+        if(n == 3) scope.insert("banana", *new nInt(-1));
     }
     ASSERT_EQ(scope.size(), 8); // = {0, 1, 2, 3, -1, 4, 5, 6}
 
-    auto e = scope.begin(); // 0
+    auto e = scope.begin();                  // 0
     ASSERT_EQ((e++)->get().cast<nint>(), 0); // e = 1
     auto end = e;
     ASSERT_EQ(end->get().cast<nint>(), 1);
@@ -124,16 +122,15 @@ TEST_F(smultimapTest, eraseMultiPairs) {
 TEST_F(smultimapTest, complexEraseTest) {
     for(nint n = 0; n < 10; ++n) {
         scope.insert("apple", *new nInt(n));
-        if(n == 5)
-            scope.insert("banana", *new nInt(-1));
+        if(n == 5) scope.insert("banana", *new nInt(-1));
     }
     ASSERT_EQ(scope.size(), 10 + 1); // 1 for banana
 
     auto e1 = scope.begin("apple");
     scope.erase(e1); // erase 0;
-    ++e1; // 1
-    ++e1; // 2
-    ++e1; // 3
+    ++e1;            // 1
+    ++e1;            // 2
+    ++e1;            // 3
     scope.erase(e1); // erase '3'
 
     auto e = scope.begin("apple");
@@ -163,11 +160,11 @@ TEST_F(smultimapTest, deleteMiddleOfElementAndIterateSpecificKey) {
     ASSERT_EQ(scope.size(), 5);
 
     nint expect = 1;
-    for(const auto& e : scope)
+    for(const auto& e: scope)
         ASSERT_EQ(((nInt&) *e).get(), expect++);
 
     expect = 1;
-    for(const auto& e : scope)
+    for(const auto& e: scope)
         ASSERT_EQ(((nInt&) *e).get(), expect++);
 
     auto e = scope.begin("2");
@@ -198,7 +195,7 @@ TEST_F(smultimapTest, setValue) {
 
     int expects[] = {1, 2, 100, 4, 5};
     int n = 0;
-    for(auto& val : scope)
+    for(auto& val: scope)
         ASSERT_EQ(((nInt&) *val).get(), expects[n++]);
 }
 
@@ -211,14 +208,14 @@ TEST_F(smultimapTest, delElementButKeepOrder) {
     ASSERT_EQ(scope.size(), 5);
 
     auto e = scope.begin(); // 1
-    ++e; // 2
-    ++e; // 3
+    ++e;                    // 2
+    ++e;                    // 3
     scope.erase(e++);
     ASSERT_EQ(((nInt&) e->get()).get(), 4);
 
     int expects[] = {1, 2, 4, 5};
     int n = 0;
-    for(auto& val : scope)
+    for(auto& val: scope)
         ASSERT_EQ(((nInt&) *val).get(), expects[n++]);
 }
 
@@ -231,7 +228,7 @@ TEST_F(smultimapTest, reverseIterator) {
 
     int expects[] = {5, 4, 3, 2, 1};
     int n = 0;
-    for(auto re = scope.rbegin(); re != scope.rend() ;++re)
+    for(auto re = scope.rbegin(); re != scope.rend(); ++re)
         ASSERT_EQ(re->cast<nint>(), expects[n++]);
 }
 

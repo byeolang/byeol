@@ -53,4 +53,4 @@ namespace nm {
         const nchar* _end;
         nbool _isReverse;
     };
-}
+} // namespace nm

@@ -3,7 +3,7 @@
 using namespace nm;
 using namespace std;
 
-struct nseqTest : public namuTest {};
+struct nseqTest: public namuTest {};
 
 TEST_F(nseqTest, simpleIterator) {
     nseq s(nInt(1), nInt(4));

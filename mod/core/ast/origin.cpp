@@ -10,7 +10,8 @@ namespace nm {
 
     NM(DEF_ME(origin))
 
-    me::origin(const mgdType& newType): super(), _type(newType), _src(dumSrc::singletone()), _state(RELEASED) {
+    me::origin(const mgdType& newType):
+        super(), _type(newType), _src(dumSrc::singletone()), _state(RELEASED) {
         _setOrigin(*this);
     }
 

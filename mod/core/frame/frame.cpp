@@ -41,8 +41,7 @@ namespace nm {
     }
 
     scope& me::getScopeHaving(const node& sub) {
-        return _getOwner<scope>(
-            sub, [&](nbool, auto& reg) { return &reg.s.get(); });
+        return _getOwner<scope>(sub, [&](nbool, auto& reg) { return &reg.s.get(); });
     }
 
     node& me::getMeHaving(const node& sub) {

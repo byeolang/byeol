@@ -151,10 +151,10 @@ namespace {
 
 TEST_F(bridgeTest, passArray) {
     str mgrBridge(tbridger<windowManager>::ctor()
-                      .ctor<windowManager>()
-                      .func("add", &windowManager::add)
-                      .func("del", &windowManager::del)
-                      .make(new windowManager()));
+            .ctor<windowManager>()
+            .func("add", &windowManager::add)
+            .func("del", &windowManager::del)
+            .make(new windowManager()));
 
     arr a(*new nInt(0));
     a.subs(); // for bridging narr.
@@ -238,10 +238,10 @@ TEST_F(bridgeTest, passArr) {
     ASSERT_EQ(a.len(), 3);
 
     str testobj(tbridger<testObj>::ctor()
-                    .ctor<testObj>()
-                    .func("updateLen", &testObj::updateLen)
-                    .func("sumOfLen", &testObj::sumOfLen)
-                    .make(new testObj()));
+            .ctor<testObj>()
+            .func("updateLen", &testObj::updateLen)
+            .func("sumOfLen", &testObj::sumOfLen)
+            .make(new testObj()));
     str res = testobj->run("updateLen", args{narr{a}});
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 3);

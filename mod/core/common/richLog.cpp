@@ -15,9 +15,7 @@ namespace nm {
         return __convert__((typeProvidable&) it);
     }
 
-    strWrap __convert__(const str& it) {
-        return __convert__(*it);
-    }
+    strWrap __convert__(const str& it) { return __convert__(*it); }
 
     strWrap __convert__(const arithmeticObj& it) {
         const std::string& name = it.getType().getName();
@@ -48,4 +46,4 @@ namespace nm {
                          std::string("modifier(") + (it.isPublic() ? "public" : "protected") +
                 (it.isExplicitOverride() ? std::string(", override)") : std::string(")"));
     }
-}
+} // namespace nm

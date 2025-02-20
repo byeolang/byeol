@@ -3,7 +3,7 @@
 #include "tbaseConvergence.hpp"
 
 namespace nm {
-    class evalConvergence : public tbaseConvergence<node> {
+    class evalConvergence: public tbaseConvergence<node> {
         NM(ADT(evalConvergence, tbaseConvergence))
 
     public:

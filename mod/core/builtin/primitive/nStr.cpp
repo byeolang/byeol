@@ -53,11 +53,10 @@ namespace nm {
 
             nbool isEnd() const override { return _e.isEnd(); }
 
-            void rel() override {
-                _e.rel();
-            }
+            void rel() override { _e.rel(); }
 
             ncnt stepForward(ncnt step) override { return _e.stepForward(step); }
+
             ncnt stepBackward(ncnt step) override { return _e.stepBackward(step); }
 
             nStr& get() override {
@@ -145,14 +144,14 @@ namespace nm {
 
         static const baseObj& _defaultOrg() {
             static tbaseObjOrigin<me> org(tbridger<me>::ctor()
-                                              .ctor<nStr>()
-                                              .func("len", &me::len)
-                                              .func<nchar, nidx>("get", &me::get)
-                                              .func("substr", &me::substr)
-                                              .func("get", new getSeqFunc())
-                                              .func("iterate", new iterateFunc())
-                                              .func("getElemType", new getElemType())
-                                              .subs());
+                    .ctor<nStr>()
+                    .func("len", &me::len)
+                    .func<nchar, nidx>("get", &me::get)
+                    .func("substr", &me::substr)
+                    .func("get", new getSeqFunc())
+                    .func("iterate", new iterateFunc())
+                    .func("getElemType", new getElemType())
+                    .subs());
             return org;
         }
 

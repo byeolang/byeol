@@ -387,7 +387,7 @@ TEST_F(nmapTest, insertionOrderShouldBeKept) {
 
     int expects[] = {1, 2, 3, 4};
     int n = 0;
-    for(const auto& val : map1)
+    for(const auto& val: map1)
         ASSERT_EQ(val.cast<nInt>().get(), expects[n++]);
 
     n = 0;
@@ -407,7 +407,7 @@ TEST_F(nmapTest, simpleReversedIterator) {
     int expects[] = {4, 3, 2, 1};
     auto re = map1.rbegin();
     ASSERT_FALSE(re.isEnd());
-    for(int n = 0; n < 4 ; n++, ++re)
+    for(int n = 0; n < 4; n++, ++re)
         ASSERT_EQ(re->cast<nint>(), expects[n]);
 }
 
