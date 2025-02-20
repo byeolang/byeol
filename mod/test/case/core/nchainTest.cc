@@ -1081,3 +1081,19 @@ TEST_F(nchainTest, toLinkEmptyChainIsValid) {
         }
     }
 }
+
+TEST_F(nchainTest, emptedChainLinkEmptyChain) {
+    nchain m;
+    nchain m2;
+    ASSERT_FALSE(m.link(m));
+    ASSERT_TRUE(m.link(m2));
+    ASSERT_EQ(m.len(), 0);
+
+    m2.add("meat", new nInt(1));
+    ASSERT_EQ(m2.len(), 1);
+    ASSERT_EQ(m.len(), 1);
+
+    auto e = m.begin();
+    ASSERT_EQ(e.getKey(), "meat");
+    ASSERT_EQ(e->cast<nint>(), 1);
+}
