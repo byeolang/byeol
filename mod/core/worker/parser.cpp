@@ -245,6 +245,7 @@ namespace nm {
     }
 
     blockExpr* me::onBlock(const node& stmt) {
+        NM_WHENNUL(stmt).thenErr(IS_NUL, "stmt"), new blockExpr();
         blockExpr* ret = onBlock(*new blockExpr(), stmt);
         NM_DI("tokenEvent: onBlock(%s)", stmt);
         return ret;
@@ -282,9 +283,9 @@ namespace nm {
     defBlock* me::onDefBlock(defBlock& s, node& stmt) {
         str stmtLife(stmt);
 
-        NM_DI("tokenEvent: onDefBlock(s, %s)", stmt);
         NM_WHENNUL(s).thenErr(IS_NUL, "s"), new defBlock();
         NM_WHENNUL(stmt).thenErr(IS_NUL, "stmt"), &s;
+        NM_DI("tokenEvent: onDefBlock(s, %s)", stmt);
 
         NM_WHEN(!nul(stmt.cast<endExpr>())).thenErr(END_ONLY_BE_IN_A_FUNC), &s;
         defVarExpr& defVar =
@@ -333,7 +334,7 @@ namespace nm {
     }
 
     node* me::onDefAssign(const defPropExpr& prop, const node& rhs) {
-        if(nul(prop)) return NM_E("prop is null"), nullptr;
+        NM_WHENNUL(prop).thenErr(IS_NUL, "prop"), nullptr;
         return _onDefAssign(prop.getNewModifier(), prop.getRight(), prop.getName(), rhs);
     }
 
@@ -447,8 +448,8 @@ namespace nm {
     }
 
     narr* me::onParams(const defPropExpr& elem) {
-        NM_DI("tokenEvent: onParams(%s %s)", elem.getName(), elem.getRight());
         NM_WHENNUL(elem).thenErr(IS_NUL, "elem"), new narr();
+        NM_DI("tokenEvent: onParams(%s %s)", elem.getName(), elem.getRight());
         narr* ret = new narr();
         ret->add(elem);
 
@@ -456,8 +457,8 @@ namespace nm {
     }
 
     narr* me::onParams(narr& it, const defPropExpr& elem) {
-        NM_DI("tokenEvent: onParams(narr(%d), %s %s)", it.len(), elem.getName(), elem.getRight());
         NM_WHENNUL(elem).thenErr(IS_NUL, "elem"), &it;
+        NM_DI("tokenEvent: onParams(narr(%d), %s %s)", it.len(), elem.getName(), elem.getRight());
         it.add(elem);
 
         return &it;
