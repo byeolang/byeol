@@ -276,9 +276,7 @@ namespace nm {
     }
 
     defBlock* me::onDefBlock(node& stmt) {
-        defBlock* ret = onDefBlock(*new defBlock(), stmt);
-        NM_DI("tokenEvent: onDefBlock(%s)", stmt);
-        return ret;
+        return onDefBlock(*new defBlock(), stmt);
     }
 
     defBlock* me::onDefBlock(defBlock& s, node& stmt) {
