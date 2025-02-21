@@ -41,14 +41,18 @@ namespace nm {
     }
 
     scope& me::getScopeHaving(const node& sub) {
+        NM_I("getScopeHaving(%s)", sub);
         return _getOwner<scope>(sub, [&](nbool, auto& reg) { return &reg.s.get(); });
     }
 
     node& me::getMeHaving(const node& sub) {
-        node* lastOwner = nullptr;
+        NM_I("getMeHaving(%s)", sub);
+        nbool found = false;
         return _getOwner<node>(sub, [&](nbool isOwner, scopeRegister& reg) -> node* {
-            lastOwner = reg.owner ? &reg.owner.get() : lastOwner;
-            return isOwner ? lastOwner : nullptr; // returning null let the loop keep searching.
+            if(found && reg.owner) return &reg.owner.get();
+            if(!isOwner) return nullptr;
+            found = true;
+            return reg.owner ? &reg.owner.get() : nullptr; // returning null let the loop keep searching.
         });
     }
 
@@ -135,5 +139,23 @@ namespace nm {
         _funcs.rel();
         _stack.clear();
         _ret.rel();
+    }
+
+    template <typename T>
+    T& me::_getOwner(const node& toFind, std::function<T*(nbool, scopeRegister&)> cl) {
+        if(nul(toFind)) return nulOf<T>();
+
+        [[maybe_unused]] const nchar* name = toFind.getType().getName().c_str();
+        for(auto e = _stack.rbegin(); e != _stack.rend(); ++e) {
+            auto& reg = *e;
+            nbool has = reg.s->in(toFind);
+            NM_DI("`%s` is in `%s` scope? --> %s", name,
+                reg.owner ? reg.owner->getSrc().getName() : "{local}", has);
+            T* ret = cl(has, reg);
+            if(ret) return *ret;
+        }
+
+        NM_E("couldn't find owner of %s", toFind);
+        return nulOf<T>();
     }
 } // namespace nm

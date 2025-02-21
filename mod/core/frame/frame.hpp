@@ -80,22 +80,7 @@ namespace nm {
         const scopeRegister& _getTop() const NM_CONST_FUNC(_getTop())
 
         template <typename T>
-        T& _getOwner(const node& toFind, std::function<T*(nbool, scopeRegister&)> cl) {
-            if(nul(toFind)) return nulOf<T>();
-
-            [[maybe_unused]] const nchar* name = toFind.getType().getName().c_str();
-            for(auto e = _stack.rbegin(); e != _stack.rend(); ++e) {
-                auto& reg = *e;
-                nbool has = reg.s->in(toFind);
-                NM_DI("`%s` is in `%s` scope? --> %s", name,
-                    reg.owner ? reg.owner->getSrc().getName() : "{local}", has);
-                T* ret = cl(has, reg);
-                if(ret) return *ret;
-            }
-
-            NM_E("couldn't find owner of %s", toFind);
-            return nulOf<T>();
-        }
+        T& _getOwner(const node& toFind, std::function<T*(nbool, scopeRegister&)> cl);
 
     private:
         str _me;
