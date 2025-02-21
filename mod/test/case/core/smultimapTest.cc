@@ -127,8 +127,7 @@ TEST_F(smultimapTest, complexEraseTest) {
     ASSERT_EQ(scope.size(), 10 + 1); // 1 for banana
 
     auto e1 = scope.begin("apple");
-    scope.erase(e1); // erase 0;
-    ++e1;            // 1
+    scope.erase(e1++); // erase 0; and step to 1
     ++e1;            // 2
     ++e1;            // 3
     scope.erase(e1); // erase '3'
