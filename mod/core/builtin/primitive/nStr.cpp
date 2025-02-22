@@ -47,7 +47,7 @@ namespace nm {
 
         public:
             bridgeIteration(nStr& own, nidx n, nbool isReversed):
-                super(isReversed), _own(&own), _e(own.get().c_str(), isReversed) {
+                super(isReversed), _own(&own), _e(own.get(), isReversed) {
                 _e.next(n);
             }
 
