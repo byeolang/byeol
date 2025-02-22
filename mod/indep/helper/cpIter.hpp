@@ -51,6 +51,6 @@ namespace nm {
     private:
         const nchar* _begin;
         const nchar* _end;
-        nbool _isReverse;
+        nbool _isReversed;
     };
 } // namespace nm

@@ -5,12 +5,12 @@ namespace nm {
     NM(DEF_ME(cpIter))
 
     me::cpIter(const nchar* begin, const nchar* end):
-        _begin(begin), _end(end), _isReverse(begin > end) {}
+        _begin(begin), _end(end), _isReversed(begin > end) {}
 
     me::cpIter(const std::string& from, nbool isReversed):
         _begin(isReversed ? from.c_str() + from.size() : from.c_str()),
         _end(isReversed ? from.c_str() : from.c_str() + from.size()),
-        _isReverse(isReversed) {}
+        _isReversed(isReversed) {}
 
     me me::operator+(ncnt step) {
         next(step);
@@ -39,11 +39,11 @@ namespace nm {
 
     nbool me::operator==(const me& rhs) const { return _begin == rhs._begin && _end == rhs._end; }
 
-    nbool me::isEnd() const { return !_begin || !*_begin; }
+    nbool me::isEnd() const { return (_isReversed ? _begin < _end : _begin > _end) || !_begin || !*_begin; }
 
     void me::rel() { _begin = _end; }
 
-    ncnt me::next(ncnt step) { return _isReverse ? stepBackward(step) : stepForward(step); }
+    ncnt me::next(ncnt step) { return _isReversed ? stepBackward(step) : stepForward(step); }
 
     ncnt me::stepForward(ncnt step) {
         return _step([&]() { return _nextCodepoint(_begin); }, step);
