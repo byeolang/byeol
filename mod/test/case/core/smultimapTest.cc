@@ -128,9 +128,9 @@ TEST_F(smultimapTest, complexEraseTest) {
 
     auto e1 = scope.begin("apple");
     scope.erase(e1++); // erase 0; and step to 1
-    ++e1;            // 2
-    ++e1;            // 3
-    scope.erase(e1); // erase '3'
+    ++e1;              // 2
+    ++e1;              // 3
+    scope.erase(e1);   // erase '3'
 
     auto e = scope.begin("apple");
     int expects[] = {1, 2, 4, 5, 6, 7, 8, 9};

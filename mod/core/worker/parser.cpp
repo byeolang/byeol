@@ -276,9 +276,7 @@ namespace nm {
         return new defBlock();
     }
 
-    defBlock* me::onDefBlock(node& stmt) {
-        return onDefBlock(*new defBlock(), stmt);
-    }
+    defBlock* me::onDefBlock(node& stmt) { return onDefBlock(*new defBlock(), stmt); }
 
     defBlock* me::onDefBlock(defBlock& s, node& stmt) {
         str stmtLife(stmt);

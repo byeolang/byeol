@@ -99,7 +99,7 @@ namespace nm {
     void me::inFrame(const bicontainable& args) const {
         frame& fr = thread::get()._getNowFrame() orRet NM_E("fr == null");
 
-        NM_DI("'%s func'._inFrame() frames.len[%d]", getSrc(), thread::get().getFrames().len());
+        NM_DI("'%s'._inFrame() frames.len[%d]", *this, thread::get().getFrames().len());
         fr.addFunc(*this);
         fr.add(*this);
         fr.add(*scope::wrap<scope>(

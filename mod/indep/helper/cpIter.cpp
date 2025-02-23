@@ -39,7 +39,9 @@ namespace nm {
 
     nbool me::operator==(const me& rhs) const { return _begin == rhs._begin && _end == rhs._end; }
 
-    nbool me::isEnd() const { return (_isReversed ? _begin < _end : _begin > _end) || !_begin || !*_begin; }
+    nbool me::isEnd() const {
+        return (_isReversed ? _begin < _end : _begin > _end) || !_begin || !*_begin;
+    }
 
     void me::rel() { _begin = _end; }
 
