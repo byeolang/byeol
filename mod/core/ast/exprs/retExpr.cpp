@@ -27,19 +27,21 @@ namespace nm {
         auto& fr = thread::get().getNowFrame();
         if(!_ret) return str(nVoid::singletone());
 
-        // # check retValue is null or not.
+        // check retValue is null or not:
         //  ret should be void if there is no value to return. so 'null' not allowed here.
         str ret = _ret->as<node>() orRet _returnEx(
             nerr::newErr(errCode::RETURN_VALUE_IS_NUL, getSrc().getName().c_str()));
         NM_DI("retExpr: ret[%s]", ret);
-        if(ret->isSub<baseObj>()) return fr.setRet(*ret), ret;
 
-        str fRet = fr.getFunc().getRet(); // # check exception occured during running func.
+        // check exception occured during running func.
+        str fRet = fr.getFunc().getRet();
         if(_isEx(*ret, *fRet)) return _returnEx(ret->cast<baseErr>());
 
         // implicit closure:
-        closure* closure = closure::make(*ret);
-        if(closure) ret.bind(closure);
+        if(!ret->isSub<baseObj>()) {
+            closure* closure = closure::make(*ret);
+            if(closure) ret.bind(closure);
+        }
 
         NM_DI("retExpr: frame.setRet(%s)", ret);
         fr.setRet(*ret);
