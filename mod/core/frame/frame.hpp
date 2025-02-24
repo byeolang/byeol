@@ -14,6 +14,7 @@ namespace nm {
     struct _nout scopeRegister {
         str owner;
         tstr<scope> s;
+        tstr<scope> linkedS; // linked scope to previous element of _stack.
     };
 
     class obj;

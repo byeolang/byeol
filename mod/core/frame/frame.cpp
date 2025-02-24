@@ -24,11 +24,11 @@ namespace nm {
 
     void me::add(const node& owner, const scope& existing) {
         if(nul(existing)) return;
-        if(_stack.size() <= 0) return _stack.push_back(scopeRegister{owner, existing}), void();
+        if(_stack.size() <= 0) return _stack.push_back(scopeRegister{owner, existing, existing}), void();
 
         tstr<scope> cloned = existing.cloneChain() orRet;
-        cloned->getTail().link(*_getTop().s);
-        _stack.push_back(scopeRegister{owner, cloned});
+        cloned->getTail().link(*_getTop().linkedS);
+        _stack.push_back(scopeRegister{owner, existing, cloned});
         NM_DI("scope added: frame.len[%d] scope.owner[%s]", _stack.size(), owner);
     }
 
@@ -42,7 +42,7 @@ namespace nm {
 
     scope& me::getScopeHaving(const node& sub) {
         NM_I("getScopeHaving(%s)", sub);
-        return _getOwner<scope>(sub, [&](nbool, auto& reg) { return &reg.s.get(); });
+        return _getOwner<scope>(sub, [&](nbool, auto& reg) { return &reg.linkedS.get(); });
     }
 
     node& me::getMeHaving(const node& sub) {
@@ -92,7 +92,7 @@ namespace nm {
     scope& me::subs() {
         scopeRegister& reg = _getTop();
         static dumScope inner;
-        return nul(reg) ? inner : *reg.s;
+        return nul(reg) ? inner : *reg.linkedS;
     }
 
     tstr<nbicontainer> me::mySubs() const {

@@ -826,3 +826,13 @@ TEST_F(defObjExprTest, assignClosureShouldWork) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 2);
 }
+
+TEST_F(defObjExprTest, originShouldNotOpenAccessToPackScopeNegative) {
+    make().negative().parse(R"SRC(
+        age := 12 # in pack scope
+        def a
+            foo() int: age
+        main() int
+            a().age
+    )SRC").shouldVerified(false);
+}
