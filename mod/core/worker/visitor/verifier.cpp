@@ -472,17 +472,8 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, ctor& me, nbool) {
         _GUARD("onVisit(ctor&)");
-
         NM_WHENNUL(me.getRet()).thenErr(CTOR_NOT_IN_DEF_OBJ, me), true;
-
-        frame& fr = thread::get()._getNowFrame();
-        str prev = fr.getMe();
-        fr.setMe(me.getRet()); // don't use 'cast<baseObj>'. it lets mockNode call 'cast' to its
-                               // original instance.
-
-        nbool ret = super::onVisit(i, me, false);
-        fr.setMe(*prev);
-        return ret;
+        return onVisit(i, (ctor::super&) me, false);
     }
 
     void me::onLeave(const visitInfo& i, ctor& me, nbool) {

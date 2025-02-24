@@ -337,9 +337,9 @@ TEST_F(defObjExprTest, frameNotCreatedWhenCallPackFunc) {
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 22);
-    // namu returns 22 in this scenario so far.
-    // because it doesn't make a frame object and add to current thread when frame::inFrame() func
-    // get called. so it reuses previous frame instance when boo() called.
+    // namu should return 22 in this scenario.
+    // because `boo()` belongs to this `pack` obj. 
+    // so when `boo()` get called it should refer variable `age` belonged to `pack`.
 }
 
 TEST_F(defObjExprTest, defPropAllowedIfThereIsProperCtor) {
