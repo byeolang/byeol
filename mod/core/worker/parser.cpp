@@ -254,7 +254,7 @@ namespace nm {
     blockExpr* me::onBlock(blockExpr& blk, const node& stmt) {
         NM_WHENNUL(blk).thenErr(IS_NUL, "blk"), _maker.make<blockExpr>();
         NM_WHENNUL(stmt).thenErr(IS_NUL, "stmt"), &blk;
-        func& f = _funcs.size() > 0 ? *_funcs.back() : nulOf<func>();
+        [[maybe_unused]] func& f = _funcs.size() > 0 ? *_funcs.back() : nulOf<func>();
         str stmtLife(stmt);
         NM_DI("tokenEvent: onBlock(blk, %s) inside of %s func", stmt,
             !nul(f) ? f.getSrc().getName() : "<null>");
