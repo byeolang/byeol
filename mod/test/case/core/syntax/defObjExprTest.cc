@@ -474,8 +474,9 @@ TEST_F(defObjExprTest, isStateOfDefObjVerified) {
     ASSERT_EQ(person.getState(), LINKED);
 }
 
-TEST_F(defObjExprTest, verifierShouldVerifyCallComplete) {
+TEST_F(defObjExprTest, verifierShouldVerifyCallCompleteNegative) {
     make()
+        .negative()
         .parse(R"SRC(
         def person("unknown") # <-- complete obj. and this'll be looking for ctor(str).
             name str
@@ -828,11 +829,14 @@ TEST_F(defObjExprTest, assignClosureShouldWork) {
 }
 
 TEST_F(defObjExprTest, originShouldNotOpenAccessToPackScopeNegative) {
-    make().negative().parse(R"SRC(
+    make()
+        .negative()
+        .parse(R"SRC(
         age := 12 # in pack scope
         def a
             foo() int: age
         main() int
             a().age
-    )SRC").shouldVerified(false);
+    )SRC")
+        .shouldVerified(false);
 }
