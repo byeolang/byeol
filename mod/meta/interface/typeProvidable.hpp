@@ -43,11 +43,7 @@ namespace nm {
         /// safeCast<T> instead of (T&) because attempting to cast direclty a null reference to
         /// another type can result in a garbage address.
         template <typename T, typename A> static T& safeCast(const A& any) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wtautological-undefined-compare"
-            if(&any == nullptr) return nulOf<T>();
-#pragma clang diagnostic pop
-            return (T&) any;
+            return nul(any) ? nulOf<T>() : (T&) any;
         }
 
         template <typename T> const T& cast() const NM_CONST_FUNC(cast<T>())
