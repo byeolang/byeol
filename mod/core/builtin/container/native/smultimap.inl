@@ -39,12 +39,13 @@ namespace nm {
 
     TEMPL
     ME::iterator::iterator(const smultimap* owner, const wrap* pair, nbool isReversed):
-        me(owner, pair, isReversed, nulOf<K>()) {}
+        me(owner, pair, isReversed, K()) {}
 
     TEMPL
     ME::iterator::iterator(const smultimap* owner, const wrap* pair, nbool isReversed,
         const K& key):
-        _owner(owner), _wrap(pair), _isReversed(isReversed), _key(&key) {}
+        _owner(owner), _wrap(pair), _isReversed(isReversed), _key(key) {
+    }
 
     TEMPL
     V& ME::iterator::operator*() { return getVal(); }
@@ -65,9 +66,8 @@ namespace nm {
             do {
                 _wrap = isReversed ? (_isReversed ? _wrap->_next : _wrap->_prev) :
                                      (_isReversed ? _wrap->_prev : _wrap->_next);
-                if(nul(_key)) break;
-                key = &this->getKey() orRet * this;
-            } while(*key != *_key);
+                key = &_wrap->getKey() orRet *this;
+            } while(*key != _key);
         return *this;
     }
 
@@ -102,13 +102,13 @@ namespace nm {
     bool ME::iterator::isEnd() const { return _wrap == &_owner->_end; }
 
     TEMPL
-    const K& ME::iterator::getKey() const { return _wrap->getKey(); }
+    const K& ME::iterator::getKey() const { return _key; }
 
     TEMPL
-    const V& ME::iterator::getVal() const { return *_wrap; }
-
-    TEMPL
-    V& ME::iterator::getVal() { return ((wrap*) _wrap)->getVal(); }
+    V& ME::iterator::getVal() {
+        auto& val = _wrap->getVal();
+        return (V&) val;
+    }
 
     TEMPL
     bool ME::iterator::operator!=(const iterator& rhs) const { return _wrap != rhs._wrap; }

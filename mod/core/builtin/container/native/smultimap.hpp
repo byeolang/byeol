@@ -79,7 +79,7 @@ namespace nm {
             bool isEnd() const;
 
             const K& getKey() const;
-            const V& getVal() const;
+            const V& getVal() const NM_CONST_FUNC(getVal())
             V& getVal();
 
             bool operator!=(const iterator& rhs) const;
@@ -92,7 +92,7 @@ namespace nm {
             const owner* _owner;
             const wrap* _wrap;
             nbool _isReversed;
-            const K* _key;
+            K _key;
         };
 
     public:
