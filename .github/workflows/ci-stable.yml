@@ -59,7 +59,7 @@ jobs:
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
-        name: namu-release-ubuntu
+        name: namu-ubuntu
         path: ${{github.workspace}}/bin/namu-ubuntu-x64.deb
 
   build-for-wasm:
@@ -108,7 +108,7 @@ jobs:
     - name: upload wasm file
       uses: actions/upload-artifact@v4
       with:
-        name: namu-release-wasm
+        name: namu-wasm
         path: |
           ${{github.workspace}}/bin/namu.js
           ${{github.workspace}}/bin/namu.wasm
