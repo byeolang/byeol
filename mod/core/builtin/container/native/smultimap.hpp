@@ -87,6 +87,7 @@ namespace nm {
 
         private:
             iterator& _step(ncnt step, nbool isReversed);
+            static const K& _getDummyKey();
 
         private:
             const owner* _owner;

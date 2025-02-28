@@ -38,13 +38,19 @@ namespace nm {
     typename ME::wrap& ME::wrap::operator=(wrap&&) { return *this; }
 
     TEMPL
+    const K& ME::iterator::_getDummyKey() {
+        static K inner;
+        return inner;
+    }
+
+    TEMPL
     ME::iterator::iterator(const smultimap* owner, const wrap* pair, nbool isReversed):
-        me(owner, pair, isReversed, K()) {}
+        me(owner, pair, isReversed, _getDummyKey()) {}
 
     TEMPL
     ME::iterator::iterator(const smultimap* owner, const wrap* pair, nbool isReversed,
         const K& key):
-        _owner(owner), _wrap(pair), _isReversed(isReversed), _key(key) {
+        _owner(owner), _wrap(pair), _isReversed(isReversed), _key(nul(key) ? _getDummyKey(): key) {
     }
 
     TEMPL
@@ -66,6 +72,7 @@ namespace nm {
             do {
                 _wrap = isReversed ? (_isReversed ? _wrap->_next : _wrap->_prev) :
                                      (_isReversed ? _wrap->_prev : _wrap->_next);
+                if(_key == _getDummyKey()) break;
                 key = &_wrap->getKey() orRet *this;
             } while(*key != _key);
         return *this;
