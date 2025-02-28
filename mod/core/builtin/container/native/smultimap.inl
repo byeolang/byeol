@@ -73,7 +73,7 @@ namespace nm {
                 _wrap = isReversed ? (_isReversed ? _wrap->_next : _wrap->_prev) :
                                      (_isReversed ? _wrap->_prev : _wrap->_next);
                 if(_key == _getDummyKey()) break;
-                key = &_wrap->getKey() orRet *this;
+                key = &getKey() orRet *this;
             } while(*key != _key);
         return *this;
     }
@@ -109,7 +109,7 @@ namespace nm {
     bool ME::iterator::isEnd() const { return _wrap == &_owner->_end; }
 
     TEMPL
-    const K& ME::iterator::getKey() const { return _key; }
+    const K& ME::iterator::getKey() const { return _wrap->getKey(); }
 
     TEMPL
     V& ME::iterator::getVal() {
