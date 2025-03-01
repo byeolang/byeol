@@ -12,7 +12,8 @@ public:
         nbool isAutoAdvance):
         super(isReversed),
         _chainIter(iteratingChain),
-        _key(key),
+        _key(nul(key) ? _getDummyKey() : key),
+        _isDummyKey(nul(key)),
         _iter(_makeContainerIter(false)),
         _isBoundary(isBoundary) {
         if(isAutoAdvance && !_iter) {
@@ -114,7 +115,7 @@ private:
         me& nextIteration = _castIteration(nextIter);
         _iter = nextIteration._isBoundary ? _makeContainerIter(nextIteration.isReversed()) :
                                             nextIteration._iter;
-        if(!nul(_key) && (nul(_iter.getKey()) || _key != _iter.getKey())) _iter.next(1);
+        if(!_isDummyKey && (nul(_iter.getKey()) || _key != _iter.getKey())) _iter.next(1);
     }
 
     /// create a new iter to match the container iter currently held by `chainIter`.
@@ -124,9 +125,10 @@ private:
     ///                   this `isReversed` is the direction value that each `iter` owned by `chain`
     ///                   object, not from `this` pointer.
     iter _makeContainerIter(nbool isReversed) const {
-        return isReversed ?
-            (this->isReversed() ? _chainIter->_map->begin(_key) : _chainIter->_map->rbegin(_key)) :
-            (this->isReversed() ? _chainIter->_map->rbegin(_key) : _chainIter->_map->begin(_key));
+        return isReversed ? (this->isReversed() ? _chainIter->_map->begin(_getFindingKey()) :
+                                                  _chainIter->_map->rbegin(_getFindingKey()))
+                                : (this->isReversed() ? _chainIter->_map->rbegin(_getFindingKey()) :
+                                                        _chainIter->_map->begin(_getFindingKey()));
     }
 
     void _setBoundary(nbool new1) { _isBoundary = new1; }
@@ -170,11 +172,19 @@ private:
         return _iter == prevNext._iter;
     }
 
+    static const K& _getDummyKey() {
+        static K inner;
+        return inner;
+    }
+
+    const K& _getFindingKey() const { return _isDummyKey ? nulOf<K>() : _key; }
+
 private:
     /// iter for tnchain.
     /// this shouldn't be null always.
     tstr<tnchain> _chainIter;
-    const K& _key;
+    K _key;
+    nbool _isDummyKey;
     //// iter for container of tnchain
     iter _iter;
 

@@ -27,7 +27,6 @@ namespace nm {
 
     TEMPL
     void ME::wrap::clear() {
-        _key = nullptr;
         _prev = _next = this;
     }
 
