@@ -23,7 +23,8 @@ TEST(platformAPITest, iterateCodepoints) {
 }
 
 TEST(platformAPITest, iterateCodepointsMixedString) {
-    cpIter e4("abcd🏁efg");
+    std::string src = "abcd🏁efg";
+    cpIter e4(src);
     e4.next(2);            // 'a' -> 'c'
     ASSERT_EQ(*e4++, "c"); // 'c' -> 'd'
     ASSERT_EQ(*e4++, "d"); // 'd' -> '🏁'

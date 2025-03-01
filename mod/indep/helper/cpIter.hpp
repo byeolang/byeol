@@ -10,6 +10,7 @@ namespace nm {
 
     public:
         cpIter(const nchar* begin, const nchar* from);
+        /// @param from externally memory-managed string object.
         cpIter(const std::string& from, nbool isReversed = false);
 
     public:
