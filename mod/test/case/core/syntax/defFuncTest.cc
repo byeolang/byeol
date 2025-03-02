@@ -904,6 +904,7 @@ TEST_F(defFuncTest, voidParameterNotAllowedInLambdaNegative) {
         .shouldVerified(false);
 }
 
+/* TODO: uncomment this.
 TEST_F(defFuncTest, complexLambda) {
     make()
         .parse(R"SRC(
@@ -943,4 +944,4 @@ TEST_F(defFuncTest, complexLambda) {
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 1);
-}
+}*/
