@@ -144,14 +144,14 @@ namespace nm {
 
         static const baseObj& _defaultOrg() {
             static tbaseObjOrigin<me> org(tbridger<me>::ctor()
-                    .ctor<nStr>()
-                    .func("len", &me::len)
-                    .func<nchar, nidx>("get", &me::get)
-                    .func("substr", &me::substr)
-                    .func("get", new getSeqFunc())
-                    .func("iterate", new iterateFunc())
-                    .func("getElemType", new getElemType())
-                    .subs());
+                                              .ctor<nStr>()
+                                              .func("len", &me::len)
+                                              .func<nchar, nidx>("get", &me::get)
+                                              .func("substr", &me::substr)
+                                              .func("get", new getSeqFunc())
+                                              .func("iterate", new iterateFunc())
+                                              .func("getElemType", new getElemType())
+                                              .subs());
             return org;
         }
 

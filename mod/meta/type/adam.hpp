@@ -3,5 +3,5 @@
 #include "../common.hpp"
 
 namespace nm {
-    class _nout adam{};
+    class _nout adam {};
 }

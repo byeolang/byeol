@@ -338,7 +338,7 @@ TEST_F(defObjExprTest, frameNotCreatedWhenCallPackFunc) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 22);
     // namu should return 22 in this scenario.
-    // because `boo()` belongs to this `pack` obj. 
+    // because `boo()` belongs to this `pack` obj.
     // so when `boo()` get called it should refer variable `age` belonged to `pack`.
 }
 

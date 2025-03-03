@@ -24,7 +24,8 @@ namespace nm {
 
     void me::add(const node& owner, const scope& existing) {
         if(nul(existing)) return;
-        if(_stack.size() <= 0) return _stack.push_back(scopeRegister{owner, existing, existing}), void();
+        if(_stack.size() <= 0)
+            return _stack.push_back(scopeRegister{owner, existing, existing}), void();
 
         tstr<scope> cloned = existing.cloneChain() orRet;
         cloned->getTail().link(*_getTop().linkedS);

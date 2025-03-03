@@ -126,9 +126,9 @@ private:
     ///                   object, not from `this` pointer.
     iter _makeContainerIter(nbool isReversed) const {
         return isReversed ? (this->isReversed() ? _chainIter->_map->begin(_getFindingKey()) :
-                                                  _chainIter->_map->rbegin(_getFindingKey()))
-                                : (this->isReversed() ? _chainIter->_map->rbegin(_getFindingKey()) :
-                                                        _chainIter->_map->begin(_getFindingKey()));
+                                                  _chainIter->_map->rbegin(_getFindingKey())) :
+                            (this->isReversed() ? _chainIter->_map->rbegin(_getFindingKey()) :
+                                                  _chainIter->_map->begin(_getFindingKey()));
     }
 
     void _setBoundary(nbool new1) { _isBoundary = new1; }
