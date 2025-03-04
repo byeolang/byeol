@@ -95,8 +95,8 @@ TEST(ntypeTest, allImplicitCastingForPrimitives) {
 }
 
 TEST(ntypeTest, funcAndClosureIsImplicitCastable) {
-    thread th;
-    thread::set(th);
+    nm::thread th; // declare namespace because there is a `thread` class in some version of macos
+    nm::thread::set(th);
     obj dummy;
     frameInteract f1(dummy);
     {
@@ -115,12 +115,12 @@ TEST(ntypeTest, funcAndClosureIsImplicitCastable) {
         ASSERT_TRUE(lhs->isImpli(*rhs));
         ASSERT_TRUE(rhs->isImpli(*lhs));
     }
-    thread::set();
+    nm::thread::set();
 }
 
 TEST(ntypeTest, funcAndClosureIsImplicitCastableWithDifferentSameFunc) {
-    thread th;
-    thread::set(th);
+    nm::thread th;
+    nm::thread::set(th);
     obj dummy;
     frameInteract f1(dummy);
     {
@@ -141,12 +141,12 @@ TEST(ntypeTest, funcAndClosureIsImplicitCastableWithDifferentSameFunc) {
         ASSERT_TRUE(lhs->isImpli(*rhs));
         ASSERT_TRUE(rhs->isImpli(*lhs));
     }
-    thread::set();
+    nm::thread::set();
 }
 
 TEST(ntypeTest, funcAndClosureIsNotCastableReturnTypeIsDifferentNegative) {
-    thread th;
-    thread::set(th);
+    nm::thread th;
+    nm::thread::set(th);
     obj dummy;
     frameInteract f1(dummy);
     {
@@ -174,12 +174,12 @@ TEST(ntypeTest, funcAndClosureIsNotCastableReturnTypeIsDifferentNegative) {
         ASSERT_FALSE(foo->isImpli(*rhs));
         ASSERT_FALSE(rhs->isImpli(*foo));
     }
-    thread::set();
+    nm::thread::set();
 }
 
 TEST(ntypeTest, funcAndClosureIsNotCastableSomeParamIsDifferentNegative) {
-    thread th;
-    thread::set(th);
+    nm::thread th;
+    nm::thread::set(th);
     obj dummy;
     frameInteract f1(dummy);
     {
@@ -208,5 +208,5 @@ TEST(ntypeTest, funcAndClosureIsNotCastableSomeParamIsDifferentNegative) {
         ASSERT_FALSE(foo->isImpli(*rhs));
         ASSERT_FALSE(rhs->isImpli(*foo));
     }
-    thread::set();
+    nm::thread::set();
 }
