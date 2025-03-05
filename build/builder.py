@@ -671,11 +671,16 @@ def _extractPythonVersion(verstr):
     print(verstr)
     if not verstr:
         printErr("couldn't get version of python.")
-        return 0.0
+        return 31000
 
     verstr = verstr.split(' ')[1]
     vver = verstr.split('.')
-    return float(vver[1] + "." + vver[2])
+    pos = 10000
+    ret = 0
+    for v in vver:
+        ret += int(v) * pos
+        pos /= 100
+    return ret
 
 flexVerExpect = [2, 6, 0]
 
@@ -711,7 +716,7 @@ def checkDependencies(deps):
         printErr("clang is NOT installed!")
         hasErr = True
 
-    if _extractPythonVersion(cmdstr(python3 + " --version")) < 3.6:
+    if _extractPythonVersion(cmdstr(python3 + " --version")) < 30600:
         printErr("requires python over v3.6")
         hasErr = True
 
