@@ -64,7 +64,7 @@ namespace by {
     _nout noWrap<nflt> __convert__(nflt rhs);
     _nout noWrap<nflt> __convert__(nflt* rhs);
     _nout noWrap<nchar> __convert__(nchar rhs);
-    _nout noWrap<nchar> __convert__(nchar* rhs);
+    _nout noWrap<const nchar*> __convert__(nchar* rhs);
     _nout noWrap<const nchar*> __convert__(const nchar* rhs);
     _nout strWrap __convert__(nbool rhs);
     _nout strWrap __convert__(nbool* rhs);

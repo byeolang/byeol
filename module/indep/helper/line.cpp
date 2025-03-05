@@ -7,7 +7,7 @@ namespace by {
 
     static constexpr ncnt _MAX_LV = 20;
     static std::string _LINES[_MAX_LV + 1] = {
-        "",                    // 0
+        "",                     // 0
         "┣ ",                   // 1
         "┃┣ ",                  // 2
         "┃┃┣ ",                 // 3
@@ -31,18 +31,16 @@ namespace by {
     };
 
     void line::incLv() {
-        WHEN(_lv >= _MAX_LV).ret();
+        WHEN(_lv >= _MAX_LV) .ret();
         _lv++;
     }
 
     void line::decLv() {
-        WHEN(_lv <= 0).ret();
+        WHEN(_lv <= 0) .ret();
         _lv--;
     }
 
-    ncnt line::getLv() {
-        return _lv;
-    }
+    ncnt line::getLv() { return _lv; }
 
     const std::string& line::getLine() {
         ncnt lv = _lv <= _MAX_LV ? _lv : _MAX_LV;

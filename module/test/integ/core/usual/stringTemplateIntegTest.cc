@@ -61,7 +61,7 @@ TEST_F(stringTemplateIntegTest, stringTemplateMissingVar) {
     make()
         .negative()
         .parse(R"SRC(
-        main() void
+        main() int
             msg := "hello $"
             ret msg.len()
     )SRC")

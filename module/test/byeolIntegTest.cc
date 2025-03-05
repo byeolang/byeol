@@ -85,11 +85,7 @@ by::nbool me::shouldVerified(by::nbool expect) {
 by::str me::run(by::nbool silent) {
     using by::starter;
     auto flag = silent ? 0 : starter::LOG_STRUCTURE | starter::LOG_GRAPH_ON_EX | starter::DEFAULT;
-    return starter()
-        .setTask(getSubPack())
-        .setReport(_rpt)
-        .setFlag(flag)
-        .work();
+    return starter().setTask(getSubPack()).setReport(_rpt).setFlag(flag).work();
 }
 
 void me::_rel() {

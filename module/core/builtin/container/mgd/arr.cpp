@@ -84,7 +84,7 @@ namespace by {
             mgdType _type;
         };
 
-        class __baseCtor : public baseFunc {
+        class __baseCtor: public baseFunc {
             BY(ME(__baseCtor, baseFunc))
 
         public:
@@ -95,7 +95,7 @@ namespace by {
 
             const baseObj& getOrigin() const override { return *_org; }
 
-        private:        
+        private:
             tstr<arr> _org;
             mgdType _type;
         };
@@ -107,16 +107,15 @@ namespace by {
             __defaultCtor(arr* org): super(org, mgdType("@ctor", ttype<me>::get(), params(), false, org)) {}
 
         public:
-            str eval(const args& a) override {
-                return new arr(getOrigin().getType().getParams()[0].getOrigin());
-            }
+            str eval(const args& a) override { return new arr(getOrigin().getType().getParams()[0].getOrigin()); }
         };
 
-        class __copyCtor: public __baseCtor{
+        class __copyCtor: public __baseCtor {
             BY(ME(__copyCtor, __baseCtor), CLONE(__copyCtor))
 
         public:
-            __copyCtor(arr* org): super(org, mgdType("@ctor", ttype<me>::get(), params(*new param("rhs", org)), false, org)) {}
+            __copyCtor(arr* org):
+                super(org, mgdType("@ctor", ttype<me>::get(), params(*new param("rhs", org)), false, org)) {}
 
         public:
             str eval(const args& a) override {
@@ -228,16 +227,16 @@ namespace by {
 
     scope& me::_getOriginScope() {
         static scope inner = tbridger<narr>::genericFunc("len", &narr::len)
-                .genericFunc("rel", &narr::rel)
-                .genericFunc<nbool, nidx>("del", &narr::del)
-                .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
-                .genericFunc<nbool, nidx, const node&>("add", &narr::add)
-                .genericFunc<nbool, nidx, const node&>("set", &narr::set)
-                .genericFuncNonConst<node*, nidx>("get", &narr::get)
-                .genericFunc<nbool, const node&>("in", &narr::in)
-                .func("iterate", new iterateFunc())
-                .func("getElemType", new getElemTypeFunc())
-                .subs();
+                                 .genericFunc("rel", &narr::rel)
+                                 .genericFunc<nbool, nidx>("del", &narr::del)
+                                 .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
+                                 .genericFunc<nbool, nidx, const node&>("add", &narr::add)
+                                 .genericFunc<nbool, nidx, const node&>("set", &narr::set)
+                                 .genericFuncNonConst<node*, nidx>("get", &narr::get)
+                                 .genericFunc<nbool, const node&>("in", &narr::in)
+                                 .func("iterate", new iterateFunc())
+                                 .func("getElemType", new getElemTypeFunc())
+                                 .subs();
 
         return inner;
     }

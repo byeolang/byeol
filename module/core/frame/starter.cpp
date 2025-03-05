@@ -49,7 +49,7 @@ namespace by {
 
     str me::_postprocess(const str& res) {
         thread& th = thread::get();
-        WHEN(!th.getEx()).ret(res);
+        WHEN(!th.getEx()) .ret(res);
 
         if(isFlag(starter::DUMP_ON_END)) {
             enablesZone zone(true);

@@ -4,7 +4,7 @@ using namespace by;
 using namespace std;
 
 namespace {
-    struct arrAntiTest : public byeolIntegTest {};  
+    struct arrAntiTest: public byeolIntegTest {};
 }
 
 TEST_F(arrAntiTest, negativeArrayIndexNegative) {

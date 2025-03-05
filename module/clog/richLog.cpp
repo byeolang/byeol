@@ -12,9 +12,9 @@ namespace by {
 
     noWrap<nchar> __convert__(nchar rhs) { return rhs; }
 
-    noWrap<nchar> __convert__(nchar* rhs) { return rhs ? __convert__(*rhs) : ' '; }
+    noWrap<const nchar*> __convert__(nchar* rhs) { return rhs ? rhs : "null"; }
 
-    noWrap<const nchar*> __convert__(const nchar* rhs) { return rhs; }
+    noWrap<const nchar*> __convert__(const nchar* rhs) { return rhs ? rhs : "null"; }
 
     noWrap<ndbl> __convert__(ndbl rhs) { return rhs; }
 

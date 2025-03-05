@@ -35,13 +35,17 @@ namespace by {
 
         static ncnt _stepN = 0;
 
-        class endGuard : public end {
+        class endGuard: public end {
             BY(ME(endGuard, end))
 
         public:
-            endGuard(std::function<void(void)> l): super([&]() { line::decLv(); l(); }) {}
+            endGuard(std::function<void(void)> l):
+                super([&]() {
+                    line::decLv();
+                    l();
+                }) {}
         };
-    }
+    } // namespace
 
 #define _STEP(msg, ...)                                                                                        \
     BY_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), (void*) &me, ++_stepN, \

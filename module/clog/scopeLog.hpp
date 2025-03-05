@@ -10,7 +10,7 @@ namespace by {
      * @details Decrements graph level and returns elapsed milliseconds.
      * @param start The start time point of the scope.
      */
-    class _nout scopeLog : public end {
+    class _nout scopeLog: public end {
         BY(ME(scopeLog, end))
 
     public:
