@@ -218,6 +218,11 @@ false {
     // we must leave '"' with 'unput()' so that the scanner will exit current 'stateString',
     // when it meets '"' by next token.
 }
+<stateString>\$\" {
+    BY_DI("$\" yytext=%s", yytext);
+    unput('"');
+    append(yylval, "$");
+}
 <stateString>\$[^a-zA-Z_{"] {
     BY_DI("$[^a-zA-Z_{{] yytext=%s", yytext);
     unput(yytext[1]);
