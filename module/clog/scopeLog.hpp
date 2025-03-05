@@ -14,7 +14,7 @@ namespace by {
         BY(ME(scopeLog, end))
 
     public:
-        scopeLog(std::function<void(nllong)> l);
+        scopeLog(const std::function<void(nllong)>& l);
 
     private:
         static nllong _measureNow();
