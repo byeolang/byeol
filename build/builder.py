@@ -768,6 +768,7 @@ def clean():
     _clean(cwd)
     _cleanIntermediates()
     _cleanDir(binDir)
+    _cleanDir(externalDir)
     _cleanParser()
     if isWindow():
         os.system("del /f /s /q " + cwd + "\\html")
