@@ -47,7 +47,7 @@ namespace nm {
 
         void onCloneDeep(const clonable& from) override;
 
-        static void evalArgs(const ucontainable& args, const params& ps, onEval lambda);
+        static void evalArgs(const ucontainable& args, const params& ps, const onEval& lambda);
 
         nbool isAbstract() const;
 

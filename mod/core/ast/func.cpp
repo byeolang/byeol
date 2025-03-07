@@ -129,7 +129,7 @@ namespace nm {
         _blk.bind((blockExpr*) rhs._blk->cloneDeep());
     }
 
-    void me::evalArgs(const ucontainable& args, const params& ps, onEval lambda) {
+    void me::evalArgs(const ucontainable& args, const params& ps, const onEval& lambda) {
         if(args.len() != ps.len())
             return NM_E("length of args(%d) and typs(%d) doesn't match.", args.len(), ps.len());
         int n = 0;

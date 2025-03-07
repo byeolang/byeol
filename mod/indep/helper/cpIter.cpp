@@ -67,7 +67,7 @@ namespace nm {
         return len;
     }
 
-    ncnt me::_step(std::function<const nchar*()> closure, ncnt step) {
+    ncnt me::_step(const std::function<const nchar*()>& closure, ncnt step) {
         nint n = 0;
         while(n++ < step) {
             _begin = closure();

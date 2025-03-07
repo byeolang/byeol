@@ -44,7 +44,7 @@ namespace nm {
         ncnt remainLen() const;
 
     private:
-        ncnt _step(std::function<const nchar*()> closure, ncnt step);
+        ncnt _step(const std::function<const nchar*()>& closure, ncnt step);
         const nchar* _nextCodepoint(const nchar* from) const;
         const nchar* _prevCodepoint(const nchar* e) const;
         ncnt _skipBytes(nchar ch) const;
