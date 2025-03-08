@@ -8,8 +8,8 @@ namespace nm {
 
     const nchar* helpFlag::getDescription() const {
         return R"DESC(
-        show help documents.
-        list all of available commands and description for how to use them.)DESC";
+    show help documents.
+    list all of available commands and description for how to use them.)DESC";
     }
 
     const nchar* helpFlag::_getRegExpr() const { return "^\\-h$"; }
