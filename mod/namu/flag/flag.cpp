@@ -22,7 +22,7 @@ namespace nm {
                 del.push_back(cn);
             }
         }
-        if(tray.empty()) return false;
+        if(tray.empty()) return true;
 
         nbool res = _onTake(tray, c, ip, s);
         if(!res) return false;

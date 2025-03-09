@@ -23,7 +23,7 @@ namespace nm {
             std::cout << "   " << opt.getName() << opt.getDescription() << "\n\n";
         }
 
-        return true;
+        return false; // don't want to keep processing. just exit program.
     }
 
     void helpFlag::_printUsage() const {

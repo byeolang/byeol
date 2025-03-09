@@ -16,7 +16,7 @@ namespace nm {
         virtual const nchar* getName() const = 0;
         virtual const nchar* getDescription() const = 0;
 
-        /// @return how many argument taken by this flag.
+        /// @return false if flag wants to exit program.
         virtual nbool take(interpreter& ip, starter& s, cli& c, flagArgs& a) const;
 
     protected:

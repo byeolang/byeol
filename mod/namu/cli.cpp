@@ -13,11 +13,13 @@ namespace nm {
         starter s;
         s.setFlag(starter::DUMP_ON_EX);
 
+        nbool exit = false;
         for(const auto& op: getFlags()) {
-            op->take(ip, s, *this, a);
+            if(op->take(ip, s, *this, a)) exit = true;
 
             if(a.size() <= 0) break;
         }
+        if(exit) return true;
 
         {
             defaultSigZone<interpreter> zone(ip);
