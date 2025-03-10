@@ -9,6 +9,8 @@ namespace nm {
 
     struct cli;
 
+    typedef std::vector<std::string> strings;
+
     class flag: public instance {
         NM(ADT(flag, instance))
 
@@ -26,7 +28,7 @@ namespace nm {
 
         void _delArgs(flagArgs& a, std::vector<int> indices) const;
 
-        virtual const nchar* _getRegExpr() const = 0;
+        virtual const strings& _getRegExpr() const = 0;
         virtual nbool _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const = 0;
     };
 

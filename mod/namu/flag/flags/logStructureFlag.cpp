@@ -15,7 +15,10 @@ namespace nm {
     it also shows frame info which contains the stackframe when latest error occurs.)DESC";
     }
 
-    const nchar* me::_getRegExpr() const { return "^\\--show-structure$"; }
+    const strings& me::_getRegExpr() const {
+        static strings inner{"^\\--show-structure$"};
+        return inner;
+    }
 
     nbool me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
         ip.addFlag(interpreter::LOG_STRUCTURE);

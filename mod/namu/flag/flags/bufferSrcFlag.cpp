@@ -15,7 +15,10 @@ namespace nm {
     programming script can passed in as a string with this flag.)DESC";
     }
 
-    const nchar* me::_getRegExpr() const { return "^\\-s$"; }
+    const strings& me::_getRegExpr() const {
+        static strings inner{"^\\-s$"};
+        return inner;
+    }
 
     ncnt me::_onContinuousArgCount() const { return 1; }
 

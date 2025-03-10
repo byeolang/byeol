@@ -15,7 +15,10 @@ namespace nm {
     wildcard and the question mark aren't allowed.)DESC";
     }
 
-    const nchar* me::_getRegExpr() const { return "[\\\\\\w\\.\\/:\\-\\(\\)\\d]+\\.nm$"; }
+    const strings& me::_getRegExpr() const {
+        static strings inner{"[\\\\\\w\\.\\/:\\-\\(\\)\\d]+\\.nm$"};
+        return inner;
+    }
 
     nbool me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
         for(const auto& filePath: tray)

@@ -16,7 +16,10 @@ namespace nm {
     this info will be useful if you know how src to be interpreted.)DESC";
     }
 
-    const nchar* me::_getRegExpr() const { return "^\\-v$"; }
+    const strings& me::_getRegExpr() const {
+        static strings inner{"^\\-v$"};
+        return inner;
+    }
 
     nbool me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
         nint flag = interpreter::DUMP_ON_EX | interpreter::GUARD | interpreter::INTERNAL |

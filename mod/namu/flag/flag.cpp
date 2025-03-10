@@ -7,19 +7,21 @@ namespace nm {
     NM_DEF_ME(flag)
 
     nbool me::take(interpreter& ip, starter& s, cli& c, flagArgs& a) const {
-        std::regex re(_getRegExpr());
         std::vector<int> del;
         flagArgs tray;
 
         for(int n = 0; n < a.size(); n++) {
-            if(!std::regex_match(a[n], re)) continue;
+            for(const std::string& match : _getRegExpr()) {
+                std::regex re(match);
+                if(!std::regex_match(a[n], re)) continue;
 
-            tray.push_back(a[n]);
-            del.push_back(n);
+                tray.push_back(a[n]);
+                del.push_back(n);
 
-            for(int cn = ++n; cn < n + _onContinuousArgCount(); cn++) {
-                tray.push_back(a[cn]);
-                del.push_back(cn);
+                for(int cn = ++n; cn < n + _onContinuousArgCount(); cn++) {
+                    tray.push_back(a[cn]);
+                    del.push_back(cn);
+                }
             }
         }
         if(tray.empty()) return true;

@@ -12,7 +12,10 @@ namespace nm {
     list all of available commands and description for how to use them.)DESC";
     }
 
-    const nchar* helpFlag::_getRegExpr() const { return "^\\-h$"; }
+    const strings& helpFlag::_getRegExpr() const {
+        static strings inner{"^\\-h$", "^\\--help$"};
+        return inner;
+    }
 
     nbool helpFlag::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
         _printUsage();
