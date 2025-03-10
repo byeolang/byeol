@@ -4,6 +4,8 @@
 
 namespace nm {
 
+    NM(DEF_ME(helpFlag))
+
     const nchar* helpFlag::getName() const { return "-h"; }
 
     const nchar* helpFlag::getDescription() const {
@@ -17,7 +19,7 @@ namespace nm {
         return inner;
     }
 
-    nbool helpFlag::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
+    me::res helpFlag::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
         _printUsage();
 
         const flags& opts = c.getFlags();
@@ -26,7 +28,7 @@ namespace nm {
             std::cout << "   " << opt.getName() << opt.getDescription() << "\n\n";
         }
 
-        return false; // don't want to keep processing. just exit program.
+        return EXIT_PROGRAM; // don't want to keep processing. just exit program.
     }
 
     void helpFlag::_printUsage() const {

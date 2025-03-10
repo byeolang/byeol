@@ -6,7 +6,7 @@ namespace nm {
 
     NM_DEF_ME(flag)
 
-    nbool me::take(interpreter& ip, starter& s, cli& c, flagArgs& a) const {
+    me::res me::take(interpreter& ip, starter& s, cli& c, flagArgs& a) const {
         std::vector<int> del;
         flagArgs tray;
 
@@ -22,14 +22,13 @@ namespace nm {
                     tray.push_back(a[cn]);
                     del.push_back(cn);
                 }
+                break;
             }
         }
-        if(tray.empty()) return true;
+        if(tray.empty()) return NOT_MATCH;
 
-        nbool res = _onTake(tray, c, ip, s);
-        if(!res) return false;
-
-        _delArgs(a, del);
+        res res = _onTake(tray, c, ip, s);
+        if(res == MATCH) _delArgs(a, del);
         return res;
     }
 

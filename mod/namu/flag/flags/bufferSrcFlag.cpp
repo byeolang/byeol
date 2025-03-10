@@ -22,10 +22,10 @@ namespace nm {
 
     ncnt me::_onContinuousArgCount() const { return 1; }
 
-    nbool me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
-        if(tray.size() < 2) return NM_E("invalid flagArgument size < 2"), false;
+    me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
+        if(tray.size() < 2) return NM_E("invalid flagArgument size < 2"), EXIT_PROGRAM;
 
         ip.addSupply(*new bufSupply(tray[1]));
-        return true;
+        return MATCH;
     }
 }

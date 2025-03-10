@@ -20,9 +20,9 @@ namespace nm {
         return inner;
     }
 
-    nbool me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
+    me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
         ip.addFlag(interpreter::LOG_STRUCTURE);
         s.addFlag(starter::LOG_STRUCTURE);
-        return true;
+        return MATCH;
     }
 }

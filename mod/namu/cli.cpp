@@ -5,6 +5,21 @@ namespace nm {
 
     NM(DEF_ME(cli))
 
+    namespace {
+        std::string _joinString(const std::vector<std::string>& v) {
+            std::string ret;
+            nint first = 1;
+            for(const std::string& s : v)
+                ret += (first-- ? "" : ", ") + s;
+            return ret;
+        }
+
+        nbool _reportUnknownFlags(const flagArgs& remains) {
+            err("unknown flags: " + _joinString(remains)).log();
+            return false;
+        }
+    }
+
     nbool me::run(flagArgs& a) {
         _res = -1;
         interpreter ip;
@@ -13,13 +28,11 @@ namespace nm {
         starter s;
         s.setFlag(starter::DUMP_ON_EX);
 
-        nbool exit = false;
         for(const auto& op: getFlags()) {
-            if(op->take(ip, s, *this, a)) exit = true;
-
+            if(op->take(ip, s, *this, a) == flag::EXIT_PROGRAM) return true;
             if(a.size() <= 0) break;
         }
-        if(exit) return true;
+        if(a.size() > 0) return _reportUnknownFlags(a);
 
         {
             defaultSigZone<interpreter> zone(ip);

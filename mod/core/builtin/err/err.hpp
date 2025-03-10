@@ -4,7 +4,7 @@
 #include "../primitive/nStr.hpp"
 
 namespace nm {
-    class err: public baseErr {
+    class _nout err: public baseErr {
         NM(CLASS(err, baseErr))
         template <typename T, nbool> friend struct tmarshaling;
 

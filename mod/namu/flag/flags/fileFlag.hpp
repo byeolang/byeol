@@ -15,6 +15,6 @@ namespace nm {
     protected:
         const strings& _getRegExpr() const override;
 
-        nbool _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const override;
+        res _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const override;
     };
 }
