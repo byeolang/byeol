@@ -32,9 +32,9 @@ namespace nm {
     }
 
     void helpFlag::_printUsage() const {
-        std::cout << "NM interpreter by kniz. " << buildFeature::config::getName() << " on "
+        std::cout << "Namu interpreter. " << buildFeature::config::getName() << " binary built on "
                   << buildFeature::date::getMonth() << "-" << buildFeature::date::getYear() << ". v"
                   << buildFeature::version::getValue() << "\n";
-        std::cout << "Usage: <option> <filepath>\n";
+        std::cout << "Usage: namu <option> <filepath>\n";
     }
 }
