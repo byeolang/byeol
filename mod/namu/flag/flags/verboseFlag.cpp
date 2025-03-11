@@ -6,7 +6,7 @@ namespace nm {
 
     NM_DEF_ME(verboseFlag)
 
-    const nchar* me::getName() const { return "-v"; }
+    const nchar* me::getName() const { return "-v, --verbose"; }
 
     const nchar* me::getDescription() const {
         return R"DESC(
@@ -17,7 +17,7 @@ namespace nm {
     }
 
     const strings& me::_getRegExpr() const {
-        static strings inner{"^\\-v$"};
+        static strings inner{"^\\-v$", "^\\--verbose$"};
         return inner;
     }
 

@@ -8,7 +8,7 @@ namespace nm {
 
     NM_DEF_ME(bufferSrcFlag)
 
-    const nchar* me::getName() const { return "-s"; }
+    const nchar* me::getName() const { return "-s, --script"; }
 
     const nchar* me::getDescription() const {
         return R"DESC(
@@ -16,7 +16,7 @@ namespace nm {
     }
 
     const strings& me::_getRegExpr() const {
-        static strings inner{"^\\-s$"};
+        static strings inner{"^\\-s$", "^\\--script$"};
         return inner;
     }
 

@@ -6,7 +6,7 @@ namespace nm {
 
     NM(DEF_ME(helpFlag))
 
-    const nchar* helpFlag::getName() const { return "-h"; }
+    const nchar* helpFlag::getName() const { return "-h, --help"; }
 
     const nchar* helpFlag::getDescription() const {
         return R"DESC(

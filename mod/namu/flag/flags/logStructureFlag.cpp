@@ -6,7 +6,7 @@ namespace nm {
 
     NM_DEF_ME(logStructureFlag)
 
-    const nchar* me::getName() const { return "--show-structure"; }
+    const nchar* me::getName() const { return "-S, --show-structure"; }
 
     const nchar* me::getDescription() const {
         return R"DESC(
@@ -16,7 +16,7 @@ namespace nm {
     }
 
     const strings& me::_getRegExpr() const {
-        static strings inner{"^\\--show-structure$"};
+        static strings inner{"^\\-S$", "^\\--show-structure$"};
         return inner;
     }
 
