@@ -19,6 +19,8 @@
         } while(0)
 
     #define PS (*zzget_extra(scanner))
+
+    static void _onEndParse(zzscan_t scanner);
 }
 
 /*  ============================================================================================
@@ -60,7 +62,6 @@
         void zzerror(ZZLTYPE* loc, zzscan_t scanner, const char* msg);
     }
 
-    void _onEndParse(zzscan_t scanner);
     std::string getTokenName(int tok);
 }
 
@@ -261,7 +262,7 @@ static int yyreport_syntax_error(const yypcontext_t* ctx, zzscan_t scanner) {
     return _onEndParse(scanner), 0;
 }
 
-void _onEndParse(zzscan_t scanner) {
+static void _onEndParse(zzscan_t scanner) {
     zzset_lineno(0, scanner);
 }
 

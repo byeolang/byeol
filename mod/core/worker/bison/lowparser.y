@@ -21,6 +21,8 @@
         } while(0)
 
     #define PS (*yyget_extra(scanner))
+
+    static void _onEndParse(yyscan_t scanner);
 }
 
 /*  ============================================================================================
@@ -69,8 +71,6 @@
         char* yyget_text(yyscan_t scanner);
         void yyerror(YYLTYPE* loc, yyscan_t scanner, const char* msg);
     }
-
-    void _onEndParse(yyscan_t scanner);
     std::string getTokenName(int tok);
 }
 
@@ -707,7 +707,7 @@ static int yyreport_syntax_error(const yypcontext_t* ctx, yyscan_t scanner) {
     return _onEndParse(scanner), 0;
 }
 
-void _onEndParse(yyscan_t scanner) {
+static void _onEndParse(yyscan_t scanner) {
     yyset_lineno(0, scanner);
 }
 
