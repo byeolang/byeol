@@ -72,6 +72,7 @@ namespace nm {
             inner.push_back(tstr<flag>(new logStructureFlag()));
             inner.push_back(tstr<flag>(new bufferSrcFlag()));
             inner.push_back(tstr<flag>(new verboseFlag()));
+            inner.push_back(tstr<flag>(new verFlag()));
         }
 
         return inner;

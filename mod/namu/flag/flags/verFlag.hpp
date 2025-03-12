@@ -4,8 +4,8 @@
 
 namespace nm {
 
-    class helpFlag: public flag {
-        NM(CLASS(helpFlag, flag))
+    class verFlag: public flag {
+        NM(CLASS(verFlag, flag))
 
     public:
         const nchar* getName() const override;

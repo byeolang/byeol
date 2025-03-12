@@ -1,9 +1,261 @@
 # Changelogs
+## v0.2.9 Mana Update
+released on 02-07 2024
+build#1162
+
+### language updates
+
+\+ shorten-property-definition grammar changes.
+Previously, `@` was used, but now it is changed to `'`. The function itself is the same.
+```nm
+def Person
+age := 12
+
+main() void
+    Person'
+    person.age = 39
+```
+It is more intuitive because it resembles the symbols used in mathematics.
+
+\+ String template has been added.
+Use `$identifier` or `${expression}`.
+```nm
+// Previous:
+print("your name is " + name + " and double of your age is " + (age * 2) as str)
+// Changed:
+print("your name is $name and double of your age is ${age * 2}")
+```
+
+\+ String iterators now work based on codepoints. Namu language used UTF-8 as the base, but
+since the existing strings always advanced by 1 byte in the case of iterators, it could not
+properly output multibyte Unicode.
+From now on, this has been improved so that the iterators advance/retreat only based on codepoint.
+```nm
+src := "abcd🏁efg" # There is a multibyte Unicode flag in the middle.
+print(src[2]) # c
+print(src[5]) # e
+print(src[4]) # 🏁
+
+# In the case of the flag above, `0xf0 0x9f 0x8f 0x81` is a total of 4 bytes,
+# but `len()` considers it as 1.
+print(src.len()) # 8
+```
+
+\+ `abstract function` can now be defined. An abstract function is a function definition statement
+that does not have a function implementation (body).
+This definition can be used as a function type or as an interface that must be filled in a derived
+class.
+```nm
+foo(input int) int # abstract function
+# no body here.
+```
+
+\+ A nested function is added.
+A nested function means a function defined within a function.
+A nested function has the characteristic of capturing the scope when defined.
+```nm
+main() int
+    name := "kniz"
+    hello(who str) str
+        msg := "$who like Nintendo."
+        ret "$name: $msg" # Capture the local variable `msg`.
+                          # A variable that has been captured once has no effect even if its
+                          # value changes later.
+    name = "charles"
+    print(hello("I")) # kniz: I like Nintendo.
+```
+
+If you return a nested function, it becomes a `closure`, which is commonly referred to in other languages.
+
+```nm
+foo(input int) int: 0
+makeClosure(n int) foo # The return type is a function.
+    ret if n >= 0
+        # This nested function captures the previously defined `n`.
+        multiply(input int) int: input * n
+    else
+        # This nested function captures the previously defined `n`.
+        subtract(input int) int: input - n
+
+main() int
+    sub := makeClosure(-5) # This is a function that does `input + 5`.
+    multi := makeClosure(5) # This is a function that does `input * 5`.
+    multi(3) + sub(3) # 15 + 8 --> 23
+```
+
+\+ Lambda syntax is added.
+Lambda is an anonymous function, and can only be defined within a function call expression.
+Since it is an anonymous function, the form that only lacks the function name in the existing
+function definition is the most consistent form with lambda syntax.
+Therefore, it is defined as follows.
+```nm
+(value value-type) return-type
+    stmt1
+    stmt2
+    ...
+```
+For example, it becomes like this.
+```nm
+foo(n int) int
+add(foo', input int) int
+    ret foo(input)
+
+main() int
+    ret add((n int) int # <-- lambda definition in progress.
+        n + 3
+    , 10) # <-- Be careful about the indentation of `,`.
+    # If you abbreviate the above code, it becomes: add((n int) int: n + 3).
+```
+Lambda's `parameter deduction` and `return-type deduction` will be added in the future.
+
+\+ You can specify an explicit type when defining an assignment.
+
+```nm
+foo() student: .... # Assuming that student is a derived object of person.
+you person := foo() # you points to a student object, but it is of type person.
+```
+
+\+ The structure of `leaf` has been applied to the parser/scanner structure of the latest `core`.
+
+\- Fixed an error that allowed containers with different parameterized types to be converted.
+
+\- Removed an error that allowed `_` to be used at the beginning of an identifier.
+If _ is used at the beginning, it should be recognized as a `protected` access modifier, not a name.
+
+\- Removed an issue that prevented octal and hexadecimal numbers from being parsed properly.
+
+\- Removed the issue where `call-complete` could be used on incomplete objects.
+```nm
+def Person("myName") # <-- You should not use call-complete on incomplete objects.
+    ctor(newName str)
+    ...
+def person("myName") # OK
+    ...
+```
+
+\- Removed Character type.
+Now, even a single character is expressed as a string like python.
+
+```nm
+// Previous:
+b := 104
+b as char == `h`
+
+// Changed:
+b := 104
+b as str == "h"
+```
+
+\- Fixed the error where it was impossible to call directly by receiving a closure like
+`getClosure(3)(object)`.
+
+### framework updates
+
+\+ Visitor can now decide whether to revisit or not.
+
+When inheriting Visitor, you can decide with a boolean value.
+
+```cpp
+class yourVisitor : public visitor {
+    yourVisitor(): visitor(false/*not reentrant*/) {}
+};
+
+yourVisotor yours;
+yours.setReturnable(true); // Changed to reentrant
+```
+
+\+ The submini language was named `seedling`, but it has been changed to `leaf`.
+I like it because it is shorter and more intuitive.
+
+\+ Type conversion has been optimized a bit more. It is expected to have a slight performance
+advantage.
+
+\+ The return type of `isSub()/isSuper()` has been expanded. Previously, both `isSub()/isSuper()`
+were provided as `boolean` types, and were considered true and returned even if they were the same type.
+From now on, each function will return one of the three `int`s.
+```cpp
+constexpr nint NO_RELATION = 0;
+constexpr nint SUPER = 1;
+constexpr nint SUB = 1;
+constexpr nint SAME = 2;
+```
+
+\+ Type Convergence has been slightly optimized for speed.
+
+\+ `WHEN` macro has been added.
+
+\+ Sequential unordered multimap is added.
+A container that `remembers the insertion order` is added to the STL's unordered multimap.
+This will be mainly used to iterate the scope in that order by remembering the insertion order.
+
+\+ All iterators are now bidirectional, so they can also go backwards.
+
+\+ `chain` can now `link()` based on `iter`.
+
+This is a very important feature, playing a key role in `scope` and bringing great extensibility.
+
+For example, previously, you could `link()` based on `chain`. If a new element was added to the
+container after `link()`, it would also be included in `chain`.
+This problem creates an issue where if a local variable is captured by `closure`, a variable with
+the same name would be accessible from `closure` later.
+To solve this problem, `link()` should be based on `iter`.
+
+Also, since `iter` can proceed backward, `chain` can be configured to proceed backward only in
+some sections.
+
+```cpp
+typedef tnchain<std::string, int> chain;
+chain m;
+m.add("meat", 1);
+m.add("banana", 2);
+chain m2;
+m2.add("apple", 3);
+m2.add("banana", 4);
+m2.add("pineapple", 5);
+chain m3;
+m3.add("mango", 6);
+m3.add("melon", 7);
+
+// Create a reverse iterator for b2, and link it from there after moving 1 step backwards.
+m.link(m2.rbegin() + 1);
+
+// Elements of the container that m has: "meat" -> "banana"
+// Elements of m2: "apple" -> "banana" -> "pineapple"
+// Elements of m as a chain: "meat" -> "banana" -> "banana" -> "apple"
+//                           The reason why "banana" appears twice in a row is because m2 was
+//                           linked backwards.
+// m2.link(m3.begin() + 1); // Element of m3: "mango" -> "melon"
+// Element of m as a chain: "meat" -> "banana" -> "banana" -> "apple" -> "melon"
+
+m2.add("watermelon", 8); // This element is added at the end.
+                         // Since m linked from +1 in the reverse direction, this element
+                         // is not visible from m's perspective.
+m3.add("strawberry", 9); // Since m2 inserted m3 in the forward direction, this element
+                         // is also visible from m's perspective.
+m.add("pumpkin", 10); // It is added at the end of the container that m has.
+
+// At this point, the elements of m as a chain:
+// "meat" -> "banana" -> "pumpkin" -> "banana" -> "apple" -> "melon" -> "strawberry"
+```
+
+\+ Rewrote the Type Convergence module by restructuring it further.
+
+\- Fixed an issue where `expander` did not remove the `@expand` function after the generic was evaluated.
+
+\- Optimized by creating a `mockNode` instead of creating and evaluating the actual object in the
+`verification` step.
+
+\- Removed memory leaks that occurred during parsing.
+
+\- `getExtra()` is removed from `type`.
+Since it is void* in the end, it was not used because it was unstable and annoying to have to do an
+unstable type conversion on the user side.
+
 ## v0.2.8 Mana Update
 released on 08-28 2024
 build#1064
 
-### namulang updates
+### language updates
 
 \+ We now use '#' to represent comments. This makes comments simpler to express.
 ```namu

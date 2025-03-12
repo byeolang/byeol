@@ -20,7 +20,7 @@ namespace nm {
     }
 
     me::res helpFlag::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
-        _printUsage();
+        std::cout << "Usage: namu <option> <filepath>\n";
 
         const flags& opts = c.getFlags();
         for(int n = 0; n < opts.size(); n++) {
@@ -29,12 +29,5 @@ namespace nm {
         }
 
         return EXIT_PROGRAM; // don't want to keep processing. just exit program.
-    }
-
-    void helpFlag::_printUsage() const {
-        std::cout << "Namu interpreter. " << buildFeature::config::getName() << " binary built on "
-                  << buildFeature::date::getMonth() << "-" << buildFeature::date::getYear() << ". v"
-                  << buildFeature::version::getValue() << "\n";
-        std::cout << "Usage: namu <option> <filepath>\n";
     }
 }
