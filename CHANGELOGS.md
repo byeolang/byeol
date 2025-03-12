@@ -1,7 +1,7 @@
 # Changelogs
 ## v0.2.9 Mana Update
-released on 02-07 2024
-build#1162
+released on 02-26 2024
+build#1167
 
 ### language updates
 
