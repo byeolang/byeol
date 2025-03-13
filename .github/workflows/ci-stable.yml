@@ -55,7 +55,7 @@ jobs:
         sudo $PYTHON ${{github.workspace}}/build/builder.py test
 
     - name: upload output files.
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: namu-release-ubuntu
         path: ${{github.workspace}}/bin/namu-*-release.deb
@@ -67,7 +67,7 @@ jobs:
         sudo $PYTHON ${{github.workspace}}/build/builder.py wasm
 
     - name: upload wasm file
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: namu-release-wasm
         path: |
@@ -103,7 +103,7 @@ jobs:
       run: tar -cvf namu-release-macos.tar ${{github.workspace}}/bin/
 
     - name: upload output files.
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: namu-release-macos
         path: namu-release-macos.tar
@@ -142,7 +142,7 @@ jobs:
         zip -9vr namu-release-win.zip ${{github.workspace}}\bin
 
     - name: upload output files.
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: namu-release-win
         path: namu-release-win.zip
