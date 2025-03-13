@@ -11,7 +11,7 @@ namespace nm {
         flagArgs tray;
 
         for(int n = 0; n < a.size(); n++) {
-            for(const std::string& match : _getRegExpr()) {
+            for(const std::string& match: _getRegExpr()) {
                 std::regex re(match);
                 if(!std::regex_match(a[n], re)) continue;
 

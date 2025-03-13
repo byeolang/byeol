@@ -9,7 +9,7 @@ namespace nm {
         std::string _joinString(const std::vector<std::string>& v) {
             std::string ret;
             nint first = 1;
-            for(const std::string& s : v)
+            for(const std::string& s: v)
                 ret += (first-- ? "" : ", ") + s;
             return ret;
         }
