@@ -29,7 +29,7 @@ namespace nm {
     void ME::wrap::clear() { _prev = _next = this; }
 
     TEMPL
-    typename ME::wrap& ME::wrap::operator=(wrap&) { return *this; }
+    typename ME::wrap& ME::wrap::operator=(const wrap&) { return *this; }
 
     TEMPL
     typename ME::wrap& ME::wrap::operator=(wrap&&) { return *this; }

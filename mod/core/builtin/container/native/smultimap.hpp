@@ -39,7 +39,7 @@ namespace nm {
             wrap(wrap&& rhs);
 
         public:
-            wrap& operator=(wrap&);
+            wrap& operator=(const wrap&);
             wrap& operator=(wrap&&);
 
         public:
