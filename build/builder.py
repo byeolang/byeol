@@ -245,6 +245,10 @@ config=""
 def wasmBuild(arg):
     global config, cwd, binDir
 
+    if checkDependencies(["emmake", "emcmake"]):
+        printErr("you didn't install emscripten packages.")
+        return -1
+
     config="-DCMAKE_BUILD_TYPE=Release"
     clean()
     os.system("emcmake cmake " + config + " " + cwd)
