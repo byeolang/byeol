@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 import os
+import stat
 import sys
 import shutil
 import platform
@@ -20,6 +21,16 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
+def rmtree(top):
+    for root, dirs, files in os.walk(top, topdown=False):
+        for name in files:
+            filename = os.path.join(root, name)
+            os.chmod(filename, stat.S_IWUSR)
+            os.remove(filename)
+        for name in dirs:
+            os.rmdir(os.path.join(root, name))
+    os.rmdir(top)
 
 def printErr(msg):
     print(bcolors.WARNING + " × " + bcolors.ENDC + msg)
@@ -800,7 +811,7 @@ def _clean(directory):
 
 def _cleanDir(dir):
     if os.path.isdir(dir) == False: return
-    shutil.rmtree(dir)
+    rmtree(dir)
 
 
 def _where(name):
