@@ -58,7 +58,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: namu-release-ubuntu
-        path: ${{github.workspace}}/bin/namu-*-release.deb
+        path: ${{github.workspace}}/bin/namu-ubuntu-x64.deb
 
     - name: make wasm file
       run: |
@@ -100,13 +100,13 @@ jobs:
         sudo $PYTHON ${{github.workspace}}/build/builder.py pub mac
 
     - name: archive to tar files
-      run: tar -cvf namu-release-macos.tar ${{github.workspace}}/bin/
+      run: tar -cvf namu-macos-x64.tar ${{github.workspace}}/bin/
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
-        name: namu-release-macos
-        path: namu-release-macos.tar
+        name: namu-macos
+        path: namu-macos-x64.tar
 
   release-on-windows:
     needs: [checking-code-format]
@@ -135,14 +135,12 @@ jobs:
         ren win_bison.exe bison.exe
         $env:PATH = "$env:PATH;${{github.workspace}}\flex_bison"
         echo $env:PATH
-        python ${{github.workspace}}\build\builder.py pub win
 
     - name: archives to zip file
-      run: |
-        zip -9vr namu-release-win.zip ${{github.workspace}}\bin
+      run: python ${{github.workspace}}\build\builder.py pub win
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
-        name: namu-release-win
-        path: namu-release-win.zip
+        name: namu-win
+        path: namu-win-x64.zip
