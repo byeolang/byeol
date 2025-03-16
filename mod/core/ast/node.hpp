@@ -134,5 +134,6 @@ namespace nm {
     };
 
     typedef tnmap<std::string, node> nmap;
+    extern template class _nout tnmap<std::string, node>;
     typedef tnchain<std::string, node, tnmap<std::string, node, strTactic>> nchain;
 } // namespace nm
