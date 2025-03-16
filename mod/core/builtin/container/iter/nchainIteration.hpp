@@ -6,7 +6,7 @@ class nchainIteration: public iteration {
 
 public:
     nchainIteration(tnchain& iteratingChain, const K& key, nbool isReversed):
-        me(iteratingChain, key, isReversed, false) {}
+        me(iteratingChain, key, isReversed, false, true) {}
 
     nchainIteration(tnchain& iteratingChain, const K& key, nbool isReversed, nbool isBoundary,
         nbool isAutoAdvance):

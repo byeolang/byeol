@@ -13,6 +13,8 @@ namespace nm {
     template class _nout tucontainable<node>;
     template class _nout tbicontainable<std::string, node>;
     template class _nout tnmap<std::string, node>;
+    template class _nout tnchain<std::string, node, tnmap<std::string, node, immutableTactic>>;
+    template class _nout tnchain<std::string, node, tnmap<std::string, node, strTactic>>;
 
     NM(DEF_ME(node), DEF_VISIT())
 
