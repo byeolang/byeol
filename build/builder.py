@@ -595,8 +595,7 @@ def pub(arg):
         printOk("done")
 
         printInfoEnd("move package into bin/...")
-        os.system("mv debian.deb " + binDir + "/namu-" + str(ver_major) + "." + str(ver_minor) +
-                "." + str(ver_fix) + "-1-amd64-release.deb")
+        os.system("mv debian.deb " + binDir + "/namu-ubuntu-x64.deb")
         printOk("done")
 
         printInfoEnd("remove local shared libraries...")
@@ -623,7 +622,7 @@ def pub(arg):
         printOk("done")
         printInfoEnd("make an archive")
         os.chdir(binDir + "/..")
-        os.system("tar -zcvf namu-" + str(ver_major) + "." + str(ver_minor) + "." + str(ver_fix) + "-amd64-release-macos.tar.gz bin")
+        os.system("tar -zcvf namu-macos-x64.tar.gz bin")
         printOk("done")
         return 0
 
@@ -642,6 +641,7 @@ def pub(arg):
         os.system("copy Release\\* .")
         os.system("del /S /Q Release\\*")
         os.system("rmdir Release")
+        os.system("zip -9vr namu-win-x64.zip ..\\bin")
 
         printOk("done")
         printInfoEnd("please make an archive.")
