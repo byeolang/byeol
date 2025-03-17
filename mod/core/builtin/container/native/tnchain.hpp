@@ -133,4 +133,7 @@ namespace nm {
         iter _next;
         iter _prev;
     };
+
+    extern template class _nout tnchain<std::string, node, tnmap<std::string, node, strTactic>>;
+    typedef tnchain<std::string, node, tnmap<std::string, node, strTactic>> nchain;
 } // namespace nm

@@ -18,8 +18,6 @@ namespace nm {
     class modifier;
     template <typename K, typename V, typename defaultContainer> class tnchain;
 
-    extern template class _nout
-        tnchain<std::string, node, tnmap<std::string, node, immutableTactic>>;
     typedef tnchain<std::string, node, tnmap<std::string, node, immutableTactic>> scope;
 
     template <typename T> class tmock;
@@ -139,6 +137,4 @@ namespace nm {
 
     extern template class _nout tnmap<std::string, node>;
     typedef tnmap<std::string, node> nmap;
-    extern template class _nout tnchain<std::string, node, tnmap<std::string, node, strTactic>>;
-    typedef tnchain<std::string, node, tnmap<std::string, node, strTactic>> nchain;
 } // namespace nm
