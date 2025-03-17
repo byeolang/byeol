@@ -6,9 +6,6 @@ struct arrTest;
 
 namespace nm {
 
-    // another f**king annoying MSVC Hack:
-    //  to avoid C2901 error, I need to declare sort of dllexport(import) things at here.
-    //  spended plenty of hours again to find out the reason. thank you so much.
     class _nout arr: public tbridge<narr>, public tucontainable<node>, public tarrayable<node> {
         // arr uses instance variable 'ntype':
         //  ntype contains beanType as 'const type*' instance variable. so user should be

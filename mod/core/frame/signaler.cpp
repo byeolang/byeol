@@ -2,7 +2,6 @@
 
 #include <csignal>
 #include "../builtin/err/nerr.hpp"
-#include "../common/MSVCHack.hpp"
 
 namespace nm {
 

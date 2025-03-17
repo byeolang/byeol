@@ -3,7 +3,6 @@
 #include "../ast/baseFunc.hpp"
 #include "../ast/params.hpp"
 #include "../ast/src/src.hpp"
-#include "../common/MSVCHack.hpp"
 
 namespace nm {
 

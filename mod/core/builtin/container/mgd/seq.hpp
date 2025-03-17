@@ -6,9 +6,6 @@
 
 namespace nm {
 
-    // another f**king annoying MSVC Hack:
-    //  to avoid C2901 error, I need to declare sort of dllexport(import) things at here.
-    //  spended plenty of hours again to find out the reason. thank you so much.
     typedef class _nout tbridge<nseq> __seqSuperClass;
 
     class _nout seq: public __seqSuperClass,

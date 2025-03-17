@@ -6,4 +6,3 @@
 #include "common/namuMetaExtension.hpp"
 #include "common/richLog.hpp"
 #include "common/util.hpp"
-// ! DO NOT ADD 'MSVCHack.hpp' FILE HERE !
