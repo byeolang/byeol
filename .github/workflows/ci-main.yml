@@ -163,6 +163,7 @@ jobs:
     name: build on macos
     runs-on: macos-15
 
+    steps:
     - name: checkout repository codes
       uses: actions/checkout@v2
 
@@ -242,7 +243,7 @@ jobs:
         path: namu-win-x64.zip
 
   publish-doc:
-    needs: [build-on-linux, build-on-macos, build-on-windows]
+    needs: [build-on-linux, build-on-macos, build-on-windows, build-for-wasm]
     name: publish doc
     runs-on: ubuntu-22.04
 
