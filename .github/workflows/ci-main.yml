@@ -24,7 +24,6 @@ jobs:
         exclude-regex: ${{ matrix.path['exclude'] }}
 
   build-on-linux:
-    needs: [checking-code-format]
     name: build on linux
     runs-on: ubuntu-22.04
 
@@ -32,7 +31,7 @@ jobs:
     - name: install native dependencies.
       run: |
         sudo apt-get update
-        sudo apt install python3 python3-pip cmake wget flex graphviz clang-format clang-tidy
+        sudo apt install -y python3 python3-pip cmake wget flex graphviz clang clang-format clang-tidy
         ls .
         sudo wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
         tar -zxvf bison-3.8.2.tar.gz
@@ -41,8 +40,11 @@ jobs:
         sudo make
         sudo make install
         cd ..
+        echo $(which bison)
         sudo rm -rf bison-3.8.2
-        sudo mv /usr/bin/bison /usr/bin/bison-prev
+        if [ -f /usr/bin/bison ]; then
+          sudo mv /usr/bin/bison /usr/bin/bison-prev
+        fi
         sudo ln -s /usr/local/bin/bison /usr/bin/bison
 
     - name: checkout repository codes
@@ -68,6 +70,44 @@ jobs:
         name: namu-release-ubuntu
         path: ${{github.workspace}}/bin/namu-ubuntu-x64.deb
 
+  build-for-wasm:
+    needs: []
+    name: build for wasm
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: checkout repository codes
+      uses: actions/checkout@v2
+
+    - name: install native dependencies.
+      run: |
+        sudo apt-get update
+        sudo apt install -y python3 python3-pip cmake wget flex graphviz clang clang-format clang-tidy
+        ls .
+        sudo wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
+        tar -zxvf bison-3.8.2.tar.gz
+        cd bison-3.8.2
+        ./configure
+        sudo make
+        sudo make install
+        cd ..
+        echo $(which bison)
+        sudo rm -rf bison-3.8.2
+        if [ -f /usr/bin/bison ]; then
+          sudo mv /usr/bin/bison /usr/bin/bison-prev
+        fi
+        sudo ln -s /usr/local/bin/bison /usr/bin/bison
+
+    - name: install emscripten librires.
+      run: |
+        git clone https://github.com/emscripten-core/emsdk.git
+        cd emsdk
+        ./emsdk install latest
+        ./emsdk activate latest
+        source ./emsdk_env.sh
+        echo "PATH=$PATH" >> $GITHUB_ENV
+        cd ..
+
     - name: make wasm file
       run: |
         export C=clang CXX=clang++ PYTHON=$(which python3)
@@ -91,7 +131,7 @@ jobs:
     - name: install native dependencies
       run: |
         sudo apt-get update
-        sudo apt install python3 python3-pip cmake wget flex graphviz clang-format clang-tidy llvm lcov
+        sudo apt install -y python3 python3-pip cmake wget flex graphviz clang-format clang-tidy llvm lcov
         ls .
         sudo wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
         tar -zxvf bison-3.8.2.tar.gz
@@ -200,7 +240,7 @@ jobs:
     steps:
       - name: install native dependencies.
         run: |
-          sudo apt install doxygen graphviz python3 python3-pip ruby rubygems
+          sudo apt install -y doxygen graphviz python3 python3-pip ruby rubygems
 
       - name: install python dependencies.
         run: sudo python3 -m pip install --upgrade jinja2 Pygments
