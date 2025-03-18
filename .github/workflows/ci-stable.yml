@@ -41,11 +41,20 @@ jobs:
         sudo make install
         cd ..
         sudo rm -rf bison-3.8.2
-        sudo mv /usr/bin/bison /usr/bin/bison-prev
+        if [ -f /usr/bin/bison ]; then
+          sudo mv /usr/bin/bison /usr/bin/bison-prev
+        fi
         sudo ln -s /usr/local/bin/bison /usr/bin/bison
 
     - name: checkout repository codes
       uses: actions/checkout@v2
+
+    - name: build in release mode & test current codes.
+      run: |
+        export C=clang CXX=clang++ PYTHON=$(which python3)
+        ls -l ${{github.workspace}}/mod/leaf/parser/bison
+        sudo $PYTHON ${{github.workspace}}/build/builder.py rel
+        sudo $PYTHON ${{github.workspace}}/build/builder.py test
 
     - name: make deb file
       run: |
@@ -60,11 +69,48 @@ jobs:
         name: namu-release-ubuntu
         path: ${{github.workspace}}/bin/namu-ubuntu-x64.deb
 
-    - name: make wasm file
+  build-for-wasm:
+    needs: [checking-code-format]
+    name: build for wasm
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: checkout repository codes
+      uses: actions/checkout@v2
+
+    - name: install native dependencies.
+      run: |
+        sudo apt-get update
+        sudo apt install -y python3 python3-pip cmake wget flex graphviz clang clang-format clang-tidy
+        ls .
+        sudo wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
+        tar -zxvf bison-3.8.2.tar.gz
+        cd bison-3.8.2
+        ./configure
+        sudo make
+        sudo make install
+        cd ..
+        echo $(which bison)
+        sudo rm -rf bison-3.8.2
+        if [ -f /usr/bin/bison ]; then
+          sudo mv /usr/bin/bison /usr/bin/bison-prev
+        fi
+        sudo ln -s /usr/local/bin/bison /usr/bin/bison
+
+    - name: install emscripten librires
+      uses: mymindstorm/setup-emsdk@v14
+
+    - name: verify emscripten
+      run: |
+        echo $(which emcc)
+        emcc -v
+
+    - name: build wasm
       run: |
         export C=clang CXX=clang++ PYTHON=$(which python3)
         ls -l ${{github.workspace}}/mod/leaf/parser
-        sudo $PYTHON ${{github.workspace}}/build/builder.py wasm
+        export PATH="$(dirname $(which emmake)):$PATH"
+        $PYTHON ${{github.workspace}}/build/builder.py wasm
 
     - name: upload wasm file
       uses: actions/upload-artifact@v4
@@ -77,7 +123,7 @@ jobs:
   release-on-macos:
     needs: [checking-code-format]
     name: release on macos
-    runs-on: macos-13
+    runs-on: macos-15
 
     steps:
     - name: install native dependencies.

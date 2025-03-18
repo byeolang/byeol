@@ -1,4 +1,5 @@
 name: CI for main
+
 on:
   push:
     branches: [ main ]
@@ -24,6 +25,7 @@ jobs:
         exclude-regex: ${{ matrix.path['exclude'] }}
 
   build-on-linux:
+    needs: [checking-code-format]
     name: build on linux
     runs-on: ubuntu-22.04
 
@@ -40,7 +42,6 @@ jobs:
         sudo make
         sudo make install
         cd ..
-        echo $(which bison)
         sudo rm -rf bison-3.8.2
         if [ -f /usr/bin/bison ]; then
           sudo mv /usr/bin/bison /usr/bin/bison-prev
@@ -71,7 +72,7 @@ jobs:
         path: ${{github.workspace}}/bin/namu-ubuntu-x64.deb
 
   build-for-wasm:
-    needs: []
+    needs: [checking-code-format]
     name: build for wasm
     runs-on: ubuntu-22.04
 
@@ -98,21 +99,20 @@ jobs:
         fi
         sudo ln -s /usr/local/bin/bison /usr/bin/bison
 
-    - name: install emscripten librires.
-      run: |
-        git clone https://github.com/emscripten-core/emsdk.git
-        cd emsdk
-        ./emsdk install latest
-        ./emsdk activate latest
-        source ./emsdk_env.sh
-        echo "PATH=$PATH" >> $GITHUB_ENV
-        cd ..
+    - name: install emscripten librires
+      uses: mymindstorm/setup-emsdk@v14
 
-    - name: make wasm file
+    - name: verify emscripten
+      run: |
+        echo $(which emcc)
+        emcc -v
+
+    - name: build wasm
       run: |
         export C=clang CXX=clang++ PYTHON=$(which python3)
         ls -l ${{github.workspace}}/mod/leaf/parser
-        sudo $PYTHON ${{github.workspace}}/build/builder.py wasm
+        export PATH="$(dirname $(which emmake)):$PATH"
+        $PYTHON ${{github.workspace}}/build/builder.py wasm
 
     - name: upload wasm file
       uses: actions/upload-artifact@v4
@@ -161,9 +161,12 @@ jobs:
   build-on-macos:
     needs: [checking-code-format]
     name: build on macos
-    runs-on: macos-13
+    runs-on: macos-15
 
     steps:
+    - name: Set Xcode Version
+      run: sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer
+
     - name: install native dependencies.
       run: |
         brew unlink python && brew link --overwrite python
@@ -214,6 +217,7 @@ jobs:
         wget -O flex_bison\flex_bison.zip https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip
         cd flex_bison
         unzip flex_bison.zip
+        dir .
         ren win_flex.exe flex.exe
         ren win_bison.exe bison.exe
         $env:PATH = "$env:PATH;${{github.workspace}}\flex_bison"
