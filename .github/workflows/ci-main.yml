@@ -163,10 +163,6 @@ jobs:
     name: build on macos
     runs-on: macos-15
 
-    steps:
-    - name: Set Xcode Version
-      run: sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer
-
     - name: checkout repository codes
       uses: actions/checkout@v2
 
@@ -206,44 +202,44 @@ jobs:
   build-on-windows:
     needs: [checking-code-format]
     name: build on windows
-        runs-on: windows-latest
+    runs-on: windows-latest
 
-        steps:
-        - name: checkout repository codes
-          uses: actions/checkout@v2
+    steps:
+    - name: checkout repository codes
+      uses: actions/checkout@v2
 
-        - name: Add msbuild to PATH
-          uses: microsoft/setup-msbuild@v1.1
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
 
-        - name: install apps from choco
-          uses: crazy-max/ghaction-chocolatey@v2.0.0
-          with:
-            args: install -y wget unzip zip
+    - name: install apps from choco
+      uses: crazy-max/ghaction-chocolatey@v2.0.0
+      with:
+        args: install -y wget unzip zip
 
-        - name: get flex_bison for windows & unzip
-          run: |
-            mkdir ${{github.workspace}}\flex_bison
-            wget -O flex_bison\flex_bison.zip https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip
-            cd flex_bison
-            unzip flex_bison.zip
-            dir .
-            ren win_flex.exe flex.exe
-            ren win_bison.exe bison.exe
+    - name: get flex_bison for windows & unzip
+      run: |
+        mkdir ${{github.workspace}}\flex_bison
+        wget -O flex_bison\flex_bison.zip https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip
+        cd flex_bison
+        unzip flex_bison.zip
+        dir .
+        ren win_flex.exe flex.exe
+        ren win_bison.exe bison.exe
 
-        - name: build in release mode
-          run: |
-            $env:PATH = "$env:PATH;${{github.workspace}}\flex_bison"
-            python ${{github.workspace}}\build\builder.py rel
+    - name: build in release mode
+      run: |
+        $env:PATH = "$env:PATH;${{github.workspace}}\flex_bison"
+        python ${{github.workspace}}\build\builder.py rel
 
-        - name: archives to zip file
-          run: |
-            zip -9vr namu-win-x64.zip ${{github.workspace}}\bin
+    - name: archives to zip file
+      run: |
+        zip -9vr namu-win-x64.zip ${{github.workspace}}\bin
 
-        - name: upload output files.
-          uses: actions/upload-artifact@v4
-          with:
-            name: namu-win
-            path: namu-win-x64.zip
+    - name: upload output files.
+      uses: actions/upload-artifact@v4
+      with:
+        name: namu-win
+        path: namu-win-x64.zip
 
   publish-doc:
     needs: [build-on-linux, build-on-macos, build-on-windows]
