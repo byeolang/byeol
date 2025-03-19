@@ -489,8 +489,14 @@ def _make():
         res = os.system("msbuild " + winProp + " " + cwd + "\\mod\\namu\\namu.vcxproj")
         if res != 0:
             printErr("failed")
-        else:
-            printOkEnd("built.")
+            return res
+
+        res = os.system("msbuild " + winProp + " " + cwd + "\\mod\\bundle\\sys\\sys.vcxproj")
+        if res != 0:
+            printErr("failed")
+            return res
+
+        printOkEnd("built.")
         printInfo("please check your bin/{configuration} directory for these output files.")
         return res
 
