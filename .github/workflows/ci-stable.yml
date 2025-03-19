@@ -113,6 +113,34 @@ jobs:
           ${{github.workspace}}/bin/namu.js
           ${{github.workspace}}/bin/namu.wasm
 
+    - name: move binaries to temp
+      run: |
+        mkdir /tmp/namu-wasm
+        mv ${{github.workspace}}/bin/namu.js /tmp/namu-wasm
+        mv ${{github.workspace}}/bin/namu.wasm /tmp/namu-wasm
+
+    - name: checkout to gh-pages
+      uses: actions/checkout@v2
+      with:
+        ref: gh-pages
+
+    - name: move binaries back to gh-pages
+      run: |
+        mv /tmp/namu-wasm/namu.js ${{github.workspace}}/play
+        mv /tmp/namu-wasm/namu.wasm ${{github.workspace}}/play
+        cd ${{github.workspace}}
+        git config user.name \"autodocbot\"
+        git config user.email \"knizofficial@gmail.com\"
+        git add .
+        git commit -m "Update latest wasm binary"
+
+    - name: push the commit
+      uses: ad-m/github-push-action@v0.6.0
+      with:
+        directory: ${{github.workspace}}/play
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        branch: 'gh-pages'
+
   release-on-macos:
     needs: [checking-code-format]
     name: release on macos
