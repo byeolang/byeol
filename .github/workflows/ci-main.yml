@@ -231,8 +231,32 @@ jobs:
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
+        name: namu-win-x64-portable
+        path: namu-win-x64-portable.zip
+
+    - name: get advanced installer
+      uses: caphyon/advinst-github-action@v2.0
+      with:
+        # advinst-license:
+        advinst-enable-automation: 'true'
+
+    - name: build msi installer
+      shell: pwsh
+      run: |
+        $aipPath = "${{github.workspace}}\.github\workflows\namu.aip";
+        Write-Host "AIP: $aipPath";
+        $advinst = new-object -com advancedinstaller;
+        $project = $advinst.LoadProject($aipPath);
+        $productDetails = $project.ProductDetails;
+        $productDetails.Version = $(python ${{github.workspace}}\build\builder.py ver)
+        Write-Host "Version: $productDetails.Version";
+        $project.Build();
+
+    - name: upload msi file
+      uses: actions/upload-artifact@v4
+      with:
         name: namu-win-x64
-        path: namu-win-x64.zip
+        path: namu-win-x64.msi
 
   publish-doc:
     needs: [build-on-linux, build-on-macos, build-on-windows, build-for-wasm]
