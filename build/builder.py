@@ -646,6 +646,7 @@ def pub(arg):
         os.system("copy ..\\LICENSE.md .")
         os.system("copy ..\\README.md .")
         os.system("copy ..\\CHANGELOGS.md .")
+        os.system("move Release\\sys.pack .\\pack\\sys")
         os.system("copy Release\\* .")
         os.system("del /S /Q Release\\*")
         os.system("rmdir Release")
