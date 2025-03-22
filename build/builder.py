@@ -63,6 +63,11 @@ def cmdstr(cmd):
 
 python3 = ""
 def branch(command):
+    if command == "ver":
+        return ver()
+
+    version()
+
     if command == "help":
         return help()
     elif command == "mv":
@@ -239,7 +244,7 @@ def _publishDoc():
     os.system("git add .")
     os.system("git config user.name \"autodocbot\"") # put on local config.
     os.system("git config user.email \"knizofficial@gmail.com\"")
-    res = os.system("git commit -m \"The our poor little Autobot \(❍ᴥ❍ʋ)/ generated docs for " + origin + ", clitter-clatter.\"")
+    res = os.system("git commit -m \"The our poor little Autobot \\(❍ᴥ❍ʋ)/ generated docs for " + origin + ", clitter-clatter.\"")
     if res != 0:
         printErr("fail to commit on gh-pages.")
         printInfo("but it seems that nothing changed.")
@@ -761,6 +766,11 @@ def isFlexCompatible():
         if vers[n] < flexVerExpect[n]: return False, res
     return True, res
 
+def ver():
+    global ver_major, ver_minor, ver_fix
+    print(f"{ver_major}.{ver_minor}.{ver_fix}")
+    return 0
+
 def version():
     global ver_name, ver_major, ver_minor, ver_fix, cwd, python3
     print("")
@@ -834,12 +844,10 @@ def _where(name):
         printErr(platform.system() + " unsupported.")
         return ""
 
-    print("cmd=" + cmd + ", name=" + name)
     res = cmdstr(cmd + " " + name)
     ret = ""
     if res:
         ret = prefix + res + prefix
-    print(ret)
     return ret
 
 def _extractEnv():
@@ -879,7 +887,6 @@ def _init():
 def main():
     if _init():
         return -1
-    version()
 
     os.chdir(cwd)
     if len(sys.argv) == 1:
