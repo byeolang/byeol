@@ -256,7 +256,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: namu-win-x64
-        path: namu-win-x64.msi
+        path: ${{github.workspace}}\.github\workflows\namu-win-x64.msi
 
   publish-doc:
     needs: [build-on-linux, build-on-macos, build-on-windows, build-for-wasm]
