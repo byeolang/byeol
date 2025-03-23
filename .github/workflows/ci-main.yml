@@ -226,7 +226,7 @@ jobs:
 
     - name: archives to zip file
       run: |
-        zip -9vr namu-win-x64.zip ${{github.workspace}}\bin
+        zip -9vr namu-win-x64-portable.zip ${{github.workspace}}\bin
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
