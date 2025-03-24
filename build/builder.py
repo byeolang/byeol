@@ -6,6 +6,7 @@ import sys
 import shutil
 import platform
 import subprocess
+import re
 from operator import eq
 from tempfile import gettempdir
 
@@ -49,27 +50,27 @@ def printOkEnd(msg):
 
 def cmdstr(cmd):
     try:
-        ret = str(subprocess.check_output(cmd, shell=True))
+        ret = str(subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True))
         if platform.system() == "Windows":
             ret = ret[2:-5]
         else:
             ret = ret[2:-3]
     except:
-        printErr("error on running " + cmd)
-        ret = ""
-        return ret
+        return f"error on running {cmd}"
 
     return ret
 
 python3 = ""
 def branch(command):
     if command == "ver":
-        return ver()
+        return showRawVersion()
 
     version()
 
     if command == "help":
         return help()
+    elif command == "prerequisites":
+        return prerequisites()
     elif command == "mv":
         arg = None if len(sys.argv) < 3 else sys.argv[2]
         return mv(arg)
@@ -208,8 +209,7 @@ def docDoxygen():
         return -1
 
 def doc():
-    if checkDependencies(["git", "cmake", "doxygen"]):
-        printErr("This program needs following softwares to be fully functional.")
+    if checkDependencies([GitDependency(), CMakeDependency(), DoxygenDependency()]):
         return -1
 
     cleanGhPages()
@@ -217,6 +217,9 @@ def doc():
     return 0
 
 def formatCodes(showLog):
+    if checkDependencies([ClangFormatDependency()]):
+        return -1
+
     global cwd
     root = cwd + "/../"
     if showLog: print("code formatting:")
@@ -232,9 +235,12 @@ def formatCodes(showLog):
             if showLog: print("\t formatting " + filePath + ", ext=" + ext + " file...")
             os.system("clang-format -i " + filePath)
 
+def prerequisites():
+    if checkDependencies([GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), DoxygenDependency(), EmmakeDependency(), EmcmakeDependency(), BisonDependency(), ClangTidyDependency(), LlvmCovDependency(), GcovDependency(), GenHtmlDependency(), LcovDependency()]):
+        return -1
+
 def _publishDoc():
-    if checkDependencies(["git"]):
-        printErr("This program needs following softwares to be fully functional.")
+    if checkDependencies([GitDependency()]):
         return -1
 
     # pushing on gh-pages:
@@ -261,8 +267,7 @@ config=""
 def wasmBuild(arg):
     global config, cwd, binDir
 
-    if checkDependencies(["emmake", "emcmake"]):
-        printErr("you didn't install emscripten packages.")
+    if checkDependencies([EmmakeDependency(), EmcmakeDependency()]):
         return -1
 
     config="-DCMAKE_BUILD_TYPE=Release"
@@ -311,8 +316,7 @@ def covBuild():
     printOk("done.")
 
     printInfoEnd("collects gcov results...")
-    if checkDependencies(["llvm-cov", "gcov", "lcov", "genhtml"]):
-        printErr("you didn't install some package or tools.")
+    if checkDependencies([LlvmCovDependency(), GcovDependency(), LcovDependency(), GenHtmlDependency()]):
         return -1
 
     res = os.system("lcov --directory " + cwd + " --base-directory " + cwd + " --gcov-tool " + cwd + "/llvm-gcov.sh --capture -o cov.info")
@@ -553,8 +557,7 @@ def rebuild():
     return build(true)
 
 def build(incVer):
-    if checkDependencies(["git", "cmake", "bison", "flex", "clang-tidy"]):
-        printErr("This program needs following softwares to be fully functional.")
+    if checkDependencies([GitDependency(), CMakeDependency(), BisonDependency(), FlexDependency(), ClangTidyDependency()]):
         return -1
 
     _checkGTest()
@@ -696,105 +699,203 @@ def test(arg):
 def commit():
     return 0
 
-def _extractPythonVersion(verstr):
-    print(verstr)
-    if not verstr:
-        printErr("couldn't get version of python.")
-        return 31000
+class ver:
+    def __init__(self, major, minor, patch):
+        self.major = major
+        self.minor = minor
+        self.patch = patch
+        self.exist = False
 
-    verstr = verstr.split(' ')[1]
-    vver = verstr.split('.')
-    pos = 10000
-    ret = 0
-    for v in vver:
-        ret += int(v) * pos
-        pos /= 100
-    return ret
+    @classmethod
+    def fromVerString(self, verString):
+        if verString[:3] == "err" or verString == "":
+            return ver(0, 0, 0)
+        else:
+            ret = ver(0, 0, 0)
+            res = re.findall(r"[0-9]+\.[0-9]+[\.0-9]+", verString)
+            verStr = res[0].split('.')
+            if verStr != "":
+                ret.major = int(verStr[0])
+                ret.minor = int(verStr[1])
+                if len(verStr) > 2:
+                    ret.patch = int(verStr[2])
+                else:
+                    ret.patch = 0
+            ret.exist = True
+            return ret
 
-flexVerExpect = [2, 6, 0]
+    def isVerNotSpecified(self):
+        return self.major == 0 and self.minor == 0 and self.patch == 0
+
+    def isValid(self, expectVer):
+        if expectVer.isVerNotSpecified():
+            return self.doesExist()
+
+        return self.major >= expectVer.major and self.minor >= expectVer.minor and self.patch >= expectVer.patch
+
+    def toString(self):
+        if self.major == 0 and self.minor == 0 and self.patch == 0:
+            return ""
+        return f"{self.major}.{self.minor}.{self.patch}"
+
+    def doesExist(self):
+        return self.exist
+
+class dependency:
+    def getExpectVer(self):
+        return ver(0, 0, 0)
+
+    def getName(self):
+        return ""
+
+    def getFlag(self):
+        return "--version"
+
+    def getInstalledVer(self):
+        res = self.onGetInstalledVer()
+        if res[:3] == "err":
+            return ver(0, 0, 0)
+
+        return ver.fromVerString(self.onGetInstalledVer())
+
+    def isValid(self):
+        return self.getInstalledVer().isValid(self.getExpectVer())
+
+    def onGetInstalledVer(self):
+        return cmdstr(f"{self.getName()} {self.getFlag()}")
+
+    def showErrMsg(self):
+        installedVer = self.getInstalledVer()
+        if installedVer.doesExist() == False:
+            printErr(f"{self.getName()} is not installed")
+        else:
+            printErr(f"{self.getName()} version should be {self.getExpectVer().toString()} but yours is {self.getInstalledVer().toString()}")
+
+class FlexDependency(dependency):
+    def getExpectVer(self):
+        return ver(2, 6, 0)
+
+    def getName(self):
+        return "flex"
+
+class PythonDependency(dependency):
+    def getExpectVer(self):
+        return ver(3, 6, 0)
+
+    def getName(self):
+        return "python"
+
+class GitDependency(dependency):
+    def getName(self):
+        return "git"
+
+class CMakeDependency(dependency):
+    def getName(self):
+        return "cmake"
+
+    def getExpectVer(self):
+        return ver(2, 6, 0)
+
+class DoxygenDependency(dependency):
+    def getName(self):
+        return "doxygen"
+
+class EmmakeDependency(dependency):
+    def getName(self):
+        return "emmake"
+
+class EmcmakeDependency(dependency):
+    def getName(self):
+        return "emcmake"
+
+class BisonDependency(dependency):
+    def getName(self):
+        return "bison"
+
+    def getExpectVer(self):
+        return ver(3, 8, 0)
+
+    def onGetInstalledVer(self):
+        return super().onGetInstalledVer().split('\n')[0]
+
+class ClangTidyDependency(dependency):
+    def getName(self):
+        return "clang-tidy"
+
+    def getExpectVer(self):
+        return ver(18, 0, 0)
+
+    def onGetInstalledVer(self):
+        return super().onGetInstalledVer().split('\n')[0]
+
+class LlvmCovDependency(dependency):
+    def getName(self):
+        return "llvm-cov"
+
+    def onGetInstalledVer(self):
+        return super().onGetInstalledVer().split('\n')[0]
+
+class GcovDependency(dependency):
+    def getName(self):
+        return "gcov"
+
+    def onGetInstalledVer(self):
+        return super().onGetInstalledVer().split('\n')[0]
+
+class LcovDependency(dependency):
+    def getName(self):
+        return "lcov"
+
+class GenHtmlDependency(dependency):
+    def getName(self):
+        return "genhtml"
+
+class ClangFormatDependency(dependency):
+    def getName(self):
+        return "clang-format"
+
+    def getExpectVer(self):
+        return ver(18, 0, 0)
 
 def checkDependencies(deps):
-    global flexVerExpect
-    global python3
-    print("")
     printInfoEnd("checking dependencies...")
 
     hasErr = False;
-    for e in deps:
-        if e == "flex":
-            (isCompatible, ver) = isFlexCompatible()
-            if isCompatible == False:
-                printErr("your flex version is " + ver + ". it requires v" +
-                    str(flexVerExpect[0]) + "." + str(flexVerExpect[1]) + "." + str(flexVerExpect[2]))
-                hasErr = True
-            printOkEnd("flex")
-
-        elif not shutil.which(e):
-            printErr(e + " is NOT installed!")
+    for d in deps:
+        #print(f"checking {d.getName()} version is {d.getExpectVer().toString()} ---> installed version is {d.getInstalledVer().toString()}")
+        if d.isValid() == False:
+            d.showErrMsg()
             hasErr = True
         else:
-            printOkEnd(e)
-
+            printOkEnd(d.getName())
     print("")
-
-    if not isWindow() and not shutil.which("make"):
-        printErr("make is NOT installed!")
-        hasErr = True
-
-    if not isWindow() and not shutil.which("clang"):
-        printErr("clang is NOT installed!")
-        hasErr = True
-
-    if _extractPythonVersion(cmdstr(python3 + " --version")) < 30600:
-        printErr("requires python over v3.6")
-        hasErr = True
-
-    if isWindow() and not shutil.which("msbuild"):
-        printErr("couldn't find 'msbuild.exe' on your $PATH env. please add it.")
-        hasErr = True
-
     return hasErr
 
-def isFlexCompatible():
-    global flexVerExpect
-    res = cmdstr("flex -V")[5:] # res will be set to "flex 2.3.54" on linux and "flex 2.3.54 Apple(32...)" on macos
-    verStrs = res.split(".")
-    patchVer = verStrs[2].split(" ")[0] # remove 'Apple(32...)' strings if it has.
-    vers = [int(verStrs[0]), int(verStrs[1]), int(patchVer)]
-    for n in range(len(vers)):
-        if vers[n] > flexVerExpect[n]: return True, res
-        if vers[n] < flexVerExpect[n]: return False, res
-    return True, res
-
-def ver():
+def showRawVersion():
     global ver_major, ver_minor, ver_fix
     print(f"{ver_major}.{ver_minor}.{ver_fix}")
     return 0
 
 def version():
     global ver_name, ver_major, ver_minor, ver_fix, cwd, python3
+    print("builder is supporting utility for building namu " + ver_name + " v" + str(ver_major) + "." + str(ver_minor) + "." + str(ver_fix))
+    print("created by kniz, 2009-2025")
     print("")
-    print("Builder. Support-utility for building World " + ver_name + " v" + str(ver_major) + "." + str(ver_minor) + "." + str(ver_fix))
-    print("Copyrights (c) kniz, 2009-2018")
-    print(frame)
-    print("")
-    print("* use python version at " + python3 + " and its version is " + cmdstr(python3 + " --version"))
-    print("* building directory is " + cwd)
 
 def help():
     print("Usage: builder.py <command> <arg1> <arg2> ...")
     print("")
     print("command list:")
     print("\t * help")
-    print("\t * history")
-    print("\t * clean\tclear all cache files of cmake outputs.")
-    print("\t * dbg\t\tbuild new binary with debug configuration.")
-    print("\t * rel\t\tbuild new binary with release configuration. binary optimized, debug logs will be hidden.")
-    print("\t * reldbg\tsame as rel. but this includes dbg info.")
-    print("\t * test\t\truns unit tests but skip build if they are built already.")
-    print("\t * doc\t\tgenerate documents only.")
-    print("\t * cov\t\tgenerate coverage file and visualize data with html")
-    print("\t * format\tapply our code convention rules to current repository.")
+    print("\t * prerequisites check all dependent app and their version")
+    print("\t * clean         clear all cache files of cmake outputs.")
+    print("\t * dbg           build new binary with debug configuration.")
+    print("\t * rel           build new binary with release configuration. binary optimized, debug logs will be hidden.")
+    print("\t * reldbg        same as rel. but this includes dbg info.")
+    print("\t * test          runs unit tests but skip build if they are built already.")
+    print("\t * doc           generate documents only.")
+    print("\t * cov           generate coverage file and visualize data with html")
+    print("\t * format        apply our code convention rules to current repository.")
 
 def clean():
     printInfo("Clearing next following files...")
