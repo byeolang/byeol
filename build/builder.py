@@ -236,7 +236,7 @@ def formatCodes(showLog):
             os.system("clang-format -i " + filePath)
 
 def prerequisites():
-    if checkDependencies([GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), DoxygenDependency(), EmmakeDependency(), EmcmakeDependency(), BisonDependency(), ClangTidyDependency(), LlvmCovDependency(), GcovDependency(), GenHtmlDependency(), LcovDependency()]):
+    if checkDependencies([GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), BisonDependency(), ClangTidyDependency(), ClangFormatDependency()]):
         return -1
 
 def _publishDoc():
@@ -855,7 +855,7 @@ class ClangFormatDependency(dependency):
         return "clang-format"
 
     def getExpectVer(self):
-        return ver(18, 0, 0)
+        return ver(18, 1, 8)
 
 def checkDependencies(deps):
     printInfoEnd("checking dependencies...")
