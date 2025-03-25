@@ -279,7 +279,7 @@ def dbgBuild():
     global config, cwd
 
     winProp="-t:Rebuild -p:Configuration=Debug"
-    config="-DCMAKE_BUILD_TYPE=Debug"
+    config="-DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\""
     print(config)
 
     clean()
@@ -339,9 +339,7 @@ def relBuild():
 
     clean()
     winProp="-t:Rebuild -p:Configuration=Release"
-    # TODO: turn on clang-tidy
-    #config="-DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\""
-    config="-DCMAKE_BUILD_TYPE=Release"
+    config="-DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\""
     return build(True)
 
 def relDbgBuild():
@@ -349,7 +347,7 @@ def relDbgBuild():
 
     clean()
     winProp="-t:Rebuild -p:Configuration=Release"
-    config="-DCMAKE_BUILD_TYPE=Release -DCMAKE_RELEASE_INCLUDE_DBG_INFO=True"
+    config="-DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\" -DCMAKE_RELEASE_INCLUDE_DBG_INFO=True"
     return build(True)
 
 # currently this application only supports window and linux.
@@ -823,7 +821,7 @@ class ClangTidyDependency(dependency):
         return "clang-tidy"
 
     def getExpectVer(self):
-        return ver(18, 0, 0)
+        return ver(14, 0, 0)
 
     def onGetInstalledVer(self):
         return super().onGetInstalledVer().split('\n')[0]

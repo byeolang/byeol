@@ -11,10 +11,16 @@
 # when the project goes into sustainable state, and more people get involved,
 # then I can set all of them to enable.
 #
-# oh! and don't use '#' at the end of line. it's only allowed to use just very in front of a line.
+# oh! and don't use '#' at the end of line. and middle of `Checks`. it's only allowed to use justvery
+# very in front of a line.
 #
 # history:
 #   2025-03-17: fix typo and remove deprecated option for clang-tidy v18.1.8.
+#
+# TODO:
+# add clang-analyzer-core.uninitialized.UndefReturn,
+#     clang-analyzer-core.NonNullParamChecker,
+#     cppcoreguidelines-avoid-const-or-ref-data-members,
 Checks: |
   -*,
   -clang-diagnostic-error,
@@ -29,7 +35,6 @@ Checks: |
   clang-analyzer-core.CallAndMessageModeling,
   clang-analyzer-core.DivideZero,
   clang-analyzer-core.DynamicTypePropagation,
-  clang-analyzer-core.NonNullParamChecker,
   clang-analyzer-core.NonnilStringConstants,
   clang-analyzer-core.NullDereference,
   clang-analyzer-core.StackAddrEscapeBase,
@@ -43,7 +48,6 @@ Checks: |
   clang-analyzer-core.uninitialized.Branch,
   clang-analyzer-core.uninitialized.CapturedBlockVariable,
   clang-analyzer-core.uninitialized.NewArraySize,
-  #  clang-analyzer-core.uninitialized.UndefReturn,
   clang-analyzer-cplusplus.InnerPointer,
   clang-analyzer-cplusplus.Move,
   clang-analyzer-cplusplus.NewDelete,
@@ -136,7 +140,6 @@ Checks: |
   clang-analyzer-webkit.RefCntblBaseVirtualDtor,
   clang-analyzer-webkit.UncountedLambdaCapturesChecker,
   cppcoreguidelines-avoid-capturing-lambda-coroutines,
-  cppcoreguidelines-avoid-const-or-ref-data-members,
   cppcoreguidelines-avoid-reference-coroutine-parameters,
   cppcoreguidelines-explicit-virtual-functions,
   cppcoreguidelines-interfaces-global-init,
