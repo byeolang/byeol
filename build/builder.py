@@ -55,8 +55,8 @@ def cmdstr(cmd):
             ret = ret[2:-5]
         else:
             ret = ret[2:-3]
-    except:
-        return f"error on running {cmd}"
+    except subprocess.CalledProcessError as ex:
+        return f"error: {ex.output.decode()}"
 
     return ret
 
@@ -236,8 +236,9 @@ def formatCodes(showLog):
             os.system("clang-format -i " + filePath)
 
 def prerequisites():
-    if checkDependencies([GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), BisonDependency(), ClangTidyDependency(), ClangFormatDependency()]):
+    if checkDependencies([GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), BisonDependency(), ClangTidyDependency(), ClangFormatDependency(), EmmakeDependency()]):
         return -1
+    return 0
 
 def _publishDoc():
     if checkDependencies([GitDependency()]):
@@ -559,7 +560,6 @@ def build(incVer):
         return -1
 
     _checkGTest()
-    #_beautify()
     if incVer:
         _injectBuildInfo()
         if _createMakefiles():
@@ -711,7 +711,7 @@ class ver:
         else:
             ret = ver(0, 0, 0)
             res = re.findall(r"[0-9]+\.[0-9]+[\.0-9]+", verString)
-            verStr = res[0].split('.')
+            verStr = res[0].split('.') if len(res) > 0 else ""
             if verStr != "":
                 ret.major = int(verStr[0])
                 ret.minor = int(verStr[1])
@@ -750,17 +750,35 @@ class dependency:
         return "--version"
 
     def getInstalledVer(self):
-        res = self.onGetInstalledVer()
-        if res[:3] == "err":
-            return ver(0, 0, 0)
+        res = self.onGetInstalledVerString()
+        if res[:5] != "error": # usual case
+            return ver.fromVerString(res)
 
-        return ver.fromVerString(self.onGetInstalledVer())
+        # oddly enough, for some binaries, it always returns an error code even if the file
+        # exists. so in this case, you can't check the version and you can't use the output
+        # msg to determine whether the file exists.
+        # In this case, you have to use shutil to determine directly whether the binary exists
+        # in the PATH.
+        if shutil.which(self.getName()):
+            return ver.fromVerString("0.0.0")
+        return ver(0, 0, 0)
 
     def isValid(self):
         return self.getInstalledVer().isValid(self.getExpectVer())
 
-    def onGetInstalledVer(self):
+    def onGetInstalledVerString(self):
         return cmdstr(f"{self.getName()} {self.getFlag()}")
+
+        ret = cmdstr(f"{self.getName()} {self.getFlag()}")
+
+        # oddly enough, for some binaries, it always returns an error code even if the file
+        # exists. so in this case, you can't check the version and you can't use the output
+        # msg to determine whether the file exists.
+        # In this case, you have to use shutil to determine directly whether the binary exists
+        # in the PATH.
+        if shutil.which(self.getName()):
+            return ver.fromVerString("0.0.0")
+        return ver(0, 0, 0)
 
     def showErrMsg(self):
         installedVer = self.getInstalledVer()
@@ -813,8 +831,8 @@ class BisonDependency(dependency):
     def getExpectVer(self):
         return ver(3, 8, 0)
 
-    def onGetInstalledVer(self):
-        return super().onGetInstalledVer().split('\n')[0]
+    def onGetInstalledVerString(self):
+        return super().onGetInstalledVerString().split('\n')[0]
 
 class ClangTidyDependency(dependency):
     def getName(self):
@@ -823,22 +841,22 @@ class ClangTidyDependency(dependency):
     def getExpectVer(self):
         return ver(14, 0, 0)
 
-    def onGetInstalledVer(self):
-        return super().onGetInstalledVer().split('\n')[0]
+    def onGetInstalledVerString(self):
+        return super().onGetInstalledVerString().split('\n')[0]
 
 class LlvmCovDependency(dependency):
     def getName(self):
         return "llvm-cov"
 
-    def onGetInstalledVer(self):
-        return super().onGetInstalledVer().split('\n')[0]
+    def onGetInstalledVerString(self):
+        return super().onGetInstalledVerString().split('\n')[0]
 
 class GcovDependency(dependency):
     def getName(self):
         return "gcov"
 
-    def onGetInstalledVer(self):
-        return super().onGetInstalledVer().split('\n')[0]
+    def onGetInstalledVerString(self):
+        return super().onGetInstalledVerString().split('\n')[0]
 
 class LcovDependency(dependency):
     def getName(self):
