@@ -56,7 +56,10 @@ def cmdstr(cmd):
         else:
             ret = ret[2:-3]
     except subprocess.CalledProcessError as ex:
-        return f"error: {ex.output.decode()}"
+        try:
+            return f"error: {ex.output.decode('euc-kr').encode('utf-8')}"
+        except:
+            return "error: "
 
     return ret
 
@@ -236,7 +239,7 @@ def formatCodes(showLog):
             os.system("clang-format -i " + filePath)
 
 def prerequisites():
-    if checkDependencies([GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), BisonDependency(), ClangTidyDependency(), ClangFormatDependency(), EmmakeDependency()]):
+    if checkDependencies([ClangDependency(), MSBuildDependency(), GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), BisonDependency(), ClangTidyDependency(), ClangFormatDependency()]):
         return -1
     return 0
 
@@ -556,7 +559,7 @@ def rebuild():
     return build(true)
 
 def build(incVer):
-    if checkDependencies([GitDependency(), CMakeDependency(), BisonDependency(), FlexDependency(), ClangTidyDependency()]):
+    if checkDependencies([ClangDependency(), MSBuildDependency(), GitDependency(), CMakeDependency(), BisonDependency(), FlexDependency(), ClangTidyDependency()]):
         return -1
 
     _checkGTest()
@@ -764,21 +767,17 @@ class dependency:
         return ver(0, 0, 0)
 
     def isValid(self):
+        if self.isActivated() == False:
+            return True
         return self.getInstalledVer().isValid(self.getExpectVer())
+
+    # if `isActivated` returns true, it means that this dependency has to be checked in all
+    # circumstances.
+    def isActivated(self):
+        return True
 
     def onGetInstalledVerString(self):
         return cmdstr(f"{self.getName()} {self.getFlag()}")
-
-        ret = cmdstr(f"{self.getName()} {self.getFlag()}")
-
-        # oddly enough, for some binaries, it always returns an error code even if the file
-        # exists. so in this case, you can't check the version and you can't use the output
-        # msg to determine whether the file exists.
-        # In this case, you have to use shutil to determine directly whether the binary exists
-        # in the PATH.
-        if shutil.which(self.getName()):
-            return ver.fromVerString("0.0.0")
-        return ver(0, 0, 0)
 
     def showErrMsg(self):
         installedVer = self.getInstalledVer()
@@ -786,6 +785,10 @@ class dependency:
             printErr(f"{self.getName()} is not installed")
         else:
             printErr(f"{self.getName()} version should be {self.getExpectVer().toString()} but yours is {self.getInstalledVer().toString()}")
+
+    def showSuccessMsg(self):
+        if self.isActivated():
+            printOkEnd(self.getName())
 
 class FlexDependency(dependency):
     def getExpectVer(self):
@@ -851,6 +854,29 @@ class LlvmCovDependency(dependency):
     def onGetInstalledVerString(self):
         return super().onGetInstalledVerString().split('\n')[0]
 
+class ClangDependency(dependency):
+    def getName(self):
+        return "clang++"
+
+    def getExpectVer(self):
+        return ver(14, 0, 0)
+
+    def isActivated(self):
+        return isWindow() == False
+
+class MSBuildDependency(dependency):
+    def getName(self):
+        return "msbuild.exe"
+
+    def getFlag(self):
+        return "/version"
+
+    def isActivated(self):
+        return isWindow()
+
+    def getExpectVer(self):
+        return ver(17, 0, 0) # VS2022
+
 class GcovDependency(dependency):
     def getName(self):
         return "gcov"
@@ -878,12 +904,11 @@ def checkDependencies(deps):
 
     hasErr = False;
     for d in deps:
-        #print(f"checking {d.getName()} version is {d.getExpectVer().toString()} ---> installed version is {d.getInstalledVer().toString()}")
         if d.isValid() == False:
             d.showErrMsg()
             hasErr = True
         else:
-            printOkEnd(d.getName())
+            d.showSuccessMsg()
     print("")
     return hasErr
 
