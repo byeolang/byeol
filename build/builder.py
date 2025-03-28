@@ -1017,6 +1017,8 @@ def _init():
         binDir = namuDir + "\\bin"
         resDir = namuDir + "\\res"
         externalDir = namuDir + "\\external"
+        # in order to color output text in windows terminal, I need this.
+        os.system('color')
     else:
         namuDir = cwd + "/.."
         binDir = namuDir + "/bin"
