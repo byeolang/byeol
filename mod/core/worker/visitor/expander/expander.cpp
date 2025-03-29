@@ -234,43 +234,40 @@ namespace nm {
     nbool me::_expand(errReport& rpt, expansion& eval) {
         obj& me = *eval.me;
         frameInteract f1(me);
-        {
-            func& fun = *eval.fun;
-            frameInteract f2(fun);
-            {
-                blockExpr& blk = fun.getBlock();
-                frameInteract f3(blk);
-                {
-                    narr& stmts = blk.getStmts();
-                    NM_I("|--- %s.%s has %d stmts ---|", me, fun, stmts.len());
 
-                    nbool isChanged = false;
-                    for(int n = 0; n < stmts.len();) {
-                        ncnt prevErrCnt = rpt.len();
-                        verifier v;
-                        v.setReport(rpt).setTask(stmts[n]).setFlag(0).work();
-                        if(rpt.len() > prevErrCnt) {
-                            // if there was an error, proceed next stmt.
-                            // TODO: it uses len() for counting errors.
-                            //       but one of them could be just warning.
-                            NM_I("|--- %s.%s failed on %dth stmt ---|", me, fun, n);
-                            n++;
-                            continue;
-                        }
+        func& fun = *eval.fun;
+        frameInteract f2(fun);
 
-                        stmts[n].run();
+        blockExpr& blk = fun.getBlock();
+        frameInteract f3(blk);
 
-                        NM_I("|--- SUCCESS! stmt[%d] pre-evaluated.", n);
-                        stmts.del(n);
-                        me.setState(PARSED);
-                        isChanged = true;
-                    } // end of inner
+        narr& stmts = blk.getStmts();
+        NM_I("|--- %s.%s has %d stmts ---|", me, fun, stmts.len());
 
-                    NM_I("|--- end of %s.%s %d stmts left ---|", me, fun, stmts.len());
-                    return isChanged;
-                }
+        nbool isChanged = false;
+        for(int n = 0; n < stmts.len();) {
+            ncnt prevErrCnt = rpt.len();
+            verifier v;
+            v.setReport(rpt).setTask(stmts[n]).setFlag(0).work();
+            if(rpt.len() > prevErrCnt) {
+                // if there was an error, proceed next stmt.
+                // TODO: it uses len() for counting errors.
+                //       but one of them could be just warning.
+                NM_I("|--- %s.%s failed on %dth stmt ---|", me, fun, n);
+                n++;
+                continue;
             }
-        }
+
+            stmts[n].run();
+
+            NM_I("|--- SUCCESS! stmt[%d] pre-evaluated.", n);
+            stmts.del(n);
+            me.setState(PARSED);
+            isChanged = true;
+        } // end of inner
+
+        NM_I("|--- end of %s.%s %d stmts left ---|", me, fun, stmts.len());
+        return isChanged;
     }
 
     void me::_delEval(const std::map<obj*, expansion>::iterator& e) {

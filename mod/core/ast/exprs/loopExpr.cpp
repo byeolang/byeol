@@ -56,10 +56,8 @@ namespace nm {
         frame& fr = thread::get()._getNowFrame();
         while(l->isLooping()) {
             frameInteract f1(getBlock());
-            {
-                l->run(blk, fr);
-                if(!l->postprocess(fr)) break;
-            }
+            l->run(blk, fr);
+            if(!l->postprocess(fr)) break;
         }
         return l->getRet();
     }

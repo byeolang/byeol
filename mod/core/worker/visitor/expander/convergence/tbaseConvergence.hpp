@@ -45,10 +45,8 @@ namespace nm {
             baseFunc& fun = *_func orRet false;
 
             frameInteract objScope(*_obj);
-            {
-                frameInteract funScope(fun);
-                { return convergeWithoutFrame(); }
-            }
+            frameInteract funScope(fun);
+            return convergeWithoutFrame();
         }
 
         baseFunc& getFunc() { return *_func; }

@@ -306,6 +306,7 @@ expr-inline1: unary { $$ = $1; }
 //      compound:
 expr-compound: if { $$ = $1; }
              | expr-inline9 ASSIGN expr-compound { $$ = PS.onAssign(*$1, *$3); }
+             //| expr-inline9 ASSIGN lambda { $$ = PS.onAssign(*$1, *$3); }
              | for { $$ = $1; }
              | while { $$ = $1; }
              | end { $$ = $1; }

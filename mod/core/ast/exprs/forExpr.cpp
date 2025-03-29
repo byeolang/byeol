@@ -24,10 +24,8 @@ namespace nm {
         auto& fr = thread::get()._getNowFrame() orRet str();
 
         frameInteract f1(getBlock());
-        {
-            fr.addLocal(getLocalName(), *((node*) elemType->clone()));
-            return super::_makeEval();
-        }
+        fr.addLocal(getLocalName(), *((node*) elemType->clone()));
+        return super::_makeEval();
     }
 
     namespace {

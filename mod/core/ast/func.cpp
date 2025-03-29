@@ -48,13 +48,9 @@ namespace nm {
 
     str me::_interactFrame(node& meObj, scope& s, nidx exN) {
         frameInteract f1(meObj);
-        {
-            frameInteract f2(*this, s);
-            {
-                frameInteract f3(*_blk);
-                { return _run(exN); }
-            }
-        }
+        frameInteract f2(*this, s);
+        frameInteract f3(*_blk);
+        return _run(exN);
     }
 
     str me::_run(nidx exN) {

@@ -11,9 +11,7 @@ namespace nm {
 
     str me::_interactFrame(node& meObj, scope& s, nidx exN) {
         frameInteract f1(*this, s);
-        {
-            frameInteract f2(getBlock());
-            { return _run(exN); }
-        }
+        frameInteract f2(getBlock());
+        return _run(exN);
     }
 }

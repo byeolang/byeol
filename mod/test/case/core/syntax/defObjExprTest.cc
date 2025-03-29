@@ -469,7 +469,7 @@ TEST_F(defObjExprTest, isStateOfDefObjVerified) {
     threadUse thr1;
     {
         frameInteract f1(person);
-        { person.subs(); }
+        person.subs();
     }
     ASSERT_EQ(person.getState(), LINKED);
 }
