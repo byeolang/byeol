@@ -18,7 +18,7 @@ namespace nm {
         str eval = value.getEval();
         if(eval) return (eval->isComplete() ? "" : "@incomplete ") + eval->getType().getName();
 
-        const auto& name = value.cast<getExpr>() THEN(getName());
+        const auto& name = value.cast<getExpr>() TO(getName());
         if(!nul(name)) return name;
         return value.getType().getName();
     }

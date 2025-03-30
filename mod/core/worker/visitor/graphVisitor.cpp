@@ -133,7 +133,7 @@ namespace nm {
 
         const func& fun = e.getOrigin();
         std::string params = !nul(fun) ? fun.getParams().toStr() : "null";
-        const std::string& name = fun THEN(getSrc()) THEN(getName());
+        const std::string& name = fun TO(getSrc()) TO(getName());
         cout << " -> " << foreColor(LIGHTGRAY) << "@" << foreColor(RED)
              << platformAPI::toAddrId(&fun) << " " << foreColor(LIGHTBLUE)
              << (!nul(name) ? name : "null");
@@ -244,7 +244,7 @@ namespace nm {
         if(nul(it)) return "frame";
 
         string ret = it.getType().createNameWithParams();
-        const auto& name = it.cast<getExpr>() THEN(getName());
+        const auto& name = it.cast<getExpr>() TO(getName());
         if(!nul(name)) ret = name;
         return ret;
     }

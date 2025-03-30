@@ -24,8 +24,8 @@ namespace nm {
     nbool me::isLogicalOp() const { return LOGIC_START <= _rule && _rule < LOGIC_END; }
 
     str me::run(const args& a) {
-        tstr<arithmeticObj> lhs(_lhs THEN(template as<arithmeticObj>()));
-        tstr<arithmeticObj> rhs(_rhs THEN(template as<arithmeticObj>()));
+        tstr<arithmeticObj> lhs(_lhs TO(template as<arithmeticObj>()));
+        tstr<arithmeticObj> rhs(_rhs TO(template as<arithmeticObj>()));
         if(!lhs || !rhs) return NM_I("lhs or rhs is null"), str();
 
         str ret;

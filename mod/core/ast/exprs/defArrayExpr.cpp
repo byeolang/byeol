@@ -21,8 +21,8 @@ namespace nm {
     }
 
     const baseObj& me::getArrayType() const {
-        return getOrigin().getType().getParams() THEN(get(0)) THEN(getOrigin())
-            THEN(template as<baseObj>().get());
+        return getOrigin().getType().getParams() TO(get(0)) TO(getOrigin())
+            TO(template as<baseObj>().get());
     }
 
     const arr& me::getOrigin() const {

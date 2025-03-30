@@ -39,7 +39,7 @@ namespace nm {
         instance& get();
         const instance& get() const NM_CONST_FUNC(get())
 
-        template <typename E> E& get() { return get() THEN(template cast<E>()); }
+        template <typename E> E& get() { return get() TO(template cast<E>()); }
         template <typename E> const E& get() const NM_CONST_FUNC(get<E>())
 
         nbool canBind(const type& cls) const override;

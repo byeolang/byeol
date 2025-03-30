@@ -350,14 +350,14 @@ TEST_F(binderTest, thenWithBinder) {
     tstr<shell> ptr(new shell(new offering(new A())));
     ptr->o->a->age = 57;
 
-    ASSERT_TRUE(ptr THEN(o) THEN(a) THEN(isHeap()));
-    ASSERT_EQ(ptr THEN(o) THEN(a) THEN(age), 57);
+    ASSERT_TRUE(ptr TO(o) TO(a) TO(isHeap()));
+    ASSERT_EQ(ptr TO(o) TO(a) TO(age), 57);
 }
 
 TEST_F(binderTest, thenNegative) {
     tstr<shell> ptr(new shell(nullptr));
-    ASSERT_TRUE(nul(ptr THEN(o) THEN(a)));
-    ASSERT_FALSE(ptr THEN(o) THEN(a) THEN(isHeap()));
+    ASSERT_TRUE(nul(ptr TO(o) TO(a)));
+    ASSERT_FALSE(ptr TO(o) TO(a) TO(isHeap()));
 }
 
 TEST_F(binderTest, refCountingCorruptionWhenVectorAssignOperator) {

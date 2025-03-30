@@ -51,7 +51,7 @@ namespace nm {
 #pragma clang diagnostic ignored "-Wtautological-undefined-compare"
         if(this == nullptr) return nulOf<instance>();
 #pragma clang diagnostic pop
-        return _getBindTag() THEN(get());
+        return _getBindTag() TO(get());
     }
 
     nbool me::_assign(const binder& rhs) {

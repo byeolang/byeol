@@ -62,7 +62,7 @@ namespace nm {
     nbool ME::isReversed() const { return _iteration ? _iteration->isReversed() : false; }
 
     TEMPL
-    void ME::rel() { _iteration THEN(rel()); }
+    void ME::rel() { _iteration TO(rel()); }
 
     TEMPL
     nbool ME::isFrom(const tucontainable& it) const {

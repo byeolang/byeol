@@ -481,7 +481,7 @@ TEST_F(genericsTest, generalizedObjShouldRemoveExpandFunc) {
     ASSERT_TRUE(res);
     ASSERT_EQ(res.cast<nint>(), 22);
 
-    str generic = getSubPack() THEN(sub("Person")) THEN(run(args{narr{nInt()}}));
+    str generic = getSubPack() TO(sub("Person")) TO(run(args{narr{nInt()}}));
     ASSERT_TRUE(generic);
     ASSERT_TRUE(nul(generic->sub(baseObj::EXPAND_NAME)));
 }

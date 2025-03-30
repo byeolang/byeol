@@ -111,9 +111,9 @@ namespace nm {
         _STEP("set evalType");
 
         const ntype& ltype =
-            me THEN(getLeft()) THEN(getEval()) THEN(getType()) orRetErr(LHS_IS_NUL, me);
+            me TO(getLeft()) TO(getEval()) TO(getType()) orRetErr(LHS_IS_NUL, me);
         const ntype& rtype =
-            me THEN(getRight()) THEN(getEval()) THEN(getType()) orRetErr(RHS_IS_NUL, me);
+            me TO(getRight()) TO(getEval()) TO(getType()) orRetErr(RHS_IS_NUL, me);
         NM_WHEN(rtype.isSub<retStateExpr>()).thenErr(CANT_ASSIGN_RET, me);
         NM_WHEN(!rtype.isImpli(ltype)).thenErr(TYPE_NOT_COMPATIBLE, me, rtype, ltype);
 
@@ -211,7 +211,7 @@ namespace nm {
         NM_WHEN(mod.isExplicitOverride()).thenErr(OVERRIDE_NOT_ALLOWED_FOR_LOCAL, me, me.getName());
 
         _STEP("to define a void type property isn't allowed.");
-        str eval = me.getRight() THEN(getEval()) orRetErr(RHS_IS_NUL, me);
+        str eval = me.getRight() TO(getEval()) orRetErr(RHS_IS_NUL, me);
         NM_WHEN(eval->isSub<nVoid>()).thenErr(VOID_CANT_DEFINED, me);
 
         obj& cast = eval->cast<obj>();
@@ -260,7 +260,7 @@ namespace nm {
         _GUARD("onLeave(defPropExpr&)");
 
         _STEP("whether the 'type' object has a ctor without any paramters?");
-        str eval = me THEN(getRight()) THEN(getEval()) orRetErr(RHS_IS_NUL, me);
+        str eval = me TO(getRight()) TO(getEval()) orRetErr(RHS_IS_NUL, me);
         NM_WHEN(eval->isSub<baseObj>() && nul(eval->sub(baseObj::CTOR_NAME, args{})))
             .thenErr(DONT_HAVE_CTOR, me, eval);
         func& fun = eval->cast<func>();
@@ -274,13 +274,13 @@ namespace nm {
         _GUARD("onLeave(defAssignExpr&)");
 
         _STEP("check rhs");
-        str eval = me THEN(getRight()) THEN(getEval()) orRetErr(RHS_IS_NUL, me);
+        str eval = me TO(getRight()) TO(getEval()) orRetErr(RHS_IS_NUL, me);
         NM_WHEN(!eval->isComplete()).thenErr(ACCESS_TO_INCOMPLETE, me);
 
-        str explicitType = me THEN(getExplicitType());
+        str explicitType = me TO(getExplicitType());
         if(explicitType) {
             _STEP("check explicit type whether it's valid");
-            str type = me THEN(getEval());
+            str type = me TO(getEval());
             NM_WHENNUL(type).thenErr(EXPLICIT_TYPE_SHOULDNT_BE_NULL, me);
             NM_WHEN(type->isSub<nVoid>()).thenErr(NO_VOID_VARIABLE, me);
         }
@@ -310,7 +310,7 @@ namespace nm {
 
         _STEP("check arr has exactly 1 type parameter.");
         const auto& ps =
-            me.getOrigin() THEN(getType()) THEN(getParams()) orRetErr(ELEM_TYPE_IS_NUL, me);
+            me.getOrigin() TO(getType()) TO(getParams()) orRetErr(ELEM_TYPE_IS_NUL, me);
         NM_WHEN(ps.len() != 1).thenErr(ARR_DOESNT_HAVE_TYPE_PARAM, me);
     }
 
@@ -338,8 +338,8 @@ namespace nm {
         _GUARD("onLeave(FBOEXpr&)");
 
         _STEP("finding eval of l(r)hs.");
-        str lEval = me THEN(getLeft()) THEN(getEval()) orRetErr(LHS_IS_NUL, me);
-        str rEval = me THEN(getRight()) THEN(getEval()) orRetErr(RHS_IS_NUL, me);
+        str lEval = me TO(getLeft()) TO(getEval()) orRetErr(LHS_IS_NUL, me);
+        str rEval = me TO(getRight()) TO(getEval()) orRetErr(RHS_IS_NUL, me);
 
         NM_WHEN(!checkEvalType(*lEval)).thenErr(LHS_IS_NOT_ARITH, me, lEval);
         NM_WHEN(!checkEvalType(*rEval)).thenErr(RHS_IS_NOT_ARITH, me, rEval);
@@ -453,7 +453,7 @@ namespace nm {
     }
 
     void me::onTraverse(runExpr& me, node& subject) {
-        str ased = me.getMe() THEN(getEval()) orRet;
+        str ased = me.getMe() TO(getEval()) orRet;
 
         getExpr& cast = subject.cast<getExpr>();
         if(!nul(cast)) cast.setMe(*ased);
@@ -491,7 +491,7 @@ namespace nm {
 
         onVisit(i, (func::super&) me, false);
 
-        obj& meObj = thread::get()._getNowFrame() THEN(getMe()) THEN(template cast<obj>());
+        obj& meObj = thread::get()._getNowFrame() TO(getMe()) TO(template cast<obj>());
         NM_WHENNUL(meObj).thenErr(FUNC_REDIRECTED_OBJ, me), true;
 
         _STEP("check func duplication");
@@ -560,7 +560,7 @@ namespace nm {
                 posError(errCode::PARAM_NOT_VOID, me, p.getName().c_str());
                 continue;
             }
-            str eval = p THEN(getOrigin()) THEN(getEval()) orContinue;
+            str eval = p TO(getOrigin()) TO(getEval()) orContinue;
             s->add(p.getName(), *new mockNode(*eval));
         }
 
@@ -604,7 +604,7 @@ namespace nm {
 
         _STEP("last stmt should match to ret type");
         NM_END(me.outFrame(scope()));
-        const type& retType = me.getRet() THEN(getType()) orRet NM_E("func.getRet() is null");
+        const type& retType = me.getRet() TO(getType()) orRet NM_E("func.getRet() is null");
         const node& lastStmt = *me.getBlock().getStmts().last();
 
         if(retType == ttype<nVoid>::get())

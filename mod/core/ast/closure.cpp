@@ -43,9 +43,9 @@ namespace nm {
 
     const baseFunc& me::getFunc() const { return *_func; }
 
-    params& me::getParams() { return _func THEN(getParams()); }
+    params& me::getParams() { return _func TO(getParams()); }
 
-    const node& me::getRet() const { return _func THEN(getRet()); }
+    const node& me::getRet() const { return _func TO(getRet()); }
 
     const src& me::getSrc() const { return _func ? _func->getSrc() : dumSrc::singletone(); }
 
@@ -58,7 +58,7 @@ namespace nm {
 
     me* me::_make(const func& e) {
         const baseObj& meObj =
-            thread::get().getNowFrame() THEN(getMe()) THEN(template cast<baseObj>()) orRet nullptr;
+            thread::get().getNowFrame() TO(getMe()) TO(template cast<baseObj>()) orRet nullptr;
 
         NM_I("make a closure for %s.%s", meObj, e);
         return new me(meObj, e);
@@ -71,7 +71,7 @@ namespace nm {
         frame& fr = mayMe->cast<frame>();
         tstr<baseObj> meObj =
             (!nul(fr) ? fr.getMe().cast<baseObj>() : mayMe->cast<baseObj>()) orRet nullptr;
-        baseFunc& cast = e._onGet(*mayMe) THEN(template cast<baseFunc>()) orRet nullptr;
+        baseFunc& cast = e._onGet(*mayMe) TO(template cast<baseFunc>()) orRet nullptr;
 
         NM_I("make a closure for %s.%s", meObj, cast.getSrc().getName());
         return new me(*meObj, cast);

@@ -50,7 +50,7 @@ namespace nm {
         NM_I("getMeHaving(%s)", sub);
         nbool found = false;
         return _getOwner<node>(sub, [&](nbool isOwner, scopeRegister& reg) -> node* {
-            baseObj& org = reg.owner THEN(template cast<baseObj>());
+            baseObj& org = reg.owner TO(template cast<baseObj>());
             if(found && !nul(org)) return &org;
             if(!isOwner) return nullptr;
             found = true;

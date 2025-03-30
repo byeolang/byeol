@@ -24,7 +24,7 @@ namespace nm {
 
     const node& me::deduce(const node& r) const {
         const ntype& ltype = getType();
-        const ntype& rtype = r THEN(getType());
+        const ntype& rtype = r TO(getType());
         const ntype& res = ltype.deduce(rtype) orNul(node);
         if(res == ltype) return *this;
         if(res == rtype) return r;

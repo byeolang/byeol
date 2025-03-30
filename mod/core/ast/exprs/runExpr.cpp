@@ -19,7 +19,7 @@ namespace nm {
     str me::run(const args& a) {
         auto addr = platformAPI::toAddrId(this);
         str evaledMe =
-            getMe() THEN(template as<node>()) orRet NM_E("@%s `me` is null. no thread found", addr),
+            getMe() TO(template as<node>()) orRet NM_E("@%s `me` is null. no thread found", addr),
             str();
 
         str sub =
@@ -32,7 +32,7 @@ namespace nm {
                                     // of it which doesn't need me obj.
             frame& fr = evaledMe->cast<frame>();
             _args.setMe(!nul(fr) ? fr.getMeHaving(*sub) : *evaledMe);
-            NM_DI("@%s run: setting me on args. args.me[%s]", addr, _args THEN(getMe()));
+            NM_DI("@%s run: setting me on args. args.me[%s]", addr, _args TO(getMe()));
         }
 
         NM_I("@%s it'll call `%s.%s@%s(%s)", addr, evaledMe, sub->getSrc(), &sub.get(),

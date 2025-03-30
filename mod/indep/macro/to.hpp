@@ -98,15 +98,15 @@ namespace nm {
     ///     to be:
     ///     ```cpp
     ///         int getBrushColorCode(Resource r) {
-    ///             const int& code = r THEN(getPallete()) THEN(getCanvas()) THEN(getBrush())
-    ///             THEN(getColorCode());
+    ///             const int& code = r TO(getPallete()) TO(getCanvas()) TO(getBrush())
+    ///             TO(getColorCode());
     ///             if(nul(code)) // if null returns during safe-navigation, output is nul
     ///             reference.
     ///                 return log("code is null"), -1;
     ///             return code;
     ///         }
     ///     ```
-#define THEN(fn)                                                                              \
+#define TO(fn)                                                                              \
     ->*[&](auto& __p) -> decltype(__to_ref__<decltype(__p)>::to(__p).fn) {                    \
         return !nul(__p) ? __to_ref__<decltype(__p)>::to(__p).fn :                            \
                            __empty__<decltype(__to_ref__<decltype(__p)>::to(__p).fn)>::ret(); \

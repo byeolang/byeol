@@ -20,7 +20,7 @@ namespace nm {
         if(nul(typs) || !typs.len()) return NM_E("_args.len() == 0"), nulOf<genericOrigin>();
         NM_DI("_name=%s, _args[%d]", getName(), typs.len());
 
-        node &generic = me THEN(template sub<genericOrigin>(name)) orRet NM_E("generic == null"),
+        node &generic = me TO(template sub<genericOrigin>(name)) orRet NM_E("generic == null"),
              nulOf<node>();
 
         return *generic.run(getArgs());

@@ -49,7 +49,7 @@ namespace nm {
         _GUARD("defAssignExpr.onVisit()");
 
         tstr<convergence> req = new convergence(*_obj.back(), *_funcs.back(), [&]() -> nbool {
-            str type = me.getExplicitType() THEN(template as<node>()) orRet false;
+            str type = me.getExplicitType() TO(template as<node>()) orRet false;
             if(type->isSub<expr>() || type->isSub<nVoid>()) return false;
             me.setExplicitType(*type);
             return true;
@@ -62,7 +62,7 @@ namespace nm {
         _GUARD("asExpr.onVisit()");
 
         tstr<convergence> req = new convergence(*_obj.back(), *_funcs.back(), [&]() -> nbool {
-            str ased = me.getAs() THEN(template as<baseObj>()) orRet false;
+            str ased = me.getAs() TO(template as<baseObj>()) orRet false;
             if(ased->isSub<expr>()) return false;
             me.setAs(*ased);
             return true;

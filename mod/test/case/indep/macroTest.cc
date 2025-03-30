@@ -42,27 +42,27 @@ TEST(macroTest, NM_GETtest) {
         C c;
     } d;
 
-    A& a = b THEN(getA());
+    A& a = b TO(getA());
     ASSERT_FALSE(nul(a));
-    A* aNul = &(b THEN(getNul()));
+    A* aNul = &(b TO(getNul()));
     ASSERT_TRUE(nul(aNul));
 
     A& a0 = b.getNul();
     ASSERT_TRUE(nul(a0));
 
-    A& a2 = c THEN(getB()) THEN(getA());
+    A& a2 = c TO(getB()) TO(getA());
     ASSERT_FALSE(nul(a2));
-    A* a2Nul = &(c THEN(getNul()) THEN(getA()));
+    A* a2Nul = &(c TO(getNul()) TO(getA()));
     ASSERT_TRUE(nul(a2Nul));
 
-    A& a3 = d THEN(getC()) THEN(getB()) THEN(getA());
+    A& a3 = d TO(getC()) TO(getB()) TO(getA());
     ASSERT_FALSE(nul(a3));
-    A* a3Nul = &(d THEN(getNul()) THEN(getB()) THEN(getA()));
+    A* a3Nul = &(d TO(getNul()) TO(getB()) TO(getA()));
     ASSERT_TRUE(nul(a3Nul));
 
-    A& a4 = d.getC().getB() THEN(getA());
+    A& a4 = d.getC().getB() TO(getA());
     ASSERT_FALSE(nul(a4));
-    A* a4Nul = &(d.getC().getB() THEN(getNul()));
+    A* a4Nul = &(d.getC().getB() TO(getNul()));
     ASSERT_TRUE(nul(a4Nul));
 }
 
