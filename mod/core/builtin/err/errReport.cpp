@@ -7,6 +7,9 @@ namespace nm {
 
     NM_DEF_ME(errReport)
 
+    me::errReport(): me(buildFeature::config::isDbg()) {}
+    me::errReport(nbool isNoisy): super(), _isNoisy(isNoisy) {}
+
     nbool me::operator==(const me& rhs) const {
         if(len() != rhs.len()) return false;
 
@@ -42,12 +45,13 @@ namespace nm {
 
     ncnt me::len() const { return _errs.size(); }
 
-    const baseErr& me::add(const baseErr* new1) {
+    const baseErr& me::add(const baseErr& new1) {
+        _noise(new1);
         _errs.push_back(new1);
-        return *new1;
+        return new1;
     }
 
-    const baseErr& me::add(const baseErr& new1) { return add(&new1); }
+    const baseErr& me::add(const baseErr* new1) { return add(*new1); }
 
     void me::add(const me& rhs) {
         for(const auto& e: rhs)
@@ -76,7 +80,19 @@ namespace nm {
 
     void me::rel() { _errs.clear(); }
 
-    const baseErr& dummyErrReport::add(const baseErr* new1) {
+    nbool me::isNoisy() const { return _isNoisy; }
+
+    me& me::setNoisy(nbool isNoisy) {
+        _isNoisy = isNoisy;
+        return *this;
+    }
+
+    void me::_noise(const baseErr& new1) {
+        if (!_isNoisy) return;
+        new1.log();
+    }
+
+    const baseErr& dummyErrReport::add(const baseErr& new1) {
         static ndummyErr dum;
         return dum;
     }

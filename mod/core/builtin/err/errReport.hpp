@@ -11,6 +11,10 @@ namespace nm {
         NM(CLASS(errReport, instance))
 
     public:
+        errReport();
+        errReport(nbool isNoisy);
+
+    public:
         nbool operator==(const me& rhs) const;
         nbool operator!=(const me& rhs) const;
         const baseErr& operator[](nidx n) const;
@@ -28,8 +32,8 @@ namespace nm {
 
         ncnt len() const;
 
-        virtual const baseErr& add(const baseErr* new1);
-        const baseErr& add(const baseErr& new1);
+        virtual const baseErr& add(const baseErr& new1);
+        const baseErr& add(const baseErr* new1);
         void add(const me& rhs);
 
         std::vector<tstr<baseErr>>::const_iterator begin() const;
@@ -43,15 +47,25 @@ namespace nm {
 
         void rel();
 
+        nbool isNoisy() const;
+        me& setNoisy(nbool isNoisy);
+
+    private:
+        void _noise(const baseErr& new1);
+
     private:
         std::vector<tstr<baseErr>> _errs;
+
+        /// if _isNoisy is true, an error is logged immediately whenever an err instance is added to
+        /// errReport.
+        nbool _isNoisy;
     };
 
     class _nout dummyErrReport: public errReport {
         NM(CLASS(dummyErrReport, errReport))
 
     public:
-        const baseErr& add(const baseErr* new1) override;
+        const baseErr& add(const baseErr& new1) override;
 
         static me singletone;
     };
