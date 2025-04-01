@@ -16,7 +16,7 @@ namespace nm {
 
     TEMPL
     T& ME::get(nidx n) {
-        NM_WHEN(!in(n)).ex(OUT_OF_RANGE, n, len()), nulOf<T>();
+        WHEN(!in(n)).ex(OUT_OF_RANGE, n, len()), nulOf<T>();
 
         binder& ret = _vec[n];
         return (T&) *ret;
@@ -25,7 +25,7 @@ namespace nm {
     TEMPL
     nbool ME::set(const iter& at, const T& new1) {
         narrIteration& cast = _getIterationFrom(at);
-        NM_WHENNUL(cast).ex(ITERATOR_IS_NUL), false;
+        WHEN_NUL(cast).ex(ITERATOR_IS_NUL), false;
         if(cast.isEnd()) return false;
 
         return set(cast._n, new1);
@@ -33,25 +33,25 @@ namespace nm {
 
     TEMPL
     nbool ME::set(nidx n, const T& new1) {
-        NM_WHEN(!in(n)).ex(OUT_OF_RANGE, n, len()), false;
+        WHEN(!in(n)).ex(OUT_OF_RANGE, n, len()), false;
 
         return _vec[n].bind(new1);
     }
 
     TEMPL
     nbool ME::add(const iter& e, const T& new1) {
-        NM_WHENNUL(e).ex(ITERATOR_IS_NUL), false;
+        WHEN_NUL(e).ex(ITERATOR_IS_NUL), false;
         if(nul(new1)) return false;
-        NM_WHEN(!e.isFrom(*this)).ex(ITERATOR_NOT_BELONG_TO_CONTAINER), false;
+        WHEN(!e.isFrom(*this)).ex(ITERATOR_NOT_BELONG_TO_CONTAINER), false;
         narrIteration& cast = (narrIteration&) *e._iteration;
-        NM_WHENNUL(cast).ex(CAST_NOT_AVAILABLE, "this iterator", "arr iterator"), false;
+        WHEN_NUL(cast).ex(CAST_NOT_AVAILABLE, "this iterator", "arr iterator"), false;
 
         return add(cast._n, new1);
     }
 
     TEMPL
     nbool ME::add(nidx n, const T& new1) {
-        NM_WHEN(n < 0 || n > len()).ex(OUT_OF_RANGE, n, len()), false;
+        WHEN(n < 0 || n > len()).ex(OUT_OF_RANGE, n, len()), false;
         if(nul(new1)) return false;
 
         _vec.insert(_vec.begin() + n, wrap(new1));
@@ -60,11 +60,11 @@ namespace nm {
 
     TEMPL
     void ME::add(const iter& here, const iter& from, const iter& to) {
-        NM_WHEN(!from.isFrom(to.getContainer())).ex(ITERATOR_NOT_BELONG_TO_CONTAINER);
+        WHEN(!from.isFrom(to.getContainer())).ex(ITERATOR_NOT_BELONG_TO_CONTAINER);
         const narrIteration& hereCast = _getIterationFrom(here);
         const narrIteration& fromCast = (narrIteration&) *from._iteration;
         const narrIteration& toCast = (narrIteration&) *to._iteration;
-        NM_WHENNUL(hereCast, fromCast, toCast)
+        WHEN_NUL(hereCast, fromCast, toCast)
             .ex(CAST_NOT_AVAILABLE, "one of these iterator", "arr iterator");
 
         if(hereCast._n < 0 || hereCast._n > len())
@@ -77,7 +77,7 @@ namespace nm {
     TEMPL
     nbool ME::del(const iter& at) {
         narrIteration& cast = _getIterationFrom(at);
-        NM_WHENNUL(cast).ex(CAST_NOT_AVAILABLE, "'at' iterator", "arr iterator"), false;
+        WHEN_NUL(cast).ex(CAST_NOT_AVAILABLE, "'at' iterator", "arr iterator"), false;
         if(cast.isEnd()) return false;
 
         return del(cast._n);
@@ -85,7 +85,7 @@ namespace nm {
 
     TEMPL
     nbool ME::del(nidx n) {
-        NM_WHEN(!in(n)).ex(OUT_OF_RANGE, n, len()), false;
+        WHEN(!in(n)).ex(OUT_OF_RANGE, n, len()), false;
 
         _vec.erase(_vec.begin() + n);
         return true;
@@ -94,7 +94,7 @@ namespace nm {
     TEMPL
     nbool ME::del(const iter& from, const iter& end) {
         narrIteration &endIter = _getIterationFrom(end), &fromIter = _getIterationFrom(from);
-        NM_WHENNUL(endIter, fromIter).ex(ITERATOR_IS_NUL), false;
+        WHEN_NUL(endIter, fromIter).ex(ITERATOR_IS_NUL), false;
 
         nidx fromN = fromIter.isEnd() ? len() - 1 : fromIter._n;
         ncnt cnt = endIter._n - fromN;

@@ -88,7 +88,7 @@ namespace nm {
 
     TEMPL
     nbool ME::del(const iter& from, const iter& last) {
-        NM_WHEN(from.isReversed() != last.isReversed()).ex(ITERATORS_ARENT_SAME_DIRECTION), false;
+        WHEN(from.isReversed() != last.isReversed()).ex(ITERATORS_ARENT_SAME_DIRECTION), false;
         const me* fromChain = (const me*) &from.getContainer();
         const me *lastChain = (const me*) &last.getContainer()
                                   orRet NM_W("iterator 'end' owned by null chain instance."),

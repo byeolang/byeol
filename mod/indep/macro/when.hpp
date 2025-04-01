@@ -12,21 +12,21 @@ namespace nm {
         void nothing() const;
     };
 
-#define __NM_WHEN__POSTFIX return ::nm::__dummy_class__::get()
-#define NM_WHEN(condition) \
-    if(condition) __NM_WHEN__POSTFIX
-#define NM_WHENNUL_1(v1) \
-    if(nul(v1)) __NM_WHEN__POSTFIX
-#define NM_WHENNUL_2(v1, v2) \
-    if(nul(v1) || nul(v2)) __NM_WHEN__POSTFIX
-#define NM_WHENNUL_3(v1, v2, v3) \
-    if(nul(v1) || nul(v2) || nul(v3)) __NM_WHEN__POSTFIX
-#define NM_WHENNUL_4(v1, v2, v3, v4) \
-    if(nul(v1) || nul(v2) || nul(v3) || nul(v4)) __NM_WHEN__POSTFIX
-#define NM_WHENNUL_5(v1, v2, v3, v4, v5) \
-    if(nul(v1) || nul(v2) || nul(v3) || nul(v4) || nul(v5)) __NM_WHEN__POSTFIX
-#define NM_WHENNUL_6(v1, v2, v3, v4, v5, v6) \
-    if(nul(v1) || nul(v2) || nul(v3) || nul(v4) || nul(v5) || nul(v6)) __NM_WHEN__POSTFIX
-#define NM_WHENNUL(...) NM_OVERLOAD(NM_WHENNUL, __VA_ARGS__)
+#define __WHEN__POSTFIX return ::nm::__dummy_class__::get()
+#define WHEN(condition) \
+    if(condition) __WHEN__POSTFIX
+#define WHEN_NUL_1(v1) \
+    if(nul(v1)) __WHEN__POSTFIX
+#define WHEN_NUL_2(v1, v2) \
+    if(nul(v1) || nul(v2)) __WHEN__POSTFIX
+#define WHEN_NUL_3(v1, v2, v3) \
+    if(nul(v1) || nul(v2) || nul(v3)) __WHEN__POSTFIX
+#define WHEN_NUL_4(v1, v2, v3, v4) \
+    if(nul(v1) || nul(v2) || nul(v3) || nul(v4)) __WHEN__POSTFIX
+#define WHEN_NUL_5(v1, v2, v3, v4, v5) \
+    if(nul(v1) || nul(v2) || nul(v3) || nul(v4) || nul(v5)) __WHEN__POSTFIX
+#define WHEN_NUL_6(v1, v2, v3, v4, v5, v6) \
+    if(nul(v1) || nul(v2) || nul(v3) || nul(v4) || nul(v5) || nul(v6)) __WHEN__POSTFIX
+#define WHEN_NUL(...) NM_OVERLOAD(WHEN_NUL, __VA_ARGS__)
 
 } // namespace nm
