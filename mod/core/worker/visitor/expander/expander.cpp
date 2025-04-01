@@ -189,7 +189,7 @@ namespace nm {
         NM_I(" ===================================");
         NM_I("          expandLoop");
         NM_I(" ===================================");
-        errReport e;
+        errReport e(false);
         ncnt n = 0;
         while(_stack.size() > 0) {
             e.rel();

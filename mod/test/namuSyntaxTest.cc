@@ -58,6 +58,7 @@ namuSyntaxTest& me::parse(const nm::nchar* src) {
 
 namuSyntaxTest& me::negative() {
     typedef nm::interpreter ip;
+    _rpt.setNoisy(false);
     _ip.setFlag(0);
     return *this;
 }
