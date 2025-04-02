@@ -1,18 +1,59 @@
 #pragma once
 
+#include <utility>
 #include "../def/_nout.hpp"
+#include "common/typedef.hpp"
+#include "../common/typedef.hpp"
+#include "declThis.hpp"
+#include "namuMeta.hpp"
 
 namespace nm {
-    class _nout __dummy_class__ {
-        __dummy_class__();
+#define __WHEN_OBJECT__ __basic_when__
+
+    class _nout __WHEN_OBJECT__ {
+        NM(ME(__WHEN_OBJECT__))
 
     public:
-        static const __dummy_class__& get();
+        static const me& get();
 
-        void nothing() const;
+        template <typename R, typename... Ts>
+        R& err([[maybe_unused]] R& r, const nchar* fmt, const Ts&... args) const {
+            NM_E(fmt, args...);
+            return r;
+        }
+
+        template <typename R, typename... Ts>
+        R&& err([[maybe_unused]] R&& r, const nchar* fmt, const Ts&... args) const {
+            NM_E(fmt, args...);
+            return std::move(r);
+        }
+
+        template <typename R, typename... Ts>
+        R& warn([[maybe_unused]] R& r, const nchar* fmt, const Ts&... args) const {
+            NM_W(fmt, args...);
+            return r;
+        }
+
+        template <typename R, typename... Ts>
+        R&& warn([[maybe_unused]] R&& r, const nchar* fmt, const Ts&... args) const {
+            NM_W(fmt, args...);
+            return std::move(r);
+        }
+
+        template <typename R, typename... Ts>
+        R& info([[maybe_unused]] R& r, const nchar* fmt, const Ts&... args) const {
+            NM_I(fmt, args...);
+            return r;
+        }
+
+        template <typename R, typename... Ts>
+        R&& info([[maybe_unused]] R&& r, const nchar* fmt, const Ts&... args) const {
+            NM_I(fmt, args...);
+            return std::move(r);
+        }
     };
 
-#define __WHEN__POSTFIX return ::nm::__dummy_class__::get()
+#define __WHEN__POSTFIX return ::nm::__WHEN__OBJECT__::get()
 #define WHEN(condition) \
     if(condition) __WHEN__POSTFIX
 #define WHEN_NUL_1(v1) \

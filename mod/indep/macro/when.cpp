@@ -2,14 +2,10 @@
 #include "../macro.hpp"
 
 namespace nm {
-    NM(DEF_ME(__dummy_class__))
-
-    me::__dummy_class__() {}
+    NM(DEF_ME(__WHEN_OBJECT__))
 
     const me& me::get() {
         static me inner;
         return inner;
     }
-
-    void me::nothing() const {}
 }
