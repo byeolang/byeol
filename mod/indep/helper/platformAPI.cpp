@@ -1,6 +1,7 @@
 #include "platformAPI.hpp"
 
 #include "nulr.hpp"
+#include <cstdarg>
 #if NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
 #    include <windows.h>
 
@@ -221,6 +222,54 @@ namespace nm {
             auto n = raw.find("::");
 #endif
             return raw.size() > 3 ? raw.substr(n + 2) : org;
+        }
+
+
+        std::string format(const nchar* fmt, ...) {
+            va_list args;
+            va_start(args, fmt);
+
+            auto ret = format(std::string(fmt), args);
+            va_end(args);
+            return ret;
+        }
+
+        constexpr nint MAX_BUF = 512;
+
+        std::string format(const std::string& fmt, va_list args) {
+            return format(fmt.c_str(), args);
+        }
+
+
+        std::string format(const nchar* fmt, va_list args) {
+            nchar buf[MAX_BUF] = {
+                0,
+            };
+            vsnprintf(buf, MAX_BUF, fmt, args);
+
+            return buf;
+        }
+
+        void crash(const nchar* msg, ...) {
+            va_list args;
+            va_start(args, msg);
+
+            crash(std::string(msg), args);
+
+            va_end(args);
+        }
+
+        void crash(const std::string& msg, va_list args) {
+            crash(format(msg, args));
+        }
+
+        void crash(const std::string& msg) {
+            log(" * * * Interpreter CRASH * * *\n");
+            log(" reason: " + msg + "\n");
+            log(" callstack:\n");
+            callstack();
+            log(" * * * * * * * * * * * * * * *\n");
+            abort();
         }
     } // namespace platformAPI
 } // namespace nm

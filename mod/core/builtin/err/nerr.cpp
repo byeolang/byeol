@@ -11,7 +11,6 @@ namespace nm {
     NM_DEF_ME(nerr)
 
     namespace {
-        constexpr nint MAX_BUF = 512;
     }
 
     const me& me::singletone() {
@@ -115,25 +114,14 @@ namespace nm {
         return new me(logLv::INFO, pos, code, args);
     }
 
-    namespace {
-        std::string _format(const std::string& fmt, va_list args) {
-            nchar buf[MAX_BUF] = {
-                0,
-            };
-            vsnprintf(buf, MAX_BUF, fmt.c_str(), args);
-
-            return buf;
-        }
-    }
-
     me::nerr(logLv::level t, nint newCode):
         super(t), _code((errCode) newCode), _pos{}, _msg(getErrMsg(_code)) {}
 
     me::nerr(logLv::level t, nint newCode, va_list args):
-        super(t), _code((errCode) newCode), _pos{}, _msg(_format(getErrMsg(_code), args)) {}
+        super(t), _code((errCode) newCode), _pos{}, _msg(platformAPI::format(getErrMsg(_code), args)) {}
 
     me::nerr(logLv::level t, const point& ps, nint newCode, va_list args):
-        super(t), _code((errCode) newCode), _pos(ps), _msg(_format(getErrMsg(_code), args)) {}
+        super(t), _code((errCode) newCode), _pos(ps), _msg(platformAPI::format(getErrMsg(_code), args)) {}
 
     me::nerr(const me& rhs): super(rhs), _code(rhs._code), _pos(rhs._pos), _msg(rhs._msg) {}
 
