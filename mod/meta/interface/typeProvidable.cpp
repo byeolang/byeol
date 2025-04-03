@@ -7,8 +7,8 @@ namespace nm {
     NM_DEF_ME(typeProvidable)
 
     nbool me::operator==(const me& rhs) const {
-        if(nul(rhs)) return false;
-        if(getType() != rhs.getType()) return false;
+        WHEN_NUL(rhs).ret(false);
+        WHEN(getType() != rhs.getType()).ret(false);
 
         return _onSame(rhs);
     }
@@ -24,7 +24,7 @@ namespace nm {
     nbool me::isSuper(const me& it) const { return isSuper(it.getType()); }
 
     void* me::cast(const type& to) {
-        if(!getType().isSub(to)) return nullptr;
+        WHEN(!getType().isSub(to)).ret(nullptr);
 
         return this;
     }

@@ -4,7 +4,7 @@ namespace nm {
     NM_DEF_ME(type)
 
     nbool me::operator==(const me& rhs) const {
-        if(nul(rhs)) return false;
+        WHEN_NUL(rhs).ret(false);
         return getName() == rhs.getName();
     }
 
@@ -44,7 +44,7 @@ namespace nm {
         // object class should not be initialized explicitly:
         //  or it makes recursive call. because if we make a instance of ttype<object>,
         //  it triggers type::init inside of it.
-        if(isInit()) return false;
+        WHEN(isInit()).ret(false);
 
         // main:
         //  setting init flag first is important:
@@ -84,15 +84,15 @@ namespace nm {
         //        object.
         //        so, if the "this" is a super of given object "it", its "tier"th super class
         //        would must be the class of "this".
-        if(nul(it)) return NO_RELATION;
+        WHEN_NUL(it).ret(NO_RELATION);
         const types& its = it.getSupers();
         ncnt myTier = getSupers().size(), itsTier = its.size();
-        if(myTier > itsTier) return NO_RELATION;
+        WHEN(myTier > itsTier).ret(NO_RELATION);
 
 
         //  main:
         const type& target = itsTier == myTier ? it : (const type&) *its[myTier];
-        if(*this != target) return NO_RELATION; // operator== is virtual func.
+        WHEN(*this != target).ret(NO_RELATION); // operator== is virtual func.
         return myTier == itsTier ? SAME : SUPER;
     }
 
@@ -101,8 +101,7 @@ namespace nm {
     const nchar* me::getMetaTypeName() const { return "type"; }
 
     nbool me::_logInitOk(nbool res) {
-        if(!res) return NM_E("couldn't init meta of %s class.", getName()), res;
-
+        WHEN(!res).err(res, "couldn't init meta of %s class.", getName());
         return res;
     }
 
@@ -119,7 +118,7 @@ namespace nm {
 
     void me::_setLeafs(types* newLeafs) const {
         types** leafs = _onGetLeafs();
-        if(*leafs == newLeafs) return;
+        WHEN(*leafs == newLeafs).ret();
 
         if(*leafs) delete *leafs;
 
