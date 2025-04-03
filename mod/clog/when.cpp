@@ -1,5 +1,4 @@
-#include "../common.hpp"
-#include "../macro.hpp"
+#include "when.hpp"
 
 namespace nm {
     NM(DEF_ME(__WHEN_OBJECT__))
