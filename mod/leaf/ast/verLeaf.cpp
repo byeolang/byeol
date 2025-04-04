@@ -21,26 +21,26 @@ namespace nm {
 
     nbool me::operator>(const me& rhs) const {
         nint res = _isFromBigger(_maj, rhs._maj);
-        if(res != 0) return res == 1;
+        WHEN(res != 0).ret(res == 1);
 
         res = _isFromBigger(_min, rhs._min);
-        if(res != 0) return res == 1;
+        WHEN(res != 0).ret(res == 1);
 
         return _isFromBigger(_fix, rhs._fix) > 0;
     }
 
     nbool me::operator<(const me& rhs) const {
         nint res = _isFromBigger(rhs._maj, _maj);
-        if(res != 0) return res == 1;
+        WHEN(res != 0).ret(res == 1);
 
         res = _isFromBigger(rhs._min, _min);
-        if(res != 0) return res == 1;
+        WHEN(res != 0).ret(res == 1);
 
         return _isFromBigger(rhs._fix, _fix) > 0;
     }
 
     nbool me::operator==(const me& rhs) const {
-        if(this == &rhs) return true;
+        WHEN(this == &rhs).ret(true);
 
         return _maj == rhs._maj && _min == rhs._min && _fix == rhs._fix;
     }
@@ -71,10 +71,7 @@ namespace nm {
 
         nint* them[] = {&_maj, &_min, &_fix};
         for(int n = 0; n < VER_LEN; n++) {
-            if(!std::getline(ss, token, DELIMITER[0])) {
-                NM_E("error parsing to %s", verStr);
-                return;
-            }
+            WHEN(!std::getline(ss, token, DELIMITER[0])).err("error parsing to %s", verStr);
 
             *them[n] = std::stoi(token);
         }

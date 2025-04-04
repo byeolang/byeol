@@ -29,7 +29,7 @@ namespace nm {
     nbool me::has(const std::string& name) const { return _subs.find(name) != _subs.end(); }
 
     void me::add(const leaf& new1) {
-        if(nul(new1)) return;
+        WHEN_NUL(new1).ret();
 
         _subs.insert(make_pair(new1.getName(), tstr<me>(new1)));
     }

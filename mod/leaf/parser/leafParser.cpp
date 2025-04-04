@@ -13,8 +13,6 @@ namespace nm {
 
     NM_DEF_ME(leafParser)
 
-#define thenErr(msg) nothing(), report(msg)
-
     namespace {
         string join(const std::vector<string>& dotnames) {
             string ret;
@@ -77,13 +75,13 @@ namespace nm {
     nint me::onTokenComma(nint tok) { return _onTokenEndOfInlineBlock(onIgnoreIndent(tok)); }
 
     leaf* me::onDefAssign(const std::string& name, leaf& rhs) {
-        WHEN_NUL(rhs).thenErr("rhs is nul"), nullptr;
+        WHEN_NUL(rhs).err(nullptr, "rhs is nul");
         rhs.setName(name);
         return &rhs;
     }
 
     nint me::_onTokenEndOfInlineBlock(nint tok) {
-        if(!_dedent.canDedent()) return tok;
+        WHEN(!_dedent.canDedent()).ret(tok);
 
         NM_DI("tokenEvent: onTokenEndOfInlineBlock: '%c' [%d] use smart dedent!", (char) tok, tok);
         _dispatcher.addFront(tok);
@@ -133,8 +131,8 @@ namespace nm {
     leaf* me::onDefBlock(leaf& stmt) { return onDefBlock(*onDefBlock(), stmt); }
 
     leaf* me::onDefBlock(leaf& s, leaf& stmt) {
-        WHEN_NUL(s).thenErr("s is nul"), new leaf();
-        WHEN_NUL(stmt).thenErr("stmt is nul"), &s;
+        WHEN_NUL(s).err(new leaf(), "s is nul");
+        WHEN_NUL(stmt).err(&s, "stmt is nul");
 
         s.add(stmt);
         return &s;
@@ -160,7 +158,7 @@ namespace nm {
     }
 
     leaf* me::onCompilationUnit(leaf& subpack) {
-        WHEN_NUL(subpack).thenErr("subpack is null"), nullptr;
+        WHEN_NUL(subpack).err(nullptr, "subpack is null");
 
         subpack.setName("root");
         _root.bind(subpack);
@@ -263,7 +261,7 @@ namespace nm {
 
     leaf& me::_finalize() {
         ncnt size = _errs.size();
-        if(size <= 0) return *_root;
+        WHEN(size <= 0).ret(*_root);
 
         NM_I("leaf: total %d errors found.", size);
         for(const auto& e: _errs)

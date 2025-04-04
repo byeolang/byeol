@@ -13,8 +13,8 @@ namespace nm {
     public:
         static const me& get();
 
-        template <typename R, typename... Ts>
-        void errVoid(const nchar* fmt, const Ts&... args) const {
+        template <typename... Ts>
+        void err(const nchar* fmt, const Ts&... args) const {
             ::nm::richLog(::nm::logLv::ERR, __FILENAME__, __func__, __LINE__,
                 (std::string(fmt) + "\n").c_str(), args...);
             return;
@@ -34,7 +34,7 @@ namespace nm {
             return std::move(r);
         }
 
-        template <typename R, typename... Ts>
+        template <typename... Ts>
         void warn(const nchar* fmt, const Ts&... args) const {
             ::nm::richLog(::nm::logLv::WARN, __FILENAME__, __func__, __LINE__,
                 (std::string(fmt) + "\n").c_str(), args...);
@@ -55,7 +55,7 @@ namespace nm {
             return std::move(r);
         }
 
-        template <typename R, typename... Ts>
+        template <typename... Ts>
         void info(const nchar* fmt, const Ts&... args) const {
             ::nm::richLog(::nm::logLv::INFO, __FILENAME__, __func__, __LINE__,
                 (std::string(fmt) + "\n").c_str(), args...);

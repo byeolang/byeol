@@ -9,7 +9,7 @@ namespace nm {
     void me::addFront(nint newToken) { _toks.insert(_toks.begin(), newToken); }
 
     nbool me::pop(nint& output) {
-        if(_toks.size() <= 0) return false;
+        WHEN(_toks.size() <= 0).ret(false);
 
         output = _toks.front();
         _toks.pop_front();
