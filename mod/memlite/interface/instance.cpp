@@ -47,7 +47,7 @@ namespace nm {
     instancer& me::_getMgr() { return instancer::get(); }
 
     void me::vault::set(void* ptr, nidx chkN) {
-        if(nul(ptr)) return;
+        WHEN_NUL(ptr).ret();
 
         _vaults[ptr] = chkN;
     }

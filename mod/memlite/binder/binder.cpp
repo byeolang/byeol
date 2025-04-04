@@ -20,7 +20,7 @@ namespace nm {
     instance& me::operator*() { return get(); }
 
     me& me::operator=(const me& rhs) {
-        if(this == &rhs) return *this;
+        WHEN(this == &rhs).ret(*this);
 
         _assign(rhs);
         return *this;
@@ -41,7 +41,7 @@ namespace nm {
 
     nbool me::bind(const instance& it) {
         rel();
-        if(!tbindable<instance>::bind(it)) return false;
+        WHEN(!tbindable<instance>::bind(it)).ret(false);
 
         return _tactic->bind(*this, it);
     }
@@ -56,7 +56,7 @@ namespace nm {
 
     nbool me::_assign(const binder& rhs) {
         rel();
-        if(nul(rhs)) return true;
+        WHEN_NUL(rhs).ret(true);
 
         _type = rhs._type;
         if(nul(_tactic)) _tactic = rhs._tactic;
@@ -71,7 +71,7 @@ namespace nm {
     bindTag& me::_getBindTag() const { return (bindTag&) bindTag::getBindTag(_itsId); }
 
     void* me::cast(const type& to) {
-        if(!isBind()) return nullptr;
+        WHEN(!isBind()).ret(nullptr);
         return get().cast(to);
     }
 } // namespace nm

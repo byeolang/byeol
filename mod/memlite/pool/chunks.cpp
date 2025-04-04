@@ -45,7 +45,7 @@ namespace nm {
 
         do {
             chunk& e = get(_s);
-            if(!nul(e) && e.isCapable()) return _s;
+            WHEN(!nul(e) && e.isCapable()).ret(_s);
             _s++;
             if(_s >= sz) _s = 0;
         } while(_s != end);
@@ -75,7 +75,7 @@ namespace nm {
     }
 
     void* me::_get(nidx n) {
-        if(n < 0 || n >= len()) return nullptr;
+        WHEN(n < 0 || n >= len()).ret(nullptr);
 
         return _chunks[n];
     }

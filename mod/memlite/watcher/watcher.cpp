@@ -16,22 +16,19 @@ namespace nm {
         watchCell& got = get(newId.tagN) orNul(watchCell);
 
         id gotId = got.blk.getId();
-        if(gotId.tagN != newId.tagN) {
-            NM_W("bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN,
+        WHEN(gotId.tagN != newId.tagN)
+            .warn(nulOf<watchCell>(),
+                "bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN,
                 gotId.chkN, gotId.serial, newId.tagN, newId.chkN, newId.serial);
-            return nulOf<watchCell>();
-        }
-        if(gotId.chkN != newId.chkN || gotId.serial != newId.serial)
-            // bindTag has been changed its instance to bind.
-            return nulOf<watchCell>();
+        WHEN(gotId.chkN != newId.chkN || gotId.serial != newId.serial)
+            .ret(nulOf<watchCell>()); // bindTag has been changed its instance to bind.
 
         return got;
     }
 
     void* me::new1() {
-        if(isFull())
-            if(!_resize(size() * 2 + 1))
-                return NM_E("resize watcher failed! this damage system seriously !!!!"), nullptr;
+        WHEN(isFull() && !_resize(size() * 2 + 1))
+            .err(nullptr, "resize watcher failed! this damage system seriously !!!!");
 
         watchCell* res = (watchCell*) super::new1() orRet res;
 
@@ -55,8 +52,7 @@ namespace nm {
     }
 
     nidx me::_getIdx(void* it) const {
-        if(!has(*(instance*) it)) // "has" func will treat it as void*, too.
-            return -1;
+        WHEN(!has(*(instance*) it)).ret(-1); // "has" func will treat it as void*, too.
 
         nidx ret = ((nuchar*) it - _getHeap()) / getBlkSize();
         return ret;
