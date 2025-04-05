@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../ast/scope.hpp"
-#include "../builtin/container/native/tnarr.inl"
+#include "../builtin/container/native/tnarr.hpp"
 #include "param.hpp"
 
 namespace nm {

@@ -1,6 +1,6 @@
 #include "node.inl"
 
-#include "../builtin/container/native/tnarr.inl"
+#include "../builtin/container/native/tnarr.hpp"
 #include "../type/as.hpp"
 #include "../worker/visitor/visitor.hpp"
 #include "args.hpp"

@@ -22,12 +22,7 @@ namespace nm {
 
     NM_DEF_ME(parser)
 
-#define thenErr_1(code) nothing(), posError(errCode::code)
-#define thenErr_2(code, a1) nothing(), posError(errCode::code, a1)
-#define thenErr_3(code, a1, a2) nothing(), posError(errCode::code, a1, a2)
-#define thenErr_4(code, a1, a2, a3) nothing(), posError(errCode::code, a1, a2, a3)
-#define thenErr_5(code, a1, a2, a3, a4) nothing(), posError(errCode::code, a1, a2, a3, a4)
-#define thenErr(...) NM_OVERLOAD(thenErr, __VA_ARGS__)
+#define thenErr(...) ex(getReport(), __VA_ARGS__)
 
 #define thenWarn_2(code, a1) nothing(), posWarn(errCode::code, a1)
 #define thenWarn_3(code, a1, a2) nothing(), posWarn(errCode::code, a1, a2)

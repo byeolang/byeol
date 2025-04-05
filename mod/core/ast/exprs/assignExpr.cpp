@@ -42,7 +42,7 @@ namespace nm {
             if(!nul(s)) return s.iterate(cast.getName());
         }
 
-        if(!ased) return exMaker::make(COULDNT_GET_ITER_FOR_LHS, cast.getName().c_str()), iter();
+        WHEN(!ased).exErr(iter(), COULDNT_GET_ITER_FOR_LHS, cast.getName().c_str());
 
         return ased->subs().iterate(cast.getName());
     }

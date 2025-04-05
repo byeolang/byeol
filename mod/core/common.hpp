@@ -6,3 +6,4 @@
 #include "common/namuMetaExtension.hpp"
 #include "common/richLog.hpp"
 #include "common/util.hpp"
+#include "common/when.hpp"
