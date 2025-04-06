@@ -75,7 +75,7 @@ namespace nm {
     nint me::onTokenComma(nint tok) { return _onTokenEndOfInlineBlock(onIgnoreIndent(tok)); }
 
     leaf* me::onDefAssign(const std::string& name, leaf& rhs) {
-        WHEN_NUL(rhs).err(nullptr, "rhs is nul");
+        WHEN_NUL(rhs).err("rhs is nul").ret(nullptr);
         rhs.setName(name);
         return &rhs;
     }
@@ -131,8 +131,8 @@ namespace nm {
     leaf* me::onDefBlock(leaf& stmt) { return onDefBlock(*onDefBlock(), stmt); }
 
     leaf* me::onDefBlock(leaf& s, leaf& stmt) {
-        WHEN_NUL(s).err(new leaf(), "s is nul");
-        WHEN_NUL(stmt).err(&s, "stmt is nul");
+        WHEN_NUL(s).err("s is nul").ret(new leaf());
+        WHEN_NUL(stmt).err("stmt is nul").ret(&s);
 
         s.add(stmt);
         return &s;
@@ -158,7 +158,7 @@ namespace nm {
     }
 
     leaf* me::onCompilationUnit(leaf& subpack) {
-        WHEN_NUL(subpack).err(nullptr, "subpack is null");
+        WHEN_NUL(subpack).err("subpack is null").ret(nullptr);
 
         subpack.setName("root");
         _root.bind(subpack);

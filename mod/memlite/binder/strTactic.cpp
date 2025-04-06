@@ -17,7 +17,7 @@ namespace nm {
 
     nbool me::bind(binder& me, const instance& it) {
         nbool res = super::bind(me, it);
-        WHEN(!res).err(res, "super::bind() was failed.");
+        WHEN(!res).err("super::bind() was failed.").ret(res);
         WHEN(!it.isHeap()).ret(true);
 
         // initially, when instance got created by new operator, the value 'strong' set to 0.

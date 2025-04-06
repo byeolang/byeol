@@ -101,7 +101,7 @@ namespace nm {
     const nchar* me::getMetaTypeName() const { return "type"; }
 
     nbool me::_logInitOk(nbool res) {
-        WHEN(!res).err(res, "couldn't init meta of %s class.", getName());
+        WHEN(!res).err("couldn't init meta of %s class.", getName()).ret(res);
         return res;
     }
 

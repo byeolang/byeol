@@ -17,18 +17,19 @@ namespace nm {
 
         id gotId = got.blk.getId();
         WHEN(gotId.tagN != newId.tagN)
-            .warn(nulOf<watchCell>(),
-                "bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN,
-                gotId.chkN, gotId.serial, newId.tagN, newId.chkN, newId.serial);
+            .warn("bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN,
+                gotId.chkN, gotId.serial, newId.tagN, newId.chkN, newId.serial)
+            .retNul<watchCell>();
         WHEN(gotId.chkN != newId.chkN || gotId.serial != newId.serial)
-            .ret(nulOf<watchCell>()); // bindTag has been changed its instance to bind.
+            .retNul<watchCell>(); // bindTag has been changed its instance to bind.
 
         return got;
     }
 
     void* me::new1() {
         WHEN(isFull() && !_resize(size() * 2 + 1))
-            .err(nullptr, "resize watcher failed! this damage system seriously !!!!");
+            .err("resize watcher failed! this damage system seriously !!!!")
+            .ret(nullptr);
 
         watchCell* res = (watchCell*) super::new1() orRet res;
 

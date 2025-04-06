@@ -14,7 +14,7 @@ namespace nm {
     me::~bindTag() { _id.serial = 0; }
 
     const chunk& me::getChunk() const {
-        WHEN(!_pt).ret(nulOf<chunk>());
+        WHEN(!_pt).retNul<chunk>();
 
         return instancer::get().getPool()[*_pt][*_pt];
     }

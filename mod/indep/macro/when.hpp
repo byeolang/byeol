@@ -104,6 +104,9 @@ namespace nm {
         }
 
         void ret() const {}
+
+        template <typename T>
+        T& retNul() const { return nulOf<T>(); }
     };
 
 #define __WHEN_POSTFIX__ return ::nm::__WHEN_OBJECT__::get()

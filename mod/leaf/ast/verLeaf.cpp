@@ -71,7 +71,7 @@ namespace nm {
 
         nint* them[] = {&_maj, &_min, &_fix};
         for(int n = 0; n < VER_LEN; n++) {
-            WHEN(!std::getline(ss, token, DELIMITER[0])).err("error parsing to %s", verStr);
+            WHEN(!std::getline(ss, token, DELIMITER[0])).err("error parsing to %s", verStr).ret();
 
             *them[n] = std::stoi(token);
         }

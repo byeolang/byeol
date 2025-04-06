@@ -14,66 +14,25 @@ namespace nm {
         static const me& get();
 
         template <typename... Ts>
-        void err(const nchar* fmt, const Ts&... args) const {
+        const me& err(const nchar* fmt, const Ts&... args) const {
             ::nm::richLog(::nm::logLv::ERR, __FILENAME__, __func__, __LINE__,
                 (std::string(fmt) + "\n").c_str(), args...);
-            return;
-        }
-
-        template <typename R, typename... Ts>
-        R& err([[maybe_unused]] R& r, const nchar* fmt, const Ts&... args) const {
-            ::nm::richLog(::nm::logLv::ERR, __FILENAME__, __func__, __LINE__,
-                (std::string(fmt) + "\n").c_str(), args...);
-            return r;
-        }
-
-        template <typename R, typename... Ts>
-        R&& err([[maybe_unused]] R&& r, const nchar* fmt, const Ts&... args) const {
-            ::nm::richLog(::nm::logLv::ERR, __FILENAME__, __func__, __LINE__,
-                (std::string(fmt) + "\n").c_str(), args...);
-            return std::move(r);
+            return *this;
         }
 
         template <typename... Ts>
-        void warn(const nchar* fmt, const Ts&... args) const {
+        const me& warn(const nchar* fmt, const Ts&... args) const {
             ::nm::richLog(::nm::logLv::WARN, __FILENAME__, __func__, __LINE__,
                 (std::string(fmt) + "\n").c_str(), args...);
-            return;
-        }
-
-        template <typename R, typename... Ts>
-        R& warn([[maybe_unused]] R& r, const nchar* fmt, const Ts&... args) const {
-            ::nm::richLog(::nm::logLv::WARN, __FILENAME__, __func__, __LINE__,
-                (std::string(fmt) + "\n").c_str(), args...);
-            return r;
-        }
-
-        template <typename R, typename... Ts>
-        R&& warn([[maybe_unused]] R&& r, const nchar* fmt, const Ts&... args) const {
-            ::nm::richLog(::nm::logLv::WARN, __FILENAME__, __func__, __LINE__,
-                (std::string(fmt) + "\n").c_str(), args...);
-            return std::move(r);
+            return *this;
         }
 
         template <typename... Ts>
-        void info(const nchar* fmt, const Ts&... args) const {
+        const me& info(const nchar* fmt, const Ts&... args) const {
             ::nm::richLog(::nm::logLv::INFO, __FILENAME__, __func__, __LINE__,
                 (std::string(fmt) + "\n").c_str(), args...);
-            return;
+            return *this;
         }
 
-        template <typename R, typename... Ts>
-        R& info([[maybe_unused]] R& r, const nchar* fmt, const Ts&... args) const {
-            ::nm::richLog(::nm::logLv::INFO, __FILENAME__, __func__, __LINE__,
-                (std::string(fmt) + "\n").c_str(), args...);
-            return r;
-        }
-
-        template <typename R, typename... Ts>
-        R&& info([[maybe_unused]] R&& r, const nchar* fmt, const Ts&... args) const {
-            ::nm::richLog(::nm::logLv::INFO, __FILENAME__, __func__, __LINE__,
-                (std::string(fmt) + "\n").c_str(), args...);
-            return std::move(r);
-        }
     };
 } // namespace nm
