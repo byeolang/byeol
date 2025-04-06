@@ -42,7 +42,7 @@ namespace nm {
             if(!nul(s)) return s.iterate(cast.getName());
         }
 
-        WHEN(!ased).exErr(iter(), COULDNT_GET_ITER_FOR_LHS, cast.getName().c_str());
+        WHEN(!ased).exErr(COULDNT_GET_ITER_FOR_LHS, cast.getName()).ret(iter());
 
         return ased->subs().iterate(cast.getName());
     }

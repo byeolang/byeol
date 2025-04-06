@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tnarr.hpp"
+#include "tnarr.inl"
 
 namespace nm {
 

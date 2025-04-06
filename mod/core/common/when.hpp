@@ -15,105 +15,33 @@ namespace nm {
     public:
         static const me& get();
 
-        void exErr(int code, ...) const {
-            va_list args;
-            va_start(args, code);
-            _addNewErr(_getDefault(), code, args);
-            va_end(args);
+        template <typename... Ts>
+        const me& exErr(int code, const Ts&... args) const {
+            _addNewErr(_getDefault(), code, __convert__((const Ts&) args).unwrap()...);
+            return *this;
         }
 
-        void exErr(const point& src, int code, ...) const {
-            va_list args;
-            va_start(args, code);
-            _addNewErr(_getDefault(), src, code, args);
-            va_end(args);
+        template <typename... Ts>
+        const me& exErr(const point& src, int code, const Ts&... args) const {
+            _addNewErr(_getDefault(), src, code, __convert__((const Ts&) args).unwrap()...);
+            return *this;
         }
 
-        template <typename R>
-        R& exErr([[maybe_unused]] R& r, int code, ...) const {
-            va_list args;
-            va_start(args, code);
-            _addNewErr(_getDefault(), code, args);
-            va_end(args);
-            return r;
+        template <typename... Ts>
+        const me& exErr(errReport& rpt, int code, const Ts&... args) const {
+            _addNewErr(rpt, code, __convert__((const Ts&) args).unwrap()...);
+            return *this;
         }
 
-        template <typename R>
-        R& exErr([[maybe_unused]] R& r, const point& src, int code, ...) const {
-            va_list args;
-            va_start(args, code);
-            _addNewErr(_getDefault(), src, code, args);
-            va_end(args);
-            return r;
-        }
-
-        template <typename R>
-        R&& exErr([[maybe_unused]] R&& r, int code, ...) const {
-            va_list args;
-            va_start(args, code);
-            _addNewErr(_getDefault(), code, args);
-            va_end(args);
-            return std::move(r);
-        }
-
-        template <typename R>
-        R&& exErr([[maybe_unused]] R&& r, const point& src, int code, ...) const {
-            va_list args;
-            va_start(args, code);
-            _addNewErr(_getDefault(), src, code, args);
-            va_end(args);
-            return std::move(r);
-        }
-
-        void exErr(errReport& rpt, int code, ...) const {
-            va_list args;
-            va_start(args, code);
-            _addNewErr(rpt, code, args);
-            va_end(args);
-        }
-
-        void exErr(errReport& rpt, const point& src, int code, ...) const {
-            va_list args;
-            va_start(args, code);
-            _addNewErr(rpt, src, code, args);
-            va_end(args);
-        }
-
-        template <typename R>
-        R& exErr([[maybe_unused]] R& r, errReport& rpt, int code, ...) const {
-            va_list args;
-            va_start(args, code);
-            _addNewErr(rpt, code, args);
-            return r;
-        }
-
-        template <typename R>
-        R& exErr([[maybe_unused]] R& r, errReport& rpt, const point& src, int code, ...) const {
-            va_list args;
-            va_start(args, code);
-            _addNewErr(rpt, src, code, args);
-            return r;
-        }
-
-        template <typename R>
-        R&& exErr([[maybe_unused]] R&& r, errReport& rpt, int code, ...) const {
-            va_list args;
-            va_start(args, code);
-            _addNewErr(rpt, code, args);
-            return std::move(r);
-        }
-
-        template <typename R>
-        R&& exErr([[maybe_unused]] R&& r, errReport& rpt, const point& src, int code, ...) const {
-            va_list args;
-            va_start(args, code);
-            _addNewErr(rpt, src, code, args);
-            return std::move(r);
+        template <typename... Ts>
+        const me& exErr(errReport& rpt, const point& src, int code, const Ts&... args) const {
+            _addNewErr(rpt, src, code, __convert__((const Ts&) args).unwrap()...);
+            return *this;
         }
 
     private:
         errReport& _getDefault() const;
-        void _addNewErr(errReport& rpt, int code, va_list args) const;
-        void _addNewErr(errReport& rpt, const point& src, int code, va_list args) const;
+        void _addNewErr(errReport& rpt, int code, ...) const;
+        void _addNewErr(errReport& rpt, const point& src, int code, ...) const;
     };
 }

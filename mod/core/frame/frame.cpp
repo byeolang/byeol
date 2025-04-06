@@ -34,7 +34,7 @@ namespace nm {
     }
 
     void me::addLocal(const std::string& name, const node& n) {
-        WHEN(_stack.size() <= 0).err("couldn't push new node. the top scope is null");
+        WHEN(_stack.size() <= 0).err("couldn't push new node. the top scope is null").ret();
         auto &locals =
             getLocals() orRet NM_E("it's tried to add variable into %s. it's not valid.", name),
              void();

@@ -1,6 +1,8 @@
 #include "nseq.hpp"
 
 #include "../tucontainable.inl"
+#include "../../../frame/thread.hpp"
+#include "../../err/nerr.hpp"
 
 namespace nm {
 
@@ -47,8 +49,14 @@ namespace nm {
     }
 
     nInt me::get(nidx n) {
-        if(n >= len()) exMaker::make(OUT_OF_RANGE, n, len()), n = len() - 1;
-        if(n < 0) exMaker::make(OUT_OF_RANGE, n, len()), n = 0;
+        if(n >= len()) {
+            thread::get().getEx().add(nerr::newErr(OUT_OF_RANGE, n, len()));
+            n = len() - 1;
+        }
+        if(n < 0) {
+            thread::get().getEx().add(nerr::newErr(OUT_OF_RANGE, n, len()));
+            n = 0;
+        }
 
         return nInt(_start.get() + _step.get() * n);
     }

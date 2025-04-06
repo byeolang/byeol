@@ -16,11 +16,17 @@ namespace nm {
         return thread::get() TO(getEx()) orRet dummyErrReport::singletone;
     }
 
-    void me::_addNewErr(errReport& rpt, int code, va_list args) const {
+    void me::_addNewErr(errReport& rpt, int code, ...) const {
+        va_list args;
+        va_start(args, code);
         rpt.add(nerr::newErr(code, args));
+        va_end(args);
     }
 
-    void me::_addNewErr(errReport& rpt, const point& src, int code, va_list args) const {
+    void me::_addNewErr(errReport& rpt, const point& src, int code, ...) const {
+        va_list(args);
+        va_start(args, code);
         rpt.add(nerr::newErr(src, code, args));
+        va_end(args);
     }
 }

@@ -72,7 +72,7 @@ namespace nm {
         for(auto e = me.subs().begin(); e; ++e) {
             auto matches = me.subAll<baseObj>(e.getKey());
 
-            WHEN(matches.len() > 1).thenErr(DUP_VAR, *e, e.getKey());
+            WHEN(matches.len() > 1).exErr(e->getSrc().getPos(), DUP_VAR, e.getKey()).ret();
         }
     }
 

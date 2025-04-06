@@ -22,14 +22,6 @@ namespace nm {
 
     NM_DEF_ME(parser)
 
-#define thenErr(...) ex(getReport(), __VA_ARGS__)
-
-#define thenWarn_2(code, a1) nothing(), posWarn(errCode::code, a1)
-#define thenWarn_3(code, a1, a2) nothing(), posWarn(errCode::code, a1, a2)
-#define thenWarn_4(code, a1, a2, a3) nothing(), posWarn(errCode::code, a1, a2, a3)
-#define thenWarn_5(code, a1, a2, a3, a4) nothing(), posWarn(errCode::code, a1, a2, a3, a4)
-#define thenWarn(...) NM_OVERLOAD(thenWarn, __VA_ARGS__)
-
     namespace {
         string join(const std::vector<string>& dotnames) {
             string ret;
@@ -240,15 +232,15 @@ namespace nm {
     }
 
     blockExpr* me::onBlock(const node& stmt) {
-        WHEN_NUL(stmt).thenErr(IS_NUL, "stmt"), new blockExpr();
+        WHEN_NUL(stmt).exErr(IS_NUL, "stmt").ret(new blockExpr());
         blockExpr* ret = onBlock(*new blockExpr(), stmt);
         NM_DI("tokenEvent: onBlock(%s)", stmt);
         return ret;
     }
 
     blockExpr* me::onBlock(blockExpr& blk, const node& stmt) {
-        WHEN_NUL(blk).thenErr(IS_NUL, "blk"), _maker.make<blockExpr>();
-        WHEN_NUL(stmt).thenErr(IS_NUL, "stmt"), &blk;
+        WHEN_NUL(blk).exErr(IS_NUL, "blk").ret(_maker.make<blockExpr>());
+        WHEN_NUL(stmt).exErr(IS_NUL, "stmt").ret(&blk);
         [[maybe_unused]] func& f = _funcs.size() > 0 ? *_funcs.back() : nulOf<func>();
         str stmtLife(stmt);
         NM_DI("tokenEvent: onBlock(blk, %s) inside of %s func", stmt,
@@ -276,11 +268,11 @@ namespace nm {
     defBlock* me::onDefBlock(defBlock& s, node& stmt) {
         str stmtLife(stmt);
 
-        WHEN_NUL(s).thenErr(IS_NUL, "s"), new defBlock();
-        WHEN_NUL(stmt).thenErr(IS_NUL, "stmt"), &s;
+        WHEN_NUL(s).exErr(IS_NUL, "s").ret(new defBlock());
+        WHEN_NUL(stmt).exErr(IS_NUL, "stmt").ret(&s);
         NM_DI("tokenEvent: onDefBlock(s, %s)", stmt);
 
-        WHEN(!nul(stmt.cast<endExpr>())).thenErr(END_ONLY_BE_IN_A_FUNC), &s;
+        WHEN(!nul(stmt.cast<endExpr>())).exErr(END_ONLY_BE_IN_A_FUNC).ret(&s);
         defVarExpr& defVar =
             stmt.cast<defVarExpr>() orRet & s.addScope(stmt.getSrc().getName(), *stmtLife);
 
@@ -327,7 +319,7 @@ namespace nm {
     }
 
     node* me::onDefAssign(const defPropExpr& prop, const node& rhs) {
-        WHEN_NUL(prop).thenErr(IS_NUL, "prop"), nullptr;
+        WHEN_NUL(prop).exErr(IS_NUL, "prop").ret(nullptr);
         return _onDefAssign(prop.getNewModifier(), prop.getRight(), prop.getName(), rhs);
     }
 
@@ -441,7 +433,7 @@ namespace nm {
     }
 
     narr* me::onParams(const defPropExpr& elem) {
-        WHEN_NUL(elem).thenErr(IS_NUL, "elem"), new narr();
+        WHEN_NUL(elem).exErr(IS_NUL, "elem").ret(new narr());
         NM_DI("tokenEvent: onParams(%s %s)", elem.getName(), elem.getRight());
         narr* ret = new narr();
         ret->add(elem);
@@ -450,7 +442,7 @@ namespace nm {
     }
 
     narr* me::onParams(narr& it, const defPropExpr& elem) {
-        WHEN_NUL(elem).thenErr(IS_NUL, "elem"), &it;
+        WHEN_NUL(elem).exErr(IS_NUL, "elem").ret(&it);
         NM_DI("tokenEvent: onParams(narr(%d), %s %s)", it.len(), elem.getName(), elem.getRight());
         it.add(elem);
 
