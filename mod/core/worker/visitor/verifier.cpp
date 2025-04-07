@@ -37,18 +37,18 @@ namespace nm {
         static ncnt _stepN = 0;
     }
 
-#define thenErr_1(code) exErr(errCode::code)
-#define thenErr_2(me, code) exErr((me).getSrc().getPos(), errCode::code)
-#define thenErr_3(me, code, a1) exErr((me).getSrc().getPos(), errCode::code, a1)
-#define thenErr_4(me, code, a1, a2) exErr((me).getSrc().getPos(), errCode::code, a1, a2)
-#define thenErr_5(me, code, a1, a2, a3) exErr((me).getSrc().getPos(), errCode::code, a1, a2, a3)
+#define thenErr_1(code) exErr(errCode::code, getReport())
+#define thenErr_2(me, code) exErr((me).getSrc().getPos(), errCode::code, getReport())
+#define thenErr_3(me, code, a1) exErr((me).getSrc().getPos(), errCode::code, getReport(), a1)
+#define thenErr_4(me, code, a1, a2) exErr((me).getSrc().getPos(), errCode::code, getReport(), a1, a2)
+#define thenErr_5(me, code, a1, a2, a3) exErr((me).getSrc().getPos(), errCode::code, getReport(), a1, a2, a3)
 #define thenErr(...) NM_OVERLOAD(thenErr, __VA_ARGS__)
 
-#define thenWarn_1(code) exErr(errCode::code)
-#define thenWarn_2(me, code) exErr((me).getSrc().getPos(), errCode::code)
-#define thenWarn_3(me, code, a1) exErr((me).getSrc().getPos(), errCode::code, a1)
-#define thenWarn_4(me, code, a1, a2) exErr((me).getSrc().getPos(), errCode::code, a1, a2)
-#define thenWarn_5(me, code, a1, a2, a3) exErr((me).getSrc().getPos(), errCode::code, a1, a2, a3)
+#define thenWarn_1(code) exErr(errCode::code, getReport())
+#define thenWarn_2(me, code) exErr((me).getSrc().getPos(), errCode::code, getReport())
+#define thenWarn_3(me, code, a1) exErr((me).getSrc().getPos(), errCode::code, getReport(), a1)
+#define thenWarn_4(me, code, a1, a2) exErr((me).getSrc().getPos(), errCode::code, getReport(), a1, a2)
+#define thenWarn_5(me, code, a1, a2, a3) exErr((me).getSrc().getPos(), errCode::code, getReport(), a1, a2, a3)
 #define thenWarn(...) NM_OVERLOAD(thenWarn, __VA_ARGS__)
 
 #define orRetErr(...) orRet posError(__VA_ARGS__)

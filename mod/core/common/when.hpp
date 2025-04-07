@@ -28,13 +28,13 @@ namespace nm {
         }
 
         template <typename... Ts>
-        const me& exErr(errReport& rpt, int code, const Ts&... args) const {
+        const me& exErr(int code, errReport& rpt, const Ts&... args) const {
             _addNewErr(rpt, code, __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
         template <typename... Ts>
-        const me& exErr(errReport& rpt, const point& src, int code, const Ts&... args) const {
+        const me& exErr(const point& src, int code, errReport& rpt, const Ts&... args) const {
             _addNewErr(rpt, src, code, __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
