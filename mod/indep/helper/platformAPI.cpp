@@ -224,7 +224,6 @@ namespace nm {
             return raw.size() > 3 ? raw.substr(n + 2) : org;
         }
 
-
         std::string format(const nchar* fmt, ...) {
             va_list args;
             va_start(args, fmt);
@@ -239,7 +238,6 @@ namespace nm {
         std::string format(const std::string& fmt, va_list args) {
             return format(fmt.c_str(), args);
         }
-
 
         std::string format(const nchar* fmt, va_list args) {
             nchar buf[MAX_BUF] = {
@@ -259,9 +257,7 @@ namespace nm {
             va_end(args);
         }
 
-        void crash(const std::string& msg, va_list args) {
-            crash(format(msg, args));
-        }
+        void crash(const std::string& msg, va_list args) { crash(format(msg, args)); }
 
         void crash(const std::string& msg) {
             log(" * * * Interpreter CRASH * * *\n");

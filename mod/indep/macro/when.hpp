@@ -93,20 +93,15 @@ namespace nm {
         NM(ME(__WHEN_OBJECT__))
 
     public:
-        template <typename R, typename... Ts>
-        R& ret([[maybe_unused]] R& r) const {
-            return r;
-        }
+        template <typename R, typename... Ts> R& ret([[maybe_unused]] R& r) const { return r; }
 
-        template <typename R, typename... Ts>
-        R&& ret([[maybe_unused]] R&& r) const {
+        template <typename R, typename... Ts> R&& ret([[maybe_unused]] R&& r) const {
             return std::move(r);
         }
 
         void ret() const {}
 
-        template <typename T>
-        T& retNul() const { return nulOf<T>(); }
+        template <typename T> T& retNul() const { return nulOf<T>(); }
     };
 
 #define __WHEN_POSTFIX__ return ::nm::__WHEN_OBJECT__::get()

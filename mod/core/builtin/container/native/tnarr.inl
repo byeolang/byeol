@@ -64,7 +64,8 @@ namespace nm {
         const narrIteration& fromCast = (narrIteration&) *from._iteration;
         const narrIteration& toCast = (narrIteration&) *to._iteration;
         WHEN_NUL(hereCast, fromCast, toCast)
-            .exErr(CAST_NOT_AVAILABLE, "one of these iterator", "arr iterator").ret();
+            .exErr(CAST_NOT_AVAILABLE, "one of these iterator", "arr iterator")
+            .ret();
 
         if(hereCast._n < 0 || hereCast._n > len())
             return; // if n equals to len(), it means that will be added at end of container.

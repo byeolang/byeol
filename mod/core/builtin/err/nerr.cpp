@@ -10,8 +10,7 @@ namespace nm {
 
     NM_DEF_ME(nerr)
 
-    namespace {
-    }
+    namespace {}
 
     const me& me::singletone() {
         static me inner(logLv::ERR, errCode::UNKNOWN);
@@ -118,10 +117,16 @@ namespace nm {
         super(t), _code((errCode) newCode), _pos{}, _msg(getErrMsg(_code)) {}
 
     me::nerr(logLv::level t, nint newCode, va_list args):
-        super(t), _code((errCode) newCode), _pos{}, _msg(platformAPI::format(getErrMsg(_code), args)) {}
+        super(t),
+        _code((errCode) newCode),
+        _pos{},
+        _msg(platformAPI::format(getErrMsg(_code), args)) {}
 
     me::nerr(logLv::level t, const point& ps, nint newCode, va_list args):
-        super(t), _code((errCode) newCode), _pos(ps), _msg(platformAPI::format(getErrMsg(_code), args)) {}
+        super(t),
+        _code((errCode) newCode),
+        _pos(ps),
+        _msg(platformAPI::format(getErrMsg(_code), args)) {}
 
     me::nerr(const me& rhs): super(rhs), _code(rhs._code), _pos(rhs._pos), _msg(rhs._msg) {}
 

@@ -40,15 +40,19 @@ namespace nm {
 #define thenErr_1(code) exErr(errCode::code, getReport())
 #define thenErr_2(me, code) exErr((me).getSrc().getPos(), errCode::code, getReport())
 #define thenErr_3(me, code, a1) exErr((me).getSrc().getPos(), errCode::code, getReport(), a1)
-#define thenErr_4(me, code, a1, a2) exErr((me).getSrc().getPos(), errCode::code, getReport(), a1, a2)
-#define thenErr_5(me, code, a1, a2, a3) exErr((me).getSrc().getPos(), errCode::code, getReport(), a1, a2, a3)
+#define thenErr_4(me, code, a1, a2) \
+    exErr((me).getSrc().getPos(), errCode::code, getReport(), a1, a2)
+#define thenErr_5(me, code, a1, a2, a3) \
+    exErr((me).getSrc().getPos(), errCode::code, getReport(), a1, a2, a3)
 #define thenErr(...) NM_OVERLOAD(thenErr, __VA_ARGS__)
 
 #define thenWarn_1(code) exErr(errCode::code, getReport())
 #define thenWarn_2(me, code) exErr((me).getSrc().getPos(), errCode::code, getReport())
 #define thenWarn_3(me, code, a1) exErr((me).getSrc().getPos(), errCode::code, getReport(), a1)
-#define thenWarn_4(me, code, a1, a2) exErr((me).getSrc().getPos(), errCode::code, getReport(), a1, a2)
-#define thenWarn_5(me, code, a1, a2, a3) exErr((me).getSrc().getPos(), errCode::code, getReport(), a1, a2, a3)
+#define thenWarn_4(me, code, a1, a2) \
+    exErr((me).getSrc().getPos(), errCode::code, getReport(), a1, a2)
+#define thenWarn_5(me, code, a1, a2, a3) \
+    exErr((me).getSrc().getPos(), errCode::code, getReport(), a1, a2, a3)
 #define thenWarn(...) NM_OVERLOAD(thenWarn, __VA_ARGS__)
 
 #define orRetErr(...) orRet posError(__VA_ARGS__)
@@ -86,7 +90,9 @@ namespace nm {
         WHEN(me.getAs().isSub<nVoid>()).thenErr(me, VOID_NOT_CAST).ret();
 
         _STEP("checks that me can cast to 'as'");
-        WHEN(!me.getMe().is(me.getAs())).thenErr(me, CAST_NOT_AVAILABLE, me.getMe(), me.getAs()).ret();
+        WHEN(!me.getMe().is(me.getAs()))
+            .thenErr(me, CAST_NOT_AVAILABLE, me.getMe(), me.getAs())
+            .ret();
 
         _STEP("rhs shouldn't be expression");
         WHEN(!me.getAs().isImpli<node>()).thenErr(me, CAST_TO_UNKNOWN).ret();
@@ -100,7 +106,9 @@ namespace nm {
         WHEN_NUL(me.getTo()).thenErr(me, RHS_IS_NUL).ret();
 
         _STEP("checks that me can cast to 'as'");
-        WHEN(!me.getMe().is(me.getTo())).thenErr(me, CAST_NOT_AVAILABLE, me.getMe(), me.getTo()).ret();
+        WHEN(!me.getMe().is(me.getTo()))
+            .thenErr(me, CAST_NOT_AVAILABLE, me.getMe(), me.getTo())
+            .ret();
 
         _STEP("rhs shouldn't be expression");
         WHEN(!me.getTo().isImpli<node>()).thenErr(me, CAST_TO_UNKNOWN).ret();
@@ -111,10 +119,8 @@ namespace nm {
 
         _STEP("set evalType");
 
-        const ntype& ltype =
-            me TO(getLeft()) TO(getEval()) TO(getType()) orRetErr(LHS_IS_NUL, me);
-        const ntype& rtype =
-            me TO(getRight()) TO(getEval()) TO(getType()) orRetErr(RHS_IS_NUL, me);
+        const ntype& ltype = me TO(getLeft()) TO(getEval()) TO(getType()) orRetErr(LHS_IS_NUL, me);
+        const ntype& rtype = me TO(getRight()) TO(getEval()) TO(getType()) orRetErr(RHS_IS_NUL, me);
         WHEN(rtype.isSub<retStateExpr>()).thenErr(me, CANT_ASSIGN_RET).ret();
         WHEN(!rtype.isImpli(ltype)).thenErr(me, TYPE_NOT_COMPATIBLE, rtype, ltype).ret();
 
@@ -159,7 +165,8 @@ namespace nm {
         const node& lhs = me.getLeft();
         const getExpr& e = lhs.cast<getExpr>();
         WHEN_NUL(e /*TODO: && !lhs.isSub<ElementExpr>()*/)
-            .thenErr(me, ASSIGN_TO_RVALUE, me.getRight(), lhs).ret();
+            .thenErr(me, ASSIGN_TO_RVALUE, me.getRight(), lhs)
+            .ret();
 
         _STEP("checks that you can't assign to a func");
         str lhsEval = e.getEval();
@@ -168,7 +175,8 @@ namespace nm {
         _STEP("checks that try to assign to a const variable");
         const getExpr& leftCast = me.getLeft().cast<getExpr>();
         WHEN(util::checkTypeAttr(leftCast.getName()) == ATTR_CONST)
-            .thenErr(me, ASSIGN_TO_CONST, leftCast.getName()).ret();
+            .thenErr(me, ASSIGN_TO_CONST, leftCast.getName())
+            .ret();
     }
 
     nbool me::onVisit(const visitInfo& i, blockExpr& me, nbool) {
@@ -195,7 +203,8 @@ namespace nm {
         if(eval) {
             _STEP("eval Value check: eval[%s] is an array?", eval);
             WHEN(!eval->isSub<retStateExpr>() && !eval->isSub<arr>())
-                .thenErr(me, LOOP_NO_RET_ARR).ret();
+                .thenErr(me, LOOP_NO_RET_ARR)
+                .ret();
         }
     }
 
@@ -208,8 +217,11 @@ namespace nm {
         const baseFunc& fun = fr.getFunc();
         nbool isInLocal = nul(fun) || fun.getSrc().getName() != baseObj::EXPAND_NAME;
         WHEN(isInLocal && !mod.isPublic())
-            .thenErr(me, PROTECTED_NOT_ALLOWED_FOR_LOCAL, me.getName()).ret();
-        WHEN(mod.isExplicitOverride()).thenErr(me, OVERRIDE_NOT_ALLOWED_FOR_LOCAL, me.getName()).ret();
+            .thenErr(me, PROTECTED_NOT_ALLOWED_FOR_LOCAL, me.getName())
+            .ret();
+        WHEN(mod.isExplicitOverride())
+            .thenErr(me, OVERRIDE_NOT_ALLOWED_FOR_LOCAL, me.getName())
+            .ret();
 
         _STEP("to define a void type property isn't allowed.");
         str eval = me.getRight() TO(getEval()) orRetErr(RHS_IS_NUL, me);
@@ -218,7 +230,9 @@ namespace nm {
         obj& cast = eval->cast<obj>();
         if(!nul(cast)) {
             const baseObj& org = cast.getOrigin();
-            WHEN(org.getState() < PARSED).thenErr(me, TYPE_IS_NOT_PRE_EVALUATED, me.getName()).ret();
+            WHEN(org.getState() < PARSED)
+                .thenErr(me, TYPE_IS_NOT_PRE_EVALUATED, me.getName())
+                .ret();
         }
 
         _STEP("does rhs[%s] have 'ret' in its blockStmt?", eval);
@@ -263,10 +277,12 @@ namespace nm {
         _STEP("whether the 'type' object has a ctor without any paramters?");
         str eval = me TO(getRight()) TO(getEval()) orRetErr(RHS_IS_NUL, me);
         WHEN(eval->isSub<baseObj>() && nul(eval->sub(baseObj::CTOR_NAME, args{})))
-            .thenErr(me, DONT_HAVE_CTOR, eval).ret();
+            .thenErr(me, DONT_HAVE_CTOR, eval)
+            .ret();
         func& fun = eval->cast<func>();
         WHEN(!nul(fun) && fun.isAbstract())
-            .thenErr(me, YOU_CANT_DEFINE_PROPERTY_WITH_ABSTRACT_FUNC).ret();
+            .thenErr(me, YOU_CANT_DEFINE_PROPERTY_WITH_ABSTRACT_FUNC)
+            .ret();
 
         onLeave(i, (defPropExpr::super&) me, false);
     }
@@ -345,7 +361,9 @@ namespace nm {
         WHEN(!checkEvalType(*lEval)).thenErr(me, LHS_IS_NOT_ARITH, lEval).ret();
         WHEN(!checkEvalType(*rEval)).thenErr(me, RHS_IS_NOT_ARITH, rEval).ret();
 
-        WHEN_NUL(lEval->deduce(*rEval)).thenErr(me, IMPLICIT_CAST_NOT_AVAILABLE, lEval, rEval).ret();
+        WHEN_NUL(lEval->deduce(*rEval))
+            .thenErr(me, IMPLICIT_CAST_NOT_AVAILABLE, lEval, rEval)
+            .ret();
 
         auto r = me.getRule();
         if((lEval->isSub<nStr>() || rEval->isSub<nStr>())) {
@@ -404,7 +422,8 @@ namespace nm {
             if(!nul(castedMe)) { // if getExpr's castedMe is not derived one of baseObj, it's frame.
                 const node& currentMe = thread::get().getNowFrame().getMe();
                 WHEN(!castedMe.isSuper(currentMe))
-                    .thenErr(me, CANT_ACCESS_TO_PROTECTED_VARIABLE, me.getName()).ret();
+                    .thenErr(me, CANT_ACCESS_TO_PROTECTED_VARIABLE, me.getName())
+                    .ret();
             }
         }
     }
@@ -424,7 +443,8 @@ namespace nm {
         _STEP("checks return[%s] == func[%s]", myRet, funRet);
 
         WHEN(!myRet->isSub<baseErr>() && !myRet->isImpli(funRet))
-            .thenErr(me, RET_TYPE_NOT_MATCH, myRet, funRet).ret();
+            .thenErr(me, RET_TYPE_NOT_MATCH, myRet, funRet)
+            .ret();
     }
 
     void me::onLeave(const visitInfo& i, runExpr& me, nbool) {
@@ -547,7 +567,8 @@ namespace nm {
         _STEP("'break' or 'next' can't be used to last stmt");
         const node& lastStmt = *blk.getStmts().last();
         WHEN(lastStmt.isSub<retStateExpr>() && !lastStmt.isSub<retExpr>())
-            .thenErr(lastStmt, FUNC_SHOULD_RETURN_SOMETHING).ret(true);
+            .thenErr(lastStmt, FUNC_SHOULD_RETURN_SOMETHING)
+            .ret(true);
 
         _STEP("func[%s]: %s iterateBlock[%d]", i, me, me._blk->subs().len());
 
@@ -620,7 +641,8 @@ namespace nm {
             // @see retExpr::getEval() for more info.
             return NM_I("func: skip verification WHEN lastStmt is retStateExpr."), void();
         WHEN(!lastType.isSub<baseErr>() && !lastType.isImpli(retType))
-            .thenErr(nul(lastStmt) ? me : lastStmt, RET_TYPE_NOT_MATCH, lastType, retType).ret();
+            .thenErr(nul(lastStmt) ? me : lastStmt, RET_TYPE_NOT_MATCH, lastType, retType)
+            .ret();
     }
 
     nbool me::onVisit(const visitInfo& i, baseObj& me, nbool) {
@@ -641,7 +663,8 @@ namespace nm {
 
         _STEP("did user set the name of this object like 'const'?");
         WHEN(util::checkTypeAttr(i.name) == ATTR_CONST && i.name.length() > 1)
-            .thenErr(me, ORIGIN_OBJ_CANT_BE_CONST).ret(true);
+            .thenErr(me, ORIGIN_OBJ_CANT_BE_CONST)
+            .ret(true);
 
         _STEP("origin obj always must exist");
         me.getOrigin() orRetErr(NO_ORIGIN, me, i.name), false;
@@ -665,11 +688,14 @@ namespace nm {
 
         _STEP("did user set the name of this object like 'const'?");
         WHEN(util::checkTypeAttr(i.name) == ATTR_CONST && i.name.length() > 1)
-            .thenErr(me, ORIGIN_OBJ_CANT_BE_CONST, me).ret(true);
+            .thenErr(me, ORIGIN_OBJ_CANT_BE_CONST, me)
+            .ret(true);
 
         _STEP("if obj is complete, does it have ctor without params?");
         if(me.isComplete())
-            WHEN_NUL(me.sub(baseObj::CTOR_NAME, args{})).thenErr(me, COMPLETE_OBJ_BUT_NO_CTOR).ret(true);
+            WHEN_NUL(me.sub(baseObj::CTOR_NAME, args{}))
+                .thenErr(me, COMPLETE_OBJ_BUT_NO_CTOR)
+                .ret(true);
 
         return true;
     }

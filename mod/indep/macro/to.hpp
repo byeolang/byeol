@@ -106,7 +106,7 @@ namespace nm {
     ///             return code;
     ///         }
     ///     ```
-#define TO(fn)                                                                              \
+#define TO(fn)                                                                                \
     ->*[&](auto& __p) -> decltype(__to_ref__<decltype(__p)>::to(__p).fn) {                    \
         return !nul(__p) ? __to_ref__<decltype(__p)>::to(__p).fn :                            \
                            __empty__<decltype(__to_ref__<decltype(__p)>::to(__p).fn)>::ret(); \

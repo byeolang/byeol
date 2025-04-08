@@ -34,8 +34,10 @@ namespace nm {
 
     void* me::new1() {
         WHEN(_len >= _sz)
-            .err("new1() failed. chunk was full. you should have not called this in this "
-                "situtation.").ret(nullptr);
+            .err(
+                "new1() failed. chunk was full. you should have not called this in this "
+                "situtation.")
+            .ret(nullptr);
 
         nidx* ret = (nidx*) _get(_head) orRet nullptr;
         _head = *ret;
@@ -49,8 +51,9 @@ namespace nm {
         *(nidx*) used = _head;
         _head = ((nuchar*) used - _heap) / _getRealBlkSize();
         _len--;
-        WHEN(_head < 0).err("chunk corrupted! used(%s) apparently wasn't on heap(%s).", used,
-            (void*) _heap).ret(false);
+        WHEN(_head < 0)
+            .err("chunk corrupted! used(%s) apparently wasn't on heap(%s).", used, (void*) _heap)
+            .ret(false);
         return true;
     }
 

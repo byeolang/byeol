@@ -8,6 +8,7 @@ namespace nm {
     NM_DEF_ME(errReport)
 
     me::errReport(): me(buildFeature::config::isDbg()) {}
+
     me::errReport(nbool isNoisy): super(), _isNoisy(isNoisy) {}
 
     nbool me::operator==(const me& rhs) const {
@@ -88,7 +89,7 @@ namespace nm {
     }
 
     void me::_noise(const baseErr& new1) {
-        if (!_isNoisy) return;
+        if(!_isNoisy) return;
         new1.log();
     }
 

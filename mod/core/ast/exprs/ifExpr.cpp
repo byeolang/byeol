@@ -22,8 +22,7 @@ namespace nm {
     node& me::getCondition() { return *_expr; }
 
     str me::run(const args& a) {
-        tstr<nBool> res =
-            _expr->as<node>() TO(template asImpli<nBool>()) orRet nVoid::singletone();
+        tstr<nBool> res = _expr->as<node>() TO(template asImpli<nBool>()) orRet nVoid::singletone();
         nbool cond = res->cast<nbool>();
         NM_DI("@%s `if %s --> to %s`", this, *_expr, cond ? "THEN" : "ELSE");
         auto& blk = cond ? *_then : *_else;
