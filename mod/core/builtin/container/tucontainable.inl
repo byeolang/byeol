@@ -2,7 +2,7 @@
 
 #include "../../ast/node.hpp"
 #include "iter/uiter.inl"
-#include "native/tnarr.inl"
+#include "native/tnarr.hpp"
 #include "tbicontainable.hpp"
 #include "tucontainable.hpp"
 
