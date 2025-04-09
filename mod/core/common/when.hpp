@@ -5,6 +5,7 @@
 namespace nm {
 
     class errReport;
+    class node;
 
 #undef __WHEN_OBJECT__
 #define __WHEN_OBJECT__ __core_when__
@@ -16,31 +17,44 @@ namespace nm {
         static const me& get();
 
         template <typename... Ts> const me& exErr(int code, const Ts&... args) const {
-            _addNewErr(_getDefault(), code, __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
         template <typename... Ts>
         const me& exErr(const point& src, int code, const Ts&... args) const {
-            _addNewErr(_getDefault(), src, code, __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(src, code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
+            return *this;
+        }
+
+        template <typename... Ts>
+        const me& exErr(const node& src, int code, const Ts&... args) const {
+            _addNewErr(_getPosFrom(src), code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
         template <typename... Ts>
         const me& exErr(int code, errReport& rpt, const Ts&... args) const {
-            _addNewErr(rpt, code, __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(code, &rpt, __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
         template <typename... Ts>
         const me& exErr(const point& src, int code, errReport& rpt, const Ts&... args) const {
-            _addNewErr(rpt, src, code, __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(src, code, &rpt, __convert__((const Ts&) args).unwrap()...);
+            return *this;
+        }
+
+        template <typename... Ts>
+        const me& exErr(const node& src, int code, errReport& rpt, const Ts&... args) const {
+            _addNewErr(_getPosFrom(src), code, &rpt, __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
     private:
         errReport& _getDefault() const;
-        void _addNewErr(errReport& rpt, int code, ...) const;
-        void _addNewErr(errReport& rpt, const point& src, int code, ...) const;
+        const point& _getPosFrom(const node& src) const;
+        void _addNewErr(int code, errReport* rpt, ...) const;
+        void _addNewErr(const point& src, int code, errReport* rpt, ...) const;
     };
 } // namespace nm

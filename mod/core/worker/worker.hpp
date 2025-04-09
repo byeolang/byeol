@@ -6,6 +6,26 @@
 
 namespace nm {
 
+#define myExErr_1(code) exErr(errCode::code, getReport())
+#define myExErr_2(me, code) exErr(me, errCode::code, getReport())
+#define myExErr_3(me, code, a1) exErr(me, errCode::code, getReport(), a1)
+#define myExErr_4(me, code, a1, a2) \
+    exErr(me, errCode::code, getReport(), a1, a2)
+#define myExErr_5(me, code, a1, a2, a3) \
+    exErr(me, errCode::code, getReport(), a1, a2, a3)
+#define myExErr(...) NM_OVERLOAD(myExErr, __VA_ARGS__)
+
+#define myExWarn_1(code) exErr(errCode::code, getReport())
+#define myExWarn_2(me, code) exErr(me, errCode::code, getReport())
+#define myExWarn_3(me, code, a1) exErr(me, errCode::code, getReport(), a1)
+#define myExWarn_4(me, code, a1, a2) \
+    exErr(me, errCode::code, getReport(), a1, a2)
+#define myExWarn_5(me, code, a1, a2, a3) \
+    exErr(me, errCode::code, getReport(), a1, a2, a3)
+#define myExWarn(...) NM_OVERLOAD(myExWarn, __VA_ARGS__)
+
+#define orRetErr(...) orRet NM_WHEN.myExErr(__VA_ARGS__)
+
     template <typename R, typename T> class worker: public typeProvidable, public clonable {
         NM(ADT(worker))
         template <typename R1, typename T1> friend struct workerAdapter;
