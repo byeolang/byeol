@@ -17,44 +17,79 @@ namespace nm {
         static const me& get();
 
         template <typename... Ts> const me& exErr(int code, const Ts&... args) const {
-            _addNewErr(code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(logLv::ERR, code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
         template <typename... Ts>
         const me& exErr(const point& src, int code, const Ts&... args) const {
-            _addNewErr(src, code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(logLv::ERR, src, code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
         template <typename... Ts>
         const me& exErr(const node& src, int code, const Ts&... args) const {
-            _addNewErr(_getPosFrom(src), code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(logLv::ERR, _getPosFrom(src), code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
         template <typename... Ts>
         const me& exErr(int code, errReport& rpt, const Ts&... args) const {
-            _addNewErr(code, &rpt, __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(logLv::ERR, code, &rpt, __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
         template <typename... Ts>
         const me& exErr(const point& src, int code, errReport& rpt, const Ts&... args) const {
-            _addNewErr(src, code, &rpt, __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(logLv::ERR, src, code, &rpt, __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
         template <typename... Ts>
         const me& exErr(const node& src, int code, errReport& rpt, const Ts&... args) const {
-            _addNewErr(_getPosFrom(src), code, &rpt, __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(logLv::ERR, _getPosFrom(src), code, &rpt, __convert__((const Ts&) args).unwrap()...);
+            return *this;
+        }
+
+        template <typename... Ts> const me& exWarn(int code, const Ts&... args) const {
+            _addNewErr(logLv::ERR, code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
+            return *this;
+        }
+
+        template <typename... Ts>
+        const me& exWarn(const point& src, int code, const Ts&... args) const {
+            _addNewErr(logLv::WARN, src, code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
+            return *this;
+        }
+
+        template <typename... Ts>
+        const me& exWarn(const node& src, int code, const Ts&... args) const {
+            _addNewErr(logLv::WARN, _getPosFrom(src), code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
+            return *this;
+        }
+
+        template <typename... Ts>
+        const me& exWarn(int code, errReport& rpt, const Ts&... args) const {
+            _addNewErr(logLv::WARN, code, &rpt, __convert__((const Ts&) args).unwrap()...);
+            return *this;
+        }
+
+        template <typename... Ts>
+        const me& exWarn(const point& src, int code, errReport& rpt, const Ts&... args) const {
+            _addNewErr(logLv::WARN, src, code, &rpt, __convert__((const Ts&) args).unwrap()...);
+            return *this;
+        }
+
+        template <typename... Ts>
+        const me& exWarn(const node& src, int code, errReport& rpt, const Ts&... args) const {
+            _addNewErr(logLv::WARN, _getPosFrom(src), code, &rpt, __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
     private:
         errReport& _getDefault() const;
         const point& _getPosFrom(const node& src) const;
-        void _addNewErr(int code, errReport* rpt, ...) const;
-        void _addNewErr(const point& src, int code, errReport* rpt, ...) const;
+        void _addNewErr(logLv::level lv, int code, errReport* rpt, ...) const;
+        void _addNewErr(logLv::level lv, const point& src, int code, errReport* rpt, ...) const;
     };
 } // namespace nm

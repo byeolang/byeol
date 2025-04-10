@@ -18,17 +18,17 @@ namespace nm {
 
     const point& me::_getPosFrom(const node& src) const { return src.getSrc().getPos(); }
 
-    void me::_addNewErr(int code, errReport* rpt, ...) const {
+    void me::_addNewErr(logLv::level lv, int code, errReport* rpt, ...) const {
         va_list args;
         va_start(args, rpt);
-        rpt->add(nerr::newErr(code, args));
+        rpt->add(new nerr(lv, code, args));
         va_end(args);
     }
 
-    void me::_addNewErr(const point& src, int code, errReport* rpt, ...) const {
+    void me::_addNewErr(logLv::level lv, const point& src, int code, errReport* rpt, ...) const {
         va_list args;
         va_start(args, rpt);
-        rpt->add(nerr::newErr(src, code, args));
+        rpt->add(new nerr(lv, src, code, args));
         va_end(args);
     }
 }

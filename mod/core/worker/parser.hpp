@@ -249,21 +249,6 @@ namespace nm {
         void onEndFunc();
         void onParseErr(const std::string& msg, const nchar* symbolName);
 
-        template <typename... Args> void posError(errCode code, const Args&... args) {
-            _report(
-                nerr::newErr(getArea().start, code, __convert__((const Args&) args).unwrap()...));
-        }
-
-        template <typename... Args> void posWarn(errCode code, const Args&... args) {
-            _report(
-                nerr::newWarn(getArea().start, code, __convert__((const Args&) args).unwrap()...));
-        }
-
-        template <typename... Args> void posInfo(errCode code, const Args&... args) {
-            _report(
-                nerr::newInfo(getArea().start, code, __convert__((const Args&) args).unwrap()...));
-        }
-
     protected:
         void* _scanString(const std::string& src, void* scanner);
         exprMaker& _getMaker();

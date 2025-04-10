@@ -123,7 +123,7 @@ namespace nm {
 
         _indents.pop_back();
         nint now = _indents.back();
-        if(now < col) posWarn(errCode::WRONG_INDENT_LV, col, now, now);
+        if(now < col) NM_WHEN.exWarn(errCode::WRONG_INDENT_LV, getReport(), col, now, now);
 
         while(_indents.back() > col) {
             NM_DI("tokenEvent: onDedent: indentlv become %d -> %d", _indents.back(),
@@ -146,7 +146,7 @@ namespace nm {
     }
 
     nchar me::onScanUnexpected(const nchar* token) {
-        posError(errCode::UNEXPECTED_TOK, token);
+        NM_WHEN.exErr(errCode::UNEXPECTED_TOK, getReport(), token);
         return token[0];
     }
 
@@ -303,8 +303,7 @@ namespace nm {
 
     node* me::onDefProp(const modifier& mod, const node& rhs) {
         const getExpr &cast =
-            rhs.cast<getExpr>() orRet posError(SHORT_DEF_VAR_ONLY_ALLOWED_TO_CUSTOM_TYPE, rhs),
-                      nullptr;
+            rhs.cast<getExpr>() orRetErr(rhs, SHORT_DEF_VAR_ONLY_ALLOWED_TO_CUSTOM_TYPE).ret(nullptr);
         string newName = cast.getName();
         newName[0] = std::tolower(newName[0]);
         return onDefProp(mod, newName, rhs);
@@ -344,8 +343,7 @@ namespace nm {
         params ret;
         for(auto& a: as) {
             tstr<defPropExpr> defProp =
-                a.cast<defPropExpr>() orRet posError(errCode::PARAM_HAS_VAL),
-                              ret;
+                a.cast<defPropExpr>() orRetErr(PARAM_HAS_VAL).ret(ret);
             ret.add(new param(defProp->getName(), defProp->getRight()));
         }
 
@@ -539,10 +537,10 @@ namespace nm {
 
             case ATTR_INCOMPLETE:
             case ATTR_CONST:
-                if(newArgs->len() > 0) posError(CANT_CALL_COMPLETE_FOR_INCOMPLETE, ret);
+                if(newArgs->len() > 0) NM_WHEN.myExErr(ret, CANT_CALL_COMPLETE_FOR_INCOMPLETE);
                 break;
 
-            default: posError(UNEXPECTED_ATTR, ret);
+            default: NM_WHEN.myExErr(ret, UNEXPECTED_ATTR);
         }
         _onInjectObjSubs(ret, blk);
         return &ret;
@@ -564,8 +562,7 @@ namespace nm {
             // all args should be getExpr instances.
             const std::string& name = _extractParamTypeName(a);
             if(name == "")
-                posError(errCode::SHOULD_TYPE_PARAM_NAME, a.getType().getName().c_str()),
-                    std::vector<std::string>();
+                NM_WHEN.exErr(SHOULD_TYPE_PARAM_NAME, getReport(), a.getType()).ret(std::vector<std::string>());
 
             ret.push_back(name);
         }
@@ -1169,7 +1166,7 @@ namespace nm {
     }
 
     void me::onParseErr(const std::string& msg, const nchar* symbolName) {
-        posError(errCode::SYNTAX_ERR, msg, symbolName);
+        NM_WHEN.exErr(SYNTAX_ERR, getReport(), msg, symbolName);
     }
 
     me::parser(): _mode(nullptr), _isIgnoreWhitespace(false) { rel(); }

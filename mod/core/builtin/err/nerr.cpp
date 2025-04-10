@@ -55,12 +55,12 @@ namespace nm {
         return ret;
     }
 
-    me* me::newErr(int code, va_list args) { return new me(logLv::ERR, code, args); }
+    me* me::newErr(int code, va_list args) { return new nerr(logLv::ERR, code, args); }
 
     me* me::newErr(const point& pos, int code, ...) {
         va_list args;
         va_start(args, code);
-        me* ret = newErr(pos, code, args);
+        me* ret = new me(logLv::ERR, pos, code, args);
         va_end(args);
         return ret;
     }
