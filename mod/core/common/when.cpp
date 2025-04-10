@@ -26,7 +26,7 @@ namespace nm {
     }
 
     void me::_addNewErr(const point& src, int code, errReport* rpt, ...) const {
-        va_list(args);
+        va_list args;
         va_start(args, rpt);
         rpt->add(nerr::newErr(src, code, args));
         va_end(args);
