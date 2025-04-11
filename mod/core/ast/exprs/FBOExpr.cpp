@@ -12,9 +12,9 @@ namespace nm {
 
     str me::getEval() const {
         static str inner(new nBool());
-        if(isLogicalOp()) return inner;
+        WHEN(isLogicalOp()).ret(inner);
 
-        if(!_lhs || !_rhs) return str();
+        WHEN(!_lhs || !_rhs).ret(str());
         str lhsEval = _lhs->getEval() orRet lhsEval;
         str rhsEval = _rhs->getEval() orRet rhsEval;
 
@@ -26,7 +26,7 @@ namespace nm {
     str me::run(const args& a) {
         tstr<arithmeticObj> lhs(_lhs TO(template as<arithmeticObj>()));
         tstr<arithmeticObj> rhs(_rhs TO(template as<arithmeticObj>()));
-        if(!lhs || !rhs) return NM_I("lhs or rhs is null"), str();
+        WHEN(!lhs || !rhs).info("lhs or rhs is null").ret(str());
 
         str ret;
         switch(_rule) {

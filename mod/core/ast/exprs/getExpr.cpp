@@ -20,7 +20,7 @@ namespace nm {
         _me(me), _name(name), _args(a) {}
 
     const node& me::getMe() const {
-        if(!_me) return thread::get().getNowFrame();
+        WHEN(!_me).ret(thread::get().getNowFrame());
         return *_me;
     }
 
@@ -38,7 +38,7 @@ namespace nm {
     /// @return nullable
     const args& me::getArgs() const {
         static args dummy;
-        if(!_args.isBind()) return dummy;
+        WHEN(!_args.isBind()).ret(dummy);
 
         return *_args;
     }
@@ -58,11 +58,11 @@ namespace nm {
     }
 
     node& me::_onGet(node& me) const {
-        if(nul(me)) return nulOf<node>();
+        WHEN(nul(me)).retNul<node>();
 
         std::string argsName = _args ? _args->asStr().c_str() : "{}";
         NM_DI("@%s %s.sub(\"%s\", %s)", this, me, _name, argsName);
-        if(!_args) return me.sub(_name);
+        WHEN(!_args).ret(me.sub(_name));
 
         return me.subAll(_name, *_args).get();
     }

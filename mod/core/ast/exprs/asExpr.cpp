@@ -9,7 +9,7 @@ namespace nm {
     me::asExpr(const node& me, const node& as): _me(me), _as(as) {}
 
     str me::run(const args& a) {
-        if(!_me || !_as) return str();
+        WHEN(!_me || !_as).ret(str());
 
         str eval = _me->as<node>() orRet NM_E("!eval.isBind()"), str();
 

@@ -38,10 +38,8 @@ namespace nm {
         str thenEval = _then->getEval() orRet NM_E("thenEval is null"), thenEval;
         str elseEval = (_else ? _else->getEval() : str()) orRet NM_E("elseEval is null"), elseEval;
 
-        if(thenEval->isSub<retStateExpr>())
-            return NM_DI("thenEval is %s, accept elseEval[%s]", thenEval, elseEval), elseEval;
-        if(elseEval->isSub<retStateExpr>())
-            return NM_DI("elseEval is %s, accept thenEval[%s]", elseEval, thenEval), thenEval;
+        WHEN(thenEval->isSub<retStateExpr>()).info("thenEval is %s, accept elseEval[%s]", thenEval, elseEval).ret(elseEval);
+        WHEN(elseEval->isSub<retStateExpr>()).info("elseEval is %s, accept thenEval[%s]", elseEval, thenEval).ret(thenEval);
 
         // when you try to get eval from ifExpr, `then` and else block must be declared first.
         // if one of blocks has omitted, evaluation of ifExpr should be null.

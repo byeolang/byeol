@@ -50,7 +50,7 @@ namespace nm {
     tstr<src> me::makeSrc(const std::string& name) const { return new src(*_file, name, _pos); }
 
     func* me::_makeFunc(const std::string& name, const narr& stmts) const {
-        if(stmts.isEmpty()) return nullptr;
+        WHEN(stmts.isEmpty()).ret(nullptr);
 
         func* ret =
             birth<func>(name, *new modifier(), typeMaker::make<func>(name, params(), *new nVoid()));

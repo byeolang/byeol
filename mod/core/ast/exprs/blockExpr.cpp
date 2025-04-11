@@ -68,8 +68,8 @@ namespace nm {
     }
 
     str me::getEval() const {
-        if(_eval) return _eval;
-        if(_exprs.isEmpty()) return nVoid::singletone();
+        WHEN(_eval).ret(_eval);
+        WHEN(_exprs.isEmpty()).ret(nVoid::singletone());
 
         return _exprs.last()->getEval();
     }

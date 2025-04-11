@@ -17,7 +17,7 @@ namespace nm {
     node& me::_onGet(node& me) const {
         const args& typs = getArgs();
         const std::string& name = getName();
-        if(nul(typs) || !typs.len()) return NM_E("_args.len() == 0"), nulOf<genericOrigin>();
+        WHEN(nul(typs) || !typs.len()).err("_args.len() == 0").retNul<genericOrigin>();
         NM_DI("_name=%s, _args[%d]", getName(), typs.len());
 
         node &generic = me TO(template sub<genericOrigin>(name)) orRet NM_E("generic == null"),

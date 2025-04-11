@@ -35,10 +35,8 @@ namespace nm {
 
     str me::run(const args& a) {
         NM_I("@%s prepare to run `%s(%s)`...", this, getSrc(), getParams());
-        if(nul(a)) return NM_E("a == null"), str();
-        if(!thread::get().isInteractable())
-            return NM_E("thread isn't interactable"),
-                   nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD);
+        WHEN_NUL(a).err("a == null").ret(str());
+        WHEN(!thread::get().isInteractable()).err("thread isn't interactable").ret(nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD));
 
         // s is from heap space. but freed by _outFrame() of this class.
         scope& s = *_evalArgs(a) orRet str();
@@ -69,9 +67,9 @@ namespace nm {
         str res = frRes ? frRes : blkRes;
         fr.setRet();
 
-        if(nul(res)) return NM_E("res == null"), str();
+        WHEN_NUL(res).err("res == null").ret(str());
         const errReport& errs = thread::get().getEx();
-        if(errs.inErr(exN)) return *errs.last(); // if new exception, I just return it.
+        WHEN(errs.inErr(exN)).ret(*errs.last()); // if new exception, I just return it.
 
         auto* closure = closure::make(*res);
         if(closure) res.bind(closure);
@@ -107,7 +105,7 @@ namespace nm {
 
         frame& fr = thread::get()._getNowFrame();
         baseFunc& f = fr.getFunc();
-        if(nul(f) || &f != this) return;
+        WHEN(nul(f) || &f != this).ret();
 
         fr.delFunc();
         fr.del();
@@ -126,15 +124,12 @@ namespace nm {
     }
 
     void me::evalArgs(const ucontainable& args, const params& ps, const onEval& lambda) {
-        if(args.len() != ps.len())
-            return NM_E("length of args(%d) and typs(%d) doesn't match.", args.len(), ps.len());
+        WHEN(args.len() != ps.len()).err("length of args(%d) and typs(%d) doesn't match.", args.len(), ps.len()).ret();
         int n = 0;
         for(const node& e: args) {
             const param& p = ps[n++];
             str evaluated = closure::make(e) orDo evaluated = e.asImpli(*p.getOrigin().as<node>());
-            if(!evaluated)
-                return NM_E("evaluation of arg[%s] -> param[%s] has been failed.", e,
-                    p.getOrigin());
+            WHEN(!evaluated).err("evaluation of arg[%s] -> param[%s] has been failed.", e, p.getOrigin()).ret();
             lambda(p.getName(), *evaluated);
         }
     }

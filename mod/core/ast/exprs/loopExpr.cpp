@@ -36,7 +36,7 @@ namespace nm {
     blockExpr& me::getBlock() const { return *_blk; }
 
     str me::getEval() const {
-        if(_eval) return *_eval;
+        WHEN(_eval).ret(*_eval);
 
         return _eval = _makeEval();
     }
@@ -65,7 +65,7 @@ namespace nm {
     tstr<arr> me::_makeRet() const {
         static dumArr inner;
         node &eval = *getEval() orRet NM_E("eval is null "), nulOf<arr>();
-        if(!eval.isSub<arr>()) return nulOf<arr>();
+        WHEN(!eval.isSub<arr>()).retNul<arr>();
 
         return *new arr(*eval.getType().getParams()[0].getOrigin().as<baseObj>());
     }

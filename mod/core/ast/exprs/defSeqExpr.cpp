@@ -10,11 +10,11 @@ namespace nm {
     me::defSeqExpr(const node& start, const node& end): _start(start), _end(end) {}
 
     str me::run(const args& a) {
-        if(!_start || !_end) return NM_E("_start or _end is null"), str();
+        WHEN(!_start || !_end).err("_start or _end is null").ret(str());
 
         str start(_start->as<node>());
         str end(_end->as<node>());
-        if(!start || !end) return NM_E("ased start or end is null"), str();
+        WHEN(!start || !end).err("ased start or end is null").ret(str());
 
         return str(new seq(start->cast<nInt>(), end->cast<nInt>()));
     }

@@ -30,7 +30,7 @@ namespace nm {
 
     str me::run(const args& a) {
         NM_I("running closure for %s.%s", *_org, *_func);
-        if(!_func) return str();
+        WHEN(!_func).ret(str());
 
         args evaled;
         func::evalArgs(a, _func->getParams(),
@@ -65,7 +65,7 @@ namespace nm {
     }
 
     me* me::_make(const getExpr& e) {
-        if(nul(e)) return nullptr;
+        WHEN_NUL(e).ret(nullptr);
 
         str mayMe = e._evalMe(true);
         frame& fr = mayMe->cast<frame>();
@@ -78,7 +78,7 @@ namespace nm {
     }
 
     me* me::_make(defNestedFuncExpr& e) {
-        if(nul(e)) return nullptr;
+        WHEN_NUL(e).ret(nullptr);
 
         return _make(e.run()->cast<func>());
     }

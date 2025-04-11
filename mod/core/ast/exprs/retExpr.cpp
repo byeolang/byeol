@@ -25,7 +25,7 @@ namespace nm {
 
     str me::run(const args& a) {
         auto& fr = thread::get().getNowFrame();
-        if(!_ret) return str(nVoid::singletone());
+        WHEN(!_ret).ret(str(nVoid::singletone()));
 
         // check retValue is null or not:
         //  ret should be void if there is no value to return. so 'null' not allowed here.
@@ -35,7 +35,7 @@ namespace nm {
 
         // check exception occured during running func.
         str fRet = fr.getFunc().getRet();
-        if(_isEx(*ret, *fRet)) return _returnEx(ret->cast<baseErr>());
+        WHEN(_isEx(*ret, *fRet)).ret(_returnEx(ret->cast<baseErr>()));
 
         // implicit closure:
         if(!ret->isSub<baseObj>()) {
@@ -55,7 +55,7 @@ namespace nm {
     node& me::getRet() { return *_ret; }
 
     priorType me::prioritize(const args& a) const {
-        if(_ret) return _ret->prioritize(a);
+        WHEN(_ret).ret(_ret->prioritize(a));
         return super::prioritize(a);
     }
 

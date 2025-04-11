@@ -10,9 +10,8 @@ namespace nm {
     me::FUOExpr(rule rule, const node& it): _rule(rule), _it(it) {}
 
     str me::run(const args& a) {
-        if(!_it) return str();
-        tstr<arithmeticObj> it(_it->as<node>());
-        if(!it) return str();
+        WHEN(!_it).ret(str());
+        tstr<arithmeticObj> it = _it->as<node>() orRet str();
 
         str ret((node*) it->cloneDeep());
         switch(_rule) {

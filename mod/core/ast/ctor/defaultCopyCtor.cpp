@@ -12,7 +12,7 @@ namespace nm {
         super(typeMaker::make<me>(params(*new param("rhs", org)), org)) {}
 
     str me::run(const args& a) {
-        if(!canRun(a)) return str();
+        WHEN(!canRun(a)).ret(str());
 
         const node& p = getParams()[0].getOrigin();
         return str((node*) a.begin()->as(p)->clone());

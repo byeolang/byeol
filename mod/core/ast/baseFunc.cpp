@@ -23,14 +23,14 @@ namespace nm {
     priorType me::prioritize(const args& a) const {
         NM_DI("%s.prioritize(%s)", *this, nul(a) ? "()" : a.asStr());
         const params& ps = getParams();
-        if(a.len() != ps.len()) return NO_MATCH;
+        WHEN(a.len() != ps.len()).ret(NO_MATCH);
 
         int n = 0;
         priorType max = EXACT_MATCH; // begining from lv0.
         for(const auto& e: a) {
             str t = e.getEval() orRet NM_W("t == null"), NO_MATCH;
             str p = ps[n++].getOrigin().as<node>();
-            if(!t->isComplete()) return NO_MATCH;
+            WHEN(!t->isComplete()).ret(NO_MATCH);
 
             // overloading priority algorithm:
             //  each subs can be categorized into 3 level of priority.
@@ -38,17 +38,17 @@ namespace nm {
             //  argument and its paramter. the lower value of 'max', the more check needed.
             priorType newP = _prioritize(*p, *t);
             max = newP > max ? newP : max;
-            if(max == NO_MATCH) return NO_MATCH;
+            WHEN(max == NO_MATCH).ret(NO_MATCH);
         }
 
         return max;
     }
 
     priorType me::_prioritize(const node& param, const node& arg) const {
-        if(nul(param) || nul(arg)) return NO_MATCH;
-        if(arg.getType() == param.getType()) return EXACT_MATCH;
-        if(_isNatureNumber(param) && _isNatureNumber(arg)) return NUMERIC_MATCH;
-        if(arg.isImpli(param)) return IMPLICIT_MATCH;
+        WHEN_NUL(param, arg).ret(NO_MATCH);
+        WHEN(arg.getType() == param.getType()).ret(EXACT_MATCH);
+        WHEN(_isNatureNumber(param) && _isNatureNumber(arg)).ret(NUMERIC_MATCH);
+        WHEN(arg.isImpli(param)).ret(IMPLICIT_MATCH);
 
         return NO_MATCH;
     }
@@ -56,7 +56,7 @@ namespace nm {
     void me::_setSrc(const src& newSrc) { _src.bind(newSrc); }
 
     nbool me::isFuncButNotClosure(const node& n) {
-        if(nul(n)) return false;
+        WHEN(nul(n)).ret(false);
         return n.isSub<baseFunc>() && !n.isSub<closure>();
     }
 
@@ -67,12 +67,12 @@ namespace nm {
     const node& me::getRet() const { return getType().getRet(); }
 
     const src& me::getSrc() const {
-        if(!_src) return super::getSrc();
+        WHEN(!_src).ret(super::getSrc());
         return *_src;
     }
 
     const modifier& me::getModifier() const {
-        if(_mod) return *_mod;
+        WHEN(_mod).ret(*_mod);
         return super::getModifier();
     }
 

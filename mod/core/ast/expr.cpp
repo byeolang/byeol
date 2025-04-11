@@ -27,7 +27,7 @@ namespace nm {
     priorType me::prioritize(const args& a) const { return a.len() == 0 ? EXACT_MATCH : NO_MATCH; }
 
     const src& me::getSrc() const {
-        if(!_src) return super::getSrc();
+        WHEN(!_src).ret(super::getSrc());
         return *_src;
     }
 

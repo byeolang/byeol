@@ -46,7 +46,7 @@ namespace nm {
     }
 
     node& me::getMe() {
-        if(!_me) return thread::get()._getNowFrame();
+        WHEN(!_me).ret(thread::get()._getNowFrame());
         return *_me;
     }
 
@@ -71,8 +71,8 @@ namespace nm {
     void me::setMe(const node& newMe) { _me.bind(newMe); }
 
     str me::_getSub(str me, const args& a) const {
-        if(!me) return NM_E("me Obj == null"), str();
-        if(!_subject) return NM_E("_subject as node == null"), str();
+        WHEN(!me).err("me Obj == null").ret(str());
+        WHEN(!_subject).err("_subject as node == null").ret(str());
 
         getExpr& cast = _subject->cast<getExpr>();
         if(!nul(cast)) cast.setMe(*me);
@@ -85,7 +85,7 @@ namespace nm {
         str sub =
             _getSub(me.getEval(), nulOf<args>()) orRet NM_E("_subject.as<node>() returns null"),
             str();
-        if(sub->isSub<baseObj>()) return sub->isComplete() ? sub : new mockNode(*sub);
+        WHEN(sub->isSub<baseObj>()).ret(sub->isComplete() ? sub : new mockNode(*sub));
 
         baseFunc &cast = sub->cast<baseFunc>() orRet NM_E("sub isn't obj or func. returns null"),
                  str();

@@ -16,7 +16,7 @@ namespace nm {
         super(name, rhs, to, s, mod), _type(type) {}
 
     str me::getEval() const {
-        if(_type) return _type->getEval();
+        WHEN(_type).ret(_type->getEval());
         return super::getEval();
     }
 
@@ -25,7 +25,7 @@ namespace nm {
     void me::setExplicitType(const node& newType) { _type.bind(newType); }
 
     str me::_onMakeNew() {
-        if(_type) return getRight().as(*_type);
+        WHEN(_type).ret(getRight().as(*_type));
         str ret = getRight().as<node>();
         NM_I("@%s `%s := %s", this, getName(), *ret);
         return ret;
