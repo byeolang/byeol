@@ -27,7 +27,7 @@ namespace nm {
         }
 
         nbool checkEvalType(const node& eval) {
-            if(nul(eval)) return false;
+            WHEN_NUL(eval).ret(false);
             for(str e: _getPrimitives())
                 if(eval.isSub(*e)) return true;
 
@@ -53,7 +53,7 @@ namespace nm {
         _GUARD("onLeave(node&)");
 
         _STEP("no same variable=%d", me.subs().len());
-        if(me.isSub<frame>()) return;
+        WHEN(me.isSub<frame>()).ret();
 
         for(auto e = me.subs().begin(); e; ++e) {
             auto matches = me.subAll<baseObj>(e.getKey());
@@ -171,7 +171,7 @@ namespace nm {
         _GUARD("onLeave(blockExpr&)");
 
         const narr& stmts = me.getStmts();
-        if(nul(stmts) || stmts.len() <= 0) return; // will be catched to another verification.
+        WHEN(nul(stmts) || stmts.len() <= 0).ret(); // will be catched to another verification.
 
         me.setEval(*me.getEval());
         me.outFrame();
@@ -243,7 +243,7 @@ namespace nm {
         //  local scope.
         //  but don't worry. these kind of properties have to be evaluated and instantiated on
         //  the pre-evaluation step.
-        if(!nul(to)) return;
+        WHEN(!nul(to)).ret();
 
         _STEP("duplication of variable with name[%s]", name);
         WHEN(fr.mySubs()->in(name)).myExErr(me, ALREADY_DEFINED_VAR, name, t).ret();
@@ -500,19 +500,19 @@ namespace nm {
         const nbicontainer& top = meObj.getShares().getContainer();
         ncnt len = me.getParams().len();
         const node& errFound = top.get([&](const std::string& key, const node& val) {
-            if(key != i.name) return false;
-            if(&val == &me) return false;
+            WHEN(key != i.name).ret(false);
+            WHEN(&val == &me).ret(false);
 
             // this has same name on shares, but it's not func! it's not valid.
             // this could be an origin obj.
             const baseFunc& cast = val.cast<baseFunc>() orRet true;
             const params& castPs = cast.getParams();
-            if(castPs.len() != len) return false;
+            WHEN(castPs.len() != len).ret(false);
 
             for(int n = 0; n < castPs.len(); n++) {
                 str lhs = castPs[n].getOrigin().getEval();
                 str rhs = me.getParams()[n].getOrigin().getEval();
-                if(lhs->getType() != rhs->getType()) return false;
+                WHEN(lhs->getType() != rhs->getType()).ret(false);
             }
 
             return true;
@@ -609,8 +609,7 @@ namespace nm {
         const type& retType = me.getRet() TO(getType()) orRet NM_E("func.getRet() is null");
         const node& lastStmt = *me.getBlock().getStmts().last();
 
-        if(retType == ttype<nVoid>::get())
-            return NM_I("func: implicit return won't verify WHEN retType is void."), void();
+        WHEN(retType == ttype<nVoid>::get()).info("func: implicit return won't verify WHEN retType is void.").ret();
 
         str eval = me.getBlock().getEval() orRetErr(lastStmt, NO_RET_TYPE).ret();
 
@@ -618,9 +617,9 @@ namespace nm {
         const ntype& lastType = eval->getType() orRetErr(lastStmt, NO_RET_TYPE).ret();
 
         _STEP("last stmt[%s] should matches to return type[%s]", eval, retType);
-        if(eval->isSub<retStateExpr>())
-            // @see retExpr::getEval() for more info.
-            return NM_I("func: skip verification WHEN lastStmt is retStateExpr."), void();
+
+        // @see retExpr::getEval() for more info.
+        WHEN(eval->isSub<retStateExpr>()).info("func: skip verification WHEN lastStmt is retStateExpr.").ret();
         WHEN(!lastType.isSub<baseErr>() && !lastType.isImpli(retType))
             .myExErr(nul(lastStmt) ? me : lastStmt, RET_TYPE_NOT_MATCH, lastType, retType)
             .ret();

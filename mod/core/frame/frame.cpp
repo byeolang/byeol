@@ -23,7 +23,7 @@ namespace nm {
     void me::add(const node& owner) { add(owner, owner.subs()); }
 
     void me::add(const node& owner, const scope& existing) {
-        if(nul(existing)) return;
+        WHEN_NUL(existing).ret();
         if(_stack.size() <= 0)
             return _stack.push_back(scopeRegister{owner, existing, existing}), void();
 
@@ -51,8 +51,8 @@ namespace nm {
         nbool found = false;
         return _getOwner<node>(sub, [&](nbool isOwner, scopeRegister& reg) -> node* {
             baseObj& org = reg.owner TO(template cast<baseObj>());
-            if(found && !nul(org)) return &org;
-            if(!isOwner) return nullptr;
+            WHEN(found && !nul(org)).ret(&org);
+            WHEN(!isOwner).ret(nullptr);
             found = true;
             return &org; // org can be nullref and returning null let the loop keep searching.
         });
@@ -66,7 +66,7 @@ namespace nm {
 
     scope& me::getLocals() {
         auto& top = _getTop();
-        if(nul(top) || top.owner) return nulOf<scope>();
+        WHEN(nul(top) || top.owner).retNul<scope>();
         return *top.s;
     }
 
@@ -78,7 +78,7 @@ namespace nm {
 
     scopeRegister& me::_getTop() {
         ncnt len = _stack.size();
-        if(len <= 0) return nulOf<scopeRegister>();
+        WHEN(len <= 0).retNul<scopeRegister>();
 
         return _stack[len - 1];
     }
@@ -145,7 +145,7 @@ namespace nm {
 
     template <typename T>
     T& me::_getOwner(const node& toFind, std::function<T*(nbool, scopeRegister&)> cl) {
-        if(nul(toFind)) return nulOf<T>();
+        WHEN_NUL(toFind).retNul<T>();
 
         [[maybe_unused]] const nchar* name = toFind.getType().getName().c_str();
         for(auto e = _stack.rbegin(); e != _stack.rend(); ++e) {
@@ -154,7 +154,7 @@ namespace nm {
             NM_DI("`%s` is in `%s` scope? --> %s", name,
                 reg.owner ? reg.owner->getSrc().getName() : "{local}", has);
             T* ret = cl(has, reg);
-            if(ret) return *ret;
+            WHEN(ret).ret(*ret);
         }
 
         NM_E("couldn't find owner of %s", toFind);

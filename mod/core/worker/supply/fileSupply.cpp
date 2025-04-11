@@ -10,9 +10,10 @@ namespace nm {
     void* me::onSupplySrc(parser& ps, void* scanner) const {
         static std::string dummy;
         std::ifstream fout(_path);
-        if(fout.fail())
-            // there is no file.
-            return ps.getReport().add(nerr::newErr(errCode::FILE_NOT_OPEN, _path.c_str())), nullptr;
+        if(fout.fail()) { // there is no file.
+            ps.getReport().add(nerr::newErr(errCode::FILE_NOT_OPEN, _path.c_str()));
+            return nullptr;
+        }
 
         std::stringstream buf;
         buf << fout.rdbuf();

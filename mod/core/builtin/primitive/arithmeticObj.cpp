@@ -10,7 +10,7 @@ namespace nm {
 #define _X(FUNC)                                                                    \
     tstr<arithmeticObj> me::FUNC(const arithmeticObj& rhs) const {                  \
         const ntype& deduced = getType().deduce(rhs);                               \
-        if(deduced.isSub<nVoid>()) return tstr<arithmeticObj>(nVoid::singletone()); \
+        WHEN(deduced.isSub<nVoid>()).ret(tstr<arithmeticObj>(nVoid::singletone())); \
         nbool normalOrder = getType() == deduced;                                   \
         const arithmeticObj& winner = getType() == deduced ? *this : rhs;           \
         const arithmeticObj& loser = getType() == deduced ? rhs : *this;            \
@@ -23,7 +23,7 @@ namespace nm {
 
 #define _X(FUNC)                                  \
     nbool me::FUNC(const me& rhs) const {         \
-        if(!rhs.isImpli(getType())) return false; \
+        WHEN(!rhs.isImpli(getType())).ret(false); \
         return _##FUNC(rhs);                      \
     }
 
@@ -32,7 +32,7 @@ namespace nm {
 #undef _X
 
             tstr<me> me::mov(const me& rhs) {
-                if(!rhs.isImpli(getType())) return tstr<me>();
+                WHEN(!rhs.isImpli(getType())).ret(tstr<me>());
 
                 return tstr<me>(_mov(rhs));
             }

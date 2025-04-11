@@ -16,8 +16,8 @@ public:
     /// which means to the End of a buffer.
     /// however, this step wasn't regarded to a step even though it proceeds.
     ncnt stepForward(ncnt step) override {
-        if(step <= 0) return 0;
-        if(isEnd()) return 0;
+        WHEN(step <= 0).ret(0);
+        WHEN(isEnd()).ret(0);
         int len = _own.len();
         int toLast = len - 1 - _n;
 
@@ -30,8 +30,8 @@ public:
     }
 
     ncnt stepBackward(ncnt step) override {
-        if(step <= 0) return 0;
-        if(isEnd()) return 0;
+        WHEN(step <= 0).ret(0);
+        WHEN(isEnd()).ret(0);
         int toLast = _n;
 
         _n -= step;
@@ -45,7 +45,7 @@ public:
     using super::get;
 
     nInt get() override {
-        if(isEnd()) return nulOf<nInt>();
+        WHEN(isEnd()).retNul<nInt>();
         return _own[_n];
     }
 

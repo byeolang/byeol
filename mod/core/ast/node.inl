@@ -55,7 +55,7 @@ namespace nm {
         using super::push_back;
 
         void push_back(const tprior<T>& elem) {
-            if(elem.type > _topPriority) return; // optimization.
+            WHEN(elem.type > _topPriority).ret(); // optimization.
 
             (*this)[elem.type].add(elem);
             _topPriority = _topPriority < elem.type ? _topPriority : elem.type;
@@ -84,7 +84,7 @@ namespace nm {
 
     TEMPLATE
     T& ME::sub(const std::string& name, const args& a) {
-        if(nul(a)) return sub<T>(name);
+        WHEN_NUL(a).ret(sub<T>(name));
 
 #if NM_IS_DBG
         ncnt n = 0;
@@ -130,7 +130,7 @@ namespace nm {
         while(e) {
             priorType p = NO_MATCH;
             e->getContainer().each<T>([&](const std::string& key, const T& val) {
-                if(key != name) return true;
+                WHEN(key != name).ret(true);
 
                 p = !nul(a) ? val.prioritize(a) : EXACT_MATCH;
                 if(p != NO_MATCH) ps.push_back(*new tprior<T>(val, p, lv));

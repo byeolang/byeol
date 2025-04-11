@@ -87,7 +87,7 @@ namespace nm {
 
     nbool me::_invalidate() {
         _setValid(false);
-        if(_state != LINKED) return false;
+        WHEN(_state != LINKED).ret(false);
 
         return super::_invalidate();
     }

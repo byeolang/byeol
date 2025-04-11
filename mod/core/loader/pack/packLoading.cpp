@@ -9,7 +9,7 @@ namespace nm {
     void me::addPath(const std::string& filePath) { _paths.push_back(filePath); }
 
     void me::addPath(const std::vector<std::string> paths) {
-        if(&_paths == &paths) return;
+        WHEN(&_paths == &paths).ret();
 
         _paths.insert(_paths.end(), paths.begin(), paths.end());
     }

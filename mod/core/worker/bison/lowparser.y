@@ -686,8 +686,7 @@ static std::string traceErr(const yypcontext_t* ctx, yyscan_t scanner) {
     constexpr nint TOKEN_MAX = 5;
     yysymbol_kind_t tokens[TOKEN_MAX];
     ncnt expected = yypcontext_expected_tokens(ctx, tokens, TOKEN_MAX);
-    if(expected <= 0)
-        return "nothing";
+    WHEN(expected <= 0).ret("nothing");
 
     std::stringstream ss;
     ss << "'" << yysymbol_name(tokens[0]) << "'";
@@ -713,7 +712,7 @@ static void _onEndParse(yyscan_t scanner) {
 }
 
 std::string getTokenName(int tok) {
-    if(tok <= 127) return std::string(1, tok);
+    WHEN(tok <= 127).ret(std::string(1, tok));
 
     auto token = YYTRANSLATE(tok);
     return std::string(yysymbol_name(token));
@@ -721,5 +720,5 @@ std::string getTokenName(int tok) {
 
 // errors except syntax will come here. for instance, when available memory doesn't exist.
 void yyerror(YYLTYPE* loc, yyscan_t scanner, const char* msg) {
-    PS.error(errCode::MSG, msg);
+    NM_WHEN.exErr(errCode::MSG, PS.getReport(), msg);
 }

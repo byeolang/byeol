@@ -11,8 +11,8 @@ namespace nm {
     NM_DEF_ME(ntype)
 
     nbool me::operator==(const type& rhs) const {
-        if(!super::operator==(rhs)) return false;
-        if(getMetaTypeName() != rhs.getMetaTypeName()) return false;
+        WHEN(!super::operator==(rhs)).ret(false);
+        WHEN(getMetaTypeName() != rhs.getMetaTypeName()).ret(false);
 
         const ntype& cast = (const ntype&) rhs;
 
@@ -21,11 +21,11 @@ namespace nm {
         //  in this case,
         //      tstr<arr> wrap(new tarr<nInt>())
         //  above code doesn't work.
-        if(getParams() != cast.getParams()) return false;
+        WHEN(getParams() != cast.getParams()).ret(false);
 
         const ntype& ret = nul(getRet()) ? nulOf<ntype>() : getRet().getType();
         const ntype& rhsRet = nul(getRet()) ? nulOf<ntype>() : getRet().getType();
-        if(nul(ret) && nul(rhsRet)) return true;
+        WHEN(nul(ret) && nul(rhsRet)).ret(true);
         return ret == rhsRet;
     }
 
@@ -36,13 +36,13 @@ namespace nm {
     str me::asImpli(const node& from, const type& to) const { return _getImpliAses().as(from, to); }
 
     nbool me::is(const type& to) const {
-        if(isImpli(to)) return true;
+        WHEN(isImpli(to)).ret(true);
 
         return _getAses().is(*this, to);
     }
 
     str me::as(const node& from, const type& to) const {
-        if(isImpli(to)) return asImpli(from, to);
+        WHEN(isImpli(to)).ret(asImpli(from, to));
 
         return _getAses().as(from, to);
     }
@@ -147,8 +147,8 @@ namespace nm {
 
     const ntype& me::_deduceSuperType(const ntype& l, const ntype& r) {
         //  reducing super type between l & r algorithm:
-        if(nul(l) || nul(r)) return nulOf<ntype>();
-        if(l == r) return l;
+        WHEN_NUL(l, r).retNul<ntype>();
+        WHEN(l == r).ret(l);
 
         const types& lAncestor = l.getSupers();
         const types& rAncestor = r.getSupers();
@@ -179,7 +179,7 @@ namespace nm {
 
     std::string me::createNameWithParams() const {
         std::string params = getParams().toStr();
-        if(params.empty()) return getName();
+        WHEN(params.empty()).ret(getName());
 
         return getName() + "<" + params + ">";
     }

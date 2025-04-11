@@ -35,18 +35,18 @@ namespace nm {
         const auto& name = getTask().getType().getName();
         auto argsKey = expr.getArgs().toStr();
         NM_I("exprName[%s<%s>] == originName[%s<%s>]", expr.getName(), argsKey, name, _paramsKey);
-        if(expr.getName() != name) return str();
-        if(argsKey == _paramsKey) return getTask();
+        WHEN(expr.getName() != name).ret(str());
+        WHEN(argsKey == _paramsKey).ret(getTask());
 
         return str();
     }
 
     str me::_findOrigin(const node& toReplace) const {
-        if(&toReplace == &_org.get()) return getTask();
+        WHEN(&toReplace == &_org.get()).ret(getTask());
         const getGenericExpr& generic = toReplace.cast<getGenericExpr>();
-        if(!nul(generic)) return _findOriginFrom(generic);
+        WHEN(!nul(generic)).ret(_findOriginFrom(generic));
         const getExpr& get = toReplace.cast<getExpr>();
-        if(!nul(get)) return _findOriginFrom(get);
+        WHEN(!nul(get)).ret(_findOriginFrom(get));
 
         return str();
     }

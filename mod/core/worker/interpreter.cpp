@@ -40,7 +40,8 @@ namespace nm {
         arr::_cache.clear();
 
         _parse();
-        if(getReport()) return getTask();
+        WHEN(getReport()).ret(getTask());
+
         _showGraph(false);
         _expand();
         _verify();
@@ -85,7 +86,7 @@ namespace nm {
         NM_DI("|               expand               |");
         NM_DI("======================================");
 
-        if(nul(getTask())) return NM_E("_slot is null"), void();
+        WHEN_NUL(getTask()).err("_slot is null").ret();
 
         threadUse thr;
         expander evaler;
@@ -101,7 +102,7 @@ namespace nm {
         NM_DI("|                verify              |");
         NM_DI("======================================");
 
-        if(nul(getTask())) return NM_E("_slot is null"), void();
+        WHEN_NUL(getTask()).err("_slot is null").ret();
 
         // verify:
         threadUse thr;

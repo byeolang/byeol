@@ -60,7 +60,7 @@ namespace nm {
 
     TEMPL
     typename ME::iterator& ME::iterator::operator++() {
-        if(nul(_owner)) return *this;
+        WHEN_NUL(_owner).ret(*this);
         return _step(1, false);
     }
 
@@ -86,7 +86,7 @@ namespace nm {
 
     TEMPL
     typename ME::iterator& ME::iterator::operator--() {
-        if(nul(_owner)) return *this;
+        WHEN_NUL(_owner).ret(*this);
         return _step(1, true);
     }
 
@@ -145,7 +145,7 @@ namespace nm {
 
     TEMPL void ME::insert(const K& key, V&& val) {
         auto e = _map.insert(typename stlMap::value_type(key, wrap(std::forward<V>(val))));
-        if(e == _map.end()) return;
+        WHEN(e == _map.end()).ret();
         e->second._key = &e->first;
 
         _link(e->second);
@@ -180,7 +180,7 @@ namespace nm {
 
     TEMPL
     typename ME::stlMap::iterator ME::_erase(const typename stlMap::iterator& e) {
-        if(e == _map.end()) return _map.end(); // not found.
+        WHEN(e == _map.end()).ret(_map.end()); // not found.
 
         _unlink(e->second);
         return _map.erase(e);
@@ -188,7 +188,7 @@ namespace nm {
 
     TEMPL
     void ME::_erase(const iterator& e) {
-        if(nul(e) || e.isEnd()) return; // not found.
+        WHEN(nul(e) || e.isEnd()).ret(); // not found.
 
         const K& key = e._wrap->getKey() orRet;
         auto range = _map.equal_range(key);

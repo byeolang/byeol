@@ -8,9 +8,9 @@
 namespace nm {
 
     strWrap __convert__(const node& it) {
-        if(nul(it)) return strWrap("null");
+        WHEN_NUL(it).ret(strWrap("null"));
         const arithmeticObj& cast = it.cast<arithmeticObj>();
-        if(!nul(cast)) return __convert__(cast);
+        WHEN(!nul(cast)).ret(__convert__(cast));
 
         return __convert__((typeProvidable&) it);
     }
@@ -19,8 +19,8 @@ namespace nm {
 
     strWrap __convert__(const arithmeticObj& it) {
         const std::string& name = it.getType().getName();
-        if(nul(it)) return strWrap("null");
-        if(it.isSub<nVoid>()) return name;
+        WHEN_NUL(it).ret(strWrap("null"));
+        WHEN(it.isSub<nVoid>()).ret(name);
 
         return strWrap(name + "(" + it.as<nStr>()->get() + ")");
     }
@@ -32,7 +32,7 @@ namespace nm {
     }
 
     strWrap __convert__(const param& it) {
-        if(nul(it)) return strWrap("null");
+        WHEN_NUL(it).ret(strWrap("null"));
         const node& org = it.getOrigin();
         return it.getName() + " " + (nul(org) ? "null" : org.getType().getName());
     }

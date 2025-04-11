@@ -13,7 +13,7 @@ namespace nm {
 
     public:
         nbool is(const type& from, const type& to) const override {
-            if(to.getMetaTypeName() != ntype::META_TYPENAME) return false;
+            WHEN(to.getMetaTypeName() != ntype::META_TYPENAME).ret(false);
 
             // okay. it's func:
             //  param, returnType should be exactly matched to.
@@ -22,9 +22,9 @@ namespace nm {
             //      param:
             const params& lhsPs = castFrom.getParams();
             const params& rhsPs = castTo.getParams();
-            if(lhsPs.len() != rhsPs.len()) return false;
+            WHEN(lhsPs.len() != rhsPs.len()).ret(false);
             for(nidx n = 0; n < lhsPs.len(); n++)
-                if(lhsPs[n] != rhsPs[n]) return false;
+                WHEN(lhsPs[n] != rhsPs[n]).ret(false);
             //      retType:
             const node& lhsRet = castFrom.getRet() orRet false;
             return lhsRet.getType() == castTo.getRet().getType();

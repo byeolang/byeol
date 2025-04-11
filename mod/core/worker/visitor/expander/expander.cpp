@@ -21,7 +21,7 @@ namespace nm {
     }
 
     nbool me::expansion::isExpanded() const {
-        if(!fun) return true;
+        WHEN(!fun).ret(true);
         return fun->getBlock().getStmts().len() <= 0;
     }
 
@@ -45,12 +45,12 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, defAssignExpr& me, nbool) {
-        if(!me.getExplicitType()) return true;
+        WHEN(!me.getExplicitType()).ret(true);
         _GUARD("defAssignExpr.onVisit()");
 
         tstr<convergence> req = new convergence(*_obj.back(), *_funcs.back(), [&]() -> nbool {
             str type = me.getExplicitType() TO(template as<node>()) orRet false;
-            if(type->isSub<expr>() || type->isSub<nVoid>()) return false;
+            WHEN(type->isSub<expr>() || type->isSub<nVoid>()).ret(false);
             me.setExplicitType(*type);
             return true;
         });
@@ -63,7 +63,7 @@ namespace nm {
 
         tstr<convergence> req = new convergence(*_obj.back(), *_funcs.back(), [&]() -> nbool {
             str ased = me.getAs() TO(template as<baseObj>()) orRet false;
-            if(ased->isSub<expr>()) return false;
+            WHEN(ased->isSub<expr>()).ret(false);
             me.setAs(*ased);
             return true;
         });
@@ -90,7 +90,7 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, func& me, nbool) {
         _GUARD("func.onVisit()");
-        if(!onVisit(i, (baseFunc&) me, false)) return false;
+        WHEN(!onVisit(i, (baseFunc&) me, false)).ret(false);
 
         if(i.name == baseObj::EXPAND_NAME) {
             obj *o = _obj.back() orRet NM_E("obj stack is empty."), true;
@@ -176,7 +176,7 @@ namespace nm {
     }
 
     void me::_convergeTypes(errReport& rpt) {
-        if(rpt) return NM_E("type convergence cancelled. there is error during expand()"), void();
+        WHEN(rpt).err("type convergence cancelled. there is error during expand()").ret();
 
         for(auto& req: _cons)
             req.converge(); // only try once. and don't emit any errors when it fails.

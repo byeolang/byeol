@@ -63,8 +63,6 @@ namespace nm {
         virtual void onTraverse(const visitInfo& i, genericOrigin& g);
         virtual void onTraverse(const visitInfo& i, obj& o);
 
-        using super::warn;
-
     protected:
         void _onWork() override;
         void _prepare() override;

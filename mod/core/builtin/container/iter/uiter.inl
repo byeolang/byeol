@@ -66,19 +66,19 @@ namespace nm {
 
     TEMPL
     nbool ME::isFrom(const tucontainable& it) const {
-        if(!_iteration) return false;
+        WHEN(!_iteration).ret(false);
         return _iteration->isFrom(it);
     }
 
     TEMPL
     nbool ME::isEnd() const {
-        if(!_iteration) return true;
+        WHEN(!_iteration).ret(true);
         return _iteration->isEnd();
     }
 
     TEMPL
     ncnt ME::_step(typename iterable::iterationType type, ncnt step) {
-        if(!_iteration) return false;
+        WHEN(!_iteration).ret(false);
 
         for(int n = 0; n < step; n++) {
             if(_iterate(type, step) <= 0) return n;
@@ -102,13 +102,13 @@ namespace nm {
 
     TEMPL
     R ME::get() {
-        if(!_iteration) return nulr<R>::get();
+        WHEN(!_iteration).ret(nulr<R>::get());
         return (R) _iteration->get();
     }
 
     TEMPL
     tucontainable<T, R>& ME::getContainer() {
-        if(!_iteration) return nulOf<tnucontainer<T, R>>();
+        WHEN(!_iteration).retNul<tnucontainer<T, R>>();
         return _iteration->getContainer();
     }
 
@@ -127,7 +127,7 @@ namespace nm {
     TEMPL
     void ME::_nextToMatchParamType(typename iterable::iterationType type) {
         while(!isEnd()) {
-            if(!nulr<R>::isNul(get())) return;
+            WHEN(!nulr<R>::isNul(get())).ret();
             _iterate(type, 1);
         }
     }

@@ -12,10 +12,10 @@ namespace nm {
     me::errReport(nbool isNoisy): super(), _isNoisy(isNoisy) {}
 
     nbool me::operator==(const me& rhs) const {
-        if(len() != rhs.len()) return false;
+        WHEN(len() != rhs.len()).ret(false);
 
         for(nint n = 0; n < len(); n++)
-            if(get(n) != rhs[n]) return false;
+            WHEN(get(n) != rhs[n]).ret(false);
         return true;
     }
 
@@ -36,7 +36,7 @@ namespace nm {
     nbool me::in(logLv::level type, nidx since) const {
         if(since < 0) since = 0;
         for(nidx n = since; n < _errs.size(); n++)
-            if(_errs[n]->getLv() == type) return true;
+            WHEN(_errs[n]->getLv() == type).ret(true);
         return false;
     }
 
@@ -89,7 +89,7 @@ namespace nm {
     }
 
     void me::_noise(const baseErr& new1) {
-        if(!_isNoisy) return;
+        WHEN(!_isNoisy).ret();
         new1.log();
     }
 

@@ -67,19 +67,19 @@ namespace nm {
 
     TEMPL
     nbool ME::isFrom(const tbicontainable& it) const {
-        if(!_iteration) return false;
+        WHEN(!_iteration).ret(false);
         return _iteration->isFrom(it);
     }
 
     TEMPL
     nbool ME::isEnd() const {
-        if(!_iteration) return true;
+        WHEN(!_iteration).ret(true);
         return _iteration->isEnd();
     }
 
     TEMPL
     ncnt ME::_step(typename iterable::iterationType type, ncnt step) {
-        if(!_iteration) return false;
+        WHEN(!_iteration).ret(false);
 
         for(int n = 0; n < step; n++) {
             if(_iterate(type) <= 0) return n;
@@ -103,25 +103,25 @@ namespace nm {
 
     TEMPL
     const K& ME::getKey() const {
-        if(!_iteration) return nulOf<K>();
+        WHEN(!_iteration).retNul<K>();
         return _iteration->getKey();
     }
 
     TEMPL
     V& ME::getVal() {
-        if(!_iteration) return nulOf<V>();
+        WHEN(!_iteration).retNul<V>();
         return _iteration->getVal();
     }
 
     TEMPL
     void ME::setVal(const V& new1) {
-        if(!_iteration) return;
+        WHEN(!_iteration).ret();
         return _iteration->setVal(new1);
     }
 
     TEMPL
     tbicontainable<K, V>& ME::getContainer() {
-        if(!_iteration) return nulOf<tbicontainable<K, V> >();
+        WHEN(!_iteration).retNul<tbicontainable<K, V>>();
         return _iteration->getContainer();
     }
 
@@ -140,7 +140,7 @@ namespace nm {
     TEMPL
     void ME::_nextToMatchParamType(typename iterable::iterationType type) {
         while(!isEnd()) {
-            if(!nul(getVal())) return;
+            WHEN(!nul(getVal())).ret();
             _iterate(type);
         }
     }

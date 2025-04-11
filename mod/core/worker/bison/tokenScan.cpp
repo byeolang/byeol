@@ -41,10 +41,7 @@ namespace nm {
         nint tok = super::onScan(ps, val, loc, scanner, isBypass);
         switch(tok) {
             case NEWLINE:
-                if(!isBypass) {
-                    NM_DI("indentScan: ignore NEWLINE");
-                    return SCAN_AGAIN;
-                }
+                WHEN(!isBypass).info("indentScan: ignore NEWLINE").ret(SCAN_AGAIN);
                 break;
         }
 

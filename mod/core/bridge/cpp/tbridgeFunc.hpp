@@ -62,14 +62,12 @@ namespace nm {
     private:
         args& _evalArgs(const args& a, args& tray) {
             const params& ps = getParams();
-            if(a.len() != ps.len())
-                return NM_E("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len()),
-                       nulOf<args>();
+            WHEN(a.len() != ps.len()).err("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len()).retNul<args>();
 
             int n = 0;
             for(const node& e: a) {
                 str ased = e.as(ps[n++].getOrigin());
-                if(!ased) return nulOf<args>();
+                WHEN(!ased).retNul<args>();
 
                 tray.add(*ased);
             }

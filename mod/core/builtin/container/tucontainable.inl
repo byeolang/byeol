@@ -23,7 +23,7 @@ namespace nm {
     template <typename T1> nbool ME::in(std::function<nbool(const T1&)> l) const {
         for(auto e = begin(); e; ++e) {
             const T1& val = e->template cast<T1>() orContinue;
-            if(l(val)) return true;
+            WHEN(l(val)).ret(true);
         }
         return false;
     }
@@ -117,7 +117,7 @@ namespace nm {
 
     TEMPL
     typename ME::iter ME::last() const {
-        if(len() <= 0) return end();
+        WHEN(len() <= 0).ret(end());
         static iter (me::*specifier)(ncnt) const = &me::iterate;
         return (this->*specifier)(len() - 1);
     }
@@ -128,7 +128,7 @@ namespace nm {
     TEMPL
     typename ME::iter ME::iterate(const T& it) const {
         for(iter e = begin(); e; ++e)
-            if(&e.get() == &it) return iter(e);
+            WHEN(&e.get() == &it).ret(iter(e));
 
         return iter();
     }
@@ -139,7 +139,7 @@ namespace nm {
     TEMPL
     typename ME::iter ME::riterate(const T& it) const {
         for(iter e = rbegin(); e; ++e)
-            if(&e.get() == &it) return iter(e);
+            WHEN(&e.get() == &it).ret(iter(e));
 
         return iter();
     }

@@ -92,7 +92,7 @@ namespace nm {
         ///        if this is any container except chain, then it returns after
         ///        wrapping given container.
         template <typename T> static T* wrap(const super& toShallowWrap) {
-            if(nul(toShallowWrap)) return nullptr;
+            WHEN_NUL(toShallowWrap).ret(nullptr);
             T* ret = (T*) &toShallowWrap.template cast<T>();
             if(nul(ret)) {
                 ret = new T();

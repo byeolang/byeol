@@ -192,7 +192,7 @@ namespace nm {
 
     void me::_logNativeStack() const {
         auto native = platformAPI::callstack();
-        if(native.size() <= 0) return;
+        WHEN(native.size() <= 0).ret();
 
         logger& log = logger::get();
         using platformAPI::foreColor;

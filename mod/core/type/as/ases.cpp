@@ -9,7 +9,7 @@ namespace nm {
 
     str me::as(const node& from, const type& to) const {
         const type& fromType = from.getType();
-        if(to.isSuper(fromType)) return str(from);
+        WHEN(to.isSuper(fromType)).ret(str(from));
 
         for(aser& e: *this)
             if(e.is(fromType, to)) return e.as(from, to);
@@ -19,7 +19,7 @@ namespace nm {
     }
 
     nbool me::is(const type& from, const type& to) const {
-        if(to.isSuper(from)) return true;
+        WHEN(to.isSuper(from)).ret(true);
 
         for(auto& e: *this)
             if(e.is(from, to)) return true;

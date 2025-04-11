@@ -36,7 +36,7 @@ namespace nm {
 
     TEMPLATE
     T& ME::get() {
-        if(this->len() != 1) return nulOf<T>();
+        WHEN(this->len() != 1).retNul<T>();
 
         return this->get(0);
     }

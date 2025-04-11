@@ -5,11 +5,11 @@ namespace nm {
     NM(DEF_ME(params))
 
     nbool me::operator==(const me& rhs) const {
-        if(nul(rhs)) return false;
-        if(len() != rhs.len()) return false;
+        WHEN_NUL(rhs).ret(false);
+        WHEN(len() != rhs.len()).ret(false);
 
         for(nidx n = 0; n < len(); n++)
-            if(get(n) != rhs[n]) return false;
+            WHEN(get(n) != rhs[n]).ret(false);
         return true;
     }
 
@@ -25,10 +25,7 @@ namespace nm {
     }
 
     me me::make(const strings& names, const narr& args) {
-        if(names.size() != args.len()) {
-            NM_E("names.len[%s] != args.len[%s]", names.size(), args.len());
-            return me();
-        }
+        WHEN(names.size() != args.len()).err("names.len[%s] != args.len[%s]", names.size(), args.len()).ret(me());
 
         me ret;
         for(nidx n = 0; n < names.size(); n++)

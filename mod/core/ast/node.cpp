@@ -26,8 +26,8 @@ namespace nm {
         const ntype& ltype = getType();
         const ntype& rtype = r TO(getType());
         const ntype& res = ltype.deduce(rtype) orNul(node);
-        if(res == ltype) return *this;
-        if(res == rtype) return r;
+        WHEN(res == ltype).ret(*this);
+        WHEN(res == rtype).ret(r);
 
         return nulOf<node>();
     }
@@ -46,28 +46,28 @@ namespace nm {
     }
 
     nbool me::is(const typeProvidable& to) const {
-        if(nul(to)) return false;
+        WHEN_NUL(to).ret(false);
         return is(to.getType());
     }
 
     nbool me::is(const type& to) const { return getType().is(to); }
 
     str me::as(const typeProvidable& to) const {
-        if(nul(to)) return str();
+        WHEN_NUL(to).ret(str());
         return as(to.getType());
     }
 
     str me::as(const type& to) const { return getType().as(*this, to); }
 
     nbool me::isImpli(const typeProvidable& to) const {
-        if(nul(to)) return false;
+        WHEN_NUL(to).ret(false);
         return isImpli(to.getType());
     }
 
     nbool me::isImpli(const type& to) const { return getType().isImpli(to); }
 
     str me::asImpli(const typeProvidable& to) const {
-        if(nul(to)) return str();
+        WHEN_NUL(to).ret(str());
         return asImpli(to.getType());
     }
 

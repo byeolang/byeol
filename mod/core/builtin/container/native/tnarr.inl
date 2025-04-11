@@ -25,7 +25,7 @@ namespace nm {
     nbool ME::set(const iter& at, const T& new1) {
         narrIteration& cast = _getIterationFrom(at);
         WHEN_NUL(cast).exErr(ITERATOR_IS_NUL).ret(false);
-        if(cast.isEnd()) return false;
+        WHEN(cast.isEnd()).ret(false);
 
         return set(cast._n, new1);
     }
@@ -40,7 +40,7 @@ namespace nm {
     TEMPL
     nbool ME::add(const iter& e, const T& new1) {
         WHEN_NUL(e).exErr(ITERATOR_IS_NUL).ret(false);
-        if(nul(new1)) return false;
+        WHEN_NUL(new1).ret(false);
         WHEN(!e.isFrom(*this)).exErr(ITERATOR_NOT_BELONG_TO_CONTAINER).ret(false);
         narrIteration& cast = (narrIteration&) *e._iteration;
         WHEN_NUL(cast).exErr(CAST_NOT_AVAILABLE, "this iterator", "arr iterator").ret(false);
@@ -51,7 +51,7 @@ namespace nm {
     TEMPL
     nbool ME::add(nidx n, const T& new1) {
         WHEN(n < 0 || n > len()).exErr(OUT_OF_RANGE, n, len()).ret(false);
-        if(nul(new1)) return false;
+        WHEN_NUL(new1).ret(false);
 
         _vec.insert(_vec.begin() + n, wrap(new1));
         return true;
@@ -67,8 +67,7 @@ namespace nm {
             .exErr(CAST_NOT_AVAILABLE, "one of these iterator", "arr iterator")
             .ret();
 
-        if(hereCast._n < 0 || hereCast._n > len())
-            return; // if n equals to len(), it means that will be added at end of container.
+        WHEN(hereCast._n < 0 || hereCast._n > len()).ret(); // if n equals to len(), it means that will be added at end of container.
 
         auto fromBegin = ((me&) from.getContainer())._vec.begin();
         _vec.insert(_vec.begin() + hereCast._n, fromBegin + fromCast._n, fromBegin + toCast._n);
@@ -78,7 +77,7 @@ namespace nm {
     nbool ME::del(const iter& at) {
         narrIteration& cast = _getIterationFrom(at);
         WHEN_NUL(cast).exErr(CAST_NOT_AVAILABLE, "'at' iterator", "arr iterator").ret(false);
-        if(cast.isEnd()) return false;
+        WHEN(cast.isEnd()).ret(false);
 
         return del(cast._n);
     }
@@ -98,7 +97,7 @@ namespace nm {
 
         nidx fromN = fromIter.isEnd() ? len() - 1 : fromIter._n;
         ncnt cnt = endIter._n - fromN;
-        if(cnt <= 0) return false;
+        WHEN(cnt <= 0).ret(false);
 
         for(int n = 0; n < cnt; n++)
             _vec.erase(_vec.begin() + fromN);
@@ -139,8 +138,8 @@ namespace nm {
 
     TEMPL
     typename ME::narrIteration& ME::_getIterationFrom(const iter& it) {
-        if(nul(it)) return nulOf<narrIteration>();
-        if(!it.isFrom(*this)) return nulOf<narrIteration>();
+        WHEN_NUL(it).retNul<narrIteration>();
+        WHEN(!it.isFrom(*this)).retNul<narrIteration>();
         return (narrIteration&) *it._iteration;
     }
 

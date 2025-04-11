@@ -14,7 +14,7 @@ namespace nm {
 
     TEMPL
     V& ME::get(const K& key) {
-        if(!in(key)) return nulOf<V>();
+        WHEN(!in(key)).retNul<V>();
 
         return *_map.begin(key).getVal();
     }
@@ -37,14 +37,14 @@ namespace nm {
 
     TEMPL
     typename ME::nmapIteration& ME::_getIterationFrom(const iter& it) {
-        if(nul(it)) return nulOf<nmapIteration>();
-        if(!it.isFrom(*this)) return nulOf<nmapIteration>();
+        WHEN_NUL(it).retNul<nmapIteration>();
+        WHEN(!it.isFrom(*this)).retNul<nmapIteration>();
         return (nmapIteration&) *it._iteration;
     }
 
     TEMPL
     nbool ME::add(const K& key, const V& new1) {
-        if(nul(new1)) return false;
+        WHEN_NUL(new1).ret(false);
 
         _map.insert(key, wrap(new1));
         return true;
@@ -58,8 +58,8 @@ namespace nm {
 
     TEMPL
     nbool ME::del(const iter& at) {
-        if(!at.isFrom(*this)) return NM_W("from is not an iterator of this container."), false;
-        if(at.isEnd()) return NM_W("at is end of the container. skip function."), false;
+        WHEN(!at.isFrom(*this)).warn("from is not an iterator of this container.").ret(false);
+        WHEN(at.isEnd()).warn("at is end of the container. skip function.").ret(false);
 
         _map.erase(_getIterationFrom(at)._citer);
         return true;
@@ -67,8 +67,7 @@ namespace nm {
 
     TEMPL
     nbool ME::del(const iter& from, const iter& end) {
-        if(!from.isFrom(*this) || !end.isFrom(*this))
-            return NM_W("from or end is not an iterator of this container"), false;
+        WHEN(!from.isFrom(*this) || !end.isFrom(*this)).warn("from or end is not an iterator of this container").ret(false);
 
         _map.erase(_getIterationFrom(from)._citer, _getIterationFrom(end)._citer);
         return true;

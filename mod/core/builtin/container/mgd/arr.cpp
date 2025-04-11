@@ -56,8 +56,7 @@ namespace nm {
 
             str run(const args& a) override {
                 const params& ps = getParams();
-                if(a.len() != ps.len())
-                    return NM_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
+                WHEN(a.len() != ps.len()).warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
                 arr &meObj = a.getMe().cast<arr>() orRet NM_E("meObj as arr == null"), str();
                 str eval = a[0].as(ps[0].getOrigin()) orRet NM_E(
                     "evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]),
@@ -105,11 +104,11 @@ namespace nm {
     scope& me::subs() {
         static dumScope dummy;
         const auto& ps = getType().getParams();
-        if(ps.isEmpty()) return dummy;
+        WHEN(ps.isEmpty()).ret(dummy);
 
         tstr<baseObj> paramOrg = ps[0].getOrigin().as<baseObj>() TO(getOrigin()) orRet dummy;
         auto e = _cache.find(&paramOrg.get());
-        if(e != _cache.end()) return e->second.get();
+        WHEN(e != _cache.end()).ret(e->second.get());
 
         // this is first try to generalize type T:
         return _defGeneric(*paramOrg);
@@ -131,27 +130,27 @@ namespace nm {
 
     nbool me::set(const iter& at, const node& new1) {
         str ased = new1 TO(asImpli(getType().getParams()[0].getOrigin()));
-        if(!ased || ased->isSub<nVoid>()) return false;
+        WHEN(!ased || ased->isSub<nVoid>()).ret(false);
 
         return get().set(at, *ased);
     }
 
     nbool me::set(nidx n, const node& new1) {
         str ased = new1 TO(asImpli(getType().getParams()[0].getOrigin()));
-        if(!ased || ased->isSub<nVoid>()) return false;
+        WHEN(!ased || ased->isSub<nVoid>()).ret(false);
         return get().set(n, *ased);
     }
 
     nbool me::add(const iter& at, const node& new1) {
         str ased = new1 TO(asImpli(getType().getParams()[0].getOrigin()));
-        if(!ased || ased->isSub<nVoid>()) return false;
+        WHEN(!ased || ased->isSub<nVoid>()).ret(false);
 
         return get().add(at, *ased);
     }
 
     nbool me::add(nidx n, const node& new1) {
         str ased = new1 TO(asImpli(getType().getParams()[0].getOrigin()));
-        if(!ased || ased->isSub<nVoid>()) return false;
+        WHEN(!ased || ased->isSub<nVoid>()).ret(false);
 
         return get().add(n, *ased);
     }

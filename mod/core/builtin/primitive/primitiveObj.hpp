@@ -36,7 +36,7 @@ namespace nm {
         using super::cast;
 
         void* cast(const type& to) override {
-            if(to == ttype<T>::get()) return &_val;
+            WHEN(to == ttype<T>::get()).ret(&_val);
 
             return super::cast(to);
         }

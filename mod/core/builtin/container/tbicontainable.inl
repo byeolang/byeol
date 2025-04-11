@@ -34,7 +34,7 @@ namespace nm {
     template <typename V1> nbool ME::in(std::function<nbool(const K& key, const V1& val)> l) const {
         for(auto e = begin(); e; ++e) {
             V1& val = e->template cast<V1>() orContinue;
-            if(l(e.getKey(), val)) return true;
+            WHEN(l(e.getKey(), val)).ret(true);
         }
         return false;
     }
@@ -136,7 +136,7 @@ namespace nm {
 
     TEMPL
     typename ME::iter ME::iterate(const K& key, nbool isBoundary) const {
-        if(nul(key)) return iterate(0);
+        WHEN_NUL(key).ret(iterate(0));
         auto* e = _onMakeIteration(key, false, 0, isBoundary);
         if(!e->isEnd() && e->getKey() != key) e->next(1);
 
@@ -153,7 +153,7 @@ namespace nm {
 
     TEMPL
     typename ME::iter ME::riterate(const K& key, nbool isBoundary) const {
-        if(nul(key)) return riterate(0);
+        WHEN_NUL(key).ret(riterate(0));
         auto* e = _onMakeIteration(key, true, 0, isBoundary);
         if(!e->isEnd() && e->getKey() != key) e->next(1);
 

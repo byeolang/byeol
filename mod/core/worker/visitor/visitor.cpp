@@ -21,10 +21,10 @@ namespace nm {
 
 #define X(T)                                                                     \
     void me::visit(const visitInfo& i, T& me) {                                  \
-        if(nul(me)) return;                                                      \
+        WHEN_NUL(me).ret();                                                      \
                                                                                  \
         nbool alreadyVisited = !_markVisited(me);                                \
-        if(alreadyVisited && !_isReturnable) return;                             \
+        WHEN(alreadyVisited && !_isReturnable).ret();                            \
         if(onVisit(i, me, alreadyVisited) && !alreadyVisited) onTraverse(i, me); \
         onLeave(i, me, alreadyVisited);                                          \
     }                                                                            \
@@ -46,10 +46,10 @@ namespace nm {
     }
 
     void me::visit(const visitInfo& i, node& me) {
-        if(nul(me)) return;
+        WHEN_NUL(me).ret();
 
         nbool alreadyVisited = !_markVisited(me);
-        if(alreadyVisited && !_isReturnable) return;
+        WHEN(alreadyVisited && !_isReturnable).ret();
         if(onVisit(i, me, alreadyVisited) && !alreadyVisited) onTraverse(i, me);
         onLeave(i, me, alreadyVisited);
     }
@@ -59,14 +59,14 @@ namespace nm {
     void me::onLeave(const visitInfo& i, node& me, nbool alreadyVisited) {}
 
     void me::_onWork() {
-        if(nul(getTask())) return;
+        WHEN_NUL(getTask()).ret();
 
         _visited.clear();
         getTask().accept(visitInfo{"#root", nullptr, 0, 1, 1}, *this);
     }
 
     nbool me::_markVisited(node& me) {
-        if(_visited.find(&me) != _visited.end()) return false;
+        WHEN(_visited.find(&me) != _visited.end()).ret(false);
 
         return _visited[&me] = true;
     }
@@ -76,7 +76,7 @@ namespace nm {
         ncnt len = subs.getContainer().len();
         const auto& next = subs.getNext();
         if(!nul(next)) len += next.getContainer().len();
-        if(len <= 0) return;
+        WHEN(len <= 0).ret();
 
         auto e = subs.begin();
         for(int n = 0; n < len; n++, ++e) {

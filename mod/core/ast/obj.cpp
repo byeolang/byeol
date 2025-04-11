@@ -45,7 +45,7 @@ namespace nm {
     }
 
     me& me::operator=(const me& rhs) {
-        if(&rhs == this) return *this;
+        WHEN(&rhs == this).ret(*this);
 
         super::operator=(rhs);
 
@@ -53,7 +53,7 @@ namespace nm {
     }
 
     const ntype& me::getType() const {
-        if(!_org) return ttype<obj>::get();
+        WHEN(!_org).ret(ttype<obj>::get());
         return _org->getType();
     }
 
@@ -71,13 +71,13 @@ namespace nm {
     tstr<nbicontainer> me::mySubs() const { return _subs->cloneChain(getShares()); }
 
     state me::getState() const {
-        if(_org) return _org->getState();
+        WHEN(_org).ret(_org->getState());
 
         return LINKED;
     }
 
     void me::setState(state new1) {
-        if(!_org) return;
+        WHEN(!_org).ret();
         _org->setState(new1);
     }
 

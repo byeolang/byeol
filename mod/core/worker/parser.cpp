@@ -33,7 +33,7 @@ namespace nm {
 
     nint me::_onScan(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner) {
         int tok = _mode->onScan(*this, val, loc, scanner);
-        if(_isIgnoreWhitespace && tok == NEWLINE) return SCAN_AGAIN;
+        WHEN(_isIgnoreWhitespace && tok == NEWLINE).ret(SCAN_AGAIN);
         _isIgnoreWhitespace = false;
 
         switch(tok) {
@@ -76,7 +76,7 @@ namespace nm {
     nint me::onTokenComma(nint tok) { return _onTokenEndOfInlineBlock(onIgnoreIndent(tok)); }
 
     nbool me::onTokenEndOfBraces() {
-        if(_strTemplateCnt > 0) return _strTemplateCnt--;
+        WHEN(_strTemplateCnt > 0).ret(_strTemplateCnt--);
         return false;
     }
 
@@ -102,7 +102,7 @@ namespace nm {
     }
 
     nint me::_onTokenEndOfInlineBlock(nint tok) {
-        if(!_dedent.canDedent()) return tok;
+        WHEN(!_dedent.canDedent()).ret(tok);
 
         NM_DI("tokenEvent: onTokenEndOfInlineBlock: '%c' [%d] use smart dedent!", (char) tok, tok);
         _dispatcher.addFront(tok);
@@ -175,8 +175,7 @@ namespace nm {
         obj* e = &getTask().getPack();
 
         const std::string& realName = getTask().getManifest().name;
-        if(realName != firstName)
-            return error(errCode::PACK_NOT_MATCH, firstName.c_str(), realName.c_str()), e;
+        WHEN(realName != firstName).exErr(errCode::PACK_NOT_MATCH, firstName.c_str(), realName.c_str()).ret(e);
 
         // pack syntax rule #2:
         //  middle name automatically created if not exist.
@@ -223,9 +222,7 @@ namespace nm {
 
         auto& newSlot = getTask();
         const std::string& name = getTask().getManifest().name;
-        if(name != manifest::DEFAULT_NAME)
-            return error(errCode::PACK_NOT_MATCH, manifest::DEFAULT_NAME, name.c_str()),
-                   &newSlot.getPack();
+        WHEN(name != manifest::DEFAULT_NAME).exErr(errCode::PACK_NOT_MATCH, manifest::DEFAULT_NAME, name.c_str()).ret(&newSlot.getPack());
 
         return onSubPack(
             newSlot.getPack()); // this is a default pack containing name as '{default}'.
@@ -246,7 +243,7 @@ namespace nm {
         NM_DI("tokenEvent: onBlock(blk, %s) inside of %s func", stmt,
             !nul(f) ? f.getSrc().getName() : "<null>");
 
-        if(!nul(stmt.cast<endExpr>())) return &blk;
+        WHEN(!nul(stmt.cast<endExpr>())).ret(&blk);
 
         blk.getStmts().add(*stmtLife);
         NM_DI("tokenEvent: onBlock(%d).add(%s)", blk.getStmts().len(), stmt);
@@ -388,7 +385,7 @@ namespace nm {
 
         f.setBlock(blk);
         _funcs.pop_back();
-        if(_funcs.size() <= 0) return &f;
+        WHEN(_funcs.size() <= 0).ret(&f);
 
         // don't add nested-func in an outer func:
         //  nested func appear in the middle of code, and context is important because they capture
@@ -456,10 +453,7 @@ namespace nm {
     node* me::onParanthesisAsTuple(narr& tuple) {
         NM_DI("tokenEnvent: onParanthesisAsTuple(%s.size=%d)", (void*) &tuple, tuple.len());
 
-        if(tuple.len() != 1) {
-            error(errCode::PARANTHESIS_WAS_TUPLE);
-            return new mockNode();
-        }
+        WHEN(tuple.len() != 1).exErr(errCode::PARANTHESIS_WAS_TUPLE).ret(new mockNode());
 
         return &tuple[0];
     }
@@ -549,8 +543,8 @@ namespace nm {
     namespace {
         const std::string& _extractParamTypeName(const node& p) {
             static std::string dummy;
-            if(nul(p)) return dummy;
-            if(p.isSub<getExpr>()) return ((const getExpr&) p).getName();
+            WHEN_NUL(p).ret(dummy);
+            WHEN(p.isSub<getExpr>()).ret(((const getExpr&) p).getName());
 
             return p.getType().getName();
         }
@@ -573,18 +567,13 @@ namespace nm {
     std::vector<string> me::_toDotnames(const node& path) {
         std::vector<string> ret;
         const getExpr* iter = &path.cast<getExpr>();
-        if(nul(iter)) {
-            error(errCode::PACK_ONLY_ALLOW_VAR_ACCESS);
-            return std::vector<string>();
-        }
+        WHEN_NUL(iter).exErr(errCode::PACK_ONLY_ALLOW_VAR_ACCESS).ret(std::vector<string>());
 
         do {
             ret.push_back(iter->getName());
             const node& next = iter->getMe();
-            if(!nul(next) && !next.is<getExpr>()) {
-                error(errCode::PACK_ONLY_ALLOW_VAR_ACCESS);
-                return std::vector<string>();
-            }
+            WHEN(!nul(next) && !next.is<getExpr>()).exErr(errCode::PACK_ONLY_ALLOW_VAR_ACCESS).ret(std::vector<string>());
+
             iter = &next.cast<getExpr>();
         } while(iter);
         return ret;
@@ -642,7 +631,7 @@ namespace nm {
     }
 
     void me::_onCompilationUnit(obj& subpack, defBlock& blk) {
-        if(nul(subpack)) return error(errCode::NO_PACK_TRAY), void();
+        WHEN_NUL(subpack).exErr(errCode::NO_PACK_TRAY).ret();
 
         _onInjectObjSubs(subpack, blk);
 
@@ -661,7 +650,7 @@ namespace nm {
 
     nbool me::_onInjectObjSubs(obj& it, defBlock& blk) {
         NM_DI("tokenEvent: _onInjectObjSubs(%s, defBlock[%s])", &it, &blk);
-        if(nul(it)) return false;
+        WHEN_NUL(it).ret(false);
 
         bicontainable& share = it.getShares().getContainer();
         bicontainable& own = it.getOwns();
@@ -685,10 +674,12 @@ namespace nm {
         const auto& ctors = it.subAll<func>(baseObj::CTOR_NAME);
         nbool hasCopyCtor = !nul(ctors.get<func>([&](const func& f) -> nbool {
             const params& ps = f.getParams();
-            if(ps.len() != 1) return false;
+            WHEN(ps.len() != 1).ret(false);
+
             const node& org = ps[0].getOrigin();
             const getExpr& cast = org.cast<getExpr>();
-            if(!nul(cast) && cast.getName() == it.getSrc().getName()) return true;
+            WHEN(!nul(cast) && cast.getName() == it.getSrc().getName()).ret(true);
+
             return &org == &it;
         }));
 
@@ -761,8 +752,7 @@ namespace nm {
 
     node* me::onGet(node& from, node& it) {
         getExpr &cast = it.cast<getExpr>()
-                            orRet error(errCode::IDENTIFIER_ONLY, it.getType().getName().c_str()),
-                &from;
+                            orRet NM_WHEN.exErr(errCode::IDENTIFIER_ONLY, it.getType().getName().c_str()).ret(&from);
 
         cast.setMe(from);
         NM_DI("tokenEvent: onGet(%s, %s)", from, cast.getName());
@@ -776,8 +766,7 @@ namespace nm {
     node* me::onCallAccess(node& it, const narr& as) {
         // it can be generic or primitive values. track it, leave as specific errs.
         getExpr &cast = it.cast<getExpr>()
-                            orRet error(errCode::IDENTIFIER_ONLY, it.getType().getName().c_str()),
-                new getExpr("");
+                            orRet NM_WHEN.exErr(errCode::IDENTIFIER_ONLY, it.getType().getName().c_str()).ret(new getExpr(""));
 
         cast.setArgs(*new args(as));
         return &cast;
@@ -1231,7 +1220,7 @@ namespace nm {
 
     str me::_onWork() {
         const auto& supplies = getSrcSupplies();
-        if(supplies.isEmpty()) return error(NO_SRC), tstr<obj>();
+        WHEN(supplies.isEmpty()).exErr(NO_SRC).ret(tstr<obj>());
 
         NM_I("parse starts: %d src will be supplied.", supplies.len());
         for(const auto& supply: supplies) {
@@ -1241,10 +1230,7 @@ namespace nm {
             yylex_init_extra(this, &scanner);
 
             YY_BUFFER_STATE bufState = (YY_BUFFER_STATE) supply.onSupplySrc(*this, scanner);
-            if(!bufState) {
-                error(errCode::IS_NUL, "bufState");
-                return tstr<obj>();
-            }
+            WHEN(!bufState).exErr(errCode::IS_NUL, "bufState").ret(tstr<obj>());
 
             // fix Flex Bug here:
             //  when yy_scan_string get called, it returns bufState after malloc it.
@@ -1259,10 +1245,7 @@ namespace nm {
 #endif
 
             int res = yyparse(scanner);
-            if(res) {
-                warn(errCode::PARSING_HAS_ERR, res);
-                return tstr<obj>();
-            }
+            WHEN(res).exWarn(errCode::PARSING_HAS_ERR, res).ret(tstr<obj>());
 
             yy_delete_buffer(bufState, scanner);
             yylex_destroy(scanner);

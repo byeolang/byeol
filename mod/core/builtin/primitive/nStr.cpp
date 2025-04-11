@@ -20,7 +20,7 @@ namespace nm {
 
         public:
             str run(const args& a) override {
-                if(a.len() != 1) return str();
+                WHEN(a.len() != 1).ret(str());
                 nStr& me = a.getMe().cast<nStr>() orRet str();
                 tstr<seq> s = a[0].as<seq>() orRet str();
 
@@ -115,8 +115,7 @@ namespace nm {
 
             str run(const args& a) override {
                 const params& ps = getParams();
-                if(a.len() != ps.len())
-                    return NM_W("a.len(%d) != ps.len(%d)", a.len(), ps.len()), str();
+                WHEN(a.len() != ps.len()).warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
                 nStr &me = a.getMe().cast<nStr>() orRet NM_E("me as nStr == null"), str();
 
                 str eval = a[0].as(ps[0].getOrigin().as<node>()) orRet NM_E(
@@ -229,7 +228,7 @@ namespace nm {
         public:
             str as(const node& me, const type& to) const override {
                 const std::string& val = me.cast<std::string>();
-                if(val.length() <= 0) return str();
+                WHEN(val.length() <= 0).ret(str());
 
                 return new nByte(val[0]);
             }

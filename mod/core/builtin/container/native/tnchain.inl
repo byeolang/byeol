@@ -50,7 +50,7 @@ namespace nm {
     V& ME::get(const K& key) {
         V* ret = nullptr;
         this->each([&](const K& elemKey, V& val) {
-            if(elemKey != key) return true;
+            WHEN(elemKey != key).ret(true);
             ret = &val;
             return false;
         });
@@ -113,8 +113,7 @@ namespace nm {
     TEMPL
     nbool ME::link(const iter& portion) {
         ME& next = typeProvidable::safeCast<ME>((portion TO(getContainer()))) orRet false;
-        if(&next == this)
-            return NM_W("recursive link detected for portion(%s).", (void*) &next), false;
+        WHEN(&next == this).warn("recursive link detected for portion(%s).", (void*) &next).ret(false);
 
         _next = portion;
         // this's not reversed to portion iterator:
@@ -228,7 +227,7 @@ namespace nm {
 
     TEMPL
     typename ME::iter& ME::_getInnerIter(const iter& outer) {
-        if(!outer._iteration->getType().template isSub<nchainIteration>()) return nulOf<iter>();
+        WHEN(!outer._iteration->getType().template isSub<nchainIteration>()).retNul<iter>();
         nchainIteration& cast = (nchainIteration&) *outer._iteration orNul(iter);
 
         return cast._iter;

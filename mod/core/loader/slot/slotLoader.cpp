@@ -68,7 +68,7 @@ namespace nm {
     }
 
     me& me::addPath(const std::vector<std::string> paths) {
-        if(&_paths == &paths) return *this;
+        WHEN(&_paths == &paths).ret(*this);
 
         _paths.insert(_paths.end(), paths.begin(), paths.end());
         return *this;
@@ -111,10 +111,7 @@ namespace nm {
         NM_I("manifest path: %s", manifestPath);
 
         manifest mani = _interpManifest(dirPath, manifestPath);
-        if(!mani.isValid()) {
-            NM_E("invalid manifest[%s] found.", manifestPath.c_str());
-            return;
-        }
+        WHEN(!mani.isValid()).err("invalid manifest[%s] found.", manifestPath.c_str()).ret();
 
         packLoadings loadings;
         for(entrypoint& point: mani.points) {
