@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../builtin/res/tpair.hpp"
+#include "../../common.hpp"
 
 namespace nm {
 
