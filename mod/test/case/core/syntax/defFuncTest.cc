@@ -73,7 +73,6 @@ TEST_F(defFuncTest, distinguishDefineFuncOrCall2) {
 
 TEST_F(defFuncTest, distinguishDefineLambdaOrCall) {
     make()
-        .negative()
         .parse(R"SRC(
         main() void
             (a, 22) # this is not lambda

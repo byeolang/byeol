@@ -146,7 +146,7 @@ namespace nm {
     }
 
     nchar me::onScanUnexpected(const nchar* token) {
-        NM_WHEN.exErr(errCode::UNEXPECTED_TOK, getReport(), token);
+        NM_WHEN.exErr(UNEXPECTED_TOK, getReport(), token);
         return token[0];
     }
 
@@ -175,7 +175,7 @@ namespace nm {
         obj* e = &getTask().getPack();
 
         const std::string& realName = getTask().getManifest().name;
-        WHEN(realName != firstName).exErr(errCode::PACK_NOT_MATCH, firstName.c_str(), realName.c_str()).ret(e);
+        WHEN(realName != firstName).exErr(PACK_NOT_MATCH, getReport(), firstName.c_str(), realName.c_str()).ret(e);
 
         // pack syntax rule #2:
         //  middle name automatically created if not exist.
@@ -222,22 +222,22 @@ namespace nm {
 
         auto& newSlot = getTask();
         const std::string& name = getTask().getManifest().name;
-        WHEN(name != manifest::DEFAULT_NAME).exErr(errCode::PACK_NOT_MATCH, manifest::DEFAULT_NAME, name.c_str()).ret(&newSlot.getPack());
+        WHEN(name != manifest::DEFAULT_NAME).exErr(PACK_NOT_MATCH, getReport(), manifest::DEFAULT_NAME, name.c_str()).ret(&newSlot.getPack());
 
         return onSubPack(
             newSlot.getPack()); // this is a default pack containing name as '{default}'.
     }
 
     blockExpr* me::onBlock(const node& stmt) {
-        WHEN_NUL(stmt).exErr(IS_NUL, "stmt").ret(new blockExpr());
+        WHEN_NUL(stmt).exErr(IS_NUL, getReport(), "stmt").ret(new blockExpr());
         blockExpr* ret = onBlock(*new blockExpr(), stmt);
         NM_DI("tokenEvent: onBlock(%s)", stmt);
         return ret;
     }
 
     blockExpr* me::onBlock(blockExpr& blk, const node& stmt) {
-        WHEN_NUL(blk).exErr(IS_NUL, "blk").ret(_maker.make<blockExpr>());
-        WHEN_NUL(stmt).exErr(IS_NUL, "stmt").ret(&blk);
+        WHEN_NUL(blk).exErr(IS_NUL, getReport(), "blk").ret(_maker.make<blockExpr>());
+        WHEN_NUL(stmt).exErr(IS_NUL, getReport(), "stmt").ret(&blk);
         [[maybe_unused]] func& f = _funcs.size() > 0 ? *_funcs.back() : nulOf<func>();
         str stmtLife(stmt);
         NM_DI("tokenEvent: onBlock(blk, %s) inside of %s func", stmt,
@@ -265,11 +265,11 @@ namespace nm {
     defBlock* me::onDefBlock(defBlock& s, node& stmt) {
         str stmtLife(stmt);
 
-        WHEN_NUL(s).exErr(IS_NUL, "s").ret(new defBlock());
-        WHEN_NUL(stmt).exErr(IS_NUL, "stmt").ret(&s);
+        WHEN_NUL(s).exErr(IS_NUL, getReport(), "s").ret(new defBlock());
+        WHEN_NUL(stmt).exErr(IS_NUL, getReport(), "stmt").ret(&s);
         NM_DI("tokenEvent: onDefBlock(s, %s)", stmt);
 
-        WHEN(!nul(stmt.cast<endExpr>())).exErr(END_ONLY_BE_IN_A_FUNC).ret(&s);
+        WHEN(!nul(stmt.cast<endExpr>())).exErr(END_ONLY_BE_IN_A_FUNC, getReport()).ret(&s);
         defVarExpr& defVar =
             stmt.cast<defVarExpr>() orRet & s.addScope(stmt.getSrc().getName(), *stmtLife);
 
@@ -315,7 +315,7 @@ namespace nm {
     }
 
     node* me::onDefAssign(const defPropExpr& prop, const node& rhs) {
-        WHEN_NUL(prop).exErr(IS_NUL, "prop").ret(nullptr);
+        WHEN_NUL(prop).exErr(IS_NUL, getReport(), "prop").ret(nullptr);
         return _onDefAssign(prop.getNewModifier(), prop.getRight(), prop.getName(), rhs);
     }
 
@@ -428,7 +428,7 @@ namespace nm {
     }
 
     narr* me::onParams(const defPropExpr& elem) {
-        WHEN_NUL(elem).exErr(IS_NUL, "elem").ret(new narr());
+        WHEN_NUL(elem).exErr(IS_NUL, getReport(), "elem").ret(new narr());
         NM_DI("tokenEvent: onParams(%s %s)", elem.getName(), elem.getRight());
         narr* ret = new narr();
         ret->add(elem);
@@ -437,7 +437,7 @@ namespace nm {
     }
 
     narr* me::onParams(narr& it, const defPropExpr& elem) {
-        WHEN_NUL(elem).exErr(IS_NUL, "elem").ret(&it);
+        WHEN_NUL(elem).exErr(IS_NUL, getReport(), "elem").ret(&it);
         NM_DI("tokenEvent: onParams(narr(%d), %s %s)", it.len(), elem.getName(), elem.getRight());
         it.add(elem);
 
@@ -453,7 +453,7 @@ namespace nm {
     node* me::onParanthesisAsTuple(narr& tuple) {
         NM_DI("tokenEnvent: onParanthesisAsTuple(%s.size=%d)", (void*) &tuple, tuple.len());
 
-        WHEN(tuple.len() != 1).exErr(errCode::PARANTHESIS_WAS_TUPLE).ret(new mockNode());
+        WHEN(tuple.len() != 1).exErr(PARANTHESIS_WAS_TUPLE, getReport()).ret(new mockNode());
 
         return &tuple[0];
     }
@@ -567,12 +567,12 @@ namespace nm {
     std::vector<string> me::_toDotnames(const node& path) {
         std::vector<string> ret;
         const getExpr* iter = &path.cast<getExpr>();
-        WHEN_NUL(iter).exErr(errCode::PACK_ONLY_ALLOW_VAR_ACCESS).ret(std::vector<string>());
+        WHEN_NUL(iter).exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
 
         do {
             ret.push_back(iter->getName());
             const node& next = iter->getMe();
-            WHEN(!nul(next) && !next.is<getExpr>()).exErr(errCode::PACK_ONLY_ALLOW_VAR_ACCESS).ret(std::vector<string>());
+            WHEN(!nul(next) && !next.is<getExpr>()).exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
 
             iter = &next.cast<getExpr>();
         } while(iter);
@@ -631,7 +631,7 @@ namespace nm {
     }
 
     void me::_onCompilationUnit(obj& subpack, defBlock& blk) {
-        WHEN_NUL(subpack).exErr(errCode::NO_PACK_TRAY).ret();
+        WHEN_NUL(subpack).exErr(NO_PACK_TRAY, getReport()).ret();
 
         _onInjectObjSubs(subpack, blk);
 
@@ -752,7 +752,7 @@ namespace nm {
 
     node* me::onGet(node& from, node& it) {
         getExpr &cast = it.cast<getExpr>()
-                            orRet NM_WHEN.exErr(errCode::IDENTIFIER_ONLY, it.getType().getName().c_str()).ret(&from);
+                            orRet NM_WHEN.exErr(IDENTIFIER_ONLY, getReport(), it.getType().getName().c_str()).ret(&from);
 
         cast.setMe(from);
         NM_DI("tokenEvent: onGet(%s, %s)", from, cast.getName());
@@ -766,7 +766,7 @@ namespace nm {
     node* me::onCallAccess(node& it, const narr& as) {
         // it can be generic or primitive values. track it, leave as specific errs.
         getExpr &cast = it.cast<getExpr>()
-                            orRet NM_WHEN.exErr(errCode::IDENTIFIER_ONLY, it.getType().getName().c_str()).ret(new getExpr(""));
+                            orRet NM_WHEN.exErr(IDENTIFIER_ONLY, getReport(), it.getType().getName().c_str()).ret(new getExpr(""));
 
         cast.setArgs(*new args(as));
         return &cast;
@@ -1220,7 +1220,7 @@ namespace nm {
 
     str me::_onWork() {
         const auto& supplies = getSrcSupplies();
-        WHEN(supplies.isEmpty()).exErr(NO_SRC).ret(tstr<obj>());
+        WHEN(supplies.isEmpty()).exErr(NO_SRC, getReport()).ret(tstr<obj>());
 
         NM_I("parse starts: %d src will be supplied.", supplies.len());
         for(const auto& supply: supplies) {
@@ -1230,7 +1230,7 @@ namespace nm {
             yylex_init_extra(this, &scanner);
 
             YY_BUFFER_STATE bufState = (YY_BUFFER_STATE) supply.onSupplySrc(*this, scanner);
-            WHEN(!bufState).exErr(errCode::IS_NUL, "bufState").ret(tstr<obj>());
+            WHEN(!bufState).exErr(IS_NUL, getReport(), "bufState").ret(tstr<obj>());
 
             // fix Flex Bug here:
             //  when yy_scan_string get called, it returns bufState after malloc it.
