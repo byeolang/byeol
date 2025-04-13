@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <cstdlib>
 #include "../def/_nout.hpp"
 #include "common/typedef.hpp"
 #include "../common/typedef.hpp"
@@ -102,6 +103,22 @@ namespace nm {
         void ret() const {}
 
         template <typename T> T& retNul() const { return nulOf<T>(); }
+
+        void crash() const {
+            abort();
+        }
+
+        template <typename R>
+        R& crash([[maybe_unused]] R& r) const {
+            abort();
+            return r;
+        }
+
+        template <typename R>
+        R&& crash([[maybe_unused]] R&& r) const {
+            abort();
+            return std::move(r);
+        }
     };
 
 #define NM_WHEN ::nm::__WHEN_OBJECT__::get()
