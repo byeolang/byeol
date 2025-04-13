@@ -94,19 +94,19 @@ namespace nm {
         NM(ME(__WHEN_OBJECT__))
 
     public:
+        static const me& get();
+
         template <typename R, typename... Ts> R& ret([[maybe_unused]] R& r) const { return r; }
 
         template <typename R, typename... Ts> R&& ret([[maybe_unused]] R&& r) const {
             return std::move(r);
         }
 
-        void ret() const {}
+        void ret() const;
 
         template <typename T> T& retNul() const { return nulOf<T>(); }
 
-        void crash() const {
-            abort();
-        }
+        void crash() const;
 
         template <typename R>
         R& crash([[maybe_unused]] R& r) const {
