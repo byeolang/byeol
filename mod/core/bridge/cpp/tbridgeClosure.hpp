@@ -75,13 +75,19 @@ namespace nm {
             "can't marshal one of this func's parameter ntypes.");
 
     public:
-        tbridgeClosure(std::function<void(T&, Args...)>&& closure): _closure(closure) {}
+        tbridgeClosure(std::function<void(T&, Args...)> closure): _closure(closure) {}
 
     public:
         const ntype& getType() const override {
             static mgdType inner("ctor", ttype<me>::get(),
                 params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...),
                 false, Marshaling<void, false>::onGetRet());
+            return inner;
+        }
+
+        const baseObj& getOrigin() const override {
+            static obj inner(
+                tbridger<T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>::subs());
             return inner;
         }
 
