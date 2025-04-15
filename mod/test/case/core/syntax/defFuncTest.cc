@@ -41,7 +41,7 @@ TEST_F(defFuncTest, distinguishDefineFuncOrCall) {
 
         const baseFunc& fwrong = res.sub<baseFunc>("main", narr());
         ASSERT_TRUE(nul(fwrong));
-        const baseFunc& f = res.sub<baseFunc>("main", narr(nInt(), nStr()));
+        const baseFunc& f = res.sub<baseFunc>("main", narr(*new nInt(), *new nStr()));
         ASSERT_FALSE(nul(f));
         ASSERT_EQ(f.getParams().len(), 2);
         ASSERT_EQ(f.getRet().getType(), ttype<nVoid>());

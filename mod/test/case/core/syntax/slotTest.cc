@@ -117,7 +117,7 @@ TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
         const frame& fr = sf[sf.len() - 1] orRet false;
 
         // checks slot is in frame:
-        const myfunc& cast = fr.sub<myfunc>("foo", narr(nInt(), nFlt())) orRet false;
+        const myfunc& cast = fr.sub<myfunc>("foo", narr(*new nInt(), *new nFlt())) orRet false;
         const params& ps = cast.getParams() orRet false;
         if(ps.len() != 2) return false;
         if(ps[0].getOrigin().getType() != ttype<nInt>()) return false;
@@ -134,7 +134,7 @@ TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
     });
 
     testSlot.subs().add("foo", f1);
-    testSlot.run("foo", narr(nInt(1), nFlt(3.5f)));
+    testSlot.run("foo", narr(*new nInt(1), *new nFlt(3.5f)));
     ASSERT_TRUE(f1.isRun());
     ASSERT_TRUE(f1.isSuccess());
 }
@@ -155,7 +155,7 @@ TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
     });
     testPack.subs().add("foo", f1);
 
-    testPack.run("foo", narr(nInt(1), nFlt(3.5f)));
+    testPack.run("foo", *new narr(nInt(1), *new nFlt(3.5f)));
     ASSERT_TRUE(f1.isRun());
     ASSERT_TRUE(f1.isSuccess());
 }*/
