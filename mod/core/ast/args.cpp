@@ -1,6 +1,7 @@
 #include "args.hpp"
 
 #include "exprs/getExpr.hpp"
+#include "closure.hpp"
 
 namespace nm {
 
@@ -28,5 +29,21 @@ namespace nm {
             return msg += util::getEvalTypeFrom(val) + (++n >= len() ? "" : ","), true;
         });
         return msg;
+    }
+
+    me me::evalAll(const params& ps) const {
+        me res;
+        WHEN(len() != ps.len()).err("length of args(%d) and typs(%d) doesn't match.", len(), ps.len()).ret(res);
+
+        int n = 0;
+        for(const node& e: *this) {
+            const param& p = ps[n++];
+            str evaluated = closure::make(e) orDo evaluated = e.asImpli(*p.getOrigin().as<node>());
+            WHEN(!evaluated).err("evaluation of arg[%s] -> param[%s] has been failed.", e, p.getOrigin()).ret(me());
+            res.add(*evaluated);
+        }
+
+        res.setMe(getMe());
+        return res;
     }
 } // namespace nm

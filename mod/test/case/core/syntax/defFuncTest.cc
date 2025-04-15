@@ -338,7 +338,7 @@ TEST_F(defFuncTest, overloadingDifferentParameters) {
 
     {
         threadUse th;
-        args args1(narr{nInt()});
+        args args1(narr{*new nInt()});
         auto subs = a.subAll<func>("foo", args1);
         ASSERT_EQ(subs.len(), 1);
         ASSERT_EQ(subs.getPriorType(), EXACT_MATCH);

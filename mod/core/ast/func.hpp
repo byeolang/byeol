@@ -47,8 +47,6 @@ namespace nm {
 
         void onCloneDeep(const clonable& from) override;
 
-        static void evalArgs(const ucontainable& args, const params& ps, const onEval& lambda);
-
         nbool isAbstract() const;
 
     protected:
@@ -56,7 +54,7 @@ namespace nm {
         str _run(nidx exN);
 
     private:
-        scope* _evalArgs(const ucontainable& args);
+        scope* _evalArgs(const args& args);
         str _postprocess(const str& ret, nidx exN);
         void _runEnds();
         void _setOrigin(const baseObj& org);

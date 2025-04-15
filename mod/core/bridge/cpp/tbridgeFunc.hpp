@@ -41,8 +41,8 @@ namespace nm {
         using super::run;
 
         str run(const args& a) override {
-            args tray;
-            args &evaluated = _evalArgs(a, tray) orRet NM_E("evaluated == null"), str();
+            args evaluated = a.evalAll(getParams());
+            WHEN(evaluated.len() != getParams().len()).err("evaluated == null").ret(str());
 
             return _runNative(evaluated);
         }
@@ -58,22 +58,6 @@ namespace nm {
 
     protected:
         virtual str _runNative(args& args) = 0;
-
-    private:
-        args& _evalArgs(const args& a, args& tray) {
-            const params& ps = getParams();
-            WHEN(a.len() != ps.len()).err("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len()).retNul<args>();
-
-            int n = 0;
-            for(const node& e: a) {
-                str ased = e.as(ps[n++].getOrigin());
-                WHEN(!ased).retNul<args>();
-
-                tray.add(*ased);
-            }
-            tray.setMe(a.getMe());
-            return tray;
-        }
 
     protected:
         fptrType _fptr;

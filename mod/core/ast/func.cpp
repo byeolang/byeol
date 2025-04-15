@@ -83,10 +83,14 @@ namespace nm {
 
     void me::_setOrigin(const baseObj& org) { _org.bind(org); }
 
-    scope* me::_evalArgs(const ucontainable& args) {
+    scope* me::_evalArgs(const args& a) {
         scope* ret = new scope();
-        evalArgs(args, getParams(),
-            [&](const std::string& name, const node& arg) { ret->add(name, arg); });
+        const params& ps = getParams();
+        args evaluated = a.evalAll(ps);
+        WHEN(evaluated.len() != ps.len()).ret(nullptr);
+
+        for(int n=0; n < ps.len() ;n++)
+            ret->add(ps[n].getName(), evaluated[n]);
         return ret;
     }
 
@@ -121,17 +125,6 @@ namespace nm {
         _type.onCloneDeep(rhs._type);
         _subs.onCloneDeep(rhs._subs);
         _blk.bind((blockExpr*) rhs._blk->cloneDeep());
-    }
-
-    void me::evalArgs(const ucontainable& args, const params& ps, const onEval& lambda) {
-        WHEN(args.len() != ps.len()).err("length of args(%d) and typs(%d) doesn't match.", args.len(), ps.len()).ret();
-        int n = 0;
-        for(const node& e: args) {
-            const param& p = ps[n++];
-            str evaluated = closure::make(e) orDo evaluated = e.asImpli(*p.getOrigin().as<node>());
-            WHEN(!evaluated).err("evaluation of arg[%s] -> param[%s] has been failed.", e, p.getOrigin()).ret();
-            lambda(p.getName(), *evaluated);
-        }
     }
 
     nbool me::isAbstract() const { return _blk ? _blk->isAbstract() : true; }

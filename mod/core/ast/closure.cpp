@@ -32,9 +32,8 @@ namespace nm {
         NM_I("running closure for %s.%s", *_org, *_func);
         WHEN(!_func).ret(str());
 
-        args evaled;
-        func::evalArgs(a, _func->getParams(),
-            [&](const std::string& name, const node& arg) { evaled.add(arg); });
+        args evaled = a.evalAll(_func->getParams()); // orEmpty str();
+        WHEN(evaled.len() != _func->getParams().len()).ret(str());
         evaled.setMe(*_org);
         return _func->run(evaled);
     }
