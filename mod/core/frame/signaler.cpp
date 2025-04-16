@@ -15,27 +15,27 @@ namespace nm {
         const sig signals[] = {
             {SIGSEGV,
              [](nint code) -> nerr* {
-                    return new nerr(logLv::ERR, errCode::SIG_SEGV);
+                    return new nerr(errLv::ERR, errCode::SIG_SEGV);
                 }},
             {SIGINT,
              [](nint code) -> nerr* {
-                    return new nerr(logLv::ERR, errCode::SIG_INT);
+                    return new nerr(errLv::ERR, errCode::SIG_INT);
                 }},
             {SIGILL,
              [](nint code) -> nerr* {
-                    return new nerr(logLv::ERR, errCode::SIG_ILL);
+                    return new nerr(errLv::ERR, errCode::SIG_ILL);
                 }},
             {SIGABRT,
              [](nint code) -> nerr* {
-                    return new nerr(logLv::ERR, errCode::SIG_ABORT);
+                    return new nerr(errLv::ERR, errCode::SIG_ABORT);
                 }},
             {SIGFPE,
              [](nint code) -> nerr* {
-                    return new nerr(logLv::ERR, errCode::SIG_FPE);
+                    return new nerr(errLv::ERR, errCode::SIG_FPE);
                 }},
             {SIGTERM,
              [](nint code) -> nerr* {
-                    return new nerr(logLv::ERR, errCode::SIG_TERM);
+                    return new nerr(errLv::ERR, errCode::SIG_TERM);
                 }},
         };
 

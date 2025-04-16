@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../builtin/container/native/tnarr.hpp"
-#include "../type/dumpable.hpp"
 #include "frame.hpp"
 
 namespace nm {

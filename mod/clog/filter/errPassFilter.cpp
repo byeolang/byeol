@@ -3,5 +3,5 @@
 namespace nm {
     NM(DEF_ME(errPassFilter))
 
-    nbool me::filt(logLv::level lv, const std::string& tag) const { return lv <= logLv::ERR; }
+    nbool me::filt(errLv::level lv, const std::string& tag) const { return lv <= errLv::ERR; }
 }

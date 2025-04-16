@@ -3,7 +3,6 @@
 #include "../ast/baseFunc.hpp"
 #include "../ast/baseObj.hpp"
 #include "../ast/tmock.hpp"
-#include "../type/dumpable.hpp"
 
 struct immutableTest;
 struct frameTest;

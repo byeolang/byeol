@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../../common.hpp"
-#include "../../type/dumpable.hpp"
 #include "../../type/ntype.hpp"
 #include "baseErr.hpp"
 
@@ -25,8 +24,8 @@ namespace nm {
         nbool inErr(nidx since) const;
         nbool inWarn() const;
         nbool inWarn(nidx since) const;
-        nbool in(logLv::level type) const;
-        nbool in(logLv::level type, nidx since) const;
+        nbool in(errLv::level type) const;
+        nbool in(errLv::level type, nidx since) const;
 
         const baseErr& get(nidx n) const;
 

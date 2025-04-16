@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../common.hpp"
+#include "../def.hpp"
 
 namespace nm {
     class _nout dumpable {

@@ -142,7 +142,7 @@ namespace nm {
         }
     }
 
-    nbool me::log(logLv::level lv, const std::string& filename, const nchar* func, int line,
+    nbool me::log(errLv::level lv, const std::string& filename, const nchar* func, int line,
         const nchar* fmt, ...) {
         std::string tag = _makeTag(filename);
         if(_filters && _filters->filt(lv, tag.c_str())) return false;
@@ -153,11 +153,11 @@ namespace nm {
 
         consoleColor clrLv = WHITE;
         switch(lv) {
-            case logLv::ERR: clrLv = LIGHTRED; break;
-            case logLv::WARN: clrLv = YELLOW; break;
-            case logLv::INFO: clrLv = LIGHTBLUE; break;
+            case errLv::ERR: clrLv = LIGHTRED; break;
+            case errLv::WARN: clrLv = YELLOW; break;
+            case errLv::INFO: clrLv = LIGHTBLUE; break;
         }
-        *this << foreColor(clrLv) << std::string(1, logLv::getName(lv)[0]) << " "
+        *this << foreColor(clrLv) << std::string(1, errLv::getName(lv)[0]) << " "
               << foreColor(LIGHTMAGENTA) << tag << foreColor(GREEN) << " <" << func << "#"
               << std::to_string(line) << "> " << foreColor(LIGHTGRAY);
 

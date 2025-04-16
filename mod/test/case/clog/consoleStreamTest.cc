@@ -81,5 +81,5 @@ TEST_F(consoleStreamTest, debugLogFormat) {
 }
 
 TEST_F(consoleStreamTest, richLogTest) {
-    richLog(logLv::INFO, "filename", "func", 1, "%s.%s\n", nInt(1), obj());
+    richLog(errLv::INFO, "filename", "func", 1, "%s.%s\n", nInt(1), obj());
 }

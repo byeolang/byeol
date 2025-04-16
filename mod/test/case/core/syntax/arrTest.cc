@@ -806,7 +806,7 @@ TEST_F(arrTest, outOfBoundExOccurs) {
         ASSERT_TRUE(res);
         nerr& cast = res->cast<nerr>();
         ASSERT_FALSE(nul(cast));
-        ASSERT_EQ(cast.getLv(), logLv::ERR);
+        ASSERT_EQ(cast.getLv(), errLv::ERR);
         ASSERT_EQ(cast.getErrCode(), errCode::OUT_OF_RANGE);
     }
 }

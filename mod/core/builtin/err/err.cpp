@@ -4,9 +4,9 @@
 namespace nm {
     NM(DEF_ME(err))
 
-    me::err(const nStr& msg): super(logLv::ERR), _msg(msg) {}
+    me::err(const nStr& msg): super(errLv::ERR), _msg(msg) {}
 
-    me::err(): super(logLv::ERR) {}
+    me::err(): super(errLv::ERR) {}
 
     nbool me::operator==(const super& rhs) const {
         const me& cast = rhs.cast<me>() orRet false;

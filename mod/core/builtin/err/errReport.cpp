@@ -25,22 +25,22 @@ namespace nm {
 
     me::operator nbool() const { return inErr(); }
 
-    nbool me::inErr() const { return in(logLv::ERR); }
+    nbool me::inErr() const { return in(errLv::ERR); }
 
-    nbool me::inErr(nidx since) const { return in(logLv::ERR, since); }
+    nbool me::inErr(nidx since) const { return in(errLv::ERR, since); }
 
-    nbool me::inWarn() const { return in(logLv::WARN); }
+    nbool me::inWarn() const { return in(errLv::WARN); }
 
-    nbool me::inWarn(nidx since) const { return in(logLv::WARN, since); }
+    nbool me::inWarn(nidx since) const { return in(errLv::WARN, since); }
 
-    nbool me::in(logLv::level type, nidx since) const {
+    nbool me::in(errLv::level type, nidx since) const {
         if(since < 0) since = 0;
         for(nidx n = since; n < _errs.size(); n++)
             WHEN(_errs[n]->getLv() == type).ret(true);
         return false;
     }
 
-    nbool me::in(logLv::level type) const { return in(type, 0); }
+    nbool me::in(errLv::level type) const { return in(type, 0); }
 
     const baseErr& me::get(nidx n) const { return *_errs[n]; }
 

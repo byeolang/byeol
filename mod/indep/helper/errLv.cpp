@@ -1,7 +1,7 @@
-#include "logLv.hpp"
+#include "errLv.hpp"
 
 namespace nm {
-    NM(DEF_ME(logLv))
+    NM(DEF_ME(errLv))
 
     const std::string& me::getName(level lv) {
         switch(lv) {

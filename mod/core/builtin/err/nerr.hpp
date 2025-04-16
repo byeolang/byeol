@@ -19,9 +19,9 @@ namespace nm {
         template <typename T, nbool> friend struct tmarshaling;
 
     public:
-        nerr(logLv::level t, nint newCode);
-        nerr(logLv::level t, nint newCode, va_list args);
-        nerr(logLv::level t, const point& ps, nint newCode, va_list args);
+        nerr(errLv::level t, nint newCode);
+        nerr(errLv::level t, nint newCode, va_list args);
+        nerr(errLv::level t, const point& ps, nint newCode, va_list args);
         nerr(const me& rhs);
 
     protected:

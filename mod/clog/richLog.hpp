@@ -53,7 +53,7 @@ namespace nm {
     _nout strWrap __convert__(void* rhs);
 
     template <typename... Ts>
-    void richLog(logLv::level lv, const std::string& filename, const nchar* func, nint line,
+    void richLog(errLv::level lv, const std::string& filename, const nchar* func, nint line,
         const nchar* fmt, const Ts&... args) {
         ::nm::logger::get().log(lv, filename, func, line, fmt,
             __convert__((const Ts&) args).unwrap()...);

@@ -1,16 +1,15 @@
 #pragma once
 
 #include "../../ast/baseObj.hpp"
-#include "../../type/dumpable.hpp"
 #include "../../frame/callstack.hpp"
 
 namespace nm {
-    class _nout baseErr: public baseObj, public dumpable {
+    class _nout baseErr: public baseObj, public errorable {
         NM(ADT(baseErr, baseObj))
         template <typename T, nbool> friend struct tmarshaling;
 
     public:
-        baseErr(logLv::level t);
+        baseErr(errLv::level t);
         baseErr(const baseErr& rhs);
 
     public:
@@ -19,15 +18,10 @@ namespace nm {
         nbool operator!=(const me& rhs) const;
 
     public:
-        virtual const std::string& getMsg() const = 0;
-
-        virtual void log() const = 0;
-        void dbgLog() const;
         const callstack& getStack() const;
-        virtual void logStack() const;
+        void logStack() const override;
         void dump() const override;
-        const std::string& getLevelName() const;
-        logLv::level getLv() const;
+        errLv::level getLv() const override;
         static scope& makeSubs();
 
     private:
@@ -36,6 +30,6 @@ namespace nm {
 
     private:
         tstr<callstack> _stack;
-        logLv::level _lv;
+        errLv::level _lv;
     };
 } // namespace nm

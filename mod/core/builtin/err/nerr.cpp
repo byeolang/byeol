@@ -13,7 +13,7 @@ namespace nm {
     namespace {}
 
     const me& me::singletone() {
-        static me inner(logLv::ERR, errCode::UNKNOWN);
+        static me inner(errLv::ERR, errCode::UNKNOWN);
         return inner;
     }
 
@@ -55,18 +55,18 @@ namespace nm {
         return ret;
     }
 
-    me* me::newErr(int code, va_list args) { return new nerr(logLv::ERR, code, args); }
+    me* me::newErr(int code, va_list args) { return new nerr(errLv::ERR, code, args); }
 
     me* me::newErr(const point& pos, int code, ...) {
         va_list args;
         va_start(args, code);
-        me* ret = new me(logLv::ERR, pos, code, args);
+        me* ret = new me(errLv::ERR, pos, code, args);
         va_end(args);
         return ret;
     }
 
     me* me::newErr(const point& pos, int code, va_list args) {
-        return new me(logLv::ERR, pos, code, args);
+        return new me(errLv::ERR, pos, code, args);
     }
 
     me* me::newWarn(int code, ...) {
@@ -77,7 +77,7 @@ namespace nm {
         return ret;
     }
 
-    me* me::newWarn(int code, va_list args) { return new me(logLv::WARN, code, args); }
+    me* me::newWarn(int code, va_list args) { return new me(errLv::WARN, code, args); }
 
     me* me::newWarn(const point& pos, int code, ...) {
         va_list args;
@@ -88,7 +88,7 @@ namespace nm {
     }
 
     me* me::newWarn(const point& pos, int code, va_list args) {
-        return new me(logLv::WARN, pos, code, args);
+        return new me(errLv::WARN, pos, code, args);
     }
 
     me* me::newInfo(int code, ...) {
@@ -99,7 +99,7 @@ namespace nm {
         return ret;
     }
 
-    me* me::newInfo(int code, va_list args) { return new me(logLv::INFO, code, args); }
+    me* me::newInfo(int code, va_list args) { return new me(errLv::INFO, code, args); }
 
     me* me::newInfo(const point& pos, int code, ...) {
         va_list args;
@@ -110,19 +110,19 @@ namespace nm {
     }
 
     me* me::newInfo(const point& pos, int code, va_list args) {
-        return new me(logLv::INFO, pos, code, args);
+        return new me(errLv::INFO, pos, code, args);
     }
 
-    me::nerr(logLv::level t, nint newCode):
+    me::nerr(errLv::level t, nint newCode):
         super(t), _code((errCode) newCode), _pos{}, _msg(getErrMsg(_code)) {}
 
-    me::nerr(logLv::level t, nint newCode, va_list args):
+    me::nerr(errLv::level t, nint newCode, va_list args):
         super(t),
         _code((errCode) newCode),
         _pos{},
         _msg(platformAPI::format(getErrMsg(_code), args)) {}
 
-    me::nerr(logLv::level t, const point& ps, nint newCode, va_list args):
+    me::nerr(errLv::level t, const point& ps, nint newCode, va_list args):
         super(t),
         _code((errCode) newCode),
         _pos(ps),
@@ -130,7 +130,7 @@ namespace nm {
 
     me::nerr(const me& rhs): super(rhs), _code(rhs._code), _pos(rhs._pos), _msg(rhs._msg) {}
 
-    me::nerr(): super(logLv::ERR) {}
+    me::nerr(): super(errLv::ERR) {}
 
     nbool me::operator==(const super& rhs) const {
         const me& cast = rhs.cast<me>() orRet false;
@@ -148,7 +148,7 @@ namespace nm {
         using platformAPI::foreColor;
         auto& log = logger::get();
         switch(getLv()) {
-            case logLv::ERR:
+            case errLv::ERR:
                 if(_pos.isOrigin())
                     log.logFormatBypass("%serr%d(%s)", foreColor(LIGHTRED).c_str(), _code,
                         getErrName(_code).c_str());
@@ -157,7 +157,7 @@ namespace nm {
                         _code, getErrName(_code).c_str(), _pos.row, _pos.col);
                 break;
 
-            case logLv::WARN:
+            case errLv::WARN:
                 if(_pos.isOrigin())
                     log.logFormatBypass("%swarn%d(%s)", foreColor(YELLOW).c_str(), _code,
                         getErrName(_code).c_str());
@@ -166,7 +166,7 @@ namespace nm {
                         _code, getErrName(_code).c_str(), _pos.row, _pos.col);
                 break;
 
-            case logLv::INFO:
+            case errLv::INFO:
                 if(_pos.isOrigin())
                     log.logFormatBypass("%sinfo%d(%s)", foreColor(BLUE).c_str(), _code,
                         getErrName(_code).c_str());
@@ -204,7 +204,7 @@ namespace nm {
         }
     }
 
-    ndummyErr::ndummyErr(): super(logLv::ERR, 0) {}
+    ndummyErr::ndummyErr(): super(errLv::ERR, 0) {}
 
     void ndummyErr::log() const {}
 

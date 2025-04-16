@@ -34,7 +34,7 @@ namespace nm {
         void setEnables(const enables& enbs);
         ncnt getStreamCount() const;
         nbool logFormatBypass(const nchar* fmt, ...);
-        nbool log(logLv::level lv, const std::string& filename, const nchar* func, int line,
+        nbool log(errLv::level lv, const std::string& filename, const nchar* func, int line,
             const nchar* fmt, ...);
         nbool pushStream(stream* new_stream);
         static logger& get();

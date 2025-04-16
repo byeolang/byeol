@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../common/dep.hpp"
-#include "../logLv.hpp"
 
 namespace nm {
     class _nout filterable {
@@ -10,6 +9,6 @@ namespace nm {
 
     public:
         /// @return true means an error.
-        virtual nbool filt(logLv::level lv, const std::string& tag) const = 0;
+        virtual nbool filt(errLv::level lv, const std::string& tag) const = 0;
     };
 }

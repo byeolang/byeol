@@ -22,7 +22,7 @@ namespace nm {
         delete e;
     }
 
-    nbool me::filt(logLv::level lv, const std::string& tag) const {
+    nbool me::filt(errLv::level lv, const std::string& tag) const {
         for(auto* f: _arr)
             if(!f->filt(lv, tag)) return false;
         return true;
