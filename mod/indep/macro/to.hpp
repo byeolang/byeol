@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../common/typedef.hpp"
-#include "../helper/nulr.hpp"
 #include "overload.hpp"
 #include <vector>
 #include <type_traits>
@@ -68,7 +67,7 @@ namespace nm {
         return f(__unwrap_binder__<decltype(t)>::to(t));
     }
 
-    /// then is safe navigation feature of c++:
+    /// `to` is safe navigation feature of c++:
     /// usage:
     ///     as-is:
     ///     ```cpp

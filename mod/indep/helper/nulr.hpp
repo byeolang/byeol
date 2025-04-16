@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../common.hpp"
+#include "tmay.hpp"
 
 namespace nm {
 
@@ -39,6 +39,20 @@ namespace nm {
         static T* get() { return nullptr; }
 
         static nbool isNul(const T* it) { return it == nullptr; }
+    };
+
+    template <typename T> struct nulr<tmay<T>> {
+        static tmay<T> get() { return tmay<T>(); }
+        static nbool isNul(const tmay<T>& it) { return nul(&it) || !it.has(); }
+    };
+
+    template <typename T> struct nulr<tmay<T>&> {
+        static tmay<T>& get() {
+            static tmay<T> inner;
+            return inner;
+        }
+
+        static nbool isNul(const tmay<T>& it) { return nul(&it) || !it.has(); }
     };
 
     /// short version of nulr.

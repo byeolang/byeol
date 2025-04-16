@@ -1,4 +1,5 @@
 #include "dlib.hpp"
+#include "nulr.hpp"
 #ifndef NM_BUILD_PLATFORM_IS_WINDOWS
 #    include <dirent.h> // not compatible to winOs
 #    include <dlfcn.h>

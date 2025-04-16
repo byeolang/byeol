@@ -1,7 +1,9 @@
 #pragma once
 
 #include "../common.hpp"
-#include "../macro.hpp"
+#include "../macro/namuMeta.hpp"
+#include "../macro/declThis.hpp"
+#include "../macro/unconstFunc.hpp"
 #include <optional>
 
 namespace nm {
@@ -32,7 +34,7 @@ namespace nm {
         nbool has() const { return _subj.has_value(); }
 
         T& get() {
-            WHEN(!has()).retNul<T>();
+            WHEN(!has()).template retNul<T>();
             return _subj.value();
         }
 
