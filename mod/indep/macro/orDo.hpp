@@ -17,19 +17,18 @@ namespace nm {
         inline static std::vector<nbool> _stack;
     };
 
-#define __orDoCondition__(_expr_)        \
+#define __OR_DO__(_expr_)        \
     ->*[&](auto& __p) -> decltype(__p) { \
         __orDoStack__::push(_expr_);     \
         return __p;                      \
-    };
+    }; \
+    if(__orDoStack__::pop())
 
-#define orDo __orDo__(nul(__p))
-#define __orDo__(expr) __orDoCondition__(expr) if(__orDoStack__::pop())
+#define OR_DO __OR_DO__(nul(__p))
 
-#define orRet __orRet__(nul(__p))
-#define __orRet__(expr) __orDo__(expr) return
+#define OR_RET __OR_RET__(nul(__p))
+#define __OR_RET__(expr) __OR_DO__(expr) return
 
-#define orNul(T) orRet nulOf<T>()
-#define orEmpty __orRet__(__p.isEmpty())
-#define orContinue orDo continue
+#define OR_NUL(T) OR_RET nulOf<T>()
+#define OR_CONTINUE OR_DO continue
 } // namespace nm

@@ -93,7 +93,7 @@ namespace nm {
             .ret(false);
         const me* fromChain = (const me*) &from.getContainer();
         const me *lastChain = (const me*) &last.getContainer()
-                                  orRet NM_W("iterator 'end' owned by null chain instance."),
+                                  OR_RET NM_W("iterator 'end' owned by null chain instance."),
                  false;
         const me* endChain = &lastChain->getNext(); // now, endChain can be null but it's okay.
 
@@ -112,7 +112,7 @@ namespace nm {
 
     TEMPL
     nbool ME::link(const iter& portion) {
-        ME& next = typeProvidable::safeCast<ME>((portion TO(getContainer()))) orRet false;
+        ME& next = typeProvidable::safeCast<ME>((portion TO(getContainer()))) OR_RET false;
         WHEN(&next == this).warn("recursive link detected for portion(%s).", (void*) &next).ret(false);
 
         _next = portion;
@@ -228,7 +228,7 @@ namespace nm {
     TEMPL
     typename ME::iter& ME::_getInnerIter(const iter& outer) {
         WHEN(!outer._iteration->getType().template isSub<nchainIteration>()).retNul<iter>();
-        nchainIteration& cast = (nchainIteration&) *outer._iteration orNul(iter);
+        nchainIteration& cast = (nchainIteration&) *outer._iteration OR_NUL(iter);
 
         return cast._iter;
     }

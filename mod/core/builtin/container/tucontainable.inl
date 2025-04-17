@@ -22,7 +22,7 @@ namespace nm {
     TEMPL
     template <typename T1> nbool ME::in(std::function<nbool(const T1&)> l) const {
         for(auto e = begin(); e; ++e) {
-            const T1& val = e->template cast<T1>() orContinue;
+            const T1& val = e->template cast<T1>() OR_CONTINUE;
             WHEN(l(val)).ret(true);
         }
         return false;
@@ -76,7 +76,7 @@ namespace nm {
     TEMPL
     template <typename T1> void ME::each(std::function<nbool(T1&)> l) {
         for(auto e = begin(); e; ++e) {
-            T1& val = e->template cast<T1>() orContinue;
+            T1& val = e->template cast<T1>() OR_CONTINUE;
             if(!l(val)) break;
         }
     }

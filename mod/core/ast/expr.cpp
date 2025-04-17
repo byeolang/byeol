@@ -13,7 +13,7 @@ namespace nm {
     nbool me::exprType::isImpli(const type& to) const { return to.isSub<node>(); }
 
     str me::exprType::asImpli(const node& from, const type& to) const {
-        str ret = ((node&) from).run() TO(asImpli(to)) orRet str();
+        str ret = ((node&) from).run() TO(asImpli(to)) OR_RET str();
         return ret;
     }
 

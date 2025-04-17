@@ -29,7 +29,7 @@ namespace nm {
 
         // check retValue is null or not:
         //  ret should be void if there is no value to return. so 'null' not allowed here.
-        str ret = _ret->as<node>() orRet _returnEx(
+        str ret = _ret->as<node>() OR_RET _returnEx(
             nerr::newErr(errCode::RETURN_VALUE_IS_NUL, getSrc().getName().c_str()));
         NM_DI("retExpr: ret[%s]", ret);
 

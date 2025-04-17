@@ -21,8 +21,8 @@ namespace nm {
         public:
             str run(const args& a) override {
                 WHEN(a.len() != 1).ret(str());
-                nStr& me = a.getMe().cast<nStr>() orRet str();
-                tstr<seq> s = a[0].as<seq>() orRet str();
+                nStr& me = a.getMe().cast<nStr>() OR_RET str();
+                tstr<seq> s = a[0].as<seq>() OR_RET str();
 
                 nint start = (*s).get().getStart().get();
                 nint end = (*s).get().getEnd().get();
@@ -116,9 +116,9 @@ namespace nm {
             str run(const args& a) override {
                 const params& ps = getParams();
                 WHEN(a.len() != ps.len()).warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
-                nStr &me = a.getMe().cast<nStr>() orRet NM_E("me as nStr == null"), str();
+                nStr &me = a.getMe().cast<nStr>() OR_RET NM_E("me as nStr == null"), str();
 
-                str eval = a[0].as(ps[0].getOrigin().as<node>()) orRet NM_E(
+                str eval = a[0].as(ps[0].getOrigin().as<node>()) OR_RET NM_E(
                     "evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]),
                     str();
 

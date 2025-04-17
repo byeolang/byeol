@@ -41,7 +41,7 @@ namespace nm {
         using super::run;
 
         str run(const args& a) override {
-            tmay<args> evaluated = a.evalAll(getParams()) orRet(str());
+            tmay<args> evaluated = a.evalAll(getParams()) OR_RET(str());
 
             return _runNative(*evaluated);
         }
@@ -116,7 +116,7 @@ namespace nm {
         }
 
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
-            T *me = (T*) &a.getMe() orRet NM_E("object from frame does not exists."), str();
+            T *me = (T*) &a.getMe() OR_RET NM_E("object from frame does not exists."), str();
             (me->*(this->_fptr))(Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...);
             return Marshaling<void, tifSub<void, node>::is>::toMgd();
         }
@@ -139,7 +139,7 @@ namespace nm {
         }
 
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
-            T *me = (T*) &a.getMe() orRet NM_E("object from frame does not exists."), str();
+            T *me = (T*) &a.getMe() OR_RET NM_E("object from frame does not exists."), str();
             return Marshaling<Ret, tifSub<Ret, node>::is>::toMgd((me->*(this->_fptr)) // funcptr
                 (Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...)); // and args.ZZZ
         }

@@ -133,7 +133,7 @@ namespace nm {
     me::nerr(): super(errLv::ERR) {}
 
     nbool me::operator==(const super& rhs) const {
-        const me& cast = rhs.cast<me>() orRet false;
+        const me& cast = rhs.cast<me>() OR_RET false;
 
         return getLv() == cast.getLv() && _code == cast.getErrCode();
     }

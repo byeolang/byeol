@@ -38,7 +38,7 @@ namespace nm {
         int n = 0;
         for(const node& e: *this) {
             const param& p = ps[n++];
-            str evaluated = closure::make(e) orDo evaluated = e.asImpli(*p.getOrigin().as<node>());
+            str evaluated = closure::make(e) OR_DO evaluated = e.asImpli(*p.getOrigin().as<node>());
             WHEN(!evaluated).err("evaluation of arg[%s] -> param[%s] has been failed.", e, p.getOrigin()).retMayNul<me>();
             res->add(*evaluated);
         }

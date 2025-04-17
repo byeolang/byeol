@@ -60,7 +60,7 @@ namespace {
 
         public:
             str as(const node& it, const type& to) const override {
-                const chef& chef1 = it.cast<chef>() orRet str();
+                const chef& chef1 = it.cast<chef>() OR_RET str();
                 return str(new food(chef1.foodName, chef1.foodCalorie));
             }
         };

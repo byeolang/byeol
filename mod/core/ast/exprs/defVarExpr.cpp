@@ -16,7 +16,7 @@ namespace nm {
 
     str me::run(const args& a) {
         NM_DI("define variable...");
-        str new1 = _makeNew() orRet NM_E("new1 is null"), str();
+        str new1 = _makeNew() OR_RET NM_E("new1 is null"), str();
         // below 'as' is mandatory.
         // assume that user wrotes 'getExpr("me")' into 'as'.
         str to = _to ? _to->as<node>() : str();
@@ -39,7 +39,7 @@ namespace nm {
     nbool me::isToFrame() const { return !_to; }
 
     str me::getEval() const {
-        str ret = _rhs->getEval() orRet ret;
+        str ret = _rhs->getEval() OR_RET ret;
         if(baseFunc::isFuncButNotClosure(*ret)) return closure::make(*ret);
         return ret;
     }
@@ -52,7 +52,7 @@ namespace nm {
 
     str me::makeNewOrigin() {
         auto ret = _makeNew();
-        baseObj& cast = ret->cast<baseObj>() orRet ret; // `ret` can be a closure
+        baseObj& cast = ret->cast<baseObj>() OR_RET ret; // `ret` can be a closure
 
         // origin's clone is making a object, not an origin:
         //  so I've to call cloneDeep().

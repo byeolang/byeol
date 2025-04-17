@@ -28,10 +28,10 @@ namespace nm {
 
     str me::_onWork() {
         args& a = getArgs();
-        node &pak = getTask() orRet NM_E("there is no pack!"), str();
+        node &pak = getTask() OR_RET NM_E("there is no pack!"), str();
 
         NM_I("run a pack");
-        node &main = _findMain(pak, args()) orRet NM_E("there is 0 or more than 2 main() found."),
+        node &main = _findMain(pak, args()) OR_RET NM_E("there is 0 or more than 2 main() found."),
              str();
 
         if(main.canRun(a)) {
@@ -61,7 +61,7 @@ namespace nm {
 
     node& me::_findMain(node& pak, const args& a) {
         // TODO: now, only find to main() but I need to find main(argc, argv) case, too.
-        node& ret = pak.sub(MAIN) orDo NM_E("couldn't find main().");
+        node& ret = pak.sub(MAIN) OR_DO NM_E("couldn't find main().");
 
         return ret;
     }

@@ -24,7 +24,7 @@ namespace nm {
     exErr(me, errCode::code, getReport(), a1, a2, a3)
 #define myExWarn(...) NM_OVERLOAD(myExWarn, __VA_ARGS__)
 
-#define orRetErr(...) orRet NM_WHEN.myExErr(__VA_ARGS__)
+#define orRetErr(...) OR_RET NM_WHEN.myExErr(__VA_ARGS__)
 
     template <typename R, typename T> class worker: public typeProvidable, public clonable {
         NM(ADT(worker))

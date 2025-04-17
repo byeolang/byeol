@@ -7,7 +7,7 @@ namespace nm {
         super(obj, fun, std::move(closure)), _org(org) {}
 
     nbool me::convergeWithoutFrame() {
-        str eval = _org->getEval() orRet false;
+        str eval = _org->getEval() OR_RET false;
         baseObj& cast = eval->cast<baseObj>();
         if(!nul(cast)) eval.bind(cast.getOrigin());
 

@@ -434,7 +434,7 @@ namespace nm {
         _STEP("is it possible to run?");
         WHEN_NUL(me.getMe()).myExErr(me, DONT_KNOW_ME).ret();
 
-        str ased = me.getMe().getEval() orRet;
+        str ased = me.getMe().getEval() OR_RET;
         args& a = me.getArgs();
         a.setMe(*ased);
 
@@ -455,7 +455,7 @@ namespace nm {
     }
 
     void me::onTraverse(runExpr& me, node& subject) {
-        str ased = me.getMe() TO(getEval()) orRet;
+        str ased = me.getMe() TO(getEval()) OR_RET;
 
         getExpr& cast = subject.cast<getExpr>();
         if(!nul(cast)) cast.setMe(*ased);
@@ -505,7 +505,7 @@ namespace nm {
 
             // this has same name on shares, but it's not func! it's not valid.
             // this could be an origin obj.
-            const baseFunc& cast = val.cast<baseFunc>() orRet true;
+            const baseFunc& cast = val.cast<baseFunc>() OR_RET true;
             const params& castPs = cast.getParams();
             WHEN(castPs.len() != len).ret(false);
 
@@ -562,7 +562,7 @@ namespace nm {
                 NM_WHEN.myExErr(me, PARAM_NOT_VOID, p.getName().c_str());
                 continue;
             }
-            str eval = p TO(getOrigin()) TO(getEval()) orContinue;
+            str eval = p TO(getOrigin()) TO(getEval()) OR_CONTINUE;
             s->add(p.getName(), *new mockNode(*eval));
         }
 
@@ -606,7 +606,7 @@ namespace nm {
 
         _STEP("last stmt should match to ret type");
         NM_END(me.outFrame(scope()));
-        const type& retType = me.getRet() TO(getType()) orRet NM_E("func.getRet() is null");
+        const type& retType = me.getRet() TO(getType()) OR_RET NM_E("func.getRet() is null");
         const node& lastStmt = *me.getBlock().getStmts().last();
 
         WHEN(retType == ttype<nVoid>::get()).info("func: implicit return won't verify WHEN retType is void.").ret();

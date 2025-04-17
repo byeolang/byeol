@@ -52,7 +52,7 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, asExpr& me, nbool) {
-        str org = _findOrigin(me.getAs()) orRet true;
+        str org = _findOrigin(me.getAs()) OR_RET true;
 
         NM_DI("* inject 'as %s' --> 'as %s'", me.getAs(), org);
         me.setAs(*org);
@@ -63,7 +63,7 @@ namespace nm {
         narr& stmts = me.getStmts();
         for(int n = 0; n < stmts.len(); n++) {
             const node& stmt = stmts[n];
-            str org = _findOrigin(stmt) orContinue;
+            str org = _findOrigin(stmt) OR_CONTINUE;
 
             NM_DI("* inject 'stmt %s' --> 'stmt %s'", stmt, org);
             stmts.set(n, *org);
@@ -72,7 +72,7 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, defVarExpr& me, nbool) {
-        str org = _findOrigin(me.getRight()) orRet true;
+        str org = _findOrigin(me.getRight()) OR_RET true;
 
         NM_DI("* inject '%s %s' --> '%s %s'", me.getName(), me.getRight(), me.getName(), org);
         me.setRight(*org);
@@ -89,7 +89,7 @@ namespace nm {
         args& as = me.getArgs();
         for(int n = 0; n < as.len(); n++) {
             node& a = as[n];
-            str org = _findOrigin(a) orContinue;
+            str org = _findOrigin(a) OR_CONTINUE;
 
             NM_DI("* inject arg '%s' --> '%s'", a, *org);
             as.set(n, *org);
@@ -100,7 +100,7 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, params& me) {
         for(int n = 0; n < me.len(); n++) {
             param& p = me[n];
-            str org = _findOrigin(p.getOrigin()) orContinue;
+            str org = _findOrigin(p.getOrigin()) OR_CONTINUE;
 
             NM_DI("* inject %s() func's param: '%s' --> '%s'", i, p.getOrigin(), *org);
             p.setOrigin(*org);
@@ -148,7 +148,7 @@ namespace nm {
         scope& subs = me.subs();
         for(auto e = subs.begin(); e; ++e) {
             const node& prevVal = e.getVal();
-            str org = _findOrigin(prevVal) orContinue;
+            str org = _findOrigin(prevVal) OR_CONTINUE;
 
             NM_DI("* inject '%s' at '%s.%s' to '%s", prevVal, i, e.getKey(), *org);
             e.setVal(*org);
@@ -168,7 +168,7 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, getGenericExpr& me, nbool) {
-        args& a = *me._args orRet true;
+        args& a = *me._args OR_RET true;
 
         for(nint n = 0; n < a.len(); n++) {
             str org = _findOrigin(a[n]);

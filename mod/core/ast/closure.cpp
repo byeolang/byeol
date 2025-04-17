@@ -32,7 +32,7 @@ namespace nm {
         NM_I("running closure for %s.%s", *_org, *_func);
         WHEN(!_func).ret(str());
 
-        tmay<args> evaled = a.evalAll(_func->getParams()) orRet str();
+        tmay<args> evaled = a.evalAll(_func->getParams()) OR_RET str();
         evaled->setMe(*_org);
         return _func->run(*evaled);
     }
@@ -56,7 +56,7 @@ namespace nm {
 
     me* me::_make(const func& e) {
         const baseObj& meObj =
-            thread::get().getNowFrame() TO(getMe()) TO(template cast<baseObj>()) orRet nullptr;
+            thread::get().getNowFrame() TO(getMe()) TO(template cast<baseObj>()) OR_RET nullptr;
 
         NM_I("make a closure for %s.%s", meObj, e);
         return new me(meObj, e);
@@ -68,8 +68,8 @@ namespace nm {
         str mayMe = e._evalMe(true);
         frame& fr = mayMe->cast<frame>();
         tstr<baseObj> meObj =
-            (!nul(fr) ? fr.getMe().cast<baseObj>() : mayMe->cast<baseObj>()) orRet nullptr;
-        baseFunc& cast = e._onGet(*mayMe) TO(template cast<baseFunc>()) orRet nullptr;
+            (!nul(fr) ? fr.getMe().cast<baseObj>() : mayMe->cast<baseObj>()) OR_RET nullptr;
+        baseFunc& cast = e._onGet(*mayMe) TO(template cast<baseFunc>()) OR_RET nullptr;
 
         NM_I("make a closure for %s.%s", meObj, cast.getSrc().getName());
         return new me(*meObj, cast);

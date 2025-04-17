@@ -26,7 +26,7 @@ namespace nm {
             for(nidx n = 0; n < lhsPs.len(); n++)
                 WHEN(lhsPs[n] != rhsPs[n]).ret(false);
             //      retType:
-            const node& lhsRet = castFrom.getRet() orRet false;
+            const node& lhsRet = castFrom.getRet() OR_RET false;
             return lhsRet.getType() == castTo.getRet().getType();
         }
 

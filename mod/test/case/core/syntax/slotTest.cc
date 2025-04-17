@@ -114,20 +114,20 @@ TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
     ps.add(new param("age", new nInt()));
     ps.add(new param("grade", new nFlt()));
     f1.setLambda([](const auto& contain, const auto& sf) {
-        const frame& fr = sf[sf.len() - 1] orRet false;
+        const frame& fr = sf[sf.len() - 1] OR_RET false;
 
         // checks slot is in frame:
-        const myfunc& cast = fr.sub<myfunc>("foo", narr(*new nInt(), *new nFlt())) orRet false;
-        const params& ps = cast.getParams() orRet false;
+        const myfunc& cast = fr.sub<myfunc>("foo", narr(*new nInt(), *new nFlt())) OR_RET false;
+        const params& ps = cast.getParams() OR_RET false;
         if(ps.len() != 2) return false;
         if(ps[0].getOrigin().getType() != ttype<nInt>()) return false;
         if(ps[1].getName() != "grade") return false;
 
         // checks args of funcs is in frame:
-        const nInt& age = fr.sub<nInt>("age") orRet false;
+        const nInt& age = fr.sub<nInt>("age") OR_RET false;
         if(age.cast<int>() != 1) return false;
 
-        const nFlt& grade = fr.sub("grade").cast<nFlt>() orRet false;
+        const nFlt& grade = fr.sub("grade").cast<nFlt>() OR_RET false;
         if(grade.get() < 3.4f || grade.get() > 3.6f) return false;
 
         return true;

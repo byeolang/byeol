@@ -11,7 +11,7 @@ namespace nm {
 
     str me::run(const args& a) {
         WHEN(!_it).ret(str());
-        tstr<arithmeticObj> it = _it->as<node>() orRet str();
+        tstr<arithmeticObj> it = _it->as<node>() OR_RET str();
 
         str ret((node*) it->cloneDeep());
         switch(_rule) {

@@ -271,7 +271,7 @@ namespace nm {
 
         WHEN(!nul(stmt.cast<endExpr>())).exErr(END_ONLY_BE_IN_A_FUNC, getReport()).ret(&s);
         defVarExpr& defVar =
-            stmt.cast<defVarExpr>() orRet & s.addScope(stmt.getSrc().getName(), *stmtLife);
+            stmt.cast<defVarExpr>() OR_RET & s.addScope(stmt.getSrc().getName(), *stmtLife);
 
         // checks whether rhs was primitive type:
         //  if rhs isn't primitive, rhs will be getExpr type.
@@ -752,7 +752,7 @@ namespace nm {
 
     node* me::onGet(node& from, node& it) {
         getExpr &cast = it.cast<getExpr>()
-                            orRet NM_WHEN.exErr(IDENTIFIER_ONLY, getReport(), it.getType().getName().c_str()).ret(&from);
+                            OR_RET NM_WHEN.exErr(IDENTIFIER_ONLY, getReport(), it.getType().getName().c_str()).ret(&from);
 
         cast.setMe(from);
         NM_DI("tokenEvent: onGet(%s, %s)", from, cast.getName());
@@ -766,7 +766,7 @@ namespace nm {
     node* me::onCallAccess(node& it, const narr& as) {
         // it can be generic or primitive values. track it, leave as specific errs.
         getExpr &cast = it.cast<getExpr>()
-                            orRet NM_WHEN.exErr(IDENTIFIER_ONLY, getReport(), it.getType().getName().c_str()).ret(new getExpr(""));
+                            OR_RET NM_WHEN.exErr(IDENTIFIER_ONLY, getReport(), it.getType().getName().c_str()).ret(new getExpr(""));
 
         cast.setArgs(*new args(as));
         return &cast;

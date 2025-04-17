@@ -41,7 +41,7 @@ namespace nm {
     TEMPL ME& ME::operator=(const me& rhs) { return operator=((const binder&) rhs); }
 
     TEMPL T& ME::get() {
-        instance& got = SUPER::get() orNul(T);
+        instance& got = SUPER::get() OR_NUL(T);
         return got.cast<T>();
     }
 

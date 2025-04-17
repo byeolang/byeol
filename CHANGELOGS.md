@@ -547,16 +547,16 @@ def Person
 
 \+ Added lazyMgdType class to lazily evaluate parameter, ret, to avoid getting stuck in infinite recursion.
 
-\+ `orRet` macro is added.
+\+ `OR_RET` macro is added.
    If you define a variable with an initial value and it ends up in a null state,
    you may `return` the function or `continue` a loop is very common and leads to a lot of redundant code.
-   The `orRet` macro will return the function with the appropriate value if the preceding initial value is determined to be null.
+   The `OR_RET` macro will return the function with the appropriate value if the preceding initial value is determined to be null.
 ```cpp
 // 1 - before:
 A* a = getPainter().getBrush().getA();
 if(!a)    return false;
 // 1 - after:
-A* a = getPainter().getBrush().getA() orRet false;
+A* a = getPainter().getBrush().getA() OR_RET false;
 
 
 // 2 - before:
@@ -566,16 +566,16 @@ while(true) {
 }
 // 2 - after:
 while(true) {
-    A* a = getA() orContinue;
-} // note that you need to use curly brackets. when you `orContinue`, it expands to 2 lines.
+    A* a = getA() OR_CONTINUE;
+} // note that you need to use curly brackets. when you `OR_CONTINUE`, it expands to 2 lines.
 ````
 
 \+ a big improvement to the safe navigation macro.
    Previously, we created and used `safeGet` macro, but it had a few problems.
 
-   - `orRet` required similar behavior to `safeGet`, but `safeGet` is not reusable structure.
+   - `OR_RET` required similar behavior to `safeGet`, but `safeGet` is not reusable structure.
      I couldn't combine them into common logic.
-   - It was not possible to use `orRet` directly on the result of `safeGet(a, b, c)`.
+   - It was not possible to use `OR_RET` directly on the result of `safeGet(a, b, c)`.
    - I had to put round brackets around the expr, `a.b.c`, which was kind of ugly.
         e.g. safeGet(a, b, c)
    - If you did a `safeGet(a, b(), c)` and then did another `safeGet` inside `b()`,
@@ -583,8 +583,8 @@ while(true) {
      This was because `safeGet` holds the value in a global variable instead of storing it in a temporary one.
 
    The new and improved macro is the `THEN` macro, which solves all of the above problems.
-   Because it is designed to be generic so it was easy to create an `orRet` macro reusing it.
-   It is also possible to apply `orRet` to the result of using `THEN`.
+   Because it is designed to be generic so it was easy to create an `OR_RET` macro reusing it.
+   It is also possible to apply `OR_RET` to the result of using `THEN`.
    Since we used `->*` overloading, which is a suffix operator, we don't need the outer curly brackets.
    Also, since we're returning from function to function,
    we don't need to store the value in a global variable somewhere. usage for it will follow.
@@ -595,7 +595,7 @@ A* a = safeGet(c, getB(), getA());
 if(!a) return false;
 
 // after:
-A* a = c THEN(getB()) THEN(getA()) orRet false;
+A* a = c THEN(getB()) THEN(getA()) OR_RET false;
 ```
 
    Note that it has all the functionality of safeGet.

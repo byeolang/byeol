@@ -27,7 +27,7 @@ namespace nm {
         if(_stack.size() <= 0)
             return _stack.push_back(scopeRegister{owner, existing, existing}), void();
 
-        tstr<scope> cloned = existing.cloneChain() orRet;
+        tstr<scope> cloned = existing.cloneChain() OR_RET;
         cloned->getTail().link(*_getTop().linkedS);
         _stack.push_back(scopeRegister{owner, existing, cloned});
         NM_DI("scope added: frame.len[%d] scope.owner[%s]", _stack.size(), owner);
@@ -36,7 +36,7 @@ namespace nm {
     void me::addLocal(const std::string& name, const node& n) {
         WHEN(_stack.size() <= 0).err("couldn't push new node. the top scope is null").ret();
         auto &locals =
-            getLocals() orRet NM_E("it's tried to add variable into %s. it's not valid.", name),
+            getLocals() OR_RET NM_E("it's tried to add variable into %s. it's not valid.", name),
              void();
         locals.add(name, n);
     }

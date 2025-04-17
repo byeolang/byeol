@@ -22,7 +22,7 @@ namespace nm {
         public:
             nbool isLooping() override {
                 str ased = _owner.getCondition().asImpli<nBool>()
-                               orRet NM_E("cast to bool has been failed."),
+                               OR_RET NM_E("cast to bool has been failed."),
                     false;
                 return ased->cast<nbool>();
             }

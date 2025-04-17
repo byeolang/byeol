@@ -22,7 +22,7 @@ namespace nm {
     node& me::getCondition() { return *_expr; }
 
     str me::run(const args& a) {
-        tstr<nBool> res = _expr->as<node>() TO(template asImpli<nBool>()) orRet nVoid::singletone();
+        tstr<nBool> res = _expr->as<node>() TO(template asImpli<nBool>()) OR_RET nVoid::singletone();
         nbool cond = res->cast<nbool>();
         NM_DI("@%s `if %s --> to %s`", this, *_expr, cond ? "THEN" : "ELSE");
         auto& blk = cond ? *_then : *_else;
@@ -35,8 +35,8 @@ namespace nm {
     }
 
     str me::getEval() const {
-        str thenEval = _then->getEval() orRet NM_E("thenEval is null"), thenEval;
-        str elseEval = (_else ? _else->getEval() : str()) orRet NM_E("elseEval is null"), elseEval;
+        str thenEval = _then->getEval() OR_RET NM_E("thenEval is null"), thenEval;
+        str elseEval = (_else ? _else->getEval() : str()) OR_RET NM_E("elseEval is null"), elseEval;
 
         WHEN(thenEval->isSub<retStateExpr>()).info("thenEval is %s, accept elseEval[%s]", thenEval, elseEval).ret(elseEval);
         WHEN(elseEval->isSub<retStateExpr>()).info("elseEval is %s, accept thenEval[%s]", elseEval, thenEval).ret(thenEval);

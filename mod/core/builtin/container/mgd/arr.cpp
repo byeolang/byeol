@@ -57,8 +57,8 @@ namespace nm {
             str run(const args& a) override {
                 const params& ps = getParams();
                 WHEN(a.len() != ps.len()).warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
-                arr &meObj = a.getMe().cast<arr>() orRet NM_E("meObj as arr == null"), str();
-                str eval = a[0].as(ps[0].getOrigin()) orRet NM_E(
+                arr &meObj = a.getMe().cast<arr>() OR_RET NM_E("meObj as arr == null"), str();
+                str eval = a[0].as(ps[0].getOrigin()) OR_RET NM_E(
                     "evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]),
                     str();
 
@@ -106,7 +106,7 @@ namespace nm {
         const auto& ps = getType().getParams();
         WHEN(ps.isEmpty()).ret(dummy);
 
-        tstr<baseObj> paramOrg = ps[0].getOrigin().as<baseObj>() TO(getOrigin()) orRet dummy;
+        tstr<baseObj> paramOrg = ps[0].getOrigin().as<baseObj>() TO(getOrigin()) OR_RET dummy;
         auto e = _cache.find(&paramOrg.get());
         WHEN(e != _cache.end()).ret(e->second.get());
 
@@ -191,7 +191,7 @@ namespace nm {
             const baseObj& getOrigin() const override { return *_org; }
 
             str run(const args& a) override {
-                node& src = a.getMe() orRet str();
+                node& src = a.getMe() OR_RET str();
                 return (node*) src.clone();
             }
 

@@ -20,8 +20,8 @@ namespace nm {
 
     str me::_makeEval() const {
         str ased = _container->getEval();
-        str elemType = ased->run("getElemType") orRet NM_E("elemType == null"), str();
-        auto& fr = thread::get()._getNowFrame() orRet str();
+        str elemType = ased->run("getElemType") OR_RET NM_E("elemType == null"), str();
+        auto& fr = thread::get()._getNowFrame() OR_RET str();
 
         frameInteract f1(getBlock());
         fr.addLocal(getLocalName(), *((node*) elemType->clone()));
@@ -43,7 +43,7 @@ namespace nm {
             nbool isLooping() override { return !_iter->run("isEnd")->cast<nbool>(); }
 
             void run(blockExpr& blk, frame& fr) override {
-                str elem = _iter->run("get") orRet NM_E("elem is null"), void();
+                str elem = _iter->run("get") OR_RET NM_E("elem is null"), void();
                 fr.addLocal(_owner.getLocalName(), *elem);
 
                 super::run(blk, fr);
@@ -62,8 +62,8 @@ namespace nm {
     }
 
     tstr<me::loop> me::_makeLoop(arr& ret) const {
-        str ased = _container->as<node>() orRet NM_E("ased is null"), str();
-        str iter = ased->run("iterate", args{narr{*new nInt(0)}}) orRet NM_E("iter is null"), str();
+        str ased = _container->as<node>() OR_RET NM_E("ased is null"), str();
+        str iter = ased->run("iterate", args{narr{*new nInt(0)}}) OR_RET NM_E("iter is null"), str();
 
         NM_DI("forExpr: loop %s in %s", getLocalName(), ased->getSrc());
         return new forLoop(ret, ased, iter, *this);

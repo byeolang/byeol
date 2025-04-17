@@ -182,7 +182,7 @@ namespace nm {
             };
 
             int len = backtrace(rawCallstacks, BT_SIZE);
-            char** callstacks = backtrace_symbols(rawCallstacks, len) orRet ret;
+            char** callstacks = backtrace_symbols(rawCallstacks, len) OR_RET ret;
 
             for(int n = 0; n < len; n++) {
                 Dl_info info;
