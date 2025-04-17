@@ -14,36 +14,36 @@ namespace nm {
         NM(CLASS(FBOExpr, expr, expr::exprType), VISIT())
 
     public:
-        enum rule {
-            ADD = 0,
-            START = ADD,
-            ARITH_START = START,
-            SUB,
-            MUL,
-            DIV,
-            MOD,
-            BITWISE_AND,
-            BITWISE_XOR,
-            BITWISE_OR,
-            LSHIFT,
-            RSHIFT,
-            ARITH_END,
+        enum symbol {
+            SYMBOL_ADD = 0,
+            SYMBOL_START = SYMBOL_ADD,
+            SYMBOL_ARITH_START = SYMBOL_START,
+            SYMBOL_SUB,
+            SYMBOL_MUL,
+            SYMBOL_DIV,
+            SYMBOL_MOD,
+            SYMBOL_BITWISE_AND,
+            SYMBOL_BITWISE_XOR,
+            SYMBOL_BITWISE_OR,
+            SYMBOL_LSHIFT,
+            SYMBOL_RSHIFT,
+            SYMBOL_ARITH_END,
 
-            EQ,
-            LOGIC_START = EQ,
-            NE,
-            GT,
-            LT,
-            GE,
-            LE,
-            AND,
-            OR,
-            LOGIC_END,
-            END = LOGIC_END
+            SYMBOL_EQ,
+            SYMBOL_LOGIC_START = SYMBOL_EQ,
+            SYMBOL_NE,
+            SYMBOL_GT,
+            SYMBOL_LT,
+            SYMBOL_GE,
+            SYMBOL_LE,
+            SYMBOL_AND,
+            SYMBOL_OR,
+            SYMBOL_LOGIC_END,
+            SYMBOL_END = SYMBOL_LOGIC_END
         };
 
     public:
-        FBOExpr(rule rule, const node& lhs, const node& rhs);
+        FBOExpr(symbol s, const node& lhs, const node& rhs);
 
     public:
         using super::run;
@@ -55,11 +55,11 @@ namespace nm {
         const node& getRight() const;
         void setRight(const node& new1);
         nbool isLogicalOp() const;
-        rule getRule() const;
-        static const nchar* getRuleName(rule r);
+        symbol getSymbol() const;
+        static const nchar* getSymbolName(symbol s);
 
     private:
-        rule _rule;
+        symbol _symbol;
         str _lhs;
         str _rhs;
     };

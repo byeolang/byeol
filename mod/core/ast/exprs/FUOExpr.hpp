@@ -14,16 +14,16 @@ namespace nm {
         NM(CLASS(FUOExpr, expr, expr::exprType), VISIT())
 
     public:
-        enum rule {
-            POSTFIX_DOUBLE_PLUS = 0,
-            START = POSTFIX_DOUBLE_PLUS,
-            POSTFIX_DOUBLE_MINUS,
-            BITWISE_NOT,
-            END
+        enum symbol {
+            SYMBOL_POSTFIX_DOUBLE_PLUS = 0,
+            SYMBOL_START = SYMBOL_POSTFIX_DOUBLE_PLUS,
+            SYMBOL_POSTFIX_DOUBLE_MINUS,
+            SYMBOL_BITWISE_NOT,
+            SYMBOL_END
         };
 
     public:
-        FUOExpr(rule rule, const node& it);
+        FUOExpr(symbol s, const node& it);
 
     public:
         using super::run;
@@ -32,11 +32,11 @@ namespace nm {
         node& getOperand();
         const node& getOperand() const NM_CONST_FUNC(getOperand())
         str getEval() const override;
-        rule getRule() const;
-        static const nchar* getRuleName(rule r);
+        symbol getSymbol() const;
+        static const nchar* getSymbolName(symbol r);
 
     private:
-        rule _rule;
+        symbol _symbol;
         str _it;
     };
 } // namespace nm

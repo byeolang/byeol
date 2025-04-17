@@ -7,7 +7,7 @@ namespace nm {
 
     NM(DEF_ME(FUOExpr), DEF_VISIT())
 
-    me::FUOExpr(rule rule, const node& it): _rule(rule), _it(it) {}
+    me::FUOExpr(symbol s, const node& it): _symbol(s), _it(it) {}
 
     str me::run(const args& a) {
         WHEN(!_it).ret(str());
@@ -15,19 +15,19 @@ namespace nm {
 
         str ret((node*) it->cloneDeep());
         switch(_rule) {
-            case POSTFIX_DOUBLE_PLUS: {
+            case SYMBOL_POSTFIX_DOUBLE_PLUS: {
                 tstr<arithmeticObj> rhs = it->add(nInt(1));
                 if(rhs) it->mov(*rhs);
                 break;
             }
 
-            case POSTFIX_DOUBLE_MINUS: {
+            case SYMBOL_POSTFIX_DOUBLE_MINUS: {
                 tstr<arithmeticObj> rhs = it->sub(nInt(1));
                 if(rhs) it->mov(*rhs);
                 break;
             }
 
-            case BITWISE_NOT: ret = it->bitwiseNot(); break;
+            case SYMBOL_BITWISE_NOT: ret = it->bitwiseNot(); break;
 
             default:;
         }
@@ -39,13 +39,13 @@ namespace nm {
 
     str me::getEval() const { return _it->getEval(); }
 
-    me::rule me::getRule() const { return _rule; }
+    me::symbol me::getSymbol() const { return _symbol; }
 
-    const nchar* me::getRuleName(rule r) {
-        switch(r) {
-            case POSTFIX_DOUBLE_PLUS: return "++";
-            case POSTFIX_DOUBLE_MINUS: return "--";
-            case BITWISE_NOT: return "~";
+    const nchar* me::getSymbolName(symbol s) {
+        switch(s) {
+            case SYMBOL_POSTFIX_DOUBLE_PLUS: return "++";
+            case SYMBOL_POSTFIX_DOUBLE_MINUS: return "--";
+            case SYMBOL_BITWISE_NOT: return "~";
             default: return "";
         }
     }
