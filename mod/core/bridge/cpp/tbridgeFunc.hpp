@@ -41,10 +41,9 @@ namespace nm {
         using super::run;
 
         str run(const args& a) override {
-            args evaluated = a.evalAll(getParams());
-            WHEN(evaluated.len() != getParams().len()).err("evaluated == null").ret(str());
+            tmay<args> evaluated = a.evalAll(getParams()) orRet(str());
 
-            return _runNative(evaluated);
+            return _runNative(*evaluated);
         }
 
         void onCloneDeep(const clonable& from) override {

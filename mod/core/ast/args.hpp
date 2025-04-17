@@ -31,7 +31,7 @@ namespace nm {
         /// @remark in order to call this func, you must have prepared thread and frames.
         std::string toStr() const;
 
-        me evalAll(const params& ps) const;
+        tmay<me> evalAll(const params& ps) const;
 
     private:
         mutable str _me;

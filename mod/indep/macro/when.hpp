@@ -107,6 +107,8 @@ namespace nm {
 
         template <typename T> T& retNul() const { return nulOf<T>(); }
 
+        template <typename T> tmay<T> retMayNul() const { return tmay<T>(); }
+
         void crash() const;
 
         template <typename R>

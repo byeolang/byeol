@@ -11,36 +11,38 @@ namespace nm {
     /// this is a wrapper class for std::optional.
     /// improved `optional`'s func name and signature because they are somewhat inconsistent
     /// from the perspective of namu and convention rules.
+    ///
+    /// in namu, there are two cases where data must be returned with an error.
+    ///     1. When returning by ref: use a binder such as tstr<T> or tweak<T>.
+    ///     2. When returning by value: use tmay<T>.
+    ///
+    /// for details, refer to the return type rules of namu.
     template <typename T> class tmay {
         NM(ME(tmay))
 
     public:
         tmay() = default;
 
-        explicit tmay(const T& value): _subj(value) {}
+        explicit tmay(const T& value);
 
     public:
-        T* operator->() { return &get(); }
+        T* operator->();
 
         const T* operator->() const NM_CONST_FUNC(operator->());
 
-        T& operator*() { return get(); }
+        T& operator*();
 
         const T& operator*() const NM_CONST_FUNC(operator*());
 
-        operator nbool() const { return has(); }
+        operator nbool() const;
 
     public:
-        nbool has() const { return _subj.has_value(); }
+        nbool has() const;
 
-        T& get() {
-            WHEN(!has()).template retNul<T>();
-            return _subj.value();
-        }
+        T& get();
+        void rel();
 
-        void rel() { _subj.reset(); }
-
-        template <typename... Ts> void set(Ts... args) { _subj.emplace(args...); }
+        template <typename... Ts> void set(Ts... args);
 
     private:
         std::optional<T> _subj;

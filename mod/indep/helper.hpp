@@ -8,4 +8,4 @@
 #include "helper/errLv.hpp"
 #include "helper/errorable.hpp"
 #include "helper/dlib.hpp"
-#include "helper/tmay.hpp"
+#include "helper/tmay.inl"

@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    struct __orRetStack__ {
+    struct __orDoStack__ {
         static void push(nbool val) { _stack.push_back(val); }
 
         static nbool pop() {
@@ -17,14 +17,19 @@ namespace nm {
         inline static std::vector<nbool> _stack;
     };
 
-#define __orRet__                        \
+#define __orDoCondition__(_expr_)        \
     ->*[&](auto& __p) -> decltype(__p) { \
-        __orRetStack__::push(nul(__p));  \
+        __orDoStack__::push(_expr_);     \
         return __p;                      \
     };
 
-#define orRet orDo return
+#define orDo __orDo__(nul(__p))
+#define __orDo__(expr) __orDoCondition__(expr) if(__orDoStack__::pop())
+
+#define orRet __orRet__(nul(__p))
+#define __orRet__(expr) __orDo__(expr) return
+
 #define orNul(T) orRet nulOf<T>()
-#define orDo __orRet__ if(__orRetStack__::pop())
+#define orEmpty __orRet__(__p.isEmpty())
 #define orContinue orDo continue
 } // namespace nm
