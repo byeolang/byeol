@@ -6,7 +6,7 @@ namespace nm {
 
     NM_DEF_ME(immutableTactic)
 
-    me me::singletone;
+    me me::singleton;
 
     nbool me::bind(binder& me, const instance& it) {
         const node* new1 = &it.cast<node>(); // I can guarantee that it is a node type.

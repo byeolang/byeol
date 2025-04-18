@@ -40,7 +40,7 @@ namespace nm {
         errCode getErrCode() const;
         const point& getPos() const;
 
-        static const nerr& singletone();
+        static const nerr& singleton();
         static const std::string& getErrMsg(errCode code);
         static const std::string& getErrName(errCode code);
         static nerr* newErr(int code, ...);

@@ -346,7 +346,7 @@ namespace nm {
             .myExErr(me, IMPLICIT_CAST_NOT_AVAILABLE, lEval, rEval)
             .ret();
 
-        auto r = me.getRule();
+        auto r = me.getSymbol();
         if((lEval->isSub<nStr>() || rEval->isSub<nStr>())) {
             switch(r) {
                 case FBOExpr::SYMBOL_AND:
@@ -357,7 +357,7 @@ namespace nm {
                 case FBOExpr::SYMBOL_BITWISE_AND:
                 case FBOExpr::SYMBOL_BITWISE_XOR:
                 case FBOExpr::SYMBOL_BITWISE_OR:
-                case FBOExpr::LSHIFT:
+                case FBOExpr::SYMBOL_LSHIFT:
                 case FBOExpr::SYMBOL_RSHIFT: return NM_WHEN.myExErr(me, STRING_IS_NOT_PROPER_TO_OP).ret();
 
                 default:;

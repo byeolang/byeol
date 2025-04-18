@@ -330,15 +330,15 @@ TEST_F(binderTest, bindStaticVariable) {
 
 TEST_F(binderTest, testTacticIsImmutable) {
     tstr<A> strA; // has strTactic
-    ASSERT_EQ(&getTactic(strA), &strTactic::singletone);
+    ASSERT_EQ(&getTactic(strA), &strTactic::singleton);
     tweak<A> weakA;
-    ASSERT_EQ(&getTactic(weakA), &weakTactic::singletone);
+    ASSERT_EQ(&getTactic(weakA), &weakTactic::singleton);
     tstr<A> strA1(weakA);
-    ASSERT_EQ(&getTactic(strA1), &strTactic::singletone);
+    ASSERT_EQ(&getTactic(strA1), &strTactic::singleton);
     strA1.bind(*weakA);
-    ASSERT_EQ(&getTactic(strA), &strTactic::singletone);
+    ASSERT_EQ(&getTactic(strA), &strTactic::singleton);
     strA1 = weakA;
-    ASSERT_EQ(&getTactic(strA), &strTactic::singletone);
+    ASSERT_EQ(&getTactic(strA), &strTactic::singleton);
 }
 
 TEST_F(binderTest, memberVariableShouldntHaveBindtag) {

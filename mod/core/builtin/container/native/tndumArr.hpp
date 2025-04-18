@@ -22,7 +22,7 @@ namespace nm {
         nbool add(nidx n, const node& new1) override { return false; }
 
     public:
-        static me singletone;
+        static me singleton;
     };
 
     typedef tndumArr<node, strTactic> ndumArr;

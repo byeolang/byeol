@@ -10,6 +10,6 @@ namespace nm {
         dumSrc();
 
     public:
-        static me& singletone();
+        static me& singleton();
     };
 }

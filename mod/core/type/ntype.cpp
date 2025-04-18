@@ -16,11 +16,6 @@ namespace nm {
 
         const ntype& cast = (const ntype&) rhs;
 
-        // if there is no specified bean type, don't bean type check:
-        //  mostly, bean type should specified. except for binder. so if I return false
-        //  in this case,
-        //      tstr<arr> wrap(new tarr<nInt>())
-        //  above code doesn't work.
         WHEN(getParams() != cast.getParams()).ret(false);
 
         const ntype& ret = nul(getRet()) ? nulOf<ntype>() : getRet().getType();

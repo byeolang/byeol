@@ -88,7 +88,7 @@ namespace nm {
         return inner;
     }
 
-    const src& me::getSrc() const { return dumSrc::singletone(); }
+    const src& me::getSrc() const { return dumSrc::singleton(); }
 
     void me::_setSrc(const src& s) {}
 } // namespace nm

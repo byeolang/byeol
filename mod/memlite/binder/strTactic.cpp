@@ -26,5 +26,5 @@ namespace nm {
         return me._getBindTag()._onStrong(1);
     }
 
-    me me::singletone;
+    me me::singleton;
 }

@@ -12,7 +12,7 @@ namespace nm {
 
     namespace {}
 
-    const me& me::singletone() {
+    const me& me::singleton() {
         static me inner(errLv::ERR, errCode::UNKNOWN);
         return inner;
     }

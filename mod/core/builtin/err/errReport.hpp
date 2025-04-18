@@ -66,6 +66,6 @@ namespace nm {
     public:
         const baseErr& add(const baseErr& new1) override;
 
-        static me singletone;
+        static me singleton;
     };
 } // namespace nm

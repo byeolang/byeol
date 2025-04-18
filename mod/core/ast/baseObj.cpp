@@ -59,7 +59,7 @@ namespace nm {
     }
 
     const src& me::getSrc() const {
-        WHEN(&getOrigin() == this).ret(dumSrc::singletone());
+        WHEN(&getOrigin() == this).ret(dumSrc::singleton());
 
         return getOrigin().getSrc();
     }

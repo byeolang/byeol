@@ -12,7 +12,7 @@ namespace nm {
 
     me::retExpr(const node& ret): _ret(ret) {}
 
-    me::retExpr(): _ret(nVoid::singletone()) {}
+    me::retExpr(): _ret(nVoid::singleton()) {}
 
     namespace {
         tstr<baseErr> _returnEx(tstr<baseErr> e) {
@@ -25,7 +25,7 @@ namespace nm {
 
     str me::run(const args& a) {
         auto& fr = thread::get().getNowFrame();
-        WHEN(!_ret).ret(str(nVoid::singletone()));
+        WHEN(!_ret).ret(str(nVoid::singleton()));
 
         // check retValue is null or not:
         //  ret should be void if there is no value to return. so 'null' not allowed here.

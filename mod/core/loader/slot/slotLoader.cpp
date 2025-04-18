@@ -9,7 +9,7 @@ namespace nm {
 
     NM_DEF_ME(slotLoader)
 
-    me::slotLoader(): _report(dummyErrReport::singletone) {}
+    me::slotLoader(): _report(dummyErrReport::singleton) {}
 
     void me::load() {
         // TODO: returns result when it's fail

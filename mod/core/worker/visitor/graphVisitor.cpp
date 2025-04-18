@@ -197,7 +197,7 @@ namespace nm {
             cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(leftName)
                  << foreColor(LIGHTGRAY) << ")";
 
-            cout << " " << foreColor(LIGHTGRAY) << e.getRuleName(e.getRule()) << " "
+            cout << " " << foreColor(LIGHTGRAY) << e.getSymbolName(e.getSymbol()) << " "
                  << foreColor(CYAN) << e.getRight().getType().createNameWithParams();
             str rightVal = e.getRight();
             const std::string& rightName = rightVal->isSub<getExpr>() ?
@@ -217,7 +217,7 @@ namespace nm {
         const node& op = e.getOperand();
         cout << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN)
              << op.getType().createNameWithParams() << " " << foreColor(LIGHTGRAY)
-             << e.getRuleName(e.getRule());
+             << e.getSymbolName(e.getSymbol());
         return true;
     }
 

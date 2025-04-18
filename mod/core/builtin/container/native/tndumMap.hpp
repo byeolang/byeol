@@ -20,7 +20,7 @@ namespace nm {
         nbool add(const K& key, const V& val) override { return false; }
 
     public:
-        static me singletone;
+        static me singleton;
     };
 
     typedef tndumMap<std::string, node> ndumMap;

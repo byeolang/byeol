@@ -16,6 +16,6 @@ namespace nm {
         nbool add(const std::string& key, const node& val) override;
 
     public:
-        static me& singletone();
+        static me& singleton();
     };
 }

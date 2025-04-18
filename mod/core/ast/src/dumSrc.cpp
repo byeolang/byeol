@@ -9,7 +9,7 @@ namespace nm {
 
     dumSrc::dumSrc(): src(_inner, "", point{0, 0}) {}
 
-    me& me::singletone() {
+    me& me::singleton() {
         static dumSrc inner;
         return inner;
     }

@@ -12,7 +12,7 @@ namespace nm {
     NM(DEF_ME(autoslot), DEF_VISIT())
 
     me::autoslot(const manifest& manifest, const packLoadings& loadings):
-        super(manifest), _loadings(loadings), _state(RELEASED), _rpt(dummyErrReport::singletone) {}
+        super(manifest), _loadings(loadings), _state(RELEASED), _rpt(dummyErrReport::singleton) {}
 
     me::~autoslot() {
         // release all instance first:
@@ -27,7 +27,7 @@ namespace nm {
 
     void me::_rel() {
         _state = RELEASED;
-        _rpt.bind(dummyErrReport::singletone);
+        _rpt.bind(dummyErrReport::singleton);
     }
 
     obj& me::getPack() {

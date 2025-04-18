@@ -45,7 +45,7 @@ namespace nm {
 
     const node& me::getRet() const { return _func TO(getRet()); }
 
-    const src& me::getSrc() const { return _func ? _func->getSrc() : dumSrc::singletone(); }
+    const src& me::getSrc() const { return _func ? _func->getSrc() : dumSrc::singleton(); }
 
     me* me::make(const node& e) {
         if(e.isSub<func>()) return _make((func&) e);

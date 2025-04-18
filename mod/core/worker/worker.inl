@@ -59,7 +59,7 @@ namespace nm {
 
     TEMPLATE
     void ME::_rel() {
-        _rpt.bind(dummyErrReport::singletone);
+        _rpt.bind(dummyErrReport::singleton);
         _task.rel();
         _logFlag = 0;
     }

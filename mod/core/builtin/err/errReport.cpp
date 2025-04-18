@@ -98,5 +98,5 @@ namespace nm {
         return dum;
     }
 
-    dummyErrReport dummyErrReport::singletone;
+    dummyErrReport dummyErrReport::singleton;
 } // namespace nm

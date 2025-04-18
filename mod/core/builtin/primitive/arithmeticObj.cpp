@@ -10,7 +10,7 @@ namespace nm {
 #define _X(FUNC)                                                                    \
     tstr<arithmeticObj> me::FUNC(const arithmeticObj& rhs) const {                  \
         const ntype& deduced = getType().deduce(rhs);                               \
-        WHEN(deduced.isSub<nVoid>()).ret(tstr<arithmeticObj>(nVoid::singletone())); \
+        WHEN(deduced.isSub<nVoid>()).ret(tstr<arithmeticObj>(nVoid::singleton())); \
         nbool normalOrder = getType() == deduced;                                   \
         const arithmeticObj& winner = getType() == deduced ? *this : rhs;           \
         const arithmeticObj& loser = getType() == deduced ? rhs : *this;            \

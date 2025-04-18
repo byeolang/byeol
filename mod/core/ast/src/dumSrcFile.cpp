@@ -5,7 +5,7 @@ namespace nm {
 
     me::dumSrcFile(): super("", "") {}
 
-    me& me::singletone() {
+    me& me::singleton() {
         static me inner;
         return inner;
     }

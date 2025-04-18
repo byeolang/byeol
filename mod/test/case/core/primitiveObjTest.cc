@@ -75,7 +75,7 @@ TEST_F(primitiveObjTest, operatorExceptAddingToStrTypeShouldNotWork) {
 TEST_F(primitiveObjTest, voidDoesntSupportAnyOperator) {
     nVoid v1;
     nVoid v2;
-    const nVoid& expect = nVoid::singletone();
+    const nVoid& expect = nVoid::singleton();
 
     tstr<nVoid> res = v1.sub(v2);
     ASSERT_TRUE(res);

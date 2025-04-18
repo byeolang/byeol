@@ -15,7 +15,7 @@ namespace nm {
             if(e.is(fromType, to)) return e.as(from, to);
         // there is no null in namulang:
         //  returns void if no valid casting found.
-        return str(nVoid::singletone());
+        return str(nVoid::singleton());
     }
 
     nbool me::is(const type& from, const type& to) const {

@@ -22,7 +22,7 @@ namespace nm {
             _type("bridgeFunc", ttype<me>::get(),
                 params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...),
                 false, *ret),
-            _src(dumSrc::singletone()) {}
+            _src(dumSrc::singleton()) {}
 
     public:
         static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal()) ==

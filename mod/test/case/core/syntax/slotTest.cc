@@ -65,7 +65,7 @@ namespace {
         }
 
         const ntype& getType() const override {
-            static mgdType inner = typeMaker::make<me>(params(), nVoid::singletone());
+            static mgdType inner = typeMaker::make<me>(params(), nVoid::singleton());
             return inner;
         }
 

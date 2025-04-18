@@ -82,7 +82,7 @@ namespace nm {
             NM(CLASS(dumThread, thread))
 
         public:
-            dumThread() { super::setEx(dummyErrReport::singletone); }
+            dumThread() { super::setEx(dummyErrReport::singleton); }
 
         public:
             void setEx(const errReport& new1) override {}

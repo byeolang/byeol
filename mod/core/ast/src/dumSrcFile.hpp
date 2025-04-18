@@ -10,6 +10,6 @@ namespace nm {
         dumSrcFile();
 
     public:
-        static dumSrcFile& singletone();
+        static dumSrcFile& singleton();
     };
 }

@@ -21,7 +21,7 @@ namespace nm {
         const baseObj& getOrigin() const override;
 
     public:
-        static me& singletone();
+        static me& singleton();
 
     protected:
         tstr<arithmeticObj> _add(const arithmeticObj& rhs, nbool reversed) const override;

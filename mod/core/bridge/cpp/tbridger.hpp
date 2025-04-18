@@ -177,14 +177,14 @@ namespace nm {
             typedef typename T::super s;
             auto* fun =
                 new tbridgeFunc<Ret, T, true, tmarshaling, Args...>((Ret(T::*)(Args...)) fptr);
-            fun->setSrc(*new src(dumSrcFile::singletone(), name, point{0, 0}));
+            fun->setSrc(*new src(dumSrcFile::singleton(), name, point{0, 0}));
             return func(name, fun);
         }
 
         template <typename Ret, typename... Args>
         static me& genericFunc(const std::string& name, Ret (T::*fptr)(Args...)) {
             auto* fun = new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(fptr);
-            fun->setSrc(*new src(dumSrcFile::singletone(), name, point{0, 0}));
+            fun->setSrc(*new src(dumSrcFile::singleton(), name, point{0, 0}));
             return func(name, fun);
         }
 
@@ -192,7 +192,7 @@ namespace nm {
         static me& genericFuncNonConst(const std::string& name, Ret (T::*fptr)(Args...)) {
             auto* fun = new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(
                 (Ret(T::*)(Args...)) fptr);
-            fun->setSrc(*new src(dumSrcFile::singletone(), name, point{0, 0}));
+            fun->setSrc(*new src(dumSrcFile::singleton(), name, point{0, 0}));
             return func(name, fun);
         }
 
@@ -200,7 +200,7 @@ namespace nm {
         static me& genericFunc(const std::string& name, Ret (T::*fptr)(Args...) const) {
             auto* fun = new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(
                 (Ret(T::*)(Args...)) fptr);
-            fun->setSrc(*new src(dumSrcFile::singletone(), name, point{0, 0}));
+            fun->setSrc(*new src(dumSrcFile::singleton(), name, point{0, 0}));
             return func(name, fun);
         }
 
@@ -208,7 +208,7 @@ namespace nm {
         static me& genericFuncConst(const std::string& name, Ret (T::*fptr)(Args...) const) {
             auto* fun = new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(
                 (Ret(T::*)(Args...)) fptr);
-            fun->setSrc(*new src(dumSrcFile::singletone(), name, point{0, 0}));
+            fun->setSrc(*new src(dumSrcFile::singleton(), name, point{0, 0}));
             return func(name, fun);
         }
 

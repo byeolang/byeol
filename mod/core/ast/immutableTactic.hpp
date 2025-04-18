@@ -11,6 +11,6 @@ namespace nm {
         nbool bind(binder& me, const instance& it) override;
 
     public:
-        static me singletone;
+        static me singleton;
     };
 }

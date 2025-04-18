@@ -5935,7 +5935,7 @@ foo(getAOrNull()?, getB()?) // 2개 중 하나라도 null인 경우 실행하지
 * 구현 알고리즘
     * class safeNullNode : public baseObj {}
     * 를 만든다.
-    * mgdFunc::\_evalArgs()에서 p.getOrigin().as\<node\>()의 결과가 safeNullNode면 mgdFunc::run()을 그냥 로그 없이 tstr(safeNullNode::singletone) 만 넣어서 종료한다.
+    * mgdFunc::\_evalArgs()에서 p.getOrigin().as\<node\>()의 결과가 safeNullNode면 mgdFunc::run()을 그냥 로그 없이 tstr(safeNullNode::singleton) 만 넣어서 종료한다.
 * * *
 # [o] null체크는 어떻게 하는가? => **nullable인 경우 if (a) 처럼 할 수 없다. null체크 한답시고 if (a)도 안된다.**
 

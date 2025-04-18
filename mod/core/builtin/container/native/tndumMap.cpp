@@ -1,5 +1,5 @@
 #include "tndumMap.hpp"
 
 namespace nm {
-    template <> ndumMap ndumMap::singletone;
+    template <> ndumMap ndumMap::singleton;
 }

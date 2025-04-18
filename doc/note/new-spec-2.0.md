@@ -1586,7 +1586,7 @@ foo(getAOrNull()?, getB()?) // 2개 중 하나라도 null인 경우 실행하지
 class safeNullNode : public baseObj {}
 ```
 * 를 만든다.
-* mgdFunc::\_evalArgs()에서 p.getOrigin().as\<node\>()의 결과가 safeNullNode면 mgdFunc::run()을 그냥 로그 없이 tstr(safeNullNode::singletone) 만 넣어서 종료한다.
+* mgdFunc::\_evalArgs()에서 p.getOrigin().as\<node\>()의 결과가 safeNullNode면 mgdFunc::run()을 그냥 로그 없이 tstr(safeNullNode::singleton) 만 넣어서 종료한다.
 * * *
 # c++ 식 null check를 지원하지 않는다
 * null은 false를 의미하지 않는다.

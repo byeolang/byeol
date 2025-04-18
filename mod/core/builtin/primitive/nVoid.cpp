@@ -20,7 +20,7 @@ namespace nm {
         return inner;
     }
 
-    me& me::singletone() {
+    me& me::singleton() {
         static me inner;
         return inner;
     }

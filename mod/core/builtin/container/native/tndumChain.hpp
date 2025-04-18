@@ -26,7 +26,7 @@ namespace nm {
         nbool link(const typename super::iter& new1) override { return false; }
 
     public:
-        static me singletone;
+        static me singleton;
     };
 
     typedef tndumChain<std::string, node> ndumChain;

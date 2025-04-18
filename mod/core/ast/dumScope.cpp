@@ -12,7 +12,7 @@ namespace nm {
 
     nbool me::add(const std::string& key, const node& val) { return false; }
 
-    me& me::singletone() {
+    me& me::singleton() {
         static me inner;
         return inner;
     }

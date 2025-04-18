@@ -39,17 +39,17 @@ namespace nm {
     tstr<baseObj> me::_deduceElems() const {
         ncnt len = _elems.len();
         NM_DI("deduceElems: len[%d]", len);
-        WHEN(!len).info("len == 0. deduced type as 'void'").ret(nVoid::singletone());
+        WHEN(!len).info("len == 0. deduced type as 'void'").ret(nVoid::singleton());
 
         str ased1 = _elems[0].getEval();
-        const node *ret = &ased1.get() OR.info("deduceElem: elem0 is null").ret(nVoid::singletone());
+        const node *ret = &ased1.get() OR.info("deduceElem: elem0 is null").ret(nVoid::singleton());
         str ased;
 
         for(int n = 1; n < len; n++) {
             ased = _elems[n].as<node>();
             ret = &ret->deduce(*ased);
             NM_DI("deduceElem: prevElem + elem%d[%s] --> %s", n, ased, ret);
-            WHEN(!ret).info("deduceElem: elem%d was null.", n).ret(nVoid::singletone());
+            WHEN(!ret).info("deduceElem: elem%d was null.", n).ret(nVoid::singleton());
         }
 
         return ret->cast<baseObj>();

@@ -23,5 +23,5 @@ namespace nm {
         return true;
     }
 
-    me me::singletone;
+    me me::singleton;
 }
