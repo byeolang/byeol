@@ -4,7 +4,6 @@
 #include "../../worker/visitor/graphVisitor.hpp"
 #include "../../worker/visitor/visitor.hpp"
 #include "../node.inl"
-#include "../closure.hpp"
 
 namespace nm {
 

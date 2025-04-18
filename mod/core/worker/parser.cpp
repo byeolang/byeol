@@ -811,12 +811,6 @@ namespace nm {
         return ret;
     }
 
-    runExpr* me::onRunExprClosure(node& me, const narr& a) {
-        runExpr* ret = _onRunExpr(nulOf<node>(), me, a);
-        NM_DI("tokenEvent: onRunExprClosure(%s, args[%d])", me, a.len());
-        return ret;
-    }
-
     // @param from  can be expr. so I need to evaluate it through 'as()'.
     runExpr* me::onFillFromOfFuncCall(const node& me, runExpr& to) {
         to.setMe(me);

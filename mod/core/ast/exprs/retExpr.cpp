@@ -37,12 +37,6 @@ namespace nm {
         str fRet = fr.getFunc().getRet();
         WHEN(_isEx(*ret, *fRet)).ret(_returnEx(ret->cast<baseErr>()));
 
-        // implicit closure:
-        if(!ret->isSub<baseObj>()) {
-            closure* closure = closure::make(*ret);
-            if(closure) ret.bind(closure);
-        }
-
         NM_DI("retExpr: frame.setRet(%s)", ret);
         fr.setRet(*ret);
         return ret;

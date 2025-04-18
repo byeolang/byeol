@@ -411,11 +411,11 @@ func-call: type func-call-tuple {
         tstr<narr> argsLife($2);
         str typeLife($1);
         $$ = PS.onRunExpr(*typeLife, *argsLife);
-      }  | func-call func-call-tuple {
+       } | func-call func-call-tuple {
         tstr<narr> argsLife($2);
         str exprLife($1);
-        $$ = PS.onRunExprClosure(*$1, *$2);
-      }
+        $$ = PS.onRunExpr(*$1, *$2);
+       }
 
 //  tuple:
 tuple: '(' tuple-items ')' { $$ = $2; }
