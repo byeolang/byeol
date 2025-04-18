@@ -18,13 +18,13 @@ namespace nm {
 
     str me::run(const args& a) {
         auto addr = platformAPI::toAddrId(this);
-        str evaledMe =
-            getMe() TO(template as<node>()) OR_RET NM_E("@%s `me` is null. no thread found", addr),
-            str();
+        str evaledMe = getMe() TO(template as<node>())
+                           OR.err("@%s `me` is null. no thread found", addr)
+                               .ret(str());
 
-        str sub =
-            _getSub(*evaledMe, _args) OR_RET NM_E("@%s can't find the func to `%s`", addr, evaledMe),
-            str();
+        str sub = _getSub(*evaledMe, _args)
+                      OR.err("@%s can't find the func to `%s`", addr, evaledMe)
+                          .ret(str());
 
         NM_DI("@%s run: assigning me: me[%s] sub[%s@%s]", addr, evaledMe, sub, &sub.get());
         nbool needMe = !sub->isSub<baseObj>() && !sub->isSub<closure>();
@@ -81,14 +81,13 @@ namespace nm {
     }
 
     str me::getEval() const {
-        const node& me = getMe() OR_RET str();
-        str sub =
-            _getSub(me.getEval(), nulOf<args>()) OR_RET NM_E("_subject.as<node>() returns null"),
-            str();
+        const node& me = getMe() OR.ret(str());
+        str sub = _getSub(me.getEval(), nulOf<args>()) OR.err("_subject.as<node>() returns null")
+                      .ret(str());
         WHEN(sub->isSub<baseObj>()).ret(sub->isComplete() ? sub : new mockNode(*sub));
 
-        baseFunc &cast = sub->cast<baseFunc>() OR_RET NM_E("sub isn't obj or func. returns null"),
-                 str();
+        baseFunc& cast =
+            sub->cast<baseFunc>() OR.err("sub isn't obj or func. returns null").ret(str());
         return new mockNode(cast.getRet());
     }
 } // namespace nm

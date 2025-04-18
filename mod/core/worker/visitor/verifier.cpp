@@ -100,8 +100,8 @@ namespace nm {
 
         _STEP("set evalType");
 
-        const ntype& ltype = me TO(getLeft()) TO(getEval()) TO(getType()) orRetErr(me, LHS_IS_NUL).ret();
-        const ntype& rtype = me TO(getRight()) TO(getEval()) TO(getType()) orRetErr(me, RHS_IS_NUL).ret();
+        const ntype& ltype = me TO(getLeft()) TO(getEval()) TO(getType()) OR.myExErr(me, LHS_IS_NUL).ret();
+        const ntype& rtype = me TO(getRight()) TO(getEval()) TO(getType()) OR.myExErr(me, RHS_IS_NUL).ret();
         WHEN(rtype.isSub<retStateExpr>()).myExErr(me, CANT_ASSIGN_RET).ret();
         WHEN(!rtype.isImpli(ltype)).myExErr(me, TYPE_NOT_COMPATIBLE, rtype, ltype).ret();
 
@@ -193,8 +193,8 @@ namespace nm {
         _GUARD("onLeave(defVarExpr&)");
 
         _STEP("modifier not allowed for local variables in a func.");
-        const auto& mod = me.getNewModifier() orRetErr(me, MODIFIER_NOT_FOUND, me.getName()).ret();
-        frame& fr = thread::get()._getNowFrame() orRetErr(me, THERE_IS_NO_FRAMES_IN_THREAD).ret();
+        const auto& mod = me.getNewModifier() OR.myExErr(me, MODIFIER_NOT_FOUND, me.getName()).ret();
+        frame& fr = thread::get()._getNowFrame() OR.myExErr(me, THERE_IS_NO_FRAMES_IN_THREAD).ret();
         const baseFunc& fun = fr.getFunc();
         nbool isInLocal = nul(fun) || fun.getSrc().getName() != baseObj::EXPAND_NAME;
         WHEN(isInLocal && !mod.isPublic())
@@ -205,7 +205,7 @@ namespace nm {
             .ret();
 
         _STEP("to define a void type property isn't allowed.");
-        str eval = me.getRight() TO(getEval()) orRetErr(me, RHS_IS_NUL).ret();
+        str eval = me.getRight() TO(getEval()) OR.myExErr(me, RHS_IS_NUL).ret();
         WHEN(eval->isSub<nVoid>()).myExErr(me, VOID_CANT_DEFINED).ret();
 
         obj& cast = eval->cast<obj>();
@@ -256,7 +256,7 @@ namespace nm {
         _GUARD("onLeave(defPropExpr&)");
 
         _STEP("whether the 'type' object has a ctor without any paramters?");
-        str eval = me TO(getRight()) TO(getEval()) orRetErr(me, RHS_IS_NUL).ret();
+        str eval = me TO(getRight()) TO(getEval()) OR.myExErr(me, RHS_IS_NUL).ret();
         WHEN(eval->isSub<baseObj>() && nul(eval->sub(baseObj::CTOR_NAME, args{})))
             .myExErr(me, DONT_HAVE_CTOR, eval)
             .ret();
@@ -272,7 +272,7 @@ namespace nm {
         _GUARD("onLeave(defAssignExpr&)");
 
         _STEP("check rhs");
-        str eval = me TO(getRight()) TO(getEval()) orRetErr(me, RHS_IS_NUL).ret();
+        str eval = me TO(getRight()) TO(getEval()) OR.myExErr(me, RHS_IS_NUL).ret();
         WHEN(!eval->isComplete()).myExErr(me, ACCESS_TO_INCOMPLETE).ret();
 
         str explicitType = me TO(getExplicitType());
@@ -290,8 +290,8 @@ namespace nm {
         _GUARD("onLeave(defSeqExpr&)");
 
         _STEP("check lhs & rhs");
-        auto& start = me.getStart() orRetErr(me, LHS_IS_NUL).ret();
-        auto& end = me.getEnd() orRetErr(me, RHS_IS_NUL).ret();
+        auto& start = me.getStart() OR.myExErr(me, LHS_IS_NUL).ret();
+        auto& end = me.getEnd() OR.myExErr(me, RHS_IS_NUL).ret();
 
         _STEP("lhs & rhs is sort of Int?");
         WHEN(!start.isImpli<nInt>()).myExErr(me, SEQ_SHOULD_INT_COMPATIBLE).ret();
@@ -302,13 +302,13 @@ namespace nm {
         _GUARD("onLeave(defArrayExpr&)");
 
         _STEP("check all elements");
-        const node& type = me.getArrayType() orRetErr(me, ELEM_TYPE_DEDUCED_NUL).ret();
+        const node& type = me.getArrayType() OR.myExErr(me, ELEM_TYPE_DEDUCED_NUL).ret();
         WHEN(type.isSuper<obj>()).myExErr(me, ELEM_TYPE_DEDUCED_WRONG, type).ret();
         WHEN(type.isSub<nVoid>()).myExErr(me, ELEM_TYPE_NOT_VOID).ret();
 
         _STEP("check arr has exactly 1 type parameter.");
         const auto& ps =
-            me.getOrigin() TO(getType()) TO(getParams()) orRetErr(me, ELEM_TYPE_IS_NUL).ret();
+            me.getOrigin() TO(getType()) TO(getParams()) OR.myExErr(me, ELEM_TYPE_IS_NUL).ret();
         WHEN(ps.len() != 1).myExErr(me, ARR_DOESNT_HAVE_TYPE_PARAM).ret();
     }
 
@@ -336,8 +336,8 @@ namespace nm {
         _GUARD("onLeave(FBOEXpr&)");
 
         _STEP("finding eval of l(r)hs.");
-        str lEval = me TO(getLeft()) TO(getEval()) orRetErr(me, LHS_IS_NUL).ret();
-        str rEval = me TO(getRight()) TO(getEval()) orRetErr(me, RHS_IS_NUL).ret();
+        str lEval = me TO(getLeft()) TO(getEval()) OR.myExErr(me, LHS_IS_NUL).ret();
+        str rEval = me TO(getRight()) TO(getEval()) OR.myExErr(me, RHS_IS_NUL).ret();
 
         WHEN(!checkEvalType(*lEval)).myExErr(me, LHS_IS_NOT_ARITH, lEval).ret();
         WHEN(!checkEvalType(*rEval)).myExErr(me, RHS_IS_NOT_ARITH, rEval).ret();
@@ -349,16 +349,16 @@ namespace nm {
         auto r = me.getRule();
         if((lEval->isSub<nStr>() || rEval->isSub<nStr>())) {
             switch(r) {
-                case FBOExpr::AND:
-                case FBOExpr::OR:
-                case FBOExpr::SUB:
-                case FBOExpr::DIV:
-                case FBOExpr::MOD:
-                case FBOExpr::BITWISE_AND:
-                case FBOExpr::BITWISE_XOR:
-                case FBOExpr::BITWISE_OR:
+                case FBOExpr::SYMBOL_AND:
+                case FBOExpr::SYMBOL_OR:
+                case FBOExpr::SYMBOL_SUB:
+                case FBOExpr::SYMBOL_DIV:
+                case FBOExpr::SYMBOL_MOD:
+                case FBOExpr::SYMBOL_BITWISE_AND:
+                case FBOExpr::SYMBOL_BITWISE_XOR:
+                case FBOExpr::SYMBOL_BITWISE_OR:
                 case FBOExpr::LSHIFT:
-                case FBOExpr::RSHIFT: return NM_WHEN.myExErr(me, STRING_IS_NOT_PROPER_TO_OP).ret();
+                case FBOExpr::SYMBOL_RSHIFT: return NM_WHEN.myExErr(me, STRING_IS_NOT_PROPER_TO_OP).ret();
 
                 default:;
             }
@@ -396,7 +396,7 @@ namespace nm {
         WHEN(asedMe && !asedMe->isComplete()).myExErr(me, ACCESS_TO_INCOMPLETE).ret();
 
         _STEP("check modifier.");
-        const auto& mod = match->getModifier() orRetErr(me, MODIFIER_NOT_FOUND, me.getName()).ret();
+        const auto& mod = match->getModifier() OR.myExErr(me, MODIFIER_NOT_FOUND, me.getName()).ret();
         if(!mod.isPublic()) { // we only need to run verify routine when there is protected
                               // modifier.
             baseObj& castedMe = asedMe->cast<baseObj>();
@@ -416,9 +416,9 @@ namespace nm {
         WHEN(i.index != i.len - 1).myExErr(me, RET_AT_MIDDLE_OF_BLOCK).ret();
 
         _STEP("checks evalType of func is matched to me");
-        const baseFunc& f = thread::get().getNowFrame().getFunc() orRetErr(me, NO_FUNC_INFO).ret();
+        const baseFunc& f = thread::get().getNowFrame().getFunc() OR.myExErr(me, NO_FUNC_INFO).ret();
 
-        str myRet = me.getRet().getEval() orRetErr(me, EXPR_EVAL_NUL).ret();
+        str myRet = me.getRet().getEval() OR.myExErr(me, EXPR_EVAL_NUL).ret();
 
         const node& funRet = f.getRet();
         _STEP("checks return[%s] == func[%s]", myRet, funRet);
@@ -434,14 +434,14 @@ namespace nm {
         _STEP("is it possible to run?");
         WHEN_NUL(me.getMe()).myExErr(me, DONT_KNOW_ME).ret();
 
-        str ased = me.getMe().getEval() OR_RET;
+        str ased = me.getMe().getEval() OR.ret();
         args& a = me.getArgs();
         a.setMe(*ased);
 
-        node& anySub = me.getSubj() orRetErr(me, FUNC_NOT_EXIST).ret();
+        node& anySub = me.getSubj() OR.myExErr(me, FUNC_NOT_EXIST).ret();
         _STEP("anySub[%s]", anySub);
 
-        str derivedSub = anySub.getEval() orRetErr(me, CANT_ACCESS, ased, "sub-node").ret();
+        str derivedSub = anySub.getEval() OR.myExErr(me, CANT_ACCESS, ased, "sub-node").ret();
 
         _STEP("derivedSub[%s]", derivedSub);
         if(!derivedSub->canRun(me.getArgs())) {
@@ -455,7 +455,7 @@ namespace nm {
     }
 
     void me::onTraverse(runExpr& me, node& subject) {
-        str ased = me.getMe() TO(getEval()) OR_RET;
+        str ased = me.getMe() TO(getEval()) OR.ret();
 
         getExpr& cast = subject.cast<getExpr>();
         if(!nul(cast)) cast.setMe(*ased);
@@ -482,7 +482,7 @@ namespace nm {
         _GUARD("onLeave(ctor&)");
 
         _STEP("no error allowed during running ctor");
-        const node& eval = *me.getBlock().getEval() orRetErr(me, EXPR_EVAL_NUL).ret();
+        const node& eval = *me.getBlock().getEval() OR.myExErr(me, EXPR_EVAL_NUL).ret();
         WHEN(eval.isSub<baseErr>()).myExErr(me, RET_ERR_ON_CTOR).ret();
 
         me.outFrame(scope());
@@ -505,7 +505,7 @@ namespace nm {
 
             // this has same name on shares, but it's not func! it's not valid.
             // this could be an origin obj.
-            const baseFunc& cast = val.cast<baseFunc>() OR_RET true;
+            const baseFunc& cast = val.cast<baseFunc>() OR.ret(true);
             const params& castPs = cast.getParams();
             WHEN(castPs.len() != len).ret(false);
 
@@ -532,7 +532,7 @@ namespace nm {
         }
 
         _STEP("retType exists and stmts exist one at least");
-        str retType = me.getRet() orRetErr(me, NO_RET_TYPE).ret(true);
+        str retType = me.getRet() OR.myExErr(me, NO_RET_TYPE).ret(true);
         WHEN(!retType->isSub(ttype<node>::get())).myExErr(me, WRONG_RET_TYPE, retType).ret(true);
 
         blockExpr& blk = (blockExpr&) me.getBlock();
@@ -606,15 +606,15 @@ namespace nm {
 
         _STEP("last stmt should match to ret type");
         NM_END(me.outFrame(scope()));
-        const type& retType = me.getRet() TO(getType()) OR_RET NM_E("func.getRet() is null");
+        const type& retType = me.getRet() TO(getType()) OR.err("func.getRet() is null").ret();
         const node& lastStmt = *me.getBlock().getStmts().last();
 
         WHEN(retType == ttype<nVoid>::get()).info("func: implicit return won't verify WHEN retType is void.").ret();
 
-        str eval = me.getBlock().getEval() orRetErr(lastStmt, NO_RET_TYPE).ret();
+        str eval = me.getBlock().getEval() OR.myExErr(lastStmt, NO_RET_TYPE).ret();
 
         // to get type of expr, always uses evalType.
-        const ntype& lastType = eval->getType() orRetErr(lastStmt, NO_RET_TYPE).ret();
+        const ntype& lastType = eval->getType() OR.myExErr(lastStmt, NO_RET_TYPE).ret();
 
         _STEP("last stmt[%s] should matches to return type[%s]", eval, retType);
 
@@ -647,7 +647,7 @@ namespace nm {
             .ret(true);
 
         _STEP("origin obj always must exist");
-        me.getOrigin() orRetErr(me, NO_ORIGIN, i.name).ret(false);
+        me.getOrigin() OR.myExErr(me, NO_ORIGIN, i.name).ret(false);
 
         onLeave(i, (baseObj::super&) me, false);
         return true;
@@ -694,8 +694,8 @@ namespace nm {
         _recentLoops.push_back(&me);
 
         str container = me._container;
-        str conAsed = container->getEval() orRetErr(me, CONTAINER_IS_NUL).ret(true);
-        str elemType = conAsed->run("getElemType") orRetErr(me, ELEM_TYPE_IS_NUL).ret(true);
+        str conAsed = container->getEval() OR.myExErr(me, CONTAINER_IS_NUL).ret(true);
+        str elemType = conAsed->run("getElemType") OR.myExErr(me, ELEM_TYPE_IS_NUL).ret(true);
 
         const std::string& name = me.getLocalName();
         _STEP("define iterator '%s %s'", elemType, name);

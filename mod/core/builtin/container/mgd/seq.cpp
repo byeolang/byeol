@@ -80,10 +80,9 @@ namespace nm {
                 const params& ps = getParams();
                 WHEN(a.len() != ps.len()).warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
 
-                seq &meObj = a.getMe().cast<seq>() OR_RET NM_E("meObj as arr == null"), str();
-                str eval = a[0].as(ps[0].getOrigin()) OR_RET NM_E(
-                    "evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]),
-                    str();
+                seq &meObj = a.getMe().cast<seq>() OR.err("meObj as arr == null").ret(str());
+                str eval = a[0].as(ps[0].getOrigin()) OR.err(
+                    "evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]).ret(str());
 
                 nint step = eval->cast<nint>();
                 static tucontainable<nInt, nInt>::iter (tucontainable<nInt, nInt>::*specifier)(ncnt)

@@ -89,7 +89,7 @@ namespace nm {
         const instance& get() const NM_CONST_FUNC(get())
 
         template <typename E> E& get() {
-            instance& got = get() OR_NUL(E);
+            instance& got = get() OR.retNul<E>();
             return got.template cast<E>();
         }
         template <typename E> const E& get() const NM_CONST_FUNC(get<E>())

@@ -13,7 +13,7 @@ namespace nm {
         super(name, rhs, to, s, mod) {}
 
     str me::_onMakeNew() {
-        str as = getRight() TO(template as<node>()) OR_RET str();
+        str as = getRight() TO(template as<node>()) OR.ret(str());
         as = as->isSub<baseFunc>() ? as : as->run();
         NM_DI("@%s `%s %s`", this, getName(), *as);
         return as;

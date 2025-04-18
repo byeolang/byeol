@@ -11,7 +11,7 @@ namespace nm {
     str me::run(const args& a) {
         WHEN(!_me || !_as).ret(str());
 
-        str eval = _me->as<node>() OR_RET NM_E("!eval.isBind()"), str();
+        str eval = _me->as<node>() OR.err("!eval.isBind()").ret(str());
 
         return str(eval->as(*_as->getEval()));
     }

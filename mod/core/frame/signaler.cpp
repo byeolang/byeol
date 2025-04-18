@@ -63,8 +63,7 @@ namespace nm {
                              // signal here.
 
         tstr<nerr> e =
-            _getErrBy(code) OR_RET NM_E("%d exception occurs but couldn't make err object", code),
-                   void();
+            _getErrBy(code) OR.err("%d exception occurs but couldn't make err object", code).ret();
 
         NM_I("dispatching %d handlers.", _closures.size());
         for(const sigHandler& handler: _closures)

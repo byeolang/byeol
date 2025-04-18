@@ -13,7 +13,7 @@ namespace nm {
     watchCell& me::get(nidx n) { return *(watchCell*) _get(n); }
 
     watchCell& me::get(id newId) {
-        watchCell& got = get(newId.tagN) OR_NUL(watchCell);
+        watchCell& got = get(newId.tagN) OR.retNul<watchCell>();
 
         id gotId = got.blk.getId();
         WHEN(gotId.tagN != newId.tagN)
@@ -31,7 +31,7 @@ namespace nm {
             .err("resize watcher failed! this damage system seriously !!!!")
             .ret(nullptr);
 
-        watchCell* res = (watchCell*) super::new1() OR_RET res;
+        watchCell* res = (watchCell*) super::new1() OR.ret(res);
 
         ::new(&res->blk) bindTag(_genId(res));
         return res;

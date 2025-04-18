@@ -49,7 +49,7 @@ namespace nm {
         _GUARD("defAssignExpr.onVisit()");
 
         tstr<convergence> req = new convergence(*_obj.back(), *_funcs.back(), [&]() -> nbool {
-            str type = me.getExplicitType() TO(template as<node>()) OR_RET false;
+            str type = me.getExplicitType() TO(template as<node>()) OR.ret(false);
             WHEN(type->isSub<expr>() || type->isSub<nVoid>()).ret(false);
             me.setExplicitType(*type);
             return true;
@@ -62,7 +62,7 @@ namespace nm {
         _GUARD("asExpr.onVisit()");
 
         tstr<convergence> req = new convergence(*_obj.back(), *_funcs.back(), [&]() -> nbool {
-            str ased = me.getAs() TO(template as<baseObj>()) OR_RET false;
+            str ased = me.getAs() TO(template as<baseObj>()) OR.ret(false);
             WHEN(ased->isSub<expr>()).ret(false);
             me.setAs(*ased);
             return true;
@@ -93,7 +93,7 @@ namespace nm {
         WHEN(!onVisit(i, (baseFunc&) me, false)).ret(false);
 
         if(i.name == baseObj::EXPAND_NAME) {
-            obj *o = _obj.back() OR_RET NM_E("obj stack is empty."), true;
+            obj *o = _obj.back() OR.err("obj stack is empty.").ret(true);
             NM_I("func: found expand[%s.%s]", *o, me);
             _stack[o] = {*o, me};
         }
@@ -145,14 +145,14 @@ namespace nm {
         _GUARD("onVisit(%s)");
 
         // this lets genericOrigin make a their generic obj.
-        obj& generalizedOrg = me.getEval().cast<obj>() OR_RET true;
+        obj& generalizedOrg = me.getEval().cast<obj>() OR.ret(true);
         generalizedOrg.accept(i, *this);
         return true;
     }
 
     nbool me::_onVisitParams(baseFunc& f, param& p) {
         node& org = (node&) p.getOrigin();
-        [[maybe_unused]] const getExpr& isGet = org.cast<getExpr>() OR_RET false;
+        [[maybe_unused]] const getExpr& isGet = org.cast<getExpr>() OR.ret(false);
 
         // need to converge type:
         //  try once now. if it's not successful, it may refered symbol not expanded yet.
@@ -165,8 +165,8 @@ namespace nm {
     }
 
     void me::_onVisitFuncRet(baseFunc& f) {
-        ntype& type = (ntype&) f.getType() OR_RET;
-        const getExpr& ret = type.getRet().cast<getExpr>() OR_RET;
+        ntype& type = (ntype&) f.getType() OR.ret();
+        const getExpr& ret = type.getRet().cast<getExpr>() OR.ret();
 
         // need to converge return type:
         NM_I("converge type request for ret[%s] of %s", ret.getName(), f);

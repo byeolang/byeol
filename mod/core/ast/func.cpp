@@ -39,8 +39,8 @@ namespace nm {
         WHEN(!thread::get().isInteractable()).err("thread isn't interactable").ret(nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD));
 
         // s is from heap space. but freed by _outFrame() of this class.
-        scope& s = *_evalArgs(a) OR_RET str();
-        node &meObj = a.getMe() OR_RET NM_E("meObj == null"), str();
+        scope& s = *_evalArgs(a) OR.ret(str());
+        node &meObj = a.getMe() OR.err("meObj == null").ret(str());
         return _interactFrame(meObj, s, thread::get().getEx().len() - 1);
     }
 
@@ -86,7 +86,7 @@ namespace nm {
     scope* me::_evalArgs(const args& a) {
         scope* ret = new scope();
         const params& ps = getParams();
-        tmay<args> evaluated = a.evalAll(ps) OR_RET(nullptr);
+        tmay<args> evaluated = a.evalAll(ps) OR.ret(nullptr);
 
         for(int n=0; n < ps.len() ;n++)
             ret->add(ps[n].getName(), (*evaluated)[n]);
@@ -94,7 +94,7 @@ namespace nm {
     }
 
     void me::inFrame(const bicontainable& args) const {
-        frame& fr = thread::get()._getNowFrame() OR_RET NM_E("fr == null");
+        frame& fr = thread::get()._getNowFrame() OR.err("fr == null").ret();
 
         NM_DI("'%s'._inFrame() frames.len[%d]", *this, thread::get().getFrames().len());
         fr.addFunc(*this);

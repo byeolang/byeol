@@ -10,7 +10,8 @@ namespace nm {
         fr.bind(newFrame);
         if(!fr) return;
 
-        const baseFunc& f = fr->getFunc() OR_RET;
+        const baseFunc& f = fr->getFunc();
+        if(nul(f)) return;
         const src& s = f.getSrc();
 
         at = s.getName() + "(" + f.getParams().toStr() + ")";

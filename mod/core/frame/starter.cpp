@@ -28,16 +28,15 @@ namespace nm {
 
     str me::_onWork() {
         args& a = getArgs();
-        node &pak = getTask() OR_RET NM_E("there is no pack!"), str();
+        node &pak = getTask() OR.err("there is no pack!").ret(str());
 
         NM_I("run a pack");
-        node &main = _findMain(pak, args()) OR_RET NM_E("there is 0 or more than 2 main() found."),
-             str();
+        node &main = _findMain(pak, args()) OR.err("there is 0 or more than 2 main() found.").ret(str());
 
         if(main.canRun(a)) {
             threadUse thr(getReport());
             _prepareFrame(thread::get()._getFrames());
-            NM_DI("-------------- START ----------------");
+            NM_DI("-------------- SYMBOL_START ----------------");
             str res = _postprocess(pak.run(MAIN));
             NM_DI("-------------------------------------");
             return res;

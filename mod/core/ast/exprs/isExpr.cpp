@@ -10,7 +10,7 @@ namespace nm {
     str me::run(const args& a) {
         WHEN(!_me || !_to).ret(str());
 
-        str eval = _me->as<node>() OR_RET NM_E("!eval.isBind()"), str();
+        str eval = _me->as<node>() OR.err("!eval.isBind()").ret(str());
 
         return new nBool(eval->is(*_to->getEval()));
     }

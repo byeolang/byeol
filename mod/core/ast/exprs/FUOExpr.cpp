@@ -11,10 +11,10 @@ namespace nm {
 
     str me::run(const args& a) {
         WHEN(!_it).ret(str());
-        tstr<arithmeticObj> it = _it->as<node>() OR_RET str();
+        tstr<arithmeticObj> it = _it->as<node>() OR.ret(str());
 
         str ret((node*) it->cloneDeep());
-        switch(_rule) {
+        switch(_symbol) {
             case SYMBOL_POSTFIX_DOUBLE_PLUS: {
                 tstr<arithmeticObj> rhs = it->add(nInt(1));
                 if(rhs) it->mov(*rhs);

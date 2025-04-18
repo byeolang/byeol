@@ -29,7 +29,7 @@ namespace nm {
     void me::logStack() const { _stack->dump(); }
 
     void me::_initStack() {
-        thread& thr = thread::get() OR_RET;
+        thread& thr = thread::get() OR.ret();
         _stack.bind(new callstack(thr.getFrames()));
     }
 

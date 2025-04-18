@@ -20,9 +20,10 @@ namespace nm {
 
     manifest me::_interpManifest(const std::string& dir, const std::string& manPath) const {
         // TODO: open slot zip file -> extract manifest.leaf file -> interpret it & load values
-        tstr<leaf> loaded = leafParser().parseFromFile(manPath)
-                                OR_RET NM_E("error to load %s: interpretion err", manPath),
-                   manifest();
+        tstr<leaf> loaded = leafParser()
+                                .parseFromFile(manPath)
+                                    OR.err("error to load %s: interpretion err", manPath)
+                                .ret(manifest());
 
         std::string name = loaded->sub("name").asStr();
         std::string ver = loaded->sub("ver").asStr();
@@ -33,8 +34,7 @@ namespace nm {
         for(auto& pair: entrypoints) {
             const std::string &path = dir + fsystem::getDelimiter() +
                 pair.second->sub("path").asStr()
-                    OR_RET NM_E("error to load %s: no entrypoint path", manPath),
-                              manifest();
+                    OR.err("error to load %s: no entrypoint path", manPath).ret(manifest());
 
             // TODO: path should be multiple
             points.push_back(entrypoint{pair.first, {path}});

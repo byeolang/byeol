@@ -72,7 +72,7 @@ namespace nm {
                 _wrap = isReversed ? (_isReversed ? _wrap->_next : _wrap->_prev) :
                                      (_isReversed ? _wrap->_prev : _wrap->_next);
                 if(_key == _getDummyKey()) break;
-                key = &getKey() OR_RET * this;
+                key = &getKey() OR.ret(*this);
             } while(*key != _key);
         return *this;
     }
@@ -190,7 +190,7 @@ namespace nm {
     void ME::_erase(const iterator& e) {
         WHEN(nul(e) || e.isEnd()).ret(); // not found.
 
-        const K& key = e._wrap->getKey() OR_RET;
+        const K& key = e._wrap->getKey() OR.ret();
         auto range = _map.equal_range(key);
         for(auto stlE = range.first; stlE != range.second; ++stlE)
             if(&stlE->second == e._wrap) return _erase(stlE), void();

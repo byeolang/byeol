@@ -11,7 +11,7 @@
 #include "macro/pair.hpp"
 #include "macro/pairx.hpp"
 #include "macro/to.hpp"
-#include "macro/orDo.hpp"
+#include "macro/or.hpp"
 #include "macro/staticAsserts.hpp"
 #include "macro/typeTrait.hpp"
 #include "macro/unconstFunc.hpp"

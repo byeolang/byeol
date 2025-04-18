@@ -39,7 +39,7 @@ namespace nm {
                 "situtation.")
             .ret(nullptr);
 
-        nidx* ret = (nidx*) _get(_head) OR_RET nullptr;
+        nidx* ret = (nidx*) _get(_head) OR.ret(nullptr);
         _head = *ret;
         _len++;
         return ret;
@@ -77,7 +77,7 @@ namespace nm {
     }
 
     nuchar* me::_getEOB() {
-        nuchar* org = (nuchar*) _get(_sz - 1) OR_RET nullptr;
+        nuchar* org = (nuchar*) _get(_sz - 1) OR.ret(nullptr);
         return org + _getRealBlkSize() - 1;
     }
 

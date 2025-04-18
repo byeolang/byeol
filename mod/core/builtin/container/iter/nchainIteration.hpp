@@ -166,8 +166,8 @@ private:
         WHEN(!this->isReversed()).ret(false);
 
         // if there is no prev chain, I'll just regard it as `end()` soon.
-        const tnchain& prev = _castChain(_getNextIter()) OR_RET false;
-        const me& prevNext = _castIteration(prev._next) OR_RET false;
+        const tnchain& prev = _castChain(_getNextIter()) OR.ret(false);
+        const me& prevNext = _castIteration(prev._next) OR.ret(false);
         WHEN(prevNext.isBoundary()).ret(false);
         return _iter == prevNext._iter;
     }

@@ -148,14 +148,14 @@ TEST_F(visitorTest, visitComplexExpressions2) {
         using visitor::onVisit;
 
         nbool onVisit(const visitInfo& i, FBOExpr& fao, nbool) override {
-            tstr<nInt> num2 = ((node&) fao.getRight()).as<nInt>() OR_RET true;
+            tstr<nInt> num2 = ((node&) fao.getRight()).as<nInt>() OR.ret(true);
 
             if(num2->cast<nint>() == 2) metInt2 = true;
             return true;
         }
 
         nbool onVisit(const visitInfo& i, assignExpr& a, nbool) override {
-            getExpr& leftGet = ((node&) a.getLeft()).cast<getExpr>() OR_RET true;
+            getExpr& leftGet = ((node&) a.getLeft()).cast<getExpr>() OR.ret(true);
 
             if(leftGet.getName() != "res") return true;
             metRet = true;

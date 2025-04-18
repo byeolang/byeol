@@ -12,7 +12,7 @@ namespace nm {
 
     TEMPL
     template <size_t... index> str ME::_marshal(args& a, std::index_sequence<index...> s) {
-        auto *me = (tbridge<T>*) &a.getMe() OR_RET NM_E("object from frame does not exists."), str();
+        auto *me = (tbridge<T>*) &a.getMe() OR.err("object from frame does not exists.").ret(str());
         WHEN_NUL(me->_real).err("this object doesn't have _real.").ret(str());
 
         return Marshaling<Ret, tifSub<Ret, node>::is>::toMgd((me->_real->*(this->_fptr)) // funcptr
@@ -26,7 +26,7 @@ namespace nm {
 
     TEMPL
     template <size_t... index> str ME::_marshal(args& a, std::index_sequence<index...>) {
-        auto *me = (tbridge<T>*) &a.getMe() OR_RET NM_E("object from frame does not exists."), str();
+        auto *me = (tbridge<T>*) &a.getMe() OR.err("object from frame does not exists.").ret(str());
         WHEN_NUL(me->_real).err("this object doesn't have _real.").ret(str());
 
         (me->_real->*(this->_fptr))(

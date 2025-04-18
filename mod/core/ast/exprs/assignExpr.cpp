@@ -32,10 +32,10 @@ namespace nm {
     }
 
     me::iter me::_getScopeIterOfLhs() {
-        getExpr& cast = _lhs TO(template cast<getExpr>()) OR_RET iter();
+        getExpr& cast = _lhs TO(template cast<getExpr>()) OR.ret(iter());
 
         // TODO: elementExpr
-        str ased = cast TO(getMe()) TO(template as<node>()) OR_RET NM_E("ased == null"), iter();
+        str ased = cast TO(getMe()) TO(template as<node>()) OR.err("ased == null").ret(iter());
         frame& fr = ased->cast<frame>();
         if(!nul(fr)) {
             scope& s = fr.getScopeHaving(*cast.as<node>());

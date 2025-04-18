@@ -265,7 +265,7 @@ namespace nm {
             const node& rhs);
         nint _onTokenEndOfInlineBlock(nint tok);
         node* _onSetElem(runExpr& lhs, const node& rhs);
-        node* _onAssignElem(FBOExpr::rule type, node& lhs, node& rhs);
+        node* _onAssignElem(FBOExpr::symbol type, node& lhs, node& rhs);
         node* _onConvertAssignElem(runExpr& lhs, node& rhs);
         runExpr* _onRunExpr(node& me, node& type, const args& a);
 

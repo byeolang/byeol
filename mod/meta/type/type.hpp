@@ -6,7 +6,7 @@ namespace nm {
 
     constexpr nint NO_RELATION = 0;
     constexpr nint SUPER = 1;
-    constexpr nint SUB = 1;
+    constexpr nint SYMBOL_SUB = 1;
     constexpr nint SAME = 2;
 
     /// @remark type returning ttype<type> as result of getType()
