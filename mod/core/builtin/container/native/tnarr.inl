@@ -14,6 +14,15 @@ namespace nm {
 #define ME tnarr<T, TACTIC>
 
     TEMPL
+    ME::tnarr() {}
+
+    TEMPL
+    ME::tnarr(const std::initializer_list<const T*> args) {
+        for(const T* arg : args)
+            add(arg);
+    }
+
+    TEMPL
     T& ME::get(nidx n) {
         WHEN(!in(n)).exErr(OUT_OF_RANGE, n, len()).template retNul<T>();
 

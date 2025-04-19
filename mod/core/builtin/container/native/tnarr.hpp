@@ -18,7 +18,8 @@ namespace nm {
 #include "../iter/narrIteration.hpp"
 
     public:
-        tnarr() {}
+        tnarr();
+        tnarr(const std::initializer_list<const T*> args);
 
         /// @param  elems   instances to derived type of T.
         ///                 should be created on Heap.
