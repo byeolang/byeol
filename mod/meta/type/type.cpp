@@ -77,26 +77,25 @@ namespace nm {
         return true;
     }
 
-    nint me::isSuper(const type& it) const {
+    nbool me::isSuper(const type& it) const {
         //  checking class hierarchy algorithm:
         //        use the "tier" of the class hierarchy info to check it.
         //        "tier" means that how this class are inherited far from the Root class, that is,
         //        object.
         //        so, if the "this" is a super of given object "it", its "tier"th super class
         //        would must be the class of "this".
-        WHEN_NUL(it).ret(NO_RELATION);
+        WHEN_NUL(it).ret(false);
         const types& its = it.getSupers();
         ncnt myTier = getSupers().size(), itsTier = its.size();
-        WHEN(myTier > itsTier).ret(NO_RELATION);
+        WHEN(myTier > itsTier).ret(false);
 
 
         //  main:
         const type& target = itsTier == myTier ? it : (const type&) *its[myTier];
-        WHEN(*this != target).ret(NO_RELATION); // operator== is virtual func.
-        return myTier == itsTier ? SAME : SUPER;
+        return *this == target; // operator== is virtual func.
     }
 
-    nint me::isSub(const type& it) const { return it.isSuper(*this); }
+    nbool me::isSub(const type& it) const { return it.isSuper(*this); }
 
     const nchar* me::getMetaTypeName() const { return "type"; }
 

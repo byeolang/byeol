@@ -18,9 +18,9 @@ namespace nm {
         nbool isSuper(const type& it) const;
         nbool isSuper(const me& it) const;
 
-        template <typename T> nbool isSub() const { return getType().isSub<T>(); }
+        template <typename T> nint isSub() const { return getType().isSub<T>(); }
 
-        template <typename T> nbool isSuper() const { return getType().isSuper<T>(); }
+        template <typename T> nint isSuper() const { return getType().isSuper<T>(); }
 
         template <typename T> T& cast() {
             // this protection:
