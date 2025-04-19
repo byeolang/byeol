@@ -39,9 +39,7 @@ namespace nm {
     nbool me::isToFrame() const { return !_to; }
 
     str me::getEval() const {
-        str ret = _rhs->getEval() OR.ret(ret);
-        if(baseFunc::isFuncButNotClosure(*ret)) return closure::make(*ret);
-        return ret;
+        return _rhs->getEval();
     }
 
     void me::onCloneDeep(const clonable& from) {
