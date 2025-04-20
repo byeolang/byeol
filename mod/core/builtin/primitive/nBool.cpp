@@ -22,7 +22,8 @@ namespace nm {
     me::nBool(nbool val): super(val) {}
 
     const impliAses& me::wBoolType::_getImpliAses() const {
-        static impliAses inner{new asPrimitive<nFlt, nbool>(), new asPrimitive<nByte, nbool>(), new asPrimitive<nInt, nbool>()};
+        static impliAses inner{new asPrimitive<nFlt, nbool>(), new asPrimitive<nByte, nbool>(),
+            new asPrimitive<nInt, nbool>()};
         return inner;
     }
 

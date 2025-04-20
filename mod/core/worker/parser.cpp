@@ -758,8 +758,9 @@ namespace nm {
     node* me::onGet(node& from, const std::string& name) { return onGet(from, *onGet(name)); }
 
     node* me::onGet(node& from, node& it) {
-        getExpr& cast = it.cast<getExpr>() OR.exErr(IDENTIFIER_ONLY, getReport(), it.getType().getName().c_str())
-                            .ret(&from);
+        getExpr& cast = it.cast<getExpr>()
+                            OR.exErr(IDENTIFIER_ONLY, getReport(), it.getType().getName().c_str())
+                                .ret(&from);
 
         cast.setMe(from);
         NM_DI("tokenEvent: onGet(%s, %s)", from, cast.getName());
@@ -772,8 +773,9 @@ namespace nm {
 
     node* me::onCallAccess(node& it, const narr& as) {
         // it can be generic or primitive values. track it, leave as specific errs.
-        getExpr& cast = it.cast<getExpr>() OR.exErr(IDENTIFIER_ONLY, getReport(), it.getType().getName().c_str())
-                            .ret(new getExpr(""));
+        getExpr& cast = it.cast<getExpr>()
+                            OR.exErr(IDENTIFIER_ONLY, getReport(), it.getType().getName().c_str())
+                                .ret(new getExpr(""));
 
         cast.setArgs(*new args(as));
         return &cast;

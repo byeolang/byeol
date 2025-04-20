@@ -18,7 +18,7 @@ namespace nm {
 
     TEMPL
     ME::tnarr(std::initializer_list<T*> args) {
-        for(const T* arg : args)
+        for(const T* arg: args)
             add(arg);
     }
 
@@ -76,7 +76,8 @@ namespace nm {
             .exErr(CAST_NOT_AVAILABLE, "one of these iterator", "arr iterator")
             .ret();
 
-        WHEN(hereCast._n < 0 || hereCast._n > len()).ret(); // if n equals to len(), it means that will be added at end of container.
+        WHEN(hereCast._n < 0 || hereCast._n > len())
+            .ret(); // if n equals to len(), it means that will be added at end of container.
 
         auto fromBegin = ((me&) from.getContainer())._vec.begin();
         _vec.insert(_vec.begin() + hereCast._n, fromBegin + fromCast._n, fromBegin + toCast._n);

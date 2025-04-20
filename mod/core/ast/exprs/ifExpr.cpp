@@ -22,7 +22,8 @@ namespace nm {
     node& me::getCondition() { return *_expr; }
 
     str me::run(const args& a) {
-        tstr<nBool> res = _expr->as<node>() TO(template asImpli<nBool>()) OR.ret(nVoid::singleton());
+        tstr<nBool> res =
+            _expr->as<node>() TO(template asImpli<nBool>()) OR.ret(nVoid::singleton());
         nbool cond = res->cast<nbool>();
         NM_DI("@%s `if %s --> to %s`", this, *_expr, cond ? "THEN" : "ELSE");
         auto& blk = cond ? *_then : *_else;
@@ -38,8 +39,12 @@ namespace nm {
         str thenEval = _then->getEval() OR.err("thenEval is null").ret(thenEval);
         str elseEval = (_else ? _else->getEval() : str()) OR.err("elseEval is null").ret(elseEval);
 
-        WHEN(thenEval->isSub<retStateExpr>()).info("thenEval is %s, accept elseEval[%s]", thenEval, elseEval).ret(elseEval);
-        WHEN(elseEval->isSub<retStateExpr>()).info("elseEval is %s, accept thenEval[%s]", elseEval, thenEval).ret(thenEval);
+        WHEN(thenEval->isSub<retStateExpr>())
+            .info("thenEval is %s, accept elseEval[%s]", thenEval, elseEval)
+            .ret(elseEval);
+        WHEN(elseEval->isSub<retStateExpr>())
+            .info("elseEval is %s, accept thenEval[%s]", elseEval, thenEval)
+            .ret(thenEval);
 
         // when you try to get eval from ifExpr, `then` and else block must be declared first.
         // if one of blocks has omitted, evaluation of ifExpr should be null.

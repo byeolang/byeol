@@ -20,7 +20,8 @@ namespace nm {
     }
 
     const impliAses& me::wIntType::_getImpliAses() const {
-        static impliAses inner{new asPrimitive<nFlt, nint>(), new asPrimitive<nByte, nint>(), new asPrimitive<nBool, nint>()};
+        static impliAses inner{new asPrimitive<nFlt, nint>(), new asPrimitive<nByte, nint>(),
+            new asPrimitive<nBool, nint>()};
         return inner;
     }
 

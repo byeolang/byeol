@@ -50,7 +50,7 @@ namespace nm {
 
     str me::run(const args& a) {
         auto addr = platformAPI::toAddrId(this);
-        blockExpr &blk = getBlock() OR.err("%s blk is null", addr).ret(str());
+        blockExpr& blk = getBlock() OR.err("%s blk is null", addr).ret(str());
         tstr<loop> l = _makeLoop(*_makeRet()) OR.err("%s loop is null", addr).ret(str());
 
         frame& fr = thread::get()._getNowFrame();
@@ -64,7 +64,7 @@ namespace nm {
 
     tstr<arr> me::_makeRet() const {
         static dumArr inner;
-        node &eval = *getEval() OR.err("eval is null ").retNul<arr>();
+        node& eval = *getEval() OR.err("eval is null ").retNul<arr>();
         WHEN(!eval.isSub<arr>()).retNul<arr>();
 
         return *new arr(*eval.getType().getParams()[0].getOrigin().as<baseObj>());

@@ -4,7 +4,7 @@
 
 namespace nm {
 
-    class _nout impliAses : public ases {
+    class _nout impliAses: public ases {
         NM(CLASS(impliAses, ases))
 
     public:

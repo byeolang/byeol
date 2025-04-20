@@ -7,14 +7,14 @@ namespace nm {
 
     NM_DEF_ME(arithmeticObj)
 
-#define _X(FUNC)                                                                    \
-    tstr<arithmeticObj> me::FUNC(const arithmeticObj& rhs) const {                  \
-        const ntype& deduced = getType().deduce(rhs);                               \
+#define _X(FUNC)                                                                   \
+    tstr<arithmeticObj> me::FUNC(const arithmeticObj& rhs) const {                 \
+        const ntype& deduced = getType().deduce(rhs);                              \
         WHEN(deduced.isSub<nVoid>()).ret(tstr<arithmeticObj>(nVoid::singleton())); \
-        nbool normalOrder = getType() == deduced;                                   \
-        const arithmeticObj& winner = getType() == deduced ? *this : rhs;           \
-        const arithmeticObj& loser = getType() == deduced ? rhs : *this;            \
-        return winner._##FUNC(loser, !normalOrder);                                 \
+        nbool normalOrder = getType() == deduced;                                  \
+        const arithmeticObj& winner = getType() == deduced ? *this : rhs;          \
+        const arithmeticObj& loser = getType() == deduced ? rhs : *this;           \
+        return winner._##FUNC(loser, !normalOrder);                                \
     }
 
     NM_EACH(_X, add, sub, mul, div, mod, bitwiseAnd, bitwiseXor, bitwiseOr, rshift, lshift)

@@ -42,7 +42,7 @@ namespace nm {
         WHEN(!len).info("len == 0. deduced type as 'void'").ret(nVoid::singleton());
 
         str ased1 = _elems[0].getEval();
-        const node *ret = &ased1.get() OR.info("deduceElem: elem0 is null").ret(nVoid::singleton());
+        const node* ret = &ased1.get() OR.info("deduceElem: elem0 is null").ret(nVoid::singleton());
         str ased;
 
         for(int n = 1; n < len; n++) {

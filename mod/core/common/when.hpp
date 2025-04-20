@@ -23,13 +23,15 @@ namespace nm {
 
         template <typename... Ts>
         const me& exErr(const point& src, int code, const Ts&... args) const {
-            _addNewErr(errLv::ERR, src, code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(errLv::ERR, src, code, &_getDefault(),
+                __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
         template <typename... Ts>
         const me& exErr(const node& src, int code, const Ts&... args) const {
-            _addNewErr(errLv::ERR, _getPosFrom(src), code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(errLv::ERR, _getPosFrom(src), code, &_getDefault(),
+                __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
@@ -47,7 +49,8 @@ namespace nm {
 
         template <typename... Ts>
         const me& exErr(const node& src, int code, errReport& rpt, const Ts&... args) const {
-            _addNewErr(errLv::ERR, _getPosFrom(src), code, &rpt, __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(errLv::ERR, _getPosFrom(src), code, &rpt,
+                __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
@@ -58,13 +61,15 @@ namespace nm {
 
         template <typename... Ts>
         const me& exWarn(const point& src, int code, const Ts&... args) const {
-            _addNewErr(errLv::WARN, src, code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(errLv::WARN, src, code, &_getDefault(),
+                __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
         template <typename... Ts>
         const me& exWarn(const node& src, int code, const Ts&... args) const {
-            _addNewErr(errLv::WARN, _getPosFrom(src), code, &_getDefault(), __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(errLv::WARN, _getPosFrom(src), code, &_getDefault(),
+                __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 
@@ -82,7 +87,8 @@ namespace nm {
 
         template <typename... Ts>
         const me& exWarn(const node& src, int code, errReport& rpt, const Ts&... args) const {
-            _addNewErr(errLv::WARN, _getPosFrom(src), code, &rpt, __convert__((const Ts&) args).unwrap()...);
+            _addNewErr(errLv::WARN, _getPosFrom(src), code, &rpt,
+                __convert__((const Ts&) args).unwrap()...);
             return *this;
         }
 

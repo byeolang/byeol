@@ -28,10 +28,11 @@ namespace nm {
 
     str me::_onWork() {
         args& a = getArgs();
-        node &pak = getTask() OR.err("there is no pack!").ret(str());
+        node& pak = getTask() OR.err("there is no pack!").ret(str());
 
         NM_I("run a pack");
-        node &main = _findMain(pak, args()) OR.err("there is 0 or more than 2 main() found.").ret(str());
+        node& main =
+            _findMain(pak, args()) OR.err("there is 0 or more than 2 main() found.").ret(str());
 
         if(main.canRun(a)) {
             threadUse thr(getReport());

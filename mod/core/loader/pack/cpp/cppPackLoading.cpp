@@ -33,7 +33,9 @@ namespace nm {
             WHEN(res).err("couldn't open %s slot: %d", path, res).ret((rel(), false));
 
             auto&& info = lib.accessFunc<entrypointFunc>(ENTRYPOINT_NAME);
-            WHEN(info.errMsg).err("couldn't access entrypoint of %s slot: %d", path, info.errMsg).ret((rel(), false));
+            WHEN(info.errMsg)
+                .err("couldn't access entrypoint of %s slot: %d", path, info.errMsg)
+                .ret((rel(), false));
 
             info.func(&tray);
             if(tray.len() <= 0) {

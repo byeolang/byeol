@@ -8,10 +8,8 @@
 
 namespace nm {
 
-#define _VISIT \
-    WHEN(alreadyVisited).ret(false)
-#define _LEAVE \
-    WHEN(alreadyVisited).ret()
+#define _VISIT WHEN(alreadyVisited).ret(false)
+#define _LEAVE WHEN(alreadyVisited).ret()
 
     NM(DEF_ME(graphVisitor))
     using platformAPI::foreColor;

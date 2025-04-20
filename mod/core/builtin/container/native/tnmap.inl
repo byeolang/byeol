@@ -67,7 +67,9 @@ namespace nm {
 
     TEMPL
     nbool ME::del(const iter& from, const iter& end) {
-        WHEN(!from.isFrom(*this) || !end.isFrom(*this)).warn("from or end is not an iterator of this container").ret(false);
+        WHEN(!from.isFrom(*this) || !end.isFrom(*this))
+            .warn("from or end is not an iterator of this container")
+            .ret(false);
 
         _map.erase(_getIterationFrom(from)._citer, _getIterationFrom(end)._citer);
         return true;

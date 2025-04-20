@@ -32,9 +32,10 @@ namespace nm {
         entrypoints points;
         leaf& entrypoints = loaded->sub("entrypoints");
         for(auto& pair: entrypoints) {
-            const std::string &path = dir + fsystem::getDelimiter() +
-                pair.second->sub("path").asStr()
-                    OR.err("error to load %s: no entrypoint path", manPath).ret(manifest());
+            const std::string& path = dir + fsystem::getDelimiter() +
+                pair.second->sub("path")
+                    .asStr() OR.err("error to load %s: no entrypoint path", manPath)
+                    .ret(manifest());
 
             // TODO: path should be multiple
             points.push_back(entrypoint{pair.first, {path}});

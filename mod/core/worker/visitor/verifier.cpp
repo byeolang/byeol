@@ -37,7 +37,6 @@ namespace nm {
         static ncnt _stepN = 0;
     }
 
-
 #define _GUARD(msg)                                         \
     if(isFlag(GUARD)) do {                                  \
             NM_I("'%s' %s@%s: " msg, i, me.getType(), &me); \
@@ -100,8 +99,10 @@ namespace nm {
 
         _STEP("set evalType");
 
-        const ntype& ltype = me TO(getLeft()) TO(getEval()) TO(getType()) OR.myExErr(me, LHS_IS_NUL).ret();
-        const ntype& rtype = me TO(getRight()) TO(getEval()) TO(getType()) OR.myExErr(me, RHS_IS_NUL).ret();
+        const ntype& ltype =
+            me TO(getLeft()) TO(getEval()) TO(getType()) OR.myExErr(me, LHS_IS_NUL).ret();
+        const ntype& rtype =
+            me TO(getRight()) TO(getEval()) TO(getType()) OR.myExErr(me, RHS_IS_NUL).ret();
         WHEN(rtype.isSub<retStateExpr>()).myExErr(me, CANT_ASSIGN_RET).ret();
         WHEN(!rtype.isImpli(ltype)).myExErr(me, TYPE_NOT_COMPATIBLE, rtype, ltype).ret();
 
@@ -193,7 +194,8 @@ namespace nm {
         _GUARD("onLeave(defVarExpr&)");
 
         _STEP("modifier not allowed for local variables in a func.");
-        const auto& mod = me.getNewModifier() OR.myExErr(me, MODIFIER_NOT_FOUND, me.getName()).ret();
+        const auto& mod =
+            me.getNewModifier() OR.myExErr(me, MODIFIER_NOT_FOUND, me.getName()).ret();
         frame& fr = thread::get()._getNowFrame() OR.myExErr(me, THERE_IS_NO_FRAMES_IN_THREAD).ret();
         const baseFunc& fun = fr.getFunc();
         nbool isInLocal = nul(fun) || fun.getSrc().getName() != baseObj::EXPAND_NAME;
@@ -358,7 +360,8 @@ namespace nm {
                 case FBOExpr::SYMBOL_BITWISE_XOR:
                 case FBOExpr::SYMBOL_BITWISE_OR:
                 case FBOExpr::SYMBOL_LSHIFT:
-                case FBOExpr::SYMBOL_RSHIFT: return NM_WHEN.myExErr(me, STRING_IS_NOT_PROPER_TO_OP).ret();
+                case FBOExpr::SYMBOL_RSHIFT:
+                    return NM_WHEN.myExErr(me, STRING_IS_NOT_PROPER_TO_OP).ret();
 
                 default:;
             }
@@ -383,8 +386,9 @@ namespace nm {
         str match = me._get(true);
         if(!match) {
             const node& from = me.getMe();
-            return NM_WHEN.myExErr(me, CANT_ACCESS, me._name.c_str(),
-                from.getType().getName().c_str()).ret();
+            return NM_WHEN
+                .myExErr(me, CANT_ACCESS, me._name.c_str(), from.getType().getName().c_str())
+                .ret();
         }
         // TODO: leave logs for all ambigious candidates as err.
         WHEN_NUL(*match).myExErr(me, AMBIGIOUS_ACCESS, i).ret();
@@ -396,7 +400,8 @@ namespace nm {
         WHEN(asedMe && !asedMe->isComplete()).myExErr(me, ACCESS_TO_INCOMPLETE).ret();
 
         _STEP("check modifier.");
-        const auto& mod = match->getModifier() OR.myExErr(me, MODIFIER_NOT_FOUND, me.getName()).ret();
+        const auto& mod =
+            match->getModifier() OR.myExErr(me, MODIFIER_NOT_FOUND, me.getName()).ret();
         if(!mod.isPublic()) { // we only need to run verify routine when there is protected
                               // modifier.
             baseObj& castedMe = asedMe->cast<baseObj>();
@@ -416,7 +421,8 @@ namespace nm {
         WHEN(i.index != i.len - 1).myExErr(me, RET_AT_MIDDLE_OF_BLOCK).ret();
 
         _STEP("checks evalType of func is matched to me");
-        const baseFunc& f = thread::get().getNowFrame().getFunc() OR.myExErr(me, NO_FUNC_INFO).ret();
+        const baseFunc& f =
+            thread::get().getNowFrame().getFunc() OR.myExErr(me, NO_FUNC_INFO).ret();
 
         str myRet = me.getRet().getEval() OR.myExErr(me, EXPR_EVAL_NUL).ret();
 
@@ -447,8 +453,10 @@ namespace nm {
         if(!derivedSub->canRun(me.getArgs())) {
             const baseFunc& derivedCast = derivedSub->cast<baseFunc>();
             std::string params = nul(derivedCast) ? "ctor" : _asStr(derivedCast.getParams());
-            return NM_WHEN.myExErr(me, OBJ_WRONG_ARGS, i.name.c_str(),
-                me.getArgs().asStr().c_str(), params.c_str()).ret();
+            return NM_WHEN
+                .myExErr(me, OBJ_WRONG_ARGS, i.name.c_str(), me.getArgs().asStr().c_str(),
+                    params.c_str())
+                .ret();
         }
 
         a.setMe(nulOf<node>());
@@ -527,8 +535,7 @@ namespace nm {
         _STEP("main func return type should be int or void");
         if(i.name == starter::MAIN) {
             str ret = me.getRet();
-            if(!ret->isSub<nInt>() && !ret->isSub<nVoid>())
-                NM_WHEN.myExErr(me, MAIN_FUNC_RET_TYPE);
+            if(!ret->isSub<nInt>() && !ret->isSub<nVoid>()) NM_WHEN.myExErr(me, MAIN_FUNC_RET_TYPE);
         }
 
         _STEP("retType exists and stmts exist one at least");
@@ -609,7 +616,9 @@ namespace nm {
         const type& retType = me.getRet() TO(getType()) OR.err("func.getRet() is null").ret();
         const node& lastStmt = *me.getBlock().getStmts().last();
 
-        WHEN(retType == ttype<nVoid>::get()).info("func: implicit return won't verify WHEN retType is void.").ret();
+        WHEN(retType == ttype<nVoid>::get())
+            .info("func: implicit return won't verify WHEN retType is void.")
+            .ret();
 
         str eval = me.getBlock().getEval() OR.myExErr(lastStmt, NO_RET_TYPE).ret();
 
@@ -619,7 +628,9 @@ namespace nm {
         _STEP("last stmt[%s] should matches to return type[%s]", eval, retType);
 
         // @see retExpr::getEval() for more info.
-        WHEN(eval->isSub<retStateExpr>()).info("func: skip verification WHEN lastStmt is retStateExpr.").ret();
+        WHEN(eval->isSub<retStateExpr>())
+            .info("func: skip verification WHEN lastStmt is retStateExpr.")
+            .ret();
         WHEN(!lastType.isSub<baseErr>() && !lastType.isImpli(retType))
             .myExErr(nul(lastStmt) ? me : lastStmt, RET_TYPE_NOT_MATCH, lastType, retType)
             .ret();
@@ -742,6 +753,6 @@ namespace nm {
     void me::onLeave(const visitInfo& i, ifExpr& me, nbool) { _GUARD("onLeave(ifExpr&)"); }
 
 #undef _GUARD
-#undef _STEP 
+#undef _STEP
 
 } // namespace nm

@@ -19,7 +19,8 @@ namespace nm {
     }
 
     const impliAses& me::wFltType::_getImpliAses() const {
-        static impliAses inner{new asPrimitive<nInt, nflt>(), new asPrimitive<nByte, nflt>(), new asPrimitive<nBool, nflt>()};
+        static impliAses inner{new asPrimitive<nInt, nflt>(), new asPrimitive<nByte, nflt>(),
+            new asPrimitive<nBool, nflt>()};
         return inner;
     }
 

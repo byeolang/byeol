@@ -110,14 +110,12 @@ namespace nm {
 
         void crash() const;
 
-        template <typename R>
-        R& crash([[maybe_unused]] R& r) const {
+        template <typename R> R& crash([[maybe_unused]] R& r) const {
             abort();
             return r;
         }
 
-        template <typename R>
-        R&& crash([[maybe_unused]] R&& r) const {
+        template <typename R> R&& crash([[maybe_unused]] R&& r) const {
             abort();
             return std::move(r);
         }

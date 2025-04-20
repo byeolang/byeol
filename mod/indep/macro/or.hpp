@@ -17,11 +17,11 @@ namespace nm {
         inline static std::vector<nbool> _stack;
     };
 
-#define __OR_DO__(_expr_)        \
+#define __OR_DO__(_expr_)                \
     ->*[&](auto& __p) -> decltype(__p) { \
-        __orStack__::push(_expr_);     \
+        __orStack__::push(_expr_);       \
         return __p;                      \
-    }; \
+    };                                   \
     if(__orStack__::pop())
 
 #define OR_DO __OR_DO__(nul(__p))

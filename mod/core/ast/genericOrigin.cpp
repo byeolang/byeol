@@ -49,14 +49,18 @@ namespace nm {
     str me::run(const args& a) {
         std::string key = _makeKey(a);
         WHEN(key.empty()).err("key is empty").ret(tstr<obj>());
-        WHEN(_isSelfMaking(key)).err("error: you tried to clone self generic object.").ret(tstr<obj>());
+        WHEN(_isSelfMaking(key))
+            .err("error: you tried to clone self generic object.")
+            .ret(tstr<obj>());
 
         if(!_cache.count(key)) _makeGeneric(key, params::make(_paramNames, a));
         return _cache[key];
     }
 
     std::string me::_makeKey(const args& a) const {
-        WHEN(a.len() != _paramNames.size()).err("len of args doesn't match to _paramNames").ret(std::string());
+        WHEN(a.len() != _paramNames.size())
+            .err("len of args doesn't match to _paramNames")
+            .ret(std::string());
         return a.toStr();
     }
 

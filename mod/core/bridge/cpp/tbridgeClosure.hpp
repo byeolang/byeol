@@ -37,14 +37,14 @@ namespace nm {
 
         str run(const args& a) override {
             args tray;
-            args &evaluated = _evalArgs(a, tray) OR.err("evaluated == null").ret(str());
+            args& evaluated = _evalArgs(a, tray) OR.err("evaluated == null").ret(str());
 
             return _marshal(evaluated, std::index_sequence_for<Args...>());
         }
 
     private:
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
-            T *me = (T*) &a.getMe() OR.err("object from frame does not exists.").ret(str());
+            T* me = (T*) &a.getMe() OR.err("object from frame does not exists.").ret(str());
 
             return Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::toMgd(
                 _closure(*me, Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...));
@@ -52,7 +52,9 @@ namespace nm {
 
         args& _evalArgs(const args& a, args& tray) {
             const params& ps = getParams();
-            WHEN(a.len() != ps.len()).err("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len()).retNul<args>();
+            WHEN(a.len() != ps.len())
+                .err("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len())
+                .retNul<args>();
 
             int n = 0;
             for(const node& e: a) {
@@ -95,14 +97,14 @@ namespace nm {
 
         str run(const args& a) override {
             args tray;
-            args &evaluated = _evalArgs(a, tray) OR.err("evaluated == null").ret(str());
+            args& evaluated = _evalArgs(a, tray) OR.err("evaluated == null").ret(str());
 
             return _marshal(evaluated, std::index_sequence_for<Args...>());
         }
 
     private:
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
-            T *me = (T*) &a.getMe() OR.err("object from frame does not exists.").ret(str());
+            T* me = (T*) &a.getMe() OR.err("object from frame does not exists.").ret(str());
 
             _closure(*me, Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...);
             return Marshaling<void, tifSub<void, node>::is>::toMgd();
@@ -110,7 +112,9 @@ namespace nm {
 
         args& _evalArgs(const args& a, args& tray) {
             const params& ps = getParams();
-            WHEN(a.len() != ps.len()).err("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len()).retNul<args>();
+            WHEN(a.len() != ps.len())
+                .err("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len())
+                .retNul<args>();
 
             int n = 0;
             for(const node& e: a) {

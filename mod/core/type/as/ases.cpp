@@ -9,6 +9,7 @@ namespace nm {
     NM_DEF_ME(ases)
 
     me::ases() {}
+
     me::ases(const std::initializer_list<aser*>& args): super(args) {}
 
     str me::as(const node& from, const type& to) const {

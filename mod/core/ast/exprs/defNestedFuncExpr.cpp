@@ -10,7 +10,7 @@ namespace nm {
 
     str me::run(const args& a) {
         if(!_org) return NM_E("_org is null"), str();
-        frame &fr = thread::get()._getNowFrame() OR.err("frame doesn't exist").ret(str());
+        frame& fr = thread::get()._getNowFrame() OR.err("frame doesn't exist").ret(str());
 
         nestedFunc* new1 = new nestedFunc(*_org, *_cloneLocalScope(fr));
         NM_I("def nested `%s` func in local", *_org);

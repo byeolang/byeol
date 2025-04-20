@@ -12,8 +12,11 @@ namespace nm {
     NM(DEF_ME(dlib))
 
     me::dlib(): _handle(nullptr) {}
+
     me::dlib(const char* path): me(std::string(path)) {}
+
     me::dlib(const std::string& path): _path(path), _handle(nullptr) {}
+
     me::dlib(const me& rhs): _path(rhs._path), _handle(rhs._handle) {
         me& cast = (me&) rhs;
         cast._handle = nullptr;
@@ -32,6 +35,7 @@ namespace nm {
     }
 
     const std::string& me::getPath() const { return _path; }
+
     void me::setPath(const std::string& path) { _path = path; }
 
     const nchar* me::load() {
@@ -84,4 +88,4 @@ namespace nm {
         rel();
         return ret;
     }
-}
+} // namespace nm

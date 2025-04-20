@@ -36,11 +36,13 @@ namespace nm {
     str me::run(const args& a) {
         NM_I("@%s prepare to run `%s(%s)`...", this, getSrc(), getParams());
         WHEN_NUL(a).err("a == null").ret(str());
-        WHEN(!thread::get().isInteractable()).err("thread isn't interactable").ret(nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD));
+        WHEN(!thread::get().isInteractable())
+            .err("thread isn't interactable")
+            .ret(nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD));
 
         // s is from heap space. but freed by _outFrame() of this class.
         scope& s = *_evalArgs(a) OR.ret(str());
-        node &meObj = a.getMe() OR.err("meObj == null").ret(str());
+        node& meObj = a.getMe() OR.err("meObj == null").ret(str());
         return _interactFrame(meObj, s, thread::get().getEx().len() - 1);
     }
 
@@ -88,7 +90,7 @@ namespace nm {
         const params& ps = getParams();
         tmay<args> evaluated = a.evalAll(ps) OR.ret(nullptr);
 
-        for(int n=0; n < ps.len() ;n++)
+        for(int n = 0; n < ps.len(); n++)
             ret->add(ps[n].getName(), (*evaluated)[n]);
         return ret;
     }

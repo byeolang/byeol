@@ -33,13 +33,17 @@ namespace nm {
 
     tmay<me> me::evalAll(const params& ps) const {
         tmay<me> res(me{});
-        WHEN(len() != ps.len()).err("length of args(%d) and typs(%d) doesn't match.", len(), ps.len()).retMayNul<me>();
+        WHEN(len() != ps.len())
+            .err("length of args(%d) and typs(%d) doesn't match.", len(), ps.len())
+            .retMayNul<me>();
 
         int n = 0;
         for(const node& e: *this) {
             const param& p = ps[n++];
             str evaluated = closure::make(e) OR_DO evaluated = e.asImpli(*p.getOrigin().as<node>());
-            WHEN(!evaluated).err("evaluation of arg[%s] -> param[%s] has been failed.", e, p.getOrigin()).retMayNul<me>();
+            WHEN(!evaluated)
+                .err("evaluation of arg[%s] -> param[%s] has been failed.", e, p.getOrigin())
+                .retMayNul<me>();
             res->add(*evaluated);
         }
 

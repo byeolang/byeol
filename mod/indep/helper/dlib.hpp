@@ -6,8 +6,7 @@
 
 namespace nm {
 
-    template <typename F>
-    struct funcInfo {
+    template <typename F> struct funcInfo {
         F func;
         const char* errMsg;
     };
@@ -45,13 +44,11 @@ namespace nm {
 
         /// access function and get address of it inside library.
         /// @return `func` as nullptr if it failed or return `errMsg` as nullptr if it's success.
-        template <typename R>
-        funcInfo<R> accessFunc(const std::string& name) {
+        template <typename R> funcInfo<R> accessFunc(const std::string& name) {
             return accessFunc<R>(name.c_str());
         }
 
-        template <typename R>
-        funcInfo<R> accessFunc(const nchar* name) {
+        template <typename R> funcInfo<R> accessFunc(const nchar* name) {
             auto&& res = _accessFunc(name);
             return funcInfo<R>{(R) res.func, res.errMsg};
         }
@@ -67,4 +64,4 @@ namespace nm {
     };
 
     typedef std::vector<dlib> dlibs;
-}
+} // namespace nm

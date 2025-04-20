@@ -33,9 +33,7 @@ namespace nm {
     void ME::rel() { _subj.reset(); }
 
     TEMPLATE
-    template <typename... Ts> void ME::set(Ts... args) {
-        _subj.emplace(args...);
-    }
+    template <typename... Ts> void ME::set(Ts... args) { _subj.emplace(args...); }
 
 #undef TEMPLATE
 #undef ME

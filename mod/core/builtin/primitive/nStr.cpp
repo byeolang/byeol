@@ -115,11 +115,15 @@ namespace nm {
 
             str run(const args& a) override {
                 const params& ps = getParams();
-                WHEN(a.len() != ps.len()).warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
-                nStr &me = a.getMe().cast<nStr>() OR.err("me as nStr == null").ret(str());
+                WHEN(a.len() != ps.len())
+                    .warn("a.len(%d) != ps.len(%d)", a.len(), ps.len())
+                    .ret(str());
+                nStr& me = a.getMe().cast<nStr>() OR.err("me as nStr == null").ret(str());
 
-                str eval = a[0].as(ps[0].getOrigin().as<node>()) OR.err(
-                    "evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0]).ret(str());
+                str eval =
+                    a[0].as(ps[0].getOrigin().as<node>())
+                        OR.err("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0])
+                            .ret(str());
 
                 nint step = eval->cast<nint>();
                 return new mgdIter(new niter(me.iterate(step)));

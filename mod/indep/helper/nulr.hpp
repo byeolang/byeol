@@ -43,6 +43,7 @@ namespace nm {
 
     template <typename T> struct nulr<tmay<T>> {
         static tmay<T> get() { return tmay<T>(); }
+
         static nbool isNul(const tmay<T>& it) { return nul(&it) || !it.has(); }
     };
 

@@ -25,7 +25,9 @@ namespace nm {
     }
 
     me me::make(const strings& names, const narr& args) {
-        WHEN(names.size() != args.len()).err("names.len[%s] != args.len[%s]", names.size(), args.len()).ret(me());
+        WHEN(names.size() != args.len())
+            .err("names.len[%s] != args.len[%s]", names.size(), args.len())
+            .ret(me());
 
         me ret;
         for(nidx n = 0; n < names.size(); n++)
