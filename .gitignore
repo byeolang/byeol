@@ -91,3 +91,4 @@ build/debian/usr/
 *.patch
 code_coverage.info
 *.ninja
+.aider*
