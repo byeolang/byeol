@@ -1,6 +1,6 @@
-#include "tpriorities.inl"
+#include "core/ast/tpriorities.inl"
 
-#include "node.hpp"
+#include "core/ast/node.hpp"
 
 namespace nm {
     const _nout nchar* getPriorTypeName(priorType type) {

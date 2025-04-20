@@ -1,9 +1,9 @@
-#include "getExpr.hpp"
+#include "core/ast/exprs/getExpr.hpp"
 
-#include "../../frame/thread.hpp"
-#include "../../worker/visitor/graphVisitor.hpp"
-#include "../../worker/visitor/visitor.hpp"
-#include "../node.inl"
+#include "core/frame/thread.hpp"
+#include "core/worker/visitor/graphVisitor.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast/node.inl"
 
 namespace nm {
 

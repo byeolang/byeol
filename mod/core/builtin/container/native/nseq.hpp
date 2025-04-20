@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../../ast/node.hpp"
-#include "../../primitive/nInt.hpp"
-#include "../tarrayable.hpp"
-#include "tnucontainer.hpp"
+#include "core/ast/node.hpp"
+#include "core/builtin/primitive/nInt.hpp"
+#include "core/builtin/container/tarrayable.hpp"
+#include "core/builtin/container/native/tnucontainer.hpp"
 
 namespace nm {
 

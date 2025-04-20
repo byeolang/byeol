@@ -1,6 +1,6 @@
 #pragma once
 
-#include "origin.hpp"
+#include "core/ast/origin.hpp"
 
 namespace nm {
 

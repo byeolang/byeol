@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../type/ntype.hpp"
+#include "core/type/ntype.hpp"
 
 namespace nm {
     class _nout smartDedent: public typeProvidable, public clonable {

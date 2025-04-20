@@ -1,4 +1,4 @@
-#include "convergence.hpp"
+#include "core/worker/visitor/expander/convergence/convergence.hpp"
 
 namespace nm {
     NM(DEF_ME(convergence))

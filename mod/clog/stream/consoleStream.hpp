@@ -1,6 +1,6 @@
 #pragma once
 
-#include "stream.hpp"
+#include "clog/stream/stream.hpp"
 
 namespace nm {
 

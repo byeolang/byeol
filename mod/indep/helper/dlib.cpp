@@ -1,5 +1,5 @@
-#include "dlib.hpp"
-#include "nulr.hpp"
+#include "indep/helper/dlib.hpp"
+#include "indep/helper/nulr.hpp"
 #ifndef NM_BUILD_PLATFORM_IS_WINDOWS
 #    include <dirent.h> // not compatible to winOs
 #    include <dlfcn.h>

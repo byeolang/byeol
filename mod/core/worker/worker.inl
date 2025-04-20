@@ -1,6 +1,6 @@
 #pragma once
 
-#include "worker.hpp"
+#include "core/worker/worker.hpp"
 
 namespace nm {
 

@@ -1,7 +1,7 @@
-#include "srcFile.hpp"
+#include "core/ast/src/srcFile.hpp"
 
-#include "../dumScope.hpp"
-#include "../../worker/visitor/visitor.hpp"
+#include "core/ast/dumScope.hpp"
+#include "core/worker/visitor/visitor.hpp"
 
 namespace nm {
 

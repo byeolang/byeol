@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../common.hpp"
-#include "type/ttype.hpp"
+#include "meta/common.hpp"
+#include "meta/type/ttype.hpp"
 
 namespace nm {
     class _nout typeProvidable {

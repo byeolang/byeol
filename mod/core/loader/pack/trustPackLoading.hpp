@@ -1,6 +1,6 @@
 #pragma once
 
-#include "packLoading.hpp"
+#include "core/loader/pack/packLoading.hpp"
 
 namespace nm {
 

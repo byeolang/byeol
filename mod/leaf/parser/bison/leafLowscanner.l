@@ -4,8 +4,8 @@
     ============================================================================================  */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-function"
-#include "leafLowparser.hpp"
-#include "../leafParser.hpp"
+#include "leaf/parser/bison/leafLowparser.hpp"
+#include "leaf/parser/leafParser.hpp"
 #include <iostream>
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
 #   define YY_NO_UNISTD_H 1

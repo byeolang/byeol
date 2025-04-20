@@ -1,8 +1,6 @@
 #pragma once
 
-#include <iostream>
-
-#include "../common.hpp"
+#include "memlite/common.hpp"
 
 namespace nm {
 

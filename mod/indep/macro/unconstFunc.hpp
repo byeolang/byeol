@@ -1,6 +1,6 @@
 #pragma once
 
-#include "overload.hpp"
+#include "indep/macro/overload.hpp"
 
 #define NM_CONST_FUNC_2(type, funcCall) \
     {                                   \

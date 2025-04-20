@@ -1,4 +1,4 @@
 #pragma once
 
-#include "modifier/dumModifier.hpp"
-#include "modifier/modifier.hpp"
+#include "core/ast/modifier/dumModifier.hpp"
+#include "core/ast/modifier/modifier.hpp"

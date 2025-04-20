@@ -1,4 +1,4 @@
-#include "fileLogStream.hpp"
+#include "clog/stream/fileLogStream.hpp"
 
 namespace nm {
 

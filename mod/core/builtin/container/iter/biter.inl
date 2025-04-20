@@ -2,7 +2,7 @@
 //  this file allows to be refered by 'tbicontainable.inl' file only.
 #pragma once
 
-#include "../../../ast/node.hpp"
+#include "core/ast/node.hpp"
 
 namespace nm {
 

@@ -1,11 +1,11 @@
-#include "node.inl"
+#include "core/ast/node.inl"
 
-#include "../builtin/container/native/tnarr.hpp"
-#include "../type/as.hpp"
-#include "../worker/visitor/visitor.hpp"
-#include "args.hpp"
-#include "modifier/dumModifier.hpp"
-#include "src/dumSrc.hpp"
+#include "core/builtin/container/native/tnarr.hpp"
+#include "core/type/as.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast/args.hpp"
+#include "core/ast/modifier/dumModifier.hpp"
+#include "core/ast/src/dumSrc.hpp"
 
 namespace nm {
 

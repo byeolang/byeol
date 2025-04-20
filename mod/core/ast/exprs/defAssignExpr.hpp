@@ -1,6 +1,6 @@
 #pragma once
 
-#include "defVarExpr.hpp"
+#include "core/ast/exprs/defVarExpr.hpp"
 
 namespace nm {
     class _nout defAssignExpr: public defVarExpr {

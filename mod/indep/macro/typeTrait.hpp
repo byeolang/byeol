@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../common/typedef.hpp"
+#include "indep/common/typedef.hpp"
 
 namespace nm {
     template <typename T> class typeTrait {

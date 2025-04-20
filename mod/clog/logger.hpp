@@ -1,8 +1,8 @@
 #pragma once
 
-#include "enablesZone.hpp"
-#include "filter/filters.hpp"
-#include "stream/stream.hpp"
+#include "clog/enablesZone.hpp"
+#include "clog/filter/filters.hpp"
+#include "clog/stream/stream.hpp"
 
 namespace nm {
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "baseErr.hpp"
-#include "../primitive/nStr.hpp"
+#include "core/builtin/primitive/nStr.hpp"
+#include "core/builtin/err/baseErr.hpp"
 
 namespace nm {
     class _nout err: public baseErr {

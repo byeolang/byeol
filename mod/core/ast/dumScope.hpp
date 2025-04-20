@@ -1,6 +1,6 @@
 #pragma once
 
-#include "scope.hpp"
+#include "core/ast/scope.hpp"
 
 namespace nm {
     class _nout dumScope: public scope {

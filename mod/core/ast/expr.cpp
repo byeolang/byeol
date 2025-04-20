@@ -1,10 +1,10 @@
-#include "expr.hpp"
+#include "core/ast/expr.hpp"
 
-#include "../builtin/container/native/tnmap.inl"
-#include "../frame/frame.hpp"
-#include "args.hpp"
-#include "baseFunc.hpp"
-#include "dumScope.hpp"
+#include "core/builtin/container/native/tnmap.inl"
+#include "core/frame/frame.hpp"
+#include "core/ast/args.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/ast/dumScope.hpp"
 
 namespace nm {
 

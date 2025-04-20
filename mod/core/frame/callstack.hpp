@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../builtin/container/native/tnarr.hpp"
-#include "../builtin/container/native/tnbicontainer.hpp"
-#include "../frame/frames.hpp"
+#include "core/builtin/container/native/tnarr.hpp"
+#include "core/builtin/container/native/tnbicontainer.hpp"
+#include "core/frame/frames.hpp"
 
 namespace nm {
 

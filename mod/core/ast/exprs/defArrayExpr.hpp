@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../builtin/container/mgd/arr.hpp"
-#include "../expr.hpp"
+#include "core/builtin/container/mgd/arr.hpp"
+#include "core/ast/expr.hpp"
 
 namespace nm {
 

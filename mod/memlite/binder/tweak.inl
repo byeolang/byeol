@@ -1,8 +1,8 @@
 #pragma once
 
-#include "tbindable.inl"
-#include "tweak.hpp"
-#include "weakTactic.hpp"
+#include "memlite/binder/tbindable.inl"
+#include "memlite/binder/tweak.hpp"
+#include "memlite/binder/weakTactic.hpp"
 
 namespace nm {
 

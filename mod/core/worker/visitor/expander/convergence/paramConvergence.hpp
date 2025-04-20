@@ -1,6 +1,6 @@
 #pragma once
 
-#include "evalConvergence.hpp"
+#include "core/worker/visitor/expander/convergence/evalConvergence.hpp"
 
 namespace nm {
 

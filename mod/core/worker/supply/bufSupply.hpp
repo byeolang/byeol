@@ -1,6 +1,6 @@
 #pragma once
 
-#include "srcSupply.hpp"
+#include "core/worker/supply/srcSupply.hpp"
 
 namespace nm {
     class _nout bufSupply: public srcSupply {

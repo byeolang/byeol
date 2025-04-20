@@ -1,7 +1,7 @@
 #pragma once
 
-#include "tarr.hpp"
-#include "../../../ast/origin.hpp"
+#include "core/builtin/container/mgd/tarr.hpp"
+#include "core/ast/origin.hpp"
 
 namespace nm {
     template <typename T, typename defaultElemType = T>

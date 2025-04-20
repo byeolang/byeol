@@ -1,5 +1,5 @@
-#include "baseErr.hpp"
-#include "../../frame/thread.hpp"
+#include "core/builtin/err/baseErr.hpp"
+#include "core/frame/thread.hpp"
 
 namespace nm {
     NM(DEF_ME(baseErr))

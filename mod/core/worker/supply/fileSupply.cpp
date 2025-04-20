@@ -1,6 +1,6 @@
-#include "fileSupply.hpp"
+#include "core/worker/supply/fileSupply.hpp"
 
-#include "../parser.hpp"
+#include "core/worker/parser.hpp"
 
 namespace nm {
     NM(DEF_ME(fileSupply))

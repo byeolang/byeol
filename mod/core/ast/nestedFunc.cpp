@@ -1,5 +1,5 @@
-#include "nestedFunc.hpp"
-#include "../frame/frameInteract.hpp"
+#include "core/ast/nestedFunc.hpp"
+#include "core/frame/frameInteract.hpp"
 
 namespace nm {
     NM(DEF_ME(nestedFunc))

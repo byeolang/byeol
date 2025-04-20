@@ -1,8 +1,8 @@
-#include "defaultCopyCtor.hpp"
+#include "core/ast/ctor/defaultCopyCtor.hpp"
 
-#include "../../worker/visitor/visitor.hpp"
-#include "../args.hpp"
-#include "../../type/typeMaker.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast/args.hpp"
+#include "core/type/typeMaker.hpp"
 
 namespace nm {
 

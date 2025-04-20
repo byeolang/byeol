@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../common.hpp"
-#include "../type/ntype.hpp"
-#include "immutableTactic.hpp"
+#include "core/common.hpp"
+#include "core/type/ntype.hpp"
+#include "core/ast/immutableTactic.hpp"
 
 namespace nm {
     class _nout param: public instance {

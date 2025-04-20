@@ -1,9 +1,8 @@
-#include "visitor.hpp"
-
-#include "../../ast.hpp"
-#include "../../builtin.hpp"
-#include "../../frame/frame.hpp"
-#include "../worker.inl"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast.hpp"
+#include "core/builtin.hpp"
+#include "core/frame/frame.hpp"
+#include "core/worker/worker.inl"
 
 namespace nm {
 

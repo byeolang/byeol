@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../ast/baseFunc.hpp"
-#include "../../../ast/params.hpp"
-#include "../../../ast/args.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/ast/params.hpp"
+#include "core/ast/args.hpp"
 
 namespace nm {
 

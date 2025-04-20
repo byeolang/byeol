@@ -1,4 +1,4 @@
-#include "type.hpp"
+#include "meta/type/type.hpp"
 
 namespace nm {
     NM_DEF_ME(type)

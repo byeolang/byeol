@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "../common.hpp"
-#include "./type/adam.hpp"
+#include "meta/common.hpp"
+#include "meta/type/adam.hpp"
 
 namespace nm {
 

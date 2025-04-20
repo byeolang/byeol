@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "../../common/dep.hpp"
+#include "test/common/dep.hpp"
 
 using namespace std;
 using namespace nm;

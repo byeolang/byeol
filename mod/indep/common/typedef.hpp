@@ -7,8 +7,8 @@
 //  ---------------------------------------------------------------------------------
 #pragma once
 
-#include "../def/common.hpp"
-#include "dep.hpp"
+#include "indep/def/common.hpp"
+#include "indep/common/dep.hpp"
 
 namespace nm {
     typedef int nint;

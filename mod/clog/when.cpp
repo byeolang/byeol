@@ -1,4 +1,4 @@
-#include "when.hpp"
+#include "clog/when.hpp"
 
 namespace nm {
     NM(DEF_ME(__WHEN_OBJECT__))

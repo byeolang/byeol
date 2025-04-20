@@ -1,5 +1,5 @@
-#include "funcMgdType.hpp"
-#include "as/impliAses.hpp"
+#include "core/type/funcMgdType.hpp"
+#include "core/type/as/impliAses.hpp"
 
 namespace nm {
     NM(DEF_ME(funcMgdType))

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../rtti/rtti.hpp"
-#include "ttypeBase.hpp"
-#include "type.inl"
+#include "meta/rtti/rtti.hpp"
+#include "meta/type/ttypeBase.hpp"
+#include "meta/type/type.inl"
 
 namespace nm {
 

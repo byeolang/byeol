@@ -1,7 +1,7 @@
-#include "adam.hpp"
+#include "meta/type/adam.hpp"
 
-#include "ttype.hpp"
-#include "ttypeBase.inl"
+#include "meta/type/ttype.hpp"
+#include "meta/type/ttypeBase.inl"
 
 namespace nm {
     NM_INIT_META(adam)

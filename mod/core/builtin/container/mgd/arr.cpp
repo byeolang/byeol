@@ -1,10 +1,10 @@
-#include "arr.hpp"
+#include "core/builtin/container/mgd/arr.hpp"
 
 #include <utility>
 
-#include "../../../bridge/cpp.hpp"
-#include "../../../worker/visitor/generalizer.hpp"
-#include "../../../worker/visitor/visitor.hpp"
+#include "core/bridge/cpp.hpp"
+#include "core/worker/visitor/generalizer.hpp"
+#include "core/worker/visitor/visitor.hpp"
 
 namespace nm {
 

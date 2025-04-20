@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../ast.hpp"
-#include "../../../bridge/cpp/tbridge.hpp"
-#include "../native/nseq.hpp"
+#include "core/ast.hpp"
+#include "core/bridge/cpp/tbridge.hpp"
+#include "core/builtin/container/native/nseq.hpp"
 
 namespace nm {
 

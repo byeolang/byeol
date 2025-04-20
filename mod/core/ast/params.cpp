@@ -1,5 +1,5 @@
-#include "params.hpp"
-#include "exprs/getExpr.hpp"
+#include "core/ast/params.hpp"
+#include "core/ast/exprs/getExpr.hpp"
 
 namespace nm {
     NM(DEF_ME(params))

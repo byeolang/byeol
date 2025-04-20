@@ -1,4 +1,4 @@
-#include "common/dep.hpp"
+#include "test/common/dep.hpp"
 
 static bool _isVerbose(int argc, char** argv) {
     for(int n = 1; n < argc; n++)

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../../../ast/baseObj.hpp"
-#include "../../../../ast/baseFunc.hpp"
-#include "../../../../frame/frameInteract.hpp"
-#include "baseConvergence.hpp"
+#include "core/ast/baseObj.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/frame/frameInteract.hpp"
+#include "core/worker/visitor/expander/convergence/baseConvergence.hpp"
 
 namespace nm {
 

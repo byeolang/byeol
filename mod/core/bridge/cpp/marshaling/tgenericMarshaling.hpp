@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../ast/exprs/getExpr.hpp"
-#include "../../../ast/obj.hpp"
-#include "tmarshaling.hpp"
+#include "core/ast/exprs/getExpr.hpp"
+#include "core/ast/obj.hpp"
+#include "core/bridge/cpp/marshaling/tmarshaling.hpp"
 
 namespace nm {
     template <typename T, nbool isNode = tifSub<T, node>::is>

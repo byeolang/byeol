@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../common.hpp"
-#include "../def.hpp"
-#include "../macro.hpp"
+#include "indep/common.hpp"
+#include "indep/def.hpp"
+#include "indep/macro.hpp"
 
 namespace nm {
     class _nout errLv {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "visitor/verifier.hpp"
-#include "parser.hpp"
+#include "core/worker/visitor/verifier.hpp"
+#include "core/worker/parser.hpp"
 
 namespace nm {
 

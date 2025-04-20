@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../common.hpp"
+#include "leaf/common.hpp"
 
 typedef union ZZSTYPE ZZSTYPE;
 typedef struct lloc ZZLTYPE;

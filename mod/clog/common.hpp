@@ -1,5 +1,5 @@
 #pragma once
 
-#include "common/dep.hpp"
-#include "common/_nout.hpp"
-#include "common/macro.hpp"
+#include "clog/common/dep.hpp"
+#include "clog/common/_nout.hpp"
+#include "clog/common/macro.hpp"

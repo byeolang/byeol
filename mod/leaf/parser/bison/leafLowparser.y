@@ -4,7 +4,7 @@
     ============================================================================================  */
     #include <iostream>
     #include <sstream>
-    #include "../leafParser.hpp"
+    #include "leaf/parser/leafParser.hpp"
     using namespace nm;
 
     #define YYLLOC_DEFAULT(Current, Rhs, N) \
@@ -28,7 +28,7 @@
     ============================================================================================  */
 
 %code requires {
-    #include "../../ast/point.hpp"
+    #include "leaf/ast/point.hpp"
 
     typedef void* zzscan_t;
 

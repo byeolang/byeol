@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../def/buildInformation.hpp"
+#include "indep/def/buildInformation.hpp"
 
 #include <stdio.h>
 #include <string.h> // for strerror

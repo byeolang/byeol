@@ -1,4 +1,4 @@
-#include "consoleStream.hpp"
+#include "clog/stream/consoleStream.hpp"
 
 #include <iostream>
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "allocator.hpp"
+#include "memlite/pool/allocator.hpp"
 
 namespace nm {
 

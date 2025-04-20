@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tbaseConvergence.hpp"
+#include "core/worker/visitor/expander/convergence/tbaseConvergence.hpp"
 
 namespace nm {
     class convergence: public tbaseConvergence<void> {

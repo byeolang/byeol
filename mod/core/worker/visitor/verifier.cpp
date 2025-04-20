@@ -1,13 +1,11 @@
-#include "verifier.hpp"
-
-#include "../../ast.hpp"
-#include "../../builtin/primitive.hpp"
-#include "../../frame/frame.hpp"
-#include "../../frame/starter.hpp"
-#include "../../frame/thread.hpp"
-#include "../../builtin/err/errReport.hpp"
-#include "../worker.inl"
-#include "common/macro.hpp"
+#include "core/worker/visitor/verifier.hpp"
+#include "core/ast.hpp"
+#include "core/builtin/primitive.hpp"
+#include "core/frame/frame.hpp"
+#include "core/frame/starter.hpp"
+#include "core/frame/thread.hpp"
+#include "core/builtin/err/errReport.hpp"
+#include "core/worker/worker.inl"
 
 namespace nm {
 

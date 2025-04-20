@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../ast/param.hpp"
+#include "core/ast/param.hpp"
 
 namespace nm {
 
@@ -15,7 +15,7 @@ namespace nm {
         NM_ME(tucontainable)
 
     public:
-#include "iter/uiter.hpp"
+#include "core/builtin/container/iter/uiter.hpp"
 
     public:
         virtual ~tucontainable();

@@ -1,8 +1,8 @@
-#include "whileExpr.hpp"
+#include "core/ast/exprs/whileExpr.hpp"
 
-#include "../../frame/frameInteract.hpp"
-#include "../../frame/thread.hpp"
-#include "../../worker/visitor/visitor.hpp"
+#include "core/frame/frameInteract.hpp"
+#include "core/frame/thread.hpp"
+#include "core/worker/visitor/visitor.hpp"
 
 namespace nm {
 

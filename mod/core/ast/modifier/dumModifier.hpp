@@ -1,6 +1,6 @@
 #pragma once
 
-#include "modifier.hpp"
+#include "core/ast/modifier/modifier.hpp"
 
 namespace nm {
     class _nout dumModifier: public modifier {

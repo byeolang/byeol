@@ -1,11 +1,11 @@
-#include "exprMaker.hpp"
-#include "defVarExpr.hpp"
-#include "assignExpr.hpp"
-#include "getExpr.hpp"
-#include "../params.hpp"
-#include "../../builtin/primitive/nVoid.hpp"
-#include "../../worker/defBlock.hpp"
-#include "../../type/typeMaker.hpp"
+#include "core/ast/exprs/exprMaker.hpp"
+#include "core/ast/exprs/defVarExpr.hpp"
+#include "core/ast/exprs/assignExpr.hpp"
+#include "core/ast/exprs/getExpr.hpp"
+#include "core/ast/params.hpp"
+#include "core/builtin/primitive/nVoid.hpp"
+#include "core/worker/defBlock.hpp"
+#include "core/type/typeMaker.hpp"
 
 namespace nm {
 

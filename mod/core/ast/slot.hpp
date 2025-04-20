@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../builtin/err/errReport.hpp"
-#include "manifest.hpp"
-#include "origin.hpp"
+#include "core/builtin/err/errReport.hpp"
+#include "core/ast/manifest.hpp"
+#include "core/ast/origin.hpp"
 
 namespace nm {
 

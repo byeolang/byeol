@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../func.hpp"
+#include "core/ast/func.hpp"
 
 namespace nm {
     class _nout ctor: public func {

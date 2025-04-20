@@ -1,16 +1,16 @@
-#include "expander.hpp"
+#include "core/worker/visitor/expander/expander.hpp"
 
-#include "../../../ast/exprs/getGenericExpr.hpp"
-#include "../../../ast/exprs/defAssignExpr.hpp"
-#include "../../../ast/exprs/asExpr.hpp"
-#include "../../../ast/func.hpp"
-#include "../../../ast/node.inl"
-#include "../../../ast/obj.hpp"
-#include "../../../frame/frameInteract.hpp"
-#include "../../../frame/thread.hpp"
-#include "../../worker.inl"
-#include "../verifier.hpp"
-#include "convergence.hpp"
+#include "core/ast/exprs/getGenericExpr.hpp"
+#include "core/ast/exprs/defAssignExpr.hpp"
+#include "core/ast/exprs/asExpr.hpp"
+#include "core/ast/func.hpp"
+#include "core/ast/node.inl"
+#include "core/ast/obj.hpp"
+#include "core/frame/frameInteract.hpp"
+#include "core/frame/thread.hpp"
+#include "core/worker/worker.inl"
+#include "core/worker/visitor/verifier.hpp"
+#include "core/worker/visitor/expander/convergence.hpp"
 
 namespace nm {
 

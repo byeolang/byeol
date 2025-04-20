@@ -1,7 +1,7 @@
-#include "defaultCtor.hpp"
+#include "core/ast/ctor/defaultCtor.hpp"
 
-#include "../../worker/visitor/visitor.hpp"
-#include "../../type/typeMaker.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/type/typeMaker.hpp"
 
 namespace nm {
 

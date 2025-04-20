@@ -1,3 +1,3 @@
 #pragma once
 
-#include "common/dep.hpp"
+#include "namu/common/dep.hpp"

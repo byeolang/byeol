@@ -1,10 +1,10 @@
-#include "obj.hpp"
+#include "core/ast/obj.hpp"
 
-#include "../worker/visitor/visitor.hpp"
-#include "baseFunc.hpp"
-#include "node.inl"
-#include "origin.hpp"
-#include "modifier/dumModifier.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/ast/node.inl"
+#include "core/ast/origin.hpp"
+#include "core/ast/modifier/dumModifier.hpp"
 
 namespace nm {
 

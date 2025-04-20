@@ -1,6 +1,6 @@
 #pragma once
 
-#include "filterable.hpp"
+#include "clog/filter/filterable.hpp"
 
 namespace nm {
     class _nout filters: public filterable {

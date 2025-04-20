@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tpriorities.hpp"
+#include "core/ast/tpriorities.hpp"
 
 namespace nm {
 

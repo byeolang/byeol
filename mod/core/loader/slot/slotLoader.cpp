@@ -1,9 +1,9 @@
-#include "slotLoader.hpp"
+#include "core/loader/slot/slotLoader.hpp"
 
-#include "../../ast/autoslot.hpp"
-#include "../../frame/thread.hpp"
-#include "../../builtin/err/errReport.hpp"
-#include "../pack/packLoading.hpp"
+#include "core/ast/autoslot.hpp"
+#include "core/frame/thread.hpp"
+#include "core/builtin/err/errReport.hpp"
+#include "core/loader/pack/packLoading.hpp"
 
 namespace nm {
 

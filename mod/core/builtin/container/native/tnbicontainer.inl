@@ -1,4 +1,4 @@
 #pragma once
 
-#include "../tbicontainable.inl"
-#include "tnbicontainer.hpp"
+#include "core/builtin/container/tbicontainable.inl"
+#include "core/builtin/container/native/tnbicontainer.hpp"

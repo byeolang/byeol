@@ -1,4 +1,4 @@
-#include "dumModifier.hpp"
+#include "core/ast/modifier/dumModifier.hpp"
 
 namespace nm {
     NM(DEF_ME(dumModifier))

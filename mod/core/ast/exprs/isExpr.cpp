@@ -1,6 +1,6 @@
-#include "isExpr.hpp"
-#include "../../builtin/primitive/nBool.hpp"
-#include "../../worker/visitor/visitor.hpp"
+#include "core/ast/exprs/isExpr.hpp"
+#include "core/builtin/primitive/nBool.hpp"
+#include "core/worker/visitor/visitor.hpp"
 
 namespace nm {
     NM(DEF_ME(isExpr), DEF_VISIT())

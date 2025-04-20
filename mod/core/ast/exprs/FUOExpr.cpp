@@ -1,7 +1,7 @@
-#include "FUOExpr.hpp"
+#include "core/ast/exprs/FUOExpr.hpp"
 
-#include "../../builtin/primitive.hpp"
-#include "../../worker/visitor/visitor.hpp"
+#include "core/builtin/primitive.hpp"
+#include "core/worker/visitor/visitor.hpp"
 
 namespace nm {
 

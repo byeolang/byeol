@@ -1,7 +1,7 @@
-#include "packMakable.hpp"
+#include "core/loader/pack/packMakable.hpp"
 
-#include "../../ast/src/src.hpp"
-#include "../../builtin/err/errReport.hpp"
+#include "core/ast/src/src.hpp"
+#include "core/builtin/err/errReport.hpp"
 
 namespace nm {
     NM_DEF_ME(packMakable)

@@ -1,11 +1,11 @@
-#include "closure.hpp"
-#include "../frame/thread.hpp"
-#include "../frame/frameInteract.hpp"
-#include "../worker/visitor/visitor.hpp"
-#include "exprs/getExpr.hpp"
-#include "exprs/defNestedFuncExpr.hpp"
-#include "baseFunc.hpp"
-#include "../type/typeMaker.hpp"
+#include "core/ast/closure.hpp"
+#include "core/frame/thread.hpp"
+#include "core/frame/frameInteract.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast/exprs/getExpr.hpp"
+#include "core/ast/exprs/defNestedFuncExpr.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/type/typeMaker.hpp"
 
 namespace nm {
     NM(DEF_ME(closure), DEF_VISIT())

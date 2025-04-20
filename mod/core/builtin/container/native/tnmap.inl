@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../ast/node.hpp"
-#include "tnbicontainer.inl"
-#include "tnmap.hpp"
+#include "core/builtin/container/native/tnmap.hpp"
+#include "core/ast/node.hpp"
+#include "core/builtin/container/native/tnbicontainer.inl"
 
 namespace nm {
 

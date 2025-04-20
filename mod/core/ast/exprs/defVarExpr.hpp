@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../expr.hpp"
-#include "../param.hpp"
-#include "../scope.hpp"
-#include "../modifier/modifier.hpp"
+#include "core/ast/expr.hpp"
+#include "core/ast/param.hpp"
+#include "core/ast/scope.hpp"
+#include "core/ast/modifier/modifier.hpp"
 
 namespace nm {
 

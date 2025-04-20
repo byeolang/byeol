@@ -1,6 +1,6 @@
 #pragma once
 
-#include "arr.hpp"
+#include "core/builtin/container/mgd/arr.hpp"
 
 namespace nm {
 

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "ast/exprs/endExpr.hpp"
-#include "baseFunc.hpp"
-#include "exprs/blockExpr.hpp"
-#include "params.hpp"
-#include "scope.hpp"
-#include "../type/funcMgdType.hpp"
+#include "core/ast/exprs/endExpr.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/ast/exprs/blockExpr.hpp"
+#include "core/ast/params.hpp"
+#include "core/ast/scope.hpp"
+#include "core/type/funcMgdType.hpp"
 
 namespace nm {
 

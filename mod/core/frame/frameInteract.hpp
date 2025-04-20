@@ -1,6 +1,6 @@
 #pragma once
 
-#include "frameInteractable.hpp"
+#include "core/frame/frameInteractable.hpp"
 
 namespace nm {
 

@@ -1,4 +1,4 @@
-#include "point.hpp"
+#include "leaf/ast/point.hpp"
 
 namespace nm {
 

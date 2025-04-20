@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../common/typedef.hpp"
-#include "overload.hpp"
+#include "indep/common/typedef.hpp"
+#include "indep/macro/overload.hpp"
 #include <vector>
 #include <type_traits>
 

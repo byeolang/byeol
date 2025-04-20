@@ -1,4 +1,4 @@
-#include "instancer.hpp"
+#include "memlite/interface/instancer.hpp"
 
 namespace nm {
 

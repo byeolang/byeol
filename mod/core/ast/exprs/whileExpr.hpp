@@ -1,6 +1,6 @@
 #pragma once
 
-#include "loopExpr.hpp"
+#include "core/ast/exprs/loopExpr.hpp"
 
 namespace nm {
 

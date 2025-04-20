@@ -1,6 +1,6 @@
-#include "baseCtor.hpp"
+#include "core/ast/ctor/baseCtor.hpp"
 
-#include "../../worker/visitor/visitor.hpp"
+#include "core/worker/visitor/visitor.hpp"
 
 namespace nm {
 

@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "buildFeature.hpp"
+#include "indep/helper/buildFeature.hpp"
 
 namespace nm {
     enum consoleColor {

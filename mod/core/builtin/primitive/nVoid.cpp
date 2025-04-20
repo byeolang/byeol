@@ -1,8 +1,8 @@
-#include "nVoid.hpp"
+#include "core/builtin/primitive/nVoid.hpp"
 
-#include "../../worker/visitor/visitor.hpp"
-#include "../../type/as/impliAses.hpp"
-#include "bridge/cpp/tbridger.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/type/as/impliAses.hpp"
+#include "core/bridge/cpp/tbridger.hpp"
 
 namespace nm {
 

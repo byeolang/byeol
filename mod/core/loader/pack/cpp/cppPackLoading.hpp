@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../ast/slot.hpp"
-#include "../../../ast/src/src.hpp"
-#include "../../../loader/pack/trustPackLoading.hpp"
+#include "core/ast/slot.hpp"
+#include "core/ast/src/src.hpp"
+#include "core/loader/pack/trustPackLoading.hpp"
 
 namespace nm {
 

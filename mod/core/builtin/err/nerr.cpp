@@ -1,10 +1,10 @@
-#include "nerr.hpp"
+#include "core/builtin/err/nerr.hpp"
 
-#include "../../ast/ctor/defaultCopyCtor.hpp"
-#include "../../ast/node.hpp"
-#include "../../frame/frame.hpp"
-#include "../../frame/thread.hpp"
-#include "../../bridge/cpp/tbridger.hpp"
+#include "core/ast/ctor/defaultCopyCtor.hpp"
+#include "core/ast/node.hpp"
+#include "core/frame/frame.hpp"
+#include "core/frame/thread.hpp"
+#include "core/bridge/cpp/tbridger.hpp"
 
 namespace nm {
 

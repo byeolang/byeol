@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../builtin/container/mgd/tarr.hpp"
-#include "../builtin/container/native/tnmap.hpp"
-#include "../builtin/err/errReport.hpp"
-#include "frames.hpp"
+#include "core/builtin/container/mgd/tarr.hpp"
+#include "core/builtin/container/native/tnmap.hpp"
+#include "core/builtin/err/errReport.hpp"
+#include "core/frame/frames.hpp"
 
 struct exprTest;
 

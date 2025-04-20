@@ -1,6 +1,6 @@
 #pragma once
 
-#include "leaf.hpp"
+#include "leaf/ast/leaf.hpp"
 
 namespace nm {
 

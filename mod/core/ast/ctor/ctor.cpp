@@ -1,6 +1,6 @@
-#include "ctor.hpp"
-#include "../../worker/visitor/visitor.hpp"
-#include "../../type/typeMaker.hpp"
+#include "core/ast/ctor/ctor.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/type/typeMaker.hpp"
 
 namespace nm {
     NM(DEF_ME(ctor), DEF_VISIT())

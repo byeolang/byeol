@@ -1,8 +1,8 @@
-#include "binder.hpp"
+#include "memlite/binder/binder.hpp"
 
-#include "../watcher/bindTag.hpp"
-#include "bindTacticable.hpp"
-#include "tbindable.inl"
+#include "memlite/watcher/bindTag.hpp"
+#include "memlite/binder/bindTacticable.hpp"
+#include "memlite/binder/tbindable.inl"
 
 namespace nm {
 

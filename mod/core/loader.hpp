@@ -1,4 +1,4 @@
 #pragma once
 
-#include "loader/pack.hpp"
-#include "loader/slot.hpp"
+#include "core/loader/pack.hpp"
+#include "core/loader/slot.hpp"

@@ -1,9 +1,9 @@
-#include "richLog.hpp"
+#include "core/common/richLog.hpp"
 
-#include "../builtin/primitive/nInt.hpp"
-#include "../builtin/primitive/nStr.hpp"
-#include "../builtin/primitive/nVoid.hpp"
-#include "../worker/visitor/visitInfo.hpp"
+#include "core/builtin/primitive/nInt.hpp"
+#include "core/builtin/primitive/nStr.hpp"
+#include "core/builtin/primitive/nVoid.hpp"
+#include "core/worker/visitor/visitInfo.hpp"
 
 namespace nm {
 

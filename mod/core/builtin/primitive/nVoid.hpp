@@ -1,6 +1,6 @@
 #pragma once
 
-#include "nStr.hpp"
+#include "core/builtin/primitive/nStr.hpp"
 
 namespace nm {
 

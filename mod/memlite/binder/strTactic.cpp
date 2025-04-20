@@ -1,7 +1,7 @@
-#include "strTactic.hpp"
+#include "memlite/binder/strTactic.hpp"
 
-#include "../watcher/bindTag.hpp"
-#include "binder.hpp"
+#include "memlite/watcher/bindTag.hpp"
+#include "memlite/binder/binder.hpp"
 
 namespace nm {
 

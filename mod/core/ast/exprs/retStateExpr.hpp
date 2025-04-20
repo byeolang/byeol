@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../builtin/primitive/nVoid.hpp"
-#include "../expr.hpp"
+#include "core/builtin/primitive/nVoid.hpp"
+#include "core/ast/expr.hpp"
 
 namespace nm {
 

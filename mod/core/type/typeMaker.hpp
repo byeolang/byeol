@@ -1,6 +1,6 @@
 #pragma once
 
-#include "funcMgdType.hpp"
+#include "core/type/funcMgdType.hpp"
 
 namespace nm {
 

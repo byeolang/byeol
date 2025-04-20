@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../builtin/container/native/tnarr.hpp"
-#include "../frame/frameInteractable.hpp"
-#include "../type/ntype.hpp"
-#include "../builtin/container/native/tnmap.hpp"
-#include "tpriorities.hpp"
-#include "validable.hpp"
+#include "core/builtin/container/native/tnarr.hpp"
+#include "core/frame/frameInteractable.hpp"
+#include "core/type/ntype.hpp"
+#include "core/builtin/container/native/tnmap.hpp"
+#include "core/ast/tpriorities.hpp"
+#include "core/ast/validable.hpp"
 
 namespace nm {
 

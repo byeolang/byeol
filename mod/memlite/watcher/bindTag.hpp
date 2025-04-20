@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../binder/tbindable.hpp"
-#include "../interface/instance.hpp"
+#include "memlite/binder/tbindable.hpp"
+#include "memlite/interface/instance.hpp"
 
 namespace nm {
 

@@ -1,6 +1,6 @@
 #include <utility>
 
-#include "../../namuTest.hpp"
+#include "test/namuTest.hpp"
 
 using namespace nm;
 using namespace std;

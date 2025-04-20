@@ -1,6 +1,6 @@
 #pragma once
 
-#include "validable.hpp"
+#include "core/ast/validable.hpp"
 
 namespace nm {
 

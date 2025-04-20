@@ -2,11 +2,11 @@
 
 #include <unordered_map>
 
-#include "baseErr.hpp"
-#include "../container/native/tnbicontainer.hpp"
-#include "../../common/namuMetaExtension.hpp"
-#include "../../type/ntype.hpp"
-#include "errCode.hpp"
+#include "core/builtin/err/baseErr.hpp"
+#include "core/builtin/container/native/tnbicontainer.hpp"
+#include "core/common/namuMetaExtension.hpp"
+#include "core/type/ntype.hpp"
+#include "core/builtin/err/errCode.hpp"
 
 namespace nm {
 

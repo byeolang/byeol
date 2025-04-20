@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../ast/baseFunc.hpp"
-#include "ast/params.hpp"
-#include "bridge/cpp/marshaling/tmarshaling.hpp"
-#include "bridge/cpp/tbridgeFunc.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/ast/params.hpp"
+#include "core/bridge/cpp/marshaling/tmarshaling.hpp"
+#include "core/bridge/cpp/tbridgeFunc.hpp"
 
 namespace nm {
     template <typename T, typename... Args>

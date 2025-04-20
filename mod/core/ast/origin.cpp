@@ -1,10 +1,9 @@
-#include "origin.hpp"
-
-#include "../type/mgdType.hpp"
-#include "exprs/runExpr.hpp"
-#include "frame/frameInteract.hpp"
-#include "../builtin/err/baseErr.hpp"
-#include "../frame/thread.hpp"
+#include "core/ast/origin.hpp"
+#include "core/type/mgdType.hpp"
+#include "core/builtin/err/baseErr.hpp"
+#include "core/frame/thread.hpp"
+#include "core/ast/exprs/runExpr.hpp"
+#include "core/frame/frameInteract.hpp"
 
 namespace nm {
 

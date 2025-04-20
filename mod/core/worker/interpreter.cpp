@@ -1,12 +1,11 @@
-#include "interpreter.hpp"
-
-#include "../ast/exprs/blockExpr.hpp"
-#include "../ast/func.hpp"
-#include "../ast/origin.hpp"
-#include "../frame/threadUse.hpp"
-#include "visitor/graphVisitor.hpp"
-#include "visitor/expander.hpp"
-#include "worker.inl"
+#include "core/worker/interpreter.hpp"
+#include "core/ast/exprs/blockExpr.hpp"
+#include "core/ast/func.hpp"
+#include "core/ast/origin.hpp"
+#include "core/frame/threadUse.hpp"
+#include "core/worker/visitor/graphVisitor.hpp"
+#include "core/worker/visitor/expander.hpp"
+#include "core/worker/worker.inl"
 
 namespace nm {
 

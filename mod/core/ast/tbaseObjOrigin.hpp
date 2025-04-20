@@ -1,7 +1,7 @@
 #pragma once
 
-#include "tmock.hpp"
-#include "baseObj.hpp"
+#include "core/ast/tmock.hpp"
+#include "core/ast/baseObj.hpp"
 
 namespace nm {
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../tarrayable.hpp"
-#include "tnucontainer.hpp"
+#include "core/builtin/container/tarrayable.hpp"
+#include "core/builtin/container/native/tnucontainer.hpp"
 
 namespace nm {
 

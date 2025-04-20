@@ -1,6 +1,6 @@
-#include "verFlag.hpp"
+#include "namu/flag/flags/verFlag.hpp"
 
-#include "../../cli.hpp"
+#include "namu/cli.hpp"
 
 namespace nm {
 

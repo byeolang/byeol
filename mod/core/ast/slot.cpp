@@ -1,11 +1,11 @@
-#include "slot.hpp"
+#include "core/ast/slot.hpp"
 
-#include "../type/typeMaker.hpp"
-#include "../worker/visitor/visitor.hpp"
-#include "exprs/getExpr.hpp"
-#include "exprs/runExpr.hpp"
-#include "baseFunc.hpp"
-#include "origin.hpp"
+#include "core/type/typeMaker.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast/exprs/getExpr.hpp"
+#include "core/ast/exprs/runExpr.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/ast/origin.hpp"
 
 namespace nm {
 

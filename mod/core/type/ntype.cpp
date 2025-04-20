@@ -1,10 +1,10 @@
-#include "ntype.hpp"
+#include "core/type/ntype.hpp"
 
-#include "../ast/exprs/breakExpr.hpp"
-#include "../ast/exprs/nextExpr.hpp"
-#include "../ast/node.hpp"
-#include "../builtin/primitive.hpp"
-#include "as/impliAses.hpp"
+#include "core/ast/exprs/breakExpr.hpp"
+#include "core/ast/exprs/nextExpr.hpp"
+#include "core/ast/node.hpp"
+#include "core/builtin/primitive.hpp"
+#include "core/type/as/impliAses.hpp"
 
 namespace nm {
 

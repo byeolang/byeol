@@ -1,8 +1,8 @@
 #include "nseq.hpp"
 
-#include "../tucontainable.inl"
-#include "../../../frame/thread.hpp"
-#include "../../err/nerr.hpp"
+#include "core/builtin/container/tucontainable.inl"
+#include "core/frame/thread.hpp"
+#include "core/builtin/err/nerr.hpp"
 
 namespace nm {
 

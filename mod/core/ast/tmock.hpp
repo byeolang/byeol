@@ -1,7 +1,7 @@
 #pragma once
 
-#include "node.hpp"
-#include "dumScope.hpp"
+#include "core/ast/node.hpp"
+#include "core/ast/dumScope.hpp"
 
 namespace nm {
 

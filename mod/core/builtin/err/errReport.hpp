@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../common.hpp"
-#include "../../type/ntype.hpp"
-#include "baseErr.hpp"
+#include "core/common.hpp"
+#include "core/type/ntype.hpp"
+#include "core/builtin/err/baseErr.hpp"
 
 namespace nm {
 

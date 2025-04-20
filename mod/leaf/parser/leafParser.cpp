@@ -1,9 +1,8 @@
-#include "leafParser.hpp"
-
-#include "../ast.hpp"
-#include "bison/leafLowparser.hpp"
-#include "bison/leafLowscanner.hpp"
-#include "bison/leafTokenScan.hpp"
+#include "leaf/parser/leafParser.hpp"
+#include "leaf/ast.hpp"
+#include "leaf/parser/bison/leafLowparser.hpp"
+#include "leaf/parser/bison/leafLowscanner.hpp"
+#include "leaf/parser/bison/leafTokenScan.hpp"
 #include <algorithm>
 #include <cctype>
 

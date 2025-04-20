@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../builtin/container/native/tnarr.hpp"
-#include "../../type/ntype.hpp"
+#include "core/builtin/container/native/tnarr.hpp"
+#include "core/type/ntype.hpp"
 
 namespace nm {
 

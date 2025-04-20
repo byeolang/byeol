@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "namuTest.hpp"
+#include "test/namuTest.hpp"
 
 struct namuSyntaxTest: public namuTest {
     void TearDown() override;

@@ -1,8 +1,8 @@
 #include <chrono>
 #include <cstdint>
 
-#include "../../common/dep.hpp"
-#include "../../namuSyntaxTest.hpp"
+#include "test/common/dep.hpp"
+#include "test/namuSyntaxTest.hpp"
 
 using namespace nm;
 using namespace std;

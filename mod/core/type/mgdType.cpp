@@ -1,5 +1,5 @@
-#include "mgdType.hpp"
-#include "../ast/obj.hpp"
+#include "core/type/mgdType.hpp"
+#include "core/ast/obj.hpp"
 
 namespace nm {
 

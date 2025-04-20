@@ -2,11 +2,11 @@
 
 #include <utility>
 #include <cstdlib>
-#include "../def/_nout.hpp"
-#include "../common/typedef.hpp"
-#include "../helper/nulr.hpp"
-#include "declThis.hpp"
-#include "namuMeta.hpp"
+#include "indep/def/_nout.hpp"
+#include "indep/common/typedef.hpp"
+#include "indep/helper/nulr.hpp"
+#include "indep/macro/declThis.hpp"
+#include "indep/macro/namuMeta.hpp"
 
 namespace nm {
 

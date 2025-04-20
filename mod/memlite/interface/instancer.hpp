@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../pool/pool.hpp"
-#include "../watcher/watcher.hpp"
+#include "memlite/pool/pool.hpp"
+#include "memlite/watcher/watcher.hpp"
 
 namespace nm {
 

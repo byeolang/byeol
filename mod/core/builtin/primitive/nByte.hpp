@@ -1,6 +1,6 @@
 #pragma once
 
-#include "primitiveObj.hpp"
+#include "core/builtin/primitive/primitiveObj.hpp"
 
 namespace nm {
 

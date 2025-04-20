@@ -1,6 +1,6 @@
 #pragma once
 
-#include "chunk.hpp"
+#include "memlite/pool/chunk.hpp"
 
 namespace nm {
 

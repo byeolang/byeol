@@ -1,7 +1,7 @@
-#include "arithmeticObj.hpp"
+#include "core/builtin/primitive/arithmeticObj.hpp"
 
-#include "../../ast/node.inl"
-#include "nVoid.hpp"
+#include "core/ast/node.inl"
+#include "core/builtin/primitive/nVoid.hpp"
 
 namespace nm {
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../../ast/tmock.hpp"
-#include "../../../builtin/primitive.hpp"
+#include "core/ast/tmock.hpp"
+#include "core/builtin/primitive.hpp"
 
 namespace nm {
 

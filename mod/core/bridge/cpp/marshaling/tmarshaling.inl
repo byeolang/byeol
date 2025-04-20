@@ -1,7 +1,7 @@
 #pragma once
 
-#include "builtin/container/mgd/arr.hpp"
-#include "tmarshaling.hpp"
+#include "core/builtin/container/mgd/arr.hpp"
+#include "core/bridge/cpp/marshaling/tmarshaling.hpp"
 
 namespace nm {
 

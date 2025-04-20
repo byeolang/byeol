@@ -1,6 +1,6 @@
 #pragma once
 
-#include "visitor.hpp"
+#include "core/worker/visitor/visitor.hpp"
 
 namespace nm {
 

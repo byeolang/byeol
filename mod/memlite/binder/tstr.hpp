@@ -1,7 +1,7 @@
 #pragma once
 
-#include "strTactic.hpp"
-#include "tweak.hpp"
+#include "memlite/binder/strTactic.hpp"
+#include "memlite/binder/tweak.hpp"
 
 namespace nm {
 

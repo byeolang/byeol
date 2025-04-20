@@ -1,4 +1,4 @@
-#include "src.hpp"
+#include "core/ast/src/src.hpp"
 
 namespace nm {
     NM(DEF_ME(src))

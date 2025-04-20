@@ -1,9 +1,9 @@
 #pragma once
 
-#include "common/dep.hpp"
-#include "common/_nout.hpp"
-#include "common/def.hpp"
-#include "common/namuMetaExtension.hpp"
-#include "common/richLog.hpp"
-#include "common/util.hpp"
-#include "common/when.hpp"
+#include "core/common/dep.hpp"
+#include "core/common/_nout.hpp"
+#include "core/common/def.hpp"
+#include "core/common/namuMetaExtension.hpp"
+#include "core/common/richLog.hpp"
+#include "core/common/util.hpp"
+#include "core/common/when.hpp"

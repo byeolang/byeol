@@ -1,7 +1,7 @@
 #pragma once
 
-#include "baseCtor.hpp"
-#include "../args.hpp"
+#include "core/ast/ctor/baseCtor.hpp"
+#include "core/ast/args.hpp"
 
 namespace nm {
 

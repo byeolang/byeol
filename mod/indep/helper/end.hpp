@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../common.hpp"
-#include "../macro.hpp"
+#include "indep/common.hpp"
+#include "indep/macro.hpp"
 
 namespace nm {
 

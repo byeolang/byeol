@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../ast/scope.hpp"
-#include "../builtin/container/native/tnarr.hpp"
-#include "param.hpp"
+#include "core/ast/scope.hpp"
+#include "core/builtin/container/native/tnarr.hpp"
+#include "core/ast/param.hpp"
 
 namespace nm {
     typedef std::vector<std::string> strings;

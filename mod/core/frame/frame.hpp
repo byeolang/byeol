@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../ast/baseFunc.hpp"
-#include "../ast/baseObj.hpp"
-#include "../ast/tmock.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/ast/baseObj.hpp"
+#include "core/ast/tmock.hpp"
 
 struct immutableTest;
 struct frameTest;

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../ast/baseObj.hpp"
-#include "../../frame/callstack.hpp"
+#include "core/ast/baseObj.hpp"
+#include "core/frame/callstack.hpp"
 
 namespace nm {
     class _nout baseErr: public baseObj, public errorable {

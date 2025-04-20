@@ -1,7 +1,7 @@
-#include "errReport.hpp"
+#include "core/builtin/err/errReport.hpp"
 
-#include "../../ast/node.hpp"
-#include "nerr.hpp"
+#include "core/ast/node.hpp"
+#include "core/builtin/err/nerr.hpp"
 
 namespace nm {
 

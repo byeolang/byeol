@@ -2,7 +2,7 @@
 
 #include <list>
 
-#include "../common.hpp"
+#include "core/common.hpp"
 
 namespace nm {
     class _nout tokenDispatcher {

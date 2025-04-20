@@ -1,7 +1,7 @@
-#include "frames.hpp"
+#include "core/frame/frames.hpp"
 
-#include "../ast/baseFunc.hpp"
-#include "thread.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/frame/thread.hpp"
 
 namespace nm {
     NM(DEF_ME(frames))

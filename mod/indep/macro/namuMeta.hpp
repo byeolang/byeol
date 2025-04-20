@@ -1,7 +1,7 @@
 #pragma once
 
-#include "forEach.hpp"
-#include "overload.hpp"
+#include "indep/macro/forEach.hpp"
+#include "indep/macro/overload.hpp"
 
 // namu universal DECL macro:
 //  NM_DECL is generalized API used to describe the metadata of class in namu.

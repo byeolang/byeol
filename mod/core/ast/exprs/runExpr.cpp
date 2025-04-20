@@ -1,11 +1,11 @@
-#include "runExpr.hpp"
+#include "core/ast/exprs/runExpr.hpp"
 
-#include "../../builtin/primitive/nVoid.hpp"
-#include "../../frame/thread.hpp"
-#include "../../worker/visitor/visitor.hpp"
-#include "../tmock.hpp"
-#include "../closure.hpp"
-#include "getExpr.hpp"
+#include "core/builtin/primitive/nVoid.hpp"
+#include "core/frame/thread.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast/tmock.hpp"
+#include "core/ast/closure.hpp"
+#include "core/ast/exprs/getExpr.hpp"
 
 namespace nm {
 

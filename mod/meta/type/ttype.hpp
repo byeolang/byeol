@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ttypeBase.hpp"
+#include "meta/type/ttypeBase.hpp"
 
 namespace nm {
     /// @remark ttype returns ttype<type> as its meta class.

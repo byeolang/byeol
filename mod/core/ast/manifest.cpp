@@ -1,4 +1,4 @@
-#include "manifest.hpp"
+#include "core/ast/manifest.hpp"
 
 namespace nm {
 

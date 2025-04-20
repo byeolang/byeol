@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../interface/instance.hpp"
+#include "memlite/interface/instance.hpp"
 
 namespace nm {
 

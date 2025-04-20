@@ -1,6 +1,6 @@
-#include "immutableTactic.hpp"
+#include "core/ast/immutableTactic.hpp"
 
-#include "node.hpp"
+#include "core/ast/node.hpp"
 
 namespace nm {
 

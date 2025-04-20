@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../tokenScanable.hpp"
+#include "core/worker/tokenScanable.hpp"
 
 typedef union YYSTYPE YYSTYPE;
 typedef struct lloc YYLTYPE;

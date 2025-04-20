@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../common.hpp"
-#include "../def.hpp"
+#include "indep/common.hpp"
+#include "indep/def.hpp"
 
 namespace nm {
     class _nout dumpable {

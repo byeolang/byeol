@@ -1,8 +1,8 @@
 #pragma once
 
-#include "baseFunc.hpp"
-#include "../frame/frameInteractable.hpp"
-#include "../type/funcMgdType.hpp"
+#include "core/frame/frameInteractable.hpp"
+#include "core/type/funcMgdType.hpp"
+#include "core/ast/baseFunc.hpp"
 
 namespace nm {
 

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../ast/node.hpp"
-#include "../../ast/src.hpp"
-#include "../worker.hpp"
-#include "visitInfo.hpp"
+#include "core/ast/node.hpp"
+#include "core/ast/src.hpp"
+#include "core/worker/worker.hpp"
+#include "core/worker/visitor/visitInfo.hpp"
 
 namespace nm {
 

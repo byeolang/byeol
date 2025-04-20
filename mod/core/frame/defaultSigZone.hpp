@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../worker/visitor/graphVisitor.hpp"
-#include "sigZone.hpp"
-#include "thread.hpp"
+#include "core/worker/visitor/graphVisitor.hpp"
+#include "core/frame/sigZone.hpp"
+#include "core/frame/thread.hpp"
 
 namespace nm {
     template <typename W> class defaultSigZone: public sigZone {

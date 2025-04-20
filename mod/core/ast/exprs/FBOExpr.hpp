@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../builtin/primitive/arithmeticObj.hpp"
-#include "../expr.hpp"
-#include "../param.hpp"
-#include "../scope.hpp"
+#include "core/builtin/primitive/arithmeticObj.hpp"
+#include "core/ast/expr.hpp"
+#include "core/ast/param.hpp"
+#include "core/ast/scope.hpp"
 
 namespace nm {
 

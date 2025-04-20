@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../ast/baseObj.hpp"
-#include "../../ast/scope.hpp"
+#include "core/ast/baseObj.hpp"
+#include "core/ast/scope.hpp"
 
 namespace nm {
 

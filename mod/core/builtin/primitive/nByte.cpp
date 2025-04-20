@@ -1,11 +1,11 @@
-#include "nByte.hpp"
+#include "core/builtin/primitive/nByte.hpp"
 
-#include "../../worker/visitor/visitor.hpp"
-#include "../../type/as/impliAses.hpp"
-#include "bridge/cpp/tbridger.hpp"
-#include "nBool.hpp"
-#include "nFlt.hpp"
-#include "nInt.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/type/as/impliAses.hpp"
+#include "core/bridge/cpp/tbridger.hpp"
+#include "core/builtin/primitive/nBool.hpp"
+#include "core/builtin/primitive/nFlt.hpp"
+#include "core/builtin/primitive/nInt.hpp"
 
 namespace nm {
 

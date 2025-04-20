@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../container/tucontainable.hpp"
-#include "primitiveObj.hpp"
+#include "core/builtin/container/tucontainable.hpp"
+#include "core/builtin/primitive/primitiveObj.hpp"
 
 namespace nm {
 

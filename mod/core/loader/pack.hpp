@@ -1,4 +1,4 @@
 #pragma once
 
-#include "pack/trustPackLoading.hpp"
-#include "pack/cpp.hpp"
+#include "core/loader/pack/trustPackLoading.hpp"
+#include "core/loader/pack/cpp.hpp"

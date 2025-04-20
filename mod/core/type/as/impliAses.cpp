@@ -1,6 +1,6 @@
-#include "impliAses.hpp"
-#include "../../ast/node.hpp"
-#include "../../builtin/container/native/tnarr.inl"
+#include "core/type/as/impliAses.hpp"
+#include "core/ast/node.hpp"
+#include "core/builtin/container/native/tnarr.inl"
 
 namespace nm {
 

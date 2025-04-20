@@ -1,7 +1,7 @@
-#include "bindTag.hpp"
+#include "memlite/watcher/bindTag.hpp"
 
-#include "../binder/tbindable.inl"
-#include "../interface/instancer.hpp"
+#include "memlite/binder/tbindable.inl"
+#include "memlite/interface/instancer.hpp"
 
 namespace nm {
 

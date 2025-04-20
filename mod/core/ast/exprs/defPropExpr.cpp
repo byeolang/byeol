@@ -1,7 +1,6 @@
-#include "defPropExpr.hpp"
-
-#include "../../worker/visitor/visitor.hpp"
-#include "../closure.hpp"
+#include "core/ast/exprs/defPropExpr.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast/closure.hpp"
 
 namespace nm {
     NM(DEF_ME(defPropExpr), DEF_VISIT())

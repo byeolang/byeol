@@ -1,6 +1,6 @@
 #pragma once
 
-#include "dep.hpp"
+#include "core/common/dep.hpp"
 
 // INTERFACE:
 //      marks that this class is abstract.

@@ -3,8 +3,8 @@
 /// @remark These are codes inspired from Boost library. added the PATCH for VS.
 #pragma once
 
-#include "argCounter.hpp"
-#include "helper.hpp"
+#include "indep/macro/argCounter.hpp"
+#include "indep/macro/helper.hpp"
 
 /// Implementing Macro Overloding:
 ///     by count of given arguments, let compiler determine which macro should works.

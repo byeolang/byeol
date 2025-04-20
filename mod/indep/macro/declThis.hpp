@@ -1,6 +1,6 @@
 #pragma once
 
-#include "defThis.hpp"
+#include "indep/macro/defThis.hpp"
 
 #define NM_ME_2(ME, SUPER) \
 public:                    \

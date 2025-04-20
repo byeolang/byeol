@@ -1,7 +1,6 @@
-#include <core.hpp>
 #include <iostream>
 
-#include "common.hpp"
+#include "bundle/sys/common.hpp"
 using namespace nm;
 
 struct con {

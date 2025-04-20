@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tnmap.hpp"
+#include "core/builtin/container/native/tnmap.hpp"
 
 namespace nm {
 
@@ -17,7 +17,7 @@ namespace nm {
         typedef typename super::iteration iteration;
         friend class nchainIteration;
         typedef _defaultContainer defaultContainer;
-#include "../iter/nchainIteration.hpp"
+#include "core/builtin/container/iter/nchainIteration.hpp"
 
     public:
         tnchain();

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "dumpable.hpp"
-#include "errLv.hpp"
+#include "indep/helper/dumpable.hpp"
+#include "indep/helper/errLv.hpp"
 
 namespace nm {
 

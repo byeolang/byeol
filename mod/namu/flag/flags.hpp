@@ -1,8 +1,8 @@
 #pragma once
 
-#include "flags/bufferSrcFlag.hpp"
-#include "flags/verFlag.hpp"
-#include "flags/fileFlag.hpp"
-#include "flags/helpFlag.hpp"
-#include "flags/logStructureFlag.hpp"
-#include "flags/verboseFlag.hpp"
+#include "namu/flag/flags/bufferSrcFlag.hpp"
+#include "namu/flag/flags/verFlag.hpp"
+#include "namu/flag/flags/fileFlag.hpp"
+#include "namu/flag/flags/helpFlag.hpp"
+#include "namu/flag/flags/logStructureFlag.hpp"
+#include "namu/flag/flags/verboseFlag.hpp"

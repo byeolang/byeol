@@ -1,4 +1,4 @@
 #pragma once
 
-#include "src/dumSrc.hpp"
-#include "src/dumSrcFile.hpp"
+#include "core/ast/src/dumSrc.hpp"
+#include "core/ast/src/dumSrcFile.hpp"

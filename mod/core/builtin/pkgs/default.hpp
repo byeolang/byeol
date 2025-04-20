@@ -1,4 +1,4 @@
 #pragma once
 
-#include "default/inputFunc.hpp"
-#include "default/printFunc.hpp"
+#include "core/builtin/pkgs/default/inputFunc.hpp"
+#include "core/builtin/pkgs/default/printFunc.hpp"

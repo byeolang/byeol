@@ -1,6 +1,6 @@
 #pragma once
 
-#include "worker/interpreter.hpp"
-#include "worker/supply.hpp"
-#include "worker/worker.inl"
-#include "worker/visitor.hpp"
+#include "core/worker/interpreter.hpp"
+#include "core/worker/supply.hpp"
+#include "core/worker/worker.inl"
+#include "core/worker/visitor.hpp"

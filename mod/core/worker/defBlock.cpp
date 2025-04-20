@@ -1,7 +1,6 @@
-#include "defBlock.hpp"
-
-#include "../ast/node.hpp"
-#include "builtin/container/native/tndumArr.hpp"
+#include "core/worker/defBlock.hpp"
+#include "core/ast/node.hpp"
+#include "core/builtin/container/native/tndumArr.hpp"
 
 namespace nm {
 

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../builtin/container/tbicontainable.inl"
-#include "args.hpp"
-#include "baseFunc.hpp"
-#include "baseObj.hpp"
-#include "node.hpp"
-#include "params.hpp"
-#include "scope.hpp"
-#include "tpriorities.inl"
+#include "core/builtin/container/tbicontainable.inl"
+#include "core/ast/args.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/ast/baseObj.hpp"
+#include "core/ast/node.hpp"
+#include "core/ast/params.hpp"
+#include "core/ast/scope.hpp"
+#include "core/ast/tpriorities.inl"
 
 namespace nm {
 

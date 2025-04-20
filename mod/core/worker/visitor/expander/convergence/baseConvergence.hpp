@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../../common.hpp"
+#include "core/common.hpp"
 
 namespace nm {
     class _nout baseConvergence: public instance {

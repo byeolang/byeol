@@ -1,13 +1,13 @@
-#include "loopExpr.hpp"
+#include "core/ast/exprs/loopExpr.hpp"
 
-#include "../../builtin/container/mgd/arr.hpp"
-#include "../../builtin/container/mgd/tdumArr.hpp"
-#include "../../frame/frameInteract.hpp"
-#include "../../frame/thread.hpp"
-#include "../../worker/visitor/visitor.hpp"
-#include "breakExpr.hpp"
-#include "nextExpr.hpp"
-#include "retExpr.hpp"
+#include "core/builtin/container/mgd/arr.hpp"
+#include "core/builtin/container/mgd/tdumArr.hpp"
+#include "core/frame/frameInteract.hpp"
+#include "core/frame/thread.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast/exprs/breakExpr.hpp"
+#include "core/ast/exprs/nextExpr.hpp"
+#include "core/ast/exprs/retExpr.hpp"
 
 namespace nm {
 

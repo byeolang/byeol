@@ -2,8 +2,8 @@
 
 #include <map>
 
-#include "clonable.hpp"
-#include "id.hpp"
+#include "memlite/interface/clonable.hpp"
+#include "memlite/interface/id.hpp"
 
 struct namuTest;
 

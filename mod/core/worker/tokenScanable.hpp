@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../type/ntype.hpp"
+#include "core/type/ntype.hpp"
 
 typedef union YYSTYPE YYSTYPE;
 typedef struct lloc YYLTYPE;

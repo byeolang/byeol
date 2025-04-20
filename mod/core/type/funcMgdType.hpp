@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mgdType.hpp"
+#include "core/type/mgdType.hpp"
 
 namespace nm {
     class _nout funcMgdType: public mgdType {

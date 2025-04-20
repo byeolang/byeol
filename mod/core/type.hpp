@@ -1,4 +1,4 @@
 #pragma once
 
-#include "type/as.hpp"
-#include "type/typeMaker.hpp"
+#include "core/type/as.hpp"
+#include "core/type/typeMaker.hpp"

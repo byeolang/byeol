@@ -1,7 +1,7 @@
 #pragma once
 
-#include "aser.hpp"
-#include "../ntype.hpp"
+#include "core/type/as/aser.hpp"
+#include "core/type/ntype.hpp"
 
 namespace nm {
 

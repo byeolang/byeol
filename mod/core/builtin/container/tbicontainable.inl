@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../ast/node.hpp"
-#include "iter/biter.inl"
-#include "native/tnarr.inl"
-#include "tbicontainable.hpp"
+#include "core/ast/node.hpp"
+#include "core/builtin/container/iter/biter.inl"
+#include "core/builtin/container/native/tnarr.inl"
+#include "core/builtin/container/tbicontainable.hpp"
 
 namespace nm {
 

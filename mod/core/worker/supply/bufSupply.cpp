@@ -1,7 +1,7 @@
-#include "bufSupply.hpp"
+#include "core/worker/supply/bufSupply.hpp"
 
-#include "../../ast/exprs/exprMaker.hpp"
-#include "../../ast/node.hpp"
+#include "core/ast/exprs/exprMaker.hpp"
+#include "core/ast/node.hpp"
 
 namespace nm {
     NM_DEF_ME(bufSupply)

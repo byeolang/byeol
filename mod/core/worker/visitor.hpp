@@ -1,6 +1,6 @@
 #pragma once
 
-#include "visitor/generalizer.hpp"
-#include "visitor/graphVisitor.hpp"
-#include "visitor/expander.hpp"
-#include "visitor/verifier.hpp"
+#include "core/worker/visitor/generalizer.hpp"
+#include "core/worker/visitor/graphVisitor.hpp"
+#include "core/worker/visitor/expander.hpp"
+#include "core/worker/visitor/verifier.hpp"

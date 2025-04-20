@@ -1,6 +1,6 @@
 #include <vector>
 
-#include "../../common/dep.hpp"
+#include "test/common/dep.hpp"
 
 using namespace nm;
 using namespace std;

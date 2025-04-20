@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../builtin/container/native/tnarr.hpp"
-#include "frame.hpp"
+#include "core/builtin/container/native/tnarr.hpp"
+#include "core/frame/frame.hpp"
 
 namespace nm {
     class _nout frames: public tnarr<frame>, public dumpable {

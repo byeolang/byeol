@@ -1,12 +1,11 @@
-#include "genericOrigin.hpp"
-
-#include "../type/mgdType.hpp"
-#include "../worker/visitor/generalizer.hpp"
-#include "../worker/visitor/verifier.hpp"
-#include "args.hpp"
-#include "baseFunc.hpp"
-#include "dumScope.hpp"
-#include "origin.hpp"
+#include "core/ast/genericOrigin.hpp"
+#include "core/type/mgdType.hpp"
+#include "core/worker/visitor/generalizer.hpp"
+#include "core/worker/visitor/verifier.hpp"
+#include "core/ast/args.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/ast/dumScope.hpp"
+#include "core/ast/origin.hpp"
 #include <algorithm>
 
 namespace nm {

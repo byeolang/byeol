@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../expr.hpp"
-#include "blockExpr.hpp"
+#include "core/ast/expr.hpp"
+#include "core/ast/exprs/blockExpr.hpp"
 
 namespace nm {
 

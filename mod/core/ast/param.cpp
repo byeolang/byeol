@@ -1,6 +1,6 @@
-#include "param.hpp"
+#include "core/ast/param.hpp"
 
-#include "node.hpp"
+#include "core/ast/node.hpp"
 
 namespace nm {
     NM_DEF_ME(param)

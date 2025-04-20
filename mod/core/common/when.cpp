@@ -1,7 +1,7 @@
-#include "when.hpp"
-#include "../frame/thread.hpp"
-#include "../builtin/err/nerr.hpp"
-#include "../builtin/err/errReport.hpp"
+#include "core/common/when.hpp"
+#include "core/frame/thread.hpp"
+#include "core/builtin/err/nerr.hpp"
+#include "core/builtin/err/errReport.hpp"
 
 namespace nm {
 

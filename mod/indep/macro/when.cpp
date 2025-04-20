@@ -1,4 +1,4 @@
-#include "when.hpp"
+#include "indep/macro/when.hpp"
 
 namespace nm {
     NM(DEF_ME(__WHEN_OBJECT__))

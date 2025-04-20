@@ -1,10 +1,9 @@
 #pragma once
 
-#include <type/ttype.hpp>
-#include "tnbicontainer.hpp"
+#include "core/builtin/container/native/tnbicontainer.hpp"
 #include <initializer_list>
 #include <utility>
-#include "smultimap.inl"
+#include "core/builtin/container/native/smultimap.inl"
 
 namespace nm {
 

@@ -1,19 +1,19 @@
 #pragma once
 
-#include "../ast/exprs/FBOExpr.hpp"
-#include "../ast/exprs/exprMaker.hpp"
-#include "../ast/node.hpp"
-#include "../ast/origin.hpp"
-#include "../ast/params.hpp"
-#include "../ast/slot.hpp"
-#include "../ast/func.hpp"
-#include "../builtin/err/errReport.hpp"
-#include "bison/tokenScan.hpp"
-#include "defBlock.hpp"
-#include "smartDedent.hpp"
-#include "supply/srcSupply.hpp"
-#include "tokenDispatcher.hpp"
-#include "worker.hpp"
+#include "core/ast/exprs/FBOExpr.hpp"
+#include "core/ast/exprs/exprMaker.hpp"
+#include "core/ast/node.hpp"
+#include "core/ast/origin.hpp"
+#include "core/ast/params.hpp"
+#include "core/ast/slot.hpp"
+#include "core/ast/func.hpp"
+#include "core/builtin/err/errReport.hpp"
+#include "core/worker/bison/tokenScan.hpp"
+#include "core/worker/defBlock.hpp"
+#include "core/worker/smartDedent.hpp"
+#include "core/worker/supply/srcSupply.hpp"
+#include "core/worker/tokenDispatcher.hpp"
+#include "core/worker/worker.hpp"
 
 namespace nm {
 

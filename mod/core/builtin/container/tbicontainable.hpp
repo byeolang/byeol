@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../ast/param.hpp"
+#include "core/ast/param.hpp"
 
 namespace nm {
 
@@ -15,7 +15,7 @@ namespace nm {
         template <typename K1, typename V1, typename defaultContainer> friend class tnchain;
 
     public:
-#include "iter/biter.hpp"
+#include "core/builtin/container/iter/biter.hpp"
 
     public:
         virtual ~tbicontainable();

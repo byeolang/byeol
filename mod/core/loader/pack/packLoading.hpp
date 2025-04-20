@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../ast/obj.hpp"
-#include "../../builtin/container/native/tnarr.hpp"
-#include "../../builtin/container/native/tnchain.hpp"
-#include "packMakable.hpp"
+#include "core/ast/obj.hpp"
+#include "core/builtin/container/native/tnarr.hpp"
+#include "core/builtin/container/native/tnchain.hpp"
+#include "core/loader/pack/packMakable.hpp"
 
 namespace nm {
 

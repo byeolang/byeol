@@ -1,11 +1,11 @@
-#include "forExpr.hpp"
+#include "core/ast/exprs/forExpr.hpp"
 
 #include <utility>
 
-#include "../../builtin.hpp"
-#include "../../frame/frameInteract.hpp"
-#include "../../frame/thread.hpp"
-#include "../../worker/visitor/visitor.hpp"
+#include "core/builtin.hpp"
+#include "core/frame/frameInteract.hpp"
+#include "core/frame/thread.hpp"
+#include "core/worker/visitor/visitor.hpp"
 
 namespace nm {
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "overload.hpp"
+#include "indep/macro/overload.hpp"
 
 #define __NM__DECL_DEF_ME_2(ME, SUPER) \
     __NM__DECL_DEF_ME_1(NM_UNWRAP(ME)) \

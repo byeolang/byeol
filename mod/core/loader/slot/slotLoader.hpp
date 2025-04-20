@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../ast/slot.hpp"
+#include "core/ast/slot.hpp"
 
 namespace nm {
 

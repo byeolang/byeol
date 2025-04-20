@@ -1,6 +1,6 @@
 #pragma once
 
-#include "bindTag.hpp"
+#include "memlite/watcher/bindTag.hpp"
 
 namespace nm {
     /// @remark Immortality of WatchCell instance.

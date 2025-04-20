@@ -1,8 +1,8 @@
-#include "srcSupply.hpp"
+#include "core/worker/supply/srcSupply.hpp"
 
-#include "../../ast/node.hpp"
-#include "../bison/lowscanner.hpp"
-#include "../../builtin/err/nerr.hpp"
+#include "core/ast/node.hpp"
+#include "core/worker/bison/lowscanner.hpp"
+#include "core/builtin/err/nerr.hpp"
 
 namespace nm {
     NM_DEF_ME(srcSupply)

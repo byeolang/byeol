@@ -12,8 +12,8 @@
 //
 //        Then, Use Funnel macro instead:
 //            My_2(NM_PAIR(MyMap<T, U>), NM_PAIR(template <typename T, typename U))
-#include "helper.hpp"
-#include "overload.hpp"
+#include "indep/macro/helper.hpp"
+#include "indep/macro/overload.hpp"
 
 #define NM_PAIR_1(x) x
 #define NM_PAIR_2(x, y) x, y

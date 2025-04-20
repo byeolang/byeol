@@ -1,6 +1,5 @@
-#include "pool.hpp"
-
-#include "../interface/instance.hpp"
+#include "memlite/pool/pool.hpp"
+#include "memlite/interface/instance.hpp"
 
 namespace nm {
 

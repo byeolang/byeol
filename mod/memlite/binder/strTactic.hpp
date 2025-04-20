@@ -1,6 +1,6 @@
 #pragma once
 
-#include "weakTactic.hpp"
+#include "memlite/binder/weakTactic.hpp"
 
 namespace nm {
 

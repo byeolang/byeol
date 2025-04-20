@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../baseFunc.hpp"
+#include "core/ast/baseFunc.hpp"
 
 namespace nm {
 

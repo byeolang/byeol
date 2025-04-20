@@ -1,13 +1,13 @@
-#include "thread.hpp"
+#include "core/frame/thread.hpp"
 
-#include "../ast/baseFunc.hpp"
-#include "../ast/dumScope.hpp"
-#include "../ast/node.inl"
-#include "../builtin/pkgs/default/inputFunc.hpp"
-#include "../builtin/pkgs/default/printFunc.hpp"
-#include "../builtin/err/errReport.hpp"
-#include "../builtin/err/err.hpp"
-#include "../loader/slot/slotLoader.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/ast/dumScope.hpp"
+#include "core/ast/node.inl"
+#include "core/builtin/pkgs/default/inputFunc.hpp"
+#include "core/builtin/pkgs/default/printFunc.hpp"
+#include "core/builtin/err/errReport.hpp"
+#include "core/builtin/err/err.hpp"
+#include "core/loader/slot/slotLoader.hpp"
 
 namespace nm {
 

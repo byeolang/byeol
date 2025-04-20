@@ -1,6 +1,6 @@
 #pragma once
 
-#include "thread.hpp"
+#include "core/frame/thread.hpp"
 
 namespace nm {
     class _nout threadUse {

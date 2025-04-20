@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../ast/obj.hpp"
-#include "../../type/mgdType.hpp"
-#include "bridge/cpp/tbridger.hpp"
-#include "marshaling/tgenericMarshaling.hpp"
-#include "tbridgeFunc.hpp"
+#include "core/ast/obj.hpp"
+#include "core/type/mgdType.hpp"
+#include "core/bridge/cpp/tbridger.hpp"
+#include "core/bridge/cpp/marshaling/tgenericMarshaling.hpp"
+#include "core/bridge/cpp/tbridgeFunc.hpp"
 
 namespace nm {
 

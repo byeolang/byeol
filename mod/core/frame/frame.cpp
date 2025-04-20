@@ -1,10 +1,10 @@
-#include "frame.hpp"
+#include "core/frame/frame.hpp"
 
-#include "../ast/baseFunc.hpp"
-#include "../ast/dumScope.hpp"
-#include "../ast/obj.hpp"
-#include "../worker/visitor/visitor.hpp"
-#include "thread.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/ast/dumScope.hpp"
+#include "core/ast/obj.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/frame/thread.hpp"
 
 namespace nm {
     NM(DEF_ME(frame), DEF_VISIT())

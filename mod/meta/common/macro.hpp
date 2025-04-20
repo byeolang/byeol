@@ -1,6 +1,6 @@
 #pragma once
 
-#include "dep.hpp"
+#include "meta/common/dep.hpp"
 
 // namuMeta macro's sub-commands:
 //  CLONE:

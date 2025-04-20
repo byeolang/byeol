@@ -1,8 +1,8 @@
-#include "ases.hpp"
+#include "core/type/as/ases.hpp"
 
-#include "../../ast/node.hpp"
-#include "../../builtin/container/native/tnarr.inl"
-#include "../../builtin/primitive/nVoid.hpp"
+#include "core/ast/node.hpp"
+#include "core/builtin/container/native/tnarr.inl"
+#include "core/builtin/primitive/nVoid.hpp"
 
 namespace nm {
 

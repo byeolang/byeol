@@ -1,6 +1,6 @@
-#include "typeProvidable.hpp"
+#include "meta/interface/typeProvidable.hpp"
 
-#include "../type/ttype.hpp"
+#include "meta/type/ttype.hpp"
 
 namespace nm {
 

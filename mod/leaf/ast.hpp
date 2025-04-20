@@ -1,5 +1,5 @@
 #pragma once
 
-#include "ast/point.hpp"
-#include "ast/verLeaf.hpp"
-#include "ast/nulLeaf.hpp"
+#include "leaf/ast/point.hpp"
+#include "leaf/ast/verLeaf.hpp"
+#include "leaf/ast/nulLeaf.hpp"

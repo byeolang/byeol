@@ -1,14 +1,14 @@
-#include "starter.hpp"
+#include "core/frame/starter.hpp"
 
 #include <csignal>
 
-#include "../ast/baseFunc.hpp"
-#include "../ast/dumScope.hpp"
-#include "../ast/node.inl"
-#include "../ast/obj.hpp"
-#include "../ast/slot.hpp"
-#include "../worker/visitor/graphVisitor.hpp"
-#include "threadUse.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/ast/dumScope.hpp"
+#include "core/ast/node.inl"
+#include "core/ast/obj.hpp"
+#include "core/ast/slot.hpp"
+#include "core/worker/visitor/graphVisitor.hpp"
+#include "core/frame/threadUse.hpp"
 
 namespace nm {
 

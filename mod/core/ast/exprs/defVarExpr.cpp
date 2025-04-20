@@ -1,9 +1,9 @@
-#include "defVarExpr.hpp"
+#include "core/ast/exprs/defVarExpr.hpp"
+#include "core/frame/thread.hpp"
+#include "core/worker/visitor/visitor.hpp"
 
-#include "../../frame/thread.hpp"
-#include "../../worker/visitor/visitor.hpp"
-#include "assignExpr.hpp"
-#include "../closure.hpp"
+#include "core/ast/closure.hpp"
+#include "core/ast/exprs/assignExpr.hpp"
 
 namespace nm {
     NM(DEF_ME(defVarExpr), DEF_VISIT())

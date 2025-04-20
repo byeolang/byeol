@@ -1,7 +1,7 @@
-#include "defNestedFuncExpr.hpp"
-#include "../nestedFunc.hpp"
-#include "../../frame/thread.hpp"
-#include "../../worker/visitor/visitor.hpp"
+#include "core/ast/exprs/defNestedFuncExpr.hpp"
+#include "core/ast/nestedFunc.hpp"
+#include "core/frame/thread.hpp"
+#include "core/worker/visitor/visitor.hpp"
 
 namespace nm {
     NM(DEF_ME(defNestedFuncExpr), DEF_VISIT())

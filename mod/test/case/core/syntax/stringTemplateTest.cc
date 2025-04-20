@@ -1,4 +1,4 @@
-#include "../../../namuSyntaxTest.hpp"
+#include "test/namuSyntaxTest.hpp"
 
 using namespace std;
 using namespace nm;

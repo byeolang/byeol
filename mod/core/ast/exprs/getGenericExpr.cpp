@@ -1,8 +1,8 @@
-#include "getGenericExpr.hpp"
+#include "core/ast/exprs/getGenericExpr.hpp"
 
-#include "../../worker/visitor/visitor.hpp"
-#include "../genericOrigin.hpp"
-#include "../node.inl"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast/genericOrigin.hpp"
+#include "core/ast/node.inl"
 
 namespace nm {
 

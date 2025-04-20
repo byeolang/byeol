@@ -1,10 +1,10 @@
-#include "logger.hpp"
+#include "clog/logger.hpp"
 
 #include <iomanip>
 #include <iostream>
 #include <sstream>
 
-#include "stream.hpp"
+#include "clog/stream.hpp"
 
 namespace nm {
 

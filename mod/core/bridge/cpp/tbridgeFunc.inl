@@ -1,7 +1,7 @@
 #pragma once
 
-#include "tbridge.hpp"
-#include "tbridgeFunc.hpp"
+#include "core/bridge/cpp/tbridge.hpp"
+#include "core/bridge/cpp/tbridgeFunc.hpp"
 
 namespace nm {
 

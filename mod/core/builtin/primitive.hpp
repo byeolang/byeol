@@ -1,8 +1,8 @@
 #pragma once
 
-#include "primitive/nBool.hpp"
-#include "primitive/nByte.hpp"
-#include "primitive/nFlt.hpp"
-#include "primitive/nInt.hpp"
-#include "primitive/nStr.hpp"
-#include "primitive/nVoid.hpp"
+#include "core/builtin/primitive/nBool.hpp"
+#include "core/builtin/primitive/nByte.hpp"
+#include "core/builtin/primitive/nFlt.hpp"
+#include "core/builtin/primitive/nInt.hpp"
+#include "core/builtin/primitive/nStr.hpp"
+#include "core/builtin/primitive/nVoid.hpp"

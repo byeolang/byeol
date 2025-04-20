@@ -1,3 +1,3 @@
 #pragma once
 
-#include "slot/slotLoader.hpp"
+#include "core/loader/slot/slotLoader.hpp"

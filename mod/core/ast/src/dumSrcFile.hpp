@@ -1,6 +1,6 @@
 #pragma once
 
-#include "srcFile.hpp"
+#include "core/ast/src/srcFile.hpp"
 
 namespace nm {
     class _nout dumSrcFile: public srcFile {

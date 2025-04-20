@@ -1,6 +1,6 @@
-#include "logStructureFlag.hpp"
+#include "namu/flag/flags/logStructureFlag.hpp"
 
-#include "../../cli.hpp"
+#include "namu/cli.hpp"
 
 namespace nm {
 

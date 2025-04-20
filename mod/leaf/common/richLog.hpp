@@ -1,7 +1,7 @@
 #pragma once
 
-#include "dep.hpp"
-#include "_nout.hpp"
+#include "leaf/common/dep.hpp"
+#include "leaf/common/_nout.hpp"
 
 namespace nm {
     class leaf;

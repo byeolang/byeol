@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../frame/frameInteractable.hpp"
-#include "src/src.hpp"
-#include "statable.hpp"
-#include "modifier/modifier.hpp"
-#include "tmock.hpp"
+#include "core/frame/frameInteractable.hpp"
+#include "core/ast/src/src.hpp"
+#include "core/ast/statable.hpp"
+#include "core/ast/modifier/modifier.hpp"
+#include "core/ast/tmock.hpp"
 
 namespace nm {
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "dep.hpp"
+#include "core/common/dep.hpp"
 
 namespace nm {
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../ast/params.hpp"
-#include "../../frame/frame.hpp"
-#include "visitor.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast/params.hpp"
+#include "core/frame/frame.hpp"
 
 struct verifierTest;
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../rtti.hpp"
-#include "type.hpp"
+#include "meta/rtti.hpp"
+#include "meta/type/type.hpp"
 
 namespace nm {
 

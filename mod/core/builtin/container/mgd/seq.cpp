@@ -1,8 +1,8 @@
-#include "seq.hpp"
+#include "core/builtin/container/mgd/seq.hpp"
 
-#include "../../../bridge/cpp.hpp"
-#include "../../../worker/visitor/visitInfo.hpp"
-#include "../../../worker/visitor/visitor.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/bridge/cpp.hpp"
+#include "core/worker/visitor/visitInfo.hpp"
 
 namespace nm {
 

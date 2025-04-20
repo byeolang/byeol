@@ -1,5 +1,5 @@
-#include "errorable.hpp"
-#include "buildFeature.hpp"
+#include "indep/helper/errorable.hpp"
+#include "indep/helper/buildFeature.hpp"
 
 namespace nm {
     NM(DEF_ME(errorable))

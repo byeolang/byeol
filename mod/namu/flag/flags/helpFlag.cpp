@@ -1,6 +1,6 @@
-#include "helpFlag.hpp"
+#include "namu/flag/flags/helpFlag.hpp"
 
-#include "../../cli.hpp"
+#include "namu/cli.hpp"
 
 namespace nm {
 

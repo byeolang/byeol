@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../ast.hpp"
-#include "leafTokenScanable.hpp"
-#include "leafTokenDispatcher.hpp"
-#include "bison/leafTokenScan.hpp"
-#include "leafSmartDedent.hpp"
+#include "leaf/ast.hpp"
+#include "leaf/parser/leafTokenScanable.hpp"
+#include "leaf/parser/leafTokenDispatcher.hpp"
+#include "leaf/parser/bison/leafTokenScan.hpp"
+#include "leaf/parser/leafSmartDedent.hpp"
 
 namespace nm {
     class leafTokenScan;

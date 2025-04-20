@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../../ast/obj.hpp"
-#include "../../ast/tbaseObjOrigin.hpp"
-#include "../../type/mgdType.hpp"
-#include "marshaling/tgenericMarshaling.hpp"
-#include "tbridgeClosure.hpp"
-#include "tbridgeCtor.hpp"
-#include "tbridgeFunc.hpp"
-#include "../../ast/src/dumSrcFile.hpp"
+#include "core/ast/obj.hpp"
+#include "core/ast/tbaseObjOrigin.hpp"
+#include "core/type/mgdType.hpp"
+#include "core/bridge/cpp/marshaling/tgenericMarshaling.hpp"
+#include "core/bridge/cpp/tbridgeClosure.hpp"
+#include "core/bridge/cpp/tbridgeCtor.hpp"
+#include "core/bridge/cpp/tbridgeFunc.hpp"
+#include "core/ast/src/dumSrcFile.hpp"
 
 namespace nm {
 

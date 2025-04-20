@@ -1,13 +1,13 @@
-#include "func.hpp"
+#include "core/ast/func.hpp"
 
-#include "../builtin/container/native/tnchain.inl"
-#include "../frame/frameInteract.hpp"
-#include "../frame/thread.hpp"
-#include "../worker/visitor/visitor.hpp"
-#include "closure.hpp"
-#include "obj.hpp"
-#include "params.hpp"
-#include "../builtin/err/nerr.hpp"
+#include "core/builtin/container/native/tnchain.inl"
+#include "core/frame/frameInteract.hpp"
+#include "core/frame/thread.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast/closure.hpp"
+#include "core/ast/obj.hpp"
+#include "core/ast/params.hpp"
+#include "core/builtin/err/nerr.hpp"
 
 namespace nm {
 

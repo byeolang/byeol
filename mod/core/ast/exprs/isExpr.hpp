@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../expr.hpp"
+#include "core/ast/expr.hpp"
 
 namespace nm {
     class _nout isExpr: public expr {

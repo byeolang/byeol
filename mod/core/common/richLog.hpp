@@ -1,7 +1,7 @@
 #pragma once
 
-#include "dep.hpp"
-#include "_nout.hpp"
+#include "core/common/dep.hpp"
+#include "core/common/_nout.hpp"
 
 namespace nm {
     class arithmeticObj;

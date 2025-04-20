@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../ast/node.hpp"
-#include "iter/uiter.inl"
-#include "native/tnarr.hpp"
-#include "tbicontainable.hpp"
-#include "tucontainable.hpp"
+#include "core/ast/node.hpp"
+#include "core/builtin/container/iter/uiter.inl"
+#include "core/builtin/container/native/tnarr.hpp"
+#include "core/builtin/container/tbicontainable.hpp"
+#include "core/builtin/container/tucontainable.hpp"
 
 namespace nm {
 

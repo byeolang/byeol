@@ -4,8 +4,8 @@
     ============================================================================================  */
     #include <iostream>
     #include <sstream>
-    #include "../parser.hpp"
-    #include "../../builtin.hpp"
+    #include "core/worker/parser.hpp"
+    #include "core/builtin.hpp"
     using namespace nm;
 
     #define YYLLOC_DEFAULT(Current, Rhs, N) \
@@ -30,9 +30,9 @@
     ============================================================================================  */
 
 %code requires {
-    #include "../../ast/args.hpp"
-    #include "../defBlock.hpp"
-    #include "../../ast/modifier.hpp"
+    #include "core/ast/args.hpp"
+    #include "core/worker/defBlock.hpp"
+    #include "core/ast/modifier.hpp"
 
     typedef void* yyscan_t;
 

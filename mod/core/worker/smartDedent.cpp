@@ -1,5 +1,5 @@
-#include "smartDedent.hpp"
-#include "bison/lowparser.hpp"
+#include "core/worker/smartDedent.hpp"
+#include "core/worker/bison/lowparser.hpp"
 
 namespace nm {
 

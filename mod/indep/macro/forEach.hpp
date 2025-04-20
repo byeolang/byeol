@@ -30,8 +30,8 @@
 
 #pragma once
 
-#include "evaluator.hpp"
-#include "helper.hpp"
+#include "indep/macro/evaluator.hpp"
+#include "indep/macro/helper.hpp"
 
 #define _NM_EACH_GET_END2() 0, NM_CONSUME_ARGS
 #define _NM_EACH_GET_END1(...) _NM_EACH_GET_END2

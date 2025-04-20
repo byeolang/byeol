@@ -1,7 +1,7 @@
 #pragma once
 
-#include "args.hpp"
-#include "src/src.hpp"
+#include "core/ast/args.hpp"
+#include "core/ast/src/src.hpp"
 
 struct exprTest;
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../ast/params.hpp"
-#include "ntype.hpp"
+#include "core/ast/params.hpp"
+#include "core/type/ntype.hpp"
 
 namespace nm {
 

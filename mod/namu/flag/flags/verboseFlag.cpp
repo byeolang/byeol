@@ -1,6 +1,6 @@
-#include "verboseFlag.hpp"
+#include "namu/flag/flags/verboseFlag.hpp"
 
-#include "../../cli.hpp"
+#include "namu/cli.hpp"
 
 namespace nm {
 

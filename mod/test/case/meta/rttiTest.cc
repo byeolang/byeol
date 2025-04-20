@@ -1,4 +1,4 @@
-#include "../../namuTest.hpp"
+#include "test/namuTest.hpp"
 
 namespace {
     struct noSuper {

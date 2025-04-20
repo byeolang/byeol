@@ -1,6 +1,5 @@
-#include "chunks.hpp"
-
-#include "../interface/instance.hpp"
+#include "memlite/pool/chunks.hpp"
+#include "memlite/interface/instance.hpp"
 
 namespace nm {
 

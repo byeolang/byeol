@@ -1,6 +1,6 @@
-#include "defAssignExpr.hpp"
+#include "core/ast/exprs/defAssignExpr.hpp"
 
-#include "../../worker/visitor/visitor.hpp"
+#include "core/worker/visitor/visitor.hpp"
 
 namespace nm {
     NM(DEF_ME(defAssignExpr), DEF_VISIT())

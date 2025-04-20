@@ -1,7 +1,7 @@
-#include "defSeqExpr.hpp"
+#include "core/ast/exprs/defSeqExpr.hpp"
 
-#include "../../builtin/container/mgd/seq.hpp"
-#include "../../worker/visitor/visitor.hpp"
+#include "core/builtin/container/mgd/seq.hpp"
+#include "core/worker/visitor/visitor.hpp"
 
 namespace nm {
 

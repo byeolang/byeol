@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../pool/chunk.hpp"
-#include "watchCell.hpp"
+#include "memlite/pool/chunk.hpp"
+#include "memlite/watcher/watchCell.hpp"
 
 namespace nm {
 

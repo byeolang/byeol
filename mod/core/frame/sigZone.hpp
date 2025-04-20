@@ -1,6 +1,6 @@
 #pragma once
 
-#include "signaler.hpp"
+#include "core/frame/signaler.hpp"
 
 namespace nm {
     class _nout sigZone {

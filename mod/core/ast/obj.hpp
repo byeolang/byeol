@@ -1,8 +1,8 @@
 #pragma once
 
-#include "baseObj.hpp"
-#include "scope.hpp"
-#include "statable.hpp"
+#include "core/ast/baseObj.hpp"
+#include "core/ast/scope.hpp"
+#include "core/ast/statable.hpp"
 
 namespace nm {
 

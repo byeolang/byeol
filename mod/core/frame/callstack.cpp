@@ -1,8 +1,8 @@
-#include "callstack.hpp"
+#include "core/frame/callstack.hpp"
 
-#include "../ast/baseFunc.hpp"
-#include "../ast/params.hpp"
-#include "../ast/src/src.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/ast/params.hpp"
+#include "core/ast/src/src.hpp"
 
 namespace nm {
 

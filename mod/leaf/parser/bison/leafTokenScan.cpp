@@ -1,8 +1,6 @@
-#include "leafTokenScan.hpp"
-
+#include "leaf/parser/bison/leafTokenScan.hpp"
 #include <iostream>
-
-#include "leafLowscanner.hpp"
+#include "leaf/parser/bison/leafLowscanner.hpp"
 
 YY_DECL;
 

@@ -1,13 +1,13 @@
-#include "nStr.hpp"
+#include "core/builtin/primitive/nStr.hpp"
 
-#include "../../bridge/cpp.hpp"
-#include "../../worker/visitor/visitor.hpp"
-#include "../container/mgd/seq.hpp"
-#include "../../type/as/ases.hpp"
-#include "nBool.hpp"
-#include "nByte.hpp"
-#include "nFlt.hpp"
-#include "nInt.hpp"
+#include "core/bridge/cpp.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/builtin/container/mgd/seq.hpp"
+#include "core/type/as/ases.hpp"
+#include "core/builtin/primitive/nBool.hpp"
+#include "core/builtin/primitive/nInt.hpp"
+#include "core/builtin/primitive/nFlt.hpp"
+#include "core/builtin/primitive/nByte.hpp"
 
 namespace nm {
 

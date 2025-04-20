@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../loader/pack/packLoading.hpp"
-#include "../loader/pack/packMakable.hpp"
-#include "statable.hpp"
-#include "scope.hpp"
-#include "slot.hpp"
+#include "core/loader/pack/packLoading.hpp"
+#include "core/loader/pack/packMakable.hpp"
+#include "core/ast/statable.hpp"
+#include "core/ast/scope.hpp"
+#include "core/ast/slot.hpp"
 
 namespace nm {
 

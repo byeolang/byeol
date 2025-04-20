@@ -1,10 +1,10 @@
-#include "retExpr.hpp"
+#include "core/ast/exprs/retExpr.hpp"
 
-#include "../../builtin/primitive/nVoid.hpp"
-#include "../../frame/thread.hpp"
-#include "../../worker/visitor/visitor.hpp"
-#include "../../builtin/err/nerr.hpp"
-#include "../closure.hpp"
+#include "core/builtin/primitive/nVoid.hpp"
+#include "core/frame/thread.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/builtin/err/nerr.hpp"
+#include "core/ast/closure.hpp"
 
 namespace nm {
 

@@ -1,6 +1,6 @@
-#include "endExpr.hpp"
-#include "../../builtin/primitive/nVoid.hpp"
-#include "../../worker/visitor/visitor.hpp"
+#include "core/ast/exprs/endExpr.hpp"
+#include "core/builtin/primitive/nVoid.hpp"
+#include "core/worker/visitor/visitor.hpp"
 
 namespace nm {
     NM(DEF_ME(endExpr), DEF_VISIT())

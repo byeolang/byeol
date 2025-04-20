@@ -1,7 +1,7 @@
 #pragma once
 
-#include "tmay.hpp"
-#include "nulr.hpp"
+#include "indep/helper/tmay.hpp"
+#include "indep/helper/nulr.hpp"
 
 namespace nm {
 

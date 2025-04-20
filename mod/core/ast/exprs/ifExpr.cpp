@@ -1,10 +1,10 @@
-#include "ifExpr.hpp"
+#include "core/ast/exprs/ifExpr.hpp"
 
-#include "../../builtin/primitive/nBool.hpp"
-#include "../../builtin/primitive/nVoid.hpp"
-#include "../../frame/frameInteract.hpp"
-#include "../../worker/visitor/visitor.hpp"
-#include "retStateExpr.hpp"
+#include "core/builtin/primitive/nBool.hpp"
+#include "core/builtin/primitive/nVoid.hpp"
+#include "core/frame/frameInteract.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast/exprs/retStateExpr.hpp"
 
 namespace nm {
 

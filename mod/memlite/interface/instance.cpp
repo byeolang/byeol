@@ -1,9 +1,9 @@
-#include "instance.hpp"
+#include "memlite/interface/instance.hpp"
 
 #include <iostream>
 #include <vector>
 
-#include "instancer.hpp"
+#include "memlite/interface/instancer.hpp"
 
 namespace nm {
 

@@ -1,13 +1,13 @@
-#include "baseFunc.hpp"
+#include "core/ast/baseFunc.hpp"
 
-#include "../builtin/primitive/nByte.hpp"
-#include "../builtin/primitive/nInt.hpp"
-#include "../frame/frame.hpp"
-#include "../frame/frameInteract.hpp"
-#include "../worker/visitor/visitor.hpp"
-#include "../type/as/ases.hpp"
-#include "params.hpp"
-#include "closure.hpp"
+#include "core/builtin/primitive/nByte.hpp"
+#include "core/builtin/primitive/nInt.hpp"
+#include "core/frame/frame.hpp"
+#include "core/frame/frameInteract.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/type/as/ases.hpp"
+#include "core/ast/params.hpp"
+#include "core/ast/closure.hpp"
 
 namespace nm {
 

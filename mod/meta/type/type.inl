@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ttype.hpp"
-#include "type.hpp"
+#include "meta/type/ttype.hpp"
+#include "meta/type/type.hpp"
 
 namespace nm {
 

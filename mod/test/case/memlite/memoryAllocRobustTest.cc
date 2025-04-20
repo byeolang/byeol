@@ -1,6 +1,6 @@
 #include <ctime>
 
-#include "../../namuTest.hpp"
+#include "test/namuTest.hpp"
 
 using namespace nm;
 

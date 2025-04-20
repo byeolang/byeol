@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../ast/origin.hpp"
-#include "../worker/worker.inl"
-#include "defaultSigZone.hpp"
+#include "core/ast/origin.hpp"
+#include "core/worker/worker.inl"
+#include "core/frame/defaultSigZone.hpp"
 
 namespace nm {
     class frames;

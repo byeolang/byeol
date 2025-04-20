@@ -1,6 +1,6 @@
 #pragma once
 
-#include "func.hpp"
+#include "core/ast/func.hpp"
 
 namespace nm {
     /// nested func:

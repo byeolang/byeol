@@ -1,4 +1,4 @@
 #pragma once
 
-#include "supply/bufSupply.hpp"
-#include "supply/fileSupply.hpp"
+#include "core/worker/supply/bufSupply.hpp"
+#include "core/worker/supply/fileSupply.hpp"

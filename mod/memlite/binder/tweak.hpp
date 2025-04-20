@@ -1,7 +1,7 @@
 #pragma once
 
-#include "binder.hpp"
-#include "weakTactic.hpp"
+#include "memlite/binder/binder.hpp"
+#include "memlite/binder/weakTactic.hpp"
 
 namespace nm {
 

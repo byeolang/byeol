@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../builtin/container/native/tnchain.inl"
-#include "../node.hpp"
+#include "core/builtin/container/native/tnchain.inl"
+#include "core/ast/node.hpp"
 
 namespace nm {
 

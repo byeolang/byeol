@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../common.hpp"
-#include "../macro.hpp"
+#include "indep/common.hpp"
+#include "indep/macro.hpp"
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
 #    include <direct.h>
 #    include <io.h>

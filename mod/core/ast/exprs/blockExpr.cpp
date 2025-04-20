@@ -1,11 +1,11 @@
-#include "blockExpr.hpp"
+#include "core/ast/exprs/blockExpr.hpp"
 
-#include "../../builtin/container/mgd/arr.hpp"
-#include "../../builtin/primitive/nVoid.hpp"
-#include "../../frame/thread.hpp"
-#include "../../worker/visitor/visitor.hpp"
-#include "retStateExpr.hpp"
-#include "../../builtin/err/nerr.hpp"
+#include "core/builtin/container/mgd/arr.hpp"
+#include "core/builtin/primitive/nVoid.hpp"
+#include "core/frame/thread.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/ast/exprs/retStateExpr.hpp"
+#include "core/builtin/err/nerr.hpp"
 
 namespace nm {
 

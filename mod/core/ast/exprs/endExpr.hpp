@@ -1,6 +1,6 @@
 #pragma once
 
-#include "blockExpr.hpp"
+#include "core/ast/exprs/blockExpr.hpp"
 
 namespace nm {
     class _nout endExpr: public blockExpr {

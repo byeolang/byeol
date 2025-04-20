@@ -1,6 +1,6 @@
 #pragma once
 
-#include "asable.hpp"
+#include "core/type/as/asable.hpp"
 
 namespace nm {
     class _nout aser: public instance, public asable {

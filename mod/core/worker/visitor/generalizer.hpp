@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../ast/params.hpp"
-#include "visitor.hpp"
+#include "core/ast/params.hpp"
+#include "core/worker/visitor/visitor.hpp"
 
 namespace nm {
 

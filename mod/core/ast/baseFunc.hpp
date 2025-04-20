@@ -1,7 +1,7 @@
 #pragma once
 
-#include "node.hpp"
-#include "../type/mgdType.hpp"
+#include "core/ast/node.hpp"
+#include "core/type/mgdType.hpp"
 
 namespace nm {
 

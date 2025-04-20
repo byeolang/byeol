@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../../ast/dumScope.hpp"
-#include "../../ast/func.hpp"
-#include "../../ast/scope.hpp"
-#include "../../ast/src/dumSrc.hpp"
-#include "../../type/as/tas.hpp"
-#include "arithmeticObj.hpp"
+#include "core/ast/dumScope.hpp"
+#include "core/ast/func.hpp"
+#include "core/ast/scope.hpp"
+#include "core/ast/src/dumSrc.hpp"
+#include "core/type/as/tas.hpp"
+#include "core/builtin/primitive/arithmeticObj.hpp"
 
 namespace nm {
 

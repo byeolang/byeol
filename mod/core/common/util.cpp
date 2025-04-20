@@ -1,6 +1,6 @@
-#include "util.hpp"
-#include "../ast/node.hpp"
-#include "../ast/exprs/getExpr.hpp"
+#include "core/common/util.hpp"
+#include "core/ast/node.hpp"
+#include "core/ast/exprs/getExpr.hpp"
 
 namespace nm {
     NM(DEF_ME(util))

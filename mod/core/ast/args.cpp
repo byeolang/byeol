@@ -1,7 +1,7 @@
-#include "args.hpp"
+#include "core/ast/args.hpp"
 
-#include "exprs/getExpr.hpp"
-#include "closure.hpp"
+#include "core/ast/exprs/getExpr.hpp"
+#include "core/ast/closure.hpp"
 
 namespace nm {
 

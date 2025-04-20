@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../common.hpp"
-#include "../macro/namuMeta.hpp"
-#include "../macro/declThis.hpp"
-#include "../macro/unconstFunc.hpp"
+#include "indep/common.hpp"
+#include "indep/macro/namuMeta.hpp"
+#include "indep/macro/declThis.hpp"
+#include "indep/macro/unconstFunc.hpp"
 #include <optional>
 
 namespace nm {

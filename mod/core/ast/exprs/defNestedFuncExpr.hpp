@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../func.hpp"
-#include "../expr.hpp"
+#include "core/ast/func.hpp"
+#include "core/ast/expr.hpp"
 
 namespace nm {
     /// nested func:

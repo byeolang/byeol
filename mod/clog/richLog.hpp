@@ -1,6 +1,6 @@
 #pragma once
 
-#include "logger.hpp"
+#include "clog/logger.hpp"
 
 namespace nm {
 

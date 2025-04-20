@@ -1,8 +1,6 @@
-#include "bufferSrcFlag.hpp"
-
+#include "namu/flag/flags/bufferSrcFlag.hpp"
 #include <iostream>
-
-#include "../../cli.hpp"
+#include "namu/cli.hpp"
 
 namespace nm {
 

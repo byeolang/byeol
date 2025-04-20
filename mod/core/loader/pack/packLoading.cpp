@@ -1,6 +1,6 @@
-#include "packLoading.hpp"
+#include "core/loader/pack/packLoading.hpp"
 
-#include "../../frame/thread.hpp"
+#include "core/frame/thread.hpp"
 
 namespace nm {
 

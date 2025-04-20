@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tstr.hpp"
+#include "memlite/binder/tstr.hpp"
 
 namespace nm {
 

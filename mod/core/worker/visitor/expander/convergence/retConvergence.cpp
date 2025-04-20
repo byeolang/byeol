@@ -1,6 +1,6 @@
-#include "retConvergence.hpp"
-#include "../../../../ast/baseFunc.hpp"
-#include "../../../../frame/thread.hpp"
+#include "core/worker/visitor/expander/convergence/retConvergence.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/frame/thread.hpp"
 
 namespace nm {
     NM(DEF_ME(retConvergence))

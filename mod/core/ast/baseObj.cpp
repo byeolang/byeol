@@ -1,12 +1,12 @@
-#include "baseObj.hpp"
+#include "core/ast/baseObj.hpp"
 
-#include "../builtin/container/mgd/arr.hpp"
-#include "../builtin/container/tucontainable.inl"
-#include "../frame/thread.hpp"
-#include "args.hpp"
-#include "baseFunc.hpp"
-#include "node.inl"
-#include "src/dumSrc.hpp"
+#include "core/builtin/container/mgd/arr.hpp"
+#include "core/builtin/container/tucontainable.inl"
+#include "core/frame/thread.hpp"
+#include "core/ast/args.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/ast/node.inl"
+#include "core/ast/src/dumSrc.hpp"
 
 namespace nm {
 

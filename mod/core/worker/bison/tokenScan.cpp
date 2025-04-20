@@ -1,8 +1,6 @@
-#include "tokenScan.hpp"
-
+#include "core/worker/bison/tokenScan.hpp"
 #include <iostream>
-
-#include "lowscanner.hpp"
+#include "core/worker/bison/lowscanner.hpp"
 
 YY_DECL;
 

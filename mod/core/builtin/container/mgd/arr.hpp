@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../bridge/cpp/tbridge.hpp"
+#include "core/bridge/cpp/tbridge.hpp"
 
 struct arrTest;
 

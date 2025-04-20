@@ -1,7 +1,7 @@
-#include "paramConvergence.hpp"
-#include "../../../../ast/param.hpp"
-#include "../../../../ast/func.hpp"
-#include "../../../../frame/thread.hpp"
+#include "core/worker/visitor/expander/convergence/paramConvergence.hpp"
+#include "core/ast/param.hpp"
+#include "core/ast/func.hpp"
+#include "core/frame/thread.hpp"
 
 namespace nm {
     NM(DEF_ME(paramConvergence))

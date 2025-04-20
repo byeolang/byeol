@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../common.hpp"
-#include "../../type/ntype.hpp"
+#include "core/common.hpp"
+#include "core/type/ntype.hpp"
 
 namespace nm {
 

@@ -1,4 +1,4 @@
-#include "modifier.hpp"
+#include "core/ast/modifier/modifier.hpp"
 
 namespace nm {
     NM(DEF_ME(modifier))

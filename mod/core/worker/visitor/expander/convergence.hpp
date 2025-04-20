@@ -1,5 +1,5 @@
 #pragma once
 
-#include "convergence/retConvergence.hpp"
-#include "convergence/paramConvergence.hpp"
-#include "convergence/convergence.hpp"
+#include "core/worker/visitor/expander/convergence/retConvergence.hpp"
+#include "core/worker/visitor/expander/convergence/paramConvergence.hpp"
+#include "core/worker/visitor/expander/convergence/convergence.hpp"

@@ -1,5 +1,5 @@
-#include "err.hpp"
-#include "../../bridge/cpp/tbridger.hpp"
+#include "core/builtin/err/err.hpp"
+#include "core/bridge/cpp/tbridger.hpp"
 
 namespace nm {
     NM(DEF_ME(err))

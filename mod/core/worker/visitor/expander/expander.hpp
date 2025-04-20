@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../visitor.hpp"
-#include "convergence/baseConvergence.hpp"
+#include "core/worker/visitor/visitor.hpp"
+#include "core/worker/visitor/expander/convergence/baseConvergence.hpp"
 
 namespace nm {
 

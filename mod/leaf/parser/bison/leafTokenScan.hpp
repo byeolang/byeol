@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../leafTokenScanable.hpp"
+#include "leaf/parser/leafTokenScanable.hpp"
 
 typedef union ZZSTYPE ZZSTYPE;
 typedef struct lloc ZZLTYPE;

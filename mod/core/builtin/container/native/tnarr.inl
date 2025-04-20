@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../../ast/node.hpp"
-#include "../../../builtin/err/errCode.hpp"
-#include "tnarr.hpp"
-#include "tnucontainer.inl"
+#include "core/ast/node.hpp"
+#include "core/builtin/err/errCode.hpp"
+#include "core/builtin/container/native/tnarr.hpp"
+#include "core/builtin/container/native/tnucontainer.inl"
 
 namespace nm {
 

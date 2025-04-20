@@ -1,5 +1,5 @@
-#include "leafSmartDedent.hpp"
-#include "bison/leafLowparser.hpp"
+#include "leaf/parser/leafSmartDedent.hpp"
+#include "leaf/parser/bison/leafLowparser.hpp"
 
 namespace nm {
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "common/_nout.hpp"
-#include "dep.hpp"
+#include "meta/common/_nout.hpp"
+#include "meta/common/dep.hpp"
 
 namespace nm {
     class type;

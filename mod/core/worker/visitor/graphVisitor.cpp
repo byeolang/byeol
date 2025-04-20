@@ -1,10 +1,10 @@
-#include "graphVisitor.hpp"
+#include "core/worker/visitor/graphVisitor.hpp"
 
 #include <regex>
 
-#include "../../ast.hpp"
-#include "../../frame/frame.hpp"
-#include "../worker.inl"
+#include "core/ast.hpp"
+#include "core/frame/frame.hpp"
+#include "core/worker/worker.inl"
 
 namespace nm {
 
