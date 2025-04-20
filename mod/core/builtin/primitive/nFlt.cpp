@@ -1,7 +1,7 @@
 #include "nFlt.hpp"
 
 #include "../../worker/visitor/visitor.hpp"
-#include "../../type/as/ases.hpp"
+#include "../../type/as/impliAses.hpp"
 #include "bridge/cpp/tbridger.hpp"
 #include "nBool.hpp"
 #include "nByte.hpp"
@@ -18,14 +18,8 @@ namespace nm {
         return inner;
     }
 
-    const ases& me::wFltType::_getImpliAses() const {
-        static ases inner;
-        if(inner.len() <= 0) {
-            inner.add(new asPrimitive<nInt, nflt>());
-            inner.add(new asPrimitive<nByte, nflt>());
-            inner.add(new asPrimitive<nBool, nflt>());
-        }
-
+    const impliAses& me::wFltType::_getImpliAses() const {
+        static impliAses inner{new asPrimitive<nInt, nflt>(), new asPrimitive<nByte, nflt>(), new asPrimitive<nBool, nflt>()};
         return inner;
     }
 
@@ -42,9 +36,7 @@ namespace nm {
     }
 
     const ases& me::wFltType::_getAses() const {
-        static ases inner;
-        if(inner.len() <= 0) inner.add(new asStr());
-
+        static ases inner{new asStr()};
         return inner;
     }
 

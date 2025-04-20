@@ -17,7 +17,7 @@ namespace nm {
     ME::tnarr() {}
 
     TEMPL
-    ME::tnarr(const std::initializer_list<const T*> args) {
+    ME::tnarr(std::initializer_list<T*> args) {
         for(const T* arg : args)
             add(arg);
     }

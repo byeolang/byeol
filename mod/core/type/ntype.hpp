@@ -9,6 +9,7 @@ namespace nm {
     typedef tnarr<node, strTactic> narr;
     class params;
     class ases;
+    class impliAses;
 
     class _nout ntype: public type {
         NM_ME(ntype, type)
@@ -73,7 +74,7 @@ namespace nm {
 
     protected:
         // ntype:
-        virtual const ases& _getImpliAses() const;
+        virtual const impliAses& _getImpliAses() const;
         virtual const ases& _getAses() const;
 
     private:

@@ -1,5 +1,5 @@
 #include "funcMgdType.hpp"
-#include "as/ases.hpp"
+#include "as/impliAses.hpp"
 
 namespace nm {
     NM(DEF_ME(funcMgdType))
@@ -37,10 +37,8 @@ namespace nm {
         }
     };
 
-    const ases& me::_getImpliAses() const {
-        static ases inner;
-        if(inner.len() <= 0) inner.add(new asFunc());
-
+    const impliAses& me::_getImpliAses() const {
+        static impliAses inner{new asFunc()};
         return inner;
     }
 } // namespace nm

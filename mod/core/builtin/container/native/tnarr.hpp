@@ -19,7 +19,7 @@ namespace nm {
 
     public:
         tnarr();
-        tnarr(const std::initializer_list<const T*> args);
+        tnarr(std::initializer_list<T*> args);
 
         /// @param  elems   instances to derived type of T.
         ///                 should be created on Heap.

@@ -11,6 +11,6 @@ namespace nm {
             const node& ret);
 
     protected:
-        const ases& _getImpliAses() const override;
+        const impliAses& _getImpliAses() const override;
     };
 }

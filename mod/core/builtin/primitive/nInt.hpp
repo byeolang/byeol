@@ -11,7 +11,7 @@ namespace nm {
             const std::string& getName() const override;
 
         protected:
-            const ases& _getImpliAses() const override;
+            const impliAses& _getImpliAses() const override;
             const ases& _getAses() const override;
         };
         NM(CLASS(nInt, primitiveObj, wIntType), VISIT())

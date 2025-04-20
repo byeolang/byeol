@@ -235,14 +235,7 @@ namespace nm {
     } // namespace
 
     const ases& me::nStrType::_getAses() const {
-        static ases inner;
-        if(inner.len() <= 0) {
-            inner.add(new asBool());
-            inner.add(new asFlt());
-            inner.add(new asInt());
-            inner.add(new asByte());
-        }
-
+        static ases inner{new asBool(), new asFlt(), new asInt(), new asByte()};
         return inner;
     }
 

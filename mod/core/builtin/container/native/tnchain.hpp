@@ -23,7 +23,7 @@ namespace nm {
         tnchain();
         explicit tnchain(const super& arr);
         explicit tnchain(const super& org, const me& next);
-        explicit tnchain(const std::initializer_list<std::pair<K, V*>>& elems);
+        explicit tnchain(std::initializer_list<std::pair<K, V*>> elems);
 
     public:
         // has:

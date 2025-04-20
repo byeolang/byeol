@@ -1,7 +1,7 @@
 #include "nInt.hpp"
 
 #include "../../ast/param.hpp"
-#include "../../type/as/ases.hpp"
+#include "../../type/as/impliAses.hpp"
 #include "../../worker/visitor/visitor.hpp"
 #include "bridge/cpp/tbridger.hpp"
 #include "nBool.hpp"
@@ -19,14 +19,8 @@ namespace nm {
         return inner;
     }
 
-    const ases& me::wIntType::_getImpliAses() const {
-        static ases inner;
-        if(inner.len() <= 0) {
-            inner.add(new asPrimitive<nFlt, nint>());
-            inner.add(new asPrimitive<nByte, nint>());
-            inner.add(new asPrimitive<nBool, nint>());
-        }
-
+    const impliAses& me::wIntType::_getImpliAses() const {
+        static impliAses inner{new asPrimitive<nFlt, nint>(), new asPrimitive<nByte, nint>(), new asPrimitive<nBool, nint>()};
         return inner;
     }
 
@@ -43,9 +37,7 @@ namespace nm {
     }
 
     const ases& me::wIntType::_getAses() const {
-        static ases inner;
-        if(inner.len() <= 0) inner.add(new asStr());
-
+        static ases inner{new asStr()};
         return inner;
     }
 

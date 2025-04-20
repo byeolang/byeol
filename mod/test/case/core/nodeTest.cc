@@ -69,11 +69,11 @@ namespace {
             NM_ME(myType, ntype)
 
         protected:
-            const ases& _getImpliAses() const override {
-                static ases* inner = nullptr;
+            const impliAses& _getImpliAses() const override {
+                static impliAses* inner = nullptr;
                 if(inner) return *inner;
 
-                inner = new ases();
+                inner = new impliAses();
                 inner->add(new tofood());
                 return *inner;
             }

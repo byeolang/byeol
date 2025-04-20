@@ -1,7 +1,7 @@
 #include "nVoid.hpp"
 
 #include "../../worker/visitor/visitor.hpp"
-#include "../../type/as/ases.hpp"
+#include "../../type/as/impliAses.hpp"
 #include "bridge/cpp/tbridger.hpp"
 
 namespace nm {
@@ -15,8 +15,8 @@ namespace nm {
         return inner;
     }
 
-    const ases& me::wVoidType::_getImpliAses() const {
-        static ases inner;
+    const impliAses& me::wVoidType::_getImpliAses() const {
+        static impliAses inner;
         return inner;
     }
 

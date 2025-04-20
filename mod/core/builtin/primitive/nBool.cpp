@@ -1,7 +1,7 @@
 #include "nBool.hpp"
 
 #include "../../worker/visitor/visitor.hpp"
-#include "../../type/as/ases.hpp"
+#include "../../type/as/impliAses.hpp"
 #include "bridge/cpp/tbridger.hpp"
 #include "nByte.hpp"
 #include "nFlt.hpp"
@@ -21,14 +21,8 @@ namespace nm {
 
     me::nBool(nbool val): super(val) {}
 
-    const ases& me::wBoolType::_getImpliAses() const {
-        static ases inner;
-        if(inner.len() <= 0) {
-            inner.add(new asPrimitive<nFlt, nbool>());
-            inner.add(new asPrimitive<nByte, nbool>());
-            inner.add(new asPrimitive<nInt, nbool>());
-        }
-
+    const impliAses& me::wBoolType::_getImpliAses() const {
+        static impliAses inner{new asPrimitive<nFlt, nbool>(), new asPrimitive<nByte, nbool>(), new asPrimitive<nInt, nbool>()};
         return inner;
     }
 
@@ -44,9 +38,7 @@ namespace nm {
     }
 
     const ases& me::wBoolType::_getAses() const {
-        static ases inner;
-        if(inner.len() <= 0) inner.add(new asStr());
-
+        static ases inner{new asStr()};
         return inner;
     }
 

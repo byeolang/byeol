@@ -4,7 +4,7 @@
 #include "../ast/exprs/nextExpr.hpp"
 #include "../ast/node.hpp"
 #include "../builtin/primitive.hpp"
-#include "as/ases.hpp"
+#include "as/impliAses.hpp"
 
 namespace nm {
 
@@ -44,8 +44,8 @@ namespace nm {
 
     nbool me::isImmutable() const { return false; }
 
-    const ases& me::_getImpliAses() const {
-        static ases inner;
+    const impliAses& me::_getImpliAses() const {
+        static impliAses inner;
         return inner;
     }
 

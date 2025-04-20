@@ -19,7 +19,7 @@ namespace nm {
     ME::tnchain(const super& org, const me& next): _map(org) { link(next); }
 
     TEMPL
-    ME::tnchain(const std::initializer_list<std::pair<K, V*>>& elems) {
+    ME::tnchain(std::initializer_list<std::pair<K, V*>> elems) {
         for(const auto& e: elems)
             _map->add(e.first, *e.second);
     }

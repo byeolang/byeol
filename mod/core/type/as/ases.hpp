@@ -9,6 +9,10 @@ namespace nm {
         NM(CLASS(ases, tnarr<aser>))
 
     public:
+        ases();
+        ases(const std::initializer_list<aser*>& args);
+
+    public:
         nbool is(const type& from, const type& to) const override;
 
         str as(const node& from, const type& to) const override;
