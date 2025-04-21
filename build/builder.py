@@ -747,7 +747,14 @@ class dependency:
         return ver(0, 0, 0)
 
     def getName(self):
-        return ""
+        names = self.getNames()
+        if(len(names) == 1):
+            return names[0]
+
+        return " or ".join(names)
+
+    def getNames(self):
+        return [""]
 
     def getFlag(self):
         return "--version"
@@ -762,8 +769,9 @@ class dependency:
         # msg to determine whether the file exists.
         # In this case, you have to use shutil to determine directly whether the binary exists
         # in the PATH.
-        if shutil.which(self.getName()):
-            return ver.fromVerString("0.0.0")
+        for name in self.getNames():
+            if shutil.which(name):
+                return ver.fromVerString("0.0.0")
         return ver(0, 0, 0)
 
     def isValid(self):
@@ -777,7 +785,12 @@ class dependency:
         return True
 
     def onGetInstalledVerString(self):
-        return cmdstr(f"{self.getName()} {self.getFlag()}")
+        res = "error"
+        for name in self.getNames():
+            res = cmdstr(f"{name} {self.getFlag()}")
+            if res[:5] != "error":
+                return res
+        return res
 
     def showErrMsg(self):
         installedVer = self.getInstalledVer()
@@ -794,42 +807,42 @@ class FlexDependency(dependency):
     def getExpectVer(self):
         return ver(2, 6, 0)
 
-    def getName(self):
-        return "flex"
+    def getNames(self):
+        return ["flex"]
 
 class PythonDependency(dependency):
     def getExpectVer(self):
         return ver(3, 6, 0)
 
-    def getName(self):
-        return "python"
+    def getNames(self):
+        return ["python", "python3"]
 
 class GitDependency(dependency):
-    def getName(self):
-        return "git"
+    def getNames(self):
+        return ["git"]
 
 class CMakeDependency(dependency):
-    def getName(self):
-        return "cmake"
+    def getNames(self):
+        return ["cmake"]
 
     def getExpectVer(self):
         return ver(2, 6, 0)
 
 class DoxygenDependency(dependency):
-    def getName(self):
-        return "doxygen"
+    def getNames(self):
+        return ["doxygen"]
 
 class EmmakeDependency(dependency):
-    def getName(self):
-        return "emmake"
+    def getNames(self):
+        return ["emmake"]
 
 class EmcmakeDependency(dependency):
-    def getName(self):
-        return "emcmake"
+    def getNames(self):
+        return ["emcmake"]
 
 class BisonDependency(dependency):
-    def getName(self):
-        return "bison"
+    def getNames(self):
+        return ["bison"]
 
     def getExpectVer(self):
         return ver(3, 8, 0)
@@ -838,8 +851,8 @@ class BisonDependency(dependency):
         return super().onGetInstalledVerString().split('\n')[0]
 
 class ClangTidyDependency(dependency):
-    def getName(self):
-        return "clang-tidy"
+    def getNames(self):
+        return ["clang-tidy"]
 
     def getExpectVer(self):
         return ver(14, 0, 0)
@@ -848,15 +861,15 @@ class ClangTidyDependency(dependency):
         return super().onGetInstalledVerString().split('\n')[0]
 
 class LlvmCovDependency(dependency):
-    def getName(self):
-        return "llvm-cov"
+    def getNames(self):
+        return ["llvm-cov"]
 
     def onGetInstalledVerString(self):
         return super().onGetInstalledVerString().split('\n')[0]
 
 class ClangDependency(dependency):
-    def getName(self):
-        return "clang++"
+    def getNames(self):
+        return ["clang++"]
 
     def getExpectVer(self):
         return ver(14, 0, 0)
@@ -865,8 +878,8 @@ class ClangDependency(dependency):
         return isWindow() == False
 
 class MSBuildDependency(dependency):
-    def getName(self):
-        return "msbuild.exe"
+    def getNames(self):
+        return ["msbuild.exe"]
 
     def getFlag(self):
         return "/version"
@@ -878,23 +891,23 @@ class MSBuildDependency(dependency):
         return ver(17, 0, 0) # VS2022
 
 class GcovDependency(dependency):
-    def getName(self):
-        return "gcov"
+    def getNames(self):
+        return ["gcov"]
 
     def onGetInstalledVerString(self):
         return super().onGetInstalledVerString().split('\n')[0]
 
 class LcovDependency(dependency):
-    def getName(self):
-        return "lcov"
+    def getNames(self):
+        return ["lcov"]
 
 class GenHtmlDependency(dependency):
-    def getName(self):
-        return "genhtml"
+    def getNames(self):
+        return ["genhtml"]
 
 class ClangFormatDependency(dependency):
-    def getName(self):
-        return "clang-format"
+    def getNames(self):
+        return ["clang-format"]
 
     def getExpectVer(self):
         return ver(18, 1, 8)
