@@ -117,6 +117,10 @@ def branch(command):
     return -1
 
 def mv(directory):
+    git = GitDependency()
+    if checkDependencies([git]):
+        return -1
+
     print("directory= " + directory)
     for path, dirs, files in os.walk(directory):
         for file in files:
@@ -130,7 +134,7 @@ def mv(directory):
             answer = input(prevPath + " -> " + nextPath + " -> [y/n] ")
             if answer == "": answer = "y"
             if answer == "y":
-                os.system("git mv " + prevPath + " " + nextPath)
+                os.system(f"{git.binary} mv " + prevPath + " " + nextPath)
 
 def _cleanParser():
     global namuDir
@@ -167,7 +171,7 @@ def _cleanIntermediates():
     printOk("done.")
     _cleanCoverageFiles()
 
-def cleanGhPages():
+def cleanGhPages(git):
     global cwd, python3, externalDir
 
     # clean before fetch repo:
@@ -180,9 +184,9 @@ def cleanGhPages():
     # standby gh-pages repo:
     printInfoEnd("cloning gh-pages branch...")
     if isWindow():
-        res = os.system("git clone -b gh-pages --depth 5 https://github.com/namulang/namu --single-branch " + cwd + "\\html")
+        res = os.system(f"{git.binary} clone -b gh-pages --depth 5 https://github.com/namulang/namu --single-branch " + cwd + "\\html")
     else:
-        res = os.system("git clone -b gh-pages --depth 5 https://github.com/namulang/namu --single-branch " + cwd + "/html")
+        res = os.system(f"{git.binary} clone -b gh-pages --depth 5 https://github.com/namulang/namu --single-branch " + cwd + "/html")
     if res != 0:
         printErr("fail to clone gh-pages repo.")
         _cleanIntermediates()
@@ -197,30 +201,33 @@ def cleanGhPages():
         os.system("rm -rf " + cwd + "/html/ref/*")
         os.system("rm -rf " + cwd + "/html/_site/*")
 
-def docDoxygen():
+def docDoxygen(doxygen):
     global cwd, python3, externalDir
 
     # build doxygen:
     printInfoEnd("generating docs using doxygen...")
     if isWindow():
-        res = os.system("doxygen " + cwd + "\\Doxyfile")
+        res = os.system(f"{doxygen.binary} {cwd}\\Doxyfile")
     else:
-        res = os.system("doxygen " + cwd + "/Doxyfile")
+        res = os.system(f"{doxygen.binary} {cwd}/Doxyfile")
     if res != 0:
         printErr("fail to run doxygen.")
         _cleanIntermediates()
         return -1
 
 def doc():
-    if checkDependencies([GitDependency(), CMakeDependency(), DoxygenDependency()]):
+    doxygen = DoxygenDependency()
+    git = GitDependency()
+    if checkDependencies([doxygen, git]):
         return -1
 
-    cleanGhPages()
-    docDoxygen()
+    cleanGhPages(git)
+    docDoxygen(doxygen)
     return 0
 
 def formatCodes(showLog):
-    if checkDependencies([ClangFormatDependency()]):
+    format = ClangFormatDependency()
+    if checkDependencies([format]):
         return -1
 
     global cwd
@@ -236,7 +243,7 @@ def formatCodes(showLog):
             if  ext != ".cc" and ext != ".cpp" and ext != ".hpp" and ext != ".inl":
                 continue
             if showLog: print("\t formatting " + filePath + ", ext=" + ext + " file...")
-            os.system("clang-format -i " + filePath)
+            os.system(f"{format.binary} -i " + filePath)
 
 def prerequisites():
     if checkDependencies([ClangDependency(), MSBuildDependency(), GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), BisonDependency(), ClangTidyDependency(), ClangFormatDependency()]):
@@ -244,17 +251,18 @@ def prerequisites():
     return 0
 
 def _publishDoc():
-    if checkDependencies([GitDependency()]):
+    git = GitDependency()
+    if checkDependencies([git]):
         return -1
 
     # pushing on gh-pages:
-    origin = cmdstr("git rev-parse --verify HEAD")
+    origin = cmdstr(f"{git.binary} rev-parse --verify HEAD")
     print("origin=" + str(origin))
     os.chdir(cwd + "/html")
-    os.system("git add .")
-    os.system("git config user.name \"autodocbot\"") # put on local config.
-    os.system("git config user.email \"knizofficial@gmail.com\"")
-    res = os.system("git commit -m \"The our poor little Autobot \\(❍ᴥ❍ʋ)/ generated docs for " + origin + ", clitter-clatter.\"")
+    os.system(f"{git.binary} add .")
+    os.system(f"{git.binary} config user.name \"autodocbot\"") # put on local config.
+    os.system(f"{git.binary} config user.email \"knizofficial@gmail.com\"")
+    res = os.system(f"{git.binary} commit -m \"The our poor little Autobot \\(❍ᴥ❍ʋ)/ generated docs for " + origin + ", clitter-clatter.\"")
     if res != 0:
         printErr("fail to commit on gh-pages.")
         printInfo("but it seems that nothing changed.")
@@ -271,13 +279,17 @@ config=""
 def wasmBuild(arg):
     global config, cwd, binDir
 
-    if checkDependencies([EmmakeDependency(), EmcmakeDependency()]):
+    emmake = EmmakeDependency()
+    cmake = CMakeDependency()
+    emcmake = EmcmakeDependency()
+    make = MakeDependency()
+    if checkDependencies([emmake, emcmake, cmake, make]):
         return -1
 
     config="-DCMAKE_BUILD_TYPE=Release"
     clean()
-    os.system("emcmake cmake " + config + " " + cwd)
-    os.system("emmake make -j8 -s")
+    os.system(f"{emcmake.binary} {cmake.binary} {config} {cwd}")
+    os.system(f"{emmake.binary} {make.binary} -j8 -s")
 
 def dbgBuild():
     global config, cwd
@@ -320,10 +332,12 @@ def covBuild():
     printOk("done.")
 
     printInfoEnd("collects gcov results...")
-    if checkDependencies([LlvmCovDependency(), GcovDependency(), LcovDependency(), GenHtmlDependency()]):
+    lcov = LcovDependency()
+    genhtml = GenHtmlDependency()
+    if checkDependencies([LlvmCovDependency(), GcovDependency(), lcov, genhtml]):
         return -1
 
-    res = os.system("lcov --directory " + cwd + " --base-directory " + cwd + " --gcov-tool " + cwd + "/llvm-gcov.sh --capture -o cov.info")
+    res = os.system(f"{lcov.binary} --directory {cwd} --base-directory {cwd} --gcov-tool {cwd}/llvm-gcov.sh --capture -o cov.info")
     if res != 0:
         printErr("fail to collect gcov results")
         return -1
@@ -331,7 +345,7 @@ def covBuild():
     printOk("done")
 
     printInfoEnd("generating coverage info in html...")
-    res = os.system("genhtml " + cwd + "/cov.info -o coverage")
+    res = os.system(f"{genhtml} {cwd}/cov.info -o coverage")
     if res != 0:
         printErr("fail to generate report html files.")
         return -1
@@ -371,13 +385,13 @@ def isWindow():
 #                 print("\t" + file)
 #                 os.system("astyle --style=world " + file_path)
 
-def _createMakefiles():
+def _createMakefiles(cmake):
     global generator, config
     print("")
 
     printInfoEnd("generating makefiles as " + generator + "...")
 
-    res = os.system("cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . -G \"" + generator + "\" " + config)
+    res = os.system(f"{cmake.binary} -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . -G \"" + generator + "\" " + config)
     if not isWindow() and res != 0:
         return -1
 
@@ -491,18 +505,18 @@ def _incBuildCnt():
     fp.close()
     printOk("done")
 
-def _make():
+def _make(msbuild, make):
     global cwd, config, winProp
     if isWindow():
         printInfoEnd("build the generated solution using visual studio's msbuild tool...")
         os.system("dir " + cwd + "\\mod")
         os.system("dir " + cwd + "\\mod\\namu")
-        res = os.system("msbuild " + winProp + " " + cwd + "\\mod\\namu\\namu.vcxproj")
+        res = os.system(f"{msbuild.binary} {winProp} {cwd}\\mod\\namu\\namu.vcxproj")
         if res != 0:
             printErr("failed")
             return res
 
-        res = os.system("msbuild " + winProp + " " + cwd + "\\mod\\bundle\\sys\\sys.vcxproj")
+        res = os.system(f"{msbuild.binary} {winProp} {cwd}\\mod\\bundle\\sys\\sys.vcxproj")
         if res != 0:
             printErr("failed")
             return res
@@ -516,15 +530,15 @@ def _make():
                             # s ->  don't print command.
     printInfoEnd("making " + make_option + "...")
     if not isWindow():
-        os.system("make -v")
-        result = os.system("make " + make_option)
+        os.system(f"{make.binary} -v")
+        result = os.system(f"{make.binary} {make_option}")
         if result != 0:
             printErr("failed")
             return -1
 
     printOk("done")
 
-def _checkGTest():
+def _checkGTest(git, cmake, make):
     global externalDir, generator
 
     dir = os.path.join(externalDir, "googletest")
@@ -534,12 +548,12 @@ def _checkGTest():
         return
 
     _makeDir(dir)
-    os.system("git clone https://github.com/google/googletest " + dir)
+    os.system(f"{git.binary} clone https://github.com/google/googletest " + dir)
     originDir = os.getcwd()
     os.chdir(dir)
-    os.system("cmake " + os.path.join(dir, "CMakeLists.txt -G \"" + generator + "\""))
+    os.system(f"{cmake.binary} {os.path.join(dir, "CMakeLists.txt -G \"" + generator + "\"")}")
     if not isWindow():
-        os.system("sudo make install")
+        os.system(f"sudo {make.binary} install")
     os.chdir(originDir)
     printOk("installed.")
     _cleanIntermediates()
@@ -559,17 +573,21 @@ def rebuild():
     return build(true)
 
 def build(incVer):
-    if checkDependencies([ClangDependency(), MSBuildDependency(), GitDependency(), CMakeDependency(), BisonDependency(), FlexDependency(), ClangTidyDependency()]):
+    cmake = CMakeDependency()
+    msbuild = MSBuildDependency()
+    make = MakeDependency()
+    git = GitDependency()
+    if checkDependencies([ClangDependency(), msbuild, git, cmake, BisonDependency(), FlexDependency(), ClangTidyDependency(), make]):
         return -1
 
-    _checkGTest()
+    _checkGTest(git, cmake, make)
     if incVer:
         _injectBuildInfo()
-        if _createMakefiles():
+        if _createMakefiles(cmake):
             return -1
 
         _incBuildCnt()
-    if _make():
+    if _make(msbuild, make):
         return -1
 
     return 0
@@ -743,6 +761,8 @@ class ver:
         return self.exist
 
 class dependency:
+    binary = ""
+
     def getExpectVer(self):
         return ver(0, 0, 0)
 
@@ -760,8 +780,12 @@ class dependency:
         return "--version"
 
     def getInstalledVer(self):
-        res = self.onGetInstalledVerString()
+        name, res = self.onGetInstalledVerString()
+        if name == "":
+            return ver(0, 0, 0)
+
         if res[:5] != "error": # usual case
+            self.binary = name
             return ver.fromVerString(res)
 
         # oddly enough, for some binaries, it always returns an error code even if the file
@@ -771,6 +795,7 @@ class dependency:
         # in the PATH.
         for name in self.getNames():
             if shutil.which(name):
+                self.binary = name
                 return ver.fromVerString("0.0.0")
         return ver(0, 0, 0)
 
@@ -789,8 +814,8 @@ class dependency:
         for name in self.getNames():
             res = cmdstr(f"{name} {self.getFlag()}")
             if res[:5] != "error":
-                return res
-        return res
+                return name, res
+        return "", res
 
     def showErrMsg(self):
         installedVer = self.getInstalledVer()
@@ -828,6 +853,13 @@ class CMakeDependency(dependency):
     def getExpectVer(self):
         return ver(2, 6, 0)
 
+class MakeDependency(dependency):
+    def getNames(self):
+        return ["make"]
+
+    def getExpectVer(self):
+        return ver(3, 0, 0)
+
 class DoxygenDependency(dependency):
     def getNames(self):
         return ["doxygen"]
@@ -848,7 +880,8 @@ class BisonDependency(dependency):
         return ver(3, 8, 0)
 
     def onGetInstalledVerString(self):
-        return super().onGetInstalledVerString().split('\n')[0]
+        name, res = super().onGetInstalledVerString()
+        return name, res.split('\n')[0]
 
 class ClangTidyDependency(dependency):
     def getNames(self):
@@ -858,14 +891,16 @@ class ClangTidyDependency(dependency):
         return ver(14, 0, 0)
 
     def onGetInstalledVerString(self):
-        return super().onGetInstalledVerString().split('\n')[0]
+        name, res = super().onGetInstalledVerString()
+        return name, res.split('\n')[0]
 
 class LlvmCovDependency(dependency):
     def getNames(self):
         return ["llvm-cov"]
 
     def onGetInstalledVerString(self):
-        return super().onGetInstalledVerString().split('\n')[0]
+        name, res = super().onGetInstalledVerString()
+        return name, res.split('\n')[0]
 
 class ClangDependency(dependency):
     def getNames(self):
@@ -895,7 +930,8 @@ class GcovDependency(dependency):
         return ["gcov"]
 
     def onGetInstalledVerString(self):
-        return super().onGetInstalledVerString().split('\n')[0]
+        name, res = super().onGetInstalledVerString()
+        return name, res.split('\n')[0]
 
 class LcovDependency(dependency):
     def getNames(self):
@@ -907,10 +943,10 @@ class GenHtmlDependency(dependency):
 
 class ClangFormatDependency(dependency):
     def getNames(self):
-        return ["clang-format"]
+        return ["clang-format", "clang-format-18"]
 
     def getExpectVer(self):
-        return ver(18, 1, 8)
+        return ver(18, 1, 3)
 
 def checkDependencies(deps):
     printInfoEnd("checking dependencies...")
