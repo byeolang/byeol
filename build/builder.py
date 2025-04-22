@@ -741,6 +741,16 @@ class ver:
                     ret.patch = int(verStr[2])
                 else:
                     ret.patch = 0
+                ret.exist = True
+                return ret
+
+            res = re.findall(r"[0-9]+\.[0-9]+", verString)
+            verStr = res[0].split('.') if len(res) > 0 else ""
+            if verStr != "":
+                ret.major = int(verStr[0])
+                ret.minor = int(verStr[1])
+                ret.patch = 0
+
             ret.exist = True
             return ret
 
