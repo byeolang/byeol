@@ -719,18 +719,19 @@ def commit():
     return 0
 
 class ver:
-    def __init__(self, major, minor, patch):
+    def __init__(self, major, minor, patch, onlyThisVer):
         self.major = major
         self.minor = minor
         self.patch = patch
+        self.onlyThisVer = onlyThisVer
         self.exist = False
 
     @classmethod
     def fromVerString(self, verString):
         if verString[:3] == "err" or verString == "":
-            return ver(0, 0, 0)
+            return ver(0, 0, 0, False)
         else:
-            ret = ver(0, 0, 0)
+            ret = ver(0, 0, 0, False)
             res = re.findall(r"[0-9]+\.[0-9]+[\.0-9]+", verString)
             verStr = res[0].split('.') if len(res) > 0 else ""
             if verStr != "":
@@ -750,12 +751,15 @@ class ver:
         if expectVer.isVerNotSpecified():
             return self.doesExist()
 
+        if self.onlyThisVer:
+            return self.major == expectVer.major and self.minor == expectVer.minor and self.patch == expectVer.patch
+    
         return self.major >= expectVer.major and self.minor >= expectVer.minor and self.patch >= expectVer.patch
 
     def toString(self):
         if self.major == 0 and self.minor == 0 and self.patch == 0:
             return ""
-        return f"{self.major}.{self.minor}.{self.patch}"
+        return f"{self.major}.{self.minor}.{self.patch}{"" if self.onlyThisVer else "+"}"
 
     def doesExist(self):
         return self.exist
@@ -764,7 +768,7 @@ class dependency:
     binary = ""
 
     def getExpectVer(self):
-        return ver(0, 0, 0)
+        return ver(0, 0, 0, False)
 
     def getName(self):
         names = self.getNames()
@@ -782,7 +786,7 @@ class dependency:
     def getInstalledVer(self):
         name, res = self.onGetInstalledVerString()
         if name == "":
-            return ver(0, 0, 0)
+            return ver(0, 0, 0, False)
 
         if res[:5] != "error": # usual case
             self.binary = name
@@ -797,7 +801,7 @@ class dependency:
             if shutil.which(name):
                 self.binary = name
                 return ver.fromVerString("0.0.0")
-        return ver(0, 0, 0)
+        return ver(0, 0, 0, False)
 
     def isValid(self):
         if self.isActivated() == False:
@@ -830,14 +834,14 @@ class dependency:
 
 class FlexDependency(dependency):
     def getExpectVer(self):
-        return ver(2, 6, 0)
+        return ver(2, 6, 0, False)
 
     def getNames(self):
         return ["flex"]
 
 class PythonDependency(dependency):
     def getExpectVer(self):
-        return ver(3, 6, 0)
+        return ver(3, 6, 0, False)
 
     def getNames(self):
         return ["python", "python3"]
@@ -851,14 +855,14 @@ class CMakeDependency(dependency):
         return ["cmake"]
 
     def getExpectVer(self):
-        return ver(2, 6, 0)
+        return ver(2, 6, 0, False)
 
 class MakeDependency(dependency):
     def getNames(self):
         return ["make"]
 
     def getExpectVer(self):
-        return ver(3, 0, 0)
+        return ver(3, 0, 0, False)
 
 class DoxygenDependency(dependency):
     def getNames(self):
@@ -877,7 +881,7 @@ class BisonDependency(dependency):
         return ["bison"]
 
     def getExpectVer(self):
-        return ver(3, 8, 0)
+        return ver(3, 8, 0, False)
 
     def onGetInstalledVerString(self):
         name, res = super().onGetInstalledVerString()
@@ -888,7 +892,7 @@ class ClangTidyDependency(dependency):
         return ["clang-tidy"]
 
     def getExpectVer(self):
-        return ver(14, 0, 0)
+        return ver(14, 0, 0, False)
 
     def onGetInstalledVerString(self):
         name, res = super().onGetInstalledVerString()
@@ -907,7 +911,7 @@ class ClangDependency(dependency):
         return ["clang++"]
 
     def getExpectVer(self):
-        return ver(14, 0, 0)
+        return ver(14, 0, 0, False)
 
     def isActivated(self):
         return isWindow() == False
@@ -923,7 +927,7 @@ class MSBuildDependency(dependency):
         return isWindow()
 
     def getExpectVer(self):
-        return ver(17, 0, 0) # VS2022
+        return ver(17, 0, 0, False) # VS2022
 
 class GcovDependency(dependency):
     def getNames(self):
@@ -946,7 +950,7 @@ class ClangFormatDependency(dependency):
         return ["clang-format", "clang-format-18"]
 
     def getExpectVer(self):
-        return ver(18, 1, 3)
+        return ver(18, 1, 3, True)
 
 def checkDependencies(deps):
     printInfoEnd("checking dependencies...")
