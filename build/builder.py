@@ -798,24 +798,27 @@ class dependency:
         return "--version"
 
     def getInstalledVer(self):
-        name, res = self.onGetInstalledVerString()
-        if name == "":
-            return ver(0, 0, 0, False)
-
-        if res[:5] != "error": # usual case
-            self.binary = name
-            return ver.fromVerString(res)
-
-        # oddly enough, for some binaries, it always returns an error code even if the file
-        # exists. so in this case, you can't check the version and you can't use the output
-        # msg to determine whether the file exists.
-        # In this case, you have to use shutil to determine directly whether the binary exists
-        # in the PATH.
+        ret = ver(0, 0, 0, False)
         for name in self.getNames():
+            res = self.onGetInstalledVerString(name)
+            if res[:5] != "error": # usual case
+                givenVer = ver.fromVerString(res)
+                if givenVer.isValid(ret):
+                    self.binary = name
+                    ret = givenVer
+                continue
+
+            # oddly enough, for some binaries, it always returns an error code even if the file
+            # exists. so in this case, you can't check the version and you can't use the output
+            # msg to determine whether the file exists.
+            # In this case, you have to use shutil to determine directly whether the binary exists
+            # in the PATH.
             if shutil.which(name):
-                self.binary = name
-                return ver.fromVerString("0.0.0")
-        return ver(0, 0, 0, False)
+                givenVer = ver.fromVerString("0.0.0")
+                if givenVer.isValid(ret):
+                    self.binary = name
+                    ret = givenVer
+        return ret
 
     def isValid(self):
         if self.isActivated() == False:
@@ -827,13 +830,8 @@ class dependency:
     def isActivated(self):
         return True
 
-    def onGetInstalledVerString(self):
-        res = "error"
-        for name in self.getNames():
-            res = cmdstr(f"{name} {self.getFlag()}")
-            if res[:5] != "error":
-                return name, res
-        return "", res
+    def onGetInstalledVerString(self, name):
+        return cmdstr(f"{name} {self.getFlag()}")
 
     def showErrMsg(self):
         installedVer = self.getInstalledVer()
@@ -897,9 +895,8 @@ class BisonDependency(dependency):
     def getExpectVer(self):
         return ver(3, 8, 0, False)
 
-    def onGetInstalledVerString(self):
-        name, res = super().onGetInstalledVerString()
-        return name, res.split('\n')[0]
+    def onGetInstalledVerString(self, name):
+        return super().onGetInstalledVerString(name).split('\n')[0]
 
 class ClangTidyDependency(dependency):
     def getNames(self):
@@ -908,17 +905,15 @@ class ClangTidyDependency(dependency):
     def getExpectVer(self):
         return ver(14, 0, 0, False)
 
-    def onGetInstalledVerString(self):
-        name, res = super().onGetInstalledVerString()
-        return name, res.split('\n')[0]
+    def onGetInstalledVerString(self, name):
+        return super().onGetInstalledVerString(name).split('\n')[0]
 
 class LlvmCovDependency(dependency):
     def getNames(self):
         return ["llvm-cov"]
 
-    def onGetInstalledVerString(self):
-        name, res = super().onGetInstalledVerString()
-        return name, res.split('\n')[0]
+    def onGetInstalledVerString(self, name):
+        return super().onGetInstalledVerString(name).split('\n')[0]
 
 class ClangDependency(dependency):
     def getNames(self):
@@ -947,9 +942,8 @@ class GcovDependency(dependency):
     def getNames(self):
         return ["gcov"]
 
-    def onGetInstalledVerString(self):
-        name, res = super().onGetInstalledVerString()
-        return name, res.split('\n')[0]
+    def onGetInstalledVerString(self, name):
+        return super().onGetInstalledVerString(name).split('\n')[0]
 
 class LcovDependency(dependency):
     def getNames(self):
