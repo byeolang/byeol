@@ -551,9 +551,12 @@ def _checkGTest(git, cmake, make):
     os.system(f"{git.binary} clone https://github.com/google/googletest " + dir)
     originDir = os.getcwd()
     os.chdir(dir)
-    os.system(f"{cmake.binary} {os.path.join(dir, "CMakeLists.txt -G \"" + generator + "\"")}")
+
+    targetDir = os.path.join(dir, "CMakeLists.txt -G \"" + generator + "\"")
+    os.system(f"{cmake.binary} {targetDir}")
     if not isWindow():
         os.system(f"sudo {make.binary} install")
+
     os.chdir(originDir)
     printOk("installed.")
     _cleanIntermediates()
@@ -769,7 +772,8 @@ class ver:
     def toString(self):
         if self.major == 0 and self.minor == 0 and self.patch == 0:
             return ""
-        return f"{self.major}.{self.minor}.{self.patch}{"" if self.onlyThisVer else "+"}"
+        flag = "" if self.onlyThisVer else "+"
+        return f"{self.major}.{self.minor}.{self.patch}{flag}"
 
     def doesExist(self):
         return self.exist
