@@ -12,15 +12,34 @@ jobs:
       matrix:
         path:
           - check: 'mod'
-            exclude: '(leafParser|leafScanner|lowparser|lowscanner)'
+            exclude: '(leafLowparser|leafLowscanner|lowparser|lowscanner)'
     steps:
-    - uses: actions/checkout@v4
-    - name: run clang-format to verify current codes.
-      uses: jidicula/clang-format-action@v4.13.0
+    - name: checkout repository codes
+      uses: actions/checkout@v4
       with:
-        clang-format-version: '18'
-        check-path: ${{ matrix.path['check'] }}
-        exclude-regex: ${{ matrix.path['exclude'] }}
+        fetch-depth: 0
+        ref: test-workflow
+
+    - name: Install clang-format-18
+      run: |
+        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+        echo "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-18 main" | sudo tee /etc/apt/sources.list.d/llvm.list
+        sudo apt update
+        sudo apt install -y clang-format-18
+
+    - name: run formatter 
+      run: |
+        cd ${{github.workspace}} 
+        python3 build/builder.py format
+
+    - name: check if there is a style violiations 
+      run: |
+        git diff > output.txt
+        if [ -s output.txt ]; then
+          echo "error: some codes violates our code style."
+          cat output.txt
+          exit 1
+        fi
 
   release-on-linux:
     needs: [checking-code-format]
