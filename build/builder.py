@@ -820,7 +820,7 @@ class dependency:
     def showErrMsg(self):
         installedVer = self.getInstalledVer()
         if installedVer.doesExist() == False:
-            printErr(f"{self.getName()} is not installed")
+            printErr(f"{self.getName()} version {self.getExpectVer().toString()} is not installed")
         else:
             printErr(f"{self.getName()} version should be {self.getExpectVer().toString()} but yours is {self.getInstalledVer().toString()}")
 
