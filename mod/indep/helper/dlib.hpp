@@ -3,6 +3,9 @@
 #include "indep/common.hpp"
 #include "indep/def.hpp"
 #include "indep/macro.hpp"
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+#    include <windows.h> // for dll loading
+#endif
 
 namespace nm {
 

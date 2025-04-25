@@ -3,8 +3,6 @@
 #ifndef NM_BUILD_PLATFORM_IS_WINDOWS
 #    include <dirent.h> // not compatible to winOs
 #    include <dlfcn.h>
-#else
-#    include <windows.h> // for dll loading
 #endif
 
 namespace nm {
@@ -48,7 +46,12 @@ namespace nm {
 
         const nchar* ret = nullptr;
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
-        ret = GetLastError();
+        static nchar* buffer[256] = {0, };
+        auto err = GetLastError();
+        if(FormatMessageA(FORMAT_MESSAGE_FROM_STRING, nullptr, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), &buffer, 0, nullptr))
+            ret = buffer;
+        else
+            ret = "failed get error msg from `GetLastError`";
 #else
         ret = dlerror();
 #endif
