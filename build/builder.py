@@ -345,7 +345,7 @@ def covBuild():
     printOk("done")
 
     printInfoEnd("generating coverage info in html...")
-    res = os.system(f"{genhtml} {cwd}/cov.info -o coverage")
+    res = os.system(f"{genhtml.binary} {cwd}/cov.info -o coverage")
     if res != 0:
         printErr("fail to generate report html files.")
         return -1
