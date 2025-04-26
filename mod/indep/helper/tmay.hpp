@@ -40,9 +40,11 @@ namespace nm {
         nbool has() const;
 
         T& get();
-        void rel();
+        const T& get() const NM_CONST_FUNC(get())
 
-        template <typename... Ts> void set(Ts... args);
+        virtual void rel();
+
+        virtual void set(const T& arg);
 
     private:
         std::optional<T> _subj;
