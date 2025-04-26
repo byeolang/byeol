@@ -36,29 +36,35 @@ namespace nm {
 
     void me::setPath(const std::string& path) { _path = path; }
 
-    const nchar* me::load() {
+    namespace {
+
+        std::string getErrMsg() {
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+            static nchar* buffer[256] = {
+                0,
+            };
+            auto err = GetLastError();
+            if(FormatMessageA(FORMAT_MESSAGE_FROM_STRING, nullptr, err,
+                   MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), &buffer, 0, nullptr))
+                return buffer;
+            else return "failed get error msg from `GetLastError`";
+#else
+            return dlerror();
+#endif
+        }
+
+    }
+
+    tmay<std::string> me::load() {
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
         _handle = LoadLibraryA(_path.c_str());
 #else
         _handle = dlopen(_path.c_str(), RTLD_LAZY);
 #endif
-        WHEN(_handle).ret(nullptr);
+        WHEN(_handle).ret(tmay<std::string>());
 
-        const nchar* ret = nullptr;
-#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
-        static nchar* buffer[256] = {
-            0,
-        };
-        auto err = GetLastError();
-        if(FormatMessageA(FORMAT_MESSAGE_FROM_STRING, nullptr, err,
-               MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), &buffer, 0, nullptr))
-            ret = buffer;
-        else ret = "failed get error msg from `GetLastError`";
-#else
-        ret = dlerror();
-#endif
         rel();
-        return ret;
+        return tmay<std::string>(getErrMsg());
     }
 
     nbool me::isLoaded() const { return _handle; }
@@ -73,24 +79,19 @@ namespace nm {
         _handle = nullptr;
     }
 
-    funcInfo<void*> me::_accessFunc(const nchar* name) {
-        WHEN_NUL(_handle).ret(funcInfo<void*>{nullptr, "library not loaded"});
+    tmayFunc<dlibHandle> me::_accessFunc(const nchar* name) {
+        WHEN_NUL(_handle).ret(tmayFunc<dlibHandle>(std::string("library not loaded")));
 
-        void* func = nullptr;
+        dlibHandle func = nullptr;
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
         func = GetProcAddress(newHandle, name);
 #else
         func = dlsym(_handle, name);
 #endif
-        WHEN(func).ret(funcInfo<void*>{func, nullptr});
+        WHEN(func).ret(tmayFunc<dlibHandle>(func));
 
-        auto ret =
-#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
-            funcInfo<void*>{nullptr, GetLastError()};
-#else
-            funcInfo<void*>{nullptr, dlerror()};
-#endif
+        // when error occurs:
         rel();
-        return ret;
+        return tmayFunc<dlibHandle>(getErrMsg());
     }
 } // namespace nm

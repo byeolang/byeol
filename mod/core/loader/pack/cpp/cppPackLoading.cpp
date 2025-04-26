@@ -29,15 +29,15 @@ namespace nm {
         // TODO: use 'rpt' variable.
         for(const std::string& path: _getPaths()) {
             dlib lib = dlib(path);
-            const nchar* res = lib.load();
-            WHEN(res).err("couldn't open %s slot: %d", path, res).ret((rel(), false));
+            auto res = lib.load(); // return true when error occurs.
+            WHEN(res).err("couldn't open %s slot: %d", path, res.get()).ret((rel(), false));
 
-            auto&& info = lib.accessFunc<entrypointFunc>(ENTRYPOINT_NAME);
-            WHEN(info.errMsg)
-                .err("couldn't access entrypoint of %s slot: %d", path, info.errMsg)
+            auto info = lib.accessFunc<entrypointFunc>(ENTRYPOINT_NAME); // return false when error occurs.
+            WHEN(!info)
+                .err("couldn't access entrypoint of %s slot: %d", path, info.getErr())
                 .ret((rel(), false));
 
-            info.func(&tray);
+            info.get()(&tray);
             if(tray.len() <= 0) {
                 NM_W("slot returns no origin object.");
                 lib.rel();

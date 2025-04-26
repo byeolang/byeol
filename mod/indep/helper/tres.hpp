@@ -7,11 +7,12 @@ namespace nm {
     template <typename T, typename R>
     class tres : public tmay<T> {
         typedef tres<T, R> __me__;
-        NM(ME(__me__, tmay<R>))
+        NM(ME(__me__, tmay<T>))
 
     public:
         tres() = default;
         explicit tres(const T& value);
+        explicit tres(const R& value);
 
     public:
         R& getErr();

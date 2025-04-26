@@ -12,6 +12,11 @@ namespace nm {
     ME::tres(const T& value): super(value) {}
 
     TEMPLATE
+    ME::tres(const R& value) {
+        setErr(value);
+    }
+
+    TEMPLATE
     R& ME::getErr() {
         if(this->has()) return nulOf<R>();
         return _err.value();

@@ -3,16 +3,20 @@
 #include "indep/common.hpp"
 #include "indep/def.hpp"
 #include "indep/macro.hpp"
+#include "tres.inl"
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
 #    include <windows.h> // for dll loading
 #endif
 
 namespace nm {
 
-    template <typename F> struct funcInfo {
-        F func;
-        const char* errMsg;
-    };
+#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+    typedef HMODULE dlibHandle;
+#else
+    typedef void* dlibHandle;
+#endif
+    template <typename F>
+    using tmayFunc = tres<F, std::string>;
 
     // dlib:
     //  dynamic library class.
@@ -20,11 +24,6 @@ namespace nm {
         NM(ME(dlib))
 
     public:
-#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
-        typedef HMODULE dlibHandle;
-#else
-        typedef void* dlibHandle;
-#endif
 
     public:
         dlib();
@@ -41,25 +40,25 @@ namespace nm {
         void setPath(const std::string& path);
 
         /// load dynamic library with given path.
-        /// @return nullptr if it's success. or return error msg.
-        const nchar* load();
+        /// @return empty may object if it's success. or return error msg.
+        tmay<std::string> load();
         nbool isLoaded() const;
 
         /// access function and get address of it inside library.
         /// @return `func` as nullptr if it failed or return `errMsg` as nullptr if it's success.
-        template <typename R> funcInfo<R> accessFunc(const std::string& name) {
-            return accessFunc<R>(name.c_str());
+        template <typename F> tmayFunc<F> accessFunc(const std::string& name) {
+            return accessFunc<F>(name.c_str());
         }
 
-        template <typename R> funcInfo<R> accessFunc(const nchar* name) {
+        template <typename F> tmayFunc<F> accessFunc(const nchar* name) {
             auto&& res = _accessFunc(name);
-            return funcInfo<R>{(R) res.func, res.errMsg};
+            return res.has() ? tmayFunc<F>((F) res.get()) : tmayFunc<F>(res.getErr());
         }
 
         void rel();
 
     private:
-        funcInfo<void*> _accessFunc(const nchar* name);
+        tmayFunc<dlibHandle> _accessFunc(const nchar* name);
 
     private:
         std::string _path;
