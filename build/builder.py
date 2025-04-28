@@ -764,7 +764,7 @@ class ver:
         if expectVer.isVerNotSpecified():
             return self.doesExist()
 
-        if self.onlyThisVer:
+        if expectVer.onlyThisVer:
             return self.major == expectVer.major and self.minor == expectVer.minor and self.patch == expectVer.patch
     
         return self.major >= expectVer.major and self.minor >= expectVer.minor and self.patch >= expectVer.patch
