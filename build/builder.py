@@ -229,7 +229,11 @@ def doc():
     docDoxygen(doxygen)
     return 0
 
-def formatCodes(showLog, formatter):
+def formatCodesWithLocal(showLog):
+    format = ClangFormatDependency()
+    if checkDependencies([format]):
+        return -1
+
     global cwd
     root = cwd + "/../"
     if showLog: print("code formatting:")
@@ -246,17 +250,45 @@ def formatCodes(showLog, formatter):
             if showLog: print("\t formatting " + filePath + ", ext=" + ext + " file...")
             os.system(f"{formatter.binary} -i " + filePath)
 
-def formatCodesWithLocal(showLog):
-    format = ClangFormatDependency()
-    if checkDependencies([format]):
-        return -1
-    formatCodes(showLog, format)
-
 def formatCodesWithDocker(showLog):
-    docker = DockerClangFormatDependency()
+    docker = DockerDependency()
     if checkDependencies([docker]):
         return -1
-    formatCodes(showLog, docker)
+
+    global namuDir
+    containerName = "namu-clang-format-container__"
+    isContainerRunning = subprocess.run(
+        [docker.binary, "ps", "-q", "-f", f"name={containerName}"],
+        stdout=subprocess.PIPE,
+        text=True)
+    if not isContainerRunning.stdout.strip():
+        subprocess.run([docker.binary, "run", "-d",
+            "--name", containerName,
+            "-v", f"{namuDir}:/src",
+            "xianpengshen/clang-tools:18", "tail", "-f", "dev/null"
+        ])
+
+    root = namuDir
+    if showLog: print("code formatting:")
+    for path, dirs, files in os.walk(root):
+        if "../mod/" not in path: continue
+        if "/worker/bison" in path: continue
+        if "/leaf/parser/bison" in path: continue
+        for file in files:
+            filePath = os.path.join(path, file) # absolute path
+            filePath = os.path.relpath(filePath, root) # to relative path
+            ext = os.path.splitext(file)[1]
+            if  ext != ".cc" and ext != ".cpp" and ext != ".hpp" and ext != ".inl":
+                continue
+            if showLog: print("\t formatting " + filePath + ", ext=" + ext + " file...")
+            subprocess.run(
+                [docker.binary, "exec", containerName, "clang-format", "-i", filePath],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+    subprocess.run([docker.binary, "stop", containerName])
+    subprocess.run([docker.binary, "rm", containerName])
 
 def prerequisites():
     if checkDependencies([ClangDependency(), MSBuildDependency(), GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), BisonDependency(), ClangTidyDependency(), ClangFormatDependency()]):
@@ -977,23 +1009,12 @@ class ClangFormatDependency(dependency):
         return ver(18, 1, 3, True)
 
 class DockerDependency(dependency):
-    imageName = ""
-    command = ""
-
-    def __init__(self, imageName, command):
-        self.imageName = imageName
-        self.command = command
-
-    def onSetBinary(self, name):
-        global namuDir
-        self.binary = f"sudo {name} run --rm -v \"{namuDir}\":/src {self.imageName} {self.command} "
-
     def getNames(self):
         return ["docker"]
 
 class DockerClangFormatDependency(DockerDependency):
     def __init__(self):
-        super().__init__("xianpengshen/clang-tools:18", "clang-format")
+        super().__init__("", "clang-format")
 
 def checkDependencies(deps):
     printInfoEnd("checking dependencies...")
