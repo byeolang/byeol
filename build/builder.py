@@ -92,7 +92,11 @@ def branch(command):
     elif command == "dbg":
         return dbgBuild()
     elif command == "format":
-        return formatCodes(True)
+        arg = None if len(sys.argv) < 3 else sys.argv[2]
+        if arg == None:
+            return formatCodesWithLocal(True)
+        elif arg == "docker":
+            return formatCodesWithDocker(True)
     elif command == "wasm":
         arg3 = None if len(sys.argv) < 3 else sys.argv[2]
         return wasmBuild(arg3)
@@ -225,11 +229,7 @@ def doc():
     docDoxygen(doxygen)
     return 0
 
-def formatCodes(showLog):
-    format = ClangFormatDependency()
-    if checkDependencies([format]):
-        return -1
-
+def formatCodes(showLog, formatter):
     global cwd
     root = cwd + "/../"
     if showLog: print("code formatting:")
@@ -238,12 +238,25 @@ def formatCodes(showLog):
         if "/worker/bison" in path: continue
         if "/leaf/parser/bison" in path: continue
         for file in files:
-            filePath = os.path.join(path, file)
+            filePath = os.path.join(path, file) # absolute path
+            filePath = os.path.relpath(filePath, root) # to relative path
             ext = os.path.splitext(file)[1]
             if  ext != ".cc" and ext != ".cpp" and ext != ".hpp" and ext != ".inl":
                 continue
             if showLog: print("\t formatting " + filePath + ", ext=" + ext + " file...")
-            os.system(f"{format.binary} -i " + filePath)
+            os.system(f"{formatter.binary} -i " + filePath)
+
+def formatCodesWithLocal(showLog):
+    format = ClangFormatDependency()
+    if checkDependencies([format]):
+        return -1
+    formatCodes(showLog, format)
+
+def formatCodesWithDocker(showLog):
+    docker = DockerClangFormatDependency()
+    if checkDependencies([docker]):
+        return -1
+    formatCodes(showLog, docker)
 
 def prerequisites():
     if checkDependencies([ClangDependency(), MSBuildDependency(), GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), BisonDependency(), ClangTidyDependency(), ClangFormatDependency()]):
@@ -797,6 +810,9 @@ class dependency:
     def getFlag(self):
         return "--version"
 
+    def onSetBinary(self, newBinary):
+        self.binary = newBinary
+
     def getInstalledVer(self):
         ret = ver(0, 0, 0, False)
         for name in self.getNames():
@@ -804,7 +820,7 @@ class dependency:
             if res[:5] != "error": # usual case
                 givenVer = ver.fromVerString(res)
                 if givenVer.isValid(ret):
-                    self.binary = name
+                    self.onSetBinary(name)
                     ret = givenVer
                 continue
 
@@ -816,7 +832,7 @@ class dependency:
             if shutil.which(name):
                 givenVer = ver.fromVerString("0.0.0")
                 if givenVer.isValid(ret):
-                    self.binary = name
+                    self.onSetBinary(name)
                     ret = givenVer
         return ret
 
@@ -960,6 +976,25 @@ class ClangFormatDependency(dependency):
     def getExpectVer(self):
         return ver(18, 1, 3, True)
 
+class DockerDependency(dependency):
+    imageName = ""
+    command = ""
+
+    def __init__(self, imageName, command):
+        self.imageName = imageName
+        self.command = command
+
+    def onSetBinary(self, name):
+        global namuDir
+        self.binary = f"sudo {name} run --rm -v \"{namuDir}\":/src {self.imageName} {self.command} "
+
+    def getNames(self):
+        return ["docker"]
+
+class DockerClangFormatDependency(DockerDependency):
+    def __init__(self):
+        super().__init__("xianpengshen/clang-tools:18", "clang-format")
+
 def checkDependencies(deps):
     printInfoEnd("checking dependencies...")
 
@@ -989,15 +1024,17 @@ def help():
     print("")
     print("command list:")
     print("\t * help")
-    print("\t * prerequisites check all dependent app and their version")
-    print("\t * clean         clear all cache files of cmake outputs.")
-    print("\t * dbg           build new binary with debug configuration.")
-    print("\t * rel           build new binary with release configuration. binary optimized, debug logs will be hidden.")
-    print("\t * reldbg        same as rel. but this includes dbg info.")
-    print("\t * test          runs unit tests but skip build if they are built already.")
-    print("\t * doc           generate documents only.")
-    print("\t * cov           generate coverage file and visualize data with html")
-    print("\t * format        apply our code convention rules to current repository.")
+    print("\t * prerequisites   check all dependent app and their version")
+    print("\t * clean           clear all cache files of cmake outputs.")
+    print("\t * dbg             build new binary with debug configuration.")
+    print("\t * rel             build new binary with release configuration. binary optimized, debug logs will be hidden.")
+    print("\t * reldbg          same as rel. but this includes dbg info.")
+    print("\t * test            runs unit tests but skip build if they are built already.")
+    print("\t * doc             generate documents only.")
+    print("\t * cov             generate coverage file and visualize data with html")
+    print("\t * format [docker] apply our code convention rules to current repository. if you don't give option with `docker` formatting")
+    print("\t                   will be done local `clang-format` binary. otherwise, it'll be done by clang-format docker image.")
+    print("\t                   and as you may know, that could lead you to download a pretty much big image file.")
 
 def clean():
     printInfo("Clearing next following files...")
