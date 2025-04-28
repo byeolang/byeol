@@ -21,17 +21,26 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install clang-format-18
+    - name: install native dependencies
       run: |
-        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-        echo "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-18 main" | sudo tee /etc/apt/sources.list.d/llvm.list
         sudo apt update
-        sudo apt install -y clang-format-18
+        sudo apt-get install ca-certificates curl
+        sudo install -m 0755 -d /etc/apt/keyrings
+        sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+        sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+        echo \
+          "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+          $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+          sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        sudo apt-get update
+        
+        sudo apt-get install python3 docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
     - name: run formatter 
       run: |
         cd ${{github.workspace}} 
-        python3 build/builder.py format
+        python3 build/builder.py format docker
 
     - name: check if there is a style violiations 
       run: |
