@@ -4,7 +4,7 @@
 #include "tres.hpp"
 
 namespace nm {
-    
+
 #define ME tres<T, R>
 #define TEMPLATE template <typename T, typename R>
 
@@ -12,9 +12,7 @@ namespace nm {
     ME::tres(const T& value): super(value) {}
 
     TEMPLATE
-    ME::tres(const R& value) {
-        setErr(value);
-    }
+    ME::tres(const R& value) { setErr(value); }
 
     TEMPLATE
     R& ME::getErr() {
@@ -42,4 +40,4 @@ namespace nm {
 
 #undef TEMPLATE
 #undef ME
-}
+} // namespace nm

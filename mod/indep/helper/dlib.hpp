@@ -15,8 +15,7 @@ namespace nm {
 #else
     typedef void* dlibHandle;
 #endif
-    template <typename F>
-    using tmayFunc = tres<F, std::string>;
+    template <typename F> using tmayFunc = tres<F, std::string>;
 
     // dlib:
     //  dynamic library class.
@@ -24,7 +23,6 @@ namespace nm {
         NM(ME(dlib))
 
     public:
-
     public:
         dlib();
         dlib(const char* path);

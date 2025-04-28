@@ -32,7 +32,8 @@ namespace nm {
             auto res = lib.load(); // return true when error occurs.
             WHEN(res).err("couldn't open %s slot: %d", path, res.get()).ret((rel(), false));
 
-            auto info = lib.accessFunc<entrypointFunc>(ENTRYPOINT_NAME); // return false when error occurs.
+            auto info =
+                lib.accessFunc<entrypointFunc>(ENTRYPOINT_NAME); // return false when error occurs.
             WHEN(!info)
                 .err("couldn't access entrypoint of %s slot: %d", path, info.getErr())
                 .ret((rel(), false));

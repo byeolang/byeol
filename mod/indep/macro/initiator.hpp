@@ -7,7 +7,8 @@ namespace nm {
     /// Initiator can runs statements before main().
     /// @Usage  just @refer NM_INITIATOR(myIniti) { <your codes> };
     ///         static<optional> Initiator <name>([]() { <your codes> });
-    struct _nout Initiator {
-        template <typename T> Initiator(T func) { func(); }
-    };
+    struct _nout Initiator{template <typename T> Initiator(T func){func();
+}
+}
+;
 }
