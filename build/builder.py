@@ -230,8 +230,8 @@ def doc():
     return 0
 
 def formatCodesWithLocal(showLog):
-    format = ClangFormatDependency()
-    if checkDependencies([format]):
+    formatter = ClangFormatDependency()
+    if checkDependencies([formatter]):
         return -1
 
     global cwd
@@ -243,11 +243,11 @@ def formatCodesWithLocal(showLog):
         if "/leaf/parser/bison" in path: continue
         for file in files:
             filePath = os.path.join(path, file) # absolute path
-            filePath = os.path.relpath(filePath, root) # to relative path
+            filePath = os.path.relpath(filePath, cwd) # to relative path
             ext = os.path.splitext(file)[1]
             if  ext != ".cc" and ext != ".cpp" and ext != ".hpp" and ext != ".inl":
                 continue
-            if showLog: print("\t formatting " + filePath + ", ext=" + ext + " file...")
+            if showLog: print(f"\t formatting {formatter.binary} {filePath}, ext={ext} file...")
             os.system(f"{formatter.binary} -i " + filePath)
 
 def formatCodesWithDocker(showLog):
