@@ -789,7 +789,9 @@ class ver:
         if expectVer.onlyThisVer:
             return self.major == expectVer.major and self.minor == expectVer.minor and self.patch == expectVer.patch
     
-        return self.major >= expectVer.major and self.minor >= expectVer.minor and self.patch >= expectVer.patch
+        if self.major < expectVer.major: return False
+        if self.minor < expectVer.minor: return False
+        return self.patch >= expectVer.patch
 
     def toString(self):
         if self.major == 0 and self.minor == 0 and self.patch == 0:
