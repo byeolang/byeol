@@ -40,12 +40,12 @@ namespace nm {
 
         std::string getErrMsg() {
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
-            static nchar* buffer[256] = {
+            static nchar buffer[256] = {
                 0,
             };
             auto err = GetLastError();
             if(FormatMessageA(FORMAT_MESSAGE_FROM_STRING, nullptr, err,
-                   MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), &buffer, 0, nullptr))
+                   MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buffer, 0, nullptr))
                 return buffer;
             else return "failed get error msg from `GetLastError`";
 #else
@@ -79,19 +79,19 @@ namespace nm {
         _handle = nullptr;
     }
 
-    tmayFunc<dlibHandle> me::_accessFunc(const nchar* name) {
-        WHEN_NUL(_handle).ret(tmayFunc<dlibHandle>(std::string("library not loaded")));
+    tmayFunc<void*> me::_accessFunc(const nchar* name) {
+        WHEN_NUL(_handle).ret(tmayFunc<void*>(std::string("library not loaded")));
 
-        dlibHandle func = nullptr;
+        void* func = nullptr;
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
-        func = GetProcAddress(newHandle, name);
+        func = GetProcAddress(_handle, name);
 #else
         func = dlsym(_handle, name);
 #endif
-        WHEN(func).ret(tmayFunc<dlibHandle>(func));
+        WHEN(func).ret(tmayFunc<void*>(func));
 
         // when error occurs:
         rel();
-        return tmayFunc<dlibHandle>(getErrMsg());
+        return tmayFunc<void*>(getErrMsg());
     }
 } // namespace nm

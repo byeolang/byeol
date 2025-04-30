@@ -56,7 +56,7 @@ namespace nm {
         void rel();
 
     private:
-        tmayFunc<dlibHandle> _accessFunc(const nchar* name);
+        tmayFunc<void*> _accessFunc(const nchar* name);
 
     private:
         std::string _path;
