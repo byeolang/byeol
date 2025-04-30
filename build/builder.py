@@ -901,6 +901,9 @@ class MakeDependency(dependency):
     def getExpectVer(self):
         return ver(3, 0, 0, False)
 
+    def isActivated(self):
+        return not isWindow()
+
 class DoxygenDependency(dependency):
     def getNames(self):
         return ["doxygen"]
