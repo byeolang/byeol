@@ -92,11 +92,7 @@ def branch(command):
     elif command == "dbg":
         return dbgBuild()
     elif command == "format":
-        arg = None if len(sys.argv) < 3 else sys.argv[2]
-        if arg == None:
-            return formatCodesWithLocal(True)
-        elif arg == "docker":
-            return formatCodesWithDocker(True)
+        return formatCodesWithDocker(True)
     elif command == "wasm":
         arg3 = None if len(sys.argv) < 3 else sys.argv[2]
         return wasmBuild(arg3)
@@ -229,27 +225,6 @@ def doc():
     docDoxygen(doxygen)
     return 0
 
-def formatCodesWithLocal(showLog):
-    formatter = ClangFormatDependency()
-    if checkDependencies([formatter]):
-        return -1
-
-    global cwd
-    root = cwd + "/../"
-    if showLog: print("code formatting:")
-    for path, dirs, files in os.walk(root):
-        if "../mod/" not in path: continue
-        if "/worker/bison" in path: continue
-        if "/leaf/parser/bison" in path: continue
-        for file in files:
-            filePath = os.path.join(path, file) # absolute path
-            filePath = os.path.relpath(filePath, cwd) # to relative path
-            ext = os.path.splitext(file)[1]
-            if  ext != ".cc" and ext != ".cpp" and ext != ".hpp" and ext != ".inl":
-                continue
-            if showLog: print(f"\t formatting {formatter.binary} {filePath}, ext={ext} file...")
-            os.system(f"{formatter.binary} -i " + filePath)
-
 def formatCodesWithDocker(showLog):
     docker = DockerDependency()
     if checkDependencies([docker]):
@@ -257,12 +232,14 @@ def formatCodesWithDocker(showLog):
 
     global namuDir
     containerName = "namu-clang-format-container__"
+    sudo = "" if isWindow() else "sudo"
     isContainerRunning = subprocess.run(
-        [docker.binary, "ps", "-q", "-f", f"name={containerName}"],
+        [sudo, docker.binary, "ps", "-q", "-f", f"name={containerName}"],
         stdout=subprocess.PIPE,
         text=True)
+
     if not isContainerRunning.stdout.strip():
-        subprocess.run([docker.binary, "run", "-d",
+        subprocess.run([sudo, docker.binary, "run", "-d",
             "--name", containerName,
             "-v", f"{namuDir}:/src",
             "xianpengshen/clang-tools:18", "tail", "-f", "dev/null"
@@ -282,16 +259,16 @@ def formatCodesWithDocker(showLog):
                 continue
             if showLog: print("\t formatting " + filePath + ", ext=" + ext + " file...")
             subprocess.run(
-                [docker.binary, "exec", containerName, "clang-format", "-i", filePath],
+                [sudo, docker.binary, "exec", containerName, "clang-format", "-i", filePath],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
             )
-    subprocess.run([docker.binary, "stop", containerName])
-    subprocess.run([docker.binary, "rm", containerName])
+    subprocess.run([sudo, docker.binary, "stop", containerName])
+    subprocess.run([sudo, docker.binary, "rm", containerName])
 
 def prerequisites():
-    if checkDependencies([ClangDependency(), MSBuildDependency(), GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), BisonDependency(), ClangTidyDependency(), ClangFormatDependency()]):
+    if checkDependencies([ClangDependency(), MSBuildDependency(), GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), BisonDependency(), ClangTidyDependency(), DockerDependency()]):
         return -1
     return 0
 
@@ -1001,13 +978,6 @@ class GenHtmlDependency(dependency):
     def getNames(self):
         return ["genhtml"]
 
-class ClangFormatDependency(dependency):
-    def getNames(self):
-        return ["clang-format", "clang-format-18"]
-
-    def getExpectVer(self):
-        return ver(18, 1, 3, True)
-
 class DockerDependency(dependency):
     def getNames(self):
         return ["docker"]
@@ -1045,17 +1015,16 @@ def help():
     print("")
     print("command list:")
     print("\t * help")
-    print("\t * prerequisites   check all dependent app and their version")
-    print("\t * clean           clear all cache files of cmake outputs.")
-    print("\t * dbg             build new binary with debug configuration.")
-    print("\t * rel             build new binary with release configuration. binary optimized, debug logs will be hidden.")
-    print("\t * reldbg          same as rel. but this includes dbg info.")
-    print("\t * test            runs unit tests but skip build if they are built already.")
-    print("\t * doc             generate documents only.")
-    print("\t * cov             generate coverage file and visualize data with html")
-    print("\t * format [docker] apply our code convention rules to current repository. if you don't give option with `docker` formatting")
-    print("\t                   will be done local `clang-format` binary. otherwise, it'll be done by clang-format docker image.")
-    print("\t                   and as you may know, that could lead you to download a pretty much big image file.")
+    print("\t * prerequisites check all dependent app and their version")
+    print("\t * clean         clear all cache files of cmake outputs.")
+    print("\t * dbg           build new binary with debug configuration.")
+    print("\t * rel           build new binary with release configuration. binary optimized, debug logs will be hidden.")
+    print("\t * reldbg        same as rel. but this includes dbg info.")
+    print("\t * test          runs unit tests but skip build if they are built already.")
+    print("\t * doc           generate documents only.")
+    print("\t * cov           generate coverage file and visualize data with html")
+    print("\t * format        apply our code convention rules to current repository. it'll be done by clang-format docker")
+    print("\t                 image. and as you may know, that could lead you to download a pretty much big image file.")
 
 def clean():
     printInfo("Clearing next following files...")
@@ -1161,6 +1130,6 @@ def main():
     return 0
 
 ret = main()
-if ret != 0:
+if ret != None and ret != 0:
     printErr("ends with " + str(ret) + " exit code.")
 sys.exit(ret)
