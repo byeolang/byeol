@@ -6,10 +6,10 @@ namespace nm {
     NM_DEF_ME(leaf)
 
     me& me::sub(const std::string& name) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wtautological-undefined-compare"
+        NM_WARN_PUSH
+        NM_WARN_IGNORE_AUTOLOGICAL_COMPARE
         if(this == nullptr) return nulOf<me>();
-#pragma clang diagnostic pop
+        NM_WARN_POP
         tstr<me> ret = _subs[name] OR.ret(nulLeaf::get());
         return *ret;
     }

@@ -30,10 +30,10 @@ namespace nm {
             //
             //  please note that checking whether thisptr is null isn't recommended in
             //  ordinary cpp.
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wtautological-undefined-compare"
+            NM_WARN_PUSH
+            NM_WARN_IGNORE_AUTOLOGICAL_COMPARE
             if(this == nullptr) return nulOf<T>();
-#pragma clang diagnostic pop
+            NM_WARN_POP
 
             return *(T*) cast(ttype<T>::get());
         }

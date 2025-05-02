@@ -47,10 +47,11 @@ namespace nm {
     }
 
     instance& me::get() {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wtautological-undefined-compare"
+        NM_WARN_PUSH
+        NM_WARN_IGNORE_AUTOLOGICAL_COMPARE
         if(this == nullptr) return nulOf<instance>();
-#pragma clang diagnostic pop
+        NM_WARN_POP
+
         return _getBindTag() TO(get());
     }
 

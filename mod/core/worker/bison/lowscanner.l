@@ -2,10 +2,10 @@
 /*  ============================================================================================
     |                                          PROLOGUE                                        |
     ============================================================================================  */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-function"
 #include "core/worker/bison/lowparser.hpp"
 #include "core/worker/parser.hpp"
+NM_WARN_PUSH
+NM_WARN_IGNORE_UNUSED_FUNCTION
 #include <iostream>
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
 #   define YY_NO_UNISTD_H 1
@@ -322,4 +322,4 @@ namespace {
         }
     }
 }
-#pragma clang diagnostic pop
+NM_WARN_POP
