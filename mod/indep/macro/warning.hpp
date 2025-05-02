@@ -12,6 +12,6 @@
 #   define NM_WARN_PUSH _Pragma("GCC diagnostic push")
 #   define NM_WARN_IGNORE(warn) _Pragma(NM_STR(GCC diagnostic ignored #warn))
 #   define NM_WARN_IGNORE_AUTOLOGICAL_COMPARE
-#   define NM_WARN_IGNORE_UNUSED_FUNCTION
+#   define NM_WARN_IGNORE_UNUSED_FUNCTION NM_WARN_IGNORE(-Wunused-function)
 #   define NM_WARN_POP _Pragma("GCC diagnostic pop")
 #endif

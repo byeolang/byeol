@@ -179,11 +179,11 @@ TEST_F(primitiveObjTest, boolOperators) {
 
     res = b1.mul(b2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->get(), (nbool) (true * false));
+    ASSERT_EQ(res->get(), (nbool) (true && false));
 
     res = b2.div(b1);
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->get(), (nbool) (false / true));
+    ASSERT_EQ(res->get(), (nbool) (false && true));
 
     res = b1.bitwiseAnd(b2);
     ASSERT_TRUE(res);
@@ -199,11 +199,11 @@ TEST_F(primitiveObjTest, boolOperators) {
 
     res = b1.lshift(b2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->get(), (nbool) (true << false));
+    ASSERT_EQ(res->get(), true);
 
     res = b1.rshift(b2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->get(), (nbool) (true >> false));
+    ASSERT_EQ(res->get(), true);
 
     ASSERT_EQ(b1.gt(b2), b1.get() > b2.get());
     ASSERT_EQ(b1.ge(b2), b1.get() >= b2.get());

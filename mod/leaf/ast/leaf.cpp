@@ -16,7 +16,7 @@ namespace nm {
 
     me::leaf(std::initializer_list<me*> subs, const std::string& name): _name(name) { add(subs); }
 
-    me::leaf(const me& rhs, const std::string& name): _subs(rhs._subs), _name(name) {}
+    me::leaf(const me& rhs, const std::string& name): super(), _subs(rhs._subs), _name(name) {}
 
     me::leaf(const std::string& name): _name(name) {}
 

@@ -41,6 +41,7 @@ namespace nm {
         virtual ~instance();
 
     public:
+        me& operator=(const me& rhs) = default;
         void* operator new(size_t sz) noexcept;
         void operator delete(void* pt, size_t sz) noexcept;
 

@@ -14,7 +14,7 @@ namespace {
 
         originObj(const scope& subs): super(), _subs(subs) {}
 
-        originObj(const me& rhs): _subs(rhs._subs) {}
+        originObj(const me& rhs): super(rhs), _subs(rhs._subs) {}
 
         const baseObj& getOrigin() const override { return *this; }
 

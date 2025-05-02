@@ -77,18 +77,18 @@ TEST_F(watcherTest, NestedClassBindTest) {
 
     class outer: public instance {
     public:
-        outer(inner* in): inner(in) {}
+        outer(inner* in): _inner(in) {}
 
         const type& getType() const override { return ttype<outer>::get(); }
 
-        clonable* clone() const override { return new outer(inner); }
+        clonable* clone() const override { return new outer(_inner); }
 
-        inner* inner;
+        inner* _inner;
     };
 
     auto* b = new outer(new inner());
     ASSERT_TRUE(b->getId().isHeap());
-    ASSERT_TRUE(b->inner->getId().isHeap());
+    ASSERT_TRUE(b->_inner->getId().isHeap());
 }
 
 TEST_F(watcherTest, heapVariableBindTagTest) {

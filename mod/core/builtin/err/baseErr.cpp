@@ -6,7 +6,7 @@ namespace nm {
 
     me::baseErr(errLv::level t): super(), _lv(t) { _initStack(); }
 
-    me::baseErr(const me& rhs) { _assign(rhs); }
+    me::baseErr(const me& rhs): super(rhs) { _assign(rhs); }
 
     me& me::operator=(const me& rhs) {
         WHEN(this == &rhs).ret(*this);
@@ -20,7 +20,7 @@ namespace nm {
     scope& me::makeSubs() {
         return tbridger<me>::closure<void, me>("log", [&](me& meObj) { meObj.log(); })
             .func("logStack", &me::logStack)
-            .closure<const std::string&, me>("getMsg", [&](me& meObj) { return meObj.getMsg(); })
+            .closure<const std::string&, me>("getMsg", [&](me& meObj) -> const std::string& { return meObj.getMsg(); })
             .subs();
     }
 

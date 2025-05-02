@@ -22,7 +22,7 @@ namespace {
     struct B: public instance {
         B() { ++get(); }
 
-        B(const B&) { ++get(); }
+        B(const B&): instance() { ++get(); }
 
         ~B() override { --get(); }
 

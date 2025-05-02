@@ -6,7 +6,7 @@ set(SHOW_CMAKE_VARIABLES 1)
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 2)
 set(VERSION_FIX 9)
-set(BUILD_COUNT 1237)
+set(BUILD_COUNT 1244)
 set(VERSION_NAME "Mana")
 set(VERSION_VALUE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_FIX}")
 set(VERSION "${PROJECT_NAME} ${UPDATE_NAME} v${VERSION_VALUE}")
@@ -32,23 +32,6 @@ message("\ninitialize CMake variables...")
 IF(EMSCRIPTEN)
     set(CMAKE_C_COMPILER "emcc")
     set(CMAKE_CXX_COMPILER "emcc")
-ELSE(EMSCRIPTEN)
-    IF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
-        #find_program(CLANGPP_PATH clang++)
-        #find_program(CLANG_PATH clang)
-        IF(CLANGPP_PATH)
-            set(CMAKE_CXX_COMPILER "${CLANGPP_PATH}")
-            set(CMAKE_C_COMPILER "${CLANG_PATH}")
-
-            # clang flags:
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-zero-variadic-macro-arguments -Wno-undefined-bool-conversion -Wno-c++20-extensions")
-        ELSE(CLANGPP_PATH)
-
-            # gcc flags:
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-dangling-reference") # False positive
-    
-        ENDIF(CLANGPP_PATH)
-    ENDIF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
 ENDIF(EMSCRIPTEN)
 
 set(CXX_DEFINITIONS "${DEFINITIONS} -DUNICODE")
@@ -70,6 +53,23 @@ IF(CMAKE_SYSTEM_NAME STREQUAL Darwin OR CMAKE_SYSTEM_NAME STREQUAL Linux OR CMAK
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Werror -fdiagnostics-color=always")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-delete-null-pointer-checks -Wno-sign-compare -Wno-unused-parameter -Wno-address")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedefs")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-zero-variadic-macro-arguments -Wno-undefined-bool-conversion -Wno-c++20-extensions")
+
+    find_program(CLANGPP_PATH clang++)
+    find_program(CLANG_PATH clang)
+    IF(CLANGPP_PATH)
+        set(CMAKE_CXX_COMPILER "${CLANGPP_PATH}")
+        set(CMAKE_C_COMPILER "${CLANG_PATH}")
+
+        # clang flags:
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-zero-variadic-macro-arguments -Wno-undefined-bool-conversion -Wno-c++20-extensions")
+
+    ELSE(CLANGPP_PATH)
+
+        # gcc flags:
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-dangling-reference") # False positive
+
+    ENDIF(CLANGPP_PATH)
 
     IF(COVERAGE_TOOL)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-instr-generate -fcoverage-mapping -fprofile-arcs -ftest-coverage") # supports both of llvm-cov and gcov
