@@ -316,8 +316,12 @@ def wasmBuild(arg):
 def dbgBuild():
     global config, cwd
 
+    clang = ClangDependency()
+    clang.isValid()
+    clangTidy = "-DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\"" if clang.binary == "clang++" else ""
+
     winProp="-t:Rebuild -p:Configuration=Debug"
-    config="-DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\""
+    config=f"-DCMAKE_BUILD_TYPE=Debug {clangTidy}"
     print(config)
 
     clean()
@@ -378,16 +382,26 @@ def relBuild():
     global config, winProp
 
     clean()
+
+    clang = ClangDependency()
+    clang.isValid()
+    clangTidy = "-DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\"" if clang.binary == "clang++" else ""
+
     winProp="-t:Rebuild -p:Configuration=Release"
-    config="-DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\""
+    config=f"-DCMAKE_BUILD_TYPE=Release {clangTidy}"
     return build(True)
 
 def relDbgBuild():
     global config, winProp
 
     clean()
+
+    clang = ClangDependency()
+    clang.isValid()
+    clangTidy = "-DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\"" if clang.binary == "clang++" else ""
+
     winProp="-t:Rebuild -p:Configuration=Release"
-    config="-DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\" -DCMAKE_RELEASE_INCLUDE_DBG_INFO=True"
+    config=f"-DCMAKE_BUILD_TYPE=Release {clangTidy} -DCMAKE_RELEASE_INCLUDE_DBG_INFO=True"
     return build(True)
 
 # currently this application only supports window and linux.
