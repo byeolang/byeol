@@ -790,7 +790,13 @@ class ver:
             return self.major == expectVer.major and self.minor == expectVer.minor and self.patch == expectVer.patch
     
         if self.major < expectVer.major: return False
+        if self.major > expectVer.major: return True 
+        # okay. major version is same.
+
         if self.minor < expectVer.minor: return False
+        if self.minor > expectVer.minor: return True 
+
+        # okay. even minor version is also same.
         return self.patch >= expectVer.patch
 
     def toString(self):
