@@ -875,7 +875,7 @@ class dependency:
 
     def showSuccessMsg(self):
         if self.isActivated():
-            printOkEnd(self.getName())
+            printOkEnd(self.binary)
 
 class FlexDependency(dependency):
     def getExpectVer(self):
@@ -951,7 +951,17 @@ class LlvmCovDependency(dependency):
     def onGetInstalledVerString(self, name):
         return super().onGetInstalledVerString(name).split('\n')[0]
 
+class GccDependency(dependency):
+    def getNames(self):
+        return ["g++"]
+
+    def getExpectVer(self):
+        return ver(13, 0, 0, False)
+
 class ClangDependency(dependency):
+
+    gcc = GccDependency()
+
     def getNames(self):
         return ["clang++"]
 
@@ -960,6 +970,19 @@ class ClangDependency(dependency):
 
     def isActivated(self):
         return isWindow() == False
+
+    def isValid(self):
+        if super().isValid(): return True
+        return self.gcc.isValid()
+
+    def showErrMsg(self):
+        super().showErrMsg()
+        print(" or", end=' ')
+        self.gcc.showErrMsg()
+
+    def showSuccessMsg(self):
+        if super().isValid(): super().showSuccessMsg()
+        self.gcc.showSuccessMsg()
 
 class MSBuildDependency(dependency):
     def getNames(self):

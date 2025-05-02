@@ -6,7 +6,7 @@ set(SHOW_CMAKE_VARIABLES 1)
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 2)
 set(VERSION_FIX 9)
-set(BUILD_COUNT 1232)
+set(BUILD_COUNT 1235)
 set(VERSION_NAME "Mana")
 set(VERSION_VALUE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_FIX}")
 set(VERSION "${PROJECT_NAME} ${UPDATE_NAME} v${VERSION_VALUE}")
@@ -39,6 +39,9 @@ ELSE(EMSCRIPTEN)
         IF(CLANGPP_PATH)
             set(CMAKE_CXX_COMPILER "${CLANGPP_PATH}")
             set(CMAKE_C_COMPILER "${CLANG_PATH}")
+
+            # clang flags:
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-zero-variadic-macro-arguments -Wno-undefined-bool-conversion -Wno-c++20-extensions")
         ENDIF()
     ENDIF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
 ENDIF(EMSCRIPTEN)
@@ -58,12 +61,10 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 IF(CMAKE_SYSTEM_NAME STREQUAL Darwin OR CMAKE_SYSTEM_NAME STREQUAL Linux OR CMAKE_SYSTEM_NAME STREQUAL Emscripten)
     set(CMAKE_MACOSX_RPATH 1)
 
-    # clang flags:
+    # common flags:
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Werror -fdiagnostics-color=always")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-zero-variadic-macro-arguments")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-delete-null-pointer-checks -Wno-sign-compare -Wno-unused-parameter -Wno-address")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedefs -Wno-undefined-bool-conversion")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-c++20-extensions")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedefs")
 
     IF(COVERAGE_TOOL)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-instr-generate -fcoverage-mapping -fprofile-arcs -ftest-coverage") # supports both of llvm-cov and gcov
