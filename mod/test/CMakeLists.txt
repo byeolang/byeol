@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 
 set(moduleName "test")
 set(dependencies ${dependencies} indep clog meta memlite core leaf ${pathGtest})
