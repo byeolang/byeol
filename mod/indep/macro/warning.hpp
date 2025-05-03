@@ -14,4 +14,10 @@
 #   define NM_WARN_IGNORE_AUTOLOGICAL_COMPARE
 #   define NM_WARN_IGNORE_UNUSED_FUNCTION NM_WARN_IGNORE(-Wunused-function)
 #   define NM_WARN_POP _Pragma("GCC diagnostic pop")
+#else
+#   define NM_WARN_PUSH
+#   define NM_WARN_IGNORE(warn)
+#   define NM_WARN_IGNORE_AUTOLOGICAL_COMPARE
+#   define NM_WARN_IGNORE_UNUSED_FUNCTION
+#   define NM_WARN_POP
 #endif
