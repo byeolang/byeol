@@ -6,7 +6,7 @@ set(SHOW_CMAKE_VARIABLES 1)
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 2)
 set(VERSION_FIX 9)
-set(BUILD_COUNT 1246)
+set(BUILD_COUNT 1248)
 set(VERSION_NAME "Mana")
 set(VERSION_VALUE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_FIX}")
 set(VERSION "${PROJECT_NAME} ${UPDATE_NAME} v${VERSION_VALUE}")
@@ -68,6 +68,9 @@ IF(CMAKE_SYSTEM_NAME STREQUAL Darwin OR CMAKE_SYSTEM_NAME STREQUAL Linux OR CMAK
 
         # gcc flags:
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-dangling-reference") # False positive
+        #   older gccs arbitrarily optimize away member variable initialization syntax in destructors that are supposed to handle
+        #   allocation new/delete correctly. It's a sort of false positive, because it works fine in newer gccs.
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-lifetime-dse") 
 
     ENDIF(CLANGPP_PATH)
 
