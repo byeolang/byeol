@@ -970,7 +970,7 @@ class GccDependency(dependency):
         return ["g++"]
 
     def getExpectVer(self):
-        return ver(13, 0, 0, False)
+        return ver(8, 0, 0, False)
 
 class ClangDependency(dependency):
 
