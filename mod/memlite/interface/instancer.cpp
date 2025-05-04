@@ -4,6 +4,10 @@ namespace nm {
 
     NM_DEF_ME(instancer)
 
+    nbool me::_isRel = false;
+
+    me::~instancer() { _isRel = true; }
+
     nbool me::bind(const instance& new1) {
         watchCell& un = *(watchCell*) _watcher.new1();
         return un.blk.bind(new1);

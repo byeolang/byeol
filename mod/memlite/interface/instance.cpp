@@ -18,18 +18,18 @@ namespace nm {
         _id.chkN = _vault.get(this); // _id is only belonged to the instance. not able to be copied.
     }
 
-    me::~instance() { _getMgr().rel(*this); }
+    me::~instance() { _getMgr() TO(rel(*this)); }
 
     ncnt me::vault::len() const { return _vaults.size(); }
 
     std::map<void*, int>& me::vault::getVaults() { return _vaults; }
 
-    void* me::operator new(size_t sz) noexcept { return _getMgr()._new1(sz); }
+    void* me::operator new(size_t sz) noexcept { return _getMgr() TO(_new1(sz)); }
 
-    void me::operator delete(void* pt, size_t sz) noexcept { _getMgr()._del(pt, sz); }
+    void me::operator delete(void* pt, size_t sz) noexcept { _getMgr() TO(_del(pt, sz)); }
 
     id me::getId() const {
-        if(_id.tagN == NM_INDEX_ERROR) _getMgr().bind((me&) *this);
+        if(_id.tagN == NM_INDEX_ERROR) _getMgr() TO(bind((me&) *this));
         return _id;
     }
 

@@ -11,10 +11,14 @@ namespace nm {
         friend class instance;
 
     public:
+        ~instancer();
+
+    public:
         nbool bind(const instance& new1);
         nbool rel(const instance& old);
         const pool& getPool() const;
         const watcher& getWatcher() const;
+        /// @return singleton instance. this returns nul of reference if app is about to be terminated.
         static me& get();
 
     private:
@@ -22,8 +26,11 @@ namespace nm {
         void _del(void* pt, ncnt sz);
         nbool _hasBindTag(const instance& it) const;
 
+    private:
+        instancer() = default;
 
     private:
+        static nbool _isRel;
         pool _pool;
         watcher _watcher;
     };
