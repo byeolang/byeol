@@ -185,14 +185,14 @@ jobs:
 
     steps:
     - name: checkout repository codes
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: install native dependencies.
       run: |
         brew unlink python && brew link --overwrite python
         brew install cmake wget bison flex graphviz llvm
-        ln -s "/opt/homebrew/opt/llvm/bin/clang-tidy" "/usr/local/bin/clang-tidy"
-        ln -s "/opt/homebrew/opt/llvm/bin/clang-format" "/usr/local/bin/clang-format"
+        echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> /Users/runner/.bash_profile
+        source /Users/runner/.bash_profile
 
         echo "install bison"
         sudo wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
@@ -205,7 +205,8 @@ jobs:
 
     - name: build in release mode & test current codes.
       run: |
-        export PATH="/usr/local/bin:/usr/local/opt/flex/bin:/usr/local/opt/bison/bin:$PATH"
+        source /Users/runner/.bash_profile
+        export PATH="$PATH:/usr/local/opt/flex/bin:/usr/local/opt/bison/bin"
         export C=clang CXX=clang++ PYTHON=$(which python3)
         ls -l ${{github.workspace}}/mod/leaf/parser/bison
         $PYTHON ${{github.workspace}}/build/builder.py pub mac
