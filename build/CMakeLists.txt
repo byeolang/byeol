@@ -6,7 +6,7 @@ set(SHOW_CMAKE_VARIABLES 1)
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 2)
 set(VERSION_FIX 9)
-set(BUILD_COUNT 1248)
+set(BUILD_COUNT 1255)
 set(VERSION_NAME "Mana")
 set(VERSION_VALUE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_FIX}")
 set(VERSION "${PROJECT_NAME} ${UPDATE_NAME} v${VERSION_VALUE}")
@@ -50,7 +50,7 @@ IF(CMAKE_SYSTEM_NAME STREQUAL Darwin OR CMAKE_SYSTEM_NAME STREQUAL Linux OR CMAK
     set(CMAKE_MACOSX_RPATH 1)
 
     # common flags:
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Werror -fdiagnostics-color=always")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -fdiagnostics-color=always")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-delete-null-pointer-checks -Wno-sign-compare -Wno-unused-parameter -Wno-address")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedefs")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-zero-variadic-macro-arguments -Wno-undefined-bool-conversion -Wno-c++20-extensions")
@@ -70,7 +70,7 @@ IF(CMAKE_SYSTEM_NAME STREQUAL Darwin OR CMAKE_SYSTEM_NAME STREQUAL Linux OR CMAK
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-dangling-reference") # False positive
         #   older gccs arbitrarily optimize away member variable initialization syntax in destructors that are supposed to handle
         #   allocation new/delete correctly. It's a sort of false positive, because it works fine in newer gccs.
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-lifetime-dse") 
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-lifetime-dse")
 
     ENDIF(CLANGPP_PATH)
 
