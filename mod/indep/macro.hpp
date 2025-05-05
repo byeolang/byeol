@@ -2,7 +2,6 @@
 
 #include "common.hpp"
 #include "def.hpp"
-#include "macro/argCounter.hpp"
 #include "macro/argGetter.hpp"
 #include "macro/declThis.hpp"
 #include "macro/helper.hpp"
