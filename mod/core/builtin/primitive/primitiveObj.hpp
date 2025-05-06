@@ -24,7 +24,7 @@ namespace nm {
         };
 
     public:
-        primitiveObj() = default;
+        primitiveObj(): _val() {}
 
         primitiveObj(const T& val): _val(val) {}
 
