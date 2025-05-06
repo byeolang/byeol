@@ -20,6 +20,8 @@ namespace nm {
 
     TEMPL ME::tstr(const binder& rhs): SUPER() { this->bind(*rhs); }
 
+    TEMPL ME::tstr(const me& rhs): me((binder&) rhs) {}
+
 #undef SUPER
 #undef ME
 #undef TEMPL
