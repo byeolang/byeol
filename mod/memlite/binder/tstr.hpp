@@ -21,6 +21,6 @@ namespace nm {
         tstr(const T* it);
         tstr(const binder& rhs);
 
-        using super::operator=;
+        me& operator=(const me& rhs) = default;
     };
 }
