@@ -111,7 +111,7 @@ namespace nm {
                            __empty__<decltype(__to_ref__<decltype(__p)>::to(__p).fn)>::ret(); \
     }
 
-#define THEN_REF(fn)                                                                             \
+#define TO_REF(fn)                                                                             \
     ->*[&](auto& __p) -> const decltype(__to_ref__<decltype(__p)>::to(__p).fn)& {                \
         return !nul(__p) ?                                                                       \
             __to_ref__<const typename std::remove_reference<decltype(__p)>::type&>::to(__p).fn : \

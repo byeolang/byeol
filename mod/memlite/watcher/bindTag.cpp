@@ -69,7 +69,7 @@ namespace nm {
     }
 
     const bindTag& me::getBindTag(id newId) {
-        return instancer::get().getWatcher()[newId] THEN_REF(blk);
+        return instancer::get() TO(getWatcher()[newId]) TO_REF(blk);
     }
 
     instance* me::operator->() { return &get(); }
