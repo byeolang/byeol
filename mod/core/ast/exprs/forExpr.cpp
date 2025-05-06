@@ -33,10 +33,10 @@ namespace nm {
             NM(CLASS(forLoop, loop))
 
         public:
-            forLoop(arr& ret, str container, str iter, const forExpr& owner):
+            forLoop(arr& ret, const str& container, const str& iter, const forExpr& owner):
                 super(ret),
-                _container(std::move(container)),
-                _iter(std::move(iter)),
+                _container(container),
+                _iter(iter),
                 _owner(owner) {}
 
         public:

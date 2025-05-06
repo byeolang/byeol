@@ -48,7 +48,7 @@ namespace nm {
         return NM_E("couldn't run main func(). it doesn't match any argument"), str();
     }
 
-    str me::_postprocess(str res) {
+    str me::_postprocess(const str& res) {
         errReport& ex = thread::get().getEx();
         if(ex) {
             NM_E("unhandled exception found:");

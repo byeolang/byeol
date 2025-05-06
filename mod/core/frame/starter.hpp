@@ -32,7 +32,7 @@ namespace nm {
     private:
         node& _findMain(node& pak, const args& a);
         void _prepareFrame(frames& fr);
-        str _postprocess(str res);
+        str _postprocess(const str& res);
 
     private:
         str _pak;
