@@ -6,11 +6,31 @@
 
 namespace nm {
 
+    namespace {
+        class derivedAs : public aser {
+            NM(CLASS(derivedAs, aser))
+
+        public:
+            nbool is(const type& from, const type& to) const override {
+                return to.isSuper(from);
+            }
+            str as(const node& from, const type& to) const override{
+                return from;
+            }
+            static me& singleton() {
+                static me inner;
+                return inner;
+            }
+        };
+    }
+
     NM_DEF_ME(ases)
 
-    me::ases() {}
+    me::ases(): super(derivedAs::singleton()) {}
 
-    me::ases(const std::initializer_list<aser*>& args): super(args) {}
+    me::ases(const std::initializer_list<aser*>& args): super(args) {
+        add(begin(), derivedAs::singleton());
+    }
 
     str me::as(const node& from, const type& to) const {
         const type& fromType = from.getType();
@@ -24,8 +44,6 @@ namespace nm {
     }
 
     nbool me::is(const type& from, const type& to) const {
-        WHEN(to.isSuper(from)).ret(true);
-
         for(auto& e: *this)
             if(e.is(from, to)) return true;
 
