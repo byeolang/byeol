@@ -53,7 +53,7 @@ jobs:
 
   build-on-linux-clang:
     needs: [checking-code-format]
-    name: build on linux
+    name: build on linux with clang
     runs-on: ubuntu-22.04
 
     steps:
@@ -93,7 +93,7 @@ jobs:
 
   build-on-linux-gcc:
     needs: [checking-code-format]
-    name: build on linux
+    name: build on linux with gcc
     runs-on: ubuntu-22.04
 
     steps:
@@ -131,12 +131,6 @@ jobs:
         ls -l ${{github.workspace}}/mod/leaf/parser/bison
         sudo $PYTHON ${{github.workspace}}/build/builder.py pub deb
         sudo $PYTHON ${{github.workspace}}/build/builder.py test
-
-    - name: upload output files.
-      uses: actions/upload-artifact@v4
-      with:
-        name: namu-ubuntu-x64
-        path: ${{github.workspace}}/bin/namu-ubuntu-x64.deb
 
   build-for-wasm:
     needs: [checking-code-format]
