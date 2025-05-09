@@ -22,31 +22,11 @@ namespace nm {
 
         template <typename T> nint isSuper() const { return getType().isSuper<T>(); }
 
-        template <typename T> T& cast() {
-            // this protection:
-            //  this c namu interpreter uses references in default, and not any pointers.
-            //  so you always care about a refer can be nulled.
-            //  for a convenience of our API users I put this guard.
-            //
-            //  please note that checking whether thisptr is null isn't recommended in
-            //  ordinary cpp.
-            NM_WARN_PUSH
-            NM_WARN_IGNORE_AUTOLOGICAL_COMPARE
-            if(this == nullptr) return nulOf<T>();
-            NM_WARN_POP
-
-            return *(T*) cast(ttype<T>::get());
+        template <typename T> T* cast() {
+            return (T*) cast(ttype<T>::get());
         }
 
-        /// namu is using a null reference.
-        /// you should always try to cast null references to other types only via cast<T> or
-        /// safeCast<T> instead of (T&) because attempting to cast direclty a null reference to
-        /// another type can result in a garbage address.
-        template <typename T, typename A> static T& safeCast(const A& any) {
-            return nul(any) ? nulOf<T>() : (T&) any;
-        }
-
-        template <typename T> const T& cast() const NM_CONST_FUNC(cast<T>())
+        template <typename T> const T* cast() const NM_CONST_FUNC(cast<T>())
 
         virtual void* cast(const type& to);
         const void* cast(const type& to) const NM_CONST_FUNC(cast(to))

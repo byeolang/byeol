@@ -31,7 +31,7 @@ namespace {
             if(name == NULL) {
                 logger& log = logger::get();
                 for(int n = 0; n < log.getStreamCount(); n++) {
-                    fileLogStream* as = dynamic_cast<fileLogStream*>(&log[n]);
+                    fileLogStream* as = dynamic_cast<fileLogStream*>(log.getStream(n));
                     if(as) {
                         name = as->getPath().c_str();
                         break;

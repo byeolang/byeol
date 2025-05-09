@@ -32,8 +32,8 @@ namespace nm {
     }
 
     me& me::setEnable(const std::string& streamName, nbool newVal) {
-        auto& stream = logger::get().getStream(streamName.c_str());
-        if(!nul(stream)) stream.setEnable(newVal);
+        auto* stream = logger::get().getStream(streamName.c_str());
+        if(stream) stream->setEnable(newVal);
         return *this;
     }
 } // namespace nm

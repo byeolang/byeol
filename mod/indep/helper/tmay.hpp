@@ -11,6 +11,8 @@ namespace nm {
     /// this is a wrapper class for std::optional.
     /// improved `optional`'s func name and signature because they are somewhat inconsistent
     /// from the perspective of namu and convention rules.
+    /// as with std::optional, calling get() on an object that doesn't actually have a value
+    /// will cause the app to crash.
     ///
     /// in namu, there are two cases where data must be returned with an error.
     ///     1. When returning by ref: use a binder such as tstr<T> or tweak<T>.

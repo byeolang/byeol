@@ -10,21 +10,12 @@ namespace nm {
         NM_ME(logger, stream)
 
     public:
-        //  Logger:
-        stream& operator[](nidx n);
-        const stream& operator[](nidx n) const NM_CONST_FUNC(operator[](n))
-        stream& operator[](const nchar* msg);
-        const stream& operator[](const nchar* msg) const NM_CONST_FUNC(operator[](msg))
-        stream& operator[](const std::string& msg);
-        const stream& operator[](const std::string& msg) const NM_CONST_FUNC(operator[](msg))
-
-    public:
-        stream& getStream(nidx n);
-        const stream& getStream(nidx n) const NM_CONST_FUNC(getStream(n))
-        stream& getStream(const nchar* msg);
-        const stream& getStream(const nchar* msg) const NM_CONST_FUNC(getStream(msg))
-        stream& getStream(const std::string& msg);
-        const stream& getStream(const std::string& msg) const NM_CONST_FUNC(getStream(msg))
+        stream* getStream(nidx n);
+        const stream* getStream(nidx n) const NM_CONST_FUNC(getStream(n))
+        stream* getStream(const nchar* msg);
+        const stream* getStream(const nchar* msg) const NM_CONST_FUNC(getStream(msg))
+        stream* getStream(const std::string& msg);
+        const stream* getStream(const std::string& msg) const NM_CONST_FUNC(getStream(msg))
 
         nbool isEnable() const override;
 

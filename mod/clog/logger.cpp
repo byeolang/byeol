@@ -22,26 +22,16 @@ namespace nm {
         return inner;
     }
 
-    stream& me::operator[](nidx n) { return getStream(n); }
+    stream* me::getStream(nidx n) { return _streams[n]; }
 
-    stream& me::operator[](const nchar* msg) { return getStream(msg); }
-
-    stream& me::operator[](const std::string& msg) { return getStream(msg); }
-
-    stream& me::getStream(nidx n) {
-        if(n < 0 || n >= getStreamCount()) return nulOf<stream>();
-
-        return *_streams[n];
-    }
-
-    stream& me::getStream(const std::string& msg) {
+    stream* me::getStream(const std::string& msg) {
         for(auto e: _streams)
-            if(string(e->getName()) == msg) return *e;
+            if(string(e->getName()) == msg) return e;
 
-        return nulOf<stream>();
+        return nullptr;
     }
 
-    stream& me::getStream(const nchar* msg) { return getStream(std::string(msg)); }
+    stream* me::getStream(const nchar* msg) { return getStream(std::string(msg)); }
 
     ncnt me::getStreamCount() const { return _streams.size(); }
 
@@ -194,8 +184,8 @@ namespace nm {
         if(enbs.size() <= 0 || enbs.size() != _streams.size()) return;
 
         for(const auto& e: enbs) {
-            auto& s = getStream(e.first);
-            if(!nul(s)) s.setEnable(e.second);
+            auto* s = getStream(e.first);
+            if(s) s->setEnable(e.second);
         }
     }
 
