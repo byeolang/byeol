@@ -53,7 +53,7 @@ namespace nm {
             return inner;
         }
 
-        static nbool isNul(const tmay<T>& it) { return nul(&it) || !it.has(); }
+        static nbool isNul(const tmay<T>& it) { return !it.has(); }
     };
 
     /// short version of nulr.

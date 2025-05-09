@@ -15,10 +15,7 @@ namespace nm {
     ME::tres(const R& value) { setErr(value); }
 
     TEMPLATE
-    R& ME::getErr() {
-        if(this->has()) return nulOf<R>();
-        return _err.value();
-    }
+    R& ME::getErr() { return _err.value(); }
 
     TEMPLATE
     void ME::rel() {

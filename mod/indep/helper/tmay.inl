@@ -9,7 +9,7 @@ namespace nm {
 #define TEMPLATE template <typename T>
 
     TEMPLATE
-    ME::tmay(const T& value): _subj(value) {}
+    ME::tmay(const T& value): super(value) {}
 
     TEMPLATE
     T* ME::operator->() { return &get(); }
@@ -21,19 +21,16 @@ namespace nm {
     ME::operator nbool() const { return has(); }
 
     TEMPLATE
-    nbool ME::has() const { return _subj.has_value(); }
+    nbool ME::has() const { return this->has_value(); }
 
     TEMPLATE
-    T& ME::get() {
-        if(!has()) return nulOf<T>();
-        return _subj.value();
-    }
+    T& ME::get() { return this->value(); }
 
     TEMPLATE
-    void ME::rel() { _subj.reset(); }
+    void ME::rel() { this->reset(); }
 
     TEMPLATE
-    void ME::set(const T& args) { _subj.emplace(args); }
+    void ME::set(const T& args) { this->emplace(args); }
 
 #undef TEMPLATE
 #undef ME

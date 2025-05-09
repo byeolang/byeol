@@ -12,6 +12,6 @@ namespace nm {
         virtual void logStack() const = 0;
         virtual const std::string& getMsg() const = 0;
         virtual errLv::level getLv() const = 0;
-        const std::string& getLevelName() const; // { return errLv::getName(_lv); }
+        const std::string& getLevelName() const;
     };
 }

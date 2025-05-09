@@ -17,8 +17,8 @@ namespace nm {
     ///     2. When returning by value: use tmay<T>.
     ///
     /// for details, refer to the return type rules of namu.
-    template <typename T> class tmay {
-        NM(ME(tmay))
+    template <typename T> class tmay : private std::optional<T> { 
+        NM(ME(tmay, std::optional<T>))
 
     public:
         tmay() = default;
@@ -45,8 +45,5 @@ namespace nm {
         virtual void rel();
 
         virtual void set(const T& arg);
-
-    private:
-        std::optional<T> _subj;
     };
 } // namespace nm
