@@ -105,17 +105,12 @@ namespace nm {
     ///             return code;
     ///         }
     ///     ```
+    /// but remember, namu doesn't create references that can be null. 
+    /// if you use TO on a reference that is null, it will behave UB. 
+    /// in many cases, the app will crash.
 #define TO(fn)                                                                                \
-    ->*[&](auto& __p) -> decltype(__to_ref__<decltype(__p)>::to(__p).fn) {                    \
+    ->*[&](auto __p) -> decltype(__to_ref__<decltype(__p)>::to(__p).fn) {                    \
         return !nul(__p) ? __to_ref__<decltype(__p)>::to(__p).fn :                            \
                            __empty__<decltype(__to_ref__<decltype(__p)>::to(__p).fn)>::ret(); \
     }
-
-#define TO_REF(fn)                                                                             \
-    ->*[&](auto& __p) -> const decltype(__to_ref__<decltype(__p)>::to(__p).fn)& {                \
-        return !nul(__p) ?                                                                       \
-            __to_ref__<const typename std::remove_reference<decltype(__p)>::type&>::to(__p).fn : \
-            __empty__<const decltype(__to_ref__<decltype(__p)>::to(__p).fn)&>::ret();            \
-    }
-
 } // namespace nm
