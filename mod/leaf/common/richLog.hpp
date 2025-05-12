@@ -6,4 +6,5 @@
 namespace nm {
     class leaf;
     _nout strWrap __convert__(const leaf* rhs);
+    _nout strWrap __convert__(const leaf& rhs);
 }

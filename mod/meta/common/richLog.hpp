@@ -9,4 +9,6 @@ namespace nm {
 
     _nout strWrap __convert__(const typeProvidable& rhs);
     _nout strWrap __convert__(const type& rhs);
+    _nout strWrap __convert__(const typeProvidable* rhs);
+    _nout strWrap __convert__(const type* rhs);
 }

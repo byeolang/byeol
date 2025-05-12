@@ -3,9 +3,16 @@
 #include "meta/interface/typeProvidable.hpp"
 
 namespace nm {
-    strWrap __convert__(const type& rhs) { return !nul(rhs) ? rhs.getName() : "null"; }
+
+    strWrap __convert__(const type& rhs) { return rhs.getName(); }
 
     strWrap __convert__(const typeProvidable& rhs) {
-        return !nul(rhs) ? rhs.getType().getName() : "null";
+        return rhs.getType().getName();
+    }
+
+    strWrap __convert__(const type* rhs) { return rhs ? __convert__(*rhs) : strWrap("null"); }
+
+    strWrap __convert__(const typeProvidable* rhs) {
+        return rhs ? __convert__(*rhs) : strWrap("null");
     }
 }
