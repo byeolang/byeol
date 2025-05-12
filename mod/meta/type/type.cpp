@@ -4,7 +4,6 @@ namespace nm {
     NM_DEF_ME(type)
 
     nbool me::operator==(const me& rhs) const {
-        WHEN_NUL(rhs).ret(false);
         return getName() == rhs.getName();
     }
 
@@ -84,7 +83,6 @@ namespace nm {
         //        object.
         //        so, if the "this" is a super of given object "it", its "tier"th super class
         //        would must be the class of "this".
-        WHEN_NUL(it).ret(false);
         const types& its = it.getSupers();
         ncnt myTier = getSupers().size(), itsTier = its.size();
         WHEN(myTier > itsTier).ret(false);

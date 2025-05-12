@@ -7,7 +7,6 @@ namespace nm {
     NM_DEF_ME(typeProvidable)
 
     nbool me::operator==(const me& rhs) const {
-        WHEN_NUL(rhs).ret(false);
         WHEN(getType() != rhs.getType()).ret(false);
 
         return _onSame(rhs);
