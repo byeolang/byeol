@@ -17,10 +17,23 @@ namespace nm {
         inline static std::vector<nbool> _stack;
     };
 
+    template <typename T, typename F>
+    T* operator|(T* t, F&& f) {
+        if(!t) return nullptr;
+        f(*t);
+        return t;
+    }
+
+    template <typename T, typename F>
+    const T* operator|(const T* t, F&& f) {
+        if(!t) return nullptr;
+        f(*t);
+        return t;
+    }
+
 #define __OR_DO__(_expr_)                \
-    ->*[&](auto& __p) -> decltype(__p) { \
+    | [&](auto&& __p) {                  \
         __orStack__::push(_expr_);       \
-        return __p;                      \
     };                                   \
     if(__orStack__::pop())
 

@@ -7,14 +7,15 @@
 
 namespace nm {
 
+
     template <typename T> struct __empty__ {
-        static T ret() { return T{}; }
+        static T ret() { return T{}; } // 값 타입은 기본값 반환
     };
 
     template <typename T> struct __empty__<T&> {
-        static T& ret() {
-            T* ret = nullptr;
-            return *ret;
+        static T& ret() { 
+            static T dummy;
+            return dummy;
         }
     };
 
@@ -22,49 +23,13 @@ namespace nm {
         static void ret() {}
     };
 
-    template <typename T> struct __to_ref__ {
-        static T to(T it) { return it; }
-    };
-
-    template <typename T> struct __to_ref__<T&> {
-        static T& to(T& it) { return it; }
-    };
-
-    template <typename T> struct __to_ref__<const T&> {
-        static const T& to(const T& it) { return it; }
-    };
-
-    template <typename T> struct __to_ref__<T*> {
-        static T& to(T* it) { return *it; }
-    };
-
-    template <typename T> struct __to_ref__<T*&&> {
-        static T& to(T*&& it) { return (T&) *it; }
-    };
-
-    template <typename T> struct __unwrap_binder__ {};
-
-    template <typename T> struct __unwrap_binder__<T*> {
-        static T* to(T* it) { return it; }
-    };
-
-    template <typename T> struct __unwrap_binder__<T&> {
-        static T& to(T& it) { return it; }
-    };
-
     template <typename T, typename F>
-    auto operator->*(T* t, F&& f) -> decltype(f(__unwrap_binder__<decltype(t)>::to(t))) {
-        return f(__unwrap_binder__<decltype(t)>::to(t));
-    }
-
-    template <typename T, typename F>
-    auto operator->*(T& t, F&& f) -> decltype(f(__unwrap_binder__<decltype(t)>::to(t))) {
-        return f(__unwrap_binder__<decltype(t)>::to(t));
-    }
-
-    template <typename T, typename F>
-    auto operator->*(const T& t, F&& f) -> decltype(f(__unwrap_binder__<decltype(t)>::to(t))) {
-        return f(__unwrap_binder__<decltype(t)>::to(t));
+    auto operator->*(T&& t, F&& f) {
+        if constexpr (std::is_pointer_v<std::decay_t<T>>) {
+            return t ? f(*t) : __empty__<std::invoke_result_t<F, decltype(*t)>>::ret();
+        } else {
+            return f(std::forward<T>(t));
+        }
     }
 
     /// `to` is safe navigation feature of c++:
@@ -109,8 +74,11 @@ namespace nm {
     /// if you use TO on a reference that is null, it will behave UB. 
     /// in many cases, the app will crash.
 #define TO(fn)                                                                                \
-    ->*[&](auto __p) -> decltype(__to_ref__<decltype(__p)>::to(__p).fn) {                    \
-        return !nul(__p) ? __to_ref__<decltype(__p)>::to(__p).fn :                            \
-                           __empty__<decltype(__to_ref__<decltype(__p)>::to(__p).fn)>::ret(); \
+    ->* [&](auto&& __p) -> std::decay_t<decltype(__p.fn)> {                                       \
+        if constexpr (std::is_pointer_v<std::decay_t<decltype(__p)>>)                       \
+            return !nul(__p) ? __p->fn : __empty__<std::decay_t<decltype(__p->fn)>>::ret();   \
+        else                                                                                \
+            return !nul(__p) ? __p.fn : __empty__<std::decay_t<decltype(__p.fn)>>::ret();     \
     }
+
 } // namespace nm
