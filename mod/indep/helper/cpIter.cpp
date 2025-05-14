@@ -79,8 +79,10 @@ namespace nm {
     const nchar* me::_nextCodepoint(const nchar* from) const { return from + _skipBytes(*from); }
 
     const nchar* me::_prevCodepoint(const nchar* e) const {
-        while(e >= _end)
-            if(_skipBytes(*--e)) return e;
+        while(e >= _end) {
+            if(--e == nullptr) return nullptr;
+            if(_skipBytes(*e)) return e;
+        }
         return nullptr;
     }
 
