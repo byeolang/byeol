@@ -151,7 +151,7 @@ TEST_F(binderTest, defaultBehaviorTest) {
     ASSERT_FALSE(nul(*b1));
     ASSERT_FALSE(nul(b1->getType()));
 
-    const bindTag& tag = b1->getBindTag();
+    const bindTag& tag = *b1->getBindTag();
     ASSERT_FALSE(nul(tag));
     ASSERT_TRUE(b1->isHeap());
 

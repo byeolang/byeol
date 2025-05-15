@@ -16,16 +16,10 @@ namespace nm {
         watcher();
 
     public:
-        watchCell& operator[](nidx n);
-        watchCell& operator[](id newId);
-        const watchCell& operator[](nidx n) const NM_CONST_FUNC(operator[](n))
-        const watchCell& operator[](id newId) const NM_CONST_FUNC(operator[](newId))
-
-    public:
-        watchCell& get(nidx n);
-        watchCell& get(id newId);
-        const watchCell& get(nidx n) const NM_CONST_FUNC(get(n))
-        const watchCell& get(id newId) const NM_CONST_FUNC(get(newId))
+        watchCell* get(nidx n);
+        watchCell* get(id newId);
+        const watchCell* get(nidx n) const NM_CONST_FUNC(get(n))
+        const watchCell* get(id newId) const NM_CONST_FUNC(get(newId))
         //  Allocator:
         void* new1() override;
 

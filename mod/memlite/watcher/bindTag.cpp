@@ -13,10 +13,10 @@ namespace nm {
 
     me::~bindTag() { _id.serial = 0; }
 
-    const chunk& me::getChunk() const {
+    const chunk* me::getChunk() const {
         WHEN(!_pt).retNul<chunk>();
 
-        return instancer::get().getPool()[*_pt][*_pt];
+        return instancer::get() TO(getPool().get(*_pt)->get(*_pt));
     }
 
     ncnt me::getStrongCnt() const { return _strong; }
@@ -45,7 +45,7 @@ namespace nm {
         return true;
     }
 
-    instance& me::get() { return *_pt; }
+    instance* me::get() { return _pt; }
 
     nbool me::bind(const instance& it) {
         rel();
@@ -68,13 +68,14 @@ namespace nm {
         return true;
     }
 
-    const bindTag& me::getBindTag(id newId) {
-        return instancer::get() TO(getWatcher()[newId]) TO_REF(blk);
+    const bindTag* me::getBindTag(id newId) {
+        const watchCell* cell = instancer::get() TO(getWatcher().get(newId)) OR.retNul<bindTag>();
+        return &cell->blk;
     }
 
-    instance* me::operator->() { return &get(); }
+    instance* me::operator->() { return get(); }
 
-    instance& me::operator*() { return get(); }
+    instance& me::operator*() { return *get(); }
 
     const type& me::getType() const { return ttype<bindTag>::get(); }
 } // namespace nm

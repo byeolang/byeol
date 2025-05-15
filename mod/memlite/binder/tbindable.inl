@@ -10,9 +10,10 @@ namespace nm {
     TEMPL ME::operator nbool() const { return !nul(this) && isBind(); }
 
     TEMPL nbool ME::canBind(const T& it) const {
-        WHEN_NUL(it).ret(false);
         return canBind(it.getType());
     }
+
+    TEMPL nbool ME::canBind(const T* it) const { return it ? canBind(*it) : false; }
 
     TEMPL
     nbool ME::bind(const T& it) {
@@ -23,7 +24,7 @@ namespace nm {
     }
 
     TEMPL
-    nbool ME::bind(const T* it) { return bind(*it); }
+    nbool ME::bind(const T* it) { return it ? bind(*it) : false; }
 
 #undef ME
 #undef TEMPL

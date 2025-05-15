@@ -35,7 +35,7 @@ namespace nm {
 
     nbool me::isHeap() const { return _id.isHeap(); }
 
-    const bindTag& me::getBindTag() const { return bindTag::getBindTag(getId()); }
+    const bindTag* me::getBindTag() const { return bindTag::getBindTag(getId()); }
 
     nbool me::_setId(id new1) {
         // rel() must not to reset Id. it's regarding to instance info.
@@ -44,7 +44,7 @@ namespace nm {
         return true;
     }
 
-    instancer& me::_getMgr() { return instancer::get(); }
+    instancer* me::_getMgr() { return instancer::get(); }
 
     void me::vault::set(void* ptr, nidx chkN) {
         WHEN_NUL(ptr).ret();

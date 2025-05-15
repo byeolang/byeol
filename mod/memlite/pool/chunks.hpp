@@ -14,17 +14,11 @@ namespace nm {
         virtual ~chunks();
 
     public:
-        chunk& operator[](nidx n);
-        const chunk& operator[](nidx n) const NM_CONST_FUNC(operator[](n))
-        chunk& operator[](const instance& inst);
-        const chunk& operator[](const instance& inst) const NM_CONST_FUNC(operator[](inst))
-
-    public:
         //  chunks:
-        chunk& get(nidx n);
-        chunk& get(const instance& it);
-        const chunk& get(nidx n) const NM_CONST_FUNC(get(n))
-        const chunk& get(const instance& it) const NM_CONST_FUNC(get(it))
+        chunk* get(nidx n);
+        chunk* get(const instance& it);
+        const chunk* get(nidx n) const NM_CONST_FUNC(get(n))
+        const chunk* get(const instance& it) const NM_CONST_FUNC(get(it))
         //  allocator:
         void* new1() override;
         nbool del(void* pt, ncnt sz) override;

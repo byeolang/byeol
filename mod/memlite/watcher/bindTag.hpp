@@ -28,7 +28,7 @@ namespace nm {
         const instance& operator*() const NM_CONST_FUNC(operator*())
 
     public:
-        const chunk& getChunk() const;
+        const chunk* getChunk() const;
         ncnt getStrongCnt() const;
         //  tbindable:
         void rel() override;
@@ -36,11 +36,11 @@ namespace nm {
         const type& getBindable() const;
         using tbindable::canBind;
 
-        instance& get();
-        const instance& get() const NM_CONST_FUNC(get())
+        instance* get();
+        const instance* get() const NM_CONST_FUNC(get())
 
-        template <typename E> E& get() { return get() TO(template cast<E>()); }
-        template <typename E> const E& get() const NM_CONST_FUNC(get<E>())
+        template <typename E> E* get() { return get() TO(template cast<E>()); }
+        template <typename E> const E* get() const NM_CONST_FUNC(get<E>())
 
         nbool canBind(const type& cls) const override;
         nbool bind(const instance& new1) override;
@@ -48,7 +48,7 @@ namespace nm {
         id getId() const;
         //  typeProvidable:
         const type& getType() const override;
-        static const bindTag& getBindTag(id newId);
+        static const bindTag* getBindTag(id newId);
 
     private:
         //  bindTag:

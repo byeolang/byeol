@@ -9,17 +9,13 @@ namespace nm {
 
     me::~pool() { rel(); }
 
-    chunks& me::operator[](nidx n) { return get(n); }
+    chunks* me::get(const instance& inst) { return get(inst.getType().size()); }
 
-    chunks& me::operator[](const instance& inst) { return get(inst); }
-
-    chunks& me::get(const instance& inst) { return get(inst.getType().size()); }
-
-    chunks& me::get(nidx n) { return *(chunks*) _get(n); }
+    chunks* me::get(nidx n) { return (chunks*) _get(n); }
 
     nbool me::has(const instance& it) const {
-        const chunks& got = get(it.getType().size()) OR.warn("got == null").ret(false);
-        return got.has(it);
+        const chunks* got = get(it.getType().size()) OR.warn("got == null").ret(false);
+        return got->has(it);
     }
 
     ncnt me::size() const { return _chunks.capacity(); }

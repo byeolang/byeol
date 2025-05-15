@@ -69,7 +69,13 @@ namespace nm {
 
     public:
         instance* operator->();
+
+        /// this follows the same policy as tmay and stl.
+        /// that is, if the binder does not bind any instances and tries to dereference them with 
+        /// `get()` or `operator*()`, it will behave as UB.
+        /// this is likely to crash.
         instance& operator*();
+
         const instance* operator->() const NM_CONST_FUNC(operator->())
         const instance& operator*() const NM_CONST_FUNC(operator*())
         me& operator=(const me& rhs);
@@ -85,14 +91,13 @@ namespace nm {
         using tbindable::bind;
         nbool bind(const instance& it) override;
 
-        instance& get();
-        const instance& get() const NM_CONST_FUNC(get())
+        instance* get();
+        const instance* get() const NM_CONST_FUNC(get())
 
-        template <typename E> E& get() {
-            instance& got = get() OR.retNul<E>();
-            return got.template cast<E>();
+        template <typename E> E* get() {
+            return get()->template cast<E>();
         }
-        template <typename E> const E& get() const NM_CONST_FUNC(get<E>())
+        template <typename E> const E* get() const NM_CONST_FUNC(get<E>())
 
         //  typeProvidable:
         const type& getType() const override;
@@ -103,7 +108,7 @@ namespace nm {
     protected:
         nbool _assign(const binder& rhs);
         nbool _onSame(const typeProvidable& rhs) const override;
-        bindTag& _getBindTag() const;
+        bindTag* _getBindTag() const;
 
     protected:
         id _itsId; // id for binded one

@@ -6,16 +6,12 @@ namespace nm {
 
     me::watcher(): chunk(sizeof(watchCell), false) {}
 
-    watchCell& me::operator[](nidx n) { return get(n); }
+    watchCell* me::get(nidx n) { return (watchCell*) _get(n); }
 
-    watchCell& me::operator[](id newId) { return get(newId); }
+    watchCell* me::get(id newId) {
+        watchCell* got = get(newId.tagN) OR.retNul<watchCell>();
 
-    watchCell& me::get(nidx n) { return *(watchCell*) _get(n); }
-
-    watchCell& me::get(id newId) {
-        watchCell& got = get(newId.tagN) OR.retNul<watchCell>();
-
-        id gotId = got.blk.getId();
+        id gotId = got->blk.getId();
         WHEN(gotId.tagN != newId.tagN)
             .warn("bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN,
                 gotId.chkN, gotId.serial, newId.tagN, newId.chkN, newId.serial)

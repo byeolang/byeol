@@ -15,9 +15,9 @@ namespace nm {
 
     binder::~binder() { me::rel(); }
 
-    instance* me::operator->() { return &get(); }
+    instance* me::operator->() { return get(); }
 
-    instance& me::operator*() { return get(); }
+    instance& me::operator*() { return *get(); }
 
     me& me::operator=(const me& rhs) {
         WHEN(this == &rhs).ret(*this);
@@ -27,8 +27,8 @@ namespace nm {
     }
 
     nbool me::isBind() const {
-        const bindTag& tag = _getBindTag() OR.ret(false);
-        return tag.isBind();
+        const bindTag* tag = _getBindTag() OR.ret(false);
+        return tag->isBind();
     }
 
     void me::rel() { _tactic->rel(*this); }
@@ -46,12 +46,7 @@ namespace nm {
         return _tactic->bind(*this, it);
     }
 
-    instance& me::get() {
-        NM_WARN_PUSH
-        NM_WARN_IGNORE_AUTOLOGICAL_COMPARE
-        if(this == nullptr) return nulOf<instance>();
-        NM_WARN_POP
-
+    instance* me::get() {
         return _getBindTag() TO(get());
     }
 
@@ -69,10 +64,10 @@ namespace nm {
         return get() == cast.get();
     }
 
-    bindTag& me::_getBindTag() const { return (bindTag&) bindTag::getBindTag(_itsId); }
+    bindTag* me::_getBindTag() const { return (bindTag*) bindTag::getBindTag(_itsId); }
 
     void* me::cast(const type& to) {
         WHEN(!isBind()).ret(nullptr);
-        return get().cast(to);
+        return get()->cast(to);
     }
 } // namespace nm

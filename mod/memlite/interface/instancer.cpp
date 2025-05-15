@@ -16,21 +16,25 @@ namespace nm {
     nbool me::rel(const instance& old) {
         WHEN(!_hasBindTag(old)).ret(true); // optimization.
 
-        watchCell& un = _watcher[old.getId()] OR.ret(false);
+        watchCell* un = _watcher.get(old.getId()) OR.ret(false);
         return _watcher.del(&un, sizeof(watchCell));
     }
 
-    void* me::_new1(size_t sz) { return _pool[sz].new1(); }
+    void* me::_new1(size_t sz) {
+        auto* got = _pool.get(sz);
+        return got TO(new1());
+        //return _pool.get(sz) TO(new1());
+    }
 
-    void me::_del(void* pt, ncnt sz) { _pool[sz].del(pt, sz); }
+    void me::_del(void* pt, ncnt sz) { _pool.get(sz)->del(pt, sz); }
 
     const pool& me::getPool() const { return _pool; }
 
     const watcher& me::getWatcher() const { return _watcher; }
 
-    me& me::get() {
+    me* me::get() {
         static me inner;
-        return _isRel ? nulOf<me>() : inner;
+        return _isRel ? nullptr : &inner;
     }
 
     nbool me::_hasBindTag(const instance& it) const { return it._id.tagN != NM_INDEX_ERROR; }

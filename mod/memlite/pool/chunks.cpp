@@ -9,13 +9,9 @@ namespace nm {
 
     me::~chunks() { _rel(); }
 
-    chunk& me::operator[](nidx n) { return get(n); }
+    chunk* me::get(nidx n) { return (chunk*) _get(n); }
 
-    chunk& me::operator[](const instance& inst) { return get(inst); }
-
-    chunk& me::get(nidx n) { return *(chunk*) _get(n); }
-
-    chunk& me::get(const instance& it) { return *(chunk*) _get(it.getId().chkN); }
+    chunk* me::get(const instance& it) { return (chunk*) _get(it.getId().chkN); }
 
     nbool me::rel() { return _rel(); }
 
@@ -43,8 +39,8 @@ namespace nm {
         nidx end = _s;
 
         do {
-            chunk& e = get(_s);
-            WHEN(!nul(e) && e.isCapable()).ret(_s);
+            chunk* e = get(_s);
+            WHEN(e && e->isCapable()).ret(_s);
             _s++;
             if(_s >= sz) _s = 0;
         } while(_s != end);

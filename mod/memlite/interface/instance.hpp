@@ -48,12 +48,12 @@ namespace nm {
     public:
         virtual id getId() const;
         virtual nbool isHeap() const;
-        const bindTag& getBindTag() const;
+        const bindTag* getBindTag() const;
 
     protected:
         //  instance:
         nbool _setId(id new1);
-        static instancer& _getMgr();
+        static instancer* _getMgr();
 
     private:
         id _id;

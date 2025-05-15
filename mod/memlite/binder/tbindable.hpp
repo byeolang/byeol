@@ -17,6 +17,7 @@ namespace nm {
         nbool bind(const T* it);
         virtual void rel() = 0;
         nbool canBind(const T& it) const;
+        nbool canBind(const T* it) const;
         virtual nbool canBind(const type& it) const = 0;
         virtual nbool isBind() const = 0;
     };

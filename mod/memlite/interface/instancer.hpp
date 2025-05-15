@@ -19,7 +19,7 @@ namespace nm {
         const pool& getPool() const;
         const watcher& getWatcher() const;
         /// @return singleton instance. this returns nul of reference if app is about to be terminated.
-        static me& get();
+        static me* get();
 
     private:
         void* _new1(size_t sz);
