@@ -31,7 +31,7 @@ namespace nm {
 
     public:
         using super::get;
-        T& get();
+        T* get();
         const T& get() const NM_CONST_FUNC(get())
 
         using tbindable::bind;
