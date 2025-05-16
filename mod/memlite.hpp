@@ -3,3 +3,4 @@
 #include "memlite/binder.hpp"
 #include "memlite/interface.hpp"
 #include "memlite/watcher.hpp"
+#include "memlite/or.hpp"

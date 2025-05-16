@@ -32,7 +32,7 @@ namespace nm {
     public:
         using super::get;
         T* get();
-        const T& get() const NM_CONST_FUNC(get())
+        const T* get() const NM_CONST_FUNC(get())
 
         using tbindable::bind;
         nbool bind(const T& new1);
