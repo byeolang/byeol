@@ -5,14 +5,12 @@ namespace nm {
 
     NM_DEF_ME(leaf)
 
-    me& me::sub(const std::string& name) {
-        NM_WARN_PUSH
-        NM_WARN_IGNORE_AUTOLOGICAL_COMPARE
-        if(this == nullptr) return nulOf<me>();
-        NM_WARN_POP
-        tstr<me> ret = _subs[name] OR.ret(nulLeaf::get());
-        return *ret;
+    me* me::sub(const std::string& name) {
+        tstr<me> ret = _subs[name] OR.ret(nullptr);
+        return ret.get();
     }
+
+    me* me::sub(nidx n) { return std::next(begin(), n)->second.get(); }
 
     me::leaf(std::initializer_list<me*> subs, const std::string& name): _name(name) { add(subs); }
 
@@ -20,9 +18,6 @@ namespace nm {
 
     me::leaf(const std::string& name): _name(name) {}
 
-    me& me::operator[](const std::string& name) { return sub(name); }
-
-    me& me::operator[](nidx n) { return *std::next(begin(), n)->second; }
 
     me::operator nbool() const { return isExist(); }
 

@@ -156,12 +156,12 @@ namespace nm {
         return &blk;
     }
 
-    leaf* me::onCompilationUnit(leaf& subpack) {
+    leaf* me::onCompilationUnit(leaf* subpack) {
         WHEN_NUL(subpack).err("subpack is null").ret(nullptr);
 
-        subpack.setName("root");
+        subpack->setName("root");
         _root.bind(subpack);
-        return &subpack;
+        return subpack;
     }
 
     void me::onParseErr(const std::string& msg, const nchar* symbolName) {
@@ -174,12 +174,12 @@ namespace nm {
 
     std::vector<ncnt>& me::getIndents() { return _indents; }
 
-    leaf& me::parseFromFile(const std::string& path) {
+    leaf* me::parseFromFile(const std::string& path) {
         std::ifstream fout(path);
         if(fout.fail()) {
             // there is no file.
             report(path + " not exist.");
-            return nulOf<leaf>();
+            return nullptr;
         }
 
         std::stringstream buf;
@@ -187,7 +187,7 @@ namespace nm {
         return parse(buf.str());
     }
 
-    leaf& me::parse(const std::string& codes) {
+    leaf* me::parse(const std::string& codes) {
         _prepare();
 
         zzscan_t scanner;
@@ -258,13 +258,13 @@ namespace nm {
         return zz_scan_string((nchar*) src, (zzscan_t) scanner);
     }
 
-    leaf& me::_finalize() {
+    leaf* me::_finalize() {
         ncnt size = _errs.size();
-        WHEN(size <= 0).ret(*_root);
+        WHEN(size <= 0).ret(_root.get());
 
         NM_I("leaf: total %d errors found.", size);
         for(const auto& e: _errs)
             NM_I("leaf: ERR: %s", e);
-        return nulOf<leaf>();
+        return nullptr;
     }
 } // namespace nm

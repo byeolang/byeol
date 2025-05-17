@@ -98,6 +98,8 @@ namespace nm {
 
         template <typename R, typename... Ts> R& ret([[maybe_unused]] R& r) const { return r; }
 
+        template <typename R, typename... Ts> R* ret([[maybe_unused]] R* r) const { return r; }
+
         template <typename R, typename... Ts> R&& ret([[maybe_unused]] R&& r) const {
             return std::move(r);
         }

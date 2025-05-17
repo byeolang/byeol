@@ -16,8 +16,8 @@ namespace nm {
         leafParser();
 
     public:
-        leaf& parse(const std::string& codes);
-        leaf& parseFromFile(const std::string& path);
+        leaf* parse(const std::string& codes);
+        leaf* parseFromFile(const std::string& path);
 
         leafTokenDispatcher& getDispatcher();
         std::vector<ncnt>& getIndents();
@@ -65,7 +65,7 @@ namespace nm {
         leaf* onDefArray(const leaf& elem);
         leaf* onDefArray(leaf& as, const leaf& elem);
         //          file:
-        leaf* onCompilationUnit(leaf& blk);
+        leaf* onCompilationUnit(leaf* blk);
 
         void onParseErr(const std::string& msg, const nchar* symbolName);
         void report(const std::string& msg);
@@ -75,7 +75,7 @@ namespace nm {
         void* _scanString(const nchar* src, void* scanner);
         nint _onTokenEndOfInlineBlock(nint tok);
         nint _onScan(ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner);
-        leaf& _finalize();
+        leaf* _finalize();
 
     private:
         leafTokenScan* _mode;
