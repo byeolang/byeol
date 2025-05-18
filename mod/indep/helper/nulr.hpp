@@ -24,7 +24,7 @@ namespace nm {
     };
 
     template <typename T>
-    auto nul(T&& it) -> decltype(nulr<std::decay_t<T>>::isNul(std::forward<T>(it))) {
-        return nulr<std::decay_t<T>>::isNul(std::forward<T>(std::forward<T>(it)));
+    auto nul(T&& it) -> decltype(nulr<std::decay_t<T>>::isNul(it)) {
+        return nulr<std::decay_t<T>>::isNul(std::forward<T>(it));
     }
 } // namespace nm

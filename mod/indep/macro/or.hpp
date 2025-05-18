@@ -20,14 +20,14 @@ namespace nm {
     template <typename T, typename F>
     T* operator|(T* t, F&& f) {
         if(!t) return nullptr;
-        f(*t);
+        f(t);
         return t;
     }
 
     template <typename T, typename F>
     const T* operator|(const T* t, F&& f) {
         if(!t) return nullptr;
-        f(*t);
+        f(t);
         return t;
     }
 
