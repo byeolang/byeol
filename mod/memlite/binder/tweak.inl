@@ -29,7 +29,7 @@ namespace nm {
 
     TEMPL T* ME::operator->() { return &this->get(); }
 
-    TEMPL T& ME::operator*() { return this->get(); }
+    TEMPL T& ME::operator*() { return *get(); }
 
     TEMPL ME& ME::operator=(const binder& rhs) {
         if(this == &rhs) return *this;
