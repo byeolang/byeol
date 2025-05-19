@@ -69,8 +69,8 @@ namespace nm {
     }
 
     const bindTag* me::getBindTag(id newId) {
-        const watchCell* cell = instancer::get() TO(getWatcher().get(newId)) OR.retNul<bindTag>();
-        return &cell->blk;
+        const watchCell& cell = instancer::get() TO(getWatcher().get(newId)) OR.retNul<bindTag>();
+        return &cell.blk;
     }
 
     instance* me::operator->() { return get(); }

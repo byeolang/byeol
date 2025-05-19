@@ -9,9 +9,9 @@ namespace nm {
     watchCell* me::get(nidx n) { return (watchCell*) _get(n); }
 
     watchCell* me::get(id newId) {
-        watchCell* got = get(newId.tagN) OR.retNul<watchCell>();
+        watchCell& got = get(newId.tagN) OR.retNul<watchCell>();
 
-        id gotId = got->blk.getId();
+        id gotId = got.blk.getId();
         WHEN(gotId.tagN != newId.tagN)
             .warn("bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN,
                 gotId.chkN, gotId.serial, newId.tagN, newId.chkN, newId.serial)
@@ -19,7 +19,7 @@ namespace nm {
         WHEN(gotId.chkN != newId.chkN || gotId.serial != newId.serial)
             .retNul<watchCell>(); // bindTag has been changed its instance to bind.
 
-        return got;
+        return &got;
     }
 
     void* me::new1() {
@@ -27,10 +27,10 @@ namespace nm {
             .err("resize watcher failed! this damage system seriously !!!!")
             .ret(nullptr);
 
-        watchCell* res = (watchCell*) super::new1() OR.ret(res);
+        watchCell& res = (watchCell*) super::new1() OR.ret(&res);
 
-        ::new(&res->blk) bindTag(_genId(res));
-        return res;
+        ::new(&res.blk) bindTag(_genId(&res));
+        return &res;
     }
 
     nbool me::del(void* used, ncnt sz) {

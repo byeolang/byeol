@@ -18,22 +18,24 @@ namespace nm {
     };
 
     template <typename T, typename F>
-    T* operator|(T* t, F&& f) {
-        if(!t) return nullptr;
+    T& operator|(T* t, F&& f) {
         f(t);
-        return t;
+        // this returns null-reference but take it easy.
+        // it'll never be used.
+        return *t;
     }
 
     template <typename T, typename F>
-    const T* operator|(const T* t, F&& f) {
-        if(!t) return nullptr;
+    const T& operator|(const T* t, F&& f) {
         f(t);
-        return t;
+        // this may return null-reference but take it easy.
+        // it'll never be used.
+        return *t;
     }
 
-#define __OR_DO__(_expr_)                \
-    | [&](auto&& __p) {                  \
-        __orStack__::push(_expr_);       \
+#define __OR_DO__(_expr_)                         \
+    | [&](auto* __p) -> void {                    \
+        __orStack__::push(__p ? _expr_ : false); \
     };                                   \
     if(__orStack__::pop())
 

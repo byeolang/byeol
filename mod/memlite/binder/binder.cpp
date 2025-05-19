@@ -27,8 +27,8 @@ namespace nm {
     }
 
     nbool me::isBind() const {
-        const bindTag* tag = _getBindTag() OR.ret(false);
-        return tag->isBind();
+        const bindTag& tag = _getBindTag() OR.ret(false);
+        return tag.isBind();
     }
 
     void me::rel() { _tactic->rel(*this); }

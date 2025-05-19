@@ -39,10 +39,10 @@ namespace nm {
                 "situtation.")
             .ret(nullptr);
 
-        nidx* ret = (nidx*) _get(_head) OR.ret(nullptr);
-        _head = *ret;
+        nidx& ret = (nidx*) _get(_head) OR.ret(nullptr);
+        _head = ret;
         _len++;
-        return ret;
+        return &ret;
     }
 
     nbool me::del(void* used, ncnt) {
@@ -77,8 +77,8 @@ namespace nm {
     }
 
     nuchar* me::_getEOB() {
-        nuchar* org = (nuchar*) _get(_sz - 1) OR.ret(nullptr);
-        return org + _getRealBlkSize() - 1;
+        nuchar& org = (nuchar*) _get(_sz - 1) OR.ret(nullptr);
+        return &org + _getRealBlkSize() - 1;
     }
 
     nbool me::_index(nidx start) {

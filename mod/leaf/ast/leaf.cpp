@@ -6,7 +6,7 @@ namespace nm {
     NM_DEF_ME(leaf)
 
     me* me::sub(const std::string& name) {
-        tstr<me> ret = _subs[name] OR.ret(nullptr);
+        tstr<me>& ret = _subs[name] OR.ret(nullptr);
         return ret.get();
     }
 
