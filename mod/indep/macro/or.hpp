@@ -34,8 +34,8 @@ namespace nm {
     }
 
 #define __OR_DO__(_expr_)                         \
-    | [&](auto* __p) -> void {                    \
-        __orStack__::push(__p ? _expr_ : false); \
+    | [&](auto&& __p) -> void {                    \
+        __orStack__::push(nul(__p) ? _expr_ : false); \
     };                                   \
     if(__orStack__::pop())
 
