@@ -193,15 +193,15 @@ namespace nm {
         zzscan_t scanner;
         zzlex_init_extra(this, &scanner);
 
-        YY_BUFFER_STATE bufState =
+        yy_buffer_state& bufState =
             (YY_BUFFER_STATE) _scanString(codes.c_str(), scanner) OR.retNul<leaf>();
 
         // fix Flex Bug here:
         //  when zz_scan_string get called, it returns bufState after malloc it.
         //  but some variables wasn't initialized. zz_bs_lineno(used to calculate
         //  current cursor position) is one of them.
-        bufState->yy_bs_lineno = bufState->yy_bs_column = 0;
-        zz_switch_to_buffer(bufState, scanner);
+        bufState.yy_bs_lineno = bufState.yy_bs_column = 0;
+        zz_switch_to_buffer(&bufState, scanner);
 
 #if ZZDEBUG
         // zzset_debug(1, scanner); // For Flex (no longer a global, but rather a member of)
@@ -211,7 +211,7 @@ namespace nm {
         int res = zzparse(scanner);
         if(res) report("parsing has error");
 
-        zz_delete_buffer(bufState, scanner);
+        zz_delete_buffer(&bufState, scanner);
         zzlex_destroy(scanner);
 
         return _finalize();

@@ -6,8 +6,8 @@ namespace nm {
     NM_DEF_ME(leaf)
 
     me* me::sub(const std::string& name) {
-        tstr<me>& ret = _subs[name] OR.ret(nullptr);
-        return ret.get();
+        me& ret = _subs[name] OR.ret(nullptr);
+        return &ret;
     }
 
     me* me::sub(nidx n) { return std::next(begin(), n)->second.get(); }
