@@ -42,18 +42,18 @@ namespace nm {
         /// @return null if it's not relative between l & r.
         const node* deduce(const node& r) const;
 
-        template <typename T> T& sub(std::function<nbool(const std::string&, const T&)> l);
+        template <typename T> T* sub(std::function<nbool(const std::string&, const T&)> l);
         template <typename T>
-        const T& sub(std::function<nbool(const std::string&, const T&)> l) const
+        const T* sub(std::function<nbool(const std::string&, const T&)> l) const
             NM_CONST_FUNC(sub<T>(l))
-        template <typename T = me> T& sub();
-        template <typename T = me> const T& sub() const NM_CONST_FUNC(sub<T>())
-        template <typename T = me> T& sub(const std::string& name);
+        template <typename T = me> T* sub();
+        template <typename T = me> const T* sub() const NM_CONST_FUNC(sub<T>())
+        template <typename T = me> T* sub(const std::string& name);
         template <typename T = me>
-        const T& sub(const std::string& name) const NM_CONST_FUNC(sub<T>(name))
-        template <typename T = me> T& sub(const std::string& name, const args& a);
+        const T* sub(const std::string& name) const NM_CONST_FUNC(sub<T>(name))
+        template <typename T = me> T* sub(const std::string& name, const args& a);
         template <typename T = me>
-        const T& sub(const std::string& name, const args& a) const NM_CONST_FUNC(sub<T>(name, a))
+        const T* sub(const std::string& name, const args& a) const NM_CONST_FUNC(sub<T>(name, a))
 
         template <typename T>
         tnarr<T, strTactic> subAll(std::function<nbool(const std::string&, const T&)> l) const;

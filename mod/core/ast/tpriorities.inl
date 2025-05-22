@@ -12,11 +12,11 @@ namespace nm {
         elem.bind(newElem);
     }
 
-    TEMPLATE T* ME::operator->() { return &get(); }
+    TEMPLATE T* ME::operator->() { return get(); }
 
-    TEMPLATE T& ME::operator*() { return get(); }
+    TEMPLATE T& ME::operator*() { return *get(); }
 
-    TEMPLATE T& ME::get() { return elem.get(); }
+    TEMPLATE T* ME::get() { return elem.get(); }
 
     TEMPLATE nbool ME::isSamePrecedence(const ME& rhs) const {
         return type == rhs.type && lv == rhs.lv;
@@ -35,7 +35,7 @@ namespace nm {
     priorType ME::getPriorType() const { return _type; }
 
     TEMPLATE
-    T& ME::get() {
+    T* ME::get() {
         WHEN(this->len() != 1).retNul<T>();
 
         return this->get(0);

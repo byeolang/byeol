@@ -30,8 +30,8 @@ namespace nm {
         const T& operator*() const NM_CONST_FUNC(operator*())
 
     public:
-        T& get();
-        const T& get() const NM_CONST_FUNC(get())
+        T* get();
+        const T* get() const NM_CONST_FUNC(get())
 
         /// @brief precedence is more detail concept of priority.
         ///        it considers the owner of them are equal above priority.
@@ -53,15 +53,15 @@ namespace nm {
         template <typename... Es> tpriorities(const Es&... elems) {
             static_assert(areBaseOfT<T, Es...>::value,
                 "some of type of args are not based on type 'T'");
-            this->add({(T*) &elems...});
+            this->add({(T&) elems...});
         }
 
     public:
         nbool isMatched() const;
 
         using super::get;
-        T& get();
-        const T& get() const NM_CONST_FUNC(get())
+        T* get();
+        const T* get() const NM_CONST_FUNC(get())
 
         /// @return priority of matched one.
         ///         this'll be NO_MATCH if isMatched() returns false.

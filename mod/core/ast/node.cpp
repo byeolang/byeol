@@ -26,9 +26,9 @@ namespace nm {
     const node* me::deduce(const node& r) const {
         const ntype& ltype = getType();
         const ntype& rtype = r.getType();
-        const ntype* res = ltype.deduce(rtype) OR.retNul<node>();
-        WHEN(*res == ltype).ret(this);
-        WHEN(*res == rtype).ret(&r);
+        const ntype& res = ltype.deduce(rtype) OR.retNul<node>();
+        WHEN(res == ltype).ret(this);
+        WHEN(res == rtype).ret(&r);
 
         return nullptr;
     }
@@ -47,28 +47,24 @@ namespace nm {
     }
 
     nbool me::is(const typeProvidable& to) const {
-        WHEN_NUL(to).ret(false);
         return is(to.getType());
     }
 
     nbool me::is(const type& to) const { return getType().is(to); }
 
     str me::as(const typeProvidable& to) const {
-        WHEN_NUL(to).ret(str());
         return as(to.getType());
     }
 
     str me::as(const type& to) const { return getType().as(*this, to); }
 
     nbool me::isImpli(const typeProvidable& to) const {
-        WHEN_NUL(to).ret(false);
         return isImpli(to.getType());
     }
 
     nbool me::isImpli(const type& to) const { return getType().isImpli(to); }
 
     str me::asImpli(const typeProvidable& to) const {
-        WHEN_NUL(to).ret(str());
         return asImpli(to.getType());
     }
 
