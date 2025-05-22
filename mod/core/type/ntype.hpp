@@ -54,18 +54,18 @@ namespace nm {
 
         virtual nbool isImmutable() const;
         /// @return null if it's not relative between l & r.
-        const ntype& deduce(const ntype& r) const;
-        const ntype& deduce(const typeProvidable& r) const;
+        const ntype* deduce(const ntype& r) const;
+        const ntype* deduce(const typeProvidable& r) const;
 
-        template <typename T> const ntype& deduce() const { return deduce(ttype<T>::get()); }
+        template <typename T> const ntype* deduce() const { return deduce(ttype<T>::get()); }
 
         /// @return null it it's not relative between l & r.
-        static const ntype& deduce(const ntype& l, const ntype& r);
+        static const ntype* deduce(const ntype& l, const ntype& r);
 
         const params& getParams() const NM_CONST_FUNC(getParams())
         virtual params& getParams();
 
-        virtual const node& getRet() const;
+        virtual const node* getRet() const;
         virtual void setRet(const node& new1);
 
         std::string createNameWithParams() const;

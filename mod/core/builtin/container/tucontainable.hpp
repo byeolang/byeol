@@ -5,13 +5,13 @@
 namespace nm {
 
     class node;
-    template <typename T, typename R = T&> class tnucontainer;
+    template <typename T, typename R = T*> class tnucontainer;
     template <typename T, typename TACTIC> class tnarr;
     typedef class _nout tnarr<node, strTactic> narr;
     template <typename K, typename V> class tbicontainable;
 
     /// @remark tucontainable has API treating iter ref and element as its parameter.
-    template <typename T, typename R = T&> class tucontainable {
+    template <typename T, typename R = T*> class tucontainable {
         NM_ME(tucontainable)
 
     public:
@@ -63,14 +63,9 @@ namespace nm {
         // set:
         virtual nbool set(const iter& at, const T& new1) = 0;
 
-        nbool set(const iter& at, const T* new1);
-
         // add:
         virtual nbool add(const iter& at, const T& new1) = 0;
-
-        nbool add(const iter& at, const T* new1);
         nbool add(std::initializer_list<const T*> elems);
-        nbool add(const T* new1);
         nbool add(const T& new1);
         virtual void add(const iter& here, const iter& from, const iter& to) = 0;
         void add(const iter& from, const iter& to);
@@ -96,7 +91,6 @@ namespace nm {
         // del:
         /// delete last element if exists.
         nbool del();
-        nbool del(const T* it);
         nbool del(const T& it);
         virtual nbool del(const iter& it) = 0;
         virtual nbool del(const iter& from, const iter& end) = 0;

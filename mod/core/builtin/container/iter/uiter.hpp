@@ -11,7 +11,6 @@ class iter: public iterable, public clonable, public typeProvidable {
     template <typename K, typename V, typename defaultContainer> friend class tnchain;
 
 public:
-    iter();
     explicit iter(iteration* newStep);
     iter(const me& rhs);
 
@@ -43,10 +42,10 @@ public:
     using iterable::get;
     R get() override;
 
-    template <typename E> E& get() { return get().template cast<E>(); }
+    template <typename E> E& get() { return get() TO(template cast<E>()); }
 
-    tucontainable<T, R>& getContainer() override;
-    const tucontainable<T, R>& getContainer() const NM_CONST_FUNC(getContainer())
+    tucontainable<T, R>* getContainer() override;
+    const tucontainable<T, R>* getContainer() const NM_CONST_FUNC(getContainer())
 
 private:
     me& _assign(const me& rhs);

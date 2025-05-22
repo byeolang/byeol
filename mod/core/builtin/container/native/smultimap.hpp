@@ -43,7 +43,7 @@ namespace nm {
             wrap& operator=(wrap&&);
 
         public:
-            const K& getKey() const;
+            const K* getKey() const;
             V& getVal();
             const V& getVal() const;
 
@@ -64,6 +64,7 @@ namespace nm {
         public:
             iterator(const smultimap* owner, const wrap* pair, nbool isReversed);
             iterator(const smultimap* owner, const wrap* pair, nbool isReversed, const K& key);
+            iterator(const smultimap* owner, const wrap* pair, nbool isReversed, const K* key);
             friend owner;
 
         public:
@@ -78,7 +79,7 @@ namespace nm {
 
             bool isEnd() const;
 
-            const K& getKey() const;
+            const K* getKey() const;
             const V& getVal() const NM_CONST_FUNC(getVal())
             V& getVal();
 

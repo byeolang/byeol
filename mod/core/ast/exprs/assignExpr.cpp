@@ -32,17 +32,17 @@ namespace nm {
     }
 
     me::iter me::_getScopeIterOfLhs() {
-        getExpr& cast = _lhs TO(template cast<getExpr>()) OR.ret(iter());
+        getExpr& cast = _lhs TO(template cast<getExpr>()) OR.ret(end());
 
         // TODO: elementExpr
-        str ased = cast TO(getMe()) TO(template as<node>()) OR.err("ased == null").ret(iter());
+        str ased = cast TO(getMe()) TO(template as<node>()) OR.err("ased == null").ret(end());
         frame& fr = ased->cast<frame>();
         if(!nul(fr)) {
             scope& s = fr.getScopeHaving(*cast.as<node>());
             if(!nul(s)) return s.iterate(cast.getName());
         }
 
-        WHEN(!ased).exErr(COULDNT_GET_ITER_FOR_LHS, cast.getName()).ret(iter());
+        WHEN(!ased).exErr(COULDNT_GET_ITER_FOR_LHS, cast.getName()).ret(end());
 
         return ased->subs().iterate(cast.getName());
     }

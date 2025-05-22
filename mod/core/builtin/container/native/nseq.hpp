@@ -7,7 +7,7 @@
 
 namespace nm {
 
-    class _nout nseq: public tnucontainer<nInt, nInt>, public tarrayable<nInt, nInt> {
+    class _nout nseq: public tnucontainer<nInt, nInt>, public tarrayable<nInt, nInt, nInt> {
         typedef tnucontainer<nInt, nInt> _super3;
         NM(CLASS(nseq, _super3))
         friend class seq;
@@ -20,8 +20,8 @@ namespace nm {
         nseq(const nInt& start, const nInt& end, const nInt& step);
 
     public:
-        using tarrayable<nInt, nInt>::operator[];
-        virtual nInt operator[](nidx n) override;
+        using tarrayable<nInt, nInt, nInt>::operator[];
+        nInt operator[](nidx n) override;
 
     public:
         const nInt& getStart() const;
@@ -43,16 +43,16 @@ namespace nm {
     private:
         // these method has been prohibited.
         using super::add;
-        using tarrayable<nInt, nInt>::add;
+        using tarrayable<nInt, nInt, nInt>::add;
         nbool add(const iter& at, const nInt& new1) override;
         void add(const iter& at, const iter& from, const iter& to) override;
         nbool add(nidx n, const nInt& new1) override;
         using super::set;
-        using tarrayable<nInt, nInt>::set;
+        using tarrayable<nInt, nInt, nInt>::set;
         nbool set(const iter& at, const nInt& new1) override;
         nbool set(nidx n, const nInt& new1) override;
         using super::del;
-        using tarrayable<nInt, nInt>::del;
+        using tarrayable<nInt, nInt, nInt>::del;
         nbool del(const iter& it) override;
         nbool del(const iter& from, const iter& end) override;
         nbool del(nidx n) override;

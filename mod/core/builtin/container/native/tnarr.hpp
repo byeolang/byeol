@@ -32,7 +32,7 @@ namespace nm {
     public:
         using tarrayable<T>::operator[];
 
-        T& operator[](nidx n) override { return get(n); }
+        T& operator[](nidx n) override { return *get(n); }
 
     public:
         // len:
@@ -41,29 +41,33 @@ namespace nm {
         // has:
         using super::in;
 
-        nbool in(nidx n) const override { return 0 <= n && n < len(); }
+        nbool in(nidx n) const override;
 
         // get:
         using super::get;
         using tarrayable<T>::get;
-        T& get(nidx n) override;
+        T* get(nidx n) override;
+
         // set:
         using super::set;
         using tarrayable<T>::set;
         nbool set(const iter& at, const T& new1) override;
         nbool set(nidx n, const T& new1) override;
+
         // add:
         using super::add;
         using tarrayable<T>::add;
         nbool add(const iter& e, const T& new1) override;
         nbool add(nidx n, const T& new1) override;
         void add(const iter& here, const iter& from, const iter& to) override;
+
         // del:
         using super::del;
         using tarrayable<T>::del;
         nbool del(const iter& from, const iter& end) override;
         nbool del(const iter& it) override;
         nbool del(nidx n) override;
+
         // etc:
         void rel() override;
 
@@ -77,7 +81,7 @@ namespace nm {
         iteration* _onMakeIteration(ncnt step, nbool isReversed) const override;
 
     private:
-        narrIteration& _getIterationFrom(const iter& it);
+        narrIteration* _getIterationFrom(const iter& it);
 
     private:
         std::vector<wrap> _vec;

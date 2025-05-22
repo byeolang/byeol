@@ -37,17 +37,17 @@ namespace nm {
         template <typename V1> nbool in(std::function<nbool(const K& key, const V1& val)> l) const;
 
         // get:
-        virtual V& get(const K& key) = 0;
-        const V& get(const K& key) const NM_CONST_FUNC(get(key))
-        template <typename V1> V1& get();
-        template <typename V1> const V1& get() const NM_CONST_FUNC(get<V1>())
-        template <typename V1> V1& get(const K& key);
-        template <typename V1> const V1& get(const K& key) const NM_CONST_FUNC(get<V1>(key))
-        template <typename V1> V1& get(std::function<nbool(const K&, const V1&)> l);
-        V& get(std::function<nbool(const K&, const V&)> l);
+        virtual V* get(const K& key) = 0;
+        const V* get(const K& key) const NM_CONST_FUNC(get(key))
+        template <typename V1> V1* get();
+        template <typename V1> const V1* get() const NM_CONST_FUNC(get<V1>())
+        template <typename V1> V1* get(const K& key);
+        template <typename V1> const V1* get(const K& key) const NM_CONST_FUNC(get<V1>(key))
+        template <typename V1> V1* get(std::function<nbool(const K&, const V1&)> l);
+        V* get(std::function<nbool(const K&, const V&)> l);
         template <typename V1>
-        const V1& get(std::function<nbool(const K&, const V1&)> l) const NM_CONST_FUNC(get(l))
-        const V& get(std::function<nbool(const K&, const V&)> l) const NM_CONST_FUNC(get(l))
+        const V1* get(std::function<nbool(const K&, const V1&)> l) const NM_CONST_FUNC(get(l))
+        const V* get(std::function<nbool(const K&, const V&)> l) const NM_CONST_FUNC(get(l))
 
         tnarr<V, strTactic> getAll(const K& key) const;
         template <typename V1> tnarr<V1, strTactic> getAll() const;
@@ -84,7 +84,6 @@ namespace nm {
         iter riterate(const K& key, nbool isBoundary) const;
 
         virtual nbool add(const K& key, const V& val) = 0;
-        nbool add(const K& key, const V* val);
         ncnt add(const iter& from, const iter& to);
         ncnt add(const tbicontainable& rhs);
 
@@ -100,7 +99,7 @@ namespace nm {
         virtual void rel() = 0;
 
     protected:
-        virtual iteration* _onMakeIteration(const K& key, nbool isReversed, ncnt step,
+        virtual iteration* _onMakeIteration(const K* key, nbool isReversed, ncnt step,
             nbool isBoundary) const = 0;
         virtual void _getAll(const K& key, narr& tray) const = 0;
     };

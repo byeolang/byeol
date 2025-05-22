@@ -14,10 +14,10 @@ namespace nm {
     ME::~tbicontainable() {}
 
     TEMPL
-    V& ME::operator[](const K& key) { return get(key); }
+    V& ME::operator[](const K& key) { return *get(key); }
 
     TEMPL
-    const V& ME::operator[](const K& key) const { return get(key); }
+    const V& ME::operator[](const K& key) const { return *get(key); }
 
     TEMPL
     ncnt ME::isEmpty() const { return len() <= 0; }
@@ -40,26 +40,26 @@ namespace nm {
     }
 
     TEMPL
-    template <typename V1> V1& ME::get() {
+    template <typename V1> V1* ME::get() {
         return get<V1>([](const K&, const V1&) { return true; });
     }
 
     TEMPL
-    template <typename V1> V1& ME::get(const K& key) { return get(key).template cast<V1>(); }
+    template <typename V1> V1* ME::get(const K& key) { return get(key) TO(template cast<V1>()); }
 
     TEMPL
-    template <typename V1> V1& ME::get(std::function<nbool(const K&, const V1&)> l) {
+    template <typename V1> V1* ME::get(std::function<nbool(const K&, const V1&)> l) {
         for(auto e = begin(); e; ++e) {
-            V1& val = e.getVal().template cast<V1>();
-            if(nul(val) || !l(e.getKey(), val)) continue;
+            V1& val = e.getVal() TO(template cast<V1>()) OR_CONTINUE;
+            if(!l(e.getKey(), val)) continue;
             return val;
         }
 
-        return nulOf<V1>();
+        return nullptr;
     }
 
     TEMPL
-    V& ME::get(std::function<nbool(const K&, const V&)> l) { return this->get<V>(l); }
+    V* ME::get(std::function<nbool(const K&, const V&)> l) { return this->get<V>(l); }
 
     TEMPL
     tnarr<V> ME::getAll(const K& key) const {
@@ -77,8 +77,8 @@ namespace nm {
     template <typename V1> tnarr<V1> ME::getAll(std::function<nbool(const K&, const V1&)> l) const {
         tnarr<V1> ret;
         for(auto e = begin(); e; ++e) {
-            const V1& val = e.getVal().template cast<V1>();
-            if(nul(val) || !l(e.getKey(), val)) continue;
+            const V1& val = e.getVal() TO(template cast<V1>()) OR_CONTINUE;
+            if(!l(e.getKey(), val)) continue;
 
             ret.add(val);
         }
@@ -128,7 +128,7 @@ namespace nm {
 
     TEMPL
     typename ME::iter ME::iterate(ncnt step, nbool isBoundary) const {
-        return iter(_onMakeIteration(nulOf<K>(), false, step, isBoundary));
+        return iter(_onMakeIteration(nullptr, false, step, isBoundary));
     }
 
     TEMPL
@@ -136,8 +136,7 @@ namespace nm {
 
     TEMPL
     typename ME::iter ME::iterate(const K& key, nbool isBoundary) const {
-        WHEN_NUL(key).ret(iterate(0));
-        auto* e = _onMakeIteration(key, false, 0, isBoundary);
+        auto* e = _onMakeIteration(&key, false, 0, isBoundary);
         if(!e->isEnd() && e->getKey() != key) e->next(1);
 
         return iter(e);
@@ -148,23 +147,19 @@ namespace nm {
 
     TEMPL
     typename ME::iter ME::riterate(ncnt step, nbool isBoundary) const {
-        return iter(_onMakeIteration(nulOf<K>(), true, step, isBoundary));
-    }
-
-    TEMPL
-    typename ME::iter ME::riterate(const K& key, nbool isBoundary) const {
-        WHEN_NUL(key).ret(riterate(0));
-        auto* e = _onMakeIteration(key, true, 0, isBoundary);
-        if(!e->isEnd() && e->getKey() != key) e->next(1);
-
-        return iter(e);
+        return iter(_onMakeIteration(nullptr, true, step, isBoundary));
     }
 
     TEMPL
     typename ME::iter ME::riterate(const K& key) const { return riterate(key, false); }
 
     TEMPL
-    nbool ME::add(const K& key, const V* val) { return add(key, *val); }
+    typename ME::iter ME::riterate(const K& key, nbool isBoundary) const {
+        auto* e = _onMakeIteration(&key, true, 0, isBoundary);
+        if(!e->isEnd() && e->getKey() != key) e->next(1);
+
+        return iter(e);
+    }
 
     TEMPL
     ncnt ME::add(const iter& from, const iter& to) {

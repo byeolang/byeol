@@ -23,17 +23,22 @@ namespace nm {
     }
 
     TEMPL
-    T& ME::get(nidx n) {
+    ncnt ME::len() const { return _vec.size(); };
+
+    TEMPL
+    nbool ME::in(nidx n) const { return 0 <= n && n < len(); }
+
+    TEMPL
+    T* ME::get(nidx n) {
         WHEN(!in(n)).exErr(OUT_OF_RANGE, n, len()).template retNul<T>();
 
         binder& ret = _vec[n];
-        return (T&) *ret;
+        return (T*) ret.get();
     }
 
     TEMPL
     nbool ME::set(const iter& at, const T& new1) {
-        narrIteration& cast = _getIterationFrom(at);
-        WHEN_NUL(cast).exErr(ITERATOR_IS_NUL).ret(false);
+        narrIteration& cast = _getIterationFrom(at) OR.exErr(ITERATOR_IS_NUL).ret(false);
         WHEN(cast.isEnd()).ret(false);
 
         return set(cast._n, new1);
@@ -48,19 +53,17 @@ namespace nm {
 
     TEMPL
     nbool ME::add(const iter& e, const T& new1) {
-        WHEN_NUL(e).exErr(ITERATOR_IS_NUL).ret(false);
-        WHEN_NUL(new1).ret(false);
         WHEN(!e.isFrom(*this)).exErr(ITERATOR_NOT_BELONG_TO_CONTAINER).ret(false);
-        narrIteration& cast = (narrIteration&) *e._iteration;
-        WHEN_NUL(cast).exErr(CAST_NOT_AVAILABLE, "this iterator", "arr iterator").ret(false);
+        narrIteration& cast = (narrIteration&) e._iteration.get()
+                                  OR.exErr(CAST_NOT_AVAILABLE, "this iterator", "arr iterator")
+                                      .ret(false);
 
         return add(cast._n, new1);
     }
 
     TEMPL
     nbool ME::add(nidx n, const T& new1) {
-        WHEN(n < 0 || n > len()).exErr(OUT_OF_RANGE, n, len()).ret(false);
-        WHEN_NUL(new1).ret(false);
+        WHEN(!in(n)).exErr(OUT_OF_RANGE, n, len()).ret(false);
 
         _vec.insert(_vec.begin() + n, wrap(new1));
         return true;
@@ -69,11 +72,11 @@ namespace nm {
     TEMPL
     void ME::add(const iter& here, const iter& from, const iter& to) {
         WHEN(!from.isFrom(to.getContainer())).exErr(ITERATOR_NOT_BELONG_TO_CONTAINER).ret();
-        const narrIteration& hereCast = _getIterationFrom(here);
-        const narrIteration& fromCast = (narrIteration&) *from._iteration;
-        const narrIteration& toCast = (narrIteration&) *to._iteration;
-        WHEN_NUL(hereCast, fromCast, toCast)
-            .exErr(CAST_NOT_AVAILABLE, "one of these iterator", "arr iterator")
+        const narrIteration& hereCast = _getIterationFrom(here) OR.exErr(CAST_NOT_AVAILABLE, "hereCast iterator", "arr iterator")
+            .ret();
+        const narrIteration& fromCast = (narrIteration*) from._iteration OR.exErr(CAST_NOT_AVAILABLE, "fromCast iterator", "arr iterator")
+            .ret();
+        const narrIteration& toCast = (narrIteration*) to._iteration OR.exErr(CAST_NOT_AVAILABLE, "toCast iterator", "arr iterator")
             .ret();
 
         WHEN(hereCast._n < 0 || hereCast._n > len())
@@ -85,8 +88,7 @@ namespace nm {
 
     TEMPL
     nbool ME::del(const iter& at) {
-        narrIteration& cast = _getIterationFrom(at);
-        WHEN_NUL(cast).exErr(CAST_NOT_AVAILABLE, "'at' iterator", "arr iterator").ret(false);
+        narrIteration& cast = _getIterationFrom(at) OR.exErr(CAST_NOT_AVAILABLE, "'at' iterator", "arr iterator").ret(false);
         WHEN(cast.isEnd()).ret(false);
 
         return del(cast._n);
@@ -102,8 +104,8 @@ namespace nm {
 
     TEMPL
     nbool ME::del(const iter& from, const iter& end) {
-        narrIteration &endIter = _getIterationFrom(end), &fromIter = _getIterationFrom(from);
-        WHEN_NUL(endIter, fromIter).exErr(ITERATOR_IS_NUL).ret(false);
+        narrIteration& endIter = _getIterationFrom(end) OR.exErr(ITERATOR_IS_NUL).ret(false);
+        narrIteration& fromIter = _getIterationFrom(from)  OR.exErr(ITERATOR_IS_NUL).ret(false);
 
         nidx fromN = fromIter.isEnd() ? len() - 1 : fromIter._n;
         ncnt cnt = endIter._n - fromN;
@@ -113,9 +115,6 @@ namespace nm {
             _vec.erase(_vec.begin() + fromN);
         return true;
     }
-
-    TEMPL
-    ncnt ME::len() const { return _vec.size(); };
 
     TEMPL
     void ME::rel() { _vec.clear(); }
@@ -147,10 +146,9 @@ namespace nm {
     }
 
     TEMPL
-    typename ME::narrIteration& ME::_getIterationFrom(const iter& it) {
-        WHEN_NUL(it).retNul<narrIteration>();
+    typename ME::narrIteration* ME::_getIterationFrom(const iter& it) {
         WHEN(!it.isFrom(*this)).retNul<narrIteration>();
-        return (narrIteration&) *it._iteration;
+        return (narrIteration*) it._iteration.get();
     }
 
 #undef TEMPL

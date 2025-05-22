@@ -47,14 +47,14 @@ namespace nm {
     }
 
     TEMPL
-    V& ME::get(const K& key) {
+    V* ME::get(const K& key) {
         V* ret = nullptr;
         this->each([&](const K& elemKey, V& val) {
             WHEN(elemKey != key).ret(true);
             ret = &val;
             return false;
         });
-        return *ret;
+        return ret;
     }
 
     TEMPL
@@ -91,16 +91,16 @@ namespace nm {
         WHEN(from.isReversed() != last.isReversed())
             .exErr(ITERATORS_ARENT_SAME_DIRECTION)
             .ret(false);
-        const me* fromChain = (const me*) &from.getContainer();
-        const me* lastChain = (const me*) &last.getContainer()
+        const me* fromChain = (const me*) from.getContainer();
+        const me& lastChain = (const me*) last.getContainer()
                                   OR.warn("iterator 'end' owned by null chain instance.")
                                       .ret(false);
-        const me* endChain = &lastChain->getNext(); // now, endChain can be null but it's okay.
+        const me* endChain = lastChain.getNext(); // now, endChain can be null but it's okay.
 
         me* e = (me*) fromChain;
         nbool ret = true;
         do {
-            super& eArr = e->getContainer();
+            super& eArr = e->getContainer() OR_CONTINUE;
             iter innerBegin = _getInnerBeginOfChain(*e, *fromChain, from),
                  innerLast = _getInnerEndOfChain(*e, *lastChain, last);
             ret = eArr.del(innerBegin, innerLast) ? ret : false;
@@ -112,7 +112,7 @@ namespace nm {
 
     TEMPL
     nbool ME::link(const iter& portion) {
-        ME& next = typeProvidable::safeCast<ME>((portion TO(getContainer()))) OR.ret(false);
+        ME& next = (ME*) (portion TO(getContainer())) OR.ret(false);
         WHEN(&next == this)
             .warn("recursive link detected for portion(%s).", (void*) &next)
             .ret(false);
@@ -142,27 +142,27 @@ namespace nm {
 
     TEMPL
     nbool ME::unlink() {
-        ME& next = typeProvidable::safeCast<ME>((_next TO(getContainer())));
-        if(!nul(next)) next._prev.rel();
+        ME* next = (ME*) _next TO(getContainer());
+        if(next) next->_prev.rel();
         _next.rel();
         return true;
     }
 
     TEMPL
-    ME& ME::getTail() {
+    ME* ME::getTail() {
         me* ret = this;
-        while(ret && !nul(ret->_next.getContainer()))
-            ret = (me*) &ret->_next.getContainer();
-        return *ret;
+        while(ret && ret->_next.getContainer())
+            ret = (me*) ret->_next.getContainer();
+        return ret;
     }
 
     TEMPL
     void ME::onCloneDeep(const clonable& from) {
-        me& rhs = typeProvidable::safeCast<me>(from);
+        const me& rhs = (const me&) from;
         _map.bind(*(super*) rhs._map->cloneDeep());
 
         me* e = this;
-        const me* next = &rhs.getNext();
+        const me* next = rhs.getNext();
         while(next) {
             e->link(*new me(*(super*) next->getContainer().cloneDeep()));
             e = &e->getNext();
@@ -174,29 +174,29 @@ namespace nm {
     ME* ME::wrap(const super& toShallowWrap) { return wrap<ME>(toShallowWrap); }
 
     TEMPL
-    ME* ME::cloneChain(const super& until) const {
+    ME* ME::cloneChain(const super* until) const {
         tstr<me> e(getNext());
         ME* ret = new ME(this->getContainer());
         ME* retElem = ret;
         while(e) {
             tstr<me> new1(new ME(e->getContainer()));
             retElem->link(*new1);
-            retElem = &new1.get();
+            retElem = new1.get();
 
-            if(&e->getContainer() == &until) break;
-            e.bind(typeProvidable::safeCast<me>(e->_next.getContainer()));
+            if(&e->getContainer() == until) break;
+            e.bind((me&) e->_next.getContainer());
         }
 
         return ret;
     }
 
     TEMPL
-    ME* ME::cloneChain(const me& until) const {
-        return cloneChain(nul(until) ? nulOf<super>() : until.getContainer());
+    ME* ME::cloneChain(const me* until) const {
+        return cloneChain(until ? until->getContainer() : nullptr);
     }
 
     TEMPL
-    ME* ME::cloneChain() const { return cloneChain(nulOf<me>()); }
+    ME* ME::cloneChain() const { return cloneChain(nullptr); }
 
     TEMPL
     void ME::rel() {
@@ -211,13 +211,13 @@ namespace nm {
     const SUPER& ME::getContainer() const { return *_map; }
 
     TEMPL
-    ME& ME::getNext() { return typeProvidable::safeCast<ME>(_next.getContainer()); }
+    ME* ME::getNext() { return (ME*) _next.getContainer(); }
 
     TEMPL
-    ME& ME::getPrev() { return typeProvidable::safeCast<ME>(_prev.getContainer()); }
+    ME* ME::getPrev() { return (ME*) _prev.getContainer(); }
 
     TEMPL
-    typename ME::iteration* ME::_onMakeIteration(const K& key, nbool isReversed, ncnt step,
+    typename ME::iteration* ME::_onMakeIteration(const K* key, nbool isReversed, ncnt step,
         nbool isBoundary) const {
         me* unconst = const_cast<me*>(this);
         auto* ret = new nchainIteration(isReversed ? unconst->getTail() : *unconst, key, isReversed,
@@ -229,16 +229,14 @@ namespace nm {
 
     TEMPL
     typename ME::iter& ME::_getInnerIter(const iter& outer) {
-        WHEN(!outer._iteration->getType().template isSub<nchainIteration>()).retNul<iter>();
-        nchainIteration& cast = (nchainIteration&) *outer._iteration OR.retNul<iter>();
-
-        return cast._iter;
+        nchainIteration& cast = (nchainIteration*) outer._iteration.get() OR.retNul<iter>();
+        return &cast._iter;
     }
 
     TEMPL
     typename ME::iter ME::_getInnerBeginOfChain(me& it, const me& fromChain, const iter& from) {
-        me& prev = it.getPrev();
-        nbool isReversed = nul(prev) ? false : prev._next.isReversed();
+        me* prev = it.getPrev();
+        nbool isReversed = prev ? prev->_next.isReversed() : false;
         return &it == &fromChain ? (isReversed ? it.getContainer().begin() : _getInnerIter(from)) :
                                    it.getContainer().begin();
     }
@@ -253,7 +251,7 @@ namespace nm {
 
     TEMPL
     typename ME::iter ME::_rendOfThisChain(nbool isReversed) {
-        return iter(new nchainIteration(*this, nulOf<K>(), isReversed, true, false));
+        return iter(new nchainIteration(*this, nullptr, isReversed, true, false));
     }
 
 #undef ME

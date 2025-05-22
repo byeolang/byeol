@@ -5,7 +5,7 @@ class nmapIteration: public iteration {
     friend class tnmap;
 
 public:
-    nmapIteration(tnmap& own, const K& key, nbool isReversed):
+    nmapIteration(tnmap& own, const K* key, nbool isReversed):
         super(isReversed),
         _own(own),
         _citer(isReversed ? own._map.rbegin(key) : own._map.begin(key)),
@@ -22,16 +22,16 @@ public:
 
     ncnt stepBackward(ncnt step) override { return _step(true, step); }
 
-    const K& getKey() const override {
+    const K* getKey() const override {
         WHEN(isEnd()).retNul<K>();
         return _citer.getKey();
     }
 
     using super::getVal;
 
-    V& getVal() override {
+    V* getVal() override {
         WHEN(isEnd()).retNul<V>();
-        return *_citer.getVal();
+        return _citer.getVal();
     }
 
     void setVal(const V& new1) override {
@@ -40,8 +40,7 @@ public:
     }
 
     using super::getContainer;
-
-    tbicontainable<K, V>& getContainer() override { return _own; }
+    tbicontainable<K, V>* getContainer() override { return &_own; }
 
 protected:
     nbool _onSame(const typeProvidable& rhs) const override {

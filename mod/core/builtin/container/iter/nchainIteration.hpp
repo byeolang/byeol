@@ -5,14 +5,14 @@ class nchainIteration: public iteration {
     friend class tnchain;
 
 public:
-    nchainIteration(tnchain& iteratingChain, const K& key, nbool isReversed):
+    nchainIteration(tnchain& iteratingChain, const K* key, nbool isReversed):
         me(iteratingChain, key, isReversed, false, true) {}
 
-    nchainIteration(tnchain& iteratingChain, const K& key, nbool isReversed, nbool isBoundary,
+    nchainIteration(tnchain& iteratingChain, const K* key, nbool isReversed, nbool isBoundary,
         nbool isAutoAdvance):
         super(isReversed),
         _chainIter(iteratingChain),
-        _key(nul(key) ? _getDummyKey() : key),
+        _key(key ? *key : _getDummyKey()),
         _isDummyKey(nul(key)),
         _iter(_makeContainerIter(false)),
         _isBoundary(isBoundary) {
@@ -43,17 +43,15 @@ public:
     ncnt stepBackward(ncnt step) override { return _step(super::BACKWARD, step); }
 
     using super::getContainer;
-
-    tbicontainable<K, V>& getContainer() override {
+    tbicontainable<K, V>* getContainer() override {
         WHEN(!_chainIter).retNul<tbicontainable<K, V>>();
-        return *_chainIter;
+        return _chainIter.get();
     }
 
-    const K& getKey() const override { return _iter.getKey(); }
+    const K* getKey() const override { return _iter.getKey(); }
 
     using super::getVal;
-
-    V& getVal() override { return _iter.getVal(); }
+    V* getVal() override { return _iter.getVal(); }
 
     void setVal(const V& new1) override { _iter.setVal(new1); }
 
@@ -92,19 +90,19 @@ private:
         }
     }
 
-    const iter& _getNextIter() const {
+    const iter* _getNextIter() const {
         WHEN(!_chainIter).retNul<iter>();
         return this->isReversed() ? _chainIter->_prev : _chainIter->_next;
     }
 
-    const tnchain& _getNextContainer() const {
+    const tnchain* _getNextContainer() const {
         WHEN(!_chainIter).retNul<tnchain>();
         return this->isReversed() ? _chainIter->getPrev() : _chainIter->getNext();
     }
 
     void _updateIter() {
-        const iter& nextIter = _getNextIter();
-        if(nul(nextIter)) {
+        const iter* nextIter = _getNextIter();
+        if(!nextIter) {
             _chainIter.rel();
             _iter.rel();
         }
@@ -133,16 +131,16 @@ private:
 
     void _setBoundary(nbool new1) { _isBoundary = new1; }
 
-    me& _castIteration(const iter& e) {
-        return nul(e) ? nulOf<me>() : typeProvidable::safeCast<me>(*e._iteration);
+    me* _castIteration(const iter& e) {
+        return typeProvidable::safeCast<me>(*e._iteration) OR.retNul<me>();
     }
-    const me& _castIteration(const iter& e) const NM_CONST_FUNC(_castIteration(e))
+    const me* _castIteration(const iter& e) const NM_CONST_FUNC(_castIteration(e))
 
-    tnchain& _castChain(const iter& e) {
+    tnchain* _castChain(const iter& e) {
         return typeProvidable::safeCast<tnchain>(e.getContainer());
     }
 
-    const tnchain& _castChain(const iter& e) const NM_CONST_FUNC(_castChain(e));
+    const tnchain* _castChain(const iter& e) const NM_CONST_FUNC(_castChain(e));
 
     // check whether sub iter has been reached to reversed non-boundary end iter.
     // e.g.
@@ -177,7 +175,7 @@ private:
         return inner;
     }
 
-    const K& _getFindingKey() const { return _isDummyKey ? nulOf<K>() : _key; }
+    const K* _getFindingKey() const { return _isDummyKey ? nullptr : _key; }
 
 private:
     /// iter for tnchain.

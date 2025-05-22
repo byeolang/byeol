@@ -24,12 +24,8 @@ namespace nm {
 #include "../iter/nmapIteration.hpp"
 
     public:
-        tnmap() {}
-
-        tnmap(const std::initializer_list<std::pair<K, V*>>& elems) {
-            for(const auto& e: elems)
-                add(e.first, *e.second);
-        }
+        tnmap();
+        tnmap(const std::initializer_list<std::pair<K, V*>>& elems);
 
         // len:
         ncnt len() const override;
@@ -40,7 +36,7 @@ namespace nm {
 
         // get:
         using super::get;
-        V& get(const K& key) override;
+        V* get(const K& key) override;
 
         // add:
         using super::add;
@@ -61,13 +57,10 @@ namespace nm {
         void onCloneDeep(const clonable& from) override;
 
     protected:
-        iteration* _onMakeIteration(const K& key, nbool isReversed, ncnt step,
+        iteration* _onMakeIteration(const K* key, nbool isReversed, ncnt step,
             nbool isBoundary) const override;
 
         void _getAll(const K& key, narr& tray) const override;
-
-    private:
-        nmapIteration& _getIterationFrom(const iter& it);
 
     private:
         cmap _map;

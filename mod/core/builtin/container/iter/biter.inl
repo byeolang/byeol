@@ -10,9 +10,6 @@ namespace nm {
 #define ME tbicontainable<K, V>::iter
 
     TEMPL
-    ME::iter() {}
-
-    TEMPL
     ME::iter(iteration* newStep): _iteration(newStep) {}
 
     TEMPL
@@ -45,10 +42,10 @@ namespace nm {
     }
 
     TEMPL
-    V& ME::operator*() { return getVal(); }
+    V& ME::operator*() { return *getVal(); }
 
     TEMPL
-    V* ME::operator->() { return &getVal(); }
+    V* ME::operator->() { return getVal(); }
 
     TEMPL
     typename ME& ME::operator=(const me& rhs) {
@@ -60,7 +57,7 @@ namespace nm {
     ME::operator nbool() const { return !isEnd(); }
 
     TEMPL
-    nbool ME::isReversed() const { return _iteration ? _iteration->isReversed() : false; }
+    nbool ME::isReversed() const { return _iteration->isReversed(); }
 
     TEMPL
     void ME::rel() { _iteration TO(rel()); }
@@ -73,14 +70,11 @@ namespace nm {
 
     TEMPL
     nbool ME::isEnd() const {
-        WHEN(!_iteration).ret(true);
         return _iteration->isEnd();
     }
 
     TEMPL
     ncnt ME::_step(typename iterable::iterationType type, ncnt step) {
-        WHEN(!_iteration).ret(false);
-
         for(int n = 0; n < step; n++) {
             if(_iterate(type) <= 0) return n;
             _nextToMatchParamType(type);
@@ -102,26 +96,22 @@ namespace nm {
     ncnt ME::stepBackward(ncnt step) { return _step(iterable::BACKWARD, step); }
 
     TEMPL
-    const K& ME::getKey() const {
-        WHEN(!_iteration).retNul<K>();
+    const K* ME::getKey() const {
         return _iteration->getKey();
     }
 
     TEMPL
-    V& ME::getVal() {
-        WHEN(!_iteration).retNul<V>();
+    V* ME::getVal() {
         return _iteration->getVal();
     }
 
     TEMPL
     void ME::setVal(const V& new1) {
-        WHEN(!_iteration).ret();
         return _iteration->setVal(new1);
     }
 
     TEMPL
-    tbicontainable<K, V>& ME::getContainer() {
-        WHEN(!_iteration).retNul<tbicontainable<K, V>>();
+    tbicontainable<K, V>* ME::getContainer() {
         return _iteration->getContainer();
     }
 

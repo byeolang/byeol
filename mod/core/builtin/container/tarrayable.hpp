@@ -6,16 +6,16 @@
 namespace nm {
 
     /// @remark arrayable has API treating index as its parameter.
-    template <typename T, typename R = T&> class tarrayable {
+    template <typename T, typename R = T*, typename RSquare = T&> class tarrayable {
         NM_ME(tarrayable)
 
     public:
         virtual ~tarrayable() {}
 
         // operator:
-        virtual R operator[](nidx n) = 0;
+        virtual RSquare operator[](nidx n) = 0;
 
-        const R operator[](nidx n) const { return get(n); }
+        const RSquare operator[](nidx n) const NM_CONST_FUNC(operator[](n))
 
         // in:
         virtual nbool in(nidx n) const = 0;

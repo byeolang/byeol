@@ -17,7 +17,7 @@ namespace nm {
     ME::wrap::wrap(wrap&& rhs): _key(rhs._key), _value(rhs._value) {}
 
     TEMPL
-    const K& ME::wrap::getKey() const { return *_key; }
+    const K* ME::wrap::getKey() const { return _key; }
 
     TEMPL
     V& ME::wrap::getVal() { return _value; }
@@ -42,7 +42,7 @@ namespace nm {
 
     TEMPL
     ME::iterator::iterator(const smultimap* owner, const wrap* pair, nbool isReversed):
-        me(owner, pair, isReversed, _getDummyKey()) {}
+        me(owner, pair, isReversed,  nullptr) {}
 
     TEMPL
     ME::iterator::iterator(const smultimap* owner, const wrap* pair, nbool isReversed,
@@ -50,7 +50,15 @@ namespace nm {
         _owner(owner),
         _wrap(pair),
         _isReversed(isReversed),
-        _key(nul(key) ? _getDummyKey() : key) {}
+        _key(key) {}
+
+    TEMPL
+    ME::iterator::iterator(const smultimap* owner, const wrap* pair, nbool isReversed,
+        const K* key):
+        _owner(owner),
+        _wrap(pair),
+        _isReversed(isReversed),
+        _key(key ? *key :  _getDummyKey()) {}
 
     TEMPL
     V& ME::iterator::operator*() { return getVal(); }
@@ -72,7 +80,9 @@ namespace nm {
                 _wrap = isReversed ? (_isReversed ? _wrap->_next : _wrap->_prev) :
                                      (_isReversed ? _wrap->_prev : _wrap->_next);
                 if(_key == _getDummyKey()) break;
-                key = &getKey() OR.ret(*this);
+                key = getKey();
+                if(!key) return *this;
+
             } while(*key != _key);
         return *this;
     }
@@ -108,7 +118,7 @@ namespace nm {
     bool ME::iterator::isEnd() const { return _wrap == &_owner->_end; }
 
     TEMPL
-    const K& ME::iterator::getKey() const { return _wrap->getKey(); }
+    const K* ME::iterator::getKey() const { return _wrap->getKey(); }
 
     TEMPL
     V& ME::iterator::getVal() {
@@ -188,7 +198,7 @@ namespace nm {
 
     TEMPL
     void ME::_erase(const iterator& e) {
-        WHEN(nul(e) || e.isEnd()).ret(); // not found.
+        WHEN(e.isEnd()).ret(); // not found.
 
         const K& key = e._wrap->getKey() OR.ret();
         auto range = _map.equal_range(key);

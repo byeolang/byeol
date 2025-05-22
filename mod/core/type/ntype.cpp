@@ -18,8 +18,8 @@ namespace nm {
 
         WHEN(getParams() != cast.getParams()).ret(false);
 
-        const ntype& ret = nul(getRet()) ? nulOf<ntype>() : getRet().getType();
-        const ntype& rhsRet = nul(getRet()) ? nulOf<ntype>() : getRet().getType();
+        const ntype* ret = nul(getRet()) ? nullptr : &getRet()->getType();
+        const ntype* rhsRet = nul(getRet()) ? nullptr : &getRet()->getType();
         WHEN(nul(ret) && nul(rhsRet)).ret(true);
         return ret == rhsRet;
     }
@@ -54,23 +54,23 @@ namespace nm {
         return inner;
     }
 
-    const ntype& me::deduce(const ntype& r) const { return deduce(*this, r); }
+    const ntype* me::deduce(const ntype& r) const { return deduce(*this, r); }
 
-    const ntype& me::deduce(const typeProvidable& r) const {
+    const ntype* me::deduce(const typeProvidable& r) const {
         return deduce((const ntype&) r.getType());
     }
 
-    const ntype& me::deduce(const ntype& l, const ntype& r) {
+    const ntype* me::deduce(const ntype& l, const ntype& r) {
         static deducers* inner = nullptr;
         if(nul(inner)) inner = _makeDeducers();
 
         if(inner->find(&l) != inner->end()) {
             deducer& dd = inner->at(&l);
 
-            if(dd.find(&r) != dd.end()) return *dd.at(&r);
+            if(dd.find(&r) != dd.end()) return dd.at(&r);
         }
 
-        return _deduceSuperType(l, r);
+        return &_deduceSuperType(l, r);
     }
 
     me::deducers* me::_makeDeducers() {
@@ -142,7 +142,6 @@ namespace nm {
 
     const ntype& me::_deduceSuperType(const ntype& l, const ntype& r) {
         //  reducing super type between l & r algorithm:
-        WHEN_NUL(l, r).retNul<ntype>();
         WHEN(l == r).ret(l);
 
         const types& lAncestor = l.getSupers();
@@ -168,7 +167,7 @@ namespace nm {
         return dummy;
     }
 
-    const node& me::getRet() const { return nulOf<node>(); }
+    const node* me::getRet() const { return nullptr; }
 
     void me::setRet(const node& new1) {}
 

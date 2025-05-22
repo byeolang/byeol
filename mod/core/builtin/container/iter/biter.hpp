@@ -9,8 +9,6 @@ class iter: public iterable, public clonable, public typeProvidable {
     template <typename K1, typename V1, typename TACTIC> friend class tnmap;
 
 public:
-    iter();
-
     explicit iter(iteration* newStep);
 
     iter(const me& rhs);
@@ -41,21 +39,19 @@ public:
     ncnt stepForward(ncnt step) override;
     ncnt stepBackward(ncnt step) override;
 
-    const K& getKey() const override;
+    const K* getKey() const override;
 
-    template <typename E> const E& getKey() const { return getKey().template cast<E>(); }
+    template <typename E> const E* getKey() const { return getKey().template cast<E>(); }
 
     using iterable::getVal;
-    V& getVal() override;
+    V* getVal() override;
 
-    template <typename E> E& getVal() { return getVal().template cast<E>(); }
+    template <typename E> E* getVal() { return getVal() TO(template cast<E>()); }
 
-    using iterable::setVal;
     void setVal(const V& new1) override;
 
-    tbicontainable<K, V>& getContainer() override;
-
-    const tbicontainable<K, V>& getContainer() const NM_CONST_FUNC(getContainer())
+    using iterable::getContainer;
+    tbicontainable<K, V>* getContainer() override;
 
 private:
     me& _assign(const me& rhs);

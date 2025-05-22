@@ -37,6 +37,6 @@ public:
 
     virtual nbool isFrom(const tucontainable& it) const = 0;
 
-    virtual tucontainable<T, R>& getContainer() = 0;
-    const tucontainable<T, R>& getContainer() const NM_CONST_FUNC(getContainer())
+    virtual tucontainable<T, R>* getContainer() = 0;
+    const tucontainable<T, R>* getContainer() const NM_CONST_FUNC(getContainer())
 };

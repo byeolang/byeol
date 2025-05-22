@@ -29,10 +29,6 @@ namespace nm {
         template <typename T> friend class tmock;
 
     public:
-        node& operator[](const std::string& name);
-        const node& operator[](const std::string& name) const NM_CONST_FUNC(operator[](name))
-
-    public:
         nbool in(const node& elem) const;
         nbool in(const node* elem) const;
 
@@ -44,7 +40,7 @@ namespace nm {
         ///          if a type is null, it means that there is no type specified.
         ///          it's complete different to 'void' type.
         /// @return null if it's not relative between l & r.
-        const node& deduce(const node& r) const;
+        const node* deduce(const node& r) const;
 
         template <typename T> T& sub(std::function<nbool(const std::string&, const T&)> l);
         template <typename T>

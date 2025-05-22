@@ -61,7 +61,7 @@ namespace nm {
     template <typename T1> tnarr<T1> ME::getAll(std::function<nbool(const T1&)> l) const {
         tnarr<T1> ret;
         for(auto e = begin(); e; ++e) {
-            const T1& val = e->template cast<T1>();
+            const T1& val = e->template cast<T1>() OR_CONTINUE;
             if(nul(val) || !l(val)) continue;
 
             ret.add(val);
@@ -130,7 +130,7 @@ namespace nm {
         for(iter e = begin(); e; ++e)
             WHEN(&e.get() == &it).ret(iter(e));
 
-        return iter();
+        return end();
     }
 
     TEMPL
@@ -141,14 +141,8 @@ namespace nm {
         for(iter e = rbegin(); e; ++e)
             WHEN(&e.get() == &it).ret(iter(e));
 
-        return iter();
+        return rend();
     }
-
-    TEMPL
-    nbool ME::set(const iter& at, const T* new1) { return set(at, *new1); }
-
-    TEMPL
-    nbool ME::add(const iter& at, const T* new1) { return add(at, *new1); }
 
     TEMPL
     nbool ME::add(std::initializer_list<const T*> elems) {
@@ -157,9 +151,6 @@ namespace nm {
             ret = add(elem);
         return ret;
     }
-
-    TEMPL
-    nbool ME::add(const T* new1) { return add(*new1); }
 
     TEMPL
     nbool ME::add(const T& new1) { return add(end(), new1); }
@@ -178,9 +169,6 @@ namespace nm {
         static iter (me::*specifier)(ncnt) const = &me::iterate;
         return del((this->*specifier)(len() - 1));
     }
-
-    TEMPL
-    nbool ME::del(const T* it) { return del(*it); }
 
     TEMPL
     nbool ME::del(const T& it) {

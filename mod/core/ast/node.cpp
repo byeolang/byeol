@@ -12,24 +12,25 @@ namespace nm {
 
     NM(DEF_ME(node), DEF_VISIT())
 
-    node& me::operator[](const std::string& name) { return sub(name); }
-
-    nbool me::in(const node* elem) const { return in(*elem); }
+    nbool me::in(const node* elem) const {
+        WHEN_NUL(elem).ret(false);
+        return in(*elem);
+    }
 
     nbool me::in(const node& elem) const {
-        return !nul(subs().get([&](const std::string& key, const node& e) { return &e == &elem; }));
+        return subs().get([&](const std::string& key, const node& e) { return &e == &elem; });
     }
 
     tstr<nbicontainer> me::mySubs() const { return subs(); }
 
-    const node& me::deduce(const node& r) const {
+    const node* me::deduce(const node& r) const {
         const ntype& ltype = getType();
-        const ntype& rtype = r TO(getType());
-        const ntype& res = ltype.deduce(rtype) OR.retNul<node>();
-        WHEN(res == ltype).ret(*this);
-        WHEN(res == rtype).ret(r);
+        const ntype& rtype = r.getType();
+        const ntype* res = ltype.deduce(rtype) OR.retNul<node>();
+        WHEN(*res == ltype).ret(this);
+        WHEN(*res == rtype).ret(&r);
 
-        return nulOf<node>();
+        return nullptr;
     }
 
     nbool me::canRun(const args& a) const { return prioritize(a) != NO_MATCH; }

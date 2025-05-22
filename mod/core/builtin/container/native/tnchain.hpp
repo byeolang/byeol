@@ -35,7 +35,7 @@ namespace nm {
         ncnt chainLen() const;
 
         using super::get;
-        V& get(const K& key) override;
+        V* get(const K& key) override;
 
         // add:
         using super::add;
@@ -68,18 +68,17 @@ namespace nm {
         void rel() override;
 
         super& getContainer();
-
         const super& getContainer() const;
 
-        me& getNext();
-        const me& getNext() const NM_CONST_FUNC(getNext())
+        me* getNext();
+        const me* getNext() const NM_CONST_FUNC(getNext())
 
-        me& getPrev();
-        const me& getPrev() const NM_CONST_FUNC(getPrev())
+        me* getPrev();
+        const me* getPrev() const NM_CONST_FUNC(getPrev())
 
         /// return most not null next element of this chain.
-        me& getTail();
-        const me& getTail() const NM_CONST_FUNC(getTail())
+        me* getTail();
+        const me* getTail() const NM_CONST_FUNC(getTail())
 
         /// returned deep cloned of this instance with all chained ones.
         /// @remark when the chain has already linked to the another chain instance,
@@ -108,14 +107,14 @@ namespace nm {
         /// this func keep accessing next element to chain it.
         /// @param until the loop will be terminated when next element has same address to this.
         ///        chain you assigned to 'until' will be cloned to.
-        me* cloneChain(const super& until) const;
-        me* cloneChain(const me& until) const;
+        me* cloneChain(const super* until) const;
+        me* cloneChain(const me* until) const;
 
         /// mock all of this chain until 'next' is null.
         me* cloneChain() const;
 
     protected:
-        iteration* _onMakeIteration(const K& key, nbool isReversed, ncnt step,
+        iteration* _onMakeIteration(const K* key, nbool isReversed, ncnt step,
             nbool isBoundary) const override;
 
         void _getAll(const K& key, narr& tray) const override;
