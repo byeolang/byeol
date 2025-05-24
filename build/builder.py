@@ -225,6 +225,34 @@ def doc():
     docDoxygen(doxygen)
     return 0
 
+def _isDockerExist(sudo, docker, containerName):
+    return subprocess.run(
+        [sudo, docker, "ps", "-a", "-q", "-f", f"name={containerName}"],
+        stdout=subprocess.PIPE,
+        text=True).stdout.strip()
+
+def _isAppleSilicon():
+    return platform.system() == "Darwin" and platform.machine() in ("arm64", "aarch64")
+
+dockerRepo = "ghcr.io/homebrew/core/clang-format:18.1.8"
+dockerRepo = "ams21/clang-format:18.1.8"
+
+def _runDocker(sudo, docker, containerName):
+    global namuDir, dockerRepo
+    if _isAppleSilicon():
+        subprocess.run([sudo, docker, "run", "--platform", "linux/amd64",
+            "-d", "--name", containerName, "-v", f"{namuDir}:/src",
+            dockerRepo, "tail", "-f", "dev/null"
+        ])
+
+
+    else:
+        subprocess.run([sudo, docker, "run",
+            "-d", "--name", containerName, "-v", f"{namuDir}:/src",
+            dockerRepo, "tail", "-f", "dev/null"
+        ])
+
+
 def formatCodesWithDocker(showLog):
     docker = DockerDependency()
     if checkDependencies([docker]):
@@ -233,27 +261,16 @@ def formatCodesWithDocker(showLog):
     global namuDir
     containerName = "namu-clang-format-container__"
     sudo = "" if isWindow() else "sudo"
-    isContainerRunning = subprocess.run(
-        [sudo, docker.binary, "ps", "-q", "-f", f"name={containerName}"],
-        stdout=subprocess.PIPE,
-        text=True)
+    print("check running")
+    if not _isDockerExist(sudo, docker.binary, containerName):
+        print("run docker")
+        _runDocker(sudo, docker.binary, containerName)
 
-    if not isContainerRunning.stdout.strip():
-        subprocess.run([sudo, docker.binary, "run", "-d",
-            "--name", containerName,
-            "-v", f"{namuDir}:/src",
-            "xianpengshen/clang-tools:18", "tail", "-f", "dev/null"
-        ])
-
-        isContainerRunning = subprocess.run(
-            [sudo, docker.binary, "ps", "-q", "-f", f"name={containerName}"],
-            stdout=subprocess.PIPE,
-            text=True)
-
-        if not isContainerRunning.stdout.strip():
+        if not _isDockerExist(sudo, docker.binary, containerName):
             printErr("docker container still now working!")
             return -1
 
+    print("start docker")
     root = namuDir
     if showLog: print("code formatting:")
     for path, dirs, files in os.walk(root):
@@ -262,17 +279,23 @@ def formatCodesWithDocker(showLog):
         if "/leaf/parser/bison" in path: continue
         for file in files:
             filePath = os.path.join(path, file) # absolute path
-            filePath = os.path.relpath(filePath, root) # to relative path
+            filePath = f"src/{os.path.relpath(filePath, root)}" # to relative path
             ext = os.path.splitext(file)[1]
             if  ext != ".cc" and ext != ".cpp" and ext != ".hpp" and ext != ".inl":
                 continue
-            if showLog: print("\t formatting " + filePath + ", ext=" + ext + " file...")
-            subprocess.run(
+            if showLog: 
+                printInfoEnd("\t formatting ")
+                print(filePath + ", ext=" + ext + " file...")
+
+            res = subprocess.run(
                 [sudo, docker.binary, "exec", containerName, "clang-format", "-i", filePath],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
             )
+            if len(res.stderr) > 0:
+                print(res.stderr)
+
     subprocess.run([sudo, docker.binary, "stop", containerName])
     return subprocess.run([sudo, docker.binary, "rm", containerName])
 
