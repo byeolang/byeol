@@ -245,6 +245,15 @@ def formatCodesWithDocker(showLog):
             "xianpengshen/clang-tools:18", "tail", "-f", "dev/null"
         ])
 
+        isContainerRunning = subprocess.run(
+            [sudo, docker.binary, "ps", "-q", "-f", f"name={containerName}"],
+            stdout=subprocess.PIPE,
+            text=True)
+
+        if not isContainerRunning.stdout.strip():
+            printErr("docker container still now working!")
+            return -1
+
     root = namuDir
     if showLog: print("code formatting:")
     for path, dirs, files in os.walk(root):
@@ -265,7 +274,7 @@ def formatCodesWithDocker(showLog):
                 text=True,
             )
     subprocess.run([sudo, docker.binary, "stop", containerName])
-    subprocess.run([sudo, docker.binary, "rm", containerName])
+    return subprocess.run([sudo, docker.binary, "rm", containerName])
 
 def prerequisites():
     if checkDependencies([ClangDependency(), MSBuildDependency(), GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), BisonDependency(), ClangTidyDependency(), DockerDependency()]):
