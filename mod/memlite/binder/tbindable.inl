@@ -9,9 +9,7 @@ namespace nm {
 
     TEMPL ME::operator nbool() const { return !nul(this) && isBind(); }
 
-    TEMPL nbool ME::canBind(const T& it) const {
-        return canBind(it.getType());
-    }
+    TEMPL nbool ME::canBind(const T& it) const { return canBind(it.getType()); }
 
     TEMPL nbool ME::canBind(const T* it) const { return it ? canBind(*it) : false; }
 

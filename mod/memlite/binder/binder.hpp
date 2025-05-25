@@ -71,7 +71,7 @@ namespace nm {
         instance* operator->();
 
         /// this follows the same policy as tmay and stl.
-        /// that is, if the binder does not bind any instances and tries to dereference them with 
+        /// that is, if the binder does not bind any instances and tries to dereference them with
         /// `get()` or `operator*()`, it will behave as UB.
         /// this is likely to crash.
         instance& operator*();
@@ -94,9 +94,7 @@ namespace nm {
         instance* get();
         const instance* get() const NM_CONST_FUNC(get())
 
-        template <typename E> E* get() {
-            return get()->template cast<E>();
-        }
+        template <typename E> E* get() { return get()->template cast<E>(); }
         template <typename E> const E* get() const NM_CONST_FUNC(get<E>())
 
         //  typeProvidable:

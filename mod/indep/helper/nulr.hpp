@@ -8,6 +8,7 @@ namespace nm {
 
     template <typename T> struct nulr {
         static_assert(!std::is_reference_v<T>, "error: reference type specialization not allowed");
+
         static bool isNul(T) { return false; }
     };
 
@@ -23,8 +24,7 @@ namespace nm {
         static nbool isNul(const tmay<T>& it) { return !it.has(); }
     };
 
-    template <typename T>
-    auto nul(T&& it) -> decltype(nulr<std::decay_t<T>>::isNul(it)) {
+    template <typename T> auto nul(T&& it) -> decltype(nulr<std::decay_t<T>>::isNul(it)) {
         return nulr<std::decay_t<T>>::isNul(std::forward<T>(it));
     }
 } // namespace nm

@@ -43,12 +43,14 @@ public:
     }
 
     using super::get;
+
     T* get() override {
         WHEN(isEnd()).retNul<T>();
         return _own.get(_n);
     }
 
     using super::getContainer;
+
     tucontainable<T>* getContainer() override { return &_own; }
 
 protected:

@@ -34,10 +34,7 @@ namespace nm {
 
         public:
             forLoop(arr& ret, const str& container, const str& iter, const forExpr& owner):
-                super(ret),
-                _container(container),
-                _iter(iter),
-                _owner(owner) {}
+                super(ret), _container(container), _iter(iter), _owner(owner) {}
 
         public:
             nbool isLooping() override { return !_iter->run("isEnd")->cast<nbool>(); }

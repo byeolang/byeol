@@ -69,9 +69,7 @@ namespace nm {
     }
 
     TEMPL
-    nbool ME::isEnd() const {
-        return _iteration->isEnd();
-    }
+    nbool ME::isEnd() const { return _iteration->isEnd(); }
 
     TEMPL
     ncnt ME::_step(typename iterable::iterationType type, ncnt step) {
@@ -96,24 +94,16 @@ namespace nm {
     ncnt ME::stepBackward(ncnt step) { return _step(iterable::BACKWARD, step); }
 
     TEMPL
-    const K* ME::getKey() const {
-        return _iteration->getKey();
-    }
+    const K* ME::getKey() const { return _iteration->getKey(); }
 
     TEMPL
-    V* ME::getVal() {
-        return _iteration->getVal();
-    }
+    V* ME::getVal() { return _iteration->getVal(); }
 
     TEMPL
-    void ME::setVal(const V& new1) {
-        return _iteration->setVal(new1);
-    }
+    void ME::setVal(const V& new1) { return _iteration->setVal(new1); }
 
     TEMPL
-    tbicontainable<K, V>* ME::getContainer() {
-        return _iteration->getContainer();
-    }
+    tbicontainable<K, V>* ME::getContainer() { return _iteration->getContainer(); }
 
     TEMPL
     typename ME& ME::_assign(const me& rhs) {

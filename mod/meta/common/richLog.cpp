@@ -6,9 +6,7 @@ namespace nm {
 
     strWrap __convert__(const type& rhs) { return rhs.getName(); }
 
-    strWrap __convert__(const typeProvidable& rhs) {
-        return rhs.getType().getName();
-    }
+    strWrap __convert__(const typeProvidable& rhs) { return rhs.getType().getName(); }
 
     strWrap __convert__(const type* rhs) { return rhs ? __convert__(*rhs) : strWrap("null"); }
 

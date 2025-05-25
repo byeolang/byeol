@@ -13,7 +13,7 @@ namespace nm {
     };
 
     template <typename T> struct __empty__<T&> {
-        static T& ret() { 
+        static T& ret() {
             static T dummy;
             return dummy;
         }
@@ -23,13 +23,10 @@ namespace nm {
         static void ret() {}
     };
 
-    template <typename T, typename F>
-    auto operator->*(T&& t, F&& f) {
-        if constexpr (std::is_pointer_v<std::decay_t<T>>) {
+    template <typename T, typename F> auto operator->*(T&& t, F&& f) {
+        if constexpr(std::is_pointer_v<std::decay_t<T>>)
             return t ? f(*t) : __empty__<std::invoke_result_t<F, decltype(*t)>>::ret();
-        } else {
-            return f(std::forward<T>(t));
-        }
+        else return f(std::forward<T>(t));
     }
 
     /// `to` is safe navigation feature of c++:
@@ -70,15 +67,14 @@ namespace nm {
     ///             return code;
     ///         }
     ///     ```
-    /// but remember, namu doesn't create references that can be null. 
-    /// if you use TO on a reference that is null, it will behave UB. 
+    /// but remember, namu doesn't create references that can be null.
+    /// if you use TO on a reference that is null, it will behave UB.
     /// in many cases, the app will crash.
-#define TO(fn)                                                                                \
-    ->* [&](auto&& __p) -> std::decay_t<decltype(__p.fn)> {                                       \
-        if constexpr (std::is_pointer_v<std::decay_t<decltype(__p)>>)                       \
-            return !nul(__p) ? __p->fn : __empty__<std::decay_t<decltype(__p->fn)>>::ret();   \
-        else                                                                                \
-            return !nul(__p) ? __p.fn : __empty__<std::decay_t<decltype(__p.fn)>>::ret();     \
+#define TO(fn)                                                                              \
+    ->*[&](auto&& __p) -> std::decay_t<decltype(__p.fn)> {                                  \
+        if constexpr(std::is_pointer_v<std::decay_t<decltype(__p)>>)                        \
+            return !nul(__p) ? __p->fn : __empty__<std::decay_t<decltype(__p->fn)>>::ret(); \
+        else return !nul(__p) ? __p.fn : __empty__<std::decay_t<decltype(__p.fn)>>::ret();  \
     }
 
 } // namespace nm

@@ -46,9 +46,7 @@ namespace nm {
         return _tactic->bind(*this, it);
     }
 
-    instance* me::get() {
-        return _getBindTag() TO(get());
-    }
+    instance* me::get() { return _getBindTag() TO(get()); }
 
     nbool me::_assign(const binder& rhs) {
         rel();

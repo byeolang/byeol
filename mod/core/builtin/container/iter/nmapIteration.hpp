@@ -40,6 +40,7 @@ public:
     }
 
     using super::getContainer;
+
     tbicontainable<K, V>* getContainer() override { return &_own; }
 
 protected:

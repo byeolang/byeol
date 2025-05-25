@@ -42,23 +42,17 @@ namespace nm {
 
     TEMPL
     ME::iterator::iterator(const smultimap* owner, const wrap* pair, nbool isReversed):
-        me(owner, pair, isReversed,  nullptr) {}
+        me(owner, pair, isReversed, nullptr) {}
 
     TEMPL
     ME::iterator::iterator(const smultimap* owner, const wrap* pair, nbool isReversed,
         const K& key):
-        _owner(owner),
-        _wrap(pair),
-        _isReversed(isReversed),
-        _key(key) {}
+        _owner(owner), _wrap(pair), _isReversed(isReversed), _key(key) {}
 
     TEMPL
     ME::iterator::iterator(const smultimap* owner, const wrap* pair, nbool isReversed,
         const K* key):
-        _owner(owner),
-        _wrap(pair),
-        _isReversed(isReversed),
-        _key(key ? *key :  _getDummyKey()) {}
+        _owner(owner), _wrap(pair), _isReversed(isReversed), _key(key ? *key : _getDummyKey()) {}
 
     TEMPL
     V& ME::iterator::operator*() { return getVal(); }

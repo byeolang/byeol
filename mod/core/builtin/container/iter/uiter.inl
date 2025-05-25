@@ -62,14 +62,10 @@ namespace nm {
     void ME::rel() { _iteration TO(rel()); }
 
     TEMPL
-    nbool ME::isFrom(const tucontainable& it) const {
-        return _iteration->isFrom(it);
-    }
+    nbool ME::isFrom(const tucontainable& it) const { return _iteration->isFrom(it); }
 
     TEMPL
-    nbool ME::isEnd() const {
-        return _iteration->isEnd();
-    }
+    nbool ME::isEnd() const { return _iteration->isEnd(); }
 
     TEMPL
     ncnt ME::_step(typename iterable::iterationType type, ncnt step) {
@@ -94,14 +90,10 @@ namespace nm {
     ncnt ME::stepBackward(ncnt step) { return _step(iterable::BACKWARD, step); }
 
     TEMPL
-    R ME::get() {
-        return (R) _iteration->get();
-    }
+    R ME::get() { return (R) _iteration->get(); }
 
     TEMPL
-    tucontainable<T, R>* ME::getContainer() {
-        return _iteration->getContainer();
-    }
+    tucontainable<T, R>* ME::getContainer() { return _iteration->getContainer(); }
 
     TEMPL
     typename ME& ME::_assign(const me& rhs) {

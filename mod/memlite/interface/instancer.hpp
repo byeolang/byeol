@@ -18,7 +18,8 @@ namespace nm {
         nbool rel(const instance& old);
         const pool& getPool() const;
         const watcher& getWatcher() const;
-        /// @return singleton instance. this returns nul of reference if app is about to be terminated.
+        /// @return singleton instance. this returns nul of reference if app is about to be
+        /// terminated.
         static me* get();
 
     private:

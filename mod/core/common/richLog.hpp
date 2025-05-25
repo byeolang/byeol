@@ -31,4 +31,4 @@ namespace nm {
     _nout strWrap __convert__(const visitInfo* it);
     _nout strWrap __convert__(const modifier& it);
     _nout strWrap __convert__(const modifier* it);
-}
+} // namespace nm

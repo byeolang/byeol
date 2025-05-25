@@ -22,13 +22,12 @@ namespace nm {
         tprioritiesBucket(): _topPriority(priorType(priorType::NO_MATCH - 1)) {}
 
     public:
-        tnarr<tprior<T>>& operator[](nidx n) {
+        elem& operator[](nidx n) {
             while(n >= this->size())
                 this->super::push_back(elem());
             return this->super::operator[](n);
         }
-        const tnarr<tprior<T>>& operator[](nidx n) const
-            NM_CONST_FUNC(tprioritiesBucket<T>, operator[](n))
+        const elem& operator[](nidx n) const NM_CONST_FUNC(tprioritiesBucket<T>, operator[](n))
 
     public:
         tpriorities<T> join() const {

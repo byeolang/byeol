@@ -20,7 +20,8 @@ namespace nm {
     scope& me::makeSubs() {
         return tbridger<me>::closure<void, me>("log", [&](me& meObj) { meObj.log(); })
             .func("logStack", &me::logStack)
-            .closure<const std::string&, me>("getMsg", [&](me& meObj) -> const std::string& { return meObj.getMsg(); })
+            .closure<const std::string&, me>("getMsg",
+                [&](me& meObj) -> const std::string& { return meObj.getMsg(); })
             .subs();
     }
 

@@ -18,7 +18,6 @@ namespace nm {
 
     me::leaf(const std::string& name): _name(name) {}
 
-
     me::operator nbool() const { return isExist(); }
 
     nbool me::has(const std::string& name) const { return _subs.find(name) != _subs.end(); }

@@ -7,16 +7,14 @@
 namespace nm {
 
     namespace {
-        class derivedAs : public aser {
+        class derivedAs: public aser {
             NM(CLASS(derivedAs, aser))
 
         public:
-            nbool is(const type& from, const type& to) const override {
-                return to.isSuper(from);
-            }
-            str as(const node& from, const type& to) const override{
-                return from;
-            }
+            nbool is(const type& from, const type& to) const override { return to.isSuper(from); }
+
+            str as(const node& from, const type& to) const override { return from; }
+
             static me& singleton() {
                 static me inner;
                 return inner;

@@ -20,7 +20,9 @@ namespace nm {
 
     strWrap __convert__(nbool rhs) { return strWrap(rhs ? "true" : "false"); }
 
-    strWrap __convert__(const std::string* rhs) { return nul(rhs) ? strWrap("null") : __convert__(*rhs); }
+    strWrap __convert__(const std::string* rhs) {
+        return nul(rhs) ? strWrap("null") : __convert__(*rhs);
+    }
 
     strWrap __convert__(const std::string& rhs) { return rhs; }
 

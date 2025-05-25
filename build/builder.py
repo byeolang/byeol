@@ -261,16 +261,13 @@ def formatCodesWithDocker(showLog):
     global namuDir
     containerName = "namu-clang-format-container__"
     sudo = "" if isWindow() else "sudo"
-    print("check running")
     if not _isDockerExist(sudo, docker.binary, containerName):
-        print("run docker")
         _runDocker(sudo, docker.binary, containerName)
 
         if not _isDockerExist(sudo, docker.binary, containerName):
             printErr("docker container still now working!")
             return -1
 
-    print("start docker")
     root = namuDir
     if showLog: print("code formatting:")
     for path, dirs, files in os.walk(root):

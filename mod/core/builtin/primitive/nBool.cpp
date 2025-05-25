@@ -70,11 +70,13 @@ namespace nm {
     }
 
     tstr<arithmeticObj> me::_mul(const arithmeticObj& rhs, nbool reversed) const {
-        return reversed ? new me(rhs.as<me>()->get() && get()) : new me(get() && rhs.as<me>()->get());
+        return reversed ? new me(rhs.as<me>()->get() && get()) :
+                          new me(get() && rhs.as<me>()->get());
     }
 
     tstr<arithmeticObj> me::_div(const arithmeticObj& rhs, nbool reversed) const {
-        return reversed ? new me(rhs.as<me>()->get() && get()) : new me(get() && rhs.as<me>()->get());
+        return reversed ? new me(rhs.as<me>()->get() && get()) :
+                          new me(get() && rhs.as<me>()->get());
     }
 
     tstr<arithmeticObj> me::_mod(const arithmeticObj& rhs, nbool reversed) const {

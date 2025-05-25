@@ -22,9 +22,7 @@ namespace nm {
 
         template <typename T> nint isSuper() const { return getType().isSuper<T>(); }
 
-        template <typename T> T* cast() {
-            return (T*) cast(ttype<T>::get());
-        }
+        template <typename T> T* cast() { return (T*) cast(ttype<T>::get()); }
 
         template <typename T> const T* cast() const NM_CONST_FUNC(cast<T>())
 
