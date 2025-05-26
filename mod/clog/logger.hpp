@@ -27,12 +27,18 @@ namespace nm {
         nbool logFormatBypass(const nchar* fmt, ...);
         nbool log(errLv::level lv, const std::string& filename, const nchar* func, int line,
             const nchar* fmt, ...);
+
         nbool pushStream(stream* new_stream);
+        nbool pushStream(stream& new_stream);
+
         static logger& get();
+
         //  stream:
         const std::string& getName() const override;
+
         nbool logBypass(const nchar* message) override;
         nbool logBypass(const std::string& msg);
+
         nbool isInit() const override;
         //  filter:
         void setFilters(const filters& newFilters);

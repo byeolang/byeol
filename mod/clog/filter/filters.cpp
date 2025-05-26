@@ -12,7 +12,12 @@ namespace nm {
             del();
     }
 
-    void me::add(const filterable* new1) { _arr.push_back(new1); }
+    void me::add(const filterable& new1) { _arr.push_back(&new1); }
+
+    void me::add(const filterable* new1) {
+        WHEN_NUL(new1).ret();
+        add(*new1);
+    }
 
     void me::del() {
         if(len() <= 0) return;

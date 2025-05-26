@@ -22,7 +22,7 @@ namespace nm {
 
     const string& me::getPath() const { return _path; }
 
-    nbool me::logBypass(const char* message) {
+    nbool me::logBypass(const nchar* message) {
         if(!isInit()) return true;
         if(super::logBypass(message)) return true;
 

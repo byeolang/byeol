@@ -19,7 +19,9 @@ namespace nm {
         const std::string& getPath() const;
         //  stream:
         const std::string& getName() const override;
-        nbool logBypass(const char* message) override;
+
+        using super::logBypass;
+        nbool logBypass(const nchar* message) override;
 
     private:
         std::ofstream _file;

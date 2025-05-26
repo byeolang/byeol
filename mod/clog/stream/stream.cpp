@@ -8,7 +8,9 @@ namespace nm {
 
     me::~stream() {}
 
-    nbool me::logBypass(const char* message) { return !_isEnable; }
+    nbool me::logBypass(const char* message) { return !message || !_isEnable; }
+
+    nbool me::logBypass(const std::string& message) { return logBypass(message.c_str()); }
 
     nbool me::isNull() const { return !this; }
 

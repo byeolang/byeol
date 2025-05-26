@@ -13,7 +13,7 @@ namespace nm {
         return inner;
     }
 
-    nbool me::logBypass(const char* msg) {
+    nbool me::logBypass(const nchar* msg) {
         if(super::logBypass(msg)) return true;
 
         platformAPI::log(msg);

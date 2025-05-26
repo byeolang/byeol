@@ -14,6 +14,8 @@ namespace nm {
     public:
         /// @return true means an error.
         virtual nbool logBypass(const nchar* message);
+        nbool logBypass(const std::string& message);
+
         nbool isNull() const;
         virtual nbool isEnable() const;
         /// @return previous set value.

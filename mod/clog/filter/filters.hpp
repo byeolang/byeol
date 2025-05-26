@@ -16,6 +16,7 @@ namespace nm {
     public:
         ncnt len() const;
         void rel();
+        void add(const filterable& new1);
         void add(const filterable* new1);
         void del();
         nbool filt(errLv::level lv, const std::string& tag) const;

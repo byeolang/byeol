@@ -55,11 +55,14 @@ namespace nm {
         return ret;
     }
 
-    nbool me::pushStream(stream* new_stream) {
-        if(!new_stream) return true;
+    nbool me::pushStream(stream* newStream) {
+        WHEN_NUL(newStream).ret(true);
+        return pushStream(*newStream);
+    }
 
-        _streams.push_back(new_stream);
-        if(isInit()) return new_stream->init();
+    nbool me::pushStream(stream& newStream) {
+        _streams.push_back(&newStream);
+        if(isInit()) return newStream.init();
         return false;
     }
 
