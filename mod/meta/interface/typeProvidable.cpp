@@ -22,9 +22,13 @@ namespace nm {
 
     nbool me::isSuper(const me& it) const { return isSuper(it.getType()); }
 
+    void* me::cast(const type* to) {
+        WHEN_NUL(to).ret(nullptr);
+        return cast(*to);
+    }
+
     void* me::cast(const type& to) {
         WHEN(!getType().isSub(to)).ret(nullptr);
-
         return this;
     }
 
