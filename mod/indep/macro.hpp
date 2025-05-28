@@ -16,3 +16,4 @@
 #include "macro/unconstFunc.hpp"
 #include "macro/when.hpp"
 #include "macro/warning.hpp"
+#include "macro/sideFunc.hpp"
