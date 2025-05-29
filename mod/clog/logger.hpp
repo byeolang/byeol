@@ -36,8 +36,8 @@ namespace nm {
         //  stream:
         const std::string& getName() const override;
 
+        using super::logBypass;
         nbool logBypass(const nchar* message) override;
-        nbool logBypass(const std::string& msg);
 
         nbool isInit() const override;
         //  filter:
