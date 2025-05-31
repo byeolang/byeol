@@ -9,7 +9,7 @@ namespace nm {
 
     me::~pool() { rel(); }
 
-    chunks* me::get(const instance& inst) { return get(inst.getType().size()); }
+    chunks* me::get(const instance& it) { return get(it.getType().size()); }
 
     chunks* me::get(nidx n) { return (chunks*) _get(n); }
 

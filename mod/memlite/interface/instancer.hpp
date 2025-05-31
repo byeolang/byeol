@@ -14,8 +14,10 @@ namespace nm {
         ~instancer();
 
     public:
-        nbool bind(const instance& new1);
+        nbool bind(const instance& it);
+        nbool bind(const instance* it) NM_SIDE_FUNC(bind, false)
         nbool rel(const instance& old);
+        nbool rel(const instance* it) NM_SIDE_FUNC(rel, false)
         const pool& getPool() const;
         const watcher& getWatcher() const;
         /// @return singleton instance. this returns nul of reference if app is about to be

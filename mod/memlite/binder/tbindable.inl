@@ -11,8 +11,6 @@ namespace nm {
 
     TEMPL nbool ME::canBind(const T& it) const { return canBind(it.getType()); }
 
-    TEMPL nbool ME::canBind(const T* it) const { return it ? canBind(*it) : false; }
-
     TEMPL
     nbool ME::bind(const T& it) {
         // type checking before binding only is required to bind class.
@@ -22,7 +20,10 @@ namespace nm {
     }
 
     TEMPL
-    nbool ME::bind(const T* it) { return it ? bind(*it) : false; }
+    nbool ME::bind(const T* it) {
+        if(!it) rel();
+        return it;
+    }
 
 #undef ME
 #undef TEMPL

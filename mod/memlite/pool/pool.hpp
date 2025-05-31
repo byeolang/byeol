@@ -14,12 +14,16 @@ namespace nm {
         virtual ~pool();
 
     public:
-        chunks* get(const instance& inst);
+        chunks* get(const instance& it);
+        chunks* get(const instance* it) NM_SIDE_FUNC(get, nullptr)
         chunks* get(nidx n);
-        const chunks* get(const instance& inst) const NM_CONST_FUNC(get(inst))
+        const chunks* get(const instance& it) const NM_CONST_FUNC(get(it))
+        const chunks* get(const instance* it) const NM_CONST_FUNC(get(it))
         const chunks* get(nidx n) const NM_CONST_FUNC(get(n))
-        //  memoryHaver:
+
+        using super::has;
         nbool has(const instance& it) const override;
+
         ncnt size() const override;
         ncnt len() const override;
         nbool rel() override;

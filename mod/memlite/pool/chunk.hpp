@@ -30,6 +30,8 @@ namespace nm {
         ncnt len() const override;
         ncnt size() const override;
         nbool rel() override;
+
+        using super::has;
         nbool has(const instance& it) const override;
 
     protected:

@@ -8,9 +8,9 @@ namespace nm {
 
     me::~instancer() { _isRel = true; }
 
-    nbool me::bind(const instance& new1) {
+    nbool me::bind(const instance& it) {
         watchCell& un = *(watchCell*) _watcher.new1();
-        return un.blk.bind(new1);
+        return un.blk.bind(it);
     }
 
     nbool me::rel(const instance& old) {

@@ -87,7 +87,7 @@ namespace nm {
         nbool isBind() const override;
         void rel() override;
         using tbindable::canBind;
-        nbool canBind(const type& cls) const override;
+        nbool canBind(const type& it) const override;
         using tbindable::bind;
         nbool bind(const instance& it) override;
 

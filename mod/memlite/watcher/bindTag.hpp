@@ -34,7 +34,6 @@ namespace nm {
         void rel() override;
         nbool isBind() const override;
         const type& getBindable() const;
-        using tbindable::canBind;
 
         instance* get();
         const instance* get() const NM_CONST_FUNC(get())
@@ -42,8 +41,12 @@ namespace nm {
         template <typename E> E* get() { return get() TO(template cast<E>()); }
         template <typename E> const E* get() const NM_CONST_FUNC(get<E>())
 
+        using tbindable<instance>::canBind;
         nbool canBind(const type& cls) const override;
+
+        using tbindable<instance>::bind;
         nbool bind(const instance& new1) override;
+
         //  Instance:
         id getId() const;
         //  typeProvidable:

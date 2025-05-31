@@ -10,6 +10,8 @@ namespace nm {
 
     public:
         void rel(binder& me) override;
+
+        using super::bind;
         nbool bind(binder& me, const instance& it) override;
 
     public:

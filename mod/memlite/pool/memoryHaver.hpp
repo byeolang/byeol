@@ -15,6 +15,7 @@ namespace nm {
 
     public:
         virtual nbool has(const instance& it) const = 0;
+        nbool has(const instance* it) const NM_SIDE_FUNC(has, false)
         virtual ncnt len() const = 0;
         virtual ncnt size() const = 0;
         virtual nbool rel() = 0;
