@@ -23,7 +23,6 @@
 #     cppcoreguidelines-avoid-const-or-ref-data-members,
 Checks: |
   -*,
-  -clang-diagnostic-error,
   clang-analyzer-apiModeling.Errno,
   clang-analyzer-apiModeling.TrustNonnull,
   clang-analyzer-apiModeling.TrustReturnsNonnull,

@@ -5,13 +5,6 @@ namespace nm {
 
     NM_DEF_ME(leaf)
 
-    me* me::sub(const std::string& name) {
-        me& ret = _subs[name] OR.ret(nullptr);
-        return &ret;
-    }
-
-    me* me::sub(nidx n) { return std::next(begin(), n)->second.get(); }
-
     me::leaf(std::initializer_list<me*> subs, const std::string& name): _name(name) { add(subs); }
 
     me::leaf(const me& rhs, const std::string& name): super(), _subs(rhs._subs), _name(name) {}
@@ -20,11 +13,21 @@ namespace nm {
 
     me::operator nbool() const { return isExist(); }
 
+    me* me::sub(const std::string& name) {
+        me& ret = _subs[name] OR.ret(nullptr);
+        return &ret;
+    }
+
+    me* me::sub(const nchar* name) {
+        WHEN_NUL(name).ret(nullptr);
+        return sub(*name);
+    }
+
+    me* me::sub(nidx n) { return std::next(begin(), n)->second.get(); }
+
     nbool me::has(const std::string& name) const { return _subs.find(name) != _subs.end(); }
 
     void me::add(const leaf& new1) {
-        WHEN_NUL(new1).ret();
-
         _subs.insert(make_pair(new1.getName(), tstr<me>(new1)));
     }
 
@@ -37,9 +40,19 @@ namespace nm {
 
     void me::del(const std::string& name) { _subs.erase(name); }
 
+    void me::del(const nchar* name) {
+        WHEN_NUL(name).ret();
+        _subs.erase(name);
+    }
+
     const std::string& me::getName() const { return _name; }
 
     void me::setName(const std::string& newName) { _name = newName; }
+
+    void me::setName(const nchar* newName) {
+        WHEN_NUL(newName).ret();
+        _name = newName;
+    }
 
     ncnt me::len() const { return _subs.size(); }
 

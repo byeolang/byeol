@@ -4,12 +4,11 @@
     ============================================================================================  */
 #include "leaf/parser/bison/leafLowparser.hpp"
 #include "leaf/parser/leafParser.hpp"
-NM_WARN_PUSH
-NM_WARN_IGNORE_UNUSED_FUNCTION
 #include <iostream>
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
 #   define YY_NO_UNISTD_H 1
 #endif
+
 namespace {
     static constexpr int TAB_WIDTH = 4;
     char unescape(const char* seq);
@@ -236,4 +235,3 @@ namespace {
         }
     }
 }
-NM_WARN_POP

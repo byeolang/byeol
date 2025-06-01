@@ -12,15 +12,6 @@ namespace nm {
 
     NM_DEF_ME(leafParser)
 
-    namespace {
-        string join(const std::vector<string>& dotnames) {
-            string ret;
-            for(const string& name: dotnames)
-                ret += name;
-            return ret;
-        }
-    }
-
     nint me::_onScan(ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner) {
         int tok = _mode->onScan(*this, val, loc, scanner);
         if(_isIgnoreWhitespace && tok == NEWLINE) return SCAN_AGAIN;
@@ -73,10 +64,10 @@ namespace nm {
 
     nint me::onTokenComma(nint tok) { return _onTokenEndOfInlineBlock(onIgnoreIndent(tok)); }
 
-    leaf* me::onDefAssign(const std::string& name, leaf& rhs) {
+    leaf* me::onDefAssign(const std::string& name, leaf* rhs) {
         WHEN_NUL(rhs).err("rhs is nul").ret(nullptr);
-        rhs.setName(name);
-        return &rhs;
+        rhs->setName(name);
+        return rhs;
     }
 
     nint me::_onTokenEndOfInlineBlock(nint tok) {
@@ -127,14 +118,14 @@ namespace nm {
 
     leaf* me::onDefBlock() { return new leaf(); }
 
-    leaf* me::onDefBlock(leaf& stmt) { return onDefBlock(*onDefBlock(), stmt); }
+    leaf* me::onDefBlock(leaf* stmt) { return onDefBlock(onDefBlock(), stmt); }
 
-    leaf* me::onDefBlock(leaf& s, leaf& stmt) {
+    leaf* me::onDefBlock(leaf* s, leaf* stmt) {
         WHEN_NUL(s).err("s is nul").ret(new leaf());
-        WHEN_NUL(stmt).err("stmt is nul").ret(&s);
+        WHEN_NUL(stmt).err("stmt is nul").ret(s);
 
-        s.add(stmt);
-        return &s;
+        s->add(stmt);
+        return s;
     }
 
     verLeaf* me::onVer(const std::string& version) { return new verLeaf(version); }
@@ -187,6 +178,11 @@ namespace nm {
         return parse(buf.str());
     }
 
+    leaf* me::parseFromFile(const nchar* path) {
+        WHEN_NUL(path).ret(nullptr);
+        return parseFromFile(path);
+    }
+
     leaf* me::parse(const std::string& codes) {
         _prepare();
 
@@ -215,6 +211,11 @@ namespace nm {
         zzlex_destroy(scanner);
 
         return _finalize();
+    }
+
+    leaf* me::parse(const nchar* codes) {
+        WHEN_NUL(codes).ret(nullptr);
+        return parse(codes);
     }
 
     nbool me::isInit() const { return _mode; }

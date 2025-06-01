@@ -6,7 +6,7 @@ set(SHOW_CMAKE_VARIABLES 1)
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 2)
 set(VERSION_FIX 9)
-set(BUILD_COUNT 1278)
+set(BUILD_COUNT 1286)
 set(VERSION_NAME "Mana")
 set(VERSION_VALUE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_FIX}")
 set(VERSION "${PROJECT_NAME} ${UPDATE_NAME} v${VERSION_VALUE}")
@@ -52,7 +52,7 @@ IF(CMAKE_SYSTEM_NAME STREQUAL Darwin OR CMAKE_SYSTEM_NAME STREQUAL Linux OR CMAK
     # common flags:
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -fdiagnostics-color=always")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-delete-null-pointer-checks -Wno-sign-compare -Wno-unused-parameter -Wno-address")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedefs")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedefs -Wno-unused-function")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-zero-variadic-macro-arguments -Wno-undefined-bool-conversion -Wno-c++20-extensions")
 
     find_program(CLANGPP_PATH clang++)

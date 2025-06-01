@@ -17,7 +17,9 @@ namespace nm {
 
     public:
         leaf* parse(const std::string& codes);
+        leaf* parse(const nchar* codes);
         leaf* parseFromFile(const std::string& path);
+        leaf* parseFromFile(const nchar* path);
 
         leafTokenDispatcher& getDispatcher();
         std::vector<ncnt>& getIndents();
@@ -46,8 +48,8 @@ namespace nm {
         nchar onScanUnexpected(const nchar* token);
 
         //  keyword:
-        leaf* onDefBlock(leaf& stmt);
-        leaf* onDefBlock(leaf& blk, leaf& stmt);
+        leaf* onDefBlock(leaf* stmt);
+        leaf* onDefBlock(leaf* blk, leaf* stmt);
         leaf* onDefBlock();
 
         //  expr:
@@ -58,7 +60,7 @@ namespace nm {
         verLeaf* onVer(const std::string& version);
 
         leaf* onDefProp(const std::string& name, leaf& rhs);
-        leaf* onDefAssign(const std::string& name, leaf& rhs);
+        leaf* onDefAssign(const std::string& name, leaf* rhs);
         //          obj:
         leaf* onDefOrigin(const std::string& name, leaf& blk);
         //          container:

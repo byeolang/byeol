@@ -172,16 +172,16 @@ expr-inline: expr-inline5 { $$ = $1; }
 
 indentDefBlock: NEWLINE INDENT defblock DEDENT { $$ = $3; }
               | ':' def-stmt-chain NEWLINE { $$ = $2; }
-              | ':' def-expr-compound { $$ = PS.onDefBlock(*$2); }
+              | ':' def-expr-compound { $$ = PS.onDefBlock($2); }
               | ':' def-stmt-chain ';' def-expr-compound {
                 tstr<leaf> exprLife($4);
-                $$ = PS.onDefBlock(*$2, *exprLife);
+                $$ = PS.onDefBlock($2, exprLife.get());
             } | ':' ';' NEWLINE { $$ = PS.onDefBlock(); }
 
-defblock: def-stmt { $$ = PS.onDefBlock(*$1); }
+defblock: def-stmt { $$ = PS.onDefBlock($1); }
         | defblock def-stmt {
         tstr<leaf> lifeStmt($2);
-        $$ = PS.onDefBlock(*$1, *lifeStmt);
+        $$ = PS.onDefBlock($1, lifeStmt.get());
       }
 
 //      def:
@@ -190,10 +190,10 @@ def-expr-compound: def-obj { $$ = $1; }
 def-stmt: def-expr-inline NEWLINE { $$ = $1; }
         | def-expr-compound { $$ = $1; }
 //      access:
-def-stmt-chain: def-expr-inline { $$ = PS.onDefBlock(*$1); }
+def-stmt-chain: def-expr-inline { $$ = PS.onDefBlock($1); }
               | def-stmt-chain ';' def-expr-inline {
                 tstr<leaf> lifeItem($3);
-                $$ = PS.onDefBlock(*$1, *lifeItem);
+                $$ = PS.onDefBlock($1, lifeItem.get());
             }
 
 //  type:
@@ -209,7 +209,7 @@ type: _INT_ { $$ = PS.onPrimitive<nint>(0); }
 //          value:
 def-prop-inline: def-prop-value { $$ = $1; }
 def-prop-value: NAME DEFASSIGN expr-inline {
-                $$ = PS.onDefAssign(*$1, *$3);
+                $$ = PS.onDefAssign(*$1, $3);
                 delete $1;
             }
 
