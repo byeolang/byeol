@@ -27,9 +27,7 @@ namespace nm {
 
     nbool me::has(const std::string& name) const { return _subs.find(name) != _subs.end(); }
 
-    void me::add(const leaf& new1) {
-        _subs.insert(make_pair(new1.getName(), tstr<me>(new1)));
-    }
+    void me::add(const leaf& new1) { _subs.insert(make_pair(new1.getName(), tstr<me>(new1))); }
 
     void me::add(std::initializer_list<leaf*> subs) {
         for(auto e: subs)
