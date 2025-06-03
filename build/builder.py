@@ -294,7 +294,7 @@ def formatCodesWithDocker(showLog):
                 print(res.stderr)
 
     subprocess.run([sudo, docker.binary, "stop", containerName])
-    return subprocess.run([sudo, docker.binary, "rm", containerName])
+    return subprocess.run([sudo, docker.binary, "rm", containerName]).returncode
 
 def prerequisites():
     if checkDependencies([ClangDependency(), MSBuildDependency(), GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), BisonDependency(), ClangTidyDependency(), DockerDependency()]):
