@@ -6,7 +6,7 @@ set(SHOW_CMAKE_VARIABLES 1)
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 2)
 set(VERSION_FIX 9)
-set(BUILD_COUNT 1286)
+set(BUILD_COUNT 1287)
 set(VERSION_NAME "Mana")
 set(VERSION_VALUE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_FIX}")
 set(VERSION "${PROJECT_NAME} ${UPDATE_NAME} v${VERSION_VALUE}")
@@ -115,7 +115,7 @@ cmake_policy(SET CMP0042 NEW)
 set(NM_PACK_EXTENSION "pack")
 get_filename_component(NM_DIR ${CMAKE_SOURCE_DIR} DIRECTORY)
 set(NM_DEFAULT_INC_DIR
-    ${NM_DIR}/mod
+    ${NM_DIR}/module
     /usr/local/include)
 include_directories(${NM_DEFAULT_INC_DIR})
 
@@ -196,4 +196,4 @@ if(SHOW_CMAKE_VARIABLES)
 endif(SHOW_CMAKE_VARIABLES)
 
 add_definitions(${CXX_DEFINITIONS})
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../mod ${CMAKE_CURRENT_BINARY_DIR}/mod)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../module ${CMAKE_CURRENT_BINARY_DIR}/module)

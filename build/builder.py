@@ -141,11 +141,11 @@ def _cleanParser():
 
     pathDir= namuDir
     if isWindow():
-        pathDir += "\\mod\\core\\worker\\bison\\"
-        leafPathDir = cwd + "\\..\\mod\\leaf\\parser\\bison\\"
+        pathDir += "\\module\\core\\worker\\bison\\"
+        leafPathDir = cwd + "\\..\\module\\leaf\\parser\\bison\\"
     else:
-        pathDir += "/mod/core/worker/bison/"
-        leafPathDir = cwd + "/../mod/leaf/parser/bison/"
+        pathDir += "/module/core/worker/bison/"
+        leafPathDir = cwd + "/../module/leaf/parser/bison/"
 
     printInfoEnd("removing generated parser...")
     os.system("rm " + pathDir + "lowscanner.cpp")
@@ -271,7 +271,7 @@ def formatCodesWithDocker(showLog):
     root = namuDir
     if showLog: print("code formatting:")
     for path, dirs, files in os.walk(root):
-        if "../mod/" not in path: continue
+        if "../module/" not in path: continue
         if "/worker/bison" in path: continue
         if "/leaf/parser/bison" in path: continue
         for file in files:
@@ -574,14 +574,14 @@ def _make(msbuild, make):
     global cwd, config, winProp
     if isWindow():
         printInfoEnd("build the generated solution using visual studio's msbuild tool...")
-        os.system("dir " + cwd + "\\mod")
-        os.system("dir " + cwd + "\\mod\\namu")
-        res = os.system(f"{msbuild.binary} {winProp} {cwd}\\mod\\namu\\namu.vcxproj")
+        os.system("dir " + cwd + "\\module")
+        os.system("dir " + cwd + "\\module\\namu")
+        res = os.system(f"{msbuild.binary} {winProp} {cwd}\\module\\namu\\namu.vcxproj")
         if res != 0:
             printErr("failed")
             return res
 
-        res = os.system(f"{msbuild.binary} {winProp} {cwd}\\mod\\bundle\\sys\\sys.vcxproj")
+        res = os.system(f"{msbuild.binary} {winProp} {cwd}\\module\\bundle\\sys\\sys.vcxproj")
         if res != 0:
             printErr("failed")
             return res

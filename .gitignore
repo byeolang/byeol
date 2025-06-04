@@ -53,7 +53,7 @@ build/xml/
 external/
 build/*.tmp
 build/.clangd/
-build/mod/
+build/module/
 build/compile_commands.json
 build/.cmake/
 build/install_manifest.txt
