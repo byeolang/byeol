@@ -68,15 +68,13 @@ namespace nm {
         virtual ~binder();
 
     public:
-        instance* operator->();
-
         /// this follows the same policy as tmay and stl.
         /// that is, if the binder does not bind any instances and tries to dereference them with
         /// `get()` or `operator*()`, it will behave as UB.
         /// this is likely to crash.
-        instance& operator*();
-
+        instance* operator->();
         const instance* operator->() const NM_CONST_FUNC(operator->())
+        instance& operator*();
         const instance& operator*() const NM_CONST_FUNC(operator*())
         me& operator=(const me& rhs);
 

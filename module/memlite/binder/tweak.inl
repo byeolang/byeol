@@ -27,7 +27,7 @@ namespace nm {
         this->bind(*rhs);
     }
 
-    TEMPL T* ME::operator->() { return &this->get(); }
+    TEMPL T* ME::operator->() { return this->get(); }
 
     TEMPL T& ME::operator*() { return *get(); }
 
