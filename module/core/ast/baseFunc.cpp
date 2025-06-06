@@ -21,14 +21,14 @@ namespace nm {
     }
 
     priorType me::prioritize(const args& a) const {
-        NM_DI("%s.prioritize(%s)", *this, nul(a) ? "()" : a.asStr());
+        NM_DI("%s.prioritize(%s)", *this, a.asStr());
         const params& ps = getParams();
         WHEN(a.len() != ps.len()).ret(NO_MATCH);
 
         int n = 0;
         priorType max = EXACT_MATCH; // begining from lv0.
         for(const auto& e: a) {
-            str t = e.getEval() OR.warn("t == null").ret(NO_MATCH);
+            str t = e->getEval() OR.warn("t == null").ret(NO_MATCH);
             str p = ps[n++].getOrigin().as<node>();
             WHEN(!t->isComplete()).ret(NO_MATCH);
 

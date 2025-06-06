@@ -121,8 +121,9 @@ namespace nm {
 
     nbool me::in(nidx n) const { return get().in(n); }
 
-    node& me::get(nidx n) { return get()[n]; }
+    node* me::get(nidx n) { return get().get(n); }
 
+    /* TODO: can I remove this?
     node& me::get(std::function<nbool(const node&)> l) const {
         return this->get<node>(std::move(l));
     }
@@ -130,29 +131,30 @@ namespace nm {
     narr me::getAll(std::function<nbool(const node&)> l) const {
         return this->getAll<node>(std::move(l));
     }
+    */
 
     nbool me::set(const iter& at, const node& new1) {
-        str ased = new1 TO(asImpli(getType().getParams()[0].getOrigin()));
+        str ased = new1.asImpli(getType().getParams()[0].getOrigin());
         WHEN(!ased || ased->isSub<nVoid>()).ret(false);
 
         return get().set(at, *ased);
     }
 
     nbool me::set(nidx n, const node& new1) {
-        str ased = new1 TO(asImpli(getType().getParams()[0].getOrigin()));
+        str ased = new1.asImpli(getType().getParams()[0].getOrigin());
         WHEN(!ased || ased->isSub<nVoid>()).ret(false);
         return get().set(n, *ased);
     }
 
     nbool me::add(const iter& at, const node& new1) {
-        str ased = new1 TO(asImpli(getType().getParams()[0].getOrigin()));
+        str ased = new1.asImpli(getType().getParams()[0].getOrigin());
         WHEN(!ased || ased->isSub<nVoid>()).ret(false);
 
         return get().add(at, *ased);
     }
 
     nbool me::add(nidx n, const node& new1) {
-        str ased = new1 TO(asImpli(getType().getParams()[0].getOrigin()));
+        str ased = new1.asImpli(getType().getParams()[0].getOrigin());
         WHEN(!ased || ased->isSub<nVoid>()).ret(false);
 
         return get().add(n, *ased);

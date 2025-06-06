@@ -35,6 +35,7 @@ namespace nm {
         using super::get;
         nInt get(nidx n) override;
 
+        using super::in;
         nbool in(nidx n) const override;
 
     protected:
@@ -47,10 +48,12 @@ namespace nm {
         nbool add(const iter& at, const nInt& new1) override;
         void add(const iter& at, const iter& from, const iter& to) override;
         nbool add(nidx n, const nInt& new1) override;
+
         using super::set;
         using tarrayable<nInt, nInt, nInt>::set;
         nbool set(const iter& at, const nInt& new1) override;
         nbool set(nidx n, const nInt& new1) override;
+
         using super::del;
         using tarrayable<nInt, nInt, nInt>::del;
         nbool del(const iter& it) override;

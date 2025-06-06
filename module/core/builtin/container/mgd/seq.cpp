@@ -88,7 +88,7 @@ namespace nm {
                         OR.err("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0])
                             .ret(str());
 
-                nint step = eval->cast<nint>();
+                nint step = *eval->cast<nint>();
                 static tucontainable<nInt, nInt>::iter (tucontainable<nInt, nInt>::*specifier)(ncnt)
                     const = &seq::iterate;
                 return new mgdIter(new niter((meObj.get().*specifier)(step)));

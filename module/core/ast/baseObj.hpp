@@ -44,6 +44,7 @@ namespace nm {
         state getState() const override;
         void setState(state new1) override;
 
+        using super::prioritize;
         priorType prioritize(const args& a) const override;
 
         virtual const baseObj& getOrigin() const;

@@ -18,18 +18,13 @@ namespace nm {
     public:
         using tucontainable<node>::set;
         using tarrayable<node>::set;
-
         nbool set(const iter& at, const node& new1) override { return true; }
-
         nbool set(nidx n, const node& new1) override { return true; }
 
         using tucontainable<node>::add;
         using tarrayable<node>::add;
-
         nbool add(const iter& at, const node& new1) override { return true; }
-
         nbool add(nidx n, const node& new1) override { return true; }
-
         void add(const iter& here, const iter& from, const iter& to) override {}
     };
 

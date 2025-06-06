@@ -16,9 +16,7 @@ namespace nm {
     public:
         // add:
         using super::add;
-
         nbool add(const typename super::iter& e, const node& new1) override { return false; }
-
         nbool add(nidx n, const node& new1) override { return false; }
 
     public:

@@ -19,7 +19,10 @@ namespace nm {
 
         node& getRet();
         const node& getRet() const NM_CONST_FUNC(getRet())
+
+        using super::prioritize;
         priorType prioritize(const args& a) const override;
+
         str getEval() const override;
 
     private:

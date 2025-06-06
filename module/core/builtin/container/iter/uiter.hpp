@@ -32,7 +32,9 @@ public:
     /// once rel(), an iterator enters a state where it can never be reused again.
     void rel() override;
 
+    using iterable::isFrom;
     nbool isFrom(const tucontainable& it) const override;
+
     nbool isEnd() const override;
     ncnt next(ncnt step) override;
     ncnt prev(ncnt step) override;

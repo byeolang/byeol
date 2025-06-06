@@ -55,6 +55,7 @@ namespace nm {
         ///               for instance, if iterator is belonged to this chain or nullptr.
         virtual nbool link(const iter& portion);
         nbool link(const me& new1);
+        nbool link(const me* it) NM_SIDE_FUNC(link, false)
         nbool unlink();
 
         // del:

@@ -10,7 +10,7 @@ namespace nm {
 
     class _nout seq: public __seqSuperClass,
                      public tucontainable<nInt, nInt>,
-                     tarrayable<nInt, nInt> {
+                     tarrayable<nInt, nInt, nInt> {
         // seq uses wrapType:
         //  wrapType contains beanType as 'const type*' instance variable. so user should be
         //  careful when calling ttype<arr>. because it will also return wrapType instance
@@ -35,7 +35,7 @@ namespace nm {
         seq();
 
     public:
-        using tarrayable<nInt, nInt>::operator[];
+        using tarrayable<nInt, nInt, nInt>::operator[];
         nInt operator[](nidx n) override;
 
     public:
@@ -49,7 +49,7 @@ namespace nm {
         nbool in(nidx n) const override;
 
         //  get:
-        using tarrayable<nInt, nInt>::get;
+        using tarrayable<nInt, nInt, nInt>::get;
         using super::get;
         nInt get(nidx n) override;
 
@@ -63,12 +63,12 @@ namespace nm {
         // these method has been prohibited.
         //  set:
         using tucontainable<nInt, nInt>::set;
-        using tarrayable<nInt, nInt>::set;
+        using tarrayable<nInt, nInt, nInt>::set;
         nbool set(const iter& at, const nInt& new1) override;
         nbool set(nidx n, const nInt& new1) override;
         //  add:
         using tucontainable<nInt, nInt>::add;
-        using tarrayable<nInt, nInt>::add;
+        using tarrayable<nInt, nInt, nInt>::add;
         nbool add(const iter& at, const nInt& new1) override;
         nbool add(nidx n, const nInt& new1) override;
         void add(const iter& here, const iter& from, const iter& to) override;

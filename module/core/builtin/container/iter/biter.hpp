@@ -31,7 +31,9 @@ public:
     /// once rel(), an iterator enters a state where it can never be reused again.
     void rel() override;
 
+    using iterable::isFrom;
     nbool isFrom(const tbicontainable& it) const override;
+
     nbool isEnd() const override;
 
     ncnt next(ncnt step) override;
@@ -48,6 +50,7 @@ public:
 
     template <typename E> E* getVal() { return getVal() TO(template cast<E>()); }
 
+    using iterable::setVal;
     void setVal(const V& new1) override;
 
     using iterable::getContainer;

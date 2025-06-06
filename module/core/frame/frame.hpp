@@ -60,7 +60,9 @@ namespace nm {
         scope& subs() override;
         tstr<nbicontainer> mySubs() const override;
 
+        using super::prioritize;
         priorType prioritize(const args& a) const override;
+
         str run(const args& a) override;
 
         void rel() override;

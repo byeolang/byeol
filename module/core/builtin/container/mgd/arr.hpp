@@ -47,16 +47,16 @@ namespace nm {
         using tarrayable<node>::get;
         using super::get;
 
-        template <typename E> E& get(std::function<nbool(const E&)> l) const {
-            for(const node& elem: *this) {
-                const E& cast = elem.template cast<E>();
-                if(!nul(cast) && l(cast)) // elem should be typeProvidable.
-                    return (E&) cast;
+        /* TODO: can I remove this?
+        template <typename E> E* get(std::function<nbool(const E&)> l) const {
+            for(const node* elem : *this) {
+                const E& cast = elem->template cast<E>() OR_CONTINUE;
+                if(l(cast)) // elem should be typeProvidable.
+                    return cast;
             }
 
-            return nulOf<E>();
+            return nullptr;
         }
-
         node& get(std::function<nbool(const node&)> l) const;
 
         template <typename E> tnarr<E, strTactic> getAll(std::function<nbool(const E&)> l) const {
@@ -68,10 +68,10 @@ namespace nm {
 
             return ret;
         }
-
         narr getAll(std::function<nbool(const node&)> l) const;
+        */
 
-        node& get(nidx n) override;
+        node* get(nidx n) override;
 
         //  set:
         using tucontainable<node>::set;

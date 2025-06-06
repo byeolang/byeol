@@ -35,6 +35,7 @@ namespace nm {
         /// it should not take any argument to run()
         using super::prioritize;
         priorType prioritize(const args& a) const override;
+
         const src& getSrc() const override;
 
     private:

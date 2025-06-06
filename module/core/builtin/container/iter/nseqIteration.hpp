@@ -43,14 +43,12 @@ public:
     }
 
     using super::get;
-
     nInt get() override {
         WHEN(isEnd()).ret(nInt(0));
         return _own[_n];
     }
 
     using super::getContainer;
-
     tucontainable<nInt, nInt>* getContainer() override { return &_own; }
 
 protected:

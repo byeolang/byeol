@@ -11,12 +11,10 @@ namespace nm {
 
     public:
         tndumMap() {}
-
         tndumMap(const super& rhs): super(rhs) {} // initialization is allowed.
 
-        // add:
+    public:
         using super::add;
-
         nbool add(const K& key, const V& val) override { return false; }
 
     public:

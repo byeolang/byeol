@@ -43,7 +43,6 @@ public:
     ncnt stepBackward(ncnt step) override { return _step(super::BACKWARD, step); }
 
     using super::getContainer;
-
     tbicontainable<K, V>* getContainer() override {
         WHEN(!_chainIter).retNul<tbicontainable<K, V>>();
         return _chainIter.get();
@@ -52,9 +51,9 @@ public:
     const K* getKey() const override { return _iter.getKey(); }
 
     using super::getVal;
-
     V* getVal() override { return _iter.getVal(); }
 
+    using super::setVal;
     void setVal(const V& new1) override { _iter.setVal(new1); }
 
 protected:

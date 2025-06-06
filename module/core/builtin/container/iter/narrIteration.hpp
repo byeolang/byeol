@@ -50,7 +50,6 @@ public:
     }
 
     using super::getContainer;
-
     tucontainable<T>* getContainer() override { return &_own; }
 
 protected:

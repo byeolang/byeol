@@ -16,6 +16,7 @@ namespace nm {
         using super::run;
         str run(const args& a) override;
 
+        using super::prioritize;
         priorType prioritize(const args& a) const override;
     };
 }

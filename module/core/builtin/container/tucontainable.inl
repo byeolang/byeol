@@ -44,14 +44,14 @@ namespace nm {
     }
 
     TEMPL
-    template <typename T1> T1& ME::get(std::function<nbool(const T1&)> l) {
+    template <typename T1> T1* ME::get(std::function<nbool(const T1&)> l) {
         for(auto e = begin(); e; ++e) {
-            T1& val = e->template cast<T1>();
-            if(nul(val) || !l(val)) continue;
-            return val;
+            T1& val = e->template cast<T1>() OR_CONTINUE;
+            if(!l(val)) continue;
+            return &val;
         }
 
-        return nulOf<T1>();
+        return nullptr;
     }
 
     TEMPL
@@ -62,7 +62,7 @@ namespace nm {
         tnarr<T1> ret;
         for(auto e = begin(); e; ++e) {
             const T1& val = e->template cast<T1>() OR_CONTINUE;
-            if(nul(val) || !l(val)) continue;
+            if(!l(val)) continue;
 
             ret.add(val);
         }

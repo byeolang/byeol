@@ -36,6 +36,7 @@ public:
     const R get() const NM_CONST_FUNC(get())
 
     virtual nbool isFrom(const tucontainable& it) const = 0;
+    nbool isFrom(const tucontainable* it) const NM_SIDE_FUNC(isFrom, false)
 
     virtual tucontainable<T, R>* getContainer() = 0;
     const tucontainable<T, R>* getContainer() const NM_CONST_FUNC(getContainer())

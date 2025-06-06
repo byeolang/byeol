@@ -31,7 +31,6 @@ namespace nm {
 
     public:
         using tarrayable<T>::operator[];
-
         T& operator[](nidx n) override { return *get(n); }
 
     public:
@@ -40,7 +39,6 @@ namespace nm {
 
         // has:
         using super::in;
-
         nbool in(nidx n) const override;
 
         // get:

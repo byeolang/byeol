@@ -21,7 +21,9 @@ namespace nm {
         const baseObj& getOrigin() const override;
         const strings& getParamNames() const;
 
+        using super::prioritize;
         priorType prioritize(const args& a) const override;
+
         str run(const args& a) override;
 
         str getEval() const override;

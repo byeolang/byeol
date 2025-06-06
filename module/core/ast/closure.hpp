@@ -25,6 +25,7 @@ namespace nm {
         using super::subs;
         scope& subs() override;
 
+        using super::prioritize;
         priorType prioritize(const args& a) const override;
 
         const modifier& getModifier() const override;

@@ -55,7 +55,9 @@ namespace nm {
         // node:
         scope& subs() override;
 
+        using super::prioritize;
         priorType prioritize(const args& a) const override;
+
         str run(const args& a) override;
 
         void rel() override;

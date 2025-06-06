@@ -107,7 +107,7 @@ namespace nm {
 
     TEMPLATE
     tpriorities<T> ME::subAll(const std::string& name) const {
-        return subAll<T>(name, nulOf<args>());
+        return subAll<T>(name, nullptr);
     }
 
     TEMPLATE
@@ -119,7 +119,7 @@ namespace nm {
 #if NM_IS_DBG
         ncnt n = 0;
         std::string myName = getType().createNameWithParams();
-        std::string argStr = !nul(a) ? "(" + a.toStr() + ")" : "";
+        std::string argStr = a ? "(" + a->toStr() + ")" : "";
 #endif
         tprioritiesBucket<T> ps;
         const scope* e = &subs();
@@ -129,54 +129,18 @@ namespace nm {
             e->getContainer().each<T>([&](const std::string& key, const T& val) {
                 WHEN(key != name).ret(true);
 
-                p = !nul(a) ? val.prioritize(a) : EXACT_MATCH;
+                p = a ? val.prioritize(*a) : EXACT_MATCH;
                 if(p != NO_MATCH) ps.push_back(*new tprior<T>(val, p, lv));
 
-                const baseFunc& f = val.template cast<baseFunc>();
-                std::string valArgs = !nul(f) ? "(" + f.getParams().toStr() + ")" : "";
+                const baseFunc* f = val.template cast<baseFunc>();
+                std::string valArgs = f ? "(" + f->getParams().toStr() + ")" : "";
                 NM_DI("subAll: [%d/%d] %s%s --> %s.%s%s@%s = priority(type=%s, lv=%d)", n++,
                     subs().len(), name, argStr, myName, key, valArgs, (void*) &val,
                     getPriorTypeName(p), lv);
                 return true;
             });
 
-            e = &e->getNext();
-            lv++;
-        }
-        return ps.join();
-    }
-
-    TEMPLATE
-    tpriorities<T> ME::subAll(const std::string& name, const args& a) const {
-        // subs is arranged already to its scope:
-        //  so if priorType of sub was same level, I need to keep the priorType of original
-        //  container.
-
-#if NM_IS_DBG
-        ncnt n = 0;
-        std::string myName = getType().createNameWithParams();
-        std::string argStr = !nul(a) ? "(" + a.toStr() + ")" : "";
-#endif
-        tprioritiesBucket<T> ps;
-        const scope* e = &subs();
-        ncnt lv = 0;
-        while(e) {
-            priorType p = NO_MATCH;
-            e->getContainer().each<T>([&](const std::string& key, const T& val) {
-                WHEN(key != name).ret(true);
-
-                p = !nul(a) ? val.prioritize(a) : EXACT_MATCH;
-                if(p != NO_MATCH) ps.push_back(*new tprior<T>(val, p, lv));
-
-                const baseFunc& f = val.template cast<baseFunc>();
-                std::string valArgs = !nul(f) ? "(" + f.getParams().toStr() + ")" : "";
-                NM_DI("subAll: [%d/%d] %s%s --> %s.%s%s@%s = priority(type=%s, lv=%d)", n++,
-                    subs().len(), name, argStr, myName, key, valArgs, (void*) &val,
-                    getPriorTypeName(p), lv);
-                return true;
-            });
-
-            e = &e->getNext();
+            e = e->getNext();
             lv++;
         }
         return ps.join();

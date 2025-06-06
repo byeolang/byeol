@@ -23,17 +23,18 @@ namespace nm {
         // len:
         virtual ncnt len() const = 0;
 
-        nbool in(const T& t) const;
+        nbool in(const T& it) const;
+        nbool in(const T* it) const NM_SIDE_FUNC(in, false)
         nbool in(std::function<nbool(const T&)> l) const;
         template <typename T1> nbool in(std::function<nbool(const T1&)> l) const;
 
         nbool isEmpty() const;
 
         // get:
-        template <typename T1> T1& get(std::function<nbool(const T1&)> l);
+        template <typename T1> T1* get(std::function<nbool(const T1&)> l);
         R get(std::function<nbool(const T&)> l);
         template <typename T1>
-        const T1& get(std::function<nbool(const T1&)> l) const NM_CONST_FUNC(get(l))
+        const T1* get(std::function<nbool(const T1&)> l) const NM_CONST_FUNC(get(l))
         const R get(std::function<nbool(const T&)> l) const NM_CONST_FUNC(get(l))
 
         template <typename T1> tnarr<T1, strTactic> getAll(std::function<nbool(const T1&)> l) const;
@@ -56,21 +57,27 @@ namespace nm {
 
         iter iterate(ncnt step) const;
         iter iterate(const T& it) const;
+        iter iterate(const T* it) const NM_SIDE_FUNC(iterate, end())
 
         iter riterate(ncnt step) const;
         iter riterate(const T& it) const;
+        iter riterate(const T* it) const NM_SIDE_FUNC(riterate, rend())
 
         // set:
         virtual nbool set(const iter& at, const T& new1) = 0;
+        virtual nbool set(const iter& at, const T* new1) NM_SIDE_FUNC(new1, set(at, *new1), false)
 
         // add:
         virtual nbool add(const iter& at, const T& new1) = 0;
+        nbool add(const iter& at, const T* new1) NM_SIDE_FUNC(new1, add(at, new1), false)
         nbool add(std::initializer_list<const T*> elems);
         nbool add(const T& new1);
+        nbool add(const T* it) NM_SIDE_FUNC(add, false)
         virtual void add(const iter& here, const iter& from, const iter& to) = 0;
         void add(const iter& from, const iter& to);
         void add(const iter& here, me& rhs);
         void add(const me& rhs);
+        void add(const me* rhs) NM_SIDE_FUNC(rhs, add(*rhs), false)
 
         template <typename E>
         ncnt add(const typename tucontainable<E>::iter& from,
@@ -92,9 +99,11 @@ namespace nm {
         /// delete last element if exists.
         nbool del();
         nbool del(const T& it);
+        nbool del(const T* it) NM_SIDE_FUNC(del, false)
         virtual nbool del(const iter& it) = 0;
         virtual nbool del(const iter& from, const iter& end) = 0;
-        nbool del(const tucontainable& rhs);
+        nbool del(const me& rhs);
+        nbool del(const me* rhs) NM_SIDE_FUNC(rhs, del(*rhs), false)
 
         // etc:
         virtual void rel() = 0;

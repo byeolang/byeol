@@ -14,6 +14,7 @@ namespace nm {
         srcFile();
 
     public:
+        using super::prioritize;
         priorType prioritize(const args& a) const override;
 
         using super::run;

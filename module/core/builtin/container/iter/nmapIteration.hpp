@@ -34,13 +34,13 @@ public:
         return _citer.getVal();
     }
 
+    using super::setVal;
     void setVal(const V& new1) override {
         WHEN(isEnd()).ret();
         _citer->bind(new1);
     }
 
     using super::getContainer;
-
     tbicontainable<K, V>* getContainer() override { return &_own; }
 
 protected:

@@ -9,6 +9,7 @@ public:
     iteration(nbool isReversed): _isReversed(isReversed) {}
 
 public:
+    using iterable::isFrom;
     nbool isFrom(const tbicontainable& rhs) const override { return &this->getContainer() == &rhs; }
 
     nbool isReversed() const override { return _isReversed; }

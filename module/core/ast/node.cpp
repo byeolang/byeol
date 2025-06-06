@@ -23,12 +23,12 @@ namespace nm {
 
     tstr<nbicontainer> me::mySubs() const { return subs(); }
 
-    const node* me::deduce(const node& r) const {
+    const node* me::deduce(const node& it) const {
         const ntype& ltype = getType();
-        const ntype& rtype = r.getType();
+        const ntype& rtype = it.getType();
         const ntype& res = ltype.deduce(rtype) OR.retNul<node>();
         WHEN(res == ltype).ret(this);
-        WHEN(res == rtype).ret(&r);
+        WHEN(res == rtype).ret(&it);
 
         return nullptr;
     }
@@ -41,7 +41,7 @@ namespace nm {
 
     str me::run(const std::string& name, const args& a) {
         if(name.empty()) return run(a);
-        node& found = subAll(name, a).get() OR.ret(str());
+        node& found = subAll(name, &a).get() OR.ret(str());
 
         return _onRunSub(found, a);
     }

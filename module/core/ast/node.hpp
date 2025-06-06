@@ -40,7 +40,8 @@ namespace nm {
         ///          if a type is null, it means that there is no type specified.
         ///          it's complete different to 'void' type.
         /// @return null if it's not relative between l & r.
-        const node* deduce(const node& r) const;
+        const node* deduce(const node& it) const;
+        const node* deduce(const node* it) const NM_SIDE_FUNC(deduce, nullptr)
 
         template <typename T> T* sub(std::function<nbool(const std::string&, const T&)> l);
         template <typename T>
@@ -60,13 +61,16 @@ namespace nm {
         template <typename T = me> tnarr<T, strTactic> subAll() const;
         template <typename T = me> tpriorities<T> subAll(const std::string& name) const;
         template <typename T = me>
-        tpriorities<T> subAll(const std::string& name, const args& a) const;
+        tpriorities<T> subAll(const std::string& name, const args* a) const;
 
         bool canRun(const args& a) const;
         virtual priorType prioritize(const args& a) const = 0;
+        priorType prioritize(const args* it) const NM_SIDE_FUNC(prioritize, NO_MATCH)
 
         virtual str run(const args& a) = 0;
+        str run(const args* it) NM_SIDE_FUNC(run, str())
         str run(const std::string& name, const args& a);
+        str run(const std::string& name, const args* a) NM_SIDE_FUNC(a, run(name, a), str())
         str run(const std::string& name);
         str run();
 
@@ -77,22 +81,28 @@ namespace nm {
         template <typename T> nbool is() const { return is(ttype<T>::get()); }
 
         nbool is(const typeProvidable& to) const;
+        nbool is(const typeProvidable* it) const NM_SIDE_FUNC(is, false)
         nbool is(const type& to) const;
+        nbool is(const type* it) const NM_SIDE_FUNC(is, false)
 
         template <typename T> tstr<T> as() const { return as(ttype<T>::get()); }
 
         str as(const typeProvidable& to) const;
+        str as(const typeProvidable* it) const NM_SIDE_FUNC(as, str())
         str as(const type& to) const;
+        str as(const type* it) const NM_SIDE_FUNC(as, str())
 
         template <typename T> nbool isImpli() const { return isImpli(ttype<T>::get()); }
 
-        nbool isImpli(const typeProvidable& to) const;
         virtual nbool isImpli(const type& to) const;
+        nbool isImpli(const typeProvidable& to) const;
+        nbool isImpli(const typeProvidable* it) const NM_SIDE_FUNC(isImpli, false)
 
         template <typename T> tstr<T> asImpli() const { return asImpli(ttype<T>::get()); }
 
-        str asImpli(const typeProvidable& to) const;
         virtual str asImpli(const type& to) const;
+        str asImpli(const typeProvidable& to) const;
+        str asImpli(const typeProvidable* it) const NM_SIDE_FUNC(asImpli, str())
 
         virtual const src& getSrc() const;
 
