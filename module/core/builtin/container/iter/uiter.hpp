@@ -19,8 +19,10 @@ public:
     me& operator++();
     me operator++(int);
     me& operator+=(ncnt step);
-    R operator*();
-    const R operator*() const NM_CONST_FUNC(operator*())
+
+    using iterable::operator*;
+    RSquare operator*() override;
+
     typename std::remove_reference<R>::type* operator->();
     const typename std::remove_reference<R>::type* operator->() const NM_CONST_FUNC(operator->())
     me& operator=(const me& rhs);
@@ -32,9 +34,7 @@ public:
     /// once rel(), an iterator enters a state where it can never be reused again.
     void rel() override;
 
-    using iterable::isFrom;
     nbool isFrom(const tucontainable& it) const override;
-
     nbool isEnd() const override;
     ncnt next(ncnt step) override;
     ncnt prev(ncnt step) override;

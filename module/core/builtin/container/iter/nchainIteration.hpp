@@ -133,12 +133,12 @@ private:
     void _setBoundary(nbool new1) { _isBoundary = new1; }
 
     me* _castIteration(const iter& e) {
-        return typeProvidable::safeCast<me>(*e._iteration) OR.retNul<me>();
+        return (me*) e._iteration.get() OR.retNul<me>();
     }
     const me* _castIteration(const iter& e) const NM_CONST_FUNC(_castIteration(e))
 
     tnchain* _castChain(const iter& e) {
-        return typeProvidable::safeCast<tnchain>(e.getContainer());
+        return (tnchain*) e.getContainer();
     }
 
     const tnchain* _castChain(const iter& e) const NM_CONST_FUNC(_castChain(e));

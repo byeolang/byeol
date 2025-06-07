@@ -8,6 +8,11 @@ public:
     nseqIteration(nseq& own, nidx n, nbool isReversed):
         super(isReversed), _n(isReversed ? own.len() - 1 - n : n), _own(own) {}
 
+    using super::operator*;
+    nInt operator*() override { return get(); }
+
+public:
+
     nbool isEnd() const override { return !_own.in(_n); }
 
     void rel() override { _n = this->isReversed() ? -1 : _own.len(); }

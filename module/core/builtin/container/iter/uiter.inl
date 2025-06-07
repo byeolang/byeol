@@ -6,8 +6,8 @@
 
 namespace nm {
 
-#define TEMPL template <typename T, typename R>
-#define ME tucontainable<T, R>::iter
+#define TEMPL template <typename T, typename R, typename RSquare>
+#define ME tucontainable<T, R, RSquare>::iter
 
     TEMPL
     ME::iter(iteration* newStep): _iteration(newStep) { _nextToMatchParamType(iterable::NEXT); }
@@ -41,10 +41,10 @@ namespace nm {
     }
 
     TEMPL
-    R ME::operator*() { return get(); }
+    RSquare ME::operator*() { return (RSquare) _iteration->operator*(); }
 
     TEMPL
-    typename std::remove_reference<R>::type* ME::operator->() { return &get(); }
+    typename std::remove_reference<R>::type* ME::operator->() { return get(); }
 
     TEMPL
     typename ME& ME::operator=(const me& rhs) {

@@ -13,6 +13,9 @@ protected:
 public:
     virtual ~iterable() {}
 
+    virtual RSquare operator*() = 0;
+    const RSquare operator*() const NM_CONST_FUNC(operator*())
+
     virtual nbool isEnd() const = 0;
 
     virtual nbool isReversed() const = 0;

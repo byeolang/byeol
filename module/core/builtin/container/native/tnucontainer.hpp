@@ -4,8 +4,8 @@
 
 namespace nm {
 
-    template <typename T, typename R>
-    class tnucontainer: public instance, public tucontainable<T, R> {
+    template <typename T, typename R = T*, typename RSquare = T&>
+    class tnucontainer: public instance, public tucontainable<T, R, RSquare> {
         NM(ADT(tnucontainer, instance))
     };
 

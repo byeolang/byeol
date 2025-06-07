@@ -8,8 +8,8 @@
 
 namespace nm {
 
-#define TEMPL template <typename T, typename R>
-#define ME tucontainable<T, R>
+#define TEMPL template <typename T, typename R, typename RSquare>
+#define ME tucontainable<T, R, RSquare>
 
     TEMPL
     ME::~tucontainable() {}
