@@ -44,7 +44,7 @@ namespace nm {
     RSquare ME::operator*() { return (RSquare) _iteration->operator*(); }
 
     TEMPL
-    typename std::remove_reference<R>::type* ME::operator->() { return get(); }
+    typename std::remove_reference<R>::type ME::operator->() { return get(); }
 
     TEMPL
     typename ME& ME::operator=(const me& rhs) {

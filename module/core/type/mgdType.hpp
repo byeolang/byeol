@@ -36,7 +36,7 @@ namespace nm {
         using super::getParams;
         params& getParams() override;
 
-        const node& getRet() const override;
+        const node* getRet() const override;
         void setRet(const node& new1) override;
 
         // TODO: getSubs(), getLeafs()

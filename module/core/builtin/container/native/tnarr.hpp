@@ -79,7 +79,7 @@ namespace nm {
         iteration* _onMakeIteration(ncnt step, nbool isReversed) const override;
 
     private:
-        narrIteration* _getIterationFrom(const iter& it);
+        narrIteration* _getIteration(const iter& it);
 
     private:
         std::vector<wrap> _vec;
