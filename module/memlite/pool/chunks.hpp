@@ -17,8 +17,8 @@ namespace nm {
         //  chunks:
         chunk* get(nidx n);
         chunk* get(const instance& it);
-        chunk* get(const instance* it) NM_SIDE_FUNC(get, nullptr) const chunk* get(nidx n) const
-            NM_CONST_FUNC(get(n))
+        chunk* get(const instance* it) NM_SIDE_FUNC(get);
+        const chunk* get(nidx n) const NM_CONST_FUNC(get(n))
         const chunk* get(const instance& it) const NM_CONST_FUNC(get(it))
         const chunk* get(const instance* it) const NM_CONST_FUNC(get(it))
 

@@ -15,18 +15,17 @@ namespace nm {
         virtual const type& getType() const = 0;
 
         nbool isSub(const type& it) const;
-        nbool isSub(const type* it) const NM_SIDE_FUNC(isSub, false) nbool
-            isSub(const me& it) const;
-        nbool isSub(const me* it) const NM_SIDE_FUNC(isSub, false)
+        nbool isSub(const type* it) const NM_SIDE_FUNC(isSub);
+        nbool isSub(const me& it) const;
+        nbool isSub(const me* it) const NM_SIDE_FUNC(isSub);
 
-            nbool isSuper(const type& it) const;
-        nbool isSuper(const type* it) const NM_SIDE_FUNC(isSuper, false) nbool
-            isSuper(const me& it) const;
+        nbool isSuper(const type& it) const;
+        nbool isSuper(const type* it) const NM_SIDE_FUNC(isSuper);
+        nbool isSuper(const me& it) const;
 
-        nbool isSuper(const me* it) const NM_SIDE_FUNC(isSuper, false)
+        nbool isSuper(const me* it) const NM_SIDE_FUNC(isSuper);
 
-            template <typename T>
-            nint isSub() const {
+        template <typename T> nint isSub() const {
             return getType().isSub<T>();
         }
 
@@ -38,8 +37,8 @@ namespace nm {
 
         virtual void* cast(const type& to);
         const void* cast(const type& to) const NM_CONST_FUNC(cast(to))
-        void* cast(const type* it) NM_SIDE_FUNC(cast, nullptr) const
-            void* cast(const type* to) const NM_CONST_FUNC(cast(to))
+        void* cast(const type* it) NM_SIDE_FUNC(cast);
+        const void* cast(const type* to) const NM_CONST_FUNC(cast(to))
 
     protected:
         virtual nbool _onSame(const me& rhs) const;

@@ -41,7 +41,7 @@ namespace nm {
         ///          it's complete different to 'void' type.
         /// @return null if it's not relative between l & r.
         const node* deduce(const node& it) const;
-        const node* deduce(const node* it) const NM_SIDE_FUNC(deduce, nullptr)
+        const node* deduce(const node* it) const NM_SIDE_FUNC(deduce);
 
         template <typename T> T* sub(std::function<nbool(const std::string&, const T&)> l);
         template <typename T>
@@ -65,12 +65,12 @@ namespace nm {
 
         bool canRun(const args& a) const;
         virtual priorType prioritize(const args& a) const = 0;
-        priorType prioritize(const args* it) const NM_SIDE_FUNC(prioritize, NO_MATCH)
+        priorType prioritize(const args* it) const NM_SIDE_FUNC(it, prioritize(*it), NO_MATCH);
 
         virtual str run(const args& a) = 0;
-        str run(const args* it) NM_SIDE_FUNC(run, str())
+        str run(const args* it) NM_SIDE_FUNC(run);
         str run(const std::string& name, const args& a);
-        str run(const std::string& name, const args* a) NM_SIDE_FUNC(a, run(name, a), str())
+        str run(const std::string& name, const args* a) NM_SIDE_FUNC(a, run(name, a), str());
         str run(const std::string& name);
         str run();
 
@@ -81,28 +81,28 @@ namespace nm {
         template <typename T> nbool is() const { return is(ttype<T>::get()); }
 
         nbool is(const typeProvidable& to) const;
-        nbool is(const typeProvidable* it) const NM_SIDE_FUNC(is, false)
+        nbool is(const typeProvidable* it) const NM_SIDE_FUNC(is);
         nbool is(const type& to) const;
-        nbool is(const type* it) const NM_SIDE_FUNC(is, false)
+        nbool is(const type* it) const NM_SIDE_FUNC(is);
 
         template <typename T> tstr<T> as() const { return as(ttype<T>::get()); }
 
         str as(const typeProvidable& to) const;
-        str as(const typeProvidable* it) const NM_SIDE_FUNC(as, str())
+        str as(const typeProvidable* it) const NM_SIDE_FUNC(as);
         str as(const type& to) const;
-        str as(const type* it) const NM_SIDE_FUNC(as, str())
+        str as(const type* it) const NM_SIDE_FUNC(as);
 
         template <typename T> nbool isImpli() const { return isImpli(ttype<T>::get()); }
 
         virtual nbool isImpli(const type& to) const;
         nbool isImpli(const typeProvidable& to) const;
-        nbool isImpli(const typeProvidable* it) const NM_SIDE_FUNC(isImpli, false)
+        nbool isImpli(const typeProvidable* it) const NM_SIDE_FUNC(isImpli);
 
         template <typename T> tstr<T> asImpli() const { return asImpli(ttype<T>::get()); }
 
         virtual str asImpli(const type& to) const;
         str asImpli(const typeProvidable& to) const;
-        str asImpli(const typeProvidable* it) const NM_SIDE_FUNC(asImpli, str())
+        str asImpli(const typeProvidable* it) const NM_SIDE_FUNC(asImpli);
 
         virtual const src& getSrc() const;
 

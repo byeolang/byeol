@@ -44,11 +44,11 @@ namespace nm {
         const types& getSupers() const;
 
         virtual nbool isSuper(const type& it) const;
-        nbool isSuper(const type* it) const NM_SIDE_FUNC(isSuper, false) template <typename T>
-        nbool isSuper() const;
+        nbool isSuper(const type* it) const NM_SIDE_FUNC(isSuper);
+        template <typename T> nbool isSuper() const;
         nbool isSub(const type& it) const;
-        nbool isSub(const type* it) const NM_SIDE_FUNC(isSub, false) template <typename T>
-        nbool isSub() const;
+        nbool isSub(const type* it) const NM_SIDE_FUNC(isSub);
+        template <typename T> nbool isSub() const;
         const type& getStatic() const NM_CONST_FUNC(_getStatic())
 
         /// this returns metaTypename.

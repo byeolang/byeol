@@ -15,8 +15,10 @@ namespace nm {
 
     public:
         nbool bind(const instance& it);
-        nbool bind(const instance* it) NM_SIDE_FUNC(bind, false) nbool rel(const instance& old);
-        nbool rel(const instance* it) NM_SIDE_FUNC(rel, false) const pool& getPool() const;
+        nbool bind(const instance* it) NM_SIDE_FUNC(bind);
+        nbool rel(const instance& old);
+        nbool rel(const instance* it) NM_SIDE_FUNC(rel);
+        const pool& getPool() const;
         const watcher& getWatcher() const;
         /// @return singleton instance. this returns nul of reference if app is about to be
         /// terminated.

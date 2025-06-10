@@ -38,10 +38,10 @@ public:
     const V* getVal() const NM_CONST_FUNC(getVal())
 
     virtual void setVal(const V& newVal) = 0;
-    void setVal(const V* it) NM_SIDE_FUNC(setVal, void())
+    void setVal(const V* it) NM_SIDE_FUNC(setVal);
 
     virtual nbool isFrom(const tbicontainable& it) const = 0;
-    nbool isFrom(const tbicontainable* it) const NM_SIDE_FUNC(isFrom, false)
+    nbool isFrom(const tbicontainable* it) const NM_SIDE_FUNC(isFrom);
 
     virtual tbicontainable<K, V>* getContainer() = 0;
     const tbicontainable<K, V>* getContainer() const NM_CONST_FUNC(getContainer())

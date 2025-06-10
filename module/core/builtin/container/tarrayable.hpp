@@ -26,12 +26,12 @@ namespace nm {
 
         // set:
         virtual nbool set(nidx n, const T& new1) = 0;
-        nbool set(nidx n, const T* new1) NM_SIDE_FUNC(new1, set(n, *new1), false)
+        nbool set(nidx n, const T* new1) NM_SIDE_FUNC(new1, set(n, *new1), false);
 
         // add:
         /// @return how many element has been added from rhs.
         virtual nbool add(nidx n, const T& new1) = 0;
-        nbool add(nidx n, const T* new1) NM_SIDE_FUNC(new1, add(n, *new1), false)
+        nbool add(nidx n, const T* new1) NM_SIDE_FUNC(new1, add(n, *new1), false);
 
         // del:
         /// delete last element if exists.

@@ -28,10 +28,11 @@ namespace nm {
         nbool has(const std::string& name) const;
 
         void add(const leaf& it);
-        void add(const leaf* it)
-            NM_SIDE_FUNC(add, void()) void add(std::initializer_list<leaf*> subs);
+        void add(const leaf* it) NM_SIDE_FUNC(add);
+        void add(std::initializer_list<leaf*> subs);
         void del(const leaf& it);
-        void del(const leaf* it) NM_SIDE_FUNC(del, void()) void del(const std::string& name);
+        void del(const leaf* it) NM_SIDE_FUNC(del);
+        void del(const std::string& name);
         void del(const nchar* name);
 
         const std::string& getName() const;
