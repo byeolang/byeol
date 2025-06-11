@@ -572,7 +572,7 @@ namespace nm {
         }
 
         //  function's subs are third:
-        me.inFrame(*s);
+        me.inFrame(s);
         return true;
     }
 

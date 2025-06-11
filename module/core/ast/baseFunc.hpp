@@ -46,7 +46,7 @@ namespace nm {
         ///         that's completely different to Return type of the function.
         ///         if there is a runExpr instance, and it takes the func and proper argument,
         ///         then it can be evaluated and its evalType is the return type of the func.
-        virtual const node& getRet() const;
+        virtual const node* getRet() const;
 
         const src& getSrc() const override;
 
@@ -55,6 +55,7 @@ namespace nm {
         virtual const baseObj& getOrigin() const = 0;
 
         static nbool isFuncButNotClosure(const node& n);
+        static nbool isFuncButNotClosure(const node* it) NM_SIDE_FUNC(isFuncButNotClosure);
 
     protected:
         ntype& _getType(); // for generalizer.

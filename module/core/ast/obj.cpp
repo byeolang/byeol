@@ -63,7 +63,7 @@ namespace nm {
         //  but don't bind _org to this. it's circular dependency.
         me& rhs = (me&) from; // 'owns' will be deepcopied already when you clone().
                               // see @me::_assign() func.
-        subs().link(*(scope*) rhs.getShares().cloneDeep());
+        subs().link((scope&) *(rhs.getShares() TO(cloneDeep())));
     }
 
     scope& me::subs() { return *_subs; }
@@ -81,14 +81,14 @@ namespace nm {
         _org->setState(new1);
     }
 
-    scope& me::getShares() { return _subs TO(getNext()) TO(template cast<scope>()); }
+    scope* me::getShares() { return _subs TO(getNext()) TO(template cast<scope>()); }
 
     scope::super& me::getOwns() { return _subs TO(getContainer()); }
 
-    node& me::getCallComplete() { return nulOf<node>(); }
+    node* me::getCallComplete() { return nullptr; }
 
-    void me::_inFrame(frame& fr, const bicontainable& args) const {
-        const node& subpack = getOrigin() TO(getSubPack());
+    void me::_inFrame(frame& fr, const bicontainable* args) const {
+        const node* subpack = getOrigin().getSubPack();
         if(!nul(subpack)) fr.add(subpack);
         super::_inFrame(fr, args);
     }

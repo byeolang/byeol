@@ -23,9 +23,9 @@ namespace nm {
 
     const std::map<std::string, tstr<obj>>& me::getCache() const { return _cache; }
 
-    void me::inFrame(const bicontainable& args) const {}
+    void me::inFrame(const bicontainable* args) const {}
 
-    void me::outFrame(const bicontainable& args) const {}
+    void me::outFrame(const bicontainable* args) const {}
 
     str me::_onRunSub(node& sub, const args& a) { return str(); }
 

@@ -91,9 +91,9 @@ namespace nm {
         ///        if this is a chain, then the wrap func returns it as it is.
         ///        if this is any container except chain, then it returns after
         ///        wrapping given container.
-        template <typename T> static T* wrap(const super& toShallowWrap) {
+        template <typename T> static T* wrap(const super* toShallowWrap) {
             WHEN_NUL(toShallowWrap).ret(nullptr);
-            T* ret = (T*) &toShallowWrap.template cast<T>();
+            T* ret = (T*) &toShallowWrap->template cast<T>();
             if(nul(ret)) {
                 ret = new T();
                 ret->_map.bind(toShallowWrap);

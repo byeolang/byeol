@@ -130,9 +130,9 @@ namespace nm {
         virtual void accept(const visitInfo& i, visitor& v);
 
         using frameInteractable::inFrame;
-        void inFrame(const bicontainable& args) const override;
+        void inFrame(const bicontainable* args) const override;
         using frameInteractable::outFrame;
-        void outFrame(const bicontainable& args) const override;
+        void outFrame(const bicontainable* args) const override;
 
         virtual const modifier& getModifier() const;
 

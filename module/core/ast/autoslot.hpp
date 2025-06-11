@@ -21,9 +21,12 @@ namespace nm {
     public:
         state getState() const override;
         void setState(state new1) override;
+
         using super::getPack;
         obj& getPack() override;
+
         void rel() override;
+
         /// this report will be used while interpret pack source code.
         /// @remark when 'subs()' func of the pack has been called, it interprets src codes
         ///         if it's first time. during parsing and verification, this report will
@@ -32,6 +35,7 @@ namespace nm {
         ///         to a pack.
         ///         please refer 'verifier' class if you want to know further.
         void setReport(errReport& rpt);
+        void setReport(errReport* it) NM_SIDE_FUNC(setReport);
 
     protected:
         nbool _invalidate() override;

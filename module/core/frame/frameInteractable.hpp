@@ -10,12 +10,13 @@ namespace nm {
 
     class _nout frameInteractable {
     public:
-        virtual void inFrame(const bicontainable& args) const = 0;
+        virtual ~frameInteractable() = default;
 
-        void inFrame() const { inFrame(nulOf<bicontainable>()); }
+    public:
+        virtual void inFrame(const bicontainable* args) const = 0;
+        void inFrame() const { inFrame(nullptr); }
 
-        virtual void outFrame(const bicontainable& args) const = 0;
-
-        void outFrame() const { outFrame(nulOf<bicontainable>()); }
+        virtual void outFrame(const bicontainable* args) const = 0;
+        void outFrame() const { outFrame(nullptr); }
     };
 }

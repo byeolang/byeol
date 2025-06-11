@@ -95,17 +95,17 @@ namespace nm {
         return ret;
     }
 
-    void me::inFrame(const bicontainable& args) const {
+    void me::inFrame(const bicontainable* args) const {
         frame& fr = thread::get()._getNowFrame() OR.err("fr == null").ret();
 
         NM_DI("'%s'._inFrame() frames.len[%d]", *this, thread::get().getFrames().len());
         fr.addFunc(*this);
         fr.add(*this);
         fr.add(*scope::wrap<scope>(
-            nul(args) ? nulOf<nbicontainer>() : (nbicontainer&) args)); // including 'me'
+            args ? (nbicontainer*) args : nullptr)); // including 'me'
     }
 
-    void me::outFrame(const bicontainable& args) const {
+    void me::outFrame(const bicontainable* args) const {
         NM_DI("'%s func'._outFrame() frames.len[%d]", getSrc(), thread::get().getFrames().len());
 
         frame& fr = thread::get()._getNowFrame();

@@ -68,9 +68,9 @@ namespace nm {
 
     nbool me::isComplete() const { return true; }
 
-    void me::inFrame(const bicontainable& args) const {}
+    void me::inFrame(const bicontainable* args) const {}
 
-    void me::outFrame(const bicontainable& args) const {}
+    void me::outFrame(const bicontainable* args) const {}
 
     const modifier& me::getModifier() const {
         static dumModifier inner;

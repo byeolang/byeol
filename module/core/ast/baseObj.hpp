@@ -50,9 +50,9 @@ namespace nm {
         virtual const baseObj& getOrigin() const;
 
         using super::inFrame;
-        void inFrame(const bicontainable& args) const override;
+        void inFrame(const bicontainable* args) const override;
         using super::outFrame;
-        void outFrame(const bicontainable& args) const override;
+        void outFrame(const bicontainable* args) const override;
 
         const src& getSrc() const override;
 
@@ -65,7 +65,7 @@ namespace nm {
     protected:
         str _onRunSub(node& sub, const args& a) override;
         void _setSrc(const src& s) override;
-        virtual void _inFrame(frame& fr, const bicontainable& args) const;
+        virtual void _inFrame(frame& fr, const bicontainable* args) const;
 
         // update origin pointer of an object.
         // to modify origin* is very dangerous. only permitted module should do this.

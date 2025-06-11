@@ -42,7 +42,7 @@ namespace nm {
 
     const baseObj& me::getOrigin() const { return _org ? *_org : *this; }
 
-    void me::inFrame(const bicontainable& args) const {
+    void me::inFrame(const bicontainable* args) const {
         frames& frs = nm::thread::get()._getFrames();
         NM_DI("%s.inFrame() frames.len[%d]", *this, frs.len());
 
@@ -51,7 +51,7 @@ namespace nm {
         _inFrame(fr, args);
     }
 
-    void me::outFrame(const bicontainable& args) const {
+    void me::outFrame(const bicontainable* args) const {
         frames& frs = nm::thread::get()._getFrames();
         NM_DI("%s._outFrame() frames.len[%d]", *this, frs.len() - 1);
 
@@ -85,7 +85,7 @@ namespace nm {
 
     void me::_setSrc(const src& s) {}
 
-    void me::_inFrame(frame& fr, const bicontainable& args) const {
+    void me::_inFrame(frame& fr, const bicontainable* args) const {
         fr.setMe(*this);
         fr.add(*this);
 

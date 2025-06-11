@@ -36,9 +36,9 @@ namespace nm {
         str run(const args& a) override;
 
         using super::inFrame;
-        void inFrame(const bicontainable& args) const override;
+        void inFrame(const bicontainable* args) const override;
         using super::outFrame;
-        void outFrame(const bicontainable& args) const override;
+        void outFrame(const bicontainable* args) const override;
 
         const baseObj& getOrigin() const override;
 

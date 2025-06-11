@@ -27,7 +27,7 @@ namespace nm {
 
     nbool me::isAbstract() const { return _exprs.isEmpty() && _eval; }
 
-    void me::inFrame(const bicontainable& args) const {
+    void me::inFrame(const bicontainable* args) const {
         NM_DI("%s._onInFrame() %d stmts. frames.len[%d]", *this, getStmts().len(),
             thread::get().getFrames().len());
 
@@ -35,7 +35,7 @@ namespace nm {
         fr.add(*new scope());
     }
 
-    void me::outFrame(const bicontainable& args) const {
+    void me::outFrame(const bicontainable* args) const {
         NM_DI("%s._onOutFrame() frames.len[%d]", *this, thread::get().getFrames().len());
 
         frame& fr = nm::thread::get()._getNowFrame() OR.err("fr == null").ret();

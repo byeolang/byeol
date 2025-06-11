@@ -27,9 +27,9 @@ namespace nm {
         void rel() override;
 
         using super::inFrame;
-        void inFrame(const bicontainable& args) const override;
+        void inFrame(const bicontainable* args) const override;
         using super::outFrame;
-        void outFrame(const bicontainable& args) const override;
+        void outFrame(const bicontainable* args) const override;
 
         void onCloneDeep(const clonable& from) override;
 
