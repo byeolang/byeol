@@ -48,4 +48,20 @@ namespace nm {
 
         virtual void set(const T& arg);
     };
+
+    // func for OR macro:
+    template <typename T, typename F> const T& operator|(tmay<T>& t, F&& f) {
+        f(t);
+        // this may return null-reference but take it easy.
+        // it'll never be used.
+        return *t;
+    }
+
+    template <typename T, typename F> const T& operator|(const tmay<T>& t, F&& f) {
+        f(t);
+        // this may return null-reference but take it easy.
+        // it'll never be used.
+        return *t;
+    }
+
 } // namespace nm
