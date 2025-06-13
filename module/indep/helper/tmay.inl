@@ -12,10 +12,10 @@ namespace nm {
     ME::tmay(const T& value): super(value) {}
 
     TEMPLATE
-    T* ME::operator->() { return &get(); }
+    T* ME::operator->() { return get(); }
 
     TEMPLATE
-    T& ME::operator*() { return get(); }
+    T& ME::operator*() { return this->value(); }
 
     TEMPLATE
     ME::operator nbool() const { return has(); }
@@ -24,7 +24,7 @@ namespace nm {
     nbool ME::has() const { return this->has_value(); }
 
     TEMPLATE
-    T& ME::get() { return this->value(); }
+    T* ME::get() { return has() ? &this->value() : nullptr; }
 
     TEMPLATE
     void ME::rel() { this->reset(); }

@@ -9,7 +9,7 @@ namespace nm {
 
 
     template <typename T> struct __empty__ {
-        static T ret() { return T{}; } // 값 타입은 기본값 반환
+        static T ret() { return T{}; } // return default value
     };
 
     template <typename T> struct __empty__<T&> {

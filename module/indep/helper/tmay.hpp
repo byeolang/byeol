@@ -29,11 +29,9 @@ namespace nm {
 
     public:
         T* operator->();
-
         const T* operator->() const NM_CONST_FUNC(operator->());
 
         T& operator*();
-
         const T& operator*() const NM_CONST_FUNC(operator*());
 
         operator nbool() const;
@@ -41,8 +39,8 @@ namespace nm {
     public:
         nbool has() const;
 
-        T& get();
-        const T& get() const NM_CONST_FUNC(get())
+        T* get();
+        const T* get() const NM_CONST_FUNC(get())
 
         virtual void rel();
 
@@ -54,14 +52,13 @@ namespace nm {
         f(t);
         // this may return null-reference but take it easy.
         // it'll never be used.
-        return *t;
+        return *t.get();
     }
-
     template <typename T, typename F> const T& operator|(const tmay<T>& t, F&& f) {
         f(t);
         // this may return null-reference but take it easy.
         // it'll never be used.
-        return *t;
+        return *t.get();
     }
 
 } // namespace nm
