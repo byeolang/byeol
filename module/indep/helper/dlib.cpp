@@ -1,5 +1,5 @@
 #include "indep/helper/dlib.hpp"
-#include "indep/helper/nulr.hpp"
+#include "indep/helper/typeTrait.hpp"
 #ifndef NM_BUILD_PLATFORM_IS_WINDOWS
 #    include <dirent.h> // not compatible to winOs
 #    include <dlfcn.h>
@@ -70,7 +70,7 @@ namespace nm {
     nbool me::isLoaded() const { return _handle; }
 
     void me::rel() {
-        WHEN_NUL(_handle).ret();
+        if(nul(_handle)) return ::nm ::__indep_when__ ::get().ret();
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
         FreeLibrary(_handle);
 #else

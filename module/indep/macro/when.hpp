@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include "indep/def/_nout.hpp"
 #include "indep/common/typedef.hpp"
-#include "indep/helper/nulr.hpp"
+#include "indep/helper/typeTrait.hpp"
 #include "indep/macro/declThis.hpp"
 #include "indep/macro/namuMeta.hpp"
 

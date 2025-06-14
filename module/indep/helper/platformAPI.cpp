@@ -1,6 +1,6 @@
 #include "indep/helper/platformAPI.hpp"
 
-#include "indep/helper/nulr.hpp"
+#include "indep/helper/typeTrait.hpp"
 #include <cstdarg>
 #if NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
 #    include <windows.h>

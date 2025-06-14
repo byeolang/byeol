@@ -1,31 +1,15 @@
 #pragma once
 
-#include "indep/common/typedef.hpp"
 #include "indep/macro/overload.hpp"
+#include "indep/helper/typeTrait.hpp"
 #include <vector>
 #include <type_traits>
 
 namespace nm {
 
-
-    template <typename T> struct __empty__ {
-        static T ret() { return T{}; } // return default value
-    };
-
-    template <typename T> struct __empty__<T&> {
-        static T& ret() {
-            static T dummy;
-            return dummy;
-        }
-    };
-
-    template <> struct __empty__<void> {
-        static void ret() {}
-    };
-
     template <typename T, typename F> auto operator->*(T&& t, F&& f) {
         if constexpr(std::is_pointer_v<std::decay_t<T>>)
-            return t ? f(*t) : __empty__<std::invoke_result_t<F, decltype(*t)>>::ret();
+            return t ? f(*t) : typeTrait<std::invoke_result_t<F, decltype(*t)>>::ret();
         else return f(std::forward<T>(t));
     }
 

@@ -12,7 +12,6 @@
 #include "macro/to.hpp"
 #include "macro/or.hpp"
 #include "macro/staticAsserts.hpp"
-#include "macro/typeTrait.hpp"
 #include "macro/unconstFunc.hpp"
 #include "macro/when.hpp"
 #include "macro/warning.hpp"
