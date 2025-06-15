@@ -32,18 +32,28 @@ namespace nm {
         NM_I("running closure for %s.%s", *_org, *_func);
         WHEN(!_func).ret(str());
 
-        tmay<args> evaled = a.evalAll(_func->getParams()) OR.ret(str());
-        evaled->setMe(*_org);
-        return _func->run(*evaled);
+        const args& evaled = a.evalAll(_func->getParams()) OR.ret(str());
+        evaled.setMe(*_org);
+        return _func->run(evaled);
     }
 
     const baseObj& me::getOrigin() const { return *_org; }
 
     const baseFunc& me::getFunc() const { return *_func; }
 
-    params& me::getParams() { return _func TO(getParams()); }
+    params& me::getParams() {
+        return _func->*[&](auto&& __p) -> std ::decay_t<decltype(__p.getParams())> {
+            params* ret = nullptr;
+            return *ret;
+            /*if constexpr(typeTrait<std ::decay_t<decltype(__p)>>::is_like_ptr)
+                return !nul(__p) ? __p->getParams() :
+                                   typeTrait<std ::decay_t<decltype(__p->getParams())>>::ret();
+            else
+                return __p.getParams();*/
+        };
+    }
 
-    const node& me::getRet() const { return _func TO(getRet()); }
+    const node* me::getRet() const { return _func TO(getRet()); }
 
     const src& me::getSrc() const { return _func ? _func->getSrc() : dumSrc::singleton(); }
 

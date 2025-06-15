@@ -88,10 +88,10 @@ namespace nm {
     scope* me::_evalArgs(const args& a) {
         scope* ret = new scope();
         const params& ps = getParams();
-        tmay<args> evaluated = a.evalAll(ps) OR.ret(nullptr);
+        const args& evaluated = a.evalAll(ps) OR.ret(nullptr);
 
         for(int n = 0; n < ps.len(); n++)
-            ret->add(ps[n].getName(), (*evaluated)[n]);
+            ret->add(ps[n].getName(), evaluated[n]);
         return ret;
     }
 

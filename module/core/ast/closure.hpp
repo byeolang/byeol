@@ -30,6 +30,7 @@ namespace nm {
 
         const modifier& getModifier() const override;
 
+        using super::run;
         str run(const args& a) override;
 
         const baseObj& getOrigin() const override;
@@ -39,11 +40,12 @@ namespace nm {
         using super::getParams;
         params& getParams() override;
 
-        const node& getRet() const override;
+        const node* getRet() const override;
 
         const src& getSrc() const override;
 
         static me* make(const node& e);
+        static me* make(const node* it) NM_SIDE_FUNC(make)
 
     private:
         static me* _make(const func& e);

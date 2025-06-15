@@ -7,10 +7,16 @@
 
 namespace nm {
 
-    template <typename T, typename F> auto operator->*(T&& t, F&& f) {
-        if constexpr(std::is_pointer_v<std::decay_t<T>>)
-            return t ? f(*t) : typeTrait<std::invoke_result_t<F, decltype(*t)>>::ret();
-        else return f(std::forward<T>(t));
+    template <typename T, typename F> auto operator->*(T& t, F&& f) {
+        return f(t);
+    }
+
+    template <typename T, typename F> auto operator->*(const T& t, F&& f) {
+        return f(t);
+    }
+
+    template <typename T, typename F> auto operator->*(T* t, F&& f) {
+        return t ? &f(*t) : typeTrait<std::decay_t<decltype(&f(*t))>>::ret();
     }
 
     /// `to` is safe navigation feature of c++:
@@ -56,9 +62,9 @@ namespace nm {
     /// in many cases, the app will crash.
 #define TO(fn)                                                                              \
     ->*[&](auto&& __p) -> std::decay_t<decltype(__p.fn)> {                                  \
-        if constexpr(std::is_pointer_v<std::decay_t<decltype(__p)>>)                        \
-            return !nul(__p) ? __p->fn : __empty__<std::decay_t<decltype(__p->fn)>>::ret(); \
-        else return !nul(__p) ? __p.fn : __empty__<std::decay_t<decltype(__p.fn)>>::ret();  \
+        if constexpr(typeTrait<std::decay_t<decltype(__p)>>::is_like_ptr)                   \
+            return !nul(__p) ? __p->fn : typeTrait<std::decay_t<decltype(__p->fn)>>::ret(); \
+        else return __p.fn;                                                                 \
     }
 
 } // namespace nm

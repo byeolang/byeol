@@ -15,7 +15,7 @@ namespace nm {
     me::baseObj(const baseObj& org, /*UNUSED*/ nbool): _org(org) {}
 
     str me::run(const args& a) {
-        tpriorities<baseFunc> matches = subAll<baseFunc>(baseObj::CTOR_NAME, a);
+        tpriorities<baseFunc> matches = subAll<baseFunc>(baseObj::CTOR_NAME, &a);
         switch(matches.len()) {
             case 1: return _onBeforeCtor()->run(baseObj::CTOR_NAME, a);
             case 0: return NM_W("there is no such ctor."), str();
@@ -37,7 +37,7 @@ namespace nm {
     void me::setState(state new1) {}
 
     priorType me::prioritize(const args& a) const {
-        return subAll<baseFunc>(baseObj::CTOR_NAME, a).getPriorType();
+        return subAll<baseFunc>(baseObj::CTOR_NAME, &a).getPriorType();
     }
 
     const baseObj& me::getOrigin() const { return _org ? *_org : *this; }
