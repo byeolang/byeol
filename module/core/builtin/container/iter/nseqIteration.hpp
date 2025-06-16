@@ -9,10 +9,10 @@ public:
         super(isReversed), _n(isReversed ? own.len() - 1 - n : n), _own(own) {}
 
     using super::operator*;
+
     nInt operator*() override { return get(); }
 
 public:
-
     nbool isEnd() const override { return !_own.in(_n); }
 
     void rel() override { _n = this->isReversed() ? -1 : _own.len(); }
@@ -48,12 +48,14 @@ public:
     }
 
     using super::get;
+
     nInt get() override {
         WHEN(isEnd()).ret(nInt(0));
         return _own[_n];
     }
 
     using super::getContainer;
+
     tucontainable<nInt, nInt>* getContainer() override { return &_own; }
 
 protected:

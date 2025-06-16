@@ -37,4 +37,4 @@ namespace nm {
         pool _pool;
         watcher _watcher;
     };
-}
+} // namespace nm

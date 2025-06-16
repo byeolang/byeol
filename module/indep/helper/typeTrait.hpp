@@ -11,6 +11,7 @@ namespace nm {
         typedef T* Ptr;
 
         static T ret() { return T{}; } // return default value
+
         static bool isNul(T) { return false; }
 
         static constexpr nbool is_ptr = false;
@@ -37,6 +38,7 @@ namespace nm {
 
     template <> struct typeTrait<void> {
         static void ret() {}
+
         static bool isNul(void) { return false; }
 
         static constexpr nbool is_ptr = false;
@@ -50,6 +52,7 @@ namespace nm {
         typedef T* Ptr;
 
         static nbool isNul(const T* it) { return it == nullptr; }
+
         static T* ret() { return nullptr; }
 
         static constexpr nbool is_ptr = true;
@@ -62,13 +65,13 @@ namespace nm {
         typedef void* Ptr;
 
         static nbool isNul(const void* it) { return it == nullptr; }
+
         static void* ret() { return nullptr; }
 
         static constexpr nbool is_ptr = true;
         static constexpr nbool is_ref = false;
         static constexpr nbool is_like_ptr = is_ptr;
     };
-
 
     template <typename T> struct typeTrait<tmay<T>> {
         static nbool isNul(const tmay<T>& it) { return nul(&it) || !it.has(); }
@@ -86,7 +89,8 @@ namespace nm {
         static constexpr nbool is_like_ptr = true;
     };
 
-    template <typename T> auto nul(T&& it) -> decltype(typeTrait<std::remove_reference_t<std::decay_t<T>>>::isNul(it)) {
+    template <typename T>
+    auto nul(T&& it) -> decltype(typeTrait<std::remove_reference_t<std::decay_t<T>>>::isNul(it)) {
         return typeTrait<std::remove_reference_t<std::decay_t<T>>>::isNul(std::forward<T>(it));
     }
-}
+} // namespace nm

@@ -25,9 +25,7 @@ namespace nm {
 
         nbool isSuper(const me* it) const NM_SIDE_FUNC(isSuper);
 
-        template <typename T> nint isSub() const {
-            return getType().isSub<T>();
-        }
+        template <typename T> nint isSub() const { return getType().isSub<T>(); }
 
         template <typename T> nint isSuper() const { return getType().isSuper<T>(); }
 

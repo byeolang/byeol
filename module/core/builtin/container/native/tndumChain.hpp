@@ -16,9 +16,11 @@ namespace nm {
 
     public:
         using super::add;
+
         nbool add(const K& key, const V& val) override { return false; }
 
         using super::link;
+
         nbool link(const typename super::iter& new1) override { return false; }
 
     public:

@@ -7,13 +7,9 @@
 
 namespace nm {
 
-    template <typename T, typename F> auto operator->*(T& t, F&& f) {
-        return f(t);
-    }
+    template <typename T, typename F> auto operator->*(T& t, F&& f) { return f(t); }
 
-    template <typename T, typename F> auto operator->*(const T& t, F&& f) {
-        return f(t);
-    }
+    template <typename T, typename F> auto operator->*(const T& t, F&& f) { return f(t); }
 
     template <typename T, typename F> auto operator->*(T* t, F&& f) {
         return t ? &f(*t) : typeTrait<std::decay_t<decltype(&f(*t))>>::ret();

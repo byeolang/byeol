@@ -54,6 +54,7 @@ namespace nm {
         // it'll never be used.
         return *t.get();
     }
+
     template <typename T, typename F> const T& operator|(const tmay<T>& t, F&& f) {
         f(t);
         // this may return null-reference but take it easy.

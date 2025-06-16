@@ -106,9 +106,7 @@ namespace nm {
     tnarr<T, strTactic> ME::subAll() const { return subs().template getAll<T>(); }
 
     TEMPLATE
-    tpriorities<T> ME::subAll(const std::string& name) const {
-        return subAll<T>(name, nullptr);
-    }
+    tpriorities<T> ME::subAll(const std::string& name) const { return subAll<T>(name, nullptr); }
 
     TEMPLATE
     tpriorities<T> ME::subAll(const std::string& name, const args* a) const {

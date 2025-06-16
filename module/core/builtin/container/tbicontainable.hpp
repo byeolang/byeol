@@ -87,13 +87,15 @@ namespace nm {
         iter iterate(const K& key) const;
         iter iterate(const K* it) const NM_SIDE_FUNC(it, iterate(*it), end());
         iter iterate(const K& key, nbool isBoundary) const;
-        iter iterate(const K* key, nbool isBoundary) const NM_SIDE_FUNC(key, iterate(*key, isBoundary), end());
+        iter iterate(const K* key, nbool isBoundary) const
+            NM_SIDE_FUNC(key, iterate(*key, isBoundary), end());
         iter riterate(ncnt step) const;
         iter riterate(ncnt step, nbool isBoundary) const;
         iter riterate(const K& key) const;
         iter riterate(const K* it) const NM_SIDE_FUNC(it, riterate(*it), rend());
         iter riterate(const K& key, nbool isBoundary) const;
-        iter riterate(const K* key, nbool isBoundary) const NM_SIDE_FUNC(key, riterate(*key, isBoundary), rend());
+        iter riterate(const K* key, nbool isBoundary) const
+            NM_SIDE_FUNC(key, riterate(*key, isBoundary), rend());
 
         virtual nbool add(const K& key, const V& val) = 0;
         nbool add(const K* key, const V& val) NM_SIDE_FUNC(key, add(*key, val), false);
@@ -103,18 +105,17 @@ namespace nm {
         ncnt add(const tbicontainable& rhs);
         ncnt add(const tbicontainable* it) NM_SIDE_FUNC(add)
 
-        /// delete all elements matched by given key.
-        /// @param key key to be deleted
-        virtual nbool del(const K& key) = 0;
-        nbool del(const K* it) NM_SIDE_FUNC(del)
-        virtual nbool del(const iter& at) = 0;
+            /// delete all elements matched by given key.
+            /// @param key key to be deleted
+            virtual nbool del(const K& key) = 0;
+        nbool del(const K* it) NM_SIDE_FUNC(del) virtual nbool del(const iter& at) = 0;
         virtual nbool del(const iter& from, const iter& end) = 0;
 
         nbool del(const tbicontainable& rhs);
         nbool del(const tbicontainable* it) NM_SIDE_FUNC(del)
 
-        // etc:
-        virtual void rel() = 0;
+            // etc:
+            virtual void rel() = 0;
 
     protected:
         virtual iteration* _onMakeIteration(const K* key, nbool isReversed, ncnt step,

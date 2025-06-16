@@ -131,4 +131,4 @@ namespace nm {
         static constexpr nbool is_ref = true;
         static constexpr nbool is_like_ptr = true;
     };
-}
+} // namespace nm

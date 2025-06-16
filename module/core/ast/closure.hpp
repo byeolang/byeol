@@ -45,7 +45,7 @@ namespace nm {
         const src& getSrc() const override;
 
         static me* make(const node& e);
-        static me* make(const node* it) NM_SIDE_FUNC(make)
+        static me* make(const node* it) NM_SIDE_FUNC(make);
 
     private:
         static me* _make(const func& e);

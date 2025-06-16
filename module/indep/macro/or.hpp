@@ -16,14 +16,11 @@ namespace nm {
     ///         OR macro is used like this:
     ///             `<expr-evalution-as-pointer> OR.<when-expr>`
     ///
-    ///         in this case, expr-evaluation-as-pointer must evaluate to a pointer type of a certain
-    ///         type.
-    ///         if not, a compilation error occurs.
-    ///         an expression using the WHEN macro is placed after OR, and is executed instead if
-    ///         the previous pointer was nullptr.
-    ///         if the pointer was not nullptr, it is returned as a reference.
-    ///         as a result, using the OR macro, you can safely perform nullcheck and handle non-null
-    ///         types.
+    ///         in this case, expr-evaluation-as-pointer must evaluate to a pointer type of a
+    ///         certain type. if not, a compilation error occurs. an expression using the WHEN macro
+    ///         is placed after OR, and is executed instead if the previous pointer was nullptr. if
+    ///         the pointer was not nullptr, it is returned as a reference. as a result, using the
+    ///         OR macro, you can safely perform nullcheck and handle non-null types.
     ///
     ///     example:
     ///         int* foo();
@@ -56,9 +53,8 @@ namespace nm {
     ///                 return 0;
     ///             }
     ///
-    ///         the reason is that, as mentioned earlier, the left side of OR must always be a pointer.
-    ///         therefore, it should not be `(T&)` but `(T*)`.
-    ///         this is correct codes.
+    ///         the reason is that, as mentioned earlier, the left side of OR must always be a
+    ///         pointer. therefore, it should not be `(T&)` but `(T*)`. this is correct codes.
     ///
     ///         int main() {
     ///             B& value = (B*) foo() OR.ret(-1); // or you may use `auto&`
