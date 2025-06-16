@@ -239,15 +239,26 @@ dockerRepo = "ams21/clang-format:18.1.8"
 
 def _runDocker(sudo, docker, containerName):
     global namuDir, dockerRepo
+    uid = os.getuid()
+    gid = os.getgid()
     if _isAppleSilicon():
-        subprocess.run([sudo, docker, "run", "--platform", "linux/amd64",
+        subprocess.run([sudo, docker, "run", 
+            "--user", f"{uid}:{gid}",
+            "--platform", "linux/amd64",
             "-d", "--name", containerName, "-v", f"{namuDir}:/src",
             dockerRepo, "tail", "-f", "dev/null"
         ])
 
 
+    elif isWindow():
+        subprocess.run([sudo, docker, "run",
+            "-d", "--name", containerName, "-v", f"{namuDir}:/src",
+            dockerRepo, "tail", "-f", "dev/null"
+        ])
+
     else:
         subprocess.run([sudo, docker, "run",
+            "--user", f"{uid}:{gid}",
             "-d", "--name", containerName, "-v", f"{namuDir}:/src",
             dockerRepo, "tail", "-f", "dev/null"
         ])
