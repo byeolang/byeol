@@ -4,6 +4,7 @@
 #include "indep/macro/namuMeta.hpp"
 #include "indep/macro/declThis.hpp"
 #include "indep/macro/unconstFunc.hpp"
+#include "indep/helper/typeTrait.hpp"
 #include <optional>
 
 namespace nm {
@@ -47,7 +48,7 @@ namespace nm {
         virtual void set(const T& arg);
     };
 
-    // func for OR macro:
+    // extension for OR macro:
     template <typename T, typename F> const T& operator|(tmay<T>& t, F&& f) {
         f(t);
         // this may return null-reference but take it easy.
@@ -60,6 +61,32 @@ namespace nm {
         // this may return null-reference but take it easy.
         // it'll never be used.
         return *t.get();
+    }
+
+    // extension for typeTrait:
+    template <typename T> struct typeTrait<tmay<T>> {
+        static nbool isNul(const tmay<T>& it) { return nul(&it) || !it.has(); }
+
+        static constexpr nbool is_ptr = false;
+        static constexpr nbool is_ref = false;
+        static constexpr nbool is_like_ptr = true;
+    };
+
+    template <typename T> struct typeTrait<tmay<T>&> {
+        static nbool isNul(const tmay<T>& it) { return !it.has(); }
+
+        static constexpr nbool is_ptr = false;
+        static constexpr nbool is_ref = true;
+        static constexpr nbool is_like_ptr = true;
+    };
+
+    // extension for TO macro:
+    template <typename T, typename F> auto operator->*(tmay<T> t, F&& f) {
+        return t ? f(*t) : typeTrait<std::decay_t<decltype(f(*t))>>::ret();
+    }
+
+    template <typename T, typename F> auto operator->*(tmay<T>& t, F&& f) {
+        return t ? f(*t) : typeTrait<std::decay_t<decltype(f(*t))>>::ret();
     }
 
 } // namespace nm

@@ -58,9 +58,7 @@ namespace nm {
     /// in many cases, the app will crash.
 #define TO(fn)                                                                              \
     ->*[&](auto&& __p) -> std::decay_t<decltype(__p.fn)> {                                  \
-        if constexpr(typeTrait<std::decay_t<decltype(__p)>>::is_like_ptr)                   \
-            return !nul(__p) ? __p->fn : typeTrait<std::decay_t<decltype(__p->fn)>>::ret(); \
-        else return __p.fn;                                                                 \
+        return __p.fn;                                                                 \
     }
 
 } // namespace nm

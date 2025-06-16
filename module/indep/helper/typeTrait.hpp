@@ -1,7 +1,7 @@
 #pragma once
 
-#include "indep/helper/tmay.hpp"
 #include <type_traits>
+#include "indep/common/typedef.hpp"
 
 namespace nm {
 
@@ -71,22 +71,6 @@ namespace nm {
         static constexpr nbool is_ptr = true;
         static constexpr nbool is_ref = false;
         static constexpr nbool is_like_ptr = is_ptr;
-    };
-
-    template <typename T> struct typeTrait<tmay<T>> {
-        static nbool isNul(const tmay<T>& it) { return nul(&it) || !it.has(); }
-
-        static constexpr nbool is_ptr = false;
-        static constexpr nbool is_ref = false;
-        static constexpr nbool is_like_ptr = true;
-    };
-
-    template <typename T> struct typeTrait<tmay<T>&> {
-        static nbool isNul(const tmay<T>& it) { return !it.has(); }
-
-        static constexpr nbool is_ptr = false;
-        static constexpr nbool is_ref = true;
-        static constexpr nbool is_like_ptr = true;
     };
 
     template <typename T>

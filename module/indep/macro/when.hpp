@@ -7,6 +7,7 @@
 #include "indep/helper/typeTrait.hpp"
 #include "indep/macro/declThis.hpp"
 #include "indep/macro/namuMeta.hpp"
+#include "indep/helper/tmay.hpp"
 
 namespace nm {
 
