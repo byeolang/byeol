@@ -24,4 +24,74 @@ namespace nm {
 
         me& operator=(const me& rhs) = default;
     };
+
+    // extension for OR macro:
+    template <typename T, typename F> T& operator|(tstr<T>& t, F&& f) {
+        f(t);
+        // this returns null-reference but take it easy.
+        // it'll never be used.
+        return *t.get();
+    }
+
+    template <typename T, typename F> const T& operator|(const tstr<T>& t, F&& f) {
+        f(t);
+        // this returns null-reference but take it easy.
+        // it'll never be used.
+        return *t.get();
+    }
+
+    // extension for typeTrait:
+    template <typename T> struct typeTrait<tstr<T>> {
+        typedef tstr<T> Org;
+        typedef tstr<T>& Ref;
+        typedef tstr<T>* Ptr;
+
+        static tstr<T> ret() { return tstr<T>{}; } // return default value
+
+        static nbool isNul(const tstr<T>& it) { return !it.isBind(); }
+
+        static constexpr nbool is_ptr = false;
+        static constexpr nbool is_ref = false;
+        static constexpr nbool is_like_ptr = true;
+    };
+
+    template <typename T> struct typeTrait<tstr<T>*> {
+        typedef tstr<T> Org;
+        typedef tstr<T>& Ref;
+        typedef tstr<T>* Ptr;
+
+        static tstr<T>* ret() { return nullptr; }
+
+        static nbool isNul(const tstr<T>* it) { return !it || !it->isBind(); }
+
+        static constexpr nbool is_ptr = true;
+        static constexpr nbool is_ref = false;
+        static constexpr nbool is_like_ptr = is_ptr;
+    };
+
+    template <typename T> struct typeTrait<tstr<T>&> {
+        typedef tstr<T> Org;
+        typedef tstr<T>& Ref;
+        typedef tstr<T>* Ptr;
+
+        static nbool isNul(const tstr<T>& it) { return !it.isBind(); }
+
+        static tstr<T>& ret() {
+            static tstr<T> dummy;
+            return dummy;
+        }
+
+        static constexpr nbool is_ptr = false;
+        static constexpr nbool is_ref = true;
+        static constexpr nbool is_like_ptr = true;
+    };
+
+    // extension for TO macro:
+    template <typename T, typename F> auto operator->*(tstr<T> t, F&& f) {
+        return t ? f(*t) : typeTrait<std::decay_t<decltype(f(*t))>>::ret();
+    }
+
+    template <typename T, typename F> auto operator->*(tstr<T>& t, F&& f) {
+        return t ? f(*t) : typeTrait<std::decay_t<decltype(f(*t))>>::ret();
+    }
 }

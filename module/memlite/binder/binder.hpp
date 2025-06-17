@@ -111,4 +111,67 @@ namespace nm {
         const type* _type;
         bindTacticable* _tactic;
     };
+
+    // extension for OR macro:
+    template <typename F> instance& operator|(binder& t, F&& f) {
+        f(t);
+        // this returns null-reference but take it easy.
+        // it'll never be used.
+        return *t.get();
+    }
+
+    template <typename F> const instance& operator|(const binder& t, F&& f) {
+        f(t);
+        // this returns null-reference but take it easy.
+        // it'll never be used.
+        return *t.get();
+    }
+
+    // extension for typeTrait:
+    template <> struct typeTrait<binder> {
+        typedef binder Org;
+        typedef binder& Ref;
+        typedef binder* Ptr;
+
+        static nbool isNul(const binder& it) { return !it.isBind(); }
+
+        static constexpr nbool is_ptr = false;
+        static constexpr nbool is_ref = false;
+        static constexpr nbool is_like_ptr = true;
+    };
+
+    template <> struct typeTrait<binder*> {
+        typedef binder Org;
+        typedef binder& Ref;
+        typedef binder* Ptr;
+
+        static binder* ret() { return nullptr; }
+
+        static nbool isNul(const binder* it) { return !it || !it->isBind(); }
+
+        static constexpr nbool is_ptr = true;
+        static constexpr nbool is_ref = false;
+        static constexpr nbool is_like_ptr = is_ptr;
+    };
+
+    template <> struct typeTrait<binder&> {
+        typedef binder Org;
+        typedef binder& Ref;
+        typedef binder* Ptr;
+
+        static nbool isNul(const binder& it) { return it.isBind(); }
+
+        static constexpr nbool is_ptr = false;
+        static constexpr nbool is_ref = true;
+        static constexpr nbool is_like_ptr = true;
+    };
+
+    // extension for TO macro:
+    template <typename T, typename F> auto operator->*(binder* t, F&& f) {
+        return t ? f(**t) : typeTrait<std::decay_t<decltype(f(**t))>>::ret();
+    }
+
+    template <typename T, typename F> auto operator->*(binder& t, F&& f) {
+        return t ? f(*t) : typeTrait<std::decay_t<decltype(f(*t))>>::ret();
+    }
 } // namespace nm
