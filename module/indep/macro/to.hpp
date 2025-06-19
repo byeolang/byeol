@@ -58,13 +58,14 @@ namespace nm {
     ///                 return brush->getColorCode();
     ///             }
     ///
-    ///         of course, this example illustrates a rather extreme train wreck pattern, and is a design that should be 
-    ///         avoided, but situations where you need to access a pointer to a certain number of pointers occur frequently, 
-    ///         and if you don't always check in advance whether the pointer is valid every time you dereference it, UB will occur. 
+    ///         of course, this example illustrates a rather extreme train wreck pattern, and is a design that
+    ///         should be avoided, but situations where you need to access a pointer to a certain number of
+    ///         pointers occur frequently, and if you don't always check in advance whether the pointer is valid
+    ///         every time you dereference it, UB will occur.
     ///
     ///     to be:
-    ///         with safe navigation, whether you will receive nullptr or not is determined after the dereference chain of all 
-    ///         pointers is finished. 
+    ///         with safe navigation, whether you will receive nullptr or not is determined after the dereference
+    ///         chain of all pointers is finished.
     ///         so the resulting code can become very concise.
     ///
     ///             int getBrushColorCode(Resource r) {
@@ -79,23 +80,22 @@ namespace nm {
     /// note:
     ///     as you can see, it looks easy to use, but there are a few things to be aware of.
     ///
-    ///         1. the previously mentioned pointer-like-variable does not simply mean pointers, 
+    ///         1. the previously mentioned pointer-like-variable does not simply mean pointers,
     ///            but also includes classes that satisfy the following conditions.
     ///
     ///             a. a class that defines operator->().
     ///             b. a class that defines operator*().
     ///             c. a class that defines operator bool().
     ///
-    ///            you may have noticed that the classes that satisfy the above conditions are usually smart pointers like 
-    ///            `unique_ptr`.
-    ///            the byeol repository provides separate smart pointers and classes that replace std::optional<T> for API
-    ///            consistency and safe type checking.
+    ///            you may have noticed that the classes that satisfy the above conditions are usually smart
+    ///            pointers like `unique_ptr`.
+    ///            the byeol repository provides separate smart pointers and classes that replace std::optional<T>
+    ///            for API consistency and safe type checking.
     ///             e.g. tstr<T>, tweak<T>, binder, tmay<T>, tres<T> are included here.
     ///
-    ///            the TO() macro is designed to work properly even if the return value of the function is a value or reference 
-    ///            to the above class.
-    ///            it works even if it exists in the safe navigation chain.
-    ///            for example,
+    ///            the TO() macro is designed to work properly even if the return value of the function is a
+    ///            value or reference to the above class.
+    ///            it works even if it exists in the middle of safe navigation chain. for example,
     ///
     ///                 struct Resource {
     ///                     Pallete* getPallete(); // this can return nullptr.
@@ -104,7 +104,7 @@ namespace nm {
     ///                     Canvas& getCanvas(); // this *never* returns nullptr.
     ///                 };
     ///                 struct Canvas {
-    ///                     tstr<Brush> getBrush(int type); // this is not pointer!
+    ///                     tstr<Brush> getBrush(int type); // this is not pointer, but pointer-like-variable.
     ///                 };
     ///
     ///                 int getBrushColorCode(Resource r) {
@@ -114,25 +114,27 @@ namespace nm {
     ///                     return code;
     ///                 }
     ///
-    ///         2. if nullptr occurs during the chain, the final result value becomes the default value.
-    ///            if it is T*, it will be nullptr, but if it is T, i.e. a function that returns by value, the return value will 
-    ///            be T{}.
+    ///         2. if nullptr returned during the chain, the final result value becomes the default value.
+    ///            if it is T*, it will be nullptr, but if it is T, i.e. a function that returns by value,
+    ///            the return value will be T{}.
     ///
     ///         3. never put a reference in TO().
     ///            references are always non-null, so you can access them directly.
     ///
     ///         4. it is not recommended for any function to return a pointer type to a pointer-like-variable.
-    ///            pointer-like-variable is a sufficiently lightweight class. You can return it by value, or if you don't 
-    ///            like that, return it by reference.
+    ///            pointer-like-variable is a sufficiently lightweight class. You can return it by value,
+    ///            or if you don't like that, return it by reference.
     ///
     ///         5. it goes very well with OR macro.
-    ///            please check the usage of OR macro in advance. If you also use WHEN macro, the code will become more concise. 
+    ///            please check the usage of OR macro in advance. If you also use WHEN macro, the code
+    ///            will become more concise.
     ///
-    ///             int getBrushColorMode(Resource r) {
-    ///                 // uses OR macro. so type of `brush` is not `Brush*`.
-    ///                 Brush& brush = r TO(getPallete()) TO(getCanvas().getBrush(BrushType.SYSTEM)) OR.err("code is null").ret(-1)
-    ///                 return brush.getColorCode();
-    ///             }
+    ///            int getBrushColorMode(Resource r) {
+    ///                // uses OR macro. so type of `brush` is not `Brush*`.
+    ///                auto& brush = r TO(getPallete()) TO(getCanvas().getBrush(BrushType.SYSTEM))
+    ///                                OR.err("code is null").ret(-1)
+    ///                return brush.getColorCode();
+    ///            }
 
 #define TO(fn) ->*[&](auto&& __p) -> std::decay_t<decltype(__p.fn)> { return __p.fn; }
 
