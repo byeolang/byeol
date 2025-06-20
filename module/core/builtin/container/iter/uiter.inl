@@ -110,7 +110,7 @@ namespace nm {
     TEMPL
     void ME::_nextToMatchParamType(typename iterable::iterationType type) {
         while(!isEnd()) {
-            WHEN(!nulr<R>::isNul(get())).ret();
+            WHEN(!typeTrait<R>::isNul(get())).ret();
             _iterate(type, 1);
         }
     }

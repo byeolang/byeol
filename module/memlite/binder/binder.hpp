@@ -119,8 +119,13 @@ namespace nm {
         // it'll never be used.
         return *t.get();
     }
-
     template <typename F> const instance& operator|(const binder& t, F&& f) {
+        f(t);
+        // this returns null-reference but take it easy.
+        // it'll never be used.
+        return *t.get();
+    }
+    template <typename F> instance& operator|(binder&& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.
@@ -170,7 +175,9 @@ namespace nm {
     template <typename T, typename F> auto operator->*(binder* t, F&& f) {
         return t ? f(**t) : typeTrait<std::decay_t<decltype(f(**t))>>::ret();
     }
-
+    template <typename T, typename F> auto operator->*(const binder* t, F&& f) {
+        return t ? f(**t) : typeTrait<std::decay_t<decltype(f(**t))>>::ret();
+    }
     template <typename T, typename F> auto operator->*(binder& t, F&& f) {
         return t ? f(*t) : typeTrait<std::decay_t<decltype(f(*t))>>::ret();
     }

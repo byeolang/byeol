@@ -42,18 +42,14 @@ namespace nm {
     const baseFunc& me::getFunc() const { return *_func; }
 
     params& me::getParams() {
-        return _func->*[&](auto&& __p) -> std ::decay_t<decltype(__p.getParams())> {
-            params* ret = nullptr;
-            return *ret;
-            /*if constexpr(typeTrait<std ::decay_t<decltype(__p)>>::is_like_ptr)
-                return !nul(__p) ? __p->getParams() :
-                                   typeTrait<std ::decay_t<decltype(__p->getParams())>>::ret();
-            else
-                return __p.getParams();*/
-        };
+        static dumParams dummy;
+        WHEN_NUL(_func).ret(dummy);
+        return _func->getParams();
     }
 
-    const node* me::getRet() const { return _func TO(getRet()); }
+    const node* me::getRet() const {
+        return _func TO(getRet());
+    }
 
     const src& me::getSrc() const { return _func ? _func->getSrc() : dumSrc::singleton(); }
 

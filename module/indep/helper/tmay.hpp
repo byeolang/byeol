@@ -49,14 +49,19 @@ namespace nm {
     };
 
     // extension for OR macro:
-    template <typename T, typename F> const T& operator|(tmay<T>& t, F&& f) {
+    template <typename T, typename F> T& operator|(tmay<T>& t, F&& f) {
         f(t);
         // this may return null-reference but take it easy.
         // it'll never be used.
         return *t.get();
     }
-
-    template <typename T, typename F> const T& operator|(const tmay<T>& t, F&& f) {
+    template <typename T, typename F> T& operator|(const tmay<T>& t, F&& f) {
+        f(t);
+        // this may return null-reference but take it easy.
+        // it'll never be used.
+        return *t.get();
+    }
+    template <typename T, typename F> T& operator|(tmay<T>&& t, F&& f) {
         f(t);
         // this may return null-reference but take it easy.
         // it'll never be used.
@@ -81,12 +86,16 @@ namespace nm {
     };
 
     // extension for TO macro:
-    template <typename T, typename F> auto operator->*(tmay<T> t, F&& f) {
-        return t ? f(*t) : typeTrait<std::decay_t<decltype(f(*t))>>::ret();
+    template <typename T, typename F> auto operator->*(tmay<T>& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
+        return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
     }
 
-    template <typename T, typename F> auto operator->*(tmay<T>& t, F&& f) {
-        return t ? f(*t) : typeTrait<std::decay_t<decltype(f(*t))>>::ret();
+    template <typename T, typename F> auto operator->*(const tmay<T>& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
+        return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
+    }
+
+    template <typename T, typename F> auto operator->*(tmay<T>&& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
+        return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
     }
 
 } // namespace nm

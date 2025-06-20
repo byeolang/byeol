@@ -11,8 +11,14 @@ namespace nm {
 
     template <typename T, typename F> auto operator->*(const T& t, F&& f) { return f(t); }
 
-    template <typename T, typename F> auto operator->*(T* t, F&& f) {
-        return t ? f(*t) : typeTrait<std::decay_t<decltype(f(*t))>>::ret();
+    template <typename T, typename F> auto operator->*(T&& t, F&& f) { return f(t); }
+
+    template <typename T, typename F> auto operator->*(T* t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
+        return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
+    }
+
+    template <typename T, typename F> auto operator->*(const T* t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
+        return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
     }
 
     /// `to` is safe navigation feature of c++:
@@ -136,6 +142,6 @@ namespace nm {
     ///                return brush.getColorCode();
     ///            }
 
-#define TO(fn) ->*[&](auto&& __p) -> std::decay_t<decltype(__p.fn)> { return __p.fn; }
+#define TO(fn) ->*[&](auto&& __p) -> decltype(__p.fn) { return __p.fn; }
 
 } // namespace nm
