@@ -59,4 +59,13 @@ namespace nm {
         ::nm::logger::get().log(lv, filename, func, line, fmt,
             __convert__((const Ts&) args).unwrap()...);
     }
+
+    template <typename... Ts>
+    void dbgRichLog(errLv::level lv, const std::string& filename, const nchar* func, nint line,
+        const nchar* fmt, const Ts&... args) {
+    #ifdef NM_DEBUG
+        ::nm::logger::get().log(lv, filename, func, line, fmt,
+            __convert__((const Ts&) args).unwrap()...);
+    #endif
+    }
 } // namespace nm

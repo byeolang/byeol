@@ -30,5 +30,23 @@ namespace nm {
                 (std::string(fmt) + "\n").c_str(), args...);
             return *this;
         }
+
+        template <typename... Ts> const me& dbgErr(const nchar* fmt, const Ts&... args) const {
+            ::nm::dbgRichLog(::nm::errLv::ERR, __FILENAME__, __func__, __LINE__,
+                (std::string(fmt) + "\n").c_str(), args...);
+            return *this;
+        }
+
+        template <typename... Ts> const me& dbgWarn(const nchar* fmt, const Ts&... args) const {
+            ::nm::dbgRichLog(::nm::errLv::WARN, __FILENAME__, __func__, __LINE__,
+                (std::string(fmt) + "\n").c_str(), args...);
+            return *this;
+        }
+
+        template <typename... Ts> const me& dbgInfo(const nchar* fmt, const Ts&... args) const {
+            ::nm::dbgRichLog(::nm::errLv::INFO, __FILENAME__, __func__, __LINE__,
+                (std::string(fmt) + "\n").c_str(), args...);
+            return *this;
+        }
     };
 } // namespace nm

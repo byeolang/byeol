@@ -97,11 +97,11 @@ namespace nm {
     public:
         static const me& get();
 
-        template <typename R, typename... Ts> R& ret([[maybe_unused]] R& r) const { return r; }
+        template <typename R> R& ret([[maybe_unused]] R& r) const { return r; }
 
-        template <typename R, typename... Ts> R* ret([[maybe_unused]] R* r) const { return r; }
+        template <typename R> R* ret([[maybe_unused]] R* r) const { return r; }
 
-        template <typename R, typename... Ts> R&& ret([[maybe_unused]] R&& r) const {
+        template <typename R> R&& ret([[maybe_unused]] R&& r) const {
             return std::move(r);
         }
 
