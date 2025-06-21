@@ -38,13 +38,13 @@ namespace nm {
 
     public:
         const frames& getFrames() const NM_CONST_FUNC(_getFrames())
-        const frame& getNowFrame() const NM_CONST_FUNC(_getNowFrame())
+        const frame* getNowFrame() const NM_CONST_FUNC(_getNowFrame())
 
         static thread& get();
         static void set(thread* new1);
         static void set(thread& new1);
         static void set();
-        static const instancer& getInstancer();
+        static const instancer* getInstancer();
 
         /// @return exception errReport instance.
         ///         what this contains are all runtime err and exceptions.
@@ -58,6 +58,7 @@ namespace nm {
         using super::prioritize;
         priorType prioritize(const args& a) const override;
 
+        using super::run;
         str run(const args& a) override;
 
         void rel() override;
@@ -72,7 +73,7 @@ namespace nm {
 
     protected:
         virtual frames& _getFrames();
-        frame& _getNowFrame();
+        frame* _getNowFrame();
 
     private:
         void _loadBuiltIns(nmap& tray) const;

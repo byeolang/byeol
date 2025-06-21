@@ -49,8 +49,11 @@ namespace nm {
 
     private:
         static me* _make(const func& e);
+        static me* _make(const func* it) NM_SIDE_FUNC(_make)
         static me* _make(const getExpr& e);
+        static me* _make(const getExpr* it) NM_SIDE_FUNC(_make);
         static me* _make(defNestedFuncExpr& e);
+        static me* _make(defNestedFuncExpr* it) NM_SIDE_FUNC(_make);
 
     private:
         tstr<baseObj> _org;

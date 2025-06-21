@@ -61,18 +61,15 @@ namespace nm {
     }
 
     me* me::_make(const func& e) {
-        const baseObj& meObj =
-            thread::get().getNowFrame() TO(getMe()) TO(template cast<baseObj>()) OR.ret(nullptr);
+        const baseObj& meObj = thread::get().getNowFrame() TO(getMe()) TO(template cast<baseObj>()) OR.ret(nullptr);
 
         NM_I("make a closure for %s.%s", meObj, e);
         return new me(meObj, e);
     }
 
     me* me::_make(const getExpr& e) {
-        WHEN_NUL(e).ret(nullptr);
-
         str mayMe = e._evalMe(true);
-        frame& fr = mayMe->cast<frame>();
+        frame& fr = mayMe->cast<frame>() OR.ret(nullptr);
         tstr<baseObj> meObj =
             (!nul(fr) ? fr.getMe().cast<baseObj>() : mayMe->cast<baseObj>()) OR.ret(nullptr);
         baseFunc& cast = e._onGet(*mayMe) TO(template cast<baseFunc>()) OR.ret(nullptr);

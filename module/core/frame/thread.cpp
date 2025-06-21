@@ -132,7 +132,7 @@ namespace nm {
 
     void me::set() { set(nullptr); }
 
-    const instancer& me::getInstancer() { return instancer::get(); }
+    const instancer* me::getInstancer() { return instancer::get(); }
 
     errReport& me::getEx() { return *_ex; }
 
@@ -150,11 +150,11 @@ namespace nm {
 
     frames& me::_getFrames() { return _frames; }
 
-    frame& me::_getNowFrame() {
+    frame* me::_getNowFrame() {
         ncnt n = _getFrames().len() - 1;
         WHEN(n < 0 || n >= _getFrames().len()).retNul<frame>();
 
-        return _getFrames()[n];
+        return &_getFrames()[n];
     }
 
     void me::_loadBuiltIns(nmap& tray) const {
