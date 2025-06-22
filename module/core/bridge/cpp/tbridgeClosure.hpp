@@ -54,11 +54,11 @@ namespace nm {
             const params& ps = getParams();
             WHEN(a.len() != ps.len())
                 .err("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len())
-                .retNul<args>();
+                .ret(nullptr);
 
             int n = 0;
             for(const node& e: a) {
-                str ased = e.as(ps[n++].getOrigin()) OR.retNul<args>();
+                str ased = e.as(ps[n++].getOrigin()) OR.ret(nullptr);
                 tray.add(*ased);
             }
             tray.setMe(a.getMe());
@@ -110,20 +110,19 @@ namespace nm {
             return Marshaling<void, tifSub<void, node>::is>::toMgd();
         }
 
-        args& _evalArgs(const args& a, args& tray) {
+        args* _evalArgs(const args& a, args& tray) {
             const params& ps = getParams();
             WHEN(a.len() != ps.len())
                 .err("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len())
-                .retNul<args>();
+                .ret(nullptr);
 
             int n = 0;
             for(const node& e: a) {
-                str ased = e.as(ps[n++].getOrigin()) OR.retNul<args>();
-
-                tray.add(*ased);
+                node& ased = e.as(ps[n++].getOrigin()) OR.ret(nullptr);
+                tray.add(ased);
             }
             tray.setMe(a.getMe());
-            return tray;
+            return &tray;
         }
 
     private:

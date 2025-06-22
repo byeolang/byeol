@@ -50,7 +50,7 @@ public:
     using super::get;
 
     T* get() override {
-        WHEN(isEnd()).retNul<T>();
+        WHEN(isEnd()).ret(nullptr);
         return _own.get(_n);
     }
 

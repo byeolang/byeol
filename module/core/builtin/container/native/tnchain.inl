@@ -229,7 +229,7 @@ namespace nm {
 
     TEMPL
     typename ME::iter& ME::_getInnerIter(const iter& outer) {
-        nchainIteration& cast = (nchainIteration*) outer._iteration.get() OR.retNul<iter>();
+        nchainIteration& cast = (nchainIteration*) outer._iteration.get() OR.ret(nullptr);
         return &cast._iter;
     }
 

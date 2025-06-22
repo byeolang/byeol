@@ -9,15 +9,15 @@ namespace nm {
     watchCell* me::get(nidx n) { return (watchCell*) _get(n); }
 
     watchCell* me::get(id newId) {
-        watchCell& got = get(newId.tagN) OR.retNul<watchCell>();
+        watchCell& got = get(newId.tagN) OR.ret(nullptr);
 
         id gotId = got.blk.getId();
         WHEN(gotId.tagN != newId.tagN)
             .warn("bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN,
                 gotId.chkN, gotId.serial, newId.tagN, newId.chkN, newId.serial)
-            .retNul<watchCell>();
+            .ret(nullptr);
         WHEN(gotId.chkN != newId.chkN || gotId.serial != newId.serial)
-            .retNul<watchCell>(); // bindTag has been changed its instance to bind.
+            .ret(nullptr); // bindTag has been changed its instance to bind.
 
         return &got;
     }

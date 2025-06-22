@@ -30,7 +30,7 @@ namespace nm {
 
     TEMPL
     T* ME::get(nidx n) {
-        WHEN(!in(n)).exErr(OUT_OF_RANGE, n, len()).template retNul<T>();
+        WHEN(!in(n)).exErr(OUT_OF_RANGE, n, len()).template ret(nullptr);
 
         binder& ret = _vec[n];
         return (T*) ret.get();
@@ -140,9 +140,9 @@ namespace nm {
 
     TEMPL
     typename ME::narrIteration* ME::_getIteration(const iter& it) {
-        WHEN(!it.isFrom(*this)).exErr(ITERATOR_NOT_BELONG_TO_CONTAINER).retNul<narrIteration>();
+        WHEN(!it.isFrom(*this)).exErr(ITERATOR_NOT_BELONG_TO_CONTAINER).ret(nullptr);
         auto* ret = (narrIteration*) it._iteration.get();
-        WHEN_NUL(ret).exErr(ITERATOR_IS_NUL).retNul<narrIteration>();
+        WHEN_NUL(ret).exErr(ITERATOR_IS_NUL).ret(nullptr);
         return ret;
     }
 

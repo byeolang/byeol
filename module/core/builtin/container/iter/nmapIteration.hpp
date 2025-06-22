@@ -23,14 +23,14 @@ public:
     ncnt stepBackward(ncnt step) override { return _step(true, step); }
 
     const K* getKey() const override {
-        WHEN(isEnd()).retNul<K>();
+        WHEN(isEnd()).ret(nullptr);
         return _citer.getKey();
     }
 
     using super::getVal;
 
     V* getVal() override {
-        WHEN(isEnd()).retNul<V>();
+        WHEN(isEnd()).ret(nullptr);
         return _citer.getVal();
     }
 

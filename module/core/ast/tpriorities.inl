@@ -36,7 +36,7 @@ namespace nm {
 
     TEMPLATE
     T* ME::get() {
-        WHEN(this->len() != 1).retNul<T>();
+        WHEN(this->len() != 1).ret(nullptr);
 
         return this->get(0);
     }

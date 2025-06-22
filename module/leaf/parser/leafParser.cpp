@@ -190,7 +190,7 @@ namespace nm {
         zzlex_init_extra(this, &scanner);
 
         yy_buffer_state& bufState =
-            (YY_BUFFER_STATE) _scanString(codes.c_str(), scanner) OR.retNul<leaf>();
+            (YY_BUFFER_STATE) _scanString(codes.c_str(), scanner) OR.ret(nullptr);
 
         // fix Flex Bug here:
         //  when zz_scan_string get called, it returns bufState after malloc it.

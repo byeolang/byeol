@@ -65,7 +65,7 @@ namespace nm {
 
     scope& me::getLocals() {
         auto& top = _getTop();
-        WHEN(nul(top) || top.owner).retNul<scope>();
+        WHEN(nul(top) || top.owner).ret(nullptr);
         return *top.s;
     }
 
@@ -77,7 +77,7 @@ namespace nm {
 
     scopeRegister& me::_getTop() {
         ncnt len = _stack.size();
-        WHEN(len <= 0).retNul<scopeRegister>();
+        WHEN(len <= 0).ret(nullptr);
 
         return _stack[len - 1];
     }
@@ -144,7 +144,7 @@ namespace nm {
 
     template <typename T>
     T& me::_getOwner(const node& toFind, std::function<T*(nbool, scopeRegister&)> cl) {
-        WHEN_NUL(toFind).retNul<T>();
+        WHEN_NUL(toFind).ret(nullptr);
 
         [[maybe_unused]] const nchar* name = toFind.getType().getName().c_str();
         for(auto e = _stack.rbegin(); e != _stack.rend(); ++e) {

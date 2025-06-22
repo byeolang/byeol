@@ -23,7 +23,7 @@ namespace nm {
 
     TEMPL
     V* ME::get(const K& key) {
-        WHEN(!in(key)).retNul<V>();
+        WHEN(!in(key)).ret(nullptr);
 
         return *_map.begin(key).getVal();
     }

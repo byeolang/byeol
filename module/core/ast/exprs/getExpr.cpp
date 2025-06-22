@@ -57,7 +57,7 @@ namespace nm {
     }
 
     node& me::_onGet(node& me) const {
-        WHEN(nul(me)).retNul<node>();
+        WHEN(nul(me)).ret(nullptr);
 
         std::string argsName = _args ? _args->asStr().c_str() : "{}";
         NM_DI("@%s %s.sub(\"%s\", %s)", this, me, _name, argsName);

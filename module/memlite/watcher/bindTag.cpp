@@ -14,7 +14,7 @@ namespace nm {
     me::~bindTag() { _id.serial = 0; }
 
     const chunk* me::getChunk() const {
-        WHEN(!_pt).retNul<chunk>();
+        WHEN(!_pt).ret(nullptr);
 
         return instancer::get() TO(getPool().get(*_pt)->get(*_pt));
     }
@@ -69,7 +69,7 @@ namespace nm {
     }
 
     const bindTag* me::getBindTag(id newId) {
-        const watchCell& cell = instancer::get() TO(getWatcher().get(newId)) OR.retNul<bindTag>();
+        const watchCell& cell = instancer::get() TO(getWatcher().get(newId)) OR.ret(nullptr);
         return &cell.blk;
     }
 

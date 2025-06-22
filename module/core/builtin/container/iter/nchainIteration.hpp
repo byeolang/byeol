@@ -45,7 +45,7 @@ public:
     using super::getContainer;
 
     tbicontainable<K, V>* getContainer() override {
-        WHEN(!_chainIter).retNul<tbicontainable<K, V>>();
+        WHEN(!_chainIter).ret(nullptr);
         return _chainIter.get();
     }
 
@@ -95,12 +95,12 @@ private:
     }
 
     const iter* _getNextIter() const {
-        WHEN(!_chainIter).retNul<iter>();
+        WHEN(!_chainIter).ret(nullptr);
         return this->isReversed() ? _chainIter->_prev : _chainIter->_next;
     }
 
     const tnchain* _getNextContainer() const {
-        WHEN(!_chainIter).retNul<tnchain>();
+        WHEN(!_chainIter).ret(nullptr);
         return this->isReversed() ? _chainIter->getPrev() : _chainIter->getNext();
     }
 
@@ -135,7 +135,7 @@ private:
 
     void _setBoundary(nbool new1) { _isBoundary = new1; }
 
-    me* _castIteration(const iter& e) { return (me*) e._iteration.get() OR.retNul<me>(); }
+    me* _castIteration(const iter& e) { return (me*) e._iteration.get() OR.ret(nullptr); }
     const me* _castIteration(const iter& e) const NM_CONST_FUNC(_castIteration(e))
 
     tnchain* _castChain(const iter& e) { return (tnchain*) e.getContainer(); }
