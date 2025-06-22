@@ -35,7 +35,7 @@ namespace nm {
         tmay<me> res(me{});
         WHEN(len() != ps.len())
             .err("length of args(%d) and typs(%d) doesn't match.", len(), ps.len())
-            .retMayNul<me>();
+            .retMay<me>();
 
         int n = 0;
         for(const node& e: *this) {
@@ -43,7 +43,7 @@ namespace nm {
             str evaluated = closure::make(e) OR_DO evaluated = e.asImpli(*p.getOrigin().as<node>());
             WHEN(!evaluated)
                 .err("evaluation of arg[%s] -> param[%s] has been failed.", e, p.getOrigin())
-                .retMayNul<me>();
+                .retMay<me>();
             res->add(*evaluated);
         }
 
