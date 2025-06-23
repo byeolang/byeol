@@ -16,14 +16,19 @@ namespace nm {
         leaf(const std::string& name = "");
 
     public:
+        me& operator[](const std::string& name);
+        const me& operator[](const std::string& name) const NM_CONST_FUNC(operator[](name));
+        me& operator[](const nchar* name);
+        const me& operator[](const nchar* name) const NM_CONST_FUNC(operator[](name));
         explicit operator nbool() const;
 
-        me* sub(const std::string& name);
-        const me* sub(const std::string& name) const NM_CONST_FUNC(sub(name))
-        me* sub(const nchar* name);
-        const me* sub(const nchar* name) const NM_CONST_FUNC(sub(name))
-        me* sub(nidx n);
-        const me* sub(nidx n) const NM_CONST_FUNC(sub(n))
+    public:
+        me& sub(const std::string& name);
+        const me& sub(const std::string& name) const NM_CONST_FUNC(sub(name))
+        me& sub(const nchar* name);
+        const me& sub(const nchar* name) const NM_CONST_FUNC(sub(name))
+        me& sub(nidx n);
+        const me& sub(nidx n) const NM_CONST_FUNC(sub(n))
 
         nbool has(const std::string& name) const;
 

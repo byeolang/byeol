@@ -3,6 +3,10 @@
 
 namespace nm {
 
+    namespace {
+        static nulLeaf inner;
+    }
+
     NM_DEF_ME(leaf)
 
     me::leaf(std::initializer_list<me*> subs, const std::string& name): _name(name) { add(subs); }
@@ -11,19 +15,24 @@ namespace nm {
 
     me::leaf(const std::string& name): _name(name) {}
 
+    me& me::operator[](const std::string& name) { return sub(name); }
+    me& me::operator[](const nchar* name) { return sub(name); }
+
     me::operator nbool() const { return isExist(); }
 
-    me* me::sub(const std::string& name) {
-        me& ret = _subs[name] OR.ret(nullptr);
-        return &ret;
+    me& me::sub(const std::string& name) {
+        return _subs[name] OR.ret(inner);
     }
 
-    me* me::sub(const nchar* name) {
-        WHEN_NUL(name).ret(nullptr);
+    me& me::sub(const nchar* name) {
+        WHEN_NUL(name).ret(inner);
         return sub(*name);
     }
 
-    me* me::sub(nidx n) { return std::next(begin(), n)->second.get(); }
+    me& me::sub(nidx n) {
+        if(n < 0 || n >= _subs.size()) return inner;
+        return *std::next(begin(), n)->second.get();
+    }
 
     nbool me::has(const std::string& name) const { return _subs.find(name) != _subs.end(); }
 
