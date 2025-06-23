@@ -5,7 +5,7 @@ namespace nm {
     NM(DEF_ME(funcMgdType))
 
     me::funcMgdType(const std::string& name, const type& superType, const params& ps, nbool isAdt,
-        const node& ret):
+        const node* ret):
         super(name, superType, ps, isAdt, ret) {}
 
     struct asFunc: public aser {
@@ -27,7 +27,7 @@ namespace nm {
                 WHEN(lhsPs[n] != rhsPs[n]).ret(false);
             //      retType:
             const node& lhsRet = castFrom.getRet() OR.ret(false);
-            return lhsRet.getType() == castTo.getRet().getType();
+            return lhsRet.getType() == castTo.getRet()->getType();
         }
 
         str as(const node& me, const type& to) const override {

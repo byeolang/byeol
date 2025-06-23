@@ -50,7 +50,7 @@ namespace nm {
                 _closure(*me, Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...));
         }
 
-        args& _evalArgs(const args& a, args& tray) {
+        args* _evalArgs(const args& a, args& tray) {
             const params& ps = getParams();
             WHEN(a.len() != ps.len())
                 .err("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len())
@@ -62,7 +62,7 @@ namespace nm {
                 tray.add(*ased);
             }
             tray.setMe(a.getMe());
-            return tray;
+            return &tray;
         }
 
     private:

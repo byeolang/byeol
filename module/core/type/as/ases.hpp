@@ -13,8 +13,10 @@ namespace nm {
         ases(const std::initializer_list<aser*>& args);
 
     public:
+        using asable::is;
         nbool is(const type& from, const type& to) const override;
 
+        using asable::as;
         str as(const node& from, const type& to) const override;
     };
 }

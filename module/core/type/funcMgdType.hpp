@@ -8,7 +8,7 @@ namespace nm {
 
     public:
         funcMgdType(const std::string& name, const type& super, const params& ps, nbool isAdt,
-            const node& ret);
+            const node* ret);
 
     protected:
         const impliAses& _getImpliAses() const override;

@@ -15,7 +15,7 @@ namespace nm {
     public:
         mgdType(const std::string& name, const type& super, const params& ps);
         mgdType(const std::string& name, const type& super, const params& ps, nbool isAdt,
-            const node& ret);
+            const node* ret);
         mgdType(const std::string& name, const types& supersFromRhs);
 
     private:
@@ -37,6 +37,8 @@ namespace nm {
         params& getParams() override;
 
         const node* getRet() const override;
+
+        using super::setRet;
         void setRet(const node& new1) override;
 
         // TODO: getSubs(), getLeafs()

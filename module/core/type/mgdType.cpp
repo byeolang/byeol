@@ -6,10 +6,10 @@ namespace nm {
     NM(DEF_ME(mgdType))
 
     me::mgdType(const std::string& name, const type& super, const params& ps):
-        me(name, super, ps, false, nulOf<node>()) {}
+        me(name, super, ps, false, nullptr) {}
 
     me::mgdType(const std::string& name, const type& super, const params& ps, nbool isAdt,
-        const node& ret):
+        const node* ret):
         _name(name), _params(ps), _isAdt(isAdt), _ret(ret) {
         _initSupers(super);
     }
@@ -48,7 +48,7 @@ namespace nm {
 
     void* me::make() const { return nullptr; }
 
-    const node& me::getRet() const { return *_ret; }
+    const node* me::getRet() const { return _ret.get(); }
 
     void me::setRet(const node& new1) { _ret.bind(new1); }
 

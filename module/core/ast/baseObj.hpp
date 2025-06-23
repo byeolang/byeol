@@ -32,7 +32,7 @@ namespace nm {
         /// if you don't give any subs when construct an baseObj, _subs will be assigned to dummy
         /// array. instance on ctor of derived class.
         explicit baseObj() = default;
-        explicit baseObj(const baseObj& org, nbool);
+        explicit baseObj(const baseObj* org, nbool);
 
     public:
         using super::run;
