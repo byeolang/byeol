@@ -20,6 +20,7 @@ namespace nm {
         me& addPath(std::initializer_list<const nchar*> paths);
         me& addRelativePath(const std::string& path);
         me& setBaseSlots(nmap& s);
+        me& setBaseSlots(nmap* it) NM_SIDE_FUNC(it, setBaseSlots(*it), *this);
         me& setReport(errReport& report);
 
         void load();

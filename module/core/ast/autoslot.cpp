@@ -39,7 +39,7 @@ namespace nm {
             NM_I("%s pack is about to interpret lazy.", name);
             // TODO: check _rpt error count increased or not.
             //       if increased, then parse() function has been failed.
-            parse(*_rpt, _pak->getShares()); // recursive call wasn't allowed.
+            parse(*_rpt, *_pak->getShares()); // recursive call wasn't allowed.
             verify(*_rpt, *_pak);
             link();
         }

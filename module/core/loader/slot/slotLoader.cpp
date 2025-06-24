@@ -20,25 +20,21 @@ namespace nm {
 
     manifest me::_interpManifest(const std::string& dir, const std::string& manPath) const {
         // TODO: open slot zip file -> extract manifest.leaf file -> interpret it & load values
-        tstr<leaf> loaded = leafParser()
-                                .parseFromFile(manPath)
-                                    OR.err("error to load %s: interpretion err", manPath)
-                                .ret(manifest());
+        leaf& loaded = leafParser().parseFromFile(manPath) OR.err("error to load %s: interpretion err", manPath).ret(manifest());
 
-        std::string name = loaded->sub("name").asStr();
-        std::string ver = loaded->sub("ver").asStr();
-        std::string author = loaded->sub("author").asStr();
+        std::string name = loaded["name"].asStr();
+        std::string ver = loaded["ver"].asStr();
+        std::string author = loaded["author"].asStr();
 
         entrypoints points;
-        leaf& entrypoints = loaded->sub("entrypoints");
+        leaf& entrypoints = loaded["entrypoints"];
+        WHEN(!entrypoints.isExist()).err("entrypoints not defined.").ret(manifest());
         for(auto& pair: entrypoints) {
-            const std::string& path = dir + fsystem::getDelimiter() +
-                pair.second->sub("path")
-                    .asStr() OR.err("error to load %s: no entrypoint path", manPath)
-                    .ret(manifest());
+            const std::string& path = pair.second->sub("path").asStr();
+            WHEN(path == "").err("error to load %s: no entrypoint path", manPath).ret(manifest());
 
             // TODO: path should be multiple
-            points.push_back(entrypoint{pair.first, {path}});
+            points.push_back(entrypoint{pair.first, {fsystem::getDelimiter() + path}});
         }
 
         // post: all data interpreted. merge to manifest.

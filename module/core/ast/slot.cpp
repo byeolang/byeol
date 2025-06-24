@@ -11,14 +11,6 @@ namespace nm {
 
     NM(DEF_ME(slot), DEF_VISIT())
 
-    scope& me::subs() { return getPack().subs(); }
-
-    priorType me::prioritize(const args& a) const { return getPack().prioritize(a); }
-
-    str me::run(const args& a) { return getPack().run(a); }
-
-    str me::getEval() const { return getPack().getEval(); }
-
     me::slot(const manifest& manifest): _manifest(manifest), _isValid(true) {
         origin& org = *new origin(typeMaker::make<obj>(_manifest.name));
         org.setCallComplete(*new mockNode());
@@ -28,6 +20,14 @@ namespace nm {
     me::slot(const manifest& manifest, const obj& pack): _manifest(manifest), _isValid(true) {
         _pak.bind(pack);
     }
+
+    scope& me::subs() { return getPack().subs(); }
+
+    priorType me::prioritize(const args& a) const { return getPack().prioritize(a); }
+
+    str me::run(const args& a) { return getPack().run(a); }
+
+    str me::getEval() const { return getPack().getEval(); }
 
     void me::_rel() {
         _dependents.rel();

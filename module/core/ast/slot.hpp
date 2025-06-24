@@ -22,7 +22,10 @@ namespace nm {
         virtual obj& getPack();
         const obj& getPack() const NM_CONST_FUNC(getPack())
         void rel() override;
+
         void addDependent(me& dependent);
+        void addDependent(me* it) NM_SIDE_FUNC(addDependent)
+
         const tnarr<me>& getDependents() const;
 
         using super::subs;

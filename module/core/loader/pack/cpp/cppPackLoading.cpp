@@ -33,12 +33,12 @@ namespace nm {
             WHEN(res).err("couldn't open %s slot: %d", path, res.get()).ret((rel(), false));
 
             auto info =
-                lib.accessFunc<entrypointFunc>(ENTRYPOINT_NAME); // return false when error occurs.
+                lib.accessFunc<entrypointFunc>(ENTRYPOINT_NAME);
             WHEN(!info)
                 .err("couldn't access entrypoint of %s slot: %d", path, info.getErr())
                 .ret((rel(), false));
 
-            info.get()(&tray);
+            (*info)(&tray);
             if(tray.len() <= 0) {
                 NM_W("slot returns no origin object.");
                 lib.rel();
