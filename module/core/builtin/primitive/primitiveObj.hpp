@@ -30,11 +30,9 @@ namespace nm {
 
     public:
         T& get() { return _val; }
-
         const T& get() const { return _val; }
 
         using super::cast;
-
         void* cast(const type& to) override {
             WHEN(to == ttype<T>::get()).ret(&_val);
 
@@ -55,6 +53,6 @@ namespace nm {
         NM(ADT(primitiveObj, arithmeticObj))
 
     protected:
-        nbool _onSame(const typeProvidable& rhs) const override { return !nul(rhs); }
+        nbool _onSame(const typeProvidable& rhs) const override { return true; }
     };
 } // namespace nm

@@ -52,8 +52,6 @@ namespace nm {
         return new1;
     }
 
-    const baseErr& me::add(const baseErr* new1) { return add(*new1); }
-
     void me::add(const me& rhs) {
         for(const auto& e: rhs)
             add(*e);

@@ -25,6 +25,11 @@ namespace nm {
             .subs();
     }
 
+    const std::string& me::getMsg() const {
+        static std::string dummy{};
+        return dummy;
+    }
+
     const callstack& me::getStack() const { return *_stack; }
 
     void me::logStack() const { _stack->dump(); }

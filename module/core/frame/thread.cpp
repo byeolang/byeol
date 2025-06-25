@@ -130,8 +130,6 @@ namespace nm {
 
     void me::set(thread& new1) { set(&new1); }
 
-    void me::set() { set(nullptr); }
-
     const instancer* me::getInstancer() { return instancer::get(); }
 
     errReport& me::getEx() { return *_ex; }
@@ -152,7 +150,7 @@ namespace nm {
 
     frame* me::_getNowFrame() {
         ncnt n = _getFrames().len() - 1;
-        WHEN(n < 0 || n >= _getFrames().len()).retNul<frame>();
+        WHEN(n < 0 || n >= _getFrames().len()).ret(nullptr);
 
         return &_getFrames()[n];
     }
@@ -184,7 +182,8 @@ namespace nm {
 #if NM_IS_DBG
         NM_I("next following is list for them.");
         for(const auto& s: *ret) {
-            const manifest& mani = s TO(template cast<slot>()) TO(getManifest()) OR_CONTINUE;
+            const slot& cast = s TO(template cast<slot>()) OR_CONTINUE;
+            const manifest& mani = cast.getManifest();
 
             NM_DI(" - %s v%s", mani.name, mani.version);
         }

@@ -12,6 +12,7 @@ namespace nm {
 
         const baseObj& getOrigin() const override;
 
+        using super::run;
         str run(const args& a) override;
     };
 }

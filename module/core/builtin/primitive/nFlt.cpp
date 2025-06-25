@@ -31,7 +31,8 @@ namespace nm {
 
         public:
             str as(const node& me, const type& to) const override {
-                return str(new nStr(std::to_string(me.cast<nflt>())));
+                nflt value = me.cast<nflt>() OR.exErr(CAST_NOT_AVAILABLE, me, to).ret(str());
+                return str(new nStr(std::to_string(value)));
             }
         };
     }

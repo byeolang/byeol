@@ -43,7 +43,6 @@ namespace nm {
         static thread& get();
         static void set(thread* new1);
         static void set(thread& new1);
-        static void set();
         static const instancer* getInstancer();
 
         /// @return exception errReport instance.

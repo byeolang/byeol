@@ -62,7 +62,7 @@ namespace nm {
 
     const ntype* me::deduce(const ntype& l, const ntype& r) {
         static deducers* inner = nullptr;
-        if(nul(inner)) inner = _makeDeducers();
+        if(!inner) inner = _makeDeducers();
 
         if(inner->find(&l) != inner->end()) {
             deducer& dd = inner->at(&l);

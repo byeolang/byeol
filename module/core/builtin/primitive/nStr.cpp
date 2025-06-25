@@ -31,7 +31,7 @@ namespace nm {
 
             const ntype& getType() const override {
                 static mgdType inner("get", ttype<baseFunc>::get(),
-                    params(*new param("range", new seq(nInt(0), nInt(1)))), false, *new nStr());
+                    params(*new param("range", new seq(nInt(0), nInt(1)))), false, new nStr());
                 return inner;
             }
 
@@ -51,6 +51,11 @@ namespace nm {
                 _e.next(n);
             }
 
+        public:
+            using super::operator*;
+            nStr& operator*() override { return *get(); }
+
+        public:
             nbool isEnd() const override { return _e.isEnd(); }
 
             void rel() override { _e.rel(); }
@@ -59,14 +64,14 @@ namespace nm {
 
             ncnt stepBackward(ncnt step) override { return _e.stepBackward(step); }
 
-            nStr& get() override {
+            using super::get;
+            nStr* get() override {
                 _val = *_e;
-                return _val;
+                return &_val;
             }
 
             using super::getContainer;
-
-            tucontainable<nStr>& getContainer() override { return *_own; }
+            tucontainable<nStr>* getContainer() override { return _own; }
 
         protected:
             nbool _onSame(const typeProvidable& rhs) const override {
@@ -88,7 +93,6 @@ namespace nm {
 
         public:
             using super::subs;
-
             scope& subs() override {
                 static scope inner = tbridger<niter>::ctor()
                                          .ctor<niter>()
@@ -96,7 +100,6 @@ namespace nm {
                                          .func("next", &niter::next)
                                          .funcNonConst<nStr&>("get", &niter::get)
                                          .subs();
-
                 return inner;
             }
         };
@@ -107,7 +110,7 @@ namespace nm {
         public:
             const ntype& getType() const override {
                 static mgdType inner("iterate", ttype<me>::get(),
-                    params(*new param("step", *new nInt())), false, *new mgdIter(nullptr));
+                    params(*new param("step", *new nInt())), false, new mgdIter(nullptr));
                 return inner;
             }
 
@@ -125,7 +128,7 @@ namespace nm {
                         OR.err("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0])
                             .ret(str());
 
-                nint step = eval->cast<nint>();
+                nint step = eval->cast<nint>() OR.err("eval is not nint").ret(str());
                 return new mgdIter(new niter(me.iterate(step)));
             }
         };
@@ -135,7 +138,7 @@ namespace nm {
 
         public:
             const ntype& getType() const override {
-                static mgdType inner("getElemType", ttype<me>::get(), params(), false, *new nStr());
+                static mgdType inner("getElemType", ttype<me>::get(), params(), false, new nStr());
                 return inner;
             }
 
@@ -182,20 +185,27 @@ namespace nm {
     }
 
     namespace {
+
+        str _canNotCastEx(const node& from, const type& to) {
+            NM_WHEN.exErr(CAST_NOT_AVAILABLE, from, to).ret(str());
+        }
+
         // define in unamed namespace in order to avoid symbol duplication.
         struct asBool: public tas<nBool> {
             NM(CLASS(asBool, tas<nBool>))
 
         public:
             str as(const node& me, const type& to) const override {
-                const std::string& val = me.cast<std::string>();
+                const std::string& val = me.cast<std::string>() OR.ret(_canNotCastEx(me, to));
                 try {
                     bool boolean = false;
                     if(val == "false") boolean = false;
-                    else if(val == "true") boolean = "true";
+                    else if(val == "true") boolean = true;
                     else boolean = stoi(val, nullptr, 0) == 0;
                     return str(new nBool(boolean));
-                } catch(std::invalid_argument& ex) { return str(); }
+                } catch(std::invalid_argument& ex) {
+                    return _canNotCastEx(me, to);
+                }
             }
         };
 
@@ -204,11 +214,11 @@ namespace nm {
 
         public:
             str as(const node& me, const type& to) const override {
-                const std::string& val = me.cast<std::string>();
+                const std::string& val = me.cast<std::string>() OR.ret(_canNotCastEx(me, to));
                 try {
                     nflt converted = stof(val);
                     return str(new nFlt(converted));
-                } catch(std::invalid_argument& ex) { return str(); }
+                } catch(std::invalid_argument& ex) { return _canNotCastEx(me, to); }
             }
         };
 
@@ -217,11 +227,11 @@ namespace nm {
 
         public:
             str as(const node& me, const type& to) const override {
-                const std::string& val = me.cast<std::string>();
+                const std::string& val = me.cast<std::string>() OR.ret(_canNotCastEx(me, to));
                 try {
                     nint converted = stoi(val, nullptr, 0);
                     return str(new nInt(converted));
-                } catch(std::invalid_argument& ex) { return str(); }
+                } catch(std::invalid_argument& ex) { return _canNotCastEx(me, to); }
             }
         };
 
@@ -230,8 +240,8 @@ namespace nm {
 
         public:
             str as(const node& me, const type& to) const override {
-                const std::string& val = me.cast<std::string>();
-                WHEN(val.length() <= 0).ret(str());
+                const std::string& val = me.cast<std::string>() OR.ret(_canNotCastEx(me, to));
+                WHEN(val.length() <= 0).ret(_canNotCastEx(me, to));
 
                 return new nByte(val[0]);
             }

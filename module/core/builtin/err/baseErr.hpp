@@ -23,6 +23,7 @@ namespace nm {
         void dump() const override;
         errLv::level getLv() const override;
         static scope& makeSubs();
+        const std::string& getMsg() const override;
 
     private:
         void _initStack();

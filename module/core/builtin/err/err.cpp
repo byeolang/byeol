@@ -2,6 +2,7 @@
 #include "core/bridge/cpp/tbridger.hpp"
 
 namespace nm {
+
     NM(DEF_ME(err))
 
     me::err(const nStr& msg): super(errLv::ERR), _msg(msg) {}
@@ -12,7 +13,7 @@ namespace nm {
         const me& cast = rhs.cast<me>() OR.ret(false);
         WHEN(!_msg || !cast._msg).ret(false);
 
-        return &_msg.get() == &cast._msg.get();
+        return _msg.get() == cast._msg.get();
     }
 
     void me::log() const {
@@ -21,7 +22,10 @@ namespace nm {
             foreColor(LIGHTGRAY).c_str(), _msg->get().c_str());
     }
 
-    const std::string& me::getMsg() const { return _msg->get(); }
+    const std::string& me::getMsg() const {
+        WHEN_NUL(_msg).ret(super::getMsg());
+        return _msg->get();
+    }
 
     const baseObj& me::getOrigin() const {
         static tbaseObjOrigin<me> org(

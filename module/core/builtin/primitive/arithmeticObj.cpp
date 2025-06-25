@@ -9,8 +9,10 @@ namespace nm {
 
 #define _X(FUNC)                                                                   \
     tstr<arithmeticObj> me::FUNC(const arithmeticObj& rhs) const {                 \
-        const ntype& deduced = getType().deduce(rhs);                              \
-        WHEN(deduced.isSub<nVoid>()).ret(tstr<arithmeticObj>(nVoid::singleton())); \
+        const auto& dummy = nVoid::singleton(); \
+        const ntype& deduced = getType().deduce(rhs) OR.exErr(TYPE_NOT_DEDUCED).ret(dummy);                   \
+        WHEN(deduced.isSub<nVoid>()).ret(dummy); \
+                                                \
         nbool normalOrder = getType() == deduced;                                  \
         const arithmeticObj& winner = getType() == deduced ? *this : rhs;          \
         const arithmeticObj& loser = getType() == deduced ? rhs : *this;           \

@@ -33,7 +33,8 @@ namespace nm {
 
         public:
             str as(const node& me, const type& to) const override {
-                return str(new nStr(me.cast<nbool>() ? "true" : "false"));
+                nbool value = me.cast<nbool>() OR.exErr(CAST_NOT_AVAILABLE, me, to).ret(str());
+                return str(new nStr(value ? "true" : "false"));
             }
         };
     }

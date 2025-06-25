@@ -43,11 +43,17 @@ namespace nm {
         using super::get;
         nchar get(nidx n) const;
 
+        using tucontainable<nStr>::add;
         void add(const iter& here, const iter& from, const iter& to) override;
         nbool add(const iter& at, const nStr& new1) override;
+
+        using tucontainable<nStr>::set;
         nbool set(const iter& at, const nStr& new1) override;
+
+        using tucontainable<nStr>::del;
         nbool del(const iter& at) override;
         nbool del(const iter& from, const iter& end) override;
+
         void rel() override;
 
 
