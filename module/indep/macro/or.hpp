@@ -97,6 +97,7 @@ namespace nm {
 
 #define __OR__(expr) __OR_DO__(expr) return NM_WHEN
 #define OR __OR__(nul(__p))
+#define OR_RET_CTOR __OR_DO__(nul(__p)) return
 
 #define OR_CONTINUE OR_DO continue
 } // namespace nm
