@@ -41,7 +41,7 @@ namespace nm {
 
     strWrap __convert__(const param& it) {
         const node& org = it.getOrigin();
-        return it.getName() + " " + (nul(org) ? "null" : org.getType().getName());
+        return it.getName() + " " + org.getType().getName();
     }
 
     strWrap __convert__(const params* it) { return it ? __convert__(*it) : strWrap("null"); }

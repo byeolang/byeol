@@ -43,11 +43,17 @@ namespace nm {
     }
 
     _nout noWrap<nflt> __convert__(nflt rhs);
+    _nout noWrap<nflt> __convert__(nflt* rhs);
     _nout noWrap<nchar> __convert__(nchar rhs);
+    _nout noWrap<nchar> __convert__(nchar rhs);
+    _nout strWrap __convert__(nbool rhs);
     _nout strWrap __convert__(nbool rhs);
     _nout noWrap<const nchar*> __convert__(const nchar* rhs);
     _nout noWrap<ndbl> __convert__(ndbl rhs);
+    _nout noWrap<ndbl> __convert__(ndbl rhs);
     _nout noWrap<nshort> __convert__(nshort rhs);
+    _nout noWrap<nshort> __convert__(nshort rhs);
+    _nout noWrap<nushort> __convert__(nushort rhs);
     _nout noWrap<nushort> __convert__(nushort rhs);
     _nout strWrap __convert__(const std::string* rhs);
     _nout strWrap __convert__(const std::string& rhs);
