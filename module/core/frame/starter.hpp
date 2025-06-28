@@ -22,6 +22,7 @@ namespace nm {
 
     public:
         void setArgs(const args& a);
+        void setArgs(const args* it) NM_SIDE_FUNC(setArgs);
         args& getArgs();
         const args& getArgs() const NM_CONST_FUNC(getArgs())
 

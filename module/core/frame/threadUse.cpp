@@ -13,5 +13,5 @@ namespace nm {
 
     void me::use() { thread::set(_thr); }
 
-    void me::rel() { thread::set(); }
+    void me::rel() { thread::set(nullptr); }
 }

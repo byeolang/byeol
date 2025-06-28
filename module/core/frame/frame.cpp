@@ -13,22 +13,22 @@ namespace nm {
 
     me::~frame() { _rel(); }
 
-    void me::add(const scope& existing) { add(nulOf<node>(), existing); }
+    void me::add(const scope& existing) { add(nullptr, existing); }
 
     void me::add(const nbicontainer& existing) {
-        tstr<scope> wrap = scope::wrap<scope>(existing);
+        tstr<scope> wrap = scope::wrap<scope>(&existing);
         add(*wrap);
     }
 
-    void me::add(const node& owner) { add(owner, owner.subs()); }
+    void me::add(const node& owner) { add(&owner, owner.subs()); }
 
-    void me::add(const node& owner, const scope& existing) {
+    void me::add(const node* owner, const scope& existing) {
         WHEN_NUL(existing).ret();
         if(_stack.size() <= 0)
             return _stack.push_back(scopeRegister{owner, existing, existing}), void();
 
         tstr<scope> cloned = existing.cloneChain() OR.ret();
-        cloned->getTail().link(*_getTop().linkedS);
+        cloned->getTail()->link(*_getTop()->linkedS);
         _stack.push_back(scopeRegister{owner, existing, cloned});
         NM_DI("scope added: frame.len[%d] scope.owner[%s]", _stack.size(), owner);
     }
@@ -40,17 +40,18 @@ namespace nm {
         locals.add(name, n);
     }
 
-    scope& me::getScopeHaving(const node& sub) {
+    scope* me::getScopeHaving(const node& sub) {
         NM_I("getScopeHaving(%s)", sub);
-        return _getOwner<scope>(sub, [&](nbool, auto& reg) { return &reg.linkedS.get(); });
+        return _getOwner<scope>(&sub, [&](nbool, auto& reg) { return reg.linkedS.get(); });
     }
 
-    node& me::getMeHaving(const node& sub) {
+    node* me::getMeHaving(const node& sub) {
         NM_I("getMeHaving(%s)", sub);
         nbool found = false;
-        return _getOwner<node>(sub, [&](nbool isOwner, scopeRegister& reg) -> node* {
-            baseObj& org = reg.owner TO(template cast<baseObj>());
-            WHEN(found && !nul(org)).ret(&org);
+
+        return _getOwner<node>(&sub, [&](nbool isOwner, scopeRegister& reg) -> node* {
+            baseObj& org = reg.owner TO(template cast<baseObj>()) OR.ret(nullptr);
+            WHEN(found).ret(&org);
             WHEN(!isOwner).ret(nullptr);
             found = true;
             return &org; // org can be nullref and returning null let the loop keep searching.
@@ -61,12 +62,12 @@ namespace nm {
 
     void me::setMe() { _me.rel(); }
 
-    node& me::getMe() { return *_me; }
+    node* me::getMe() { return _me.get(); }
 
-    scope& me::getLocals() {
-        auto& top = _getTop();
-        WHEN(nul(top) || top.owner).ret(nullptr);
-        return *top.s;
+    scope* me::getLocals() {
+        auto* top = _getTop();
+        WHEN(!top || top->owner).ret(nullptr);
+        return top->s.get();
     }
 
     void me::del() {
@@ -75,28 +76,28 @@ namespace nm {
             _stack.size());
     }
 
-    scopeRegister& me::_getTop() {
+    scopeRegister* me::_getTop() {
         ncnt len = _stack.size();
         WHEN(len <= 0).ret(nullptr);
 
-        return _stack[len - 1];
+        return &_stack[len - 1];
     }
 
     nbool me::addFunc(const baseFunc& new1) { return _funcs.add(new1); }
 
     void me::delFunc() { _funcs.del(); }
 
-    baseFunc& me::getFunc() { return *_funcs.last(); }
+    baseFunc* me::getFunc() { return _funcs.last().get(); }
 
     // node:
     scope& me::subs() {
-        scopeRegister& reg = _getTop();
-        static dumScope inner;
-        return nul(reg) ? inner : *reg.linkedS;
+        static dumScope dummy;
+        scopeRegister& reg = _getTop() OR.ret(dummy);
+        return *reg.linkedS;
     }
 
     tstr<nbicontainer> me::mySubs() const {
-        const auto& top = _getTop();
+        const auto& top = _getTop() OR.ret(tstr<nbicontainer>());
         return top.owner ? top.owner->mySubs() : top.s->getContainer();
     }
 
@@ -113,7 +114,9 @@ namespace nm {
 
     nbool me::setRet(const node& newRet) const { return _ret.bind(newRet); }
 
-    nbool me::setRet() const {
+    nbool me::setRet(const node* it) const {
+        WHEN(it).ret(setRet(*it));
+
         _ret.rel();
         return true;
     }
@@ -130,8 +133,8 @@ namespace nm {
             const auto& subs = *reg.s;
             nidx n2 = 0;
             for(auto e = subs.begin(); e; ++e)
-                log.logBypass("\t\t\tsub[" + std::to_string(n2++) + "]: " + e.getKey() + " " +
-                    e.getVal().getType().getName());
+                log.logBypass("\t\t\tsub[" + std::to_string(n2++) + "]: " + *e.getKey() + " " +
+                    e.getVal()->getType().getName());
         }
     }
 
@@ -143,20 +146,20 @@ namespace nm {
     }
 
     template <typename T>
-    T& me::_getOwner(const node& toFind, std::function<T*(nbool, scopeRegister&)> cl) {
+    T* me::_getOwner(const node* toFind, std::function<T*(nbool, scopeRegister&)> cl) {
         WHEN_NUL(toFind).ret(nullptr);
 
-        [[maybe_unused]] const nchar* name = toFind.getType().getName().c_str();
+        [[maybe_unused]] const nchar* name = toFind->getType().getName().c_str();
         for(auto e = _stack.rbegin(); e != _stack.rend(); ++e) {
             auto& reg = *e;
             nbool has = reg.s->in(toFind);
             NM_DI("`%s` is in `%s` scope? --> %s", name,
                 reg.owner ? reg.owner->getSrc().getName() : "{local}", has);
-            T* ret = cl(has, reg);
-            WHEN(ret).ret(*ret);
+            T& ret = cl(has, reg) OR_CONTINUE;
+            return &ret;
         }
 
         NM_E("couldn't find owner of %s", toFind);
-        return nulOf<T>();
+        return nullptr;
     }
 } // namespace nm

@@ -50,6 +50,7 @@ namespace nm {
         errReport& getEx();
         const errReport& getEx() const NM_CONST_FUNC(getEx())
         virtual void setEx(const errReport& new1);
+        void setEx(const errReport* it) NM_SIDE_FUNC(setEx);
 
         // node:
         scope& subs() override;

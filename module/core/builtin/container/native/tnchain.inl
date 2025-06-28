@@ -171,7 +171,7 @@ namespace nm {
     }
 
     TEMPL
-    ME* ME::wrap(const super& toShallowWrap) { return wrap<ME>(toShallowWrap); }
+    ME& ME::wrap(const super& toShallowWrap) { return wrap<ME>(toShallowWrap); }
 
     TEMPL
     ME* ME::cloneChain(const super* until) const {

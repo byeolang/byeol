@@ -91,18 +91,18 @@ namespace nm {
         ///        if this is a chain, then the wrap func returns it as it is.
         ///        if this is any container except chain, then it returns after
         ///        wrapping given container.
-        template <typename T> static T* wrap(const super* toShallowWrap) {
-            WHEN_NUL(toShallowWrap).ret(nullptr);
-            T* ret = (T*) &toShallowWrap->template cast<T>();
+        template <typename T> static T& wrap(const super& toShallowWrap) {
+            T* ret = (T*) toShallowWrap.template cast<T>();
             if(nul(ret)) {
                 ret = new T();
                 ret->_map.bind(toShallowWrap);
             }
 
-            return ret;
+            return *ret;
         }
+        template <typename T> static T* wrap(const super* it) NM_SIDE_FUNC(wrap);
 
-        static me* wrap(const super& toShallowWrap);
+        static me& wrap(const super& toShallowWrap);
 
         /// mock this chain and let it chain another container differ to original.
         /// this func keep accessing next element to chain it.

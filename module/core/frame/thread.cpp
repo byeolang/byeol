@@ -22,25 +22,22 @@ namespace nm {
 
         public:
             using super::add;
+            void add(const node* owner, const scope& s) override {}
 
-            void add(const node& owner, const scope& s) override {}
-
+            using super::addLocal;
             void addLocal(const std::string& name, const node& n) override {}
 
             void del() override {}
 
             using super::setMe;
-
             nbool setMe(const node& obj) override { return true; }
 
             using super::addFunc;
-
             nbool addFunc(const baseFunc& new1) override { return true; }
 
             void rel() override {}
 
             using super::setRet;
-
             nbool setRet(const node& newRet) const override { return true; }
         };
 
@@ -52,27 +49,19 @@ namespace nm {
 
         public:
             using super::add;
-
             nbool add(const iter& e, const frame& new1) override { return true; }
-
             nbool add(nidx n, const frame& new1) override { return true; }
-
             void add(const iter& here, const iter& from, const iter& to) override {}
 
             using super::set;
             using tarrayable<frame>::set;
-
             nbool set(const iter& at, const frame& new1) override { return true; }
-
             nbool set(nidx n, const frame& new1) override { return true; }
 
             using super::del;
             using tarrayable<frame>::del;
-
             nbool del(const iter& from, const iter& end) override { return true; }
-
             nbool del(const iter& it) override { return true; }
-
             nbool del(nidx n) override { return true; }
 
             void rel() override {}
@@ -85,6 +74,7 @@ namespace nm {
             dumThread() { super::setEx(dummyErrReport::singleton); }
 
         public:
+            using super::setEx;
             void setEx(const errReport& new1) override {}
 
             void rel() override {}

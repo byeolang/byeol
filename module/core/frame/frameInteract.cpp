@@ -4,14 +4,14 @@ namespace nm {
 
     NM(DEF_ME(frameInteract))
 
-    me::frameInteract(const frameInteractable& it, const bicontainable& args):
+    me::frameInteract(const frameInteractable* it, const bicontainable* args):
         _it(it), _args(args) {
-        if(!nul(it)) _it.inFrame(_args);
+        if(it) _it->inFrame(_args);
     }
 
-    me::frameInteract(const frameInteractable& it): _it(it), _args(nulOf<bicontainable>()) {
-        if(!nul(it)) _it.inFrame();
+    me::frameInteract(const frameInteractable* it): _it(it), _args(nullptr) {
+        if(it) _it->inFrame();
     }
 
-    me::~frameInteract() { _it.outFrame(_args); }
+    me::~frameInteract() { _it->outFrame(_args); }
 }
