@@ -15,7 +15,7 @@ namespace nm {
 #define TEMPLATE template <typename R, typename T>
 #define ME worker<R, T>
 
-    TEMPLATE ME::worker() { _rel(); }
+    TEMPLATE ME::worker(): _rpt(dummyErrReport::singleton) { _rel(); }
 
     TEMPLATE errReport& ME::getReport() { return *_rpt; }
 
@@ -53,7 +53,7 @@ namespace nm {
         return *this;
     }
 
-    TEMPLATE T& ME::getTask() { return *_task; }
+    TEMPLATE T* ME::getTask() { return _task.get(); }
 
     TEMPLATE void ME::rel() { _rel(); }
 

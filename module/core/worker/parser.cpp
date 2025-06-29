@@ -92,10 +92,10 @@ namespace nm {
         return ret;
     }
 
-    node* me::_onDefAssign(const modifier& mod, const node& type, const std::string& name,
-        const node& rhs) {
+    node* me::_onDefAssign(const modifier& mod, const node* type, const std::string& name,
+        const node* rhs) {
         node* ret =
-            _maker.make<defAssignExpr>(name, type, rhs, nulOf<node>(), *_maker.makeSrc(name), mod);
+            _maker.make<defAssignExpr>(name, type, rhs, nullptr, *_maker.makeSrc(name), mod);
         NM_DI("tokenEvent: onDefAssign(%s, %s, %s, %s)", mod, type, name, rhs);
         return ret;
     }
@@ -171,9 +171,9 @@ namespace nm {
         //  if there is no specified name of pack, I create an one.
         const std::string& firstName = dotnames[0];
         if(nul(getTask())) _setTask(new slot(manifest(firstName)));
-        obj* e = &getTask().getPack();
+        obj* e = &getTask()->getPack();
 
-        const std::string& realName = getTask().getManifest().name;
+        const std::string& realName = getTask()->getManifest().name;
         WHEN(realName != firstName)
             .exErr(PACK_NOT_MATCH, getReport(), firstName.c_str(), realName.c_str())
             .ret(e);
@@ -187,8 +187,8 @@ namespace nm {
         //  pack object can be created in this parsing keyword.
         for(int n = 1; n < dotnames.size(); n++) {
             const std::string& name = dotnames[n];
-            origin* sub = &e->sub<origin>(name);
-            if(nul(sub)) {
+            origin* sub = e->sub<origin>(name);
+            if(!sub) {
                 sub = new origin(typeMaker::make<obj>(name));
                 sub->setCallComplete(*new mockNode());
                 e->subs().add(name, sub);
@@ -219,10 +219,10 @@ namespace nm {
     obj* me::onPack() {
         NM_DI("tokenEvent: onPack()");
 
-        if(nul(getTask())) _setTask(new slot(manifest()));
+        if(!getTask()) _setTask(new slot(manifest()));
 
-        auto& newSlot = getTask();
-        const std::string& name = getTask().getManifest().name;
+        auto& newSlot = *getTask();
+        const std::string& name = newSlot.getManifest().name;
         WHEN(name != manifest::DEFAULT_NAME)
             .exErr(PACK_NOT_MATCH, getReport(), manifest::DEFAULT_NAME, name.c_str())
             .ret(&newSlot.getPack());
@@ -231,26 +231,27 @@ namespace nm {
             newSlot.getPack()); // this is a default pack containing name as '{default}'.
     }
 
-    blockExpr* me::onBlock(const node& stmt) {
+    blockExpr* me::onBlock(const node* stmt) {
         WHEN_NUL(stmt).exErr(IS_NUL, getReport(), "stmt").ret(new blockExpr());
-        blockExpr* ret = onBlock(*new blockExpr(), stmt);
+        blockExpr* ret = onBlock(new blockExpr(), stmt);
         NM_DI("tokenEvent: onBlock(%s)", stmt);
         return ret;
     }
 
-    blockExpr* me::onBlock(blockExpr& blk, const node& stmt) {
+    blockExpr* me::onBlock(blockExpr* blk, const node* stmt) {
         WHEN_NUL(blk).exErr(IS_NUL, getReport(), "blk").ret(_maker.make<blockExpr>());
-        WHEN_NUL(stmt).exErr(IS_NUL, getReport(), "stmt").ret(&blk);
-        [[maybe_unused]] func& f = _funcs.size() > 0 ? *_funcs.back() : nulOf<func>();
+        WHEN_NUL(stmt).exErr(IS_NUL, getReport(), "stmt").ret(blk);
+        [[maybe_unused]] func* f = _funcs.size() > 0 ? _funcs.back() : nullptr;
         str stmtLife(stmt);
         NM_DI("tokenEvent: onBlock(blk, %s) inside of %s func", stmt,
-            !nul(f) ? f.getSrc().getName() : "<null>");
+            f ? f->getSrc().getName() : "<null>");
 
-        WHEN(!nul(stmt.cast<endExpr>())).ret(&blk);
+        WHEN(stmt->cast<endExpr>()).ret(blk);
 
-        blk.getStmts().add(*stmtLife);
-        NM_DI("tokenEvent: onBlock(%d).add(%s)", blk.getStmts().len(), stmt);
-        return &blk;
+        auto& stmts = blk->getStmts();
+        stmts.add(*stmtLife);
+        NM_DI("tokenEvent: onBlock(%d).add(%s)", stmts.len(), stmt);
+        return blk;
     }
 
     blockExpr* me::onBlock() {
@@ -263,34 +264,34 @@ namespace nm {
         return new defBlock();
     }
 
-    defBlock* me::onDefBlock(node& stmt) { return onDefBlock(*new defBlock(), stmt); }
+    defBlock* me::onDefBlock(node* stmt) { return onDefBlock(new defBlock(), stmt); }
 
-    defBlock* me::onDefBlock(defBlock& s, node& stmt) {
+    defBlock* me::onDefBlock(defBlock* s, node* stmt) {
         str stmtLife(stmt);
 
-        WHEN_NUL(s).exErr(IS_NUL, getReport(), "s").ret(new defBlock());
-        WHEN_NUL(stmt).exErr(IS_NUL, getReport(), "stmt").ret(&s);
-        NM_DI("tokenEvent: onDefBlock(s, %s)", stmt);
+        auto& sRef = s OR.exErr(IS_NUL, getReport(), "s").ret(new defBlock());
+        auto& stmtRef= stmt OR.exErr(IS_NUL, getReport(), "stmt").ret(s);
+        NM_DI("tokenEvent: onDefBlock(s, %s)", *stmt);
 
-        WHEN(!nul(stmt.cast<endExpr>())).exErr(END_ONLY_BE_IN_A_FUNC, getReport()).ret(&s);
+        WHEN(stmtRef.cast<endExpr>()).exErr(END_ONLY_BE_IN_A_FUNC, getReport()).ret(s);
         defVarExpr& defVar =
-            stmt.cast<defVarExpr>() OR.ret(&s.addScope(stmt.getSrc().getName(), *stmtLife));
+            stmtRef.cast<defVarExpr>() OR.ret(&sRef.addScope(stmtRef.getSrc().getName(), *stmtLife));
 
         // checks whether rhs was primitive type:
         //  if rhs isn't primitive, rhs will be getExpr type.
         //  mockNode will be created
-        const baseObj& rhs = defVar.getRight().cast<baseObj>();
-        if(!nul(rhs) && rhs.getState() >= PARSED) {
+        const baseObj* rhs = defVar.getRight().cast<baseObj>();
+        if(rhs && rhs->getState() >= PARSED) {
             str new1 = defVar.makeNewOrigin();
-            if(new1) return &s.addScope(defVar.getName(), *defVar.makeNewOrigin());
+            if(new1) return &sRef.addScope(defVar.getName(), *defVar.makeNewOrigin());
         }
 
         defVar.setTo(*_maker.make<getExpr>("me"));
-        return &s.expand(defVar);
+        return &s->expand(defVar);
     }
 
     node* me::onDefProp(const modifier& mod, const std::string& name, const node& rhs) {
-        node* ret = _maker.make<defPropExpr>(name, rhs, nulOf<node>(), *_maker.makeSrc(name), mod);
+        node* ret = _maker.make<defPropExpr>(name, rhs, nullptr, *_maker.makeSrc(name), mod);
         NM_DI("tokenEvent: onDefProp(%s, %s)", rhs, name);
         return ret;
     }
@@ -310,17 +311,17 @@ namespace nm {
         return onDefProp(mod, newName, rhs);
     }
 
-    node* me::onDefAssign(const std::string& name, const node& rhs) {
+    node* me::onDefAssign(const std::string& name, const node* rhs) {
         return onDefAssign(*_makeDefaultModifier(), name, rhs);
     }
 
-    node* me::onDefAssign(const modifier& mod, const std::string& name, const node& rhs) {
-        return _onDefAssign(mod, nulOf<node>(), name, rhs);
+    node* me::onDefAssign(const modifier& mod, const std::string& name, const node* rhs) {
+        return _onDefAssign(mod, nullptr, name, rhs);
     }
 
-    node* me::onDefAssign(const defPropExpr& prop, const node& rhs) {
-        WHEN_NUL(prop).exErr(IS_NUL, getReport(), "prop").ret(nullptr);
-        return _onDefAssign(prop.getNewModifier(), prop.getRight(), prop.getName(), rhs);
+    node* me::onDefAssign(const defPropExpr* prop, const node* rhs) {
+        auto& propRef = prop OR.exErr(IS_NUL, getReport(), "prop").ret(nullptr);
+        return _onDefAssign(propRef.getNewModifier(), &propRef.getRight(), propRef.getName(), rhs);
     }
 
     node* me::onDefArray(const narr& items) {
@@ -350,11 +351,11 @@ namespace nm {
         return ret;
     }
 
-    func* me::onFuncSignature(const getExpr& access, const node& retType) {
+    func* me::onFuncSignature(const getExpr& access, const node* retType) {
         return onFuncSignature(*new modifier(), access, retType);
     }
 
-    func* me::onFuncSignature(const modifier& mod, const getExpr& access, const node& retType) {
+    func* me::onFuncSignature(const modifier& mod, const getExpr& access, const node* retType) {
         func* new1 = _maker.birth<func>(access.getName(), mod,
             typeMaker::make<func>(_asParams(access.getArgs()), retType));
         _funcs.push_back(new1);
@@ -364,14 +365,14 @@ namespace nm {
         return new1;
     }
 
-    func* me::onFuncSignature(const modifier& mod, node& it, const node& retType) {
-        func* ret = onFuncSignature(mod, onCallAccess(it, *new narr())->cast<getExpr>(), retType);
+    func* me::onFuncSignature(const modifier& mod, node& it, const node* retType) {
+        func* ret = onFuncSignature(mod, *onCallAccess(it, *new narr())->cast<getExpr>(), retType);
         NM_DI("tokenEvent: onFuncSignature(%s, it: %s, retType: %s)", mod, it, retType);
         return ret;
     }
 
-    func* me::onFuncSignature(node& it, const node& retType) {
-        func* ret = onFuncSignature(onCallAccess(it, *new narr())->cast<getExpr>(), retType);
+    func* me::onFuncSignature(node& it, const node* retType) {
+        func* ret = onFuncSignature(*onCallAccess(it, *new narr())->cast<getExpr>(), retType);
         NM_DI("tokenEvent: onFuncSignature(it: %s, retType: %s)", it, retType);
         return ret;
     }
@@ -406,7 +407,7 @@ namespace nm {
     defNestedFuncExpr* me::onLambda(const narr& params, const node& retType, const blockExpr& blk) {
         defNestedFuncExpr* ret = _maker.make<defNestedFuncExpr>(
             *_maker.birth<func>(func::LAMBDA_NAME, *onModifier(true, false),
-                typeMaker::make<func>(_asParams(args(params)), retType), blk));
+                typeMaker::make<func>(_asParams(args(params)), &retType), blk));
         NM_DI("tokenEvent: onLambda(params:%d, retType:%s)", params.len(), retType);
         return ret;
     }
@@ -546,7 +547,6 @@ namespace nm {
     namespace {
         const std::string& _extractParamTypeName(const node& p) {
             static std::string dummy;
-            WHEN_NUL(p).ret(dummy);
             WHEN(p.isSub<getExpr>()).ret(((const getExpr&) p).getName());
 
             return p.getType().getName();
@@ -570,13 +570,12 @@ namespace nm {
 
     std::vector<string> me::_toDotnames(const node& path) {
         std::vector<string> ret;
-        const getExpr* iter = &path.cast<getExpr>();
-        WHEN_NUL(iter).exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
+        const getExpr& iter = path.cast<getExpr>() OR.exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
 
         do {
-            ret.push_back(iter->getName());
-            const node& next = iter->getMe();
-            WHEN(!nul(next) && !next.is<getExpr>())
+            ret.push_back(iter.getName());
+            const node& next = iter.getMe();
+            WHEN(next && !next.is<getExpr>())
                 .exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport())
                 .ret(std::vector<string>());
 
@@ -1162,8 +1161,8 @@ namespace nm {
 
     me::parser(): _mode(nullptr), _isIgnoreWhitespace(false) { rel(); }
 
-    node& me::getSubPack() {
-        return *_subpack; // TODO: can I remove subpack variable?
+    node* me::getSubPack() {
+        return _subpack.get(); // TODO: can I remove subpack variable?
     }
 
     srcSupplies& me::getSrcSupplies() { return _supplies; }

@@ -121,7 +121,7 @@ namespace nm {
         return true;
     }
 
-    node& me::getRet() const { return *_ret; }
+    node* me::getRet() const { return _ret.get(); }
 
     void me::dump() const {
         nidx n = 0;

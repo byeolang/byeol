@@ -20,14 +20,20 @@ namespace nm {
     public:
         using super::run;
         str run(const args& a) override;
+
         str getEval() const override;
+
         void setEval(const node& newEval);
+        void setEval(const node* it) NM_SIDE_FUNC(setEval);
+
         const narr& getStmts() const NM_CONST_FUNC(getStmts())
         narr& getStmts();
+
         void rel() override;
 
         using super::inFrame;
         void inFrame(const bicontainable* args) const override;
+
         using super::outFrame;
         void outFrame(const bicontainable* args) const override;
 

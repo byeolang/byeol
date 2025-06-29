@@ -44,8 +44,8 @@ namespace nm {
         parser();
 
     public:
-        node& getSubPack();
-        const node& getSubPack() const NM_CONST_FUNC(getSubPack())
+        node* getSubPack();
+        const node* getSubPack() const NM_CONST_FUNC(getSubPack())
 
         srcSupplies& getSrcSupplies();
         const srcSupplies& getSrcSupplies() const NM_CONST_FUNC(getSrcSupplies())
@@ -58,7 +58,7 @@ namespace nm {
         nbool isInit() const;
 
         template <typename T> void setScan() {
-            NM_DI("change scanmode(%s -> %s)", nul(_mode) ? "null" : _mode->getType().getName(),
+            NM_DI("change scanmode(%s -> %s)", _mode ? _mode->getType().getName() : "null",
                 *T::_instance);
             _mode = T::_instance;
         }
@@ -147,11 +147,11 @@ namespace nm {
         obj* onPack();
         obj* onSubPack(obj& subpack);
         endExpr* onEnd(const blockExpr& blk);
-        blockExpr* onBlock(const node& stmt);
-        blockExpr* onBlock(blockExpr& blk, const node& stmt);
+        blockExpr* onBlock(const node* stmt);
+        blockExpr* onBlock(blockExpr* blk, const node* stmt);
         blockExpr* onBlock();
-        defBlock* onDefBlock(node& stmt);
-        defBlock* onDefBlock(defBlock& blk, node& stmt);
+        defBlock* onDefBlock(node* stmt);
+        defBlock* onDefBlock(defBlock* blk, node* stmt);
         defBlock* onDefBlock();
         node* onFor(const std::string& iterName, const node& expr, const blockExpr& blk);
         node* onWhile(const node& condition, const blockExpr& blk);
@@ -185,9 +185,9 @@ namespace nm {
         node* onDefProp(const std::string& name, const node& rhs);
         node* onDefProp(const node& rhs);
         node* onDefProp(const modifier& mod, const node& rhs);
-        node* onDefAssign(const modifier& mod, const std::string& name, const node& rhs);
-        node* onDefAssign(const defPropExpr& prop, const node& rhs);
-        node* onDefAssign(const std::string& name, const node& rhs);
+        node* onDefAssign(const modifier& mod, const std::string& name, const node* rhs);
+        node* onDefAssign(const defPropExpr* prop, const node* rhs);
+        node* onDefAssign(const std::string& name, const node* rhs);
         //          obj:
         obj* onDefOrigin(const std::string& name, defBlock& blk);
         obj* onDefOrigin(const std::string& name, const narr& args, defBlock& blk);
@@ -202,10 +202,10 @@ namespace nm {
         void onCompilationUnit(obj& subpack);
         void onCompilationUnit(obj& subpack, defBlock& blk);
         //          func:
-        func* onFuncSignature(const modifier& mod, const getExpr& access, const node& retType);
-        func* onFuncSignature(const getExpr& access, const node& retType);
-        func* onFuncSignature(const modifier& mod, node& it, const node& retType);
-        func* onFuncSignature(node& it, const node& retType);
+        func* onFuncSignature(const modifier& mod, const getExpr& access, const node* retType);
+        func* onFuncSignature(const getExpr& access, const node* retType);
+        func* onFuncSignature(const modifier& mod, node& it, const node* retType);
+        func* onFuncSignature(node& it, const node* retType);
         func* onAbstractFunc(func& f);
         node* onFunc(func& func, const blockExpr& blk);
         defNestedFuncExpr* onLambda(const narr& params, const node& retType, const blockExpr& blk);
@@ -260,8 +260,8 @@ namespace nm {
         str _onWork() override;
 
     private:
-        node* _onDefAssign(const modifier& mod, const node& type, const std::string& name,
-            const node& rhs);
+        node* _onDefAssign(const modifier& mod, const node* type, const std::string& name,
+            const node* rhs);
         nint _onTokenEndOfInlineBlock(nint tok);
         node* _onSetElem(runExpr& lhs, const node& rhs);
         node* _onAssignElem(FBOExpr::symbol type, node& lhs, node& rhs);

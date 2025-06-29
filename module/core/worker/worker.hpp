@@ -56,8 +56,8 @@ namespace nm {
         nint getFlag() const;
 
         me& setTask(const T& root);
-        T& getTask();
-        const T& getTask() const NM_CONST_FUNC(getTask())
+        T* getTask();
+        const T* getTask() const NM_CONST_FUNC(getTask())
 
         virtual void rel();
 

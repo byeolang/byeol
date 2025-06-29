@@ -49,7 +49,7 @@ namespace nm {
         auto addr = platformAPI::toAddrId(this);
         thread& th = thread::get();
         const auto& ex = th.getEx();
-        const frame& fr = th.getNowFrame();
+        const frame& fr = th.getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(str());
         nidx exN = ex.len() - 1; // blockExpr will judge exception occurs when exN is changed to
                                  // after running one of its stmt.
         NM_DI("%s blockExpr: loop %d stmts", addr, _exprs.len());
@@ -62,7 +62,7 @@ namespace nm {
                              // so it's not the return type of what the func told, but it's okay.
                              // all derived err object can be assigned to any type.
             }
-            if(!nul(fr.getRet())) break;
+            if(fr.getRet()) break;
         }
         return ret;
     }

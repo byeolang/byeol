@@ -87,7 +87,7 @@ namespace nm {
         virtual nbool setRet(const node& newRet) const;
         virtual nbool setRet(const node* it) const;
 
-        node& getRet() const;
+        node* getRet() const;
 
         void dump() const override;
 
