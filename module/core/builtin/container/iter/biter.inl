@@ -10,6 +10,9 @@ namespace nm {
 #define ME tbicontainable<K, V>::iter
 
     TEMPL
+    ME::iter(): me(nullptr) {}
+
+    TEMPL
     ME::iter(iteration* newStep): _iteration(newStep) {}
 
     TEMPL
@@ -57,7 +60,7 @@ namespace nm {
     ME::operator nbool() const { return !isEnd(); }
 
     TEMPL
-    nbool ME::isReversed() const { return _iteration->isReversed(); }
+    nbool ME::isReversed() const { return _iteration ? _iteration->isReversed() : false; }
 
     TEMPL
     void ME::rel() { _iteration TO(rel()); }
@@ -69,7 +72,7 @@ namespace nm {
     }
 
     TEMPL
-    nbool ME::isEnd() const { return _iteration->isEnd(); }
+    nbool ME::isEnd() const { return _iteration ? _iteration->isEnd() : true; }
 
     TEMPL
     ncnt ME::_step(typename iterable::iterationType type, ncnt step) {
@@ -94,20 +97,22 @@ namespace nm {
     ncnt ME::stepBackward(ncnt step) { return _step(iterable::BACKWARD, step); }
 
     TEMPL
-    const K* ME::getKey() const { return _iteration->getKey(); }
+    const K* ME::getKey() const { return _iteration ? _iteration->getKey() : nullptr; }
 
     TEMPL
-    V* ME::getVal() { return _iteration->getVal(); }
+    V* ME::getVal() { return _iteration ? _iteration->getVal() : nullptr; }
 
     TEMPL
-    void ME::setVal(const V& new1) { return _iteration->setVal(new1); }
+    void ME::setVal(const V& new1) {
+        if(_iteration) _iteration->setVal(new1);
+    }
 
     TEMPL
-    tbicontainable<K, V>* ME::getContainer() { return _iteration->getContainer(); }
+    tbicontainable<K, V>* ME::getContainer() { return _iteration ? _iteration->getContainer() : nullptr; }
 
     TEMPL
     typename ME& ME::_assign(const me& rhs) {
-        _iteration.bind(rhs._iteration ? (iteration*) rhs._iteration->clone() : nullptr);
+        _iteration.bind(rhs._iteration ? (iteration*) _iteration->clone() : nullptr);
         return *this;
     }
 
@@ -127,6 +132,7 @@ namespace nm {
 
     TEMPL
     ncnt ME::_iterate(typename iterable::iterationType type) {
+        WHEN_NUL(_iteration).ret(NM_INDEX_ERROR);
         switch(type) {
             case iterable::FORWARD: return _iteration->stepForward(1);
             case iterable::BACKWARD: return _iteration->stepBackward(1);

@@ -10,6 +10,9 @@ namespace nm {
 #define ME tucontainable<T, R, RSquare>::iter
 
     TEMPL
+    ME::iter(): me(nullptr) {}
+
+    TEMPL
     ME::iter(iteration* newStep): _iteration(newStep) { _nextToMatchParamType(iterable::NEXT); }
 
     TEMPL
@@ -56,16 +59,16 @@ namespace nm {
     ME::operator nbool() const { return !isEnd(); }
 
     TEMPL
-    nbool ME::isReversed() const { return _iteration->isReversed(); }
+    nbool ME::isReversed() const { return _iteration ? _iteration->isReversed() : false; }
 
     TEMPL
     void ME::rel() { _iteration TO(rel()); }
 
     TEMPL
-    nbool ME::isFrom(const tucontainable& it) const { return _iteration->isFrom(it); }
+    nbool ME::isFrom(const tucontainable& it) const { return _iteration ? _iteration->isFrom(it) : false; }
 
     TEMPL
-    nbool ME::isEnd() const { return _iteration->isEnd(); }
+    nbool ME::isEnd() const { return _iteration ? _iteration->isEnd() : true; }
 
     TEMPL
     ncnt ME::_step(typename iterable::iterationType type, ncnt step) {
@@ -90,10 +93,10 @@ namespace nm {
     ncnt ME::stepBackward(ncnt step) { return _step(iterable::BACKWARD, step); }
 
     TEMPL
-    R ME::get() { return (R) _iteration->get(); }
+    R ME::get() { return _iteration ? (R) _iteration->get() : R{}; }
 
     TEMPL
-    tucontainable<T, R>* ME::getContainer() { return _iteration->getContainer(); }
+    tucontainable<T, R>* ME::getContainer() { return _iteration ? _iteration->getContainer() : nullptr; }
 
     TEMPL
     typename ME& ME::_assign(const me& rhs) {

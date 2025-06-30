@@ -9,6 +9,7 @@ class iter: public iterable, public clonable, public typeProvidable {
     template <typename K1, typename V1, typename TACTIC> friend class tnmap;
 
 public:
+    explicit iter();
     explicit iter(iteration* newStep);
 
     iter(const me& rhs);

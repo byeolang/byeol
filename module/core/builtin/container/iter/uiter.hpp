@@ -11,6 +11,7 @@ class iter: public iterable, public clonable, public typeProvidable {
     template <typename K, typename V, typename defaultContainer> friend class tnchain;
 
 public:
+    explicit iter();
     explicit iter(iteration* newStep);
     iter(const me& rhs);
 
