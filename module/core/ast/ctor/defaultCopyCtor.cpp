@@ -9,7 +9,7 @@ namespace nm {
     NM(DEF_ME(defaultCopyCtor), DEF_VISIT())
 
     me::defaultCopyCtor(const node& org):
-        super(typeMaker::make<me>(params(*new param("rhs", org)), org)) {}
+        super(typeMaker::make<me>(params(*new param("rhs", org)), &org)) {}
 
     str me::run(const args& a) {
         WHEN(!canRun(a)).ret(str());

@@ -139,6 +139,7 @@ namespace nm {
     protected:
         virtual str _onRunSub(node& sub, const args& a);
         virtual void _setSrc(const src& s);
+        void _setSrc(const src* it) NM_SIDE_FUNC(_setSrc);
     };
 
     extern template class _nout tnmap<std::string, node>;

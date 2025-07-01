@@ -19,6 +19,7 @@ namespace nm {
 
         using super::run;
         str run(const args& a) override;
+
         scope& subs() override;
         const std::string& getFileName() const;
         const std::string& getContents() const;

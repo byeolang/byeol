@@ -35,7 +35,7 @@ namespace nm {
         loopExpr(const blockExpr& blk);
 
     public:
-        blockExpr& getBlock() const;
+        blockExpr* getBlock() const;
         str getEval() const override;
 
         using super::run;

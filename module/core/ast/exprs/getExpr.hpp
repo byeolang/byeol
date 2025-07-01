@@ -25,6 +25,7 @@ namespace nm {
     public:
         using super::run;
         str run(const args& a) override;
+
         str getEval() const override;
         const node& getMe() const;
         const std::string& getName() const;
@@ -38,7 +39,8 @@ namespace nm {
         void onCloneDeep(const clonable& new1) override;
 
     protected:
-        virtual node& _onGet(node& me) const;
+        virtual node* _onGet(node& me) const;
+        virtual node* _onGet(node* it) const NM_SIDE_FUNC(it, _onGet(*it), nullptr);
 
     private:
         str _get(nbool evalMode) const;

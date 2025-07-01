@@ -65,7 +65,7 @@ namespace nm {
                         OR.err("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0])
                             .ret(str());
 
-                nint step = eval->cast<nint>();
+                nint step = *eval->cast<nint>();
                 return new mgdIter(new niter(meObj.get().iterate(step)));
             }
         };
@@ -75,7 +75,7 @@ namespace nm {
 
         public:
             getElemTypeFunc():
-                _type("getElemType", ttype<me>::get(), params(), false, *new getExpr(TYPENAME)) {}
+                _type("getElemType", ttype<me>::get(), params(), false, new getExpr(TYPENAME)) {}
 
         public:
             const ntype& getType() const override { return _type; }

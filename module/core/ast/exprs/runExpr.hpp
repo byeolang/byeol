@@ -22,11 +22,15 @@ namespace nm {
 
         node& getMe();
         const node& getMe() const NM_CONST_FUNC(getMe())
+
         void setMe(const node& newMe);
+        void setMe(const node* it) NM_SIDE_FUNC(setMe);
 
         node& getSubj();
         const node& getSubj() const;
+
         void setSubj(const node& new1);
+        void setSubj(const node* it) NM_SIDE_FUNC(setSubj);
 
         args& getArgs();
         const args& getArgs() const;
@@ -34,7 +38,7 @@ namespace nm {
         void onCloneDeep(const clonable& from) override;
 
     private:
-        str _getSub(str me, const args& a) const;
+        str _getSub(str me) const;
 
     private:
         str _me;

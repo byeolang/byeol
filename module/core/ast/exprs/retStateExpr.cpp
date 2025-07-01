@@ -8,7 +8,7 @@ namespace nm {
     NM(DEF_ME(retStateExpr), DEF_VISIT())
 
     str me::run(const args& a) {
-        thread::get()._getNowFrame().setRet(*getEval());
+        thread::get()._getNowFrame() TO(setRet(*getEval()));
         return getEval();
     }
 

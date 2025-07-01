@@ -26,27 +26,28 @@ namespace nm {
                       OR.err("@%s can't find the func to `%s`", addr, evaledMe)
                           .ret(str());
 
-        NM_DI("@%s run: assigning me: me[%s] sub[%s@%s]", addr, evaledMe, sub, &sub.get());
+        NM_DI("@%s run: assigning me: me[%s] sub[%s@%s]", addr, evaledMe, sub, sub.get());
+
         nbool needMe = !sub->isSub<baseObj>() && !sub->isSub<closure>();
         if(needMe && !nul(_args)) { // if sub is a baseObj, this expr will runs ctor
                                     // of it which doesn't need me obj.
-            frame& fr = evaledMe->cast<frame>();
-            _args.setMe(!nul(fr) ? fr.getMeHaving(*sub) : *evaledMe);
+            frame* fr = evaledMe->cast<frame>();
+            _args.setMe(fr ? fr->getMeHaving(*sub) : evaledMe.get());
             NM_DI("@%s run: setting me on args. args.me[%s]", addr, _args TO(getMe()));
         }
 
-        NM_I("@%s it'll call `%s.%s@%s(%s)", addr, evaledMe, sub->getSrc(), &sub.get(),
+        NM_I("@%s it'll call `%s.%s@%s(%s)", addr, evaledMe, sub->getSrc(), sub.get(),
             _args.toStr());
         str ret = sub->run(_args);
 
-        NM_DI("@%s `%s.%s@%s(%s) --returned--> %s`", addr, evaledMe, sub->getSrc(), &sub.get(),
+        NM_DI("@%s `%s.%s@%s(%s) --returned--> %s`", addr, evaledMe, sub->getSrc(), sub.get(),
             _args.toStr(), ret);
-        _args.setMe(nulOf<baseObj>());
+        _args.setMe(nullptr);
         return ret;
     }
 
     node& me::getMe() {
-        WHEN(!_me).ret(thread::get()._getNowFrame());
+        WHEN_NUL(_me).ret(*thread::get()._getNowFrame());
         return *_me;
     }
 
@@ -70,19 +71,19 @@ namespace nm {
 
     void me::setMe(const node& newMe) { _me.bind(newMe); }
 
-    str me::_getSub(str me, const args& a) const {
+    str me::_getSub(str me) const {
         WHEN(!me).err("me Obj == null").ret(str());
         WHEN(!_subject).err("_subject as node == null").ret(str());
 
-        getExpr& cast = _subject->cast<getExpr>();
-        if(!nul(cast)) cast.setMe(*me);
+        getExpr* cast = _subject->cast<getExpr>();
+        if(cast) cast->setMe(*me);
 
         return _subject->as<node>();
     }
 
     str me::getEval() const {
-        const node& me = getMe() OR.ret(str());
-        str sub = _getSub(me.getEval(), nulOf<args>()) OR.err("_subject.as<node>() returns null")
+        const node& me = getMe();
+        str sub = _getSub(me.getEval()) OR.err("_subject.as<node>() returns null")
                       .ret(str());
         WHEN(sub->isSub<baseObj>()).ret(sub->isComplete() ? sub : new mockNode(*sub));
 

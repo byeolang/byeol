@@ -14,17 +14,20 @@ namespace nm {
         ifExpr(const node& exp, const blockExpr& thenBlk, const blockExpr& elseBlk);
 
     public:
-        const blockExpr& getThen() const NM_CONST_FUNC(getThen())
         blockExpr& getThen();
+        const blockExpr& getThen() const NM_CONST_FUNC(getThen())
         void setThen(const blockExpr& newThen);
+        void setThen(const blockExpr* it) NM_SIDE_FUNC(setThen);
 
-        const blockExpr& getElse() const NM_CONST_FUNC(getElse())
         blockExpr& getElse();
+        const blockExpr& getElse() const NM_CONST_FUNC(getElse())
         void setElse(const blockExpr& newElse);
+        void setElse(const blockExpr* it) NM_SIDE_FUNC(setElse);
 
-        const node& getCondition() const NM_CONST_FUNC(getCondition())
         node& getCondition();
+        const node& getCondition() const NM_CONST_FUNC(getCondition())
         void setCondition(const node& newCondition);
+        void setCondition(const node* it) NM_SIDE_FUNC(setCondition);
 
         using super::run;
         str run(const args& a) override;

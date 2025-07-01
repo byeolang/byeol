@@ -19,7 +19,7 @@ namespace nm {
         _me(me), _name(name), _args(a) {}
 
     const node& me::getMe() const {
-        WHEN(!_me).ret(thread::get().getNowFrame());
+        WHEN(!_me).ret(*thread::get().getNowFrame());
         return *_me;
     }
 
@@ -49,21 +49,19 @@ namespace nm {
 
     str me::_get(nbool evalMode) const {
         NM_DI("getExpr: looking for '%s.%s'", getMe(), _name);
-        return _onGet(*_evalMe(evalMode));
+        return _onGet(_evalMe(evalMode).get());
     }
 
     str me::_evalMe(nbool evalMode) const {
         return evalMode ? getMe() TO(getEval()) : getMe() TO(template as<node>());
     }
 
-    node& me::_onGet(node& me) const {
-        WHEN(nul(me)).ret(nullptr);
-
+    node* me::_onGet(node& me) const {
         std::string argsName = _args ? _args->asStr().c_str() : "{}";
         NM_DI("@%s %s.sub(\"%s\", %s)", this, me, _name, argsName);
         WHEN(!_args).ret(me.sub(_name));
 
-        return me.subAll(_name, *_args).get();
+        return me.subAll(_name, _args.get()).get();
     }
 
     void me::setMe(const node& newMe) { _me.bind(newMe); }

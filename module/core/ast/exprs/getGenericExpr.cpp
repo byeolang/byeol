@@ -14,15 +14,15 @@ namespace nm {
     me::getGenericExpr(const node& me, const std::string& genericName, const args& typeParams):
         super(me, genericName, typeParams) {}
 
-    node& me::_onGet(node& me) const {
+    node* me::_onGet(node& me) const {
         const args& typs = getArgs();
         const std::string& name = getName();
-        WHEN(nul(typs) || !typs.len()).err("_args.len() == 0").ret(nullptr);
+        WHEN(!typs.len()).err("_args.len() == 0").ret(nullptr);
         NM_DI("_name=%s, _args[%d]", getName(), typs.len());
 
         node& generic =
             me TO(template sub<genericOrigin>(name)) OR.err("generic == null").ret(nullptr);
 
-        return *generic.run(getArgs());
+        return generic.run(getArgs()).get();
     }
 }

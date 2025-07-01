@@ -24,16 +24,16 @@ namespace nm {
 
     nbool me::loop::postprocess(frame& fr) {
         const node& ret = fr.getRet() OR.ret(true);
-        if(ret.isSub<nextRet>()) return fr.setRet(), true;
+        if(ret.isSub<nextRet>()) return fr.setRet(nullptr), true;
         if(ret.isSub<breakRet>())
-            return fr.setRet(), false; // after I go out of the loop, I should clear break state.
+            return fr.setRet(nullptr), false; // after I go out of the loop, I should clear break state.
         // or stop the loop. I found the return value of the func.
         return false;
     }
 
     me::loopExpr(const blockExpr& blk): _blk(blk) {}
 
-    blockExpr& me::getBlock() const { return *_blk; }
+    blockExpr* me::getBlock() const { return _blk.get(); }
 
     str me::getEval() const {
         WHEN(_eval).ret(*_eval);
@@ -42,7 +42,7 @@ namespace nm {
     }
 
     str me::_makeEval() const {
-        str res = getBlock().getEval() OR.ret(str());
+        str res = getBlock() TO(getEval()) OR.ret(str());
 
         if(res->isSub<retExpr>()) return res;
         return new arr(*res->as<baseObj>());
@@ -53,7 +53,7 @@ namespace nm {
         blockExpr& blk = getBlock() OR.err("%s blk is null", addr).ret(str());
         tstr<loop> l = _makeLoop(*_makeRet()) OR.err("%s loop is null", addr).ret(str());
 
-        frame& fr = thread::get()._getNowFrame();
+        frame& fr = thread::get()._getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(str());
         while(l->isLooping()) {
             frameInteract f1(getBlock());
             l->run(blk, fr);

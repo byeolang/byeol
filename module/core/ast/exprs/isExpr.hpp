@@ -12,10 +12,12 @@ namespace nm {
     public:
         using super::run;
         str run(const args& a) override;
+
         str getEval() const override;
         const node& getMe() const;
         const node& getTo() const;
         void setTo(const node& new1);
+        void setTo(const node* it) NM_SIDE_FUNC(setTo);
 
     private:
         str _me;

@@ -12,7 +12,10 @@ namespace nm {
 
     const ntype& me::getType() const { return _type; }
 
-    const baseObj& me::getOrigin() const { return _type.getRet().cast<baseObj>(); }
+    const baseObj& me::getOrigin() const {
+        static tmock<baseObj> dummy;
+        return _type.getRet() TO(template cast<baseObj>()) OR.ret(dummy);
+    }
 
     void me::_setOrigin(const baseObj& newOrg) { _type.setRet(newOrg); }
 }
