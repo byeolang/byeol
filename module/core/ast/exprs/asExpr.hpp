@@ -22,7 +22,10 @@ namespace nm {
         str getEval() const override;
         const node& getMe() const;
         const node& getAs() const;
+
         void setAs(const node& new1);
+        void setAs(const node* it) NM_SIDE_FUNC(setAs);
+
         void onCloneDeep(const clonable& from) override;
 
     private:

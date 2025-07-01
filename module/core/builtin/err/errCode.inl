@@ -45,6 +45,7 @@ PAIRX(NO_FUNC_REGISTERED, "there is no func info registering")
 // thread:
 PAIRX(THERE_IS_NO_FRAMES_IN_THREAD, "there is no frames in current thread.")
 PAIRX(FRAME_DOESNT_HAVE_OBJ_SCOPE, "current frame doesn't have any obj scope.")
+PAIRX(FRAME_DOESNT_HAVE_SCOPE_MATCHING_THIS_TYPE, "current frame doesn't have proper scope matching to %s.")
 
 // pack:
 PAIRX(PACK_ONLY_ALLOW_VAR_ACCESS, "variable path only allowed when you define a pack")

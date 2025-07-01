@@ -48,7 +48,7 @@ namespace nm {
         public:
             const ntype& getType() const override {
                 static mgdType inner("iterate", ttype<me>::get(),
-                    params(*new param("step", *new nInt())), false, *new mgdIter(nullptr));
+                    params(*new param("step", *new nInt())), false, new mgdIter(nullptr));
                 return inner;
             }
 
@@ -59,7 +59,7 @@ namespace nm {
                 WHEN(a.len() != ps.len())
                     .warn("a.len(%d) != ps.len(%d)", a.len(), ps.len())
                     .ret(str());
-                arr& meObj = a.getMe().cast<arr>() OR.err("meObj as arr == null").ret(str());
+                arr& meObj = a.getMe() TO(template cast<arr>()) OR.err("meObj as arr == null").ret(str());
                 str eval =
                     a[0].as(ps[0].getOrigin())
                         OR.err("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0])
@@ -109,12 +109,13 @@ namespace nm {
         const auto& ps = getType().getParams();
         WHEN(ps.isEmpty()).ret(dummy);
 
-        tstr<baseObj> paramOrg = ps[0].getOrigin().as<baseObj>() TO(getOrigin()) OR.ret(dummy);
-        auto e = _cache.find(&paramOrg.get());
-        WHEN(e != _cache.end()).ret(e->second.get());
+        baseObj& paramsOrg = ps[0].getOrigin().as<baseObj>() OR.ret(dummy);
+        const baseObj& paramOrg = paramsOrg.getOrigin();
+        auto e = _cache.find(&paramOrg);
+        WHEN(e != _cache.end()).ret(*e->second.get());
 
         // this is first try to generalize type T:
-        return _defGeneric(*paramOrg);
+        return _defGeneric(paramOrg);
     }
 
     ncnt me::len() const { return get().len(); }
@@ -188,8 +189,8 @@ namespace nm {
 
         public:
             const ntype& getType() const override {
-                static mgdType inner("copyctor", ttype<me>::get(), params(*new param("rhs", *_org)),
-                    false, *_org);
+                static mgdType inner("copyctor", ttype<me>::get(), params(*new param("rhs", _org.get())),
+                    false, _org.get());
                 return inner;
             }
 

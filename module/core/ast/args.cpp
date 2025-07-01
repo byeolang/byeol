@@ -20,7 +20,7 @@ namespace nm {
         return *this;
     }
 
-    node& me::getMe() const { return *_me; }
+    node* me::getMe() const { return _me.get(); }
 
     std::string me::toStr() const {
         int n = 0;
