@@ -13,7 +13,7 @@ namespace nm {
     namespace {
         scope::defaultContainer* _cloneEach(const me& rhs) {
             auto* new1 = new scope::defaultContainer();
-            rhs.getOwns()->each([&](const auto& key, const node& val) {
+            rhs.getOwns().each([&](const auto& key, const node& val) {
                 new1->add(key, (node*) val.clone());
                 return true;
             });
@@ -67,7 +67,7 @@ namespace nm {
 
     scope& me::subs() { return *_subs; }
 
-    tstr<nbicontainer> me::mySubs() const { return _subs->cloneChain(getShares()); }
+    tstr<nbicontainer> me::mySubs() const { return _subs->cloneChain(&getShares()); }
 
     state me::getState() const {
         WHEN(_org).ret(_org->getState());
@@ -80,9 +80,15 @@ namespace nm {
         _org->setState(new1);
     }
 
-    scope* me::getShares() { return _subs TO(getNext()) TO(template cast<scope>()); }
+    scope& me::getShares() {
+        static dumScope dummy;
+        return _subs TO(getNext()) TO(template cast<scope>()) OR.ret(dummy);
+    }
 
-    scope::super* me::getOwns() { return _subs ? &_subs->getContainer() : nullptr; }
+    scope::super& me::getOwns() {
+        static dumScope dummy;
+        return _subs ? _subs->getContainer() : dummy;
+    }
 
     node* me::getCallComplete() { return nullptr; }
 

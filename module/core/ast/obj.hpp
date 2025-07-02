@@ -40,10 +40,10 @@ namespace nm {
         state getState() const override;
         void setState(state new1) override;
 
-        scope* getShares();
-        const scope* getShares() const NM_CONST_FUNC(getShares())
-        scope::super* getOwns();
-        const scope::super* getOwns() const NM_CONST_FUNC(getOwns())
+        scope& getShares();
+        const scope& getShares() const NM_CONST_FUNC(getShares())
+        scope::super& getOwns();
+        const scope::super& getOwns() const NM_CONST_FUNC(getOwns())
 
         const ntype& getType() const override;
 
