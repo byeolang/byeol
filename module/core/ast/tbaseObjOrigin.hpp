@@ -21,7 +21,7 @@ namespace nm {
         static_assert(tifSub<T, baseObj>::is, "you need to input 'T' as derived class of baseObj.");
 
     public:
-        tbaseObjOrigin() { this->_setOrigin(*this); }
+        tbaseObjOrigin(): me(dumScope::singleton()) {}
 
         tbaseObjOrigin(const scope& subs): me(subs, *new modifier()) {}
 
@@ -38,7 +38,6 @@ namespace nm {
         const ntype& getType() const override { return ttype<super>::get(); }
 
         using super::subs;
-
         scope& subs() override { return *_subs; }
 
         const modifier& getModifier() const override { return *_mod; }

@@ -48,9 +48,13 @@ namespace nm {
         const src& getSrc() const override;
         void onCloneDeep(const clonable& from) override;
         baseObj* make() const override;
+
         using super::getCallComplete;
-        node& getCallComplete() override;
+        node* getCallComplete() override;
+
         void setCallComplete(const node& new1);
+        void setCallComplete(const node* it) NM_SIDE_FUNC(setCallComplete);
+
         nbool isComplete() const override;
         clonable* clone() const override;
         clonable* cloneDeep() const override;

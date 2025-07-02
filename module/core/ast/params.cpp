@@ -9,7 +9,7 @@ namespace nm {
         WHEN(len() != rhs.len()).ret(false);
 
         for(nidx n = 0; n < len(); n++)
-            WHEN(get(n) != rhs[n]).ret(false);
+            WHEN(*get(n) != rhs[n]).ret(false);
         return true;
     }
 

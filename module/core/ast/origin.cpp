@@ -57,14 +57,14 @@ namespace nm {
         // here subs is scope for 'owns':
         //  as you may know, all obj constructs its scope just like, 'owns' -> 'shares' flow.
         //  so when you get `subs()`, it's `owns`.
-        subs().link(*(scope*) rhs.getShares().cloneDeep());
+        subs().link(*(scope*) rhs.getShares()->cloneDeep());
         if(rhs._mod) _mod.bind((const modifier*) rhs._mod->cloneDeep());
         if(rhs._callComplete) _callComplete.bind((const node*) rhs._callComplete->cloneDeep());
     }
 
     baseObj* me::make() const { return new obj(*this); }
 
-    node& me::getCallComplete() { return *_callComplete; }
+    node* me::getCallComplete() { return _callComplete.get(); }
 
     void me::setCallComplete(const node& new1) { _callComplete.bind(new1); }
 
