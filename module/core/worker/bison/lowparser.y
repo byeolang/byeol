@@ -220,11 +220,11 @@
 compilation-unit: pack defblock {
                 tstr<obj> pak(*$1);
                 tstr<defBlock> lifeBlock($2);
-                PS.onCompilationUnit(*pak, *lifeBlock);
+                PS.onCompilationUnit(pak.get(), lifeBlock.get());
                 _onEndParse(scanner);
               } | pack {
                 tstr<obj> pak(*$1);
-                PS.onCompilationUnit(*pak);
+                PS.onCompilationUnit(pak.get());
                 _onEndParse(scanner);
               }
 

@@ -17,7 +17,7 @@ namespace nm {
         /// @param  elems   instances to derived type of T.
         ///                 should be created on Heap.
         ///         me      this's nullable.
-        template <typename... Es> explicit args(const baseObj& me, const Es&... elems): _me(me) {
+        template <typename... Es> explicit args(const baseObj* me, const Es&... elems): _me(me) {
             static_assert(areBaseOfT<node, Es...>::value,
                 "some of type of args are not base of type 'node'");
             add({(node*) &elems...});

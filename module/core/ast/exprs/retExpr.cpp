@@ -12,7 +12,7 @@ namespace nm {
 
     me::retExpr(const node& ret): _ret(ret) {}
 
-    me::retExpr(): _ret(nVoid::singleton()) {}
+    me::retExpr() {}
 
     namespace {
         tstr<baseErr> _returnEx(tstr<baseErr> e) {
@@ -46,7 +46,7 @@ namespace nm {
         return got.isSub<baseErr>() && !funcRet.isSub<baseErr>();
     }
 
-    node& me::getRet() { return *_ret; }
+    node& me::getRet() { return _ret ? *_ret : nVoid::singleton(); }
 
     priorType me::prioritize(const args& a) const {
         WHEN(_ret).ret(_ret->prioritize(a));

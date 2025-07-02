@@ -110,12 +110,12 @@ namespace nm {
 
         _showModifier(fun.getModifier());
 
-        const node& ret = fun.getRet();
+        const node* ret = fun.getRet();
         cout << foreColor(LIGHTBLUE) << i.name;
         if(_isShowData)
             cout << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN) << fun.getParams().toStr()
                  << foreColor(LIGHTGRAY) << ") " << foreColor(CYAN)
-                 << (!nul(ret) ? ret.getType().createNameWithParams() : "null");
+                 << (ret ? ret->getType().createNameWithParams() : "null");
         else cout << foreColor(LIGHTGRAY) << "(?) ?";
         return !alreadyVisited; // don't traverse subs again.
     }
@@ -190,7 +190,7 @@ namespace nm {
                  << e.getLeft().getType().createNameWithParams();
             str leftVal = e.getLeft();
             const std::string& leftName = leftVal->isSub<getExpr>() ?
-                leftVal->cast<getExpr>().getName() :
+                leftVal->cast<getExpr>()->getName() :
                 leftVal->getType().createNameWithParams();
             cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(leftName)
                  << foreColor(LIGHTGRAY) << ")";
@@ -199,7 +199,7 @@ namespace nm {
                  << foreColor(CYAN) << e.getRight().getType().createNameWithParams();
             str rightVal = e.getRight();
             const std::string& rightName = rightVal->isSub<getExpr>() ?
-                rightVal->cast<getExpr>().getName() :
+                rightVal->cast<getExpr>()->getName() :
                 rightVal->getType().createNameWithParams();
             cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(rightName)
                  << foreColor(LIGHTGRAY) << ")";
@@ -239,11 +239,9 @@ namespace nm {
     }
 
     string me::_getNameFrom(const node& it) const {
-        WHEN_NUL(it).ret("frame");
-
         string ret = it.getType().createNameWithParams();
         const auto& name = it.cast<getExpr>() TO(getName());
-        if(!nul(name)) ret = name;
+        if(name != "") ret = name;
         return ret;
     }
 

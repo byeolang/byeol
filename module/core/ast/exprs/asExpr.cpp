@@ -9,7 +9,7 @@ namespace nm {
     me::asExpr(const node& me, const node& as): _me(me), _as(as) {}
 
     str me::run(const args& a) {
-        WHEN(!_me || !_as).ret(str());
+        // TODO: remove WHEN(!_me || !_as).ret(str());
 
         str eval = _me->as<node>() OR.err("!eval.isBind()").ret(str());
 
@@ -26,7 +26,7 @@ namespace nm {
 
     void me::onCloneDeep(const clonable& from) {
         me& rhs = (me&) from;
-        if(rhs._me) _me.bind((node*) rhs._me->cloneDeep());
-        if(rhs._as) _as.bind((node*) rhs._as->cloneDeep());
+        /*TODO: remove if(rhs._me)*/_me.bind((node*) rhs._me->cloneDeep());
+        /*TODO: remove if(rhs._as)*/_as.bind((node*) rhs._as->cloneDeep());
     }
 } // namespace nm

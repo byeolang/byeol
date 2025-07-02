@@ -157,6 +157,7 @@ PAIRX(CANT_RETURN_A_CLOSURE,
 // block:
 PAIRX(RET_AT_MIDDLE_OF_BLOCK, "use 'ret' at last of block stmt.")
 PAIRX(BLK_CANT_MAKE_FRAME, "block statement failed to construct frame structure")
+PAIRX(THERE_IS_NO_BLOCK_STMT, "block statement expected, but couldn't find.")
 
 // container:
 PAIRX(ELEM_TYPE_IS_NUL, "there is no elem type")

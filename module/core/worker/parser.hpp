@@ -199,8 +199,8 @@ namespace nm {
         node* onDefArray(const narr& items);
         node* onDefSeq(const node& start, const node& end);
         //          file:
-        void onCompilationUnit(obj& subpack);
-        void onCompilationUnit(obj& subpack, defBlock& blk);
+        void onCompilationUnit(obj* subpack);
+        void onCompilationUnit(obj* subpack, defBlock* blk);
         //          func:
         func* onFuncSignature(const modifier& mod, const getExpr& access, const node* retType);
         func* onFuncSignature(const getExpr& access, const node* retType);
@@ -266,7 +266,7 @@ namespace nm {
         node* _onSetElem(runExpr& lhs, const node& rhs);
         node* _onAssignElem(FBOExpr::symbol type, node& lhs, node& rhs);
         node* _onConvertAssignElem(runExpr& lhs, node& rhs);
-        runExpr* _onRunExpr(node& me, node& type, const args& a);
+        runExpr* _onRunExpr(node* me, node& type, const args& a);
 
         nint _onScan(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner);
         void _report(baseErr* new1);
@@ -278,7 +278,7 @@ namespace nm {
         std::string _joinVectorString(const std::vector<std::string>& container) const;
         const node& _onDefArrayType(const narr& items);
         std::vector<std::string> _toDotnames(const node& path);
-        void _onCompilationUnit(obj& subpack, defBlock& blk);
+        void _onCompilationUnit(obj* subpack, defBlock* blk);
         tstr<modifier> _makeDefaultModifier();
 
     private:

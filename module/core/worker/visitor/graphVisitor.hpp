@@ -52,6 +52,7 @@ namespace nm {
 
         std::string _encodeNewLine(const std::string& msg) const;
         std::string _getNameFrom(const node& it) const;
+        std::string _getNameFrom(const node* it) const NM_SIDE_FUNC(it, _getNameFrom(*it), "frame");
         void _showModifier(const modifier& mod);
 
     private:

@@ -31,7 +31,7 @@ namespace nm {
         return isParsed() && (!nul(getReport()) && !getReport().inErr());
     }
 
-    node& me::getSubPack() { return _pser.getSubPack(); }
+    node* me::getSubPack() { return _pser.getSubPack(); }
 
     tstr<slot> me::_onWork() {
         // TODO: don't use static variable '_cache':
@@ -51,7 +51,7 @@ namespace nm {
 
     void me::_showGraph(nbool showData) const {
         // run with dumThread.
-        if(isFlag(LOG_STRUCTURE) && !nul(_pser.getSubPack()) && !nul(getTask()))
+        if(isFlag(LOG_STRUCTURE) && _pser.getSubPack() && getTask())
             graphVisitor().setShowData(showData).setFlag(0).setTask(getTask()).work();
     }
 

@@ -12,7 +12,7 @@ namespace nm {
     class ases;
     class args;
     class visitor;
-    struct visitInfo;
+    class visitInfo;
     class baseObj;
     class src;
     class modifier;

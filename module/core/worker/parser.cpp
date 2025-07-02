@@ -570,16 +570,17 @@ namespace nm {
 
     std::vector<string> me::_toDotnames(const node& path) {
         std::vector<string> ret;
-        const getExpr& iter = path.cast<getExpr>() OR.exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
+        const getExpr& start = path.cast<getExpr>() OR.exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
+        const auto* iter = &start;
 
         do {
-            ret.push_back(iter.getName());
-            const node& next = iter.getMe();
-            WHEN(next && !next.is<getExpr>())
+            ret.push_back(iter->getName());
+            const node& next = iter->getMe();
+            WHEN(!next.is<getExpr>())
                 .exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport())
                 .ret(std::vector<string>());
 
-            iter = &next.cast<getExpr>();
+            iter = next.cast<getExpr>();
         } while(iter);
         return ret;
     }
@@ -599,12 +600,14 @@ namespace nm {
         nbool isConcerete = util::checkTypeAttr(name) == ATTR_COMPLETE;
         origin& org = *_maker.birth<origin>(name,
             mgdType(name, ttype<obj>::get(), params::make(typeParams), !isConcerete,
-                nulOf<node>()));
+                nullptr));
         if(isConcerete)
             org.setCallComplete(
                 *_maker.make<runExpr>(*_maker.make<getGenericExpr>(name, typeParams),
                     *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
+
         _onInjectObjSubs(org, blk);
+
         org._setSubPack(*_subpack);
 
         std::vector<std::string> paramNames = _extractParamTypeNames(typeParams);
@@ -621,33 +624,34 @@ namespace nm {
         return ret;
     }
 
-    void me::onCompilationUnit(obj& subpack) {
-        NM_DI("tokenEvent: onCompilationUnit(%s)", &subpack);
+    void me::onCompilationUnit(obj* subpack) {
+        NM_DI("tokenEvent: onCompilationUnit(%s)", subpack);
 
         tstr<defBlock> blkLife(new defBlock());
-        _onCompilationUnit(subpack, *blkLife);
+        _onCompilationUnit(subpack, blkLife.get());
     }
 
-    void me::onCompilationUnit(obj& subpack, defBlock& blk) {
-        NM_DI("tokenEvent: onCompilationUnit(%s, defBlock[%s].expand.len()=%d)", &subpack, &blk,
-            blk.getExpands().len());
+    void me::onCompilationUnit(obj* subpack, defBlock* blk) {
+        NM_DI("tokenEvent: onCompilationUnit(%s, defBlock[%s].expand.len()=%d)", subpack, &blk,
+            blk ? blk->getExpands().len() : 0);
 
         _onCompilationUnit(subpack, blk);
     }
 
-    void me::_onCompilationUnit(obj& subpack, defBlock& blk) {
-        WHEN_NUL(subpack).exErr(NO_PACK_TRAY, getReport()).ret();
+    void me::_onCompilationUnit(obj* subpackable, defBlock* blkable) {
+        obj& subpack = subpackable OR.exErr(NO_PACK_TRAY, getReport()).ret();
+        defBlock& blk = blkable OR.exErr(THERE_IS_NO_BLOCK_STMT).ret();
 
         _onInjectObjSubs(subpack, blk);
 
         // link system slots:
-        subpack.getShares().link(*scope::wrap(thread::get().getSlots()));
+        subpack.getShares().link(scope::wrap(thread::get().getSlots()));
         NM_DI("link system slots[%d]: len=%d", thread::get().getSlots().len(),
             subpack.subs().len());
 
         // at this far, subpack must have at least 1 default ctor created just before:
         NM_DI("tokenEvent: onCompilationUnit: run preconstructor(%d lines)",
-            !nul(blk) ? blk.getExpands().len() : 0);
+            blk.getExpands().len());
         subpack.run(baseObj::CTOR_NAME); // don't need argument. it's default ctor.
     }
 
@@ -655,20 +659,19 @@ namespace nm {
 
     nbool me::_onInjectObjSubs(obj& it, defBlock& blk) {
         NM_DI("tokenEvent: _onInjectObjSubs(%s, defBlock[%s])", &it, &blk);
-        WHEN_NUL(it).ret(false);
 
         bicontainable& share = it.getShares().getContainer();
         bicontainable& own = it.getOwns();
         for(auto e = blk.getScope().begin(); e; ++e) {
             // ctor case:
-            ctor& c = e.getVal<ctor>();
-            if(!nul(c)) c._getType().setRet(*new mockNode(it));
+            ctor* c = e.getVal<ctor>();
+            if(c) c->_getType().setRet(*new mockNode(it));
 
             // shares case:
             // TODO: not only func, but also shared variable.
-            func& f = e.getVal<func>();
-            if(!nul(f)) f._setOrigin(it);
-            bicontainable& con = nul(e.getVal<baseFunc>()) ? own : share;
+            func* f = e.getVal<func>();
+            if(f) f->_setOrigin(it);
+            bicontainable& con = !e.getVal<baseFunc>() ? own : share;
             con.add(e.getKey(), *e);
         }
 
@@ -682,8 +685,8 @@ namespace nm {
             WHEN(ps.len() != 1).ret(false);
 
             const node& org = ps[0].getOrigin();
-            const getExpr& cast = org.cast<getExpr>();
-            WHEN(!nul(cast) && cast.getName() == it.getSrc().getName()).ret(true);
+            const getExpr* cast = org.cast<getExpr>();
+            WHEN(cast && cast->getName() == it.getSrc().getName()).ret(true);
 
             return &org == &it;
         }));
@@ -800,15 +803,13 @@ namespace nm {
     }
 
     runExpr* me::onRunExpr(node& trg, const narr& a) {
-        runExpr* ret = _onRunExpr(nulOf<node>(), trg, *new args(a));
         NM_DI("tokenEvent: onRunExpr(%s, narr[%d])", trg, a.len());
-        return ret;
+        return _onRunExpr(nullptr, trg, *new args(a));
     }
 
     runExpr* me::onRunExpr(node& trg, const args& a) {
-        runExpr* ret = _onRunExpr(nulOf<node>(), trg, a);
         NM_DI("tokenEvent: onRunExpr(%s, args[%d])", trg, a.len());
-        return ret;
+        return _onRunExpr(nullptr, trg, a);
     }
 
     // @param from  can be expr. so I need to evaluate it through 'as()'.
@@ -821,10 +822,10 @@ namespace nm {
     node* me::onAssign(node& lhs, node& rhs) {
         // _onSetElem branch:
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
-        runExpr& r = lhs.cast<runExpr>();
-        if(!nul(r)) {
+        runExpr* r = lhs.cast<runExpr>();
+        if(r) {
             auto& name = r TO(getSubj().template cast<getExpr>()) TO(getName());
-            if(!nul(name) && name == "get") return _onSetElem(r, rhs);
+            if(name == "get") return _onSetElem(*r, rhs);
         }
 
         node* ret = _maker.make<assignExpr>(lhs, rhs);
@@ -857,7 +858,7 @@ namespace nm {
         //      3. lhs.getArgs().add(rhs).
         NM_DI("tokenEvent:: _onSetElem(%s, %s)", &lhs, &rhs);
 
-        getExpr& subject = lhs.getSubj().cast<getExpr>();
+        getExpr& subject = lhs.getSubj().cast<getExpr>() OR.exErr(LHS_IS_NUL).ret(nullptr);
         subject._name = "set";
         subject._args.rel();
         lhs.getArgs().add(rhs);
@@ -868,11 +869,11 @@ namespace nm {
     node* me::_onAssignElem(FBOExpr::symbol type, node& lhs, node& rhs) {
         // _onConvertAssignElem branch:
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
-        runExpr& cast = lhs.cast<runExpr>();
-        if(!nul(cast)) {
-            auto& name = cast.getSubj() TO(template cast<getExpr>()) TO(getName());
-            if(!nul(name) && name == "get")
-                return _onConvertAssignElem(cast, *_maker.make<FBOExpr>(type, lhs, rhs));
+        runExpr* cast = lhs.cast<runExpr>();
+        if(cast) {
+            auto& name = cast->getSubj() TO(template cast<getExpr>()) TO(getName());
+            if(name == "get")
+                return _onConvertAssignElem(*cast, *_maker.make<FBOExpr>(type, lhs, rhs));
         }
 
         node* ret = onAssign(lhs, *_maker.make<FBOExpr>(type, *(node*) lhs.clone(), rhs));
@@ -917,10 +918,10 @@ namespace nm {
         return &setter;
     }
 
-    runExpr* me::_onRunExpr(node& me, node& trg, const args& a) {
+    runExpr* me::_onRunExpr(node* me, node& trg, const args& a) {
         runExpr* ret = _maker.make<runExpr>(me, trg, a);
-        getExpr& cast = trg.cast<getExpr>();
-        if(!nul(cast) && !cast.isSub<getGenericExpr>()) cast.setArgs(a);
+        getExpr* cast = trg.cast<getExpr>();
+        if(cast && !cast->isSub<getGenericExpr>()) cast->setArgs(a);
         return ret;
     }
 
@@ -1150,7 +1151,7 @@ namespace nm {
 
     runExpr* me::onIn(const node& it, const node& container) {
         runExpr* ret = _maker.make<runExpr>(container, *_maker.make<getExpr>("in"),
-            args{nulOf<baseObj>(), it});
+            args{nullptr, it});
         NM_DI("tokenEvent: onIn(%s, %s)", it, container);
         return ret;
     }
@@ -1255,7 +1256,7 @@ namespace nm {
         return getSubPack();
     }
 
-    void me::_report(baseErr* new1) { getReport() TO(add(new1)); }
+    void me::_report(baseErr* new1) { getReport().add(new1); }
 
     exprMaker& me::_getMaker() { return _maker; }
 } // namespace nm

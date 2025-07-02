@@ -46,9 +46,9 @@ namespace nm {
         return ret;
     }
 
-    node& me::getMe() {
-        WHEN_NUL(_me).ret(*thread::get()._getNowFrame());
-        return *_me;
+    node* me::getMe() {
+        WHEN_NUL(_me).ret(thread::get()._getNowFrame());
+        return _me.get();
     }
 
     const node& me::getSubj() const { return *_subject; }

@@ -3,7 +3,15 @@
 #include "core/common.hpp"
 
 namespace nm {
-    struct _nout visitInfo {
+    class _nout visitInfo {
+        NM(ME(visitInfo))
+
+    public:
+        visitInfo(const std::string* name, node* parent, nidx index, ncnt len, nint depth): me(name ? *name : std::string(""), parent, index, len, depth) {}
+        visitInfo(const std::string& newName, node* newParent, nidx newIndex, ncnt newLen, nint newDepth):
+            name(newName), parent(newParent), index(newIndex), len(newLen), depth(newDepth) {}
+
+    public:
         std::string name;
         node* parent;
         nidx index;

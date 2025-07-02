@@ -20,8 +20,8 @@ namespace nm {
 
         str getEval() const override;
 
-        node& getMe();
-        const node& getMe() const NM_CONST_FUNC(getMe())
+        node* getMe();
+        const node* getMe() const NM_CONST_FUNC(getMe())
 
         void setMe(const node& newMe);
         void setMe(const node* it) NM_SIDE_FUNC(setMe);

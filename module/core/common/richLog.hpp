@@ -5,7 +5,7 @@
 
 namespace nm {
     class arithmeticObj;
-    struct visitInfo;
+    class visitInfo;
     class node;
     typedef tstr<node> str;
     class src;
