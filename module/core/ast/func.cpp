@@ -41,7 +41,7 @@ namespace nm {
             .ret(nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD));
 
         // s is from heap space. but freed by _outFrame() of this class.
-        scope& s = *_evalArgs(a) OR.ret(str());
+        scope& s = _evalArgs(a) OR.ret(str());
         node& meObj = a.getMe() OR.err("meObj == null").ret(str());
         return _interactFrame(meObj, s, thread::get().getEx().len() - 1);
     }
@@ -64,10 +64,10 @@ namespace nm {
     }
 
     str me::_postprocess(const str& blkRes, nidx exN) {
-        frame& fr = thread::get()._getNowFrame();
+        frame& fr = thread::get()._getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(str());
         str frRes = fr.getRet();
         str res = frRes ? frRes : blkRes;
-        fr.setRet();
+        fr.setRet(nullptr);
 
         WHEN_NUL(res).err("res == null").ret(str());
         const errReport& errs = thread::get().getEx();
@@ -75,7 +75,7 @@ namespace nm {
 
         auto* closure = closure::make(*res);
         if(closure) res.bind(closure);
-        return res ? res->asImpli(*getRet().as<node>()) : res;
+        return res ? res->asImpli(getRet()->as<node>()) : res;
     }
 
     void me::_runEnds() {
@@ -107,13 +107,13 @@ namespace nm {
     void me::outFrame(const bicontainable* args) const {
         NM_DI("'%s func'._outFrame() frames.len[%d]", getSrc(), thread::get().getFrames().len());
 
-        frame& fr = thread::get()._getNowFrame();
-        baseFunc& f = fr.getFunc();
-        WHEN(nul(f) || &f != this).ret();
+        frame& fr = thread::get()._getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret();
+        baseFunc* f = fr.getFunc();
+        WHEN(f != this).ret();
 
         fr.delFunc();
         fr.del();
-        if(!nul(args)) fr.del();
+        if(args) fr.del();
     }
 
     const baseObj& me::getOrigin() const { return *_org; }

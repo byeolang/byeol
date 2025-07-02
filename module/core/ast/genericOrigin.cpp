@@ -80,7 +80,7 @@ namespace nm {
 
         NM_DI("|==========================================|");
         NM_DI("|--- generic: make %s generic obj[%s] ---|", newType.createNameWithParams(),
-            platformAPI::toAddrId(&ret.get()));
+            platformAPI::toAddrId(ret.get()));
         NM_DI("|--- generic: make cache %s ---|", argName);
 
         // prevent infinite loop:

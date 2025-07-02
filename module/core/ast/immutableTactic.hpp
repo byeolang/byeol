@@ -8,6 +8,7 @@ namespace nm {
         NM(ME(immutableTactic, strTactic))
 
     public:
+        using super::bind;
         nbool bind(binder& me, const instance& it) override;
 
     public:

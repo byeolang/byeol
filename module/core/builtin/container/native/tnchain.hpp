@@ -93,7 +93,7 @@ namespace nm {
         ///        wrapping given container.
         template <typename T> static T& wrap(const super& toShallowWrap) {
             T* ret = (T*) toShallowWrap.template cast<T>();
-            if(nul(ret)) {
+            if(!ret) {
                 ret = new T();
                 ret->_map.bind(toShallowWrap);
             }

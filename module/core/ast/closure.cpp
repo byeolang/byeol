@@ -69,9 +69,9 @@ namespace nm {
 
     me* me::_make(const getExpr& e) {
         str mayMe = e._evalMe(true);
-        frame& fr = mayMe->cast<frame>() OR.ret(nullptr);
+        frame* fr = mayMe->cast<frame>();
         tstr<baseObj> meObj =
-            (!nul(fr) ? fr.getMe().cast<baseObj>() : mayMe->cast<baseObj>()) OR.ret(nullptr);
+            (fr ? fr->getMe() TO(template cast<baseObj>()) : mayMe->cast<baseObj>()) OR.ret(nullptr);
         baseFunc& cast = e._onGet(*mayMe) TO(template cast<baseFunc>()) OR.ret(nullptr);
 
         NM_I("make a closure for %s.%s", meObj, cast.getSrc().getName());

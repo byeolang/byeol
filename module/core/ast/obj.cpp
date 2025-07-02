@@ -13,7 +13,7 @@ namespace nm {
     namespace {
         scope::defaultContainer* _cloneEach(const me& rhs) {
             auto* new1 = new scope::defaultContainer();
-            rhs.getOwns().each([&](const auto& key, const node& val) {
+            rhs.getOwns()->each([&](const auto& key, const node& val) {
                 new1->add(key, (node*) val.clone());
                 return true;
             });
@@ -35,10 +35,9 @@ namespace nm {
     }
 
     me& me::_assign(const me& rhs) {
-        scope* clonedOwns = scope::wrap(*(scope::super*) _cloneEach(rhs));
-        clonedOwns->link(rhs.getShares());
-        _subs.bind(*clonedOwns);
-
+        scope& clonedOwns = scope::wrap(*(scope::super*) _cloneEach(rhs));
+        clonedOwns.link(rhs.getShares());
+        _subs.bind(clonedOwns);
         _org.bind(rhs.getOrigin()); // don't '_org = rhs'. it doesn't work when rhs is origin class.
 
         return *this;
@@ -83,13 +82,13 @@ namespace nm {
 
     scope* me::getShares() { return _subs TO(getNext()) TO(template cast<scope>()); }
 
-    scope::super& me::getOwns() { return _subs TO(getContainer()); }
+    scope::super* me::getOwns() { return _subs ? &_subs->getContainer() : nullptr; }
 
     node* me::getCallComplete() { return nullptr; }
 
     void me::_inFrame(frame& fr, const bicontainable* args) const {
-        const node* subpack = getOrigin().getSubPack();
-        if(!nul(subpack)) fr.add(subpack);
+        const node& subpack = getOrigin().getSubPack();
+        fr.add(subpack);
         super::_inFrame(fr, args);
     }
 
