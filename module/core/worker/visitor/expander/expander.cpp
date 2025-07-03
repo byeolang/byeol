@@ -93,9 +93,9 @@ namespace nm {
         WHEN(!onVisit(i, (baseFunc&) me, false)).ret(false);
 
         if(i.name == baseObj::EXPAND_NAME) {
-            obj* o = _obj.back() OR.err("obj stack is empty.").ret(true);
-            NM_I("func: found expand[%s.%s]", *o, me);
-            _stack[o] = {*o, me};
+            obj& o = _obj.back() OR.err("obj stack is empty.").ret(true);
+            NM_I("func: found expand[%s.%s]", o, me);
+            _stack[&o] = {o, me};
         }
 
         me.getBlock().inFrame();
@@ -165,8 +165,8 @@ namespace nm {
     }
 
     void me::_onVisitFuncRet(baseFunc& f) {
-        ntype& type = (ntype&) f.getType() OR.ret();
-        const getExpr& ret = type.getRet().cast<getExpr>() OR.ret();
+        const ntype& type = f.getType();
+        const getExpr& ret = type.getRet() TO(template cast<getExpr>()) OR.ret();
 
         // need to converge return type:
         NM_I("converge type request for ret[%s] of %s", ret.getName(), f);

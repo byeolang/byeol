@@ -31,7 +31,7 @@ namespace nm {
     }
 
     str me::_findOriginFrom(const getGenericExpr& expr) const {
-        const auto& name = getTask().getType().getName();
+        const auto& name = getTask()->getType().getName();
         auto argsKey = expr.getArgs().toStr();
         NM_I("exprName[%s<%s>] == originName[%s<%s>]", expr.getName(), argsKey, name, _paramsKey);
         WHEN(expr.getName() != name).ret(str());
@@ -41,11 +41,11 @@ namespace nm {
     }
 
     str me::_findOrigin(const node& toReplace) const {
-        WHEN(&toReplace == &_org.get()).ret(getTask());
-        const getGenericExpr& generic = toReplace.cast<getGenericExpr>();
-        WHEN(!nul(generic)).ret(_findOriginFrom(generic));
-        const getExpr& get = toReplace.cast<getExpr>();
-        WHEN(!nul(get)).ret(_findOriginFrom(get));
+        WHEN(&toReplace == _org.get()).ret(getTask());
+        const getGenericExpr* generic = toReplace.cast<getGenericExpr>();
+        WHEN(generic).ret(_findOriginFrom(*generic));
+        const getExpr* get = toReplace.cast<getExpr>();
+        WHEN(get).ret(_findOriginFrom(*get));
 
         return str();
     }
@@ -108,11 +108,11 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, baseCtor& me, nbool) {
-        baseObj& cast = getTask().cast<baseObj>();
-        if(nul(cast)) getReport().add(nerr::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
-        else if(i.parent && i.parent == &cast)
+        baseObj* cast = getTask() TO(template cast<baseObj>());
+        if(!cast) getReport().add(nerr::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
+        else if(i.parent && i.parent == cast)
             // if this ctor belongs to root object(== generic obj):
-            me._setOrigin(cast.getOrigin());
+            me._setOrigin(cast->getOrigin());
 
         onVisit(i, (baseFunc&) me, false);
         return true;
@@ -124,9 +124,9 @@ namespace nm {
         str retOrg = _findOrigin(me.getRet());
         if(retOrg) {
             NM_DI("* inject func: retType of '%s(%s) %s' --> '%s'", i, me.getParams().toStr(),
-                me.getRet().getEval(), *retOrg);
+                me.getRet()->getEval(), *retOrg);
             me._getType().setRet(*retOrg);
-            if(nul(i.parent)) getReport().add(nerr::newErr(errCode::IS_NUL, "parent"));
+            if(!i.parent) getReport().add(nerr::newErr(errCode::IS_NUL, "parent"));
         }
 
         onVisit(i, (baseFunc::super&) me, false);
@@ -134,9 +134,9 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, ctor& me, nbool) {
-        baseObj& cast = getTask().cast<baseObj>();
-        if(nul(cast)) getReport().add(nerr::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
-        else if(i.parent && i.parent == &cast)
+        baseObj* cast = getTask() TO(template cast<baseObj>());
+        if(!cast) getReport().add(nerr::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
+        else if(i.parent && i.parent == cast)
             // if this ctor belongs to root object(== generic obj):
             me._getType().setRet(cast);
 
@@ -146,7 +146,7 @@ namespace nm {
     nbool me::onVisit(const visitInfo& i, baseObj& me, nbool) {
         scope& subs = me.subs();
         for(auto e = subs.begin(); e; ++e) {
-            const node& prevVal = e.getVal();
+            const node* prevVal = e.getVal();
             str org = _findOrigin(prevVal) OR_CONTINUE;
 
             NM_DI("* inject '%s' at '%s.%s' to '%s", prevVal, i, e.getKey(), *org);
@@ -167,7 +167,7 @@ namespace nm {
     }
 
     nbool me::onVisit(const visitInfo& i, getGenericExpr& me, nbool) {
-        args& a = *me._args OR.ret(true);
+        args& a = me._args OR.ret(true);
 
         for(nint n = 0; n < a.len(); n++) {
             str org = _findOrigin(a[n]);

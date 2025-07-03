@@ -8,8 +8,8 @@ namespace nm {
 
     nbool me::convergeWithoutFrame() {
         str eval = _org->getEval() OR.ret(false);
-        baseObj& cast = eval->cast<baseObj>();
-        if(!nul(cast)) eval.bind(cast.getOrigin());
+        baseObj* cast = eval->cast<baseObj>();
+        if(cast) eval.bind(cast->getOrigin());
 
         return _getClosure()(*eval);
     }
