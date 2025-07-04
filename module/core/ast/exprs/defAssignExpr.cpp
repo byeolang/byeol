@@ -7,7 +7,7 @@ namespace nm {
 
     me::defAssignExpr(const std::string& name, const node* rhs): super(name, rhs) {}
 
-    me::defAssignExpr(const std::string& name, const node* rhs, const node& to, const src& s,
+    me::defAssignExpr(const std::string& name, const node* rhs, const node* to, const src& s,
         const modifier& mod):
         me(name, nullptr, rhs, to, s, mod) {}
 
@@ -25,9 +25,11 @@ namespace nm {
     void me::setExplicitType(const node& newType) { _type.bind(newType); }
 
     str me::_onMakeNew() {
-        WHEN(_type).ret(getRight().as(*_type));
-        str ret = getRight().as<node>();
+        WHEN(_type).ret(getRight()->as(*_type));
+
+        str ret = getRight() TO(template as<node>());
         NM_I("@%s `%s := %s", this, getName(), *ret);
+
         return ret;
     }
 }

@@ -53,7 +53,7 @@ namespace nm {
         WHEN(stmts.isEmpty()).ret(nullptr);
 
         func* ret =
-            birth<func>(name, *new modifier(), typeMaker::make<func>(name, params(), *new nVoid()));
+            birth<func>(name, *new modifier(), typeMaker::make<func>(name, params(), new nVoid()));
         ret->getBlock().getStmts().add(stmts);
         return ret;
     }

@@ -9,7 +9,7 @@ namespace nm {
     typedef class _nout tbridge<nseq> __seqSuperClass;
 
     class _nout seq: public __seqSuperClass,
-                     public tucontainable<nInt, nInt>,
+                     public tucontainable<nInt, nInt, nInt>,
                      tarrayable<nInt, nInt, nInt> {
         // seq uses wrapType:
         //  wrapType contains beanType as 'const type*' instance variable. so user should be
@@ -22,8 +22,8 @@ namespace nm {
 
     public:
         typedef ntype metaType; // for ttype<T>
-        typedef typename tucontainable<nInt, nInt>::iter iter;
-        typedef typename tucontainable<nInt, nInt>::iteration iteration;
+        typedef typename tucontainable<nInt, nInt, nInt>::iter iter;
+        typedef typename tucontainable<nInt, nInt, nInt>::iteration iteration;
         template <typename T, nbool> friend struct tmarshaling;
 
     public:
@@ -62,18 +62,18 @@ namespace nm {
     private:
         // these method has been prohibited.
         //  set:
-        using tucontainable<nInt, nInt>::set;
+        using tucontainable<nInt, nInt, nInt>::set;
         using tarrayable<nInt, nInt, nInt>::set;
         nbool set(const iter& at, const nInt& new1) override;
         nbool set(nidx n, const nInt& new1) override;
         //  add:
-        using tucontainable<nInt, nInt>::add;
+        using tucontainable<nInt, nInt, nInt>::add;
         using tarrayable<nInt, nInt, nInt>::add;
         nbool add(const iter& at, const nInt& new1) override;
         nbool add(nidx n, const nInt& new1) override;
         void add(const iter& here, const iter& from, const iter& to) override;
         //  del:
-        using tucontainable<nInt, nInt>::del;
+        using tucontainable<nInt, nInt, nInt>::del;
         nbool del(nidx n) override;
         nbool del(const iter& it) override;
         nbool del(const iter& from, const iter& to) override;

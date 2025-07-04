@@ -40,7 +40,7 @@ namespace nm {
     void me::rel() { return get().rel(); }
 
     namespace {
-        typedef tucontainable<nInt, nInt>::iter niter;
+        typedef tucontainable<nInt, nInt, nInt>::iter niter;
         typedef tbridge<niter> __superMgdIter;
 
         class _nout mgdIter: public __superMgdIter {
@@ -70,7 +70,7 @@ namespace nm {
         public:
             const ntype& getType() const override {
                 static mgdType inner("iterate", ttype<me>::get(),
-                    params(*new param("step", *new nInt())), false, *new mgdIter(nullptr));
+                    params(*new param("step", *new nInt())), false, new mgdIter(nullptr));
                 return inner;
             }
 
@@ -82,14 +82,14 @@ namespace nm {
                     .warn("a.len(%d) != ps.len(%d)", a.len(), ps.len())
                     .ret(str());
 
-                seq& meObj = a.getMe().cast<seq>() OR.err("meObj as arr == null").ret(str());
+                seq& meObj = a.getMe() TO(template cast<seq>()) OR.err("meObj as arr == null").ret(str());
                 str eval =
                     a[0].as(ps[0].getOrigin())
                         OR.err("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0])
                             .ret(str());
 
                 nint step = *eval->cast<nint>();
-                static tucontainable<nInt, nInt>::iter (tucontainable<nInt, nInt>::*specifier)(ncnt)
+                static tucontainable<nInt, nInt, nInt>::iter (tucontainable<nInt, nInt, nInt>::*specifier)(ncnt)
                     const = &seq::iterate;
                 return new mgdIter(new niter((meObj.get().*specifier)(step)));
             }
@@ -100,7 +100,7 @@ namespace nm {
 
         public:
             const ntype& getType() const override {
-                static mgdType inner("getElemType", ttype<me>::get(), params(), false, *new nInt());
+                static mgdType inner("getElemType", ttype<me>::get(), params(), false, new nInt());
                 return inner;
             }
 
