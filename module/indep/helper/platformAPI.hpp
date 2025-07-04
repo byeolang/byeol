@@ -38,11 +38,15 @@ namespace nm {
         _nout nuint64 getNowMs();
         _nout std::string toAddrId(const void* inst);
         _nout void log(const std::string& msg);
+        _nout void log(const std::string* it);
         _nout std::string format(const nchar* fmt, ...);
         _nout std::string format(const nchar* fmt, va_list args);
         _nout std::string format(const std::string& fmt, va_list args);
+        _nout std::string format(const std::string* fmt, va_list args);
         _nout void crash(const nchar* msg, ...);
         _nout void crash(const std::string& msg, va_list args);
+        _nout void crash(const std::string* msg, va_list args);
         _nout void crash(const std::string& msg);
+        _nout void crash(const std::string* msg);
     };
 } // namespace nm

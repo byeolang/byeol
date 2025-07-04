@@ -137,6 +137,8 @@ namespace nm {
 #endif
         }
 
+        void log(const std::string* it) NM_SIDE_FUNC(log);
+
         string getExecPath() {
 #if NM_BUILD_PLATFORM == NM_TYPE_LINUX
             nchar res[PATH_MAX_LEN];
@@ -239,6 +241,8 @@ namespace nm {
             return format(fmt.c_str(), args);
         }
 
+        std::string format(const std::string* fmt, va_list args) NM_SIDE_FUNC(fmt, format(*fmt, args), std::string());
+
         std::string format(const nchar* fmt, va_list args) {
             nchar buf[MAX_BUF] = {
                 0,
@@ -259,6 +263,8 @@ namespace nm {
 
         void crash(const std::string& msg, va_list args) { crash(format(msg, args)); }
 
+        void crash(const std::string* msg, va_list args) NM_SIDE_FUNC(msg, crash(*msg, args), void());
+
         void crash(const std::string& msg) {
             log(" * * * Interpreter CRASH * * *\n");
             log(" reason: " + msg + "\n");
@@ -267,5 +273,7 @@ namespace nm {
             log(" * * * * * * * * * * * * * * *\n");
             abort();
         }
+
+        void crash(const std::string* it) NM_SIDE_FUNC(crash);
     } // namespace platformAPI
 } // namespace nm

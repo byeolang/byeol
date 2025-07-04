@@ -34,7 +34,8 @@ namespace nm {
     template <typename V1> nbool ME::in(std::function<nbool(const K& key, const V1& val)> l) const {
         for(auto e = begin(); e; ++e) {
             V1& val = e->template cast<V1>() OR_CONTINUE;
-            WHEN(l(e.getKey(), val)).ret(true);
+            const K& key = e.getKey() OR_CONTINUE;
+            WHEN(l(key, val)).ret(true);
         }
         return false;
     }
@@ -51,7 +52,8 @@ namespace nm {
     template <typename V1> V1* ME::get(std::function<nbool(const K&, const V1&)> l) {
         for(auto e = begin(); e; ++e) {
             V1& val = e.getVal() TO(template cast<V1>()) OR_CONTINUE;
-            if(!l(e.getKey(), val)) continue;
+            const K& key = e.getKey() OR_CONTINUE;
+            if(!l(key, val)) continue;
             return val;
         }
 
@@ -78,7 +80,8 @@ namespace nm {
         tnarr<V1> ret;
         for(auto e = begin(); e; ++e) {
             const V1& val = e.getVal() TO(template cast<V1>()) OR_CONTINUE;
-            if(!l(e.getKey(), val)) continue;
+            const K& key = e.getKey() OR_CONTINUE;
+            if(!l(key, val)) continue;
 
             ret.add(val);
         }
@@ -94,8 +97,9 @@ namespace nm {
     TEMPL
     template <typename V1> void ME::each(std::function<nbool(const K&, V1&)> l) {
         for(auto e = begin(); e; ++e) {
-            V1& val = e.getVal().template cast<V1>() OR_CONTINUE;
-            if(!l(e.getKey(), val)) break;
+            V1& val = e.getVal() TO(template cast<V1>()) OR_CONTINUE;
+            const K& key = e.getKey() OR_CONTINUE;
+            if(!l(key, val)) break;
         }
     }
 
@@ -137,7 +141,8 @@ namespace nm {
     TEMPL
     typename ME::iter ME::iterate(const K& key, nbool isBoundary) const {
         auto* e = _onMakeIteration(&key, false, 0, isBoundary);
-        if(!e->isEnd() && e->getKey() != key) e->next(1);
+        const K* eKey = e->getKey();
+        if(!e->isEnd() && (!eKey || *eKey != key)) e->next(1);
 
         return iter(e);
     }

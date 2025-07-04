@@ -8,9 +8,9 @@
 namespace nm {
     NM(DEF_ME(defVarExpr), DEF_VISIT())
 
-    me::defVarExpr(const std::string& name, const node& rhs): _name(name), _rhs(rhs) {}
+    me::defVarExpr(const std::string& name, const node* rhs): _name(name), _rhs(rhs) {}
 
-    me::defVarExpr(const std::string& name, const node& rhs, const node& to, const src& s,
+    me::defVarExpr(const std::string& name, const node* rhs, const node* to, const src& s,
         const modifier& mod):
         _name(name), _rhs(rhs), _to(to), _src(s), _mod(mod) {}
 
@@ -21,24 +21,24 @@ namespace nm {
         // assume that user wrotes 'getExpr("me")' into 'as'.
         str to = _to ? _to->as<node>() : str();
 
-        scope& s = !to ? thread::get()._getNowFrame().getLocals() : to->subs();
-        s.add(_name, *new1);
+        scope* s = !to ? thread::get()._getNowFrame() TO(getLocals()) : &to->subs();
+        s TO(add(_name, *new1));
         return new1;
     }
 
     const std::string& me::getName() const { return _name; }
 
-    node& me::getRight() { return *_rhs; }
+    node* me::getRight() { return _rhs.get(); }
 
     void me::setRight(const node& rhs) { _rhs.bind(rhs); }
 
-    node& me::getTo() { return *_to; }
+    node* me::getTo() { return _to.get(); }
 
     void me::setTo(const node& to) { _to.bind(to); }
 
     nbool me::isToFrame() const { return !_to; }
 
-    str me::getEval() const { return _rhs->getEval(); }
+    str me::getEval() const { return _rhs TO(getEval()); }
 
     void me::onCloneDeep(const clonable& from) {
         me& rhs = (me&) from;

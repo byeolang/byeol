@@ -7,10 +7,10 @@ namespace nm {
         NM(CLASS(defAssignExpr, defVarExpr, expr::exprType), VISIT())
 
     public:
-        defAssignExpr(const std::string& name, const node& rhs);
-        defAssignExpr(const std::string& name, const node& rhs, const node& to, const src& s,
+        defAssignExpr(const std::string& name, const node* rhs);
+        defAssignExpr(const std::string& name, const node* rhs, const node* to, const src& s,
             const modifier& mod);
-        defAssignExpr(const std::string& name, const node& type, const node& rhs, const node& to,
+        defAssignExpr(const std::string& name, const node* type, const node* rhs, const node* to,
             const src& s, const modifier& mod);
 
     public:

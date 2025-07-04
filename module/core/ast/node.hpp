@@ -50,18 +50,27 @@ namespace nm {
         template <typename T = me> T* sub();
         template <typename T = me> const T* sub() const NM_CONST_FUNC(sub<T>())
         template <typename T = me> T* sub(const std::string& name);
+        template <typename T = me> T* sub(const std::string* it) NM_SIDE_FUNC(sub);
         template <typename T = me>
         const T* sub(const std::string& name) const NM_CONST_FUNC(sub<T>(name))
+        template <typename T = me>
+        const T* sub(const std::string* name) const NM_CONST_FUNC(sub<T>(name))
         template <typename T = me> T* sub(const std::string& name, const args& a);
+        template <typename T = me> T* sub(const std::string* name, const args& a) NM_SIDE_FUNC(name, sub(*name, a), nullptr);
         template <typename T = me>
         const T* sub(const std::string& name, const args& a) const NM_CONST_FUNC(sub<T>(name, a))
+        template <typename T = me>
+        const T* sub(const std::string* name, const args& a) const NM_CONST_FUNC(sub<T>(name, a))
 
         template <typename T>
         tnarr<T, strTactic> subAll(std::function<nbool(const std::string&, const T&)> l) const;
         template <typename T = me> tnarr<T, strTactic> subAll() const;
         template <typename T = me> tpriorities<T> subAll(const std::string& name) const;
+        template <typename T = me> tpriorities<T> subAll(const std::string* it) const NM_SIDE_FUNC(subAll<T>)
         template <typename T = me>
         tpriorities<T> subAll(const std::string& name, const args* a) const;
+        template <typename T = me>
+        tpriorities<T> subAll(const std::string* name, const args* a) const NM_SIDE_FUNC(name, subAll<T>(*name, a), tpriorities<T>());
 
         bool canRun(const args& a) const;
         virtual priorType prioritize(const args& a) const = 0;
@@ -71,7 +80,10 @@ namespace nm {
         str run(const args* it) NM_SIDE_FUNC(run);
         str run(const std::string& name, const args& a);
         str run(const std::string& name, const args* a) NM_SIDE_FUNC(a, run(name, a), str());
+        str run(const std::string* name, const args& a) NM_SIDE_FUNC(name, run(*name, a), str());
+        str run(const std::string* name, const args* a) NM_SIDE_FUNC(name && a, run(*name, *a), str());
         str run(const std::string& name);
+        str run(const std::string* it) NM_SIDE_FUNC(run);
         str run();
 
         /// release all holding resources and ready to be terminated.as(

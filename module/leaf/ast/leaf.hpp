@@ -24,13 +24,16 @@ namespace nm {
 
     public:
         me& sub(const std::string& name);
+        me& sub(const std::string* it) NM_SIDE_FUNC(it, sub(*it), *this);
         const me& sub(const std::string& name) const NM_CONST_FUNC(sub(name))
+        const me& sub(const std::string* name) const NM_CONST_FUNC(sub(name))
         me& sub(const nchar* name);
         const me& sub(const nchar* name) const NM_CONST_FUNC(sub(name))
         me& sub(nidx n);
         const me& sub(nidx n) const NM_CONST_FUNC(sub(n))
 
         nbool has(const std::string& name) const;
+        nbool has(const std::string* it) const NM_SIDE_FUNC(has);
 
         void add(const leaf& it);
         void add(const leaf* it) NM_SIDE_FUNC(add);
@@ -38,10 +41,12 @@ namespace nm {
         void del(const leaf& it);
         void del(const leaf* it) NM_SIDE_FUNC(del);
         void del(const std::string& name);
+        void del(const std::string* it) NM_SIDE_FUNC(del);
         void del(const nchar* name);
 
         const std::string& getName() const;
         void setName(const std::string& newName);
+        void setName(const std::string* it) NM_SIDE_FUNC(setName);
         void setName(const nchar* newName);
 
         ncnt len() const;

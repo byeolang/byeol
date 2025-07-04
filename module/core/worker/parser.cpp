@@ -280,7 +280,7 @@ namespace nm {
         // checks whether rhs was primitive type:
         //  if rhs isn't primitive, rhs will be getExpr type.
         //  mockNode will be created
-        const baseObj* rhs = defVar.getRight().cast<baseObj>();
+        const baseObj* rhs = defVar.getRight() TO(template cast<baseObj>());
         if(rhs && rhs->getState() >= PARSED) {
             str new1 = defVar.makeNewOrigin();
             if(new1) return &sRef.addScope(defVar.getName(), *defVar.makeNewOrigin());
@@ -321,7 +321,7 @@ namespace nm {
 
     node* me::onDefAssign(const defPropExpr* prop, const node* rhs) {
         auto& propRef = prop OR.exErr(IS_NUL, getReport(), "prop").ret(nullptr);
-        return _onDefAssign(propRef.getNewModifier(), &propRef.getRight(), propRef.getName(), rhs);
+        return _onDefAssign(propRef.getNewModifier(), propRef.getRight(), propRef.getName(), rhs);
     }
 
     node* me::onDefArray(const narr& items) {
@@ -344,8 +344,8 @@ namespace nm {
     params me::_asParams(const args& as) {
         params ret;
         for(auto& a: as) {
-            tstr<defPropExpr> defProp = a.cast<defPropExpr>() OR.myExErr(PARAM_HAS_VAL).ret(ret);
-            ret.add(new param(defProp->getName(), defProp->getRight()));
+            defPropExpr& defProp = a.cast<defPropExpr>() OR.myExErr(PARAM_HAS_VAL).ret(ret);
+            ret.add(new param(defProp.getName(), defProp.getRight()));
         }
 
         return ret;

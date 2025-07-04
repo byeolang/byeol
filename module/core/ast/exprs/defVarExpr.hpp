@@ -13,8 +13,8 @@ namespace nm {
         NM(ADT(defVarExpr, expr), VISIT())
 
     public:
-        defVarExpr(const std::string& name, const node& rhs);
-        defVarExpr(const std::string& name, const node& rhs, const node& to, const src& src,
+        defVarExpr(const std::string& name, const node* rhs);
+        defVarExpr(const std::string& name, const node* rhs, const node* to, const src& src,
             const modifier& mod);
 
     public:
@@ -23,12 +23,12 @@ namespace nm {
 
         const std::string& getName() const;
 
-        node& getRight();
-        const node& getRight() const NM_CONST_FUNC(getRight())
+        node* getRight();
+        const node* getRight() const NM_CONST_FUNC(getRight())
         void setRight(const node& rhs);
 
-        node& getTo();
-        const node& getTo() const NM_CONST_FUNC(getTo())
+        node* getTo();
+        const node* getTo() const NM_CONST_FUNC(getTo())
         nbool isToFrame() const;
         void setTo(const node& to);
 

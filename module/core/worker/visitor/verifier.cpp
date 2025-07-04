@@ -24,8 +24,8 @@ namespace nm {
             return inner;
         }
 
-        nbool checkEvalType(const node& eval) {
-            WHEN_NUL(eval).ret(false);
+        nbool checkEvalType(const node* evalable) {
+            const node& eval = evalable OR.ret(false);
             for(str e: _getPrimitives())
                 if(eval.isSub(*e)) return true;
 
@@ -339,8 +339,8 @@ namespace nm {
         str lEval = me TO(getLeft()) TO(getEval()) OR.myExErr(me, LHS_IS_NUL).ret();
         str rEval = me TO(getRight()) TO(getEval()) OR.myExErr(me, RHS_IS_NUL).ret();
 
-        WHEN(!checkEvalType(*lEval)).myExErr(me, LHS_IS_NOT_ARITH, lEval).ret();
-        WHEN(!checkEvalType(*rEval)).myExErr(me, RHS_IS_NOT_ARITH, rEval).ret();
+        WHEN(!checkEvalType(lEval.get())).myExErr(me, LHS_IS_NOT_ARITH, lEval).ret();
+        WHEN(!checkEvalType(rEval.get())).myExErr(me, RHS_IS_NOT_ARITH, rEval).ret();
 
         WHEN_NUL(lEval->deduce(*rEval))
             .myExErr(me, IMPLICIT_CAST_NOT_AVAILABLE, lEval, rEval)

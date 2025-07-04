@@ -36,6 +36,7 @@ namespace nm {
     public:
         const std::string& getPath() const;
         void setPath(const std::string& path);
+        void setPath(const std::string* it) NM_SIDE_FUNC(setPath);
 
         /// load dynamic library with given path.
         /// @return empty may object if it's success. or return error msg.
@@ -47,6 +48,7 @@ namespace nm {
         template <typename F> tmayFunc<F> accessFunc(const std::string& name) {
             return accessFunc<F>(name.c_str());
         }
+        template <typename F> tmayFunc<F> accessFunc(const std::string* it) NM_SIDE_FUNC(accessFunc<F>);
 
         template <typename F> tmayFunc<F> accessFunc(const nchar* name) {
             auto&& res = _accessFunc(name);
