@@ -116,8 +116,8 @@ namespace nm {
         }
 
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
-            T* me = (T*) &a.getMe() OR.err("object from frame does not exists.").ret(str());
-            (me->*(this->_fptr))(Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...);
+            T& me = (T*) a.getMe() OR.err("object from frame does not exists.").ret(str());
+            (me.*(this->_fptr))(Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...);
             return Marshaling<void, tifSub<void, node>::is>::toMgd();
         }
     };
@@ -139,8 +139,8 @@ namespace nm {
         }
 
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
-            T* me = (T*) &a.getMe() OR.err("object from frame does not exists.").ret(str());
-            return Marshaling<Ret, tifSub<Ret, node>::is>::toMgd((me->*(this->_fptr)) // funcptr
+            T& me = (T*) a.getMe() OR.err("object from frame does not exists.").ret(str());
+            return Marshaling<Ret, tifSub<Ret, node>::is>::toMgd((me.*(this->_fptr)) // funcptr
                 (Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...)); // and args.ZZZ
         }
     };

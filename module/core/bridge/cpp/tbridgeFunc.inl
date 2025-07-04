@@ -12,10 +12,10 @@ namespace nm {
 
     TEMPL
     template <size_t... index> str ME::_marshal(args& a, std::index_sequence<index...> s) {
-        auto* me = (tbridge<T>*) &a.getMe() OR.err("object from frame does not exists.").ret(str());
-        WHEN_NUL(me->_real).err("this object doesn't have _real.").ret(str());
+        auto& me = (tbridge<T>*) a.getMe() OR.err("object from frame does not exists.").ret(str());
+        WHEN_NUL(me._real).err("this object doesn't have _real.").ret(str());
 
-        return Marshaling<Ret, tifSub<Ret, node>::is>::toMgd((me->_real->*(this->_fptr)) // funcptr
+        return Marshaling<Ret, tifSub<Ret, node>::is>::toMgd((me._real->*(this->_fptr)) // funcptr
             (Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...)); // and args.
     }
 
@@ -26,10 +26,10 @@ namespace nm {
 
     TEMPL
     template <size_t... index> str ME::_marshal(args& a, std::index_sequence<index...>) {
-        auto* me = (tbridge<T>*) &a.getMe() OR.err("object from frame does not exists.").ret(str());
-        WHEN_NUL(me->_real).err("this object doesn't have _real.").ret(str());
+        auto& me = (tbridge<T>*) a.getMe() OR.err("object from frame does not exists.").ret(str());
+        WHEN_NUL(me._real).err("this object doesn't have _real.").ret(str());
 
-        (me->_real->*(this->_fptr))(
+        (me._real->*(this->_fptr))(
             Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...);
         return Marshaling<void, tifSub<void, node>::is>::toMgd();
     }
