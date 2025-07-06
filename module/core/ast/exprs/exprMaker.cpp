@@ -63,7 +63,8 @@ namespace nm {
     }
 
     assignExpr* me::makeAssignExprFrom(const defVarExpr& e) const {
-        return make<assignExpr>(*make<getExpr>(e.getName()), e.getRight());
+        const auto& right = e.getRight() OR.ret(nullptr);
+        return make<assignExpr>(*make<getExpr>(e.getName()), right);
     }
 
     func* me::makeCommonFunc(const defBlock& blk) const {

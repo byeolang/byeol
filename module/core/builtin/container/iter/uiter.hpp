@@ -49,8 +49,8 @@ public:
 
     template <typename E> E& get() { return get() TO(template cast<E>()); }
 
-    tucontainable<T, R>* getContainer() override;
-    const tucontainable<T, R>* getContainer() const NM_CONST_FUNC(getContainer())
+    tucontainable<T, R, RSquare>* getContainer() override;
+    const tucontainable<T, R, RSquare>* getContainer() const NM_CONST_FUNC(getContainer())
 
 private:
     me& _assign(const me& rhs);

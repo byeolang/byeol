@@ -100,9 +100,10 @@ namespace nm {
 
             return *ret;
         }
-        template <typename T> static T* wrap(const super* it) NM_SIDE_FUNC(wrap);
+        template <typename T> static T* wrap(const super* it) NM_SIDE_FUNC(it, wrap<T>(*it), nullptr);
 
         static me& wrap(const super& toShallowWrap);
+        static me* wrap(const super* it) NM_SIDE_FUNC(it, wrap(*it), nullptr);
 
         /// mock this chain and let it chain another container differ to original.
         /// this func keep accessing next element to chain it.

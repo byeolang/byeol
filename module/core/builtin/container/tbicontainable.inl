@@ -54,7 +54,7 @@ namespace nm {
             V1& val = e.getVal() TO(template cast<V1>()) OR_CONTINUE;
             const K& key = e.getKey() OR_CONTINUE;
             if(!l(key, val)) continue;
-            return val;
+            return &val;
         }
 
         return nullptr;

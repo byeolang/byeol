@@ -56,7 +56,7 @@ public:
 
     using super::getContainer;
 
-    tucontainable<nInt, nInt>* getContainer() override { return &_own; }
+    tucontainable<nInt, nInt, nInt>* getContainer() override { return &_own; }
 
 protected:
     nbool _onSame(const typeProvidable& rhs) const override {

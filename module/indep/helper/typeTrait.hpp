@@ -27,8 +27,8 @@ namespace nm {
         static nbool isNul(const T& it) { return true; }
 
         static T& ret() {
-            static T dummy;
-            return dummy;
+            static T* dummy = nullptr;
+            return *dummy;
         }
 
         static constexpr nbool is_ptr = false;

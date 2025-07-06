@@ -96,7 +96,7 @@ namespace nm {
     R ME::get() { return _iteration ? (R) _iteration->get() : R{}; }
 
     TEMPL
-    tucontainable<T, R>* ME::getContainer() { return _iteration ? _iteration->getContainer() : nullptr; }
+    tucontainable<T, R, RSquare>* ME::getContainer() { return _iteration ? _iteration->getContainer() : nullptr; }
 
     TEMPL
     typename ME& ME::_assign(const me& rhs) {
