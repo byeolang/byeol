@@ -77,7 +77,7 @@ namespace nm {
         void add(const iter& from, const iter& to);
         void add(const iter& here, me& rhs);
         void add(const me& rhs);
-        void add(const me* rhs) NM_SIDE_FUNC(rhs, add(*rhs), false);
+        void add(const me* rhs) NM_SIDE_FUNC(rhs, add(*rhs), void());
 
         template <typename E>
         ncnt add(const typename tucontainable<E>::iter& from,

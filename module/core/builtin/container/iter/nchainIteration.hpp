@@ -5,10 +5,10 @@ class nchainIteration: public iteration {
     friend class tnchain;
 
 public:
-    nchainIteration(tnchain& iteratingChain, const K* key, nbool isReversed):
+    nchainIteration(tnchain* iteratingChain, const K* key, nbool isReversed):
         me(iteratingChain, key, isReversed, false, true) {}
 
-    nchainIteration(tnchain& iteratingChain, const K* key, nbool isReversed, nbool isBoundary,
+    nchainIteration(tnchain* iteratingChain, const K* key, nbool isReversed, nbool isBoundary,
         nbool isAutoAdvance):
         super(isReversed),
         _chainIter(iteratingChain),
@@ -96,7 +96,7 @@ private:
 
     const iter* _getNextIter() const {
         WHEN(!_chainIter).ret(nullptr);
-        return this->isReversed() ? _chainIter->_prev : _chainIter->_next;
+        return this->isReversed() ? &_chainIter->_prev : &_chainIter->_next;
     }
 
     const tnchain* _getNextContainer() const {
@@ -105,19 +105,19 @@ private:
     }
 
     void _updateIter() {
-        const iter* nextIter = _getNextIter();
-        if(!nextIter) {
+        const iter& nextIter = _getNextIter() OR_DO {
             _chainIter.rel();
             _iter.rel();
-        }
+            return;
+        };
 
         // proceed to next chain:
         _chainIter.bind(_castChain(nextIter));
         // init container iter:
-        me& nextIteration = _castIteration(nextIter);
+        me& nextIteration = _castIteration(nextIter) OR.ret();
         _iter = nextIteration._isBoundary ? _makeContainerIter(nextIteration.isReversed()) :
                                             nextIteration._iter;
-        if(!_isDummyKey && (nul(_iter.getKey()) || _key != _iter.getKey())) _iter.next(1);
+        if(!_isDummyKey && (!_iter.getKey() || _key != *_iter.getKey())) _iter.next(1);
     }
 
     /// create a new iter to match the container iter currently held by `chainIter`.
@@ -135,12 +135,14 @@ private:
 
     void _setBoundary(nbool new1) { _isBoundary = new1; }
 
-    me* _castIteration(const iter& e) { return (me*) e._iteration.get() OR.ret(nullptr); }
+    me* _castIteration(const iter& e) { return (me*) (e._iteration.get()); }
     const me* _castIteration(const iter& e) const NM_CONST_FUNC(_castIteration(e))
 
     tnchain* _castChain(const iter& e) { return (tnchain*) e.getContainer(); }
+    tnchain* _castChain(const iter* it) NM_SIDE_FUNC(_castChain);
 
     const tnchain* _castChain(const iter& e) const NM_CONST_FUNC(_castChain(e));
+    const tnchain* _castChain(const iter* e) const NM_CONST_FUNC(_castChain(e));
 
     // check whether sub iter has been reached to reversed non-boundary end iter.
     // e.g.
@@ -175,7 +177,7 @@ private:
         return inner;
     }
 
-    const K* _getFindingKey() const { return _isDummyKey ? nullptr : _key; }
+    const K* _getFindingKey() const { return _isDummyKey ? nullptr : &_key; }
 
 private:
     /// iter for tnchain.

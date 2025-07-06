@@ -192,11 +192,11 @@ namespace nm {
 
     TEMPL
     ME* ME::cloneChain(const me* until) const {
-        return cloneChain(until ? &until->getContainer() : nullptr);
+        return cloneChain(until ? &until->getContainer() : (const super*) nullptr);
     }
 
     TEMPL
-    ME* ME::cloneChain() const { return cloneChain(nullptr); }
+    ME* ME::cloneChain() const { return cloneChain((const super*) nullptr); }
 
     TEMPL
     void ME::rel() {
@@ -237,21 +237,27 @@ namespace nm {
     typename ME::iter ME::_getInnerBeginOfChain(me& it, const me& fromChain, const iter& from) {
         me* prev = it.getPrev();
         nbool isReversed = prev ? prev->_next.isReversed() : false;
-        return &it == &fromChain ? (isReversed ? it.getContainer().begin() : _getInnerIter(from)) :
-                                   it.getContainer().begin();
+        WHEN(&it != &fromChain).ret(it.getContainer().begin());
+        WHEN(isReversed).ret(it.getContainer().begin());
+
+        auto ret = _getInnerIter(from) OR.ret(this->end());
+        return ret;
     }
 
     TEMPL
     typename ME::iter ME::_getInnerEndOfChain(me& it, const me& lastChain, const iter& last) {
-        me& prev = it.getPrev();
-        nbool isReversed = nul(prev) ? false : prev._next.isReversed();
-        return &it == &lastChain ? (isReversed ? it.getContainer().end() : _getInnerIter(last)) :
-                                   it.getContainer().end();
+        me* prev = it.getPrev();
+        nbool isReversed = !prev ? false : prev->_next.isReversed();
+        WHEN(&it != &lastChain).ret(it.getContainer().end());
+        WHEN(isReversed).ret(it.getContainer().end());
+
+        auto ret = _getInnerIter(last) OR.ret(this->end());
+        return ret;
     }
 
     TEMPL
     typename ME::iter ME::_rendOfThisChain(nbool isReversed) {
-        return iter(new nchainIteration(*this, nullptr, isReversed, true, false));
+        return iter(new nchainIteration(this, nullptr, isReversed, true, false));
     }
 
 #undef ME

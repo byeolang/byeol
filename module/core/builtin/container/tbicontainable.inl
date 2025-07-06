@@ -161,7 +161,7 @@ namespace nm {
     TEMPL
     typename ME::iter ME::riterate(const K& key, nbool isBoundary) const {
         auto* e = _onMakeIteration(&key, true, 0, isBoundary);
-        if(!e->isEnd() && e->getKey() != key) e->next(1);
+        if(!e->isEnd() && *e->getKey() != key) e->next(1);
 
         return iter(e);
     }

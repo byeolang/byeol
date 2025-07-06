@@ -103,19 +103,24 @@ namespace nm {
         nbool add(const K* key, const V* val) NM_SIDE_FUNC(key || val, add(*key, *val), false);
         ncnt add(const iter& from, const iter& to);
         ncnt add(const tbicontainable& rhs);
-        ncnt add(const tbicontainable* it) NM_SIDE_FUNC(add)
+        ncnt add(const tbicontainable* it) NM_SIDE_FUNC(add);
 
-            /// delete all elements matched by given key.
-            /// @param key key to be deleted
-            virtual nbool del(const K& key) = 0;
-        nbool del(const K* it) NM_SIDE_FUNC(del) virtual nbool del(const iter& at) = 0;
+        /// delete all elements matched by given key.
+        /// @param key key to be deleted
+        virtual nbool del(const K& key) = 0;
+        nbool del(const K* it) NM_SIDE_FUNC(del);
+        virtual nbool del(const iter& at) = 0;
+        nbool del(const iter* it) NM_SIDE_FUNC(del);
         virtual nbool del(const iter& from, const iter& end) = 0;
+        nbool del(const iter* from, const iter& end) NM_SIDE_FUNC(from, del(*from, end), false);
+        nbool del(const iter& from, const iter* end) NM_SIDE_FUNC(end, del(from, *end), false);
+        nbool del(const iter* from, const iter* end) NM_SIDE_FUNC(from && end, del(*from, *end), false);
 
         nbool del(const tbicontainable& rhs);
-        nbool del(const tbicontainable* it) NM_SIDE_FUNC(del)
+        nbool del(const tbicontainable* it) NM_SIDE_FUNC(del);
 
-            // etc:
-            virtual void rel() = 0;
+        // etc:
+        virtual void rel() = 0;
 
     protected:
         virtual iteration* _onMakeIteration(const K* key, nbool isReversed, ncnt step,
