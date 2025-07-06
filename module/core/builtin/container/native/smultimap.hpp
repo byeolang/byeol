@@ -106,17 +106,24 @@ namespace nm {
         iterator begin() const;
         iterator end() const;
         iterator begin(const K& key) const;
+        iterator begin(const K* key) const NM_SIDE_FUNC(key, begin(*key), begin());
 
         iterator rbegin() const;
         iterator rend() const;
         iterator rbegin(const K& key) const;
+        iterator rbegin(const K* key) const NM_SIDE_FUNC(key, rbegin(*key), rbegin());
 
         void insert(const K& key, V&& val);
 
         /// delete all elements matching given key.
         void erase(const K& key);
+        void erase(const K* it) NM_SIDE_FUNC(erase);
         void erase(const iterator& it);
+        void erase(const iterator* it) NM_SIDE_FUNC(erase);
         void erase(const iterator& from, const iterator& to);
+        void erase(const iterator* from, const iterator& to) NM_SIDE_FUNC(from, erase(*from, to), void());
+        void erase(const iterator& from, const iterator* to) NM_SIDE_FUNC(to, erase(from, *to), void());
+        void erase(const iterator* from, const iterator* to) NM_SIDE_FUNC(from && to, erase(*from, *to), void());
 
         iterator find(const K& key) const;
 

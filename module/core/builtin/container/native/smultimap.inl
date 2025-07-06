@@ -164,7 +164,9 @@ namespace nm {
 
     TEMPL
     void ME::erase(const iterator& it) {
-        auto range = _map.equal_range(it.getKey());
+        const auto& key = it.getKey() OR.ret();
+        auto range = _map.equal_range(key);
+
         for(auto e = range.first; e != range.second; ++e)
             if(&(e->second) == it._wrap) return _erase(e), void();
         // not found.
