@@ -8,7 +8,7 @@ namespace nm {
 
     public:
         defPropExpr(const std::string& name, const node& rhs);
-        defPropExpr(const std::string& name, const node& rhs, const node& to, const src& s,
+        defPropExpr(const std::string& name, const node& rhs, const node* to, const src& s,
             const modifier& mod);
 
     protected:

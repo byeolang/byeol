@@ -15,8 +15,10 @@ namespace nm {
         auto& me = (tbridge<T>*) a.getMe() OR.err("object from frame does not exists.").ret(str());
         WHEN_NUL(me._real).err("this object doesn't have _real.").ret(str());
 
-        return Marshaling<Ret, tifSub<Ret, node>::is>::toMgd((me._real->*(this->_fptr)) // funcptr
-            (Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...)); // and args.
+        return Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::toMgd(
+        (me._real->*(this->_fptr)
+    ) // funcPtr
+            (Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(a[index])...)); // and args.
     }
 
 #undef ME
@@ -30,7 +32,7 @@ namespace nm {
         WHEN_NUL(me._real).err("this object doesn't have _real.").ret(str());
 
         (me._real->*(this->_fptr))(
-            Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...);
+            Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(a[index])...);
         return Marshaling<void, tifSub<void, node>::is>::toMgd();
     }
 

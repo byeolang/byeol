@@ -11,10 +11,10 @@ namespace nm {
 
     NM(DEF_ME(runExpr), DEF_VISIT())
 
-    me::runExpr(const node& meObj, const node& subject, const args& a):
+    me::runExpr(const node* meObj, const node& subject, const args& a):
         _me(meObj), _args(a), _subject(subject) {}
 
-    me::runExpr(const node& meObj, const args& a): _me(meObj), _args(a), _subject(meObj) {}
+    me::runExpr(const node* meObj, const args& a): _me(meObj), _args(a), _subject(meObj) {}
 
     str me::run(const args& a) {
         auto addr = platformAPI::toAddrId(this);

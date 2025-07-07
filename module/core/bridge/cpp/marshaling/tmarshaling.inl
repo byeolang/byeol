@@ -18,7 +18,7 @@ namespace nm {
     const typename ME::mgd& ME::onAddParam() { return *new mgd(*new T()); }
 
     TEMPL
-    const typename ME::mgd& ME::onGetRet() { return *new mgd(*new T()); }
+    const typename ME::mgd* ME::onGetRet() { return new mgd(*new T()); }
 
 #undef ME
 #undef TEMPL

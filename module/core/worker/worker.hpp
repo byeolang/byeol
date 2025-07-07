@@ -56,6 +56,7 @@ namespace nm {
         nint getFlag() const;
 
         me& setTask(const T& root);
+        me& setTask(const T* it) NM_SIDE_FUNC(it, setTask(*it), *this);
         T* getTask();
         const T* getTask() const NM_CONST_FUNC(getTask())
 
@@ -77,8 +78,6 @@ namespace nm {
 
         area& _getArea();
 
-        void _setTask(const T& new1);
-        void _setTask(const T* new1);
         void _onEndErrReport(const errReport& rpt) const;
 
     private:

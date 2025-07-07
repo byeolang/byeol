@@ -14,12 +14,10 @@ namespace nm {
     }
 
     std::string me::getEvalTypeFrom(const node& value) {
-        WHEN_NUL(value).ret("null");
         str eval = value.getEval();
         WHEN(eval).ret((eval->isComplete() ? "" : "@incomplete ") + eval->getType().getName());
 
-        const auto& name = value.cast<getExpr>() TO(getName());
-        WHEN(!nul(name)).ret(name);
-        return value.getType().getName();
+        auto& get = value.cast<getExpr>() OR.ret(value.getType().getName());
+        return get.getName();
     }
 }

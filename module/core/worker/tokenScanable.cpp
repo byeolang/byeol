@@ -1,3 +1,4 @@
+#include "core/ast/node.hpp"
 #include "core/worker/tokenScanable.hpp"
 
 namespace nm {

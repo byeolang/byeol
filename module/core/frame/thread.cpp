@@ -109,7 +109,7 @@ namespace nm {
     me::thread(const errReport& ex): _ex(ex) {}
 
     thread& me::get() {
-        if(nul(_instance)) _instance = &_getDumThread();
+        if(!_instance) _instance = &_getDumThread();
         return *_instance;
     }
 

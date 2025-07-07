@@ -57,11 +57,9 @@ namespace nm {
 
         iter iterate(ncnt step) const;
         iter iterate(const T& it) const;
-        iter iterate(const T* it) const NM_SIDE_FUNC(it, iterate(*it), end());
 
         iter riterate(ncnt step) const;
         iter riterate(const T& it) const;
-        iter riterate(const T* it) const NM_SIDE_FUNC(it, riterate(*it), rend());
 
         // set:
         virtual nbool set(const iter& at, const T& new1) = 0;

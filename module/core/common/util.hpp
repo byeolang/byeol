@@ -20,5 +20,6 @@ namespace nm {
         static typeAttr checkTypeAttr(const std::string& name);
         static typeAttr checkTypeAttr(const std::string* it) NM_SIDE_FUNC(checkTypeAttr);
         static std::string getEvalTypeFrom(const node& n);
+        static std::string getEvalTypeFrom(const node* it) NM_SIDE_FUNC(getEvalTypeFrom);
     };
 }

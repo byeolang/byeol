@@ -21,7 +21,7 @@ namespace nm {
         public:
             str run(const args& a) override {
                 WHEN(a.len() != 1).ret(str());
-                nStr& me = a.getMe().cast<nStr>() OR.ret(str());
+                nStr& me = a.getMe() TO(template cast<nStr>()) OR.ret(str());
                 tstr<seq> s = a[0].as<seq>() OR.ret(str());
 
                 nint start = (*s).get().getStart().get();
@@ -98,7 +98,7 @@ namespace nm {
                                          .ctor<niter>()
                                          .func("isEnd", &niter::isEnd)
                                          .func("next", &niter::next)
-                                         .funcNonConst<nStr&>("get", &niter::get)
+                                         .funcNonConst<nStr*>("get", &niter::get)
                                          .subs();
                 return inner;
             }
@@ -121,7 +121,7 @@ namespace nm {
                 WHEN(a.len() != ps.len())
                     .warn("a.len(%d) != ps.len(%d)", a.len(), ps.len())
                     .ret(str());
-                nStr& me = a.getMe().cast<nStr>() OR.err("me as nStr == null").ret(str());
+                nStr& me = a.getMe() TO(template cast<nStr>()) OR.err("me as nStr == null").ret(str());
 
                 str eval =
                     a[0].as(ps[0].getOrigin().as<node>())
@@ -187,7 +187,7 @@ namespace nm {
     namespace {
 
         str _canNotCastEx(const node& from, const type& to) {
-            NM_WHEN.exErr(CAST_NOT_AVAILABLE, from, to).ret(str());
+            return NM_WHEN.exErr(CAST_NOT_AVAILABLE, from, to).ret(str());
         }
 
         // define in unamed namespace in order to avoid symbol duplication.

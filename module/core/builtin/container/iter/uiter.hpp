@@ -47,7 +47,7 @@ public:
     using iterable::get;
     R get() override;
 
-    template <typename E> E& get() { return get() TO(template cast<E>()); }
+    template <typename E> E* get() { return get() TO(template cast<E>()); }
 
     tucontainable<T, R, RSquare>* getContainer() override;
     const tucontainable<T, R, RSquare>* getContainer() const NM_CONST_FUNC(getContainer())

@@ -20,12 +20,12 @@ namespace nm {
         tbaseBridgeFunc(fptrType fptr, str ret):
             _fptr(fptr),
             _type("bridgeFunc", ttype<me>::get(),
-                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...),
-                false, *ret),
+                params(*new param("", Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::onAddParam())...),
+                false, ret.get()),
             _src(dumSrc::singleton()) {}
 
     public:
-        static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal()) ==
+        static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::canMarshal()) ==
                           sizeof(metaIf::yes))...>::value,
             "can't marshal one of this func's parameter ntypes.");
 
@@ -72,7 +72,7 @@ namespace nm {
 
     public:
         tbridgeFunc(typename super::fptrType fptr):
-            super(fptr, Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet()) {}
+            super(fptr, Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::onGetRet()) {}
 
     protected:
         str _runNative(args& args) override {
@@ -117,7 +117,7 @@ namespace nm {
 
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
             T& me = (T*) a.getMe() OR.err("object from frame does not exists.").ret(str());
-            (me.*(this->_fptr))(Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...);
+            (me.*(this->_fptr))(Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(a[index])...);
             return Marshaling<void, tifSub<void, node>::is>::toMgd();
         }
     };
@@ -131,7 +131,7 @@ namespace nm {
 
     public:
         tbridgeFunc(typename _super_::fptrType fptr):
-            super(fptr, Marshaling<Ret, tifSub<Ret, node>::is>::onGetRet()) {}
+            super(fptr, Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::onGetRet()) {}
 
     protected:
         str _runNative(args& args) override {
@@ -140,8 +140,8 @@ namespace nm {
 
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
             T& me = (T*) a.getMe() OR.err("object from frame does not exists.").ret(str());
-            return Marshaling<Ret, tifSub<Ret, node>::is>::toMgd((me.*(this->_fptr)) // funcptr
-                (Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...)); // and args.ZZZ
+            return Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::toMgd((me.*(this->_fptr)) // funcptr
+                (Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(a[index])...)); // and args.ZZZ
         }
     };
 } // namespace nm

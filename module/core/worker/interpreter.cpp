@@ -92,7 +92,7 @@ namespace nm {
         evaler.setReport(getReport())
             .setFlag(getFlag())
             .delFlag(LOG_ON_END | DUMP_ON_END)
-            .setTask(getTask().getPack())
+            .setTask(getTask() TO(getPack()))
             .work();
     }
 
@@ -108,7 +108,7 @@ namespace nm {
         _veri.setReport(getReport())
             .setFlag(getFlag())
             .delFlag(LOG_ON_END | DUMP_ON_END)
-            .setTask(getTask().getPack())
+            .setTask(getTask() TO(getPack()))
             .work();
     }
 } // namespace nm

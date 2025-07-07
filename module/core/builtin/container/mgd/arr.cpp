@@ -35,7 +35,7 @@ namespace nm {
                                          .ctor<niter>()
                                          .func("isEnd", &niter::isEnd)
                                          .func("next", &niter::next)
-                                         .funcNonConst<node&>("get", &niter::get)
+                                         .funcNonConst<node*>("get", &niter::get)
                                          .subs();
 
                 return inner;
@@ -231,7 +231,7 @@ namespace nm {
                                  .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
                                  .genericFunc<nbool, nidx, const node&>("add", &narr::add)
                                  .genericFunc<nbool, nidx, const node&>("set", &narr::set)
-                                 .genericFuncNonConst<node&, nidx>("get", &narr::get)
+                                 .genericFuncNonConst<node*, nidx>("get", &narr::get)
                                  .genericFunc<nbool, const node&>("in", &narr::in)
                                  .func("iterate", new iterateFunc())
                                  .subs();

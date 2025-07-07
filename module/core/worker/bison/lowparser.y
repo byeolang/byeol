@@ -250,7 +250,7 @@ postfix: primary { $$ = $1; }
        | postfix DOUBLE_PLUS { $$ = PS.onUnaryPostfixDoublePlus(*$1); }
        | postfix '.' access { $$ = PS.onGet(*$1, *$3); }
        | postfix '.' func-call {
-        $$ = PS.onFillFromOfFuncCall(*$1, $3->cast<runExpr>());
+        $$ = PS.onFillFromOfFuncCall(*$1, *($3->cast<runExpr>()));
      } | func-call { $$ = $1; }
        | postfix '[' expr-inline9 ']' { $$ = PS.onGetElem(*$1, *$3); }
 
@@ -311,28 +311,28 @@ expr-compound: if { $$ = $1; }
              | while { $$ = $1; }
              | end { $$ = $1; }
 
-block: allstmt { $$ = PS.onBlock(*$1); }
-     | block allstmt { $$ = PS.onBlock($1->cast<blockExpr>(), *$2); }
+block: allstmt { $$ = PS.onBlock($1); }
+     | block allstmt { $$ = PS.onBlock($1->cast<blockExpr>(), $2); }
 
 indentblock: NEWLINE INDENT block DEDENT { $$ = $3; }
            | ':' allstmt-chain NEWLINE { $$ = $2; }
-           | ':' all-expr-compound { $$ = PS.onBlock(*$2); }
+           | ':' all-expr-compound { $$ = PS.onBlock($2); }
            | ':' allstmt-chain ';' all-expr-compound {
-            $$ = PS.onBlock($2->cast<blockExpr>(), *$4);
+            $$ = PS.onBlock($2->cast<blockExpr>(), $4);
          } | ':' ';' NEWLINE { $$ = PS.onBlock(); }
 
 indentDefBlock: NEWLINE INDENT defblock DEDENT { $$ = $3; }
               | ':' def-stmt-chain NEWLINE { $$ = $2; }
-              | ':' def-expr-compound { $$ = PS.onDefBlock(*$2); }
+              | ':' def-expr-compound { $$ = PS.onDefBlock($2); }
               | ':' def-stmt-chain ';' def-expr-compound {
                 str exprLife($4);
-                $$ = PS.onDefBlock(*$2, *exprLife);
+                $$ = PS.onDefBlock($2, exprLife.get());
             } | ':' ';' NEWLINE { $$ = PS.onDefBlock(); }
 
-defblock: def-stmt { $$ = PS.onDefBlock(*$1); }
+defblock: def-stmt { $$ = PS.onDefBlock($1); }
         | defblock def-stmt {
         str lifeStmt($2);
-        $$ = PS.onDefBlock(*$1, *lifeStmt);
+        $$ = PS.onDefBlock($1, lifeStmt.get());
       }
 
 declBlock: access NEWLINE {
@@ -436,9 +436,9 @@ func-call-tuple-items: func-call-tuple-item {
                    }
 params: '(' param-items ')' { $$ = $2; }
 param-items: def-prop-without-value {
-            $$ = PS.onParams($1->cast<defPropExpr>());
+            $$ = PS.onParams(*$1->cast<defPropExpr>());
          } | param-items ',' def-prop-without-value {
-            $$ = PS.onParams(*$1, $3->cast<defPropExpr>());
+            $$ = PS.onParams(*$1, *$3->cast<defPropExpr>());
          }
 
 //  type:
@@ -465,11 +465,11 @@ typenames: type { $$ = PS.onTypeNames(*$1); }
 //  keyword:
 //      branch:
 if: IF expr-inline9 indentblock {
-    $$ = PS.onIf(*$2, $3->cast<blockExpr>());
+    $$ = PS.onIf(*$2, *$3->cast<blockExpr>());
 } | IF expr-inline9 indentblock _ELSE_ indentblock {
-    $$ = PS.onIf(*$2, $3->cast<blockExpr>(), $5->cast<blockExpr>());
+    $$ = PS.onIf(*$2, *$3->cast<blockExpr>(), *$5->cast<blockExpr>());
 } | IF expr-inline9 indentblock _ELSE_ if {
-    $$ = PS.onIf(*$2, $3->cast<blockExpr>(), $5->cast<ifExpr>());
+    $$ = PS.onIf(*$2, *$3->cast<blockExpr>(), *$5->cast<ifExpr>());
 }
 
 ret-inline: RET { $$ = PS.onRet(); }
@@ -515,11 +515,11 @@ matcher-equal-rhs: expr-inline9 {
 
 //      loop:
 while: _WHILE_ expr-inline9 indentblock {
-     $$ = PS.onWhile(*$2, $3->cast<blockExpr>());
+     $$ = PS.onWhile(*$2, *$3->cast<blockExpr>());
    }
 
 for: FOR NAME _IN_ expr-inline9 indentblock {
-    $$ = PS.onFor(std::string(*$2), *$4, $5->cast<blockExpr>());
+    $$ = PS.onFor(std::string(*$2), *$4, *$5->cast<blockExpr>());
     delete $2;
  }
 

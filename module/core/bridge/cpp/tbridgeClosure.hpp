@@ -47,7 +47,7 @@ namespace nm {
             T& me = (T*) a.getMe() OR.err("object from frame does not exists.").ret(str());
 
             return Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::toMgd(
-                _closure(me, Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...));
+                _closure(me, Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(a[index])...));
         }
 
         args* _evalArgs(const args& a, args& tray) {
@@ -72,7 +72,7 @@ namespace nm {
     template <typename T, template <typename, nbool> class Marshaling, typename... Args>
     class tbridgeClosure<void, T, Marshaling, Args...>: public baseFunc {
         NM(ME(tbridgeClosure, baseFunc), CLONE(tbridgeClosure))
-        static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal()) ==
+        static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::canMarshal()) ==
                           sizeof(metaIf::yes))...>::value,
             "can't marshal one of this func's parameter ntypes.");
 
@@ -82,7 +82,7 @@ namespace nm {
     public:
         const ntype& getType() const override {
             static mgdType inner("ctor", ttype<me>::get(),
-                params(*new param("", Marshaling<Args, tifSub<Args, node>::is>::onAddParam())...),
+                params(*new param("", Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::onAddParam())...),
                 false, Marshaling<void, false>::onGetRet());
             return inner;
         }
@@ -106,7 +106,7 @@ namespace nm {
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
             T& me = (T*) a.getMe() OR.err("object from frame does not exists.").ret(str());
 
-            _closure(me, Marshaling<Args, tifSub<Args, node>::is>::toNative(a[index])...);
+            _closure(me, Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(a[index])...);
             return Marshaling<void, tifSub<void, node>::is>::toMgd();
         }
 

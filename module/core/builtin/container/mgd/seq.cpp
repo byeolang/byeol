@@ -116,7 +116,7 @@ namespace nm {
                                  .ctor<nseq>()
                                  .func("len", &nseq::len)
                                  .func<nInt, nint>("get", &nseq::get)
-                                 .func("in", &nseq::in)
+                                 .func<nbool, nint>("in", &nseq::in)
                                  .func("iterate", new iterateFunc())
                                  .func("getElemType", new getElemTypeFunc())
                                  .subs();

@@ -128,7 +128,7 @@ namespace nm {
     TEMPL
     typename ME::iter ME::iterate(const T& it) const {
         for(iter e = begin(); e; ++e)
-            WHEN(&e.get() == &it).ret(iter(e));
+            WHEN(e.get() == &it).ret(iter(e));
 
         return end();
     }
@@ -139,7 +139,7 @@ namespace nm {
     TEMPL
     typename ME::iter ME::riterate(const T& it) const {
         for(iter e = rbegin(); e; ++e)
-            WHEN(&e.get() == &it).ret(iter(e));
+            WHEN(e.get() == &it).ret(iter(e));
 
         return rend();
     }

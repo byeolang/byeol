@@ -170,7 +170,7 @@ namespace nm {
         // pack syntax rule #1:
         //  if there is no specified name of pack, I create an one.
         const std::string& firstName = dotnames[0];
-        if(nul(getTask())) _setTask(new slot(manifest(firstName)));
+        if(nul(getTask())) setTask(new slot(manifest(firstName)));
         obj* e = &getTask()->getPack();
 
         const std::string& realName = getTask()->getManifest().name;
@@ -219,7 +219,7 @@ namespace nm {
     obj* me::onPack() {
         NM_DI("tokenEvent: onPack()");
 
-        if(!getTask()) _setTask(new slot(manifest()));
+        if(!getTask()) setTask(new slot(manifest()));
 
         auto& newSlot = *getTask();
         const std::string& name = newSlot.getManifest().name;
@@ -529,7 +529,7 @@ namespace nm {
         origin& ret = *_maker.birth<origin>(name, typeMaker::make<obj>(name), *_subpack);
         switch(util::checkTypeAttr(name)) {
             case ATTR_COMPLETE: // newArgs.len() can be 0.
-                ret.setCallComplete(*_maker.make<runExpr>(ret,
+                ret.setCallComplete(*_maker.make<runExpr>(&ret,
                     *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
                 break;
 
@@ -603,7 +603,7 @@ namespace nm {
                 nullptr));
         if(isConcerete)
             org.setCallComplete(
-                *_maker.make<runExpr>(*_maker.make<getGenericExpr>(name, typeParams),
+                *_maker.make<runExpr>(_maker.make<getGenericExpr>(name, typeParams),
                     *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
 
         _onInjectObjSubs(org, blk);
@@ -791,7 +791,7 @@ namespace nm {
     }
 
     node* me::onGetElem(const node& arr, const node& idx) {
-        node* ret = _maker.make<runExpr>(arr,
+        node* ret = _maker.make<runExpr>(&arr,
             *_maker.make<getExpr>(arr, "get", *new args{narr{idx}}), args{narr{idx}});
         NM_DI("tokenEvent: onGetElem(%s, %s)", arr, idx);
         return ret;
@@ -1150,7 +1150,7 @@ namespace nm {
     }
 
     runExpr* me::onIn(const node& it, const node& container) {
-        runExpr* ret = _maker.make<runExpr>(container, *_maker.make<getExpr>("in"),
+        runExpr* ret = _maker.make<runExpr>(&container, *_maker.make<getExpr>("in"),
             args{nullptr, it});
         NM_DI("tokenEvent: onIn(%s, %s)", it, container);
         return ret;

@@ -13,7 +13,7 @@ namespace nm {
     }
 
     errReport& me::_getDefault() const {
-        return thread::get() TO(getEx()) OR.ret(dummyErrReport::singleton);
+        return thread::get().getEx();
     }
 
     const point& me::_getPosFrom(const node& src) const { return src.getSrc().getPos(); }

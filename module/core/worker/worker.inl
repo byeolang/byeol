@@ -92,10 +92,6 @@ namespace nm {
     TEMPLATE
     R ME::work() { return workerAdapter<R, T>::adaptWork(*this); }
 
-    TEMPLATE void ME::_setTask(const T& new1) { _task.bind(new1); }
-
-    TEMPLATE void ME::_setTask(const T* new1) { _setTask(*new1); }
-
     TEMPLATE
     void ME::_onEndErrReport(const errReport& rpt) const {
         WHEN(!isFlag(DUMP_ON_END | LOG_ON_END) && !rpt).ret(); // ## print errors.

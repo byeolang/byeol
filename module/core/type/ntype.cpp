@@ -1,8 +1,7 @@
+#include "core/ast/node.hpp"
 #include "core/type/ntype.hpp"
-
 #include "core/ast/exprs/breakExpr.hpp"
 #include "core/ast/exprs/nextExpr.hpp"
-#include "core/ast/node.hpp"
 #include "core/builtin/primitive.hpp"
 #include "core/type/as/impliAses.hpp"
 

@@ -19,7 +19,7 @@ namespace nm {
 
         public:
             str as(const node& me, const type& to) const override {
-                return str(new E(me.cast<RAW>()));
+                return str(new E(*me.cast<RAW>()));
             }
         };
 

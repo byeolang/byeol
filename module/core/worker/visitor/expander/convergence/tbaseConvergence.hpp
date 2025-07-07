@@ -42,7 +42,7 @@ namespace nm {
         /// @return true if type has been converged successfully.
         nbool converge() override {
             WHEN(!_obj).ret(false);
-            baseFunc& fun = *_func OR.ret(false);
+            baseFunc& fun = _func OR.ret(false);
 
             frameInteract objScope(*_obj);
             frameInteract funScope(fun);

@@ -31,7 +31,7 @@ namespace nm {
         void _prepare() override;
 
     private:
-        node& _findMain(node& pak, const args& a);
+        node* _findMain(node& pak, const args& a);
         void _prepareFrame(frames& fr);
         str _postprocess(const str& res);
 

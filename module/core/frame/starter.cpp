@@ -59,10 +59,9 @@ namespace nm {
 
     void me::_prepareFrame(frames& fr) { fr.rel(); }
 
-    node& me::_findMain(node& pak, const args& a) {
+    node* me::_findMain(node& pak, const args& a) {
         // TODO: now, only find to main() but I need to find main(argc, argv) case, too.
-        node& ret = pak.sub(MAIN) OR_DO NM_E("couldn't find main().");
-
-        return ret;
+        node& ret = pak.sub(MAIN) OR.err("couldn't find main().").ret(nullptr);
+        return &ret;
     }
 } // namespace nm

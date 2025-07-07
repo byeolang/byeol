@@ -11,8 +11,8 @@ namespace nm {
         friend class parser;
 
     public:
-        runExpr(const node& meObj, const node& subject, const args& a);
-        runExpr(const node& meObj, const args& a);
+        runExpr(const node* meObj, const node& subject, const args& a);
+        runExpr(const node* meObj, const args& a);
 
     public:
         using super::run;

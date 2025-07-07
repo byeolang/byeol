@@ -20,7 +20,7 @@ namespace nm {
 
         static const mgd& onAddParam() { return *new mgd(); }
 
-        static const mgd& onGetRet() { throw marshalErr(); }
+        static const mgd* onGetRet() { throw marshalErr(); }
 
         static no canMarshal();
     };
@@ -35,7 +35,7 @@ namespace nm {
 
         static const mgd& onAddParam() { return *new mgd(new T()); }
 
-        static const mgd& onGetRet() { return *new mgd(new T()); }
+        static const mgd* onGetRet() { return new mgd(new T()); }
 
         static yes canMarshal();
     };
@@ -50,7 +50,7 @@ namespace nm {
 
         static const mgd& onAddParam() { return *new mgd(new T()); }
 
-        static const mgd& onGetRet() { return *new mgd(new T()); }
+        static const mgd* onGetRet() { return new mgd(new T()); }
 
         static yes canMarshal();
     };
@@ -64,7 +64,21 @@ namespace nm {
 
         static const mgd& onAddParam() { return *new mockNode(); }
 
-        static const mgd& onGetRet() { return *new mockNode(); }
+        static const mgd* onGetRet() { return new mockNode(); }
+
+        static yes canMarshal();
+    };
+
+    template <> struct tmarshaling<node*, true>: public metaIf {
+        typedef node mgd;
+
+        template <typename E> static str toMgd(E* it) { return it; }
+
+        static node* toNative(node& it) { return &it; }
+
+        static const mgd& onAddParam() { return *new mockNode(); }
+
+        static const mgd* onGetRet() { return new mockNode(); }
 
         static yes canMarshal();
     };
@@ -74,11 +88,11 @@ namespace nm {
 
         template <typename E> static str toMgd(E& it) { return it; }
 
-        static T& toNative(node& it) { return it.cast<T>(); }
+        static T& toNative(node& it) { return *it.cast<T>(); }
 
         static const mgd& onAddParam() { return *new mgd(); }
 
-        static const mgd& onGetRet() { return *new mgd(); }
+        static const mgd* onGetRet() { return new mgd(); }
 
         static yes canMarshal();
     };
@@ -92,7 +106,7 @@ namespace nm {
 
         static const mgd& onAddParam() { return *new mgd(); }
 
-        static const mgd& onGetRet() { return *new mgd(); }
+        static const mgd* onGetRet() { return new mgd(); }
 
         static yes canMarshal();
     };
@@ -102,11 +116,11 @@ namespace nm {
 
         template <typename E> static str toMgd(const E& it) { return str((E*) it.clone()); }
 
-        static T& toNative(node& it) { return it.cast<T>(); }
+        static T& toNative(node& it) { return *it.cast<T>(); }
 
         static const mgd& onAddParam() { return *new mgd(); }
 
-        static const mgd& onGetRet() { return *new mgd(); }
+        static const mgd* onGetRet() { return new mgd(); }
 
         static yes canMarshal();
     };
@@ -121,7 +135,7 @@ namespace nm {
 
         static const mgd& onAddParam() { return *new mgd(); }
 
-        static const mgd& onGetRet() { return *new mgd(); }
+        static const mgd* onGetRet() { return new mgd(); }
 
         static yes canMarshal();
     };
@@ -139,7 +153,7 @@ namespace nm {
 
         static const mgd& onAddParam() { return *new mgd(); }
 
-        static const mgd& onGetRet() { return *new mgd(); }
+        static const mgd* onGetRet() { return new mgd(); }
 
         static yes canMarshal();
     };
@@ -154,7 +168,7 @@ namespace nm {
 
         static const mgd& onAddParam() { return *new mgd(); }
 
-        static const mgd& onGetRet() { return *new mgd(); }
+        static const mgd* onGetRet() { return new mgd(); }
 
         static yes canMarshal();
     };
@@ -167,7 +181,7 @@ namespace nm {
 
         static const mgd& onAddParam() { return *new mgd(); }
 
-        static const mgd& onGetRet() { return *new mgd(); }
+        static const mgd* onGetRet() { return new mgd(); }
 
         static yes canMarshal();
     };
@@ -214,11 +228,11 @@ namespace nm {
 
         template <typename E> static str toMgd(const E& it) { return new mgd(new E(it)); }
 
-        static T& toNative(node& it) { return it.cast<T>(); }
+        static T& toNative(node& it) { return *it.cast<T>(); }
 
         static const mgd& onAddParam() { return *new mgd(); }
 
-        static const mgd& onGetRet() { return *new mgd(); }
+        static const mgd* onGetRet() { return new mgd(); }
 
         static yes canMarshal();
     };
@@ -228,11 +242,11 @@ namespace nm {
 
         template <typename E> static str toMgd(E& it) { return new mgd(&it); }
 
-        static T& toNative(node& it) { return it.cast<tbridge<T>>().get(); }
+        static T& toNative(node& it) { return it.cast<tbridge<T>>()->get(); }
 
         static const mgd& onAddParam() { return *new mgd(); }
 
-        static const mgd& onGetRet() { return *new mgd(); }
+        static const mgd* onGetRet() { return new mgd(); }
 
         static yes canMarshal();
     };
@@ -242,11 +256,11 @@ namespace nm {
 
         template <typename E> static str toMgd(E* it) { return new mgd(it); }
 
-        static T* toNative(node& it) { return &it.cast<tbridge<T>>().get(); }
+        static T* toNative(node& it) { return &it.cast<tbridge<T>>()->get(); }
 
         static const mgd& onAddParam() { return *new mgd(); }
 
-        static const mgd& onGetRet() { return *new mgd(); }
+        static const mgd* onGetRet() { return new mgd(); }
 
         static yes canMarshal();
     };
@@ -259,7 +273,7 @@ namespace nm {
         template <typename E2> static str toMgd(E2* it);
 
         static const mgd& onAddParam();
-        static const mgd& onGetRet();
+        static const mgd* onGetRet();
         static yes canMarshal();
     };
 } // namespace nm
