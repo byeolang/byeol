@@ -371,7 +371,7 @@ stmt-compound: ret-compound { $$ = $1; }
 def-expr-inline: with-inline { $$ = $1; }
                | def-prop-inline { $$ = $1; }
                | abstract-func {
-                $$ = PS.onAbstractFunc($1->cast<func>());
+                $$ = PS.onAbstractFunc(*($1->cast<func>()));
              }
 def-expr-compound: with-compound { $$ = $1; }
                  | def-obj { $$ = $1; }
@@ -380,10 +380,10 @@ def-expr-compound: with-compound { $$ = $1; }
                  | def-prop-compound { $$ = $1; }
 def-stmt: def-expr-inline NEWLINE { $$ = $1; }
         | def-expr-compound { $$ = $1; }
-def-stmt-chain: def-expr-inline { $$ = PS.onDefBlock(*$1); }
+def-stmt-chain: def-expr-inline { $$ = PS.onDefBlock($1); }
               | def-stmt-chain ';' def-expr-inline {
                 str lifeItem($3);
-                $$ = PS.onDefBlock(*$1, *lifeItem);
+                $$ = PS.onDefBlock($1, lifeItem.get());
             }
 
 //      all:
@@ -391,9 +391,9 @@ all-expr-compound: expr-compound { $$ = $1; }
                  | def-expr-compound { $$ = $1; }
 allstmt: stmt { $$ = $1; }
        | def-stmt { $$ = $1; }
-allstmt-chain: allstmt-chain-item { $$ = PS.onBlock(*$1); }
+allstmt-chain: allstmt-chain-item { $$ = PS.onBlock($1); }
              | allstmt-chain ';' allstmt-chain-item {
-                $$ = PS.onBlock($1->cast<blockExpr>(), *$3);
+                $$ = PS.onBlock($1->cast<blockExpr>(), $3);
            }
 allstmt-chain-item: expr-inline { $$ = $1; }
                   | def-expr-inline { $$ = $1; }
@@ -545,13 +545,13 @@ def-prop-without-value: visibility NAME name-access {
                         $$ = PS.onDefProp(*$1, *$2);
                     }
 def-prop-value: visibility NAME DEFASSIGN expr-inline9 {
-                $$ = PS.onDefAssign(*$1, *$2, *$4);
+                $$ = PS.onDefAssign(*$1, *$2, $4.get());
                 delete $2;
             } | def-prop-without-value DEFASSIGN expr-inline9 {
                 str propLife(*$1);
-                $$ = PS.onDefAssign(propLife->cast<defPropExpr>(), *$3);
+                $$ = PS.onDefAssign(propLife->cast<defPropExpr>(), $3.get());
             } | NAME DEFASSIGN expr-inline9 {
-                $$ = PS.onDefAssign(*$1, *$3);
+                $$ = PS.onDefAssign(*$1, $3.get());
                 delete $1;
             }
 def-prop-accessor: NEWLINE INDENT def-prop-accessor-items DEDENT {
@@ -571,10 +571,10 @@ def-prop-accessor-items: def-prop-accessor-item {
                      }
 
 def-prop-compound: visibility NAME DEFASSIGN expr-compound {
-                    $$ = PS.onDefAssign(*$1, *$2, *$4);
+                    $$ = PS.onDefAssign(*$1, *$2, $4.get());
                     delete $2;
                } | NAME DEFASSIGN expr-compound {
-                    $$ = PS.onDefAssign(*$1, *$3);
+                    $$ = PS.onDefAssign(*$1, $3.get());
                     delete $1;
                } | def-prop-inline def-prop-accessor {
                     // ??
@@ -583,14 +583,14 @@ def-prop-compound: visibility NAME DEFASSIGN expr-compound {
 //          func:
 abstract-func: visibility call-access type {
                 str accessLife(*$2);
-                $$ = PS.onFuncSignature(*$1, accessLife->cast<getExpr>(), *$3);
+                $$ = PS.onFuncSignature(*$1, *(accessLife->cast<getExpr>()), $3.get());
            } | call-access type {
                 str accessLife(*$1);
-                $$ = PS.onFuncSignature(accessLife->cast<getExpr>(), *$2);
+                $$ = PS.onFuncSignature(*accessLife->cast<getExpr>(), $2.get());
            } | visibility type '(' ')' type {
-                $$ = PS.onFuncSignature(*$1, *$2, *$5);
+                $$ = PS.onFuncSignature(*$1, *$2, $5.get());
            } | type '(' ')' type {
-                $$ = PS.onFuncSignature(*$1, *$4);
+                $$ = PS.onFuncSignature(*$1, $4.get());
            }
 
 def-func: abstract-func indentblock {

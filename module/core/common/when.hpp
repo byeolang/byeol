@@ -95,6 +95,7 @@ namespace nm {
     private:
         errReport& _getDefault() const;
         const point& _getPosFrom(const node& src) const;
+        const point& _getPosFrom(const node* src) const;
         void _addNewErr(errLv::level lv, int code, errReport* rpt, ...) const;
         void _addNewErr(errLv::level lv, const point& src, int code, errReport* rpt, ...) const;
     };
