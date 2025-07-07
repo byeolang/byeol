@@ -1,3 +1,4 @@
+#include "core/ast/node.hpp"
 #include "core/ast/modifier/modifier.hpp"
 
 namespace nm {

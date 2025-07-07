@@ -41,7 +41,7 @@ namespace nm {
     TEMPL
     ncnt ME::chainLen() const {
         ncnt len = 0;
-        for(const me* e = this; e; e = &e->getNext())
+        for(const me* e = this; e; e = e->getNext())
             len++;
         return len;
     }
@@ -71,15 +71,15 @@ namespace nm {
     TEMPL
     nbool ME::del(const K& key) {
         nbool ret = true;
-        for(me* e = this; e; e = &e->getNext())
+        for(me* e = this; e; e = e->getNext())
             if(!e->getContainer().del(key)) ret = false;
         return ret;
     }
 
     TEMPL
     nbool ME::del(const iter& at) {
-        const me* owner = (const me*) &at.getContainer();
-        for(me* e = this; e; e = &e->getNext()) {
+        const me* owner = (const me*) at.getContainer();
+        for(me* e = this; e; e = e->getNext()) {
             if(e != owner) continue;
             return e->getContainer().del(_getInnerIter(at));
         }
@@ -100,11 +100,11 @@ namespace nm {
         me* e = (me*) fromChain;
         nbool ret = true;
         do {
-            super& eArr = e->getContainer() OR_CONTINUE;
+            super& eArr = e->getContainer();
             iter innerBegin = _getInnerBeginOfChain(*e, *fromChain, from),
-                 innerLast = _getInnerEndOfChain(*e, *lastChain, last);
+                 innerLast = _getInnerEndOfChain(*e, lastChain, last);
             ret = eArr.del(innerBegin, innerLast) ? ret : false;
-            e = &e->getNext();
+            e = e->getNext();
         } while(e != endChain);
 
         return ret;
@@ -132,8 +132,8 @@ namespace nm {
         // therefore, the value of `next._prev.isReversed()` must be the same as the value of
         // `prev._next.isReversed()`. This ensures that advancing iters on both ends will produce
         // the same result.
-        me& prev = getPrev();
-        next._prev = _rendOfThisChain(nul(prev) ? false : prev._next.isReversed());
+        me* prev = getPrev();
+        next._prev = _rendOfThisChain(prev ? prev->_next.isReversed() : false);
         return true;
     }
 
@@ -142,7 +142,7 @@ namespace nm {
 
     TEMPL
     nbool ME::unlink() {
-        ME* next = (ME*) _next TO(getContainer());
+        ME* next = (ME*) (_next TO(getContainer()));
         if(next) next->_prev.rel();
         _next.rel();
         return true;
@@ -165,8 +165,8 @@ namespace nm {
         const me* next = rhs.getNext();
         while(next) {
             e->link(*new me(*(super*) next->getContainer().cloneDeep()));
-            e = &e->getNext();
-            next = &next->getNext();
+            e = e->getNext();
+            next = next->getNext();
         }
     }
 
@@ -184,7 +184,7 @@ namespace nm {
             retElem = new1.get();
 
             if(&e->getContainer() == until) break;
-            e.bind((me&) e->_next.getContainer());
+            e.bind((me*) e->_next.getContainer());
         }
 
         return ret;
@@ -192,7 +192,7 @@ namespace nm {
 
     TEMPL
     ME* ME::cloneChain(const me* until) const {
-        return cloneChain(until ? until->getContainer() : nullptr);
+        return cloneChain(until ? &until->getContainer() : nullptr);
     }
 
     TEMPL
@@ -220,7 +220,7 @@ namespace nm {
     typename ME::iteration* ME::_onMakeIteration(const K* key, nbool isReversed, ncnt step,
         nbool isBoundary) const {
         me* unconst = const_cast<me*>(this);
-        auto* ret = new nchainIteration(isReversed ? unconst->getTail() : *unconst, key, isReversed,
+        auto* ret = new nchainIteration(isReversed ? unconst->getTail() : unconst, key, isReversed,
             isBoundary, true);
         ret->next(step);
         ret->_setBoundary(isBoundary);
@@ -228,7 +228,7 @@ namespace nm {
     }
 
     TEMPL
-    typename ME::iter& ME::_getInnerIter(const iter& outer) {
+    typename ME::iter* ME::_getInnerIter(const iter& outer) {
         nchainIteration& cast = (nchainIteration*) outer._iteration.get() OR.ret(nullptr);
         return &cast._iter;
     }

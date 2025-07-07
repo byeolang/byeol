@@ -31,7 +31,7 @@ public:
 
     V* getVal() override {
         WHEN(isEnd()).ret(nullptr);
-        return _citer.getVal();
+        return _citer.getVal() TO(get());
     }
 
     using super::setVal;

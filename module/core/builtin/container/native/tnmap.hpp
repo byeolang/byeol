@@ -63,6 +63,9 @@ namespace nm {
         void _getAll(const K& key, narr& tray) const override;
 
     private:
+        nmapIteration* _getIterationFrom(const iter& it);
+
+    private:
         cmap _map;
     };
 } // namespace nm

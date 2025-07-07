@@ -25,7 +25,7 @@ namespace nm {
     V* ME::get(const K& key) {
         WHEN(!in(key)).ret(nullptr);
 
-        return *_map.begin(key).getVal();
+        return _map.begin(key).getVal() TO(get());
     }
 
     TEMPL
@@ -41,7 +41,13 @@ namespace nm {
     void ME::_getAll(const K& key, narr& tray) const {
         auto end = _map.end();
         for(auto e = _map.begin(key); e != end; ++e)
-            tray.add(*e.getVal());
+            tray.add(e.getVal() TO(get()));
+    }
+
+    TEMPL
+    typename ME::nmapIteration* ME::_getIterationFrom(const iter& it) {
+        WHEN(!it.isFrom(*this)).warn("from is not an iterator of this container.").ret(nullptr);
+        return (nmapIteration*) it._iteration.get();
     }
 
     TEMPL
@@ -58,20 +64,20 @@ namespace nm {
 
     TEMPL
     nbool ME::del(const iter& at) {
-        WHEN(!at.isFrom(*this)).warn("from is not an iterator of this container.").ret(false);
         WHEN(at.isEnd()).warn("at is end of the container. skip function.").ret(false);
 
-        _map.erase(*at._iteration._citer);
+        auto& e = _getIterationFrom(at) OR.ret(false);
+        _map.erase(e._citer);
+
         return true;
     }
 
     TEMPL
     nbool ME::del(const iter& from, const iter& end) {
-        WHEN(!from.isFrom(*this) || !end.isFrom(*this))
-            .warn("from or end is not an iterator of this container")
-            .ret(false);
+        auto& fromE = _getIterationFrom(from) OR.ret(false);
+        auto& endE = _getIterationFrom(end) OR.ret(false);
+        _map.erase(fromE._citer, endE._citer);
 
-        _map.erase(from._iteration->_citer, end._iteration->_citer);
         return true;
     }
 
@@ -86,7 +92,7 @@ namespace nm {
         me& rhs = (me&) from;
         rel();
         for(iter e = rhs.begin(); e; ++e)
-            add(e.getKey(), (V*) e.getVal().cloneDeep());
+            add(e.getKey(), (V*) (e.getVal() TO(cloneDeep())));
     }
 
 #undef TEMPL

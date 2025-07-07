@@ -80,8 +80,8 @@ namespace nm {
             bool isEnd() const;
 
             const K* getKey() const;
-            const V& getVal() const NM_CONST_FUNC(getVal())
-            V& getVal();
+            const V* getVal() const NM_CONST_FUNC(getVal())
+            V* getVal();
 
             bool operator!=(const iterator& rhs) const;
             bool operator==(const iterator& rhs) const;

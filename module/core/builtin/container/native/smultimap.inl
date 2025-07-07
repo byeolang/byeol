@@ -55,10 +55,10 @@ namespace nm {
         _owner(owner), _wrap(pair), _isReversed(isReversed), _key(key ? *key : _getDummyKey()) {}
 
     TEMPL
-    V& ME::iterator::operator*() { return getVal(); }
+    V& ME::iterator::operator*() { return *getVal(); }
 
     TEMPL
-    V* ME::iterator::operator->() { return &getVal(); }
+    V* ME::iterator::operator->() { return getVal(); }
 
     TEMPL
     typename ME::iterator& ME::iterator::operator++() {
@@ -115,9 +115,9 @@ namespace nm {
     const K* ME::iterator::getKey() const { return _wrap->getKey(); }
 
     TEMPL
-    V& ME::iterator::getVal() {
-        auto& val = _wrap->getVal();
-        return (V&) val;
+    V* ME::iterator::getVal() {
+        WHEN_NUL(_wrap).ret(nullptr);
+        return (V*) &_wrap->getVal();
     }
 
     TEMPL

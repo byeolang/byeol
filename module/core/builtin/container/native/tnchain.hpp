@@ -100,10 +100,10 @@ namespace nm {
 
             return *ret;
         }
-        template <typename T> static T* wrap(const super* it) NM_SIDE_FUNC(it, wrap<T>(*it), nullptr);
+        template <typename T> static T* wrap(const super* it) NM_SIDE_FUNC(it, &wrap<T>(*it), nullptr);
 
         static me& wrap(const super& toShallowWrap);
-        static me* wrap(const super* it) NM_SIDE_FUNC(it, wrap(*it), nullptr);
+        static me* wrap(const super* it) NM_SIDE_FUNC(it, &wrap(*it), nullptr);
 
         /// mock this chain and let it chain another container differ to original.
         /// this func keep accessing next element to chain it.
@@ -122,7 +122,7 @@ namespace nm {
         void _getAll(const K& key, narr& tray) const override;
 
     private:
-        iter& _getInnerIter(const iter& wrapper);
+        iter* _getInnerIter(const iter& wrapper);
         iter _getInnerBeginOfChain(me& it, const me& fromChain, const iter& from);
         iter _getInnerEndOfChain(me& it, const me& lastChain, const iter& last);
         iter _rendOfThisChain(nbool isReversed);
