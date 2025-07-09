@@ -250,7 +250,7 @@ postfix: primary { $$ = $1; }
        | postfix DOUBLE_PLUS { $$ = PS.onUnaryPostfixDoublePlus(*$1); }
        | postfix '.' access { $$ = PS.onGet(*$1, *$3); }
        | postfix '.' func-call {
-        $$ = PS.onFillFromOfFuncCall(*$1, *($3->cast<runExpr>()));
+        $$ = PS.onFillFromOfFuncCall(*$1, *$3->cast<runExpr>());
      } | func-call { $$ = $1; }
        | postfix '[' expr-inline9 ']' { $$ = PS.onGetElem(*$1, *$3); }
 
@@ -371,7 +371,7 @@ stmt-compound: ret-compound { $$ = $1; }
 def-expr-inline: with-inline { $$ = $1; }
                | def-prop-inline { $$ = $1; }
                | abstract-func {
-                $$ = PS.onAbstractFunc(*($1->cast<func>()));
+                $$ = PS.onAbstractFunc(*$1->cast<func>());
              }
 def-expr-compound: with-compound { $$ = $1; }
                  | def-obj { $$ = $1; }
@@ -545,13 +545,13 @@ def-prop-without-value: visibility NAME name-access {
                         $$ = PS.onDefProp(*$1, *$2);
                     }
 def-prop-value: visibility NAME DEFASSIGN expr-inline9 {
-                $$ = PS.onDefAssign(*$1, *$2, $4.get());
+                $$ = PS.onDefAssign(*$1, *$2, $4);
                 delete $2;
             } | def-prop-without-value DEFASSIGN expr-inline9 {
                 str propLife(*$1);
-                $$ = PS.onDefAssign(propLife->cast<defPropExpr>(), $3.get());
+                $$ = PS.onDefAssign(propLife->cast<defPropExpr>(), $3);
             } | NAME DEFASSIGN expr-inline9 {
-                $$ = PS.onDefAssign(*$1, $3.get());
+                $$ = PS.onDefAssign(*$1, $3);
                 delete $1;
             }
 def-prop-accessor: NEWLINE INDENT def-prop-accessor-items DEDENT {
@@ -571,10 +571,10 @@ def-prop-accessor-items: def-prop-accessor-item {
                      }
 
 def-prop-compound: visibility NAME DEFASSIGN expr-compound {
-                    $$ = PS.onDefAssign(*$1, *$2, $4.get());
+                    $$ = PS.onDefAssign(*$1, *$2, $4);
                     delete $2;
                } | NAME DEFASSIGN expr-compound {
-                    $$ = PS.onDefAssign(*$1, $3.get());
+                    $$ = PS.onDefAssign(*$1, $3);
                     delete $1;
                } | def-prop-inline def-prop-accessor {
                     // ??
@@ -583,34 +583,34 @@ def-prop-compound: visibility NAME DEFASSIGN expr-compound {
 //          func:
 abstract-func: visibility call-access type {
                 str accessLife(*$2);
-                $$ = PS.onFuncSignature(*$1, *(accessLife->cast<getExpr>()), $3.get());
+                $$ = PS.onFuncSignature(*$1, *accessLife->cast<getExpr>(), $3);
            } | call-access type {
                 str accessLife(*$1);
-                $$ = PS.onFuncSignature(*accessLife->cast<getExpr>(), $2.get());
+                $$ = PS.onFuncSignature(*accessLife->cast<getExpr>(), $2);
            } | visibility type '(' ')' type {
-                $$ = PS.onFuncSignature(*$1, *$2, $5.get());
+                $$ = PS.onFuncSignature(*$1, *$2, $5);
            } | type '(' ')' type {
-                $$ = PS.onFuncSignature(*$1, $4.get());
+                $$ = PS.onFuncSignature(*$1, $4);
            }
 
 def-func: abstract-func indentblock {
-        $$ = PS.onFunc($1->cast<func>(), $2->cast<blockExpr>());
+        $$ = PS.onFunc(*($1->cast<func>()), *$2->cast<blockExpr>());
      }
 
 def-ctor: visibility CTOR params indentblock {
         tstr<narr> paramsLife(*$3);
-        $$ = PS.onCtor(*$1, *$3, $4->cast<blockExpr>());
+        $$ = PS.onCtor(*$1, *$3, *$4->cast<blockExpr>());
       } | CTOR params indentblock {
         tstr<narr> paramsLife(*$2);
-        $$ = PS.onCtor(*$2, $3->cast<blockExpr>());
+        $$ = PS.onCtor(*$2, *$3->cast<blockExpr>());
       } | visibility CTOR '(' ')' indentblock {
-        $$ = PS.onCtor(*$1, $5->cast<blockExpr>());
+        $$ = PS.onCtor(*$1, *$5->cast<blockExpr>());
       } | CTOR '(' ')' indentblock {
-        $$ = PS.onCtor($4->cast<blockExpr>());
+        $$ = PS.onCtor(*$4->cast<blockExpr>());
       }
 
 end: END indentblock {
-    $$ = PS.onEnd($2->cast<blockExpr>());
+    $$ = PS.onEnd(*$2->cast<blockExpr>());
  }
 
 lambda: lambda-default { $$ = $1; }
@@ -622,7 +622,7 @@ lambda-default: tuple type indentblock {
                 // ??
             } | params type indentblock {
                 tstr<narr> paramsLife(*$1);
-                $$ = PS.onLambda(*$1, *$2, $3->cast<blockExpr>());
+                $$ = PS.onLambda(*$1, *$2, *$3->cast<blockExpr>());
             }
 lambda-deduction: tuple indentblock {
                 // TODO: tuple should be checked whether it's defPropExpr or getExpr.

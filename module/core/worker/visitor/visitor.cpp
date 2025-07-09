@@ -157,7 +157,7 @@ namespace nm {
     }
 
     void me::onTraverse(const visitInfo& i, defVarExpr& d) {
-        node& r = (node&) d.getRight();
+        node& r = d.getRight() OR.ret();
         r.accept(visitInfo{d.getName(), &d, 0, 1, i.depth + 1}, *this);
     }
 
