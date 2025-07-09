@@ -6,11 +6,7 @@ TEST(macroTest, nul) {
     nint a = 5;
     nint* aPtr = &a;
     nint* aNul = nullptr;
-    nint& refNul = nulOf<nint>();
-    nint& refA = *aPtr;
 
-    ASSERT_TRUE(nul(refNul));
-    ASSERT_FALSE(nul(refA));
     ASSERT_TRUE(nul(aNul));
     ASSERT_FALSE(nul(aPtr));
 }
@@ -19,51 +15,51 @@ TEST(macroTest, NM_GETtest) {
     struct A {};
 
     struct B {
-        A& getA() { return a; }
+        A* getA() { return &a; }
 
-        A& getNul() { return nulOf<A>(); }
+        A* getNul() { return &a; }
 
         A a;
     } b;
 
     struct C {
-        B& getB() { return b; }
+        B* getB() { return &b; }
 
-        B& getNul() { return nulOf<B>(); }
+        B* getNul() { return nullptr; }
 
         B b;
     } c;
 
     struct D {
-        C& getC() { return c; }
+        C* getC() { return &c; }
 
-        C& getNul() { return nulOf<C>(); }
+        C* getNul() { return nullptr; }
 
         C c;
     } d;
 
-    A& a = b TO(getA());
-    ASSERT_FALSE(nul(a));
-    A* aNul = &(b TO(getNul()));
-    ASSERT_TRUE(nul(aNul));
+    A* a = b TO(getA());
+    ASSERT_TRUE(a);
+    A* aNul = b TO(getNul());
+    ASSERT_FALSE(aNul);
 
-    A& a0 = b.getNul();
-    ASSERT_TRUE(nul(a0));
+    A* a0 = b.getNul();
+    ASSERT_FALSE(a0);
 
-    A& a2 = c TO(getB()) TO(getA());
-    ASSERT_FALSE(nul(a2));
-    A* a2Nul = &(c TO(getNul()) TO(getA()));
-    ASSERT_TRUE(nul(a2Nul));
+    A* a2 = c TO(getB()) TO(getA());
+    ASSERT_TRUE(a2);
+    A* a2Nul = c TO(getNul()) TO(getA());
+    ASSERT_FALSE(a2Nul);
 
-    A& a3 = d TO(getC()) TO(getB()) TO(getA());
-    ASSERT_FALSE(nul(a3));
-    A* a3Nul = &(d TO(getNul()) TO(getB()) TO(getA()));
-    ASSERT_TRUE(nul(a3Nul));
+    A* a3 = d TO(getC()) TO(getB()) TO(getA());
+    ASSERT_TRUE(a3);
+    A* a3Nul = d TO(getNul()) TO(getB()) TO(getA());
+    ASSERT_FALSE(a3Nul);
 
-    A& a4 = d.getC().getB() TO(getA());
-    ASSERT_FALSE(nul(a4));
-    A* a4Nul = &(d.getC().getB() TO(getNul()));
-    ASSERT_TRUE(nul(a4Nul));
+    A* a4 = d.getC()->getB() TO(getA());
+    ASSERT_TRUE(a4);
+    A* a4Nul = d.getC()->getB() TO(getNul());
+    ASSERT_FALSE(a4Nul);
 }
 
 TEST(macroTest, UnconstCalltest) {

@@ -14,6 +14,12 @@ namespace nm {
         virtual ~chunks();
 
     public:
+        chunk& operator[](nidx n);
+        const chunk& operator[](nidx n) const NM_CONST_FUNC(operator[](n));
+        chunk& operator[](const instance& it);
+        const chunk& operator[](const instance& it) const NM_CONST_FUNC(operator[](it));
+
+    public:
         //  chunks:
         chunk* get(nidx n);
         chunk* get(const instance& it);

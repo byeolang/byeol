@@ -16,6 +16,12 @@ namespace nm {
         watcher();
 
     public:
+        watchCell& operator[](nidx n);
+        const watchCell& operator[](nidx n) const NM_CONST_FUNC(operator[](n));
+        watchCell& operator[](id id);
+        const watchCell& operator[](id id) const NM_CONST_FUNC(operator[](id));
+
+    public:
         watchCell* get(nidx n);
         watchCell* get(id newId);
         const watchCell* get(nidx n) const NM_CONST_FUNC(get(n))

@@ -18,7 +18,8 @@ namespace nm {
         ~chunk();
 
     public:
-        void* operator[](nidx n) { return get(n); }
+        void* operator[](nidx n);
+        const void* operator[](nidx n) const NM_CONST_FUNC(operator[](n));
 
     public:
         void* get(nidx n) { return _get(n); }

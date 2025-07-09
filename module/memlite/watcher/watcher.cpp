@@ -6,6 +6,10 @@ namespace nm {
 
     me::watcher(): chunk(sizeof(watchCell), false) {}
 
+    watchCell& me::operator[](nidx n) { return *get(n); }
+
+    watchCell& me::operator[](id id) { return *get(id); }
+
     watchCell* me::get(nidx n) { return (watchCell*) _get(n); }
 
     watchCell* me::get(id newId) {

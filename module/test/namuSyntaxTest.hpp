@@ -7,10 +7,10 @@
 struct namuSyntaxTest: public namuTest {
     void TearDown() override;
 
-    nm::node& getSubPack();
-    const nm::node& getSubPack() const;
-    nm::slot& getSlot();
-    const nm::slot& getSlot() const;
+    nm::node* getSubPack();
+    const nm::node* getSubPack() const;
+    nm::slot* getSlot();
+    const nm::slot* getSlot() const;
     nm::errReport& getReport();
 
     namuSyntaxTest& make(const std::string& name);

@@ -12,7 +12,7 @@ void me::SetUp() {
 void me::TearDown() {
     _assertVault();
 
-    nm::thread::set();
+    nm::thread::set(nullptr);
     thr.rel();
 }
 

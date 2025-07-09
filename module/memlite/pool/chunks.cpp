@@ -9,6 +9,10 @@ namespace nm {
 
     me::~chunks() { _rel(); }
 
+    chunk& me::operator[](nidx n) { return *get(n); }
+
+    chunk& me::operator[](const instance& it) { return *get(it); }
+
     chunk* me::get(nidx n) { return (chunk*) _get(n); }
 
     chunk* me::get(const instance& it) { return (chunk*) _get(it.getId().chkN); }

@@ -43,7 +43,7 @@ namespace {
 
         const type& getType() const override { return ttype<offering>::get(); }
 
-        clonable* clone() const override { return new offering(&a.get()); }
+        clonable* clone() const override { return new offering(a.get()); }
 
         tstr<A> a;
     };
@@ -69,12 +69,12 @@ namespace {
             ids.push_back(new1->getId());
         }
 
-        const watcher& watcher = instancer::get().getWatcher();
+        const watcher& w = instancer::get()->getWatcher();
         for(int n = 0; n < cnt; n++) {
             id i = ids[n];
             ASSERT_EQ(tray[n]->getId(), i);
 
-            const bindTag& tag = watcher[i].blk;
+            const bindTag& tag = w[i].blk;
             ASSERT_EQ(i, tag.getId());
         }
     }
@@ -148,31 +148,32 @@ TEST_F(binderTest, inheritanceDeleteSizeTest2) {
 
 TEST_F(binderTest, defaultBehaviorTest) {
     tstr<A> b1(new A());
-    ASSERT_FALSE(nul(*b1));
-    ASSERT_FALSE(nul(b1->getType()));
+    ASSERT_TRUE(b1);
 
-    const bindTag& tag = *b1->getBindTag();
-    ASSERT_FALSE(nul(tag));
+    const bindTag* tag = b1->getBindTag();
+    ASSERT_TRUE(tag);
     ASSERT_TRUE(b1->isHeap());
 
-    id i = tag.getId();
+    id i = tag->getId();
     ASSERT_GT(i.serial, 0);
     ASSERT_GE(i.tagN, 0);
 }
 
 TEST_F(binderTest, shouldBindTagInaccessibleAfterInstanceTermination) {
     id i;
-    const watcher& watcher = instancer::get().getWatcher();
+    const watcher& watcher = instancer::get()->getWatcher();
     const bindTag* tag;
     {
         B b1;
         i = b1.getId();
-        tag = &watcher[i].blk;
-        ASSERT_FALSE(nul(tag));
+        const auto* cell = watcher.get(i);
+        ASSERT_TRUE(cell);
+        tag = &cell->blk;
+        ASSERT_TRUE(tag);
         ASSERT_EQ(i, tag->getId());
     }
 
-    ASSERT_TRUE(nul(watcher[i]));
+    ASSERT_FALSE(watcher.get(i));
 }
 
 TEST_F(binderTest, supportLocalBindingTest) {
@@ -187,7 +188,7 @@ TEST_F(binderTest, supportLocalBindingTest) {
     }
 
     ASSERT_FALSE(bind);
-    ASSERT_TRUE(nul(*bind));
+    ASSERT_FALSE(bind.get());
 }
 
 TEST_F(binderTest, bindSameInstanceFewTimesTest) {
@@ -196,28 +197,28 @@ TEST_F(binderTest, bindSameInstanceFewTimesTest) {
     {
         B b1;
         ASSERT_EQ(B::get(), 1);
-        ASSERT_EQ(b1.getBindTag().getStrongCnt(), 0);
+        ASSERT_EQ(b1.getBindTag()->getStrongCnt(), 0);
 
         tstr<B> bb1(b1), bb2(tstr<B>(new B(b1))), bb3;
         ASSERT_EQ(B::get(), 2);
         ASSERT_TRUE(bb1.isBind());
-        ASSERT_FALSE(nul(bb1->getBindTag()));
-        ASSERT_EQ(bb1->getBindTag().getStrongCnt(), 0);
+        ASSERT_TRUE(bb1->getBindTag());
+        ASSERT_EQ(bb1->getBindTag()->getStrongCnt(), 0);
 
         ASSERT_TRUE(bb2.isBind());
-        ASSERT_FALSE(nul(bb2->getBindTag()));
-        ASSERT_EQ(bb2->getBindTag().getStrongCnt(), 1);
+        ASSERT_TRUE(bb2->getBindTag());
+        ASSERT_EQ(bb2->getBindTag()->getStrongCnt(), 1);
 
         ASSERT_FALSE(bb3.isBind());
         bb3 = bb2;
         ASSERT_EQ(B::get(), 2);
         ASSERT_TRUE(bb3.isBind());
-        ASSERT_FALSE(nul(bb3->getBindTag()));
-        ASSERT_EQ(bb3->getBindTag().getStrongCnt(), 2);
+        ASSERT_TRUE(bb3->getBindTag());
+        ASSERT_EQ(bb3->getBindTag()->getStrongCnt(), 2);
         bb2.rel();
         ASSERT_FALSE(bb2.isBind());
-        ASSERT_TRUE(nul(bb2.get()));
-        ASSERT_EQ(bb3->getBindTag().getStrongCnt(), 1);
+        ASSERT_FALSE(bb2.get());
+        ASSERT_EQ(bb3->getBindTag()->getStrongCnt(), 1);
         ASSERT_EQ(B::get(), 2);
         bb3.rel();
         bb1.rel();
@@ -230,39 +231,39 @@ TEST_F(binderTest, StrongAndWeakTest) {
     tstr<A> strA(new A());
     ASSERT_TRUE(strA.isBind());
 
-    const bindTag& tag = strA->getBindTag();
-    ASSERT_FALSE(nul(tag));
-    ASSERT_EQ(tag.getStrongCnt(), 1);
+    const bindTag* tag = strA->getBindTag();
+    ASSERT_TRUE(tag);
+    ASSERT_EQ(tag->getStrongCnt(), 1);
 
     tweak<A> weakA(*strA);
-    const bindTag& tagWeak = weakA->getBindTag();
-    ASSERT_FALSE(nul(tagWeak));
-    ASSERT_EQ(&tagWeak, &tag);
-    ASSERT_EQ(tagWeak.getStrongCnt(), 1);
+    const bindTag* tagWeak = weakA->getBindTag();
+    ASSERT_TRUE(tagWeak);
+    ASSERT_EQ(tagWeak, &tag);
+    ASSERT_EQ(tagWeak->getStrongCnt(), 1);
 }
 
 TEST_F(binderTest, bindByValueTest) {
     tstr<A> strA(new A());
-    const bindTag& tag = strA->getBindTag();
-    ASSERT_FALSE(nul(tag));
-    ASSERT_EQ(tag.getStrongCnt(), 1);
+    const bindTag* tag = strA->getBindTag();
+    ASSERT_TRUE(tag);
+    ASSERT_EQ(tag->getStrongCnt(), 1);
 
     binder bindA(strA);
-    ASSERT_EQ(&strA.get(), &bindA.get());
-    ASSERT_EQ(tag.getStrongCnt(), 2);
+    ASSERT_EQ(strA.get(), bindA.get());
+    ASSERT_EQ(tag->getStrongCnt(), 2);
 
     strA.rel();
-    ASSERT_EQ(tag.getStrongCnt(), 1);
+    ASSERT_EQ(tag->getStrongCnt(), 1);
 
     {
         binder bindA2(bindA); // NOLINT: checks whether bindTag of memory pool has increased or not.
-        ASSERT_EQ(tag.getStrongCnt(), 2);
+        ASSERT_EQ(tag->getStrongCnt(), 2);
     }
 
-    ASSERT_EQ(tag.getStrongCnt(), 1);
+    ASSERT_EQ(tag->getStrongCnt(), 1);
     bindA.rel();
 
-    ASSERT_EQ(tag.getStrongCnt(), 0);
+    ASSERT_EQ(tag->getStrongCnt(), 0);
 }
 
 TEST_F(binderTest, assignTest) {
@@ -286,13 +287,13 @@ TEST_F(binderTest, WeakBindButInstanceGoneTest) {
     tstr<A> strA(new A());
     tweak<A> weakA(*strA);
 
-    const bindTag& tag = weakA->getBindTag();
-    ASSERT_FALSE(nul(tag));
-    ASSERT_EQ(tag.getStrongCnt(), 1);
+    const bindTag* tag = weakA->getBindTag();
+    ASSERT_TRUE(tag);
+    ASSERT_EQ(tag->getStrongCnt(), 1);
 
     strA.rel();
     ASSERT_FALSE(weakA.isBind());
-    ASSERT_TRUE(nul(*weakA));
+    ASSERT_FALSE(weakA.get());
 }
 
 TEST_F(binderTest, bindNullShouldUnbindPrevious) {
@@ -356,7 +357,7 @@ TEST_F(binderTest, thenWithBinder) {
 
 TEST_F(binderTest, thenNegative) {
     tstr<shell> ptr(new shell(nullptr));
-    ASSERT_TRUE(nul(ptr TO(o) TO(a)));
+    ASSERT_FALSE(ptr TO(o) TO(a));
     ASSERT_FALSE(ptr TO(o) TO(a) TO(isHeap()));
 }
 
@@ -368,8 +369,8 @@ TEST_F(binderTest, refCountingCorruptionWhenVectorAssignOperator) {
     {
         vector<tstr<A>> v2;
         v2 = v;
-        ASSERT_FALSE(nul(*v2[0]));
+        ASSERT_TRUE(v2[0].get());
     }
 
-    ASSERT_FALSE(nul(*v[0]));
+    ASSERT_TRUE(v[0].get());
 }

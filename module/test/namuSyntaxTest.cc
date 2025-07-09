@@ -9,13 +9,13 @@ void me::TearDown() {
     _ip.rel();
 }
 
-nm::node& me::getSubPack() { return _ip.getSubPack(); }
+nm::node* me::getSubPack() { return _ip.getSubPack(); }
 
-const nm::node& me::getSubPack() const { return _ip.getSubPack(); }
+const nm::node* me::getSubPack() const { return _ip.getSubPack(); }
 
-nm::slot& me::getSlot() { return _ip.getTask(); }
+nm::slot* me::getSlot() { return _ip.getTask(); }
 
-const nm::slot& me::getSlot() const { return _ip.getTask(); }
+const nm::slot* me::getSlot() const { return _ip.getTask(); }
 
 nm::errReport& me::getReport() { return _rpt; }
 

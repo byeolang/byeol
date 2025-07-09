@@ -48,7 +48,7 @@ namespace nm {
         }
         _res = 0;
         if(res) {
-            if(res->isSub<nInt>()) _res = res->cast<nint>();
+            if(res->isSub<nInt>()) _res = *res->cast<nint>();
             else if(res->isSub<baseErr>()) _res = -1;
         }
 

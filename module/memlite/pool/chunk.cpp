@@ -10,6 +10,8 @@ namespace nm {
 
     me::~chunk() { me::rel(); }
 
+    void* me::operator[](nidx n) { return get(n); }
+
     ncnt me::len() const { return _len; }
 
     ncnt me::size() const { return _sz; }

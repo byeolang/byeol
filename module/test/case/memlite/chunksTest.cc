@@ -31,8 +31,8 @@ TEST_F(chunksTest, initialStateTest) {
     ASSERT_EQ(chks1.getBlkSize(), 0);
     ASSERT_EQ(chks1.len(), 0);
     ASSERT_EQ(chks1.size(), 0);
-    ASSERT_TRUE(nul(chks1.get(0)));
-    ASSERT_TRUE(nul(chks1[-1]));
+    ASSERT_FALSE(chks1.get(0));
+    ASSERT_FALSE(chks1.get(-1));
 }
 
 TEST_F(chunksTest, resizeFewTimesTest) {
@@ -51,13 +51,13 @@ TEST_F(chunksTest, resizeFewTimesTest) {
     heap.rel(chks2);
     ASSERT_EQ(chks2.len(), 0);
     ASSERT_EQ(chks2.size(), 0);
-    ASSERT_TRUE(nul(chks2[0]));
-    ASSERT_TRUE(nul(chks2[-1]));
+    ASSERT_FALSE(chks2.get(0));
+    ASSERT_FALSE(chks2.get(-1));
 
     ASSERT_TRUE(chks2.resize(3));
     ASSERT_EQ(chks2.len(), 3);
     ASSERT_EQ(chks2.size(), 3);
-    ASSERT_FALSE(nul(chks2[0]));
+    ASSERT_TRUE(chks2.get(0));
     ASSERT_TRUE(chks2.rel());
 }
 

@@ -29,7 +29,7 @@ TEST(chunkTest, memoryHaverTest) {
     EXPECT_FALSE(chk[-1]);
     EXPECT_FALSE(chk.isFull());
     EXPECT_TRUE(chk.isCapable());
-    EXPECT_FALSE(chk.has(nulOf<instance>()));
+    EXPECT_FALSE(chk.has(nullptr));
 }
 
 TEST(chunkTest, allocatorTest) {
@@ -45,8 +45,8 @@ TEST(chunkTest, chunkListTest) {
     class heap {
     public:
         nbool new1(chunk& chk, ncnt cnt) {
-            for(int n = 0; n < cnt; n++) [[maybe_unused]]
-                void* ptr = chk.new1() OR.ret(false);
+            for(int n = 0; n < cnt; n++)
+                if(!chk.new1()) return false;
             return true;
         }
     } heap;

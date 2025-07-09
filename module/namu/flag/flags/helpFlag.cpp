@@ -24,7 +24,7 @@ namespace nm {
 
         const flags& opts = c.getFlags();
         for(int n = 0; n < opts.size(); n++) {
-            const flag& opt = opts[n].get();
+            const flag& opt = opts[n].get() OR_CONTINUE;
             std::cout << "   " << opt.getName() << opt.getDescription() << "\n\n";
         }
 

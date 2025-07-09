@@ -107,20 +107,20 @@ TEST_F(basicParsing, testVerObject) {
 
     ASSERT_STREQ(name.asStr().c_str(), "dark souls");
 
-    verLeaf& ver = man["ver"].cast<verLeaf>();
-    ASSERT_FALSE(nul(ver));
-    ASSERT_STREQ(ver.asStr().c_str(), "1.0.8");
-    ASSERT_EQ(ver.asMajor(), 1);
-    ASSERT_EQ(ver.asMinor(), 0);
-    ASSERT_EQ(ver.asFix(), 8);
+    verLeaf* ver = man["ver"].cast<verLeaf>();
+    ASSERT_TRUE(ver);
+    ASSERT_STREQ(ver->asStr().c_str(), "1.0.8");
+    ASSERT_EQ(ver->asMajor(), 1);
+    ASSERT_EQ(ver->asMinor(), 0);
+    ASSERT_EQ(ver->asFix(), 8);
 
-    ASSERT_TRUE(ver >= verLeaf(1, 0, 7));
-    ASSERT_TRUE(ver >= verLeaf(1, 0, 8));
-    ASSERT_TRUE(ver == verLeaf(1, 0, 8));
-    ASSERT_FALSE(ver < verLeaf(1, 0, 8));
-    ASSERT_TRUE(ver < verLeaf(1, 1, 8));
-    ASSERT_FALSE(ver < verLeaf(0, 2, 8));
-    ASSERT_TRUE(ver > verLeaf(0, 2, 8));
+    ASSERT_TRUE(*ver >= verLeaf(1, 0, 7));
+    ASSERT_TRUE(*ver >= verLeaf(1, 0, 8));
+    ASSERT_TRUE(*ver == verLeaf(1, 0, 8));
+    ASSERT_FALSE(*ver < verLeaf(1, 0, 8));
+    ASSERT_TRUE(*ver < verLeaf(1, 1, 8));
+    ASSERT_FALSE(*ver < verLeaf(0, 2, 8));
+    ASSERT_TRUE(*ver > verLeaf(0, 2, 8));
 }
 
 TEST_F(basicParsing, testNullThisTest) {
@@ -191,7 +191,9 @@ TEST_F(basicParsing, testManifestScript) {
     tstr<leaf> root = leafParser().parse(script);
     ASSERT_TRUE(root);
 
-    ASSERT_TRUE(root->sub("ver").cast<verLeaf>() < verLeaf(2, 1, 1));
+    verLeaf* rootVer = root->sub("ver").cast<verLeaf>();
+    ASSERT_TRUE(rootVer);
+    ASSERT_TRUE(*rootVer < verLeaf(2, 1, 1));
     ASSERT_STREQ(root->sub("author").asStr().c_str(), "kniz");
 
     leaf& entrys = root->sub("entrypoints");
