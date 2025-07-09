@@ -51,7 +51,7 @@ window.onbeforeunload = function() {
 }
 
 function highlight(ta) {
-    let highlighted = hljs.highlight(ta.value, { language: "namu"}).value
+    let highlighted = hljs.highlight(ta.value, { language: "byeol"}).value
     document.getElementById("pre_codepad").innerHTML = highlighted;
 }
 function inputTab(textArea) {

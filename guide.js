@@ -2,7 +2,7 @@ $(document).ready(function(e) {
   $('nav.toc header').click(function() {
     $('ul.toc__menu').toggle(500)
   })
-  $('code.language-namu').each(function(index) {
+  $('code.language-byeol').each(function(index) {
     $(this).attr("src", this.innerHTML)
   })
   hljs.highlightAll();
