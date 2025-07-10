@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "test/common/dep.hpp"
+#include "test/common.hpp"
 
 struct namuTest: public ::testing::Test {
     void SetUp();

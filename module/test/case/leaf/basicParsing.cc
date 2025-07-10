@@ -15,10 +15,10 @@ TEST_F(basicParsing, testScript) {
     ASSERT_TRUE(root);
 
     leaf& programmer = root->sub("programmer");
-    ASSERT_FALSE(nul(programmer));
+    ASSERT_TRUE(programmer.isExist());
 
     leaf& say = programmer["say"];
-    ASSERT_FALSE(nul(say));
+    ASSERT_TRUE(say.isExist());
 
     ASSERT_STREQ(say.asStr().c_str(), "html is not a programming language!");
 }
@@ -33,14 +33,14 @@ TEST_F(basicParsing, testScriptEndsWithEOF) {
     ASSERT_TRUE(root);
 
     leaf& programmer = root->sub("programmer");
-    ASSERT_FALSE(nul(programmer));
+    ASSERT_TRUE(programmer.isExist());
 
     leaf& say = programmer["say"];
-    ASSERT_FALSE(nul(say));
+    ASSERT_TRUE(say.isExist());
     ASSERT_STREQ(say.asStr().c_str(), "html is not a programming language!");
 
     leaf& age = programmer["age"];
-    ASSERT_FALSE(nul(age));
+    ASSERT_TRUE(age.isExist());
     ASSERT_EQ(age.asInt(), 12);
 }
 
@@ -56,14 +56,14 @@ TEST_F(basicParsing, testScriptWithPackScope) {
     ASSERT_TRUE(file);
 
     leaf& say = file->sub("say");
-    ASSERT_FALSE(nul(say));
+    ASSERT_TRUE(say.isExist());
     ASSERT_STREQ(say.asStr().c_str(), "html is not a programming language!");
 
     leaf& ramen = file->sub("ramen");
-    ASSERT_FALSE(nul(ramen));
+    ASSERT_TRUE(ramen.isExist());
     {
         leaf& name = ramen["name"];
-        ASSERT_FALSE(nul(name));
+        ASSERT_TRUE(name.isExist());
         ASSERT_STREQ(name.asStr().c_str(), "doshirak");
     }
 }
@@ -103,24 +103,23 @@ TEST_F(basicParsing, testVerObject) {
 
     leaf& man = root->sub("man");
     leaf& name = man["name"];
-    ASSERT_FALSE(nul(name));
+    ASSERT_TRUE(name);
 
     ASSERT_STREQ(name.asStr().c_str(), "dark souls");
 
-    verLeaf* ver = man["ver"].cast<verLeaf>();
-    ASSERT_TRUE(ver);
-    ASSERT_STREQ(ver->asStr().c_str(), "1.0.8");
-    ASSERT_EQ(ver->asMajor(), 1);
-    ASSERT_EQ(ver->asMinor(), 0);
-    ASSERT_EQ(ver->asFix(), 8);
+    verLeaf& ver = man["ver"].cast<verLeaf>() OR_ASSERT(ver);
+    ASSERT_STREQ(ver.asStr().c_str(), "1.0.8");
+    ASSERT_EQ(ver.asMajor(), 1);
+    ASSERT_EQ(ver.asMinor(), 0);
+    ASSERT_EQ(ver.asFix(), 8);
 
-    ASSERT_TRUE(*ver >= verLeaf(1, 0, 7));
-    ASSERT_TRUE(*ver >= verLeaf(1, 0, 8));
-    ASSERT_TRUE(*ver == verLeaf(1, 0, 8));
-    ASSERT_FALSE(*ver < verLeaf(1, 0, 8));
-    ASSERT_TRUE(*ver < verLeaf(1, 1, 8));
-    ASSERT_FALSE(*ver < verLeaf(0, 2, 8));
-    ASSERT_TRUE(*ver > verLeaf(0, 2, 8));
+    ASSERT_TRUE(ver >= verLeaf(1, 0, 7));
+    ASSERT_TRUE(ver >= verLeaf(1, 0, 8));
+    ASSERT_TRUE(ver == verLeaf(1, 0, 8));
+    ASSERT_FALSE(ver < verLeaf(1, 0, 8));
+    ASSERT_TRUE(ver < verLeaf(1, 1, 8));
+    ASSERT_FALSE(ver < verLeaf(0, 2, 8));
+    ASSERT_TRUE(ver > verLeaf(0, 2, 8));
 }
 
 TEST_F(basicParsing, testNullThisTest) {
@@ -174,7 +173,6 @@ TEST_F(basicParsing, testNullThisAccess) {
     ASSERT_TRUE(file);
 
     string shouldExist = file->sub("null obj")["and so null"].asStr();
-    ASSERT_FALSE(nul(shouldExist));
     ASSERT_STREQ(shouldExist.c_str(), "");
 }
 
@@ -191,13 +189,12 @@ TEST_F(basicParsing, testManifestScript) {
     tstr<leaf> root = leafParser().parse(script);
     ASSERT_TRUE(root);
 
-    verLeaf* rootVer = root->sub("ver").cast<verLeaf>();
-    ASSERT_TRUE(rootVer);
-    ASSERT_TRUE(*rootVer < verLeaf(2, 1, 1));
+    verLeaf& rootVer = root->sub("ver").cast<verLeaf>() OR_ASSERT(rootVer);
+    ASSERT_TRUE(rootVer < verLeaf(2, 1, 1));
     ASSERT_STREQ(root->sub("author").asStr().c_str(), "kniz");
 
     leaf& entrys = root->sub("entrypoints");
-    ASSERT_FALSE(nul(entrys));
+    ASSERT_TRUE(entrys);
 
     ASSERT_EQ(entrys.len(), 1);
     ASSERT_STREQ(entrys["cpp"]["path"].asStr().c_str(), "./libsamplePack.pack");

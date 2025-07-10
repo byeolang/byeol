@@ -1,4 +1,4 @@
-#include "test/common/dep.hpp"
+#include "test/common.hpp"
 
 using namespace nm;
 
@@ -150,11 +150,10 @@ TEST_F(binderTest, defaultBehaviorTest) {
     tstr<A> b1(new A());
     ASSERT_TRUE(b1);
 
-    const bindTag* tag = b1->getBindTag();
-    ASSERT_TRUE(tag);
+    const bindTag& tag = b1->getBindTag() OR_ASSERT(tag);
     ASSERT_TRUE(b1->isHeap());
 
-    id i = tag->getId();
+    id i = tag.getId();
     ASSERT_GT(i.serial, 0);
     ASSERT_GE(i.tagN, 0);
 }
@@ -166,9 +165,8 @@ TEST_F(binderTest, shouldBindTagInaccessibleAfterInstanceTermination) {
     {
         B b1;
         i = b1.getId();
-        const auto* cell = watcher.get(i);
-        ASSERT_TRUE(cell);
-        tag = &cell->blk;
+        const auto& cell = watcher.get(i) OR_ASSERT(cell);
+        tag = &cell.blk;
         ASSERT_TRUE(tag);
         ASSERT_EQ(i, tag->getId());
     }
@@ -231,39 +229,36 @@ TEST_F(binderTest, StrongAndWeakTest) {
     tstr<A> strA(new A());
     ASSERT_TRUE(strA.isBind());
 
-    const bindTag* tag = strA->getBindTag();
-    ASSERT_TRUE(tag);
-    ASSERT_EQ(tag->getStrongCnt(), 1);
+    const bindTag& tag = strA->getBindTag() OR_ASSERT(tag);
+    ASSERT_EQ(tag.getStrongCnt(), 1);
 
     tweak<A> weakA(*strA);
-    const bindTag* tagWeak = weakA->getBindTag();
-    ASSERT_TRUE(tagWeak);
-    ASSERT_EQ(tagWeak, &tag);
-    ASSERT_EQ(tagWeak->getStrongCnt(), 1);
+    const bindTag& tagWeak = weakA->getBindTag() OR_ASSERT(tagWeak);
+    ASSERT_EQ(&tagWeak, &tag);
+    ASSERT_EQ(tagWeak.getStrongCnt(), 1);
 }
 
 TEST_F(binderTest, bindByValueTest) {
     tstr<A> strA(new A());
-    const bindTag* tag = strA->getBindTag();
-    ASSERT_TRUE(tag);
-    ASSERT_EQ(tag->getStrongCnt(), 1);
+    const bindTag& tag = strA->getBindTag() OR_ASSERT(tag);
+    ASSERT_EQ(tag.getStrongCnt(), 1);
 
     binder bindA(strA);
     ASSERT_EQ(strA.get(), bindA.get());
-    ASSERT_EQ(tag->getStrongCnt(), 2);
+    ASSERT_EQ(tag.getStrongCnt(), 2);
 
     strA.rel();
-    ASSERT_EQ(tag->getStrongCnt(), 1);
+    ASSERT_EQ(tag.getStrongCnt(), 1);
 
     {
         binder bindA2(bindA); // NOLINT: checks whether bindTag of memory pool has increased or not.
-        ASSERT_EQ(tag->getStrongCnt(), 2);
+        ASSERT_EQ(tag.getStrongCnt(), 2);
     }
 
-    ASSERT_EQ(tag->getStrongCnt(), 1);
+    ASSERT_EQ(tag.getStrongCnt(), 1);
     bindA.rel();
 
-    ASSERT_EQ(tag->getStrongCnt(), 0);
+    ASSERT_EQ(tag.getStrongCnt(), 0);
 }
 
 TEST_F(binderTest, assignTest) {
@@ -287,9 +282,8 @@ TEST_F(binderTest, WeakBindButInstanceGoneTest) {
     tstr<A> strA(new A());
     tweak<A> weakA(*strA);
 
-    const bindTag* tag = weakA->getBindTag();
-    ASSERT_TRUE(tag);
-    ASSERT_EQ(tag->getStrongCnt(), 1);
+    const bindTag& tag = weakA->getBindTag() OR_ASSERT(tag);
+    ASSERT_EQ(tag.getStrongCnt(), 1);
 
     strA.rel();
     ASSERT_FALSE(weakA.isBind());
