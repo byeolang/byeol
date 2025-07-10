@@ -13,12 +13,11 @@ namespace {
 
 TEST_F(mgdObjTest, testGetOriginPointingThis) {
     myObj obj1;
-    ASSERT_FALSE(nul(obj1.getOrigin()));
     ASSERT_EQ(&obj1.getOrigin(), &obj1);
 
     tstr<obj> copied((obj*) obj1.clone());
     ASSERT_TRUE(copied);
-    ASSERT_NE(&copied.get(), &obj1);
+    ASSERT_NE(copied.get(), &obj1);
 }
 
 TEST_F(mgdObjTest, testAccessCompleteObject) {
@@ -78,14 +77,13 @@ TEST_F(mgdObjTest, distinguishPackScopeAndObjScopeByItsOwner) {
     )SRC")
         .shouldVerified(true);
 
-    obj& a = getSubPack().sub<obj>("a");
-    ASSERT_FALSE(nul(a));
-    auto pr = a.subAll<baseFunc>(baseObj::CTOR_NAME, args{});
+    obj& a = getSubPack() TO(template sub<obj>("a")) OR_ASSERT(a);
+    auto pr = a.subAll<baseFunc>(baseObj::CTOR_NAME, nullptr);
     ASSERT_EQ(pr.len(), 1); // 'a' obj's ctor.
-    auto matches = a.getSubPack().subAll<baseFunc>(baseObj::CTOR_NAME, args{});
+    auto matches = a.getSubPack().subAll<baseFunc>(baseObj::CTOR_NAME, nullptr);
     ASSERT_EQ(matches.len(), 1); // default-pack's ctor.
     ASSERT_EQ(matches.len(), 1);
-    ASSERT_FALSE(nul(matches.get()));
+    ASSERT_TRUE(matches.get());
 }
 
 TEST_F(mgdObjTest, clonedObjDoesntCloneSharesDeeply) {
@@ -105,33 +103,29 @@ TEST_F(mgdObjTest, clonedObjDoesntCloneSharesDeeply) {
     )SRC")
         .shouldVerified(true);
 
-    obj& o1 = getSubPack().sub<obj>("o1");
-    obj& o2 = getSubPack().sub<obj>("o2");
-    ASSERT_FALSE(nul(o1));
-    ASSERT_FALSE(nul(o2));
+    obj& o1 = getSubPack()->sub<obj>("o1") OR_ASSERT(o1);
+    obj& o2 = getSubPack()->sub<obj>("o2") OR_ASSERT(o2);
 
     ASSERT_EQ(o1.getOwns().len(), 2);
     ASSERT_EQ(o1.getOwns()["age"].cast<nint>(), 22);
-    obj& o1b1 = o1.sub<obj>("b1");
-    ASSERT_FALSE(nul(o1b1));
+    obj& o1b1 = o1.sub<obj>("b1") OR_ASSERT(o1b1);
     ASSERT_EQ(o1b1.getOwns().len(), 1);
     ASSERT_EQ(o1b1.getOwns()["grade"].cast<nflt>(), 3.5f);
 
-    const auto& b1foo = o1b1.getShares().get<func>("foo");
+    const auto& b1foo = o1b1.getShares().get<func>("foo") OR_ASSERT(b1foo);
     ASSERT_EQ(b1foo.getParams().len(), 0);
-    ASSERT_TRUE(b1foo.getRet().isSub<nVoid>());
+    ASSERT_TRUE(b1foo.getRet()->isSub<nVoid>());
 
 
     ASSERT_EQ(o2.getOwns().len(), 2);
     ASSERT_EQ(o2.getOwns()["age"].cast<nint>(), 22);
-    obj& o2b1 = o2.sub<obj>("b1");
-    ASSERT_FALSE(nul(o2b1));
+    obj& o2b1 = o2.sub<obj>("b1") OR_ASSERT(o2b1);
     ASSERT_EQ(o2b1.getOwns().len(), 1);
     ASSERT_EQ(o2b1.getOwns()["grade"].cast<nflt>(), 3.5f);
 
-    const auto& b2foo = o2b1.getShares().get<func>("foo");
+    const auto& b2foo = o2b1.getShares().get<func>("foo") OR_ASSERT(b2foo);
     ASSERT_EQ(b2foo.getParams().len(), 0);
-    ASSERT_TRUE(b2foo.getRet().isSub<nVoid>());
+    ASSERT_TRUE(b2foo.getRet()->isSub<nVoid>());
 
     ASSERT_NE(&o1b1.getOwns()["grade"], &o2b1.getOwns()["grade"]);
     ASSERT_EQ(&b1foo, &b2foo);

@@ -12,7 +12,9 @@ namespace {
     public:
         myNode(int num): number(num) {}
 
-        scope& subs() override { return nulOf<scope>(); }
+        scope& subs() override {
+            return dumScope::singleton();
+        }
 
         priorType prioritize(const args& types) const override { return NO_MATCH; }
 
@@ -26,7 +28,7 @@ namespace {
         tnchain<std::string, myNode> chn(*m);
         ASSERT_EQ(0, m->len());
         ASSERT_EQ(chn.len(), m->len());
-        ASSERT_TRUE(nul(chn.getNext()));
+        ASSERT_FALSE(chn.getNext());
 
         std::map<std::string, myNode*> tray;
         for(int n = 0; n < cnt; n++) {
@@ -40,14 +42,14 @@ namespace {
         ASSERT_EQ(chn.len(), cnt);
         ASSERT_EQ(chn.len(), cnt);
 
-        ASSERT_TRUE(nul(chn.getNext()));
+        ASSERT_FALSE(chn.getNext());
         for(auto e = chn.begin(); e; ++e) {
-            ASSERT_FALSE(nul(e.getKey()));
+            ASSERT_TRUE(e.getKey());
             ASSERT_NE(e.getKey(), "");
-            const myNode& elem = e.getVal();
-            const myNode& answer = *tray[e.getKey()];
-            ASSERT_EQ(&elem, &answer);
-            ASSERT_EQ("name" + std::to_string(elem.number), e.getKey());
+            const myNode* elem = e.getVal();
+            const myNode* answer = tray[*e.getKey()];
+            ASSERT_EQ(elem, answer);
+            ASSERT_EQ("name" + std::to_string(elem->number), *e.getKey());
         }
     }
 
@@ -91,11 +93,6 @@ namespace {
 
 } // namespace
 
-TEST_F(nchainTest, instantiateTest) {
-    nchain chn;
-    ASSERT_FALSE(nul(chn.getContainer()));
-}
-
 TEST_F(nchainTest, simpleAddDelTest10) { simpleAddDelTest(10); }
 
 TEST_F(nchainTest, simpleAddDelTest1000) { simpleAddDelTest(1000); }
@@ -105,7 +102,7 @@ TEST_F(nchainTest, simpleAddDelTest10000) { simpleAddDelTest(10000); }
 TEST_F(nchainTest, testucontainableAPI) {
     //  initial state:
     tstr<nchain> arr(new nchain());
-    bicontainable* con = &arr.get();
+    bicontainable* con = arr.get();
     ASSERT_EQ(con->len(), 0);
 
     auto head = arr->begin();
@@ -124,7 +121,7 @@ TEST_F(nchainTest, testucontainableAPI) {
 
     //  add:
     for(int n = 0; n < con->len(); n++)
-        ASSERT_EQ(con->get(std::to_string(n)).cast<myNode>().number, n);
+        ASSERT_EQ(con->get(std::to_string(n))->cast<myNode>()->number, n);
 
     //  get & each:
     {
@@ -150,7 +147,7 @@ TEST_F(nchainTest, testucontainableAPI) {
     //  del:
     ASSERT_TRUE(con->del("1"));
     ASSERT_EQ(con->len(), 1);
-    ASSERT_EQ(con->begin()->cast<myNode>().number, 0);
+    ASSERT_EQ(con->begin()->cast<myNode>()->number, 0);
 
     //  add with element:
     narr arr2;
@@ -158,22 +155,22 @@ TEST_F(nchainTest, testucontainableAPI) {
     ASSERT_TRUE(arr2.add(new myNode(1)));
     ASSERT_TRUE(arr2.add(new myMyNode(2)));
     ASSERT_TRUE(arr2.add(new myNode(3)));
-    ASSERT_EQ(arr2[2].cast<myNode>().number, 2);
-    ASSERT_EQ(arr2[3].cast<myNode>().number, 3);
+    ASSERT_EQ(arr2[2].cast<myNode>()->number, 2);
+    ASSERT_EQ(arr2[3].cast<myNode>()->number, 3);
     ASSERT_EQ(arr2.len(), 4);
 
     auto e = arr2.begin();
     e = e + 2;
-    ASSERT_EQ(e->cast<myNode>().number, 2);
+    ASSERT_EQ(e->cast<myNode>()->number, 2);
     ASSERT_TRUE(arr2.add(e, new myNode(5)));
     ASSERT_TRUE(arr2.add(2, new myNode(6)));
 
-    ASSERT_EQ(arr2[0].cast<myNode>().number, 0);
-    ASSERT_EQ(arr2[1].cast<myNode>().number, 1);
-    ASSERT_EQ(arr2[2].cast<myNode>().number, 6);
-    ASSERT_EQ(arr2[3].cast<myNode>().number, 5);
-    ASSERT_EQ(arr2[4].cast<myNode>().number, 2);
-    ASSERT_EQ(arr2[5].cast<myNode>().number, 3);
+    ASSERT_EQ(arr2[0].cast<myNode>()->number, 0);
+    ASSERT_EQ(arr2[1].cast<myNode>()->number, 1);
+    ASSERT_EQ(arr2[2].cast<myNode>()->number, 6);
+    ASSERT_EQ(arr2[3].cast<myNode>()->number, 5);
+    ASSERT_EQ(arr2[4].cast<myNode>()->number, 2);
+    ASSERT_EQ(arr2[5].cast<myNode>()->number, 3);
 
     ASSERT_EQ(con->len(), 1);
     ncnt count = 0;
@@ -185,16 +182,16 @@ TEST_F(nchainTest, testucontainableAPI) {
     // con = {0, 1, 6}
 
     auto e2 = con->begin();
-    myNode* elem = &e2->cast<myNode>();
-    ASSERT_FALSE(nul(elem));
+    myNode* elem = e2->cast<myNode>();
+    ASSERT_TRUE(elem);
     ASSERT_EQ(elem->number, 0);
 
-    elem = &(++e2)->cast<myNode>();
-    ASSERT_FALSE(nul(elem));
+    elem = (++e2)->cast<myNode>();
+    ASSERT_TRUE(elem);
     ASSERT_EQ(elem->number, 1);
 
-    elem = &(++e2)->cast<myNode>();
-    ASSERT_FALSE(nul(elem));
+    elem = (++e2)->cast<myNode>();
+    ASSERT_TRUE(elem);
     ASSERT_EQ(elem->number, 6);
     ASSERT_FALSE(++e2);
 
@@ -207,31 +204,31 @@ TEST_F(nchainTest, testucontainableAPI) {
         count += con->add(to_string(count), *e);
     ASSERT_EQ(count, 4);
     e2 = con->begin();
-    elem = &e2->cast<myNode>();
-    ASSERT_FALSE(nul(elem));
+    elem = e2->cast<myNode>();
+    ASSERT_TRUE(elem);
     ASSERT_EQ(elem->number, 6);
 
-    elem = &(++e2)->cast<myNode>();
-    ASSERT_FALSE(nul(elem));
+    elem = (++e2)->cast<myNode>();
+    ASSERT_TRUE(elem);
     ASSERT_EQ(elem->number, 5);
 
-    elem = &(++e2)->cast<myNode>();
-    ASSERT_FALSE(nul(elem));
+    elem = (++e2)->cast<myNode>();
+    ASSERT_TRUE(elem);
     ASSERT_EQ(elem->number, 2);
 
-    elem = &(++e2)->cast<myNode>();
-    ASSERT_FALSE(nul(elem));
+    elem = (++e2)->cast<myNode>();
+    ASSERT_TRUE(elem);
     ASSERT_EQ(elem->number, 3);
 
     ASSERT_TRUE(con->del(con->begin() + 1, con->begin() + 3));
     ASSERT_EQ(con->len(), 2);
     e2 = con->begin();
-    elem = &e2->cast<myNode>();
-    ASSERT_FALSE(nul(elem));
+    elem = e2->cast<myNode>();
+    ASSERT_TRUE(elem);
     ASSERT_EQ(elem->number, 6);
 
-    elem = &(++e2)->cast<myNode>();
-    ASSERT_FALSE(nul(elem));
+    elem = (++e2)->cast<myNode>();
+    ASSERT_TRUE(elem);
     ASSERT_EQ(elem->number, 3);
 }
 
@@ -284,30 +281,29 @@ TEST_F(nchainTest, testLinkedChainWithNContainerAPI) {
     expectElementNums.push_back(3);
 
     // link:
-    ASSERT_TRUE(nul(chn1.getNext()));
-    ASSERT_TRUE(nul(chn2.getNext()));
-    ASSERT_TRUE(nul(chn3.getNext()));
+    ASSERT_FALSE(chn1.getNext());
+    ASSERT_FALSE(chn2.getNext());
+    ASSERT_FALSE(chn3.getNext());
     ASSERT_TRUE(chn1.link(chn2));
-    ASSERT_TRUE(nul(chn1.getNext().getNext()));
+    ASSERT_FALSE(chn1.getNext()->getNext());
     ASSERT_TRUE(chn2.link(chn3));
-    ASSERT_TRUE(nul(chn3.getNext()));
-    ASSERT_TRUE(nul(chn1.getNext().getNext().getNext()));
+    ASSERT_FALSE(chn3.getNext());
+    ASSERT_FALSE(chn1.getNext() TO(getNext()) TO(getNext()));
     ASSERT_EQ(chn1.len(), 6);
 
     // add with link:
-    ASSERT_EQ(chn1.get<myNode>("0").number, 0);
-    ASSERT_EQ(chn1.get<myNode>("1").number, 1);
-    ASSERT_EQ(chn1.get<myNode>("6").number, 6);
-    ASSERT_EQ(chn1.get<myNode>("5").number, 5);
-    ASSERT_EQ(chn1.get<myNode>("2").number, 2);
-    ASSERT_EQ(chn1.get<myNode>("3").number, 3);
+    ASSERT_EQ(chn1.get<myNode>("0")->number, 0);
+    ASSERT_EQ(chn1.get<myNode>("1")->number, 1);
+    ASSERT_EQ(chn1.get<myNode>("6")->number, 6);
+    ASSERT_EQ(chn1.get<myNode>("5")->number, 5);
+    ASSERT_EQ(chn1.get<myNode>("2")->number, 2);
+    ASSERT_EQ(chn1.get<myNode>("3")->number, 3);
 
     // each with link:
     int cnt = 0;
     auto lambda = [&cnt, &expectElementNums](const nbicontainer& chn) -> void {
         for(const auto& e: chn) {
-            const myNode& elem = e.cast<myNode>();
-            if(nul(elem)) {
+            if(!e.cast<myNode>()) {
                 cnt = -1;
                 return;
             }
@@ -361,18 +357,18 @@ TEST_F(nchainTest, testcloneDeep) {
     chn2.add("3", new myNode(3));
     chn.link(chn2);
 
-    ASSERT_EQ(chn["0"].cast<myNode>().number, 0);
-    ASSERT_EQ(chn["1"].cast<myNode>().number, 1);
-    ASSERT_EQ(chn["2"].cast<myNode>().number, 2);
-    ASSERT_EQ(chn["3"].cast<myNode>().number, 3);
+    ASSERT_EQ(chn["0"].cast<myNode>()->number, 0);
+    ASSERT_EQ(chn["1"].cast<myNode>()->number, 1);
+    ASSERT_EQ(chn["2"].cast<myNode>()->number, 2);
+    ASSERT_EQ(chn["3"].cast<myNode>()->number, 3);
 
     tstr<nchain> it(
         (nchain*) chn.cloneDeep()); // cloneDeep() clones all element in all chained container.
     nchain& itsChn = *it;
-    ASSERT_EQ(itsChn["0"].cast<myNode>().number, 0);
-    ASSERT_EQ(itsChn["1"].cast<myNode>().number, 1);
-    ASSERT_EQ(itsChn["2"].cast<myNode>().number, 2);
-    ASSERT_EQ(itsChn["3"].cast<myNode>().number, 3);
+    ASSERT_EQ(itsChn["0"].cast<myNode>()->number, 0);
+    ASSERT_EQ(itsChn["1"].cast<myNode>()->number, 1);
+    ASSERT_EQ(itsChn["2"].cast<myNode>()->number, 2);
+    ASSERT_EQ(itsChn["3"].cast<myNode>()->number, 3);
 
     ASSERT_NE(&itsChn["0"], &chn["0"]);
     ASSERT_NE(&itsChn["1"], &chn["1"]);
@@ -382,15 +378,14 @@ TEST_F(nchainTest, testcloneDeep) {
 
 TEST_F(nchainTest, testShouldLinkOverwritePrevious) {
     tstr<nmap> map1Str(new nmap());
-    const bindTag* map1tag = &bindTag::getBindTag(map1Str.getItsId());
-    ASSERT_FALSE(nul(map1tag));
-    ASSERT_EQ(map1tag->getStrongCnt(), 1);
+    const bindTag& map1tag = bindTag::getBindTag(map1Str.getItsId()) OR_ASSERT(map1tag);
+    ASSERT_EQ(map1tag.getStrongCnt(), 1);
 
     tweak<nmap> map1Weak = *map1Str;
     map1Str->add("0", new myNode(0));
     map1Str->add("1", new myNode(1));
     ASSERT_EQ(map1Str->len(), 2);
-    ASSERT_EQ(map1tag->getStrongCnt(), 1);
+    ASSERT_EQ(map1tag.getStrongCnt(), 1);
 
 
     nchain chn2;
@@ -398,20 +393,20 @@ TEST_F(nchainTest, testShouldLinkOverwritePrevious) {
     chn2.add("3", new myNode(3));
     ASSERT_EQ(chn2.len(), 2);
 
-    ASSERT_TRUE(chn2.link(*chn2.wrap(*map1Str)));
-    ASSERT_EQ(map1tag->getStrongCnt(), 2);
+    ASSERT_TRUE(chn2.link(chn2.wrap(*map1Str)));
+    ASSERT_EQ(map1tag.getStrongCnt(), 2);
     // chn2 --> unknown chain instance holding map1
     ASSERT_EQ(chn2.len(), 4);
 
     map1Str.rel();
-    ASSERT_EQ(map1tag->getStrongCnt(), 1);
+    ASSERT_EQ(map1tag.getStrongCnt(), 1);
     ASSERT_EQ(chn2.len(), 4);
     ASSERT_TRUE(map1Weak.isBind());
 
     nmap map2;
     ASSERT_TRUE(map1Weak.isBind());
-    chn2.link(*chn2.wrap(map2));
-    ASSERT_EQ(map1tag->getStrongCnt(), 0);
+    chn2.link(chn2.wrap(map2));
+    ASSERT_EQ(map1tag.getStrongCnt(), 0);
     // this overwrites chain containing map1. it's now dangling.
     // chn2(2, 3) --> unknown chain instance holding map2(null)
     //   |
@@ -431,7 +426,7 @@ TEST_F(nchainTest, testDelWithLink) {
         map1.add("2", new myNode(2));
         map1.add("3", new myNode(3));
 
-        auto map1Str = chn.wrap(map1);
+        tstr<nchain> map1Str = chn.wrap(map1);
         chn.link(*map1Str);
         // chn --> map1Str with map1
         //  ^
@@ -444,7 +439,7 @@ TEST_F(nchainTest, testDelWithLink) {
             map2.add("4", new myNode(4));
             map2.add("5", new myNode(5));
             map2.add("6", new myNode(6));
-            auto map2Str = nchain::wrap(map2);
+            tstr<nchain> map2Str = nchain::wrap(map2);
             map1Str->link(*map2Str);
             map2Weak = map2Str;
             // now, chn --> map1Str with map1 --> map2Str with map2
@@ -461,7 +456,7 @@ TEST_F(nchainTest, testDelWithLink) {
         NM_DI("chn.len()=%d", chn.len());
         auto e = chn.iterate(chn.len() - 1);
 
-        myNode& last = e->cast<myNode>();
+        myNode& last = *e->cast<myNode>();
         ASSERT_EQ(last.number, 3);
     }
     chn.unlink();
@@ -493,20 +488,20 @@ TEST_F(nchainTest, testRangeBasedForLoop) {
 
     int sum = 0;
     for(auto& e: map1) {
-        myNode& cast = e.cast<myNode>();
+        myNode& cast = *e.cast<myNode>();
         sum += cast.number;
     }
 
     int sum2 = 0;
     for(const node& e: map1) {
-        const myNode& cast = e.cast<myNode>();
+        const myNode& cast = *e.cast<myNode>();
         sum2 += cast.number;
     }
     ASSERT_EQ(sum2, sum);
 
     int expect = 0;
     for(auto e = map1.begin(); e; e++)
-        expect += e->cast<myNode>().number;
+        expect += e->cast<myNode>()->number;
 
     ASSERT_EQ(sum, expect);
 }
@@ -517,17 +512,17 @@ TEST_F(nchainTest, testLinkArrayAndChain) {
     map1.add("2", new myNode(2));
     nchain chn(map1);
     ASSERT_EQ(chn.len(), 2);
-    ASSERT_TRUE(nul(chn.getNext()));
+    ASSERT_FALSE(chn.getNext());
 
     nchain chn2;
     chn2.add("3", new myNode(3));
     nmap map2;
     map2.add("4", new myNode(4));
     map2.add("5", new myNode(5));
-    chn2.link(*chn2.wrap(map2));
+    chn2.link(chn2.wrap(map2));
     ASSERT_EQ(chn2.len(), 3);
-    ASSERT_FALSE(nul(chn2.getNext()));
-    ASSERT_EQ(&chn2.getNext().getContainer(), &map2);
+    ASSERT_TRUE(chn2.getNext());
+    ASSERT_EQ(chn2.getNext()->getContainer(), &map2);
 
     chn.link(chn2);
     int cnt = 5;
@@ -536,7 +531,7 @@ TEST_F(nchainTest, testLinkArrayAndChain) {
     for(int n = 1; n <= 5; n++) {
         std::string key = std::to_string(n);
         ASSERT_TRUE(chn.in(key));
-        ASSERT_EQ(chn[key].cast<myNode>().number, n);
+        ASSERT_EQ(chn[key].cast<myNode>()->number, n);
     }
 }
 
@@ -574,14 +569,14 @@ TEST_F(nchainTest, testChainCopy) {
     // current status: chn1 -> chn2
     //                 chn3 -> cloned -> chn2
     //              cloned2 -> cloned
-    tstr<tnchain<float, myNode>> cloned2(chn3.cloneChain(*cloned));
+    tstr<tnchain<float, myNode>> cloned2(chn3.cloneChain(cloned.get()));
     ASSERT_EQ(cloned2->len(), 4);
 
     // current status: chn1 -> chn2(size=3)
     //                 chn3 -> cloned -> chn2(size=3)
     //              cloned2 -> cloned -> chn1 -> chn2(size=3)
-    ASSERT_FALSE(nul(cloned2->getNext()));
-    cloned2->getNext().link(chn1);
+    ASSERT_TRUE(cloned2->getNext());
+    cloned2->getNext()->link(chn1);
     ASSERT_EQ(cloned2->len(), 8);
 
     chn2.add(7.0, new myNode(7));
@@ -592,8 +587,8 @@ TEST_F(nchainTest, testChainCopy) {
 
     std::vector<float> tray;
     for(auto e = cloned2->begin(); e; ++e) {
-        ASSERT_EQ(e.getKey(), (float) e->cast<myNode>().number);
-        tray.push_back(e.getKey());
+        ASSERT_EQ(e.getKey(), (float) e->cast<myNode>()->number);
+        tray.push_back(*e.getKey());
     }
 
 
@@ -619,11 +614,10 @@ TEST_F(nchainTest, testDeepChainAddDel) {
     chn3.add(5.0, new myNode2(5));
     chn3.add(6.0, new myNode(6));
 
-    auto& tail = root->getTail(); // tail is chn2 from root.
-    ASSERT_FALSE(nul(tail));
+    auto& tail = root->getTail() OR_ASSERT(tail); // tail is chn2 from root.
     ASSERT_EQ(tail.len(), 2);
     ASSERT_NE(&tail, &chn2);
-    ASSERT_EQ(&tail.getContainer(), &chn2.getContainer());
+    ASSERT_EQ(tail.getContainer(), chn2.getContainer());
 
     // current graph: root -> chn2 -> chn3
     //                chn1 -> chn2
@@ -633,8 +627,8 @@ TEST_F(nchainTest, testDeepChainAddDel) {
 
     auto e = root->begin();
     e = e + 2;
-    ASSERT_FALSE(nul(*e));
-    ASSERT_EQ(root->get(6.0).number, 6);
+    ASSERT_TRUE(*e);
+    ASSERT_EQ(root->get(6.0)->number, 6);
 
     // current graph: root -> chn2(size=1) -> chn3
     //                chn1 -> chn2(size=1)
@@ -681,11 +675,11 @@ TEST_F(nchainTest, delWhileIteration) {
     m.add("banana", new nInt(8));
 
     for(auto e = m.begin(); e;)
-        if(e.getKey() == "banana") m.del(e++);
+        if(*e.getKey() == "banana") m.del(e++);
         else ++e;
 
     ASSERT_EQ(m.len(), 4);
-    ASSERT_EQ(m.get("apple").cast<int>(), 3);
+    ASSERT_EQ(*m.get("apple")->cast<int>(), 3);
     ASSERT_EQ(m.getAll("meat").len(), 3);
 }
 
@@ -707,14 +701,14 @@ TEST_F(nchainTest, chainMultipleLinkAndCheckPrev) {
     {
         nchain* expects[] = {&m, &m2, &m3};
         int n = 0;
-        for(nchain* e = &m; e; e = &e->getNext())
+        for(nchain* e = &m; e; e = e->getNext())
             ASSERT_EQ(e, expects[n++]);
     }
 
     {
         nchain* expects[] = {&m3, &m2, &m};
         int n = 0;
-        for(nchain* e = &m3; e; e = &e->getPrev())
+        for(nchain* e = &m3; e; e = e->getPrev())
             ASSERT_EQ(e, expects[n++]);
     }
 }
@@ -736,7 +730,7 @@ TEST_F(nchainTest, unlinkSuddenlyMiddleOfMultipleChain) {
     {
         nchain* expects[] = {&m, &m2, &m3};
         int n = 0;
-        for(nchain* e = &m; e; e = &e->getNext())
+        for(nchain* e = &m; e; e = e->getNext())
             ASSERT_EQ(e, expects[n++]);
     }
 
@@ -745,9 +739,9 @@ TEST_F(nchainTest, unlinkSuddenlyMiddleOfMultipleChain) {
     {
         nchain* expects[] = {&m, &m2};
         int n = 0;
-        for(nchain* e = &m; e; e = &e->getNext())
+        for(nchain* e = &m; e; e = e->getNext())
             ASSERT_EQ(e, expects[n++]);
-        ASSERT_TRUE(nul(m3.getPrev()));
+        ASSERT_FALSE(m3.getPrev());
     }
 }
 
@@ -766,7 +760,7 @@ TEST_F(nchainTest, iterateForKey) {
         auto e = m.iterate("apple");
         ASSERT_FALSE(e.isEnd());
         ASSERT_EQ(e.getKey(), "apple");
-        nInt& val = e->cast<nInt>();
+        nInt& val = *e->cast<nInt>();
         ASSERT_EQ(val.get(), 3);
     }
 
@@ -774,7 +768,7 @@ TEST_F(nchainTest, iterateForKey) {
         auto e = m.iterate("banana");
         ASSERT_FALSE(e.isEnd());
         ASSERT_EQ(e.getKey(), "banana");
-        nInt& val = e->cast<nInt>();
+        nInt& val = *e->cast<nInt>();
         ASSERT_EQ(val.get(), 2);
     }
 
@@ -782,7 +776,7 @@ TEST_F(nchainTest, iterateForKey) {
         auto e = m.riterate("banana");
         ASSERT_FALSE(e.isEnd());
         ASSERT_EQ(e.getKey(), "banana");
-        nInt& val = e->cast<nInt>();
+        nInt& val = *e->cast<nInt>();
         ASSERT_EQ(val.get(), 8);
     }
 }
@@ -833,7 +827,7 @@ TEST_F(nchainTest, iterateForKeyInMultipleChain) {
         auto e = m2.iterate("apple");
         ASSERT_FALSE(e.isEnd());
         ASSERT_EQ(e.getKey(), "apple");
-        nInt& val = e->cast<nInt>();
+        nInt& val = *e->cast<nInt>();
         ASSERT_EQ(val.get(), 3);
     }
 
@@ -841,13 +835,13 @@ TEST_F(nchainTest, iterateForKeyInMultipleChain) {
         auto e = m2.iterate("banana");
         ASSERT_FALSE(e.isEnd());
         ASSERT_EQ(e.getKey(), "banana");
-        nInt& val = e->cast<nInt>();
+        nInt& val = *e->cast<nInt>();
         ASSERT_EQ(val.get(), 4);
 
         ++e;
         ASSERT_FALSE(e.isEnd());
         ASSERT_EQ(e.getKey(), "banana");
-        nInt& val2 = e->cast<nInt>();
+        nInt& val2 = *e->cast<nInt>();
         ASSERT_EQ(val2.get(), 2);
     }
 
@@ -855,13 +849,13 @@ TEST_F(nchainTest, iterateForKeyInMultipleChain) {
         auto e = m2.riterate("banana");
         ASSERT_FALSE(e.isEnd());
         ASSERT_EQ(e.getKey(), "banana");
-        nInt& val = e->cast<nInt>();
+        nInt& val = *e->cast<nInt>();
         ASSERT_EQ(val.get(), 2);
 
         ++e;
         ASSERT_FALSE(e.isEnd());
         ASSERT_EQ(e.getKey(), "banana");
-        nInt& val2 = e->cast<nInt>();
+        nInt& val2 = *e->cast<nInt>();
         ASSERT_EQ(val2.get(), 4);
     }
 }
@@ -892,7 +886,7 @@ TEST_F(nchainTest, linkFirstAddSecond) {
         int n = 0;
         for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n++]);
-            ASSERT_EQ(e.getVal().cast<nint>(), n);
+            ASSERT_EQ(*e.getVal()->cast<nint>(), n);
         }
     }
 }
@@ -914,7 +908,7 @@ TEST_F(nchainTest, linkREndAndAddingElemCanAffect) {
         int n = 0;
         for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
-            ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
+            ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
 
@@ -929,7 +923,7 @@ TEST_F(nchainTest, linkREndAndAddingElemCanAffect) {
         int n = 0;
         for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
-            ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
+            ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
 }
@@ -950,7 +944,7 @@ TEST_F(nchainTest, linkReversedKeySpecificAndAddingElemCantAffect) {
         int n = 0;
         for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
-            ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
+            ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
 
@@ -962,7 +956,7 @@ TEST_F(nchainTest, linkReversedKeySpecificAndAddingElemCantAffect) {
         int n = 0;
         for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
-            ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
+            ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
 }
@@ -988,7 +982,7 @@ TEST_F(nchainTest, linkChainsButMiddleOfOneIsReversed) {
         int n = 0;
         for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
-            ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
+            ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
 
@@ -998,7 +992,7 @@ TEST_F(nchainTest, linkChainsButMiddleOfOneIsReversed) {
         int n = 0;
         for(auto e = m.rbegin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
-            ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
+            ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
 }
@@ -1033,7 +1027,7 @@ TEST_F(nchainTest, complexLinkTest) {
         ASSERT_EQ(m.len(), 7);
         for(auto e = m.begin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
-            ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
+            ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
 
@@ -1044,7 +1038,7 @@ TEST_F(nchainTest, complexLinkTest) {
         int n = 0;
         for(auto e = m.rbegin(); e; ++e) {
             ASSERT_EQ(e.getKey(), expectKeys[n]);
-            ASSERT_EQ(e.getVal().cast<nint>(), expects[n++]);
+            ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
 }

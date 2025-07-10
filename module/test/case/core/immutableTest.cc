@@ -47,20 +47,20 @@ namespace {
     public:
         myfunc():
             super(*new modifier(),
-                funcMgdType("myfunc", ttype<me>::get(), params(), false, *new nVoid()),
+                funcMgdType("myfunc", ttype<me>::get(), params(), false, new nVoid()),
                 *new myBlock()) {
             NM_I("myfunc(%s) new", this);
         }
 
         ~myfunc() override { NM_I("myfunc(%s) delete", this); }
 
-        nbool isRun() const { return getBlock().cast<myBlock>()._executed; }
+        nbool isRun() const { return getBlock().cast<myBlock>()->_executed; }
 
         void setLambda(std::function<nbool(const ucontainable&, const frames&)> lambda) {
-            getBlock().cast<myBlock>()._lambda = std::move(lambda);
+            getBlock().cast<myBlock>()->_lambda = std::move(lambda);
         }
 
-        nbool isSuccess() const { return getBlock().cast<myBlock>()._res; }
+        nbool isSuccess() const { return getBlock().cast<myBlock>()->_res; }
     };
 } // namespace
 
@@ -89,14 +89,12 @@ TEST_F(immutableTest, testImmutablePositive) {
     ASSERT_EQ(*r1, *r2);
 
     param r3("", *r1);
-    ASSERT_FALSE(nul(r3.getOrigin()));
     ASSERT_EQ(r3.getOrigin().getType(), ttype<nFlt>::get());
 
     scope s;
     s.add("r1", *r1);
-    const nFlt& cast = s["r1"].cast<nFlt>();
-    ASSERT_FALSE(nul(cast));
-    ASSERT_NE(&r1.get(), &cast);
+    const nFlt& cast = s["r1"].cast<nFlt>() OR_ASSERT(cast);
+    ASSERT_NE(r1.get(), &cast);
     ASSERT_EQ(*r1, cast);
 }
 
@@ -107,32 +105,31 @@ TEST_F(immutableTest, testImmutableNegative) {
     ASSERT_TRUE(r2);
     ASSERT_EQ(*r1, *r2);
 
-    r1->cast<myObj>().val = 2;
+    r1->cast<myObj>()->val = 2;
     ASSERT_EQ(*r1, *r2);
 
     nmap m;
     m.add("r1", *r1);
-    const myObj& cast = m["r1"].cast<myObj>();
-    ASSERT_FALSE(nul(cast));
-    ASSERT_EQ(&r1.get(), &cast);
-    ASSERT_EQ(r1->cast<myObj>().val, cast.val);
+    const myObj& cast = m["r1"].cast<myObj>() OR_ASSERT(cast);
+    ASSERT_EQ(r1.get(), &cast);
+    ASSERT_EQ(r1->cast<myObj>()->val, cast.val);
 }
 
 TEST_F(immutableTest, testFrameImmutability) {
     myObj o1;
     o1.subs().add("age", new nInt(18));
-    node& age = o1.subs().begin().getVal();
+    node& age = o1.subs().begin().getVal() OR_ASSERT(age);
 
     myfunc mf;
     mf.setLambda([&](const ucontainable&, const frames&) {
-        frame& fr = (frame&) nm::thread::get().getNowFrame();
+        frame& fr = (frame*) nm::thread::get().getNowFrame() OR.err("there is no frame in this thread").ret(false);
         // test assign:
         auto e = fr.subs().iterate("age");
         if(e.isEnd()) return NM_E("there is no key"), false;
 
         fr.addLocal("age1", age);
 
-        nInt& age1 = fr.sub<nInt>("age1");
+        nInt& age1 = fr.sub<nInt>("age1") OR.err("couldn't find age1").ret(false);
         if(age1 != age) return NM_E("age1 != age"), false;
         if(&age1 == &age) return NM_E("address of age1 and age are different"), false;
 
