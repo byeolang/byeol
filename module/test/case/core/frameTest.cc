@@ -44,7 +44,7 @@ TEST_F(frameTest, testFrameManipulateChainObjNegative) {
     scope local;
     local.add("myNode1", new myNode(1));
     local.add("myNode2", new myNode(2));
-    fr.add(*scope::wrap<scope>(local));
+    fr.add(scope::wrap<scope>(local));
     ASSERT_FALSE(nul(getScopeStack(fr)));
 
     scope shares;

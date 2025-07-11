@@ -101,7 +101,7 @@ namespace nm {
         NM_DI("'%s'._inFrame() frames.len[%d]", *this, thread::get().getFrames().len());
         fr.addFunc(*this);
         fr.add(*this);
-        fr.add(*scope::wrap<scope>(args ? (nbicontainer*) args : nullptr)); // including 'me'
+        fr.add(scope::wrap<scope>(args ? (nbicontainer*) args : nullptr)); // including 'me'
     }
 
     void me::outFrame(const bicontainable* args) const {

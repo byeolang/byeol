@@ -35,8 +35,8 @@ namespace nm {
     }
 
     me& me::_assign(const me& rhs) {
-        scope& clonedOwns = scope::wrap(*(scope::super*) _cloneEach(rhs));
-        clonedOwns.link(rhs.getShares());
+        scope* clonedOwns = scope::wrap(*(scope::super*) _cloneEach(rhs));
+        clonedOwns->link(rhs.getShares());
         _subs.bind(clonedOwns);
         _org.bind(rhs.getOrigin()); // don't '_org = rhs'. it doesn't work when rhs is origin class.
 
