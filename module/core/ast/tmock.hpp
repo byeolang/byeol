@@ -24,8 +24,7 @@ namespace nm {
         using super::subs;
         scope& subs() override {
             if(_org) return _org->subs();
-            static dumScope inner;
-            return inner;
+            return dumScope::singleton();
         }
 
         using super::prioritize;

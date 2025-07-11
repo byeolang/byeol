@@ -27,9 +27,8 @@ namespace nm {
     }
 
     scope& me::subs() {
-        static dumScope inner;
         const baseObj& org = getOrigin();
-        return &org == this ? inner : (scope&) org.subs();
+        return &org == this ? dumScope::singleton() : (scope&) org.subs();
     }
 
     state me::getState() const { return LINKED; }

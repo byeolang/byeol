@@ -15,8 +15,7 @@ namespace {
         myNode(int num): number(num) {}
 
         scope& subs() override {
-            static dumScope dummy;
-            return dummy;
+            return dumScope::singleton();
         }
 
         priorType prioritize(const args& types) const override { return NO_MATCH; }

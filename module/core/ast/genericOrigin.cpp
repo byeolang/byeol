@@ -32,8 +32,7 @@ namespace nm {
     scope& me::subs() {
         WHEN(_org).ret(_org->subs());
 
-        static dumScope inner;
-        return inner;
+        return dumScope::singleton();
     }
 
     priorType me::prioritize(const args& a) const {

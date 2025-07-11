@@ -91,8 +91,7 @@ namespace nm {
 
     // node:
     scope& me::subs() {
-        static dumScope dummy;
-        scopeRegister& reg = _getTop() OR.ret(dummy);
+        scopeRegister& reg = _getTop() OR.ret(dumScope::singleton());
         return *reg.linkedS;
     }
 

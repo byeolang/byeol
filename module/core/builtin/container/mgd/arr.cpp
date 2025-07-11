@@ -105,11 +105,10 @@ namespace nm {
     const ntype& me::getType() const { return _type; }
 
     scope& me::subs() {
-        static dumScope dummy;
         const auto& ps = getType().getParams();
-        WHEN(ps.isEmpty()).ret(dummy);
+        WHEN(ps.isEmpty()).ret(dumScope::singleton());
 
-        baseObj& paramsOrg = ps[0].getOrigin().as<baseObj>() OR.ret(dummy);
+        baseObj& paramsOrg = ps[0].getOrigin().as<baseObj>() OR.ret(dumScope::singleton());
         const baseObj& paramOrg = paramsOrg.getOrigin();
         auto e = _cache.find(&paramOrg);
         WHEN(e != _cache.end()).ret(*e->second.get());

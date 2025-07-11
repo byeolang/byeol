@@ -18,8 +18,7 @@ namespace nm {
     }
 
     scope& me::subs() {
-        static dumScope inner;
-        return inner;
+        return dumScope::singleton();
     }
 
     nbool me::isImpli(const type& to) const { return getEval()->isSub(to); }

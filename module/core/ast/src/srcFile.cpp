@@ -17,8 +17,7 @@ namespace nm {
     str me::run(const args& a) { return str(); }
 
     scope& me::subs() {
-        static dumScope inner;
-        return inner;
+        return dumScope::singleton();
     }
 
     const std::string& me::getFileName() const { return _fileName; }

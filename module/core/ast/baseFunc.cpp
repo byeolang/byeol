@@ -16,8 +16,7 @@ namespace nm {
     me::baseFunc(const modifier& mod): _mod(mod) {}
 
     scope& me::subs() {
-        static dumScope inner;
-        return inner;
+        return dumScope::singleton();
     }
 
     priorType me::prioritize(const args& a) const {

@@ -18,7 +18,7 @@ namespace nm {
             NM(CLASS(dumFrame, frame))
 
         public:
-            dumFrame() { super::add(*new dumScope()); }
+            dumFrame() { super::add(dumScope::singleton()); }
 
         public:
             using super::add;
@@ -128,8 +128,7 @@ namespace nm {
 
     // node:
     scope& me::subs() {
-        static dumScope inner;
-        return inner;
+        return dumScope::singleton();
     }
 
     priorType me::prioritize(const args& a) const { return NO_MATCH; }

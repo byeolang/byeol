@@ -81,13 +81,11 @@ namespace nm {
     }
 
     scope& me::getShares() {
-        static dumScope dummy;
-        return _subs TO(getNext()) TO(template cast<scope>()) OR.ret(dummy);
+        return _subs TO(getNext()) TO(template cast<scope>()) OR.ret(dumScope::singleton());
     }
 
     scope::super& me::getOwns() {
-        static dumScope dummy;
-        return _subs ? _subs->getContainer() : dummy;
+        return _subs ? _subs->getContainer() : dumScope::singleton();
     }
 
     node* me::getCallComplete() { return nullptr; }
