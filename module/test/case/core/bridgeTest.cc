@@ -97,8 +97,7 @@ TEST_F(bridgeTest, testNormalWrapping) {
     // TODO: how to handle void return & void parameter
     //.func<void, void>(&kniz::say);
 
-    node& func = bridge->sub("say");
-    ASSERT_FALSE(nul(func));
+    ASSERT_TRUE(bridge->sub("say"));
 
     kniz::isRun = false;
     bridge->run("say", narr{nStr("hello native!")});
@@ -111,8 +110,7 @@ TEST_F(bridgeTest, testHasName) {
     ASSERT_TRUE(bridge);
     m.add("kniz", *bridge);
 
-    baseFunc& say = m["kniz"]["say"].cast<baseFunc>();
-    ASSERT_FALSE(nul(say));
+    ASSERT_TRUE(m["kniz"]["say"].cast<baseFunc>());
 }
 
 TEST_F(bridgeTest, passObj) {

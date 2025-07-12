@@ -29,6 +29,14 @@ namespace nm {
         template <typename T> friend class tmock;
 
     public:
+        me& operator[](const std::string& name);
+        const me& operator[](const std::string& name) const NM_CONST_FUNC(operator[](name));
+        me& operator[](const std::string* it);
+        const me& operator[](const std::string* it) const NM_CONST_FUNC(operator[](it));
+        me& operator[](const nchar* name);
+        const me& operator[](const nchar* name) const NM_CONST_FUNC(operator[](name));
+
+    public:
         nbool in(const node& elem) const;
         nbool in(const node* elem) const;
 

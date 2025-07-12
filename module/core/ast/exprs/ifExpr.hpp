@@ -19,8 +19,8 @@ namespace nm {
         void setThen(const blockExpr& newThen);
         void setThen(const blockExpr* it) NM_SIDE_FUNC(setThen);
 
-        blockExpr& getElse();
-        const blockExpr& getElse() const NM_CONST_FUNC(getElse())
+        blockExpr* getElse();
+        const blockExpr* getElse() const NM_CONST_FUNC(getElse())
         void setElse(const blockExpr& newElse);
         void setElse(const blockExpr* it) NM_SIDE_FUNC(setElse);
 

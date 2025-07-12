@@ -17,7 +17,7 @@ namespace nm {
 
     blockExpr& me::getThen() { return *_then; }
 
-    blockExpr& me::getElse() { return *_else; }
+    blockExpr* me::getElse() { return _else.get(); }
 
     node& me::getCondition() { return *_expr; }
 

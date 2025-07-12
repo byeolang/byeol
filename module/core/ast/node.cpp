@@ -12,6 +12,12 @@ namespace nm {
 
     NM(DEF_ME(node), DEF_VISIT())
 
+    me& me::operator[](const std::string& name) { return *sub(name); }
+
+    me& me::operator[](const std::string* it) { return *sub(*it); }
+
+    me& me::operator[](const nchar* name) { return *sub(name); }
+
     nbool me::in(const node* elem) const {
         WHEN_NUL(elem).ret(false);
         return in(*elem);
