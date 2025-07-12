@@ -1,5 +1,5 @@
 let examples = {
-  'hello-world': `# Hello, I'm Namu language.
+  'hello-world': `# Hello, I'm Byeol language.
 # Please edit your code freely and press button in the top right to run.
 # Refer to the 'guide' section above for more syntax.
 main() void
@@ -71,7 +71,7 @@ function runScript(frameId, srcId) {
     var bottom = document.getElementById('result');
     bottom.style.display = 'block';
 
-    runNamuTextArea(frameId, srcId);
+    runByeolTextArea(frameId, srcId);
     showCloseButton();
     resizeCodePad();
 }
@@ -133,7 +133,7 @@ window.onload = function() {
   document.getElementById("ta_codepad").addEventListener('scroll', (e) => pre.scrollTop = ta.scrollTop, false);
 }
 
-function runNamuSrc(iframeId, src) {
+function runByeolSrc(iframeId, src) {
     var iframe = document.getElementById(iframeId);
     var win = iframe.contentWindow;
     iframe.onload = function() {
@@ -141,13 +141,13 @@ function runNamuSrc(iframeId, src) {
     }
     win.location.reload();
 }
-function runNamuTextArea(iframe, srcId) {
+function runByeolTextArea(iframe, srcId) {
     var src = document.getElementById(srcId);
-    runNamuSrc(iframe, src.value);
+    runByeolSrc(iframe, src.value);
 }
-function runNamuDiv(postfix) {
+function runByeolDiv(postfix) {
     var src = document.getElementById("ta"+postfix);
     var play = document.getElementById("bt"+postfix);
-    runNamuSrc("fr"+postfix, src.textContent);
+    runByeolSrc("fr"+postfix, src.textContent);
     play.style.display = 'none';
 }
