@@ -103,19 +103,18 @@ TEST(ntypeTest, funcAndClosureIsImplicitCastable) {
     params leftPs;
     leftPs.add(new param("a", *new nInt()));
     leftPs.add(new param("b", *new nFlt()));
-    str lhs = new func(*new modifier(), typeMaker::make<func>("left", leftPs, *new nInt()));
+    str lhs = new func(*new modifier(), typeMaker::make<func>("left", leftPs, new nInt()));
     ASSERT_TRUE(lhs);
     tstr<closure> rhs = closure::make(*lhs);
     ASSERT_TRUE(rhs);
 
     ASSERT_TRUE(lhs->isSub<baseFunc>());
     ASSERT_TRUE(rhs->isSub<closure>());
-    ASSERT_FALSE(nul(rhs->getFunc()));
 
     ASSERT_TRUE(lhs->isImpli(*rhs));
     ASSERT_TRUE(rhs->isImpli(*lhs));
 
-    nm::thread::set();
+    nm::thread::set(nullptr);
 }
 
 TEST(ntypeTest, funcAndClosureIsImplicitCastableWithDifferentSameFunc) {
@@ -127,21 +126,20 @@ TEST(ntypeTest, funcAndClosureIsImplicitCastableWithDifferentSameFunc) {
     params leftPs;
     leftPs.add(new param("a", *new nInt()));
     leftPs.add(new param("b", *new nFlt()));
-    str lhs = new func(*new modifier(), typeMaker::make<func>("left", leftPs, *new nInt()));
+    str lhs = new func(*new modifier(), typeMaker::make<func>("left", leftPs, new nInt()));
     ASSERT_TRUE(lhs);
 
-    str boo = new func(*new modifier(), typeMaker::make<func>("boo", leftPs, *new nInt()));
+    str boo = new func(*new modifier(), typeMaker::make<func>("boo", leftPs, new nInt()));
     tstr<closure> rhs = closure::make(*boo);
     ASSERT_TRUE(rhs);
 
     ASSERT_TRUE(lhs->isSub<baseFunc>());
     ASSERT_TRUE(rhs->isSub<closure>());
-    ASSERT_FALSE(nul(rhs->getFunc()));
 
     ASSERT_TRUE(lhs->isImpli(*rhs));
     ASSERT_TRUE(rhs->isImpli(*lhs));
 
-    nm::thread::set();
+    nm::thread::set(nullptr);
 }
 
 TEST(ntypeTest, funcAndClosureIsNotCastableReturnTypeIsDifferentNegative) {
@@ -153,7 +151,7 @@ TEST(ntypeTest, funcAndClosureIsNotCastableReturnTypeIsDifferentNegative) {
     params leftPs;
     leftPs.add(new param("a", *new nInt()));
     leftPs.add(new param("b", *new nFlt()));
-    str foo = new func(*new modifier(), typeMaker::make<func>("foo", leftPs, *new nInt()));
+    str foo = new func(*new modifier(), typeMaker::make<func>("foo", leftPs, new nInt()));
     ASSERT_TRUE(foo);
 
     // almost same to 'foo' except return type:
@@ -161,20 +159,19 @@ TEST(ntypeTest, funcAndClosureIsNotCastableReturnTypeIsDifferentNegative) {
     params booPs;
     booPs.add(new param("r", *new nInt())); // it's okay to have different param name.
     booPs.add(new param("x", *new nFlt()));
-    str boo = new func(*new modifier(), typeMaker::make<func>("boo", booPs, *new nByte()));
+    str boo = new func(*new modifier(), typeMaker::make<func>("boo", booPs, new nByte()));
     tstr<closure> rhs = closure::make(*boo);
     ASSERT_TRUE(rhs);
 
     ASSERT_TRUE(foo->isSub<baseFunc>());
     ASSERT_TRUE(rhs->isSub<closure>());
-    ASSERT_FALSE(nul(rhs->getFunc()));
 
     //  but truth is, it's not allowed to cast between func/closure if its return type isn't
     //  exactly same.
     ASSERT_FALSE(foo->isImpli(*rhs));
     ASSERT_FALSE(rhs->isImpli(*foo));
 
-    nm::thread::set();
+    nm::thread::set(nullptr);
 }
 
 TEST(ntypeTest, funcAndClosureIsNotCastableSomeParamIsDifferentNegative) {
@@ -186,7 +183,7 @@ TEST(ntypeTest, funcAndClosureIsNotCastableSomeParamIsDifferentNegative) {
     params leftPs;
     leftPs.add(new param("a", *new nInt()));
     leftPs.add(new param("b", *new nFlt()));
-    str foo = new func(*new modifier(), typeMaker::make<func>("foo", leftPs, *new nInt()));
+    str foo = new func(*new modifier(), typeMaker::make<func>("foo", leftPs, new nInt()));
     ASSERT_TRUE(foo);
 
     // almost same to 'foo' except return type:
@@ -195,18 +192,17 @@ TEST(ntypeTest, funcAndClosureIsNotCastableSomeParamIsDifferentNegative) {
     booPs.add(new param("x", *new nFlt()));
     //  but you may still think that this is implicit castable between int and byte when you
     //  try.
-    str boo = new func(*new modifier(), typeMaker::make<func>("boo", booPs, *new nByte()));
+    str boo = new func(*new modifier(), typeMaker::make<func>("boo", booPs, new nByte()));
     tstr<closure> rhs = closure::make(*boo);
     ASSERT_TRUE(rhs);
 
     ASSERT_TRUE(foo->isSub<baseFunc>());
     ASSERT_TRUE(rhs->isSub<closure>());
-    ASSERT_FALSE(nul(rhs->getFunc()));
 
     //  but truth is, it's not allowed to cast between func/closure if its any param type isn't
     //  exactly same.
     ASSERT_FALSE(foo->isImpli(*rhs));
     ASSERT_FALSE(rhs->isImpli(*foo));
 
-    nm::thread::set();
+    nm::thread::set(nullptr);
 }

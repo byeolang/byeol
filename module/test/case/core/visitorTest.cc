@@ -7,11 +7,11 @@ struct visitorTest: public namuSyntaxTest {};
 
 TEST_F(visitorTest, iterateManuallyConstructedNodes) {
     obj o;
-    o.subs().add("foo1", new func(*new modifier(), typeMaker::make<func>(params(), *new nInt())));
+    o.subs().add("foo1", new func(*new modifier(), typeMaker::make<func>(params(), new nInt())));
     o.subs().add("val1", new nInt());
 
     obj o2;
-    o2.subs().add("foo2", new func(*new modifier(), typeMaker::make<func>(params(), *new nFlt())));
+    o2.subs().add("foo2", new func(*new modifier(), typeMaker::make<func>(params(), new nFlt())));
     o2.subs().add("val2", new nFlt());
     o2.subs().add("o", o);
 
@@ -27,7 +27,7 @@ TEST_F(visitorTest, iterateManuallyConstructedNodes) {
             if(i.name == "foo1") metFoo1 = true;
             if(i.name == "foo2") {
                 metFoo2 = true;
-                EXPECT_TRUE(fun.getRet().isSub<nFlt>());
+                EXPECT_TRUE(fun.getRet()->isSub<nFlt>());
             }
             return true;
         }
@@ -71,8 +71,7 @@ TEST_F(visitorTest, visitComplexExpressions) {
     )SRC")
         .shouldVerified(true);
 
-    node& root = getSubPack();
-    ASSERT_FALSE(nul(root));
+    node& root = getSubPack() OR_ASSERT(root);
 
     struct myVisitor: public visitor {
         myVisitor(): metO(0), metAsFlt(0), metFlt5(false) {}
@@ -139,8 +138,7 @@ TEST_F(visitorTest, visitComplexExpressions2) {
     )SRC")
         .shouldVerified(true);
 
-    node& root = getSubPack();
-    ASSERT_FALSE(nul(root));
+    node& root = getSubPack() OR_ASSERT(root);
 
     struct myVisitor: public visitor {
         myVisitor(): metInt2(false), metRet(false) {}
@@ -150,7 +148,7 @@ TEST_F(visitorTest, visitComplexExpressions2) {
         nbool onVisit(const visitInfo& i, FBOExpr& fao, nbool) override {
             tstr<nInt> num2 = ((node&) fao.getRight()).as<nInt>() OR.ret(true);
 
-            if(num2->cast<nint>() == 2) metInt2 = true;
+            if(*num2->cast<nint>() == 2) metInt2 = true;
             return true;
         }
 

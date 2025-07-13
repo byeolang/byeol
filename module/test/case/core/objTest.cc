@@ -50,10 +50,9 @@ TEST_F(objTest, testMakeOriginObj) {
     newSubs->add(o2Name, o2);
     ASSERT_EQ(o3.subs().len(), 2);
 
-    ASSERT_TRUE(nul(o3[""]));
-    ASSERT_FALSE(nul(o3["o1"]));
-    node& found = o3[o2Name];
-    ASSERT_FALSE(nul(found));
+    ASSERT_FALSE(o3.sub(""));
+    ASSERT_TRUE(o3.sub("o1"));
+    node& found = o3.sub(o2Name) OR_ASSERT(found);
     ASSERT_EQ(&found, &o2);
 }
 
@@ -74,8 +73,7 @@ TEST_F(objTest, testCloneOriginObj) {
     ASSERT_EQ(clone->subs().len(), 2);
 
     ASSERT_TRUE(nul(clone->sub("o3")));
-    node& found = clone->sub(o2Name);
-    ASSERT_FALSE(nul(found));
+    node& found = clone->sub(o2Name) OR_ASSERT(found);
     ASSERT_EQ(&found, &o2);
 }
 
@@ -99,7 +97,6 @@ TEST_F(objTest, addElementIntoOwns) {
 TEST_F(objTest, objType) {
     originObj o1;
     const type& t = o1.getType();
-    ASSERT_FALSE(nul(t));
     ASSERT_EQ(t.getName(), "originObj");
     ASSERT_TRUE(t.getSuper() == ttype<obj>());
 }

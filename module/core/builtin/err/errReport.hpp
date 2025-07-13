@@ -27,7 +27,7 @@ namespace nm {
         nbool in(errLv::level type) const;
         nbool in(errLv::level type, nidx since) const;
 
-        const baseErr& get(nidx n) const;
+        const baseErr* get(nidx n) const;
 
         ncnt len() const;
 

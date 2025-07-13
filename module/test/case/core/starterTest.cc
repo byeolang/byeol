@@ -11,7 +11,7 @@ TEST_F(starterTest, simpleStarter) {
     )SRC");
     shouldVerified(true);
 
-    str res = starter().setTask(getSlot().getPack()).work();
+    str res = starter().setTask(getSlot()->getPack()).work();
     ASSERT_EQ(*res, nVoid());
 }
 
@@ -23,8 +23,8 @@ TEST_F(starterTest, mainReturnInt) {
     )SRC")
         .shouldVerified(true);
 
-    tstr<nInt> res = starter().setTask(getSlot().getPack()).work();
-    ASSERT_EQ(res->cast<nInt>().get(), 23);
+    tstr<nInt> res = starter().setTask(getSlot()->getPack()).work();
+    ASSERT_EQ(res->cast<nInt>()->get(), 23);
     ASSERT_EQ(res->cast<int>(), 23);
 }
 
@@ -38,8 +38,8 @@ TEST_F(starterTest, mainCallFuncAndCheckReturn) {
     )SRC")
         .shouldVerified(true);
 
-    tstr<nInt> res = starter().setTask(getSlot().getPack()).work();
-    ASSERT_EQ(res->cast<nInt>().get(), 23);
+    tstr<nInt> res = starter().setTask(getSlot()->getPack()).work();
+    ASSERT_EQ(res->cast<nInt>()->get(), 23);
     ASSERT_EQ(res->cast<int>(), 23);
 }
 
@@ -69,8 +69,7 @@ TEST_F(starterTest, managedCallStack) {
     const auto& rpt = getReport();
     ASSERT_TRUE(rpt);
 
-    const baseErr& e = rpt[0];
-    ASSERT_FALSE(nul(e));
+    const baseErr& e = rpt.get(0) OR_ASSERT(e);
 
     const callstack& cs = e.getStack();
     ASSERT_FALSE(nul(cs));

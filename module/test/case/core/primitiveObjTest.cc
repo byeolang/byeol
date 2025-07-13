@@ -19,7 +19,6 @@ TEST_F(primitiveObjTest, subsIsNotDummy) {
     int initial = val.subs().len();
 
     bicontainable& subs = val.subs();
-    ASSERT_FALSE(nul(subs));
     subs.add("not work", new nInt(3));
     ASSERT_EQ(subs.len(), initial + 1);
     ASSERT_TRUE(subs.in("not work"));
@@ -79,35 +78,35 @@ TEST_F(primitiveObjTest, voidDoesntSupportAnyOperator) {
 
     tstr<nVoid> res = v1.sub(v2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(&res.get(), &expect);
+    ASSERT_EQ(res.get(), &expect);
 
     res = expect.mul(v2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(&res.get(), &expect);
+    ASSERT_EQ(res.get(), &expect);
 
     res = expect.div(v2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(&res.get(), &expect);
+    ASSERT_EQ(res.get(), &expect);
 
     res = expect.bitwiseAnd(v2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(&res.get(), &expect);
+    ASSERT_EQ(res.get(), &expect);
 
     res = expect.bitwiseXor(v2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(&res.get(), &expect);
+    ASSERT_EQ(res.get(), &expect);
 
     res = expect.bitwiseOr(v2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(&res.get(), &expect);
+    ASSERT_EQ(res.get(), &expect);
 
     res = expect.lshift(v2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(&res.get(), &expect);
+    ASSERT_EQ(res.get(), &expect);
 
     res = expect.rshift(v2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(&res.get(), &expect);
+    ASSERT_EQ(res.get(), &expect);
 
     ASSERT_FALSE(expect.gt(v2));
     ASSERT_FALSE(expect.ge(v2));
@@ -235,23 +234,23 @@ TEST_F(primitiveObjTest, fltOperators) {
 
     res = f1.bitwiseAnd(f2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(&res.get(), &f1);
+    ASSERT_EQ(res.get(), &f1);
 
     res = f1.bitwiseXor(f2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(&res.get(), &f1);
+    ASSERT_EQ(res.get(), &f1);
 
     res = f1.bitwiseOr(f2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(&res.get(), &f1);
+    ASSERT_EQ(res.get(), &f1);
 
     res = f1.lshift(f2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(&res.get(), &f1);
+    ASSERT_EQ(res.get(), &f1);
 
     res = f1.rshift(f2);
     ASSERT_TRUE(res);
-    ASSERT_EQ(&res.get(), &f1);
+    ASSERT_EQ(res.get(), &f1);
 
     ASSERT_EQ(f1.gt(f2), f1.get() > f2.get());
     ASSERT_EQ(f1.ge(f2), f1.get() >= f2.get());

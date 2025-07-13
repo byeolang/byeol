@@ -14,14 +14,16 @@ namespace nm {
     nbool me::operator==(const me& rhs) const {
         WHEN(len() != rhs.len()).ret(false);
 
-        for(nint n = 0; n < len(); n++)
-            WHEN(get(n) != rhs[n]).ret(false);
+        for(nint n = 0; n < len(); n++) {
+            const auto& elem = get(n) OR_CONTINUE;
+            WHEN(elem != rhs[n]).ret(false);
+        }
         return true;
     }
 
     nbool me::operator!=(const me& rhs) const { return !operator==(rhs); }
 
-    const baseErr& me::operator[](nidx n) const { return get(n); }
+    const baseErr& me::operator[](nidx n) const { return *get(n); }
 
     me::operator nbool() const { return inErr(); }
 
@@ -42,7 +44,7 @@ namespace nm {
 
     nbool me::in(errLv::level type) const { return in(type, 0); }
 
-    const baseErr& me::get(nidx n) const { return *_errs[n]; }
+    const baseErr* me::get(nidx n) const { return _errs[n].get(); }
 
     ncnt me::len() const { return _errs.size(); }
 

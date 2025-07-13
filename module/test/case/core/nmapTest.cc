@@ -184,10 +184,10 @@ TEST_F(nmapTest, testucontainableAPI) {
         ASSERT_EQ(tray.len(), 1);
     }
 
-    myMyNode& tray = map1->get<myMyNode>([](const std::string&, const myMyNode& elem) {
+    ASSERT_TRUE(map1->get<myMyNode>([](const std::string&, const myMyNode& elem) {
         if(elem.number == 1) return true;
         return false;
-    }) OR_ASSERT(tray);
+    }));
 
     //  del:
     ASSERT_TRUE(con->del("end"));
@@ -386,7 +386,7 @@ TEST_F(nmapTest, insertionOrderShouldBeKept) {
     int expects[] = {1, 2, 3, 4};
     int n = 0;
     for(const auto& val: map1)
-        ASSERT_EQ(val.cast<nInt>().get(), expects[n++]);
+        ASSERT_EQ(val.cast<nInt>()->get(), expects[n++]);
 
     n = 0;
     map1.each<nInt>([&](const auto& key, const nInt& val) -> nbool {
@@ -429,7 +429,7 @@ TEST_F(nmapTest, stepForwardReversedIterator) {
     ASSERT_EQ(re->cast<nint>(), 4);
 
     re.stepBackward(1); // 3
-    ASSERT_EQ(re.getVal<nInt>().cast<nint>(), 3);
+    ASSERT_EQ(*re.getVal<nInt>()->cast<nint>(), 3);
 
     ASSERT_EQ(re.next(6), 2);
     ASSERT_TRUE(re.isEnd());

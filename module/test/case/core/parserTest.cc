@@ -18,8 +18,8 @@ TEST_F(parserTest, testHelloWorld) {
     ASSERT_TRUE(rootBinder);
 
     slot s((manifest()));
-    scope::super& shares = (scope::super&) (s.subs().getNext().getContainer());
-    ASSERT_FALSE(nul(shares));
+    scope& next = s.subs().getNext() OR_ASSERT(next);
+    scope::super& shares = next.getContainer();
     p.setTask(s);
     shares.add("hello", new nStr("hello"));
     ASSERT_TRUE(shares.len() == 1);
@@ -29,7 +29,7 @@ TEST_F(parserTest, testHelloWorld) {
     p.relSupplies().addSupply(*new bufSupply(script)).work();
     ASSERT_EQ(shares.len(), 7); // add (main() + @ctor*2) on every parse() call.
 
-    ASSERT_TRUE(shares.get<nStr>("hello") == nStr("hello"));
+    ASSERT_TRUE(*shares.get<nStr>("hello") == nStr("hello"));
 }
 
 TEST_F(parserTest, slotNoOnTray) {
@@ -39,16 +39,16 @@ TEST_F(parserTest, slotNoOnTray) {
     )SRC");
     shouldVerified(true);
 
-    auto& owns = (scope::super&) getSlot().subs().getContainer();
-    ASSERT_FALSE(nul(owns));
+    const auto& slot = getSlot() OR_ASSERT(slot);
+    auto& owns = (scope::super&) slot.subs().getContainer();
     ASSERT_EQ(owns.len(), 0);
-    ASSERT_EQ(getSlot().getManifest().name, manifest::DEFAULT_NAME);
-    auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
-    ASSERT_FALSE(nul(shares));
+    ASSERT_EQ(slot.getManifest().name, manifest::DEFAULT_NAME);
+
+    auto& next = slot.subs().getNext() OR_ASSERT(next);
+    auto& shares = (scope::super&) next.getContainer();
     ASSERT_EQ(shares.len(), 3); // 2 builtin func
-    ASSERT_EQ(&getSlot().getPack(), &getSubPack());
-    func& f = getSubPack().sub<func>("main");
-    ASSERT_FALSE(nul(f));
+    ASSERT_EQ(&slot.getPack(), getSubPack());
+    ASSERT_TRUE(getSubPack()->sub<func>("main"));
 }
 
 TEST_F(parserTest, slotNoOnTrayWithoutMake) {
@@ -61,12 +61,11 @@ TEST_F(parserTest, slotNoOnTrayWithoutMake) {
     )SRC");
     shouldVerified(true);
 
-    auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
-    ASSERT_FALSE(nul(shares));
-    ASSERT_EQ(getSlot().getManifest().name, manifest::DEFAULT_NAME);
-    ASSERT_EQ(&getSlot().getPack(), &getSubPack());
-    func& f = getSubPack().sub<func>("main");
-    ASSERT_FALSE(nul(f));
+    auto& slot = getSlot() OR_ASSERT(slot);
+    ASSERT_TRUE(slot.subs().getNext());
+    ASSERT_EQ(slot.getManifest().name, manifest::DEFAULT_NAME);
+    ASSERT_EQ(&slot.getPack(), getSubPack());
+    ASSERT_TRUE(getSubPack()->sub<func>("main"));
 }
 
 TEST_F(parserTest, slotNotSpecifiedButCodeSpecifyPackNegative) {

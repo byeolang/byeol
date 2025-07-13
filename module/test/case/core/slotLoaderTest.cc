@@ -11,17 +11,13 @@ TEST_F(slotLoaderTest, testDefaultLoaderInit) {
     ASSERT_FALSE(nul(systemSlots));
 
     slot& s =
-        systemSlots.get<slot>([](const std::string& name, const slot& e) { return name == "sys"; });
-    ASSERT_FALSE(nul(s));
+        systemSlots.get<slot>([](const std::string& name, const slot& e) { return name == "sys"; }) OR_ASSERT(s);
 
     ASSERT_EQ(s.subs().len(), 1);
-    node& origin = s["con"];
-    ASSERT_FALSE(nul(origin));
+    node& origin = s.sub("con") OR_ASSERT(origin);
     {
-        baseFunc& sayFunc = origin["say"].cast<baseFunc>();
-        ASSERT_FALSE(nul(sayFunc));
-
-        ASSERT_EQ(sayFunc.getRet().getType(), nVoid().getType());
+        baseFunc& sayFunc = origin TO(sub("say")) TO(template cast<baseFunc>()) OR_ASSERT(sayFunc);
+        ASSERT_EQ(sayFunc.getRet()->getType(), nVoid().getType());
         ASSERT_EQ(sayFunc.getParams().len(), 0); // 'me' of func won't be passed as an argument.
 
         args a(narr{origin});
@@ -35,9 +31,7 @@ TEST_F(slotLoaderTest, testDefaultLoaderInit) {
     }
 
     {
-        baseFunc& add = origin["add"].cast<baseFunc>();
-        ASSERT_FALSE(nul(add));
-
+        baseFunc& add = origin TO(sub("add")) TO(template cast<baseFunc>()) OR_ASSERT(add);
         const params& argTypes = add.getParams();
         ASSERT_EQ(argTypes.len(), 2);
         ASSERT_EQ(argTypes[0].getOrigin().getType(), ttype<nInt>());
@@ -54,6 +48,6 @@ TEST_F(slotLoaderTest, testDefaultLoaderInit) {
         ASSERT_FALSE(retVal);
         retVal = origin.run("add", a); // correct!
         ASSERT_TRUE(retVal);
-        ASSERT_EQ(retVal->cast<nInt>().get(), 8);
+        ASSERT_EQ(retVal->cast<nInt>()->get(), 8);
     }
 }
