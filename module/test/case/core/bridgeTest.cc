@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "test/common/dep.hpp"
+#include "test/common.hpp"
 
 using namespace nm;
 using namespace std;
@@ -74,7 +74,7 @@ TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
     // tbridger object released.
     // but does scope still bridge funcs?
     ASSERT_EQ(inner.len(), 4);
-    ASSERT_FALSE(nul(inner.get<baseFunc>("sayCharPtr")));
+    ASSERT_TRUE(inner.get<baseFunc>("sayCharPtr"));
 
     {
         str b = tbridger<kniz>::make(new kniz());
@@ -164,8 +164,7 @@ TEST_F(bridgeTest, passArray) {
     mgrBridge->run("add", args{narr{*narrBridge}});
     mgrBridge->run("del", args{narr{*new nInt(1)}}); // 0, 2 remains.
 
-    const narr& res = mgrBridge->cast<tbridge<windowManager>>().get()._wins;
-    ASSERT_FALSE(nul(res));
+    const narr& res = mgrBridge->cast<tbridge<windowManager>>()->get()._wins;
     ASSERT_EQ(res.len(), 2);
     ASSERT_EQ(res[0].cast<nint>(), 0);
     ASSERT_EQ(res[1].cast<nint>(), 2);
@@ -219,7 +218,7 @@ namespace {
         int sumOfLen() const {
             int ret = 0;
             for(const auto& elem: *_arr)
-                ret += elem.cast<myObj>().age;
+                ret += elem.cast<myObj>()->age;
             return ret;
         }
     };
@@ -277,10 +276,8 @@ TEST_F(bridgeTest, baseObjWithBridgeOrigin) {
     ASSERT_EQ(a1.foo(1), 2);
     ASSERT_EQ(a2.foo(1), 3);
 
-    auto& foo = a1.sub<baseFunc>("foo");
-    ASSERT_FALSE(nul(foo));
-    auto& foo2 = a2.sub<baseFunc>("foo");
-    ASSERT_FALSE(nul(foo2));
+    auto& foo = a1.sub<baseFunc>("foo") OR_ASSERT(foo);
+    ASSERT_TRUE(a2.sub<baseFunc>("foo"));
 
     const auto& ps = foo.getParams();
     ASSERT_EQ(ps.len(), 1);

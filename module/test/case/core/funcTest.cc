@@ -36,7 +36,7 @@ namespace {
     public:
         myfunc():
             super(*new modifier(),
-                funcMgdType("myfunc", ttype<me>::get(), params(), false, *new nVoid()),
+                funcMgdType("myfunc", ttype<me>::get(), params(), false, new nVoid()),
                 *new myBlock()) {
             NM_I("myfunc(%s) new", (void*) this);
         }
@@ -44,36 +44,35 @@ namespace {
         ~myfunc() override { NM_I("myfunc(%s) delete", (void*) this); }
 
         void setUp() {
-            myBlock& blk = getBlock().cast<myBlock>();
+            myBlock& blk = getBlock().cast<myBlock>() OR.ret();
             blk._executed = false;
             blk._res = false;
         }
 
-        nbool isRun() const { return getBlock().cast<myBlock>()._executed; }
+        nbool isRun() const { return getBlock().cast<myBlock>()->_executed; }
 
         void setLambda(function<nbool(const ucontainable&, const frames&)> lambda) {
-            getBlock().cast<myBlock>()._lambda = std::move(lambda);
+            getBlock().cast<myBlock>()->_lambda = std::move(lambda);
         }
 
-        nbool isSuccess() const { return getBlock().cast<myBlock>()._res; }
+        nbool isSuccess() const { return getBlock().cast<myBlock>()->_res; }
     };
 
     nbool _isFrameLinkScope(const frame& fr, const scope& subs) {
-        for(const scope* e = &fr.subs().cast<scope>(); e; e = (scope*) &e->getNext())
+        for(const scope* e = fr.subs().cast<scope>(); e; e = (scope*) e->getNext())
             if(e == &subs) return true;
         return false;
     }
 
     nbool checkFrameHasfuncAndObjScope(const frame& fr, const baseFunc& func,
         const std::string& name, const obj& obj, const char* funcNames[], int funcNameSize) {
-        if(nul(fr)) return false;
 
         int n = 0;
         NM_I("fr.len=%d", fr.subs().len());
         for(auto e = fr.subs().begin(); e; e++)
             NM_I(" - func(\"%s\") calls: fr[%d]=%s", e.getKey(), n++, e.getVal());
 
-        const scope& funcScope = fr.subs().cast<scope>() OR.info("nul(funcScope)").ret(false);
+        const scope& funcScope = fr.subs().cast<scope>() OR.info("funcScope is null").ret(false);
         if(!_isFrameLinkScope(fr, funcScope))
             return NM_I("frame not contain the funcScope(%s)", (void*) &funcScope), false;
 
@@ -223,7 +222,7 @@ TEST_F(funcTest, testArgsAttachedName) {
     ps.add(new param("age", new nInt()));
     f.setLambda([&](const auto& a, const frames& sf) {
         const frame& fr = sf[sf.len() - 1];
-        return fr["msg"].cast<nStr>().get() == "hello world" && fr["age"].cast<nInt>().get() == 55;
+        return fr["msg"].cast<nStr>()->get() == "hello world" && fr["age"].cast<nInt>()->get() == 55;
     });
 
     o.run("myfunc");

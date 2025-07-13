@@ -9,7 +9,10 @@ namespace nm {
 #define ME tmarshaling<tarr<T, E>, true>
 
     TEMPL
-    tarr<T, E> ME::toNative(node& it) { return tarr<T, E>(it.cast<arr>()); }
+    tarr<T, E> ME::toNative(node& it) {
+        auto& cast = it.cast<arr>() OR.ret(tarr<T, E>());
+        return tarr<T, E>(cast);
+    }
 
     TEMPL
     template <typename E2> str ME::toMgd(E2* it) { return new arr(*it); }

@@ -14,7 +14,7 @@ namespace {
     public:
         myNode(int num): number(num) {}
 
-        scope& subs() override { return nulOf<scope>(); }
+        scope& subs() override { return dumScope::singleton(); }
 
         priorType prioritize(const args& types) const override { return NO_MATCH; }
 
@@ -81,13 +81,12 @@ TEST_F(nmapTest, shouldNotCanAddLocalObject) {
     {
         myNode localObj(5);
         ASSERT_TRUE(map1.add("local", localObj));
-        ASSERT_FALSE(nul(map1["local"]));
+        ASSERT_TRUE(map1["local"]);
         ASSERT_EQ(map1.len(), 1);
     }
 
     ASSERT_EQ(map1.len(), 1);
-    auto& elem = map1["local"];
-    ASSERT_TRUE(nul(elem));
+    ASSERT_TRUE(map1.in("local"));
 }
 
 TEST_F(nmapTest, simpleAddDelTest) {
@@ -132,7 +131,7 @@ TEST_F(nmapTest, testIter) {
     EXPECT_TRUE(map1.begin() == head);
 
     ASSERT_FALSE(e.isEnd());
-    ASSERT_EQ(std::to_string(e.getVal<myNode>().number), e.getKey());
+    ASSERT_EQ(std::to_string(e.getVal<myNode>()->number), e.getKey());
     ASSERT_EQ(e.next(1), 0);
 }
 
@@ -188,13 +187,12 @@ TEST_F(nmapTest, testucontainableAPI) {
     myMyNode& tray = map1->get<myMyNode>([](const std::string&, const myMyNode& elem) {
         if(elem.number == 1) return true;
         return false;
-    });
-    ASSERT_FALSE(nul(tray));
+    }) OR_ASSERT(tray);
 
     //  del:
     ASSERT_TRUE(con->del("end"));
     ASSERT_EQ(con->len(), 1);
-    ASSERT_EQ(map1->get("0").number, 0);
+    ASSERT_EQ(map1->get("0")->number, 0);
 
     //  add with element:
     tnmap<std::string, myNode> map2;
@@ -208,16 +206,16 @@ TEST_F(nmapTest, testucontainableAPI) {
 
     auto e = map2.begin();
     e = e + 2;
-    ASSERT_EQ(e.getKey(), std::to_string(e.getVal<myNode>().number));
+    ASSERT_EQ(e.getKey(), std::to_string(e.getVal<myNode>()->number));
     ASSERT_TRUE(map2.add("5", new myNode(5)));
     ASSERT_TRUE(map2.add("6", new myNode(6)));
 
-    ASSERT_EQ(map2["0"].cast<myNode>().number, 0);
-    ASSERT_EQ(map2["1"].cast<myNode>().number, 1);
-    ASSERT_EQ(map2["6"].cast<myNode>().number, 6);
-    ASSERT_EQ(map2["5"].cast<myNode>().number, 5);
-    ASSERT_EQ(map2["2"].cast<myNode>().number, 2);
-    ASSERT_EQ(map2["3"].cast<myNode>().number, 3);
+    ASSERT_EQ(map2["0"].cast<myNode>()->number, 0);
+    ASSERT_EQ(map2["1"].cast<myNode>()->number, 1);
+    ASSERT_EQ(map2["6"].cast<myNode>()->number, 6);
+    ASSERT_EQ(map2["5"].cast<myNode>()->number, 5);
+    ASSERT_EQ(map2["2"].cast<myNode>()->number, 2);
+    ASSERT_EQ(map2["3"].cast<myNode>()->number, 3);
 
     ASSERT_EQ(con->len(), 1);
     ASSERT_EQ(con->add(map2.iterate(1), map2.iterate(3)), 2);
@@ -240,13 +238,13 @@ TEST_F(nmapTest, testRangeBasedForLoop) {
 
     int sum = 0;
     for(auto& e: map1) {
-        myNode& cast = e.cast<myNode>();
+        myNode& cast = *e.cast<myNode>();
         sum += cast.number;
     }
 
     int sum2 = 0;
     for(const node& e: map1) {
-        const myNode& cast = e.cast<myNode>();
+        const myNode& cast = *e.cast<myNode>();
         sum2 += cast.number;
     }
     ASSERT_EQ(sum2, sum);
@@ -261,7 +259,7 @@ TEST_F(nmapTest, addMultipleKey) {
 
     ncnt key1found = 0;
     for(auto e = m.begin(); e; ++e)
-        if(e.getKey() == "1") key1found++;
+        if(*e.getKey() == "1") key1found++;
     ASSERT_EQ(key1found, 2);
 }
 
@@ -272,13 +270,13 @@ TEST_F(nmapTest, searchMultipleKey) {
     m.add("1", new myNode(3));
     m.add("3", new myNode(4));
 
-    nint val = m.get("1").cast<myNode>().number;
+    nint val = m.get("1")->cast<myNode>()->number;
     ASSERT_TRUE(val == 1 || val == 3);
 
     auto founds = m.getAll("1");
     ASSERT_EQ(founds.len(), 2);
     auto e = founds.begin();
-    nint val1 = e++.get<myNode>().number, val2 = e.get<myNode>().number;
+    nint val1 = e++.get<myNode>()->number, val2 = e.get<myNode>()->number;
     ASSERT_TRUE(val1 == 1 || val1 == 3);
     ASSERT_TRUE(val2 == 1 || val2 == 3);
     ASSERT_NE(val1, val2);
@@ -295,7 +293,7 @@ TEST_F(nmapTest, testDeletionByKey) {
 
     auto e = m.begin();
     ASSERT_EQ(e.getKey(), std::string("2"));
-    ASSERT_EQ(e.getVal<myNode>().number, 2);
+    ASSERT_EQ(e.getVal<myNode>()->number, 2);
 }
 
 TEST_F(nmapTest, testDeletionByIter) {
@@ -305,14 +303,14 @@ TEST_F(nmapTest, testDeletionByIter) {
     m.add("1", new myNode(3));
 
     auto e = m.begin();
-    while(e.getKey() == "1")
+    while(*e.getKey() == "1")
         ++e;
     ASSERT_TRUE(m.del(e));
     ASSERT_EQ(m.len(), 2);
 
     e = m.begin();
     ASSERT_EQ(e.getKey(), "1");
-    nint val1 = e++.getVal<myNode>().number, val2 = e.getVal<myNode>().number;
+    nint val1 = e++.getVal<myNode>()->number, val2 = e.getVal<myNode>()->number;
     ASSERT_EQ(e.getKey(), "1");
 
     ASSERT_TRUE(val1 == 1 || val1 == 3);
@@ -329,15 +327,15 @@ TEST_F(nmapTest, testSetValue) {
     m.iterate("2").setVal(new myNode(4));
     nbool found = false;
     for(auto& e: m)
-        if(e.cast<myNode>().number == 4) found = true;
+        if(e.cast<myNode>()->number == 4) found = true;
     ASSERT_TRUE(found);
 
     for(auto e = m.iterate("1"); e; ++e)
-        if(e.getVal<myNode>().number == 3) e.setVal(new myNode(5));
+        if(e.getVal<myNode>()->number == 3) e.setVal(new myNode(5));
 
     found = false;
     for(auto e = m.iterate("1"); e; ++e)
-        if(e.getVal<myNode>().number == 5) found = true;
+        if(e.getVal<myNode>()->number == 5) found = true;
     ASSERT_TRUE(found);
 }
 
@@ -353,11 +351,11 @@ TEST_F(nmapTest, delWhileIteration) {
     m.add("banana", new nInt(8));
 
     for(auto e = m.begin(); e;)
-        if(e.getKey() == "banana") m.del(e++);
+        if(*e.getKey() == "banana") m.del(e++);
         else ++e;
 
     ASSERT_EQ(m.len(), 4);
-    ASSERT_EQ(m.get("apple").cast<int>(), 3);
+    ASSERT_EQ(m.get("apple")->cast<int>(), 3);
     ASSERT_EQ(m.getAll("meat").len(), 3);
 }
 

@@ -47,16 +47,15 @@ TEST_F(exprTest, standbyHelloWorldBridgeObj) {
     tstr<nStr> msg(new nStr());
     args a(*bridge, narr(msg.get()));
 
-    node& mainFunc = bridge->sub("main", a);
-    ASSERT_FALSE(nul(mainFunc));
+    node& mainFunc = bridge->sub("main", a) OR_ASSERT(mainFunc);
     ASSERT_TRUE(mainFunc.canRun(a));
-    ASSERT_FALSE(mainFunc.canRun(args{*bridge, *bridge, *msg}));
+    ASSERT_FALSE(mainFunc.canRun(args(bridge.get(), *bridge, *msg)));
     ASSERT_FALSE(helloWorld::isRun);
     str res = mainFunc.run(a);
     ASSERT_TRUE(res.isBind());
     res = bridge->run("main", a);
     ASSERT_TRUE(res.isBind());
-    res = bridge->run("main", args{nulOf<baseObj>(), *msg});
+    res = bridge->run("main", args(nullptr, *msg));
     ASSERT_TRUE(res.isBind());
     ASSERT_TRUE(res.getType() == ttype<node>::get());
     ASSERT_TRUE(res->getType() == ttype<nVoid>::get());
@@ -64,7 +63,7 @@ TEST_F(exprTest, standbyHelloWorldBridgeObj) {
 }
 
 TEST_F(exprTest, simpleGetExpr) {
-    getExpr exp(bridge.get(), "main", narr{new nStr()});
+    getExpr exp(*bridge, "main", narr(new nStr()));
     errReport rep;
     verifier veri;
     veri.setReport(rep).setTask(exp).work();
@@ -75,8 +74,7 @@ TEST_F(exprTest, simpleGetExpr) {
     rep.rel();
     ASSERT_FALSE(rep);
 
-    baseFunc& f = bridge->sub<baseFunc>("main");
-    ASSERT_FALSE(nul(f));
+    ASSERT_TRUE(bridge->sub<baseFunc>("main"));
     veri.setTask(exp).work();
     ASSERT_FALSE(rep);
 
@@ -87,14 +85,14 @@ TEST_F(exprTest, simpleGetExpr) {
 }
 
 TEST_F(exprTest, simpleGetExprNegative) {
-    getExpr exp(bridge.get(), "main?", narr(*new nStr()));
+    getExpr exp(*bridge, "main?", narr(*new nStr()));
     setLine(exp, 1, 1);
     errReport rep;
     verifier veri;
     veri.setReport(rep).setFlag(0).setTask(exp).work();
     ASSERT_TRUE(rep); // should have some errs.
 
-    getExpr exp2(bridge.get(), "main", narr(*new nStr()));
+    getExpr exp2(*bridge, "main", narr(*new nStr()));
     setLine(exp2, 1, 1);
     rep.rel();
     veri.setTask(exp).work();
@@ -102,7 +100,7 @@ TEST_F(exprTest, simpleGetExprNegative) {
 }
 
 TEST_F(exprTest, simpleRunExprWithoutMeObjNegative) {
-    runExpr exp1(nulOf<node>(), bridge->sub("main"), narr(*new nStr("kniz!")));
+    runExpr exp1(nullptr, *bridge->sub("main"), narr(*new nStr("kniz!")));
     errReport rep;
     verifier veri;
     veri.setReport(rep).setFlag(0).setTask(exp1).work();
@@ -115,7 +113,7 @@ TEST_F(exprTest, simpleRunExprWithoutMeObjNegative) {
 }
 
 TEST_F(exprTest, simpleRunExpr) {
-    runExpr exp1(*bridge, *new getExpr("main"), narr(*new nStr("kniz!")));
+    runExpr exp1(bridge.get(), *new getExpr("main"), narr(*new nStr("kniz!")));
 
     frame fr;
     fr.add(*new scope());
@@ -158,7 +156,7 @@ TEST_F(exprTest, simpleRunExprNegative) {
 }
 
 TEST_F(exprTest, constructExprInManual) {
-    runExpr r(*bridge, *new getExpr("main"), narr(*new nStr("kniz!")));
+    runExpr r(bridge.get(), *new getExpr("main"), narr(*new nStr("kniz!")));
     setLine(r, 1, 1);
 
     frame fr;

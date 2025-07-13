@@ -9,7 +9,7 @@ namespace {
     public:
         myNode(int n): num(n) {}
 
-        scope& subs() override { return nulOf<scope>(); }
+        scope& subs() override { return dumScope::singleton(); }
 
         priorType prioritize(const args& a) const override { return NO_MATCH; }
 
@@ -39,13 +39,13 @@ TEST_F(frameTest, testAccessFrame) { getFrames().add(new frame); }
 
 TEST_F(frameTest, testFrameManipulateChainObjNegative) {
     frame& fr = getFrames()[getFrames().len() - 1];
-    ASSERT_TRUE(!nul(getScopeStack(fr)));
+    ASSERT_FALSE(getScopeStack(fr).isSub<dumScope>());
 
     scope local;
     local.add("myNode1", new myNode(1));
     local.add("myNode2", new myNode(2));
     fr.add(scope::wrap<scope>(local));
-    ASSERT_FALSE(nul(getScopeStack(fr)));
+    ASSERT_FALSE(getScopeStack(fr).isSub<dumScope>());
 
     scope shares;
     shares.add("myNode4", new myNode(4));
@@ -55,7 +55,7 @@ TEST_F(frameTest, testFrameManipulateChainObjNegative) {
     auto lambda = [](const std::string& name, const myNode& elem) {
         return true;
     };
-    ASSERT_FALSE(nul(owns.get<myNode>(lambda)));
+    ASSERT_TRUE(owns.get<myNode>(lambda));
 
     origin obj1(typeMaker::make<obj>(""));
     obj1.subs().add(owns);

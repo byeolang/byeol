@@ -30,7 +30,7 @@ namespace nm {
 
     TEMPL
     T* ME::get(nidx n) {
-        WHEN(!in(n)).exErr(OUT_OF_RANGE, n, len()).template ret(nullptr);
+        WHEN(!in(n)).exErr(OUT_OF_RANGE, n, len()).ret(nullptr);
 
         binder& ret = _vec[n];
         return (T*) ret.get();
