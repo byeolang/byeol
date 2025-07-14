@@ -46,6 +46,7 @@ namespace nm {
         //  get:
         using tarrayable<node>::get;
         using super::get;
+        using tucontainable<node>::get;
 
         /* TODO: can I remove this?
         template <typename E> E* get(std::function<nbool(const E&)> l) const {

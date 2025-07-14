@@ -17,7 +17,7 @@ TEST_F(literalExprTest, hexValue) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 255);
+    ASSERT_EQ(*res.cast<nint>(), 255);
 }
 
 TEST_F(literalExprTest, hexValue2) {
@@ -32,7 +32,7 @@ TEST_F(literalExprTest, hexValue2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 255);
+    ASSERT_EQ(*res.cast<nint>(), 255);
 }
 
 TEST_F(literalExprTest, octalValue) {
@@ -45,7 +45,7 @@ TEST_F(literalExprTest, octalValue) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 15);
+    ASSERT_EQ(*res.cast<nint>(), 15);
 }
 
 TEST_F(literalExprTest, octalValue2) {
@@ -60,7 +60,7 @@ TEST_F(literalExprTest, octalValue2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 15);
+    ASSERT_EQ(*res.cast<nint>(), 15);
 }
 
 TEST_F(literalExprTest, byteAsInt) {
@@ -73,7 +73,7 @@ TEST_F(literalExprTest, byteAsInt) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 255);
+    ASSERT_EQ(*res.cast<nint>(), 255);
 }
 
 TEST_F(literalExprTest, byteAsInt1) {
@@ -86,7 +86,7 @@ TEST_F(literalExprTest, byteAsInt1) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 255);
+    ASSERT_EQ(*res.cast<nint>(), 255);
 }
 
 TEST_F(literalExprTest, byteAsInt2) {
@@ -99,7 +99,7 @@ TEST_F(literalExprTest, byteAsInt2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 255);
+    ASSERT_EQ(*res.cast<nint>(), 255);
 }
 
 TEST_F(literalExprTest, byteAsInt3) {
@@ -112,7 +112,7 @@ TEST_F(literalExprTest, byteAsInt3) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(literalExprTest, byteAsInt4) {
@@ -125,7 +125,7 @@ TEST_F(literalExprTest, byteAsInt4) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(literalExprTest, useCtor) {
@@ -138,7 +138,7 @@ TEST_F(literalExprTest, useCtor) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 255);
+    ASSERT_EQ(*res.cast<nint>(), 255);
 }
 
 TEST_F(literalExprTest, useCtor1) {
@@ -151,7 +151,7 @@ TEST_F(literalExprTest, useCtor1) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(literalExprTest, escapeSequence1) {
@@ -165,7 +165,7 @@ TEST_F(literalExprTest, escapeSequence1) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(literalExprTest, escapeSequence2) {
@@ -179,7 +179,7 @@ TEST_F(literalExprTest, escapeSequence2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(literalExprTest, escapeSequence3) {
@@ -211,5 +211,5 @@ TEST_F(literalExprTest, escapeSequence5) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }

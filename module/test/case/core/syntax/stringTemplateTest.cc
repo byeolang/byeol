@@ -20,7 +20,7 @@ TEST_F(stringTemplateTest, simpleTest) {
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_TRUE(res->isSub<nInt>());
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(stringTemplateTest, testWithExpr) {
@@ -38,5 +38,5 @@ TEST_F(stringTemplateTest, testWithExpr) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }

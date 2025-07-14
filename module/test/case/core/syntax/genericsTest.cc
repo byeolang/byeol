@@ -24,7 +24,7 @@ TEST_F(genericsTest, simpleDefineGenerics) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(genericsTest, defineGenerics) {
@@ -44,7 +44,7 @@ TEST_F(genericsTest, defineGenerics) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(genericsTest, defineGenerics1) {
@@ -66,7 +66,7 @@ TEST_F(genericsTest, defineGenerics1) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(genericsTest, genericTwice1) {
@@ -157,7 +157,7 @@ TEST_F(genericsTest, simpleUseGenerics) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 1);
+    ASSERT_EQ(*res->cast<nint>(), 1);
 }
 
 TEST_F(genericsTest, implicitReturnTest) {
@@ -174,7 +174,7 @@ TEST_F(genericsTest, implicitReturnTest) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 1);
+    ASSERT_EQ(*res->cast<nint>(), 1);
 }
 
 TEST_F(genericsTest, simpleUseGenerics2) {
@@ -229,7 +229,7 @@ TEST_F(genericsTest, genericParameter2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(genericsTest, assignDifferentParameterizedTypeNegative) {
@@ -259,7 +259,7 @@ TEST_F(genericsTest, defAssignForPreCtorShouldWork) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(genericsTest, 2DArrayWithGenerics) {
@@ -280,7 +280,7 @@ TEST_F(genericsTest, 2DArrayWithGenerics) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(genericsTest, makeGenericOnPreCtor) {
@@ -297,7 +297,7 @@ TEST_F(genericsTest, makeGenericOnPreCtor) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 5);
+    ASSERT_EQ(*res.cast<nint>(), 5);
 }
 
 TEST_F(genericsTest, make2GenericsOnPreCtor) {
@@ -318,7 +318,7 @@ TEST_F(genericsTest, make2GenericsOnPreCtor) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 5);
+    ASSERT_EQ(*res.cast<nint>(), 5);
 }
 
 TEST_F(genericsTest, make2GenericsOnPreCtor2) {
@@ -338,7 +338,7 @@ TEST_F(genericsTest, make2GenericsOnPreCtor2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 8); // <== (4 + 4.5) as int
+    ASSERT_EQ(*res.cast<nint>(), 8); // <== (4 + 4.5) as int
 }
 
 TEST_F(genericsTest, make2GenericsOnPreCtor3) {
@@ -358,7 +358,7 @@ TEST_F(genericsTest, make2GenericsOnPreCtor3) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 8); // <== (4 + 4.5) as int
+    ASSERT_EQ(*res.cast<nint>(), 8); // <== (4 + 4.5) as int
 }
 
 TEST_F(genericsTest, genericsWillBeVerifiedWhenItIsUsed) {
@@ -403,7 +403,7 @@ TEST_F(genericsTest, simpleCompleteObj) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 33);
+    ASSERT_EQ(*res.cast<nint>(), 33);
 }
 
 TEST_F(genericsTest, simpleCompleteObjNegative) {
@@ -443,7 +443,7 @@ TEST_F(genericsTest, ifAtLeastOneLetterIsLowerCaseThenItIsNotConst) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(genericsTest, ifFirstLetterBeginsWithLowerCaseThenItIsComplete) {
@@ -460,7 +460,7 @@ TEST_F(genericsTest, ifFirstLetterBeginsWithLowerCaseThenItIsComplete) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(genericsTest, generalizedObjShouldRemoveExpandFunc) {
@@ -479,7 +479,7 @@ TEST_F(genericsTest, generalizedObjShouldRemoveExpandFunc) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 22);
+    ASSERT_EQ(*res.cast<nint>(), 22);
 
     str generic = getSubPack() TO(sub("Person")) TO(run(args{narr{nInt()}}));
     ASSERT_TRUE(generic);
@@ -498,7 +498,7 @@ TEST_F(genericsTest, genericObjCallCompleteShouldDifferentEach) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 
     str org = getSubPack()["person"];
     ASSERT_TRUE(org);

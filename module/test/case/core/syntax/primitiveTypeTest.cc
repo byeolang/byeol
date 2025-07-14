@@ -18,7 +18,7 @@ TEST_F(primitiveTypeTest, strFuncLen) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), nStr("hello").len());
+    ASSERT_EQ(*res.cast<nint>(), nStr("hello").len());
 }
 
 TEST_F(primitiveTypeTest, strFuncGet) {
@@ -31,7 +31,7 @@ TEST_F(primitiveTypeTest, strFuncGet) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(primitiveTypeTest, concatCharAndStr) {
@@ -44,7 +44,7 @@ TEST_F(primitiveTypeTest, concatCharAndStr) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(primitiveTypeTest, charConversion) {
@@ -58,7 +58,7 @@ TEST_F(primitiveTypeTest, charConversion) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(primitiveTypeTest, byteConversion) {
@@ -72,7 +72,7 @@ TEST_F(primitiveTypeTest, byteConversion) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(primitiveTypeTest, strGetSeq) {
@@ -85,7 +85,7 @@ TEST_F(primitiveTypeTest, strGetSeq) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(primitiveTypeTest, strIter) {
@@ -101,7 +101,7 @@ TEST_F(primitiveTypeTest, strIter) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(primitiveTypeTest, deduceAndImplicitCastNegative) {
@@ -126,7 +126,7 @@ TEST_F(primitiveTypeTest, codepointBasedLen) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(primitiveTypeTest, codepointBasedLen2) {
@@ -140,7 +140,7 @@ TEST_F(primitiveTypeTest, codepointBasedLen2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(primitiveTypeTest, codepointBasedIteration) {
@@ -156,7 +156,7 @@ TEST_F(primitiveTypeTest, codepointBasedIteration) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(primitiveTypeTest, codepointBasedIteration2) {
@@ -174,5 +174,5 @@ TEST_F(primitiveTypeTest, codepointBasedIteration2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }

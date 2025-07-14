@@ -83,7 +83,7 @@ TEST_F(bundlePackTest, defaultDef3) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<int>(), 48268 + 3985);
+    ASSERT_EQ(*res.cast<int>(), 48268 + 3985);
 }
 
 TEST_F(bundlePackTest, cloneBridgeObj) {

@@ -17,21 +17,20 @@ TEST_F(FBOExprTest, simpleAdd) {
     )SRC")
         .shouldVerified(true);
 
-    nInt& a = getSubPack().sub<nInt>("a");
-    ASSERT_FALSE(nul(a));
+    nInt& a = getSubPack() TO(template sub<nInt>("a")) OR_ASSERT(a);
     ASSERT_EQ(a.get(), 5);
-    nInt b = getSubPack().sub<nInt>("b");
+    nInt b = getSubPack() TO(template sub<nInt>("b")) OR_ASSERT(b);
     ASSERT_EQ(b.get(), 2);
 
-    str res(getSubPack().run("main"));
+    str res(getSubPack() TO(run("main")));
     ASSERT_TRUE(res);
     ASSERT_TRUE(res->isSub<baseErr>());
 
     {
         threadUse thr;
-        tstr<nInt> res(getSubPack().run("main"));
+        tstr<nInt> res(getSubPack() TO(run("main")));
         ASSERT_TRUE(res);
-        ASSERT_EQ(res.cast<nint>(), 7);
+        ASSERT_EQ(*res.cast<nint>(), 7);
     }
 }
 
@@ -47,14 +46,13 @@ TEST_F(FBOExprTest, addWithDefAssign) {
     )SRC")
         .shouldVerified(true);
 
-    nInt& a = getSubPack().sub<nInt>("a");
-    ASSERT_FALSE(nul(a));
+    nInt& a = getSubPack() TO(template sub<nInt>("a")) OR_ASSERT(a);
     ASSERT_EQ(a.get(), 5);
-    nInt b = getSubPack().sub<nInt>("b");
+    nInt b = getSubPack() TO(template sub<nInt>("b")) OR_ASSERT(b);
     ASSERT_EQ(b.get(), 7);
 
     threadUse thr1;
-    tstr<nInt> res(getSubPack().run("main"));
+    tstr<nInt> res(getSubPack() TO(run("main")));
     ASSERT_TRUE(res);
     ASSERT_EQ(res->get(), 12);
 }
@@ -70,11 +68,9 @@ TEST_F(FBOExprTest, addWithDefAssignReversed) {
     )SRC")
         .shouldVerified(true);
 
-    nInt& a = getSubPack().sub<nInt>("a");
-    ASSERT_FALSE(nul(a));
+    nInt& a = getSubPack() TO(template sub<nInt>("a")) OR_ASSERT(a);
     ASSERT_EQ(a.get(), 5);
-    nInt& b = getSubPack().sub<nInt>("b");
-    ASSERT_FALSE(nul(b));
+    nInt& b = getSubPack() TO(template sub<nInt>("b")) OR_ASSERT(b);
     ASSERT_EQ(b.get(), 7);
 }
 
@@ -98,8 +94,7 @@ TEST_F(FBOExprTest, addIntAndStr) {
         .shouldParsed(true);
     shouldVerified(true);
 
-    nStr& a = getSubPack().sub<nStr>("a");
-    ASSERT_FALSE(nul(a));
+    nStr& a = getSubPack() TO(template sub<nStr>("a")) OR_ASSERT(a);
     ASSERT_EQ(a.get(), std::string("hello12"));
 }
 
@@ -113,14 +108,13 @@ TEST_F(FBOExprTest, simpleSub) {
     )SRC")
         .shouldVerified(true);
 
-    nInt& a = getSubPack().sub<nInt>("a");
-    ASSERT_FALSE(nul(a));
+    nInt& a = getSubPack() TO(template sub<nInt>("a")) OR_ASSERT(b);
     ASSERT_EQ(a.get(), 5);
-    nInt b = getSubPack().sub<nInt>("b");
+    nInt b = getSubPack() TO(template sub<nInt>("b")) OR_ASSERT(b);
     ASSERT_EQ(b.get(), 2);
 
     threadUse thr;
-    tstr<nInt> res(getSubPack().run("main"));
+    tstr<nInt> res(getSubPack() TO(run("main")));
     ASSERT_TRUE(res);
     ASSERT_EQ(res->get(), 3);
 }
@@ -135,14 +129,13 @@ TEST_F(FBOExprTest, modWithDefAssign) {
     )SRC")
         .shouldVerified(true);
 
-    nInt& a = getSubPack().sub<nInt>("a");
-    ASSERT_FALSE(nul(a));
+    nInt& a = getSubPack() TO(template sub<nInt>("a")) OR_ASSERT(a);
     ASSERT_EQ(a.get(), 10);
-    nInt b = getSubPack().sub<nInt>("b");
+    nInt b = getSubPack() TO(template sub<nInt>("b")) OR_ASSERT(b);
     ASSERT_EQ(b.get(), 5);
 
     threadUse thr;
-    tstr<nInt> res(getSubPack().run("main"));
+    tstr<nInt> res(getSubPack() TO(run("main")));
     ASSERT_TRUE(res);
     ASSERT_EQ(res->get(), 1);
 }
@@ -160,7 +153,7 @@ TEST_F(FBOExprTest, testStringAddSequence) {
 
     nm::str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 1);
+    ASSERT_EQ(*res->cast<nint>(), 1);
 }
 
 TEST_F(FBOExprTest, testStringAddBoolean) {
@@ -178,7 +171,7 @@ TEST_F(FBOExprTest, testStringAddBoolean) {
 
     NM_E("start run!");
     nm::str res = run();
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(FBOExprTest, testStringAddBoolean2) {
@@ -195,7 +188,7 @@ TEST_F(FBOExprTest, testStringAddBoolean2) {
 
     nm::str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 1);
+    ASSERT_EQ(*res->cast<nint>(), 1);
 }
 
 TEST_F(FBOExprTest, testLogicalBinaryOp) {
@@ -210,7 +203,7 @@ TEST_F(FBOExprTest, testLogicalBinaryOp) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(FBOExprTest, testLogicalBinaryOpWithDifferentType) {
@@ -225,7 +218,7 @@ TEST_F(FBOExprTest, testLogicalBinaryOpWithDifferentType) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(FBOExprTest, testLogicalBinaryOpFltPrecision) {
@@ -240,7 +233,7 @@ TEST_F(FBOExprTest, testLogicalBinaryOpFltPrecision) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(FBOExprTest, testLogicalBinaryOpStr) {
@@ -255,7 +248,7 @@ TEST_F(FBOExprTest, testLogicalBinaryOpStr) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(FBOExprTest, testLogicalBinaryOpChar) {
@@ -270,7 +263,7 @@ TEST_F(FBOExprTest, testLogicalBinaryOpChar) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(FBOExprTest, testStringToBoolean) {
@@ -287,7 +280,7 @@ TEST_F(FBOExprTest, testStringToBoolean) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 22);
+    ASSERT_EQ(*res.cast<nint>(), 22);
 }
 
 TEST_F(FBOExprTest, testStringToBooleanNegative) {
@@ -317,7 +310,7 @@ TEST_F(FBOExprTest, testLogicalAndOp) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(FBOExprTest, testLogicalAndOpNegative) {
@@ -355,7 +348,7 @@ TEST_F(FBOExprTest, testLogicalAndOp2) {
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res->getType(), ttype<nInt>::get());
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(FBOExprTest, testLogicalAndOpShortCircuit) {
@@ -373,7 +366,7 @@ TEST_F(FBOExprTest, testLogicalAndOpShortCircuit) {
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res->getType(), ttype<nInt>::get());
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(FBOExprTest, testAddAssign) {
@@ -388,7 +381,7 @@ TEST_F(FBOExprTest, testAddAssign) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 8);
+    ASSERT_EQ(*res.cast<nint>(), 8);
 }
 
 TEST_F(FBOExprTest, testSubAssign) {
@@ -403,7 +396,7 @@ TEST_F(FBOExprTest, testSubAssign) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 8);
+    ASSERT_EQ(*res.cast<nint>(), 8);
 }
 
 TEST_F(FBOExprTest, testMulAssign) {
@@ -417,7 +410,7 @@ TEST_F(FBOExprTest, testMulAssign) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 15);
+    ASSERT_EQ(*res.cast<nint>(), 15);
 }
 
 TEST_F(FBOExprTest, testDivAssign) {
@@ -431,7 +424,7 @@ TEST_F(FBOExprTest, testDivAssign) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 TEST_F(FBOExprTest, testModAssign) {
@@ -446,7 +439,7 @@ TEST_F(FBOExprTest, testModAssign) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 TEST_F(FBOExprTest, testBitwiseOperator) {
@@ -461,7 +454,7 @@ TEST_F(FBOExprTest, testBitwiseOperator) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 12);
+    ASSERT_EQ(*res.cast<nint>(), 12);
 }
 
 TEST_F(FBOExprTest, testBitwiseOperator2) {
@@ -476,7 +469,7 @@ TEST_F(FBOExprTest, testBitwiseOperator2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 61);
+    ASSERT_EQ(*res.cast<nint>(), 61);
 }
 
 TEST_F(FBOExprTest, testBitwiseOperator3) {
@@ -491,7 +484,7 @@ TEST_F(FBOExprTest, testBitwiseOperator3) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 49);
+    ASSERT_EQ(*res.cast<nint>(), 49);
 }
 
 TEST_F(FBOExprTest, testBitwiseOperator4) {
@@ -504,7 +497,7 @@ TEST_F(FBOExprTest, testBitwiseOperator4) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), -61);
+    ASSERT_EQ(*res.cast<nint>(), -61);
 }
 
 TEST_F(FBOExprTest, testBitwiseOperator5) {
@@ -519,7 +512,7 @@ TEST_F(FBOExprTest, testBitwiseOperator5) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 240);
+    ASSERT_EQ(*res.cast<nint>(), 240);
 }
 
 TEST_F(FBOExprTest, testBitwiseOperator6) {
@@ -533,7 +526,7 @@ TEST_F(FBOExprTest, testBitwiseOperator6) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 15);
+    ASSERT_EQ(*res.cast<nint>(), 15);
 }
 
 TEST_F(FBOExprTest, strNotSuitableToSomeOpNegative) {

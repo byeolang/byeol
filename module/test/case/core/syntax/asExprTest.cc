@@ -436,24 +436,24 @@ TEST_F(asExprTest, AsAllowed) {
 
 TEST_F(asExprTest, deduceTest1) {
     const ntype& it = ttype<nInt>::get();
-    const ntype* res = &it.deduce<nFlt>();
-    ASSERT_FALSE(nul(res));
+    const ntype* res = it.deduce<nFlt>();
+    ASSERT_TRUE(res);
     ASSERT_EQ(*res, ttype<nFlt>::get());
 
-    res = &it.deduce<nInt>();
-    ASSERT_FALSE(nul(res));
+    res = it.deduce<nInt>();
+    ASSERT_TRUE(res);
     ASSERT_EQ(*res, ttype<nInt>::get());
 
-    res = &it.deduce<nBool>();
-    ASSERT_FALSE(nul(res));
+    res = it.deduce<nBool>();
+    ASSERT_TRUE(res);
     ASSERT_EQ(*res, ttype<nInt>::get());
 
-    res = &it.deduce<nByte>();
-    ASSERT_FALSE(nul(res));
+    res = it.deduce<nByte>();
+    ASSERT_TRUE(res);
     ASSERT_EQ(*res, ttype<nInt>::get());
 
-    res = &it.deduce<nStr>();
-    ASSERT_FALSE(nul(res));
+    res = it.deduce<nStr>();
+    ASSERT_TRUE(res);
     ASSERT_EQ(*res, ttype<nVoid>::get());
 }
 
@@ -492,7 +492,7 @@ TEST_F(asExprTest, floatAs) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(asExprTest, implicitCastBetweenArithmeticTypes) {
@@ -508,7 +508,7 @@ TEST_F(asExprTest, implicitCastBetweenArithmeticTypes) {
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res->getType(), ttype<nInt>::get());
-    ASSERT_EQ(res->cast<nint>(), 3);
+    ASSERT_EQ(*res->cast<nint>(), 3);
 }
 
 TEST_F(asExprTest, castToVoidNegative) {
@@ -535,7 +535,7 @@ TEST_F(asExprTest, castStrToIntIsParsing) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(asExprTest, castCharToIntIsNotParsing) {
@@ -550,7 +550,7 @@ TEST_F(asExprTest, castCharToIntIsNotParsing) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(asExprTest, castToObject) {

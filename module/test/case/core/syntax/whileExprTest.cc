@@ -23,7 +23,7 @@ TEST_F(whileExprTest, simple) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 6);
+    ASSERT_EQ(*res.cast<nint>(), 6);
 }
 
 TEST_F(whileExprTest, conditionClauseCheckNegative) {
@@ -63,7 +63,7 @@ TEST_F(whileExprTest, conditionClauseCheck) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 6);
+    ASSERT_EQ(*res.cast<nint>(), 6);
 }
 
 TEST_F(whileExprTest, breakInsideOfFor) {
@@ -79,7 +79,7 @@ TEST_F(whileExprTest, breakInsideOfFor) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(whileExprTest, breakInsideOfIfExpr) {
@@ -98,7 +98,7 @@ TEST_F(whileExprTest, breakInsideOfIfExpr) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 TEST_F(whileExprTest, breakNestedForLoop) {
@@ -123,7 +123,7 @@ TEST_F(whileExprTest, breakNestedForLoop) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 16);
+    ASSERT_EQ(*res.cast<nint>(), 16);
 }
 
 TEST_F(whileExprTest, evalOfForLoop) {
@@ -142,7 +142,7 @@ TEST_F(whileExprTest, evalOfForLoop) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 6);
+    ASSERT_EQ(*res.cast<nint>(), 6);
 }
 
 TEST_F(whileExprTest, evalOfForLoop2) {
@@ -161,5 +161,5 @@ TEST_F(whileExprTest, evalOfForLoop2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 4);
+    ASSERT_EQ(*res.cast<nint>(), 4);
 }

@@ -31,7 +31,7 @@ TEST_F(ifExprTest, simpleIfTest) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 11);
+    ASSERT_EQ(*res.cast<nint>(), 11);
 }
 
 TEST_F(ifExprTest, simpleIfAssignTest) {
@@ -48,7 +48,7 @@ TEST_F(ifExprTest, simpleIfAssignTest) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 22);
+    ASSERT_EQ(*res.cast<nint>(), 22);
 }
 
 TEST_F(ifExprTest, simpleIfAssignWithoutParenthesisTest) {
@@ -64,7 +64,7 @@ TEST_F(ifExprTest, simpleIfAssignWithoutParenthesisTest) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 22);
+    ASSERT_EQ(*res.cast<nint>(), 22);
 }
 
 TEST_F(ifExprTest, simpleReturnIfWithoutParenthesisTest) {
@@ -79,7 +79,7 @@ TEST_F(ifExprTest, simpleReturnIfWithoutParenthesisTest) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 11);
+    ASSERT_EQ(*res.cast<nint>(), 11);
 }
 
 TEST_F(ifExprTest, simpleReturnDefAssignWithoutParenthesisTest) {
@@ -94,7 +94,7 @@ TEST_F(ifExprTest, simpleReturnDefAssignWithoutParenthesisTest) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 11);
+    ASSERT_EQ(*res.cast<nint>(), 11);
 }
 
 TEST_F(ifExprTest, NestIfTest) {
@@ -138,7 +138,7 @@ TEST_F(ifExprTest, ifAsArgument) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 16);
+    ASSERT_EQ(*res.cast<nint>(), 16);
 }
 
 TEST_F(ifExprTest, elif) {
@@ -160,7 +160,7 @@ TEST_F(ifExprTest, elif) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 TEST_F(ifExprTest, elifNegative) {
@@ -219,7 +219,7 @@ TEST_F(ifExprTest, elif2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 3);
+    ASSERT_EQ(*res.cast<nint>(), 3);
 }
 
 TEST_F(ifExprTest, evalIfWithStrAndIntNegative) {
@@ -282,7 +282,7 @@ TEST_F(ifExprTest, evalIfWithStrAndInt) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(ifExprTest, testAssignWithCompoundExpr) {
@@ -303,7 +303,7 @@ TEST_F(ifExprTest, testAssignWithCompoundExpr) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(ifExprTest, evalIfExprReturningSomething) {
@@ -321,7 +321,7 @@ TEST_F(ifExprTest, evalIfExprReturningSomething) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 5);
+    ASSERT_EQ(*res->cast<nint>(), 5);
 }
 
 TEST_F(ifExprTest, evalIfExprReturningSomething2) {
@@ -387,5 +387,5 @@ TEST_F(ifExprTest, nestedIfBlockReturnSomething) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 3);
+    ASSERT_EQ(*res.cast<nint>(), 3);
 }

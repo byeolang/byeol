@@ -116,5 +116,5 @@ TEST_F(callTest, callObjCtor) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 35);
+    ASSERT_EQ(*res.cast<nint>(), 35);
 }

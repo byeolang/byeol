@@ -89,7 +89,7 @@ TEST_F(seqTest, addSeqElement) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 5);
+    ASSERT_EQ(*res->cast<nint>(), 5);
 }
 
 TEST_F(seqTest, verifyStartEndNegative) {

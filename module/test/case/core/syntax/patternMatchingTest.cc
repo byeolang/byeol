@@ -17,7 +17,7 @@ TEST_F(patternMatchingTest, simpleIn) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 1);
+    ASSERT_EQ(*res->cast<nint>(), 1);
 }
 
 TEST_F(patternMatchingTest, strNegative) {
@@ -31,7 +31,7 @@ TEST_F(patternMatchingTest, strNegative) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 0);
+    ASSERT_EQ(*res->cast<nint>(), 0);
 }
 
 TEST_F(patternMatchingTest, wrongTypeNegative) {
@@ -56,5 +56,5 @@ TEST_F(patternMatchingTest, withStr) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 1);
+    ASSERT_EQ(*res->cast<nint>(), 1);
 }

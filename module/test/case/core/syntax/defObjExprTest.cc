@@ -104,7 +104,7 @@ TEST_F(defObjExprTest, assignMemberVariable) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 TEST_F(defObjExprTest, make2Objects) {
@@ -127,7 +127,7 @@ TEST_F(defObjExprTest, make2Objects) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(defObjExprTest, manipulate2Origin) {
@@ -150,7 +150,7 @@ TEST_F(defObjExprTest, manipulate2Origin) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(defObjExprTest, objAsParameter) {
@@ -169,7 +169,7 @@ TEST_F(defObjExprTest, objAsParameter) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(defObjExprTest, incompleteObjNegative) {
@@ -263,7 +263,7 @@ TEST_F(defObjExprTest, testPrector) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(defObjExprTest, testPrectorCircularNegative) {
@@ -298,7 +298,7 @@ TEST_F(defObjExprTest, expandReversedSequence) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 3);
+    ASSERT_EQ(*res.cast<nint>(), 3);
 }
 
 TEST_F(defObjExprTest, variableDuplication) {
@@ -316,7 +316,7 @@ TEST_F(defObjExprTest, variableDuplication) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 33);
+    ASSERT_EQ(*res.cast<nint>(), 33);
 }
 
 TEST_F(defObjExprTest, frameNotCreatedWhenCallPackFunc) {
@@ -336,7 +336,7 @@ TEST_F(defObjExprTest, frameNotCreatedWhenCallPackFunc) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 22);
+    ASSERT_EQ(*res.cast<nint>(), 22);
     // namu should return 22 in this scenario.
     // because `boo()` belongs to this `pack` obj.
     // so when `boo()` get called it should refer variable `age` belonged to `pack`.
@@ -357,7 +357,7 @@ TEST_F(defObjExprTest, defPropAllowedIfThereIsProperCtor) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 22);
+    ASSERT_EQ(*res.cast<nint>(), 22);
 }
 
 TEST_F(defObjExprTest, defPropNotAllowedIfThereIsNoProperCtorNegative) {
@@ -387,7 +387,7 @@ TEST_F(defObjExprTest, simpleCompleteObj) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 33);
+    ASSERT_EQ(*res.cast<nint>(), 33);
 }
 
 TEST_F(defObjExprTest, simpleCompleteObjNegative) {
@@ -427,7 +427,7 @@ TEST_F(defObjExprTest, ifAtLeastOneLetterIsLowerCaseThenItIsNotConst) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 33);
+    ASSERT_EQ(*res.cast<nint>(), 33);
 }
 
 TEST_F(defObjExprTest, ifFirstLetterBeginsWithLowerCaseThenItIsComplete) {
@@ -442,7 +442,7 @@ TEST_F(defObjExprTest, ifFirstLetterBeginsWithLowerCaseThenItIsComplete) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 33);
+    ASSERT_EQ(*res.cast<nint>(), 33);
 }
 
 TEST_F(defObjExprTest, isStateOfDefObjVerified) {
@@ -499,7 +499,7 @@ TEST_F(defObjExprTest, callCompleteForDefaultCtor) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(defObjExprTest, CallCompleteMakeIncompleteToCompleteType) {
@@ -515,7 +515,7 @@ TEST_F(defObjExprTest, CallCompleteMakeIncompleteToCompleteType) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 6);
+    ASSERT_EQ(*res.cast<nint>(), 6);
 }
 
 TEST_F(defObjExprTest, NoCallCompleteForIncompleteNegative) {
@@ -556,7 +556,7 @@ TEST_F(defObjExprTest, memberVariableShouldBeNotMockNode) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(defObjExprTest, memberVariableShouldBeNotMockNode2) {
@@ -574,7 +574,7 @@ TEST_F(defObjExprTest, memberVariableShouldBeNotMockNode2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(defObjExprTest, simpleModifier) {
@@ -590,7 +590,7 @@ TEST_F(defObjExprTest, simpleModifier) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 23);
+    ASSERT_EQ(*res.cast<nint>(), 23);
 }
 
 TEST_F(defObjExprTest, simpleModifierNegative) {
@@ -645,7 +645,7 @@ TEST_F(defObjExprTest, modifierForAnotherObjScope) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 22);
+    ASSERT_EQ(*res.cast<nint>(), 22);
 }
 
 TEST_F(defObjExprTest, modifierForAnotherObjScope2) {
@@ -661,7 +661,7 @@ TEST_F(defObjExprTest, modifierForAnotherObjScope2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 33);
+    ASSERT_EQ(*res.cast<nint>(), 33);
 }
 
 TEST_F(defObjExprTest, simpleModifierForFuncNegative) {
@@ -691,7 +691,7 @@ TEST_F(defObjExprTest, simpleModifierForFunc) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 25);
+    ASSERT_EQ(*res.cast<nint>(), 25);
 }
 
 TEST_F(defObjExprTest, clonedObjModifierForFuncNegative) {
@@ -725,7 +725,7 @@ TEST_F(defObjExprTest, modifierForFuncAndAnotherObjScope) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 22);
+    ASSERT_EQ(*res.cast<nint>(), 22);
 }
 
 TEST_F(defObjExprTest, modifierForFuncAndAnotherObjScope2) {
@@ -741,7 +741,7 @@ TEST_F(defObjExprTest, modifierForFuncAndAnotherObjScope2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 TEST_F(defObjExprTest, nested) {
@@ -759,7 +759,7 @@ TEST_F(defObjExprTest, nested) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2062);
+    ASSERT_EQ(*res.cast<nint>(), 2062);
 }
 
 TEST_F(defObjExprTest, iterateObj) {
@@ -787,7 +787,7 @@ TEST_F(defObjExprTest, iterateObj) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 1);
+    ASSERT_EQ(*res->cast<nint>(), 1);
 }
 
 TEST_F(defObjExprTest, passNestedFuncAsCompleteCallParam) {
@@ -805,7 +805,7 @@ TEST_F(defObjExprTest, passNestedFuncAsCompleteCallParam) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(defObjExprTest, assignClosureShouldWork) {
@@ -825,7 +825,7 @@ TEST_F(defObjExprTest, assignClosureShouldWork) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 TEST_F(defObjExprTest, originShouldNotOpenAccessToPackScopeNegative) {

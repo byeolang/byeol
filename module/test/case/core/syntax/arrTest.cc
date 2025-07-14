@@ -18,7 +18,7 @@ namespace {
 
         myNode(int num): number(num) {}
 
-        scope& subs() override { return nulOf<scope>(); }
+        scope& subs() override { return dumScope::singleton(); }
 
         priorType prioritize(const args& a) const override { return NO_MATCH; }
 
@@ -93,13 +93,12 @@ TEST_F(arrTest, shouldNotCanAddLocalObject) {
     {
         myNode localObj(5);
         ASSERT_TRUE(arr1.add(localObj));
-        ASSERT_FALSE(nul(arr1[0]));
+        ASSERT_TRUE(arr1.get(0));
         ASSERT_EQ(arr1.len(), 1);
     }
 
     ASSERT_EQ(arr1.len(), 1);
-    auto& elem = arr1[0];
-    ASSERT_TRUE(nul(elem));
+    ASSERT_FALSE(arr1.get(0));
 }
 
 TEST_F(arrTest, simpleAddDelTest) {
@@ -110,8 +109,7 @@ TEST_F(arrTest, simpleAddDelTest) {
     arr1.add(*(new myNode(EXPECT_NUMBER)));
     ASSERT_EQ(arr1.len(), 1);
 
-    auto elem1 = arr1[0].cast<myNode>();
-    ASSERT_FALSE(nul(elem1));
+    auto elem1 = arr1[0].cast<myNode>() OR_ASSERT(elem1);
     ASSERT_EQ(elem1.number, EXPECT_NUMBER);
 }
 
@@ -163,16 +161,14 @@ TEST_F(arrTest, testContainableAPI) {
     // add:
     int expectVal = 0;
     for(auto e = arr1->begin(); e != arr1->end(); e++) {
-        myNode& elem = e->cast<myNode>();
-        ASSERT_FALSE(nul(elem));
+        myNode& elem = e->cast<myNode>() OR_ASSERT(elem);
         ASSERT_EQ(elem.number, expectVal++);
     }
 
     // get & each:
     expectVal = 0;
     for(int n = 0; n < arr1->len(); n++) {
-        myNode& elem = arr1->get(n).cast<myNode>();
-        ASSERT_FALSE(nul(elem));
+        myNode& elem = arr1->get(n)->cast<myNode>() OR_ASSERT(elem);
         ASSERT_EQ(elem.number, expectVal++);
     }
 
@@ -188,16 +184,15 @@ TEST_F(arrTest, testContainableAPI) {
         ASSERT_EQ(tray.len(), 1);
     }
 
-    myMyNode& tray = arr1->get<myMyNode>([](const myMyNode& elem) {
+    ASSERT_TRUE(arr1->get<myMyNode>([](const myMyNode& elem) {
         if(elem.number == 1) return true;
         return false;
-    });
-    ASSERT_FALSE(nul(tray));
+    }));
 
     //  del:
     ASSERT_TRUE(arr1->del());
     ASSERT_EQ(arr1->len(), 1);
-    ASSERT_EQ(arr1->get(0).cast<myNode>().number, 0);
+    ASSERT_EQ(arr1->get(0)->cast<myNode>()->number, 0);
     delete arr1;
 }
 
@@ -213,7 +208,7 @@ TEST_F(arrTest, testcloneDeep) {
     ASSERT_EQ(arr1.len(), arr2.len());
 
     for(int n = 0; n < 2; n++) {
-        ASSERT_EQ(arr1[n].cast<myNode>().number, arr2[n].cast<myNode>().number);
+        ASSERT_EQ(arr1[n].cast<myNode>()->number, arr2[n].cast<myNode>()->number);
         ASSERT_NE(&arr1[n], &arr2[n]);
     }
 }
@@ -225,20 +220,20 @@ TEST_F(arrTest, testRangeBasedForLoop) {
 
     int sum = 0;
     for(auto& e: arr1) {
-        myNode& cast = e.cast<myNode>();
+        myNode& cast = *e.cast<myNode>();
         sum += cast.number;
     }
 
     int sum2 = 0;
     for(const node& e: arr1) {
-        const myNode& cast = e.cast<myNode>();
+        const myNode& cast = *e.cast<myNode>();
         sum2 += cast.number;
     }
     ASSERT_EQ(sum2, sum);
 
     int expect = 0;
     for(int n = 0; n < arr1.len(); n++)
-        expect += arr1[n].cast<myNode>().number;
+        expect += arr1[n].cast<myNode>()->number;
 
     ASSERT_EQ(sum, expect);
 }
@@ -250,27 +245,24 @@ TEST_F(arrTest, testSubs) {
 
     str res = intArr.run("len");
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), intArr.len());
+    ASSERT_EQ(*res.cast<nint>(), intArr.len());
 
     nInt int1;
     arr intArr2(int1);
     // even if instances of arr are different, they share same subs because of same elementType:
-    ASSERT_EQ(&intArr.sub("len"), &intArr2.sub("len"));
+    ASSERT_EQ(intArr.sub("len"), intArr2.sub("len"));
 }
 
 TEST_F(arrTest, genericMarshalingTest) {
     nInt int1;
     arr arr1(int1);
 
-    baseFunc& f = arr1.sub<baseFunc>("add", args{narr{int1}});
-    ASSERT_FALSE(nul(f));
+    ASSERT_TRUE(arr1.sub<baseFunc>("add", args{narr{int1}}));
 
     nFlt flt1;
     tarr<nFlt> arr2;
-    baseFunc& f2 = arr2.sub<baseFunc>("add", args{narr{flt1}});
-    ASSERT_FALSE(nul(f2));
-    const param& fltParam = f2.getParams()[0];
-    ASSERT_FALSE(nul(fltParam));
+    baseFunc& f2 = arr2.sub<baseFunc>("add", args{narr{flt1}}) OR_ASSERT(f2);
+    const param& fltParam = f2.getParams().get(0) OR_ASSERT(fltParam);
     ASSERT_TRUE(fltParam.getOrigin().isSub<nFlt>());
 }
 
@@ -283,7 +275,7 @@ TEST_F(arrTest, testSimpleBridgedFuncs) {
     ASSERT_EQ(res.cast<nbool>(), true);
     ASSERT_EQ(arr1.len(), 1);
     res = it.run("len");
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(arrTest, testSimpleBridgedFuncs2) {
@@ -300,11 +292,11 @@ TEST_F(arrTest, testSimpleBridgedFuncs2) {
 
     ASSERT_EQ(arr1.len(), 2);
     res = it.run("len");
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 
     res = it.run("get", args{narr{*new nInt(0)}});
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
     ASSERT_EQ(arr1[0].cast<nint>(), 2);
 
     res = it.run("set",
@@ -377,7 +369,7 @@ TEST_F(arrTest, newInstanceSharesFuncs) {
     ASSERT_EQ(res2->len(), 0);
     res2->add(new nFlt(1.0f));
     ASSERT_EQ(res2->len(), 1);
-    ASSERT_EQ(res2->get(0).cast<nflt>(), 1.0f);
+    ASSERT_EQ(*res2->get(0)->cast<nflt>(), 1.0f);
 }
 
 TEST_F(arrTest, testBasicDefSyntax) {
@@ -402,7 +394,7 @@ TEST_F(arrTest, testBasicDefSyntax) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 2); // 2.5(flt) --> 2(int)
+    ASSERT_EQ(*res->cast<nint>(), 2); // 2.5(flt) --> 2(int)
 }
 
 TEST_F(arrTest, testImplicitlyDefSyntax) {
@@ -421,7 +413,7 @@ TEST_F(arrTest, testImplicitlyDefSyntax) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 6);
+    ASSERT_EQ(*res.cast<nint>(), 6);
 }
 
 TEST_F(arrTest, testImplicitlyefSyntax2) {
@@ -438,7 +430,7 @@ TEST_F(arrTest, testImplicitlyefSyntax2) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 7);
+    ASSERT_EQ(*res.cast<nint>(), 7);
 }
 
 TEST_F(arrTest, arrDeductionFailNegative) {
@@ -456,7 +448,7 @@ TEST_F(arrTest, arrDeductionFailNegative) {
 
     errReport& errs = getReport();
     ASSERT_TRUE(errs);
-    ASSERT_EQ(errs[0].cast<nerr>().getPos().row, 6);
+    ASSERT_EQ(errs[0].cast<nerr>()->getPos().row, 6);
 }
 
 TEST_F(arrTest, arrDeductionFailNegative2) {
@@ -534,7 +526,7 @@ TEST_F(arrTest, testDeepCopy) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 2);
+    ASSERT_EQ(*res->cast<nint>(), 2);
 }
 
 TEST_F(arrTest, testShallowCopy) {
@@ -550,7 +542,7 @@ TEST_F(arrTest, testShallowCopy) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 3);
+    ASSERT_EQ(*res->cast<nint>(), 3);
 }
 
 TEST_F(arrTest, test2DArray) {
@@ -564,7 +556,7 @@ TEST_F(arrTest, test2DArray) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(arrTest, test2DArray2) {
@@ -581,7 +573,7 @@ TEST_F(arrTest, test2DArray2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 4);
+    ASSERT_EQ(*res.cast<nint>(), 4);
 }
 
 TEST_F(arrTest, test3DArray3) {
@@ -604,7 +596,7 @@ TEST_F(arrTest, test3DArray3) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(arrTest, testCallCtor) {
@@ -618,7 +610,7 @@ TEST_F(arrTest, testCallCtor) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(arrTest, addDifferentElemTypeNegative) {
@@ -646,7 +638,7 @@ TEST_F(arrTest, namelessArr) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 TEST_F(arrTest, accessElementOnce) {
@@ -667,7 +659,7 @@ TEST_F(arrTest, accessElementOnce) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1); // shouldn't be 2.
+    ASSERT_EQ(*res.cast<nint>(), 1); // shouldn't be 2.
 }
 
 TEST_F(arrTest, setElemConversion) {
@@ -682,7 +674,7 @@ TEST_F(arrTest, setElemConversion) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(arrTest, setElemConversion1) {
@@ -701,7 +693,7 @@ TEST_F(arrTest, setElemConversion1) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(arrTest, setElemAddAssignConversion) {
@@ -720,7 +712,7 @@ TEST_F(arrTest, setElemAddAssignConversion) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(arrTest, setElemAddAssignConversion2) {
@@ -739,7 +731,7 @@ TEST_F(arrTest, setElemAddAssignConversion2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(arrTest, setFieldOfElemAfterGetIt) {
@@ -757,7 +749,7 @@ TEST_F(arrTest, setFieldOfElemAfterGetIt) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(arrTest, setFieldOfElemAfterGetIt1) {
@@ -774,7 +766,7 @@ TEST_F(arrTest, setFieldOfElemAfterGetIt1) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 22);
+    ASSERT_EQ(*res.cast<nint>(), 22);
 }
 
 TEST_F(arrTest, outOfBoundExOccurs) {
@@ -793,19 +785,17 @@ TEST_F(arrTest, outOfBoundExOccurs) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_TRUE(nul(res.cast<nint>())); // which means, program ended with error code.
-    nerr& resErr = res.cast<nerr>();
-    ASSERT_FALSE(nul(resErr));
+    ASSERT_TRUE(nul(*res.cast<nint>())); // which means, program ended with error code.
+    nerr& resErr = res.cast<nerr>() OR_ASSERT(resErr);
     ASSERT_EQ(resErr.getErrCode(), errCode::OUT_OF_RANGE);
 
     {
-        auto& A = getSubPack().sub("A"); // A.arr is mockNode
+        auto& A = *getSubPack()->sub("A"); // A.arr is mockNode
         str a((node*) A.clone());        // now, a.arr is not mockNode, but obj.
         threadUse th;
         str res = a->run("foo");
         ASSERT_TRUE(res);
-        nerr& cast = res->cast<nerr>();
-        ASSERT_FALSE(nul(cast));
+        nerr& cast = res->cast<nerr>() OR_ASSERT(cast);
         ASSERT_EQ(cast.getLv(), errLv::ERR);
         ASSERT_EQ(cast.getErrCode(), errCode::OUT_OF_RANGE);
     }
@@ -844,5 +834,5 @@ TEST_F(arrTest, defPropWithCustomTypeShouldWork) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }

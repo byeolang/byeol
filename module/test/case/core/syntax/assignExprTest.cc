@@ -16,12 +16,10 @@ TEST_F(assignExprTest, simpleAssign) {
     )SRC")
             .shouldVerified(true)) {
         run();
-        node& res = getSubPack();
-        ASSERT_FALSE(nul(res));
+        node& res = getSubPack() OR_ASSERT(res);
 
-        const nInt& o = res.sub<nInt>("age");
-        ASSERT_FALSE(nul(o));
-        ASSERT_EQ(o.cast<nint>(), 5);
+        const nInt& o = res.sub<nInt>("age") OR_ASSERT(o);
+        ASSERT_EQ(*o.cast<nint>(), 5);
     }
 }
 
@@ -37,7 +35,7 @@ TEST_F(assignExprTest, simpleAssign1) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(assignExprTest, simpleAssign2) {
@@ -74,12 +72,10 @@ TEST_F(assignExprTest, assignLocalVariable) {
     )SRC")
             .shouldVerified(true)) {
         run();
-        node& res = getSubPack();
-        ASSERT_FALSE(nul(res));
+        node& res = getSubPack() OR_ASSERT(res);
 
-        const nInt& o = res.sub<nInt>("age");
-        ASSERT_FALSE(nul(o));
-        ASSERT_EQ(o.cast<int>(), 5);
+        const nInt& o = res.sub<nInt>("age") OR_ASSERT(o);
+        ASSERT_EQ(*o.cast<int>(), 5);
     }
 }
 
@@ -104,7 +100,7 @@ TEST_F(assignExprTest, mysteriousDeath) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<int>(), 1);
+    ASSERT_EQ(*res.cast<int>(), 1);
 }
 
 TEST_F(assignExprTest, assignClassNegative) {
@@ -165,7 +161,7 @@ TEST_F(assignExprTest, assignAssignedValue) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 55);
+    ASSERT_EQ(*res.cast<nint>(), 55);
 }
 
 TEST_F(assignExprTest, assignAssignedValue2) {
@@ -182,7 +178,7 @@ TEST_F(assignExprTest, assignAssignedValue2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 55);
+    ASSERT_EQ(*res.cast<nint>(), 55);
 }
 
 TEST_F(assignExprTest, assignForExprDeclaringLocalVariable) {
@@ -199,7 +195,7 @@ TEST_F(assignExprTest, assignForExprDeclaringLocalVariable) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 8);
+    ASSERT_EQ(*res->cast<nint>(), 8);
 }
 
 TEST_F(assignExprTest, assignConstNegative) {

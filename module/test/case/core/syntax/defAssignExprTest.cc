@@ -218,7 +218,7 @@ TEST_F(defAssignExprTest, defAssignAsParameter2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 10);
+    ASSERT_EQ(*res.cast<nint>(), 10);
 }
 
 TEST_F(defAssignExprTest, defAssignAsParameterNegative3) {
@@ -269,7 +269,7 @@ TEST_F(defAssignExprTest, defAssignDefAssignedValue) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(defAssignExprTest, defAssignVoidNegative) {
@@ -322,7 +322,7 @@ TEST_F(defAssignExprTest, defAssignIfWithElse) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(defAssignExprTest, defAssignEvalOfSetElemConversion) {
@@ -342,7 +342,7 @@ TEST_F(defAssignExprTest, defAssignEvalOfSetElemConversion) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), false);
+    ASSERT_EQ(*res.cast<nint>(), false);
 }
 
 TEST_F(defAssignExprTest, defAssignAtIf) {
@@ -358,7 +358,7 @@ TEST_F(defAssignExprTest, defAssignAtIf) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(defAssignExprTest, defAssignAtBlockNegative) {
@@ -401,7 +401,7 @@ TEST_F(defAssignExprTest, cantAssignWithForLoopReturningSomething) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 1);
+    ASSERT_EQ(*res->cast<nint>(), 1);
 }
 
 TEST_F(defAssignExprTest, assignFromForExprDeclaringLocalVariable) {
@@ -417,7 +417,7 @@ TEST_F(defAssignExprTest, assignFromForExprDeclaringLocalVariable) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 12);
+    ASSERT_EQ(*res->cast<nint>(), 12);
 }
 
 TEST_F(defAssignExprTest, selfDefAssigningIsNotAllowedNegative) {
@@ -476,7 +476,7 @@ TEST_F(defAssignExprTest, defAssignWithTypes) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(defAssignExprTest, defAssignWithTypesVoidNotAllowedNegative) {
@@ -504,7 +504,7 @@ TEST_F(defAssignExprTest, defAssignWithTypesWithArray) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 /*
@@ -518,5 +518,5 @@ TEST_F(defAssignExprTest, selfDefAssigningOfNullableIsAllowed) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }*/

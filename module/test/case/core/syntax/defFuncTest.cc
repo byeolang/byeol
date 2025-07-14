@@ -246,7 +246,7 @@ TEST_F(defFuncTest, defFuncAtSubPack) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(defFuncTest, defFuncReturnClass) {
@@ -263,7 +263,7 @@ TEST_F(defFuncTest, defFuncReturnClass) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 0);
+    ASSERT_EQ(*res.cast<nint>(), 0);
 }
 
 TEST_F(defFuncTest, defFuncDuplicateNegative) {
@@ -347,7 +347,7 @@ TEST_F(defFuncTest, overloadingDifferentParameters) {
         ASSERT_EQ(ps[0].getOrigin().getType(), ttype<nInt>());
         str res = a.run("foo", args1);
         ASSERT_TRUE(res);
-        ASSERT_EQ(res->cast<nint>(), 1);
+        ASSERT_EQ(*res->cast<nint>(), 1);
     }
 }
 
@@ -386,7 +386,7 @@ TEST_F(defFuncTest, overloadingSimilarParameters) {
         ASSERT_EQ(subs.getPriorType(), NUMERIC_MATCH);
         str res = a.run("foo", args1);
         ASSERT_TRUE(res);
-        ASSERT_EQ(res.cast<nint>(), 1);
+        ASSERT_EQ(*res.cast<nint>(), 1);
     }
 }
 
@@ -427,7 +427,7 @@ TEST_F(defFuncTest, accessMeShouldBeComplete) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 22);
+    ASSERT_EQ(*res.cast<nint>(), 22);
 }
 
 TEST_F(defFuncTest, simpleCtor) {
@@ -503,7 +503,7 @@ TEST_F(defFuncTest, mainFuncWithInlineBlock) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 3);
+    ASSERT_EQ(*res.cast<nint>(), 3);
 }
 
 TEST_F(defFuncTest, mainFuncWithInlineBlock2) {
@@ -517,7 +517,7 @@ TEST_F(defFuncTest, mainFuncWithInlineBlock2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 3);
+    ASSERT_EQ(*res.cast<nint>(), 3);
 }
 
 TEST_F(defFuncTest, funcTakingFunc) {
@@ -533,7 +533,7 @@ TEST_F(defFuncTest, funcTakingFunc) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 3);
+    ASSERT_EQ(*res.cast<nint>(), 3);
 }
 
 TEST_F(defFuncTest, funcTakingClosure) {
@@ -547,7 +547,7 @@ TEST_F(defFuncTest, funcTakingClosure) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 4);
+    ASSERT_EQ(*res.cast<nint>(), 4);
 }
 
 TEST_F(defFuncTest, closureDontHaveImplicitCasting) {
@@ -578,7 +578,7 @@ TEST_F(defFuncTest, simpleClosure) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 5);
+    ASSERT_EQ(*res.cast<nint>(), 5);
 }
 
 TEST_F(defFuncTest, simpleConvergence) {
@@ -594,7 +594,7 @@ TEST_F(defFuncTest, simpleConvergence) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 5);
+    ASSERT_EQ(*res.cast<nint>(), 5);
 }
 
 TEST_F(defFuncTest, complexConvergence) {
@@ -624,7 +624,7 @@ TEST_F(defFuncTest, complexConvergence) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 25);
+    ASSERT_EQ(*res.cast<nint>(), 25);
 }
 
 TEST_F(defFuncTest, simpleNestedFunc) {
@@ -639,7 +639,7 @@ TEST_F(defFuncTest, simpleNestedFunc) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 4);
+    ASSERT_EQ(*res.cast<nint>(), 4);
 }
 
 TEST_F(defFuncTest, capturedNestedFunc) {
@@ -657,7 +657,7 @@ TEST_F(defFuncTest, capturedNestedFunc) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(defFuncTest, capturedVariablePreservedEvenWhenAssigning) {
@@ -676,7 +676,7 @@ TEST_F(defFuncTest, capturedVariablePreservedEvenWhenAssigning) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(defFuncTest, capturedVariableCanChangeItsFields) {
@@ -699,7 +699,7 @@ TEST_F(defFuncTest, capturedVariableCanChangeItsFields) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(defFuncTest, variableInsideBlockCanBeCaptured) {
@@ -718,7 +718,7 @@ TEST_F(defFuncTest, variableInsideBlockCanBeCaptured) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(defFuncTest, nestedFuncOnlyAvailableInBlockNegative) {
@@ -764,7 +764,7 @@ TEST_F(defFuncTest, nestedFuncShouldBeAbleToCaptureArgument) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 9 - 6);
+    ASSERT_EQ(*res.cast<nint>(), 9 - 6);
 }
 
 TEST_F(defFuncTest, nestedFuncClosure) {
@@ -785,7 +785,7 @@ TEST_F(defFuncTest, nestedFuncClosure) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), -2 + 15);
+    ASSERT_EQ(*res.cast<nint>(), -2 + 15);
 }
 
 TEST_F(defFuncTest, nestedFuncClosureWithAbstractFunc) {
@@ -806,7 +806,7 @@ TEST_F(defFuncTest, nestedFuncClosureWithAbstractFunc) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), -2 + 15);
+    ASSERT_EQ(*res.cast<nint>(), -2 + 15);
 }
 
 TEST_F(defFuncTest, nestedFuncClosureAndCallDirectly) {
@@ -825,7 +825,7 @@ TEST_F(defFuncTest, nestedFuncClosureAndCallDirectly) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), -2 + 15);
+    ASSERT_EQ(*res.cast<nint>(), -2 + 15);
 }
 
 TEST_F(defFuncTest, closureShouldCanCaptureInMainFunc) {
@@ -843,7 +843,7 @@ TEST_F(defFuncTest, closureShouldCanCaptureInMainFunc) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 5);
+    ASSERT_EQ(*res.cast<nint>(), 5);
 }
 
 TEST_F(defFuncTest, simpleLambda) {
@@ -862,7 +862,7 @@ TEST_F(defFuncTest, simpleLambda) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 13);
+    ASSERT_EQ(*res.cast<nint>(), 13);
 }
 
 TEST_F(defFuncTest, simpleLambdaInline) {
@@ -877,7 +877,7 @@ TEST_F(defFuncTest, simpleLambdaInline) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 13);
+    ASSERT_EQ(*res.cast<nint>(), 13);
 }
 
 TEST_F(defFuncTest, voidParameterNotAllowedNegative) {
@@ -942,5 +942,5 @@ TEST_F(defFuncTest, complexLambda) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }*/

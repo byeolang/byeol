@@ -18,7 +18,7 @@ TEST_F(FUOExprTest, testUnaryPrefixOp) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 4);
+    ASSERT_EQ(*res.cast<nint>(), 4);
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOp2) {
@@ -32,7 +32,7 @@ TEST_F(FUOExprTest, testUnaryPrefixOp2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOp3) {
@@ -46,7 +46,7 @@ TEST_F(FUOExprTest, testUnaryPrefixOp3) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), -3);
+    ASSERT_EQ(*res.cast<nint>(), -3);
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOp4) {
@@ -63,7 +63,7 @@ TEST_F(FUOExprTest, testUnaryPrefixOp4) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 11);
+    ASSERT_EQ(*res.cast<nint>(), 11);
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOp5) {
@@ -80,7 +80,7 @@ TEST_F(FUOExprTest, testUnaryPrefixOp5) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 11);
+    ASSERT_EQ(*res.cast<nint>(), 11);
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOp6) {
@@ -97,7 +97,7 @@ TEST_F(FUOExprTest, testUnaryPrefixOp6) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 22);
+    ASSERT_EQ(*res.cast<nint>(), 22);
 }
 
 TEST_F(FUOExprTest, testUnaryPrefixOpNegative) {
@@ -150,7 +150,7 @@ TEST_F(FUOExprTest, testUnaryPostfixDoublePlus) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 TEST_F(FUOExprTest, testUnaryPostfixDoublePlus2) {
@@ -165,7 +165,7 @@ TEST_F(FUOExprTest, testUnaryPostfixDoublePlus2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 3);
+    ASSERT_EQ(*res.cast<nint>(), 3);
 }
 
 TEST_F(FUOExprTest, testUnaryPostfixDoubleMinus) {
@@ -179,7 +179,7 @@ TEST_F(FUOExprTest, testUnaryPostfixDoubleMinus) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 TEST_F(FUOExprTest, testUnaryPostfixDoubleMinus2) {
@@ -194,7 +194,7 @@ TEST_F(FUOExprTest, testUnaryPostfixDoubleMinus2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(FUOExprTest, testUnaryPostfixDoubleMinus3) {

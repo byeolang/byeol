@@ -22,7 +22,7 @@ TEST_F(forExprTest, simpleTest) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 6);
+    ASSERT_EQ(*res.cast<nint>(), 6);
 }
 
 TEST_F(forExprTest, simpleTest2) {
@@ -40,7 +40,7 @@ TEST_F(forExprTest, simpleTest2) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 6);
+    ASSERT_EQ(*res.cast<nint>(), 6);
 }
 
 TEST_F(forExprTest, testWhatFromFunc) {
@@ -62,7 +62,7 @@ TEST_F(forExprTest, testWhatFromFunc) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 6);
+    ASSERT_EQ(*res.cast<nint>(), 6);
 }
 
 TEST_F(forExprTest, putAkaMiddleOfLoop) {
@@ -84,7 +84,7 @@ TEST_F(forExprTest, putAkaMiddleOfLoop) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 6);
+    ASSERT_EQ(*res.cast<nint>(), 6);
 }
 
 TEST_F(forExprTest, sequenceLoop) {
@@ -103,7 +103,7 @@ TEST_F(forExprTest, sequenceLoop) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 9);
+    ASSERT_EQ(*res.cast<nint>(), 9);
 }
 
 TEST_F(forExprTest, validationCheckNegative) {
@@ -149,7 +149,7 @@ TEST_F(forExprTest, loopObjects) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 1);
+    ASSERT_EQ(*res->cast<nint>(), 1);
 }
 
 TEST_F(forExprTest, useObjectAsContainer) {
@@ -188,7 +188,7 @@ TEST_F(forExprTest, returnMiddleOfLoop) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(forExprTest, returnMiddleOfLoop1) {
@@ -211,7 +211,7 @@ TEST_F(forExprTest, returnMiddleOfLoop1) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(forExprTest, returnMiddleOfLoop1WithoutParenthesisNegative) {
@@ -251,7 +251,7 @@ TEST_F(forExprTest, returnMiddleOfLoop1WithoutParenthesis) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 100);
+    ASSERT_EQ(*res.cast<nint>(), 100);
 }
 
 TEST_F(forExprTest, retMiddleOfLoop) {
@@ -272,7 +272,7 @@ TEST_F(forExprTest, retMiddleOfLoop) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(forExprTest, retMiddleOfLoopWithoutParenthesis) {
@@ -292,7 +292,7 @@ TEST_F(forExprTest, retMiddleOfLoopWithoutParenthesis) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(forExprTest, retMiddleOfLoopNegative) {
@@ -333,7 +333,7 @@ TEST_F(forExprTest, evalForExprWithoutRet) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(forExprTest, simpleBreakTest) {
@@ -351,7 +351,7 @@ TEST_F(forExprTest, simpleBreakTest) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 4);
+    ASSERT_EQ(*res.cast<nint>(), 4);
 }
 
 TEST_F(forExprTest, simpleBreakTest2) {
@@ -369,7 +369,7 @@ TEST_F(forExprTest, simpleBreakTest2) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 4);
+    ASSERT_EQ(*res.cast<nint>(), 4);
 }
 
 TEST_F(forExprTest, simpleBreakTestWithoutParenthesis) {
@@ -388,7 +388,7 @@ TEST_F(forExprTest, simpleBreakTestWithoutParenthesis) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 6);
+    ASSERT_EQ(*res.cast<nint>(), 6);
 }
 
 TEST_F(forExprTest, retForExpr) {
@@ -405,7 +405,7 @@ TEST_F(forExprTest, retForExpr) {
         .shouldVerified(true);
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 5);
+    ASSERT_EQ(*res.cast<nint>(), 5);
 }
 
 TEST_F(forExprTest, breakIsNotExpressionNegative) {
@@ -448,7 +448,7 @@ TEST_F(forExprTest, breakInsideOfFor) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 3);
+    ASSERT_EQ(*res.cast<nint>(), 3);
 }
 
 TEST_F(forExprTest, breakInsideOfIfExprNegative) {
@@ -494,7 +494,7 @@ TEST_F(forExprTest, breakInsideOfIfExpr2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 TEST_F(forExprTest, breakNestedForLoop) {
@@ -515,7 +515,7 @@ TEST_F(forExprTest, breakNestedForLoop) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 16);
+    ASSERT_EQ(*res.cast<nint>(), 16);
 }
 
 TEST_F(forExprTest, evalOfForLoop) {
@@ -533,7 +533,7 @@ TEST_F(forExprTest, evalOfForLoop) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(forExprTest, evalOfForLoop2) {
@@ -551,7 +551,7 @@ TEST_F(forExprTest, evalOfForLoop2) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 6);
+    ASSERT_EQ(*res.cast<nint>(), 6);
 }
 
 TEST_F(forExprTest, evalOfForLoop3) {
@@ -573,7 +573,7 @@ TEST_F(forExprTest, evalOfForLoop3) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 3);
+    ASSERT_EQ(*res.cast<nint>(), 3);
 }
 
 TEST_F(forExprTest, evalOfForLoop4) {
@@ -592,7 +592,7 @@ TEST_F(forExprTest, evalOfForLoop4) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 15);
+    ASSERT_EQ(*res.cast<nint>(), 15);
 }
 
 TEST_F(forExprTest, evalOfForLoop5) {
@@ -614,7 +614,7 @@ TEST_F(forExprTest, evalOfForLoop5) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 4);
+    ASSERT_EQ(*res.cast<nint>(), 4);
 }
 
 TEST_F(forExprTest, evalOfForLoopIntAndBoolIsCompatible) {
@@ -633,7 +633,7 @@ TEST_F(forExprTest, evalOfForLoopIntAndBoolIsCompatible) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 8);
+    ASSERT_EQ(*res.cast<nint>(), 8);
 }
 
 TEST_F(forExprTest, evalOfForLoopIntAndBoolIsCompatible2) {
@@ -653,7 +653,7 @@ TEST_F(forExprTest, evalOfForLoopIntAndBoolIsCompatible2) {
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(res->getType(), ttype<nInt>::get());
-    ASSERT_EQ(res.cast<nint>(), 4);
+    ASSERT_EQ(*res.cast<nint>(), 4);
 }
 
 TEST_F(forExprTest, defAssignWhatLoops) {
@@ -668,7 +668,7 @@ TEST_F(forExprTest, defAssignWhatLoops) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 1);
+    ASSERT_EQ(*res->cast<nint>(), 1);
 }
 
 TEST_F(forExprTest, callFuncWithForExprArgument) {
@@ -685,5 +685,5 @@ TEST_F(forExprTest, callFuncWithForExprArgument) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 9); // 8 + 1
+    ASSERT_EQ(*res->cast<nint>(), 9); // 8 + 1
 }

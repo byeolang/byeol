@@ -20,7 +20,7 @@ TEST_F(endExprTest, simpleEnd) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 39);
+    ASSERT_EQ(*res.cast<nint>(), 39);
 }
 
 TEST_F(endExprTest, simpleEndNegative) {
@@ -60,5 +60,5 @@ TEST_F(endExprTest, endUsesCapture) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 39);
+    ASSERT_EQ(*res.cast<nint>(), 39);
 }*/

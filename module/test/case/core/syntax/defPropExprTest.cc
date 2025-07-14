@@ -133,7 +133,7 @@ TEST_F(defPropExprTest, defPropWithObj) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 22);
+    ASSERT_EQ(*res.cast<nint>(), 22);
 }
 
 TEST_F(defPropExprTest, defPropWithAccess) {
@@ -170,7 +170,7 @@ TEST_F(defPropExprTest, shortDefinition) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 5);
+    ASSERT_EQ(*res.cast<nint>(), 5);
 }
 
 TEST_F(defPropExprTest, shortDefinitionOnParam) {
@@ -191,7 +191,7 @@ TEST_F(defPropExprTest, shortDefinitionOnParam) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 TEST_F(defPropExprTest, shortDefinitionNotAllowPrimitiveNegative) {
@@ -245,7 +245,7 @@ TEST_F(defPropExprTest, shortDefinitionWithGenerics) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 34);
+    ASSERT_EQ(*res.cast<nint>(), 34);
 }
 
 TEST_F(defPropExprTest, userShouldBeAbleToDefineProtectedProperty) {
@@ -266,7 +266,7 @@ TEST_F(defPropExprTest, userShouldBeAbleToDefineProtectedProperty) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 1);
+    ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
 TEST_F(defPropExprTest, cantDefineFuncTypePropertyNegative) {
@@ -296,7 +296,7 @@ TEST_F(defPropExprTest, canDefineFuncTypePropertyIfItsNotAbstract) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 TEST_F(defPropExprTest, canDefAssignFuncTypeProperty) {
@@ -313,5 +313,5 @@ TEST_F(defPropExprTest, canDefAssignFuncTypeProperty) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
