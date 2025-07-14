@@ -16,7 +16,7 @@ TEST_F(smultimapTest, primitiveInsertion) {
     m.insert("banana", 2);
     ASSERT_EQ(m.size(), 2);
 
-    ASSERT_EQ(m.begin("apple").getVal(), 1);
+    ASSERT_EQ(*m.begin("apple").getVal(), 1);
     ASSERT_EQ(*m.begin("banana"), 2);
 }
 
@@ -167,11 +167,11 @@ TEST_F(smultimapTest, deleteMiddleOfElementAndIterateSpecificKey) {
         ASSERT_EQ(((nInt&) *e).get(), expect++);
 
     auto e = scope.begin("2");
-    ASSERT_EQ(e.getKey(), "2");
+    ASSERT_EQ(*e.getKey(), "2");
     ASSERT_EQ(((nInt&) *e).get(), 2);
 
     ++e;
-    ASSERT_EQ(e.getKey(), "2");
+    ASSERT_EQ(*e.getKey(), "2");
     ASSERT_EQ(((nInt&) *e).get(), 4);
 
     ++e;
@@ -228,7 +228,7 @@ TEST_F(smultimapTest, reverseIterator) {
     int expects[] = {5, 4, 3, 2, 1};
     int n = 0;
     for(auto re = scope.rbegin(); re != scope.rend(); ++re)
-        ASSERT_EQ(re->cast<nint>(), expects[n++]);
+        ASSERT_EQ(*re->cast<nint>(), expects[n++]);
 }
 
 TEST_F(smultimapTest, delWithIterWithoutKey) {
@@ -245,5 +245,5 @@ TEST_F(smultimapTest, delWithIterWithoutKey) {
     int expects[] = {1, 2, 3, 5};
     int n = 0;
     for(auto e = scope.begin(); e != scope.end(); ++e)
-        ASSERT_EQ(e->cast<nint>(), expects[n++]);
+        ASSERT_EQ(*e->cast<nint>(), expects[n++]);
 }

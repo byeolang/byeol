@@ -45,7 +45,7 @@ namespace {
         ASSERT_FALSE(chn.getNext());
         for(auto e = chn.begin(); e; ++e) {
             ASSERT_TRUE(e.getKey());
-            ASSERT_NE(e.getKey(), "");
+            ASSERT_NE(*e.getKey(), "");
             const myNode* elem = e.getVal();
             const myNode* answer = tray[*e.getKey()];
             ASSERT_EQ(elem, answer);
@@ -522,7 +522,7 @@ TEST_F(nchainTest, testLinkArrayAndChain) {
     chn2.link(chn2.wrap(map2));
     ASSERT_EQ(chn2.len(), 3);
     ASSERT_TRUE(chn2.getNext());
-    ASSERT_EQ(chn2.getNext()->getContainer(), &map2);
+    ASSERT_EQ(&chn2.getNext()->getContainer(), &map2);
 
     chn.link(chn2);
     int cnt = 5;
@@ -587,8 +587,9 @@ TEST_F(nchainTest, testChainCopy) {
 
     std::vector<float> tray;
     for(auto e = cloned2->begin(); e; ++e) {
-        ASSERT_EQ(e.getKey(), (float) e->cast<myNode>()->number);
-        tray.push_back(*e.getKey());
+        auto& key = e.getKey() OR_ASSERT(key);
+        ASSERT_EQ(key, (float) e->cast<myNode>()->number);
+        tray.push_back(key);
     }
 
 
@@ -627,7 +628,7 @@ TEST_F(nchainTest, testDeepChainAddDel) {
 
     auto e = root->begin();
     e = e + 2;
-    ASSERT_TRUE(*e);
+    ASSERT_TRUE(e.getVal());
     ASSERT_EQ(root->get(6.0)->number, 6);
 
     // current graph: root -> chn2(size=1) -> chn3
@@ -759,7 +760,7 @@ TEST_F(nchainTest, iterateForKey) {
     {
         auto e = m.iterate("apple");
         ASSERT_FALSE(e.isEnd());
-        ASSERT_EQ(e.getKey(), "apple");
+        ASSERT_EQ(*e.getKey(), "apple");
         nInt& val = *e->cast<nInt>();
         ASSERT_EQ(val.get(), 3);
     }
@@ -767,7 +768,7 @@ TEST_F(nchainTest, iterateForKey) {
     {
         auto e = m.iterate("banana");
         ASSERT_FALSE(e.isEnd());
-        ASSERT_EQ(e.getKey(), "banana");
+        ASSERT_EQ(*e.getKey(), "banana");
         nInt& val = *e->cast<nInt>();
         ASSERT_EQ(val.get(), 2);
     }
@@ -775,7 +776,7 @@ TEST_F(nchainTest, iterateForKey) {
     {
         auto e = m.riterate("banana");
         ASSERT_FALSE(e.isEnd());
-        ASSERT_EQ(e.getKey(), "banana");
+        ASSERT_EQ(*e.getKey(), "banana");
         nInt& val = *e->cast<nInt>();
         ASSERT_EQ(val.get(), 8);
     }
@@ -794,7 +795,7 @@ TEST_F(nchainTest, iterateMultipleChain) {
     std::string expects[] = {"apple", "banana", "meat", "banana"};
     int n = 0;
     for(auto e = m2.begin(); e; ++e)
-        ASSERT_EQ(e.getKey(), expects[n++]);
+        ASSERT_EQ(*e.getKey(), expects[n++]);
 }
 
 TEST_F(nchainTest, iterateMultipleChainReversedWay) {
@@ -810,7 +811,7 @@ TEST_F(nchainTest, iterateMultipleChainReversedWay) {
     std::string expects[] = {"banana", "meat", "banana", "apple"};
     int n = 0;
     for(auto e = m2.rbegin(); e; ++e)
-        ASSERT_EQ(e.getKey(), expects[n++]);
+        ASSERT_EQ(*e.getKey(), expects[n++]);
 }
 
 TEST_F(nchainTest, iterateForKeyInMultipleChain) {
@@ -826,7 +827,7 @@ TEST_F(nchainTest, iterateForKeyInMultipleChain) {
     {
         auto e = m2.iterate("apple");
         ASSERT_FALSE(e.isEnd());
-        ASSERT_EQ(e.getKey(), "apple");
+        ASSERT_EQ(*e.getKey(), "apple");
         nInt& val = *e->cast<nInt>();
         ASSERT_EQ(val.get(), 3);
     }
@@ -834,13 +835,13 @@ TEST_F(nchainTest, iterateForKeyInMultipleChain) {
     {
         auto e = m2.iterate("banana");
         ASSERT_FALSE(e.isEnd());
-        ASSERT_EQ(e.getKey(), "banana");
+        ASSERT_EQ(*e.getKey(), "banana");
         nInt& val = *e->cast<nInt>();
         ASSERT_EQ(val.get(), 4);
 
         ++e;
         ASSERT_FALSE(e.isEnd());
-        ASSERT_EQ(e.getKey(), "banana");
+        ASSERT_EQ(*e.getKey(), "banana");
         nInt& val2 = *e->cast<nInt>();
         ASSERT_EQ(val2.get(), 2);
     }
@@ -848,13 +849,13 @@ TEST_F(nchainTest, iterateForKeyInMultipleChain) {
     {
         auto e = m2.riterate("banana");
         ASSERT_FALSE(e.isEnd());
-        ASSERT_EQ(e.getKey(), "banana");
+        ASSERT_EQ(*e.getKey(), "banana");
         nInt& val = *e->cast<nInt>();
         ASSERT_EQ(val.get(), 2);
 
         ++e;
         ASSERT_FALSE(e.isEnd());
-        ASSERT_EQ(e.getKey(), "banana");
+        ASSERT_EQ(*e.getKey(), "banana");
         nInt& val2 = *e->cast<nInt>();
         ASSERT_EQ(val2.get(), 4);
     }
@@ -874,7 +875,7 @@ TEST_F(nchainTest, linkFirstAddSecond) {
         std::string expectKeys[] = {"meat", "banana", "banana"};
         int n = 0;
         for(auto e = m.begin(); e; ++e)
-            ASSERT_EQ(e.getKey(), expectKeys[n++]);
+            ASSERT_EQ(*e.getKey(), expectKeys[n++]);
     }
 
     m2.add("apple", *new nInt(4));
@@ -885,7 +886,7 @@ TEST_F(nchainTest, linkFirstAddSecond) {
         std::string expectKeys[] = {"meat", "banana", "banana", "apple", "mango"};
         int n = 0;
         for(auto e = m.begin(); e; ++e) {
-            ASSERT_EQ(e.getKey(), expectKeys[n++]);
+            ASSERT_EQ(*e.getKey(), expectKeys[n++]);
             ASSERT_EQ(*e.getVal()->cast<nint>(), n);
         }
     }
@@ -907,7 +908,7 @@ TEST_F(nchainTest, linkREndAndAddingElemCanAffect) {
         int expects[] = {1, 2, 4, 3};
         int n = 0;
         for(auto e = m.begin(); e; ++e) {
-            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(*e.getKey(), expectKeys[n]);
             ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
@@ -922,7 +923,7 @@ TEST_F(nchainTest, linkREndAndAddingElemCanAffect) {
         int expects[] = {1, 2, 5, 4, 3};
         int n = 0;
         for(auto e = m.begin(); e; ++e) {
-            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(*e.getKey(), expectKeys[n]);
             ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
@@ -943,7 +944,7 @@ TEST_F(nchainTest, linkReversedKeySpecificAndAddingElemCantAffect) {
         int expects[] = {1, 2, 4, 3};
         int n = 0;
         for(auto e = m.begin(); e; ++e) {
-            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(*e.getKey(), expectKeys[n]);
             ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
@@ -955,7 +956,7 @@ TEST_F(nchainTest, linkReversedKeySpecificAndAddingElemCantAffect) {
         int expects[] = {1, 2, 4, 3};
         int n = 0;
         for(auto e = m.begin(); e; ++e) {
-            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(*e.getKey(), expectKeys[n]);
             ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
@@ -981,7 +982,7 @@ TEST_F(nchainTest, linkChainsButMiddleOfOneIsReversed) {
         int expects[] = {1, 2, 4, 3, 5, 6};
         int n = 0;
         for(auto e = m.begin(); e; ++e) {
-            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(*e.getKey(), expectKeys[n]);
             ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
@@ -991,7 +992,7 @@ TEST_F(nchainTest, linkChainsButMiddleOfOneIsReversed) {
         int expects[] = {6, 5, 3, 4, 2, 1};
         int n = 0;
         for(auto e = m.rbegin(); e; ++e) {
-            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(*e.getKey(), expectKeys[n]);
             ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
@@ -1026,7 +1027,7 @@ TEST_F(nchainTest, complexLinkTest) {
         int n = 0;
         ASSERT_EQ(m.len(), 7);
         for(auto e = m.begin(); e; ++e) {
-            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(*e.getKey(), expectKeys[n]);
             ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
@@ -1037,7 +1038,7 @@ TEST_F(nchainTest, complexLinkTest) {
         int expects[] = {9, 7, 3, 4, 10, 2, 1};
         int n = 0;
         for(auto e = m.rbegin(); e; ++e) {
-            ASSERT_EQ(e.getKey(), expectKeys[n]);
+            ASSERT_EQ(*e.getKey(), expectKeys[n]);
             ASSERT_EQ(*e.getVal()->cast<nint>(), expects[n++]);
         }
     }
@@ -1061,8 +1062,8 @@ TEST_F(nchainTest, toLinkEmptyChainIsValid) {
         int expects[] = {1, 2, 3, 4};
         int n = 0;
         for(auto e = m.begin(); e; ++e) {
-            ASSERT_EQ(e.getKey(), expectKeys[n]);
-            ASSERT_EQ(e->cast<nint>(), expects[n++]);
+            ASSERT_EQ(*e.getKey(), expectKeys[n]);
+            ASSERT_EQ(*e->cast<nint>(), expects[n++]);
         }
     }
 
@@ -1071,8 +1072,8 @@ TEST_F(nchainTest, toLinkEmptyChainIsValid) {
         int expects[] = {4, 3, 2, 1};
         int n = 0;
         for(auto e = m.rbegin(); e; ++e) {
-            ASSERT_EQ(e.getKey(), expectKeys[n]);
-            ASSERT_EQ(e->cast<nint>(), expects[n++]);
+            ASSERT_EQ(*e.getKey(), expectKeys[n]);
+            ASSERT_EQ(*e->cast<nint>(), expects[n++]);
         }
     }
 }
@@ -1089,6 +1090,6 @@ TEST_F(nchainTest, emptedChainLinkEmptyChain) {
     ASSERT_EQ(m.len(), 1);
 
     auto e = m.begin();
-    ASSERT_EQ(e.getKey(), "meat");
-    ASSERT_EQ(e->cast<nint>(), 1);
+    ASSERT_EQ(*e.getKey(), "meat");
+    ASSERT_EQ(*e->cast<nint>(), 1);
 }

@@ -87,7 +87,7 @@ TEST_F(narrTest, shouldNotCanAddLocalObject) {
     {
         myNode localObj(5);
         ASSERT_TRUE(arr.add(localObj));
-        ASSERT_TRUE(arr[0]);
+        ASSERT_TRUE(arr.get(0));
         ASSERT_EQ(arr.len(), 1);
     }
 

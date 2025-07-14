@@ -91,7 +91,7 @@ TEST_F(objTest, addElementIntoOwns) {
     my.subs().add("banana", new nInt(1));
     ASSERT_EQ(my.getShares().len(), 0);
     ASSERT_EQ(my.getOwns().len(), 1);
-    ASSERT_EQ(my.getOwns()["banana"].cast<int>(), 1);
+    ASSERT_EQ(*my.getOwns()["banana"].cast<int>(), 1);
 }
 
 TEST_F(objTest, objType) {
@@ -108,15 +108,15 @@ TEST_F(objTest, whenAssignObjOnlyOwnsShouldBeCloned) {
     o1.getOwns().add("age", new nInt(38));
     o1.getShares().add("grade", new nFlt(4.0));
     ASSERT_EQ(o1.getOwns().len(), 1);
-    ASSERT_EQ(o1.getOwns()["age"].cast<nint>(), 38);
+    ASSERT_EQ(*o1.getOwns()["age"].cast<nint>(), 38);
     ASSERT_EQ(o1.getShares().len(), 1);
-    ASSERT_EQ(o1.getShares()["grade"].cast<nflt>(), 4.0f);
+    ASSERT_EQ(*o1.getShares()["grade"].cast<nflt>(), 4.0f);
     ASSERT_EQ(o1.subs().len(), 2);
 
     obj o2;
     o2 = o1;
-    ASSERT_EQ(o2.getOwns()["age"].cast<nint>(), 38);
+    ASSERT_EQ(*o2.getOwns()["age"].cast<nint>(), 38);
     ASSERT_NE(&o2.getOwns()["age"], &o1.getOwns()["age"]);
-    ASSERT_EQ(o2.getShares()["grade"].cast<nflt>(), 4.0f);
+    ASSERT_EQ(*o2.getShares()["grade"].cast<nflt>(), 4.0f);
     ASSERT_EQ(&o2.getShares()["grade"], &o1.getShares()["grade"]);
 }

@@ -150,7 +150,7 @@ TEST_F(speedTest, benchmarkSumOfSequence) {
 
     auto end2 = chrono::steady_clock::now();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), sum);
+    ASSERT_EQ(*res.cast<nint>(), sum);
     NM_I("native time: %d", (nint64) ((end - start) / chrono::milliseconds(1)));
     NM_I("managed time: %d", (nint64) ((end2 - start2) / chrono::milliseconds(1)));
 }

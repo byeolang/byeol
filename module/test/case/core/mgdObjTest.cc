@@ -35,7 +35,7 @@ TEST_F(mgdObjTest, testAccessCompleteObject) {
 
     str ret = run();
     ASSERT_TRUE(ret);
-    ASSERT_EQ(ret.cast<nint>(), 3);
+    ASSERT_EQ(*ret.cast<nint>(), 3);
 }
 
 TEST_F(mgdObjTest, testAccessInCompleteObjectNegative) {
@@ -107,10 +107,10 @@ TEST_F(mgdObjTest, clonedObjDoesntCloneSharesDeeply) {
     obj& o2 = getSubPack()->sub<obj>("o2") OR_ASSERT(o2);
 
     ASSERT_EQ(o1.getOwns().len(), 2);
-    ASSERT_EQ(o1.getOwns()["age"].cast<nint>(), 22);
+    ASSERT_EQ(*o1.getOwns()["age"].cast<nint>(), 22);
     obj& o1b1 = o1.sub<obj>("b1") OR_ASSERT(o1b1);
     ASSERT_EQ(o1b1.getOwns().len(), 1);
-    ASSERT_EQ(o1b1.getOwns()["grade"].cast<nflt>(), 3.5f);
+    ASSERT_EQ(*o1b1.getOwns()["grade"].cast<nflt>(), 3.5f);
 
     const auto& b1foo = o1b1.getShares().get<func>("foo") OR_ASSERT(b1foo);
     ASSERT_EQ(b1foo.getParams().len(), 0);
@@ -118,10 +118,10 @@ TEST_F(mgdObjTest, clonedObjDoesntCloneSharesDeeply) {
 
 
     ASSERT_EQ(o2.getOwns().len(), 2);
-    ASSERT_EQ(o2.getOwns()["age"].cast<nint>(), 22);
+    ASSERT_EQ(*o2.getOwns()["age"].cast<nint>(), 22);
     obj& o2b1 = o2.sub<obj>("b1") OR_ASSERT(o2b1);
     ASSERT_EQ(o2b1.getOwns().len(), 1);
-    ASSERT_EQ(o2b1.getOwns()["grade"].cast<nflt>(), 3.5f);
+    ASSERT_EQ(*o2b1.getOwns()["grade"].cast<nflt>(), 3.5f);
 
     const auto& b2foo = o2b1.getShares().get<func>("foo") OR_ASSERT(b2foo);
     ASSERT_EQ(b2foo.getParams().len(), 0);

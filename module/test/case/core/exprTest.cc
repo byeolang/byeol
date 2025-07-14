@@ -45,7 +45,7 @@ TEST_F(exprTest, standbyHelloWorldBridgeObj) {
     ASSERT_TRUE(bridge.isBind());
 
     tstr<nStr> msg(new nStr());
-    args a(*bridge, narr(msg.get()));
+    args a(*bridge, narr(*msg));
 
     node& mainFunc = bridge->sub("main", a) OR_ASSERT(mainFunc);
     ASSERT_TRUE(mainFunc.canRun(a));
@@ -63,7 +63,7 @@ TEST_F(exprTest, standbyHelloWorldBridgeObj) {
 }
 
 TEST_F(exprTest, simpleGetExpr) {
-    getExpr exp(*bridge, "main", narr(new nStr()));
+    getExpr exp(*bridge, "main", narr(*new nStr()));
     errReport rep;
     verifier veri;
     veri.setReport(rep).setTask(exp).work();

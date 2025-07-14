@@ -120,11 +120,11 @@ TEST_F(bridgeTest, passObj) {
     winBridge->run("setY", args{narr{*new nInt(20)}});
     str res = winBridge->run("getY");
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 20);
+    ASSERT_EQ(*res.cast<nint>(), 20);
 
     res = winOpenGL->run("init", args{narr{*winBridge}});
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 25);
+    ASSERT_EQ(*res->cast<nint>(), 25);
 }
 
 TEST_F(bridgeTest, returnObj) {
@@ -134,7 +134,7 @@ TEST_F(bridgeTest, returnObj) {
     str newWin = winBridge->run("new1", args{narr{*new nInt(15)}});
     str res = winOpenGL->run("init", args{narr{*newWin}});
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 20);
+    ASSERT_EQ(*res->cast<nint>(), 20);
 }
 
 namespace {
@@ -166,8 +166,8 @@ TEST_F(bridgeTest, passArray) {
 
     const narr& res = mgrBridge->cast<tbridge<windowManager>>()->get()._wins;
     ASSERT_EQ(res.len(), 2);
-    ASSERT_EQ(res[0].cast<nint>(), 0);
-    ASSERT_EQ(res[1].cast<nint>(), 2);
+    ASSERT_EQ(*res[0].cast<nint>(), 0);
+    ASSERT_EQ(*res[1].cast<nint>(), 2);
 }
 
 namespace {
@@ -194,7 +194,7 @@ TEST_F(bridgeTest, passRawObj) {
     str stg(tbridger<stage>::ctor().ctor<stage>().func("foo", &stage::foo).make(new stage()));
     str res = stg->run("foo", args{narr{o1}});
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 5);
+    ASSERT_EQ(*res.cast<nint>(), 5);
 }
 
 namespace {
@@ -241,11 +241,11 @@ TEST_F(bridgeTest, passArr) {
                     .make(new testObj()));
     str res = testobj->run("updateLen", args{narr{a}});
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 3);
+    ASSERT_EQ(*res.cast<nint>(), 3);
 
     res = testobj->run("sumOfLen");
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 6);
+    ASSERT_EQ(*res.cast<nint>(), 6);
 }
 
 namespace {
@@ -286,12 +286,12 @@ TEST_F(bridgeTest, baseObjWithBridgeOrigin) {
     auto res = a1.run("foo", {narr{nInt(1)}});
     ASSERT_TRUE(res);
     ASSERT_TRUE(res->isSub<nInt>());
-    ASSERT_EQ(res->cast<nint>(), 2);
+    ASSERT_EQ(*res->cast<nint>(), 2);
 
     res = a2.run("foo", {narr{nInt(1)}});
     ASSERT_TRUE(res);
     ASSERT_TRUE(res->isSub<nInt>());
-    ASSERT_EQ(res->cast<nint>(), 3);
+    ASSERT_EQ(*res->cast<nint>(), 3);
 }
 
 namespace {
@@ -314,7 +314,7 @@ TEST_F(bridgeTest, bridgeWhatDoesntHaveDefaultCtor) {
 
     str age = res->run("getAge");
     ASSERT_TRUE(age);
-    ASSERT_EQ(age.cast<nint>(), 5);
+    ASSERT_EQ(*age.cast<nint>(), 5);
 }
 
 TEST_F(bridgeTest, accessOrigin) {

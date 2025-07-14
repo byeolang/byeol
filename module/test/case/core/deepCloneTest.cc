@@ -29,13 +29,13 @@ TEST_F(cloneDeepTest, paramsDeepClone) {
     p.add(new param("1", new nInt(1)));
     p.add(new param("2", new nFlt(1.5f)));
     ASSERT_EQ(p.len(), 2);
-    ASSERT_EQ(p[0].getOrigin().cast<nint>(), 1);
-    ASSERT_EQ(p[1].getOrigin().cast<nflt>(), 1.5f);
+    ASSERT_EQ(*p[0].getOrigin().cast<nint>(), 1);
+    ASSERT_EQ(*p[1].getOrigin().cast<nflt>(), 1.5f);
 
     params& p1 = (params*) p.cloneDeep() OR_ASSERT(p1);
     ASSERT_EQ(p1.len(), p.len());
     for(nidx n = 0; n < p.len(); n++) {
-        ASSERT_EQ(p1.get(n)->getOrigin().as<nInt>().get(), p[n].getOrigin().as<nInt>().get());
+        ASSERT_EQ(*p1.get(n)->getOrigin().as<nInt>(), *p[n].getOrigin().as<nInt>());
         ASSERT_NE(p1.get(n), &p[n]);
         ASSERT_NE(&p1.get(n)->getOrigin(), &p[n].getOrigin());
     }

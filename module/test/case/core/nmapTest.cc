@@ -81,7 +81,7 @@ TEST_F(nmapTest, shouldNotCanAddLocalObject) {
     {
         myNode localObj(5);
         ASSERT_TRUE(map1.add("local", localObj));
-        ASSERT_TRUE(map1["local"]);
+        ASSERT_TRUE(map1.get("local"));
         ASSERT_EQ(map1.len(), 1);
     }
 
@@ -131,7 +131,7 @@ TEST_F(nmapTest, testIter) {
     EXPECT_TRUE(map1.begin() == head);
 
     ASSERT_FALSE(e.isEnd());
-    ASSERT_EQ(std::to_string(e.getVal<myNode>()->number), e.getKey());
+    ASSERT_EQ(std::to_string(e.getVal<myNode>()->number), *e.getKey());
     ASSERT_EQ(e.next(1), 0);
 }
 
@@ -206,7 +206,7 @@ TEST_F(nmapTest, testucontainableAPI) {
 
     auto e = map2.begin();
     e = e + 2;
-    ASSERT_EQ(e.getKey(), std::to_string(e.getVal<myNode>()->number));
+    ASSERT_EQ(*e.getKey(), std::to_string(e.getVal<myNode>()->number));
     ASSERT_TRUE(map2.add("5", new myNode(5)));
     ASSERT_TRUE(map2.add("6", new myNode(6)));
 
@@ -292,7 +292,7 @@ TEST_F(nmapTest, testDeletionByKey) {
     ASSERT_EQ(m.len(), 1);
 
     auto e = m.begin();
-    ASSERT_EQ(e.getKey(), std::string("2"));
+    ASSERT_EQ(*e.getKey(), std::string("2"));
     ASSERT_EQ(e.getVal<myNode>()->number, 2);
 }
 
@@ -309,9 +309,9 @@ TEST_F(nmapTest, testDeletionByIter) {
     ASSERT_EQ(m.len(), 2);
 
     e = m.begin();
-    ASSERT_EQ(e.getKey(), "1");
+    ASSERT_EQ(*e.getKey(), "1");
     nint val1 = e++.getVal<myNode>()->number, val2 = e.getVal<myNode>()->number;
-    ASSERT_EQ(e.getKey(), "1");
+    ASSERT_EQ(*e.getKey(), "1");
 
     ASSERT_TRUE(val1 == 1 || val1 == 3);
     ASSERT_TRUE(val2 == 1 || val2 == 3);
@@ -355,7 +355,7 @@ TEST_F(nmapTest, delWhileIteration) {
         else ++e;
 
     ASSERT_EQ(m.len(), 4);
-    ASSERT_EQ(m.get("apple")->cast<int>(), 3);
+    ASSERT_EQ(*m.get("apple")->cast<int>(), 3);
     ASSERT_EQ(m.getAll("meat").len(), 3);
 }
 
@@ -406,7 +406,7 @@ TEST_F(nmapTest, simpleReversedIterator) {
     auto re = map1.rbegin();
     ASSERT_FALSE(re.isEnd());
     for(int n = 0; n < 4; n++, ++re)
-        ASSERT_EQ(re->cast<nint>(), expects[n]);
+        ASSERT_EQ(*re->cast<nint>(), expects[n]);
 }
 
 TEST_F(nmapTest, stepForwardReversedIterator) {
@@ -418,15 +418,15 @@ TEST_F(nmapTest, stepForwardReversedIterator) {
 
     auto re = map1.rbegin();
     ASSERT_TRUE(re.isReversed());
-    ASSERT_EQ(re->cast<nint>(), 4);
-    ASSERT_EQ(re.getKey(), "4");
+    ASSERT_EQ(*re->cast<nint>(), 4);
+    ASSERT_EQ(*re.getKey(), "4");
 
     ++re; // 3
     ++re; // 2
-    ASSERT_EQ(re->cast<nint>(), 2);
+    ASSERT_EQ(*re->cast<nint>(), 2);
 
     re.stepForward(2); // 4
-    ASSERT_EQ(re->cast<nint>(), 4);
+    ASSERT_EQ(*re->cast<nint>(), 4);
 
     re.stepBackward(1); // 3
     ASSERT_EQ(*re.getVal<nInt>()->cast<nint>(), 3);

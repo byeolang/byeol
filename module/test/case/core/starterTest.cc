@@ -25,7 +25,7 @@ TEST_F(starterTest, mainReturnInt) {
 
     tstr<nInt> res = starter().setTask(getSlot()->getPack()).work();
     ASSERT_EQ(res->cast<nInt>()->get(), 23);
-    ASSERT_EQ(res->cast<int>(), 23);
+    ASSERT_EQ(*res->cast<int>(), 23);
 }
 
 TEST_F(starterTest, mainCallFuncAndCheckReturn) {
@@ -40,7 +40,7 @@ TEST_F(starterTest, mainCallFuncAndCheckReturn) {
 
     tstr<nInt> res = starter().setTask(getSlot()->getPack()).work();
     ASSERT_EQ(res->cast<nInt>()->get(), 23);
-    ASSERT_EQ(res->cast<int>(), 23);
+    ASSERT_EQ(*res->cast<int>(), 23);
 }
 
 TEST_F(starterTest, managedCallStack) {

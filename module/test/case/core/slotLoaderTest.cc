@@ -27,7 +27,7 @@ TEST_F(slotLoaderTest, testDefaultLoaderInit) {
         ASSERT_FALSE(res);
         res = origin.run("say", args());
         ASSERT_TRUE(res);
-        ASSERT_EQ(res->cast<nVoid>(), nVoid());
+        ASSERT_TRUE(res->cast<nVoid>());
     }
 
     {
