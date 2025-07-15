@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/clog/filter/errPassFilter.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/clog/filter/errPassFilter.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_d1224740a1128ee4d0767e933a68f623.html">clog</a></li><li class="navelem"><a class="el" href="dir_80f30e03104743486dd8eda4c412b258.html">filter</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_634d279e10ce2ed7a07a9d3327fcbe00.html">clog</a></li><li class="navelem"><a class="el" href="dir_455bd14c636d2116061be6d480fbc1cd.html">filter</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,19 +71,19 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;filterable.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;clog/filter/filterable.hpp&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>nm {</div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="classnm_1_1err_pass_filter.html">    6</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1err_pass_filter.html">errPassFilter</a>: <span class="keyword">public</span> <a class="code" href="classnm_1_1filterable.html">filterable</a> {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        NM(ME(<a class="code" href="classnm_1_1err_pass_filter.html">errPassFilter</a>, <a class="code" href="classnm_1_1filterable.html">filterable</a>))</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="classby_1_1err_pass_filter.html">    6</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1err_pass_filter.html">errPassFilter</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1filterable.html">filterable</a> {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        BY(ME(<a class="code" href="classby_1_1err_pass_filter.html">errPassFilter</a>, <a class="code" href="classby_1_1filterable.html">filterable</a>))</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classnm_1_1err_pass_filter.html#a22ea09f736f197313867a1286cc8ee11">   10</a></span>&#160;        nbool <a class="code" href="classnm_1_1err_pass_filter.html#a22ea09f736f197313867a1286cc8ee11">filt</a>(logLv::level lv, <span class="keyword">const</span> std::string&amp; tag) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classby_1_1err_pass_filter.html#a039644372a909eec9ef88c5c0967ade6">   10</a></span>&#160;        nbool <a class="code" href="classby_1_1err_pass_filter.html#a039644372a909eec9ef88c5c0967ade6">filt</a>(errLv::level lv, <span class="keyword">const</span> std::string&amp; tag) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    };</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
-<div class="ttc" id="aclassnm_1_1err_pass_filter_html"><div class="ttname"><a href="classnm_1_1err_pass_filter.html">nm::errPassFilter</a></div><div class="ttdef"><b>Definition:</b> errPassFilter.hpp:6</div></div>
-<div class="ttc" id="aclassnm_1_1err_pass_filter_html_a22ea09f736f197313867a1286cc8ee11"><div class="ttname"><a href="classnm_1_1err_pass_filter.html#a22ea09f736f197313867a1286cc8ee11">nm::errPassFilter::filt</a></div><div class="ttdeci">nbool filt(logLv::level lv, const std::string &amp;tag) const override</div></div>
-<div class="ttc" id="aclassnm_1_1filterable_html"><div class="ttname"><a href="classnm_1_1filterable.html">nm::filterable</a></div><div class="ttdef"><b>Definition:</b> filterable.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1err_pass_filter_html"><div class="ttname"><a href="classby_1_1err_pass_filter.html">by::errPassFilter</a></div><div class="ttdef"><b>Definition:</b> errPassFilter.hpp:6</div></div>
+<div class="ttc" id="aclassby_1_1err_pass_filter_html_a039644372a909eec9ef88c5c0967ade6"><div class="ttname"><a href="classby_1_1err_pass_filter.html#a039644372a909eec9ef88c5c0967ade6">by::errPassFilter::filt</a></div><div class="ttdeci">nbool filt(errLv::level lv, const std::string &amp;tag) const override</div></div>
+<div class="ttc" id="aclassby_1_1filterable_html"><div class="ttname"><a href="classby_1_1filterable.html">by::filterable</a></div><div class="ttdef"><b>Definition:</b> filterable.hpp:6</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

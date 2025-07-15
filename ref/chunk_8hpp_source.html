@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/memlite/pool/chunk.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/memlite/pool/chunk.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_183e3a1c910cc57bcb9096081cc20a5a.html">memlite</a></li><li class="navelem"><a class="el" href="dir_f8067514e9e4f18e225839acd849bb18.html">pool</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_e39e4133821777546482751fa01c4845.html">memlite</a></li><li class="navelem"><a class="el" href="dir_6857a60a6e9303ae16b7d0b9bbf6326f.html">pool</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,64 +71,67 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;allocator.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;memlite/pool/allocator.hpp&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>nm {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classnm_1_1chunk.html">    7</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1chunk.html">chunk</a>: <span class="keyword">public</span> <a class="code" href="classnm_1_1allocator.html">allocator</a> {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        NM_ME(<a class="code" href="classnm_1_1chunk.html">chunk</a>, <a class="code" href="classnm_1_1allocator.html">allocator</a>)</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        NM_INIT_META(me)</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classnm_1_1watcher.html">watcher</a>;</div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classby_1_1chunk.html">    7</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1chunk.html">chunk</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1allocator.html">allocator</a> {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        BY_ME(<a class="code" href="classby_1_1chunk.html">chunk</a>, <a class="code" href="classby_1_1allocator.html">allocator</a>)</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        BY_INIT_META(me)</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1watcher.html">watcher</a>;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="comment">//  chunk:</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keyword">static</span> constexpr ncnt MIN_SZ = 20;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classnm_1_1chunk.html">chunk</a>(ncnt blockSz = 1, ncnt sz = MIN_SZ);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        ~<a class="code" href="classnm_1_1chunk.html">chunk</a>();</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classby_1_1chunk.html">chunk</a>(ncnt blockSz = 1, ncnt sz = MIN_SZ);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        ~<a class="code" href="classby_1_1chunk.html">chunk</a>();</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordtype">void</span>* operator[](nidx n) { <span class="keywordflow">return</span> get(n); }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordtype">void</span>* get(nidx n) { <span class="keywordflow">return</span> _get(n); }</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="comment">//  allocator:</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordtype">void</span>* new1() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        nbool del(<span class="keywordtype">void</span>* used, ncnt) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="comment">//  MemoryHaver:</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        ncnt len() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        ncnt size() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        nbool rel() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        nbool has(<span class="keyword">const</span> <a class="code" href="classnm_1_1instance.html">instance</a>&amp; it) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordtype">void</span>* operator[](nidx n);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">const</span> <span class="keywordtype">void</span>* operator[](nidx n) <span class="keyword">const</span> BY_CONST_FUNC(<span class="keyword">operator</span>[](n));</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordtype">void</span>* get(nidx n) { <span class="keywordflow">return</span> _get(n); }</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="comment">//  allocator:</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordtype">void</span>* new1() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        nbool del(<span class="keywordtype">void</span>* used, ncnt) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="comment">//  MemoryHaver:</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        ncnt len() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        ncnt size() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        nbool rel() <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="comment">//  MemoryHaver:</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classnm_1_1chunk.html#ab03319a25d5c0d96bcdf57f3e05931bb">   39</a></span>&#160;<span class="comment"></span>        <span class="keywordtype">void</span>* <a class="code" href="classnm_1_1chunk.html#ab03319a25d5c0d96bcdf57f3e05931bb">_get</a>(nidx n) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        nuchar* _getHeap();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">const</span> nuchar* _getHeap() const NM_CONST_FUNC(_getHeap())</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        nbool _resize(ncnt newSz);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    private:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="comment">//  chunk:</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        const nuchar* _getEOB() const NM_CONST_FUNC(_getEOB())</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        nuchar* _getEOB();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        nbool _index(nidx start);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        ncnt _getRealBlkSize();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">void</span>* _allocHeap(ncnt new_sz);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        nbool _freeHeap(nuchar** heap);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        nidx _head;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        ncnt _len, _sz;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        nuchar* _heap;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    };</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;} <span class="comment">// namespace nm</span></div>
-<div class="ttc" id="aclassnm_1_1allocator_html"><div class="ttname"><a href="classnm_1_1allocator.html">nm::allocator</a></div><div class="ttdef"><b>Definition:</b> allocator.hpp:7</div></div>
-<div class="ttc" id="aclassnm_1_1chunk_html"><div class="ttname"><a href="classnm_1_1chunk.html">nm::chunk</a></div><div class="ttdef"><b>Definition:</b> chunk.hpp:7</div></div>
-<div class="ttc" id="aclassnm_1_1chunk_html_ab03319a25d5c0d96bcdf57f3e05931bb"><div class="ttname"><a href="classnm_1_1chunk.html#ab03319a25d5c0d96bcdf57f3e05931bb">nm::chunk::_get</a></div><div class="ttdeci">void * _get(nidx n) override</div></div>
-<div class="ttc" id="aclassnm_1_1instance_html"><div class="ttname"><a href="classnm_1_1instance.html">nm::instance</a></div><div class="ttdef"><b>Definition:</b> instance.hpp:15</div></div>
-<div class="ttc" id="aclassnm_1_1watcher_html"><div class="ttname"><a href="classnm_1_1watcher.html">nm::watcher</a></div><div class="ttdef"><b>Definition:</b> watcher.hpp:8</div></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">using</span> super::has;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        nbool has(<span class="keyword">const</span> <a class="code" href="classby_1_1instance.html">instance</a>&amp; it) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="comment">//  MemoryHaver:</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classby_1_1chunk.html#ab2824a36958142e6d47b580593dfe80e">   42</a></span>&#160;<span class="comment"></span>        <span class="keywordtype">void</span>* <a class="code" href="classby_1_1chunk.html#ab2824a36958142e6d47b580593dfe80e">_get</a>(nidx n) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        nuchar* _getHeap();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keyword">const</span> nuchar* _getHeap() const BY_CONST_FUNC(_getHeap())</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        nbool _resize(ncnt newSz);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    private:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="comment">//  chunk:</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        const nuchar* _getEOB() const BY_CONST_FUNC(_getEOB())</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        nuchar* _getEOB();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        nbool _index(nidx start);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        ncnt _getRealBlkSize();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">void</span>* _allocHeap(ncnt new_sz);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        nbool _freeHeap(nuchar** heap);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        nidx _head;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        ncnt _len, _sz;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        nuchar* _heap;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    };</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1allocator_html"><div class="ttname"><a href="classby_1_1allocator.html">by::allocator</a></div><div class="ttdef"><b>Definition:</b> allocator.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1chunk_html"><div class="ttname"><a href="classby_1_1chunk.html">by::chunk</a></div><div class="ttdef"><b>Definition:</b> chunk.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1chunk_html_ab2824a36958142e6d47b580593dfe80e"><div class="ttname"><a href="classby_1_1chunk.html#ab2824a36958142e6d47b580593dfe80e">by::chunk::_get</a></div><div class="ttdeci">void * _get(nidx n) override</div></div>
+<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdef"><b>Definition:</b> instance.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1watcher_html"><div class="ttname"><a href="classby_1_1watcher.html">by::watcher</a></div><div class="ttdef"><b>Definition:</b> watcher.hpp:8</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

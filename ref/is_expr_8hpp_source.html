@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/core/ast/exprs/isExpr.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/core/ast/exprs/isExpr.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_81012edf5ad7491088324f5f1efbb7fa.html">core</a></li><li class="navelem"><a class="el" href="dir_8b7d6232d8bd9d190320bc3cd69b00fe.html">ast</a></li><li class="navelem"><a class="el" href="dir_d54a5f5a7b20f4267948b18d91d172b0.html">exprs</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_f02a41efdae0e7ff9c127dccb82ff885.html">core</a></li><li class="navelem"><a class="el" href="dir_20185808cdef5fb98fa910be37be0b14.html">ast</a></li><li class="navelem"><a class="el" href="dir_f97b04b201c96ccc6039b5c1dddea73e.html">exprs</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,35 +71,37 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;../expr.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/ast/expr.hpp&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>nm {</div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="classnm_1_1is_expr.html">    6</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1is_expr.html">isExpr</a>: <span class="keyword">public</span> <a class="code" href="classnm_1_1expr.html">expr</a> {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        NM(CLASS(<a class="code" href="classnm_1_1is_expr.html">isExpr</a>, <a class="code" href="classnm_1_1expr.html">expr</a>, <a class="code" href="classnm_1_1expr_1_1expr_type.html">expr::exprType</a>), VISIT())</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="classby_1_1is_expr.html">    6</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1is_expr.html">isExpr</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1expr.html">expr</a> {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1is_expr.html">isExpr</a>, <a class="code" href="classby_1_1expr.html">expr</a>, <a class="code" href="classby_1_1expr_1_1expr_type.html">expr::exprType</a>), VISIT())</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <a class="code" href="classnm_1_1is_expr.html">isExpr</a>(<span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; me, <span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; to);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <a class="code" href="classby_1_1is_expr.html">isExpr</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; me, <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; to);</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keyword">using</span> super::run;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="classnm_1_1tstr.html">str</a> run(<span class="keyword">const</span> <a class="code" href="classnm_1_1args.html">args</a>&amp; a) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classnm_1_1is_expr.html#af7754c745c4563363365aaf768f5a0e6">   15</a></span>&#160;        <a class="code" href="classnm_1_1tstr.html">str</a> <a class="code" href="classnm_1_1is_expr.html#af7754c745c4563363365aaf768f5a0e6">getEval</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; getMe() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; getTo() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordtype">void</span> setTo(<span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; new1);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="classnm_1_1tstr.html">str</a> _me;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <a class="code" href="classnm_1_1tstr.html">str</a> _to;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    };</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
-<div class="ttc" id="aclassnm_1_1args_html"><div class="ttname"><a href="classnm_1_1args.html">nm::args</a></div><div class="ttdef"><b>Definition:</b> args.hpp:8</div></div>
-<div class="ttc" id="aclassnm_1_1expr_1_1expr_type_html"><div class="ttname"><a href="classnm_1_1expr_1_1expr_type.html">nm::expr::exprType</a></div><div class="ttdef"><b>Definition:</b> expr.hpp:13</div></div>
-<div class="ttc" id="aclassnm_1_1expr_html"><div class="ttname"><a href="classnm_1_1expr.html">nm::expr</a></div><div class="ttdef"><b>Definition:</b> expr.hpp:10</div></div>
-<div class="ttc" id="aclassnm_1_1is_expr_html"><div class="ttname"><a href="classnm_1_1is_expr.html">nm::isExpr</a></div><div class="ttdef"><b>Definition:</b> isExpr.hpp:6</div></div>
-<div class="ttc" id="aclassnm_1_1is_expr_html_af7754c745c4563363365aaf768f5a0e6"><div class="ttname"><a href="classnm_1_1is_expr.html#af7754c745c4563363365aaf768f5a0e6">nm::isExpr::getEval</a></div><div class="ttdeci">str getEval() const override</div></div>
-<div class="ttc" id="aclassnm_1_1node_html"><div class="ttname"><a href="classnm_1_1node.html">nm::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:24</div></div>
-<div class="ttc" id="aclassnm_1_1tstr_html"><div class="ttname"><a href="classnm_1_1tstr.html">nm::tstr&lt; node &gt;</a></div></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> run(<span class="keyword">const</span> <a class="code" href="classby_1_1args.html">args</a>&amp; a) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classby_1_1is_expr.html#ab901168061373fd072ef1145b46c44fc">   16</a></span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> <a class="code" href="classby_1_1is_expr.html#ab901168061373fd072ef1145b46c44fc">getEval</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; getMe() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; getTo() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordtype">void</span> setTo(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; new1);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordtype">void</span> setTo(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>* it) BY_SIDE_FUNC(setTo);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> _me;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> _to;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    };</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="ttc" id="aclassby_1_1args_html"><div class="ttname"><a href="classby_1_1args.html">by::args</a></div><div class="ttdef"><b>Definition:</b> args.hpp:8</div></div>
+<div class="ttc" id="aclassby_1_1expr_1_1expr_type_html"><div class="ttname"><a href="classby_1_1expr_1_1expr_type.html">by::expr::exprType</a></div><div class="ttdef"><b>Definition:</b> expr.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1expr_html"><div class="ttname"><a href="classby_1_1expr.html">by::expr</a></div><div class="ttdef"><b>Definition:</b> expr.hpp:10</div></div>
+<div class="ttc" id="aclassby_1_1is_expr_html"><div class="ttname"><a href="classby_1_1is_expr.html">by::isExpr</a></div><div class="ttdef"><b>Definition:</b> isExpr.hpp:6</div></div>
+<div class="ttc" id="aclassby_1_1is_expr_html_ab901168061373fd072ef1145b46c44fc"><div class="ttname"><a href="classby_1_1is_expr.html#ab901168061373fd072ef1145b46c44fc">by::isExpr::getEval</a></div><div class="ttdeci">str getEval() const override</div></div>
+<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:26</div></div>
+<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr&lt; node &gt;</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

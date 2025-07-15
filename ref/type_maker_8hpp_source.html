@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/core/type/typeMaker.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/core/type/typeMaker.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_81012edf5ad7491088324f5f1efbb7fa.html">core</a></li><li class="navelem"><a class="el" href="dir_ecadd9aa9e412d49ca2ee41ddf1ab41e.html">type</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_f02a41efdae0e7ff9c127dccb82ff885.html">core</a></li><li class="navelem"><a class="el" href="dir_4254ccfa63e251d1a3cc0dd339378281.html">type</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,50 +71,46 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;funcMgdType.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/type/funcMgdType.hpp&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>nm {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classnm_1_1type_maker.html">    7</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1type_maker.html">typeMaker</a> {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        NM(ME(<a class="code" href="classnm_1_1type_maker.html">typeMaker</a>))</div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classby_1_1type_maker.html">    7</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1type_maker.html">typeMaker</a> {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        BY(ME(<a class="code" href="classby_1_1type_maker.html">typeMaker</a>))</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keyword">static</span> <a class="code" href="classnm_1_1mgd_type.html">mgdType</a> _make(<span class="keywordtype">void</span>*, <span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> <a class="code" href="classnm_1_1type.html">type</a>&amp; super, <span class="keyword">const</span> <a class="code" href="classnm_1_1params.html">params</a>&amp; ps,</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            nbool isAdt, <span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; ret) {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="classnm_1_1mgd_type.html">mgdType</a>(name, super, ps, isAdt, ret);</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keyword">static</span> <a class="code" href="classby_1_1mgd_type.html">mgdType</a> _make(<span class="keywordtype">void</span>*, <span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> <a class="code" href="classby_1_1type.html">type</a>&amp; super, <span class="keyword">const</span> <a class="code" href="classby_1_1params.html">params</a>&amp; ps, nbool isAdt,</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>* ret) {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="classby_1_1mgd_type.html">mgdType</a>(name, super, ps, isAdt, ret);</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        }</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">static</span> <a class="code" href="classnm_1_1func_mgd_type.html">funcMgdType</a> _make(<a class="code" href="classnm_1_1base_func.html">baseFunc</a>*, <span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> <a class="code" href="classnm_1_1type.html">type</a>&amp; super,</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="keyword">const</span> <a class="code" href="classnm_1_1params.html">params</a>&amp; ps, nbool isAdt, <span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; ret) {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="classnm_1_1func_mgd_type.html">funcMgdType</a>(name, super, ps, isAdt, ret);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">static</span> <a class="code" href="classby_1_1func_mgd_type.html">funcMgdType</a> _make(<a class="code" href="classby_1_1base_func.html">baseFunc</a>*, <span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> <a class="code" href="classby_1_1type.html">type</a>&amp; super, <span class="keyword">const</span> <a class="code" href="classby_1_1params.html">params</a>&amp; ps, nbool isAdt,</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>* ret) {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="classby_1_1func_mgd_type.html">funcMgdType</a>(name, super, ps, isAdt, ret);</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        }</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">static</span> <span class="keyword">auto</span> make(<span class="keyword">const</span> <a class="code" href="classnm_1_1params.html">params</a>&amp; ps, <span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; ret) {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="keywordflow">return</span> make&lt;T&gt;(<a class="code" href="classnm_1_1ttype.html">ttype&lt;T&gt;::get</a>().getName(), ps, ret);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">static</span> <span class="keyword">auto</span> make(<span class="keyword">const</span> <a class="code" href="classby_1_1params.html">params</a>&amp; ps, <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>* ret) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="keywordflow">return</span> make&lt;T&gt;(<a class="code" href="classby_1_1ttype.html">ttype&lt;T&gt;::get</a>().getName(), ps, ret);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        }</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">static</span> <span class="keyword">auto</span> make(<span class="keyword">const</span> std::string&amp; name) {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="keywordflow">return</span> make&lt;T&gt;(name, <a class="code" href="classnm_1_1params.html">params</a>(), nulOf&lt;node&gt;());</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        }</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keyword">static</span> <span class="keyword">auto</span> make(<span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> <a class="code" href="classnm_1_1params.html">params</a>&amp; ps,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            <span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; ret) -&gt; decltype(_make((T*) <span class="keyword">nullptr</span>, name, <a class="code" href="classnm_1_1ttype.html">ttype&lt;T&gt;::get</a>(), ps,</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                                 !std::is_constructible&lt;T&gt;::value, ret)) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="keywordflow">return</span> _make((T*) <span class="keyword">nullptr</span>, name, <a class="code" href="classnm_1_1ttype.html">ttype&lt;T&gt;::get</a>(), ps, !std::is_constructible&lt;T&gt;::value,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                ret);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    };</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
-<div class="ttc" id="aclassnm_1_1base_func_html"><div class="ttname"><a href="classnm_1_1base_func.html">nm::baseFunc</a></div><div class="ttdef"><b>Definition:</b> baseFunc.hpp:13</div></div>
-<div class="ttc" id="aclassnm_1_1func_mgd_type_html"><div class="ttname"><a href="classnm_1_1func_mgd_type.html">nm::funcMgdType</a></div><div class="ttdef"><b>Definition:</b> funcMgdType.hpp:6</div></div>
-<div class="ttc" id="aclassnm_1_1mgd_type_html"><div class="ttname"><a href="classnm_1_1mgd_type.html">nm::mgdType</a></div><div class="ttdef"><b>Definition:</b> mgdType.hpp:12</div></div>
-<div class="ttc" id="aclassnm_1_1node_html"><div class="ttname"><a href="classnm_1_1node.html">nm::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:24</div></div>
-<div class="ttc" id="aclassnm_1_1params_html"><div class="ttname"><a href="classnm_1_1params.html">nm::params</a></div><div class="ttdef"><b>Definition:</b> params.hpp:10</div></div>
-<div class="ttc" id="aclassnm_1_1ttype_html"><div class="ttname"><a href="classnm_1_1ttype.html">nm::ttype</a></div><div class="ttdef"><b>Definition:</b> ttype.hpp:14</div></div>
-<div class="ttc" id="aclassnm_1_1type_html"><div class="ttname"><a href="classnm_1_1type.html">nm::type</a></div><div class="ttdef"><b>Definition:</b> type.hpp:13</div></div>
-<div class="ttc" id="aclassnm_1_1type_maker_html"><div class="ttname"><a href="classnm_1_1type_maker.html">nm::typeMaker</a></div><div class="ttdef"><b>Definition:</b> typeMaker.hpp:7</div></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">static</span> <span class="keyword">auto</span> make(<span class="keyword">const</span> std::string&amp; name) { <span class="keywordflow">return</span> make&lt;T&gt;(name, <a class="code" href="classby_1_1params.html">params</a>(), <span class="keyword">nullptr</span>); }</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">static</span> <span class="keyword">auto</span> make(<span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> <a class="code" href="classby_1_1params.html">params</a>&amp; ps, <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>* ret)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            -&gt; decltype(_make((T*) <span class="keyword">nullptr</span>, name, <a class="code" href="classby_1_1ttype.html">ttype&lt;T&gt;::get</a>(), ps, !std::is_constructible&lt;T&gt;::value, ret)) {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="keywordflow">return</span> _make((T*) <span class="keyword">nullptr</span>, name, <a class="code" href="classby_1_1ttype.html">ttype&lt;T&gt;::get</a>(), ps, !std::is_constructible&lt;T&gt;::value, ret);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    };</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<div class="ttc" id="aclassby_1_1base_func_html"><div class="ttname"><a href="classby_1_1base_func.html">by::baseFunc</a></div><div class="ttdef"><b>Definition:</b> baseFunc.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1func_mgd_type_html"><div class="ttname"><a href="classby_1_1func_mgd_type.html">by::funcMgdType</a></div><div class="ttdef"><b>Definition:</b> funcMgdType.hpp:6</div></div>
+<div class="ttc" id="aclassby_1_1mgd_type_html"><div class="ttname"><a href="classby_1_1mgd_type.html">by::mgdType</a></div><div class="ttdef"><b>Definition:</b> mgdType.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:26</div></div>
+<div class="ttc" id="aclassby_1_1params_html"><div class="ttname"><a href="classby_1_1params.html">by::params</a></div><div class="ttdef"><b>Definition:</b> params.hpp:10</div></div>
+<div class="ttc" id="aclassby_1_1ttype_html"><div class="ttname"><a href="classby_1_1ttype.html">by::ttype</a></div><div class="ttdef"><b>Definition:</b> ttype.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1type_html"><div class="ttname"><a href="classby_1_1type.html">by::type</a></div><div class="ttdef"><b>Definition:</b> type.hpp:8</div></div>
+<div class="ttc" id="aclassby_1_1type_maker_html"><div class="ttname"><a href="classby_1_1type_maker.html">by::typeMaker</a></div><div class="ttdef"><b>Definition:</b> typeMaker.hpp:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

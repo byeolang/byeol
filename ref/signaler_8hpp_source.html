@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/core/frame/signaler.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/core/frame/signaler.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_81012edf5ad7491088324f5f1efbb7fa.html">core</a></li><li class="navelem"><a class="el" href="dir_cc3c827bc970f8f9d5bf8ec792419923.html">frame</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_f02a41efdae0e7ff9c127dccb82ff885.html">core</a></li><li class="navelem"><a class="el" href="dir_4efa2807a114da0b1ad8daddff3588c5.html">frame</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,9 +71,9 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;../common.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/common.hpp&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>nm {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">struct </span>nerr;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
@@ -81,46 +81,46 @@ $(function() {
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">typedef</span> void (*sigFunc)(<span class="keyword">const</span> nerr&amp;);</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">typedef</span> std::function&lt;void(<span class="keyword">const</span> nerr&amp;)&gt; sigHandler;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="structnm_1_1sig.html">   13</a></span>&#160;    <span class="keyword">struct </span>_nout <a class="code" href="structnm_1_1sig.html">sig</a> {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        NM(ME(<a class="code" href="structnm_1_1sig.html">sig</a>))</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="structby_1_1sig.html">   13</a></span>&#160;    <span class="keyword">struct </span>_nout <a class="code" href="structby_1_1sig.html">sig</a> {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        BY(ME(<a class="code" href="structby_1_1sig.html">sig</a>))</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        nbool operator==(<span class="keyword">const</span> <a class="code" href="structnm_1_1sig.html">sig</a>&amp; rhs) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        nbool operator!=(<span class="keyword">const</span> <a class="code" href="structnm_1_1sig.html">sig</a>&amp; rhs) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        nbool operator==(<span class="keyword">const</span> <a class="code" href="structby_1_1sig.html">sig</a>&amp; rhs) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        nbool operator!=(<span class="keyword">const</span> <a class="code" href="structby_1_1sig.html">sig</a>&amp; rhs) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordtype">int</span> code;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        errMaker maker;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    };</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classnm_1_1signaler.html">   25</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1signaler.html">signaler</a> {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        NM(ME(<a class="code" href="classnm_1_1signaler.html">signaler</a>))</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classby_1_1signaler.html">   25</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1signaler.html">signaler</a> {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        BY(ME(<a class="code" href="classby_1_1signaler.html">signaler</a>))</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="classnm_1_1signaler.html">signaler</a>();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="classby_1_1signaler.html">signaler</a>();</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">void</span> addSignal(<span class="keyword">const</span> sigHandler&amp; <a class="code" href="classnm_1_1closure.html">closure</a>);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">void</span> delSignal(<span class="keyword">const</span> sigHandler&amp; <a class="code" href="classnm_1_1closure.html">closure</a>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">void</span> addSignal(<span class="keyword">const</span> sigHandler&amp; <a class="code" href="classby_1_1closure.html">closure</a>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">void</span> delSignal(<span class="keyword">const</span> sigHandler&amp; <a class="code" href="classby_1_1closure.html">closure</a>);</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">void</span> relSignal();</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classnm_1_1signaler.html#a1059b4b90d54e3780076512002e2ae92">   37</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classnm_1_1signaler.html#a1059b4b90d54e3780076512002e2ae92">onSignal</a>(nint code);</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classby_1_1signaler.html#a54d04b615cca02f7f05b6f0b63f2ea93">   37</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classby_1_1signaler.html#a54d04b615cca02f7f05b6f0b63f2ea93">onSignal</a>(nint code);</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">static</span> <a class="code" href="classnm_1_1signaler.html">signaler</a>&amp; get();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">static</span> <a class="code" href="classby_1_1signaler.html">signaler</a>&amp; get();</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordtype">void</span> _setSignal(<span class="keywordtype">void</span> (*csignalHandler)(nint));</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">const</span> <a class="code" href="structnm_1_1nerr.html">nerr</a>* _getErrBy(nint code) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">const</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* _getErrBy(nint code) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        std::vector&lt;sigHandler&gt; _closures;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    };</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;} <span class="comment">// namespace nm</span></div>
-<div class="ttc" id="aclassnm_1_1closure_html"><div class="ttname"><a href="classnm_1_1closure.html">nm::closure</a></div><div class="ttdef"><b>Definition:</b> closure.hpp:16</div></div>
-<div class="ttc" id="aclassnm_1_1signaler_html"><div class="ttname"><a href="classnm_1_1signaler.html">nm::signaler</a></div><div class="ttdef"><b>Definition:</b> signaler.hpp:25</div></div>
-<div class="ttc" id="aclassnm_1_1signaler_html_a1059b4b90d54e3780076512002e2ae92"><div class="ttname"><a href="classnm_1_1signaler.html#a1059b4b90d54e3780076512002e2ae92">nm::signaler::onSignal</a></div><div class="ttdeci">void onSignal(nint code)</div><div class="ttdoc">report that signal has occured. and terminate the process after reporting.</div></div>
-<div class="ttc" id="astructnm_1_1nerr_html"><div class="ttname"><a href="structnm_1_1nerr.html">nm::nerr</a></div><div class="ttdef"><b>Definition:</b> nerr.hpp:17</div></div>
-<div class="ttc" id="astructnm_1_1sig_html"><div class="ttname"><a href="structnm_1_1sig.html">nm::sig</a></div><div class="ttdef"><b>Definition:</b> signaler.hpp:13</div></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1closure_html"><div class="ttname"><a href="classby_1_1closure.html">by::closure</a></div><div class="ttdef"><b>Definition:</b> closure.hpp:16</div></div>
+<div class="ttc" id="aclassby_1_1signaler_html"><div class="ttname"><a href="classby_1_1signaler.html">by::signaler</a></div><div class="ttdef"><b>Definition:</b> signaler.hpp:25</div></div>
+<div class="ttc" id="aclassby_1_1signaler_html_a54d04b615cca02f7f05b6f0b63f2ea93"><div class="ttname"><a href="classby_1_1signaler.html#a54d04b615cca02f7f05b6f0b63f2ea93">by::signaler::onSignal</a></div><div class="ttdeci">void onSignal(nint code)</div><div class="ttdoc">report that signal has occured. and terminate the process after reporting.</div></div>
+<div class="ttc" id="astructby_1_1nerr_html"><div class="ttname"><a href="structby_1_1nerr.html">by::nerr</a></div><div class="ttdef"><b>Definition:</b> nerr.hpp:17</div></div>
+<div class="ttc" id="astructby_1_1sig_html"><div class="ttname"><a href="structby_1_1sig.html">by::sig</a></div><div class="ttdef"><b>Definition:</b> signaler.hpp:13</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

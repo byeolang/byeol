@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/core/ast/exprs/defArrayExpr.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/core/ast/exprs/defArrayExpr.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_81012edf5ad7491088324f5f1efbb7fa.html">core</a></li><li class="navelem"><a class="el" href="dir_8b7d6232d8bd9d190320bc3cd69b00fe.html">ast</a></li><li class="navelem"><a class="el" href="dir_d54a5f5a7b20f4267948b18d91d172b0.html">exprs</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_f02a41efdae0e7ff9c127dccb82ff885.html">core</a></li><li class="navelem"><a class="el" href="dir_20185808cdef5fb98fa910be37be0b14.html">ast</a></li><li class="navelem"><a class="el" href="dir_f97b04b201c96ccc6039b5c1dddea73e.html">exprs</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,49 +71,50 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;../../builtin/container/mgd/arr.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;../expr.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/builtin/container/mgd/arr.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;core/ast/expr.hpp&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>nm {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classnm_1_1def_array_expr.html">    8</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1def_array_expr.html">defArrayExpr</a>: <span class="keyword">public</span> <a class="code" href="classnm_1_1expr.html">expr</a> {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        NM(CLASS(<a class="code" href="classnm_1_1def_array_expr.html">defArrayExpr</a>, <a class="code" href="classnm_1_1expr.html">expr</a>, <a class="code" href="classnm_1_1expr_1_1expr_type.html">expr::exprType</a>), VISIT())</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classnm_1_1visitor.html">visitor</a>; <span class="comment">// for getElems()</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classby_1_1def_array_expr.html">    8</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1def_array_expr.html">defArrayExpr</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1expr.html">expr</a> {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1def_array_expr.html">defArrayExpr</a>, <a class="code" href="classby_1_1expr.html">expr</a>, <a class="code" href="classby_1_1expr_1_1expr_type.html">expr::exprType</a>), VISIT())</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1visitor.html">visitor</a>; <span class="comment">// for getElems()</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="classnm_1_1def_array_expr.html">defArrayExpr</a>(<span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; <a class="code" href="classnm_1_1type.html">type</a>);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="classnm_1_1def_array_expr.html">defArrayExpr</a>(<span class="keyword">const</span> <a class="code" href="classnm_1_1tnarr.html">narr</a>&amp; elems);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="classby_1_1def_array_expr.html">defArrayExpr</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; <a class="code" href="classby_1_1type.html">type</a>);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="classby_1_1def_array_expr.html">defArrayExpr</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1tnarr.html">narr</a>&amp; elems);</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">using</span> super::run;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="classnm_1_1tstr.html">str</a> run(<span class="keyword">const</span> <a class="code" href="classnm_1_1args.html">args</a>&amp; a) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classnm_1_1def_array_expr.html#af3dd0d2f15d2693c90656b8d76ded1c0">   19</a></span>&#160;        <a class="code" href="classnm_1_1tstr.html">str</a> <a class="code" href="classnm_1_1def_array_expr.html#af3dd0d2f15d2693c90656b8d76ded1c0">getEval</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">const</span> <a class="code" href="classnm_1_1base_obj.html">baseObj</a>&amp; getArrayType() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">const</span> <a class="code" href="classnm_1_1arr.html">arr</a>&amp; getOrigin() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">const</span> <a class="code" href="classnm_1_1tnarr.html">narr</a>&amp; getElems() const NM_CONST_FUNC(getElems())</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    private:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="classnm_1_1tstr.html">tstr</a>&lt;<a class="code" href="classnm_1_1base_obj.html">baseObj</a>&gt; _deduceElems() const;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="classnm_1_1tnarr.html">narr</a>&amp; getElems();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    private:</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="classnm_1_1tstr.html">str</a> _type;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <a class="code" href="classnm_1_1tnarr.html">narr</a> _elems;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        mutable <a class="code" href="classnm_1_1tstr.html">tstr</a>&lt;<a class="code" href="classnm_1_1arr.html">arr</a>&gt; _org;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    };</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
-<div class="ttc" id="aclassnm_1_1args_html"><div class="ttname"><a href="classnm_1_1args.html">nm::args</a></div><div class="ttdef"><b>Definition:</b> args.hpp:8</div></div>
-<div class="ttc" id="aclassnm_1_1arr_html"><div class="ttname"><a href="classnm_1_1arr.html">nm::arr</a></div><div class="ttdef"><b>Definition:</b> arr.hpp:12</div></div>
-<div class="ttc" id="aclassnm_1_1base_obj_html"><div class="ttname"><a href="classnm_1_1base_obj.html">nm::baseObj</a></div><div class="ttdoc">baseObj handles frame injection event of all objects.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:20</div></div>
-<div class="ttc" id="aclassnm_1_1def_array_expr_html"><div class="ttname"><a href="classnm_1_1def_array_expr.html">nm::defArrayExpr</a></div><div class="ttdef"><b>Definition:</b> defArrayExpr.hpp:8</div></div>
-<div class="ttc" id="aclassnm_1_1def_array_expr_html_af3dd0d2f15d2693c90656b8d76ded1c0"><div class="ttname"><a href="classnm_1_1def_array_expr.html#af3dd0d2f15d2693c90656b8d76ded1c0">nm::defArrayExpr::getEval</a></div><div class="ttdeci">str getEval() const override</div></div>
-<div class="ttc" id="aclassnm_1_1expr_1_1expr_type_html"><div class="ttname"><a href="classnm_1_1expr_1_1expr_type.html">nm::expr::exprType</a></div><div class="ttdef"><b>Definition:</b> expr.hpp:13</div></div>
-<div class="ttc" id="aclassnm_1_1expr_html"><div class="ttname"><a href="classnm_1_1expr.html">nm::expr</a></div><div class="ttdef"><b>Definition:</b> expr.hpp:10</div></div>
-<div class="ttc" id="aclassnm_1_1node_html"><div class="ttname"><a href="classnm_1_1node.html">nm::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:24</div></div>
-<div class="ttc" id="aclassnm_1_1tnarr_html"><div class="ttname"><a href="classnm_1_1tnarr.html">nm::tnarr&lt; node &gt;</a></div></div>
-<div class="ttc" id="aclassnm_1_1tstr_html"><div class="ttname"><a href="classnm_1_1tstr.html">nm::tstr&lt; node &gt;</a></div></div>
-<div class="ttc" id="aclassnm_1_1type_html"><div class="ttname"><a href="classnm_1_1type.html">nm::type</a></div><div class="ttdef"><b>Definition:</b> type.hpp:13</div></div>
-<div class="ttc" id="aclassnm_1_1visitor_html"><div class="ttname"><a href="classnm_1_1visitor.html">nm::visitor</a></div><div class="ttdef"><b>Definition:</b> visitor.hpp:15</div></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> run(<span class="keyword">const</span> <a class="code" href="classby_1_1args.html">args</a>&amp; a) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classby_1_1def_array_expr.html#aa24575f55962dffc1b50ce7b7bd63f63">   20</a></span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> <a class="code" href="classby_1_1def_array_expr.html#aa24575f55962dffc1b50ce7b7bd63f63">getEval</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1base_obj.html">baseObj</a>* getArrayType() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1arr.html">arr</a>&amp; getOrigin() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1tnarr.html">narr</a>&amp; getElems() const BY_CONST_FUNC(getElems())</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    private:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr</a>&lt;<a class="code" href="classby_1_1base_obj.html">baseObj</a>&gt; _deduceElems() const;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <a class="code" href="classby_1_1tnarr.html">narr</a>&amp; getElems();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    private:</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> _type;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="classby_1_1tnarr.html">narr</a> _elems;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        mutable <a class="code" href="classby_1_1tstr.html">tstr</a>&lt;<a class="code" href="classby_1_1arr.html">arr</a>&gt; _org;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    };</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<div class="ttc" id="aclassby_1_1args_html"><div class="ttname"><a href="classby_1_1args.html">by::args</a></div><div class="ttdef"><b>Definition:</b> args.hpp:8</div></div>
+<div class="ttc" id="aclassby_1_1arr_html"><div class="ttname"><a href="classby_1_1arr.html">by::arr</a></div><div class="ttdef"><b>Definition:</b> arr.hpp:9</div></div>
+<div class="ttc" id="aclassby_1_1base_obj_html"><div class="ttname"><a href="classby_1_1base_obj.html">by::baseObj</a></div><div class="ttdoc">baseObj handles frame injection event of all objects.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:20</div></div>
+<div class="ttc" id="aclassby_1_1def_array_expr_html"><div class="ttname"><a href="classby_1_1def_array_expr.html">by::defArrayExpr</a></div><div class="ttdef"><b>Definition:</b> defArrayExpr.hpp:8</div></div>
+<div class="ttc" id="aclassby_1_1def_array_expr_html_aa24575f55962dffc1b50ce7b7bd63f63"><div class="ttname"><a href="classby_1_1def_array_expr.html#aa24575f55962dffc1b50ce7b7bd63f63">by::defArrayExpr::getEval</a></div><div class="ttdeci">str getEval() const override</div></div>
+<div class="ttc" id="aclassby_1_1expr_1_1expr_type_html"><div class="ttname"><a href="classby_1_1expr_1_1expr_type.html">by::expr::exprType</a></div><div class="ttdef"><b>Definition:</b> expr.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1expr_html"><div class="ttname"><a href="classby_1_1expr.html">by::expr</a></div><div class="ttdef"><b>Definition:</b> expr.hpp:10</div></div>
+<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:26</div></div>
+<div class="ttc" id="aclassby_1_1tnarr_html"><div class="ttname"><a href="classby_1_1tnarr.html">by::tnarr&lt; node &gt;</a></div></div>
+<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr&lt; node &gt;</a></div></div>
+<div class="ttc" id="aclassby_1_1type_html"><div class="ttname"><a href="classby_1_1type.html">by::type</a></div><div class="ttdef"><b>Definition:</b> type.hpp:8</div></div>
+<div class="ttc" id="aclassby_1_1visitor_html"><div class="ttname"><a href="classby_1_1visitor.html">by::visitor</a></div><div class="ttdef"><b>Definition:</b> visitor.hpp:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

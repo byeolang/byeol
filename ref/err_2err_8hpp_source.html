@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/core/builtin/err/err.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/core/builtin/err/err.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_81012edf5ad7491088324f5f1efbb7fa.html">core</a></li><li class="navelem"><a class="el" href="dir_72b9e27b763ef069b0a0a66c0969c0dd.html">builtin</a></li><li class="navelem"><a class="el" href="dir_8d1dc19f141bbaaaf96d203762f82ad7.html">err</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_f02a41efdae0e7ff9c127dccb82ff885.html">core</a></li><li class="navelem"><a class="el" href="dir_4b55807996f93d137a35b375c3bfde70.html">builtin</a></li><li class="navelem"><a class="el" href="dir_b4057d32adea66b3514a221b35f9d43e.html">err</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,17 +71,17 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;baseErr.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;../primitive/nStr.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/builtin/primitive/nStr.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;core/builtin/err/baseErr.hpp&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>nm {</div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classnm_1_1err.html">    7</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1err.html">err</a>: <span class="keyword">public</span> <a class="code" href="classnm_1_1base_err.html">baseErr</a> {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        NM(CLASS(<a class="code" href="classnm_1_1err.html">err</a>, <a class="code" href="classnm_1_1base_err.html">baseErr</a>))</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, n<span class="keywordtype">bool</span>&gt; <span class="keyword">friend</span> <span class="keyword">struct </span><a class="code" href="structnm_1_1tmarshaling.html">tmarshaling</a>;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classby_1_1err.html">    7</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1err.html">err</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1base_err.html">baseErr</a> {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1err.html">err</a>, <a class="code" href="classby_1_1base_err.html">baseErr</a>))</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, n<span class="keywordtype">bool</span>&gt; <span class="keyword">friend</span> <span class="keyword">struct </span><a class="code" href="structby_1_1tmarshaling.html">tmarshaling</a>;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <a class="code" href="classnm_1_1err.html">err</a>(<span class="keyword">const</span> <a class="code" href="classnm_1_1n_str.html">nStr</a>&amp; msg);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="classnm_1_1err.html">err</a>();</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <a class="code" href="classby_1_1err.html">err</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1n_str.html">nStr</a>&amp; msg);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="classby_1_1err.html">err</a>();</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        nbool operator==(<span class="keyword">const</span> super&amp; rhs) <span class="keyword">const override</span>;</div>
@@ -90,18 +90,18 @@ $(function() {
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordtype">void</span> log() <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">const</span> std::string&amp; getMsg() <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">const</span> <a class="code" href="classnm_1_1base_obj.html">baseObj</a>&amp; getOrigin() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1base_obj.html">baseObj</a>&amp; getOrigin() <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="classnm_1_1tstr.html">tstr&lt;nStr&gt;</a> _msg;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr&lt;nStr&gt;</a> _msg;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    };</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
-<div class="ttc" id="aclassnm_1_1base_err_html"><div class="ttname"><a href="classnm_1_1base_err.html">nm::baseErr</a></div><div class="ttdef"><b>Definition:</b> baseErr.hpp:8</div></div>
-<div class="ttc" id="aclassnm_1_1base_obj_html"><div class="ttname"><a href="classnm_1_1base_obj.html">nm::baseObj</a></div><div class="ttdoc">baseObj handles frame injection event of all objects.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:20</div></div>
-<div class="ttc" id="aclassnm_1_1err_html"><div class="ttname"><a href="classnm_1_1err.html">nm::err</a></div><div class="ttdef"><b>Definition:</b> err.hpp:7</div></div>
-<div class="ttc" id="aclassnm_1_1n_str_html"><div class="ttname"><a href="classnm_1_1n_str.html">nm::nStr</a></div><div class="ttdef"><b>Definition:</b> nStr.hpp:8</div></div>
-<div class="ttc" id="aclassnm_1_1tstr_html"><div class="ttname"><a href="classnm_1_1tstr.html">nm::tstr</a></div><div class="ttdef"><b>Definition:</b> tstr.hpp:8</div></div>
-<div class="ttc" id="astructnm_1_1tmarshaling_html"><div class="ttname"><a href="structnm_1_1tmarshaling.html">nm::tmarshaling</a></div><div class="ttdef"><b>Definition:</b> tmarshaling.hpp:14</div></div>
+<div class="ttc" id="aclassby_1_1base_err_html"><div class="ttname"><a href="classby_1_1base_err.html">by::baseErr</a></div><div class="ttdef"><b>Definition:</b> baseErr.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1base_obj_html"><div class="ttname"><a href="classby_1_1base_obj.html">by::baseObj</a></div><div class="ttdoc">baseObj handles frame injection event of all objects.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:20</div></div>
+<div class="ttc" id="aclassby_1_1err_html"><div class="ttname"><a href="classby_1_1err.html">by::err</a></div><div class="ttdef"><b>Definition:</b> err.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1n_str_html"><div class="ttname"><a href="classby_1_1n_str.html">by::nStr</a></div><div class="ttdef"><b>Definition:</b> nStr.hpp:8</div></div>
+<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr</a></div><div class="ttdef"><b>Definition:</b> tstr.hpp:8</div></div>
+<div class="ttc" id="astructby_1_1tmarshaling_html"><div class="ttname"><a href="structby_1_1tmarshaling.html">by::tmarshaling</a></div><div class="ttdef"><b>Definition:</b> tmarshaling.hpp:14</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

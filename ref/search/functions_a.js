@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['make_884',['make',['../classnm_1_1mgd_type.html#aa3c7df89f68edcda8e0fdb5147dcd34c',1,'nm::mgdType::make()'],['../classnm_1_1ttype_base_3_01void_00_01type_01_4.html#ae85af6449a046e61f35258887c3f1bc4',1,'nm::ttypeBase&lt; void, type &gt;::make()'],['../classnm_1_1type.html#af47c7f7765a7839db72676b3d2059304',1,'nm::type::make()']]],
-  ['mov_885',['mov',['../classnm_1_1arithmetic_obj.html#ac18a66bbc8ecd929ac8ea82aebd7833c',1,'nm::arithmeticObj']]]
+  ['make_841',['make',['../classby_1_1mgd_type.html#a7367b1906e022e960d20c009f99c5999',1,'by::mgdType::make()'],['../classby_1_1ttype_base_3_01void_00_01type_01_4.html#ab1db5892bcba19849e501fa3001f2cd5',1,'by::ttypeBase&lt; void, type &gt;::make()'],['../classby_1_1type.html#ac6f9594cf85e0072152721ecab4e6899',1,'by::type::make()']]],
+  ['mov_842',['mov',['../classby_1_1arithmetic_obj.html#ab317898d8b919d547354a1768acee984',1,'by::arithmeticObj']]]
 ];

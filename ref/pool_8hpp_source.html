@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/memlite/pool/pool.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/memlite/pool/pool.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_183e3a1c910cc57bcb9096081cc20a5a.html">memlite</a></li><li class="navelem"><a class="el" href="dir_f8067514e9e4f18e225839acd849bb18.html">pool</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_e39e4133821777546482751fa01c4845.html">memlite</a></li><li class="navelem"><a class="el" href="dir_6857a60a6e9303ae16b7d0b9bbf6326f.html">pool</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,48 +71,46 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;chunks.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;memlite/pool/chunks.hpp&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>nm {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classnm_1_1pool.html">    7</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1pool.html">pool</a>: <span class="keyword">public</span> <a class="code" href="classnm_1_1memory_haver.html">memoryHaver</a> {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        NM_ME(<a class="code" href="classnm_1_1pool.html">pool</a>, <a class="code" href="classnm_1_1memory_haver.html">memoryHaver</a>)</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        NM_INIT_META(me)</div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classby_1_1pool.html">    7</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1pool.html">pool</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1memory_haver.html">memoryHaver</a> {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        BY_ME(<a class="code" href="classby_1_1pool.html">pool</a>, <a class="code" href="classby_1_1memory_haver.html">memoryHaver</a>)</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        BY_INIT_META(me)</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="comment">//  pool:</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="classnm_1_1pool.html">pool</a>();</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classnm_1_1pool.html">pool</a>();</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="classby_1_1pool.html">pool</a>();</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classby_1_1pool.html">pool</a>();</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <a class="code" href="classnm_1_1chunks.html">chunks</a>&amp; operator[](nidx n);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="classnm_1_1chunks.html">chunks</a>&amp; operator[](<span class="keyword">const</span> <a class="code" href="classnm_1_1instance.html">instance</a>&amp; inst);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">const</span> <a class="code" href="classnm_1_1chunks.html">chunks</a>&amp; operator[](nidx n) <span class="keyword">const</span> NM_CONST_FUNC(<span class="keyword">operator</span>[](n))</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">const</span> <a class="code" href="classnm_1_1chunks.html">chunks</a>&amp; operator[](<span class="keyword">const</span> <a class="code" href="classnm_1_1instance.html">instance</a>&amp; inst) <span class="keyword">const</span> NM_CONST_FUNC(<span class="keyword">operator</span>[](inst))</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="classnm_1_1chunks.html">chunks</a>&amp; get(<span class="keyword">const</span> <a class="code" href="classnm_1_1instance.html">instance</a>&amp; inst);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="classnm_1_1chunks.html">chunks</a>&amp; get(nidx n);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">const</span> <a class="code" href="classnm_1_1chunks.html">chunks</a>&amp; get(<span class="keyword">const</span> <a class="code" href="classnm_1_1instance.html">instance</a>&amp; inst) <span class="keyword">const</span> NM_CONST_FUNC(get(inst))</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">const</span> <a class="code" href="classnm_1_1chunks.html">chunks</a>&amp; get(nidx n) <span class="keyword">const</span> NM_CONST_FUNC(get(n))</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="comment">//  memoryHaver:</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        nbool has(<span class="keyword">const</span> <a class="code" href="classnm_1_1instance.html">instance</a>&amp; it) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        ncnt size() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        ncnt len() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        nbool rel() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="comment">//  memoryHaver:</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">void</span>* _get(nidx n) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        std::vector&lt;chunks*&gt; _chunks;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    };</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;} <span class="comment">// namespace nm</span></div>
-<div class="ttc" id="aclassnm_1_1chunks_html"><div class="ttname"><a href="classnm_1_1chunks.html">nm::chunks</a></div><div class="ttdef"><b>Definition:</b> chunks.hpp:7</div></div>
-<div class="ttc" id="aclassnm_1_1instance_html"><div class="ttname"><a href="classnm_1_1instance.html">nm::instance</a></div><div class="ttdef"><b>Definition:</b> instance.hpp:15</div></div>
-<div class="ttc" id="aclassnm_1_1memory_haver_html"><div class="ttname"><a href="classnm_1_1memory_haver.html">nm::memoryHaver</a></div><div class="ttdef"><b>Definition:</b> memoryHaver.hpp:9</div></div>
-<div class="ttc" id="aclassnm_1_1pool_html"><div class="ttname"><a href="classnm_1_1pool.html">nm::pool</a></div><div class="ttdef"><b>Definition:</b> pool.hpp:7</div></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <a class="code" href="classby_1_1chunks.html">chunks</a>* get(<span class="keyword">const</span> <a class="code" href="classby_1_1instance.html">instance</a>&amp; it);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="classby_1_1chunks.html">chunks</a>* get(<span class="keyword">const</span> <a class="code" href="classby_1_1instance.html">instance</a>* it) BY_SIDE_FUNC(get);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="classby_1_1chunks.html">chunks</a>* get(nidx n);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1chunks.html">chunks</a>* get(<span class="keyword">const</span> <a class="code" href="classby_1_1instance.html">instance</a>&amp; it) <span class="keyword">const</span> BY_CONST_FUNC(get(it))</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1chunks.html">chunks</a>* get(<span class="keyword">const</span> <a class="code" href="classby_1_1instance.html">instance</a>* it) <span class="keyword">const</span> BY_CONST_FUNC(get(it))</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1chunks.html">chunks</a>* get(nidx n) <span class="keyword">const</span> BY_CONST_FUNC(get(n))</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keyword">using</span> super::has;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        nbool has(<span class="keyword">const</span> <a class="code" href="classby_1_1instance.html">instance</a>&amp; it) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        ncnt size() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        ncnt len() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        nbool rel() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="comment">//  memoryHaver:</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">void</span>* _get(nidx n) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        std::vector&lt;chunks*&gt; _chunks;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    };</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1chunks_html"><div class="ttname"><a href="classby_1_1chunks.html">by::chunks</a></div><div class="ttdef"><b>Definition:</b> chunks.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdef"><b>Definition:</b> instance.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1memory_haver_html"><div class="ttname"><a href="classby_1_1memory_haver.html">by::memoryHaver</a></div><div class="ttdef"><b>Definition:</b> memoryHaver.hpp:9</div></div>
+<div class="ttc" id="aclassby_1_1pool_html"><div class="ttname"><a href="classby_1_1pool.html">by::pool</a></div><div class="ttdef"><b>Definition:</b> pool.hpp:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

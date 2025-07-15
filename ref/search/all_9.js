@@ -1,21 +1,9 @@
 var searchData=
 [
-  ['id_143',['id',['../structnm_1_1id.html',1,'nm']]],
-  ['ifexpr_144',['ifExpr',['../classnm_1_1if_expr.html',1,'nm']]],
-  ['immutabletactic_145',['immutableTactic',['../classnm_1_1immutable_tactic.html',1,'nm']]],
-  ['indentscan_146',['indentScan',['../classnm_1_1indent_scan.html',1,'nm']]],
-  ['initiator_147',['Initiator',['../structnm_1_1_initiator.html',1,'nm']]],
-  ['inputfunc_148',['inputFunc',['../classnm_1_1input_func.html',1,'nm']]],
-  ['instance_149',['instance',['../classnm_1_1instance.html',1,'nm']]],
-  ['instancer_150',['instancer',['../classnm_1_1instancer.html',1,'nm']]],
-  ['interpreter_151',['interpreter',['../classnm_1_1interpreter.html',1,'nm']]],
-  ['iscomplete_152',['isComplete',['../classnm_1_1origin.html#a69f2353df63f7256e83f9a26a69c8d9f',1,'nm::origin::isComplete()'],['../classnm_1_1node.html#af56cea85d24ce2972b6e8c4af3ba1f2f',1,'nm::node::isComplete()']]],
-  ['iscustom_153',['isCustom',['../classnm_1_1ntype.html#ab03216a32307ef18d67776cf5c159262',1,'nm::ntype']]],
-  ['isexpr_154',['isExpr',['../classnm_1_1is_expr.html',1,'nm']]],
-  ['isimpli_155',['isImpli',['../classnm_1_1ntype.html#ad16bb5534df66d9b96b7c952102caa13',1,'nm::ntype']]],
-  ['islooping_156',['isLooping',['../classnm_1_1loop_expr_1_1loop.html#a042337a25de1023a9e20f15f0f98cb0f',1,'nm::loopExpr::loop']]],
-  ['iter_157',['iter',['../classiter.html',1,'']]],
-  ['iterable_158',['iterable',['../classiterable.html',1,'']]],
-  ['iteration_159',['iteration',['../classiteration.html',1,'']]],
-  ['iterator_160',['iterator',['../classnm_1_1smultimap_1_1iterator.html',1,'nm::smultimap']]]
+  ['link_138',['link',['../classby_1_1tnchain.html#a2951a107e09c70a690b24d590e187fa9',1,'by::tnchain']]],
+  ['load_139',['load',['../classby_1_1dlib.html#a7e2ee89a3d295f7e8af139d7f5b57f2e',1,'by::dlib']]],
+  ['logbypass_140',['logBypass',['../classby_1_1logger.html#acd4e7478b73a55fc868d216b8356f1cb',1,'by::logger::logBypass()'],['../classby_1_1console_stream.html#a227780ae707503508295c2e4e0f7a00b',1,'by::consoleStream::logBypass()'],['../classby_1_1file_log_stream.html#aeff5dad63b9817e4e5bd9b6274316bb7',1,'by::fileLogStream::logBypass()'],['../classby_1_1stream.html#a3c4052659a2241932fe3b9c8b2f80804',1,'by::stream::logBypass()']]],
+  ['logger_141',['logger',['../classby_1_1logger.html',1,'by']]],
+  ['loop_142',['loop',['../classby_1_1loop_expr_1_1loop.html',1,'by::loopExpr']]],
+  ['loopexpr_143',['loopExpr',['../classby_1_1loop_expr.html',1,'by']]]
 ];

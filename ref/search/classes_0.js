@@ -1,28 +1,5 @@
 var searchData=
 [
-  ['_5f_5fdummy_5fclass_5f_5f_449',['__dummy_class__',['../classnm_1_1____dummy__class____.html',1,'nm']]],
-  ['_5f_5fempty_5f_5f_450',['__empty__',['../structnm_1_1____empty____.html',1,'nm']]],
-  ['_5f_5fempty_5f_5f_3c_20t_20_26_20_3e_451',['__empty__&lt; T &amp; &gt;',['../structnm_1_1____empty_____3_01_t_01_6_01_4.html',1,'nm']]],
-  ['_5f_5fempty_5f_5f_3c_20void_20_3e_452',['__empty__&lt; void &gt;',['../structnm_1_1____empty_____3_01void_01_4.html',1,'nm']]],
-  ['_5f_5forretstack_5f_5f_453',['__orRetStack__',['../structnm_1_1____or_ret_stack____.html',1,'nm']]],
-  ['_5f_5fto_5fref_5f_5f_454',['__to_ref__',['../structnm_1_1____to__ref____.html',1,'nm']]],
-  ['_5f_5fto_5fref_5f_5f_3c_20const_20t_20_26_20_3e_455',['__to_ref__&lt; const T &amp; &gt;',['../structnm_1_1____to__ref_____3_01const_01_t_01_6_01_4.html',1,'nm']]],
-  ['_5f_5fto_5fref_5f_5f_3c_20const_20tstr_3c_20t_20_3e_20_26_20_3e_456',['__to_ref__&lt; const tstr&lt; T &gt; &amp; &gt;',['../structnm_1_1____to__ref_____3_01const_01tstr_3_01_t_01_4_01_6_01_4.html',1,'nm']]],
-  ['_5f_5fto_5fref_5f_5f_3c_20const_20tstr_3c_20t_20_3e_20_2a_20_3e_457',['__to_ref__&lt; const tstr&lt; T &gt; * &gt;',['../structnm_1_1____to__ref_____3_01const_01tstr_3_01_t_01_4_01_5_01_4.html',1,'nm']]],
-  ['_5f_5fto_5fref_5f_5f_3c_20t_20_26_20_3e_458',['__to_ref__&lt; T &amp; &gt;',['../structnm_1_1____to__ref_____3_01_t_01_6_01_4.html',1,'nm']]],
-  ['_5f_5fto_5fref_5f_5f_3c_20t_20_2a_20_3e_459',['__to_ref__&lt; T * &gt;',['../structnm_1_1____to__ref_____3_01_t_01_5_01_4.html',1,'nm']]],
-  ['_5f_5fto_5fref_5f_5f_3c_20t_20_2a_26_26_20_3e_460',['__to_ref__&lt; T *&amp;&amp; &gt;',['../structnm_1_1____to__ref_____3_01_t_01_5_6_6_01_4.html',1,'nm']]],
-  ['_5f_5fto_5fref_5f_5f_3c_20tstr_3c_20t_20_3e_20_26_20_3e_461',['__to_ref__&lt; tstr&lt; T &gt; &amp; &gt;',['../structnm_1_1____to__ref_____3_01tstr_3_01_t_01_4_01_6_01_4.html',1,'nm']]],
-  ['_5f_5fto_5fref_5f_5f_3c_20tstr_3c_20t_20_3e_20_26_26_20_3e_462',['__to_ref__&lt; tstr&lt; T &gt; &amp;&amp; &gt;',['../structnm_1_1____to__ref_____3_01tstr_3_01_t_01_4_01_6_6_01_4.html',1,'nm']]],
-  ['_5f_5fto_5fref_5f_5f_3c_20tstr_3c_20t_20_3e_20_2a_20_3e_463',['__to_ref__&lt; tstr&lt; T &gt; * &gt;',['../structnm_1_1____to__ref_____3_01tstr_3_01_t_01_4_01_5_01_4.html',1,'nm']]],
-  ['_5f_5fto_5fref_5f_5f_3c_20tstr_3c_20t_20_3e_20_3e_464',['__to_ref__&lt; tstr&lt; T &gt; &gt;',['../structnm_1_1____to__ref_____3_01tstr_3_01_t_01_4_01_4.html',1,'nm']]],
-  ['_5f_5funwrap_5fbinder_5f_5f_465',['__unwrap_binder__',['../structnm_1_1____unwrap__binder____.html',1,'nm']]],
-  ['_5f_5funwrap_5fbinder_5f_5f_3c_20t_20_26_20_3e_466',['__unwrap_binder__&lt; T &amp; &gt;',['../structnm_1_1____unwrap__binder_____3_01_t_01_6_01_4.html',1,'nm']]],
-  ['_5f_5funwrap_5fbinder_5f_5f_3c_20t_20_2a_20_3e_467',['__unwrap_binder__&lt; T * &gt;',['../structnm_1_1____unwrap__binder_____3_01_t_01_5_01_4.html',1,'nm']]],
-  ['_5f_5funwrap_5fbinder_5f_5f_3c_20tstr_3c_20t_20_3e_20_26_20_3e_468',['__unwrap_binder__&lt; tstr&lt; T &gt; &amp; &gt;',['../structnm_1_1____unwrap__binder_____3_01tstr_3_01_t_01_4_01_6_01_4.html',1,'nm']]],
-  ['_5f_5funwrap_5fbinder_5f_5f_3c_20tstr_3c_20t_20_3e_20_2a_20_3e_469',['__unwrap_binder__&lt; tstr&lt; T &gt; * &gt;',['../structnm_1_1____unwrap__binder_____3_01tstr_3_01_t_01_4_01_5_01_4.html',1,'nm']]],
-  ['_5f_5funwrap_5fbinder_5f_5f_3c_20tstr_3c_20t_20_3e_20_3e_470',['__unwrap_binder__&lt; tstr&lt; T &gt; &gt;',['../structnm_1_1____unwrap__binder_____3_01tstr_3_01_t_01_4_01_4.html',1,'nm']]],
-  ['_5f_5funwrap_5fbinder_5f_5f_3c_20tweak_3c_20t_20_3e_20_26_20_3e_471',['__unwrap_binder__&lt; tweak&lt; T &gt; &amp; &gt;',['../structnm_1_1____unwrap__binder_____3_01tweak_3_01_t_01_4_01_6_01_4.html',1,'nm']]],
-  ['_5f_5funwrap_5fbinder_5f_5f_3c_20tweak_3c_20t_20_3e_20_2a_20_3e_472',['__unwrap_binder__&lt; tweak&lt; T &gt; * &gt;',['../structnm_1_1____unwrap__binder_____3_01tweak_3_01_t_01_4_01_5_01_4.html',1,'nm']]],
-  ['_5f_5funwrap_5fbinder_5f_5f_3c_20tweak_3c_20t_20_3e_20_3e_473',['__unwrap_binder__&lt; tweak&lt; T &gt; &gt;',['../structnm_1_1____unwrap__binder_____3_01tweak_3_01_t_01_4_01_4.html',1,'nm']]]
+  ['_5f_5forstack_5f_5f_428',['__orStack__',['../structby_1_1____or_stack____.html',1,'by']]],
+  ['_5f_5fwhen_5fobject_5f_5f_429',['__WHEN_OBJECT__',['../classby_1_1_____w_h_e_n___o_b_j_e_c_t____.html',1,'by']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/core/ast/args.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/core/ast/args.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_81012edf5ad7491088324f5f1efbb7fa.html">core</a></li><li class="navelem"><a class="el" href="dir_8b7d6232d8bd9d190320bc3cd69b00fe.html">ast</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_f02a41efdae0e7ff9c127dccb82ff885.html">core</a></li><li class="navelem"><a class="el" href="dir_20185808cdef5fb98fa910be37be0b14.html">ast</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,44 +71,44 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;../builtin/container/native/tnarr.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;obj.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/builtin/container/native/tnarr.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;core/ast/obj.hpp&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>nm {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classnm_1_1args.html">    8</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1args.html">args</a>: <span class="keyword">public</span> <a class="code" href="classnm_1_1tnarr.html">narr</a> {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        NM(CLASS(<a class="code" href="classnm_1_1args.html">args</a>, <a class="code" href="classnm_1_1tnarr.html">narr</a>))</div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classby_1_1args.html">    8</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1args.html">args</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1tnarr.html">narr</a> {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1args.html">args</a>, <a class="code" href="classby_1_1tnarr.html">narr</a>))</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <a class="code" href="classnm_1_1args.html">args</a>();</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="classnm_1_1args.html">args</a>(<span class="keyword">const</span> <a class="code" href="classnm_1_1base_obj.html">baseObj</a>&amp; me);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="classnm_1_1args.html">args</a>(<span class="keyword">const</span> <a class="code" href="classnm_1_1tnarr.html">narr</a>&amp; rhs);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="classnm_1_1args.html">args</a>(<span class="keyword">const</span> <a class="code" href="classnm_1_1base_obj.html">baseObj</a>&amp; me, <span class="keyword">const</span> <a class="code" href="classnm_1_1tnarr.html">narr</a>&amp; rhs);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classnm_1_1args.html#ae58af392cb51ac8555486655f507ac6d">   20</a></span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Es&gt; <span class="keyword">explicit</span> <a class="code" href="classnm_1_1args.html#ae58af392cb51ac8555486655f507ac6d">args</a>(<span class="keyword">const</span> <a class="code" href="classnm_1_1base_obj.html">baseObj</a>&amp; me, <span class="keyword">const</span> Es&amp;... elems): _me(me) {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            static_assert(areBaseOfT&lt;node, Es...&gt;::value,</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                <span class="stringliteral">&quot;some of type of args are not base of type &#39;node&#39;&quot;</span>);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            add({(<a class="code" href="classnm_1_1node.html">node</a>*) &amp;elems...});</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        }</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classnm_1_1args.html#adca653c6e95bc3966e5447bc3d0451ac">   28</a></span>&#160;        <span class="keyword">const</span> me&amp; <a class="code" href="classnm_1_1args.html#adca653c6e95bc3966e5447bc3d0451ac">setMe</a>(<span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; me) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="classnm_1_1node.html">node</a>&amp; getMe() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classnm_1_1args.html#aa0375e5a2afd11de1e5877e62ab7606f">   32</a></span>&#160;        std::string <a class="code" href="classnm_1_1args.html#aa0375e5a2afd11de1e5877e62ab7606f">toStr</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">mutable</span> <a class="code" href="classnm_1_1tstr.html">str</a> _me;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    };</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
-<div class="ttc" id="aclassnm_1_1args_html"><div class="ttname"><a href="classnm_1_1args.html">nm::args</a></div><div class="ttdef"><b>Definition:</b> args.hpp:8</div></div>
-<div class="ttc" id="aclassnm_1_1args_html_aa0375e5a2afd11de1e5877e62ab7606f"><div class="ttname"><a href="classnm_1_1args.html#aa0375e5a2afd11de1e5877e62ab7606f">nm::args::toStr</a></div><div class="ttdeci">std::string toStr() const</div></div>
-<div class="ttc" id="aclassnm_1_1args_html_adca653c6e95bc3966e5447bc3d0451ac"><div class="ttname"><a href="classnm_1_1args.html#adca653c6e95bc3966e5447bc3d0451ac">nm::args::setMe</a></div><div class="ttdeci">const me &amp; setMe(const node &amp;me) const</div></div>
-<div class="ttc" id="aclassnm_1_1args_html_ae58af392cb51ac8555486655f507ac6d"><div class="ttname"><a href="classnm_1_1args.html#ae58af392cb51ac8555486655f507ac6d">nm::args::args</a></div><div class="ttdeci">args(const baseObj &amp;me, const Es &amp;... elems)</div><div class="ttdef"><b>Definition:</b> args.hpp:20</div></div>
-<div class="ttc" id="aclassnm_1_1base_obj_html"><div class="ttname"><a href="classnm_1_1base_obj.html">nm::baseObj</a></div><div class="ttdoc">baseObj handles frame injection event of all objects.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:20</div></div>
-<div class="ttc" id="aclassnm_1_1node_html"><div class="ttname"><a href="classnm_1_1node.html">nm::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:24</div></div>
-<div class="ttc" id="aclassnm_1_1tnarr_html"><div class="ttname"><a href="classnm_1_1tnarr.html">nm::tnarr&lt; node &gt;</a></div></div>
-<div class="ttc" id="aclassnm_1_1tstr_html"><div class="ttname"><a href="classnm_1_1tstr.html">nm::tstr&lt; node &gt;</a></div></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <a class="code" href="classby_1_1args.html">args</a>();</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="classby_1_1args.html">args</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1tnarr.html">narr</a>&amp; rhs);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="classby_1_1args.html">args</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1base_obj.html">baseObj</a>* me);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="classby_1_1args.html">args</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1base_obj.html">baseObj</a>* me, <span class="keyword">const</span> <a class="code" href="classby_1_1tnarr.html">narr</a>&amp; rhs);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <a class="code" href="classby_1_1args.html">args</a>(<span class="keyword">const</span> me&amp; rhs);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classby_1_1args.html#a026a0cf4490ebe2c38fd24c7b5e14973">   20</a></span>&#160;        <span class="keyword">const</span> me&amp; <a class="code" href="classby_1_1args.html#a026a0cf4490ebe2c38fd24c7b5e14973">setMe</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; me) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">const</span> me&amp; setMe(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>* me) <span class="keyword">const</span> BY_SIDE_FUNC(me, setMe(*me), *<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <a class="code" href="classby_1_1node.html">node</a>* getMe() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classby_1_1args.html#ac4dd7c1b539d0cb00243442cb3f7ce4d">   25</a></span>&#160;        std::string <a class="code" href="classby_1_1args.html#ac4dd7c1b539d0cb00243442cb3f7ce4d">toStr</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <a class="code" href="classby_1_1tmay.html">tmay&lt;me&gt;</a> evalAll(<span class="keyword">const</span> <a class="code" href="classby_1_1params.html">params</a>&amp; ps) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <a class="code" href="classby_1_1tmay.html">tmay&lt;me&gt;</a> evalAll(<span class="keyword">const</span> <a class="code" href="classby_1_1params.html">params</a>* it) <span class="keyword">const</span> BY_SIDE_FUNC(evalAll);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keyword">mutable</span> <a class="code" href="classby_1_1tstr.html">str</a> _me;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    };</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
+<div class="ttc" id="aclassby_1_1args_html"><div class="ttname"><a href="classby_1_1args.html">by::args</a></div><div class="ttdef"><b>Definition:</b> args.hpp:8</div></div>
+<div class="ttc" id="aclassby_1_1args_html_a026a0cf4490ebe2c38fd24c7b5e14973"><div class="ttname"><a href="classby_1_1args.html#a026a0cf4490ebe2c38fd24c7b5e14973">by::args::setMe</a></div><div class="ttdeci">const me &amp; setMe(const node &amp;me) const</div></div>
+<div class="ttc" id="aclassby_1_1args_html_ac4dd7c1b539d0cb00243442cb3f7ce4d"><div class="ttname"><a href="classby_1_1args.html#ac4dd7c1b539d0cb00243442cb3f7ce4d">by::args::toStr</a></div><div class="ttdeci">std::string toStr() const</div></div>
+<div class="ttc" id="aclassby_1_1base_obj_html"><div class="ttname"><a href="classby_1_1base_obj.html">by::baseObj</a></div><div class="ttdoc">baseObj handles frame injection event of all objects.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:20</div></div>
+<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:26</div></div>
+<div class="ttc" id="aclassby_1_1params_html"><div class="ttname"><a href="classby_1_1params.html">by::params</a></div><div class="ttdef"><b>Definition:</b> params.hpp:10</div></div>
+<div class="ttc" id="aclassby_1_1tmay_html"><div class="ttname"><a href="classby_1_1tmay.html">by::tmay</a></div><div class="ttdef"><b>Definition:</b> tmay.hpp:23</div></div>
+<div class="ttc" id="aclassby_1_1tnarr_html"><div class="ttname"><a href="classby_1_1tnarr.html">by::tnarr&lt; node &gt;</a></div></div>
+<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr&lt; node &gt;</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

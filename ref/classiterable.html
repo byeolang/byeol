@@ -112,27 +112,33 @@ virtual ncnt&#160;</td><td class="memItemRight" valign="bottom"><b>stepForward</
 <tr class="memitem:adcca1b9294db7ef7ff27286ced67d671"><td class="memItemLeft" align="right" valign="top"><a id="adcca1b9294db7ef7ff27286ced67d671"></a>
 virtual ncnt&#160;</td><td class="memItemRight" valign="bottom"><b>stepBackward</b> (ncnt step)=0</td></tr>
 <tr class="separator:adcca1b9294db7ef7ff27286ced67d671"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a076814d3a554723623768a4885613af4"><td class="memItemLeft" align="right" valign="top"><a id="a076814d3a554723623768a4885613af4"></a>
-virtual const K &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getKey</b> () const =0</td></tr>
-<tr class="separator:a076814d3a554723623768a4885613af4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8d4bac39742f27fa61d0489c8714226"><td class="memItemLeft" align="right" valign="top"><a id="ac8d4bac39742f27fa61d0489c8714226"></a>
-virtual V &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getVal</b> ()=0</td></tr>
-<tr class="separator:ac8d4bac39742f27fa61d0489c8714226"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a701f7f09964b6b690f474d0a9c67f4ef"><td class="memItemLeft" align="right" valign="top"><a id="a701f7f09964b6b690f474d0a9c67f4ef"></a>
-const V &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getVal</b> () const NM_CONST_FUNC(getVal()) virtual void setVal(const V &amp;new Val)=0</td></tr>
-<tr class="separator:a701f7f09964b6b690f474d0a9c67f4ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d69338f48f37413979e5cf45667a224"><td class="memItemLeft" align="right" valign="top"><a id="a3d69338f48f37413979e5cf45667a224"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setVal</b> (const V *newVal)</td></tr>
-<tr class="separator:a3d69338f48f37413979e5cf45667a224"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb93e7c50fbc0fb920ec1b71be80d969"><td class="memItemLeft" align="right" valign="top"><a id="abb93e7c50fbc0fb920ec1b71be80d969"></a>
+virtual const K *&#160;</td><td class="memItemRight" valign="bottom"><b>getKey</b> () const =0</td></tr>
+<tr class="separator:abb93e7c50fbc0fb920ec1b71be80d969"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c88a7212a1eff9b311d9d4dac248d07"><td class="memItemLeft" align="right" valign="top"><a id="a5c88a7212a1eff9b311d9d4dac248d07"></a>
+virtual V *&#160;</td><td class="memItemRight" valign="bottom"><b>getVal</b> ()=0</td></tr>
+<tr class="separator:a5c88a7212a1eff9b311d9d4dac248d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c1cc47bf870e7e94ad63b2594205a36"><td class="memItemLeft" align="right" valign="top"><a id="a4c1cc47bf870e7e94ad63b2594205a36"></a>
+const V *&#160;</td><td class="memItemRight" valign="bottom"><b>getVal</b> () const BY_CONST_FUNC(getVal()) virtual void setVal(const V &amp;new Val)=0</td></tr>
+<tr class="separator:a4c1cc47bf870e7e94ad63b2594205a36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a004eb928a6ac0b3bd3fe840382013be6"><td class="memItemLeft" align="right" valign="top"><a id="a004eb928a6ac0b3bd3fe840382013be6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setVal</b> (const V *it) BY_SIDE_FUNC(setVal)</td></tr>
+<tr class="separator:a004eb928a6ac0b3bd3fe840382013be6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83160f3163b0848a830b5c82a079ac09"><td class="memItemLeft" align="right" valign="top"><a id="a83160f3163b0848a830b5c82a079ac09"></a>
 virtual nbool&#160;</td><td class="memItemRight" valign="bottom"><b>isFrom</b> (const tbicontainable &amp;it) const =0</td></tr>
 <tr class="separator:a83160f3163b0848a830b5c82a079ac09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf140389f9e66776a49202c7dfbb648e"><td class="memItemLeft" align="right" valign="top"><a id="abf140389f9e66776a49202c7dfbb648e"></a>
-virtual tbicontainable&lt; K, V &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getContainer</b> ()=0</td></tr>
-<tr class="separator:abf140389f9e66776a49202c7dfbb648e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a402898017fc1e860ec2bd71a9f140131"><td class="memItemLeft" align="right" valign="top"><a id="a402898017fc1e860ec2bd71a9f140131"></a>
-virtual nbool&#160;</td><td class="memItemRight" valign="bottom"><b>isEnd</b> () const =0</td></tr>
-<tr class="separator:a402898017fc1e860ec2bd71a9f140131"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2654474c578948b9ca0470cec1727f3"><td class="memItemLeft" align="right" valign="top"><a id="aa2654474c578948b9ca0470cec1727f3"></a>
+nbool&#160;</td><td class="memItemRight" valign="bottom"><b>isFrom</b> (const tbicontainable *it) const BY_SIDE_FUNC(isFrom)</td></tr>
+<tr class="separator:aa2654474c578948b9ca0470cec1727f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7465f0ea3d28bba1232adf1dbba5e53c"><td class="memItemLeft" align="right" valign="top"><a id="a7465f0ea3d28bba1232adf1dbba5e53c"></a>
+virtual tbicontainable&lt; K, V &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>getContainer</b> ()=0</td></tr>
+<tr class="separator:a7465f0ea3d28bba1232adf1dbba5e53c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa81681801eae11f4938466fcd53fc066"><td class="memItemLeft" align="right" valign="top"><a id="aa81681801eae11f4938466fcd53fc066"></a>
+virtual RSquare&#160;</td><td class="memItemRight" valign="bottom"><b>operator*</b> ()=0</td></tr>
+<tr class="separator:aa81681801eae11f4938466fcd53fc066"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01180b82e6a95ccf8a40d47ef832f9d5"><td class="memItemLeft" align="right" valign="top"><a id="a01180b82e6a95ccf8a40d47ef832f9d5"></a>
+const RSquare&#160;</td><td class="memItemRight" valign="bottom"><b>operator*</b> () const BY_CONST_FUNC(operator*()) virtual nbool isEnd() const =0</td></tr>
+<tr class="separator:a01180b82e6a95ccf8a40d47ef832f9d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0a96b6489a6af0fd976ad77960c7f2e"><td class="memItemLeft" align="right" valign="top"><a id="ad0a96b6489a6af0fd976ad77960c7f2e"></a>
 virtual nbool&#160;</td><td class="memItemRight" valign="bottom"><b>isReversed</b> () const =0</td></tr>
 <tr class="separator:ad0a96b6489a6af0fd976ad77960c7f2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -153,12 +159,15 @@ virtual ncnt&#160;</td><td class="memItemRight" valign="bottom"><b>stepBackward<
 <tr class="memitem:a8dff3038ea9f668e91c43668b365e62c"><td class="memItemLeft" align="right" valign="top"><a id="a8dff3038ea9f668e91c43668b365e62c"></a>
 virtual R&#160;</td><td class="memItemRight" valign="bottom"><b>get</b> ()=0</td></tr>
 <tr class="separator:a8dff3038ea9f668e91c43668b365e62c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cc73bd3546fce0c605c3819c7871f57"><td class="memItemLeft" align="right" valign="top"><a id="a6cc73bd3546fce0c605c3819c7871f57"></a>
-const R&#160;</td><td class="memItemRight" valign="bottom"><b>get</b> () const NM_CONST_FUNC(get()) virtual nbool isFrom(const tucontainable &amp;it) const =0</td></tr>
-<tr class="separator:a6cc73bd3546fce0c605c3819c7871f57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66ed4cdf749a24ee28fdeda9925e4fb3"><td class="memItemLeft" align="right" valign="top"><a id="a66ed4cdf749a24ee28fdeda9925e4fb3"></a>
-virtual tucontainable&lt; T, R &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getContainer</b> ()=0</td></tr>
-<tr class="separator:a66ed4cdf749a24ee28fdeda9925e4fb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1e93c7c3fa5c8a54b9a70cde232fdea"><td class="memItemLeft" align="right" valign="top"><a id="af1e93c7c3fa5c8a54b9a70cde232fdea"></a>
+const R&#160;</td><td class="memItemRight" valign="bottom"><b>get</b> () const BY_CONST_FUNC(get()) virtual nbool isFrom(const tucontainable &amp;it) const =0</td></tr>
+<tr class="separator:af1e93c7c3fa5c8a54b9a70cde232fdea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a923d067036eab9df560f91b221cab4b1"><td class="memItemLeft" align="right" valign="top"><a id="a923d067036eab9df560f91b221cab4b1"></a>
+nbool&#160;</td><td class="memItemRight" valign="bottom"><b>isFrom</b> (const tucontainable *it) const BY_SIDE_FUNC(isFrom)</td></tr>
+<tr class="separator:a923d067036eab9df560f91b221cab4b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89a0a22161e0fe40ca4c7bcefaee4f7b"><td class="memItemLeft" align="right" valign="top"><a id="a89a0a22161e0fe40ca4c7bcefaee4f7b"></a>
+virtual tucontainable&lt; T, R, RSquare &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>getContainer</b> ()=0</td></tr>
+<tr class="separator:a89a0a22161e0fe40ca4c7bcefaee4f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-types"></a>
 Protected Types</h2></td></tr>
@@ -261,8 +270,8 @@ Protected Types</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/runner/work/namu/namu/mod/core/builtin/container/iter/<a class="el" href="biterable_8hpp_source.html">biterable.hpp</a></li>
-<li>/home/runner/work/namu/namu/mod/core/builtin/container/iter/<a class="el" href="uiterable_8hpp_source.html">uiterable.hpp</a></li>
+<li>/home/runner/work/byeol/byeol/module/core/builtin/container/iter/<a class="el" href="biterable_8hpp_source.html">biterable.hpp</a></li>
+<li>/home/runner/work/byeol/byeol/module/core/builtin/container/iter/<a class="el" href="uiterable_8hpp_source.html">uiterable.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

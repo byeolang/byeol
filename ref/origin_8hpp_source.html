@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/core/ast/origin.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/core/ast/origin.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_81012edf5ad7491088324f5f1efbb7fa.html">core</a></li><li class="navelem"><a class="el" href="dir_8b7d6232d8bd9d190320bc3cd69b00fe.html">ast</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_f02a41efdae0e7ff9c127dccb82ff885.html">core</a></li><li class="navelem"><a class="el" href="dir_20185808cdef5fb98fa910be37be0b14.html">ast</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,84 +71,88 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;../type/mgdType.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;obj.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/type/mgdType.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;core/ast/obj.hpp&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>nm {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">class </span>src;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">class </span>runExpr;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classnm_1_1origin.html">   22</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1origin.html">origin</a> final: <span class="keyword">public</span> <a class="code" href="classnm_1_1obj.html">obj</a> {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        NM(ME(<a class="code" href="classnm_1_1origin.html">origin</a>, <a class="code" href="classnm_1_1obj.html">obj</a>), INIT_META(<a class="code" href="classnm_1_1origin.html">origin</a>))</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classby_1_1origin.html">   22</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1origin.html">origin</a> final: <span class="keyword">public</span> <a class="code" href="classby_1_1obj.html">obj</a> {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        BY(ME(<a class="code" href="classby_1_1origin.html">origin</a>, <a class="code" href="classby_1_1obj.html">obj</a>), INIT_META(<a class="code" href="classby_1_1origin.html">origin</a>))</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classnm_1_1generic_origin.html">genericOrigin</a>; <span class="comment">// for _setOrigin(), _setType</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classnm_1_1slot.html">slot</a>;          <span class="comment">// for _onRunSub</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classnm_1_1expander.html">expander</a>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classnm_1_1expr_maker.html">exprMaker</a>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classnm_1_1parser.html">parser</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1generic_origin.html">genericOrigin</a>; <span class="comment">// for _setOrigin(), _setType</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1slot.html">slot</a>;          <span class="comment">// for _onRunSub</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1expander.html">expander</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1expr_maker.html">exprMaker</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1parser.html">parser</a>;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classnm_1_1origin.html">origin</a>(<span class="keyword">const</span> <a class="code" href="classnm_1_1mgd_type.html">mgdType</a>&amp; newType);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classnm_1_1origin.html">origin</a>(<span class="keyword">const</span> <a class="code" href="classnm_1_1mgd_type.html">mgdType</a>&amp; newType, <span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; subpack);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classnm_1_1origin.html">origin</a>(<span class="keyword">const</span> me&amp; rhs);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classby_1_1origin.html">origin</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1mgd_type.html">mgdType</a>&amp; newType);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classby_1_1origin.html">origin</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1mgd_type.html">mgdType</a>&amp; newType, <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; subpack);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classby_1_1origin.html">origin</a>(<span class="keyword">const</span> me&amp; rhs);</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        me&amp; operator=(<span class="keyword">const</span> me&amp; rhs);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">using</span> super::subs;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <a class="code" href="classnm_1_1tnchain.html">scope</a>&amp; subs() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <a class="code" href="classby_1_1tnchain.html">scope</a>&amp; subs() <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        state getState() <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">void</span> setState(state new1) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keyword">const</span> <a class="code" href="classnm_1_1ntype.html">ntype</a>&amp; getType() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; getSubPack() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keyword">const</span> <a class="code" href="classnm_1_1src.html">src</a>&amp; getSrc() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordtype">void</span> onCloneDeep(<span class="keyword">const</span> <a class="code" href="classnm_1_1clonable.html">clonable</a>&amp; from) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <a class="code" href="classnm_1_1base_obj.html">baseObj</a>* make() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">using</span> super::getCallComplete;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="classnm_1_1node.html">node</a>&amp; getCallComplete() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">void</span> setCallComplete(<span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; new1);</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classnm_1_1origin.html#a69f2353df63f7256e83f9a26a69c8d9f">   54</a></span>&#160;        nbool <a class="code" href="classnm_1_1origin.html#a69f2353df63f7256e83f9a26a69c8d9f">isComplete</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <a class="code" href="classnm_1_1clonable.html">clonable</a>* clone() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <a class="code" href="classnm_1_1clonable.html">clonable</a>* cloneDeep() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; getType() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; getSubPack() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1src.html">src</a>&amp; getSrc() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordtype">void</span> onCloneDeep(<span class="keyword">const</span> <a class="code" href="classby_1_1clonable.html">clonable</a>&amp; from) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <a class="code" href="classby_1_1base_obj.html">baseObj</a>* make() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">using</span> super::getCallComplete;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <a class="code" href="classby_1_1node.html">node</a>* getCallComplete() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordtype">void</span> setCallComplete(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; new1);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">void</span> setCallComplete(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>* it) BY_SIDE_FUNC(setCallComplete);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">void</span> _setType(<span class="keyword">const</span> <a class="code" href="classnm_1_1mgd_type.html">mgdType</a>&amp; new1) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordtype">void</span> _setSubPack(<span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; newSub);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordtype">void</span> _setSrc(<span class="keyword">const</span> <a class="code" href="classnm_1_1src.html">src</a>&amp; s) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordtype">void</span> _setModifier(<span class="keyword">const</span> <a class="code" href="classnm_1_1modifier.html">modifier</a>&amp; mod) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        me&amp; _assign(<span class="keyword">const</span> me&amp; rhs);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordtype">void</span> _runCallComplete();</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <a class="code" href="classnm_1_1mgd_type.html">mgdType</a> _type; <span class="comment">// TODO: memory leak</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <a class="code" href="classnm_1_1tstr.html">str</a> _subpack;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <a class="code" href="classnm_1_1tstr.html">tstr&lt;src&gt;</a> _src;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <a class="code" href="classnm_1_1tstr.html">tstr&lt;modifier&gt;</a> _mod;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <a class="code" href="classnm_1_1tstr.html">str</a> _callComplete;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        state _state;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    };</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;} <span class="comment">// namespace nm</span></div>
-<div class="ttc" id="aclassnm_1_1base_obj_html"><div class="ttname"><a href="classnm_1_1base_obj.html">nm::baseObj</a></div><div class="ttdoc">baseObj handles frame injection event of all objects.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:20</div></div>
-<div class="ttc" id="aclassnm_1_1clonable_html"><div class="ttname"><a href="classnm_1_1clonable.html">nm::clonable</a></div><div class="ttdef"><b>Definition:</b> clonable.hpp:7</div></div>
-<div class="ttc" id="aclassnm_1_1expander_html"><div class="ttname"><a href="classnm_1_1expander.html">nm::expander</a></div><div class="ttdef"><b>Definition:</b> expander.hpp:8</div></div>
-<div class="ttc" id="aclassnm_1_1expr_maker_html"><div class="ttname"><a href="classnm_1_1expr_maker.html">nm::exprMaker</a></div><div class="ttdef"><b>Definition:</b> exprMaker.hpp:12</div></div>
-<div class="ttc" id="aclassnm_1_1generic_origin_html"><div class="ttname"><a href="classnm_1_1generic_origin.html">nm::genericOrigin</a></div><div class="ttdef"><b>Definition:</b> genericOrigin.hpp:10</div></div>
-<div class="ttc" id="aclassnm_1_1mgd_type_html"><div class="ttname"><a href="classnm_1_1mgd_type.html">nm::mgdType</a></div><div class="ttdef"><b>Definition:</b> mgdType.hpp:12</div></div>
-<div class="ttc" id="aclassnm_1_1modifier_html"><div class="ttname"><a href="classnm_1_1modifier.html">nm::modifier</a></div><div class="ttdef"><b>Definition:</b> modifier.hpp:7</div></div>
-<div class="ttc" id="aclassnm_1_1node_html"><div class="ttname"><a href="classnm_1_1node.html">nm::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:24</div></div>
-<div class="ttc" id="aclassnm_1_1ntype_html"><div class="ttname"><a href="classnm_1_1ntype.html">nm::ntype</a></div><div class="ttdef"><b>Definition:</b> ntype.hpp:13</div></div>
-<div class="ttc" id="aclassnm_1_1obj_html"><div class="ttname"><a href="classnm_1_1obj.html">nm::obj</a></div><div class="ttdef"><b>Definition:</b> obj.hpp:16</div></div>
-<div class="ttc" id="aclassnm_1_1origin_html"><div class="ttname"><a href="classnm_1_1origin.html">nm::origin</a></div><div class="ttdef"><b>Definition:</b> origin.hpp:22</div></div>
-<div class="ttc" id="aclassnm_1_1origin_html_a69f2353df63f7256e83f9a26a69c8d9f"><div class="ttname"><a href="classnm_1_1origin.html#a69f2353df63f7256e83f9a26a69c8d9f">nm::origin::isComplete</a></div><div class="ttdeci">nbool isComplete() const override</div></div>
-<div class="ttc" id="aclassnm_1_1parser_html"><div class="ttname"><a href="classnm_1_1parser.html">nm::parser</a></div><div class="ttdef"><b>Definition:</b> parser.hpp:38</div></div>
-<div class="ttc" id="aclassnm_1_1slot_html"><div class="ttname"><a href="classnm_1_1slot.html">nm::slot</a></div><div class="ttdef"><b>Definition:</b> slot.hpp:11</div></div>
-<div class="ttc" id="aclassnm_1_1src_html"><div class="ttname"><a href="classnm_1_1src.html">nm::src</a></div><div class="ttdef"><b>Definition:</b> src.hpp:6</div></div>
-<div class="ttc" id="aclassnm_1_1tnchain_html"><div class="ttname"><a href="classnm_1_1tnchain.html">nm::tnchain&lt; std::string, node, tnmap&lt; std::string, node, immutableTactic &gt; &gt;</a></div></div>
-<div class="ttc" id="aclassnm_1_1tstr_html"><div class="ttname"><a href="classnm_1_1tstr.html">nm::tstr&lt; node &gt;</a></div></div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="classby_1_1origin.html#a0677eaaff5fceb681e56b5acb03ff7bd">   58</a></span>&#160;        nbool <a class="code" href="classby_1_1origin.html#a0677eaaff5fceb681e56b5acb03ff7bd">isComplete</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <a class="code" href="classby_1_1clonable.html">clonable</a>* clone() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <a class="code" href="classby_1_1clonable.html">clonable</a>* cloneDeep() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordtype">void</span> _setType(<span class="keyword">const</span> <a class="code" href="classby_1_1mgd_type.html">mgdType</a>&amp; new1) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordtype">void</span> _setSubPack(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; newSub);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordtype">void</span> _setSrc(<span class="keyword">const</span> <a class="code" href="classby_1_1src.html">src</a>&amp; s) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordtype">void</span> _setModifier(<span class="keyword">const</span> <a class="code" href="classby_1_1modifier.html">modifier</a>&amp; mod) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        me&amp; _assign(<span class="keyword">const</span> me&amp; rhs);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordtype">void</span> _runCallComplete();</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <a class="code" href="classby_1_1mgd_type.html">mgdType</a> _type; <span class="comment">// TODO: memory leak</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> _subpack;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr&lt;src&gt;</a> _src;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr&lt;modifier&gt;</a> _mod;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> _callComplete;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        state _state;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    };</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1base_obj_html"><div class="ttname"><a href="classby_1_1base_obj.html">by::baseObj</a></div><div class="ttdoc">baseObj handles frame injection event of all objects.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:20</div></div>
+<div class="ttc" id="aclassby_1_1clonable_html"><div class="ttname"><a href="classby_1_1clonable.html">by::clonable</a></div><div class="ttdef"><b>Definition:</b> clonable.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1expander_html"><div class="ttname"><a href="classby_1_1expander.html">by::expander</a></div><div class="ttdef"><b>Definition:</b> expander.hpp:8</div></div>
+<div class="ttc" id="aclassby_1_1expr_maker_html"><div class="ttname"><a href="classby_1_1expr_maker.html">by::exprMaker</a></div><div class="ttdef"><b>Definition:</b> exprMaker.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1generic_origin_html"><div class="ttname"><a href="classby_1_1generic_origin.html">by::genericOrigin</a></div><div class="ttdef"><b>Definition:</b> genericOrigin.hpp:10</div></div>
+<div class="ttc" id="aclassby_1_1mgd_type_html"><div class="ttname"><a href="classby_1_1mgd_type.html">by::mgdType</a></div><div class="ttdef"><b>Definition:</b> mgdType.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1modifier_html"><div class="ttname"><a href="classby_1_1modifier.html">by::modifier</a></div><div class="ttdef"><b>Definition:</b> modifier.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:26</div></div>
+<div class="ttc" id="aclassby_1_1ntype_html"><div class="ttname"><a href="classby_1_1ntype.html">by::ntype</a></div><div class="ttdef"><b>Definition:</b> ntype.hpp:14</div></div>
+<div class="ttc" id="aclassby_1_1obj_html"><div class="ttname"><a href="classby_1_1obj.html">by::obj</a></div><div class="ttdef"><b>Definition:</b> obj.hpp:16</div></div>
+<div class="ttc" id="aclassby_1_1origin_html"><div class="ttname"><a href="classby_1_1origin.html">by::origin</a></div><div class="ttdef"><b>Definition:</b> origin.hpp:22</div></div>
+<div class="ttc" id="aclassby_1_1origin_html_a0677eaaff5fceb681e56b5acb03ff7bd"><div class="ttname"><a href="classby_1_1origin.html#a0677eaaff5fceb681e56b5acb03ff7bd">by::origin::isComplete</a></div><div class="ttdeci">nbool isComplete() const override</div></div>
+<div class="ttc" id="aclassby_1_1parser_html"><div class="ttname"><a href="classby_1_1parser.html">by::parser</a></div><div class="ttdef"><b>Definition:</b> parser.hpp:38</div></div>
+<div class="ttc" id="aclassby_1_1slot_html"><div class="ttname"><a href="classby_1_1slot.html">by::slot</a></div><div class="ttdef"><b>Definition:</b> slot.hpp:11</div></div>
+<div class="ttc" id="aclassby_1_1src_html"><div class="ttname"><a href="classby_1_1src.html">by::src</a></div><div class="ttdef"><b>Definition:</b> src.hpp:6</div></div>
+<div class="ttc" id="aclassby_1_1tnchain_html"><div class="ttname"><a href="classby_1_1tnchain.html">by::tnchain&lt; std::string, node, tnmap&lt; std::string, node, immutableTactic &gt; &gt;</a></div></div>
+<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr&lt; node &gt;</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

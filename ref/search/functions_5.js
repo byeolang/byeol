@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['erase_866',['erase',['../classnm_1_1smultimap.html#ab6aef3f3d969f4537de4049176d44e48',1,'nm::smultimap']]]
+  ['erase_821',['erase',['../classby_1_1smultimap.html#ad04bcd2ad41339d5a7b49c5eb07aa9c0',1,'by::smultimap']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/core/ast/exprs/getGenericExpr.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/core/ast/exprs/getGenericExpr.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_81012edf5ad7491088324f5f1efbb7fa.html">core</a></li><li class="navelem"><a class="el" href="dir_8b7d6232d8bd9d190320bc3cd69b00fe.html">ast</a></li><li class="navelem"><a class="el" href="dir_d54a5f5a7b20f4267948b18d91d172b0.html">exprs</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_f02a41efdae0e7ff9c127dccb82ff885.html">core</a></li><li class="navelem"><a class="el" href="dir_20185808cdef5fb98fa910be37be0b14.html">ast</a></li><li class="navelem"><a class="el" href="dir_f97b04b201c96ccc6039b5c1dddea73e.html">exprs</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,31 +71,31 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;getExpr.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/ast/exprs/getExpr.hpp&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>nm {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">class </span>visitor;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">class </span>genericOrigin;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classnm_1_1get_generic_expr.html">   10</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1get_generic_expr.html">getGenericExpr</a>: <span class="keyword">public</span> <a class="code" href="classnm_1_1get_expr.html">getExpr</a> {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        NM(CLASS(<a class="code" href="classnm_1_1get_generic_expr.html">getGenericExpr</a>, <a class="code" href="classnm_1_1get_expr.html">getExpr</a>, <a class="code" href="classnm_1_1expr_1_1expr_type.html">expr::exprType</a>), VISIT())</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classnm_1_1verifier.html">verifier</a>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classby_1_1get_generic_expr.html">   10</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1get_generic_expr.html">getGenericExpr</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1get_expr.html">getExpr</a> {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1get_generic_expr.html">getGenericExpr</a>, <a class="code" href="classby_1_1get_expr.html">getExpr</a>, <a class="code" href="classby_1_1expr_1_1expr_type.html">expr::exprType</a>), VISIT())</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1verifier.html">verifier</a>;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="classnm_1_1get_generic_expr.html">getGenericExpr</a>(<span class="keyword">const</span> std::string&amp; genericName, <span class="keyword">const</span> <a class="code" href="classnm_1_1args.html">args</a>&amp; typeParams);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <a class="code" href="classnm_1_1get_generic_expr.html">getGenericExpr</a>(<span class="keyword">const</span> <a class="code" href="classnm_1_1node.html">node</a>&amp; me, <span class="keyword">const</span> std::string&amp; genericName, <span class="keyword">const</span> <a class="code" href="classnm_1_1args.html">args</a>&amp; typeParams);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="classby_1_1get_generic_expr.html">getGenericExpr</a>(<span class="keyword">const</span> std::string&amp; genericName, <span class="keyword">const</span> <a class="code" href="classby_1_1args.html">args</a>&amp; typeParams);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <a class="code" href="classby_1_1get_generic_expr.html">getGenericExpr</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; me, <span class="keyword">const</span> std::string&amp; genericName, <span class="keyword">const</span> <a class="code" href="classby_1_1args.html">args</a>&amp; typeParams);</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="classnm_1_1node.html">node</a>&amp; _onGet(<a class="code" href="classnm_1_1node.html">node</a>&amp; me) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="classby_1_1node.html">node</a>* _onGet(<a class="code" href="classby_1_1node.html">node</a>&amp; me) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    };</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
-<div class="ttc" id="aclassnm_1_1args_html"><div class="ttname"><a href="classnm_1_1args.html">nm::args</a></div><div class="ttdef"><b>Definition:</b> args.hpp:8</div></div>
-<div class="ttc" id="aclassnm_1_1expr_1_1expr_type_html"><div class="ttname"><a href="classnm_1_1expr_1_1expr_type.html">nm::expr::exprType</a></div><div class="ttdef"><b>Definition:</b> expr.hpp:13</div></div>
-<div class="ttc" id="aclassnm_1_1get_expr_html"><div class="ttname"><a href="classnm_1_1get_expr.html">nm::getExpr</a></div><div class="ttdef"><b>Definition:</b> getExpr.hpp:11</div></div>
-<div class="ttc" id="aclassnm_1_1get_generic_expr_html"><div class="ttname"><a href="classnm_1_1get_generic_expr.html">nm::getGenericExpr</a></div><div class="ttdef"><b>Definition:</b> getGenericExpr.hpp:10</div></div>
-<div class="ttc" id="aclassnm_1_1node_html"><div class="ttname"><a href="classnm_1_1node.html">nm::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:24</div></div>
-<div class="ttc" id="aclassnm_1_1verifier_html"><div class="ttname"><a href="classnm_1_1verifier.html">nm::verifier</a></div><div class="ttdef"><b>Definition:</b> verifier.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1args_html"><div class="ttname"><a href="classby_1_1args.html">by::args</a></div><div class="ttdef"><b>Definition:</b> args.hpp:8</div></div>
+<div class="ttc" id="aclassby_1_1expr_1_1expr_type_html"><div class="ttname"><a href="classby_1_1expr_1_1expr_type.html">by::expr::exprType</a></div><div class="ttdef"><b>Definition:</b> expr.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1get_expr_html"><div class="ttname"><a href="classby_1_1get_expr.html">by::getExpr</a></div><div class="ttdef"><b>Definition:</b> getExpr.hpp:11</div></div>
+<div class="ttc" id="aclassby_1_1get_generic_expr_html"><div class="ttname"><a href="classby_1_1get_generic_expr.html">by::getGenericExpr</a></div><div class="ttdef"><b>Definition:</b> getGenericExpr.hpp:10</div></div>
+<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:26</div></div>
+<div class="ttc" id="aclassby_1_1verifier_html"><div class="ttname"><a href="classby_1_1verifier.html">by::verifier</a></div><div class="ttdef"><b>Definition:</b> verifier.hpp:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

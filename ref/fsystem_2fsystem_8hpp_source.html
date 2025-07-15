@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/indep/fsystem/fsystem.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/indep/fsystem/fsystem.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_17e8a8c1b3357b494ba7d0ba9b0a9eb4.html">indep</a></li><li class="navelem"><a class="el" href="dir_7d4b29f215bf0afe967adf97e97c50a5.html">fsystem</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_818aeb8647622460f3ac0607db2e8325.html">indep</a></li><li class="navelem"><a class="el" href="dir_33be1e5ac3d5d903e2e443714b032a43.html">fsystem</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,9 +71,9 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;../common.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;../macro.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifdef NM_BUILD_PLATFORM_IS_WINDOWS</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;indep/common.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;indep/macro.hpp&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifdef BY_BUILD_PLATFORM_IS_WINDOWS</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#    include &lt;direct.h&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#    include &lt;io.h&gt;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#    define getcwd _getcwd</span></div>
@@ -83,13 +83,13 @@ $(function() {
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span>nm {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span>by {</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classnm_1_1fsystem.html">   19</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1fsystem.html">fsystem</a> {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        NM(ME(<a class="code" href="classnm_1_1fsystem.html">fsystem</a>))</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classby_1_1fsystem.html">   19</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1fsystem.html">fsystem</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        BY(ME(<a class="code" href="classby_1_1fsystem.html">fsystem</a>))</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">struct </span>entry {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#ifdef NM_BUILD_PLATFORM_IS_WINDOWS</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#ifdef BY_BUILD_PLATFORM_IS_WINDOWS</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            _finddata_t file;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            intptr_t dir;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#else</span></div>
@@ -101,8 +101,8 @@ $(function() {
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keyword">typedef</span> std::vector&lt;entry&gt; entries;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">class </span>_nout iterator {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            NM(ME(iterator))</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classnm_1_1fsystem.html">fsystem</a>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            BY(ME(iterator))</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1fsystem.html">fsystem</a>;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            iterator(<span class="keyword">const</span> std::string&amp; path);</div>
@@ -138,8 +138,8 @@ $(function() {
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">static</span> std::string getCurrentDir();</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> std::string&amp; getDelimiter();</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    };</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;} <span class="comment">// namespace nm</span></div>
-<div class="ttc" id="aclassnm_1_1fsystem_html"><div class="ttname"><a href="classnm_1_1fsystem.html">nm::fsystem</a></div><div class="ttdef"><b>Definition:</b> fsystem.hpp:19</div></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1fsystem_html"><div class="ttname"><a href="classby_1_1fsystem.html">by::fsystem</a></div><div class="ttdef"><b>Definition:</b> fsystem.hpp:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

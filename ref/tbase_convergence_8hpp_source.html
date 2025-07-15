@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/core/worker/visitor/expander/convergence/tbaseConvergence.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/core/worker/visitor/expander/convergence/tbaseConvergence.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_81012edf5ad7491088324f5f1efbb7fa.html">core</a></li><li class="navelem"><a class="el" href="dir_d14968da0b93f6e304e27fa3fb70b353.html">worker</a></li><li class="navelem"><a class="el" href="dir_41cc085b77c3a70d757f3328c4c43c90.html">visitor</a></li><li class="navelem"><a class="el" href="dir_b6d61fee677394f08a82967af5c3bea2.html">expander</a></li><li class="navelem"><a class="el" href="dir_f86680a11a7ee6d8dd98e7836c8fd71a.html">convergence</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_f02a41efdae0e7ff9c127dccb82ff885.html">core</a></li><li class="navelem"><a class="el" href="dir_21a49e0699d510e74fef5869a7335696.html">worker</a></li><li class="navelem"><a class="el" href="dir_438f5fcb64d58d8fef6e610aa76399ca.html">visitor</a></li><li class="navelem"><a class="el" href="dir_53526e983ea96fa310a7e51c90800ff9.html">expander</a></li><li class="navelem"><a class="el" href="dir_32b798ddccec4cd134a22f7ae408dcbb.html">convergence</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,70 +71,68 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;../../../../ast/baseObj.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;../../../../ast/baseFunc.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;../../../../frame/frameInteract.hpp&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;baseConvergence.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/ast/baseObj.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;core/ast/baseFunc.hpp&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;core/frame/frameInteract.hpp&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;core/worker/visitor/expander/convergence/baseConvergence.hpp&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>nm {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>by {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="structnm_1_1_convergence_closure.html">   10</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct </span><a class="code" href="structnm_1_1_convergence_closure.html">ConvergenceClosure</a> {</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="structby_1_1_convergence_closure.html">   10</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct </span><a class="code" href="structby_1_1_convergence_closure.html">ConvergenceClosure</a> {</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keyword">typedef</span> std::function&lt;nbool(<span class="keyword">const</span> T&amp;)&gt; is;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    };</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="structnm_1_1_convergence_closure_3_01void_01_4.html">   14</a></span>&#160;    <span class="keyword">template</span> &lt;&gt; <span class="keyword">struct </span><a class="code" href="structnm_1_1_convergence_closure.html">ConvergenceClosure</a>&lt;void&gt; {</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="structby_1_1_convergence_closure_3_01void_01_4.html">   14</a></span>&#160;    <span class="keyword">template</span> &lt;&gt; <span class="keyword">struct </span><a class="code" href="structby_1_1_convergence_closure.html">ConvergenceClosure</a>&lt;void&gt; {</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keyword">typedef</span> std::function&lt;nbool()&gt; is;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    };</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classnm_1_1tbase_convergence.html">   18</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">class </span><a class="code" href="classnm_1_1tbase_convergence.html">tbaseConvergence</a>: <span class="keyword">public</span> <a class="code" href="classnm_1_1base_convergence.html">baseConvergence</a> {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        NM(ADT(<a class="code" href="classnm_1_1tbase_convergence.html">tbaseConvergence</a>, <a class="code" href="classnm_1_1base_convergence.html">baseConvergence</a>))</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classby_1_1tbase_convergence.html">   18</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">class </span><a class="code" href="classby_1_1tbase_convergence.html">tbaseConvergence</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1base_convergence.html">baseConvergence</a> {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        BY(ADT(<a class="code" href="classby_1_1tbase_convergence.html">tbaseConvergence</a>, <a class="code" href="classby_1_1base_convergence.html">baseConvergence</a>))</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">protected</span>:</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">using</span> onConverge = <span class="keyword">typename</span> ConvergenceClosure&lt;T&gt;::is;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="classnm_1_1tbase_convergence.html">tbaseConvergence</a>(<a class="code" href="classnm_1_1base_obj.html">baseObj</a>&amp; <a class="code" href="classnm_1_1obj.html">obj</a>, <a class="code" href="classnm_1_1base_func.html">baseFunc</a>&amp; <a class="code" href="classnm_1_1func.html">func</a>, onConverge <a class="code" href="classnm_1_1closure.html">closure</a>):</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            _obj(<a class="code" href="classnm_1_1obj.html">obj</a>), _func(<a class="code" href="classnm_1_1func.html">func</a>), _onConverge(<a class="code" href="classnm_1_1closure.html">closure</a>) {}</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="classby_1_1tbase_convergence.html">tbaseConvergence</a>(<a class="code" href="classby_1_1base_obj.html">baseObj</a>&amp; <a class="code" href="classby_1_1obj.html">obj</a>, <a class="code" href="classby_1_1base_func.html">baseFunc</a>&amp; <a class="code" href="classby_1_1func.html">func</a>, onConverge <a class="code" href="classby_1_1closure.html">closure</a>):</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            _obj(<a class="code" href="classby_1_1obj.html">obj</a>), _func(<a class="code" href="classby_1_1func.html">func</a>), _onConverge(<a class="code" href="classby_1_1closure.html">closure</a>) {}</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classnm_1_1tbase_convergence.html#ae193202f67285a56643fbff5f58d2c8c">   43</a></span>&#160;        nbool <a class="code" href="classnm_1_1tbase_convergence.html#ae193202f67285a56643fbff5f58d2c8c">converge</a>()<span class="keyword"> override </span>{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keywordflow">if</span>(!_obj) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <a class="code" href="classnm_1_1base_func.html">baseFunc</a>&amp; fun = *_func orRet <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classby_1_1tbase_convergence.html#a05419a357daf3f8601475b4f47ee07a4">   43</a></span>&#160;        nbool <a class="code" href="classby_1_1tbase_convergence.html#a05419a357daf3f8601475b4f47ee07a4">converge</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            WHEN(!_obj) .ret(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <a class="code" href="classby_1_1base_func.html">baseFunc</a>&amp; fun = _func OR.ret(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <a class="code" href="classnm_1_1frame_interact.html">frameInteract</a> objScope(*_obj);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <a class="code" href="classnm_1_1frame_interact.html">frameInteract</a> funScope(fun);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                { <span class="keywordflow">return</span> convergeWithoutFrame(); }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <a class="code" href="classby_1_1frame_interact.html">frameInteract</a> objScope(*_obj);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <a class="code" href="classby_1_1frame_interact.html">frameInteract</a> funScope(fun);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">return</span> convergeWithoutFrame();</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="classby_1_1base_func.html">baseFunc</a>&amp; getFunc() { <span class="keywordflow">return</span> *_func; }</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="classnm_1_1base_func.html">baseFunc</a>&amp; getFunc() { <span class="keywordflow">return</span> *_func; }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">const</span> baseFunc&amp; getFunc() const BY_CONST_FUNC(getFunc());</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">const</span> baseFunc&amp; getFunc() const NM_CONST_FUNC(getFunc());</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        baseObj&amp; getObj() { <span class="keywordflow">return</span> *_obj; }</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        baseObj&amp; getObj() { <span class="keywordflow">return</span> *_obj; }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">const</span> baseObj&amp; getObj() const BY_CONST_FUNC(getObj());</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keyword">const</span> baseObj&amp; getObj() const NM_CONST_FUNC(getObj());</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    protected:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        onConverge _getClosure() { <span class="keywordflow">return</span> _onConverge; }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        tstr&lt;baseObj&gt; _obj;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        tstr&lt;baseFunc&gt; _func;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        onConverge _onConverge;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    };</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;} <span class="comment">// namespace nm</span></div>
-<div class="ttc" id="aclassnm_1_1base_convergence_html"><div class="ttname"><a href="classnm_1_1base_convergence.html">nm::baseConvergence</a></div><div class="ttdef"><b>Definition:</b> baseConvergence.hpp:6</div></div>
-<div class="ttc" id="aclassnm_1_1base_func_html"><div class="ttname"><a href="classnm_1_1base_func.html">nm::baseFunc</a></div><div class="ttdef"><b>Definition:</b> baseFunc.hpp:13</div></div>
-<div class="ttc" id="aclassnm_1_1base_obj_html"><div class="ttname"><a href="classnm_1_1base_obj.html">nm::baseObj</a></div><div class="ttdoc">baseObj handles frame injection event of all objects.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:20</div></div>
-<div class="ttc" id="aclassnm_1_1closure_html"><div class="ttname"><a href="classnm_1_1closure.html">nm::closure</a></div><div class="ttdef"><b>Definition:</b> closure.hpp:16</div></div>
-<div class="ttc" id="aclassnm_1_1frame_interact_html"><div class="ttname"><a href="classnm_1_1frame_interact.html">nm::frameInteract</a></div><div class="ttdef"><b>Definition:</b> frameInteract.hpp:7</div></div>
-<div class="ttc" id="aclassnm_1_1func_html"><div class="ttname"><a href="classnm_1_1func.html">nm::func</a></div><div class="ttdef"><b>Definition:</b> func.hpp:14</div></div>
-<div class="ttc" id="aclassnm_1_1obj_html"><div class="ttname"><a href="classnm_1_1obj.html">nm::obj</a></div><div class="ttdef"><b>Definition:</b> obj.hpp:16</div></div>
-<div class="ttc" id="aclassnm_1_1tbase_convergence_html"><div class="ttname"><a href="classnm_1_1tbase_convergence.html">nm::tbaseConvergence</a></div><div class="ttdef"><b>Definition:</b> tbaseConvergence.hpp:18</div></div>
-<div class="ttc" id="aclassnm_1_1tbase_convergence_html_ae193202f67285a56643fbff5f58d2c8c"><div class="ttname"><a href="classnm_1_1tbase_convergence.html#ae193202f67285a56643fbff5f58d2c8c">nm::tbaseConvergence::converge</a></div><div class="ttdeci">nbool converge() override</div><div class="ttdef"><b>Definition:</b> tbaseConvergence.hpp:43</div></div>
-<div class="ttc" id="astructnm_1_1_convergence_closure_html"><div class="ttname"><a href="structnm_1_1_convergence_closure.html">nm::ConvergenceClosure</a></div><div class="ttdef"><b>Definition:</b> tbaseConvergence.hpp:10</div></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    protected:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        onConverge _getClosure() { <span class="keywordflow">return</span> _onConverge; }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        tstr&lt;baseObj&gt; _obj;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        tstr&lt;baseFunc&gt; _func;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        onConverge _onConverge;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    };</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1base_convergence_html"><div class="ttname"><a href="classby_1_1base_convergence.html">by::baseConvergence</a></div><div class="ttdef"><b>Definition:</b> baseConvergence.hpp:6</div></div>
+<div class="ttc" id="aclassby_1_1base_func_html"><div class="ttname"><a href="classby_1_1base_func.html">by::baseFunc</a></div><div class="ttdef"><b>Definition:</b> baseFunc.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1base_obj_html"><div class="ttname"><a href="classby_1_1base_obj.html">by::baseObj</a></div><div class="ttdoc">baseObj handles frame injection event of all objects.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:20</div></div>
+<div class="ttc" id="aclassby_1_1closure_html"><div class="ttname"><a href="classby_1_1closure.html">by::closure</a></div><div class="ttdef"><b>Definition:</b> closure.hpp:16</div></div>
+<div class="ttc" id="aclassby_1_1frame_interact_html"><div class="ttname"><a href="classby_1_1frame_interact.html">by::frameInteract</a></div><div class="ttdef"><b>Definition:</b> frameInteract.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1func_html"><div class="ttname"><a href="classby_1_1func.html">by::func</a></div><div class="ttdef"><b>Definition:</b> func.hpp:14</div></div>
+<div class="ttc" id="aclassby_1_1obj_html"><div class="ttname"><a href="classby_1_1obj.html">by::obj</a></div><div class="ttdef"><b>Definition:</b> obj.hpp:16</div></div>
+<div class="ttc" id="aclassby_1_1tbase_convergence_html"><div class="ttname"><a href="classby_1_1tbase_convergence.html">by::tbaseConvergence</a></div><div class="ttdef"><b>Definition:</b> tbaseConvergence.hpp:18</div></div>
+<div class="ttc" id="aclassby_1_1tbase_convergence_html_a05419a357daf3f8601475b4f47ee07a4"><div class="ttname"><a href="classby_1_1tbase_convergence.html#a05419a357daf3f8601475b4f47ee07a4">by::tbaseConvergence::converge</a></div><div class="ttdeci">nbool converge() override</div><div class="ttdef"><b>Definition:</b> tbaseConvergence.hpp:43</div></div>
+<div class="ttc" id="astructby_1_1_convergence_closure_html"><div class="ttname"><a href="structby_1_1_convergence_closure.html">by::ConvergenceClosure</a></div><div class="ttdef"><b>Definition:</b> tbaseConvergence.hpp:10</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

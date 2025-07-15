@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/memlite/interface/instance.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/memlite/interface/instance.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_183e3a1c910cc57bcb9096081cc20a5a.html">memlite</a></li><li class="navelem"><a class="el" href="dir_5c4e1601eff50262608390cb20c46572.html">interface</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_e39e4133821777546482751fa01c4845.html">memlite</a></li><li class="navelem"><a class="el" href="dir_a260c3e0cc974c313833ddba13ca3728.html">interface</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -73,27 +73,27 @@ $(function() {
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;clonable.hpp&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;id.hpp&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;memlite/interface/clonable.hpp&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;memlite/interface/id.hpp&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">struct </span>namuTest;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">struct </span>byeolTest;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>nm {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>by {</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">class </span>bindTag;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">class </span>instancer;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classnm_1_1instance.html">   15</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1instance.html">instance</a>: <span class="keyword">public</span> <a class="code" href="classnm_1_1type_providable.html">typeProvidable</a>, <span class="keyword">public</span> <a class="code" href="classnm_1_1clonable.html">clonable</a> {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        NM_ME(<a class="code" href="classnm_1_1instance.html">instance</a>)</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        NM_INIT_META(me)</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classnm_1_1bind_tag.html">bindTag</a>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classnm_1_1watcher.html">watcher</a>;     <span class="comment">// for vault.</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classnm_1_1chunks.html">chunks</a>;      <span class="comment">// for vault.</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classnm_1_1instancer.html">instancer</a>;   <span class="comment">// for _id.</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">friend</span> struct ::namuTest; <span class="comment">// for vault.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classby_1_1instance.html">   15</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1instance.html">instance</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1type_providable.html">typeProvidable</a>, <span class="keyword">public</span> <a class="code" href="classby_1_1clonable.html">clonable</a> {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        BY_ME(<a class="code" href="classby_1_1instance.html">instance</a>)</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        BY_INIT_META(me)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1bind_tag.html">bindTag</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1watcher.html">watcher</a>;      <span class="comment">// for vault.</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1chunks.html">chunks</a>;       <span class="comment">// for vault.</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1instancer.html">instancer</a>;    <span class="comment">// for _id.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">friend</span> struct ::byeolTest; <span class="comment">// for vault.</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classnm_1_1instance_1_1vault.html">   25</a></span>&#160;        <span class="keyword">class </span><a class="code" href="classnm_1_1instance_1_1vault.html">vault</a> {</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classby_1_1instance_1_1vault.html">   25</a></span>&#160;        <span class="keyword">class </span><a class="code" href="classby_1_1instance_1_1vault.html">vault</a> {</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="keywordtype">void</span> set(<span class="keywordtype">void</span>* ptr, nidx chkN);</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            nidx get(<span class="keywordtype">void</span>* ptr);</div>
@@ -106,38 +106,39 @@ $(function() {
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        };</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="comment">//  instance:</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <a class="code" href="classnm_1_1instance.html">instance</a>();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classnm_1_1instance.html">instance</a>(<span class="keywordtype">id</span> newId);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <a class="code" href="classnm_1_1instance.html">instance</a>(<span class="keyword">const</span> me&amp; rhs);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classnm_1_1instance.html">instance</a>();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <a class="code" href="classby_1_1instance.html">instance</a>();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classby_1_1instance.html">instance</a>(<span class="keywordtype">id</span> newId);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <a class="code" href="classby_1_1instance.html">instance</a>(<span class="keyword">const</span> me&amp; rhs);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classby_1_1instance.html">instance</a>();</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordtype">void</span>* <span class="keyword">operator</span> <span class="keyword">new</span>(<span class="keywordtype">size_t</span> sz) noexcept;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">void</span> <span class="keyword">operator</span> <span class="keyword">delete</span>(<span class="keywordtype">void</span>* pt, <span class="keywordtype">size_t</span> sz) noexcept;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">id</span> getId() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">virtual</span> nbool isHeap() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">const</span> <a class="code" href="classnm_1_1bind_tag.html">bindTag</a>&amp; getBindTag() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="comment">//  instance:</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        nbool _setId(<span class="keywordtype">id</span> new1);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">static</span> <a class="code" href="classnm_1_1instancer.html">instancer</a>&amp; _getMgr();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">id</span> _id;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keyword">static</span> <a class="code" href="classnm_1_1instance_1_1vault.html">vault</a> _vault;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    };</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;} <span class="comment">// namespace nm</span></div>
-<div class="ttc" id="aclassnm_1_1bind_tag_html"><div class="ttname"><a href="classnm_1_1bind_tag.html">nm::bindTag</a></div><div class="ttdef"><b>Definition:</b> bindTag.hpp:10</div></div>
-<div class="ttc" id="aclassnm_1_1chunks_html"><div class="ttname"><a href="classnm_1_1chunks.html">nm::chunks</a></div><div class="ttdef"><b>Definition:</b> chunks.hpp:7</div></div>
-<div class="ttc" id="aclassnm_1_1clonable_html"><div class="ttname"><a href="classnm_1_1clonable.html">nm::clonable</a></div><div class="ttdef"><b>Definition:</b> clonable.hpp:7</div></div>
-<div class="ttc" id="aclassnm_1_1instance_1_1vault_html"><div class="ttname"><a href="classnm_1_1instance_1_1vault.html">nm::instance::vault</a></div><div class="ttdef"><b>Definition:</b> instance.hpp:25</div></div>
-<div class="ttc" id="aclassnm_1_1instance_html"><div class="ttname"><a href="classnm_1_1instance.html">nm::instance</a></div><div class="ttdef"><b>Definition:</b> instance.hpp:15</div></div>
-<div class="ttc" id="aclassnm_1_1instancer_html"><div class="ttname"><a href="classnm_1_1instancer.html">nm::instancer</a></div><div class="ttdef"><b>Definition:</b> instancer.hpp:8</div></div>
-<div class="ttc" id="aclassnm_1_1type_providable_html"><div class="ttname"><a href="classnm_1_1type_providable.html">nm::typeProvidable</a></div><div class="ttdef"><b>Definition:</b> typeProvidable.hpp:7</div></div>
-<div class="ttc" id="aclassnm_1_1watcher_html"><div class="ttname"><a href="classnm_1_1watcher.html">nm::watcher</a></div><div class="ttdef"><b>Definition:</b> watcher.hpp:8</div></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        me&amp; operator=(<span class="keyword">const</span> me&amp; rhs) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">void</span>* <span class="keyword">operator</span> <span class="keyword">new</span>(<span class="keywordtype">size_t</span> sz) noexcept;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">void</span> <span class="keyword">operator</span> <span class="keyword">delete</span>(<span class="keywordtype">void</span>* pt, <span class="keywordtype">size_t</span> sz) noexcept;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">id</span> getId() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">virtual</span> nbool isHeap() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1bind_tag.html">bindTag</a>* getBindTag() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment">//  instance:</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        nbool _setId(<span class="keywordtype">id</span> new1);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">static</span> <a class="code" href="classby_1_1instancer.html">instancer</a>* _getMgr();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">id</span> _id;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keyword">static</span> <a class="code" href="classby_1_1instance_1_1vault.html">vault</a> _vault;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    };</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1bind_tag_html"><div class="ttname"><a href="classby_1_1bind_tag.html">by::bindTag</a></div><div class="ttdef"><b>Definition:</b> bindTag.hpp:10</div></div>
+<div class="ttc" id="aclassby_1_1chunks_html"><div class="ttname"><a href="classby_1_1chunks.html">by::chunks</a></div><div class="ttdef"><b>Definition:</b> chunks.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1clonable_html"><div class="ttname"><a href="classby_1_1clonable.html">by::clonable</a></div><div class="ttdef"><b>Definition:</b> clonable.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1instance_1_1vault_html"><div class="ttname"><a href="classby_1_1instance_1_1vault.html">by::instance::vault</a></div><div class="ttdef"><b>Definition:</b> instance.hpp:25</div></div>
+<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdef"><b>Definition:</b> instance.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1instancer_html"><div class="ttname"><a href="classby_1_1instancer.html">by::instancer</a></div><div class="ttdef"><b>Definition:</b> instancer.hpp:8</div></div>
+<div class="ttc" id="aclassby_1_1type_providable_html"><div class="ttname"><a href="classby_1_1type_providable.html">by::typeProvidable</a></div><div class="ttdef"><b>Definition:</b> typeProvidable.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1watcher_html"><div class="ttname"><a href="classby_1_1watcher.html">by::watcher</a></div><div class="ttdef"><b>Definition:</b> watcher.hpp:8</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

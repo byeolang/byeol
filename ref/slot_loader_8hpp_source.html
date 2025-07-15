@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/core/loader/slot/slotLoader.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/core/loader/slot/slotLoader.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_81012edf5ad7491088324f5f1efbb7fa.html">core</a></li><li class="navelem"><a class="el" href="dir_a78d4a8d33b1a8b18fa67f3db22d7e2c.html">loader</a></li><li class="navelem"><a class="el" href="dir_08d5ad95ea60bcf6f113ba4a2d46eee2.html">slot</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_f02a41efdae0e7ff9c127dccb82ff885.html">core</a></li><li class="navelem"><a class="el" href="dir_86c30f0a64a168a1af9f3029be2612c1.html">loader</a></li><li class="navelem"><a class="el" href="dir_30bbc4b1a797668f0439e6b13385270b.html">slot</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,57 +71,58 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;../../ast/slot.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/ast/slot.hpp&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>nm {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">class </span>errReport;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">class </span>packLoading;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">typedef</span> std::vector&lt;packLoading*&gt; packLoadings;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classnm_1_1slot_loader.html">   11</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1slot_loader.html">slotLoader</a>: <span class="keyword">public</span> <a class="code" href="classnm_1_1type_providable.html">typeProvidable</a>, <span class="keyword">public</span> <a class="code" href="classnm_1_1clonable.html">clonable</a> {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        NM(CLASS(<a class="code" href="classnm_1_1slot_loader.html">slotLoader</a>))</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classby_1_1slot_loader.html">   11</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1slot_loader.html">slotLoader</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1type_providable.html">typeProvidable</a>, <span class="keyword">public</span> <a class="code" href="classby_1_1clonable.html">clonable</a> {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1slot_loader.html">slotLoader</a>))</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="classnm_1_1slot_loader.html">slotLoader</a>();</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="classby_1_1slot_loader.html">slotLoader</a>();</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        me&amp; addPath(<span class="keyword">const</span> std::string&amp; filePath);</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        me&amp; addPath(<span class="keyword">const</span> std::vector&lt;std::string&gt; paths);</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        me&amp; addPath(std::initializer_list&lt;const nchar*&gt; paths);</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        me&amp; addRelativePath(<span class="keyword">const</span> std::string&amp; path);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        me&amp; setBaseSlots(<a class="code" href="classnm_1_1tnmap.html">nmap</a>&amp; s);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        me&amp; setReport(<a class="code" href="classnm_1_1err_report.html">errReport</a>&amp; report);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordtype">void</span> load();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordtype">void</span> _makeSlots(<a class="code" href="classnm_1_1tnmap.html">nmap</a>&amp; tray);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">void</span> _addNewSlot(<a class="code" href="classnm_1_1tnmap.html">nmap</a>&amp; tray, <span class="keyword">const</span> std::string&amp; dirPath, <span class="keyword">const</span> std::string&amp; manifestName);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordtype">void</span> _logSlot(<span class="keyword">const</span> <a class="code" href="classnm_1_1slot.html">slot</a>&amp; pak) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="structnm_1_1manifest.html">manifest</a> _interpManifest(<span class="keyword">const</span> std::string&amp; dir, <span class="keyword">const</span> std::string&amp; manPath) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <a class="code" href="classnm_1_1pack_loading.html">packLoading</a>* _makeLoading(<span class="keyword">const</span> std::string&amp; name) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">const</span> packLoadings&amp; _getLoadings() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <a class="code" href="classnm_1_1tstr.html">tstr&lt;errReport&gt;</a> _report;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <a class="code" href="classnm_1_1tstr.html">tstr&lt;nmap&gt;</a> _slots;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        std::vector&lt;std::string&gt; _paths;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keyword">static</span> constexpr nchar DELIMITER = <span class="charliteral">&#39;/&#39;</span>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    };</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;} <span class="comment">// namespace nm</span></div>
-<div class="ttc" id="aclassnm_1_1clonable_html"><div class="ttname"><a href="classnm_1_1clonable.html">nm::clonable</a></div><div class="ttdef"><b>Definition:</b> clonable.hpp:7</div></div>
-<div class="ttc" id="aclassnm_1_1err_report_html"><div class="ttname"><a href="classnm_1_1err_report.html">nm::errReport</a></div><div class="ttdef"><b>Definition:</b> errReport.hpp:10</div></div>
-<div class="ttc" id="aclassnm_1_1pack_loading_html"><div class="ttname"><a href="classnm_1_1pack_loading.html">nm::packLoading</a></div><div class="ttdef"><b>Definition:</b> packLoading.hpp:14</div></div>
-<div class="ttc" id="aclassnm_1_1slot_html"><div class="ttname"><a href="classnm_1_1slot.html">nm::slot</a></div><div class="ttdef"><b>Definition:</b> slot.hpp:11</div></div>
-<div class="ttc" id="aclassnm_1_1slot_loader_html"><div class="ttname"><a href="classnm_1_1slot_loader.html">nm::slotLoader</a></div><div class="ttdef"><b>Definition:</b> slotLoader.hpp:11</div></div>
-<div class="ttc" id="aclassnm_1_1tnmap_html"><div class="ttname"><a href="classnm_1_1tnmap.html">nm::tnmap</a></div><div class="ttdef"><b>Definition:</b> tnmap.hpp:12</div></div>
-<div class="ttc" id="aclassnm_1_1tstr_html"><div class="ttname"><a href="classnm_1_1tstr.html">nm::tstr</a></div><div class="ttdef"><b>Definition:</b> tstr.hpp:8</div></div>
-<div class="ttc" id="aclassnm_1_1type_providable_html"><div class="ttname"><a href="classnm_1_1type_providable.html">nm::typeProvidable</a></div><div class="ttdef"><b>Definition:</b> typeProvidable.hpp:7</div></div>
-<div class="ttc" id="astructnm_1_1manifest_html"><div class="ttname"><a href="structnm_1_1manifest.html">nm::manifest</a></div><div class="ttdef"><b>Definition:</b> manifest.hpp:22</div></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        me&amp; setBaseSlots(<a class="code" href="classby_1_1tnmap.html">nmap</a>&amp; s);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        me&amp; setBaseSlots(<a class="code" href="classby_1_1tnmap.html">nmap</a>* it) BY_SIDE_FUNC(it, setBaseSlots(*it), *<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        me&amp; setReport(<a class="code" href="classby_1_1err_report.html">errReport</a>&amp; report);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keywordtype">void</span> load();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">void</span> _makeSlots(<a class="code" href="classby_1_1tnmap.html">nmap</a>&amp; tray);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordtype">void</span> _addNewSlot(<a class="code" href="classby_1_1tnmap.html">nmap</a>&amp; tray, <span class="keyword">const</span> std::string&amp; dirPath, <span class="keyword">const</span> std::string&amp; manifestName);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">void</span> _logSlot(<span class="keyword">const</span> <a class="code" href="classby_1_1slot.html">slot</a>&amp; pak) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <a class="code" href="structby_1_1manifest.html">manifest</a> _interpManifest(<span class="keyword">const</span> std::string&amp; dir, <span class="keyword">const</span> std::string&amp; manPath) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <a class="code" href="classby_1_1pack_loading.html">packLoading</a>* _makeLoading(<span class="keyword">const</span> std::string&amp; name) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">const</span> packLoadings&amp; _getLoadings() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr&lt;errReport&gt;</a> _report;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr&lt;nmap&gt;</a> _slots;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        std::vector&lt;std::string&gt; _paths;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">static</span> constexpr nchar DELIMITER = <span class="charliteral">&#39;/&#39;</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    };</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1clonable_html"><div class="ttname"><a href="classby_1_1clonable.html">by::clonable</a></div><div class="ttdef"><b>Definition:</b> clonable.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1err_report_html"><div class="ttname"><a href="classby_1_1err_report.html">by::errReport</a></div><div class="ttdef"><b>Definition:</b> errReport.hpp:9</div></div>
+<div class="ttc" id="aclassby_1_1pack_loading_html"><div class="ttname"><a href="classby_1_1pack_loading.html">by::packLoading</a></div><div class="ttdef"><b>Definition:</b> packLoading.hpp:14</div></div>
+<div class="ttc" id="aclassby_1_1slot_html"><div class="ttname"><a href="classby_1_1slot.html">by::slot</a></div><div class="ttdef"><b>Definition:</b> slot.hpp:11</div></div>
+<div class="ttc" id="aclassby_1_1slot_loader_html"><div class="ttname"><a href="classby_1_1slot_loader.html">by::slotLoader</a></div><div class="ttdef"><b>Definition:</b> slotLoader.hpp:11</div></div>
+<div class="ttc" id="aclassby_1_1tnmap_html"><div class="ttname"><a href="classby_1_1tnmap.html">by::tnmap</a></div><div class="ttdef"><b>Definition:</b> tnmap.hpp:10</div></div>
+<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr</a></div><div class="ttdef"><b>Definition:</b> tstr.hpp:8</div></div>
+<div class="ttc" id="aclassby_1_1type_providable_html"><div class="ttname"><a href="classby_1_1type_providable.html">by::typeProvidable</a></div><div class="ttdef"><b>Definition:</b> typeProvidable.hpp:7</div></div>
+<div class="ttc" id="astructby_1_1manifest_html"><div class="ttname"><a href="structby_1_1manifest.html">by::manifest</a></div><div class="ttdef"><b>Definition:</b> manifest.hpp:22</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

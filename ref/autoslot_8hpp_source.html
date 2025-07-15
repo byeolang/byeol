@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/core/ast/autoslot.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/core/ast/autoslot.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_81012edf5ad7491088324f5f1efbb7fa.html">core</a></li><li class="navelem"><a class="el" href="dir_8b7d6232d8bd9d190320bc3cd69b00fe.html">ast</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_f02a41efdae0e7ff9c127dccb82ff885.html">core</a></li><li class="navelem"><a class="el" href="dir_20185808cdef5fb98fa910be37be0b14.html">ast</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,60 +71,63 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;../loader/pack/packLoading.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;../loader/pack/packMakable.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;statable.hpp&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;scope.hpp&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;slot.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/loader/pack/packLoading.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;core/loader/pack/packMakable.hpp&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;core/ast/statable.hpp&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;core/ast/scope.hpp&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;core/ast/slot.hpp&quot;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>nm {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>by {</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">class </span>visitor;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classnm_1_1autoslot.html">   13</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1autoslot.html">autoslot</a>: <span class="keyword">public</span> <a class="code" href="classnm_1_1slot.html">slot</a>, <span class="keyword">public</span> <a class="code" href="classnm_1_1pack_makable.html">packMakable</a>, <span class="keyword">public</span> <a class="code" href="classnm_1_1statable.html">statable</a> {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        NM(CLASS(<a class="code" href="classnm_1_1autoslot.html">autoslot</a>, <a class="code" href="classnm_1_1slot.html">slot</a>), VISIT())</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classby_1_1autoslot.html">   13</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1autoslot.html">autoslot</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1slot.html">slot</a>, <span class="keyword">public</span> <a class="code" href="classby_1_1pack_makable.html">packMakable</a>, <span class="keyword">public</span> <a class="code" href="classby_1_1statable.html">statable</a> {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1autoslot.html">autoslot</a>, <a class="code" href="classby_1_1slot.html">slot</a>), VISIT())</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="classnm_1_1autoslot.html">autoslot</a>(<span class="keyword">const</span> <a class="code" href="structnm_1_1manifest.html">manifest</a>&amp; <a class="code" href="structnm_1_1manifest.html">manifest</a>, <span class="keyword">const</span> packLoadings&amp; loadingsInHeap);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        ~<a class="code" href="classnm_1_1autoslot.html">autoslot</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        state getState() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordtype">void</span> setState(state new1) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <a class="code" href="classby_1_1autoslot.html">autoslot</a>(<span class="keyword">const</span> <a class="code" href="structby_1_1manifest.html">manifest</a>&amp; <a class="code" href="structby_1_1manifest.html">manifest</a>, <span class="keyword">const</span> packLoadings&amp; loadingsInHeap);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        ~<a class="code" href="classby_1_1autoslot.html">autoslot</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        state getState() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordtype">void</span> setState(state new1) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keyword">using</span> super::getPack;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="classnm_1_1obj.html">obj</a>&amp; getPack() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classnm_1_1autoslot.html#a43c15dba55d0d59c4fd3a6d5d3677386">   26</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classnm_1_1autoslot.html#a43c15dba55d0d59c4fd3a6d5d3677386">rel</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classnm_1_1autoslot.html#a393bf57d1027583a6ca75c1d9e99124c">   34</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classnm_1_1autoslot.html#a393bf57d1027583a6ca75c1d9e99124c">setReport</a>(<a class="code" href="classnm_1_1err_report.html">errReport</a>&amp; rpt);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        nbool _invalidate() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="classby_1_1obj.html">obj</a>&amp; getPack() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classby_1_1autoslot.html#a1144881a1256d6fd289636d07f92caba">   27</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classby_1_1autoslot.html#a1144881a1256d6fd289636d07f92caba">rel</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classby_1_1autoslot.html#aa4ac999ca868249c5d7322f054a1744b">   36</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classby_1_1autoslot.html#aa4ac999ca868249c5d7322f054a1744b">setReport</a>(<a class="code" href="classby_1_1err_report.html">errReport</a>&amp; rpt);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">void</span> setReport(<a class="code" href="classby_1_1err_report.html">errReport</a>* it) BY_SIDE_FUNC(setReport);</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <a class="code" href="classnm_1_1tstr.html">tstr&lt;srcs&gt;</a> parse(<a class="code" href="classnm_1_1err_report.html">errReport</a>&amp; rpt, <a class="code" href="classnm_1_1tbicontainable.html">bicontainable</a>&amp; tray) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        nbool verify(<a class="code" href="classnm_1_1err_report.html">errReport</a>&amp; rpt, <a class="code" href="classnm_1_1obj.html">obj</a>&amp; pak) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        nbool link();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">void</span> _rel();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        packLoadings _loadings;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        state _state;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <a class="code" href="classnm_1_1tnarr.html">srcs</a> _srcs;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <a class="code" href="classnm_1_1tstr.html">tstr&lt;errReport&gt;</a> _rpt;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    };</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;} <span class="comment">// namespace nm</span></div>
-<div class="ttc" id="aclassnm_1_1autoslot_html"><div class="ttname"><a href="classnm_1_1autoslot.html">nm::autoslot</a></div><div class="ttdef"><b>Definition:</b> autoslot.hpp:13</div></div>
-<div class="ttc" id="aclassnm_1_1autoslot_html_a393bf57d1027583a6ca75c1d9e99124c"><div class="ttname"><a href="classnm_1_1autoslot.html#a393bf57d1027583a6ca75c1d9e99124c">nm::autoslot::setReport</a></div><div class="ttdeci">void setReport(errReport &amp;rpt)</div></div>
-<div class="ttc" id="aclassnm_1_1autoslot_html_a43c15dba55d0d59c4fd3a6d5d3677386"><div class="ttname"><a href="classnm_1_1autoslot.html#a43c15dba55d0d59c4fd3a6d5d3677386">nm::autoslot::rel</a></div><div class="ttdeci">void rel() override</div></div>
-<div class="ttc" id="aclassnm_1_1err_report_html"><div class="ttname"><a href="classnm_1_1err_report.html">nm::errReport</a></div><div class="ttdef"><b>Definition:</b> errReport.hpp:10</div></div>
-<div class="ttc" id="aclassnm_1_1obj_html"><div class="ttname"><a href="classnm_1_1obj.html">nm::obj</a></div><div class="ttdef"><b>Definition:</b> obj.hpp:16</div></div>
-<div class="ttc" id="aclassnm_1_1pack_makable_html"><div class="ttname"><a href="classnm_1_1pack_makable.html">nm::packMakable</a></div><div class="ttdef"><b>Definition:</b> packMakable.hpp:15</div></div>
-<div class="ttc" id="aclassnm_1_1slot_html"><div class="ttname"><a href="classnm_1_1slot.html">nm::slot</a></div><div class="ttdef"><b>Definition:</b> slot.hpp:11</div></div>
-<div class="ttc" id="aclassnm_1_1statable_html"><div class="ttname"><a href="classnm_1_1statable.html">nm::statable</a></div><div class="ttdef"><b>Definition:</b> statable.hpp:13</div></div>
-<div class="ttc" id="aclassnm_1_1tbicontainable_html"><div class="ttname"><a href="classnm_1_1tbicontainable.html">nm::tbicontainable</a></div><div class="ttdef"><b>Definition:</b> tbicontainable.hpp:13</div></div>
-<div class="ttc" id="aclassnm_1_1tnarr_html"><div class="ttname"><a href="classnm_1_1tnarr.html">nm::tnarr&lt; src &gt;</a></div></div>
-<div class="ttc" id="aclassnm_1_1tstr_html"><div class="ttname"><a href="classnm_1_1tstr.html">nm::tstr</a></div><div class="ttdef"><b>Definition:</b> tstr.hpp:8</div></div>
-<div class="ttc" id="astructnm_1_1manifest_html"><div class="ttname"><a href="structnm_1_1manifest.html">nm::manifest</a></div><div class="ttdef"><b>Definition:</b> manifest.hpp:22</div></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        nbool _invalidate() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr&lt;srcs&gt;</a> parse(<a class="code" href="classby_1_1err_report.html">errReport</a>&amp; rpt, <a class="code" href="classby_1_1tbicontainable.html">bicontainable</a>&amp; tray) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        nbool verify(<a class="code" href="classby_1_1err_report.html">errReport</a>&amp; rpt, <a class="code" href="classby_1_1obj.html">obj</a>&amp; pak) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        nbool link();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">void</span> _rel();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        packLoadings _loadings;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        state _state;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <a class="code" href="classby_1_1tnarr.html">srcs</a> _srcs;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr&lt;errReport&gt;</a> _rpt;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    };</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1autoslot_html"><div class="ttname"><a href="classby_1_1autoslot.html">by::autoslot</a></div><div class="ttdef"><b>Definition:</b> autoslot.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1autoslot_html_a1144881a1256d6fd289636d07f92caba"><div class="ttname"><a href="classby_1_1autoslot.html#a1144881a1256d6fd289636d07f92caba">by::autoslot::rel</a></div><div class="ttdeci">void rel() override</div></div>
+<div class="ttc" id="aclassby_1_1autoslot_html_aa4ac999ca868249c5d7322f054a1744b"><div class="ttname"><a href="classby_1_1autoslot.html#aa4ac999ca868249c5d7322f054a1744b">by::autoslot::setReport</a></div><div class="ttdeci">void setReport(errReport &amp;rpt)</div></div>
+<div class="ttc" id="aclassby_1_1err_report_html"><div class="ttname"><a href="classby_1_1err_report.html">by::errReport</a></div><div class="ttdef"><b>Definition:</b> errReport.hpp:9</div></div>
+<div class="ttc" id="aclassby_1_1obj_html"><div class="ttname"><a href="classby_1_1obj.html">by::obj</a></div><div class="ttdef"><b>Definition:</b> obj.hpp:16</div></div>
+<div class="ttc" id="aclassby_1_1pack_makable_html"><div class="ttname"><a href="classby_1_1pack_makable.html">by::packMakable</a></div><div class="ttdef"><b>Definition:</b> packMakable.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1slot_html"><div class="ttname"><a href="classby_1_1slot.html">by::slot</a></div><div class="ttdef"><b>Definition:</b> slot.hpp:11</div></div>
+<div class="ttc" id="aclassby_1_1statable_html"><div class="ttname"><a href="classby_1_1statable.html">by::statable</a></div><div class="ttdef"><b>Definition:</b> statable.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1tbicontainable_html"><div class="ttname"><a href="classby_1_1tbicontainable.html">by::tbicontainable</a></div><div class="ttdef"><b>Definition:</b> tbicontainable.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1tnarr_html"><div class="ttname"><a href="classby_1_1tnarr.html">by::tnarr&lt; src &gt;</a></div></div>
+<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr</a></div><div class="ttdef"><b>Definition:</b> tstr.hpp:8</div></div>
+<div class="ttc" id="astructby_1_1manifest_html"><div class="ttname"><a href="structby_1_1manifest.html">by::manifest</a></div><div class="ttdef"><b>Definition:</b> manifest.hpp:22</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

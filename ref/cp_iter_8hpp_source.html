@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/indep/helper/cpIter.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/indep/helper/cpIter.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_17e8a8c1b3357b494ba7d0ba9b0a9eb4.html">indep</a></li><li class="navelem"><a class="el" href="dir_25721ca8d65529a61a948792b2e8af32.html">helper</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_818aeb8647622460f3ac0607db2e8325.html">indep</a></li><li class="navelem"><a class="el" href="dir_6e1527a68dc2b1b295496026151d1242.html">helper</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,56 +71,57 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;../common.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;../macro.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;indep/common.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;indep/macro.hpp&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>nm {</div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classnm_1_1cp_iter.html">    8</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1cp_iter.html">cpIter</a> {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        NM(ME(<a class="code" href="classnm_1_1cp_iter.html">cpIter</a>))</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classby_1_1cp_iter.html">    8</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1cp_iter.html">cpIter</a> {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        BY(ME(<a class="code" href="classby_1_1cp_iter.html">cpIter</a>))</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <a class="code" href="classnm_1_1cp_iter.html">cpIter</a>(<span class="keyword">const</span> nchar* begin, <span class="keyword">const</span> nchar* from);</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classnm_1_1cp_iter.html#a54b313ebf0982a56ba5a193ef6a6e05e">   14</a></span>&#160;        <a class="code" href="classnm_1_1cp_iter.html#a54b313ebf0982a56ba5a193ef6a6e05e">cpIter</a>(<span class="keyword">const</span> std::string&amp; from, nbool isReversed = <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        me operator+(ncnt step);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        me&amp; operator++();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        me operator++(<span class="keywordtype">int</span>);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        me&amp; operator+=(ncnt step);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        std::string operator*() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">explicit</span> <span class="keyword">operator</span> nbool() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        nbool operator==(<span class="keyword">const</span> me&amp; rhs) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        nbool isEnd() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordtype">void</span> rel();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classnm_1_1cp_iter.html#abab527c4c4e81dcb1d4533792908c154">   34</a></span>&#160;        ncnt <a class="code" href="classnm_1_1cp_iter.html#abab527c4c4e81dcb1d4533792908c154">next</a>(ncnt step);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classnm_1_1cp_iter.html#a05b04a9a17d16baa852e3e7d77e27df6">   40</a></span>&#160;        ncnt <a class="code" href="classnm_1_1cp_iter.html#a05b04a9a17d16baa852e3e7d77e27df6">stepForward</a>(ncnt step);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        ncnt stepBackward(ncnt step);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        std::string get() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        ncnt remainLen() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        ncnt _step(<span class="keyword">const</span> std::function&lt;<span class="keyword">const</span> nchar*()&gt;&amp; <a class="code" href="classnm_1_1closure.html">closure</a>, ncnt step);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keyword">const</span> nchar* _nextCodepoint(<span class="keyword">const</span> nchar* from) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">const</span> nchar* _prevCodepoint(<span class="keyword">const</span> nchar* e) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        ncnt _skipBytes(nchar ch) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keyword">const</span> nchar* _begin;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">const</span> nchar* _end;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        nbool _isReversed;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    };</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;} <span class="comment">// namespace nm</span></div>
-<div class="ttc" id="aclassnm_1_1closure_html"><div class="ttname"><a href="classnm_1_1closure.html">nm::closure</a></div><div class="ttdef"><b>Definition:</b> closure.hpp:16</div></div>
-<div class="ttc" id="aclassnm_1_1cp_iter_html"><div class="ttname"><a href="classnm_1_1cp_iter.html">nm::cpIter</a></div><div class="ttdoc">iterator for codepoint of string.</div><div class="ttdef"><b>Definition:</b> cpIter.hpp:8</div></div>
-<div class="ttc" id="aclassnm_1_1cp_iter_html_a05b04a9a17d16baa852e3e7d77e27df6"><div class="ttname"><a href="classnm_1_1cp_iter.html#a05b04a9a17d16baa852e3e7d77e27df6">nm::cpIter::stepForward</a></div><div class="ttdeci">ncnt stepForward(ncnt step)</div></div>
-<div class="ttc" id="aclassnm_1_1cp_iter_html_a54b313ebf0982a56ba5a193ef6a6e05e"><div class="ttname"><a href="classnm_1_1cp_iter.html#a54b313ebf0982a56ba5a193ef6a6e05e">nm::cpIter::cpIter</a></div><div class="ttdeci">cpIter(const std::string &amp;from, nbool isReversed=false)</div></div>
-<div class="ttc" id="aclassnm_1_1cp_iter_html_abab527c4c4e81dcb1d4533792908c154"><div class="ttname"><a href="classnm_1_1cp_iter.html#abab527c4c4e81dcb1d4533792908c154">nm::cpIter::next</a></div><div class="ttdeci">ncnt next(ncnt step)</div></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <a class="code" href="classby_1_1cp_iter.html">cpIter</a>(<span class="keyword">const</span> nchar* begin, <span class="keyword">const</span> nchar* from);</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classby_1_1cp_iter.html#ad3a11047960f932bc474c4a3aebd853a">   14</a></span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classby_1_1cp_iter.html#ad3a11047960f932bc474c4a3aebd853a">cpIter</a>(<span class="keyword">const</span> std::string&amp; from, nbool isReversed = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="classby_1_1cp_iter.html">cpIter</a>(std::string&amp;&amp; from, nbool isReversed = <span class="keyword">false</span>) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        me operator+(ncnt step);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        me&amp; operator++();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        me operator++(<span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        me&amp; operator+=(ncnt step);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        std::string operator*() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">explicit</span> <span class="keyword">operator</span> nbool() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        nbool operator==(<span class="keyword">const</span> me&amp; rhs) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        nbool isEnd() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">void</span> rel();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="classby_1_1cp_iter.html#a28d1dd808d8947434c67f856f71d7c7b">   35</a></span>&#160;        ncnt <a class="code" href="classby_1_1cp_iter.html#a28d1dd808d8947434c67f856f71d7c7b">next</a>(ncnt step);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classby_1_1cp_iter.html#ab1311b55812e45195bf668ee4f71e5b7">   41</a></span>&#160;        ncnt <a class="code" href="classby_1_1cp_iter.html#ab1311b55812e45195bf668ee4f71e5b7">stepForward</a>(ncnt step);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        ncnt stepBackward(ncnt step);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        std::string get() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        ncnt remainLen() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        ncnt _step(<span class="keyword">const</span> std::function&lt;<span class="keyword">const</span> nchar*()&gt;&amp; <a class="code" href="classby_1_1closure.html">closure</a>, ncnt step);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">const</span> nchar* _nextCodepoint(<span class="keyword">const</span> nchar* from) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">const</span> nchar* _prevCodepoint(<span class="keyword">const</span> nchar* e) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        ncnt _skipBytes(nchar ch) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">const</span> nchar* _begin;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">const</span> nchar* _end;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        nbool _isReversed;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    };</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1closure_html"><div class="ttname"><a href="classby_1_1closure.html">by::closure</a></div><div class="ttdef"><b>Definition:</b> closure.hpp:16</div></div>
+<div class="ttc" id="aclassby_1_1cp_iter_html"><div class="ttname"><a href="classby_1_1cp_iter.html">by::cpIter</a></div><div class="ttdoc">iterator for codepoint of string.</div><div class="ttdef"><b>Definition:</b> cpIter.hpp:8</div></div>
+<div class="ttc" id="aclassby_1_1cp_iter_html_a28d1dd808d8947434c67f856f71d7c7b"><div class="ttname"><a href="classby_1_1cp_iter.html#a28d1dd808d8947434c67f856f71d7c7b">by::cpIter::next</a></div><div class="ttdeci">ncnt next(ncnt step)</div></div>
+<div class="ttc" id="aclassby_1_1cp_iter_html_ab1311b55812e45195bf668ee4f71e5b7"><div class="ttname"><a href="classby_1_1cp_iter.html#ab1311b55812e45195bf668ee4f71e5b7">by::cpIter::stepForward</a></div><div class="ttdeci">ncnt stepForward(ncnt step)</div></div>
+<div class="ttc" id="aclassby_1_1cp_iter_html_ad3a11047960f932bc474c4a3aebd853a"><div class="ttname"><a href="classby_1_1cp_iter.html#ad3a11047960f932bc474c4a3aebd853a">by::cpIter::cpIter</a></div><div class="ttdeci">cpIter(const std::string &amp;from, nbool isReversed=false)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

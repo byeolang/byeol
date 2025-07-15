@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/clog/filter/filters.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/clog/filter/filters.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_d1224740a1128ee4d0767e933a68f623.html">clog</a></li><li class="navelem"><a class="el" href="dir_80f30e03104743486dd8eda4c412b258.html">filter</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_634d279e10ce2ed7a07a9d3327fcbe00.html">clog</a></li><li class="navelem"><a class="el" href="dir_455bd14c636d2116061be6d480fbc1cd.html">filter</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,33 +71,34 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;filterable.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;clog/filter/filterable.hpp&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>nm {</div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="classnm_1_1filters.html">    6</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classnm_1_1filters.html">filters</a>: <span class="keyword">public</span> <a class="code" href="classnm_1_1filterable.html">filterable</a> {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        NM(ME(<a class="code" href="classnm_1_1filters.html">filters</a>))</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="classby_1_1filters.html">    6</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1filters.html">filters</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1filterable.html">filterable</a> {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        BY(ME(<a class="code" href="classby_1_1filters.html">filters</a>))</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <a class="code" href="classnm_1_1filters.html">filters</a>() {}</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <a class="code" href="classby_1_1filters.html">filters</a>() {}</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Es&gt; <span class="keyword">explicit</span> <a class="code" href="classnm_1_1filters.html">filters</a>(<span class="keyword">const</span> Es*... elems) { (add(elems), ...); }</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Es&gt; <span class="keyword">explicit</span> <a class="code" href="classby_1_1filters.html">filters</a>(<span class="keyword">const</span> Es*... elems) { (add(elems), ...); }</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classnm_1_1filters.html">filters</a>();</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classby_1_1filters.html">filters</a>();</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        ncnt len() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordtype">void</span> rel();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordtype">void</span> add(<span class="keyword">const</span> <a class="code" href="classnm_1_1filterable.html">filterable</a>* new1);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordtype">void</span> del();</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classnm_1_1filters.html#ae2751a3133a208d4cd6d7988bdf513ba">   21</a></span>&#160;        nbool <a class="code" href="classnm_1_1filters.html#ae2751a3133a208d4cd6d7988bdf513ba">filt</a>(logLv::level lv, <span class="keyword">const</span> std::string&amp; tag) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        std::vector&lt;const filterable*&gt; _arr;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    };</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
-<div class="ttc" id="aclassnm_1_1filterable_html"><div class="ttname"><a href="classnm_1_1filterable.html">nm::filterable</a></div><div class="ttdef"><b>Definition:</b> filterable.hpp:7</div></div>
-<div class="ttc" id="aclassnm_1_1filters_html"><div class="ttname"><a href="classnm_1_1filters.html">nm::filters</a></div><div class="ttdef"><b>Definition:</b> filters.hpp:6</div></div>
-<div class="ttc" id="aclassnm_1_1filters_html_ae2751a3133a208d4cd6d7988bdf513ba"><div class="ttname"><a href="classnm_1_1filters.html#ae2751a3133a208d4cd6d7988bdf513ba">nm::filters::filt</a></div><div class="ttdeci">nbool filt(logLv::level lv, const std::string &amp;tag) const</div></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordtype">void</span> add(<span class="keyword">const</span> <a class="code" href="classby_1_1filterable.html">filterable</a>&amp; new1);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordtype">void</span> add(<span class="keyword">const</span> <a class="code" href="classby_1_1filterable.html">filterable</a>* new1);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordtype">void</span> del();</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classby_1_1filters.html#a4d602b2e3ef7dca6f6197f7e4f3140d1">   22</a></span>&#160;        nbool <a class="code" href="classby_1_1filters.html#a4d602b2e3ef7dca6f6197f7e4f3140d1">filt</a>(errLv::level lv, <span class="keyword">const</span> std::string&amp; tag) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        std::vector&lt;const filterable*&gt; _arr;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    };</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
+<div class="ttc" id="aclassby_1_1filterable_html"><div class="ttname"><a href="classby_1_1filterable.html">by::filterable</a></div><div class="ttdef"><b>Definition:</b> filterable.hpp:6</div></div>
+<div class="ttc" id="aclassby_1_1filters_html"><div class="ttname"><a href="classby_1_1filters.html">by::filters</a></div><div class="ttdef"><b>Definition:</b> filters.hpp:6</div></div>
+<div class="ttc" id="aclassby_1_1filters_html_a4d602b2e3ef7dca6f6197f7e4f3140d1"><div class="ttname"><a href="classby_1_1filters.html#a4d602b2e3ef7dca6f6197f7e4f3140d1">by::filters::filt</a></div><div class="ttdeci">nbool filt(errLv::level lv, const std::string &amp;tag) const</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

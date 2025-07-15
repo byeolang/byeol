@@ -1,28 +1,5 @@
 var searchData=
 [
-  ['narriteration_595',['narrIteration',['../classnarr_iteration.html',1,'']]],
-  ['nbool_596',['nBool',['../classnm_1_1n_bool.html',1,'nm']]],
-  ['nbyte_597',['nByte',['../classnm_1_1n_byte.html',1,'nm']]],
-  ['nchainiteration_598',['nchainIteration',['../classnchain_iteration.html',1,'']]],
-  ['ndummyerr_599',['ndummyErr',['../structnm_1_1ndummy_err.html',1,'nm']]],
-  ['nerr_600',['nerr',['../structnm_1_1nerr.html',1,'nm']]],
-  ['nestedfunc_601',['nestedFunc',['../classnm_1_1nested_func.html',1,'nm']]],
-  ['nextexpr_602',['nextExpr',['../classnm_1_1next_expr.html',1,'nm']]],
-  ['nextret_603',['nextRet',['../classnm_1_1next_ret.html',1,'nm']]],
-  ['nflt_604',['nFlt',['../classnm_1_1n_flt.html',1,'nm']]],
-  ['nint_605',['nInt',['../classnm_1_1n_int.html',1,'nm']]],
-  ['nmapiteration_606',['nmapIteration',['../classnmap_iteration.html',1,'']]],
-  ['node_607',['node',['../classnm_1_1node.html',1,'nm']]],
-  ['normalscan_608',['normalScan',['../classnm_1_1normal_scan.html',1,'nm']]],
-  ['nowrap_609',['noWrap',['../structnm_1_1no_wrap.html',1,'nm']]],
-  ['nseq_610',['nseq',['../classnm_1_1nseq.html',1,'nm']]],
-  ['nseqiteration_611',['nseqIteration',['../classnseq_iteration.html',1,'']]],
-  ['nstr_612',['nStr',['../classnm_1_1n_str.html',1,'nm']]],
-  ['ntype_613',['ntype',['../classnm_1_1ntype.html',1,'nm']]],
-  ['nulr_614',['nulr',['../structnm_1_1nulr.html',1,'nm']]],
-  ['nulr_3c_20t_20_26_20_3e_615',['nulr&lt; T &amp; &gt;',['../structnm_1_1nulr_3_01_t_01_6_01_4.html',1,'nm']]],
-  ['nulr_3c_20t_20_2a_20_3e_616',['nulr&lt; T * &gt;',['../structnm_1_1nulr_3_01_t_01_5_01_4.html',1,'nm']]],
-  ['nulr_3c_20tstr_3c_20t_20_3e_20_26_20_3e_617',['nulr&lt; tstr&lt; T &gt; &amp; &gt;',['../structnm_1_1nulr_3_01tstr_3_01_t_01_4_01_6_01_4.html',1,'nm']]],
-  ['nulr_3c_20tstr_3c_20t_20_3e_20_3e_618',['nulr&lt; tstr&lt; T &gt; &gt;',['../structnm_1_1nulr_3_01tstr_3_01_t_01_4_01_4.html',1,'nm']]],
-  ['nvoid_619',['nVoid',['../classnm_1_1n_void.html',1,'nm']]]
+  ['obj_567',['obj',['../classby_1_1obj.html',1,'by']]],
+  ['origin_568',['origin',['../classby_1_1origin.html',1,'by']]]
 ];

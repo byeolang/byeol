@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>namu: /home/runner/work/namu/namu/mod/indep/macro/forEach.hpp Source File</title>
+<title>namu: /home/runner/work/byeol/byeol/module/indep/macro/forEach.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d41ce877eb409a4791b288730010abe2.html">mod</a></li><li class="navelem"><a class="el" href="dir_17e8a8c1b3357b494ba7d0ba9b0a9eb4.html">indep</a></li><li class="navelem"><a class="el" href="dir_5ebf596649e93a521eef0cece697602c.html">macro</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_a7b0466279106ea0b8f86f609f621680.html">module</a></li><li class="navelem"><a class="el" href="dir_818aeb8647622460f3ac0607db2e8325.html">indep</a></li><li class="navelem"><a class="el" href="dir_1c525875573ca837c29e6f4f09799e75.html">macro</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -101,60 +101,53 @@ $(function() {
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;evaluator.hpp&quot;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;helper.hpp&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;indep/macro/evaluator.hpp&quot;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;indep/macro/helper.hpp&quot;</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#define _NM_EACH_GET_END2() 0, NM_CONSUME_ARGS</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#define _NM_EACH_GET_END1(...) _NM_EACH_GET_END2</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#define _NM_EACH_GET_END(...) _NM_EACH_GET_END1</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#define _NM_EACH_NEXT0(test, next, ...) next NM_VOID()</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#define _NM_EACH_NEXT1(test, next) _NM_EACH_NEXT0(test, next, 0)</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#define _NM_EACH_NEXT(test, next) _NM_EACH_NEXT1(_NM_EACH_GET_END test, next)</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#define _BY_EACH_GET_END2() 0, BY_CONSUME_ARGS</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#define _BY_EACH_GET_END1(...) _BY_EACH_GET_END2</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#define _BY_EACH_GET_END(...) _BY_EACH_GET_END1</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#define _BY_EACH_NEXT0(test, next, ...) next BY_VOID()</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#define _BY_EACH_NEXT1(test, next) _BY_EACH_NEXT0(test, next, 0)</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#define _BY_EACH_NEXT(test, next) _BY_EACH_NEXT1(_BY_EACH_GET_END test, next)</span></div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#define _NM_EACH_LIST_NEXT1(test, next) _NM_EACH_NEXT0(test, NM_COMMA next, 0)</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#define _NM_EACH_LIST_NEXT(test, next) _NM_EACH_LIST_NEXT1(_NM_EACH_GET_END test, next)</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#define _BY_EACH_LIST_NEXT1(test, next) _BY_EACH_NEXT0(test, BY_COMMA next, 0)</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#define _BY_EACH_LIST_NEXT(test, next) _BY_EACH_LIST_NEXT1(_BY_EACH_GET_END test, next)</span></div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">//    Applies the function macro `f` to each of the remaining parameters.</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#define _NM_EACH0(f, x, peek, ...) f(x) _NM_EACH_NEXT(peek, _NM_EACH1)(f, peek, __VA_ARGS__)</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#define _NM_EACH1(f, x, peek, ...) f(x) _NM_EACH_NEXT(peek, _NM_EACH0)(f, peek, __VA_ARGS__)</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#define NM_EACH(f, ...) NM_EVAL(_NM_EACH1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#define _BY_EACH0(f, x, peek, ...) f(x) _BY_EACH_NEXT(peek, _BY_EACH1)(f, peek, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#define _BY_EACH1(f, x, peek, ...) f(x) _BY_EACH_NEXT(peek, _BY_EACH0)(f, peek, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#define BY_EACH(f, ...) BY_EVAL(_BY_EACH1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))</span></div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">//    EACH macro for various parametered function:</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">//        usage:</span></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">//            #define X(x, y) cout &lt;&lt; (x+y);</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">//            NM_EACH_TUPLE(X, (1,2), (2,3)) // please be careful to wrap with a paranthesis each</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">//            BY_EACH_TUPLE(X, (1,2), (2,3)) // please be careful to wrap with a paranthesis each</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">//            set of parameters.</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">//        output:</span></div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">//            37</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#define _NM_EACH_TUPLE0(f, x, peek, ...) \</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">    f x _NM_EACH_NEXT(peek, _NM_EACH_TUPLE1)(f, peek, __VA_ARGS__)</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#define _NM_EACH_TUPLE1(f, x, peek, ...) \</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">    f x _NM_EACH_NEXT(peek, _NM_EACH_TUPLE0)(f, peek, __VA_ARGS__)</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#define NM_EACH_TUPLE(f, ...) NM_EVAL(_NM_EACH_TUPLE1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">//    EACH macro for expanding:</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">//        usage:</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">//            #define X(x, y) cout &lt;&lt; (x+y);</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">//            int b = 5;</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">//            NM_EACH_EXPAND(X, b, 1,2,3) // ==&gt; cout &lt;&lt; (b+1); cout &lt;&lt; (b+2); cout &lt;&lt; (b+3);</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">//        output:</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">//            678</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#define _NM_EACH_EXPAND0(f, s, x, peek, ...) \</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">    f(s, x) _NM_EACH_NEXT(peek, _NM_EACH_EXPAND1)(f, s, peek, __VA_ARGS__)</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#define _NM_EACH_EXPAND1(f, s, x, peek, ...) \</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">    f(s, x) _NM_EACH_NEXT(peek, _NM_EACH_EXPAND0)(f, s, peek, __VA_ARGS__)</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#define NM_EACH_EXPAND(f, ...) \</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">    NM_EVAL(_NM_EACH_EXPAND1(f, s, __VA_ARGS__, ()()(), ()()(), ()()(), 0))</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">//    Applies the function macro `f` to each of the remaining parameters and inserts commas between</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">//    the results.</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#define _NM_EACH_LIST0(f, x, peek, ...) \</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">    f(x) _NM_EACH_LIST_NEXT(peek, _NM_EACH_LIST1)(f, peek, __VA_ARGS__)</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">#define _NM_EACH_LIST1(f, x, peek, ...) \</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">    f(x) _NM_EACH_LIST_NEXT(peek, _NM_EACH_LIST0)(f, peek, __VA_ARGS__)</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#define NM_EACH_LIST(f, ...) NM_EVAL(_NM_EACH_LIST1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#define _BY_EACH_TUPLE0(f, x, peek, ...) f x _BY_EACH_NEXT(peek, _BY_EACH_TUPLE1)(f, peek, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#define _BY_EACH_TUPLE1(f, x, peek, ...) f x _BY_EACH_NEXT(peek, _BY_EACH_TUPLE0)(f, peek, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#define BY_EACH_TUPLE(f, ...) BY_EVAL(_BY_EACH_TUPLE1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">//    EACH macro for expanding:</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">//        usage:</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">//            #define X(x, y) cout &lt;&lt; (x+y);</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">//            int b = 5;</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">//            BY_EACH_EXPAND(X, b, 1,2,3) // ==&gt; cout &lt;&lt; (b+1); cout &lt;&lt; (b+2); cout &lt;&lt; (b+3);</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">//        output:</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment">//            678</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#define _BY_EACH_EXPAND0(f, s, x, peek, ...) f(s, x) _BY_EACH_NEXT(peek, _BY_EACH_EXPAND1)(f, s, peek, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#define _BY_EACH_EXPAND1(f, s, x, peek, ...) f(s, x) _BY_EACH_NEXT(peek, _BY_EACH_EXPAND0)(f, s, peek, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#define BY_EACH_EXPAND(f, ...) BY_EVAL(_BY_EACH_EXPAND1(f, s, __VA_ARGS__, ()()(), ()()(), ()()(), 0))</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">//    Applies the function macro `f` to each of the remaining parameters and inserts commas between</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">//    the results.</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#define _BY_EACH_LIST0(f, x, peek, ...) f(x) _BY_EACH_LIST_NEXT(peek, _BY_EACH_LIST1)(f, peek, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#define _BY_EACH_LIST1(f, x, peek, ...) f(x) _BY_EACH_LIST_NEXT(peek, _BY_EACH_LIST0)(f, peek, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#define BY_EACH_LIST(f, ...) BY_EVAL(_BY_EACH_LIST1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

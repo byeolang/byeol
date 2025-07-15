@@ -1,10 +1,11 @@
 var searchData=
 [
-  ['link_161',['link',['../classnm_1_1tnchain.html#a5db3913444eadededbbf98d81d520ab2',1,'nm::tnchain']]],
-  ['logbypass_162',['logBypass',['../classnm_1_1logger.html#a775d4b6c59f068d7c2716cdff923b671',1,'nm::logger::logBypass()'],['../classnm_1_1console_stream.html#a3609d4bffa1312d34bfc9dda9ac928d4',1,'nm::consoleStream::logBypass()'],['../classnm_1_1file_log_stream.html#a0e525dd5af2f273ab6bc5c7af57b1e2e',1,'nm::fileLogStream::logBypass()'],['../classnm_1_1stream.html#a21f40773d9f143e709662086c5581c6e',1,'nm::stream::logBypass()']]],
-  ['logger_163',['logger',['../classnm_1_1logger.html',1,'nm']]],
-  ['loglv_164',['logLv',['../classnm_1_1log_lv.html',1,'nm']]],
-  ['logstructureflag_165',['logStructureFlag',['../classnm_1_1log_structure_flag.html',1,'nm']]],
-  ['loop_166',['loop',['../classnm_1_1loop_expr_1_1loop.html',1,'nm::loopExpr']]],
-  ['loopexpr_167',['loopExpr',['../classnm_1_1loop_expr.html',1,'nm']]]
+  ['make_144',['make',['../classby_1_1mgd_type.html#a7367b1906e022e960d20c009f99c5999',1,'by::mgdType::make()'],['../classby_1_1ttype_base_3_01void_00_01type_01_4.html#ab1db5892bcba19849e501fa3001f2cd5',1,'by::ttypeBase&lt; void, type &gt;::make()'],['../classby_1_1type.html#ac6f9594cf85e0072152721ecab4e6899',1,'by::type::make()']]],
+  ['manifest_145',['manifest',['../structby_1_1manifest.html',1,'by']]],
+  ['marshalerr_146',['marshalErr',['../structby_1_1marshal_err.html',1,'by']]],
+  ['memoryhaver_147',['memoryHaver',['../classby_1_1memory_haver.html',1,'by']]],
+  ['metaif_148',['metaIf',['../structby_1_1meta_if.html',1,'by']]],
+  ['mgdtype_149',['mgdType',['../classby_1_1mgd_type.html',1,'by']]],
+  ['modifier_150',['modifier',['../classby_1_1modifier.html',1,'by']]],
+  ['mov_151',['mov',['../classby_1_1arithmetic_obj.html#ab317898d8b919d547354a1768acee984',1,'by::arithmeticObj']]]
 ];
