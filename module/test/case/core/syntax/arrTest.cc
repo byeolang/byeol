@@ -272,7 +272,7 @@ TEST_F(arrTest, testSimpleBridgedFuncs) {
 
     str res = it.run("add", args{narr{*new nInt(1)}});
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nbool>(), true);
+    ASSERT_EQ(*res.cast<nbool>(), true);
     ASSERT_EQ(arr1.len(), 1);
     res = it.run("len");
     ASSERT_EQ(*res.cast<nint>(), 1);
@@ -284,7 +284,7 @@ TEST_F(arrTest, testSimpleBridgedFuncs2) {
 
     str res = it.run("add", args{narr{*new nInt(1)}});
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nbool>(), true);
+    ASSERT_EQ(*res.cast<nbool>(), true);
     res = it.run("add",
         args{
             narr{*new nInt(0), *new nInt(2)}
@@ -297,25 +297,25 @@ TEST_F(arrTest, testSimpleBridgedFuncs2) {
     res = it.run("get", args{narr{*new nInt(0)}});
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 2);
-    ASSERT_EQ(arr1[0].cast<nint>(), 2);
+    ASSERT_EQ(*arr1[0].cast<nint>(), 2);
 
     res = it.run("set",
         args{
             narr{*new nInt(1), *new nInt(2)}
     }); // arr: {2, 2}
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nbool>(), true);
-    ASSERT_EQ(arr1[0].cast<nint>(), arr1[1].cast<nint>());
+    ASSERT_EQ(*res.cast<nbool>(), true);
+    ASSERT_EQ(*arr1[0].cast<nint>(), *arr1[1].cast<nint>());
 
     res = it.run("in", args{narr{*new nInt(0)}});
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nbool>(), false);
+    ASSERT_EQ(*res.cast<nbool>(), false);
     res = it.run("in", args{narr{*new nInt(1)}});
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nbool>(), false);
+    ASSERT_EQ(*res.cast<nbool>(), false);
     res = it.run("in", args{narr{*new nInt(2)}});
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nbool>(), true);
+    ASSERT_EQ(*res.cast<nbool>(), true);
 }
 
 TEST_F(arrTest, testIteratorBridgedFunc) {
@@ -330,21 +330,21 @@ TEST_F(arrTest, testIteratorBridgedFunc) {
 
     str resOfIter = res->run("isEnd");
     ASSERT_TRUE(resOfIter);
-    ASSERT_FALSE(resOfIter->cast<nbool>());
+    ASSERT_FALSE(*resOfIter->cast<nbool>());
 
     str elem = res->run("get");
     ASSERT_TRUE(elem);
-    ASSERT_EQ(elem->cast<nint>(), 1);
+    ASSERT_EQ(*elem->cast<nint>(), 1);
     ASSERT_EQ(arr1.getType().getParams().len(), 1);
     ASSERT_EQ(elem->getType(), arr1.getType().getParams()[0].getOrigin().getType());
 
     str step = res->run("next", args{narr{*new nInt(1)}});
     ASSERT_TRUE(step);
-    ASSERT_EQ(step->cast<nint>(), 0);
+    ASSERT_EQ(*step->cast<nint>(), 0);
 
     resOfIter = res->run("isEnd");
     ASSERT_TRUE(resOfIter);
-    ASSERT_TRUE(resOfIter->cast<nbool>());
+    ASSERT_TRUE(*resOfIter->cast<nbool>());
 }
 
 TEST_F(arrTest, newInstanceSharesFuncs) {
@@ -785,7 +785,7 @@ TEST_F(arrTest, outOfBoundExOccurs) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_TRUE(nul(*res.cast<nint>())); // which means, program ended with error code.
+    ASSERT_FALSE(*res.cast<nint>()); // which means, program ended with error code.
     nerr& resErr = res.cast<nerr>() OR_ASSERT(resErr);
     ASSERT_EQ(resErr.getErrCode(), errCode::OUT_OF_RANGE);
 

@@ -131,10 +131,10 @@ namespace nm {
 
         const func& fun = e.getOrigin();
         std::string params = !nul(fun) ? fun.getParams().toStr() : "null";
-        const std::string& name = fun TO(getSrc()) TO(getName());
+        const std::string* name = fun TO(getSrc()) TO(getName());
         cout << " -> " << foreColor(LIGHTGRAY) << "@" << foreColor(RED)
              << platformAPI::toAddrId(&fun) << " " << foreColor(LIGHTBLUE)
-             << (!nul(name) ? name : "null");
+             << (name ? *name : "null");
         if(_isShowData)
             cout << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN) << params << foreColor(LIGHTGRAY)
                  << ")";
@@ -240,8 +240,8 @@ namespace nm {
 
     string me::_getNameFrom(const node& it) const {
         string ret = it.getType().createNameWithParams();
-        const auto& name = it.cast<getExpr>() TO(getName());
-        if(name != "") ret = name;
+        const auto* name = it.cast<getExpr>() TO(getName());
+        if(name) ret = *name;
         return ret;
     }
 

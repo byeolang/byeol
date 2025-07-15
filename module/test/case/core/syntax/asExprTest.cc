@@ -296,25 +296,25 @@ TEST_F(asExprTest, manualAsInt) {
     nInt a = 55;
     str as = a.as<nStr>();
     ASSERT_TRUE(as);
-    ASSERT_EQ(as->cast<std::string>(), "55");
+    ASSERT_EQ(*as->cast<std::string>(), "55");
 
     nFlt b(3.5);
     as = b.as<nInt>();
     ASSERT_TRUE(as);
-    ASSERT_EQ(as->cast<nint>(), (int) 3.5);
+    ASSERT_EQ(*as->cast<nint>(), (int) 3.5);
 
     as = nStr("False").as<nBool>();
     ASSERT_FALSE(as);
     as = nStr("false").as<nBool>();
     ASSERT_TRUE(as);
-    ASSERT_FALSE(as->cast<nbool>()); // false -> false
+    ASSERT_FALSE(*as->cast<nbool>()); // false -> false
     as = nFlt(0.1f).as<nBool>();
     ASSERT_TRUE(as);
-    ASSERT_EQ(as->cast<nbool>(), (bool) 0.1f); // 0 -> false
+    ASSERT_EQ(*as->cast<nbool>(), (bool) 0.1f); // 0 -> false
 
     as = nFlt(1.1f).as<nBool>();
     ASSERT_TRUE(as);
-    ASSERT_TRUE(as->cast<nbool>()); // except for 0 -> true
+    ASSERT_TRUE(*as->cast<nbool>()); // except for 0 -> true
 }
 
 TEST_F(asExprTest, simpleAsInt1) {
@@ -472,7 +472,7 @@ TEST_F(asExprTest, doubleAs) {
         .shouldVerified(true);
     str ret = run();
     ASSERT_TRUE(ret);
-    ASSERT_EQ(ret->cast<int>(), 0);
+    ASSERT_EQ(*ret->cast<int>(), 0);
 }
 
 TEST_F(asExprTest, floatAs) {

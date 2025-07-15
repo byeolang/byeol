@@ -21,9 +21,7 @@ namespace nm {
     }
 
     void* me::_new1(size_t sz) {
-        auto* got = _pool.get(sz);
-        return got TO(new1());
-        // return _pool.get(sz) TO(new1());
+        return _pool.get(sz) TO(new1());
     }
 
     void me::_del(void* pt, ncnt sz) { _pool.get(sz)->del(pt, sz); }

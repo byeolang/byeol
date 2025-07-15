@@ -18,13 +18,11 @@ TEST_F(defFuncTest, distinguishDefineFuncOrCall) {
             foo(a, 22)
     )SRC")
             .shouldParsed(true)) {
-        node& res = getSubPack();
-        ASSERT_FALSE(nul(res));
+        node& res = getSubPack() OR_ASSERT(res);
 
-        const baseFunc& f = res.sub<baseFunc>("main", narr());
-        ASSERT_FALSE(nul(f));
+        const baseFunc& f = res.sub<baseFunc>("main", narr()) OR_ASSERT(f);
         ASSERT_EQ(f.getParams().len(), 0);
-        ASSERT_EQ(f.getRet().getType(), ttype<nVoid>());
+        ASSERT_EQ(f.getRet()->getType(), ttype<nVoid>());
     }
 
     if(make()
@@ -36,15 +34,12 @@ TEST_F(defFuncTest, distinguishDefineFuncOrCall) {
             foo(argc, 22)
     )SRC")
             .shouldParsed(true)) {
-        node& res = getSubPack();
-        ASSERT_FALSE(nul(res));
+        node& res = getSubPack() OR_ASSERT(res);
 
-        const baseFunc& fwrong = res.sub<baseFunc>("main", narr());
-        ASSERT_TRUE(nul(fwrong));
-        const baseFunc& f = res.sub<baseFunc>("main", narr(*new nInt(), *new nStr()));
-        ASSERT_FALSE(nul(f));
+        ASSERT_TRUE(res.sub<baseFunc>("main", narr()));
+        const baseFunc& f = res.sub<baseFunc>("main", narr(*new nInt(), *new nStr())) OR_ASSERT(f);
         ASSERT_EQ(f.getParams().len(), 2);
-        ASSERT_EQ(f.getRet().getType(), ttype<nVoid>());
+        ASSERT_EQ(f.getRet()->getType(), ttype<nVoid>());
 
         const params& ps = f.getParams();
         ASSERT_FALSE(nul(ps));
@@ -327,10 +322,7 @@ TEST_F(defFuncTest, overloadingDifferentParameters) {
     )SRC")
         .shouldVerified(true);
 
-    node& pak = getSubPack();
-    obj& a = pak.sub<obj>("a");
-    ASSERT_FALSE(nul(a));
-
+    node& a = getSubPack() TO(template sub<obj>("a")) OR_ASSERT(a);
     {
         auto subs = a.subAll<func>("foo");
         ASSERT_EQ(subs.len(), 2);
@@ -339,7 +331,7 @@ TEST_F(defFuncTest, overloadingDifferentParameters) {
     {
         threadUse th;
         args args1(narr{*new nInt()});
-        auto subs = a.subAll<func>("foo", args1);
+        auto subs = a.subAll<func>("foo", &args1);
         ASSERT_EQ(subs.len(), 1);
         ASSERT_EQ(subs.getPriorType(), EXACT_MATCH);
         const params& ps = subs[0].getParams();
@@ -360,10 +352,9 @@ TEST_F(defFuncTest, overloadingSimilarParameters) {
     )SRC")
         .shouldVerified(true);
 
-    obj& a = getSubPack().sub<obj>("a");
-    ASSERT_FALSE(nul(a));
+    obj& a = getSubPack() TO(template sub<obj>("a")) OR_ASSERT(a);
 
-    { ASSERT_EQ(a.subAll<func>("foo", args{nulOf<baseObj>(), nBool(), nInt()}).len(), 0); }
+    { ASSERT_EQ(a.subAll<func>("foo", &args(nullptr, nBool(), nInt())).len(), 0); }
 
     {
         threadUse th;

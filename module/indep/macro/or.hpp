@@ -33,6 +33,7 @@ namespace nm {
     ///
     ///             // with OR:
     ///             int& value = foo() OR.ret(-1) // If foo() returns nullptr, return -1.
+    ///             // now, you don't need to dereference `value` everytime!
     ///             return value;
     ///         }
     ///
@@ -41,7 +42,7 @@ namespace nm {
     ///
     ///     FAQ:
     ///         Q. I want to use OR and also do casting as `(T&)`.
-    ///         A. since OR's return type is reference, you may simply want to do it like below.
+    ///         A. since OR's return type is reference, you may simply write some code like below.
     ///
     ///             class A {};
     ///             class B : public A {};
@@ -60,6 +61,16 @@ namespace nm {
     ///             B& value = (B*) foo() OR.ret(-1); // or you may use `auto&`
     ///             return 0;
     ///         }
+    ///
+    ///         if you want to cast the final result of a TO() chain to T&, you must surround the
+    ///         entire TO() chain with parentheses.
+    ///
+    ///             B& value = (B*) (foo() TO(getA()) TO(getMayB())) OR.ret();
+    ///
+    ///
+    ///         Q. Can I use OR after `return`?
+    ///         A. `OR` was created based on the precondition that it would be used when defining a variable.
+    ///         It cannot be used with the `return` keyword.
     struct __orStack__ {
         static void push(nbool val) { _stack.push_back(val); }
 

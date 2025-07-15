@@ -85,17 +85,13 @@ TEST_F(genericsTest, genericTwice1) {
     )SRC")
         .shouldVerified(true);
     run();
-    node& object = getSubPack().sub("object");
-    str a = object.run(args{nulOf<baseObj>(), *new nStr()});
-    ASSERT_TRUE(a);
-    str b = object.run(args{nulOf<baseObj>(), *new nFlt()});
-    ASSERT_TRUE(b);
-    ASSERT_NE(&a.get(), &b.get());
+    node& object = getSubPack() TO(sub("object")) OR_ASSERT(object);
+    str a = object.run(args(nullptr, *new nStr())) OR_ASSERT(a);
+    str b = object.run(args(nullptr, *new nFlt())) OR_ASSERT(b);
+    ASSERT_NE(a.get(), b.get());
 
-    node& aFoo = a->sub("foo");
-    ASSERT_FALSE(nul(aFoo));
-    node& bFoo = b->sub("foo");
-    ASSERT_FALSE(nul(bFoo));
+    node& aFoo = a->sub("foo") OR_ASSERT(aFoo);
+    node& bFoo = b->sub("foo") OR_ASSERT(bFoo);
     ASSERT_NE(&aFoo, &bFoo);
 }
 
@@ -500,22 +496,17 @@ TEST_F(genericsTest, genericObjCallCompleteShouldDifferentEach) {
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 0);
 
-    str org = getSubPack()["person"];
-    ASSERT_TRUE(org);
-    tstr<obj> intObj = org->run(args{narr{nInt()}});
+    node& org = getSubPack() TO(sub("person")) OR_ASSERT(org);
+    tstr<obj> intObj = org.run(args{narr{nInt()}});
     ASSERT_TRUE(intObj);
-    tstr<obj> strObj = org->run(args{narr{nStr()}});
+    tstr<obj> strObj = org.run(args{narr{nStr()}});
     ASSERT_TRUE(strObj);
 
-    runExpr& intRun = intObj->getCallComplete().cast<runExpr>();
-    ASSERT_FALSE(nul(intRun));
-    const node& intParam = intRun.getMe().getType().getParams()[0].getOrigin();
-    ASSERT_FALSE(nul(intParam));
-    ASSERT_FALSE(nul(intParam.cast<nInt>()));
+    runExpr& intRun = intObj->getCallComplete() TO(template cast<runExpr>()) OR_ASSERT(intRun);
+    const node& intParam = intRun.getMe() TO(getType().getParams()) TO(get(0)) TO(getOrigin()) OR_ASSERT(intParam);
+    ASSERT_TRUE(intParam.cast<nInt>());
 
-    runExpr& strRun = strObj->getCallComplete().cast<runExpr>();
-    ASSERT_FALSE(nul(strRun));
-    const node& strParam = strRun.getMe().getType().getParams()[0].getOrigin();
-    ASSERT_FALSE(nul(strParam));
-    ASSERT_FALSE(nul(strParam.cast<nStr>()));
+    runExpr& strRun = strObj->getCallComplete() TO(template cast<runExpr>()) OR_ASSERT(strRun);
+    const node& strParam = strRun.getMe() TO(getType().getParams()) TO(get(0)) TO (getOrigin()) OR_ASSERT(strParam);
+    ASSERT_TRUE(strParam.cast<nStr>());
 }

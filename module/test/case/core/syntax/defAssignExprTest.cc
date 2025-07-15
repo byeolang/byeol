@@ -18,16 +18,14 @@ TEST_F(defAssignExprTest, simpleGlobalDefAssign) {
     )SRC")
         .shouldVerified(true);
 
-    auto& owns = (scope::super&) getSlot().subs().getContainer();
-    auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
-    ASSERT_FALSE(nul(shares));
-    ASSERT_FALSE(nul(owns));
+    auto& owns = (scope::super*) (getSlot() TO(subs().getContainer())) OR_ASSERT(owns);
+    auto& shares = (scope::super*) (getSlot() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(owns.len(), 1);
     ASSERT_EQ(shares.len(), 3);
 
     run();
 
-    ASSERT_EQ(getSubPack().sub<nInt>("age").cast<int>(), 0);
+    ASSERT_EQ(*getSubPack()->sub<nInt>("age")->cast<int>(), 0);
 }
 
 TEST_F(defAssignExprTest, simpleLocalDefAssign) {
@@ -45,7 +43,7 @@ TEST_F(defAssignExprTest, simpleLocalDefAssign) {
 
     run();
 
-    ASSERT_EQ(getSubPack().sub("age").cast<int>(), 3);
+    ASSERT_EQ(*getSubPack()->sub("age")->cast<int>(), 3);
 }
 
 TEST_F(defAssignExprTest, testCircularDependencies) {

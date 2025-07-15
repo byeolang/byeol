@@ -824,8 +824,8 @@ namespace nm {
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
         runExpr* r = lhs.cast<runExpr>();
         if(r) {
-            auto& name = r TO(getSubj().template cast<getExpr>()) TO(getName());
-            if(name == "get") return _onSetElem(*r, rhs);
+            auto* name = r TO(getSubj().template cast<getExpr>()) TO(getName());
+            if(name && *name == "get") return _onSetElem(*r, rhs);
         }
 
         node* ret = _maker.make<assignExpr>(lhs, rhs);
@@ -871,8 +871,8 @@ namespace nm {
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
         runExpr* cast = lhs.cast<runExpr>();
         if(cast) {
-            auto& name = cast->getSubj() TO(template cast<getExpr>()) TO(getName());
-            if(name == "get")
+            auto* name = cast->getSubj() TO(template cast<getExpr>()) TO(getName());
+            if(name && *name == "get")
                 return _onConvertAssignElem(*cast, *_maker.make<FBOExpr>(type, lhs, rhs));
         }
 

@@ -35,20 +35,20 @@ namespace {
     public:
         myfunc():
             super(*new modifier(),
-                funcMgdType("myfunc", ttype<me>::get(), params(), false, *new nVoid()),
+                funcMgdType("myfunc", ttype<me>::get(), params(), false, new nVoid()),
                 *new myBlock()) {
             NM_I("myfunc(%s) new", this);
         }
 
         ~myfunc() override { NM_I("myfunc(%s) delete", this); }
 
-        nbool isRun() const { return getBlock().cast<myBlock>()._executed; }
+        nbool isRun() const { return getBlock().cast<myBlock>()->_executed; }
 
         void setLambda(function<nbool(const ucontainable&, const frames&)> lambda) {
-            getBlock().cast<myBlock>()._lambda = std::move(lambda);
+            getBlock().cast<myBlock>()->_lambda = std::move(lambda);
         }
 
-        nbool isSuccess() const { return getBlock().cast<myBlock>()._res; }
+        nbool isSuccess() const { return getBlock().cast<myBlock>()->_res; }
     };
 
     class nativeFunc: public baseFunc {
@@ -65,7 +65,7 @@ namespace {
         }
 
         const ntype& getType() const override {
-            static mgdType inner = typeMaker::make<me>(params(), nVoid::singleton());
+            static mgdType inner = typeMaker::make<me>(params(), &nVoid::singleton());
             return inner;
         }
 
@@ -98,11 +98,10 @@ pack demo
     )SRC")
         .shouldParsed(true);
     ASSERT_FALSE(nul(getSubPack()));
-    ASSERT_FALSE(nul(getSlot().subs()));
-    auto& shares = (scope::super&) getSlot().subs().getNext().getContainer();
-    ASSERT_FALSE(nul(shares));
+    ASSERT_FALSE(nul(getSlot()->subs()));
+    auto& shares = (scope::super*) (getSlot() TO(subs()) TO(getNext()->getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 2);
-    ASSERT_EQ(getSlot().getManifest().name, "demo");
+    ASSERT_EQ(getSlot()->getManifest().name, "demo");
 }
 
 TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
@@ -114,20 +113,19 @@ TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
     ps.add(new param("age", new nInt()));
     ps.add(new param("grade", new nFlt()));
     f1.setLambda([](const auto& contain, const auto& sf) {
-        const frame& fr = sf[sf.len() - 1] OR.ret(false);
+        const frame& fr = sf.get(sf.len() - 1) OR.ret(false);
 
         // checks slot is in frame:
-        const myfunc& cast = fr.sub<myfunc>("foo", narr(*new nInt(), *new nFlt())) OR.ret(false);
-        const params& ps = cast.getParams() OR.ret(false);
+        const params& ps = fr.sub<myfunc>("foo", narr(*new nInt(), *new nFlt())) TO(getParams()) OR.ret(false);
         if(ps.len() != 2) return false;
         if(ps[0].getOrigin().getType() != ttype<nInt>()) return false;
         if(ps[1].getName() != "grade") return false;
 
         // checks args of funcs is in frame:
         const nInt& age = fr.sub<nInt>("age") OR.ret(false);
-        if(age.cast<int>() != 1) return false;
+        if(*age.cast<int>() != 1) return false;
 
-        const nFlt& grade = fr.sub("grade").cast<nFlt>() OR.ret(false);
+        const nFlt& grade = fr.sub("grade") TO(template cast<nFlt>()) OR.ret(false);
         if(grade.get() < 3.4f || grade.get() > 3.6f) return false;
 
         return true;

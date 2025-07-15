@@ -165,8 +165,7 @@ namespace nm {
     }
 
     void me::_onVisitFuncRet(baseFunc& f) {
-        const ntype& type = f.getType();
-        const getExpr& ret = type.getRet() TO(template cast<getExpr>()) OR.ret();
+        const getExpr& ret = f.getType().getRet() TO(template cast<getExpr>()) OR.ret();
 
         // need to converge return type:
         NM_I("converge type request for ret[%s] of %s", ret.getName(), f);

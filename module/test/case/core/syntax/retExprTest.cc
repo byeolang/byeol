@@ -35,15 +35,8 @@ TEST_F(retExprTest, simpleReturnTypeNegative) {
         .shouldParsed(true);
     shouldVerified(false);
 
-    func& make = getSubPack().sub<func>("make");
-    ASSERT_FALSE(nul(make));
-    blockExpr& blkExp = make.getBlock();
-    ASSERT_FALSE(nul(blkExp));
-    nucontainer& con = blkExp.getStmts();
-    ASSERT_FALSE(nul(con));
-    retExpr& ret = con.begin().get<retExpr>();
-    ASSERT_FALSE(nul(ret));
-
+    func& make = getSubPack() TO(template sub<func>("make")) OR_ASSERT(make);
+    retExpr& ret = make.getBlock().getStmts().begin().get<retExpr>() OR_ASSERT(ret);
     ASSERT_TRUE(ret.getEval()->isSub<retExpr>());
     ASSERT_EQ(ret.getRet().getEval()->getType(), ttype<nVoid>::get());
 }
@@ -176,13 +169,10 @@ TEST_F(retExprTest, retException) {
     )SRC")
         .shouldVerified(true);
 
-    str res = run();
-    ASSERT_FALSE(nul(res));
-    baseErr& cast = res.cast<baseErr>();
-    ASSERT_FALSE(nul(cast));
+    ASSERT_TRUE(run() TO(template cast<baseErr>()));
 
     const auto& ex = getReport();
-    ASSERT_FALSE(nul(ex));
+    ASSERT_TRUE(ex);
     ASSERT_TRUE(ex.len() > 0);
     ASSERT_EQ(ex.len(), 1);
 }
@@ -197,13 +187,10 @@ TEST_F(retExprTest, retExceptionNoThrowAgain) {
     )SRC")
         .shouldVerified(true);
 
-    str res = run();
-    ASSERT_FALSE(nul(res));
-    baseErr& cast = res.cast<baseErr>();
-    ASSERT_FALSE(nul(cast));
+    ASSERT_TRUE(run() TO(template cast<baseErr>()));
 
     const auto& ex = getReport();
-    ASSERT_FALSE(nul(ex));
+    ASSERT_TRUE(ex);
     ASSERT_EQ(ex.len(), 1);
     ASSERT_EQ(ex[0].getMsg(), "just an err");
 }
@@ -218,13 +205,10 @@ TEST_F(retExprTest, retExceptionNoThrowAgain2) {
     )SRC")
         .shouldVerified(true);
 
-    str res = run();
-    ASSERT_FALSE(nul(res));
-    baseErr& cast = res.cast<baseErr>();
-    ASSERT_FALSE(nul(cast));
+    ASSERT_TRUE(run() TO(template cast<baseErr>()));
 
     const auto& ex = getReport();
-    ASSERT_FALSE(nul(ex));
+    ASSERT_TRUE(ex);
     ASSERT_EQ(ex.len(), 2);
 }
 
