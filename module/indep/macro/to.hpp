@@ -7,25 +7,46 @@
 
 namespace nm {
 
-    template <typename T, typename F> auto operator->*(T& t, F&& f) { return f(t); }
-
-    template <typename T, typename F> auto operator->*(const T& t, F&& f) { return f(t); }
-
-    template <typename T, typename F> auto operator->*(T&& t, F&& f) { return f(t); }
-
-    template <typename T, typename F> auto operator->*(T* t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
-        return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
+    template <typename T, typename F> auto operator->*(T& t, F&& f) {
+        if constexpr (std::is_reference_v<decltype(f(t))>)
+            return &f(t);
+        else
+            return f(t);
     }
 
-    template <typename T, typename F> auto operator->*(const T* t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
-        return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
+    template <typename T, typename F> auto operator->*(const T& t, F&& f) {
+        if constexpr (std::is_reference_v<decltype(f(t))>)
+            return &f(t);
+        else
+            return f(t);
+    }
+
+    template <typename T, typename F> auto operator->*(T&& t, F&& f) {
+        if constexpr (std::is_reference_v<decltype(f(t))>)
+            return &f(t);
+        else
+            return f(t);
+    }
+
+    template <typename T, typename F> auto operator->*(T* t, F&& f) {
+        if constexpr (std::is_reference_v<decltype(f(*t))>)
+            return t ? &f(*t) : typeTrait<decltype(&f(*t))>::ret();
+        else
+            return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
+    }
+
+    template <typename T, typename F> auto operator->*(const T* t, F&& f) {
+        if constexpr (std::is_reference_v<decltype(f(*t))>)
+            return t ? &f(*t) : typeTrait<decltype(&f(*t))>::ret();
+        else
+            return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
     }
 
     /// `to` is safe navigation feature of c++:
-    ///     TO supports the safe navigation features of modern languages very intuitively and naturally.
-    ///     the basic usage is ` <pointer-like-variable> TO(yourAccessor())`.
+   ///     `TO` supports the safe navigation features of modern languages very intuitively and naturally.
+    ///     the basic usage is `<expression> TO(yourAccessor())`.
     ///     let's explain with an example first before explain further.
-    /// 
+    ///
     /// usage:
     ///     let's assume that we have following classes.
     ///
@@ -36,7 +57,7 @@ namespace nm {
     ///             Canvas* getCanvas(); // this can return nullptr.
     ///         };
     ///         struct Canvas {
-    ///             Brush* getBrush(int type);
+    ///             Brush& getBrush(int type); // this can't return nullptr.
     ///         };
     /// 
     ///     as-is:
@@ -55,13 +76,9 @@ namespace nm {
     ///                     return -1;
     ///                 }
     ///
-    ///                 auto* brush = canvas->getBrush(BrushType.SYSTEM);
-    ///                 if(nul(brush)) {
-    ///                     log("brush is null");
-    ///                     return -1;
-    ///                 }
+    ///                 Brush& brush = canvas->getBrush(BrushType.SYSTEM);
     ///
-    ///                 return brush->getColorCode();
+    ///                 return brush.getColorCode();
     ///             }
     ///
     ///         of course, this example illustrates a rather extreme train wreck pattern, and is a design that
@@ -75,18 +92,19 @@ namespace nm {
     ///         so the resulting code can become very concise.
     ///
     ///             int getBrushColorCode(Resource r) {
-    ///                 int code = r TO(getPallete()) TO(getCanvas()) TO(getBrush(BrushType.SYSTEM)) TO(getColorCode());
-    ///                 if(code == 0) { // if nullptr returns during safe-navigation, output is default value.
+    ///                 int* code = r TO(getPallete()) TO(getCanvas()) TO(getBrush(BrushType.SYSTEM)) TO(getColorCode());
+    ///                 if(!code) {
     ///                     log("code is null")
     ///                     return -1;
     ///                 }
-    ///                 return code;
+    ///
+    ///                 return *code;
     ///             }
     ///
     /// note:
-    ///     as you can see, it looks easy to use, but there are a few things to be aware of.
+    ///     as you can see, it looks easy to use, but there are a few things that you should be aware of.
     ///
-    ///         1. the previously mentioned pointer-like-variable does not simply mean pointers,
+    ///         1. the previously mentioned `<expression>` does not simply mean pointers and references,
     ///            but also includes classes that satisfy the following conditions.
     ///
     ///             a. a class that defines operator->().
@@ -114,17 +132,22 @@ namespace nm {
     ///                 };
     ///
     ///                 int getBrushColorCode(Resource r) {
-    ///                     // however you can do almost same like above example.
-    ///                     int code = r TO(getPallete()) TO(getCanvas().getBrush(BrushType.SYSTEM)) TO(getColorCode())
-    ///                     if(code == 0) return -1;
+    ///                     // however you can do exactly same like above example.
+    ///                     int* code = r TO(getPallete()) TO(getCanvas()) TO(getBrush(BrushType.SYSTEM)) TO(getColorCode())
+    ///
+    ///                     // but you may notice that you don't have to put `TO` for reference type. so,
+    ///                     int* code = r TO(getPallete().getCanvas()) TO(getBrush(BrushType.SYSTEM)) TO(getColorCode());
+    ///
+    ///                     if(!code) return -1;
     ///                     return code;
     ///                 }
     ///
-    ///         2. if nullptr returned during the chain, the final result value becomes the default value.
+    ///         2. if nullptr returned during the chain, the final result value becomes the nullptr of last type of
+    ///            the chain.
     ///            if it is T*, it will be nullptr, but if it is T, i.e. a function that returns by value,
     ///            the return value will be T{}.
     ///
-    ///         3. never put a reference in TO().
+    ///         3. don't recommend you to put a reference in `TO()`
     ///            references are always non-null, so you can access them directly.
     ///
     ///         4. it is not recommended for any function to return a pointer type to a pointer-like-variable.
@@ -133,14 +156,16 @@ namespace nm {
     ///
     ///         5. it goes very well with OR macro.
     ///            please check the usage of OR macro in advance. If you also use WHEN macro, the code
-    ///            will become more concise.
+    ///            will become way more concise.
     ///
     ///            int getBrushColorMode(Resource r) {
-    ///                // uses OR macro. so type of `brush` is not `Brush*`.
-    ///                auto& brush = r TO(getPallete()) TO(getCanvas().getBrush(BrushType.SYSTEM))
+    ///                // this uses OR macro. so final type of the chain is `int&`.
+    ///                // but `int&` can be copied into new variable `int`.
+    ///                int code = r TO(getPallete()) TO(getCanvas().getBrush(BrushType.SYSTEM)) TO(getColorCode())
     ///                                OR.err("code is null").ret(-1)
-    ///                return brush.getColorCode();
+    ///                return code;
     ///            }
+    ///
 
 #define TO(fn) ->*[&](auto&& __p) -> decltype(__p.fn) { return __p.fn; }
 
