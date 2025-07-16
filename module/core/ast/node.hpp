@@ -76,9 +76,13 @@ namespace nm {
         template <typename T = me> tpriorities<T> subAll(const std::string& name) const;
         template <typename T = me> tpriorities<T> subAll(const std::string* it) const NM_SIDE_FUNC(subAll<T>)
         template <typename T = me>
+        tpriorities<T> subAll(const std::string& name, const args& a) const;
+        template <typename T = me>
         tpriorities<T> subAll(const std::string& name, const args* a) const;
         template <typename T = me>
         tpriorities<T> subAll(const std::string* name, const args* a) const NM_SIDE_FUNC(name, subAll<T>(*name, a), tpriorities<T>());
+        template <typename T = me>
+        tpriorities<T> subAll(const std::string* name, const args& a) const NM_SIDE_FUNC(name, subAll<T>(*name, a), tpriorities<T>());
 
         bool canRun(const args& a) const;
         virtual priorType prioritize(const args& a) const = 0;

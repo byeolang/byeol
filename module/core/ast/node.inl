@@ -144,6 +144,11 @@ namespace nm {
         return ps.join();
     }
 
+    TEMPLATE
+    tpriorities<T> ME::subAll(const std::string& name, const args& a) const {
+        return subAll(name, &a);
+    }
+
 #undef TEMPLATE
 #undef ME
 } // namespace nm
