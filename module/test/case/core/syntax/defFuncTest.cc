@@ -331,7 +331,7 @@ TEST_F(defFuncTest, overloadingDifferentParameters) {
     {
         threadUse th;
         args args1(narr{*new nInt()});
-        auto subs = a.subAll<func>("foo", &args1);
+        auto subs = a.subAll<func>("foo", args1);
         ASSERT_EQ(subs.len(), 1);
         ASSERT_EQ(subs.getPriorType(), EXACT_MATCH);
         const params& ps = subs[0].getParams();
@@ -354,7 +354,7 @@ TEST_F(defFuncTest, overloadingSimilarParameters) {
 
     obj& a = getSubPack() TO(template sub<obj>("a")) OR_ASSERT(a);
 
-    { ASSERT_EQ(a.subAll<func>("foo", &args(nullptr, nBool(), nInt())).len(), 0); }
+    { ASSERT_EQ(a.subAll<func>("foo", args(nullptr, nBool(), nInt())).len(), 0); }
 
     {
         threadUse th;
@@ -394,9 +394,8 @@ TEST_F(defFuncTest, overloadingAmbigiousNegative) {
         .shouldParsed(true);
     shouldVerified(false);
 
-    obj& a = getSubPack().sub<obj>("a");
-    ASSERT_FALSE(nul(a));
-    auto p = a.subAll<func>("foo", args{nulOf<baseObj>(), nInt(), nInt()});
+    obj& a = getSubPack() TO(template sub<obj>("a")) OR_ASSERT(a);
+    auto p = a.subAll<func>("foo", args(nullptr, nInt(), nInt()));
     ASSERT_FALSE(p.isMatched());
     ASSERT_EQ(p.len(), 2);
 }
@@ -436,7 +435,7 @@ TEST_F(defFuncTest, simpleCtor) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<int>(), 4);
+    ASSERT_EQ(*res->cast<int>(), 4);
 }
 
 TEST_F(defFuncTest, multipleCtor) {
@@ -455,7 +454,7 @@ TEST_F(defFuncTest, multipleCtor) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<int>(), 9);
+    ASSERT_EQ(*res->cast<int>(), 9);
 }
 
 TEST_F(defFuncTest, simpleCtorNegative) {

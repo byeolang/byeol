@@ -132,7 +132,7 @@ TEST_F(genericsTest, genericTwice2) {
         .shouldVerified(true);
     str ret = run();
     ASSERT_TRUE(ret);
-    ASSERT_EQ(ret->cast<nint>(), 1);
+    ASSERT_EQ(*ret->cast<nint>(), 1);
 }
 
 TEST_F(genericsTest, simpleUseGenerics) {
@@ -191,7 +191,7 @@ TEST_F(genericsTest, simpleUseGenerics2) {
 
     str ret = run();
     ASSERT_TRUE(ret);
-    ASSERT_EQ(ret->cast<nint>(), 1);
+    ASSERT_EQ(*ret->cast<nint>(), 1);
 }
 
 TEST_F(genericsTest, genericNegative) {

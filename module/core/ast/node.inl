@@ -146,7 +146,7 @@ namespace nm {
 
     TEMPLATE
     tpriorities<T> ME::subAll(const std::string& name, const args& a) const {
-        return subAll(name, &a);
+        return subAll<T>(name, &a);
     }
 
 #undef TEMPLATE

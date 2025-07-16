@@ -15,18 +15,15 @@ TEST_F(defPropExprTest, simpleDefineVariable) {
             ret
     )SRC")
             .shouldVerified(true)) {
-        node& res = getSubPack();
-        ASSERT_FALSE(nul(res));
+        node& res = getSubPack() OR_ASSERT(res);
+        const func& f = res.sub<func>("main", narr()) OR_ASSERT(f);
 
-        const func& f = res.sub<func>("main", narr());
-        ASSERT_FALSE(nul(f));
         const narr& stmts = f.getBlock().getStmts();
-        ASSERT_FALSE(nul(stmts));
         ASSERT_EQ(stmts.len(), 2);
-        const defPropExpr& defProp = stmts[0].cast<defPropExpr>();
-        ASSERT_FALSE(nul(defProp));
+
+        const defPropExpr& defProp = stmts[0].cast<defPropExpr>() OR_ASSERT(defProp);
         ASSERT_EQ(defProp.getName(), "age");
-        ASSERT_EQ(defProp.getRight().getType(), ttype<nInt>());
+        ASSERT_EQ(defProp.getRight()->getType(), ttype<nInt>());
     }
 }
 
@@ -57,28 +54,23 @@ TEST_F(defPropExprTest, definePackVariable2) {
     )SRC")
         .shouldParsed(true);
     shouldVerified(true);
-    slot& s = getSlot();
+    slot& s = getSlot() OR_ASSERT(s);
     ASSERT_EQ(s.getManifest().name, manifest::DEFAULT_NAME);
 
-    auto& owns = ((scope&) getSlot().subs()).getContainer();
-    auto& shares = ((scope&) getSlot().subs()).getNext().getContainer();
-    ASSERT_FALSE(nul(owns));
-    ASSERT_FALSE(nul(shares));
+    auto& owns = (scope*) (getSlot() TO(subs().getContainer())) OR_ASSERT(owns);
+    auto& shares = (scope*) (getSlot() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(owns.len(), 3);
     ASSERT_EQ(shares.len(), 3);
     ASSERT_EQ(owns.getAll<baseObj>().len(), 3);
     ASSERT_EQ(s.subAll<func>().len(), 1);
 
-    nStr& name = s.sub<nStr>("name");
-    ASSERT_FALSE(nul(name));
+    nStr& name = s.sub<nStr>("name") OR_ASSERT(name);
     ASSERT_EQ(name.get(), "");
 
-    nInt& age = s.sub<nInt>("age");
-    ASSERT_FALSE(nul(age));
+    nInt& age = s.sub<nInt>("age") OR_ASSERT(age);
     ASSERT_EQ(age.get(), 0); // 0 is default value.
 
-    nFlt& grade = s.sub<nFlt>("grade");
-    ASSERT_FALSE(nul(grade));
+    nFlt& grade = s.sub<nFlt>("grade") OR_ASSERT(grade);
     ASSERT_EQ(grade.get(), 0.0f);
 }
 

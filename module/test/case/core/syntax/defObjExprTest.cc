@@ -31,27 +31,22 @@ TEST_F(defObjExprTest, objMakeScopeWithOwnsAndSharesButNotPackScope) {
     )SRC")
         .shouldVerified(true);
 
-    node& root = getSubPack();
-    ASSERT_FALSE(nul(root));
-
-    node& a = root.sub("a");
-    ASSERT_FALSE(nul(a));
+    node& root = getSubPack() OR_ASSERT(root);
+    node& a = root.sub("a") OR_ASSERT(a);
 
     const scope& s = a.subs();
-    ASSERT_FALSE(nul(s));
     ASSERT_TRUE(s.len() > 2);
+
     const auto& sArr = s.getContainer();
     ASSERT_EQ(sArr.len(), 1);
-    ASSERT_EQ(sArr.begin().getKey(), "age");
+    ASSERT_EQ(*sArr.begin().getKey(), "age");
     ASSERT_TRUE(sArr.begin()->isSub<nInt>());
 
     ASSERT_EQ(s.chainLen(), 2); // owns + shares
-    const auto& next = s.getNext();
-    ASSERT_FALSE(nul(next));
+    const auto& next = s.getNext() OR_ASSERT(next);
     ASSERT_EQ(next.len(), 3); // foo() + 2 x @ctor
 
     const auto& nextArr = next.getContainer();
-    ASSERT_FALSE(nul(nextArr));
     ASSERT_EQ(nextArr.len(), 3);
     ASSERT_TRUE(nextArr.in("foo"));
 }
@@ -218,7 +213,7 @@ TEST_F(defObjExprTest, defVarWithVoidNegative) {
 
     errReport& rpt = getReport();
     ASSERT_TRUE(rpt);
-    ASSERT_EQ(rpt[0].cast<nerr>().getErrCode(), errCode::VOID_CANT_DEFINED);
+    ASSERT_EQ(rpt[0].cast<nerr>()->getErrCode(), errCode::VOID_CANT_DEFINED);
 }
 
 TEST_F(defObjExprTest, defSameObjAndFuncNegative) {
@@ -457,10 +452,9 @@ TEST_F(defObjExprTest, isStateOfDefObjVerified) {
     )SRC")
         .shouldVerified(true);
 
-    obj& subpack = getSubPack().cast<obj>();
+    obj& subpack = getSubPack()->cast<obj>() OR_ASSERT(subpack);
     ASSERT_TRUE(subpack.getState() >= VERIFIED);
-    obj& person = subpack.sub<obj>("Person");
-    ASSERT_FALSE(nul(person));
+    obj& person = subpack.sub<obj>("Person") OR_ASSERT(person);
     ASSERT_EQ(person.getState(), VERIFIED);
 
     person.subs();
