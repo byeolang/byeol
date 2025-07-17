@@ -16,7 +16,7 @@ namespace nm {
 
     TEMPL ME::tstr(const T& it): SUPER() { this->bind(it); }
 
-    TEMPL ME::tstr(const T* it): SUPER() { this->bind(*it); }
+    TEMPL ME::tstr(const T* it): SUPER() { this->bind(it); }
 
     TEMPL ME::tstr(const binder& rhs): SUPER() { this->bind(*rhs); }
 
