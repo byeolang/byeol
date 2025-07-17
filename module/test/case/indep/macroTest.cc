@@ -17,7 +17,7 @@ TEST(macroTest, NM_GETtest) {
     struct B {
         A* getA() { return &a; }
 
-        A* getNul() { return &a; }
+        A* getNul() { return nullptr; }
 
         A a;
     } b;
