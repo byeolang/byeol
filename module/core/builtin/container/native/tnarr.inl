@@ -59,7 +59,7 @@ namespace nm {
 
     TEMPL
     nbool ME::add(nidx n, const T& new1) {
-        WHEN(!in(n)).exErr(OUT_OF_RANGE, n, len()).ret(false);
+        WHEN(n < 0 || n > len()).exErr(OUT_OF_RANGE, n, len()).ret(false);
 
         _vec.insert(_vec.begin() + n, wrap(new1));
         return true;
