@@ -21,8 +21,12 @@ namespace nm {
 
     TEMPL
     nbool ME::bind(const T* it) {
-        if(!it) rel();
-        return it;
+        if(!it) {
+            rel();
+            return false;
+        }
+
+        return bind(*it);
     }
 
 #undef ME

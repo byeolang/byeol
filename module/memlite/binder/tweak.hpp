@@ -34,7 +34,7 @@ namespace nm {
         T* get();
         const T* get() const NM_CONST_FUNC(get())
 
-        using tbindable::bind;
+        using super::bind;
         nbool bind(const T& new1);
     };
 
