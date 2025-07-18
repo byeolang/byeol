@@ -59,7 +59,9 @@ namespace nm {
 
     nbool me::_onSame(const typeProvidable& rhs) const {
         const me& cast = (const me&) rhs;
-        return get() == cast.get();
+        const instance& got = get() OR.ret(!cast.get());
+        const instance& castGot = cast.get() OR.ret(false);
+        return got == castGot;
     }
 
     bindTag* me::_getBindTag() const { return (bindTag*) bindTag::getBindTag(_itsId); }

@@ -72,6 +72,8 @@ namespace nm {
 
     TEMPL
     ncnt ME::_step(typename iterable::iterationType type, ncnt step) {
+        WHEN_NUL(_iteration).ret(0);
+
         for(int n = 0; n < step; n++) {
             if(_iterate(type, step) <= 0) return n;
             _nextToMatchParamType(type);

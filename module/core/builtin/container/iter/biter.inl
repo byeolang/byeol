@@ -76,6 +76,8 @@ namespace nm {
 
     TEMPL
     ncnt ME::_step(typename iterable::iterationType type, ncnt step) {
+        WHEN_NUL(_iteration).ret(0);
+
         for(int n = 0; n < step; n++) {
             if(_iterate(type) <= 0) return n;
             _nextToMatchParamType(type);
@@ -112,7 +114,7 @@ namespace nm {
 
     TEMPL
     typename ME& ME::_assign(const me& rhs) {
-        _iteration.bind(rhs._iteration ? (iteration*) _iteration->clone() : nullptr);
+        _iteration.bind(rhs._iteration ? (iteration*) rhs._iteration->clone() : nullptr);
         return *this;
     }
 
