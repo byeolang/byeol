@@ -21,12 +21,13 @@ namespace nm {
     me::operator nbool() const { return isExist(); }
 
     me& me::sub(const std::string& name) {
-        return _subs[name] OR.ret(inner);
+        auto& ret = _subs[name].get() OR.ret(inner);
+        return ret;
     }
 
     me& me::sub(const nchar* name) {
         WHEN_NUL(name).ret(inner);
-        return sub(*name);
+        return sub(std::string(name));
     }
 
     me& me::sub(nidx n) {
