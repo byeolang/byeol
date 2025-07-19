@@ -330,7 +330,7 @@ TEST_F(binderTest, testTacticIsImmutable) {
     ASSERT_EQ(&getTactic(weakA), &weakTactic::singleton);
     tstr<A> strA1(weakA);
     ASSERT_EQ(&getTactic(strA1), &strTactic::singleton);
-    strA1.bind(*weakA);
+    strA1.bind(weakA.get());
     ASSERT_EQ(&getTactic(strA), &strTactic::singleton);
     strA1 = weakA;
     ASSERT_EQ(&getTactic(strA), &strTactic::singleton);

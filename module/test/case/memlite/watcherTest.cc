@@ -62,7 +62,7 @@ TEST_F(watcherTest, localVariableBindTagTest) {
     const bindTag& tag = a.getBindTag() OR_ASSERT(tag);
     ASSERT_TRUE(tag.getId().serial);
 
-    ASSERT_TRUE(tag.getChunk());
+    ASSERT_FALSE(tag.getChunk());
 }
 
 TEST_F(watcherTest, NestedClassBindTest) {
