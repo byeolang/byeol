@@ -73,6 +73,7 @@ TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
     scope& inner = tbridger<kniz>::subs();
     // tbridger object released.
     // but does scope still bridge funcs?
+
     ASSERT_EQ(inner.len(), 4);
     ASSERT_TRUE(inner.get<baseFunc>("sayCharPtr"));
 

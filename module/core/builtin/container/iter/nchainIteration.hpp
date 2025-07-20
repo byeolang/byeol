@@ -23,7 +23,7 @@ public:
     }
 
     nbool isEnd() const override {
-        WHEN(!nul(_getNextContainer())).ret(false);
+        WHEN(_getNextContainer()).ret(false);
         return !_iter;
     }
 

@@ -70,7 +70,7 @@ namespace nm {
         // iter:
         iter begin() const;
         iter begin(const K& key) const;
-        iter begin(const K* it) const NM_SIDE_FUNC(it, begin(*it), end());
+        iter begin(const K* it) const NM_SIDE_FUNC(it, begin(*it), iterate(0));
 
         iter rbegin() const;
         iter rbegin(const K& key) const;
@@ -83,19 +83,28 @@ namespace nm {
         virtual iter last() const;
 
         iter iterate(ncnt step) const;
+
+        /// @param  step    determines which element the `iter` will point to. If `0` is entered, an `iter` will be
+        ///                 created that points to the frontmost element.
+        /// @param  isBoundary  determines whether this `iter` belongs to the end boundary of the inner container.
+        ///                     for example, if there is a container with len() of 3, and a reversed boundary iter
+        ///                     that points to the 2nd element for that container is created, and a chain is formed by
+        ///                     linking this iter,
+        ///                     when iterating over the chain, the 3rd element of the container will be iterated in
+        ///                     reverse order.
         iter iterate(ncnt step, nbool isBoundary) const;
         iter iterate(const K& key) const;
-        iter iterate(const K* it) const NM_SIDE_FUNC(it, iterate(*it), end());
+        iter iterate(const K* it) const NM_SIDE_FUNC(it, iterate(*it), begin());
         iter iterate(const K& key, nbool isBoundary) const;
         iter iterate(const K* key, nbool isBoundary) const
-            NM_SIDE_FUNC(key, iterate(*key, isBoundary), end());
+            NM_SIDE_FUNC(key, iterate(*key, isBoundary), iterate(0, isBoundary));
         iter riterate(ncnt step) const;
         iter riterate(ncnt step, nbool isBoundary) const;
         iter riterate(const K& key) const;
-        iter riterate(const K* it) const NM_SIDE_FUNC(it, riterate(*it), rend());
+        iter riterate(const K* it) const NM_SIDE_FUNC(it, riterate(*it), rbegin());
         iter riterate(const K& key, nbool isBoundary) const;
         iter riterate(const K* key, nbool isBoundary) const
-            NM_SIDE_FUNC(key, riterate(*key, isBoundary), rend());
+            NM_SIDE_FUNC(key, riterate(*key, isBoundary), riterate(0, isBoundary));
 
         virtual nbool add(const K& key, const V& val) = 0;
         nbool add(const K* key, const V& val) NM_SIDE_FUNC(key, add(*key, val), false);
