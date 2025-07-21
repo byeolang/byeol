@@ -21,7 +21,7 @@ namespace nm {
     me::operator nbool() const { return isExist(); }
 
     me& me::sub(const std::string& name) {
-        auto& ret = _subs[name].get() OR.ret(inner);
+        me& ret = _subs[name].get() OR.ret(inner);
         return ret;
     }
 

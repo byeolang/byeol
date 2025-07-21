@@ -113,23 +113,23 @@ namespace nm {
     };
 
     // extension for OR macro:
-    template <typename F> instance& operator|(binder& t, F&& f) {
+    template <typename F> tmedium<instance> operator|(binder& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.
-        return *t.get();
+        return t.get();
     }
-    template <typename F> const instance& operator|(const binder& t, F&& f) {
+    template <typename F> tmedium<instance> operator|(const binder& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.
-        return *t.get();
+        return t.get();
     }
-    template <typename F> instance& operator|(binder&& t, F&& f) {
+    template <typename F> tmedium<instance> operator|(binder&& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.
-        return *t.get();
+        return t.get();
     }
 
     // extension for typeTrait:

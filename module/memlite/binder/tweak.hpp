@@ -18,7 +18,7 @@ namespace nm {
         tweak(const type& subtype);
         tweak(const T& it);
         tweak(const T* it);
-        tweak(const __medium__<T>& it);
+        tweak(const tmedium<T>& it);
         tweak(const me& rhs);
         explicit tweak(const binder& rhs);
 
@@ -40,23 +40,23 @@ namespace nm {
     };
 
     // extension for OR macro:
-    template <typename T, typename F> tmay<T> operator|(tweak<T>& t, F&& f) {
+    template <typename T, typename F> tmedium<T> operator|(tweak<T>& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.
-        return *t.get();
+        return t.get();
     }
-    template <typename T, typename F> tmay<T> operator|(const tweak<T>& t, F&& f) {
+    template <typename T, typename F> tmedium<T> operator|(const tweak<T>& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.
-        return *t.get();
+        return t.get();
     }
-    template <typename T, typename F> tmay<T> operator|(tweak<T>&& t, F&& f) {
+    template <typename T, typename F> tmedium<T> operator|(tweak<T>&& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.
-        return *t.get();
+        return t.get();
     }
 
     // extension for typeTrait:
