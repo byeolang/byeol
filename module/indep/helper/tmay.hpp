@@ -26,7 +26,7 @@ namespace nm {
     public:
         tmay() = default;
 
-        explicit tmay(const T& value);
+        tmay(const T& value);
 
     public:
         T* operator->();
@@ -34,6 +34,9 @@ namespace nm {
 
         T& operator*();
         const T& operator*() const NM_CONST_FUNC(operator*());
+
+        operator T&();
+        operator const T&() const;
 
         operator nbool() const;
 

@@ -12,6 +12,12 @@ namespace nm {
     ME::tmay(const T& value): super(value) {}
 
     TEMPLATE
+    ME::operator T&() { return *get(); }
+
+    TEMPLATE
+    ME::operator const T&() const { return *get(); }
+
+    TEMPLATE
     T* ME::operator->() { return get(); }
 
     TEMPLATE
