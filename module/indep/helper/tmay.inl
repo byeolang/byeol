@@ -12,6 +12,9 @@ namespace nm {
     ME::tmay(const T& value): super(value) {}
 
     TEMPLATE
+    ME::tmay(const tmedium<T>& it): super() { if(it) set(*it); }
+
+    TEMPLATE
     ME::operator T&() { return *get(); }
 
     TEMPLATE

@@ -19,6 +19,7 @@ namespace nm {
         tstr(const type& subtype);
         tstr(const T& it);
         tstr(const T* it);
+        tstr(const __medium__<T>& it);
         tstr(const binder& rhs);
         tstr(const me& rhs);
 
@@ -26,19 +27,19 @@ namespace nm {
     };
 
     // extension for OR macro:
-    template <typename T, typename F> T& operator|(tstr<T>& t, F&& f) {
+    template <typename T, typename F> tmay<T> operator|(tstr<T>& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.
         return *t.get();
     }
-    template <typename T, typename F> T& operator|(const tstr<T>& t, F&& f) {
+    template <typename T, typename F> tmay<T> operator|(const tstr<T>& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.
         return *t.get();
     }
-    template <typename T, typename F> T& operator|(tstr<T>&& t, F&& f) {
+    template <typename T, typename F> tmay<T> operator|(tstr<T>&& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.

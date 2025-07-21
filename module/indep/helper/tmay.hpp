@@ -1,10 +1,10 @@
 #pragma once
 
-#include "indep/common.hpp"
 #include "indep/macro/namuMeta.hpp"
 #include "indep/macro/declThis.hpp"
 #include "indep/macro/unconstFunc.hpp"
 #include "indep/helper/typeTrait.hpp"
+#include "indep/helper/tmedium.hpp"
 #include <optional>
 
 namespace nm {
@@ -27,6 +27,8 @@ namespace nm {
         tmay() = default;
 
         tmay(const T& value);
+
+        tmay(const tmedium<T>& value);
 
     public:
         T* operator->();
@@ -52,23 +54,37 @@ namespace nm {
     };
 
     // extension for OR macro:
-    template <typename T, typename F> T& operator|(tmay<T>& t, F&& f) {
+    template <typename T, typename F> tmedium<T> operator|(T* t, F&& f) {
         f(t);
-        // this may return null-reference but take it easy.
+        // this returns null-reference but take it easy.
         // it'll never be used.
-        return *t.get();
+        return t;
     }
-    template <typename T, typename F> T& operator|(const tmay<T>& t, F&& f) {
+
+    template <typename T, typename F> tmedium<T> operator|(const T* t, F&& f) {
         f(t);
         // this may return null-reference but take it easy.
         // it'll never be used.
-        return *t.get();
+        return t;
     }
-    template <typename T, typename F> T& operator|(tmay<T>&& t, F&& f) {
+
+    template <typename T, typename F> tmedium<T> operator|(tmay<T>& t, F&& f) {
         f(t);
         // this may return null-reference but take it easy.
         // it'll never be used.
-        return *t.get();
+        return t.get();
+    }
+    template <typename T, typename F> tmedium<T> operator|(const tmay<T>& t, F&& f) {
+        f(t);
+        // this may return null-reference but take it easy.
+        // it'll never be used.
+        return t.get();
+    }
+    template <typename T, typename F> tmedium<T> operator|(tmay<T>&& t, F&& f) {
+        f(t);
+        // this may return null-reference but take it easy.
+        // it'll never be used.
+        return t.get();
     }
 
     // extension for typeTrait:

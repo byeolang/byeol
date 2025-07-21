@@ -71,32 +71,19 @@ namespace nm {
     ///         Q. Can I use OR after `return`?
     ///         A. `OR` was created based on the precondition that it would be used when defining a variable.
     ///         It cannot be used with the `return` keyword.
-    struct __orStack__ {
-        static void push(nbool val) { _stack.push_back(val); }
-
-        static nbool pop() {
-            nbool ret = _stack.back();
-            _stack.pop_back();
-            return ret;
-        }
-
-    private:
-        inline static std::vector<nbool> _stack;
-    };
-
-    template <typename T, typename F> T& operator|(T* t, F&& f) {
-        f(t);
-        // this returns null-reference but take it easy.
-        // it'll never be used.
-        return *t;
-    }
-
-    template <typename T, typename F> const T& operator|(const T* t, F&& f) {
-        f(t);
-        // this may return null-reference but take it easy.
-        // it'll never be used.
-        return *t;
-    }
+    ///
+    ///         Q. I used OR macro with auto& and got `Non-const lvalue reference to...` error.
+    ///            my code is like below,
+    ///
+    ///             auto& ret = _sub[name].get() OR.ret();
+    ///
+    ///         A. don't use auto keyword.
+    ///         the actual return type of `OR` macro is `tmedium<T>`, and it is implicitly returned as T&
+    ///         through this class.
+    ///         therefore, unless you have a special situation where you want to use tmedium, specify the type
+    ///         directly instead of auto.
+    ///
+    ///             MyClass& ret = _sub[name].get() OR.ret();
 
 #define __OR_DO__(_expr_)                             \
     | [&](auto&& __p) -> void {                       \
@@ -111,4 +98,18 @@ namespace nm {
 #define OR_RET_CTOR __OR_DO__(nul(__p)) return
 
 #define OR_CONTINUE OR_DO continue
+
+    struct __orStack__ {
+        static void push(nbool val) { _stack.push_back(val); }
+
+        static nbool pop() {
+            nbool ret = _stack.back();
+            _stack.pop_back();
+            return ret;
+        }
+
+    private:
+        inline static std::vector<nbool> _stack;
+    };
+
 } // namespace nm

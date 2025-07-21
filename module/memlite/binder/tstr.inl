@@ -18,6 +18,8 @@ namespace nm {
 
     TEMPL ME::tstr(const T* it): SUPER() { this->bind(it); }
 
+    TEMPL ME::tstr(const __medium__<T>& it): SUPER() { this->bind(it.get()); }
+
     TEMPL ME::tstr(const binder& rhs): SUPER() { this->bind(rhs.get()); }
 
     TEMPL ME::tstr(const me& rhs): me((binder&) rhs) {}
