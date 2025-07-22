@@ -62,7 +62,7 @@ namespace nm {
         _GUARD("asExpr.onVisit()");
 
         tstr<convergence> req = new convergence(*_obj.back(), *_funcs.back(), [&]() -> nbool {
-            str ased = me.getAs() TO(template as<baseObj>()) OR.ret(false);
+            tstr<baseObj> ased = me.getAs() TO(template as<baseObj>()) OR.ret(false);
             WHEN(ased->isSub<expr>()).ret(false);
             me.setAs(*ased);
             return true;

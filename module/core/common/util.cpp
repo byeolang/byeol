@@ -17,7 +17,7 @@ namespace nm {
         str eval = value.getEval();
         WHEN(eval).ret((eval->isComplete() ? "" : "@incomplete ") + eval->getType().getName());
 
-        auto& get = value.cast<getExpr>() OR.ret(value.getType().getName());
+        getExpr& get = value.cast<getExpr>() OR.ret(value.getType().getName());
         return get.getName();
     }
 }

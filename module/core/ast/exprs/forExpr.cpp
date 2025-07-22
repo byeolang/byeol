@@ -21,7 +21,7 @@ namespace nm {
     str me::_makeEval() const {
         str ased = _container->getEval();
         str elemType = ased->run("getElemType") OR.err("elemType == null").ret(str());
-        auto& fr = thread::get()._getNowFrame() OR.ret(str());
+        frame& fr = thread::get()._getNowFrame() OR.ret(str());
 
         frameInteract f1(getBlock());
         fr.addLocal(getLocalName(), *((node*) elemType->clone()));

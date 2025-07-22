@@ -66,7 +66,7 @@ namespace nm {
     nbool ME::del(const iter& at) {
         WHEN(at.isEnd()).warn("at is end of the container. skip function.").ret(false);
 
-        auto& e = _getIterationFrom(at) OR.ret(false);
+        nmapIteration&e = _getIterationFrom(at) OR.ret(false);
         _map.erase(e._citer);
 
         return true;
@@ -74,8 +74,8 @@ namespace nm {
 
     TEMPL
     nbool ME::del(const iter& from, const iter& end) {
-        auto& fromE = _getIterationFrom(from) OR.ret(false);
-        auto& endE = _getIterationFrom(end) OR.ret(false);
+        nmapIteration& fromE = _getIterationFrom(from) OR.ret(false);
+        nmapIteration& endE = _getIterationFrom(end) OR.ret(false);
         _map.erase(fromE._citer, endE._citer);
 
         return true;

@@ -24,7 +24,7 @@ namespace nm {
     }
 
     str me::run(const args& a) {
-        auto& fr = thread::get().getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(str());
+        frame& fr = thread::get().getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(str());
         WHEN(!_ret).ret(str(nVoid::singleton()));
 
         // check retValue is null or not:
@@ -34,7 +34,7 @@ namespace nm {
         NM_DI("retExpr: ret[%s]", ret);
 
         // check exception occured during running func.
-        auto& fRet = fr.getFunc() TO(getRet()) OR.exErr(FUNC_SHOULD_RETURN_SOMETHING).ret(str());
+        node& fRet = fr.getFunc() TO(getRet()) OR.exErr(FUNC_SHOULD_RETURN_SOMETHING).ret(str());
         WHEN(_isEx(*ret, fRet)).ret(_returnEx(ret->cast<baseErr>()));
 
         NM_DI("retExpr: frame.setRet(%s)", ret);

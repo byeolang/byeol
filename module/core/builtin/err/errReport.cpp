@@ -15,7 +15,7 @@ namespace nm {
         WHEN(len() != rhs.len()).ret(false);
 
         for(nint n = 0; n < len(); n++) {
-            const auto& elem = get(n) OR_CONTINUE;
+            const baseErr& elem = get(n) OR_CONTINUE;
             WHEN(elem != rhs[n]).ret(false);
         }
         return true;

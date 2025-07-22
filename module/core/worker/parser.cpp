@@ -269,8 +269,8 @@ namespace nm {
     defBlock* me::onDefBlock(defBlock* s, node* stmt) {
         str stmtLife(stmt);
 
-        auto& sRef = s OR.exErr(IS_NUL, getReport(), "s").ret(new defBlock());
-        auto& stmtRef= stmt OR.exErr(IS_NUL, getReport(), "stmt").ret(s);
+        defBlock& sRef = s OR.exErr(IS_NUL, getReport(), "s").ret(new defBlock());
+        node& stmtRef= stmt OR.exErr(IS_NUL, getReport(), "stmt").ret(s);
         NM_DI("tokenEvent: onDefBlock(s, %s)", *stmt);
 
         WHEN(stmtRef.cast<endExpr>()).exErr(END_ONLY_BE_IN_A_FUNC, getReport()).ret(s);
@@ -320,7 +320,7 @@ namespace nm {
     }
 
     node* me::onDefAssign(const defPropExpr* prop, const node* rhs) {
-        auto& propRef = prop OR.exErr(IS_NUL, getReport(), "prop").ret(nullptr);
+        defPropExpr& propRef = prop OR.exErr(IS_NUL, getReport(), "prop").ret(nullptr);
         return _onDefAssign(propRef.getNewModifier(), propRef.getRight(), propRef.getName(), rhs);
     }
 

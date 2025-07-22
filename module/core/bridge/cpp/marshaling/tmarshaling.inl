@@ -10,7 +10,7 @@ namespace nm {
 
     TEMPL
     tarr<T, E> ME::toNative(node& it) {
-        auto& cast = it.cast<arr>() OR.ret(tarr<T, E>());
+        arr& cast = it.cast<arr>() OR.ret(tarr<T, E>());
         return tarr<T, E>(cast);
     }
 

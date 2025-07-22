@@ -35,7 +35,7 @@ namespace nm {
 
     void me::addLocal(const std::string& name, const node& n) {
         WHEN(_stack.size() <= 0).err("couldn't push new node. the top scope is null").ret();
-        auto& locals =
+        scope& locals =
             getLocals() OR.err("it's tried to add variable into %s. it's not valid.", name).ret();
         locals.add(name, n);
     }
@@ -96,7 +96,7 @@ namespace nm {
     }
 
     tstr<nbicontainer> me::mySubs() const {
-        const auto& top = _getTop() OR.ret(tstr<nbicontainer>());
+        const scopeRegister& top = _getTop() OR.ret(tstr<nbicontainer>());
         return top.owner ? top.owner->mySubs() : top.s->getContainer();
     }
 
