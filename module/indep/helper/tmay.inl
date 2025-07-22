@@ -1,6 +1,7 @@
 #pragma once
 
 #include "indep/helper/tmay.hpp"
+#include "indep/helper/tmedium.inl"
 #include "indep/helper/typeTrait.hpp"
 
 namespace nm {

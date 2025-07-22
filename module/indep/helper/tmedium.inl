@@ -1,3 +1,5 @@
+#pragma once
+
 #include "indep/helper/tmedium.hpp"
 
 namespace nm {
