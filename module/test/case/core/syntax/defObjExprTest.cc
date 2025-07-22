@@ -43,10 +43,10 @@ TEST_F(defObjExprTest, objMakeScopeWithOwnsAndSharesButNotPackScope) {
     ASSERT_TRUE(sArr.begin()->isSub<nInt>());
 
     ASSERT_EQ(s.chainLen(), 2); // owns + shares
-    const auto& next = s.getNext() OR_ASSERT(next);
+    const scope& next = s.getNext() OR_ASSERT(next);
     ASSERT_EQ(next.len(), 3); // foo() + 2 x @ctor
 
-    const auto& nextArr = next.getContainer();
+    const scope::super& nextArr = next.getContainer();
     ASSERT_EQ(nextArr.len(), 3);
     ASSERT_TRUE(nextArr.in("foo"));
 }

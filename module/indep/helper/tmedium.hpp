@@ -1,6 +1,9 @@
 #pragma once
 
 #include "indep/common.hpp"
+#include "indep/macro/namuMeta.hpp"
+#include "indep/macro/declThis.hpp"
+#include "indep/macro/unconstFunc.hpp"
 
 namespace nm {
 
@@ -39,6 +42,8 @@ namespace nm {
     //          3. it should be able to determine whether it is a valid T& or not from outside through tmedium.
     template <typename T>
     class tmedium {
+        NM(ME(tmedium))
+
     public:
         tmedium(T* value);
         tmedium(const T* value);
@@ -47,6 +52,8 @@ namespace nm {
         operator T&();
         operator const T&() const;
         operator nbool() const;
+        T* operator->();
+        const T* operator->() const NM_CONST_FUNC(operator->());
 
     public:
         nbool has() const;

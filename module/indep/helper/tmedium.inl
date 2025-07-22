@@ -23,6 +23,9 @@ namespace nm {
     ME::operator nbool() const { return has(); }
 
     TEMPLATE
+    T* ME::operator->() { return get(); }
+
+    TEMPLATE
     nbool ME::has() const { return _value; }
 
     TEMPLATE

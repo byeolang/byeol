@@ -109,7 +109,7 @@ TEST_F(arrTest, simpleAddDelTest) {
     arr1.add(*(new myNode(EXPECT_NUMBER)));
     ASSERT_EQ(arr1.len(), 1);
 
-    auto elem1 = arr1[0].cast<myNode>() OR_ASSERT(elem1);
+    myNode& elem1 = arr1[0].cast<myNode>() OR_ASSERT(elem1);
     ASSERT_EQ(elem1.number, EXPECT_NUMBER);
 }
 

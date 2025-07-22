@@ -99,7 +99,7 @@ pack demo
         .shouldParsed(true);
     ASSERT_FALSE(nul(getSubPack()));
     ASSERT_FALSE(nul(getSlot()->subs()));
-    auto& shares = (scope::super*) (getSlot() TO(subs()) TO(getNext()->getContainer())) OR_ASSERT(shares);
+    scope::super& shares = (scope::super*) (getSlot() TO(subs()) TO(getNext()->getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 2);
     ASSERT_EQ(getSlot()->getManifest().name, "demo");
 }

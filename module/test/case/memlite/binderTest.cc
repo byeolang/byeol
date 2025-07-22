@@ -165,7 +165,7 @@ TEST_F(binderTest, shouldBindTagInaccessibleAfterInstanceTermination) {
     {
         B b1;
         i = b1.getId();
-        const auto& cell = watcher.get(i) OR_ASSERT(cell);
+        const watchCell& cell = watcher.get(i) OR_ASSERT(cell);
         tag = &cell.blk;
         ASSERT_TRUE(tag);
         ASSERT_EQ(i, tag->getId());

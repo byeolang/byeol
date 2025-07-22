@@ -18,8 +18,8 @@ TEST_F(defAssignExprTest, simpleGlobalDefAssign) {
     )SRC")
         .shouldVerified(true);
 
-    auto& owns = (scope::super*) (getSlot() TO(subs().getContainer())) OR_ASSERT(owns);
-    auto& shares = (scope::super*) (getSlot() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& owns = (scope::super*) (getSlot() TO(subs().getContainer())) OR_ASSERT(owns);
+    scope::super& shares = (scope::super*) (getSlot() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(owns.len(), 1);
     ASSERT_EQ(shares.len(), 3);
 

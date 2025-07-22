@@ -57,8 +57,8 @@ TEST_F(defPropExprTest, definePackVariable2) {
     slot& s = getSlot() OR_ASSERT(s);
     ASSERT_EQ(s.getManifest().name, manifest::DEFAULT_NAME);
 
-    auto& owns = (scope*) (getSlot() TO(subs().getContainer())) OR_ASSERT(owns);
-    auto& shares = (scope*) (getSlot() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& owns = (scope*) (getSlot() TO(subs().getContainer())) OR_ASSERT(owns);
+    scope::super& shares = (scope*) (getSlot() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(owns.len(), 3);
     ASSERT_EQ(shares.len(), 3);
     ASSERT_EQ(owns.getAll<baseObj>().len(), 3);

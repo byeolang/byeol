@@ -4,7 +4,7 @@
 #include "indep/macro/declThis.hpp"
 #include "indep/macro/unconstFunc.hpp"
 #include "indep/helper/typeTrait.hpp"
-#include "indep/helper/tmedium.hpp"
+#include "indep/helper/tmedium.inl"
 #include <optional>
 
 namespace nm {

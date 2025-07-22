@@ -587,7 +587,7 @@ TEST_F(nchainTest, testChainCopy) {
 
     std::vector<float> tray;
     for(auto e = cloned2->begin(); e; ++e) {
-        auto& key = e.getKey() OR_ASSERT(key);
+        float& key = e.getKey() OR_ASSERT(key);
         ASSERT_EQ(key, (float) e->cast<myNode>()->number);
         tray.push_back(key);
     }
@@ -615,7 +615,7 @@ TEST_F(nchainTest, testDeepChainAddDel) {
     chn3.add(5.0, new myNode2(5));
     chn3.add(6.0, new myNode(6));
 
-    auto& tail = root->getTail() OR_ASSERT(tail); // tail is chn2 from root.
+    tnchain<float, myNode>& tail = root->getTail() OR_ASSERT(tail); // tail is chn2 from root.
     ASSERT_EQ(tail.len(), 2);
     ASSERT_NE(&tail, &chn2);
     ASSERT_EQ(tail.getContainer(), chn2.getContainer());

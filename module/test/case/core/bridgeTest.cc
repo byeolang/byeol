@@ -277,7 +277,7 @@ TEST_F(bridgeTest, baseObjWithBridgeOrigin) {
     ASSERT_EQ(a1.foo(1), 2);
     ASSERT_EQ(a2.foo(1), 3);
 
-    auto& foo = a1.sub<baseFunc>("foo") OR_ASSERT(foo);
+    baseFunc& foo = a1.sub<baseFunc>("foo") OR_ASSERT(foo);
     ASSERT_TRUE(a2.sub<baseFunc>("foo"));
 
     const auto& ps = foo.getParams();

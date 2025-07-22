@@ -39,12 +39,12 @@ TEST_F(parserTest, slotNoOnTray) {
     )SRC");
     shouldVerified(true);
 
-    const auto& slot = getSlot() OR_ASSERT(slot);
+    const slot& slot = getSlot() OR_ASSERT(slot);
     auto& owns = (scope::super&) slot.subs().getContainer();
     ASSERT_EQ(owns.len(), 0);
     ASSERT_EQ(slot.getManifest().name, manifest::DEFAULT_NAME);
 
-    auto& next = slot.subs().getNext() OR_ASSERT(next);
+    scope& next = slot.subs().getNext() OR_ASSERT(next);
     auto& shares = (scope::super&) next.getContainer();
     ASSERT_EQ(shares.len(), 3); // 2 builtin func
     ASSERT_EQ(&slot.getPack(), getSubPack());
@@ -61,7 +61,7 @@ TEST_F(parserTest, slotNoOnTrayWithoutMake) {
     )SRC");
     shouldVerified(true);
 
-    auto& slot = getSlot() OR_ASSERT(slot);
+    slot& slot = getSlot() OR_ASSERT(slot);
     ASSERT_TRUE(slot.subs().getNext());
     ASSERT_EQ(slot.getManifest().name, manifest::DEFAULT_NAME);
     ASSERT_EQ(&slot.getPack(), getSubPack());
