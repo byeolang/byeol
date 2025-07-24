@@ -19,8 +19,6 @@ namespace nm {
 
     public:
         tnarr();
-        tnarr(std::initializer_list<T*> args);
-
         /// @param  elems   instances to derived type of T.
         ///                 should be created on Heap.
         template <typename... Es> explicit tnarr(const Es&... elems) {
@@ -28,8 +26,11 @@ namespace nm {
                 "some of type of args are not base of type 'T'");
             add({(T*) &elems...});
         }
+        tnarr(const me& rhs);
 
     public:
+        me& operator=(const me& rhs) = default;
+
         using tarrayable<T>::operator[];
 
         T& operator[](nidx n) override { return *get(n); }

@@ -9,11 +9,9 @@ namespace nm {
 
     me::args() {}
 
-    me::args(const baseObj& me): _me(me) {}
-
     me::args(const narr& rhs): super(rhs) {}
 
-    me::args(const baseObj& me, const narr& rhs): super(rhs), _me(me) {}
+    me::args(const baseObj* me, const narr& rhs): super(rhs), _me(me) {}
 
     const me& me::setMe(const node& me) const {
         _me.bind(me);
