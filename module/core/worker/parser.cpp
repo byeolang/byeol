@@ -792,7 +792,7 @@ namespace nm {
 
     node* me::onGetElem(const node& arr, const node& idx) {
         node* ret = _maker.make<runExpr>(&arr,
-            *_maker.make<getExpr>(arr, "get", *new args{narr{idx}}), args{narr{idx}});
+            *_maker.make<getExpr>(arr, "get", *new args(narr(idx))));
         NM_DI("tokenEvent: onGetElem(%s, %s)", arr, idx);
         return ret;
     }
@@ -1151,7 +1151,7 @@ namespace nm {
 
     runExpr* me::onIn(const node& it, const node& container) {
         runExpr* ret = _maker.make<runExpr>(&container, *_maker.make<getExpr>("in"),
-            args{nullptr, it});
+            args(nullptr, narr(it)));
         NM_DI("tokenEvent: onIn(%s, %s)", it, container);
         return ret;
     }

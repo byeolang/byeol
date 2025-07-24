@@ -272,12 +272,12 @@ TEST_F(funcTest, putFuncManuallyAsParamGettingLambda) {
     ASSERT_TRUE(lambda2Type.getParams()[0].getOrigin().isSub<nFlt>());
 
     // is lambda runnable?
-    str res = o.run("myfunc", args{narr{*new getExpr(o, "lambda")}});
+    str res = o.run("myfunc", args(narr(*new getExpr(o, "lambda"))));
     ASSERT_TRUE(f.isRun());
 
     // check lambda1 is compatible to lambda2?
     f.setUp();
-    res = o.run("myfunc", args{narr{*new getExpr(o, "lambda2")}});
+    res = o.run("myfunc", args(narr(*new getExpr(o, "lambda2"))));
     ASSERT_FALSE(f.isRun());
 }
 
@@ -305,11 +305,11 @@ TEST_F(funcTest, putFuncManuallyAsParamLambda) {
     ASSERT_TRUE(lambda2Type.getParams()[0].getOrigin().isSub<nFlt>());
 
     // is lambda runnable?
-    str res = o.run("myfunc", args{narr{*new getExpr(o, "lambda")}});
+    str res = o.run("myfunc", args(narr(*new getExpr(o, "lambda"))));
     ASSERT_TRUE(f.isRun());
 
     // check lambda1 is compatible to lambda2?
     f.setUp();
-    res = o.run("myfunc", args{narr{*new getExpr(o, "lambda2")}});
+    res = o.run("myfunc", args(narr(*new getExpr(o, "lambda2"))));
     ASSERT_FALSE(f.isRun());
 }

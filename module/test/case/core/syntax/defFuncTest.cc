@@ -354,7 +354,7 @@ TEST_F(defFuncTest, overloadingSimilarParameters) {
 
     obj& a = getSubPack() TO(template sub<obj>("a")) OR_ASSERT(a);
 
-    { ASSERT_EQ(a.subAll<func>("foo", args(nullptr, nBool(), nInt())).len(), 0); }
+    { ASSERT_EQ(a.subAll<func>("foo", args(nullptr, narr(nBool(), nInt()))).len(), 0); }
 
     {
         threadUse th;
@@ -395,7 +395,7 @@ TEST_F(defFuncTest, overloadingAmbigiousNegative) {
     shouldVerified(false);
 
     obj& a = getSubPack() TO(template sub<obj>("a")) OR_ASSERT(a);
-    auto p = a.subAll<func>("foo", args(nullptr, nInt(), nInt()));
+    auto p = a.subAll<func>("foo", args(nullptr, narr(nInt(), nInt())));
     ASSERT_FALSE(p.isMatched());
     ASSERT_EQ(p.len(), 2);
 }

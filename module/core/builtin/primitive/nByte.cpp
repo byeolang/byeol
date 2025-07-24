@@ -36,7 +36,7 @@ namespace nm {
     }
 
     const ases& me::nByteType::_getAses() const {
-        static ases inner{new asPrimitive<nFlt, nuchar>(), new asStr()};
+        static ases inner(*new asPrimitive<nFlt, nuchar>(), *new asStr());
         return inner;
     }
 

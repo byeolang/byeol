@@ -45,17 +45,17 @@ TEST_F(exprTest, standbyHelloWorldBridgeObj) {
     ASSERT_TRUE(bridge.isBind());
 
     tstr<nStr> msg(new nStr());
-    args a(*bridge, narr(*msg));
+    args a(bridge.get(), narr(*msg));
 
     node& mainFunc = bridge->sub("main", a) OR_ASSERT(mainFunc);
     ASSERT_TRUE(mainFunc.canRun(a));
-    ASSERT_FALSE(mainFunc.canRun(args(bridge.get(), *bridge, *msg)));
+    ASSERT_FALSE(mainFunc.canRun(args(bridge.get(), narr(*bridge, *msg))));
     ASSERT_FALSE(helloWorld::isRun);
     str res = mainFunc.run(a);
     ASSERT_TRUE(res.isBind());
     res = bridge->run("main", a);
     ASSERT_TRUE(res.isBind());
-    res = bridge->run("main", args(nullptr, *msg));
+    res = bridge->run("main", args(nullptr, narr(*msg)));
     ASSERT_TRUE(res.isBind());
     ASSERT_TRUE(res.getType() == ttype<node>::get());
     ASSERT_TRUE(res->getType() == ttype<nVoid>::get());

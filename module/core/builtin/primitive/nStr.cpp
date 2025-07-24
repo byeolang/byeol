@@ -249,7 +249,7 @@ namespace nm {
     } // namespace
 
     const ases& me::nStrType::_getAses() const {
-        static ases inner{new asBool(), new asFlt(), new asInt(), new asByte()};
+        static ases inner(*new asBool(), *new asFlt(), *new asInt(), *new asByte());
         return inner;
     }
 

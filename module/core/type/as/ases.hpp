@@ -10,7 +10,8 @@ namespace nm {
 
     public:
         ases();
-        ases(const std::initializer_list<aser*>& args);
+        template <typename... Es>
+        explicit ases(const Es&... elems): super(elems...) {}
 
     public:
         using asable::is;

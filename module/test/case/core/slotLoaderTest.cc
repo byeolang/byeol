@@ -20,7 +20,7 @@ TEST_F(slotLoaderTest, testDefaultLoaderInit) {
         ASSERT_EQ(sayFunc.getRet()->getType(), nVoid().getType());
         ASSERT_EQ(sayFunc.getParams().len(), 0); // 'me' of func won't be passed as an argument.
 
-        args a(narr{origin});
+        args a((narr(origin)));
         str res = sayFunc.run(a);
         ASSERT_FALSE(res);          // don't run func itself.
         res = origin.run("say", a); // don't need to pass 'me' argument
@@ -38,7 +38,7 @@ TEST_F(slotLoaderTest, testDefaultLoaderInit) {
         ASSERT_EQ(argTypes[1].getOrigin().getType(), ttype<nInt>::get());
 
         nInt arg1(5);
-        str retVal = add.run(narr{arg1}); // should nothing happen
+        str retVal = add.run(args(narr(arg1))); // should nothing happen
         ASSERT_FALSE(retVal);
 
         args a;

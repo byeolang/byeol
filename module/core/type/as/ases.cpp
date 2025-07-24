@@ -28,10 +28,6 @@ namespace nm {
 
     me::ases(): super(derivedAs::singleton()) {}
 
-    me::ases(const std::initializer_list<aser*>& args): super(args) {
-        add(begin(), derivedAs::singleton());
-    }
-
     str me::as(const node& from, const type& to) const {
         const type& fromType = from.getType();
 

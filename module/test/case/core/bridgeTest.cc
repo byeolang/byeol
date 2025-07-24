@@ -82,7 +82,7 @@ TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
         ASSERT_EQ(b->subs().len(), 4);
 
         kniz::isRun = false;
-        b->run("say", narr{nStr("hello")});
+        b->run("say", narr{&nStr("hello")});
         ASSERT_EQ(kniz::isRun, true);
 
         str new1 = b->run();
@@ -118,12 +118,12 @@ TEST_F(bridgeTest, passObj) {
     str winBridge(tbridger<window>::make(new window()));
     str winOpenGL(tbridger<openGL>::make(new openGL()));
 
-    winBridge->run("setY", args{narr{*new nInt(20)}});
+    winBridge->run("setY", args(narr(*new nInt(20))));
     str res = winBridge->run("getY");
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 20);
 
-    res = winOpenGL->run("init", args{narr{*winBridge}});
+    res = winOpenGL->run("init", args(narr(*winBridge)));
     ASSERT_TRUE(res);
     ASSERT_EQ(*res->cast<nint>(), 25);
 }
@@ -132,8 +132,8 @@ TEST_F(bridgeTest, returnObj) {
     str winBridge(tbridger<window>::make(new window()));
     str winOpenGL(tbridger<openGL>::make(new openGL()));
 
-    str newWin = winBridge->run("new1", args{narr{*new nInt(15)}});
-    str res = winOpenGL->run("init", args{narr{*newWin}});
+    str newWin = winBridge->run("new1", args(narr(*new nInt(15))));
+    str res = winOpenGL->run("init", args(narr(*newWin)));
     ASSERT_TRUE(res);
     ASSERT_EQ(*res->cast<nint>(), 20);
 }
@@ -162,8 +162,8 @@ TEST_F(bridgeTest, passArray) {
     narrBridge->get().add(*new nInt(0)); // call func directly.
     narrBridge->get().add(*new nInt(1));
     narrBridge->get().add(*new nInt(2));
-    mgrBridge->run("add", args{narr{*narrBridge}});
-    mgrBridge->run("del", args{narr{*new nInt(1)}}); // 0, 2 remains.
+    mgrBridge->run("add", args(narr(*narrBridge)));
+    mgrBridge->run("del", args(narr(*new nInt(1)))); // 0, 2 remains.
 
     const narr& res = mgrBridge->cast<tbridge<windowManager>>()->get()._wins;
     ASSERT_EQ(res.len(), 2);
@@ -193,7 +193,7 @@ TEST_F(bridgeTest, passRawObj) {
     o1.age = 5;
 
     str stg(tbridger<stage>::ctor().ctor<stage>().func("foo", &stage::foo).make(new stage()));
-    str res = stg->run("foo", args{narr{o1}});
+    str res = stg->run("foo", args(narr(o1)));
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 5);
 }
@@ -240,7 +240,7 @@ TEST_F(bridgeTest, passArr) {
                     .func("updateLen", &testObj::updateLen)
                     .func("sumOfLen", &testObj::sumOfLen)
                     .make(new testObj()));
-    str res = testobj->run("updateLen", args{narr{a}});
+    str res = testobj->run("updateLen", args(narr(a)));
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 3);
 

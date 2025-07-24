@@ -47,7 +47,7 @@ namespace nm {
             }
 
             nbool postprocess(frame& fr) override {
-                _iter->run("next", args{narr{*new nInt(1)}});
+                _iter->run("next", args(narr(*new nInt(1))));
                 return super::postprocess(fr);
             }
 
@@ -60,7 +60,7 @@ namespace nm {
 
     tstr<me::loop> me::_makeLoop(arr& ret) const {
         str ased = _container->as<node>() OR.err("ased is null").ret(str());
-        str iter = ased->run("iterate", args{narr{*new nInt(0)}}) OR.err("iter is null").ret(str());
+        str iter = ased->run("iterate", args(narr(*new nInt(0)))) OR.err("iter is null").ret(str());
 
         NM_DI("forExpr: loop %s in %s", getLocalName(), ased->getSrc());
         return new forLoop(ret, ased, iter, *this);

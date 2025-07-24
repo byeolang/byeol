@@ -86,8 +86,8 @@ TEST_F(genericsTest, genericTwice1) {
         .shouldVerified(true);
     run();
     node& object = getSubPack() TO(sub("object")) OR_ASSERT(object);
-    str a = object.run(args(nullptr, *new nStr())) OR_ASSERT(a);
-    str b = object.run(args(nullptr, *new nFlt())) OR_ASSERT(b);
+    str a = object.run(args(nullptr, narr(*new nStr()))) OR_ASSERT(a);
+    str b = object.run(args(nullptr, narr(*new nFlt()))) OR_ASSERT(b);
     ASSERT_NE(a.get(), b.get());
 
     node& aFoo = a->sub("foo") OR_ASSERT(aFoo);
@@ -477,7 +477,7 @@ TEST_F(genericsTest, generalizedObjShouldRemoveExpandFunc) {
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 22);
 
-    str generic = getSubPack() TO(sub("Person")) TO(run(args{narr{nInt()}}));
+    str generic = getSubPack() TO(sub("Person")) TO(run(args(narr(nInt()))));
     ASSERT_TRUE(generic);
     ASSERT_TRUE(nul(generic->sub(baseObj::EXPAND_NAME)));
 }
@@ -497,9 +497,9 @@ TEST_F(genericsTest, genericObjCallCompleteShouldDifferentEach) {
     ASSERT_EQ(*res.cast<nint>(), 0);
 
     node& org = getSubPack() TO(sub("person")) OR_ASSERT(org);
-    tstr<obj> intObj = org.run(args{narr{nInt()}});
+    tstr<obj> intObj = org.run(args(narr(nInt())));
     ASSERT_TRUE(intObj);
-    tstr<obj> strObj = org.run(args{narr{nStr()}});
+    tstr<obj> strObj = org.run(args(narr(nStr())));
     ASSERT_TRUE(strObj);
 
     runExpr& intRun = intObj->getCallComplete() TO(template cast<runExpr>()) OR_ASSERT(intRun);

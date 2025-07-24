@@ -245,7 +245,7 @@ namespace nm {
 
         _STEP("whether the 'type' object has a ctor without any paramters?");
         str eval = me TO(getRight()) TO(getEval()) OR.myExErr(me, RHS_IS_NUL).ret();
-        WHEN(eval->isSub<baseObj>() && nul(eval->sub(baseObj::CTOR_NAME, args{})))
+        WHEN(eval->isSub<baseObj>() && nul(eval->sub(baseObj::CTOR_NAME, args())))
             .myExErr(me, DONT_HAVE_CTOR, eval)
             .ret();
         func* fun = eval->cast<func>();
@@ -664,7 +664,7 @@ namespace nm {
 
         _STEP("if obj is complete, does it have ctor without params?");
         if(me.isComplete())
-            WHEN_NUL(me.sub(baseObj::CTOR_NAME, args{}))
+            WHEN_NUL(me.sub(baseObj::CTOR_NAME, args()))
                 .myExErr(me, COMPLETE_OBJ_BUT_NO_CTOR)
                 .ret(true);
 
