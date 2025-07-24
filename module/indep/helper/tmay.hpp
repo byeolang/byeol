@@ -68,28 +68,28 @@ namespace nm {
         return t;
     }
 
-    template <typename T, typename F> tmedium<T> operator|(tmay<T>& t, F&& f) {
+    template <typename T, typename F> tmay<T>& operator|(tmay<T>& t, F&& f) {
         f(t);
         // this may return null-reference but take it easy.
         // it'll never be used.
-        return t.get();
+        return t;
     }
-    template <typename T, typename F> tmedium<T> operator|(const tmay<T>& t, F&& f) {
+    template <typename T, typename F> const tmay<T>& operator|(const tmay<T>& t, F&& f) {
         f(t);
         // this may return null-reference but take it easy.
         // it'll never be used.
-        return t.get();
+        return t;
     }
-    template <typename T, typename F> tmedium<T> operator|(tmay<T>&& t, F&& f) {
+    template <typename T, typename F> T&& operator|(tmay<T>&& t, F&& f) {
         f(t);
         // this may return null-reference but take it easy.
         // it'll never be used.
-        return t.get();
+        return std::move(*t);
     }
 
     // extension for typeTrait:
     template <typename T> struct typeTrait<tmay<T>> {
-        static nbool isNul(const tmay<T>& it) { return nul(&it) || !it.has(); }
+        static nbool isNul(const tmay<T>& it) { return !it.has(); }
 
         static constexpr nbool is_ptr = false;
         static constexpr nbool is_ref = false;
