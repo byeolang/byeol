@@ -172,7 +172,7 @@ TEST_F(funcTest, testCallfuncInsidefunc) {
         return true;
     });
 
-    args a(obj1);
+    args a(&obj1, args());
     ASSERT_EQ(nm::thread::get().getFrames().len(), 0);
     obj1.run(func1Name, a);
     ASSERT_EQ(nm::thread::get().getFrames().len(), 0);

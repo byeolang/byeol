@@ -82,7 +82,7 @@ TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
         ASSERT_EQ(b->subs().len(), 4);
 
         kniz::isRun = false;
-        b->run("say", narr{&nStr("hello")});
+        b->run("say", args(narr(nStr("hello"))));
         ASSERT_EQ(kniz::isRun, true);
 
         str new1 = b->run();
