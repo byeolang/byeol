@@ -13,9 +13,7 @@ namespace nm {
         args(const narr& rhs);
         args(const baseObj* me);
         args(const baseObj* me, const narr& rhs);
-        args(const me& rhs): super((const super&) rhs), _me(rhs._me) {
-            std::cout << "args::args(me&): this == " << (void*) getMe() << ", rhs == " << rhs.getMe() << "\n";
-        }
+        args(const me& rhs);
 
     public:
         /// @param me this should be evaluated already before you pass it to this func.

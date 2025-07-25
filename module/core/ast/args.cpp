@@ -15,6 +15,8 @@ namespace nm {
 
     me::args(const baseObj* me, const narr& rhs): super(rhs), _me(me) {}
 
+    me::args(const me& rhs): super((const super&) rhs), _me(rhs._me) {}
+
     const me& me::setMe(const node& me) const {
         _me.bind(me);
         return *this;
