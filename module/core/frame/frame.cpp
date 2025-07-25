@@ -23,7 +23,6 @@ namespace nm {
     void me::add(const node& owner) { add(&owner, owner.subs()); }
 
     void me::add(const node* owner, const scope& existing) {
-        WHEN_NUL(existing).ret();
         if(_stack.size() <= 0)
             return _stack.push_back(scopeRegister{owner, existing, existing}), void();
 

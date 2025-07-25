@@ -302,9 +302,6 @@ namespace nm {
     void me::onLeave(const visitInfo& i, defNestedFuncExpr& me, nbool) {
         _GUARD("onLeave(defNestedFuncExpr&)");
 
-        _STEP("check me has origin");
-        WHEN_NUL(me.getOrigin()).myExErr(me, NO_FUNC_INFO).ret();
-
         _STEP("does it have `eval`?");
         frame& fr = thread::get()._getNowFrame() OR.myExErr(me, THERE_IS_NO_FRAMES_IN_THREAD).ret();
         str eval = me.getEval();
@@ -558,18 +555,12 @@ namespace nm {
 
     nbool me::onVisit(const visitInfo& i, closure& me, nbool) {
         _GUARD("onVisit(closure&)");
-
-        // TODO: remove _STEP("is me captured?");
-        //WHEN_NUL(me.getOrigin()).myExErr(me, NOT_CAPTURED).ret(true);
-
-        // TODO: remove _STEP("does it have a func info?");
-        //WHEN_NUL(me.getFunc()).myExErr(me, NOT_HAS_FUNC).ret(true);
         return true;
     }
 
     void me::onLeave(const visitInfo& i, closure& me, nbool) {
         _GUARD("onLeave(closure&)");
-        // do tnohing:
+        // do nothing:
         //  if I don't override this, closure::outFrame will be called.
         //  I have overrided onVisit for clousre, so I override onLeave() too.
     }

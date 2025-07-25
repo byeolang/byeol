@@ -432,7 +432,6 @@ namespace nm {
     }
 
     narr* me::onParams(const defPropExpr& elem) {
-        WHEN_NUL(elem).exErr(IS_NUL, getReport(), "elem").ret(new narr());
         NM_DI("tokenEvent: onParams(%s %s)", elem.getName(), elem.getRight());
         narr* ret = new narr();
         ret->add(elem);
@@ -441,7 +440,6 @@ namespace nm {
     }
 
     narr* me::onParams(narr& it, const defPropExpr& elem) {
-        WHEN_NUL(elem).exErr(IS_NUL, getReport(), "elem").ret(&it);
         NM_DI("tokenEvent: onParams(narr(%d), %s %s)", it.len(), elem.getName(), elem.getRight());
         it.add(elem);
 

@@ -5,7 +5,6 @@ namespace nm {
     NM(DEF_ME(params))
 
     nbool me::operator==(const me& rhs) const {
-        WHEN_NUL(rhs).ret(false);
         WHEN(len() != rhs.len()).ret(false);
 
         for(nidx n = 0; n < len(); n++)

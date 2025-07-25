@@ -35,7 +35,6 @@ namespace nm {
 
     str me::run(const args& a) {
         NM_I("@%s prepare to run `%s(%s)`...", this, getSrc(), getParams());
-        WHEN_NUL(a).err("a == null").ret(str());
         WHEN(!thread::get().isInteractable())
             .err("thread isn't interactable")
             .ret(nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD));

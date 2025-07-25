@@ -79,8 +79,6 @@ namespace nm {
     }
 
     me* me::_make(defNestedFuncExpr& e) {
-        WHEN_NUL(e).ret(nullptr);
-
         return _make(e.run()->cast<func>());
     }
 } // namespace nm
