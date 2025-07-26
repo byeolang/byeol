@@ -95,7 +95,7 @@ input#bt-close {
     margin-top: 5px;
     background-color: #8C7765;
     border-radius: 15px;
-    padding-top: 0px;
+    padding-top: 5px;
 }
 
 input#bt-close:hover {
