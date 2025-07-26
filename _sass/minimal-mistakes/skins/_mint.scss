@@ -3,13 +3,21 @@
    ========================================================================== */
 
 /* Colors */
-$background-color: #f3f6f6 !default;
+$white: #E9EBF2;
+$night: #0B1C26;
+$grass: #6AB04B;
+$point: #4189A6;
+$moon: #D9B29C;
+$nebular: #ca5fa4;
+$nebular-light: #F2B6D7;
+
+$background-color: $white !default;
 $text-color: #40514e !default;
 $muted-text-color: #40514e !default;
 $primary-color: #8CC540 !default;
 $border-color: mix(#fff, #40514e, 75%) !default;
 $footer-background-color: #30e3ca !default;
-$link-color: #8CC540 !default;
+$link-color: $point !default;
 $masthead-link-color: $text-color !default;
 $masthead-link-color-hover: $text-color !default;
 $navicon-link-color-hover: mix(#fff, $text-color, 80%) !default;
