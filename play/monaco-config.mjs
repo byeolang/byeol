@@ -78,19 +78,18 @@ monaco.editor.defineTheme('byeolTheme', {
   base: 'vs-dark',
   inherit: false,
   rules: [
-    { token: "keyword", foreground: "#8cc540" },
+    { token: "keyword", foreground: "#4189A6" },
     { token: "comment", foreground: "#556d69" },
-    { token: "number", foreground: "#b9a999" },
-    { token: "string", foreground: "#ff507f" },
-    { token: "delimiter", foreground: "#355689" },
-    { token: "operator", foreground: "#355689" },
+    { token: "number", foreground: "#E9EBF2" },
+    { token: "string", foreground: "#CA5FA4" },
+    { token: "delimiter", foreground: "#2E4559" },
+    { token: "operator", foreground: "#2E4559" },
     { token: "identifier", foreground: "#b9a999" },
-    { token: "identifier.function", foreground: "#2d8bff" },
-    { token: "type", foreground: "#369d44" },
+    { token: "type", foreground: "#6AB04B" },
 
   ],
   colors: {
-    'editor.background': '#152330'
+    'editor.background': '#0B1C26'
   }
 });
 
