@@ -97,6 +97,7 @@ export const editor = monaco.editor.create(document.getElementById('codepad'), {
   language: 'byeol',
   theme: 'byeolTheme',
   minimap: { enabled: false },
+  renderLineHighlight: "none",
   automaticLayout: true,
   fontFamily: 'Retro Gaming',
   fontSize: '20',
