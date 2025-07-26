@@ -84,6 +84,23 @@ namespace nm {
     ///         directly instead of auto.
     ///
     ///             MyClass& ret = _sub[name].get() OR.ret();
+    ///
+    ///         Q. I used OR in a function whose return type is tmay and initialized it with a T&& variable,
+    ///         but the value is strange.
+    ///
+    ///             tmay<A> foo();
+    ///             A&& a = foo() OR.ret();
+    ///
+    ///         A. TLDR; take rvalue with type `tmay<A>&&` just like rvalue reference to return type of the function.
+    ///
+    ///             tmay<A>&& a = foo();
+    ///
+    ///         reason:
+    ///             foo() returns tmay by value. If you receive something returned by value as an rvalue reference,
+    ///             its life would be extended, but in this case, since it is not received as tmay<A>, the value
+    ///             inside it is taken out and returned, so the tmay temporary object does not extend its life and
+    ///             starts to die immediately.
+    ///             as a result, a garbage value is bound to `A&& a`.
 
 #define __OR_DO__(_expr_)                             \
     | [&](auto&& __p) -> void {                       \

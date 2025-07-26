@@ -41,7 +41,7 @@ namespace nm {
         using super::run;
 
         str run(const args& a) override {
-            args&& evaluated = a.evalAll(getParams()) OR.ret(str());
+            tmay<args>&& evaluated = a.evalAll(getParams()) OR.ret(str());
 
             return _runNative(evaluated);
         }
