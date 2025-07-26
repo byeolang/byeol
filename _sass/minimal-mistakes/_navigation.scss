@@ -181,14 +181,14 @@
   a {
     display: block;
     margin: 0 1rem;
-    color: #ff507f;
+    color: $nebular;
     font-weight: bold;
     text-decoration: none;
     -webkit-transition: none;
     transition: none;
 
     &:hover {
-      color: #F3EDDB;
+      color: $nebular-light;
     }
 
     &.site-logo {
@@ -243,7 +243,7 @@
         left: 0;
         bottom: 0;
         height: 4px;
-        background: #8CC540;
+        background: $nebular-light;
         width: 100%;
         -webkit-transition: $global-transition;
         transition: $global-transition;

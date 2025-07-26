@@ -68,12 +68,12 @@ label#lb_verbose {
 
 input#runbt {
     border-radius: 1.4rem;
-    background-color: #8C7765;
+    background-color: #D9B29C; /* $moon */
     width: 80px;
 }
 
 input#runbt:hover {
-    background-color: #F3EDDB;
+    background-color: #E9EBF2; /* $white */
 }
 
 select#dd-srcs {

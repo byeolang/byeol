@@ -2,6 +2,13 @@
    BASE ELEMENTS
    ========================================================================== */
 
+$white: #E9EBF2;
+$night: #0B1C26;
+$grass: #6AB04B;
+$moon: #D9B29C;
+$nebular: #ca5fa4;
+$nebular-light: #F2B6D7;
+
 html {
   /* sticky footer fix */
   position: relative;
@@ -19,6 +26,8 @@ div#main-content {
 
 img#main-content-logo {
   margin-bottom: 20px;
+  position: relative;
+  z-index: 1; // bigger than star's one
 }
 
 #main-content-header  {
@@ -55,9 +64,6 @@ img#main-content-logo {
   }
 }
 
-$white: #fff;
-$black: #8CC540;
-
 @mixin transition($property: all, $duration: 0.45s, $ease: cubic-bezier(0.65,0,.076,1)) {
   transition: $property $duration $ease;
 }
@@ -85,7 +91,7 @@ button.learn-more {
       margin-top: 3px;
       width: 2.5rem;
       height: 2.5rem;
-      background: $black;
+      background: $grass;
       border-radius: 1.625rem;
       .icon {
         @include transition(all, 0.45s, cubic-bezier(0.65,0,.076,1));
@@ -123,7 +129,7 @@ button.learn-more {
       bottom: 0;
       padding: 0.75rem 0;
       margin: 0 0 0 1.85rem;
-      color: $black;
+      color: $grass;
       font-weight: 700;
       line-height: 1.6;
       text-align: center;
@@ -340,7 +346,8 @@ li.dropdown-list-item {
 }
 
 div#main-bg {
-  background: linear-gradient(#152330, #152330, #152330, #152330, #152330, #152330, #152330, #152330, #152330, #142230, #132230, #112030, #102030, #0e1e30, #0c1c30, #0b1b30, #091a30, #071930, #051830, #041830, #031832, #031937, #031b3e, #031d45, #03204d, #03255a, #032b66, #053677, #094698, #105bbd, #2577dc, #62a4f3, #d0e6ff);
+  // background: linear-gradient(#152330, #152330, #152330, #152330, #152330, #152330, #152330, #152330, #152330, #142230, #132230, #112030, #102030, #0e1e30, #0c1c30, #0b1b30, #091a30, #071930, #051830, #041830, #031832, #031937, #031b3e, #031d45, #03204d, #03255a, #032b66, #053677, #094698, #105bbd, #2577dc, #62a4f3, #d0e6ff);
+  background: linear-gradient(to bottom, #0b1c26 0%,#0b1c26 42%,#112a40 58%,#2e4559 74%,#4189a6 87%,#e9ebf2 99%);
 
   width: 100%;
   height: 100vh;
