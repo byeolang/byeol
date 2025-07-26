@@ -5,10 +5,10 @@ body {
 
 textarea#output {
     display: none;
-    width: calc(100vw - 6px);
     background-color: #204261;
     color: #fff;
     height: 100vh;
+    width: calc(100% - 100px);
 
     border: 0px solid;
 
@@ -30,22 +30,4 @@ div#playbt {
     width: 100vw;
     height: 100vh;
     background-color: #204261;
-}
-
-.scrollbar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.scrollbar::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
-.scrollbar::-webkit-scrollbar-thumb {
-  border-radius: 3px;
-  background-color: #11999e;
-}
-
-.scrollbar::-webkit-scrollbar-button {
-  width: 0;
-  height: 0;
 }

@@ -4,33 +4,26 @@ permalink: play/
 ---
 <link rel="stylesheet" type="text/css" href="index.css" />
 <link rel="stylesheet" type="text/css" href="highlightjs-theme-byeol.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="https://github.com/byeolang/highlightjs-byeol/releases/latest/download/highlightjs-byeol-min.js"></script>
-<script src='byeol-starter.js'></script>
+<script type="module" src='editor.mjs'></script>
 <div class="initial-content">
   <div id="top_pane">
     <div class="bin_ver">powered by</div>
     <a id="version" class="bin_ver" href="https://github.com/byeolang/byeol/releases/latest">byeol</a>
-    <select id='dd-srcs' onchange='onchangeSrc(this.value)'>
+    <select id='dd-srcs'>
         <option value='your-codes'>your codes</option>
         <option value='hello-world'>hello world!</option>
         <option value='bow-to-everyone'>bow to mike's</option>
     </select>
     <input type='checkbox' id='verbose' />
     <label id='lb_verbose' for='verbose'>verbose</label>
-    <input type='button' id='runbt' value='▶' onclick='runScript("byeol", "ta_codepad");'/>
+    <input type='button' id='runbt' value='▶' />
   </div>
   <div id="bottom_pane">
-    <div id="codepad">
-      <textarea id="ta_codepad" class='scrollbar' id='src' onkeydown='inputTab(this)' onkeyup='highlight(this)'></textarea>
-      <pre class="scrollbar" id="pre_codepad">
-        <code class="language-byeol"></code>
-      </pre>
-    </div>
+    <div id="codepad"></div>
     <div id="result">
         <img src='../assets/images/output.svg' />
         <b>output</b>
-        <input type='button' id='bt-close' value='×' onclick='onclickCloseButton();'/>
+        <input type='button' id='bt-close' value='×' />
         {% raw %}
         <iframe scrolling=no id='byeol' src='byeol.html'> </iframe>
         {% endraw %}
