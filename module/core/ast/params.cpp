@@ -6,8 +6,6 @@ namespace nm {
 
     me::params(): super() {}
 
-    me::params(const narr& ps): super(ps) {}
-
     nbool me::operator==(const me& rhs) const {
         WHEN(len() != rhs.len()).ret(false);
 

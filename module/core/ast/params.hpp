@@ -12,10 +12,16 @@ namespace nm {
 
     public:
         params();
-        params(const narr& ps);
-        params(const me& rhs);
+        params(const me& rhs) = default;
+        template <typename... Es>
+        explicit params(const Es&... elems) {
+            static_assert(areBaseOfT<param, Es...>::value,
+                          "some of type of args are not base of type `T`");
+            add({(param*) &elems...});
+        }
 
     public:
+        me& operator=(const me& rhs) = default;
         nbool operator==(const me& rhs) const;
         nbool operator!=(const me& rhs) const;
 

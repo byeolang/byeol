@@ -68,8 +68,8 @@ namespace nm {
     void ME::add(const iter& here, const iter& from, const iter& to) {
         WHEN(!from.isFrom(to.getContainer())).exErr(ITERATOR_NOT_BELONG_TO_CONTAINER).ret();
         const narrIteration& hereCast = _getIteration(here) OR.ret();
-        const narrIteration& fromCast = _getIteration(from) OR.ret();
-        const narrIteration& toCast = _getIteration(to) OR.ret();
+        const narrIteration& fromCast = (narrIteration*) from._iteration.get() OR.ret();
+        const narrIteration& toCast = (narrIteration*) to._iteration.get() OR.ret();
 
         WHEN(hereCast._n < 0 || hereCast._n > len())
             .ret(); // if n equals to len(), it means that will be added at end of container.
