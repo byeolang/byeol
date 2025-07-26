@@ -11,13 +11,9 @@ namespace nm {
         NM(CLASS(params, tnarr<param>))
 
     public:
-        /// @param  elems   instances to derived type of T.
-        ///                 should be created on Heap.
-        template <typename... Es> explicit params(const Es&... elems) {
-            static_assert(areBaseOfT<param, Es...>::value,
-                "some of type of args are not base of type 'T'");
-            add({(param*) &elems...});
-        }
+        params();
+        params(const narr& ps);
+        params(const me& rhs);
 
     public:
         nbool operator==(const me& rhs) const;

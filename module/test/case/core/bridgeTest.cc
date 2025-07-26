@@ -81,6 +81,11 @@ TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
         str b = tbridger<kniz>::make(new kniz());
         ASSERT_EQ(b->subs().len(), 4);
 
+        const baseFunc& fun = b->sub<baseFunc>("say") OR_ASSERT(fun);
+        const params& ps = fun.getParams();
+        ASSERT_EQ(ps.len(), 1);
+        ASSERT_TRUE(ps[0].getOrigin().isSub<nStr>());
+
         kniz::isRun = false;
         b->run("say", args(narr(nStr("hello"))));
         ASSERT_EQ(kniz::isRun, true);

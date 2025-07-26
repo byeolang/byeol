@@ -32,8 +32,8 @@ namespace nm {
         NM_I("running closure for %s.%s", *_org, *_func);
         WHEN(!_func).ret(str());
 
-        tmay<args>&& evaled = a.evalAll(_func->getParams()) OR.ret(str());
-        evaled->setMe(*_org);
+        args evaled = a.evalAll(_func->getParams()) OR.ret(str());
+        evaled.setMe(*_org);
         return _func->run(evaled);
     }
 

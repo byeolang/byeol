@@ -35,6 +35,5 @@
 
 #undef NM_SIDE_FUNC_3
 #define NM_SIDE_FUNC_3(paramPtr, expr, ret) { \
-    if (!paramPtr) NM_WHEN.dbgInfo(#paramPtr " is null"); \
     return paramPtr ? expr : ret; \
 }
