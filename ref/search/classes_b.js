@@ -1,23 +1,9 @@
 var searchData=
 [
-  ['narriteration_547',['narrIteration',['../classnarr_iteration.html',1,'']]],
-  ['nbool_548',['nBool',['../classby_1_1n_bool.html',1,'by']]],
-  ['nbyte_549',['nByte',['../classby_1_1n_byte.html',1,'by']]],
-  ['nchainiteration_550',['nchainIteration',['../classnchain_iteration.html',1,'']]],
-  ['ndummyerr_551',['ndummyErr',['../structby_1_1ndummy_err.html',1,'by']]],
-  ['nerr_552',['nerr',['../structby_1_1nerr.html',1,'by']]],
-  ['nestedfunc_553',['nestedFunc',['../classby_1_1nested_func.html',1,'by']]],
-  ['nextexpr_554',['nextExpr',['../classby_1_1next_expr.html',1,'by']]],
-  ['nextret_555',['nextRet',['../classby_1_1next_ret.html',1,'by']]],
-  ['nflt_556',['nFlt',['../classby_1_1n_flt.html',1,'by']]],
-  ['nint_557',['nInt',['../classby_1_1n_int.html',1,'by']]],
-  ['nmapiteration_558',['nmapIteration',['../classnmap_iteration.html',1,'']]],
-  ['node_559',['node',['../classby_1_1node.html',1,'by']]],
-  ['normalscan_560',['normalScan',['../classby_1_1normal_scan.html',1,'by']]],
-  ['nowrap_561',['noWrap',['../structby_1_1no_wrap.html',1,'by']]],
-  ['nseq_562',['nseq',['../classby_1_1nseq.html',1,'by']]],
-  ['nseqiteration_563',['nseqIteration',['../classnseq_iteration.html',1,'']]],
-  ['nstr_564',['nStr',['../classby_1_1n_str.html',1,'by']]],
-  ['ntype_565',['ntype',['../classby_1_1ntype.html',1,'by']]],
-  ['nvoid_566',['nVoid',['../classby_1_1n_void.html',1,'by']]]
+  ['manifest_581',['manifest',['../structby_1_1manifest.html',1,'by']]],
+  ['marshalerr_582',['marshalErr',['../structby_1_1marshal_err.html',1,'by']]],
+  ['memoryhaver_583',['memoryHaver',['../classby_1_1memory_haver.html',1,'by']]],
+  ['metaif_584',['metaIf',['../structby_1_1meta_if.html',1,'by']]],
+  ['mgdtype_585',['mgdType',['../classby_1_1mgd_type.html',1,'by']]],
+  ['modifier_586',['modifier',['../classby_1_1modifier.html',1,'by']]]
 ];
