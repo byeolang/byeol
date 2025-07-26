@@ -1,4 +1,4 @@
-# Github Pages for Namu language
+# Github Pages for Byeol language
 
 ## How to update WASM file
 * When you build wasm from the byeol repository, two files, `byeol.wasm` and `byeol.js`, appear.
