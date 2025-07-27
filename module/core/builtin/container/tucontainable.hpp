@@ -67,7 +67,7 @@ namespace nm {
 
         // add:
         virtual nbool add(const iter& at, const T& new1) = 0;
-        nbool add(const iter& at, const T* new1) NM_SIDE_FUNC(new1, add(at, new1), false);
+        nbool add(const iter& at, const T* new1) NM_SIDE_FUNC(new1, add(at, *new1), false);
         nbool add(std::initializer_list<const T*> elems);
         nbool add(const T& new1);
         nbool add(const T* it) NM_SIDE_FUNC(add);
