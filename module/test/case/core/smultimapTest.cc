@@ -168,11 +168,11 @@ TEST_F(smultimapTest, deleteMiddleOfElementAndIterateSpecificKey) {
 
     auto e = scope.begin("2");
     ASSERT_EQ(*e.getKey(), "2");
-    ASSERT_EQ(((nInt&) *e).get(), 2);
+    ASSERT_EQ(((nInt*) e->get())->get(), 2);
 
     ++e;
     ASSERT_EQ(*e.getKey(), "2");
-    ASSERT_EQ(((nInt&) *e).get(), 4);
+    ASSERT_EQ(((nInt*) e->get())->get(), 4);
 
     ++e;
     ASSERT_EQ(e, scope.end());
@@ -210,7 +210,7 @@ TEST_F(smultimapTest, delElementButKeepOrder) {
     ++e;                    // 2
     ++e;                    // 3
     scope.erase(e++);
-    ASSERT_EQ(((nInt&) *e).get(), 4);
+    ASSERT_EQ(((nInt*) e->get())->get(), 4);
 
     int expects[] = {1, 2, 4, 5};
     int n = 0;
