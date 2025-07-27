@@ -1,0 +1,12 @@
+iframe#generated {
+    width: 100%;
+    flex: 1 0 auto;
+    border: 0px solid;
+}
+div.initial-content {
+    display: flex;
+    flex-direction: column;
+}
+div.initial-content, .search-content {
+    display: none important;
+}
