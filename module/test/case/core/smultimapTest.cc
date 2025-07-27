@@ -189,7 +189,7 @@ TEST_F(smultimapTest, setValue) {
     auto e = scope.begin();
     ++e;
     ++e;
-    ASSERT_EQ(((nInt&) *e).get(), 3);
+    ASSERT_EQ(((nInt*) e->get())->get(), 3);
     e->bind(*new nInt(100));
 
     int expects[] = {1, 2, 100, 4, 5};
