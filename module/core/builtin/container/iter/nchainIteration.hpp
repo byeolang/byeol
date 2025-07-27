@@ -13,7 +13,7 @@ public:
         super(isReversed),
         _chainIter(iteratingChain),
         _key(key ? *key : _getDummyKey()),
-        _isDummyKey(nul(key)),
+        _isDummyKey(!key),
         _iter(_makeContainerIter(false)),
         _isBoundary(isBoundary) {
         if(isAutoAdvance && !_iter) {

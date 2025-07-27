@@ -74,7 +74,7 @@ namespace nm {
 
         iter rbegin() const;
         iter rbegin(const K& key) const;
-        iter rbegin(const K* it) const NM_SIDE_FUNC(it, rbegin(*it), rend());
+        iter rbegin(const K* it) const NM_SIDE_FUNC(it, rbegin(*it), riterate(0));
 
         virtual iter end() const;
 
