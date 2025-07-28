@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -114,20 +109,25 @@ $(document).ready(function(){initNavTree('classby_1_1dummy_err_report.html','');
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classby_1_1dummy_err_report-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::dummyErrReport Class Reference</div>  </div>
+<div class="title">by::dummyErrReport Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Dummy error reporter that discards all errors.  
+ <a href="classby_1_1dummy_err_report.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="err_report_8hpp_source.html">errReport.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::dummyErrReport:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1dummy_err_report.png" usemap="#by::dummyErrReport_map" alt=""/>
   <map id="by::dummyErrReport_map" name="by::dummyErrReport_map">
-<area href="classby_1_1err_report.html" alt="by::errReport" shape="rect" coords="136,112,262,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="68,56,194,80"/>
-<area href="classby_1_1dumpable.html" alt="by::dumpable" shape="rect" coords="204,56,330,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,126,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="136,0,262,24"/>
+<area href="classby_1_1err_report.html" title="Error reporting and collection system." alt="by::errReport" shape="rect" coords="136,112,262,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="68,56,194,80"/>
+<area href="classby_1_1dumpable.html" title="Interface for objects that can dump their state." alt="by::dumpable" shape="rect" coords="204,56,330,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,126,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="136,0,262,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -201,7 +201,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>log</b> () const</td>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>dump</b> (nidx since) const</td></tr>
 <tr class="separator:a9c8e18cb21117365f062212d90236762 inherit pub_methods_classby_1_1err_report"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af141278b9e6372ec50694fe0fcd3e845 inherit pub_methods_classby_1_1err_report"><td class="memItemLeft" align="right" valign="top"><a id="af141278b9e6372ec50694fe0fcd3e845"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>dump</b> () const override</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1err_report.html#af141278b9e6372ec50694fe0fcd3e845">dump</a> () const override</td></tr>
+<tr class="memdesc:af141278b9e6372ec50694fe0fcd3e845 inherit pub_methods_classby_1_1err_report"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump object state for debugging. <br /></td></tr>
 <tr class="separator:af141278b9e6372ec50694fe0fcd3e845 inherit pub_methods_classby_1_1err_report"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add68e9f71f601ab4e224638dfe734f94 inherit pub_methods_classby_1_1err_report"><td class="memItemLeft" align="right" valign="top"><a id="add68e9f71f601ab4e224638dfe734f94"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>rel</b> ()</td></tr>
@@ -325,7 +326,10 @@ nbool&#160;</td><td class="memItemRight" valign="bottom"><b>_setId</b> (<a class
 static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_getMgr</b> ()</td></tr>
 <tr class="separator:a3893a905b2e55a614f0c4f96aba0b315 inherit pro_static_methods_classby_1_1instance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Dummy error reporter that discards all errors. </p>
+<p>No-op error reporter used when error collection is not needed. </p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/builtin/err/<a class="el" href="err_report_8hpp_source.html">errReport.hpp</a></li>
 <li>/home/runner/work/byeol/byeol/module/core/builtin/err/errReport.cpp</li>
 </ul>

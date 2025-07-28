@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -112,9 +107,14 @@ $(document).ready(function(){initNavTree('structby_1_1tgeneric_marshaling.html',
   <div class="summary">
 <a href="structby_1_1tgeneric_marshaling-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::tgenericMarshaling&lt; T, isNode &gt; Struct Template Reference</div>  </div>
+<div class="title">by::tgenericMarshaling&lt; T, isNode &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Generic marshaling for C++ bridge.  
+ <a href="structby_1_1tgeneric_marshaling.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="tgeneric_marshaling_8hpp_source.html">tgenericMarshaling.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::tgenericMarshaling&lt; T, isNode &gt;:</div>
 <div class="dyncontent">
@@ -122,7 +122,7 @@ Inheritance diagram for by::tgenericMarshaling&lt; T, isNode &gt;:</div>
   <img src="structby_1_1tgeneric_marshaling.png" usemap="#by::tgenericMarshaling_3C_20T_2C_20isNode_20_3E_map" alt=""/>
   <map id="by::tgenericMarshaling_3C_20T_2C_20isNode_20_3E_map" name="by::tgenericMarshaling_3C_20T_2C_20isNode_20_3E_map">
 <area href="structby_1_1tmarshaling.html" alt="by::tmarshaling&lt; T, tifSub&lt; T, node &gt;::is &gt;" shape="rect" coords="0,56,251,80"/>
-<area href="structby_1_1meta_if.html" alt="by::metaIf" shape="rect" coords="0,0,251,24"/>
+<area href="structby_1_1meta_if.html" title="Base interface for SFINAE-based type checking." alt="by::metaIf" shape="rect" coords="0,0,251,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -156,7 +156,13 @@ static const mgd *&#160;</td><td class="memItemRight" valign="bottom"><b>onGetRe
 static no&#160;</td><td class="memItemRight" valign="bottom"><b>canMarshal</b> ()</td></tr>
 <tr class="separator:a6309db9962b6dfcc10e54bedd3214f80 inherit pub_static_methods_structby_1_1tmarshaling"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename T, nbool isNode = tifSub&lt;T, node&gt;::is&gt;<br />
+struct by::tgenericMarshaling&lt; T, isNode &gt;</h3>
+
+<p>Generic marshaling for C++ bridge. </p>
+<p>Template specializations for marshaling generic node types between byeol and C++. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/bridge/cpp/marshaling/<a class="el" href="tgeneric_marshaling_8hpp_source.html">tgenericMarshaling.hpp</a></li>
 </ul>
 </div><!-- contents -->

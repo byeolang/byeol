@@ -25,37 +25,27 @@
 var NAVTREE =
 [
   [ "byeol", "index.html", [
-    [ "Classes", "annotated.html", [
-      [ "Class List", "annotated.html", "annotated_dup" ],
-      [ "Class Index", "classes.html", null ],
-      [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
-      [ "Class Members", "functions.html", [
-        [ "All", "functions.html", null ],
-        [ "Functions", "functions_func.html", null ]
-      ] ]
+    [ "Hello!", "index.html", null ],
+    [ "Class List", "annotated.html", "annotated" ],
+    [ "Class Index", "classes.html", null ],
+    [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
+    [ "Class Members", "functions.html", [
+      [ "All", "functions.html", null ],
+      [ "Functions", "functions_func.html", null ]
     ] ],
-    [ "Files", "files.html", [
-      [ "File List", "files.html", "files_dup" ]
-    ] ]
+    [ "File List", "files.html", "files" ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"_f_b_o_expr_8hpp_source.html",
-"classby_1_1base_err.html#ae679ecbef51e23663bd797e987ed5f27",
-"classby_1_1def_assign_expr.html#ae8b8ce2d3657a544fb8e60723efd27ce",
-"classby_1_1for_expr.html#af1e857d4d05034b47b04a7d83b689d8b",
-"classby_1_1leaf.html",
-"classby_1_1n_int.html#abe548cec255b78a47871c78ccb832882",
-"classby_1_1origin.html#a01234fe8d7ce696f7c9f969777b47e34",
-"classby_1_1seq.html#a100f58e52abc66ff92e42b856da0c200",
-"classby_1_1tbicontainable.html#a65f60cab3d78b709d294a107843ea50b",
-"classby_1_1tnchain.html#a40ce22e4895dbf6e6a30fa6ad17c8b98",
-"classby_1_1type_providable.html#aa64bd64ab1354fb0dc0689389bc485c6",
-"classiterable.html#a403088fec8e93afd25e33ffb189dfa6d",
-"func_mgd_type_8hpp_source.html",
-"structby_1_1tif_has_meta_type_def.html"
+"_f_b_o_expr_8hpp.html",
+"classby_1_1smultimap.html",
+"classiterable.html#acc690da749411c5da743256ef15e0574",
+"dir_533ae6b4eb6026944d796b6fb12b0256.html",
+"leaf_2ast_8hpp_source.html",
+"ret_state_expr_8hpp_source.html",
+"tmay_8hpp.html#a5fe29445704118807f753b54f49cd6cc"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -115,21 +110,26 @@ $(document).ready(function(){initNavTree('classby_1_1frame.html',''); initResiza
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1frame-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::frame Class Reference</div>  </div>
+<div class="title">by::frame Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Execution frame for byeol runtime.  
+ <a href="classby_1_1frame.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="frame_2frame_8hpp_source.html">frame.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::frame:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1frame.png" usemap="#by::frame_map" alt=""/>
   <map id="by::frame_map" name="by::frame_map">
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="140,112,270,136"/>
-<area href="classby_1_1dumpable.html" alt="by::dumpable" shape="rect" coords="280,112,410,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="70,56,200,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="140,0,270,24"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="140,112,270,136"/>
+<area href="classby_1_1dumpable.html" title="Interface for objects that can dump their state." alt="by::dumpable" shape="rect" coords="280,112,410,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="70,56,200,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="140,0,270,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -272,7 +272,8 @@ virtual nbool&#160;</td><td class="memItemRight" valign="bottom"><b>setRet</b> (
 <a class="el" href="classby_1_1node.html">node</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getRet</b> () const</td></tr>
 <tr class="separator:a38a4ed3b1ee13b07d65b150170b3d084"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a58ecf5d9ebce9589f6b7c9ea59c89e"><td class="memItemLeft" align="right" valign="top"><a id="a6a58ecf5d9ebce9589f6b7c9ea59c89e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>dump</b> () const override</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1frame.html#a6a58ecf5d9ebce9589f6b7c9ea59c89e">dump</a> () const override</td></tr>
+<tr class="memdesc:a6a58ecf5d9ebce9589f6b7c9ea59c89e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump object state for debugging. <br /></td></tr>
 <tr class="separator:a6a58ecf5d9ebce9589f6b7c9ea59c89e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classby_1_1node"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classby_1_1node')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classby_1_1node.html">by::node</a></td></tr>
 <tr class="memitem:a7d5898f8ba1160fce3add993e7f09ec8 inherit pub_methods_classby_1_1node"><td class="memItemLeft" align="right" valign="top"><a id="a7d5898f8ba1160fce3add993e7f09ec8"></a>
@@ -654,7 +655,10 @@ nbool&#160;</td><td class="memItemRight" valign="bottom"><b>_setId</b> (<a class
 static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_getMgr</b> ()</td></tr>
 <tr class="separator:a3893a905b2e55a614f0c4f96aba0b315 inherit pro_static_methods_classby_1_1instance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Execution frame for byeol runtime. </p>
+<p>Manages execution context including scopes, variables, function calls, and return values. Provides stack-based scope management for the byeol language runtime environment. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ac0d4d6a314165928e6837c772dc92777"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac0d4d6a314165928e6837c772dc92777">&#9670;&nbsp;</a></span>add()</h2>
 

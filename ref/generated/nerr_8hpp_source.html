@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,92 +108,99 @@ $(document).ready(function(){initNavTree('nerr_8hpp_source.html',''); initResiza
 <div class="title">nerr.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;core/builtin/err/baseErr.hpp&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;core/builtin/container/native/tnbicontainer.hpp&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;core/common/byeolMetaExtension.hpp&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;core/type/ntype.hpp&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;core/builtin/err/errCode.hpp&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">typedef</span> std::unordered_map&lt;nidx, std::string&gt; msgMap;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">class </span>pos;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="structby_1_1nerr.html">   17</a></span>&#160;    <span class="keyword">struct </span>_nout <a class="code" href="structby_1_1nerr.html">nerr</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1base_err.html">baseErr</a> {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        BY(CLASS(<a class="code" href="structby_1_1nerr.html">nerr</a>, <a class="code" href="classby_1_1base_err.html">baseErr</a>))</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, n<span class="keywordtype">bool</span>&gt; <span class="keyword">friend</span> <span class="keyword">struct </span><a class="code" href="structby_1_1tmarshaling.html">tmarshaling</a>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <a class="code" href="structby_1_1nerr.html">nerr</a>(errLv::level t, nint newCode);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="structby_1_1nerr.html">nerr</a>(errLv::level t, nint newCode, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="structby_1_1nerr.html">nerr</a>(errLv::level t, <span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; ps, nint newCode, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="structby_1_1nerr.html">nerr</a>(<span class="keyword">const</span> me&amp; rhs);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="structby_1_1nerr.html#a81d94e55f1971352b1eca4baf1ed454f">   29</a></span>&#160;        <a class="code" href="structby_1_1nerr.html#a81d94e55f1971352b1eca4baf1ed454f">nerr</a>();</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        nbool operator==(<span class="keyword">const</span> super&amp; rhs) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1base_obj.html">baseObj</a>&amp; getOrigin() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">void</span> log() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">void</span> logStack() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">const</span> std::string&amp; getMsg() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        errCode getErrCode() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; getPos() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="structby_1_1nerr.html">nerr</a>&amp; singleton();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> std::string&amp; getErrMsg(errCode code);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> std::string&amp; getErrName(errCode code);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newErr(<span class="keywordtype">int</span> code, ...);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newErr(<span class="keywordtype">int</span> code, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newErr(<span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; <a class="code" href="classby_1_1src.html">src</a>, <span class="keywordtype">int</span> code, ...);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newErr(<span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; <a class="code" href="classby_1_1src.html">src</a>, <span class="keywordtype">int</span> code, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newWarn(<span class="keywordtype">int</span> code, ...);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newWarn(<span class="keywordtype">int</span> code, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newWarn(<span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; <a class="code" href="classby_1_1src.html">src</a>, <span class="keywordtype">int</span> code, ...);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newWarn(<span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; <a class="code" href="classby_1_1src.html">src</a>, <span class="keywordtype">int</span> code, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newInfo(<span class="keywordtype">int</span> code, ...);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newInfo(<span class="keywordtype">int</span> code, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newInfo(<span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; <a class="code" href="classby_1_1src.html">src</a>, <span class="keywordtype">int</span> code, ...);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newInfo(<span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; <a class="code" href="classby_1_1src.html">src</a>, <span class="keywordtype">int</span> code, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordtype">void</span> _logNativeStack() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        errCode _code;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <a class="code" href="structby_1_1point.html">point</a> _pos;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        std::string _msg;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    };</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="structby_1_1ndummy_err.html">   68</a></span>&#160;    <span class="keyword">struct </span>_nout <a class="code" href="structby_1_1ndummy_err.html">ndummyErr</a>: <span class="keyword">public</span> <a class="code" href="structby_1_1nerr.html">nerr</a> {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        BY(CLASS(<a class="code" href="structby_1_1ndummy_err.html">ndummyErr</a>, <a class="code" href="structby_1_1nerr.html">nerr</a>))</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <a class="code" href="structby_1_1ndummy_err.html">ndummyErr</a>();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordtype">void</span> log() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keyword">const</span> std::string&amp; getMsg() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    };</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;} <span class="comment">// namespace by</span></div>
-<div class="ttc" id="aclassby_1_1args_html"><div class="ttname"><a href="classby_1_1args.html">by::args</a></div><div class="ttdef"><b>Definition:</b> args.hpp:8</div></div>
-<div class="ttc" id="aclassby_1_1base_err_html"><div class="ttname"><a href="classby_1_1base_err.html">by::baseErr</a></div><div class="ttdef"><b>Definition:</b> baseErr.hpp:7</div></div>
-<div class="ttc" id="aclassby_1_1base_obj_html"><div class="ttname"><a href="classby_1_1base_obj.html">by::baseObj</a></div><div class="ttdoc">baseObj handles frame injection event of all objects.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:20</div></div>
-<div class="ttc" id="aclassby_1_1src_html"><div class="ttname"><a href="classby_1_1src.html">by::src</a></div><div class="ttdef"><b>Definition:</b> src.hpp:6</div></div>
-<div class="ttc" id="astructby_1_1ndummy_err_html"><div class="ttname"><a href="structby_1_1ndummy_err.html">by::ndummyErr</a></div><div class="ttdef"><b>Definition:</b> nerr.hpp:68</div></div>
-<div class="ttc" id="astructby_1_1nerr_html"><div class="ttname"><a href="structby_1_1nerr.html">by::nerr</a></div><div class="ttdef"><b>Definition:</b> nerr.hpp:17</div></div>
+<a href="nerr_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="base_err_8hpp.html">core/builtin/err/baseErr.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tnbicontainer_8hpp.html">core/builtin/container/native/tnbicontainer.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="byeol_meta_extension_8hpp.html">core/common/byeolMetaExtension.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ntype_8hpp.html">core/type/ntype.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="err_code_8hpp.html">core/builtin/err/errCode.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">typedef</span> std::unordered_map&lt;nidx, std::string&gt; msgMap;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">class </span>pos;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="structby_1_1nerr.html">   18</a></span>&#160;    <span class="keyword">struct </span>_nout <a class="code" href="structby_1_1nerr.html">nerr</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1base_err.html">baseErr</a> {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        BY(CLASS(<a class="code" href="structby_1_1nerr.html">nerr</a>, <a class="code" href="classby_1_1base_err.html">baseErr</a>))</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, n<span class="keywordtype">bool</span>&gt; <span class="keyword">friend</span> <span class="keyword">struct </span><a class="code" href="structby_1_1tmarshaling.html">tmarshaling</a>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="structby_1_1nerr.html">nerr</a>(errLv::level t, nint newCode);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="structby_1_1nerr.html">nerr</a>(errLv::level t, nint newCode, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="structby_1_1nerr.html">nerr</a>(errLv::level t, <span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; ps, nint newCode, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="structby_1_1nerr.html">nerr</a>(<span class="keyword">const</span> me&amp; rhs);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="structby_1_1nerr.html#a81d94e55f1971352b1eca4baf1ed454f">   30</a></span>&#160;        <a class="code" href="structby_1_1nerr.html#a81d94e55f1971352b1eca4baf1ed454f">nerr</a>();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        nbool operator==(<span class="keyword">const</span> super&amp; rhs) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1base_obj.html">baseObj</a>&amp; getOrigin() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="structby_1_1nerr.html#a80e459452cb6382e7a41da64e18247c4">   38</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="structby_1_1nerr.html#a80e459452cb6382e7a41da64e18247c4">log</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="structby_1_1nerr.html#a648c709691dbabe112e4ac88921a61b1">   39</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="structby_1_1nerr.html#a648c709691dbabe112e4ac88921a61b1">logStack</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">const</span> std::string&amp; getMsg() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        errCode getErrCode() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; getPos() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="structby_1_1nerr.html">nerr</a>&amp; singleton();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> std::string&amp; getErrMsg(errCode code);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> std::string&amp; getErrName(errCode code);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newErr(<span class="keywordtype">int</span> code, ...);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newErr(<span class="keywordtype">int</span> code, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newErr(<span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; <a class="code" href="classby_1_1src.html">src</a>, <span class="keywordtype">int</span> code, ...);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newErr(<span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; <a class="code" href="classby_1_1src.html">src</a>, <span class="keywordtype">int</span> code, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newWarn(<span class="keywordtype">int</span> code, ...);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newWarn(<span class="keywordtype">int</span> code, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newWarn(<span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; <a class="code" href="classby_1_1src.html">src</a>, <span class="keywordtype">int</span> code, ...);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newWarn(<span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; <a class="code" href="classby_1_1src.html">src</a>, <span class="keywordtype">int</span> code, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newInfo(<span class="keywordtype">int</span> code, ...);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newInfo(<span class="keywordtype">int</span> code, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newInfo(<span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; <a class="code" href="classby_1_1src.html">src</a>, <span class="keywordtype">int</span> code, ...);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">static</span> <a class="code" href="structby_1_1nerr.html">nerr</a>* newInfo(<span class="keyword">const</span> <a class="code" href="structby_1_1point.html">point</a>&amp; <a class="code" href="classby_1_1src.html">src</a>, <span class="keywordtype">int</span> code, va_list <a class="code" href="classby_1_1args.html">args</a>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordtype">void</span> _logNativeStack() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        errCode _code;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <a class="code" href="structby_1_1point.html">point</a> _pos;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        std::string _msg;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    };</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="structby_1_1ndummy_err.html">   69</a></span>&#160;    <span class="keyword">struct </span>_nout <a class="code" href="structby_1_1ndummy_err.html">ndummyErr</a>: <span class="keyword">public</span> <a class="code" href="structby_1_1nerr.html">nerr</a> {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        BY(CLASS(<a class="code" href="structby_1_1ndummy_err.html">ndummyErr</a>, <a class="code" href="structby_1_1nerr.html">nerr</a>))</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <a class="code" href="structby_1_1ndummy_err.html">ndummyErr</a>();</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordtype">void</span> log() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keyword">const</span> std::string&amp; getMsg() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    };</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="abase_err_8hpp_html"><div class="ttname"><a href="base_err_8hpp.html">baseErr.hpp</a></div></div>
+<div class="ttc" id="abyeol_meta_extension_8hpp_html"><div class="ttname"><a href="byeol_meta_extension_8hpp.html">byeolMetaExtension.hpp</a></div></div>
+<div class="ttc" id="aclassby_1_1args_html"><div class="ttname"><a href="classby_1_1args.html">by::args</a></div><div class="ttdoc">Function call arguments container.</div><div class="ttdef"><b>Definition:</b> args.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1base_err_html"><div class="ttname"><a href="classby_1_1base_err.html">by::baseErr</a></div><div class="ttdoc">Base class for all error types.</div><div class="ttdef"><b>Definition:</b> baseErr.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1base_obj_html"><div class="ttname"><a href="classby_1_1base_obj.html">by::baseObj</a></div><div class="ttdoc">Base class for all objects in byeol language.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:24</div></div>
+<div class="ttc" id="aclassby_1_1src_html"><div class="ttname"><a href="classby_1_1src.html">by::src</a></div><div class="ttdoc">Source location information.</div><div class="ttdef"><b>Definition:</b> src.hpp:11</div></div>
+<div class="ttc" id="aerr_code_8hpp_html"><div class="ttname"><a href="err_code_8hpp.html">errCode.hpp</a></div></div>
+<div class="ttc" id="antype_8hpp_html"><div class="ttname"><a href="ntype_8hpp.html">ntype.hpp</a></div></div>
+<div class="ttc" id="astructby_1_1ndummy_err_html"><div class="ttname"><a href="structby_1_1ndummy_err.html">by::ndummyErr</a></div><div class="ttdef"><b>Definition:</b> nerr.hpp:69</div></div>
+<div class="ttc" id="astructby_1_1nerr_html"><div class="ttname"><a href="structby_1_1nerr.html">by::nerr</a></div><div class="ttdef"><b>Definition:</b> nerr.hpp:18</div></div>
+<div class="ttc" id="astructby_1_1nerr_html_a648c709691dbabe112e4ac88921a61b1"><div class="ttname"><a href="structby_1_1nerr.html#a648c709691dbabe112e4ac88921a61b1">by::nerr::logStack</a></div><div class="ttdeci">void logStack() const override</div><div class="ttdoc">Log error with stack trace.</div></div>
+<div class="ttc" id="astructby_1_1nerr_html_a80e459452cb6382e7a41da64e18247c4"><div class="ttname"><a href="structby_1_1nerr.html#a80e459452cb6382e7a41da64e18247c4">by::nerr::log</a></div><div class="ttdeci">void log() const override</div><div class="ttdoc">Log error message.</div></div>
 <div class="ttc" id="astructby_1_1nerr_html_a81d94e55f1971352b1eca4baf1ed454f"><div class="ttname"><a href="structby_1_1nerr.html#a81d94e55f1971352b1eca4baf1ed454f">by::nerr::nerr</a></div><div class="ttdeci">nerr()</div><div class="ttdoc">@hidden this's only available to marsharling.</div></div>
-<div class="ttc" id="astructby_1_1point_html"><div class="ttname"><a href="structby_1_1point.html">by::point</a></div><div class="ttdef"><b>Definition:</b> point.hpp:6</div></div>
-<div class="ttc" id="astructby_1_1tmarshaling_html"><div class="ttname"><a href="structby_1_1tmarshaling.html">by::tmarshaling</a></div><div class="ttdef"><b>Definition:</b> tmarshaling.hpp:14</div></div>
+<div class="ttc" id="astructby_1_1point_html"><div class="ttname"><a href="structby_1_1point.html">by::point</a></div><div class="ttdoc">Source code position tracking structure.</div><div class="ttdef"><b>Definition:</b> point.hpp:11</div></div>
+<div class="ttc" id="astructby_1_1tmarshaling_html"><div class="ttname"><a href="structby_1_1tmarshaling.html">by::tmarshaling</a></div><div class="ttdoc">Template marshaling interface for C++ bridge.</div><div class="ttdef"><b>Definition:</b> tmarshaling.hpp:18</div></div>
+<div class="ttc" id="atnbicontainer_8hpp_html"><div class="ttname"><a href="tnbicontainer_8hpp.html">tnbicontainer.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

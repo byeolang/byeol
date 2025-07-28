@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,122 +108,123 @@ $(document).ready(function(){initNavTree('ntype_8hpp_source.html',''); initResiz
 <div class="title">ntype.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/common.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">class </span>node;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> TACTIC&gt; <span class="keyword">class </span>tnarr;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">typedef</span> tnarr&lt;node, strTactic&gt; narr;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">class </span>params;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">class </span>ases;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">class </span>impliAses;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classby_1_1ntype.html">   14</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1ntype.html">ntype</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1type.html">type</a> {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        BY_ME(<a class="code" href="classby_1_1ntype.html">ntype</a>, <a class="code" href="classby_1_1type.html">type</a>)</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">typedef</span> std::map&lt;const ntype*, const ntype*&gt; deducer;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">typedef</span> std::map&lt;const ntype*, deducer&gt; deducers;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1seq.html">seq</a>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1arr.html">arr</a>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1generic_origin.html">genericOrigin</a>;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="classby_1_1ntype.html">ntype</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        nbool operator==(<span class="keyword">const</span> <a class="code" href="classby_1_1type.html">type</a>&amp; rhs) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="comment">// ntype:</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="classby_1_1ntype.html#aeeb3f0577df5e3a82f691851c9503462">   31</a></span>&#160;<span class="comment"></span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; nbool <a class="code" href="classby_1_1ntype.html#aeeb3f0577df5e3a82f691851c9503462">isImpli</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code" href="classby_1_1ntype.html#aeeb3f0577df5e3a82f691851c9503462">isImpli</a>(<a class="code" href="classby_1_1ttype.html">ttype&lt;T&gt;::get</a>()); }</div>
+<a href="ntype_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="core_2common_8hpp.html">core/common.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">class </span>node;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> TACTIC&gt; <span class="keyword">class </span>tnarr;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">typedef</span> tnarr&lt;node, strTactic&gt; narr;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">class </span>params;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">class </span>ases;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">class </span>impliAses;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classby_1_1ntype.html">   19</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1ntype.html">ntype</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1type.html">type</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        BY_ME(<a class="code" href="classby_1_1ntype.html">ntype</a>, <a class="code" href="classby_1_1type.html">type</a>)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">typedef</span> std::map&lt;const ntype*, const ntype*&gt; deducer;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">typedef</span> std::map&lt;const ntype*, deducer&gt; deducers;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1seq.html">seq</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1arr.html">arr</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1generic_origin.html">genericOrigin</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <a class="code" href="classby_1_1ntype.html">ntype</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        nbool operator==(<span class="keyword">const</span> <a class="code" href="classby_1_1type.html">type</a>&amp; rhs) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">virtual</span> nbool isImpli(<span class="keyword">const</span> <a class="code" href="classby_1_1type.html">type</a>&amp; to) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        nbool isImpli(<span class="keyword">const</span> <a class="code" href="classby_1_1type.html">type</a>* it) <span class="keyword">const</span> BY_SIDE_FUNC(isImpli);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        nbool isImpli(<span class="keyword">const</span> <a class="code" href="classby_1_1type_providable.html">typeProvidable</a>&amp; to) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        nbool isImpli(<span class="keyword">const</span> <a class="code" href="classby_1_1type_providable.html">typeProvidable</a>* it) <span class="keyword">const</span> BY_SIDE_FUNC(isImpli);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="comment">// ntype:</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classby_1_1ntype.html#aeeb3f0577df5e3a82f691851c9503462">   36</a></span>&#160;<span class="comment"></span>        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; nbool <a class="code" href="classby_1_1ntype.html#aeeb3f0577df5e3a82f691851c9503462">isImpli</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;<a class="code" href="classby_1_1ntype.html#aeeb3f0577df5e3a82f691851c9503462">isImpli</a>(<a class="code" href="classby_1_1ttype.html">ttype&lt;T&gt;::get</a>()); }</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <a class="code" href="classby_1_1tstr.html">tstr&lt;T&gt;</a> asImpli(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; it)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;asImpli(<a class="code" href="classby_1_1ttype.html">ttype&lt;T&gt;::get</a>()); }</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; tstr&lt;T&gt; asImpli(<span class="keyword">const</span> node* it) <span class="keyword">const</span> BY_SIDE_FUNC(asImpli&lt;T&gt;);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keyword">virtual</span> str asImpli(<span class="keyword">const</span> node&amp; from, <span class="keyword">const</span> type&amp; to) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        str asImpli(<span class="keyword">const</span> node&amp; from, <span class="keyword">const</span> type* to) <span class="keyword">const</span> BY_SIDE_FUNC(to, asImpli(from, *to), str());</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        str asImpli(<span class="keyword">const</span> node* from, <span class="keyword">const</span> type&amp; to) <span class="keyword">const</span> BY_SIDE_FUNC(from, asImpli(*from, to), str());</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        str asImpli(<span class="keyword">const</span> node* from, <span class="keyword">const</span> type* to) <span class="keyword">const</span> BY_SIDE_FUNC(from&amp;&amp; to, asImpli(*from, *to), str());</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keyword">virtual</span> nbool isImpli(<span class="keyword">const</span> <a class="code" href="classby_1_1type.html">type</a>&amp; to) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        nbool isImpli(<span class="keyword">const</span> <a class="code" href="classby_1_1type.html">type</a>* it) <span class="keyword">const</span> BY_SIDE_FUNC(isImpli);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        nbool isImpli(<span class="keyword">const</span> <a class="code" href="classby_1_1type_providable.html">typeProvidable</a>&amp; to) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        nbool isImpli(<span class="keyword">const</span> <a class="code" href="classby_1_1type_providable.html">typeProvidable</a>* it) <span class="keyword">const</span> BY_SIDE_FUNC(isImpli);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <a class="code" href="classby_1_1tstr.html">tstr&lt;T&gt;</a> asImpli(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; it)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;asImpli(<a class="code" href="classby_1_1ttype.html">ttype&lt;T&gt;::get</a>()); }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; tstr&lt;T&gt; asImpli(<span class="keyword">const</span> node* it) <span class="keyword">const</span> BY_SIDE_FUNC(asImpli&lt;T&gt;);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classby_1_1ntype.html#ad0047c1327cfd2a70212b036935447f2">   48</a></span>&#160;        <span class="keyword">virtual</span> nbool <a class="code" href="classby_1_1ntype.html#ad0047c1327cfd2a70212b036935447f2">isCustom</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="keyword">false</span>; }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; nbool is()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;is(<a class="code" href="classby_1_1ttype.html">ttype&lt;T&gt;::get</a>()); }</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">virtual</span> str asImpli(<span class="keyword">const</span> node&amp; from, <span class="keyword">const</span> type&amp; to) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        str asImpli(<span class="keyword">const</span> node&amp; from, <span class="keyword">const</span> type* to) <span class="keyword">const</span> BY_SIDE_FUNC(to, asImpli(from, *to), str());</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        str asImpli(<span class="keyword">const</span> node* from, <span class="keyword">const</span> type&amp; to) <span class="keyword">const</span> BY_SIDE_FUNC(from, asImpli(*from, to), str());</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        str asImpli(<span class="keyword">const</span> node* from, <span class="keyword">const</span> type* to) <span class="keyword">const</span> BY_SIDE_FUNC(from&amp;&amp; to, asImpli(*from, *to), str());</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        nbool is(<span class="keyword">const</span> type&amp; to) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        nbool is(<span class="keyword">const</span> type* it) <span class="keyword">const</span> BY_SIDE_FUNC(is);</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="classby_1_1ntype.html#ad0047c1327cfd2a70212b036935447f2">   53</a></span>&#160;        <span class="keyword">virtual</span> nbool <a class="code" href="classby_1_1ntype.html#ad0047c1327cfd2a70212b036935447f2">isCustom</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="keyword">false</span>; }</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; tstr&lt;T&gt; as(<span class="keyword">const</span> node&amp; it)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;as(it, ttype&lt;T&gt;::get()); }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; nbool is()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;is(<a class="code" href="classby_1_1ttype.html">ttype&lt;T&gt;::get</a>()); }</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; tstr&lt;T&gt; as(<span class="keyword">const</span> node* it) <span class="keyword">const</span> BY_SIDE_FUNC(as&lt;T&gt;);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        str as(<span class="keyword">const</span> node&amp; from, <span class="keyword">const</span> type&amp; to) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        str as(<span class="keyword">const</span> node&amp; from, <span class="keyword">const</span> type* to) <span class="keyword">const</span> BY_SIDE_FUNC(to, as(from, *to), str());</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        str as(<span class="keyword">const</span> node* from, <span class="keyword">const</span> type&amp; to) <span class="keyword">const</span> BY_SIDE_FUNC(from, as(*from, to), str());</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        str as(<span class="keyword">const</span> node* from, <span class="keyword">const</span> type* to) <span class="keyword">const</span> BY_SIDE_FUNC(from&amp;&amp; to, as(*from, *to), str());</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        nbool is(<span class="keyword">const</span> type&amp; to) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        nbool is(<span class="keyword">const</span> type* it) <span class="keyword">const</span> BY_SIDE_FUNC(is);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; tstr&lt;T&gt; as(<span class="keyword">const</span> node&amp; it)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> this-&gt;as(it, ttype&lt;T&gt;::get()); }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; tstr&lt;T&gt; as(<span class="keyword">const</span> node* it) <span class="keyword">const</span> BY_SIDE_FUNC(as&lt;T&gt;);</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keyword">virtual</span> nbool isImmutable() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="classby_1_1ntype.html#aca283a45bf9a6b4ee52fbe7bbc401b6a">   66</a></span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* <a class="code" href="classby_1_1ntype.html#aca283a45bf9a6b4ee52fbe7bbc401b6a">deduce</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; r) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* deduce(<span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* it) <span class="keyword">const</span> BY_SIDE_FUNC(deduce);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* deduce(<span class="keyword">const</span> <a class="code" href="classby_1_1type_providable.html">typeProvidable</a>&amp; r) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* deduce(<span class="keyword">const</span> <a class="code" href="classby_1_1type_providable.html">typeProvidable</a>* it) <span class="keyword">const</span> BY_SIDE_FUNC(deduce);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* deduce()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> deduce(<a class="code" href="classby_1_1ttype.html">ttype&lt;T&gt;::get</a>()); }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="classby_1_1ntype.html#a0de2d5218723fe9f116f7e6fd60ed35d">   74</a></span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* <a class="code" href="classby_1_1ntype.html#a0de2d5218723fe9f116f7e6fd60ed35d">deduce</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; l, <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; r);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* deduce(<span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; l, <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* r) BY_SIDE_FUNC(r, deduce(l, *r), <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* deduce(<span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* l, <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; r) BY_SIDE_FUNC(l, deduce(*l, r), <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* deduce(<span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* l, <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* r) BY_SIDE_FUNC(l&amp;&amp; r, deduce(*l, *r), <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1params.html">params</a>&amp; getParams() const BY_CONST_FUNC(getParams())</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        virtual <a class="code" href="classby_1_1params.html">params</a>&amp; getParams();</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        virtual const <a class="code" href="classby_1_1node.html">node</a>* getRet() const;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        virtual <span class="keywordtype">void</span> setRet(const <a class="code" href="classby_1_1node.html">node</a>&amp; new1);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordtype">void</span> setRet(const <a class="code" href="classby_1_1node.html">node</a>* it) BY_SIDE_FUNC(setRet);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        std::<span class="keywordtype">string</span> createNameWithParams() const;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        const nchar* getMetaTypeName() const override;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    protected:</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="comment">// ntype:</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        virtual const <a class="code" href="classby_1_1impli_ases.html">impliAses</a>&amp; _getImpliAses() const;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        virtual const <a class="code" href="classby_1_1ases.html">ases</a>&amp; _getAses() const;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        str as(<span class="keyword">const</span> node&amp; from, <span class="keyword">const</span> type&amp; to) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        str as(<span class="keyword">const</span> node&amp; from, <span class="keyword">const</span> type* to) <span class="keyword">const</span> BY_SIDE_FUNC(to, as(from, *to), str());</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        str as(<span class="keyword">const</span> node* from, <span class="keyword">const</span> type&amp; to) <span class="keyword">const</span> BY_SIDE_FUNC(from, as(*from, to), str());</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        str as(<span class="keyword">const</span> node* from, <span class="keyword">const</span> type* to) <span class="keyword">const</span> BY_SIDE_FUNC(from&amp;&amp; to, as(*from, *to), str());</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">virtual</span> nbool isImmutable() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="classby_1_1ntype.html#aca283a45bf9a6b4ee52fbe7bbc401b6a">   71</a></span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* <a class="code" href="classby_1_1ntype.html#aca283a45bf9a6b4ee52fbe7bbc401b6a">deduce</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; r) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* deduce(<span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* it) <span class="keyword">const</span> BY_SIDE_FUNC(deduce);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* deduce(<span class="keyword">const</span> <a class="code" href="classby_1_1type_providable.html">typeProvidable</a>&amp; r) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* deduce(<span class="keyword">const</span> <a class="code" href="classby_1_1type_providable.html">typeProvidable</a>* it) <span class="keyword">const</span> BY_SIDE_FUNC(deduce);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* deduce()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> deduce(<a class="code" href="classby_1_1ttype.html">ttype&lt;T&gt;::get</a>()); }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="classby_1_1ntype.html#a0de2d5218723fe9f116f7e6fd60ed35d">   79</a></span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* <a class="code" href="classby_1_1ntype.html#a0de2d5218723fe9f116f7e6fd60ed35d">deduce</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; l, <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; r);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* deduce(<span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; l, <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* r) BY_SIDE_FUNC(r, deduce(l, *r), <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* deduce(<span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* l, <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; r) BY_SIDE_FUNC(l, deduce(*l, r), <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* deduce(<span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* l, <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>* r) BY_SIDE_FUNC(l&amp;&amp; r, deduce(*l, *r), <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1params.html">params</a>&amp; getParams() const BY_CONST_FUNC(getParams())</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        virtual <a class="code" href="classby_1_1params.html">params</a>&amp; getParams();</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        virtual const <a class="code" href="classby_1_1node.html">node</a>* getRet() const;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        virtual <span class="keywordtype">void</span> setRet(const <a class="code" href="classby_1_1node.html">node</a>&amp; new1);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordtype">void</span> setRet(const <a class="code" href="classby_1_1node.html">node</a>* it) BY_SIDE_FUNC(setRet);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        std::<span class="keywordtype">string</span> createNameWithParams() const;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        const nchar* getMetaTypeName() const override;</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    private:</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        static deducers* _makeDeducers();</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        static const <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; _deduceSuperType(const <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; l, const <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; r);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    public:</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        const static inline std::<span class="keywordtype">string</span> META_TYPENAME = &quot;<a class="code" href="classby_1_1ntype.html">ntype</a>&quot;;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    };</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    typedef std::vector&lt;const <a class="code" href="classby_1_1ntype.html">ntype</a>*&gt; ntypes;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;} <span class="comment">// namespace by</span></div>
-<div class="ttc" id="aclassby_1_1arr_html"><div class="ttname"><a href="classby_1_1arr.html">by::arr</a></div><div class="ttdef"><b>Definition:</b> arr.hpp:9</div></div>
-<div class="ttc" id="aclassby_1_1ases_html"><div class="ttname"><a href="classby_1_1ases.html">by::ases</a></div><div class="ttdef"><b>Definition:</b> ases.hpp:8</div></div>
-<div class="ttc" id="aclassby_1_1generic_origin_html"><div class="ttname"><a href="classby_1_1generic_origin.html">by::genericOrigin</a></div><div class="ttdef"><b>Definition:</b> genericOrigin.hpp:10</div></div>
-<div class="ttc" id="aclassby_1_1impli_ases_html"><div class="ttname"><a href="classby_1_1impli_ases.html">by::impliAses</a></div><div class="ttdef"><b>Definition:</b> impliAses.hpp:7</div></div>
-<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:26</div></div>
-<div class="ttc" id="aclassby_1_1ntype_html"><div class="ttname"><a href="classby_1_1ntype.html">by::ntype</a></div><div class="ttdef"><b>Definition:</b> ntype.hpp:14</div></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    protected:</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="comment">// ntype:</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        virtual const <a class="code" href="classby_1_1impli_ases.html">impliAses</a>&amp; _getImpliAses() const;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        virtual const <a class="code" href="classby_1_1ases.html">ases</a>&amp; _getAses() const;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    private:</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        static deducers* _makeDeducers();</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        static const <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; _deduceSuperType(const <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; l, const <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; r);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    public:</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        const static inline std::<span class="keywordtype">string</span> META_TYPENAME = &quot;<a class="code" href="classby_1_1ntype.html">ntype</a>&quot;;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    };</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    typedef std::vector&lt;const <a class="code" href="classby_1_1ntype.html">ntype</a>*&gt; ntypes;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1arr_html"><div class="ttname"><a href="classby_1_1arr.html">by::arr</a></div><div class="ttdoc">Managed array container for byeol language.</div><div class="ttdef"><b>Definition:</b> arr.hpp:14</div></div>
+<div class="ttc" id="aclassby_1_1ases_html"><div class="ttname"><a href="classby_1_1ases.html">by::ases</a></div><div class="ttdoc">Collection of type converters.</div><div class="ttdef"><b>Definition:</b> ases.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1generic_origin_html"><div class="ttname"><a href="classby_1_1generic_origin.html">by::genericOrigin</a></div><div class="ttdoc">Generic type origin with type parameters.</div><div class="ttdef"><b>Definition:</b> genericOrigin.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1impli_ases_html"><div class="ttname"><a href="classby_1_1impli_ases.html">by::impliAses</a></div><div class="ttdoc">Implicit type conversion collection.</div><div class="ttdef"><b>Definition:</b> impliAses.hpp:11</div></div>
+<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">Base class for all AST nodes in byeol language.</div><div class="ttdef"><b>Definition:</b> node.hpp:30</div></div>
+<div class="ttc" id="aclassby_1_1ntype_html"><div class="ttname"><a href="classby_1_1ntype.html">by::ntype</a></div><div class="ttdoc">Native type system for byeol language.</div><div class="ttdef"><b>Definition:</b> ntype.hpp:19</div></div>
 <div class="ttc" id="aclassby_1_1ntype_html_a0de2d5218723fe9f116f7e6fd60ed35d"><div class="ttname"><a href="classby_1_1ntype.html#a0de2d5218723fe9f116f7e6fd60ed35d">by::ntype::deduce</a></div><div class="ttdeci">static const ntype * deduce(const ntype &amp;l, const ntype &amp;r)</div></div>
 <div class="ttc" id="aclassby_1_1ntype_html_aca283a45bf9a6b4ee52fbe7bbc401b6a"><div class="ttname"><a href="classby_1_1ntype.html#aca283a45bf9a6b4ee52fbe7bbc401b6a">by::ntype::deduce</a></div><div class="ttdeci">const ntype * deduce(const ntype &amp;r) const</div></div>
-<div class="ttc" id="aclassby_1_1ntype_html_ad0047c1327cfd2a70212b036935447f2"><div class="ttname"><a href="classby_1_1ntype.html#ad0047c1327cfd2a70212b036935447f2">by::ntype::isCustom</a></div><div class="ttdeci">virtual nbool isCustom() const</div><div class="ttdef"><b>Definition:</b> ntype.hpp:48</div></div>
-<div class="ttc" id="aclassby_1_1ntype_html_aeeb3f0577df5e3a82f691851c9503462"><div class="ttname"><a href="classby_1_1ntype.html#aeeb3f0577df5e3a82f691851c9503462">by::ntype::isImpli</a></div><div class="ttdeci">nbool isImpli() const</div><div class="ttdoc">whether variable 'it' can be a subtype of T</div><div class="ttdef"><b>Definition:</b> ntype.hpp:31</div></div>
-<div class="ttc" id="aclassby_1_1params_html"><div class="ttname"><a href="classby_1_1params.html">by::params</a></div><div class="ttdef"><b>Definition:</b> params.hpp:10</div></div>
-<div class="ttc" id="aclassby_1_1seq_html"><div class="ttname"><a href="classby_1_1seq.html">by::seq</a></div><div class="ttdef"><b>Definition:</b> seq.hpp:11</div></div>
-<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr</a></div><div class="ttdef"><b>Definition:</b> tstr.hpp:8</div></div>
-<div class="ttc" id="aclassby_1_1ttype_html"><div class="ttname"><a href="classby_1_1ttype.html">by::ttype</a></div><div class="ttdef"><b>Definition:</b> ttype.hpp:13</div></div>
-<div class="ttc" id="aclassby_1_1type_html"><div class="ttname"><a href="classby_1_1type.html">by::type</a></div><div class="ttdef"><b>Definition:</b> type.hpp:8</div></div>
-<div class="ttc" id="aclassby_1_1type_providable_html"><div class="ttname"><a href="classby_1_1type_providable.html">by::typeProvidable</a></div><div class="ttdef"><b>Definition:</b> typeProvidable.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1ntype_html_ad0047c1327cfd2a70212b036935447f2"><div class="ttname"><a href="classby_1_1ntype.html#ad0047c1327cfd2a70212b036935447f2">by::ntype::isCustom</a></div><div class="ttdeci">virtual nbool isCustom() const</div><div class="ttdef"><b>Definition:</b> ntype.hpp:53</div></div>
+<div class="ttc" id="aclassby_1_1ntype_html_aeeb3f0577df5e3a82f691851c9503462"><div class="ttname"><a href="classby_1_1ntype.html#aeeb3f0577df5e3a82f691851c9503462">by::ntype::isImpli</a></div><div class="ttdeci">nbool isImpli() const</div><div class="ttdoc">whether variable 'it' can be a subtype of T</div><div class="ttdef"><b>Definition:</b> ntype.hpp:36</div></div>
+<div class="ttc" id="aclassby_1_1params_html"><div class="ttname"><a href="classby_1_1params.html">by::params</a></div><div class="ttdoc">Function parameter list container.</div><div class="ttdef"><b>Definition:</b> params.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1seq_html"><div class="ttname"><a href="classby_1_1seq.html">by::seq</a></div><div class="ttdoc">Managed sequence container for integer ranges.</div><div class="ttdef"><b>Definition:</b> seq.hpp:16</div></div>
+<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr</a></div><div class="ttdoc">Strong reference smart pointer with strict type checking.</div><div class="ttdef"><b>Definition:</b> tstr.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1ttype_html"><div class="ttname"><a href="classby_1_1ttype.html">by::ttype</a></div><div class="ttdoc">Template type wrapper for type metadata management.</div><div class="ttdef"><b>Definition:</b> ttype.hpp:16</div></div>
+<div class="ttc" id="aclassby_1_1type_html"><div class="ttname"><a href="classby_1_1type.html">by::type</a></div><div class="ttdoc">Base class for runtime type information in byeol language.</div><div class="ttdef"><b>Definition:</b> type.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1type_providable_html"><div class="ttname"><a href="classby_1_1type_providable.html">by::typeProvidable</a></div><div class="ttdoc">Interface for objects that can provide their type information.</div><div class="ttdef"><b>Definition:</b> typeProvidable.hpp:12</div></div>
+<div class="ttc" id="acore_2common_8hpp_html"><div class="ttname"><a href="core_2common_8hpp.html">common.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

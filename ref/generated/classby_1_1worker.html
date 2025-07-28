@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -117,17 +112,22 @@ $(document).ready(function(){initNavTree('classby_1_1worker.html',''); initResiz
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1worker-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::worker&lt; R, T &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">by::worker&lt; R, T &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Base worker template for processing tasks.  
+ <a href="classby_1_1worker.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="worker_2worker_8hpp_source.html">worker.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::worker&lt; R, T &gt;:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1worker.png" usemap="#by::worker_3C_20R_2C_20T_20_3E_map" alt=""/>
   <map id="by::worker_3C_20R_2C_20T_20_3E_map" name="by::worker_3C_20R_2C_20T_20_3E_map">
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,119,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="129,0,248,24"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,119,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="129,0,248,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -288,7 +288,13 @@ template&lt;typename R1 , typename T1 &gt; </td></tr>
 <tr class="memitem:a5ed5914638e9c00bc08780607576bc78"><td class="memTemplItemLeft" align="right" valign="top">struct&#160;</td><td class="memTemplItemRight" valign="bottom"><b>workerAdapter</b></td></tr>
 <tr class="separator:a5ed5914638e9c00bc08780607576bc78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename R, typename T&gt;<br />
+class by::worker&lt; R, T &gt;</h3>
+
+<p>Base worker template for processing tasks. </p>
+<p>Template class that provides the foundation for all workers in the byeol system. Manages task execution, error reporting, logging, and area management. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/worker/<a class="el" href="worker_2worker_8hpp_source.html">worker.hpp</a></li>
 </ul>
 </div><!-- contents -->

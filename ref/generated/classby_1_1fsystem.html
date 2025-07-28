@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -114,27 +109,68 @@ $(document).ready(function(){initNavTree('classby_1_1fsystem.html',''); initResi
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classby_1_1fsystem-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::fsystem Class Reference</div>  </div>
+<div class="title">by::fsystem Class Reference<div class="ingroups"><a class="el" href="group__indep.html">Indep</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Cross-platform filesystem utilities for byeol language system.  
+ <a href="classby_1_1fsystem.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="fsystem_2fsystem_8hpp_source.html">fsystem.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ad73b86716bdac2f73d88cd315fc00332"><td class="memItemLeft" align="right" valign="top"><a id="ad73b86716bdac2f73d88cd315fc00332"></a>
-static iterator&#160;</td><td class="memItemRight" valign="bottom"><b>find</b> (const std::string &amp;path)</td></tr>
+<tr class="memitem:ad73b86716bdac2f73d88cd315fc00332"><td class="memItemLeft" align="right" valign="top">static iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1fsystem.html#ad73b86716bdac2f73d88cd315fc00332">find</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:ad73b86716bdac2f73d88cd315fc00332"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create iterator for filesystem traversal.  <a href="classby_1_1fsystem.html#ad73b86716bdac2f73d88cd315fc00332">More...</a><br /></td></tr>
 <tr class="separator:ad73b86716bdac2f73d88cd315fc00332"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ccfd39966e8a0d3a9dd32b4499e0b35"><td class="memItemLeft" align="right" valign="top"><a id="a3ccfd39966e8a0d3a9dd32b4499e0b35"></a>
-static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getCurrentDir</b> ()</td></tr>
+static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1fsystem.html#a3ccfd39966e8a0d3a9dd32b4499e0b35">getCurrentDir</a> ()</td></tr>
+<tr class="memdesc:a3ccfd39966e8a0d3a9dd32b4499e0b35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current working directory. <br /></td></tr>
 <tr class="separator:a3ccfd39966e8a0d3a9dd32b4499e0b35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bb3a28642eb3c3bc06ee65aab2f72b1"><td class="memItemLeft" align="right" valign="top"><a id="a0bb3a28642eb3c3bc06ee65aab2f72b1"></a>
-static const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getDelimiter</b> ()</td></tr>
+static const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1fsystem.html#a0bb3a28642eb3c3bc06ee65aab2f72b1">getDelimiter</a> ()</td></tr>
+<tr class="memdesc:a0bb3a28642eb3c3bc06ee65aab2f72b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get platform-specific path delimiter. <br /></td></tr>
 <tr class="separator:a0bb3a28642eb3c3bc06ee65aab2f72b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>fsystem is going to be used before filesystem library fully supported. to apply fsystem on clang++ is quite hard now. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+<div class="textblock"><p>Cross-platform filesystem utilities for byeol language system. </p>
+<p>Provides filesystem operations before C++ std::filesystem library is fully supported across all target platforms. Handles platform-specific file and directory operations through a unified interface. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad73b86716bdac2f73d88cd315fc00332"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad73b86716bdac2f73d88cd315fc00332">&#9670;&nbsp;</a></span>find()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static iterator by::fsystem::find </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create iterator for filesystem traversal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Target directory path to traverse </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/indep/fsystem/<a class="el" href="fsystem_2fsystem_8hpp_source.html">fsystem.hpp</a></li>
 </ul>
 </div><!-- contents -->

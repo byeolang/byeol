@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -115,18 +110,23 @@ $(document).ready(function(){initNavTree('classby_1_1watcher.html',''); initResi
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1watcher-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::watcher Class Reference</div>  </div>
+<div class="title">by::watcher Class Reference<div class="ingroups"><a class="el" href="group__memlite.html">Memlite</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Memory watcher for tracking instance lifecycle and allocation.  
+ <a href="classby_1_1watcher.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="watcher_2watcher_8hpp_source.html">watcher.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::watcher:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1watcher.png" usemap="#by::watcher_map" alt=""/>
   <map id="by::watcher_map" name="by::watcher_map">
-<area href="classby_1_1chunk.html" alt="by::chunk" shape="rect" coords="0,112,111,136"/>
-<area href="classby_1_1allocator.html" alt="by::allocator" shape="rect" coords="0,56,111,80"/>
-<area href="classby_1_1memory_haver.html" alt="by::memoryHaver" shape="rect" coords="0,0,111,24"/>
+<area href="classby_1_1chunk.html" title="Memory chunk for block-based allocation." alt="by::chunk" shape="rect" coords="0,112,111,136"/>
+<area href="classby_1_1allocator.html" title="Abstract allocator interface for memory management." alt="by::allocator" shape="rect" coords="0,56,111,80"/>
+<area href="classby_1_1memory_haver.html" title="Abstract interface for objects that manage memory." alt="by::memoryHaver" shape="rect" coords="0,0,111,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -236,7 +236,10 @@ Additional Inherited Members</h2></td></tr>
 static constexpr ncnt&#160;</td><td class="memItemRight" valign="bottom"><b>MIN_SZ</b> = 20</td></tr>
 <tr class="separator:adf356dd4d98925269801cfcd0b0dd57b inherit pub_static_attribs_classby_1_1chunk"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Memory watcher for tracking instance lifecycle and allocation. </p>
+<p>Monitors memory allocation and deallocation, providing watch cells for tracking instance states and managing memory lifecycle. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/memlite/watcher/<a class="el" href="watcher_2watcher_8hpp_source.html">watcher.hpp</a></li>
 </ul>
 </div><!-- contents -->

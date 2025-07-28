@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,9 +108,12 @@ $(document).ready(function(){initNavTree('structby_1_1watch_cell.html',''); init
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structby_1_1watch_cell-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::watchCell Struct Reference</div>  </div>
+<div class="title">by::watchCell Struct Reference<div class="ingroups"><a class="el" href="group__memlite.html">Memlite</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Memory watch cell for tracking instance states.  
+ <a href="structby_1_1watch_cell.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="watch_cell_8hpp_source.html">watchCell.hpp</a>&gt;</code></p>
 <table class="memberdecls">
@@ -129,7 +127,8 @@ nidx&#160;</td><td class="memItemRight" valign="bottom"><b>next</b></td></tr>
 <tr class="separator:a1958c12cc46f1e79e7192e33731120e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><dl class="section remark"><dt>Remarks</dt><dd>Immortality of WatchCell instance. WatchCell is managed by Chunks and Chunks set used instances to some index for chaining linked list. in order to hand over quickly to caller when it requires Chunks to alloc new an instance.</dd></dl>
+<div class="textblock"><p>Memory watch cell for tracking instance states. </p>
+<p>Immortality of WatchCell instance. WatchCell is managed by Chunks and Chunks set used instances to some index for chaining linked list. in order to hand over quickly to caller when it requires Chunks to alloc new an instance.</p>
 <p>because used up element will be set to integer, which is for index, if WatchCell has no nidx in front of its member, its blk member-variable definitely would be polluted and accessing it causes Undefined Behavior.</p>
 <p>and we need the blk that can be used after it freed, this is why we put an additional value, next. see @Block to know the reason. </p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>

@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,40 +108,41 @@ $(document).ready(function(){initNavTree('base_ctor_8hpp_source.html',''); initR
 <div class="title">baseCtor.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/ast/baseFunc.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classby_1_1base_ctor.html">    7</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classby_1_1base_ctor.html">baseCtor</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1base_func.html">baseFunc</a> {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        BY(ME(<a class="code" href="classby_1_1base_ctor.html">baseCtor</a>, <a class="code" href="classby_1_1base_func.html">baseFunc</a>), VISIT())</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1generalizer.html">generalizer</a>; <span class="comment">// for _setOrigin()</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <a class="code" href="classby_1_1base_ctor.html">baseCtor</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1mgd_type.html">mgdType</a>&amp; <a class="code" href="classby_1_1type.html">type</a>);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classby_1_1base_ctor.html#adf87afa2a4e799405a244adaeadedc8a">   15</a></span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> <a class="code" href="classby_1_1base_ctor.html#adf87afa2a4e799405a244adaeadedc8a">getEval</a>() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; getType() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1base_obj.html">baseObj</a>&amp; getOrigin() <span class="keyword">const override</span>;</div>
+<a href="base_ctor_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="base_func_8hpp.html">core/ast/baseFunc.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classby_1_1base_ctor.html">   12</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classby_1_1base_ctor.html">baseCtor</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1base_func.html">baseFunc</a> {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        BY(ME(<a class="code" href="classby_1_1base_ctor.html">baseCtor</a>, <a class="code" href="classby_1_1base_func.html">baseFunc</a>), VISIT())</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1generalizer.html">generalizer</a>; <span class="comment">// for _setOrigin()</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <a class="code" href="classby_1_1base_ctor.html">baseCtor</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1mgd_type.html">mgdType</a>&amp; <a class="code" href="classby_1_1type.html">type</a>);</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordtype">void</span> _setOrigin(<span class="keyword">const</span> <a class="code" href="classby_1_1base_obj.html">baseObj</a>&amp; newOrg);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="classby_1_1mgd_type.html">mgdType</a> _type;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    };</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
-<div class="ttc" id="aclassby_1_1base_ctor_html"><div class="ttname"><a href="classby_1_1base_ctor.html">by::baseCtor</a></div><div class="ttdef"><b>Definition:</b> baseCtor.hpp:7</div></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classby_1_1base_ctor.html#adf87afa2a4e799405a244adaeadedc8a">   20</a></span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> <a class="code" href="classby_1_1base_ctor.html#adf87afa2a4e799405a244adaeadedc8a">getEval</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1ntype.html">ntype</a>&amp; getType() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1base_obj.html">baseObj</a>&amp; getOrigin() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordtype">void</span> _setOrigin(<span class="keyword">const</span> <a class="code" href="classby_1_1base_obj.html">baseObj</a>&amp; newOrg);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <a class="code" href="classby_1_1mgd_type.html">mgdType</a> _type;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    };</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
+<div class="ttc" id="abase_func_8hpp_html"><div class="ttname"><a href="base_func_8hpp.html">baseFunc.hpp</a></div></div>
+<div class="ttc" id="aclassby_1_1base_ctor_html"><div class="ttname"><a href="classby_1_1base_ctor.html">by::baseCtor</a></div><div class="ttdoc">Base class for all constructor types.</div><div class="ttdef"><b>Definition:</b> baseCtor.hpp:12</div></div>
 <div class="ttc" id="aclassby_1_1base_ctor_html_adf87afa2a4e799405a244adaeadedc8a"><div class="ttname"><a href="classby_1_1base_ctor.html#adf87afa2a4e799405a244adaeadedc8a">by::baseCtor::getEval</a></div><div class="ttdeci">str getEval() const override</div></div>
-<div class="ttc" id="aclassby_1_1base_func_html"><div class="ttname"><a href="classby_1_1base_func.html">by::baseFunc</a></div><div class="ttdef"><b>Definition:</b> baseFunc.hpp:13</div></div>
-<div class="ttc" id="aclassby_1_1base_obj_html"><div class="ttname"><a href="classby_1_1base_obj.html">by::baseObj</a></div><div class="ttdoc">baseObj handles frame injection event of all objects.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:20</div></div>
-<div class="ttc" id="aclassby_1_1generalizer_html"><div class="ttname"><a href="classby_1_1generalizer.html">by::generalizer</a></div><div class="ttdef"><b>Definition:</b> generalizer.hpp:8</div></div>
-<div class="ttc" id="aclassby_1_1mgd_type_html"><div class="ttname"><a href="classby_1_1mgd_type.html">by::mgdType</a></div><div class="ttdef"><b>Definition:</b> mgdType.hpp:12</div></div>
-<div class="ttc" id="aclassby_1_1ntype_html"><div class="ttname"><a href="classby_1_1ntype.html">by::ntype</a></div><div class="ttdef"><b>Definition:</b> ntype.hpp:14</div></div>
+<div class="ttc" id="aclassby_1_1base_func_html"><div class="ttname"><a href="classby_1_1base_func.html">by::baseFunc</a></div><div class="ttdoc">Base class for all function types.</div><div class="ttdef"><b>Definition:</b> baseFunc.hpp:18</div></div>
+<div class="ttc" id="aclassby_1_1base_obj_html"><div class="ttname"><a href="classby_1_1base_obj.html">by::baseObj</a></div><div class="ttdoc">Base class for all objects in byeol language.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:24</div></div>
+<div class="ttc" id="aclassby_1_1generalizer_html"><div class="ttname"><a href="classby_1_1generalizer.html">by::generalizer</a></div><div class="ttdoc">Visitor for generic type parameter replacement.</div><div class="ttdef"><b>Definition:</b> generalizer.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1mgd_type_html"><div class="ttname"><a href="classby_1_1mgd_type.html">by::mgdType</a></div><div class="ttdoc">Managed type for byeol objects.</div><div class="ttdef"><b>Definition:</b> mgdType.hpp:17</div></div>
+<div class="ttc" id="aclassby_1_1ntype_html"><div class="ttname"><a href="classby_1_1ntype.html">by::ntype</a></div><div class="ttdoc">Native type system for byeol language.</div><div class="ttdef"><b>Definition:</b> ntype.hpp:19</div></div>
 <div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr&lt; node &gt;</a></div></div>
-<div class="ttc" id="aclassby_1_1type_html"><div class="ttname"><a href="classby_1_1type.html">by::type</a></div><div class="ttdef"><b>Definition:</b> type.hpp:8</div></div>
+<div class="ttc" id="aclassby_1_1type_html"><div class="ttname"><a href="classby_1_1type.html">by::type</a></div><div class="ttdoc">Base class for runtime type information in byeol language.</div><div class="ttdef"><b>Definition:</b> type.hpp:12</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

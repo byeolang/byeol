@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,32 +108,33 @@ $(document).ready(function(){initNavTree('default_copy_ctor_8hpp_source.html',''
 <div class="title">defaultCopyCtor.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/ast/ctor/baseCtor.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">class </span>visitor;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="classby_1_1default_copy_ctor.html">    9</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1default_copy_ctor.html">defaultCopyCtor</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1base_ctor.html">baseCtor</a> {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        BY(ME(<a class="code" href="classby_1_1default_copy_ctor.html">defaultCopyCtor</a>, <a class="code" href="classby_1_1base_ctor.html">baseCtor</a>), INIT_META(<a class="code" href="classby_1_1default_copy_ctor.html">defaultCopyCtor</a>), CLONE(<a class="code" href="classby_1_1default_copy_ctor.html">defaultCopyCtor</a>), VISIT())</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="classby_1_1default_copy_ctor.html">defaultCopyCtor</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; org);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">using</span> super::run;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> run(<span class="keyword">const</span> <a class="code" href="classby_1_1args.html">args</a>&amp; a) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1src.html">src</a>&amp; getSrc() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    };</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
-<div class="ttc" id="aclassby_1_1args_html"><div class="ttname"><a href="classby_1_1args.html">by::args</a></div><div class="ttdef"><b>Definition:</b> args.hpp:8</div></div>
-<div class="ttc" id="aclassby_1_1base_ctor_html"><div class="ttname"><a href="classby_1_1base_ctor.html">by::baseCtor</a></div><div class="ttdef"><b>Definition:</b> baseCtor.hpp:7</div></div>
-<div class="ttc" id="aclassby_1_1default_copy_ctor_html"><div class="ttname"><a href="classby_1_1default_copy_ctor.html">by::defaultCopyCtor</a></div><div class="ttdef"><b>Definition:</b> defaultCopyCtor.hpp:9</div></div>
-<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:26</div></div>
-<div class="ttc" id="aclassby_1_1src_html"><div class="ttname"><a href="classby_1_1src.html">by::src</a></div><div class="ttdef"><b>Definition:</b> src.hpp:6</div></div>
+<a href="default_copy_ctor_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="base_ctor_8hpp.html">core/ast/ctor/baseCtor.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">class </span>visitor;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classby_1_1default_copy_ctor.html">   14</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1default_copy_ctor.html">defaultCopyCtor</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1base_ctor.html">baseCtor</a> {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        BY(ME(<a class="code" href="classby_1_1default_copy_ctor.html">defaultCopyCtor</a>, <a class="code" href="classby_1_1base_ctor.html">baseCtor</a>), INIT_META(<a class="code" href="classby_1_1default_copy_ctor.html">defaultCopyCtor</a>), CLONE(<a class="code" href="classby_1_1default_copy_ctor.html">defaultCopyCtor</a>), VISIT())</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="classby_1_1default_copy_ctor.html">defaultCopyCtor</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; org);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">using</span> super::run;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> run(<span class="keyword">const</span> <a class="code" href="classby_1_1args.html">args</a>&amp; a) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1src.html">src</a>&amp; getSrc() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    };</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="ttc" id="abase_ctor_8hpp_html"><div class="ttname"><a href="base_ctor_8hpp.html">baseCtor.hpp</a></div></div>
+<div class="ttc" id="aclassby_1_1args_html"><div class="ttname"><a href="classby_1_1args.html">by::args</a></div><div class="ttdoc">Function call arguments container.</div><div class="ttdef"><b>Definition:</b> args.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1base_ctor_html"><div class="ttname"><a href="classby_1_1base_ctor.html">by::baseCtor</a></div><div class="ttdoc">Base class for all constructor types.</div><div class="ttdef"><b>Definition:</b> baseCtor.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1default_copy_ctor_html"><div class="ttname"><a href="classby_1_1default_copy_ctor.html">by::defaultCopyCtor</a></div><div class="ttdoc">Default copy constructor implementation.</div><div class="ttdef"><b>Definition:</b> defaultCopyCtor.hpp:14</div></div>
+<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">Base class for all AST nodes in byeol language.</div><div class="ttdef"><b>Definition:</b> node.hpp:30</div></div>
+<div class="ttc" id="aclassby_1_1src_html"><div class="ttname"><a href="classby_1_1src.html">by::src</a></div><div class="ttdoc">Source location information.</div><div class="ttdef"><b>Definition:</b> src.hpp:11</div></div>
 <div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr&lt; node &gt;</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

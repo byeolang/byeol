@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,50 +108,52 @@ $(document).ready(function(){initNavTree('watcher_2watcher_8hpp_source.html','')
 <div class="title">watcher.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;memlite/pool/chunk.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;memlite/watcher/watchCell.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classby_1_1watcher.html">    8</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1watcher.html">watcher</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1chunk.html">chunk</a> {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        BY_ME(<a class="code" href="classby_1_1watcher.html">watcher</a>, <a class="code" href="classby_1_1chunk.html">chunk</a>)</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        BY_INIT_META(me)</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1instancer.html">instancer</a>;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1bind_tag.html">bindTag</a>;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="comment">//  watcher:</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <a class="code" href="classby_1_1watcher.html">watcher</a>();</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="structby_1_1watch_cell.html">watchCell</a>&amp; operator[](nidx n);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">const</span> <a class="code" href="structby_1_1watch_cell.html">watchCell</a>&amp; operator[](nidx n) <span class="keyword">const</span> BY_CONST_FUNC(<span class="keyword">operator</span>[](n));</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="structby_1_1watch_cell.html">watchCell</a>&amp; operator[](<span class="keywordtype">id</span> <span class="keywordtype">id</span>);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">const</span> <a class="code" href="structby_1_1watch_cell.html">watchCell</a>&amp; operator[](<span class="keywordtype">id</span> <span class="keywordtype">id</span>) <span class="keyword">const</span> BY_CONST_FUNC(<span class="keyword">operator</span>[](<span class="keywordtype">id</span>));</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="structby_1_1watch_cell.html">watchCell</a>* get(nidx n);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="structby_1_1watch_cell.html">watchCell</a>* get(<span class="keywordtype">id</span> newId);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">const</span> <a class="code" href="structby_1_1watch_cell.html">watchCell</a>* get(nidx n) <span class="keyword">const</span> BY_CONST_FUNC(get(n))</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">const</span> <a class="code" href="structby_1_1watch_cell.html">watchCell</a>* get(<span class="keywordtype">id</span> newId) <span class="keyword">const</span> BY_CONST_FUNC(get(newId))</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="comment">//  Allocator:</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordtype">void</span>* new1() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        nbool del(<span class="keywordtype">void</span>* used, ncnt sz) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="comment">//  watcher:</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">id</span> _genId(<span class="keywordtype">void</span>* pt) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        nidx _getIdx(<span class="keywordtype">void</span>* it) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    };</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;} <span class="comment">// namespace by</span></div>
-<div class="ttc" id="aclassby_1_1bind_tag_html"><div class="ttname"><a href="classby_1_1bind_tag.html">by::bindTag</a></div><div class="ttdef"><b>Definition:</b> bindTag.hpp:10</div></div>
-<div class="ttc" id="aclassby_1_1chunk_html"><div class="ttname"><a href="classby_1_1chunk.html">by::chunk</a></div><div class="ttdef"><b>Definition:</b> chunk.hpp:7</div></div>
-<div class="ttc" id="aclassby_1_1instancer_html"><div class="ttname"><a href="classby_1_1instancer.html">by::instancer</a></div><div class="ttdef"><b>Definition:</b> instancer.hpp:8</div></div>
-<div class="ttc" id="aclassby_1_1watcher_html"><div class="ttname"><a href="classby_1_1watcher.html">by::watcher</a></div><div class="ttdef"><b>Definition:</b> watcher.hpp:8</div></div>
-<div class="ttc" id="astructby_1_1watch_cell_html"><div class="ttname"><a href="structby_1_1watch_cell.html">by::watchCell</a></div><div class="ttdef"><b>Definition:</b> watchCell.hpp:17</div></div>
+<a href="watcher_2watcher_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="chunk_8hpp.html">memlite/pool/chunk.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="watch_cell_8hpp.html">memlite/watcher/watchCell.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classby_1_1watcher.html">   13</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1watcher.html">watcher</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1chunk.html">chunk</a> {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        BY_ME(<a class="code" href="classby_1_1watcher.html">watcher</a>, <a class="code" href="classby_1_1chunk.html">chunk</a>)</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        BY_INIT_META(me)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1instancer.html">instancer</a>;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1bind_tag.html">bindTag</a>;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="comment">//  watcher:</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="classby_1_1watcher.html">watcher</a>();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="structby_1_1watch_cell.html">watchCell</a>&amp; operator[](nidx n);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">const</span> <a class="code" href="structby_1_1watch_cell.html">watchCell</a>&amp; operator[](nidx n) <span class="keyword">const</span> BY_CONST_FUNC(<span class="keyword">operator</span>[](n));</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="structby_1_1watch_cell.html">watchCell</a>&amp; operator[](<span class="keywordtype">id</span> <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">const</span> <a class="code" href="structby_1_1watch_cell.html">watchCell</a>&amp; operator[](<span class="keywordtype">id</span> <span class="keywordtype">id</span>) <span class="keyword">const</span> BY_CONST_FUNC(<span class="keyword">operator</span>[](<span class="keywordtype">id</span>));</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <a class="code" href="structby_1_1watch_cell.html">watchCell</a>* get(nidx n);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="structby_1_1watch_cell.html">watchCell</a>* get(<span class="keywordtype">id</span> newId);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keyword">const</span> <a class="code" href="structby_1_1watch_cell.html">watchCell</a>* get(nidx n) <span class="keyword">const</span> BY_CONST_FUNC(get(n))</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">const</span> <a class="code" href="structby_1_1watch_cell.html">watchCell</a>* get(<span class="keywordtype">id</span> newId) <span class="keyword">const</span> BY_CONST_FUNC(get(newId))</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="comment">//  Allocator:</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">void</span>* new1() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        nbool del(<span class="keywordtype">void</span>* used, ncnt sz) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="comment">//  watcher:</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">id</span> _genId(<span class="keywordtype">void</span>* pt) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        nidx _getIdx(<span class="keywordtype">void</span>* it) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    };</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="achunk_8hpp_html"><div class="ttname"><a href="chunk_8hpp.html">chunk.hpp</a></div></div>
+<div class="ttc" id="aclassby_1_1bind_tag_html"><div class="ttname"><a href="classby_1_1bind_tag.html">by::bindTag</a></div><div class="ttdoc">Binding tag for instance reference tracking and lifecycle management.</div><div class="ttdef"><b>Definition:</b> bindTag.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1chunk_html"><div class="ttname"><a href="classby_1_1chunk.html">by::chunk</a></div><div class="ttdoc">Memory chunk for block-based allocation.</div><div class="ttdef"><b>Definition:</b> chunk.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1instancer_html"><div class="ttname"><a href="classby_1_1instancer.html">by::instancer</a></div><div class="ttdoc">Singleton manager for instance lifecycle and memory allocation.</div><div class="ttdef"><b>Definition:</b> instancer.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1watcher_html"><div class="ttname"><a href="classby_1_1watcher.html">by::watcher</a></div><div class="ttdoc">Memory watcher for tracking instance lifecycle and allocation.</div><div class="ttdef"><b>Definition:</b> watcher.hpp:13</div></div>
+<div class="ttc" id="astructby_1_1watch_cell_html"><div class="ttname"><a href="structby_1_1watch_cell.html">by::watchCell</a></div><div class="ttdoc">Memory watch cell for tracking instance states.</div><div class="ttdef"><b>Definition:</b> watchCell.hpp:20</div></div>
+<div class="ttc" id="awatch_cell_8hpp_html"><div class="ttname"><a href="watch_cell_8hpp.html">watchCell.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

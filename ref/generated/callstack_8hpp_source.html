@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,48 +108,52 @@ $(document).ready(function(){initNavTree('callstack_8hpp_source.html',''); initR
 <div class="title">callstack.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/builtin/container/native/tnarr.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;core/builtin/container/native/tnbicontainer.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;core/frame/frames.hpp&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">class </span>frame;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">class </span>frames;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classby_1_1calltrace.html">   12</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1calltrace.html">calltrace</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1instance.html">instance</a> {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1calltrace.html">calltrace</a>, <a class="code" href="classby_1_1instance.html">instance</a>))</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <a class="code" href="classby_1_1calltrace.html">calltrace</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1frame.html">frame</a>&amp; newFrame);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr&lt;frame&gt;</a> fr;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        std::string at;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        std::string in;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    };</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classby_1_1callstack.html">   24</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1callstack.html">callstack</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1tnarr.html">tnarr</a>&lt;calltrace&gt;, <span class="keyword">public</span> <a class="code" href="classby_1_1dumpable.html">dumpable</a> {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1callstack.html">callstack</a>, <a class="code" href="classby_1_1instance.html">instance</a>))</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <a class="code" href="classby_1_1callstack.html">callstack</a>();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <a class="code" href="classby_1_1callstack.html">callstack</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1frames.html">frames</a>&amp; frs);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">void</span> dump() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    };</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;} <span class="comment">// namespace by</span></div>
-<div class="ttc" id="aclassby_1_1callstack_html"><div class="ttname"><a href="classby_1_1callstack.html">by::callstack</a></div><div class="ttdef"><b>Definition:</b> callstack.hpp:24</div></div>
-<div class="ttc" id="aclassby_1_1calltrace_html"><div class="ttname"><a href="classby_1_1calltrace.html">by::calltrace</a></div><div class="ttdef"><b>Definition:</b> callstack.hpp:12</div></div>
-<div class="ttc" id="aclassby_1_1dumpable_html"><div class="ttname"><a href="classby_1_1dumpable.html">by::dumpable</a></div><div class="ttdef"><b>Definition:</b> dumpable.hpp:7</div></div>
-<div class="ttc" id="aclassby_1_1frame_html"><div class="ttname"><a href="classby_1_1frame.html">by::frame</a></div><div class="ttdef"><b>Definition:</b> frame.hpp:21</div></div>
-<div class="ttc" id="aclassby_1_1frames_html"><div class="ttname"><a href="classby_1_1frames.html">by::frames</a></div><div class="ttdef"><b>Definition:</b> frames.hpp:7</div></div>
-<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdef"><b>Definition:</b> instance.hpp:15</div></div>
-<div class="ttc" id="aclassby_1_1tnarr_html"><div class="ttname"><a href="classby_1_1tnarr.html">by::tnarr</a></div><div class="ttdef"><b>Definition:</b> tnarr.hpp:8</div></div>
-<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr</a></div><div class="ttdef"><b>Definition:</b> tstr.hpp:8</div></div>
+<a href="callstack_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tnarr_8hpp.html">core/builtin/container/native/tnarr.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tnbicontainer_8hpp.html">core/builtin/container/native/tnbicontainer.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="frames_8hpp.html">core/frame/frames.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">class </span>frame;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">class </span>frames;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classby_1_1calltrace.html">   16</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1calltrace.html">calltrace</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1instance.html">instance</a> {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1calltrace.html">calltrace</a>, <a class="code" href="classby_1_1instance.html">instance</a>))</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <a class="code" href="classby_1_1calltrace.html">calltrace</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1frame.html">frame</a>&amp; newFrame);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr&lt;frame&gt;</a> fr;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        std::string at;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        std::string in;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    };</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="classby_1_1callstack.html">   31</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1callstack.html">callstack</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1tnarr.html">tnarr</a>&lt;calltrace&gt;, <span class="keyword">public</span> <a class="code" href="classby_1_1dumpable.html">dumpable</a> {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1callstack.html">callstack</a>, <a class="code" href="classby_1_1instance.html">instance</a>))</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <a class="code" href="classby_1_1callstack.html">callstack</a>();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <a class="code" href="classby_1_1callstack.html">callstack</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1frames.html">frames</a>&amp; frs);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classby_1_1callstack.html#a82b484580195d5f7e2733322050de0a7">   39</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classby_1_1callstack.html#a82b484580195d5f7e2733322050de0a7">dump</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    };</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1callstack_html"><div class="ttname"><a href="classby_1_1callstack.html">by::callstack</a></div><div class="ttdoc">Call stack for error reporting and debugging.</div><div class="ttdef"><b>Definition:</b> callstack.hpp:31</div></div>
+<div class="ttc" id="aclassby_1_1callstack_html_a82b484580195d5f7e2733322050de0a7"><div class="ttname"><a href="classby_1_1callstack.html#a82b484580195d5f7e2733322050de0a7">by::callstack::dump</a></div><div class="ttdeci">void dump() const override</div><div class="ttdoc">Dump object state for debugging.</div></div>
+<div class="ttc" id="aclassby_1_1calltrace_html"><div class="ttname"><a href="classby_1_1calltrace.html">by::calltrace</a></div><div class="ttdoc">Single call trace entry.</div><div class="ttdef"><b>Definition:</b> callstack.hpp:16</div></div>
+<div class="ttc" id="aclassby_1_1dumpable_html"><div class="ttname"><a href="classby_1_1dumpable.html">by::dumpable</a></div><div class="ttdoc">Interface for objects that can dump their state.</div><div class="ttdef"><b>Definition:</b> dumpable.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1frame_html"><div class="ttname"><a href="classby_1_1frame.html">by::frame</a></div><div class="ttdoc">Execution frame for byeol runtime.</div><div class="ttdef"><b>Definition:</b> frame.hpp:29</div></div>
+<div class="ttc" id="aclassby_1_1frames_html"><div class="ttname"><a href="classby_1_1frames.html">by::frames</a></div><div class="ttdoc">Container for execution frame stack.</div><div class="ttdef"><b>Definition:</b> frames.hpp:11</div></div>
+<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdoc">Base class for all managed instances in memlite system.</div><div class="ttdef"><b>Definition:</b> instance.hpp:20</div></div>
+<div class="ttc" id="aclassby_1_1tnarr_html"><div class="ttname"><a href="classby_1_1tnarr.html">by::tnarr</a></div><div class="ttdef"><b>Definition:</b> tnarr.hpp:9</div></div>
+<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr</a></div><div class="ttdoc">Strong reference smart pointer with strict type checking.</div><div class="ttdef"><b>Definition:</b> tstr.hpp:13</div></div>
+<div class="ttc" id="aframes_8hpp_html"><div class="ttname"><a href="frames_8hpp.html">frames.hpp</a></div></div>
+<div class="ttc" id="atnarr_8hpp_html"><div class="ttname"><a href="tnarr_8hpp.html">tnarr.hpp</a></div></div>
+<div class="ttc" id="atnbicontainer_8hpp_html"><div class="ttname"><a href="tnbicontainer_8hpp.html">tnbicontainer.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

@@ -1,6 +1,5 @@
 var classby_1_1loop_expr =
 [
-    [ "loop", "classby_1_1loop_expr_1_1loop.html", "classby_1_1loop_expr_1_1loop" ],
     [ "loopExpr", "classby_1_1loop_expr.html#a494838df7950fa14a036d73e544f82a6", null ],
     [ "_makeEval", "classby_1_1loop_expr.html#a1ccf692ed850122856785fcc969b0825", null ],
     [ "_makeLoop", "classby_1_1loop_expr.html#a2e3a020c762749d8b63cd2de956f1ae1", null ],

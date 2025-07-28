@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,9 +108,12 @@ $(document).ready(function(){initNavTree('classby_1_1def_nested_func_expr.html',
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1def_nested_func_expr-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::defNestedFuncExpr Class Reference</div>  </div>
+<div class="title">by::defNestedFuncExpr Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Nested function definition expression (lambda)  
+ <a href="classby_1_1def_nested_func_expr.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="def_nested_func_expr_8hpp_source.html">defNestedFuncExpr.hpp</a>&gt;</code></p>
 <div class="dynheader">
@@ -124,12 +122,12 @@ Inheritance diagram for by::defNestedFuncExpr:</div>
  <div class="center">
   <img src="classby_1_1def_nested_func_expr.png" usemap="#by::defNestedFuncExpr_map" alt=""/>
   <map id="by::defNestedFuncExpr_map" name="by::defNestedFuncExpr_map">
-<area href="classby_1_1expr.html" alt="by::expr" shape="rect" coords="154,168,298,192"/>
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="154,112,298,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="77,56,221,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="231,56,375,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,144,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="154,0,298,24"/>
+<area href="classby_1_1expr.html" title="Base class for all expressions." alt="by::expr" shape="rect" coords="154,168,298,192"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="154,112,298,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="77,56,221,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="231,56,375,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,144,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="154,0,298,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -517,8 +515,8 @@ static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td>
 <tr class="separator:ae500e192a7c08ae305ba6fafe7a5ab6d inherit pro_attribs_classby_1_1expr"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>nested func: when you eval nested func, actually it will clone a new func with the current shallow copied block scope. so it can captures local scope at that time.</p>
-<p>it doesn't know about local variables after you define it. it contains copied block scope. and will inject just before runs block stmt. </p>
+<div class="textblock"><p>Nested function definition expression (lambda) </p>
+<p>Represents lambda expressions and nested function definitions. Captures local scope at definition time and creates closures for nested functions. </p><dl class="section note"><dt>Note</dt><dd>When evaluated, clones function with shallow copied block scope for variable capture. </dd></dl>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/ast/exprs/<a class="el" href="def_nested_func_expr_8hpp_source.html">defNestedFuncExpr.hpp</a></li>
 </ul>

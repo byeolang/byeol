@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -114,23 +109,28 @@ $(document).ready(function(){initNavTree('classby_1_1autoslot.html',''); initRes
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classby_1_1autoslot-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::autoslot Class Reference</div>  </div>
+<div class="title">by::autoslot Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Automatic slot with pack loading capabilities.  
+ <a href="classby_1_1autoslot.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="autoslot_8hpp_source.html">autoslot.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::autoslot:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1autoslot.png" usemap="#by::autoslot_map" alt=""/>
   <map id="by::autoslot_map" name="by::autoslot_map">
-<area href="classby_1_1slot.html" alt="by::slot" shape="rect" coords="140,168,270,192"/>
-<area href="classby_1_1pack_makable.html" alt="by::packMakable" shape="rect" coords="280,168,410,192"/>
-<area href="classby_1_1statable.html" alt="by::statable" shape="rect" coords="420,168,550,192"/>
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="140,112,270,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="70,56,200,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="140,0,270,24"/>
+<area href="classby_1_1slot.html" title="Package slot for module loading and management." alt="by::slot" shape="rect" coords="140,168,270,192"/>
+<area href="classby_1_1pack_makable.html" title="Interface for pack creation and verification." alt="by::packMakable" shape="rect" coords="280,168,410,192"/>
+<area href="classby_1_1statable.html" title="Interface for objects with compilation state." alt="by::statable" shape="rect" coords="420,168,550,192"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="140,112,270,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="70,56,200,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="140,0,270,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -553,7 +553,10 @@ static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td>
 <a class="el" href="classby_1_1tstr.html">tstr</a>&lt; <a class="el" href="classby_1_1obj.html">obj</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_pak</b></td></tr>
 <tr class="separator:a6c4da5afc0794d4f33635aa287f24b64 inherit pro_attribs_classby_1_1slot"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Automatic slot with pack loading capabilities. </p>
+<p>Slot that automatically loads and parses pack content when accessed. Integrates pack loading strategies with lazy evaluation and error reporting. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a1144881a1256d6fd289636d07f92caba"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1144881a1256d6fd289636d07f92caba">&#9670;&nbsp;</a></span>rel()</h2>
 

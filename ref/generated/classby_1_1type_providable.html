@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,9 +108,14 @@ $(document).ready(function(){initNavTree('classby_1_1type_providable.html',''); 
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1type_providable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::typeProvidable Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">by::typeProvidable Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__meta.html">Meta</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Interface for objects that can provide their type information.  
+ <a href="classby_1_1type_providable.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="type_providable_8hpp_source.html">typeProvidable.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::typeProvidable:</div>
 <div class="dyncontent">
@@ -126,14 +126,14 @@ Inheritance diagram for by::typeProvidable:</div>
 <area href="classby_1_1worker.html" alt="by::worker&lt; str, node &gt;" shape="rect" coords="193,112,376,136"/>
 <area href="classby_1_1worker.html" alt="by::worker&lt; str, slot &gt;" shape="rect" coords="193,168,376,192"/>
 <area href="classby_1_1worker.html" alt="by::worker&lt; tstr&lt; slot &gt;, slot &gt;" shape="rect" coords="193,224,376,248"/>
-<area href="classby_1_1bind_tag.html" alt="by::bindTag" shape="rect" coords="193,280,376,304"/>
-<area href="classby_1_1binder.html" alt="by::binder" shape="rect" coords="193,336,376,360"/>
-<area href="classby_1_1expr_maker.html" alt="by::exprMaker" shape="rect" coords="193,392,376,416"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="193,448,376,472"/>
-<area href="classby_1_1slot_loader.html" alt="by::slotLoader" shape="rect" coords="193,504,376,528"/>
-<area href="classby_1_1smart_dedent.html" alt="by::smartDedent" shape="rect" coords="193,560,376,584"/>
-<area href="classby_1_1token_scan.html" alt="by::tokenScan" shape="rect" coords="193,616,376,640"/>
-<area href="classby_1_1worker.html" alt="by::worker&lt; R, T &gt;" shape="rect" coords="193,672,376,696"/>
+<area href="classby_1_1bind_tag.html" title="Binding tag for instance reference tracking and lifecycle management." alt="by::bindTag" shape="rect" coords="193,280,376,304"/>
+<area href="classby_1_1binder.html" title="Smart pointer with loose type checking and lifetime management." alt="by::binder" shape="rect" coords="193,336,376,360"/>
+<area href="classby_1_1expr_maker.html" title="Factory for creating expressions with source location information." alt="by::exprMaker" shape="rect" coords="193,392,376,416"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="193,448,376,472"/>
+<area href="classby_1_1slot_loader.html" title="Slot loading and management system." alt="by::slotLoader" shape="rect" coords="193,504,376,528"/>
+<area href="classby_1_1smart_dedent.html" title="Smart indentation management for code parsing." alt="by::smartDedent" shape="rect" coords="193,560,376,584"/>
+<area href="classby_1_1token_scan.html" title="Base class for token scanning strategies." alt="by::tokenScan" shape="rect" coords="193,616,376,640"/>
+<area href="classby_1_1worker.html" title="Base worker template for processing tasks." alt="by::worker&lt; R, T &gt;" shape="rect" coords="193,672,376,696"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -192,7 +192,10 @@ template&lt;typename T &gt; </td></tr>
 const void *&#160;</td><td class="memItemRight" valign="bottom"><b>cast</b> (const <a class="el" href="classby_1_1type.html">type</a> &amp;to) const BY_CONST_FUNC(cast(to)) void *cast(const <a class="el" href="classby_1_1type.html">type</a> *it) BY_SIDE_FUNC(cast)</td></tr>
 <tr class="separator:aa4bc83519b78b24dba2dca0652a183ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Interface for objects that can provide their type information. </p>
+<p>Provides type introspection capabilities including type comparison, hierarchy checking, and safe casting operations. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/meta/interface/<a class="el" href="type_providable_8hpp_source.html">typeProvidable.hpp</a></li>
 </ul>
 </div><!-- contents -->

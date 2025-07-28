@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,16 +108,21 @@ $(document).ready(function(){initNavTree('classby_1_1tres.html',''); initResizab
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1tres-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::tres&lt; T, R &gt; Class Template Reference</div>  </div>
+<div class="title">by::tres&lt; T, R &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__indep.html">Indep</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Template result container with error handling capabilities.  
+ <a href="classby_1_1tres.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="tres_8hpp_source.html">tres.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::tres&lt; T, R &gt;:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1tres.png" usemap="#by::tres_3C_20T_2C_20R_20_3E_map" alt=""/>
   <map id="by::tres_3C_20T_2C_20R_20_3E_map" name="by::tres_3C_20T_2C_20R_20_3E_map">
-<area href="classby_1_1tmay.html" alt="by::tmay&lt; T &gt;" shape="rect" coords="0,56,109,80"/>
+<area href="classby_1_1tmay.html" title="Optional value wrapper with byeol-style interface." alt="by::tmay&lt; T &gt;" shape="rect" coords="0,56,109,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -184,7 +184,13 @@ T *&#160;</td><td class="memItemRight" valign="bottom"><b>get</b> ()</td></tr>
 const T *&#160;</td><td class="memItemRight" valign="bottom"><b>get</b> () const BY_CONST_FUNC(get()) virtual void rel()</td></tr>
 <tr class="separator:a0d8056bcdb96a91e071d4bec1d64b26b inherit pub_methods_classby_1_1tmay"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename T, typename R&gt;<br />
+class by::tres&lt; T, R &gt;</h3>
+
+<p>Template result container with error handling capabilities. </p>
+<p>Extends tmay&lt;T&gt; to include error information of type R. Provides dual-state container that can hold either a successful value or an error state, making it useful for robust error handling patterns. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/indep/helper/<a class="el" href="tres_8hpp_source.html">tres.hpp</a></li>
 </ul>
 </div><!-- contents -->

@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,53 +108,55 @@ $(document).ready(function(){initNavTree('flag_8hpp_source.html',''); initResiza
 <div class="title">flag.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;regex&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;frontend/common.hpp&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;frontend/flag/flagArgs.hpp&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">struct </span>cli;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">typedef</span> std::vector&lt;std::string&gt; strings;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classby_1_1flag.html">   14</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classby_1_1flag.html">flag</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1instance.html">instance</a> {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        BY(ADT(<a class="code" href="classby_1_1flag.html">flag</a>, <a class="code" href="classby_1_1instance.html">instance</a>))</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">enum</span> res {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            MATCH,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            EXIT_PROGRAM,</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            NOT_MATCH</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        };</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">virtual</span> <span class="keyword">const</span> nchar* getName() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">virtual</span> <span class="keyword">const</span> nchar* getDescription() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classby_1_1flag.html#af0adddbcc50202809f830fae9c643698">   29</a></span>&#160;        <span class="keyword">virtual</span> res <a class="code" href="classby_1_1flag.html#af0adddbcc50202809f830fae9c643698">take</a>(<a class="code" href="classby_1_1interpreter.html">interpreter</a>&amp; ip, <a class="code" href="classby_1_1starter.html">starter</a>&amp; s, <a class="code" href="structby_1_1cli.html">cli</a>&amp; c, flagArgs&amp; a) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classby_1_1flag.html#a614c12666dfd1fbd7046309fa5950847">   34</a></span>&#160;        <span class="keyword">virtual</span> ncnt <a class="code" href="classby_1_1flag.html#a614c12666dfd1fbd7046309fa5950847">_onContinuousArgCount</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">void</span> _delArgs(flagArgs&amp; a, std::vector&lt;int&gt; indices) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keyword">virtual</span> <span class="keyword">const</span> strings&amp; _getRegExpr() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">virtual</span> res _onTake(<span class="keyword">const</span> flagArgs&amp; tray, <a class="code" href="structby_1_1cli.html">cli</a>&amp; c, <a class="code" href="classby_1_1interpreter.html">interpreter</a>&amp; ip, <a class="code" href="classby_1_1starter.html">starter</a>&amp; s) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    };</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">typedef</span> std::vector&lt;tstr&lt;flag&gt;&gt; flags;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
-<div class="ttc" id="aclassby_1_1flag_html"><div class="ttname"><a href="classby_1_1flag.html">by::flag</a></div><div class="ttdef"><b>Definition:</b> flag.hpp:14</div></div>
+<a href="flag_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;regex&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="frontend_2common_8hpp.html">frontend/common.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="flag_args_8hpp.html">frontend/flag/flagArgs.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">struct </span>cli;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">typedef</span> std::vector&lt;std::string&gt; strings;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classby_1_1flag.html">   15</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classby_1_1flag.html">flag</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1instance.html">instance</a> {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        BY(ADT(<a class="code" href="classby_1_1flag.html">flag</a>, <a class="code" href="classby_1_1instance.html">instance</a>))</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">enum</span> res {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            MATCH,</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            EXIT_PROGRAM,</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            NOT_MATCH</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        };</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">virtual</span> <span class="keyword">const</span> nchar* getName() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">virtual</span> <span class="keyword">const</span> nchar* getDescription() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classby_1_1flag.html#af0adddbcc50202809f830fae9c643698">   30</a></span>&#160;        <span class="keyword">virtual</span> res <a class="code" href="classby_1_1flag.html#af0adddbcc50202809f830fae9c643698">take</a>(<a class="code" href="classby_1_1interpreter.html">interpreter</a>&amp; ip, <a class="code" href="classby_1_1starter.html">starter</a>&amp; s, <a class="code" href="structby_1_1cli.html">cli</a>&amp; c, flagArgs&amp; a) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="classby_1_1flag.html#a614c12666dfd1fbd7046309fa5950847">   35</a></span>&#160;        <span class="keyword">virtual</span> ncnt <a class="code" href="classby_1_1flag.html#a614c12666dfd1fbd7046309fa5950847">_onContinuousArgCount</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">void</span> _delArgs(flagArgs&amp; a, std::vector&lt;int&gt; indices) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">virtual</span> <span class="keyword">const</span> strings&amp; _getRegExpr() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">virtual</span> res _onTake(<span class="keyword">const</span> flagArgs&amp; tray, <a class="code" href="structby_1_1cli.html">cli</a>&amp; c, <a class="code" href="classby_1_1interpreter.html">interpreter</a>&amp; ip, <a class="code" href="classby_1_1starter.html">starter</a>&amp; s) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    };</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">typedef</span> std::vector&lt;tstr&lt;flag&gt;&gt; flags;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
+<div class="ttc" id="aclassby_1_1flag_html"><div class="ttname"><a href="classby_1_1flag.html">by::flag</a></div><div class="ttdef"><b>Definition:</b> flag.hpp:15</div></div>
 <div class="ttc" id="aclassby_1_1flag_html_a614c12666dfd1fbd7046309fa5950847"><div class="ttname"><a href="classby_1_1flag.html#a614c12666dfd1fbd7046309fa5950847">by::flag::_onContinuousArgCount</a></div><div class="ttdeci">virtual ncnt _onContinuousArgCount() const</div></div>
 <div class="ttc" id="aclassby_1_1flag_html_af0adddbcc50202809f830fae9c643698"><div class="ttname"><a href="classby_1_1flag.html#af0adddbcc50202809f830fae9c643698">by::flag::take</a></div><div class="ttdeci">virtual res take(interpreter &amp;ip, starter &amp;s, cli &amp;c, flagArgs &amp;a) const</div></div>
-<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdef"><b>Definition:</b> instance.hpp:15</div></div>
-<div class="ttc" id="aclassby_1_1interpreter_html"><div class="ttname"><a href="classby_1_1interpreter.html">by::interpreter</a></div><div class="ttdef"><b>Definition:</b> interpreter.hpp:8</div></div>
-<div class="ttc" id="aclassby_1_1starter_html"><div class="ttname"><a href="classby_1_1starter.html">by::starter</a></div><div class="ttdef"><b>Definition:</b> starter.hpp:10</div></div>
-<div class="ttc" id="astructby_1_1cli_html"><div class="ttname"><a href="structby_1_1cli.html">by::cli</a></div><div class="ttdef"><b>Definition:</b> cli.hpp:7</div></div>
+<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdoc">Base class for all managed instances in memlite system.</div><div class="ttdef"><b>Definition:</b> instance.hpp:20</div></div>
+<div class="ttc" id="aclassby_1_1interpreter_html"><div class="ttname"><a href="classby_1_1interpreter.html">by::interpreter</a></div><div class="ttdoc">High-level interpreter for byeol language.</div><div class="ttdef"><b>Definition:</b> interpreter.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1starter_html"><div class="ttname"><a href="classby_1_1starter.html">by::starter</a></div><div class="ttdoc">Program execution starter.</div><div class="ttdef"><b>Definition:</b> starter.hpp:14</div></div>
+<div class="ttc" id="aflag_args_8hpp_html"><div class="ttname"><a href="flag_args_8hpp.html">flagArgs.hpp</a></div></div>
+<div class="ttc" id="afrontend_2common_8hpp_html"><div class="ttname"><a href="frontend_2common_8hpp.html">common.hpp</a></div></div>
+<div class="ttc" id="astructby_1_1cli_html"><div class="ttname"><a href="structby_1_1cli.html">by::cli</a></div><div class="ttdoc">Command-line interface for byeol language system.</div><div class="ttdef"><b>Definition:</b> cli.hpp:12</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

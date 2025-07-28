@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -116,21 +111,26 @@ $(document).ready(function(){initNavTree('classby_1_1thread.html',''); initResiz
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1thread-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::thread Class Reference</div>  </div>
+<div class="title">by::thread Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Thread execution context for byeol runtime.  
+ <a href="classby_1_1thread.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="thread_8hpp_source.html">thread.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::thread:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1thread.png" usemap="#by::thread_map" alt=""/>
   <map id="by::thread_map" name="by::thread_map">
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="140,112,270,136"/>
-<area href="classby_1_1dumpable.html" alt="by::dumpable" shape="rect" coords="280,112,410,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="70,56,200,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="140,0,270,24"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="140,112,270,136"/>
+<area href="classby_1_1dumpable.html" title="Interface for objects that can dump their state." alt="by::dumpable" shape="rect" coords="280,112,410,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="70,56,200,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="140,0,270,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -164,7 +164,8 @@ priorType&#160;</td><td class="memItemRight" valign="bottom"><b>prioritize</b> (
 <tr class="memitem:a30ce36bce962ca27a372e0c42c4db6d0"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classby_1_1tnmap.html">nmap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1thread.html#a30ce36bce962ca27a372e0c42c4db6d0">getSlots</a> () const</td></tr>
 <tr class="separator:a30ce36bce962ca27a372e0c42c4db6d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4437c950295a6348a986aa6e4f20d4d8"><td class="memItemLeft" align="right" valign="top"><a id="a4437c950295a6348a986aa6e4f20d4d8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>dump</b> () const override</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1thread.html#a4437c950295a6348a986aa6e4f20d4d8">dump</a> () const override</td></tr>
+<tr class="memdesc:a4437c950295a6348a986aa6e4f20d4d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump object state for debugging. <br /></td></tr>
 <tr class="separator:a4437c950295a6348a986aa6e4f20d4d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba761ced98a4058d304b02d1cc26fdc6"><td class="memItemLeft" align="right" valign="top"><a id="aba761ced98a4058d304b02d1cc26fdc6"></a>
 virtual nbool&#160;</td><td class="memItemRight" valign="bottom"><b>isInteractable</b> () const</td></tr>
@@ -603,7 +604,10 @@ priorType prioritize&#160;</td><td class="memItemRight" valign="bottom"><b>NO_MA
 static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_getMgr</b> ()</td></tr>
 <tr class="separator:a3893a905b2e55a614f0c4f96aba0b315 inherit pro_static_methods_classby_1_1instance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Thread execution context for byeol runtime. </p>
+<p>Manages execution frames, error reporting, and system slots for a single thread. Provides the main execution context for byeol program execution. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ae28d375d02c47a4400da310b13d901ee"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae28d375d02c47a4400da310b13d901ee">&#9670;&nbsp;</a></span>getEx()</h2>
 
@@ -618,7 +622,7 @@ static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>exception <a class="el" href="classby_1_1err_report.html">errReport</a> instance. what this contains are all runtime err and exceptions. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>exception <a class="el" href="classby_1_1err_report.html" title="Error reporting and collection system.">errReport</a> instance. what this contains are all runtime err and exceptions. </dd></dl>
 
 </div>
 </div>

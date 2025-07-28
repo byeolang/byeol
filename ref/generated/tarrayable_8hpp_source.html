@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,46 +108,48 @@ $(document).ready(function(){initNavTree('tarrayable_8hpp_source.html',''); init
 <div class="title">tarrayable.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/common.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;core/type/ntype.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="classby_1_1tarrayable.html">    9</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> R = T*, <span class="keyword">typename</span> RSquare = T&amp;&gt; <span class="keyword">class </span><a class="code" href="classby_1_1tarrayable.html">tarrayable</a> {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        BY_ME(<a class="code" href="classby_1_1tarrayable.html">tarrayable</a>)</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classby_1_1tarrayable.html">tarrayable</a>() {}</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="comment">// operator:</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">virtual</span> RSquare operator[](nidx n) = 0;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">const</span> RSquare operator[](nidx n) <span class="keyword">const</span> BY_CONST_FUNC(<span class="keyword">operator</span>[](n))</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="comment">// in:</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">virtual</span> nbool in(nidx n) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="comment">// get:</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keyword">virtual</span> R get(nidx n) = 0;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">const</span> R get(nidx n) <span class="keyword">const</span> BY_CONST_FUNC(get(n))</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="comment">// set:</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">virtual</span> nbool set(nidx n, <span class="keyword">const</span> T&amp; new1) = 0;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        nbool set(nidx n, <span class="keyword">const</span> T* new1) BY_SIDE_FUNC(new1, set(n, *new1), <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="comment">// add:</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classby_1_1tarrayable.html#a59716ee6eeda6290f39a92b645fe98f9">   33</a></span>&#160;<span class="comment"></span>        <span class="keyword">virtual</span> nbool <a class="code" href="classby_1_1tarrayable.html#a59716ee6eeda6290f39a92b645fe98f9">add</a>(nidx n, <span class="keyword">const</span> T&amp; new1) = 0;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        nbool <a class="code" href="classby_1_1tarrayable.html#a59716ee6eeda6290f39a92b645fe98f9">add</a>(nidx n, <span class="keyword">const</span> T* new1) BY_SIDE_FUNC(new1, <a class="code" href="classby_1_1tarrayable.html#a59716ee6eeda6290f39a92b645fe98f9">add</a>(n, *new1), <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="comment">// del:</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classby_1_1tarrayable.html#a1bc7ebd3dced80096d018988758e682b">   39</a></span>&#160;<span class="comment"></span>        <span class="keyword">virtual</span> nbool <a class="code" href="classby_1_1tarrayable.html#a1bc7ebd3dced80096d018988758e682b">del</a>(nidx n) = 0;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    };</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;} <span class="comment">// namespace by</span></div>
-<div class="ttc" id="aclassby_1_1tarrayable_html"><div class="ttname"><a href="classby_1_1tarrayable.html">by::tarrayable</a></div><div class="ttdef"><b>Definition:</b> tarrayable.hpp:9</div></div>
+<a href="tarrayable_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="core_2common_8hpp.html">core/common.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ntype_8hpp.html">core/type/ntype.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classby_1_1tarrayable.html">   10</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> R = T*, <span class="keyword">typename</span> RSquare = T&amp;&gt; <span class="keyword">class </span><a class="code" href="classby_1_1tarrayable.html">tarrayable</a> {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        BY_ME(<a class="code" href="classby_1_1tarrayable.html">tarrayable</a>)</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classby_1_1tarrayable.html">tarrayable</a>() {}</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="comment">// operator:</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">virtual</span> RSquare operator[](nidx n) = 0;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">const</span> RSquare operator[](nidx n) <span class="keyword">const</span> BY_CONST_FUNC(<span class="keyword">operator</span>[](n))</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="comment">// in:</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">virtual</span> nbool in(nidx n) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="comment">// get:</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">virtual</span> R get(nidx n) = 0;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">const</span> R get(nidx n) <span class="keyword">const</span> BY_CONST_FUNC(get(n))</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="comment">// set:</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">virtual</span> nbool set(nidx n, <span class="keyword">const</span> T&amp; new1) = 0;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        nbool set(nidx n, <span class="keyword">const</span> T* new1) BY_SIDE_FUNC(new1, set(n, *new1), <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="comment">// add:</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classby_1_1tarrayable.html#a59716ee6eeda6290f39a92b645fe98f9">   34</a></span>&#160;<span class="comment"></span>        <span class="keyword">virtual</span> nbool <a class="code" href="classby_1_1tarrayable.html#a59716ee6eeda6290f39a92b645fe98f9">add</a>(nidx n, <span class="keyword">const</span> T&amp; new1) = 0;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        nbool <a class="code" href="classby_1_1tarrayable.html#a59716ee6eeda6290f39a92b645fe98f9">add</a>(nidx n, <span class="keyword">const</span> T* new1) BY_SIDE_FUNC(new1, <a class="code" href="classby_1_1tarrayable.html#a59716ee6eeda6290f39a92b645fe98f9">add</a>(n, *new1), <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="comment">// del:</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classby_1_1tarrayable.html#a1bc7ebd3dced80096d018988758e682b">   40</a></span>&#160;<span class="comment"></span>        <span class="keyword">virtual</span> nbool <a class="code" href="classby_1_1tarrayable.html#a1bc7ebd3dced80096d018988758e682b">del</a>(nidx n) = 0;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    };</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1tarrayable_html"><div class="ttname"><a href="classby_1_1tarrayable.html">by::tarrayable</a></div><div class="ttdef"><b>Definition:</b> tarrayable.hpp:10</div></div>
 <div class="ttc" id="aclassby_1_1tarrayable_html_a1bc7ebd3dced80096d018988758e682b"><div class="ttname"><a href="classby_1_1tarrayable.html#a1bc7ebd3dced80096d018988758e682b">by::tarrayable::del</a></div><div class="ttdeci">virtual nbool del(nidx n)=0</div></div>
 <div class="ttc" id="aclassby_1_1tarrayable_html_a59716ee6eeda6290f39a92b645fe98f9"><div class="ttname"><a href="classby_1_1tarrayable.html#a59716ee6eeda6290f39a92b645fe98f9">by::tarrayable::add</a></div><div class="ttdeci">virtual nbool add(nidx n, const T &amp;new1)=0</div></div>
+<div class="ttc" id="acore_2common_8hpp_html"><div class="ttname"><a href="core_2common_8hpp.html">common.hpp</a></div></div>
+<div class="ttc" id="antype_8hpp_html"><div class="ttname"><a href="ntype_8hpp.html">ntype.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

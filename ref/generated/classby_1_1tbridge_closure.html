@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,21 +108,26 @@ $(document).ready(function(){initNavTree('classby_1_1tbridge_closure.html',''); 
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1tbridge_closure-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::tbridgeClosure&lt; Ret, T, Marshaling, Args &gt; Class Template Reference</div>  </div>
+<div class="title">by::tbridgeClosure&lt; Ret, T, Marshaling, Args &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Bridge closure for C++ lambda/function objects.  
+ <a href="classby_1_1tbridge_closure.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="tbridge_closure_8hpp_source.html">tbridgeClosure.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::tbridgeClosure&lt; Ret, T, Marshaling, Args &gt;:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1tbridge_closure.png" usemap="#by::tbridgeClosure_3C_20Ret_2C_20T_2C_20Marshaling_2C_20Args_20_3E_map" alt=""/>
   <map id="by::tbridgeClosure_3C_20Ret_2C_20T_2C_20Marshaling_2C_20Args_20_3E_map" name="by::tbridgeClosure_3C_20Ret_2C_20T_2C_20Marshaling_2C_20Args_20_3E_map">
-<area href="classby_1_1base_func.html" alt="by::baseFunc" shape="rect" coords="291,168,572,192"/>
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="291,112,572,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="145,56,426,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="436,56,717,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,281,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="291,0,572,24"/>
+<area href="classby_1_1base_func.html" title="Base class for all function types." alt="by::baseFunc" shape="rect" coords="291,168,572,192"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="291,112,572,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="145,56,426,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="436,56,717,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,281,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="291,0,572,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -532,7 +532,13 @@ nbool&#160;</td><td class="memItemRight" valign="bottom"><b>_setId</b> (<a class
 static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_getMgr</b> ()</td></tr>
 <tr class="separator:a3893a905b2e55a614f0c4f96aba0b315 inherit pro_static_methods_classby_1_1instance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename Ret, typename T, template&lt; typename, nbool &gt; class Marshaling, typename... Args&gt;<br />
+class by::tbridgeClosure&lt; Ret, T, Marshaling, Args &gt;</h3>
+
+<p>Bridge closure for C++ lambda/function objects. </p>
+<p>Template that bridges C++ function objects and lambdas with byeol function interface. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/bridge/cpp/<a class="el" href="tbridge_closure_8hpp_source.html">tbridgeClosure.hpp</a></li>
 </ul>
 </div><!-- contents -->

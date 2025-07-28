@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -114,16 +109,21 @@ $(document).ready(function(){initNavTree('structby_1_1tif_has_default_ctor.html'
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="structby_1_1tif_has_default_ctor-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::tifHasDefaultCtor&lt; T &gt; Struct Template Reference</div>  </div>
+<div class="title">by::tifHasDefaultCtor&lt; T &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__meta.html">Meta</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Type trait to check if type has default constructor.  
+ <a href="structby_1_1tif_has_default_ctor.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="rtti_2rtti_8hpp_source.html">rtti.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::tifHasDefaultCtor&lt; T &gt;:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="structby_1_1tif_has_default_ctor.png" usemap="#by::tifHasDefaultCtor_3C_20T_20_3E_map" alt=""/>
   <map id="by::tifHasDefaultCtor_3C_20T_20_3E_map" name="by::tifHasDefaultCtor_3C_20T_20_3E_map">
-<area href="structby_1_1meta_if.html" alt="by::metaIf" shape="rect" coords="0,0,159,24"/>
+<area href="structby_1_1meta_if.html" title="Base interface for SFINAE-based type checking." alt="by::metaIf" shape="rect" coords="0,0,159,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -154,7 +154,13 @@ typedef short&#160;</td><td class="memItemRight" valign="bottom"><b>yes</b></td>
 typedef char&#160;</td><td class="memItemRight" valign="bottom"><b>no</b></td></tr>
 <tr class="separator:ac4ddbc6bcb3a6baedcce9e94ed2d3222 inherit pub_types_structby_1_1meta_if"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename T&gt;<br />
+struct by::tifHasDefaultCtor&lt; T &gt;</h3>
+
+<p>Type trait to check if type has default constructor. </p>
+<p>Uses SFINAE to determine at compile-time whether type T can be default-constructed. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/meta/rtti/<a class="el" href="rtti_2rtti_8hpp_source.html">rtti.hpp</a></li>
 </ul>
 </div><!-- contents -->

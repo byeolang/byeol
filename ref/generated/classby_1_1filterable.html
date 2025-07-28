@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,17 +108,22 @@ $(document).ready(function(){initNavTree('classby_1_1filterable.html',''); initR
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1filterable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::filterable Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">by::filterable Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__clog.html">Clog</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Interface for objects that can filter log messages.  
+ <a href="classby_1_1filterable.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="filterable_8hpp_source.html">filterable.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::filterable:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1filterable.png" usemap="#by::filterable_map" alt=""/>
   <map id="by::filterable_map" name="by::filterable_map">
-<area href="classby_1_1err_pass_filter.html" alt="by::errPassFilter" shape="rect" coords="0,56,105,80"/>
-<area href="classby_1_1filters.html" alt="by::filters" shape="rect" coords="115,56,220,80"/>
+<area href="classby_1_1err_pass_filter.html" title="Filter that passes through error-level log messages." alt="by::errPassFilter" shape="rect" coords="0,56,105,80"/>
+<area href="classby_1_1filters.html" title="Collection of filterable objects for logging control." alt="by::filters" shape="rect" coords="115,56,220,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -132,7 +132,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a02741ab458659bb7cc97a2d7ef7f9947"><td class="memItemLeft" align="right" valign="top">virtual nbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1filterable.html#a02741ab458659bb7cc97a2d7ef7f9947">filt</a> (errLv::level lv, const std::string &amp;tag) const =0</td></tr>
 <tr class="separator:a02741ab458659bb7cc97a2d7ef7f9947"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Interface for objects that can filter log messages. </p>
+<p>Provides the basic interface for implementing custom log filters based on error level and tag criteria. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a02741ab458659bb7cc97a2d7ef7f9947"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a02741ab458659bb7cc97a2d7ef7f9947">&#9670;&nbsp;</a></span>filt()</h2>
 

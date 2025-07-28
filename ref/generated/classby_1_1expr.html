@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -116,41 +111,47 @@ $(document).ready(function(){initNavTree('classby_1_1expr.html',''); initResizab
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1expr-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::expr Class Reference</div>  </div>
+<div class="title">by::expr Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Base class for all expressions.  
+ <a href="classby_1_1expr.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="expr_8hpp_source.html">expr.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::expr:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1expr.png" usemap="#by::expr_map" alt=""/>
   <map id="by::expr_map" name="by::expr_map">
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="154,112,298,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="77,56,221,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="231,56,375,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,144,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="154,0,298,24"/>
-<area href="classby_1_1_f_b_o_expr.html" alt="by::FBOExpr" shape="rect" coords="308,224,452,248"/>
-<area href="classby_1_1_f_u_o_expr.html" alt="by::FUOExpr" shape="rect" coords="308,280,452,304"/>
-<area href="classby_1_1as_expr.html" alt="by::asExpr" shape="rect" coords="308,336,452,360"/>
-<area href="classby_1_1assign_expr.html" alt="by::assignExpr" shape="rect" coords="308,392,452,416"/>
-<area href="classby_1_1block_expr.html" alt="by::blockExpr" shape="rect" coords="308,448,452,472"/>
-<area href="classby_1_1def_array_expr.html" alt="by::defArrayExpr" shape="rect" coords="308,504,452,528"/>
-<area href="classby_1_1def_nested_func_expr.html" alt="by::defNestedFuncExpr" shape="rect" coords="308,560,452,584"/>
-<area href="classby_1_1def_seq_expr.html" alt="by::defSeqExpr" shape="rect" coords="308,616,452,640"/>
-<area href="classby_1_1def_var_expr.html" alt="by::defVarExpr" shape="rect" coords="308,672,452,696"/>
-<area href="classby_1_1get_expr.html" alt="by::getExpr" shape="rect" coords="308,728,452,752"/>
-<area href="classby_1_1if_expr.html" alt="by::ifExpr" shape="rect" coords="308,784,452,808"/>
-<area href="classby_1_1is_expr.html" alt="by::isExpr" shape="rect" coords="308,840,452,864"/>
-<area href="classby_1_1loop_expr.html" alt="by::loopExpr" shape="rect" coords="308,896,452,920"/>
-<area href="classby_1_1ret_state_expr.html" alt="by::retStateExpr" shape="rect" coords="308,952,452,976"/>
-<area href="classby_1_1run_expr.html" alt="by::runExpr" shape="rect" coords="308,1008,452,1032"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="154,112,298,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="77,56,221,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="231,56,375,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,144,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="154,0,298,24"/>
+<area href="classby_1_1_f_b_o_expr.html" title="Fundamental Binary Operation expression." alt="by::FBOExpr" shape="rect" coords="308,224,452,248"/>
+<area href="classby_1_1_f_u_o_expr.html" title="Fundamental Unary Operation expression." alt="by::FUOExpr" shape="rect" coords="308,280,452,304"/>
+<area href="classby_1_1as_expr.html" title="Type casting expression." alt="by::asExpr" shape="rect" coords="308,336,452,360"/>
+<area href="classby_1_1assign_expr.html" title="Assignment expression for variable assignment." alt="by::assignExpr" shape="rect" coords="308,392,452,416"/>
+<area href="classby_1_1block_expr.html" title="Block expression containing multiple statements." alt="by::blockExpr" shape="rect" coords="308,448,452,472"/>
+<area href="classby_1_1def_array_expr.html" title="Array definition expression." alt="by::defArrayExpr" shape="rect" coords="308,504,452,528"/>
+<area href="classby_1_1def_nested_func_expr.html" title="Nested function definition expression (lambda)" alt="by::defNestedFuncExpr" shape="rect" coords="308,560,452,584"/>
+<area href="classby_1_1def_seq_expr.html" title="Sequence definition expression." alt="by::defSeqExpr" shape="rect" coords="308,616,452,640"/>
+<area href="classby_1_1def_var_expr.html" title="Variable definition expression base class." alt="by::defVarExpr" shape="rect" coords="308,672,452,696"/>
+<area href="classby_1_1get_expr.html" title="Expression for property and method access." alt="by::getExpr" shape="rect" coords="308,728,452,752"/>
+<area href="classby_1_1if_expr.html" title="If conditional expression." alt="by::ifExpr" shape="rect" coords="308,784,452,808"/>
+<area href="classby_1_1is_expr.html" title="Type checking expression." alt="by::isExpr" shape="rect" coords="308,840,452,864"/>
+<area href="classby_1_1loop_expr.html" title="Base class for loop expressions." alt="by::loopExpr" shape="rect" coords="308,896,452,920"/>
+<area href="classby_1_1ret_state_expr.html" title="Base class for return state expressions." alt="by::retStateExpr" shape="rect" coords="308,952,452,976"/>
+<area href="classby_1_1run_expr.html" title="Function/method call expression." alt="by::runExpr" shape="rect" coords="308,1008,452,1032"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1expr_1_1expr_type.html">exprType</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type information for expression nodes.  <a href="classby_1_1expr_1_1expr_type.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -540,7 +541,10 @@ nbool&#160;</td><td class="memItemRight" valign="bottom"><b>_setId</b> (<a class
 static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_getMgr</b> ()</td></tr>
 <tr class="separator:a3893a905b2e55a614f0c4f96aba0b315 inherit pro_static_methods_classby_1_1instance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Base class for all expressions. </p>
+<p>Abstract base class for all expression nodes in the AST. Provides evaluation semantics and expression-specific type handling. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/ast/<a class="el" href="expr_8hpp_source.html">expr.hpp</a></li>
 </ul>
 </div><!-- contents -->

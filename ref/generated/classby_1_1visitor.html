@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -114,9 +109,14 @@ $(document).ready(function(){initNavTree('classby_1_1visitor.html',''); initResi
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classby_1_1visitor-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::visitor Class Reference</div>  </div>
+<div class="title">by::visitor Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Base visitor class for AST traversal.  
+ <a href="classby_1_1visitor.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="visitor_2visitor_8hpp_source.html">visitor.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::visitor:</div>
 <div class="dyncontent">
@@ -124,12 +124,12 @@ Inheritance diagram for by::visitor:</div>
   <img src="classby_1_1visitor.png" usemap="#by::visitor_map" alt=""/>
   <map id="by::visitor_map" name="by::visitor_map">
 <area href="classby_1_1worker.html" alt="by::worker&lt; void, node &gt;" shape="rect" coords="249,56,405,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="166,0,322,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="332,0,488,24"/>
-<area href="classby_1_1expander.html" alt="by::expander" shape="rect" coords="0,168,156,192"/>
-<area href="classby_1_1generalizer.html" alt="by::generalizer" shape="rect" coords="166,168,322,192"/>
-<area href="classby_1_1graph_visitor.html" alt="by::graphVisitor" shape="rect" coords="332,168,488,192"/>
-<area href="classby_1_1verifier.html" alt="by::verifier" shape="rect" coords="498,168,654,192"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="166,0,322,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="332,0,488,24"/>
+<area href="classby_1_1expander.html" title="Visitor for expanding generic types and expressions." alt="by::expander" shape="rect" coords="0,168,156,192"/>
+<area href="classby_1_1generalizer.html" title="Visitor for generic type parameter replacement." alt="by::generalizer" shape="rect" coords="166,168,322,192"/>
+<area href="classby_1_1graph_visitor.html" title="AST graph visualization visitor." alt="by::graphVisitor" shape="rect" coords="332,168,488,192"/>
+<area href="classby_1_1verifier.html" title="AST verifier for semantic analysis." alt="by::verifier" shape="rect" coords="498,168,654,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -351,7 +351,10 @@ me setTask&#160;</td><td class="memItemRight" valign="bottom"><b>it</b></td></tr
 me setTask *&#160;</td><td class="memItemRight" valign="bottom"><b>this</b></td></tr>
 <tr class="separator:a97572b50047adfb003eece5a3efe9e35 inherit pub_attribs_classby_1_1worker"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Base visitor class for AST traversal. </p>
+<p>Implements the visitor pattern for traversing and processing AST nodes. Provides visit/leave hooks and tracks visited nodes to prevent infinite recursion. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a30e01f0ab6bf62cb9bb5a75e3a70c728"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a30e01f0ab6bf62cb9bb5a75e3a70c728">&#9670;&nbsp;</a></span>setReturnable()</h2>
 

@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,24 +108,24 @@ $(document).ready(function(){initNavTree('arg_list_8hpp_source.html',''); initRe
 <div class="title">argList.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;indep/macro/overload.hpp&quot;</span></div>
+<a href="arg_list_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//  TODO: improve this using some BY_EACH.</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_X_2(x1, y1) x1</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_X_4(x1, y1, x2, y2) x1, x2</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_X_6(x1, y1, x2, y2, x3, y3) x1, x2, x3</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_X_8(x1, y1, x2, y2, x3, y3, x4, y4) x1, x2, x3, x4</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_X_10(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5) x1, x2, x3, x4, x5</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_X(...) BY_OVERLOAD(BY_LIST_PAIR_X, __VA_ARGS__)</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_Y_2(x1, y1) y1</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_Y_4(x1, y1, x2, y2) y1, y2</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_Y_6(x1, y1, x2, y2, x3, y3) y1, y2, y3</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_Y_8(x1, y1, x2, y2, x3, y3, x4, y4) y1, y2, y3, y4</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_Y_10(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5) y1, y2, y3, y4, y5</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_Y(...) BY_OVERLOAD(BY_LIST_PAIR_Y, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;indep/macro/overload.hpp&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//  TODO: improve this using some BY_EACH.</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_X_2(x1, y1) x1</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_X_4(x1, y1, x2, y2) x1, x2</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_X_6(x1, y1, x2, y2, x3, y3) x1, x2, x3</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_X_8(x1, y1, x2, y2, x3, y3, x4, y4) x1, x2, x3, x4</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_X_10(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5) x1, x2, x3, x4, x5</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_X(...) BY_OVERLOAD(BY_LIST_PAIR_X, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_Y_2(x1, y1) y1</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_Y_4(x1, y1, x2, y2) y1, y2</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_Y_6(x1, y1, x2, y2, x3, y3) y1, y2, y3</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_Y_8(x1, y1, x2, y2, x3, y3, x4, y4) y1, y2, y3, y4</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_Y_10(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5) y1, y2, y3, y4, y5</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#define BY_LIST_PAIR_Y(...) BY_OVERLOAD(BY_LIST_PAIR_Y, __VA_ARGS__)</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

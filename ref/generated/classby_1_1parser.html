@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -115,9 +110,14 @@ $(document).ready(function(){initNavTree('classby_1_1parser.html',''); initResiz
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1parser-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::parser Class Reference</div>  </div>
+<div class="title">by::parser Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Parser for byeol language source code.  
+ <a href="classby_1_1parser.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="core_2worker_2parser_8hpp_source.html">parser.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::parser:</div>
 <div class="dyncontent">
@@ -125,9 +125,9 @@ Inheritance diagram for by::parser:</div>
   <img src="classby_1_1parser.png" usemap="#by::parser_map" alt=""/>
   <map id="by::parser_map" name="by::parser_map">
 <area href="classby_1_1worker.html" alt="by::worker&lt; str, slot &gt;" shape="rect" coords="73,56,210,80"/>
-<area href="classby_1_1token_scanable.html" alt="by::tokenScanable" shape="rect" coords="220,56,357,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,137,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="147,0,284,24"/>
+<area href="classby_1_1token_scanable.html" title="Interface for token scanning functionality." alt="by::tokenScanable" shape="rect" coords="220,56,357,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,137,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="147,0,284,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -701,7 +701,10 @@ me setTask&#160;</td><td class="memItemRight" valign="bottom"><b>it</b></td></tr
 me setTask *&#160;</td><td class="memItemRight" valign="bottom"><b>this</b></td></tr>
 <tr class="separator:a97572b50047adfb003eece5a3efe9e35 inherit pub_attribs_classby_1_1worker"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Parser for byeol language source code. </p>
+<p>Main parser class that converts source code into abstract syntax trees. Handles tokenization, syntax analysis, and AST construction for the byeol language. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a5175321205e6e612594a80348c8346cb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5175321205e6e612594a80348c8346cb">&#9670;&nbsp;</a></span>_onWork()</h2>
 
@@ -724,7 +727,7 @@ me setTask *&#160;</td><td class="memItemRight" valign="bottom"><b>this</b></td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>parse with given <a class="el" href="classby_1_1src_supply.html">srcSupply</a> instances. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>parse with given <a class="el" href="classby_1_1src_supply.html" title="Source code supply interface.">srcSupply</a> instances. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">script</td><td>is null terminated cstring. </td></tr>
   </table>

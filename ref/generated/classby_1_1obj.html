@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -115,9 +110,12 @@ $(document).ready(function(){initNavTree('classby_1_1obj.html',''); initResizabl
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1obj-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::obj Class Reference</div>  </div>
+<div class="title">by::obj Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Managed object in byeol programming environment.  
+ <a href="classby_1_1obj.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="obj_8hpp_source.html">obj.hpp</a>&gt;</code></p>
 <div class="dynheader">
@@ -126,14 +124,14 @@ Inheritance diagram for by::obj:</div>
  <div class="center">
   <img src="classby_1_1obj.png" usemap="#by::obj_map" alt=""/>
   <map id="by::obj_map" name="by::obj_map">
-<area href="classby_1_1base_obj.html" title="baseObj handles frame injection event of all objects." alt="by::baseObj" shape="rect" coords="210,168,340,192"/>
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="140,112,270,136"/>
-<area href="classby_1_1statable.html" alt="by::statable" shape="rect" coords="280,112,410,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="70,56,200,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="140,0,270,24"/>
-<area href="classby_1_1origin.html" alt="by::origin" shape="rect" coords="210,280,340,304"/>
+<area href="classby_1_1base_obj.html" title="Base class for all objects in byeol language." alt="by::baseObj" shape="rect" coords="210,168,340,192"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="140,112,270,136"/>
+<area href="classby_1_1statable.html" title="Interface for objects with compilation state." alt="by::statable" shape="rect" coords="280,112,410,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="70,56,200,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="140,0,270,24"/>
+<area href="classby_1_1origin.html" title="User-defined class origin in byeol language." alt="by::origin" shape="rect" coords="210,280,340,304"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -599,7 +597,8 @@ static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td>
 <tr class="separator:a3893a905b2e55a614f0c4f96aba0b315 inherit pro_static_methods_classby_1_1instance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>obj is a object structured in managed programming environment like 'byeol'. owned sub nodes of a object can only be manipulated through API provided obj. because native object won't have owned nodes but only shared ones. </p>
+<div class="textblock"><p>Managed object in byeol programming environment. </p>
+<p>Represents objects structured in the managed byeol environment. Owned sub nodes can only be manipulated through the obj API, unlike native objects which only have shared nodes. </p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/ast/<a class="el" href="obj_8hpp_source.html">obj.hpp</a></li>
 </ul>

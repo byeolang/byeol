@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -114,21 +109,26 @@ $(document).ready(function(){initNavTree('classby_1_1pack_loading.html',''); ini
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classby_1_1pack_loading-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::packLoading Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">by::packLoading Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Base class for pack loading strategies.  
+ <a href="classby_1_1pack_loading.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="pack_loading_8hpp_source.html">packLoading.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::packLoading:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1pack_loading.png" usemap="#by::packLoading_map" alt=""/>
   <map id="by::packLoading_map" name="by::packLoading_map">
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="69,56,198,80"/>
-<area href="classby_1_1pack_makable.html" alt="by::packMakable" shape="rect" coords="208,56,337,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,129,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="139,0,268,24"/>
-<area href="classby_1_1trust_pack_loading.html" alt="by::trustPackLoading" shape="rect" coords="139,168,268,192"/>
-<area href="classby_1_1cpp_pack_loading.html" alt="by::cppPackLoading" shape="rect" coords="139,224,268,248"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="69,56,198,80"/>
+<area href="classby_1_1pack_makable.html" title="Interface for pack creation and verification." alt="by::packMakable" shape="rect" coords="208,56,337,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,129,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="139,0,268,24"/>
+<area href="classby_1_1trust_pack_loading.html" title="Trusted pack loading implementation." alt="by::trustPackLoading" shape="rect" coords="139,168,268,192"/>
+<area href="classby_1_1cpp_pack_loading.html" title="C++ native pack loading implementation." alt="by::cppPackLoading" shape="rect" coords="139,224,268,248"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -259,7 +259,10 @@ Additional Inherited Members</h2></td></tr>
 static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_getMgr</b> ()</td></tr>
 <tr class="separator:a3893a905b2e55a614f0c4f96aba0b315 inherit pro_static_methods_classby_1_1instance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Base class for pack loading strategies. </p>
+<p>Abstract base class that defines the interface for loading different types of packs. Manages file paths and provides the foundation for specialized pack loading implementations. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/loader/pack/<a class="el" href="pack_loading_8hpp_source.html">packLoading.hpp</a></li>
 </ul>
 </div><!-- contents -->

@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -115,21 +110,26 @@ $(document).ready(function(){initNavTree('classby_1_1slot.html',''); initResizab
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classby_1_1slot-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::slot Class Reference</div>  </div>
+<div class="title">by::slot Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Package slot for module loading and management.  
+ <a href="classby_1_1slot.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ast_2slot_8hpp_source.html">slot.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::slot:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1slot.png" usemap="#by::slot_map" alt=""/>
   <map id="by::slot_map" name="by::slot_map">
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="140,112,270,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="70,56,200,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="140,0,270,24"/>
-<area href="classby_1_1autoslot.html" alt="by::autoslot" shape="rect" coords="140,224,270,248"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="140,112,270,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="70,56,200,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="140,0,270,24"/>
+<area href="classby_1_1autoslot.html" title="Automatic slot with pack loading capabilities." alt="by::autoslot" shape="rect" coords="140,224,270,248"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -541,7 +541,10 @@ priorType prioritize&#160;</td><td class="memItemRight" valign="bottom"><b>NO_MA
 static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_getMgr</b> ()</td></tr>
 <tr class="separator:a3893a905b2e55a614f0c4f96aba0b315 inherit pro_static_methods_classby_1_1instance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Package slot for module loading and management. </p>
+<p>Represents a loadable package with manifest information and dependencies. Manages package lifecycle, validation, and dependency relationships. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a32b28726b1c83dbc6ab0b01ba727cff5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a32b28726b1c83dbc6ab0b01ba727cff5">&#9670;&nbsp;</a></span>getEval()</h2>
 

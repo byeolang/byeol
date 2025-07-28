@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -116,18 +111,23 @@ $(document).ready(function(){initNavTree('classby_1_1chunk.html',''); initResiza
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1chunk-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::chunk Class Reference</div>  </div>
+<div class="title">by::chunk Class Reference<div class="ingroups"><a class="el" href="group__memlite.html">Memlite</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Memory chunk for block-based allocation.  
+ <a href="classby_1_1chunk.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="chunk_8hpp_source.html">chunk.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::chunk:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1chunk.png" usemap="#by::chunk_map" alt=""/>
   <map id="by::chunk_map" name="by::chunk_map">
-<area href="classby_1_1allocator.html" alt="by::allocator" shape="rect" coords="0,56,111,80"/>
-<area href="classby_1_1memory_haver.html" alt="by::memoryHaver" shape="rect" coords="0,0,111,24"/>
-<area href="classby_1_1watcher.html" alt="by::watcher" shape="rect" coords="0,168,111,192"/>
+<area href="classby_1_1allocator.html" title="Abstract allocator interface for memory management." alt="by::allocator" shape="rect" coords="0,56,111,80"/>
+<area href="classby_1_1memory_haver.html" title="Abstract interface for objects that manage memory." alt="by::memoryHaver" shape="rect" coords="0,0,111,24"/>
+<area href="classby_1_1watcher.html" title="Memory watcher for tracking instance lifecycle and allocation." alt="by::watcher" shape="rect" coords="0,168,111,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -204,7 +204,10 @@ Friends</h2></td></tr>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>watcher</b></td></tr>
 <tr class="separator:ab1ffdab9f4319520dcf8416846fe276b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Memory chunk for block-based allocation. </p>
+<p>Manages a contiguous block of memory divided into fixed-size blocks. Provides efficient allocation and deallocation within the chunk. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ab2824a36958142e6d47b580593dfe80e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab2824a36958142e6d47b580593dfe80e">&#9670;&nbsp;</a></span>_get()</h2>
 

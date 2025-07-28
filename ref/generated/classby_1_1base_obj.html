@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -116,11 +111,11 @@ $(document).ready(function(){initNavTree('classby_1_1base_obj.html',''); initRes
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1base_obj-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::baseObj Class Reference</div>  </div>
+<div class="title">by::baseObj Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="classby_1_1base_obj.html" title="baseObj handles frame injection event of all objects.">baseObj</a> handles frame injection event of all objects.  
+<p>Base class for all objects in byeol language.  
  <a href="classby_1_1base_obj.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="base_obj_8hpp_source.html">baseObj.hpp</a>&gt;</code></p>
@@ -130,19 +125,19 @@ Inheritance diagram for by::baseObj:</div>
  <div class="center">
   <img src="classby_1_1base_obj.png" usemap="#by::baseObj_map" alt=""/>
   <map id="by::baseObj_map" name="by::baseObj_map">
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="558,112,734,136"/>
-<area href="classby_1_1statable.html" alt="by::statable" shape="rect" coords="744,112,920,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="465,56,641,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="651,56,827,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="372,0,548,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="558,0,734,24"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="558,112,734,136"/>
+<area href="classby_1_1statable.html" title="Interface for objects with compilation state." alt="by::statable" shape="rect" coords="744,112,920,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="465,56,641,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="651,56,827,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="372,0,548,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="558,0,734,24"/>
 <area href="classby_1_1tbridge.html" alt="by::tbridge&lt; narr &gt;" shape="rect" coords="0,224,176,248"/>
-<area href="classby_1_1arithmetic_obj.html" alt="by::arithmeticObj" shape="rect" coords="186,224,362,248"/>
-<area href="classby_1_1base_err.html" alt="by::baseErr" shape="rect" coords="558,224,734,248"/>
-<area href="classby_1_1generic_origin.html" alt="by::genericOrigin" shape="rect" coords="744,224,920,248"/>
-<area href="classby_1_1obj.html" alt="by::obj" shape="rect" coords="930,224,1106,248"/>
-<area href="classby_1_1tbridge.html" alt="by::tbridge&lt; T &gt;" shape="rect" coords="1116,224,1292,248"/>
-<area href="classby_1_1arr.html" alt="by::arr" shape="rect" coords="0,280,176,304"/>
+<area href="classby_1_1arithmetic_obj.html" title="Base class for arithmetic operations on primitive types." alt="by::arithmeticObj" shape="rect" coords="186,224,362,248"/>
+<area href="classby_1_1base_err.html" title="Base class for all error types." alt="by::baseErr" shape="rect" coords="558,224,734,248"/>
+<area href="classby_1_1generic_origin.html" title="Generic type origin with type parameters." alt="by::genericOrigin" shape="rect" coords="744,224,920,248"/>
+<area href="classby_1_1obj.html" title="Managed object in byeol programming environment." alt="by::obj" shape="rect" coords="930,224,1106,248"/>
+<area href="classby_1_1tbridge.html" title="Bridge template for C++ objects." alt="by::tbridge&lt; T &gt;" shape="rect" coords="1116,224,1292,248"/>
+<area href="classby_1_1arr.html" title="Managed array container for byeol language." alt="by::arr" shape="rect" coords="0,280,176,304"/>
 <area href="classby_1_1primitive_obj.html" alt="by::primitiveObj&lt; nflt &gt;" shape="rect" coords="372,280,548,304"/>
 <area href="classby_1_1primitive_obj.html" alt="by::primitiveObj&lt; std::string &gt;" shape="rect" coords="372,336,548,360"/>
 <area href="classby_1_1primitive_obj.html" alt="by::primitiveObj&lt; nint &gt;" shape="rect" coords="372,392,548,416"/>
@@ -150,9 +145,9 @@ Inheritance diagram for by::baseObj:</div>
 <area href="classby_1_1primitive_obj.html" alt="by::primitiveObj&lt; nbool &gt;" shape="rect" coords="372,504,548,528"/>
 <area href="classby_1_1primitive_obj.html" alt="by::primitiveObj&lt; T &gt;" shape="rect" coords="372,560,548,584"/>
 <area href="classby_1_1primitive_obj_3_01void_01_4.html" alt="by::primitiveObj&lt; void &gt;" shape="rect" coords="372,616,548,640"/>
-<area href="classby_1_1err.html" alt="by::err" shape="rect" coords="744,280,920,304"/>
+<area href="classby_1_1err.html" title="Standard error implementation." alt="by::err" shape="rect" coords="744,280,920,304"/>
 <area href="structby_1_1nerr.html" alt="by::nerr" shape="rect" coords="744,336,920,360"/>
-<area href="classby_1_1origin.html" alt="by::origin" shape="rect" coords="930,280,1106,304"/>
+<area href="classby_1_1origin.html" title="User-defined class origin in byeol language." alt="by::origin" shape="rect" coords="930,280,1106,304"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -613,7 +608,8 @@ static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td>
 <tr class="separator:a3893a905b2e55a614f0c4f96aba0b315 inherit pro_static_methods_classby_1_1instance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="classby_1_1base_obj.html" title="baseObj handles frame injection event of all objects.">baseObj</a> handles frame injection event of all objects. </p>
+<div class="textblock"><p>Base class for all objects in byeol language. </p>
+<p>Handles frame injection events and provides common object functionality. Manages object origin, state, modifiers, and frame interactions for all byeol objects. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad609f260424cc64ca4141c93513aeae2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad609f260424cc64ca4141c93513aeae2">&#9670;&nbsp;</a></span>baseObj()</h2>
@@ -637,7 +633,7 @@ static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>if you don't give any subs when construct an <a class="el" href="classby_1_1base_obj.html" title="baseObj handles frame injection event of all objects.">baseObj</a>, _subs will be assigned to dummy array. instance on ctor of derived class. </p>
+<p>if you don't give any subs when construct an <a class="el" href="classby_1_1base_obj.html" title="Base class for all objects in byeol language.">baseObj</a>, _subs will be assigned to dummy array. instance on ctor of derived class. </p>
 
 </div>
 </div>

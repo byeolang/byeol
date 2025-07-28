@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,19 +108,24 @@ $(document).ready(function(){initNavTree('classby_1_1leaf_token_scanable.html','
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1leaf_token_scanable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::leafTokenScanable Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">by::leafTokenScanable Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__leaf.html">Leaf</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Interface for token scanning during leaf parsing.  
+ <a href="classby_1_1leaf_token_scanable.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="leaf_token_scanable_8hpp_source.html">leafTokenScanable.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::leafTokenScanable:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1leaf_token_scanable.png" usemap="#by::leafTokenScanable_map" alt=""/>
   <map id="by::leafTokenScanable_map" name="by::leafTokenScanable_map">
-<area href="classby_1_1leaf_parser.html" alt="by::leafParser" shape="rect" coords="0,56,140,80"/>
-<area href="classby_1_1leaf_token_scan.html" alt="by::leafTokenScan" shape="rect" coords="150,56,290,80"/>
-<area href="classby_1_1leaf_indent_scan.html" alt="by::leafIndentScan" shape="rect" coords="75,112,215,136"/>
-<area href="classby_1_1leaf_normal_scan.html" alt="by::leafNormalScan" shape="rect" coords="225,112,365,136"/>
+<area href="classby_1_1leaf_parser.html" title="Parser for leaf configuration language." alt="by::leafParser" shape="rect" coords="0,56,140,80"/>
+<area href="classby_1_1leaf_token_scan.html" title="Base class for token scanning strategies." alt="by::leafTokenScan" shape="rect" coords="150,56,290,80"/>
+<area href="classby_1_1leaf_indent_scan.html" title="Indentation-aware token scanning mode." alt="by::leafIndentScan" shape="rect" coords="75,112,215,136"/>
+<area href="classby_1_1leaf_normal_scan.html" title="Normal token scanning mode." alt="by::leafNormalScan" shape="rect" coords="225,112,365,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -138,7 +138,10 @@ nint&#160;</td><td class="memItemRight" valign="bottom"><b>onScan</b> (<a class=
 virtual nint&#160;</td><td class="memItemRight" valign="bottom"><b>onScan</b> (<a class="el" href="classby_1_1leaf_parser.html">leafParser</a> &amp;ps, ZZSTYPE *yylval, ZZLTYPE *loc, zzscan_t yyscanner, nbool &amp;isBypass)=0</td></tr>
 <tr class="separator:a8e421c74e5aacee4b7aa61a306cd094d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Interface for token scanning during leaf parsing. </p>
+<p>Provides callback interface for token scanning events. Used by the parser to process tokens during lexical analysis. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/leaf/parser/<a class="el" href="leaf_token_scanable_8hpp_source.html">leafTokenScanable.hpp</a></li>
 </ul>
 </div><!-- contents -->

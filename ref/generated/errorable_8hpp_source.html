@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,25 +108,31 @@ $(document).ready(function(){initNavTree('errorable_8hpp_source.html',''); initR
 <div class="title">errorable.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;indep/helper/dumpable.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;indep/helper/errLv.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classby_1_1errorable.html">    8</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1errorable.html">errorable</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1dumpable.html">dumpable</a> {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> log() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keywordtype">void</span> dbgLog() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> logStack() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keyword">virtual</span> <span class="keyword">const</span> std::string&amp; getMsg() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keyword">virtual</span> errLv::level getLv() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keyword">const</span> std::string&amp; getLevelName() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    };</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
-<div class="ttc" id="aclassby_1_1dumpable_html"><div class="ttname"><a href="classby_1_1dumpable.html">by::dumpable</a></div><div class="ttdef"><b>Definition:</b> dumpable.hpp:7</div></div>
-<div class="ttc" id="aclassby_1_1errorable_html"><div class="ttname"><a href="classby_1_1errorable.html">by::errorable</a></div><div class="ttdef"><b>Definition:</b> errorable.hpp:8</div></div>
+<a href="errorable_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="dumpable_8hpp.html">indep/helper/dumpable.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="err_lv_8hpp.html">indep/helper/errLv.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classby_1_1errorable.html">   13</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1errorable.html">errorable</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1dumpable.html">dumpable</a> {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classby_1_1errorable.html#a9986916851293c590d4b0fca53fbe922">   16</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classby_1_1errorable.html#a9986916851293c590d4b0fca53fbe922">log</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classby_1_1errorable.html#a277e8734cc9ef20765f87173761fda0c">   18</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classby_1_1errorable.html#a277e8734cc9ef20765f87173761fda0c">dbgLog</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classby_1_1errorable.html#ab149ee2a13c9a0f90ac9a3937f553254">   20</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classby_1_1errorable.html#ab149ee2a13c9a0f90ac9a3937f553254">logStack</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">virtual</span> <span class="keyword">const</span> std::string&amp; getMsg() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">virtual</span> errLv::level getLv() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classby_1_1errorable.html#ac0402b76bf555cb04c0008463c2a908f">   24</a></span>&#160;        <span class="keyword">const</span> std::string&amp; <a class="code" href="classby_1_1errorable.html#ac0402b76bf555cb04c0008463c2a908f">getLevelName</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    };</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="ttc" id="aclassby_1_1dumpable_html"><div class="ttname"><a href="classby_1_1dumpable.html">by::dumpable</a></div><div class="ttdoc">Interface for objects that can dump their state.</div><div class="ttdef"><b>Definition:</b> dumpable.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1errorable_html"><div class="ttname"><a href="classby_1_1errorable.html">by::errorable</a></div><div class="ttdoc">Interface for objects that can report errors.</div><div class="ttdef"><b>Definition:</b> errorable.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1errorable_html_a277e8734cc9ef20765f87173761fda0c"><div class="ttname"><a href="classby_1_1errorable.html#a277e8734cc9ef20765f87173761fda0c">by::errorable::dbgLog</a></div><div class="ttdeci">void dbgLog() const</div><div class="ttdoc">Log error in debug mode only.</div></div>
+<div class="ttc" id="aclassby_1_1errorable_html_a9986916851293c590d4b0fca53fbe922"><div class="ttname"><a href="classby_1_1errorable.html#a9986916851293c590d4b0fca53fbe922">by::errorable::log</a></div><div class="ttdeci">virtual void log() const =0</div><div class="ttdoc">Log error message.</div></div>
+<div class="ttc" id="aclassby_1_1errorable_html_ab149ee2a13c9a0f90ac9a3937f553254"><div class="ttname"><a href="classby_1_1errorable.html#ab149ee2a13c9a0f90ac9a3937f553254">by::errorable::logStack</a></div><div class="ttdeci">virtual void logStack() const =0</div><div class="ttdoc">Log error with stack trace.</div></div>
+<div class="ttc" id="aclassby_1_1errorable_html_ac0402b76bf555cb04c0008463c2a908f"><div class="ttname"><a href="classby_1_1errorable.html#ac0402b76bf555cb04c0008463c2a908f">by::errorable::getLevelName</a></div><div class="ttdeci">const std::string &amp; getLevelName() const</div><div class="ttdoc">Get human-readable error level name.</div></div>
+<div class="ttc" id="adumpable_8hpp_html"><div class="ttname"><a href="dumpable_8hpp.html">dumpable.hpp</a></div></div>
+<div class="ttc" id="aerr_lv_8hpp_html"><div class="ttname"><a href="err_lv_8hpp.html">errLv.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

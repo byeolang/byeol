@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,35 +108,38 @@ $(document).ready(function(){initNavTree('cpp_pack_loading_8hpp_source.html','')
 <div class="title">cppPackLoading.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/ast/slot.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;core/ast/src/src.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;core/loader/pack/trustPackLoading.hpp&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="classby_1_1cpp_pack_loading.html">    9</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1cpp_pack_loading.html">cppPackLoading</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1trust_pack_loading.html">trustPackLoading</a> {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1cpp_pack_loading.html">cppPackLoading</a>, <a class="code" href="classby_1_1trust_pack_loading.html">trustPackLoading</a>))</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keyword">typedef</span> void (*entrypointFunc)(<a class="code" href="classby_1_1tbicontainable.html">bicontainable</a>*);</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr&lt;srcs&gt;</a> parse(<a class="code" href="classby_1_1err_report.html">errReport</a>&amp; rpt, <a class="code" href="classby_1_1tbicontainable.html">bicontainable</a>&amp; tray) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keyword">const</span> std::string&amp; getName() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordtype">void</span> rel() <span class="keyword">override</span>;</div>
+<a href="cpp_pack_loading_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ast_2slot_8hpp.html">core/ast/slot.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="src_2src_8hpp.html">core/ast/src/src.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="trust_pack_loading_8hpp.html">core/loader/pack/trustPackLoading.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classby_1_1cpp_pack_loading.html">   14</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1cpp_pack_loading.html">cppPackLoading</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1trust_pack_loading.html">trustPackLoading</a> {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1cpp_pack_loading.html">cppPackLoading</a>, <a class="code" href="classby_1_1trust_pack_loading.html">trustPackLoading</a>))</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">typedef</span> void (*entrypointFunc)(<a class="code" href="classby_1_1tbicontainable.html">bicontainable</a>*);</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        nbool _loadLibs(<a class="code" href="classby_1_1err_report.html">errReport</a>&amp; rpt, <a class="code" href="classby_1_1tbicontainable.html">bicontainable</a>&amp; tray);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        dlibs _dlibs;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    };</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
-<div class="ttc" id="aclassby_1_1cpp_pack_loading_html"><div class="ttname"><a href="classby_1_1cpp_pack_loading.html">by::cppPackLoading</a></div><div class="ttdef"><b>Definition:</b> cppPackLoading.hpp:9</div></div>
-<div class="ttc" id="aclassby_1_1err_report_html"><div class="ttname"><a href="classby_1_1err_report.html">by::errReport</a></div><div class="ttdef"><b>Definition:</b> errReport.hpp:9</div></div>
-<div class="ttc" id="aclassby_1_1tbicontainable_html"><div class="ttname"><a href="classby_1_1tbicontainable.html">by::tbicontainable</a></div><div class="ttdef"><b>Definition:</b> tbicontainable.hpp:13</div></div>
-<div class="ttc" id="aclassby_1_1trust_pack_loading_html"><div class="ttname"><a href="classby_1_1trust_pack_loading.html">by::trustPackLoading</a></div><div class="ttdef"><b>Definition:</b> trustPackLoading.hpp:9</div></div>
-<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr</a></div><div class="ttdef"><b>Definition:</b> tstr.hpp:8</div></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr&lt;srcs&gt;</a> parse(<a class="code" href="classby_1_1err_report.html">errReport</a>&amp; rpt, <a class="code" href="classby_1_1tbicontainable.html">bicontainable</a>&amp; tray) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">const</span> std::string&amp; getName() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordtype">void</span> rel() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        nbool _loadLibs(<a class="code" href="classby_1_1err_report.html">errReport</a>&amp; rpt, <a class="code" href="classby_1_1tbicontainable.html">bicontainable</a>&amp; tray);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        dlibs _dlibs;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    };</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
+<div class="ttc" id="aast_2slot_8hpp_html"><div class="ttname"><a href="ast_2slot_8hpp.html">slot.hpp</a></div></div>
+<div class="ttc" id="aclassby_1_1cpp_pack_loading_html"><div class="ttname"><a href="classby_1_1cpp_pack_loading.html">by::cppPackLoading</a></div><div class="ttdoc">C++ native pack loading implementation.</div><div class="ttdef"><b>Definition:</b> cppPackLoading.hpp:14</div></div>
+<div class="ttc" id="aclassby_1_1err_report_html"><div class="ttname"><a href="classby_1_1err_report.html">by::errReport</a></div><div class="ttdoc">Error reporting and collection system.</div><div class="ttdef"><b>Definition:</b> errReport.hpp:14</div></div>
+<div class="ttc" id="aclassby_1_1tbicontainable_html"><div class="ttname"><a href="classby_1_1tbicontainable.html">by::tbicontainable</a></div><div class="ttdoc">Template bidirectional container interface.</div><div class="ttdef"><b>Definition:</b> tbicontainable.hpp:17</div></div>
+<div class="ttc" id="aclassby_1_1trust_pack_loading_html"><div class="ttname"><a href="classby_1_1trust_pack_loading.html">by::trustPackLoading</a></div><div class="ttdoc">Trusted pack loading implementation.</div><div class="ttdef"><b>Definition:</b> trustPackLoading.hpp:14</div></div>
+<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr</a></div><div class="ttdoc">Strong reference smart pointer with strict type checking.</div><div class="ttdef"><b>Definition:</b> tstr.hpp:13</div></div>
+<div class="ttc" id="asrc_2src_8hpp_html"><div class="ttname"><a href="src_2src_8hpp.html">src.hpp</a></div></div>
+<div class="ttc" id="atrust_pack_loading_8hpp_html"><div class="ttname"><a href="trust_pack_loading_8hpp.html">trustPackLoading.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

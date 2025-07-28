@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,47 +108,48 @@ $(document).ready(function(){initNavTree('to_8hpp_source.html',''); initResizabl
 <div class="title">to.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;indep/macro/overload.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;indep/helper/typeTrait.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;type_traits&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>by {</div>
+<a href="to_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;indep/macro/overload.hpp&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="type_trait_8hpp.html">indep/helper/typeTrait.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;type_traits&gt;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> F&gt; <span class="keyword">auto</span> operator-&gt;*(T&amp; t, F&amp;&amp; f) {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keywordflow">if</span> constexpr(std::is_reference_v&lt;decltype(f(t))&gt;) return &amp;f(t);</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        else return f(t);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    }</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    template &lt;typename T, typename F&gt; auto operator-&gt;*(const T&amp; t, F&amp;&amp; f) {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">if</span> constexpr(std::is_reference_v&lt;decltype(f(t))&gt;) return &amp;f(t);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        else return f(t);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    }</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    template &lt;typename T, typename F&gt; auto operator-&gt;*(T&amp;&amp; t, F&amp;&amp; f) {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordflow">if</span> constexpr(std::is_reference_v&lt;decltype(f(t))&gt;) return &amp;f(t);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        else return f(t);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    }</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    template &lt;typename T, typename F&gt; auto operator-&gt;*(T* t, F&amp;&amp; f) {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keywordflow">if</span> constexpr(std::is_reference_v&lt;decltype(f(*t))&gt;) return t ? &amp;f(*t) : typeTrait&lt;decltype(&amp;f(*t))&gt;::ret();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        else return t ? f(*t) : typeTrait&lt;decltype(f(*t))&gt;::ret();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    }</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    template &lt;typename T, typename F&gt; auto operator-&gt;*(const T* t, F&amp;&amp; f) {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">if</span> constexpr(std::is_reference_v&lt;decltype(f(*t))&gt;) return t ? &amp;f(*t) : typeTrait&lt;decltype(&amp;f(*t))&gt;::ret();</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        else return t ? f(*t) : typeTrait&lt;decltype(f(*t))&gt;::ret();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    }</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="preprocessor">#define TO(fn)                               \</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="preprocessor">    -&gt;*[&amp;](auto&amp;&amp; __p) -&gt; decltype(__p.fn) { \</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="preprocessor">        return __p.fn;                       \</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor">    }</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> F&gt; <span class="keyword">auto</span> operator-&gt;*(T&amp; t, F&amp;&amp; f) {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordflow">if</span> constexpr(std::is_reference_v&lt;decltype(f(t))&gt;) return &amp;f(t);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        else return f(t);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    }</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    template &lt;typename T, typename F&gt; auto operator-&gt;*(const T&amp; t, F&amp;&amp; f) {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordflow">if</span> constexpr(std::is_reference_v&lt;decltype(f(t))&gt;) return &amp;f(t);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        else return f(t);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    }</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    template &lt;typename T, typename F&gt; auto operator-&gt;*(T&amp;&amp; t, F&amp;&amp; f) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordflow">if</span> constexpr(std::is_reference_v&lt;decltype(f(t))&gt;) return &amp;f(t);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        else return f(t);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    template &lt;typename T, typename F&gt; auto operator-&gt;*(T* t, F&amp;&amp; f) {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordflow">if</span> constexpr(std::is_reference_v&lt;decltype(f(*t))&gt;) return t ? &amp;f(*t) : typeTrait&lt;decltype(&amp;f(*t))&gt;::ret();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        else return t ? f(*t) : typeTrait&lt;decltype(f(*t))&gt;::ret();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    template &lt;typename T, typename F&gt; auto operator-&gt;*(const T* t, F&amp;&amp; f) {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">if</span> constexpr(std::is_reference_v&lt;decltype(f(*t))&gt;) return t ? &amp;f(*t) : typeTrait&lt;decltype(&amp;f(*t))&gt;::ret();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        else return t ? f(*t) : typeTrait&lt;decltype(f(*t))&gt;::ret();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
+<div class="line"><a name="l00171"></a><span class="lineno"><a class="line" href="to_8hpp.html#ab66a6cdf25aca4c8eeb667e884fc905a">  171</a></span>&#160;<span class="preprocessor">#define TO(fn)                               \</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor">    -&gt;*[&amp;](auto&amp;&amp; __p) -&gt; decltype(__p.fn) { \</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="preprocessor">        return __p.fn;                       \</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor">    }</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="atype_trait_8hpp_html"><div class="ttname"><a href="type_trait_8hpp.html">typeTrait.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

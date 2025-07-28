@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -115,9 +110,12 @@ $(document).ready(function(){initNavTree('classby_1_1tbridge.html',''); initResi
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1tbridge-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::tbridge&lt; T &gt; Class Template Reference</div>  </div>
+<div class="title">by::tbridge&lt; T &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Bridge template for C++ objects.  
+ <a href="classby_1_1tbridge.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="tbridge_8hpp_source.html">tbridge.hpp</a>&gt;</code></p>
 <div class="dynheader">
@@ -126,13 +124,13 @@ Inheritance diagram for by::tbridge&lt; T &gt;:</div>
  <div class="center">
   <img src="classby_1_1tbridge.png" usemap="#by::tbridge_3C_20T_20_3E_map" alt=""/>
   <map id="by::tbridge_3C_20T_20_3E_map" name="by::tbridge_3C_20T_20_3E_map">
-<area href="classby_1_1base_obj.html" title="baseObj handles frame injection event of all objects." alt="by::baseObj" shape="rect" coords="210,168,340,192"/>
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="140,112,270,136"/>
-<area href="classby_1_1statable.html" alt="by::statable" shape="rect" coords="280,112,410,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="70,56,200,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="140,0,270,24"/>
+<area href="classby_1_1base_obj.html" title="Base class for all objects in byeol language." alt="by::baseObj" shape="rect" coords="210,168,340,192"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="140,112,270,136"/>
+<area href="classby_1_1statable.html" title="Interface for objects with compilation state." alt="by::statable" shape="rect" coords="280,112,410,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="70,56,200,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="140,0,270,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -599,7 +597,8 @@ static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
 class by::tbridge&lt; T &gt;</h3>
 
-<p>bridge object only can shares 'shared' sub nodes. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Bridge template for C++ objects. </p>
+<p>Template that bridges native C++ objects with byeol object system. bridge object only can shares 'shared' sub nodes. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">T</td><td>represents native class. </td></tr>
   </table>

@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,17 +108,22 @@ $(document).ready(function(){initNavTree('classby_1_1chunks.html',''); initResiz
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1chunks-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::chunks Class Reference</div>  </div>
+<div class="title">by::chunks Class Reference<div class="ingroups"><a class="el" href="group__memlite.html">Memlite</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Collection of memory chunks for scalable allocation.  
+ <a href="classby_1_1chunks.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="chunks_8hpp_source.html">chunks.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::chunks:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1chunks.png" usemap="#by::chunks_map" alt=""/>
   <map id="by::chunks_map" name="by::chunks_map">
-<area href="classby_1_1allocator.html" alt="by::allocator" shape="rect" coords="0,56,111,80"/>
-<area href="classby_1_1memory_haver.html" alt="by::memoryHaver" shape="rect" coords="0,0,111,24"/>
+<area href="classby_1_1allocator.html" title="Abstract allocator interface for memory management." alt="by::allocator" shape="rect" coords="0,56,111,80"/>
+<area href="classby_1_1memory_haver.html" title="Abstract interface for objects that manage memory." alt="by::memoryHaver" shape="rect" coords="0,0,111,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -197,7 +197,10 @@ nbool&#160;</td><td class="memItemRight" valign="bottom"><b>isCapable</b> () con
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Collection of memory chunks for scalable allocation. </p>
+<p>Manages multiple memory chunks to provide scalable memory allocation. Automatically manages chunk creation and selection for optimal performance. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a7761ce857f3989c96b8ea553230da06c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7761ce857f3989c96b8ea553230da06c">&#9670;&nbsp;</a></span>resize()</h2>
 

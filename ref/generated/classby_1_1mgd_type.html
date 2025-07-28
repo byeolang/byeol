@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -114,19 +109,24 @@ $(document).ready(function(){initNavTree('classby_1_1mgd_type.html',''); initRes
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classby_1_1mgd_type-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::mgdType Class Reference</div>  </div>
+<div class="title">by::mgdType Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Managed type for byeol objects.  
+ <a href="classby_1_1mgd_type.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="mgd_type_8hpp_source.html">mgdType.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::mgdType:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1mgd_type.png" usemap="#by::mgdType_map" alt=""/>
   <map id="by::mgdType_map" name="by::mgdType_map">
-<area href="classby_1_1ntype.html" alt="by::ntype" shape="rect" coords="0,56,110,80"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="120,56,230,80"/>
-<area href="classby_1_1type.html" alt="by::type" shape="rect" coords="0,0,110,24"/>
-<area href="classby_1_1func_mgd_type.html" alt="by::funcMgdType" shape="rect" coords="60,168,170,192"/>
+<area href="classby_1_1ntype.html" title="Native type system for byeol language." alt="by::ntype" shape="rect" coords="0,56,110,80"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="120,56,230,80"/>
+<area href="classby_1_1type.html" title="Base class for runtime type information in byeol language." alt="by::type" shape="rect" coords="0,0,110,24"/>
+<area href="classby_1_1func_mgd_type.html" title="Managed type for function objects." alt="by::funcMgdType" shape="rect" coords="60,168,170,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -343,6 +343,7 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aa5dc9f2bc7369d5f877c18dd1f5817f8 inherit pub_methods_classby_1_1type"><td class="memTemplItemLeft" align="right" valign="top">nbool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>isSub</b> () const</td></tr>
 <tr class="separator:aa5dc9f2bc7369d5f877c18dd1f5817f8 inherit pub_methods_classby_1_1type"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3771e3366a14ac81a1e1a18adee79ece inherit pub_methods_classby_1_1type"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classby_1_1type.html">type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1type.html#a3771e3366a14ac81a1e1a18adee79ece">getStatic</a> () const BY_CONST_FUNC(_getStatic()) virtual const nchar *getMetaTypeName() const</td></tr>
+<tr class="memdesc:a3771e3366a14ac81a1e1a18adee79ece inherit pub_methods_classby_1_1type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get meta type name for efficient type checking.  <a href="classby_1_1type.html#a3771e3366a14ac81a1e1a18adee79ece">More...</a><br /></td></tr>
 <tr class="separator:a3771e3366a14ac81a1e1a18adee79ece inherit pub_methods_classby_1_1type"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classby_1_1clonable"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classby_1_1clonable')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classby_1_1clonable.html">by::clonable</a></td></tr>
 <tr class="memitem:ac6baa874c711d31ae70e3028ce8f7b57 inherit pub_methods_classby_1_1clonable"><td class="memItemLeft" align="right" valign="top"><a id="ac6baa874c711d31ae70e3028ce8f7b57"></a>
@@ -425,7 +426,10 @@ static const <a class="el" href="classby_1_1ntype.html">ntype</a> <a class="el" 
 static const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>META_TYPENAME</b> = &quot;ntype&quot;</td></tr>
 <tr class="separator:ae5d6b4e9d2a7751ef2901474bdb8d754 inherit pub_static_attribs_classby_1_1ntype"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Managed type for byeol objects. </p>
+<p>Type information for managed objects with inheritance, parameters, and templates. Handles complex type relationships and runtime type information. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a7367b1906e022e960d20c009f99c5999"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7367b1906e022e960d20c009f99c5999">&#9670;&nbsp;</a></span>make()</h2>
 

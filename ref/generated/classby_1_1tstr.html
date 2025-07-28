@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -114,9 +109,14 @@ $(document).ready(function(){initNavTree('classby_1_1tstr.html',''); initResizab
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1tstr-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::tstr&lt; T, TACTIC &gt; Class Template Reference</div>  </div>
+<div class="title">by::tstr&lt; T, TACTIC &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__memlite.html">Memlite</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Strong reference smart pointer with strict type checking.  
+ <a href="classby_1_1tstr.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="tstr_8hpp_source.html">tstr.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::tstr&lt; T, TACTIC &gt;:</div>
 <div class="dyncontent">
@@ -124,8 +124,8 @@ Inheritance diagram for by::tstr&lt; T, TACTIC &gt;:</div>
   <img src="classby_1_1tstr.png" usemap="#by::tstr_3C_20T_2C_20TACTIC_20_3E_map" alt=""/>
   <map id="by::tstr_3C_20T_2C_20TACTIC_20_3E_map" name="by::tstr_3C_20T_2C_20TACTIC_20_3E_map">
 <area href="classby_1_1tweak.html" alt="by::tweak&lt; T, strTactic &gt;" shape="rect" coords="82,112,236,136"/>
-<area href="classby_1_1binder.html" alt="by::binder" shape="rect" coords="82,56,236,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,154,24"/>
+<area href="classby_1_1binder.html" title="Smart pointer with loose type checking and lifetime management." alt="by::binder" shape="rect" coords="82,56,236,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,154,24"/>
 <area href="classby_1_1tbindable.html" alt="by::tbindable&lt; instance &gt;" shape="rect" coords="164,0,318,24"/>
   </map>
 </div></div>
@@ -201,6 +201,7 @@ const T *get() const BY_CONST_FUNC(get()) using super nbool&#160;</td><td class=
 &#160;</td><td class="memItemRight" valign="bottom"><b>binder</b> (const me &amp;rhs)</td></tr>
 <tr class="separator:a2d95f032d5114b8f4c52ba614e50d0f1 inherit pub_methods_classby_1_1binder"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78af76ee61317188bb8d3785fa9a715a inherit pub_methods_classby_1_1binder"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classby_1_1instance.html">instance</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1binder.html#a78af76ee61317188bb8d3785fa9a715a">operator-&gt;</a> ()</td></tr>
+<tr class="memdesc:a78af76ee61317188bb8d3785fa9a715a inherit pub_methods_classby_1_1binder"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dereference operator to access bound instance.  <a href="classby_1_1binder.html#a78af76ee61317188bb8d3785fa9a715a">More...</a><br /></td></tr>
 <tr class="separator:a78af76ee61317188bb8d3785fa9a715a inherit pub_methods_classby_1_1binder"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10d99712d4a9461da85f91cd4f8b09c8 inherit pub_methods_classby_1_1binder"><td class="memItemLeft" align="right" valign="top"><a id="a10d99712d4a9461da85f91cd4f8b09c8"></a>
 const <a class="el" href="classby_1_1instance.html">instance</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>operator-&gt;</b> () const BY_CONST_FUNC(operator-&gt;()) <a class="el" href="classby_1_1instance.html">instance</a> &amp;operator*()</td></tr>
@@ -252,6 +253,7 @@ nbool&#160;</td><td class="memItemRight" valign="bottom"><b>canBind</b> (const <
 virtual nbool&#160;</td><td class="memItemRight" valign="bottom"><b>bind</b> (const T &amp;it)</td></tr>
 <tr class="separator:a69e3f362fc3c6183ce44b2997aec3e6d inherit pub_methods_classby_1_1binder"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69159b910a8dbc6b07409dfe68da90de inherit pub_methods_classby_1_1binder"><td class="memItemLeft" align="right" valign="top">nbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1binder.html#a69159b910a8dbc6b07409dfe68da90de">bind</a> (const T *it)</td></tr>
+<tr class="memdesc:a69159b910a8dbc6b07409dfe68da90de inherit pub_methods_classby_1_1binder"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind to instance pointer.  <a href="classby_1_1binder.html#a69159b910a8dbc6b07409dfe68da90de">More...</a><br /></td></tr>
 <tr class="separator:a69159b910a8dbc6b07409dfe68da90de inherit pub_methods_classby_1_1binder"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfad9a608589bfe42cf10e08e5058fa9 inherit pub_methods_classby_1_1binder"><td class="memTemplParams" colspan="2"><a id="adfad9a608589bfe42cf10e08e5058fa9"></a>
 template&lt;typename T &gt; </td></tr>
@@ -322,6 +324,7 @@ const void *&#160;</td><td class="memItemRight" valign="bottom"><b>cast</b> (con
 &#160;</td><td class="memItemRight" valign="bottom"><b>operator nbool</b> () const</td></tr>
 <tr class="separator:a1308e87b9ed85ad6d75856303e1066c7 inherit pub_methods_classby_1_1tbindable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69159b910a8dbc6b07409dfe68da90de inherit pub_methods_classby_1_1tbindable"><td class="memItemLeft" align="right" valign="top">nbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1tbindable.html#a69159b910a8dbc6b07409dfe68da90de">bind</a> (const <a class="el" href="classby_1_1instance.html">instance</a> *it)</td></tr>
+<tr class="memdesc:a69159b910a8dbc6b07409dfe68da90de inherit pub_methods_classby_1_1tbindable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind to instance pointer.  <a href="classby_1_1tbindable.html#a69159b910a8dbc6b07409dfe68da90de">More...</a><br /></td></tr>
 <tr class="separator:a69159b910a8dbc6b07409dfe68da90de inherit pub_methods_classby_1_1tbindable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9a21c2610ea2c73b81a6c2657acb4be inherit pub_methods_classby_1_1tbindable"><td class="memItemLeft" align="right" valign="top"><a id="ab9a21c2610ea2c73b81a6c2657acb4be"></a>
 nbool&#160;</td><td class="memItemRight" valign="bottom"><b>canBind</b> (const <a class="el" href="classby_1_1instance.html">instance</a> &amp;it) const</td></tr>
@@ -362,7 +365,13 @@ const <a class="el" href="classby_1_1type.html">type</a> *&#160;</td><td class="
 <a class="el" href="classby_1_1bind_tacticable.html">bindTacticable</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_tactic</b></td></tr>
 <tr class="separator:a2a7209f84466e60b52215735ea0c5776 inherit pro_attribs_classby_1_1binder"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename T, typename TACTIC = strTactic&gt;<br />
+class by::tstr&lt; T, TACTIC &gt;</h3>
+
+<p>Strong reference smart pointer with strict type checking. </p>
+<p>Template-based strong reference binder with configurable memory management tactics. Provides type-safe access to instances with automatic lifetime management. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a756225b757274b181c7dbfef0a1e2614"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a756225b757274b181c7dbfef0a1e2614">&#9670;&nbsp;</a></span>tstr()</h2>
 

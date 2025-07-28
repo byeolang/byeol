@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,9 +108,14 @@ $(document).ready(function(){initNavTree('classby_1_1callstack.html',''); initRe
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1callstack-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::callstack Class Reference</div>  </div>
+<div class="title">by::callstack Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Call stack for error reporting and debugging.  
+ <a href="classby_1_1callstack.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="callstack_8hpp_source.html">callstack.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::callstack:</div>
 <div class="dyncontent">
@@ -123,13 +123,13 @@ Inheritance diagram for by::callstack:</div>
   <img src="classby_1_1callstack.png" usemap="#by::callstack_map" alt=""/>
   <map id="by::callstack_map" name="by::callstack_map">
 <area href="classby_1_1tnarr.html" alt="by::tnarr&lt; calltrace &gt;" shape="rect" coords="309,168,505,192"/>
-<area href="classby_1_1dumpable.html" alt="by::dumpable" shape="rect" coords="515,168,711,192"/>
+<area href="classby_1_1dumpable.html" title="Interface for objects that can dump their state." alt="by::dumpable" shape="rect" coords="515,168,711,192"/>
 <area href="classby_1_1tnucontainer.html" alt="by::tnucontainer&lt; T, R, RSquare &gt;" shape="rect" coords="206,112,402,136"/>
 <area href="classby_1_1tarrayable.html" alt="by::tarrayable&lt; T, R, RSquare &gt;" shape="rect" coords="412,112,608,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="103,56,299,80"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="103,56,299,80"/>
 <area href="classby_1_1tucontainable.html" alt="by::tucontainable&lt; T, T *, T &amp; &gt;" shape="rect" coords="309,56,505,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,196,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="206,0,402,24"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,196,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="206,0,402,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -139,7 +139,8 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>callstack</b> (const <a class="el" href="classby_1_1frames.html">frames</a> &amp;frs)</td></tr>
 <tr class="separator:a33cada8103913c0f1be9f6e695552887"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82b484580195d5f7e2733322050de0a7"><td class="memItemLeft" align="right" valign="top"><a id="a82b484580195d5f7e2733322050de0a7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>dump</b> () const override</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1callstack.html#a82b484580195d5f7e2733322050de0a7">dump</a> () const override</td></tr>
+<tr class="memdesc:a82b484580195d5f7e2733322050de0a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump object state for debugging. <br /></td></tr>
 <tr class="separator:a82b484580195d5f7e2733322050de0a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classby_1_1tnarr"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classby_1_1tnarr')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classby_1_1tnarr.html">by::tnarr&lt; calltrace &gt;</a></td></tr>
 <tr class="memitem:a9036538d0a451ceebf6c227943c16f70 inherit pub_methods_classby_1_1tnarr"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1tnarr.html#a9036538d0a451ceebf6c227943c16f70">tnarr</a> (const Es &amp;... elems)</td></tr>
@@ -482,7 +483,10 @@ nbool&#160;</td><td class="memItemRight" valign="bottom"><b>_setId</b> (<a class
 static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_getMgr</b> ()</td></tr>
 <tr class="separator:a3893a905b2e55a614f0c4f96aba0b315 inherit pro_static_methods_classby_1_1instance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Call stack for error reporting and debugging. </p>
+<p>Stack trace information for debugging and error reporting. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/frame/<a class="el" href="callstack_8hpp_source.html">callstack.hpp</a></li>
 </ul>
 </div><!-- contents -->

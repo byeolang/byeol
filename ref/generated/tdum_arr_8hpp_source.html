@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,53 +108,55 @@ $(document).ready(function(){initNavTree('tdum_arr_8hpp_source.html',''); initRe
 <div class="title">tdumArr.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/builtin/container/mgd/tarr.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;core/ast/origin.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classby_1_1tdum_arr.html">    7</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> defaultElemType = T&gt; <span class="keyword">class </span>_nout <a class="code" href="classby_1_1tdum_arr.html">tdumArr</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1tarr.html">tarr</a>&lt;T, defaultElemType&gt; {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <span class="keyword">typedef</span> <a class="code" href="classby_1_1tarr.html">tarr&lt;T, defaultElemType&gt;</a> <a class="code" href="classby_1_1tarr.html">__super9</a>;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1tdum_arr.html">tdumArr</a>, <a class="code" href="classby_1_1tarr.html">__super9</a>))</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keyword">typedef</span> <span class="keyword">typename</span> super::iter <a class="code" href="classiter.html">iter</a>;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="classby_1_1tdum_arr.html">tdumArr</a>(): super(*<span class="keyword">new</span> <a class="code" href="classby_1_1origin.html">origin</a>(*<span class="keyword">new</span> <a class="code" href="classby_1_1mgd_type.html">mgdType</a>(<span class="stringliteral">&quot;node&quot;</span>, <a class="code" href="classby_1_1ttype.html">ttype&lt;node&gt;::get</a>(), <a class="code" href="classby_1_1params.html">params</a>()))) {}</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="classby_1_1tdum_arr.html">tdumArr</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; elemType): super(elemType) {}</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">using</span> <a class="code" href="classby_1_1tucontainable.html">tucontainable&lt;node&gt;::set</a>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">using</span> <a class="code" href="classby_1_1tarrayable.html">tarrayable&lt;node&gt;::set</a>;</div>
+<a href="tdum_arr_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tarr_8hpp.html">core/builtin/container/mgd/tarr.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="origin_8hpp.html">core/ast/origin.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classby_1_1tdum_arr.html">   11</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> defaultElemType = T&gt; <span class="keyword">class </span>_nout <a class="code" href="classby_1_1tdum_arr.html">tdumArr</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1tarr.html">tarr</a>&lt;T, defaultElemType&gt; {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="keyword">typedef</span> <a class="code" href="classby_1_1tarr.html">tarr&lt;T, defaultElemType&gt;</a> <a class="code" href="classby_1_1tarr.html">__super9</a>;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1tdum_arr.html">tdumArr</a>, <a class="code" href="classby_1_1tarr.html">__super9</a>))</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keyword">typedef</span> <span class="keyword">typename</span> super::iter <a class="code" href="classiter.html">iter</a>;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <a class="code" href="classby_1_1tdum_arr.html">tdumArr</a>(): super(*<span class="keyword">new</span> <a class="code" href="classby_1_1origin.html">origin</a>(*<span class="keyword">new</span> <a class="code" href="classby_1_1mgd_type.html">mgdType</a>(<span class="stringliteral">&quot;node&quot;</span>, <a class="code" href="classby_1_1ttype.html">ttype&lt;node&gt;::get</a>(), <a class="code" href="classby_1_1params.html">params</a>()))) {}</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="classby_1_1tdum_arr.html">tdumArr</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; elemType): super(elemType) {}</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        nbool set(<span class="keyword">const</span> <a class="code" href="classiter.html">iter</a>&amp; at, <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; new1)<span class="keyword"> override </span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        nbool set(nidx n, <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; new1)<span class="keyword"> override </span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">using</span> <a class="code" href="classby_1_1tucontainable.html">tucontainable&lt;node&gt;::set</a>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">using</span> <a class="code" href="classby_1_1tarrayable.html">tarrayable&lt;node&gt;::set</a>;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">using</span> <a class="code" href="classby_1_1tucontainable.html">tucontainable&lt;node&gt;::add</a>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">using</span> <a class="code" href="classby_1_1tarrayable.html">tarrayable&lt;node&gt;::add</a>;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        nbool add(<span class="keyword">const</span> <a class="code" href="classiter.html">iter</a>&amp; at, <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; new1)<span class="keyword"> override </span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classby_1_1tdum_arr.html#a69b52b8d4dd234f554cc676b43d79496">   30</a></span>&#160;        nbool <a class="code" href="classby_1_1tdum_arr.html#a69b52b8d4dd234f554cc676b43d79496">add</a>(nidx n, <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; new1)<span class="keyword"> override </span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        nbool set(<span class="keyword">const</span> <a class="code" href="classiter.html">iter</a>&amp; at, <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; new1)<span class="keyword"> override </span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        nbool set(nidx n, <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; new1)<span class="keyword"> override </span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">using</span> <a class="code" href="classby_1_1tucontainable.html">tucontainable&lt;node&gt;::add</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keyword">using</span> <a class="code" href="classby_1_1tarrayable.html">tarrayable&lt;node&gt;::add</a>;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">void</span> add(<span class="keyword">const</span> <a class="code" href="classiter.html">iter</a>&amp; here, <span class="keyword">const</span> <a class="code" href="classiter.html">iter</a>&amp; from, <span class="keyword">const</span> <a class="code" href="classiter.html">iter</a>&amp; to)<span class="keyword"> override </span>{}</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    };</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">typedef</span> tdumArr&lt;node, mockObj&gt; dumArr;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;} <span class="comment">// namespace by</span></div>
-<div class="ttc" id="aclassby_1_1mgd_type_html"><div class="ttname"><a href="classby_1_1mgd_type.html">by::mgdType</a></div><div class="ttdef"><b>Definition:</b> mgdType.hpp:12</div></div>
-<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:26</div></div>
-<div class="ttc" id="aclassby_1_1origin_html"><div class="ttname"><a href="classby_1_1origin.html">by::origin</a></div><div class="ttdef"><b>Definition:</b> origin.hpp:22</div></div>
-<div class="ttc" id="aclassby_1_1params_html"><div class="ttname"><a href="classby_1_1params.html">by::params</a></div><div class="ttdef"><b>Definition:</b> params.hpp:10</div></div>
-<div class="ttc" id="aclassby_1_1tarr_html"><div class="ttname"><a href="classby_1_1tarr.html">by::tarr</a></div><div class="ttdef"><b>Definition:</b> tarr.hpp:7</div></div>
-<div class="ttc" id="aclassby_1_1tarrayable_html"><div class="ttname"><a href="classby_1_1tarrayable.html">by::tarrayable</a></div><div class="ttdef"><b>Definition:</b> tarrayable.hpp:9</div></div>
-<div class="ttc" id="aclassby_1_1tdum_arr_html"><div class="ttname"><a href="classby_1_1tdum_arr.html">by::tdumArr</a></div><div class="ttdef"><b>Definition:</b> tdumArr.hpp:7</div></div>
-<div class="ttc" id="aclassby_1_1tdum_arr_html_a69b52b8d4dd234f554cc676b43d79496"><div class="ttname"><a href="classby_1_1tdum_arr.html#a69b52b8d4dd234f554cc676b43d79496">by::tdumArr::add</a></div><div class="ttdeci">nbool add(nidx n, const node &amp;new1) override</div><div class="ttdef"><b>Definition:</b> tdumArr.hpp:30</div></div>
-<div class="ttc" id="aclassby_1_1ttype_html"><div class="ttname"><a href="classby_1_1ttype.html">by::ttype</a></div><div class="ttdef"><b>Definition:</b> ttype.hpp:13</div></div>
-<div class="ttc" id="aclassby_1_1tucontainable_html"><div class="ttname"><a href="classby_1_1tucontainable.html">by::tucontainable</a></div><div class="ttdef"><b>Definition:</b> tucontainable.hpp:15</div></div>
-<div class="ttc" id="aclassiter_html"><div class="ttname"><a href="classiter.html">iter</a></div><div class="ttdef"><b>Definition:</b> biter.hpp:5</div></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        nbool add(<span class="keyword">const</span> <a class="code" href="classiter.html">iter</a>&amp; at, <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; new1)<span class="keyword"> override </span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classby_1_1tdum_arr.html#a69b52b8d4dd234f554cc676b43d79496">   34</a></span>&#160;        nbool <a class="code" href="classby_1_1tdum_arr.html#a69b52b8d4dd234f554cc676b43d79496">add</a>(nidx n, <span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; new1)<span class="keyword"> override </span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">void</span> add(<span class="keyword">const</span> <a class="code" href="classiter.html">iter</a>&amp; here, <span class="keyword">const</span> <a class="code" href="classiter.html">iter</a>&amp; from, <span class="keyword">const</span> <a class="code" href="classiter.html">iter</a>&amp; to)<span class="keyword"> override </span>{}</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    };</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">typedef</span> tdumArr&lt;node, mockObj&gt; dumArr;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1mgd_type_html"><div class="ttname"><a href="classby_1_1mgd_type.html">by::mgdType</a></div><div class="ttdoc">Managed type for byeol objects.</div><div class="ttdef"><b>Definition:</b> mgdType.hpp:17</div></div>
+<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">Base class for all AST nodes in byeol language.</div><div class="ttdef"><b>Definition:</b> node.hpp:30</div></div>
+<div class="ttc" id="aclassby_1_1origin_html"><div class="ttname"><a href="classby_1_1origin.html">by::origin</a></div><div class="ttdoc">User-defined class origin in byeol language.</div><div class="ttdef"><b>Definition:</b> origin.hpp:17</div></div>
+<div class="ttc" id="aclassby_1_1params_html"><div class="ttname"><a href="classby_1_1params.html">by::params</a></div><div class="ttdoc">Function parameter list container.</div><div class="ttdef"><b>Definition:</b> params.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1tarr_html"><div class="ttname"><a href="classby_1_1tarr.html">by::tarr</a></div><div class="ttdef"><b>Definition:</b> tarr.hpp:8</div></div>
+<div class="ttc" id="aclassby_1_1tarrayable_html"><div class="ttname"><a href="classby_1_1tarrayable.html">by::tarrayable</a></div><div class="ttdef"><b>Definition:</b> tarrayable.hpp:10</div></div>
+<div class="ttc" id="aclassby_1_1tdum_arr_html"><div class="ttname"><a href="classby_1_1tdum_arr.html">by::tdumArr</a></div><div class="ttdoc">Dummy array that ignores all modifications.</div><div class="ttdef"><b>Definition:</b> tdumArr.hpp:11</div></div>
+<div class="ttc" id="aclassby_1_1tdum_arr_html_a69b52b8d4dd234f554cc676b43d79496"><div class="ttname"><a href="classby_1_1tdum_arr.html#a69b52b8d4dd234f554cc676b43d79496">by::tdumArr::add</a></div><div class="ttdeci">nbool add(nidx n, const node &amp;new1) override</div><div class="ttdef"><b>Definition:</b> tdumArr.hpp:34</div></div>
+<div class="ttc" id="aclassby_1_1ttype_html"><div class="ttname"><a href="classby_1_1ttype.html">by::ttype</a></div><div class="ttdoc">Template type wrapper for type metadata management.</div><div class="ttdef"><b>Definition:</b> ttype.hpp:16</div></div>
+<div class="ttc" id="aclassby_1_1tucontainable_html"><div class="ttname"><a href="classby_1_1tucontainable.html">by::tucontainable</a></div><div class="ttdoc">Template unidirectional container interface.</div><div class="ttdef"><b>Definition:</b> tucontainable.hpp:19</div></div>
+<div class="ttc" id="aclassiter_html"><div class="ttname"><a href="classiter.html">iter</a></div><div class="ttdoc">Bidirectional iterator for key-value containers.</div><div class="ttdef"><b>Definition:</b> biter.hpp:9</div></div>
+<div class="ttc" id="aorigin_8hpp_html"><div class="ttname"><a href="origin_8hpp.html">origin.hpp</a></div></div>
+<div class="ttc" id="atarr_8hpp_html"><div class="ttname"><a href="tarr_8hpp.html">tarr.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

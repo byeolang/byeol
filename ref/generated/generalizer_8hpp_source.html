@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,69 +108,71 @@ $(document).ready(function(){initNavTree('generalizer_8hpp_source.html',''); ini
 <div class="title">generalizer.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/ast/params.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;core/worker/visitor/visitor.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classby_1_1generalizer.html">    8</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1generalizer.html">generalizer</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1visitor.html">visitor</a> {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1generalizer.html">generalizer</a>, <a class="code" href="classby_1_1visitor.html">visitor</a>))</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classby_1_1generalizer.html#a29373b90cdaf71cb2b0ebf8571b33dda">   13</a></span>&#160;        me&amp; <a class="code" href="classby_1_1generalizer.html#a29373b90cdaf71cb2b0ebf8571b33dda">add</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1obj.html">obj</a>&amp; <a class="code" href="classby_1_1origin.html">origin</a>);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        me&amp; add(<span class="keyword">const</span> <a class="code" href="classby_1_1param.html">param</a>&amp; newParam);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        me&amp; add(<span class="keyword">const</span> <a class="code" href="classby_1_1params.html">params</a>&amp; newParams);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">using</span> super::onVisit;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1as_expr.html">asExpr</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1block_expr.html">blockExpr</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1def_var_expr.html">defVarExpr</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1run_expr.html">runExpr</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1base_func.html">baseFunc</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1ctor.html">ctor</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1base_ctor.html">baseCtor</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1params.html">params</a>&amp; me);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1_f_b_o_expr.html">FBOExpr</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1base_obj.html">baseObj</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1get_generic_expr.html">getGenericExpr</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> _findOrigin(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; toReplace) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> _findOrigin(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>* it) <span class="keyword">const</span> BY_SIDE_FUNC(_findOrigin);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> _findOriginFrom(<span class="keyword">const</span> <a class="code" href="classby_1_1get_expr.html">getExpr</a>&amp; <a class="code" href="classby_1_1expr.html">expr</a>) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> _findOriginFrom(<span class="keyword">const</span> <a class="code" href="classby_1_1get_generic_expr.html">getGenericExpr</a>&amp; <a class="code" href="classby_1_1expr.html">expr</a>) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        std::string _makeParamsKey() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <a class="code" href="classby_1_1params.html">params</a> _params;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">mutable</span> std::string _paramsKey;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr&lt;obj&gt;</a> _org;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    };</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;} <span class="comment">// namespace by</span></div>
-<div class="ttc" id="aclassby_1_1_f_b_o_expr_html"><div class="ttname"><a href="classby_1_1_f_b_o_expr.html">by::FBOExpr</a></div><div class="ttdef"><b>Definition:</b> FBOExpr.hpp:13</div></div>
-<div class="ttc" id="aclassby_1_1as_expr_html"><div class="ttname"><a href="classby_1_1as_expr.html">by::asExpr</a></div><div class="ttdef"><b>Definition:</b> asExpr.hpp:11</div></div>
-<div class="ttc" id="aclassby_1_1base_ctor_html"><div class="ttname"><a href="classby_1_1base_ctor.html">by::baseCtor</a></div><div class="ttdef"><b>Definition:</b> baseCtor.hpp:7</div></div>
-<div class="ttc" id="aclassby_1_1base_func_html"><div class="ttname"><a href="classby_1_1base_func.html">by::baseFunc</a></div><div class="ttdef"><b>Definition:</b> baseFunc.hpp:13</div></div>
-<div class="ttc" id="aclassby_1_1base_obj_html"><div class="ttname"><a href="classby_1_1base_obj.html">by::baseObj</a></div><div class="ttdoc">baseObj handles frame injection event of all objects.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:20</div></div>
-<div class="ttc" id="aclassby_1_1block_expr_html"><div class="ttname"><a href="classby_1_1block_expr.html">by::blockExpr</a></div><div class="ttdef"><b>Definition:</b> blockExpr.hpp:10</div></div>
-<div class="ttc" id="aclassby_1_1ctor_html"><div class="ttname"><a href="classby_1_1ctor.html">by::ctor</a></div><div class="ttdef"><b>Definition:</b> ctor.hpp:6</div></div>
-<div class="ttc" id="aclassby_1_1def_var_expr_html"><div class="ttname"><a href="classby_1_1def_var_expr.html">by::defVarExpr</a></div><div class="ttdef"><b>Definition:</b> defVarExpr.hpp:12</div></div>
-<div class="ttc" id="aclassby_1_1expr_html"><div class="ttname"><a href="classby_1_1expr.html">by::expr</a></div><div class="ttdef"><b>Definition:</b> expr.hpp:10</div></div>
-<div class="ttc" id="aclassby_1_1generalizer_html"><div class="ttname"><a href="classby_1_1generalizer.html">by::generalizer</a></div><div class="ttdef"><b>Definition:</b> generalizer.hpp:8</div></div>
+<a href="generalizer_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="params_8hpp.html">core/ast/params.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="visitor_2visitor_8hpp.html">core/worker/visitor/visitor.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classby_1_1generalizer.html">   13</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1generalizer.html">generalizer</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1visitor.html">visitor</a> {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1generalizer.html">generalizer</a>, <a class="code" href="classby_1_1visitor.html">visitor</a>))</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classby_1_1generalizer.html#a29373b90cdaf71cb2b0ebf8571b33dda">   18</a></span>&#160;        me&amp; <a class="code" href="classby_1_1generalizer.html#a29373b90cdaf71cb2b0ebf8571b33dda">add</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1obj.html">obj</a>&amp; <a class="code" href="classby_1_1origin.html">origin</a>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        me&amp; add(<span class="keyword">const</span> <a class="code" href="classby_1_1param.html">param</a>&amp; newParam);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        me&amp; add(<span class="keyword">const</span> <a class="code" href="classby_1_1params.html">params</a>&amp; newParams);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">using</span> super::onVisit;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1as_expr.html">asExpr</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1block_expr.html">blockExpr</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1def_var_expr.html">defVarExpr</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1run_expr.html">runExpr</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1base_func.html">baseFunc</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1ctor.html">ctor</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1base_ctor.html">baseCtor</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1params.html">params</a>&amp; me);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1_f_b_o_expr.html">FBOExpr</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1base_obj.html">baseObj</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        nbool onVisit(<span class="keyword">const</span> <a class="code" href="classby_1_1visit_info.html">visitInfo</a>&amp; i, <a class="code" href="classby_1_1get_generic_expr.html">getGenericExpr</a>&amp; me, nbool) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> _findOrigin(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; toReplace) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> _findOrigin(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>* it) <span class="keyword">const</span> BY_SIDE_FUNC(_findOrigin);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> _findOriginFrom(<span class="keyword">const</span> <a class="code" href="classby_1_1get_expr.html">getExpr</a>&amp; <a class="code" href="classby_1_1expr.html">expr</a>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> _findOriginFrom(<span class="keyword">const</span> <a class="code" href="classby_1_1get_generic_expr.html">getGenericExpr</a>&amp; <a class="code" href="classby_1_1expr.html">expr</a>) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        std::string _makeParamsKey() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <a class="code" href="classby_1_1params.html">params</a> _params;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keyword">mutable</span> std::string _paramsKey;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr&lt;obj&gt;</a> _org;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    };</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1_f_b_o_expr_html"><div class="ttname"><a href="classby_1_1_f_b_o_expr.html">by::FBOExpr</a></div><div class="ttdoc">Fundamental Binary Operation expression.</div><div class="ttdef"><b>Definition:</b> FBOExpr.hpp:17</div></div>
+<div class="ttc" id="aclassby_1_1as_expr_html"><div class="ttname"><a href="classby_1_1as_expr.html">by::asExpr</a></div><div class="ttdoc">Type casting expression.</div><div class="ttdef"><b>Definition:</b> asExpr.hpp:16</div></div>
+<div class="ttc" id="aclassby_1_1base_ctor_html"><div class="ttname"><a href="classby_1_1base_ctor.html">by::baseCtor</a></div><div class="ttdoc">Base class for all constructor types.</div><div class="ttdef"><b>Definition:</b> baseCtor.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1base_func_html"><div class="ttname"><a href="classby_1_1base_func.html">by::baseFunc</a></div><div class="ttdoc">Base class for all function types.</div><div class="ttdef"><b>Definition:</b> baseFunc.hpp:18</div></div>
+<div class="ttc" id="aclassby_1_1base_obj_html"><div class="ttname"><a href="classby_1_1base_obj.html">by::baseObj</a></div><div class="ttdoc">Base class for all objects in byeol language.</div><div class="ttdef"><b>Definition:</b> baseObj.hpp:24</div></div>
+<div class="ttc" id="aclassby_1_1block_expr_html"><div class="ttname"><a href="classby_1_1block_expr.html">by::blockExpr</a></div><div class="ttdoc">Block expression containing multiple statements.</div><div class="ttdef"><b>Definition:</b> blockExpr.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1ctor_html"><div class="ttname"><a href="classby_1_1ctor.html">by::ctor</a></div><div class="ttdoc">Constructor function for byeol objects.</div><div class="ttdef"><b>Definition:</b> ctor.hpp:11</div></div>
+<div class="ttc" id="aclassby_1_1def_var_expr_html"><div class="ttname"><a href="classby_1_1def_var_expr.html">by::defVarExpr</a></div><div class="ttdoc">Variable definition expression base class.</div><div class="ttdef"><b>Definition:</b> defVarExpr.hpp:17</div></div>
+<div class="ttc" id="aclassby_1_1expr_html"><div class="ttname"><a href="classby_1_1expr.html">by::expr</a></div><div class="ttdoc">Base class for all expressions.</div><div class="ttdef"><b>Definition:</b> expr.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1generalizer_html"><div class="ttname"><a href="classby_1_1generalizer.html">by::generalizer</a></div><div class="ttdoc">Visitor for generic type parameter replacement.</div><div class="ttdef"><b>Definition:</b> generalizer.hpp:13</div></div>
 <div class="ttc" id="aclassby_1_1generalizer_html_a29373b90cdaf71cb2b0ebf8571b33dda"><div class="ttname"><a href="classby_1_1generalizer.html#a29373b90cdaf71cb2b0ebf8571b33dda">by::generalizer::add</a></div><div class="ttdeci">me &amp; add(const obj &amp;origin)</div></div>
-<div class="ttc" id="aclassby_1_1get_expr_html"><div class="ttname"><a href="classby_1_1get_expr.html">by::getExpr</a></div><div class="ttdef"><b>Definition:</b> getExpr.hpp:11</div></div>
-<div class="ttc" id="aclassby_1_1get_generic_expr_html"><div class="ttname"><a href="classby_1_1get_generic_expr.html">by::getGenericExpr</a></div><div class="ttdef"><b>Definition:</b> getGenericExpr.hpp:10</div></div>
-<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:26</div></div>
-<div class="ttc" id="aclassby_1_1obj_html"><div class="ttname"><a href="classby_1_1obj.html">by::obj</a></div><div class="ttdef"><b>Definition:</b> obj.hpp:16</div></div>
-<div class="ttc" id="aclassby_1_1origin_html"><div class="ttname"><a href="classby_1_1origin.html">by::origin</a></div><div class="ttdef"><b>Definition:</b> origin.hpp:22</div></div>
-<div class="ttc" id="aclassby_1_1param_html"><div class="ttname"><a href="classby_1_1param.html">by::param</a></div><div class="ttdef"><b>Definition:</b> param.hpp:8</div></div>
-<div class="ttc" id="aclassby_1_1params_html"><div class="ttname"><a href="classby_1_1params.html">by::params</a></div><div class="ttdef"><b>Definition:</b> params.hpp:10</div></div>
-<div class="ttc" id="aclassby_1_1run_expr_html"><div class="ttname"><a href="classby_1_1run_expr.html">by::runExpr</a></div><div class="ttdef"><b>Definition:</b> runExpr.hpp:9</div></div>
+<div class="ttc" id="aclassby_1_1get_expr_html"><div class="ttname"><a href="classby_1_1get_expr.html">by::getExpr</a></div><div class="ttdoc">Expression for property and method access.</div><div class="ttdef"><b>Definition:</b> getExpr.hpp:16</div></div>
+<div class="ttc" id="aclassby_1_1get_generic_expr_html"><div class="ttname"><a href="classby_1_1get_generic_expr.html">by::getGenericExpr</a></div><div class="ttdoc">Generic type access expression.</div><div class="ttdef"><b>Definition:</b> getGenericExpr.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">Base class for all AST nodes in byeol language.</div><div class="ttdef"><b>Definition:</b> node.hpp:30</div></div>
+<div class="ttc" id="aclassby_1_1obj_html"><div class="ttname"><a href="classby_1_1obj.html">by::obj</a></div><div class="ttdoc">Managed object in byeol programming environment.</div><div class="ttdef"><b>Definition:</b> obj.hpp:19</div></div>
+<div class="ttc" id="aclassby_1_1origin_html"><div class="ttname"><a href="classby_1_1origin.html">by::origin</a></div><div class="ttdoc">User-defined class origin in byeol language.</div><div class="ttdef"><b>Definition:</b> origin.hpp:17</div></div>
+<div class="ttc" id="aclassby_1_1param_html"><div class="ttname"><a href="classby_1_1param.html">by::param</a></div><div class="ttdoc">Function parameter definition.</div><div class="ttdef"><b>Definition:</b> param.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1params_html"><div class="ttname"><a href="classby_1_1params.html">by::params</a></div><div class="ttdoc">Function parameter list container.</div><div class="ttdef"><b>Definition:</b> params.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1run_expr_html"><div class="ttname"><a href="classby_1_1run_expr.html">by::runExpr</a></div><div class="ttdoc">Function/method call expression.</div><div class="ttdef"><b>Definition:</b> runExpr.hpp:14</div></div>
 <div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr&lt; node &gt;</a></div></div>
-<div class="ttc" id="aclassby_1_1visit_info_html"><div class="ttname"><a href="classby_1_1visit_info.html">by::visitInfo</a></div><div class="ttdef"><b>Definition:</b> visitInfo.hpp:6</div></div>
-<div class="ttc" id="aclassby_1_1visitor_html"><div class="ttname"><a href="classby_1_1visitor.html">by::visitor</a></div><div class="ttdef"><b>Definition:</b> visitor.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1visit_info_html"><div class="ttname"><a href="classby_1_1visit_info.html">by::visitInfo</a></div><div class="ttdoc">Visitor context information.</div><div class="ttdef"><b>Definition:</b> visitInfo.hpp:10</div></div>
+<div class="ttc" id="aclassby_1_1visitor_html"><div class="ttname"><a href="classby_1_1visitor.html">by::visitor</a></div><div class="ttdoc">Base visitor class for AST traversal.</div><div class="ttdef"><b>Definition:</b> visitor.hpp:20</div></div>
+<div class="ttc" id="aparams_8hpp_html"><div class="ttname"><a href="params_8hpp.html">params.hpp</a></div></div>
+<div class="ttc" id="avisitor_2visitor_8hpp_html"><div class="ttname"><a href="visitor_2visitor_8hpp.html">visitor.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,89 +108,90 @@ $(document).ready(function(){initNavTree('tpriorities_8hpp_source.html',''); ini
 <div class="title">tpriorities.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/builtin/container/native/tnarr.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="comment">// the lower value, the higher priority.</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">enum</span> priorType {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        EXACT_MATCH = 0,    <span class="comment">// lv0: exact match.</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        NUMERIC_MATCH = 1,  <span class="comment">// lv1: numeric match.</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                            <span class="comment">//      it&#39;s almost same level of lv0. except lv1 allows numeric implicit</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                            <span class="comment">//      type cast (&#39;byte to int&#39; or reverse order)</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        IMPLICIT_MATCH = 2, <span class="comment">// lv2: implicit cast match.</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                            <span class="comment">//      it&#39;s almost same level of lv1 except it allows all kind of</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                            <span class="comment">//      implicit type cast.</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        NO_MATCH,           <span class="comment">// lv+: no match.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    };</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">const</span> _nout nchar* getPriorTypeName(priorType type);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="structby_1_1tprior.html">   20</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct </span><a class="code" href="structby_1_1tprior.html">tprior</a>: <a class="code" href="classby_1_1instance.html">instance</a> {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        BY(CLASS(<a class="code" href="structby_1_1tprior.html">tprior</a>, <a class="code" href="classby_1_1instance.html">instance</a>))</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="structby_1_1tprior.html">tprior</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; newElem, priorType <a class="code" href="classby_1_1type.html">type</a>, ncnt lv);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        T* operator-&gt;();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        T&amp; operator*();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">const</span> T* operator-&gt;() <span class="keyword">const</span> BY_CONST_FUNC(operator-&gt;())</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keyword">const</span> T&amp; <span class="keyword">operator</span>*() <span class="keyword">const</span> BY_CONST_FUNC(<span class="keyword">operator</span>*())</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        T* <a class="code" href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">get</a>();</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">   34</a></span>&#160;        <span class="keyword">const</span> T* <a class="code" href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">get</a>() const BY_CONST_FUNC(<a class="code" href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">get</a>())</div>
+<a href="tpriorities_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tnarr_8hpp.html">core/builtin/container/native/tnarr.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="comment">// the lower value, the higher priority.</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">enum</span> priorType {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        EXACT_MATCH = 0,    <span class="comment">// lv0: exact match.</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        NUMERIC_MATCH = 1,  <span class="comment">// lv1: numeric match.</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                            <span class="comment">//      it&#39;s almost same level of lv0. except lv1 allows numeric implicit</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                            <span class="comment">//      type cast (&#39;byte to int&#39; or reverse order)</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        IMPLICIT_MATCH = 2, <span class="comment">// lv2: implicit cast match.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                            <span class="comment">//      it&#39;s almost same level of lv1 except it allows all kind of</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                            <span class="comment">//      implicit type cast.</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        NO_MATCH,           <span class="comment">// lv+: no match.</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    };</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">const</span> _nout nchar* getPriorTypeName(priorType type);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="structby_1_1tprior.html">   24</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct </span><a class="code" href="structby_1_1tprior.html">tprior</a>: <a class="code" href="classby_1_1instance.html">instance</a> {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        BY(CLASS(<a class="code" href="structby_1_1tprior.html">tprior</a>, <a class="code" href="classby_1_1instance.html">instance</a>))</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <a class="code" href="structby_1_1tprior.html">tprior</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; newElem, priorType <a class="code" href="classby_1_1type.html">type</a>, ncnt lv);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        T* operator-&gt;();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        T&amp; operator*();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">const</span> T* operator-&gt;() <span class="keyword">const</span> BY_CONST_FUNC(operator-&gt;())</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">const</span> T&amp; <span class="keyword">operator</span>*() <span class="keyword">const</span> BY_CONST_FUNC(<span class="keyword">operator</span>*())</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        nbool isSamePrecedence(const me&amp; rhs) const;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        T* <a class="code" href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">get</a>();</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">   38</a></span>&#160;        <span class="keyword">const</span> T* <a class="code" href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">get</a>() const BY_CONST_FUNC(<a class="code" href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">get</a>())</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    public:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr</a>&lt;T&gt; elem;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        priorType <a class="code" href="classby_1_1type.html">type</a>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        ncnt lv;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    };</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classby_1_1tpriorities.html">   46</a></span>&#160;    template &lt;typename T&gt; class <a class="code" href="classby_1_1tpriorities.html">tpriorities</a>: public <a class="code" href="classby_1_1tnarr.html">tnarr</a>&lt;T&gt; {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1tpriorities.html">tpriorities</a>, <a class="code" href="classby_1_1tnarr.html">tnarr&lt;T&gt;</a>))</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E&gt; <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1tpriorities_bucket.html">tprioritiesBucket</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        nbool isSamePrecedence(const me&amp; rhs) const;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    public:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr</a>&lt;T&gt; elem;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        priorType <a class="code" href="classby_1_1type.html">type</a>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        ncnt lv;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    };</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <a class="code" href="classby_1_1tpriorities.html">tpriorities</a>();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Es&gt; <a class="code" href="classby_1_1tpriorities.html">tpriorities</a>(<span class="keyword">const</span> Es&amp;... elems) {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            static_assert(areBaseOfT&lt;T, Es...&gt;::value, <span class="stringliteral">&quot;some of type of args are not based on type &#39;T&#39;&quot;</span>);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            this-&gt;add({(T&amp;) elems...});</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        nbool isMatched() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keyword">using</span> super::get;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        T* <a class="code" href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">get</a>();</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="classby_1_1tpriorities.html#a99f3441e01ed0c1ee4b43cc2bbdc9152">   63</a></span>&#160;        <span class="keyword">const</span> T* <a class="code" href="classby_1_1tpriorities.html#a99f3441e01ed0c1ee4b43cc2bbdc9152">get</a>() const BY_CONST_FUNC(<a class="code" href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">get</a>())</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="classby_1_1tpriorities.html">   53</a></span>&#160;    template &lt;typename T&gt; class <a class="code" href="classby_1_1tpriorities.html">tpriorities</a>: public <a class="code" href="classby_1_1tnarr.html">tnarr</a>&lt;T&gt; {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        BY(CLASS(<a class="code" href="classby_1_1tpriorities.html">tpriorities</a>, <a class="code" href="classby_1_1tnarr.html">tnarr&lt;T&gt;</a>))</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E&gt; <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1tpriorities_bucket.html">tprioritiesBucket</a>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <a class="code" href="classby_1_1tpriorities.html">tpriorities</a>();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Es&gt; <a class="code" href="classby_1_1tpriorities.html">tpriorities</a>(<span class="keyword">const</span> Es&amp;... elems) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            static_assert(areBaseOfT&lt;T, Es...&gt;::value, <span class="stringliteral">&quot;some of type of args are not based on type &#39;T&#39;&quot;</span>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            this-&gt;add({(T&amp;) elems...});</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        priorType getPriorType() const;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    protected:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordtype">void</span> _setPriorType(priorType new1);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        nbool isMatched() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keyword">using</span> super::get;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        T* <a class="code" href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">get</a>();</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="classby_1_1tpriorities.html#a99f3441e01ed0c1ee4b43cc2bbdc9152">   70</a></span>&#160;        <span class="keyword">const</span> T* <a class="code" href="classby_1_1tpriorities.html#a99f3441e01ed0c1ee4b43cc2bbdc9152">get</a>() const BY_CONST_FUNC(<a class="code" href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">get</a>())</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    private:</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        priorType _type;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    };</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        priorType getPriorType() const;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    typedef <a class="code" href="classby_1_1tpriorities.html">tpriorities</a>&lt;<a class="code" href="classby_1_1node.html">node</a>&gt; <a class="code" href="classby_1_1tpriorities.html">priorities</a>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;} <span class="comment">// namespace by</span></div>
-<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdef"><b>Definition:</b> instance.hpp:15</div></div>
-<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">node provides common API to manipulate its sub nodes.</div><div class="ttdef"><b>Definition:</b> node.hpp:26</div></div>
-<div class="ttc" id="aclassby_1_1tnarr_html"><div class="ttname"><a href="classby_1_1tnarr.html">by::tnarr</a></div><div class="ttdef"><b>Definition:</b> tnarr.hpp:8</div></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    protected:</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordtype">void</span> _setPriorType(priorType new1);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    private:</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        priorType _type;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    };</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    typedef <a class="code" href="classby_1_1tpriorities.html">tpriorities</a>&lt;<a class="code" href="classby_1_1node.html">node</a>&gt; <a class="code" href="classby_1_1tpriorities.html">priorities</a>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdoc">Base class for all managed instances in memlite system.</div><div class="ttdef"><b>Definition:</b> instance.hpp:20</div></div>
+<div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">Base class for all AST nodes in byeol language.</div><div class="ttdef"><b>Definition:</b> node.hpp:30</div></div>
+<div class="ttc" id="aclassby_1_1tnarr_html"><div class="ttname"><a href="classby_1_1tnarr.html">by::tnarr</a></div><div class="ttdef"><b>Definition:</b> tnarr.hpp:9</div></div>
 <div class="ttc" id="aclassby_1_1tpriorities_bucket_html"><div class="ttname"><a href="classby_1_1tpriorities_bucket.html">by::tprioritiesBucket</a></div><div class="ttdef"><b>Definition:</b> node.inl:17</div></div>
-<div class="ttc" id="aclassby_1_1tpriorities_html"><div class="ttname"><a href="classby_1_1tpriorities.html">by::tpriorities</a></div><div class="ttdef"><b>Definition:</b> tpriorities.hpp:46</div></div>
+<div class="ttc" id="aclassby_1_1tpriorities_html"><div class="ttname"><a href="classby_1_1tpriorities.html">by::tpriorities</a></div><div class="ttdoc">Collection of prioritized elements.</div><div class="ttdef"><b>Definition:</b> tpriorities.hpp:53</div></div>
 <div class="ttc" id="aclassby_1_1tpriorities_html_a99f3441e01ed0c1ee4b43cc2bbdc9152"><div class="ttname"><a href="classby_1_1tpriorities.html#a99f3441e01ed0c1ee4b43cc2bbdc9152">by::tpriorities::get</a></div><div class="ttdeci">const T * get() const BY_CONST_FUNC(get()) priorType getPriorType() const</div></div>
-<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr</a></div><div class="ttdef"><b>Definition:</b> tstr.hpp:8</div></div>
-<div class="ttc" id="aclassby_1_1type_html"><div class="ttname"><a href="classby_1_1type.html">by::type</a></div><div class="ttdef"><b>Definition:</b> type.hpp:8</div></div>
-<div class="ttc" id="astructby_1_1tprior_html"><div class="ttname"><a href="structby_1_1tprior.html">by::tprior</a></div><div class="ttdef"><b>Definition:</b> tpriorities.hpp:20</div></div>
+<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr</a></div><div class="ttdoc">Strong reference smart pointer with strict type checking.</div><div class="ttdef"><b>Definition:</b> tstr.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1type_html"><div class="ttname"><a href="classby_1_1type.html">by::type</a></div><div class="ttdoc">Base class for runtime type information in byeol language.</div><div class="ttdef"><b>Definition:</b> type.hpp:12</div></div>
+<div class="ttc" id="astructby_1_1tprior_html"><div class="ttname"><a href="structby_1_1tprior.html">by::tprior</a></div><div class="ttdoc">Priority wrapper for type matching.</div><div class="ttdef"><b>Definition:</b> tpriorities.hpp:24</div></div>
 <div class="ttc" id="astructby_1_1tprior_html_a5982f53bba34132878e32ccc9933ffbe"><div class="ttname"><a href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">by::tprior::get</a></div><div class="ttdeci">const T * get() const BY_CONST_FUNC(get()) nbool isSamePrecedence(const me &amp;rhs) const</div><div class="ttdoc">precedence is more detail concept of priority. it considers the owner of them are equal above priorit...</div></div>
+<div class="ttc" id="atnarr_8hpp_html"><div class="ttname"><a href="tnarr_8hpp.html">tnarr.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

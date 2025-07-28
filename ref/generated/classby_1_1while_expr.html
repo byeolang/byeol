@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -114,22 +109,27 @@ $(document).ready(function(){initNavTree('classby_1_1while_expr.html',''); initR
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classby_1_1while_expr-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::whileExpr Class Reference</div>  </div>
+<div class="title">by::whileExpr Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>While loop expression.  
+ <a href="classby_1_1while_expr.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="while_expr_8hpp_source.html">whileExpr.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::whileExpr:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1while_expr.png" usemap="#by::whileExpr_map" alt=""/>
   <map id="by::whileExpr_map" name="by::whileExpr_map">
-<area href="classby_1_1loop_expr.html" alt="by::loopExpr" shape="rect" coords="140,224,270,248"/>
-<area href="classby_1_1expr.html" alt="by::expr" shape="rect" coords="140,168,270,192"/>
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="140,112,270,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="70,56,200,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="140,0,270,24"/>
+<area href="classby_1_1loop_expr.html" title="Base class for loop expressions." alt="by::loopExpr" shape="rect" coords="140,224,270,248"/>
+<area href="classby_1_1expr.html" title="Base class for all expressions." alt="by::expr" shape="rect" coords="140,168,270,192"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="140,112,270,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="70,56,200,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="140,0,270,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -533,7 +533,10 @@ static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td>
 <a class="el" href="structby_1_1point.html">point</a>&#160;</td><td class="memItemRight" valign="bottom"><b>_pos</b></td></tr>
 <tr class="separator:ae500e192a7c08ae305ba6fafe7a5ab6d inherit pro_attribs_classby_1_1expr"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>While loop expression. </p>
+<p>Represents while loop constructs with condition-based iteration. Executes loop body while the condition evaluates to true. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/ast/exprs/<a class="el" href="while_expr_8hpp_source.html">whileExpr.hpp</a></li>
 </ul>
 </div><!-- contents -->

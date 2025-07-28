@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -114,9 +109,12 @@ $(document).ready(function(){initNavTree('classby_1_1type.html',''); initResizab
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classby_1_1type-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::type Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">by::type Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__meta.html">Meta</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Base class for runtime type information in byeol language.  
+ <a href="classby_1_1type.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="meta_2type_2type_8hpp_source.html">type.hpp</a>&gt;</code></p>
 <div class="dynheader">
@@ -126,12 +124,12 @@ Inheritance diagram for by::type:</div>
   <img src="classby_1_1type.png" usemap="#by::type_map" alt=""/>
   <map id="by::type_map" name="by::type_map">
 <area href="classby_1_1ttype_base.html" alt="by::ttypeBase&lt; T, tmetaTypeDef&lt; T, tifHasMetaTypeDef&lt; T &gt;::is &gt;::is &gt;" shape="rect" coords="0,56,413,80"/>
-<area href="classby_1_1ntype.html" alt="by::ntype" shape="rect" coords="634,56,1047,80"/>
+<area href="classby_1_1ntype.html" title="Native type system for byeol language." alt="by::ntype" shape="rect" coords="634,56,1047,80"/>
 <area href="classby_1_1ttype_base_3_01void_00_01type_01_4.html" alt="by::ttypeBase&lt; void, type &gt;" shape="rect" coords="1057,56,1470,80"/>
-<area href="classby_1_1ttype.html" alt="by::ttype&lt; T &gt;" shape="rect" coords="0,112,413,136"/>
-<area href="classby_1_1expr_1_1expr_type.html" alt="by::expr::exprType" shape="rect" coords="423,112,836,136"/>
-<area href="classby_1_1mgd_type.html" alt="by::mgdType" shape="rect" coords="846,112,1259,136"/>
-<area href="classby_1_1func_mgd_type.html" alt="by::funcMgdType" shape="rect" coords="846,168,1259,192"/>
+<area href="classby_1_1ttype.html" title="Template type wrapper for type metadata management." alt="by::ttype&lt; T &gt;" shape="rect" coords="0,112,413,136"/>
+<area href="classby_1_1expr_1_1expr_type.html" title="Type information for expression nodes." alt="by::expr::exprType" shape="rect" coords="423,112,836,136"/>
+<area href="classby_1_1mgd_type.html" title="Managed type for byeol objects." alt="by::mgdType" shape="rect" coords="846,112,1259,136"/>
+<area href="classby_1_1func_mgd_type.html" title="Managed type for function objects." alt="by::funcMgdType" shape="rect" coords="846,168,1259,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -205,6 +203,7 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aa5dc9f2bc7369d5f877c18dd1f5817f8"><td class="memTemplItemLeft" align="right" valign="top">nbool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>isSub</b> () const</td></tr>
 <tr class="separator:aa5dc9f2bc7369d5f877c18dd1f5817f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3771e3366a14ac81a1e1a18adee79ece"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classby_1_1type.html">type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1type.html#a3771e3366a14ac81a1e1a18adee79ece">getStatic</a> () const BY_CONST_FUNC(_getStatic()) virtual const nchar *getMetaTypeName() const</td></tr>
+<tr class="memdesc:a3771e3366a14ac81a1e1a18adee79ece"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get meta type name for efficient type checking.  <a href="classby_1_1type.html#a3771e3366a14ac81a1e1a18adee79ece">More...</a><br /></td></tr>
 <tr class="separator:a3771e3366a14ac81a1e1a18adee79ece"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
@@ -235,7 +234,8 @@ virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="botto
 <tr class="separator:a5d99c2594038d3960d6c17e93ad7b188"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><dl class="section remark"><dt>Remarks</dt><dd>type returning ttype&lt;type&gt; as result of getType() </dd></dl>
+<div class="textblock"><p>Base class for runtime type information in byeol language. </p>
+<p>Provides fundamental type metadata and operations. Returns ttype&lt;type&gt; as result of getType() for type introspection. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a3771e3366a14ac81a1e1a18adee79ece"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3771e3366a14ac81a1e1a18adee79ece">&#9670;&nbsp;</a></span>getStatic()</h2>
@@ -251,11 +251,18 @@ virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="botto
         </tr>
       </table>
 </div><div class="memdoc">
-<p>this returns metaTypename. metaTypename can be used like 'dynamic_cast&lt;yourType&gt;'. as you may know, c++'s dynamic_cast is slow. because normally compilers tries to loop in order to figure out which type is fit to given your type parameter. 'meta' library, however, uses 'tier' algorithm and it's O(1), so it's faster.</p>
+
+<p>Get meta type name for efficient type checking. </p>
+<p>This returns metaTypename. metaTypename can be used like 'dynamic_cast&lt;yourType&gt;'. as you may know, c++'s dynamic_cast is slow. because normally compilers tries to loop in order to figure out which type is fit to given your type parameter. 'meta' library, however, uses 'tier' algorithm and it's O(1), so it's faster.</p>
 <p>you can use your own metaType to represent more data on type class. for instance, 'core' module uses 'ntype' custom type class. but in that case, when you compare custom type class, you must compare extended data to 'rhs' variable to base type class, 'type'.</p>
 <p>so how can you know that 'type' is actually instance of your derived custom type class in 'tier' algorithm? please don't think about 'dynamic_cast'. it'll vanish our effectiveness to use 'tier' algorithm. that's why I make 'getMetaTypeName()' func.</p>
-<dl class="section return"><dt>Returns</dt><dd>static literal c-style string for meta type name. so you are able to use c-style casting if address of 'rhs' variables's getMetaTypeName() isn just same to yours. e.g. yourType&amp; a = ....; type&amp; rhs = ....; if(a.getMetaTypeName() != rhs.getMetaTypeName()) return; yourType&amp; rhsCasted = (yourType&amp;) rhs;</dd></dl>
-<p>...now you can do something on yourType's data... </p>
+<dl class="section return"><dt>Returns</dt><dd>static literal c-style string for meta type name. so you are able to use c-style casting if address of 'rhs' variables's getMetaTypeName() isn just same to yours. <div class="fragment"><div class="line">yourType&amp; a = ....;</div>
+<div class="line">type&amp; rhs = ....;</div>
+<div class="line"><span class="keywordflow">if</span>(a.getMetaTypeName() != rhs.getMetaTypeName()) <span class="keywordflow">return</span>;</div>
+<div class="line">yourType&amp; rhsCasted = (yourType&amp;) rhs;</div>
+<div class="line"> </div>
+<div class="line">...now you can <span class="keywordflow">do</span> something on yourType<span class="stringliteral">&#39;s data...</span></div>
+</div><!-- fragment --> </dd></dl>
 
 </div>
 </div>

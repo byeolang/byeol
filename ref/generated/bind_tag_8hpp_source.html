@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,83 +108,86 @@ $(document).ready(function(){initNavTree('bind_tag_8hpp_source.html',''); initRe
 <div class="title">bindTag.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;memlite/binder/tbindable.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;memlite/interface/instance.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">class </span>chunk;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classby_1_1bind_tag.html">   10</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1bind_tag.html">bindTag</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1type_providable.html">typeProvidable</a>, <span class="keyword">public</span> <a class="code" href="classby_1_1tbindable.html">tbindable</a>&lt;instance&gt; {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        BY_ME(<a class="code" href="classby_1_1bind_tag.html">bindTag</a>)</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        BY_INIT_META(me)</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> TACTIC&gt; <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1tweak.html">tweak</a>;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> TACTIC&gt; <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1tstr.html">tstr</a>;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1weak_tactic.html">weakTactic</a>;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1str_tactic.html">strTactic</a>;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="comment">//  bindTag:</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <a class="code" href="classby_1_1bind_tag.html">bindTag</a>();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classby_1_1bind_tag.html">bindTag</a>(<span class="keywordtype">id</span> newId);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        ~<a class="code" href="classby_1_1bind_tag.html">bindTag</a>();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="classby_1_1instance.html">instance</a>* operator-&gt;();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="classby_1_1instance.html">instance</a>&amp; operator*();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1instance.html">instance</a>* operator-&gt;() <span class="keyword">const</span> BY_CONST_FUNC(operator-&gt;())</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1instance.html">instance</a>&amp; <span class="keyword">operator</span>*() <span class="keyword">const</span> BY_CONST_FUNC(<span class="keyword">operator</span>*())</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1chunk.html">chunk</a>* getChunk() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        ncnt getStrongCnt() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="comment">//  tbindable:</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">void</span> rel() <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        nbool isBind() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1type.html">type</a>&amp; getBindable() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <a class="code" href="classby_1_1instance.html">instance</a>* get();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1instance.html">instance</a>* get() <span class="keyword">const</span> BY_CONST_FUNC(get())</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E&gt; E* get() { <span class="keywordflow">return</span> get() TO(<span class="keyword">template</span> cast&lt;E&gt;()); }</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E&gt; <span class="keyword">const</span> E* get() <span class="keyword">const</span> BY_CONST_FUNC(get&lt;E&gt;())</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keyword">using</span> <a class="code" href="classby_1_1tbindable.html">tbindable&lt;instance&gt;::canBind</a>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        nbool canBind(<span class="keyword">const</span> <a class="code" href="classby_1_1type.html">type</a>&amp; cls) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">using</span> <a class="code" href="classby_1_1tbindable.html">tbindable&lt;instance&gt;::bind</a>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        nbool bind(<span class="keyword">const</span> <a class="code" href="classby_1_1instance.html">instance</a>&amp; new1) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="comment">//  Instance:</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordtype">id</span> getId() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment">//  typeProvidable:</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1type.html">type</a>&amp; getType() <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="classby_1_1bind_tag.html">bindTag</a>* getBindTag(<span class="keywordtype">id</span> newId);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="comment">//  bindTag:</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        nbool _onStrong(ncnt vote);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        nbool _completeId(<a class="code" href="classby_1_1instance.html">instance</a>&amp; it);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        nbool _sync(<span class="keywordtype">id</span> new1);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <a class="code" href="classby_1_1instance.html">instance</a>* _pt;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        ncnt _strong;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordtype">id</span> _id;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    };</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;} <span class="comment">// namespace by</span></div>
-<div class="ttc" id="aclassby_1_1bind_tag_html"><div class="ttname"><a href="classby_1_1bind_tag.html">by::bindTag</a></div><div class="ttdef"><b>Definition:</b> bindTag.hpp:10</div></div>
-<div class="ttc" id="aclassby_1_1chunk_html"><div class="ttname"><a href="classby_1_1chunk.html">by::chunk</a></div><div class="ttdef"><b>Definition:</b> chunk.hpp:7</div></div>
-<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdef"><b>Definition:</b> instance.hpp:15</div></div>
-<div class="ttc" id="aclassby_1_1str_tactic_html"><div class="ttname"><a href="classby_1_1str_tactic.html">by::strTactic</a></div><div class="ttdef"><b>Definition:</b> strTactic.hpp:7</div></div>
-<div class="ttc" id="aclassby_1_1tbindable_html"><div class="ttname"><a href="classby_1_1tbindable.html">by::tbindable</a></div><div class="ttdef"><b>Definition:</b> tbindable.hpp:7</div></div>
-<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr</a></div><div class="ttdef"><b>Definition:</b> tstr.hpp:8</div></div>
-<div class="ttc" id="aclassby_1_1tweak_html"><div class="ttname"><a href="classby_1_1tweak.html">by::tweak</a></div><div class="ttdef"><b>Definition:</b> tweak.hpp:10</div></div>
-<div class="ttc" id="aclassby_1_1type_html"><div class="ttname"><a href="classby_1_1type.html">by::type</a></div><div class="ttdef"><b>Definition:</b> type.hpp:8</div></div>
-<div class="ttc" id="aclassby_1_1type_providable_html"><div class="ttname"><a href="classby_1_1type_providable.html">by::typeProvidable</a></div><div class="ttdef"><b>Definition:</b> typeProvidable.hpp:7</div></div>
-<div class="ttc" id="aclassby_1_1weak_tactic_html"><div class="ttname"><a href="classby_1_1weak_tactic.html">by::weakTactic</a></div><div class="ttdef"><b>Definition:</b> weakTactic.hpp:8</div></div>
+<a href="bind_tag_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tbindable_8hpp.html">memlite/binder/tbindable.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="instance_8hpp.html">memlite/interface/instance.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">class </span>chunk;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classby_1_1bind_tag.html">   15</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1bind_tag.html">bindTag</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1type_providable.html">typeProvidable</a>, <span class="keyword">public</span> <a class="code" href="classby_1_1tbindable.html">tbindable</a>&lt;instance&gt; {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        BY_ME(<a class="code" href="classby_1_1bind_tag.html">bindTag</a>)</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        BY_INIT_META(me)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> TACTIC&gt; <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1tweak.html">tweak</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> TACTIC&gt; <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1tstr.html">tstr</a>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1weak_tactic.html">weakTactic</a>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1str_tactic.html">strTactic</a>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="comment">//  bindTag:</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="classby_1_1bind_tag.html">bindTag</a>();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">explicit</span> <a class="code" href="classby_1_1bind_tag.html">bindTag</a>(<span class="keywordtype">id</span> newId);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        ~<a class="code" href="classby_1_1bind_tag.html">bindTag</a>();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <a class="code" href="classby_1_1instance.html">instance</a>* operator-&gt;();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="classby_1_1instance.html">instance</a>&amp; operator*();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1instance.html">instance</a>* operator-&gt;() <span class="keyword">const</span> BY_CONST_FUNC(operator-&gt;())</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1instance.html">instance</a>&amp; <span class="keyword">operator</span>*() <span class="keyword">const</span> BY_CONST_FUNC(<span class="keyword">operator</span>*())</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1chunk.html">chunk</a>* getChunk() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        ncnt getStrongCnt() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="comment">//  tbindable:</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">void</span> rel() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        nbool isBind() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1type.html">type</a>&amp; getBindable() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <a class="code" href="classby_1_1instance.html">instance</a>* get();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1instance.html">instance</a>* get() <span class="keyword">const</span> BY_CONST_FUNC(get())</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E&gt; E* get() { <span class="keywordflow">return</span> get() <a class="code" href="to_8hpp.html#ab66a6cdf25aca4c8eeb667e884fc905a">TO</a>(<span class="keyword">template</span> cast&lt;E&gt;()); }</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">template</span> &lt;<span class="keyword">typename</span> E&gt; <span class="keyword">const</span> E* get() <span class="keyword">const</span> BY_CONST_FUNC(get&lt;E&gt;())</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">using</span> <a class="code" href="classby_1_1tbindable.html">tbindable&lt;instance&gt;::canBind</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        nbool canBind(<span class="keyword">const</span> <a class="code" href="classby_1_1type.html">type</a>&amp; cls) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">using</span> <a class="code" href="classby_1_1tbindable.html">tbindable&lt;instance&gt;::bind</a>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        nbool bind(<span class="keyword">const</span> <a class="code" href="classby_1_1instance.html">instance</a>&amp; new1) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="comment">//  Instance:</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">id</span> getId() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="comment">//  typeProvidable:</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">const</span> <a class="code" href="classby_1_1type.html">type</a>&amp; getType() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="classby_1_1bind_tag.html">bindTag</a>* getBindTag(<span class="keywordtype">id</span> newId);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="comment">//  bindTag:</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        nbool _onStrong(ncnt vote);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        nbool _completeId(<a class="code" href="classby_1_1instance.html">instance</a>&amp; it);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        nbool _sync(<span class="keywordtype">id</span> new1);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <a class="code" href="classby_1_1instance.html">instance</a>* _pt;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        ncnt _strong;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordtype">id</span> _id;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    };</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1bind_tag_html"><div class="ttname"><a href="classby_1_1bind_tag.html">by::bindTag</a></div><div class="ttdoc">Binding tag for instance reference tracking and lifecycle management.</div><div class="ttdef"><b>Definition:</b> bindTag.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1chunk_html"><div class="ttname"><a href="classby_1_1chunk.html">by::chunk</a></div><div class="ttdoc">Memory chunk for block-based allocation.</div><div class="ttdef"><b>Definition:</b> chunk.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdoc">Base class for all managed instances in memlite system.</div><div class="ttdef"><b>Definition:</b> instance.hpp:20</div></div>
+<div class="ttc" id="aclassby_1_1str_tactic_html"><div class="ttname"><a href="classby_1_1str_tactic.html">by::strTactic</a></div><div class="ttdoc">Strong reference binding tactic.</div><div class="ttdef"><b>Definition:</b> strTactic.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1tbindable_html"><div class="ttname"><a href="classby_1_1tbindable.html">by::tbindable</a></div><div class="ttdoc">Template interface for bindable objects.</div><div class="ttdef"><b>Definition:</b> tbindable.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1tstr_html"><div class="ttname"><a href="classby_1_1tstr.html">by::tstr</a></div><div class="ttdoc">Strong reference smart pointer with strict type checking.</div><div class="ttdef"><b>Definition:</b> tstr.hpp:13</div></div>
+<div class="ttc" id="aclassby_1_1tweak_html"><div class="ttname"><a href="classby_1_1tweak.html">by::tweak</a></div><div class="ttdoc">Weak reference smart pointer with type-safe access.</div><div class="ttdef"><b>Definition:</b> tweak.hpp:15</div></div>
+<div class="ttc" id="aclassby_1_1type_html"><div class="ttname"><a href="classby_1_1type.html">by::type</a></div><div class="ttdoc">Base class for runtime type information in byeol language.</div><div class="ttdef"><b>Definition:</b> type.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1type_providable_html"><div class="ttname"><a href="classby_1_1type_providable.html">by::typeProvidable</a></div><div class="ttdoc">Interface for objects that can provide their type information.</div><div class="ttdef"><b>Definition:</b> typeProvidable.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1weak_tactic_html"><div class="ttname"><a href="classby_1_1weak_tactic.html">by::weakTactic</a></div><div class="ttdoc">Weak reference binding tactic.</div><div class="ttdef"><b>Definition:</b> weakTactic.hpp:13</div></div>
+<div class="ttc" id="ainstance_8hpp_html"><div class="ttname"><a href="instance_8hpp.html">instance.hpp</a></div></div>
+<div class="ttc" id="atbindable_8hpp_html"><div class="ttname"><a href="tbindable_8hpp.html">tbindable.hpp</a></div></div>
+<div class="ttc" id="ato_8hpp_html_ab66a6cdf25aca4c8eeb667e884fc905a"><div class="ttname"><a href="to_8hpp.html#ab66a6cdf25aca4c8eeb667e884fc905a">TO</a></div><div class="ttdeci">#define TO(fn)</div><div class="ttdef"><b>Definition:</b> to.hpp:171</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

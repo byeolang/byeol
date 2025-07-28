@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,20 +108,25 @@ $(document).ready(function(){initNavTree('classby_1_1token_scan.html',''); initR
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1token_scan-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::tokenScan Class Reference</div>  </div>
+<div class="title">by::tokenScan Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Base class for token scanning strategies.  
+ <a href="classby_1_1token_scan.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="token_scan_8hpp_source.html">tokenScan.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::tokenScan:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1token_scan.png" usemap="#by::tokenScan_map" alt=""/>
   <map id="by::tokenScan_map" name="by::tokenScan_map">
-<area href="classby_1_1token_scanable.html" alt="by::tokenScanable" shape="rect" coords="0,0,117,24"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="127,0,244,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="254,0,371,24"/>
-<area href="classby_1_1indent_scan.html" alt="by::indentScan" shape="rect" coords="63,112,180,136"/>
-<area href="classby_1_1normal_scan.html" alt="by::normalScan" shape="rect" coords="190,112,307,136"/>
+<area href="classby_1_1token_scanable.html" title="Interface for token scanning functionality." alt="by::tokenScanable" shape="rect" coords="0,0,117,24"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="127,0,244,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="254,0,371,24"/>
+<area href="classby_1_1indent_scan.html" title="Indentation-aware token scanning mode." alt="by::indentScan" shape="rect" coords="63,112,180,136"/>
+<area href="classby_1_1normal_scan.html" title="Normal token scanning mode." alt="by::normalScan" shape="rect" coords="190,112,307,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -209,7 +209,10 @@ virtual me *&#160;</td><td class="memItemRight" valign="bottom"><b>cloneDeep</b>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onCloneDeep</b> (const me &amp;from)</td></tr>
 <tr class="separator:ad78216acb96f85e6e23db1b119a17bfa inherit pub_methods_classby_1_1clonable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following files:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Base class for token scanning strategies. </p>
+<p>Abstract base class for different token scanning modes in the parser. Handles token processing and provides foundation for specialized scanning. </p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/worker/bison/<a class="el" href="token_scan_8hpp_source.html">tokenScan.hpp</a></li>
 <li>/home/runner/work/byeol/byeol/module/core/worker/bison/tokenScan.cpp</li>
 </ul>

@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,16 +108,21 @@ $(document).ready(function(){initNavTree('classby_1_1err_pass_filter.html',''); 
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1err_pass_filter-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::errPassFilter Class Reference</div>  </div>
+<div class="title">by::errPassFilter Class Reference<div class="ingroups"><a class="el" href="group__clog.html">Clog</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Filter that passes through error-level log messages.  
+ <a href="classby_1_1err_pass_filter.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="err_pass_filter_8hpp_source.html">errPassFilter.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::errPassFilter:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1err_pass_filter.png" usemap="#by::errPassFilter_map" alt=""/>
   <map id="by::errPassFilter_map" name="by::errPassFilter_map">
-<area href="classby_1_1filterable.html" alt="by::filterable" shape="rect" coords="0,0,105,24"/>
+<area href="classby_1_1filterable.html" title="Interface for objects that can filter log messages." alt="by::filterable" shape="rect" coords="0,0,105,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -131,7 +131,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a039644372a909eec9ef88c5c0967ade6"><td class="memItemLeft" align="right" valign="top">nbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1err_pass_filter.html#a039644372a909eec9ef88c5c0967ade6">filt</a> (errLv::level lv, const std::string &amp;tag) const override</td></tr>
 <tr class="separator:a039644372a909eec9ef88c5c0967ade6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Filter that passes through error-level log messages. </p>
+<p>Simple filter implementation that allows error-level messages to pass through while filtering out other levels. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a039644372a909eec9ef88c5c0967ade6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a039644372a909eec9ef88c5c0967ade6">&#9670;&nbsp;</a></span>filt()</h2>
 

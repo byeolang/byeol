@@ -1,6 +1,5 @@
 var classby_1_1expr =
 [
-    [ "exprType", "classby_1_1expr_1_1expr_type.html", "classby_1_1expr_1_1expr_type" ],
     [ "getSrc", "classby_1_1expr.html#a01229e9c3cbddb2e3eb2a7129b9d016b", null ],
     [ "isImpli", "classby_1_1expr.html#a47552242f6748da3df30a8a9aa619566", null ],
     [ "prioritize", "classby_1_1expr.html#a31d760e6647054482a123889b4261799", null ],

@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,18 +108,23 @@ $(document).ready(function(){initNavTree('classby_1_1bind_tacticable.html',''); 
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1bind_tacticable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::bindTacticable Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">by::bindTacticable Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__memlite.html">Memlite</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Interface for binding tactics in memory management.  
+ <a href="classby_1_1bind_tacticable.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="bind_tacticable_8hpp_source.html">bindTacticable.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::bindTacticable:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1bind_tacticable.png" usemap="#by::bindTacticable_map" alt=""/>
   <map id="by::bindTacticable_map" name="by::bindTacticable_map">
-<area href="classby_1_1weak_tactic.html" alt="by::weakTactic" shape="rect" coords="0,56,121,80"/>
-<area href="classby_1_1str_tactic.html" alt="by::strTactic" shape="rect" coords="0,112,121,136"/>
-<area href="classby_1_1immutable_tactic.html" alt="by::immutableTactic" shape="rect" coords="0,168,121,192"/>
+<area href="classby_1_1weak_tactic.html" title="Weak reference binding tactic." alt="by::weakTactic" shape="rect" coords="0,56,121,80"/>
+<area href="classby_1_1str_tactic.html" title="Strong reference binding tactic." alt="by::strTactic" shape="rect" coords="0,112,121,136"/>
+<area href="classby_1_1immutable_tactic.html" title="Immutable binding strategy." alt="by::immutableTactic" shape="rect" coords="0,168,121,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -143,7 +143,10 @@ nbool&#160;</td><td class="memItemRight" valign="bottom"><b>bind</b> (<a class="
 nbool&#160;</td><td class="memItemRight" valign="bottom"><b>bind</b> (me, *it)</td></tr>
 <tr class="separator:a4b679e8b64a0d04d65551ed469109195"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Interface for binding tactics in memory management. </p>
+<p>Defines the contract for different binding strategies used by binder objects. Allows customization of binding and release behaviors. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/memlite/binder/<a class="el" href="bind_tacticable_8hpp_source.html">bindTacticable.hpp</a></li>
 </ul>
 </div><!-- contents -->

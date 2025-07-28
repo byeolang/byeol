@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -115,16 +110,21 @@ $(document).ready(function(){initNavTree('classby_1_1pool.html',''); initResizab
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classby_1_1pool-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::pool Class Reference</div>  </div>
+<div class="title">by::pool Class Reference<div class="ingroups"><a class="el" href="group__memlite.html">Memlite</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Memory pool manager for efficient instance allocation.  
+ <a href="classby_1_1pool.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="pool_8hpp_source.html">pool.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::pool:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1pool.png" usemap="#by::pool_map" alt=""/>
   <map id="by::pool_map" name="by::pool_map">
-<area href="classby_1_1memory_haver.html" alt="by::memoryHaver" shape="rect" coords="0,0,111,24"/>
+<area href="classby_1_1memory_haver.html" title="Abstract interface for objects that manage memory." alt="by::memoryHaver" shape="rect" coords="0,0,111,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -174,7 +174,10 @@ Protected Member Functions</h2></td></tr>
 void *&#160;</td><td class="memItemRight" valign="bottom"><b>_get</b> (nidx n) override</td></tr>
 <tr class="separator:a200237d5f03f3f3ece04d7cff55c042f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Memory pool manager for efficient instance allocation. </p>
+<p>Manages multiple memory chunks for optimized allocation and deallocation of instances. Provides memory pool-based allocation strategy to reduce overhead. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/memlite/pool/<a class="el" href="pool_8hpp_source.html">pool.hpp</a></li>
 </ul>
 </div><!-- contents -->

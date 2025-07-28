@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,24 +108,29 @@ $(document).ready(function(){initNavTree('classby_1_1statable.html',''); initRes
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1statable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::statable Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">by::statable Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Interface for objects with compilation state.  
+ <a href="classby_1_1statable.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="statable_8hpp_source.html">statable.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::statable:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1statable.png" usemap="#by::statable_map" alt=""/>
   <map id="by::statable_map" name="by::statable_map">
-<area href="classby_1_1autoslot.html" alt="by::autoslot" shape="rect" coords="0,56,176,80"/>
-<area href="classby_1_1base_obj.html" title="baseObj handles frame injection event of all objects." alt="by::baseObj" shape="rect" coords="651,56,827,80"/>
+<area href="classby_1_1autoslot.html" title="Automatic slot with pack loading capabilities." alt="by::autoslot" shape="rect" coords="0,56,176,80"/>
+<area href="classby_1_1base_obj.html" title="Base class for all objects in byeol language." alt="by::baseObj" shape="rect" coords="651,56,827,80"/>
 <area href="classby_1_1tbridge.html" alt="by::tbridge&lt; narr &gt;" shape="rect" coords="0,112,176,136"/>
-<area href="classby_1_1arithmetic_obj.html" alt="by::arithmeticObj" shape="rect" coords="186,112,362,136"/>
-<area href="classby_1_1base_err.html" alt="by::baseErr" shape="rect" coords="558,112,734,136"/>
-<area href="classby_1_1generic_origin.html" alt="by::genericOrigin" shape="rect" coords="744,112,920,136"/>
-<area href="classby_1_1obj.html" alt="by::obj" shape="rect" coords="930,112,1106,136"/>
-<area href="classby_1_1tbridge.html" alt="by::tbridge&lt; T &gt;" shape="rect" coords="1116,112,1292,136"/>
-<area href="classby_1_1arr.html" alt="by::arr" shape="rect" coords="0,168,176,192"/>
+<area href="classby_1_1arithmetic_obj.html" title="Base class for arithmetic operations on primitive types." alt="by::arithmeticObj" shape="rect" coords="186,112,362,136"/>
+<area href="classby_1_1base_err.html" title="Base class for all error types." alt="by::baseErr" shape="rect" coords="558,112,734,136"/>
+<area href="classby_1_1generic_origin.html" title="Generic type origin with type parameters." alt="by::genericOrigin" shape="rect" coords="744,112,920,136"/>
+<area href="classby_1_1obj.html" title="Managed object in byeol programming environment." alt="by::obj" shape="rect" coords="930,112,1106,136"/>
+<area href="classby_1_1tbridge.html" title="Bridge template for C++ objects." alt="by::tbridge&lt; T &gt;" shape="rect" coords="1116,112,1292,136"/>
+<area href="classby_1_1arr.html" title="Managed array container for byeol language." alt="by::arr" shape="rect" coords="0,168,176,192"/>
 <area href="classby_1_1primitive_obj.html" alt="by::primitiveObj&lt; nflt &gt;" shape="rect" coords="372,168,548,192"/>
 <area href="classby_1_1primitive_obj.html" alt="by::primitiveObj&lt; std::string &gt;" shape="rect" coords="372,224,548,248"/>
 <area href="classby_1_1primitive_obj.html" alt="by::primitiveObj&lt; nint &gt;" shape="rect" coords="372,280,548,304"/>
@@ -138,9 +138,9 @@ Inheritance diagram for by::statable:</div>
 <area href="classby_1_1primitive_obj.html" alt="by::primitiveObj&lt; nbool &gt;" shape="rect" coords="372,392,548,416"/>
 <area href="classby_1_1primitive_obj.html" alt="by::primitiveObj&lt; T &gt;" shape="rect" coords="372,448,548,472"/>
 <area href="classby_1_1primitive_obj_3_01void_01_4.html" alt="by::primitiveObj&lt; void &gt;" shape="rect" coords="372,504,548,528"/>
-<area href="classby_1_1err.html" alt="by::err" shape="rect" coords="744,168,920,192"/>
+<area href="classby_1_1err.html" title="Standard error implementation." alt="by::err" shape="rect" coords="744,168,920,192"/>
 <area href="structby_1_1nerr.html" alt="by::nerr" shape="rect" coords="744,224,920,248"/>
-<area href="classby_1_1origin.html" alt="by::origin" shape="rect" coords="930,168,1106,192"/>
+<area href="classby_1_1origin.html" title="User-defined class origin in byeol language." alt="by::origin" shape="rect" coords="930,168,1106,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -153,7 +153,10 @@ virtual state&#160;</td><td class="memItemRight" valign="bottom"><b>getState</b>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setState</b> (state new1)=0</td></tr>
 <tr class="separator:adfbf471434725d15eb27d5b96e3233f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Interface for objects with compilation state. </p>
+<p>Provides state management for compilation phases (parsed, verified, linked). </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/ast/<a class="el" href="statable_8hpp_source.html">statable.hpp</a></li>
 </ul>
 </div><!-- contents -->

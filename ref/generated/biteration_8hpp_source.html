@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,29 +108,30 @@ $(document).ready(function(){initNavTree('biteration_8hpp_source.html',''); init
 <div class="title">biteration.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;core/builtin/container/iter/biterable.hpp&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// nested class of tbicontainable.hpp</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="classiteration.html">    4</a></span>&#160;<span class="keyword">class </span><a class="code" href="classiteration.html">iteration</a>: <span class="keyword">public</span> instance, <span class="keyword">public</span> <a class="code" href="classiterable.html">iterable</a> {</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    BY(ADT(<a class="code" href="classiteration.html">iteration</a>, instance))</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classiter.html">iter</a>;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <a class="code" href="classiteration.html">iteration</a>(nbool isReversed): _isReversed(isReversed) {}</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">using</span> iterable::isFrom;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    nbool isFrom(<span class="keyword">const</span> tbicontainable&amp; rhs)<span class="keyword"> const override </span>{ <span class="keywordflow">return</span> this-&gt;getContainer() == &amp;rhs; }</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    nbool isReversed()<span class="keyword"> const override </span>{ <span class="keywordflow">return</span> _isReversed; }</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    nbool _isReversed;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;};</div>
-<div class="ttc" id="aclassiter_html"><div class="ttname"><a href="classiter.html">iter</a></div><div class="ttdef"><b>Definition:</b> biter.hpp:5</div></div>
-<div class="ttc" id="aclassiterable_html"><div class="ttname"><a href="classiterable.html">iterable</a></div><div class="ttdef"><b>Definition:</b> biterable.hpp:2</div></div>
-<div class="ttc" id="aclassiteration_html"><div class="ttname"><a href="classiteration.html">iteration</a></div><div class="ttdef"><b>Definition:</b> biteration.hpp:4</div></div>
+<a href="biteration_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="biterable_8hpp.html">core/builtin/container/iter/biterable.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// nested class of tbicontainable.hpp</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="classiteration.html">    5</a></span>&#160;<span class="keyword">class </span><a class="code" href="classiteration.html">iteration</a>: <span class="keyword">public</span> instance, <span class="keyword">public</span> <a class="code" href="classiterable.html">iterable</a> {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    BY(ADT(<a class="code" href="classiteration.html">iteration</a>, instance))</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classiter.html">iter</a>;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <a class="code" href="classiteration.html">iteration</a>(nbool isReversed): _isReversed(isReversed) {}</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">using</span> iterable::isFrom;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    nbool isFrom(<span class="keyword">const</span> tbicontainable&amp; rhs)<span class="keyword"> const override </span>{ <span class="keywordflow">return</span> this-&gt;getContainer() == &amp;rhs; }</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    nbool isReversed()<span class="keyword"> const override </span>{ <span class="keywordflow">return</span> _isReversed; }</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    nbool _isReversed;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;};</div>
+<div class="ttc" id="abiterable_8hpp_html"><div class="ttname"><a href="biterable_8hpp.html">biterable.hpp</a></div></div>
+<div class="ttc" id="aclassiter_html"><div class="ttname"><a href="classiter.html">iter</a></div><div class="ttdoc">Bidirectional iterator for key-value containers.</div><div class="ttdef"><b>Definition:</b> biter.hpp:9</div></div>
+<div class="ttc" id="aclassiterable_html"><div class="ttname"><a href="classiterable.html">iterable</a></div><div class="ttdef"><b>Definition:</b> biterable.hpp:3</div></div>
+<div class="ttc" id="aclassiteration_html"><div class="ttname"><a href="classiteration.html">iteration</a></div><div class="ttdef"><b>Definition:</b> biteration.hpp:5</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

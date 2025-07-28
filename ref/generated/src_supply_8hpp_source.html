@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,36 +108,38 @@ $(document).ready(function(){initNavTree('src_supply_8hpp_source.html',''); init
 <div class="title">srcSupply.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/builtin/container/native/tnarr.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;core/type/ntype.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">class </span>parser;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">class </span>exprMaker;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classby_1_1src_supply.html">   11</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1src_supply.html">srcSupply</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1instance.html">instance</a> {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        BY(ADT(<a class="code" href="classby_1_1src_supply.html">srcSupply</a>, <a class="code" href="classby_1_1instance.html">instance</a>))</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classby_1_1src_supply.html#a5f138659226ebb2b9601ef39de210fe3">   16</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span>* <a class="code" href="classby_1_1src_supply.html#a5f138659226ebb2b9601ef39de210fe3">onSupplySrc</a>(<a class="code" href="classby_1_1parser.html">parser</a>&amp; ps, <span class="keywordtype">void</span>* scanner) <span class="keyword">const</span> = 0;</div>
+<a href="src_supply_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tnarr_8hpp.html">core/builtin/container/native/tnarr.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ntype_8hpp.html">core/type/ntype.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">class </span>parser;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">class </span>exprMaker;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classby_1_1src_supply.html">   15</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1src_supply.html">srcSupply</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1instance.html">instance</a> {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        BY(ADT(<a class="code" href="classby_1_1src_supply.html">srcSupply</a>, <a class="code" href="classby_1_1instance.html">instance</a>))</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordtype">void</span>* _scanString(<a class="code" href="classby_1_1parser.html">parser</a>&amp; ps, <span class="keyword">const</span> nchar* <a class="code" href="classby_1_1src.html">src</a>, <span class="keywordtype">void</span>* scanner) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <a class="code" href="classby_1_1expr_maker.html">exprMaker</a>&amp; _getMaker(<a class="code" href="classby_1_1parser.html">parser</a>&amp; ps) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    };</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="classby_1_1tnarr.html">tnarr&lt;srcSupply&gt;</a> <a class="code" href="classby_1_1tnarr.html">srcSupplies</a>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
-<div class="ttc" id="aclassby_1_1expr_maker_html"><div class="ttname"><a href="classby_1_1expr_maker.html">by::exprMaker</a></div><div class="ttdef"><b>Definition:</b> exprMaker.hpp:12</div></div>
-<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdef"><b>Definition:</b> instance.hpp:15</div></div>
-<div class="ttc" id="aclassby_1_1parser_html"><div class="ttname"><a href="classby_1_1parser.html">by::parser</a></div><div class="ttdef"><b>Definition:</b> parser.hpp:38</div></div>
-<div class="ttc" id="aclassby_1_1src_html"><div class="ttname"><a href="classby_1_1src.html">by::src</a></div><div class="ttdef"><b>Definition:</b> src.hpp:6</div></div>
-<div class="ttc" id="aclassby_1_1src_supply_html"><div class="ttname"><a href="classby_1_1src_supply.html">by::srcSupply</a></div><div class="ttdef"><b>Definition:</b> srcSupply.hpp:11</div></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classby_1_1src_supply.html#a5f138659226ebb2b9601ef39de210fe3">   20</a></span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span>* <a class="code" href="classby_1_1src_supply.html#a5f138659226ebb2b9601ef39de210fe3">onSupplySrc</a>(<a class="code" href="classby_1_1parser.html">parser</a>&amp; ps, <span class="keywordtype">void</span>* scanner) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordtype">void</span>* _scanString(<a class="code" href="classby_1_1parser.html">parser</a>&amp; ps, <span class="keyword">const</span> nchar* <a class="code" href="classby_1_1src.html">src</a>, <span class="keywordtype">void</span>* scanner) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="classby_1_1expr_maker.html">exprMaker</a>&amp; _getMaker(<a class="code" href="classby_1_1parser.html">parser</a>&amp; ps) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    };</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="classby_1_1tnarr.html">tnarr&lt;srcSupply&gt;</a> <a class="code" href="classby_1_1tnarr.html">srcSupplies</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div>
+<div class="ttc" id="aclassby_1_1expr_maker_html"><div class="ttname"><a href="classby_1_1expr_maker.html">by::exprMaker</a></div><div class="ttdoc">Factory for creating expressions with source location information.</div><div class="ttdef"><b>Definition:</b> exprMaker.hpp:17</div></div>
+<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdoc">Base class for all managed instances in memlite system.</div><div class="ttdef"><b>Definition:</b> instance.hpp:20</div></div>
+<div class="ttc" id="aclassby_1_1parser_html"><div class="ttname"><a href="classby_1_1parser.html">by::parser</a></div><div class="ttdoc">Parser for byeol language source code.</div><div class="ttdef"><b>Definition:</b> parser.hpp:43</div></div>
+<div class="ttc" id="aclassby_1_1src_html"><div class="ttname"><a href="classby_1_1src.html">by::src</a></div><div class="ttdoc">Source location information.</div><div class="ttdef"><b>Definition:</b> src.hpp:11</div></div>
+<div class="ttc" id="aclassby_1_1src_supply_html"><div class="ttname"><a href="classby_1_1src_supply.html">by::srcSupply</a></div><div class="ttdoc">Source code supply interface.</div><div class="ttdef"><b>Definition:</b> srcSupply.hpp:15</div></div>
 <div class="ttc" id="aclassby_1_1src_supply_html_a5f138659226ebb2b9601ef39de210fe3"><div class="ttname"><a href="classby_1_1src_supply.html#a5f138659226ebb2b9601ef39de210fe3">by::srcSupply::onSupplySrc</a></div><div class="ttdeci">virtual void * onSupplySrc(parser &amp;ps, void *scanner) const =0</div></div>
 <div class="ttc" id="aclassby_1_1tnarr_html"><div class="ttname"><a href="classby_1_1tnarr.html">by::tnarr&lt; srcSupply &gt;</a></div></div>
+<div class="ttc" id="antype_8hpp_html"><div class="ttname"><a href="ntype_8hpp.html">ntype.hpp</a></div></div>
+<div class="ttc" id="atnarr_8hpp_html"><div class="ttname"><a href="tnarr_8hpp.html">tnarr.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

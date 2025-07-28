@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -114,18 +109,23 @@ $(document).ready(function(){initNavTree('classby_1_1str_tactic.html',''); initR
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classby_1_1str_tactic-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::strTactic Class Reference</div>  </div>
+<div class="title">by::strTactic Class Reference<div class="ingroups"><a class="el" href="group__memlite.html">Memlite</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Strong reference binding tactic.  
+ <a href="classby_1_1str_tactic.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="str_tactic_8hpp_source.html">strTactic.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::strTactic:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1str_tactic.png" usemap="#by::strTactic_map" alt=""/>
   <map id="by::strTactic_map" name="by::strTactic_map">
-<area href="classby_1_1weak_tactic.html" alt="by::weakTactic" shape="rect" coords="0,56,121,80"/>
-<area href="classby_1_1bind_tacticable.html" alt="by::bindTacticable" shape="rect" coords="0,0,121,24"/>
-<area href="classby_1_1immutable_tactic.html" alt="by::immutableTactic" shape="rect" coords="0,168,121,192"/>
+<area href="classby_1_1weak_tactic.html" title="Weak reference binding tactic." alt="by::weakTactic" shape="rect" coords="0,56,121,80"/>
+<area href="classby_1_1bind_tacticable.html" title="Interface for binding tactics in memory management." alt="by::bindTacticable" shape="rect" coords="0,0,121,24"/>
+<area href="classby_1_1immutable_tactic.html" title="Immutable binding strategy." alt="by::immutableTactic" shape="rect" coords="0,168,121,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -162,7 +162,10 @@ static me&#160;</td><td class="memItemRight" valign="bottom"><b>singleton</b></t
 static me&#160;</td><td class="memItemRight" valign="bottom"><b>singleton</b></td></tr>
 <tr class="separator:a086e2849171694b5cef541488ec3ba76 inherit pub_static_attribs_classby_1_1weak_tactic"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Strong reference binding tactic. </p>
+<p>Implements strong reference semantics where bound instances are kept alive as long as the binder exists. Extends weak tactic with reference counting. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/memlite/binder/<a class="el" href="str_tactic_8hpp_source.html">strTactic.hpp</a></li>
 </ul>
 </div><!-- contents -->

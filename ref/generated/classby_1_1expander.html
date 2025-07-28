@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -115,19 +110,24 @@ $(document).ready(function(){initNavTree('classby_1_1expander.html',''); initRes
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classby_1_1expander-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::expander Class Reference</div>  </div>
+<div class="title">by::expander Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Visitor for expanding generic types and expressions.  
+ <a href="classby_1_1expander.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="expander_2expander_8hpp_source.html">expander.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::expander:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1expander.png" usemap="#by::expander_map" alt=""/>
   <map id="by::expander_map" name="by::expander_map">
-<area href="classby_1_1visitor.html" alt="by::visitor" shape="rect" coords="83,112,239,136"/>
+<area href="classby_1_1visitor.html" title="Base visitor class for AST traversal." alt="by::visitor" shape="rect" coords="83,112,239,136"/>
 <area href="classby_1_1worker.html" alt="by::worker&lt; void, node &gt;" shape="rect" coords="83,56,239,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,156,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="166,0,322,24"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,156,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="166,0,322,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -384,7 +384,10 @@ me setTask&#160;</td><td class="memItemRight" valign="bottom"><b>it</b></td></tr
 me setTask *&#160;</td><td class="memItemRight" valign="bottom"><b>this</b></td></tr>
 <tr class="separator:a97572b50047adfb003eece5a3efe9e35 inherit pub_attribs_classby_1_1worker"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Visitor for expanding generic types and expressions. </p>
+<p>Expands generic type definitions and resolves type parameters. Performs type convergence and expansion of template instantiations. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/worker/visitor/expander/<a class="el" href="expander_2expander_8hpp_source.html">expander.hpp</a></li>
 </ul>
 </div><!-- contents -->

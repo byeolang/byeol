@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,9 +108,14 @@ $(document).ready(function(){initNavTree('structby_1_1tif_sub.html',''); initRes
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="structby_1_1tif_sub-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::tifSub&lt; T, super &gt; Struct Template Reference</div>  </div>
+<div class="title">by::tifSub&lt; T, super &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__meta.html">Meta</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Type trait to check if T is subclass of super.  
+ <a href="structby_1_1tif_sub.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="rtti_2rtti_8hpp_source.html">rtti.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -123,7 +123,13 @@ Static Public Attributes</h2></td></tr>
 static constexpr nbool&#160;</td><td class="memItemRight" valign="bottom"><b>is</b> = std::is_base_of&lt;super, T&gt;::value</td></tr>
 <tr class="separator:aaaaf0aaf4bd9409834f6d6b0af272f64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename T, typename super&gt;<br />
+struct by::tifSub&lt; T, super &gt;</h3>
+
+<p>Type trait to check if T is subclass of super. </p>
+<p>Determines inheritance relationship between types with support for reference types. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/meta/rtti/<a class="el" href="rtti_2rtti_8hpp_source.html">rtti.hpp</a></li>
 </ul>
 </div><!-- contents -->

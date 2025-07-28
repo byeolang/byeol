@@ -1,10 +1,5 @@
 var classby_1_1build_feature =
 [
-    [ "config", "structby_1_1build_feature_1_1config.html", null ],
-    [ "date", "structby_1_1build_feature_1_1date.html", null ],
-    [ "platform", "structby_1_1build_feature_1_1platform.html", null ],
-    [ "time", "structby_1_1build_feature_1_1time.html", null ],
-    [ "version", "structby_1_1build_feature_1_1version.html", null ],
     [ "buildType", "classby_1_1build_feature.html#aec9c400d42fd08f27161a708aaddefa7", [
       [ "BUILD_TYPE_START", "classby_1_1build_feature.html#aec9c400d42fd08f27161a708aaddefa7a2dc232efcf040f8815e993ab25d093ff", null ],
       [ "DEBUG", "classby_1_1build_feature.html#aec9c400d42fd08f27161a708aaddefa7ae7ec7bb4f61b85beaf980fe7b6c42b40", null ],

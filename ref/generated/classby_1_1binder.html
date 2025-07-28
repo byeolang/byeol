@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -116,9 +111,12 @@ $(document).ready(function(){initNavTree('classby_1_1binder.html',''); initResiz
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1binder-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::binder Class Reference</div>  </div>
+<div class="title">by::binder Class Reference<div class="ingroups"><a class="el" href="group__memlite.html">Memlite</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Smart pointer with loose type checking and lifetime management.  
+ <a href="classby_1_1binder.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="binder_2binder_8hpp_source.html">binder.hpp</a>&gt;</code></p>
 <div class="dynheader">
@@ -127,13 +125,13 @@ Inheritance diagram for by::binder:</div>
  <div class="center">
   <img src="classby_1_1binder.png" usemap="#by::binder_map" alt=""/>
   <map id="by::binder_map" name="by::binder_map">
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="164,0,318,24"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="164,0,318,24"/>
 <area href="classby_1_1tbindable.html" alt="by::tbindable&lt; instance &gt;" shape="rect" coords="328,0,482,24"/>
 <area href="classby_1_1tweak.html" alt="by::tweak&lt; by::func &gt;" shape="rect" coords="0,112,154,136"/>
 <area href="classby_1_1tweak.html" alt="by::tweak&lt; by::obj &gt;" shape="rect" coords="164,112,318,136"/>
 <area href="classby_1_1tweak.html" alt="by::tweak&lt; T, strTactic &gt;" shape="rect" coords="328,112,482,136"/>
-<area href="classby_1_1tweak.html" alt="by::tweak&lt; T, TACTIC &gt;" shape="rect" coords="492,112,646,136"/>
-<area href="classby_1_1tstr.html" alt="by::tstr&lt; T, TACTIC &gt;" shape="rect" coords="328,168,482,192"/>
+<area href="classby_1_1tweak.html" title="Weak reference smart pointer with type-safe access." alt="by::tweak&lt; T, TACTIC &gt;" shape="rect" coords="492,112,646,136"/>
+<area href="classby_1_1tstr.html" title="Strong reference smart pointer with strict type checking." alt="by::tstr&lt; T, TACTIC &gt;" shape="rect" coords="328,168,482,192"/>
 <area href="classby_1_1tstr.html" alt="by::tstr&lt; node &gt;" shape="rect" coords="656,168,810,192"/>
 <area href="classby_1_1tstr.html" alt="by::tstr&lt; by::srcFile &gt;" shape="rect" coords="656,224,810,248"/>
 <area href="classby_1_1tstr.html" alt="by::tstr&lt; by::callstack &gt;" shape="rect" coords="656,280,810,304"/>
@@ -166,6 +164,7 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>binder</b> (const me &amp;rhs)</td></tr>
 <tr class="separator:a2d95f032d5114b8f4c52ba614e50d0f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78af76ee61317188bb8d3785fa9a715a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classby_1_1instance.html">instance</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1binder.html#a78af76ee61317188bb8d3785fa9a715a">operator-&gt;</a> ()</td></tr>
+<tr class="memdesc:a78af76ee61317188bb8d3785fa9a715a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dereference operator to access bound instance.  <a href="classby_1_1binder.html#a78af76ee61317188bb8d3785fa9a715a">More...</a><br /></td></tr>
 <tr class="separator:a78af76ee61317188bb8d3785fa9a715a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10d99712d4a9461da85f91cd4f8b09c8"><td class="memItemLeft" align="right" valign="top"><a id="a10d99712d4a9461da85f91cd4f8b09c8"></a>
 const <a class="el" href="classby_1_1instance.html">instance</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>operator-&gt;</b> () const BY_CONST_FUNC(operator-&gt;()) <a class="el" href="classby_1_1instance.html">instance</a> &amp;operator*()</td></tr>
@@ -217,6 +216,7 @@ nbool&#160;</td><td class="memItemRight" valign="bottom"><b>canBind</b> (const <
 virtual nbool&#160;</td><td class="memItemRight" valign="bottom"><b>bind</b> (const T &amp;it)</td></tr>
 <tr class="separator:a69e3f362fc3c6183ce44b2997aec3e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69159b910a8dbc6b07409dfe68da90de"><td class="memItemLeft" align="right" valign="top">nbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1binder.html#a69159b910a8dbc6b07409dfe68da90de">bind</a> (const T *it)</td></tr>
+<tr class="memdesc:a69159b910a8dbc6b07409dfe68da90de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind to instance pointer.  <a href="classby_1_1binder.html#a69159b910a8dbc6b07409dfe68da90de">More...</a><br /></td></tr>
 <tr class="separator:a69159b910a8dbc6b07409dfe68da90de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfad9a608589bfe42cf10e08e5058fa9"><td class="memTemplParams" colspan="2"><a id="adfad9a608589bfe42cf10e08e5058fa9"></a>
 template&lt;typename T &gt; </td></tr>
@@ -287,6 +287,7 @@ const void *&#160;</td><td class="memItemRight" valign="bottom"><b>cast</b> (con
 &#160;</td><td class="memItemRight" valign="bottom"><b>operator nbool</b> () const</td></tr>
 <tr class="separator:a1308e87b9ed85ad6d75856303e1066c7 inherit pub_methods_classby_1_1tbindable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69159b910a8dbc6b07409dfe68da90de inherit pub_methods_classby_1_1tbindable"><td class="memItemLeft" align="right" valign="top">nbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1tbindable.html#a69159b910a8dbc6b07409dfe68da90de">bind</a> (const <a class="el" href="classby_1_1instance.html">instance</a> *it)</td></tr>
+<tr class="memdesc:a69159b910a8dbc6b07409dfe68da90de inherit pub_methods_classby_1_1tbindable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind to instance pointer.  <a href="classby_1_1tbindable.html#a69159b910a8dbc6b07409dfe68da90de">More...</a><br /></td></tr>
 <tr class="separator:a69159b910a8dbc6b07409dfe68da90de inherit pub_methods_classby_1_1tbindable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9a21c2610ea2c73b81a6c2657acb4be inherit pub_methods_classby_1_1tbindable"><td class="memItemLeft" align="right" valign="top"><a id="ab9a21c2610ea2c73b81a6c2657acb4be"></a>
 nbool&#160;</td><td class="memItemRight" valign="bottom"><b>canBind</b> (const <a class="el" href="classby_1_1instance.html">instance</a> &amp;it) const</td></tr>
@@ -335,8 +336,9 @@ struct&#160;</td><td class="memItemRight" valign="bottom"><b>::binderTest</b></t
 <tr class="separator:a60519f1c6bd00b89a29ae86c8942f82d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>bind: overview: can guarrantee that specific instance freed completely and track of them. this has 3 features. 1) can distringuish what given abstract type actually was and reject or accept it regarding that. 2) free instance completely. using RAII. 3) can notice that binding instance was replaced or freed without unexpected exception. in conlusion, it prevent halting process or give a chance to let developer be advised.</p>
-<p>type cheking: this was most valuable requirement when I design component of bind. in fact, bind was suggested to replace sort of exisiting smart-ptr concept things, such as weakptr. because weakptr was planned to replace and enhance existing pointer of c/c++, they were very strict to check type and whether template param T was const or not. this characteristic was pretty worked good in most environment but not on usage of byeol framework.</p>
+<div class="textblock"><p>Smart pointer with loose type checking and lifetime management. </p>
+<p>Provides guaranteed instance cleanup and tracking with three key features: 1) Distinguished abstract type checking with flexible acceptance/rejection 2) Complete instance cleanup using RAII 3) Notification when bound instances are replaced or freed Prevents process halting and provides developer notifications.</p>
+<p>type checking: this was most valuable requirement when I design component of bind. in fact, bind was suggested to replace sort of exisiting smart-ptr concept things, such as weakptr. because weakptr was planned to replace and enhance existing pointer of c/c++, they were very strict to check type and whether template param T was const or not. this characteristic was pretty worked good in most environment but not on usage of byeol framework.</p>
 <p>why was it not proper to use as before?: byeol is based on class node and make user not need to know what really was. all actions (including calling some func on byeol env) can be replacable to sending msg using "use()". to say the least, what byeol doing is loose-check. so, strict type-checking of existing smart pointers doesn't matched to what byeol framework willing to do.</p>
 <p>design: binder components are mostly constructed to 3 classes and they form 2 layers vertically. class binder: represents binder on loose-checking layer. user can try any type to bind or get from the binded. compiler won't complain about. but because of loose-checking, if it's not proper request, binder will warn you at runtime as result. constness of binding instance was persisted. (for example, if user try to get non-const instance from consted binder, s/he will get nulled reference.) user needs to checks that returned value was nullref on using loose-checking API.</p>
 <p>class tweak, class tstr: these represent binder on strict-checking layer. because it was declared to class template, user need to bind or get binded using type T. of course these are based on class 'bind', user can use loose-check API case by case. </p>
@@ -352,7 +354,9 @@ struct&#160;</td><td class="memItemRight" valign="bottom"><b>::binderTest</b></t
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section remark"><dt>Remarks</dt><dd>binder will loose previous binding instance whether given parameter <code>it</code> isn't nullptr or not. </dd></dl>
+
+<p>Bind to instance pointer. </p>
+<p>binder will loose previous binding instance whether given parameter <code>it</code> isn't nullptr or not. </p>
 
 </div>
 </div>
@@ -370,7 +374,9 @@ struct&#160;</td><td class="memItemRight" valign="bottom"><b>::binderTest</b></t
         </tr>
       </table>
 </div><div class="memdoc">
-<p>this follows the same policy as tmay and stl. that is, if the binder does not bind any instances and tries to dereference them with <code>get()</code> or <code>operator*()</code>, it will behave as UB. this is likely to crash. </p>
+
+<p>Dereference operator to access bound instance. </p>
+<p>This follows the same policy as tmay and stl. that is, if the binder does not bind any instances and tries to dereference them with <code>get()</code> or <code>operator*()</code>, it will behave as UB. this is likely to crash. </p>
 
 </div>
 </div>

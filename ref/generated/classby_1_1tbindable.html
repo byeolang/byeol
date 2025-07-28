@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,9 +108,14 @@ $(document).ready(function(){initNavTree('classby_1_1tbindable.html',''); initRe
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1tbindable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::tbindable&lt; T &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">by::tbindable&lt; T &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__memlite.html">Memlite</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Template interface for bindable objects.  
+ <a href="classby_1_1tbindable.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="tbindable_8hpp_source.html">tbindable.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -126,6 +126,7 @@ Public Member Functions</h2></td></tr>
 virtual nbool&#160;</td><td class="memItemRight" valign="bottom"><b>bind</b> (const T &amp;it)</td></tr>
 <tr class="separator:a69e3f362fc3c6183ce44b2997aec3e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69159b910a8dbc6b07409dfe68da90de"><td class="memItemLeft" align="right" valign="top">nbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1tbindable.html#a69159b910a8dbc6b07409dfe68da90de">bind</a> (const T *it)</td></tr>
+<tr class="memdesc:a69159b910a8dbc6b07409dfe68da90de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind to instance pointer.  <a href="classby_1_1tbindable.html#a69159b910a8dbc6b07409dfe68da90de">More...</a><br /></td></tr>
 <tr class="separator:a69159b910a8dbc6b07409dfe68da90de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d568cdf92a54872636b859bc243e9c8"><td class="memItemLeft" align="right" valign="top"><a id="a2d568cdf92a54872636b859bc243e9c8"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>rel</b> ()=0</td></tr>
@@ -146,7 +147,13 @@ nbool&#160;</td><td class="memItemRight" valign="bottom"><b>canBind</b> (const <
 virtual nbool&#160;</td><td class="memItemRight" valign="bottom"><b>isBind</b> () const =0</td></tr>
 <tr class="separator:af2b942fcff97c0b87a512f63819e0e2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename T&gt;<br />
+class by::tbindable&lt; T &gt;</h3>
+
+<p>Template interface for bindable objects. </p>
+<p>Provides generic binding interface for objects of type T. Supports binding validation, type checking, and lifecycle management. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a69159b910a8dbc6b07409dfe68da90de"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a69159b910a8dbc6b07409dfe68da90de">&#9670;&nbsp;</a></span>bind()</h2>
 
@@ -164,7 +171,9 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section remark"><dt>Remarks</dt><dd>binder will loose previous binding instance whether given parameter <code>it</code> isn't nullptr or not. </dd></dl>
+
+<p>Bind to instance pointer. </p>
+<p>binder will loose previous binding instance whether given parameter <code>it</code> isn't nullptr or not. </p>
 
 </div>
 </div>

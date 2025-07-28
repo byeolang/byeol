@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,17 +108,22 @@ $(document).ready(function(){initNavTree('classby_1_1expr_maker.html',''); initR
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1expr_maker-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::exprMaker Class Reference</div>  </div>
+<div class="title">by::exprMaker Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Factory for creating expressions with source location information.  
+ <a href="classby_1_1expr_maker.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="expr_maker_8hpp_source.html">exprMaker.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::exprMaker:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1expr_maker.png" usemap="#by::exprMaker_map" alt=""/>
   <map id="by::exprMaker_map" name="by::exprMaker_map">
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,117,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="127,0,244,24"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,117,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="127,0,244,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -247,7 +247,10 @@ virtual me *&#160;</td><td class="memItemRight" valign="bottom"><b>cloneDeep</b>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onCloneDeep</b> (const me &amp;from)</td></tr>
 <tr class="separator:ad78216acb96f85e6e23db1b119a17bfa inherit pub_methods_classby_1_1clonable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Factory for creating expressions with source location information. </p>
+<p>Creates expression objects with proper source file and position metadata. Used by parser to track source locations for debugging and error reporting. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/ast/exprs/<a class="el" href="expr_maker_8hpp_source.html">exprMaker.hpp</a></li>
 </ul>
 </div><!-- contents -->

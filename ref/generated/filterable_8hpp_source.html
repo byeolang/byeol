@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,21 +108,22 @@ $(document).ready(function(){initNavTree('filterable_8hpp_source.html',''); init
 <div class="title">filterable.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;clog/common/dep.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="classby_1_1filterable.html">    6</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1filterable.html">filterable</a> {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classby_1_1filterable.html">filterable</a>() {}</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classby_1_1filterable.html#a02741ab458659bb7cc97a2d7ef7f9947">   12</a></span>&#160;        <span class="keyword">virtual</span> nbool <a class="code" href="classby_1_1filterable.html#a02741ab458659bb7cc97a2d7ef7f9947">filt</a>(errLv::level lv, <span class="keyword">const</span> std::string&amp; tag) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    };</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
-<div class="ttc" id="aclassby_1_1filterable_html"><div class="ttname"><a href="classby_1_1filterable.html">by::filterable</a></div><div class="ttdef"><b>Definition:</b> filterable.hpp:6</div></div>
+<a href="filterable_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="clog_2common_2dep_8hpp.html">clog/common/dep.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classby_1_1filterable.html">   11</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1filterable.html">filterable</a> {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keyword">virtual</span> ~<a class="code" href="classby_1_1filterable.html">filterable</a>() {}</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classby_1_1filterable.html#a02741ab458659bb7cc97a2d7ef7f9947">   17</a></span>&#160;        <span class="keyword">virtual</span> nbool <a class="code" href="classby_1_1filterable.html#a02741ab458659bb7cc97a2d7ef7f9947">filt</a>(errLv::level lv, <span class="keyword">const</span> std::string&amp; tag) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    };</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;}</div>
+<div class="ttc" id="aclassby_1_1filterable_html"><div class="ttname"><a href="classby_1_1filterable.html">by::filterable</a></div><div class="ttdoc">Interface for objects that can filter log messages.</div><div class="ttdef"><b>Definition:</b> filterable.hpp:11</div></div>
 <div class="ttc" id="aclassby_1_1filterable_html_a02741ab458659bb7cc97a2d7ef7f9947"><div class="ttname"><a href="classby_1_1filterable.html#a02741ab458659bb7cc97a2d7ef7f9947">by::filterable::filt</a></div><div class="ttdeci">virtual nbool filt(errLv::level lv, const std::string &amp;tag) const =0</div></div>
+<div class="ttc" id="aclog_2common_2dep_8hpp_html"><div class="ttname"><a href="clog_2common_2dep_8hpp.html">dep.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,63 +108,64 @@ $(document).ready(function(){initNavTree('leaf_token_scan_8hpp_source.html','');
 <div class="title">leafTokenScan.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;leaf/parser/leafTokenScanable.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">typedef</span> <span class="keyword">union </span>ZZSTYPE ZZSTYPE;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>lloc ZZLTYPE;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">void</span>* zzscan_t;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">class </span>leafParser;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">class </span>leafTokenDispatcher;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classby_1_1leaf_token_scan.html">   14</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1leaf_token_scan.html">leafTokenScan</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1leaf_token_scanable.html">leafTokenScanable</a> {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        BY(ME(<a class="code" href="classby_1_1leaf_token_scan.html">leafTokenScan</a>))</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">using</span> leafTokenScanable::onScan;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">virtual</span> nint onScan(<a class="code" href="classby_1_1leaf_parser.html">leafParser</a>&amp; ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            nbool&amp; isBypass) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    };</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classby_1_1leaf_normal_scan.html">   23</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1leaf_normal_scan.html">leafNormalScan</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1leaf_token_scan.html">leafTokenScan</a> {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        BY(ME(<a class="code" href="classby_1_1leaf_normal_scan.html">leafNormalScan</a>, <a class="code" href="classby_1_1leaf_token_scan.html">leafTokenScan</a>))</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1leaf_parser.html">leafParser</a>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">using</span> super::onScan;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        nint onScan(<a class="code" href="classby_1_1leaf_parser.html">leafParser</a>&amp; ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner,</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            nbool&amp; isBypass) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">static</span> <a class="code" href="classby_1_1leaf_normal_scan.html">leafNormalScan</a>* _instance;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    };</div>
+<a href="leaf_token_scan_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="leaf_token_scanable_8hpp.html">leaf/parser/leafTokenScanable.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">typedef</span> <span class="keyword">union </span>ZZSTYPE ZZSTYPE;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>lloc ZZLTYPE;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">void</span>* zzscan_t;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">class </span>leafParser;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">class </span>leafTokenDispatcher;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classby_1_1leaf_token_scan.html">   19</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1leaf_token_scan.html">leafTokenScan</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1leaf_token_scanable.html">leafTokenScanable</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        BY(ME(<a class="code" href="classby_1_1leaf_token_scan.html">leafTokenScan</a>))</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">using</span> leafTokenScanable::onScan;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keyword">virtual</span> nint onScan(<a class="code" href="classby_1_1leaf_parser.html">leafParser</a>&amp; ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner,</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            nbool&amp; isBypass) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    };</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classby_1_1leaf_normal_scan.html">   32</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1leaf_normal_scan.html">leafNormalScan</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1leaf_token_scan.html">leafTokenScan</a> {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        BY(ME(<a class="code" href="classby_1_1leaf_normal_scan.html">leafNormalScan</a>, <a class="code" href="classby_1_1leaf_token_scan.html">leafTokenScan</a>))</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1leaf_parser.html">leafParser</a>;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classby_1_1leaf_indent_scan.html">   36</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1leaf_indent_scan.html">leafIndentScan</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1leaf_token_scan.html">leafTokenScan</a> {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        BY(ME(<a class="code" href="classby_1_1leaf_indent_scan.html">leafIndentScan</a>, <a class="code" href="classby_1_1leaf_token_scan.html">leafTokenScan</a>))</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1leaf_parser.html">leafParser</a>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">using</span> super::onScan;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        nint onScan(<a class="code" href="classby_1_1leaf_parser.html">leafParser</a>&amp; ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner,</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            nbool&amp; isBypass) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">using</span> super::onScan;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        nint onScan(<a class="code" href="classby_1_1leaf_parser.html">leafParser</a>&amp; ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner,</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            nbool&amp; isBypass) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keyword">static</span> <a class="code" href="classby_1_1leaf_normal_scan.html">leafNormalScan</a>* _instance;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    };</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        nint _onIndent(<a class="code" href="classby_1_1leaf_parser.html">leafParser</a>&amp; ev, ncnt col, nint tok);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        nint _onDedent(<a class="code" href="classby_1_1leaf_parser.html">leafParser</a>&amp; ev, ncnt col, nint tok);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">static</span> <a class="code" href="classby_1_1leaf_indent_scan.html">leafIndentScan</a>* _instance;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    };</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;} <span class="comment">// namespace by</span></div>
-<div class="ttc" id="aclassby_1_1leaf_indent_scan_html"><div class="ttname"><a href="classby_1_1leaf_indent_scan.html">by::leafIndentScan</a></div><div class="ttdef"><b>Definition:</b> leafTokenScan.hpp:36</div></div>
-<div class="ttc" id="aclassby_1_1leaf_normal_scan_html"><div class="ttname"><a href="classby_1_1leaf_normal_scan.html">by::leafNormalScan</a></div><div class="ttdef"><b>Definition:</b> leafTokenScan.hpp:23</div></div>
-<div class="ttc" id="aclassby_1_1leaf_parser_html"><div class="ttname"><a href="classby_1_1leaf_parser.html">by::leafParser</a></div><div class="ttdef"><b>Definition:</b> leafParser.hpp:12</div></div>
-<div class="ttc" id="aclassby_1_1leaf_token_scan_html"><div class="ttname"><a href="classby_1_1leaf_token_scan.html">by::leafTokenScan</a></div><div class="ttdef"><b>Definition:</b> leafTokenScan.hpp:14</div></div>
-<div class="ttc" id="aclassby_1_1leaf_token_scanable_html"><div class="ttname"><a href="classby_1_1leaf_token_scanable.html">by::leafTokenScanable</a></div><div class="ttdef"><b>Definition:</b> leafTokenScanable.hpp:13</div></div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classby_1_1leaf_indent_scan.html">   49</a></span>&#160;    <span class="keyword">class </span>_nout <a class="code" href="classby_1_1leaf_indent_scan.html">leafIndentScan</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1leaf_token_scan.html">leafTokenScan</a> {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        BY(ME(<a class="code" href="classby_1_1leaf_indent_scan.html">leafIndentScan</a>, <a class="code" href="classby_1_1leaf_token_scan.html">leafTokenScan</a>))</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classby_1_1leaf_parser.html">leafParser</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">using</span> super::onScan;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        nint onScan(<a class="code" href="classby_1_1leaf_parser.html">leafParser</a>&amp; ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner,</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            nbool&amp; isBypass) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        nint _onIndent(<a class="code" href="classby_1_1leaf_parser.html">leafParser</a>&amp; ev, ncnt col, nint tok);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        nint _onDedent(<a class="code" href="classby_1_1leaf_parser.html">leafParser</a>&amp; ev, ncnt col, nint tok);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keyword">static</span> <a class="code" href="classby_1_1leaf_indent_scan.html">leafIndentScan</a>* _instance;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    };</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;} <span class="comment">// namespace by</span></div>
+<div class="ttc" id="aclassby_1_1leaf_indent_scan_html"><div class="ttname"><a href="classby_1_1leaf_indent_scan.html">by::leafIndentScan</a></div><div class="ttdoc">Indentation-aware token scanning mode.</div><div class="ttdef"><b>Definition:</b> leafTokenScan.hpp:49</div></div>
+<div class="ttc" id="aclassby_1_1leaf_normal_scan_html"><div class="ttname"><a href="classby_1_1leaf_normal_scan.html">by::leafNormalScan</a></div><div class="ttdoc">Normal token scanning mode.</div><div class="ttdef"><b>Definition:</b> leafTokenScan.hpp:32</div></div>
+<div class="ttc" id="aclassby_1_1leaf_parser_html"><div class="ttname"><a href="classby_1_1leaf_parser.html">by::leafParser</a></div><div class="ttdoc">Parser for leaf configuration language.</div><div class="ttdef"><b>Definition:</b> leafParser.hpp:17</div></div>
+<div class="ttc" id="aclassby_1_1leaf_token_scan_html"><div class="ttname"><a href="classby_1_1leaf_token_scan.html">by::leafTokenScan</a></div><div class="ttdoc">Base class for token scanning strategies.</div><div class="ttdef"><b>Definition:</b> leafTokenScan.hpp:19</div></div>
+<div class="ttc" id="aclassby_1_1leaf_token_scanable_html"><div class="ttname"><a href="classby_1_1leaf_token_scanable.html">by::leafTokenScanable</a></div><div class="ttdoc">Interface for token scanning during leaf parsing.</div><div class="ttdef"><b>Definition:</b> leafTokenScanable.hpp:18</div></div>
+<div class="ttc" id="aleaf_token_scanable_8hpp_html"><div class="ttname"><a href="leaf_token_scanable_8hpp.html">leafTokenScanable.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

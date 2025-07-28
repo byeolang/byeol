@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -118,19 +113,24 @@ $(document).ready(function(){initNavTree('classby_1_1ntype.html',''); initResiza
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1ntype-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::ntype Class Reference</div>  </div>
+<div class="title">by::ntype Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Native type system for byeol language.  
+ <a href="classby_1_1ntype.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ntype_8hpp_source.html">ntype.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::ntype:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1ntype.png" usemap="#by::ntype_map" alt=""/>
   <map id="by::ntype_map" name="by::ntype_map">
-<area href="classby_1_1type.html" alt="by::type" shape="rect" coords="63,0,179,24"/>
-<area href="classby_1_1expr_1_1expr_type.html" alt="by::expr::exprType" shape="rect" coords="0,112,116,136"/>
-<area href="classby_1_1mgd_type.html" alt="by::mgdType" shape="rect" coords="126,112,242,136"/>
-<area href="classby_1_1func_mgd_type.html" alt="by::funcMgdType" shape="rect" coords="126,168,242,192"/>
+<area href="classby_1_1type.html" title="Base class for runtime type information in byeol language." alt="by::type" shape="rect" coords="63,0,179,24"/>
+<area href="classby_1_1expr_1_1expr_type.html" title="Type information for expression nodes." alt="by::expr::exprType" shape="rect" coords="0,112,116,136"/>
+<area href="classby_1_1mgd_type.html" title="Managed type for byeol objects." alt="by::mgdType" shape="rect" coords="126,112,242,136"/>
+<area href="classby_1_1func_mgd_type.html" title="Managed type for function objects." alt="by::funcMgdType" shape="rect" coords="126,168,242,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -340,6 +340,7 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aa5dc9f2bc7369d5f877c18dd1f5817f8 inherit pub_methods_classby_1_1type"><td class="memTemplItemLeft" align="right" valign="top">nbool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>isSub</b> () const</td></tr>
 <tr class="separator:aa5dc9f2bc7369d5f877c18dd1f5817f8 inherit pub_methods_classby_1_1type"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3771e3366a14ac81a1e1a18adee79ece inherit pub_methods_classby_1_1type"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classby_1_1type.html">type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1type.html#a3771e3366a14ac81a1e1a18adee79ece">getStatic</a> () const BY_CONST_FUNC(_getStatic()) virtual const nchar *getMetaTypeName() const</td></tr>
+<tr class="memdesc:a3771e3366a14ac81a1e1a18adee79ece inherit pub_methods_classby_1_1type"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get meta type name for efficient type checking.  <a href="classby_1_1type.html#a3771e3366a14ac81a1e1a18adee79ece">More...</a><br /></td></tr>
 <tr class="separator:a3771e3366a14ac81a1e1a18adee79ece inherit pub_methods_classby_1_1type"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
@@ -426,7 +427,10 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>arr</b></td></tr>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>genericOrigin</b></td></tr>
 <tr class="separator:a8ab7c001275ccb143c7af1a9c5c88387"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Native type system for byeol language. </p>
+<p>Core type class that provides type information, type conversion, and type deduction. Supports implicit/explicit casting, type compatibility checking, and parameter management. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a0de2d5218723fe9f116f7e6fd60ed35d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0de2d5218723fe9f116f7e6fd60ed35d">&#9670;&nbsp;</a></span>deduce() <span class="overload">[1/2]</span></h2>
 

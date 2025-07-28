@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -114,9 +109,12 @@ $(document).ready(function(){initNavTree('classby_1_1closure.html',''); initResi
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classby_1_1closure-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::closure Class Reference</div>  </div>
+<div class="title">by::closure Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Function closure with captured object scope.  
+ <a href="classby_1_1closure.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="closure_8hpp_source.html">closure.hpp</a>&gt;</code></p>
 <div class="dynheader">
@@ -125,12 +123,12 @@ Inheritance diagram for by::closure:</div>
  <div class="center">
   <img src="classby_1_1closure.png" usemap="#by::closure_map" alt=""/>
   <map id="by::closure_map" name="by::closure_map">
-<area href="classby_1_1base_func.html" alt="by::baseFunc" shape="rect" coords="140,168,270,192"/>
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="140,112,270,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="70,56,200,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="140,0,270,24"/>
+<area href="classby_1_1base_func.html" title="Base class for all function types." alt="by::baseFunc" shape="rect" coords="140,168,270,192"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="140,112,270,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="70,56,200,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="140,0,270,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -548,7 +546,8 @@ static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td>
 <tr class="separator:a3893a905b2e55a614f0c4f96aba0b315 inherit pro_static_methods_classby_1_1instance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>closure is a proxy for a func with captured object scope. when you input arguments, its object scope was replaced to the captured scope. so eventually, you don't need to refer any object if you carry a func with closure. </p>
+<div class="textblock"><p>Function closure with captured object scope. </p>
+<p>Proxy for function with captured object scope for closures. When arguments are provided, object scope is replaced with captured scope. </p><dl class="section note"><dt>Note</dt><dd>Allows carrying functions without needing to reference any object. </dd></dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a858a268996a77a686ec0ce6c69f1d9a6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a858a268996a77a686ec0ce6c69f1d9a6">&#9670;&nbsp;</a></span>getParams()</h2>

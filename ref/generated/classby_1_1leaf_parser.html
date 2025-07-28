@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,16 +108,21 @@ $(document).ready(function(){initNavTree('classby_1_1leaf_parser.html',''); init
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1leaf_parser-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::leafParser Class Reference</div>  </div>
+<div class="title">by::leafParser Class Reference<div class="ingroups"><a class="el" href="group__leaf.html">Leaf</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Parser for leaf configuration language.  
+ <a href="classby_1_1leaf_parser.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="leaf_parser_8hpp_source.html">leafParser.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::leafParser:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1leaf_parser.png" usemap="#by::leafParser_map" alt=""/>
   <map id="by::leafParser_map" name="by::leafParser_map">
-<area href="classby_1_1leaf_token_scanable.html" alt="by::leafTokenScanable" shape="rect" coords="0,0,140,24"/>
+<area href="classby_1_1leaf_token_scanable.html" title="Interface for token scanning during leaf parsing." alt="by::leafTokenScanable" shape="rect" coords="0,0,140,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -240,7 +240,10 @@ virtual nint&#160;</td><td class="memItemRight" valign="bottom"><b>onScan</b> (<
 nint&#160;</td><td class="memItemRight" valign="bottom"><b>onScan</b> (<a class="el" href="classby_1_1leaf_parser.html">leafParser</a> &amp;ps, ZZSTYPE *val, ZZLTYPE *loc, zzscan_t scanner)</td></tr>
 <tr class="separator:a99bf424b14614d0dcf783dae57ff9d90 inherit pub_methods_classby_1_1leaf_token_scanable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Parser for leaf configuration language. </p>
+<p>Main parser class that converts leaf language source code into AST. Handles tokenization, parsing, and error reporting for the leaf configuration format. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/leaf/parser/<a class="el" href="leaf_parser_8hpp_source.html">leafParser.hpp</a></li>
 </ul>
 </div><!-- contents -->

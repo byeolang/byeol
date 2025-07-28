@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,16 +108,21 @@ $(document).ready(function(){initNavTree('classby_1_1filters.html',''); initResi
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1filters-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::filters Class Reference</div>  </div>
+<div class="title">by::filters Class Reference<div class="ingroups"><a class="el" href="group__clog.html">Clog</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Collection of filterable objects for logging control.  
+ <a href="classby_1_1filters.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="filters_8hpp_source.html">filters.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::filters:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1filters.png" usemap="#by::filters_map" alt=""/>
   <map id="by::filters_map" name="by::filters_map">
-<area href="classby_1_1filterable.html" alt="by::filterable" shape="rect" coords="0,0,81,24"/>
+<area href="classby_1_1filterable.html" title="Interface for objects that can filter log messages." alt="by::filterable" shape="rect" coords="0,0,81,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -150,7 +150,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>del</b> ()</td></tr>
 <tr class="memitem:a4d602b2e3ef7dca6f6197f7e4f3140d1"><td class="memItemLeft" align="right" valign="top">nbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1filters.html#a4d602b2e3ef7dca6f6197f7e4f3140d1">filt</a> (errLv::level lv, const std::string &amp;tag) const</td></tr>
 <tr class="separator:a4d602b2e3ef7dca6f6197f7e4f3140d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Collection of filterable objects for logging control. </p>
+<p>Manages multiple filter objects that collectively determine whether log messages should be processed based on level and tag criteria. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a4d602b2e3ef7dca6f6197f7e4f3140d1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4d602b2e3ef7dca6f6197f7e4f3140d1">&#9670;&nbsp;</a></span>filt()</h2>
 

@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,19 +108,24 @@ $(document).ready(function(){initNavTree('classby_1_1generalizer.html',''); init
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1generalizer-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::generalizer Class Reference</div>  </div>
+<div class="title">by::generalizer Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Visitor for generic type parameter replacement.  
+ <a href="classby_1_1generalizer.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="generalizer_8hpp_source.html">generalizer.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::generalizer:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1generalizer.png" usemap="#by::generalizer_map" alt=""/>
   <map id="by::generalizer_map" name="by::generalizer_map">
-<area href="classby_1_1visitor.html" alt="by::visitor" shape="rect" coords="83,112,239,136"/>
+<area href="classby_1_1visitor.html" title="Base visitor class for AST traversal." alt="by::visitor" shape="rect" coords="83,112,239,136"/>
 <area href="classby_1_1worker.html" alt="by::worker&lt; void, node &gt;" shape="rect" coords="83,56,239,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,156,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="166,0,322,24"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,156,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="166,0,322,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -387,7 +387,10 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>_onEndWork</b
 void&#160;</td><td class="memItemRight" valign="bottom"><b>_onEndErrReport</b> (const <a class="el" href="classby_1_1err_report.html">errReport</a> &amp;rpt) const</td></tr>
 <tr class="separator:a97d052a6e0a38f2f577cf38d48d072a1 inherit pro_methods_classby_1_1worker"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Visitor for generic type parameter replacement. </p>
+<p>Replaces generic type parameters with concrete types in AST nodes. Used during generic type instantiation to create specialized types. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a29373b90cdaf71cb2b0ebf8571b33dda"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a29373b90cdaf71cb2b0ebf8571b33dda">&#9670;&nbsp;</a></span>add()</h2>
 

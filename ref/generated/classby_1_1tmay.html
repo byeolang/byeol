@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,9 +108,12 @@ $(document).ready(function(){initNavTree('classby_1_1tmay.html',''); initResizab
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1tmay-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::tmay&lt; T &gt; Class Template Reference</div>  </div>
+<div class="title">by::tmay&lt; T &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__indep.html">Indep</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Optional value wrapper with byeol-style interface.  
+ <a href="classby_1_1tmay.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="tmay_8hpp_source.html">tmay.hpp</a>&gt;</code></p>
 <div class="dynheader">
@@ -124,7 +122,7 @@ Inheritance diagram for by::tmay&lt; T &gt;:</div>
  <div class="center">
   <img src="classby_1_1tmay.png" usemap="#by::tmay_3C_20T_20_3E_map" alt=""/>
   <map id="by::tmay_3C_20T_20_3E_map" name="by::tmay_3C_20T_20_3E_map">
-<area href="classby_1_1tres.html" alt="by::tres&lt; T, R &gt;" shape="rect" coords="0,112,109,136"/>
+<area href="classby_1_1tres.html" title="Template result container with error handling capabilities." alt="by::tres&lt; T, R &gt;" shape="rect" coords="0,112,109,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -174,12 +172,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>set</b> (cons
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
 class by::tmay&lt; T &gt;</h3>
 
-<p>this is a wrapper class for std::optional. improved <code>optional</code>'s func name and signature because they are somewhat inconsistent from the perspective of byeol and convention rules. as with std::optional, calling get() on an object that doesn't actually have a value will cause the app to crash.</p>
-<p>in byeol, there are two cases where data must be returned with an error.</p><ol type="1">
-<li>When returning by ref: use a binder such as tstr&lt;T&gt; or tweak&lt;T&gt;.</li>
-<li>When returning by value: use tmay&lt;T&gt;.</li>
-</ol>
-<p>for details, refer to the return type rules of byeol. </p>
+<p>Optional value wrapper with byeol-style interface. </p>
+<p>Wrapper around std::optional with improved function names and signatures consistent with byeol conventions. Provides safe value handling for return-by-value scenarios. Use tstr&lt;T&gt; or tweak&lt;T&gt; for return-by-reference cases. </p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/indep/helper/<a class="el" href="tmay_8hpp_source.html">tmay.hpp</a></li>
 </ul>

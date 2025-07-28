@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -125,16 +120,16 @@ Inheritance diagram for by::nerr:</div>
  <div class="center">
   <img src="structby_1_1nerr.png" usemap="#by::nerr_map" alt=""/>
   <map id="by::nerr_map" name="by::nerr_map">
-<area href="classby_1_1base_err.html" alt="by::baseErr" shape="rect" coords="315,224,445,248"/>
-<area href="classby_1_1base_obj.html" title="baseObj handles frame injection event of all objects." alt="by::baseObj" shape="rect" coords="210,168,340,192"/>
-<area href="classby_1_1errorable.html" alt="by::errorable" shape="rect" coords="420,168,550,192"/>
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="140,112,270,136"/>
-<area href="classby_1_1statable.html" alt="by::statable" shape="rect" coords="280,112,410,136"/>
-<area href="classby_1_1dumpable.html" alt="by::dumpable" shape="rect" coords="420,112,550,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="70,56,200,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="140,0,270,24"/>
+<area href="classby_1_1base_err.html" title="Base class for all error types." alt="by::baseErr" shape="rect" coords="315,224,445,248"/>
+<area href="classby_1_1base_obj.html" title="Base class for all objects in byeol language." alt="by::baseObj" shape="rect" coords="210,168,340,192"/>
+<area href="classby_1_1errorable.html" title="Interface for objects that can report errors." alt="by::errorable" shape="rect" coords="420,168,550,192"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="140,112,270,136"/>
+<area href="classby_1_1statable.html" title="Interface for objects with compilation state." alt="by::statable" shape="rect" coords="280,112,410,136"/>
+<area href="classby_1_1dumpable.html" title="Interface for objects that can dump their state." alt="by::dumpable" shape="rect" coords="420,112,550,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="70,56,200,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="140,0,270,24"/>
 <area href="structby_1_1ndummy_err.html" alt="by::ndummyErr" shape="rect" coords="315,336,445,360"/>
   </map>
 </div></div>
@@ -160,10 +155,12 @@ nbool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (cons
 const <a class="el" href="classby_1_1base_obj.html">baseObj</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getOrigin</b> () const override</td></tr>
 <tr class="separator:a95899d72191ef4db3820eb6c7f262d54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80e459452cb6382e7a41da64e18247c4"><td class="memItemLeft" align="right" valign="top"><a id="a80e459452cb6382e7a41da64e18247c4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>log</b> () const override</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby_1_1nerr.html#a80e459452cb6382e7a41da64e18247c4">log</a> () const override</td></tr>
+<tr class="memdesc:a80e459452cb6382e7a41da64e18247c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log error message. <br /></td></tr>
 <tr class="separator:a80e459452cb6382e7a41da64e18247c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a648c709691dbabe112e4ac88921a61b1"><td class="memItemLeft" align="right" valign="top"><a id="a648c709691dbabe112e4ac88921a61b1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>logStack</b> () const override</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structby_1_1nerr.html#a648c709691dbabe112e4ac88921a61b1">logStack</a> () const override</td></tr>
+<tr class="memdesc:a648c709691dbabe112e4ac88921a61b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log error with stack trace. <br /></td></tr>
 <tr class="separator:a648c709691dbabe112e4ac88921a61b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb7cb1b8e26fd327cd80825644297029"><td class="memItemLeft" align="right" valign="top"><a id="adb7cb1b8e26fd327cd80825644297029"></a>
 const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMsg</b> () const override</td></tr>
@@ -194,7 +191,8 @@ nbool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (cons
 const <a class="el" href="classby_1_1callstack.html">callstack</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getStack</b> () const</td></tr>
 <tr class="separator:ad3a15a94c703ee82371a034b60a0764f inherit pub_methods_classby_1_1base_err"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07e1f7d0bb289ce113a1215e3b7093c7 inherit pub_methods_classby_1_1base_err"><td class="memItemLeft" align="right" valign="top"><a id="a07e1f7d0bb289ce113a1215e3b7093c7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>dump</b> () const override</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1base_err.html#a07e1f7d0bb289ce113a1215e3b7093c7">dump</a> () const override</td></tr>
+<tr class="memdesc:a07e1f7d0bb289ce113a1215e3b7093c7 inherit pub_methods_classby_1_1base_err"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump object state for debugging. <br /></td></tr>
 <tr class="separator:a07e1f7d0bb289ce113a1215e3b7093c7 inherit pub_methods_classby_1_1base_err"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78bc31077de0389fd6395fb3d5b0c53c inherit pub_methods_classby_1_1base_err"><td class="memItemLeft" align="right" valign="top"><a id="a78bc31077de0389fd6395fb3d5b0c53c"></a>
 errLv::level&#160;</td><td class="memItemRight" valign="bottom"><b>getLv</b> () const override</td></tr>
@@ -549,10 +547,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>inFrame</b> () const<
 <tr class="separator:af4fa9875c39255b969d83580a41a9cf6 inherit pub_methods_classby_1_1frame_interactable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classby_1_1errorable"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classby_1_1errorable')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classby_1_1errorable.html">by::errorable</a></td></tr>
 <tr class="memitem:a277e8734cc9ef20765f87173761fda0c inherit pub_methods_classby_1_1errorable"><td class="memItemLeft" align="right" valign="top"><a id="a277e8734cc9ef20765f87173761fda0c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>dbgLog</b> () const</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1errorable.html#a277e8734cc9ef20765f87173761fda0c">dbgLog</a> () const</td></tr>
+<tr class="memdesc:a277e8734cc9ef20765f87173761fda0c inherit pub_methods_classby_1_1errorable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log error in debug mode only. <br /></td></tr>
 <tr class="separator:a277e8734cc9ef20765f87173761fda0c inherit pub_methods_classby_1_1errorable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0402b76bf555cb04c0008463c2a908f inherit pub_methods_classby_1_1errorable"><td class="memItemLeft" align="right" valign="top"><a id="ac0402b76bf555cb04c0008463c2a908f"></a>
-const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getLevelName</b> () const</td></tr>
+const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1errorable.html#ac0402b76bf555cb04c0008463c2a908f">getLevelName</a> () const</td></tr>
+<tr class="memdesc:ac0402b76bf555cb04c0008463c2a908f inherit pub_methods_classby_1_1errorable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get human-readable error level name. <br /></td></tr>
 <tr class="separator:ac0402b76bf555cb04c0008463c2a908f inherit pub_methods_classby_1_1errorable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>

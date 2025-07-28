@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,19 +108,24 @@ $(document).ready(function(){initNavTree('classby_1_1allocator.html',''); initRe
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1allocator-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::allocator Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">by::allocator Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__memlite.html">Memlite</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Abstract allocator interface for memory management.  
+ <a href="classby_1_1allocator.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="allocator_8hpp_source.html">allocator.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::allocator:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1allocator.png" usemap="#by::allocator_map" alt=""/>
   <map id="by::allocator_map" name="by::allocator_map">
-<area href="classby_1_1memory_haver.html" alt="by::memoryHaver" shape="rect" coords="60,0,171,24"/>
-<area href="classby_1_1chunk.html" alt="by::chunk" shape="rect" coords="0,112,111,136"/>
-<area href="classby_1_1chunks.html" alt="by::chunks" shape="rect" coords="121,112,232,136"/>
-<area href="classby_1_1watcher.html" alt="by::watcher" shape="rect" coords="0,168,111,192"/>
+<area href="classby_1_1memory_haver.html" title="Abstract interface for objects that manage memory." alt="by::memoryHaver" shape="rect" coords="60,0,171,24"/>
+<area href="classby_1_1chunk.html" title="Memory chunk for block-based allocation." alt="by::chunk" shape="rect" coords="0,112,111,136"/>
+<area href="classby_1_1chunks.html" title="Collection of memory chunks for scalable allocation." alt="by::chunks" shape="rect" coords="121,112,232,136"/>
+<area href="classby_1_1watcher.html" title="Memory watcher for tracking instance lifecycle and allocation." alt="by::watcher" shape="rect" coords="0,168,111,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -173,7 +173,10 @@ Additional Inherited Members</h2></td></tr>
 virtual void *&#160;</td><td class="memItemRight" valign="bottom"><b>_get</b> (nidx n)=0</td></tr>
 <tr class="separator:af3670e09b1b87b29613ed35a29603c65 inherit pro_methods_classby_1_1memory_haver"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Abstract allocator interface for memory management. </p>
+<p>Provides block-based allocation and deallocation interface. Base class for various allocation strategies in the memory pool system. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/memlite/pool/<a class="el" href="allocator_8hpp_source.html">allocator.hpp</a></li>
 </ul>
 </div><!-- contents -->

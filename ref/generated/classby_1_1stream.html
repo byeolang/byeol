@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,18 +108,23 @@ $(document).ready(function(){initNavTree('classby_1_1stream.html',''); initResiz
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1stream-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::stream Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">by::stream Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__clog.html">Clog</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Base class for all logging output streams.  
+ <a href="classby_1_1stream.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="stream_2stream_8hpp_source.html">stream.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::stream:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1stream.png" usemap="#by::stream_map" alt=""/>
   <map id="by::stream_map" name="by::stream_map">
-<area href="classby_1_1console_stream.html" alt="by::consoleStream" shape="rect" coords="0,56,115,80"/>
-<area href="classby_1_1file_log_stream.html" alt="by::fileLogStream" shape="rect" coords="125,56,240,80"/>
-<area href="classby_1_1logger.html" alt="by::logger" shape="rect" coords="250,56,365,80"/>
+<area href="classby_1_1console_stream.html" title="Console output stream for logging to standard output." alt="by::consoleStream" shape="rect" coords="0,56,115,80"/>
+<area href="classby_1_1file_log_stream.html" title="File output stream for logging to disk files." alt="by::fileLogStream" shape="rect" coords="125,56,240,80"/>
+<area href="classby_1_1logger.html" title="Main logging interface for the byeol language system." alt="by::logger" shape="rect" coords="250,56,365,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -159,7 +159,10 @@ virtual nbool&#160;</td><td class="memItemRight" valign="bottom"><b>isInit</b> (
 virtual nbool&#160;</td><td class="memItemRight" valign="bottom"><b>rel</b> ()</td></tr>
 <tr class="separator:ad9bf81760fc4ddedd5e773644357cbc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Base class for all logging output streams. </p>
+<p>Provides the fundamental interface for logging destinations such as console output, file output, or network logging. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a3c4052659a2241932fe3b9c8b2f80804"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3c4052659a2241932fe3b9c8b2f80804">&#9670;&nbsp;</a></span>logBypass()</h2>
 

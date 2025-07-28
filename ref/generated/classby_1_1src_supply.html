@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -114,20 +109,25 @@ $(document).ready(function(){initNavTree('classby_1_1src_supply.html',''); initR
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classby_1_1src_supply-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::srcSupply Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">by::srcSupply Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Source code supply interface.  
+ <a href="classby_1_1src_supply.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="src_supply_8hpp_source.html">srcSupply.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::srcSupply:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1src_supply.png" usemap="#by::srcSupply_map" alt=""/>
   <map id="by::srcSupply_map" name="by::srcSupply_map">
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="63,56,180,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,117,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="127,0,244,24"/>
-<area href="classby_1_1buf_supply.html" alt="by::bufSupply" shape="rect" coords="0,168,117,192"/>
-<area href="classby_1_1file_supply.html" alt="by::fileSupply" shape="rect" coords="127,168,244,192"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="63,56,180,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,117,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="127,0,244,24"/>
+<area href="classby_1_1buf_supply.html" title="Buffer-based source supply." alt="by::bufSupply" shape="rect" coords="0,168,117,192"/>
+<area href="classby_1_1file_supply.html" title="File-based source supply." alt="by::fileSupply" shape="rect" coords="127,168,244,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -244,7 +244,10 @@ Additional Inherited Members</h2></td></tr>
 static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_getMgr</b> ()</td></tr>
 <tr class="separator:a3893a905b2e55a614f0c4f96aba0b315 inherit pro_static_methods_classby_1_1instance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Source code supply interface. </p>
+<p>Abstract base for supplying source code to the parser from various sources. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a5f138659226ebb2b9601ef39de210fe3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5f138659226ebb2b9601ef39de210fe3">&#9670;&nbsp;</a></span>onSupplySrc()</h2>
 

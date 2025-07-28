@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -116,23 +111,28 @@ $(document).ready(function(){initNavTree('classby_1_1tbase_bridge_func.html','')
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classby_1_1tbase_bridge_func-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::tbaseBridgeFunc&lt; Ret, T, Marshaling, Args &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">by::tbaseBridgeFunc&lt; Ret, T, Marshaling, Args &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Base bridge function template.  
+ <a href="classby_1_1tbase_bridge_func.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="tbridge_func_8hpp_source.html">tbridgeFunc.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::tbaseBridgeFunc&lt; Ret, T, Marshaling, Args &gt;:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1tbase_bridge_func.png" usemap="#by::tbaseBridgeFunc_3C_20Ret_2C_20T_2C_20Marshaling_2C_20Args_20_3E_map" alt=""/>
   <map id="by::tbaseBridgeFunc_3C_20Ret_2C_20T_2C_20Marshaling_2C_20Args_20_3E_map" name="by::tbaseBridgeFunc_3C_20Ret_2C_20T_2C_20Marshaling_2C_20Args_20_3E_map">
-<area href="classby_1_1base_func.html" alt="by::baseFunc" shape="rect" coords="568,168,1126,192"/>
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="568,112,1126,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="284,56,842,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="852,56,1410,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,558,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="568,0,1126,24"/>
+<area href="classby_1_1base_func.html" title="Base class for all function types." alt="by::baseFunc" shape="rect" coords="568,168,1126,192"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="568,112,1126,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="284,56,842,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="852,56,1410,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,558,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="568,0,1126,24"/>
 <area href="classby_1_1tbridge_func.html" alt="by::tbridgeFunc&lt; T, T, tifSub&lt; tadaptiveSuper&lt; T &gt;::super, baseObj &gt;::is, tmarshaling, Args... &gt;" shape="rect" coords="568,280,1126,304"/>
-<area href="classby_1_1tbridge_ctor.html" alt="by::tbridgeCtor&lt; T, Args &gt;" shape="rect" coords="568,336,1126,360"/>
+<area href="classby_1_1tbridge_ctor.html" title="Bridge constructor for C++ objects." alt="by::tbridgeCtor&lt; T, Args &gt;" shape="rect" coords="568,336,1126,360"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -567,7 +567,13 @@ static const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>M
 static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_getMgr</b> ()</td></tr>
 <tr class="separator:a3893a905b2e55a614f0c4f96aba0b315 inherit pro_static_methods_classby_1_1instance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename Ret, typename T, template&lt; typename, nbool &gt; class Marshaling, typename... Args&gt;<br />
+class by::tbaseBridgeFunc&lt; Ret, T, Marshaling, Args &gt;</h3>
+
+<p>Base bridge function template. </p>
+<p>Base template for bridging C++ member functions with byeol function interface. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/bridge/cpp/<a class="el" href="tbridge_func_8hpp_source.html">tbridgeFunc.hpp</a></li>
 </ul>
 </div><!-- contents -->

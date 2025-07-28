@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -116,22 +111,27 @@ $(document).ready(function(){initNavTree('classby_1_1get_expr.html',''); initRes
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1get_expr-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::getExpr Class Reference</div>  </div>
+<div class="title">by::getExpr Class Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Expression for property and method access.  
+ <a href="classby_1_1get_expr.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="get_expr_8hpp_source.html">getExpr.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::getExpr:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1get_expr.png" usemap="#by::getExpr_map" alt=""/>
   <map id="by::getExpr_map" name="by::getExpr_map">
-<area href="classby_1_1expr.html" alt="by::expr" shape="rect" coords="140,168,270,192"/>
-<area href="classby_1_1node.html" title="node provides common API to manipulate its sub nodes." alt="by::node" shape="rect" coords="140,112,270,136"/>
-<area href="classby_1_1instance.html" alt="by::instance" shape="rect" coords="70,56,200,80"/>
-<area href="classby_1_1frame_interactable.html" alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
-<area href="classby_1_1clonable.html" alt="by::clonable" shape="rect" coords="140,0,270,24"/>
-<area href="classby_1_1get_generic_expr.html" alt="by::getGenericExpr" shape="rect" coords="140,280,270,304"/>
+<area href="classby_1_1expr.html" title="Base class for all expressions." alt="by::expr" shape="rect" coords="140,168,270,192"/>
+<area href="classby_1_1node.html" title="Base class for all AST nodes in byeol language." alt="by::node" shape="rect" coords="140,112,270,136"/>
+<area href="classby_1_1instance.html" title="Base class for all managed instances in memlite system." alt="by::instance" shape="rect" coords="70,56,200,80"/>
+<area href="classby_1_1frame_interactable.html" title="Interface for frame interaction." alt="by::frameInteractable" shape="rect" coords="210,56,340,80"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,130,24"/>
+<area href="classby_1_1clonable.html" title="Interface for objects that can be cloned." alt="by::clonable" shape="rect" coords="140,0,270,24"/>
+<area href="classby_1_1get_generic_expr.html" title="Generic type access expression." alt="by::getGenericExpr" shape="rect" coords="140,280,270,304"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -577,7 +577,10 @@ priorType prioritize&#160;</td><td class="memItemRight" valign="bottom"><b>NO_MA
 static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_getMgr</b> ()</td></tr>
 <tr class="separator:a3893a905b2e55a614f0c4f96aba0b315 inherit pro_static_methods_classby_1_1instance"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Expression for property and method access. </p>
+<p>Represents dot notation access expressions (e.g., obj.property, obj.method()). Handles both property access and method calls with argument evaluation. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a7eec250061cc8f94dc0de4413dfb84dc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7eec250061cc8f94dc0de4413dfb84dc">&#9670;&nbsp;</a></span>getArgs()</h2>
 

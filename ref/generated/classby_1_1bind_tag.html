@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -115,16 +110,21 @@ $(document).ready(function(){initNavTree('classby_1_1bind_tag.html',''); initRes
 <a href="#friends">Friends</a> &#124;
 <a href="classby_1_1bind_tag-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::bindTag Class Reference</div>  </div>
+<div class="title">by::bindTag Class Reference<div class="ingroups"><a class="el" href="group__memlite.html">Memlite</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Binding tag for instance reference tracking and lifecycle management.  
+ <a href="classby_1_1bind_tag.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="bind_tag_8hpp_source.html">bindTag.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::bindTag:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1bind_tag.png" usemap="#by::bindTag_map" alt=""/>
   <map id="by::bindTag_map" name="by::bindTag_map">
-<area href="classby_1_1type_providable.html" alt="by::typeProvidable" shape="rect" coords="0,0,154,24"/>
+<area href="classby_1_1type_providable.html" title="Interface for objects that can provide their type information." alt="by::typeProvidable" shape="rect" coords="0,0,154,24"/>
 <area href="classby_1_1tbindable.html" alt="by::tbindable&lt; instance &gt;" shape="rect" coords="164,0,318,24"/>
   </map>
 </div></div>
@@ -229,6 +229,7 @@ const void *&#160;</td><td class="memItemRight" valign="bottom"><b>cast</b> (con
 &#160;</td><td class="memItemRight" valign="bottom"><b>operator nbool</b> () const</td></tr>
 <tr class="separator:a1308e87b9ed85ad6d75856303e1066c7 inherit pub_methods_classby_1_1tbindable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69159b910a8dbc6b07409dfe68da90de inherit pub_methods_classby_1_1tbindable"><td class="memItemLeft" align="right" valign="top">nbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1tbindable.html#a69159b910a8dbc6b07409dfe68da90de">bind</a> (const <a class="el" href="classby_1_1instance.html">instance</a> *it)</td></tr>
+<tr class="memdesc:a69159b910a8dbc6b07409dfe68da90de inherit pub_methods_classby_1_1tbindable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind to instance pointer.  <a href="classby_1_1tbindable.html#a69159b910a8dbc6b07409dfe68da90de">More...</a><br /></td></tr>
 <tr class="separator:a69159b910a8dbc6b07409dfe68da90de inherit pub_methods_classby_1_1tbindable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9a21c2610ea2c73b81a6c2657acb4be inherit pub_methods_classby_1_1tbindable"><td class="memItemLeft" align="right" valign="top"><a id="ab9a21c2610ea2c73b81a6c2657acb4be"></a>
 nbool&#160;</td><td class="memItemRight" valign="bottom"><b>canBind</b> (const <a class="el" href="classby_1_1instance.html">instance</a> &amp;it) const</td></tr>
@@ -263,7 +264,10 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>weakTactic</b></td><
 class&#160;</td><td class="memItemRight" valign="bottom"><b>strTactic</b></td></tr>
 <tr class="separator:a344eb54ed0ed3eb659e11fa1add4da69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Binding tag for instance reference tracking and lifecycle management. </p>
+<p>Manages strong and weak references to instances, providing reference counting and automatic cleanup when references reach zero. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/memlite/watcher/<a class="el" href="bind_tag_8hpp_source.html">bindTag.hpp</a></li>
 </ul>
 </div><!-- contents -->

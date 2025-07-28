@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,18 +108,23 @@ $(document).ready(function(){initNavTree('classby_1_1errorable.html',''); initRe
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classby_1_1errorable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">by::errorable Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">by::errorable Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span><div class="ingroups"><a class="el" href="group__indep.html">Indep</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Interface for objects that can report errors.  
+ <a href="classby_1_1errorable.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="errorable_8hpp_source.html">errorable.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for by::errorable:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classby_1_1errorable.png" usemap="#by::errorable_map" alt=""/>
   <map id="by::errorable_map" name="by::errorable_map">
-<area href="classby_1_1dumpable.html" alt="by::dumpable" shape="rect" coords="53,0,149,24"/>
-<area href="classby_1_1base_err.html" alt="by::baseErr" shape="rect" coords="53,112,149,136"/>
-<area href="classby_1_1err.html" alt="by::err" shape="rect" coords="0,168,96,192"/>
+<area href="classby_1_1dumpable.html" title="Interface for objects that can dump their state." alt="by::dumpable" shape="rect" coords="53,0,149,24"/>
+<area href="classby_1_1base_err.html" title="Base class for all error types." alt="by::baseErr" shape="rect" coords="53,112,149,136"/>
+<area href="classby_1_1err.html" title="Standard error implementation." alt="by::err" shape="rect" coords="0,168,96,192"/>
 <area href="structby_1_1nerr.html" alt="by::nerr" shape="rect" coords="106,168,202,192"/>
 <area href="structby_1_1ndummy_err.html" alt="by::ndummyErr" shape="rect" coords="106,224,202,248"/>
   </map>
@@ -133,13 +133,16 @@ Inheritance diagram for by::errorable:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a9986916851293c590d4b0fca53fbe922"><td class="memItemLeft" align="right" valign="top"><a id="a9986916851293c590d4b0fca53fbe922"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>log</b> () const =0</td></tr>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1errorable.html#a9986916851293c590d4b0fca53fbe922">log</a> () const =0</td></tr>
+<tr class="memdesc:a9986916851293c590d4b0fca53fbe922"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log error message. <br /></td></tr>
 <tr class="separator:a9986916851293c590d4b0fca53fbe922"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a277e8734cc9ef20765f87173761fda0c"><td class="memItemLeft" align="right" valign="top"><a id="a277e8734cc9ef20765f87173761fda0c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>dbgLog</b> () const</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1errorable.html#a277e8734cc9ef20765f87173761fda0c">dbgLog</a> () const</td></tr>
+<tr class="memdesc:a277e8734cc9ef20765f87173761fda0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log error in debug mode only. <br /></td></tr>
 <tr class="separator:a277e8734cc9ef20765f87173761fda0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab149ee2a13c9a0f90ac9a3937f553254"><td class="memItemLeft" align="right" valign="top"><a id="ab149ee2a13c9a0f90ac9a3937f553254"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>logStack</b> () const =0</td></tr>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1errorable.html#ab149ee2a13c9a0f90ac9a3937f553254">logStack</a> () const =0</td></tr>
+<tr class="memdesc:ab149ee2a13c9a0f90ac9a3937f553254"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log error with stack trace. <br /></td></tr>
 <tr class="separator:ab149ee2a13c9a0f90ac9a3937f553254"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae253311de23028c5990b952a1c08420a"><td class="memItemLeft" align="right" valign="top"><a id="ae253311de23028c5990b952a1c08420a"></a>
 virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMsg</b> () const =0</td></tr>
@@ -148,14 +151,19 @@ virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="botto
 virtual errLv::level&#160;</td><td class="memItemRight" valign="bottom"><b>getLv</b> () const =0</td></tr>
 <tr class="separator:a815cb8877f604f07e19395d2b5b1c769"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0402b76bf555cb04c0008463c2a908f"><td class="memItemLeft" align="right" valign="top"><a id="ac0402b76bf555cb04c0008463c2a908f"></a>
-const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getLevelName</b> () const</td></tr>
+const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1errorable.html#ac0402b76bf555cb04c0008463c2a908f">getLevelName</a> () const</td></tr>
+<tr class="memdesc:ac0402b76bf555cb04c0008463c2a908f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get human-readable error level name. <br /></td></tr>
 <tr class="separator:ac0402b76bf555cb04c0008463c2a908f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classby_1_1dumpable"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classby_1_1dumpable')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classby_1_1dumpable.html">by::dumpable</a></td></tr>
 <tr class="memitem:a2a8f8682972219123f2a4317dc8a0499 inherit pub_methods_classby_1_1dumpable"><td class="memItemLeft" align="right" valign="top"><a id="a2a8f8682972219123f2a4317dc8a0499"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>dump</b> () const =0</td></tr>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1dumpable.html#a2a8f8682972219123f2a4317dc8a0499">dump</a> () const =0</td></tr>
+<tr class="memdesc:a2a8f8682972219123f2a4317dc8a0499 inherit pub_methods_classby_1_1dumpable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump object state for debugging. <br /></td></tr>
 <tr class="separator:a2a8f8682972219123f2a4317dc8a0499 inherit pub_methods_classby_1_1dumpable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Interface for objects that can report errors. </p>
+<p>Provides methods for logging errors with different severity levels and stack trace information. Extends dumpable interface. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/runner/work/byeol/byeol/module/indep/helper/<a class="el" href="errorable_8hpp_source.html">errorable.hpp</a></li>
 </ul>
 </div><!-- contents -->

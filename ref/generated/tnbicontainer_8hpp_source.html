@@ -51,11 +51,6 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">byeol
-   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
-   </div>
-  </td>
  </tr>
  </tbody>
 </table>
@@ -113,21 +108,22 @@ $(document).ready(function(){initNavTree('tnbicontainer_8hpp_source.html',''); i
 <div class="title">tnbicontainer.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;core/builtin/container/tbicontainable.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classby_1_1tnbicontainer.html">    7</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> K, <span class="keyword">typename</span> V&gt; <span class="keyword">class </span><a class="code" href="classby_1_1tnbicontainer.html">tnbicontainer</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1instance.html">instance</a>, <span class="keyword">public</span> <a class="code" href="classby_1_1tbicontainable.html">tbicontainable</a>&lt;K, V&gt; {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        BY(ADT(<a class="code" href="classby_1_1tnbicontainer.html">tnbicontainer</a>, <a class="code" href="classby_1_1instance.html">instance</a>))</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    };</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="classby_1_1tnbicontainer.html">tnbicontainer&lt;std::string, node&gt;</a> <a class="code" href="classby_1_1tnbicontainer.html">nbicontainer</a>;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
-<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdef"><b>Definition:</b> instance.hpp:15</div></div>
-<div class="ttc" id="aclassby_1_1tbicontainable_html"><div class="ttname"><a href="classby_1_1tbicontainable.html">by::tbicontainable</a></div><div class="ttdef"><b>Definition:</b> tbicontainable.hpp:13</div></div>
-<div class="ttc" id="aclassby_1_1tnbicontainer_html"><div class="ttname"><a href="classby_1_1tnbicontainer.html">by::tnbicontainer</a></div><div class="ttdef"><b>Definition:</b> tnbicontainer.hpp:7</div></div>
+<a href="tnbicontainer_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tbicontainable_8hpp.html">core/builtin/container/tbicontainable.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classby_1_1tnbicontainer.html">    8</a></span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> K, <span class="keyword">typename</span> V&gt; <span class="keyword">class </span><a class="code" href="classby_1_1tnbicontainer.html">tnbicontainer</a>: <span class="keyword">public</span> <a class="code" href="classby_1_1instance.html">instance</a>, <span class="keyword">public</span> <a class="code" href="classby_1_1tbicontainable.html">tbicontainable</a>&lt;K, V&gt; {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        BY(ADT(<a class="code" href="classby_1_1tnbicontainer.html">tnbicontainer</a>, <a class="code" href="classby_1_1instance.html">instance</a>))</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    };</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="classby_1_1tnbicontainer.html">tnbicontainer&lt;std::string, node&gt;</a> <a class="code" href="classby_1_1tnbicontainer.html">nbicontainer</a>;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}</div>
+<div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdoc">Base class for all managed instances in memlite system.</div><div class="ttdef"><b>Definition:</b> instance.hpp:20</div></div>
+<div class="ttc" id="aclassby_1_1tbicontainable_html"><div class="ttname"><a href="classby_1_1tbicontainable.html">by::tbicontainable</a></div><div class="ttdoc">Template bidirectional container interface.</div><div class="ttdef"><b>Definition:</b> tbicontainable.hpp:17</div></div>
+<div class="ttc" id="aclassby_1_1tnbicontainer_html"><div class="ttname"><a href="classby_1_1tnbicontainer.html">by::tnbicontainer</a></div><div class="ttdef"><b>Definition:</b> tnbicontainer.hpp:8</div></div>
+<div class="ttc" id="atbicontainable_8hpp_html"><div class="ttname"><a href="tbicontainable_8hpp.html">tbicontainable.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
