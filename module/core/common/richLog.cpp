@@ -16,7 +16,7 @@ namespace nm {
         return __convert__((typeProvidable&) it);
     }
 
-    strWrap __convert__(const str& it) { return __convert__(*it); }
+    strWrap __convert__(const str& it) { return it ? __convert__(*it) : strWrap("null"); }
 
     strWrap __convert__(const arithmeticObj* it) { return it ? __convert__(*it) : strWrap("null"); }
 
