@@ -16,10 +16,10 @@ namespace nm {
         leafParser();
 
     public:
-        leaf* parse(const std::string& codes);
-        leaf* parse(const nchar* codes);
-        leaf* parseFromFile(const std::string& path);
-        leaf* parseFromFile(const nchar* path);
+        tstr<leaf> parse(const std::string& codes);
+        tstr<leaf> parse(const nchar* codes);
+        tstr<leaf> parseFromFile(const std::string& path);
+        tstr<leaf> parseFromFile(const nchar* path);
 
         leafTokenDispatcher& getDispatcher();
         std::vector<ncnt>& getIndents();
@@ -77,7 +77,7 @@ namespace nm {
         void* _scanString(const nchar* src, void* scanner);
         nint _onTokenEndOfInlineBlock(nint tok);
         nint _onScan(ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner);
-        leaf* _finalize();
+        tstr<leaf> _finalize();
 
     private:
         leafTokenScan* _mode;

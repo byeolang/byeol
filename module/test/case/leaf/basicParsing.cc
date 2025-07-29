@@ -98,7 +98,7 @@ TEST_F(basicParsing, testVerObject) {
     tstr<leaf> root = leafParser().parse(script);
     ASSERT_TRUE(root);
 
-    root.bind(leafParser().parse(script));
+    root = leafParser().parse(script);
     ASSERT_TRUE(root);
 
     leaf& man = root->sub("man");

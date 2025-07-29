@@ -165,7 +165,7 @@ namespace nm {
 
     std::vector<ncnt>& me::getIndents() { return _indents; }
 
-    leaf* me::parseFromFile(const std::string& path) {
+    tstr<leaf> me::parseFromFile(const std::string& path) {
         std::ifstream fout(path);
         if(fout.fail()) {
             // there is no file.
@@ -178,12 +178,12 @@ namespace nm {
         return parse(buf.str());
     }
 
-    leaf* me::parseFromFile(const nchar* path) {
+    tstr<leaf> me::parseFromFile(const nchar* path) {
         WHEN_NUL(path).ret(nullptr);
         return parseFromFile(path);
     }
 
-    leaf* me::parse(const std::string& codes) {
+    tstr<leaf> me::parse(const std::string& codes) {
         _prepare();
 
         zzscan_t scanner;
@@ -213,7 +213,7 @@ namespace nm {
         return _finalize();
     }
 
-    leaf* me::parse(const nchar* codes) {
+    tstr<leaf> me::parse(const nchar* codes) {
         WHEN_NUL(codes).ret(nullptr);
         return parse(codes);
     }
@@ -259,9 +259,9 @@ namespace nm {
         return zz_scan_string((nchar*) src, (zzscan_t) scanner);
     }
 
-    leaf* me::_finalize() {
+    tstr<leaf> me::_finalize() {
         ncnt size = _errs.size();
-        WHEN(size <= 0).ret(_root.get());
+        WHEN(size <= 0).ret(_root);
 
         NM_I("leaf: total %d errors found.", size);
         for(const auto& e: _errs)
