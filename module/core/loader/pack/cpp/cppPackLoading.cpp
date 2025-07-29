@@ -34,7 +34,7 @@ namespace nm {
 
             auto info =
                 lib.accessFunc<entrypointFunc>(ENTRYPOINT_NAME);
-            WHEN(!info)
+            WHEN(!info.has())
                 .err("couldn't access entrypoint of %s slot: %d", path, info.getErr())
                 .ret((rel(), false));
 
