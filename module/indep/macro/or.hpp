@@ -54,6 +54,7 @@ namespace nm {
     ///                 return 0;
     ///             }
     ///
+    ///
     ///         the reason is that, as mentioned earlier, the left side of OR must always be a
     ///         pointer. therefore, it should not be `(T&)` but `(T*)`. this is correct codes.
     ///
@@ -68,9 +69,11 @@ namespace nm {
     ///             B& value = (B*) (foo() TO(getA()) TO(getMayB())) OR.ret();
     ///
     ///
+    ///
     ///         Q. Can I use OR after `return`?
     ///         A. `OR` was created based on the precondition that it would be used when defining a variable.
     ///         It cannot be used with the `return` keyword.
+    ///
     ///
     ///         Q. I used OR macro with auto& and got `Non-const lvalue reference to...` error.
     ///            my code is like below,
@@ -78,12 +81,17 @@ namespace nm {
     ///             auto& ret = _sub[name].get() OR.ret();
     ///
     ///         A. don't use auto keyword.
-    ///         the actual return type of `OR` macro is `tmedium<T>`, and it is implicitly returned as T&
-    ///         through this class.
+    ///         the actual return type of `OR` macro could be `tmedium<T>` or `tstr` or `tweak`.
+    ///         it differs in context which you're using. it was specified in each operand class file,
+    ///         for instance, 'tstr.hpp'. and if you used OR macro which returns `tmedium`, it is implicitly
+    ///         returned as T& through this class.
     ///         therefore, unless you have a special situation where you want to use tmedium, specify the type
     ///         directly instead of auto.
     ///
     ///             MyClass& ret = _sub[name].get() OR.ret();
+    ///             // or,
+    ///             tstr<MyClass> ret = youGetThisInstanceOnHeap() OR.ret();
+    ///
     ///
     ///         Q. I used OR in a function whose return type is tmay and initialized it with a T&& variable,
     ///         but the value is strange.

@@ -125,12 +125,6 @@ namespace nm {
         // it'll never be used.
         return t.get();
     }
-    template <typename F> tmedium<instance> operator|(binder&& t, F&& f) {
-        f(t);
-        // this returns null-reference but take it easy.
-        // it'll never be used.
-        return t.get();
-    }
 
     // extension for typeTrait:
     template <> struct typeTrait<binder> {

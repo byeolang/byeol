@@ -10,9 +10,9 @@ namespace nm {
     me::defSeqExpr(const node& start, const node& end): _start(start), _end(end) {}
 
     str me::run(const args& a) {
-        const nInt& start = _start TO(template as<nInt>()) OR.err("_start is null").ret(str());
-        const nInt& end = _end TO(template as<nInt>()) OR.err("_end is null").ret(str());
-        return str(new seq(start, end));
+        tstr<nInt> start = _start TO(template as<nInt>()) OR.err("_start is null").ret(str());
+        tstr<nInt> end = _end TO(template as<nInt>()) OR.err("_end is null").ret(str());
+        return str(new seq(*start, *end));
     }
 
     str me::getEval() const {

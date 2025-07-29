@@ -27,15 +27,15 @@ namespace nm {
         int n = 0;
         priorType max = EXACT_MATCH; // begining from lv0.
         for(const auto& e: a) {
-            const node& t = e.getEval() OR.warn("t == null").ret(NO_MATCH);
+            str t = e.getEval() OR.warn("t == null").ret(NO_MATCH);
             str p = ps[n++].getOrigin().as<node>() OR.ret(NO_MATCH);
-            WHEN(!t.isComplete()).ret(NO_MATCH);
+            WHEN(!t->isComplete()).ret(NO_MATCH);
 
             // overloading priority algorithm:
             //  each subs can be categorized into 3 level of priority.
             //  the priority against func call will be computed maximum priority value between the
             //  argument and its paramter. the lower value of 'max', the more check needed.
-            priorType newP = _prioritize(*p, t);
+            priorType newP = _prioritize(*p, *t);
             max = newP > max ? newP : max;
             WHEN(max == NO_MATCH).ret(NO_MATCH);
         }

@@ -52,11 +52,11 @@ namespace nm {
         // it'll never be used.
         return t.get();
     }
-    template <typename T, typename F> tmedium<T> operator|(tweak<T>&& t, F&& f) {
+    template <typename T, typename F> tweak<T> operator|(tweak<T>&& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.
-        return t.get();
+        return t;
     }
 
     // extension for typeTrait:

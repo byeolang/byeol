@@ -118,8 +118,8 @@ namespace nm {
 
             int n = 0;
             for(const node& e: a) {
-                node& ased = e.as(ps[n++].getOrigin()) OR.ret(nullptr);
-                tray.add(ased);
+                str ased = e.as(ps[n++].getOrigin()) OR.ret(nullptr);
+                tray.add(*ased);
             }
             tray.setMe(a.getMe());
             return &tray;

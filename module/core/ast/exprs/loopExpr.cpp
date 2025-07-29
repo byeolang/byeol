@@ -64,9 +64,9 @@ namespace nm {
 
     tstr<arr> me::_makeRet() const {
         static dumArr inner;
-        node& eval = getEval() OR.err("eval is null ").ret(nullptr);
-        WHEN(!eval.isSub<arr>()).ret(nullptr);
+        str eval = getEval() OR.err("eval is null ").ret(nullptr);
+        WHEN(!eval->isSub<arr>()).ret(nullptr);
 
-        return *new arr(*eval.getType().getParams()[0].getOrigin().as<baseObj>());
+        return *new arr(*eval->getType().getParams()[0].getOrigin().as<baseObj>());
     }
 } // namespace nm

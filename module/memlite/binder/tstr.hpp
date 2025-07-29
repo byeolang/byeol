@@ -39,7 +39,13 @@ namespace nm {
         // it'll never be used.
         return t.get();
     }
-    template <typename T, typename F> tmedium<T> operator|(tstr<T>&& t, F&& f) {
+    template <typename T, typename F> tstr<T> operator|(tstr<T>&& t, F&& f) {
+        f(t);
+        // this returns null-reference but take it easy.
+        // it'll never be used.
+        return t;
+    }
+    template <typename F> tstr<instance> operator|(binder&& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.
