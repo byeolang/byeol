@@ -30,7 +30,7 @@ namespace nm {
         for(const std::string& path: _getPaths()) {
             dlib lib = dlib(path);
             auto res = lib.load(); // return true when error occurs.
-            WHEN(res).err("couldn't open %s slot: %d", path, res.get()).ret((rel(), false));
+            WHEN(!res).err("couldn't open %s slot: %d", path, res.get()).ret((rel(), false));
 
             auto info =
                 lib.accessFunc<entrypointFunc>(ENTRYPOINT_NAME);
