@@ -25,7 +25,7 @@ namespace nm {
     T* ME::operator->() { return get(); }
 
     TEMPLATE
-    T& ME::operator*() { return this->value(); }
+    T& ME::operator*() { return *get(); }
 
     TEMPLATE
     ME::operator nbool() const { return has(); }

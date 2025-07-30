@@ -142,7 +142,7 @@ namespace nm {
         NM_DI("\t.author=%s", mani.author);
         NM_DI("\t.ver=%s", mani.ver);
 
-        NM_DI("\t.entrypoints=");
+        NM_DI("\t.entrypoints:");
         for(const entrypoint& point: mani.points) {
             NM_DI("\t\t.lang=%s", point.lang);
             NM_DI("\t\t.paths=%s", point.paths[0]);

@@ -80,11 +80,11 @@ namespace nm {
         // it'll never be used.
         return *t;
     }
-    template <typename T, typename F> T operator|(tmay<T>&& t, F&& f) {
+    template <typename T, typename F> tmay<T> operator|(tmay<T>&& t, F&& f) {
         f(t);
         // this may return null-reference but take it easy.
         // it'll never be used.
-        return *t;
+        return t;
     }
 
     // extension for typeTrait:
