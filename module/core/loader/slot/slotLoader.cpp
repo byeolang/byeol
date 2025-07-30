@@ -120,7 +120,11 @@ namespace nm {
                 continue;
             }
 
-            newLoading->addPath(point.paths);
+            strings fullPaths;
+            for(const std::string& path : point.paths)
+                fullPaths.push_back(dirPath + path);
+
+            newLoading->addPath(fullPaths);
             loadings.push_back(newLoading);
         }
 
