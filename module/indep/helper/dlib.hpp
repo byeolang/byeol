@@ -52,7 +52,7 @@ namespace nm {
 
         template <typename F> tmayFunc<F> accessFunc(const nchar* name) {
             auto&& res = _accessFunc(name);
-            return res.has() ? tmayFunc<F>((F) res.get()) : tmayFunc<F>(res.getErr());
+            return res.has() ? tmayFunc<F>((F&) *res) : tmayFunc<F>(res.getErr());
         }
 
         void rel();
