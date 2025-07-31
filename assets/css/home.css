@@ -9,6 +9,19 @@ div#footer {
   top: calc(100vh - 110px);
 }
 
+div#footer a {
+  color: #b8f79d !important;
+
+  &:active, &:link, &:focus {
+    color: #b8f79d !important;
+    text-decoration: none;
+  }
+  &:hover {
+    color: var(--byeol-white2) !important;
+    text-decoration: none;
+  }
+}
+
 div#main-bg {
   background: linear-gradient(to bottom, #0b1c26 0%,#0b1c26 42%,#112a40 58%,#2e4559 74%,#4189a6 87%,#e9ebf2 99%);
 
