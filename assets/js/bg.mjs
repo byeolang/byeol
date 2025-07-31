@@ -1,6 +1,6 @@
 function Obj(new_jq_object, new_dom_id) {
 	this.jq_object = new_jq_object;
-	
+
 	if(new_dom_id == undefined)
 		new_dom_id = "";
 	this.dom_id = new_dom_id;
@@ -10,7 +10,7 @@ Obj.prototype.setJQObject = function(new_obj) {
 	if(	new_obj == undefined	||
 		new_obj[0] == undefined	)
 		return;
-		
+
 	this.jq_object.owner = new_obj[0].owner = this;
 }
 Obj.prototype.getJQObject = function() {
@@ -105,13 +105,12 @@ Unit.prototype.release = function() {
     Obj.prototype.release.call(this);
 }
 
-function BackGrounder(name) {
+function BackGrounder(id) {
 	Obj.call(this);
-	this.name = name;
 	this.is_initialized = false;
+  this.setID(id);
 }
 BackGrounder.prototype = new Obj();
-BackGrounder.prototype.getName = function() { return this.name; }
 BackGrounder.prototype.isInitialized = function() { return this.is_initialized; }
 BackGrounder.prototype.initialize = function() {
 	//	We don't need to release 'this':
@@ -120,8 +119,7 @@ BackGrounder.prototype.initialize = function() {
 	//		after it passed 0.8sec, that new div will be going to disappear because of that timer`
 	//
 	//	this.release();
-	
-	this.setID("main-bg");
+
 	this.setJQObject($("div#" + this.getID()));
 
 	this.units = [];
@@ -130,7 +128,7 @@ BackGrounder.prototype.initialize = function() {
 BackGrounder.prototype.release = function() {
 	//	pre:
 	//		supering:
-	Obj.prototype.release.call(this);	
+	Obj.prototype.release.call(this);
 	//		type-checking:
 	if( ! this.isInitialized()) return;
 	var jqobj = this.getJQObject();
@@ -172,7 +170,7 @@ BackGrounder.prototype.releaseUnit = function(unit) {
 
 	return this.onReleaseUnit(unit);
 }
-BackGrounder.prototype.onReleaseUnit = function(unit) {		
+BackGrounder.prototype.onReleaseUnit = function(unit) {
 	if(unit == undefined) return;
 
 	this.units.splice(unit.getIndex());
@@ -185,12 +183,12 @@ BackGrounder.prototype.createUnit = function() {
 
 	new_one.initialize();
 	new_one.setIndex(this.units.length);
-	
+
 	this.units.push(new_one);
 }
 
 var __star_dom_id_generator = 0;
-function Star(new_x, new_y, new_w, new_h, new_life, new_owner, new_grade) {	
+function Star(new_x, new_y, new_w, new_h, new_life, new_owner, new_grade) {
 	Unit.call(this, "star" + __star_dom_id_generator++, "/assets/images/star.png",
 		new_x, new_y, new_w, new_h,
 		new_life, new_owner, "opacity: 0; ");
@@ -212,10 +210,10 @@ Star.prototype.initialize = function() {
 		opacity: this.opacity,
 		ease: Linear.easeNone
 	});
-	
-	TweenMax.to(this.getJQObject(), this.life, {		
+
+	TweenMax.to(this.getJQObject(), this.life, {
 		rotation: total_rotation_amound,
-		ease: Linear.easeNone		
+		ease: Linear.easeNone
 	});
 }
 
@@ -223,13 +221,13 @@ Star.prototype.initialize = function() {
 function FloatingStar(new_owner) {
 	var grade = Math.random() * 100;
 	var life = grade / 50;
-	
+
 	//	Big FloatingStar = ~ %3 of floating stars.
 	if(grade > 97)
 		grade *= 3;
 
-	var	x = Math.random() * $(window).width(),
-		y = Math.random() * $(window).height() * 0.6,
+	var	x = Math.random() * new_owner.getJQObject().width(),
+		y = Math.random() * new_owner.getJQObject().height() * 0.6,
 		w = grade * 0.3,
 		h = w;
 
@@ -252,9 +250,9 @@ FloatingStar.prototype.initialize = function() {
 function SilenceStar(new_owner) {
 	var grade = Math.random() * 100;
 	var life = grade / 20;
-	
-	var	x = Math.random() * $(window).width(),
-		y = Math.random() * $(window).height() * 0.6,
+
+	var	x = Math.random() * new_owner.getJQObject().width(),
+		y = Math.random() * new_owner.getJQObject().height() * 0.6,
 		w = grade * 0.1,
 		h = w;
 
@@ -270,10 +268,10 @@ function ShootingStar(new_owner) {
 	var grade = Math.random() * 100;
 	var life = grade / 50;
 
-	var	x = Math.random() * $(window).width() * 0.5
-		y = Math.random() * $(window).height() * 0.2,
-		w = grade * 1.2,
-		h = w;
+	var	x = Math.random() * new_owner.getJQObject().width() * 0.5;
+	var y = Math.random() * new_owner.getJQObject().height() * 0.2;
+	var w = grade * 1.2;
+	var h = w;
 
 	Star.call(this, x, y, w, h, life, new_owner, grade);
 }
@@ -290,16 +288,16 @@ ShootingStar.prototype.initialize = function() {
 	});
 }
 
-function SkyLineBackGrounder(name) {
-	BackGrounder.call(this, name);
+export function SkyLineBackGrounder(id, starCount) {
+	BackGrounder.call(this, id);
+  this.starCount = starCount;
 }
 SkyLineBackGrounder.prototype = new BackGrounder();
 SkyLineBackGrounder.prototype.initialize = function() {
 	BackGrounder.prototype.initialize.call(this);
 
 
-	var star_count = 60;
-	for(var n=0; n < star_count; n++)
+	for(var n=0; n < this.starCount; n++)
 	{
 		this.units[n] = new FloatingStar(this);
 		this.units[n].initialize();
@@ -318,26 +316,8 @@ SkyLineBackGrounder.prototype.onCreateUnit = function() {
 	else
 	 	return new SilenceStar(this);
 }
-SkyLineBackGrounder.prototype.onReleaseUnit = function(unit) {	
+SkyLineBackGrounder.prototype.onReleaseUnit = function(unit) {
 	BackGrounder.prototype.onReleaseUnit.call(this, unit);
 
 	this.createUnit();
-}
-
-var bg = new SkyLineBackGrounder();
-
-window.onresize = function(event) {
-	updateWindow();
-}
-function updateWindow() {
-	let vh = window.innerHeight * 0.01
-	var vheader = document.getElementById('masthead').clientHeight;
-	var vfooter = document.getElementById('footer').clientHeight;
-	document.documentElement.style.setProperty("--vh", `${vh}px`);
-	document.documentElement.style.setProperty("--vfooter", `${vfooter}px`);
-	document.documentElement.style.setProperty("--vheader", `${vheader}px`);
-}
-window.onload = function(event) {
-	updateWindow();
-	bg.initialize();
 }
