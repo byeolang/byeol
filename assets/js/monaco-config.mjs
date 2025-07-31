@@ -1,5 +1,5 @@
 import * as monaco from 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/+esm';
-import { DoxygenAwesomeDarkModeToggle } from '../doxygen-awesome-darkmode-toggle.mjs';
+import { DoxygenAwesomeDarkModeToggle } from './doxygen-awesome-darkmode-toggle.mjs';
 
 monaco.languages.register({id: 'byeol'});
 monaco.languages.setMonarchTokensProvider('byeol', {
