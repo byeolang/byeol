@@ -127,5 +127,6 @@ div#result img {
 }
 
 .slider {
-    border-radius: 8px !important;
+    border-radius: 24px !important;
+    transition: background-color 0.2s ease;
 }
