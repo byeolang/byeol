@@ -81,7 +81,7 @@ TEST_F(objTest, cloneByRunFunc) {
     nInt a(5);
     nInt& a1 = (nInt&) *a.clone();
     ASSERT_NE(&a, &a1);
-    ASSERT_EQ(a.cast<int>(), a1.cast<int>());
+    ASSERT_EQ(*a.cast<int>(), *a1.cast<int>());
 }
 
 TEST_F(objTest, addElementIntoOwns) {
