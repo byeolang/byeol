@@ -11,19 +11,37 @@
           {{ site.masthead_title | default: site.title }}
           {% if site.subtitle %}<span class="site-subtitle">{{ site.subtitle }}</span>{% endif %}
         </a>
-        <ul class="visible-links">
-          {%- for link in site.data.navigation.main -%}
-            <li class="masthead__menu-item">
-              <a href="{{ link.url | relative_url }}"{% if link.description %} title="{{ link.description }}"{% endif %}>{{ link.title }}</a>
-            </li>
-          {%- endfor -%}
-        </ul>
-        {% if site.search == true %}
-        <button class="search__toggle" type="button">
-          <span class="visually-hidden">{{ site.data.ui-text[site.locale].search_label | default: "Toggle search" }}</span>
-          <i class="fas fa-search"></i>
-        </button>
-        {% endif %}
+
+        <a href="/posts/">
+          <li class="masthead__menu-item">
+            <i class='fas fa-bullhorn fa-solid' style='color: var(--byeol-nebular);'></i>
+          </li>
+        </a>
+
+        <a href="/download/">
+          <li class="masthead__menu-item">
+            <i class='fa-download fa-solid' style='color: var(--byeol-point);'></i>
+          </li>
+        </a>
+
+        <a href="/guide/">
+          <li class="masthead__menu-item">
+            <i class='fa-book fa-solid' style='color: #af844d;'></i>
+          </li>
+        </a>
+
+        <a href="/play/">
+          <li class="masthead__menu-item">
+            <i class='fa-play fa-solid' style='color: var(--byeol-grass);'></i>
+          </li>
+        </a>
+
+        <a href="/ref/">
+          <li class="masthead__menu-item">
+            <i class='fa-search fa-solid' style='color: var(--byeol-white2);'></i>
+          </li>
+        </a>
+
         <div id="dark-mode-wrapper"></div>
         <button class="greedy-nav__toggle hidden" type="button">
           <span class="visually-hidden">{{ site.data.ui-text[site.locale].menu_label | default: "Toggle menu" }}</span>
