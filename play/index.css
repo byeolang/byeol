@@ -17,8 +17,8 @@ iframe#byeol {
     border: 0px solid;
 }
 div#top_pane {
+    background-color: transparent;
     width: 100%;
-    background-color: var(--byeol-night);
     text-align: right;
     padding-right: 20px;
 }

@@ -4,11 +4,38 @@
 
 * { box-sizing: border-box; }
 
+:root {
+    --byeol-white: #FFFFFF;
+    --byeol-white2: #E9EBF2;
+    --byeol-night: #0B1C26;
+    --byeol-night2: #112A40;
+    --byeol-night3: #2E4559;
+    --byeol-grass: #6AB04B;
+    --byeol-point: #4189A6;
+    --byeol-moon: #E0B88D;
+    --byeol-nebular: #ca5fa4;
+    --byeol-nebular2: #F2B6D7;
+}
+
 html {
   /* apply a natural box layout model to all elements */
   box-sizing: border-box;
-  background-color: $background-color;
   font-size: 16px;
+}
+
+html {
+  background-color: var(--byeol-white);
+}
+html.dark-mode {
+  background-color: var(--byeol-night);
+}
+
+a, a:visited, a:focus, a:active {
+  color: var(--byeol-nebular) !important;
+}
+
+a:hover {
+  color: var(--byeol-nebular2) !important;
 }
 
 /* Remove margin */

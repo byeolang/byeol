@@ -1,0 +1,17 @@
+div.initial-content {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+div#footer {
+  position: absolute;
+  top: calc(100vh - 110px);
+}
+
+div#main-bg {
+  background: linear-gradient(to bottom, #0b1c26 0%,#0b1c26 42%,#112a40 58%,#2e4559 74%,#4189a6 87%,#e9ebf2 99%);
+
+  width: 100%;
+  height: calc(var(--vh, 1vh) * 100 - var(--vfooter));
+}
