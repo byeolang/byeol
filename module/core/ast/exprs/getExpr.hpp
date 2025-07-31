@@ -27,7 +27,7 @@ namespace nm {
         str run(const args& a) override;
 
         str getEval() const override;
-        const node& getMe() const;
+        const node* getMe() const;
         const std::string& getName() const;
         void setName(const std::string& new1);
         void setName(const std::string* it) NM_SIDE_FUNC(setName)

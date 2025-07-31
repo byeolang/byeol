@@ -365,9 +365,9 @@ namespace nm {
         _STEP("isRunnable: %s.%s", me, me.getName());
         WHEN(!me.getEval()).myExErr(me, WHAT_IS_THIS_IDENTIFIER, me.getName()).ret();
         str match = me._get(true) OR_DO {
-            const node& from = me.getMe();
+            const node* from = me.getMe();
             return NM_WHEN
-                .myExErr(me, CANT_ACCESS, me._name.c_str(), from.getType().getName().c_str())
+                .myExErr(me, CANT_ACCESS, me._name.c_str(), from TO(getType().getName().c_str()))
                 .ret();
         }
 
@@ -376,7 +376,7 @@ namespace nm {
 
         _STEP("isRunnable: got=%s, me=%s", match, me.getType());
 
-        str asedMe = me.getMe().getEval();
+        str asedMe = me.getMe() TO(getEval());
         _STEP("accesses to incomplete 'me[%s]' object?", asedMe);
         WHEN(asedMe && !asedMe->isComplete()).myExErr(me, ACCESS_TO_INCOMPLETE).ret();
 

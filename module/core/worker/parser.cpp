@@ -573,12 +573,12 @@ namespace nm {
 
         do {
             ret.push_back(iter->getName());
-            const node& next = iter->getMe();
-            WHEN(!next.is<getExpr>())
+            const node* next = iter->getMe();
+            WHEN(!next || !next->is<getExpr>())
                 .exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport())
                 .ret(std::vector<string>());
 
-            iter = next.cast<getExpr>();
+            iter = next->cast<getExpr>();
         } while(iter);
         return ret;
     }

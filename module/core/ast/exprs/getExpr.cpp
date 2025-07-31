@@ -18,9 +18,9 @@ namespace nm {
     me::getExpr(const node& me, const std::string& name, const args& a):
         _me(me), _name(name), _args(a) {}
 
-    const node& me::getMe() const {
-        WHEN(!_me).ret(*thread::get().getNowFrame());
-        return *_me;
+    const node* me::getMe() const {
+        WHEN(!_me).ret(thread::get().getNowFrame());
+        return _me.get();
     }
 
     str me::getEval() const { return _get(true); }
