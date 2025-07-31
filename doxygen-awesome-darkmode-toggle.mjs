@@ -27,7 +27,7 @@ SOFTWARE.
 
 */
 
-class DoxygenAwesomeDarkModeToggle extends HTMLElement {
+export class DoxygenAwesomeDarkModeToggle extends HTMLElement {
     // SVG icons from https://fonts.google.com/icons
     // Licensed under the Apache 2.0 license:
     // https://www.apache.org/licenses/LICENSE-2.0.html
@@ -37,6 +37,7 @@ class DoxygenAwesomeDarkModeToggle extends HTMLElement {
 
     static prefersLightModeInDarkModeKey = "prefers-light-mode-in-dark-mode"
     static prefersDarkModeInLightModeKey = "prefers-dark-mode-in-light-mode"
+    static onDarkModeChange = null
 
     static _staticConstructor = function() {
         window.addEventListener('load', function() {
@@ -73,9 +74,10 @@ class DoxygenAwesomeDarkModeToggle extends HTMLElement {
             });
 
             document.getElementById("dark-mode-wrapper").appendChild(toggleButton)
-        });
-        window.addEventListener('resize', function() {
-            document.getElementById("dark-mode-wrapper").parentNode.appendChild(toggleButton)
+
+            window.addEventListener('resize', function() {
+                document.getElementById("dark-mode-wrapper").appendChild(toggleButton)
+            });
         });
     }
 
@@ -143,6 +145,9 @@ class DoxygenAwesomeDarkModeToggle extends HTMLElement {
               frameDocument.documentElement.classList.add("light-mode");
             }
         }
+        if(this.onDarkModeChange != null) {
+            this.onDarkModeChange(enable);
+        }
     }
 
     static onSystemPreferenceChanged() {
@@ -169,3 +174,5 @@ class DoxygenAwesomeDarkModeToggle extends HTMLElement {
 }
 
 customElements.define("doxygen-awesome-dark-mode-toggle", DoxygenAwesomeDarkModeToggle);
+
+DoxygenAwesomeDarkModeToggle.init()

@@ -1,4 +1,5 @@
 import * as monaco from 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/+esm';
+import { DoxygenAwesomeDarkModeToggle } from '../doxygen-awesome-darkmode-toggle.mjs';
 
 monaco.languages.register({id: 'byeol'});
 monaco.languages.setMonarchTokensProvider('byeol', {
@@ -87,7 +88,7 @@ const colors = {
   nebular2: "#F2B6D7",
 }
 
-monaco.editor.defineTheme('byeolTheme', {
+monaco.editor.defineTheme('byeolTheme-dark', {
   base: 'vs-dark',
   inherit: false,
   rules: [
@@ -109,6 +110,28 @@ monaco.editor.defineTheme('byeolTheme', {
   }
 });
 
+monaco.editor.defineTheme('byeolTheme-light', {
+  base: 'vs',
+  inherit: false,
+  rules: [
+    { token: "keyword", foreground: "#4189A6" },
+    { token: "comment", foreground: "#556d69" },
+    { token: "number", foreground: "#E9EBF2" },
+    { token: "string", foreground: "#CA5FA4" },
+    { token: "delimiter", foreground: "#2E4559" },
+    { token: "operator", foreground: "#2E4559" },
+    { token: "identifier", foreground: "#b9a999" },
+    { token: "type", foreground: "#6AB04B" },
+  ],
+  colors: {
+    'editor.background': "#FFFFFF",
+    "scrollbar.shadow": "#00000000",
+    "scrollbarSlider.activeBackground": colors.point,
+    "scrollbarSlider.background": colors.night2,
+    "scrollbarSlider.hoverBackground": colors.point,
+  }
+});
+
 export const editor = monaco.editor.create(document.getElementById('codepad'), {
   language: 'byeol',
   theme: 'byeolTheme',
@@ -122,4 +145,13 @@ export const editor = monaco.editor.create(document.getElementById('codepad'), {
     verticalScrollbarSize: 10,
   }
 });
+
+DoxygenAwesomeDarkModeToggle.onDarkModeChange = function(isEnable) {
+  if (isEnable) {
+      monaco.editor.setTheme('byeolTheme-dark');
+  } else {
+      monaco.editor.setTheme('byeolTheme-light');
+  }
+}
+
 export const model = editor.getModel();
