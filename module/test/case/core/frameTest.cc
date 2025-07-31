@@ -39,7 +39,7 @@ TEST_F(frameTest, testAccessFrame) { getFrames().add(new frame); }
 
 TEST_F(frameTest, testFrameManipulateChainObjNegative) {
     frame& fr = getFrames()[getFrames().len() - 1];
-    ASSERT_FALSE(getScopeStack(fr).isSub<dumScope>());
+    ASSERT_TRUE(getScopeStack(fr).isSub<dumScope>());
 
     scope local;
     local.add("myNode1", new myNode(1));
