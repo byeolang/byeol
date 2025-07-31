@@ -74,6 +74,19 @@ monaco.languages.setMonarchTokensProvider('byeol', {
   },
 });
 
+const colors = {
+  white: "#FFFFFF",
+  white2: "#E9EBF2",
+  night: "#0B1C26",
+  night2: "#112A40",
+  night3: "#2E4559",
+  grass: "#6AB04B",
+  point: "#4189A6",
+  moon: "#E0B88D",
+  nebular: "#CA5FA4",
+  nebular2: "#F2B6D7",
+}
+
 monaco.editor.defineTheme('byeolTheme', {
   base: 'vs-dark',
   inherit: false,
@@ -86,10 +99,13 @@ monaco.editor.defineTheme('byeolTheme', {
     { token: "operator", foreground: "#2E4559" },
     { token: "identifier", foreground: "#b9a999" },
     { token: "type", foreground: "#6AB04B" },
-
   ],
   colors: {
-    'editor.background': '#0B1C26'
+    'editor.background': colors.night,
+    "scrollbar.shadow": "#00000000",
+    "scrollbarSlider.activeBackground": colors.point,
+    "scrollbarSlider.background": colors.night2,
+    "scrollbarSlider.hoverBackground": colors.point,
   }
 });
 
@@ -101,5 +117,9 @@ export const editor = monaco.editor.create(document.getElementById('codepad'), {
   automaticLayout: true,
   fontFamily: 'Retro Gaming',
   fontSize: '20',
+  scrollbar: {
+    horizontal: 'hidden',
+    verticalScrollbarSize: 10,
+  }
 });
 export const model = editor.getModel();
