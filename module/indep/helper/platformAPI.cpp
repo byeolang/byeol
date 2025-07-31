@@ -184,7 +184,8 @@ namespace nm {
             };
 
             int len = backtrace(rawCallstacks, BT_SIZE);
-            char* callstacks = backtrace_symbols(rawCallstacks, len) OR.ret(ret);
+            char** callstacks = backtrace_symbols(rawCallstacks, len); // don't use OR, you can't free with dereference
+            if(!callstacks) return ret;
 
             for(int n = 0; n < len; n++) {
                 Dl_info info;
