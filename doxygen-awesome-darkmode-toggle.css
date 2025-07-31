@@ -1,0 +1,35 @@
+doxygen-awesome-dark-mode-toggle {
+    display: inline-block;
+    margin: 0 0 0 var(--spacing-small);
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    border-radius: 15px;
+    vertical-align: middle;
+    text-align: center;
+    line-height: var(--searchbar-height);
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    cursor: pointer;
+}
+
+doxygen-awesome-dark-mode-toggle > svg {
+    transition: transform 0.1s ease-in-out;
+}
+
+doxygen-awesome-dark-mode-toggle:active > svg {
+    transform: scale(.5);
+}
+
+doxygen-awesome-dark-mode-toggle:hover {
+    background-color: #112A40; /* --byeol-night2 */
+}
+
+html.dark-mode doxygen-awesome-dark-mode-toggle:hover {
+    background-color: rgba(0,0,0,.4);
+}
