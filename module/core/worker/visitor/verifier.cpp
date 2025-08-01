@@ -263,7 +263,7 @@ namespace nm {
         str eval = me TO(getRight()) TO(getEval()) OR.myExErr(me, RHS_IS_NUL).ret();
         WHEN(!eval->isComplete()).myExErr(me, ACCESS_TO_INCOMPLETE).ret();
 
-        str explicitType = me TO(getExplicitType());
+        const node* explicitType = me TO(getExplicitType());
         if(explicitType) {
             _STEP("check explicit type whether it's valid");
             str type = me TO(getEval());

@@ -15,7 +15,7 @@ namespace nm {
 
     public:
         str getEval() const override;
-        str getExplicitType() const;
+        const node* getExplicitType() const;
         void setExplicitType(const node& newType);
 
     protected:

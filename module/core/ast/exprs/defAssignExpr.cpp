@@ -20,7 +20,7 @@ namespace nm {
         return super::getEval();
     }
 
-    str me::getExplicitType() const { return *_type; }
+    const node* me::getExplicitType() const { return _type.get(); }
 
     void me::setExplicitType(const node& newType) { _type.bind(newType); }
 
