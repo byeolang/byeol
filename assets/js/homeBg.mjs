@@ -1,4 +1,5 @@
 import * as background from './bg.mjs'
+import { animateNaviIcon } from './masthead-icon-animation.mjs'
 
 var bg = new background.SkyLineBackGrounder("main-bg", 60);
 
@@ -18,4 +19,5 @@ function updateWindow() {
 window.addEventListener('load', function(event) {
 	updateWindow();
 	bg.initialize();
+  setTimeout(animateNaviIcon, 3000);
 });

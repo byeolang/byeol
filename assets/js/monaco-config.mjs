@@ -115,7 +115,7 @@ monaco.editor.defineTheme('byeolTheme-light', {
   inherit: false,
   rules: [
     { token: "keyword", foreground: colors.point },
-    { token: "comment", foreground: colors.white2 },
+    { token: "comment", foreground: '#999999' },
     { token: "number", foreground: colors.night3 },
     { token: "string", foreground: colors.nebular },
     { token: "delimiter", foreground: colors.white2 },
