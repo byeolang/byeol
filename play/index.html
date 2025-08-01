@@ -22,8 +22,13 @@ permalink: play/
         <option value='hello-world'>hello world!</option>
         <option value='bow-to-everyone'>bow to mike's</option>
     </select>
-    <input type='checkbox' id='verbose' />
-    <label id='lb_verbose' for='verbose'>verbose</label>
+    <div class="checkboxes__item">
+      <label class="checkbox">
+        <input type="checkbox" id='verbose' />
+        <div class="checkbox__checkmark"></div>
+        <div class="checkbox__body">verbose</div>
+      </label>
+    </div>
     <input type='button' id='runbt' value='▶' />
   </div>
   <div id="bottom_pane">
