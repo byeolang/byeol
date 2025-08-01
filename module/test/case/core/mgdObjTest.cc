@@ -78,7 +78,7 @@ TEST_F(mgdObjTest, distinguishPackScopeAndObjScopeByItsOwner) {
         .shouldVerified(true);
 
     obj& a = getSubPack() TO(template sub<obj>("a")) OR_ASSERT(a);
-    auto pr = a.subAll<baseFunc>(baseObj::CTOR_NAME, nullptr);
+    auto pr = a.subAll<baseFunc>(baseObj::CTOR_NAME, args());
     ASSERT_EQ(pr.len(), 1); // 'a' obj's ctor.
     auto matches = a.getSubPack().subAll<baseFunc>(baseObj::CTOR_NAME, nullptr);
     ASSERT_EQ(matches.len(), 1); // default-pack's ctor.
