@@ -92,7 +92,7 @@ button.learn-more {
       margin-top: 3px;
       width: 2.5rem;
       height: 2.5rem;
-      background: $grass;
+      background: $white;
       border-radius: 1.625rem;
       .icon {
         @include transition(all, 0.45s, cubic-bezier(0.65,0,.076,1));
@@ -114,8 +114,8 @@ button.learn-more {
             right: 0.0625rem;
             width: 0.625rem;
             height: 0.625rem;
-            border-top: 0.125rem solid #fff;
-            border-right: 0.125rem solid #fff;
+            border-top: 0.125rem solid $night;
+            border-right: 0.125rem solid $night;
             transform: rotate(45deg);
           }
         }
@@ -130,7 +130,7 @@ button.learn-more {
       bottom: 0;
       padding: 0.75rem 0;
       margin: 0 0 0 1.85rem;
-      color: $grass;
+      color: $point;
       font-weight: 700;
       line-height: 1.6;
       text-align: center;
@@ -141,13 +141,13 @@ button.learn-more {
       width: 100%;
       .icon {
         &.arrow {
-        background: $white;
+        background: $night;
         transform: translate(1rem, 0);
         }
       }
     }
     .button-text {
-      color: $white;
+      color: $night;
     }
   }
 }
