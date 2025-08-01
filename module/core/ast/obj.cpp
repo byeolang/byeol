@@ -65,7 +65,7 @@ namespace nm {
         subs().link((scope&) *(rhs.getShares() TO(cloneDeep())));
     }
 
-    scope& me::subs() { return *_subs; }
+    scope& me::subs() { return _subs ? *_subs : dumScope::singleton(); }
 
     tstr<nbicontainer> me::mySubs() const { return _subs->cloneChain(&getShares()); }
 

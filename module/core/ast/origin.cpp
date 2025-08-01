@@ -44,7 +44,10 @@ namespace nm {
 
     const ntype& me::getType() const { return _type; }
 
-    const node& me::getSubPack() const { return *_subpack; }
+    const node& me::getSubPack() const {
+        static mockNode dummy;
+        return _subpack ? *_subpack : dummy;
+    }
 
     const src& me::getSrc() const { return *_src; }
 
