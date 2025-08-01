@@ -221,7 +221,7 @@ namespace nm {
         WHEN(eval->isSub<nVoid>()).myExErr(me, VOID_CANT_DEFINED).ret();
 
         node* to = me.getTo();
-        _STEP("is 'to'[%s] valid", *to);
+        _STEP("is 'to'[%s] valid", to);
         // only if to is 'frame', I need to make property WHEN verify:
         //  local variables are required to verify further statements. but it's okay. it'll been
         //  removed after blockExpr::outFrame().
