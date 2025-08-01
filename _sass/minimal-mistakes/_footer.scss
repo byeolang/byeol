@@ -82,3 +82,16 @@
     }
   }
 }
+
+div#footer a {
+  color: #b8f79d !important;
+
+  &:active, &:link, &:focus {
+    color: #b8f79d !important;
+    text-decoration: none;
+  }
+  &:hover {
+    color: var(--byeol-white2) !important;
+    text-decoration: none;
+  }
+}
