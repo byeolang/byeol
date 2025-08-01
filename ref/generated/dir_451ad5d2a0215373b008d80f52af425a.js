@@ -4,9 +4,7 @@ var dir_451ad5d2a0215373b008d80f52af425a =
     [ "biterable.hpp", "biterable_8hpp.html", [
       [ "iterable", "classiterable.html", "classiterable" ]
     ] ],
-    [ "biteration.hpp", "biteration_8hpp.html", [
-      [ "iteration", "classiteration.html", "classiteration" ]
-    ] ],
+    [ "biteration.hpp", "biteration_8hpp.html", null ],
     [ "narrIteration.hpp", "narr_iteration_8hpp.html", [
       [ "narrIteration", "classnarr_iteration.html", "classnarr_iteration" ]
     ] ],
@@ -23,7 +21,5 @@ var dir_451ad5d2a0215373b008d80f52af425a =
     [ "uiterable.hpp", "uiterable_8hpp.html", [
       [ "iterable", "classiterable.html", "classiterable" ]
     ] ],
-    [ "uiteration.hpp", "uiteration_8hpp.html", [
-      [ "iteration", "classiteration.html", "classiteration" ]
-    ] ]
+    [ "uiteration.hpp", "uiteration_8hpp.html", null ]
 ];

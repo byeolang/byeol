@@ -1,6 +1,11 @@
 var dir_3dcd84d06c9d0efa3652225f52550e6b =
 [
-    [ "tgenericMarshaling.hpp", "tgeneric_marshaling_8hpp.html", null ],
+    [ "tgenericMarshaling.hpp", "tgeneric_marshaling_8hpp.html", [
+      [ "tgenericMarshaling", "structby_1_1tgeneric_marshaling.html", null ],
+      [ "tgenericMarshaling< node *, true >", "structby_1_1tgeneric_marshaling_3_01node_01_5_00_01true_01_4.html", "structby_1_1tgeneric_marshaling_3_01node_01_5_00_01true_01_4" ],
+      [ "tgenericMarshaling< const node &, true >", "structby_1_1tgeneric_marshaling_3_01const_01node_01_6_00_01true_01_4.html", "structby_1_1tgeneric_marshaling_3_01const_01node_01_6_00_01true_01_4" ],
+      [ "tgenericMarshaling< const node *, true >", "structby_1_1tgeneric_marshaling_3_01const_01node_01_5_00_01true_01_4.html", "structby_1_1tgeneric_marshaling_3_01const_01node_01_5_00_01true_01_4" ]
+    ] ],
     [ "tmarshaling.hpp", "tmarshaling_8hpp.html", [
       [ "marshalErr", "structby_1_1marshal_err.html", null ],
       [ "tmarshaling< tweak< T, TACTIC >, true >", "structby_1_1tmarshaling_3_01tweak_3_01_t_00_01_t_a_c_t_i_c_01_4_00_01true_01_4.html", "structby_1_1tmarshaling_3_01tweak_3_01_t_00_01_t_a_c_t_i_c_01_4_00_01true_01_4" ],

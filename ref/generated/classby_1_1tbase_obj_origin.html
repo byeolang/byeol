@@ -113,7 +113,7 @@ $(document).ready(function(){initNavTree('classby_1_1tbase_obj_origin.html','');
 </div><!--header-->
 <div class="contents">
 
-<p>Template base object origin for user-defined classes.  
+<p>Template base object <a class="el" href="classby_1_1origin.html">origin</a> for user-defined classes.  
  <a href="classby_1_1tbase_obj_origin.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="tbase_obj_origin_8hpp_source.html">tbaseObjOrigin.hpp</a>&gt;</code></p>
@@ -164,9 +164,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>_setModifier</b> (con
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
 class by::tbaseObjOrigin&lt; T &gt;</h3>
 
-<p>Template base object origin for user-defined classes. </p>
-<p>Template for creating origin objects for user-defined classes in unmanaged code. Origin should be shadowed to '<a class="el" href="classby_1_1base_obj.html" title="Base class for all objects in byeol language.">baseObj</a>' type for proper interaction. this baseObjOrigin class is represents user defined classes in unmanaged codes. one important thing you must remember is, origin should be shadowed to '<a class="el" href="classby_1_1base_obj.html" title="Base class for all objects in byeol language.">baseObj</a>' type. every interaction you can take with origin could be handled with <a class="el" href="classby_1_1base_obj.html" title="Base class for all objects in byeol language.">baseObj</a> class. and inherits something too origin class aren't allowed.</p>
-<p>this limitation affects to usage of binder too: simply, declaring binder with type parameter 'baseObjOrigin' is not allowed. use '<a class="el" href="classby_1_1base_obj.html" title="Base class for all objects in byeol language.">baseObj</a>' type instead of. e.g. tstr&lt;baseObjOrigin&gt; a; // X, unexpected behavior may happen. tstr&lt;baseObj&gt; a; // O </p>
+<p>Template base object <a class="el" href="classby_1_1origin.html">origin</a> for user-defined classes. </p>
+<p>Template for creating origin objects for user-defined classes in unmanaged code. </p><dl class="section note"><dt>Note</dt><dd>Origin should be shadowed to '<a class="el" href="classby_1_1base_obj.html" title="Base class for all objects in byeol language.">baseObj</a>' type for proper interaction. this baseObjOrigin class is represents user defined classes in unmanaged codes. one important thing you must remember is, origin should be shadowed to '<a class="el" href="classby_1_1base_obj.html" title="Base class for all objects in byeol language.">baseObj</a>' type. every interaction you can take with origin could be handled with <a class="el" href="classby_1_1base_obj.html" title="Base class for all objects in byeol language.">baseObj</a> class. and inherits something too origin class aren't allowed.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>this limitation affects to usage of binder too. simply, declaring binder with type parameter 'baseObjOrigin' is not allowed. use '<a class="el" href="classby_1_1base_obj.html" title="Base class for all objects in byeol language.">baseObj</a>' type instead of. <div class="fragment"><div class="line">tstr&lt;baseObjOrigin&gt; a; <span class="comment">// X, unexpected behavior may happen.</span></div>
+<div class="line">tstr&lt;baseObj&gt; a; <span class="comment">// O</span></div>
+</div><!-- fragment --> </dd></dl>
 </div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/runner/work/byeol/byeol/module/core/ast/<a class="el" href="base_obj_8hpp_source.html">baseObj.hpp</a></li>
 <li>/home/runner/work/byeol/byeol/module/core/ast/<a class="el" href="tbase_obj_origin_8hpp_source.html">tbaseObjOrigin.hpp</a></li>

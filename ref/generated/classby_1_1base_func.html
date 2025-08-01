@@ -134,7 +134,7 @@ Inheritance diagram for by::baseFunc:</div>
 <area href="classby_1_1tbase_bridge_func.html" alt="by::tbaseBridgeFunc&lt; Ret, T, Marshaling, Args... &gt;" shape="rect" coords="644,224,956,248"/>
 <area href="classby_1_1tbase_bridge_func.html" alt="by::tbaseBridgeFunc&lt; void, T, Marshaling, Args... &gt;" shape="rect" coords="644,280,956,304"/>
 <area href="classby_1_1base_ctor.html" title="Base class for all constructor types." alt="by::baseCtor" shape="rect" coords="644,336,956,360"/>
-<area href="classby_1_1closure.html" title="Function closure with captured object scope." alt="by::closure" shape="rect" coords="644,392,956,416"/>
+<area href="classby_1_1closure.html" title="func closure with captured object scope" alt="by::closure" shape="rect" coords="644,392,956,416"/>
 <area href="classby_1_1func.html" title="Function definition in byeol language." alt="by::func" shape="rect" coords="644,448,956,472"/>
 <area href="classby_1_1input_func.html" title="Input function for reading user input." alt="by::inputFunc" shape="rect" coords="644,504,956,528"/>
 <area href="classby_1_1print_func.html" title="Template print function for output operations." alt="by::printFunc&lt; T &gt;" shape="rect" coords="644,560,956,584"/>
@@ -153,12 +153,15 @@ Public Member Functions</h2></td></tr>
 <a class="el" href="classby_1_1tnchain.html">scope</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>subs</b> () override</td></tr>
 <tr class="separator:a0f7fa628ec143bd2e7f80e4a193c70e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf3ab08f9af982c667e1b90900ceaa4b"><td class="memItemLeft" align="right" valign="top"><a id="aaf3ab08f9af982c667e1b90900ceaa4b"></a>
-priorType&#160;</td><td class="memItemRight" valign="bottom"><b>prioritize</b> (const <a class="el" href="classby_1_1args.html">args</a> &amp;a) const override</td></tr>
+<a class="el" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">priorType</a>&#160;</td><td class="memItemRight" valign="bottom"><b>prioritize</b> (const <a class="el" href="classby_1_1args.html">args</a> &amp;a) const override</td></tr>
 <tr class="separator:aaf3ab08f9af982c667e1b90900ceaa4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf68b8264a10c1bb1305949b38885a61"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classby_1_1params.html">params</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1base_func.html#acf68b8264a10c1bb1305949b38885a61">getParams</a> ()</td></tr>
 <tr class="separator:acf68b8264a10c1bb1305949b38885a61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3a159f2e277e292653c3135be34252b"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classby_1_1params.html">params</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1base_func.html#ae3a159f2e277e292653c3135be34252b">getParams</a> () const BY_CONST_FUNC(getParams()) virtual const <a class="el" href="classby_1_1node.html">node</a> *getRet() const</td></tr>
-<tr class="separator:ae3a159f2e277e292653c3135be34252b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2759a2cf7dd6ec28e064d60ab7e4a301"><td class="memItemLeft" align="right" valign="top"><a id="a2759a2cf7dd6ec28e064d60ab7e4a301"></a>
+const <a class="el" href="classby_1_1params.html">params</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getParams</b> () const BY_CONST_FUNC(getParams())</td></tr>
+<tr class="separator:a2759a2cf7dd6ec28e064d60ab7e4a301"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10dcd099cd44c73e1f859c80422ff4c9"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="classby_1_1node.html">node</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classby_1_1base_func.html#a10dcd099cd44c73e1f859c80422ff4c9">getRet</a> () const</td></tr>
+<tr class="separator:a10dcd099cd44c73e1f859c80422ff4c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa00b20fe928de52ee45efff2b4303499"><td class="memItemLeft" align="right" valign="top"><a id="aa00b20fe928de52ee45efff2b4303499"></a>
 const <a class="el" href="classby_1_1src.html">src</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getSrc</b> () const override</td></tr>
 <tr class="separator:aa00b20fe928de52ee45efff2b4303499"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -270,7 +273,7 @@ template&lt;typename T  = me&gt; </td></tr>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>canRun</b> (const <a class="el" href="classby_1_1args.html">args</a> &amp;a) const</td></tr>
 <tr class="separator:a0828a21719ae85f7f7fce1ec6ed9630f inherit pub_methods_classby_1_1node"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11d1f8361a8a14bb5543cf0904d72321 inherit pub_methods_classby_1_1node"><td class="memItemLeft" align="right" valign="top"><a id="a11d1f8361a8a14bb5543cf0904d72321"></a>
-priorType&#160;</td><td class="memItemRight" valign="bottom"><b>prioritize</b> (const <a class="el" href="classby_1_1args.html">args</a> *it) const BY_SIDE_FUNC(it</td></tr>
+<a class="el" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">priorType</a>&#160;</td><td class="memItemRight" valign="bottom"><b>prioritize</b> (const <a class="el" href="classby_1_1args.html">args</a> *it) const BY_SIDE_FUNC(it</td></tr>
 <tr class="separator:a11d1f8361a8a14bb5543cf0904d72321 inherit pub_methods_classby_1_1node"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e3c10832939a49c276a5243cf3ef537 inherit pub_methods_classby_1_1node"><td class="memItemLeft" align="right" valign="top"><a id="a1e3c10832939a49c276a5243cf3ef537"></a>
 virtual <a class="el" href="classby_1_1tstr.html">str</a>&#160;</td><td class="memItemRight" valign="bottom"><b>run</b> (const <a class="el" href="classby_1_1args.html">args</a> &amp;a)=0</td></tr>
@@ -543,10 +546,10 @@ T sub&#160;</td><td class="memItemRight" valign="bottom"><b>nullptr</b></td></tr
 <a class="el" href="classby_1_1tpriorities.html">tpriorities</a>&lt; T &gt; subAll&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
 <tr class="separator:a240142000d155d745e2c2672a20e6397 inherit pub_attribs_classby_1_1node"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3c881559cb2a0fcc04e4c22cab7c28a inherit pub_attribs_classby_1_1node"><td class="memItemLeft" align="right" valign="top"><a id="aa3c881559cb2a0fcc04e4c22cab7c28a"></a>
-priorType prioritize&#160;</td><td class="memItemRight" valign="bottom"><b>it</b></td></tr>
+<a class="el" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">priorType</a> prioritize&#160;</td><td class="memItemRight" valign="bottom"><b>it</b></td></tr>
 <tr class="separator:aa3c881559cb2a0fcc04e4c22cab7c28a inherit pub_attribs_classby_1_1node"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc646b8791c3220ebddba28cb6579837 inherit pub_attribs_classby_1_1node"><td class="memItemLeft" align="right" valign="top"><a id="acc646b8791c3220ebddba28cb6579837"></a>
-priorType prioritize&#160;</td><td class="memItemRight" valign="bottom"><b>NO_MATCH</b></td></tr>
+<a class="el" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">priorType</a> prioritize&#160;</td><td class="memItemRight" valign="bottom"><b>NO_MATCH</b></td></tr>
 <tr class="separator:acc646b8791c3220ebddba28cb6579837 inherit pub_attribs_classby_1_1node"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e24ca76a74a01f9e2e7bb7cbdb619e6 inherit pub_attribs_classby_1_1node"><td class="memItemLeft" align="right" valign="top"><a id="a1e24ca76a74a01f9e2e7bb7cbdb619e6"></a>
 <a class="el" href="classby_1_1tstr.html">str</a> run&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
@@ -558,10 +561,10 @@ static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class for all function types. </p>
-<p>Abstract base class providing common functionality for functions and methods. Manages parameters, return types, modifiers, and function execution semantics. </p>
+<p>Abstract base class providing common functionality for <a class="el" href="classby_1_1func.html">func</a>. Manages parameters, return types, <a class="el" href="classby_1_1modifier.html">modifier</a>, and function execution semantics. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="acf68b8264a10c1bb1305949b38885a61"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf68b8264a10c1bb1305949b38885a61">&#9670;&nbsp;</a></span>getParams() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acf68b8264a10c1bb1305949b38885a61">&#9670;&nbsp;</a></span>getParams()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -582,29 +585,39 @@ static <a class="el" href="classby_1_1instancer.html">instancer</a> *&#160;</td>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>parameters of run() func. parameter is just a type. and I don't care about the value of each parameters. that is the reason why I uses a ref to represents parameter.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>parameters of run() <a class="el" href="classby_1_1func.html">func</a>. parameter is just a type. and I don't care about the value of each parameters. that is the reason why I uses a ref to represents parameter.</dd></dl>
 <p>I need the name and which types should be casted and binded from given arguments are matters. </p>
 
 <p>Reimplemented in <a class="el" href="classby_1_1closure.html#a858a268996a77a686ec0ce6c69f1d9a6">by::closure</a>.</p>
 
 </div>
 </div>
-<a id="ae3a159f2e277e292653c3135be34252b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3a159f2e277e292653c3135be34252b">&#9670;&nbsp;</a></span>getParams() <span class="overload">[2/2]</span></h2>
+<a id="a10dcd099cd44c73e1f859c80422ff4c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10dcd099cd44c73e1f859c80422ff4c9">&#9670;&nbsp;</a></span>getRet()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classby_1_1params.html">params</a>&amp; by::baseFunc::getParams </td>
+          <td class="memname">virtual const <a class="el" href="classby_1_1node.html">node</a>* by::baseFunc::getRet </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>node which has same type of the func. in byeol lang, even type is an object. that's why I return this as a node. </dd></dl>
-<dl class="section remark"><dt>Remarks</dt><dd>please don't confuse this to evalType. evaluate means program just read the code and expand or calculate then replace it to the accurate another identifier or variable. so evalType of the func is just the func itself because there is nothing to calculate or run. that's completely different to Return type of the function. if there is a <a class="el" href="classby_1_1run_expr.html" title="Function/method call expression.">runExpr</a> instance, and it takes the func and proper argument, then it can be evaluated and its evalType is the return type of the func. </dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>please don't confuse this to <a class="el" href="classby_1_1node.html#a6feebc28c6d3967ba865b414b5f61275">node::getEval()</a>. evaluate means program just read the code and expand or calculate then replace it to the accurate another identifier or variable. so evalType of the func is just the func itself because there is nothing to calculate or run. that's completely different to Return type of the function. if there is a <a class="el" href="classby_1_1run_expr.html" title="Function/method call expression.">runExpr</a> instance, and it takes the func and proper argument, then it can be evaluated and its evalType is the return type of the func. </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classby_1_1closure.html#a7b282f0766c23878ff27927a6146b8a6">by::closure</a>.</p>
 
 </div>
 </div>

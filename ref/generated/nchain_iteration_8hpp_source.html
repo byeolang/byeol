@@ -108,22 +108,20 @@ $(document).ready(function(){initNavTree('nchain_iteration_8hpp_source.html','')
 <div class="title">nchainIteration.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="nchain_iteration_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// nested class of tnchain.hpp:</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//  this file allows to be refered by &#39;tnchain.hpp&#39; file only.</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classnchain_iteration.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="classnchain_iteration.html">nchainIteration</a>: <span class="keyword">public</span> <a class="code" href="classiteration.html">iteration</a> {</div>
+<a href="nchain_iteration_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">class </span><a class="code" href="classnchain_iteration.html">nchainIteration</a>: <span class="keyword">public</span> <a class="code" href="classiteration.html">iteration</a> {</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    BY(CLASS(<a class="code" href="classnchain_iteration.html">nchainIteration</a>, <a class="code" href="classiteration.html">iteration</a>))</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span>tnchain;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="classnchain_iteration.html">nchainIteration</a>(tnchain* iteratingChain, <span class="keyword">const</span> K* key, nbool isReversed):</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        me(iteratingChain, key, isReversed, <span class="keyword">false</span>, <span class="keyword">true</span>) {}</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        me(iteratingChain, key, isReversed, false, true) {}</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <a class="code" href="classnchain_iteration.html">nchainIteration</a>(tnchain* iteratingChain, <span class="keyword">const</span> K* key, nbool isReversed, nbool isBoundary, nbool isAutoAdvance):</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        super(isReversed),</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        _chainIter(iteratingChain),</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        _key(key ? *key : _getDummyKey()),</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        _isDummyKey(!key),</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        _iter(_makeContainerIter(<span class="keyword">false</span>)),</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        _iter(_makeContainerIter(false)),</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        _isBoundary(isBoundary) {</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordflow">if</span>(isAutoAdvance &amp;&amp; !_iter) {</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <a class="code" href="classnchain_iteration.html#a1efa87fb1a86b30ce0767d135a40f500">next</a>(1);</div>

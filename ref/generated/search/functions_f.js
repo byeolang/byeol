@@ -1,9 +1,11 @@
 var searchData=
 [
-  ['take_1481',['take',['../classby_1_1flag.html#af0adddbcc50202809f830fae9c643698',1,'by::flag']]],
-  ['tbridge_1482',['tbridge',['../classby_1_1tbridge.html#a90236faa04e62bbb507a71ff48c9df09',1,'by::tbridge']]],
-  ['tnarr_1483',['tnarr',['../classby_1_1tnarr.html#a9036538d0a451ceebf6c227943c16f70',1,'by::tnarr']]],
-  ['tostr_1484',['toStr',['../classby_1_1args.html#ac4dd7c1b539d0cb00243442cb3f7ce4d',1,'by::args::toStr()'],['../classby_1_1params.html#ac9875389c1f2a39defd754db99cee2ae',1,'by::params::toStr()']]],
-  ['tstr_1485',['tstr',['../classby_1_1tstr.html#a756225b757274b181c7dbfef0a1e2614',1,'by::tstr']]],
-  ['tweak_1486',['tweak',['../classby_1_1tweak.html#a99e4eb9d6318f875242c1265ec32870c',1,'by::tweak']]]
+  ['setenable_1481',['setEnable',['../classby_1_1logger.html#a91789ac247dbf97b78770ae083847a6a',1,'by::logger::setEnable()'],['../classby_1_1stream.html#a0725b4d3ca2a0fc114bda7eb6daae3b5',1,'by::stream::setEnable()']]],
+  ['setfilters_1482',['setFilters',['../classby_1_1logger.html#a67776480bd4461e1f3301f73bda384b2',1,'by::logger::setFilters(const filters &amp;newFilters)'],['../classby_1_1logger.html#aa5aa2c1441a633923699a824450ef863',1,'by::logger::setFilters()']]],
+  ['setme_1483',['setMe',['../classby_1_1args.html#a026a0cf4490ebe2c38fd24c7b5e14973',1,'by::args']]],
+  ['setreport_1484',['setReport',['../classby_1_1autoslot.html#aa4ac999ca868249c5d7322f054a1744b',1,'by::autoslot']]],
+  ['setreturnable_1485',['setReturnable',['../classby_1_1visitor.html#a30e01f0ab6bf62cb9bb5a75e3a70c728',1,'by::visitor']]],
+  ['stepforward_1486',['stepForward',['../classby_1_1cp_iter.html#ab1311b55812e45195bf668ee4f71e5b7',1,'by::cpIter::stepForward()'],['../classnarr_iteration.html#a58ef53cbe1221dd4560a482033f0fc55',1,'narrIteration::stepForward()'],['../classnmap_iteration.html#a872350a8c8fee2a00e0b8d2bd856b19f',1,'nmapIteration::stepForward()'],['../classnseq_iteration.html#a76ea358588e27c62f8d99077a4f13c28',1,'nseqIteration::stepForward()']]],
+  ['suball_1487',['subAll',['../classby_1_1node.html#afad8baad9c0eed9d7cf675ab1397dc4d',1,'by::node']]],
+  ['substr_1488',['substr',['../classby_1_1n_str.html#a83dd70e35604204cbcebe8ccafc96e08',1,'by::nStr']]]
 ];

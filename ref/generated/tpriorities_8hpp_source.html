@@ -113,16 +113,11 @@ $(document).ready(function(){initNavTree('tpriorities_8hpp_source.html',''); ini
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tnarr_8hpp.html">core/builtin/container/native/tnarr.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>by {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="comment">// the lower value, the higher priority.</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">enum</span> priorType {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        EXACT_MATCH = 0,    <span class="comment">// lv0: exact match.</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        NUMERIC_MATCH = 1,  <span class="comment">// lv1: numeric match.</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                            <span class="comment">//      it&#39;s almost same level of lv0. except lv1 allows numeric implicit</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                            <span class="comment">//      type cast (&#39;byte to int&#39; or reverse order)</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        IMPLICIT_MATCH = 2, <span class="comment">// lv2: implicit cast match.</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                            <span class="comment">//      it&#39;s almost same level of lv1 except it allows all kind of</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                            <span class="comment">//      implicit type cast.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        NO_MATCH,           <span class="comment">// lv+: no match.</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">    8</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">priorType</a> {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        EXACT_MATCH = 0,    </div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608ea54c23a8ed10f61e0444ae8dca709cf37">   10</a></span>&#160;        <a class="code" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608ea54c23a8ed10f61e0444ae8dca709cf37">NUMERIC_MATCH</a> = 1,  </div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608eaa46a6304fe04a7aad112e4e1ebd40c4d">   13</a></span>&#160;        <a class="code" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608eaa46a6304fe04a7aad112e4e1ebd40c4d">IMPLICIT_MATCH</a> = 2, </div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608ea2b0a7a43966cfdad8f8ab6fdf7f64d65">   16</a></span>&#160;        <a class="code" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608ea2b0a7a43966cfdad8f8ab6fdf7f64d65">NO_MATCH</a>,           </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    };</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">const</span> _nout nchar* getPriorTypeName(priorType type);</div>
@@ -131,7 +126,7 @@ $(document).ready(function(){initNavTree('tpriorities_8hpp_source.html',''); ini
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        BY(CLASS(<a class="code" href="structby_1_1tprior.html">tprior</a>, <a class="code" href="classby_1_1instance.html">instance</a>))</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <a class="code" href="structby_1_1tprior.html">tprior</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; newElem, priorType <a class="code" href="classby_1_1type.html">type</a>, ncnt lv);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <a class="code" href="structby_1_1tprior.html">tprior</a>(<span class="keyword">const</span> <a class="code" href="classby_1_1node.html">node</a>&amp; newElem, <a class="code" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">priorType</a> <a class="code" href="classby_1_1type.html">type</a>, ncnt lv);</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        T* operator-&gt;();</div>
@@ -147,7 +142,7 @@ $(document).ready(function(){initNavTree('tpriorities_8hpp_source.html',''); ini
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    public:</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <a class="code" href="classby_1_1tstr.html">tstr</a>&lt;T&gt; elem;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        priorType <a class="code" href="classby_1_1type.html">type</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <a class="code" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">priorType</a> <a class="code" href="classby_1_1type.html">type</a>;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        ncnt lv;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    };</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
@@ -170,13 +165,13 @@ $(document).ready(function(){initNavTree('tpriorities_8hpp_source.html',''); ini
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        T* <a class="code" href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">get</a>();</div>
 <div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="classby_1_1tpriorities.html#a99f3441e01ed0c1ee4b43cc2bbdc9152">   70</a></span>&#160;        <span class="keyword">const</span> T* <a class="code" href="classby_1_1tpriorities.html#a99f3441e01ed0c1ee4b43cc2bbdc9152">get</a>() const BY_CONST_FUNC(<a class="code" href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">get</a>())</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        priorType getPriorType() const;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <a class="code" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">priorType</a> getPriorType() const;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    protected:</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordtype">void</span> _setPriorType(priorType new1);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordtype">void</span> _setPriorType(<a class="code" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">priorType</a> new1);</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    private:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        priorType _type;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <a class="code" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">priorType</a> _type;</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    };</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    typedef <a class="code" href="classby_1_1tpriorities.html">tpriorities</a>&lt;<a class="code" href="classby_1_1node.html">node</a>&gt; <a class="code" href="classby_1_1tpriorities.html">priorities</a>;</div>
@@ -192,6 +187,10 @@ $(document).ready(function(){initNavTree('tpriorities_8hpp_source.html',''); ini
 <div class="ttc" id="astructby_1_1tprior_html"><div class="ttname"><a href="structby_1_1tprior.html">by::tprior</a></div><div class="ttdoc">Priority wrapper for type matching.</div><div class="ttdef"><b>Definition:</b> tpriorities.hpp:24</div></div>
 <div class="ttc" id="astructby_1_1tprior_html_a5982f53bba34132878e32ccc9933ffbe"><div class="ttname"><a href="structby_1_1tprior.html#a5982f53bba34132878e32ccc9933ffbe">by::tprior::get</a></div><div class="ttdeci">const T * get() const BY_CONST_FUNC(get()) nbool isSamePrecedence(const me &amp;rhs) const</div><div class="ttdoc">precedence is more detail concept of priority. it considers the owner of them are equal above priorit...</div></div>
 <div class="ttc" id="atnarr_8hpp_html"><div class="ttname"><a href="tnarr_8hpp.html">tnarr.hpp</a></div></div>
+<div class="ttc" id="atpriorities_8hpp_html_a1a65fd37188763b1ebe002fc60d4608e"><div class="ttname"><a href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">by::priorType</a></div><div class="ttdeci">priorType</div><div class="ttdoc">the lower value, the higher priority.</div><div class="ttdef"><b>Definition:</b> tpriorities.hpp:8</div></div>
+<div class="ttc" id="atpriorities_8hpp_html_a1a65fd37188763b1ebe002fc60d4608ea2b0a7a43966cfdad8f8ab6fdf7f64d65"><div class="ttname"><a href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608ea2b0a7a43966cfdad8f8ab6fdf7f64d65">by::NO_MATCH</a></div><div class="ttdeci">@ NO_MATCH</div><div class="ttdef"><b>Definition:</b> tpriorities.hpp:16</div></div>
+<div class="ttc" id="atpriorities_8hpp_html_a1a65fd37188763b1ebe002fc60d4608ea54c23a8ed10f61e0444ae8dca709cf37"><div class="ttname"><a href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608ea54c23a8ed10f61e0444ae8dca709cf37">by::NUMERIC_MATCH</a></div><div class="ttdeci">@ NUMERIC_MATCH</div><div class="ttdoc">lv0: exact match.</div><div class="ttdef"><b>Definition:</b> tpriorities.hpp:10</div></div>
+<div class="ttc" id="atpriorities_8hpp_html_a1a65fd37188763b1ebe002fc60d4608eaa46a6304fe04a7aad112e4e1ebd40c4d"><div class="ttname"><a href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608eaa46a6304fe04a7aad112e4e1ebd40c4d">by::IMPLICIT_MATCH</a></div><div class="ttdeci">@ IMPLICIT_MATCH</div><div class="ttdef"><b>Definition:</b> tpriorities.hpp:13</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

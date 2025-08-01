@@ -191,8 +191,8 @@ $(document).ready(function(){initNavTree('node_8hpp_source.html',''); initResiza
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            BY_SIDE_FUNC(name, subAll&lt;T&gt;(*name, a), <a class="code" href="classby_1_1tpriorities.html">tpriorities</a>&lt;T&gt;());</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordtype">bool</span> canRun(const <a class="code" href="classby_1_1args.html">args</a>&amp; a) const;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        virtual priorType prioritize(const <a class="code" href="classby_1_1args.html">args</a>&amp; a) const = 0;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        priorType prioritize(const <a class="code" href="classby_1_1args.html">args</a>* it) const BY_SIDE_FUNC(it, prioritize(*it), NO_MATCH);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        virtual <a class="code" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">priorType</a> prioritize(const <a class="code" href="classby_1_1args.html">args</a>&amp; a) const = 0;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <a class="code" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">priorType</a> prioritize(const <a class="code" href="classby_1_1args.html">args</a>* it) const BY_SIDE_FUNC(it, prioritize(*it), NO_MATCH);</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        virtual <a class="code" href="classby_1_1tstr.html">str</a> run(const <a class="code" href="classby_1_1args.html">args</a>&amp; a) = 0;</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <a class="code" href="classby_1_1tstr.html">str</a> run(const <a class="code" href="classby_1_1args.html">args</a>* it) BY_SIDE_FUNC(run);</div>
@@ -260,7 +260,7 @@ $(document).ready(function(){initNavTree('node_8hpp_source.html',''); initResiza
 <div class="ttc" id="aclassby_1_1expr_maker_html"><div class="ttname"><a href="classby_1_1expr_maker.html">by::exprMaker</a></div><div class="ttdoc">Factory for creating expressions with source location information.</div><div class="ttdef"><b>Definition:</b> exprMaker.hpp:17</div></div>
 <div class="ttc" id="aclassby_1_1frame_interactable_html"><div class="ttname"><a href="classby_1_1frame_interactable.html">by::frameInteractable</a></div><div class="ttdoc">Interface for frame interaction.</div><div class="ttdef"><b>Definition:</b> frameInteractable.hpp:15</div></div>
 <div class="ttc" id="aclassby_1_1instance_html"><div class="ttname"><a href="classby_1_1instance.html">by::instance</a></div><div class="ttdoc">Base class for all managed instances in memlite system.</div><div class="ttdef"><b>Definition:</b> instance.hpp:20</div></div>
-<div class="ttc" id="aclassby_1_1modifier_html"><div class="ttname"><a href="classby_1_1modifier.html">by::modifier</a></div><div class="ttdoc">Access modifier for class members and functions.</div><div class="ttdef"><b>Definition:</b> modifier.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1modifier_html"><div class="ttname"><a href="classby_1_1modifier.html">by::modifier</a></div><div class="ttdoc">Access modifier for class members and func.</div><div class="ttdef"><b>Definition:</b> modifier.hpp:12</div></div>
 <div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">Base class for all AST nodes in byeol language.</div><div class="ttdef"><b>Definition:</b> node.hpp:30</div></div>
 <div class="ttc" id="aclassby_1_1node_html_a422800bf7875c45e31b13feab65547d0"><div class="ttname"><a href="classby_1_1node.html#a422800bf7875c45e31b13feab65547d0">by::node::isComplete</a></div><div class="ttdeci">virtual nbool isComplete() const</div></div>
 <div class="ttc" id="aclassby_1_1node_html_a6feebc28c6d3967ba865b414b5f61275"><div class="ttname"><a href="classby_1_1node.html#a6feebc28c6d3967ba865b414b5f61275">by::node::getEval</a></div><div class="ttdeci">virtual str getEval() const</div></div>
@@ -282,6 +282,7 @@ $(document).ready(function(){initNavTree('node_8hpp_source.html',''); initResiza
 <div class="ttc" id="atnarr_8hpp_html"><div class="ttname"><a href="tnarr_8hpp.html">tnarr.hpp</a></div></div>
 <div class="ttc" id="atnmap_8hpp_html"><div class="ttname"><a href="tnmap_8hpp.html">tnmap.hpp</a></div></div>
 <div class="ttc" id="atpriorities_8hpp_html"><div class="ttname"><a href="tpriorities_8hpp.html">tpriorities.hpp</a></div></div>
+<div class="ttc" id="atpriorities_8hpp_html_a1a65fd37188763b1ebe002fc60d4608e"><div class="ttname"><a href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">by::priorType</a></div><div class="ttdeci">priorType</div><div class="ttdoc">the lower value, the higher priority.</div><div class="ttdef"><b>Definition:</b> tpriorities.hpp:8</div></div>
 <div class="ttc" id="avalidable_8hpp_html"><div class="ttname"><a href="validable_8hpp.html">validable.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

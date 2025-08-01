@@ -1,11 +1,5 @@
 var searchData=
 [
-  ['setenable_1473',['setEnable',['../classby_1_1logger.html#a91789ac247dbf97b78770ae083847a6a',1,'by::logger::setEnable()'],['../classby_1_1stream.html#a0725b4d3ca2a0fc114bda7eb6daae3b5',1,'by::stream::setEnable()']]],
-  ['setfilters_1474',['setFilters',['../classby_1_1logger.html#a67776480bd4461e1f3301f73bda384b2',1,'by::logger::setFilters(const filters &amp;newFilters)'],['../classby_1_1logger.html#aa5aa2c1441a633923699a824450ef863',1,'by::logger::setFilters()']]],
-  ['setme_1475',['setMe',['../classby_1_1args.html#a026a0cf4490ebe2c38fd24c7b5e14973',1,'by::args']]],
-  ['setreport_1476',['setReport',['../classby_1_1autoslot.html#aa4ac999ca868249c5d7322f054a1744b',1,'by::autoslot']]],
-  ['setreturnable_1477',['setReturnable',['../classby_1_1visitor.html#a30e01f0ab6bf62cb9bb5a75e3a70c728',1,'by::visitor']]],
-  ['stepforward_1478',['stepForward',['../classby_1_1cp_iter.html#ab1311b55812e45195bf668ee4f71e5b7',1,'by::cpIter::stepForward()'],['../classnarr_iteration.html#a58ef53cbe1221dd4560a482033f0fc55',1,'narrIteration::stepForward()'],['../classnmap_iteration.html#a872350a8c8fee2a00e0b8d2bd856b19f',1,'nmapIteration::stepForward()'],['../classnseq_iteration.html#a76ea358588e27c62f8d99077a4f13c28',1,'nseqIteration::stepForward()']]],
-  ['suball_1479',['subAll',['../classby_1_1node.html#afad8baad9c0eed9d7cf675ab1397dc4d',1,'by::node']]],
-  ['substr_1480',['substr',['../classby_1_1n_str.html#a83dd70e35604204cbcebe8ccafc96e08',1,'by::nStr']]]
+  ['rel_1479',['rel',['../classby_1_1autoslot.html#a1144881a1256d6fd289636d07f92caba',1,'by::autoslot::rel()'],['../classby_1_1block_expr.html#a5b63daeb5b5caff442a5be3936acf177',1,'by::blockExpr::rel()'],['../classby_1_1node.html#ac5a636219cb26fbd6c32e38f4b3a5c81',1,'by::node::rel()'],['../classiter.html#aaf274264761ec432af9c496d598630d8',1,'iter::rel() override'],['../classiter.html#aaf274264761ec432af9c496d598630d8',1,'iter::rel() override'],['../classby_1_1frame.html#a2779d034aee4cd68fceeb892faf86bbd',1,'by::frame::rel()'],['../classby_1_1thread.html#a05563f2bb3df2fa85310a0f37f47c343',1,'by::thread::rel()']]],
+  ['resize_1480',['resize',['../classby_1_1chunks.html#a7761ce857f3989c96b8ea553230da06c',1,'by::chunks']]]
 ];

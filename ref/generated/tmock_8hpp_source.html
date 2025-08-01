@@ -141,9 +141,9 @@ $(document).ready(function(){initNavTree('tmock_8hpp_source.html',''); initResiz
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">using</span> super::prioritize;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        priorType prioritize(<span class="keyword">const</span> <a class="code" href="classby_1_1args.html">args</a>&amp; a)<span class="keyword"> const override </span>{</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <a class="code" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">priorType</a> prioritize(<span class="keyword">const</span> <a class="code" href="classby_1_1args.html">args</a>&amp; a)<span class="keyword"> const override </span>{</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="keywordflow">if</span>(_org) <span class="keywordflow">return</span> _org-&gt;prioritize(a);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keywordflow">return</span> NO_MATCH;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608ea2b0a7a43966cfdad8f8ab6fdf7f64d65">NO_MATCH</a>;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        }</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keyword">using</span> super::run;</div>
@@ -201,6 +201,8 @@ $(document).ready(function(){initNavTree('tmock_8hpp_source.html',''); initResiz
 <div class="ttc" id="aclassby_1_1type_html"><div class="ttname"><a href="classby_1_1type.html">by::type</a></div><div class="ttdoc">Base class for runtime type information in byeol language.</div><div class="ttdef"><b>Definition:</b> type.hpp:12</div></div>
 <div class="ttc" id="adum_scope_8hpp_html"><div class="ttname"><a href="dum_scope_8hpp.html">dumScope.hpp</a></div></div>
 <div class="ttc" id="anode_8hpp_html"><div class="ttname"><a href="node_8hpp.html">node.hpp</a></div></div>
+<div class="ttc" id="atpriorities_8hpp_html_a1a65fd37188763b1ebe002fc60d4608e"><div class="ttname"><a href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">by::priorType</a></div><div class="ttdeci">priorType</div><div class="ttdoc">the lower value, the higher priority.</div><div class="ttdef"><b>Definition:</b> tpriorities.hpp:8</div></div>
+<div class="ttc" id="atpriorities_8hpp_html_a1a65fd37188763b1ebe002fc60d4608ea2b0a7a43966cfdad8f8ab6fdf7f64d65"><div class="ttname"><a href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608ea2b0a7a43966cfdad8f8ab6fdf7f64d65">by::NO_MATCH</a></div><div class="ttdeci">@ NO_MATCH</div><div class="ttdef"><b>Definition:</b> tpriorities.hpp:16</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

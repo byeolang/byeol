@@ -134,11 +134,12 @@ typedef tpriorities&lt; node &gt;&#160;</td><td class="memItemRight" valign="bot
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a1a65fd37188763b1ebe002fc60d4608e"><td class="memItemLeft" align="right" valign="top"><a id="a1a65fd37188763b1ebe002fc60d4608e"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>priorType</b> { <b>EXACT_MATCH</b> = 0
-, <b>NUMERIC_MATCH</b> = 1
-, <b>IMPLICIT_MATCH</b> = 2
-, <b>NO_MATCH</b>
+<tr class="memitem:a1a65fd37188763b1ebe002fc60d4608e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">by::priorType</a> { <b>EXACT_MATCH</b> = 0
+, <a class="el" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608ea54c23a8ed10f61e0444ae8dca709cf37">by::NUMERIC_MATCH</a> = 1
+, <a class="el" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608eaa46a6304fe04a7aad112e4e1ebd40c4d">by::IMPLICIT_MATCH</a> = 2
+, <a class="el" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608ea2b0a7a43966cfdad8f8ab6fdf7f64d65">by::NO_MATCH</a>
  }</td></tr>
+<tr class="memdesc:a1a65fd37188763b1ebe002fc60d4608e"><td class="mdescLeft">&#160;</td><td class="mdescRight">the lower value, the higher priority.  <a href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">More...</a><br /></td></tr>
 <tr class="separator:a1a65fd37188763b1ebe002fc60d4608e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -147,6 +148,31 @@ Functions</h2></td></tr>
 const _nout nchar *&#160;</td><td class="memItemRight" valign="bottom"><b>by::getPriorTypeName</b> (priorType type)</td></tr>
 <tr class="separator:a0e469d99a464fd42c0345554579cf50c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a1a65fd37188763b1ebe002fc60d4608e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a65fd37188763b1ebe002fc60d4608e">&#9670;&nbsp;</a></span>priorType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">by::priorType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>the lower value, the higher priority. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a1a65fd37188763b1ebe002fc60d4608ea54c23a8ed10f61e0444ae8dca709cf37"></a>NUMERIC_MATCH&#160;</td><td class="fielddoc"><p>lv0: exact match. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a1a65fd37188763b1ebe002fc60d4608eaa46a6304fe04a7aad112e4e1ebd40c4d"></a>IMPLICIT_MATCH&#160;</td><td class="fielddoc"><p>lv1: numeric match. it's almost same level of lv0. except lv1 allows numeric implicit type cast (e.g. <a class="el" href="classby_1_1n_byte.html">byte</a> to <a class="el" href="classby_1_1n_int.html">int</a> or reverse order) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a1a65fd37188763b1ebe002fc60d4608ea2b0a7a43966cfdad8f8ab6fdf7f64d65"></a>NO_MATCH&#160;</td><td class="fielddoc"><p>lv2: implicit cast match. it's almost same level of lv1 except it allows all kind of implicit type cast. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->

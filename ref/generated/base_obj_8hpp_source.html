@@ -152,7 +152,7 @@ $(document).ready(function(){initNavTree('base_obj_8hpp_source.html',''); initRe
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordtype">void</span> setState(state new1) <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">using</span> super::prioritize;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        priorType prioritize(<span class="keyword">const</span> <a class="code" href="classby_1_1args.html">args</a>&amp; a) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">priorType</a> prioritize(<span class="keyword">const</span> <a class="code" href="classby_1_1args.html">args</a>&amp; a) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="code" href="classby_1_1base_obj.html">baseObj</a>&amp; getOrigin() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
@@ -174,7 +174,7 @@ $(document).ready(function(){initNavTree('base_obj_8hpp_source.html',''); initRe
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordtype">void</span> _setSrc(<span class="keyword">const</span> <a class="code" href="classby_1_1src.html">src</a>&amp; s) <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> _inFrame(<a class="code" href="classby_1_1frame.html">frame</a>&amp; fr, <span class="keyword">const</span> <a class="code" href="classby_1_1tbicontainable.html">bicontainable</a>* <a class="code" href="classby_1_1args.html">args</a>) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment">// update origin pointer of an object.</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment">// update @ref origin pointer of an object.</span></div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="comment">// to modify origin* is very dangerous. only permitted module should do this.</span></div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordtype">void</span> _setOrigin(<span class="keyword">const</span> <a class="code" href="classby_1_1base_obj.html">baseObj</a>&amp; newOrg);</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
@@ -203,13 +203,13 @@ $(document).ready(function(){initNavTree('base_obj_8hpp_source.html',''); initRe
 <div class="ttc" id="aclassby_1_1frame_html"><div class="ttname"><a href="classby_1_1frame.html">by::frame</a></div><div class="ttdoc">Execution frame for byeol runtime.</div><div class="ttdef"><b>Definition:</b> frame.hpp:29</div></div>
 <div class="ttc" id="aclassby_1_1generic_origin_html"><div class="ttname"><a href="classby_1_1generic_origin.html">by::genericOrigin</a></div><div class="ttdoc">Generic type origin with type parameters.</div><div class="ttdef"><b>Definition:</b> genericOrigin.hpp:15</div></div>
 <div class="ttc" id="aclassby_1_1mgd_type_html"><div class="ttname"><a href="classby_1_1mgd_type.html">by::mgdType</a></div><div class="ttdoc">Managed type for byeol objects.</div><div class="ttdef"><b>Definition:</b> mgdType.hpp:17</div></div>
-<div class="ttc" id="aclassby_1_1modifier_html"><div class="ttname"><a href="classby_1_1modifier.html">by::modifier</a></div><div class="ttdoc">Access modifier for class members and functions.</div><div class="ttdef"><b>Definition:</b> modifier.hpp:12</div></div>
+<div class="ttc" id="aclassby_1_1modifier_html"><div class="ttname"><a href="classby_1_1modifier.html">by::modifier</a></div><div class="ttdoc">Access modifier for class members and func.</div><div class="ttdef"><b>Definition:</b> modifier.hpp:12</div></div>
 <div class="ttc" id="aclassby_1_1node_html"><div class="ttname"><a href="classby_1_1node.html">by::node</a></div><div class="ttdoc">Base class for all AST nodes in byeol language.</div><div class="ttdef"><b>Definition:</b> node.hpp:30</div></div>
 <div class="ttc" id="aclassby_1_1obj_html"><div class="ttname"><a href="classby_1_1obj.html">by::obj</a></div><div class="ttdoc">Managed object in byeol programming environment.</div><div class="ttdef"><b>Definition:</b> obj.hpp:19</div></div>
 <div class="ttc" id="aclassby_1_1parser_html"><div class="ttname"><a href="classby_1_1parser.html">by::parser</a></div><div class="ttdoc">Parser for byeol language source code.</div><div class="ttdef"><b>Definition:</b> parser.hpp:43</div></div>
 <div class="ttc" id="aclassby_1_1src_html"><div class="ttname"><a href="classby_1_1src.html">by::src</a></div><div class="ttdoc">Source location information.</div><div class="ttdef"><b>Definition:</b> src.hpp:11</div></div>
 <div class="ttc" id="aclassby_1_1statable_html"><div class="ttname"><a href="classby_1_1statable.html">by::statable</a></div><div class="ttdoc">Interface for objects with compilation state.</div><div class="ttdef"><b>Definition:</b> statable.hpp:17</div></div>
-<div class="ttc" id="aclassby_1_1tbase_obj_origin_html"><div class="ttname"><a href="classby_1_1tbase_obj_origin.html">by::tbaseObjOrigin</a></div><div class="ttdoc">Template base object origin for user-defined classes.</div><div class="ttdef"><b>Definition:</b> tbaseObjOrigin.hpp:24</div></div>
+<div class="ttc" id="aclassby_1_1tbase_obj_origin_html"><div class="ttname"><a href="classby_1_1tbase_obj_origin.html">by::tbaseObjOrigin</a></div><div class="ttdoc">Template base object origin for user-defined classes.</div><div class="ttdef"><b>Definition:</b> tbaseObjOrigin.hpp:25</div></div>
 <div class="ttc" id="aclassby_1_1tbicontainable_html"><div class="ttname"><a href="classby_1_1tbicontainable.html">by::tbicontainable</a></div><div class="ttdoc">Template bidirectional container interface.</div><div class="ttdef"><b>Definition:</b> tbicontainable.hpp:17</div></div>
 <div class="ttc" id="aclassby_1_1tmock_html"><div class="ttname"><a href="classby_1_1tmock.html">by::tmock</a></div><div class="ttdoc">Mock object template for testing and verification.</div><div class="ttdef"><b>Definition:</b> tmock.hpp:13</div></div>
 <div class="ttc" id="aclassby_1_1tnchain_html"><div class="ttname"><a href="classby_1_1tnchain.html">by::tnchain&lt; std::string, node, tnmap&lt; std::string, node, immutableTactic &gt; &gt;</a></div></div>
@@ -220,6 +220,7 @@ $(document).ready(function(){initNavTree('base_obj_8hpp_source.html',''); initRe
 <div class="ttc" id="asrc_2src_8hpp_html"><div class="ttname"><a href="src_2src_8hpp.html">src.hpp</a></div></div>
 <div class="ttc" id="astatable_8hpp_html"><div class="ttname"><a href="statable_8hpp.html">statable.hpp</a></div></div>
 <div class="ttc" id="atmock_8hpp_html"><div class="ttname"><a href="tmock_8hpp.html">tmock.hpp</a></div></div>
+<div class="ttc" id="atpriorities_8hpp_html_a1a65fd37188763b1ebe002fc60d4608e"><div class="ttname"><a href="tpriorities_8hpp.html#a1a65fd37188763b1ebe002fc60d4608e">by::priorType</a></div><div class="ttdeci">priorType</div><div class="ttdoc">the lower value, the higher priority.</div><div class="ttdef"><b>Definition:</b> tpriorities.hpp:8</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
