@@ -5,44 +5,45 @@
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
         {% unless logo_path == empty %}
-          <a class="site-logo" href="{{ '/' | relative_url }}"><img src="{{ logo_path | relative_url }}" alt="{{ site.masthead_title | default: site.title }}"></a>
+          <a class="site-logo" href="{{ '/' | relative_url }}" title="home"><img src="{{ logo_path | relative_url }}" alt="{{ site.masthead_title | default: site.title }}"></a>
         {% endunless %}
         <a class="site-title" href="{{ '/' | relative_url }}">
           {{ site.masthead_title | default: site.title }}
           {% if site.subtitle %}<span class="site-subtitle">{{ site.subtitle }}</span>{% endif %}
         </a>
 
-        <a id="icon_posts" href="/posts/" title="Notice">
-          <li class="masthead__menu-item">
+        <a id="icon_posts" href="/posts/">
+          <span class="masthead__menu-item" data-tooltip="notice">
             <i class='fas fa-bullhorn fa-solid' style='color: var(--byeol-nebular);'></i>
-          </li>
+          </span>
         </a>
 
-        <a id="icon_download" href="/download/" title="Download binary">
-          <li class="masthead__menu-item">
+        <a id="icon_download" href="/download/">
+          <span class="masthead__menu-item" data-tooltip="download binary">
             <i class='fa-download fa-solid' style='color: var(--byeol-point);'></i>
-          </li>
+          </span>
         </a>
 
-        <a id="icon_guide" href="/guide/" title="Byeol language guide">
-          <li class="masthead__menu-item">
+        <a id="icon_guide" href="/guide/">
+          <span class="masthead__menu-item" data-tooltip="byeol language guide">
             <i class='fa-book fa-solid' style='color: #af844d;'></i>
-          </li>
+          </span>
         </a>
 
-        <a id="icon_play" href="/play/" title="Playground: try it yourself">
-          <li class="masthead__menu-item">
+        <a id="icon_play" href="/play/">
+          <span class="masthead__menu-item" data-tooltip="playground">
             <i class='fa-play fa-solid' style='color: var(--byeol-grass);'></i>
-          </li>
+          </span>
         </a>
 
-        <a id="icon_ref" href="/ref/" title="Byeol c++ interpreter code reference">
-          <li class="masthead__menu-item">
+        <a id="icon_ref" href="/ref/">
+          <span class="masthead__menu-item" data-tooltip="byeol c++ reference">
             <i class='fa-search fa-solid' style='color: var(--byeol-white2);'></i>
-          </li>
+          </span>
         </a>
 
-        <div id="dark-mode-wrapper"></div>
+        <span id="dark-mode-wrapper" data-tooltip="toggle dark mode"></span>
+
         <button class="greedy-nav__toggle hidden" type="button">
           <span class="visually-hidden">{{ site.data.ui-text[site.locale].menu_label | default: "Toggle menu" }}</span>
           <div class="navicon"></div>
