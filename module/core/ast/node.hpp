@@ -75,10 +75,18 @@ namespace nm {
         template <typename T = me> tnarr<T, strTactic> subAll() const;
         template <typename T = me> tpriorities<T> subAll(const std::string& name) const;
         template <typename T = me> tpriorities<T> subAll(const std::string* it) const NM_SIDE_FUNC(subAll<T>)
-        template <typename T = me>
-        tpriorities<T> subAll(const std::string& name, const args& a) const;
+
+
+        /// finds subnodes of this node, allowing implicit conversion based on name and arguments.
+        /// @param a if you pass this as a nullptr, the argument will be ignored and all names that are the same
+        ///          will be considered to meet the condition.
+        ///          if you pass the argument as `args()`, it will be considered to meet the condition only
+        ///          if there are no parameters and the names are the same, so the two have completely different
+        ///          meanings. BE CAREFUL.
         template <typename T = me>
         tpriorities<T> subAll(const std::string& name, const args* a) const;
+        template <typename T = me>
+        tpriorities<T> subAll(const std::string& name, const args& a) const;
         template <typename T = me>
         tpriorities<T> subAll(const std::string* name, const args* a) const NM_SIDE_FUNC(name, subAll<T>(*name, a), tpriorities<T>());
         template <typename T = me>

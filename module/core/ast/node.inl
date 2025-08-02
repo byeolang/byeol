@@ -35,9 +35,9 @@ namespace nm {
             for(int n = 0; n < this->size(); n++) {
                 const auto& matches = (*this)[n];
                 if(matches.len() == 0) continue;
-                const tprior<T>* first = nullptr;
+                tstr<tprior<T>> first;
                 for(const tprior<T>& match: matches) {
-                    const tprior<T>* elem = new tprior<T>(*match, priorType(n), match.lv);
+                    tstr<tprior<T>> elem(new tprior<T>(*match, priorType(n), match.lv));
                     if(!first) {
                         first = elem;
                         ret._setPriorType(first->type);
