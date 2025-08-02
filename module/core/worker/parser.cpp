@@ -166,11 +166,12 @@ namespace nm {
     obj* me::onPack(const node& path) {
         std::vector<string> dotnames = _toDotnames(path);
         NM_DI("tokenEvent: onPack(%s)", join(dotnames));
+        WHEN(dotnames.size() <= 0).ret(nullptr);
 
         // pack syntax rule #1:
-        //  if there is no specified name of pack, I create an one.
+        //  if there is no specified name of pack, create one.
         const std::string& firstName = dotnames[0];
-        if(nul(getTask())) setTask(new slot(manifest(firstName)));
+        if(!getTask()) setTask(new slot(manifest(firstName)));
         obj* e = &getTask()->getPack();
 
         const std::string& realName = getTask()->getManifest().name;
@@ -180,11 +181,11 @@ namespace nm {
 
         // pack syntax rule #2:
         //  middle name automatically created if not exist.
-        //  on interpreting 'mypack' pack, user may uses 'pack' keyword with dotted-name.
+        //  while interpreting 'mypack' pack, user may uses 'pack' keyword with dotted-name.
         //  for instance,
         //      'pack mypack.component.ui'
         //  in this scenario, mypack instance should be created before. and component sub
-        //  pack object can be created in this parsing keyword.
+        //  pack object can be created on this keyword parsing.
         for(int n = 1; n < dotnames.size(); n++) {
             const std::string& name = dotnames[n];
             origin* sub = e->sub<origin>(name);
@@ -574,13 +575,13 @@ namespace nm {
         do {
             ret.push_back(iter->getName());
             const node* next = iter->getMe();
-            WHEN(!next || !next->is<getExpr>())
-                .exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport())
-                .ret(std::vector<string>());
+            WHEN_NUL(next).ret(ret);
 
             iter = next->cast<getExpr>();
-        } while(iter);
-        return ret;
+            WHEN_NUL(iter)
+                .exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport())
+                .ret(std::vector<string>());
+        } while(true);
     }
 
     genericOrigin* me::onDefObjGeneric(const std::string& name, const args& typeParams,
