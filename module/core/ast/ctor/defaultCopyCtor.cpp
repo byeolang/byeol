@@ -17,4 +17,9 @@ namespace nm {
         const node& p = getParams()[0].getOrigin();
         return str((node*) a.begin()->as(p)->clone());
     }
+
+    const src& me::getSrc() const {
+        static src inner(srcFile(), baseObj::CTOR_NAME, point{});
+        return inner;
+    }
 }

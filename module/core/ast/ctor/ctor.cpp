@@ -14,4 +14,9 @@ namespace nm {
     }
 
     str me::getEval() const { return getRet(); }
+
+    const src& me::getSrc() const {
+        static src inner(srcFile(), baseObj::CTOR_NAME, point{});
+        return inner;
+    }
 }

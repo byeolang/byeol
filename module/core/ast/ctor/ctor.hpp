@@ -15,5 +15,7 @@ namespace nm {
         str run(const args& a) override;
 
         str getEval() const override;
+
+        const src& getSrc() const override;
     };
 }

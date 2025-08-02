@@ -16,5 +16,7 @@ namespace nm {
     public:
         using super::run;
         str run(const args& a) override;
+
+        const src& getSrc() const override;
     };
 }
