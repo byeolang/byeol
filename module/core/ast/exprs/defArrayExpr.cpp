@@ -48,7 +48,7 @@ namespace nm {
         for(int n = 1; n < len; n++) {
             ased = _elems[n].as<node>();
             ret = ret->deduce(*ased);
-            NM_DI("deduceElem: prevElem + elem%d[%s] --> %s", n, ased, *ret);
+            NM_DI("deduceElem: prevElem + elem%d[%s] --> %s", n, ased, ret);
             WHEN_NUL(ret).info("deduceElem: elem%d was null.", n).ret(nVoid::singleton());
         }
 

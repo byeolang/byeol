@@ -162,7 +162,7 @@ namespace nm {
         const narr& stmts = me.getStmts();
         WHEN(nul(stmts) || stmts.len() <= 0).ret(); // will be catched to another verification.
 
-        me.setEval(*me.getEval());
+        me.setEval(me.getEval().get());
         me.outFrame();
     }
 

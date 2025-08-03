@@ -855,12 +855,12 @@ namespace nm {
         //      1. rename 'get' of 'lhs[1].getExpr.getSubName to 'set'.
         //      2. unbind subArgs of (1).
         //      3. lhs.getArgs().add(rhs).
-        NM_DI("tokenEvent:: _onSetElem(%s, %s)", &lhs, &rhs);
-
         getExpr& subject = lhs.getSubj().cast<getExpr>() OR.exErr(LHS_IS_NUL).ret(nullptr);
         subject._name = "set";
         subject._args.rel();
         lhs.getArgs().add(rhs);
+
+        NM_DI("tokenEvent:: _onSetElem(%s, %s)", &lhs, &rhs);
 
         return &lhs;
     }
