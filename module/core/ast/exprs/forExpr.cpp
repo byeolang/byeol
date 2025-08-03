@@ -37,7 +37,10 @@ namespace nm {
                 super(ret), _container(container), _iter(iter), _owner(owner) {}
 
         public:
-            nbool isLooping() override { return !_iter->run("isEnd")->cast<nbool>(); }
+            nbool isLooping() override {
+                nbool isEnd = _iter->run("isEnd")->cast<nbool>() OR.ret(false);
+                return !isEnd;
+            }
 
             void run(blockExpr& blk, frame& fr) override {
                 str elem = _iter->run("get") OR.err("elem is null").ret();

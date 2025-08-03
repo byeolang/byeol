@@ -24,7 +24,7 @@ namespace nm {
                 tstr<nBool> ased = _owner.getCondition()
                                .asImpli<nBool>() OR.err("cast to bool has been failed.")
                                .ret(false);
-                return ased->cast<nbool>();
+                return *ased->cast<nbool>();
             }
 
         private:
