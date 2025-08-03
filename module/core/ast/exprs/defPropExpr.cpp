@@ -16,7 +16,7 @@ namespace nm {
         // if as is a func, it doesn't need to clone deeply.
         as = as->isSub<baseFunc>() ? as : as->run();
 
-        NM_DI("@%s `%s %s`", this, getName(), *as);
+        NM_DI("@%s `%s %s`", this, getName(), as.get());
         return as;
     }
 }

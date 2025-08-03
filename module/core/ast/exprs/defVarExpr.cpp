@@ -48,7 +48,7 @@ namespace nm {
 
     str me::makeNewOrigin() {
         auto ret = _makeNew();
-        baseObj& cast = ret->cast<baseObj>() OR.ret(ret); // `ret` can be a closure
+        baseObj& cast = ret TO(template cast<baseObj>()) OR.ret(ret); // `ret` can be a closure
 
         // origin's clone is making a object, not an origin:
         //  so I've to call cloneDeep().
@@ -64,7 +64,7 @@ namespace nm {
 
     str me::_makeNew() {
         str ret = _onMakeNew();
-        if(baseFunc::isFuncButNotClosure(*ret)) ret.bind(closure::make(*ret));
+        if(baseFunc::isFuncButNotClosure(ret.get())) ret.bind(closure::make(*ret));
         return ret;
     }
 } // namespace nm

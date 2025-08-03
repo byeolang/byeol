@@ -779,7 +779,7 @@ TEST_F(arrTest, outOfBoundExOccurs) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_FALSE(*res.cast<nint>()); // which means, program ended with error code.
+    ASSERT_FALSE(res.cast<nint>()); // which means, program ended with error code.
     nerr& resErr = res.cast<nerr>() OR_ASSERT(resErr);
     ASSERT_EQ(resErr.getErrCode(), errCode::OUT_OF_RANGE);
 
