@@ -136,7 +136,7 @@ namespace nm {
     nbool me::log(errLv::level lv, const std::string& filename, const nchar* func, int line,
         const nchar* fmt, ...) {
         std::string tag = _makeTag(filename);
-        if(_filters && _filters->filt(lv, tag.c_str())) return false;
+        WHEN(_filters && !_filters->filt(lv, tag.c_str())).ret(false);
 
         using platformAPI::foreColor;
         *this << foreColor(BROWN)
