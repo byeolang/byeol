@@ -80,3 +80,24 @@ html.dark-mode [data-tooltip]:after {
 	opacity: 1;
 	top: 36px;
 }
+
+.svg-container {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.svg-container object {
+  width: 100%;
+  bottom: 0;
+  object-fit: contain;
+  object-position: bottom;
+  position: absolute;
+}
+
+div#mountain1 {
+  top: -90px;
+  height: 100px;
+  filter: invert(44%) sepia(47%) saturate(307%) hue-rotate(164deg) brightness(102%) contrast(89%);
+  opacity: 0.5;
+}
