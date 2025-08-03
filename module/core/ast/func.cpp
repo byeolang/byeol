@@ -74,7 +74,7 @@ namespace nm {
 
         auto* closure = closure::make(*res);
         if(closure) res.bind(closure);
-        return res ? res->asImpli(getRet()->as<node>()) : res;
+        return res ? res->asImpli(getRet()->as<node>().get()) : res;
     }
 
     void me::_runEnds() {
