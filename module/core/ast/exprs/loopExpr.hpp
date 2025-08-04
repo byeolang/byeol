@@ -43,6 +43,7 @@ namespace nm {
 
     protected:
         virtual tstr<loop> _makeLoop(arr& ret) const = 0;
+        tstr<loop> _makeLoop(arr* it) const NM_SIDE_FUNC(_makeLoop);
         virtual str _makeEval() const;
 
     private:

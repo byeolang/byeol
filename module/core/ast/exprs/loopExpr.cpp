@@ -51,7 +51,7 @@ namespace nm {
     str me::run(const args& a) {
         auto addr = platformAPI::toAddrId(this);
         blockExpr& blk = getBlock() OR.err("%s blk is null", addr).ret(str());
-        tstr<loop> l = _makeLoop(*_makeRet()) OR.err("%s loop is null", addr).ret(str());
+        tstr<loop> l = _makeLoop(_makeRet().get()) OR.err("%s loop is null", addr).ret(str());
 
         frame& fr = thread::get()._getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(str());
         while(l->isLooping()) {
