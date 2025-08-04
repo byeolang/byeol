@@ -538,18 +538,18 @@ namespace nm {
         // sequence of adding frame matters:
         //  object scope was added at 'onVisit(visitInfo, baseObj&)
         //  parameters of func is second:
-        scope* s = new scope();
+        scope s;
         for(const auto& p: me.getParams()) {
             if(p.getOrigin().isSub<nVoid>()) {
                 NM_WHEN.myExErr(me, PARAM_NOT_VOID, p.getName().c_str());
                 continue;
             }
             str eval = p.getOrigin() TO(getEval()) OR_CONTINUE;
-            s->add(p.getName(), *new mockNode(*eval));
+            s.add(p.getName(), *new mockNode(*eval));
         }
 
         //  function's subs are third:
-        me.inFrame(s);
+        me.inFrame(s.len() > 0 ? &s : nullptr);
         return true;
     }
 
@@ -581,7 +581,8 @@ namespace nm {
         _GUARD("onLeave(func&)");
 
         _STEP("last stmt should match to ret type");
-        NM_END(me.outFrame());
+        nbool hasParams = !me.getParams().isEmpty();
+        NM_END(me.outFrame(hasParams ? &scope() : nullptr));
         const node& ret = me.getRet() OR.err("func.getRet() is null").ret();
         const type& retType = ret.getType();
         const node& lastStmt = *me.getBlock().getStmts().last();
