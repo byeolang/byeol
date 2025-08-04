@@ -32,7 +32,7 @@ namespace nm {
         if(needMe && !nul(_args)) { // if sub is a baseObj, this expr will runs ctor
                                     // of it which doesn't need me obj.
             frame* fr = evaledMe->cast<frame>();
-            _args.setMe(fr ? fr->getMeHaving(*sub) : evaledMe.get());
+            _args.setMe(fr ? fr->getMeHaving(sub.get()) : evaledMe.get());
             NM_DI("@%s run: setting me on args. args.me[%s]", addr, _args TO(getMe()));
         }
 

@@ -66,10 +66,14 @@ namespace nm {
         const baseFunc* getFunc() const NM_CONST_FUNC(getFunc())
 
         node* getMeHaving(const node& sub);
+        node* getMeHaving(const node* it) NM_SIDE_FUNC(getMeHaving);
         const node* getMeHaving(const node& sub) const NM_CONST_FUNC(getMeHaving(sub))
+        const node* getMeHaving(const node* sub) const NM_CONST_FUNC(getMeHaving(sub))
 
         scope* getScopeHaving(const node& sub);
+        scope* getScopeHaving(const node* it) NM_SIDE_FUNC(getScopeHaving);
         const scope* getScopeHaving(const node& sub) const NM_CONST_FUNC(getScopeHaving(sub))
+        const scope* getScopeHaving(const node* sub) const NM_CONST_FUNC(getScopeHaving(sub))
 
         // node:
         using node::subs;
