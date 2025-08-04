@@ -86,19 +86,19 @@ TEST_F(defAssignExprTest, testNearCircularDependencies) {
     // because assigning 1 to c will be done after evaluating of assignment of the 'a'.
 }
 
-TEST_F(defAssignExprTest, testDefAssign1) {
+TEST_F(defAssignExprTest, testDefAssignNegative) {
     make()
         .parse(R"SRC(
         foo() int
             a = 2
 
-        a := foo() + 5
+        a := foo() + 5 # to define `a`, foo() refers `a` but, it doesn't exist yet.
 
         main() int
             print("a=" + a as str)
             ret 0
     )SRC")
-        .shouldVerified(true);
+        .shouldVerified(false);
     run();
 }
 
