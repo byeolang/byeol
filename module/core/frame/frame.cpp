@@ -49,11 +49,11 @@ namespace nm {
         nbool found = false;
 
         return _getOwner<node>(&sub, [&](nbool isOwner, scopeRegister& reg) -> node* {
-            baseObj& org = reg.owner TO(template cast<baseObj>()) OR.ret(nullptr);
-            WHEN(found).ret(&org);
-            WHEN(!isOwner).ret(nullptr);
+            WHEN(!found && !isOwner).ret(nullptr);
             found = true;
-            return &org; // org can be nullref and returning null let the loop keep searching.
+
+            baseObj& org = reg.owner TO(template cast<baseObj>()) OR.ret(nullptr); // when returns nullptr, it lets the loop keep searching.
+            return &org;
         });
     }
 
