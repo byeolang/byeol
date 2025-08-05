@@ -40,9 +40,9 @@ namespace nm {
             .ret(nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD));
 
         // s is from heap space. but freed by _outFrame() of this class.
-        scope& s = _evalArgs(a) OR.ret(str());
+        tstr<scope> s = _evalArgs(a) OR.ret(str());
         node& meObj = a.getMe() OR.err("meObj == null").ret(str());
-        return _interactFrame(meObj, s, thread::get().getEx().len() - 1);
+        return _interactFrame(meObj, *s, thread::get().getEx().len() - 1);
     }
 
     str me::_interactFrame(node& meObj, scope& s, nidx exN) {
