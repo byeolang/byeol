@@ -25,7 +25,7 @@ namespace nm {
 
     void me::inFrame(const bicontainable* args) const {}
 
-    void me::outFrame(const bicontainable* args) const {}
+    void me::outFrame() const {}
 
     str me::_onRunSub(node& sub, const args& a) { return str(); }
 

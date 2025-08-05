@@ -50,7 +50,7 @@ namespace nm {
         _inFrame(fr, args);
     }
 
-    void me::outFrame(const bicontainable* args) const {
+    void me::outFrame() const {
         frames& frs = nm::thread::get()._getFrames();
         NM_DI("%s._outFrame() frames.len[%d]", *this, frs.len() - 1);
 

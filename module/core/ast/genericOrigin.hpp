@@ -36,7 +36,7 @@ namespace nm {
         void inFrame(const bicontainable* args) const override;
 
         using super::outFrame;
-        void outFrame(const bicontainable* args) const override;
+        void outFrame() const override;
 
     protected:
         str _onRunSub(node& sub, const args& a) override;

@@ -52,7 +52,7 @@ namespace nm {
         using super::inFrame;
         void inFrame(const bicontainable* args) const override;
         using super::outFrame;
-        void outFrame(const bicontainable* args) const override;
+        void outFrame() const override;
 
         const src& getSrc() const override;
 

@@ -35,7 +35,7 @@ namespace nm {
         fr.add(*new scope());
     }
 
-    void me::outFrame(const bicontainable*) const {
+    void me::outFrame() const {
         NM_DI("%s._onOutFrame() frames.len[%d]", *this, thread::get().getFrames().len());
 
         frame& fr = nm::thread::get()._getNowFrame() OR.err("fr == null").ret();

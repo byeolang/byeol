@@ -103,7 +103,7 @@ namespace nm {
         if (args && args->len() > 0) fr.add(scope::wrap<scope>((nbicontainer*) args));
     }
 
-    void me::outFrame(const bicontainable* args) const {
+    void me::outFrame() const {
         NM_DI("'%s func'._outFrame() frames.len[%d]", getSrc(), thread::get().getFrames().len());
 
         frame& fr = thread::get()._getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret();
@@ -112,7 +112,7 @@ namespace nm {
 
         fr.delFunc();
         fr.del();
-        if(args && args->len() > 0) fr.del();
+        if(getParams().len() > 0) fr.del();
     }
 
     const baseObj& me::getOrigin() const { return *_org; }

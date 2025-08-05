@@ -16,10 +16,9 @@ namespace nm {
         ~frameInteract();
 
     private:
-        void _inFrame();
+        void _inFrame(const bicontainable* args);
 
     private:
         const frameInteractable* _it;
-        const bicontainable* _args;
     };
 }

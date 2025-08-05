@@ -76,7 +76,7 @@ namespace nm {
 
     void me::inFrame(const bicontainable* args) const {}
 
-    void me::outFrame(const bicontainable* args) const {}
+    void me::outFrame() const {}
 
     const modifier& me::getModifier() const {
         static dumModifier inner;

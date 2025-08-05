@@ -581,8 +581,7 @@ namespace nm {
         _GUARD("onLeave(func&)");
 
         _STEP("last stmt should match to ret type");
-        nbool hasParams = !me.getParams().isEmpty();
-        NM_END(me.outFrame(hasParams ? &scope() : nullptr));
+        NM_END(me.outFrame());
         const node& ret = me.getRet() OR.err("func.getRet() is null").ret();
         const type& retType = ret.getType();
         const node& lastStmt = *me.getBlock().getStmts().last();
