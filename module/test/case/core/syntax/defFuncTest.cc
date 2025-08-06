@@ -36,7 +36,7 @@ TEST_F(defFuncTest, distinguishDefineFuncOrCall) {
             .shouldParsed(true)) {
         node& res = getSubPack() OR_ASSERT(res);
 
-        ASSERT_TRUE(res.sub<baseFunc>("main", narr()));
+        ASSERT_FALSE(res.sub<baseFunc>("main", narr()));
         const baseFunc& f = res.sub<baseFunc>("main", narr(*new nInt(), *new nStr())) OR_ASSERT(f);
         ASSERT_EQ(f.getParams().len(), 2);
         ASSERT_EQ(f.getRet()->getType(), ttype<nVoid>());
