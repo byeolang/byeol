@@ -18,7 +18,7 @@ namespace nm {
         str getContainer();
 
     protected:
-        tstr<loop> _makeLoop(arr& ret) const override;
+        tstr<loop> _makeLoop(arr* ret) const override;
         str _makeEval() const override;
 
     private:

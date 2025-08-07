@@ -16,7 +16,7 @@ namespace nm {
         node& getCondition();
 
     protected:
-        tstr<loop> _makeLoop(arr& ret) const override;
+        tstr<loop> _makeLoop(arr* ret) const override;
 
     private:
         str _condition;

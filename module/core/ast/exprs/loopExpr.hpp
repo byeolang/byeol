@@ -17,13 +17,13 @@ namespace nm {
             NM(ADT(loop))
 
         public:
-            loop(arr& ret);
+            loop(arr* ret);
 
         public:
             /// @return false if exit the loop
             virtual nbool isLooping() = 0;
             virtual void run(blockExpr& blk, frame& fr);
-            arr& getRet();
+            arr* getRet();
             virtual nbool postprocess(frame& fr);
 
 
@@ -42,8 +42,7 @@ namespace nm {
         str run(const args& a) override;
 
     protected:
-        virtual tstr<loop> _makeLoop(arr& ret) const = 0;
-        tstr<loop> _makeLoop(arr* it) const NM_SIDE_FUNC(_makeLoop);
+        virtual tstr<loop> _makeLoop(arr* ret) const = 0;
         virtual str _makeEval() const;
 
     private:

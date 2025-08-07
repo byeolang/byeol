@@ -13,9 +13,9 @@ namespace nm {
 
     NM(DEF_ME(loopExpr), DEF_VISIT())
 
-    me::loop::loop(arr& ret): _ret(ret) {}
+    me::loop::loop(arr* ret): _ret(ret) {}
 
-    arr& me::loop::getRet() { return *_ret; }
+    arr* me::loop::getRet() { return _ret.get(); }
 
     void me::loop::run(blockExpr& blk, frame& fr) {
         str res = blk.run();

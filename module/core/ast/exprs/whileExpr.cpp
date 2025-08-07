@@ -17,7 +17,7 @@ namespace nm {
             NM(CLASS(whileLoop, loop))
 
         public:
-            whileLoop(arr& ret, const whileExpr& owner): super(ret), _owner(owner) {}
+            whileLoop(arr* ret, const whileExpr& owner): super(ret), _owner(owner) {}
 
         public:
             nbool isLooping() override {
@@ -32,7 +32,7 @@ namespace nm {
         };
     }
 
-    tstr<me::loop> me::_makeLoop(arr& ret) const {
+    tstr<me::loop> me::_makeLoop(arr* ret) const {
         NM_DI("whileExpr: loop");
         return new whileLoop(ret, *this);
     }
