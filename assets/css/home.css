@@ -18,22 +18,37 @@ div#main-content {
   --logo-width: 192px;
 }
 
-div#main-content-logo-aura {
+.logo-aura {
+  top: -210px;
   position: relative;
   margin: 0 auto;
-	top: -210px;
 	width: calc(var(--logo-width) - 5px);
 	height: calc(var(--logo-width) - 5px);
 	border-radius:50%;
 	opacity:0.9;
 }
 
+div#main-content-logo-aura {
+  top: -399px;
+}
+
 html div#main-content-logo-aura {
 	box-shadow: 0px 0px 40px 15px white;
 }
 html.dark-mode div#main-content-logo-aura {
-	box-shadow: 0px 0px 40px 15px var(--byeol-moon);
+	box-shadow: 0px 0px 90px 20px var(--byeol-moon);
 }
+
+html div#main-content-logo-aura-line {
+	box-shadow: 0px 0px 40px 15px white;
+  z-index: 2;
+}
+html.dark-mode div#main-content-logo-aura-line {
+	box-shadow: 0px 0px 40px 10px var(--byeol-white);
+  z-index: 2;
+  mix-blend-mode: plus-lighter;
+}
+
 div#main-content-logo-rays {
   position: absolute;
   margin: 0 auto;
@@ -138,13 +153,13 @@ img#main-content-logo {
 
 div#main-content-title {
   position: relative;
-  top: -180px;
+  top: -370px;
 }
 
 #main-content-navi {
   text-align: center;
   position: relative;
-  top: -180px;
+  top: -370px;
 }
 
 div#main-bg {
