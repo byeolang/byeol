@@ -4,6 +4,8 @@
 
 $white: #E9EBF2;
 $night: #0B1C26;
+$night2: #112A40;
+$night3: #2E4559;
 $grass: #6AB04B;
 $point: #4189A6;
 $moon: #D9B29C;
@@ -92,7 +94,6 @@ button.learn-more {
       margin-top: 3px;
       width: 2.5rem;
       height: 2.5rem;
-      background: $white;
       border-radius: 1.625rem;
       .icon {
         @include transition(all, 0.45s, cubic-bezier(0.65,0,.076,1));
@@ -100,13 +101,11 @@ button.learn-more {
         top: 0;
         bottom: 0;
         margin: auto;
-        background: $white;
         &.arrow {
           @include transition(all, 0.45s, cubic-bezier(0.65,0,.076,1));
           left: 0.625rem;
           width: 1.125rem;
           height: 0.125rem;
-          background: none;
           &::before {
             position: absolute;
             content: '';
@@ -130,7 +129,6 @@ button.learn-more {
       bottom: 0;
       padding: 0.75rem 0;
       margin: 0 0 0 1.85rem;
-      color: $point;
       font-weight: 700;
       line-height: 1.6;
       text-align: center;
@@ -141,7 +139,6 @@ button.learn-more {
       width: 100%;
       .icon {
         &.arrow {
-        background: $night;
         transform: translate(1rem, 0);
         }
       }
@@ -151,6 +148,69 @@ button.learn-more {
     }
   }
 }
+
+html button.learn-more {
+  &.learn-more {
+    .circle {
+      background: $white;
+      .icon {
+        background: $white;
+        &.arrow {
+          background: none;
+        }
+      }
+    }
+    .button-text {
+      color: $night3;
+    }
+  }
+  &:hover {
+    .circle {
+      background: $white;
+      .icon {
+        background: $white;
+        &.arrow {
+          background: $night;
+        }
+      }
+    }
+    .button-text {
+      color: $night;
+    }
+  }
+}
+
+html.dark-mode button.learn-more {
+  &.learn-more {
+    .circle {
+      background: $white;
+      .icon {
+        background: $white;
+        &.arrow {
+          background: none;
+        }
+      }
+    }
+    .button-text {
+      color: $white;
+    }
+  }
+  &:hover {
+    .circle {
+      background: $white;
+      .icon {
+        background: $white;
+        &.arrow {
+          background: $night;
+        }
+      }
+    }
+    .button-text {
+      color: $night;
+    }
+  }
+}
+
 
 a#main-content-download {
     border-right: 2px solid #8C7765;

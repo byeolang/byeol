@@ -10,6 +10,10 @@ div#footer {
   top: calc(100vh - 110px);
 }
 
+div#main-content {
+  z-index: 99;
+}
+
 div#main-bg {
   /*background: linear-gradient(to bottom, #0b1c26 0%,#0b1c26 42%,#112a40 58%,#2e4559 74%,#4189a6 87%,#e9ebf2 99%);*/
   /*background: linear-gradient(179deg,rgba(16, 40, 78, 1) 0%, rgba(17, 48, 95, 1) 30%, rgba(17, 64, 118, 1) 40%, rgba(17, 98, 154, 1) 50%, rgba(32, 126, 178, 1) 60%, rgba(97, 166, 208, 1) 80%);*/
