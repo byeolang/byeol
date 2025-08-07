@@ -4,9 +4,10 @@ function Tide(new_owner) {
 	var life = 2.5 + (Math.random() * 3);
 
   let ownerObj = new_owner.getJQObject();
+  let ownerWidthRatio = (ownerObj.width() / 1000) * 23;
   let baseY = ownerObj.position().top,
 	    h = 1 + (this.grade * 0.05),
-      w = h * 10,
+      w = h * ownerWidthRatio,
 	    x = Math.random() * ownerObj.width() - w,
   		y = baseY + (this.grade / 100) * (ownerObj.height() * 0.7) - h - 20;
 
