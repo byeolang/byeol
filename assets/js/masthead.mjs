@@ -1,6 +1,6 @@
-import * as background from './bg.mjs'
+import * as background from './nightSkyBg.mjs'
 
-var bg = new background.SkyLineBackGrounder('masthead', 20);
+var bg = new background.NightSkyBackGrounder('masthead', 20);
 
 window.addEventListener('resize', function(event) {
 	updateWindow();

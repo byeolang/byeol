@@ -156,11 +156,6 @@ div#main-bg {
   height: calc(var(--vh, 1vh) * 100 + 1px - var(--vfooter));
 }
 
-div#main-bg img.star {
-  position: fixed;
-  z-index: 0;
-}
-
 span#dark-mode-wrapper {
   font-weight: bold;
 }

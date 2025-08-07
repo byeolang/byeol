@@ -39,8 +39,9 @@ div#main-content {
   background: transparent;
 }
 
-#main-content-navi {
-  text-align: center;
+img.star {
+  position: fixed;
+  z-index: 0;
 }
 
 #main-content-navi a {
