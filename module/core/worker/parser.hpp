@@ -215,8 +215,8 @@ namespace nm {
         ctor* onCtor(const blockExpr& blk);
         //          params:
         narr* onParams();
-        narr* onParams(const defPropExpr& elem);
-        narr* onParams(narr& it, const defPropExpr& elem);
+        narr* onParams(const defPropExpr* elem);
+        narr* onParams(narr& it, const defPropExpr* elem);
         //          modifier:
         modifier* onModifier(nbool isPublic, nbool isOverriden);
 
