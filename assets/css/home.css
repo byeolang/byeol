@@ -144,9 +144,9 @@ div#main-bg-sea {
 }
 
 div#main-bg-sea img.tide {
-  z-index: 101 !important;
+  z-index: 101;
   opacity: 1;
-  position: relative !important;
+  position: fixed;
 }
 
 div#grass {

@@ -4,10 +4,11 @@ function Tide(new_owner) {
 	var life = 2.5 + (Math.random() * 3);
 
   let ownerObj = new_owner.getJQObject();
-	var h = 1 + (this.grade * 0.05),
+  let baseY = ownerObj.position().top,
+	    h = 1 + (this.grade * 0.05),
       w = h * 10,
 	    x = Math.random() * ownerObj.width() - w,
-  		y = (this.grade / 100) * (ownerObj.height() * 0.7) - h - 20;
+  		y = baseY + (this.grade / 100) * (ownerObj.height() * 0.7) - h - 20;
 
 	Unit.call(this, "tide" + __tide_dom_id_generator++, "/assets/images/tide.png",
 		x, y, w, h, life, new_owner, "opacity: 0; ");
@@ -68,7 +69,7 @@ SeaBackGrounder.prototype.onReleaseUnit = function(unit) {
 	this.createUnit();
 }
 
-var seaBg = new SeaBackGrounder("main-bg-sea", 2);
+var seaBg = new SeaBackGrounder("main-bg-sea", 10);
 window.addEventListener('load', function(event) {
 	seaBg.initialize();
 });
