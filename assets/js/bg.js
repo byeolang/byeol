@@ -30,12 +30,12 @@ Obj.prototype.release = function() {
 Obj.prototype.purifyDomID = function(string) {
 	if(string == undefined)
 		return;
-		
+
 	return string.replace(/[\/?<>\\|:.,!@#$%^&*\(\)=+ ]/gi, "_");
 }
 
-function Unit(new_dom_id, new_image_path, 
-    new_x, new_y, new_w, new_h, 
+function Unit(new_dom_id, new_image_path,
+    new_x, new_y, new_w, new_h,
     new_life, new_owner, additional_style) {
     Obj.call(this, undefined, new_dom_id);
 
@@ -64,20 +64,20 @@ Unit.prototype.getHeight = function() { return this.height; }
 Unit.prototype.getStyle = function() { return this.style; }
 Unit.prototype.getOwnedBackGrounder = function() { return this.owner; }
 Unit.prototype.initialize = function() {
-    var owner = this.getOwnedBackGrounder().getJQObject();
-    if(owner == undefined)
+    var owner = this.getOwnedBackGrounder();
+    var ownerObj = owner.getJQObject();
+    if(ownerObj == undefined)
         return;
 
-    var style_attr =    "'position:fixed; z-index:0 " +
-                        "; top: " + this.getY() +
-                        "px; left: " + this.getX() +
-                        "px; width: " + this.getWidth() +
-                        "px; height: " + this.getHeight() + 
-                        "px; " + this.getStyle() + "'";
+    var style_attr = "'top: " + this.getY() +
+                     "px; left: " + this.getX() +
+                     "px; width: " + this.getWidth() +
+                     "px; height: " + this.getHeight() +
+                     "px; " + this.getStyle() + "'";
 
-    var tag =   "<img id='" + this.getID() + "' src='" + this.getPath() + "' style=" + style_attr +
-                "/>"
-    owner.append(tag);
+    var tag =   "<img id='" + this.getID() + "' class='" + owner.getClassName() +
+      "' src='" + this.getPath() + "' style=" + style_attr + "/>"
+    ownerObj.append(tag);
     this.setJQObject($("img#" + this.getID()));
 
     if(this.life >= 0)
@@ -91,7 +91,7 @@ Unit.prototype.initialize = function() {
                 if( bg == undefined         ||
                     bg.units == undefined  )
                     return;
-                
+
                 this.release();
             }
         });
@@ -105,13 +105,15 @@ Unit.prototype.release = function() {
     Obj.prototype.release.call(this);
 }
 
-function BackGrounder(id) {
+function BackGrounder(id, classname) {
 	Obj.call(this);
 	this.is_initialized = false;
   this.setID(id);
+  this.className = classname;
 }
 BackGrounder.prototype = new Obj();
 BackGrounder.prototype.isInitialized = function() { return this.is_initialized; }
+BackGrounder.prototype.getClassName = function() { return this.className; }
 BackGrounder.prototype.initialize = function() {
 	//	We don't need to release 'this':
 	//		it requires 0.8sec at least to be released. Release function add some sort of timer for after 0.8sec.
@@ -138,7 +140,7 @@ BackGrounder.prototype.release = function() {
 	var height = jqobj.height();
 
 	TweenMax.to(jqobj, 0.4, {
-		top: height + "px", 
+		top: height + "px",
 		onCompleteScope: this,
 		onComplete: function() {
 			for(var e in this.units)
@@ -149,7 +151,7 @@ BackGrounder.prototype.release = function() {
 			this.units = undefined;
 			//	don't need to remove 'this':
 			//		The new BackGrounder which try to initialize will delete existing div.dyn_obj.
-		}, 
+		},
 		ease:Power4.easeOut
 	});
 	this.is_initialized = false;

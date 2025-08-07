@@ -102,7 +102,7 @@ ShootingStar.prototype.initialize = function() {
 }
 
 export function NightSkyBackGrounder(id, starCount) {
-	BackGrounder.call(this, id);
+	BackGrounder.call(this, id, "star");
   this.starCount = starCount;
 }
 NightSkyBackGrounder.prototype = new BackGrounder();
@@ -135,8 +135,7 @@ NightSkyBackGrounder.prototype.onReleaseUnit = function(unit) {
 	this.createUnit();
 }
 
-var bg = new NightSkyBackGrounder("main-bg", 60);
-
+var nightSkyBg = new NightSkyBackGrounder("main-bg", 60);
 window.addEventListener('resize', function(event) {
 	updateWindow();
 });
@@ -152,6 +151,6 @@ function updateWindow() {
 
 window.addEventListener('load', function(event) {
 	updateWindow();
-	bg.initialize();
+	//nightSkyBg.initialize();
   setTimeout(animateNaviIcon, 3000);
 });
