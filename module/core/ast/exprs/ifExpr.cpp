@@ -26,10 +26,10 @@ namespace nm {
             _expr->as<node>() TO(template asImpli<nBool>()) OR.ret(nVoid::singleton());
         nbool cond = *res->cast<nbool>();
         NM_DI("@%s `if %s --> to %s`", this, *_expr, cond ? "THEN" : "ELSE");
-        auto& blk = cond ? *_then : *_else;
-        if(!nul(blk)) {
+        auto* blk = cond ? _then.get() : _else.get();
+        if(blk) {
             frameInteract f1(blk);
-            return blk.run();
+            return blk->run();
         }
 
         return str(nVoid::singleton());
