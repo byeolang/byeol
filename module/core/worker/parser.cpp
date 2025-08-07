@@ -432,16 +432,18 @@ namespace nm {
         return new narr();
     }
 
-    narr* me::onParams(const defPropExpr& elem) {
-        NM_DI("tokenEvent: onParams(%s %s)", elem.getName(), elem.getRight());
+    narr* me::onParams(const defPropExpr* elem) {
+        WHEN_NUL(elem).ret(new narr());
+        NM_DI("tokenEvent: onParams(%s %s)", elem->getName(), elem->getRight());
         narr* ret = new narr();
         ret->add(elem);
 
         return ret;
     }
 
-    narr* me::onParams(narr& it, const defPropExpr& elem) {
-        NM_DI("tokenEvent: onParams(narr(%d), %s %s)", it.len(), elem.getName(), elem.getRight());
+    narr* me::onParams(narr& it, const defPropExpr* elem) {
+        WHEN_NUL(elem).ret(new narr());
+        NM_DI("tokenEvent: onParams(narr(%d), %s %s)", it.len(), elem->getName(), elem->getRight());
         it.add(elem);
 
         return &it;

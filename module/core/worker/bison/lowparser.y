@@ -218,12 +218,12 @@
 
 // basic component:
 compilation-unit: pack defblock {
-                tstr<obj> pak(*$1);
+                tstr<obj> pak($1);
                 tstr<defBlock> lifeBlock($2);
                 PS.onCompilationUnit(pak.get(), lifeBlock.get());
                 _onEndParse(scanner);
               } | pack {
-                tstr<obj> pak(*$1);
+                tstr<obj> pak($1);
                 PS.onCompilationUnit(pak.get());
                 _onEndParse(scanner);
               }
@@ -436,9 +436,9 @@ func-call-tuple-items: func-call-tuple-item {
                    }
 params: '(' param-items ')' { $$ = $2; }
 param-items: def-prop-without-value {
-            $$ = PS.onParams(*$1->cast<defPropExpr>());
+            $$ = PS.onParams($1 TO(template cast<defPropExpr>()));
          } | param-items ',' def-prop-without-value {
-            $$ = PS.onParams(*$1, *$3->cast<defPropExpr>());
+            $$ = PS.onParams(*$1, $3 TO(template cast<defPropExpr>()));
          }
 
 //  type:
@@ -548,7 +548,7 @@ def-prop-value: visibility NAME DEFASSIGN expr-inline9 {
                 $$ = PS.onDefAssign(*$1, *$2, $4);
                 delete $2;
             } | def-prop-without-value DEFASSIGN expr-inline9 {
-                str propLife(*$1);
+                str propLife($1);
                 $$ = PS.onDefAssign(propLife->cast<defPropExpr>(), $3);
             } | NAME DEFASSIGN expr-inline9 {
                 $$ = PS.onDefAssign(*$1, $3);
