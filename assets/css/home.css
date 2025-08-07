@@ -14,6 +14,139 @@ div#main-content {
   z-index: 99;
 }
 
+:root {
+  --logo-width: 192px;
+}
+
+div#main-content-logo-aura {
+  position: relative;
+  margin: 0 auto;
+	top: -210px;
+	width: calc(var(--logo-width) - 5px);
+	height: calc(var(--logo-width) - 5px);
+	border-radius:50%;
+	opacity:0.9;
+}
+
+html div#main-content-logo-aura {
+	box-shadow: 0px 0px 40px 15px white;
+}
+html.dark-mode div#main-content-logo-aura {
+	box-shadow: 0px 0px 40px 15px var(--byeol-moon);
+}
+div#main-content-logo-rays {
+  position: absolute;
+  margin: 0 auto;
+	top: -2px;
+	left: -3px;
+  width: var(--logo-width);
+  height: var(--logo-width);
+  animation: ray_anim 120s linear infinite;
+}
+
+div.ray {
+		background: linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+    margin-left:10px;
+    border-radius:80% 80% 0 0;
+    position:absolute;
+    opacity:0.1;
+}
+
+.ray1 {
+   height: 170px;
+   width: 30px;
+   transform: rotate(180deg);
+   top: -110px;
+   left: 72px;
+}
+.ray2 {
+   height:100px;
+   width:8px;
+   transform: rotate(220deg);
+   top: -20px;
+   left: 130px;
+}
+.ray3 {
+   height: 170px;
+   width: 50px;
+   transform: rotate(250deg);
+   top: -30px;
+   left: 170px;
+}
+.ray4 {
+   height: 120px;
+   width: 14px;
+   transform: rotate(305deg);
+   top: 75px;
+   left: 150px;
+}
+.ray5 {
+   height: 140px;
+   width: 30px;
+   transform: rotate(-15deg);
+   top: 110px;
+   left: 100px;
+}
+.ray6 {
+   height: 90px;
+   width: 50px;
+   transform: rotate(30deg);
+   top: 125px;
+   left: 15px;
+}
+.ray7 {
+   height: 180px;
+   width: 10px;
+   transform: rotate(70deg);
+   top: 35px;
+   left: -40px;
+}
+.ray8 {
+   height: 120px;
+   width: 30px;
+   transform: rotate(100deg);
+   top: 5px;
+   left: -20px;
+}
+.ray9 {
+   height: 80px;
+   width: 10px;
+   transform: rotate(120deg);
+   top: -15px;
+   left: 0px;
+}
+.ray10 {
+   height: 190px;
+   width: 23px;
+   transform: rotate(150deg);
+   top: -115px;
+   left: 10px;
+}
+
+@keyframes ray_anim {
+		0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+}
+
+img#main-content-logo {
+  margin-bottom: 20px;
+  width: var(--logo-width);
+  height: var(--logo-width);
+  position: relative;
+  z-index: 2; /* bigger than star's one */
+}
+
+div#main-content-title {
+  position: relative;
+  top: -180px;
+}
+
+#main-content-navi {
+  text-align: center;
+  position: relative;
+  top: -180px;
+}
+
 div#main-bg {
   /*background: linear-gradient(to bottom, #0b1c26 0%,#0b1c26 42%,#112a40 58%,#2e4559 74%,#4189a6 87%,#e9ebf2 99%);*/
   /*background: linear-gradient(179deg,rgba(16, 40, 78, 1) 0%, rgba(17, 48, 95, 1) 30%, rgba(17, 64, 118, 1) 40%, rgba(17, 98, 154, 1) 50%, rgba(32, 126, 178, 1) 60%, rgba(97, 166, 208, 1) 80%);*/
