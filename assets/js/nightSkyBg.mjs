@@ -111,10 +111,7 @@ NightSkyBackGrounder.prototype.initialize = function() {
 
 
 	for(var n=0; n < this.starCount; n++)
-	{
-		this.units[n] = new FloatingStar(this);
-		this.units[n].initialize();
-	}
+    this.createUnit();
 }
 NightSkyBackGrounder.prototype.resize = function(w, h) {
 	this.earth.resize(w, h);
@@ -151,6 +148,6 @@ function updateWindow() {
 
 window.addEventListener('load', function(event) {
 	updateWindow();
-	//nightSkyBg.initialize();
+	nightSkyBg.initialize();
   setTimeout(animateNaviIcon, 3000);
 });
