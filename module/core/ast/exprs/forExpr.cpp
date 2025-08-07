@@ -33,7 +33,7 @@ namespace nm {
             NM(CLASS(forLoop, loop))
 
         public:
-            forLoop(arr& ret, const str& container, const str& iter, const forExpr& owner):
+            forLoop(arr* ret, const str& container, const str& iter, const forExpr& owner):
                 super(ret), _container(container), _iter(iter), _owner(owner) {}
 
         public:
@@ -61,7 +61,7 @@ namespace nm {
         };
     }
 
-    tstr<me::loop> me::_makeLoop(arr& ret) const {
+    tstr<me::loop> me::_makeLoop(arr* ret) const {
         str ased = _container->as<node>() OR.err("ased is null").ret(str());
         str iter = ased->run("iterate", args(narr(*new nInt(0)))) OR.err("iter is null").ret(str());
 
