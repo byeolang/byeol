@@ -14,7 +14,7 @@ namespace nm {
         const src& s = f.getSrc();
 
         at = s.getName() + "(" + f.getParams().toStr() + ")";
-        const srcFile& file = s.getFile();
+        const srcFile& file = s.getFile() OR_RET_CTOR;
         in = file.getFileName() + ":" + std::to_string(s.getPos().row);
     }
 

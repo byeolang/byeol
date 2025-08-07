@@ -6,7 +6,7 @@ namespace nm {
     me::src(const srcFile& file, const std::string& name, const point& pos):
         _file(file), _name(name), _pos(pos) {}
 
-    const srcFile& me::getFile() const { return *_file; }
+    const srcFile* me::getFile() const { return _file.get(); }
 
     const point& me::getPos() const { return _pos; }
 

@@ -12,7 +12,7 @@ namespace nm {
         src(const srcFile& file, const std::string& name, const point& pos);
 
     public:
-        const srcFile& getFile() const;
+        const srcFile* getFile() const;
         const point& getPos() const;
         const std::string& getName() const;
 
