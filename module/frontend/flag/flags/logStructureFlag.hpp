@@ -1,11 +1,11 @@
 #pragma once
 
-#include "namu/flag/flag.hpp"
+#include "frontend/flag/flag.hpp"
 
 namespace nm {
 
-    class verFlag: public flag {
-        NM(CLASS(verFlag, flag))
+    class logStructureFlag: public flag {
+        NM(CLASS(logStructureFlag, flag))
 
     public:
         const nchar* getName() const override;

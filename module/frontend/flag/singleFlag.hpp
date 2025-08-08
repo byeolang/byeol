@@ -1,6 +1,6 @@
 #pragma once
 
-#include "namu/flag/flag.hpp"
+#include "frontend/flag/flag.hpp"
 
 namespace nm {
 

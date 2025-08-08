@@ -1,4 +1,4 @@
-#include "namu/flag/flags/fileFlag.hpp"
+#include "frontend/flag/flags/fileFlag.hpp"
 
 #include <fstream>
 #include <sstream>
@@ -10,7 +10,7 @@ namespace nm {
 
     const nchar* me::getDescription() const {
         return R"DESC(
-    file path of namu language script file.
+    file path of frontend language script file.
     extension of file should be end with 'nm'.
     wildcard and the question mark aren't allowed.)DESC";
     }

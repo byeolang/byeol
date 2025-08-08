@@ -2,8 +2,8 @@
 
 #include <regex>
 
-#include "namu/common.hpp"
-#include "namu/flag/flagArgs.hpp"
+#include "frontend/common.hpp"
+#include "frontend/flag/flagArgs.hpp"
 
 namespace nm {
 

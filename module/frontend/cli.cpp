@@ -1,4 +1,4 @@
-#include "namu/cli.hpp"
+#include "frontend/cli.hpp"
 using namespace nm;
 
 namespace nm {

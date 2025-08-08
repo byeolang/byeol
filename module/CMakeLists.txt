@@ -16,7 +16,7 @@ IF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
         add_subdirectory(test)
     ENDIF(NOT EMSCRIPTEN)
 ENDIF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
-add_subdirectory(namu)
+add_subdirectory(frontend)
 
 IF(NOT EMSCRIPTEN)
     add_subdirectory(bundle)
