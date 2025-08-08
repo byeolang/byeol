@@ -3,7 +3,7 @@
 #include <type_traits>
 #include "indep/common/typedef.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T> struct typeTrait {
         typedef T Org;
@@ -77,4 +77,4 @@ namespace nm {
     auto nul(T&& it) -> decltype(typeTrait<std::remove_reference_t<std::decay_t<T>>>::isNul(it)) {
         return typeTrait<std::remove_reference_t<std::decay_t<T>>>::isNul(std::forward<T>(it));
     }
-} // namespace nm
+} // namespace by

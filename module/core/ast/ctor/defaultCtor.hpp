@@ -3,7 +3,7 @@
 #include "core/ast/ctor/baseCtor.hpp"
 #include "core/ast/args.hpp"
 
-namespace nm {
+namespace by {
 
     class visitor;
 

@@ -1,7 +1,7 @@
 #include "core/worker/smartDedent.hpp"
 #include "core/worker/bison/lowparser.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(smartDedent)
 
@@ -35,4 +35,4 @@ namespace nm {
     }
 
     nbool me::isOn() const { return _cnt > OFF; }
-} // namespace nm
+} // namespace by

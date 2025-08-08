@@ -2,7 +2,7 @@
 
 #include "core/frame/thread.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(packLoading)
 

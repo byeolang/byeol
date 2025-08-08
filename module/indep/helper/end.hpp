@@ -3,7 +3,7 @@
 #include "indep/common.hpp"
 #include "indep/macro.hpp"
 
-namespace nm {
+namespace by {
 
     //  end:
     //      end is like a 'defer' keyword in other languages.

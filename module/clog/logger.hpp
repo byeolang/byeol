@@ -4,7 +4,7 @@
 #include "clog/filter/filters.hpp"
 #include "clog/stream/stream.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout logger: public stream {
         NM_ME(logger, stream)
@@ -62,4 +62,4 @@ namespace nm {
     };
 
     logger& operator<<(logger& log, const std::string& msg);
-} // namespace nm
+} // namespace by

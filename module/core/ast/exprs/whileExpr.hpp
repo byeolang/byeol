@@ -2,7 +2,7 @@
 
 #include "core/ast/exprs/loopExpr.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout whileExpr: public loopExpr {
         NM(CLASS(whileExpr, loopExpr, expr::exprType), VISIT())

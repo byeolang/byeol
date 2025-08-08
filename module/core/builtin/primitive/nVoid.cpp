@@ -4,7 +4,7 @@
 #include "core/type/as/impliAses.hpp"
 #include "core/bridge/cpp/tbridger.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(nVoid), DEF_VISIT())
 
@@ -80,4 +80,4 @@ namespace nm {
     nbool me::_logicalOr(const arithmeticObj& rhs) const { return false; }
 
     arithmeticObj& me::_mov(const arithmeticObj& rhs) { return *this; }
-} // namespace nm
+} // namespace by

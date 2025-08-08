@@ -4,7 +4,7 @@
 #include "meta/type/ttypeBase.hpp"
 #include "meta/type/type.inl"
 
-namespace nm {
+namespace by {
 
 #define TEMPL template <typename T, typename S>
 #define ME ttypeBase<T, S>
@@ -79,4 +79,4 @@ namespace nm {
 #undef TEMPL
 #undef ME
 #undef SUPER
-} // namespace nm
+} // namespace by

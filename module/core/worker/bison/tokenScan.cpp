@@ -6,7 +6,7 @@ YY_DECL;
 
 std::string getTokenName(int tok);
 
-namespace nm {
+namespace by {
 
     nint tokenScan::onScan(parser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner,
         nbool& isBypass) {
@@ -64,4 +64,4 @@ namespace nm {
 
     indentScan* indentScan::_instance = new indentScan();
 
-} // namespace nm
+} // namespace by

@@ -4,7 +4,7 @@
 #include "core/worker/bison/lowscanner.hpp"
 #include "core/builtin/err/nerr.hpp"
 
-namespace nm {
+namespace by {
     NM_DEF_ME(srcSupply)
 
     void* me::_scanString(parser& ps, const nchar* src, void* scanner) const {

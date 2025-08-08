@@ -14,7 +14,7 @@
 #include <algorithm>
 #include <cctype>
 
-namespace nm {
+namespace by {
 
     using std::string;
     template class _nout worker<str, slot>;
@@ -1260,4 +1260,4 @@ namespace nm {
     void me::_report(baseErr* new1) { getReport().add(new1); }
 
     exprMaker& me::_getMaker() { return _maker; }
-} // namespace nm
+} // namespace by

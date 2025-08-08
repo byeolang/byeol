@@ -2,7 +2,7 @@
 
 #include "test/common.hpp"
 
-using namespace nm;
+using namespace by;
 using namespace std;
 
 namespace {

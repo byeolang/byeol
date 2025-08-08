@@ -2,7 +2,7 @@
 
 #include "test/byeolTest.hpp"
 
-using namespace nm;
+using namespace by;
 
 struct memoryAllocRobustTest: public byeolTest {};
 

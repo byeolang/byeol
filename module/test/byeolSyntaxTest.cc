@@ -1,5 +1,5 @@
 #include "test/byeolSyntaxTest.hpp"
-using namespace nm;
+using namespace by;
 
 typedef byeolSyntaxTest me;
 
@@ -9,27 +9,27 @@ void me::TearDown() {
     _ip.rel();
 }
 
-nm::node* me::getSubPack() { return _ip.getSubPack(); }
+by::node* me::getSubPack() { return _ip.getSubPack(); }
 
-const nm::node* me::getSubPack() const { return _ip.getSubPack(); }
+const by::node* me::getSubPack() const { return _ip.getSubPack(); }
 
-nm::slot* me::getSlot() { return _ip.getTask(); }
+by::slot* me::getSlot() { return _ip.getTask(); }
 
-const nm::slot* me::getSlot() const { return _ip.getTask(); }
+const by::slot* me::getSlot() const { return _ip.getTask(); }
 
-nm::errReport& me::getReport() { return _rpt; }
+by::errReport& me::getReport() { return _rpt; }
 
-byeolSyntaxTest& me::make(const std::string& name) { return make(nm::manifest(name)); }
+byeolSyntaxTest& me::make(const std::string& name) { return make(by::manifest(name)); }
 
-byeolSyntaxTest& me::make() { return make(nm::manifest()); }
+byeolSyntaxTest& me::make() { return make(by::manifest()); }
 
-byeolSyntaxTest& me::make(const nm::manifest& mani) {
+byeolSyntaxTest& me::make(const by::manifest& mani) {
     _rel();
     nbool isVerbose = logger::get().isEnable();
     int flag = isVerbose ? interpreter::DEFAULT | interpreter::LOG_STRUCTURE | interpreter::GUARD |
             interpreter::LOG_GRAPH_ON_EX :
                            interpreter::DUMP_ON_EX | interpreter::LOG_ON_END;
-    _ip.setTask(*new nm::slot(mani)).setFlag(flag);
+    _ip.setTask(*new by::slot(mani)).setFlag(flag);
     return *this;
 }
 
@@ -48,35 +48,35 @@ byeolSyntaxTest& me::delFlag(nint flag) {
     return *this;
 }
 
-byeolSyntaxTest& me::parse(const nm::nchar* src) {
-    using namespace nm;
+byeolSyntaxTest& me::parse(const by::nchar* src) {
+    using namespace by;
 
     defaultSigZone<interpreter> zone(_ip);
-    _ip.addSupply(*new nm::bufSupply(std::string(src))).setReport(_rpt).work();
+    _ip.addSupply(*new by::bufSupply(std::string(src))).setReport(_rpt).work();
     return *this;
 }
 
 byeolSyntaxTest& me::negative() {
-    typedef nm::interpreter ip;
+    typedef by::interpreter ip;
     _rpt.setNoisy(false);
     _ip.setFlag(0);
     return *this;
 }
 
-nm::nbool me::shouldParsed(nm::nbool expect) {
-    nm::nbool ret = _ip.isParsed();
+by::nbool me::shouldParsed(by::nbool expect) {
+    by::nbool ret = _ip.isParsed();
     EXPECT_EQ(ret, expect);
     return ret;
 }
 
-nm::nbool me::shouldVerified(nm::nbool expect) {
-    nm::nbool ret = _ip.isVerified();
+by::nbool me::shouldVerified(by::nbool expect) {
+    by::nbool ret = _ip.isVerified();
     EXPECT_EQ(ret, expect);
     return ret;
 }
 
-nm::str me::run() {
-    using nm::starter;
+by::str me::run() {
+    using by::starter;
     return starter()
         .setTask(getSubPack())
         .setReport(_rpt)

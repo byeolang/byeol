@@ -1,6 +1,6 @@
 #include "core/loader/pack/cpp/cppPackLoading.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(cppPackLoading)
 
@@ -61,4 +61,4 @@ namespace nm {
         static std::string inner = "cpp";
         return inner;
     }
-} // namespace nm
+} // namespace by

@@ -2,7 +2,7 @@
 
 #include "frontend/flag/flag.hpp"
 
-namespace nm {
+namespace by {
 
     /// flag which takes one flag value.
     /// e.g. '-o fast'

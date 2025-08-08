@@ -7,7 +7,7 @@
 #include "core/ast/baseFunc.hpp"
 #include "core/ast/origin.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(slot), DEF_VISIT())
 
@@ -61,4 +61,4 @@ namespace nm {
     }
 
     str me::_onRunSub(node& sub, const args& a) { return getPack()._onRunSub(sub, a); }
-} // namespace nm
+} // namespace by

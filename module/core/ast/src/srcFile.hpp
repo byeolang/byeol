@@ -3,7 +3,7 @@
 #include "core/builtin/container/native/tnchain.inl"
 #include "core/ast/node.hpp"
 
-namespace nm {
+namespace by {
 
     /// srcFile represents src file of byeolang source codes.
     class _nout srcFile: public node {

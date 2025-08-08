@@ -3,7 +3,7 @@
 #include "core/common/dep.hpp"
 #include "core/common/_nout.hpp"
 
-namespace nm {
+namespace by {
     class arithmeticObj;
     class visitInfo;
     class node;
@@ -31,4 +31,4 @@ namespace nm {
     _nout strWrap __convert__(const visitInfo* it);
     _nout strWrap __convert__(const modifier& it);
     _nout strWrap __convert__(const modifier* it);
-} // namespace nm
+} // namespace by

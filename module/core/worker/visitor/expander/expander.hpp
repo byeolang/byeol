@@ -3,7 +3,7 @@
 #include "core/worker/visitor/visitor.hpp"
 #include "core/worker/visitor/expander/convergence/baseConvergence.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout expander: public visitor {
         NM(CLASS(expander, visitor))
@@ -59,4 +59,4 @@ namespace nm {
         std::vector<obj*> _obj;
         std::vector<baseFunc*> _funcs;
     };
-} // namespace nm
+} // namespace by

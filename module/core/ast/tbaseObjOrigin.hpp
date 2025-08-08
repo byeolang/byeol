@@ -3,7 +3,7 @@
 #include "core/ast/tmock.hpp"
 #include "core/ast/baseObj.hpp"
 
-namespace nm {
+namespace by {
 
     /// this baseObjOrigin class is represents user defined classes in unmanaged codes.
     /// one important thing you must remember is, origin should be shadowed to 'baseObj' type.
@@ -67,4 +67,4 @@ namespace nm {
         tstr<scope> _subs;
         tstr<modifier> _mod;
     };
-} // namespace nm
+} // namespace by

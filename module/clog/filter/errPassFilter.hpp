@@ -2,7 +2,7 @@
 
 #include "clog/filter/filterable.hpp"
 
-namespace nm {
+namespace by {
     class _nout errPassFilter: public filterable {
         NM(ME(errPassFilter, filterable))
 

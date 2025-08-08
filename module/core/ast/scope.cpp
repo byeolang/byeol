@@ -1,5 +1,5 @@
 #include "core/ast/scope.hpp"
 
-namespace nm {
+namespace by {
     template class _nout tnchain<std::string, node, tnmap<std::string, node, immutableTactic>>;
 }

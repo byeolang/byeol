@@ -3,7 +3,7 @@
 #include "core/builtin/primitive/nVoid.hpp"
 #include "core/ast/expr.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout retState: public nVoid {
         NM(CLASS(retState, nVoid))

@@ -3,7 +3,7 @@
 #include "core/frame/thread.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(defNestedFuncExpr), DEF_VISIT())
 
     me::defNestedFuncExpr(const func& org): _org(org) {}
@@ -30,4 +30,4 @@ namespace nm {
     func& me::_getOrigin() { return *_org; }
 
     str me::getEval() const { return _org->getEval(); }
-} // namespace nm
+} // namespace by

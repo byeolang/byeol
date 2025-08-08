@@ -5,7 +5,7 @@
 #include "core/worker/visitor/visitor.hpp"
 #include "core/ast/node.inl"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(getExpr), DEF_VISIT())
 
@@ -70,4 +70,4 @@ namespace nm {
         me& rhs = (me&) from;
         if(rhs._args) _args.bind((args*) rhs._args->cloneDeep());
     }
-} // namespace nm
+} // namespace by

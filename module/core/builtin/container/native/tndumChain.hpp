@@ -2,7 +2,7 @@
 
 #include "core/builtin/container/native/tnchain.inl"
 
-namespace nm {
+namespace by {
 
     template <typename K, typename V, typename defaultContainer = nmap>
     class tndumChain: public tnchain<K, V, defaultContainer> {

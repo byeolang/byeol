@@ -6,7 +6,7 @@
 #    include <emscripten/emscripten.h>
 #endif
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(inputFunc))
 

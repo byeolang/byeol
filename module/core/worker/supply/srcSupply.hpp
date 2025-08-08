@@ -3,7 +3,7 @@
 #include "core/builtin/container/native/tnarr.hpp"
 #include "core/type/ntype.hpp"
 
-namespace nm {
+namespace by {
 
     class parser;
     class exprMaker;

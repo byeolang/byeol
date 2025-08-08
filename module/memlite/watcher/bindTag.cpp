@@ -3,7 +3,7 @@
 #include "memlite/binder/tbindable.inl"
 #include "memlite/interface/instancer.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(bindTag)
 
@@ -78,4 +78,4 @@ namespace nm {
     instance& me::operator*() { return *get(); }
 
     const type& me::getType() const { return ttype<bindTag>::get(); }
-} // namespace nm
+} // namespace by

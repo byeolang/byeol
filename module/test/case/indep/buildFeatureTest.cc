@@ -1,6 +1,6 @@
 #include "../../common/dep.hpp"
 
-using namespace nm;
+using namespace by;
 
 TEST(buildFeatureTest, dateGetter) {
     buildFeature::date date;

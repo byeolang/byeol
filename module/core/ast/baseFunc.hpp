@@ -3,7 +3,7 @@
 #include "core/ast/node.hpp"
 #include "core/type/mgdType.hpp"
 
-namespace nm {
+namespace by {
 
     class param;
     template <typename T, typename TACTIC> class tnarr;
@@ -74,4 +74,4 @@ namespace nm {
     };
 
     typedef tnarr<baseFunc> funcs;
-} // namespace nm
+} // namespace by

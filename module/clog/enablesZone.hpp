@@ -2,7 +2,7 @@
 
 #include "clog/common.hpp"
 
-namespace nm {
+namespace by {
 
     typedef std::map<std::string, nbool> enables;
 

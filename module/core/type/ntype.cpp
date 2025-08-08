@@ -5,7 +5,7 @@
 #include "core/builtin/primitive.hpp"
 #include "core/type/as/impliAses.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(ntype)
 
@@ -178,4 +178,4 @@ namespace nm {
     }
 
     const nchar* me::getMetaTypeName() const { return META_TYPENAME.c_str(); }
-} // namespace nm
+} // namespace by

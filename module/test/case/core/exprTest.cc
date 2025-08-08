@@ -1,6 +1,6 @@
 #include "test/byeolTest.hpp"
 
-using namespace nm;
+using namespace by;
 using namespace std;
 
 namespace {
@@ -21,7 +21,7 @@ struct exprTest: public byeolTest {
 
     static void setLine(expr& exp, ncnt row, ncnt col) { exp._pos = {row, col}; }
 
-    static frames& getFrames() { return nm::thread::get()._getFrames(); }
+    static frames& getFrames() { return by::thread::get()._getFrames(); }
 };
 
 void exprTest::SetUp() {

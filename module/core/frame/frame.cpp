@@ -6,7 +6,7 @@
 #include "core/worker/visitor/visitor.hpp"
 #include "core/frame/thread.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(frame), DEF_VISIT())
 
     me::frame() { _rel(); }
@@ -160,4 +160,4 @@ namespace nm {
         NM_E("couldn't find owner of %s", toFind);
         return nullptr;
     }
-} // namespace nm
+} // namespace by

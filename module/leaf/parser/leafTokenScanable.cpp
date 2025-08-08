@@ -1,6 +1,6 @@
 #include "leaf/parser/leafTokenScanable.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(leafTokenScanable))
 

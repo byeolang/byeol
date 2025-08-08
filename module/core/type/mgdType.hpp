@@ -3,7 +3,7 @@
 #include "core/ast/params.hpp"
 #include "core/type/ntype.hpp"
 
-namespace nm {
+namespace by {
 
     class node;
     template <typename T, typename TACTIC> class tnarr;
@@ -62,4 +62,4 @@ namespace nm {
         nbool _isAdt;
         str _ret;
     };
-} // namespace nm
+} // namespace by

@@ -5,7 +5,7 @@
 #include "core/builtin/container/native/tnarr.hpp"
 #include "core/builtin/container/native/tnucontainer.inl"
 
-namespace nm {
+namespace by {
 
     class thread;
     class baseErr;
@@ -147,4 +147,4 @@ namespace nm {
 
 #undef TEMPL
 #undef ME
-} // namespace nm
+} // namespace by

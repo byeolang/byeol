@@ -2,7 +2,7 @@
 
 #include "meta/type/ttypeBase.hpp"
 
-namespace nm {
+namespace by {
     /// @remark ttype returns ttype<type> as its meta class.
     ///         however, this makes impossible to get specific ttype instance
     ///         at a binder.

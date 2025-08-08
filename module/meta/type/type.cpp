@@ -1,6 +1,6 @@
 #include "meta/type/type.hpp"
 
-namespace nm {
+namespace by {
     NM_DEF_ME(type)
 
     nbool me::operator==(const me& rhs) const { return getName() == rhs.getName(); }
@@ -124,4 +124,4 @@ namespace nm {
         static std::string inner = "null";
         return inner;
     }
-} // namespace nm
+} // namespace by

@@ -2,7 +2,7 @@
 
 #include "core/type/mgdType.hpp"
 
-namespace nm {
+namespace by {
     class _nout funcMgdType: public mgdType {
         NM(ME(funcMgdType, mgdType), CLONE(funcMgdType))
 

@@ -2,7 +2,7 @@
 
 #include "indep/helper/tmedium.hpp"
 
-namespace nm {
+namespace by {
 
 #define ME tmedium<T>
 #define TEMPLATE template <typename T>

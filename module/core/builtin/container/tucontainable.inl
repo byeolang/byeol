@@ -6,7 +6,7 @@
 #include "core/builtin/container/tbicontainable.hpp"
 #include "core/builtin/container/tucontainable.hpp"
 
-namespace nm {
+namespace by {
 
 #define TEMPL template <typename T, typename R, typename RSquare>
 #define ME tucontainable<T, R, RSquare>
@@ -181,4 +181,4 @@ namespace nm {
 
 #undef ME
 #undef TEMPL
-} // namespace nm
+} // namespace by

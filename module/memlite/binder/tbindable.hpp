@@ -2,7 +2,7 @@
 
 #include "memlite/interface/instance.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T> class tbindable {
         NM_ME(tbindable)

@@ -4,7 +4,7 @@
 #include "core/ast/genericOrigin.hpp"
 #include "core/ast/node.inl"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(getGenericExpr), DEF_VISIT())
 

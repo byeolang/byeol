@@ -2,7 +2,7 @@
 
 #include "core/worker/visitor/expander/convergence/tbaseConvergence.hpp"
 
-namespace nm {
+namespace by {
     class evalConvergence: public tbaseConvergence<node> {
         NM(ADT(evalConvergence, tbaseConvergence))
 

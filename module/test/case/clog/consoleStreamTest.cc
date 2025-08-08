@@ -3,7 +3,7 @@
 #include "test/common/dep.hpp"
 
 using namespace std;
-using namespace nm;
+using namespace by;
 
 namespace {
     typedef struct consoleStreamTest: public ::testing::Test {
@@ -57,7 +57,7 @@ TEST_F(consoleStreamTest, logFormat) {
     logger::get().logFormatBypass(
         "%s %s <%s::%s#%d> "
         "hello",
-        nm::platformAPI::createNowTime("%b %d %Y  %X").c_str(), "I", __FILENAME__, __func__,
+        by::platformAPI::createNowTime("%b %d %Y  %X").c_str(), "I", __FILENAME__, __func__,
         __LINE__);
 
     ASSERT_TRUE(thisTest::hasLogFile());

@@ -2,7 +2,7 @@
 
 #include "core/ast/baseFunc.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout inputFunc: public baseFunc {
         NM(ME(inputFunc, baseFunc), CLONE(inputFunc))

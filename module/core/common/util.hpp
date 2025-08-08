@@ -2,7 +2,7 @@
 
 #include "core/common/dep.hpp"
 
-namespace nm {
+namespace by {
 
     class node;
 

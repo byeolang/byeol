@@ -1,7 +1,7 @@
 #include "core/type/funcMgdType.hpp"
 #include "core/type/as/impliAses.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(funcMgdType))
 
     me::funcMgdType(const std::string& name, const type& superType, const params& ps, nbool isAdt,
@@ -41,4 +41,4 @@ namespace nm {
         static impliAses inner{new asFunc()};
         return inner;
     }
-} // namespace nm
+} // namespace by

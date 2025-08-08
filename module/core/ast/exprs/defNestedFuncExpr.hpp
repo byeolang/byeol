@@ -3,7 +3,7 @@
 #include "core/ast/func.hpp"
 #include "core/ast/expr.hpp"
 
-namespace nm {
+namespace by {
     /// nested func:
     ///     when you eval nested func, actually it will clone a new func with the current
     ///     shallow copied block scope. so it can captures local scope at that time.

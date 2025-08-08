@@ -4,7 +4,7 @@
 
 #include "leaf/common.hpp"
 
-namespace nm {
+namespace by {
     class _nout leafTokenDispatcher {
     public:
         void add(nint newToken);

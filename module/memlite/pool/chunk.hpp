@@ -2,7 +2,7 @@
 
 #include "memlite/pool/allocator.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout chunk: public allocator {
         NM_ME(chunk, allocator)
@@ -57,4 +57,4 @@ namespace nm {
         ncnt _len, _sz;
         nuchar* _heap;
     };
-} // namespace nm
+} // namespace by

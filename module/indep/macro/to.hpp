@@ -5,7 +5,7 @@
 #include <vector>
 #include <type_traits>
 
-namespace nm {
+namespace by {
 
     template <typename T, typename F> auto operator->*(T& t, F&& f) {
         if constexpr (std::is_reference_v<decltype(f(t))>)
@@ -169,4 +169,4 @@ namespace nm {
 
 #define TO(fn) ->*[&](auto&& __p) -> decltype(__p.fn) { return __p.fn; }
 
-} // namespace nm
+} // namespace by

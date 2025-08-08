@@ -2,7 +2,7 @@
 
 #include "core/ast/slot.hpp"
 
-namespace nm {
+namespace by {
 
     class errReport;
     class packLoading;
@@ -42,4 +42,4 @@ namespace nm {
         std::vector<std::string> _paths;
         static constexpr nchar DELIMITER = '/';
     };
-} // namespace nm
+} // namespace by

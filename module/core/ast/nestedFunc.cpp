@@ -1,7 +1,7 @@
 #include "core/ast/nestedFunc.hpp"
 #include "core/frame/frameInteract.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(nestedFunc))
 
     me::nestedFunc(const func& org, const scope& subs):

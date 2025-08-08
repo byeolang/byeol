@@ -3,7 +3,7 @@
 #include "core/builtin/container/tarrayable.hpp"
 #include "core/builtin/container/native/tnucontainer.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T, typename TACTIC = strTactic>
     class tnarr: public tnucontainer<T>, public tarrayable<T> {
@@ -89,4 +89,4 @@ namespace nm {
 
     class node;
     typedef tnarr<node> narr;
-} // namespace nm
+} // namespace by

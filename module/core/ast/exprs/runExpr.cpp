@@ -7,7 +7,7 @@
 #include "core/ast/closure.hpp"
 #include "core/ast/exprs/getExpr.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(runExpr), DEF_VISIT())
 
@@ -91,4 +91,4 @@ namespace nm {
             sub->cast<baseFunc>() OR.err("sub isn't obj or func. returns null").ret(str());
         return new mockNode(cast.getRet());
     }
-} // namespace nm
+} // namespace by

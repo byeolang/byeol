@@ -1,7 +1,7 @@
 #include "memlite/pool/pool.hpp"
 #include "memlite/interface/instance.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(pool, memoryHaver)
 
@@ -41,4 +41,4 @@ namespace nm {
 
         return _chunks[n];
     }
-} // namespace nm
+} // namespace by

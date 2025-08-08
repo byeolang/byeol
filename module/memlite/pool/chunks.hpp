@@ -2,7 +2,7 @@
 
 #include "memlite/pool/chunk.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout chunks: public allocator {
         NM_ME(chunks, allocator)
@@ -53,4 +53,4 @@ namespace nm {
         std::vector<chunk*> _chunks;
         int _s;
     };
-} // namespace nm
+} // namespace by

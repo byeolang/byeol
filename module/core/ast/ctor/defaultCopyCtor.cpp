@@ -4,7 +4,7 @@
 #include "core/ast/args.hpp"
 #include "core/type/typeMaker.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(defaultCopyCtor), DEF_VISIT())
 

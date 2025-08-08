@@ -5,7 +5,7 @@
 #include "core/worker/worker.hpp"
 #include "core/worker/visitor/visitInfo.hpp"
 
-namespace nm {
+namespace by {
 
     class retStateExpr;
 #define X(T) class T;
@@ -81,4 +81,4 @@ namespace nm {
         std::map<node*, nbool> _visited;
         nbool _isReturnable;
     };
-} // namespace nm
+} // namespace by

@@ -8,7 +8,7 @@
 #include "core/ast/node.inl"
 #include "core/ast/src/dumSrc.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(baseObj))
 
@@ -42,7 +42,7 @@ namespace nm {
     const baseObj& me::getOrigin() const { return _org ? *_org : *this; }
 
     void me::inFrame(const bicontainable* args) const {
-        frames& frs = nm::thread::get()._getFrames();
+        frames& frs = by::thread::get()._getFrames();
         NM_DI("%s.inFrame() frames.len[%d]", *this, frs.len());
 
         frame& fr = *new frame();
@@ -51,7 +51,7 @@ namespace nm {
     }
 
     void me::outFrame() const {
-        frames& frs = nm::thread::get()._getFrames();
+        frames& frs = by::thread::get()._getFrames();
         NM_DI("%s._outFrame() frames.len[%d]", *this, frs.len() - 1);
 
         frs.del();
@@ -100,4 +100,4 @@ namespace nm {
     void me::_setModifier(const modifier& mod) {}
 
     str me::_onBeforeCtor() { return getOrigin(); }
-} // namespace nm
+} // namespace by

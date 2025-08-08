@@ -3,7 +3,7 @@
 #include "core/builtin/primitive/nStr.hpp"
 #include "core/builtin/err/baseErr.hpp"
 
-namespace nm {
+namespace by {
     class _nout err: public baseErr {
         NM(CLASS(err, baseErr))
         template <typename T, nbool> friend struct tmarshaling;

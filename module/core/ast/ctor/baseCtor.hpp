@@ -2,7 +2,7 @@
 
 #include "core/ast/baseFunc.hpp"
 
-namespace nm {
+namespace by {
 
     class baseCtor: public baseFunc {
         NM(ME(baseCtor, baseFunc), VISIT())

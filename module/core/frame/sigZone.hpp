@@ -2,7 +2,7 @@
 
 #include "core/frame/signaler.hpp"
 
-namespace nm {
+namespace by {
     class _nout sigZone {
         NM(ME(sigZone))
 

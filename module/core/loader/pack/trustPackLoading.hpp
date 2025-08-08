@@ -2,7 +2,7 @@
 
 #include "core/loader/pack/packLoading.hpp"
 
-namespace nm {
+namespace by {
 
     class errReport;
 

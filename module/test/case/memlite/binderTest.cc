@@ -1,6 +1,6 @@
 #include "test/common.hpp"
 
-using namespace nm;
+using namespace by;
 
 struct binderTest: public ::testing::Test {
     const bindTacticable& getTactic(const binder& b) { return *b._tactic; }

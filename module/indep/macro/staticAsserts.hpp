@@ -3,7 +3,7 @@
 #include <type_traits>
 #include "indep/common/typedef.hpp"
 
-namespace nm {
+namespace by {
 
     template <nbool...> struct boolPack;
     template <nbool... bp>

@@ -30,7 +30,7 @@ typedef ZZLTYPE YYLTYPE;
     |                                      FLEX DEFINITIONS                                    |
     ============================================================================================  */
 %option reentrant bison-bridge bison-locations
-%option extra-type="nm::leafParser*"
+%option extra-type="by::leafParser*"
 %option yylineno
 %option nounistd
 %option noyywrap
@@ -177,9 +177,9 @@ false {
     |                                         EPILOGUE                                         |
     ============================================================================================  */
 int zzlex(ZZSTYPE* yylval_param, ZZLTYPE* yylloc_param, zzscan_t yyscanner) {
-    nm::leafParser& ps = PS;
+    by::leafParser& ps = PS;
     if(!ps.isInit()) // init: tokenScanable
-        ps.setScan<nm::leafIndentScan>();
+        ps.setScan<by::leafIndentScan>();
 
     int tok;
     do

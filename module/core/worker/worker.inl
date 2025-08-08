@@ -2,7 +2,7 @@
 
 #include "core/worker/worker.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename R, typename T> struct workerAdapter {
         static R adaptWork(worker<R, T>& w);
@@ -155,4 +155,4 @@ namespace nm {
 
 #undef ME
 #undef TEMPLATE
-} // namespace nm
+} // namespace by

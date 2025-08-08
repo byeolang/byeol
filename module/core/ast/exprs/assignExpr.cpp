@@ -4,7 +4,7 @@
 #include "core/worker/visitor/visitor.hpp"
 #include "core/ast/obj.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(assignExpr), DEF_VISIT())
 
@@ -41,4 +41,4 @@ namespace nm {
         scope& subs = (fr ? fr->getScopeHaving(got.get()) : &ased->subs()) OR.exErr(FRAME_DOESNT_HAVE_SCOPE_MATCHING_THIS_TYPE, got.get()).ret(iter());
         return subs.iterate(get.getName());
     }
-} // namespace nm
+} // namespace by

@@ -1,6 +1,6 @@
 #include "test/byeolTest.hpp"
 
-using namespace nm;
+using namespace by;
 
 struct chunksTest: public byeolTest {
     void TearDown() override { _getVault().getVaults().clear(); }

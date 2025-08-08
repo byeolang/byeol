@@ -1,6 +1,6 @@
 #include "leaf/ast/valLeaf.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(valLeaf))
 
     me::valLeaf(const std::string& rawVal, const std::string& name): _rawVal(rawVal) {}
@@ -33,4 +33,4 @@ namespace nm {
         transform(it.begin(), it.end(), it.begin(), ::tolower);
         return it;
     }
-} // namespace nm
+} // namespace by

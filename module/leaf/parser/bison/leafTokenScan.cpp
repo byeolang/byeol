@@ -6,7 +6,7 @@ YY_DECL;
 
 std::string getLeafTokenName(int tok);
 
-namespace nm {
+namespace by {
 
     nint leafTokenScan::onScan(leafParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner,
         nbool& isBypass) {
@@ -67,4 +67,4 @@ namespace nm {
 
     leafIndentScan* leafIndentScan::_instance = new leafIndentScan();
 
-} // namespace nm
+} // namespace by

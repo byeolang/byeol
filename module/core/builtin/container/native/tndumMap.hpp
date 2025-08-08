@@ -2,7 +2,7 @@
 
 #include "core/builtin/container/native/tnmap.inl"
 
-namespace nm {
+namespace by {
 
     template <typename K, typename V, typename TACTIC = strTactic>
     class tndumMap: public tnmap<K, V, TACTIC> {

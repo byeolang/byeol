@@ -5,7 +5,7 @@
 #include "core/ast/closure.hpp"
 #include "core/ast/exprs/assignExpr.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(defVarExpr), DEF_VISIT())
 
     me::defVarExpr(const std::string& name, const node* rhs): _name(name), _rhs(rhs) {}
@@ -67,4 +67,4 @@ namespace nm {
         if(baseFunc::isFuncButNotClosure(ret.get())) ret.bind(closure::make(*ret));
         return ret;
     }
-} // namespace nm
+} // namespace by

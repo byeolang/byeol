@@ -1,6 +1,6 @@
 #include "indep/helper/errLv.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(errLv))
 
     const std::string& me::getName(level lv) {

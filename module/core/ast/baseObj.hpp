@@ -6,7 +6,7 @@
 #include "core/ast/modifier/modifier.hpp"
 #include "core/ast/tmock.hpp"
 
-namespace nm {
+namespace by {
 
     class baseFunc;
     typedef tnarr<baseFunc> funcs;
@@ -87,4 +87,4 @@ namespace nm {
     };
 
     typedef tmock<baseObj> mockObj;
-} // namespace nm
+} // namespace by

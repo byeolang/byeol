@@ -5,7 +5,7 @@
 #include "frontend/common.hpp"
 #include "frontend/flag/flagArgs.hpp"
 
-namespace nm {
+namespace by {
 
     struct cli;
 

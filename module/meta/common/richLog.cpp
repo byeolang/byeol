@@ -2,7 +2,7 @@
 #include "meta/type/type.hpp"
 #include "meta/interface/typeProvidable.hpp"
 
-namespace nm {
+namespace by {
 
     strWrap __convert__(const type& rhs) { return rhs.getName(); }
 

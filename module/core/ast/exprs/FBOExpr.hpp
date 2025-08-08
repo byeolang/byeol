@@ -5,7 +5,7 @@
 #include "core/ast/param.hpp"
 #include "core/ast/scope.hpp"
 
-namespace nm {
+namespace by {
 
     class visitor;
 
@@ -69,4 +69,4 @@ namespace nm {
         str _lhs;
         str _rhs;
     };
-} // namespace nm
+} // namespace by

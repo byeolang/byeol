@@ -2,7 +2,7 @@
 
 #include "core/worker/visitor/expander/convergence/tbaseConvergence.hpp"
 
-namespace nm {
+namespace by {
     class convergence: public tbaseConvergence<void> {
         NM(CLASS(convergence, tbaseConvergence))
 

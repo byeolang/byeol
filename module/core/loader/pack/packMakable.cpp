@@ -3,6 +3,6 @@
 #include "core/ast/src/src.hpp"
 #include "core/builtin/err/errReport.hpp"
 
-namespace nm {
+namespace by {
     NM_DEF_ME(packMakable)
 }

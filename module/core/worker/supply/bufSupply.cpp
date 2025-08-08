@@ -3,7 +3,7 @@
 #include "core/ast/exprs/exprMaker.hpp"
 #include "core/ast/node.hpp"
 
-namespace nm {
+namespace by {
     NM_DEF_ME(bufSupply)
 
     me::bufSupply(const std::string& buf): _buf(buf) {}

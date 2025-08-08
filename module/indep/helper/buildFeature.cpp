@@ -1,6 +1,6 @@
 #include "indep/helper/buildFeature.hpp"
 
-namespace nm {
+namespace by {
     NM_DEF_ME(buildFeature)
 
     const std::string& me::date::get() {
@@ -100,4 +100,4 @@ namespace nm {
         static std::string inner(NM_BUILD_TYPENAME);
         return inner;
     }
-} // namespace nm
+} // namespace by

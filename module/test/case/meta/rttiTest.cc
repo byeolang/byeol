@@ -15,7 +15,7 @@ namespace {
     };
 }
 
-using namespace nm;
+using namespace by;
 
 struct rttiTest: public byeolTest {};
 

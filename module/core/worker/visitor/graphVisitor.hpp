@@ -2,7 +2,7 @@
 
 #include "core/worker/visitor/visitor.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout graphVisitor: public visitor {
         NM(CLASS(graphVisitor, visitor))
@@ -61,4 +61,4 @@ namespace nm {
         nbool _isStart;
         nbool _isShowData;
     };
-} // namespace nm
+} // namespace by

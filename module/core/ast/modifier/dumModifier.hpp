@@ -2,7 +2,7 @@
 
 #include "core/ast/modifier/modifier.hpp"
 
-namespace nm {
+namespace by {
     class _nout dumModifier: public modifier {
         NM(CLASS(dumModifier, modifier))
 

@@ -5,7 +5,7 @@
 #include "core/builtin/primitive/nVoid.hpp"
 #include "core/worker/visitor/visitInfo.hpp"
 
-namespace nm {
+namespace by {
 
     strWrap __convert__(const node* it) { return it ? __convert__(*it) : strWrap("null"); }
 
@@ -58,4 +58,4 @@ namespace nm {
         return std::string("modifier(") + (it.isPublic() ? "public" : "protected") +
             (it.isExplicitOverride() ? std::string(", override)") : std::string(")"));
     }
-} // namespace nm
+} // namespace by

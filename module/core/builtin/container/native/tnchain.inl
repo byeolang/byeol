@@ -3,7 +3,7 @@
 #include "core/builtin/container/native/tnchain.hpp"
 #include "core/builtin/container/native/tnmap.inl"
 
-namespace nm {
+namespace by {
 
 #define TEMPL template <typename K, typename V, typename defaultContainer>
 #define ME tnchain<K, V, defaultContainer>
@@ -263,4 +263,4 @@ namespace nm {
 #undef ME
 #undef TEMPL
 #undef SUPER
-} // namespace nm
+} // namespace by

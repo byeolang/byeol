@@ -3,7 +3,7 @@
 #include "core/ast/scope.hpp"
 #include "core/builtin/container/native/tnarr.hpp"
 
-namespace nm {
+namespace by {
 
     class defVarExpr;
 

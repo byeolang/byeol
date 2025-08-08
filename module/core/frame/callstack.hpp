@@ -4,7 +4,7 @@
 #include "core/builtin/container/native/tnbicontainer.hpp"
 #include "core/frame/frames.hpp"
 
-namespace nm {
+namespace by {
 
     class frame;
     class frames;
@@ -31,4 +31,4 @@ namespace nm {
     public:
         void dump() const override;
     };
-} // namespace nm
+} // namespace by

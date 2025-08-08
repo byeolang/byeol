@@ -3,7 +3,7 @@
 #include "memlite/binder/binder.hpp"
 #include "memlite/binder/weakTactic.hpp"
 
-namespace nm {
+namespace by {
 
     class origin;
 
@@ -116,4 +116,4 @@ namespace nm {
         return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
     }
 
-} // namespace nm
+} // namespace by

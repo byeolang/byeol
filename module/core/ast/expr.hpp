@@ -5,7 +5,7 @@
 
 struct exprTest;
 
-namespace nm {
+namespace by {
 
     class _nout expr: public node {
     public:
@@ -45,4 +45,4 @@ namespace nm {
         tstr<src> _src;
         point _pos;
     };
-} // namespace nm
+} // namespace by

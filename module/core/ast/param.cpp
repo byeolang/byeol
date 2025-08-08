@@ -2,7 +2,7 @@
 
 #include "core/ast/node.hpp"
 
-namespace nm {
+namespace by {
     NM_DEF_ME(param)
 
     me::param(const std::string& newName, const node& org): _name(newName) { setOrigin(org); }
@@ -27,4 +27,4 @@ namespace nm {
         me& rhs = (me&) new1;
         _org.bind((node*) (rhs._org ? rhs._org->cloneDeep() : nullptr));
     }
-} // namespace nm
+} // namespace by

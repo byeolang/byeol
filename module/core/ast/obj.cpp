@@ -6,7 +6,7 @@
 #include "core/ast/origin.hpp"
 #include "core/ast/modifier/dumModifier.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(obj), DEF_VISIT())
 
@@ -101,4 +101,4 @@ namespace nm {
         ret->run(baseObj::COMMON_NAME); // even if there is no @common, that's okay.
         return ret;
     }
-} // namespace nm
+} // namespace by

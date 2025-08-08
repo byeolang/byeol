@@ -3,7 +3,7 @@
 #include "meta/rtti.hpp"
 #include "meta/type/type.hpp"
 
-namespace nm {
+namespace by {
 
     /// @remark ttypeBase returns ttypeBase<type> as its meta class.
     ///         however, this makes impossible to get specific ttypeBase instance
@@ -70,4 +70,4 @@ namespace nm {
     private:
         ttypeBase(nbool);
     };
-} // namespace nm
+} // namespace by

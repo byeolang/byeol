@@ -12,7 +12,7 @@
 #endif
 #include <vector>
 
-namespace nm {
+namespace by {
 
     /// fsystem is going to be used before filesystem library fully supported.
     /// to apply fsystem on clang++ is quite hard now.
@@ -69,4 +69,4 @@ namespace nm {
         static std::string getCurrentDir();
         static const std::string& getDelimiter();
     };
-} // namespace nm
+} // namespace by

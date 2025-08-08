@@ -10,7 +10,7 @@
 #include "indep/def/common.hpp"
 #include "indep/common/dep.hpp"
 
-namespace nm {
+namespace by {
     typedef int nint;
     typedef unsigned int nuint;
     typedef bool nbool;
@@ -41,4 +41,4 @@ namespace nm {
     typedef nint64 nid;
     typedef nint ncnt;
     constexpr nidx NM_INDEX_ERROR = -1;
-} // namespace nm
+} // namespace by

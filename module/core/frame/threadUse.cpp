@@ -1,6 +1,6 @@
 #include "core/frame/threadUse.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(threadUse))
 
     me::threadUse(): _thr() { use(); }

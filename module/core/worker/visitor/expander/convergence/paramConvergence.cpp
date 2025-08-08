@@ -3,7 +3,7 @@
 #include "core/ast/func.hpp"
 #include "core/frame/thread.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(paramConvergence))
 
     me::paramConvergence(baseObj& o, baseFunc& f, param& p, const node& org):

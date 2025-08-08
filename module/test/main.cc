@@ -7,7 +7,7 @@ static bool _isVerbose(int argc, char** argv) {
 }
 
 int main(int argc, char** argv) {
-    nm::logger::get().setEnable(_isVerbose(argc, argv));
+    by::logger::get().setEnable(_isVerbose(argc, argv));
 
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

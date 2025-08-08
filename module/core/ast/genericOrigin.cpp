@@ -8,7 +8,7 @@
 #include "core/ast/origin.hpp"
 #include <algorithm>
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(genericOrigin), DEF_VISIT())
 
@@ -98,4 +98,4 @@ namespace nm {
         return std::find_if(_paramNames.begin(), _paramNames.end(),
                    [&](const auto& name) -> nbool { return key == name; }) != _paramNames.end();
     }
-} // namespace nm
+} // namespace by

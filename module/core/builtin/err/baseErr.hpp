@@ -3,7 +3,7 @@
 #include "core/ast/baseObj.hpp"
 #include "core/frame/callstack.hpp"
 
-namespace nm {
+namespace by {
     class _nout baseErr: public baseObj, public errorable {
         NM(ADT(baseErr, baseObj))
         template <typename T, nbool> friend struct tmarshaling;
@@ -33,4 +33,4 @@ namespace nm {
         tstr<callstack> _stack;
         errLv::level _lv;
     };
-} // namespace nm
+} // namespace by

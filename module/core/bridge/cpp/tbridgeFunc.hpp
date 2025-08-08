@@ -5,7 +5,7 @@
 #include "core/ast/params.hpp"
 #include "core/ast/src/dumSrc.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T, nbool isBaseObj> class tbridger;
 
@@ -144,4 +144,4 @@ namespace nm {
                 (Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(a[index])...)); // and args.ZZZ
         }
     };
-} // namespace nm
+} // namespace by

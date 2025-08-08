@@ -3,7 +3,7 @@
 #include "core/ast/exprs/getExpr.hpp"
 #include "core/ast/closure.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(args))
 
@@ -53,4 +53,4 @@ namespace nm {
         res->setMe(getMe());
         return res;
     }
-} // namespace nm
+} // namespace by

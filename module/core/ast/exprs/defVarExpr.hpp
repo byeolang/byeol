@@ -5,7 +5,7 @@
 #include "core/ast/scope.hpp"
 #include "core/ast/modifier/modifier.hpp"
 
-namespace nm {
+namespace by {
 
     class assignExpr;
 
@@ -53,4 +53,4 @@ namespace nm {
         tstr<src> _src;
         tstr<modifier> _mod;
     };
-} // namespace nm
+} // namespace by

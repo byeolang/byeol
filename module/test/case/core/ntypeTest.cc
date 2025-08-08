@@ -1,6 +1,6 @@
 #include "test/common/dep.hpp"
 
-using namespace nm;
+using namespace by;
 using namespace std;
 
 namespace {
@@ -95,8 +95,8 @@ TEST(ntypeTest, allImplicitCastingForPrimitives) {
 }
 
 TEST(ntypeTest, funcAndClosureIsImplicitCastable) {
-    nm::thread th; // declare namespace because there is a `thread` class in some version of macos
-    nm::thread::set(th);
+    by::thread th; // declare namespace because there is a `thread` class in some version of macos
+    by::thread::set(th);
     obj dummy;
     frameInteract f1(dummy);
 
@@ -114,12 +114,12 @@ TEST(ntypeTest, funcAndClosureIsImplicitCastable) {
     ASSERT_TRUE(lhs->isImpli(*rhs));
     ASSERT_TRUE(rhs->isImpli(*lhs));
 
-    nm::thread::set(nullptr);
+    by::thread::set(nullptr);
 }
 
 TEST(ntypeTest, funcAndClosureIsImplicitCastableWithDifferentSameFunc) {
-    nm::thread th;
-    nm::thread::set(th);
+    by::thread th;
+    by::thread::set(th);
     obj dummy;
     frameInteract f1(dummy);
 
@@ -139,12 +139,12 @@ TEST(ntypeTest, funcAndClosureIsImplicitCastableWithDifferentSameFunc) {
     ASSERT_TRUE(lhs->isImpli(*rhs));
     ASSERT_TRUE(rhs->isImpli(*lhs));
 
-    nm::thread::set(nullptr);
+    by::thread::set(nullptr);
 }
 
 TEST(ntypeTest, funcAndClosureIsNotCastableReturnTypeIsDifferentNegative) {
-    nm::thread th;
-    nm::thread::set(th);
+    by::thread th;
+    by::thread::set(th);
     obj dummy;
     frameInteract f1(dummy);
 
@@ -171,12 +171,12 @@ TEST(ntypeTest, funcAndClosureIsNotCastableReturnTypeIsDifferentNegative) {
     ASSERT_FALSE(foo->isImpli(*rhs));
     ASSERT_FALSE(rhs->isImpli(*foo));
 
-    nm::thread::set(nullptr);
+    by::thread::set(nullptr);
 }
 
 TEST(ntypeTest, funcAndClosureIsNotCastableSomeParamIsDifferentNegative) {
-    nm::thread th;
-    nm::thread::set(th);
+    by::thread th;
+    by::thread::set(th);
     obj dummy;
     frameInteract f1(dummy);
 
@@ -204,5 +204,5 @@ TEST(ntypeTest, funcAndClosureIsNotCastableSomeParamIsDifferentNegative) {
     ASSERT_FALSE(foo->isImpli(*rhs));
     ASSERT_FALSE(rhs->isImpli(*foo));
 
-    nm::thread::set(nullptr);
+    by::thread::set(nullptr);
 }

@@ -7,7 +7,7 @@
 #include "core/worker/defBlock.hpp"
 #include "core/type/typeMaker.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(exprMaker))
 
@@ -70,4 +70,4 @@ namespace nm {
     func* me::makeCommonFunc(const defBlock& blk) const {
         return _makeFunc(baseObj::COMMON_NAME, blk.getCommon());
     }
-} // namespace nm
+} // namespace by

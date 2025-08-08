@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include "core/common.hpp"
 
-namespace nm {
+namespace by {
     /// smultimap:
     ///     a multimap container class that preserves insertion order.
     ///     in C++, a general map operates regardless of the insertion order when iteration is
@@ -140,4 +140,4 @@ namespace nm {
         stlMap _map;
         wrap _end;
     };
-} // namespace nm
+} // namespace by

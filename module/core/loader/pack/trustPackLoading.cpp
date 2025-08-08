@@ -1,6 +1,6 @@
 #include "core/loader/pack/trustPackLoading.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(trustPackLoading)
 

@@ -4,7 +4,7 @@
 #include "core/ast/scope.hpp"
 #include "core/ast/statable.hpp"
 
-namespace nm {
+namespace by {
 
     class mgdType;
     class origin;
@@ -79,4 +79,4 @@ namespace nm {
         static const inline scope a3;
     }
 #endif
-} // namespace nm
+} // namespace by

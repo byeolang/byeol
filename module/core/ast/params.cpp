@@ -1,7 +1,7 @@
 #include "core/ast/params.hpp"
 #include "core/ast/exprs/getExpr.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(params))
 
     me::params(): super() {}
@@ -42,4 +42,4 @@ namespace nm {
             names.push_back(std::to_string(n));
         return make(names, args);
     }
-} // namespace nm
+} // namespace by

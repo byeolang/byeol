@@ -1,7 +1,7 @@
 #include "indep/helper/errorable.hpp"
 #include "indep/helper/buildFeature.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(errorable))
 
     void me::dbgLog() const {

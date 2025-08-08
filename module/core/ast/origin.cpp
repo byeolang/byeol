@@ -5,7 +5,7 @@
 #include "core/ast/exprs/runExpr.hpp"
 #include "core/frame/frameInteract.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(origin))
 
@@ -103,4 +103,4 @@ namespace nm {
         _state = LINKED; // set to LINKED to prevent infinite loop.
         if(_callComplete) _callComplete->run();
     }
-} // namespace nm
+} // namespace by

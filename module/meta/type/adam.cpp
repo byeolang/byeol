@@ -3,6 +3,6 @@
 #include "meta/type/ttype.hpp"
 #include "meta/type/ttypeBase.inl"
 
-namespace nm {
+namespace by {
     NM_INIT_META(adam)
 }

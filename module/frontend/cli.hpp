@@ -2,7 +2,7 @@
 
 #include "frontend/flag/flags.hpp"
 
-namespace nm {
+namespace by {
 
     struct cli {
         const flags& getFlags() const;

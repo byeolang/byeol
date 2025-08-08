@@ -2,7 +2,7 @@
 
 #include "meta/common.hpp"
 
-namespace nm {
+namespace by {
 
     /// @remark type returning ttype<type> as result of getType()
     class _nout type {
@@ -93,4 +93,4 @@ namespace nm {
         nbool _logInitOk(nbool res);
         void _findLeafs(const type& cls, types& tray) const;
     };
-} // namespace nm
+} // namespace by

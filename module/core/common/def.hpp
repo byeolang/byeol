@@ -3,7 +3,7 @@
 #include "core/common/dep.hpp"
 #include "core/common/_nout.hpp"
 
-namespace nm {
+namespace by {
 
     const std::string MANIFEST_FILENAME = "manifest.leaf";
 

@@ -2,7 +2,7 @@
 
 #include "core/ast/src/src.hpp"
 
-namespace nm {
+namespace by {
     class _nout dumSrc: public src {
         NM(CLASS(dumSrc, src))
 

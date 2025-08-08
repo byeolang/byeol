@@ -9,7 +9,7 @@
 #include "core/ast/params.hpp"
 #include "core/ast/closure.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(baseFunc), DEF_VISIT())
 
@@ -76,4 +76,4 @@ namespace nm {
     nbool me::_isNatureNumber(const node& it) const {
         return it.isSub<nInt>() || it.isSub<nByte>();
     }
-} // namespace nm
+} // namespace by

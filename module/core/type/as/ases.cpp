@@ -4,7 +4,7 @@
 #include "core/builtin/container/native/tnarr.inl"
 #include "core/builtin/primitive/nVoid.hpp"
 
-namespace nm {
+namespace by {
 
     namespace {
         class derivedAs: public aser {
@@ -45,4 +45,4 @@ namespace nm {
 
         return false;
     }
-} // namespace nm
+} // namespace by

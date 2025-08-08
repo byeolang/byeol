@@ -7,7 +7,7 @@
 #include "core/ast/baseFunc.hpp"
 #include "core/ast/origin.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(autoslot), DEF_VISIT())
 
@@ -91,4 +91,4 @@ namespace nm {
 
         return super::_invalidate();
     }
-} // namespace nm
+} // namespace by

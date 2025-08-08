@@ -7,7 +7,7 @@
 
 struct exprTest;
 
-namespace nm {
+namespace by {
 
     class slotLoader;
 
@@ -83,4 +83,4 @@ namespace nm {
         frames _frames;
         tstr<errReport> _ex;
     };
-} // namespace nm
+} // namespace by

@@ -5,7 +5,7 @@
 #include "meta/common.hpp"
 #include "meta/type/adam.hpp"
 
-namespace nm {
+namespace by {
 
     struct _nout metaIf {
         typedef short yes;
@@ -122,4 +122,4 @@ namespace nm {
 
     template <typename T, typename... Es>
     using areBaseOfT = std::conjunction<std::is_base_of<T, Es>...>;
-} // namespace nm
+} // namespace by

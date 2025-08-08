@@ -2,7 +2,7 @@
 
 #include "core/worker/visitor/expander/convergence/evalConvergence.hpp"
 
-namespace nm {
+namespace by {
     class baseFunc;
     class node;
 

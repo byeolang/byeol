@@ -9,7 +9,7 @@
 #include "indep/macro/byeolMeta.hpp"
 #include "indep/helper/tmay.hpp"
 
-namespace nm {
+namespace by {
 
     // `WHEN` macro:
     //  in `byeol`, we actively apply the early-return pattern.
@@ -123,7 +123,7 @@ namespace nm {
         }
     };
 
-#define NM_WHEN ::nm::__WHEN_OBJECT__::get()
+#define NM_WHEN ::by::__WHEN_OBJECT__::get()
 
 #define __WHEN_POSTFIX__ return NM_WHEN
 #define WHEN(condition) \
@@ -142,4 +142,4 @@ namespace nm {
     if(nul(v1) || nul(v2) || nul(v3) || nul(v4) || nul(v5) || nul(v6)) __WHEN_POSTFIX__
 #define WHEN_NUL(...) NM_OVERLOAD(WHEN_NUL, __VA_ARGS__)
 
-} // namespace nm
+} // namespace by

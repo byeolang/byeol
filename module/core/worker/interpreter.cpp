@@ -7,7 +7,7 @@
 #include "core/worker/visitor/expander.hpp"
 #include "core/worker/worker.inl"
 
-namespace nm {
+namespace by {
 
     template class _nout worker<tstr<slot>, slot>;
 
@@ -111,4 +111,4 @@ namespace nm {
             .setTask(getTask() TO(getPack()))
             .work();
     }
-} // namespace nm
+} // namespace by

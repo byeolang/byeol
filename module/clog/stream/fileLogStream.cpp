@@ -1,6 +1,6 @@
 #include "clog/stream/fileLogStream.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(fileLogStream)
     typedef std::string string;
@@ -32,4 +32,4 @@ namespace nm {
         return false;
     }
 
-} // namespace nm
+} // namespace by

@@ -4,7 +4,7 @@
 
 struct arrTest;
 
-namespace nm {
+namespace by {
 
     class _nout arr: public tbridge<narr>, public tucontainable<node>, public tarrayable<node> {
         // arr uses instance variable 'ntype':
@@ -112,4 +112,4 @@ namespace nm {
         mutable str _org;
         mgdType _type;
     };
-} // namespace nm
+} // namespace by

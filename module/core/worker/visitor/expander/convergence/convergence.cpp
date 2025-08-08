@@ -1,6 +1,6 @@
 #include "core/worker/visitor/expander/convergence/convergence.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(convergence))
 
     me::convergence(baseObj& obj, baseFunc& fun, onConverge closure):

@@ -4,7 +4,7 @@
 #include "core/ast/node.hpp"
 #include "core/builtin/container/native/tnbicontainer.inl"
 
-namespace nm {
+namespace by {
 
 #define TEMPL template <typename K, typename V, typename TACTIC>
 #define ME tnmap<K, V, TACTIC>
@@ -97,4 +97,4 @@ namespace nm {
 
 #undef TEMPL
 #undef ME
-} // namespace nm
+} // namespace by

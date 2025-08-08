@@ -1,6 +1,6 @@
 #include "clog/when.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(__WHEN_OBJECT__))
 
     const me& me::get() {

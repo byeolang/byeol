@@ -2,7 +2,7 @@
 #include "core/ast.hpp"
 #include "core/worker/worker.inl"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(generalizer))
 
@@ -184,4 +184,4 @@ namespace nm {
             msg += p.getName() + (++n >= len ? "" : ",");
         return msg;
     }
-} // namespace nm
+} // namespace by

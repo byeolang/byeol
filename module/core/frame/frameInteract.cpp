@@ -1,6 +1,6 @@
 #include "core/frame/frameInteract.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(frameInteract))
 

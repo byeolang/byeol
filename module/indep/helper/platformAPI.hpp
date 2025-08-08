@@ -4,7 +4,7 @@
 
 #include "indep/helper/buildFeature.hpp"
 
-namespace nm {
+namespace by {
     enum consoleColor {
         CONSOLE_COLOR_START = 0,
         BLACK = CONSOLE_COLOR_START,
@@ -49,4 +49,4 @@ namespace nm {
         _nout void crash(const std::string& msg);
         _nout void crash(const std::string* msg);
     };
-} // namespace nm
+} // namespace by

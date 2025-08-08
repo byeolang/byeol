@@ -9,7 +9,7 @@
 #include "core/ast/exprs/nextExpr.hpp"
 #include "core/ast/exprs/retExpr.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(loopExpr), DEF_VISIT())
 
@@ -69,4 +69,4 @@ namespace nm {
 
         return *new arr(*eval->getType().getParams()[0].getOrigin().as<baseObj>());
     }
-} // namespace nm
+} // namespace by

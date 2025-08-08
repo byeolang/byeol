@@ -3,7 +3,7 @@
 #include "core/ast/expr.hpp"
 #include "core/ast/params.hpp"
 
-namespace nm {
+namespace by {
 
     class visitor;
     class closure;
@@ -52,4 +52,4 @@ namespace nm {
         std::string _name;
         tstr<args> _args;
     };
-} // namespace nm
+} // namespace by

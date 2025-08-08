@@ -7,7 +7,7 @@
 struct immutableTest;
 struct frameTest;
 
-namespace nm {
+namespace by {
 
     struct _nout scopeRegister {
         str owner;
@@ -111,4 +111,4 @@ namespace nm {
         std::vector<scopeRegister> _stack;
         mutable str _ret;
     };
-} // namespace nm
+} // namespace by

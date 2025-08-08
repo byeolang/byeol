@@ -2,7 +2,7 @@
 
 #include "core/builtin/container/tucontainable.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T, typename R = T*, typename RSquare = T&>
     class tnucontainer: public instance, public tucontainable<T, R, RSquare> {

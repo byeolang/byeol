@@ -6,7 +6,7 @@
 #include "leaf/parser/bison/leafTokenScan.hpp"
 #include "leaf/parser/leafSmartDedent.hpp"
 
-namespace nm {
+namespace by {
     class leafTokenScan;
 
     class _nout leafParser: public leafTokenScanable {
@@ -89,4 +89,4 @@ namespace nm {
         leafSmartDedent _dedent;
         std::vector<std::string> _errs;
     };
-} // namespace nm
+} // namespace by

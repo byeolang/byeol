@@ -9,7 +9,7 @@
 #include "core/builtin/err/err.hpp"
 #include "core/loader/slot/slotLoader.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(thread)
 
@@ -183,4 +183,4 @@ namespace nm {
     }
 
     nbool me::isInteractable() const { return true; }
-} // namespace nm
+} // namespace by

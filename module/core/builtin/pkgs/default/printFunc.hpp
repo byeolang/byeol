@@ -4,7 +4,7 @@
 #include "core/ast/params.hpp"
 #include "core/ast/args.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T> class _nout printFunc: public baseFunc {
         NM(ME(printFunc, baseFunc), CLONE(printFunc))

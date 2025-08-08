@@ -2,6 +2,6 @@
 
 #include "meta/common.hpp"
 
-namespace nm {
+namespace by {
     class _nout adam {};
 }

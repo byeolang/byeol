@@ -7,7 +7,7 @@
 
 struct byeolTest;
 
-namespace nm {
+namespace by {
 
     class bindTag;
     class instancer;
@@ -59,4 +59,4 @@ namespace nm {
         id _id;
         static vault _vault;
     };
-} // namespace nm
+} // namespace by

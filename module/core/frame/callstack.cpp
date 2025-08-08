@@ -4,7 +4,7 @@
 #include "core/ast/params.hpp"
 #include "core/ast/src/src.hpp"
 
-namespace nm {
+namespace by {
 
     calltrace::calltrace(const frame& newFrame) {
         fr.bind(newFrame);
@@ -36,4 +36,4 @@ namespace nm {
                 foreColor(LIGHTGRAY).c_str());
         }
     }
-} // namespace nm
+} // namespace by

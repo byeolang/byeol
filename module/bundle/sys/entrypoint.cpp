@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "bundle/sys/common.hpp"
-using namespace nm;
+using namespace by;
 
 struct con {
     void say() { std::cout << "hello world!\n"; }

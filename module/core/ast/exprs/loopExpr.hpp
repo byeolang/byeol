@@ -3,7 +3,7 @@
 #include "core/ast/expr.hpp"
 #include "core/ast/exprs/blockExpr.hpp"
 
-namespace nm {
+namespace by {
 
     class frame;
     class arr;
@@ -52,4 +52,4 @@ namespace nm {
         mutable tstr<blockExpr> _blk;
         mutable str _eval;
     };
-} // namespace nm
+} // namespace by

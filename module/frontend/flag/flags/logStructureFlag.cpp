@@ -2,7 +2,7 @@
 
 #include "frontend/cli.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(logStructureFlag)
 

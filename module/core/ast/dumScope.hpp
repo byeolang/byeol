@@ -2,7 +2,7 @@
 
 #include "core/ast/scope.hpp"
 
-namespace nm {
+namespace by {
     class _nout dumScope: public scope {
         NM(CLASS(dumScope, scope))
 

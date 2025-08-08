@@ -1,6 +1,6 @@
 #include "memlite/interface/instancer.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(instancer)
 
@@ -36,4 +36,4 @@ namespace nm {
     }
 
     nbool me::_hasBindTag(const instance& it) const { return it._id.tagN != NM_INDEX_ERROR; }
-} // namespace nm
+} // namespace by

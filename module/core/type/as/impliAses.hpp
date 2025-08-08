@@ -2,7 +2,7 @@
 
 #include "core/type/as/ases.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout impliAses: public ases {
         NM(CLASS(impliAses, ases))

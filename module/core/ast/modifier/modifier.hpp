@@ -3,7 +3,7 @@
 #include "core/common.hpp"
 #include "core/type/ntype.hpp"
 
-namespace nm {
+namespace by {
     class _nout modifier: public instance {
         NM(CLASS(modifier, instance))
 

@@ -7,31 +7,31 @@
 struct byeolSyntaxTest: public byeolTest {
     void TearDown() override;
 
-    nm::node* getSubPack();
-    const nm::node* getSubPack() const;
-    nm::slot* getSlot();
-    const nm::slot* getSlot() const;
-    nm::errReport& getReport();
+    by::node* getSubPack();
+    const by::node* getSubPack() const;
+    by::slot* getSlot();
+    const by::slot* getSlot() const;
+    by::errReport& getReport();
 
     byeolSyntaxTest& make(const std::string& name);
     byeolSyntaxTest& make();
-    byeolSyntaxTest& make(const nm::manifest& mani);
-    byeolSyntaxTest& setFlag(nm::nint newFlag);
-    byeolSyntaxTest& addFlag(nm::nint Flag);
-    byeolSyntaxTest& delFlag(nm::nint flag);
-    byeolSyntaxTest& parse(const nm::nchar* src);
+    byeolSyntaxTest& make(const by::manifest& mani);
+    byeolSyntaxTest& setFlag(by::nint newFlag);
+    byeolSyntaxTest& addFlag(by::nint Flag);
+    byeolSyntaxTest& delFlag(by::nint flag);
+    byeolSyntaxTest& parse(const by::nchar* src);
     byeolSyntaxTest& negative();
 
-    nm::nbool shouldParsed(nm::nbool well);
-    nm::nbool shouldVerified(nm::nbool well);
+    by::nbool shouldParsed(by::nbool well);
+    by::nbool shouldVerified(by::nbool well);
 
-    nm::str run();
+    by::str run();
 
 private:
     void _rel();
 
 private:
-    const nm::nchar* _src;
-    nm::errReport _rpt;
-    nm::interpreter _ip;
+    const by::nchar* _src;
+    by::errReport _rpt;
+    by::interpreter _ip;
 };

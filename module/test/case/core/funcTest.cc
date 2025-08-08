@@ -2,7 +2,7 @@
 
 #include "test/byeolTest.hpp"
 
-using namespace nm;
+using namespace by;
 using namespace std;
 
 struct funcTest: public byeolTest {};
@@ -20,7 +20,7 @@ namespace {
                 NM_I("hello world!");
                 _executed = true;
 
-                if(_lambda) _res = _lambda(a, (frames&) nm::thread::get().getFrames());
+                if(_lambda) _res = _lambda(a, (frames&) by::thread::get().getFrames());
                 return str();
             }
 
@@ -113,15 +113,15 @@ TEST_F(funcTest, testfuncConstructNewFrame) {
         return checkFrameHasfuncAndObjScope(sf[0], func, funcNames[0], obj, funcNames, 1);
     });
 
-    ASSERT_EQ(nm::thread::get().getFrames().len(), 0);
+    ASSERT_EQ(by::thread::get().getFrames().len(), 0);
     obj.run(funcNames[0], narr());
-    ASSERT_EQ(nm::thread::get().getFrames().len(), 0);
+    ASSERT_EQ(by::thread::get().getFrames().len(), 0);
     ASSERT_TRUE(func.isRun());
     ASSERT_TRUE(func.isSuccess());
 
-    ASSERT_EQ(nm::thread::get().getFrames().len(), 0);
+    ASSERT_EQ(by::thread::get().getFrames().len(), 0);
     obj.run(funcNames[0]);
-    ASSERT_EQ(nm::thread::get().getFrames().len(), 0);
+    ASSERT_EQ(by::thread::get().getFrames().len(), 0);
     ASSERT_TRUE(func.isRun());
     ASSERT_TRUE(func.isSuccess());
     func.setLambda(nullptr);
@@ -173,18 +173,18 @@ TEST_F(funcTest, testCallfuncInsidefunc) {
     });
 
     args a(&obj1, args());
-    ASSERT_EQ(nm::thread::get().getFrames().len(), 0);
+    ASSERT_EQ(by::thread::get().getFrames().len(), 0);
     obj1.run(func1Name, a);
-    ASSERT_EQ(nm::thread::get().getFrames().len(), 0);
+    ASSERT_EQ(by::thread::get().getFrames().len(), 0);
     ASSERT_TRUE(obj1func1.isSuccess());
 
     obj2func1.setUp();
     obj2.run(func2Name);
-    ASSERT_EQ(nm::thread::get().getFrames().len(), 0);
+    ASSERT_EQ(by::thread::get().getFrames().len(), 0);
     ASSERT_FALSE(obj2func1.isSuccess());
     obj2func1.setUp();
     obj2.run("obj2func1", narr(obj2));
-    ASSERT_EQ(nm::thread::get().getFrames().len(), 0);
+    ASSERT_EQ(by::thread::get().getFrames().len(), 0);
     ASSERT_FALSE(obj2func1.isSuccess());
 }
 

@@ -6,7 +6,7 @@ typedef union ZZSTYPE ZZSTYPE;
 typedef struct lloc ZZLTYPE;
 typedef void* zzscan_t;
 
-namespace nm {
+namespace by {
 
     class leafParser;
     class leafTokenDispatcher;
@@ -49,4 +49,4 @@ namespace nm {
     private:
         static leafIndentScan* _instance;
     };
-} // namespace nm
+} // namespace by

@@ -1,6 +1,6 @@
 #include "test/common/dep.hpp"
 
-using namespace nm;
+using namespace by;
 
 TEST(platformAPITest, iterateCodepoints) {
     std::string val1 = "🏁🎌☃";

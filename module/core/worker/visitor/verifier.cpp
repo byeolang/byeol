@@ -7,7 +7,7 @@
 #include "core/builtin/err/errReport.hpp"
 #include "core/worker/worker.inl"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(verifier)
 
@@ -726,4 +726,4 @@ namespace nm {
 #undef _GUARD
 #undef _STEP
 
-} // namespace nm
+} // namespace by

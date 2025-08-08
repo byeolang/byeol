@@ -1,7 +1,7 @@
 #include "core/builtin/err/baseErr.hpp"
 #include "core/frame/thread.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(baseErr))
 
     me::baseErr(errLv::level t): super(), _lv(t) { _initStack(); }
@@ -52,4 +52,4 @@ namespace nm {
 
     errLv::level me::getLv() const { return _lv; }
 
-} // namespace nm
+} // namespace by

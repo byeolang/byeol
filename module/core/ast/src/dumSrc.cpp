@@ -1,6 +1,6 @@
 #include "core/ast/src/dumSrc.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(dumSrc))
 
     namespace {

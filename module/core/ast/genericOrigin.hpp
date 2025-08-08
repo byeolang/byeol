@@ -2,7 +2,7 @@
 
 #include "core/ast/origin.hpp"
 
-namespace nm {
+namespace by {
 
     class visitor;
     class verifier;
@@ -53,4 +53,4 @@ namespace nm {
         tstr<obj> _org;
         strings _paramNames;
     };
-} // namespace nm
+} // namespace by

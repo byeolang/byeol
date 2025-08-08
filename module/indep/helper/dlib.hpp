@@ -8,7 +8,7 @@
 #    include <windows.h> // for dll loading
 #endif
 
-namespace nm {
+namespace by {
 
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
     typedef HMODULE dlibHandle;
@@ -66,4 +66,4 @@ namespace nm {
     };
 
     typedef std::vector<dlib> dlibs;
-} // namespace nm
+} // namespace by

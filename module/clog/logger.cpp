@@ -6,7 +6,7 @@
 
 #include "clog/stream.hpp"
 
-namespace nm {
+namespace by {
 
 
     NM_DEF_ME(logger)
@@ -213,4 +213,4 @@ namespace nm {
         vsnprintf(buf, BUF_LEN, fmt, va);
         return std::string(buf);
     }
-} // namespace nm
+} // namespace by

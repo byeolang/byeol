@@ -2,7 +2,7 @@
 
 #include "core/ast/expr.hpp"
 
-namespace nm {
+namespace by {
 
     class visitor;
     class errReport;
@@ -45,4 +45,4 @@ namespace nm {
         narr _exprs;
         str _eval;
     };
-} // namespace nm
+} // namespace by

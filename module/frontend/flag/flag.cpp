@@ -2,7 +2,7 @@
 
 #include "frontend/cli.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(flag)
 
@@ -39,4 +39,4 @@ namespace nm {
         for(auto e = indices.rbegin(); e != indices.rend(); ++e)
             a.erase(a.begin() + *e);
     }
-} // namespace nm
+} // namespace by

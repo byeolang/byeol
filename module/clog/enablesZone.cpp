@@ -2,7 +2,7 @@
 
 #include "clog/logger.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(enablesZone))
 
     me::enablesZone() { _enables = logger::get().getEnables(); }
@@ -36,4 +36,4 @@ namespace nm {
         if(stream) stream->setEnable(newVal);
         return *this;
     }
-} // namespace nm
+} // namespace by

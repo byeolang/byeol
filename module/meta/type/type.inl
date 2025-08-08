@@ -3,7 +3,7 @@
 #include "meta/type/ttype.hpp"
 #include "meta/type/type.hpp"
 
-namespace nm {
+namespace by {
 
 #define ME type
 

@@ -4,7 +4,7 @@
 #include "memlite/binder/tstr.hpp"
 #include "memlite/binder/tweak.inl"
 
-namespace nm {
+namespace by {
 
 #define TEMPL template <typename T, typename TACTIC>
 #define ME tstr<T, TACTIC>

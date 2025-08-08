@@ -2,7 +2,7 @@
 
 #include "core/ast/src/srcFile.hpp"
 
-namespace nm {
+namespace by {
     class _nout dumSrcFile: public srcFile {
         NM(ME(dumSrcFile, srcFile))
 

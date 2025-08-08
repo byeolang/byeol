@@ -7,7 +7,7 @@ build#1167
 
 \+ shorten-property-definition grammar changes.
 Previously, `@` was used, but now it is changed to `'`. The function itself is the same.
-```nm
+```byeol
 def Person
 age := 12
 
@@ -19,7 +19,7 @@ It is more intuitive because it resembles the symbols used in mathematics.
 
 \+ String template has been added.
 Use `$identifier` or `${expression}`.
-```nm
+```byeol
 // Previous:
 print("your name is " + name + " and double of your age is " + (age * 2) as str)
 // Changed:
@@ -30,7 +30,7 @@ print("your name is $name and double of your age is ${age * 2}")
 since the existing strings always advanced by 1 byte in the case of iterators, it could not
 properly output multibyte Unicode.
 From now on, this has been improved so that the iterators advance/retreat only based on codepoint.
-```nm
+```byeol
 src := "abcd🏁efg" # There is a multibyte Unicode flag in the middle.
 print(src[2]) # c
 print(src[5]) # e
@@ -45,7 +45,7 @@ print(src.len()) # 8
 that does not have a function implementation (body).
 This definition can be used as a function type or as an interface that must be filled in a derived
 class.
-```nm
+```byeol
 foo(input int) int # abstract function
 # no body here.
 ```
@@ -53,7 +53,7 @@ foo(input int) int # abstract function
 \+ A nested function is added.
 A nested function means a function defined within a function.
 A nested function has the characteristic of capturing the scope when defined.
-```nm
+```byeol
 main() int
     name := "kniz"
     hello(who str) str
@@ -67,7 +67,7 @@ main() int
 
 If you return a nested function, it becomes a `closure`, which is commonly referred to in other languages.
 
-```nm
+```byeol
 foo(input int) int: 0
 makeClosure(n int) foo # The return type is a function.
     ret if n >= 0
@@ -88,14 +88,14 @@ Lambda is an anonymous function, and can only be defined within a function call 
 Since it is an anonymous function, the form that only lacks the function name in the existing
 function definition is the most consistent form with lambda syntax.
 Therefore, it is defined as follows.
-```nm
+```byeol
 (value value-type) return-type
     stmt1
     stmt2
     ...
 ```
 For example, it becomes like this.
-```nm
+```byeol
 foo(n int) int
 add(foo', input int) int
     ret foo(input)
@@ -110,7 +110,7 @@ Lambda's `parameter deduction` and `return-type deduction` will be added in the 
 
 \+ You can specify an explicit type when defining an assignment.
 
-```nm
+```byeol
 foo() student: .... # Assuming that student is a derived object of person.
 you person := foo() # you points to a student object, but it is of type person.
 ```
@@ -125,7 +125,7 @@ If _ is used at the beginning, it should be recognized as a `protected` access m
 \- Removed an issue that prevented octal and hexadecimal numbers from being parsed properly.
 
 \- Removed the issue where `call-complete` could be used on incomplete objects.
-```nm
+```byeol
 def Person("myName") # <-- You should not use call-complete on incomplete objects.
     ctor(newName str)
     ...
@@ -136,7 +136,7 @@ def person("myName") # OK
 \- Removed Character type.
 Now, even a single character is expressed as a string like python.
 
-```nm
+```byeol
 // Previous:
 b := 104
 b as char == `h`

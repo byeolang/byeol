@@ -5,7 +5,7 @@
 #include <utility>
 #include "core/builtin/container/native/smultimap.inl"
 
-namespace nm {
+namespace by {
 
     template <typename K, typename V, typename TACTIC = strTactic>
     class tnmap: public tnbicontainer<K, V> {
@@ -68,4 +68,4 @@ namespace nm {
     private:
         cmap _map;
     };
-} // namespace nm
+} // namespace by

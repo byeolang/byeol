@@ -3,7 +3,7 @@
 #include "core/ast/node.hpp"
 #include "core/builtin/err/nerr.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(errReport)
 
@@ -99,4 +99,4 @@ namespace nm {
     }
 
     dummyErrReport dummyErrReport::singleton;
-} // namespace nm
+} // namespace by

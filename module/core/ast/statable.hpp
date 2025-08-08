@@ -2,7 +2,7 @@
 
 #include "core/common.hpp"
 
-namespace nm {
+namespace by {
     enum state {
         RELEASED = 0,
         PARSED = 1, // all AST has been parsed and expanded.

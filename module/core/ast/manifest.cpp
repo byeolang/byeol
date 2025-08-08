@@ -1,6 +1,6 @@
 #include "core/ast/manifest.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(manifest)
 

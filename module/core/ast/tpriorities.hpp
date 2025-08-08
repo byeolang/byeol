@@ -2,7 +2,7 @@
 
 #include "core/builtin/container/native/tnarr.hpp"
 
-namespace nm {
+namespace by {
     // the lower value, the higher priority.
     enum priorType {
         EXACT_MATCH = 0,   // lv0: exact match.
@@ -75,4 +75,4 @@ namespace nm {
     };
 
     typedef tpriorities<node> priorities;
-} // namespace nm
+} // namespace by

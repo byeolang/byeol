@@ -2,7 +2,7 @@
 
 #include "tmay.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T, typename R> class tres: public tmay<T> {
         typedef tres<T, R> __me__;

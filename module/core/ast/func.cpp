@@ -9,7 +9,7 @@
 #include "core/ast/params.hpp"
 #include "core/builtin/err/nerr.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(func), DEF_VISIT())
 
@@ -127,4 +127,4 @@ namespace nm {
     }
 
     nbool me::isAbstract() const { return _blk ? _blk->isAbstract() : true; }
-} // namespace nm
+} // namespace by

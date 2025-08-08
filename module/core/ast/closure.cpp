@@ -7,7 +7,7 @@
 #include "core/ast/baseFunc.hpp"
 #include "core/type/typeMaker.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(closure), DEF_VISIT())
 
     namespace {
@@ -81,4 +81,4 @@ namespace nm {
     me* me::_make(defNestedFuncExpr& e) {
         return _make(e.run()->cast<func>());
     }
-} // namespace nm
+} // namespace by

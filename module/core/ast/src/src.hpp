@@ -2,7 +2,7 @@
 
 #include "core/ast/src/srcFile.hpp"
 
-namespace nm {
+namespace by {
     class _nout src: public instance {
         NM(CLASS(src, instance))
         friend class parser;

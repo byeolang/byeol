@@ -3,7 +3,7 @@
 #include "core/builtin/container/mgd/seq.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(defSeqExpr), DEF_VISIT())
 

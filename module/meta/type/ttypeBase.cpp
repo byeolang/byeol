@@ -1,6 +1,6 @@
 #include "meta/type/ttypeBase.inl"
 
-namespace nm {
+namespace by {
 
 #define ME ttypeBase<void, type>
 #define SUPER type
@@ -66,4 +66,4 @@ namespace nm {
 #undef TEMPL
 #undef ME
 #undef SUPER
-} // namespace nm
+} // namespace by

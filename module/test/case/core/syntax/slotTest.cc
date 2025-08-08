@@ -2,7 +2,7 @@
 
 #include "test/byeolSyntaxTest.hpp"
 
-using namespace nm;
+using namespace by;
 using namespace std;
 
 namespace {
@@ -19,7 +19,7 @@ namespace {
                 NM_I("hello world!");
                 _executed = true;
 
-                if(_lambda) _res = _lambda(a, (frames&) nm::thread::get().getFrames());
+                if(_lambda) _res = _lambda(a, (frames&) by::thread::get().getFrames());
                 return str();
             }
 
@@ -80,7 +80,7 @@ namespace {
 
         str run(const args& a) override {
             _executed = true;
-            _res = _lambda(a, (frames&) nm::thread::get().getFrames());
+            _res = _lambda(a, (frames&) by::thread::get().getFrames());
             return str();
         }
 

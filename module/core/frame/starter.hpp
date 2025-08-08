@@ -4,7 +4,7 @@
 #include "core/worker/worker.inl"
 #include "core/frame/defaultSigZone.hpp"
 
-namespace nm {
+namespace by {
     class frames;
 
     class _nout starter: public worker<str, node> {
@@ -39,4 +39,4 @@ namespace nm {
         str _pak;
         tstr<args> _args;
     };
-} // namespace nm
+} // namespace by

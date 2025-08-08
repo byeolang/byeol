@@ -2,7 +2,7 @@
 #include "core/worker/visitor/visitor.hpp"
 #include "core/type/typeMaker.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(ctor), DEF_VISIT())
 
     me::ctor(const modifier& mod, const params& ps, const blockExpr& blk):

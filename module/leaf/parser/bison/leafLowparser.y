@@ -5,7 +5,7 @@
     #include <iostream>
     #include <sstream>
     #include "leaf/parser/leafParser.hpp"
-    using namespace nm;
+    using namespace by;
 
     #define YYLLOC_DEFAULT(Current, Rhs, N) \
         do { \
@@ -32,17 +32,17 @@
 
     typedef void* zzscan_t;
 
-    namespace nm {
+    namespace by {
         class leaf;
     }
 
-    struct lloc : public nm::area {
+    struct lloc : public by::area {
         int colcnt;
         int strCol; // column position when it starts to parse string.
 
         void rel() {
             colcnt = 0;
-            nm::area::rel();
+            by::area::rel();
         }
     };
 }
@@ -50,14 +50,14 @@
 %code provides {
     extern int zzlineno;
     extern char* yytext;
-    namespace nm {
+    namespace by {
         class leafParser;
     }
 
     extern "C" {
         int zzlex(ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner);
         void zzset_lineno(int linenumber, zzscan_t scanner);
-        nm::leafParser* zzget_extra(zzscan_t scanner);
+        by::leafParser* zzget_extra(zzscan_t scanner);
         char* zzget_text(zzscan_t scanner);
         void zzerror(ZZLTYPE* loc, zzscan_t scanner, const char* msg);
     }
@@ -75,7 +75,7 @@
     bool asBool;
     char asChar;
     std::string* asStr;
-    nm::leaf* asLeaf;
+    by::leaf* asLeaf;
 }
 
 %define api.pure

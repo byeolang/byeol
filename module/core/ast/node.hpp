@@ -7,7 +7,7 @@
 #include "core/ast/tpriorities.hpp"
 #include "core/ast/validable.hpp"
 
-namespace nm {
+namespace by {
 
     class ases;
     class args;
@@ -176,4 +176,4 @@ namespace nm {
 
     extern template class _nout tnmap<std::string, node>;
     typedef tnmap<std::string, node> nmap;
-} // namespace nm
+} // namespace by

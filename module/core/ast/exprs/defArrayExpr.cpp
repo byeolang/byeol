@@ -3,7 +3,7 @@
 #include "core/builtin/container/mgd/arr.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(defArrayExpr), DEF_VISIT())
 
@@ -58,4 +58,4 @@ namespace nm {
     str me::getEval() const { return str(getOrigin()); }
 
     narr& me::getElems() { return _elems; }
-} // namespace nm
+} // namespace by

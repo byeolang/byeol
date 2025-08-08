@@ -1,7 +1,7 @@
 #include "core/type/mgdType.hpp"
 #include "core/ast/obj.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(mgdType))
 
@@ -68,4 +68,4 @@ namespace nm {
         _supers.insert(_supers.end(), supers.begin(), supers.end());
         _supers.push_back((type*) &super);
     }
-} // namespace nm
+} // namespace by

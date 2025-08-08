@@ -3,7 +3,7 @@
 #include "indep/helper/dumpable.hpp"
 #include "indep/helper/errLv.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout errorable: public dumpable {
     public:

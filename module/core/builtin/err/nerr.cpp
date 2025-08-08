@@ -6,7 +6,7 @@
 #include "core/frame/thread.hpp"
 #include "core/bridge/cpp/tbridger.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(nerr)
 
@@ -212,4 +212,4 @@ namespace nm {
         static std::string inner = "";
         return inner;
     }
-} // namespace nm
+} // namespace by
