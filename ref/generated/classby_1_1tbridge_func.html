@@ -10,6 +10,8 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script type="text/javascript" src="https://github.com/byeolang/highlightjs-byeol/releases/download/v0.2.8/highlightjs-byeol-min.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -566,5 +568,20 @@ fptrType&#160;</td><td class="memItemRight" valign="bottom"><b>_fptr</b></td></t
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
 <!-- start footer part -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fragments = document.querySelectorAll('.fragment, div.fragment, pre.fragment');
+        fragments.forEach(fragment => {
+            let code = fragment.textContent;
+            fragment.innerHTML = '<pre><code class="language-byeol">' + code + '</code></pre>';
+        });
+    });
+    window.addEventListener('load', function() {
+        const codeBlocks = document.querySelectorAll('pre code.language-byeol');
+        codeBlocks.forEach(block => {
+            hljs.highlightElement(block);
+        });
+    });
+</script>
 </body>
 </html>
