@@ -96,7 +96,7 @@ namespace by {
     void ME::_onEndErrReport(const errReport& rpt) const {
         WHEN(!isFlag(DUMP_ON_END | LOG_ON_END) && !rpt).ret(); // ## print errors.
 
-        NM_I("errors:");
+        BY_I("errors:");
         if(isFlag(DUMP_ON_END)) {
             rpt.dump();
             return;
@@ -109,7 +109,7 @@ namespace by {
 
     TEMPLATE
     R ME::adaptWork(worker<R, T>& w) {
-        if(w.isFlag(worker<R, T>::GUARD)) NM_I("|=== %s.work()... ==============|", w);
+        if(w.isFlag(worker<R, T>::GUARD)) BY_I("|=== %s.work()... ==============|", w);
 
         w._prepare();
 
@@ -119,11 +119,11 @@ namespace by {
         ret = w._onWork();
         internal.setPrev().rel();
 
-        if(w.isFlag(worker<R, T>::GUARD)) NM_I("|--- %s._onEndWork()... --------|", w);
+        if(w.isFlag(worker<R, T>::GUARD)) BY_I("|--- %s._onEndWork()... --------|", w);
 
         w._onEndWork();
 
-        if(w.isFlag(worker<R, T>::GUARD)) NM_I("|=== %s ends! ==================|", w);
+        if(w.isFlag(worker<R, T>::GUARD)) BY_I("|=== %s ends! ==================|", w);
         return ret;
     }
 
@@ -134,7 +134,7 @@ namespace by {
 
     TEMPLATE
     void ME::adaptWork(worker<void, T>& w) {
-        if(w.isFlag(worker<void, T>::GUARD)) NM_I("|=== %s.work()... ==============|", w);
+        if(w.isFlag(worker<void, T>::GUARD)) BY_I("|=== %s.work()... ==============|", w);
 
         w._prepare();
 
@@ -145,12 +145,12 @@ namespace by {
             w._onWork();
         }
 
-        if(w.isFlag(worker<void, T>::GUARD)) NM_I("|--- %s._onEndWork()... --------|", w);
+        if(w.isFlag(worker<void, T>::GUARD)) BY_I("|--- %s._onEndWork()... --------|", w);
 
         prev.setPrev();
         w._onEndWork();
 
-        if(w.isFlag(worker<void, T>::GUARD)) NM_I("|=== %s ends! ==================|", w);
+        if(w.isFlag(worker<void, T>::GUARD)) BY_I("|=== %s ends! ==================|", w);
     }
 
 #undef ME

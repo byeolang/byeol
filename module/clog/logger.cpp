@@ -9,7 +9,7 @@
 namespace by {
 
 
-    NM_DEF_ME(logger)
+    BY_DEF_ME(logger)
     typedef std::string string;
 
     me& operator<<(me& log, const std::string& msg) {

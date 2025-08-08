@@ -14,7 +14,7 @@ namespace by {
     ///         this eventually make user add API to want to ttypeBase class.
     template <typename T, typename S = typename tmetaTypeDef<T>::is> class ttypeBase: public S {
         typedef ttypeBase<T, S> _T;
-        NM_ME(_T, S)
+        BY_ME(_T, S)
 
     public:
         ttypeBase();
@@ -42,7 +42,7 @@ namespace by {
 
     template <> class ttypeBase<void, type>: public type {
         typedef ttypeBase<void, type> _T;
-        NM_ME(_T, type)
+        BY_ME(_T, type)
 
     public:
         ttypeBase();

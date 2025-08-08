@@ -7,7 +7,7 @@ namespace by {
         static nulLeaf inner;
     }
 
-    NM_DEF_ME(leaf)
+    BY_DEF_ME(leaf)
 
     me::leaf(std::initializer_list<me*> subs, const std::string& name): _name(name) { add(subs); }
 

@@ -8,7 +8,7 @@
 
 namespace by {
 
-    NM_DEF_ME(expr)
+    BY_DEF_ME(expr)
 
     nbool me::exprType::isImpli(const type& to) const { return to.isSub<node>(); }
 

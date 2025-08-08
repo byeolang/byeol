@@ -5,8 +5,8 @@
 namespace by {
 
     class _nout verLeaf: public valLeaf {
-        NM_ME(verLeaf, valLeaf)
-        NM_INIT_META(verLeaf)
+        BY_ME(verLeaf, valLeaf)
+        BY_INIT_META(verLeaf)
 
     public:
         verLeaf(int major, int minor, int fix);

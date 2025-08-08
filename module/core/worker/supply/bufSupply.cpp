@@ -4,7 +4,7 @@
 #include "core/ast/node.hpp"
 
 namespace by {
-    NM_DEF_ME(bufSupply)
+    BY_DEF_ME(bufSupply)
 
     me::bufSupply(const std::string& buf): _buf(buf) {}
 

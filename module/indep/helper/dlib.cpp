@@ -1,6 +1,6 @@
 #include "indep/helper/dlib.hpp"
 #include "indep/helper/typeTrait.hpp"
-#ifndef NM_BUILD_PLATFORM_IS_WINDOWS
+#ifndef BY_BUILD_PLATFORM_IS_WINDOWS
 #    include <dirent.h> // not compatible to winOs
 #    include <dlfcn.h>
 #endif
@@ -39,7 +39,7 @@ namespace by {
     namespace {
 
         std::string getErrMsg() {
-#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+#ifdef BY_BUILD_PLATFORM_IS_WINDOWS
             static nchar buffer[256] = {
                 0,
             };
@@ -56,7 +56,7 @@ namespace by {
     }
 
     tmay<std::string> me::load() {
-#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+#ifdef BY_BUILD_PLATFORM_IS_WINDOWS
         _handle = LoadLibraryA(_path.c_str());
 #else
         _handle = dlopen(_path.c_str(), RTLD_LAZY);
@@ -71,7 +71,7 @@ namespace by {
 
     void me::rel() {
         if(nul(_handle)) return ::by ::__indep_when__ ::get().ret();
-#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+#ifdef BY_BUILD_PLATFORM_IS_WINDOWS
         FreeLibrary(_handle);
 #else
         dlclose(_handle);
@@ -83,7 +83,7 @@ namespace by {
         WHEN_NUL(_handle).ret(tmayFunc<void*>(std::string("library not loaded")));
 
         void* func = nullptr;
-#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+#ifdef BY_BUILD_PLATFORM_IS_WINDOWS
         func = GetProcAddress(_handle, name);
 #else
         func = dlsym(_handle, name);

@@ -28,7 +28,7 @@ namespace by {
         WHEN(_type).ret(getRight()->as(*_type));
 
         str ret = getRight() TO(template as<node>());
-        NM_I("@%s `%s := %s", this, getName(), *ret);
+        BY_I("@%s `%s := %s", this, getName(), *ret);
 
         return ret;
     }

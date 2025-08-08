@@ -15,7 +15,7 @@ namespace by {
 
     public:
         R& getErr();
-        const R& getErr() const NM_CONST_FUNC(getErr())
+        const R& getErr() const BY_CONST_FUNC(getErr())
 
         void rel() override;
 

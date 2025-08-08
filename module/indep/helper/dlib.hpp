@@ -4,13 +4,13 @@
 #include "indep/def.hpp"
 #include "indep/macro.hpp"
 #include "tres.inl"
-#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+#ifdef BY_BUILD_PLATFORM_IS_WINDOWS
 #    include <windows.h> // for dll loading
 #endif
 
 namespace by {
 
-#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+#ifdef BY_BUILD_PLATFORM_IS_WINDOWS
     typedef HMODULE dlibHandle;
 #else
     typedef void* dlibHandle;
@@ -36,7 +36,7 @@ namespace by {
     public:
         const std::string& getPath() const;
         void setPath(const std::string& path);
-        void setPath(const std::string* it) NM_SIDE_FUNC(setPath);
+        void setPath(const std::string* it) BY_SIDE_FUNC(setPath);
 
         /// load dynamic library with given path.
         /// @return empty may object if it's success. or return error msg.
@@ -48,7 +48,7 @@ namespace by {
         template <typename F> tmayFunc<F> accessFunc(const std::string& name) {
             return accessFunc<F>(name.c_str());
         }
-        template <typename F> tmayFunc<F> accessFunc(const std::string* it) NM_SIDE_FUNC(accessFunc<F>);
+        template <typename F> tmayFunc<F> accessFunc(const std::string* it) BY_SIDE_FUNC(accessFunc<F>);
 
         template <typename F> tmayFunc<F> accessFunc(const nchar* name) {
             auto&& res = _accessFunc(name);

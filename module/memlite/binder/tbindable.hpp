@@ -5,8 +5,8 @@
 namespace by {
 
     template <typename T> class tbindable {
-        NM_ME(tbindable)
-        NM_INIT_META(me)
+        BY_ME(tbindable)
+        BY_INIT_META(me)
 
     public:
         //  tbindable:
@@ -20,9 +20,9 @@ namespace by {
 
         virtual void rel() = 0;
         nbool canBind(const T& it) const;
-        nbool canBind(const T* it) const NM_SIDE_FUNC(canBind);
+        nbool canBind(const T* it) const BY_SIDE_FUNC(canBind);
         virtual nbool canBind(const type& it) const = 0;
-        nbool canBind(const type* it) const NM_SIDE_FUNC(canBind);
+        nbool canBind(const type* it) const BY_SIDE_FUNC(canBind);
         virtual nbool isBind() const = 0;
     };
 }

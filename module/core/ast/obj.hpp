@@ -41,16 +41,16 @@ namespace by {
         void setState(state new1) override;
 
         scope& getShares();
-        const scope& getShares() const NM_CONST_FUNC(getShares())
+        const scope& getShares() const BY_CONST_FUNC(getShares())
         scope::super& getOwns();
-        const scope::super& getOwns() const NM_CONST_FUNC(getOwns())
+        const scope::super& getOwns() const BY_CONST_FUNC(getOwns())
 
         const ntype& getType() const override;
 
         void onCloneDeep(const clonable& from) override;
 
         virtual node* getCallComplete();
-        const node* getCallComplete() const NM_CONST_FUNC(getCallComplete())
+        const node* getCallComplete() const BY_CONST_FUNC(getCallComplete())
 
     protected:
         void _inFrame(frame& fr, const bicontainable* args) const override;
@@ -63,7 +63,7 @@ namespace by {
         tstr<scope> _subs;
     };
 
-#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+#ifdef BY_BUILD_PLATFORM_IS_WINDOWS
     // f***ing annoying another MSVC bug here:
     //  first of all, I'm so sorry to start my slang. but I couldn't help spitting it out after
     //  I used plenty hours of heading to the ground.

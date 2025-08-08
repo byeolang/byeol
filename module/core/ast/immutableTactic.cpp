@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM_DEF_ME(immutableTactic)
+    BY_DEF_ME(immutableTactic)
 
     me me::singleton;
 

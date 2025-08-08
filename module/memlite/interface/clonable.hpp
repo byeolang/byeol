@@ -5,8 +5,8 @@
 namespace by {
 
     class _nout clonable {
-        NM_ME(clonable)
-        NM_INIT_META(me)
+        BY_ME(clonable)
+        BY_INIT_META(me)
 
     public:
         virtual ~clonable() {}

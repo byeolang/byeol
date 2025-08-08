@@ -136,13 +136,13 @@ private:
     void _setBoundary(nbool new1) { _isBoundary = new1; }
 
     me* _castIteration(const iter& e) { return (me*) (e._iteration.get()); }
-    const me* _castIteration(const iter& e) const NM_CONST_FUNC(_castIteration(e))
+    const me* _castIteration(const iter& e) const BY_CONST_FUNC(_castIteration(e))
 
     tnchain* _castChain(const iter& e) { return (tnchain*) e.getContainer(); }
-    tnchain* _castChain(const iter* it) NM_SIDE_FUNC(_castChain);
+    tnchain* _castChain(const iter* it) BY_SIDE_FUNC(_castChain);
 
-    const tnchain* _castChain(const iter& e) const NM_CONST_FUNC(_castChain(e));
-    const tnchain* _castChain(const iter* e) const NM_CONST_FUNC(_castChain(e));
+    const tnchain* _castChain(const iter& e) const BY_CONST_FUNC(_castChain(e));
+    const tnchain* _castChain(const iter* e) const BY_CONST_FUNC(_castChain(e));
 
     // check whether sub iter has been reached to reversed non-boundary end iter.
     // e.g.

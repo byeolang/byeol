@@ -53,7 +53,7 @@ namespace by {
         operator const T&() const;
         operator nbool() const;
         T* operator->();
-        const T* operator->() const NM_CONST_FUNC(operator->());
+        const T* operator->() const BY_CONST_FUNC(operator->());
 
     public:
         nbool has() const;

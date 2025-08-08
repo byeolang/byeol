@@ -76,9 +76,9 @@ namespace {
 } // namespace
 
 #define SPRINT(n)                                                  \
-    NM_W("%d times new/delete : %f ms elapsed. crc=%d", n,         \
+    BY_W("%d times new/delete : %f ms elapsed. crc=%d", n,         \
         ((float) run1(crc, (n))) / CLOCKS_PER_SEC * 1000.0f, crc); \
-    NM_W("%d times mempool    : %f ms elapsed. crc=%d", n,         \
+    BY_W("%d times mempool    : %f ms elapsed. crc=%d", n,         \
         ((float) run2(crc, (n))) / CLOCKS_PER_SEC * 1000.0f, crc);
 
 TEST_F(memoryAllocRobustTest, sprint10) {

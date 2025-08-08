@@ -32,10 +32,10 @@ namespace by {
 
     public:
         T* operator->();
-        const T* operator->() const NM_CONST_FUNC(operator->());
+        const T* operator->() const BY_CONST_FUNC(operator->());
 
         T& operator*();
-        const T& operator*() const NM_CONST_FUNC(operator*());
+        const T& operator*() const BY_CONST_FUNC(operator*());
 
         operator T&();
         operator const T&() const;
@@ -46,7 +46,7 @@ namespace by {
         nbool has() const;
 
         T* get();
-        const T* get() const NM_CONST_FUNC(get())
+        const T* get() const BY_CONST_FUNC(get())
 
         virtual void rel();
 

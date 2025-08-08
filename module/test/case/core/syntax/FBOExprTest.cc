@@ -169,7 +169,7 @@ TEST_F(FBOExprTest, testStringAddBoolean) {
     shouldVerified(true);
 
 
-    NM_E("start run!");
+    BY_E("start run!");
     by::str res = run();
     ASSERT_EQ(*res.cast<nint>(), 1);
 }

@@ -7,8 +7,8 @@ namespace by {
 
     template <typename T, typename TACTIC = strTactic> class tstr: public tweak<T, TACTIC> {
         typedef tweak<T, TACTIC> _super_;
-        NM_ME(tstr, _super_)
-        NM_INIT_META(me)
+        BY_ME(tstr, _super_)
+        BY_INIT_META(me)
         friend class ref;
 
     public:

@@ -5,8 +5,8 @@
 namespace by {
 
     class _nout chunks: public allocator {
-        NM_ME(chunks, allocator)
-        NM_INIT_META(me)
+        BY_ME(chunks, allocator)
+        BY_INIT_META(me)
 
     public:
         //  chunks:
@@ -15,18 +15,18 @@ namespace by {
 
     public:
         chunk& operator[](nidx n);
-        const chunk& operator[](nidx n) const NM_CONST_FUNC(operator[](n));
+        const chunk& operator[](nidx n) const BY_CONST_FUNC(operator[](n));
         chunk& operator[](const instance& it);
-        const chunk& operator[](const instance& it) const NM_CONST_FUNC(operator[](it));
+        const chunk& operator[](const instance& it) const BY_CONST_FUNC(operator[](it));
 
     public:
         //  chunks:
         chunk* get(nidx n);
         chunk* get(const instance& it);
-        chunk* get(const instance* it) NM_SIDE_FUNC(get);
-        const chunk* get(nidx n) const NM_CONST_FUNC(get(n))
-        const chunk* get(const instance& it) const NM_CONST_FUNC(get(it))
-        const chunk* get(const instance* it) const NM_CONST_FUNC(get(it))
+        chunk* get(const instance* it) BY_SIDE_FUNC(get);
+        const chunk* get(nidx n) const BY_CONST_FUNC(get(n))
+        const chunk* get(const instance& it) const BY_CONST_FUNC(get(it))
+        const chunk* get(const instance* it) const BY_CONST_FUNC(get(it))
 
         //  allocator:
         void* new1() override;

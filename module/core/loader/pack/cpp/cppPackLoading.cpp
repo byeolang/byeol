@@ -2,7 +2,7 @@
 
 namespace by {
 
-    NM_DEF_ME(cppPackLoading)
+    BY_DEF_ME(cppPackLoading)
 
     static constexpr const nchar* ENTRYPOINT_NAME = "byeol_bridge_cpp_entrypoint";
     static srcs dummySrcs;
@@ -18,7 +18,7 @@ namespace by {
             // ret.r variables won't be assigned to new data till this procedure has done.
             if(!_loadLibs(rpt, tray)) {
                 tray.rel();
-                return NM_E("couldn't load c++ library at %s", path), ret;
+                return BY_E("couldn't load c++ library at %s", path), ret;
             }
         }
 
@@ -40,15 +40,15 @@ namespace by {
 
             (*info)(&tray);
             if(tray.len() <= 0) {
-                NM_W("slot returns no origin object.");
+                BY_W("slot returns no origin object.");
                 lib.rel();
             }
 
             _dlibs.push_back(std::move(lib)); // don't close yet.
-            NM_I("slot[%s] loads origins from %s", getName(), path);
+            BY_I("slot[%s] loads origins from %s", getName(), path);
         }
 
-        NM_I("slot[%s] origins loaded.", getName());
+        BY_I("slot[%s] origins loaded.", getName());
         return true;
     }
 

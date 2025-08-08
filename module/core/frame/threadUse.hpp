@@ -13,7 +13,7 @@ namespace by {
 
     public:
         thread& get();
-        const thread& get() const NM_CONST_FUNC(get())
+        const thread& get() const BY_CONST_FUNC(get())
 
         void use();
         void rel();

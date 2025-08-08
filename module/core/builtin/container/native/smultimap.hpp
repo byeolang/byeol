@@ -80,7 +80,7 @@ namespace by {
             bool isEnd() const;
 
             const K* getKey() const;
-            const V* getVal() const NM_CONST_FUNC(getVal())
+            const V* getVal() const BY_CONST_FUNC(getVal())
             V* getVal();
 
             bool operator!=(const iterator& rhs) const;
@@ -106,24 +106,24 @@ namespace by {
         iterator begin() const;
         iterator end() const;
         iterator begin(const K& key) const;
-        iterator begin(const K* key) const NM_SIDE_FUNC(key, begin(*key), begin());
+        iterator begin(const K* key) const BY_SIDE_FUNC(key, begin(*key), begin());
 
         iterator rbegin() const;
         iterator rend() const;
         iterator rbegin(const K& key) const;
-        iterator rbegin(const K* key) const NM_SIDE_FUNC(key, rbegin(*key), rbegin());
+        iterator rbegin(const K* key) const BY_SIDE_FUNC(key, rbegin(*key), rbegin());
 
         void insert(const K& key, V&& val);
 
         /// delete all elements matching given key.
         void erase(const K& key);
-        void erase(const K* it) NM_SIDE_FUNC(erase);
+        void erase(const K* it) BY_SIDE_FUNC(erase);
         void erase(const iterator& it);
-        void erase(const iterator* it) NM_SIDE_FUNC(erase);
+        void erase(const iterator* it) BY_SIDE_FUNC(erase);
         void erase(const iterator& from, const iterator& to);
-        void erase(const iterator* from, const iterator& to) NM_SIDE_FUNC(from, erase(*from, to), void());
-        void erase(const iterator& from, const iterator* to) NM_SIDE_FUNC(to, erase(from, *to), void());
-        void erase(const iterator* from, const iterator* to) NM_SIDE_FUNC(from && to, erase(*from, *to), void());
+        void erase(const iterator* from, const iterator& to) BY_SIDE_FUNC(from, erase(*from, to), void());
+        void erase(const iterator& from, const iterator* to) BY_SIDE_FUNC(to, erase(from, *to), void());
+        void erase(const iterator* from, const iterator* to) BY_SIDE_FUNC(from && to, erase(*from, *to), void());
 
         iterator find(const K& key) const;
 

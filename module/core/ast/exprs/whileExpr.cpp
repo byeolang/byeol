@@ -33,7 +33,7 @@ namespace by {
     }
 
     tstr<me::loop> me::_makeLoop(arr* ret) const {
-        NM_DI("whileExpr: loop");
+        BY_DI("whileExpr: loop");
         return new whileLoop(ret, *this);
     }
 } // namespace by

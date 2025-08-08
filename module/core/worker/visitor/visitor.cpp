@@ -8,7 +8,7 @@ namespace by {
 
     template class _nout worker<void, node>;
 
-    NM_DEF_ME(visitor)
+    BY_DEF_ME(visitor)
 
     me::visitor(): me(false) {}
 

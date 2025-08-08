@@ -18,12 +18,12 @@ namespace by {
         tpriorities<baseFunc> matches = subAll<baseFunc>(baseObj::CTOR_NAME, a);
         switch(matches.len()) {
             case 1: return _onBeforeCtor()->run(baseObj::CTOR_NAME, a);
-            case 0: return NM_W("there is no such ctor."), str();
+            case 0: return BY_W("there is no such ctor."), str();
         }
         /*// TODO: 1. change err management module to use 'err' class, not errCode.
           //       2. let it log all ambigious funcs here.
-          return NM_W("")*/
-        return NM_E("ambigious call found: %s", "TODO:"), str();
+          return BY_W("")*/
+        return BY_E("ambigious call found: %s", "TODO:"), str();
     }
 
     scope& me::subs() {
@@ -43,7 +43,7 @@ namespace by {
 
     void me::inFrame(const bicontainable* args) const {
         frames& frs = by::thread::get()._getFrames();
-        NM_DI("%s.inFrame() frames.len[%d]", *this, frs.len());
+        BY_DI("%s.inFrame() frames.len[%d]", *this, frs.len());
 
         frame& fr = *new frame();
         frs.add(fr);
@@ -52,7 +52,7 @@ namespace by {
 
     void me::outFrame() const {
         frames& frs = by::thread::get()._getFrames();
-        NM_DI("%s._outFrame() frames.len[%d]", *this, frs.len() - 1);
+        BY_DI("%s._outFrame() frames.len[%d]", *this, frs.len() - 1);
 
         frs.del();
     }

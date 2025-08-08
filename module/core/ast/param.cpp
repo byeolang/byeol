@@ -3,7 +3,7 @@
 #include "core/ast/node.hpp"
 
 namespace by {
-    NM_DEF_ME(param)
+    BY_DEF_ME(param)
 
     me::param(const std::string& newName, const node& org): _name(newName) { setOrigin(org); }
 

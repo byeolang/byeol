@@ -2,7 +2,7 @@
 
 namespace by {
 
-    NM_DEF_ME(fileLogStream)
+    BY_DEF_ME(fileLogStream)
     typedef std::string string;
 
     me::fileLogStream() {}

@@ -10,7 +10,7 @@ namespace by {
 
     using std::string;
 
-    NM_DEF_ME(leafParser)
+    BY_DEF_ME(leafParser)
 
     nint me::_onScan(ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner) {
         int tok = _mode->onScan(*this, val, loc, scanner);
@@ -41,11 +41,11 @@ namespace by {
     }
 
     nint me::onTokenEndOfFile() {
-        NM_DI("tokenEvent: onTokenEndOfFile() indents.size()=%d", _indents.size());
+        BY_DI("tokenEvent: onTokenEndOfFile() indents.size()=%d", _indents.size());
         if(_indents.size() <= 1) _dispatcher.add(SCAN_MODE_END);
         else _dispatcher.addFront(onDedent(_indents.front(), SCAN_MODE_END));
 
-        NM_DI("tokenEvent: onEndOfFile: finalize by adding 'NEWLINE', then dispatch end-of-file.");
+        BY_DI("tokenEvent: onEndOfFile: finalize by adding 'NEWLINE', then dispatch end-of-file.");
         return NEWLINE;
     }
 
@@ -55,7 +55,7 @@ namespace by {
     }
 
     nint me::onTokenNewLine(nint tok) {
-        NM_DI("tokenEvent: onNewLine: _isIgnoreWhitespace=%s, _indents.size()=%d",
+        BY_DI("tokenEvent: onNewLine: _isIgnoreWhitespace=%s, _indents.size()=%d",
             _isIgnoreWhitespace, _indents.size());
         if(!_isIgnoreWhitespace && _indents.size() >= 1) _dispatcher.add(SCAN_MODE_INDENT);
         _dedent.rel();
@@ -73,13 +73,13 @@ namespace by {
     nint me::_onTokenEndOfInlineBlock(nint tok) {
         WHEN(!_dedent.canDedent()).ret(tok);
 
-        NM_DI("tokenEvent: onTokenEndOfInlineBlock: '%c' [%d] use smart dedent!", (char) tok, tok);
+        BY_DI("tokenEvent: onTokenEndOfInlineBlock: '%c' [%d] use smart dedent!", (char) tok, tok);
         _dispatcher.addFront(tok);
         return _dedent.dedent();
     }
 
     nint me::onIndent(ncnt col, nint tok) {
-        NM_DI("tokenEvent: onIndent(col: %d, tok: %d) indents.size()=%d", col, tok,
+        BY_DI("tokenEvent: onIndent(col: %d, tok: %d) indents.size()=%d", col, tok,
             _indents.size());
         _indents.push_back(col);
         _dispatcher.add(tok);
@@ -87,7 +87,7 @@ namespace by {
     }
 
     nint me::onDedent(ncnt col, nint tok) {
-        NM_DI("tokenEvent: onDedent(col: %d, tok: %d) indents.size()=%d", col, tok,
+        BY_DI("tokenEvent: onDedent(col: %d, tok: %d) indents.size()=%d", col, tok,
             _indents.size());
 
         _indents.pop_back();
@@ -95,7 +95,7 @@ namespace by {
         if(now < col) report("wrong dedent lv");
 
         while(_indents.back() > col) {
-            NM_DI("tokenEvent: onDedent: indentlv become %d -> %d", _indents.back(),
+            BY_DI("tokenEvent: onDedent: indentlv become %d -> %d", _indents.back(),
                 _indents.size() > 1 ? _indents[_indents.size() - 2] : -1);
             _dispatcher.add(DEDENT);
             _indents.pop_back();
@@ -236,7 +236,7 @@ namespace by {
     }
 
     int me::pushState(int newState) {
-        NM_I("push state %d -> %d", _states.back(), newState);
+        BY_I("push state %d -> %d", _states.back(), newState);
         _states.push_back(newState);
         return _states.back();
     }
@@ -244,7 +244,7 @@ namespace by {
     int me::popState() {
         int previous = _states.back();
         _states.pop_back();
-        NM_I("pop state %d -> %d", previous, _states.back());
+        BY_I("pop state %d -> %d", previous, _states.back());
         return _states.back();
     }
 
@@ -263,9 +263,9 @@ namespace by {
         ncnt size = _errs.size();
         WHEN(size <= 0).ret(_root);
 
-        NM_I("leaf: total %d errors found.", size);
+        BY_I("leaf: total %d errors found.", size);
         for(const auto& e: _errs)
-            NM_I("leaf: ERR: %s", e);
+            BY_I("leaf: ERR: %s", e);
         return nullptr;
     }
 } // namespace by

@@ -134,7 +134,7 @@ namespace by {
 
     TEMPL
     ncnt ME::_iterate(typename iterable::iterationType type) {
-        WHEN_NUL(_iteration).ret(NM_INDEX_ERROR);
+        WHEN_NUL(_iteration).ret(BY_INDEX_ERROR);
         switch(type) {
             case iterable::FORWARD: return _iteration->stepForward(1);
             case iterable::BACKWARD: return _iteration->stepBackward(1);

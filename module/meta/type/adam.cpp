@@ -4,5 +4,5 @@
 #include "meta/type/ttypeBase.inl"
 
 namespace by {
-    NM_INIT_META(adam)
+    BY_INIT_META(adam)
 }

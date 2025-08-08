@@ -16,7 +16,7 @@ namespace {
 
         public:
             str run(const args& a) override {
-                NM_I("hello world!");
+                BY_I("hello world!");
                 _executed = true;
 
                 if(_lambda) _res = _lambda(a, (frames&) by::thread::get().getFrames());
@@ -37,10 +37,10 @@ namespace {
             super(*new modifier(),
                 funcMgdType("myfunc", ttype<me>::get(), params(), false, new nVoid()),
                 *new myBlock()) {
-            NM_I("myfunc(%s) new", this);
+            BY_I("myfunc(%s) new", this);
         }
 
-        ~myfunc() override { NM_I("myfunc(%s) delete", this); }
+        ~myfunc() override { BY_I("myfunc(%s) delete", this); }
 
         nbool isRun() const { return getBlock().cast<myBlock>()->_executed; }
 
@@ -147,7 +147,7 @@ TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
     ps.add(new param("grade", ttype<nFlt>::get()));
     f1.setLambda([](const auto& contain, const auto& sf) {
         const frame& fr = sf[sf.len() - 1];
-        if(!nul(fr)) return NM_E("fr == null"), false;
+        if(!nul(fr)) return BY_E("fr == null"), false;
 
         return true;
     });

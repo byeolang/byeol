@@ -7,7 +7,7 @@
 
 namespace by {
 
-    NM_DEF_ME(ntype)
+    BY_DEF_ME(ntype)
 
     nbool me::operator==(const type& rhs) const {
         WHEN(!super::operator==(rhs)).ret(false);

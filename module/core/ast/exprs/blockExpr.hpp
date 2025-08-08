@@ -24,9 +24,9 @@ namespace by {
         str getEval() const override;
 
         void setEval(const node& newEval);
-        void setEval(const node* it) NM_SIDE_FUNC(setEval);
+        void setEval(const node* it) BY_SIDE_FUNC(setEval);
 
-        const narr& getStmts() const NM_CONST_FUNC(getStmts())
+        const narr& getStmts() const BY_CONST_FUNC(getStmts())
         narr& getStmts();
 
         void rel() override;

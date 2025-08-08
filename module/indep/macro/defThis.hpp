@@ -2,14 +2,14 @@
 
 #include "indep/macro/overload.hpp"
 
-#define __NM__DECL_DEF_ME_2(ME, SUPER) \
-    __NM__DECL_DEF_ME_1(NM_UNWRAP(ME)) \
-    typedef NM_UNWRAP(SUPER) super;
+#define __BY__DECL_DEF_ME_2(ME, SUPER) \
+    __BY__DECL_DEF_ME_1(BY_UNWRAP(ME)) \
+    typedef BY_UNWRAP(SUPER) super;
 
-#define __NM__DECL_DEF_ME_1(ME) typedef NM_UNWRAP(ME) me;
+#define __BY__DECL_DEF_ME_1(ME) typedef BY_UNWRAP(ME) me;
 
-#define __NM__DECL_DEF_ME(...) NM_OVERLOAD(NM_DEF_ME, __VA_ARGS__)
+#define __BY__DECL_DEF_ME(...) BY_OVERLOAD(BY_DEF_ME, __VA_ARGS__)
 
-#define NM_DEF_ME_2(ME, SUPER) __NM__DECL_DEF_ME_2(ME, SUPER)
-#define NM_DEF_ME_1(ME) __NM__DECL_DEF_ME_1(ME)
-#define NM_DEF_ME(...) NM_OVERLOAD(NM_DEF_ME, __VA_ARGS__)
+#define BY_DEF_ME_2(ME, SUPER) __BY__DECL_DEF_ME_2(ME, SUPER)
+#define BY_DEF_ME_1(ME) __BY__DECL_DEF_ME_1(ME)
+#define BY_DEF_ME(...) BY_OVERLOAD(BY_DEF_ME, __VA_ARGS__)

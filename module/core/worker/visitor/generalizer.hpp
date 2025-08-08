@@ -29,7 +29,7 @@ namespace by {
 
     private:
         str _findOrigin(const node& toReplace) const;
-        str _findOrigin(const node* it) const NM_SIDE_FUNC(_findOrigin);
+        str _findOrigin(const node* it) const BY_SIDE_FUNC(_findOrigin);
         str _findOriginFrom(const getExpr& expr) const;
         str _findOriginFrom(const getGenericExpr& expr) const;
         std::string _makeParamsKey() const;

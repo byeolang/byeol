@@ -36,7 +36,7 @@ ELSE(EMSCRIPTEN)
         GROUP_READ GROUP_EXECUTE
         WORLD_READ WORLD_EXECUTE)
 ENDIF(EMSCRIPTEN)
-set_target_properties(${moduleName} PROPERTIES SUFFIX ".${NM_LIBRARY_EXTENSION}")
+set_target_properties(${moduleName} PROPERTIES SUFFIX ".${BY_LIBRARY_EXTENSION}")
 target_link_libraries(${moduleName} ${dependencies})
 
 #       let MSVC follow macro expansion of standard:

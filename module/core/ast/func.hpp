@@ -44,7 +44,7 @@ namespace by {
         const baseObj& getOrigin() const override;
 
         ends& getEnds();
-        const ends& getEnds() const NM_CONST_FUNC(getEnds())
+        const ends& getEnds() const BY_CONST_FUNC(getEnds())
 
         void onCloneDeep(const clonable& from) override;
 

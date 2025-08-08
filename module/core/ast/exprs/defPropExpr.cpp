@@ -16,7 +16,7 @@ namespace by {
         // if as is a func, it doesn't need to clone deeply.
         as = as->isSub<baseFunc>() ? as : as->run();
 
-        NM_DI("@%s `%s %s`", this, getName(), as.get());
+        BY_DI("@%s `%s %s`", this, getName(), as.get());
         return as;
     }
 }

@@ -21,16 +21,16 @@ namespace by {
         str getEval() const override;
 
         node* getMe();
-        const node* getMe() const NM_CONST_FUNC(getMe())
+        const node* getMe() const BY_CONST_FUNC(getMe())
 
         void setMe(const node& newMe);
-        void setMe(const node* it) NM_SIDE_FUNC(setMe);
+        void setMe(const node* it) BY_SIDE_FUNC(setMe);
 
         node& getSubj();
         const node& getSubj() const;
 
         void setSubj(const node& new1);
-        void setSubj(const node* it) NM_SIDE_FUNC(setSubj);
+        void setSubj(const node* it) BY_SIDE_FUNC(setSubj);
 
         args& getArgs();
         const args& getArgs() const;

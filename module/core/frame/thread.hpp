@@ -37,8 +37,8 @@ namespace by {
         thread(const errReport& new1);
 
     public:
-        const frames& getFrames() const NM_CONST_FUNC(_getFrames())
-        const frame* getNowFrame() const NM_CONST_FUNC(_getNowFrame())
+        const frames& getFrames() const BY_CONST_FUNC(_getFrames())
+        const frame* getNowFrame() const BY_CONST_FUNC(_getNowFrame())
 
         static thread& get();
         static void set(thread* new1);
@@ -48,9 +48,9 @@ namespace by {
         /// @return exception errReport instance.
         ///         what this contains are all runtime err and exceptions.
         errReport& getEx();
-        const errReport& getEx() const NM_CONST_FUNC(getEx())
+        const errReport& getEx() const BY_CONST_FUNC(getEx())
         virtual void setEx(const errReport& new1);
-        void setEx(const errReport* it) NM_SIDE_FUNC(setEx);
+        void setEx(const errReport* it) BY_SIDE_FUNC(setEx);
 
         // node:
         scope& subs() override;

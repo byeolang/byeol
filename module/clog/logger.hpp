@@ -7,15 +7,15 @@
 namespace by {
 
     class _nout logger: public stream {
-        NM_ME(logger, stream)
+        BY_ME(logger, stream)
 
     public:
         stream* getStream(nidx n);
-        const stream* getStream(nidx n) const NM_CONST_FUNC(getStream(n))
+        const stream* getStream(nidx n) const BY_CONST_FUNC(getStream(n))
         stream* getStream(const nchar* msg);
-        const stream* getStream(const nchar* msg) const NM_CONST_FUNC(getStream(msg))
+        const stream* getStream(const nchar* msg) const BY_CONST_FUNC(getStream(msg))
         stream* getStream(const std::string& msg);
-        const stream* getStream(const std::string& msg) const NM_CONST_FUNC(getStream(msg))
+        const stream* getStream(const std::string& msg) const BY_CONST_FUNC(getStream(msg))
 
         nbool isEnable() const override;
 

@@ -6,7 +6,7 @@ namespace by {
 
     /// @remark type returning ttype<type> as result of getType()
     class _nout type {
-        NM_ME(type)
+        BY_ME(type)
 
     public:
         virtual ~type() {}
@@ -44,12 +44,12 @@ namespace by {
         const types& getSupers() const;
 
         virtual nbool isSuper(const type& it) const;
-        nbool isSuper(const type* it) const NM_SIDE_FUNC(isSuper);
+        nbool isSuper(const type* it) const BY_SIDE_FUNC(isSuper);
         template <typename T> nbool isSuper() const;
         nbool isSub(const type& it) const;
-        nbool isSub(const type* it) const NM_SIDE_FUNC(isSub);
+        nbool isSub(const type* it) const BY_SIDE_FUNC(isSub);
         template <typename T> nbool isSub() const;
-        const type& getStatic() const NM_CONST_FUNC(_getStatic())
+        const type& getStatic() const BY_CONST_FUNC(_getStatic())
 
         /// this returns metaTypename.
         /// metaTypename can be used like 'dynamic_cast<yourType>'.

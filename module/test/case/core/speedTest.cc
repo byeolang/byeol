@@ -21,7 +21,7 @@ namespace {
         auto totalElapsed = end - start;
 
         logger::get().setEnable(prevEnable);
-        NM_I("[%s]: it took total %d ms.", name, (nint64) (totalElapsed / chrono::milliseconds(1)));
+        BY_I("[%s]: it took total %d ms.", name, (nint64) (totalElapsed / chrono::milliseconds(1)));
     }
 
     struct myObj: public obj {
@@ -123,7 +123,7 @@ TEST_F(speedTest, benchmarkStringCreation) {
 }
 
 TEST_F(speedTest, benchmarkSumOfSequence) {
-    NM_I("sum 10000 of integer:");
+    BY_I("sum 10000 of integer:");
 
     nint sum = 0;
     auto start = chrono::steady_clock::now();
@@ -151,6 +151,6 @@ TEST_F(speedTest, benchmarkSumOfSequence) {
     auto end2 = chrono::steady_clock::now();
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), sum);
-    NM_I("native time: %d", (nint64) ((end - start) / chrono::milliseconds(1)));
-    NM_I("managed time: %d", (nint64) ((end2 - start2) / chrono::milliseconds(1)));
+    BY_I("native time: %d", (nint64) ((end - start) / chrono::milliseconds(1)));
+    BY_I("managed time: %d", (nint64) ((end2 - start2) / chrono::milliseconds(1)));
 }

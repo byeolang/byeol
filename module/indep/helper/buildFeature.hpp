@@ -5,11 +5,11 @@
 
 namespace by {
     class _nout buildFeature {
-        NM_ME(buildFeature)
+        BY_ME(buildFeature)
 
     public:
         struct _nout date {
-            NM_ME(date)
+            BY_ME(date)
 
         public:
             static const std::string& get();
@@ -19,7 +19,7 @@ namespace by {
         };
 
         struct _nout time {
-            NM_ME(time)
+            BY_ME(time)
 
         public:
             static const std::string& get();
@@ -29,7 +29,7 @@ namespace by {
         };
 
         struct _nout version {
-            NM_ME(version)
+            BY_ME(version)
 
         public:
             static const std::string& get();
@@ -50,7 +50,7 @@ namespace by {
         };
 
         struct _nout platform {
-            NM_ME(platform)
+            BY_ME(platform)
 
         public:
             static platformType get();
@@ -66,7 +66,7 @@ namespace by {
         };
 
         struct _nout config {
-            NM_ME(config)
+            BY_ME(config)
 
         public:
             static buildType get();

@@ -9,12 +9,12 @@ struct con {
     int add(int a, int b) { return a + b; }
 
     const std::string& print(const std::string& msg) {
-        NM_W("=========================");
+        BY_W("=========================");
         for(int n = 0; n < 10; n++) {
             const nchar* c = msg.c_str();
-            NM_W("[%d]=%d", n, (int) c[n]);
+            BY_W("[%d]=%d", n, (int) c[n]);
         }
-        NM_W("=========================");
+        BY_W("=========================");
         std::cout << msg;
         return msg;
     }

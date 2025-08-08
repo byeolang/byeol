@@ -17,7 +17,7 @@ namespace {
         public:
             str run(const args& a) override {
                 if(!canRun(a)) return str();
-                NM_I("hello world!");
+                BY_I("hello world!");
                 _executed = true;
 
                 if(_lambda) _res = _lambda(a, (frames&) by::thread::get().getFrames());
@@ -38,10 +38,10 @@ namespace {
             super(*new modifier(),
                 funcMgdType("myfunc", ttype<me>::get(), params(), false, new nVoid()),
                 *new myBlock()) {
-            NM_I("myfunc(%s) new", (void*) this);
+            BY_I("myfunc(%s) new", (void*) this);
         }
 
-        ~myfunc() override { NM_I("myfunc(%s) delete", (void*) this); }
+        ~myfunc() override { BY_I("myfunc(%s) delete", (void*) this); }
 
         void setUp() {
             myBlock& blk = getBlock().cast<myBlock>() OR.ret();
@@ -68,22 +68,22 @@ namespace {
         const std::string& name, const obj& obj, const char* funcNames[], int funcNameSize) {
 
         int n = 0;
-        NM_I("fr.len=%d", fr.subs().len());
+        BY_I("fr.len=%d", fr.subs().len());
         for(auto e = fr.subs().begin(); e; e++)
-            NM_I(" - func(\"%s\") calls: fr[%d]=%s", e.getKey(), n++, e.getVal());
+            BY_I(" - func(\"%s\") calls: fr[%d]=%s", e.getKey(), n++, e.getVal());
 
         const scope& funcScope = fr.subs().cast<scope>() OR.info("funcScope is null").ret(false);
         if(!_isFrameLinkScope(fr, funcScope))
-            return NM_I("frame not contain the funcScope(%s)", (void*) &funcScope), false;
+            return BY_I("frame not contain the funcScope(%s)", (void*) &funcScope), false;
 
         for(int n = 0; n < funcNameSize; n++) {
             const char* name = funcNames[n];
             if(!fr.subAll(name).isMatched())
-                return NM_I("fr.sub(%s) is 0 or +2 founds", name), false;
+                return BY_I("fr.sub(%s) is 0 or +2 founds", name), false;
         }
 
         if(!fr.subAll(name).isMatched())
-            return NM_I("couldn't find %s func on frame(%s)", name, (void*) &fr), false;
+            return BY_I("couldn't find %s func on frame(%s)", name, (void*) &fr), false;
 
         return true;
     }
@@ -102,10 +102,10 @@ TEST_F(funcTest, testfuncConstructNewFrame) {
     myfunc func;
 
     obj.subs().add(funcNames[0], func);
-    NM_I("obj.len=%d", obj.subs().len());
+    BY_I("obj.len=%d", obj.subs().len());
     int n = 0;
     for(auto e = obj.subs().begin(); e; e++)
-        NM_I(" - fr[%d]=%s", n++, e);
+        BY_I(" - fr[%d]=%s", n++, e);
 
     func.setLambda([&](const auto& a, const auto& sf) {
         if(sf.len() != 1) return false;
@@ -142,17 +142,17 @@ TEST_F(funcTest, testCallfuncInsidefunc) {
     obj2.subs().add("obj2func1", obj2func1);
 
     obj1func1.setLambda([&](const auto& a, const auto& sf) {
-        if(sf.len() != 1) return NM_I("%s: sf.len() != 1", func1Name), false;
+        if(sf.len() != 1) return BY_I("%s: sf.len() != 1", func1Name), false;
         if(!checkFrameHasfuncAndObjScope(sf[0], obj1func1, func1Name, obj1, obj1FuncNames, 2))
             return false;
 
         narr funcArgs;
         obj1.run(func2Name, funcArgs);
-        if(sf.len() != 1) return NM_I("return of %s: sf.len() != 1", func1Name), false;
+        if(sf.len() != 1) return BY_I("return of %s: sf.len() != 1", func1Name), false;
         return true;
     });
     obj1func2.setLambda([&](const auto& a, const auto& sf) {
-        if(sf.len() != 2) return NM_I("%s: sf.len(%d) > 2", func2Name, sf.len()), false;
+        if(sf.len() != 2) return BY_I("%s: sf.len(%d) > 2", func2Name, sf.len()), false;
 
         if(!checkFrameHasfuncAndObjScope(sf[1], obj1func2, func2Name, obj1, obj1FuncNames, 2))
             return false;
@@ -161,7 +161,7 @@ TEST_F(funcTest, testCallfuncInsidefunc) {
         funcArgs.add(obj2);
         funcArgs.setMe(obj2);
         obj2.run(obj2FuncNames[0], funcArgs);
-        if(sf.len() != 2) return NM_I("return of %s: sf.len() != 2", func2Name), false;
+        if(sf.len() != 2) return BY_I("return of %s: sf.len() != 2", func2Name), false;
         return true;
     });
     obj2func1.setLambda([&](const auto& a, const auto& sf) {

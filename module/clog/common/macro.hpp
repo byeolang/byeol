@@ -9,31 +9,31 @@
 //      only if you use dbg configuration.
 //
 //      usage:
-//          NM_I("just message.")
-//          NM_I("with format=%x string=%s", &format, format.c_str())
+//          BY_I("just message.")
+//          BY_I("with format=%x string=%s", &format, format.c_str())
 #ifndef __EMSCRIPTEN__
-#    define NM_E(fmt, ...) \
+#    define BY_E(fmt, ...) \
         ::by::richLog(::by::errLv::ERR, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
-#    define NM_W(fmt, ...) \
+#    define BY_W(fmt, ...) \
         ::by::richLog(::by::errLv::WARN, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
-#    define NM_I(fmt, ...) \
+#    define BY_I(fmt, ...) \
         ::by::richLog(::by::errLv::INFO, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
 #else
-#    define NM_E(fmt, ...) void()
-#    define NM_W(fmt, ...) void()
-#    define NM_I(fmt, ...) void()
+#    define BY_E(fmt, ...) void()
+#    define BY_W(fmt, ...) void()
+#    define BY_I(fmt, ...) void()
 #endif
-#ifdef NM_DEBUG
-#    define NM_DE(fmt, ...) NM_E(fmt, ##__VA_ARGS__)
-#    define NM_DW(fmt, ...) NM_W(fmt, ##__VA_ARGS__)
-#    define NM_DI(fmt, ...) NM_I(fmt, ##__VA_ARGS__)
+#ifdef BY_DEBUG
+#    define BY_DE(fmt, ...) BY_E(fmt, ##__VA_ARGS__)
+#    define BY_DW(fmt, ...) BY_W(fmt, ##__VA_ARGS__)
+#    define BY_DI(fmt, ...) BY_I(fmt, ##__VA_ARGS__)
 #else
-#    define NM_DE(fmt, ...) void()
-#    define NM_DW(fmt, ...) void()
-#    define NM_DI(fmt, ...) void()
+#    define BY_DE(fmt, ...) void()
+#    define BY_DW(fmt, ...) void()
+#    define BY_DI(fmt, ...) void()
 #endif
 
-#undef NM_SIDE_FUNC_3
-#define NM_SIDE_FUNC_3(paramPtr, expr, ret) { \
+#undef BY_SIDE_FUNC_3
+#define BY_SIDE_FUNC_3(paramPtr, expr, ret) { \
     return paramPtr ? expr : ret; \
 }

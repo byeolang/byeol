@@ -55,7 +55,7 @@ namespace by {
         ///               for instance, if iterator is belonged to this chain or nullptr.
         virtual nbool link(const iter& portion);
         nbool link(const me& new1);
-        nbool link(const me* it) NM_SIDE_FUNC(link);
+        nbool link(const me* it) BY_SIDE_FUNC(link);
         nbool unlink();
 
         // del:
@@ -72,14 +72,14 @@ namespace by {
         const super& getContainer() const;
 
         me* getNext();
-        const me* getNext() const NM_CONST_FUNC(getNext())
+        const me* getNext() const BY_CONST_FUNC(getNext())
 
         me* getPrev();
-        const me* getPrev() const NM_CONST_FUNC(getPrev())
+        const me* getPrev() const BY_CONST_FUNC(getPrev())
 
         /// return most not null next element of this chain.
         me* getTail();
-        const me* getTail() const NM_CONST_FUNC(getTail())
+        const me* getTail() const BY_CONST_FUNC(getTail())
 
         /// returned deep cloned of this instance with all chained ones.
         /// @remark when the chain has already linked to the another chain instance,
@@ -100,10 +100,10 @@ namespace by {
 
             return ret;
         }
-        template <typename T> static T* wrap(const super* it) NM_SIDE_FUNC(it, wrap<T>(*it), nullptr);
+        template <typename T> static T* wrap(const super* it) BY_SIDE_FUNC(it, wrap<T>(*it), nullptr);
 
         static me* wrap(const super& toShallowWrap);
-        static me* wrap(const super* it) NM_SIDE_FUNC(wrap);
+        static me* wrap(const super* it) BY_SIDE_FUNC(wrap);
 
         /// mock this chain and let it chain another container differ to original.
         /// this func keep accessing next element to chain it.

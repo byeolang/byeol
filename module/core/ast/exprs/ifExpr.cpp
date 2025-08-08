@@ -25,7 +25,7 @@ namespace by {
         tstr<nBool> res =
             _expr->as<node>() TO(template asImpli<nBool>()) OR.ret(nVoid::singleton());
         nbool cond = *res->cast<nbool>();
-        NM_DI("@%s `if %s --> to %s`", this, *_expr, cond ? "THEN" : "ELSE");
+        BY_DI("@%s `if %s --> to %s`", this, *_expr, cond ? "THEN" : "ELSE");
         auto* blk = cond ? _then.get() : _else.get();
         if(blk) {
             frameInteract f1(blk);
@@ -49,7 +49,7 @@ namespace by {
         // when you try to get eval from ifExpr, `then` and else block must be declared first.
         // if one of blocks has omitted, evaluation of ifExpr should be null.
         str ret = thenEval->deduce(*elseEval); // if elseEval is null, then thenEval only left.
-        NM_DI("thenEval[%s] + elseVal[%s] -> %s", thenEval, elseEval, ret);
+        BY_DI("thenEval[%s] + elseVal[%s] -> %s", thenEval, elseEval, ret);
         return ret;
     }
 

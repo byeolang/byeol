@@ -5,7 +5,7 @@
 
 namespace by {
 
-    NM_DEF_ME(bindTag)
+    BY_DEF_ME(bindTag)
 
     me::bindTag(): _pt(NULL), _strong(0) {}
 

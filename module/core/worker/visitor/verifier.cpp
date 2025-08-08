@@ -9,7 +9,7 @@
 
 namespace by {
 
-    NM_DEF_ME(verifier)
+    BY_DEF_ME(verifier)
 
     namespace {
         static std::vector<str> _getPrimitives() {
@@ -37,12 +37,12 @@ namespace by {
 
 #define _GUARD(msg)                                         \
     if(isFlag(GUARD)) do {                                  \
-            NM_I("'%s' %s@%s: " msg, i, me.getType(), &me); \
+            BY_I("'%s' %s@%s: " msg, i, me.getType(), &me); \
             _stepN = 0;                                     \
     } while(0)
 
 #define _STEP(msg, ...)                                                                      \
-    NM_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), &me, \
+    BY_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), &me, \
         ++_stepN, ##__VA_ARGS__)
 
     // verification:
@@ -342,7 +342,7 @@ namespace by {
                 case FBOExpr::SYMBOL_BITWISE_OR:
                 case FBOExpr::SYMBOL_LSHIFT:
                 case FBOExpr::SYMBOL_RSHIFT:
-                    return NM_WHEN.myExErr(me, STRING_IS_NOT_PROPER_TO_OP).ret();
+                    return BY_WHEN.myExErr(me, STRING_IS_NOT_PROPER_TO_OP).ret();
 
                 default:;
             }
@@ -366,7 +366,7 @@ namespace by {
         WHEN(!me.getEval()).myExErr(me, WHAT_IS_THIS_IDENTIFIER, me.getName()).ret();
         str match = me._get(true) OR_DO {
             const node* from = me.getMe();
-            return NM_WHEN
+            return BY_WHEN
                 .myExErr(me, CANT_ACCESS, me._name.c_str(), from TO(getType().getName().c_str()))
                 .ret();
         }
@@ -429,7 +429,7 @@ namespace by {
         if(!derivedSub->canRun(me.getArgs())) {
             const baseFunc* derivedCast = derivedSub->cast<baseFunc>();
             std::string params = !derivedCast ? "ctor" : _asStr(derivedCast->getParams());
-            return NM_WHEN
+            return BY_WHEN
                 .myExErr(me, OBJ_WRONG_ARGS, i.name.c_str(), me.getArgs().asStr().c_str(),
                     params.c_str())
                 .ret();
@@ -500,17 +500,17 @@ namespace by {
 
             return true;
         });
-        if(errFound) NM_WHEN.myExErr(me, ALREADY_DEFINED_FUNC, i.name.c_str());
+        if(errFound) BY_WHEN.myExErr(me, ALREADY_DEFINED_FUNC, i.name.c_str());
 
         //  obj or property shouldn't have same name to any func.
         _STEP("check func has same name to field");
         if(meObj.getOwns().get(i.name) TO(template cast<baseObj>()))
-            NM_WHEN.myExErr(me, ALREADY_DEFINED_IDENTIFIER, i.name.c_str());
+            BY_WHEN.myExErr(me, ALREADY_DEFINED_IDENTIFIER, i.name.c_str());
 
         _STEP("main func return type should be int or void");
         if(i.name == starter::MAIN) {
             str ret = me.getRet();
-            if(!ret->isSub<nInt>() && !ret->isSub<nVoid>()) NM_WHEN.myExErr(me, MAIN_FUNC_RET_TYPE);
+            if(!ret->isSub<nInt>() && !ret->isSub<nVoid>()) BY_WHEN.myExErr(me, MAIN_FUNC_RET_TYPE);
         }
 
         _STEP("retType exists and stmts exist one at least");
@@ -519,7 +519,7 @@ namespace by {
 
         blockExpr& blk = (blockExpr&) me.getBlock();
         if(nul(blk) || blk.getStmts().len() <= 0) {
-            if(i.name == starter::MAIN) NM_WHEN.myExErr(blk, MAIN_SHOULD_HAVE_STMTS);
+            if(i.name == starter::MAIN) BY_WHEN.myExErr(blk, MAIN_SHOULD_HAVE_STMTS);
             /*TODO: uncomment after implement abstract:
             if(!func.isAbstract() && !retType->isSub<nVoid>())
                 error(...)
@@ -541,7 +541,7 @@ namespace by {
         scope s;
         for(const auto& p: me.getParams()) {
             if(p.getOrigin().isSub<nVoid>()) {
-                NM_WHEN.myExErr(me, PARAM_NOT_VOID, p.getName().c_str());
+                BY_WHEN.myExErr(me, PARAM_NOT_VOID, p.getName().c_str());
                 continue;
             }
             str eval = p.getOrigin() TO(getEval()) OR_CONTINUE;
@@ -581,7 +581,7 @@ namespace by {
         _GUARD("onLeave(func&)");
 
         _STEP("last stmt should match to ret type");
-        NM_END(me.outFrame());
+        BY_END(me.outFrame());
         const node& ret = me.getRet() OR.err("func.getRet() is null").ret();
         const type& retType = ret.getType();
         const node& lastStmt = *me.getBlock().getStmts().last();
@@ -621,7 +621,7 @@ namespace by {
 
         _STEP("iterate all subs and checks void type variable");
         for(const node& elem: me.subs())
-            if(elem.isSub<nVoid>()) NM_WHEN.myExErr(elem, VOID_CANT_DEFINED);
+            if(elem.isSub<nVoid>()) BY_WHEN.myExErr(elem, VOID_CANT_DEFINED);
 
         _STEP("did user set the name of this object like 'const'?");
         WHEN(util::checkTypeAttr(i.name) == ATTR_CONST && i.name.length() > 1)
@@ -646,7 +646,7 @@ namespace by {
 
         _STEP("cache check");
         for(const auto& e: me._cache)
-            if(nul(e.second)) NM_WHEN.myExErr(me, MAKE_GENERIC_FAIL, e.first.c_str());
+            if(nul(e.second)) BY_WHEN.myExErr(me, MAKE_GENERIC_FAIL, e.first.c_str());
 
         _STEP("did user set the name of this object like 'const'?");
         WHEN(util::checkTypeAttr(i.name) == ATTR_CONST && i.name.length() > 1)

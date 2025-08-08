@@ -9,7 +9,7 @@ foreach(def ${defCandidates})
 endforeach(def)
 add_definitions(${defines})
 
-set(packOutDir "${NM_PACK_OUTPUT_DIRECTORY}/${packName}")
+set(packOutDir "${BY_PACK_OUTPUT_DIRECTORY}/${packName}")
 set(dependencies ${dependencies} core)
 
 foreach(d ${dependencies})
@@ -24,11 +24,11 @@ file(GLOB_RECURSE sources
     "*.cpp"
 )
 
-message("put module to ${NM_PACK_OUTPUT_DIRECTORY}")
+message("put module to ${BY_PACK_OUTPUT_DIRECTORY}")
 
 add_library(${packName} SHARED ${sources})
 set_target_properties(${packName} PROPERTIES PREFIX "")
-set_target_properties(${packName} PROPERTIES SUFFIX ".${NM_PACK_EXTENSION}")
+set_target_properties(${packName} PROPERTIES SUFFIX ".${BY_PACK_EXTENSION}")
 set_target_properties(${packName} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${packOutDir}")
 target_link_libraries(${packName} ${dependencies})
 install(TARGETS ${packName} DESTINATION bin/pack PERMISSIONS

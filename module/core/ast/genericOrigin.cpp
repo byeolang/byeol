@@ -77,10 +77,10 @@ namespace by {
         newType.getParams().add(ps);
         ret->_setType(newType);
 
-        NM_DI("|==========================================|");
-        NM_DI("|--- generic: make %s generic obj[%s] ---|", newType.createNameWithParams(),
+        BY_DI("|==========================================|");
+        BY_DI("|--- generic: make %s generic obj[%s] ---|", newType.createNameWithParams(),
             platformAPI::toAddrId(ret.get()));
-        NM_DI("|--- generic: make cache %s ---|", argName);
+        BY_DI("|--- generic: make cache %s ---|", argName);
 
         // prevent infinite loop:
         //  now I'll run generalizer but sometimes generalizer asking this class to get generic
@@ -90,7 +90,7 @@ namespace by {
 
         generalizer().add(*_org).add(ps).setFlag(generalizer::INTERNAL).setTask(*ret).work();
 
-        NM_DI("|============================|");
+        BY_DI("|============================|");
         return ret;
     }
 

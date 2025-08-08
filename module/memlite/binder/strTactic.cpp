@@ -5,7 +5,7 @@
 
 namespace by {
 
-    NM_DEF_ME(strTactic)
+    BY_DEF_ME(strTactic)
 
     void me::rel(binder& me) {
         WHEN(!me.isBind()).ret();

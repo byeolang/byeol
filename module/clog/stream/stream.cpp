@@ -2,7 +2,7 @@
 
 namespace by {
 
-    NM_DEF_ME(stream)
+    BY_DEF_ME(stream)
 
     me::stream(nbool isEnable): _isEnable(isEnable) {}
 

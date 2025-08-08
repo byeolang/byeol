@@ -8,8 +8,8 @@ namespace by {
     class origin;
 
     template <typename T, typename TACTIC = weakTactic> class tweak: public binder {
-        NM_ME(tweak, binder)
-        NM_INIT_META(me)
+        BY_ME(tweak, binder)
+        BY_INIT_META(me)
         friend class bindTag;
 
     public:
@@ -25,15 +25,15 @@ namespace by {
     public:
         T* operator->();
         T& operator*();
-        const T* operator->() const NM_CONST_FUNC(operator->())
-        const T& operator*() const NM_CONST_FUNC(operator*())
+        const T* operator->() const BY_CONST_FUNC(operator->())
+        const T& operator*() const BY_CONST_FUNC(operator*())
         me& operator=(const binder& rhs);
         me& operator=(const me& rhs);
 
     public:
         using super::get;
         T* get();
-        const T* get() const NM_CONST_FUNC(get())
+        const T* get() const BY_CONST_FUNC(get())
 
         using super::bind;
         nbool bind(const T& new1);

@@ -5,7 +5,7 @@
 namespace by {
 
     class _nout consoleStream: public stream {
-        NM_ME(consoleStream, stream)
+        BY_ME(consoleStream, stream)
 
     public:
         consoleStream();

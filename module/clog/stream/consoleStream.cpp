@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM_DEF_ME(consoleStream)
+    BY_DEF_ME(consoleStream)
 
     me::consoleStream(): super(true) {}
 

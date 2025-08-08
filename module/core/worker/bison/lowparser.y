@@ -720,5 +720,5 @@ std::string getTokenName(int tok) {
 
 // errors except syntax will come here. for instance, when available memory doesn't exist.
 void yyerror(YYLTYPE* loc, yyscan_t scanner, const char* msg) {
-    NM_WHEN.exErr(errCode::MSG, PS.getReport(), msg);
+    BY_WHEN.exErr(errCode::MSG, PS.getReport(), msg);
 }

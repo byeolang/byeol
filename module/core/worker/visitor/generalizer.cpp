@@ -33,7 +33,7 @@ namespace by {
     str me::_findOriginFrom(const getGenericExpr& expr) const {
         const auto& name = getTask()->getType().getName();
         auto argsKey = expr.getArgs().toStr();
-        NM_I("exprName[%s<%s>] == originName[%s<%s>]", expr.getName(), argsKey, name, _paramsKey);
+        BY_I("exprName[%s<%s>] == originName[%s<%s>]", expr.getName(), argsKey, name, _paramsKey);
         WHEN(expr.getName() != name).ret(str());
         WHEN(argsKey == _paramsKey).ret(getTask());
 
@@ -53,7 +53,7 @@ namespace by {
     nbool me::onVisit(const visitInfo& i, asExpr& me, nbool) {
         str org = _findOrigin(me.getAs()) OR.ret(true);
 
-        NM_DI("* inject 'as %s' --> 'as %s'", me.getAs(), org);
+        BY_DI("* inject 'as %s' --> 'as %s'", me.getAs(), org);
         me.setAs(*org);
         return true;
     }
@@ -64,7 +64,7 @@ namespace by {
             const node& stmt = stmts[n];
             str org = _findOrigin(stmt) OR_CONTINUE;
 
-            NM_DI("* inject 'stmt %s' --> 'stmt %s'", stmt, org);
+            BY_DI("* inject 'stmt %s' --> 'stmt %s'", stmt, org);
             stmts.set(n, *org);
         }
         return true;
@@ -73,7 +73,7 @@ namespace by {
     nbool me::onVisit(const visitInfo& i, defVarExpr& me, nbool) {
         str org = _findOrigin(me.getRight()) OR.ret(true);
 
-        NM_DI("* inject '%s %s' --> '%s %s'", me.getName(), me.getRight(), me.getName(), org);
+        BY_DI("* inject '%s %s' --> '%s %s'", me.getName(), me.getRight(), me.getName(), org);
         me.setRight(*org);
         return true;
     }
@@ -90,7 +90,7 @@ namespace by {
             node& a = as[n];
             str org = _findOrigin(a) OR_CONTINUE;
 
-            NM_DI("* inject arg '%s' --> '%s'", a, *org);
+            BY_DI("* inject arg '%s' --> '%s'", a, *org);
             as.set(n, *org);
         }
         return true;
@@ -101,7 +101,7 @@ namespace by {
             param& p = me[n];
             str org = _findOrigin(p.getOrigin()) OR_CONTINUE;
 
-            NM_DI("* inject %s() func's param: '%s' --> '%s'", i, p.getOrigin(), *org);
+            BY_DI("* inject %s() func's param: '%s' --> '%s'", i, p.getOrigin(), *org);
             p.setOrigin(*org);
         }
         return true;
@@ -123,7 +123,7 @@ namespace by {
 
         str retOrg = _findOrigin(me.getRet());
         if(retOrg) {
-            NM_DI("* inject func: retType of '%s(%s) %s' --> '%s'", i, me.getParams().toStr(),
+            BY_DI("* inject func: retType of '%s(%s) %s' --> '%s'", i, me.getParams().toStr(),
                 me.getRet()->getEval(), *retOrg);
             me._getType().setRet(*retOrg);
             if(!i.parent) getReport().add(nerr::newErr(errCode::IS_NUL, "parent"));
@@ -149,7 +149,7 @@ namespace by {
             const node* prevVal = e.getVal();
             str org = _findOrigin(prevVal) OR_CONTINUE;
 
-            NM_DI("* inject '%s' at '%s.%s' to '%s", prevVal, i, e.getKey(), *org);
+            BY_DI("* inject '%s' at '%s.%s' to '%s", prevVal, i, e.getKey(), *org);
             e.setVal(*org);
         }
 

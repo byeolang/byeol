@@ -73,9 +73,9 @@ namespace by {
         /// `get()` or `operator*()`, it will behave as UB.
         /// this is likely to crash.
         instance* operator->();
-        const instance* operator->() const NM_CONST_FUNC(operator->())
+        const instance* operator->() const BY_CONST_FUNC(operator->())
         instance& operator*();
-        const instance& operator*() const NM_CONST_FUNC(operator*())
+        const instance& operator*() const BY_CONST_FUNC(operator*())
         me& operator=(const me& rhs);
 
     public:
@@ -90,10 +90,10 @@ namespace by {
         nbool bind(const instance& it) override;
 
         instance* get();
-        const instance* get() const NM_CONST_FUNC(get())
+        const instance* get() const BY_CONST_FUNC(get())
 
         template <typename E> E* get() { return get()->template cast<E>(); }
-        template <typename E> const E* get() const NM_CONST_FUNC(get<E>())
+        template <typename E> const E* get() const BY_CONST_FUNC(get<E>())
 
         //  typeProvidable:
         const type& getType() const override;

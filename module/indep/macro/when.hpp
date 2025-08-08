@@ -123,9 +123,9 @@ namespace by {
         }
     };
 
-#define NM_WHEN ::by::__WHEN_OBJECT__::get()
+#define BY_WHEN ::by::__WHEN_OBJECT__::get()
 
-#define __WHEN_POSTFIX__ return NM_WHEN
+#define __WHEN_POSTFIX__ return BY_WHEN
 #define WHEN(condition) \
     if(condition) __WHEN_POSTFIX__
 #define WHEN_NUL_1(v1) \
@@ -140,6 +140,6 @@ namespace by {
     if(nul(v1) || nul(v2) || nul(v3) || nul(v4) || nul(v5)) __WHEN_POSTFIX__
 #define WHEN_NUL_6(v1, v2, v3, v4, v5, v6) \
     if(nul(v1) || nul(v2) || nul(v3) || nul(v4) || nul(v5) || nul(v6)) __WHEN_POSTFIX__
-#define WHEN_NUL(...) NM_OVERLOAD(WHEN_NUL, __VA_ARGS__)
+#define WHEN_NUL(...) BY_OVERLOAD(WHEN_NUL, __VA_ARGS__)
 
 } // namespace by

@@ -20,8 +20,8 @@ namespace by {
         const std::string& getName() const;
 
         void setName(const std::string& new1);
-        void setName(const std::string* it) NM_SIDE_FUNC(setName);
-        void setName(const nchar* new1) NM_SIDE_FUNC(new1, setName(std::string(new1)), void());
+        void setName(const std::string* it) BY_SIDE_FUNC(setName);
+        void setName(const nchar* new1) BY_SIDE_FUNC(new1, setName(std::string(new1)), void());
 
         const node& getOrigin() const;
         void setOrigin(const node& newType);

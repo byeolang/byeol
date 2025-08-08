@@ -9,7 +9,7 @@
 #include <iostream>
 #include <string>
 #include <functional>
-#ifndef NM_BUILD_PLATFORM_IS_WINDOWS
+#ifndef BY_BUILD_PLATFORM_IS_WINDOWS
 #    include <dirent.h> // not for winOS
 #    include <unistd.h> // not for winOS
 #else

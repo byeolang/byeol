@@ -1,6 +1,6 @@
 // nested class of ucontainable.hpp
 class iterable {
-    NM_ME(iterable)
+    BY_ME(iterable)
 
 protected:
     enum iterationType {
@@ -14,7 +14,7 @@ public:
     virtual ~iterable() {}
 
     virtual RSquare operator*() = 0;
-    const RSquare operator*() const NM_CONST_FUNC(operator*())
+    const RSquare operator*() const BY_CONST_FUNC(operator*())
 
     virtual nbool isEnd() const = 0;
 
@@ -36,11 +36,11 @@ public:
     virtual ncnt stepBackward(ncnt step) = 0;
 
     virtual R get() = 0;
-    const R get() const NM_CONST_FUNC(get())
+    const R get() const BY_CONST_FUNC(get())
 
     virtual nbool isFrom(const tucontainable& it) const = 0;
-    nbool isFrom(const tucontainable* it) const NM_SIDE_FUNC(isFrom);
+    nbool isFrom(const tucontainable* it) const BY_SIDE_FUNC(isFrom);
 
     virtual tucontainable<T, R, RSquare>* getContainer() = 0;
-    const tucontainable<T, R, RSquare>* getContainer() const NM_CONST_FUNC(getContainer())
+    const tucontainable<T, R, RSquare>* getContainer() const BY_CONST_FUNC(getContainer())
 };

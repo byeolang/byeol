@@ -24,7 +24,7 @@ namespace by {
         nbool isParsed() const;
         nbool isVerified() const;
         node* getSubPack();
-        const node* getSubPack() const NM_CONST_FUNC(getSubPack())
+        const node* getSubPack() const BY_CONST_FUNC(getSubPack())
 
         void rel() override;
 

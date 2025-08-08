@@ -18,7 +18,7 @@ namespace by {
         const args& typs = getArgs();
         const std::string& name = getName();
         WHEN(!typs.len()).err("_args.len() == 0").ret(nullptr);
-        NM_DI("_name=%s, _args[%d]", getName(), typs.len());
+        BY_DI("_name=%s, _args[%d]", getName(), typs.len());
 
         node& generic =
             me TO(template sub<genericOrigin>(name)) OR.err("generic == null").ret(nullptr);

@@ -27,7 +27,7 @@ namespace by {
 
 #define _GUARD(msg)                                         \
     if(isFlag(GUARD)) do {                                  \
-            NM_I("'%s' %s@%s: " msg, i, me.getType(), &me); \
+            BY_I("'%s' %s@%s: " msg, i, me.getType(), &me); \
             _stepN = 0;                                     \
     } while(0)
 
@@ -94,7 +94,7 @@ namespace by {
 
         if(i.name == baseObj::EXPAND_NAME) {
             obj& o = _obj.back() OR.err("obj stack is empty.").ret(true);
-            NM_I("func: found expand[%s.%s]", o, me);
+            BY_I("func: found expand[%s.%s]", o, me);
             _stack[&o] = {o, me};
         }
 
@@ -126,7 +126,7 @@ namespace by {
         _funcs.push_back(&me);
         me.inFrame(); // don't need to inFrame for args.
                       // because what this want to do is just collect @expand funcs.
-        NM_I("expand: func: %s", i);
+        BY_I("expand: func: %s", i);
         for(auto& p: me.getParams())
             if(!_onVisitParams(me, p)) ((node&) p.getOrigin()).accept(i, *this);
 
@@ -157,7 +157,7 @@ namespace by {
         // need to converge type:
         //  try once now. if it's not successful, it may refered symbol not expanded yet.
         //  so in that case, I put it to a queue to process after expansion.
-        NM_I("converge type request for param[%s] of %s", p, f);
+        BY_I("converge type request for param[%s] of %s", p, f);
         tstr<baseConvergence> req = new paramConvergence(*_obj.back(), f, p, org);
         if(!req->convergeWithoutFrame()) // I'll converge it later.
             _cons.add(*req);
@@ -168,7 +168,7 @@ namespace by {
         const getExpr& ret = f.getType().getRet() TO(template cast<getExpr>()) OR.ret();
 
         // need to converge return type:
-        NM_I("converge type request for ret[%s] of %s", ret.getName(), f);
+        BY_I("converge type request for ret[%s] of %s", ret.getName(), f);
         tstr<baseConvergence> req = new retConvergence(*_obj.back(), f, ret);
         if(!req->convergeWithoutFrame()) // I'll converge it later
             _cons.add(*req);
@@ -185,24 +185,24 @@ namespace by {
     void me::_rel() { _stack.clear(); }
 
     void me::_expand() {
-        NM_I(" ===================================");
-        NM_I("          expandLoop");
-        NM_I(" ===================================");
+        BY_I(" ===================================");
+        BY_I("          expandLoop");
+        BY_I(" ===================================");
         errReport e(false);
         ncnt n = 0;
         while(_stack.size() > 0) {
             e.rel();
-            NM_I("|--- %dth try: running %d expansions... ---|", ++n, _stack.size());
+            BY_I("|--- %dth try: running %d expansions... ---|", ++n, _stack.size());
             if(!_expandAll(
                    e)) { // this func actually remove elements of _stack if the func consumes it.
                 // ok. there is no change after running one loop, which means, I think that
                 // expander just found circular dependencies.
-                NM_E("* * *");
-                NM_E("I couldn't finish expansion. may be because of circular dependency.");
-                NM_E("total %d expanding remains.", _stack.size());
-                NM_E("errors:");
+                BY_E("* * *");
+                BY_E("I couldn't finish expansion. may be because of circular dependency.");
+                BY_E("total %d expanding remains.", _stack.size());
+                BY_E("errors:");
                 e.dump();
-                NM_E("* * *");
+                BY_E("* * *");
                 break;
             }
         }
@@ -211,7 +211,7 @@ namespace by {
         _onEndErrReport(e);
         getReport().add(e);
         _stack.clear();
-        NM_I(" ==== end of expandLoop ==== ");
+        BY_I(" ==== end of expandLoop ==== ");
     }
 
     nbool me::_expandAll(errReport& rpt) {
@@ -241,7 +241,7 @@ namespace by {
         frameInteract f3(blk);
 
         narr& stmts = blk.getStmts();
-        NM_I("|--- %s.%s has %d stmts ---|", me, fun, stmts.len());
+        BY_I("|--- %s.%s has %d stmts ---|", me, fun, stmts.len());
 
         nbool isChanged = false;
         for(int n = 0; n < stmts.len();) {
@@ -252,20 +252,20 @@ namespace by {
                 // if there was an error, proceed next stmt.
                 // TODO: it uses len() for counting errors.
                 //       but one of them could be just warning.
-                NM_I("|--- %s.%s failed on %dth stmt ---|", me, fun, n);
+                BY_I("|--- %s.%s failed on %dth stmt ---|", me, fun, n);
                 n++;
                 continue;
             }
 
             stmts[n].run();
 
-            NM_I("|--- SUCCESS! stmt[%d] pre-evaluated.", n);
+            BY_I("|--- SUCCESS! stmt[%d] pre-evaluated.", n);
             stmts.del(n);
             me.setState(PARSED);
             isChanged = true;
         } // end of inner
 
-        NM_I("|--- end of %s.%s %d stmts left ---|", me, fun, stmts.len());
+        BY_I("|--- end of %s.%s %d stmts left ---|", me, fun, stmts.len());
         return isChanged;
     }
 

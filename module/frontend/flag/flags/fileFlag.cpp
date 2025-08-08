@@ -4,7 +4,7 @@
 #include <sstream>
 
 namespace by {
-    NM_DEF_ME(fileFlag)
+    BY_DEF_ME(fileFlag)
 
     const nchar* me::getName() const { return "<filePath>"; }
 

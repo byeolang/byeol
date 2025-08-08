@@ -29,7 +29,7 @@ namespace by {
         tstr<scope> cloned = existing.cloneChain() OR.ret();
         cloned->getTail()->link(*_getTop()->linkedS);
         _stack.push_back(scopeRegister{owner, existing, cloned});
-        NM_DI("scope added: frame.len[%d] scope.owner[%s]", _stack.size(), owner);
+        BY_DI("scope added: frame.len[%d] scope.owner[%s]", _stack.size(), owner);
     }
 
     void me::addLocal(const std::string& name, const node& n) {
@@ -40,12 +40,12 @@ namespace by {
     }
 
     scope* me::getScopeHaving(const node& sub) {
-        NM_I("getScopeHaving(%s)", sub);
+        BY_I("getScopeHaving(%s)", sub);
         return _getOwner<scope>(&sub, [&](nbool, auto& reg) { return reg.linkedS.get(); });
     }
 
     node* me::getMeHaving(const node& sub) {
-        NM_I("getMeHaving(%s)", sub);
+        BY_I("getMeHaving(%s)", sub);
         nbool found = false;
 
         return _getOwner<node>(&sub, [&](nbool isOwner, scopeRegister& reg) -> node* {
@@ -71,7 +71,7 @@ namespace by {
 
     void me::del() {
         _stack.pop_back();
-        NM_DI("scope deleted. frames.len[%d] thisFrame.len[%d]", thread::get().getFrames().len(),
+        BY_DI("scope deleted. frames.len[%d] thisFrame.len[%d]", thread::get().getFrames().len(),
             _stack.size());
     }
 
@@ -151,13 +151,13 @@ namespace by {
         for(auto e = _stack.rbegin(); e != _stack.rend(); ++e) {
             auto& reg = *e;
             nbool has = reg.s->in(toFind);
-            NM_DI("`%s` is in `%s` scope? --> %s", name,
+            BY_DI("`%s` is in `%s` scope? --> %s", name,
                 reg.owner ? reg.owner->getSrc().getName() : "{local}", has);
             T& ret = cl(has, reg) OR_CONTINUE;
             return &ret;
         }
 
-        NM_E("couldn't find owner of %s", toFind);
+        BY_E("couldn't find owner of %s", toFind);
         return nullptr;
     }
 } // namespace by

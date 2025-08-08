@@ -28,7 +28,7 @@ namespace by {
     nbool me::isAbstract() const { return _exprs.isEmpty() && _eval; }
 
     void me::inFrame(const bicontainable*) const {
-        NM_DI("%s._onInFrame() %d stmts. frames.len[%d]", *this, getStmts().len(),
+        BY_DI("%s._onInFrame() %d stmts. frames.len[%d]", *this, getStmts().len(),
             thread::get().getFrames().len());
 
         frame& fr = by::thread::get()._getNowFrame() OR.err("fr == null").ret();
@@ -36,7 +36,7 @@ namespace by {
     }
 
     void me::outFrame() const {
-        NM_DI("%s._onOutFrame() frames.len[%d]", *this, thread::get().getFrames().len());
+        BY_DI("%s._onOutFrame() frames.len[%d]", *this, thread::get().getFrames().len());
 
         frame& fr = by::thread::get()._getNowFrame() OR.err("fr == null").ret();
         fr.del();
@@ -52,12 +52,12 @@ namespace by {
         const frame& fr = th.getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(str());
         nidx exN = ex.len() - 1; // blockExpr will judge exception occurs when exN is changed to
                                  // after running one of its stmt.
-        NM_DI("%s blockExpr: loop %d stmts", addr, _exprs.len());
+        BY_DI("%s blockExpr: loop %d stmts", addr, _exprs.len());
         for(auto& e: _exprs) {
             ret = e.as<node>(); // if e is expr, it runs(). if not, it returns itself.
             if(ex.len() > (exN + 1)) {
                 tstr<baseErr> last = *ex.last();
-                NM_DI("%s '%s' exception found in block.\n", addr, last->getMsg());
+                BY_DI("%s '%s' exception found in block.\n", addr, last->getMsg());
                 return last; // return last err instance I got.
                              // so it's not the return type of what the func told, but it's okay.
                              // all derived err object can be assigned to any type.

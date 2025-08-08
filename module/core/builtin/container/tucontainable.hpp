@@ -12,7 +12,7 @@ namespace by {
 
     /// @remark tucontainable has API treating iter ref and element as its parameter.
     template <typename T, typename R = T*, typename RSquare = T&> class tucontainable {
-        NM_ME(tucontainable)
+        BY_ME(tucontainable)
 
     public:
 #include "core/builtin/container/iter/uiter.hpp"
@@ -24,7 +24,7 @@ namespace by {
         virtual ncnt len() const = 0;
 
         nbool in(const T& it) const;
-        nbool in(const T* it) const NM_SIDE_FUNC(in);
+        nbool in(const T* it) const BY_SIDE_FUNC(in);
         nbool in(std::function<nbool(const T&)> l) const;
         template <typename T1> nbool in(std::function<nbool(const T1&)> l) const;
 
@@ -34,8 +34,8 @@ namespace by {
         template <typename T1> T1* get(std::function<nbool(const T1&)> l);
         R get(std::function<nbool(const T&)> l);
         template <typename T1>
-        const T1* get(std::function<nbool(const T1&)> l) const NM_CONST_FUNC(get(l))
-        const R get(std::function<nbool(const T&)> l) const NM_CONST_FUNC(get(l))
+        const T1* get(std::function<nbool(const T1&)> l) const BY_CONST_FUNC(get(l))
+        const R get(std::function<nbool(const T&)> l) const BY_CONST_FUNC(get(l))
 
         template <typename T1> tnarr<T1, strTactic> getAll(std::function<nbool(const T1&)> l) const;
         tnarr<T, strTactic> getAll(std::function<nbool(const T&)> l) const;
@@ -43,8 +43,8 @@ namespace by {
         template <typename T1> void each(std::function<nbool(T1&)> l);
         void each(std::function<nbool(T&)> l);
         template <typename T1>
-        void each(std::function<nbool(const T1&)> l) const NM_CONST_FUNC(each(l))
-        void each(std::function<nbool(const T&)> l) const NM_CONST_FUNC(each(l))
+        void each(std::function<nbool(const T1&)> l) const BY_CONST_FUNC(each(l))
+        void each(std::function<nbool(const T&)> l) const BY_CONST_FUNC(each(l))
 
         // iter:
         iter begin() const;
@@ -63,19 +63,19 @@ namespace by {
 
         // set:
         virtual nbool set(const iter& at, const T& new1) = 0;
-        virtual nbool set(const iter& at, const T* new1) NM_SIDE_FUNC(new1, set(at, *new1), false);
+        virtual nbool set(const iter& at, const T* new1) BY_SIDE_FUNC(new1, set(at, *new1), false);
 
         // add:
         virtual nbool add(const iter& at, const T& new1) = 0;
-        nbool add(const iter& at, const T* new1) NM_SIDE_FUNC(new1, add(at, *new1), false);
+        nbool add(const iter& at, const T* new1) BY_SIDE_FUNC(new1, add(at, *new1), false);
         nbool add(std::initializer_list<const T*> elems);
         nbool add(const T& new1);
-        nbool add(const T* it) NM_SIDE_FUNC(add);
+        nbool add(const T* it) BY_SIDE_FUNC(add);
         virtual void add(const iter& here, const iter& from, const iter& to) = 0;
         void add(const iter& from, const iter& to);
         void add(const iter& here, me& rhs);
         void add(const me& rhs);
-        void add(const me* rhs) NM_SIDE_FUNC(rhs, add(*rhs), void());
+        void add(const me* rhs) BY_SIDE_FUNC(rhs, add(*rhs), void());
 
         template <typename E>
         ncnt add(const typename tucontainable<E>::iter& from,
@@ -97,11 +97,11 @@ namespace by {
         /// delete last element if exists.
         nbool del();
         nbool del(const T& it);
-        nbool del(const T* it) NM_SIDE_FUNC(del);
+        nbool del(const T* it) BY_SIDE_FUNC(del);
         virtual nbool del(const iter& it) = 0;
         virtual nbool del(const iter& from, const iter& end) = 0;
         nbool del(const me& rhs);
-        nbool del(const me* rhs) NM_SIDE_FUNC(rhs, del(*rhs), false);
+        nbool del(const me* rhs) BY_SIDE_FUNC(rhs, del(*rhs), false);
 
         // etc:
         virtual void rel() = 0;

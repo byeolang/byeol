@@ -11,7 +11,7 @@
 
 namespace by {
 
-    NM_DEF_ME(thread)
+    BY_DEF_ME(thread)
 
     namespace {
         class dumFrame: public frame {
@@ -115,7 +115,7 @@ namespace by {
 
     void me::set(thread* new1) {
         _instance = new1 ? new1 : &_getDumThread();
-        NM_DI("thread::set(%s -> %s)", get(), _instance);
+        BY_DI("thread::set(%s -> %s)", get(), _instance);
     }
 
     void me::set(thread& new1) { set(&new1); }
@@ -152,13 +152,13 @@ namespace by {
 
     tstr<nmap> me::_initSlots() const {
         tstr<nmap> ret;
-        NM_I("initiates loading system slots.");
+        BY_I("initiates loading system slots.");
         ret.bind(new nmap());
         errReport report;
         slotLoader()
             .setReport(report)
             .setBaseSlots(*ret)
-#ifdef NM_BUILD_PLATFORM_IS_LINUX
+#ifdef BY_BUILD_PLATFORM_IS_LINUX
             .addPath("/usr/share/pack/")
 #endif
             .addPath("pack/")
@@ -166,13 +166,13 @@ namespace by {
 
         _loadBuiltIns(*ret);
 
-        NM_I("%d system slots has been loaded.", ret->len());
+        BY_I("%d system slots has been loaded.", ret->len());
 
-#if NM_IS_DBG
-        NM_I("next following is list for them.");
+#if BY_IS_DBG
+        BY_I("next following is list for them.");
         for(const auto& s: *ret) {
             const manifest& mani = s TO(template cast<slot>()) TO(getManifest()) OR_CONTINUE;
-            NM_DI(" - %s v%s", mani.name, mani.version);
+            BY_DI(" - %s v%s", mani.name, mani.version);
         }
 #endif
         return ret;

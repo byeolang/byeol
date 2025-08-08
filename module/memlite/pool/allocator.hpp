@@ -5,8 +5,8 @@
 namespace by {
 
     class _nout allocator: public memoryHaver {
-        NM_ME(allocator)
-        NM_INIT_META(me)
+        BY_ME(allocator)
+        BY_INIT_META(me)
 
     public:
         //  allocator:

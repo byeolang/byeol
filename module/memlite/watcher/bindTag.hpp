@@ -8,8 +8,8 @@ namespace by {
     class chunk;
 
     class _nout bindTag: public typeProvidable, public tbindable<instance> {
-        NM_ME(bindTag)
-        NM_INIT_META(me)
+        BY_ME(bindTag)
+        BY_INIT_META(me)
         template <typename T, typename TACTIC> friend class tweak;
         template <typename T, typename TACTIC> friend class tstr;
         friend class weakTactic;
@@ -24,8 +24,8 @@ namespace by {
     public:
         instance* operator->();
         instance& operator*();
-        const instance* operator->() const NM_CONST_FUNC(operator->())
-        const instance& operator*() const NM_CONST_FUNC(operator*())
+        const instance* operator->() const BY_CONST_FUNC(operator->())
+        const instance& operator*() const BY_CONST_FUNC(operator*())
 
     public:
         const chunk* getChunk() const;
@@ -36,10 +36,10 @@ namespace by {
         const type& getBindable() const;
 
         instance* get();
-        const instance* get() const NM_CONST_FUNC(get())
+        const instance* get() const BY_CONST_FUNC(get())
 
         template <typename E> E* get() { return get() TO(template cast<E>()); }
-        template <typename E> const E* get() const NM_CONST_FUNC(get<E>())
+        template <typename E> const E* get() const BY_CONST_FUNC(get<E>())
 
         using tbindable<instance>::canBind;
         nbool canBind(const type& cls) const override;

@@ -7,7 +7,7 @@
 
 namespace by {
 
-    NM_DEF_ME(slotLoader)
+    BY_DEF_ME(slotLoader)
 
     me::slotLoader(): _report(dummyErrReport::singleton) {}
 
@@ -49,7 +49,7 @@ namespace by {
             for(const type* sub: ttype<packLoading>::get().getLeafs()) {
                 packLoading* new1 = sub->makeAs<packLoading>();
                 if(nul(new1)) {
-                    NM_E("fail to make slotMaking named to %s", sub->getName());
+                    BY_E("fail to make slotMaking named to %s", sub->getName());
                     continue;
                 }
 
@@ -80,7 +80,7 @@ namespace by {
 
     me& me::addRelativePath(const std::string& path) {
         std::string cwd = fsystem::getCurrentDir() + fsystem::getDelimiter();
-        NM_I("finding slots relative to %s or absolute", cwd);
+        BY_I("finding slots relative to %s or absolute", cwd);
         return addPath(cwd + path);
     }
 
@@ -96,7 +96,7 @@ namespace by {
 
     void me::_makeSlots(nmap& tray) {
         for(const std::string& path: _paths) {
-            NM_I("try slot path: %s", path);
+            BY_I("try slot path: %s", path);
 
             auto e = fsystem::find(path);
             while(e.next())
@@ -106,7 +106,7 @@ namespace by {
 
     void me::_addNewSlot(nmap& tray, const std::string& dirPath, const std::string& manifestName) {
         std::string manifestPath = dirPath + fsystem::getDelimiter() + manifestName;
-        NM_I("manifest path: %s", manifestPath);
+        BY_I("manifest path: %s", manifestPath);
 
         manifest mani = _interpManifest(dirPath, manifestPath);
         WHEN(!mani.isValid()).err("invalid manifest[%s] found.", manifestPath.c_str()).ret();
@@ -115,7 +115,7 @@ namespace by {
         for(entrypoint& point: mani.points) {
             packLoading* newLoading = _makeLoading(point.lang);
             if(!newLoading) {
-                NM_W("%s language not supported for loading %s slot.", mani.points[0].lang,
+                BY_W("%s language not supported for loading %s slot.", mani.points[0].lang,
                     mani.name);
                 continue;
             }
@@ -134,18 +134,18 @@ namespace by {
     }
 
     void me::_logSlot(const slot& pak) const {
-        NM_I("new slot [%s] has been added.", pak.getManifest().name);
+        BY_I("new slot [%s] has been added.", pak.getManifest().name);
 
-#if NM_IS_DBG
+#if BY_IS_DBG
         const manifest& mani = pak.getManifest();
-        NM_DI("\t.filePath=%s", mani.filePath);
-        NM_DI("\t.author=%s", mani.author);
-        NM_DI("\t.ver=%s", mani.ver);
+        BY_DI("\t.filePath=%s", mani.filePath);
+        BY_DI("\t.author=%s", mani.author);
+        BY_DI("\t.ver=%s", mani.ver);
 
-        NM_DI("\t.entrypoints:");
+        BY_DI("\t.entrypoints:");
         for(const entrypoint& point: mani.points) {
-            NM_DI("\t\t.lang=%s", point.lang);
-            NM_DI("\t\t.paths=%s", point.paths[0]);
+            BY_DI("\t\t.lang=%s", point.lang);
+            BY_DI("\t\t.paths=%s", point.paths[0]);
         }
 #endif
     }
@@ -154,7 +154,7 @@ namespace by {
         for(const packLoading* e: _getLoadings())
             if(e->getName() == name) return (packLoading*) e->clone();
 
-        NM_E("can't find exact packLoading like %s", name);
+        BY_E("can't find exact packLoading like %s", name);
         return nullptr;
     }
 } // namespace by

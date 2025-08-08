@@ -30,7 +30,7 @@ namespace by {
         str run(const args& a) override;
 
         node& getOperand();
-        const node& getOperand() const NM_CONST_FUNC(getOperand())
+        const node& getOperand() const BY_CONST_FUNC(getOperand())
         str getEval() const override;
         symbol getSymbol() const;
         static const nchar* getSymbolName(symbol r);

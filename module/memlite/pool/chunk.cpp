@@ -2,7 +2,7 @@
 
 namespace by {
 
-    NM_DEF_ME(chunk, allocator)
+    BY_DEF_ME(chunk, allocator)
 
     me::chunk(ncnt blksize, ncnt sz): super(blksize), _head(0), _len(0), _sz(0), _heap(0) {
         _resize(sz);

@@ -187,7 +187,7 @@ namespace by {
     namespace {
 
         str _canNotCastEx(const node& from, const type& to) {
-            return NM_WHEN.exErr(CAST_NOT_AVAILABLE, from, to).ret(str());
+            return BY_WHEN.exErr(CAST_NOT_AVAILABLE, from, to).ret(str());
         }
 
         // define in unamed namespace in order to avoid symbol duplication.

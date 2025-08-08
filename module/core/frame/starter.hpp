@@ -22,9 +22,9 @@ namespace by {
 
     public:
         void setArgs(const args& a);
-        void setArgs(const args* it) NM_SIDE_FUNC(setArgs);
+        void setArgs(const args* it) BY_SIDE_FUNC(setArgs);
         args& getArgs();
-        const args& getArgs() const NM_CONST_FUNC(getArgs())
+        const args& getArgs() const BY_CONST_FUNC(getArgs())
 
     protected:
         str _onWork() override;
