@@ -1,7 +1,7 @@
 #include "leaf/ast/leaf.hpp"
 #include "leaf/ast/nulLeaf.hpp"
 
-namespace nm {
+namespace by {
 
     namespace {
         static nulLeaf inner;
@@ -82,4 +82,4 @@ namespace nm {
     nbool me::asBool() const { return false; }
 
     nbool me::isExist() const { return true; }
-} // namespace nm
+} // namespace by

@@ -3,7 +3,7 @@
 #include "core/builtin/err/nerr.hpp"
 #include "core/builtin/err/errReport.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(__WHEN_OBJECT__))
 

@@ -5,7 +5,7 @@
 #include "core/builtin/container/native/tnarr.inl"
 #include "core/builtin/container/tbicontainable.hpp"
 
-namespace nm {
+namespace by {
 
 #define TEMPL template <typename K, typename V>
 #define ME tbicontainable<K, V>
@@ -182,4 +182,4 @@ namespace nm {
 
 #undef ME
 #undef TEMPL
-} // namespace nm
+} // namespace by

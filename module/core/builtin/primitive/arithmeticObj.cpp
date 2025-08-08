@@ -3,7 +3,7 @@
 #include "core/ast/node.inl"
 #include "core/builtin/primitive/nVoid.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(arithmeticObj)
 
@@ -38,4 +38,4 @@ namespace nm {
 
                 return tstr<me>(_mov(rhs));
             }
-} // namespace nm
+} // namespace by

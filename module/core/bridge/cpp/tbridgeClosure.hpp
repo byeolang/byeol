@@ -4,7 +4,7 @@
 #include "core/ast/baseFunc.hpp"
 #include "core/ast/params.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T, nbool isBaseObj> class tbridger;
 
@@ -128,4 +128,4 @@ namespace nm {
     private:
         std::function<void(T&, Args...)> _closure;
     };
-} // namespace nm
+} // namespace by

@@ -1,7 +1,7 @@
 #include "core/ast/node.hpp"
 #include "core/worker/tokenScanable.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(tokenScanable))
 

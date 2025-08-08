@@ -2,7 +2,7 @@
 
 #include "core/common/dep.hpp"
 
-namespace nm {
+namespace by {
 
     class errReport;
     class node;
@@ -99,4 +99,4 @@ namespace nm {
         void _addNewErr(errLv::level lv, int code, errReport* rpt, ...) const;
         void _addNewErr(errLv::level lv, const point& src, int code, errReport* rpt, ...) const;
     };
-} // namespace nm
+} // namespace by

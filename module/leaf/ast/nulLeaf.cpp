@@ -1,6 +1,6 @@
 #include "leaf/ast/nulLeaf.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(nulLeaf)
 
@@ -25,4 +25,4 @@ namespace nm {
         static me inner;
         return inner;
     }
-} // namespace nm
+} // namespace by

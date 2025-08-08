@@ -2,7 +2,7 @@
 
 #include "memlite/pool/chunks.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout pool: public memoryHaver {
         NM_ME(pool, memoryHaver)
@@ -35,4 +35,4 @@ namespace nm {
     private:
         std::vector<chunks*> _chunks;
     };
-} // namespace nm
+} // namespace by

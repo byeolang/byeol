@@ -2,7 +2,7 @@
 
 #include "core/worker/supply/srcSupply.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout fileSupply: public srcSupply {
         NM(CLASS(fileSupply, srcSupply))

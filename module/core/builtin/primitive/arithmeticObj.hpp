@@ -3,7 +3,7 @@
 #include "core/ast/baseObj.hpp"
 #include "core/ast/scope.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout arithmeticObj: public baseObj {
         NM(ADT(arithmeticObj, baseObj))
@@ -81,4 +81,4 @@ namespace nm {
 
         virtual me& _mov(const me& rhs) = 0;
     };
-} // namespace nm
+} // namespace by

@@ -7,7 +7,7 @@
 #include "core/ast/modifier/dumModifier.hpp"
 #include "core/ast/src/dumSrc.hpp"
 
-namespace nm {
+namespace by {
 
 
     NM(DEF_ME(node), DEF_VISIT())
@@ -86,4 +86,4 @@ namespace nm {
     const src& me::getSrc() const { return dumSrc::singleton(); }
 
     void me::_setSrc(const src& s) {}
-} // namespace nm
+} // namespace by

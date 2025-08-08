@@ -1,5 +1,5 @@
 #include "core/builtin/container/native/tndumArr.hpp"
 
-namespace nm {
+namespace by {
     template <> ndumArr ndumArr::singleton;
 }

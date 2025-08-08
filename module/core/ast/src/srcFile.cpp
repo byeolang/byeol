@@ -3,7 +3,7 @@
 #include "core/ast/dumScope.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(srcFile), DEF_VISIT())
 

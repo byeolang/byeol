@@ -4,7 +4,7 @@
 #include "indep/def.hpp"
 #include "indep/macro.hpp"
 
-namespace nm {
+namespace by {
     class _nout errLv {
         NM(ME(errLv))
 

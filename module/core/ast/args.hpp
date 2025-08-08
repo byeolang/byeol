@@ -3,7 +3,7 @@
 #include "core/builtin/container/native/tnarr.hpp"
 #include "core/ast/obj.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout args: public narr {
         NM(CLASS(args, narr))

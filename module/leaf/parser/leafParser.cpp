@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <cctype>
 
-namespace nm {
+namespace by {
 
     using std::string;
 
@@ -268,4 +268,4 @@ namespace nm {
             NM_I("leaf: ERR: %s", e);
         return nullptr;
     }
-} // namespace nm
+} // namespace by

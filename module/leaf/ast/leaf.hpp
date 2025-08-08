@@ -2,7 +2,7 @@
 
 #include "leaf/common.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout leaf: public instance {
         NM(ME(leaf, instance), CLONE(me), INIT_META(leaf))
@@ -66,4 +66,4 @@ namespace nm {
         myMap _subs;
         std::string _name;
     };
-} // namespace nm
+} // namespace by

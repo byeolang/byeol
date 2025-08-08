@@ -2,7 +2,7 @@
 
 #include "core/ast/expr.hpp"
 
-namespace nm {
+namespace by {
     class _nout isExpr: public expr {
         NM(CLASS(isExpr, expr, expr::exprType), VISIT())
 

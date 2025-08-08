@@ -4,7 +4,7 @@
 #include "core/type/ntype.hpp"
 #include "core/ast/immutableTactic.hpp"
 
-namespace nm {
+namespace by {
     class _nout param: public instance {
         NM(CLASS(param, instance))
 

@@ -15,7 +15,7 @@
 #include "core/worker/tokenDispatcher.hpp"
 #include "core/worker/worker.hpp"
 
-namespace nm {
+namespace by {
 
     class expr;
     class ctor;
@@ -295,4 +295,4 @@ namespace nm {
         std::vector<func*> _funcs;
         ncnt _strTemplateCnt;
     };
-} // namespace nm
+} // namespace by

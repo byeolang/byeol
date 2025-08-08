@@ -2,7 +2,7 @@
 
 #include "leaf.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout nulLeaf: public leaf {
         NM(ME(nulLeaf, leaf), CLONE(me), INIT_META(nulLeaf))

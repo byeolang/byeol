@@ -3,7 +3,7 @@
 #include "memlite/binder/tbindable.hpp"
 #include "memlite/interface/instance.hpp"
 
-namespace nm {
+namespace by {
 
     class chunk;
 
@@ -64,4 +64,4 @@ namespace nm {
         ncnt _strong;
         id _id;
     };
-} // namespace nm
+} // namespace by

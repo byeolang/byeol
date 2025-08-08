@@ -1,6 +1,6 @@
 #include "test/byeolSyntaxTest.hpp"
 
-using namespace nm;
+using namespace by;
 
 namespace {
     struct stmtChainTest: public byeolSyntaxTest {};

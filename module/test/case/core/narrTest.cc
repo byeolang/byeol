@@ -2,7 +2,7 @@
 
 #include "test/byeolTest.hpp"
 
-using namespace nm;
+using namespace by;
 using namespace std;
 
 struct narrTest: public byeolTest {};

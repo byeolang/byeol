@@ -5,7 +5,7 @@
 #include "core/builtin/container/native/tnchain.hpp"
 #include "core/loader/pack/packMakable.hpp"
 
-namespace nm {
+namespace by {
 
     class slot;
     struct manifest;

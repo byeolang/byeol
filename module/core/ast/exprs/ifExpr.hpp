@@ -3,7 +3,7 @@
 #include "core/ast/expr.hpp"
 #include "core/ast/exprs/blockExpr.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout ifExpr: public expr {
         NM(CLASS(ifExpr, expr, expr::exprType), VISIT())

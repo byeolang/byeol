@@ -1,7 +1,7 @@
 #include "leaf/parser/leafSmartDedent.hpp"
 #include "leaf/parser/bison/leafLowparser.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(leafSmartDedent)
 
@@ -35,4 +35,4 @@ namespace nm {
     }
 
     nbool me::isOn() const { return _cnt > OFF; }
-} // namespace nm
+} // namespace by

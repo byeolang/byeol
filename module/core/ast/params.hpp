@@ -4,7 +4,7 @@
 #include "core/builtin/container/native/tnarr.hpp"
 #include "core/ast/param.hpp"
 
-namespace nm {
+namespace by {
     typedef std::vector<std::string> strings;
 
     class _nout params: public tnarr<param> {
@@ -48,4 +48,4 @@ namespace nm {
         nbool add(nidx n, const param& new1) override { return true; }
         void add(const iter& here, const iter& from, const iter& to) override {}
     };
-} // namespace nm
+} // namespace by

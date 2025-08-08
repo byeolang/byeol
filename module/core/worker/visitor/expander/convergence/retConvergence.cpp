@@ -2,7 +2,7 @@
 #include "core/ast/baseFunc.hpp"
 #include "core/frame/thread.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(retConvergence))
 
     me::retConvergence(baseObj& obj, baseFunc& f, const node& org):

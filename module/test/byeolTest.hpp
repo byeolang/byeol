@@ -10,11 +10,11 @@ struct byeolTest: public ::testing::Test {
     void TearDown();
 
 protected:
-    nm::instance::vault& _getVault();
+    by::instance::vault& _getVault();
 
 private:
     void _assertVault();
 
 private:
-    nm::tstr<nm::thread> thr;
+    by::tstr<by::thread> thr;
 };

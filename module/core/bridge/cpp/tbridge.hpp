@@ -6,7 +6,7 @@
 #include "core/bridge/cpp/marshaling/tgenericMarshaling.hpp"
 #include "core/bridge/cpp/tbridgeFunc.hpp"
 
-namespace nm {
+namespace by {
 
     /// bridge object only can shares 'shared' sub nodes.
     /// @param T represents native class.
@@ -61,4 +61,4 @@ namespace nm {
         T* _real;
         nbool _ownReal = _real;
     };
-} // namespace nm
+} // namespace by

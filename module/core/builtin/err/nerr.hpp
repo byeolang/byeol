@@ -8,7 +8,7 @@
 #include "core/type/ntype.hpp"
 #include "core/builtin/err/errCode.hpp"
 
-namespace nm {
+namespace by {
 
     typedef std::unordered_map<nidx, std::string> msgMap;
 
@@ -75,4 +75,4 @@ namespace nm {
         void log() const override;
         const std::string& getMsg() const override;
     };
-} // namespace nm
+} // namespace by

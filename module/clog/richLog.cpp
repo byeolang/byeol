@@ -1,6 +1,6 @@
 #include "clog/richLog.hpp"
 
-namespace nm {
+namespace by {
 
     strWrap::strWrap(const std::string& rhs): data(rhs) {}
 
@@ -33,4 +33,4 @@ namespace nm {
     strWrap __convert__(const std::string& rhs) { return rhs; }
 
     strWrap __convert__(void* rhs) { return rhs ? platformAPI::toAddrId(rhs) : "null"; }
-} // namespace nm
+} // namespace by

@@ -1,6 +1,6 @@
 #include "clog/filter/filters.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(filters))
 
     me::~filters() { rel(); }
@@ -32,4 +32,4 @@ namespace nm {
             if(!f->filt(lv, tag)) return false;
         return true;
     }
-} // namespace nm
+} // namespace by

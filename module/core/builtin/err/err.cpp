@@ -1,7 +1,7 @@
 #include "core/builtin/err/err.hpp"
 #include "core/bridge/cpp/tbridger.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(err))
 
@@ -33,4 +33,4 @@ namespace nm {
         const baseObj& supers = super::getOrigin();
         return &supers == this ? org : supers;
     }
-} // namespace nm
+} // namespace by

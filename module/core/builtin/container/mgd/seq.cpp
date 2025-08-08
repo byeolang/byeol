@@ -4,7 +4,7 @@
 #include "core/bridge/cpp.hpp"
 #include "core/worker/visitor/visitInfo.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(seq), DEF_VISIT())
 
@@ -143,4 +143,4 @@ namespace nm {
     nbool me::del(const iter& it) { return false; }
 
     nbool me::del(const iter& from, const iter& to) { return false; }
-} // namespace nm
+} // namespace by

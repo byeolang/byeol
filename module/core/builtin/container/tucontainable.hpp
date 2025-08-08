@@ -2,7 +2,7 @@
 
 #include "core/ast/param.hpp"
 
-namespace nm {
+namespace by {
 
     class node;
     template <typename T, typename R, typename RSquare> class tnucontainer;
@@ -111,4 +111,4 @@ namespace nm {
     };
 
     typedef tucontainable<node> ucontainable;
-} // namespace nm
+} // namespace by

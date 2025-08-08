@@ -2,7 +2,7 @@
 
 #include "frontend/flag/flag.hpp"
 
-namespace nm {
+namespace by {
 
     class logStructureFlag: public flag {
         NM(CLASS(logStructureFlag, flag))

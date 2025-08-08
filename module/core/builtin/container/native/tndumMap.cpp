@@ -1,5 +1,5 @@
 #include "core/builtin/container/native/tndumMap.hpp"
 
-namespace nm {
+namespace by {
     template <> ndumMap ndumMap::singleton;
 }

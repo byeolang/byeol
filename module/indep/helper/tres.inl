@@ -3,7 +3,7 @@
 #include "tmay.inl"
 #include "tres.hpp"
 
-namespace nm {
+namespace by {
 
 #define ME tres<T, R>
 #define TEMPLATE template <typename T, typename R>
@@ -37,4 +37,4 @@ namespace nm {
 
 #undef TEMPLATE
 #undef ME
-} // namespace nm
+} // namespace by

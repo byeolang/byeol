@@ -3,7 +3,7 @@
 #include <csignal>
 #include "core/builtin/err/nerr.hpp"
 
-namespace nm {
+namespace by {
 
     nbool sig::operator==(const me& rhs) const { return code == rhs.code; }
 
@@ -103,4 +103,4 @@ namespace nm {
             WHEN(e.code == code).ret(e.maker(code));
         return nullptr;
     }
-} // namespace nm
+} // namespace by

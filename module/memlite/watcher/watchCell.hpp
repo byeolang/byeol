@@ -2,7 +2,7 @@
 
 #include "memlite/watcher/bindTag.hpp"
 
-namespace nm {
+namespace by {
     /// @remark Immortality of WatchCell instance.
     ///         WatchCell is managed by Chunks and Chunks set used instances to some
     ///         index for chaining linked list. in order to hand over quickly to

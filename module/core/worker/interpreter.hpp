@@ -3,7 +3,7 @@
 #include "core/worker/visitor/verifier.hpp"
 #include "core/worker/parser.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout interpreter: public worker<tstr<slot>, slot> {
         typedef worker<tstr<slot>, slot> __super7;
@@ -45,4 +45,4 @@ namespace nm {
         parser _pser;
         nbool _isParsed;
     };
-} // namespace nm
+} // namespace by

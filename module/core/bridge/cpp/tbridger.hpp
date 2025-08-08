@@ -9,7 +9,7 @@
 #include "core/bridge/cpp/tbridgeFunc.hpp"
 #include "core/ast/src/dumSrcFile.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T, nbool isBaseObj = tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>
     class tbridger {
@@ -238,4 +238,4 @@ namespace nm {
     private:
         scope _subs;
     };
-} // namespace nm
+} // namespace by

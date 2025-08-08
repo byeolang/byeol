@@ -6,7 +6,7 @@
     #include <sstream>
     #include "core/worker/parser.hpp"
     #include "core/builtin.hpp"
-    using namespace nm;
+    using namespace by;
 
     #define YYLLOC_DEFAULT(Current, Rhs, N) \
         do { \
@@ -36,7 +36,7 @@
 
     typedef void* yyscan_t;
 
-    namespace nm {
+    namespace by {
         class node;
         class obj;
         class immutableTactic;
@@ -46,13 +46,13 @@
         typedef tnarr<node> narr;
     }
 
-    struct lloc : public nm::area {
+    struct lloc : public by::area {
         int colcnt;
         int strCol; // column position when it starts to parse string.
 
         void rel() {
             colcnt = 0;
-            nm::area::rel();
+            by::area::rel();
         }
     };
 }
@@ -60,14 +60,14 @@
 %code provides {
     extern int yylineno;
     extern char* yytext;
-    namespace nm {
+    namespace by {
         class parser;
     }
 
     extern "C" {
         int yylex(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner);
         void yyset_lineno(int linenumber, yyscan_t scanner);
-        nm::parser* yyget_extra(yyscan_t scanner);
+        by::parser* yyget_extra(yyscan_t scanner);
         char* yyget_text(yyscan_t scanner);
         void yyerror(YYLTYPE* loc, yyscan_t scanner, const char* msg);
     }
@@ -83,13 +83,13 @@
     std::string* asStr;
     bool asBool;
     float asFlt;
-    nm::node* asNode;
-    nm::obj* asObj;
-    nm::narr* asNarr;
-    nm::scope* asScope;
-    nm::defBlock* asDefBlock;
-    nm::args* asArgs;
-    nm::modifier* asModifier;
+    by::node* asNode;
+    by::obj* asObj;
+    by::narr* asNarr;
+    by::scope* asScope;
+    by::defBlock* asDefBlock;
+    by::args* asArgs;
+    by::modifier* asModifier;
 }
 
 %define api.pure

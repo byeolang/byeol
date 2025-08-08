@@ -2,7 +2,7 @@
 
 #include "core/ast/func.hpp"
 
-namespace nm {
+namespace by {
     class _nout ctor: public func {
         NM(ME(ctor, func), INIT_META(ctor), CLONE(ctor), VISIT())
         typedef ntype metaType;

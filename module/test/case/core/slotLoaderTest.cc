@@ -1,13 +1,13 @@
 #include "test/byeolTest.hpp"
 
-using namespace nm;
+using namespace by;
 using namespace std;
 
 struct slotLoaderTest: public byeolTest {};
 
 TEST_F(slotLoaderTest, testDefaultLoaderInit) {
     nmap& systemSlots =
-        (nmap&) nm::thread::get().getSlots(); // don't worry for casting. I know what I'm doing >_o
+        (nmap&) by::thread::get().getSlots(); // don't worry for casting. I know what I'm doing >_o
     ASSERT_FALSE(nul(systemSlots));
 
     slot& s =

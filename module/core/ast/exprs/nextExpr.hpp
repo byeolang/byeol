@@ -2,7 +2,7 @@
 
 #include "core/ast/exprs/retStateExpr.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout nextRet: public retState {
         NM(CLASS(nextRet, retState))

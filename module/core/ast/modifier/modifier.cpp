@@ -1,7 +1,7 @@
 #include "core/ast/node.hpp"
 #include "core/ast/modifier/modifier.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(modifier))
 
     me::modifier(): modifier(true, false) {}

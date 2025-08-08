@@ -1,6 +1,6 @@
 #include "indep/helper/cpIter.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(cpIter))
 
@@ -95,4 +95,4 @@ namespace nm {
         return 0;
     }
 
-} // namespace nm
+} // namespace by

@@ -2,7 +2,7 @@
 
 #include "clog/common.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout stream {
         NM_ME(stream)

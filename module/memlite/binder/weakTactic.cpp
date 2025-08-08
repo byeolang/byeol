@@ -2,7 +2,7 @@
 
 #include "memlite/binder/binder.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(weakTactic)
 

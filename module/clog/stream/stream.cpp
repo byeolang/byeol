@@ -1,6 +1,6 @@
 #include "clog/stream/stream.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(stream)
 
@@ -29,4 +29,4 @@ namespace nm {
         _isEnable = false;
         return false;
     }
-} // namespace nm
+} // namespace by

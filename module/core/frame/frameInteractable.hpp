@@ -2,7 +2,7 @@
 
 #include "core/common.hpp"
 
-namespace nm {
+namespace by {
 
     class node;
     template <typename K, typename V> class tbicontainable;

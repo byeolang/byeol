@@ -6,7 +6,7 @@
 #include "core/frame/frame.hpp"
 #include "core/worker/worker.inl"
 
-namespace nm {
+namespace by {
 
 #define _VISIT WHEN(alreadyVisited).ret(false)
 #define _LEAVE WHEN(alreadyVisited).ret()
@@ -253,4 +253,4 @@ namespace nm {
     string me::_encodeNewLine(const string& msg) const {
         return "\"" + regex_replace(msg, regex("\n"), "\\n") + "\"";
     }
-} // namespace nm
+} // namespace by

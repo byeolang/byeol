@@ -3,7 +3,7 @@
 #include "core/builtin/container/mgd/arr.hpp"
 #include "core/ast/expr.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout defArrayExpr: public expr {
         NM(CLASS(defArrayExpr, expr, expr::exprType), VISIT())

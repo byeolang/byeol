@@ -2,7 +2,7 @@
 
 #include "memlite/common.hpp"
 
-namespace nm {
+namespace by {
 
     struct _nout id {
         id(nint new_tagN, nint newChkN, nuint newSerial);

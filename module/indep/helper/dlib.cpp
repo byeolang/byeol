@@ -5,7 +5,7 @@
 #    include <dlfcn.h>
 #endif
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(dlib))
 
@@ -70,7 +70,7 @@ namespace nm {
     nbool me::isLoaded() const { return _handle; }
 
     void me::rel() {
-        if(nul(_handle)) return ::nm ::__indep_when__ ::get().ret();
+        if(nul(_handle)) return ::by ::__indep_when__ ::get().ret();
 #ifdef NM_BUILD_PLATFORM_IS_WINDOWS
         FreeLibrary(_handle);
 #else
@@ -94,4 +94,4 @@ namespace nm {
         rel();
         return tmayFunc<void*>(getErrMsg());
     }
-} // namespace nm
+} // namespace by

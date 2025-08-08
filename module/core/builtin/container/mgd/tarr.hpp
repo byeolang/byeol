@@ -2,7 +2,7 @@
 
 #include "core/builtin/container/mgd/arr.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T, typename defaultElemType = T> class tarr: public arr {
         NM(ME(tarr, arr), INIT_META(tarr), CLONE(tarr))

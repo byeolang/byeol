@@ -4,7 +4,7 @@
 #include "core/ast/param.hpp"
 #include "core/ast/scope.hpp"
 
-namespace nm {
+namespace by {
 
     class visitor;
 

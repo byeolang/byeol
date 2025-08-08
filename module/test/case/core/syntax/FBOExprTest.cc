@@ -1,6 +1,6 @@
 #include "test/byeolSyntaxTest.hpp"
 
-using namespace nm;
+using namespace by;
 using namespace std;
 
 namespace {
@@ -151,7 +151,7 @@ TEST_F(FBOExprTest, testStringAddSequence) {
     )SRC")
         .shouldVerified(true);
 
-    nm::str res = run();
+    by::str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(*res->cast<nint>(), 1);
 }
@@ -170,7 +170,7 @@ TEST_F(FBOExprTest, testStringAddBoolean) {
 
 
     NM_E("start run!");
-    nm::str res = run();
+    by::str res = run();
     ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
@@ -186,7 +186,7 @@ TEST_F(FBOExprTest, testStringAddBoolean2) {
         .shouldParsed(true);
     shouldVerified(true);
 
-    nm::str res = run();
+    by::str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(*res->cast<nint>(), 1);
 }

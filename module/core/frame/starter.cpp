@@ -10,7 +10,7 @@
 #include "core/worker/visitor/graphVisitor.hpp"
 #include "core/frame/threadUse.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(starter)
 
@@ -64,4 +64,4 @@ namespace nm {
         node& ret = pak.sub(MAIN) OR.err("couldn't find main().").ret(nullptr);
         return &ret;
     }
-} // namespace nm
+} // namespace by

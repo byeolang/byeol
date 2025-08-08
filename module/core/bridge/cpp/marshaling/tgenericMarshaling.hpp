@@ -4,7 +4,7 @@
 #include "core/ast/obj.hpp"
 #include "core/bridge/cpp/marshaling/tmarshaling.hpp"
 
-namespace nm {
+namespace by {
     template <typename T, nbool isNode = tifSub<T, node>::is>
     struct tgenericMarshaling: public tmarshaling<T, isNode> {};
 
@@ -63,4 +63,4 @@ namespace nm {
 
         static yes canMarshal();
     };
-} // namespace nm
+} // namespace by

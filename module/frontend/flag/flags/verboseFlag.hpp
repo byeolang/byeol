@@ -2,7 +2,7 @@
 
 #include "frontend/flag/flag.hpp"
 
-namespace nm {
+namespace by {
 
     class verboseFlag: public flag {
         NM(CLASS(verboseFlag, flag))

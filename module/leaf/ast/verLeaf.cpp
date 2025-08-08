@@ -1,6 +1,6 @@
 #include "leaf/ast/verLeaf.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(verLeaf))
 
@@ -76,4 +76,4 @@ namespace nm {
             *them[n] = std::stoi(token);
         }
     }
-} // namespace nm
+} // namespace by

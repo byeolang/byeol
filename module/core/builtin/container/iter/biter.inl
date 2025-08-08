@@ -4,7 +4,7 @@
 
 #include "core/ast/node.hpp"
 
-namespace nm {
+namespace by {
 
 #define TEMPL template <typename K, typename V>
 #define ME tbicontainable<K, V>::iter
@@ -146,4 +146,4 @@ namespace nm {
 
 #undef ME
 #undef TEMPL
-} // namespace nm
+} // namespace by

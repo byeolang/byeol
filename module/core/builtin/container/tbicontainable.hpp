@@ -2,7 +2,7 @@
 
 #include "core/ast/param.hpp"
 
-namespace nm {
+namespace by {
 
     class node;
     template <typename K, typename V> class tnbicontainer;
@@ -138,4 +138,4 @@ namespace nm {
     };
 
     typedef tbicontainable<std::string, node> bicontainable;
-} // namespace nm
+} // namespace by

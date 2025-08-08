@@ -2,7 +2,7 @@
 
 #include "core/ast/validable.hpp"
 
-namespace nm {
+namespace by {
 
     // TODO: entrypoints[== filePath] can be various. but not language.
     struct _nout entrypoint: public validable {
@@ -41,4 +41,4 @@ namespace nm {
     };
 
     typedef std::vector<manifest> manifests;
-} // namespace nm
+} // namespace by

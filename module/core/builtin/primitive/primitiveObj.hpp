@@ -7,7 +7,7 @@
 #include "core/type/as/tas.hpp"
 #include "core/builtin/primitive/arithmeticObj.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T> class primitiveObj: public arithmeticObj {
         NM(ADT(primitiveObj, arithmeticObj))
@@ -55,4 +55,4 @@ namespace nm {
     protected:
         nbool _onSame(const typeProvidable& rhs) const override { return true; }
     };
-} // namespace nm
+} // namespace by

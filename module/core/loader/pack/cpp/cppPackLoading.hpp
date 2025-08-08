@@ -4,7 +4,7 @@
 #include "core/ast/src/src.hpp"
 #include "core/loader/pack/trustPackLoading.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout cppPackLoading: public trustPackLoading {
         NM(CLASS(cppPackLoading, trustPackLoading))

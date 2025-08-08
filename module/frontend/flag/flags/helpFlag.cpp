@@ -2,7 +2,7 @@
 
 #include "frontend/cli.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(helpFlag))
 

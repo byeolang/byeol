@@ -2,7 +2,7 @@
 #include "core/ast/node.hpp"
 #include "core/ast/exprs/getExpr.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(util))
 
     typeAttr me::checkTypeAttr(const std::string& name) {

@@ -3,7 +3,7 @@
 #include "meta/common.hpp"
 #include "meta/type/ttype.hpp"
 
-namespace nm {
+namespace by {
     class _nout typeProvidable {
         NM_ME(typeProvidable)
 
@@ -41,4 +41,4 @@ namespace nm {
     protected:
         virtual nbool _onSame(const me& rhs) const;
     };
-} // namespace nm
+} // namespace by

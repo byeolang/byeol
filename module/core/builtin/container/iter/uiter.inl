@@ -4,7 +4,7 @@
 
 #include "core/ast/node.hpp"
 
-namespace nm {
+namespace by {
 
 #define TEMPL template <typename T, typename R, typename RSquare>
 #define ME tucontainable<T, R, RSquare>::iter
@@ -133,4 +133,4 @@ namespace nm {
 
 #undef ME
 #undef TEMPL
-} // namespace nm
+} // namespace by

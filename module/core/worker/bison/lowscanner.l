@@ -30,7 +30,7 @@ namespace {
     ============================================================================================  */
 
 %option reentrant bison-bridge bison-locations
-%option extra-type="nm::parser*"
+%option extra-type="by::parser*"
 %option yylineno
 %option nounistd
 %option noyywrap
@@ -264,9 +264,9 @@ false {
     |                                         EPILOGUE                                         |
     ============================================================================================  */
 int yylex(YYSTYPE* yylval_param, YYLTYPE* yylloc_param, yyscan_t yyscanner) {
-    nm::parser& ps = PS;
+    by::parser& ps = PS;
     if(!ps.isInit()) // init: tokenScanable
-        ps.setScan<nm::indentScan>();
+        ps.setScan<by::indentScan>();
 
     int tok;
     do

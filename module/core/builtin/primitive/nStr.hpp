@@ -3,7 +3,7 @@
 #include "core/builtin/container/tucontainable.hpp"
 #include "core/builtin/primitive/primitiveObj.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout nStr: public primitiveObj<std::string>, public tucontainable<nStr> {
         struct _nout nStrType: public ntype {
@@ -82,4 +82,4 @@ namespace nm {
 
         arithmeticObj& _mov(const arithmeticObj& rhs) override;
     };
-} // namespace nm
+} // namespace by

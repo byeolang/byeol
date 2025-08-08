@@ -2,7 +2,7 @@
 
 #include "clog/logger.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T> struct noWrap {
         noWrap(T rhs): data(rhs) {}
@@ -62,7 +62,7 @@ namespace nm {
     template <typename... Ts>
     void richLog(errLv::level lv, const std::string& filename, const nchar* func, nint line,
         const nchar* fmt, const Ts&... args) {
-        ::nm::logger::get().log(lv, filename, func, line, fmt,
+        ::by::logger::get().log(lv, filename, func, line, fmt,
             __convert__((const Ts&) args).unwrap()...);
     }
 
@@ -70,8 +70,8 @@ namespace nm {
     void dbgRichLog(errLv::level lv, const std::string& filename, const nchar* func, nint line,
         const nchar* fmt, const Ts&... args) {
     #ifdef NM_DEBUG
-        ::nm::logger::get().log(lv, filename, func, line, fmt,
+        ::by::logger::get().log(lv, filename, func, line, fmt,
             __convert__((const Ts&) args).unwrap()...);
     #endif
     }
-} // namespace nm
+} // namespace by

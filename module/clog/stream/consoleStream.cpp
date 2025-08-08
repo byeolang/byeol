@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(consoleStream)
 

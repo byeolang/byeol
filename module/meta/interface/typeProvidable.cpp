@@ -2,7 +2,7 @@
 
 #include "meta/type/ttype.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(typeProvidable)
 
@@ -28,4 +28,4 @@ namespace nm {
     }
 
     nbool me::_onSame(const me& rhs) const { return this == &rhs; }
-} // namespace nm
+} // namespace by

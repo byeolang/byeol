@@ -2,7 +2,7 @@
 
 #include "leaf/common.hpp"
 
-namespace nm {
+namespace by {
     struct _nout point {
         point& operator++();
 

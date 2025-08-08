@@ -2,7 +2,7 @@
 
 #include "leaf/ast/valLeaf.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout verLeaf: public valLeaf {
         NM_ME(verLeaf, valLeaf)
@@ -38,4 +38,4 @@ namespace nm {
         static constexpr nint VER_LEN = 3;
         static constexpr const nchar* DELIMITER = ".";
     };
-} // namespace nm
+} // namespace by

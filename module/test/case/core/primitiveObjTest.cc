@@ -1,6 +1,6 @@
 #include "test/byeolTest.hpp"
 
-using namespace nm;
+using namespace by;
 using namespace std;
 
 struct primitiveObjTest: public byeolTest {};

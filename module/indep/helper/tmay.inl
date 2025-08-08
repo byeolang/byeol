@@ -4,7 +4,7 @@
 #include "indep/helper/tmedium.inl"
 #include "indep/helper/typeTrait.hpp"
 
-namespace nm {
+namespace by {
 
 #define ME tmay<T>
 #define TEMPLATE template <typename T>
@@ -44,4 +44,4 @@ namespace nm {
 
 #undef TEMPLATE
 #undef ME
-} // namespace nm
+} // namespace by

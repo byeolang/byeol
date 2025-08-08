@@ -2,7 +2,7 @@
 
 #include "core/ast/exprs/defVarExpr.hpp"
 
-namespace nm {
+namespace by {
     class _nout defAssignExpr: public defVarExpr {
         NM(CLASS(defAssignExpr, defVarExpr, expr::exprType), VISIT())
 

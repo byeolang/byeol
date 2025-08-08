@@ -2,7 +2,7 @@
 
 #include "core/builtin/container/native/tnmap.hpp"
 
-namespace nm {
+namespace by {
 
     class node;
 
@@ -137,4 +137,4 @@ namespace nm {
 
     extern template class _nout tnchain<std::string, node, tnmap<std::string, node, strTactic>>;
     typedef tnchain<std::string, node, tnmap<std::string, node, strTactic>> nchain;
-} // namespace nm
+} // namespace by

@@ -25,7 +25,7 @@
 #include <sstream>
 #include <time.h>
 
-namespace nm {
+namespace by {
 
     namespace platformAPI {
         constexpr nint PATH_MAX_LEN = 256;
@@ -277,4 +277,4 @@ namespace nm {
 
         void crash(const std::string* it) NM_SIDE_FUNC(crash);
     } // namespace platformAPI
-} // namespace nm
+} // namespace by

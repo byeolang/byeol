@@ -6,7 +6,7 @@
 #include "core/worker/visitor/visitor.hpp"
 #include "core/ast/exprs/retStateExpr.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(ifExpr), DEF_VISIT())
 
@@ -58,4 +58,4 @@ namespace nm {
     void me::setElse(const blockExpr& newElse) { _else.bind(newElse); }
 
     void me::setCondition(const node& newCondition) { _expr.bind(newCondition); }
-} // namespace nm
+} // namespace by

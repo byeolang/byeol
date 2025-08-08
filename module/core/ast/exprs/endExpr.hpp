@@ -2,7 +2,7 @@
 
 #include "core/ast/exprs/blockExpr.hpp"
 
-namespace nm {
+namespace by {
     class _nout endExpr: public blockExpr {
         NM(CLASS(endExpr, blockExpr), VISIT())
 

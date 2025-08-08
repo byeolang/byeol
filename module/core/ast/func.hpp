@@ -7,7 +7,7 @@
 #include "core/ast/scope.hpp"
 #include "core/type/funcMgdType.hpp"
 
-namespace nm {
+namespace by {
 
     class visitor;
 
@@ -70,4 +70,4 @@ namespace nm {
         tstr<blockExpr> _blk;
         ends _ends;
     };
-} // namespace nm
+} // namespace by

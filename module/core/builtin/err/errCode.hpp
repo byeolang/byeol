@@ -2,7 +2,7 @@
 
 #include "core/common.hpp"
 
-namespace nm {
+namespace by {
 
     enum errCode {
         ERR_CODE_START = 0,

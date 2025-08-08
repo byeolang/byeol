@@ -1,6 +1,6 @@
 #include "leaf/ast/point.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(point))
 

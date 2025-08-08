@@ -3,7 +3,7 @@
 #include "core/bridge/cpp/tbridge.hpp"
 #include "core/bridge/cpp/tbridgeFunc.hpp"
 
-namespace nm {
+namespace by {
 
 #define TEMPL                                            \
     template <typename Ret, typename T, nbool isBaseObj, \
@@ -38,4 +38,4 @@ namespace nm {
 
 #undef TEMPL
 #undef ME
-} // namespace nm
+} // namespace by

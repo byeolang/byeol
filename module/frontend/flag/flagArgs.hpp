@@ -3,6 +3,6 @@
 #include <string>
 #include <vector>
 
-namespace nm {
+namespace by {
     typedef std::vector<std::string> flagArgs;
 }

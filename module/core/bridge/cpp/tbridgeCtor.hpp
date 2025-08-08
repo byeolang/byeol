@@ -5,7 +5,7 @@
 #include "core/bridge/cpp/marshaling/tmarshaling.hpp"
 #include "core/bridge/cpp/tbridgeFunc.hpp"
 
-namespace nm {
+namespace by {
     template <typename T, typename... Args>
     class tbridgeCtor
         : public tbridgeFunc<T, T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is,

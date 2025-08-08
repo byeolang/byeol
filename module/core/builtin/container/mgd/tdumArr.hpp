@@ -3,7 +3,7 @@
 #include "core/builtin/container/mgd/tarr.hpp"
 #include "core/ast/origin.hpp"
 
-namespace nm {
+namespace by {
     template <typename T, typename defaultElemType = T>
     class _nout tdumArr: public tarr<T, defaultElemType> {
         typedef tarr<T, defaultElemType> __super9;
@@ -34,4 +34,4 @@ namespace nm {
     };
 
     typedef tdumArr<node, mockObj> dumArr;
-} // namespace nm
+} // namespace by

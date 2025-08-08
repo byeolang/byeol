@@ -7,7 +7,7 @@
 #include "indep/helper/tmedium.inl"
 #include <optional>
 
-namespace nm {
+namespace by {
 
     /// this is a wrapper class for std::optional.
     /// improved `optional`'s func name and signature because they are somewhat inconsistent
@@ -117,4 +117,4 @@ namespace nm {
         return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
     }
 
-} // namespace nm
+} // namespace by

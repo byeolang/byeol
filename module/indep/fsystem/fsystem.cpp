@@ -2,7 +2,7 @@
 #include "indep/helper/typeTrait.hpp"
 #include "indep/macro/when.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(fsystem)
 
@@ -141,4 +141,4 @@ namespace nm {
         char buf[BUF_LEN] = {};
         return getcwd(buf, BUF_LEN);
     }
-} // namespace nm
+} // namespace by

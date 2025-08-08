@@ -1,7 +1,7 @@
 #include "memlite/pool/chunks.hpp"
 #include "memlite/interface/instance.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(chunks, allocator)
 
@@ -78,4 +78,4 @@ namespace nm {
 
         return _chunks[n];
     }
-} // namespace nm
+} // namespace by

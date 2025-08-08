@@ -2,7 +2,7 @@
 
 #include "core/ast/expr.hpp"
 
-namespace nm {
+namespace by {
 
     class visitor;
 
@@ -45,4 +45,4 @@ namespace nm {
         args _args;
         mutable str _subject;
     };
-} // namespace nm
+} // namespace by

@@ -1,6 +1,6 @@
 #include "test/common/dep.hpp"
 
-using namespace nm;
+using namespace by;
 using namespace std;
 
 struct verifierTest: public ::testing::Test {

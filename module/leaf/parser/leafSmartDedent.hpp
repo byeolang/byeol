@@ -2,7 +2,7 @@
 
 #include "leaf/common.hpp"
 
-namespace nm {
+namespace by {
     class _nout leafSmartDedent {
         NM(ME(leafSmartDedent))
 

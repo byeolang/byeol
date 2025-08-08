@@ -3,7 +3,7 @@
 #include "core/common.hpp"
 #include "core/type/ntype.hpp"
 
-namespace nm {
+namespace by {
 
     /// @remark arrayable has API treating index as its parameter.
     template <typename T, typename R = T*, typename RSquare = T&> class tarrayable {
@@ -38,4 +38,4 @@ namespace nm {
         /// @return true if element got deleted successfully.
         virtual nbool del(nidx n) = 0;
     };
-} // namespace nm
+} // namespace by

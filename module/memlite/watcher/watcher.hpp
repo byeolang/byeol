@@ -3,7 +3,7 @@
 #include "memlite/pool/chunk.hpp"
 #include "memlite/watcher/watchCell.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout watcher: public chunk {
         NM_ME(watcher, chunk)
@@ -36,4 +36,4 @@ namespace nm {
         id _genId(void* pt) const;
         nidx _getIdx(void* it) const;
     };
-} // namespace nm
+} // namespace by

@@ -4,7 +4,7 @@
 #include "memlite/binder/bindTacticable.hpp"
 #include "memlite/binder/tbindable.inl"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(binder)
 
@@ -70,4 +70,4 @@ namespace nm {
         WHEN(!isBind()).ret(nullptr);
         return get()->cast(to);
     }
-} // namespace nm
+} // namespace by

@@ -2,7 +2,7 @@
 
 #include "core/ast/expr.hpp"
 
-namespace nm {
+namespace by {
 
     class func;
     class defBlock;
@@ -58,4 +58,4 @@ namespace nm {
         tstr<srcFile> _file;
         point _pos;
     };
-} // namespace nm
+} // namespace by

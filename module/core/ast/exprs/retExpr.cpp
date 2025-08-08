@@ -6,7 +6,7 @@
 #include "core/builtin/err/nerr.hpp"
 #include "core/ast/closure.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(retExpr), DEF_VISIT())
 
@@ -81,4 +81,4 @@ namespace nm {
         //  @see 'verifier::onVisit(visitInfo, retExpr&)' for more info.
         return this;
     }
-} // namespace nm
+} // namespace by

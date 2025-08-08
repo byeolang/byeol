@@ -3,7 +3,7 @@
 #include "core/builtin/container/native/tnarr.hpp"
 #include "core/frame/frame.hpp"
 
-namespace nm {
+namespace by {
     class _nout frames: public tnarr<frame>, public dumpable {
         NM(CLASS(frames, tnarr<frame>))
 

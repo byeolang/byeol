@@ -9,7 +9,7 @@
 #include "core/ast/scope.hpp"
 #include "core/ast/tpriorities.inl"
 
-namespace nm {
+namespace by {
 
 #define ME node
 #define TEMPLATE template <typename T>
@@ -151,4 +151,4 @@ namespace nm {
 
 #undef TEMPLATE
 #undef ME
-} // namespace nm
+} // namespace by

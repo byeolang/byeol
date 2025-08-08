@@ -2,7 +2,7 @@
 
 #include "clog/stream/stream.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout consoleStream: public stream {
         NM_ME(consoleStream, stream)

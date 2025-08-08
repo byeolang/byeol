@@ -2,7 +2,7 @@
 
 #include "memlite/binder/weakTactic.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout strTactic: public weakTactic {
         NM_ME(strTactic, weakTactic)

@@ -2,7 +2,7 @@
 
 #include "leaf/ast/leaf.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout valLeaf: public leaf {
         NM(ME(valLeaf, leaf), CLONE(me), INIT_META(valLeaf))

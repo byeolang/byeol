@@ -4,7 +4,7 @@
 #include "core/frame/frame.hpp"
 #include "core/worker/worker.inl"
 
-namespace nm {
+namespace by {
 
     template class _nout worker<void, node>;
 
@@ -222,4 +222,4 @@ namespace nm {
         auto* cc = o.getCallComplete();
         if(cc) cc->accept(visitInfo("callComplete", &o, 0, 1, i.depth + 1), *this);
     }
-} // namespace nm
+} // namespace by

@@ -3,7 +3,7 @@
 #include "indep/common.hpp"
 #include "indep/def.hpp"
 
-namespace nm {
+namespace by {
     class _nout dumpable {
     public:
         virtual void dump() const = 0;

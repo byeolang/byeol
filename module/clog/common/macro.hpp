@@ -13,11 +13,11 @@
 //          NM_I("with format=%x string=%s", &format, format.c_str())
 #ifndef __EMSCRIPTEN__
 #    define NM_E(fmt, ...) \
-        ::nm::richLog(::nm::errLv::ERR, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
+        ::by::richLog(::by::errLv::ERR, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
 #    define NM_W(fmt, ...) \
-        ::nm::richLog(::nm::errLv::WARN, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
+        ::by::richLog(::by::errLv::WARN, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
 #    define NM_I(fmt, ...) \
-        ::nm::richLog(::nm::errLv::INFO, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
+        ::by::richLog(::by::errLv::INFO, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
 #else
 #    define NM_E(fmt, ...) void()
 #    define NM_W(fmt, ...) void()

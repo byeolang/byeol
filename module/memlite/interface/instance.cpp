@@ -5,7 +5,7 @@
 
 #include "memlite/interface/instancer.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(instance)
     me::vault instance::_vault;
@@ -63,4 +63,4 @@ namespace nm {
         _vaults.clear();
         return true;
     }
-} // namespace nm
+} // namespace by

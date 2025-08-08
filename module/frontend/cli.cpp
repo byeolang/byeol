@@ -1,7 +1,7 @@
 #include "frontend/cli.hpp"
-using namespace nm;
+using namespace by;
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(cli))
 
@@ -77,7 +77,7 @@ namespace nm {
 
         return inner;
     }
-} // namespace nm
+} // namespace by
 
 int main(int argc, char* argv[]) {
     cli ep;

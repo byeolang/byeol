@@ -8,7 +8,7 @@
 #include "core/builtin/primitive/nInt.hpp"
 #include "core/builtin/primitive/nStr.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(nBool), DEF_VISIT())
 
@@ -122,4 +122,4 @@ namespace nm {
         get() = rhs.asImpli<me>()->get();
         return *this;
     }
-} // namespace nm
+} // namespace by

@@ -4,7 +4,7 @@
 #include "core/builtin/err/errReport.hpp"
 #include "core/builtin/err/nerr.hpp"
 
-namespace nm {
+namespace by {
 
 #define myExErr_1(code) exErr(errCode::code, getReport())
 #define myExErr_2(me, code) exErr(me, errCode::code, getReport())
@@ -89,4 +89,4 @@ namespace nm {
         tstr<T> _task;
         nint _logFlag;
     };
-} // namespace nm
+} // namespace by

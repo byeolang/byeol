@@ -3,7 +3,7 @@
 #include "core/ast/tmock.hpp"
 #include "core/builtin/primitive.hpp"
 
-namespace nm {
+namespace by {
 
     struct marshalErr {};
     template <typename T> class tbridge;
@@ -276,4 +276,4 @@ namespace nm {
         static const mgd* onGetRet();
         static yes canMarshal();
     };
-} // namespace nm
+} // namespace by

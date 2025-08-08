@@ -2,7 +2,7 @@
 
 #include "core/common.hpp"
 
-namespace nm {
+namespace by {
 
     class node;
     template <typename T, typename TACTIC> class tnarr;
@@ -103,4 +103,4 @@ namespace nm {
     };
 
     typedef std::vector<const ntype*> ntypes;
-} // namespace nm
+} // namespace by

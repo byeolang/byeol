@@ -3,7 +3,7 @@
 #include "core/builtin/container/mgd/arr.hpp"
 #include "core/bridge/cpp/marshaling/tmarshaling.hpp"
 
-namespace nm {
+namespace by {
 
 #define TEMPL template <typename T, typename E>
 #define ME tmarshaling<tarr<T, E>, true>

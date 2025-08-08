@@ -3,7 +3,7 @@
 #include "core/type/as/tas.hpp"
 #include "core/builtin/container/native/tnarr.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout ases: public tnarr<aser>, public asable {
         NM(CLASS(ases, tnarr<aser>))

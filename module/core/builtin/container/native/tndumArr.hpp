@@ -2,7 +2,7 @@
 
 #include "core/builtin/container/native/tnarr.inl"
 
-namespace nm {
+namespace by {
 
     template <typename T, typename TACTIC = strTactic> class tndumArr: public tnarr<T, TACTIC> {
         typedef tnarr<T, TACTIC> _super_;

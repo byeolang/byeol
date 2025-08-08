@@ -2,7 +2,7 @@
 
 #include "core/ast/ctor/baseCtor.hpp"
 
-namespace nm {
+namespace by {
 
     class visitor;
 

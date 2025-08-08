@@ -4,7 +4,7 @@
 
 struct binderTest;
 
-namespace nm {
+namespace by {
 
     class bindTacticable;
     class bindTag;
@@ -175,4 +175,4 @@ namespace nm {
     template <typename T, typename F> auto operator->*(binder& t, F&& f) {
         return t ? f(*t) : typeTrait<std::decay_t<decltype(f(*t))>>::ret();
     }
-} // namespace nm
+} // namespace by

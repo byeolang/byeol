@@ -3,7 +3,7 @@
 #include "indep/common.hpp"
 #include "indep/macro.hpp"
 
-namespace nm {
+namespace by {
     /// iterator for codepoint of string.
     class _nout cpIter {
         NM(ME(cpIter))
@@ -54,4 +54,4 @@ namespace nm {
         const nchar* _end;
         nbool _isReversed;
     };
-} // namespace nm
+} // namespace by

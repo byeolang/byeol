@@ -2,7 +2,7 @@
 
 #include "core/ast/exprs/getExpr.hpp"
 
-namespace nm {
+namespace by {
 
     class visitor;
     class genericOrigin;

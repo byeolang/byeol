@@ -3,7 +3,7 @@
 #include "memlite/watcher/bindTag.hpp"
 #include "memlite/binder/binder.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(strTactic)
 

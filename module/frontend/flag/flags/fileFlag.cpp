@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-namespace nm {
+namespace by {
     NM_DEF_ME(fileFlag)
 
     const nchar* me::getName() const { return "<filePath>"; }

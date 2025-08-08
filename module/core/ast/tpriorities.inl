@@ -2,7 +2,7 @@
 
 #include "core/ast/tpriorities.hpp"
 
-namespace nm {
+namespace by {
 
 #define TEMPLATE template <typename T>
 #define ME tprior<T>
@@ -46,4 +46,4 @@ namespace nm {
 
 #undef ME
 #undef TEMPLATE
-} // namespace nm
+} // namespace by

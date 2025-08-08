@@ -3,7 +3,7 @@
 #include "memlite/pool/pool.hpp"
 #include "memlite/watcher/watcher.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout instancer {
         NM_ME(instancer)
@@ -37,4 +37,4 @@ namespace nm {
         pool _pool;
         watcher _watcher;
     };
-} // namespace nm
+} // namespace by

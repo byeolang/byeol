@@ -1,7 +1,7 @@
 #include "test/byeolTest.hpp"
 
 using namespace std;
-using namespace nm;
+using namespace by;
 
 struct watcherTest: public byeolTest {};
 

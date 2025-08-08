@@ -3,7 +3,7 @@
 #include "core/type/mgdType.hpp"
 #include "core/ast/obj.hpp"
 
-namespace nm {
+namespace by {
 
     /// origin class is represents user defined classes in managed codes.
     /// one important thing you must remember is, origin should be shadowed to 'obj' type.
@@ -75,4 +75,4 @@ namespace nm {
         str _callComplete;
         state _state;
     };
-} // namespace nm
+} // namespace by

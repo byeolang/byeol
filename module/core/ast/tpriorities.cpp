@@ -2,7 +2,7 @@
 
 #include "core/ast/node.hpp"
 
-namespace nm {
+namespace by {
     const _nout nchar* getPriorTypeName(priorType type) {
         switch(type) {
             case EXACT_MATCH: return "EXACT_MATCH";

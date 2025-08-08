@@ -4,7 +4,7 @@
 #include "core/frame/thread.hpp"
 #include "core/builtin/err/nerr.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(nseq))
 
@@ -62,4 +62,4 @@ namespace nm {
     }
 
     nbool me::in(nidx n) const { return len() > n && n >= 0; }
-} // namespace nm
+} // namespace by

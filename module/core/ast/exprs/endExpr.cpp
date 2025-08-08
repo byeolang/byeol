@@ -2,7 +2,7 @@
 #include "core/builtin/primitive/nVoid.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(endExpr), DEF_VISIT())
 
     me::endExpr(const blockExpr& blk): super(blk) {}

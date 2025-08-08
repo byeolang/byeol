@@ -2,7 +2,7 @@
 
 #include "core/frame/thread.hpp"
 
-namespace nm {
+namespace by {
     class _nout threadUse {
         NM(ME(threadUse))
 

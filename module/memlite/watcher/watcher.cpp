@@ -1,6 +1,6 @@
 #include "memlite/watcher/watcher.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(watcher, chunk)
 
@@ -58,4 +58,4 @@ namespace nm {
         nidx ret = ((nuchar*) it - _getHeap()) / getBlkSize();
         return ret;
     }
-} // namespace nm
+} // namespace by

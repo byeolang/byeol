@@ -3,7 +3,7 @@
 #include "core/frame/thread.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(breakExpr), DEF_VISIT())
 

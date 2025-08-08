@@ -7,7 +7,7 @@
 #include "core/builtin/primitive/nFlt.hpp"
 #include "core/builtin/primitive/nInt.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(nByte), DEF_VISIT())
 
@@ -116,4 +116,4 @@ namespace nm {
         get() = rhs.asImpli<me>()->get();
         return *this;
     }
-} // namespace nm
+} // namespace by

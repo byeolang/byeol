@@ -2,7 +2,7 @@
 
 #include "memlite/pool/memoryHaver.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout allocator: public memoryHaver {
         NM_ME(allocator)

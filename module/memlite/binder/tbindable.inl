@@ -2,7 +2,7 @@
 
 #include "memlite/binder/tbindable.hpp"
 
-namespace nm {
+namespace by {
 
 #define TEMPL template <typename T>
 #define ME tbindable<T>

@@ -3,7 +3,7 @@
 #include "core/type/as/aser.hpp"
 #include "core/type/ntype.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T> struct tas: public aser {
         NM(ADT(tas<T>, aser))

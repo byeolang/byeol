@@ -2,7 +2,7 @@
 
 #include "core/builtin/container/native/smultimap.hpp"
 
-namespace nm {
+namespace by {
 
 #define TEMPL template <typename K, typename V>
 #define ME smultimap<K, V>
@@ -226,4 +226,4 @@ namespace nm {
 
 #undef TEMPL
 #undef ME
-} // namespace nm
+} // namespace by

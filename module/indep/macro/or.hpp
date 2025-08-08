@@ -2,7 +2,7 @@
 
 #include "indep/macro/to.hpp"
 
-namespace nm {
+namespace by {
 
     /// OR macro:
     ///     overview:
@@ -137,4 +137,4 @@ namespace nm {
         inline static std::vector<nbool> _stack;
     };
 
-} // namespace nm
+} // namespace by

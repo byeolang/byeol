@@ -4,7 +4,7 @@
 #include "core/frame/sigZone.hpp"
 #include "core/frame/thread.hpp"
 
-namespace nm {
+namespace by {
     template <typename W> class defaultSigZone: public sigZone {
         NM(ME(defaultSigZone, sigZone))
 

@@ -6,7 +6,7 @@
 #include "core/worker/visitor/generalizer.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(arr), DEF_VISIT())
 
@@ -237,4 +237,4 @@ namespace nm {
 
         return inner;
     }
-} // namespace nm
+} // namespace by

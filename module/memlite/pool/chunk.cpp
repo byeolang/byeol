@@ -1,6 +1,6 @@
 #include "memlite/pool/chunk.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(chunk, allocator)
 
@@ -104,4 +104,4 @@ namespace nm {
         }
         return true;
     }
-} // namespace nm
+} // namespace by

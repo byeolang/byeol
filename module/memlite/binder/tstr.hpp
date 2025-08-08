@@ -3,7 +3,7 @@
 #include "memlite/binder/strTactic.hpp"
 #include "memlite/binder/tweak.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T, typename TACTIC = strTactic> class tstr: public tweak<T, TACTIC> {
         typedef tweak<T, TACTIC> _super_;

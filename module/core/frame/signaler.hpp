@@ -2,7 +2,7 @@
 
 #include "core/common.hpp"
 
-namespace nm {
+namespace by {
 
     struct nerr;
 
@@ -45,4 +45,4 @@ namespace nm {
     private:
         std::vector<sigHandler> _closures;
     };
-} // namespace nm
+} // namespace by

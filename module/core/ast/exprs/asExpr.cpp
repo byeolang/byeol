@@ -2,7 +2,7 @@
 
 #include "core/worker/visitor/visitor.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(asExpr), DEF_VISIT())
 
@@ -29,4 +29,4 @@ namespace nm {
         /*TODO: remove if(rhs._me)*/_me.bind((node*) rhs._me->cloneDeep());
         /*TODO: remove if(rhs._as)*/_as.bind((node*) rhs._as->cloneDeep());
     }
-} // namespace nm
+} // namespace by

@@ -4,7 +4,7 @@
 #include "core/type/ntype.hpp"
 #include "core/builtin/err/baseErr.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout errReport: public instance, public dumpable {
         NM(CLASS(errReport, instance))
@@ -68,4 +68,4 @@ namespace nm {
 
         static me singleton;
     };
-} // namespace nm
+} // namespace by

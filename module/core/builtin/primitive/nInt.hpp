@@ -2,7 +2,7 @@
 
 #include "core/builtin/primitive/nStr.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout nInt: public primitiveObj<nint> {
         class _nout wIntType: public ntype {
@@ -48,4 +48,4 @@ namespace nm {
 
         arithmeticObj& _mov(const arithmeticObj& rhs) override;
     };
-} // namespace nm
+} // namespace by

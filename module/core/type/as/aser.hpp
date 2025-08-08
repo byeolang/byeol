@@ -2,7 +2,7 @@
 
 #include "core/type/as/asable.hpp"
 
-namespace nm {
+namespace by {
     class _nout aser: public instance, public asable {
         NM(ME(aser, instance))
     };

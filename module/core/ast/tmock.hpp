@@ -3,7 +3,7 @@
 #include "core/ast/node.hpp"
 #include "core/ast/dumScope.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T> class _nout tmock: public T {
         NM(ME(tmock, T))
@@ -72,4 +72,4 @@ namespace nm {
     };
 
     typedef tmock<node> mockNode;
-} // namespace nm
+} // namespace by

@@ -1,7 +1,7 @@
 #include "test/byeolSyntaxTest.hpp"
 
 using namespace std;
-using namespace nm;
+using namespace by;
 
 namespace {
     struct stringTemplateTest: public byeolSyntaxTest {};

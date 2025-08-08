@@ -2,7 +2,7 @@
 
 #include "clog/common/dep.hpp"
 
-namespace nm {
+namespace by {
     class _nout filterable {
     public:
         virtual ~filterable() {}

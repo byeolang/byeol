@@ -1,5 +1,5 @@
 #include "core/builtin/container/native/tndumChain.hpp"
 
-namespace nm {
+namespace by {
     template <> ndumChain ndumChain::singleton;
 }

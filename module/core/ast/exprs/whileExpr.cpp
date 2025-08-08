@@ -4,7 +4,7 @@
 #include "core/frame/thread.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(whileExpr), DEF_VISIT())
 
@@ -36,4 +36,4 @@ namespace nm {
         NM_DI("whileExpr: loop");
         return new whileLoop(ret, *this);
     }
-} // namespace nm
+} // namespace by

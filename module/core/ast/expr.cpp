@@ -6,7 +6,7 @@
 #include "core/ast/baseFunc.hpp"
 #include "core/ast/dumScope.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(expr)
 
@@ -31,4 +31,4 @@ namespace nm {
     }
 
     void me::_setSrc(const src& newSrc) { _src.bind(newSrc); }
-} // namespace nm
+} // namespace by

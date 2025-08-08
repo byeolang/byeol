@@ -4,7 +4,7 @@
 #include "core/bridge/cpp/tbridge.hpp"
 #include "core/builtin/container/native/nseq.hpp"
 
-namespace nm {
+namespace by {
 
     typedef class _nout tbridge<nseq> __seqSuperClass;
 
@@ -78,4 +78,4 @@ namespace nm {
         nbool del(const iter& it) override;
         nbool del(const iter& from, const iter& to) override;
     };
-} // namespace nm
+} // namespace by

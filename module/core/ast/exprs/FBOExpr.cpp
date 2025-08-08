@@ -2,7 +2,7 @@
 #include "core/builtin/primitive.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(FBOExpr), DEF_VISIT())
 
@@ -88,4 +88,4 @@ namespace nm {
             default: return "";
         }
     }
-} // namespace nm
+} // namespace by

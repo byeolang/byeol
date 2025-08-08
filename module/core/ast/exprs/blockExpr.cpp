@@ -7,7 +7,7 @@
 #include "core/ast/exprs/retStateExpr.hpp"
 #include "core/builtin/err/nerr.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(blockExpr), DEF_VISIT())
 
@@ -31,14 +31,14 @@ namespace nm {
         NM_DI("%s._onInFrame() %d stmts. frames.len[%d]", *this, getStmts().len(),
             thread::get().getFrames().len());
 
-        frame& fr = nm::thread::get()._getNowFrame() OR.err("fr == null").ret();
+        frame& fr = by::thread::get()._getNowFrame() OR.err("fr == null").ret();
         fr.add(*new scope());
     }
 
     void me::outFrame() const {
         NM_DI("%s._onOutFrame() frames.len[%d]", *this, thread::get().getFrames().len());
 
-        frame& fr = nm::thread::get()._getNowFrame() OR.err("fr == null").ret();
+        frame& fr = by::thread::get()._getNowFrame() OR.err("fr == null").ret();
         fr.del();
     }
 
@@ -75,4 +75,4 @@ namespace nm {
     }
 
     void me::setEval(const node& newEval) { _eval.bind(newEval); }
-} // namespace nm
+} // namespace by

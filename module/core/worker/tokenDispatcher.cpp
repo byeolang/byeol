@@ -1,6 +1,6 @@
 #include "core/worker/tokenDispatcher.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(tokenDispatcher)
 

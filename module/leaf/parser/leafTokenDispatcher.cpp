@@ -1,6 +1,6 @@
 #include "leaf/parser/leafTokenDispatcher.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(leafTokenDispatcher)
 

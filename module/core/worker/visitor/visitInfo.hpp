@@ -2,7 +2,7 @@
 
 #include "core/common.hpp"
 
-namespace nm {
+namespace by {
     class _nout visitInfo {
         NM(ME(visitInfo))
 

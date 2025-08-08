@@ -6,7 +6,7 @@
 
 struct verifierTest;
 
-namespace nm {
+namespace by {
 
     class loopExpr;
     class thread;
@@ -71,4 +71,4 @@ namespace nm {
         std::vector<loopExpr*> _recentLoops;
         std::vector<baseObj*> _orgs;
     };
-} // namespace nm
+} // namespace by

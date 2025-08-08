@@ -7,7 +7,7 @@
 #include "core/frame/thread.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(forExpr), DEF_VISIT())
 
@@ -68,4 +68,4 @@ namespace nm {
         NM_DI("forExpr: loop %s in %s", getLocalName(), ased->getSrc());
         return new forLoop(ret, ased, iter, *this);
     }
-} // namespace nm
+} // namespace by

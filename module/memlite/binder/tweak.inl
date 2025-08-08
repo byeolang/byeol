@@ -4,7 +4,7 @@
 #include "memlite/binder/tweak.hpp"
 #include "memlite/binder/weakTactic.hpp"
 
-namespace nm {
+namespace by {
 
 #define TEMPL template <typename T, typename TACTIC>
 #define ME tweak<T, TACTIC>
@@ -53,4 +53,4 @@ namespace nm {
 #undef ME
 #undef TEMPL
 
-} // namespace nm
+} // namespace by

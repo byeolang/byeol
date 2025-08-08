@@ -2,7 +2,7 @@
 
 #include "core/worker/visitor/visitor.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(baseCtor), DEF_VISIT())
 

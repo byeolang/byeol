@@ -1,6 +1,6 @@
 #include "memlite/pool/memoryHaver.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(memoryHaver)
 

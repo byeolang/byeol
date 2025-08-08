@@ -2,7 +2,7 @@
 
 #include "memlite/common.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout clonable {
         NM_ME(clonable)

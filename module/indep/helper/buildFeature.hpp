@@ -3,7 +3,7 @@
 #include "indep/common.hpp"
 #include "indep/macro.hpp"
 
-namespace nm {
+namespace by {
     class _nout buildFeature {
         NM_ME(buildFeature)
 
@@ -74,4 +74,4 @@ namespace nm {
             static const std::string& getName();
         };
     };
-} // namespace nm
+} // namespace by

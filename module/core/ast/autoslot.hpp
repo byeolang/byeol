@@ -6,7 +6,7 @@
 #include "core/ast/scope.hpp"
 #include "core/ast/slot.hpp"
 
-namespace nm {
+namespace by {
 
     class visitor;
 
@@ -51,4 +51,4 @@ namespace nm {
         srcs _srcs;
         tstr<errReport> _rpt;
     };
-} // namespace nm
+} // namespace by

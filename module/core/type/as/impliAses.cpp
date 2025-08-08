@@ -2,7 +2,7 @@
 #include "core/ast/node.hpp"
 #include "core/builtin/container/native/tnarr.inl"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(impliAses))
 

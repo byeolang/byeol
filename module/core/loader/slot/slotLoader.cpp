@@ -5,7 +5,7 @@
 #include "core/builtin/err/errReport.hpp"
 #include "core/loader/pack/packLoading.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(slotLoader)
 
@@ -157,4 +157,4 @@ namespace nm {
         NM_E("can't find exact packLoading like %s", name);
         return nullptr;
     }
-} // namespace nm
+} // namespace by

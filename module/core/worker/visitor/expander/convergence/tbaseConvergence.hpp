@@ -5,7 +5,7 @@
 #include "core/frame/frameInteract.hpp"
 #include "core/worker/visitor/expander/convergence/baseConvergence.hpp"
 
-namespace nm {
+namespace by {
 
     template <typename T> struct ConvergenceClosure {
         typedef std::function<nbool(const T&)> is;
@@ -63,4 +63,4 @@ namespace nm {
         tstr<baseFunc> _func;
         onConverge _onConverge;
     };
-} // namespace nm
+} // namespace by

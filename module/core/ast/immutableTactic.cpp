@@ -2,7 +2,7 @@
 
 #include "core/ast/node.hpp"
 
-namespace nm {
+namespace by {
 
     NM_DEF_ME(immutableTactic)
 

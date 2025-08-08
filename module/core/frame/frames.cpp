@@ -3,7 +3,7 @@
 #include "core/ast/baseFunc.hpp"
 #include "core/frame/thread.hpp"
 
-namespace nm {
+namespace by {
     NM(DEF_ME(frames))
 
     void me::dump() const {

@@ -4,7 +4,7 @@
 #include "core/ast/manifest.hpp"
 #include "core/ast/origin.hpp"
 
-namespace nm {
+namespace by {
 
     class visitor;
 
@@ -59,4 +59,4 @@ namespace nm {
     typedef tnmap<std::string, slot> slots;
     typedef tnchain<std::string, slot> slotChain;
     typedef tnbicontainer<std::string, slot> slotContainer;
-} // namespace nm
+} // namespace by

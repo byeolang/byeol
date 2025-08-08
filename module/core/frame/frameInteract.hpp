@@ -2,7 +2,7 @@
 
 #include "core/frame/frameInteractable.hpp"
 
-namespace nm {
+namespace by {
 
     class frameInteract {
         NM(ME(frameInteract))

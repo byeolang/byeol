@@ -2,7 +2,7 @@
 
 #include "core/type/funcMgdType.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout typeMaker {
         NM(ME(typeMaker))

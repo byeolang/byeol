@@ -3,7 +3,7 @@
 #include "core/ast/params.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout generalizer: public visitor {
         NM(CLASS(generalizer, visitor))
@@ -39,4 +39,4 @@ namespace nm {
         mutable std::string _paramsKey;
         tstr<obj> _org;
     };
-} // namespace nm
+} // namespace by

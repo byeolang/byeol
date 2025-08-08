@@ -5,7 +5,7 @@
 #include "core/builtin/container/tarrayable.hpp"
 #include "core/builtin/container/native/tnucontainer.hpp"
 
-namespace nm {
+namespace by {
 
     class _nout nseq: public tnucontainer<nInt, nInt, nInt>, public tarrayable<nInt, nInt, nInt> {
         typedef tnucontainer<nInt, nInt, nInt> _super3;
@@ -67,4 +67,4 @@ namespace nm {
         nInt _end;
         nInt _step;
     };
-} // namespace nm
+} // namespace by

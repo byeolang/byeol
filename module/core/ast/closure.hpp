@@ -4,7 +4,7 @@
 #include "core/type/funcMgdType.hpp"
 #include "core/ast/baseFunc.hpp"
 
-namespace nm {
+namespace by {
 
     class getExpr;
     class func;
@@ -60,4 +60,4 @@ namespace nm {
         tstr<baseFunc> _func;
         funcMgdType _type;
     };
-} // namespace nm
+} // namespace by

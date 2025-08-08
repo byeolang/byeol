@@ -12,7 +12,7 @@
 #include "core/worker/visitor/verifier.hpp"
 #include "core/worker/visitor/expander/convergence.hpp"
 
-namespace nm {
+namespace by {
 
     NM(DEF_ME(expander))
 
@@ -273,4 +273,4 @@ namespace nm {
         e->second.me->subs().del(baseObj::EXPAND_NAME);
         _stack.erase(e);
     }
-} // namespace nm
+} // namespace by

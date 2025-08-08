@@ -5,7 +5,7 @@
 #include "indep/macro/declThis.hpp"
 #include "indep/macro/unconstFunc.hpp"
 
-namespace nm {
+namespace by {
 
     //  the medium class is only used in the OR macro:
     //      one of the characteristics of the OR macro is that the final return value can be received as a reference.

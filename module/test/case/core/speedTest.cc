@@ -4,7 +4,7 @@
 #include "test/common/dep.hpp"
 #include "test/byeolSyntaxTest.hpp"
 
-using namespace nm;
+using namespace by;
 using namespace std;
 
 struct speedTest: byeolSyntaxTest {};

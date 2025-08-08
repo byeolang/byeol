@@ -2,7 +2,7 @@
 
 #include "memlite/common.hpp"
 
-namespace nm {
+namespace by {
 
     class instance;
 
