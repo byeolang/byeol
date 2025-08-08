@@ -1,4 +1,4 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 namespace {
     struct noSuper {
@@ -17,7 +17,7 @@ namespace {
 
 using namespace nm;
 
-struct rttiTest: public namuTest {};
+struct rttiTest: public byeolTest {};
 
 TEST_F(rttiTest, metaTypeDefTest) {
     ASSERT_FALSE(tifHasSuperTypedef<noSuper>::is);

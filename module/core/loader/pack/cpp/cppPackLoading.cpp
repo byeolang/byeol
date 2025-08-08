@@ -4,7 +4,7 @@ namespace nm {
 
     NM_DEF_ME(cppPackLoading)
 
-    static constexpr const nchar* ENTRYPOINT_NAME = "namu_bridge_cpp_entrypoint";
+    static constexpr const nchar* ENTRYPOINT_NAME = "byeol_bridge_cpp_entrypoint";
     static srcs dummySrcs;
 
     tstr<srcs> me::parse(errReport& rpt, bicontainable& tray) {

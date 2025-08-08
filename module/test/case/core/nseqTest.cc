@@ -1,9 +1,9 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct nseqTest: public namuTest {};
+struct nseqTest: public byeolTest {};
 
 TEST_F(nseqTest, simpleIterator) {
     nseq s(nInt(1), nInt(4));

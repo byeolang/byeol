@@ -1,9 +1,9 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace std;
 using namespace nm;
 
-struct watcherTest: public namuTest {};
+struct watcherTest: public byeolTest {};
 
 namespace {
     struct A: public instance {

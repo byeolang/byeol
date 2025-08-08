@@ -34,7 +34,7 @@ namespace nm {
         for(aser& e: *this)
             if(e.is(fromType, to)) return e.as(from, to);
 
-        // there is no null in namulang:
+        // there is no null in byeolang:
         //  returns void if no valid casting found.
         return str(nVoid::singleton());
     }

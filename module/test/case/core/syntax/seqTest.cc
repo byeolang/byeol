@@ -1,9 +1,9 @@
-#include "test/namuSyntaxTest.hpp"
+#include "test/byeolSyntaxTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct seqTest: public namuSyntaxTest {};
+struct seqTest: public byeolSyntaxTest {};
 
 TEST_F(seqTest, basicBehaviour) {
     nseq s(1, 10);

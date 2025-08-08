@@ -1,4 +1,4 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 
@@ -19,17 +19,17 @@ namespace {
     };
 }
 
-struct frameTest: public namuTest {
+struct frameTest: public byeolTest {
     frames& getFrames() { return (frames&) thread::get().getFrames(); }
 
     void SetUp() override {
-        namuTest::SetUp();
+        byeolTest::SetUp();
         getFrames().add(new frame());
     }
 
     void TearDown() override {
         getFrames().rel();
-        namuTest::TearDown();
+        byeolTest::TearDown();
     }
 
     scope& getScopeStack(frame& fr) { return fr.subs(); }

@@ -2,12 +2,12 @@
 #include <cstdint>
 
 #include "test/common/dep.hpp"
-#include "test/namuSyntaxTest.hpp"
+#include "test/byeolSyntaxTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct speedTest: namuSyntaxTest {};
+struct speedTest: byeolSyntaxTest {};
 
 namespace {
     void benchMark(string name, int cnt, function<void(void)> func) {

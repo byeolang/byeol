@@ -63,7 +63,7 @@ The system follows a **Layered Architecture** pattern with clear separation of c
 
 7. **Frontend Layers**
    * **sys** - Default bundle pack included with `byeol`
-   * **namu** - Command Line Interface frontend
+   * **byeol** - Command Line Interface frontend
 
 8. **test** - Test suite layer
    * Contains comprehensive test cases for all above layers
@@ -82,7 +82,7 @@ The system follows a **Layered Architecture** pattern with clear separation of c
 │   ├── leaf/       # Configuration parsing
 │   ├── core/       # Core language implementation
 │   ├── sys/        # System bundle pack
-│   ├── namu/       # CLI frontend
+│   ├── byeol/       # CLI frontend
 │   └── test/       # Test cases
 ├── bin/            # Generated executables (auto-created)
 ├── external/       # External libraries (auto-generated)

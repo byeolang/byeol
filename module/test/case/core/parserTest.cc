@@ -1,8 +1,8 @@
-#include "test/namuSyntaxTest.hpp"
+#include "test/byeolSyntaxTest.hpp"
 
 using namespace nm;
 
-struct parserTest: public namuSyntaxTest {};
+struct parserTest: public byeolSyntaxTest {};
 
 TEST_F(parserTest, testHelloWorld) {
     parser p;

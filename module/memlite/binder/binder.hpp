@@ -28,13 +28,13 @@ namespace nm {
     ///         such as weakptr. because weakptr was planned to replace and enhance existing pointer
     ///         of c/c++, they were very strict to check type and whether template param T was const
     ///         or not. this characteristic was pretty worked good in most environment but not on
-    ///         usage of namu framework.
+    ///         usage of byeol framework.
     ///
     ///         why was it not proper to use as before?:
-    ///             namu is based on class node and make user not need to know what really was.
-    ///             all actions (including calling some func on namu env) can be replacable to
-    ///             sending msg using "use()". to say the least, what namu doing is loose-check. so,
-    ///             strict type-checking of existing smart pointers doesn't matched to what namu
+    ///             byeol is based on class node and make user not need to know what really was.
+    ///             all actions (including calling some func on byeol env) can be replacable to
+    ///             sending msg using "use()". to say the least, what byeol doing is loose-check. so,
+    ///             strict type-checking of existing smart pointers doesn't matched to what byeol
     ///             framework willing to do.
     ///
     ///     design:

@@ -6,13 +6,13 @@
 #include "indep/common/typedef.hpp"
 #include "indep/helper/typeTrait.hpp"
 #include "indep/macro/declThis.hpp"
-#include "indep/macro/namuMeta.hpp"
+#include "indep/macro/byeolMeta.hpp"
 #include "indep/helper/tmay.hpp"
 
 namespace nm {
 
     // `WHEN` macro:
-    //  in `namu`, we actively apply the early-return pattern.
+    //  in `byeol`, we actively apply the early-return pattern.
     //  this helps to reduce the depth, make the code clean, and handle exceptional situations
     //  immediately.
     //  in the case of general C++ code that applies the early pattern, you will use `if` as
@@ -50,7 +50,7 @@ namespace nm {
     //
     //   the problem is that, as can be seen in the code above, if is used so commonly that it is
     //   difficult to immediately know whether a normal branch is made for logic or an ealry return
-    //   is made to prune in advance with exception handling. that's why in namu, `WHEN` is used for
+    //   is made to prune in advance with exception handling. that's why in byeol, `WHEN` is used for
     //   almost all ealry return exception handling.
     //
     //   the output is very intuitive.
@@ -81,7 +81,7 @@ namespace nm {
     //  handling condition is satisfied can be handled based on the class.
 
     // __WHEN_OBJECT__?:
-    //  since namu is structured as a multi-layered architecture, if the layer is low-level, it
+    //  since byeol is structured as a multi-layered architecture, if the layer is low-level, it
     //  simply outputs the log to the screen, but in high-level layers, it requires more complex
     //  processing, such as creating an exception as an object and including stacktrace information
     //  to record it.

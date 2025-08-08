@@ -1,8 +1,8 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 
-struct ttypeTest: public namuTest {};
+struct ttypeTest: public byeolTest {};
 
 namespace {
     struct B {

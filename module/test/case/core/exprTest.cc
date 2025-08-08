@@ -1,4 +1,4 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 using namespace std;
@@ -13,7 +13,7 @@ namespace {
     };
 }
 
-struct exprTest: public namuTest {
+struct exprTest: public byeolTest {
     void SetUp() override;
     void TearDown() override;
 
@@ -25,7 +25,7 @@ struct exprTest: public namuTest {
 };
 
 void exprTest::SetUp() {
-    namuTest::SetUp();
+    byeolTest::SetUp();
 
     static nbool isFirst = true;
     if(isFirst) {
@@ -36,7 +36,7 @@ void exprTest::SetUp() {
 }
 
 void exprTest::TearDown() {
-    namuTest::TearDown();
+    byeolTest::TearDown();
 
     helloWorld::isRun = false;
 }

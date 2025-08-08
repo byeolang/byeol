@@ -6,7 +6,7 @@
 #include "macro/declThis.hpp"
 #include "macro/helper.hpp"
 #include "macro/initiator.hpp"
-#include "macro/namuMeta.hpp"
+#include "macro/byeolMeta.hpp"
 #include "macro/pair.hpp"
 #include "macro/pairx.hpp"
 #include "macro/to.hpp"

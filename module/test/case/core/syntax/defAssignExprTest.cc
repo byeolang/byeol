@@ -1,10 +1,10 @@
-#include "test/namuSyntaxTest.hpp"
+#include "test/byeolSyntaxTest.hpp"
 
 using namespace nm;
 using namespace std;
 
 namespace {
-    struct defAssignExprTest: public namuSyntaxTest {};
+    struct defAssignExprTest: public byeolSyntaxTest {};
 }
 
 TEST_F(defAssignExprTest, simpleGlobalDefAssign) {

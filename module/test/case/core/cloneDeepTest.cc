@@ -1,10 +1,10 @@
-#include "test/namuSyntaxTest.hpp"
+#include "test/byeolSyntaxTest.hpp"
 
 using namespace nm;
 using namespace std;
 
 namespace {
-    struct cloneDeepTest: public namuSyntaxTest {};
+    struct cloneDeepTest: public byeolSyntaxTest {};
 }
 
 TEST_F(cloneDeepTest, narrCloneDeep) {

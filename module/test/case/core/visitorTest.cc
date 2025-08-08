@@ -1,9 +1,9 @@
-#include "test/namuSyntaxTest.hpp"
+#include "test/byeolSyntaxTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct visitorTest: public namuSyntaxTest {};
+struct visitorTest: public byeolSyntaxTest {};
 
 TEST_F(visitorTest, iterateManuallyConstructedNodes) {
     obj o;

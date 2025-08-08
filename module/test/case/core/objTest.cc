@@ -1,9 +1,9 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct objTest: public namuTest {};
+struct objTest: public byeolTest {};
 
 namespace {
     class originObj: public obj {

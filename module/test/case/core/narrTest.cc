@@ -1,11 +1,11 @@
 #include <chrono>
 
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct narrTest: public namuTest {};
+struct narrTest: public byeolTest {};
 
 namespace {
     class myNode: public node {

@@ -1,9 +1,9 @@
-#include "test/namuSyntaxTest.hpp"
+#include "test/byeolSyntaxTest.hpp"
 
 using namespace nm;
 
 namespace {
-    struct stmtChainTest: public namuSyntaxTest {};
+    struct stmtChainTest: public byeolSyntaxTest {};
 }
 
 TEST_F(stmtChainTest, simpleChain) {

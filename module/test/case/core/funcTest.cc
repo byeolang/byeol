@@ -1,11 +1,11 @@
 #include <utility>
 
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct funcTest: public namuTest {};
+struct funcTest: public byeolTest {};
 
 namespace {
     class myfunc: public func {

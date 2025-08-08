@@ -1,10 +1,10 @@
-#include "test/namuSyntaxTest.hpp"
+#include "test/byeolSyntaxTest.hpp"
 
 using namespace nm;
 using namespace std;
 
 namespace {
-    struct defObjExprTest: public namuSyntaxTest {};
+    struct defObjExprTest: public byeolSyntaxTest {};
 }
 
 TEST_F(defObjExprTest, simpleDefineObject) {
@@ -332,7 +332,7 @@ TEST_F(defObjExprTest, frameNotCreatedWhenCallPackFunc) {
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 22);
-    // namu should return 22 in this scenario.
+    // byeol should return 22 in this scenario.
     // because `boo()` belongs to this `pack` obj.
     // so when `boo()` get called it should refer variable `age` belonged to `pack`.
 }

@@ -1,12 +1,12 @@
 #include <utility>
 
-#include "test/namuSyntaxTest.hpp"
+#include "test/byeolSyntaxTest.hpp"
 
 using namespace nm;
 using namespace std;
 
 namespace {
-    struct slotTest: public namuSyntaxTest {};
+    struct slotTest: public byeolSyntaxTest {};
 
     class myfunc: public func {
         NM(ME(myfunc, func), CLONE(myfunc))

@@ -2,7 +2,7 @@
 
 #include "meta/common/dep.hpp"
 
-// namuMeta macro's sub-commands:
+// byeolMeta macro's sub-commands:
 //  CLONE:
 //      defines normal clone func. it have to be defined if you
 //      just have declared non abstract class.
