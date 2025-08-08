@@ -1,6 +1,6 @@
-#include "namu/flag/flags/helpFlag.hpp"
+#include "frontend/flag/flags/helpFlag.hpp"
 
-#include "namu/cli.hpp"
+#include "frontend/cli.hpp"
 
 namespace nm {
 
@@ -20,7 +20,7 @@ namespace nm {
     }
 
     me::res helpFlag::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
-        std::cout << "Usage: namu <option> <filepath>\n";
+        std::cout << "Usage: frontend <option> <filepath>\n";
 
         const flags& opts = c.getFlags();
         for(int n = 0; n < opts.size(); n++) {
