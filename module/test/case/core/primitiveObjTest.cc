@@ -1,9 +1,9 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct primitiveObjTest: public namuTest {};
+struct primitiveObjTest: public byeolTest {};
 
 TEST_F(primitiveObjTest, testCloneWIntInMgd) {
     nInt origin(1);

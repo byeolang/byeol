@@ -4,7 +4,7 @@
 
 #include "test/common.hpp"
 
-struct namuTest: public ::testing::Test {
+struct byeolTest: public ::testing::Test {
     void SetUp();
 
     void TearDown();

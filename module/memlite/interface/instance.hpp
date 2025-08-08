@@ -5,7 +5,7 @@
 #include "memlite/interface/clonable.hpp"
 #include "memlite/interface/id.hpp"
 
-struct namuTest;
+struct byeolTest;
 
 namespace nm {
 
@@ -19,7 +19,7 @@ namespace nm {
         friend class watcher;     // for vault.
         friend class chunks;      // for vault.
         friend class instancer;   // for _id.
-        friend struct ::namuTest; // for vault.
+        friend struct ::byeolTest; // for vault.
 
     public:
         class vault {

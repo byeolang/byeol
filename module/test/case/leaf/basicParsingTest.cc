@@ -1,9 +1,9 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct basicParsing: public namuTest {};
+struct basicParsing: public byeolTest {};
 
 TEST_F(basicParsing, testScript) {
     const std::string script = R"SRC(

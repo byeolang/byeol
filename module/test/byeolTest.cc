@@ -1,6 +1,6 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
-typedef namuTest me;
+typedef byeolTest me;
 
 void me::SetUp() {
     _assertVault();

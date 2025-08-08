@@ -1,8 +1,8 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 
-struct threadTest: public namuTest {
+struct threadTest: public byeolTest {
     thread* thr = nullptr;
 
     void SetUp() override {

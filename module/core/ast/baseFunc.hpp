@@ -38,7 +38,7 @@ namespace nm {
         const params& getParams() const NM_CONST_FUNC(getParams())
 
         /// @return node which has same type of the func.
-        ///         in namu lang, even type is an object. that's why I return this as a node.
+        ///         in byeol lang, even type is an object. that's why I return this as a node.
         /// @remark please don't confuse this to evalType.
         ///         evaluate means program just read the code and expand or calculate then replace
         ///         it to the accurate another identifier or variable. so evalType of the func is

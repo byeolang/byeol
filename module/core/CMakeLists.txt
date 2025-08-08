@@ -14,20 +14,20 @@ add_definitions(${defines})
 find_package(BISON)
 find_package(FLEX)
 
-set(NAMU_PARSER_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/worker/bison)
-set(NAMU_BISON_COMPILE_FLAGS "-l --feature=diagnostics-show-caret --warnings --color")
-set(NAMU_FLEX_COMPILE_FLAGS "-L --header-file=${NAMU_PARSER_SRC_DIR}/lowscanner.hpp")
+set(BYEOL_PARSER_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/worker/bison)
+set(BYEOL_BISON_COMPILE_FLAGS "-l --feature=diagnostics-show-caret --warnings --color")
+set(BYEOL_FLEX_COMPILE_FLAGS "-L --header-file=${BYEOL_PARSER_SRC_DIR}/lowscanner.hpp")
 
 if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
-    set(NAMU_FLEX_COMPILE_FLAGS "${NAMU_FLEX_COMPILE_FLAGS} --debug")
-    set(NAMU_BISON_REPORT_FILENAME "bisonReport")
-    set(NAMU_BISON_COMPILE_FLAGS "${NAMU_BISON_COMPILE_FLAGS} --verbose --report=all --debug --graph=${NAMU_PARSER_SRC_DIR}/${NAMU_BISON_REPORT_FILENAME}.gv")
+    set(BYEOL_FLEX_COMPILE_FLAGS "${BYEOL_FLEX_COMPILE_FLAGS} --debug")
+    set(BYEOL_BISON_REPORT_FILENAME "bisonReport")
+    set(BYEOL_BISON_COMPILE_FLAGS "${BYEOL_BISON_COMPILE_FLAGS} --verbose --report=all --debug --graph=${BYEOL_PARSER_SRC_DIR}/${BYEOL_BISON_REPORT_FILENAME}.gv")
 endif (${CMAKE_BUILD_TYPE} STREQUAL Debug)
 
-message("\tbison ${NAMU_BISON_COMPILE_FLAGS}")
+message("\tbison ${BYEOL_BISON_COMPILE_FLAGS}")
 
-bison_target(lowparser ${NAMU_PARSER_SRC_DIR}/lowparser.y ${NAMU_PARSER_SRC_DIR}/lowparser.cpp COMPILE_FLAGS ${NAMU_BISON_COMPILE_FLAGS})
-flex_target(lowscanner ${NAMU_PARSER_SRC_DIR}/lowscanner.l ${NAMU_PARSER_SRC_DIR}/lowscanner.cpp COMPILE_FLAGS ${NAMU_FLEX_COMPILE_FLAGS})
+bison_target(lowparser ${BYEOL_PARSER_SRC_DIR}/lowparser.y ${BYEOL_PARSER_SRC_DIR}/lowparser.cpp COMPILE_FLAGS ${BYEOL_BISON_COMPILE_FLAGS})
+flex_target(lowscanner ${BYEOL_PARSER_SRC_DIR}/lowscanner.l ${BYEOL_PARSER_SRC_DIR}/lowscanner.cpp COMPILE_FLAGS ${BYEOL_FLEX_COMPILE_FLAGS})
 add_flex_bison_dependency(lowscanner lowparser)
 
 #  defines:

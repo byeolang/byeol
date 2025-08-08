@@ -1,10 +1,10 @@
-#include "test/namuSyntaxTest.hpp"
+#include "test/byeolSyntaxTest.hpp"
 
 using namespace nm;
 using namespace std;
 
 namespace {
-    struct genericsTest: public namuSyntaxTest {};
+    struct genericsTest: public byeolSyntaxTest {};
 }
 
 TEST_F(genericsTest, simpleDefineGenerics) {

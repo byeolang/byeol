@@ -5,7 +5,7 @@
 
 namespace nm {
 
-    /// srcFile represents src file of namulang source codes.
+    /// srcFile represents src file of byeolang source codes.
     class _nout srcFile: public node {
         NM(CLASS(srcFile, node), VISIT())
 

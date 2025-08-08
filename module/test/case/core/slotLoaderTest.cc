@@ -1,9 +1,9 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct slotLoaderTest: public namuTest {};
+struct slotLoaderTest: public byeolTest {};
 
 TEST_F(slotLoaderTest, testDefaultLoaderInit) {
     nmap& systemSlots =

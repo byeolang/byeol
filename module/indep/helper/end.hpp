@@ -7,7 +7,7 @@ namespace nm {
 
     //  end:
     //      end is like a 'defer' keyword in other languages.
-    //      in namulang, it registers what to be done when you go out of the current func.
+    //      in byeolang, it registers what to be done when you go out of the current func.
     //      in c++, but, it limited to scope, not a func.
     class _nout end {
         NM(ME(end))

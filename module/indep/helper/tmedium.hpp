@@ -1,7 +1,7 @@
 #pragma once
 
 #include "indep/common.hpp"
-#include "indep/macro/namuMeta.hpp"
+#include "indep/macro/byeolMeta.hpp"
 #include "indep/macro/declThis.hpp"
 #include "indep/macro/unconstFunc.hpp"
 

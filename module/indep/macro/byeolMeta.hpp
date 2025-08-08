@@ -3,8 +3,8 @@
 #include "indep/macro/forEach.hpp"
 #include "indep/macro/overload.hpp"
 
-// namu universal DECL macro:
-//  NM_DECL is generalized API used to describe the metadata of class in namu.
+// byeol universal DECL macro:
+//  NM_DECL is generalized API used to describe the metadata of class in byeol.
 //  NM_DECL can be used to define detailed metadata about a class by chaining sub-command sets.
 //  with NM macro, I can clarify that those INIT_META, VISIT are should be after of NM macro.
 //  and limit the scope of availbility.

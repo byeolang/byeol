@@ -1,8 +1,8 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 
-struct chunksTest: public namuTest {
+struct chunksTest: public byeolTest {
     void TearDown() override { _getVault().getVaults().clear(); }
 
     int getVaultsSize() { return _getVault().len(); }

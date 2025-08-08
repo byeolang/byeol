@@ -1,8 +1,8 @@
-#include "test/namuSyntaxTest.hpp"
+#include "test/byeolSyntaxTest.hpp"
 
 using namespace nm;
 
-struct starterTest: public namuSyntaxTest {};
+struct starterTest: public byeolSyntaxTest {};
 
 TEST_F(starterTest, simpleStarter) {
     make().parse(R"SRC(

@@ -116,7 +116,7 @@ namespace nm {
         //
         //  but please think about when genericOrigin comes to here.
         //  arr and seq uses genericOrigin, and it can't tbaseObjOrigin because it's beyond
-        //  over static area, it's dynamic. only namu language user can define the type 'T'
+        //  over static area, it's dynamic. only byeol language user can define the type 'T'
         //  in managed space.
         //
         //  So, eventually there is still a chance when baseFuncs instance should hold getExpr

@@ -1,9 +1,9 @@
-#include "test/namuSyntaxTest.hpp"
+#include "test/byeolSyntaxTest.hpp"
 
 using namespace nm;
 
 namespace {
-    struct patternMatchingTest: public namuSyntaxTest {};
+    struct patternMatchingTest: public byeolSyntaxTest {};
 }
 
 TEST_F(patternMatchingTest, simpleIn) {

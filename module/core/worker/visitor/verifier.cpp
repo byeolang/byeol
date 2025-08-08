@@ -100,7 +100,7 @@ namespace nm {
 
         // verify rvalue and lvalue:
         //  first of all:
-        //      in namulang there is no lvalue concept. to involve lvalue concept,
+        //      in byeolang there is no lvalue concept. to involve lvalue concept,
         //      I need to bring new concept or feature like 'const' but I don't want to.
         //      because the direction of this language is a toy lang. DON'T be serious.
         //      but I can't leave something which is going to operate like a lvalue by user.

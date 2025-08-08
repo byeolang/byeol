@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 
-set(moduleName "namu")
+set(moduleName "byeol")
 set(dependencies ${dependencies} core)
 IF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
     set(dependencies ${dependencies} dl) # dynamic linking lib of posix compatiables.
@@ -31,7 +31,7 @@ add_executable(${moduleName} ${sources})
 target_link_libraries(${moduleName} ${libraries})
 
 IF(EMSCRIPTEN)
-    set_target_properties(namu PROPERTIES SUFFIX ".js" LINK_FLAGS "-s WASM=1 -std=c++17")
+    set_target_properties(byeol PROPERTIES SUFFIX ".js" LINK_FLAGS "-s WASM=1 -std=c++17")
 ELSE(EMSCRIPTEN)
     install(TARGETS ${moduleName} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin PERMISSIONS
         OWNER_WRITE OWNER_READ OWNER_EXECUTE

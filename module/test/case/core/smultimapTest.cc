@@ -1,9 +1,9 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct smultimapTest: public namuTest {
+struct smultimapTest: public byeolTest {
     smultimap<std::string, str> scope;
 };
 

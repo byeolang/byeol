@@ -1,10 +1,10 @@
-#include "test/namuSyntaxTest.hpp"
+#include "test/byeolSyntaxTest.hpp"
 using namespace nm;
 
-typedef namuSyntaxTest me;
+typedef byeolSyntaxTest me;
 
 void me::TearDown() {
-    namuTest::TearDown();
+    byeolTest::TearDown();
     _src = "";
     _ip.rel();
 }
@@ -19,11 +19,11 @@ const nm::slot* me::getSlot() const { return _ip.getTask(); }
 
 nm::errReport& me::getReport() { return _rpt; }
 
-namuSyntaxTest& me::make(const std::string& name) { return make(nm::manifest(name)); }
+byeolSyntaxTest& me::make(const std::string& name) { return make(nm::manifest(name)); }
 
-namuSyntaxTest& me::make() { return make(nm::manifest()); }
+byeolSyntaxTest& me::make() { return make(nm::manifest()); }
 
-namuSyntaxTest& me::make(const nm::manifest& mani) {
+byeolSyntaxTest& me::make(const nm::manifest& mani) {
     _rel();
     nbool isVerbose = logger::get().isEnable();
     int flag = isVerbose ? interpreter::DEFAULT | interpreter::LOG_STRUCTURE | interpreter::GUARD |
@@ -33,22 +33,22 @@ namuSyntaxTest& me::make(const nm::manifest& mani) {
     return *this;
 }
 
-namuSyntaxTest& me::setFlag(nint newFlag) {
+byeolSyntaxTest& me::setFlag(nint newFlag) {
     _ip.setFlag(newFlag);
     return *this;
 }
 
-namuSyntaxTest& me::addFlag(nint flag) {
+byeolSyntaxTest& me::addFlag(nint flag) {
     _ip.addFlag(flag);
     return *this;
 }
 
-namuSyntaxTest& me::delFlag(nint flag) {
+byeolSyntaxTest& me::delFlag(nint flag) {
     _ip.delFlag(flag);
     return *this;
 }
 
-namuSyntaxTest& me::parse(const nm::nchar* src) {
+byeolSyntaxTest& me::parse(const nm::nchar* src) {
     using namespace nm;
 
     defaultSigZone<interpreter> zone(_ip);
@@ -56,7 +56,7 @@ namuSyntaxTest& me::parse(const nm::nchar* src) {
     return *this;
 }
 
-namuSyntaxTest& me::negative() {
+byeolSyntaxTest& me::negative() {
     typedef nm::interpreter ip;
     _rpt.setNoisy(false);
     _ip.setFlag(0);

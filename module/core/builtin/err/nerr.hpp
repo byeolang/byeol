@@ -4,7 +4,7 @@
 
 #include "core/builtin/err/baseErr.hpp"
 #include "core/builtin/container/native/tnbicontainer.hpp"
-#include "core/common/namuMetaExtension.hpp"
+#include "core/common/byeolMetaExtension.hpp"
 #include "core/type/ntype.hpp"
 #include "core/builtin/err/errCode.hpp"
 

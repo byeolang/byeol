@@ -1,9 +1,9 @@
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct nchainTest: public namuTest {};
+struct nchainTest: public byeolTest {};
 
 namespace {
     class myNode: public node {

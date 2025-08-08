@@ -1,6 +1,6 @@
 #pragma once
 
-#include "indep/macro/namuMeta.hpp"
+#include "indep/macro/byeolMeta.hpp"
 #include "indep/macro/declThis.hpp"
 #include "indep/macro/unconstFunc.hpp"
 #include "indep/helper/typeTrait.hpp"
@@ -11,15 +11,15 @@ namespace nm {
 
     /// this is a wrapper class for std::optional.
     /// improved `optional`'s func name and signature because they are somewhat inconsistent
-    /// from the perspective of namu and convention rules.
+    /// from the perspective of byeol and convention rules.
     /// as with std::optional, calling get() on an object that doesn't actually have a value
     /// will cause the app to crash.
     ///
-    /// in namu, there are two cases where data must be returned with an error.
+    /// in byeol, there are two cases where data must be returned with an error.
     ///     1. When returning by ref: use a binder such as tstr<T> or tweak<T>.
     ///     2. When returning by value: use tmay<T>.
     ///
-    /// for details, refer to the return type rules of namu.
+    /// for details, refer to the return type rules of byeol.
     template <typename T> class tmay: private std::optional<T> {
         NM(ME(tmay, std::optional<T>))
 

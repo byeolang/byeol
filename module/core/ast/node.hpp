@@ -139,7 +139,7 @@ namespace nm {
         virtual const src& getSrc() const;
 
         /// returns whether this instance is complete or not.
-        /// if some instance is incomplete, it means that it's not accessible on namulang source
+        /// if some instance is incomplete, it means that it's not accessible on byeolang source
         /// codes.
         virtual nbool isComplete() const;
 

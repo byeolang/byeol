@@ -1,6 +1,6 @@
 #include <utility>
 
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 
@@ -64,17 +64,17 @@ namespace {
     };
 } // namespace
 
-struct immutableTest: public namuTest {
+struct immutableTest: public byeolTest {
     frames& getFrames() { return (frames&) thread::get().getFrames(); }
 
     void SetUp() override {
-        namuTest::SetUp();
+        byeolTest::SetUp();
         getFrames().add(new frame());
     }
 
     void TearDown() override {
         thread::get().rel();
-        namuTest::TearDown();
+        byeolTest::TearDown();
     }
 };
 

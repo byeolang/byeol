@@ -1,11 +1,11 @@
 #include <chrono>
 
-#include "test/namuSyntaxTest.hpp"
+#include "test/byeolSyntaxTest.hpp"
 
 using namespace nm;
 using namespace std;
 
-struct arrTest: public namuSyntaxTest {
+struct arrTest: public byeolSyntaxTest {
     void SetUp() override { arr::_cache.clear(); }
 };
 

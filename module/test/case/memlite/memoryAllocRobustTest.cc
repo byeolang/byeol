@@ -1,10 +1,10 @@
 #include <ctime>
 
-#include "test/namuTest.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace nm;
 
-struct memoryAllocRobustTest: public namuTest {};
+struct memoryAllocRobustTest: public byeolTest {};
 
 namespace {
     struct A: public instance {
