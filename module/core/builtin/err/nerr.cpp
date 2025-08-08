@@ -8,7 +8,7 @@
 
 namespace by {
 
-    NM_DEF_ME(nerr)
+    BY_DEF_ME(nerr)
 
     namespace {}
 

@@ -2,7 +2,7 @@
 
 namespace by {
 
-    NM_DEF_ME(watcher, chunk)
+    BY_DEF_ME(watcher, chunk)
 
     me::watcher(): chunk(sizeof(watchCell), false) {}
 
@@ -49,7 +49,7 @@ namespace by {
         // watcher concern about bkl_n at Id. on the other hand, chunk is chkN.
         // eventually, if Instance was born from heap, first it take chkN from chunk when it borns.
         // and take tagN from watcher when user try to access its Block instance.
-        return id(_getIdx(pt), NM_INDEX_ERROR, ++serial);
+        return id(_getIdx(pt), BY_INDEX_ERROR, ++serial);
     }
 
     nidx me::_getIdx(void* it) const {

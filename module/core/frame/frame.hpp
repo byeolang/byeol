@@ -30,50 +30,50 @@ namespace by {
 
         /// @param existing don't need to cloneChain() before passing this func.
         void add(const scope& existing);
-        void add(const scope* it) NM_SIDE_FUNC(add);
+        void add(const scope* it) BY_SIDE_FUNC(add);
         void add(const nbicontainer& existing);
-        void add(const nbicontainer* it) NM_SIDE_FUNC(add);
+        void add(const nbicontainer* it) BY_SIDE_FUNC(add);
         void add(const node& owner);
-        void add(const node* it) NM_SIDE_FUNC(add);
+        void add(const node* it) BY_SIDE_FUNC(add);
         virtual void add(const node* owner, const scope& s);
-        void add(const node* owner, const scope* s) NM_SIDE_FUNC(s, add(owner, *s), void());
+        void add(const node* owner, const scope* s) BY_SIDE_FUNC(s, add(owner, *s), void());
 
         virtual void addLocal(const std::string& name, const node& n);
-        void addLocal(const std::string* name, const node& n) NM_SIDE_FUNC(name, addLocal(*name, n), void());
-        void addLocal(const std::string& name, const node* n) NM_SIDE_FUNC(n, addLocal(name, *n), void());
-        void addLocal(const std::string* name, const node* n) NM_SIDE_FUNC(name && n, addLocal(*name, *n), void());
-        void addLocal(const nchar* name, const node& n) NM_SIDE_FUNC(name, addLocal(std::string(name), n), void());
-        void addLocal(const nchar* name, const node* n) NM_SIDE_FUNC(name && n, addLocal(std::string(name), *n), void());
+        void addLocal(const std::string* name, const node& n) BY_SIDE_FUNC(name, addLocal(*name, n), void());
+        void addLocal(const std::string& name, const node* n) BY_SIDE_FUNC(n, addLocal(name, *n), void());
+        void addLocal(const std::string* name, const node* n) BY_SIDE_FUNC(name && n, addLocal(*name, *n), void());
+        void addLocal(const nchar* name, const node& n) BY_SIDE_FUNC(name, addLocal(std::string(name), n), void());
+        void addLocal(const nchar* name, const node* n) BY_SIDE_FUNC(name && n, addLocal(std::string(name), *n), void());
 
         virtual void del();
 
         virtual nbool setMe(const node& obj); // 'me' can be a mockNode during verification.
-        nbool setMe(const node* it) NM_SIDE_FUNC(setMe);
+        nbool setMe(const node* it) BY_SIDE_FUNC(setMe);
         void setMe();
 
-        const node* getMe() const NM_CONST_FUNC(getMe())
+        const node* getMe() const BY_CONST_FUNC(getMe())
         node* getMe();
 
         scope* getLocals();
-        const scope* getLocals() const NM_CONST_FUNC(getLocals())
+        const scope* getLocals() const BY_CONST_FUNC(getLocals())
 
         virtual nbool addFunc(const baseFunc& new1);
-        nbool addFunc(const baseFunc* it) NM_SIDE_FUNC(addFunc);
+        nbool addFunc(const baseFunc* it) BY_SIDE_FUNC(addFunc);
 
         void delFunc();
 
         baseFunc* getFunc();
-        const baseFunc* getFunc() const NM_CONST_FUNC(getFunc())
+        const baseFunc* getFunc() const BY_CONST_FUNC(getFunc())
 
         node* getMeHaving(const node& sub);
-        node* getMeHaving(const node* it) NM_SIDE_FUNC(getMeHaving);
-        const node* getMeHaving(const node& sub) const NM_CONST_FUNC(getMeHaving(sub))
-        const node* getMeHaving(const node* sub) const NM_CONST_FUNC(getMeHaving(sub))
+        node* getMeHaving(const node* it) BY_SIDE_FUNC(getMeHaving);
+        const node* getMeHaving(const node& sub) const BY_CONST_FUNC(getMeHaving(sub))
+        const node* getMeHaving(const node* sub) const BY_CONST_FUNC(getMeHaving(sub))
 
         scope* getScopeHaving(const node& sub);
-        scope* getScopeHaving(const node* it) NM_SIDE_FUNC(getScopeHaving);
-        const scope* getScopeHaving(const node& sub) const NM_CONST_FUNC(getScopeHaving(sub))
-        const scope* getScopeHaving(const node* sub) const NM_CONST_FUNC(getScopeHaving(sub))
+        scope* getScopeHaving(const node* it) BY_SIDE_FUNC(getScopeHaving);
+        const scope* getScopeHaving(const node& sub) const BY_CONST_FUNC(getScopeHaving(sub))
+        const scope* getScopeHaving(const node* sub) const BY_CONST_FUNC(getScopeHaving(sub))
 
         // node:
         using node::subs;
@@ -100,7 +100,7 @@ namespace by {
     private:
         void _rel();
         scopeRegister* _getTop();
-        const scopeRegister* _getTop() const NM_CONST_FUNC(_getTop())
+        const scopeRegister* _getTop() const BY_CONST_FUNC(_getTop())
 
         template <typename T>
         T* _getOwner(const node* toFind, std::function<T*(nbool, scopeRegister&)> cl);

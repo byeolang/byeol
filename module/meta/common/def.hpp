@@ -8,8 +8,8 @@ namespace by {
     typedef std::vector<type*> types;
 }
 
-#define NM_INIT_META(me) NM_INITIATOR(initMeta, { ::by::ttype<me>().init(); })
+#define BY_INIT_META(me) BY_INITIATOR(initMeta, { ::by::ttype<me>().init(); })
 
 // byeolMeta macro's sub-commands:
-//  INIT META: it redirects to NM_INIT_META macro.
-#define __NM__DECL_INIT_META(ME) NM_INIT_META(ME)
+//  INIT META: it redirects to BY_INIT_META macro.
+#define __BY__DECL_INIT_META(ME) BY_INIT_META(ME)

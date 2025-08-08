@@ -5,8 +5,8 @@
 namespace by {
 
     class _nout validable {
-        NM_ME(validable)
-        NM_INIT_META(me)
+        BY_ME(validable)
+        BY_INIT_META(me)
 
     public:
         virtual nbool isValid() const = 0;

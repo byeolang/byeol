@@ -79,7 +79,7 @@ TEST_F(visitorTest, visitComplexExpressions) {
         using visitor::onVisit;
 
         nbool onVisit(const visitInfo& i, getExpr& got, nbool) override {
-            NM_DI("subname=%s", got.getName());
+            BY_DI("subname=%s", got.getName());
             if(got.getName() == "o") metO++;
             return true;
         }

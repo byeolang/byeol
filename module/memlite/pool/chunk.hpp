@@ -5,8 +5,8 @@
 namespace by {
 
     class _nout chunk: public allocator {
-        NM_ME(chunk, allocator)
-        NM_INIT_META(me)
+        BY_ME(chunk, allocator)
+        BY_INIT_META(me)
         friend class watcher;
 
     public:
@@ -19,7 +19,7 @@ namespace by {
 
     public:
         void* operator[](nidx n);
-        const void* operator[](nidx n) const NM_CONST_FUNC(operator[](n));
+        const void* operator[](nidx n) const BY_CONST_FUNC(operator[](n));
 
     public:
         void* get(nidx n) { return _get(n); }
@@ -41,12 +41,12 @@ namespace by {
         ///         can return garbage if size is bigger than n.
         void* _get(nidx n) override;
         nuchar* _getHeap();
-        const nuchar* _getHeap() const NM_CONST_FUNC(_getHeap())
+        const nuchar* _getHeap() const BY_CONST_FUNC(_getHeap())
         nbool _resize(ncnt newSz);
 
     private:
         //  chunk:
-        const nuchar* _getEOB() const NM_CONST_FUNC(_getEOB())
+        const nuchar* _getEOB() const BY_CONST_FUNC(_getEOB())
         nuchar* _getEOB();
         nbool _index(nidx start);
         ncnt _getRealBlkSize();

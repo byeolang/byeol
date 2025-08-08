@@ -6,8 +6,8 @@
 namespace by {
 
     class _nout watcher: public chunk {
-        NM_ME(watcher, chunk)
-        NM_INIT_META(me)
+        BY_ME(watcher, chunk)
+        BY_INIT_META(me)
         friend class instancer;
         friend class bindTag;
 
@@ -17,15 +17,15 @@ namespace by {
 
     public:
         watchCell& operator[](nidx n);
-        const watchCell& operator[](nidx n) const NM_CONST_FUNC(operator[](n));
+        const watchCell& operator[](nidx n) const BY_CONST_FUNC(operator[](n));
         watchCell& operator[](id id);
-        const watchCell& operator[](id id) const NM_CONST_FUNC(operator[](id));
+        const watchCell& operator[](id id) const BY_CONST_FUNC(operator[](id));
 
     public:
         watchCell* get(nidx n);
         watchCell* get(id newId);
-        const watchCell* get(nidx n) const NM_CONST_FUNC(get(n))
-        const watchCell* get(id newId) const NM_CONST_FUNC(get(newId))
+        const watchCell* get(nidx n) const BY_CONST_FUNC(get(n))
+        const watchCell* get(id newId) const BY_CONST_FUNC(get(newId))
         //  Allocator:
         void* new1() override;
 

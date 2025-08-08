@@ -6,7 +6,7 @@ struct ttypeTest: public byeolTest {};
 
 namespace {
     struct B {
-        NM_INIT_META(B)
+        BY_INIT_META(B)
 
         B(nbool newValue): value(newValue) {}
 
@@ -14,16 +14,16 @@ namespace {
     };
 
     class myClass {
-        NM_INIT_META(myClass)
+        BY_INIT_META(myClass)
     };
 
     struct myDerivedClass: public myClass {
-        NM_INIT_META(myDerivedClass)
+        BY_INIT_META(myDerivedClass)
         typedef myClass super;
     };
 
     struct A {
-        NM_INIT_META(A)
+        BY_INIT_META(A)
 
         A() {}
 
@@ -31,12 +31,12 @@ namespace {
     };
 
     struct myDerivedClass2: public myClass {
-        NM_INIT_META(myDerivedClass2)
+        BY_INIT_META(myDerivedClass2)
         typedef myClass super;
     };
 
     struct myDerivedClass3: public myDerivedClass {
-        NM_INIT_META(myDerivedClass3)
+        BY_INIT_META(myDerivedClass3)
         typedef myDerivedClass super;
     };
 } // namespace

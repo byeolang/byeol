@@ -39,7 +39,7 @@ namespace by {
 
     tstr<baseObj> me::_deduceElems() const {
         ncnt len = _elems.len();
-        NM_DI("deduceElems: len[%d]", len);
+        BY_DI("deduceElems: len[%d]", len);
         WHEN(!len).info("len == 0. deduced type as 'void'").ret(nVoid::singleton());
 
         str retLife = _elems[0].getEval() OR.info("deduceElem: elem0 is null").ret(nVoid::singleton());
@@ -48,7 +48,7 @@ namespace by {
         for(int n = 1; n < len; n++) {
             ased = _elems[n].as<node>();
             ret = ret->deduce(*ased);
-            NM_DI("deduceElem: prevElem + elem%d[%s] --> %s", n, ased, ret);
+            BY_DI("deduceElem: prevElem + elem%d[%s] --> %s", n, ased, ret);
             WHEN_NUL(ret).info("deduceElem: elem%d was null.", n).ret(nVoid::singleton());
         }
 

@@ -30,7 +30,7 @@ namespace by {
         const node* getMe() const;
         const std::string& getName() const;
         void setName(const std::string& new1);
-        void setName(const std::string* it) NM_SIDE_FUNC(setName)
+        void setName(const std::string* it) BY_SIDE_FUNC(setName)
         void setMe(const node& newMe);
 
         /// @return nullable
@@ -41,7 +41,7 @@ namespace by {
 
     protected:
         virtual node* _onGet(node& me) const;
-        virtual node* _onGet(node* it) const NM_SIDE_FUNC(it, _onGet(*it), nullptr);
+        virtual node* _onGet(node* it) const BY_SIDE_FUNC(it, _onGet(*it), nullptr);
 
     private:
         str _get(nbool evalMode) const;

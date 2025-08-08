@@ -2,7 +2,7 @@
 
 #include "indep/common.hpp"
 #include "indep/macro.hpp"
-#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+#ifdef BY_BUILD_PLATFORM_IS_WINDOWS
 #    include <direct.h>
 #    include <io.h>
 #    define getcwd _getcwd
@@ -20,7 +20,7 @@ namespace by {
         NM(ME(fsystem))
 
         struct entry {
-#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+#ifdef BY_BUILD_PLATFORM_IS_WINDOWS
             _finddata_t file;
             intptr_t dir;
 #else

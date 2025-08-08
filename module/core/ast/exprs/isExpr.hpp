@@ -17,7 +17,7 @@ namespace by {
         const node& getMe() const;
         const node& getTo() const;
         void setTo(const node& new1);
-        void setTo(const node* it) NM_SIDE_FUNC(setTo);
+        void setTo(const node* it) BY_SIDE_FUNC(setTo);
 
     private:
         str _me;

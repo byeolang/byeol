@@ -3,7 +3,7 @@
 
 namespace by {
 
-    NM_DEF_ME(leafSmartDedent)
+    BY_DEF_ME(leafSmartDedent)
 
     me::leafSmartDedent(): _cnt(OFF), _isEnable(false) {}
 

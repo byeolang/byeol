@@ -27,7 +27,7 @@ namespace by {
                 this->super::push_back(elem());
             return this->super::operator[](n);
         }
-        const elem& operator[](nidx n) const NM_CONST_FUNC(tprioritiesBucket<T>, operator[](n))
+        const elem& operator[](nidx n) const BY_CONST_FUNC(tprioritiesBucket<T>, operator[](n))
 
     public:
         tpriorities<T> join() const {
@@ -72,18 +72,18 @@ namespace by {
 
     TEMPLATE
     T* ME::sub(const std::string& name) {
-#if NM_IS_DBG
+#if BY_IS_DBG
         ncnt n = 0;
 #endif
         return subs().get<T>([&](const std::string& key, const T& val) {
-            NM_DI("sub: [%d/%d] %s --> %s@%s", ++n, subs().len(), name, key, (void*) &val);
+            BY_DI("sub: [%d/%d] %s --> %s@%s", ++n, subs().len(), name, key, (void*) &val);
             return key == name;
         });
     }
 
     TEMPLATE
     T* ME::sub(const std::string& name, const args& a) {
-#if NM_IS_DBG
+#if BY_IS_DBG
         ncnt n = 0;
 #endif
         std::string argStr = a.toStr();
@@ -91,7 +91,7 @@ namespace by {
             priorType p = NO_MATCH;
             if(key == name) p = val.prioritize(a);
 
-            NM_DI("sub: [%d/%d] %s(%s) --> %s@%s = %s", ++n, subs().len(), name, argStr, key,
+            BY_DI("sub: [%d/%d] %s(%s) --> %s@%s = %s", ++n, subs().len(), name, argStr, key,
                 (void*) &val, getPriorTypeName(p));
             return p != NO_MATCH;
         });
@@ -114,7 +114,7 @@ namespace by {
         //  so if priorType of sub was same level, I need to keep the priorType of original
         //  container.
 
-#if NM_IS_DBG
+#if BY_IS_DBG
         ncnt n = 0;
         std::string myName = getType().createNameWithParams();
         std::string argStr = a ? "(" + a->toStr() + ")" : "";
@@ -132,7 +132,7 @@ namespace by {
 
                 const baseFunc* f = val.template cast<baseFunc>();
                 std::string valArgs = f ? "(" + f->getParams().toStr() + ")" : "";
-                NM_DI("subAll: [%d/%d] %s%s --> %s.%s%s@%s = priority(type=%s, lv=%d)", n++,
+                BY_DI("subAll: [%d/%d] %s%s --> %s.%s%s@%s = priority(type=%s, lv=%d)", n++,
                     subs().len(), name, argStr, myName, key, valArgs, (void*) &val,
                     getPriorTypeName(p), lv);
                 return true;

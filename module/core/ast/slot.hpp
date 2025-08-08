@@ -20,11 +20,11 @@ namespace by {
         const manifest& getManifest() const;
         nbool isValid() const;
         virtual obj& getPack();
-        const obj& getPack() const NM_CONST_FUNC(getPack())
+        const obj& getPack() const BY_CONST_FUNC(getPack())
         void rel() override;
 
         void addDependent(me& dependent);
-        void addDependent(me* it) NM_SIDE_FUNC(addDependent)
+        void addDependent(me* it) BY_SIDE_FUNC(addDependent)
 
         const tnarr<me>& getDependents() const;
 

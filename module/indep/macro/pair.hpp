@@ -11,12 +11,12 @@
 //                    passed 4 arguments, not 2.
 //
 //        Then, Use Funnel macro instead:
-//            My_2(NM_PAIR(MyMap<T, U>), NM_PAIR(template <typename T, typename U))
+//            My_2(BY_PAIR(MyMap<T, U>), BY_PAIR(template <typename T, typename U))
 #include "indep/macro/helper.hpp"
 #include "indep/macro/overload.hpp"
 
-#define NM_PAIR_1(x) x
-#define NM_PAIR_2(x, y) x, y
-#define NM_PAIR_3(x, y, z) NM_PAIR_2(x, y), z
-#define NM_PAIR_4(x, y, z, a) NM_PAIR_2(x, y), NM_PAIR_2(z, a)
-#define NM_PAIR(...) NM_OVERLOAD(NM_PAIR, __VA_ARGS__)
+#define BY_PAIR_1(x) x
+#define BY_PAIR_2(x, y) x, y
+#define BY_PAIR_3(x, y, z) BY_PAIR_2(x, y), z
+#define BY_PAIR_4(x, y, z, a) BY_PAIR_2(x, y), BY_PAIR_2(z, a)
+#define BY_PAIR(...) BY_OVERLOAD(BY_PAIR, __VA_ARGS__)

@@ -2,11 +2,11 @@
 
 #include "indep/helper/typeTrait.hpp"
 #include <cstdarg>
-#if NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
+#if BY_BUILD_PLATFORM == BY_TYPE_WINDOWS
 #    include <windows.h>
 
 #    include <sstream>
-#elif NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
+#elif BY_BUILD_PLATFORM == BY_TYPE_LINUX || BY_BUILD_PLATFORM == BY_TYPE_MACOS
 #    include <cxxabi.h>
 #    include <dlfcn.h> // for dladdr()
 #    include <execinfo.h>
@@ -19,7 +19,7 @@
 #    include <string>
 #    include <vector>
 #endif
-#if NM_BUILD_PLATFORM == NM_TYPE_MACOS
+#if BY_BUILD_PLATFORM == BY_TYPE_MACOS
 #    include <mach-o/dyld.h>
 #endif
 #include <sstream>
@@ -31,7 +31,7 @@ namespace by {
         constexpr nint PATH_MAX_LEN = 256;
         using namespace std;
 
-#if defined(NM_BUILD_PLATFORM_IS_LINUX) || defined(NM_BUILD_PLATFORM_IS_MAC)
+#if defined(BY_BUILD_PLATFORM_IS_LINUX) || defined(BY_BUILD_PLATFORM_IS_MAC)
         namespace {
             bool _isAnsiColorTerminal() {
                 static vector<const nchar*> samples = {"xterm", "rxvt", "vt100", "linux", "screen",
@@ -52,11 +52,11 @@ namespace by {
             //       find solution not to use this ifdef __EMSCRIPTEN__ block.
             static string inner = "";
             return inner;
-#elif NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
+#elif BY_BUILD_PLATFORM == BY_TYPE_WINDOWS
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BLACK << 4 | fore);
             static string inner;
             return inner;
-#elif NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
+#elif BY_BUILD_PLATFORM == BY_TYPE_LINUX || BY_BUILD_PLATFORM == BY_TYPE_MACOS
             static bool is_terminal_supporting = _isAnsiColorTerminal();
             if(!is_terminal_supporting) {
                 static string inner;
@@ -78,11 +78,11 @@ namespace by {
             static string inner;
 #if defined(__EMSCRIPTEN__)
             return inner;
-#elif NM_BUILD_PLATFORM == NM_TYPE_WINDOWS
+#elif BY_BUILD_PLATFORM == BY_TYPE_WINDOWS
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), back << 4 | WHITE);
             return inner;
 
-#elif NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
+#elif BY_BUILD_PLATFORM == BY_TYPE_LINUX || BY_BUILD_PLATFORM == BY_TYPE_MACOS
             static bool is_terminal_supporting = _isAnsiColorTerminal();
             if(!is_terminal_supporting) return inner;
 
@@ -110,7 +110,7 @@ namespace by {
         }
 
         nuint64 getNowMs() {
-#if NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
+#if BY_BUILD_PLATFORM == BY_TYPE_LINUX || BY_BUILD_PLATFORM == BY_TYPE_MACOS
             constexpr ncnt MILLI_PER_USEC = 1000;
 
             struct timeval tval {};
@@ -137,15 +137,15 @@ namespace by {
 #endif
         }
 
-        void log(const std::string* it) NM_SIDE_FUNC(log);
+        void log(const std::string* it) BY_SIDE_FUNC(log);
 
         string getExecPath() {
-#if NM_BUILD_PLATFORM == NM_TYPE_LINUX
+#if BY_BUILD_PLATFORM == BY_TYPE_LINUX
             nchar res[PATH_MAX_LEN];
             nuint count = readlink("/proc/self/exe", res, PATH_MAX_LEN);
 
             return string(res, (count > 0) ? count : 0);
-#elif NM_BUILD_PLATFORM == NM_TYPE_MACOS
+#elif BY_BUILD_PLATFORM == BY_TYPE_MACOS
             nchar res[PATH_MAX_LEN];
             nuint size = PATH_MAX_LEN + 1;
 
@@ -157,7 +157,7 @@ namespace by {
         }
 
         string exec(const string& cmd) {
-#if NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
+#if BY_BUILD_PLATFORM == BY_TYPE_LINUX || BY_BUILD_PLATFORM == BY_TYPE_MACOS
             constexpr ncnt EXE_BUF_LEN = 128;
             nchar buf[EXE_BUF_LEN] = {
                 0,
@@ -176,7 +176,7 @@ namespace by {
 
         vector<string> callstack() {
             vector<string> ret;
-#if NM_BUILD_PLATFORM == NM_TYPE_LINUX || NM_BUILD_PLATFORM == NM_TYPE_MACOS
+#if BY_BUILD_PLATFORM == BY_TYPE_LINUX || BY_BUILD_PLATFORM == BY_TYPE_MACOS
 
             constexpr int BT_SIZE = 100;
             void* rawCallstacks[BT_SIZE] = {
@@ -203,7 +203,7 @@ namespace by {
         }
 
         string demangle(const nchar* org) {
-#if !defined(NM_BUILD_PLATFORM_IS_WINDOWS) && !defined(__EMSCRIPTEN__)
+#if !defined(BY_BUILD_PLATFORM_IS_WINDOWS) && !defined(__EMSCRIPTEN__)
             nchar* demangled = nullptr;
             int status = 0;
             if(nul(org)) org = "";
@@ -217,7 +217,7 @@ namespace by {
         }
 
         string filterDemangle(const nchar* org) {
-#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+#ifdef BY_BUILD_PLATFORM_IS_WINDOWS
             string raw(org);
             auto n = raw.rfind(" ");
 #else
@@ -242,7 +242,7 @@ namespace by {
             return format(fmt.c_str(), args);
         }
 
-        std::string format(const std::string* fmt, va_list args) NM_SIDE_FUNC(fmt, format(*fmt, args), std::string());
+        std::string format(const std::string* fmt, va_list args) BY_SIDE_FUNC(fmt, format(*fmt, args), std::string());
 
         std::string format(const nchar* fmt, va_list args) {
             nchar buf[MAX_BUF] = {
@@ -264,7 +264,7 @@ namespace by {
 
         void crash(const std::string& msg, va_list args) { crash(format(msg, args)); }
 
-        void crash(const std::string* msg, va_list args) NM_SIDE_FUNC(msg, crash(*msg, args), void());
+        void crash(const std::string* msg, va_list args) BY_SIDE_FUNC(msg, crash(*msg, args), void());
 
         void crash(const std::string& msg) {
             log(" * * * Interpreter CRASH * * *\n");
@@ -275,6 +275,6 @@ namespace by {
             abort();
         }
 
-        void crash(const std::string* it) NM_SIDE_FUNC(crash);
+        void crash(const std::string* it) BY_SIDE_FUNC(crash);
     } // namespace platformAPI
 } // namespace by

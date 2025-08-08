@@ -5,7 +5,7 @@
 #include "leaf/parser/bison/leafLowparser.hpp"
 #include "leaf/parser/leafParser.hpp"
 #include <iostream>
-#ifdef NM_BUILD_PLATFORM_IS_WINDOWS
+#ifdef BY_BUILD_PLATFORM_IS_WINDOWS
 #   define YY_NO_UNISTD_H 1
 #endif
 
@@ -77,31 +77,31 @@ byte { return _BYTE_; }
 flt { return FLT; }
 true {
     yylval->asBool = true;
-    NM_DI("scanner: BOOLVAL=true");
+    BY_DI("scanner: BOOLVAL=true");
     return BOOLVAL;
 }
 
 false {
     yylval->asBool = false;
-    NM_DI("scanner: BOOLVAL=false");
+    BY_DI("scanner: BOOLVAL=false");
     return BOOLVAL;
 }
 
 [[:digit:]]+ {
     yylval->asInt = std::stoi(yytext, nullptr, 0);
-    NM_DI("scanner: INTVAL=%s", yytext);
+    BY_DI("scanner: INTVAL=%s", yytext);
     return INTVAL;
 }
 
 0x[0-9a-fA-F]+ {
     yylval->asInt = std::stoi(yytext, nullptr, 0);
-    NM_DI("scanner: INTVAL=%s(%d)", yytext, yylval->asInt);
+    BY_DI("scanner: INTVAL=%s(%d)", yytext, yylval->asInt);
     return INTVAL;
 }
 
 [a-zA-Z][a-zA-Z0-9_]* {
     yylval->asStr = new std::string(yytext);
-    NM_DI("scanner: NAME=%s", yytext);
+    BY_DI("scanner: NAME=%s", yytext);
     return NAME;
 }
 
@@ -123,18 +123,18 @@ false {
 
 <stateString>\\([0-9]+) {
     append(yylval, unescape(yytext + 1));
-    NM_DI("scanner: STRVAL=%s", yylval->asStr);
+    BY_DI("scanner: STRVAL=%s", yylval->asStr);
 }
 <stateString>\\0x([0-9a-fA-F]+) {
     append(yylval, unescape(yytext + 1));
-    NM_DI("scanner: STRVAL=%s", yylval->asStr);
+    BY_DI("scanner: STRVAL=%s", yylval->asStr);
 }
 <stateString>\\[a-zA-Z]   {
-    NM_DI("\\[\\w] STRVAL=%s", yytext);
+    BY_DI("\\[\\w] STRVAL=%s", yytext);
     append(yylval, unescape(yytext + 1));
 }
 <stateString>[^"\\\$]+ {
-    NM_DI("[^\"\\$]+ STRVAL=%s", yytext);
+    BY_DI("[^\"\\$]+ STRVAL=%s", yytext);
     append(yylval, yytext);
 }
 <stateString>\\\n     { /* A backslash at the end of the line. Do nothing */ }
@@ -146,7 +146,7 @@ false {
 }
 
 <<EOF>> {
-    NM_DI("scanner: ENDOFFILE");
+    BY_DI("scanner: ENDOFFILE");
     yylloc->colcnt = 0;
     return ENDOFFILE;
 }
@@ -168,7 +168,7 @@ false {
 <stateBlockComment>. {}
 
 . {
-    NM_DI(". yytext=%s", yytext);
+    BY_DI(". yytext=%s", yytext);
     return PS.onScanUnexpected(yytext);
 }
 
@@ -193,7 +193,7 @@ int zzlex(ZZSTYPE* yylval_param, ZZLTYPE* yylloc_param, zzscan_t yyscanner) {
 
 namespace {
     void append(ZZSTYPE* val, const char* new1) {
-        NM_DI("str append: %s += %s", val->asStr, new1);
+        BY_DI("str append: %s += %s", val->asStr, new1);
         if(!val->asStr) {
             val->asStr = new std::string(new1);
             return;
@@ -203,7 +203,7 @@ namespace {
     }
 
     void append(ZZSTYPE* val, char new1) {
-        NM_DI("str append: %s += %c", val->asStr, new1);
+        BY_DI("str append: %s += %c", val->asStr, new1);
         if(!val->asStr) {
             val->asStr = new std::string(1, new1);
             return;
@@ -215,7 +215,7 @@ namespace {
     char unescape(const char* seq) {
         if(!seq) return '\0';
 
-        NM_DI("unescape(%s)", seq);
+        BY_DI("unescape(%s)", seq);
 
         switch(seq[0]) {
             case 'r': return '\r';

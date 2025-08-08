@@ -18,7 +18,7 @@ namespace by {
         str run(const args& a) override;
 
         node& getRet();
-        const node& getRet() const NM_CONST_FUNC(getRet())
+        const node& getRet() const BY_CONST_FUNC(getRet())
 
         using super::prioritize;
         priorType prioritize(const args& a) const override;

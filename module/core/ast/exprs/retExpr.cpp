@@ -31,13 +31,13 @@ namespace by {
         //  ret should be void if there is no value to return. so 'null' not allowed here.
         str ret = _ret->as<node>() OR.ret(
             _returnEx(nerr::newErr(errCode::RETURN_VALUE_IS_NUL, getSrc().getName().c_str())));
-        NM_DI("retExpr: ret[%s]", ret);
+        BY_DI("retExpr: ret[%s]", ret);
 
         // check exception occured during running func.
         node& fRet = fr.getFunc() TO(getRet()) OR.exErr(FUNC_SHOULD_RETURN_SOMETHING).ret(str());
         WHEN(_isEx(*ret, fRet)).ret(_returnEx(ret->cast<baseErr>()));
 
-        NM_DI("retExpr: frame.setRet(%s)", ret);
+        BY_DI("retExpr: frame.setRet(%s)", ret);
         fr.setRet(*ret);
         return ret;
     }

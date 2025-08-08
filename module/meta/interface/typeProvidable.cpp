@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM_DEF_ME(typeProvidable)
+    BY_DEF_ME(typeProvidable)
 
     nbool me::operator==(const me& rhs) const {
         WHEN(getType() != rhs.getType()).ret(false);

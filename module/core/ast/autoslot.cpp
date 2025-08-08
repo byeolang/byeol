@@ -36,7 +36,7 @@ namespace by {
             origin& org = *new origin(typeMaker::make<obj>(name));
             org.setCallComplete(*new mockNode());
             _pak.bind(org);
-            NM_I("%s pack is about to interpret lazy.", name);
+            BY_I("%s pack is about to interpret lazy.", name);
             // TODO: check _rpt error count increased or not.
             //       if increased, then parse() function has been failed.
             parse(*_rpt, _pak->getShares()); // recursive call wasn't allowed.

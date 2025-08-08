@@ -17,7 +17,7 @@ namespace by {
         if(tok == ENDOFFILE) tok = ps.onTokenEndOfFile();
 
         std::string tokName = getLeafTokenName(tok);
-        NM_DI("leaf: dispatcher[%d]%s(token: \"%s\" [%d]) at %d,%d", disp.len(),
+        BY_DI("leaf: dispatcher[%d]%s(token: \"%s\" [%d]) at %d,%d", disp.len(),
             isBypass ? ".dispatch" : " lowscanner", tokName, tok, loc->start.row, loc->start.col);
         return tok;
     }
@@ -40,7 +40,7 @@ namespace by {
         switch(tok) {
             case NEWLINE:
                 if(!isBypass) {
-                    NM_DI("leafIndentScan: ignore NEWLINE");
+                    BY_DI("leafIndentScan: ignore NEWLINE");
                     return SCAN_AGAIN;
                 }
                 break;
@@ -52,12 +52,12 @@ namespace by {
         ncnt cur = loc->start.col;
         std::vector<ncnt>& ind = ps.getIndents();
         if(ind.size() == 0) {
-            NM_DI("leafIndentScan: initial indent lv: %d", cur);
+            BY_DI("leafIndentScan: initial indent lv: %d", cur);
             ind.push_back(cur);
         }
 
         ncnt prev = ind.back();
-        NM_DI("leafIndentScan: column check: cur[%d] prev[%d]", cur, prev);
+        BY_DI("leafIndentScan: column check: cur[%d] prev[%d]", cur, prev);
 
         if(cur > prev) return ps.onIndent(cur, tok);
         else if(cur < prev) return ps.onDedent(cur, tok);

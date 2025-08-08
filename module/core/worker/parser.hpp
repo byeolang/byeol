@@ -45,10 +45,10 @@ namespace by {
 
     public:
         node* getSubPack();
-        const node* getSubPack() const NM_CONST_FUNC(getSubPack())
+        const node* getSubPack() const BY_CONST_FUNC(getSubPack())
 
         srcSupplies& getSrcSupplies();
-        const srcSupplies& getSrcSupplies() const NM_CONST_FUNC(getSrcSupplies())
+        const srcSupplies& getSrcSupplies() const BY_CONST_FUNC(getSrcSupplies())
         me& addSupply(const srcSupply& new1);
         me& relSupplies();
 
@@ -58,7 +58,7 @@ namespace by {
         nbool isInit() const;
 
         template <typename T> void setScan() {
-            NM_DI("change scanmode(%s -> %s)", _mode ? _mode->getType().getName() : "null",
+            BY_DI("change scanmode(%s -> %s)", _mode ? _mode->getType().getName() : "null",
                 *T::_instance);
             _mode = T::_instance;
         }
@@ -172,12 +172,12 @@ namespace by {
 
         //          var:
         template <typename T, typename Arg> T* onPrimitive(const Arg& arg) {
-            NM_DI("on%s(...)", ttype<T>::get());
+            BY_DI("on%s(...)", ttype<T>::get());
             return new T(arg);
         }
 
         template <typename T> T* onPrimitive() {
-            NM_DI("on%s()", ttype<T>::get());
+            BY_DI("on%s()", ttype<T>::get());
             return new T();
         }
 

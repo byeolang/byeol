@@ -40,7 +40,7 @@ namespace by {
         };
 
         void _onSignal(nint code) {
-            NM_E("# signal %d caught.", code);
+            BY_E("# signal %d caught.", code);
             me::get().onSignal(code);
         }
     }
@@ -55,7 +55,7 @@ namespace by {
     void me::addSignal(const sigHandler& closure) {
         if(_closures.size() <= 0) _setSignal(_onSignal);
         _closures.push_back(closure);
-        NM_DI("total %d signal handler planted.", _closures.size());
+        BY_DI("total %d signal handler planted.", _closures.size());
     }
 
     void me::onSignal(nint code) {
@@ -65,7 +65,7 @@ namespace by {
         tstr<nerr> e =
             _getErrBy(code) OR.err("%d exception occurs but couldn't make err object", code).ret();
 
-        NM_I("dispatching %d handlers.", _closures.size());
+        BY_I("dispatching %d handlers.", _closures.size());
         for(const sigHandler& handler: _closures)
             handler(*e);
 
@@ -85,7 +85,7 @@ namespace by {
             _closures.end());
 
         if(_closures.size() <= 0) _setSignal(SIG_DFL);
-        NM_DI("signal handler deleted. total %d handlers remains", _closures.size());
+        BY_DI("signal handler deleted. total %d handlers remains", _closures.size());
     }
 
     void me::_setSignal(void (*csignalHandler)(nint)) {

@@ -20,7 +20,7 @@ namespace by {
     }
 
     priorType me::prioritize(const args& a) const {
-        NM_DI("%s.prioritize(%s)", *this, a.asStr());
+        BY_DI("%s.prioritize(%s)", *this, a.asStr());
         const params& ps = getParams();
         WHEN(a.len() != ps.len()).ret(NO_MATCH);
 

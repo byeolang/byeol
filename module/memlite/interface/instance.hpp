@@ -13,8 +13,8 @@ namespace by {
     class instancer;
 
     class _nout instance: public typeProvidable, public clonable {
-        NM_ME(instance)
-        NM_INIT_META(me)
+        BY_ME(instance)
+        BY_INIT_META(me)
         friend class bindTag;
         friend class watcher;     // for vault.
         friend class chunks;      // for vault.

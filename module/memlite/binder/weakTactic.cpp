@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM_DEF_ME(weakTactic)
+    BY_DEF_ME(weakTactic)
 
     void me::rel(binder& me) { me._itsId.rel(); }
 

@@ -2,12 +2,12 @@
 
 namespace by {
 
-    NM_DEF_ME(id)
+    BY_DEF_ME(id)
 
     id::id(nint newTagN, nint newChkN, nuint newSerial):
         tagN(newTagN), chkN(newChkN), serial(newSerial) {}
 
-    id::id(): tagN(NM_INDEX_ERROR), chkN(NM_INDEX_ERROR), serial(0) {}
+    id::id(): tagN(BY_INDEX_ERROR), chkN(BY_INDEX_ERROR), serial(0) {}
 
     nbool me::operator==(const id& rhs) const {
         return tagN == rhs.tagN && chkN == rhs.chkN && serial == rhs.serial;
@@ -16,7 +16,7 @@ namespace by {
     nbool me::operator!=(const id& rhs) const { return !operator==(rhs); }
 
     void me::rel() {
-        tagN = chkN = NM_INDEX_ERROR;
+        tagN = chkN = BY_INDEX_ERROR;
         serial = 0;
     }
 

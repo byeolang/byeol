@@ -50,10 +50,10 @@ namespace by {
         }
 
         baseFunc& getFunc() { return *_func; }
-        const baseFunc& getFunc() const NM_CONST_FUNC(getFunc());
+        const baseFunc& getFunc() const BY_CONST_FUNC(getFunc());
 
         baseObj& getObj() { return *_obj; }
-        const baseObj& getObj() const NM_CONST_FUNC(getObj());
+        const baseObj& getObj() const BY_CONST_FUNC(getObj());
 
     protected:
         onConverge _getClosure() { return _onConverge; }

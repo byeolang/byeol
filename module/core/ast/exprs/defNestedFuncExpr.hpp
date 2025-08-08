@@ -21,7 +21,7 @@ namespace by {
         using super::run;
         str run(const args& a) override;
 
-        const func& getOrigin() const NM_CONST_FUNC(_getOrigin())
+        const func& getOrigin() const BY_CONST_FUNC(_getOrigin())
 
         str getEval() const override;
 

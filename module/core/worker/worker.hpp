@@ -11,14 +11,14 @@ namespace by {
 #define myExErr_3(me, code, a1) exErr(me, errCode::code, getReport(), a1)
 #define myExErr_4(me, code, a1, a2) exErr(me, errCode::code, getReport(), a1, a2)
 #define myExErr_5(me, code, a1, a2, a3) exErr(me, errCode::code, getReport(), a1, a2, a3)
-#define myExErr(...) NM_OVERLOAD(myExErr, __VA_ARGS__)
+#define myExErr(...) BY_OVERLOAD(myExErr, __VA_ARGS__)
 
 #define myExWarn_1(code) exErr(errCode::code, getReport())
 #define myExWarn_2(me, code) exErr(me, errCode::code, getReport())
 #define myExWarn_3(me, code, a1) exErr(me, errCode::code, getReport(), a1)
 #define myExWarn_4(me, code, a1, a2) exErr(me, errCode::code, getReport(), a1, a2)
 #define myExWarn_5(me, code, a1, a2, a3) exErr(me, errCode::code, getReport(), a1, a2, a3)
-#define myExWarn(...) NM_OVERLOAD(myExWarn, __VA_ARGS__)
+#define myExWarn(...) BY_OVERLOAD(myExWarn, __VA_ARGS__)
 
     template <typename R, typename T> class worker: public typeProvidable, public clonable {
         NM(ADT(worker))
@@ -34,7 +34,7 @@ namespace by {
             INTERNAL = 1 << 3,    // logs all except above case.
             LOG_ON_END = 1 << 4,  // log all report info when the work ends.
             DUMP_ON_END = 1 << 5, // log and leave callstack for all report info when the work ends.
-#if NM_IS_DBG
+#if BY_IS_DBG
             DEFAULT = DUMP_ON_EX | GUARD | INTERNAL | LOG_ON_END
 #else
             DEFAULT = LOG_ON_EX
@@ -46,7 +46,7 @@ namespace by {
 
     public:
         errReport& getReport();
-        const errReport& getReport() const NM_CONST_FUNC(getReport())
+        const errReport& getReport() const BY_CONST_FUNC(getReport())
         me& setReport(errReport& rpt);
 
         me& setFlag(nint newFlag);
@@ -56,15 +56,15 @@ namespace by {
         nint getFlag() const;
 
         me& setTask(const T& root);
-        me& setTask(const T* it) NM_SIDE_FUNC(it, setTask(*it), *this);
+        me& setTask(const T* it) BY_SIDE_FUNC(it, setTask(*it), *this);
         T* getTask();
-        const T* getTask() const NM_CONST_FUNC(getTask())
+        const T* getTask() const BY_CONST_FUNC(getTask())
 
         virtual void rel();
 
         R work();
 
-        const area& getArea() const NM_CONST_FUNC(_getArea())
+        const area& getArea() const BY_CONST_FUNC(_getArea())
 
         nbool isOk() const;
 

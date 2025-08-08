@@ -453,7 +453,7 @@ TEST_F(nchainTest, testDelWithLink) {
         ASSERT_FALSE(map2Weak.isBind());
         ASSERT_EQ(chn.len(), 1 + map1.len());
 
-        NM_DI("chn.len()=%d", chn.len());
+        BY_DI("chn.len()=%d", chn.len());
         auto e = chn.iterate(chn.len() - 1);
 
         myNode& last = *e->cast<myNode>();

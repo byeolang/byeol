@@ -26,12 +26,12 @@ namespace by {
     public:
         T* operator->();
         T& operator*();
-        const T* operator->() const NM_CONST_FUNC(operator->())
-        const T& operator*() const NM_CONST_FUNC(operator*())
+        const T* operator->() const BY_CONST_FUNC(operator->())
+        const T& operator*() const BY_CONST_FUNC(operator*())
 
     public:
         T* get();
-        const T* get() const NM_CONST_FUNC(get())
+        const T* get() const BY_CONST_FUNC(get())
 
         /// @brief precedence is more detail concept of priority.
         ///        it considers the owner of them are equal above priority.
@@ -61,7 +61,7 @@ namespace by {
 
         using super::get;
         T* get();
-        const T* get() const NM_CONST_FUNC(get())
+        const T* get() const BY_CONST_FUNC(get())
 
         /// @return priority of matched one.
         ///         this'll be NO_MATCH if isMatched() returns false.

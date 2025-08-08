@@ -7,15 +7,15 @@ namespace by {
     class instance;
 
     class _nout memoryHaver {
-        NM_ME(memoryHaver)
-        NM_INIT_META(me)
+        BY_ME(memoryHaver)
+        BY_INIT_META(me)
 
     public:
         virtual ~memoryHaver() {}
 
     public:
         virtual nbool has(const instance& it) const = 0;
-        nbool has(const instance* it) const NM_SIDE_FUNC(has);
+        nbool has(const instance* it) const BY_SIDE_FUNC(has);
         virtual ncnt len() const = 0;
         virtual ncnt size() const = 0;
         virtual nbool rel() = 0;

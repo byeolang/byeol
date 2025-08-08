@@ -52,7 +52,7 @@ namespace by {
             default:;
         }
 
-        NM_I("@%s %s --> %s", this, getSymbolName(_symbol), *ret);
+        BY_I("@%s %s --> %s", this, getSymbolName(_symbol), *ret);
         return ret;
     }
 

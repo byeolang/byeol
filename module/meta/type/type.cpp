@@ -1,7 +1,7 @@
 #include "meta/type/type.hpp"
 
 namespace by {
-    NM_DEF_ME(type)
+    BY_DEF_ME(type)
 
     nbool me::operator==(const me& rhs) const { return getName() == rhs.getName(); }
 

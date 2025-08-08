@@ -53,12 +53,12 @@ namespace by {
         const node& getLeft() const;
 
         void setLeft(const node& new1);
-        void setLeft(const node* it) NM_SIDE_FUNC(setLeft);
+        void setLeft(const node* it) BY_SIDE_FUNC(setLeft);
 
         const node& getRight() const;
 
         void setRight(const node& new1);
-        void setRight(const node* it) NM_SIDE_FUNC(setRight);
+        void setRight(const node* it) BY_SIDE_FUNC(setRight);
 
         nbool isLogicalOp() const;
         symbol getSymbol() const;

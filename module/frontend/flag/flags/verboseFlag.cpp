@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM_DEF_ME(verboseFlag)
+    BY_DEF_ME(verboseFlag)
 
     const nchar* me::getName() const { return "-v, --verbose"; }
 

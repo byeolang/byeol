@@ -5,7 +5,7 @@
 #include "core/builtin/err/nerr.hpp"
 
 namespace by {
-    NM_DEF_ME(srcSupply)
+    BY_DEF_ME(srcSupply)
 
     void* me::_scanString(parser& ps, const nchar* src, void* scanner) const {
         if(!src || src[0] == '\0')

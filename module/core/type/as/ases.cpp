@@ -24,7 +24,7 @@ namespace by {
         };
     }
 
-    NM_DEF_ME(ases)
+    BY_DEF_ME(ases)
 
     me::ases(): super(derivedAs::singleton()) {}
 

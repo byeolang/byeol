@@ -2,7 +2,7 @@
 
 namespace by {
 
-    NM_DEF_ME(memoryHaver)
+    BY_DEF_ME(memoryHaver)
 
     nbool me::isFull() const { return len() >= size(); }
 

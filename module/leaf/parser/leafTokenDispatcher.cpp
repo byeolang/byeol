@@ -2,7 +2,7 @@
 
 namespace by {
 
-    NM_DEF_ME(leafTokenDispatcher)
+    BY_DEF_ME(leafTokenDispatcher)
 
     void me::add(nint newToken) { _toks.push_back(newToken); }
 

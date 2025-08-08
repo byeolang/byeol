@@ -6,7 +6,7 @@
 
 namespace by {
 
-    NM_DEF_ME(binder)
+    BY_DEF_ME(binder)
 
     binder::binder(const type& type, bindTacticable& tactic):
         _type(&type.getStatic()), _tactic(&tactic) {}

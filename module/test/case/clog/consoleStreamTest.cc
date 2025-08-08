@@ -21,7 +21,7 @@ namespace {
         }
 
         static void delLogFile() {
-            NM_I("delLogFile");
+            BY_I("delLogFile");
             std::remove(getLogFilePath());
         }
 
@@ -66,8 +66,8 @@ TEST_F(consoleStreamTest, logFormat) {
 TEST_F(consoleStreamTest, macro) {
     ASSERT_FALSE(thisTest::hasLogFile());
 
-    NM_W("world!");
-    NM_E("this is not an error.");
+    BY_W("world!");
+    BY_E("this is not an error.");
 
     ASSERT_TRUE(thisTest::hasLogFile());
 }
@@ -75,7 +75,7 @@ TEST_F(consoleStreamTest, macro) {
 TEST_F(consoleStreamTest, debugLogFormat) {
     nbool isDbg = buildFeature::config::get() == buildFeature::DEBUG;
 
-    NM_DW("if it's debug mode, this msg should be shown.");
+    BY_DW("if it's debug mode, this msg should be shown.");
 
     ASSERT_EQ(isDbg, thisTest::hasLogFile());
 }

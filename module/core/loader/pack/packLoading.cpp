@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM_DEF_ME(packLoading)
+    BY_DEF_ME(packLoading)
 
     void me::addPath(const std::string& filePath) { _paths.push_back(filePath); }
 

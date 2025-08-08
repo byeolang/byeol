@@ -2,7 +2,7 @@
 
 namespace by {
 
-    NM_DEF_ME(instancer)
+    BY_DEF_ME(instancer)
 
     nbool me::_isRel = false;
 
@@ -35,5 +35,5 @@ namespace by {
         return _isRel ? nullptr : &inner;
     }
 
-    nbool me::_hasBindTag(const instance& it) const { return it._id.tagN != NM_INDEX_ERROR; }
+    nbool me::_hasBindTag(const instance& it) const { return it._id.tagN != BY_INDEX_ERROR; }
 } // namespace by

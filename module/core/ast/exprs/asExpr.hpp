@@ -24,7 +24,7 @@ namespace by {
         const node& getAs() const;
 
         void setAs(const node& new1);
-        void setAs(const node* it) NM_SIDE_FUNC(setAs);
+        void setAs(const node* it) BY_SIDE_FUNC(setAs);
 
         void onCloneDeep(const clonable& from) override;
 

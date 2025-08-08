@@ -2,7 +2,7 @@
 
 namespace by {
 
-    NM_DEF_ME(allocator, memoryHaver)
+    BY_DEF_ME(allocator, memoryHaver)
 
     me::allocator(ncnt blksize): _blksize(blksize) {}
 

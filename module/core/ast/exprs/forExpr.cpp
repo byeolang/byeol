@@ -65,7 +65,7 @@ namespace by {
         str ased = _container->as<node>() OR.err("ased is null").ret(str());
         str iter = ased->run("iterate", args(narr(*new nInt(0)))) OR.err("iter is null").ret(str());
 
-        NM_DI("forExpr: loop %s in %s", getLocalName(), ased->getSrc());
+        BY_DI("forExpr: loop %s in %s", getLocalName(), ased->getSrc());
         return new forLoop(ret, ased, iter, *this);
     }
 } // namespace by

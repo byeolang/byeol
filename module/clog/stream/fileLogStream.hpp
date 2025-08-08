@@ -7,7 +7,7 @@
 namespace by {
 
     class _nout fileLogStream: public stream {
-        NM_ME(fileLogStream, stream)
+        BY_ME(fileLogStream, stream)
 
     public:
         //  fileLogStream:

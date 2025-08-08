@@ -7,7 +7,7 @@
 
 namespace by {
 
-    NM_DEF_ME(instance)
+    BY_DEF_ME(instance)
     me::vault instance::_vault;
 
     me::instance() { _id.chkN = _vault.get(this); }
@@ -29,7 +29,7 @@ namespace by {
     void me::operator delete(void* pt, size_t sz) noexcept { _getMgr() TO(_del(pt, sz)); }
 
     id me::getId() const {
-        if(_id.tagN == NM_INDEX_ERROR) _getMgr() TO(bind((me&) *this));
+        if(_id.tagN == BY_INDEX_ERROR) _getMgr() TO(bind((me&) *this));
         return _id;
     }
 
@@ -54,8 +54,8 @@ namespace by {
 
     nidx me::vault::get(void* ptr) {
         auto e = _vaults.find(ptr);
-        nidx ret = e == _vaults.end() ? NM_INDEX_ERROR : _vaults[ptr];
-        if(ret > NM_INDEX_ERROR) _vaults.erase(ptr);
+        nidx ret = e == _vaults.end() ? BY_INDEX_ERROR : _vaults[ptr];
+        if(ret > BY_INDEX_ERROR) _vaults.erase(ptr);
         return ret;
     }
 

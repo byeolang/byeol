@@ -19,7 +19,7 @@ namespace {
         void setUp() { _executed = false; }
 
         str run(const args& a) override {
-            NM_I("hello world!");
+            BY_I("hello world!");
             _executed = true;
             return str();
         }
@@ -66,7 +66,7 @@ namespace {
         };
 
         class myType: public ntype {
-            NM_ME(myType, ntype)
+            BY_ME(myType, ntype)
 
         protected:
             const impliAses& _getImpliAses() const override {
@@ -91,14 +91,14 @@ TEST_F(nodeTest, testManuallyMakeNodeStructure) {
     tstr<scope> frameEmulator;
     myObj obj;
     myFunc func;
-    NM_DI("func.tag.chkId=%d", func.getBindTag()->getId().chkN);
+    BY_DI("func.tag.chkId=%d", func.getBindTag()->getId().chkN);
 
     obj.subs().add("myFunc", func);
     myFunc funcOffunc;
     func.subs().add("funcOfFunc", funcOffunc);
 
-    NM_DI("func.tag.chkId=%d", func.getBindTag()->getId().chkN);
-    NM_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag()->getId().chkN);
+    BY_DI("func.tag.chkId=%d", func.getBindTag()->getId().chkN);
+    BY_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag()->getId().chkN);
 
     // when:
     frameEmulator.bind(obj.subs());
@@ -107,8 +107,8 @@ TEST_F(nodeTest, testManuallyMakeNodeStructure) {
     chnOffunc->link(*frameEmulator);
     frameEmulator.bind(*chnOffunc);
 
-    NM_DI("func.tag.chkId=%d", func.getBindTag()->getId().chkN);
-    NM_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag()->getId().chkN);
+    BY_DI("func.tag.chkId=%d", func.getBindTag()->getId().chkN);
+    BY_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag()->getId().chkN);
 
     // then:
     ASSERT_EQ(chnOffunc->len(), 2);
@@ -117,14 +117,14 @@ TEST_F(nodeTest, testManuallyMakeNodeStructure) {
 
     int n = 0;
     for(const auto& elem: *chnOffunc)
-        NM_I("[%d]=%s", n++, elem);
+        BY_I("[%d]=%s", n++, elem);
 
-    NM_DI("func.tag.chkId=%d", func.getBindTag()->getId().chkN);
-    NM_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag()->getId().chkN);
+    BY_DI("func.tag.chkId=%d", func.getBindTag()->getId().chkN);
+    BY_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag()->getId().chkN);
 
     ASSERT_EQ(n, 2);
-    NM_DI("func.tag.chkId=%d", func.getBindTag()->getId().chkN);
-    NM_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag()->getId().chkN);
+    BY_DI("func.tag.chkId=%d", func.getBindTag()->getId().chkN);
+    BY_DI("funcOffunc.tag.chkId=%d", funcOffunc.getBindTag()->getId().chkN);
 }
 
 TEST_F(nodeTest, testManualNativefuncCall) {

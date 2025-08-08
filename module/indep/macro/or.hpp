@@ -118,7 +118,7 @@ namespace by {
 
 #define OR_DO __OR_DO__(nul(__p))
 
-#define __OR__(expr) __OR_DO__(expr) return NM_WHEN
+#define __OR__(expr) __OR_DO__(expr) return BY_WHEN
 #define OR __OR__(nul(__p))
 #define OR_RET_CTOR __OR_DO__(nul(__p)) return
 

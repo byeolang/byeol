@@ -94,10 +94,10 @@ EmptyLineBeforeAccessModifier: LogicalBlock
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
 ForEachMacros:
-  - NM_EACH
-  - NM_EACH_TUPLE
-  - NM_EACH_EXPAND
-  - NM_EACH_LIST
+  - BY_EACH
+  - BY_EACH_TUPLE
+  - BY_EACH_EXPAND
+  - BY_EACH_LIST
 IfMacros:
   - KJ_IF_MAYBE
 IncludeBlocks: Regroup
@@ -232,9 +232,9 @@ Standard: Auto
 StatementAttributeLikeMacros:
   - _nout
 StatementMacros:
-  - NM_CONST_FUNC
+  - BY_CONST_FUNC
   - NM
-  - NM_DEF_ME
+  - BY_DEF_ME
 TabWidth: 4
 UseCRLF: false
 UseTab: Never

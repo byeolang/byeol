@@ -21,11 +21,11 @@ namespace by {
     };
 
 // e.g.
-//  NM_END_BLOCK({
+//  BY_END_BLOCK({
 //      ....doSomething()
 //  });
 //      or,
-//  NM_END(doSomething());
-#define NM_END_BLOCK(blockStmt) auto __defer__##__COUNTER__ = end([&]() blockStmt)
-#define NM_END(stmt) auto __defer__##__COUNTER__ = end([&]() { stmt; })
+//  BY_END(doSomething());
+#define BY_END_BLOCK(blockStmt) auto __defer__##__COUNTER__ = end([&]() blockStmt)
+#define BY_END(stmt) auto __defer__##__COUNTER__ = end([&]() { stmt; })
 }

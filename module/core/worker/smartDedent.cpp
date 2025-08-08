@@ -3,7 +3,7 @@
 
 namespace by {
 
-    NM_DEF_ME(smartDedent)
+    BY_DEF_ME(smartDedent)
 
     me::smartDedent(): _cnt(OFF), _isEnable(false) {}
 

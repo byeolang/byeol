@@ -28,7 +28,7 @@ namespace {
 
         public:
             str run(const args& a) override {
-                NM_I("hello world!");
+                BY_I("hello world!");
                 _executed = true;
 
                 if(_lambda) _res = _lambda(a, (frames&) by::thread::get().getFrames());
@@ -49,10 +49,10 @@ namespace {
             super(*new modifier(),
                 funcMgdType("myfunc", ttype<me>::get(), params(), false, new nVoid()),
                 *new myBlock()) {
-            NM_I("myfunc(%s) new", this);
+            BY_I("myfunc(%s) new", this);
         }
 
-        ~myfunc() override { NM_I("myfunc(%s) delete", this); }
+        ~myfunc() override { BY_I("myfunc(%s) delete", this); }
 
         nbool isRun() const { return getBlock().cast<myBlock>()->_executed; }
 
@@ -125,13 +125,13 @@ TEST_F(immutableTest, testFrameImmutability) {
         frame& fr = (frame*) by::thread::get().getNowFrame() OR.err("there is no frame in this thread").ret(false);
         // test assign:
         auto e = fr.subs().iterate("age");
-        if(e.isEnd()) return NM_E("there is no key"), false;
+        if(e.isEnd()) return BY_E("there is no key"), false;
 
         fr.addLocal("age1", age);
 
         nInt& age1 = fr.sub<nInt>("age1") OR.err("couldn't find age1").ret(false);
-        if(age1 != age) return NM_E("age1 != age"), false;
-        if(&age1 == &age) return NM_E("address of age1 and age are different"), false;
+        if(age1 != age) return BY_E("age1 != age"), false;
+        if(&age1 == &age) return BY_E("address of age1 and age are different"), false;
 
         return true;
     });

@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM_DEF_ME(flag)
+    BY_DEF_ME(flag)
 
     me::res me::take(interpreter& ip, starter& s, cli& c, flagArgs& a) const {
         std::vector<int> del;

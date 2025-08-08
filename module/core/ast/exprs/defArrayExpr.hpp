@@ -20,7 +20,7 @@ namespace by {
         str getEval() const override;
         const baseObj* getArrayType() const;
         const arr& getOrigin() const;
-        const narr& getElems() const NM_CONST_FUNC(getElems())
+        const narr& getElems() const BY_CONST_FUNC(getElems())
 
     private:
         tstr<baseObj> _deduceElems() const;

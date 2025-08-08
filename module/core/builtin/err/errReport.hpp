@@ -32,7 +32,7 @@ namespace by {
         ncnt len() const;
 
         virtual const baseErr& add(const baseErr& new1);
-        const baseErr* add(const baseErr* it) NM_SIDE_FUNC(it, &add(*it), nullptr);
+        const baseErr* add(const baseErr* it) BY_SIDE_FUNC(it, &add(*it), nullptr);
         void add(const me& rhs);
 
         std::vector<tstr<baseErr>>::const_iterator begin() const;

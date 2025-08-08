@@ -34,7 +34,7 @@ namespace by {
     scope& me::subs() { return _subs; }
 
     str me::run(const args& a) {
-        NM_I("@%s prepare to run `%s(%s)`...", this, getSrc(), getParams());
+        BY_I("@%s prepare to run `%s(%s)`...", this, getSrc(), getParams());
         WHEN(!thread::get().isInteractable())
             .err("thread isn't interactable")
             .ret(nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD));
@@ -54,11 +54,11 @@ namespace by {
 
     str me::_run(nidx exN) {
         _runEnds();
-        NM_I("@%s --> run `%s(%s)", this, getSrc(), getParams());
+        BY_I("@%s --> run `%s(%s)", this, getSrc(), getParams());
         str ret = _blk->run();
-        NM_I("@%s <-- ended `%s(%s)", this, getSrc(), getParams());
+        BY_I("@%s <-- ended `%s(%s)", this, getSrc(), getParams());
         ret = _postprocess(ret, exN);
-        NM_I("@%s `%s <--ret-- %s(%s)`", this, ret, getSrc(), getParams());
+        BY_I("@%s `%s <--ret-- %s(%s)`", this, ret, getSrc(), getParams());
         return ret;
     }
 
@@ -97,14 +97,14 @@ namespace by {
     void me::inFrame(const bicontainable* args) const {
         frame& fr = thread::get()._getNowFrame() OR.err("fr == null").ret();
 
-        NM_DI("'%s'._inFrame() frames.len[%d]", *this, thread::get().getFrames().len());
+        BY_DI("'%s'._inFrame() frames.len[%d]", *this, thread::get().getFrames().len());
         fr.addFunc(*this);
         fr.add(*this);
         if (args && args->len() > 0) fr.add(scope::wrap<scope>((nbicontainer*) args));
     }
 
     void me::outFrame() const {
-        NM_DI("'%s func'._outFrame() frames.len[%d]", getSrc(), thread::get().getFrames().len());
+        BY_DI("'%s func'._outFrame() frames.len[%d]", getSrc(), thread::get().getFrames().len());
 
         frame& fr = thread::get()._getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret();
         baseFunc* f = fr.getFunc();

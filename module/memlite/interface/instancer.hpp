@@ -6,8 +6,8 @@
 namespace by {
 
     class _nout instancer {
-        NM_ME(instancer)
-        NM_INIT_META(me)
+        BY_ME(instancer)
+        BY_INIT_META(me)
         friend class instance;
 
     public:
@@ -15,9 +15,9 @@ namespace by {
 
     public:
         nbool bind(const instance& it);
-        nbool bind(const instance* it) NM_SIDE_FUNC(bind);
+        nbool bind(const instance* it) BY_SIDE_FUNC(bind);
         nbool rel(const instance& old);
-        nbool rel(const instance* it) NM_SIDE_FUNC(rel);
+        nbool rel(const instance* it) BY_SIDE_FUNC(rel);
         const pool& getPool() const;
         const watcher& getWatcher() const;
         /// @return singleton instance. this returns nul of reference if app is about to be

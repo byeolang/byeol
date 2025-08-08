@@ -11,7 +11,7 @@ TEST(macroTest, nul) {
     ASSERT_FALSE(nul(aPtr));
 }
 
-TEST(macroTest, NM_GETtest) {
+TEST(macroTest, BY_GETtest) {
     struct A {};
 
     struct B {
@@ -64,11 +64,11 @@ TEST(macroTest, NM_GETtest) {
 
 TEST(macroTest, UnconstCalltest) {
     struct A {
-        NM_ME(A)
+        BY_ME(A)
 
     public:
         nbool foo() { return true; }
-        nbool foo() const NM_CONST_FUNC(foo())
+        nbool foo() const BY_CONST_FUNC(foo())
     } a;
 
     const A& aConst = a;

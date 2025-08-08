@@ -53,7 +53,7 @@ namespace by {
         node* getCallComplete() override;
 
         void setCallComplete(const node& new1);
-        void setCallComplete(const node* it) NM_SIDE_FUNC(setCallComplete);
+        void setCallComplete(const node* it) BY_SIDE_FUNC(setCallComplete);
 
         nbool isComplete() const override;
         clonable* clone() const override;

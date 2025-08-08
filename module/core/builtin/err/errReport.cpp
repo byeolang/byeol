@@ -5,7 +5,7 @@
 
 namespace by {
 
-    NM_DEF_ME(errReport)
+    BY_DEF_ME(errReport)
 
     me::errReport(): me(buildFeature::config::isDbg()) {}
 

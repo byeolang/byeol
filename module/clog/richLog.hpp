@@ -69,7 +69,7 @@ namespace by {
     template <typename... Ts>
     void dbgRichLog(errLv::level lv, const std::string& filename, const nchar* func, nint line,
         const nchar* fmt, const Ts&... args) {
-    #ifdef NM_DEBUG
+    #ifdef BY_DEBUG
         ::by::logger::get().log(lv, filename, func, line, fmt,
             __convert__((const Ts&) args).unwrap()...);
     #endif

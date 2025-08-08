@@ -25,7 +25,7 @@ public:
     RSquare operator*() override;
 
     typename std::remove_reference<R>::type operator->();
-    const typename std::remove_reference<R>::type operator->() const NM_CONST_FUNC(operator->())
+    const typename std::remove_reference<R>::type operator->() const BY_CONST_FUNC(operator->())
     me& operator=(const me& rhs);
     explicit operator nbool() const;
 
@@ -50,7 +50,7 @@ public:
     template <typename E> E* get() { return get() TO(template cast<E>()); }
 
     tucontainable<T, R, RSquare>* getContainer() override;
-    const tucontainable<T, R, RSquare>* getContainer() const NM_CONST_FUNC(getContainer())
+    const tucontainable<T, R, RSquare>* getContainer() const BY_CONST_FUNC(getContainer())
 
 private:
     me& _assign(const me& rhs);

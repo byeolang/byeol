@@ -15,7 +15,7 @@ namespace by {
         _name(name), _rhs(rhs), _to(to), _src(s), _mod(mod) {}
 
     str me::run(const args& a) {
-        NM_DI("define variable...");
+        BY_DI("define variable...");
         str new1 = _makeNew() OR.err("new1 is null").ret(str());
         // below 'as' is mandatory.
         // assume that user wrotes 'getExpr("me")' into 'as'.

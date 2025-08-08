@@ -21,8 +21,8 @@ public:
     me& operator+=(ncnt step);
     V& operator*();
     V* operator->();
-    const V& operator*() const NM_CONST_FUNC(operator*())
-    const V* operator->() const NM_CONST_FUNC(operator->())
+    const V& operator*() const BY_CONST_FUNC(operator*())
+    const V* operator->() const BY_CONST_FUNC(operator->())
     me& operator=(const me& rhs);
     explicit operator nbool() const;
 

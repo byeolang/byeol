@@ -4,5 +4,5 @@
 #include "core/builtin/err/errReport.hpp"
 
 namespace by {
-    NM_DEF_ME(packMakable)
+    BY_DEF_ME(packMakable)
 }

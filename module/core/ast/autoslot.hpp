@@ -34,7 +34,7 @@ namespace by {
         ///         to a pack.
         ///         please refer 'verifier' class if you want to know further.
         void setReport(errReport& rpt);
-        void setReport(errReport* it) NM_SIDE_FUNC(setReport);
+        void setReport(errReport* it) BY_SIDE_FUNC(setReport);
 
     protected:
         nbool _invalidate() override;

@@ -12,7 +12,7 @@
 
 namespace by {
 
-    NM_DEF_ME(starter)
+    BY_DEF_ME(starter)
 
     void me::_prepare() {
         super::_prepare();
@@ -30,28 +30,28 @@ namespace by {
         args& a = getArgs();
         node& pak = getTask() OR.err("there is no pack!").ret(str());
 
-        NM_I("run a pack");
+        BY_I("run a pack");
         node& main =
             _findMain(pak, args()) OR.err("there is 0 or more than 2 main() found.").ret(str());
 
         if(main.canRun(a)) {
             threadUse thr(getReport());
             _prepareFrame(thread::get()._getFrames());
-            NM_DI("-------------- SYMBOL_START ----------------");
+            BY_DI("-------------- SYMBOL_START ----------------");
             str res = _postprocess(pak.run(MAIN));
-            NM_DI("-------------------------------------");
+            BY_DI("-------------------------------------");
             return res;
         }
 
         // TODO: main(str[])
 
-        return NM_E("couldn't run main func(). it doesn't match any argument"), str();
+        return BY_E("couldn't run main func(). it doesn't match any argument"), str();
     }
 
     str me::_postprocess(const str& res) {
         errReport& ex = thread::get().getEx();
         if(ex) {
-            NM_E("unhandled exception found:");
+            BY_E("unhandled exception found:");
             ex.dump();
         }
         return res;

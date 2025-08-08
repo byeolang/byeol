@@ -9,7 +9,7 @@ namespace by {
         super(obj, f, org, [&](const node& eval) {
             auto& toConverge = (ntype&) getFunc().getType();
 
-            NM_I(" -> retConvergence: %s ==> %s", toConverge.getRet(), eval);
+            BY_I(" -> retConvergence: %s ==> %s", toConverge.getRet(), eval);
             toConverge.setRet(eval);
             return true;
         }) {}

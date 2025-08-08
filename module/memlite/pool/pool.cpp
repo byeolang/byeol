@@ -3,7 +3,7 @@
 
 namespace by {
 
-    NM_DEF_ME(pool, memoryHaver)
+    BY_DEF_ME(pool, memoryHaver)
 
     me::pool() {}
 

@@ -2,7 +2,7 @@
 
 namespace by {
 
-    NM_DEF_ME(nulLeaf)
+    BY_DEF_ME(nulLeaf)
 
     me::nulLeaf(): super() {}
 

@@ -5,8 +5,8 @@
 namespace by {
 
     class _nout pool: public memoryHaver {
-        NM_ME(pool, memoryHaver)
-        NM_INIT_META(me)
+        BY_ME(pool, memoryHaver)
+        BY_INIT_META(me)
 
     public:
         //  pool:
@@ -15,11 +15,11 @@ namespace by {
 
     public:
         chunks* get(const instance& it);
-        chunks* get(const instance* it) NM_SIDE_FUNC(get);
+        chunks* get(const instance* it) BY_SIDE_FUNC(get);
         chunks* get(nidx n);
-        const chunks* get(const instance& it) const NM_CONST_FUNC(get(it))
-        const chunks* get(const instance* it) const NM_CONST_FUNC(get(it))
-        const chunks* get(nidx n) const NM_CONST_FUNC(get(n))
+        const chunks* get(const instance& it) const BY_CONST_FUNC(get(it))
+        const chunks* get(const instance* it) const BY_CONST_FUNC(get(it))
+        const chunks* get(nidx n) const BY_CONST_FUNC(get(n))
 
         using super::has;
         nbool has(const instance& it) const override;

@@ -40,5 +40,5 @@ namespace by {
     typedef nuchar nubyte;
     typedef nint64 nid;
     typedef nint ncnt;
-    constexpr nidx NM_INDEX_ERROR = -1;
+    constexpr nidx BY_INDEX_ERROR = -1;
 } // namespace by

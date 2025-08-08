@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM_DEF_ME(logStructureFlag)
+    BY_DEF_ME(logStructureFlag)
 
     const nchar* me::getName() const { return "-S, --show-structure"; }
 

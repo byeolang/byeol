@@ -35,7 +35,7 @@ namespace by {
         ///         I need the name and which types should be casted and binded from given arguments
         ///         are matters.
         virtual params& getParams();
-        const params& getParams() const NM_CONST_FUNC(getParams())
+        const params& getParams() const BY_CONST_FUNC(getParams())
 
         /// @return node which has same type of the func.
         ///         in byeol lang, even type is an object. that's why I return this as a node.
@@ -55,7 +55,7 @@ namespace by {
         virtual const baseObj& getOrigin() const = 0;
 
         static nbool isFuncButNotClosure(const node& n);
-        static nbool isFuncButNotClosure(const node* it) NM_SIDE_FUNC(isFuncButNotClosure);
+        static nbool isFuncButNotClosure(const node* it) BY_SIDE_FUNC(isFuncButNotClosure);
 
     protected:
         ntype& _getType(); // for generalizer.

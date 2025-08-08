@@ -11,7 +11,7 @@ namespace by {
 
     template class _nout worker<tstr<slot>, slot>;
 
-    NM_DEF_ME(interpreter)
+    BY_DEF_ME(interpreter)
 
     me::interpreter(): _isParsed(false) {}
 
@@ -65,9 +65,9 @@ namespace by {
     nbool me::_isPackExist() { return !nul(_pser.getSubPack()) && !nul(getTask()); }
 
     void me::_parse() {
-        NM_DI("======================================");
-        NM_DI("|               parse                |");
-        NM_DI("======================================");
+        BY_DI("======================================");
+        BY_DI("|               parse                |");
+        BY_DI("======================================");
 
         _pser.setReport(getReport())
             .setFlag(getFlag())
@@ -81,9 +81,9 @@ namespace by {
     }
 
     void me::_expand() {
-        NM_DI("======================================");
-        NM_DI("|               expand               |");
-        NM_DI("======================================");
+        BY_DI("======================================");
+        BY_DI("|               expand               |");
+        BY_DI("======================================");
 
         WHEN_NUL(getTask()).err("_slot is null").ret();
 
@@ -97,9 +97,9 @@ namespace by {
     }
 
     void me::_verify() {
-        NM_DI("======================================");
-        NM_DI("|                verify              |");
-        NM_DI("======================================");
+        BY_DI("======================================");
+        BY_DI("|                verify              |");
+        BY_DI("======================================");
 
         WHEN_NUL(getTask()).err("_slot is null").ret();
 
