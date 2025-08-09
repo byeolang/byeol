@@ -4,11 +4,11 @@
 
 namespace by {
 
-    NM(DEF_ME(impliAses))
+    BY(DEF_ME(impliAses))
 
     namespace {
         class derivedAser: public aser {
-            NM(CLASS(derivedAser, aser))
+            BY(CLASS(derivedAser, aser))
 
         public:
             nbool is(const type& from, const type& to) const override { return to.isSuper(from); }

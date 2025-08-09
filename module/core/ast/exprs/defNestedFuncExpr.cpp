@@ -4,7 +4,7 @@
 #include "core/worker/visitor/visitor.hpp"
 
 namespace by {
-    NM(DEF_ME(defNestedFuncExpr), DEF_VISIT())
+    BY(DEF_ME(defNestedFuncExpr), DEF_VISIT())
 
     me::defNestedFuncExpr(const func& org): _org(org) {}
 

@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout smartDedent: public typeProvidable, public clonable {
-        NM(CLASS(smartDedent))
+        BY(CLASS(smartDedent))
 
         enum Status {
             OFF = -1,

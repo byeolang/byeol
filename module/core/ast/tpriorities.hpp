@@ -18,7 +18,7 @@ namespace by {
     const _nout nchar* getPriorTypeName(priorType type);
 
     template <typename T> struct tprior: instance {
-        NM(CLASS(tprior, instance))
+        BY(CLASS(tprior, instance))
 
     public:
         tprior(const node& newElem, priorType type, ncnt lv);
@@ -44,7 +44,7 @@ namespace by {
     };
 
     template <typename T> class tpriorities: public tnarr<T> {
-        NM(CLASS(tpriorities, tnarr<T>))
+        BY(CLASS(tpriorities, tnarr<T>))
         template <typename E> friend class tprioritiesBucket;
 
     public:

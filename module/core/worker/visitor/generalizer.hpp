@@ -6,7 +6,7 @@
 namespace by {
 
     class _nout generalizer: public visitor {
-        NM(CLASS(generalizer, visitor))
+        BY(CLASS(generalizer, visitor))
 
     public:
         /// @param origin of generic object.

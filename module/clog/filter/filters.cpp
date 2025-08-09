@@ -1,7 +1,7 @@
 #include "clog/filter/filters.hpp"
 
 namespace by {
-    NM(DEF_ME(filters))
+    BY(DEF_ME(filters))
 
     me::~filters() { rel(); }
 

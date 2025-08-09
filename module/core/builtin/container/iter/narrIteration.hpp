@@ -1,7 +1,7 @@
 // nested class of tnarr.hpp:
 //  this file allows to be refered by 'tnarr.hpp' file only.
 class narrIteration: public iteration {
-    NM(CLASS(narrIteration, iteration))
+    BY(CLASS(narrIteration, iteration))
     friend class tnarr;
 
 public:

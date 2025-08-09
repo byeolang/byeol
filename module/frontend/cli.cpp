@@ -3,7 +3,7 @@ using namespace by;
 
 namespace by {
 
-    NM(DEF_ME(cli))
+    BY(DEF_ME(cli))
 
     namespace {
         std::string _joinString(const std::vector<std::string>& v) {

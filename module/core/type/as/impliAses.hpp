@@ -5,7 +5,7 @@
 namespace by {
 
     class _nout impliAses: public ases {
-        NM(CLASS(impliAses, ases))
+        BY(CLASS(impliAses, ases))
 
     public:
         impliAses();

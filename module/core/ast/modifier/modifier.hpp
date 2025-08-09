@@ -5,7 +5,7 @@
 
 namespace by {
     class _nout modifier: public instance {
-        NM(CLASS(modifier, instance))
+        BY(CLASS(modifier, instance))
 
     public:
         modifier();

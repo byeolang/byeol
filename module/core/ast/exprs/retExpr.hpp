@@ -7,7 +7,7 @@ namespace by {
     class visitor;
 
     class _nout retExpr: public retStateExpr {
-        NM(CLASS(retExpr, retStateExpr, expr::exprType), VISIT())
+        BY(CLASS(retExpr, retStateExpr, expr::exprType), VISIT())
 
     public:
         retExpr(const node& ret);

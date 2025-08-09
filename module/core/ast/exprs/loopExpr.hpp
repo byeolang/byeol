@@ -9,12 +9,12 @@ namespace by {
     class arr;
 
     class _nout loopExpr: public expr {
-        NM(ADT(loopExpr, expr, expr::exprType), VISIT())
+        BY(ADT(loopExpr, expr, expr::exprType), VISIT())
         friend class loop;
 
     public:
         class _nout loop: public instance {
-            NM(ADT(loop))
+            BY(ADT(loop))
 
         public:
             loop(arr* ret);

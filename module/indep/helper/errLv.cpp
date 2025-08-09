@@ -1,7 +1,7 @@
 #include "indep/helper/errLv.hpp"
 
 namespace by {
-    NM(DEF_ME(errLv))
+    BY(DEF_ME(errLv))
 
     const std::string& me::getName(level lv) {
         switch(lv) {

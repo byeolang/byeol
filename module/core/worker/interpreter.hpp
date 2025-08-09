@@ -7,7 +7,7 @@ namespace by {
 
     class _nout interpreter: public worker<tstr<slot>, slot> {
         typedef worker<tstr<slot>, slot> __super7;
-        NM(CLASS(interpreter, __super7))
+        BY(CLASS(interpreter, __super7))
 
     public:
         enum logFlag2 {

@@ -7,7 +7,7 @@ namespace by {
     class visitor;
 
     class _nout defaultCopyCtor: public baseCtor {
-        NM(ME(defaultCopyCtor, baseCtor), INIT_META(defaultCopyCtor), CLONE(defaultCopyCtor),
+        BY(ME(defaultCopyCtor, baseCtor), INIT_META(defaultCopyCtor), CLONE(defaultCopyCtor),
             VISIT())
 
     public:

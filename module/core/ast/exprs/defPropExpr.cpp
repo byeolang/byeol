@@ -3,7 +3,7 @@
 #include "core/ast/closure.hpp"
 
 namespace by {
-    NM(DEF_ME(defPropExpr), DEF_VISIT())
+    BY(DEF_ME(defPropExpr), DEF_VISIT())
 
     me::defPropExpr(const std::string& name, const node& rhs): super(name, &rhs) {}
 

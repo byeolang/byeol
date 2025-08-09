@@ -3,7 +3,7 @@
 
 namespace by {
 
-    NM(DEF_ME(mgdType))
+    BY(DEF_ME(mgdType))
 
     me::mgdType(const std::string& name, const type& super, const params& ps):
         me(name, super, ps, false, nullptr) {}

@@ -10,7 +10,7 @@ namespace by {
     typedef tnarr<node, strTactic> narr;
 
     class _nout mgdType: public ntype, public clonable {
-        NM(ME(mgdType, ntype), CLONE(mgdType))
+        BY(ME(mgdType, ntype), CLONE(mgdType))
 
     public:
         mgdType(const std::string& name, const type& super, const params& ps);

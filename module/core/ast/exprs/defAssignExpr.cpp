@@ -3,7 +3,7 @@
 #include "core/worker/visitor/visitor.hpp"
 
 namespace by {
-    NM(DEF_ME(defAssignExpr), DEF_VISIT())
+    BY(DEF_ME(defAssignExpr), DEF_VISIT())
 
     me::defAssignExpr(const std::string& name, const node* rhs): super(name, rhs) {}
 

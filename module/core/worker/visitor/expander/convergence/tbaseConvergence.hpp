@@ -16,7 +16,7 @@ namespace by {
     };
 
     template <typename T> class tbaseConvergence: public baseConvergence {
-        NM(ADT(tbaseConvergence, baseConvergence))
+        BY(ADT(tbaseConvergence, baseConvergence))
 
     protected:
         using onConverge = typename ConvergenceClosure<T>::is;

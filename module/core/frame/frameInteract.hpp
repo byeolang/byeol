@@ -5,7 +5,7 @@
 namespace by {
 
     class frameInteract {
-        NM(ME(frameInteract))
+        BY(ME(frameInteract))
 
     public:
         frameInteract(const frameInteractable& it);

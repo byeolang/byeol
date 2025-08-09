@@ -7,7 +7,7 @@
 
 namespace by {
 
-    NM(DEF_ME(origin))
+    BY(DEF_ME(origin))
 
     me::origin(const mgdType& newType):
         super(), _type(newType), _src(dumSrc::singleton()), _state(RELEASED) {

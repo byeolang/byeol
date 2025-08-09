@@ -6,7 +6,7 @@
 namespace by {
 
     class _nout defArrayExpr: public expr {
-        NM(CLASS(defArrayExpr, expr, expr::exprType), VISIT())
+        BY(CLASS(defArrayExpr, expr, expr::exprType), VISIT())
         friend class visitor; // for getElems()
 
     public:

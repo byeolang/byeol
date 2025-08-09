@@ -104,7 +104,7 @@ TEST_F(getExprTest, getInnerScopeVarNegative) {
 }
 
 struct myObj: public obj {
-    NM(CLASS(myObj, obj))
+    BY(CLASS(myObj, obj))
 
 public:
     myObj(): executed(false) {}
@@ -127,7 +127,7 @@ TEST_F(getExprTest, getExprSkipEvalToPrimitiveObj) {
 }
 
 struct myGetExpr: public getExpr {
-    NM(CLASS(myGetExpr, getExpr, expr::exprType))
+    BY(CLASS(myGetExpr, getExpr, expr::exprType))
 
 public:
     myGetExpr(const node& from, const std::string& name): super(from, name), executed(false) {}

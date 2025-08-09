@@ -7,7 +7,7 @@ struct objTest: public byeolTest {};
 
 namespace {
     class originObj: public obj {
-        NM(CLASS(originObj, obj))
+        BY(CLASS(originObj, obj))
 
     public:
         originObj(): super(), _subs(*new scope()) {}

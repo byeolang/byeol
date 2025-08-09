@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout isExpr: public expr {
-        NM(CLASS(isExpr, expr, expr::exprType), VISIT())
+        BY(CLASS(isExpr, expr, expr::exprType), VISIT())
 
     public:
         isExpr(const node& me, const node& to);

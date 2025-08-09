@@ -10,7 +10,7 @@ namespace by {
     class frames;
 
     class _nout calltrace: public instance {
-        NM(CLASS(calltrace, instance))
+        BY(CLASS(calltrace, instance))
 
     public:
         calltrace(const frame& newFrame);
@@ -22,7 +22,7 @@ namespace by {
     };
 
     class _nout callstack: public tnarr<calltrace>, public dumpable {
-        NM(CLASS(callstack, instance))
+        BY(CLASS(callstack, instance))
 
     public:
         callstack();

@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM(DEF_ME(verFlag))
+    BY(DEF_ME(verFlag))
 
     const nchar* verFlag::getName() const { return "--version"; }
 

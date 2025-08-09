@@ -6,7 +6,7 @@ namespace by {
 
     template <typename T, typename R = T*, typename RSquare = T&>
     class tnucontainer: public instance, public tucontainable<T, R, RSquare> {
-        NM(ADT(tnucontainer, instance))
+        BY(ADT(tnucontainer, instance))
     };
 
     class node;

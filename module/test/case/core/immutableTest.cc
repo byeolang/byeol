@@ -7,7 +7,7 @@ using namespace by;
 namespace {
 
     struct myObj: public obj {
-        NM(CLASS(myObj, obj))
+        BY(CLASS(myObj, obj))
 
     public:
         myObj(int newVal = 0): val(newVal) {}
@@ -21,10 +21,10 @@ namespace {
     };
 
     class myfunc: public func {
-        NM(ME(myfunc, func))
+        BY(ME(myfunc, func))
 
         class myBlock: public blockExpr {
-            NM(CLASS(myBlock, blockExpr))
+            BY(CLASS(myBlock, blockExpr))
 
         public:
             str run(const args& a) override {

@@ -3,7 +3,7 @@
 
 namespace by {
 
-    NM(DEF_ME(err))
+    BY(DEF_ME(err))
 
     me::err(const nStr& msg): super(errLv::ERR), _msg(msg) {}
 

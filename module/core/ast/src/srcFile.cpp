@@ -5,7 +5,7 @@
 
 namespace by {
 
-    NM(DEF_ME(srcFile), DEF_VISIT())
+    BY(DEF_ME(srcFile), DEF_VISIT())
 
     me::srcFile(): me("", "") {}
 

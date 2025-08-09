@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout dumScope: public scope {
-        NM(CLASS(dumScope, scope))
+        BY(CLASS(dumScope, scope))
 
     public:
         dumScope();

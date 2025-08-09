@@ -7,7 +7,7 @@ namespace by {
     typedef std::map<std::string, nbool> enables;
 
     class _nout enablesZone {
-        NM(ME(enablesZone))
+        BY(ME(enablesZone))
 
     public:
         enablesZone();

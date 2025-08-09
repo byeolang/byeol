@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout errPassFilter: public filterable {
-        NM(ME(errPassFilter, filterable))
+        BY(ME(errPassFilter, filterable))
 
     public:
         nbool filt(errLv::level lv, const std::string& tag) const override;

@@ -4,7 +4,7 @@
 
 namespace by {
     class convergence: public tbaseConvergence<void> {
-        NM(CLASS(convergence, tbaseConvergence))
+        BY(CLASS(convergence, tbaseConvergence))
 
     public:
         convergence(baseObj& obj, baseFunc& fun, onConverge closure);

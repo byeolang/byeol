@@ -7,7 +7,7 @@ namespace by {
     class frame;
 
     class _nout forExpr: public loopExpr {
-        NM(CLASS(forExpr, loopExpr, expr::exprType), VISIT())
+        BY(CLASS(forExpr, loopExpr, expr::exprType), VISIT())
         friend class verifier;
 
     public:

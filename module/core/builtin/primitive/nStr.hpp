@@ -14,7 +14,7 @@ namespace by {
         protected:
             const ases& _getAses() const override;
         };
-        NM(CLASS(nStr, primitiveObj, nStrType), VISIT())
+        BY(CLASS(nStr, primitiveObj, nStrType), VISIT())
 
         typedef typename tucontainable<nStr>::iter iter;
         typedef typename tucontainable<nStr>::iteration iteration;

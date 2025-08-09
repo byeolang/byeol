@@ -11,7 +11,7 @@
 
 namespace by {
 
-    NM(DEF_ME(func), DEF_VISIT())
+    BY(DEF_ME(func), DEF_VISIT())
 
     me::func(const modifier& mod, const funcMgdType& type):
         super(mod), _type(type), _blk(new blockExpr()) {}

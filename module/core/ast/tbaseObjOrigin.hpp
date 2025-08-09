@@ -17,7 +17,7 @@ namespace by {
     ///         tstr<baseObjOrigin> a; // X, unexpected behavior may happen.
     ///         tstr<baseObj> a; // O
     template <typename T> class tbaseObjOrigin: public T {
-        NM(ME(tbaseObjOrigin, T), INIT_META(tbaseObjOrigin))
+        BY(ME(tbaseObjOrigin, T), INIT_META(tbaseObjOrigin))
         static_assert(tifSub<T, baseObj>::is, "you need to input 'T' as derived class of baseObj.");
 
     public:

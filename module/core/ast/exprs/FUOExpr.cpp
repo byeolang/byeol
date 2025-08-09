@@ -5,7 +5,7 @@
 
 namespace by {
 
-    NM(DEF_ME(FUOExpr), DEF_VISIT())
+    BY(DEF_ME(FUOExpr), DEF_VISIT())
 
     me::FUOExpr(symbol s, const node& it): _symbol(s), _it(it) {}
 

@@ -6,7 +6,7 @@
 
 namespace by {
 
-    NM(DEF_ME(getGenericExpr), DEF_VISIT())
+    BY(DEF_ME(getGenericExpr), DEF_VISIT())
 
     me::getGenericExpr(const std::string& genericName, const args& typeParams):
         super(genericName, typeParams) {}

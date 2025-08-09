@@ -10,7 +10,7 @@
 
 namespace by {
 
-    NM(DEF_ME(genericOrigin), DEF_VISIT())
+    BY(DEF_ME(genericOrigin), DEF_VISIT())
 
     me::genericOrigin(const origin& org, const strings& paramNames):
         _org(org), _paramNames(paramNames) {}

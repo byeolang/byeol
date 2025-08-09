@@ -55,7 +55,7 @@ namespace by {
     ///             type T. of course these are based on class 'bind', user can use loose-check API
     ///             case by case.
     class _nout binder: public typeProvidable, public tbindable<instance> {
-        NM(ME(binder, instance), INIT_META(me))
+        BY(ME(binder, instance), INIT_META(me))
 
         friend class weakTactic;
         friend class strTactic;

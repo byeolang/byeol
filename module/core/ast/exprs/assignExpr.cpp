@@ -6,7 +6,7 @@
 
 namespace by {
 
-    NM(DEF_ME(assignExpr), DEF_VISIT())
+    BY(DEF_ME(assignExpr), DEF_VISIT())
 
     me::assignExpr(const node& lhs, const node& rhs): _lhs(lhs), _rhs(rhs) {}
 

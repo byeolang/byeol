@@ -7,7 +7,7 @@
 namespace by {
 
     class _nout errReport: public instance, public dumpable {
-        NM(CLASS(errReport, instance))
+        BY(CLASS(errReport, instance))
 
     public:
         errReport();
@@ -61,7 +61,7 @@ namespace by {
     };
 
     class _nout dummyErrReport: public errReport {
-        NM(CLASS(dummyErrReport, errReport))
+        BY(CLASS(dummyErrReport, errReport))
 
     public:
         const baseErr& add(const baseErr& new1) override;

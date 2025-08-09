@@ -10,7 +10,7 @@
 namespace by {
 
 
-    NM(DEF_ME(node), DEF_VISIT())
+    BY(DEF_ME(node), DEF_VISIT())
 
     me& me::operator[](const std::string& name) { return *sub(name); }
 

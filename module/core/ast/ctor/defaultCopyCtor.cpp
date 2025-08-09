@@ -6,7 +6,7 @@
 
 namespace by {
 
-    NM(DEF_ME(defaultCopyCtor), DEF_VISIT())
+    BY(DEF_ME(defaultCopyCtor), DEF_VISIT())
 
     me::defaultCopyCtor(const node& org):
         super(typeMaker::make<me>(params(*new param("rhs", org)), &org)) {}

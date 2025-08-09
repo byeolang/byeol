@@ -12,7 +12,7 @@ namespace by {
     class slotLoader;
 
     class _nout thread: public node, public dumpable {
-        NM(CLASS(thread, node))
+        BY(CLASS(thread, node))
         friend class verifier;  // for frames
         friend class baseObj;   // for frames.
         friend class func;      // for frames.

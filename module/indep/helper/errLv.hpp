@@ -6,7 +6,7 @@
 
 namespace by {
     class _nout errLv {
-        NM(ME(errLv))
+        BY(ME(errLv))
 
     public:
         enum level {

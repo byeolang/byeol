@@ -9,7 +9,7 @@
 
 namespace by {
 
-    NM(DEF_ME(exprMaker))
+    BY(DEF_ME(exprMaker))
 
     me::exprMaker(): _pos{0, 0} {}
 

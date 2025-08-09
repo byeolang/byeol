@@ -11,7 +11,7 @@ namespace by {
 #define _VISIT WHEN(alreadyVisited).ret(false)
 #define _LEAVE WHEN(alreadyVisited).ret()
 
-    NM(DEF_ME(graphVisitor))
+    BY(DEF_ME(graphVisitor))
     using platformAPI::foreColor;
     using namespace std;
 

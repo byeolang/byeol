@@ -6,7 +6,7 @@
 namespace by {
 
     class _nout ases: public tnarr<aser>, public asable {
-        NM(CLASS(ases, tnarr<aser>))
+        BY(CLASS(ases, tnarr<aser>))
 
     public:
         ases();

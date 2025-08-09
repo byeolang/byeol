@@ -1,7 +1,7 @@
 #include "core/worker/visitor/expander/convergence/convergence.hpp"
 
 namespace by {
-    NM(DEF_ME(convergence))
+    BY(DEF_ME(convergence))
 
     me::convergence(baseObj& obj, baseFunc& fun, onConverge closure):
         super(obj, fun, std::move(closure)) {}

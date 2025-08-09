@@ -3,7 +3,7 @@
 // nested class of tbicontainable.hpp:
 //  this file allows to be refered by 'tbicontainable.hpp' file only.
 class iter: public iterable, public clonable, public typeProvidable {
-    NM(CLASS(iter))
+    BY(CLASS(iter))
     friend class iteration;
     template <typename K1, typename V1, typename defaultContainer1> friend class tnchain;
     template <typename K1, typename V1, typename TACTIC> friend class tnmap;

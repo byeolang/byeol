@@ -6,7 +6,7 @@
 
 namespace by {
 
-    NM(DEF_ME(nVoid), DEF_VISIT())
+    BY(DEF_ME(nVoid), DEF_VISIT())
 
     nbool me::wVoidType::isImmutable() const { return true; }
 

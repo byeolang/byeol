@@ -3,7 +3,7 @@
 #include "core/worker/parser.hpp"
 
 namespace by {
-    NM(DEF_ME(fileSupply))
+    BY(DEF_ME(fileSupply))
 
     me::fileSupply(const std::string& newPath): _path(newPath) {}
 

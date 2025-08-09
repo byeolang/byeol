@@ -5,7 +5,7 @@
 namespace by {
 
     class _nout immutableTactic: public strTactic {
-        NM(ME(immutableTactic, strTactic))
+        BY(ME(immutableTactic, strTactic))
 
     public:
         using super::bind;

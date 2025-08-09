@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout leafSmartDedent {
-        NM(ME(leafSmartDedent))
+        BY(ME(leafSmartDedent))
 
         enum Status {
             OFF = -1,

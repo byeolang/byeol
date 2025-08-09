@@ -5,7 +5,7 @@
 namespace by {
 
     class _nout inputFunc: public baseFunc {
-        NM(ME(inputFunc, baseFunc), CLONE(inputFunc))
+        BY(ME(inputFunc, baseFunc), CLONE(inputFunc))
 
     public:
         const ntype& getType() const override;

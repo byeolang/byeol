@@ -11,7 +11,7 @@
 
 namespace by {
 
-    NM(DEF_ME(loopExpr), DEF_VISIT())
+    BY(DEF_ME(loopExpr), DEF_VISIT())
 
     me::loop::loop(arr* ret): _ret(ret) {}
 

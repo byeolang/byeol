@@ -8,7 +8,7 @@
 
 namespace by {
 
-    NM(DEF_ME(inputFunc))
+    BY(DEF_ME(inputFunc))
 
     const ntype& me::getType() const {
         static mgdType inner("input", ttype<me>::get(), params(), false, new nStr());

@@ -6,7 +6,7 @@
 
 namespace by {
 
-    NM(DEF_ME(seq), DEF_VISIT())
+    BY(DEF_ME(seq), DEF_VISIT())
 
     namespace {
         static const baseObj& _getOrigin() {
@@ -44,7 +44,7 @@ namespace by {
         typedef tbridge<niter> __superMgdIter;
 
         class _nout mgdIter: public __superMgdIter {
-            NM(CLASS(mgdIter, __superMgdIter))
+            BY(CLASS(mgdIter, __superMgdIter))
 
         public:
             mgdIter(niter* real): super(real) {}
@@ -65,7 +65,7 @@ namespace by {
         };
 
         class iterateFunc: public baseFunc {
-            NM(ME(iterateFunc, baseFunc), CLONE(iterateFunc))
+            BY(ME(iterateFunc, baseFunc), CLONE(iterateFunc))
 
         public:
             const ntype& getType() const override {
@@ -96,7 +96,7 @@ namespace by {
         };
 
         class getElemTypeFunc: public baseFunc {
-            NM(ME(getElemTypeFunc, baseFunc), CLONE(getElemTypeFunc))
+            BY(ME(getElemTypeFunc, baseFunc), CLONE(getElemTypeFunc))
 
         public:
             const ntype& getType() const override {

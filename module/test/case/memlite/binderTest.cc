@@ -82,7 +82,7 @@ namespace {
     static nbool isDTerminated = false;
 
     struct D: public instance {
-        NM(ME(D, instance))
+        BY(ME(D, instance))
 
     public:
         ~D() override {
@@ -100,7 +100,7 @@ namespace {
     static nbool isETerminated = false;
 
     struct E: public D {
-        NM(ME(E, D))
+        BY(ME(E, D))
 
     public:
         ~E() override {
@@ -308,7 +308,7 @@ TEST_F(binderTest, bindNullShouldUnbindPrevious) {
 // we will verify that this memlite module can handle the situation properly.
 TEST_F(binderTest, bindStaticVariable) {
     class myInstance: public instance {
-        NM(ME(myInstance, instance))
+        BY(ME(myInstance, instance))
 
     public:
         const type& getType() const override { return ttype<myInstance>::get(); };

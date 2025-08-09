@@ -6,7 +6,7 @@
 #include "core/ast/exprs/assignExpr.hpp"
 
 namespace by {
-    NM(DEF_ME(defVarExpr), DEF_VISIT())
+    BY(DEF_ME(defVarExpr), DEF_VISIT())
 
     me::defVarExpr(const std::string& name, const node* rhs): _name(name), _rhs(rhs) {}
 

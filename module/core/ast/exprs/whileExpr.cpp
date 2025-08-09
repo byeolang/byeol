@@ -6,7 +6,7 @@
 
 namespace by {
 
-    NM(DEF_ME(whileExpr), DEF_VISIT())
+    BY(DEF_ME(whileExpr), DEF_VISIT())
 
     me::whileExpr(const node& condition, const blockExpr& blk): super(blk), _condition(condition) {}
 
@@ -14,7 +14,7 @@ namespace by {
 
     namespace {
         class whileLoop: public me::loop {
-            NM(CLASS(whileLoop, loop))
+            BY(CLASS(whileLoop, loop))
 
         public:
             whileLoop(arr* ret, const whileExpr& owner): super(ret), _owner(owner) {}

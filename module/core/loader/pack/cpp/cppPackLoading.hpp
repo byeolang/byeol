@@ -7,7 +7,7 @@
 namespace by {
 
     class _nout cppPackLoading: public trustPackLoading {
-        NM(CLASS(cppPackLoading, trustPackLoading))
+        BY(CLASS(cppPackLoading, trustPackLoading))
         typedef void (*entrypointFunc)(bicontainable*);
 
     public:

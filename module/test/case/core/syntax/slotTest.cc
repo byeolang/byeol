@@ -9,10 +9,10 @@ namespace {
     struct slotTest: public byeolSyntaxTest {};
 
     class myfunc: public func {
-        NM(ME(myfunc, func), CLONE(myfunc))
+        BY(ME(myfunc, func), CLONE(myfunc))
 
         class myBlock: public blockExpr {
-            NM(CLASS(myBlock, blockExpr))
+            BY(CLASS(myBlock, blockExpr))
 
         public:
             str run(const args& a) override {
@@ -52,7 +52,7 @@ namespace {
     };
 
     class nativeFunc: public baseFunc {
-        NM(ME(nativeFunc, baseFunc), CLONE(nativeFunc))
+        BY(ME(nativeFunc, baseFunc), CLONE(nativeFunc))
 
     public:
         nativeFunc(): super(*new modifier) {}

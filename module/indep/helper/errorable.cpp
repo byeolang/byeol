@@ -2,7 +2,7 @@
 #include "indep/helper/buildFeature.hpp"
 
 namespace by {
-    NM(DEF_ME(errorable))
+    BY(DEF_ME(errorable))
 
     void me::dbgLog() const {
         WHEN(!buildFeature::config::isDbg()).ret();

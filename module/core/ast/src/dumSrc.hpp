@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout dumSrc: public src {
-        NM(CLASS(dumSrc, src))
+        BY(CLASS(dumSrc, src))
 
     private:
         dumSrc();

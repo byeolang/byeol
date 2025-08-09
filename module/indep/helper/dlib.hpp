@@ -20,7 +20,7 @@ namespace by {
     // dlib:
     //  dynamic library class.
     class _nout dlib {
-        NM(ME(dlib))
+        BY(ME(dlib))
 
     public:
     public:

@@ -6,7 +6,7 @@
 namespace by {
 
     template <typename T> struct tas: public aser {
-        NM(ADT(tas<T>, aser))
+        BY(ADT(tas<T>, aser))
 
     public:
         virtual ~tas() = default;

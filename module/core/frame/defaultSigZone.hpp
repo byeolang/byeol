@@ -6,7 +6,7 @@
 
 namespace by {
     template <typename W> class defaultSigZone: public sigZone {
-        NM(ME(defaultSigZone, sigZone))
+        BY(ME(defaultSigZone, sigZone))
 
     public:
         defaultSigZone(const W& worker):

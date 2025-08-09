@@ -5,7 +5,7 @@
 namespace by {
 
     class baseCtor: public baseFunc {
-        NM(ME(baseCtor, baseFunc), VISIT())
+        BY(ME(baseCtor, baseFunc), VISIT())
         friend class generalizer; // for _setOrigin()
 
     public:

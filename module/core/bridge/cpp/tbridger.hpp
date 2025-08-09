@@ -13,7 +13,7 @@ namespace by {
 
     template <typename T, nbool isBaseObj = tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>
     class tbridger {
-        NM(ME(tbridger))
+        BY(ME(tbridger))
         template <typename Ret, typename T1, nbool, template <typename, nbool> class Marshaling,
             typename... Args>
         friend class tbridgeFunc;
@@ -132,7 +132,7 @@ namespace by {
     };
 
     template <typename T> class tbridger<T, true> {
-        NM(ME(tbridger))
+        BY(ME(tbridger))
 
     private:
         tbridger() = default;

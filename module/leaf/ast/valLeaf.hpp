@@ -5,7 +5,7 @@
 namespace by {
 
     class _nout valLeaf: public leaf {
-        NM(ME(valLeaf, leaf), CLONE(me), INIT_META(valLeaf))
+        BY(ME(valLeaf, leaf), CLONE(me), INIT_META(valLeaf))
 
     public:
         valLeaf(const std::string& rawVal, const std::string& name = "");

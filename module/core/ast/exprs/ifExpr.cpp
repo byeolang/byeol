@@ -8,7 +8,7 @@
 
 namespace by {
 
-    NM(DEF_ME(ifExpr), DEF_VISIT())
+    BY(DEF_ME(ifExpr), DEF_VISIT())
 
     me::ifExpr(const node& exp, const blockExpr& thenBlk): _expr(exp), _then(thenBlk) {}
 

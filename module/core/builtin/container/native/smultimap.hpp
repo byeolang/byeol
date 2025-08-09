@@ -21,7 +21,7 @@ namespace by {
     ///
     ///     the core ideas come from Oliver Schönrock and several great developers at bit.ly/41CwjLL
     template <typename K, typename V> class smultimap {
-        NM(ME(smultimap))
+        BY(ME(smultimap))
 
     public:
         class wrap;
@@ -58,7 +58,7 @@ namespace by {
         };
 
         class iterator {
-            NM(ME(iterator))
+            BY(ME(iterator))
             typedef smultimap<K, V> owner;
 
         public:

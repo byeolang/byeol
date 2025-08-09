@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout endExpr: public blockExpr {
-        NM(CLASS(endExpr, blockExpr), VISIT())
+        BY(CLASS(endExpr, blockExpr), VISIT())
 
     public:
         endExpr(const blockExpr& blk);

@@ -25,7 +25,7 @@ namespace {
     }
 
     struct myObj: public obj {
-        NM(CLASS(myObj, obj))
+        BY(CLASS(myObj, obj))
     };
 
     struct dummy {

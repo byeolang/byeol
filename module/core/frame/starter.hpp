@@ -9,7 +9,7 @@ namespace by {
 
     class _nout starter: public worker<str, node> {
         typedef worker<str, node> __super8;
-        NM(CLASS(starter, __super8))
+        BY(CLASS(starter, __super8))
 
     public:
         enum logFlag3 {

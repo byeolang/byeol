@@ -92,7 +92,7 @@ namespace by {
 #define __WHEN_OBJECT__ __indep_when__
 
     class _nout __WHEN_OBJECT__ {
-        NM(ME(__WHEN_OBJECT__))
+        BY(ME(__WHEN_OBJECT__))
 
     public:
         static const me& get();

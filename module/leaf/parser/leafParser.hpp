@@ -10,7 +10,7 @@ namespace by {
     class leafTokenScan;
 
     class _nout leafParser: public leafTokenScanable {
-        NM(ME(leafParser))
+        BY(ME(leafParser))
 
     public:
         leafParser();

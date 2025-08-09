@@ -10,7 +10,7 @@ namespace by {
     template <typename K, typename V, typename TACTIC = strTactic>
     class tnmap: public tnbicontainer<K, V> {
         typedef tnbicontainer<K, V> _super_;
-        NM(CLASS(tnmap, _super_))
+        BY(CLASS(tnmap, _super_))
 
     public:
         template <typename K1, typename V1> friend class tmap;

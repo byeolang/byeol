@@ -10,7 +10,7 @@ namespace by {
     class tnchain: public tnbicontainer<K, V> {
         typedef tnbicontainer<K, V> _super_;
         typedef tnchain<K, V, _defaultContainer> _me_;
-        NM(CLASS(_me_, _super_))
+        BY(CLASS(_me_, _super_))
 
     public:
         typedef typename super::iter iter;

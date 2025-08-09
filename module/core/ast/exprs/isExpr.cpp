@@ -3,7 +3,7 @@
 #include "core/worker/visitor/visitor.hpp"
 
 namespace by {
-    NM(DEF_ME(isExpr), DEF_VISIT())
+    BY(DEF_ME(isExpr), DEF_VISIT())
 
     me::isExpr(const node& me, const node& to): _me(me), _to(to) {}
 

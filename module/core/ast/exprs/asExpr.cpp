@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM(DEF_ME(asExpr), DEF_VISIT())
+    BY(DEF_ME(asExpr), DEF_VISIT())
 
     me::asExpr(const node& me, const node& as): _me(me), _as(as) {}
 

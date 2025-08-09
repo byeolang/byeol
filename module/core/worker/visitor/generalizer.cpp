@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM(DEF_ME(generalizer))
+    BY(DEF_ME(generalizer))
 
     me& me::add(const obj& origin) {
         _org.bind(origin);

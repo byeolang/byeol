@@ -11,7 +11,7 @@ namespace by {
     template <typename Ret, typename T, template <typename, nbool> class Marshaling,
         typename... Args>
     class tbridgeClosure: public baseFunc {
-        NM(ME(tbridgeClosure, baseFunc), CLONE(tbridgeClosure))
+        BY(ME(tbridgeClosure, baseFunc), CLONE(tbridgeClosure))
         static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<Args, node>::is>::canMarshal()) ==
                           sizeof(metaIf::yes))...>::value,
             "can't marshal one of this func's parameter ntypes.");
@@ -71,7 +71,7 @@ namespace by {
 
     template <typename T, template <typename, nbool> class Marshaling, typename... Args>
     class tbridgeClosure<void, T, Marshaling, Args...>: public baseFunc {
-        NM(ME(tbridgeClosure, baseFunc), CLONE(tbridgeClosure))
+        BY(ME(tbridgeClosure, baseFunc), CLONE(tbridgeClosure))
         static_assert(allTrues<(sizeof(Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::canMarshal()) ==
                           sizeof(metaIf::yes))...>::value,
             "can't marshal one of this func's parameter ntypes.");

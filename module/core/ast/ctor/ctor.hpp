@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout ctor: public func {
-        NM(ME(ctor, func), INIT_META(ctor), CLONE(ctor), VISIT())
+        BY(ME(ctor, func), INIT_META(ctor), CLONE(ctor), VISIT())
         typedef ntype metaType;
 
     public:

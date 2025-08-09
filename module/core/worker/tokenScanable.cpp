@@ -3,7 +3,7 @@
 
 namespace by {
 
-    NM(DEF_ME(tokenScanable))
+    BY(DEF_ME(tokenScanable))
 
     nint me::onScan(parser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner) {
         nbool dum;

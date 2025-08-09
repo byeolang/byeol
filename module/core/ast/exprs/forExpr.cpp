@@ -9,7 +9,7 @@
 
 namespace by {
 
-    NM(DEF_ME(forExpr), DEF_VISIT())
+    BY(DEF_ME(forExpr), DEF_VISIT())
 
     me::forExpr(const std::string& localName, const node& container, const blockExpr& blk):
         super(blk), _container(container), _name(localName) {}
@@ -30,7 +30,7 @@ namespace by {
 
     namespace {
         class forLoop: public me::loop {
-            NM(CLASS(forLoop, loop))
+            BY(CLASS(forLoop, loop))
 
         public:
             forLoop(arr* ret, const str& container, const str& iter, const forExpr& owner):

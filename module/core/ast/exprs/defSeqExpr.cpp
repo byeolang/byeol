@@ -5,7 +5,7 @@
 
 namespace by {
 
-    NM(DEF_ME(defSeqExpr), DEF_VISIT())
+    BY(DEF_ME(defSeqExpr), DEF_VISIT())
 
     me::defSeqExpr(const node& start, const node& end): _start(start), _end(end) {}
 

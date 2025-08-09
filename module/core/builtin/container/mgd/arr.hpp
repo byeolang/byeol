@@ -14,7 +14,7 @@ namespace by {
         //
         //  the most appropriate getter for ntype of arr is to call getType() of instance
         //  to arr.
-        NM(ME(arr, tbridge<narr>), INIT_META(arr), CLONE(arr), VISIT())
+        BY(ME(arr, tbridge<narr>), INIT_META(arr), CLONE(arr), VISIT())
 
     public:
         typedef typename tucontainable<node>::iter iter;

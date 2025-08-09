@@ -14,7 +14,7 @@
 
 namespace by {
 
-    NM(DEF_ME(expander))
+    BY(DEF_ME(expander))
 
     namespace {
         static ncnt _stepN = 0;

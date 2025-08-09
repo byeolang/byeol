@@ -5,7 +5,7 @@
 
 namespace by {
     class _nout baseErr: public baseObj, public errorable {
-        NM(ADT(baseErr, baseObj))
+        BY(ADT(baseErr, baseObj))
         template <typename T, nbool> friend struct tmarshaling;
 
     public:

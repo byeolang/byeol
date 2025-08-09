@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout dumSrcFile: public srcFile {
-        NM(ME(dumSrcFile, srcFile))
+        BY(ME(dumSrcFile, srcFile))
 
     public:
         dumSrcFile();

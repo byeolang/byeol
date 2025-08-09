@@ -2,7 +2,7 @@
 
 // nested class of tucontainable.hpp
 class iteration: public instance, public iterable {
-    NM(ADT(iteration, instance))
+    BY(ADT(iteration, instance))
     friend class iter;
 
 public:

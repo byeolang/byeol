@@ -14,7 +14,7 @@ namespace by {
 
     class _nout visitor: public worker<void, node> {
         typedef worker<void, node> __super6;
-        NM(CLASS(visitor, __super6))
+        BY(CLASS(visitor, __super6))
 
     public:
         visitor();

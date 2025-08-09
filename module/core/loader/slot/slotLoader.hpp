@@ -9,7 +9,7 @@ namespace by {
     typedef std::vector<packLoading*> packLoadings;
 
     class _nout slotLoader: public typeProvidable, public clonable {
-        NM(CLASS(slotLoader))
+        BY(CLASS(slotLoader))
 
     public:
         slotLoader();

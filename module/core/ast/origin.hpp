@@ -20,7 +20,7 @@ namespace by {
     class runExpr;
 
     class _nout origin final: public obj {
-        NM(ME(origin, obj), INIT_META(origin))
+        BY(ME(origin, obj), INIT_META(origin))
 
     public:
         friend class genericOrigin; // for _setOrigin(), _setType

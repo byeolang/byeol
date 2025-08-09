@@ -12,7 +12,7 @@ namespace by {
     typedef std::vector<std::string> strings;
 
     class flag: public instance {
-        NM(ADT(flag, instance))
+        BY(ADT(flag, instance))
 
     public:
         enum res {

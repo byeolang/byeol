@@ -11,7 +11,7 @@ struct arrTest: public byeolSyntaxTest {
 
 namespace {
     class myNode: public baseObj {
-        NM(CLASS(myNode, baseObj))
+        BY(CLASS(myNode, baseObj))
 
     public:
         myNode(): number(0) {}
@@ -35,7 +35,7 @@ namespace {
     };
 
     class myMyNode: public myNode {
-        NM(CLASS(myMyNode, myNode))
+        BY(CLASS(myMyNode, myNode))
 
     public:
         myMyNode(int num): super(num) {}

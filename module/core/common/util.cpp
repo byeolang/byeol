@@ -3,7 +3,7 @@
 #include "core/ast/exprs/getExpr.hpp"
 
 namespace by {
-    NM(DEF_ME(util))
+    BY(DEF_ME(util))
 
     typeAttr me::checkTypeAttr(const std::string& name) {
         WHEN(name.empty()).ret(ATTR_ERR);

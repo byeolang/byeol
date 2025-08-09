@@ -6,9 +6,9 @@
 // byeol universal DECL macro:
 //  BY_DECL is generalized API used to describe the metadata of class in byeol.
 //  BY_DECL can be used to define detailed metadata about a class by chaining sub-command sets.
-//  with NM macro, I can clarify that those INIT_META, VISIT are should be after of NM macro.
+//  with BY macro, I can clarify that those INIT_META, VISIT are should be after of BY macro.
 //  and limit the scope of availbility.
-//  these macros which are available only inside of NM macro are called to sub-commands.
+//  these macros which are available only inside of BY macro are called to sub-commands.
 //
 // Usage:
 //  use BY_DECL macro at declaration of your class.
@@ -21,4 +21,4 @@
 //  };
 
 #define _ON_EACH_DECL(cmd) __BY__DECL_##cmd
-#define NM(...) BY_EACH(_ON_EACH_DECL, __VA_ARGS__)
+#define BY(...) BY_EACH(_ON_EACH_DECL, __VA_ARGS__)

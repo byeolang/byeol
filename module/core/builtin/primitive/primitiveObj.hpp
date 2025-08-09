@@ -10,12 +10,12 @@
 namespace by {
 
     template <typename T> class primitiveObj: public arithmeticObj {
-        NM(ADT(primitiveObj, arithmeticObj))
+        BY(ADT(primitiveObj, arithmeticObj))
         typedef T trait;
 
     protected:
         template <typename E, typename RAW> class asPrimitive: public tas<E> {
-            NM(CLASS(asPrimitive, tas<E>))
+            BY(CLASS(asPrimitive, tas<E>))
 
         public:
             str as(const node& me, const type& to) const override {
@@ -50,7 +50,7 @@ namespace by {
     };
 
     template <> class primitiveObj<void>: public arithmeticObj {
-        NM(ADT(primitiveObj, arithmeticObj))
+        BY(ADT(primitiveObj, arithmeticObj))
 
     protected:
         nbool _onSame(const typeProvidable& rhs) const override { return true; }

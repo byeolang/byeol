@@ -1,7 +1,7 @@
 #include "core/frame/sigZone.hpp"
 
 namespace by {
-    NM(DEF_ME(sigZone))
+    BY(DEF_ME(sigZone))
 
     me::sigZone(const sigHandler& handler): _handler(handler) { prepare(handler).setHandler(); }
 

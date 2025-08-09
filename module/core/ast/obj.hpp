@@ -14,7 +14,7 @@ namespace by {
     /// owned sub nodes of a object can only be manipulated through API provided obj.
     /// because native object won't have owned nodes but only shared ones.
     class _nout obj: public baseObj {
-        NM(ME(obj, baseObj), INIT_META(obj), CLONE(obj), VISIT())
+        BY(ME(obj, baseObj), INIT_META(obj), CLONE(obj), VISIT())
 
     public:
         typedef ntype metaType;

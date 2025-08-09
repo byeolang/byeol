@@ -7,7 +7,7 @@
 
 namespace by {
 
-    NM(DEF_ME(dlib))
+    BY(DEF_ME(dlib))
 
     me::dlib(): _handle(nullptr) {}
 

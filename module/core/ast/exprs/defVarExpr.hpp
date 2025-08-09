@@ -10,7 +10,7 @@ namespace by {
     class assignExpr;
 
     class _nout defVarExpr: public expr {
-        NM(ADT(defVarExpr, expr), VISIT())
+        BY(ADT(defVarExpr, expr), VISIT())
 
     public:
         defVarExpr(const std::string& name, const node* rhs);

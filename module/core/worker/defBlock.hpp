@@ -8,7 +8,7 @@ namespace by {
     class defVarExpr;
 
     class _nout defBlock: public instance {
-        NM(CLASS(defBlock, instance))
+        BY(CLASS(defBlock, instance))
 
     public:
         defBlock();

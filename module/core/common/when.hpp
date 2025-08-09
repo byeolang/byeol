@@ -11,7 +11,7 @@ namespace by {
 #define __WHEN_OBJECT__ __core_when__
 
     class _nout __WHEN_OBJECT__: public __clog_when__ {
-        NM(ME(__WHEN_OBJECT__, __clog_when__))
+        BY(ME(__WHEN_OBJECT__, __clog_when__))
 
     public:
         static const me& get();

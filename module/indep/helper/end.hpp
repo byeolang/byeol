@@ -10,7 +10,7 @@ namespace by {
     //      in byeolang, it registers what to be done when you go out of the current func.
     //      in c++, but, it limited to scope, not a func.
     class _nout end {
-        NM(ME(end))
+        BY(ME(end))
 
     public:
         end(std::function<void(void)> l);

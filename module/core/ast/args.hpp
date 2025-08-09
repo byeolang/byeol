@@ -6,7 +6,7 @@
 namespace by {
 
     class _nout args: public narr {
-        NM(CLASS(args, narr))
+        BY(CLASS(args, narr))
 
     public:
         args();

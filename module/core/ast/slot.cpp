@@ -9,7 +9,7 @@
 
 namespace by {
 
-    NM(DEF_ME(slot), DEF_VISIT())
+    BY(DEF_ME(slot), DEF_VISIT())
 
     me::slot(const manifest& manifest): _manifest(manifest), _isValid(true) {
         origin& org = *new origin(typeMaker::make<obj>(_manifest.name));

@@ -6,7 +6,7 @@
 namespace by {
 
     class _nout arithmeticObj: public baseObj {
-        NM(ADT(arithmeticObj, baseObj))
+        BY(ADT(arithmeticObj, baseObj))
 
     public:
         tstr<me> add(const me& rhs) const;

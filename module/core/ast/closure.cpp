@@ -8,7 +8,7 @@
 #include "core/type/typeMaker.hpp"
 
 namespace by {
-    NM(DEF_ME(closure), DEF_VISIT())
+    BY(DEF_ME(closure), DEF_VISIT())
 
     namespace {
         funcMgdType _makeClosureType(const baseFunc& from) {
