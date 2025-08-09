@@ -7,16 +7,16 @@ namespace by {
 
     BY_DEF_ME(arithmeticObj)
 
-#define _X(FUNC)                                                                   \
-    tstr<arithmeticObj> me::FUNC(const arithmeticObj& rhs) const {                 \
-        const auto& dummy = nVoid::singleton(); \
-        const ntype& deduced = getType().deduce(rhs) OR.exErr(TYPE_NOT_DEDUCED).ret(dummy);                   \
-        WHEN(deduced.isSub<nVoid>()).ret(dummy); \
-                                                \
-        nbool normalOrder = getType() == deduced;                                  \
-        const arithmeticObj& winner = getType() == deduced ? *this : rhs;          \
-        const arithmeticObj& loser = getType() == deduced ? rhs : *this;           \
-        return winner._##FUNC(loser, !normalOrder);                                \
+#define _X(FUNC)                                                                            \
+    tstr<arithmeticObj> me::FUNC(const arithmeticObj& rhs) const {                          \
+        const auto& dummy = nVoid::singleton();                                             \
+        const ntype& deduced = getType().deduce(rhs) OR.exErr(TYPE_NOT_DEDUCED).ret(dummy); \
+        WHEN(deduced.isSub<nVoid>()).ret(dummy);                                            \
+                                                                                            \
+        nbool normalOrder = getType() == deduced;                                           \
+        const arithmeticObj& winner = getType() == deduced ? *this : rhs;                   \
+        const arithmeticObj& loser = getType() == deduced ? rhs : *this;                    \
+        return winner._##FUNC(loser, !normalOrder);                                         \
     }
 
     BY_EACH(_X, add, sub, mul, div, mod, bitwiseAnd, bitwiseXor, bitwiseOr, rshift, lshift)

@@ -15,7 +15,8 @@ TEST_F(getExprTest, getSymbolOnPackScope) {
     )SRC")
         .shouldParsed(true);
     shouldVerified(true); // retType is void so implicit return won't work.
-    scope::super& shares = (scope::super*) (getSlot() TO(subs().getNext()) TO (getContainer())) OR_ASSERT(shares);
+    scope::super& shares =
+        (scope::super*) (getSlot() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 3);
 }
 
@@ -28,7 +29,8 @@ TEST_F(getExprTest, getSymbolOnPackScope1) {
             ret 0
     )SRC")
         .shouldVerified(true);
-    scope::super& shares = (scope::super*) (getSlot() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& shares =
+        (scope::super*) (getSlot() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 3);
 }
 
@@ -41,7 +43,8 @@ TEST_F(getExprTest, getSymbolOnPackScope2) {
             ret age
     )SRC")
         .shouldVerified(true);
-    scope::super& shares = (scope::super*) (getSlot() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& shares =
+        (scope::super*) (getSlot() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 3);
     node& age = getSubPack() TO(sub("age")) OR_ASSERT(age);
     nInt& cast = age.cast<nInt>() OR_ASSERT(cast);
@@ -58,7 +61,8 @@ TEST_F(getExprTest, getSymbolOnPackScope3Negative) {
     )SRC")
         .shouldParsed(true);
     shouldVerified(false);
-    scope::super& shares = (scope::super*) (getSlot() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& shares =
+        (scope::super*) (getSlot() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 3);
     node& age = getSubPack() TO(sub("age")) OR_ASSERT(age);
     nStr& cast = age.cast<nStr>() OR_ASSERT(cast);

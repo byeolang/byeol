@@ -381,10 +381,14 @@ namespace by {
         WHEN(asedMe && !asedMe->isComplete()).myExErr(me, ACCESS_TO_INCOMPLETE).ret();
 
         _STEP("check modifier.");
-        if(!match->getModifier().isPublic()) { // we only need to run verify routine when there is protected modifier.
+        if(!match->getModifier().isPublic()) { // we only need to run verify routine when there is
+                                               // protected modifier.
             baseObj* castedMe = asedMe->cast<baseObj>();
             if(castedMe) { // if getExpr's castedMe is not derived one of baseObj, it's frame.
-                const node& currentMe = thread::get().getNowFrame() TO(getMe()) OR.myExErr(THERE_IS_NO_FRAMES_IN_THREAD).ret();
+                const node& currentMe = thread::get()
+                                            .getNowFrame() TO(getMe())
+                                                OR.myExErr(THERE_IS_NO_FRAMES_IN_THREAD)
+                                            .ret();
                 WHEN(!castedMe->isSuper(currentMe))
                     .myExErr(me, CANT_ACCESS_TO_PROTECTED_VARIABLE, me.getName())
                     .ret();
@@ -399,7 +403,8 @@ namespace by {
         WHEN(i.index != i.len - 1).myExErr(me, RET_AT_MIDDLE_OF_BLOCK).ret();
 
         _STEP("checks evalType of func is matched to me");
-        const baseFunc& f = thread::get().getNowFrame() TO(getFunc()) OR.myExErr(me, NO_FUNC_INFO).ret();
+        const baseFunc& f =
+            thread::get().getNowFrame() TO(getFunc()) OR.myExErr(me, NO_FUNC_INFO).ret();
         str myRet = me.getRet().getEval() OR.myExErr(me, EXPR_EVAL_NUL).ret();
 
         const node& funRet = f.getRet() OR.myExErr(me, NO_RET_TYPE).ret();
@@ -477,7 +482,10 @@ namespace by {
 
         onVisit(i, (func::super&) me, false);
 
-        obj& meObj = thread::get()._getNowFrame() TO(getMe()) TO(template cast<obj>()) OR.myExErr(me, FUNC_REDIRECTED_OBJ).ret(true);
+        obj& meObj = thread::get()
+                         ._getNowFrame() TO(getMe()) TO(template cast<obj>())
+                             OR.myExErr(me, FUNC_REDIRECTED_OBJ)
+                         .ret(true);
 
         _STEP("check func duplication");
         const nbicontainer& top = meObj.getShares().getContainer();
@@ -602,7 +610,8 @@ namespace by {
             .info("func: skip verification WHEN lastStmt is retStateExpr.")
             .ret();
         WHEN(!lastType.isSub<baseErr>() && !lastType.isImpli(retType))
-            // TODO: remove .myExErr(lastStmt ? me : lastStmt, RET_TYPE_NOT_MATCH, lastType, retType)
+            // TODO: remove .myExErr(lastStmt ? me : lastStmt, RET_TYPE_NOT_MATCH, lastType,
+            // retType)
             .myExErr(me, RET_TYPE_NOT_MATCH, lastType, retType)
             .ret();
     }

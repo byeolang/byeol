@@ -50,8 +50,8 @@ namespace by {
     //
     //   the problem is that, as can be seen in the code above, if is used so commonly that it is
     //   difficult to immediately know whether a normal branch is made for logic or an ealry return
-    //   is made to prune in advance with exception handling. that's why in byeol, `WHEN` is used for
-    //   almost all ealry return exception handling.
+    //   is made to prune in advance with exception handling. that's why in byeol, `WHEN` is used
+    //   for almost all ealry return exception handling.
     //
     //   the output is very intuitive.
     //
@@ -101,14 +101,15 @@ namespace by {
 
         template <typename R> R* ret([[maybe_unused]] R* r) const { return r; }
 
-        template <typename R> R&& ret([[maybe_unused]] R&& r) const {
-            return std::move(r);
-        }
+        template <typename R> R&& ret([[maybe_unused]] R&& r) const { return std::move(r); }
 
         void ret() const;
 
         template <typename T> tmay<T> retMay() const { return tmay<T>(); }
-        template <typename T, typename... Ts> tmay<T> retMay(Ts... args) const { return tmay<T>(args...); }
+
+        template <typename T, typename... Ts> tmay<T> retMay(Ts... args) const {
+            return tmay<T>(args...);
+        }
 
         void crash() const;
 

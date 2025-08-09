@@ -53,6 +53,7 @@ namespace by {
 
         public:
             using super::operator*;
+
             nStr& operator*() override { return *get(); }
 
         public:
@@ -65,12 +66,14 @@ namespace by {
             ncnt stepBackward(ncnt step) override { return _e.stepBackward(step); }
 
             using super::get;
+
             nStr* get() override {
                 _val = *_e;
                 return &_val;
             }
 
             using super::getContainer;
+
             tucontainable<nStr>* getContainer() override { return _own; }
 
         protected:
@@ -93,6 +96,7 @@ namespace by {
 
         public:
             using super::subs;
+
             scope& subs() override {
                 static scope inner = tbridger<niter>::ctor()
                                          .ctor<niter>()
@@ -121,7 +125,8 @@ namespace by {
                 WHEN(a.len() != ps.len())
                     .warn("a.len(%d) != ps.len(%d)", a.len(), ps.len())
                     .ret(str());
-                nStr& me = a.getMe() TO(template cast<nStr>()) OR.err("me as nStr == null").ret(str());
+                nStr& me =
+                    a.getMe() TO(template cast<nStr>()) OR.err("me as nStr == null").ret(str());
 
                 str eval =
                     a[0].as(ps[0].getOrigin().as<node>())
@@ -203,9 +208,7 @@ namespace by {
                     else if(val == "true") boolean = true;
                     else boolean = stoi(val, nullptr, 0) == 0;
                     return str(new nBool(boolean));
-                } catch(std::invalid_argument& ex) {
-                    return _canNotCastEx(me, to);
-                }
+                } catch(std::invalid_argument& ex) { return _canNotCastEx(me, to); }
             }
         };
 

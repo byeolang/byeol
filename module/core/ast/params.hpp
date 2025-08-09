@@ -13,10 +13,10 @@ namespace by {
     public:
         params();
         params(const me& rhs) = default;
-        template <typename... Es>
-        explicit params(const Es&... elems) {
+
+        template <typename... Es> explicit params(const Es&... elems) {
             static_assert(areBaseOfT<param, Es...>::value,
-                          "some of type of args are not base of type `T`");
+                "some of type of args are not base of type `T`");
             add({(param*) &elems...});
         }
 
@@ -39,13 +39,18 @@ namespace by {
     public:
         using tucontainable<param>::set;
         using tarrayable<param>::set;
+
         nbool set(const iter& at, const param& new1) override { return true; }
+
         nbool set(nidx n, const param& new1) override { return true; }
 
         using tucontainable<param>::add;
         using tarrayable<param>::add;
+
         nbool add(const iter& at, const param& new1) override { return true; }
+
         nbool add(nidx n, const param& new1) override { return true; }
+
         void add(const iter& here, const iter& from, const iter& to) override {}
     };
 } // namespace by

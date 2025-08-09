@@ -38,6 +38,7 @@ namespace by {
         const ntype& getType() const override { return ttype<super>::get(); }
 
         using super::subs;
+
         scope& subs() override { return *_subs; }
 
         const modifier& getModifier() const override { return *_mod; }

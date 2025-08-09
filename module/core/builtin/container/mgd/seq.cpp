@@ -82,15 +82,16 @@ namespace by {
                     .warn("a.len(%d) != ps.len(%d)", a.len(), ps.len())
                     .ret(str());
 
-                seq& meObj = a.getMe() TO(template cast<seq>()) OR.err("meObj as arr == null").ret(str());
+                seq& meObj =
+                    a.getMe() TO(template cast<seq>()) OR.err("meObj as arr == null").ret(str());
                 str eval =
                     a[0].as(ps[0].getOrigin())
                         OR.err("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0])
                             .ret(str());
 
                 nint step = *eval->cast<nint>();
-                static tucontainable<nInt, nInt, nInt>::iter (tucontainable<nInt, nInt, nInt>::*specifier)(ncnt)
-                    const = &seq::iterate;
+                static tucontainable<nInt, nInt, nInt>::iter (
+                    tucontainable<nInt, nInt, nInt>::*specifier)(ncnt) const = &seq::iterate;
                 return new mgdIter(new niter((meObj.get().*specifier)(step)));
             }
         };

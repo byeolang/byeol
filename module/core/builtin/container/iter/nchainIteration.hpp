@@ -139,6 +139,7 @@ private:
     const me* _castIteration(const iter& e) const BY_CONST_FUNC(_castIteration(e))
 
     tnchain* _castChain(const iter& e) { return (tnchain*) e.getContainer(); }
+
     tnchain* _castChain(const iter* it) BY_SIDE_FUNC(_castChain);
 
     const tnchain* _castChain(const iter& e) const BY_CONST_FUNC(_castChain(e));

@@ -13,6 +13,7 @@ namespace by {
         tmock(): super() {}
 
         tmock(const T& org): super(), _org(org) {}
+
         tmock(const T* org): super(), _org(org) {}
 
     public:
@@ -22,18 +23,21 @@ namespace by {
         }
 
         using super::subs;
+
         scope& subs() override {
             if(_org) return _org->subs();
             return dumScope::singleton();
         }
 
         using super::prioritize;
+
         priorType prioritize(const args& a) const override {
             if(_org) return _org->prioritize(a);
             return NO_MATCH;
         }
 
         using super::run;
+
         str run(const args& a) override {
             if(_org) return _org->run(a);
             return str();
@@ -50,6 +54,7 @@ namespace by {
         }
 
         using super::cast;
+
         void* cast(const type& to) override {
             if(ttype<me>::get().isSub(to)) return this;
             if(_org) return _org->cast(to);
@@ -62,6 +67,7 @@ namespace by {
 
     protected:
         using super::_setSrc;
+
         void _setSrc(const src& s) override {
             if(!_org) return;
             _org->_setSrc(s);

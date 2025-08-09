@@ -110,7 +110,9 @@ namespace by {
     }
 
     TEMPL
-    tbicontainable<K, V>* ME::getContainer() { return _iteration ? _iteration->getContainer() : nullptr; }
+    tbicontainable<K, V>* ME::getContainer() {
+        return _iteration ? _iteration->getContainer() : nullptr;
+    }
 
     TEMPL
     typename ME& ME::_assign(const me& rhs) {

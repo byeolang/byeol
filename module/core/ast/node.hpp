@@ -64,7 +64,8 @@ namespace by {
         template <typename T = me>
         const T* sub(const std::string* name) const BY_CONST_FUNC(sub<T>(name))
         template <typename T = me> T* sub(const std::string& name, const args& a);
-        template <typename T = me> T* sub(const std::string* name, const args& a) BY_SIDE_FUNC(name, sub(*name, a), nullptr);
+        template <typename T = me>
+        T* sub(const std::string* name, const args& a) BY_SIDE_FUNC(name, sub(*name, a), nullptr);
         template <typename T = me>
         const T* sub(const std::string& name, const args& a) const BY_CONST_FUNC(sub<T>(name, a))
         template <typename T = me>
@@ -74,23 +75,28 @@ namespace by {
         tnarr<T, strTactic> subAll(std::function<nbool(const std::string&, const T&)> l) const;
         template <typename T = me> tnarr<T, strTactic> subAll() const;
         template <typename T = me> tpriorities<T> subAll(const std::string& name) const;
-        template <typename T = me> tpriorities<T> subAll(const std::string* it) const BY_SIDE_FUNC(subAll<T>)
-
-
-        /// finds subnodes of this node, allowing implicit conversion based on name and arguments.
-        /// @param a if you pass this as a nullptr, the argument will be ignored and all names that are the same
-        ///          will be considered to meet the condition.
-        ///          if you pass the argument as `args()`, it will be considered to meet the condition only
-        ///          if there are no parameters and the names are the same, so the two have completely different
-        ///          meanings. BE CAREFUL.
         template <typename T = me>
-        tpriorities<T> subAll(const std::string& name, const args* a) const;
+        tpriorities<T> subAll(const std::string* it) const BY_SIDE_FUNC(subAll<T>)
+
+
+            /// finds subnodes of this node, allowing implicit conversion based on name and
+            /// arguments.
+            /// @param a if you pass this as a nullptr, the argument will be ignored and all names
+            /// that are the same
+            ///          will be considered to meet the condition.
+            ///          if you pass the argument as `args()`, it will be considered to meet the
+            ///          condition only if there are no parameters and the names are the same, so
+            ///          the two have completely different meanings. BE CAREFUL.
+            template <typename T = me>
+            tpriorities<T> subAll(const std::string& name, const args* a) const;
         template <typename T = me>
         tpriorities<T> subAll(const std::string& name, const args& a) const;
         template <typename T = me>
-        tpriorities<T> subAll(const std::string* name, const args* a) const BY_SIDE_FUNC(name, subAll<T>(*name, a), tpriorities<T>());
+        tpriorities<T> subAll(const std::string* name, const args* a) const
+            BY_SIDE_FUNC(name, subAll<T>(*name, a), tpriorities<T>());
         template <typename T = me>
-        tpriorities<T> subAll(const std::string* name, const args& a) const BY_SIDE_FUNC(name, subAll<T>(*name, a), tpriorities<T>());
+        tpriorities<T> subAll(const std::string* name, const args& a) const
+            BY_SIDE_FUNC(name, subAll<T>(*name, a), tpriorities<T>());
 
         bool canRun(const args& a) const;
         virtual priorType prioritize(const args& a) const = 0;
@@ -101,7 +107,8 @@ namespace by {
         str run(const std::string& name, const args& a);
         str run(const std::string& name, const args* a) BY_SIDE_FUNC(a, run(name, a), str());
         str run(const std::string* name, const args& a) BY_SIDE_FUNC(name, run(*name, a), str());
-        str run(const std::string* name, const args* a) BY_SIDE_FUNC(name && a, run(*name, *a), str());
+        str run(const std::string* name, const args* a)
+            BY_SIDE_FUNC(name&& a, run(*name, *a), str());
         str run(const std::string& name);
         str run(const std::string* it) BY_SIDE_FUNC(run);
         str run();

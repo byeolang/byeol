@@ -100,7 +100,9 @@ namespace by {
 
             return ret;
         }
-        template <typename T> static T* wrap(const super* it) BY_SIDE_FUNC(it, wrap<T>(*it), nullptr);
+
+        template <typename T>
+        static T* wrap(const super* it) BY_SIDE_FUNC(it, wrap<T>(*it), nullptr);
 
         static me* wrap(const super& toShallowWrap);
         static me* wrap(const super* it) BY_SIDE_FUNC(wrap);

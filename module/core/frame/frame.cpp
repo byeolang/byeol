@@ -52,7 +52,8 @@ namespace by {
             WHEN(!found && !isOwner).ret(nullptr);
             found = true;
 
-            baseObj& org = reg.owner TO(template cast<baseObj>()) OR.ret(nullptr); // when returns nullptr, it lets the loop keep searching.
+            baseObj& org = reg.owner TO(template cast<baseObj>()) OR.ret(
+                nullptr); // when returns nullptr, it lets the loop keep searching.
             return &org;
         });
     }

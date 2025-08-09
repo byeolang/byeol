@@ -99,7 +99,8 @@ pack demo
         .shouldParsed(true);
     ASSERT_FALSE(nul(getSubPack()));
     ASSERT_FALSE(nul(getSlot()->subs()));
-    scope::super& shares = (scope::super*) (getSlot() TO(subs()) TO(getNext()->getContainer())) OR_ASSERT(shares);
+    scope::super& shares =
+        (scope::super*) (getSlot() TO(subs()) TO(getNext()->getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 2);
     ASSERT_EQ(getSlot()->getManifest().name, "demo");
 }
@@ -116,7 +117,8 @@ TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
         const frame& fr = sf.get(sf.len() - 1) OR.ret(false);
 
         // checks slot is in frame:
-        const params& ps = fr.sub<myfunc>("foo", narr(*new nInt(), *new nFlt())) TO(getParams()) OR.ret(false);
+        const params& ps =
+            fr.sub<myfunc>("foo", narr(*new nInt(), *new nFlt())) TO(getParams()) OR.ret(false);
         if(ps.len() != 2) return false;
         if(ps[0].getOrigin().getType() != ttype<nInt>()) return false;
         if(ps[1].getName() != "grade") return false;

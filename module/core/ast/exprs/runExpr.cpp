@@ -22,9 +22,8 @@ namespace by {
                            OR.err("@%s `me` is null. no thread found", addr)
                                .ret(str());
 
-        str sub = _getSub(*evaledMe)
-                      OR.err("@%s can't find the func to `%s`", addr, evaledMe)
-                          .ret(str());
+        str sub =
+            _getSub(*evaledMe) OR.err("@%s can't find the func to `%s`", addr, evaledMe).ret(str());
 
         BY_DI("@%s run: assigning me: me[%s] sub[%s@%s]", addr, evaledMe, sub, sub.get());
 
@@ -83,8 +82,7 @@ namespace by {
 
     str me::getEval() const {
         const node& me = getMe() OR.err("me is null").ret(str());
-        str sub = _getSub(me.getEval()) OR.err("_subject.as<node>() returns null")
-                      .ret(str());
+        str sub = _getSub(me.getEval()) OR.err("_subject.as<node>() returns null").ret(str());
         WHEN(sub->isSub<baseObj>()).ret(sub->isComplete() ? sub : new mockNode(*sub));
 
         baseFunc& cast =

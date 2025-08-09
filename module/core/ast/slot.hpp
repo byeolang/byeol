@@ -26,7 +26,7 @@ namespace by {
         void addDependent(me& dependent);
         void addDependent(me* it) BY_SIDE_FUNC(addDependent)
 
-        const tnarr<me>& getDependents() const;
+            const tnarr<me>& getDependents() const;
 
         using super::subs;
         scope& subs() override;

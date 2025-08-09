@@ -19,7 +19,9 @@ namespace by {
 
     TEMPL ME::tweak(const T* it): SUPER(ttype<T>::get(), TACTIC::singleton) { this->bind(it); }
 
-    TEMPL ME::tweak(const tmedium<T>& it): SUPER(ttype<T>::get(), TACTIC::singleton) { this->bind(it.get()); }
+    TEMPL ME::tweak(const tmedium<T>& it): SUPER(ttype<T>::get(), TACTIC::singleton) {
+        this->bind(it.get());
+    }
 
     TEMPL ME::tweak(const ME& rhs): SUPER(ttype<T>::get(), TACTIC::singleton) {
         this->_assign(rhs);

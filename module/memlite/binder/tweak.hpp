@@ -46,12 +46,14 @@ namespace by {
         // it'll never be used.
         return t.get();
     }
+
     template <typename T, typename F> tmedium<T> operator|(const tweak<T>& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.
         return t.get();
     }
+
     template <typename T, typename F> tweak<T> operator|(tweak<T>&& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
@@ -106,13 +108,18 @@ namespace by {
     };
 
     // extension for TO macro:
-    template <typename T, typename F> auto operator->*(tweak<T>& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
+    template <typename T, typename F>
+    auto operator->*(tweak<T>& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
         return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
     }
-    template <typename T, typename F> auto operator->*(const tweak<T>& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
+
+    template <typename T, typename F>
+    auto operator->*(const tweak<T>& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
         return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
     }
-    template <typename T, typename F> auto operator->*(tweak<T>&& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
+
+    template <typename T, typename F>
+    auto operator->*(tweak<T>&& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
         return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
     }
 

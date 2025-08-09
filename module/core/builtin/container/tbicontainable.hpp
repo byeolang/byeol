@@ -84,13 +84,15 @@ namespace by {
 
         iter iterate(ncnt step) const;
 
-        /// @param  step    determines which element the `iter` will point to. If `0` is entered, an `iter` will be
+        /// @param  step    determines which element the `iter` will point to. If `0` is entered, an
+        /// `iter` will be
         ///                 created that points to the frontmost element.
-        /// @param  isBoundary  determines whether this `iter` belongs to the end boundary of the inner container.
-        ///                     for example, if there is a container with len() of 3, and a reversed boundary iter
-        ///                     that points to the 2nd element for that container is created, and a chain is formed by
-        ///                     linking this iter,
-        ///                     when iterating over the chain, the 3rd element of the container will be iterated in
+        /// @param  isBoundary  determines whether this `iter` belongs to the end boundary of the
+        /// inner container.
+        ///                     for example, if there is a container with len() of 3, and a reversed
+        ///                     boundary iter that points to the 2nd element for that container is
+        ///                     created, and a chain is formed by linking this iter, when iterating
+        ///                     over the chain, the 3rd element of the container will be iterated in
         ///                     reverse order.
         iter iterate(ncnt step, nbool isBoundary) const;
         iter iterate(const K& key) const;
@@ -123,7 +125,8 @@ namespace by {
         virtual nbool del(const iter& from, const iter& end) = 0;
         nbool del(const iter* from, const iter& end) BY_SIDE_FUNC(from, del(*from, end), false);
         nbool del(const iter& from, const iter* end) BY_SIDE_FUNC(end, del(from, *end), false);
-        nbool del(const iter* from, const iter* end) BY_SIDE_FUNC(from && end, del(*from, *end), false);
+        nbool del(const iter* from, const iter* end)
+            BY_SIDE_FUNC(from&& end, del(*from, *end), false);
 
         nbool del(const tbicontainable& rhs);
         nbool del(const tbicontainable* it) BY_SIDE_FUNC(del);

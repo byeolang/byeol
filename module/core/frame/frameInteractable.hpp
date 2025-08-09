@@ -14,6 +14,7 @@ namespace by {
 
     public:
         virtual void inFrame(const bicontainable* args) const = 0;
+
         void inFrame() const { inFrame(nullptr); }
 
         virtual void outFrame() const = 0;

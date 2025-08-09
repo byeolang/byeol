@@ -38,12 +38,16 @@ namespace by {
         template <typename T> tstr<T> asImpli(const node& it) const {
             return this->asImpli(ttype<T>::get());
         }
+
         template <typename T> tstr<T> asImpli(const node* it) const BY_SIDE_FUNC(asImpli<T>);
 
         virtual str asImpli(const node& from, const type& to) const;
-        str asImpli(const node& from, const type* to) const BY_SIDE_FUNC(to, asImpli(from, *to), str());
-        str asImpli(const node* from, const type& to) const BY_SIDE_FUNC(from, asImpli(*from, to), str());
-        str asImpli(const node* from, const type* to) const BY_SIDE_FUNC(from && to, asImpli(*from, *to), str());
+        str asImpli(const node& from, const type* to) const
+            BY_SIDE_FUNC(to, asImpli(from, *to), str());
+        str asImpli(const node* from, const type& to) const
+            BY_SIDE_FUNC(from, asImpli(*from, to), str());
+        str asImpli(const node* from, const type* to) const
+            BY_SIDE_FUNC(from&& to, asImpli(*from, *to), str());
 
         /// @return whether this's a custom type.
         virtual nbool isCustom() const { return false; }
@@ -56,12 +60,14 @@ namespace by {
         template <typename T> tstr<T> as(const node& it) const {
             return this->as(it, ttype<T>::get());
         }
+
         template <typename T> tstr<T> as(const node* it) const BY_SIDE_FUNC(as<T>);
 
         str as(const node& from, const type& to) const;
         str as(const node& from, const type* to) const BY_SIDE_FUNC(to, as(from, *to), str());
         str as(const node* from, const type& to) const BY_SIDE_FUNC(from, as(*from, to), str());
-        str as(const node* from, const type* to) const BY_SIDE_FUNC(from && to, as(*from, *to), str());
+        str as(const node* from, const type* to) const
+            BY_SIDE_FUNC(from&& to, as(*from, *to), str());
 
         virtual nbool isImmutable() const;
         /// @return null if it's not relative between l & r.
@@ -74,9 +80,12 @@ namespace by {
 
         /// @return null it it's not relative between l & r.
         static const ntype* deduce(const ntype& l, const ntype& r);
-        static const ntype* deduce(const ntype& l, const ntype* r) BY_SIDE_FUNC(r, deduce(l ,*r), nullptr);
-        static const ntype* deduce(const ntype* l, const ntype& r) BY_SIDE_FUNC(l, deduce(*l ,r), nullptr);
-        static const ntype* deduce(const ntype* l, const ntype* r) BY_SIDE_FUNC(l && r, deduce(*l ,*r), nullptr);
+        static const ntype* deduce(const ntype& l, const ntype* r)
+            BY_SIDE_FUNC(r, deduce(l, *r), nullptr);
+        static const ntype* deduce(const ntype* l, const ntype& r)
+            BY_SIDE_FUNC(l, deduce(*l, r), nullptr);
+        static const ntype* deduce(const ntype* l, const ntype* r)
+            BY_SIDE_FUNC(l&& r, deduce(*l, *r), nullptr);
 
         const params& getParams() const BY_CONST_FUNC(getParams())
         virtual params& getParams();

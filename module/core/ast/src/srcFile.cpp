@@ -16,9 +16,7 @@ namespace by {
 
     str me::run(const args& a) { return str(); }
 
-    scope& me::subs() {
-        return dumScope::singleton();
-    }
+    scope& me::subs() { return dumScope::singleton(); }
 
     const std::string& me::getFileName() const { return _fileName; }
 

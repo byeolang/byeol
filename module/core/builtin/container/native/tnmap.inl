@@ -66,7 +66,7 @@ namespace by {
     nbool ME::del(const iter& at) {
         WHEN(at.isEnd()).warn("at is end of the container. skip function.").ret(false);
 
-        nmapIteration&e = _getIterationFrom(at) OR.ret(false);
+        nmapIteration& e = _getIterationFrom(at) OR.ret(false);
         _map.erase(e._citer);
 
         return true;

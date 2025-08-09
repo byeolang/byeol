@@ -17,9 +17,7 @@ namespace by {
     ME::tnarr() {}
 
     TEMPL
-    ME::tnarr(const me& rhs): super(rhs) {
-        add(rhs);
-    }
+    ME::tnarr(const me& rhs): super(rhs) { add(rhs); }
 
     TEMPL
     ncnt ME::len() const { return _vec.size(); };

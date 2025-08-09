@@ -35,10 +35,14 @@ namespace by {
         getExpr& get = _lhs TO(template cast<getExpr>()) OR.ret(scope::iter());
 
         // TODO: elementExpr
-        str ased = get TO(getMe()) TO(template as<node>()) OR.exErr(COULDNT_GET_ITER_FOR_LHS, get.getName()).ret(iter());
+        str ased = get TO(getMe()) TO(template as<node>())
+                       OR.exErr(COULDNT_GET_ITER_FOR_LHS, get.getName())
+                           .ret(iter());
         frame* fr = ased->cast<frame>();
         str got = get.as<node>();
-        scope& subs = (fr ? fr->getScopeHaving(got.get()) : &ased->subs()) OR.exErr(FRAME_DOESNT_HAVE_SCOPE_MATCHING_THIS_TYPE, got.get()).ret(iter());
+        scope& subs = (fr ? fr->getScopeHaving(got.get()) : &ased->subs()) OR
+                          .exErr(FRAME_DOESNT_HAVE_SCOPE_MATCHING_THIS_TYPE, got.get())
+                          .ret(iter());
         return subs.iterate(get.getName());
     }
 } // namespace by

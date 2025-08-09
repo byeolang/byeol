@@ -12,9 +12,11 @@ namespace by {
 
         public:
             using super::is;
+
             nbool is(const type& from, const type& to) const override { return to.isSuper(from); }
 
             using super::as;
+
             str as(const node& from, const type& to) const override { return from; }
 
             static me& singleton() {

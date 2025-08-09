@@ -10,8 +10,8 @@ TEST_F(slotLoaderTest, testDefaultLoaderInit) {
         (nmap&) by::thread::get().getSlots(); // don't worry for casting. I know what I'm doing >_o
     ASSERT_FALSE(nul(systemSlots));
 
-    slot& s =
-        systemSlots.get<slot>([](const std::string& name, const slot& e) { return name == "sys"; }) OR_ASSERT(s);
+    slot& s = systemSlots.get<slot>(
+        [](const std::string& name, const slot& e) { return name == "sys"; }) OR_ASSERT(s);
 
     ASSERT_EQ(s.subs().len(), 1);
     node& origin = s.sub("con") OR_ASSERT(origin);

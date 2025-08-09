@@ -13,6 +13,7 @@ namespace by {
 
     public:
         using super::is;
+
         nbool is(const type& from, const type& to) const override { return to == ttype<T>::get(); }
     };
 }

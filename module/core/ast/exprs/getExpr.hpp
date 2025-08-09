@@ -30,8 +30,7 @@ namespace by {
         const node* getMe() const;
         const std::string& getName() const;
         void setName(const std::string& new1);
-        void setName(const std::string* it) BY_SIDE_FUNC(setName)
-        void setMe(const node& newMe);
+        void setName(const std::string* it) BY_SIDE_FUNC(setName) void setMe(const node& newMe);
 
         /// @return nullable
         const args& getArgs() const;

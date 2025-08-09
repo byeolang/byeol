@@ -84,7 +84,7 @@ TEST_F(smultimapTest, eraseMultiPairs) {
     }
     ASSERT_EQ(scope.size(), 8); // = {0, 1, 2, 3, -1, 4, 5, 6}
 
-    auto e = scope.begin();                  // 0
+    auto e = scope.begin();                    // 0
     ASSERT_EQ(*(e++)->get()->cast<nint>(), 0); // e = 1
     auto end = e;
     ASSERT_EQ(*end->get()->cast<nint>(), 1);
