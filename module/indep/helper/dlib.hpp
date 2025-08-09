@@ -48,7 +48,9 @@ namespace by {
         template <typename F> tmayFunc<F> accessFunc(const std::string& name) {
             return accessFunc<F>(name.c_str());
         }
-        template <typename F> tmayFunc<F> accessFunc(const std::string* it) BY_SIDE_FUNC(accessFunc<F>);
+
+        template <typename F>
+        tmayFunc<F> accessFunc(const std::string* it) BY_SIDE_FUNC(accessFunc<F>);
 
         template <typename F> tmayFunc<F> accessFunc(const nchar* name) {
             auto&& res = _accessFunc(name);

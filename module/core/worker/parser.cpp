@@ -271,12 +271,12 @@ namespace by {
         str stmtLife(stmt);
 
         defBlock& sRef = s OR.exErr(IS_NUL, getReport(), "s").ret(new defBlock());
-        node& stmtRef= stmt OR.exErr(IS_NUL, getReport(), "stmt").ret(s);
+        node& stmtRef = stmt OR.exErr(IS_NUL, getReport(), "stmt").ret(s);
         BY_DI("tokenEvent: onDefBlock(s, %s)", *stmt);
 
         WHEN(stmtRef.cast<endExpr>()).exErr(END_ONLY_BE_IN_A_FUNC, getReport()).ret(s);
-        defVarExpr& defVar =
-            stmtRef.cast<defVarExpr>() OR.ret(&sRef.addScope(stmtRef.getSrc().getName(), *stmtLife));
+        defVarExpr& defVar = stmtRef.cast<defVarExpr>()
+                                 OR.ret(&sRef.addScope(stmtRef.getSrc().getName(), *stmtLife));
 
         // checks whether rhs was primitive type:
         //  if rhs isn't primitive, rhs will be getExpr type.
@@ -571,7 +571,9 @@ namespace by {
 
     std::vector<string> me::_toDotnames(const node& path) {
         std::vector<string> ret;
-        const getExpr& start = path.cast<getExpr>() OR.exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
+        const getExpr& start = path.cast<getExpr>()
+                                   OR.exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport())
+                                       .ret(std::vector<string>());
         const auto* iter = &start;
 
         do {
@@ -600,12 +602,10 @@ namespace by {
 
         nbool isConcerete = util::checkTypeAttr(name) == ATTR_COMPLETE;
         origin& org = *_maker.birth<origin>(name,
-            mgdType(name, ttype<obj>::get(), params::make(typeParams), !isConcerete,
-                nullptr));
+            mgdType(name, ttype<obj>::get(), params::make(typeParams), !isConcerete, nullptr));
         if(isConcerete)
-            org.setCallComplete(
-                *_maker.make<runExpr>(_maker.make<getGenericExpr>(name, typeParams),
-                    *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
+            org.setCallComplete(*_maker.make<runExpr>(_maker.make<getGenericExpr>(name, typeParams),
+                *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
 
         _onInjectObjSubs(org, blk);
 
@@ -1151,8 +1151,8 @@ namespace by {
     }
 
     runExpr* me::onIn(const node& it, const node& container) {
-        runExpr* ret = _maker.make<runExpr>(&container, *_maker.make<getExpr>("in"),
-            args(nullptr, narr(it)));
+        runExpr* ret =
+            _maker.make<runExpr>(&container, *_maker.make<getExpr>("in"), args(nullptr, narr(it)));
         BY_DI("tokenEvent: onIn(%s, %s)", it, container);
         return ret;
     }

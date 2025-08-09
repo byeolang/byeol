@@ -100,7 +100,7 @@ namespace by {
         BY_DI("'%s'._inFrame() frames.len[%d]", *this, thread::get().getFrames().len());
         fr.addFunc(*this);
         fr.add(*this);
-        if (args && args->len() > 0) fr.add(scope::wrap<scope>((nbicontainer*) args));
+        if(args && args->len() > 0) fr.add(scope::wrap<scope>((nbicontainer*) args));
     }
 
     void me::outFrame() const {

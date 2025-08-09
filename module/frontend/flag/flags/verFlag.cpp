@@ -19,9 +19,10 @@ namespace by {
     }
 
     me::res verFlag::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
-        std::cout << "frontend interpreter. " << buildFeature::config::getName() << " binary built on "
-                  << buildFeature::date::getMonth() << "-" << buildFeature::date::getYear() << ". v"
-                  << buildFeature::version::getValue() << "\n";
+        std::cout << "frontend interpreter. " << buildFeature::config::getName()
+                  << " binary built on " << buildFeature::date::getMonth() << "-"
+                  << buildFeature::date::getYear() << ". v" << buildFeature::version::getValue()
+                  << "\n";
         return EXIT_PROGRAM; // don't want to keep processing. just exit program.
     }
 }

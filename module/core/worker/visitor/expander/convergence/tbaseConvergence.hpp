@@ -50,9 +50,11 @@ namespace by {
         }
 
         baseFunc& getFunc() { return *_func; }
+
         const baseFunc& getFunc() const BY_CONST_FUNC(getFunc());
 
         baseObj& getObj() { return *_obj; }
+
         const baseObj& getObj() const BY_CONST_FUNC(getObj());
 
     protected:

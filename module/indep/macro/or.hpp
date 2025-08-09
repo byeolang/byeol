@@ -71,8 +71,8 @@ namespace by {
     ///
     ///
     ///         Q. Can I use OR after `return`?
-    ///         A. `OR` was created based on the precondition that it would be used when defining a variable.
-    ///         It cannot be used with the `return` keyword.
+    ///         A. `OR` was created based on the precondition that it would be used when defining a
+    ///         variable. It cannot be used with the `return` keyword.
     ///
     ///
     ///         Q. I used OR macro with auto& and got `Non-const lvalue reference to...` error.
@@ -82,33 +82,34 @@ namespace by {
     ///
     ///         A. don't use auto keyword.
     ///         the actual return type of `OR` macro could be `tmedium<T>` or `tstr` or `tweak`.
-    ///         it differs in context which you're using. it was specified in each operand class file,
-    ///         for instance, 'tstr.hpp'. and if you used OR macro which returns `tmedium`, it is implicitly
-    ///         returned as T& through this class.
-    ///         therefore, unless you have a special situation where you want to use tmedium, specify the type
-    ///         directly instead of auto.
+    ///         it differs in context which you're using. it was specified in each operand class
+    ///         file, for instance, 'tstr.hpp'. and if you used OR macro which returns `tmedium`, it
+    ///         is implicitly returned as T& through this class. therefore, unless you have a
+    ///         special situation where you want to use tmedium, specify the type directly instead
+    ///         of auto.
     ///
     ///             MyClass& ret = _sub[name].get() OR.ret();
     ///             // or,
     ///             tstr<MyClass> ret = youGetThisInstanceOnHeap() OR.ret();
     ///
     ///
-    ///         Q. I used OR in a function whose return type is tmay and initialized it with a T&& variable,
-    ///         but the value is strange.
+    ///         Q. I used OR in a function whose return type is tmay and initialized it with a T&&
+    ///         variable, but the value is strange.
     ///
     ///             tmay<A> foo();
     ///             A&& a = foo() OR.ret();
     ///
-    ///         A. TLDR; take rvalue with type `tmay<A>&&` just like rvalue reference to return type of the function.
+    ///         A. TLDR; take rvalue with type `tmay<A>&&` just like rvalue reference to return type
+    ///         of the function.
     ///
     ///             tmay<A>&& a = foo();
     ///
     ///         reason:
-    ///             foo() returns tmay by value. If you receive something returned by value as an rvalue reference,
-    ///             its life would be extended, but in this case, since it is not received as tmay<A>, the value
-    ///             inside it is taken out and returned, so the tmay temporary object does not extend its life and
-    ///             starts to die immediately.
-    ///             as a result, a garbage value is bound to `A&& a`.
+    ///             foo() returns tmay by value. If you receive something returned by value as an
+    ///             rvalue reference, its life would be extended, but in this case, since it is not
+    ///             received as tmay<A>, the value inside it is taken out and returned, so the tmay
+    ///             temporary object does not extend its life and starts to die immediately. as a
+    ///             result, a garbage value is bound to `A&& a`.
 
 #define __OR_DO__(_expr_)                             \
     | [&](auto&& __p) -> void {                       \

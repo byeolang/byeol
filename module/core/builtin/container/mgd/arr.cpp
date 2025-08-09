@@ -59,7 +59,8 @@ namespace by {
                 WHEN(a.len() != ps.len())
                     .warn("a.len(%d) != ps.len(%d)", a.len(), ps.len())
                     .ret(str());
-                arr& meObj = a.getMe() TO(template cast<arr>()) OR.err("meObj as arr == null").ret(str());
+                arr& meObj =
+                    a.getMe() TO(template cast<arr>()) OR.err("meObj as arr == null").ret(str());
                 str eval =
                     a[0].as(ps[0].getOrigin())
                         OR.err("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0])
@@ -188,8 +189,8 @@ namespace by {
 
         public:
             const ntype& getType() const override {
-                static mgdType inner("copyctor", ttype<me>::get(), params(*new param("rhs", _org.get())),
-                    false, _org.get());
+                static mgdType inner("copyctor", ttype<me>::get(),
+                    params(*new param("rhs", _org.get())), false, _org.get());
                 return inner;
             }
 

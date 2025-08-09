@@ -12,9 +12,7 @@ namespace {
     public:
         myNode(int num): number(num) {}
 
-        scope& subs() override {
-            return dumScope::singleton();
-        }
+        scope& subs() override { return dumScope::singleton(); }
 
         priorType prioritize(const args& types) const override { return NO_MATCH; }
 

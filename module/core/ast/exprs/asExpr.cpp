@@ -26,7 +26,7 @@ namespace by {
 
     void me::onCloneDeep(const clonable& from) {
         me& rhs = (me&) from;
-        /*TODO: remove if(rhs._me)*/_me.bind((node*) rhs._me->cloneDeep());
-        /*TODO: remove if(rhs._as)*/_as.bind((node*) rhs._as->cloneDeep());
+        /*TODO: remove if(rhs._me)*/ _me.bind((node*) rhs._me->cloneDeep());
+        /*TODO: remove if(rhs._as)*/ _as.bind((node*) rhs._as->cloneDeep());
     }
 } // namespace by

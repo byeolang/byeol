@@ -39,11 +39,16 @@ namespace by {
         void add(const node* owner, const scope* s) BY_SIDE_FUNC(s, add(owner, *s), void());
 
         virtual void addLocal(const std::string& name, const node& n);
-        void addLocal(const std::string* name, const node& n) BY_SIDE_FUNC(name, addLocal(*name, n), void());
-        void addLocal(const std::string& name, const node* n) BY_SIDE_FUNC(n, addLocal(name, *n), void());
-        void addLocal(const std::string* name, const node* n) BY_SIDE_FUNC(name && n, addLocal(*name, *n), void());
-        void addLocal(const nchar* name, const node& n) BY_SIDE_FUNC(name, addLocal(std::string(name), n), void());
-        void addLocal(const nchar* name, const node* n) BY_SIDE_FUNC(name && n, addLocal(std::string(name), *n), void());
+        void addLocal(const std::string* name, const node& n)
+            BY_SIDE_FUNC(name, addLocal(*name, n), void());
+        void addLocal(const std::string& name, const node* n)
+            BY_SIDE_FUNC(n, addLocal(name, *n), void());
+        void addLocal(const std::string* name, const node* n)
+            BY_SIDE_FUNC(name&& n, addLocal(*name, *n), void());
+        void addLocal(const nchar* name, const node& n)
+            BY_SIDE_FUNC(name, addLocal(std::string(name), n), void());
+        void addLocal(const nchar* name, const node* n)
+            BY_SIDE_FUNC(name&& n, addLocal(std::string(name), *n), void());
 
         virtual void del();
 

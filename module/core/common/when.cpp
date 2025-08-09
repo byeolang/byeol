@@ -12,9 +12,7 @@ namespace by {
         return inner;
     }
 
-    errReport& me::_getDefault() const {
-        return thread::get().getEx();
-    }
+    errReport& me::_getDefault() const { return thread::get().getEx(); }
 
     const point& me::_getPosFrom(const node& src) const { return src.getSrc().getPos(); }
 

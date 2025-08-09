@@ -16,6 +16,7 @@ namespace by {
     me::leaf(const std::string& name): _name(name) {}
 
     me& me::operator[](const std::string& name) { return sub(name); }
+
     me& me::operator[](const nchar* name) { return sub(name); }
 
     me::operator nbool() const { return isExist(); }

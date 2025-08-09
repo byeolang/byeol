@@ -20,9 +20,7 @@ namespace by {
         return _watcher.del(&un, sizeof(watchCell));
     }
 
-    void* me::_new1(size_t sz) {
-        return _pool.get(sz) TO(new1());
-    }
+    void* me::_new1(size_t sz) { return _pool.get(sz) TO(new1()); }
 
     void me::_del(void* pt, ncnt sz) { _pool.get(sz)->del(pt, sz); }
 

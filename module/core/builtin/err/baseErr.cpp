@@ -34,9 +34,7 @@ namespace by {
 
     void me::logStack() const { _stack->dump(); }
 
-    void me::_initStack() {
-        _stack.bind(new callstack(thread::get().getFrames()));
-    }
+    void me::_initStack() { _stack.bind(new callstack(thread::get().getFrames())); }
 
     me& me::_assign(const me& rhs) {
         _stack = rhs._stack;

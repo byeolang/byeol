@@ -15,9 +15,7 @@ namespace by {
 
     me::baseFunc(const modifier& mod): _mod(mod) {}
 
-    scope& me::subs() {
-        return dumScope::singleton();
-    }
+    scope& me::subs() { return dumScope::singleton(); }
 
     priorType me::prioritize(const args& a) const {
         BY_DI("%s.prioritize(%s)", *this, a.asStr());

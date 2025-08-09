@@ -20,7 +20,10 @@ namespace by {
 
     manifest me::_interpManifest(const std::string& dir, const std::string& manPath) const {
         // TODO: open slot zip file -> extract manifest.leaf file -> interpret it & load values
-        tstr<leaf> loaded = leafParser().parseFromFile(manPath) OR.err("error to load %s: interpretion err", manPath).ret(manifest());
+        tstr<leaf> loaded = leafParser()
+                                .parseFromFile(manPath)
+                                    OR.err("error to load %s: interpretion err", manPath)
+                                .ret(manifest());
         leaf& root = *loaded;
 
         std::string name = root["name"].asStr();
@@ -121,7 +124,7 @@ namespace by {
             }
 
             strings fullPaths;
-            for(const std::string& path : point.paths)
+            for(const std::string& path: point.paths)
                 fullPaths.push_back(dirPath + path);
 
             newLoading->addPath(fullPaths);

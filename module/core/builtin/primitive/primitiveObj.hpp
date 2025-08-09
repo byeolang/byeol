@@ -30,9 +30,11 @@ namespace by {
 
     public:
         T& get() { return _val; }
+
         const T& get() const { return _val; }
 
         using super::cast;
+
         void* cast(const type& to) override {
             WHEN(to == ttype<T>::get()).ret(&_val);
 

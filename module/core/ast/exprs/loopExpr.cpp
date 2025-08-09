@@ -26,7 +26,8 @@ namespace by {
         const node& ret = fr.getRet() OR.ret(true);
         if(ret.isSub<nextRet>()) return fr.setRet(nullptr), true;
         if(ret.isSub<breakRet>())
-            return fr.setRet(nullptr), false; // after I go out of the loop, I should clear break state.
+            return fr.setRet(nullptr),
+                   false; // after I go out of the loop, I should clear break state.
         // or stop the loop. I found the return value of the func.
         return false;
     }

@@ -33,18 +33,21 @@ namespace by {
         // it'll never be used.
         return t.get();
     }
+
     template <typename T, typename F> tmedium<T> operator|(const tstr<T>& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.
         return t.get();
     }
+
     template <typename T, typename F> tstr<T> operator|(tstr<T>&& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
         // it'll never be used.
         return t;
     }
+
     template <typename F> tstr<instance> operator|(binder&& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
@@ -99,13 +102,18 @@ namespace by {
     };
 
     // extension for TO macro:
-    template <typename T, typename F> auto operator->*(tstr<T>& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
+    template <typename T, typename F>
+    auto operator->*(tstr<T>& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
         return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
     }
-    template <typename T, typename F> auto operator->*(const tstr<T>& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
+
+    template <typename T, typename F>
+    auto operator->*(const tstr<T>& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
         return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
     }
-    template <typename T, typename F> auto operator->*(tstr<T>&& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
+
+    template <typename T, typename F>
+    auto operator->*(tstr<T>&& t, F&& f) -> decltype(typeTrait<decltype(f(*t))>::ret()) {
         return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
     }
-}
+} // namespace by

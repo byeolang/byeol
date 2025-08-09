@@ -17,9 +17,7 @@ namespace by {
         return ret;
     }
 
-    scope& me::subs() {
-        return dumScope::singleton();
-    }
+    scope& me::subs() { return dumScope::singleton(); }
 
     nbool me::isImpli(const type& to) const { return getEval()->isSub(to); }
 

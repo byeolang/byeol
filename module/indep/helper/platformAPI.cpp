@@ -184,7 +184,8 @@ namespace by {
             };
 
             int len = backtrace(rawCallstacks, BT_SIZE);
-            char** callstacks = backtrace_symbols(rawCallstacks, len); // don't use OR, you can't free with dereference
+            char** callstacks = backtrace_symbols(rawCallstacks,
+                len); // don't use OR, you can't free with dereference
             if(!callstacks) return ret;
 
             for(int n = 0; n < len; n++) {
@@ -242,7 +243,8 @@ namespace by {
             return format(fmt.c_str(), args);
         }
 
-        std::string format(const std::string* fmt, va_list args) BY_SIDE_FUNC(fmt, format(*fmt, args), std::string());
+        std::string format(const std::string* fmt, va_list args)
+            BY_SIDE_FUNC(fmt, format(*fmt, args), std::string());
 
         std::string format(const nchar* fmt, va_list args) {
             nchar buf[MAX_BUF] = {
@@ -264,7 +266,8 @@ namespace by {
 
         void crash(const std::string& msg, va_list args) { crash(format(msg, args)); }
 
-        void crash(const std::string* msg, va_list args) BY_SIDE_FUNC(msg, crash(*msg, args), void());
+        void crash(const std::string* msg, va_list args)
+            BY_SIDE_FUNC(msg, crash(*msg, args), void());
 
         void crash(const std::string& msg) {
             log(" * * * Interpreter CRASH * * *\n");

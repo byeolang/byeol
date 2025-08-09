@@ -18,9 +18,12 @@ namespace by {
         me& addCommon(node* it) BY_SIDE_FUNC(it, addCommon(*it), *this);
 
         me& addScope(const std::string& name, node& stmt);
-        me& addScope(const std::string* name, node& stmt) BY_SIDE_FUNC(name, addScope(*name, stmt), *this);
-        me& addScope(const std::string& name, node* it) BY_SIDE_FUNC(it, addScope(name, *it), *this);
-        me& addScope(const std::string* name, node* stmt) BY_SIDE_FUNC(name && stmt, addScope(*name, *stmt), *this);
+        me& addScope(const std::string* name, node& stmt)
+            BY_SIDE_FUNC(name, addScope(*name, stmt), *this);
+        me& addScope(const std::string& name, node* it)
+            BY_SIDE_FUNC(it, addScope(name, *it), *this);
+        me& addScope(const std::string* name, node* stmt)
+            BY_SIDE_FUNC(name&& stmt, addScope(*name, *stmt), *this);
 
         me& expand(node& stmt);
         me& expand(node* it) BY_SIDE_FUNC(it, expand(*it), *this);

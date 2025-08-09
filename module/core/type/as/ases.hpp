@@ -10,8 +10,8 @@ namespace by {
 
     public:
         ases();
-        template <typename... Es>
-        explicit ases(const Es&... elems): super(elems...) {}
+
+        template <typename... Es> explicit ases(const Es&... elems): super(elems...) {}
 
     public:
         using asable::is;

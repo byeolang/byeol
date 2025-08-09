@@ -16,9 +16,9 @@ namespace by {
         BY_ME(instance)
         BY_INIT_META(me)
         friend class bindTag;
-        friend class watcher;     // for vault.
-        friend class chunks;      // for vault.
-        friend class instancer;   // for _id.
+        friend class watcher;      // for vault.
+        friend class chunks;       // for vault.
+        friend class instancer;    // for _id.
         friend struct ::byeolTest; // for vault.
 
     public:

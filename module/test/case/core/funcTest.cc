@@ -66,7 +66,6 @@ namespace {
 
     nbool checkFrameHasfuncAndObjScope(const frame& fr, const baseFunc& func,
         const std::string& name, const obj& obj, const char* funcNames[], int funcNameSize) {
-
         int n = 0;
         BY_I("fr.len=%d", fr.subs().len());
         for(auto e = fr.subs().begin(); e; e++)
@@ -222,7 +221,8 @@ TEST_F(funcTest, testArgsAttachedName) {
     ps.add(new param("age", new nInt()));
     f.setLambda([&](const auto& a, const frames& sf) {
         const frame& fr = sf[sf.len() - 1];
-        return fr["msg"].cast<nStr>()->get() == "hello world" && fr["age"].cast<nInt>()->get() == 55;
+        return fr["msg"].cast<nStr>()->get() == "hello world" &&
+            fr["age"].cast<nInt>()->get() == 55;
     });
 
     o.run("myfunc");

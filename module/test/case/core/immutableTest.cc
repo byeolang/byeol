@@ -122,7 +122,9 @@ TEST_F(immutableTest, testFrameImmutability) {
 
     myfunc mf;
     mf.setLambda([&](const ucontainable&, const frames&) {
-        frame& fr = (frame*) by::thread::get().getNowFrame() OR.err("there is no frame in this thread").ret(false);
+        frame& fr = (frame*) by::thread::get()
+                        .getNowFrame() OR.err("there is no frame in this thread")
+                        .ret(false);
         // test assign:
         auto e = fr.subs().iterate("age");
         if(e.isEnd()) return BY_E("there is no key"), false;

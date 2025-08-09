@@ -28,4 +28,4 @@ namespace by {
 #undef ME
 #undef TEMPL
 
-}
+} // namespace by

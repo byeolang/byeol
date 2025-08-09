@@ -34,6 +34,5 @@
 #endif
 
 #undef BY_SIDE_FUNC_3
-#define BY_SIDE_FUNC_3(paramPtr, expr, ret) { \
-    return paramPtr ? expr : ret; \
-}
+#define BY_SIDE_FUNC_3(paramPtr, expr, ret) \
+    { return paramPtr ? expr : ret; }

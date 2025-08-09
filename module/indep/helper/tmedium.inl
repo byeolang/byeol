@@ -36,4 +36,4 @@ namespace by {
 
 #undef TEMPLATE
 #undef ME
-}
+} // namespace by

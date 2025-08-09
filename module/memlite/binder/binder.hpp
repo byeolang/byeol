@@ -33,9 +33,9 @@ namespace by {
     ///         why was it not proper to use as before?:
     ///             byeol is based on class node and make user not need to know what really was.
     ///             all actions (including calling some func on byeol env) can be replacable to
-    ///             sending msg using "use()". to say the least, what byeol doing is loose-check. so,
-    ///             strict type-checking of existing smart pointers doesn't matched to what byeol
-    ///             framework willing to do.
+    ///             sending msg using "use()". to say the least, what byeol doing is loose-check.
+    ///             so, strict type-checking of existing smart pointers doesn't matched to what
+    ///             byeol framework willing to do.
     ///
     ///     design:
     ///         binder components are mostly constructed to 3 classes and they form 2 layers
@@ -119,6 +119,7 @@ namespace by {
         // it'll never be used.
         return t.get();
     }
+
     template <typename F> tmedium<instance> operator|(const binder& t, F&& f) {
         f(t);
         // this returns null-reference but take it easy.
@@ -169,9 +170,11 @@ namespace by {
     template <typename T, typename F> auto operator->*(binder* t, F&& f) {
         return t ? f(**t) : typeTrait<std::decay_t<decltype(f(**t))>>::ret();
     }
+
     template <typename T, typename F> auto operator->*(const binder* t, F&& f) {
         return t ? f(**t) : typeTrait<std::decay_t<decltype(f(**t))>>::ret();
     }
+
     template <typename T, typename F> auto operator->*(binder& t, F&& f) {
         return t ? f(*t) : typeTrait<std::decay_t<decltype(f(*t))>>::ret();
     }

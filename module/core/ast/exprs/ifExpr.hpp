@@ -39,4 +39,4 @@ namespace by {
         tstr<blockExpr> _then;
         tstr<blockExpr> _else;
     };
-}
+} // namespace by
