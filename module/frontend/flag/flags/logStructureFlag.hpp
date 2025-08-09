@@ -5,7 +5,7 @@
 namespace by {
 
     class logStructureFlag: public flag {
-        NM(CLASS(logStructureFlag, flag))
+        BY(CLASS(logStructureFlag, flag))
 
     public:
         const nchar* getName() const override;

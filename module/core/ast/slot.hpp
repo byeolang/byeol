@@ -9,7 +9,7 @@ namespace by {
     class visitor;
 
     class _nout slot: public node {
-        NM(CLASS(slot, node), VISIT())
+        BY(CLASS(slot, node), VISIT())
 
     public:
         slot(const manifest& manifest);

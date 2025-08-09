@@ -5,7 +5,7 @@
 namespace by {
 
     class _nout whileExpr: public loopExpr {
-        NM(CLASS(whileExpr, loopExpr, expr::exprType), VISIT())
+        BY(CLASS(whileExpr, loopExpr, expr::exprType), VISIT())
         friend class verifier;
 
     public:

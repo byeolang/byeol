@@ -2,7 +2,7 @@
 
 namespace by {
 
-    NM(DEF_ME(frameInteract))
+    BY(DEF_ME(frameInteract))
 
     me::frameInteract(const frameInteractable& it): _it(&it) {
         _inFrame(nullptr);

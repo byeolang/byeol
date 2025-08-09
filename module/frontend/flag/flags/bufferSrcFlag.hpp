@@ -5,7 +5,7 @@
 namespace by {
 
     class bufferSrcFlag: public flag {
-        NM(CLASS(bufferSrcFlag, flag))
+        BY(CLASS(bufferSrcFlag, flag))
 
     public:
         const nchar* getName() const override;

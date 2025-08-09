@@ -2,7 +2,7 @@
 
 namespace by {
 
-    NM(DEF_ME(point))
+    BY(DEF_ME(point))
 
     nbool me::isOrigin() const { return row == 0 && col == 0; }
 

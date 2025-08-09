@@ -5,7 +5,7 @@
 namespace by {
 
     class _nout typeMaker {
-        NM(ME(typeMaker))
+        BY(ME(typeMaker))
 
     private:
         static mgdType _make(void*, const std::string& name, const type& super, const params& ps,

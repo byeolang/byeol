@@ -11,7 +11,7 @@ namespace by {
     public:
         // expr can be casted to node. it's proxy of a node.
         class _nout exprType: public ntype {
-            NM(ME(exprType, ntype))
+            BY(ME(exprType, ntype))
 
         public:
             nbool isImpli(const type& to) const override;
@@ -20,7 +20,7 @@ namespace by {
             str asImpli(const node& from, const type& to) const override;
         };
 
-        NM(ADT(expr, node, exprType))
+        BY(ADT(expr, node, exprType))
         friend class exprMaker;
         friend struct ::exprTest;
 

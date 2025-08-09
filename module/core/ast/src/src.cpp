@@ -1,7 +1,7 @@
 #include "core/ast/src/src.hpp"
 
 namespace by {
-    NM(DEF_ME(src))
+    BY(DEF_ME(src))
 
     me::src(const srcFile& file, const std::string& name, const point& pos):
         _file(file), _name(name), _pos(pos) {}

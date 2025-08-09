@@ -9,10 +9,10 @@ struct funcTest: public byeolTest {};
 
 namespace {
     class myfunc: public func {
-        NM(ME(myfunc, func))
+        BY(ME(myfunc, func))
 
         class myBlock: public blockExpr {
-            NM(CLASS(myBlock, blockExpr))
+            BY(CLASS(myBlock, blockExpr))
 
         public:
             str run(const args& a) override {
@@ -89,7 +89,7 @@ namespace {
     }
 
     struct myObj: public obj {
-        NM(CLASS(myObj, obj))
+        BY(CLASS(myObj, obj))
     };
 
     const char* func1Name = "obj1func1";

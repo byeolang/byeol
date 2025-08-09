@@ -12,7 +12,7 @@ namespace by {
     class tokenDispatcher;
 
     class _nout tokenScan: public tokenScanable, public typeProvidable, public clonable {
-        NM(ADT(tokenScan))
+        BY(ADT(tokenScan))
 
     public:
         using tokenScanable::onScan;
@@ -24,7 +24,7 @@ namespace by {
     };
 
     class _nout normalScan: public tokenScan {
-        NM(CLASS(normalScan, tokenScan))
+        BY(CLASS(normalScan, tokenScan))
         friend class parser;
 
     public:
@@ -37,7 +37,7 @@ namespace by {
     };
 
     class _nout indentScan: public tokenScan {
-        NM(CLASS(indentScan, tokenScan))
+        BY(CLASS(indentScan, tokenScan))
         friend class parser;
 
     public:

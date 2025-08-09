@@ -8,7 +8,7 @@ namespace by {
     class verifier;
 
     class _nout genericOrigin: public baseObj {
-        NM(CLASS(genericOrigin, baseObj), VISIT())
+        BY(CLASS(genericOrigin, baseObj), VISIT())
         friend class verifier;
         friend class graphVisitor;
         friend class exprMaker;

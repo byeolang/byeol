@@ -5,7 +5,7 @@
 namespace by {
 
     class verboseFlag: public flag {
-        NM(CLASS(verboseFlag, flag))
+        BY(CLASS(verboseFlag, flag))
 
     public:
         const nchar* getName() const override;

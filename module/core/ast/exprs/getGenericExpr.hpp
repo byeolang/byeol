@@ -8,7 +8,7 @@ namespace by {
     class genericOrigin;
 
     class _nout getGenericExpr: public getExpr {
-        NM(CLASS(getGenericExpr, getExpr, expr::exprType), VISIT())
+        BY(CLASS(getGenericExpr, getExpr, expr::exprType), VISIT())
         friend class verifier;
 
     public:

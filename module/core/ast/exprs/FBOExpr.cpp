@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM(DEF_ME(FBOExpr), DEF_VISIT())
+    BY(DEF_ME(FBOExpr), DEF_VISIT())
 
     me::FBOExpr(symbol s, const node& lhs, const node& rhs):
         _symbol(s), _lhs(str(lhs)), _rhs(str(rhs)) {}

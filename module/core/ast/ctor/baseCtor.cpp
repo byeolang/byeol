@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM(DEF_ME(baseCtor), DEF_VISIT())
+    BY(DEF_ME(baseCtor), DEF_VISIT())
 
     me::baseCtor(const mgdType& type): _type(type) {}
 

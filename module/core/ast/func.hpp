@@ -12,7 +12,7 @@ namespace by {
     class visitor;
 
     class _nout func: public baseFunc {
-        NM(ME(func, baseFunc), CLONE(func), VISIT())
+        BY(ME(func, baseFunc), CLONE(func), VISIT())
         friend class verifier;
         friend class exprMaker;
         friend class parser;

@@ -10,7 +10,7 @@
 
 namespace by {
 
-    NM(DEF_ME(nBool), DEF_VISIT())
+    BY(DEF_ME(nBool), DEF_VISIT())
 
     nbool me::wBoolType::isImmutable() const { return true; }
 
@@ -29,7 +29,7 @@ namespace by {
 
     namespace {
         struct asStr: public tas<nStr> {
-            NM(CLASS(asStr, tas<nStr>))
+            BY(CLASS(asStr, tas<nStr>))
 
         public:
             str as(const node& me, const type& to) const override {

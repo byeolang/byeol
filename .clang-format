@@ -233,7 +233,7 @@ StatementAttributeLikeMacros:
   - _nout
 StatementMacros:
   - BY_CONST_FUNC
-  - NM
+  - BY
   - BY_DEF_ME
 TabWidth: 4
 UseCRLF: false

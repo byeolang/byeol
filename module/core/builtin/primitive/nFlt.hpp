@@ -15,7 +15,7 @@ namespace by {
             const ases& _getAses() const override;
         };
 
-        NM(CLASS(nFlt, primitiveObj, wFltType), VISIT())
+        BY(CLASS(nFlt, primitiveObj, wFltType), VISIT())
 
     public:
         nFlt() = default;

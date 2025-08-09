@@ -2,7 +2,7 @@
 #include "core/ast/exprs/getExpr.hpp"
 
 namespace by {
-    NM(DEF_ME(params))
+    BY(DEF_ME(params))
 
     me::params(): super() {}
 

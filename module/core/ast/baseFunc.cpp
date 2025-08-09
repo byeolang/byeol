@@ -11,7 +11,7 @@
 
 namespace by {
 
-    NM(DEF_ME(baseFunc), DEF_VISIT())
+    BY(DEF_ME(baseFunc), DEF_VISIT())
 
     me::baseFunc(const modifier& mod): _mod(mod) {}
 

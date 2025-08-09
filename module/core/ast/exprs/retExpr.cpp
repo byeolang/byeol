@@ -8,7 +8,7 @@
 
 namespace by {
 
-    NM(DEF_ME(retExpr), DEF_VISIT())
+    BY(DEF_ME(retExpr), DEF_VISIT())
 
     me::retExpr(const node& ret): _ret(ret) {}
 

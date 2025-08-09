@@ -18,7 +18,7 @@ namespace by {
         //  however, type object is dynamically belongs to this bridge object, when user
         //  tries to get ttype<T>, it's not derived from ntype so it won't have any 'as()'
         //  func. user can't operate conversion in this way.
-        NM(CLASS(tbridge, baseObj))
+        BY(CLASS(tbridge, baseObj))
 
     public:
         template <typename Ret, typename T1, nbool, template <typename, nbool> class Marshaling,

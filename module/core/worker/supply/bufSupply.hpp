@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout bufSupply: public srcSupply {
-        NM(CLASS(bufSupply, srcSupply))
+        BY(CLASS(bufSupply, srcSupply))
 
     public:
         bufSupply(const std::string& buf);

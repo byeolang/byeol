@@ -42,7 +42,7 @@ namespace by {
     //          3. it should be able to determine whether it is a valid T& or not from outside through tmedium.
     template <typename T>
     class tmedium {
-        NM(ME(tmedium))
+        BY(ME(tmedium))
 
     public:
         tmedium(T* value);

@@ -5,7 +5,7 @@
 // nested class of tucontainable.hpp:
 //  this file allows to be refered by 'tucontainable.hpp' file only.
 class iter: public iterable, public clonable, public typeProvidable {
-    NM(CLASS(iter))
+    BY(CLASS(iter))
     friend class iteration;
     template <typename E, typename TACTIC> friend class tnarr;
     template <typename K, typename V, typename defaultContainer> friend class tnchain;

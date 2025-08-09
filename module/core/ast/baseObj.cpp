@@ -10,7 +10,7 @@
 
 namespace by {
 
-    NM(DEF_ME(baseObj))
+    BY(DEF_ME(baseObj))
 
     me::baseObj(const baseObj* org, /*UNUSED*/ nbool): _org(org) {}
 

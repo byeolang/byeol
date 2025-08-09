@@ -21,7 +21,7 @@ namespace by {
     ///
     /// for details, refer to the return type rules of byeol.
     template <typename T> class tmay: private std::optional<T> {
-        NM(ME(tmay, std::optional<T>))
+        BY(ME(tmay, std::optional<T>))
 
     public:
         tmay() = default;

@@ -12,7 +12,7 @@ namespace by {
     typedef tnchain<std::string, slot> slotChain;
 
     class _nout packLoading: public instance, public packMakable {
-        NM(ADT(packLoading, instance))
+        BY(ADT(packLoading, instance))
 
         typedef nbool (me::*packEvent)(const slotChain&);
 

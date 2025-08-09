@@ -3,7 +3,7 @@
 #include "core/frame/thread.hpp"
 
 namespace by {
-    NM(DEF_ME(retConvergence))
+    BY(DEF_ME(retConvergence))
 
     me::retConvergence(baseObj& obj, baseFunc& f, const node& org):
         super(obj, f, org, [&](const node& eval) {

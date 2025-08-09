@@ -18,7 +18,7 @@ namespace by {
         in = file.getFileName() + ":" + std::to_string(s.getPos().row);
     }
 
-    NM(DEF_ME(callstack))
+    BY(DEF_ME(callstack))
 
     me::callstack() {}
 

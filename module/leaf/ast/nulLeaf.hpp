@@ -5,7 +5,7 @@
 namespace by {
 
     class _nout nulLeaf: public leaf {
-        NM(ME(nulLeaf, leaf), CLONE(me), INIT_META(nulLeaf))
+        BY(ME(nulLeaf, leaf), CLONE(me), INIT_META(nulLeaf))
 
     public:
         nulLeaf();

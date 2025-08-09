@@ -14,7 +14,7 @@ namespace by {
     };
 
     class _nout util {
-        NM(ME(util))
+        BY(ME(util))
 
     public:
         static typeAttr checkTypeAttr(const std::string& name);

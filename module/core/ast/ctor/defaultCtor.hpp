@@ -8,7 +8,7 @@ namespace by {
     class visitor;
 
     class _nout defaultCtor: public baseCtor {
-        NM(ME(defaultCtor, baseCtor), CLONE(defaultCtor), VISIT())
+        BY(ME(defaultCtor, baseCtor), CLONE(defaultCtor), VISIT())
 
     public:
         defaultCtor(const node& org);

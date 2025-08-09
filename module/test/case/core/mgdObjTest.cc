@@ -7,7 +7,7 @@ struct mgdObjTest: public byeolSyntaxTest {};
 
 namespace {
     struct myObj: public obj {
-        NM(CLASS(myObj, obj))
+        BY(CLASS(myObj, obj))
     };
 }
 

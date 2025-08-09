@@ -8,7 +8,7 @@ namespace by {
     typedef std::vector<std::string> strings;
 
     class _nout params: public tnarr<param> {
-        NM(CLASS(params, tnarr<param>))
+        BY(CLASS(params, tnarr<param>))
 
     public:
         params();
@@ -34,7 +34,7 @@ namespace by {
     };
 
     class _nout dumParams: public params {
-        NM(CLASS(dumParams, params))
+        BY(CLASS(dumParams, params))
 
     public:
         using tucontainable<param>::set;

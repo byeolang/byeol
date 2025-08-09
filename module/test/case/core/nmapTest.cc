@@ -9,7 +9,7 @@ struct nmapTest: public byeolTest {};
 
 namespace {
     class myNode: public node {
-        NM(CLASS(myNode, node))
+        BY(CLASS(myNode, node))
 
     public:
         myNode(int num): number(num) {}
@@ -65,7 +65,7 @@ namespace {
     }
 
     class myMyNode: public myNode {
-        NM(CLASS(myMyNode, myNode))
+        BY(CLASS(myMyNode, myNode))
 
     public:
         myMyNode(int num): super(num) {}

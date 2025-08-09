@@ -6,7 +6,7 @@
 namespace by {
     /// iterator for codepoint of string.
     class _nout cpIter {
-        NM(ME(cpIter))
+        BY(ME(cpIter))
 
     public:
         cpIter(const nchar* begin, const nchar* from);

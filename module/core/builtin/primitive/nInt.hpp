@@ -14,7 +14,7 @@ namespace by {
             const impliAses& _getImpliAses() const override;
             const ases& _getAses() const override;
         };
-        NM(CLASS(nInt, primitiveObj, wIntType), VISIT())
+        BY(CLASS(nInt, primitiveObj, wIntType), VISIT())
 
     public:
         nInt();

@@ -7,7 +7,7 @@
 
 namespace by {
 
-    NM(DEF_ME(getExpr), DEF_VISIT())
+    BY(DEF_ME(getExpr), DEF_VISIT())
 
     me::getExpr(const std::string& name): _name(name) {}
 

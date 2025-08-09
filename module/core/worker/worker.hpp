@@ -21,7 +21,7 @@ namespace by {
 #define myExWarn(...) BY_OVERLOAD(myExWarn, __VA_ARGS__)
 
     template <typename R, typename T> class worker: public typeProvidable, public clonable {
-        NM(ADT(worker))
+        BY(ADT(worker))
         template <typename R1, typename T1> friend struct workerAdapter;
         typedef R RetType;
 

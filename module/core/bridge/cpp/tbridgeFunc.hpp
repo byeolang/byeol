@@ -12,7 +12,7 @@ namespace by {
     template <typename Ret, typename T, template <typename, nbool> class Marshaling,
         typename... Args>
     class tbaseBridgeFunc: public baseFunc {
-        NM(ME(tbaseBridgeFunc, baseFunc))
+        BY(ME(tbaseBridgeFunc, baseFunc))
     protected:
         typedef Ret (T::*fptrType)(Args...);
 
@@ -68,7 +68,7 @@ namespace by {
         template <typename, nbool> class Marshaling, typename... Args>
     class tbridgeFunc: public tbaseBridgeFunc<Ret, T, Marshaling, Args...> {
         typedef tbaseBridgeFunc<Ret, T, Marshaling, Args...> _super_;
-        NM(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
+        BY(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
         tbridgeFunc(typename super::fptrType fptr):
@@ -86,7 +86,7 @@ namespace by {
     class tbridgeFunc<void, T, false, Marshaling, Args...>
         : public tbaseBridgeFunc<void, T, Marshaling, Args...> {
         typedef tbaseBridgeFunc<void, T, Marshaling, Args...> _super_;
-        NM(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
+        BY(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
         tbridgeFunc(typename super::fptrType fptr):
@@ -104,7 +104,7 @@ namespace by {
     class tbridgeFunc<void, T, true, Marshaling, Args...>
         : public tbaseBridgeFunc<void, T, Marshaling, Args...> {
         typedef tbaseBridgeFunc<void, T, Marshaling, Args...> _super_;
-        NM(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
+        BY(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
         tbridgeFunc(typename super::fptrType fptr):
@@ -127,7 +127,7 @@ namespace by {
     class tbridgeFunc<Ret, T, true, Marshaling, Args...>
         : public tbaseBridgeFunc<Ret, T, Marshaling, Args...> {
         typedef tbaseBridgeFunc<Ret, T, Marshaling, Args...> _super_;
-        NM(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
+        BY(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
         tbridgeFunc(typename _super_::fptrType fptr):

@@ -8,7 +8,7 @@
 
 namespace by {
 
-    NM(DEF_ME(arr), DEF_VISIT())
+    BY(DEF_ME(arr), DEF_VISIT())
 
     namespace {
         static inline const std::string TYPENAME = "T";
@@ -22,7 +22,7 @@ namespace by {
         }
 
         class _nout mgdIter: public __superMgdIter {
-            NM(CLASS(mgdIter, __superMgdIter))
+            BY(CLASS(mgdIter, __superMgdIter))
 
         public:
             mgdIter(niter* real): super(real) {}
@@ -43,7 +43,7 @@ namespace by {
         };
 
         class iterateFunc: public baseFunc {
-            NM(ME(iterateFunc, baseFunc), CLONE(iterateFunc))
+            BY(ME(iterateFunc, baseFunc), CLONE(iterateFunc))
 
         public:
             const ntype& getType() const override {
@@ -71,7 +71,7 @@ namespace by {
         };
 
         class getElemTypeFunc: public baseFunc {
-            NM(ME(getElemTypeFunc, baseFunc), CLONE(getElemTypeFunc))
+            BY(ME(getElemTypeFunc, baseFunc), CLONE(getElemTypeFunc))
 
         public:
             getElemTypeFunc():
@@ -181,7 +181,7 @@ namespace by {
 
     namespace {
         class __copyCtor: public baseFunc {
-            NM(ME(__copyCtor, baseFunc), CLONE(__copyCtor))
+            BY(ME(__copyCtor, baseFunc), CLONE(__copyCtor))
 
         public:
             __copyCtor(const baseObj& newType): _org(new arr(newType)) {}

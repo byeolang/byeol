@@ -12,7 +12,7 @@ namespace by {
     class leafTokenDispatcher;
 
     class _nout leafTokenScan: public leafTokenScanable {
-        NM(ME(leafTokenScan))
+        BY(ME(leafTokenScan))
 
     public:
         using leafTokenScanable::onScan;
@@ -21,7 +21,7 @@ namespace by {
     };
 
     class _nout leafNormalScan: public leafTokenScan {
-        NM(ME(leafNormalScan, leafTokenScan))
+        BY(ME(leafNormalScan, leafTokenScan))
         friend class leafParser;
 
     public:
@@ -34,7 +34,7 @@ namespace by {
     };
 
     class _nout leafIndentScan: public leafTokenScan {
-        NM(ME(leafIndentScan, leafTokenScan))
+        BY(ME(leafIndentScan, leafTokenScan))
         friend class leafParser;
 
     public:

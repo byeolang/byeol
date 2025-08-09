@@ -5,7 +5,7 @@
 
 namespace by {
 
-    NM(DEF_ME(args))
+    BY(DEF_ME(args))
 
     me::args() {}
 

@@ -4,7 +4,7 @@
 #include "core/frame/thread.hpp"
 
 namespace by {
-    NM(DEF_ME(paramConvergence))
+    BY(DEF_ME(paramConvergence))
 
     me::paramConvergence(baseObj& o, baseFunc& f, param& p, const node& org):
         super(o, f, org,

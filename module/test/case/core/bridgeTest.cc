@@ -178,7 +178,7 @@ TEST_F(bridgeTest, passArray) {
 
 namespace {
     struct myObj: public obj {
-        NM(CLASS(myObj, obj))
+        BY(CLASS(myObj, obj))
 
     public:
         myObj(): age(0) {}
@@ -205,7 +205,7 @@ TEST_F(bridgeTest, passRawObj) {
 
 namespace {
     struct yourObj: public obj {
-        NM(CLASS(yourObj, obj))
+        BY(CLASS(yourObj, obj))
     };
 
     struct testObj {
@@ -256,7 +256,7 @@ TEST_F(bridgeTest, passArr) {
 
 namespace {
     struct A: public baseObj {
-        NM(CLASS(A, baseObj))
+        BY(CLASS(A, baseObj))
 
     public:
         nint foo(nint a) { return age + a; }

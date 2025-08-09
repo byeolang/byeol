@@ -4,7 +4,7 @@
 #include "core/frame/thread.hpp"
 
 namespace by {
-    NM(DEF_ME(frames))
+    BY(DEF_ME(frames))
 
     void me::dump() const {
         nidx n = 0;

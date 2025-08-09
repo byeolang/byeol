@@ -2,14 +2,14 @@
 #include "core/type/as/impliAses.hpp"
 
 namespace by {
-    NM(DEF_ME(funcMgdType))
+    BY(DEF_ME(funcMgdType))
 
     me::funcMgdType(const std::string& name, const type& superType, const params& ps, nbool isAdt,
         const node* ret):
         super(name, superType, ps, isAdt, ret) {}
 
     struct asFunc: public aser {
-        NM(CLASS(asFunc, aser))
+        BY(CLASS(asFunc, aser))
 
     public:
         nbool is(const type& from, const type& to) const override {

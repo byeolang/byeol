@@ -2,7 +2,7 @@
 #include "core/frame/frameInteract.hpp"
 
 namespace by {
-    NM(DEF_ME(nestedFunc))
+    BY(DEF_ME(nestedFunc))
 
     me::nestedFunc(const func& org, const scope& subs):
         super(*new modifier(false, false), (funcMgdType&) org.getType(), subs, org.getBlock()) {

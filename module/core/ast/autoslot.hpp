@@ -11,7 +11,7 @@ namespace by {
     class visitor;
 
     class _nout autoslot: public slot, public packMakable, public statable {
-        NM(CLASS(autoslot, slot), VISIT())
+        BY(CLASS(autoslot, slot), VISIT())
 
     public:
         autoslot(const manifest& manifest, const packLoadings& loadingsInHeap);

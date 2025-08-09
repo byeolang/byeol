@@ -6,11 +6,11 @@
 namespace by {
 
     class _nout retState: public nVoid {
-        NM(CLASS(retState, nVoid))
+        BY(CLASS(retState, nVoid))
     };
 
     class _nout retStateExpr: public expr {
-        NM(ADT(retStateExpr, expr), VISIT())
+        BY(ADT(retStateExpr, expr), VISIT())
 
     public:
         using super::run;

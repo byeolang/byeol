@@ -3,7 +3,7 @@
 #include "core/worker/visitor/visitor.hpp"
 
 namespace by {
-    NM(DEF_ME(endExpr), DEF_VISIT())
+    BY(DEF_ME(endExpr), DEF_VISIT())
 
     me::endExpr(const blockExpr& blk): super(blk) {}
 

@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM(DEF_ME(defBlock))
+    BY(DEF_ME(defBlock))
 
     me::defBlock(): _scope(new scope()), _common(new narr()), _expands(new narr()) {}
 

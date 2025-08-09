@@ -7,7 +7,7 @@
 namespace by {
 
     template <typename T> class _nout printFunc: public baseFunc {
-        NM(ME(printFunc, baseFunc), CLONE(printFunc))
+        BY(ME(printFunc, baseFunc), CLONE(printFunc))
 
     public:
         const ntype& getType() const override {

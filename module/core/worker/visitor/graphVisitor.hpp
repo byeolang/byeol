@@ -5,7 +5,7 @@
 namespace by {
 
     class _nout graphVisitor: public visitor {
-        NM(CLASS(graphVisitor, visitor))
+        BY(CLASS(graphVisitor, visitor))
 
     public:
         graphVisitor();

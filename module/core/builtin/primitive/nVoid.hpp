@@ -13,7 +13,7 @@ namespace by {
         protected:
             const impliAses& _getImpliAses() const override;
         };
-        NM(CLASS(nVoid, primitiveObj<void>, wVoidType), VISIT())
+        BY(CLASS(nVoid, primitiveObj<void>, wVoidType), VISIT())
 
     public:
         tstr<arithmeticObj> bitwiseNot() const override;

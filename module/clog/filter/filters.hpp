@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout filters: public filterable {
-        NM(ME(filters))
+        BY(ME(filters))
 
     public:
         filters() {}

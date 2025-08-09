@@ -2,7 +2,7 @@
 
 namespace by {
 
-    NM(DEF_ME(cpIter))
+    BY(DEF_ME(cpIter))
 
     me::cpIter(const nchar* begin, const nchar* end):
         _begin(begin), _end(end), _isReversed(begin > end) {}

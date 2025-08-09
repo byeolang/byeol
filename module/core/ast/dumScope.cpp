@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM(DEF_ME(dumScope))
+    BY(DEF_ME(dumScope))
 
     me::dumScope() {}
 

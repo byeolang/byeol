@@ -5,7 +5,7 @@
 
 namespace by {
 
-    NM(DEF_ME(defArrayExpr), DEF_VISIT())
+    BY(DEF_ME(defArrayExpr), DEF_VISIT())
 
     me::defArrayExpr(const node& type): _type(type) {}
 

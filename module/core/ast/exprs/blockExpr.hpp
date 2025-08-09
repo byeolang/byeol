@@ -8,7 +8,7 @@ namespace by {
     class errReport;
 
     class _nout blockExpr: public expr {
-        NM(CLASS(blockExpr, expr, expr::exprType), VISIT())
+        BY(CLASS(blockExpr, expr, expr::exprType), VISIT())
         friend class verifier;
         friend class func;
 

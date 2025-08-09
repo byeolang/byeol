@@ -2,7 +2,7 @@
 #include "core/frame/thread.hpp"
 
 namespace by {
-    NM(DEF_ME(baseErr))
+    BY(DEF_ME(baseErr))
 
     me::baseErr(errLv::level t): super(), _lv(t) { _initStack(); }
 

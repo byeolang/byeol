@@ -1,7 +1,7 @@
 #include "core/worker/visitor/expander/convergence/evalConvergence.hpp"
 
 namespace by {
-    NM(DEF_ME(evalConvergence))
+    BY(DEF_ME(evalConvergence))
 
     me::evalConvergence(baseObj& obj, baseFunc& fun, const node& org, onConverge closure):
         super(obj, fun, std::move(closure)), _org(org) {}

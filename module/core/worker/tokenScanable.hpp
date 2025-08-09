@@ -11,7 +11,7 @@ namespace by {
     class parser;
 
     class _nout tokenScanable {
-        NM(ME(tokenScanable))
+        BY(ME(tokenScanable))
 
     public:
         nint onScan(parser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner);

@@ -17,7 +17,7 @@ namespace by {
     /// fsystem is going to be used before filesystem library fully supported.
     /// to apply fsystem on clang++ is quite hard now.
     class _nout fsystem {
-        NM(ME(fsystem))
+        BY(ME(fsystem))
 
         struct entry {
 #ifdef BY_BUILD_PLATFORM_IS_WINDOWS
@@ -32,7 +32,7 @@ namespace by {
         typedef std::vector<entry> entries;
 
         class _nout iterator {
-            NM(ME(iterator))
+            BY(ME(iterator))
             friend class fsystem;
 
         private:

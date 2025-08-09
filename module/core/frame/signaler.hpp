@@ -11,7 +11,7 @@ namespace by {
     typedef std::function<void(const nerr&)> sigHandler;
 
     struct _nout sig {
-        NM(ME(sig))
+        BY(ME(sig))
 
     public:
         nbool operator==(const sig& rhs) const;
@@ -23,7 +23,7 @@ namespace by {
     };
 
     class _nout signaler {
-        NM(ME(signaler))
+        BY(ME(signaler))
 
     private:
         signaler();

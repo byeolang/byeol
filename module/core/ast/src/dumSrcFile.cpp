@@ -1,7 +1,7 @@
 #include "core/ast/src/dumSrcFile.hpp"
 
 namespace by {
-    NM(DEF_ME(dumSrcFile))
+    BY(DEF_ME(dumSrcFile))
 
     me::dumSrcFile(): super("", "") {}
 

@@ -4,7 +4,7 @@ using namespace by;
 
 namespace {
     struct myNode: public node {
-        NM(CLASS(myNode, node))
+        BY(CLASS(myNode, node))
 
     public:
         myNode(int n): num(n) {}

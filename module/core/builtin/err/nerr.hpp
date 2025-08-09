@@ -15,7 +15,7 @@ namespace by {
     class pos;
 
     struct _nout nerr: public baseErr {
-        NM(CLASS(nerr, baseErr))
+        BY(CLASS(nerr, baseErr))
         template <typename T, nbool> friend struct tmarshaling;
 
     public:
@@ -66,7 +66,7 @@ namespace by {
     };
 
     struct _nout ndummyErr: public nerr {
-        NM(CLASS(ndummyErr, nerr))
+        BY(CLASS(ndummyErr, nerr))
 
     public:
         ndummyErr();

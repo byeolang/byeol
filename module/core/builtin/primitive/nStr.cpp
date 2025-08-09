@@ -11,12 +11,12 @@
 
 namespace by {
 
-    NM(DEF_ME(nStr), DEF_VISIT())
+    BY(DEF_ME(nStr), DEF_VISIT())
 
     namespace {
 
         class getSeqFunc: public baseFunc {
-            NM(ME(getSeqFunc, baseFunc), CLONE(getSeqFunc))
+            BY(ME(getSeqFunc, baseFunc), CLONE(getSeqFunc))
 
         public:
             str run(const args& a) override {
@@ -43,7 +43,7 @@ namespace by {
         typedef tbridge<niter> __superMgdIter;
 
         class bridgeIteration: public iteration {
-            NM(CLASS(bridgeIteration, iteration))
+            BY(CLASS(bridgeIteration, iteration))
 
         public:
             bridgeIteration(nStr& own, nidx n, nbool isReversed):
@@ -86,7 +86,7 @@ namespace by {
         };
 
         class _nout mgdIter: public __superMgdIter {
-            NM(CLASS(mgdIter, __superMgdIter))
+            BY(CLASS(mgdIter, __superMgdIter))
 
         public:
             mgdIter(niter* real): super(real) {}
@@ -105,7 +105,7 @@ namespace by {
         };
 
         class iterateFunc: public baseFunc {
-            NM(ME(iterateFunc, baseFunc), CLONE(iterateFunc))
+            BY(ME(iterateFunc, baseFunc), CLONE(iterateFunc))
 
         public:
             const ntype& getType() const override {
@@ -134,7 +134,7 @@ namespace by {
         };
 
         class getElemType: public baseFunc {
-            NM(ME(getElemType, baseFunc), CLONE(getElemType))
+            BY(ME(getElemType, baseFunc), CLONE(getElemType))
 
         public:
             const ntype& getType() const override {
@@ -192,7 +192,7 @@ namespace by {
 
         // define in unamed namespace in order to avoid symbol duplication.
         struct asBool: public tas<nBool> {
-            NM(CLASS(asBool, tas<nBool>))
+            BY(CLASS(asBool, tas<nBool>))
 
         public:
             str as(const node& me, const type& to) const override {
@@ -210,7 +210,7 @@ namespace by {
         };
 
         struct asFlt: public tas<nFlt> {
-            NM(CLASS(asFlt, tas<nFlt>))
+            BY(CLASS(asFlt, tas<nFlt>))
 
         public:
             str as(const node& me, const type& to) const override {
@@ -223,7 +223,7 @@ namespace by {
         };
 
         struct asInt: public tas<nInt> {
-            NM(CLASS(asInt, tas<nInt>))
+            BY(CLASS(asInt, tas<nInt>))
 
         public:
             str as(const node& me, const type& to) const override {
@@ -236,7 +236,7 @@ namespace by {
         };
 
         struct asByte: public tas<nByte> {
-            NM(CLASS(asByte, tas<nByte>))
+            BY(CLASS(asByte, tas<nByte>))
 
         public:
             str as(const node& me, const type& to) const override {

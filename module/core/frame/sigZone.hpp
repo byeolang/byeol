@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout sigZone {
-        NM(ME(sigZone))
+        BY(ME(sigZone))
 
     public:
         sigZone(const sigHandler& handler);

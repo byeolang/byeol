@@ -13,7 +13,7 @@ namespace by {
         typedef tbridgeFunc<T, T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is,
             tmarshaling, Args...>
             __super9;
-        NM(ME(tbridgeCtor, __super9), CLONE(tbridgeCtor))
+        BY(ME(tbridgeCtor, __super9), CLONE(tbridgeCtor))
 
     public:
         tbridgeCtor(): super(nullptr) {}

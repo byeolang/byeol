@@ -6,7 +6,7 @@
 namespace by {
 
     class _nout ifExpr: public expr {
-        NM(CLASS(ifExpr, expr, expr::exprType), VISIT())
+        BY(CLASS(ifExpr, expr, expr::exprType), VISIT())
         friend class verifier;
 
     public:

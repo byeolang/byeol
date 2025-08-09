@@ -15,7 +15,7 @@ namespace by {
 
     namespace {
         class dumFrame: public frame {
-            NM(CLASS(dumFrame, frame))
+            BY(CLASS(dumFrame, frame))
 
         public:
             dumFrame() { super::add(dumScope::singleton()); }
@@ -42,7 +42,7 @@ namespace by {
         };
 
         class dumFrames: public frames {
-            NM(CLASS(dumFrames, frames))
+            BY(CLASS(dumFrames, frames))
 
         public:
             dumFrames() { super::add(*new dumFrame()); }
@@ -68,7 +68,7 @@ namespace by {
         };
 
         class dumThread: public thread {
-            NM(CLASS(dumThread, thread))
+            BY(CLASS(dumThread, thread))
 
         public:
             dumThread() { super::setEx(dummyErrReport::singleton); }

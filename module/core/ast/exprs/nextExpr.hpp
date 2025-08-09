@@ -5,11 +5,11 @@
 namespace by {
 
     class _nout nextRet: public retState {
-        NM(CLASS(nextRet, retState))
+        BY(CLASS(nextRet, retState))
     };
 
     class _nout nextExpr: public retStateExpr {
-        NM(CLASS(nextExpr, retStateExpr, expr::exprType), VISIT())
+        BY(CLASS(nextExpr, retStateExpr, expr::exprType), VISIT())
 
     public:
         str getEval() const override;

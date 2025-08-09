@@ -18,7 +18,7 @@ namespace by {
         //
         //  the most appropriate getter for wrapType of arr is to call getType() of instance
         //  to arr.
-        NM(ME(seq, __seqSuperClass), INIT_META(seq), CLONE(seq), VISIT())
+        BY(ME(seq, __seqSuperClass), INIT_META(seq), CLONE(seq), VISIT())
 
     public:
         typedef ntype metaType; // for ttype<T>

@@ -5,7 +5,7 @@
 namespace by {
 
     class fileFlag: public flag {
-        NM(CLASS(fileFlag, flag))
+        BY(CLASS(fileFlag, flag))
 
     public:
         const nchar* getName() const override;

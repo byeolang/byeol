@@ -9,7 +9,7 @@ namespace by {
     class visitor;
 
     class _nout asExpr: public expr {
-        NM(CLASS(asExpr, expr, expr::exprType), VISIT())
+        BY(CLASS(asExpr, expr, expr::exprType), VISIT())
         friend class verifier;
         friend class func;
 

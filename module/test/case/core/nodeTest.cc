@@ -9,7 +9,7 @@ struct nodeTest: public byeolTest {};
 
 namespace {
     class myFunc: public func {
-        NM(ME(myFunc, func))
+        BY(ME(myFunc, func))
 
     public:
         myFunc():
@@ -31,7 +31,7 @@ namespace {
     };
 
     struct myObj: public obj {
-        NM(CLASS(myObj, obj))
+        BY(CLASS(myObj, obj))
 
     public:
         myObj(int newVal = 0): val(newVal) {}
@@ -45,7 +45,7 @@ namespace {
     };
 
     class food: public obj {
-        NM(CLASS(food, obj))
+        BY(CLASS(food, obj))
 
     public:
         food(string newName, int newCalorie): name(std::move(newName)), calorie(newCalorie) {}
@@ -56,7 +56,7 @@ namespace {
 
     class chef: public obj {
         struct tofood: public tas<food> {
-            NM(CLASS(tofood, tas<food>))
+            BY(CLASS(tofood, tas<food>))
 
         public:
             str as(const node& it, const type& to) const override {
@@ -78,7 +78,7 @@ namespace {
                 return *inner;
             }
         };
-        NM(CLASS(chef, obj, myType))
+        BY(CLASS(chef, obj, myType))
 
     public:
         string foodName;

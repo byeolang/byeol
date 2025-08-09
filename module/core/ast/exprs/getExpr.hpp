@@ -9,7 +9,7 @@ namespace by {
     class closure;
 
     class _nout getExpr: public expr {
-        NM(CLASS(getExpr, expr, expr::exprType), VISIT())
+        BY(CLASS(getExpr, expr, expr::exprType), VISIT())
         friend class verifier;
         friend class parser;
         friend class visitor;     // for _me

@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout dumModifier: public modifier {
-        NM(CLASS(dumModifier, modifier))
+        BY(CLASS(dumModifier, modifier))
 
     public:
         nbool isPublic() const override;

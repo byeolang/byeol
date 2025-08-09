@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout visitInfo {
-        NM(ME(visitInfo))
+        BY(ME(visitInfo))
 
     public:
         visitInfo(const std::string* name, node* parent, nidx index, ncnt len, nint depth): me(name ? *name : std::string(""), parent, index, len, depth) {}

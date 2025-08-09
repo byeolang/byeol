@@ -1,7 +1,7 @@
 #include "leaf/ast/valLeaf.hpp"
 
 namespace by {
-    NM(DEF_ME(valLeaf))
+    BY(DEF_ME(valLeaf))
 
     me::valLeaf(const std::string& rawVal, const std::string& name): _rawVal(rawVal) {}
 

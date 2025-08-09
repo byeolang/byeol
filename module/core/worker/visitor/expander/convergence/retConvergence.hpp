@@ -7,7 +7,7 @@ namespace by {
     class node;
 
     class retConvergence: public evalConvergence {
-        NM(CLASS(retConvergence, evalConvergence))
+        BY(CLASS(retConvergence, evalConvergence))
 
     public:
         retConvergence(baseObj& obj, baseFunc& f, const node& org);

@@ -7,7 +7,7 @@ namespace by {
     class visitor;
 
     class _nout runExpr: public expr {
-        NM(CLASS(runExpr, expr, expr::exprType), VISIT())
+        BY(CLASS(runExpr, expr, expr::exprType), VISIT())
         friend class parser;
 
     public:

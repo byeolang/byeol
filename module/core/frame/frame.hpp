@@ -19,7 +19,7 @@ namespace by {
     class baseFunc;
 
     class _nout frame: public node, public dumpable { // TODO: may be obj, not node.
-        NM(CLASS(frame, node), VISIT())
+        BY(CLASS(frame, node), VISIT())
         friend class verifier;
         friend struct ::frameTest;
         friend class baseObj;

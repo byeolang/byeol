@@ -37,7 +37,7 @@ namespace by {
 
     class _nout parser: public worker<str, slot>, public tokenScanable {
         typedef worker<str, slot> __super5;
-        NM(CLASS(parser, __super5))
+        BY(CLASS(parser, __super5))
         friend class srcSupply;
 
     public:

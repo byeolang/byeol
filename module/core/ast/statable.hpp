@@ -11,7 +11,7 @@ namespace by {
     };
 
     class _nout statable {
-        NM(ME(statable))
+        BY(ME(statable))
 
     public:
         virtual state getState() const = 0;

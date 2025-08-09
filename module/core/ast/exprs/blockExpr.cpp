@@ -9,7 +9,7 @@
 
 namespace by {
 
-    NM(DEF_ME(blockExpr), DEF_VISIT())
+    BY(DEF_ME(blockExpr), DEF_VISIT())
 
     me::blockExpr() {}
 

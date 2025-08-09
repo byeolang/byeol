@@ -8,7 +8,7 @@
 
 namespace by {
 
-    NM(DEF_ME(obj), DEF_VISIT())
+    BY(DEF_ME(obj), DEF_VISIT())
 
     namespace {
         scope::defaultContainer* _cloneEach(const me& rhs) {

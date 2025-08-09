@@ -5,7 +5,7 @@
 namespace by {
 
     class _nout leaf: public instance {
-        NM(ME(leaf, instance), CLONE(me), INIT_META(leaf))
+        BY(ME(leaf, instance), CLONE(me), INIT_META(leaf))
 
         typedef std::map<std::string, tstr<me>> myMap;
         typedef myMap::iterator iterator;

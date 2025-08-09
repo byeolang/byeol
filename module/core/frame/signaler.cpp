@@ -9,7 +9,7 @@ namespace by {
 
     nbool sig::operator!=(const me& rhs) const { return !operator==(rhs); }
 
-    NM(DEF_ME(signaler))
+    BY(DEF_ME(signaler))
 
     namespace {
         const sig signals[] = {

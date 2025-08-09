@@ -2,7 +2,7 @@
 
 namespace by {
 
-    NM(DEF_ME(verLeaf))
+    BY(DEF_ME(verLeaf))
 
     me::verLeaf(int major, int minor, int fix):
         super(std::to_string(major) + DELIMITER + std::to_string(minor) + DELIMITER +

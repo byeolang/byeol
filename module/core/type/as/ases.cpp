@@ -8,7 +8,7 @@ namespace by {
 
     namespace {
         class derivedAs: public aser {
-            NM(CLASS(derivedAs, aser))
+            BY(CLASS(derivedAs, aser))
 
         public:
             using super::is;

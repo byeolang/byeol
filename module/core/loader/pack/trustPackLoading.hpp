@@ -7,7 +7,7 @@ namespace by {
     class errReport;
 
     class _nout trustPackLoading: public packLoading {
-        NM(ADT(trustPackLoading, packLoading))
+        BY(ADT(trustPackLoading, packLoading))
 
     public:
         nbool verify(errReport& rpt, obj& pak) override;

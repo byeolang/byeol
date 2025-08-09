@@ -1,7 +1,7 @@
 #include "core/ast/src/dumSrc.hpp"
 
 namespace by {
-    NM(DEF_ME(dumSrc))
+    BY(DEF_ME(dumSrc))
 
     namespace {
         static srcFile _inner("<no_name>", "");

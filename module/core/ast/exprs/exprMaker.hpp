@@ -10,7 +10,7 @@ namespace by {
     class defVarExpr;
 
     class _nout exprMaker: public typeProvidable, public clonable {
-        NM(CLASS(exprMaker))
+        BY(CLASS(exprMaker))
 
     public:
         exprMaker();

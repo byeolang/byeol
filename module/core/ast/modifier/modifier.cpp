@@ -2,7 +2,7 @@
 #include "core/ast/modifier/modifier.hpp"
 
 namespace by {
-    NM(DEF_ME(modifier))
+    BY(DEF_ME(modifier))
 
     me::modifier(): modifier(true, false) {}
 

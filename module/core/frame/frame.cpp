@@ -7,7 +7,7 @@
 #include "core/frame/thread.hpp"
 
 namespace by {
-    NM(DEF_ME(frame), DEF_VISIT())
+    BY(DEF_ME(frame), DEF_VISIT())
 
     me::frame() { _rel(); }
 

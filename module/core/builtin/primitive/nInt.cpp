@@ -10,7 +10,7 @@
 
 namespace by {
 
-    NM(DEF_ME(nInt), DEF_VISIT())
+    BY(DEF_ME(nInt), DEF_VISIT())
 
     nbool me::wIntType::isImmutable() const { return true; }
 
@@ -28,7 +28,7 @@ namespace by {
     namespace {
         // define in unamed namespace in order to avoid symbol duplication.
         struct asStr: public tas<nStr> {
-            NM(CLASS(asStr, tas<nStr>))
+            BY(CLASS(asStr, tas<nStr>))
 
         public:
             str as(const node& me, const type& to) const override {

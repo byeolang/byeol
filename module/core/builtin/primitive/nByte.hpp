@@ -15,7 +15,7 @@ namespace by {
             const ases& _getAses() const override;
         };
 
-        NM(CLASS(nByte, primitiveObj, nByteType), VISIT())
+        BY(CLASS(nByte, primitiveObj, nByteType), VISIT())
 
     public:
         nByte() = default;

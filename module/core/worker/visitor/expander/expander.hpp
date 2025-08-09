@@ -6,7 +6,7 @@
 namespace by {
 
     class _nout expander: public visitor {
-        NM(CLASS(expander, visitor))
+        BY(CLASS(expander, visitor))
 
         struct _nout expansion {
             nbool isExpanded() const;

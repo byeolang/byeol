@@ -11,7 +11,7 @@ namespace by {
     class leafParser;
 
     class _nout leafTokenScanable {
-        NM(ME(leafTokenScanable))
+        BY(ME(leafTokenScanable))
 
     public:
         nint onScan(leafParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner);

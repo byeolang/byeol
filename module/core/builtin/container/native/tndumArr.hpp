@@ -6,7 +6,7 @@ namespace by {
 
     template <typename T, typename TACTIC = strTactic> class tndumArr: public tnarr<T, TACTIC> {
         typedef tnarr<T, TACTIC> _super_;
-        NM(CLASS(tndumArr, _super_))
+        BY(CLASS(tndumArr, _super_))
 
     public:
         tndumArr() {}

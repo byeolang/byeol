@@ -5,7 +5,7 @@
 
 namespace by {
 
-    NM(DEF_ME(nextExpr), DEF_VISIT())
+    BY(DEF_ME(nextExpr), DEF_VISIT())
 
     str me::getEval() const {
         static nextRet inner;

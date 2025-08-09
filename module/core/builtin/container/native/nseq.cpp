@@ -6,7 +6,7 @@
 
 namespace by {
 
-    NM(DEF_ME(nseq))
+    BY(DEF_ME(nseq))
 
     me::nseq(const nInt& start, const nInt& end): _start(start), _end(end) { _updateStep(); }
 

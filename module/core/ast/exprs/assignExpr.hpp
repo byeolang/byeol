@@ -9,7 +9,7 @@ namespace by {
     class visitor;
 
     class _nout assignExpr: public expr {
-        NM(CLASS(assignExpr, expr, expr::exprType), VISIT())
+        BY(CLASS(assignExpr, expr, expr::exprType), VISIT())
         friend class verifier;
         friend class func;
         typedef scope::iter iter;

@@ -7,7 +7,7 @@ namespace by {
     template <typename K, typename V, typename TACTIC = strTactic>
     class tndumMap: public tnmap<K, V, TACTIC> {
         typedef tnmap<K, V, TACTIC> _super_;
-        NM(CLASS(tndumMap, _super_))
+        BY(CLASS(tndumMap, _super_))
 
     public:
         tndumMap() {}

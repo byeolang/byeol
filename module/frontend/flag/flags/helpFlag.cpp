@@ -4,7 +4,7 @@
 
 namespace by {
 
-    NM(DEF_ME(helpFlag))
+    BY(DEF_ME(helpFlag))
 
     const nchar* helpFlag::getName() const { return "-h, --help"; }
 

@@ -6,7 +6,7 @@
 namespace by {
 
     template <typename T> class _nout tmock: public T {
-        NM(ME(tmock, T))
+        BY(ME(tmock, T))
         friend class exprMaker;
 
     public:

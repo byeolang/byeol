@@ -9,7 +9,7 @@
 
 namespace by {
 
-    NM(DEF_ME(autoslot), DEF_VISIT())
+    BY(DEF_ME(autoslot), DEF_VISIT())
 
     me::autoslot(const manifest& manifest, const packLoadings& loadings):
         super(manifest), _loadings(loadings), _state(RELEASED), _rpt(dummyErrReport::singleton) {}

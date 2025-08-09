@@ -4,7 +4,7 @@
 
 namespace by {
     class _nout threadUse {
-        NM(ME(threadUse))
+        BY(ME(threadUse))
 
     public:
         threadUse();

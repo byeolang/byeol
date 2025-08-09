@@ -9,7 +9,7 @@
 
 namespace by {
 
-    NM(DEF_ME(runExpr), DEF_VISIT())
+    BY(DEF_ME(runExpr), DEF_VISIT())
 
     me::runExpr(const node* meObj, const node& subject, const args& a):
         _me(meObj), _args(a), _subject(subject) {}

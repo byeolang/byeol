@@ -11,7 +11,7 @@ namespace by {
     class visitor;
 
     class _nout baseFunc: public node {
-        NM(ADT(baseFunc, node), VISIT())
+        BY(ADT(baseFunc, node), VISIT())
         friend class generalizer; // for _getType()
         friend class parser;      // for _getType()
         friend class exprMaker;   // for _setSrc()

@@ -24,7 +24,7 @@ namespace by {
 
     /// node provides common API to manipulate its sub nodes.
     class _nout node: public instance, public frameInteractable {
-        NM(ADT(node, instance))
+        BY(ADT(node, instance))
         friend class exprMaker; // for _setSrc
         template <typename T> friend class tmock;
 

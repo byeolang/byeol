@@ -13,7 +13,7 @@ namespace by {
     class endExpr;
 
     class _nout verifier: public visitor {
-        NM(CLASS(verifier, visitor))
+        BY(CLASS(verifier, visitor))
         friend struct ::verifierTest;
         friend class genericOrigin;
 

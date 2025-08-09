@@ -2,7 +2,7 @@
 #include "core/ast/modifier/dumModifier.hpp"
 
 namespace by {
-    NM(DEF_ME(dumModifier))
+    BY(DEF_ME(dumModifier))
 
     nbool me::isPublic() const { return true; }
 

@@ -4,7 +4,7 @@
 
 namespace by {
     class evalConvergence: public tbaseConvergence<node> {
-        NM(ADT(evalConvergence, tbaseConvergence))
+        BY(ADT(evalConvergence, tbaseConvergence))
 
     public:
         evalConvergence(baseObj& obj, baseFunc& fun, const node& org, onConverge closure);

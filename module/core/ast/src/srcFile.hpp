@@ -7,7 +7,7 @@ namespace by {
 
     /// srcFile represents src file of byeolang source codes.
     class _nout srcFile: public node {
-        NM(CLASS(srcFile, node), VISIT())
+        BY(CLASS(srcFile, node), VISIT())
 
     public:
         srcFile(const std::string& fileName, const std::string& contents);

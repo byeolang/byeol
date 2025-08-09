@@ -1,7 +1,7 @@
 #include "indep/macro/when.hpp"
 
 namespace by {
-    NM(DEF_ME(__WHEN_OBJECT__))
+    BY(DEF_ME(__WHEN_OBJECT__))
 
     const me& me::get() {
         static me inner;

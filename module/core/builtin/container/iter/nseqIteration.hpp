@@ -1,7 +1,7 @@
 // nested class of nseq.hpp:
 //  this file allows to be refered by 'nseq.hpp' file only.
 class nseqIteration: public iteration {
-    NM(CLASS(nseqIteration, iteration))
+    BY(CLASS(nseqIteration, iteration))
     friend class tnseq;
 
 public:

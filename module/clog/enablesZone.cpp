@@ -3,7 +3,7 @@
 #include "clog/logger.hpp"
 
 namespace by {
-    NM(DEF_ME(enablesZone))
+    BY(DEF_ME(enablesZone))
 
     me::enablesZone() { _enables = logger::get().getEnables(); }
 

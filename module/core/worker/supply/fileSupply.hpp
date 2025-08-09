@@ -5,7 +5,7 @@
 namespace by {
 
     class _nout fileSupply: public srcSupply {
-        NM(CLASS(fileSupply, srcSupply))
+        BY(CLASS(fileSupply, srcSupply))
 
     public:
         fileSupply(const std::string& newPath);

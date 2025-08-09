@@ -9,7 +9,7 @@ namespace by {
     class func;
 
     class paramConvergence: public evalConvergence {
-        NM(CLASS(paramConvergence, evalConvergence))
+        BY(CLASS(paramConvergence, evalConvergence))
 
     public:
         paramConvergence(baseObj& o, baseFunc& f, param& p, const node& org);

@@ -9,7 +9,7 @@ namespace by {
     class exprMaker;
 
     class _nout srcSupply: public instance {
-        NM(ADT(srcSupply, instance))
+        BY(ADT(srcSupply, instance))
 
     public:
         /// @return true if there is no more data to process.
