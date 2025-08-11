@@ -88,8 +88,8 @@ jobs:
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
-        name: namu-ubuntu-x64
-        path: ${{github.workspace}}/bin/namu-ubuntu-x64.deb
+        name: byeol-ubuntu-x64
+        path: ${{github.workspace}}/bin/byeol-ubuntu-x64.deb
 
   build-on-linux-gcc:
     needs: [checking-code-format]
@@ -178,10 +178,10 @@ jobs:
     - name: upload wasm file
       uses: actions/upload-artifact@v4
       with:
-        name: namu-wasm
+        name: byeol-wasm
         path: |
-          ${{github.workspace}}/bin/namu.js
-          ${{github.workspace}}/bin/namu.wasm
+          ${{github.workspace}}/bin/byeol.js
+          ${{github.workspace}}/bin/byeol.wasm
 
   measure-coverage:
     needs: [build-on-linux-clang]
@@ -254,13 +254,13 @@ jobs:
         $PYTHON ${{github.workspace}}/build/builder.py test
 
     - name: archive to tar files
-      run: tar -cvf namu-macos-x64.tar ${{github.workspace}}/bin/
+      run: tar -cvf byeol-macos-x64.tar ${{github.workspace}}/bin/
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
-        name: namu-macos-x64
-        path: namu-macos-x64.tar
+        name: byeol-macos-x64
+        path: byeol-macos-x64.tar
 
   build-on-windows:
     needs: [checking-code-format]
@@ -295,13 +295,13 @@ jobs:
 
     - name: archives to zip file
       run: |
-        zip -9vr namu-win-x64-portable.zip ${{github.workspace}}\bin
+        zip -9vr byeol-win-x64-portable.zip ${{github.workspace}}\bin
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
-        name: namu-win-x64-portable
-        path: namu-win-x64-portable.zip
+        name: byeol-win-x64-portable
+        path: byeol-win-x64-portable.zip
 
     - name: get advanced installer
       uses: caphyon/advinst-github-action@v2.0
@@ -312,7 +312,7 @@ jobs:
     - name: build msi installer
       shell: pwsh
       run: |
-        $aipPath = "${{github.workspace}}\.github\workflows\namu.aip";
+        $aipPath = "${{github.workspace}}\.github\workflows\byeol.aip";
         Write-Host "AIP: $aipPath";
         $advinst = new-object -com advancedinstaller;
         $project = $advinst.LoadProject($aipPath);
@@ -324,8 +324,8 @@ jobs:
     - name: upload msi file
       uses: actions/upload-artifact@v4
       with:
-        name: namu-win-x64
-        path: ${{github.workspace}}\.github\workflows\namu-win-x64.msi
+        name: byeol-win-x64
+        path: ${{github.workspace}}\.github\workflows\byeol-win-x64.msi
 
   publish-doc:
     needs: [build-on-linux-gcc, build-on-linux-clang, build-on-macos, build-on-windows, build-for-wasm]
