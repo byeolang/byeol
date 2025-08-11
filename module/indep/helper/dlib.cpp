@@ -70,7 +70,7 @@ namespace by {
     nbool me::isLoaded() const { return _handle; }
 
     void me::rel() {
-        if(nul(_handle)) return ::by ::__indep_when__ ::get().ret();
+        if(!_handle) return ::by ::__indep_when__ ::get().ret();
 #ifdef BY_BUILD_PLATFORM_IS_WINDOWS
         FreeLibrary(_handle);
 #else

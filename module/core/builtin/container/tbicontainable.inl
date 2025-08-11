@@ -24,7 +24,7 @@ namespace by {
 
     TEMPL
     nbool ME::in(const V& val) const {
-        return !nul(get([&](const K&, const V& elem) { return &elem == &val; }));
+        return get([&](const K&, const V& elem) { return &elem == &val; });
     }
 
     TEMPL

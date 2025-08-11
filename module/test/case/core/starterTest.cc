@@ -72,7 +72,6 @@ TEST_F(starterTest, managedCallStack) {
     const baseErr& e = rpt.get(0) OR_ASSERT(e);
 
     const callstack& cs = e.getStack();
-    ASSERT_FALSE(nul(cs));
 
     // expecting callstack:
     //      at setAge()
@@ -80,10 +79,10 @@ TEST_F(starterTest, managedCallStack) {
     //      at main()
     ASSERT_TRUE(cs.len() > 2);
 
-    ASSERT_FALSE(nul(cs[0]));
+    ASSERT_TRUE(cs.get(0));
     ASSERT_EQ(cs[0].at, "setAge(n int)");
-    ASSERT_FALSE(nul(cs[1]));
+    ASSERT_TRUE(cs.get(1));
     ASSERT_EQ(cs[1].at, "say(n int)");
-    ASSERT_FALSE(nul(cs[2]));
+    ASSERT_TRUE(cs.get(2));
     ASSERT_EQ(cs[2].at, "main()");
 }

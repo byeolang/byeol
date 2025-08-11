@@ -53,7 +53,7 @@ namespace by {
         WHEN_NUL(rhs).ret(true);
 
         _type = rhs._type;
-        if(nul(_tactic)) _tactic = rhs._tactic;
+        if(!_tactic) _tactic = rhs._tactic;
         return bind(rhs.get());
     }
 

@@ -42,7 +42,6 @@ TEST_F(defFuncTest, distinguishDefineFuncOrCall) {
         ASSERT_EQ(f.getRet()->getType(), ttype<nVoid>());
 
         const params& ps = f.getParams();
-        ASSERT_FALSE(nul(ps));
         ASSERT_EQ(ps.len(), 2);
 
         const param& arg1 = ps[0];

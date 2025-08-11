@@ -92,7 +92,7 @@ namespace by {
         _onIndent();
         _drawIndent();
 
-        nbool isLast = nul(i.parent) ? true : i.index >= i.len - 1;
+        nbool isLast = i.parent ? i.index >= i.len - 1 : true;
         cout << foreColor(LIGHTGRAY) << (isLast ? "┗━[" : "┣━[") << foreColor(YELLOW) << i.index
              << foreColor(LIGHTGRAY) << "] ";
         _parentsLast.push_back(isLast);
@@ -130,11 +130,11 @@ namespace by {
         onVisit(i, (defNestedFuncExpr::super&) e, alreadyVisited);
 
         const func& fun = e.getOrigin();
-        std::string params = !nul(fun) ? fun.getParams().toStr() : "null";
-        const std::string* name = fun TO(getSrc()) TO(getName());
+        std::string params = fun.getParams().toStr();
+        const std::string& name = fun.getSrc().getName();
         cout << " -> " << foreColor(LIGHTGRAY) << "@" << foreColor(RED)
              << platformAPI::toAddrId(&fun) << " " << foreColor(LIGHTBLUE)
-             << (name ? *name : "null");
+             << (name);
         if(_isShowData)
             cout << foreColor(LIGHTGRAY) << "(" << foreColor(CYAN) << params << foreColor(LIGHTGRAY)
                  << ")";

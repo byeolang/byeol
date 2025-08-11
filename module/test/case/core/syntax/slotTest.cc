@@ -97,8 +97,8 @@ TEST_F(slotTest, parsePackTest) {
 pack demo
     )SRC")
         .shouldParsed(true);
-    ASSERT_FALSE(nul(getSubPack()));
-    ASSERT_FALSE(nul(getSlot()->subs()));
+    ASSERT_TRUE(getSubPack());
+    ASSERT_TRUE(getSlot() TO(subs()));
     scope::super& shares =
         (scope::super*) (getSlot() TO(subs()) TO(getNext()->getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 2);
@@ -148,9 +148,7 @@ TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
     ps.add(new param("age", ttype<nInt>::get()));
     ps.add(new param("grade", ttype<nFlt>::get()));
     f1.setLambda([](const auto& contain, const auto& sf) {
-        const frame& fr = sf[sf.len() - 1];
-        if(!nul(fr)) return BY_E("fr == null"), false;
-
+        const frame* fr = sf.get(sf.len() - 1) OR.err("fr == null").ret(false);
         return true;
     });
     testPack.subs().add("foo", f1);

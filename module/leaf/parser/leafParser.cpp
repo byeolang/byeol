@@ -251,7 +251,7 @@ namespace by {
     void me::report(const std::string& msg) { _errs.push_back(msg); }
 
     void* me::_scanString(const nchar* src, void* scanner) {
-        if(nul(src) || src[0] == '\0') {
+        if(!src || src[0] == '\0') {
             report("src is empty");
             return nullptr;
         }

@@ -28,8 +28,8 @@ namespace by {
         BY_DI("@%s run: assigning me: me[%s] sub[%s@%s]", addr, evaledMe, sub, sub.get());
 
         nbool needMe = !sub->isSub<baseObj>() && !sub->isSub<closure>();
-        if(needMe && !nul(_args)) { // if sub is a baseObj, this expr will runs ctor
-                                    // of it which doesn't need me obj.
+        if(needMe) { // if sub is a baseObj, this expr will runs ctor
+                     // of it which doesn't need me obj.
             frame* fr = evaledMe->cast<frame>();
             _args.setMe(fr ? fr->getMeHaving(sub.get()) : evaledMe.get());
             BY_DI("@%s run: setting me on args. args.me[%s]", addr, _args TO(getMe()));

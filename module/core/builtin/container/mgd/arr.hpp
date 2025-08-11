@@ -63,8 +63,8 @@ namespace by {
         template <typename E> tnarr<E, strTactic> getAll(std::function<nbool(const E&)> l) const {
             tnarr<E> ret;
             for(const node& elem: *this) {
-                const E& cast = elem.template cast<E>();
-                if(!nul(cast) && l(cast)) ret.add(cast);
+                const E* cast = elem.template cast<E>();
+                if(cast && l(*cast)) ret.add(cast);
             }
 
             return ret;

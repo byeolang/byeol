@@ -28,7 +28,7 @@ namespace by {
     nbool me::isParsed() const { return _isParsed; }
 
     nbool me::isVerified() const {
-        return isParsed() && (!nul(getReport()) && !getReport().inErr());
+        return isParsed() && !getReport().inErr();
     }
 
     node* me::getSubPack() { return _pser.getSubPack(); }
@@ -62,7 +62,7 @@ namespace by {
         _pser.rel();
     }
 
-    nbool me::_isPackExist() { return !nul(_pser.getSubPack()) && !nul(getTask()); }
+    nbool me::_isPackExist() { return _pser.getSubPack() && getTask(); }
 
     void me::_parse() {
         BY_DI("======================================");
@@ -75,7 +75,7 @@ namespace by {
             .setTask(getTask())
             .work();
 
-        if(nul(getTask())) setTask(_pser.getTask());
+        if(!getTask()) setTask(_pser.getTask());
 
         _isParsed = _isPackExist() && _pser.isOk();
     }

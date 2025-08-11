@@ -38,12 +38,9 @@ TEST_F(objTest, testMakeOriginObj) {
     const nchar* o2Name = "o2";
     originObj o1, o2(*new scope());
     ASSERT_NE(o1.getId(), o2.getId());
-    ASSERT_FALSE(nul(o1.subs()));
-    ASSERT_FALSE(nul(o2.subs()));
 
     scope* newSubs = new scope();
     originObj o3(*newSubs);
-    ASSERT_FALSE(nul(o3.subs()));
 
     ASSERT_EQ(o3.subs().len(), 0);
     newSubs->add("o1", o1);
@@ -63,7 +60,7 @@ TEST_F(objTest, testCloneOriginObj) {
     originObj o3(*newSubs);
 
     tstr<originObj> clone((originObj*) o3.clone());
-    ASSERT_FALSE(nul(*clone));
+    ASSERT_TRUE(clone.get());
 
     ASSERT_EQ(clone->subs().len(), 0);
     ASSERT_EQ(o3.subs().len(), 0);
@@ -72,7 +69,7 @@ TEST_F(objTest, testCloneOriginObj) {
     ASSERT_EQ(o3.subs().len(), 2);
     ASSERT_EQ(clone->subs().len(), 2);
 
-    ASSERT_TRUE(nul(clone->sub("o3")));
+    ASSERT_FALSE(clone->sub("o3"));
     node& found = clone->sub(o2Name) OR_ASSERT(found);
     ASSERT_EQ(&found, &o2);
 }
