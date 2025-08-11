@@ -681,7 +681,7 @@ namespace by {
 
     nbool me::_onInjectCtor(obj& it, defBlock& blk) {
         const auto& ctors = it.subAll<func>(baseObj::CTOR_NAME);
-        nbool hasCopyCtor = !nul(ctors.get<func>([&](const func& f) -> nbool {
+        nbool hasCopyCtor = ctors.get<func>([&](const func& f) -> nbool {
             const params& ps = f.getParams();
             WHEN(ps.len() != 1).ret(false);
 
@@ -690,7 +690,7 @@ namespace by {
             WHEN(cast && cast->getName() == it.getSrc().getName()).ret(true);
 
             return &org == &it;
-        }));
+        });
 
         // algorithm:
         //  case1: user defined ctor and copy ctor.

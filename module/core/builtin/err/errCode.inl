@@ -136,7 +136,7 @@ PAIRX(END_ONLY_BE_IN_A_FUNC, "you've to use 'end' inside of a func.")
 
 // func:("verify: arithmeticExpr: lhs & rhs should bind something.");
 //
-// if(nul(it.getLeft) || nul(it.getRight()))
+// WHEN_NUL(it.getLeft(), it.getRight())
 //
 PAIRX(PARAM_HAS_VAL, "parameter must take a form of '<name> <type>'")
 PAIRX(FUNC_HAS_NO_NAME, "a function should have a name")

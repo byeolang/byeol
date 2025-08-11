@@ -129,7 +129,7 @@ namespace by {
     TEMPL
     void ME::_nextToMatchParamType(typename iterable::iterationType type) {
         while(!isEnd()) {
-            WHEN(!nul(getVal())).ret();
+            WHEN(getVal()).ret();
             _iterate(type);
         }
     }

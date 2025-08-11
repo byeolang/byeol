@@ -207,7 +207,7 @@ namespace by {
 #if !defined(BY_BUILD_PLATFORM_IS_WINDOWS) && !defined(__EMSCRIPTEN__)
             nchar* demangled = nullptr;
             int status = 0;
-            if(nul(org)) org = "";
+            if(!org) org = "";
 
             demangled = ::abi::__cxa_demangle(org, 0, 0, &status);
             string ret(status == 0 ? demangled : org);

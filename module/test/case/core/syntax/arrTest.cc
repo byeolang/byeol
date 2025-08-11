@@ -344,8 +344,7 @@ TEST_F(arrTest, testIteratorBridgedFunc) {
 TEST_F(arrTest, newInstanceSharesFuncs) {
     arr a(*new nInt(0));
     ASSERT_TRUE(a.canRun(args()));
-    tstr<arr> res = a.run();
-    ASSERT_FALSE(nul(res));
+    tstr<arr> res = a.run() OR_ASSERT(res);
 
     ASSERT_TRUE(res->canRun(args()));
     ASSERT_EQ(a.subs().len(), res->subs().len());

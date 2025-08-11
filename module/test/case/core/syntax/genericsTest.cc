@@ -479,7 +479,7 @@ TEST_F(genericsTest, generalizedObjShouldRemoveExpandFunc) {
 
     str generic = getSubPack() TO(sub("Person")) TO(run(args(narr(nInt()))));
     ASSERT_TRUE(generic);
-    ASSERT_TRUE(nul(generic->sub(baseObj::EXPAND_NAME)));
+    ASSERT_FALSE(generic->sub(baseObj::EXPAND_NAME));
 }
 
 TEST_F(genericsTest, genericObjCallCompleteShouldDifferentEach) {

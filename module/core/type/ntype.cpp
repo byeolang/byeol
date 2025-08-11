@@ -17,9 +17,9 @@ namespace by {
 
         WHEN(getParams() != cast.getParams()).ret(false);
 
-        const ntype* ret = nul(getRet()) ? nullptr : &getRet()->getType();
-        const ntype* rhsRet = nul(getRet()) ? nullptr : &getRet()->getType();
-        WHEN(nul(ret) && nul(rhsRet)).ret(true);
+        const ntype* ret = getRet() ? &getRet()->getType() : nullptr;
+        const ntype* rhsRet = getRet() ? &getRet()->getType() : nullptr;
+        WHEN(!ret && !rhsRet).ret(true);
         return ret == rhsRet;
     }
 

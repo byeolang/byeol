@@ -7,8 +7,8 @@ TEST(macroTest, nul) {
     nint* aPtr = &a;
     nint* aNul = nullptr;
 
-    ASSERT_TRUE(nul(aNul));
-    ASSERT_FALSE(nul(aPtr));
+    ASSERT_FALSE(aNul);
+    ASSERT_TRUE(aPtr);
 }
 
 TEST(macroTest, BY_GETtest) {

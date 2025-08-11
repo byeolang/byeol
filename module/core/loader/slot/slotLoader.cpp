@@ -51,7 +51,7 @@ namespace by {
             inner = new packLoadings();
             for(const type* sub: ttype<packLoading>::get().getLeafs()) {
                 packLoading* new1 = sub->makeAs<packLoading>();
-                if(nul(new1)) {
+                if(!new1) {
                     BY_E("fail to make slotMaking named to %s", sub->getName());
                     continue;
                 }

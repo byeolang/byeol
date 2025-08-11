@@ -160,7 +160,7 @@ namespace by {
         _GUARD("onLeave(blockExpr&)");
 
         const narr& stmts = me.getStmts();
-        WHEN(nul(stmts) || stmts.len() <= 0).ret(); // will be catched to another verification.
+        WHEN(stmts.len() <= 0).ret(); // will be catched to another verification.
 
         me.setEval(me.getEval().get());
         me.outFrame();
@@ -245,7 +245,7 @@ namespace by {
 
         _STEP("whether the 'type' object has a ctor without any paramters?");
         str eval = me TO(getRight()) TO(getEval()) OR.myExErr(me, RHS_IS_NUL).ret();
-        WHEN(eval->isSub<baseObj>() && nul(eval->sub(baseObj::CTOR_NAME, args())))
+        WHEN(eval->isSub<baseObj>() && !eval->sub(baseObj::CTOR_NAME, args()))
             .myExErr(me, DONT_HAVE_CTOR, eval)
             .ret();
         func* fun = eval->cast<func>();
@@ -525,8 +525,8 @@ namespace by {
         str retType = me.getRet() OR.myExErr(me, NO_RET_TYPE).ret(true);
         WHEN(!retType->isSub(ttype<node>::get())).myExErr(me, WRONG_RET_TYPE, retType).ret(true);
 
-        blockExpr& blk = (blockExpr&) me.getBlock();
-        if(nul(blk) || blk.getStmts().len() <= 0) {
+        blockExpr& blk = me.getBlock();
+        if(blk.getStmts().len() <= 0) {
             if(i.name == starter::MAIN) BY_WHEN.myExErr(blk, MAIN_SHOULD_HAVE_STMTS);
             /*TODO: uncomment after implement abstract:
             if(!func.isAbstract() && !retType->isSub<nVoid>())
@@ -655,7 +655,7 @@ namespace by {
 
         _STEP("cache check");
         for(const auto& e: me._cache)
-            if(nul(e.second)) BY_WHEN.myExErr(me, MAKE_GENERIC_FAIL, e.first.c_str());
+            if(!e.second) BY_WHEN.myExErr(me, MAKE_GENERIC_FAIL, e.first.c_str());
 
         _STEP("did user set the name of this object like 'const'?");
         WHEN(util::checkTypeAttr(i.name) == ATTR_CONST && i.name.length() > 1)

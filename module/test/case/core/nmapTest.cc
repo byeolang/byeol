@@ -97,8 +97,7 @@ TEST_F(nmapTest, simpleAddDelTest) {
     map1.add("5", *(new myNode(EXPECT_NUMBER)));
     ASSERT_EQ(map1.len(), 1);
 
-    auto& elem1 = map1["5"];
-    ASSERT_FALSE(nul(elem1));
+    myNode& elem1 = map1.get("5") OR_ASSERT(elem1);
     ASSERT_EQ(elem1.number, EXPECT_NUMBER);
 }
 

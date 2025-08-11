@@ -94,7 +94,7 @@ namespace by {
 
     me& me::get() {
         static me* inner = 0;
-        if(nul(inner)) {
+        if(!inner) {
             inner = new me();
             inner->init();
         }

@@ -85,7 +85,7 @@ namespace by {
         me.outFrame();
         _obj.pop_back();
 
-        if(nul(me.sub(baseObj::EXPAND_NAME))) me.setState(PARSED);
+        if(!me.sub(baseObj::EXPAND_NAME)) me.setState(PARSED);
     }
 
     nbool me::onVisit(const visitInfo& i, func& me, nbool) {

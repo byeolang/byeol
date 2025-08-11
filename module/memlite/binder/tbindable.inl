@@ -7,7 +7,7 @@ namespace by {
 #define TEMPL template <typename T>
 #define ME tbindable<T>
 
-    TEMPL ME::operator nbool() const { return !nul(this) && isBind(); }
+    TEMPL ME::operator nbool() const { return isBind(); }
 
     TEMPL nbool ME::canBind(const T& it) const { return canBind(it.getType()); }
 

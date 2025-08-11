@@ -97,7 +97,6 @@ TEST_F(ttypeTest, iterateLeafClassTest) {
     ASSERT_EQ(typ.getSubs().size(), 2);
 
     const types& subs = typ.getLeafs();
-    ASSERT_FALSE(nul(subs));
 
     // hierarchy:
     //  myClass -------> myDerivedClass ----> "myDerivedClass3"
