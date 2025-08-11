@@ -137,9 +137,9 @@ def mv(directory):
                 os.system(f"{git.binary} mv " + prevPath + " " + nextPath)
 
 def _cleanParser():
-    global namuDir
+    global byeolDir
 
-    pathDir= namuDir
+    pathDir= byeolDir
     if isWindow():
         pathDir += "\\module\\core\\worker\\bison\\"
         leafPathDir = cwd + "\\..\\module\\leaf\\parser\\bison\\"
@@ -184,9 +184,9 @@ def cleanGhPages(git):
     # standby gh-pages repo:
     printInfoEnd("cloning gh-pages branch...")
     if isWindow():
-        res = os.system(f"{git.binary} clone -b gh-pages --depth 5 https://github.com/namulang/namu --single-branch " + cwd + "\\html")
+        res = os.system(f"{git.binary} clone -b gh-pages --depth 5 https://github.com/byeolang/byeol --single-branch " + cwd + "\\html")
     else:
-        res = os.system(f"{git.binary} clone -b gh-pages --depth 5 https://github.com/namulang/namu --single-branch " + cwd + "/html")
+        res = os.system(f"{git.binary} clone -b gh-pages --depth 5 https://github.com/byeolang/byeol --single-branch " + cwd + "/html")
     if res != 0:
         printErr("fail to clone gh-pages repo.")
         _cleanIntermediates()
@@ -238,28 +238,28 @@ dockerRepo = "ghcr.io/homebrew/core/clang-format:18.1.8"
 dockerRepo = "ams21/clang-format:18.1.8"
 
 def _runDocker(sudo, docker, containerName):
-    global namuDir, dockerRepo
+    global byeolDir, dockerRepo
     uid = os.getuid()
     gid = os.getgid()
     if _isAppleSilicon():
         subprocess.run([sudo, docker, "run", 
             "--user", f"{uid}:{gid}",
             "--platform", "linux/amd64",
-            "-d", "--name", containerName, "-v", f"{namuDir}:/src",
+            "-d", "--name", containerName, "-v", f"{byeolDir}:/src",
             dockerRepo, "tail", "-f", "dev/null"
         ])
 
 
     elif isWindow():
         subprocess.run([sudo, docker, "run",
-            "-d", "--name", containerName, "-v", f"{namuDir}:/src",
+            "-d", "--name", containerName, "-v", f"{byeolDir}:/src",
             dockerRepo, "tail", "-f", "dev/null"
         ])
 
     else:
         subprocess.run([sudo, docker, "run",
             "--user", f"{uid}:{gid}",
-            "-d", "--name", containerName, "-v", f"{namuDir}:/src",
+            "-d", "--name", containerName, "-v", f"{byeolDir}:/src",
             dockerRepo, "tail", "-f", "dev/null"
         ])
 
@@ -269,8 +269,8 @@ def formatCodesWithDocker(showLog):
     if checkDependencies([docker]):
         return -1
 
-    global namuDir
-    containerName = "namu-clang-format-container__"
+    global byeolDir
+    containerName = "byeol-clang-format-container__"
     sudo = "" if isWindow() else "sudo"
     if not _isDockerExist(sudo, docker.binary, containerName):
         _runDocker(sudo, docker.binary, containerName)
@@ -279,7 +279,7 @@ def formatCodesWithDocker(showLog):
             printErr("docker container still now working!")
             return -1
 
-    root = namuDir
+    root = byeolDir
     if showLog: print("code formatting:")
     for path, dirs, files in os.walk(root):
         if "../module/" not in path: continue
@@ -383,14 +383,14 @@ def covBuild():
         printErr("I can collect coverages in linux only.")
         return -1
 
-    global config, cwd, namuDir
+    global config, cwd, byeolDir
     config="-DCMAKE_BUILD_TYPE=Debug -DCOVERAGE_TOOL=gcov"
     print(config)
 
     clean()
     build(True)
     printInfoEnd("running TC files...")
-    res = os.system("cd " + namuDir + "/bin && ./test")
+    res = os.system("cd " + byeolDir + "/bin && ./test")
     if res != 0:
         printErr("failed to pass TCs.")
         return -1
@@ -687,7 +687,7 @@ def pub(arg):
         os.system("mkdir usr/lib")
         os.system("mkdir usr/include")
         os.system("mkdir usr/share")
-        os.system("mkdir usr/share/namu")
+        os.system("mkdir usr/share/byeol")
         printOk("done.")
         os.chdir(cwd)
 
@@ -698,9 +698,9 @@ def pub(arg):
         os.chdir(debianDir)
         target = debianDir + "/usr/"
         printInfoEnd("copy outputs into debian target directory")
-        os.system("cp " + binDir + "/namu " + target + "bin")
+        os.system("cp " + binDir + "/byeol " + target + "bin")
         os.system("cp " + binDir + "/*.so " + target + "lib")
-        os.system("cp -r " + binDir + "/pack " + target + "share/namu")
+        os.system("cp -r " + binDir + "/pack " + target + "share/byeol")
         printOk("done")
 
         printInfoEnd("packaging...")
@@ -709,7 +709,7 @@ def pub(arg):
         printOk("done")
 
         printInfoEnd("move package into bin/...")
-        os.system("mv debian.deb " + binDir + "/namu-ubuntu-x64.deb")
+        os.system("mv debian.deb " + binDir + "/byeol-ubuntu-x64.deb")
         printOk("done")
 
         printInfoEnd("remove local shared libraries...")
@@ -736,7 +736,7 @@ def pub(arg):
         printOk("done")
         printInfoEnd("make an archive")
         os.chdir(binDir + "/..")
-        os.system("tar -zcvf namu-macos-x64.tar.gz bin")
+        os.system("tar -zcvf byeol-macos-x64.tar.gz bin")
         printOk("done")
         return 0
 
@@ -756,7 +756,7 @@ def pub(arg):
         os.system("copy Release\\* .")
         os.system("del /S /Q Release\\*")
         os.system("rmdir Release")
-        os.system("zip -9vr namu-win-x64.zip ..\\bin")
+        os.system("zip -9vr byeol-win-x64.zip ..\\bin")
 
         printOk("done")
         printInfoEnd("please make an archive.")
@@ -1094,7 +1094,7 @@ def showRawVersion():
 
 def version():
     global ver_name, ver_major, ver_minor, ver_fix, cwd, python3
-    print("builder is supporting utility for building namu " + ver_name + " v" + str(ver_major) + "." + str(ver_minor) + "." + str(ver_fix))
+    print("builder is supporting utility for building byeol " + ver_name + " v" + str(ver_major) + "." + str(ver_minor) + "." + str(ver_fix))
     print("created by kniz, 2009-2025")
     print("")
 
@@ -1178,7 +1178,7 @@ def _extractEnv():
             python3 = _where("python")
         return python3 == ""
 cwd = ""
-namuDir = ""
+byeolDir = ""
 resDir = ""
 binDir = ""
 externalDir = ""
@@ -1186,20 +1186,20 @@ generator = "Visual Studio 17 2022" if isWindow() else "Unix Makefiles"
 winProp = ""
 
 def _init():
-    global cwd, namuDir, binDir, externalDir, resDir
+    global cwd, byeolDir, binDir, externalDir, resDir
     cwd = os.path.dirname(os.path.realpath(sys.argv[0]))
     if isWindow():
-        namuDir = cwd + "\\.."
-        binDir = namuDir + "\\bin"
-        resDir = namuDir + "\\res"
-        externalDir = namuDir + "\\external"
+        byeolDir = cwd + "\\.."
+        binDir = byeolDir + "\\bin"
+        resDir = byeolDir + "\\res"
+        externalDir = byeolDir + "\\external"
         # in order to color output text in windows terminal, I need this.
         os.system('color')
     else:
-        namuDir = cwd + "/.."
-        binDir = namuDir + "/bin"
-        resDir = namuDir + "/res"
-        externalDir = namuDir + "/external"
+        byeolDir = cwd + "/.."
+        binDir = byeolDir + "/bin"
+        resDir = byeolDir + "/res"
+        externalDir = byeolDir + "/external"
 
     _extractBuildInfo()
     return _extractEnv()
