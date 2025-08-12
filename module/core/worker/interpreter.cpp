@@ -64,51 +64,41 @@ namespace by {
 
     nbool me::_isPackExist() { return _pser.getSubPack() && getTask(); }
 
+    namespace {
+        template <typename T, typename E>
+        nbool _visit(interpreter& i, T& v, E* task) {
+            BY_DI("======================================");
+            BY_DI("|               %s                   |", v.getType().getName().c_str());
+            BY_DI("======================================");
+
+            WHEN_NUL(i.getTask()).err("_slot is null").ret(false);
+
+            v.setReport(i.getReport())
+                .setFlag(i.getFlag())
+                .delFlag(interpreter::LOG_ON_END | interpreter::DUMP_ON_END)
+                .setTask(task)
+                .work();
+
+            return true;
+        }
+    }
+
+
     void me::_parse() {
-        BY_DI("======================================");
-        BY_DI("|               parse                |");
-        BY_DI("======================================");
-
-        _pser.setReport(getReport())
-            .setFlag(getFlag())
-            .delFlag(LOG_ON_END | DUMP_ON_END)
-            .setTask(getTask())
-            .work();
-
         if(!getTask()) setTask(_pser.getTask());
+        WHEN(!_visit(*this, _pser, getTask())).ret();
 
         _isParsed = _isPackExist() && _pser.isOk();
     }
 
     void me::_expand() {
-        BY_DI("======================================");
-        BY_DI("|               expand               |");
-        BY_DI("======================================");
-
-        WHEN_NUL(getTask()).err("_slot is null").ret();
-
         threadUse thr;
         expander evaler;
-        evaler.setReport(getReport())
-            .setFlag(getFlag())
-            .delFlag(LOG_ON_END | DUMP_ON_END)
-            .setTask(getTask() TO(getPack()))
-            .work();
+        WHEN(!_visit(*this, evaler, getTask() TO(getPack()))).ret();
     }
 
     void me::_verify() {
-        BY_DI("======================================");
-        BY_DI("|                verify              |");
-        BY_DI("======================================");
-
-        WHEN_NUL(getTask()).err("_slot is null").ret();
-
-        // verify:
         threadUse thr;
-        _veri.setReport(getReport())
-            .setFlag(getFlag())
-            .delFlag(LOG_ON_END | DUMP_ON_END)
-            .setTask(getTask() TO(getPack()))
-            .work();
+        WHEN(!_visit(*this, _veri, getTask() TO(getPack()))).ret();
     }
 } // namespace by
