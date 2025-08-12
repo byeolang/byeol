@@ -74,17 +74,8 @@ def branch(command):
         return help()
     elif command == "prerequisites":
         return prerequisites()
-    elif command == "mv":
-        arg = None if len(sys.argv) < 3 else sys.argv[2]
-        return mv(arg)
-    elif command == "history":
-        return history()
     elif command == "clean":
         return clean()
-    elif command == "commit":
-        return commit()
-    elif command == "rebuild":
-        return rebuild()
     elif command == "rel":
         return relBuild()
     elif command == "reldbg":
@@ -99,42 +90,18 @@ def branch(command):
     elif command == "test":
         arg1 = "" if len(sys.argv) < 3 else sys.argv[2]
         return test(arg1);
-    elif command == "run":
-        return run()
     elif command == "cov":
         return covBuild()
     elif command == "doc":
         return doc()
     elif command == "pubdoc":
         return _publishDoc()
-    elif command == "make":
-        return build(False)
     elif command == "pub":
         arg2 = None if len(sys.argv) < 3 else sys.argv[2]
         return pub(arg2);
 
     printErr(command + " is unknown command.")
     return -1
-
-def mv(directory):
-    git = GitDependency()
-    if checkDependencies([git]):
-        return -1
-
-    print("directory= " + directory)
-    for path, dirs, files in os.walk(directory):
-        for file in files:
-            ext = os.path.splitext(file)[1]
-            if  ext != ".in" and ext != ".cc" and ext != ".cpp" and ext != ".hpp" and ext != ".inl":
-                continue
-
-            prevPath = os.path.join(path, file)
-            nextPath = os.path.join(path, file[:1].lower() + file[1:])
-            if prevPath == nextPath: continue
-            answer = input(prevPath + " -> " + nextPath + " -> [y/n] ")
-            if answer == "": answer = "y"
-            if answer == "y":
-                os.system(f"{git.binary} mv " + prevPath + " " + nextPath)
 
 def _cleanParser():
     global byeolDir
@@ -794,9 +761,6 @@ def test(arg):
     os.chdir(originDir)
     return ret
 
-def commit():
-    return 0
-
 class ver:
     def __init__(self, major, minor, patch, onlyThisVer):
         self.major = major
@@ -1108,6 +1072,7 @@ def help():
     print("\t * dbg           build new binary with debug configuration.")
     print("\t * rel           build new binary with release configuration. binary optimized, debug logs will be hidden.")
     print("\t * reldbg        same as rel. but this includes dbg info.")
+    print("\t * wasm          build wasm release binary.")
     print("\t * test          runs unit tests but skip build if they are built already.")
     print("\t * doc           generate documents only.")
     print("\t * cov           generate coverage file and visualize data with html")
