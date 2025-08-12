@@ -114,3 +114,7 @@ auto& student = StudentRepo().getSchedule().getStudentsBy("Chales");
 `operator*()` 를 사용합니다.
 * 이 과정에서 null에 대한 참조자를 만들 수 있고, 이를 사용하면 UB(Undefined
 Behavior) 입니다. 모든 책임은 호출자가 지게 됩니다.
+
+# Column은 120 hard limit, 80 soft limit 입니다.
+* 120 columns은 절대로 넘어서는 안됩니다.
+* 80 columns 이후부터는 슬슬 개행을 준비하세요.
