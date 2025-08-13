@@ -135,14 +135,14 @@ namespace by {
     }
 
     void me::onLeave(const visitInfo& i, baseFunc& me, nbool) {
-        _GUARD("onLeave(%s)");
+        _GUARD("onLeave()");
 
         me.outFrame();
         _funcs.pop_back();
     }
 
     nbool me::onVisit(const visitInfo& i, getGenericExpr& me, nbool) {
-        _GUARD("onVisit(%s)");
+        _GUARD("onVisit()");
 
         // this lets genericOrigin make a their generic obj.
         obj& generalizedOrg = me.getEval().cast<obj>() OR.ret(true);
