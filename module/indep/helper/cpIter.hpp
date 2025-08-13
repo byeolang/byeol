@@ -11,7 +11,8 @@ namespace by {
     public:
         cpIter(const nchar* begin, const nchar* from);
         /// @param from externally memory-managed string object.
-        cpIter(const std::string& from, nbool isReversed = false);
+        explicit cpIter(const std::string& from, nbool isReversed = false);
+        cpIter(std::string&& from, nbool isReversed = false) = delete;
 
     public:
         me operator+(ncnt step);
