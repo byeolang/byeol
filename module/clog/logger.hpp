@@ -25,8 +25,7 @@ namespace by {
         void setEnables(const enables& enbs);
         ncnt getStreamCount() const;
         nbool logFormatBypass(const nchar* fmt, ...);
-        nbool log(errLv::level lv, const std::string& filename, const nchar* func, int line,
-            const nchar* fmt, ...);
+        nbool log(errLv::level lv, const std::string& filename, const nchar* func, int line, const nchar* fmt, ...);
 
         nbool pushStream(stream* new_stream);
         nbool pushStream(stream& new_stream);

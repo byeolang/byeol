@@ -12,12 +12,9 @@
 //          BY_I("just message.")
 //          BY_I("with format=%x string=%s", &format, format.c_str())
 #ifndef __EMSCRIPTEN__
-#    define BY_E(fmt, ...) \
-        ::by::richLog(::by::errLv::ERR, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
-#    define BY_W(fmt, ...) \
-        ::by::richLog(::by::errLv::WARN, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
-#    define BY_I(fmt, ...) \
-        ::by::richLog(::by::errLv::INFO, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
+#    define BY_E(fmt, ...) ::by::richLog(::by::errLv::ERR, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
+#    define BY_W(fmt, ...) ::by::richLog(::by::errLv::WARN, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
+#    define BY_I(fmt, ...) ::by::richLog(::by::errLv::INFO, __FILENAME__, __func__, __LINE__, fmt "\n", ##__VA_ARGS__)
 #else
 #    define BY_E(fmt, ...) void()
 #    define BY_W(fmt, ...) void()

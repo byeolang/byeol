@@ -123,8 +123,8 @@ namespace by {
 
         str retOrg = _findOrigin(me.getRet());
         if(retOrg) {
-            BY_DI("* inject func: retType of '%s(%s) %s' --> '%s'", i, me.getParams().toStr(),
-                me.getRet()->getEval(), *retOrg);
+            BY_DI("* inject func: retType of '%s(%s) %s' --> '%s'", i, me.getParams().toStr(), me.getRet()->getEval(),
+                *retOrg);
             me._getType().setRet(*retOrg);
             if(!i.parent) getReport().add(nerr::newErr(errCode::IS_NUL, "parent"));
         }

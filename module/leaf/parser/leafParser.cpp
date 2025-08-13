@@ -55,8 +55,8 @@ namespace by {
     }
 
     nint me::onTokenNewLine(nint tok) {
-        BY_DI("tokenEvent: onNewLine: _isIgnoreWhitespace=%s, _indents.size()=%d",
-            _isIgnoreWhitespace, _indents.size());
+        BY_DI("tokenEvent: onNewLine: _isIgnoreWhitespace=%s, _indents.size()=%d", _isIgnoreWhitespace,
+            _indents.size());
         if(!_isIgnoreWhitespace && _indents.size() >= 1) _dispatcher.add(SCAN_MODE_INDENT);
         _dedent.rel();
         return tok;
@@ -79,16 +79,14 @@ namespace by {
     }
 
     nint me::onIndent(ncnt col, nint tok) {
-        BY_DI("tokenEvent: onIndent(col: %d, tok: %d) indents.size()=%d", col, tok,
-            _indents.size());
+        BY_DI("tokenEvent: onIndent(col: %d, tok: %d) indents.size()=%d", col, tok, _indents.size());
         _indents.push_back(col);
         _dispatcher.add(tok);
         return INDENT;
     }
 
     nint me::onDedent(ncnt col, nint tok) {
-        BY_DI("tokenEvent: onDedent(col: %d, tok: %d) indents.size()=%d", col, tok,
-            _indents.size());
+        BY_DI("tokenEvent: onDedent(col: %d, tok: %d) indents.size()=%d", col, tok, _indents.size());
 
         _indents.pop_back();
         nint now = _indents.back();
@@ -155,9 +153,7 @@ namespace by {
         return subpack;
     }
 
-    void me::onParseErr(const std::string& msg, const nchar* symbolName) {
-        report(msg + " -> " + symbolName);
-    }
+    void me::onParseErr(const std::string& msg, const nchar* symbolName) { report(msg + " -> " + symbolName); }
 
     me::leafParser(): _mode(nullptr), _isIgnoreWhitespace(false) { rel(); }
 
@@ -189,8 +185,7 @@ namespace by {
         zzscan_t scanner;
         zzlex_init_extra(this, &scanner);
 
-        yy_buffer_state& bufState =
-            (YY_BUFFER_STATE) _scanString(codes.c_str(), scanner) OR.ret(nullptr);
+        yy_buffer_state& bufState = (YY_BUFFER_STATE) _scanString(codes.c_str(), scanner) OR.ret(nullptr);
 
         // fix Flex Bug here:
         //  when zz_scan_string get called, it returns bufState after malloc it.

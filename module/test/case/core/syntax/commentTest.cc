@@ -18,8 +18,7 @@ TEST_F(commentTest, singleLineComment) {
         .shouldVerified(true);
 
     scope::super& owns = (scope::super*) (getSlot() TO(subs().getContainer())) OR_ASSERT(owns);
-    scope::super& shares =
-        (scope::super*) (getSubPack() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& shares = (scope::super*) (getSubPack() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(owns.len(), 1);   // 1 for age
     ASSERT_EQ(shares.len(), 3); // 1 for main() 2 for @ctor
 }
@@ -35,8 +34,7 @@ TEST_F(commentTest, multiLineComment) {
     )SRC")
         .shouldVerified(true);
     scope::super& owns = (scope::super*) (getSlot() TO(subs().getContainer())) OR_ASSERT(owns);
-    scope::super& shares =
-        (scope::super*) (getSubPack() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& shares = (scope::super*) (getSubPack() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(owns.len(), 1);   // 1 for age
     ASSERT_EQ(shares.len(), 3); // 1 for main() 2 for @ctor
 }
@@ -53,8 +51,7 @@ TEST_F(commentTest, multiLineComment2) {
     )SRC")
         .shouldVerified(true);
     scope::super& owns = (scope::super*) (getSlot() TO(subs().getContainer())) OR_ASSERT(owns);
-    scope::super& shares =
-        (scope::super*) (getSubPack() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& shares = (scope::super*) (getSubPack() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(owns.len(), 1);   // 1 for age
     ASSERT_EQ(shares.len(), 3); // 1 for main() 2 for @ctor
 }

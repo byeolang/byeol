@@ -73,8 +73,7 @@ namespace by {
         static constexpr nbool is_like_ptr = is_ptr;
     };
 
-    template <typename T>
-    auto nul(T&& it) -> decltype(typeTrait<std::remove_reference_t<std::decay_t<T>>>::isNul(it)) {
+    template <typename T> auto nul(T&& it) -> decltype(typeTrait<std::remove_reference_t<std::decay_t<T>>>::isNul(it)) {
         return typeTrait<std::remove_reference_t<std::decay_t<T>>>::isNul(std::forward<T>(it));
     }
 } // namespace by

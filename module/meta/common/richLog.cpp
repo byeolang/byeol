@@ -10,7 +10,5 @@ namespace by {
 
     strWrap __convert__(const type* rhs) { return rhs ? __convert__(*rhs) : strWrap("null"); }
 
-    strWrap __convert__(const typeProvidable* rhs) {
-        return rhs ? __convert__(*rhs) : strWrap("null");
-    }
+    strWrap __convert__(const typeProvidable* rhs) { return rhs ? __convert__(*rhs) : strWrap("null"); }
 }

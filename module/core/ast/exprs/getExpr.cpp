@@ -15,8 +15,7 @@ namespace by {
 
     me::getExpr(const node& me, const std::string& name): _me(me), _name(name) {}
 
-    me::getExpr(const node& me, const std::string& name, const args& a):
-        _me(me), _name(name), _args(a) {}
+    me::getExpr(const node& me, const std::string& name, const args& a): _me(me), _name(name), _args(a) {}
 
     const node* me::getMe() const {
         WHEN(!_me).ret(thread::get().getNowFrame());
@@ -52,9 +51,7 @@ namespace by {
         return _onGet(_evalMe(evalMode).get());
     }
 
-    str me::_evalMe(nbool evalMode) const {
-        return evalMode ? getMe() TO(getEval()) : getMe() TO(template as<node>());
-    }
+    str me::_evalMe(nbool evalMode) const { return evalMode ? getMe() TO(getEval()) : getMe() TO(template as<node>()); }
 
     node* me::_onGet(node& me) const {
         std::string argsName = _args ? _args->asStr().c_str() : "{}";

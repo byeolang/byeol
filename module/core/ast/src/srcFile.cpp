@@ -9,8 +9,7 @@ namespace by {
 
     me::srcFile(): me("", "") {}
 
-    me::srcFile(const std::string& fileName, const std::string& contents):
-        _fileName(fileName), _contents(contents) {}
+    me::srcFile(const std::string& fileName, const std::string& contents): _fileName(fileName), _contents(contents) {}
 
     priorType me::prioritize(const args& a) const { return NO_MATCH; }
 

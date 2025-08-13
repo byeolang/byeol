@@ -58,8 +58,7 @@ namespace by {
         nbool isInit() const;
 
         template <typename T> void setScan() {
-            BY_DI("change scanmode(%s -> %s)", _mode ? _mode->getType().getName() : "null",
-                *T::_instance);
+            BY_DI("change scanmode(%s -> %s)", _mode ? _mode->getType().getName() : "null", *T::_instance);
             _mode = T::_instance;
         }
 
@@ -71,8 +70,7 @@ namespace by {
         // events:
         //  scan:
         using tokenScanable::onScan;
-        nint onScan(parser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner,
-            nbool& isBypass) override;
+        nint onScan(parser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner, nbool& isBypass) override;
         nint onTokenEndOfFile();
         nint onTokenColon(nint tok);
         nint onTokenNewLine(nint tok);
@@ -191,10 +189,9 @@ namespace by {
         //          obj:
         obj* onDefOrigin(const std::string& name, defBlock& blk);
         obj* onDefOrigin(const std::string& name, const narr& args, defBlock& blk);
-        genericOrigin* onDefObjGeneric(const std::string& name, const args& typeParams,
+        genericOrigin* onDefObjGeneric(const std::string& name, const args& typeParams, defBlock& blk);
+        genericOrigin* onDefObjGeneric(const std::string& name, const args& typeParams, const narr& args,
             defBlock& blk);
-        genericOrigin* onDefObjGeneric(const std::string& name, const args& typeParams,
-            const narr& args, defBlock& blk);
         //          container:
         node* onDefArray(const narr& items);
         node* onDefSeq(const node& start, const node& end);
@@ -260,8 +257,7 @@ namespace by {
         str _onWork() override;
 
     private:
-        node* _onDefAssign(const modifier& mod, const node* type, const std::string& name,
-            const node* rhs);
+        node* _onDefAssign(const modifier& mod, const node* type, const std::string& name, const node* rhs);
         nint _onTokenEndOfInlineBlock(nint tok);
         node* _onSetElem(runExpr& lhs, const node& rhs);
         node* _onAssignElem(FBOExpr::symbol type, node& lhs, node& rhs);

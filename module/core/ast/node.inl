@@ -91,8 +91,8 @@ namespace by {
             priorType p = NO_MATCH;
             if(key == name) p = val.prioritize(a);
 
-            BY_DI("sub: [%d/%d] %s(%s) --> %s@%s = %s", ++n, subs().len(), name, argStr, key,
-                (void*) &val, getPriorTypeName(p));
+            BY_DI("sub: [%d/%d] %s(%s) --> %s@%s = %s", ++n, subs().len(), name, argStr, key, (void*) &val,
+                getPriorTypeName(p));
             return p != NO_MATCH;
         });
     }
@@ -132,9 +132,8 @@ namespace by {
 
                 const baseFunc* f = val.template cast<baseFunc>();
                 std::string valArgs = f ? "(" + f->getParams().toStr() + ")" : "";
-                BY_DI("subAll: [%d/%d] %s%s --> %s.%s%s@%s = priority(type=%s, lv=%d)", n++,
-                    subs().len(), name, argStr, myName, key, valArgs, (void*) &val,
-                    getPriorTypeName(p), lv);
+                BY_DI("subAll: [%d/%d] %s%s --> %s.%s%s@%s = priority(type=%s, lv=%d)", n++, subs().len(), name, argStr,
+                    myName, key, valArgs, (void*) &val, getPriorTypeName(p), lv);
                 return true;
             });
 
@@ -145,9 +144,7 @@ namespace by {
     }
 
     TEMPLATE
-    tpriorities<T> ME::subAll(const std::string& name, const args& a) const {
-        return subAll<T>(name, &a);
-    }
+    tpriorities<T> ME::subAll(const std::string& name, const args& a) const { return subAll<T>(name, &a); }
 
 #undef TEMPLATE
 #undef ME

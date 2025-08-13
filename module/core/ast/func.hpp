@@ -21,8 +21,7 @@ namespace by {
     public:
         explicit func(const modifier& mod, const funcMgdType& type);
         explicit func(const modifier& mod, const funcMgdType& type, const blockExpr& newBlock);
-        explicit func(const modifier& mod, const funcMgdType& type, const scope& subs,
-            const blockExpr& newBlock);
+        explicit func(const modifier& mod, const funcMgdType& type, const scope& subs, const blockExpr& newBlock);
 
     public:
         const ntype& getType() const override;

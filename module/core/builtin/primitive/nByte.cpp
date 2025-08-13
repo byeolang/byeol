@@ -83,13 +83,11 @@ namespace by {
     }
 
     tstr<arithmeticObj> me::_lshift(const arithmeticObj& rhs, nbool reversed) const {
-        return reversed ? new me(rhs.as<me>()->get() << get()) :
-                          new me(get() << rhs.as<me>()->get());
+        return reversed ? new me(rhs.as<me>()->get() << get()) : new me(get() << rhs.as<me>()->get());
     }
 
     tstr<arithmeticObj> me::_rshift(const arithmeticObj& rhs, nbool reversed) const {
-        return reversed ? new me(rhs.as<me>()->get() >> get()) :
-                          new me(get() >> rhs.as<me>()->get());
+        return reversed ? new me(rhs.as<me>()->get() >> get()) : new me(get() >> rhs.as<me>()->get());
     }
 
     nbool me::_eq(const arithmeticObj& rhs) const { return get() == rhs.asImpli<me>()->get(); }
@@ -104,13 +102,9 @@ namespace by {
 
     nbool me::_le(const arithmeticObj& rhs) const { return get() <= rhs.asImpli<me>()->get(); }
 
-    nbool me::_logicalAnd(const arithmeticObj& rhs) const {
-        return get() && rhs.asImpli<me>()->get();
-    }
+    nbool me::_logicalAnd(const arithmeticObj& rhs) const { return get() && rhs.asImpli<me>()->get(); }
 
-    nbool me::_logicalOr(const arithmeticObj& rhs) const {
-        return get() || rhs.asImpli<me>()->get();
-    }
+    nbool me::_logicalOr(const arithmeticObj& rhs) const { return get() || rhs.asImpli<me>()->get(); }
 
     arithmeticObj& me::_mov(const arithmeticObj& rhs) {
         get() = rhs.asImpli<me>()->get();

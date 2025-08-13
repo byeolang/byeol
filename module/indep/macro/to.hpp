@@ -23,14 +23,12 @@ namespace by {
     }
 
     template <typename T, typename F> auto operator->*(T* t, F&& f) {
-        if constexpr(std::is_reference_v<decltype(f(*t))>)
-            return t ? &f(*t) : typeTrait<decltype(&f(*t))>::ret();
+        if constexpr(std::is_reference_v<decltype(f(*t))>) return t ? &f(*t) : typeTrait<decltype(&f(*t))>::ret();
         else return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
     }
 
     template <typename T, typename F> auto operator->*(const T* t, F&& f) {
-        if constexpr(std::is_reference_v<decltype(f(*t))>)
-            return t ? &f(*t) : typeTrait<decltype(&f(*t))>::ret();
+        if constexpr(std::is_reference_v<decltype(f(*t))>) return t ? &f(*t) : typeTrait<decltype(&f(*t))>::ret();
         else return t ? f(*t) : typeTrait<decltype(f(*t))>::ret();
     }
 

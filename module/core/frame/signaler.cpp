@@ -62,8 +62,7 @@ namespace by {
         _setSignal(SIG_DFL); // prevent infinite loop if another signal occurs during handling the
                              // signal here.
 
-        tstr<nerr> e =
-            _getErrBy(code) OR.err("%d exception occurs but couldn't make err object", code).ret();
+        tstr<nerr> e = _getErrBy(code) OR.err("%d exception occurs but couldn't make err object", code).ret();
 
         BY_I("dispatching %d handlers.", _closures.size());
         for(const sigHandler& handler: _closures)
@@ -79,9 +78,8 @@ namespace by {
 
     void me::delSignal(const sigHandler& closure) {
         void* closureAddr = _getAddr(closure);
-        _closures.erase(
-            std::remove_if(_closures.begin(), _closures.end(),
-                [&](sigHandler elem) { return _getAddr(std::move(elem)) == closureAddr; }),
+        _closures.erase(std::remove_if(_closures.begin(), _closures.end(),
+                            [&](sigHandler elem) { return _getAddr(std::move(elem)) == closureAddr; }),
             _closures.end());
 
         if(_closures.size() <= 0) _setSignal(SIG_DFL);

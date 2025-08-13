@@ -41,9 +41,8 @@ namespace by {
             _stepN = 0;                                     \
     } while(0)
 
-#define _STEP(msg, ...)                                                                      \
-    BY_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), &me, \
-        ++_stepN, ##__VA_ARGS__)
+#define _STEP(msg, ...) \
+    BY_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), &me, ++_stepN, ##__VA_ARGS__)
 
     // verification:
     void me::onLeave(const visitInfo& i, node& me, nbool) {
@@ -66,9 +65,7 @@ namespace by {
         WHEN(me.getAs().isSub<nVoid>()).myExErr(me, VOID_NOT_CAST).ret();
 
         _STEP("checks that me can cast to 'as'");
-        WHEN(!me.getMe().is(me.getAs()))
-            .myExErr(me, CAST_NOT_AVAILABLE, me.getMe(), me.getAs())
-            .ret();
+        WHEN(!me.getMe().is(me.getAs())).myExErr(me, CAST_NOT_AVAILABLE, me.getMe(), me.getAs()).ret();
 
         _STEP("rhs shouldn't be expression");
         WHEN(!me.getAs().isImpli<node>()).myExErr(me, CAST_TO_UNKNOWN).ret();
@@ -78,9 +75,7 @@ namespace by {
         _GUARD("onLeave(isExpr&)");
 
         _STEP("checks that me can cast to 'as'");
-        WHEN(!me.getMe().is(me.getTo()))
-            .myExErr(me, CAST_NOT_AVAILABLE, me.getMe(), me.getTo())
-            .ret();
+        WHEN(!me.getMe().is(me.getTo())).myExErr(me, CAST_NOT_AVAILABLE, me.getMe(), me.getTo()).ret();
 
         _STEP("rhs shouldn't be expression");
         WHEN(!me.getTo().isImpli<node>()).myExErr(me, CAST_TO_UNKNOWN).ret();
@@ -136,17 +131,14 @@ namespace by {
         //      so, only I need to check is, lhs of AssignExpr is kind of getExpr() or not.
         //      I can care about that the last expression is valid.
         _STEP("checks rvalue");
-        const getExpr& lhs =
-            me.getLeft().cast<getExpr>() OR.myExErr(me, ASSIGN_TO_RVALUE, me.getRight(), lhs).ret();
+        const getExpr& lhs = me.getLeft().cast<getExpr>() OR.myExErr(me, ASSIGN_TO_RVALUE, me.getRight(), lhs).ret();
 
         _STEP("checks that you can't assign to a func");
         str lhsEval = lhs.getEval();
         WHEN(baseFunc::isFuncButNotClosure(*lhsEval)).myExErr(me, ASSIGN_TO_FUNC).ret();
 
         _STEP("checks that try to assign to a const variable");
-        WHEN(util::checkTypeAttr(lhs.getName()) == ATTR_CONST)
-            .myExErr(me, ASSIGN_TO_CONST, lhs.getName())
-            .ret();
+        WHEN(util::checkTypeAttr(lhs.getName()) == ATTR_CONST).myExErr(me, ASSIGN_TO_CONST, lhs.getName()).ret();
     }
 
     nbool me::onVisit(const visitInfo& i, blockExpr& me, nbool) {
@@ -172,9 +164,7 @@ namespace by {
         str eval = me.getEval(); // it's okay forExpr not to have 'eval'.
         if(eval) {
             _STEP("eval Value check: eval[%s] is an array?", eval);
-            WHEN(!eval->isSub<retStateExpr>() && !eval->isSub<arr>())
-                .myExErr(me, LOOP_NO_RET_ARR)
-                .ret();
+            WHEN(!eval->isSub<retStateExpr>() && !eval->isSub<arr>()).myExErr(me, LOOP_NO_RET_ARR).ret();
         }
     }
 
@@ -186,12 +176,8 @@ namespace by {
         frame& fr = thread::get()._getNowFrame() OR.myExErr(me, THERE_IS_NO_FRAMES_IN_THREAD).ret();
         const baseFunc* fun = fr.getFunc();
         nbool isInLocal = !fun || fun->getSrc().getName() != baseObj::EXPAND_NAME;
-        WHEN(isInLocal && !mod.isPublic())
-            .myExErr(me, PROTECTED_NOT_ALLOWED_FOR_LOCAL, me.getName())
-            .ret();
-        WHEN(mod.isExplicitOverride())
-            .myExErr(me, OVERRIDE_NOT_ALLOWED_FOR_LOCAL, me.getName())
-            .ret();
+        WHEN(isInLocal && !mod.isPublic()).myExErr(me, PROTECTED_NOT_ALLOWED_FOR_LOCAL, me.getName()).ret();
+        WHEN(mod.isExplicitOverride()).myExErr(me, OVERRIDE_NOT_ALLOWED_FOR_LOCAL, me.getName()).ret();
 
         _STEP("to define a void type property isn't allowed.");
         str eval = me.getRight() TO(getEval()) OR.myExErr(me, RHS_IS_NUL).ret();
@@ -200,9 +186,7 @@ namespace by {
         obj* cast = eval->cast<obj>();
         if(cast) {
             const baseObj& org = cast->getOrigin();
-            WHEN(org.getState() < PARSED)
-                .myExErr(me, TYPE_IS_NOT_PRE_EVALUATED, me.getName())
-                .ret();
+            WHEN(org.getState() < PARSED).myExErr(me, TYPE_IS_NOT_PRE_EVALUATED, me.getName()).ret();
         }
 
         _STEP("does rhs[%s] have 'ret' in its blockStmt?", eval);
@@ -245,13 +229,9 @@ namespace by {
 
         _STEP("whether the 'type' object has a ctor without any paramters?");
         str eval = me TO(getRight()) TO(getEval()) OR.myExErr(me, RHS_IS_NUL).ret();
-        WHEN(eval->isSub<baseObj>() && !eval->sub(baseObj::CTOR_NAME, args()))
-            .myExErr(me, DONT_HAVE_CTOR, eval)
-            .ret();
+        WHEN(eval->isSub<baseObj>() && !eval->sub(baseObj::CTOR_NAME, args())).myExErr(me, DONT_HAVE_CTOR, eval).ret();
         func* fun = eval->cast<func>();
-        WHEN(fun && fun->isAbstract())
-            .myExErr(me, YOU_CANT_DEFINE_PROPERTY_WITH_ABSTRACT_FUNC)
-            .ret();
+        WHEN(fun && fun->isAbstract()).myExErr(me, YOU_CANT_DEFINE_PROPERTY_WITH_ABSTRACT_FUNC).ret();
 
         onLeave(i, (defPropExpr::super&) me, false);
     }
@@ -325,9 +305,7 @@ namespace by {
         WHEN(!checkEvalType(lEval.get())).myExErr(me, LHS_IS_NOT_ARITH, lEval).ret();
         WHEN(!checkEvalType(rEval.get())).myExErr(me, RHS_IS_NOT_ARITH, rEval).ret();
 
-        WHEN_NUL(lEval->deduce(*rEval))
-            .myExErr(me, IMPLICIT_CAST_NOT_AVAILABLE, lEval, rEval)
-            .ret();
+        WHEN_NUL(lEval->deduce(*rEval)).myExErr(me, IMPLICIT_CAST_NOT_AVAILABLE, lEval, rEval).ret();
 
         auto r = me.getSymbol();
         if((lEval->isSub<nStr>() || rEval->isSub<nStr>())) {
@@ -341,8 +319,7 @@ namespace by {
                 case FBOExpr::SYMBOL_BITWISE_XOR:
                 case FBOExpr::SYMBOL_BITWISE_OR:
                 case FBOExpr::SYMBOL_LSHIFT:
-                case FBOExpr::SYMBOL_RSHIFT:
-                    return BY_WHEN.myExErr(me, STRING_IS_NOT_PROPER_TO_OP).ret();
+                case FBOExpr::SYMBOL_RSHIFT: return BY_WHEN.myExErr(me, STRING_IS_NOT_PROPER_TO_OP).ret();
 
                 default:;
             }
@@ -366,9 +343,7 @@ namespace by {
         WHEN(!me.getEval()).myExErr(me, WHAT_IS_THIS_IDENTIFIER, me.getName()).ret();
         str match = me._get(true) OR_DO {
             const node* from = me.getMe();
-            return BY_WHEN
-                .myExErr(me, CANT_ACCESS, me._name.c_str(), from TO(getType().getName().c_str()))
-                .ret();
+            return BY_WHEN.myExErr(me, CANT_ACCESS, me._name.c_str(), from TO(getType().getName().c_str())).ret();
         }
 
         // TODO: leave logs for all ambigious candidates as err.
@@ -385,13 +360,9 @@ namespace by {
                                                // protected modifier.
             baseObj* castedMe = asedMe->cast<baseObj>();
             if(castedMe) { // if getExpr's castedMe is not derived one of baseObj, it's frame.
-                const node& currentMe = thread::get()
-                                            .getNowFrame() TO(getMe())
-                                                OR.myExErr(THERE_IS_NO_FRAMES_IN_THREAD)
-                                            .ret();
-                WHEN(!castedMe->isSuper(currentMe))
-                    .myExErr(me, CANT_ACCESS_TO_PROTECTED_VARIABLE, me.getName())
-                    .ret();
+                const node& currentMe =
+                    thread::get().getNowFrame() TO(getMe()) OR.myExErr(THERE_IS_NO_FRAMES_IN_THREAD).ret();
+                WHEN(!castedMe->isSuper(currentMe)).myExErr(me, CANT_ACCESS_TO_PROTECTED_VARIABLE, me.getName()).ret();
             }
         }
     }
@@ -403,16 +374,13 @@ namespace by {
         WHEN(i.index != i.len - 1).myExErr(me, RET_AT_MIDDLE_OF_BLOCK).ret();
 
         _STEP("checks evalType of func is matched to me");
-        const baseFunc& f =
-            thread::get().getNowFrame() TO(getFunc()) OR.myExErr(me, NO_FUNC_INFO).ret();
+        const baseFunc& f = thread::get().getNowFrame() TO(getFunc()) OR.myExErr(me, NO_FUNC_INFO).ret();
         str myRet = me.getRet().getEval() OR.myExErr(me, EXPR_EVAL_NUL).ret();
 
         const node& funRet = f.getRet() OR.myExErr(me, NO_RET_TYPE).ret();
         _STEP("checks return[%s] == func[%s]", myRet, funRet);
 
-        WHEN(!myRet->isSub<baseErr>() && !myRet->isImpli(funRet))
-            .myExErr(me, RET_TYPE_NOT_MATCH, myRet, funRet)
-            .ret();
+        WHEN(!myRet->isSub<baseErr>() && !myRet->isImpli(funRet)).myExErr(me, RET_TYPE_NOT_MATCH, myRet, funRet).ret();
     }
 
     void me::onLeave(const visitInfo& i, runExpr& me, nbool) {
@@ -434,9 +402,7 @@ namespace by {
         if(!derivedSub->canRun(me.getArgs())) {
             const baseFunc* derivedCast = derivedSub->cast<baseFunc>();
             std::string params = !derivedCast ? "ctor" : _asStr(derivedCast->getParams());
-            return BY_WHEN
-                .myExErr(me, OBJ_WRONG_ARGS, i.name.c_str(), me.getArgs().asStr().c_str(),
-                    params.c_str())
+            return BY_WHEN.myExErr(me, OBJ_WRONG_ARGS, i.name.c_str(), me.getArgs().asStr().c_str(), params.c_str())
                 .ret();
         }
 
@@ -483,8 +449,7 @@ namespace by {
         onVisit(i, (func::super&) me, false);
 
         obj& meObj = thread::get()
-                         ._getNowFrame() TO(getMe()) TO(template cast<obj>())
-                             OR.myExErr(me, FUNC_REDIRECTED_OBJ)
+                         ._getNowFrame() TO(getMe()) TO(template cast<obj>()) OR.myExErr(me, FUNC_REDIRECTED_OBJ)
                          .ret(true);
 
         _STEP("check func duplication");
@@ -594,9 +559,7 @@ namespace by {
         const type& retType = ret.getType();
         const node& lastStmt = *me.getBlock().getStmts().last();
 
-        WHEN(retType == ttype<nVoid>::get())
-            .info("func: implicit return won't verify WHEN retType is void.")
-            .ret();
+        WHEN(retType == ttype<nVoid>::get()).info("func: implicit return won't verify WHEN retType is void.").ret();
 
         str eval = me.getBlock().getEval() OR.myExErr(lastStmt, NO_RET_TYPE).ret();
 
@@ -606,9 +569,7 @@ namespace by {
         _STEP("last stmt[%s] should matches to return type[%s]", eval, retType);
 
         // @see retExpr::getEval() for more info.
-        WHEN(eval->isSub<retStateExpr>())
-            .info("func: skip verification WHEN lastStmt is retStateExpr.")
-            .ret();
+        WHEN(eval->isSub<retStateExpr>()).info("func: skip verification WHEN lastStmt is retStateExpr.").ret();
         WHEN(!lastType.isSub<baseErr>() && !lastType.isImpli(retType))
             // TODO: remove .myExErr(lastStmt ? me : lastStmt, RET_TYPE_NOT_MATCH, lastType,
             // retType)
@@ -664,9 +625,7 @@ namespace by {
 
         _STEP("if obj is complete, does it have ctor without params?");
         if(me.isComplete())
-            WHEN_NUL(me.sub(baseObj::CTOR_NAME, args()))
-                .myExErr(me, COMPLETE_OBJ_BUT_NO_CTOR)
-                .ret(true);
+            WHEN_NUL(me.sub(baseObj::CTOR_NAME, args())).myExErr(me, COMPLETE_OBJ_BUT_NO_CTOR).ret(true);
 
         return true;
     }

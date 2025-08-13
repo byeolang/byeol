@@ -29,8 +29,7 @@ namespace by {
     }
 
     TEMPL
-    typename ME::iteration* ME::_onMakeIteration(const K* key, nbool isReversed, ncnt step,
-        nbool) const {
+    typename ME::iteration* ME::_onMakeIteration(const K* key, nbool isReversed, ncnt step, nbool) const {
         me* unconst = const_cast<me*>(this);
         auto* ret = new nmapIteration(*unconst, key, isReversed);
         ret->next(step);

@@ -17,7 +17,6 @@ namespace by {
         virtual str as(const node& from, const type& to) const = 0;
         str as(const node& from, const type* to) const BY_SIDE_FUNC(to, as(from, *to), str());
         str as(const node* from, const type& to) const BY_SIDE_FUNC(from, as(*from, to), str());
-        str as(const node* from, const type* to) const
-            BY_SIDE_FUNC(from&& to, as(*from, *to), str());
+        str as(const node* from, const type* to) const BY_SIDE_FUNC(from&& to, as(*from, *to), str());
     };
 }

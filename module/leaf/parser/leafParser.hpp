@@ -36,8 +36,7 @@ namespace by {
         // events:
         //  scan:
         using leafTokenScanable::onScan;
-        nint onScan(leafParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner,
-            nbool& isBypass) override;
+        nint onScan(leafParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner, nbool& isBypass) override;
         nint onTokenEndOfFile();
         nint onTokenColon(nint tok);
         nint onTokenNewLine(nint tok);

@@ -133,14 +133,12 @@ namespace by {
         }
     }
 
-    nbool me::log(errLv::level lv, const std::string& filename, const nchar* func, int line,
-        const nchar* fmt, ...) {
+    nbool me::log(errLv::level lv, const std::string& filename, const nchar* func, int line, const nchar* fmt, ...) {
         std::string tag = _makeTag(filename);
         WHEN(_filters && !_filters->filt(lv, tag.c_str())).ret(false);
 
         using platformAPI::foreColor;
-        *this << foreColor(BROWN)
-              << _makeStr("%s ", platformAPI::createNowTime("%b %d %Y  %X").c_str());
+        *this << foreColor(BROWN) << _makeStr("%s ", platformAPI::createNowTime("%b %d %Y  %X").c_str());
 
         consoleColor clrLv = WHITE;
         switch(lv) {
@@ -148,9 +146,8 @@ namespace by {
             case errLv::WARN: clrLv = YELLOW; break;
             case errLv::INFO: clrLv = LIGHTBLUE; break;
         }
-        *this << foreColor(clrLv) << std::string(1, errLv::getName(lv)[0]) << " "
-              << foreColor(LIGHTMAGENTA) << tag << foreColor(GREEN) << " <" << func << "#"
-              << std::to_string(line) << "> " << foreColor(LIGHTGRAY);
+        *this << foreColor(clrLv) << std::string(1, errLv::getName(lv)[0]) << " " << foreColor(LIGHTMAGENTA) << tag
+              << foreColor(GREEN) << " <" << func << "#" << std::to_string(line) << "> " << foreColor(LIGHTGRAY);
 
         va_list va;
         va_start(va, fmt);

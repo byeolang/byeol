@@ -5,20 +5,16 @@ namespace by {
 
     BY(DEF_ME(mgdType))
 
-    me::mgdType(const std::string& name, const type& super, const params& ps):
-        me(name, super, ps, false, nullptr) {}
+    me::mgdType(const std::string& name, const type& super, const params& ps): me(name, super, ps, false, nullptr) {}
 
-    me::mgdType(const std::string& name, const type& super, const params& ps, nbool isAdt,
-        const node* ret):
+    me::mgdType(const std::string& name, const type& super, const params& ps, nbool isAdt, const node* ret):
         _name(name), _params(ps), _isAdt(isAdt), _ret(ret) {
         _initSupers(super);
     }
 
-    me::mgdType(const std::string& name, const types& supersFromRhs):
-        _name(name), _supers(supersFromRhs) {}
+    me::mgdType(const std::string& name, const types& supersFromRhs): _name(name), _supers(supersFromRhs) {}
 
-    me::mgdType(const std::string& name, const types& supers, const types& subs, const params& ps,
-        nbool isAdt):
+    me::mgdType(const std::string& name, const types& supers, const types& subs, const params& ps, nbool isAdt):
         _name(name), _supers(supers), _subs(subs), _params(ps), _isAdt(isAdt) {}
 
     nbool me::isTemplate() const { return false; }

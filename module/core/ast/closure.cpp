@@ -17,8 +17,7 @@ namespace by {
         }
     }
 
-    me::closure(const baseObj& org, const baseFunc& func):
-        _org(org), _func(func), _type(_makeClosureType(func)) {}
+    me::closure(const baseObj& org, const baseFunc& func): _org(org), _func(func), _type(_makeClosureType(func)) {}
 
     const ntype& me::getType() const { return _type; }
 
@@ -59,8 +58,7 @@ namespace by {
     }
 
     me* me::_make(const func& e) {
-        const baseObj& meObj =
-            thread::get().getNowFrame() TO(getMe()) TO(template cast<baseObj>()) OR.ret(nullptr);
+        const baseObj& meObj = thread::get().getNowFrame() TO(getMe()) TO(template cast<baseObj>()) OR.ret(nullptr);
 
         BY_I("make a closure for %s.%s", meObj, e);
         return new me(meObj, e);
@@ -69,8 +67,7 @@ namespace by {
     me* me::_make(const getExpr& e) {
         str mayMe = e._evalMe(true);
         frame* fr = mayMe->cast<frame>();
-        tstr<baseObj> meObj = (fr ? fr->getMe() TO(template cast<baseObj>()) :
-                                    mayMe->cast<baseObj>()) OR.ret(nullptr);
+        tstr<baseObj> meObj = (fr ? fr->getMe() TO(template cast<baseObj>()) : mayMe->cast<baseObj>()) OR.ret(nullptr);
         baseFunc& cast = e._onGet(*mayMe) TO(template cast<baseFunc>()) OR.ret(nullptr);
 
         BY_I("make a closure for %s.%s", meObj, cast.getSrc().getName());

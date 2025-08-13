@@ -113,13 +113,9 @@ namespace by {
 
     nbool me::_le(const arithmeticObj& rhs) const { return get() <= rhs.asImpli<me>()->get(); }
 
-    nbool me::_logicalAnd(const arithmeticObj& rhs) const {
-        return get() && rhs.asImpli<me>()->get();
-    }
+    nbool me::_logicalAnd(const arithmeticObj& rhs) const { return get() && rhs.asImpli<me>()->get(); }
 
-    nbool me::_logicalOr(const arithmeticObj& rhs) const {
-        return get() || rhs.asImpli<me>()->get();
-    }
+    nbool me::_logicalOr(const arithmeticObj& rhs) const { return get() || rhs.asImpli<me>()->get(); }
 
     arithmeticObj& me::_mov(const arithmeticObj& rhs) {
         get() = rhs.asImpli<me>()->get();

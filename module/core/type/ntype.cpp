@@ -55,9 +55,7 @@ namespace by {
 
     const ntype* me::deduce(const ntype& r) const { return deduce(*this, r); }
 
-    const ntype* me::deduce(const typeProvidable& r) const {
-        return deduce((const ntype&) r.getType());
-    }
+    const ntype* me::deduce(const typeProvidable& r) const { return deduce((const ntype&) r.getType()); }
 
     const ntype* me::deduce(const ntype& l, const ntype& r) {
         static deducers* inner = nullptr;

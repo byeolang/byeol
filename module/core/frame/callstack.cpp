@@ -32,8 +32,7 @@ namespace by {
         auto& log = logger::get();
         for(const auto& c: *this) {
             log.logFormatBypass("\tat %s%s %sin %s%s%s\n", foreColor(YELLOW).c_str(), c.at.c_str(),
-                foreColor(LIGHTGRAY).c_str(), foreColor(GREEN).c_str(), c.in.c_str(),
-                foreColor(LIGHTGRAY).c_str());
+                foreColor(LIGHTGRAY).c_str(), foreColor(GREEN).c_str(), c.in.c_str(), foreColor(LIGHTGRAY).c_str());
         }
     }
 } // namespace by

@@ -24,8 +24,8 @@ namespace by {
 
         manifest();
         manifest(const std::string& newName);
-        manifest(const std::string& newName, const std::string& newFilePath,
-            const std::string& newAuthor, const std::string& newVer, const entrypoints& newPoints);
+        manifest(const std::string& newName, const std::string& newFilePath, const std::string& newAuthor,
+            const std::string& newVer, const entrypoints& newPoints);
         virtual ~manifest();
 
         nbool isValid() const override;

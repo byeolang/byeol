@@ -21,8 +21,7 @@ namespace by {
         BY(CLASS(tbridge, baseObj))
 
     public:
-        template <typename Ret, typename T1, nbool, template <typename, nbool> class Marshaling,
-            typename... Args>
+        template <typename Ret, typename T1, nbool, template <typename, nbool> class Marshaling, typename... Args>
         friend class tbridgeFunc;
         template <typename T1, nbool> friend class tbridger;
         template <typename T1, nbool> friend struct tmarshaling;

@@ -30,9 +30,7 @@ namespace by {
         return onVisit(i, (T::super&) me, alreadyVisited);                       \
     }                                                                            \
                                                                                  \
-    void me::onLeave(const visitInfo& i, T& me, nbool alreadyVisited) {          \
-        onLeave(i, (T::super&) me, alreadyVisited);                              \
-    }
+    void me::onLeave(const visitInfo& i, T& me, nbool alreadyVisited) { onLeave(i, (T::super&) me, alreadyVisited); }
 
 #include "visitee.inl"
 #undef X

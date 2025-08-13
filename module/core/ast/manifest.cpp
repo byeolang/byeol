@@ -13,18 +13,16 @@ namespace by {
 
     me::manifest(): name(DEFAULT_NAME), filePath(""), author("unknown"), ver("") {}
 
-    me::manifest(const std::string& newName):
-        name(newName), filePath(""), author("unknown"), ver("") {}
+    me::manifest(const std::string& newName): name(newName), filePath(""), author("unknown"), ver("") {}
 
-    me::manifest(const std::string& newName, const std::string& newFilePath,
-        const std::string& newAuthor, const std::string& newVer, const entrypoints& newPoints):
+    me::manifest(const std::string& newName, const std::string& newFilePath, const std::string& newAuthor,
+        const std::string& newVer, const entrypoints& newPoints):
         name(newName), filePath(newFilePath), author(newAuthor), ver(newVer), points(newPoints) {}
 
     me::~manifest() {}
 
     nbool me::isValid() const {
-        WHEN(name == "" || filePath == "" || filePath == "" || author == "" || ver == "")
-            .ret(false);
+        WHEN(name == "" || filePath == "" || filePath == "" || author == "" || ver == "").ret(false);
 
         for(const entrypoint& point: points)
             WHEN(!point.isValid()).ret(false);

@@ -44,9 +44,8 @@ namespace by {
             _drawFrame(i);
             using platformAPI::foreColor;
             _showModifier(e.getModifier());
-            std::cout << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN)
-                      << e.getType().getName() << foreColor(LIGHTGRAY) << " = " << foreColor(YELLOW)
-                      << e.get();
+            std::cout << foreColor(LIGHTRED) << i.name << " " << foreColor(CYAN) << e.getType().getName()
+                      << foreColor(LIGHTGRAY) << " = " << foreColor(YELLOW) << e.get();
             return false;
         }
 

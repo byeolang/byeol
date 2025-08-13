@@ -7,12 +7,11 @@ namespace by {
 
     me::defAssignExpr(const std::string& name, const node* rhs): super(name, rhs) {}
 
-    me::defAssignExpr(const std::string& name, const node* rhs, const node* to, const src& s,
-        const modifier& mod):
+    me::defAssignExpr(const std::string& name, const node* rhs, const node* to, const src& s, const modifier& mod):
         me(name, nullptr, rhs, to, s, mod) {}
 
-    me::defAssignExpr(const std::string& name, const node* type, const node* rhs, const node* to,
-        const src& s, const modifier& mod):
+    me::defAssignExpr(const std::string& name, const node* type, const node* rhs, const node* to, const src& s,
+        const modifier& mod):
         super(name, rhs, to, s, mod), _type(type) {}
 
     str me::getEval() const {

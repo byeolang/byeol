@@ -31,8 +31,7 @@ namespace by {
         node& pak = getTask() OR.err("there is no pack!").ret(str());
 
         BY_I("run a pack");
-        node& main =
-            _findMain(pak, args()) OR.err("there is 0 or more than 2 main() found.").ret(str());
+        node& main = _findMain(pak, args()) OR.err("there is 0 or more than 2 main() found.").ret(str());
 
         if(main.canRun(a)) {
             threadUse thr(getReport());

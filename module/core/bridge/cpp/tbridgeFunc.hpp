@@ -9,8 +9,7 @@ namespace by {
 
     template <typename T, nbool isBaseObj> class tbridger;
 
-    template <typename Ret, typename T, template <typename, nbool> class Marshaling,
-        typename... Args>
+    template <typename Ret, typename T, template <typename, nbool> class Marshaling, typename... Args>
     class tbaseBridgeFunc: public baseFunc {
         BY(ME(tbaseBridgeFunc, baseFunc))
     protected:
@@ -20,24 +19,22 @@ namespace by {
         tbaseBridgeFunc(fptrType fptr, str ret):
             _fptr(fptr),
             _type("bridgeFunc", ttype<me>::get(),
-                params(*new param("",
-                    Marshaling<Args,
-                        tifSub<typename typeTrait<Args>::Org, node>::is>::onAddParam())...),
+                params(
+                    *new param("", Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::onAddParam())...),
                 false, ret.get()),
             _src(dumSrc::singleton()) {}
 
     public:
         static_assert(
-            allTrues<(sizeof(Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::
-                              canMarshal()) == sizeof(metaIf::yes))...>::value,
+            allTrues<(sizeof(Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::canMarshal()) ==
+                sizeof(metaIf::yes))...>::value,
             "can't marshal one of this func's parameter ntypes.");
 
     public:
         const ntype& getType() const override { return _type; }
 
         const baseObj& getOrigin() const override {
-            static obj inner(
-                tbridger<T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>::subs());
+            static obj inner(tbridger<T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>::subs());
             return inner;
         }
 
@@ -67,88 +64,69 @@ namespace by {
         tstr<src> _src;
     };
 
-    template <typename Ret, typename T, nbool isBaseObj,
-        template <typename, nbool> class Marshaling, typename... Args>
+    template <typename Ret, typename T, nbool isBaseObj, template <typename, nbool> class Marshaling, typename... Args>
     class tbridgeFunc: public tbaseBridgeFunc<Ret, T, Marshaling, Args...> {
         typedef tbaseBridgeFunc<Ret, T, Marshaling, Args...> _super_;
         BY(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
         tbridgeFunc(typename super::fptrType fptr):
-            super(fptr,
-                Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::onGetRet()) {}
+            super(fptr, Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::onGetRet()) {}
 
     protected:
-        str _runNative(args& args) override {
-            return _marshal(args, std::index_sequence_for<Args...>());
-        }
+        str _runNative(args& args) override { return _marshal(args, std::index_sequence_for<Args...>()); }
 
         template <size_t... index> str _marshal(args& args, std::index_sequence<index...>);
     };
 
     template <typename T, template <typename, nbool> class Marshaling, typename... Args>
-    class tbridgeFunc<void, T, false, Marshaling, Args...>
-        : public tbaseBridgeFunc<void, T, Marshaling, Args...> {
+    class tbridgeFunc<void, T, false, Marshaling, Args...>: public tbaseBridgeFunc<void, T, Marshaling, Args...> {
         typedef tbaseBridgeFunc<void, T, Marshaling, Args...> _super_;
         BY(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
-        tbridgeFunc(typename super::fptrType fptr):
-            super(fptr, Marshaling<void, false>::onGetRet()) {}
+        tbridgeFunc(typename super::fptrType fptr): super(fptr, Marshaling<void, false>::onGetRet()) {}
 
     protected:
-        str _runNative(args& args) override {
-            return _marshal(args, std::index_sequence_for<Args...>());
-        }
+        str _runNative(args& args) override { return _marshal(args, std::index_sequence_for<Args...>()); }
 
         template <size_t... index> str _marshal(args& args, std::index_sequence<index...>);
     };
 
     template <typename T, template <typename, nbool> class Marshaling, typename... Args>
-    class tbridgeFunc<void, T, true, Marshaling, Args...>
-        : public tbaseBridgeFunc<void, T, Marshaling, Args...> {
+    class tbridgeFunc<void, T, true, Marshaling, Args...>: public tbaseBridgeFunc<void, T, Marshaling, Args...> {
         typedef tbaseBridgeFunc<void, T, Marshaling, Args...> _super_;
         BY(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
-        tbridgeFunc(typename super::fptrType fptr):
-            super(fptr, Marshaling<void, false>::onGetRet()) {}
+        tbridgeFunc(typename super::fptrType fptr): super(fptr, Marshaling<void, false>::onGetRet()) {}
 
     protected:
-        str _runNative(args& args) override {
-            return _marshal(args, std::index_sequence_for<Args...>());
-        }
+        str _runNative(args& args) override { return _marshal(args, std::index_sequence_for<Args...>()); }
 
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
             T& me = (T*) a.getMe() OR.err("object from frame does not exists.").ret(str());
             (me.*(this->_fptr))(
-                Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(
-                    a[index])...);
+                Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(a[index])...);
             return Marshaling<void, tifSub<void, node>::is>::toMgd();
         }
     };
 
-    template <typename Ret, typename T, template <typename, nbool> class Marshaling,
-        typename... Args>
-    class tbridgeFunc<Ret, T, true, Marshaling, Args...>
-        : public tbaseBridgeFunc<Ret, T, Marshaling, Args...> {
+    template <typename Ret, typename T, template <typename, nbool> class Marshaling, typename... Args>
+    class tbridgeFunc<Ret, T, true, Marshaling, Args...>: public tbaseBridgeFunc<Ret, T, Marshaling, Args...> {
         typedef tbaseBridgeFunc<Ret, T, Marshaling, Args...> _super_;
         BY(ME(tbridgeFunc, _super_), CLONE(tbridgeFunc))
 
     public:
         tbridgeFunc(typename _super_::fptrType fptr):
-            super(fptr,
-                Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::onGetRet()) {}
+            super(fptr, Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::onGetRet()) {}
 
     protected:
-        str _runNative(args& args) override {
-            return _marshal(args, std::index_sequence_for<Args...>());
-        }
+        str _runNative(args& args) override { return _marshal(args, std::index_sequence_for<Args...>()); }
 
         template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
             T& me = (T*) a.getMe() OR.err("object from frame does not exists.").ret(str());
-            return Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::toMgd(
-                (me.*(this->_fptr)) // funcptr
+            return Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::toMgd((me.*(this->_fptr)) // funcptr
                 (Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(
                     a[index])...)); // and args.ZZZ
         }

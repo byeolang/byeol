@@ -80,9 +80,7 @@ namespace by {
         _org->setState(new1);
     }
 
-    scope& me::getShares() {
-        return _subs TO(getNext()) TO(template cast<scope>()) OR.ret(dumScope::singleton());
-    }
+    scope& me::getShares() { return _subs TO(getNext()) TO(template cast<scope>()) OR.ret(dumScope::singleton()); }
 
     scope::super& me::getOwns() { return _subs ? _subs->getContainer() : dumScope::singleton(); }
 

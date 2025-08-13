@@ -10,8 +10,7 @@ namespace by {
 
     me::defVarExpr(const std::string& name, const node* rhs): _name(name), _rhs(rhs) {}
 
-    me::defVarExpr(const std::string& name, const node* rhs, const node* to, const src& s,
-        const modifier& mod):
+    me::defVarExpr(const std::string& name, const node* rhs, const node* to, const src& s, const modifier& mod):
         _name(name), _rhs(rhs), _to(to), _src(s), _mod(mod) {}
 
     str me::run(const args& a) {

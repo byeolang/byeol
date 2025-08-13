@@ -65,9 +65,7 @@ namespace by {
     void ME::rel() { _iteration TO(rel()); }
 
     TEMPL
-    nbool ME::isFrom(const tucontainable& it) const {
-        return _iteration ? _iteration->isFrom(it) : false;
-    }
+    nbool ME::isFrom(const tucontainable& it) const { return _iteration ? _iteration->isFrom(it) : false; }
 
     TEMPL
     nbool ME::isEnd() const { return _iteration ? _iteration->isEnd() : true; }
@@ -100,9 +98,7 @@ namespace by {
     R ME::get() { return _iteration ? (R) _iteration->get() : R{}; }
 
     TEMPL
-    tucontainable<T, R, RSquare>* ME::getContainer() {
-        return _iteration ? _iteration->getContainer() : nullptr;
-    }
+    tucontainable<T, R, RSquare>* ME::getContainer() { return _iteration ? _iteration->getContainer() : nullptr; }
 
     TEMPL
     typename ME& ME::_assign(const me& rhs) {

@@ -11,11 +11,9 @@
 
 namespace by {
 
-    template <typename T, nbool isBaseObj = tifSub<typename tadaptiveSuper<T>::super, baseObj>::is>
-    class tbridger {
+    template <typename T, nbool isBaseObj = tifSub<typename tadaptiveSuper<T>::super, baseObj>::is> class tbridger {
         BY(ME(tbridger))
-        template <typename Ret, typename T1, nbool, template <typename, nbool> class Marshaling,
-            typename... Args>
+        template <typename Ret, typename T1, nbool, template <typename, nbool> class Marshaling, typename... Args>
         friend class tbridgeFunc;
         template <typename T1> friend class tbridge;
 
@@ -46,14 +44,12 @@ namespace by {
             return func(baseObj::CTOR_NAME, new tbridgeCtor<T, Args...>());
         }
 
-        template <typename Ret, typename... Args>
-        static me& func(const std::string& name, Ret (T::*fptr)(Args...)) {
+        template <typename Ret, typename... Args> static me& func(const std::string& name, Ret (T::*fptr)(Args...)) {
             return funcNonConst(name, fptr);
         }
 
         template <typename Ret, typename... Args>
-        static me& func(const std::string* name, Ret (T::*fptr)(Args...))
-            BY_SIDE_FUNC(name, func(*name, fptr), _get());
+        static me& func(const std::string* name, Ret (T::*fptr)(Args...)) BY_SIDE_FUNC(name, func(*name, fptr), _get());
 
         template <typename Ret, typename... Args>
         static me& func(const std::string& name, Ret (T::*fptr)(Args...) const) {
@@ -75,9 +71,7 @@ namespace by {
 
         template <typename Ret, typename... Args>
         static me& funcConst(const std::string& name, Ret (T::*fptr)(Args...) const) {
-            return func(name,
-                new tbridgeFunc<Ret, T, isBaseObj, tmarshaling, Args...>(
-                    (Ret(T::*)(Args...)) fptr));
+            return func(name, new tbridgeFunc<Ret, T, isBaseObj, tmarshaling, Args...>((Ret(T::*)(Args...)) fptr));
         }
 
         template <typename Ret, typename... Args>
@@ -86,8 +80,7 @@ namespace by {
 
         template <typename Ret, typename... Args>
         static me& genericFunc(const std::string& name, Ret (T::*fptr)(Args...)) {
-            return func(name,
-                new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>(fptr));
+            return func(name, new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>(fptr));
         }
 
         template <typename Ret, typename... Args>
@@ -97,8 +90,7 @@ namespace by {
         template <typename Ret, typename... Args>
         static me& genericFunc(const std::string& name, Ret (T::*fptr)(Args...) const) {
             return func(name,
-                new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>(
-                    (Ret(T::*)(Args...)) fptr));
+                new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
         }
 
         template <typename Ret, typename... Args>
@@ -108,8 +100,7 @@ namespace by {
         template <typename Ret, typename... Args>
         static me& genericFuncNonConst(const std::string& name, Ret (T::*fptr)(Args...)) {
             return func(name,
-                new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>(
-                    (Ret(T::*)(Args...)) fptr));
+                new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
         }
 
         template <typename Ret, typename... Args>
@@ -119,8 +110,7 @@ namespace by {
         template <typename Ret, typename... Args>
         static me& genericFuncConst(const std::string& name, Ret (T::*fptr)(Args...) const) {
             return func(name,
-                new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>(
-                    (Ret(T::*)(Args...)) fptr));
+                new tbridgeFunc<Ret, T, isBaseObj, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr));
         }
 
         template <typename Ret, typename... Args>
@@ -176,9 +166,7 @@ namespace by {
             return _get();
         }
 
-        static me& func(const std::string& name, const baseFunc* bridgeFunc) {
-            return func(name, *bridgeFunc);
-        }
+        static me& func(const std::string& name, const baseFunc* bridgeFunc) { return func(name, *bridgeFunc); }
 
         static me& ctor() { return func(baseObj::CTOR_NAME, new tbridgeCtor<T>()); }
 
@@ -200,8 +188,7 @@ namespace by {
             return func(name, new tbridgeClosure<Ret, T1, tmarshaling>(c));
         }
 
-        template <typename Ret, typename... Args>
-        static me& func(const std::string& name, Ret (T::*fptr)(Args...)) {
+        template <typename Ret, typename... Args> static me& func(const std::string& name, Ret (T::*fptr)(Args...)) {
             return funcNonConst(name, fptr);
         }
 
@@ -218,8 +205,7 @@ namespace by {
         template <typename Ret, typename... Args>
         static me& funcConst(const std::string& name, Ret (T::*fptr)(Args...) const) {
             typedef typename T::super s;
-            auto* fun =
-                new tbridgeFunc<Ret, T, true, tmarshaling, Args...>((Ret(T::*)(Args...)) fptr);
+            auto* fun = new tbridgeFunc<Ret, T, true, tmarshaling, Args...>((Ret(T::*)(Args...)) fptr);
             fun->setSrc(*new src(dumSrcFile::singleton(), name, point{0, 0}));
             return func(name, fun);
         }
@@ -233,24 +219,21 @@ namespace by {
 
         template <typename Ret, typename... Args>
         static me& genericFuncNonConst(const std::string& name, Ret (T::*fptr)(Args...)) {
-            auto* fun = new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(
-                (Ret(T::*)(Args...)) fptr);
+            auto* fun = new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr);
             fun->setSrc(*new src(dumSrcFile::singleton(), name, point{0, 0}));
             return func(name, fun);
         }
 
         template <typename Ret, typename... Args>
         static me& genericFunc(const std::string& name, Ret (T::*fptr)(Args...) const) {
-            auto* fun = new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(
-                (Ret(T::*)(Args...)) fptr);
+            auto* fun = new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr);
             fun->setSrc(*new src(dumSrcFile::singleton(), name, point{0, 0}));
             return func(name, fun);
         }
 
         template <typename Ret, typename... Args>
         static me& genericFuncConst(const std::string& name, Ret (T::*fptr)(Args...) const) {
-            auto* fun = new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>(
-                (Ret(T::*)(Args...)) fptr);
+            auto* fun = new tbridgeFunc<Ret, T, true, tgenericMarshaling, Args...>((Ret(T::*)(Args...)) fptr);
             fun->setSrc(*new src(dumSrcFile::singleton(), name, point{0, 0}));
             return func(name, fun);
         }

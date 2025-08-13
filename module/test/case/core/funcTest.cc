@@ -24,9 +24,7 @@ namespace {
                 return str();
             }
 
-            void setLambda(function<nbool(const ucontainable&, const frames&)> lambda) {
-                _lambda = std::move(lambda);
-            }
+            void setLambda(function<nbool(const ucontainable&, const frames&)> lambda) { _lambda = std::move(lambda); }
 
             function<nbool(const ucontainable&, const frames&)> _lambda;
             nbool _res;
@@ -35,8 +33,7 @@ namespace {
 
     public:
         myfunc():
-            super(*new modifier(),
-                funcMgdType("myfunc", ttype<me>::get(), params(), false, new nVoid()),
+            super(*new modifier(), funcMgdType("myfunc", ttype<me>::get(), params(), false, new nVoid()),
                 *new myBlock()) {
             BY_I("myfunc(%s) new", (void*) this);
         }
@@ -64,8 +61,8 @@ namespace {
         return false;
     }
 
-    nbool checkFrameHasfuncAndObjScope(const frame& fr, const baseFunc& func,
-        const std::string& name, const obj& obj, const char* funcNames[], int funcNameSize) {
+    nbool checkFrameHasfuncAndObjScope(const frame& fr, const baseFunc& func, const std::string& name, const obj& obj,
+        const char* funcNames[], int funcNameSize) {
         int n = 0;
         BY_I("fr.len=%d", fr.subs().len());
         for(auto e = fr.subs().begin(); e; e++)
@@ -77,12 +74,10 @@ namespace {
 
         for(int n = 0; n < funcNameSize; n++) {
             const char* name = funcNames[n];
-            if(!fr.subAll(name).isMatched())
-                return BY_I("fr.sub(%s) is 0 or +2 founds", name), false;
+            if(!fr.subAll(name).isMatched()) return BY_I("fr.sub(%s) is 0 or +2 founds", name), false;
         }
 
-        if(!fr.subAll(name).isMatched())
-            return BY_I("couldn't find %s func on frame(%s)", name, (void*) &fr), false;
+        if(!fr.subAll(name).isMatched()) return BY_I("couldn't find %s func on frame(%s)", name, (void*) &fr), false;
 
         return true;
     }
@@ -142,8 +137,7 @@ TEST_F(funcTest, testCallfuncInsidefunc) {
 
     obj1func1.setLambda([&](const auto& a, const auto& sf) {
         if(sf.len() != 1) return BY_I("%s: sf.len() != 1", func1Name), false;
-        if(!checkFrameHasfuncAndObjScope(sf[0], obj1func1, func1Name, obj1, obj1FuncNames, 2))
-            return false;
+        if(!checkFrameHasfuncAndObjScope(sf[0], obj1func1, func1Name, obj1, obj1FuncNames, 2)) return false;
 
         narr funcArgs;
         obj1.run(func2Name, funcArgs);
@@ -153,8 +147,7 @@ TEST_F(funcTest, testCallfuncInsidefunc) {
     obj1func2.setLambda([&](const auto& a, const auto& sf) {
         if(sf.len() != 2) return BY_I("%s: sf.len(%d) > 2", func2Name, sf.len()), false;
 
-        if(!checkFrameHasfuncAndObjScope(sf[1], obj1func2, func2Name, obj1, obj1FuncNames, 2))
-            return false;
+        if(!checkFrameHasfuncAndObjScope(sf[1], obj1func2, func2Name, obj1, obj1FuncNames, 2)) return false;
 
         args funcArgs;
         funcArgs.add(obj2);
@@ -166,8 +159,7 @@ TEST_F(funcTest, testCallfuncInsidefunc) {
     obj2func1.setLambda([&](const auto& a, const auto& sf) {
         if(sf.len() != 3) return false;
 
-        if(!checkFrameHasfuncAndObjScope(sf[2], obj2func1, "obj2func1", obj2, obj2FuncNames, 1))
-            return false;
+        if(!checkFrameHasfuncAndObjScope(sf[2], obj2func1, "obj2func1", obj2, obj2FuncNames, 1)) return false;
         return true;
     });
 
@@ -221,8 +213,7 @@ TEST_F(funcTest, testArgsAttachedName) {
     ps.add(new param("age", new nInt()));
     f.setLambda([&](const auto& a, const frames& sf) {
         const frame& fr = sf[sf.len() - 1];
-        return fr["msg"].cast<nStr>()->get() == "hello world" &&
-            fr["age"].cast<nInt>()->get() == 55;
+        return fr["msg"].cast<nStr>()->get() == "hello world" && fr["age"].cast<nInt>()->get() == 55;
     });
 
     o.run("myfunc");

@@ -4,8 +4,7 @@
 #include "core/ast/origin.hpp"
 
 namespace by {
-    template <typename T, typename defaultElemType = T>
-    class _nout tdumArr: public tarr<T, defaultElemType> {
+    template <typename T, typename defaultElemType = T> class _nout tdumArr: public tarr<T, defaultElemType> {
         typedef tarr<T, defaultElemType> __super9;
         BY(CLASS(tdumArr, __super9))
         typedef typename super::iter iter;

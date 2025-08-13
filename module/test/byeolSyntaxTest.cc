@@ -26,9 +26,9 @@ byeolSyntaxTest& me::make() { return make(by::manifest()); }
 byeolSyntaxTest& me::make(const by::manifest& mani) {
     _rel();
     nbool isVerbose = logger::get().isEnable();
-    int flag = isVerbose ? interpreter::DEFAULT | interpreter::LOG_STRUCTURE | interpreter::GUARD |
-            interpreter::LOG_GRAPH_ON_EX :
-                           interpreter::DUMP_ON_EX | interpreter::LOG_ON_END;
+    int flag = isVerbose ?
+        interpreter::DEFAULT | interpreter::LOG_STRUCTURE | interpreter::GUARD | interpreter::LOG_GRAPH_ON_EX :
+        interpreter::DUMP_ON_EX | interpreter::LOG_ON_END;
     _ip.setTask(*new by::slot(mani)).setFlag(flag);
     return *this;
 }

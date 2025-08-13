@@ -18,8 +18,8 @@ namespace by {
 
     void me::log() const {
         using platformAPI::foreColor;
-        logger::get().logFormatBypass("%serr: %s%s\n", foreColor(LIGHTRED).c_str(),
-            foreColor(LIGHTGRAY).c_str(), _msg->get().c_str());
+        logger::get().logFormatBypass("%serr: %s%s\n", foreColor(LIGHTRED).c_str(), foreColor(LIGHTGRAY).c_str(),
+            _msg->get().c_str());
     }
 
     const std::string& me::getMsg() const {
@@ -28,8 +28,7 @@ namespace by {
     }
 
     const baseObj& me::getOrigin() const {
-        static tbaseObjOrigin<me> org(
-            tbridger<me>::ctor<nStr>().extend(me::super::makeSubs()).subs());
+        static tbaseObjOrigin<me> org(tbridger<me>::ctor<nStr>().extend(me::super::makeSubs()).subs());
         const baseObj& supers = super::getOrigin();
         return &supers == this ? org : supers;
     }

@@ -8,9 +8,7 @@ namespace by {
 #define ME tprior<T>
 
     TEMPLATE
-    ME::tprior(const node& newElem, priorType newType, ncnt newLv): type(newType), lv(newLv) {
-        elem.bind(newElem);
-    }
+    ME::tprior(const node& newElem, priorType newType, ncnt newLv): type(newType), lv(newLv) { elem.bind(newElem); }
 
     TEMPLATE T* ME::operator->() { return get(); }
 
@@ -18,9 +16,7 @@ namespace by {
 
     TEMPLATE T* ME::get() { return elem.get(); }
 
-    TEMPLATE nbool ME::isSamePrecedence(const ME& rhs) const {
-        return type == rhs.type && lv == rhs.lv;
-    }
+    TEMPLATE nbool ME::isSamePrecedence(const ME& rhs) const { return type == rhs.type && lv == rhs.lv; }
 
 #undef ME
 #define ME tpriorities<T>

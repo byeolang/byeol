@@ -44,8 +44,8 @@ namespace by {
                 0,
             };
             auto err = GetLastError();
-            if(FormatMessageA(FORMAT_MESSAGE_FROM_STRING, nullptr, err,
-                   MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buffer, 0, nullptr))
+            if(FormatMessageA(FORMAT_MESSAGE_FROM_STRING, nullptr, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                   buffer, 0, nullptr))
                 return buffer;
             else return "failed get error msg from `GetLastError`";
 #else

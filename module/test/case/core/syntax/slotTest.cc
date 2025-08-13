@@ -23,9 +23,7 @@ namespace {
                 return str();
             }
 
-            void setLambda(function<nbool(const ucontainable&, const frames&)> lambda) {
-                _lambda = std::move(lambda);
-            }
+            void setLambda(function<nbool(const ucontainable&, const frames&)> lambda) { _lambda = std::move(lambda); }
 
             function<nbool(const ucontainable&, const frames&)> _lambda;
             nbool _res;
@@ -34,8 +32,7 @@ namespace {
 
     public:
         myfunc():
-            super(*new modifier(),
-                funcMgdType("myfunc", ttype<me>::get(), params(), false, new nVoid()),
+            super(*new modifier(), funcMgdType("myfunc", ttype<me>::get(), params(), false, new nVoid()),
                 *new myBlock()) {
             BY_I("myfunc(%s) new", this);
         }
@@ -60,9 +57,7 @@ namespace {
     public:
         nbool isRun() const { return _executed; }
 
-        void setLambda(function<nbool(const ucontainable&, const frames&)> lambda) {
-            _lambda = std::move(lambda);
-        }
+        void setLambda(function<nbool(const ucontainable&, const frames&)> lambda) { _lambda = std::move(lambda); }
 
         const ntype& getType() const override {
             static mgdType inner = typeMaker::make<me>(params(), &nVoid::singleton());
@@ -99,8 +94,7 @@ pack demo
         .shouldParsed(true);
     ASSERT_TRUE(getSubPack());
     ASSERT_TRUE(getSlot() TO(subs()));
-    scope::super& shares =
-        (scope::super*) (getSlot() TO(subs()) TO(getNext()->getContainer())) OR_ASSERT(shares);
+    scope::super& shares = (scope::super*) (getSlot() TO(subs()) TO(getNext()->getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 2);
     ASSERT_EQ(getSlot()->getManifest().name, "demo");
 }
@@ -117,8 +111,7 @@ TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
         const frame& fr = sf.get(sf.len() - 1) OR.ret(false);
 
         // checks slot is in frame:
-        const params& ps =
-            fr.sub<myfunc>("foo", narr(*new nInt(), *new nFlt())) TO(getParams()) OR.ret(false);
+        const params& ps = fr.sub<myfunc>("foo", narr(*new nInt(), *new nFlt())) TO(getParams()) OR.ret(false);
         if(ps.len() != 2) return false;
         if(ps[0].getOrigin().getType() != ttype<nInt>()) return false;
         if(ps[1].getName() != "grade") return false;
