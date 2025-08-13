@@ -17,8 +17,8 @@ namespace by {
 
         id gotId = got.blk.getId();
         WHEN(gotId.tagN != newId.tagN)
-            .warn("bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN,
-                gotId.chkN, gotId.serial, newId.tagN, newId.chkN, newId.serial)
+            .warn("bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN, gotId.chkN, gotId.serial,
+                newId.tagN, newId.chkN, newId.serial)
             .ret(nullptr);
         WHEN(gotId.chkN != newId.chkN || gotId.serial != newId.serial)
             .ret(nullptr); // bindTag has been changed its instance to bind.

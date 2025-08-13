@@ -8,8 +8,7 @@ namespace by {
 
     BY_DEF_ME(binder)
 
-    binder::binder(const type& type, bindTacticable& tactic):
-        _type(&type.getStatic()), _tactic(&tactic) {}
+    binder::binder(const type& type, bindTacticable& tactic): _type(&type.getStatic()), _tactic(&tactic) {}
 
     binder::binder(const me& rhs): _type(rhs._type), _tactic(rhs._tactic) { _assign(rhs); }
 

@@ -28,8 +28,7 @@ namespace by {
     nbool me::isAbstract() const { return _exprs.isEmpty() && _eval; }
 
     void me::inFrame(const bicontainable*) const {
-        BY_DI("%s._onInFrame() %d stmts. frames.len[%d]", *this, getStmts().len(),
-            thread::get().getFrames().len());
+        BY_DI("%s._onInFrame() %d stmts. frames.len[%d]", *this, getStmts().len(), thread::get().getFrames().len());
 
         frame& fr = by::thread::get()._getNowFrame() OR.err("fr == null").ret();
         fr.add(*new scope());

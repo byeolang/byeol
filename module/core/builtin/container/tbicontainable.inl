@@ -90,9 +90,7 @@ namespace by {
     }
 
     TEMPL
-    tnarr<V> ME::getAll(std::function<nbool(const K&, const V&)> l) const {
-        return this->getAll<V>(l);
-    }
+    tnarr<V> ME::getAll(std::function<nbool(const K&, const V&)> l) const { return this->getAll<V>(l); }
 
     TEMPL
     template <typename V1> void ME::each(std::function<nbool(const K&, V1&)> l) {

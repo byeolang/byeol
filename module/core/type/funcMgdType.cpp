@@ -4,8 +4,7 @@
 namespace by {
     BY(DEF_ME(funcMgdType))
 
-    me::funcMgdType(const std::string& name, const type& superType, const params& ps, nbool isAdt,
-        const node* ret):
+    me::funcMgdType(const std::string& name, const type& superType, const params& ps, nbool isAdt, const node* ret):
         super(name, superType, ps, isAdt, ret) {}
 
     struct asFunc: public aser {

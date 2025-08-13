@@ -27,26 +27,20 @@ namespace by {
     std::string me::toStr() const {
         int n = 0;
         std::string msg;
-        each([&](const auto& val) {
-            return msg += util::getEvalTypeFrom(val) + (++n >= len() ? "" : ","), true;
-        });
+        each([&](const auto& val) { return msg += util::getEvalTypeFrom(val) + (++n >= len() ? "" : ","), true; });
         return msg;
     }
 
     tmay<me> me::evalAll(const params& ps) const {
         tmay<me> res(me{});
-        WHEN(len() != ps.len())
-            .err("length of args(%d) and typs(%d) doesn't match.", len(), ps.len())
-            .retMay<me>();
+        WHEN(len() != ps.len()).err("length of args(%d) and typs(%d) doesn't match.", len(), ps.len()).retMay<me>();
 
         int n = 0;
         for(const node& e: *this) {
             const param& p = ps[n++];
             str evaluated = closure::make(e);
             if(!evaluated) evaluated = e.asImpli(*p.getOrigin().as<node>());
-            WHEN(!evaluated)
-                .err("evaluation of arg[%s] -> param[%s] has been failed.", e, p.getOrigin())
-                .retMay<me>();
+            WHEN(!evaluated).err("evaluation of arg[%s] -> param[%s] has been failed.", e, p.getOrigin()).retMay<me>();
             res->add(*evaluated);
         }
 

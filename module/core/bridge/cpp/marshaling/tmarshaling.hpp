@@ -25,8 +25,7 @@ namespace by {
         static no canMarshal();
     };
 
-    template <typename T, typename TACTIC>
-    struct tmarshaling<tweak<T, TACTIC>, true>: public metaIf {
+    template <typename T, typename TACTIC> struct tmarshaling<tweak<T, TACTIC>, true>: public metaIf {
         typedef tbridge<tweak<T, TACTIC>> mgd;
 
         template <typename E> static str toMgd(E& it) { return it; }
@@ -40,8 +39,7 @@ namespace by {
         static yes canMarshal();
     };
 
-    template <typename T, typename TACTIC>
-    struct tmarshaling<tstr<T, TACTIC>, true>: public metaIf {
+    template <typename T, typename TACTIC> struct tmarshaling<tstr<T, TACTIC>, true>: public metaIf {
         typedef tbridge<tstr<T, TACTIC>> mgd;
 
         template <typename E> static str toMgd(E& it) { return it; }
@@ -190,8 +188,7 @@ namespace by {
 
     template <> struct _nout tmarshaling<nint&, false>: public tnormalMarshaling<nint, nInt> {};
 
-    template <>
-    struct _nout tmarshaling<const nint&, false>: public tnormalMarshaling<nint, nInt> {};
+    template <> struct _nout tmarshaling<const nint&, false>: public tnormalMarshaling<nint, nInt> {};
 
     template <> struct _nout tmarshaling<nbool, false>: public tnormalMarshaling<nbool, nBool> {};
 
@@ -199,27 +196,19 @@ namespace by {
 
     template <> struct _nout tmarshaling<nchar, false>: public tnormalMarshaling<nchar, nStr> {};
 
-    template <>
-    struct _nout tmarshaling<nchar*, false>: public tnormalMarshaling<const nchar*, nStr> {};
+    template <> struct _nout tmarshaling<nchar*, false>: public tnormalMarshaling<const nchar*, nStr> {};
+
+    template <> struct _nout tmarshaling<const nchar*, false>: public tnormalMarshaling<const nchar*, nStr> {};
+
+    template <> struct _nout tmarshaling<std::string, false>: public tnormalMarshaling<const std::string&, nStr> {};
+
+    template <> struct _nout tmarshaling<std::string&, false>: public tnormalMarshaling<const std::string&, nStr> {};
 
     template <>
-    struct _nout tmarshaling<const nchar*, false>: public tnormalMarshaling<const nchar*, nStr> {};
+    struct _nout tmarshaling<const std::string&, false>: public tnormalMarshaling<const std::string&, nStr> {};
 
     template <>
-    struct _nout tmarshaling<std::string, false>
-        : public tnormalMarshaling<const std::string&, nStr> {};
-
-    template <>
-    struct _nout tmarshaling<std::string&, false>
-        : public tnormalMarshaling<const std::string&, nStr> {};
-
-    template <>
-    struct _nout tmarshaling<const std::string&, false>
-        : public tnormalMarshaling<const std::string&, nStr> {};
-
-    template <>
-    struct _nout tmarshaling<const std::string, false>
-        : public tnormalMarshaling<const std::string&, nStr> {};
+    struct _nout tmarshaling<const std::string, false>: public tnormalMarshaling<const std::string&, nStr> {};
 
     template <> struct _nout tmarshaling<void, false>: public tnormalMarshaling<void, nVoid> {};
 

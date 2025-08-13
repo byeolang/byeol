@@ -50,21 +50,18 @@ namespace by {
         template <typename V1> const V1* get(const K* key) const BY_CONST_FUNC(get<V1>(key))
         template <typename V1> V1* get(std::function<nbool(const K&, const V1&)> l);
         V* get(std::function<nbool(const K&, const V&)> l);
-        template <typename V1>
-        const V1* get(std::function<nbool(const K&, const V1&)> l) const BY_CONST_FUNC(get(l))
+        template <typename V1> const V1* get(std::function<nbool(const K&, const V1&)> l) const BY_CONST_FUNC(get(l))
         const V* get(std::function<nbool(const K&, const V&)> l) const BY_CONST_FUNC(get(l))
 
         tnarr<V, strTactic> getAll(const K& key) const;
         tnarr<V, strTactic> getAll(const K* it) const BY_SIDE_FUNC(getAll);
         template <typename V1> tnarr<V1, strTactic> getAll() const;
-        template <typename V1>
-        tnarr<V1, strTactic> getAll(std::function<nbool(const K&, const V1&)> l) const;
+        template <typename V1> tnarr<V1, strTactic> getAll(std::function<nbool(const K&, const V1&)> l) const;
         tnarr<V, strTactic> getAll(std::function<nbool(const K&, const V&)> l) const;
 
         template <typename V1> void each(std::function<nbool(const K&, V1&)> l);
         void each(std::function<nbool(const K&, V&)> l);
-        template <typename V1>
-        void each(std::function<nbool(const K&, const V1&)> l) const BY_CONST_FUNC(each(l))
+        template <typename V1> void each(std::function<nbool(const K&, const V1&)> l) const BY_CONST_FUNC(each(l))
         void each(std::function<nbool(const K&, const V&)> l) const BY_CONST_FUNC(each(l))
 
         // iter:
@@ -125,8 +122,7 @@ namespace by {
         virtual nbool del(const iter& from, const iter& end) = 0;
         nbool del(const iter* from, const iter& end) BY_SIDE_FUNC(from, del(*from, end), false);
         nbool del(const iter& from, const iter* end) BY_SIDE_FUNC(end, del(from, *end), false);
-        nbool del(const iter* from, const iter* end)
-            BY_SIDE_FUNC(from&& end, del(*from, *end), false);
+        nbool del(const iter* from, const iter* end) BY_SIDE_FUNC(from&& end, del(*from, *end), false);
 
         nbool del(const tbicontainable& rhs);
         nbool del(const tbicontainable* it) BY_SIDE_FUNC(del);
@@ -135,8 +131,7 @@ namespace by {
         virtual void rel() = 0;
 
     protected:
-        virtual iteration* _onMakeIteration(const K* key, nbool isReversed, ncnt step,
-            nbool isBoundary) const = 0;
+        virtual iteration* _onMakeIteration(const K* key, nbool isReversed, ncnt step, nbool isBoundary) const = 0;
         virtual void _getAll(const K& key, narr& tray) const = 0;
     };
 

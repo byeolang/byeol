@@ -53,16 +53,13 @@ namespace by {
 
         template <typename T> T* sub(std::function<nbool(const std::string&, const T&)> l);
         template <typename T>
-        const T* sub(std::function<nbool(const std::string&, const T&)> l) const
-            BY_CONST_FUNC(sub<T>(l))
+        const T* sub(std::function<nbool(const std::string&, const T&)> l) const BY_CONST_FUNC(sub<T>(l))
         template <typename T = me> T* sub();
         template <typename T = me> const T* sub() const BY_CONST_FUNC(sub<T>())
         template <typename T = me> T* sub(const std::string& name);
         template <typename T = me> T* sub(const std::string* it) BY_SIDE_FUNC(sub);
-        template <typename T = me>
-        const T* sub(const std::string& name) const BY_CONST_FUNC(sub<T>(name))
-        template <typename T = me>
-        const T* sub(const std::string* name) const BY_CONST_FUNC(sub<T>(name))
+        template <typename T = me> const T* sub(const std::string& name) const BY_CONST_FUNC(sub<T>(name))
+        template <typename T = me> const T* sub(const std::string* name) const BY_CONST_FUNC(sub<T>(name))
         template <typename T = me> T* sub(const std::string& name, const args& a);
         template <typename T = me>
         T* sub(const std::string* name, const args& a) BY_SIDE_FUNC(name, sub(*name, a), nullptr);
@@ -71,8 +68,7 @@ namespace by {
         template <typename T = me>
         const T* sub(const std::string* name, const args& a) const BY_CONST_FUNC(sub<T>(name, a))
 
-        template <typename T>
-        tnarr<T, strTactic> subAll(std::function<nbool(const std::string&, const T&)> l) const;
+        template <typename T> tnarr<T, strTactic> subAll(std::function<nbool(const std::string&, const T&)> l) const;
         template <typename T = me> tnarr<T, strTactic> subAll() const;
         template <typename T = me> tpriorities<T> subAll(const std::string& name) const;
         template <typename T = me>
@@ -89,8 +85,7 @@ namespace by {
             ///          the two have completely different meanings. BE CAREFUL.
             template <typename T = me>
             tpriorities<T> subAll(const std::string& name, const args* a) const;
-        template <typename T = me>
-        tpriorities<T> subAll(const std::string& name, const args& a) const;
+        template <typename T = me> tpriorities<T> subAll(const std::string& name, const args& a) const;
         template <typename T = me>
         tpriorities<T> subAll(const std::string* name, const args* a) const
             BY_SIDE_FUNC(name, subAll<T>(*name, a), tpriorities<T>());
@@ -107,8 +102,7 @@ namespace by {
         str run(const std::string& name, const args& a);
         str run(const std::string& name, const args* a) BY_SIDE_FUNC(a, run(name, a), str());
         str run(const std::string* name, const args& a) BY_SIDE_FUNC(name, run(*name, a), str());
-        str run(const std::string* name, const args* a)
-            BY_SIDE_FUNC(name&& a, run(*name, *a), str());
+        str run(const std::string* name, const args* a) BY_SIDE_FUNC(name&& a, run(*name, *a), str());
         str run(const std::string& name);
         str run(const std::string* it) BY_SIDE_FUNC(run);
         str run();

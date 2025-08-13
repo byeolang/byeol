@@ -8,8 +8,7 @@ namespace by {
     BY_DEF_ME(srcSupply)
 
     void* me::_scanString(parser& ps, const nchar* src, void* scanner) const {
-        if(!src || src[0] == '\0')
-            return ps.getReport().add(nerr::newErr(errCode::SRC_EMPTY)), nullptr;
+        if(!src || src[0] == '\0') return ps.getReport().add(nerr::newErr(errCode::SRC_EMPTY)), nullptr;
 
         return yy_scan_string((nchar*) src, (yyscan_t) scanner);
     }

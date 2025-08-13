@@ -33,9 +33,7 @@ namespace by {
 
     strWrap __convert__(const baseFunc* it) { return it ? __convert__(*it) : strWrap("null"); }
 
-    strWrap __convert__(const baseFunc& it) {
-        return it.getSrc().getName() + "(" + it.getParams().toStr() + ")";
-    }
+    strWrap __convert__(const baseFunc& it) { return it.getSrc().getName() + "(" + it.getParams().toStr() + ")"; }
 
     strWrap __convert__(const param* it) { return it ? __convert__(*it) : strWrap("null"); }
 

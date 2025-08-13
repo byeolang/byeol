@@ -18,8 +18,8 @@ namespace {
         }
 
         bool sayCharPtr(const char* msg) {
-            cout << "Oh, it's charactor pointer. Of course I can say it without problem like '"
-                 << msg << "'. were you suprise?\n";
+            cout << "Oh, it's charactor pointer. Of course I can say it without problem like '" << msg
+                 << "'. were you suprise?\n";
             return isRun = true;
         }
 
@@ -214,8 +214,7 @@ namespace {
 
         testObj() {}
 
-        int updateLen(
-            tarr<myObj> a) { // NOLINT: to test whether bridge can support byval parameter.
+        int updateLen(tarr<myObj> a) { // NOLINT: to test whether bridge can support byval parameter.
             len = a.len();
             _arr.bind((tarr<myObj>*) a.clone());
             return len;

@@ -14,8 +14,7 @@ namespace by {
 
     public:
         defVarExpr(const std::string& name, const node* rhs);
-        defVarExpr(const std::string& name, const node* rhs, const node* to, const src& src,
-            const modifier& mod);
+        defVarExpr(const std::string& name, const node* rhs, const node* to, const src& src, const modifier& mod);
 
     public:
         using super::run;

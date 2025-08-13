@@ -20,15 +20,12 @@ namespace by {
         int n = 0;
         std::string msg;
         for(const param& p: *this)
-            msg += p.getName() + " " + util::getEvalTypeFrom(p.getOrigin()) +
-                (++n >= len() ? "" : ",");
+            msg += p.getName() + " " + util::getEvalTypeFrom(p.getOrigin()) + (++n >= len() ? "" : ",");
         return msg;
     }
 
     me me::make(const strings& names, const narr& args) {
-        WHEN(names.size() != args.len())
-            .err("names.len[%s] != args.len[%s]", names.size(), args.len())
-            .ret(me());
+        WHEN(names.size() != args.len()).err("names.len[%s] != args.len[%s]", names.size(), args.len()).ret(me());
 
         me ret;
         for(nidx n = 0; n < names.size(); n++)

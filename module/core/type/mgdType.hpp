@@ -14,13 +14,11 @@ namespace by {
 
     public:
         mgdType(const std::string& name, const type& super, const params& ps);
-        mgdType(const std::string& name, const type& super, const params& ps, nbool isAdt,
-            const node* ret);
+        mgdType(const std::string& name, const type& super, const params& ps, nbool isAdt, const node* ret);
         mgdType(const std::string& name, const types& supersFromRhs);
 
     private:
-        mgdType(const std::string& name, const types& supers, const types& subs, const params& ps,
-            nbool isAdt);
+        mgdType(const std::string& name, const types& supers, const types& subs, const params& ps, nbool isAdt);
 
     public:
         nbool isTemplate() const override;

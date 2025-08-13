@@ -27,9 +27,7 @@ namespace by {
 
     nbool me::isParsed() const { return _isParsed; }
 
-    nbool me::isVerified() const {
-        return isParsed() && !getReport().inErr();
-    }
+    nbool me::isVerified() const { return isParsed() && !getReport().inErr(); }
 
     node* me::getSubPack() { return _pser.getSubPack(); }
 
@@ -65,8 +63,7 @@ namespace by {
     nbool me::_isPackExist() { return _pser.getSubPack() && getTask(); }
 
     namespace {
-        template <typename T, typename E>
-        nbool _visit(interpreter& i, T& v, E* task) {
+        template <typename T, typename E> nbool _visit(interpreter& i, T& v, E* task) {
             BY_DI("======================================");
             BY_DI("|               %s                   |", v.getType().getName().c_str());
             BY_DI("======================================");
@@ -82,7 +79,6 @@ namespace by {
             return true;
         }
     }
-
 
     void me::_parse() {
         if(!getTask()) setTask(_pser.getTask());

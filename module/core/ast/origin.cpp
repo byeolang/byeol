@@ -9,8 +9,7 @@ namespace by {
 
     BY(DEF_ME(origin))
 
-    me::origin(const mgdType& newType):
-        super(), _type(newType), _src(dumSrc::singleton()), _state(RELEASED) {
+    me::origin(const mgdType& newType): super(), _type(newType), _src(dumSrc::singleton()), _state(RELEASED) {
         _setOrigin(*this);
     }
 

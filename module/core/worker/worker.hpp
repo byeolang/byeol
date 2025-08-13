@@ -27,9 +27,8 @@ namespace by {
 
     public:
         enum logFlag {
-            LOG_ON_EX = 1, // logs the err instance when it just got reported.
-            DUMP_ON_EX =
-                1 << 1, // log and leave callstack from an err instance when it just got reported.
+            LOG_ON_EX = 1,        // logs the err instance when it just got reported.
+            DUMP_ON_EX = 1 << 1,  // log and leave callstack from an err instance when it just got reported.
             GUARD = 1 << 2,       // logs when func in, out.
             INTERNAL = 1 << 3,    // logs all except above case.
             LOG_ON_END = 1 << 4,  // log all report info when the work ends.

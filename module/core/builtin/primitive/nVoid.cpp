@@ -43,25 +43,15 @@ namespace by {
 
     tstr<arithmeticObj> me::_mod(const arithmeticObj& rhs, nbool reversed) const { return *this; }
 
-    tstr<arithmeticObj> me::_bitwiseAnd(const arithmeticObj& rhs, nbool reversed) const {
-        return *this;
-    }
+    tstr<arithmeticObj> me::_bitwiseAnd(const arithmeticObj& rhs, nbool reversed) const { return *this; }
 
-    tstr<arithmeticObj> me::_bitwiseXor(const arithmeticObj& rhs, nbool reversed) const {
-        return *this;
-    }
+    tstr<arithmeticObj> me::_bitwiseXor(const arithmeticObj& rhs, nbool reversed) const { return *this; }
 
-    tstr<arithmeticObj> me::_bitwiseOr(const arithmeticObj& rhs, nbool reversed) const {
-        return *this;
-    }
+    tstr<arithmeticObj> me::_bitwiseOr(const arithmeticObj& rhs, nbool reversed) const { return *this; }
 
-    tstr<arithmeticObj> me::_lshift(const arithmeticObj& rhs, nbool reversed) const {
-        return *this;
-    }
+    tstr<arithmeticObj> me::_lshift(const arithmeticObj& rhs, nbool reversed) const { return *this; }
 
-    tstr<arithmeticObj> me::_rshift(const arithmeticObj& rhs, nbool reversed) const {
-        return *this;
-    }
+    tstr<arithmeticObj> me::_rshift(const arithmeticObj& rhs, nbool reversed) const { return *this; }
 
     nbool me::_eq(const arithmeticObj& rhs) const { return false; }
 

@@ -52,22 +52,17 @@ namespace by {
     func* me::_makeFunc(const std::string& name, const narr& stmts) const {
         WHEN(stmts.isEmpty()).ret(nullptr);
 
-        func* ret =
-            birth<func>(name, *new modifier(), typeMaker::make<func>(name, params(), new nVoid()));
+        func* ret = birth<func>(name, *new modifier(), typeMaker::make<func>(name, params(), new nVoid()));
         ret->getBlock().getStmts().add(stmts);
         return ret;
     }
 
-    func* me::makeExpandFunc(const defBlock& blk) const {
-        return _makeFunc(baseObj::EXPAND_NAME, blk.getExpands());
-    }
+    func* me::makeExpandFunc(const defBlock& blk) const { return _makeFunc(baseObj::EXPAND_NAME, blk.getExpands()); }
 
     assignExpr* me::makeAssignExprFrom(const defVarExpr& e) const {
         const auto& right = e.getRight() OR.ret(nullptr);
         return make<assignExpr>(*make<getExpr>(e.getName()), right);
     }
 
-    func* me::makeCommonFunc(const defBlock& blk) const {
-        return _makeFunc(baseObj::COMMON_NAME, blk.getCommon());
-    }
+    func* me::makeCommonFunc(const defBlock& blk) const { return _makeFunc(baseObj::COMMON_NAME, blk.getCommon()); }
 } // namespace by

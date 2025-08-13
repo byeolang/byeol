@@ -32,9 +32,7 @@ namespace by {
 
     strWrap __convert__(nbool* rhs) { return rhs ? __convert__(*rhs) : strWrap("null"); }
 
-    strWrap __convert__(const std::string* rhs) {
-        return rhs ? __convert__(*rhs) : strWrap("null");
-    }
+    strWrap __convert__(const std::string* rhs) { return rhs ? __convert__(*rhs) : strWrap("null"); }
 
     strWrap __convert__(const std::string& rhs) { return rhs; }
 

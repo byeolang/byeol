@@ -11,19 +11,15 @@ namespace by {
 
     BY(DEF_ME(runExpr), DEF_VISIT())
 
-    me::runExpr(const node* meObj, const node& subject, const args& a):
-        _me(meObj), _args(a), _subject(subject) {}
+    me::runExpr(const node* meObj, const node& subject, const args& a): _me(meObj), _args(a), _subject(subject) {}
 
     me::runExpr(const node* meObj, const args& a): _me(meObj), _args(a), _subject(meObj) {}
 
     str me::run(const args& a) {
         auto addr = platformAPI::toAddrId(this);
-        str evaledMe = getMe() TO(template as<node>())
-                           OR.err("@%s `me` is null. no thread found", addr)
-                               .ret(str());
+        str evaledMe = getMe() TO(template as<node>()) OR.err("@%s `me` is null. no thread found", addr).ret(str());
 
-        str sub =
-            _getSub(*evaledMe) OR.err("@%s can't find the func to `%s`", addr, evaledMe).ret(str());
+        str sub = _getSub(*evaledMe) OR.err("@%s can't find the func to `%s`", addr, evaledMe).ret(str());
 
         BY_DI("@%s run: assigning me: me[%s] sub[%s@%s]", addr, evaledMe, sub, sub.get());
 
@@ -35,12 +31,10 @@ namespace by {
             BY_DI("@%s run: setting me on args. args.me[%s]", addr, _args TO(getMe()));
         }
 
-        BY_I("@%s it'll call `%s.%s@%s(%s)", addr, evaledMe, sub->getSrc(), sub.get(),
-            _args.toStr());
+        BY_I("@%s it'll call `%s.%s@%s(%s)", addr, evaledMe, sub->getSrc(), sub.get(), _args.toStr());
         str ret = sub->run(_args);
 
-        BY_DI("@%s `%s.%s@%s(%s) --returned--> %s`", addr, evaledMe, sub->getSrc(), sub.get(),
-            _args.toStr(), ret);
+        BY_DI("@%s `%s.%s@%s(%s) --returned--> %s`", addr, evaledMe, sub->getSrc(), sub.get(), _args.toStr(), ret);
         _args.setMe(nullptr);
         return ret;
     }
@@ -85,8 +79,7 @@ namespace by {
         str sub = _getSub(me.getEval()) OR.err("_subject.as<node>() returns null").ret(str());
         WHEN(sub->isSub<baseObj>()).ret(sub->isComplete() ? sub : new mockNode(*sub));
 
-        baseFunc& cast =
-            sub->cast<baseFunc>() OR.err("sub isn't obj or func. returns null").ret(str());
+        baseFunc& cast = sub->cast<baseFunc>() OR.err("sub isn't obj or func. returns null").ret(str());
         return new mockNode(cast.getRet());
     }
 } // namespace by

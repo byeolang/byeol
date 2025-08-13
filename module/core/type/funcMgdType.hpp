@@ -7,8 +7,7 @@ namespace by {
         BY(ME(funcMgdType, mgdType), CLONE(funcMgdType))
 
     public:
-        funcMgdType(const std::string& name, const type& super, const params& ps, nbool isAdt,
-            const node* ret);
+        funcMgdType(const std::string& name, const type& super, const params& ps, nbool isAdt, const node* ret);
 
     protected:
         const impliAses& _getImpliAses() const override;

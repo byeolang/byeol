@@ -55,8 +55,7 @@ private:
     ncnt _step(nbool isReversed, ncnt step) {
         WHEN(isEnd()).ret(0);
         for(int n = 0; n < step; n++) {
-            isReversed ? (this->isReversed() ? ++_citer : --_citer) :
-                         (this->isReversed() ? --_citer : ++_citer);
+            isReversed ? (this->isReversed() ? ++_citer : --_citer) : (this->isReversed() ? --_citer : ++_citer);
             WHEN(isEnd()).ret(n);
         }
         return step;

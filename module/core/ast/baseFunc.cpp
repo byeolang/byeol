@@ -51,9 +51,7 @@ namespace by {
 
     void me::_setSrc(const src& newSrc) { _src.bind(newSrc); }
 
-    nbool me::isFuncButNotClosure(const node& n) {
-        return n.isSub<baseFunc>() && !n.isSub<closure>();
-    }
+    nbool me::isFuncButNotClosure(const node& n) { return n.isSub<baseFunc>() && !n.isSub<closure>(); }
 
     ntype& me::_getType() { return (ntype&) getType(); }
 
@@ -71,7 +69,5 @@ namespace by {
         return super::getModifier();
     }
 
-    nbool me::_isNatureNumber(const node& it) const {
-        return it.isSub<nInt>() || it.isSub<nByte>();
-    }
+    nbool me::_isNatureNumber(const node& it) const { return it.isSub<nInt>() || it.isSub<nByte>(); }
 } // namespace by

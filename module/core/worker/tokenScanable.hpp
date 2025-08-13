@@ -15,7 +15,6 @@ namespace by {
 
     public:
         nint onScan(parser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner);
-        virtual nint onScan(parser& ps, YYSTYPE* yylval, YYLTYPE* loc, yyscan_t yyscanner,
-            nbool& isBypass) = 0;
+        virtual nint onScan(parser& ps, YYSTYPE* yylval, YYLTYPE* loc, yyscan_t yyscanner, nbool& isBypass) = 0;
     };
 }

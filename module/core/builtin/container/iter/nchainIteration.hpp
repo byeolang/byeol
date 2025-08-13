@@ -8,8 +8,7 @@ public:
     nchainIteration(tnchain* iteratingChain, const K* key, nbool isReversed):
         me(iteratingChain, key, isReversed, false, true) {}
 
-    nchainIteration(tnchain* iteratingChain, const K* key, nbool isReversed, nbool isBoundary,
-        nbool isAutoAdvance):
+    nchainIteration(tnchain* iteratingChain, const K* key, nbool isReversed, nbool isBoundary, nbool isAutoAdvance):
         super(isReversed),
         _chainIter(iteratingChain),
         _key(key ? *key : _getDummyKey()),
@@ -115,8 +114,7 @@ private:
         _chainIter.bind(_castChain(nextIter));
         // init container iter:
         me& nextIteration = _castIteration(nextIter) OR.ret();
-        _iter = nextIteration._isBoundary ? _makeContainerIter(nextIteration.isReversed()) :
-                                            nextIteration._iter;
+        _iter = nextIteration._isBoundary ? _makeContainerIter(nextIteration.isReversed()) : nextIteration._iter;
         if(!_isDummyKey && (!_iter.getKey() || _key != *_iter.getKey())) _iter.next(1);
     }
 

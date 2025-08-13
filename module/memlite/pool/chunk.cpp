@@ -4,9 +4,7 @@ namespace by {
 
     BY_DEF_ME(chunk, allocator)
 
-    me::chunk(ncnt blksize, ncnt sz): super(blksize), _head(0), _len(0), _sz(0), _heap(0) {
-        _resize(sz);
-    }
+    me::chunk(ncnt blksize, ncnt sz): super(blksize), _head(0), _len(0), _sz(0), _heap(0) { _resize(sz); }
 
     me::~chunk() { me::rel(); }
 
@@ -53,9 +51,7 @@ namespace by {
         *(nidx*) used = _head;
         _head = ((nuchar*) used - _heap) / _getRealBlkSize();
         _len--;
-        WHEN(_head < 0)
-            .err("chunk corrupted! used(%s) apparently wasn't on heap(%s).", used, (void*) _heap)
-            .ret(false);
+        WHEN(_head < 0).err("chunk corrupted! used(%s) apparently wasn't on heap(%s).", used, (void*) _heap).ret(false);
         return true;
     }
 

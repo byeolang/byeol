@@ -23,8 +23,7 @@ namespace by {
     void me::add(const node& owner) { add(&owner, owner.subs()); }
 
     void me::add(const node* owner, const scope& existing) {
-        if(_stack.size() <= 0)
-            return _stack.push_back(scopeRegister{owner, existing, existing}), void();
+        if(_stack.size() <= 0) return _stack.push_back(scopeRegister{owner, existing, existing}), void();
 
         tstr<scope> cloned = existing.cloneChain() OR.ret();
         cloned->getTail()->link(*_getTop()->linkedS);
@@ -34,8 +33,7 @@ namespace by {
 
     void me::addLocal(const std::string& name, const node& n) {
         WHEN(_stack.size() <= 0).err("couldn't push new node. the top scope is null").ret();
-        scope& locals =
-            getLocals() OR.err("it's tried to add variable into %s. it's not valid.", name).ret();
+        scope& locals = getLocals() OR.err("it's tried to add variable into %s. it's not valid.", name).ret();
         locals.add(name, n);
     }
 
@@ -52,8 +50,8 @@ namespace by {
             WHEN(!found && !isOwner).ret(nullptr);
             found = true;
 
-            baseObj& org = reg.owner TO(template cast<baseObj>()) OR.ret(
-                nullptr); // when returns nullptr, it lets the loop keep searching.
+            baseObj& org = reg.owner TO(template cast<baseObj>())
+                               OR.ret(nullptr); // when returns nullptr, it lets the loop keep searching.
             return &org;
         });
     }
@@ -72,8 +70,7 @@ namespace by {
 
     void me::del() {
         _stack.pop_back();
-        BY_DI("scope deleted. frames.len[%d] thisFrame.len[%d]", thread::get().getFrames().len(),
-            _stack.size());
+        BY_DI("scope deleted. frames.len[%d] thisFrame.len[%d]", thread::get().getFrames().len(), _stack.size());
     }
 
     scopeRegister* me::_getTop() {
@@ -132,8 +129,8 @@ namespace by {
             const auto& subs = *reg.s;
             nidx n2 = 0;
             for(auto e = subs.begin(); e; ++e)
-                log.logBypass("\t\t\tsub[" + std::to_string(n2++) + "]: " + *e.getKey() + " " +
-                    e.getVal()->getType().getName());
+                log.logBypass(
+                    "\t\t\tsub[" + std::to_string(n2++) + "]: " + *e.getKey() + " " + e.getVal()->getType().getName());
         }
     }
 
@@ -144,16 +141,14 @@ namespace by {
         _ret.rel();
     }
 
-    template <typename T>
-    T* me::_getOwner(const node* toFind, std::function<T*(nbool, scopeRegister&)> cl) {
+    template <typename T> T* me::_getOwner(const node* toFind, std::function<T*(nbool, scopeRegister&)> cl) {
         WHEN_NUL(toFind).ret(nullptr);
 
         [[maybe_unused]] const nchar* name = toFind->getType().getName().c_str();
         for(auto e = _stack.rbegin(); e != _stack.rend(); ++e) {
             auto& reg = *e;
             nbool has = reg.s->in(toFind);
-            BY_DI("`%s` is in `%s` scope? --> %s", name,
-                reg.owner ? reg.owner->getSrc().getName() : "{local}", has);
+            BY_DI("`%s` is in `%s` scope? --> %s", name, reg.owner ? reg.owner->getSrc().getName() : "{local}", has);
             T& ret = cl(has, reg) OR_CONTINUE;
             return &ret;
         }

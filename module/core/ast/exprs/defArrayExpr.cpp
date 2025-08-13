@@ -22,8 +22,7 @@ namespace by {
     }
 
     const baseObj* me::getArrayType() const {
-        return getOrigin().getType().getParams() TO(get(0)) TO(getOrigin())
-            TO(template as<baseObj>().get());
+        return getOrigin().getType().getParams() TO(get(0)) TO(getOrigin()) TO(template as<baseObj>().get());
     }
 
     const arr& me::getOrigin() const {
@@ -42,8 +41,7 @@ namespace by {
         BY_DI("deduceElems: len[%d]", len);
         WHEN(!len).info("len == 0. deduced type as 'void'").ret(nVoid::singleton());
 
-        str retLife =
-            _elems[0].getEval() OR.info("deduceElem: elem0 is null").ret(nVoid::singleton());
+        str retLife = _elems[0].getEval() OR.info("deduceElem: elem0 is null").ret(nVoid::singleton());
         const node* ret = retLife.get();
         str ased;
         for(int n = 1; n < len; n++) {

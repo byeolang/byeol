@@ -193,8 +193,7 @@ namespace by {
         while(_stack.size() > 0) {
             e.rel();
             BY_I("|--- %dth try: running %d expansions... ---|", ++n, _stack.size());
-            if(!_expandAll(
-                   e)) { // this func actually remove elements of _stack if the func consumes it.
+            if(!_expandAll(e)) { // this func actually remove elements of _stack if the func consumes it.
                 // ok. there is no change after running one loop, which means, I think that
                 // expander just found circular dependencies.
                 BY_E("* * *");

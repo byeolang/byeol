@@ -121,12 +121,9 @@ namespace by {
         void erase(const iterator& it);
         void erase(const iterator* it) BY_SIDE_FUNC(erase);
         void erase(const iterator& from, const iterator& to);
-        void erase(const iterator* from, const iterator& to)
-            BY_SIDE_FUNC(from, erase(*from, to), void());
-        void erase(const iterator& from, const iterator* to)
-            BY_SIDE_FUNC(to, erase(from, *to), void());
-        void erase(const iterator* from, const iterator* to)
-            BY_SIDE_FUNC(from&& to, erase(*from, *to), void());
+        void erase(const iterator* from, const iterator& to) BY_SIDE_FUNC(from, erase(*from, to), void());
+        void erase(const iterator& from, const iterator* to) BY_SIDE_FUNC(to, erase(from, *to), void());
+        void erase(const iterator* from, const iterator* to) BY_SIDE_FUNC(from&& to, erase(*from, *to), void());
 
         iterator find(const K& key) const;
 

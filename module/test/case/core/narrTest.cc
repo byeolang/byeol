@@ -44,8 +44,7 @@ namespace {
         BY_I(
             "[benchMarkNArr]: vector took total %d ms for adding(%dms) & removing(%dms) of %d "
             "elems.",
-            (nint64) (totalElapsed / chrono::milliseconds(1)),
-            (nint64) (addingElapsed / chrono::milliseconds(1)),
+            (nint64) (totalElapsed / chrono::milliseconds(1)), (nint64) (addingElapsed / chrono::milliseconds(1)),
             (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
 
         narr arr;
@@ -61,10 +60,8 @@ namespace {
         removingElapsed = end - startDeleting;
         totalElapsed = end - start;
 
-        BY_I(
-            "[benchMarkNArr]: narr took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
-            (nint64) (totalElapsed / chrono::milliseconds(1)),
-            (nint64) (addingElapsed / chrono::milliseconds(1)),
+        BY_I("[benchMarkNArr]: narr took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
+            (nint64) (totalElapsed / chrono::milliseconds(1)), (nint64) (addingElapsed / chrono::milliseconds(1)),
             (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
     }
 

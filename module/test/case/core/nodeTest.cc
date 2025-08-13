@@ -12,9 +12,7 @@ namespace {
         BY(ME(myFunc, func))
 
     public:
-        myFunc():
-            super(*new modifier(),
-                funcMgdType("myFunc", ttype<me>::get(), params(), false, new nVoid())) {}
+        myFunc(): super(*new modifier(), funcMgdType("myFunc", ttype<me>::get(), params(), false, new nVoid())) {}
 
         void setUp() { _executed = false; }
 

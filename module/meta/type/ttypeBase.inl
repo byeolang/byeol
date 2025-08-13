@@ -26,9 +26,7 @@ namespace by {
 
     TEMPL ncnt ME::size() const { return sizeof(T); }
 
-    TEMPL const type& ME::getSuper() const {
-        return ttype<typename tadaptiveSuper<T>::super>::get();
-    }
+    TEMPL const type& ME::getSuper() const { return ttype<typename tadaptiveSuper<T>::super>::get(); }
 
     TEMPL const nbool& ME::isInit() const {
         static nbool inner = typeid(T) == typeid(adam);

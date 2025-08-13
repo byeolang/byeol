@@ -8,8 +8,7 @@ namespace by {
 
     BY(DEF_ME(getGenericExpr), DEF_VISIT())
 
-    me::getGenericExpr(const std::string& genericName, const args& typeParams):
-        super(genericName, typeParams) {}
+    me::getGenericExpr(const std::string& genericName, const args& typeParams): super(genericName, typeParams) {}
 
     me::getGenericExpr(const node& me, const std::string& genericName, const args& typeParams):
         super(me, genericName, typeParams) {}
@@ -20,8 +19,7 @@ namespace by {
         WHEN(!typs.len()).err("_args.len() == 0").ret(nullptr);
         BY_DI("_name=%s, _args[%d]", getName(), typs.len());
 
-        node& generic =
-            me TO(template sub<genericOrigin>(name)) OR.err("generic == null").ret(nullptr);
+        node& generic = me TO(template sub<genericOrigin>(name)) OR.err("generic == null").ret(nullptr);
 
         return generic.run(getArgs()).get();
     }

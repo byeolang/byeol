@@ -39,8 +39,7 @@ namespace {
         auto totalElapsed = end - start;
 
         BY_I("[benchMarkNMap]: map took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
-            (nint64) (totalElapsed / chrono::milliseconds(1)),
-            (nint64) (addingElapsed / chrono::milliseconds(1)),
+            (nint64) (totalElapsed / chrono::milliseconds(1)), (nint64) (addingElapsed / chrono::milliseconds(1)),
             (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
 
 
@@ -57,10 +56,8 @@ namespace {
         removingElapsed = end - startDeleting;
         totalElapsed = end - start;
 
-        BY_I(
-            "[benchMarkNMap]: nmap took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
-            (nint64) (totalElapsed / chrono::milliseconds(1)),
-            (nint64) (addingElapsed / chrono::milliseconds(1)),
+        BY_I("[benchMarkNMap]: nmap took total %d ms for adding(%dms) & removing(%dms) of %d elems.",
+            (nint64) (totalElapsed / chrono::milliseconds(1)), (nint64) (addingElapsed / chrono::milliseconds(1)),
             (nint64) (removingElapsed / chrono::milliseconds(1)), sz);
     }
 
@@ -171,8 +168,7 @@ TEST_F(nmapTest, testucontainableAPI) {
     ASSERT_TRUE(hasSequentialValueOf(1, *con));
 
     {
-        tnarr<myNode> tray =
-            map1->getAll<myNode>([](const std::string&, const myNode& elem) { return true; });
+        tnarr<myNode> tray = map1->getAll<myNode>([](const std::string&, const myNode& elem) { return true; });
         ASSERT_EQ(tray.len(), 2);
 
         int cnt = 0;
@@ -368,8 +364,7 @@ TEST_F(nmapTest, testEach) {
     map1.each<nInt>([&](const std::string&, const nInt& elem) { return sum += elem.get(), true; });
     ASSERT_EQ(sum, 3);
 
-    auto arr2 = map1.getAll<nInt>(
-        [&](const std::string&, const auto& elem) -> nbool { return elem.get() > 1; });
+    auto arr2 = map1.getAll<nInt>([&](const std::string&, const auto& elem) -> nbool { return elem.get() > 1; });
     ASSERT_EQ(arr2.len(), 1);
     ASSERT_EQ(arr2[0].get(), 2);
 }

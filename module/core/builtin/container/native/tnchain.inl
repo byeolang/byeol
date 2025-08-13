@@ -88,13 +88,10 @@ namespace by {
 
     TEMPL
     nbool ME::del(const iter& from, const iter& last) {
-        WHEN(from.isReversed() != last.isReversed())
-            .exErr(ITERATORS_ARENT_SAME_DIRECTION)
-            .ret(false);
+        WHEN(from.isReversed() != last.isReversed()).exErr(ITERATORS_ARENT_SAME_DIRECTION).ret(false);
         const me* fromChain = (const me*) from.getContainer();
-        const me& lastChain = (const me*) last.getContainer()
-                                  OR.warn("iterator 'end' owned by null chain instance.")
-                                      .ret(false);
+        const me& lastChain =
+            (const me*) last.getContainer() OR.warn("iterator 'end' owned by null chain instance.").ret(false);
         const me* endChain = lastChain.getNext(); // now, endChain can be null but it's okay.
 
         me* e = (me*) fromChain;
@@ -113,9 +110,7 @@ namespace by {
     TEMPL
     nbool ME::link(const iter& portion) {
         ME& next = (ME*) (portion TO(getContainer())) OR.ret(false);
-        WHEN(&next == this)
-            .warn("recursive link detected for portion(%s).", (void*) &next)
-            .ret(false);
+        WHEN(&next == this).warn("recursive link detected for portion(%s).", (void*) &next).ret(false);
 
         _next = portion;
         // this's not reversed to portion iterator:
@@ -217,11 +212,9 @@ namespace by {
     ME* ME::getPrev() { return (ME*) _prev.getContainer(); }
 
     TEMPL
-    typename ME::iteration* ME::_onMakeIteration(const K* key, nbool isReversed, ncnt step,
-        nbool isBoundary) const {
+    typename ME::iteration* ME::_onMakeIteration(const K* key, nbool isReversed, ncnt step, nbool isBoundary) const {
         me* unconst = const_cast<me*>(this);
-        auto* ret = new nchainIteration(isReversed ? unconst->getTail() : unconst, key, isReversed,
-            isBoundary, true);
+        auto* ret = new nchainIteration(isReversed ? unconst->getTail() : unconst, key, isReversed, isBoundary, true);
         ret->next(step);
         ret->_setBoundary(isBoundary);
         return ret;

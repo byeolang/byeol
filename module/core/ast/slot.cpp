@@ -17,9 +17,7 @@ namespace by {
         _pak.bind(org);
     }
 
-    me::slot(const manifest& manifest, const obj& pack): _manifest(manifest), _isValid(true) {
-        _pak.bind(pack);
-    }
+    me::slot(const manifest& manifest, const obj& pack): _manifest(manifest), _isValid(true) { _pak.bind(pack); }
 
     scope& me::subs() { return getPack().subs(); }
 

@@ -3,8 +3,7 @@
 namespace by {
     BY(DEF_ME(src))
 
-    me::src(const srcFile& file, const std::string& name, const point& pos):
-        _file(file), _name(name), _pos(pos) {}
+    me::src(const srcFile& file, const std::string& name, const point& pos): _file(file), _name(name), _pos(pos) {}
 
     const srcFile* me::getFile() const { return _file.get(); }
 

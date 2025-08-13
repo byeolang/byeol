@@ -56,10 +56,8 @@
 //
 //        output:
 //            37
-#define _BY_EACH_TUPLE0(f, x, peek, ...) \
-    f x _BY_EACH_NEXT(peek, _BY_EACH_TUPLE1)(f, peek, __VA_ARGS__)
-#define _BY_EACH_TUPLE1(f, x, peek, ...) \
-    f x _BY_EACH_NEXT(peek, _BY_EACH_TUPLE0)(f, peek, __VA_ARGS__)
+#define _BY_EACH_TUPLE0(f, x, peek, ...) f x _BY_EACH_NEXT(peek, _BY_EACH_TUPLE1)(f, peek, __VA_ARGS__)
+#define _BY_EACH_TUPLE1(f, x, peek, ...) f x _BY_EACH_NEXT(peek, _BY_EACH_TUPLE0)(f, peek, __VA_ARGS__)
 #define BY_EACH_TUPLE(f, ...) BY_EVAL(_BY_EACH_TUPLE1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
 
 //    EACH macro for expanding:
@@ -70,17 +68,12 @@
 //
 //        output:
 //            678
-#define _BY_EACH_EXPAND0(f, s, x, peek, ...) \
-    f(s, x) _BY_EACH_NEXT(peek, _BY_EACH_EXPAND1)(f, s, peek, __VA_ARGS__)
-#define _BY_EACH_EXPAND1(f, s, x, peek, ...) \
-    f(s, x) _BY_EACH_NEXT(peek, _BY_EACH_EXPAND0)(f, s, peek, __VA_ARGS__)
-#define BY_EACH_EXPAND(f, ...) \
-    BY_EVAL(_BY_EACH_EXPAND1(f, s, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
+#define _BY_EACH_EXPAND0(f, s, x, peek, ...) f(s, x) _BY_EACH_NEXT(peek, _BY_EACH_EXPAND1)(f, s, peek, __VA_ARGS__)
+#define _BY_EACH_EXPAND1(f, s, x, peek, ...) f(s, x) _BY_EACH_NEXT(peek, _BY_EACH_EXPAND0)(f, s, peek, __VA_ARGS__)
+#define BY_EACH_EXPAND(f, ...) BY_EVAL(_BY_EACH_EXPAND1(f, s, __VA_ARGS__, ()()(), ()()(), ()()(), 0))
 
 //    Applies the function macro `f` to each of the remaining parameters and inserts commas between
 //    the results.
-#define _BY_EACH_LIST0(f, x, peek, ...) \
-    f(x) _BY_EACH_LIST_NEXT(peek, _BY_EACH_LIST1)(f, peek, __VA_ARGS__)
-#define _BY_EACH_LIST1(f, x, peek, ...) \
-    f(x) _BY_EACH_LIST_NEXT(peek, _BY_EACH_LIST0)(f, peek, __VA_ARGS__)
+#define _BY_EACH_LIST0(f, x, peek, ...) f(x) _BY_EACH_LIST_NEXT(peek, _BY_EACH_LIST1)(f, peek, __VA_ARGS__)
+#define _BY_EACH_LIST1(f, x, peek, ...) f(x) _BY_EACH_LIST_NEXT(peek, _BY_EACH_LIST0)(f, peek, __VA_ARGS__)
 #define BY_EACH_LIST(f, ...) BY_EVAL(_BY_EACH_LIST1(f, __VA_ARGS__, ()()(), ()()(), ()()(), 0))

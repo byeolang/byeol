@@ -101,8 +101,7 @@ namespace by {
             return ret;
         }
 
-        template <typename T>
-        static T* wrap(const super* it) BY_SIDE_FUNC(it, wrap<T>(*it), nullptr);
+        template <typename T> static T* wrap(const super* it) BY_SIDE_FUNC(it, wrap<T>(*it), nullptr);
 
         static me* wrap(const super& toShallowWrap);
         static me* wrap(const super* it) BY_SIDE_FUNC(wrap);
@@ -118,8 +117,7 @@ namespace by {
         me* cloneChain() const;
 
     protected:
-        iteration* _onMakeIteration(const K* key, nbool isReversed, ncnt step,
-            nbool isBoundary) const override;
+        iteration* _onMakeIteration(const K* key, nbool isReversed, ncnt step, nbool isBoundary) const override;
 
         void _getAll(const K& key, narr& tray) const override;
 

@@ -20,10 +20,8 @@ namespace by {
 
     manifest me::_interpManifest(const std::string& dir, const std::string& manPath) const {
         // TODO: open slot zip file -> extract manifest.leaf file -> interpret it & load values
-        tstr<leaf> loaded = leafParser()
-                                .parseFromFile(manPath)
-                                    OR.err("error to load %s: interpretion err", manPath)
-                                .ret(manifest());
+        tstr<leaf> loaded =
+            leafParser().parseFromFile(manPath) OR.err("error to load %s: interpretion err", manPath).ret(manifest());
         leaf& root = *loaded;
 
         std::string name = root["name"].asStr();
@@ -118,8 +116,7 @@ namespace by {
         for(entrypoint& point: mani.points) {
             packLoading* newLoading = _makeLoading(point.lang);
             if(!newLoading) {
-                BY_W("%s language not supported for loading %s slot.", mani.points[0].lang,
-                    mani.name);
+                BY_W("%s language not supported for loading %s slot.", mani.points[0].lang, mani.name);
                 continue;
             }
 

@@ -10,8 +10,7 @@ namespace by {
 
     me::nseq(const nInt& start, const nInt& end): _start(start), _end(end) { _updateStep(); }
 
-    me::nseq(const nInt& start, const nInt& end, const nInt& step):
-        _start(start), _end(end), _step(step) {}
+    me::nseq(const nInt& start, const nInt& end, const nInt& step): _start(start), _end(end), _step(step) {}
 
     nInt me::operator[](nidx n) { return get(n); }
 

@@ -23,8 +23,7 @@ PAIRX(OBJ_ALREADY_EXIST, "\'%s\' object already exists at %s")
 PAIRX(FUNC_DONT_HAVE_ME, "parameters of func not included 'me'")
 PAIRX(FUNC_REDIRECTED_OBJ, "all funcs should be redirected by object")
 PAIRX(MAIN_FUNC_RET_TYPE, "\'main\' func return type should be int or void")
-PAIRX(ALREADY_DEFINED_FUNC,
-    "same name and params of the func '%s' was already defined in this scope")
+PAIRX(ALREADY_DEFINED_FUNC, "same name and params of the func '%s' was already defined in this scope")
 PAIRX(ALREADY_DEFINED_IDENTIFIER, "same identifier of func '%s' was already defined in this scope")
 PAIRX(RETURN_VALUE_IS_NUL, "return value of %s() was null.")
 
@@ -45,8 +44,7 @@ PAIRX(NO_FUNC_REGISTERED, "there is no func info registering")
 // thread:
 PAIRX(THERE_IS_NO_FRAMES_IN_THREAD, "there is no frames in current thread.")
 PAIRX(FRAME_DOESNT_HAVE_OBJ_SCOPE, "current frame doesn't have any obj scope.")
-PAIRX(FRAME_DOESNT_HAVE_SCOPE_MATCHING_THIS_TYPE,
-    "current frame doesn't have proper scope matching to %s.")
+PAIRX(FRAME_DOESNT_HAVE_SCOPE_MATCHING_THIS_TYPE, "current frame doesn't have proper scope matching to %s.")
 
 // pack:
 PAIRX(PACK_ONLY_ALLOW_VAR_ACCESS, "variable path only allowed when you define a pack")
@@ -66,18 +64,14 @@ PAIRX(TYPE_NOT_EXIST, "when defines variable '%s', couldn't find the type of it.
 PAIRX(DONT_HAVE_CTOR, "%s's type doesn't have a constructor without parameter.")
 PAIRX(TYPE_NOT_DEDUCED, "type can't be deduced into meaningful one.")
 PAIRX(NO_VOID_CONTAINER, "you can't make a void container")
-PAIRX(TYPE_IS_NOT_PRE_EVALUATED,
-    "there is something wrong in pre-evaluation to define %s variable.")
-PAIRX(PROTECTED_NOT_ALLOWED_FOR_LOCAL,
-    "you can't declare 'protected' modifier for a local variable, %s")
-PAIRX(OVERRIDE_NOT_ALLOWED_FOR_LOCAL,
-    "you can't decalre 'explicit-override' for a local varaible, %s")
+PAIRX(TYPE_IS_NOT_PRE_EVALUATED, "there is something wrong in pre-evaluation to define %s variable.")
+PAIRX(PROTECTED_NOT_ALLOWED_FOR_LOCAL, "you can't declare 'protected' modifier for a local variable, %s")
+PAIRX(OVERRIDE_NOT_ALLOWED_FOR_LOCAL, "you can't decalre 'explicit-override' for a local varaible, %s")
 PAIRX(MODIFIER_NOT_FOUND, "parser didn't make a modifier for this symbol, %s")
 PAIRX(CANT_ACCESS_TO_PROTECTED_VARIABLE, "you can't access this %s variable. it's protected.")
 PAIRX(EXPLICIT_TYPE_SHOULDNT_BE_NULL, "explicit type shouldn't be null when you define it.")
 PAIRX(NO_VOID_VARIABLE, "you can't define a varaible as void type")
-PAIRX(SHORT_DEF_VAR_ONLY_ALLOWED_TO_CUSTOM_TYPE,
-    "short definition isn't allowed to array or primitive types")
+PAIRX(SHORT_DEF_VAR_ONLY_ALLOWED_TO_CUSTOM_TYPE, "short definition isn't allowed to array or primitive types")
 PAIRX(COULDNT_MAKE_INSTANCE_UNEXPECTEDLY, "couldn't make an instance unexpectedly")
 PAIRX(YOU_CANT_DEFINE_PROPERTY_WITH_ABSTRACT_FUNC, "you can't define property with abstract func")
 //  defSeq:
@@ -152,8 +146,7 @@ PAIRX(RET_ERR_ON_CTOR, "returning err on function not allowed")
 // closure:
 PAIRX(NOT_CAPTURED, "closure don't capture any scopes.")
 PAIRX(NOT_HAS_FUNC, "closure don't refer a func")
-PAIRX(CANT_RETURN_A_CLOSURE,
-    "it seems that you tried to return a closure of a func, but I couldn't")
+PAIRX(CANT_RETURN_A_CLOSURE, "it seems that you tried to return a closure of a func, but I couldn't")
 
 // block:
 PAIRX(RET_AT_MIDDLE_OF_BLOCK, "use 'ret' at last of block stmt.")

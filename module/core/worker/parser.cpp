@@ -92,10 +92,8 @@ namespace by {
         return ret;
     }
 
-    node* me::_onDefAssign(const modifier& mod, const node* type, const std::string& name,
-        const node* rhs) {
-        node* ret =
-            _maker.make<defAssignExpr>(name, type, rhs, nullptr, *_maker.makeSrc(name), mod);
+    node* me::_onDefAssign(const modifier& mod, const node* type, const std::string& name, const node* rhs) {
+        node* ret = _maker.make<defAssignExpr>(name, type, rhs, nullptr, *_maker.makeSrc(name), mod);
         BY_DI("tokenEvent: onDefAssign(%s, %s, %s, %s)", mod, type, name, rhs);
         return ret;
     }
@@ -109,16 +107,14 @@ namespace by {
     }
 
     nint me::onIndent(ncnt col, nint tok) {
-        BY_DI("tokenEvent: onIndent(col: %d, tok: %d) indents.size()=%d", col, tok,
-            _indents.size());
+        BY_DI("tokenEvent: onIndent(col: %d, tok: %d) indents.size()=%d", col, tok, _indents.size());
         _indents.push_back(col);
         _dispatcher.add(tok);
         return INDENT;
     }
 
     nint me::onDedent(ncnt col, nint tok) {
-        BY_DI("tokenEvent: onDedent(col: %d, tok: %d) indents.size()=%d", col, tok,
-            _indents.size());
+        BY_DI("tokenEvent: onDedent(col: %d, tok: %d) indents.size()=%d", col, tok, _indents.size());
 
         _indents.pop_back();
         nint now = _indents.back();
@@ -137,8 +133,8 @@ namespace by {
     }
 
     nint me::onTokenNewLine(nint tok) {
-        BY_DI("tokenEvent: onNewLine: _isIgnoreWhitespace=%s, _indents.size()=%d",
-            _isIgnoreWhitespace, _indents.size());
+        BY_DI("tokenEvent: onNewLine: _isIgnoreWhitespace=%s, _indents.size()=%d", _isIgnoreWhitespace,
+            _indents.size());
         if(!_isIgnoreWhitespace && _indents.size() >= 1) _dispatcher.add(SCAN_MODE_INDENT);
         _dedent.rel();
         return tok;
@@ -175,9 +171,7 @@ namespace by {
         obj* e = &getTask()->getPack();
 
         const std::string& realName = getTask()->getManifest().name;
-        WHEN(realName != firstName)
-            .exErr(PACK_NOT_MATCH, getReport(), firstName.c_str(), realName.c_str())
-            .ret(e);
+        WHEN(realName != firstName).exErr(PACK_NOT_MATCH, getReport(), firstName.c_str(), realName.c_str()).ret(e);
 
         // pack syntax rule #2:
         //  middle name automatically created if not exist.
@@ -228,8 +222,7 @@ namespace by {
             .exErr(PACK_NOT_MATCH, getReport(), manifest::DEFAULT_NAME, name.c_str())
             .ret(&newSlot.getPack());
 
-        return onSubPack(
-            newSlot.getPack()); // this is a default pack containing name as '{default}'.
+        return onSubPack(newSlot.getPack()); // this is a default pack containing name as '{default}'.
     }
 
     blockExpr* me::onBlock(const node* stmt) {
@@ -244,8 +237,7 @@ namespace by {
         WHEN_NUL(stmt).exErr(IS_NUL, getReport(), "stmt").ret(blk);
         [[maybe_unused]] func* f = _funcs.size() > 0 ? _funcs.back() : nullptr;
         str stmtLife(stmt);
-        BY_DI("tokenEvent: onBlock(blk, %s) inside of %s func", stmt,
-            f ? f->getSrc().getName() : "<null>");
+        BY_DI("tokenEvent: onBlock(blk, %s) inside of %s func", stmt, f ? f->getSrc().getName() : "<null>");
 
         WHEN(stmt->cast<endExpr>()).ret(blk);
 
@@ -275,8 +267,7 @@ namespace by {
         BY_DI("tokenEvent: onDefBlock(s, %s)", *stmt);
 
         WHEN(stmtRef.cast<endExpr>()).exErr(END_ONLY_BE_IN_A_FUNC, getReport()).ret(s);
-        defVarExpr& defVar = stmtRef.cast<defVarExpr>()
-                                 OR.ret(&sRef.addScope(stmtRef.getSrc().getName(), *stmtLife));
+        defVarExpr& defVar = stmtRef.cast<defVarExpr>() OR.ret(&sRef.addScope(stmtRef.getSrc().getName(), *stmtLife));
 
         // checks whether rhs was primitive type:
         //  if rhs isn't primitive, rhs will be getExpr type.
@@ -304,9 +295,8 @@ namespace by {
     node* me::onDefProp(const node& rhs) { return onDefProp(*_makeDefaultModifier(), rhs); }
 
     node* me::onDefProp(const modifier& mod, const node& rhs) {
-        const getExpr& cast = rhs.cast<getExpr>()
-                                  OR.myExErr(rhs, SHORT_DEF_VAR_ONLY_ALLOWED_TO_CUSTOM_TYPE)
-                                      .ret(nullptr);
+        const getExpr& cast =
+            rhs.cast<getExpr>() OR.myExErr(rhs, SHORT_DEF_VAR_ONLY_ALLOWED_TO_CUSTOM_TYPE).ret(nullptr);
         string newName = cast.getName();
         newName[0] = std::tolower(newName[0]);
         return onDefProp(mod, newName, rhs);
@@ -357,8 +347,8 @@ namespace by {
     }
 
     func* me::onFuncSignature(const modifier& mod, const getExpr& access, const node* retType) {
-        func* new1 = _maker.birth<func>(access.getName(), mod,
-            typeMaker::make<func>(_asParams(access.getArgs()), retType));
+        func* new1 =
+            _maker.birth<func>(access.getName(), mod, typeMaker::make<func>(_asParams(access.getArgs()), retType));
         _funcs.push_back(new1);
 
         BY_DI("tokenEvent: onFuncSignature(%s, access: %s(%d), retType:%s)", mod, access.getName(),
@@ -406,9 +396,8 @@ namespace by {
     }
 
     defNestedFuncExpr* me::onLambda(const narr& params, const node& retType, const blockExpr& blk) {
-        defNestedFuncExpr* ret = _maker.make<defNestedFuncExpr>(
-            *_maker.birth<func>(func::LAMBDA_NAME, *onModifier(true, false),
-                typeMaker::make<func>(_asParams(args(params)), &retType), blk));
+        defNestedFuncExpr* ret = _maker.make<defNestedFuncExpr>(*_maker.birth<func>(func::LAMBDA_NAME,
+            *onModifier(true, false), typeMaker::make<func>(_asParams(args(params)), &retType), blk));
         BY_DI("tokenEvent: onLambda(params:%d, retType:%s)", params.len(), retType);
         return ret;
     }
@@ -419,9 +408,7 @@ namespace by {
         return ret;
     }
 
-    ctor* me::onCtor(const narr& a, const blockExpr& blk) {
-        return onCtor(*new modifier(), a, blk);
-    }
+    ctor* me::onCtor(const narr& a, const blockExpr& blk) { return onCtor(*new modifier(), a, blk); }
 
     ctor* me::onCtor(const modifier& mod, const blockExpr& blk) { return onCtor(mod, narr(), blk); }
 
@@ -450,8 +437,7 @@ namespace by {
     }
 
     modifier* me::onModifier(nbool isPublic, nbool isExplicitOverriden) {
-        BY_DI("tokenEvent: onModifier(isPublic[%s], isExplicitOverriden[%s])", isPublic,
-            isExplicitOverriden);
+        BY_DI("tokenEvent: onModifier(isPublic[%s], isExplicitOverriden[%s])", isPublic, isExplicitOverriden);
         return new modifier{isPublic, isExplicitOverriden};
     }
 
@@ -518,9 +504,7 @@ namespace by {
         return &params;
     }
 
-    obj* me::onDefOrigin(const std::string& name, defBlock& blk) {
-        return onDefOrigin(name, narr(), blk);
-    }
+    obj* me::onDefOrigin(const std::string& name, defBlock& blk) { return onDefOrigin(name, narr(), blk); }
 
     obj* me::onDefOrigin(const std::string& name, const narr& a, defBlock& blk) {
         args* newArgs = new args(a);
@@ -530,8 +514,8 @@ namespace by {
         origin& ret = *_maker.birth<origin>(name, typeMaker::make<obj>(name), *_subpack);
         switch(util::checkTypeAttr(name)) {
             case ATTR_COMPLETE: // newArgs.len() can be 0.
-                ret.setCallComplete(*_maker.make<runExpr>(&ret,
-                    *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
+                ret.setCallComplete(
+                    *_maker.make<runExpr>(&ret, *_maker.make<getExpr>(baseObj::CTOR_NAME, *newArgs), *newArgs));
                 break;
 
             case ATTR_INCOMPLETE:
@@ -560,8 +544,7 @@ namespace by {
             // all args should be getExpr instances.
             const std::string& name = _extractParamTypeName(a);
             if(name == "")
-                BY_WHEN.exErr(SHOULD_TYPE_PARAM_NAME, getReport(), a.getType())
-                    .ret(std::vector<std::string>());
+                BY_WHEN.exErr(SHOULD_TYPE_PARAM_NAME, getReport(), a.getType()).ret(std::vector<std::string>());
 
             ret.push_back(name);
         }
@@ -571,9 +554,8 @@ namespace by {
 
     std::vector<string> me::_toDotnames(const node& path) {
         std::vector<string> ret;
-        const getExpr& start = path.cast<getExpr>()
-                                   OR.exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport())
-                                       .ret(std::vector<string>());
+        const getExpr& start =
+            path.cast<getExpr>() OR.exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
         const auto* iter = &start;
 
         do {
@@ -582,23 +564,19 @@ namespace by {
             WHEN_NUL(next).ret(ret);
 
             iter = next->cast<getExpr>();
-            WHEN_NUL(iter)
-                .exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport())
-                .ret(std::vector<string>());
+            WHEN_NUL(iter).exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
         } while(true);
     }
 
-    genericOrigin* me::onDefObjGeneric(const std::string& name, const args& typeParams,
-        defBlock& blk) {
+    genericOrigin* me::onDefObjGeneric(const std::string& name, const args& typeParams, defBlock& blk) {
         return onDefObjGeneric(name, typeParams, narr(), blk);
     }
 
-    genericOrigin* me::onDefObjGeneric(const std::string& name, const args& typeParams,
-        const narr& a, defBlock& blk) {
+    genericOrigin* me::onDefObjGeneric(const std::string& name, const args& typeParams, const narr& a, defBlock& blk) {
         args* newArgs = new args(a);
         std::string argNames = _joinVectorString(_extractParamTypeNames(*newArgs));
-        BY_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], args[%s], defBlock[%s]", name,
-            typeParams.len(), argNames, &blk);
+        BY_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], args[%s], defBlock[%s]", name, typeParams.len(), argNames,
+            &blk);
 
         nbool isConcerete = util::checkTypeAttr(name) == ATTR_COMPLETE;
         origin& org = *_maker.birth<origin>(name,
@@ -647,12 +625,10 @@ namespace by {
 
         // link system slots:
         subpack.getShares().link(scope::wrap(thread::get().getSlots()));
-        BY_DI("link system slots[%d]: len=%d", thread::get().getSlots().len(),
-            subpack.subs().len());
+        BY_DI("link system slots[%d]: len=%d", thread::get().getSlots().len(), subpack.subs().len());
 
         // at this far, subpack must have at least 1 default ctor created just before:
-        BY_DI("tokenEvent: onCompilationUnit: run preconstructor(%d lines)",
-            blk.getExpands().len());
+        BY_DI("tokenEvent: onCompilationUnit: run preconstructor(%d lines)", blk.getExpands().len());
         subpack.run(baseObj::CTOR_NAME); // don't need argument. it's default ctor.
     }
 
@@ -704,16 +680,12 @@ namespace by {
         //      hasCtor must be false.
         ncnt len = ctors.len();
         nbool hasCtor = len > 1 || (len == 1 && !hasCopyCtor);
-        BY_DI("tokenEvent: _onInjectDefaultCtor(%s, hasCtor=%s, hasCopyCtor=%s)", &it, hasCtor,
-            hasCopyCtor);
+        BY_DI("tokenEvent: _onInjectDefaultCtor(%s, hasCtor=%s, hasCopyCtor=%s)", &it, hasCtor, hasCopyCtor);
 
         // TODO: ctor need to call superclass's ctor.
-        if(!hasCtor)
-            it.getShares().getContainer().add(baseObj::CTOR_NAME,
-                *_maker.make<defaultCtor>(it.getOrigin()));
+        if(!hasCtor) it.getShares().getContainer().add(baseObj::CTOR_NAME, *_maker.make<defaultCtor>(it.getOrigin()));
         if(!hasCopyCtor)
-            it.getShares().getContainer().add(baseObj::CTOR_NAME,
-                *_maker.make<defaultCopyCtor>(it.getOrigin()));
+            it.getShares().getContainer().add(baseObj::CTOR_NAME, *_maker.make<defaultCopyCtor>(it.getOrigin()));
 
         // add postpones & common:
         //  if there is no postpones, add() will just return false.
@@ -760,40 +732,35 @@ namespace by {
     node* me::onGet(node& from, const std::string& name) { return onGet(from, *onGet(name)); }
 
     node* me::onGet(node& from, node& it) {
-        getExpr& cast = it.cast<getExpr>()
-                            OR.exErr(IDENTIFIER_ONLY, getReport(), it.getType().getName().c_str())
-                                .ret(&from);
+        getExpr& cast =
+            it.cast<getExpr>() OR.exErr(IDENTIFIER_ONLY, getReport(), it.getType().getName().c_str()).ret(&from);
 
         cast.setMe(from);
         BY_DI("tokenEvent: onGet(%s, %s)", from, cast.getName());
         return &cast;
     }
 
-    node* me::onGet(const std::string& name, const std::string& name2) {
-        return onGet(*onGet(name), *onGet(name2));
-    }
+    node* me::onGet(const std::string& name, const std::string& name2) { return onGet(*onGet(name), *onGet(name2)); }
 
     node* me::onCallAccess(node& it, const narr& as) {
         // it can be generic or primitive values. track it, leave as specific errs.
-        getExpr& cast = it.cast<getExpr>()
-                            OR.exErr(IDENTIFIER_ONLY, getReport(), it.getType().getName().c_str())
-                                .ret(new getExpr(""));
+        getExpr& cast = it.cast<getExpr>() OR.exErr(IDENTIFIER_ONLY, getReport(), it.getType().getName().c_str())
+                            .ret(new getExpr(""));
 
         cast.setArgs(*new args(as));
         return &cast;
     }
 
     node* me::onGetArray(node& elemType) {
-        if(elemType.isSub<nVoid>())
-            _report(nerr::newErr(elemType.getSrc().getPos(), ELEM_TYPE_NOT_VOID));
+        if(elemType.isSub<nVoid>()) _report(nerr::newErr(elemType.getSrc().getPos(), ELEM_TYPE_NOT_VOID));
         node* ret = new arr(elemType);
         BY_DI("tokenEvent: onGetArray(%s)", elemType);
         return ret;
     }
 
     node* me::onGetElem(const node& arr, const node& idx) {
-        node* ret = _maker.make<runExpr>(&arr,
-            *_maker.make<getExpr>(arr, "get", *new args(narr(idx))), args(narr(idx)));
+        node* ret =
+            _maker.make<runExpr>(&arr, *_maker.make<getExpr>(arr, "get", *new args(narr(idx))), args(narr(idx)));
         BY_DI("tokenEvent: onGetElem(%s, %s)", arr, idx);
         return ret;
     }
@@ -873,8 +840,7 @@ namespace by {
         runExpr* cast = lhs.cast<runExpr>();
         if(cast) {
             auto* name = cast->getSubj() TO(template cast<getExpr>()) TO(getName());
-            if(name && *name == "get")
-                return _onConvertAssignElem(*cast, *_maker.make<FBOExpr>(type, lhs, rhs));
+            if(name && *name == "get") return _onConvertAssignElem(*cast, *_maker.make<FBOExpr>(type, lhs, rhs));
         }
 
         node* ret = onAssign(lhs, *_maker.make<FBOExpr>(type, *(node*) lhs.clone(), rhs));
@@ -1151,8 +1117,7 @@ namespace by {
     }
 
     runExpr* me::onIn(const node& it, const node& container) {
-        runExpr* ret =
-            _maker.make<runExpr>(&container, *_maker.make<getExpr>("in"), args(nullptr, narr(it)));
+        runExpr* ret = _maker.make<runExpr>(&container, *_maker.make<getExpr>("in"), args(nullptr, narr(it)));
         BY_DI("tokenEvent: onIn(%s, %s)", it, container);
         return ret;
     }

@@ -34,14 +34,12 @@ namespace by {
 #if defined(BY_BUILD_PLATFORM_IS_LINUX) || defined(BY_BUILD_PLATFORM_IS_MAC)
         namespace {
             bool _isAnsiColorTerminal() {
-                static vector<const nchar*> samples = {"xterm", "rxvt", "vt100", "linux", "screen",
-                    "tmux"};
+                static vector<const nchar*> samples = {"xterm", "rxvt", "vt100", "linux", "screen", "tmux"};
                 if(!getenv("TERM")) return false;
                 string var = getenv("TERM");
 
-                return find_if(samples.begin(), samples.end(), [&](const string& e) {
-                    return var.find(e) != string::npos;
-                }) != samples.end();
+                return find_if(samples.begin(), samples.end(),
+                           [&](const string& e) { return var.find(e) != string::npos; }) != samples.end();
             }
         }
 #endif
@@ -89,7 +87,7 @@ namespace by {
             static vector<string> backs = {
                 "\x1B[0;40m", "\x1B[0;44m", "\x1B[0;42m", "\x1B[0;46m", // black, blue, green, cyan
                 "\x1B[0;41m", "\x1B[0;45m", "\x1B[0;43m",
-                "\x1B[0;47m", // red, purple, yellow, white
+                "\x1B[0;47m",                                           // red, purple, yellow, white
                 "\x1B[1;40m", "\x1B[1;44m", "\x1B[1;42m", "\x1B[1;46m", // black, blue, green, cyan
                 "\x1B[1;41m", "\x1B[1;45m", "\x1B[1;43m",
                 "\x1B[1;47m", // red, purple, yellow, white
@@ -239,12 +237,9 @@ namespace by {
 
         constexpr nint MAX_BUF = 512;
 
-        std::string format(const std::string& fmt, va_list args) {
-            return format(fmt.c_str(), args);
-        }
+        std::string format(const std::string& fmt, va_list args) { return format(fmt.c_str(), args); }
 
-        std::string format(const std::string* fmt, va_list args)
-            BY_SIDE_FUNC(fmt, format(*fmt, args), std::string());
+        std::string format(const std::string* fmt, va_list args) BY_SIDE_FUNC(fmt, format(*fmt, args), std::string());
 
         std::string format(const nchar* fmt, va_list args) {
             nchar buf[MAX_BUF] = {
@@ -266,8 +261,7 @@ namespace by {
 
         void crash(const std::string& msg, va_list args) { crash(format(msg, args)); }
 
-        void crash(const std::string* msg, va_list args)
-            BY_SIDE_FUNC(msg, crash(*msg, args), void());
+        void crash(const std::string* msg, va_list args) BY_SIDE_FUNC(msg, crash(*msg, args), void());
 
         void crash(const std::string& msg) {
             log(" * * * Interpreter CRASH * * *\n");

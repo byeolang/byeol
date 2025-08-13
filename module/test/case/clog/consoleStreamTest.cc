@@ -57,8 +57,7 @@ TEST_F(consoleStreamTest, logFormat) {
     logger::get().logFormatBypass(
         "%s %s <%s::%s#%d> "
         "hello",
-        by::platformAPI::createNowTime("%b %d %Y  %X").c_str(), "I", __FILENAME__, __func__,
-        __LINE__);
+        by::platformAPI::createNowTime("%b %d %Y  %X").c_str(), "I", __FILENAME__, __func__, __LINE__);
 
     ASSERT_TRUE(thisTest::hasLogFile());
 }
@@ -80,6 +79,4 @@ TEST_F(consoleStreamTest, debugLogFormat) {
     ASSERT_EQ(isDbg, thisTest::hasLogFile());
 }
 
-TEST_F(consoleStreamTest, richLogTest) {
-    richLog(errLv::INFO, "filename", "func", 1, "%s.%s\n", nInt(1), obj());
-}
+TEST_F(consoleStreamTest, richLogTest) { richLog(errLv::INFO, "filename", "func", 1, "%s.%s\n", nInt(1), obj()); }

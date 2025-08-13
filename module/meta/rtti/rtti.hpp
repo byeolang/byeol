@@ -52,13 +52,11 @@ namespace by {
         static inline constexpr nbool is = false;
     };
 
-    template <typename T>
-    struct tifHasSuperTypedef<T, typename taEmptyCan<typename T::super>::is>: public metaIf {
+    template <typename T> struct tifHasSuperTypedef<T, typename taEmptyCan<typename T::super>::is>: public metaIf {
         static inline constexpr nbool is = true;
     };
 
-    template <typename T, nbool typedefsuper = tifHasSuperTypedef<T>::is>
-    struct tadaptiveSuper: metaIf {
+    template <typename T, nbool typedefsuper = tifHasSuperTypedef<T>::is> struct tadaptiveSuper: metaIf {
         typedef adam super;
     };
 
@@ -107,8 +105,7 @@ namespace by {
         static inline constexpr nbool is = false;
     };
 
-    template <typename T>
-    struct tifHasMetaTypeDef<T, typename taEmptyCan<typename T::metaType>::is>: public metaIf {
+    template <typename T> struct tifHasMetaTypeDef<T, typename taEmptyCan<typename T::metaType>::is>: public metaIf {
         static inline constexpr nbool is = true;
     };
 
@@ -120,6 +117,5 @@ namespace by {
         using is = typename T::metaType;
     };
 
-    template <typename T, typename... Es>
-    using areBaseOfT = std::conjunction<std::is_base_of<T, Es>...>;
+    template <typename T, typename... Es> using areBaseOfT = std::conjunction<std::is_base_of<T, Es>...>;
 } // namespace by

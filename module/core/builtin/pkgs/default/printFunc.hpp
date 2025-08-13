@@ -11,8 +11,7 @@ namespace by {
 
     public:
         const ntype& getType() const override {
-            static mgdType inner("print", ttype<me>::get(), params(*new param("msg", new T())),
-                false, new T());
+            static mgdType inner("print", ttype<me>::get(), params(*new param("msg", new T())), false, new T());
             return inner;
         }
 
@@ -31,9 +30,7 @@ namespace by {
 
             const node& org = ps[0].getOrigin();
             tstr<T> evaluated = a[0].asImpli(*org.as<T>());
-            WHEN(!evaluated)
-                .err("evaluation of arg[%s] -> param[%s] has been failed.", a[0], org)
-                .ret(str());
+            WHEN(!evaluated).err("evaluation of arg[%s] -> param[%s] has been failed.", a[0], org).ret(str());
 
             std::cout << evaluated->get();
             return evaluated;

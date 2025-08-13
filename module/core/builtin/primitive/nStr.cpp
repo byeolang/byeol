@@ -113,8 +113,8 @@ namespace by {
 
         public:
             const ntype& getType() const override {
-                static mgdType inner("iterate", ttype<me>::get(),
-                    params(*new param("step", *new nInt())), false, new mgdIter(nullptr));
+                static mgdType inner("iterate", ttype<me>::get(), params(*new param("step", *new nInt())), false,
+                    new mgdIter(nullptr));
                 return inner;
             }
 
@@ -122,16 +122,12 @@ namespace by {
 
             str run(const args& a) override {
                 const params& ps = getParams();
-                WHEN(a.len() != ps.len())
-                    .warn("a.len(%d) != ps.len(%d)", a.len(), ps.len())
-                    .ret(str());
-                nStr& me =
-                    a.getMe() TO(template cast<nStr>()) OR.err("me as nStr == null").ret(str());
+                WHEN(a.len() != ps.len()).warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
+                nStr& me = a.getMe() TO(template cast<nStr>()) OR.err("me as nStr == null").ret(str());
 
-                str eval =
-                    a[0].as(ps[0].getOrigin().as<node>())
-                        OR.err("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0])
-                            .ret(str());
+                str eval = a[0].as(ps[0].getOrigin().as<node>())
+                               OR.err("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0])
+                                   .ret(str());
 
                 nint step = eval->cast<nint>() OR.err("eval is not nint").ret(str());
                 return new mgdIter(new niter(me.iterate(step)));
@@ -271,9 +267,7 @@ namespace by {
     }
 
     /// @param end is exclusive.
-    tstr<nStr> me::substr(nint start, nint end) {
-        return tstr<nStr>(new nStr(get().substr(start, end - start)));
-    }
+    tstr<nStr> me::substr(nint start, nint end) { return tstr<nStr>(new nStr(get().substr(start, end - start))); }
 
     nbool me::in(nidx n) const { return 0 <= n && n < get().size(); }
 

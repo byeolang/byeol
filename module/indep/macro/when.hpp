@@ -107,9 +107,7 @@ namespace by {
 
         template <typename T> tmay<T> retMay() const { return tmay<T>(); }
 
-        template <typename T, typename... Ts> tmay<T> retMay(Ts... args) const {
-            return tmay<T>(args...);
-        }
+        template <typename T, typename... Ts> tmay<T> retMay(Ts... args) const { return tmay<T>(args...); }
 
         void crash() const;
 

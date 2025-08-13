@@ -7,8 +7,7 @@
 
 namespace by {
 
-    template <typename K, typename V, typename TACTIC = strTactic>
-    class tnmap: public tnbicontainer<K, V> {
+    template <typename K, typename V, typename TACTIC = strTactic> class tnmap: public tnbicontainer<K, V> {
         typedef tnbicontainer<K, V> _super_;
         BY(CLASS(tnmap, _super_))
 
@@ -57,8 +56,7 @@ namespace by {
         void onCloneDeep(const clonable& from) override;
 
     protected:
-        iteration* _onMakeIteration(const K* key, nbool isReversed, ncnt step,
-            nbool isBoundary) const override;
+        iteration* _onMakeIteration(const K* key, nbool isReversed, ncnt step, nbool isBoundary) const override;
 
         void _getAll(const K& key, narr& tray) const override;
 

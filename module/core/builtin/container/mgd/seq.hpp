@@ -8,9 +8,7 @@ namespace by {
 
     typedef class _nout tbridge<nseq> __seqSuperClass;
 
-    class _nout seq: public __seqSuperClass,
-                     public tucontainable<nInt, nInt, nInt>,
-                     tarrayable<nInt, nInt, nInt> {
+    class _nout seq: public __seqSuperClass, public tucontainable<nInt, nInt, nInt>, tarrayable<nInt, nInt, nInt> {
         // seq uses wrapType:
         //  wrapType contains beanType as 'const type*' instance variable. so user should be
         //  careful when calling ttype<arr>. because it will also return wrapType instance

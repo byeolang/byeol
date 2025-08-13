@@ -6,8 +6,7 @@ namespace by {
 
     BY(DEF_ME(FBOExpr), DEF_VISIT())
 
-    me::FBOExpr(symbol s, const node& lhs, const node& rhs):
-        _symbol(s), _lhs(str(lhs)), _rhs(str(rhs)) {}
+    me::FBOExpr(symbol s, const node& lhs, const node& rhs): _symbol(s), _lhs(str(lhs)), _rhs(str(rhs)) {}
 
     str me::getEval() const {
         static str inner(new nBool());
@@ -20,9 +19,7 @@ namespace by {
         return lhsEval->deduce(*rhsEval);
     }
 
-    nbool me::isLogicalOp() const {
-        return SYMBOL_LOGIC_START <= _symbol && _symbol < SYMBOL_LOGIC_END;
-    }
+    nbool me::isLogicalOp() const { return SYMBOL_LOGIC_START <= _symbol && _symbol < SYMBOL_LOGIC_END; }
 
     str me::run(const args& a) {
         tstr<arithmeticObj> lhs(_lhs TO(template as<arithmeticObj>()));

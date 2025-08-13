@@ -33,8 +33,7 @@ namespace by {
         // get:
         template <typename T1> T1* get(std::function<nbool(const T1&)> l);
         R get(std::function<nbool(const T&)> l);
-        template <typename T1>
-        const T1* get(std::function<nbool(const T1&)> l) const BY_CONST_FUNC(get(l))
+        template <typename T1> const T1* get(std::function<nbool(const T1&)> l) const BY_CONST_FUNC(get(l))
         const R get(std::function<nbool(const T&)> l) const BY_CONST_FUNC(get(l))
 
         template <typename T1> tnarr<T1, strTactic> getAll(std::function<nbool(const T1&)> l) const;
@@ -42,8 +41,7 @@ namespace by {
 
         template <typename T1> void each(std::function<nbool(T1&)> l);
         void each(std::function<nbool(T&)> l);
-        template <typename T1>
-        void each(std::function<nbool(const T1&)> l) const BY_CONST_FUNC(each(l))
+        template <typename T1> void each(std::function<nbool(const T1&)> l) const BY_CONST_FUNC(each(l))
         void each(std::function<nbool(const T&)> l) const BY_CONST_FUNC(each(l))
 
         // iter:
@@ -78,8 +76,7 @@ namespace by {
         void add(const me* rhs) BY_SIDE_FUNC(rhs, add(*rhs), void());
 
         template <typename E>
-        ncnt add(const typename tucontainable<E>::iter& from,
-            const typename tucontainable<E>::iter& to) {
+        ncnt add(const typename tucontainable<E>::iter& from, const typename tucontainable<E>::iter& to) {
             static_assert(areBaseOfT<T, E>::value, "given type 'E' is not subtype of 'T'");
             int ret = 0;
             for(auto e = from; e != to; ++e)
@@ -87,9 +84,7 @@ namespace by {
             return ret;
         }
 
-        template <typename E> ncnt add(const tucontainable<E>& rhs) {
-            return add(rhs.begin(), rhs.end());
-        }
+        template <typename E> ncnt add(const tucontainable<E>& rhs) { return add(rhs.begin(), rhs.end()); }
 
         template <typename K, typename V> ncnt add(const tbicontainable<K, V>& rhs);
 

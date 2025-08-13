@@ -77,8 +77,7 @@ namespace {
     }
 
     template <typename T = myNode>
-    static nbool isMyNodesHasEqualIntArray(const tnchain<float, myNode>& root, float expects[],
-        int expectSize) {
+    static nbool isMyNodesHasEqualIntArray(const tnchain<float, myNode>& root, float expects[], int expectSize) {
         vector<float> actuals;
         for(const auto& elem: root)
             if(elem.isSub<T>()) actuals.push_back((float) elem.number);
@@ -123,8 +122,7 @@ TEST_F(nchainTest, testucontainableAPI) {
 
     //  get & each:
     {
-        tnarr<myNode> tray =
-            arr->getAll<myNode>([](const std::string& name, const myNode& elem) { return true; });
+        tnarr<myNode> tray = arr->getAll<myNode>([](const std::string& name, const myNode& elem) { return true; });
         ASSERT_EQ(tray.len(), 2);
 
         int cnt = 0;
@@ -360,8 +358,7 @@ TEST_F(nchainTest, testcloneDeep) {
     ASSERT_EQ(chn["2"].cast<myNode>()->number, 2);
     ASSERT_EQ(chn["3"].cast<myNode>()->number, 3);
 
-    tstr<nchain> it(
-        (nchain*) chn.cloneDeep()); // cloneDeep() clones all element in all chained container.
+    tstr<nchain> it((nchain*) chn.cloneDeep()); // cloneDeep() clones all element in all chained container.
     nchain& itsChn = *it;
     ASSERT_EQ(itsChn["0"].cast<myNode>()->number, 0);
     ASSERT_EQ(itsChn["1"].cast<myNode>()->number, 1);
@@ -1019,8 +1016,7 @@ TEST_F(nchainTest, complexLinkTest) {
     // [meat -> banana -> pumpkin] -> [banana -> apple] -> [melon -> strawberry]
 
     {
-        std::string expectKeys[] = {"meat", "banana", "pumpkin", "banana", "apple", "melon",
-            "strawberry"};
+        std::string expectKeys[] = {"meat", "banana", "pumpkin", "banana", "apple", "melon", "strawberry"};
         int expects[] = {1, 2, 10, 4, 3, 7, 9};
         int n = 0;
         ASSERT_EQ(m.len(), 7);
@@ -1031,8 +1027,7 @@ TEST_F(nchainTest, complexLinkTest) {
     }
 
     {
-        std::string expectKeys[] = {"strawberry", "melon", "apple", "banana", "pumpkin", "banana",
-            "meat"};
+        std::string expectKeys[] = {"strawberry", "melon", "apple", "banana", "pumpkin", "banana", "meat"};
         int expects[] = {9, 7, 3, 4, 10, 2, 1};
         int n = 0;
         for(auto e = m.rbegin(); e; ++e) {

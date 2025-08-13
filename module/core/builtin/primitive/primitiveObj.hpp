@@ -18,9 +18,7 @@ namespace by {
             BY(CLASS(asPrimitive, tas<E>))
 
         public:
-            str as(const node& me, const type& to) const override {
-                return str(new E(*me.cast<RAW>()));
-            }
+            str as(const node& me, const type& to) const override { return str(new E(*me.cast<RAW>())); }
         };
 
     public:

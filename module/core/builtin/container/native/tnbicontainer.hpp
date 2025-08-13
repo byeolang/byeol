@@ -4,8 +4,7 @@
 
 namespace by {
 
-    template <typename K, typename V>
-    class tnbicontainer: public instance, public tbicontainable<K, V> {
+    template <typename K, typename V> class tnbicontainer: public instance, public tbicontainable<K, V> {
         BY(ADT(tnbicontainer, instance))
     };
 

@@ -47,8 +47,8 @@ namespace by {
 
         public:
             const ntype& getType() const override {
-                static mgdType inner("iterate", ttype<me>::get(),
-                    params(*new param("step", *new nInt())), false, new mgdIter(nullptr));
+                static mgdType inner("iterate", ttype<me>::get(), params(*new param("step", *new nInt())), false,
+                    new mgdIter(nullptr));
                 return inner;
             }
 
@@ -56,15 +56,11 @@ namespace by {
 
             str run(const args& a) override {
                 const params& ps = getParams();
-                WHEN(a.len() != ps.len())
-                    .warn("a.len(%d) != ps.len(%d)", a.len(), ps.len())
-                    .ret(str());
-                arr& meObj =
-                    a.getMe() TO(template cast<arr>()) OR.err("meObj as arr == null").ret(str());
-                str eval =
-                    a[0].as(ps[0].getOrigin())
-                        OR.err("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0])
-                            .ret(str());
+                WHEN(a.len() != ps.len()).warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
+                arr& meObj = a.getMe() TO(template cast<arr>()) OR.err("meObj as arr == null").ret(str());
+                str eval = a[0].as(ps[0].getOrigin())
+                               OR.err("evaluation of arg[%s] -> param[%s] has been failed", a[0], ps[0])
+                                   .ret(str());
 
                 nint step = *eval->cast<nint>();
                 return new mgdIter(new niter(meObj.get().iterate(step)));
@@ -75,8 +71,7 @@ namespace by {
             BY(ME(getElemTypeFunc, baseFunc), CLONE(getElemTypeFunc))
 
         public:
-            getElemTypeFunc():
-                _type("getElemType", ttype<me>::get(), params(), false, new getExpr(TYPENAME)) {}
+            getElemTypeFunc(): _type("getElemType", ttype<me>::get(), params(), false, new getExpr(TYPENAME)) {}
 
         public:
             const ntype& getType() const override { return _type; }
@@ -92,9 +87,7 @@ namespace by {
         const static std::string paramName = "typeParam";
     } // namespace
 
-    me::arr():
-        super(new narr()),
-        _type("arr", ttype<me>::get(), params(*new param(paramName, *new obj()))) {}
+    me::arr(): super(new narr()), _type("arr", ttype<me>::get(), params(*new param(paramName, *new obj()))) {}
 
     me::arr(const node& newType):
         super(new narr()), _type("arr", ttype<me>::get(), params(*new param(paramName, newType))) {}
@@ -189,8 +182,8 @@ namespace by {
 
         public:
             const ntype& getType() const override {
-                static mgdType inner("copyctor", ttype<me>::get(),
-                    params(*new param("rhs", _org.get())), false, _org.get());
+                static mgdType inner("copyctor", ttype<me>::get(), params(*new param("rhs", _org.get())), false,
+                    _org.get());
                 return inner;
             }
 
@@ -210,8 +203,7 @@ namespace by {
         scope* clone = (scope*) _getOriginScope().cloneDeep();
         _cache.insert({&paramOrg, clone}); // this avoids infinite loop.
         clone->add(baseObj::CTOR_NAME,
-            new tbridgeClosure<arr*, arr, tmarshaling>(
-                [&paramOrg](arr&) -> arr* { return new me(paramOrg); }));
+            new tbridgeClosure<arr*, arr, tmarshaling>([&paramOrg](arr&) -> arr* { return new me(paramOrg); }));
         clone->add(baseObj::CTOR_NAME, new __copyCtor(paramOrg));
         clone->add("getElemType", new getElemTypeFunc());
 

@@ -5,19 +5,14 @@ namespace by {
     BY(DEF_ME(verLeaf))
 
     me::verLeaf(int major, int minor, int fix):
-        super(std::to_string(major) + DELIMITER + std::to_string(minor) + DELIMITER +
-            std::to_string(fix)),
+        super(std::to_string(major) + DELIMITER + std::to_string(minor) + DELIMITER + std::to_string(fix)),
         _maj(major),
         _min(minor),
         _fix(fix) {}
 
-    me::verLeaf(const std::string& verStr): super(verStr), _maj(0), _min(0), _fix(0) {
-        _parseVerStr(verStr);
-    }
+    me::verLeaf(const std::string& verStr): super(verStr), _maj(0), _min(0), _fix(0) { _parseVerStr(verStr); }
 
-    me::verLeaf(const nchar* verStr): super(verStr), _maj(0), _min(0), _fix(0) {
-        _parseVerStr(std::string(verStr));
-    }
+    me::verLeaf(const nchar* verStr): super(verStr), _maj(0), _min(0), _fix(0) { _parseVerStr(std::string(verStr)); }
 
     nbool me::operator>(const me& rhs) const {
         nint res = _isFromBigger(_maj, rhs._maj);

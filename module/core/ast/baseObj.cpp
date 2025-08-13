@@ -35,9 +35,7 @@ namespace by {
 
     void me::setState(state new1) {}
 
-    priorType me::prioritize(const args& a) const {
-        return subAll<baseFunc>(baseObj::CTOR_NAME, a).getPriorType();
-    }
+    priorType me::prioritize(const args& a) const { return subAll<baseFunc>(baseObj::CTOR_NAME, a).getPriorType(); }
 
     const baseObj& me::getOrigin() const { return _org ? *_org : *this; }
 
