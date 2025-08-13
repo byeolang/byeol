@@ -13,12 +13,14 @@ TEST(platformAPITest, iterateCodepoints) {
     e1.next(10);
     ASSERT_FALSE(e1);
 
-    cpIter e2("ä");
+    std::string val2 = "ä";
+    cpIter e2(val2);
     ASSERT_EQ(e2.remainLen(), 1);
     ASSERT_EQ(*e2, "ä");
     ASSERT_EQ(*(++e2), std::string(""));
 
-    cpIter e3("அம்மா");
+    std::string val3 = "அம்மா";
+    cpIter e3(val3);
     ASSERT_EQ(e3.remainLen(), 5);
 }
 

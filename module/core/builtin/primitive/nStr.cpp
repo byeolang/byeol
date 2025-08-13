@@ -254,7 +254,7 @@ namespace by {
 
     nchar me::operator[](nint n) const { return get()[n]; }
 
-    nint me::len() const { return cpIter(get().c_str()).remainLen(); }
+    nint me::len() const { return cpIter(get()).remainLen(); }
 
     tstr<arithmeticObj> me::bitwiseNot() const {
         return *this;
