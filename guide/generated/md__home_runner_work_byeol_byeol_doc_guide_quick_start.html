@@ -12,7 +12,8 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script type="text/javascript" src="https://github.com/byeolang/highlightjs-byeol/releases/download/v0.2.8/highlightjs-byeol-min.js"></script>
-<link href="..^..^assets^css^highlightjs-theme-byeol.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="postprocess.js"></script>
+<link href="highlightjs-theme-byeol.css" rel="stylesheet" type="text/css"/>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -204,10 +205,24 @@ IDEA: 기본 언어 기능</h1>
 <ul>
 <li>[x] 주석은 <code>#</code> 으로 표현합니다.</li>
 </ul>
-<div class="fragment"><div class="line"># 한줄짜리 주석이고,</div>
+<div class="fragment"><div class="line">{</div>
+<div class="line">    &quot;classList&quot;: &quot;verified&quot;,</div>
+<div class="line">    &quot;shown&quot;:</div>
+<div class="line">`</div>
+<div class="line"># 한줄짜리 주석이고,</div>
 <div class="line"> </div>
 <div class="line">## 여러줄</div>
 <div class="line">주석입니다.##</div>
+<div class="line">`,  &quot;code&quot;:</div>
+<div class="line">`</div>
+<div class="line">main() void</div>
+<div class="line">    # 한줄짜리 주석이고,</div>
+<div class="line"> </div>
+<div class="line">    ## 여러줄</div>
+<div class="line">    주석입니다.##</div>
+<div class="line">    ret</div>
+<div class="line">`</div>
+<div class="line">}</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md4"></a>
 기본 타입 제공</h2>
 <ul>
@@ -1953,20 +1968,5 @@ IDEA: 속도보다 유지보수를 우선한다.</h1>
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
 <!-- start footer part -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const fragments = document.querySelectorAll('.fragment, div.fragment, pre.fragment');
-        fragments.forEach(fragment => {
-            let code = fragment.textContent;
-            fragment.innerHTML = '<pre><code class="language-byeol">' + code + '</code></pre>';
-        });
-    });
-    window.addEventListener('load', function() {
-        const codeBlocks = document.querySelectorAll('pre code.language-byeol');
-        codeBlocks.forEach(block => {
-            hljs.highlightElement(block);
-        });
-    });
-</script>
 </body>
 </html>

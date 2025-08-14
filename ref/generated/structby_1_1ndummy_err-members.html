@@ -12,7 +12,8 @@
 <script type="text/javascript" src="dynsections.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script type="text/javascript" src="https://github.com/byeolang/highlightjs-byeol/releases/download/v0.2.8/highlightjs-byeol-min.js"></script>
-<link href="..^..^assets^css^highlightjs-theme-byeol.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="postprocess.js"></script>
+<link href="highlightjs-theme-byeol.css" rel="stylesheet" type="text/css"/>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -24,6 +25,7 @@
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 <link href="byeol.css" rel="stylesheet" type="text/css"/>
+<link href="highlightjs-theme-byeol.css" rel="stylesheet" type="text/css"/>
 <!-- extensions: -->
 <!--    fragement copy to clipboard: -->
 <script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
@@ -278,20 +280,5 @@ $(document).ready(function(){initNavTree('structby_1_1ndummy_err.html',''); init
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.9.1-->
 <!-- start footer part -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const fragments = document.querySelectorAll('.fragment, div.fragment, pre.fragment');
-        fragments.forEach(fragment => {
-            let code = fragment.textContent;
-            fragment.innerHTML = '<pre><code class="language-byeol">' + code + '</code></pre>';
-        });
-    });
-    window.addEventListener('load', function() {
-        const codeBlocks = document.querySelectorAll('pre code.language-byeol');
-        codeBlocks.forEach(block => {
-            hljs.highlightElement(block);
-        });
-    });
-</script>
 </body>
 </html>
