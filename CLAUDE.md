@@ -105,13 +105,20 @@ The system follows a **Layered Architecture** pattern with clear separation of c
    * This process takes significant time
    * Use when project structure changes
 
-2. **Incremental build** (when only functions/classes are modified):
-   ```bash
-   cd ./build/
-   make -j$(nproc)
-   ```
-   * Faster compilation for code changes
-   * Utilizes all available CPU cores
+2. **Incremental build** (if you are only modifying functions/classes):
+    * If your OS is not windows, do the following.
+    ```bash
+    cd ./build/
+    make -j$(nproc)
+    ```
+    * If your OS is windows, do the following.
+    ```
+    cd ./build/
+    msbuild module/frontend/byeol.vcxproj
+    ```
+
+   * Faster compilation when making code changes
+   * Utilize all available CPU cores
 
 ### Build Targets
 - `dbg` - Debug build with symbols and assertions
