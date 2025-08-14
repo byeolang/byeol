@@ -9,7 +9,7 @@ function Tide(new_owner) {
 	    h = 1 + (this.grade * 0.05),
       w = h * ownerWidthRatio,
 	    x = Math.random() * ownerObj.width() - w,
-  		y = baseY + (this.grade / 100) * (ownerObj.height() * 0.7) - h - 20;
+  		y = baseY + (this.grade / 100) * (ownerObj.height() * 0.5) - h - 20;
 
 	Unit.call(this, "tide" + __tide_dom_id_generator++, "/assets/images/tide.png",
 		x, y, w, h, life, new_owner, "opacity: 0; ");
