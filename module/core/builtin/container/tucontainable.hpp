@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/ast/param.hpp"
+#include <type_traits>
 
 namespace by {
 
@@ -32,9 +33,25 @@ namespace by {
         nbool isEmpty() const;
 
         // get:
-        template <typename T1>
-        std::conditional_t<_IS_POINTER, T1*, tmay<T1>> get(std::function<nbool(const T1&)> l);
-        std::conditional_t<_IS_POINTER, R, tmay<R>> get(std::function<nbool(const T&)> l);
+        template <typename T1> std::conditional_t<_IS_POINTER, T1*, tmay<T1>> get(std::function<nbool(const T1&)> l) {
+            for(auto e = begin(); e; ++e) {
+                if constexpr(_IS_POINTER) {
+                    T1& val = e->template cast<T1>() OR_CONTINUE;
+                    if(!l(val)) continue;
+                    return &val;
+                } else {
+                    T1& val = e.get().template cast<T1>() OR_CONTINUE;
+                    if(!l(val)) continue;
+                    return tmay<T1>(val);
+                }
+            }
+
+            if constexpr(_IS_POINTER) return nullptr;
+            else return tmay<T1>();
+        }
+
+        std::conditional_t<_IS_POINTER, R, tmay<R>> get(std::function<nbool(const T&)> l) { return this->get<T>(l); }
+
         template <typename T1>
         std::conditional_t<_IS_POINTER, const T1*, tmay<T1>> get(std::function<nbool(const T1&)> l) const BY_CONST_FUNC(get(l))
         std::conditional_t<_IS_POINTER, const R, tmay<R>> get(std::function<nbool(const T&)> l) const BY_CONST_FUNC(get(l))

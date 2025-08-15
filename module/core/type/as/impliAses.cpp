@@ -1,3 +1,5 @@
+#include "core/builtin/container/native/tnarr.inl"
+#include "core/builtin/container/native/tnmap.inl"
 #include "core/type/as/impliAses.hpp"
 #include "core/ast/node.hpp"
 #include "core/builtin/container/native/tnarr.inl"
