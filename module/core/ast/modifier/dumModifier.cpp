@@ -1,3 +1,5 @@
+#include "core/builtin/container/native/tnarr.inl"
+#include "core/builtin/container/native/tnmap.inl"
 #include "core/ast/node.hpp"
 #include "core/ast/modifier/dumModifier.hpp"
 
