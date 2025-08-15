@@ -22,8 +22,13 @@ namespace by {
     TEMPL
     template <typename T1> nbool ME::in(std::function<nbool(const T1&)> l) const {
         for(auto e = begin(); e; ++e) {
-            const T1& val = e->template cast<T1>() OR_CONTINUE;
-            WHEN(l(val)).ret(true);
+            if constexpr(_IS_POINTER) {
+                const T1& val = e->template cast<T1>() OR_CONTINUE;
+                WHEN(l(val)).ret(true);
+            } else {
+                const T1& val = e.get().template cast<T1>() OR_CONTINUE;
+                WHEN(l(val)).ret(true);
+            }
         }
         return false;
     }
@@ -44,27 +49,46 @@ namespace by {
     }
 
     TEMPL
-    template <typename T1> T1* ME::get(std::function<nbool(const T1&)> l) {
+    template <typename T1>
+    std::conditional_t<ME::_IS_POINTER, T1*, tmay<T1>>
+    ME::get(std::function<nbool(const T1&)> l) {
         for(auto e = begin(); e; ++e) {
-            T1& val = e->template cast<T1>() OR_CONTINUE;
-            if(!l(val)) continue;
-            return &val;
+            if constexpr(_IS_POINTER) {
+                T1& val = e->template cast<T1>() OR_CONTINUE;
+                if(!l(val)) continue;
+                return &val;
+            } else {
+                T1& val = e.get().template cast<T1>() OR_CONTINUE;
+                if(!l(val)) continue;
+                return tmay<T1>(val);
+            }
         }
 
-        return nullptr;
+        if constexpr(_IS_POINTER)
+            return nullptr;
+        else
+            return tmay<T1>();
     }
 
     TEMPL
-    R ME::get(std::function<nbool(const T&)> l) { return this->get<T>(l); }
+    std::conditional_t<ME::_IS_POINTER, R, tmay<R>>
+    ME::get(std::function<nbool(const T&)> l) {
+        return this->get<T>(l);
+    }
 
     TEMPL
     template <typename T1> tnarr<T1> ME::getAll(std::function<nbool(const T1&)> l) const {
         tnarr<T1> ret;
         for(auto e = begin(); e; ++e) {
-            const T1& val = e->template cast<T1>() OR_CONTINUE;
-            if(!l(val)) continue;
-
-            ret.add(val);
+            if constexpr(_IS_POINTER) {
+                const T1& val = e->template cast<T1>() OR_CONTINUE;
+                if(!l(val)) continue;
+                ret.add(val);
+            } else {
+                const T1& val = e.get().template cast<T1>() OR_CONTINUE;
+                if(!l(val)) continue;
+                ret.add(val);
+            }
         }
 
         return ret;
@@ -76,8 +100,13 @@ namespace by {
     TEMPL
     template <typename T1> void ME::each(std::function<nbool(T1&)> l) {
         for(auto e = begin(); e; ++e) {
-            T1& val = e->template cast<T1>() OR_CONTINUE;
-            if(!l(val)) break;
+            if constexpr(_IS_POINTER) {
+                T1& val = e->template cast<T1>() OR_CONTINUE;
+                if(!l(val)) break;
+            } else {
+                T1& val = e.get().template cast<T1>() OR_CONTINUE;
+                if(!l(val)) break;
+            }
         }
     }
 
@@ -128,7 +157,11 @@ namespace by {
     TEMPL
     typename ME::iter ME::iterate(const T& it) const {
         for(iter e = begin(); e; ++e)
-            WHEN(e.get() == &it).ret(iter(e));
+            if constexpr(_IS_POINTER) {
+                WHEN(e.get() == &it).ret(iter(e));
+            } else {
+                WHEN(e.get() == it).ret(iter(e));
+            }
 
         return end();
     }
@@ -139,7 +172,11 @@ namespace by {
     TEMPL
     typename ME::iter ME::riterate(const T& it) const {
         for(iter e = rbegin(); e; ++e)
-            WHEN(e.get() == &it).ret(iter(e));
+            if constexpr(_IS_POINTER) {
+                WHEN(e.get() == &it).ret(iter(e));
+            } else {
+                WHEN(e.get() == &it).ret(iter(e));
+            }
 
         return rend();
     }

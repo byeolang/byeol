@@ -13,6 +13,7 @@ namespace by {
     /// @remark tucontainable has API treating iter ref and element as its parameter.
     template <typename T, typename R = T*, typename RSquare = T&> class tucontainable {
         BY_ME(tucontainable)
+        static constexpr nbool _IS_POINTER = std::is_pointer_v<R>;
 
     public:
 #include "core/builtin/container/iter/uiter.hpp"
@@ -31,10 +32,12 @@ namespace by {
         nbool isEmpty() const;
 
         // get:
-        template <typename T1> T1* get(std::function<nbool(const T1&)> l);
-        R get(std::function<nbool(const T&)> l);
-        template <typename T1> const T1* get(std::function<nbool(const T1&)> l) const BY_CONST_FUNC(get(l))
-        const R get(std::function<nbool(const T&)> l) const BY_CONST_FUNC(get(l))
+        template <typename T1>
+        std::conditional_t<_IS_POINTER, T1*, tmay<T1>> get(std::function<nbool(const T1&)> l);
+        std::conditional_t<_IS_POINTER, R, tmay<R>> get(std::function<nbool(const T&)> l);
+        template <typename T1>
+        std::conditional_t<_IS_POINTER, const T1*, tmay<T1>> get(std::function<nbool(const T1&)> l) const BY_CONST_FUNC(get(l))
+        std::conditional_t<_IS_POINTER, const R, tmay<R>> get(std::function<nbool(const T&)> l) const BY_CONST_FUNC(get(l))
 
         template <typename T1> tnarr<T1, strTactic> getAll(std::function<nbool(const T1&)> l) const;
         tnarr<T, strTactic> getAll(std::function<nbool(const T&)> l) const;

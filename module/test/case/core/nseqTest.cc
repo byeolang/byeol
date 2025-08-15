@@ -47,3 +47,43 @@ TEST_F(nseqTest, stepForwardReversedIterator) {
     ASSERT_TRUE(re.isEnd());
     ASSERT_EQ(re, s.rend());
 }
+
+struct dummyUcontainer : public tnucontainer<nInt, nInt, nInt> {
+    typedef tnucontainer<nInt, nInt, nInt> _super11;
+    BY(CLASS(dummyUcontainer, _super11))
+
+public:
+    ncnt len() const override { return 0; }
+    nbool set(const iter& at, const nInt& new1) override { return true; }
+    nbool add(const iter& at, const nInt& new1) override { return true; }
+    void add(const iter& here, const iter& from, const iter& to) override {}
+    nbool del(const iter& it) override { return true; }
+    nbool del(const iter& from, const iter& end) override { return true; }
+    void rel() override {};
+    iteration* _onMakeIteration(ncnt step, nbool isReversed) const override { return nullptr; }
+};
+
+TEST_F(nseqTest, ucontainableTest) {
+    dummyUcontainer c;
+    // why is there no assert?:
+    //  this is actually code to prevent lazy template instantiation in gcc/clang.
+    //  as long as it compiles properly, the goal is already achieved.
+    c.get([&](const nInt& it) { return it.get() > 0; });
+
+    c.getAll([&](const nInt& it) { return it.get() > 0; });
+
+    int sum = 0;
+    c.each([&](const nInt& it) {
+        sum += it.get();
+        return true;
+    });
+    ASSERT_EQ(sum, 0);
+
+    c.in([&](const nInt& it) {
+        return it.get() > 0;
+    });
+
+    nInt n1(1);
+    c.iterate(n1);
+    c.riterate(n1);
+}
