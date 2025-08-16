@@ -175,6 +175,6 @@ namespace by {
         void _setSrc(const src* it) BY_SIDE_FUNC(_setSrc);
     };
 
-    extern template class _nout tnmap<std::string, node>;
+    extern template class tnmap<std::string, node>;
     typedef tnmap<std::string, node> nmap;
 } // namespace by
