@@ -32,7 +32,7 @@ namespace by {
 
     nint me::_onScan(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner) {
         int tok = _mode->onScan(*this, val, loc, scanner);
-        WHEN(_isIgnoreWhitespace && tok == NEWLINE).ret(SCAN_AGAIN);
+        WHEN(_isIgnoreWhitespace && tok == NEWLINE) .ret(SCAN_AGAIN);
         _isIgnoreWhitespace = false;
 
         switch(tok) {
@@ -75,7 +75,7 @@ namespace by {
     nint me::onTokenComma(nint tok) { return _onTokenEndOfInlineBlock(onIgnoreIndent(tok)); }
 
     nbool me::onTokenEndOfBraces() {
-        WHEN(_strTemplateCnt > 0).ret(_strTemplateCnt--);
+        WHEN(_strTemplateCnt > 0) .ret(_strTemplateCnt--);
         return false;
     }
 
@@ -99,7 +99,7 @@ namespace by {
     }
 
     nint me::_onTokenEndOfInlineBlock(nint tok) {
-        WHEN(!_dedent.canDedent()).ret(tok);
+        WHEN(!_dedent.canDedent()) .ret(tok);
 
         BY_DI("tokenEvent: onTokenEndOfInlineBlock: '%c' [%d] use smart dedent!", (char) tok, tok);
         _dispatcher.addFront(tok);
@@ -162,7 +162,7 @@ namespace by {
     obj* me::onPack(const node& path) {
         std::vector<string> dotnames = _toDotnames(path);
         BY_DI("tokenEvent: onPack(%s)", join(dotnames));
-        WHEN(dotnames.size() <= 0).ret(nullptr);
+        WHEN(dotnames.size() <= 0) .ret(nullptr);
 
         // pack syntax rule #1:
         //  if there is no specified name of pack, create one.
@@ -171,7 +171,7 @@ namespace by {
         obj* e = &getTask()->getPack();
 
         const std::string& realName = getTask()->getManifest().name;
-        WHEN(realName != firstName).exErr(PACK_NOT_MATCH, getReport(), firstName.c_str(), realName.c_str()).ret(e);
+        WHEN(realName != firstName) .exErr(PACK_NOT_MATCH, getReport(), firstName.c_str(), realName.c_str()).ret(e);
 
         // pack syntax rule #2:
         //  middle name automatically created if not exist.
@@ -219,8 +219,7 @@ namespace by {
         auto& newSlot = *getTask();
         const std::string& name = newSlot.getManifest().name;
         WHEN(name != manifest::DEFAULT_NAME)
-            .exErr(PACK_NOT_MATCH, getReport(), manifest::DEFAULT_NAME, name.c_str())
-            .ret(&newSlot.getPack());
+            .exErr(PACK_NOT_MATCH, getReport(), manifest::DEFAULT_NAME, name.c_str()).ret(&newSlot.getPack());
 
         return onSubPack(newSlot.getPack()); // this is a default pack containing name as '{default}'.
     }
@@ -239,7 +238,7 @@ namespace by {
         str stmtLife(stmt);
         BY_DI("tokenEvent: onBlock(blk, %s) inside of %s func", stmt, f ? f->getSrc().getName() : "<null>");
 
-        WHEN(stmt->cast<endExpr>()).ret(blk);
+        WHEN(stmt->cast<endExpr>()) .ret(blk);
 
         auto& stmts = blk->getStmts();
         stmts.add(*stmtLife);
@@ -266,7 +265,7 @@ namespace by {
         node& stmtRef = stmt OR.exErr(IS_NUL, getReport(), "stmt").ret(s);
         BY_DI("tokenEvent: onDefBlock(s, %s)", *stmt);
 
-        WHEN(stmtRef.cast<endExpr>()).exErr(END_ONLY_BE_IN_A_FUNC, getReport()).ret(s);
+        WHEN(stmtRef.cast<endExpr>()) .exErr(END_ONLY_BE_IN_A_FUNC, getReport()).ret(s);
         defVarExpr& defVar = stmtRef.cast<defVarExpr>() OR.ret(&sRef.addScope(stmtRef.getSrc().getName(), *stmtLife));
 
         // checks whether rhs was primitive type:
@@ -380,7 +379,7 @@ namespace by {
 
         f.setBlock(blk);
         _funcs.pop_back();
-        WHEN(_funcs.size() <= 0).ret(&f);
+        WHEN(_funcs.size() <= 0) .ret(&f);
 
         // don't add nested-func in an outer func:
         //  nested func appear in the middle of code, and context is important because they capture
@@ -444,7 +443,7 @@ namespace by {
     node* me::onParanthesisAsTuple(narr& tuple) {
         BY_DI("tokenEnvent: onParanthesisAsTuple(%s.size=%d)", (void*) &tuple, tuple.len());
 
-        WHEN(tuple.len() != 1).exErr(PARANTHESIS_WAS_TUPLE, getReport()).ret(new mockNode());
+        WHEN(tuple.len() != 1) .exErr(PARANTHESIS_WAS_TUPLE, getReport()).ret(new mockNode());
 
         return &tuple[0];
     }
@@ -532,7 +531,7 @@ namespace by {
     namespace {
         const std::string& _extractParamTypeName(const node& p) {
             static std::string dummy;
-            WHEN(p.isSub<getExpr>()).ret(((const getExpr&) p).getName());
+            WHEN(p.isSub<getExpr>()) .ret(((const getExpr&) p).getName());
 
             return p.getType().getName();
         }
@@ -659,11 +658,11 @@ namespace by {
         const auto& ctors = it.subAll<func>(baseObj::CTOR_NAME);
         nbool hasCopyCtor = ctors.get<func>([&](const func& f) -> nbool {
             const params& ps = f.getParams();
-            WHEN(ps.len() != 1).ret(false);
+            WHEN(ps.len() != 1) .ret(false);
 
             const node& org = ps[0].getOrigin();
             const getExpr* cast = org.cast<getExpr>();
-            WHEN(cast && cast->getName() == it.getSrc().getName()).ret(true);
+            WHEN(cast && cast->getName() == it.getSrc().getName()) .ret(true);
 
             return &org == &it;
         });
@@ -1188,7 +1187,7 @@ namespace by {
 
     str me::_onWork() {
         const auto& supplies = getSrcSupplies();
-        WHEN(supplies.isEmpty()).exErr(NO_SRC, getReport()).ret(tstr<obj>());
+        WHEN(supplies.isEmpty()) .exErr(NO_SRC, getReport()).ret(tstr<obj>());
 
         BY_I("parse starts: %d src will be supplied.", supplies.len());
         for(const auto& supply: supplies) {
@@ -1198,7 +1197,7 @@ namespace by {
             yylex_init_extra(this, &scanner);
 
             YY_BUFFER_STATE bufState = (YY_BUFFER_STATE) supply.onSupplySrc(*this, scanner);
-            WHEN(!bufState).exErr(IS_NUL, getReport(), "bufState").ret(tstr<obj>());
+            WHEN(!bufState) .exErr(IS_NUL, getReport(), "bufState").ret(tstr<obj>());
 
             // fix Flex Bug here:
             //  when yy_scan_string get called, it returns bufState after malloc it.
@@ -1213,7 +1212,7 @@ namespace by {
 #endif
 
             int res = yyparse(scanner);
-            WHEN(res).exWarn(errCode::PARSING_HAS_ERR, res).ret(tstr<obj>());
+            WHEN(res) .exWarn(errCode::PARSING_HAS_ERR, res).ret(tstr<obj>());
 
             yy_delete_buffer(bufState, scanner);
             yylex_destroy(scanner);

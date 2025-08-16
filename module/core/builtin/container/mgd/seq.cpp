@@ -77,7 +77,7 @@ namespace by {
 
             str run(const args& a) override {
                 const params& ps = getParams();
-                WHEN(a.len() != ps.len()).warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
+                WHEN(a.len() != ps.len()) .warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
 
                 seq& meObj = a.getMe() TO(template cast<seq>()) OR.err("meObj as arr == null").ret(str());
                 str eval = a[0].as(ps[0].getOrigin())

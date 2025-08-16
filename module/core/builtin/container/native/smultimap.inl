@@ -147,7 +147,7 @@ namespace by {
 
     TEMPL void ME::insert(const K& key, V&& val) {
         auto e = _map.insert(typename stlMap::value_type(key, wrap(std::forward<V>(val))));
-        WHEN(e == _map.end()).ret();
+        WHEN(e == _map.end()) .ret();
         e->second._key = &e->first;
 
         _link(e->second);
@@ -184,7 +184,7 @@ namespace by {
 
     TEMPL
     typename ME::stlMap::iterator ME::_erase(const typename stlMap::iterator& e) {
-        WHEN(e == _map.end()).ret(_map.end()); // not found.
+        WHEN(e == _map.end()) .ret(_map.end()); // not found.
 
         _unlink(e->second);
         return _map.erase(e);
@@ -192,7 +192,7 @@ namespace by {
 
     TEMPL
     void ME::_erase(const iterator& e) {
-        WHEN(e.isEnd()).ret(); // not found.
+        WHEN(e.isEnd()) .ret(); // not found.
 
         const K& key = e._wrap->getKey() OR.ret();
         auto range = _map.equal_range(key);

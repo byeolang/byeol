@@ -24,10 +24,10 @@ namespace by {
         for(auto e = begin(); e; ++e) {
             if constexpr(_IS_POINTER) {
                 const T1& val = e->template cast<T1>() OR_CONTINUE;
-                WHEN(l(val)).ret(true);
+                WHEN(l(val)) .ret(true);
             } else {
                 const T1& val = e.get().template cast<T1>() OR_CONTINUE;
-                WHEN(l(val)).ret(true);
+                WHEN(l(val)) .ret(true);
             }
         }
         return false;
@@ -118,7 +118,7 @@ namespace by {
 
     TEMPL
     typename ME::iter ME::last() const {
-        WHEN(len() <= 0).ret(end());
+        WHEN(len() <= 0) .ret(end());
         static iter (me::*specifier)(ncnt) const = &me::iterate;
         return (this->*specifier)(len() - 1);
     }
@@ -129,8 +129,11 @@ namespace by {
     TEMPL
     typename ME::iter ME::iterate(const T& it) const {
         for(iter e = begin(); e; ++e)
-            if constexpr(_IS_POINTER) WHEN(e.get() == &it).ret(iter(e));
-            else WHEN(e.get() == it).ret(iter(e));
+            if constexpr(_IS_POINTER) {
+                WHEN(e.get() == &it) .ret(iter(e));
+            } else {
+                WHEN(e.get() == it) .ret(iter(e));
+            }
 
         return end();
     }
@@ -141,8 +144,11 @@ namespace by {
     TEMPL
     typename ME::iter ME::riterate(const T& it) const {
         for(iter e = rbegin(); e; ++e)
-            if constexpr(_IS_POINTER) WHEN(e.get() == &it).ret(iter(e));
-            else WHEN(e.get() == it).ret(iter(e));
+            if constexpr(_IS_POINTER) {
+                WHEN(e.get() == &it) .ret(iter(e));
+            } else {
+                WHEN(e.get() == it) .ret(iter(e));
+            }
 
         return rend();
     }

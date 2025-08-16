@@ -30,10 +30,10 @@ namespace by {
 
         entrypoints points;
         leaf& entrypoints = root["entrypoints"];
-        WHEN(!entrypoints.isExist()).err("entrypoints not defined.").ret(manifest());
+        WHEN(!entrypoints.isExist()) .err("entrypoints not defined.").ret(manifest());
         for(auto& pair: entrypoints) {
             const std::string& path = pair.second->sub("path").asStr();
-            WHEN(path == "").err("error to load %s: no entrypoint path", manPath).ret(manifest());
+            WHEN(path == "") .err("error to load %s: no entrypoint path", manPath).ret(manifest());
 
             // TODO: path should be multiple
             points.push_back(entrypoint{pair.first, {fsystem::getDelimiter() + path}});
@@ -67,7 +67,7 @@ namespace by {
     }
 
     me& me::addPath(const std::vector<std::string> paths) {
-        WHEN(&_paths == &paths).ret(*this);
+        WHEN(&_paths == &paths) .ret(*this);
 
         _paths.insert(_paths.end(), paths.begin(), paths.end());
         return *this;
@@ -110,7 +110,7 @@ namespace by {
         BY_I("manifest path: %s", manifestPath);
 
         manifest mani = _interpManifest(dirPath, manifestPath);
-        WHEN(!mani.isValid()).err("invalid manifest[%s] found.", manifestPath.c_str()).ret();
+        WHEN(!mani.isValid()) .err("invalid manifest[%s] found.", manifestPath.c_str()).ret();
 
         packLoadings loadings;
         for(entrypoint& point: mani.points) {

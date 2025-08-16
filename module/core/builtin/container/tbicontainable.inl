@@ -35,7 +35,7 @@ namespace by {
         for(auto e = begin(); e; ++e) {
             V1& val = e->template cast<V1>() OR_CONTINUE;
             const K& key = e.getKey() OR_CONTINUE;
-            WHEN(l(key, val)).ret(true);
+            WHEN(l(key, val)) .ret(true);
         }
         return false;
     }

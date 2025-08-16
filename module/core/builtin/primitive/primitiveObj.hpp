@@ -34,7 +34,7 @@ namespace by {
         using super::cast;
 
         void* cast(const type& to) override {
-            WHEN(to == ttype<T>::get()).ret(&_val);
+            WHEN(to == ttype<T>::get()) .ret(&_val);
 
             return super::cast(to);
         }

@@ -34,18 +34,18 @@ namespace by {
         const auto& name = getTask()->getType().getName();
         auto argsKey = expr.getArgs().toStr();
         BY_I("exprName[%s<%s>] == originName[%s<%s>]", expr.getName(), argsKey, name, _paramsKey);
-        WHEN(expr.getName() != name).ret(str());
-        WHEN(argsKey == _paramsKey).ret(getTask());
+        WHEN(expr.getName() != name) .ret(str());
+        WHEN(argsKey == _paramsKey) .ret(getTask());
 
         return str();
     }
 
     str me::_findOrigin(const node& toReplace) const {
-        WHEN(&toReplace == _org.get()).ret(getTask());
+        WHEN(&toReplace == _org.get()) .ret(getTask());
         const getGenericExpr* generic = toReplace.cast<getGenericExpr>();
-        WHEN(generic).ret(_findOriginFrom(*generic));
+        WHEN(generic) .ret(_findOriginFrom(*generic));
         const getExpr* get = toReplace.cast<getExpr>();
-        WHEN(get).ret(_findOriginFrom(*get));
+        WHEN(get) .ret(_findOriginFrom(*get));
 
         return str();
     }

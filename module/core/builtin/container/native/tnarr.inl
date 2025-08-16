@@ -27,7 +27,7 @@ namespace by {
 
     TEMPL
     T* ME::get(nidx n) {
-        WHEN(!in(n)).exErr(OUT_OF_RANGE, n, len()).ret(nullptr);
+        WHEN(!in(n)) .exErr(OUT_OF_RANGE, n, len()).ret(nullptr);
 
         binder& ret = _vec[n];
         return (T*) ret.get();
@@ -36,14 +36,14 @@ namespace by {
     TEMPL
     nbool ME::set(const iter& at, const T& new1) {
         narrIteration& cast = _getIteration(at) OR.ret(false);
-        WHEN(cast.isEnd()).ret(false);
+        WHEN(cast.isEnd()) .ret(false);
 
         return set(cast._n, new1);
     }
 
     TEMPL
     nbool ME::set(nidx n, const T& new1) {
-        WHEN(!in(n)).exErr(OUT_OF_RANGE, n, len()).ret(false);
+        WHEN(!in(n)) .exErr(OUT_OF_RANGE, n, len()).ret(false);
 
         return _vec[n].bind(new1);
     }
@@ -56,7 +56,7 @@ namespace by {
 
     TEMPL
     nbool ME::add(nidx n, const T& new1) {
-        WHEN(n < 0 || n > len()).exErr(OUT_OF_RANGE, n, len()).ret(false);
+        WHEN(n < 0 || n > len()) .exErr(OUT_OF_RANGE, n, len()).ret(false);
 
         _vec.insert(_vec.begin() + n, wrap(new1));
         return true;
@@ -64,7 +64,7 @@ namespace by {
 
     TEMPL
     void ME::add(const iter& here, const iter& from, const iter& to) {
-        WHEN(!from.isFrom(to.getContainer())).exErr(ITERATOR_NOT_BELONG_TO_CONTAINER).ret();
+        WHEN(!from.isFrom(to.getContainer())) .exErr(ITERATOR_NOT_BELONG_TO_CONTAINER).ret();
         const narrIteration& hereCast = _getIteration(here) OR.ret();
         const narrIteration& fromCast = (narrIteration*) from._iteration.get() OR.ret();
         const narrIteration& toCast = (narrIteration*) to._iteration.get() OR.ret();
@@ -79,14 +79,14 @@ namespace by {
     TEMPL
     nbool ME::del(const iter& at) {
         narrIteration& cast = _getIteration(at) OR.ret(false);
-        WHEN(cast.isEnd()).ret(false);
+        WHEN(cast.isEnd()) .ret(false);
 
         return del(cast._n);
     }
 
     TEMPL
     nbool ME::del(nidx n) {
-        WHEN(!in(n)).exErr(OUT_OF_RANGE, n, len()).ret(false);
+        WHEN(!in(n)) .exErr(OUT_OF_RANGE, n, len()).ret(false);
 
         _vec.erase(_vec.begin() + n);
         return true;
@@ -99,7 +99,7 @@ namespace by {
 
         nidx fromN = fromIter.isEnd() ? len() - 1 : fromIter._n;
         ncnt cnt = endIter._n - fromN;
-        WHEN(cnt <= 0).ret(false);
+        WHEN(cnt <= 0) .ret(false);
 
         for(int n = 0; n < cnt; n++)
             _vec.erase(_vec.begin() + fromN);
@@ -137,7 +137,7 @@ namespace by {
 
     TEMPL
     typename ME::narrIteration* ME::_getIteration(const iter& it) {
-        WHEN(!it.isFrom(*this)).exErr(ITERATOR_NOT_BELONG_TO_CONTAINER).ret(nullptr);
+        WHEN(!it.isFrom(*this)) .exErr(ITERATOR_NOT_BELONG_TO_CONTAINER).ret(nullptr);
         auto* ret = (narrIteration*) it._iteration.get();
         WHEN_NUL(ret).exErr(ITERATOR_IS_NUL).ret(nullptr);
         return ret;

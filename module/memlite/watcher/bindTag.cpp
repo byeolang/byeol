@@ -14,7 +14,7 @@ namespace by {
     me::~bindTag() { _id.serial = 0; }
 
     const chunk* me::getChunk() const {
-        WHEN(!_pt).ret(nullptr);
+        WHEN(!_pt) .ret(nullptr);
 
         return instancer::get() TO(getPool().get(*_pt)->get(*_pt));
     }
@@ -37,8 +37,8 @@ namespace by {
     id me::getId() const { return _id; }
 
     nbool me::_onStrong(ncnt vote) {
-        WHEN(vote < 0 && _strong <= 0).ret(false);
-        WHEN(!_id.isHeap()).ret(false);
+        WHEN(vote < 0 && _strong <= 0) .ret(false);
+        WHEN(!_id.isHeap()) .ret(false);
 
         _strong += vote;
         if(_strong <= 0) rel();

@@ -14,7 +14,7 @@ namespace by {
     }
 
     nbool me::rel(const instance& old) {
-        WHEN(!_hasBindTag(old)).ret(true); // optimization.
+        WHEN(!_hasBindTag(old)) .ret(true); // optimization.
 
         watchCell& un = _watcher.get(old.getId()) OR.ret(false);
         return _watcher.del(&un, sizeof(watchCell));

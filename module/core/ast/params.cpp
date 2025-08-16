@@ -7,10 +7,10 @@ namespace by {
     me::params(): super() {}
 
     nbool me::operator==(const me& rhs) const {
-        WHEN(len() != rhs.len()).ret(false);
+        WHEN(len() != rhs.len()) .ret(false);
 
         for(nidx n = 0; n < len(); n++)
-            WHEN(*get(n) != rhs[n]).ret(false);
+            WHEN(*get(n) != rhs[n]) .ret(false);
         return true;
     }
 
@@ -25,7 +25,7 @@ namespace by {
     }
 
     me me::make(const strings& names, const narr& args) {
-        WHEN(names.size() != args.len()).err("names.len[%s] != args.len[%s]", names.size(), args.len()).ret(me());
+        WHEN(names.size() != args.len()) .err("names.len[%s] != args.len[%s]", names.size(), args.len()).ret(me());
 
         me ret;
         for(nidx n = 0; n < names.size(); n++)

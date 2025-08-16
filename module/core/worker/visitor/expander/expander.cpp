@@ -21,7 +21,7 @@ namespace by {
     }
 
     nbool me::expansion::isExpanded() const {
-        WHEN(!fun).ret(true);
+        WHEN(!fun) .ret(true);
         return fun->getBlock().getStmts().len() <= 0;
     }
 
@@ -45,12 +45,12 @@ namespace by {
     }
 
     nbool me::onVisit(const visitInfo& i, defAssignExpr& me, nbool) {
-        WHEN(!me.getExplicitType()).ret(true);
+        WHEN(!me.getExplicitType()) .ret(true);
         _GUARD("defAssignExpr.onVisit()");
 
         tstr<convergence> req = new convergence(*_obj.back(), *_funcs.back(), [&]() -> nbool {
             str type = me.getExplicitType() TO(template as<node>()) OR.ret(false);
-            WHEN(type->isSub<expr>() || type->isSub<nVoid>()).ret(false);
+            WHEN(type->isSub<expr>() || type->isSub<nVoid>()) .ret(false);
             me.setExplicitType(*type);
             return true;
         });
@@ -63,7 +63,7 @@ namespace by {
 
         tstr<convergence> req = new convergence(*_obj.back(), *_funcs.back(), [&]() -> nbool {
             tstr<baseObj> ased = me.getAs() TO(template as<baseObj>()) OR.ret(false);
-            WHEN(ased->isSub<expr>()).ret(false);
+            WHEN(ased->isSub<expr>()) .ret(false);
             me.setAs(*ased);
             return true;
         });
@@ -90,7 +90,7 @@ namespace by {
 
     nbool me::onVisit(const visitInfo& i, func& me, nbool) {
         _GUARD("func.onVisit()");
-        WHEN(!onVisit(i, (baseFunc&) me, false)).ret(false);
+        WHEN(!onVisit(i, (baseFunc&) me, false)) .ret(false);
 
         if(i.name == baseObj::EXPAND_NAME) {
             obj& o = _obj.back() OR.err("obj stack is empty.").ret(true);
@@ -175,7 +175,7 @@ namespace by {
     }
 
     void me::_convergeTypes(errReport& rpt) {
-        WHEN(rpt).err("type convergence cancelled. there is error during expand()").ret();
+        WHEN(rpt) .err("type convergence cancelled. there is error during expand()").ret();
 
         for(auto& req: _cons)
             req.converge(); // only try once. and don't emit any errors when it fails.

@@ -65,8 +65,8 @@ namespace by {
     void me::setMe(const node& newMe) { _me.bind(newMe); }
 
     str me::_getSub(str me) const {
-        WHEN(!me).err("me Obj == null").ret(str());
-        WHEN(!_subject).err("_subject as node == null").ret(str());
+        WHEN(!me) .err("me Obj == null").ret(str());
+        WHEN(!_subject) .err("_subject as node == null").ret(str());
 
         getExpr* cast = _subject->cast<getExpr>();
         if(cast) cast->setMe(*me);
@@ -77,7 +77,7 @@ namespace by {
     str me::getEval() const {
         const node& me = getMe() OR.err("me is null").ret(str());
         str sub = _getSub(me.getEval()) OR.err("_subject.as<node>() returns null").ret(str());
-        WHEN(sub->isSub<baseObj>()).ret(sub->isComplete() ? sub : new mockNode(*sub));
+        WHEN(sub->isSub<baseObj>()) .ret(sub->isComplete() ? sub : new mockNode(*sub));
 
         baseFunc& cast = sub->cast<baseFunc>() OR.err("sub isn't obj or func. returns null").ret(str());
         return new mockNode(cast.getRet());

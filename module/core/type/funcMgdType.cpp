@@ -12,7 +12,7 @@ namespace by {
 
     public:
         nbool is(const type& from, const type& to) const override {
-            WHEN(to.getMetaTypeName() != ntype::META_TYPENAME).ret(false);
+            WHEN(to.getMetaTypeName() != ntype::META_TYPENAME) .ret(false);
 
             // okay. it's func:
             //  param, returnType should be exactly matched to.
@@ -21,9 +21,9 @@ namespace by {
             //      param:
             const params& lhsPs = castFrom.getParams();
             const params& rhsPs = castTo.getParams();
-            WHEN(lhsPs.len() != rhsPs.len()).ret(false);
+            WHEN(lhsPs.len() != rhsPs.len()) .ret(false);
             for(nidx n = 0; n < lhsPs.len(); n++)
-                WHEN(lhsPs[n] != rhsPs[n]).ret(false);
+                WHEN(lhsPs[n] != rhsPs[n]) .ret(false);
             //      retType:
             const node& lhsRet = castFrom.getRet() OR.ret(false);
             return lhsRet.getType() == castTo.getRet()->getType();

@@ -23,21 +23,21 @@ public:
     ncnt stepBackward(ncnt step) override { return _step(true, step); }
 
     const K* getKey() const override {
-        WHEN(isEnd()).ret(nullptr);
+        WHEN(isEnd()) .ret(nullptr);
         return _citer.getKey();
     }
 
     using super::getVal;
 
     V* getVal() override {
-        WHEN(isEnd()).ret(nullptr);
+        WHEN(isEnd()) .ret(nullptr);
         return _citer.getVal() TO(get());
     }
 
     using super::setVal;
 
     void setVal(const V& new1) override {
-        WHEN(isEnd()).ret();
+        WHEN(isEnd()) .ret();
         _citer->bind(new1);
     }
 
@@ -53,10 +53,10 @@ protected:
 
 private:
     ncnt _step(nbool isReversed, ncnt step) {
-        WHEN(isEnd()).ret(0);
+        WHEN(isEnd()) .ret(0);
         for(int n = 0; n < step; n++) {
             isReversed ? (this->isReversed() ? ++_citer : --_citer) : (this->isReversed() ? --_citer : ++_citer);
-            WHEN(isEnd()).ret(n);
+            WHEN(isEnd()) .ret(n);
         }
         return step;
     }

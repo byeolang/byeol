@@ -10,7 +10,7 @@ namespace by {
     me::FUOExpr(symbol s, const node& it): _symbol(s), _it(it) {}
 
     str me::run(const args& a) {
-        WHEN(!_it).ret(str());
+        WHEN(!_it) .ret(str());
         tstr<arithmeticObj> it = _it->as<arithmeticObj>() OR.ret(str());
 
         str ret((node*) it->cloneDeep());

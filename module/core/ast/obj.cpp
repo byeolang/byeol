@@ -44,7 +44,7 @@ namespace by {
     }
 
     me& me::operator=(const me& rhs) {
-        WHEN(&rhs == this).ret(*this);
+        WHEN(&rhs == this) .ret(*this);
 
         super::operator=(rhs);
 
@@ -52,7 +52,7 @@ namespace by {
     }
 
     const ntype& me::getType() const {
-        WHEN(!_org).ret(ttype<obj>::get());
+        WHEN(!_org) .ret(ttype<obj>::get());
         return _org->getType();
     }
 
@@ -70,13 +70,13 @@ namespace by {
     tstr<nbicontainer> me::mySubs() const { return _subs->cloneChain(&getShares()); }
 
     state me::getState() const {
-        WHEN(_org).ret(_org->getState());
+        WHEN(_org) .ret(_org->getState());
 
         return LINKED;
     }
 
     void me::setState(state new1) {
-        WHEN(!_org).ret();
+        WHEN(!_org) .ret();
         _org->setState(new1);
     }
 

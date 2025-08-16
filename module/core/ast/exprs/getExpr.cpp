@@ -18,7 +18,7 @@ namespace by {
     me::getExpr(const node& me, const std::string& name, const args& a): _me(me), _name(name), _args(a) {}
 
     const node* me::getMe() const {
-        WHEN(!_me).ret(thread::get().getNowFrame());
+        WHEN(!_me) .ret(thread::get().getNowFrame());
         return _me.get();
     }
 
@@ -36,7 +36,7 @@ namespace by {
     /// @return nullable
     const args& me::getArgs() const {
         static args dummy;
-        WHEN(!_args.isBind()).ret(dummy);
+        WHEN(!_args.isBind()) .ret(dummy);
 
         return *_args;
     }
@@ -56,7 +56,7 @@ namespace by {
     node* me::_onGet(node& me) const {
         std::string argsName = _args ? _args->asStr().c_str() : "{}";
         BY_DI("@%s %s.sub(\"%s\", %s)", this, me, _name, argsName);
-        WHEN(!_args).ret(me.sub(_name));
+        WHEN(!_args) .ret(me.sub(_name));
 
         return me.subAll(_name, _args.get()).get();
     }

@@ -23,7 +23,7 @@ namespace by {
 
     TEMPL
     V* ME::get(const K& key) {
-        WHEN(!in(key)).ret(nullptr);
+        WHEN(!in(key)) .ret(nullptr);
 
         return _map.begin(key).getVal() TO(get());
     }
@@ -45,7 +45,7 @@ namespace by {
 
     TEMPL
     typename ME::nmapIteration* ME::_getIterationFrom(const iter& it) {
-        WHEN(!it.isFrom(*this)).warn("from is not an iterator of this container.").ret(nullptr);
+        WHEN(!it.isFrom(*this)) .warn("from is not an iterator of this container.").ret(nullptr);
         return (nmapIteration*) it._iteration.get();
     }
 
@@ -63,7 +63,7 @@ namespace by {
 
     TEMPL
     nbool ME::del(const iter& at) {
-        WHEN(at.isEnd()).warn("at is end of the container. skip function.").ret(false);
+        WHEN(at.isEnd()) .warn("at is end of the container. skip function.").ret(false);
 
         nmapIteration& e = _getIterationFrom(at) OR.ret(false);
         _map.erase(e._citer);

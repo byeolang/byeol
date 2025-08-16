@@ -135,7 +135,7 @@ namespace by {
 
     nbool me::log(errLv::level lv, const std::string& filename, const nchar* func, int line, const nchar* fmt, ...) {
         std::string tag = _makeTag(filename);
-        WHEN(_filters && !_filters->filt(lv, tag.c_str())).ret(false);
+        WHEN(_filters && !_filters->filt(lv, tag.c_str())) .ret(false);
 
         using platformAPI::foreColor;
         *this << foreColor(BROWN) << _makeStr("%s ", platformAPI::createNowTime("%b %d %Y  %X").c_str());

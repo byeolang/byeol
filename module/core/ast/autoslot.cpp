@@ -87,7 +87,7 @@ namespace by {
 
     nbool me::_invalidate() {
         _setValid(false);
-        WHEN(_state != LINKED).ret(false);
+        WHEN(_state != LINKED) .ret(false);
 
         return super::_invalidate();
     }

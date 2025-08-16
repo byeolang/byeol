@@ -99,7 +99,7 @@ ForEachMacros:
   - BY_EACH_EXPAND
   - BY_EACH_LIST
 IfMacros:
-  - KJ_IF_MAYBE
+  - WHEN
 IncludeBlocks: Regroup
 IncludeCategories:
   - Regex: ^<ext/.*\.h>

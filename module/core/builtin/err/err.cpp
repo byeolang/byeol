@@ -11,7 +11,7 @@ namespace by {
 
     nbool me::operator==(const super& rhs) const {
         const me& cast = rhs.cast<me>() OR.ret(false);
-        WHEN(!_msg || !cast._msg).ret(false);
+        WHEN(!_msg || !cast._msg) .ret(false);
 
         return _msg.get() == cast._msg.get();
     }

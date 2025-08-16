@@ -54,7 +54,7 @@ namespace by {
         using super::push_back;
 
         void push_back(const tprior<T>& elem) {
-            WHEN(elem.type > _topPriority).ret(); // optimization.
+            WHEN(elem.type > _topPriority) .ret(); // optimization.
 
             (*this)[elem.type].add(elem);
             _topPriority = _topPriority < elem.type ? _topPriority : elem.type;
@@ -125,7 +125,7 @@ namespace by {
         while(e) {
             priorType p = NO_MATCH;
             e->getContainer().each<T>([&](const std::string& key, const T& val) {
-                WHEN(key != name).ret(true);
+                WHEN(key != name) .ret(true);
 
                 p = a ? val.prioritize(*a) : EXACT_MATCH;
                 if(p != NO_MATCH) ps.push_back(*new tprior<T>(val, p, lv));

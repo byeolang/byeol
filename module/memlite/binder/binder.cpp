@@ -19,7 +19,7 @@ namespace by {
     instance& me::operator*() { return *get(); }
 
     me& me::operator=(const me& rhs) {
-        WHEN(this == &rhs).ret(*this);
+        WHEN(this == &rhs) .ret(*this);
 
         _assign(rhs);
         return *this;
@@ -40,7 +40,7 @@ namespace by {
 
     nbool me::bind(const instance& it) {
         rel();
-        WHEN(!tbindable<instance>::bind(it)).ret(false);
+        WHEN(!tbindable<instance>::bind(it)) .ret(false);
 
         return _tactic->bind(*this, it);
     }
@@ -66,7 +66,7 @@ namespace by {
     bindTag* me::_getBindTag() const { return (bindTag*) bindTag::getBindTag(_itsId); }
 
     void* me::cast(const type& to) {
-        WHEN(!isBind()).ret(nullptr);
+        WHEN(!isBind()) .ret(nullptr);
         return get()->cast(to);
     }
 } // namespace by

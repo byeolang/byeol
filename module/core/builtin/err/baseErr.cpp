@@ -9,7 +9,7 @@ namespace by {
     me::baseErr(const me& rhs): super(rhs) { _assign(rhs); }
 
     me& me::operator=(const me& rhs) {
-        WHEN(this == &rhs).ret(*this);
+        WHEN(this == &rhs) .ret(*this);
         super::operator=(rhs);
 
         return _assign(rhs);

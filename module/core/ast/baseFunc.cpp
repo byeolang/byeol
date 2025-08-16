@@ -20,14 +20,14 @@ namespace by {
     priorType me::prioritize(const args& a) const {
         BY_DI("%s.prioritize(%s)", *this, a.asStr());
         const params& ps = getParams();
-        WHEN(a.len() != ps.len()).ret(NO_MATCH);
+        WHEN(a.len() != ps.len()) .ret(NO_MATCH);
 
         int n = 0;
         priorType max = EXACT_MATCH; // begining from lv0.
         for(const auto& e: a) {
             str t = e.getEval() OR.warn("t == null").ret(NO_MATCH);
             str p = ps[n++].getOrigin().as<node>() OR.ret(NO_MATCH);
-            WHEN(!t->isComplete()).ret(NO_MATCH);
+            WHEN(!t->isComplete()) .ret(NO_MATCH);
 
             // overloading priority algorithm:
             //  each subs can be categorized into 3 level of priority.
@@ -35,16 +35,16 @@ namespace by {
             //  argument and its paramter. the lower value of 'max', the more check needed.
             priorType newP = _prioritize(*p, *t);
             max = newP > max ? newP : max;
-            WHEN(max == NO_MATCH).ret(NO_MATCH);
+            WHEN(max == NO_MATCH) .ret(NO_MATCH);
         }
 
         return max;
     }
 
     priorType me::_prioritize(const node& param, const node& arg) const {
-        WHEN(arg.getType() == param.getType()).ret(EXACT_MATCH);
-        WHEN(_isNatureNumber(param) && _isNatureNumber(arg)).ret(NUMERIC_MATCH);
-        WHEN(arg.isImpli(param)).ret(IMPLICIT_MATCH);
+        WHEN(arg.getType() == param.getType()) .ret(EXACT_MATCH);
+        WHEN(_isNatureNumber(param) && _isNatureNumber(arg)) .ret(NUMERIC_MATCH);
+        WHEN(arg.isImpli(param)) .ret(IMPLICIT_MATCH);
 
         return NO_MATCH;
     }
@@ -60,12 +60,12 @@ namespace by {
     const node* me::getRet() const { return getType().getRet(); }
 
     const src& me::getSrc() const {
-        WHEN(!_src).ret(super::getSrc());
+        WHEN(!_src) .ret(super::getSrc());
         return *_src;
     }
 
     const modifier& me::getModifier() const {
-        WHEN(_mod).ret(*_mod);
+        WHEN(_mod) .ret(*_mod);
         return super::getModifier();
     }
 

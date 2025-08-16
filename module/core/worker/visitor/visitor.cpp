@@ -21,7 +21,7 @@ namespace by {
 #define X(T)                                                                     \
     void me::visit(const visitInfo& i, T& me) {                                  \
         nbool alreadyVisited = !_markVisited(me);                                \
-        WHEN(alreadyVisited && !_isReturnable).ret();                            \
+        WHEN(alreadyVisited && !_isReturnable) .ret();                           \
         if(onVisit(i, me, alreadyVisited) && !alreadyVisited) onTraverse(i, me); \
         onLeave(i, me, alreadyVisited);                                          \
     }                                                                            \
@@ -42,7 +42,7 @@ namespace by {
 
     void me::visit(const visitInfo& i, node& me) {
         nbool alreadyVisited = !_markVisited(me);
-        WHEN(alreadyVisited && !_isReturnable).ret();
+        WHEN(alreadyVisited && !_isReturnable) .ret();
         if(onVisit(i, me, alreadyVisited) && !alreadyVisited) onTraverse(i, me);
         onLeave(i, me, alreadyVisited);
     }
@@ -59,7 +59,7 @@ namespace by {
     }
 
     nbool me::_markVisited(node& me) {
-        WHEN(_visited.find(&me) != _visited.end()).ret(false);
+        WHEN(_visited.find(&me) != _visited.end()) .ret(false);
 
         return _visited[&me] = true;
     }
@@ -69,7 +69,7 @@ namespace by {
         ncnt len = subs.getContainer().len();
         const auto* next = subs.getNext();
         if(next) len += next->getContainer().len();
-        WHEN(len <= 0).ret();
+        WHEN(len <= 0) .ret();
 
         auto e = subs.begin();
         for(int n = 0; n < len; n++, ++e) {

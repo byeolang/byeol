@@ -7,7 +7,7 @@ namespace by {
     BY_DEF_ME(typeProvidable)
 
     nbool me::operator==(const me& rhs) const {
-        WHEN(getType() != rhs.getType()).ret(false);
+        WHEN(getType() != rhs.getType()) .ret(false);
 
         return _onSame(rhs);
     }
@@ -23,7 +23,7 @@ namespace by {
     nbool me::isSuper(const me& it) const { return isSuper(it.getType()); }
 
     void* me::cast(const type& to) {
-        WHEN(!getType().isSub(to)).ret(nullptr);
+        WHEN(!getType().isSub(to)) .ret(nullptr);
         return this;
     }
 

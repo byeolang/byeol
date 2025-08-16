@@ -32,7 +32,7 @@ namespace by {
     }
 
     void me::addLocal(const std::string& name, const node& n) {
-        WHEN(_stack.size() <= 0).err("couldn't push new node. the top scope is null").ret();
+        WHEN(_stack.size() <= 0) .err("couldn't push new node. the top scope is null").ret();
         scope& locals = getLocals() OR.err("it's tried to add variable into %s. it's not valid.", name).ret();
         locals.add(name, n);
     }
@@ -47,7 +47,7 @@ namespace by {
         nbool found = false;
 
         return _getOwner<node>(&sub, [&](nbool isOwner, scopeRegister& reg) -> node* {
-            WHEN(!found && !isOwner).ret(nullptr);
+            WHEN(!found && !isOwner) .ret(nullptr);
             found = true;
 
             baseObj& org = reg.owner TO(template cast<baseObj>())
@@ -64,7 +64,7 @@ namespace by {
 
     scope* me::getLocals() {
         auto* top = _getTop();
-        WHEN(!top || top->owner).ret(nullptr);
+        WHEN(!top || top->owner) .ret(nullptr);
         return top->s.get();
     }
 
@@ -75,7 +75,7 @@ namespace by {
 
     scopeRegister* me::_getTop() {
         ncnt len = _stack.size();
-        WHEN(len <= 0).ret(nullptr);
+        WHEN(len <= 0) .ret(nullptr);
 
         return &_stack[len - 1];
     }
@@ -111,7 +111,7 @@ namespace by {
     nbool me::setRet(const node& newRet) const { return _ret.bind(newRet); }
 
     nbool me::setRet(const node* it) const {
-        WHEN(it).ret(setRet(*it));
+        WHEN(it) .ret(setRet(*it));
 
         _ret.rel();
         return true;

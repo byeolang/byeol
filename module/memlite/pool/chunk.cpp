@@ -16,7 +16,7 @@ namespace by {
 
     nbool me::_resize(ncnt newSz) {
         if(newSz < MIN_SZ) newSz = MIN_SZ;
-        WHEN(newSz == _sz).ret(false);
+        WHEN(newSz == _sz) .ret(false);
 
         nuchar* new1 = (nuchar*) _allocHeap(newSz);
         // considered if user resize far smaller rather than what it had.
@@ -37,7 +37,7 @@ namespace by {
             .err(
                 "new1() failed. chunk was full. you should have not called this in this "
                 "situtation.")
-            .ret(nullptr);
+                .ret(nullptr);
 
         nidx& ret = (nidx*) _get(_head) OR.ret(nullptr);
         _head = ret;
@@ -46,12 +46,13 @@ namespace by {
     }
 
     nbool me::del(void* used, ncnt) {
-        WHEN(!used).ret(false);
+        WHEN(!used) .ret(false);
 
         *(nidx*) used = _head;
         _head = ((nuchar*) used - _heap) / _getRealBlkSize();
         _len--;
-        WHEN(_head < 0).err("chunk corrupted! used(%s) apparently wasn't on heap(%s).", used, (void*) _heap).ret(false);
+        WHEN(_head < 0)
+            .err("chunk corrupted! used(%s) apparently wasn't on heap(%s).", used, (void*) _heap).ret(false);
         return true;
     }
 
@@ -69,7 +70,7 @@ namespace by {
     nuchar* me::_getHeap() { return _heap; }
 
     void* me::_get(nidx n) {
-        WHEN(n < 0 || n >= size()).ret(nullptr);
+        WHEN(n < 0 || n >= size()) .ret(nullptr);
 
         return _heap + n * _getRealBlkSize();
     }

@@ -44,7 +44,7 @@ namespace by {
 
         do {
             chunk* e = get(_s);
-            WHEN(e && e->isCapable()).ret(_s);
+            WHEN(e && e->isCapable()) .ret(_s);
             _s++;
             if(_s >= sz) _s = 0;
         } while(_s != end);
@@ -74,7 +74,7 @@ namespace by {
     }
 
     void* me::_get(nidx n) {
-        WHEN(n < 0 || n >= len()).ret(nullptr);
+        WHEN(n < 0 || n >= len()) .ret(nullptr);
 
         return _chunks[n];
     }
