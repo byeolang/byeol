@@ -53,8 +53,10 @@ namespace by {
         std::conditional_t<_IS_POINTER, R, tmay<R>> get(std::function<nbool(const T&)> l) { return this->get<T>(l); }
 
         template <typename T1>
-        std::conditional_t<_IS_POINTER, const T1*, tmay<T1>> get(std::function<nbool(const T1&)> l) const BY_CONST_FUNC(get(l))
-        std::conditional_t<_IS_POINTER, const R, tmay<R>> get(std::function<nbool(const T&)> l) const BY_CONST_FUNC(get(l))
+        std::conditional_t<_IS_POINTER, const T1*, tmay<T1>> get(std::function<nbool(const T1&)> l) const
+            BY_CONST_FUNC(get(l))
+        std::conditional_t<_IS_POINTER, const R, tmay<R>> get(std::function<nbool(const T&)> l) const
+            BY_CONST_FUNC(get(l))
 
         template <typename T1> tnarr<T1, strTactic> getAll(std::function<nbool(const T1&)> l) const;
         tnarr<T, strTactic> getAll(std::function<nbool(const T&)> l) const;

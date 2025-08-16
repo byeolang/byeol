@@ -129,11 +129,8 @@ namespace by {
     TEMPL
     typename ME::iter ME::iterate(const T& it) const {
         for(iter e = begin(); e; ++e)
-            if constexpr(_IS_POINTER) {
-                WHEN(e.get() == &it).ret(iter(e));
-            } else {
-                WHEN(e.get() == it).ret(iter(e));
-            }
+            if constexpr(_IS_POINTER) WHEN(e.get() == &it).ret(iter(e));
+            else WHEN(e.get() == it).ret(iter(e));
 
         return end();
     }
@@ -144,11 +141,8 @@ namespace by {
     TEMPL
     typename ME::iter ME::riterate(const T& it) const {
         for(iter e = rbegin(); e; ++e)
-            if constexpr(_IS_POINTER) {
-                WHEN(e.get() == &it).ret(iter(e));
-            } else {
-                WHEN(e.get() == it).ret(iter(e));
-            }
+            if constexpr(_IS_POINTER) WHEN(e.get() == &it).ret(iter(e));
+            else WHEN(e.get() == it).ret(iter(e));
 
         return rend();
     }
