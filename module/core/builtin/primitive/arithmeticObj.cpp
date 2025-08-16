@@ -11,7 +11,7 @@ namespace by {
     tstr<arithmeticObj> me::FUNC(const arithmeticObj& rhs) const {                          \
         const auto& dummy = nVoid::singleton();                                             \
         const ntype& deduced = getType().deduce(rhs) OR.exErr(TYPE_NOT_DEDUCED).ret(dummy); \
-        WHEN(deduced.isSub<nVoid>()).ret(dummy);                                            \
+        WHEN(deduced.isSub<nVoid>()) .ret(dummy);                                           \
                                                                                             \
         nbool normalOrder = getType() == deduced;                                           \
         const arithmeticObj& winner = getType() == deduced ? *this : rhs;                   \
@@ -23,10 +23,10 @@ namespace by {
 
 #undef _X
 
-#define _X(FUNC)                                  \
-    nbool me::FUNC(const me& rhs) const {         \
-        WHEN(!rhs.isImpli(getType())).ret(false); \
-        return _##FUNC(rhs);                      \
+#define _X(FUNC)                                   \
+    nbool me::FUNC(const me& rhs) const {          \
+        WHEN(!rhs.isImpli(getType())) .ret(false); \
+        return _##FUNC(rhs);                       \
     }
 
         BY_EACH(_X, eq, ne, gt, lt, ge, le, logicalAnd, logicalOr)
@@ -34,7 +34,7 @@ namespace by {
 #undef _X
 
             tstr<me> me::mov(const me& rhs) {
-                WHEN(!rhs.isImpli(getType())).ret(tstr<me>());
+                WHEN(!rhs.isImpli(getType())) .ret(tstr<me>());
 
                 return tstr<me>(_mov(rhs));
             }

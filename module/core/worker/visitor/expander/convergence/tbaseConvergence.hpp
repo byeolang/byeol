@@ -41,7 +41,7 @@ namespace by {
         ///
         /// @return true if type has been converged successfully.
         nbool converge() override {
-            WHEN(!_obj).ret(false);
+            WHEN(!_obj) .ret(false);
             baseFunc& fun = _func OR.ret(false);
 
             frameInteract objScope(*_obj);

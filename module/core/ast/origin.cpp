@@ -25,7 +25,7 @@ namespace by {
     }
 
     me& me::operator=(const me& rhs) {
-        WHEN(this == &rhs).ret(*this);
+        WHEN(this == &rhs) .ret(*this);
 
         super::operator=(rhs);
         return _assign(rhs);

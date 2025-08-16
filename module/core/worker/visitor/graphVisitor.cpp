@@ -8,8 +8,10 @@
 
 namespace by {
 
-#define _VISIT WHEN(alreadyVisited).ret(false)
-#define _LEAVE WHEN(alreadyVisited).ret()
+#define _VISIT \
+    WHEN(alreadyVisited) .ret(false)
+#define _LEAVE \
+    WHEN(alreadyVisited) .ret()
 
     BY(DEF_ME(graphVisitor))
     using platformAPI::foreColor;
@@ -192,7 +194,7 @@ namespace by {
 
     nbool me::onVisit(const visitInfo& i, FUOExpr& e, nbool alreadyVisited) {
         onVisit(i, (node&) e, alreadyVisited);
-        WHEN(!_isShowData).ret(true);
+        WHEN(!_isShowData) .ret(true);
 
         const node& op = e.getOperand();
         cout << foreColor(LIGHTGRAY) << " = " << foreColor(CYAN) << op.getType().createNameWithParams() << " "
@@ -202,7 +204,7 @@ namespace by {
 
     nbool me::onVisit(const visitInfo& i, assignExpr& e, nbool alreadyVisited) {
         onVisit(i, (node&) e, alreadyVisited);
-        WHEN(!_isShowData).ret(true);
+        WHEN(!_isShowData) .ret(true);
 
         cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << _getNameFrom(e.getLeft()) << foreColor(LIGHTGRAY)
              << " = " << foreColor(MAGENTA) << _getNameFrom(e.getRight());
@@ -212,7 +214,7 @@ namespace by {
 
     nbool me::onVisit(const visitInfo& i, defVarExpr& e, nbool alreadyVisited) {
         onVisit(i, (node&) e, alreadyVisited);
-        WHEN(!_isShowData).ret(true);
+        WHEN(!_isShowData) .ret(true);
 
         cout << foreColor(LIGHTGRAY) << " = " << foreColor(MAGENTA) << e.getName() << foreColor(LIGHTGRAY)
              << " := " << foreColor(CYAN) << _getNameFrom(e.getRight());

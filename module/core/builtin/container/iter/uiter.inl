@@ -115,7 +115,7 @@ namespace by {
     TEMPL
     void ME::_nextToMatchParamType(typename iterable::iterationType type) {
         while(!isEnd()) {
-            WHEN(!typeTrait<R>::isNul(get())).ret();
+            WHEN(!typeTrait<R>::isNul(get())) .ret();
             _iterate(type, 1);
         }
     }

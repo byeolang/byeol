@@ -11,7 +11,7 @@ namespace by {
 
     strWrap __convert__(const node& it) {
         const arithmeticObj* cast = it.cast<arithmeticObj>();
-        WHEN(cast).ret(__convert__(*cast));
+        WHEN(cast) .ret(__convert__(*cast));
 
         return __convert__((typeProvidable&) it);
     }
@@ -22,7 +22,7 @@ namespace by {
 
     strWrap __convert__(const arithmeticObj& it) {
         const std::string& name = it.getType().getName();
-        WHEN(it.isSub<nVoid>()).ret(name);
+        WHEN(it.isSub<nVoid>()) .ret(name);
 
         return strWrap(name + "(" + it.as<nStr>()->get() + ")");
     }

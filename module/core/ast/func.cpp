@@ -34,8 +34,7 @@ namespace by {
     str me::run(const args& a) {
         BY_I("@%s prepare to run `%s(%s)`...", this, getSrc(), getParams());
         WHEN(!thread::get().isInteractable())
-            .err("thread isn't interactable")
-            .ret(nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD));
+            .err("thread isn't interactable").ret(nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD));
 
         // s is from heap space. but freed by _outFrame() of this class.
         tstr<scope> s = _evalArgs(a) OR.ret(str());
@@ -68,7 +67,7 @@ namespace by {
 
         WHEN_NUL(res).err("res == null").ret(str());
         const errReport& errs = thread::get().getEx();
-        WHEN(errs.inErr(exN)).ret(*errs.last()); // if new exception, I just return it.
+        WHEN(errs.inErr(exN)) .ret(*errs.last()); // if new exception, I just return it.
 
         auto* closure = closure::make(*res);
         if(closure) res.bind(closure);
@@ -106,7 +105,7 @@ namespace by {
 
         frame& fr = thread::get()._getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret();
         baseFunc* f = fr.getFunc();
-        WHEN(f != this).ret();
+        WHEN(f != this) .ret();
 
         fr.delFunc();
         fr.del();

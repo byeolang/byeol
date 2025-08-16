@@ -50,7 +50,7 @@ namespace by {
     V* ME::get(const K& key) {
         V* ret = nullptr;
         this->each([&](const K& elemKey, V& val) {
-            WHEN(elemKey != key).ret(true);
+            WHEN(elemKey != key) .ret(true);
             ret = &val;
             return false;
         });
@@ -88,7 +88,7 @@ namespace by {
 
     TEMPL
     nbool ME::del(const iter& from, const iter& last) {
-        WHEN(from.isReversed() != last.isReversed()).exErr(ITERATORS_ARENT_SAME_DIRECTION).ret(false);
+        WHEN(from.isReversed() != last.isReversed()) .exErr(ITERATORS_ARENT_SAME_DIRECTION).ret(false);
         const me* fromChain = (const me*) from.getContainer();
         const me& lastChain =
             (const me*) last.getContainer() OR.warn("iterator 'end' owned by null chain instance.").ret(false);
@@ -110,7 +110,7 @@ namespace by {
     TEMPL
     nbool ME::link(const iter& portion) {
         ME& next = (ME*) (portion TO(getContainer())) OR.ret(false);
-        WHEN(&next == this).warn("recursive link detected for portion(%s).", (void*) &next).ret(false);
+        WHEN(&next == this) .warn("recursive link detected for portion(%s).", (void*) &next).ret(false);
 
         _next = portion;
         // this's not reversed to portion iterator:
@@ -230,8 +230,8 @@ namespace by {
     typename ME::iter ME::_getInnerBeginOfChain(me& it, const me& fromChain, const iter& from) {
         me* prev = it.getPrev();
         nbool isReversed = prev ? prev->_next.isReversed() : false;
-        WHEN(&it != &fromChain).ret(it.getContainer().begin());
-        WHEN(isReversed).ret(it.getContainer().begin());
+        WHEN(&it != &fromChain) .ret(it.getContainer().begin());
+        WHEN(isReversed) .ret(it.getContainer().begin());
 
         auto ret = _getInnerIter(from) OR.ret(this->end());
         return ret;
@@ -241,8 +241,8 @@ namespace by {
     typename ME::iter ME::_getInnerEndOfChain(me& it, const me& lastChain, const iter& last) {
         me* prev = it.getPrev();
         nbool isReversed = !prev ? false : prev->_next.isReversed();
-        WHEN(&it != &lastChain).ret(it.getContainer().end());
-        WHEN(isReversed).ret(it.getContainer().end());
+        WHEN(&it != &lastChain) .ret(it.getContainer().end());
+        WHEN(isReversed) .ret(it.getContainer().end());
 
         auto ret = _getInnerIter(last) OR.ret(this->end());
         return ret;

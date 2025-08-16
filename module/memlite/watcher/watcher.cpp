@@ -19,7 +19,7 @@ namespace by {
         WHEN(gotId.tagN != newId.tagN)
             .warn("bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN, gotId.chkN, gotId.serial,
                 newId.tagN, newId.chkN, newId.serial)
-            .ret(nullptr);
+                .ret(nullptr);
         WHEN(gotId.chkN != newId.chkN || gotId.serial != newId.serial)
             .ret(nullptr); // bindTag has been changed its instance to bind.
 
@@ -28,8 +28,7 @@ namespace by {
 
     void* me::new1() {
         WHEN(isFull() && !_resize(size() * 2 + 1))
-            .err("resize watcher failed! this damage system seriously !!!!")
-            .ret(nullptr);
+            .err("resize watcher failed! this damage system seriously !!!!").ret(nullptr);
 
         watchCell& res = (watchCell*) super::new1() OR.ret(&res);
 
@@ -53,7 +52,7 @@ namespace by {
     }
 
     nidx me::_getIdx(void* it) const {
-        WHEN(!has(*(instance*) it)).ret(-1); // "has" func will treat it as void*, too.
+        WHEN(!has(*(instance*) it)) .ret(-1); // "has" func will treat it as void*, too.
 
         nidx ret = ((nuchar*) it - _getHeap()) / getBlkSize();
         return ret;

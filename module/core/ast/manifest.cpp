@@ -22,10 +22,10 @@ namespace by {
     me::~manifest() {}
 
     nbool me::isValid() const {
-        WHEN(name == "" || filePath == "" || filePath == "" || author == "" || ver == "").ret(false);
+        WHEN(name == "" || filePath == "" || filePath == "" || author == "" || ver == "") .ret(false);
 
         for(const entrypoint& point: points)
-            WHEN(!point.isValid()).ret(false);
+            WHEN(!point.isValid()) .ret(false);
 
         return true;
     }

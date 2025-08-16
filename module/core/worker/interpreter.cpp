@@ -37,7 +37,7 @@ namespace by {
         arr::_cache.clear();
 
         _parse();
-        WHEN(getReport()).ret(getTask());
+        WHEN(getReport()) .ret(getTask());
 
         _showGraph(false);
         _expand();
@@ -82,7 +82,7 @@ namespace by {
 
     void me::_parse() {
         if(!getTask()) setTask(_pser.getTask());
-        WHEN(!_visit(*this, _pser, getTask())).ret();
+        WHEN(!_visit(*this, _pser, getTask())) .ret();
 
         _isParsed = _isPackExist() && _pser.isOk();
     }
@@ -90,11 +90,11 @@ namespace by {
     void me::_expand() {
         threadUse thr;
         expander evaler;
-        WHEN(!_visit(*this, evaler, getTask() TO(getPack()))).ret();
+        WHEN(!_visit(*this, evaler, getTask() TO(getPack()))) .ret();
     }
 
     void me::_verify() {
         threadUse thr;
-        WHEN(!_visit(*this, _veri, getTask() TO(getPack()))).ret();
+        WHEN(!_visit(*this, _veri, getTask() TO(getPack()))) .ret();
     }
 } // namespace by

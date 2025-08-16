@@ -67,7 +67,7 @@ namespace by {
 
     TEMPL
     nbool ME::isFrom(const tbicontainable& it) const {
-        WHEN(!_iteration).ret(false);
+        WHEN(!_iteration) .ret(false);
         return _iteration->isFrom(it);
     }
 
@@ -127,7 +127,7 @@ namespace by {
     TEMPL
     void ME::_nextToMatchParamType(typename iterable::iterationType type) {
         while(!isEnd()) {
-            WHEN(getVal()).ret();
+            WHEN(getVal()) .ret();
             _iterate(type);
         }
     }

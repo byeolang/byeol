@@ -5,7 +5,7 @@ namespace by {
     BY(DEF_ME(errorable))
 
     void me::dbgLog() const {
-        WHEN(!buildFeature::config::isDbg()).ret();
+        WHEN(!buildFeature::config::isDbg()) .ret();
         log();
     }
 

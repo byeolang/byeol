@@ -39,11 +39,9 @@ namespace by {
         str elseEval = (_else ? _else->getEval() : str()) OR.err("elseEval is null").ret(elseEval);
 
         WHEN(thenEval->isSub<retStateExpr>())
-            .info("thenEval is %s, accept elseEval[%s]", thenEval, elseEval)
-            .ret(elseEval);
+            .info("thenEval is %s, accept elseEval[%s]", thenEval, elseEval).ret(elseEval);
         WHEN(elseEval->isSub<retStateExpr>())
-            .info("elseEval is %s, accept thenEval[%s]", elseEval, thenEval)
-            .ret(thenEval);
+            .info("elseEval is %s, accept thenEval[%s]", elseEval, thenEval).ret(thenEval);
 
         // when you try to get eval from ifExpr, `then` and else block must be declared first.
         // if one of blocks has omitted, evaluation of ifExpr should be null.

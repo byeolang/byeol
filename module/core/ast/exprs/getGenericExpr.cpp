@@ -16,7 +16,7 @@ namespace by {
     node* me::_onGet(node& me) const {
         const args& typs = getArgs();
         const std::string& name = getName();
-        WHEN(!typs.len()).err("_args.len() == 0").ret(nullptr);
+        WHEN(!typs.len()) .err("_args.len() == 0").ret(nullptr);
         BY_DI("_name=%s, _args[%d]", getName(), typs.len());
 
         node& generic = me TO(template sub<genericOrigin>(name)) OR.err("generic == null").ret(nullptr);

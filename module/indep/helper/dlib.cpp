@@ -23,7 +23,7 @@ namespace by {
     me::~dlib() { rel(); }
 
     me& me::operator=(const me& rhs) {
-        WHEN(this == &rhs).ret(*this);
+        WHEN(this == &rhs) .ret(*this);
 
         _path = rhs._path;
         me& cast = (me&) rhs;
@@ -61,7 +61,7 @@ namespace by {
 #else
         _handle = dlopen(_path.c_str(), RTLD_LAZY);
 #endif
-        WHEN(_handle).ret(tmay<std::string>());
+        WHEN(_handle) .ret(tmay<std::string>());
 
         rel();
         return tmay<std::string>(getErrMsg());
@@ -88,7 +88,7 @@ namespace by {
 #else
         func = dlsym(_handle, name);
 #endif
-        WHEN(func).ret(tmayFunc<void*>(func));
+        WHEN(func) .ret(tmayFunc<void*>(func));
 
         // when error occurs:
         rel();

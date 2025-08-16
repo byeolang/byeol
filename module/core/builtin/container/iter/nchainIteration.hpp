@@ -22,7 +22,7 @@ public:
     }
 
     nbool isEnd() const override {
-        WHEN(_getNextContainer()).ret(false);
+        WHEN(_getNextContainer()) .ret(false);
         return !_iter;
     }
 
@@ -44,7 +44,7 @@ public:
     using super::getContainer;
 
     tbicontainable<K, V>* getContainer() override {
-        WHEN(!_chainIter).ret(nullptr);
+        WHEN(!_chainIter) .ret(nullptr);
         return _chainIter.get();
     }
 
@@ -94,12 +94,12 @@ private:
     }
 
     const iter* _getNextIter() const {
-        WHEN(!_chainIter).ret(nullptr);
+        WHEN(!_chainIter) .ret(nullptr);
         return this->isReversed() ? &_chainIter->_prev : &_chainIter->_next;
     }
 
     const tnchain* _getNextContainer() const {
-        WHEN(!_chainIter).ret(nullptr);
+        WHEN(!_chainIter) .ret(nullptr);
         return this->isReversed() ? _chainIter->getPrev() : _chainIter->getNext();
     }
 
@@ -162,12 +162,12 @@ private:
     //  and this func is for that.
     nbool _isSubIterEndAtMiddle()
         const { // if this iter is not reversed, there is no case you have the `end at middle`.
-        WHEN(!this->isReversed()).ret(false);
+        WHEN(!this->isReversed()) .ret(false);
 
         // if there is no prev chain, I'll just regard it as `end()` soon.
         const tnchain& prev = _castChain(_getNextIter()) OR.ret(false);
         const me& prevNext = _castIteration(prev._next) OR.ret(false);
-        WHEN(prevNext.isBoundary()).ret(false);
+        WHEN(prevNext.isBoundary()) .ret(false);
         return _iter == prevNext._iter;
     }
 

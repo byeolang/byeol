@@ -39,7 +39,7 @@ namespace by {
     tstr<baseObj> me::_deduceElems() const {
         ncnt len = _elems.len();
         BY_DI("deduceElems: len[%d]", len);
-        WHEN(!len).info("len == 0. deduced type as 'void'").ret(nVoid::singleton());
+        WHEN(!len) .info("len == 0. deduced type as 'void'").ret(nVoid::singleton());
 
         str retLife = _elems[0].getEval() OR.info("deduceElem: elem0 is null").ret(nVoid::singleton());
         const node* ret = retLife.get();

@@ -176,7 +176,7 @@ namespace by {
 
     void me::_logNativeStack() const {
         auto native = platformAPI::callstack();
-        WHEN(native.size() <= 0).ret();
+        WHEN(native.size() <= 0) .ret();
 
         logger& log = logger::get();
         using platformAPI::foreColor;

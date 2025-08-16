@@ -25,12 +25,11 @@ namespace by {
         str run(const args& a) override {
             const params& ps = getParams();
             WHEN(a.len() != ps.len())
-                .err("length of args(%d) and typs(%d) doesn't match.", a.len(), ps.len())
-                .ret(nullptr);
+                .err("length of args(%d) and typs(%d) doesn't match.", a.len(), ps.len()).ret(nullptr);
 
             const node& org = ps[0].getOrigin();
             tstr<T> evaluated = a[0].asImpli(*org.as<T>());
-            WHEN(!evaluated).err("evaluation of arg[%s] -> param[%s] has been failed.", a[0], org).ret(str());
+            WHEN(!evaluated) .err("evaluation of arg[%s] -> param[%s] has been failed.", a[0], org).ret(str());
 
             std::cout << evaluated->get();
             return evaluated;

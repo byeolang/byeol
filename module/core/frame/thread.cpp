@@ -151,7 +151,7 @@ namespace by {
 
     frame* me::_getNowFrame() {
         ncnt n = _getFrames().len() - 1;
-        WHEN(n < 0 || n >= _getFrames().len()).ret(nullptr);
+        WHEN(n < 0 || n >= _getFrames().len()) .ret(nullptr);
 
         return &_getFrames()[n];
     }

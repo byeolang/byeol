@@ -41,7 +41,7 @@ namespace by {
         // object class should not be initialized explicitly:
         //  or it makes recursive call. because if we make a instance of ttype<object>,
         //  it triggers type::init inside of it.
-        WHEN(isInit()).ret(false);
+        WHEN(isInit()) .ret(false);
 
         // main:
         //  setting init flag first is important:
@@ -83,7 +83,7 @@ namespace by {
         //        would must be the class of "this".
         const types& its = it.getSupers();
         ncnt myTier = getSupers().size(), itsTier = its.size();
-        WHEN(myTier > itsTier).ret(false);
+        WHEN(myTier > itsTier) .ret(false);
 
 
         //  main:
@@ -96,7 +96,7 @@ namespace by {
     const nchar* me::getMetaTypeName() const { return "type"; }
 
     nbool me::_logInitOk(nbool res) {
-        WHEN(!res).err("couldn't init meta of %s class.", getName()).ret(res);
+        WHEN(!res) .err("couldn't init meta of %s class.", getName()).ret(res);
         return res;
     }
 
@@ -113,7 +113,7 @@ namespace by {
 
     void me::_setLeafs(types* newLeafs) const {
         types** leafs = _onGetLeafs();
-        WHEN(*leafs == newLeafs).ret();
+        WHEN(*leafs == newLeafs) .ret();
 
         if(*leafs) delete *leafs;
 

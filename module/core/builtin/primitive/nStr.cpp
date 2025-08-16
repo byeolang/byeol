@@ -20,7 +20,7 @@ namespace by {
 
         public:
             str run(const args& a) override {
-                WHEN(a.len() != 1).ret(str());
+                WHEN(a.len() != 1) .ret(str());
                 nStr& me = a.getMe() TO(template cast<nStr>()) OR.ret(str());
                 tstr<seq> s = a[0].as<seq>() OR.ret(str());
 
@@ -122,7 +122,7 @@ namespace by {
 
             str run(const args& a) override {
                 const params& ps = getParams();
-                WHEN(a.len() != ps.len()).warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
+                WHEN(a.len() != ps.len()) .warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
                 nStr& me = a.getMe() TO(template cast<nStr>()) OR.err("me as nStr == null").ret(str());
 
                 str eval = a[0].as(ps[0].getOrigin().as<node>())
@@ -240,7 +240,7 @@ namespace by {
         public:
             str as(const node& me, const type& to) const override {
                 const std::string& val = me.cast<std::string>() OR.ret(_canNotCastEx(me, to));
-                WHEN(val.length() <= 0).ret(_canNotCastEx(me, to));
+                WHEN(val.length() <= 0) .ret(_canNotCastEx(me, to));
 
                 return new nByte(val[0]);
             }

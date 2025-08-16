@@ -33,8 +33,8 @@ namespace by {
         const ntype& ltype = getType();
         const ntype& rtype = it.getType();
         const ntype& res = ltype.deduce(rtype) OR.ret(nullptr);
-        WHEN(res == ltype).ret(this);
-        WHEN(res == rtype).ret(&it);
+        WHEN(res == ltype) .ret(this);
+        WHEN(res == rtype) .ret(&it);
 
         return nullptr;
     }

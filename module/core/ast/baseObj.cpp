@@ -56,22 +56,23 @@ namespace by {
     }
 
     const src& me::getSrc() const {
-        WHEN(&getOrigin() == this).ret(dumSrc::singleton());
+        WHEN(&getOrigin() == this) .ret(dumSrc::singleton());
 
         return getOrigin().getSrc();
     }
 
     const node& me::getSubPack() const {
         static obj dummy;
-        WHEN(&getOrigin() == this).ret(dummy); // which means, the derived origin class doesn't
-                                               // override getSrc(). to prevent infinite loop.
+        WHEN(&getOrigin() == this)
+            .ret(dummy); // which means, the derived origin class doesn't
+                         // override getSrc(). to prevent infinite loop.
         return getOrigin().getSubPack();
     }
 
     baseObj* me::make() const { return (baseObj*) clone(); }
 
     const modifier& me::getModifier() const {
-        WHEN(&getOrigin() == this).ret(super::getModifier());
+        WHEN(&getOrigin() == this) .ret(super::getModifier());
         return getOrigin().getModifier();
     }
 

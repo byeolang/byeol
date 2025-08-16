@@ -67,8 +67,8 @@ namespace by {
     }
 
     str me::getEval() const {
-        WHEN(_eval).ret(_eval);
-        WHEN(_exprs.isEmpty()).ret(nVoid::singleton());
+        WHEN(_eval) .ret(_eval);
+        WHEN(_exprs.isEmpty()) .ret(nVoid::singleton());
 
         return _exprs.last()->getEval();
     }

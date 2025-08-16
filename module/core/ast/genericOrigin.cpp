@@ -29,15 +29,15 @@ namespace by {
     str me::_onRunSub(node& sub, const args& a) { return str(); }
 
     scope& me::subs() {
-        WHEN(_org).ret(_org->subs());
+        WHEN(_org) .ret(_org->subs());
 
         return dumScope::singleton();
     }
 
     priorType me::prioritize(const args& a) const {
         std::string key = _makeKey(a);
-        WHEN(key.empty()).ret(NO_MATCH);
-        WHEN(!_cache.count(key)).ret(NO_MATCH);
+        WHEN(key.empty()) .ret(NO_MATCH);
+        WHEN(!_cache.count(key)) .ret(NO_MATCH);
         // after verification, making GenericObject is supressed.
 
         return EXACT_MATCH;
@@ -45,21 +45,21 @@ namespace by {
 
     str me::run(const args& a) {
         std::string key = _makeKey(a);
-        WHEN(key.empty()).err("key is empty").ret(tstr<obj>());
-        WHEN(_isSelfMaking(key)).err("error: you tried to clone self generic object.").ret(tstr<obj>());
+        WHEN(key.empty()) .err("key is empty").ret(tstr<obj>());
+        WHEN(_isSelfMaking(key)) .err("error: you tried to clone self generic object.").ret(tstr<obj>());
 
         if(!_cache.count(key)) _makeGeneric(key, params::make(_paramNames, a));
         return _cache[key];
     }
 
     std::string me::_makeKey(const args& a) const {
-        WHEN(a.len() != _paramNames.size()).err("len of args doesn't match to _paramNames").ret(std::string());
+        WHEN(a.len() != _paramNames.size()) .err("len of args doesn't match to _paramNames").ret(std::string());
         return a.toStr();
     }
 
     /// make a generic object.
     tstr<obj> me::_makeGeneric(const std::string& argName, const params& ps) {
-        WHEN(!_org).err("_orgObj is null").ret(tstr<obj>());
+        WHEN(!_org) .err("_orgObj is null").ret(tstr<obj>());
 
         const ntype& orgType = _org->getType();
         tstr<obj> ret = (obj*) _org->cloneDeep(); // clone all of shares including func.

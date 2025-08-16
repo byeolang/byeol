@@ -71,7 +71,7 @@ namespace by {
     }
 
     nint me::_onTokenEndOfInlineBlock(nint tok) {
-        WHEN(!_dedent.canDedent()).ret(tok);
+        WHEN(!_dedent.canDedent()) .ret(tok);
 
         BY_DI("tokenEvent: onTokenEndOfInlineBlock: '%c' [%d] use smart dedent!", (char) tok, tok);
         _dispatcher.addFront(tok);
@@ -256,7 +256,7 @@ namespace by {
 
     tstr<leaf> me::_finalize() {
         ncnt size = _errs.size();
-        WHEN(size <= 0).ret(_root);
+        WHEN(size <= 0) .ret(_root);
 
         BY_I("leaf: total %d errors found.", size);
         for(const auto& e: _errs)

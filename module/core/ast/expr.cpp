@@ -24,7 +24,7 @@ namespace by {
     priorType me::prioritize(const args& a) const { return a.len() == 0 ? EXACT_MATCH : NO_MATCH; }
 
     const src& me::getSrc() const {
-        WHEN(!_src).ret(super::getSrc());
+        WHEN(!_src) .ret(super::getSrc());
         return *_src;
     }
 

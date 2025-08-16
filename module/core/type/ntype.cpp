@@ -10,16 +10,16 @@ namespace by {
     BY_DEF_ME(ntype)
 
     nbool me::operator==(const type& rhs) const {
-        WHEN(!super::operator==(rhs)).ret(false);
-        WHEN(getMetaTypeName() != rhs.getMetaTypeName()).ret(false);
+        WHEN(!super::operator==(rhs)) .ret(false);
+        WHEN(getMetaTypeName() != rhs.getMetaTypeName()) .ret(false);
 
         const ntype& cast = (const ntype&) rhs;
 
-        WHEN(getParams() != cast.getParams()).ret(false);
+        WHEN(getParams() != cast.getParams()) .ret(false);
 
         const ntype* ret = getRet() ? &getRet()->getType() : nullptr;
         const ntype* rhsRet = getRet() ? &getRet()->getType() : nullptr;
-        WHEN(!ret && !rhsRet).ret(true);
+        WHEN(!ret && !rhsRet) .ret(true);
         return ret == rhsRet;
     }
 
@@ -30,13 +30,13 @@ namespace by {
     str me::asImpli(const node& from, const type& to) const { return _getImpliAses().as(from, to); }
 
     nbool me::is(const type& to) const {
-        WHEN(isImpli(to)).ret(true);
+        WHEN(isImpli(to)) .ret(true);
 
         return _getAses().is(*this, to);
     }
 
     str me::as(const node& from, const type& to) const {
-        WHEN(isImpli(to)).ret(asImpli(from, to));
+        WHEN(isImpli(to)) .ret(asImpli(from, to));
 
         return _getAses().as(from, to);
     }
@@ -139,7 +139,7 @@ namespace by {
 
     const ntype& me::_deduceSuperType(const ntype& l, const ntype& r) {
         //  reducing super type between l & r algorithm:
-        WHEN(l == r).ret(l);
+        WHEN(l == r) .ret(l);
 
         const types& lAncestor = l.getSupers();
         const types& rAncestor = r.getSupers();
@@ -170,7 +170,7 @@ namespace by {
 
     std::string me::createNameWithParams() const {
         std::string params = getParams().toStr();
-        WHEN(params.empty()).ret(getName());
+        WHEN(params.empty()) .ret(getName());
 
         return getName() + "<" + params + ">";
     }

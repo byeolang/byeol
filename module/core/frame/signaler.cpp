@@ -98,7 +98,7 @@ namespace by {
 
     const nerr* me::_getErrBy(nint code) const {
         for(const sig& e: signals)
-            WHEN(e.code == code).ret(e.maker(code));
+            WHEN(e.code == code) .ret(e.maker(code));
         return nullptr;
     }
 } // namespace by

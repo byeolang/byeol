@@ -51,8 +51,7 @@ namespace by {
         args* _evalArgs(const args& a, args& tray) {
             const params& ps = getParams();
             WHEN(a.len() != ps.len())
-                .err("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len())
-                .ret(nullptr);
+                .err("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len()).ret(nullptr);
 
             int n = 0;
             for(const node& e: a) {
@@ -112,8 +111,7 @@ namespace by {
         args* _evalArgs(const args& a, args& tray) {
             const params& ps = getParams();
             WHEN(a.len() != ps.len())
-                .err("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len())
-                .ret(nullptr);
+                .err("length of a(%d) and typs(%d) doesn't match.", a.len(), ps.len()).ret(nullptr);
 
             int n = 0;
             for(const node& e: a) {

@@ -1,4 +1,125 @@
 # Changelogs
+
+## v0.2.10 Mana Update
+released on 07-15 2025 build#1344
+
+### language updates
+
++ Rename `namu` to `byeol`.
+
+- If you write a blank space with a comment, the blank space would somehow be printed 
+  to the screen.
+
+### framework updates
+
++ I've finally been able to remove `nullable reference`, which has been a long time coming.
+  my code is now more compliant with the C++ standard.
+  It's true that nullable references have had a lot of benefits in terms of code readability, 
+  and while we haven't had issues in major compilers for 4-5 years, there's no guarantee that 
+  we will in the future.
+
+  I'm removing nullable references from all of my code due to the maintenance and 
+  risk involved going forward.
+  It's not just a simple string substitution, but a lot of work, including rewriting 
+  logic where necessary.
+
+  What initially prompted me to do this was a suspicion that compiling in release mode 
+  on mac-arm64 would crash due to nullable references, but that was a separate issue, 
+  as we'll discuss later (...)
+
++ Support wrappers for different types of return values.
+  In a way, it's a natural addition with the demise of nullable references.
+
+  * tmay<T> is used when returning as a value, nested with the semantics of an error.
+    This is more like a delegation of std::optional.
+
+  * tres<T, R> is used to go one step further than tmay<T>, and to embed the desired 
+    type of information in the error.
+
+  * tmedium<T> is for use in OR macros only, and is not recommended for use outside of macros.
+
++ introduces the concept of `SIDE_FUNC`.
+  This also came about as a result of the deprecation of nullable references.
+  Now that references and pointers were clearly distinguished, pointers had to be 
+  used more aggressively.
+  I have tried to replace pointers with references as much as possible through OR macros to
+  reduce the number of places where pointers are used, but pointers are still used a lot.
+  SIDE_FUNC is a convenience function for this, which is a single-line macro that 
+  takes T& as an argument and delegates to if the original function takes T* and is not null.
+  The code convention for writing SIDE_FUNC is detailed in this document.
+
++ The part that deals with dynamic shared objects is platform-dependent, so I named it 
+  dlib and moved it to the indep module.
+
++ I've improved the `TO` and `OR` macros:
+  I've cleaned up their usage and made them work better together when used in combination.
+  I've also added support for various corner cases, such as returning T* if there is a 
+  referent in the middle of `TO`.
+
++ I've written a code convention rule for the return type of functions.
+  I'm also drafting a section in `/doc` to help guide code modifications.
+  but didn't have time to write a retrospective or organize the topics I wanted to 
+  talk about, so wrote it as it was in my head, the tone is a bit harsh and emotional.
+  I plan to rewrite and translate it later, organized by topic, when it's ready for 
+  public consumption.
+
++ fixed everything to actively use `WHEN` throughout the code.
+  It was too much work to end with this one line.
+
++ As the language is renamed, I take the following naming policy.
+  Always write `byeol` verbatim and never abbreviate it in parts that are visible to 
+  the user (e.g., source code file extensions)
+  However, internally, the framework can use the abbreviation `BY` for usability.
+  this changes some things like macro prefixes, namespaces, etc. from `nm` to `by`.
+
+- Removed three code duplicates: `verify` `parse` `expand` in `interpreter`.
+
+- Fixed a mysterious crash on mac-arm64 that hadn't been fixed for a long time.
+  The reason was an extra formatting character (e.g. printf("%s %s\n", "only single string"); )
+  Strangely enough, it worked on all other OSes, except mac-x64, so this was a good thing.
+  This inspired me to buy a newer MacBook, as I've been using an Intel Mac and couldn't
+  reproduce it, no matter how hard I tried.
+
+- Fixed a couple of memlick issues during parsing.
+
+- Fixed cmake 4.0 compatibility issue
+
+- Fixed a compilation error in nseq --> tucontainable, caused by a tricky 
+  template instantiation in MSVC.
+  Keep it up, MSVC.
+
+### development environment updates
++ Fixed clang-format behaving differently on different OSes and minor versions.
+  Use docker to always use the same version of clang-format wherever you are.
+  If you want to run it locally yourself, use the command `./builder.py format`.
+
++ The github workflow will generate the full binary with the bundle pack.
+
++ The `mod` folder was very easily misunderstood as `MOD`, which is a gaming term,
+  so I changed it to `module`.
+
++ Enforce the 80 soft 120 hard column rule.
+  In simple terms, this means that if you have more than 80 columns, you should start 
+  thinking about adding new line, but never more than 120 columns.
+
++ Add the `builder.py prerequisites` command.
+  It will carefully check if you have installed any external libraries or tools 
+  required for your development environment.
+
++ Support for `Claude AI`.
+
+- Significantly reduced the number of warnings generated by windows builds.
+
+- Fixed MSVC to be more compliant with C++ standards using the `/permissive-` option.
+  I don't know why I didn't know about this before. 95% of my errors were caught in 
+  one fell swoop.
+  The dozens of hours I've spent struggling with it are going through my head.
+  I'd like to take this opportunity to thank claude-ai for his profound insight and 
+  enlightenment, 
+ `/permissive-`, as my head has been smashed dozens of times in the early hours of 
+  the morning by the powerful combination of MSVC and templates.
+
+
 ## v0.2.9 Mana Update
 released on 02-26 2024
 build#1167

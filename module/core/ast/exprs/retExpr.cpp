@@ -25,7 +25,7 @@ namespace by {
 
     str me::run(const args& a) {
         frame& fr = thread::get().getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(str());
-        WHEN(!_ret).ret(str(nVoid::singleton()));
+        WHEN(!_ret) .ret(str(nVoid::singleton()));
 
         // check retValue is null or not:
         //  ret should be void if there is no value to return. so 'null' not allowed here.
@@ -35,7 +35,7 @@ namespace by {
 
         // check exception occured during running func.
         node& fRet = fr.getFunc() TO(getRet()) OR.exErr(FUNC_SHOULD_RETURN_SOMETHING).ret(str());
-        WHEN(_isEx(*ret, fRet)).ret(_returnEx(ret->cast<baseErr>()));
+        WHEN(_isEx(*ret, fRet)) .ret(_returnEx(ret->cast<baseErr>()));
 
         BY_DI("retExpr: frame.setRet(%s)", ret);
         fr.setRet(*ret);
@@ -47,7 +47,7 @@ namespace by {
     node& me::getRet() { return _ret ? *_ret : nVoid::singleton(); }
 
     priorType me::prioritize(const args& a) const {
-        WHEN(_ret).ret(_ret->prioritize(a));
+        WHEN(_ret) .ret(_ret->prioritize(a));
         return super::prioritize(a);
     }
 
