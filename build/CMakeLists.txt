@@ -55,24 +55,26 @@ IF(CMAKE_SYSTEM_NAME STREQUAL Darwin OR CMAKE_SYSTEM_NAME STREQUAL Linux OR CMAK
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedefs -Wno-unused-function")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-zero-variadic-macro-arguments -Wno-undefined-bool-conversion -Wno-c++20-extensions")
 
-    find_program(CLANGPP_PATH clang++)
-    find_program(CLANG_PATH clang)
-    IF(CLANGPP_PATH)
-        set(CMAKE_CXX_COMPILER "${CLANGPP_PATH}")
-        set(CMAKE_C_COMPILER "${CLANG_PATH}")
+    IF(NOT EMSCRIPTEN)
+        find_program(CLANGPP_PATH clang++)
+        find_program(CLANG_PATH clang)
 
-        # clang flags:
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-zero-variadic-macro-arguments -Wno-undefined-bool-conversion -Wno-c++20-extensions")
+        IF(CLANGPP_PATH)
+            set(CMAKE_CXX_COMPILER "${CLANGPP_PATH}")
+            set(CMAKE_C_COMPILER "${CLANG_PATH}")
 
-    ELSE(CLANGPP_PATH)
+            # clang flags:
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-zero-variadic-macro-arguments -Wno-undefined-bool-conversion -Wno-c++20-extensions")
 
-        # gcc flags:
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-dangling-reference") # False positive
-        #   older gccs arbitrarily optimize away member variable initialization syntax in destructors that are supposed to handle
-        #   allocation new/delete correctly. It's a sort of false positive, because it works fine in newer gccs.
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-lifetime-dse")
+        ELSE(CLANGPP_PATH)
+            # gcc flags:
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-dangling-reference") # False positive
+            #   older gccs arbitrarily optimize away member variable initialization syntax in destructors that are supposed to handle
+            #   allocation new/delete correctly. It's a sort of false positive, because it works fine in newer gccs.
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-lifetime-dse")
 
-    ENDIF(CLANGPP_PATH)
+        ENDIF(CLANGPP_PATH)
+    ENDIF(NOT EMSCRIPTEN)
 
     IF(COVERAGE_TOOL)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-instr-generate -fcoverage-mapping -fprofile-arcs -ftest-coverage") # supports both of llvm-cov and gcov
