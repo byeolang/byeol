@@ -23,7 +23,7 @@ namespace by {
     nbool me::run(flagArgs& a) {
         _res = -1;
         interpreter ip;
-        errReport rpt;
+        errReport rpt(true); // it's noisy now.
         ip.setReport(rpt).setFlag(interpreter::DEFAULT);
         starter s;
         s.setFlag(starter::DUMP_ON_EX);
