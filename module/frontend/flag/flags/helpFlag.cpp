@@ -20,7 +20,7 @@ namespace by {
     }
 
     me::res helpFlag::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
-        std::cout << "Usage: frontend <option> <filepath>\n";
+        std::cout << "Usage: byeol <option> <filepath>\n";
 
         const flags& opts = c.getFlags();
         for(int n = 0; n < opts.size(); n++) {
