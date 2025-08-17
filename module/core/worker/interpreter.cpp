@@ -68,8 +68,6 @@ namespace by {
             BY_DI("|               %s                   |", v.getType().getName().c_str());
             BY_DI("======================================");
 
-            WHEN_NUL(i.getTask()).err("_slot is null").ret(false);
-
             v.setReport(i.getReport())
                 .setFlag(i.getFlag())
                 .delFlag(interpreter::LOG_ON_END | interpreter::DUMP_ON_END)
@@ -81,8 +79,8 @@ namespace by {
     }
 
     void me::_parse() {
-        if(!getTask()) setTask(_pser.getTask());
         WHEN(!_visit(*this, _pser, getTask())) .ret();
+        if(!getTask()) setTask(_pser.getTask());
 
         _isParsed = _isPackExist() && _pser.isOk();
     }
@@ -90,11 +88,13 @@ namespace by {
     void me::_expand() {
         threadUse thr;
         expander evaler;
+        WHEN_NUL(getTask()).err("_slot is null").ret();
         WHEN(!_visit(*this, evaler, getTask() TO(getPack()))) .ret();
     }
 
     void me::_verify() {
         threadUse thr;
+        WHEN_NUL(getTask()).err("_slot is null").ret();
         WHEN(!_visit(*this, _veri, getTask() TO(getPack()))) .ret();
     }
 } // namespace by
