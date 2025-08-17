@@ -51,15 +51,21 @@ TEST_F(parserTest, slotNoOnTray) {
     ASSERT_TRUE(getSubPack()->sub<func>("main"));
 }
 
-TEST_F(parserTest, slotNoOnTrayWithoutMakeNegative) {
-    // no make() call: this should be fail
+TEST_F(parserTest, slotNoOnTrayWithoutMake) {
+    // no make() call:
+    //  so setPack(new slot(manifest())) won't be called.
+    //  but it should works too.
     parse(R"SRC(
         main() void
             ret
     )SRC");
-    shouldVerified(false);
+    shouldVerified(true);
 
-    ASSERT_FALSE(getSlot());
+    slot& slot = getSlot() OR_ASSERT(slot);
+    ASSERT_TRUE(slot.subs().getNext());
+    ASSERT_EQ(slot.getManifest().name, manifest::DEFAULT_NAME);
+    ASSERT_EQ(&slot.getPack(), getSubPack());
+    ASSERT_TRUE(getSubPack()->sub<func>("main"));
 }
 
 TEST_F(parserTest, slotNotSpecifiedButCodeSpecifyPackNegative) {

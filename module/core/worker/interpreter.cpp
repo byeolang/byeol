@@ -89,12 +89,12 @@ namespace by {
         threadUse thr;
         expander evaler;
         WHEN_NUL(getTask()).err("_slot is null").ret();
-        WHEN(!_visit(*this, evaler, getTask() TO(getPack()))) .ret();
+        _visit(*this, evaler, getTask() TO(getPack()));
     }
 
     void me::_verify() {
         threadUse thr;
         WHEN_NUL(getTask()).err("_slot is null").ret();
-        WHEN(!_visit(*this, _veri, getTask() TO(getPack()))) .ret();
+        _visit(*this, _veri, getTask() TO(getPack()));
     }
 } // namespace by
