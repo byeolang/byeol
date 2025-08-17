@@ -94,7 +94,7 @@ namespace by {
 
     TEMPLATE
     void ME::_onEndErrReport(const errReport& rpt) const {
-        WHEN(!isFlag(DUMP_ON_END | LOG_ON_END) && !rpt) .ret(); // ## print errors.
+        WHEN(!isFlag(DUMP_ON_END | LOG_ON_END) || !rpt) .ret(); // ## print errors.
 
         BY_I("errors:");
         if(isFlag(DUMP_ON_END)) {

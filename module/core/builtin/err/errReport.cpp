@@ -90,6 +90,7 @@ namespace by {
 
     void me::_noise(const baseErr& new1) {
         WHEN(!_isNoisy) .ret();
+        enablesZone zone(true);
         new1.log();
     }
 
