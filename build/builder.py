@@ -138,26 +138,31 @@ def _cleanIntermediates():
     printOk("done.")
     _cleanCoverageFiles()
 
+def slash():
+    return '\\' if isWindow() else '/'
+
 def cleanGhPages(git):
     global cwd, python3, externalDir
 
+    def runCommand(cmd):
+        res = os.system(cmd)
+        if res != 0:
+            printErr("fail to clone gh-pages repo.")
+            _cleanIntermediates()
+        return res
+
     # clean before fetch repo:
     _cleanIntermediates()
+    pathRef = f"{cwd}{slash()}html{slash()}ref"
     if isWindow():
-        os.system("del /s /f /q " + cwd + "\\html\\ref")
+        os.system(f"del /s /f /q {pathRef}")
     else:
-        os.system("rm -rf " + cwd + "/html/ref")
+        os.system(f"rm -rf {pathRef}")
 
     # standby gh-pages repo:
     printInfoEnd("cloning gh-pages branch...")
-    if isWindow():
-        res = os.system(f"{git.binary} clone -b gh-pages --depth 5 https://github.com/byeolang/byeol --single-branch " + cwd + "\\html")
-    else:
-        res = os.system(f"{git.binary} clone -b gh-pages --depth 5 https://github.com/byeolang/byeol --single-branch " + cwd + "/html")
-    if res != 0:
-        printErr("fail to clone gh-pages repo.")
-        _cleanIntermediates()
-        return -1
+    res = runCommand(f"{git.binary} clone -b gh-pages --depth 5 https://github.com/byeolang/byeol --single-branch {pathRef}")
+    if res != 0: return res
     printOk("done.")
 
     # clean removed or modified doxygen outputs:
@@ -167,6 +172,7 @@ def cleanGhPages(git):
     else:
         os.system("rm -rf " + cwd + "/html/ref/*")
         os.system("rm -rf " + cwd + "/html/_site/*")
+    return 0
 
 def docDoxygen(doxygen):
     global cwd, python3, externalDir
@@ -188,7 +194,8 @@ def doc():
     if checkDependencies([doxygen, git]):
         return -1
 
-    cleanGhPages(git)
+    if cleanGhPages(git) != 0:
+        return -1
     docDoxygen(doxygen)
     return 0
 
