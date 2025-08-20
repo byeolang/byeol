@@ -153,40 +153,40 @@ def cleanGhPages(git):
 
     # clean before fetch repo:
     _cleanIntermediates()
-    pathRef = f"{cwd}{slash()}html{slash()}ref"
+
+    pathHtml = f"{cwd}{slash()}html"
     if isWindow():
-        os.system(f"del /s /f /q {pathRef}")
+        os.system(f"del /s /f /q {pathHtml}")
     else:
-        os.system(f"rm -rf {pathRef}")
+        os.system(f"rm -rf {pathHtml}")
 
     # standby gh-pages repo:
     printInfoEnd("cloning gh-pages branch...")
-    res = runCommand(f"{git.binary} clone -b gh-pages --depth 5 https://github.com/byeolang/byeol --single-branch {pathRef}")
+    res = runCommand(f"{git.binary} clone -b gh-pages --depth 5 https://github.com/byeolang/byeol --single-branch {pathHtml}")
     if res != 0: return res
     printOk("done.")
-
-    # clean removed or modified doxygen outputs:
-    if isWindow():
-        os.system("del /s /f /q " + cwd + "\\html\\ref\\*")
-        os.system("del /s /f /q " + cwd + "\\html\\_site\\*")
-    else:
-        os.system("rm -rf " + cwd + "/html/ref/*")
-        os.system("rm -rf " + cwd + "/html/_site/*")
     return 0
 
 def docDoxygen(doxygen):
     global cwd, python3, externalDir
 
+    def runCommand(cmd):
+        res = os.system(cmd)
+        if res != 0:
+            printErr("fail to run doxygen.")
+            _cleanIntermediates()
+        return res
+
     # build doxygen:
-    printInfoEnd("generating docs using doxygen...")
-    if isWindow():
-        res = os.system(f"{doxygen.binary} {cwd}\\Doxyfile")
-    else:
-        res = os.system(f"{doxygen.binary} {cwd}/Doxyfile")
-    if res != 0:
-        printErr("fail to run doxygen.")
-        _cleanIntermediates()
-        return -1
+    printInfoEnd("generating docs using reference using doxygen...")
+    res = runCommand(f"{doxygen.binary} {cwd}{slash()}DoxyReference")
+    if res != 0: return res
+    printOk("done")
+
+    printInfoEnd("generating docs using guide using doxygen...")
+    res = runCommand(f"{doxygen.binary} {cwd}{slash()}DoxyGuide")
+    if res != 0: return res
+    printOk("done")
 
 def doc():
     doxygen = DoxygenDependency()
