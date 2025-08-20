@@ -15,7 +15,3 @@ div#projectname p {
 div.contents, div.header .title {
     margin: 0 !important;
 }
-
-div#nav-sync {
-    display: none;
-}
