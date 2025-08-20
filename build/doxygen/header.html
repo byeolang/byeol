@@ -17,10 +17,32 @@ $mathjax
 <link href="$relpath^$stylesheet" rel="stylesheet" type="text/css" />
 $extrastylesheet
 
+<!-- extensions: -->
+<!--    darkmode toggle: -->
 <script type="text/javascript" src="$relpath^doxygen-awesome-darkmode-toggle.js"></script>
 <script type="text/javascript">
     DoxygenAwesomeDarkModeToggle.init()
 </script>
+
+<!--    fragement copy to clipboard: -->
+<script type="text/javascript" src="$relpath^doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+</script>
+
+<!--    paragraph linking: -->
+<script type="text/javascript" src="$relpath^doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeParagraphLink.init()
+</script>
+
+<!--    interactive toc: -->
+<script type="text/javascript" src="$relpath^doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeInteractiveToc.init()
+</script>
+
+<!-- end of extension -->
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -37,8 +59,8 @@ $extrastylesheet
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">$projectname
    <!--BEGIN PROJECT_NUMBER-->&#160;<span id="projectnumber">$projectnumber</span><!--END PROJECT_NUMBER-->
+   <p>by <a href="https://www.doxygen.org/index.html">doxygen</a></p>
    </div>
-   <!--BEGIN PROJECT_BRIEF--><div id="projectbrief">$projectbrief</div><!--END PROJECT_BRIEF-->
   </td>
   <!--END PROJECT_NAME-->
   <!--BEGIN !PROJECT_NAME-->
