@@ -725,7 +725,7 @@ FILE_VERSION_FILTER    =
 # DoxygenLayout.xml, doxygen will parse it automatically even if the LAYOUT_FILE
 # tag is left empty.
 
-LAYOUT_FILE            =
+LAYOUT_FILE            = doxygen/DoxygenLayout.xml
 
 # The CITE_BIB_FILES tag can be used to specify one or more bib files containing
 # the reference definitions. This must be a list of .bib files. The .bib
@@ -813,7 +813,8 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = ../module/clog \
+INPUT                  = ../doc/ref \
+                         ../module/clog \
                          ../module/indep \
                          ../module/core \
                          ../module/memlite \
@@ -980,7 +981,7 @@ FILTER_SOURCE_PATTERNS =
 # (index.html). This can be useful if you have a project on for instance GitHub
 # and want to reuse the introduction page also for the doxygen output.
 
-USE_MDFILE_AS_MAINPAGE = ../doc/ref/README.md
+USE_MDFILE_AS_MAINPAGE = ../doc/ref/MAINPAGE.md
 
 #---------------------------------------------------------------------------
 # Configuration options related to source browsing
