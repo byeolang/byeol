@@ -1,3 +1,5 @@
+/// @file
+/// Side function macros for safe pointer operations
 #pragma once
 
 #include "indep/macro/overload.hpp"

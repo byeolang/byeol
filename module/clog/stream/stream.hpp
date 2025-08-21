@@ -1,9 +1,14 @@
+/// @file
 #pragma once
 
 #include "clog/common.hpp"
 
 namespace by {
 
+    /// @ingroup clog
+    /// @brief Base class for all logging output streams
+    /// @details Provides the fundamental interface for logging destinations
+    /// such as console output, file output, or network logging.
     class _nout stream {
         BY_ME(stream)
 

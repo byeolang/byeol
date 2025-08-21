@@ -1,3 +1,4 @@
+/// @file
 // nested class of tnchain.hpp:
 //  this file allows to be refered by 'tnchain.hpp' file only.
 class nchainIteration: public iteration {

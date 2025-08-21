@@ -1,10 +1,14 @@
+/// @file
 #pragma once
 
 #include "indep/common.hpp"
 #include "indep/macro.hpp"
 
 namespace by {
-    /// iterator for codepoint of string.
+    /// @ingroup indep
+    /// @brief Iterator for codepoint of string
+    /// @details Provides Unicode-aware string iteration capabilities
+    /// for processing multi-byte character sequences.
     class _nout cpIter {
         BY(ME(cpIter))
 

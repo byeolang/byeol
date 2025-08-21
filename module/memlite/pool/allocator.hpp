@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "memlite/pool/memoryHaver.hpp"

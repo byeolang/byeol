@@ -1,10 +1,14 @@
+/// @file
 #pragma once
 
 #include "meta/common.hpp"
 
 namespace by {
 
-    /// @remark type returning ttype<type> as result of getType()
+    /// @ingroup meta
+    /// @brief Base class for runtime type information in byeol language
+    /// @details Provides fundamental type metadata and operations.
+    /// Returns ttype<type> as result of getType() for type introspection.
     class _nout type {
         BY_ME(type)
 

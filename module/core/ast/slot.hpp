@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "core/builtin/err/errReport.hpp"

@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "core/builtin/container/native/tnarr.hpp"
@@ -22,7 +23,10 @@ namespace by {
 
     template <typename T> class tmock;
 
-    /// node provides common API to manipulate its sub nodes.
+    /// @ingroup core
+    /// @brief Base class for all AST nodes in byeol language
+    /// @details Provides common API to manipulate sub nodes and handle
+    /// the hierarchical structure of the byeol abstract syntax tree.
     class _nout node: public instance, public frameInteractable {
         BY(ADT(node, instance))
         friend class exprMaker; // for _setSrc

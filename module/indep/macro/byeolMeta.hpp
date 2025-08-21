@@ -1,3 +1,5 @@
+/// @file
+/// Core metadata declaration macro system for byeol language classes
 #pragma once
 
 #include "indep/macro/forEach.hpp"

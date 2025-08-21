@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "memlite/interface/instance.hpp"

@@ -1,3 +1,5 @@
+/// @file
+/// Conditional compilation and execution macros
 #pragma once
 
 #include <utility>

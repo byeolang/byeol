@@ -1,3 +1,5 @@
+/// @file
+/// OR macro implementation for error handling and fallback operations
 #pragma once
 
 #include "indep/macro/to.hpp"

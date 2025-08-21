@@ -1,3 +1,5 @@
+/// @file
+/// Type definition macros for class self-reference
 #pragma once
 
 #include "indep/macro/overload.hpp"

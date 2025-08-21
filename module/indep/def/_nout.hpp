@@ -1,3 +1,5 @@
+/// @file
+/// Platform-specific export/import declarations for Windows DLL support
 #pragma once
 
 #ifdef WIN32

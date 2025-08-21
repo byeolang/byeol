@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "clog/enablesZone.hpp"
@@ -6,6 +7,11 @@
 
 namespace by {
 
+    /// @ingroup clog
+    /// @brief Main logging interface for the byeol language system
+    /// @details Manages multiple output streams and filtering capabilities.
+    /// Provides centralized logging with configurable output destinations
+    /// and severity level filtering.
     class _nout logger: public stream {
         BY_ME(logger, stream)
 
@@ -19,7 +25,8 @@ namespace by {
 
         nbool isEnable() const override;
 
-        /// modify that all of streams are set to enable or not.
+        /// @brief Enable or disable all logging streams
+        /// @param enable True to enable all streams, false to disable
         void setEnable(nbool enable) override;
         enables getEnables() const;
         void setEnables(const enables& enbs);
@@ -30,18 +37,25 @@ namespace by {
         nbool pushStream(stream* new_stream);
         nbool pushStream(stream& new_stream);
 
+        /// @brief Get singleton logger instance
         static logger& get();
 
         //  stream:
         const std::string& getName() const override;
 
         using super::logBypass;
+        /// @brief Log message bypassing normal filtering
+        /// @param message Message to log directly
         nbool logBypass(const nchar* message) override;
 
         nbool isInit() const override;
         //  filter:
+        /// @brief Set logging filters
+        /// @param newFilters Filter configuration to apply
         void setFilters(const filters& newFilters);
+        /// @brief Reset filters to default
         void setFilters();
+        /// @brief Get current filter configuration
         const filters& getFilters() const;
 
     private:

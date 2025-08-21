@@ -1,3 +1,5 @@
+/// @file
+/// Unicode and character type abstractions for cross-platform compatibility
 #pragma once
 
 #ifdef UNICODE

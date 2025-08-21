@@ -1,3 +1,5 @@
+/// @file
+/// Macro-based foreach implementation for C++ iteration
 /*
  * Copyright (C) 2012 William Swanson
  *

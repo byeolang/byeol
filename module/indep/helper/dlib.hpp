@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "indep/common.hpp"
@@ -17,8 +18,10 @@ namespace by {
 #endif
     template <typename F> using tmayFunc = tres<F, std::string>;
 
-    // dlib:
-    //  dynamic library class.
+    /// @ingroup indep
+    /// @brief Dynamic library loading and management class
+    /// @details Provides cross-platform dynamic library loading capabilities.
+    /// Supports loading shared libraries (.so, .dll) and accessing functions within them.
     class _nout dlib {
         BY(ME(dlib))
 

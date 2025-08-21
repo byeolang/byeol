@@ -1,3 +1,4 @@
+/// @file
 // nested class of tnarr.hpp:
 //  this file allows to be refered by 'tnarr.hpp' file only.
 class narrIteration: public iteration {

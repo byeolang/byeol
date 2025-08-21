@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "clog/richLog.hpp"
@@ -7,6 +8,10 @@ namespace by {
 #undef __WHEN_OBJECT__
 #define __WHEN_OBJECT__ __clog_when__
 
+    /// @ingroup clog
+    /// @brief Conditional logging utility for clog module
+    /// @details Provides convenient conditional logging methods with different severity levels.
+    /// Extends the indep when object with logging-specific functionality.
     class _nout __WHEN_OBJECT__: public __indep_when__ {
         BY(ME(__WHEN_OBJECT__))
 

@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "def/_nout.hpp"

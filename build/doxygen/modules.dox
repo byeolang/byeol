@@ -1,0 +1,43 @@
+/// @file modules.dox
+/// @brief Byeol Language Architecture Modules Documentation
+
+/// @defgroup indep
+/// @brief Platform Dependent Layer
+/// Platform-dependent code layer that contains all platform-specific implementations.
+/// This layer handles all platform-specific code and enables the rest of the system to operate 
+/// platform-independently. Conditional compilation (`#IF`, `#ELSE`, etc.) is only permitted in this module.
+
+/// @defgroup clog
+/// @brief Logging subsystem that handles all logging operations.
+/// Provides configurable log levels and output formatting with thread-safe logging implementation.
+/// This layer ensures consistent logging across the entire system.
+
+/// @defgroup meta
+/// @brief Type metadata management layer that collects and manages type metadata.
+/// Provides runtime type information and supports reflection capabilities for the byeol language.
+/// Essential for dynamic type operations and introspection.
+
+/// @defgroup memlite
+/// @brief Lightweight memory management layer with custom memory pool-based allocation.
+/// Provides direct memory management for performance optimization and reduces garbage collection 
+/// overhead through efficient memory pool strategies.
+
+/// @defgroup leaf
+/// @brief Leaf Language Parsing Layer that handles leaf language parsing.
+/// Parses configuration information using the leaf language (derived from byeol) and handles 
+/// `manifest.leaf` files in byeol pack distribution for structured configuration management.
+
+/// @defgroup core
+/// @brief Core language layer containing byeol AST and core language features.
+/// Contains the byeol Abstract Syntax Tree (AST), handles package loading and management, 
+/// and implements the fundamental features of the byeol programming language.
+
+/// @defgroup sys
+/// @brief System bundle pack that includes the standard library and built-in functionality.
+/// Provides the standard library and built-in functionality that comes with the byeol 
+/// language distribution.
+
+/// @defgroup frontend
+/// @brief Command Line Interface frontend for the byeol language.
+/// Provides the main entry point and user interface for interacting with the byeol 
+/// language system through command line operations.

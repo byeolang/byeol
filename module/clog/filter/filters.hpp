@@ -1,8 +1,13 @@
+/// @file
 #pragma once
 
 #include "clog/filter/filterable.hpp"
 
 namespace by {
+    /// @ingroup clog
+    /// @brief Collection of filterable objects for logging control
+    /// @details Manages multiple filter objects that collectively determine
+    /// whether log messages should be processed based on level and tag criteria.
     class _nout filters: public filterable {
         BY(ME(filters))
 

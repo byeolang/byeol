@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "indep/common.hpp"
@@ -14,8 +15,11 @@
 
 namespace by {
 
-    /// fsystem is going to be used before filesystem library fully supported.
-    /// to apply fsystem on clang++ is quite hard now.
+    /// @ingroup indep
+    /// @brief Cross-platform filesystem utilities for byeol language system
+    /// @details Provides filesystem operations before C++ std::filesystem library
+    /// is fully supported across all target platforms. Handles platform-specific
+    /// file and directory operations through a unified interface.
     class _nout fsystem {
         BY(ME(fsystem))
 
@@ -31,6 +35,10 @@ namespace by {
 
         typedef std::vector<entry> entries;
 
+        /// @ingroup indep
+        /// @brief Iterator for traversing filesystem entries
+        /// @details Provides sequential access to filesystem entries with platform-specific
+        /// handling for Windows and Unix-like systems.
         class _nout iterator {
             BY(ME(iterator))
             friend class fsystem;
@@ -42,16 +50,22 @@ namespace by {
             ~iterator();
 
         public:
+            /// @brief Dereference operator to get current path
             const std::string& operator*();
+            /// @brief Post-increment operator to advance iterator
             me& operator++(int);
+            /// @brief Conversion to bool for validity checking
             operator nbool() const;
 
         public:
+            /// @brief Release resources held by iterator
             void rel();
+            /// @brief Advance to next filesystem entry
             nbool next();
             const std::string& get() const;
             std::string getName() const;
             std::string getDir() const;
+            /// @brief Check if iterator has reached end
             nbool isEnd() const;
 
         private:
@@ -65,8 +79,12 @@ namespace by {
         };
 
     public:
+        /// @brief Create iterator for filesystem traversal
+        /// @param path Target directory path to traverse
         static iterator find(const std::string& path);
+        /// @brief Get current working directory
         static std::string getCurrentDir();
+        /// @brief Get platform-specific path delimiter
         static const std::string& getDelimiter();
     };
 } // namespace by
