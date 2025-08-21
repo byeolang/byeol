@@ -21,6 +21,10 @@ namespace by {
 #define myExWarn_5(me, code, a1, a2, a3) exErr(me, errCode::code, getReport(), a1, a2, a3)
 #define myExWarn(...) BY_OVERLOAD(myExWarn, __VA_ARGS__)
 
+    /// @ingroup core
+    /// @brief Base worker template for processing tasks
+    /// @details Template class that provides the foundation for all workers in the byeol system.
+    /// Manages task execution, error reporting, logging, and area management.
     template <typename R, typename T> class worker: public typeProvidable, public clonable {
         BY(ADT(worker))
         template <typename R1, typename T1> friend struct workerAdapter;

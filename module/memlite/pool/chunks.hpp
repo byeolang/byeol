@@ -5,6 +5,10 @@
 
 namespace by {
 
+    /// @ingroup memlite
+    /// @brief Collection of memory chunks for scalable allocation
+    /// @details Manages multiple memory chunks to provide scalable memory allocation.
+    /// Automatically manages chunk creation and selection for optimal performance.
     class _nout chunks: public allocator {
         BY_ME(chunks, allocator)
         BY_INIT_META(me)

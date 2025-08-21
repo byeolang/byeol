@@ -5,6 +5,9 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief AST graph visualization visitor
+    /// @details Visitor that generates tree-like visual representations of AST nodes for debugging.
     class _nout graphVisitor: public visitor {
         BY(CLASS(graphVisitor, visitor))
 

@@ -6,6 +6,10 @@
 
 namespace by {
 
+    /// @ingroup memlite
+    /// @brief Memory watcher for tracking instance lifecycle and allocation
+    /// @details Monitors memory allocation and deallocation, providing
+    /// watch cells for tracking instance states and managing memory lifecycle.
     class _nout watcher: public chunk {
         BY_ME(watcher, chunk)
         BY_INIT_META(me)

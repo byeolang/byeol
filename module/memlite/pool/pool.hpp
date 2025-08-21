@@ -5,6 +5,10 @@
 
 namespace by {
 
+    /// @ingroup memlite
+    /// @brief Memory pool manager for efficient instance allocation
+    /// @details Manages multiple memory chunks for optimized allocation and deallocation
+    /// of instances. Provides memory pool-based allocation strategy to reduce overhead.
     class _nout pool: public memoryHaver {
         BY_ME(pool, memoryHaver)
         BY_INIT_META(me)

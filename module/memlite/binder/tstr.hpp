@@ -6,6 +6,10 @@
 
 namespace by {
 
+    /// @ingroup memlite
+    /// @brief Strong reference smart pointer with strict type checking
+    /// @details Template-based strong reference binder with configurable memory management tactics.
+    /// Provides type-safe access to instances with automatic lifetime management.
     template <typename T, typename TACTIC = strTactic> class tstr: public tweak<T, TACTIC> {
         typedef tweak<T, TACTIC> _super_;
         BY_ME(tstr, _super_)

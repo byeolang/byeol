@@ -3,6 +3,8 @@
 
 #include "meta/common/dep.hpp"
 
+/// @brief Meta-programming macro definitions for byeol type system
+
 // byeolMeta macro's sub-commands:
 //  CLONE:
 //      defines normal clone func. it have to be defined if you
@@ -12,6 +14,8 @@ public:                                                        \
     clonable* clone() const override { return new ME(*this); } \
                                                                \
 private:
+
+/// @brief Define super meta type for class type introspection
 
 //  TYPE:
 //      defines super meta type.

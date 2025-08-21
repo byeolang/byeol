@@ -6,20 +6,14 @@
 
 namespace by {
 
-    /// origin class is represents user defined classes in managed codes.
-    /// one important thing you must remember is, origin should be shadowed to 'obj' type.
-    /// every interaction you can take with origin could be handled with obj class.
-    /// and inherits something too origin class aren't allowed.
-    ///
-    /// this limitation affects to usage of binder too:
-    /// simply, declaring binder with type parameter 'origin' is not allowed. use 'obj' type instead
-    /// of.
-    ///     e.g.
-    ///         tstr<origin> a; // X, unexpected behavior may happen.
-    ///         tstr<obj> a; // O
     class src;
     class runExpr;
 
+    /// @ingroup core
+    /// @brief User-defined class origin in byeol language
+    /// @details Represents user defined classes in managed codes. Origin should be shadowed to 'obj' type.
+    /// Every interaction with origin should be handled through obj class. Direct inheritance is not allowed.
+    /// @note Use tstr<obj> instead of tstr<origin> for binders to avoid unexpected behavior.
     class _nout origin final: public obj {
         BY(ME(origin, obj), INIT_META(origin))
 

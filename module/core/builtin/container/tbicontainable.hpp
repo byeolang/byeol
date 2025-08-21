@@ -10,6 +10,9 @@ namespace by {
     template <typename T, typename TACTIC> class tnarr;
     typedef class _nout tnarr<node, strTactic> narr;
 
+    /// @ingroup core
+    /// @brief Template bidirectional container interface
+    /// @details Key-value container template with bidirectional iterator support.
     /// @remark tbicontainable has API treating iter ref and element as its parameter.
     template <typename K, typename V> class tbicontainable {
         BY_ME(tbicontainable)

@@ -10,6 +10,10 @@
 namespace by {
     class leafTokenScan;
 
+    /// @ingroup leaf
+    /// @brief Parser for leaf configuration language
+    /// @details Main parser class that converts leaf language source code into AST.
+    /// Handles tokenization, parsing, and error reporting for the leaf configuration format.
     class _nout leafParser: public leafTokenScanable {
         BY(ME(leafParser))
 

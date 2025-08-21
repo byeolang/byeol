@@ -3,6 +3,9 @@
 
 #include "core/builtin/container/iter/uiteration.hpp"
 
+/// @ingroup core
+/// @brief Unidirectional iterator for sequence containers
+/// @details Iterator implementation for unidirectional containers with element access.
 // nested class of tucontainable.hpp:
 //  this file allows to be refered by 'tucontainable.hpp' file only.
 class iter: public iterable, public clonable, public typeProvidable {

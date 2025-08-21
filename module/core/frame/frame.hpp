@@ -10,6 +10,9 @@ struct frameTest;
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief Scope registration entry for frame management
+    /// @details Stores scope ownership information and linkage for frame stack management.
     struct _nout scopeRegister {
         str owner;
         tstr<scope> s;
@@ -19,6 +22,10 @@ namespace by {
     class obj;
     class baseFunc;
 
+    /// @ingroup core
+    /// @brief Execution frame for byeol runtime
+    /// @details Manages execution context including scopes, variables, function calls, and return values.
+    /// Provides stack-based scope management for the byeol language runtime environment.
     class _nout frame: public node, public dumpable { // TODO: may be obj, not node.
         BY(CLASS(frame, node), VISIT())
         friend class verifier;

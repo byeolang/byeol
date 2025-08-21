@@ -6,6 +6,10 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief Base class for arithmetic operations on primitive types
+    /// @details Abstract base class providing arithmetic, bitwise, and comparison operations.
+    /// Implemented by all numeric primitive types to provide consistent operator behavior.
     class _nout arithmeticObj: public baseObj {
         BY(ADT(arithmeticObj, baseObj))
 

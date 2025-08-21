@@ -5,6 +5,10 @@
 
 namespace by {
 
+    /// @ingroup memlite
+    /// @brief Memory chunk for block-based allocation
+    /// @details Manages a contiguous block of memory divided into fixed-size blocks.
+    /// Provides efficient allocation and deallocation within the chunk.
     class _nout chunk: public allocator {
         BY_ME(chunk, allocator)
         BY_INIT_META(me)

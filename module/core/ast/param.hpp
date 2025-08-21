@@ -6,6 +6,10 @@
 #include "core/ast/immutableTactic.hpp"
 
 namespace by {
+    /// @ingroup core
+    /// @brief Function parameter definition
+    /// @details Represents a single function parameter with name and type information.
+    /// Used in function signatures to define parameter requirements and type checking.
     class _nout param: public instance {
         BY(CLASS(param, instance))
 

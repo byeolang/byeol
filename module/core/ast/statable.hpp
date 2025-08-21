@@ -11,6 +11,9 @@ namespace by {
         LINKED,     // run and attached to system.
     };
 
+    /// @ingroup core
+    /// @brief Interface for objects with compilation state
+    /// @details Provides state management for compilation phases (parsed, verified, linked).
     class _nout statable {
         BY(ME(statable))
 

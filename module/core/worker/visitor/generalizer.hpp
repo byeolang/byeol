@@ -6,6 +6,10 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief Visitor for generic type parameter replacement
+    /// @details Replaces generic type parameters with concrete types in AST nodes.
+    /// Used during generic type instantiation to create specialized types.
     class _nout generalizer: public visitor {
         BY(CLASS(generalizer, visitor))
 

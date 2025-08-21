@@ -9,11 +9,18 @@ namespace by {
     class frame;
     class arr;
 
+    /// @ingroup core
+    /// @brief Base class for loop expressions
+    /// @details Abstract base class for all loop constructs (for, while).
+    /// Provides common loop execution logic and result collection.
     class _nout loopExpr: public expr {
         BY(ADT(loopExpr, expr, expr::exprType), VISIT())
         friend class loop;
 
     public:
+        /// @ingroup core
+        /// @brief Loop execution controller
+        /// @details Manages loop iteration state and execution flow.
         class _nout loop: public instance {
             BY(ADT(loop))
 

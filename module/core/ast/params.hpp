@@ -8,6 +8,10 @@
 namespace by {
     typedef std::vector<std::string> strings;
 
+    /// @ingroup core
+    /// @brief Function parameter list container
+    /// @details Container for function parameters with type checking and validation.
+    /// Manages parameter names, types, and provides parameter matching for function calls.
     class _nout params: public tnarr<param> {
         BY(CLASS(params, tnarr<param>))
 
@@ -33,6 +37,9 @@ namespace by {
         static me make(const narr& args);
     };
 
+    /// @ingroup core
+    /// @brief Dummy parameter container that ignores all operations
+    /// @details No-op parameter container used when parameter management is not needed.
     class _nout dumParams: public params {
         BY(CLASS(dumParams, params))
 

@@ -4,6 +4,10 @@
 #include "core/ast/exprs/blockExpr.hpp"
 
 namespace by {
+    /// @ingroup core
+    /// @brief End block expression for function cleanup
+    /// @details Represents end blocks that execute after function completion.
+    /// Used for cleanup operations and finally-like behavior in functions.
     class _nout endExpr: public blockExpr {
         BY(CLASS(endExpr, blockExpr), VISIT())
 

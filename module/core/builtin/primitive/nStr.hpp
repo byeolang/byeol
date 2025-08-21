@@ -6,6 +6,10 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief String primitive type in byeol language
+    /// @details Implements string operations, character access, and container functionality.
+    /// Provides the fundamental string data type with arithmetic and container operations.
     class _nout nStr: public primitiveObj<std::string>, public tucontainable<nStr> {
         struct _nout nStrType: public ntype {
         public:

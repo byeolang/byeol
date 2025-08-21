@@ -10,6 +10,10 @@ namespace by {
     class assignExpr;
     class defVarExpr;
 
+    /// @ingroup core
+    /// @brief Factory for creating expressions with source location information
+    /// @details Creates expression objects with proper source file and position metadata.
+    /// Used by parser to track source locations for debugging and error reporting.
     class _nout exprMaker: public typeProvidable, public clonable {
         BY(CLASS(exprMaker))
 

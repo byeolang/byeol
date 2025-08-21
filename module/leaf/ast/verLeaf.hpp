@@ -5,6 +5,10 @@
 
 namespace by {
 
+    /// @ingroup leaf
+    /// @brief Version leaf node for semantic version handling
+    /// @details Specialized value leaf for storing and comparing semantic versions.
+    /// Supports major.minor.fix version format with comparison operations.
     class _nout verLeaf: public valLeaf {
         BY_ME(verLeaf, valLeaf)
         BY_INIT_META(verLeaf)

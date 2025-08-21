@@ -6,6 +6,10 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief Template base object origin for user-defined classes
+    /// @details Template for creating origin objects for user-defined classes in unmanaged code.
+    /// Origin should be shadowed to 'baseObj' type for proper interaction.
     /// this baseObjOrigin class is represents user defined classes in unmanaged codes.
     /// one important thing you must remember is, origin should be shadowed to 'baseObj' type.
     /// every interaction you can take with origin could be handled with baseObj class.

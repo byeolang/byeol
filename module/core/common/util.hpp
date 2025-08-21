@@ -14,6 +14,9 @@ namespace by {
         ATTR_INCOMPLETE
     };
 
+    /// @ingroup core
+    /// @brief Core utility functions
+    /// @details Static utility methods for type checking and evaluation operations.
     class _nout util {
         BY(ME(util))
 

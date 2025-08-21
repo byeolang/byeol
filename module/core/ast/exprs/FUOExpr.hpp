@@ -10,7 +10,10 @@ namespace by {
 
     class visitor;
 
-    // FAO: Fundermental Unary Operation.
+    /// @ingroup core
+    /// @brief Fundamental Unary Operation expression
+    /// @details Represents unary operations like ++, --, ~, etc.
+    /// Handles postfix increment/decrement and bitwise NOT operations on single operands.
     class _nout FUOExpr: public expr {
         BY(CLASS(FUOExpr, expr, expr::exprType), VISIT())
 

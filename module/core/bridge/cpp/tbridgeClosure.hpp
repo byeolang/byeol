@@ -9,6 +9,9 @@ namespace by {
 
     template <typename T, nbool isBaseObj> class tbridger;
 
+    /// @ingroup core
+    /// @brief Bridge closure for C++ lambda/function objects
+    /// @details Template that bridges C++ function objects and lambdas with byeol function interface.
     template <typename Ret, typename T, template <typename, nbool> class Marshaling, typename... Args>
     class tbridgeClosure: public baseFunc {
         BY(ME(tbridgeClosure, baseFunc), CLONE(tbridgeClosure))
@@ -67,6 +70,9 @@ namespace by {
         std::function<Ret(T&, Args...)> _closure;
     };
 
+    /// @ingroup core
+    /// @brief Bridge closure specialization for void return type
+    /// @details Specialized bridge closure for C++ functions returning void.
     template <typename T, template <typename, nbool> class Marshaling, typename... Args>
     class tbridgeClosure<void, T, Marshaling, Args...>: public baseFunc {
         BY(ME(tbridgeClosure, baseFunc), CLONE(tbridgeClosure))

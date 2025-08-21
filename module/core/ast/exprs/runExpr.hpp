@@ -7,6 +7,10 @@ namespace by {
 
     class visitor;
 
+    /// @ingroup core
+    /// @brief Function/method call expression
+    /// @details Represents function and method invocation with arguments.
+    /// Handles subject evaluation, argument passing, and function execution.
     class _nout runExpr: public expr {
         BY(CLASS(runExpr, expr, expr::exprType), VISIT())
         friend class parser;

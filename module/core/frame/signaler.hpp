@@ -11,6 +11,9 @@ namespace by {
     typedef void (*sigFunc)(const nerr&);
     typedef std::function<void(const nerr&)> sigHandler;
 
+    /// @ingroup core
+    /// @brief Signal structure for error handling
+    /// @details Signal definition with error code and maker function.
     struct _nout sig {
         BY(ME(sig))
 
@@ -23,6 +26,9 @@ namespace by {
         errMaker maker;
     };
 
+    /// @ingroup core
+    /// @brief Signal handler manager
+    /// @details Manages signal handlers and processes runtime signals and errors.
     class _nout signaler {
         BY(ME(signaler))
 

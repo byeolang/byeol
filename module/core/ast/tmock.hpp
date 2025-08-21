@@ -6,6 +6,10 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief Mock object template for testing and verification
+    /// @details Template for creating mock objects that delegate to original objects.
+    /// Used for testing and verification phases where original objects may not be available.
     template <typename T> class _nout tmock: public T {
         BY(ME(tmock, T))
         friend class exprMaker;

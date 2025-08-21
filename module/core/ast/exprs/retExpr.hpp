@@ -7,6 +7,10 @@ namespace by {
 
     class visitor;
 
+    /// @ingroup core
+    /// @brief Return statement expression
+    /// @details Represents return statements that exit functions with optional values.
+    /// Handles return value evaluation and function termination.
     class _nout retExpr: public retStateExpr {
         BY(CLASS(retExpr, retStateExpr, expr::exprType), VISIT())
 

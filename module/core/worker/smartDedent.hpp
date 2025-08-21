@@ -4,6 +4,9 @@
 #include "core/type/ntype.hpp"
 
 namespace by {
+    /// @ingroup core
+    /// @brief Smart indentation management for code parsing
+    /// @details Handles automatic dedentation tracking during parsing with enable/disable states.
     class _nout smartDedent: public typeProvidable, public clonable {
         BY(CLASS(smartDedent))
 

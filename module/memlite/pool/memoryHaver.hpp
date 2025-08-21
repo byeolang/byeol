@@ -7,6 +7,10 @@ namespace by {
 
     class instance;
 
+    /// @ingroup memlite
+    /// @brief Abstract interface for objects that manage memory
+    /// @details Base interface for memory management components that can hold
+    /// and track instances. Provides capacity and size information.
     class _nout memoryHaver {
         BY_ME(memoryHaver)
         BY_INIT_META(me)

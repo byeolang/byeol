@@ -55,7 +55,8 @@ namespace by {
         template <typename T> nbool isSub() const;
         const type& getStatic() const BY_CONST_FUNC(_getStatic())
 
-        /// this returns metaTypename.
+        /// @brief Get meta type name for efficient type checking
+        /// @details This returns metaTypename.
         /// metaTypename can be used like 'dynamic_cast<yourType>'.
         /// as you may know, c++'s dynamic_cast is slow. because normally compilers tries to loop
         /// in order to figure out which type is fit to given your type parameter.
@@ -72,13 +73,15 @@ namespace by {
         ///
         /// @return static literal c-style string for meta type name.
         ///         so you are able to use c-style casting if address of 'rhs' variables's
-        ///         getMetaTypeName() isn just same to yours. e.g.
-        ///             yourType& a = ....;
-        ///             type& rhs = ....;
-        ///             if(a.getMetaTypeName() != rhs.getMetaTypeName()) return;
-        ///             yourType& rhsCasted = (yourType&) rhs;
+        ///         getMetaTypeName() isn just same to yours.
+        /// @code
+        /// yourType& a = ....;
+        /// type& rhs = ....;
+        /// if(a.getMetaTypeName() != rhs.getMetaTypeName()) return;
+        /// yourType& rhsCasted = (yourType&) rhs;
         ///
-        ///                ...now you can do something on yourType's data...
+        /// ...now you can do something on yourType's data...
+        /// @endcode
         ///
         virtual const nchar* getMetaTypeName() const;
 

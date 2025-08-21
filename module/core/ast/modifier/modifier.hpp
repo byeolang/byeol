@@ -5,6 +5,10 @@
 #include "core/type/ntype.hpp"
 
 namespace by {
+    /// @ingroup core
+    /// @brief Access modifier for class members and functions
+    /// @details Manages visibility and override properties for methods and properties.
+    /// Controls public/private access and explicit override declarations.
     class _nout modifier: public instance {
         BY(CLASS(modifier, instance))
 

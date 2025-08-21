@@ -5,6 +5,10 @@
 #include "core/frame/callstack.hpp"
 
 namespace by {
+    /// @ingroup core
+    /// @brief Base class for all error types
+    /// @details Abstract base class for errors and warnings with callstack information.
+    /// Provides error level management, stack traces, and diagnostic capabilities.
     class _nout baseErr: public baseObj, public errorable {
         BY(ADT(baseErr, baseObj))
         template <typename T, nbool> friend struct tmarshaling;

@@ -6,6 +6,10 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief Array definition expression
+    /// @details Represents array literal definitions with element initialization.
+    /// Handles array creation with explicit elements or type specification.
     class _nout defArrayExpr: public expr {
         BY(CLASS(defArrayExpr, expr, expr::exprType), VISIT())
         friend class visitor; // for getElems()

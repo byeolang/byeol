@@ -6,6 +6,10 @@
 
 namespace by {
 
+    /// @ingroup memlite
+    /// @brief Singleton manager for instance lifecycle and memory allocation
+    /// @details Central manager that coordinates memory pool, watcher, and instance binding.
+    /// Provides singleton access to memory management facilities.
     class _nout instancer {
         BY_ME(instancer)
         BY_INIT_META(me)

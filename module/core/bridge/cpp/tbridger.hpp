@@ -12,6 +12,9 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief Bridge builder for C++ classes
+    /// @details Template utility for building bridges between C++ classes and byeol object system.
     template <typename T, nbool isBaseObj = tifSub<typename tadaptiveSuper<T>::super, baseObj>::is> class tbridger {
         BY(ME(tbridger))
         template <typename Ret, typename T1, nbool, template <typename, nbool> class Marshaling, typename... Args>
@@ -148,6 +151,9 @@ namespace by {
         scope _subs;
     };
 
+    /// @ingroup core
+    /// @brief Bridge builder specialization for baseObj-derived classes
+    /// @details Specialized bridge builder for C++ classes that inherit from baseObj.
     template <typename T> class tbridger<T, true> {
         BY(ME(tbridger))
 

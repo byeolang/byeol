@@ -6,6 +6,10 @@
 
 namespace by {
 
+    /// @ingroup memlite
+    /// @brief Weak reference binding tactic
+    /// @details Implements weak reference semantics where bound instances
+    /// can be freed independently of the binder. Does not affect instance lifetime.
     class _nout weakTactic: public bindTacticable {
         BY_ME(weakTactic, bindTacticable)
 

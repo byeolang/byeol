@@ -8,6 +8,10 @@ namespace by {
 
     class chunk;
 
+    /// @ingroup memlite
+    /// @brief Binding tag for instance reference tracking and lifecycle management
+    /// @details Manages strong and weak references to instances, providing reference counting
+    /// and automatic cleanup when references reach zero.
     class _nout bindTag: public typeProvidable, public tbindable<instance> {
         BY_ME(bindTag)
         BY_INIT_META(me)

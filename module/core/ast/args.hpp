@@ -6,6 +6,10 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief Function call arguments container
+    /// @details Container for function call arguments with 'me' object support.
+    /// Manages argument evaluation, type checking, and parameter matching for function calls.
     class _nout args: public narr {
         BY(CLASS(args, narr))
 

@@ -11,6 +11,9 @@ namespace by {
     template <typename T, typename defaultElemType> class tarr;
     class arr;
 
+    /// @ingroup core
+    /// @brief Template marshaling interface for C++ bridge
+    /// @details Base template for marshaling between byeol and C++ types with specializations.
     template <typename T, nbool isNode = tifSub<typename typeTrait<T>::Org, node>::is>
     struct tmarshaling: public metaIf {
         typedef T mgd;
@@ -124,6 +127,9 @@ namespace by {
         static yes canMarshal();
     };
 
+    /// @ingroup core
+    /// @brief Normal marshaling for primitive types
+    /// @details Template for marshaling between native and managed primitive types.
     template <typename tnativeType, typename tmarshalType> struct tnormalMarshaling: public metaIf {
         typedef tmarshalType mgd;
         typedef tnativeType native;
@@ -172,6 +178,9 @@ namespace by {
         static yes canMarshal();
     };
 
+    /// @ingroup core
+    /// @brief Void marshaling specialization
+    /// @details Specialized marshaling for void type.
     template <> struct _nout tnormalMarshaling<void, nVoid>: public metaIf {
         typedef nVoid mgd;
         typedef void native;

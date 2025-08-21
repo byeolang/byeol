@@ -5,6 +5,9 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief Implicit type conversion collection
+    /// @details Collection of implicit type converters for automatic type conversion.
     class _nout impliAses: public ases {
         BY(CLASS(impliAses, ases))
 

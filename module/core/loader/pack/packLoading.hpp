@@ -12,6 +12,10 @@ namespace by {
     struct manifest;
     typedef tnchain<std::string, slot> slotChain;
 
+    /// @ingroup core
+    /// @brief Base class for pack loading strategies
+    /// @details Abstract base class that defines the interface for loading different types of packs.
+    /// Manages file paths and provides the foundation for specialized pack loading implementations.
     class _nout packLoading: public instance, public packMakable {
         BY(ADT(packLoading, instance))
 

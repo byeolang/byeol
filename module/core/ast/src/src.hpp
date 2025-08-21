@@ -4,6 +4,10 @@
 #include "core/ast/src/srcFile.hpp"
 
 namespace by {
+    /// @ingroup core
+    /// @brief Source location information
+    /// @details Tracks source file, position, and name information for AST nodes.
+    /// Used for debugging, error reporting, and source code mapping.
     class _nout src: public instance {
         BY(CLASS(src, instance))
         friend class parser;

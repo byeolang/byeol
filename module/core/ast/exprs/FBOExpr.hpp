@@ -10,7 +10,10 @@ namespace by {
 
     class visitor;
 
-    // FAO: Fundermental Binary Operation.
+    /// @ingroup core
+    /// @brief Fundamental Binary Operation expression
+    /// @details Represents binary operations like +, -, *, /, ==, <, etc.
+    /// Handles arithmetic, bitwise, and logical binary operations between two operands.
     class _nout FBOExpr: public expr {
         BY(CLASS(FBOExpr, expr, expr::exprType), VISIT())
 

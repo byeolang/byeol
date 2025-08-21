@@ -9,6 +9,10 @@ namespace by {
     class packLoading;
     typedef std::vector<packLoading*> packLoadings;
 
+    /// @ingroup core
+    /// @brief Slot loading and management system
+    /// @details Manages the loading of slots from manifest files and file paths.
+    /// Coordinates pack loading strategies and maintains slot hierarchies for the runtime system.
     class _nout slotLoader: public typeProvidable, public clonable {
         BY(CLASS(slotLoader))
 

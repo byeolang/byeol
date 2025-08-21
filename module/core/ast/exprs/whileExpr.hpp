@@ -5,6 +5,10 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief While loop expression
+    /// @details Represents while loop constructs with condition-based iteration.
+    /// Executes loop body while the condition evaluates to true.
     class _nout whileExpr: public loopExpr {
         BY(CLASS(whileExpr, loopExpr, expr::exprType), VISIT())
         friend class verifier;
