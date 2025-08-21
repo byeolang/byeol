@@ -1,3 +1,5 @@
+/// @file
+/// Class declaration macros for me/super type definitions
 #pragma once
 
 #include "indep/macro/defThis.hpp"

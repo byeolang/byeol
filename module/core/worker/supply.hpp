@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "core/worker/supply/bufSupply.hpp"

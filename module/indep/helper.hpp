@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "indep/helper/buildFeature.hpp"

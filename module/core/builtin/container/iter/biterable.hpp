@@ -1,3 +1,4 @@
+/// @file
 // nested class of bicontainable.hpp
 class iterable {
     BY_ME(iterable)

@@ -1,3 +1,5 @@
+/// @file
+/// Argument list processing macros for variadic operations
 #pragma once
 
 #include "indep/macro/overload.hpp"

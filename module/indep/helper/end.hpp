@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "indep/common.hpp"
@@ -5,10 +6,11 @@
 
 namespace by {
 
-    //  end:
-    //      end is like a 'defer' keyword in other languages.
-    //      in byeolang, it registers what to be done when you go out of the current func.
-    //      in c++, but, it limited to scope, not a func.
+    /// @ingroup indep
+    /// @brief Deferred execution utility like defer keyword in other languages
+    /// @details End is like a 'defer' keyword in other languages.
+    /// In byeolang, it registers what to be done when you go out of the current func.
+    /// In C++, but, it limited to scope, not a func.
     class _nout end {
         BY(ME(end))
 

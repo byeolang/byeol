@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "mgd/seq.hpp"

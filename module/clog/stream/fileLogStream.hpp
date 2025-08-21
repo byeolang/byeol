@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include <fstream>
@@ -6,6 +7,10 @@
 
 namespace by {
 
+    /// @ingroup clog
+    /// @brief File output stream for logging to disk files
+    /// @details Implements stream interface to write log messages to files
+    /// with configurable file paths and automatic file management.
     class _nout fileLogStream: public stream {
         BY_ME(fileLogStream, stream)
 

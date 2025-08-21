@@ -1,3 +1,4 @@
+/// @file
 // nested class of ucontainable.hpp
 class iterable {
     BY_ME(iterable)

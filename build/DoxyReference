@@ -813,7 +813,8 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = ../doc/ref \
+INPUT                  = doxygen \
+                         ../doc/ref \
                          ../module/clog \
                          ../module/indep \
                          ../module/core \
@@ -857,7 +858,8 @@ FILE_PATTERNS          = *.c \
                          *.h++ \
                          *.markdown \
                          *.md \
-                         *.cxx
+                         *.cxx \
+                         *.dox
 
 # The RECURSIVE tag can be used to specify whether or not subdirectories should
 # be searched for input files as well.

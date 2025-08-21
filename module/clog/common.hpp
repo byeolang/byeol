@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "clog/common/dep.hpp"

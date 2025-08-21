@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "core/ast/baseObj.hpp"
@@ -10,9 +11,11 @@ namespace by {
     class origin;
     class runExpr;
 
-    /// obj is a object structured in managed programming environment like 'byeol'.
-    /// owned sub nodes of a object can only be manipulated through API provided obj.
-    /// because native object won't have owned nodes but only shared ones.
+    /// @ingroup core
+    /// @brief Managed object in byeol programming environment
+    /// @details Represents objects structured in the managed byeol environment.
+    /// Owned sub nodes can only be manipulated through the obj API, unlike
+    /// native objects which only have shared nodes.
     class _nout obj: public baseObj {
         BY(ME(obj, baseObj), INIT_META(obj), CLONE(obj), VISIT())
 

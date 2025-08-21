@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "core/builtin/pkgs/default/inputFunc.hpp"

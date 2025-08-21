@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "indep/macro/byeolMeta.hpp"
@@ -9,17 +10,11 @@
 
 namespace by {
 
-    /// this is a wrapper class for std::optional.
-    /// improved `optional`'s func name and signature because they are somewhat inconsistent
-    /// from the perspective of byeol and convention rules.
-    /// as with std::optional, calling get() on an object that doesn't actually have a value
-    /// will cause the app to crash.
-    ///
-    /// in byeol, there are two cases where data must be returned with an error.
-    ///     1. When returning by ref: use a binder such as tstr<T> or tweak<T>.
-    ///     2. When returning by value: use tmay<T>.
-    ///
-    /// for details, refer to the return type rules of byeol.
+    /// @ingroup indep
+    /// @brief Optional value wrapper with byeol-style interface
+    /// @details Wrapper around std::optional with improved function names and signatures
+    /// consistent with byeol conventions. Provides safe value handling for return-by-value
+    /// scenarios. Use tstr<T> or tweak<T> for return-by-reference cases.
     template <typename T> class tmay: private std::optional<T> {
         BY(ME(tmay, std::optional<T>))
 

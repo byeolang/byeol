@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "core/worker/visitor/generalizer.hpp"

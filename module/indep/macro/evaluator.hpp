@@ -1,3 +1,5 @@
+/// @file
+/// Macro evaluation utilities
 /*
  * Copyright (C) 2012 William Swanson
  *

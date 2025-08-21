@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "memlite/binder/tbindable.hpp"
@@ -9,18 +10,13 @@ namespace by {
     class bindTacticable;
     class bindTag;
 
-    /// bind:
-    ///     overview:
-    ///         can guarrantee that specific instance freed completely and track of them.
-    ///         this has 3 features.
-    ///             1) can distringuish what given abstract type actually was and reject or accept
-    ///             it
-    ///                regarding that.
-    ///             2) free instance completely. using RAII.
-    ///             3) can notice that binding instance was replaced or freed without unexpected
-    ///             exception.
-    ///         in conlusion, it prevent halting process or give a chance to let developer be
-    ///         advised.
+    /// @ingroup memlite
+    /// @brief Smart pointer with loose type checking and lifetime management
+    /// @details Provides guaranteed instance cleanup and tracking with three key features:
+    /// 1) Distinguished abstract type checking with flexible acceptance/rejection
+    /// 2) Complete instance cleanup using RAII
+    /// 3) Notification when bound instances are replaced or freed
+    /// Prevents process halting and provides developer notifications.
     ///
     ///     type cheking:
     ///         this was most valuable requirement when I design component of bind.

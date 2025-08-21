@@ -1,3 +1,5 @@
+/// @file
+/// Static assertion utilities for compile-time validation
 #pragma once
 
 #include <type_traits>

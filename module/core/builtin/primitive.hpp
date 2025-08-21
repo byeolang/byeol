@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "core/builtin/primitive/nBool.hpp"

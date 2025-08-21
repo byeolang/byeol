@@ -1,9 +1,14 @@
+/// @file
 #pragma once
 
 #include "leaf/common.hpp"
 
 namespace by {
 
+    /// @ingroup leaf
+    /// @brief Core AST node for leaf configuration language
+    /// @details Represents a node in the leaf configuration tree structure.
+    /// Supports hierarchical configuration data with key-value access patterns.
     class _nout leaf: public instance {
         BY(ME(leaf, instance), CLONE(me), INIT_META(leaf))
 

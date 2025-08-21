@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #include "core/bridge/cpp/marshaling/tgenericMarshaling.hpp"

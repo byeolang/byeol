@@ -1,3 +1,4 @@
+/// @file
 #pragma once
 
 #ifdef WIN32

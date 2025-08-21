@@ -1,3 +1,5 @@
+/// @file
+/// Safe navigation macro (TO) implementation for byeol language
 #pragma once
 
 #include "indep/macro/overload.hpp"
