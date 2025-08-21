@@ -17,7 +17,10 @@ namespace by {
     class mgdType;
     template <typename T> class tbaseObjOrigin;
 
-    /// baseObj handles frame injection event of all objects.
+    /// @ingroup core
+    /// @brief Base class for all objects in byeol language
+    /// @details Handles frame injection events and provides common object functionality.
+    /// Manages object origin, state, modifiers, and frame interactions for all byeol objects.
     class _nout baseObj: public node, public statable {
         BY(ADT(baseObj, node))
         friend class verifier;

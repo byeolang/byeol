@@ -13,6 +13,10 @@ namespace by {
 #include "visitee.inl"
 #undef X
 
+    /// @ingroup core
+    /// @brief Base visitor class for AST traversal
+    /// @details Implements the visitor pattern for traversing and processing AST nodes.
+    /// Provides visit/leave hooks and tracks visited nodes to prevent infinite recursion.
     class _nout visitor: public worker<void, node> {
         typedef worker<void, node> __super6;
         BY(CLASS(visitor, __super6))

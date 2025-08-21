@@ -11,6 +11,10 @@ namespace by {
 
     class visitor;
 
+    /// @ingroup core
+    /// @brief Automatic slot with pack loading capabilities
+    /// @details Slot that automatically loads and parses pack content when accessed.
+    /// Integrates pack loading strategies with lazy evaluation and error reporting.
     class _nout autoslot: public slot, public packMakable, public statable {
         BY(CLASS(autoslot, slot), VISIT())
 

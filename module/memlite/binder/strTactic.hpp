@@ -5,6 +5,10 @@
 
 namespace by {
 
+    /// @ingroup memlite
+    /// @brief Strong reference binding tactic
+    /// @details Implements strong reference semantics where bound instances
+    /// are kept alive as long as the binder exists. Extends weak tactic with reference counting.
     class _nout strTactic: public weakTactic {
         BY_ME(strTactic, weakTactic)
 

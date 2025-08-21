@@ -5,6 +5,10 @@
 
 namespace by {
 
+    /// @ingroup leaf
+    /// @brief Null leaf node representing empty or undefined values
+    /// @details Singleton leaf node that represents null/undefined values in the configuration.
+    /// Provides default implementations that return empty or false values.
     class _nout nulLeaf: public leaf {
         BY(ME(nulLeaf, leaf), CLONE(me), INIT_META(nulLeaf))
 

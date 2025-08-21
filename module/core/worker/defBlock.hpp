@@ -8,6 +8,10 @@ namespace by {
 
     class defVarExpr;
 
+    /// @ingroup core
+    /// @brief Definition block for organizing object definitions
+    /// @details Manages scoped definitions, common statements, and expansion operations.
+    /// Used during parsing to organize class and object member definitions.
     class _nout defBlock: public instance {
         BY(CLASS(defBlock, instance))
 

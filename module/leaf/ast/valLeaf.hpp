@@ -5,6 +5,10 @@
 
 namespace by {
 
+    /// @ingroup leaf
+    /// @brief Value leaf node for storing primitive values
+    /// @details Extends leaf to store and convert primitive values like strings,
+    /// integers, floats, and booleans. Provides type conversion capabilities.
     class _nout valLeaf: public leaf {
         BY(ME(valLeaf, leaf), CLONE(me), INIT_META(valLeaf))
 

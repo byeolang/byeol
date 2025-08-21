@@ -6,10 +6,16 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief Return state object for control flow
+    /// @details Represents return states for control flow statements.
     class _nout retState: public nVoid {
         BY(CLASS(retState, nVoid))
     };
 
+    /// @ingroup core
+    /// @brief Base class for return state expressions
+    /// @details Abstract base class for expressions that change control flow (return, break, continue).
     class _nout retStateExpr: public expr {
         BY(ADT(retStateExpr, expr), VISIT())
 

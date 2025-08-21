@@ -7,6 +7,9 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief Template print function for output operations
+    /// @details Built-in function template that outputs values to standard output.
     template <typename T> class _nout printFunc: public baseFunc {
         BY(ME(printFunc, baseFunc), CLONE(printFunc))
 

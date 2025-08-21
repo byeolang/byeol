@@ -12,6 +12,10 @@ namespace by {
     class parser;
     class tokenDispatcher;
 
+    /// @ingroup core
+    /// @brief Base class for token scanning strategies
+    /// @details Abstract base class for different token scanning modes in the parser.
+    /// Handles token processing and provides foundation for specialized scanning.
     class _nout tokenScan: public tokenScanable, public typeProvidable, public clonable {
         BY(ADT(tokenScan))
 
@@ -24,6 +28,10 @@ namespace by {
         nbool _useSmartDedent;
     };
 
+    /// @ingroup core
+    /// @brief Normal token scanning mode
+    /// @details Standard token scanning without special indentation handling.
+    /// Used for regular parsing contexts.
     class _nout normalScan: public tokenScan {
         BY(CLASS(normalScan, tokenScan))
         friend class parser;
@@ -37,6 +45,10 @@ namespace by {
         static normalScan* _instance;
     };
 
+    /// @ingroup core
+    /// @brief Indentation-aware token scanning mode
+    /// @details Specialized scanning that handles Python-like indentation.
+    /// Generates indent and dedent tokens based on whitespace changes.
     class _nout indentScan: public tokenScan {
         BY(CLASS(indentScan, tokenScan))
         friend class parser;

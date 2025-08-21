@@ -13,6 +13,10 @@ namespace by {
     class bindTag;
     class instancer;
 
+    /// @ingroup memlite
+    /// @brief Base class for all managed instances in memlite system
+    /// @details Provides unique identification, type information, and cloning capabilities
+    /// for objects managed by the memlite memory management system.
     class _nout instance: public typeProvidable, public clonable {
         BY_ME(instance)
         BY_INIT_META(me)

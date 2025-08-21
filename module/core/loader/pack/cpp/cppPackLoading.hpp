@@ -7,6 +7,10 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief C++ native pack loading implementation
+    /// @details Specialized pack loader for C++ native libraries and modules.
+    /// Handles dynamic library loading and native code integration with byeol.
     class _nout cppPackLoading: public trustPackLoading {
         BY(CLASS(cppPackLoading, trustPackLoading))
         typedef void (*entrypointFunc)(bicontainable*);

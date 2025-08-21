@@ -6,6 +6,10 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief If conditional expression
+    /// @details Represents if-then-else conditional statements.
+    /// Evaluates condition and executes appropriate branch based on result.
     class _nout ifExpr: public expr {
         BY(CLASS(ifExpr, expr, expr::exprType), VISIT())
         friend class verifier;

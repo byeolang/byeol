@@ -8,6 +8,9 @@
 namespace by {
     class frames;
 
+    /// @ingroup core
+    /// @brief Program execution starter
+    /// @details Worker that initiates and manages byeol program execution with main function lookup.
     class _nout starter: public worker<str, node> {
         typedef worker<str, node> __super8;
         BY(CLASS(starter, __super8))

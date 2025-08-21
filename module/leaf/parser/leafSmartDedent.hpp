@@ -4,6 +4,10 @@
 #include "leaf/common.hpp"
 
 namespace by {
+    /// @ingroup leaf
+    /// @brief Smart dedent handler for indentation-based parsing
+    /// @details Manages automatic dedentation in Python-like indentation syntax.
+    /// Tracks indentation levels and generates appropriate dedent tokens.
     class _nout leafSmartDedent {
         BY(ME(leafSmartDedent))
 

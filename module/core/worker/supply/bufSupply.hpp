@@ -4,6 +4,9 @@
 #include "core/worker/supply/srcSupply.hpp"
 
 namespace by {
+    /// @ingroup core
+    /// @brief Buffer-based source supply
+    /// @details Supplies source code from an in-memory string buffer to the parser.
     class _nout bufSupply: public srcSupply {
         BY(CLASS(bufSupply, srcSupply))
 

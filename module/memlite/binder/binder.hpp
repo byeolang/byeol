@@ -18,38 +18,38 @@ namespace by {
     /// 3) Notification when bound instances are replaced or freed
     /// Prevents process halting and provides developer notifications.
     ///
-    ///     type cheking:
-    ///         this was most valuable requirement when I design component of bind.
-    ///         in fact, bind was suggested to replace sort of exisiting smart-ptr concept things,
-    ///         such as weakptr. because weakptr was planned to replace and enhance existing pointer
-    ///         of c/c++, they were very strict to check type and whether template param T was const
-    ///         or not. this characteristic was pretty worked good in most environment but not on
-    ///         usage of byeol framework.
+    /// type checking:
+    ///     this was most valuable requirement when I design component of bind.
+    ///     in fact, bind was suggested to replace sort of exisiting smart-ptr concept things,
+    ///     such as weakptr. because weakptr was planned to replace and enhance existing pointer
+    ///     of c/c++, they were very strict to check type and whether template param T was const
+    ///     or not. this characteristic was pretty worked good in most environment but not on
+    ///     usage of byeol framework.
     ///
-    ///         why was it not proper to use as before?:
-    ///             byeol is based on class node and make user not need to know what really was.
-    ///             all actions (including calling some func on byeol env) can be replacable to
-    ///             sending msg using "use()". to say the least, what byeol doing is loose-check.
-    ///             so, strict type-checking of existing smart pointers doesn't matched to what
-    ///             byeol framework willing to do.
+    ///     why was it not proper to use as before?:
+    ///         byeol is based on class node and make user not need to know what really was.
+    ///         all actions (including calling some func on byeol env) can be replacable to
+    ///         sending msg using "use()". to say the least, what byeol doing is loose-check.
+    ///         so, strict type-checking of existing smart pointers doesn't matched to what
+    ///         byeol framework willing to do.
     ///
-    ///     design:
-    ///         binder components are mostly constructed to 3 classes and they form 2 layers
-    ///         vertically. class binder:
-    ///             represents binder on loose-checking layer.
-    ///             user can try any type to bind or get from the binded. compiler won't complain
-    ///             about. but because of loose-checking, if it's not proper request, binder will
-    ///             warn you at runtime as result.
-    ///             constness of binding instance was persisted. (for example, if user try to get
-    ///             non-const instance from consted binder, s/he will get nulled reference.)
-    ///             user needs to checks that returned value was nullref on using loose-checking
-    ///             API.
+    /// design:
+    ///     binder components are mostly constructed to 3 classes and they form 2 layers
+    ///     vertically. class binder:
+    ///         represents binder on loose-checking layer.
+    ///         user can try any type to bind or get from the binded. compiler won't complain
+    ///         about. but because of loose-checking, if it's not proper request, binder will
+    ///         warn you at runtime as result.
+    ///         constness of binding instance was persisted. (for example, if user try to get
+    ///         non-const instance from consted binder, s/he will get nulled reference.)
+    ///         user needs to checks that returned value was nullref on using loose-checking
+    ///         API.
     ///
-    ///         class tweak, class tstr:
-    ///             these represent binder on strict-checking layer.
-    ///             because it was declared to class template, user need to bind or get binded using
-    ///             type T. of course these are based on class 'bind', user can use loose-check API
-    ///             case by case.
+    ///     class tweak, class tstr:
+    ///         these represent binder on strict-checking layer.
+    ///         because it was declared to class template, user need to bind or get binded using
+    ///         type T. of course these are based on class 'bind', user can use loose-check API
+    ///         case by case.
     class _nout binder: public typeProvidable, public tbindable<instance> {
         BY(ME(binder, instance), INIT_META(me))
 
@@ -64,7 +64,8 @@ namespace by {
         virtual ~binder();
 
     public:
-        /// this follows the same policy as tmay and stl.
+        /// @brief Dereference operator to access bound instance
+        /// @details This follows the same policy as tmay and stl.
         /// that is, if the binder does not bind any instances and tries to dereference them with
         /// `get()` or `operator*()`, it will behave as UB.
         /// this is likely to crash.

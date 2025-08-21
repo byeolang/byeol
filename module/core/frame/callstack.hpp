@@ -10,6 +10,9 @@ namespace by {
     class frame;
     class frames;
 
+    /// @ingroup core
+    /// @brief Single call trace entry
+    /// @details Represents one entry in the call stack with frame and location information.
     class _nout calltrace: public instance {
         BY(CLASS(calltrace, instance))
 
@@ -22,6 +25,9 @@ namespace by {
         std::string in;
     };
 
+    /// @ingroup core
+    /// @brief Call stack for error reporting and debugging
+    /// @details Stack trace information for debugging and error reporting.
     class _nout callstack: public tnarr<calltrace>, public dumpable {
         BY(CLASS(callstack, instance))
 

@@ -7,6 +7,9 @@
 #include "core/bridge/cpp/tbridgeFunc.hpp"
 
 namespace by {
+    /// @ingroup core
+    /// @brief Bridge constructor for C++ objects
+    /// @details Template constructor bridge that creates C++ objects from byeol constructor calls.
     template <typename T, typename... Args>
     class tbridgeCtor
         : public tbridgeFunc<T, T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is, tmarshaling, Args...> {

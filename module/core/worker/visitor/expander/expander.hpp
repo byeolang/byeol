@@ -6,9 +6,16 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief Visitor for expanding generic types and expressions
+    /// @details Expands generic type definitions and resolves type parameters.
+    /// Performs type convergence and expansion of template instantiations.
     class _nout expander: public visitor {
         BY(CLASS(expander, visitor))
 
+        /// @ingroup core
+        /// @brief Expansion state tracking structure
+        /// @details Tracks expansion state for objects and functions during type expansion.
         struct _nout expansion {
             nbool isExpanded() const;
 

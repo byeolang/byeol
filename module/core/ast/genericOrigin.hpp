@@ -8,6 +8,10 @@ namespace by {
     class visitor;
     class verifier;
 
+    /// @ingroup core
+    /// @brief Generic type origin with type parameters
+    /// @details Manages generic type definitions with type parameter substitution.
+    /// Caches instantiated generic types and handles type parameter binding.
     class _nout genericOrigin: public baseObj {
         BY(CLASS(genericOrigin, baseObj), VISIT())
         friend class verifier;

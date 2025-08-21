@@ -12,6 +12,9 @@ namespace by {
     typedef class _nout tnarr<node, strTactic> narr;
     template <typename K, typename V> class tbicontainable;
 
+    /// @ingroup core
+    /// @brief Template unidirectional container interface
+    /// @details Container template with iterator support and element access API.
     /// @remark tucontainable has API treating iter ref and element as its parameter.
     template <typename T, typename R = T*, typename RSquare = T&> class tucontainable {
         BY_ME(tucontainable)

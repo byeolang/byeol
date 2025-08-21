@@ -12,6 +12,10 @@ namespace by {
 
     class slotLoader;
 
+    /// @ingroup core
+    /// @brief Thread execution context for byeol runtime
+    /// @details Manages execution frames, error reporting, and system slots for a single thread.
+    /// Provides the main execution context for byeol program execution.
     class _nout thread: public node, public dumpable {
         BY(CLASS(thread, node))
         friend class verifier;  // for frames

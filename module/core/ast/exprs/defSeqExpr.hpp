@@ -7,6 +7,10 @@ namespace by {
 
     class visitor;
 
+    /// @ingroup core
+    /// @brief Sequence definition expression
+    /// @details Represents sequence range definitions (e.g., start..end).
+    /// Creates integer sequences with specified start and end values.
     class _nout defSeqExpr: public expr {
         BY(CLASS(defSeqExpr, expr, expr::exprType), VISIT())
         friend class func;

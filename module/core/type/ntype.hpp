@@ -12,6 +12,10 @@ namespace by {
     class ases;
     class impliAses;
 
+    /// @ingroup core
+    /// @brief Native type system for byeol language
+    /// @details Core type class that provides type information, type conversion, and type deduction.
+    /// Supports implicit/explicit casting, type compatibility checking, and parameter management.
     class _nout ntype: public type {
         BY_ME(ntype, type)
         typedef std::map<const ntype*, const ntype*> deducer;

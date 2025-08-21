@@ -11,6 +11,10 @@ namespace by {
     class params;
     class visitor;
 
+    /// @ingroup core
+    /// @brief Base class for all function types
+    /// @details Abstract base class providing common functionality for functions and methods.
+    /// Manages parameters, return types, modifiers, and function execution semantics.
     class _nout baseFunc: public node {
         BY(ADT(baseFunc, node), VISIT())
         friend class generalizer; // for _getType()

@@ -1,4 +1,7 @@
 /// @file
+/// @ingroup core
+/// @brief Iterable interface for unidirectional containers
+/// @details Abstract interface providing iteration capabilities for sequence containers.
 // nested class of ucontainable.hpp
 class iterable {
     BY_ME(iterable)

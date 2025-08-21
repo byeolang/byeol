@@ -7,6 +7,10 @@
 
 namespace by {
 
+    /// @ingroup core
+    /// @brief Error reporting and collection system
+    /// @details Collects and manages errors and warnings during compilation and runtime.
+    /// Provides filtering, logging, and reporting capabilities for diagnostic messages.
     class _nout errReport: public instance, public dumpable {
         BY(CLASS(errReport, instance))
 
@@ -61,6 +65,9 @@ namespace by {
         nbool _isNoisy;
     };
 
+    /// @ingroup core
+    /// @brief Dummy error reporter that discards all errors
+    /// @details No-op error reporter used when error collection is not needed.
     class _nout dummyErrReport: public errReport {
         BY(CLASS(dummyErrReport, errReport))
 

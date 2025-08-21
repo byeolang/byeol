@@ -11,9 +11,11 @@ namespace by {
     class func;
     class defNestedFuncExpr;
 
-    /// closure is a proxy for a func with captured object scope.
-    /// when you input arguments, its object scope was replaced to the captured scope.
-    /// so eventually, you don't need to refer any object if you carry a func with closure.
+    /// @ingroup core
+    /// @brief Function closure with captured object scope
+    /// @details Proxy for function with captured object scope for closures.
+    /// When arguments are provided, object scope is replaced with captured scope.
+    /// @note Allows carrying functions without needing to reference any object.
     class _nout closure: public baseFunc {
         BY(ME(closure, baseFunc), CLONE(closure), VISIT())
 

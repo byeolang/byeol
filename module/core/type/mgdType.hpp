@@ -10,6 +10,10 @@ namespace by {
     template <typename T, typename TACTIC> class tnarr;
     typedef tnarr<node, strTactic> narr;
 
+    /// @ingroup core
+    /// @brief Managed type for byeol objects
+    /// @details Type information for managed objects with inheritance, parameters, and templates.
+    /// Handles complex type relationships and runtime type information.
     class _nout mgdType: public ntype, public clonable {
         BY(ME(mgdType, ntype), CLONE(mgdType))
 

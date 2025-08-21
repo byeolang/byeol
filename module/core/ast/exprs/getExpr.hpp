@@ -9,6 +9,10 @@ namespace by {
     class visitor;
     class closure;
 
+    /// @ingroup core
+    /// @brief Expression for property and method access
+    /// @details Represents dot notation access expressions (e.g., obj.property, obj.method()).
+    /// Handles both property access and method calls with argument evaluation.
     class _nout getExpr: public expr {
         BY(CLASS(getExpr, expr, expr::exprType), VISIT())
         friend class verifier;

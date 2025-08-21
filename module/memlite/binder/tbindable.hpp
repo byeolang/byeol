@@ -5,6 +5,10 @@
 
 namespace by {
 
+    /// @ingroup memlite
+    /// @brief Template interface for bindable objects
+    /// @details Provides generic binding interface for objects of type T.
+    /// Supports binding validation, type checking, and lifecycle management.
     template <typename T> class tbindable {
         BY_ME(tbindable)
         BY_INIT_META(me)
@@ -15,8 +19,9 @@ namespace by {
 
     public:
         virtual nbool bind(const T& it);
-        /// @remark binder will loose previous binding instance whether given parameter `it` isn't
-        ///         nullptr or not.
+        /// @brief Bind to instance pointer
+        /// @details binder will loose previous binding instance whether given parameter `it` isn't
+        /// nullptr or not.
         nbool bind(const T* it);
 
         virtual void rel() = 0;

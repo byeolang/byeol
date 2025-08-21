@@ -6,7 +6,10 @@
 
 namespace by {
 
-    /// srcFile represents src file of byeolang source codes.
+    /// @ingroup core
+    /// @brief Source file representation
+    /// @details Represents byeol source files with filename and content information.
+    /// Used for tracking source code origin and content during compilation.
     class _nout srcFile: public node {
         BY(CLASS(srcFile, node), VISIT())
 

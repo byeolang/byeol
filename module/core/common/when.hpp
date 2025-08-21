@@ -11,6 +11,9 @@ namespace by {
 #undef __WHEN_OBJECT__
 #define __WHEN_OBJECT__ __core_when__
 
+    /// @ingroup core
+    /// @brief Enhanced error handling for core module
+    /// @details Extended WHEN macro support with node-aware error reporting.
     class _nout __WHEN_OBJECT__: public __clog_when__ {
         BY(ME(__WHEN_OBJECT__, __clog_when__))
 

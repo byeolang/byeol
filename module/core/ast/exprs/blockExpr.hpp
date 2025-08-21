@@ -8,6 +8,10 @@ namespace by {
     class visitor;
     class errReport;
 
+    /// @ingroup core
+    /// @brief Block expression containing multiple statements
+    /// @details Represents a sequence of statements executed in order.
+    /// Used for function bodies, control flow blocks, and compound statements.
     class _nout blockExpr: public expr {
         BY(CLASS(blockExpr, expr, expr::exprType), VISIT())
         friend class verifier;

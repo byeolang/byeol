@@ -18,6 +18,9 @@ namespace by {
 
     const _nout nchar* getPriorTypeName(priorType type);
 
+    /// @ingroup core
+    /// @brief Priority wrapper for type matching
+    /// @details Template that wraps elements with priority information for overload resolution.
     template <typename T> struct tprior: instance {
         BY(CLASS(tprior, instance))
 
@@ -44,6 +47,9 @@ namespace by {
         ncnt lv;
     };
 
+    /// @ingroup core
+    /// @brief Collection of prioritized elements
+    /// @details Container for managing elements with priority information for overload resolution.
     template <typename T> class tpriorities: public tnarr<T> {
         BY(CLASS(tpriorities, tnarr<T>))
         template <typename E> friend class tprioritiesBucket;

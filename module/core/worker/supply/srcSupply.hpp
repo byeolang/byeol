@@ -9,6 +9,9 @@ namespace by {
     class parser;
     class exprMaker;
 
+    /// @ingroup core
+    /// @brief Source code supply interface
+    /// @details Abstract base for supplying source code to the parser from various sources.
     class _nout srcSupply: public instance {
         BY(ADT(srcSupply, instance))
 

@@ -5,12 +5,11 @@
 #include "core/ast/expr.hpp"
 
 namespace by {
-    /// nested func:
-    ///     when you eval nested func, actually it will clone a new func with the current
-    ///     shallow copied block scope. so it can captures local scope at that time.
-    ///
-    ///     it doesn't know about local variables after you define it.
-    ///     it contains copied block scope. and will inject just before runs block stmt.
+    /// @ingroup core
+    /// @brief Nested function definition expression (lambda)
+    /// @details Represents lambda expressions and nested function definitions.
+    /// Captures local scope at definition time and creates closures for nested functions.
+    /// @note When evaluated, clones function with shallow copied block scope for variable capture.
     class _nout defNestedFuncExpr: public expr {
         BY(CLASS(defNestedFuncExpr, expr, expr::exprType), VISIT())
         friend class visitor;

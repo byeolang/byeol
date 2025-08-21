@@ -5,6 +5,10 @@
 #include "meta/type/ttype.hpp"
 
 namespace by {
+    /// @ingroup meta
+    /// @brief Interface for objects that can provide their type information
+    /// @details Provides type introspection capabilities including type comparison,
+    /// hierarchy checking, and safe casting operations.
     class _nout typeProvidable {
         BY_ME(typeProvidable)
 

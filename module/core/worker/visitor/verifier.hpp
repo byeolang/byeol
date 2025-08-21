@@ -13,6 +13,10 @@ namespace by {
     class thread;
     class endExpr;
 
+    /// @ingroup core
+    /// @brief AST verifier for semantic analysis
+    /// @details Performs semantic analysis and type checking on AST nodes.
+    /// Validates code correctness, type compatibility, and language semantics.
     class _nout verifier: public visitor {
         BY(CLASS(verifier, visitor))
         friend struct ::verifierTest;
