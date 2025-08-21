@@ -19,3 +19,7 @@ div.contents, div.header .title {
 div#nav-tree-contents > ul > li > div:first-child {
     visibility: hidden;
 }
+
+div#nav-sync {
+    display: none;
+}
