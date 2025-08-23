@@ -16,7 +16,7 @@ namespace by {
     /// definitely would be polluted and accessing it causes Undefined Behavior.
     ///
     /// and we need the blk that can be used after it freed, this is why we
-    /// put an additional value, next. see @Block to know the reason.
+    /// put an additional value, `next`. see @ref bindTag for more info.
     struct _nout watchCell {
         nidx next;
         bindTag blk;

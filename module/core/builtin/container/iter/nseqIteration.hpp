@@ -1,6 +1,7 @@
 /// @file
-// nested class of nseq.hpp:
-//  this file allows to be refered by 'nseq.hpp' file only.
+/// @ingroup core
+/// nested class of nseq.hpp:
+///  this file allows to be refered by 'nseq.hpp' file only.
 class nseqIteration: public iteration {
     BY(CLASS(nseqIteration, iteration))
     friend class tnseq;

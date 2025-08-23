@@ -68,9 +68,6 @@ namespace by {
         tstr<src> _src;
     };
 
-    /// @ingroup core
-    /// @brief Bridge function template for C++ member functions
-    /// @details Template that bridges C++ member functions with byeol function calls.
     template <typename Ret, typename T, nbool isBaseObj, template <typename, nbool> class Marshaling, typename... Args>
     class tbridgeFunc: public tbaseBridgeFunc<Ret, T, Marshaling, Args...> {
         typedef tbaseBridgeFunc<Ret, T, Marshaling, Args...> _super_;

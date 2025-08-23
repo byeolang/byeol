@@ -12,9 +12,9 @@ namespace by {
     class defNestedFuncExpr;
 
     /// @ingroup core
-    /// @brief Function closure with captured object scope
-    /// @details Proxy for function with captured object scope for closures.
-    /// When arguments are provided, object scope is replaced with captured scope.
+    /// @brief @ref func closure with captured @ref obj "object" scope
+    /// @details Proxy for @func with captured @ref obj "object" scope for closures.
+    /// When @ref args "arguments" are provided, @ref obj "object" scope is replaced with captured scope.
     /// @note Allows carrying functions without needing to reference any object.
     class _nout closure: public baseFunc {
         BY(ME(closure, baseFunc), CLONE(closure), VISIT())

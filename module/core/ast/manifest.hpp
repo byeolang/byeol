@@ -7,8 +7,8 @@ namespace by {
 
     // TODO: entrypoints[== filePath] can be various. but not language.
     /// @ingroup core
-    /// @brief Entry point definition for package loading
-    /// @details Defines language and file paths for package entry points.
+    /// @brief Entry point definition for @ref packLoading "pack loading"
+    /// @details Defines language and file paths for @ref pack entry points.
     struct _nout entrypoint: public validable {
         entrypoint(const std::string& newLang, const std::vector<std::string>& newPaths);
         virtual ~entrypoint();
@@ -24,8 +24,8 @@ namespace by {
     typedef std::vector<entrypoint> entrypoints;
 
     /// @ingroup core
-    /// @brief Package manifest information
-    /// @details Contains metadata about packages including name, version, author, and entry points.
+    /// @brief pack manifest information
+    /// @details Contains metadata about pack including name, version, author, and entry points.
     struct manifest: public validable {
         static constexpr const nchar* DEFAULT_NAME = "{default}";
 

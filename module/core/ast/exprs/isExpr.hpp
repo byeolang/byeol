@@ -5,7 +5,7 @@
 
 namespace by {
     /// @ingroup core
-    /// @brief Type checking expression
+    /// @brief @ref ntype checking expression
     /// @details Represents type checking operations (e.g., value is Type).
     /// Evaluates to boolean indicating whether an object is of specified type.
     class _nout isExpr: public expr {

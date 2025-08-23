@@ -4,8 +4,8 @@
 /// @ingroup core
 /// @brief Bidirectional iterator for key-value containers
 /// @details Iterator implementation for bidirectional containers with key-value pair access.
-// nested class of tbicontainable.hpp:
-//  this file allows to be refered by 'tbicontainable.hpp' file only.
+/// nested class of tbicontainable.hpp:
+/// this file allows to be refered by 'tbicontainable.hpp' file only.
 class iter: public iterable, public clonable, public typeProvidable {
     BY(CLASS(iter))
     friend class iteration;

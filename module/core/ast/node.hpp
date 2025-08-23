@@ -84,9 +84,9 @@ namespace by {
             /// @param a if you pass this as a nullptr, the argument will be ignored and all names
             /// that are the same
             ///          will be considered to meet the condition.
-            ///          if you pass the argument as `args()`, it will be considered to meet the
+            /// @warning if you pass the argument as `args()`, it will be considered to meet the
             ///          condition only if there are no parameters and the names are the same, so
-            ///          the two have completely different meanings. BE CAREFUL.
+            ///          the two have completely different meanings.
             template <typename T = me>
             tpriorities<T> subAll(const std::string& name, const args* a) const;
         template <typename T = me> tpriorities<T> subAll(const std::string& name, const args& a) const;
@@ -151,16 +151,16 @@ namespace by {
         /// getType() returns what it is. opposite to it, this returns what this class will
         /// represents after evaluation.
         ///
-        /// for example, the 'expr' class has derived from this node class. and if an user call the
+        /// for example, the @ref expr class has derived from this node class. and if an user call the
         /// funcs to get type of it, class 'ntype' of 'expr' will be returned.
         /// but if that user call the 'getEval()' then the 'expr' object evaluate its terms and
-        /// returns it as a node from the output. it could be an integer if it was 'addExpr' and all
+        /// returns it as a node from the output. it could be an integer if it was @ref addExpr and all
         /// terms are constructed with integers.
         ///
         /// and also this func requires frames. means that you have to interact frame first before
         /// call this func.
-        /// @remark some derived class of node may require to call this function first by verifier.
-        ///         if you call this function without calling verifier previously will damage then
+        /// @remark some derived class of node may require to call this function first by @ref verifier.
+        ///         if you call this function without calling @ref verifier previously will damage then
         ///         process.
         virtual str getEval() const;
 

@@ -14,7 +14,8 @@ namespace by {
 
     /// @ingroup core
     /// @brief Function definition in byeol language
-    /// @details Represents a function with parameters, return type, and executable block.
+    /// @details Represents a function with parameters, return @ref ntype "type", and
+    /// @ref blockExpr "executable block".
     /// Manages function execution context, parameter handling, and return value processing.
     class _nout func: public baseFunc {
         BY(ME(func, baseFunc), CLONE(func), VISIT())

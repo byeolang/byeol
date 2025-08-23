@@ -18,9 +18,9 @@ namespace by {
     template <typename T> class tbaseObjOrigin;
 
     /// @ingroup core
-    /// @brief Base class for all objects in byeol language
-    /// @details Handles frame injection events and provides common object functionality.
-    /// Manages object origin, state, modifiers, and frame interactions for all byeol objects.
+    /// @brief Base class for all @ref obj "objects" in byeol language
+    /// @details Handles @ref frame injection events and provides common @ref obj "object" functionality.
+    /// Manages object @ref origin, state, @ref modifier "modifiers", and @ref frame interactions for all byeol objects.
     class _nout baseObj: public node, public statable {
         BY(ADT(baseObj, node))
         friend class verifier;
@@ -33,7 +33,7 @@ namespace by {
         template <typename T> friend class tbaseObjOrigin;
 
     protected:
-        /// if you don't give any subs when construct an baseObj, _subs will be assigned to dummy
+        /// if you don't give any subs when construct an @ref baseObj, _subs will be assigned to dummy
         /// array. instance on ctor of derived class.
         explicit baseObj() = default;
         explicit baseObj(const baseObj* org, nbool);
@@ -71,7 +71,7 @@ namespace by {
         void _setSrc(const src& s) override;
         virtual void _inFrame(frame& fr, const bicontainable* args) const;
 
-        // update origin pointer of an object.
+        // update @ref origin pointer of an object.
         // to modify origin* is very dangerous. only permitted module should do this.
         void _setOrigin(const baseObj& newOrg);
 
