@@ -17,7 +17,7 @@ div.contents, div.header .title {
 }
 
 div#nav-tree-contents > ul > li > div:first-child {
-    visibility: hidden;
+    display: none;
 }
 
 div#nav-sync {
