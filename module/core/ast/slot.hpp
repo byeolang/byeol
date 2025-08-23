@@ -10,9 +10,9 @@ namespace by {
     class visitor;
 
     /// @ingroup core
-    /// @brief Package slot for module loading and management
-    /// @details Represents a loadable package with manifest information and dependencies.
-    /// Manages package lifecycle, validation, and dependency relationships.
+    /// @brief Pack slot for @ref packLoading "loading" and management
+    /// @details Represents a loadable package with @ref manifest information and dependencies.
+    /// Manages pack lifecycle, validation, and dependency relationships.
     class _nout slot: public node {
         BY(CLASS(slot, node), VISIT())
 

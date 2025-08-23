@@ -2,8 +2,8 @@
 /// @ingroup core
 /// @brief Array iteration implementation
 /// @details Concrete iteration implementation for native array containers.
-// nested class of tnarr.hpp:
-//  this file allows to be refered by 'tnarr.hpp' file only.
+/// nested class of tnarr.hpp:
+///  this file allows to be refered by 'tnarr.hpp' file only.
 class narrIteration: public iteration {
     BY(CLASS(narrIteration, iteration))
     friend class tnarr;

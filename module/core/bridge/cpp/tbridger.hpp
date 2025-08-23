@@ -151,9 +151,6 @@ namespace by {
         scope _subs;
     };
 
-    /// @ingroup core
-    /// @brief Bridge builder specialization for baseObj-derived classes
-    /// @details Specialized bridge builder for C++ classes that inherit from baseObj.
     template <typename T> class tbridger<T, true> {
         BY(ME(tbridger))
 

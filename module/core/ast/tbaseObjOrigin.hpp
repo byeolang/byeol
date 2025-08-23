@@ -7,20 +7,21 @@
 namespace by {
 
     /// @ingroup core
-    /// @brief Template base object origin for user-defined classes
+    /// @brief Template base object @ref origin for user-defined classes
     /// @details Template for creating origin objects for user-defined classes in unmanaged code.
-    /// Origin should be shadowed to 'baseObj' type for proper interaction.
+    /// @note Origin should be shadowed to 'baseObj' type for proper interaction.
     /// this baseObjOrigin class is represents user defined classes in unmanaged codes.
     /// one important thing you must remember is, origin should be shadowed to 'baseObj' type.
     /// every interaction you can take with origin could be handled with baseObj class.
     /// and inherits something too origin class aren't allowed.
     ///
-    /// this limitation affects to usage of binder too:
+    /// @warning this limitation affects to usage of binder too.
     /// simply, declaring binder with type parameter 'baseObjOrigin' is not allowed. use 'baseObj'
     /// type instead of.
-    ///     e.g.
-    ///         tstr<baseObjOrigin> a; // X, unexpected behavior may happen.
-    ///         tstr<baseObj> a; // O
+    /// @code
+    ///     tstr<baseObjOrigin> a; // X, unexpected behavior may happen.
+    ///     tstr<baseObj> a; // O
+    /// @endcode
     template <typename T> class tbaseObjOrigin: public T {
         BY(ME(tbaseObjOrigin, T), INIT_META(tbaseObjOrigin))
         static_assert(tifSub<T, baseObj>::is, "you need to input 'T' as derived class of baseObj.");

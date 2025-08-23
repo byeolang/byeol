@@ -1,6 +1,7 @@
 /// @file
-// nested class of tnmap.hpp:
-//  this file allows to be refered by 'tnmap.hpp' file only.
+/// @ingroup core
+/// nested class of tnmap.hpp:
+/// this file allows to be refered by 'tnmap.hpp' file only.
 class nmapIteration: public iteration {
     BY(CLASS(nmapIteration, iteration))
     friend class tnmap;

@@ -5,7 +5,7 @@
 
 namespace by {
     /// @ingroup core
-    /// @brief End block expression for function cleanup
+    /// @brief End @ref blockExpr for function cleanup
     /// @details Represents end blocks that execute after function completion.
     /// Used for cleanup operations and finally-like behavior in functions.
     class _nout endExpr: public blockExpr {

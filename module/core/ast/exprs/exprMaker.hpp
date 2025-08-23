@@ -38,7 +38,7 @@ namespace by {
 
         tstr<src> makeSrc(const std::string& name) const;
 
-        /// when you birth your child, you must name it.
+        /// @note when you birth your child, you must name it.
         template <typename T, typename... Args> T* birth(const std::string& name, const Args&... args) const {
             T* ret = new T(args...);
             if(_file) ret->_setSrc(*makeSrc(name));

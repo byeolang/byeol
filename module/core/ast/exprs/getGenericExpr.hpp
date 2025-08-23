@@ -10,7 +10,7 @@ namespace by {
 
     /// @ingroup core
     /// @brief Generic type access expression
-    /// @details Represents access to generic types with type parameters (e.g., Array<Int>).
+    /// @details Represents access to generic types with type parameters (e.g., MyType<Int>).
     /// Handles generic type instantiation and type parameter binding.
     class _nout getGenericExpr: public getExpr {
         BY(CLASS(getGenericExpr, getExpr, expr::exprType), VISIT())

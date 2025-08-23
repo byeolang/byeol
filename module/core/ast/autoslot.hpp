@@ -13,8 +13,8 @@ namespace by {
 
     /// @ingroup core
     /// @brief Automatic slot with pack loading capabilities
-    /// @details Slot that automatically loads and parses pack content when accessed.
-    /// Integrates pack loading strategies with lazy evaluation and error reporting.
+    /// @details @ref slot that automatically loads and parses @ref pack content when accessed.
+    /// Integrates @ref pack loading strategies with lazy evaluation and @ref err reporting.
     class _nout autoslot: public slot, public packMakable, public statable {
         BY(CLASS(autoslot, slot), VISIT())
 
@@ -31,13 +31,13 @@ namespace by {
 
         void rel() override;
 
-        /// this report will be used while interpret pack source code.
-        /// @remark when 'subs()' func of the pack has been called, it interprets src codes
+        /// this report will be used while interpret @ref pack source code.
+        /// @remark when 'subs()' @ref func of the @ref pack has been called, it interprets src codes
         ///         if it's first time. during parsing and verification, this report will
-        ///         collects warning & errors.
-        ///         this func usually will be called by verifier when it detects the access
-        ///         to a pack.
-        ///         please refer 'verifier' class if you want to know further.
+        ///         collects warning & @ref err.
+        ///         this @ref func usually will be called by @ref verifier when it detects the access
+        ///         to a @ref pack.
+        ///         please see @ref verifier class if you want to know further.
         void setReport(errReport& rpt);
         void setReport(errReport* it) BY_SIDE_FUNC(setReport);
 

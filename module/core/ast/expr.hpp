@@ -14,10 +14,11 @@ namespace by {
     /// Provides evaluation semantics and expression-specific type handling.
     class _nout expr: public node {
     public:
-        // expr can be casted to node. it's proxy of a node.
+        // expr can be casted to @ref node. it's proxy.
         /// @ingroup core
-        /// @brief Type information for expression nodes
-        /// @details Provides type metadata and conversion rules for expressions.
+        /// @brief @ref ntype "Type" information for expression nodes
+        /// @details Provides @ref ntype "type" metadata and conversion rules for
+        /// @ref expr "expressions".
         class _nout exprType: public ntype {
             BY(ME(exprType, ntype))
 
@@ -39,9 +40,9 @@ namespace by {
         using super::isImpli;
         nbool isImpli(const type& to) const override;
 
-        /// run of expr class get treated like 'evaluate' in byeol.
-        /// it should not take any argument to run()
         using super::prioritize;
+        /// run of @ref expr class get treated like 'evaluate' in byeol.
+        /// it should not take any @ref args "arguments" to run
         priorType prioritize(const args& a) const override;
 
         const src& getSrc() const override;

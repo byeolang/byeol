@@ -15,7 +15,7 @@ namespace by {
     /// @brief Managed object in byeol programming environment
     /// @details Represents objects structured in the managed byeol environment.
     /// Owned sub nodes can only be manipulated through the obj API, unlike
-    /// native objects which only have shared nodes.
+    /// native objects which only have shared @ref node "nodes".
     class _nout obj: public baseObj {
         BY(ME(obj, baseObj), INIT_META(obj), CLONE(obj), VISIT())
 

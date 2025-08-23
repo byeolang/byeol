@@ -13,8 +13,8 @@ namespace by {
 
     /// @ingroup core
     /// @brief Base class for all function types
-    /// @details Abstract base class providing common functionality for functions and methods.
-    /// Manages parameters, return types, modifiers, and function execution semantics.
+    /// @details Abstract base class providing common functionality for @ref func.
+    /// Manages parameters, return types, @ref modifier, and function execution semantics.
     class _nout baseFunc: public node {
         BY(ADT(baseFunc, node), VISIT())
         friend class generalizer; // for _getType()
@@ -33,18 +33,18 @@ namespace by {
         using super::prioritize;
         priorType prioritize(const args& a) const override;
 
-        /// @return parameters of run() func.
+        /// @return parameters of run() @ref func.
         ///         parameter is just a type. and I don't care about the value of each parameters.
         ///         that is the reason why I uses a ref to represents parameter.
         ///
         ///         I need the name and which types should be casted and binded from given arguments
         ///         are matters.
         virtual params& getParams();
-        const params& getParams() const BY_CONST_FUNC(getParams())
+        const params& getParams() const BY_CONST_FUNC(getParams());
 
         /// @return node which has same type of the func.
         ///         in byeol lang, even type is an object. that's why I return this as a node.
-        /// @remark please don't confuse this to evalType.
+        /// @remark please don't confuse this to @ref node::getEval().
         ///         evaluate means program just read the code and expand or calculate then replace
         ///         it to the accurate another identifier or variable. so evalType of the func is
         ///         just the func itself because there is nothing to calculate or run.

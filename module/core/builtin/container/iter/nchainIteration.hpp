@@ -2,8 +2,8 @@
 /// @ingroup core
 /// @brief Chain iteration implementation
 /// @details Concrete iteration implementation for chained container structures.
-// nested class of tnchain.hpp:
-//  this file allows to be refered by 'tnchain.hpp' file only.
+/// nested class of tnchain.hpp:
+///  this file allows to be refered by 'tnchain.hpp' file only.
 class nchainIteration: public iteration {
     BY(CLASS(nchainIteration, iteration))
     friend class tnchain;
