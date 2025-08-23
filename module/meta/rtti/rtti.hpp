@@ -135,8 +135,8 @@ namespace by {
 
     /// @ingroup meta
     /// @brief Type trait to check if type has metaType definition
-    /// @details metaTypeChecker: if user defined metaType on their own, we let their TType classes inherit their superType
-    /// class. otherwise, just use Type as base class.
+    /// @details metaTypeChecker: if user defined metaType on their own, we let their TType classes inherit their
+    /// superType class. otherwise, just use Type as base class.
     template <typename T, typename = void> struct tifHasMetaTypeDef: public metaIf {
         static inline constexpr nbool is = false;
     };

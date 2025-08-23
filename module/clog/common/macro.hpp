@@ -5,10 +5,10 @@
 /// @brief Log macro: prints debug log on console and file.
 /// @details You can check the file recorded logs at your current work directory
 /// named to "logs".
-/// 
+///
 /// If you dbg version macros, _DI, _DE, _DW, then log msg will be left
 /// only if you use dbg configuration.
-/// 
+///
 /// @code
 /// BY_I("just message.")
 /// BY_I("with format=%x string=%s", &format, format.c_str())
