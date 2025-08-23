@@ -23,3 +23,62 @@ div#nav-tree-contents > ul > li > div:first-child {
 div#nav-sync {
     display: none;
 }
+
+:root {
+    --byeol-white: #FFFFFF;
+    --byeol-white2: #E9EBF2;
+    --byeol-night: #0B1C26;
+    --byeol-night2: #112A40;
+    --byeol-night3: #2E4559;
+    --byeol-grass: #6AB04B;
+    --byeol-point: #4189A6;
+    --byeol-moon: #E0B88D;
+    --byeol-nebular: #ca5fa4;
+    --byeol-nebular-light: #F2B6D7;
+}
+
+#nav-tree, div.fragment, pre.fragment, div.memproto, .contents center, .contents .center, .contents table:not(.memberdecls):not(.mlabels):not(.fieldtable):not(.memname) tbody, div.contents .toc, .contents .dotgraph, .contents .tabs-overview-container {
+    scrollbar-width: auto !important;
+}
+
+::-webkit-scrollbar {
+    width: 16px !important;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 8px !important;
+    background-color: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 8px !important;
+    border: 3px solid transparent !important;
+    background-clip: content-box !important;
+    background-color: var(--byeol-point) !important;
+}
+
+html {
+    --page-background-color: var(--byeol-white) !important;
+    --side-nav-background: var(--byeol-white2) !important;
+    --fragment-background: var(--byeol-white2) !important;
+}
+
+svg {
+    fill: var(--byeol-moon) !important;
+}
+
+html.dark-mode {
+    --page-background-color: var(--byeol-night) !important;
+    --side-nav-background: var(--byeol-night2) !important;
+    --fragment-background: var(--byeol-night2) !important;
+    --primary-color: var(--byeol-point) !important;
+}
+
+a:link, a:visited, a:focus, a:active {
+    color: var(--byeol-nebular) !important;
+}
+
+a:hover {
+    color: var(--byeol-nebular-light) !important;
+    text-decoration: none !important;
+}
