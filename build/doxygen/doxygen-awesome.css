@@ -1370,6 +1370,14 @@ dl.warning, dl.attention, dl.note, dl.deprecated, dl.bug, dl.invariant, dl.pre, 
     border-radius: var(--border-radius-small);
 }
 
+div.doxygen-awesome-fragment-wrapper div.fragment {
+    padding: 0;
+}
+
+div.doxygen-awesome-fragment-wrapper div.fragment pre {
+    margin: 0;
+}
+
 dl.section dd {
     margin-bottom: 2px;
 }
