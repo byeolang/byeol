@@ -21,7 +21,7 @@ jobs:
           wget https://github.com/doxygen/doxygen/releases/download/Release_1_9_2/doxygen-1.9.2.src.tar.gz
           tar -xzf doxygen-1.9.2.src.tar.gz
           cd doxygen-1.9.2
-          cmake -DCMAKE_POLICY_VERSION_MINIMUM
+          cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5
           sudo make install
           doxygen --version
 
