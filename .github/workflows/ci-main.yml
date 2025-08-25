@@ -14,13 +14,15 @@ jobs:
     steps:
       - name: install native dependencies.
         run: |
-          sudo apt install -y graphviz python3 python3-pip ruby rubygems wget libclang1-9 libclang-cpp9
+          sudo apt install -y graphviz python3 python3-pip ruby rubygems wget cmake flex bison libclang-dev
 
-      - name: install doxygen 1.9.2
+      - name: install doxygen 1.9.2 source
         run: |
-          wget https://github.com/doxygen/doxygen/releases/download/Release_1_9_2/doxygen-1.9.2.linux.bin.tar.gz
-          tar -xzf doxygen-1.9.2.linux.bin.tar.gz
-          sudo cp doxygen-1.9.2/bin/doxygen /usr/local/bin/
+          wget https://github.com/doxygen/doxygen/releases/download/Release_1_9_2/doxygen-1.9.2.src.tar.gz
+          tar -xzf doxygen-1.9.2.src.tar.gz
+          cd doxygen-1.9.2
+          cmake -DCMAKE_POLICY_VERSION_MINIMUM
+          sudo make install
           doxygen --version
 
       - name: install python dependencies.
