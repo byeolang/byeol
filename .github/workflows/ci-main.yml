@@ -44,5 +44,6 @@ jobs:
         uses: ad-m/github-push-action@v0.6.0
         with:
           directory: ${{github.workspace}}/build/html
+          repository: byeolang/website
           github_token: ${{secrets.PAT_TOKEN}}
           branch: 'main'
