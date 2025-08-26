@@ -1208,7 +1208,8 @@ HTML_EXTRA_STYLESHEET  = doxygen/doxygen-awesome.css \
 
 HTML_EXTRA_FILES       = doxygen/doxygen-awesome-fragment-copy-button.js \
                          doxygen/doxygen-awesome-paragraph-link.js \
-                         doxygen/doxygen-awesome-interactive-toc.js
+                         doxygen/doxygen-awesome-interactive-toc.js \
+                         doxygen/postprocess.js
 
 HTML_COLORSTYLE        = LIGHT
 
