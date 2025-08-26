@@ -15,7 +15,7 @@ window.addEventListener('load', function() {
     });
 
     $('code.language-byeol').each(function(index) {
-        $(this).attr("src", this.textContent)
+        $(this).attr("src", processIfDontHaveMain(this.textContent))
     })
     $('code.hljs').hover(function() {
         var codeTag = $(this)[0]
@@ -28,6 +28,18 @@ window.addEventListener('load', function() {
       $('.play_button').remove()
     })
 });
+
+function processIfDontHaveMain(code) {
+    if(code.indexOf('main()') != -1) return code; // it already has main func!
+
+    indentedCode = code.split('\n').map(line => {
+        return "    " + line;
+    }).join("");
+
+    return `main() int
+${indentedCode}
+    ret 0`
+}
 
 function redirectPlay(codeTag) {
     var src = $(codeTag).attr("src")
