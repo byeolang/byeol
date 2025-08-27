@@ -3,7 +3,17 @@ pre code.hljs {
     overflow-x: auto;
     padding: 1em;
     transition: box-shadow 0.3s ease-in-out;
+    border: 0;
 }
+
+div.fragment {
+    border: 0;
+}
+
+div.fragment:has(pre code.verified) {
+    box-shadow: 0px 0px 0px 1px var(--byeol-moon)
+}
+
 .play_button {
   transform: translateX(-50%) translateY(-50%);
   box-sizing: content-box;
