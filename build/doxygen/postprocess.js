@@ -1,10 +1,32 @@
 followDarkModeWithParent();
 
 document.addEventListener('DOMContentLoaded', function() {
+    function makeJson(raw) {
+        function emptyJson(raw) {
+            return {
+                code: raw,
+                shown: raw,
+                classList: ""
+            };
+        }
+
+        if(raw[0] != '{') return emptyJson(raw);
+        try {
+            return eval(`(${raw})`);
+        } catch (ex) {
+            return emptyJson(raw);
+        }
+    }
+
+    function convertNewLine(shown) {
+        return shown.replace(/\\n/g, '\n');
+    }
+
+    // preprocess: making tags as attributes.
     const fragments = document.querySelectorAll('.fragment, div.fragment, pre.fragment');
     fragments.forEach(fragment => {
-        let code = fragment.textContent;
-        fragment.innerHTML = '<pre><code class="language-byeol">' + code + '</code></pre>';
+        let json = makeJson(fragment.textContent);
+        fragment.innerHTML = `<pre><code class="language-byeol ${json.classList}" src="${json.code}">${json.shown}</code></pre>`;
     });
 });
 
@@ -14,9 +36,6 @@ window.addEventListener('load', function() {
         hljs.highlightElement(block);
     });
 
-    $('code.language-byeol').each(function(index) {
-        $(this).attr("src", processIfDontHaveMain(this.textContent))
-    })
     $('code.hljs').hover(function() {
         var codeTag = $(this)[0]
         if($(this).find(".play_button").length) return
@@ -28,18 +47,6 @@ window.addEventListener('load', function() {
       $('.play_button').remove()
     })
 });
-
-function processIfDontHaveMain(code) {
-    if(code.indexOf('main()') != -1) return code; // it already has main func!
-
-    indentedCode = code.split('\n').map(line => {
-        return "    " + line;
-    }).join("");
-
-    return `main() int
-${indentedCode}
-    ret 0`
-}
 
 function redirectPlay(codeTag) {
     var src = $(codeTag).attr("src")
