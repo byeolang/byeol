@@ -36,7 +36,7 @@ window.addEventListener('load', function() {
         hljs.highlightElement(block);
     });
 
-    $('code.hljs').hover(function() {
+    $('code.hljs.verified').hover(function() {
         var codeTag = $(this)[0]
         if($(this).find(".play_button").length) return
         $(this).append('<a class="play_button"><span/></a>')
