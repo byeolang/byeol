@@ -6,6 +6,10 @@ pre code.hljs {
     border: 0;
 }
 
+pre:has(code.hljs) {
+    white-space: pre-wrap;
+}
+
 div.fragment {
     border: 0;
 }
