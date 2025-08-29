@@ -1218,6 +1218,15 @@ code, div.fragment, pre.fragment {
     overflow: hidden;
 }
 
+div.fragment > pre {
+    margin: 0;
+}
+
+div.doxygen-awesome-fragment-wrapper:hover {
+    box-shadow: 0px 0px 23px 1px rgba(45,255,196,0.77);
+    transition: box-shadow 0.3s;
+}
+
 code {
     display: inline;
     background: var(--code-background);
@@ -1226,8 +1235,8 @@ code {
 }
 
 div.fragment, pre.fragment {
-    margin: var(--spacing-medium) 0;
-    padding: calc(var(--spacing-large) - (var(--spacing-large) / 6)) var(--spacing-large);
+    /*margin: var(--spacing-medium) 0;*/
+    /*padding: calc(var(--spacing-large) - (var(--spacing-large) / 6)) var(--spacing-large);*/
     background: var(--fragment-background);
     color: var(--fragment-foreground);
     overflow-x: auto;
