@@ -76,7 +76,7 @@ jobs:
         sudo ln -s /usr/local/bin/bison /usr/bin/bison
 
     - name: checkout repository codes
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: build in release mode & test current codes.
       run: |
@@ -123,7 +123,7 @@ jobs:
         fi
 
     - name: checkout repository codes
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: build in release mode & test current codes.
       run: |
@@ -139,7 +139,7 @@ jobs:
 
     steps:
     - name: checkout repository codes
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: install native dependencies.
       run: |
@@ -206,7 +206,7 @@ jobs:
         sudo ln -s /usr/local/bin/bison /usr/bin/bison
 
     - name: checkout repository codes.
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: build for measuring coverage
       run: |
@@ -269,7 +269,7 @@ jobs:
 
     steps:
     - name: checkout repository codes
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.1
@@ -344,7 +344,7 @@ jobs:
         run: sudo gem install jekyll bundler
 
       - name: checkout master codes.
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: commit docs if it's different to previous commit
         run: |
@@ -356,5 +356,5 @@ jobs:
         uses: ad-m/github-push-action@v0.6.0
         with:
           directory: ${{github.workspace}}/build/html
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          branch: 'gh-pages'
+          github_token: ${{secrets.PAT_TOKEN}}
+          branch: 'main'
