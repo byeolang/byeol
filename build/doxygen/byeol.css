@@ -37,6 +37,10 @@ div#nav-sync {
     --byeol-nebular-light: #F2B6D7;
 }
 
+div.fragment pre {
+    position: relative;
+}
+
 #nav-tree, div.fragment, pre.fragment, div.memproto, .contents center, .contents .center, .contents table:not(.memberdecls):not(.mlabels):not(.fieldtable):not(.memname) tbody, div.contents .toc, .contents .dotgraph, .contents .tabs-overview-container {
     scrollbar-width: auto !important;
 }
