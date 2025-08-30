@@ -75,7 +75,7 @@ jobs:
         sudo ln -s /usr/local/bin/bison /usr/bin/bison
 
     - name: checkout repository codes
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: build in release mode & test current codes.
       run: |
@@ -97,7 +97,7 @@ jobs:
 
     steps:
     - name: checkout repository codes
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: install native dependencies.
       run: |
@@ -147,10 +147,12 @@ jobs:
         mv ${{github.workspace}}/bin/byeol.js /tmp/byeol-wasm
         mv ${{github.workspace}}/bin/byeol.wasm /tmp/byeol-wasm
 
-    - name: checkout to gh-pages
-      uses: actions/checkout@v2
+    - name: checkout to website
+      uses: actions/checkout@v4
       with:
-        ref: gh-pages
+        repository: 'byeolang/website'
+        token: ${{secrets.PAT_TOKEN}}
+        branch: 'main'
 
     - name: move binaries back to gh-pages
       run: |
@@ -166,8 +168,8 @@ jobs:
       uses: ad-m/github-push-action@v0.6.0
       with:
         directory: ${{github.workspace}}/play
-        github_token: ${{secrets.GITHUB_TOKEN}}
-        branch: 'gh-pages'
+        token: ${{secrets.PAT_TOKEN}}
+        branch: 'main'
 
   release-on-macos:
     needs: [checking-code-format]
@@ -219,7 +221,7 @@ jobs:
 
     steps:
     - name: checkout repository codes
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.1

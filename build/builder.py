@@ -162,7 +162,7 @@ def cleanGhPages(git):
 
     # standby gh-pages repo:
     printInfoEnd("cloning gh-pages branch...")
-    res = runCommand(f"{git.binary} clone -b gh-pages --depth 5 https://github.com/byeolang/byeol --single-branch {pathHtml}")
+    res = runCommand(f"{git.binary} clone --depth 5 https://github.com/byeolang/website --single-branch {pathHtml}")
     if res != 0: return res
     printOk("done.")
     return 0
