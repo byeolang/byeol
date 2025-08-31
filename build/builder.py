@@ -941,6 +941,9 @@ class DoxygenDependency(dependency):
     def getNames(self):
         return ["doxygen"]
 
+    def getExpectVer(self):
+        return ver(1, 9, 2, False)
+
 class EmmakeDependency(dependency):
     def getNames(self):
         return ["emmake"]
