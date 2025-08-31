@@ -5,8 +5,8 @@ div#projectname p {
 
 @media screen and (min-width: 768px) {
     #doc-content {
-        height: calc(100vh) !important;
-        width: calc(100vw - 340px) !important;
+        height: calc(100dvh) !important;
+        width: calc(100dvw - 340px) !important;
         padding-right: 10px;
         float: right;
     }

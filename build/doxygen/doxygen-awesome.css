@@ -77,7 +77,7 @@ html {
     --table-line-height: 24px;
     --toc-sticky-top: var(--spacing-medium);
     --toc-width: 200px;
-    --toc-max-height: calc(100vh - 2 * var(--spacing-medium) - 85px);
+    --toc-max-height: calc(100dvh - 2 * var(--spacing-medium) - 85px);
 
     /* colors for various content boxes: @warning, @note, @deprecated @bug */
     --warning-color: #faf3d8;
@@ -1146,7 +1146,7 @@ div.toc li a.aboveActive {
 
 @media screen and (max-width: 999px) {
     div.contents .toc {
-        max-height: 45vh;
+        max-height: 45dvh;
         float: none;
         width: auto;
         margin: 0 0 var(--spacing-medium) 0;
@@ -1194,7 +1194,7 @@ div.toc li a.aboveActive {
     }
 
     div.contents .toc.interactive.open {
-        max-height: 45vh;
+        max-height: 45dvh;
         overflow: auto;
         transition: max-height 0.2s ease-in-out;
     }
