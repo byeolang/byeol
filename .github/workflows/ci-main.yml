@@ -214,7 +214,7 @@ jobs:
         sudo $PYTHON ${{github.workspace}}/build/builder.py cov
 
     - name: upload coverage report to codecov
-      uses: codecov/codecov-action@v4.0.1
+      uses: codecov/codecov-action@v5.5.0
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: ./build/cov.info
