@@ -335,7 +335,16 @@ jobs:
     steps:
       - name: install native dependencies.
         run: |
-          sudo apt install -y doxygen graphviz python3 python3-pip ruby rubygems
+          sudo apt install -y graphviz python3 python3-pip ruby rubygems wget cmake flex bison libclang-dev
+
+      - name: install doxygen 1.9.2 source
+        run: |
+          wget https://github.com/doxygen/doxygen/releases/download/Release_1_9_2/doxygen-1.9.2.src.tar.gz
+          tar -xzf doxygen-1.9.2.src.tar.gz
+          cd doxygen-1.9.2
+          cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+          sudo make install
+          doxygen --version
 
       - name: install python dependencies.
         run: sudo python3 -m pip install --upgrade jinja2 Pygments
@@ -356,5 +365,6 @@ jobs:
         uses: ad-m/github-push-action@v0.6.0
         with:
           directory: ${{github.workspace}}/build/html
+          repository: byeolang/website
           github_token: ${{secrets.PAT_TOKEN}}
           branch: 'main'
