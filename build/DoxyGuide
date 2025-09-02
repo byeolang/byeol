@@ -1159,7 +1159,7 @@ HTML_FILE_EXTENSION    = .html
 # of the possible markers and block names see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_HEADER            = doxygen/header.html
+HTML_HEADER            = doxygen/guideHeader.html
 
 # The HTML_FOOTER tag can be used to specify a user-defined HTML footer for each
 # generated HTML page. If the tag is left blank doxygen will generate a standard
@@ -1210,7 +1210,8 @@ HTML_EXTRA_STYLESHEET  = doxygen/doxygen-awesome.css \
 HTML_EXTRA_FILES       = doxygen/doxygen-awesome-fragment-copy-button.js \
                          doxygen/doxygen-awesome-paragraph-link.js \
                          doxygen/doxygen-awesome-interactive-toc.js \
-                         doxygen/postprocess.js
+                         doxygen/postprocess.js \
+                         doxygen/pageInjector.js
 
 HTML_COLORSTYLE        = LIGHT
 
