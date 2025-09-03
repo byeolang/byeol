@@ -231,6 +231,7 @@ jobs:
     - name: install native dependencies.
       run: |
         brew unlink python && brew link --overwrite python
+        brew uninstall cmake
         brew install cmake wget bison flex graphviz llvm
         echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> /Users/runner/.bash_profile
         source /Users/runner/.bash_profile
