@@ -183,8 +183,13 @@ def docDoxygen(doxygen):
     if res != 0: return res
     printOk("done")
 
-    printInfoEnd("generating docs using guide using doxygen...")
-    res = runCommand(f"{doxygen.binary} {cwd}{slash()}DoxyGuide")
+    printInfoEnd("generating english docs using guide using doxygen...")
+    res = runCommand(f"{doxygen.binary} {cwd}{slash()}DoxyGuide-en")
+    if res != 0: return res
+    printOk("done")
+
+    printInfoEnd("generating korean docs using guide using doxygen...")
+    res = runCommand(f"{doxygen.binary} {cwd}{slash()}DoxyGuide-ko")
     if res != 0: return res
     printOk("done")
 
