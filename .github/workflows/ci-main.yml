@@ -405,6 +405,12 @@ jobs:
     - name: checkout repository codes
       uses: actions/checkout@v4
 
+    # setup xcode 고정 (brew llvm 대신 Xcode clang 사용)
+    - name: setup xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: "16.4.0"
+
     # Cache Homebrew packages
     - name: Cache Homebrew packages
       uses: actions/cache@v4
@@ -412,7 +418,7 @@ jobs:
         path: |
           ~/Library/Caches/Homebrew
           /opt/homebrew/Cellar
-        key: ${{ runner.os }}-brew-${{ hashFiles('**/Brewfile') }}-cmake-wget-bison-flex-graphviz-llvm
+        key: ${{ runner.os }}-brew-${{ hashFiles('**/Brewfile') }}-cmake-wget-bison-flex-graphviz
         restore-keys: |
           ${{ runner.os }}-brew-
 
@@ -440,9 +446,7 @@ jobs:
       run: |
         brew unlink python && brew link --overwrite python
         brew uninstall cmake || true
-        brew install cmake wget bison flex graphviz llvm
-        echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> /Users/runner/.bash_profile
-        source /Users/runner/.bash_profile
+        brew install cmake wget bison flex graphviz
 
     - name: Download Bison source
       if: steps.bison-source-cache.outputs.cache-hit != 'true'
@@ -462,7 +466,6 @@ jobs:
 
     - name: build in release mode & test current codes.
       run: |
-        source /Users/runner/.bash_profile
         export PATH="$PATH:/usr/local/opt/flex/bin:/usr/local/opt/bison/bin"
         export C=clang CXX=clang++ PYTHON=$(which python3)
         ls -l ${{github.workspace}}/module/leaf/parser/bison
@@ -470,13 +473,13 @@ jobs:
         $PYTHON ${{github.workspace}}/build/builder.py test
 
     - name: archive to tar files
-      run: tar -cvf byeol-macos-x64.tar ${{github.workspace}}/bin/
+      run: tar -cvf byeol-macos-arm64.tar ${{github.workspace}}/bin/
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
-        name: byeol-macos-x64
-        path: byeol-macos-x64.tar
+        name: byeol-macos-arm64
+        path: byeol-macos-arm64.tar
 
   build-on-windows:
     needs: [checking-code-format]
