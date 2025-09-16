@@ -92,7 +92,8 @@ def branch(command):
         return wasmBuild(arg3)
     elif command == "test":
         arg1 = "" if len(sys.argv) < 3 else sys.argv[2]
-        return test(arg1);
+        ignore_tidy = "--ignore-tidy" in sys.argv
+        return test(arg1, ignore_tidy);
     elif command == "cov":
         return covBuild()
     elif command == "doc":
@@ -754,8 +755,8 @@ def pub(arg, ignore_tidy=False):
     return -1
 
 # arg is "" for dbg or "silent" for rel
-def test(arg):
-    if build(False, False) != 0:
+def test(arg, ignore_tidy=False):
+    if build(False, ignore_tidy) != 0:
         return -1;
 
     print("")
@@ -1104,7 +1105,7 @@ def help():
     print("\t                 image. and as you may know, that could lead you to download a pretty much big image file.")
     print("\t * pub <platform> publish release binary for the specified platform (deb/mac/win)")
     print("\t   optional flags:")
-    print("\t       --ignore-tidy   skip clang-tidy dependency check and configuration.")
+    print("\t       --ignore-tidy   skip clang-tidy dependency check and configuration (available for: dbg, rel, reldbg, pub, test).")
 
 def clean():
     printInfo("Clearing next following files...")
