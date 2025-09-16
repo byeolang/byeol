@@ -77,11 +77,14 @@ def branch(command):
     elif command == "clean":
         return clean()
     elif command == "rel":
-        return relBuild()
+        ignore_tidy = "--ignore-tidy" in sys.argv
+        return relBuild(ignore_tidy)
     elif command == "reldbg":
-        return relDbgBuild()
+        ignore_tidy = "--ignore-tidy" in sys.argv
+        return relDbgBuild(ignore_tidy)
     elif command == "dbg":
-        return dbgBuild()
+        ignore_tidy = "--ignore-tidy" in sys.argv
+        return dbgBuild(ignore_tidy)
     elif command == "format":
         return formatCodesWithDocker(True)
     elif command == "wasm":
@@ -98,7 +101,8 @@ def branch(command):
         return _publishDoc()
     elif command == "pub":
         arg2 = None if len(sys.argv) < 3 else sys.argv[2]
-        return pub(arg2);
+        ignore_tidy = "--ignore-tidy" in sys.argv
+        return pub(arg2, ignore_tidy);
 
     printErr(command + " is unknown command.")
     return -1
@@ -332,19 +336,19 @@ def wasmBuild(arg):
     os.system(f"{emcmake.binary} {cmake.binary} {config} {cwd}")
     os.system(f"{emmake.binary} {make.binary} -j8 -s")
 
-def dbgBuild():
+def dbgBuild(ignore_tidy=False):
     global config, cwd
 
     clang = ClangDependency()
     clang.isValid()
-    clangTidy = "-DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\"" if clang.binary == "clang++" else ""
+    clangTidy = "-DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\"" if clang.binary == "clang++" and not ignore_tidy else ""
 
     winProp="-t:Rebuild -p:Configuration=Debug"
     config=f"-DCMAKE_BUILD_TYPE=Debug {clangTidy}"
     print(config)
 
     clean()
-    return build(True)
+    return build(True, ignore_tidy)
 
 def _cleanCoverageFiles():
     if isWindow(): return
@@ -397,31 +401,31 @@ def covBuild():
 
     printOk("done")
 
-def relBuild():
+def relBuild(ignore_tidy=False):
     global config, winProp
 
     clean()
 
     clang = ClangDependency()
     clang.isValid()
-    clangTidy = "-DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\"" if clang.binary == "clang++" else ""
+    clangTidy = "-DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\"" if clang.binary == "clang++" and not ignore_tidy else ""
 
     winProp="-t:Rebuild -p:Configuration=Release"
     config=f"-DCMAKE_BUILD_TYPE=Release {clangTidy}"
-    return build(True)
+    return build(True, ignore_tidy)
 
-def relDbgBuild():
+def relDbgBuild(ignore_tidy=False):
     global config, winProp
 
     clean()
 
     clang = ClangDependency()
     clang.isValid()
-    clangTidy = "-DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\"" if clang.binary == "clang++" else ""
+    clangTidy = "-DCMAKE_CXX_CLANG_TIDY=\"clang-tidy\"" if clang.binary == "clang++" and not ignore_tidy else ""
 
     winProp="-t:Rebuild -p:Configuration=Release"
     config=f"-DCMAKE_BUILD_TYPE=Release {clangTidy} -DCMAKE_RELEASE_INCLUDE_DBG_INFO=True"
-    return build(True)
+    return build(True, ignore_tidy)
 
 # currently this application only supports window and linux.
 def isWindow():
@@ -630,12 +634,17 @@ def rebuild():
     clean()
     return build(true)
 
-def build(incVer):
+def build(incVer, ignore_tidy=False):
     cmake = CMakeDependency()
     msbuild = MSBuildDependency()
     make = MakeDependency()
     git = GitDependency()
-    if checkDependencies([ClangDependency(), msbuild, git, cmake, BisonDependency(), FlexDependency(), ClangTidyDependency(), make]):
+
+    deps = [ClangDependency(), msbuild, git, cmake, BisonDependency(), FlexDependency(), make]
+    if not ignore_tidy:
+        deps.append(ClangTidyDependency())
+
+    if checkDependencies(deps):
         return -1
 
     _checkGTest(git, cmake, make)
@@ -650,7 +659,7 @@ def build(incVer):
 
     return 0
 
-def pub(arg):
+def pub(arg, ignore_tidy=False):
     global cwd, binDir, ver_major, ver_minor, ver_fix
 
     if arg == None:
@@ -670,7 +679,7 @@ def pub(arg):
         printOk("done.")
         os.chdir(cwd)
 
-        if relBuild() != 0:
+        if relBuild(ignore_tidy) != 0:
             printErr("release build failed. quit publishing.")
             return -1
 
@@ -700,7 +709,7 @@ def pub(arg):
         return 0
 
     elif arg == 'mac':
-        if relBuild() != 0:
+        if relBuild(ignore_tidy) != 0:
             printErr("release build failed. quit publishing.")
             return -1
 
@@ -720,7 +729,7 @@ def pub(arg):
         return 0
 
     elif arg == 'win':
-        if relBuild() != 0:
+        if relBuild(ignore_tidy) != 0:
             printErr("release build failed. but keep publishing.")
 
         printInfoEnd("cleaning redandunt files to package")
@@ -746,7 +755,7 @@ def pub(arg):
 
 # arg is "" for dbg or "silent" for rel
 def test(arg):
-    if build(False) != 0:
+    if build(False, False) != 0:
         return -1;
 
     print("")
@@ -1093,6 +1102,9 @@ def help():
     print("\t * cov           generate coverage file and visualize data with html")
     print("\t * format        apply our code convention rules to current repository. it'll be done by clang-format docker")
     print("\t                 image. and as you may know, that could lead you to download a pretty much big image file.")
+    print("\t * pub <platform> publish release binary for the specified platform (deb/mac/win)")
+    print("\t   optional flags:")
+    print("\t       --ignore-tidy   skip clang-tidy dependency check and configuration.")
 
 def clean():
     printInfo("Clearing next following files...")
