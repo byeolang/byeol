@@ -2,7 +2,7 @@ name: CI for main
 
 on:
   push:
-    branches: [ feature/docker-ci ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -21,8 +21,7 @@ jobs:
       with:
         fetch-depth: 0
 
-    # Cache APT packages
-    - name: Cache APT packages
+    - name: cache APT packages
       uses: actions/cache@v4
       with:
         path: /var/cache/apt
@@ -30,8 +29,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-apt-
 
-    # Cache Docker installation
-    - name: Cache Docker packages
+    - name: cache Docker packages
       uses: actions/cache@v4
       with:
         path: |
@@ -80,16 +78,14 @@ jobs:
     - name: checkout repository codes
       uses: actions/checkout@v4
 
-    # Cache Bison source download
-    - name: Cache Bison source
+    - name: cache Bison source
       uses: actions/cache@v4
       id: bison-source-cache
       with:
         path: bison-3.8.2.tar.gz
         key: bison-source-3.8.2
 
-    # Cache Bison build results
-    - name: Cache Bison binary
+    - name: cache Bison binary
       uses: actions/cache@v4
       id: bison-binary-cache
       with:
@@ -100,8 +96,7 @@ jobs:
           /usr/local/share/man/man1/bison.1
         key: ${{ runner.os }}-bison-binary-3.8.2
 
-    # Cache APT packages
-    - name: Cache APT packages
+    - name: cache APT packages
       uses: actions/cache@v4
       with:
         path: /var/cache/apt/archives
@@ -114,12 +109,12 @@ jobs:
         sudo apt-get update
         sudo apt install -y python3 python3-pip cmake wget flex graphviz clang clang-format clang-tidy
 
-    - name: Download Bison source
+    - name: download Bison source
       if: steps.bison-source-cache.outputs.cache-hit != 'true'
       run: |
         sudo wget http://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
 
-    - name: Build and install Bison
+    - name: build and install Bison
       if: steps.bison-binary-cache.outputs.cache-hit != 'true'
       run: |
         tar -zxvf bison-3.8.2.tar.gz
@@ -130,7 +125,7 @@ jobs:
         cd ..
         sudo rm -rf bison-3.8.2
 
-    - name: Setup Bison symlink
+    - name: setup Bison symlink
       run: |
         if [ -f /usr/bin/bison ]; then
           sudo mv /usr/bin/bison /usr/bin/bison-prev
@@ -160,16 +155,14 @@ jobs:
     - name: checkout repository codes
       uses: actions/checkout@v4
 
-    # Cache Bison source download (shared with clang build)
-    - name: Cache Bison source
+    - name: cache Bison source
       uses: actions/cache@v4
       id: bison-source-cache
       with:
         path: bison-3.8.2.tar.gz
         key: bison-source-3.8.2
 
-    # Cache Bison build results (different key for gcc)
-    - name: Cache Bison binary
+    - name: cache Bison binary
       uses: actions/cache@v4
       id: bison-binary-cache
       with:
@@ -180,8 +173,7 @@ jobs:
           /usr/local/share/man/man1/bison.1
         key: ${{ runner.os }}-bison-binary-gcc-3.8.2
 
-    # Cache APT packages
-    - name: Cache APT packages
+    - name: cache APT packages
       uses: actions/cache@v4
       with:
         path: /var/cache/apt/archives
@@ -194,12 +186,12 @@ jobs:
         sudo apt-get update
         sudo apt install -y python3 python3-pip cmake wget flex graphviz
 
-    - name: Download Bison source
+    - name: download Bison source
       if: steps.bison-source-cache.outputs.cache-hit != 'true'
       run: |
         sudo wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
 
-    - name: Build and install Bison
+    - name: build and install Bison
       if: steps.bison-binary-cache.outputs.cache-hit != 'true'
       run: |
         tar -zxvf bison-3.8.2.tar.gz
@@ -210,12 +202,10 @@ jobs:
         cd ..
         sudo rm -rf bison-3.8.2
 
-    - name: Setup Bison and remove clang
+    - name: setup bison and remove clang
       run: |
-        # Remove clang if exists
         which clang++ && sudo mv $(which clang++) /tmp || true
         
-        # Setup Bison
         if [ -f /usr/bin/bison ]; then
           sudo mv /usr/bin/bison /usr/bin/bison-prev
         fi
@@ -238,16 +228,14 @@ jobs:
     - name: checkout repository codes
       uses: actions/checkout@v4
 
-    # Cache Bison source download (shared)
-    - name: Cache Bison source
+    - name: cache Bison source
       uses: actions/cache@v4
       id: bison-source-cache
       with:
         path: bison-3.8.2.tar.gz
         key: bison-source-3.8.2
 
-    # Cache Bison build results
-    - name: Cache Bison binary
+    - name: cache Bison binary
       uses: actions/cache@v4
       id: bison-binary-cache
       with:
@@ -258,8 +246,7 @@ jobs:
           /usr/local/share/man/man1/bison.1
         key: ${{ runner.os }}-bison-binary-wasm-3.8.2
 
-    # Cache Emscripten installation
-    - name: Cache Emscripten
+    - name: cache Emscripten
       uses: actions/cache@v4
       with:
         path: |
@@ -274,12 +261,12 @@ jobs:
         sudo apt-get update
         sudo apt install -y python3 python3-pip cmake wget flex graphviz clang clang-format clang-tidy
 
-    - name: Download Bison source
+    - name: download Bison source
       if: steps.bison-source-cache.outputs.cache-hit != 'true'
       run: |
         sudo wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
 
-    - name: Build and install Bison
+    - name: build and install Bison
       if: steps.bison-binary-cache.outputs.cache-hit != 'true'
       run: |
         tar -zxvf bison-3.8.2.tar.gz
@@ -291,7 +278,7 @@ jobs:
         echo $(which bison)
         sudo rm -rf bison-3.8.2
 
-    - name: Setup Bison symlink
+    - name: setup Bison symlink
       run: |
         if [ -f /usr/bin/bison ]; then
           sudo mv /usr/bin/bison /usr/bin/bison-prev
@@ -330,16 +317,14 @@ jobs:
     - name: checkout repository codes
       uses: actions/checkout@v4
 
-    # Cache Bison source download (shared)
-    - name: Cache Bison source
+    - name: cache Bison source
       uses: actions/cache@v4
       id: bison-source-cache
       with:
         path: bison-3.8.2.tar.gz
         key: bison-source-3.8.2
 
-    # Cache Bison build results
-    - name: Cache Bison binary
+    - name: cache Bison binary
       uses: actions/cache@v4
       id: bison-binary-cache
       with:
@@ -350,8 +335,7 @@ jobs:
           /usr/local/share/man/man1/bison.1
         key: ${{ runner.os }}-bison-binary-coverage-3.8.2
 
-    # Cache APT packages for coverage build
-    - name: Cache APT packages
+    - name: cache APT packages
       uses: actions/cache@v4
       with:
         path: /var/cache/apt/archives
@@ -364,12 +348,12 @@ jobs:
         sudo apt-get update
         sudo apt install -y python3 python3-pip cmake wget flex graphviz clang-format clang-tidy llvm lcov
 
-    - name: Download Bison source
+    - name: download Bison source
       if: steps.bison-source-cache.outputs.cache-hit != 'true'
       run: |
         sudo wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
 
-    - name: Build and install Bison
+    - name: build and install Bison
       if: steps.bison-binary-cache.outputs.cache-hit != 'true'
       run: |
         tar -zxvf bison-3.8.2.tar.gz
@@ -380,7 +364,7 @@ jobs:
         cd ..
         sudo rm -rf bison-3.8.2
 
-    - name: Setup Bison symlink
+    - name: setup Bison symlink
       run: |
         sudo mv /usr/bin/bison /usr/bin/bison-prev
         sudo ln -sf /usr/local/bin/bison /usr/bin/bison
@@ -405,14 +389,12 @@ jobs:
     - name: checkout repository codes
       uses: actions/checkout@v4
 
-    # setup xcode 고정 (brew llvm 대신 Xcode clang 사용)
     - name: setup xcode
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: "16.4.0"
 
-    # Cache Homebrew packages
-    - name: Cache Homebrew packages
+    - name: cache homebrew packages
       uses: actions/cache@v4
       with:
         path: |
@@ -422,16 +404,14 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-brew-
 
-    # Cache Bison source download
-    - name: Cache Bison source
+    - name: cache Bison source
       uses: actions/cache@v4
       id: bison-source-cache
       with:
         path: bison-3.8.2.tar.gz
         key: bison-source-3.8.2
 
-    # Cache Bison build results for macOS
-    - name: Cache Bison binary
+    - name: cache Bison binary
       uses: actions/cache@v4
       id: bison-binary-cache
       with:
@@ -448,13 +428,13 @@ jobs:
         brew uninstall cmake || true
         brew install cmake wget bison flex graphviz
 
-    - name: Download Bison source
+    - name: download Bison source
       if: steps.bison-source-cache.outputs.cache-hit != 'true'
       run: |
         echo "install bison"
         sudo wget http://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz # avoid SSL network issue
 
-    - name: Build and install Bison
+    - name: build and install Bison
       if: steps.bison-binary-cache.outputs.cache-hit != 'true'
       run: |
         tar -zxvf bison-3.8.2.tar.gz
@@ -490,11 +470,10 @@ jobs:
     - name: checkout repository codes
       uses: actions/checkout@v4
 
-    - name: Add msbuild to PATH
+    - name: add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.1
 
-    # Cache Chocolatey packages
-    - name: Cache Chocolatey packages
+    - name: cache Chocolatey packages
       uses: actions/cache@v4
       with:
         path: |
@@ -508,13 +487,13 @@ jobs:
       run: |
         choco install -y wget unzip 7zip
 
-    - name: Cache FlexBison zip
+    - name: cache FlexBison zip
       uses: actions/cache@v4
       with:
         path: ${{ github.workspace }}\flex_bison\flex_bison.zip
         key: ${{ runner.os }}-flexbison-2.5.25
 
-    - name: Download FlexBison zip if not cached
+    - name: download FlexBison zip if not cached
       run: |
         if (-Not (Test-Path "${{ github.workspace }}\flex_bison\flex_bison.zip")) {
           New-Item -ItemType Directory -Force -Path "${{ github.workspace }}\flex_bison"
@@ -522,7 +501,7 @@ jobs:
         }
       shell: pwsh
 
-    - name: Unzip FlexBison
+    - name: unzip FlexBison
       run: |
         cd flex_bison
         unzip flex_bison.zip
@@ -577,8 +556,7 @@ jobs:
       - name: checkout master codes.
         uses: actions/checkout@v4
 
-      # Cache Doxygen build
-      - name: Cache Doxygen
+      - name: cache Doxygen
         uses: actions/cache@v4
         id: doxygen-cache
         with:
@@ -587,8 +565,7 @@ jobs:
             /usr/local/share/man/man1/doxygen.1
           key: ${{ runner.os }}-doxygen-1.9.2
 
-      # Cache Ruby gems
-      - name: Cache Ruby gems
+      - name: cache Ruby gems
         uses: actions/cache@v4
         with:
           path: ~/.gem
@@ -596,8 +573,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gems-
 
-      # Cache pip packages
-      - name: Cache pip packages
+      - name: cache pip packages
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip

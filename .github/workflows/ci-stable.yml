@@ -3,6 +3,8 @@ name: CI for stable
 on:
   push:
     branches: [ stable ]
+  pull_request:
+    branches: [ stable ]
 
 jobs:
   checking-code-format:
@@ -19,6 +21,24 @@ jobs:
       with:
         fetch-depth: 0
         ref: stable 
+
+    - name: cache APT packages
+      uses: actions/cache@v4
+      with:
+        path: /var/cache/apt
+        key: ${{ runner.os }}-apt-${{ hashFiles('/var/lib/apt/lists/lock') }}
+        restore-keys: |
+          ${{ runner.os }}-apt-
+
+    - name: cache Docker packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          /var/cache/apt/archives
+          /etc/apt/keyrings/docker.asc
+        key: ${{ runner.os }}-docker-packages
+        restore-keys: |
+          ${{ runner.os }}-docker-
 
     - name: install native dependencies
       run: |
@@ -50,38 +70,75 @@ jobs:
           exit 1
         fi
 
-  release-on-linux:
+  build-on-linux-clang:
     needs: [checking-code-format]
-    name: release on linux
+    name: build on linux with clang
     runs-on: ubuntu-22.04
 
     steps:
-    - name: install native dependencies.
+    - name: checkout repository codes
+      uses: actions/checkout@v4
+
+    - name: cache Bison source
+      uses: actions/cache@v4
+      id: bison-source-cache
+      with:
+        path: bison-3.8.2.tar.gz
+        key: bison-source-3.8.2
+
+    - name: cache Bison binary
+      uses: actions/cache@v4
+      id: bison-binary-cache
+      with:
+        path: |
+          /usr/local/bin/bison
+          /usr/local/lib/liby.a
+          /usr/local/share/bison
+          /usr/local/share/man/man1/bison.1
+        key: ${{ runner.os }}-bison-binary-3.8.2
+
+    - name: cache APT packages
+      uses: actions/cache@v4
+      with:
+        path: /var/cache/apt/archives
+        key: ${{ runner.os }}-apt-build-${{ hashFiles('/etc/apt/sources.list.d/**') }}
+        restore-keys: |
+          ${{ runner.os }}-apt-build-
+
+    - name: install native dependencies
       run: |
         sudo apt-get update
-        sudo apt install python3 python3-pip cmake wget flex graphviz clang-format clang-tidy
-        ls .
-        sudo wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
+        sudo apt install -y python3 python3-pip cmake wget flex graphviz clang clang-format clang-tidy
+
+    - name: download Bison source
+      if: steps.bison-source-cache.outputs.cache-hit != 'true'
+      run: |
+        sudo wget http://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
+
+    - name: build and install Bison
+      if: steps.bison-binary-cache.outputs.cache-hit != 'true'
+      run: |
         tar -zxvf bison-3.8.2.tar.gz
         cd bison-3.8.2
         ./configure
-        sudo make
+        sudo make -j$(nproc)
         sudo make install
         cd ..
         sudo rm -rf bison-3.8.2
+
+    - name: setup Bison symlink
+      run: |
         if [ -f /usr/bin/bison ]; then
           sudo mv /usr/bin/bison /usr/bin/bison-prev
         fi
-        sudo ln -s /usr/local/bin/bison /usr/bin/bison
-
-    - name: checkout repository codes
-      uses: actions/checkout@v4
+        sudo ln -sf /usr/local/bin/bison /usr/bin/bison
+        bison --version
 
     - name: build in release mode & test current codes.
       run: |
         export C=clang CXX=clang++ PYTHON=$(which python3)
         ls -l ${{github.workspace}}/module/leaf/parser/bison
-        sudo $PYTHON ${{github.workspace}}/build/builder.py pub deb 
+        sudo $PYTHON ${{github.workspace}}/build/builder.py pub deb
         sudo $PYTHON ${{github.workspace}}/build/builder.py test
 
     - name: upload output files.
@@ -99,24 +156,62 @@ jobs:
     - name: checkout repository codes
       uses: actions/checkout@v4
 
-    - name: install native dependencies.
+    - name: cache Bison source
+      uses: actions/cache@v4
+      id: bison-source-cache
+      with:
+        path: bison-3.8.2.tar.gz
+        key: bison-source-3.8.2
+
+    - name: cache Bison binary
+      uses: actions/cache@v4
+      id: bison-binary-cache
+      with:
+        path: |
+          /usr/local/bin/bison
+          /usr/local/lib/liby.a
+          /usr/local/share/bison
+          /usr/local/share/man/man1/bison.1
+        key: ${{ runner.os }}-bison-binary-wasm-3.8.2
+
+    - name: cache Emscripten
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.emscripten_cache
+          ~/.emscripten
+        key: ${{ runner.os }}-emscripten-${{ hashFiles('**/emsdk-3.1.48') }}
+        restore-keys: |
+          ${{ runner.os }}-emscripten-
+
+    - name: install native dependencies
       run: |
         sudo apt-get update
         sudo apt install -y python3 python3-pip cmake wget flex graphviz clang clang-format clang-tidy
-        ls .
+
+    - name: download Bison source
+      if: steps.bison-source-cache.outputs.cache-hit != 'true'
+      run: |
         sudo wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
+
+    - name: build and install Bison
+      if: steps.bison-binary-cache.outputs.cache-hit != 'true'
+      run: |
         tar -zxvf bison-3.8.2.tar.gz
         cd bison-3.8.2
         ./configure
-        sudo make
+        sudo make -j$(nproc)
         sudo make install
         cd ..
         echo $(which bison)
         sudo rm -rf bison-3.8.2
+
+    - name: setup Bison symlink
+      run: |
         if [ -f /usr/bin/bison ]; then
           sudo mv /usr/bin/bison /usr/bin/bison-prev
         fi
-        sudo ln -s /usr/local/bin/bison /usr/bin/bison
+        sudo ln -sf /usr/local/bin/bison /usr/bin/bison
 
     - name: install emscripten librires
       uses: mymindstorm/setup-emsdk@v14
@@ -141,100 +236,129 @@ jobs:
           ${{github.workspace}}/bin/byeol.js
           ${{github.workspace}}/bin/byeol.wasm
 
-    - name: move binaries to temp
-      run: |
-        mkdir /tmp/byeol-wasm
-        mv ${{github.workspace}}/bin/byeol.js /tmp/byeol-wasm
-        mv ${{github.workspace}}/bin/byeol.wasm /tmp/byeol-wasm
-
-    - name: checkout to website
-      uses: actions/checkout@v4
-      with:
-        repository: 'byeolang/website'
-        token: ${{secrets.PAT_TOKEN}}
-        branch: 'main'
-
-    - name: move binaries back to gh-pages
-      run: |
-        mv /tmp/byeol-wasm/byeol.js ${{github.workspace}}/play
-        mv /tmp/byeol-wasm/byeol.wasm ${{github.workspace}}/play
-        cd ${{github.workspace}}
-        git config user.name \"autodocbot\"
-        git config user.email \"knizofficial@gmail.com\"
-        git add .
-        git commit -m "Update latest wasm binary"
-
-    - name: push the commit
-      uses: ad-m/github-push-action@v0.6.0
-      with:
-        directory: ${{github.workspace}}/play
-        token: ${{secrets.PAT_TOKEN}}
-        branch: 'main'
-
-  release-on-macos:
+  build-on-macos:
     needs: [checking-code-format]
-    name: release on macos
+    name: build on macos
     runs-on: macos-15
 
     steps:
     - name: checkout repository codes
       uses: actions/checkout@v4
 
-    - name: install native dependencies.
+    - name: setup xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: "16.4.0"
+
+    - name: cache homebrew packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/Library/Caches/Homebrew
+          /opt/homebrew/Cellar
+        key: ${{ runner.os }}-brew-${{ hashFiles('**/Brewfile') }}-cmake-wget-bison-flex-graphviz
+        restore-keys: |
+          ${{ runner.os }}-brew-
+
+    - name: cache Bison source
+      uses: actions/cache@v4
+      id: bison-source-cache
+      with:
+        path: bison-3.8.2.tar.gz
+        key: bison-source-3.8.2
+
+    - name: cache Bison binary
+      uses: actions/cache@v4
+      id: bison-binary-cache
+      with:
+        path: |
+          /usr/local/bin/bison
+          /usr/local/lib/liby.a
+          /usr/local/share/bison
+          /usr/local/share/man/man1/bison.1
+        key: ${{ runner.os }}-bison-binary-3.8.2
+
+    - name: install native dependencies
       run: |
         brew unlink python && brew link --overwrite python
-        brew install cmake wget bison flex graphviz llvm
-        echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> /Users/runner/.bash_profile
-        source /Users/runner/.bash_profile
+        brew uninstall cmake || true
+        brew install cmake wget bison flex graphviz
 
+    - name: download Bison source
+      if: steps.bison-source-cache.outputs.cache-hit != 'true'
+      run: |
         echo "install bison"
-        sudo wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz
+        sudo wget http://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz # avoid SSL network issue
+
+    - name: build and install Bison
+      if: steps.bison-binary-cache.outputs.cache-hit != 'true'
+      run: |
         tar -zxvf bison-3.8.2.tar.gz
         cd bison-3.8.2
         ./configure
-        sudo make
+        sudo make -j$(sysctl -n hw.ncpu)
         sudo make install
         cd ..
 
-    - name: build & test current codes.
+    - name: build in release mode & test current codes.
       run: |
-        source /Users/runner/.bash_profile
         export PATH="$PATH:/usr/local/opt/flex/bin:/usr/local/opt/bison/bin"
         export C=clang CXX=clang++ PYTHON=$(which python3)
-        ls -l ${{github.workspace}}/module/leaf/parser
-        $PYTHON ${{github.workspace}}/build/builder.py pub mac
-        $PYTHON ${{github.workspace}}/build/builder.py test
+        ls -l ${{github.workspace}}/module/leaf/parser/bison
+        $PYTHON ${{github.workspace}}/build/builder.py pub mac --ignore-tidy
+        $PYTHON ${{github.workspace}}/build/builder.py test --ignore-tidy
 
     - name: archive to tar files
-      run: tar -cvf byeol-macos-x64.tar ${{github.workspace}}/bin/
+      run: tar -cvf byeol-macos-arm64.tar ${{github.workspace}}/bin/
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
-        name: byeol-macos-x64
-        path: byeol-macos-x64.tar
+        name: byeol-macos-arm64
+        path: byeol-macos-arm64.tar
 
-  release-on-windows:
+  build-on-windows:
     needs: [checking-code-format]
-    name: release on windows
+    name: build on windows
     runs-on: windows-latest
 
     steps:
     - name: checkout repository codes
       uses: actions/checkout@v4
 
-    - name: Add msbuild to PATH
+    - name: add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.1
 
-    - name: install apps from choco
-      uses: crazy-max/ghaction-chocolatey@v2.0.0
+    - name: cache Chocolatey packages
+      uses: actions/cache@v4
       with:
-        args: install -y wget unzip zip
+        path: |
+          C:\ProgramData\chocolatey\lib
+          C:\Users\runneradmin\AppData\Local\Temp\chocolatey
+        key: ${{ runner.os }}-choco-wget-unzip-7zip
+        restore-keys: |
+          ${{ runner.os }}-choco-
 
-    - name: get flex_bison for windows & unzip
+    - name: install apps from choco
       run: |
-        mkdir ${{github.workspace}}\flex_bison
-        wget -O flex_bison\flex_bison.zip https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip
+        choco install -y wget unzip 7zip
+
+    - name: cache FlexBison zip
+      uses: actions/cache@v4
+      with:
+        path: ${{ github.workspace }}\flex_bison\flex_bison.zip
+        key: ${{ runner.os }}-flexbison-2.5.25
+
+    - name: download FlexBison zip if not cached
+      run: |
+        if (-Not (Test-Path "${{ github.workspace }}\flex_bison\flex_bison.zip")) {
+          New-Item -ItemType Directory -Force -Path "${{ github.workspace }}\flex_bison"
+          Invoke-WebRequest -Uri "https://github.com/lexxmark/winflexbison/releases/download/v2.5.25/win_flex_bison-2.5.25.zip" -OutFile "${{ github.workspace }}\flex_bison\flex_bison.zip"
+        }
+      shell: pwsh
+
+    - name: unzip FlexBison
+      run: |
         cd flex_bison
         unzip flex_bison.zip
         ren win_flex.exe flex.exe
@@ -247,7 +371,7 @@ jobs:
 
     - name: archives to zip file
       run: |
-        zip -9vr byeol-win-x64-portable.zip ${{github.workspace}}\bin
+        7z a -r byeol-win-x64-portable.zip ${{github.workspace}}\bin
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
@@ -278,4 +402,3 @@ jobs:
       with:
         name: byeol-win-x64
         path: ${{github.workspace}}\.github\workflows\byeol-win-x64.msi
-
