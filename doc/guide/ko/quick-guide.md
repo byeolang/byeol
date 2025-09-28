@@ -2,23 +2,23 @@
 
 [TOC]
 
-\<추가예정\>
 * Byeol 언어는 현재 일종의 베타테스트 기간입니다.
+
 * 언제든지 spec의 내용이 변경될 수 있습니다.
+
 * 체크박스에 체크가 되어있는 항목은 구현이 완료되어 있습니다.
-* 이 문서는 다른 프로그래밍 언어를 다뤄본적이 있는 익숙한 개발자를 대상으로
-작성되었습니다.
 
-<br/>
-<br/>
-# IDEA: 작은 장난감 같은 언어를 만든다.
-\<추가예정\>
+* 이 문서는 다른 프로그래밍 언어를 다뤄본적이 있는 익숙한 개발자를 대상으로 작성되었습니다.
 
-<br/>
-<br/>
-# IDEA: 기본 언어 기능
-\<추가예정\>
+## 철학
+
+* 빠르게 기능만 익히고 싶은 분은 넘어가셔도 됩니다.
+
+* 관심이 있으신 분은 한번 꼭 [읽어보세요](design-philsophy.md). 이 언어가 왜 이렇게 설계되었는지 
+이해하는데 도움이 됩니다.
+
 ## 주석
+
 * [x] 주석은 `#` 으로 표현합니다.
 
 ```byeol
@@ -40,10 +40,13 @@ main() void
     ret
 `
 }
+
 ```
 
 ## 기본 타입 제공
+
 * [x]  다음의 기본타입(primitive types)이 있습니다.
+
 ```byeol
 "문자열" # str: 쌍따옴표로 표현합니다.
 3020202302 # int: 4byte 정수입니다.
@@ -57,84 +60,119 @@ true # bool
 # byte도 있어요. 0 ~ 255까지 표현 가능하죠.
 # void 도 있습니다만, 물론 void 타입의 변수를 만들
 # 수는 없죠.
+
 ```
 
 ## 프로퍼티 정의
+
 * [x] 무언가 값을 저장할 수 있는 변수를 byeol언어에서는 프로퍼티라고 합니다.
 * [x] byeol언어에서 타입을 명시적으로 표현할때는 `식별자 <space> 타입명`으로, 항상 띄어쓰기 후 타입을 식별자 뒤에 표현합니다.
 * [x] 따라서 프로퍼티를 정의할때도 위의 타입 규칙을 따릅니다. 즉, 타입은 항상 뒤에오죠.
+
 ```byeol
 age int # 뒤의 int가 타입이죠.
 age = 22 # 누군지 몰라도, 부럽네요.
+
 ```
+
 * [x] 변수를 정의하면서 초기화도 같이 할 수 있는데, 그럴때는 `:=` 기호를 사용합니다.
+
 ```byeol
 everything int := 42 # int 타입이며, 그 값은 42 입니다.
 everything2 := everything # everything2는 everything과 같은 int 타입이며, 값도 같습니다.
+
 ```
+
 * [x] 식별자는 영문자나 `_` 혹은 숫자로 정의합니다만, 첫글자는 오직 영문자만 가능합니다.
 
 ## StringTemplate
+
 * [x] StringTemplate도 지원합니다.
+
 ```byeol
 ch := "+"
 print("ch=$ch") # "ch=+"
 print("ch=" + ch) # "ch=+"
+
 ```
+
 * [x] 기호가 포함될 경우에는 `{}` 로 감싸세요.
+
 ```byeol
 print("${a + b}")
+
 ```
 
 ## Map
+
 * [ ] byeol언어는 배열, map, sequence를 기본 제공합니다.
 * [ ] Map 객체는 대괄호를 사용해서 정의합니다.
+
 ```byeol
 # <타입>[<타입>] 으로 Map 타입을 표현합니다.
 map int[str] # str이 key, int가 value인 map 입니다.
+
 ```
+
 * [x] 아쉽게도 Map에 대해, Literal 상수를 표현할 수는 없습니다.
 * [ ] 존재하지 않는 원소에 대괄호를 사용해 접근하면, 자동으로 기본값이
 할당됩니다.
+
 * [x] 모든 Container는 객체이므로, 여러 메소드를 가집니다.
+
 ```byeol
 map int[str] # str이 key, int가 value인 map을 만듭니다.
 map["apple"] = 300
 map["banana"] = 700
 print(map["apple"]) # "300"입니다. 사과 참 싸네요.
+
 ```
 
 ## 배열
+
 * [x] 배열타입은 어떻게 표현할까요? 배열은 Key가 항상 int인 Map처럼 표현합니다. 실제로 둘은 매우 유사한 부분이 많습니다.
+
 ```byeol
 myArray int[] # int 배열입니다.
 myArray2 := int[]() # 배열은 객체이므로, 생성자도 있죠.
+
 ```
+
 * [x] 중괄호로 Literal 상수를 표현합니다.
+
 ```byeol
 myArray3 := {2, 3, 4} # 원소 2, 3, 4를 보고 int배열이라는 걸 유추합니다.
+
 ```
+
 * [x] 모든 container는 유동적인 size를 갖습니다.
 * [x] 전통을 따라, Index는 0부터 시작합니다.
 * [x] 대괄호로 원소에 접근합니다.
+
 ```byeol
 myArray.add(5)
 ++myArray[0] == 6 # true
+
 ```
 
 ## 시퀸스
+
 * [x] `..` 으로 표현합니다. 정수의 범위를 표현합니다.
 * [x] container의 일종이므로, 객체입니다.
 * [x] 끝은 포함되지 않아요(exclusive). 예를들어 1..3 이라고 하면 {1, 2} 2개의 값까지만 의미합니다.
+
 ```byeol
 "message"[1..3] # "es"
 for n in 2..5
     print(n) # 234 출력
+
 ```
 
 ## if
+
 * [x] if, else를 제공합니다.
 * [x] byeol언어는 소괄호를 싫어합니다. 조건절에 소괄호를 넣지 않습니다.
+
 ```byeol
 if a == 5
     foo(1)
@@ -142,9 +180,11 @@ else if a == 7
     foo(2)
 else
     foo(4)
+
 ```
 
 ## Block문
+
 * [x] offside-rule로 블록문을 표현합니다. 들여쓰기를 해야한단 얘기예요.
 * [x] 블록문은 2 종류로 분류됩니다.
     * 1) 구문과 정의문을 모두 쓸 수 있는 `일반블록문`
@@ -152,12 +192,14 @@ else
 * [x] 모든 Block문은 Scope를 표현합니다. Scope에 대해서는 나중에 더 얘기해보죠.
 * [x] `:` 는 블록문을 붙여서 쓸 수 있어요.
 * [x] `;` 는 이전 줄과 같은 블록문에 있는 구문을 한줄에 붙여 쓰겠다는 의미입니다.
+
 ```byeol
 if val == 0 # 2번: 위의 1번과 같은 코드입니다.
     print("1")
     print("2")
 # 위 코드를 한줄에 쓸 수도 있습니다:
 if val == 0: print("1"); print("2")
+
 ```
 
 * [x] `:`를 응용하면 이렇게도 쓸 수 있어요.
@@ -173,30 +215,39 @@ if val == 0
         print("ok")
     else
         print("no")
+
 ##
+
 ```
 
 * [x] byeol언어는 비어있는 블록문을 가능하면 피하고 싶습니다.
 * 꼭 명시해야하는 상황이라면 `: ;` 로 표현합니다.
+
 ```byeol
 if val == 0: ;
 else: val = 1
+
 ```
 
 ## while
+
 * [x] 조건식이 참(true) 일 동안 블록문을 반복 실행합니다.
+
 ```byeol
 # while <조건절>
 #  <블록문>
 cnt := 0
 while cnt++ < 5
     print("forever?")
+
 ```
 
 ## for
+
 * [x] `for`는 container를 순회합니다.
 * [x] `break`는 가장 최근의 `while` 혹은 `for`을 벗어납니다.
 * [x] `next`는 다음 원소로 넘어갑니다.
+
 ```byeol
 # for <변수명> in <컨테이너>
 #    <블록문>
@@ -208,19 +259,26 @@ for n in arr
     if n == 1
         next # 다음 원소를 가지고 루프의 처음부터 다시 실행합니다.
 # 결과: "12"
+
 ```
+
 ## Explicit 캐스팅
+
 * [x] `as` 를 사용해서 다른 타입으로 변경할 수 있습니다.
+
 ```byeol
 val1 := 0 # int
 val2 := var1 as flt # val2는 flt이고 0.0 값을 갖죠.
 0 as str # "0".
 "123" as int # 123, 문자를 숫자로 바꿀 수 있습니다.
+
 ```
+
 * [x] 물론 각 객체가 `as`를 했을때 주어진 타입으로 변경하는 코드를 가지고 있어야
 합니다. `primitive types`는 대부분 서로 변환이 가능합니다.
 
 ## Implicit 캐스팅
+
 * [x] 함수호출시 자동으로 동작하는 캐스팅입니다.
 * [x] 기본 타입끼리는 다음처럼 변환됩니다.
 
@@ -235,8 +293,10 @@ val2 := var1 as flt # val2는 flt이고 0.0 값을 갖죠.
 
 * [x] 위의 표를 Explicit 캐스팅과 착각하시면 곤란합니다. 대부분의 모든 primitive
 types는 `as`를 사용하면 서로 변환합니다.
+
 * [x] 사용자가 만든 타입일 경우, `upcasting`만 지원합니다. 사용자가 Implicit
 캐스팅에 뭔가 관여를 할 수는 없습니다.
+
 * [x] 2단계를 거쳐서 Implicit 캐스팅의 Implicit 캐스팅이 일어나진 않습니다.
 
 ```byeol
@@ -246,18 +306,23 @@ val1 := 27 as byte
 val2 := foo(val1) # <-- 에러.
 # byte --> flt으로 Implicit 캐스팅이 불가능합니다.
 # byte --> int --> flt 이렇게 암시적 캐스팅이 2번 일어나면 에러가 아니었겠죠. 그러나 암시적 캐스팅은 1번만 일어납니다.
+
 ```
 
 ## 연산자들
+
 * [x] 단형연산자 당연히 지원하고요.
+
 ```byeol
 var := 3
 ++var # 4, 전위 연산자도 됩니다.
 var-- # 4, 후위도 됩니다.
 -var # -3
+
 ```
 
 * [x] 2항도 지원합니다.
+
 ```byeol
 var1 := 1
 var2 := 3
@@ -269,16 +334,21 @@ var2 % 2 # 1
 var1 > var2 # false
 var1 <= var2 # true
 var2 == (3 - 2) # false, 소괄호를 쓰면 계산 우선순위가 높아져요.
+
 ```
 
 * [ ] `==` 는 value equality를, `===` 를 reference equality를 검사합니다.
+
 ```byeol
 val1 := 1
 val2 := 1
 val1 == val2 # true
 val1 === val2 # false
+
 ```
+
 * [x] 비트연산 지원합니다.
+
 ```byeol
 var1 := 3 # 3:  0011
 var1 >> 1 # 1:  0001
@@ -286,8 +356,11 @@ var1 << 2 # 12: 1100
 var1 | 4 # 7: 0111
 var1 & 2 # 2: 0010
 60 ^ 13 # 49: 111100 ^ 001101 = 110001
+
 ```
+
 * [x] 할당연산자도 지원합니다.
+
 ```byeol
 var1 := 0
 var1 = 2 # 2
@@ -295,7 +368,9 @@ var1 += 1 # 3
 var1 *= 2 # 6
 var1 %= 4 # 2
 var1 &= 2 # var1 = var1 & 2 --> 2
+
 ```
+
 * [x] 연산자 우선순위는 이렇습니다. 높을 수록 우선됩니다.
 * [x] 도중에 `is`, `in` 과 같이 아직 설명하지 않은 것들이 보일겁니다. 나중에
 알려드릴테니 일단 무시하세요.
@@ -317,49 +392,61 @@ var1 &= 2 # var1 = var1 & 2 --> 2
 | 11   | \|\|, &&        | a \|\| b, a && b       |
 
 ## 함수
+
 * [x] parameter 목록과 반환형, Block문이 정의된 것을 함수라고 합니다.
 * [x] 프로퍼티때와 마찬가지로, 함수의 반환형 역시 뒤에 옵니다.
+
 ```byeol
 # foo() 함수는 int, flt, nbool를 인자로 받고 아무것도
 # 반환하지 않는(void) 함수입니다.
 foo(a int, b flt, c nbool) void
     print(a + b + c) # print문은 기본 제공되는 함수로 화면에 값을 출력합니다.
+
 ```
 
 * [x] 위에서 제가 언급한 함수 정의에 함수명이 없다는 점을 눈치채셨나요?
 * [x] 함수명을 적지 않으면 람다함수가 됩니다. 단, 람다함수는 반드시 함수 호출 안에서 적어야 합니다.
 * [ ] 람다함수는 parameter타입과 반환형을 생략할 수 있죠.
+
 ```byeol
 if true
     runLambda(val1, (a, b)
         a + b
     , 33) # indent를 한번 한 후, comma를 적었다는 걸 주의하십쇼.
           # comma의 위치가 상당히 중요합니다.
+
 ```
 
 * [ ] 앞에 정의한 람다를 다음처럼 한줄에 적을 수 있습니다.
+
 ```byeol
 runLambda(val1, (a, b): a + b, 33)
+
 ```
 
 ## ret
+
 * `ret` 는 값을 반환하고 함수를 종료합니다.
 * [ ] `...` 로 가변 인자를 표현할 수 있는데, 가변인자는 인자목록 끝에 정의해야 합니다.
+
 ```byeol
 sum(args int...) int
     sum := 0
     for a in args # args 는 int[] 과 같은 겁니다.
         sum += a
     ret sum
+
 ```
 
 ## 객체 정의
+
 * [x] byeol언어는 OOP언어입니다.
 * [x] 객체를 만드는 방법은 2가지가 있습니다.
     * [x] 1) 하나는 새로운 객체를 만드는 것이고
     * [x] 2) 다른 하나는 이미 만든 객체를 복제 하는 거예요.
 
 ### 새로운 객체 만들기
+
 * [x] 다음 처럼 하면 됩니다.
 
 ```byeol
@@ -369,9 +456,11 @@ def person
     age := 0 # 정의블록문에는 프로퍼티나 함수 등 정의하는 구문만 올 수 있습니다.
     hello() void # 객체에 함수도 정의할 수 있죠.
         print("I'm foo and $age years old!\n")
+
 ```
 
 ### 객체 복제하기
+
 * [x] 객체를 만드는 또다른 방법은 이미 만들어진 객체를 복제하는 건데요.
 * [x] 함수에 대고 호출하면 함수호출이 되듯, 객체에 대고 호출하면 객체 복제가 됩니다.
 * [x] 함수 안에서 이 함수를 소유한 객체를 `me` 로 접근합니다.
@@ -390,9 +479,11 @@ main() void
 
     for p in {p1, p2, Person()} # `Person()` 처럼 이름없는 객체를 만들 수도 있습니다.
         p.say()
+
 ```
 
 ## 생성자
+
 * [x] 생성자는 `ctor` 이라고 하는 고유 함수명을 사용합니다.
 * [x] 생성자를 정의할 때 반환형은 생략합니다.
 
@@ -404,7 +495,9 @@ def Food
         me.name = name
         me.price = price
 pizza := Food("pizza", 15000)
+
 ```
+
 * [ ] 생성자 안에서만 `ctor`로 생성자를 호출할 수 있습니다.
 * [x] 내부적으로 생성자는 객체 생성되고 나서 자동으로 호출됩니다.
 * [x] 즉, 생성자 안에서 `ctor`로 또 호출한다고 해서 객체가 또 생기는 건 아니란 얘기입니다.
@@ -421,12 +514,16 @@ def Food
         me.price = price
 
 print(Food().name) # "defaultName"
+
 ```
+
 * [x] 생성자를 명시하지 않으면 기본 생성자가 정의됩니다.
 
 ## Pack
+
 * [x] `pack <객체이름>`으로 하면 그 `pack` 객체가 생성됩니다. 그 구문 밑에서
 정의한 모든 객체며 함수는 이 `pack`에 속하게 됩니다.
+
 * [x] 따라서 같은 `pack`을 명시한 소스코드 끼리는 서로 공유가 됩니다.
 * [x] `pack`의 본질은 결국 `def`처럼, 사용자가 정의한 객체에 불과합니다.
 
@@ -445,7 +542,9 @@ def person # person 이라는 타입도 갖습니다.
   age := 2
   name := "Chales"
   ctor(newAge int): age = newAge
+
 ```
+
 * [x] 이 `pack`은 시스템이 가져올 수 있는(import) module의 최소 단위입니다. 어떻게 `pack`을 import 할 수 있는지는 밑에서 얘기할께요.
 
 * [x] `main()` 함수는 특정 pack에 대한 진입점 입니다.
@@ -461,9 +560,11 @@ main() void
     a := foo() # 다른 파일에 있는 foo함수를 호출합니다. 같은 객체(example)의 scope을 공유 하니까요.
     print(person(a).age) # 1
     print(example.person(a).age) # 1과 같은 코드입니다.
+
 ```
 
 ## scope
+
 * [x] 어느 객체가 scope로써 등록되면, 해당 객체가 소유한 하위 식별자 (함수, 프로퍼티, 또다른 객체 등)에 바로 접근할 수 있게 됩니다.
 * [x] 각 scope은 나름의 방법에 의해 시스템에 잠시 등록되었다가 등록이 해제됩니다.
 * [x] Scope이 메모리에서 사라지면 Scope이 각 식별자에 대한 참조도 잃습니다.
@@ -503,6 +604,7 @@ main() void
 # name에 대한 참조는 이 Person 임시객체가 가졌습니다.
 # Person이 소속된 코드가 끝났으므로, Person은 사라집니다.
 # Person이 가졌던 name에 대한 참조도 사라지므로, name 또한 사라집니다.
+
 ```
 
 * [x] `pack` 키워드 보다 윗 공간은 file scope 입니다.
@@ -517,7 +619,6 @@ age := 4
 
 foo() void
   print(age) # "5"
-
 
 # file "b.nm" --
 # -----------------------------------------------
@@ -541,6 +642,7 @@ main() void
     print(age) # "1"
   print(age) # "4"
   Person().hello() # "3" 출력.
+
 ```
 
 * [ ] obj가 아니라 pack scope 혹은 file scope 에 속한 식별자에 접근할때는 `pack`을 사용합니다.
@@ -557,9 +659,11 @@ def A
     print("$age ${me.age} ${pack.age}")
 # 결과:
 #  local obj file
+
 ```
 
 ## 오버로딩
+
 * [x] 오버로딩을 지원합니다.
 
 ```byeol
@@ -567,13 +671,16 @@ add(a str, b str) str
     a + b
 add(a int, b int) int
     a + b
+
 ```
 
 ## 평가전략
+
 * [x] by object 평가전략을 사용합니다.
     * 1) immutable 속성을 갖는 인자의 경우, 값에 의한 복사가(by val)
     * 2) mutable 속성을 갖는 인자의 경우, 참조에 의한 복사가(by reference)
          됩니다.
+
 * [x] immutable은 primitive 객체에만 적용되는 것으로, 사용자는 자신이 정의한 객체에 immutable 속성을 줄 수 없습니다.
 
 ```byeol
@@ -589,12 +696,11 @@ main() void
     p := person()
     foo(age, p)
     print("age=$age p.age=${p.age}") # age=1 p.age=22
+
 ```
 
-<br/>
-<br/>
-# IDEA: 한곳에서 되었다면, 다른 곳에도 되어야 한다.
 ## 중첩 객체
+
 * [x] 다른 언어에는 중첩 객체라는 기능이 있습니다.
 * [ ] 변수 정의가 일반블록문에 올 수 있다면, 당연히 함수나 객체를 정의하는 것도 올 수 있어야 합니다.
 * [x] innerClass는 지원하지 않습니다.
@@ -621,9 +727,11 @@ main() void
             p.house.introduce(p)
 # Byeol 언어에서는 정의블록문에 사용하는 모든 구문을 일반 블록문에서 사용할 수 있습니다.
     mc().intro()
+
 ```
 
 ## 중첩 함수
+
 * [x] 객체를 정의할 수 있는 곳에는, 함수도 정의할 수 있어야 합니다.
 * [x] 함수 안에 정의된 함수를 `중첩함수`라고 합니다.
 
@@ -647,9 +755,12 @@ main() void
 #   Glad to see you. I'm Marie
 #   Glad to see you. I'm Crono
 #   Glad to see you. I'm Lucca
+
 ```
+
 * [x] 중첩 함수는 외부함수와 같은 obj scope을 사용합니다.
 * [ ] 중첩 함수는 호출 시점까지의 outer scope을 capture 합니다.
+
 ```byeol
 def app
     foo() void
@@ -664,11 +775,14 @@ def app
         if val
             arr := {4, 5} # (2)
             print(getLenFrom()) # getLenFrom() 안에서 사용되는 `arr`은 (1)의 `arr` 입니다.
+
 ```
 
 ## 클로저
+
 * [x] 함수를 다른 context로 넘기면(인자로 넣거나, 함수에서 반환) 클로저가 됩니다.
 * [x] 클로저 호출시에는 me 가 필요 없습니다.
+
 ```byeol
 def app
     func() int
@@ -682,25 +796,33 @@ def app
     main() void
         closure := app().foo(1)
         closure() # "4"
+
 ```
 
 ## is
+
 * [x] `A is B` 는 A가 B 타입일때 true가 반환됩니다.
+
 ```byeol
 value := get()
 if value is flt
     print(value as flt)
+
 ```
 
 ## in
+
 * [x] `A in B` 는 B container의 A가 원소로 들어가 있으면 true 입니다.
 * [x] `in`은 value equality 관점에서 원소가 존재하는지를 검사합니다.
+
 ```byeol
 arr := {1, 2, 3}
 2 in arr # true
+
 ```
 
 ## Pattern Matching
+
 * [ ] 패턴매칭을 실행할 구문은 한줄짜리 일반 구문이어야 합니다. 단, 예외적으로 할당정의문도 올 수 있습니다.
 * [ ] 검사 구문이란, 패턴이 일치하는지 확인하는 블록문이 아닌 한줄짜리 구문을 말합니다.
 * [ ] 검사 구문에는 `in`, `is`, `비교문`을 lhs만 생략해서 그대로 사용할 수 있습니다.
@@ -734,14 +856,13 @@ while true
         # 안에서 `&&` 나 `||` 쓰면 안됩니다
 # 결과:
 #  1 2 *clap* 4 5 *clap*
+
 ```
+
 * [ ] 유일하게 예외적으로 inline 구문에 할당정의문도 포함됩니다.
 
-
-<br/>
-<br/>
-# IDEA: 간결함을 추구한다.
 ## 단축된 할당 문법
+
 * [ ] obj 내 함수를 정의할 때 assignment를 처음부터 실행해놓고 본문을 수행하도록 하는 편의 기능이 있습니다.
 * [ ] 이때는 파라메터를 정의할 때 타입 없이 `=프로퍼티명`을 적습니다.
 * [ ] 이 기능을 사용하면 함수의 정의를 비워도 abstract 가 아닙니다.
@@ -760,6 +881,7 @@ def A
     # 축약버전:
     ctor(=age, =name)
         print("ctor\n")
+
 ```
 
 * [ ] 생성자 뿐만 아니라 함수 정의시라면 다 사용합니다.
@@ -782,9 +904,11 @@ main() void
     # 그리고 함수 body가 실행됩니다.
     a.setHandler((=btn): print("${btn.name} click"))
     a.dispatch()
+
 ```
 
 ## 변수명을 타입명과 동일하게 하려면 `'`으로 편하게 합니다.
+
 * [x] 변수 정의시에 `button Button`을 `Button'`라고 정의할 수 있습니다.
 * [x] `'`를 사용할때는 `int` 같은 primitive type을 사용할 수 없습니다.
 * [x] `person[]` 와 같은 `map`, `array`, `seq` 도 사용 할 수 없습니다.
@@ -799,11 +923,13 @@ def Abc
 
 koo(Abc') int # --> abc Abc 로 풀어집니다.
     ret abc.foo(1, 2)
+
 ```
 
 * [ ] 당연히, `Abe'` 와 `=Abe'`를 같이 쓸 수 없습니다.
 
 ## 클래스라는 건 없습니다
+
 * [x] 사용자가 `def`를 통해 정의한 것은 클래스가 아니라 객체입니다. 이를 `origin object`라고 합니다.
 * [x] origin 객체는 2가지로 분류합니다.
   * 1) 하위요소(sub)를 사용할 수 있는 `complete object` 완전객체.
@@ -831,6 +957,7 @@ main() void
     # school은 완전객체이기 때문에 바로 사용가능합니다.
     school.enroll(person(12, "Charles"))
     print(person.name) # "default"
+
 ```
 
 * [ ] 불완전객체는 극히 제한된 일부 하위요소(함수, 프로퍼티)만 사용이 가능합니다.
@@ -841,6 +968,7 @@ def Person
     name str
 # print(Person.name) # 에러! 불완전객체를 바로 사용할 수 없습니다.
 print(Person().name) # ""
+
 ```
 
 * [ ] 정의할당문을 통해서 새로운 프로퍼티를 만들고, 그곳으로 불완전객체에 대한 참조를 옮길 수 있습니다.
@@ -856,6 +984,7 @@ ShortParser := ComplexLongNameBigCompanyParser
 # ShortParser의 이름이 대문자로 시작해야 합니다.
 # ShortParser는 이제 ComplexLongNameBigCompanyParser에 대한 참조를 갖습니다.
 # 즉, 인터프리터는 이 둘을 같은 객체라고 생각할 겁니다.
+
 ```
 
 * [x] 불완전객체는 모두 origin 객체 입니다.
@@ -889,6 +1018,7 @@ main() void
 outerFunc(p p1) str
 # 에러! p1은 어디까지나 main() 안에서 정의되었으니 밖에서는 모릅니다.
     p.name
+
 ```
 
 * [x] 이처럼 Byeol 언어는 클래스란 개념이 없습니다.
@@ -896,6 +1026,7 @@ outerFunc(p p1) str
 * [x] 그러니 클래스라는 개념은 잊어버리세요.
 
 ## 스타일로 Attribute 정의
+
 * [x] attribute / constraint를 byeol 언어에서는 스타일로 대체해서 표현합니다.
 * [x] 예를들어, 식별자이름 앞에 `_` 를 붙이면 `protected` 접근제한자를 의미합니다.
 
@@ -906,6 +1037,7 @@ def Person
 p Person
 print(p.name)
 print(p.age) # 에러. 숙녀에게 나이 묻는 거 아닙니다.
+
 ```
 
 * [x] 대문자로만 적으면 상수입니다.
@@ -916,6 +1048,7 @@ def Person
 p Person
 print(p.NAME)
 p.NAME = "doraemong" # 에러. NAME의 값은 한번 적으면, 변경될 수 없습니다.
+
 ```
 
 * [x] origin 객체명을 소문자로 시작하면 완전객체 입니다.
@@ -931,15 +1064,18 @@ def Person
         name = "default"
 
 print(person.name) # "default"
+
 ```
 
 ## 타입 추론
+
 * [x] 변수를 정의할 때, 함수에 인자를 넘길 때 타입을 생략하면 값을 통해 유추합니다.
 
 ```byeol
 space := 42 # int
 spaces := {2, 35.5} # flt
 spaces2 := {3, 6.34, "wow"} # 에러! flt -> string은 implicit 캐스팅을 지원하지 않습니다.
+
 ```
 
 * [ ] 람다의 반환형/param타입도 추론 마찬가지 입니다.
@@ -954,9 +1090,11 @@ click(btn Button, onclick onClick) int
 main() void
     btn Button
     click(btn, (btn): 22) # 파라메터 타입 `Button`와, 반환형 `int`로 추론됩니다.
+
 ```
 
 ## 프로퍼티
+
 * [ ] 프로퍼티를 만들 때 `getter`와 `setter`를 지정할 수 있습니다.
 * [ ] `getter`와 `setter` 정의할 때 소괄호를 넣지 않습니다.
 * [ ] `setter`시 외부에서 넣은 값은 `rhs`에 담겨 있습니다.
@@ -974,6 +1112,7 @@ main() void
     person.age = 33
     print("${person.age}")
 # 결과: 22, 33, 22
+
 ```
 
 * [ ] 값을 초기화한 프로퍼티에도 `getter`, `setter`를 넣을 수 있습니다.
@@ -990,10 +1129,12 @@ main() void
     person.age = 33
     print("${person.age}")
 # 결과: 22, 34
+
 ```
 
 * [ ] `def` 에서만 되는 게 아닙니다. 프로퍼티는 함수에서도 만들 수 있었으므로,
 함수에서도 `getter`, `setter`를 지정할 수 있습니다.
+
 * [ ] 프로퍼티에 대한 참조를 함수에 넘길 수는 없습니다.
 
 ```byeol
@@ -1009,6 +1150,7 @@ foo(n int) # age의 get한 값이 n에 들어갈 뿐입니다.
     n = 33
     print("$n")
 # 결과: 22, 33
+
 ```
 
 * [ ] `getter`, `setter` 를 생략하면 기본동작으로 실행됩니다.
@@ -1028,23 +1170,30 @@ age2 int # 초기화 구문이 없는데 `get`, `set` 도 없나요?
          # 그럼 이건 기존에 보던 age2 := int() 과 같은 코드입니다.
 age2 = 18 # set 잘됩니다.
 print(age2) # get도 잘되죠.
+
 ```
 
 ## 우리는 typedef가 필요 없습니다.
+
 * [x] 변수 A가 있을때, 별칭 B를 만들고 싶으면 우리는 `B := A` 라고 사용합니다.
 * [x] 타입 A가 있을때, 별칭 B를 만들고 싶으면, 다른 언어에서는 새로운 키워드를 사용해야만 했습니다. 예를들어,
 
 ```cpp
 // C++
 typedef A B;
+
 ```
+
 ```kotlin
 // kotlin
 typealias B = A;
+
 ```
+
 ```csharp
 // C#: 똑같진 않지만,
 using B = A;
+
 ```
 
 * [x] byeol언어는 클래스가 없습니다. 클래스와 객체를 구분하지 않습니다.
@@ -1052,6 +1201,7 @@ using B = A;
 * [ ] 불완전 객체도 타입으로 사용이 가능합니다.
 
 ## it
+
 * [x] 모든 블록문 키워드는 대상이 되는 expr과 블록문으로 구성됩니다.
 * [ ] 그 블록문을 실행할때 대상이 되는 expr의 값이 `it` 에 담겨있습니다.
 * [ ] `it`은 참조하는 코드가 있어야 생성됩니다.
@@ -1069,17 +1219,17 @@ a := foo()
 
 with foo()
     print(it.age) # it은 `foo()` 입니다.
+
 ```
 
 ## 기본 타입도 객체
+
 * [x] 기본 제공되는 타입들도 객체입니다.
 * [x] 기본 제공되는 container 들도 객체입니다.
 * [x] `A B`는 `A := B()` 와 같습니다.
 
-<br/>
-<br/>
-# IDEA: 무조건적으로 하나의 기능을 위한 기능은 만들지 않는다. 생각을 해본다. 조립할 수 있어야 한다. 개념을 압축한다.
 ## 표현식 기반 언어
+
 * [x] byeol언어는 표현식기반 언어입니다. 무슨 말이냐면, 대부분의 구문이 값을 반환합니다.
 * [x] 정의문은 가독성 문제가 발생하므로 표현식이 아닙니다.
 * [x] `ret`, `break` 등 흐름에 영향을 주는 구문또한 표현식이 될 수 없습니다.
@@ -1101,6 +1251,7 @@ b := if foo()
     "don't do this"
 # else 가 없으므로 b는 str과 void를 타입중에 하나가 되야합니다.
 # 그런데 void 타입은 정의할 수 없으므로 결과적으로 이 구문은 컴파일 에러입니다.
+
 ```
 
 * [x] assignment는 expression이 아닙니다. 혼란을 일으키며, 굳이 지원했을때의 장점이 없습니다.
@@ -1116,9 +1267,11 @@ if a == 0: ....
 a = get()
 food = getFood()
 foo(a, food)
+
 ```
 
 ## with
+
 * [x] `with`는 byeol언어에서 매우 중요한 위치를 차지하는 기능입니다.
 * [x] 그렇다고 개념이 복잡하거나 어려운 것은 아닙니다. 지극히 단순합니다.
 * [ ] `with`는 주어진 정의문 혹은 obj의 scope을 주어진 블록문 내부에서만 최상위 scope으로 추가합니다.
@@ -1139,6 +1292,7 @@ main() void
     age := 23
     with p2 Person # 정의문이 올 수 있으므로, 이렇게도 가능합니다.
         print(age) # "23", 물론 local scope은 항상 우선순위가 obj scope 보다 높습니다.
+
 ```
 
 * [ ] 블록문을 제공하지 않고도 `with`를 사용할 수 있습니다.
@@ -1164,6 +1318,7 @@ main() void
                   # 블록문을 넣지 않았으니, with 효과는 이 블록문, 즉 main() 전체에 이 시점부터 지속됩니다.
     print(age) # "30"
     sayHello() # "I'm kniz and 30 yo."
+
 ```
 
 * [ ] 블록문 없는 `with`를 2개 이상 선언할 수 있습니다. inline with 구문이라고 합니다.
@@ -1191,6 +1346,7 @@ main() void
     with developer() # 에러! sayHello() 이름이 겹칩니다.
     # developer의 sayHello()가 ceo의 sayHello()를 덮어쓰지 않습니다.
     # 단순히 에러로 간주될 뿐입니다.
+
 ```
 
 * [ ] 만약 inline with를 하는 대상의 일부분만을 확장하려면 only를 사용합니다.
@@ -1205,6 +1361,7 @@ main() void
   with a only
     foo(void) # a는 foo(), boo() 2개 함수가 있지만 a만 이곳에 확장하고 싶습니다.
   foo() # a.foo()와 같은 코드입니다.
+
 ```
 
 * [x] `with` 는 다른 언어에서도 종종 볼 수 있는 기능입니다.
@@ -1236,6 +1393,7 @@ main() void
         age = 27
         name = "kniz"
         sayHello() # "I'm kniz and you finally have learned Type Extension :)"
+
 ```
 
 * [ ] `def` 안에서 `with`는 항상 맨 앞에 나와야 합니다.
@@ -1248,6 +1406,7 @@ def Developer
             ....        # 즉 앞서 정의한 sayHello()는 있을 필요가 없는 함수입니다.
                         # 이런걸 사용해야 하는 시나리오는 없어보이고, 이걸 허용하면 혼란만 가중됩니다.
                         # 그래서 `def` 안에서 `with` 는 반드시 첫줄에 입력할 것을 강제합니다.
+
 ```
 
 ## 오버라이딩
@@ -1264,6 +1423,7 @@ def Person
 def Developer
     +name := ""
     _+sayName() str: "Miss $name"
+
 ```
 
 ## `A::B` 함수 호출
@@ -1286,6 +1446,7 @@ def B
     with a A
     foo() void
         print("B::foo()")
+
 ```
 
 * [ ] 하지만 분명히 다릅니다.
@@ -1308,6 +1469,7 @@ def B
 
 main() void
     B().boo() # A::foo() 일까요 B::foo() 일까요?
+
 ```
 
 * [ ] `1`에서 `a.boo()` 을 했으므로 A의 boo()가 호출됩니다.
@@ -1332,6 +1494,7 @@ def B
 
 main() void
     B().boo() # "B::foo()"
+
 ```
 
 * [ ] 하지만 만약, `1`에서 원본 함수가 아니라 확장한 타입의 전혀 다른 함수를 호출하고 싶다면 어떨까요?
@@ -1362,6 +1525,7 @@ main() void
     with a A
         a::foo() # "A::foo()"
     a::foo() # 에러! a는 현재 me인 example과 더이상 확장관계가 아닙니다. a.foo()를 하세요.
+
 ```
 
 ## 다중 확장
@@ -1385,6 +1549,7 @@ def Developer
         get: p.name # 기본적으로 composition 관계입니다.
                     # 어느쪽 name인지 지칭하려면 프로퍼티명을 적으면 됩니다.
     # 이제 컴파일 에러는 발생하지 않게 됩니다.
+
 ```
 
 * [ ] 식별자가 겹칠때마다 override를 하는 것은 바람직한 방향이 아닙니다.
@@ -1412,6 +1577,7 @@ def Food
 main() void
     Food.factory.makePizza().printName() # "I'm pizza!"
     Food.printName() # 에러! 불완전객체의 하위요소를 사용은 안됩니다. 기억하시죠?
+
 ```
 
 * [ ] 함수/프로퍼티의 실행 가능한가에 대한 표현은 그 함수를 가지고 있는 origin 객체가 불완전이냐 아니냐로 표현됩니다.
@@ -1431,6 +1597,7 @@ def Food
 main() void
     Food.makePizza() # 완전객체의 메소드이므로 이 메소드는 호출가능한 상태입니다.
     Food.printName() # 에러!
+
 ```
 
 * [ ] 그러나 함수의 정의된 객체가 완전객체이므로 확장된 불완전객체에서도 바로 사용할 수 있다는 점 때문에, 다음과 같이 헷갈릴 수 있습니다.
@@ -1449,6 +1616,7 @@ b.foo() # foo()가 정의된 곳은 b가 아니라 a 이므로
         # 그렇다면 me obj는 B가 아니라 a로 되어야 하는 거겠죠? a의 함수니까요.
 # 결과:
 #  B()::boo() # 어라? me obj가 a였다면 a::boo() 가 나와야 했는데요?
+
 ```
 
 * [ ] B는 a로부터 확장한 것이므로 B의 함수이기도 합니다.
@@ -1462,6 +1630,7 @@ def A
 def B
     with a A # A는 불완전객체이지만, A로부터 복제된 a는 완전객체입니다.
 print(B.age)
+
 ```
 
 ## delegation으로 활용
@@ -1481,7 +1650,9 @@ main() void
     print(age) # "65"
     p = person()
     print(age) # "2"
+
 ```
+
 * [ ] 이것을 응용하면 다른 언어에서 delegate 키워드로 제공하는 것을 대신할 수 있습니다.
 
 ```byeol
@@ -1519,6 +1690,7 @@ main() void
         eat() # "sadaharu love Liberty"
         myPet = ProxyPet2(cat)
         eat() # "teyandee love Cats Me!"
+
 ```
 
 * [x] 물론 일부 함수만 delegate 하고 싶다면 직접 코드를 작성해야 합니다.
@@ -1539,6 +1711,7 @@ main() void
 def manifest
     import fjson@chales.lee:1.2.* as json1
     import gjson@giigle:0.7.* ~ 0.8.5 as json2
+
 ```
 
 * [ ] import 기능 2은 `with`나 `:=`를 사용합니다.
@@ -1553,6 +1726,7 @@ main() void
     # 위와 같은 코드 입니다:
     p Parser
     parseText(p)
+
 ```
 
 * [ ] 하나의 객체만 import 하고 싶다면 `:=` 를 사용하면 됩니다.
@@ -1563,6 +1737,7 @@ openai := os.openai
 
 main() void
     openai.doSomething()
+
 ```
 
 * [ ] 2개 이상의 여러개의 일부만 import를 하고 싶다면 `with only`를 응용합니다.
@@ -1580,9 +1755,11 @@ with os.openai only
 main() void
     p Parser
     parseText(p, "rawStringwow!")
+
 ```
 
 ## err
+
 * [x] byeol언어에 에러는 개념적으로 2가지로 분류됩니다.
     * 1) 사전에 에러가 발생할 수 있다고 고지한 에러
     * 2) 고지하지 않고 발생한 에러. 익셉션이라고 합니다.
@@ -1590,6 +1767,7 @@ main() void
 * [x] Err객체는 msg, callstack등 기본적인 API를 가지고 있습니다.
 
 ## errorable type
+
 * [ ] 사전에 에러가 발생할 수 있다고 고지하면, 좀 더 완만한 처리가 가능합니다.
 * [ ] 에러는 `?` 로 표현됩니다. 즉 타입에 에러가 발생할 수 있다는 `?` 를 붙이면, 미리 에러가 발생할 수 있다고 고지할 수 있습니다.
 * [ ] 이를 ErrorableType이라고 합니다.
@@ -1606,6 +1784,7 @@ main() void
         is null: elem = -1
         is outOfBoundErr: elem = -1
     # err였을 경우 elem에는 -1이 들어갑니다.
+
 ```
 
 * [ ] ErrorableType은 결과적으로 처리를 지연시키는 효과를 가집니다.
@@ -1623,9 +1802,11 @@ foo() void? # void?라... 이상한가요? 그런데 말이 되는 타입입니�
 main() void
     if foo() is err
         print("error!") # getElem에서 발생한 에러가 이시점까지 지연되었습니다.
+
 ```
 
 ## safe-navigation
+
 * [ ] `?.` 를 사용하면, 에러일때만 함수를 호출할 수 있습니다.
 
 ## exception이란?
@@ -1646,6 +1827,7 @@ print(arr[3]) # 그래도 일단 접근해보자!
         print(it.msg) # it은 outOfBoundErr 객체입니다.
         ret
 doSomethingWhenNoError()
+
 ```
 
 * [x] 익셉션이 처리되지 못하면, 그 시점부터 callstack이 남겨집니다.
@@ -1666,6 +1848,7 @@ main() void
         is null
             # 이번에는 함수를 종료했습니다.
             ret
+
 ```
 
 * [ ] 만약 local scope에 속하지 않은 프로퍼티를 할당연산 도중에 exception의 예외처리를 하면, 반드시 이 프로퍼티의 값을 채워야 합니다.
@@ -1680,6 +1863,7 @@ def person
                          # 따라서 바로 ret를 해버리면 age에는 여전히 exception이 담겨있게 됩니다.
                          # 그래서 age를 적절한 int의 값으로 채우지않으면 컴파일 에러가 발생합니다.
                 ret
+
 ```
 
 ## abstract
@@ -1696,6 +1880,7 @@ foo(cl add) int
 
 main() void
   foo((a, b): a + b)
+
 ```
 
 * [?] abstract 프로퍼티는 2가지 방법으로 정의합니다.
@@ -1712,6 +1897,7 @@ def Base
                   # 그런데 정작 구현부가 없습니다. 아무런 동작을 채우지 않았으므로, 이 프로퍼티를 사용하지
                   # 못하게 됩니다. 즉 사용하지 못하지만, interface 로써의 프로퍼티가 존재하는 셈이고,
                   # 우리는 이걸 abstract 라고 표현합니다.
+
 ```
 
 * [?] 두번째 방법은 abstract 타입으로 정의하는 겁니다.
@@ -1724,6 +1910,7 @@ def Derived
     b Base # abstract 타입으로 프로퍼티를 만들었고, 초기값도 넣지 않았습니다.
            # 그렇다고 errorable type (Base?) 도 아닙니다. Base? 였다면 null이라도 대신 넣어줄 수 있습니다.
            # 즉 b는 자연스럽게 abstract 프로퍼티가 됩니다.
+
 ```
 
 * [ ] abstract 객체로부터 객체를 생성하고 싶다면 반드시 abstract 요소를 모두 오버라이딩으로 채워야 합니다.
@@ -1742,6 +1929,7 @@ def derived
 main() void
   b Base := derived()
   print(b.age) # "0"
+
 ```
 
 * [ ] abstract 타입으로 프로퍼티를 만들었어도 생성자에서 채우면 abstract가 아닙니다.
@@ -1755,6 +1943,7 @@ def Derived
     ctor(newB Base)
         b = newB # 그런데 생성자에서 abstract 한 프로퍼티에 구체값을 채워줬습니다.
 # 더이상 Derived는 abstract 하지 않습니다.
+
 ```
 
 * [ ] 인터프리터는 생성자에서 abstract 프로퍼티를 할당연산으로 채워넣었는가 아닌가를 지능적으로 판단합니다.
@@ -1767,10 +1956,6 @@ def Derived
 * [ ] abstract 한 불완전객체인지, 구체타입이지만 개발자가 원하지 않아서 불완전객체인지를 키워드로 구별할 방법은 없습니다.
 * [ ] 인터프리터는 코드를 보고 abstract 요소가 있는지 구분하고 파악하고 있습니다.
 * [ ] 확장한 객체의 abstract 요소를 모두 오버라이딩하지 않고 객체를 생성하려고 시도하면 에러로 어떠어떠한 abstract 요소를 채우지 않았다고 알려줍니다.
-
-<br/>
-<br/>
-# IDEA: 모든 기능을 제공하는 언어를 만들지 않는다.
 
 * [x] byeol언어는 모든 언어들의 편의 기능을 제공하는 것에는 관심이 없습니다.
 * [x] byeol언어는 불편하지는 않으면서, 어떻게 하면 종래의 개념과 문법을 간결하게 풀어낼 수 있을지에 더 관심이 있습니다.
@@ -1793,6 +1978,7 @@ dispatch(listener foo) int # 함수를 타입으로 쓰는게 맞지 않을까�
 
 main() void
   print(dispatch((n): n + 1)) # "4"
+
 ```
 
 * [ ] 함수 이름만 가지고 구분이 되지 않으면 signature를 적어야 합니다.
@@ -1802,6 +1988,7 @@ foo(n int) int: ret 0
 foo(n flt) flt: ret 0.1
 dispatch(listener foo(n int)) int
   ret listener(3)
+
 ```
 
 * [x] 하지만 그보다는 이름을 바꿉시다.
@@ -1810,11 +1997,8 @@ dispatch(listener foo(n int)) int
 OnEvent(n int): int
 dispatch(listener OnEvent) int
   ret listener(3)
-```
 
-<br/>
-<br/>
-# IDEA: 기타 기능
+```
 
 ## 제네릭
 
@@ -1835,6 +2019,7 @@ main() void
 # 결과:
 #  3
 #  niceguy
+
 ```
 
 * [x] 함수에 대한  제네릭은 지원하지 않아요.
@@ -1844,21 +2029,18 @@ main() void
 
 * [ ] TODO
 
-<br/>
-<br/>
-# IDEA: 속도보다 유지보수를 우선한다.
-* TODO: 기능소개는 아니고, byeol의 비전 공유. 왜 이 언어를 만들었는가? AST를 그대로 취급하는 언어. 빠른 수정이 가능한 언어.
-
-<br/>
-<br/>
 
 # 끝맺으면서
+
 * 간결한 언어입니다.
+
 * byeol:
     * pack, def, in, as, is, for, while, next, break, with, if, else, ret, enum, get, set, end, only
+
 * C:
     * break, case, const, continue, return, default, do, while, else, enum, extern, for, goto, if,
     * signed, sizeof, static, struct, switch, typedef, union, unsigned, volatile, while
+
 * python:
     * await, else, import, pass, break, except, in, raise, class, finally, is, return, and, continue,
     * for, lambda, try, as, def, from, nonlocal, while, assert, del, global, not, with, async, elif,
