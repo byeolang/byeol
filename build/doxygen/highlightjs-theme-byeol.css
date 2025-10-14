@@ -14,8 +14,8 @@ div.fragment {
     border: 0;
 }
 
-div.fragment:has(pre code.verified) {
-    box-shadow: 0px 0px 0px 1px var(--byeol-moon)
+div.fragment:not(:has(pre code.verified)) {
+    box-shadow: 0px 0px 0px 3px #ff8888;
 }
 
 .play_button {
