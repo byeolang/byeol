@@ -16,12 +16,21 @@ div.contents, div.header .title {
     margin: 0 !important;
 }
 
+div.contents li {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 div#nav-tree-contents > ul > li > div:first-child {
     display: none;
 }
 
 div#nav-sync {
     display: none;
+}
+
+div.doxygen-awesome-fragment-wrapper {
+    margin-bottom: 60px;
 }
 
 :root {
