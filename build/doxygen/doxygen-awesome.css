@@ -173,7 +173,7 @@ html {
     --animation-duration: .12s
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 899px) {
     html {
         --page-font-size: 16px;
         --navigation-font-size: 16px;
@@ -351,7 +351,7 @@ a.anchor {
     border-bottom: 1px solid var(--separator-color);
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 900px) {
     #top {
         display: flex;
         flex-wrap: wrap;
@@ -373,7 +373,7 @@ a.anchor {
     border-bottom: none;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 899px) {
     #titlearea {
         padding-bottom: var(--spacing-small);
     }
@@ -421,7 +421,7 @@ a.anchor {
     background: var(--page-secondary-foreground-color);
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 899px) {
     .sm-dox a span.sub-arrow {
         background: var(--code-background);
     }
@@ -436,7 +436,7 @@ a.anchor {
     }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 900px) {
     .sm-dox li, .tablist li {
         display: var(--menu-display);
     }
@@ -587,7 +587,7 @@ a.anchor {
     right: var(--spacing-medium);
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 899px) {
     .tabs #MSearchBox {
         position: relative;
         right: 0;
@@ -609,7 +609,7 @@ a.anchor {
     margin-right: 0;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 899px) {
     #main-menu > li:last-child {
         height: 50px;
     }
@@ -718,7 +718,7 @@ html.dark-mode iframe#MSearchResults {
     color: var(--menu-focus-foreground) !important;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 899px) {
     #MSearchBox {
         margin-top: var(--spacing-medium);
         margin-bottom: var(--spacing-medium);
@@ -783,7 +783,7 @@ html.dark-mode iframe#MSearchResults {
     max-width: 50vw;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 899px) {
     #side-nav {
         display: none;
     }
@@ -1242,7 +1242,7 @@ div.fragment, pre.fragment {
     overflow-x: auto;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 899px) {
     div.fragment, pre.fragment {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
@@ -1919,7 +1919,7 @@ div.dynheader img[src="closed.png"] {
     font-size: var(--code-font-size);
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 899px) {
 
     table.memberdecls .memItemLeft,
     table.memberdecls .memItemRight,
@@ -2026,7 +2026,7 @@ hr {
     overflow: auto;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 899px) {
     .contents .dyncontent > .center, .contents > center {
         margin-left: calc(0px - var(--spacing-large));
         margin-right: calc(0px - var(--spacing-large));
@@ -2111,7 +2111,7 @@ table.directory tr.odd {
     filter: saturate(0.2);
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 899px) {
     div.directory {
         margin-left: calc(0px - var(--spacing-large));
         margin-right: calc(0px - var(--spacing-large));
@@ -2444,7 +2444,7 @@ doxygen-awesome-fragment-copy-button.success {
     border-color: rgb(14, 168, 14);
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 899px) {
     .textblock > .doxygen-awesome-fragment-wrapper > doxygen-awesome-fragment-copy-button,
     .textblock li > .doxygen-awesome-fragment-wrapper > doxygen-awesome-fragment-copy-button,
     .memdoc li > .doxygen-awesome-fragment-wrapper > doxygen-awesome-fragment-copy-button,
@@ -2515,7 +2515,7 @@ h2:hover a.anchorlink, h1:hover a.anchorlink, h3:hover a.anchorlink, h4:hover a.
     flex-direction: row;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 899px) {
     .tabs-overview-container {
         margin: 0 calc(0px - var(--spacing-large));
     }
