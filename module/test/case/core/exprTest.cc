@@ -87,7 +87,7 @@ TEST_F(exprTest, simpleGetExpr) {
 TEST_F(exprTest, simpleGetExprNegative) {
     getExpr exp(*bridge, "main?", narr(*new nStr()));
     setLine(exp, 1, 1);
-    errReport rep;
+    errReport rep(false);
     verifier veri;
     veri.setReport(rep).setFlag(0).setTask(exp).work();
     ASSERT_TRUE(rep); // should have some errs.
@@ -101,7 +101,7 @@ TEST_F(exprTest, simpleGetExprNegative) {
 
 TEST_F(exprTest, simpleRunExprWithoutMeObjNegative) {
     runExpr exp1(nullptr, *bridge->sub("main"), narr(*new nStr("kniz!")));
-    errReport rep;
+    errReport rep(false);
     verifier veri;
     veri.setReport(rep).setFlag(0).setTask(exp1).work();
     ASSERT_TRUE(rep);
@@ -142,7 +142,7 @@ TEST_F(exprTest, simpleRunExpr) {
 TEST_F(exprTest, simpleRunExprNegative) {
     runExpr exp1(bridge->sub("main"), narr());
     setLine(exp1, 1, 1);
-    errReport rep;
+    errReport rep(false);
     verifier veri;
     veri.setReport(rep).setTask(exp1).work();
     ASSERT_TRUE(rep);

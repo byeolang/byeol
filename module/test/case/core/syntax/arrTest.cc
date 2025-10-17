@@ -783,7 +783,7 @@ TEST_F(arrTest, outOfBoundExOccurs) {
     {
         auto& A = *getSubPack()->sub("A"); // A.arr is mockNode
         str a((node*) A.clone());          // now, a.arr is not mockNode, but obj.
-        threadUse th;
+        threadUse th(errReport(false));
         str res = a->run("foo");
         ASSERT_TRUE(res);
         nerr& cast = res->cast<nerr>() OR_ASSERT(cast);

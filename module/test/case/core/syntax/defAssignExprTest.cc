@@ -88,6 +88,7 @@ TEST_F(defAssignExprTest, testNearCircularDependencies) {
 
 TEST_F(defAssignExprTest, testDefAssignNegative) {
     make()
+        .negative()
         .parse(R"SRC(
         foo() int
             a = 2

@@ -1212,7 +1212,7 @@ namespace by {
 #endif
 
             int res = yyparse(scanner);
-            WHEN(res) .exWarn(errCode::PARSING_HAS_ERR, res).ret(tstr<obj>());
+            WHEN(res) .exWarn(errCode::PARSING_HAS_ERR, getReport(), res).ret(tstr<obj>());
 
             yy_delete_buffer(bufState, scanner);
             yylex_destroy(scanner);

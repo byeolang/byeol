@@ -293,6 +293,8 @@ TEST_F(asExprTest, castStr) {
 }
 
 TEST_F(asExprTest, manualAsInt) {
+    threadUse thr(errReport(false)); // prevent exception logging for this negative test
+
     nInt a = 55;
     str as = a.as<nStr>();
     ASSERT_TRUE(as);
