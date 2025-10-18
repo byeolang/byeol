@@ -128,9 +128,14 @@ namespace by {
 
             const auto& subs = *reg.s;
             nidx n2 = 0;
-            for(auto e = subs.begin(); e; ++e)
-                log.logBypass(
-                    "\t\t\tsub[" + std::to_string(n2++) + "]: " + *e.getKey() + " " + e.getVal()->getType().getName());
+            for(auto e = subs.begin(); e; ++e) {
+                node& symbol = e.getVal() OR_CONTINUE;
+                auto value = symbol.as<nStr>();
+                std::string key = "\t\t\tsub[" + std::to_string(n2++) + "]: " + *e.getKey() + " ";
+                std::string valueText = symbol.getType().getName() + (value ? "("+ value->get() + ")" : std::string("null"));
+
+                log.logBypass(key + valueText);
+            }
         }
     }
 

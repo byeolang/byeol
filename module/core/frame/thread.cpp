@@ -191,7 +191,8 @@ namespace by {
     }
 
     void me::dump() const {
-        // TODO:
+        _frames.dump();
+        getEx().dump();
     }
 
     nbool me::isInteractable() const { return true; }

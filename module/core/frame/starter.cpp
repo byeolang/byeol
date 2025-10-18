@@ -48,11 +48,11 @@ namespace by {
     }
 
     str me::_postprocess(const str& res) {
-        errReport& ex = thread::get().getEx();
-        if(ex) {
+        thread& th = thread::get();
+        if(th.getEx()) {
             enablesZone zone(true);
             BY_DE("unhandled exception found:");
-            ex.dump();
+            th.dump();
         }
         return res;
     }
