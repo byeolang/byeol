@@ -63,6 +63,11 @@ byeolSyntaxTest& me::negative() {
     return *this;
 }
 
+byeolSyntaxTest& me::silenceLog() {
+    _rpt.setNoisy(false);
+    return *this;
+}
+
 by::nbool me::shouldParsed(by::nbool expect) {
     by::nbool ret = _ip.isParsed();
     EXPECT_EQ(ret, expect);

@@ -21,6 +21,7 @@ struct byeolSyntaxTest: public byeolTest {
     byeolSyntaxTest& delFlag(by::nint flag);
     byeolSyntaxTest& parse(const by::nchar* src);
     byeolSyntaxTest& negative();
+    byeolSyntaxTest& silenceLog();
 
     by::nbool shouldParsed(by::nbool well);
     by::nbool shouldVerified(by::nbool well);
