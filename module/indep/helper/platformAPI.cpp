@@ -4,6 +4,7 @@
 #include <cstdarg>
 #if BY_BUILD_PLATFORM == BY_TYPE_WINDOWS
 #    include <windows.h>
+#    include <dbghelp.h>
 
 #    include <sstream>
 #elif BY_BUILD_PLATFORM == BY_TYPE_LINUX || BY_BUILD_PLATFORM == BY_TYPE_MACOS
@@ -12,6 +13,7 @@
 #    include <execinfo.h>
 #    include <sys/time.h>
 #    include <unistd.h>
+#    include <sys/resource.h>
 
 #    include <algorithm>
 #    include <iostream>
@@ -273,5 +275,41 @@ namespace by {
         }
 
         void crash(const std::string* it) BY_SIDE_FUNC(crash);
+
+#if BY_BUILD_PLATFORM_IS_WINDOWS
+        namespace {
+            LONG WINAPI __window_coredump_filter(EXCEPTION_POINTERS* exceptions) {
+                HANDLE file = CreateFileA("coredump.dmp", GENERIC_WRITE, 0, NULL,
+                                          CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+                if(file == INVALID_HANDLE_VALUE) return EXCEPTION_EXECUTE_HANDLER;
+
+                MINIDUMP_EXCEPTION_INFORMATION info;
+                info.ThreadId = GetCurrentThreadId();
+                info.ExceptionPointers = exceptions;
+                info.ClientPointers = FALSE;
+
+                MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), file,
+                                  MiniDumpWithFullMemory, &info, NULL, NULL);
+
+                CloseHandle(file);
+                return EXCEPTION_EXECUTE_HANDLER;
+            }
+        }
+#endif
+
+        nbool unlimitCoreDump() {
+#if BY_BUILD_PLATFORM == BY_TYPE_LINUX || BY_BUILD_PLATFORM == BY_TYPE_MACOS
+            struct rlimit limit;
+            limit.rlim_cur = RLIM_INFINITY;
+            limit.rlim_max = RLIM_INFINITY;
+
+            cout << "setrlimit()\n";
+            return !setrlimit(RLIMIT_CORE, &limit);
+#elif BY_BUILD_PLATFORM == BY_TYPE_WINDOWS
+            SetUnhadledExceptionFilter(__window_coredump_filter)
+#else
+            return false;
+#endif
+        }
     } // namespace platformAPI
 } // namespace by

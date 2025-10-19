@@ -49,5 +49,6 @@ namespace by {
         _nout void crash(const std::string* msg, va_list args);
         _nout void crash(const std::string& msg);
         _nout void crash(const std::string* msg);
+        _nout nbool unlimitCoreDump();
     };
 } // namespace by

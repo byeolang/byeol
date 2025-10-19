@@ -80,11 +80,17 @@ namespace by {
 } // namespace by
 
 int main(int argc, char* argv[]) {
+    if(buildFeature::config::isDbg()) platformAPI::unlimitCoreDump();
+
     cli ep;
     flagArgs a;
     for(int n = 1; n < argc; n++)
         a.push_back(argv[n]);
 
     ep.run(a);
+
+    int* a1 = 0;
+    *a1 = 42;
+
     return ep.getRes();
 }
