@@ -22,6 +22,8 @@ struct threadTest: public byeolTest {
 };
 
 TEST_F(threadTest, testExceptionOccurs) {
+    errReport rpt(false);
+    threadUse thr(rpt);
     narr a;
     a.add(new mockNode());
     a.add(new mockNode());
