@@ -12,11 +12,6 @@ namespace by {
     struct cli {
         const flags& getFlags() const;
 
-        nbool run(flagArgs& a);
-
-        nint getRes() const;
-
-    private:
-        nint _res;
+        nint run(flagArgs& a);
     };
 }

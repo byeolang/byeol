@@ -20,8 +20,7 @@ namespace by {
         }
     }
 
-    nbool me::run(flagArgs& a) {
-        _res = -1;
+    nint me::run(flagArgs& a) {
         interpreter ip;
         errReport rpt(true); // it's noisy now.
         ip.setReport(rpt).setFlag(interpreter::DEFAULT);
@@ -39,17 +38,18 @@ namespace by {
             ip.work();
         }
 
-        if(!ip.isVerified()) return _res;
+        if(!ip.isVerified()) return -1;
 
         str res;
         {
             defaultSigZone<starter> zone(s);
             res = s.setTask(ip.getSubPack()).work();
         }
-        _res = 0;
+
+        nint ret = 0;
         if(res) {
-            if(res->isSub<nInt>()) _res = *res->cast<nint>();
-            else if(res->isSub<baseErr>()) _res = -1;
+            if(res->isSub<nInt>()) ret = *res->cast<nint>();
+            else if(res->isSub<baseErr>()) ret = -1;
         }
 
 #ifdef __EMSCRIPTEN__
@@ -58,11 +58,9 @@ namespace by {
         std::cout << "\n";
 #endif
         if(rpt) // has an err
-            _res = -1;
-        return _res;
+            ret = -1;
+        return ret;
     }
-
-    nint me::getRes() const { return _res; }
 
     const flags& cli::getFlags() const {
         static flags inner;
@@ -78,19 +76,3 @@ namespace by {
         return inner;
     }
 } // namespace by
-
-int main(int argc, char* argv[]) {
-    if(buildFeature::config::isDbg()) platformAPI::unlimitCoreDump();
-
-    cli ep;
-    flagArgs a;
-    for(int n = 1; n < argc; n++)
-        a.push_back(argv[n]);
-
-    ep.run(a);
-
-    int* a1 = 0;
-    *a1 = 42;
-
-    return ep.getRes();
-}
