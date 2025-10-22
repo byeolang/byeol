@@ -69,7 +69,9 @@ namespace by {
             handler(*e);
 
         _closures.clear();
-        exit(EXIT_FAILURE);
+        // raise signal to trigger default logic set by `SIG_DFL` above:
+        //  it allows user to make coredump files.
+        std::raise(code);
     }
 
     namespace {
