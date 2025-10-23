@@ -11,7 +11,7 @@ namespace by {
     BY(DEF_ME(closure), DEF_VISIT())
 
     namespace {
-        funcMgdType _makeClosureType(const baseFunc& from) {
+        funcType _makeClosureType(const baseFunc& from) {
             const ntype& t = from.getType();
             return typeMaker::make<closure>(t.getParams(), t.getRet());
         }

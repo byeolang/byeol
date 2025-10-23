@@ -13,12 +13,12 @@ namespace by {
 
     BY(DEF_ME(func), DEF_VISIT())
 
-    me::func(const modifier& mod, const funcMgdType& type): super(mod), _type(type), _blk(new blockExpr()) {}
+    me::func(const modifier& mod, const funcType& type): super(mod), _type(type), _blk(new blockExpr()) {}
 
-    me::func(const modifier& mod, const funcMgdType& type, const blockExpr& newBlock):
+    me::func(const modifier& mod, const funcType& type, const blockExpr& newBlock):
         super(mod), _type(type), _blk(newBlock) {}
 
-    me::func(const modifier& mod, const funcMgdType& type, const scope& subs, const blockExpr& newBlock):
+    me::func(const modifier& mod, const funcType& type, const scope& subs, const blockExpr& newBlock):
         super(mod), _type(type), _subs(subs), _blk(newBlock) {}
 
     const ntype& me::getType() const { return _type; }

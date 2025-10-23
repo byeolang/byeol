@@ -1,10 +1,12 @@
-#include "core/type/funcMgdType.hpp"
+#include "core/type/funcType.hpp"
 #include "core/type/as/impliAses.hpp"
+#include "core/ast/baseFunc.hpp"
+#include "core/builtin/primitive/nStr.hpp"
 
 namespace by {
-    BY(DEF_ME(funcMgdType))
+    BY(DEF_ME(funcType))
 
-    me::funcMgdType(const std::string& name, const type& superType, const params& ps, nbool isAdt, const node* ret):
+    me::funcType(const std::string& name, const type& superType, const params& ps, nbool isAdt, const node* ret):
         super(name, superType, ps, isAdt, ret) {}
 
     struct asFunc: public aser {
@@ -13,6 +15,7 @@ namespace by {
     public:
         nbool is(const type& from, const type& to) const override {
             WHEN(to.getMetaTypeName() != ntype::META_TYPENAME) .ret(false);
+            WHEN(to.getName() != baseFuncType::TYPE_NAME).ret(false);
 
             // okay. it's func:
             //  param, returnType should be exactly matched to.
@@ -38,6 +41,23 @@ namespace by {
 
     const impliAses& me::_getImpliAses() const {
         static impliAses inner{new asFunc()};
+        return inner;
+    }
+
+    namespace {
+        struct asStr : public tas<nStr> {
+            BY(CLASS(asStr, tas<nStr>))
+
+        public:
+            str as(const node& me, const type& to) const override {
+                baseFunc& cast = me.cast<baseFunc>() OR.ret(str());
+                return new nStr(cast.getSrc().getName() + "(" + cast.getParams().toStr() + ")");
+            }
+        };
+    }
+
+    const ases& me::_getAses() const {
+        static ases inner(*new asStr());
         return inner;
     }
 } // namespace by

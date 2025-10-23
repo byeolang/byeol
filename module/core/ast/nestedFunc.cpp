@@ -5,7 +5,7 @@ namespace by {
     BY(DEF_ME(nestedFunc))
 
     me::nestedFunc(const func& org, const scope& subs):
-        super(*new modifier(false, false), (funcMgdType&) org.getType(), subs, org.getBlock()) {
+        super(*new modifier(false, false), (funcType&) org.getType(), subs, org.getBlock()) {
         _setSrc(org.getSrc());
     }
 

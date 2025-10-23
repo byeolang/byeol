@@ -2,7 +2,7 @@
 #pragma once
 
 #include "core/frame/frameInteractable.hpp"
-#include "core/type/funcMgdType.hpp"
+#include "core/type/funcType.hpp"
 #include "core/ast/baseFunc.hpp"
 
 namespace by {
@@ -60,6 +60,6 @@ namespace by {
     private:
         tstr<baseObj> _org;
         tstr<baseFunc> _func;
-        funcMgdType _type;
+        funcType _type;
     };
 } // namespace by

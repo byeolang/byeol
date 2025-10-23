@@ -1,7 +1,7 @@
 /// @file
 #pragma once
 
-#include "core/type/funcMgdType.hpp"
+#include "core/type/funcType.hpp"
 
 namespace by {
 
@@ -17,9 +17,9 @@ namespace by {
             return mgdType(name, super, ps, isAdt, ret);
         }
 
-        static funcMgdType _make(baseFunc*, const std::string& name, const type& super, const params& ps, nbool isAdt,
+        static funcType _make(baseFunc*, const std::string& name, const type& super, const params& ps, nbool isAdt,
             const node* ret) {
-            return funcMgdType(name, super, ps, isAdt, ret);
+            return funcType(name, super, ps, isAdt, ret);
         }
 
     public:

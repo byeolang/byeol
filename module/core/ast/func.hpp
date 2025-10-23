@@ -6,7 +6,7 @@
 #include "core/ast/exprs/blockExpr.hpp"
 #include "core/ast/params.hpp"
 #include "core/ast/scope.hpp"
-#include "core/type/funcMgdType.hpp"
+#include "core/type/funcType.hpp"
 
 namespace by {
 
@@ -25,9 +25,9 @@ namespace by {
         typedef std::function<void(const std::string&, const node&)> onEval;
 
     public:
-        explicit func(const modifier& mod, const funcMgdType& type);
-        explicit func(const modifier& mod, const funcMgdType& type, const blockExpr& newBlock);
-        explicit func(const modifier& mod, const funcMgdType& type, const scope& subs, const blockExpr& newBlock);
+        explicit func(const modifier& mod, const funcType& type);
+        explicit func(const modifier& mod, const funcType& type, const blockExpr& newBlock);
+        explicit func(const modifier& mod, const funcType& type, const scope& subs, const blockExpr& newBlock);
 
     public:
         const ntype& getType() const override;
@@ -70,7 +70,7 @@ namespace by {
 
     private:
         tstr<obj> _org;
-        funcMgdType _type;
+        funcType _type;
         scope _subs;
         tstr<blockExpr> _blk;
         ends _ends;
