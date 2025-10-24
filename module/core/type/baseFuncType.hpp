@@ -11,6 +11,6 @@ namespace by {
         const ases& _getAses() const override;
 
     public:
-        static constexpr const nchar* TYPE_NAME = "func";
+        inline static const std::string TYPE_NAME = "func";
     };
 }

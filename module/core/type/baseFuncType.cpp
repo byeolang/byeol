@@ -6,10 +6,7 @@ namespace by {
 
     BY(DEF_ME(baseFuncType))
 
-    const std::string& me::getName() const {
-        static std::string inner(TYPE_NAME);
-        return inner;
-    }
+    const std::string& me::getName() const { return TYPE_NAME; }
 
     namespace {
         struct asStr : public tas<nStr> {

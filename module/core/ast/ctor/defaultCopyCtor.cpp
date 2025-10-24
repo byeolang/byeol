@@ -3,6 +3,7 @@
 #include "core/worker/visitor/visitor.hpp"
 #include "core/ast/args.hpp"
 #include "core/type/typeMaker.hpp"
+#include "core/type/ctorType.hpp"
 
 namespace by {
 
@@ -18,7 +19,7 @@ namespace by {
     }
 
     const src& me::getSrc() const {
-        static src inner(srcFile(), baseObj::CTOR_NAME, point{});
+        static src inner(srcFile(), ctorType::CTOR_NAME, point{});
         return inner;
     }
 }

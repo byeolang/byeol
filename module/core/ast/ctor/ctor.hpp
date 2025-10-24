@@ -2,6 +2,7 @@
 #pragma once
 
 #include "core/ast/func.hpp"
+#include "core/type/ctorType.hpp"
 
 namespace by {
     /// @ingroup core
@@ -9,8 +10,7 @@ namespace by {
     /// @details Represents constructor functions that initialize object instances.
     /// Handles object construction, parameter passing, and initialization logic.
     class _nout ctor: public func {
-        BY(ME(ctor, func), INIT_META(ctor), CLONE(ctor), VISIT())
-        typedef ntype metaType;
+        BY(CLASS(ctor, func), VISIT())
 
     public:
         ctor(const modifier& mod, const params& ps, const blockExpr& blk);

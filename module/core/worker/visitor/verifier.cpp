@@ -229,7 +229,7 @@ namespace by {
 
         _STEP("whether the 'type' object has a ctor without any paramters?");
         str eval = me TO(getRight()) TO(getEval()) OR.myExErr(me, RHS_IS_NUL).ret();
-        WHEN(eval->isSub<baseObj>() && !eval->sub(baseObj::CTOR_NAME, args())) .myExErr(me, DONT_HAVE_CTOR, eval).ret();
+        WHEN(eval->isSub<baseObj>() && !eval->sub(ctorType::CTOR_NAME, args())) .myExErr(me, DONT_HAVE_CTOR, eval).ret();
         func* fun = eval->cast<func>();
         WHEN(fun && fun->isAbstract()) .myExErr(me, YOU_CANT_DEFINE_PROPERTY_WITH_ABSTRACT_FUNC).ret();
 
@@ -621,7 +621,7 @@ namespace by {
 
         _STEP("if obj is complete, does it have ctor without params?");
         if(me.isComplete())
-            WHEN_NUL(me.sub(baseObj::CTOR_NAME, args())).myExErr(me, COMPLETE_OBJ_BUT_NO_CTOR).ret(true);
+            WHEN_NUL(me.sub(ctorType::CTOR_NAME, args())).myExErr(me, COMPLETE_OBJ_BUT_NO_CTOR).ret(true);
 
         return true;
     }
