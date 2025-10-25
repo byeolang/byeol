@@ -202,9 +202,9 @@ namespace by {
     scope& me::_defGeneric(const baseObj& paramOrg) {
         scope* clone = (scope*) _getOriginScope().cloneDeep();
         _cache.insert({&paramOrg, clone}); // this avoids infinite loop.
-        clone->add(ctorType::CTOR_NAME,
+        clone->add(ctor::CTOR_NAME,
             new tbridgeClosure<arr*, arr, tmarshaling>([&paramOrg](arr&) -> arr* { return new me(paramOrg); }));
-        clone->add(ctorType::CTOR_NAME, new __copyCtor(paramOrg));
+        clone->add(ctor::CTOR_NAME, new __copyCtor(paramOrg));
         clone->add("getElemType", new getElemTypeFunc());
 
         BY_DI("|==============================================|");

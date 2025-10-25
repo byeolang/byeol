@@ -8,8 +8,8 @@
 #include "core/bridge/cpp/tbridgeClosure.hpp"
 #include "core/bridge/cpp/tbridgeCtor.hpp"
 #include "core/bridge/cpp/tbridgeFunc.hpp"
-#include "core/type/ctorType.hpp"
 #include "core/ast/src/dumSrcFile.hpp"
+#include "core/ast/ctor.hpp"
 
 namespace by {
 
@@ -46,7 +46,7 @@ namespace by {
             BY_SIDE_FUNC(name&& bridgeFunc, func(*name, *bridgeFunc), _get());
 
         template <typename... Args> static me& ctor() {
-            return func(ctorType::CTOR_NAME, new tbridgeCtor<T, Args...>());
+            return func(ctor::CTOR_NAME, new tbridgeCtor<T, Args...>());
         }
 
         template <typename Ret, typename... Args> static me& func(const std::string& name, Ret (T::*fptr)(Args...)) {
@@ -173,14 +173,14 @@ namespace by {
 
         static me& func(const std::string& name, const baseFunc* bridgeFunc) { return func(name, *bridgeFunc); }
 
-        static me& ctor() { return func(ctorType::CTOR_NAME, new tbridgeCtor<T>()); }
+        static me& ctor() { return func(ctor::CTOR_NAME, new tbridgeCtor<T>()); }
 
         template <typename... Args> static me& ctor() {
-            return func(ctorType::CTOR_NAME, new tbridgeCtor<T, Args...>());
+            return func(ctor::CTOR_NAME, new tbridgeCtor<T, Args...>());
         }
 
         /*template <typename T1, typename... Args> static me& ctorIndirect() {
-            return func(ctorType::CTOR_NAME, new tbridgeCtor<T1, Args...>());
+            return func(ctor::CTOR_NAME, new tbridgeCtor<T1, Args...>());
         }*/
 
         template <typename Ret, typename T1 = T, typename... Args>

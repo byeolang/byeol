@@ -6,8 +6,6 @@ namespace by {
 
     BY(DEF_ME(baseFuncType))
 
-    const std::string& me::getName() const { return TYPE_NAME; }
-
     namespace {
         struct asStr : public tas<nStr> {
             BY(CLASS(asStr, tas<nStr>))

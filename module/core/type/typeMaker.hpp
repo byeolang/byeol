@@ -1,14 +1,13 @@
 /// @file
 #pragma once
 
-#include "core/type/ctorType.hpp"
+#include "core/type/funcType.hpp"
 
 namespace by {
 
     /// @ingroup core
     /// @brief Factory for creating managed types
     /// @details Template-based factory for generating type objects with proper metadata.
-    class ctor;
     class _nout typeMaker {
         BY(ME(typeMaker))
 
@@ -21,11 +20,6 @@ namespace by {
         static funcType _make(baseFunc*, const std::string& name, const type& super, const params& ps, nbool isAdt,
             const node* ret) {
             return funcType(name, super, ps, isAdt, ret);
-        }
-
-        static ctorType _make(ctor*, const std::string&, const type& super, const params& ps, nbool isAdt,
-            const node* ret) {
-            return ctorType(super, ps, ret);
         }
 
     public:

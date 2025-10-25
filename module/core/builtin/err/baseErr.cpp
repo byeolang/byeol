@@ -29,14 +29,14 @@ namespace by {
         return dummy;
     }
 
-    const callstack& me::getStack() const { return *_stack; }
+    const frames& me::getFrames() const { return *_frames; }
 
-    void me::logStack() const { _stack->dump(); }
+    void me::logStack() const { _frames->dump(); }
 
-    void me::_initStack() { _stack.bind(new callstack(thread::get().getFrames())); }
+    void me::_initStack() { _frames.bind((frames*) thread::get().getFrames().clone()); }
 
     me& me::_assign(const me& rhs) {
-        _stack = rhs._stack;
+        _frames = rhs._frames;
         _lv = rhs._lv;
 
         return *this;

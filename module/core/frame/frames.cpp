@@ -9,7 +9,7 @@ namespace by {
     void me::dump() const {
         nidx n = 0;
         logger& log = logger::get();
-        for(const auto& fr: thread::get().getFrames()) {
+        for(const auto& fr: *this) {
             log.logBypass("\tframe[" + std::to_string(n++) + "]:\n");
             fr.dump();
         }

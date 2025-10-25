@@ -7,7 +7,6 @@
 #include "core/ast/baseFunc.hpp"
 #include "core/ast/node.inl"
 #include "core/ast/src/dumSrc.hpp"
-#include "core/type/ctorType.hpp"
 
 namespace by {
 
@@ -16,9 +15,9 @@ namespace by {
     me::baseObj(const baseObj* org, /*UNUSED*/ nbool): _org(org) {}
 
     str me::run(const args& a) {
-        tpriorities<baseFunc> matches = subAll<baseFunc>(ctorType::CTOR_NAME, a);
+        tpriorities<baseFunc> matches = subAll<baseFunc>(ctor::CTOR_NAME, a);
         switch(matches.len()) {
-            case 1: return _onBeforeCtor()->run(ctorType::CTOR_NAME, a);
+            case 1: return _onBeforeCtor()->run(ctor::CTOR_NAME, a);
             case 0: return BY_W("there is no such ctor."), str();
         }
         /*// TODO: 1. change err management module to use 'err' class, not errCode.
@@ -36,7 +35,7 @@ namespace by {
 
     void me::setState(state new1) {}
 
-    priorType me::prioritize(const args& a) const { return subAll<baseFunc>(ctorType::CTOR_NAME, a).getPriorType(); }
+    priorType me::prioritize(const args& a) const { return subAll<baseFunc>(ctor::CTOR_NAME, a).getPriorType(); }
 
     const baseObj& me::getOrigin() const { return _org ? *_org : *this; }
 

@@ -402,7 +402,7 @@ namespace by {
     }
 
     ctor* me::onCtor(const modifier& mod, const narr& a, const blockExpr& blk) {
-        ctor* ret = _maker.birth<ctor>(ctorType::CTOR_NAME, mod, _asParams(args(a)), blk);
+        ctor* ret = _maker.birth<ctor>(ctor::CTOR_NAME, mod, _asParams(args(a)), blk);
         BY_DI("tokenEvent: onCtor(%s, args): args.len[%d]", mod, a.len());
         return ret;
     }
@@ -514,7 +514,7 @@ namespace by {
         switch(util::checkTypeAttr(name)) {
             case ATTR_COMPLETE: // newArgs.len() can be 0.
                 ret.setCallComplete(
-                    *_maker.make<runExpr>(&ret, *_maker.make<getExpr>(ctorType::CTOR_NAME, *newArgs), *newArgs));
+                    *_maker.make<runExpr>(&ret, *_maker.make<getExpr>(ctor::CTOR_NAME, *newArgs), *newArgs));
                 break;
 
             case ATTR_INCOMPLETE:
@@ -582,7 +582,7 @@ namespace by {
             mgdType(name, ttype<obj>::get(), params::make(typeParams), !isConcerete, nullptr));
         if(isConcerete)
             org.setCallComplete(*_maker.make<runExpr>(_maker.make<getGenericExpr>(name, typeParams),
-                *_maker.make<getExpr>(ctorType::CTOR_NAME, *newArgs), *newArgs));
+                *_maker.make<getExpr>(ctor::CTOR_NAME, *newArgs), *newArgs));
 
         _onInjectObjSubs(org, blk);
 
@@ -628,7 +628,7 @@ namespace by {
 
         // at this far, subpack must have at least 1 default ctor created just before:
         BY_DI("tokenEvent: onCompilationUnit: run preconstructor(%d lines)", blk.getExpands().len());
-        subpack.run(ctorType::CTOR_NAME); // don't need argument. it's default ctor.
+        subpack.run(ctor::CTOR_NAME); // don't need argument. it's default ctor.
     }
 
     tstr<modifier> me::_makeDefaultModifier() { return *onModifier(true, false); }
@@ -655,7 +655,7 @@ namespace by {
     }
 
     nbool me::_onInjectCtor(obj& it, defBlock& blk) {
-        const auto& ctors = it.subAll<func>(ctorType::CTOR_NAME);
+        const auto& ctors = it.subAll<func>(ctor::CTOR_NAME);
         nbool hasCopyCtor = ctors.get<func>([&](const func& f) -> nbool {
             const params& ps = f.getParams();
             WHEN(ps.len() != 1) .ret(false);
@@ -682,9 +682,9 @@ namespace by {
         BY_DI("tokenEvent: _onInjectDefaultCtor(%s, hasCtor=%s, hasCopyCtor=%s)", &it, hasCtor, hasCopyCtor);
 
         // TODO: ctor need to call superclass's ctor.
-        if(!hasCtor) it.getShares().getContainer().add(ctorType::CTOR_NAME, *_maker.make<defaultCtor>(it.getOrigin()));
+        if(!hasCtor) it.getShares().getContainer().add(ctor::CTOR_NAME, *_maker.make<defaultCtor>(it.getOrigin()));
         if(!hasCopyCtor)
-            it.getShares().getContainer().add(ctorType::CTOR_NAME, *_maker.make<defaultCopyCtor>(it.getOrigin()));
+            it.getShares().getContainer().add(ctor::CTOR_NAME, *_maker.make<defaultCopyCtor>(it.getOrigin()));
 
         // add postpones & common:
         //  if there is no postpones, add() will just return false.

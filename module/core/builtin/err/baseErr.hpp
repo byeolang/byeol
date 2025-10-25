@@ -23,7 +23,7 @@ namespace by {
         nbool operator!=(const me& rhs) const;
 
     public:
-        const callstack& getStack() const;
+        const frames& getFrames() const;
         void logStack() const override;
         void dump() const override;
         errLv::level getLv() const override;
@@ -35,7 +35,7 @@ namespace by {
         me& _assign(const me& rhs);
 
     private:
-        tstr<callstack> _stack;
+        tstr<frames> _frames;
         errLv::level _lv;
     };
 } // namespace by

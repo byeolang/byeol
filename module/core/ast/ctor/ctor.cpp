@@ -6,7 +6,7 @@ namespace by {
     BY(DEF_ME(ctor), DEF_VISIT())
 
     me::ctor(const modifier& mod, const params& ps, const blockExpr& blk):
-        super(mod, typeMaker::make<me>(ctorType::CTOR_NAME, ps, nullptr), blk) {}
+        super(mod, typeMaker::make<me>(ctor::CTOR_NAME, ps, nullptr), blk) {}
 
     str me::run(const args& a) {
         super::run(a);
@@ -16,7 +16,7 @@ namespace by {
     str me::getEval() const { return getRet(); }
 
     const src& me::getSrc() const {
-        static src inner(srcFile(), ctorType::CTOR_NAME, point{});
+        static src inner(srcFile(), ctor::CTOR_NAME, point{});
         return inner;
     }
 }

@@ -4,13 +4,7 @@
 
 namespace by {
     class _nout baseFuncType : public ntype {
-    public:
-        const std::string& getName() const override;
-
     protected:
         const ases& _getAses() const override;
-
-    public:
-        inline static const std::string TYPE_NAME = "func";
     };
 }

@@ -2,7 +2,6 @@
 #pragma once
 
 #include "core/ast/func.hpp"
-#include "core/type/ctorType.hpp"
 
 namespace by {
     /// @ingroup core
@@ -22,5 +21,8 @@ namespace by {
         str getEval() const override;
 
         const src& getSrc() const override;
+
+    public:
+        inline static const std::string CTOR_NAME = "@ctor";
     };
 }

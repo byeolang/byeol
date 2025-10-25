@@ -15,7 +15,7 @@ namespace by {
     public:
         nbool is(const type& from, const type& to) const override {
             WHEN(to.getMetaTypeName() != ntype::META_TYPENAME) .ret(false);
-            WHEN(to.getName() != baseFuncType::TYPE_NAME).ret(false);
+            WHEN(to.getName() != ttype<baseFunc>::get().getName()).ret(false);
 
             // okay. it's func:
             //  param, returnType should be exactly matched to.

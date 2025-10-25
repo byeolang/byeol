@@ -71,7 +71,7 @@ TEST_F(starterTest, managedCallStack) {
 
     const baseErr& e = rpt.get(0) OR_ASSERT(e);
 
-    const callstack& cs = e.getStack();
+    const frames& cs = e.getFrames();
 
     // expecting callstack:
     //      at setAge()
@@ -80,9 +80,18 @@ TEST_F(starterTest, managedCallStack) {
     ASSERT_TRUE(cs.len() > 2);
 
     ASSERT_TRUE(cs.get(0));
-    ASSERT_EQ(cs[0].at, "setAge(n int)");
+    const baseFunc& fun = cs[0].getFunc() OR_ASSERT(fun);
+    auto funName = fun.as<nStr>();
+    ASSERT_TRUE(funName);
+    ASSERT_EQ(funName->get(), "setAge(n int)");
+
     ASSERT_TRUE(cs.get(1));
-    ASSERT_EQ(cs[1].at, "say(n int)");
+    const baseFunc& fun1 = cs[1].getFunc() OR_ASSERT(fun1);
+    auto fun1Name = fun1.as<nStr>();
+    ASSERT_EQ(fun1Name->get(), "say(n int)");
+
     ASSERT_TRUE(cs.get(2));
-    ASSERT_EQ(cs[2].at, "main()");
+    const baseFunc& fun2 = cs[2].getFunc() OR_ASSERT(fun1);
+    auto fun2Name = fun2.as<nStr>();
+    ASSERT_EQ(fun2Name->get(), "main()");
 }

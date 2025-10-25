@@ -164,7 +164,7 @@ TEST_F(nodeTest, ShouldNotSameNameVariableIntoSubs) {
     chef c;
     ASSERT_EQ(c.subs().len(), 0);
     c.subs().add("age", new nInt(22));
-    c.subs().add(ctorType::CTOR_NAME, new defaultCtor(c));
+    c.subs().add(ctor::CTOR_NAME, new defaultCtor(c));
 
     ASSERT_EQ(c.subs().len(), 2);
     ASSERT_EQ(c.sub<nInt>("age")->get(), 22);
