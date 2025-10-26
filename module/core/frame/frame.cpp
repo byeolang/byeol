@@ -124,7 +124,7 @@ namespace by {
         logger& log = logger::get();
         for(const scopeRegister& reg: _stack) {
             const std::string& owner = reg.owner ? reg.owner->getType().getName() : "null";
-            log.logBypass("\t\tscope[" + std::to_string(n++) + "]: owner is " + owner);
+            log.logBypass("\t\tscope[" + std::to_string(n++) + "]: owner is " + owner + "\n");
 
             const auto& subs = *reg.s;
             nidx n2 = 0;
@@ -134,7 +134,7 @@ namespace by {
                 std::string key = "\t\t\tsub[" + std::to_string(n2++) + "]: " + *e.getKey() + " ";
                 std::string valueText = symbol.getType().getName() + (value ? "("+ value->get() + ")" : std::string("null"));
 
-                log.logBypass(key + valueText);
+                log.logBypass(key + valueText + "\n");
             }
         }
     }
