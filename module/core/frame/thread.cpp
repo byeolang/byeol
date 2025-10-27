@@ -191,7 +191,6 @@ namespace by {
     }
 
     void me::dump() const {
-        _frames.dump();
         getEx().dump();
     }
 

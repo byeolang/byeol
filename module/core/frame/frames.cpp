@@ -10,7 +10,8 @@ namespace by {
         nidx n = 0;
         logger& log = logger::get();
         for(const auto& fr: *this) {
-            log.logBypass("\tframe[" + std::to_string(n++) + "]:\n");
+            tstr<nStr> funName = fr.getFunc() TO(template as<nStr>());
+            log.logBypass("\tframe[" + std::to_string(n++) + "]: " + (funName ? funName->get() : "?") + "\n");
             fr.dump();
         }
     }

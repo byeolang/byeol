@@ -132,7 +132,7 @@ namespace by {
                 node& symbol = e.getVal() OR_CONTINUE;
                 auto value = symbol.as<nStr>();
                 std::string key = "\t\t\tsub[" + std::to_string(n2++) + "]: " + *e.getKey() + " ";
-                std::string valueText = symbol.getType().getName() + (value ? "("+ value->get() + ")" : std::string("null"));
+                std::string valueText = symbol.getType().getName() + (value ? "("+ value->get() + ")" : std::string(""));
 
                 log.logBypass(key + valueText + "\n");
             }

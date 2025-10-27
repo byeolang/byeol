@@ -29,17 +29,14 @@ namespace by {
         return dummy;
     }
 
-    const frame& me::getFrame() const { return *_frame; }
+    const frames& me::getFrames() const { return *_frames; }
 
-    void me::logStack() const { _frame->dump(); }
+    void me::logStack() const { _frames->dump(); }
 
-    void me::_initStack() {
-        frame& last = thread::get().getFrames().last().get() OR.ret();
-        _frame.bind((frame*) last.clone());
-    }
+    void me::_initStack() { _frames.bind((frames*) thread::get().getFrames().cloneDeep()); }
 
     me& me::_assign(const me& rhs) {
-        _frame = rhs._frame;
+        _frames = rhs._frames;
         _lv = rhs._lv;
 
         return *this;
