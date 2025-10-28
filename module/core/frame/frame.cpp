@@ -119,9 +119,26 @@ namespace by {
 
     node* me::getRet() const { return _ret.get(); }
 
+    void me::_dumpFunc() const {
+        using platformAPI::foreColor;
+        const baseFunc& f = getFunc() OR.ret();
+        const src& s = f.getSrc();
+        const srcFile& file = s.getFile() OR.ret();
+        const tstr<nStr> at = f.as<nStr>() OR.ret();
+        std::string in = file.getFileName() + ":" + std::to_string(s.getPos().row);
+
+        logger::get().logFormatBypass("\tat %s%s %sin %s%s%s\n",
+            foreColor(YELLOW).c_str(), (at ? at->get().c_str() : "?"), foreColor(LIGHTGRAY).c_str(),
+            foreColor(GREEN).c_str(), in.c_str(), foreColor(LIGHTGRAY).c_str());
+    }
+
     void me::dump() const {
         nidx n = 0;
         logger& log = logger::get();
+
+        _dumpFunc();
+
+        // log belonged sub nodes:
         for(const scopeRegister& reg: _stack) {
             const std::string& owner = reg.owner ? reg.owner->getType().getName() : "null";
             log.logBypass("\t\tscope[" + std::to_string(n++) + "]: owner is " + owner + "\n");

@@ -109,6 +109,7 @@ namespace by {
         void _rel();
         scopeRegister* _getTop();
         const scopeRegister* _getTop() const BY_CONST_FUNC(_getTop())
+        void _dumpFunc() const;
 
         template <typename T> T* _getOwner(const node* toFind, std::function<T*(nbool, scopeRegister&)> cl);
 

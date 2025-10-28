@@ -2,7 +2,7 @@
 #pragma once
 
 #include "core/ast/baseObj.hpp"
-#include "core/frame/callstack.hpp"
+#include "core/frame/frames.hpp"
 
 namespace by {
     /// @ingroup core
