@@ -137,8 +137,10 @@ namespace by {
         logger& log = logger::get();
 
         _dumpFunc();
+        WHEN(!buildFeature::config::isDbg()).ret();
 
         // log belonged sub nodes:
+        //  this feature is only enabled in Dbg binary because it generates a lot of logs.
         for(const scopeRegister& reg: _stack) {
             const std::string& owner = reg.owner ? reg.owner->getType().getName() : "null";
             log.logBypass("\t\tscope[" + std::to_string(n++) + "]: owner is " + owner + "\n");
