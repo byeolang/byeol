@@ -53,13 +53,13 @@ namespace {
     };
 
     class chef: public obj {
-        struct tofood: public tas<food> {
-            BY(CLASS(tofood, tas<food>))
+        struct tofood: public tas<food, chef> {
+            typedef tas<food, chef> __super23;
+            BY(CLASS(tofood, __super23))
 
-        public:
-            str as(const node& it, const type& to) const override {
-                const chef& chef1 = it.cast<chef>() OR.ret(str());
-                return str(new food(chef1.foodName, chef1.foodCalorie));
+        protected:
+            str _onAs(const chef& it, const type& to) const override {
+                return str(new food(it.foodName, it.foodCalorie));
             }
         };
 

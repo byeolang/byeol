@@ -28,13 +28,13 @@ namespace by {
     }
 
     namespace {
-        struct asStr: public tas<nStr> {
-            BY(CLASS(asStr, tas<nStr>))
+        struct asStr: public tas<nStr, me> {
+            typedef tas<nStr, me> __super10;
+            BY(CLASS(asStr, __super10))
 
-        public:
-            str as(const node& me, const type& to) const override {
-                nbool value = me.cast<nbool>() OR.exErr(CAST_NOT_AVAILABLE, me, to).ret(str());
-                return str(new nStr(value ? "true" : "false"));
+        protected:
+            str _onAs(const nBool& me, const type& to) const override {
+                return str(new nStr(me.get() ? "true" : "false"));
             }
         };
     }

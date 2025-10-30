@@ -45,13 +45,13 @@ namespace by {
     }
 
     namespace {
-        struct asStr : public tas<nStr> {
-            BY(CLASS(asStr, tas<nStr>))
+        struct asStr : public tas<nStr, func> {
+            typedef tas<nStr, func> __super11;
+            BY(CLASS(asStr, __super11))
 
-        public:
-            str as(const node& me, const type& to) const override {
-                baseFunc& cast = me.cast<baseFunc>() OR.ret(str());
-                return new nStr(cast.getSrc().getName() + "(" + cast.getParams().toStr() + ")");
+        protected:
+            str _onAs(const func& me, const type& to) const override {
+                return new nStr(me.getSrc().getName() + "(" + me.getParams().toStr() + ")");
             }
         };
     }

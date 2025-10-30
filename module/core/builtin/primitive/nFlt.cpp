@@ -26,13 +26,13 @@ namespace by {
 
     namespace {
         // define in unamed namespace in order to avoid symbol duplication.
-        struct asStr: public tas<nStr> {
-            BY(CLASS(asStr, tas<nStr>))
+        struct asStr: public tas<nStr, nFlt> {
+            typedef tas<nStr, nFlt> __super20;
+            BY(CLASS(asStr, __super20))
 
-        public:
-            str as(const node& me, const type& to) const override {
-                nflt value = me.cast<nflt>() OR.exErr(CAST_NOT_AVAILABLE, me, to).ret(str());
-                return str(new nStr(std::to_string(value)));
+        protected:
+            str _onAs(const nFlt& me, const type& to) const override {
+                return str(new nStr(std::to_string(me.get())));
             }
         };
     }

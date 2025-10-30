@@ -187,60 +187,60 @@ namespace by {
 
     namespace {
 
-        str _canNotCastEx(const node& from, const type& to) {
-            return BY_WHEN.exErr(CAST_NOT_AVAILABLE, from, to).ret(str());
-        }
-
         // define in unamed namespace in order to avoid symbol duplication.
-        struct asBool: public tas<nBool> {
-            BY(CLASS(asBool, tas<nBool>))
+        struct asBool: public tas<nBool, nStr> {
+            typedef tas<nBool, nStr> __super13;
+            BY(CLASS(asBool, __super13))
 
-        public:
-            str as(const node& me, const type& to) const override {
-                const std::string& val = me.cast<std::string>() OR.ret(_canNotCastEx(me, to));
+        protected:
+            str _onAs(const nStr& me, const type& to) const override {
+                const std::string& val = me.get();
                 try {
                     bool boolean = false;
                     if(val == "false") boolean = false;
                     else if(val == "true") boolean = true;
                     else boolean = stoi(val, nullptr, 0) == 0;
                     return str(new nBool(boolean));
-                } catch(std::invalid_argument& ex) { return _canNotCastEx(me, to); }
+                } catch(std::invalid_argument& ex) { return BY_WHEN.exErr(CAST_NOT_AVAILABLE, me, to).ret(str()); }
             }
         };
 
-        struct asFlt: public tas<nFlt> {
-            BY(CLASS(asFlt, tas<nFlt>))
+        struct asFlt: public tas<nFlt, nStr> {
+            typedef tas<nFlt, nStr> __super14;
+            BY(CLASS(asFlt, __super14))
 
-        public:
-            str as(const node& me, const type& to) const override {
-                const std::string& val = me.cast<std::string>() OR.ret(_canNotCastEx(me, to));
+        protected:
+            str _onAs(const nStr& me, const type& to) const override {
+                const std::string& val = me.get();
                 try {
                     nflt converted = stof(val);
                     return str(new nFlt(converted));
-                } catch(std::invalid_argument& ex) { return _canNotCastEx(me, to); }
+                } catch(std::invalid_argument& ex) { return BY_WHEN.exErr(CAST_NOT_AVAILABLE, me, to).ret(str()); }
             }
         };
 
-        struct asInt: public tas<nInt> {
-            BY(CLASS(asInt, tas<nInt>))
+        struct asInt: public tas<nInt, nStr> {
+            typedef tas<nInt, nStr> __super15;
+            BY(CLASS(asInt, __super15))
 
-        public:
-            str as(const node& me, const type& to) const override {
-                const std::string& val = me.cast<std::string>() OR.ret(_canNotCastEx(me, to));
+        protected:
+            str _onAs(const nStr& me, const type& to) const override {
+                const std::string& val = me.get();
                 try {
                     nint converted = stoi(val, nullptr, 0);
                     return str(new nInt(converted));
-                } catch(std::invalid_argument& ex) { return _canNotCastEx(me, to); }
+                } catch(std::invalid_argument& ex) { return BY_WHEN.exErr(CAST_NOT_AVAILABLE, me, to).ret(str()); }
             }
         };
 
-        struct asByte: public tas<nByte> {
-            BY(CLASS(asByte, tas<nByte>))
+        struct asByte: public tas<nByte, nStr> {
+            typedef tas<nByte, nStr> __super16;
+            BY(CLASS(asByte, __super16))
 
-        public:
-            str as(const node& me, const type& to) const override {
-                const std::string& val = me.cast<std::string>() OR.ret(_canNotCastEx(me, to));
-                WHEN(val.length() <= 0) .ret(_canNotCastEx(me, to));
+        protected:
+            str _onAs(const nStr& me, const type& to) const override {
+                const std::string& val = me.get();
+                WHEN(val.length() <= 0) .exErr(CAST_NOT_AVAILABLE, me, to).ret(str());
 
                 return new nByte(val[0]);
             }

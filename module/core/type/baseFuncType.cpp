@@ -7,13 +7,13 @@ namespace by {
     BY(DEF_ME(baseFuncType))
 
     namespace {
-        struct asStr : public tas<nStr> {
-            BY(CLASS(asStr, tas<nStr>))
+        struct asStr : public tas<nStr, baseFunc> {
+            typedef tas<nStr, baseFunc> __super12;
+            BY(CLASS(asStr, __super12))
 
-        public:
-            str as(const node& me, const type& to) const override {
-                baseFunc& cast = me.cast<baseFunc>() OR.ret(str());
-                return new nStr(cast.getSrc().getName() + "(" + cast.getParams().toStr() + ")");
+        protected:
+            str _onAs(const baseFunc& me, const type& to) const override {
+                return new nStr(me.getSrc().getName() + "(" + me.getParams().toStr() + ")");
             }
         };
     }

@@ -15,11 +15,15 @@ namespace by {
         typedef T trait;
 
     protected:
-        template <typename E, typename RAW> class asPrimitive: public tas<E> {
-            BY(CLASS(asPrimitive, tas<E>))
+        template <typename E, typename RAW> class asPrimitive: public tas<E, T> {
+            typedef tas<E, T> __super18;
+            BY(CLASS(asPrimitive, __super18))
 
         public:
             str as(const node& me, const type& to) const override { return str(new E(*me.cast<RAW>())); }
+
+        protected:
+            str _onAs(const T& me, const type& to) const override { return str(); }
         };
 
     public:
