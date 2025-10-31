@@ -103,7 +103,7 @@ TEST(ntypeTest, funcAndClosureIsImplicitCastable) {
     params leftPs;
     leftPs.add(new param("a", *new nInt()));
     leftPs.add(new param("b", *new nFlt()));
-    str lhs = new func(*new modifier(), typeMaker::make<func>("left", leftPs, new nInt()));
+    str lhs = new func(*new modifier(), typeMaker::make<func>(leftPs, new nInt()));
     ASSERT_TRUE(lhs);
     tstr<closure> rhs = closure::make(*lhs);
     ASSERT_TRUE(rhs);

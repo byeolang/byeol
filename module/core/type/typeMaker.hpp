@@ -12,14 +12,14 @@ namespace by {
         BY(ME(typeMaker))
 
     private:
-        static mgdType _make(void*, const std::string& name, const type& super, const params& ps, nbool isAdt,
+        static mgdType _make(void*, const std::string& typeName, const type& super, const params& ps, nbool isAdt,
             const node* ret) {
-            return mgdType(name, super, ps, isAdt, ret);
+            return mgdType(typeName, super, ps, isAdt, ret);
         }
 
-        static funcType _make(baseFunc*, const std::string& name, const type& super, const params& ps, nbool isAdt,
+        static funcType _make(baseFunc*, const std::string& typeName, const type& super, const params& ps, nbool isAdt,
             const node* ret) {
-            return funcType(name, super, ps, isAdt, ret);
+            return funcType(typeName, super, ps, isAdt, ret);
         }
 
     public:
@@ -27,12 +27,12 @@ namespace by {
             return make<T>(ttype<T>::get().getName(), ps, ret);
         }
 
-        template <typename T> static auto make(const std::string& name) { return make<T>(name, params(), nullptr); }
+        template <typename T> static auto make(const std::string& typeName) { return make<T>(typeName, params(), nullptr); }
 
         template <typename T>
-        static auto make(const std::string& name, const params& ps, const node* ret)
-            -> decltype(_make((T*) nullptr, name, ttype<T>::get(), ps, !std::is_constructible<T>::value, ret)) {
-            return _make((T*) nullptr, name, ttype<T>::get(), ps, !std::is_constructible<T>::value, ret);
+        static auto make(const std::string& typeName, const params& ps, const node* ret)
+            -> decltype(_make((T*) nullptr, typeName, ttype<T>::get(), ps, !std::is_constructible<T>::value, ret)) {
+            return _make((T*) nullptr, typeName, ttype<T>::get(), ps, !std::is_constructible<T>::value, ret);
         }
     };
 }
