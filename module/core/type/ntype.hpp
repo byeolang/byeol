@@ -67,6 +67,10 @@ namespace by {
         str as(const node* from, const type* to) const BY_SIDE_FUNC(from&& to, as(*from, *to), str());
 
         virtual nbool isImmutable() const;
+
+        /// @return true if rhs has same params and return type to this instance.
+        nbool isSameSign(const type& rhs) const;
+
         /// @return null if it's not relative between l & r.
         const ntype* deduce(const ntype& r) const;
         const ntype* deduce(const ntype* it) const BY_SIDE_FUNC(deduce);

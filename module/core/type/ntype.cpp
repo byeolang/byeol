@@ -11,16 +11,7 @@ namespace by {
 
     nbool me::operator==(const type& rhs) const {
         WHEN(!super::operator==(rhs)) .ret(false);
-        WHEN(getMetaTypeName() != rhs.getMetaTypeName()) .ret(false);
-
-        const ntype& cast = (const ntype&) rhs;
-
-        WHEN(getParams() != cast.getParams()) .ret(false);
-
-        const ntype* ret = getRet() ? &getRet()->getType() : nullptr;
-        const ntype* rhsRet = getRet() ? &getRet()->getType() : nullptr;
-        WHEN(!ret && !rhsRet) .ret(true);
-        return ret == rhsRet;
+        return isSameSign(rhs);
     }
 
     nbool me::isImpli(const type& to) const { return _getImpliAses().is(*this, to); }
@@ -42,6 +33,19 @@ namespace by {
     }
 
     nbool me::isImmutable() const { return false; }
+
+    nbool me::isSameSign(const type& rhs) const {
+        WHEN(getMetaTypeName() != rhs.getMetaTypeName()) .ret(false);
+
+        const ntype& cast = (const ntype&) rhs;
+
+        WHEN(getParams() != cast.getParams()) .ret(false);
+
+        const ntype* ret = getRet() ? &getRet()->getType() : nullptr;
+        const ntype* rhsRet = getRet() ? &getRet()->getType() : nullptr;
+        WHEN(!ret && !rhsRet) .ret(true);
+        return ret == rhsRet;
+    }
 
     const impliAses& me::_getImpliAses() const {
         static impliAses inner;

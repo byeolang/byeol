@@ -10,8 +10,12 @@ namespace by {
 
     nbool baseFuncAsBaseFunc::is(const type& from, const type& to) const {
         WHEN(from.getName() == ttype<ctor>::get().getName()).ret(false); // ctor can't be casted to any func.
-        WHEN(from.getName() == ttype<closure>::get().getName()).ret(false); // not support closure by `as` yet, but it's TODO:
-        return from == to; // params of these also will be checked inside.
+        // TODO: not support closure by `as` yet, but it's TODO.
+        // TODO: WHEN(from.getName() == ttype<closure>::get().getName()).ret(false);
+        WHEN(from.getMetaTypeName() != ntype::META_TYPENAME) .ret(false);
+
+        const ntype& cast = (const ntype&) from;
+        return cast.isSameSign(to);
     }
 
     str baseFuncAsBaseFunc::_onAs(const baseFunc& me, const type& to) const {
