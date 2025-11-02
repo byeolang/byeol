@@ -3,7 +3,7 @@
 #include "core/type/ntype.hpp"
 
 namespace by {
-    class _nout baseFuncType : public ntype {
+    class _nout baseFuncType: public ntype {
         BY(ME(baseFuncType, ntype))
 
     protected:

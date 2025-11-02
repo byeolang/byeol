@@ -7,8 +7,7 @@ namespace by {
     BY(DEF_ME(frames))
 
     void me::dump() const {
-        for(const auto& fr: *this) {
+        for(const auto& fr: *this)
             fr.dump();
-        }
     }
 }

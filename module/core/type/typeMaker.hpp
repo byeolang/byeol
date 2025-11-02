@@ -27,7 +27,9 @@ namespace by {
             return make<T>(ttype<T>::get().getName(), ps, ret);
         }
 
-        template <typename T> static auto make(const std::string& typeName) { return make<T>(typeName, params(), nullptr); }
+        template <typename T> static auto make(const std::string& typeName) {
+            return make<T>(typeName, params(), nullptr);
+        }
 
         template <typename T>
         static auto make(const std::string& typeName, const params& ps, const node* ret)

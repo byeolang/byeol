@@ -46,8 +46,7 @@ namespace {
 
     public:
         myfunc():
-            super(*new modifier(), funcType("myfunc", ttype<me>::get(), params(), false, new nVoid()),
-                *new myBlock()) {
+            super(*new modifier(), funcType("myfunc", ttype<me>::get(), params(), false, new nVoid()), *new myBlock()) {
             BY_I("myfunc(%s) new", this);
         }
 

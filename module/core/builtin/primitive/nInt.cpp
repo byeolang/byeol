@@ -32,9 +32,7 @@ namespace by {
             BY(CLASS(asStr, __super21))
 
         protected:
-            str _onAs(const nInt& me, const type& to) const override {
-                return new nStr(std::to_string(me.get()));
-            }
+            str _onAs(const nInt& me, const type& to) const override { return new nStr(std::to_string(me.get())); }
         };
     }
 

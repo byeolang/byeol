@@ -190,9 +190,7 @@ namespace by {
         return ret;
     }
 
-    void me::dump() const {
-        getEx().dump();
-    }
+    void me::dump() const { getEx().dump(); }
 
     nbool me::isInteractable() const { return true; }
 } // namespace by

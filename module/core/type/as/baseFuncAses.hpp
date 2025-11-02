@@ -6,7 +6,7 @@
 
 namespace by {
 
-    struct _nout baseFuncAsStr : public tas<nStr, baseFunc> {
+    struct _nout baseFuncAsStr: public tas<nStr, baseFunc> {
         typedef tas<nStr, baseFunc> __super12;
         BY(CLASS(baseFuncAsStr, __super12))
 
@@ -25,7 +25,7 @@ namespace by {
         str _onAs(const baseFunc& me, const type& to) const override;
     };*/
 
-    struct _nout baseFuncAsBaseFunc : public tas<baseFunc, baseFunc> {
+    struct _nout baseFuncAsBaseFunc: public tas<baseFunc, baseFunc> {
         typedef tas<baseFunc, baseFunc> __super25;
         BY(CLASS(baseFuncAsBaseFunc, __super25))
 

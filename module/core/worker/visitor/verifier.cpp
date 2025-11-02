@@ -620,8 +620,7 @@ namespace by {
             .myExErr(me, ORIGIN_OBJ_CANT_BE_CONST, me).ret(true);
 
         _STEP("if obj is complete, does it have ctor without params?");
-        if(me.isComplete())
-            WHEN_NUL(me.sub(ctor::CTOR_NAME, args())).myExErr(me, COMPLETE_OBJ_BUT_NO_CTOR).ret(true);
+        if(me.isComplete()) WHEN_NUL(me.sub(ctor::CTOR_NAME, args())).myExErr(me, COMPLETE_OBJ_BUT_NO_CTOR).ret(true);
 
         return true;
     }

@@ -127,9 +127,9 @@ namespace by {
         const tstr<nStr> at = f.as<nStr>() OR.ret();
         std::string in = file.getFileName() + ":" + std::to_string(s.getPos().row);
 
-        logger::get().logFormatBypass("\tat %s%s %sin %s%s%s\n",
-            foreColor(YELLOW).c_str(), (at ? at->get().c_str() : "?"), foreColor(LIGHTGRAY).c_str(),
-            foreColor(GREEN).c_str(), in.c_str(), foreColor(LIGHTGRAY).c_str());
+        logger::get().logFormatBypass("\tat %s%s %sin %s%s%s\n", foreColor(YELLOW).c_str(),
+            (at ? at->get().c_str() : "?"), foreColor(LIGHTGRAY).c_str(), foreColor(GREEN).c_str(), in.c_str(),
+            foreColor(LIGHTGRAY).c_str());
     }
 
     void me::dump() const {
@@ -137,7 +137,7 @@ namespace by {
         logger& log = logger::get();
 
         _dumpFunc();
-        WHEN(!buildFeature::config::isDbg()).ret();
+        WHEN(!buildFeature::config::isDbg()) .ret();
 
         // log belonged sub nodes:
         //  this feature is only enabled in Dbg binary because it generates a lot of logs.
@@ -151,7 +151,8 @@ namespace by {
                 node& symbol = e.getVal() OR_CONTINUE;
                 auto value = symbol.as<nStr>();
                 std::string key = "\t\t\tsub[" + std::to_string(n2++) + "]: " + *e.getKey() + " ";
-                std::string valueText = symbol.getType().getName() + (value ? "("+ value->get() + ")" : std::string(""));
+                std::string valueText =
+                    symbol.getType().getName() + (value ? "(" + value->get() + ")" : std::string(""));
 
                 log.logBypass(key + valueText + "\n");
             }

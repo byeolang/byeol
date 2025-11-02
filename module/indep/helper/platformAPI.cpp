@@ -279,8 +279,8 @@ namespace by {
 #if BY_BUILD_PLATFORM_IS_WINDOWS
         namespace {
             LONG WINAPI __window_coredump_filter(EXCEPTION_POINTERS* exceptions) {
-                HANDLE file = CreateFileA("coredump.dmp", GENERIC_WRITE, 0, NULL,
-                                          CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+                HANDLE file =
+                    CreateFileA("coredump.dmp", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
                 if(file == INVALID_HANDLE_VALUE) return EXCEPTION_EXECUTE_HANDLER;
 
                 MINIDUMP_EXCEPTION_INFORMATION info;
@@ -288,8 +288,8 @@ namespace by {
                 info.ExceptionPointers = exceptions;
                 info.ClientPointers = FALSE;
 
-                MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), file,
-                                  MiniDumpWithFullMemory, &info, NULL, NULL);
+                MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), file, MiniDumpWithFullMemory, &info, NULL,
+                    NULL);
 
                 CloseHandle(file);
                 return EXCEPTION_EXECUTE_HANDLER;
