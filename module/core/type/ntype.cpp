@@ -42,7 +42,7 @@ namespace by {
         WHEN(getParams() != cast.getParams()) .ret(false);
 
         const ntype* ret = getRet() ? &getRet()->getType() : nullptr;
-        const ntype* rhsRet = getRet() ? &getRet()->getType() : nullptr;
+        const ntype* rhsRet = cast.getRet() ? &cast.getRet()->getType() : nullptr;
         WHEN(!ret && !rhsRet) .ret(true);
         return ret == rhsRet;
     }
