@@ -9,11 +9,6 @@ namespace by {
 
     BY_DEF_ME(ntype)
 
-    nbool me::operator==(const type& rhs) const {
-        WHEN(!super::operator==(rhs)) .ret(false);
-        return isSameSign(rhs);
-    }
-
     nbool me::isImpli(const type& to) const { return _getImpliAses().is(*this, to); }
 
     nbool me::isImpli(const typeProvidable& to) const { return isImpli(to.getType()); }

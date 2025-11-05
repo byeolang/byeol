@@ -13,7 +13,7 @@ namespace by {
     class impliAses;
 
     /// @ingroup core
-    /// @brief Native type system for byeol language
+    /// @brief represents native c++ type system for byeol language
     /// @details Core type class that provides type information, type conversion, and type deduction.
     /// Supports implicit/explicit casting, type compatibility checking, and parameter management.
     class _nout ntype: public type {
@@ -28,7 +28,21 @@ namespace by {
         ntype() = default;
 
     public:
-        nbool operator==(const type& rhs) const override;
+        /// ntype::operator==()
+        /// since this part can be easily misunderstood, let me add a clarification.
+        /// ntype exists primarily to distinguish C++ types.
+        /// Of course, it also holds information such as params or retType,
+        /// but those are supplementary.
+        /// The essence of ntype, as its name implies — “native type” — is that it’s a 
+        /// metaclass for identifying C++ types.
+        /// mgdType, on the other hand, represents types in the managed environment of byeol.
+        /// Therefore, `ntype::operator==()` asks whether two types are the same in the 
+        /// native C++ environment, whereas `mgdType::operator==()` checks 
+        /// whether two types are the same in the managed byeol environment.
+        /// 
+        /// However, there’s one flexible exception:
+        /// in mgdType::operator==(rhs),
+        /// if rhs is an ntype, then only ntype::operator==(rhs) is executed.
 
     public:
         // ntype:
@@ -68,7 +82,7 @@ namespace by {
 
         virtual nbool isImmutable() const;
 
-        /// @return true if rhs has same params and return type to this instance.
+        /// @return true if rhs has same params and return type in managed code
         nbool isSameSign(const type& rhs) const;
 
         /// @return null if it's not relative between l & r.
