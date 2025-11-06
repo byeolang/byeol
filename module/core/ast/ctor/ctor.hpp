@@ -9,7 +9,10 @@ namespace by {
     /// @details Represents constructor functions that initialize object instances.
     /// Handles object construction, parameter passing, and initialization logic.
     class _nout ctor: public func {
-        BY(CLASS(ctor, func), VISIT())
+        // don't define `CLASS` here:
+        //  CLASS overrides getType() and it returns ttype<ctor> instead of mgdType
+        //  from superclass
+        BY(ME(ctor, func), CLONE(func), VISIT())
 
     public:
         ctor(const modifier& mod, const params& ps, const blockExpr& blk);

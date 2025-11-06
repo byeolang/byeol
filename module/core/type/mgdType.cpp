@@ -18,7 +18,7 @@ namespace by {
         _name(name), _supers(supers), _subs(subs), _params(ps), _isAdt(isAdt) {}
 
     nbool me::operator==(const type& rhs) const {
-        WHEN(getMetaTypeName() == ntype::META_TYPENAME).ret(super::operator==(rhs));
+        WHEN(rhs.getMetaTypeName() == ntype::META_TYPENAME).ret(super::operator==(rhs));
         return isSameSign(rhs); // it checks rhs has same MetaTypeName inside.
     }
 
