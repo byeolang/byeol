@@ -107,7 +107,7 @@ TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
     ps.add(new param("age", new nInt()));
     ps.add(new param("grade", new nFlt()));
     f1.setLambda([](const auto& contain, const auto& sf) {
-        const frame& fr = sf.get(sf.len() - 1) OR.ret(false);
+        const frame& fr = sf.get(0) OR.ret(false);
 
         // checks slot is in frame:
         const params& ps = fr.sub<myfunc>("foo", narr(*new nInt(), *new nFlt())) TO(getParams()) OR.ret(false);
@@ -140,7 +140,7 @@ TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
     ps.add(new param("age", ttype<nInt>::get()));
     ps.add(new param("grade", ttype<nFlt>::get()));
     f1.setLambda([](const auto& contain, const auto& sf) {
-        const frame* fr = sf.get(sf.len() - 1) OR.err("fr == null").ret(false);
+        const frame* fr = sf.get(0) OR.err("fr == null").ret(false);
         return true;
     });
     testPack.subs().add("foo", f1);

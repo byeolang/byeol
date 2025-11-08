@@ -118,7 +118,8 @@ TEST_F(exprTest, simpleRunExpr) {
     frame fr;
     fr.add(*new scope());
     fr.setMe(*bridge);
-    getFrames().add(fr);
+    auto& frames = getFrames();
+    frames.add(frames.begin(), fr);
 
     errReport rep;
     verifier veri;
@@ -136,7 +137,7 @@ TEST_F(exprTest, simpleRunExpr) {
     ASSERT_TRUE(res->getType() == ttype<nVoid>::get());
 
     ASSERT_TRUE(helloWorld::isRun);
-    getFrames().del();
+    frames.del(frames.begin());
 }
 
 TEST_F(exprTest, simpleRunExprNegative) {
@@ -162,12 +163,13 @@ TEST_F(exprTest, constructExprInManual) {
     frame fr;
     fr.add(*new scope());
     fr.setMe(*bridge);
-    getFrames().add(fr);
+    auto& frs = getFrames(); 
+    frs.add(frs.begin(), fr);
 
     str res = r.run();
     ASSERT_TRUE(res);
     ASSERT_TRUE(res.getType() == ttype<node>::get());
     ASSERT_TRUE(res->getType() == ttype<nVoid>::get());
 
-    getFrames().del();
+    frs.del(frs.begin());
 }

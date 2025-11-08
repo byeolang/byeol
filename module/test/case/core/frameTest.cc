@@ -38,7 +38,7 @@ struct frameTest: public byeolTest {
 TEST_F(frameTest, testAccessFrame) { getFrames().add(new frame); }
 
 TEST_F(frameTest, testFrameManipulateChainObjNegative) {
-    frame& fr = getFrames()[getFrames().len() - 1];
+    frame& fr = getFrames()[0];
     ASSERT_TRUE(getScopeStack(fr).isSub<dumScope>());
 
     scope local;

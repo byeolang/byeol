@@ -150,10 +150,9 @@ namespace by {
     frames& me::_getFrames() { return _frames; }
 
     frame* me::_getNowFrame() {
-        ncnt n = _getFrames().len() - 1;
-        WHEN(n < 0 || n >= _getFrames().len()) .ret(nullptr);
+        WHEN(_getFrames().len() <= 0) .ret(nullptr);
 
-        return &_getFrames()[n];
+        return &_getFrames()[0];
     }
 
     void me::_loadBuiltIns(nmap& tray) const {

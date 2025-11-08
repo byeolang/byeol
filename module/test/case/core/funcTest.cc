@@ -211,7 +211,7 @@ TEST_F(funcTest, testArgsAttachedName) {
     ps.add(new param("msg", new nStr()));
     ps.add(new param("age", new nInt()));
     f.setLambda([&](const auto& a, const frames& sf) {
-        const frame& fr = sf[sf.len() - 1];
+        const frame& fr = sf[0];
         return fr["msg"].cast<nStr>()->get() == "hello world" && fr["age"].cast<nInt>()->get() == 55;
     });
 

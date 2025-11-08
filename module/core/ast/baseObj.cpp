@@ -44,7 +44,7 @@ namespace by {
         BY_DI("%s.inFrame() frames.len[%d]", *this, frs.len());
 
         frame& fr = *new frame();
-        frs.add(fr);
+        frs.add(frs.begin(), fr);
         _inFrame(fr, args);
     }
 
@@ -52,7 +52,7 @@ namespace by {
         frames& frs = by::thread::get()._getFrames();
         BY_DI("%s._outFrame() frames.len[%d]", *this, frs.len() - 1);
 
-        frs.del();
+        frs.del(frs.begin());
     }
 
     const src& me::getSrc() const {
