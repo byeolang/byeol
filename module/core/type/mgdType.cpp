@@ -17,11 +17,6 @@ namespace by {
     me::mgdType(const std::string& name, const types& supers, const types& subs, const params& ps, nbool isAdt):
         _name(name), _supers(supers), _subs(subs), _params(ps), _isAdt(isAdt) {}
 
-    nbool me::operator==(const type& rhs) const {
-        WHEN(rhs.getMetaTypeName() == ntype::META_TYPENAME).ret(super::operator==(rhs));
-        return isSameSign(rhs); // it checks rhs has same MetaTypeName inside.
-    }
-
     nbool me::isTemplate() const { return false; }
 
     nbool me::isAbstract() const { return _isAdt; }
@@ -48,8 +43,6 @@ namespace by {
     params& me::getParams() { return _params; }
 
     void* me::make() const { return nullptr; }
-
-    const nchar* me::getMetaTypeName() const { return META_TYPENAME.c_str(); }
 
     const node* me::getRet() const { return _ret.get(); }
 

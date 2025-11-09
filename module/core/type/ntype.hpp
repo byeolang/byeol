@@ -28,23 +28,6 @@ namespace by {
         ntype() = default;
 
     public:
-        /// ntype::operator==()
-        /// since this part can be easily misunderstood, let me add a clarification.
-        /// ntype exists primarily to distinguish C++ types.
-        /// Of course, it also holds information such as params or retType,
-        /// but those are supplementary.
-        /// The essence of ntype, as its name implies — “native type” — is that it’s a 
-        /// metaclass for identifying C++ types.
-        /// mgdType, on the other hand, represents types in the managed environment of byeol.
-        /// Therefore, `ntype::operator==()` asks whether two types are the same in the 
-        /// native C++ environment, whereas `mgdType::operator==()` checks 
-        /// whether two types are the same in the managed byeol environment.
-        /// 
-        /// However, there’s one flexible exception:
-        /// in mgdType::operator==(rhs),
-        /// if rhs is an ntype, then only ntype::operator==(rhs) is executed.
-
-    public:
         // ntype:
         /// whether variable 'it' can be a subtype of T
         template <typename T> nbool isImpli() const { return this->isImpli(ttype<T>::get()); }
@@ -83,6 +66,9 @@ namespace by {
         virtual nbool isImmutable() const;
 
         /// @return true if rhs has same params and return type in managed code
+        /// @details operator==() compares type equality in the native (C++) environment — it returns true 
+        ///          if both objects are of the same class.
+        ///          In contrast, isSameSign() compares type equality in the managed environment.
         nbool isSameSign(const type& rhs) const;
 
         /// @return null if it's not relative between l & r.

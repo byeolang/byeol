@@ -31,6 +31,10 @@ namespace by {
             return make<T>(typeName, params(), nullptr);
         }
 
+        template <typename T> static auto make() {
+            return make<T>(ttype<T>::get().getName());
+        }
+
         template <typename T>
         static auto make(const std::string& typeName, const params& ps, const node* ret)
             -> decltype(_make((T*) nullptr, typeName, ttype<T>::get(), ps, !std::is_constructible<T>::value, ret)) {

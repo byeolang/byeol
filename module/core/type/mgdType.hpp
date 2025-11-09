@@ -26,9 +26,6 @@ namespace by {
         mgdType(const std::string& name, const types& supers, const types& subs, const params& ps, nbool isAdt);
 
     public:
-        nbool operator==(const type& rhs) const override;
-
-    public:
         nbool isTemplate() const override;
         nbool isAbstract() const override;
         const type& getSuper() const override;
@@ -51,8 +48,6 @@ namespace by {
 
         void* make() const override;
 
-        const nchar* getMetaTypeName() const override;
-
     protected:
         types& _getSupers() override;
         types& _getSubs() override;
@@ -61,9 +56,6 @@ namespace by {
 
     private:
         void _initSupers(const type& super);
-
-    public:
-        const static inline std::string META_TYPENAME = "mgdType";
 
     private:
         std::string _name;

@@ -5,6 +5,7 @@
 #include "core/ast/baseFunc.hpp"
 #include "core/ast/params.hpp"
 #include "core/ast/src/dumSrc.hpp"
+#include "core/type/funcType.hpp"
 
 namespace by {
 
@@ -64,7 +65,7 @@ namespace by {
 
     protected:
         fptrType _fptr;
-        mutable mgdType _type;
+        mutable funcType _type;
         tstr<src> _src;
     };
 

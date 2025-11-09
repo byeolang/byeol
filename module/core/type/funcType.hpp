@@ -5,7 +5,7 @@
 
 namespace by {
     /// @ingroup core
-    /// @brief Managed type for function objects
+    /// @brief Managed type for function objects in byeol language.
     /// @details Specialized type information for function objects with implicit conversion support.
     class _nout funcType: public mgdType {
         BY(ME(funcType, mgdType), CLONE(funcType))

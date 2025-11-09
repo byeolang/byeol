@@ -3,7 +3,6 @@
 
 #include "core/ast/node.hpp"
 #include "core/type/mgdType.hpp"
-#include "core/type/baseFuncType.hpp"
 
 namespace by {
 
@@ -17,7 +16,7 @@ namespace by {
     /// @details Abstract base class providing common functionality for @ref func.
     /// Manages parameters, return types, @ref modifier, and function execution semantics.
     class _nout baseFunc: public node {
-        BY(ADT(baseFunc, node, baseFuncType), VISIT())
+        BY(ME(baseFunc, node), VISIT())
         friend class generalizer; // for _getType()
         friend class parser;      // for _getType()
         friend class exprMaker;   // for _setSrc()
