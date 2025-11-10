@@ -57,6 +57,7 @@ byeolSyntaxTest& me::parse(const by::nchar* src) {
 }
 
 byeolSyntaxTest& me::negative() {
+    WHEN(logger::get().isEnable()).ret(*this); // in verbose mode, do not silence log.
     typedef by::interpreter ip;
     _rpt.setNoisy(false);
     _ip.setFlag(0);
