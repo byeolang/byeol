@@ -510,7 +510,7 @@ namespace by {
         std::string argNames = _joinVectorString(_extractParamTypeNames(*newArgs));
         BY_DI("tokenEvent: onDefOrigin(%s, %s, defBlock[%s])", name, argNames, &blk);
 
-        origin& ret = *_maker.birth<origin>(name, typeMaker::make<obj>(), *_subpack);
+        origin& ret = *_maker.birth<origin>(name, typeMaker::make<obj>(name), *_subpack);
         switch(util::checkTypeAttr(name)) {
             case ATTR_COMPLETE: // newArgs.len() can be 0.
                 ret.setCallComplete(

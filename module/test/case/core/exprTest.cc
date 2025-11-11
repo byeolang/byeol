@@ -163,7 +163,7 @@ TEST_F(exprTest, constructExprInManual) {
     frame fr;
     fr.add(*new scope());
     fr.setMe(*bridge);
-    auto& frs = getFrames(); 
+    auto& frs = getFrames();
     frs.add(frs.begin(), fr);
 
     str res = r.run();

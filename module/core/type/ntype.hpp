@@ -15,7 +15,25 @@ namespace by {
     /// @ingroup core
     /// @brief represents native c++ type system for byeol language
     /// @details Core type class that provides type information, type conversion, and type deduction.
-    /// Supports implicit/explicit casting, type compatibility checking, and parameter management.
+    ///          Supports implicit/explicit casting, type compatibility checking, and parameter management.
+    ///          ntype stands for native type, representing meta-type information for C++ classes.
+    ///          mgdType stands for managed type, representing meta-type information for types defined
+    ///          in the Byeol language (such as functions or objects).
+    ///
+    ///          One important note:
+    ///          Although mgdType inherits from ntype in terms of implementation, this inheritance
+    ///          relationship does not apply at the type level when represented as type.
+    ///          In other words, when inheritance hierarchies such as getSupers() or getSubs() are represented,
+    ///          their contents can include both ntype and mgdType instances.
+    ///          mgdType::getSupers() is not restricted to containing only mgdType entries.
+    ///
+    ///          The name of an mgdType corresponds to the type name as defined in the Byeol language,
+    ///          while an ntype corresponds to the C++ class name.
+    ///
+    ///          Finally, type::operator==() checks whether two instances are the same
+    ///          in the native (C++) environment,
+    ///          whereas type::isImpli() or is() checks whether two types are considered equivalent
+    ///          in the managed (Byeol) environment.
     class _nout ntype: public type {
         BY_ME(ntype, type)
         typedef std::map<const ntype*, const ntype*> deducer;
@@ -29,7 +47,7 @@ namespace by {
 
     public:
         // ntype:
-        /// whether variable 'it' can be a subtype of T
+        /// @brief whether variable 'it' can be a subtype of T in managed code
         template <typename T> nbool isImpli() const { return this->isImpli(ttype<T>::get()); }
 
         virtual nbool isImpli(const type& to) const;
@@ -66,7 +84,7 @@ namespace by {
         virtual nbool isImmutable() const;
 
         /// @return true if rhs has same params and return type in managed code
-        /// @details operator==() compares type equality in the native (C++) environment — it returns true 
+        /// @details operator==() compares type equality in the native (C++) environment — it returns true
         ///          if both objects are of the same class.
         ///          In contrast, isSameSign() compares type equality in the managed environment.
         nbool isSameSign(const type& rhs) const;

@@ -21,7 +21,7 @@ namespace by {
                 // TODO: not support closure by `as` yet, but it's TODO.
                 // TODO: WHEN(from.getName() == ttype<closure>::get().getName()).ret(false);
 
-                WHEN(from.getMetaTypeName() != ntype::META_TYPENAME).ret(false);
+                WHEN(from.getMetaTypeName() != ntype::META_TYPENAME) .ret(false);
                 const ntype& cast = (const ntype&) from;
 
                 return cast.isSameSign(to);
