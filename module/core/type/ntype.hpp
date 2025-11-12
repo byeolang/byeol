@@ -30,10 +30,6 @@ namespace by {
     ///          The name of an mgdType corresponds to the type name as defined in the Byeol language,
     ///          while an ntype corresponds to the C++ class name.
     ///
-    ///          Finally, type::operator==() checks whether two instances are the same
-    ///          in the native (C++) environment,
-    ///          whereas type::isImpli() or is() checks whether two types are considered equivalent
-    ///          in the managed (Byeol) environment.
     class _nout ntype: public type {
         BY_ME(ntype, type)
         typedef std::map<const ntype*, const ntype*> deducer;
@@ -44,6 +40,11 @@ namespace by {
 
     public:
         ntype() = default;
+
+    public:
+        /// @brief check whether two ntype are same in both of native and managed environments
+        /// @details mgdType inherits ntype, so this operator==() is also able to checks equality in managed code.
+        nbool operator==(const type& rhs) const override;
 
     public:
         // ntype:

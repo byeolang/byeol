@@ -10,6 +10,11 @@ namespace by {
     me::funcType(const std::string& typeName, const type& superType, const params& ps, nbool isAdt, const node* ret):
         super(typeName, superType, ps, isAdt, ret) {}
 
+    nbool me::operator==(const type& rhs) const {
+        WHEN(&rhs == this) .ret(true);
+        return isSameSign(rhs);
+    }
+
     namespace {
         struct baseFuncAsBaseFunc: public tas<baseFunc, baseFunc> {
             typedef tas<baseFunc, baseFunc> __super25;
@@ -21,10 +26,7 @@ namespace by {
                 // TODO: not support closure by `as` yet, but it's TODO.
                 // TODO: WHEN(from.getName() == ttype<closure>::get().getName()).ret(false);
 
-                WHEN(from.getMetaTypeName() != ntype::META_TYPENAME) .ret(false);
-                const ntype& cast = (const ntype&) from;
-
-                return cast.isSameSign(to);
+                return from == to;
             }
 
         protected:
