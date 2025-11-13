@@ -13,83 +13,81 @@
 
 namespace by {
 
-    // `WHEN` macro:
-    //  in `byeol`, we actively apply the early-return pattern.
-    //  this helps to reduce the depth, make the code clean, and handle exceptional situations
-    //  immediately.
-    //  in the case of general C++ code that applies the early pattern, you will use `if` as
-    //  follows.
-    //   ```cpp
-    //       SomeAdapter* adapter = bridge.requestAdapter("token");
-    //       if (!adapter) { // 1) ealry return
-    //           printLogs("null adapter!");
-    //           return;
-    //       }
-    //
-    //       if (adapter->getState() == State.ACTIVATE) { // 2)
-    //           adapter->onActivate();
-    //       } else {
-    //           const vector<Device>& devices = adapter->getDevices();
-    //           if (devices.size() <= 0) { // 3) ealry return
-    //               printLogs("there is no device in " + adapter->getName());
-    //               return;
-    //           }
-    //
-    //           for (const auto& device : devices) {
-    //               DeviceResult res = device.attach();
-    //               if (res == FAILURE) {
-    //                   printLogs("device can't attach to system"); // 4) ealry early-return
-    //                   return;
-    //               }
-    //               if (res == Pending) {
-    //                   device.retryQueue();
-    //               }
-    //           }
-    //       }
-    //
-    //
-    //   ```
-    //
-    //   the problem is that, as can be seen in the code above, if is used so commonly that it is
-    //   difficult to immediately know whether a normal branch is made for logic or an ealry return
-    //   is made to prune in advance with exception handling. that's why in byeol, `WHEN` is used
-    //   for almost all ealry return exception handling.
-    //
-    //   the output is very intuitive.
-    //
-    //   ```cpp
-    //       SomeAdapter* adapter = bridge.requestAdapter("token");
-    //       WHEN_NUL(adapter).err("null adapter!");
-    //
-    //       if (adapter->getState() == State.ACTIVATE) {
-    //           adapter->onActivate();
-    //       } else {
-    //           const vector<Device>& devices = adapter->getDevices();
-    //           WHEN(devices.size() <= 0).err("there is no device in %s", adapter->getName());
-    //
-    //           for (const auto& device : devices) {
-    //               DeviceResult res = device.attach();
-    //               WHEN(res == FAILURE).err("device can't attach to system");
-    //
-    //               if (res == Pending) {
-    //                   device.retryQueue();
-    //               }
-    //           }
-    //       }
-    //   ```
-    //
-    //  as in the example, it is clear which part handles exceptions and sends them out, and which
-    //  part branches for logic. also, since `WHEN` is class-based, handling when the exception
-    //  handling condition is satisfied can be handled based on the class.
+    /// @ingroup indep
+    /// @brief WHEN macro
+    /// @details in `byeol`, I actively apply the early-return pattern.
+    /// this helps to reduce the depth, make the code clean, and handle exceptional situations
+    /// immediately.
+    /// in the case of general C++ code that applies the early pattern, you will use `if` as
+    /// follows.
+    ///     @code
+    ///         SomeAdapter* adapter = bridge.requestAdapter("token");
+    ///         if (!adapter) { // 1) ealry return
+    ///             printLogs("null adapter!");
+    ///             return;
+    ///         }
+    ///
+    ///         if (adapter->getState() == State.ACTIVATE) { // 2)
+    ///             adapter->onActivate();
+    ///         } else {
+    ///             const vector<Device>& devices = adapter->getDevices();
+    ///             if (devices.size() <= 0) { // 3) ealry return
+    ///                 printLogs("there is no device in " + adapter->getName());
+    ///                 return;
+    ///             }
+    ///
+    ///             for (const auto& device : devices) {
+    ///                 DeviceResult res = device.attach();
+    ///                 if (res == FAILURE) {
+    ///                     printLogs("device can't attach to system"); // 4) ealry early-return
+    ///                     return;
+    ///                 }
+    ///                 if (res == Pending) {
+    ///                     device.retryQueue();
+    ///                 }
+    ///             }
+    ///         }
+    ///     @endcode
+    ///
+    /// the problem is that, as can be seen in the code above, if is used so commonly that it is
+    /// difficult to immediately know whether a normal branch is made for logic or an ealry return
+    /// is made to prune in advance with exception handling. that's why in byeol, `WHEN` is used
+    /// for almost all ealry return exception handling.
+    ///
+    /// the output is very intuitive.
+    ///     @code
+    ///         SomeAdapter* adapter = bridge.requestAdapter("token");
+    ///         WHEN_NUL(adapter).err("null adapter!");
+    ///
+    ///         if (adapter->getState() == State.ACTIVATE) {
+    ///             adapter->onActivate();
+    ///         } else {
+    ///             const vector<Device>& devices = adapter->getDevices();
+    ///             WHEN(devices.size() <= 0).err("there is no device in %s", adapter->getName());
+    ///
+    ///             for (const auto& device : devices) {
+    ///                 DeviceResult res = device.attach();
+    ///                 WHEN(res == FAILURE).err("device can't attach to system");
+    ///
+    ///                 if (res == Pending) {
+    ///                     device.retryQueue();
+    ///                 }
+    ///             }
+    ///         }
+    ///     @endcode
+    ///
+    /// as in the example, it is clear which part handles exceptions and sends them out, and which
+    /// part branches for logic. also, since `WHEN` is class-based, handling when the exception
+    /// handling condition is satisfied can be handled based on the class.
 
-    // __WHEN_OBJECT__?:
-    //  since byeol is structured as a multi-layered architecture, if the layer is low-level, it
-    //  simply outputs the log to the screen, but in high-level layers, it requires more complex
-    //  processing, such as creating an exception as an object and including stacktrace information
-    //  to record it.
-    //
-    //  in this way, since different classes should be displayed when the `WHEN` macro is expanded
-    //  depending on the layer, this is solved by redefining `__WHEN_OBJECT__`.
+    /// @remark __WHEN_OBJECT__?
+    /// since byeol is structured as a multi-layered architecture, if the layer is low-level, it
+    /// simply outputs the log to the screen, but in high-level layers, it requires more complex
+    /// processing, such as creating an exception as an object and including stacktrace information
+    /// to record it.
+    ///
+    /// in this way, since different classes should be displayed when the `WHEN` macro is expanded
+    /// depending on the layer, this is solved by redefining `__WHEN_OBJECT__`.
 
 #define __WHEN_OBJECT__ __indep_when__
 

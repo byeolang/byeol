@@ -5,23 +5,25 @@
 
 #include "indep/macro/helper.hpp"
 
-// Implementing Macro Overloding:
-//  by count of given arguments, let compiler determine which macro should works.
-//  original source code from BuvinJ at
-//  https://stackoverflow.com/questions/11761703/overloading-macro-on-number-of-arguments
-//
-//  usage:
-//      //  define macro:
-//      #define MyMacro_0() 100
-//      #define MyMacro_1(x) (x)+5
-//      #define MyMacro_2(x, y) (x)+(y)
-//      #define MyMacro(...) BY_OVERLOAD(MyMacro, __VA_ARGS__)
-//
-//      //  using:
-//      cout << MyMacro(5) << ", " << MyMacro(3, 5) << ", " << MyMacro() << "\n";
-//
-//  output:
-//      10, 8, 100
+/// @ingroup indep
+/// @brief Macro Overloding:
+/// @details by count of given arguments, let compiler determine which macro should works.
+///  original source code from BuvinJ at
+///  https://stackoverflow.com/questions/11761703/overloading-macro-on-number-of-arguments
+///
+///  usage:
+///  @code
+///      //  define macro:
+///      #define MyMacro_0() 100
+///      #define MyMacro_1(x) (x)+5
+///      #define MyMacro_2(x, y) (x)+(y)
+///      #define MyMacro(...) BY_OVERLOAD(MyMacro, __VA_ARGS__)
+///
+///      //  using:
+///      cout << MyMacro(5) << ", " << MyMacro(3, 5) << ", " << MyMacro() << "\n";
+///  @endcode
+///
+///  expected output should be, 10, 8, 100.
 #define BY_OVERLOAD(NAME, ...) BY_CONCAT(NAME##_, __OVERLOAD_VA_NUM_ARGS(__VA_ARGS__))(__VA_ARGS__)
 
 #define _ARG16(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, ...) _15

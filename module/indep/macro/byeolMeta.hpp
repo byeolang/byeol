@@ -5,22 +5,31 @@
 #include "indep/macro/forEach.hpp"
 #include "indep/macro/overload.hpp"
 
-// byeol universal DECL macro:
-//  BY_DECL is generalized API used to describe the metadata of class in byeol.
-//  BY_DECL can be used to define detailed metadata about a class by chaining sub-command sets.
-//  with BY macro, I can clarify that those INIT_META, VISIT are should be after of BY macro.
-//  and limit the scope of availbility.
-//  these macros which are available only inside of BY macro are called to sub-commands.
-//
-// Usage:
-//  use BY_DECL macro at declaration of your class.
-//
-//  class Foo {
-//      BY_DECL(cmd1(arg1, arg2, ...), cmd2(arg1, arg2, ...), ...)
-//
-//  public:
-//      ...and your codes...
-//  };
-
+/// @ingroup indep
+/// @brief byeol universal macro
+/// @details This reduces the possibility of macro conflicts between different
+/// libraries and makes macro writing easier.
+/// and this is generalized API used to describe the metadata of class in byeol.
+/// BY can be used to define detailed metadata about a class by chaining sub-command sets.
+/// these sub-commands are macros available only inside of BY.
+///
+/// for instance,
+/// @code
+///  class Foo {
+///      BY(CLASS(Foo), VISIT(Foo), ...)
+///
+///  public:
+///      ...and your codes...
+///  };
+/// @endcode
+///
+/// Each command preceding BY is prefixed with the __BY__DECL_ prefix.
+/// The following commands can be used within the BY macro:
+///     CLASS:  Injects metadata for a concrete class.
+///     VISIT:  Makes the class visitor-friendly.
+///     ME:     Adds typedefs named super and me.
+///     DEF_ME: Same as ME, but used in the implementation file.
+///     ADT:    Injects metadata for an abstract class.
+///     CLONE:  Adds a virtual copy constructor.
 #define _ON_EACH_DECL(cmd) __BY__DECL_##cmd
 #define BY(...) BY_EACH(_ON_EACH_DECL, __VA_ARGS__)
