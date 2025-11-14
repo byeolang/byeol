@@ -8,22 +8,12 @@ namespace by {
         return inner;
     }
 
-    nint me::date::getYear() { return BY_BUILD_DATE_YEAR; }
-
-    nint me::date::getMonth() { return BY_BUILD_DATE_MONTH; }
-
-    nint me::date::getDay() { return BY_BUILD_DATE_DAY; }
 
     const std::string& me::time::get() {
         static std::string inner(BY_BUILD_TIME);
         return inner;
     }
 
-    nint me::time::getHour() { return BY_BUILD_TIME_HOUR; }
-
-    nint me::time::getMin() { return BY_BUILD_TIME_MINUTE; }
-
-    nint me::time::getSec() { return BY_BUILD_TIME_SECOND; }
 
     const std::string& me::version::get() {
         static std::string inner(BY_BUILD_VERSION);
@@ -40,11 +30,6 @@ namespace by {
         return inner;
     }
 
-    nint me::version::getMajor() { return BY_BUILD_VERSION_MAJOR; }
-
-    nint me::version::getMinor() { return BY_BUILD_VERSION_MINOR; }
-
-    nint me::version::getFix() { return BY_BUILD_VERSION_FIX; }
 
     me::platformType me::platform::get() {
         static platformType inner = PLATFORM_TYPE_START;
@@ -88,7 +73,7 @@ namespace by {
         return inner;
     }
 
-    nbool me::config::isDbg() {
+    constexpr nbool me::config::isDbg() {
 #if BY_IS_DBG
         return true;
 #else

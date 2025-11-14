@@ -29,14 +29,29 @@
 #define BY_TYPE_WINDOWS            2
 #define BY_TYPE_MACOS              3
 #ifdef __linux__
-#    define BY_BUILD_PLATFORM       BY_TYPE_LINUX
-#    define BY_BUILD_PLATFORM_IS_LINUX
+#   define BY_BUILD_PLATFORM       BY_TYPE_LINUX
+#   define BY_BUILD_PLATFORM_IS_LINUX
 #endif
-#ifdef WIN32
-#    define BY_BUILD_PLATFORM        BY_TYPE_WINDOWS
-#    define BY_BUILD_PLATFORM_IS_WINDOWS
+#if defined(_WIN32) // _WIN32 also get predefined in 64bit windows for backward compatibilities.
+#   define BY_BUILD_PLATFORM        BY_TYPE_WINDOWS
+#   define BY_BUILD_PLATFORM_IS_WINDOWS
 #endif
 #if defined(__APPLE__) && defined(__MACH__)
 #   define BY_BUILD_PLATFORM       BY_TYPE_MACOS
 #   define BY_BUILD_PLATFORM_IS_MAC
+#endif
+
+#if defined(__x86_64__) || defined(_M_X64) || defined(__aarch64__) || defined(__ppc64__) || defined(_M_ARMAR)
+    // __x86_64__:      64bit by gcc/clang
+    // _M_X64:          64bit by MSVC
+    //  __aarch64__:    ARM 64bits
+    // __ppc64__:       PowerPC 64bits
+    // _M_ARM64:        ARM64 by MSVC
+#   define BY_BUILD_PLATFORM_ARCHITECTURE_BITS 64
+#elif defined(__i386__) || defined(_M_IX86) || defined(__arm__) || defined(_M_ARM)
+    // __i386__:    32bit by gcc/clang
+    // _M_IX86:     32bit by MSVC
+    // __arm__:     ARM 32bits
+    // _M_ARM:      ARM 32bits by MSVC
+#   define BY_BUILD_PLATFORM_ARCHITECTURE_BITS 32
 #endif

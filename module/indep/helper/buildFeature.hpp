@@ -21,9 +21,9 @@ namespace by {
 
         public:
             static const std::string& get();
-            static nint getYear();
-            static nint getMonth();
-            static nint getDay();
+            static constexpr nint getYear() { return BY_BUILD_DATE_YEAR; }
+            static constexpr nint getMonth() { return BY_BUILD_DATE_MONTH; }
+            static constexpr nint getDay() { return BY_BUILD_DATE_DAY; }
         };
 
         /// @ingroup indep
@@ -34,9 +34,9 @@ namespace by {
 
         public:
             static const std::string& get();
-            static nint getHour();
-            static nint getMin();
-            static nint getSec();
+            static constexpr nint getHour() { return BY_BUILD_TIME_HOUR; }
+            static constexpr nint getMin() { return BY_BUILD_TIME_MINUTE; }
+            static constexpr nint getSec() { return BY_BUILD_TIME_SECOND; }
         };
 
         /// @ingroup indep
@@ -49,9 +49,9 @@ namespace by {
             static const std::string& get();
             static const std::string& getValue();
             static const std::string& getName();
-            static nint getMajor();
-            static nint getMinor();
-            static nint getFix();
+            static constexpr nint getMajor() { return BY_BUILD_VERSION_MAJOR; }
+            static constexpr nint getMinor() { return BY_BUILD_VERSION_MINOR; }
+            static constexpr nint getFix() { return BY_BUILD_VERSION_FIX; }
         };
 
         enum platformType {
@@ -73,6 +73,7 @@ namespace by {
             static platformType get();
             static const std::string& getName();
             static const std::string& getVersion();
+            static constexpr ncnt getArchBits() { return sizeof(void*); }
         };
 
         enum buildType {
@@ -90,7 +91,7 @@ namespace by {
 
         public:
             static buildType get();
-            static nbool isDbg();
+            constexpr static nbool isDbg();
             static const std::string& getName();
         };
     };
