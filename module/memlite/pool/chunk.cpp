@@ -89,7 +89,8 @@ namespace by {
 
     ncnt me::_getRealBlkSize() {
         ncnt sz = getBlkSize();
-        return sz < 4 ? 4 : sz;
+        constexpr ncnt bits = buildFeature::platform::getArchBits();
+        return sz < bits ? bits : sz;
     }
 
     void* me::_allocHeap(ncnt newSz) { return malloc(newSz * _getRealBlkSize()); }
