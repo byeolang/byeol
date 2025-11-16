@@ -73,14 +73,6 @@ namespace by {
         return inner;
     }
 
-    constexpr nbool me::config::isDbg() {
-#if BY_IS_DBG
-        return true;
-#else
-        return false;
-#endif
-    }
-
     const std::string& me::config::getName() {
         static std::string inner(BY_BUILD_TYPENAME);
         return inner;

@@ -91,7 +91,13 @@ namespace by {
 
         public:
             static buildType get();
-            constexpr static nbool isDbg();
+            constexpr static nbool isDbg() {
+#if BY_IS_DBG
+                return true;
+#else
+                return false;
+#endif
+            }
             static const std::string& getName();
         };
     };
