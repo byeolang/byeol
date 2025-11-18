@@ -73,7 +73,7 @@ namespace by {
             static platformType get();
             static const std::string& getName();
             static const std::string& getVersion();
-            static constexpr ncnt getArchBits() { return sizeof(void*); }
+            static constexpr ncnt getArchBits() { return sizeof(void*) * 8; }
         };
 
         enum buildType {

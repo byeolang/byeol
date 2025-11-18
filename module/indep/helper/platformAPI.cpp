@@ -303,7 +303,6 @@ namespace by {
             limit.rlim_cur = RLIM_INFINITY;
             limit.rlim_max = RLIM_INFINITY;
 
-            cout << "setrlimit()\n";
             return !setrlimit(RLIMIT_CORE, &limit);
 #elif BY_BUILD_PLATFORM == BY_TYPE_WINDOWS
             SetUnhadledExceptionFilter(__window_coredump_filter)

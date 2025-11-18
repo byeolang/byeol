@@ -25,7 +25,7 @@ namespace by {
             << buildFeature::platform::getArchBits() << "-bit)\n"
             << "Built on " << buildFeature::date::getMonth() << " " << buildFeature::date::getDay()
             << " " << year << "\n"
-            << "© 2010-" << year << "Taehun Lee(kniz) and contributors. All rights reserved.\n";
+            << "© 2010-" << year << " Taehun Lee(kniz) and contributors. All rights reserved.\n";
         return EXIT_PROGRAM; // don't want to keep processing. just exit program.
     }
 }
