@@ -52,6 +52,7 @@ namespace by {
             static constexpr nint getMajor() { return BY_BUILD_VERSION_MAJOR; }
             static constexpr nint getMinor() { return BY_BUILD_VERSION_MINOR; }
             static constexpr nint getFix() { return BY_BUILD_VERSION_FIX; }
+            static constexpr nint getBuildCount() { return BY_BUILD_COUNT; }
         };
 
         enum platformType {
