@@ -20,6 +20,7 @@
 #define BY_BUILD_VERSION_NAME      "@VERSION_NAME@"
 #define BY_BUILD_VERSION_VALUE     "@VERSION_VALUE@"
 #define BY_BUILD_COUNT             @BUILD_COUNT@
+#define BY_BUILD_GIT_COMMIT_HASH   "@GIT_COMMIT_HASH@"
 #define BY_BUILD_VERSION           "@VERSION@"
 #define BY_BUILD_TYPENAME          "@CMAKE_BUILD_TYPE@"
 #define BY_IS_DBG                  @CMAKE_IS_DBG@
