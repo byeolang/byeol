@@ -69,8 +69,8 @@ namespace by {
     }
 
     const bindTag* me::getBindTag(id newId) {
-        const watchCell& cell = instancer::get() TO(getWatcher().get(newId)) OR.ret(nullptr);
-        return &cell.blk;
+        const bindTag& tag = instancer::get() TO(getWatcher().get(newId)) OR.ret(nullptr);
+        return &tag;
     }
 
     instance* me::operator->() { return get(); }

@@ -4,20 +4,20 @@ namespace by {
 
     BY_DEF_ME(watcher, chunk)
 
-    me::watcher(): chunk(sizeof(watchCell), false) {}
+    me::watcher(): chunk(sizeof(bindTag), false) {}
 
-    watchCell& me::operator[](nidx n) { return *get(n); }
+    bindTag& me::operator[](nidx n) { return *get(n); }
 
-    watchCell& me::operator[](id id) { return *get(id); }
+    bindTag& me::operator[](id id) { return *get(id); }
 
-    watchCell* me::get(nidx n) { return (watchCell*) _get(n); }
+    bindTag* me::get(nidx n) { return (bindTag*) _get(n); }
 
-    watchCell* me::get(id newId) {
-        watchCell& got = get(newId.tagN) OR.ret(nullptr);
+    bindTag* me::get(id newId) {
+        bindTag& got = get(newId.tagN) OR.ret(nullptr);
 
-        id gotId = got.blk.getId();
+        id gotId = got.getId();
         WHEN(gotId.tagN != newId.tagN)
-            .warn("bindTag was corrupted! watchCell.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN, gotId.chkN, gotId.serial,
+            .warn("bindTag was corrupted! bindTag.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN, gotId.chkN, gotId.serial,
                 newId.tagN, newId.chkN, newId.serial)
                 .ret(nullptr);
         WHEN(gotId.chkN != newId.chkN || gotId.serial != newId.serial)
@@ -30,15 +30,15 @@ namespace by {
         WHEN(isFull() && !_resize(size() * 2 + 1))
             .err("resize watcher failed! this damage system seriously !!!!").ret(nullptr);
 
-        watchCell& res = (watchCell*) super::new1() OR.ret(&res);
+        bindTag& res = (bindTag*) super::new1() OR.ret(&res);
 
-        ::new(&res.blk) bindTag(_genId(&res));
+        ::new(&res) bindTag(_genId(&res));
         return &res;
     }
 
     nbool me::del(void* used, ncnt sz) {
-        watchCell& cell = *((watchCell*) used);
-        cell.~watchCell();
+        bindTag& cell = *((bindTag*) used);
+        cell.bindTag::~bindTag();
 
         return super::del(used, sz);
     }

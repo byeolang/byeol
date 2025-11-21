@@ -74,7 +74,7 @@ namespace {
             id i = ids[n];
             ASSERT_EQ(tray[n]->getId(), i);
 
-            const bindTag& tag = w[i].blk;
+            const bindTag& tag = w[i];
             ASSERT_EQ(i, tag.getId());
         }
     }
@@ -165,8 +165,8 @@ TEST_F(binderTest, shouldBindTagInaccessibleAfterInstanceTermination) {
     {
         B b1;
         i = b1.getId();
-        const watchCell& cell = watcher.get(i) OR_ASSERT(cell);
-        tag = &cell.blk;
+        const bindTag& cell = watcher.get(i) OR_ASSERT(cell);
+        tag = &cell;
         ASSERT_TRUE(tag);
         ASSERT_EQ(i, tag->getId());
     }

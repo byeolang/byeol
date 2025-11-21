@@ -9,15 +9,15 @@ namespace by {
     me::~instancer() { _isRel = true; }
 
     nbool me::bind(const instance& it) {
-        watchCell& un = *(watchCell*) _watcher.new1();
-        return un.blk.bind(it);
+        bindTag& un = *(bindTag*) _watcher.new1();
+        return un.bind(it);
     }
 
     nbool me::rel(const instance& old) {
         WHEN(!_hasBindTag(old)) .ret(true); // optimization.
 
-        watchCell& un = _watcher.get(old.getId()) OR.ret(false);
-        return _watcher.del(&un, sizeof(watchCell));
+        bindTag& un = _watcher.get(old.getId()) OR.ret(false);
+        return _watcher.del(&un, sizeof(bindTag));
     }
 
     void* me::_new1(size_t sz) { return _pool.get(sz) TO(new1()); }

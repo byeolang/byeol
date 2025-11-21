@@ -55,6 +55,7 @@ namespace by {
         //  MemoryHaver:
         void* _get(nidx n) override;
 
+    private:
         std::vector<chunk*> _chunks;
         int _s;
     };

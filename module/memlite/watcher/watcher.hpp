@@ -2,7 +2,7 @@
 #pragma once
 
 #include "memlite/pool/chunk.hpp"
-#include "memlite/watcher/watchCell.hpp"
+#include "memlite/watcher/bindTag.hpp"
 
 namespace by {
 
@@ -21,16 +21,16 @@ namespace by {
         watcher();
 
     public:
-        watchCell& operator[](nidx n);
-        const watchCell& operator[](nidx n) const BY_CONST_FUNC(operator[](n));
-        watchCell& operator[](id id);
-        const watchCell& operator[](id id) const BY_CONST_FUNC(operator[](id));
+        bindTag& operator[](nidx n);
+        const bindTag& operator[](nidx n) const BY_CONST_FUNC(operator[](n));
+        bindTag& operator[](id id);
+        const bindTag& operator[](id id) const BY_CONST_FUNC(operator[](id));
 
     public:
-        watchCell* get(nidx n);
-        watchCell* get(id newId);
-        const watchCell* get(nidx n) const BY_CONST_FUNC(get(n))
-        const watchCell* get(id newId) const BY_CONST_FUNC(get(newId))
+        bindTag* get(nidx n);
+        bindTag* get(id newId);
+        const bindTag* get(nidx n) const BY_CONST_FUNC(get(n))
+        const bindTag* get(id newId) const BY_CONST_FUNC(get(newId))
         //  Allocator:
         void* new1() override;
 
