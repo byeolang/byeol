@@ -2,35 +2,35 @@
 #pragma once
 
 #include "memlite/pool/chunk.hpp"
-#include "memlite/watcher/bindTag.hpp"
+#include "memlite/watcher/life.hpp"
 
 namespace by {
 
     /// @ingroup memlite
     /// @brief Memory watcher for tracking instance lifecycle and allocation
     /// @details Monitors memory allocation and deallocation, providing
-    /// watch cells for tracking instance states and managing memory lifecycle.
+    /// watch lives for tracking instance states and managing memory lifecycle.
     class _nout watcher: public chunk {
         BY_ME(watcher, chunk)
         BY_INIT_META(me)
         friend class instancer;
-        friend class bindTag;
+        friend class life;
 
     public:
         //  watcher:
         watcher();
 
     public:
-        bindTag& operator[](nidx n);
-        const bindTag& operator[](nidx n) const BY_CONST_FUNC(operator[](n));
-        bindTag& operator[](id id);
-        const bindTag& operator[](id id) const BY_CONST_FUNC(operator[](id));
+        life& operator[](nidx n);
+        const life& operator[](nidx n) const BY_CONST_FUNC(operator[](n));
+        life& operator[](id id);
+        const life& operator[](id id) const BY_CONST_FUNC(operator[](id));
 
     public:
-        bindTag* get(nidx n);
-        bindTag* get(id newId);
-        const bindTag* get(nidx n) const BY_CONST_FUNC(get(n))
-        const bindTag* get(id newId) const BY_CONST_FUNC(get(newId))
+        life* get(nidx n);
+        life* get(id newId);
+        const life* get(nidx n) const BY_CONST_FUNC(get(n))
+        const life* get(id newId) const BY_CONST_FUNC(get(newId))
         //  Allocator:
         void* new1() override;
 

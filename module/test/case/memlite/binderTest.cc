@@ -74,8 +74,8 @@ namespace {
             id i = ids[n];
             ASSERT_EQ(tray[n]->getId(), i);
 
-            const bindTag& tag = w[i];
-            ASSERT_EQ(i, tag.getId());
+            const life& l = w[i];
+            ASSERT_EQ(i, l.getId());
         }
     }
 
@@ -150,10 +150,10 @@ TEST_F(binderTest, defaultBehaviorTest) {
     tstr<A> b1(new A());
     ASSERT_TRUE(b1);
 
-    const bindTag& tag = b1->getBindTag() OR_ASSERT(tag);
+    const life& l = b1->getBindTag() OR_ASSERT(tag);
     ASSERT_TRUE(b1->isHeap());
 
-    id i = tag.getId();
+    id i = l.getId();
     ASSERT_GT(i.serial, 0);
     ASSERT_GE(i.tagN, 0);
 }
@@ -161,14 +161,14 @@ TEST_F(binderTest, defaultBehaviorTest) {
 TEST_F(binderTest, shouldBindTagInaccessibleAfterInstanceTermination) {
     id i;
     const watcher& watcher = instancer::get()->getWatcher();
-    const bindTag* tag;
+    const life* c = nullptr;
     {
         B b1;
         i = b1.getId();
-        const bindTag& cell = watcher.get(i) OR_ASSERT(cell);
-        tag = &cell;
-        ASSERT_TRUE(tag);
-        ASSERT_EQ(i, tag->getId());
+        c = watcher.get(i);
+        ASSERT_TRUE(c);
+        ASSERT_TRUE(c);
+        ASSERT_EQ(i, c->getId());
     }
 
     ASSERT_FALSE(watcher.get(i));
@@ -229,36 +229,36 @@ TEST_F(binderTest, StrongAndWeakTest) {
     tstr<A> strA(new A());
     ASSERT_TRUE(strA.isBind());
 
-    const bindTag& tag = strA->getBindTag() OR_ASSERT(tag);
-    ASSERT_EQ(tag.getStrongCnt(), 1);
+    const life& l = strA->getBindTag() OR_ASSERT(tag);
+    ASSERT_EQ(l.getStrongCnt(), 1);
 
     tweak<A> weakA(*strA);
-    const bindTag& tagWeak = weakA->getBindTag() OR_ASSERT(tagWeak);
-    ASSERT_EQ(&tagWeak, &tag);
+    const life& tagWeak = weakA->getBindTag() OR_ASSERT(tagWeak);
+    ASSERT_EQ(&tagWeak, &l);
     ASSERT_EQ(tagWeak.getStrongCnt(), 1);
 }
 
 TEST_F(binderTest, bindByValueTest) {
     tstr<A> strA(new A());
-    const bindTag& tag = strA->getBindTag() OR_ASSERT(tag);
-    ASSERT_EQ(tag.getStrongCnt(), 1);
+    const life& l = strA->getBindTag() OR_ASSERT(tag);
+    ASSERT_EQ(l.getStrongCnt(), 1);
 
     binder bindA(strA);
     ASSERT_EQ(strA.get(), bindA.get());
-    ASSERT_EQ(tag.getStrongCnt(), 2);
+    ASSERT_EQ(l.getStrongCnt(), 2);
 
     strA.rel();
-    ASSERT_EQ(tag.getStrongCnt(), 1);
+    ASSERT_EQ(l.getStrongCnt(), 1);
 
     {
-        binder bindA2(bindA); // NOLINT: checks whether bindTag of memory pool has increased or not.
-        ASSERT_EQ(tag.getStrongCnt(), 2);
+        binder bindA2(bindA); // NOLINT: checks whether life of memory pool has increased or not.
+        ASSERT_EQ(l.getStrongCnt(), 2);
     }
 
-    ASSERT_EQ(tag.getStrongCnt(), 1);
+    ASSERT_EQ(l.getStrongCnt(), 1);
     bindA.rel();
 
-    ASSERT_EQ(tag.getStrongCnt(), 0);
+    ASSERT_EQ(l.getStrongCnt(), 0);
 }
 
 TEST_F(binderTest, assignTest) {
@@ -282,8 +282,8 @@ TEST_F(binderTest, WeakBindButInstanceGoneTest) {
     tstr<A> strA(new A());
     tweak<A> weakA(*strA);
 
-    const bindTag& tag = weakA->getBindTag() OR_ASSERT(tag);
-    ASSERT_EQ(tag.getStrongCnt(), 1);
+    const life& l = weakA->getBindTag() OR_ASSERT(tag);
+    ASSERT_EQ(l.getStrongCnt(), 1);
 
     strA.rel();
     ASSERT_FALSE(weakA.isBind());
@@ -304,7 +304,7 @@ TEST_F(binderTest, bindNullShouldUnbindPrevious) {
 }
 
 // static variable could exists longer than watcher. in this situtation, trying to get
-// watchcell info would be failed by returning null reference.
+// life info would be failed by returning null reference.
 // we will verify that this memlite module can handle the situation properly.
 TEST_F(binderTest, bindStaticVariable) {
     class myInstance: public instance {
@@ -316,7 +316,7 @@ TEST_F(binderTest, bindStaticVariable) {
         clonable* clone() const override { return new me(); }
     };
 
-    // this static object of an instance will trigger release of watchcell on its
+    // this static object of an instance will trigger release of life on its
     // destructor.
     static myInstance variable;
     tstr<myInstance> binder;

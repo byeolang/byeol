@@ -35,7 +35,7 @@ namespace by {
 
     nbool me::isHeap() const { return _id.isHeap(); }
 
-    const bindTag* me::getBindTag() const { return bindTag::getBindTag(getId()); }
+    const life* me::getBindTag() const { return life::getBindTag(getId()); }
 
     nbool me::_setId(id new1) {
         // rel() must not to reset Id. it's regarding to instance info.

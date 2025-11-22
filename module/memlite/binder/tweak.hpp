@@ -15,7 +15,7 @@ namespace by {
     template <typename T, typename TACTIC = weakTactic> class tweak: public binder {
         BY_ME(tweak, binder)
         BY_INIT_META(me)
-        friend class bindTag;
+        friend class life;
 
     public:
         /// tweak:

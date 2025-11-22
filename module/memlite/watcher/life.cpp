@@ -1,17 +1,17 @@
-#include "memlite/watcher/bindTag.hpp"
+#include "memlite/watcher/life.hpp"
 
 #include "memlite/binder/tbindable.inl"
 #include "memlite/interface/instancer.hpp"
 
 namespace by {
 
-    BY_DEF_ME(bindTag)
+    BY_DEF_ME(life)
 
-    me::bindTag(): _pt(NULL), _strong(0) {}
+    me::life(): _pt(NULL), _strong(0) {}
 
-    me::bindTag(id newId): _pt(NULL), _strong(0), _id(newId) {}
+    me::life(id newId): _pt(NULL), _strong(0), _id(newId) {}
 
-    me::~bindTag() { _id.serial = 0; }
+    me::~life() { _id.serial = 0; }
 
     const chunk* me::getChunk() const {
         WHEN(!_pt) .ret(nullptr);
@@ -68,8 +68,8 @@ namespace by {
         return true;
     }
 
-    const bindTag* me::getBindTag(id newId) {
-        const bindTag& tag = instancer::get() TO(getWatcher().get(newId)) OR.ret(nullptr);
+    const life* me::getBindTag(id newId) {
+        const life& tag = instancer::get() TO(getWatcher().get(newId)) OR.ret(nullptr);
         return &tag;
     }
 
@@ -77,5 +77,5 @@ namespace by {
 
     instance& me::operator*() { return *get(); }
 
-    const type& me::getType() const { return ttype<bindTag>::get(); }
+    const type& me::getType() const { return ttype<life>::get(); }
 } // namespace by

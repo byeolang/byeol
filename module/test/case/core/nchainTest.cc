@@ -373,7 +373,7 @@ TEST_F(nchainTest, testcloneDeep) {
 
 TEST_F(nchainTest, testShouldLinkOverwritePrevious) {
     tstr<nmap> map1Str(new nmap());
-    const bindTag& map1tag = bindTag::getBindTag(map1Str.getItsId()) OR_ASSERT(map1tag);
+    const life& map1tag = life::getBindTag(map1Str.getItsId()) OR_ASSERT(map1tag);
     ASSERT_EQ(map1tag.getStrongCnt(), 1);
 
     tweak<nmap> map1Weak = *map1Str;

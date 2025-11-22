@@ -12,8 +12,8 @@ namespace by {
     /// @brief Binding tag for instance reference tracking and lifecycle management
     /// @details Manages strong and weak references to instances, providing reference counting
     /// and automatic cleanup when references reach zero.
-    class _nout bindTag: public typeProvidable, public tbindable<instance> {
-        BY_ME(bindTag)
+    class _nout life: public typeProvidable, public tbindable<instance> {
+        BY_ME(life)
         BY_INIT_META(me)
         template <typename T, typename TACTIC> friend class tweak;
         template <typename T, typename TACTIC> friend class tstr;
@@ -21,10 +21,10 @@ namespace by {
         friend class strTactic;
 
     public:
-        //  bindTag:
-        bindTag();
-        explicit bindTag(id newId);
-        ~bindTag();
+        //  life:
+        life();
+        explicit life(id newId);
+        ~life();
 
     public:
         instance* operator->();
@@ -56,10 +56,10 @@ namespace by {
         id getId() const;
         //  typeProvidable:
         const type& getType() const override;
-        static const bindTag* getBindTag(id newId);
+        static const life* getBindTag(id newId);
 
     private:
-        //  bindTag:
+        //  life:
         nbool _onStrong(ncnt vote);
         nbool _completeId(instance& it);
         nbool _sync(id new1);

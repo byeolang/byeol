@@ -10,7 +10,7 @@ struct byeolTest;
 
 namespace by {
 
-    class bindTag;
+    class life;
     class instancer;
 
     /// @ingroup memlite
@@ -20,7 +20,7 @@ namespace by {
     class _nout instance: public typeProvidable, public clonable {
         BY_ME(instance)
         BY_INIT_META(me)
-        friend class bindTag;
+        friend class life;
         friend class watcher;      // for vault.
         friend class chunks;       // for vault.
         friend class instancer;    // for _id.
@@ -53,7 +53,7 @@ namespace by {
     public:
         virtual id getId() const;
         virtual nbool isHeap() const;
-        const bindTag* getBindTag() const;
+        const life* getBindTag() const;
 
     protected:
         //  instance:

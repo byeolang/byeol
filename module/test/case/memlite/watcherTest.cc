@@ -59,10 +59,10 @@ namespace {
 
 TEST_F(watcherTest, localVariableBindTagTest) {
     A a;
-    const bindTag& tag = a.getBindTag() OR_ASSERT(tag);
-    ASSERT_TRUE(tag.getId().serial);
+    const life& l = a.getBindTag() OR_ASSERT(tag);
+    ASSERT_TRUE(l.getId().serial);
 
-    ASSERT_FALSE(tag.getChunk());
+    ASSERT_FALSE(l.getChunk());
 }
 
 TEST_F(watcherTest, NestedClassBindTest) {
@@ -95,19 +95,19 @@ TEST_F(watcherTest, heapVariableBindTagTest) {
     for(int n = 0; n < 10; n++) {
         A* new1 = new A();
 
-        const bindTag& tag = new1->getBindTag() OR_ASSERT(tag);
-        ASSERT_GT(tag.getId().serial, 0);
-        ASSERT_TRUE(tag.isBind());
-        ASSERT_EQ(tag.getBindable(), ttype<instance>());
-        ASSERT_TRUE(tag.canBind(ttype<instance>()));
+        const life& l = new1->getBindTag() OR_ASSERT(tag);
+        ASSERT_GT(l.getId().serial, 0);
+        ASSERT_TRUE(l.isBind());
+        ASSERT_EQ(l.getBindable(), ttype<instance>());
+        ASSERT_TRUE(l.canBind(ttype<instance>()));
 
-        id i = tag->getId();
+        id i = l->getId();
         ASSERT_NE(i.tagN, BY_INDEX_ERROR);
         ASSERT_NE(i.chkN, BY_INDEX_ERROR);
         ASSERT_GT(i.serial, 0);
         ASSERT_TRUE(i.isHeap());
 
-        const chunk& chk = tag.getChunk() OR_ASSERT(chk);
+        const chunk& chk = l.getChunk() OR_ASSERT(chk);
         ASSERT_TRUE(chk.has(*new1));
         ASSERT_GT(chk.len(), 0);
         ASSERT_GT(chk.size(), 0);

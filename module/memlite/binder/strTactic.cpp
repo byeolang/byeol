@@ -1,6 +1,6 @@
 #include "memlite/binder/strTactic.hpp"
 
-#include "memlite/watcher/bindTag.hpp"
+#include "memlite/watcher/life.hpp"
 #include "memlite/binder/binder.hpp"
 
 namespace by {
@@ -10,8 +10,8 @@ namespace by {
     void me::rel(binder& me) {
         WHEN(!me.isBind()) .ret();
 
-        bindTag* tag = me._getBindTag();
-        if(tag) tag->_onStrong(-1);
+        life* l = me._getBindTag();
+        if(l) l->_onStrong(-1);
         super::rel(me);
     }
 

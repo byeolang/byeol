@@ -4,24 +4,24 @@ namespace by {
 
     BY_DEF_ME(watcher, chunk)
 
-    me::watcher(): chunk(sizeof(bindTag), false) {}
+    me::watcher(): chunk(sizeof(life), false) {}
 
-    bindTag& me::operator[](nidx n) { return *get(n); }
+    life& me::operator[](nidx n) { return *get(n); }
 
-    bindTag& me::operator[](id id) { return *get(id); }
+    life& me::operator[](id id) { return *get(id); }
 
-    bindTag* me::get(nidx n) { return (bindTag*) _get(n); }
+    life* me::get(nidx n) { return (life*) _get(n); }
 
-    bindTag* me::get(id newId) {
-        bindTag& got = get(newId.tagN) OR.ret(nullptr);
+    life* me::get(id newId) {
+        life& got = get(newId.tagN) OR.ret(nullptr);
 
         id gotId = got.getId();
         WHEN(gotId.tagN != newId.tagN)
-            .warn("bindTag was corrupted! bindTag.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN, gotId.chkN, gotId.serial,
+            .warn("life was corrupted! life.id(%d.%d.%d) != id(%d.%d.%d)", gotId.tagN, gotId.chkN, gotId.serial,
                 newId.tagN, newId.chkN, newId.serial)
                 .ret(nullptr);
         WHEN(gotId.chkN != newId.chkN || gotId.serial != newId.serial)
-            .ret(nullptr); // bindTag has been changed its instance to bind.
+            .ret(nullptr); // life has been changed its instance to bind.
 
         return &got;
     }
@@ -30,15 +30,15 @@ namespace by {
         WHEN(isFull() && !_resize(size() * 2 + 1))
             .err("resize watcher failed! this damage system seriously !!!!").ret(nullptr);
 
-        bindTag& res = (bindTag*) super::new1() OR.ret(&res);
+        life& res = (life*) super::new1() OR.ret(&res);
 
-        ::new(&res) bindTag(_genId(&res));
+        ::new(&res) life(_genId(&res));
         return &res;
     }
 
     nbool me::del(void* used, ncnt sz) {
-        bindTag& cell = *((bindTag*) used);
-        cell.bindTag::~bindTag();
+        life& c = *((life*) used);
+        c.life::~life();
 
         return super::del(used, sz);
     }

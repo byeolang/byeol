@@ -1,6 +1,6 @@
 #include "memlite/binder/binder.hpp"
 
-#include "memlite/watcher/bindTag.hpp"
+#include "memlite/watcher/life.hpp"
 #include "memlite/binder/bindTacticable.hpp"
 #include "memlite/binder/tbindable.inl"
 
@@ -26,8 +26,8 @@ namespace by {
     }
 
     nbool me::isBind() const {
-        const bindTag& tag = _getBindTag() OR.ret(false);
-        return tag.isBind();
+        const life& l = _getBindTag() OR.ret(false);
+        return l.isBind();
     }
 
     void me::rel() { _tactic->rel(*this); }
@@ -63,7 +63,7 @@ namespace by {
         return got == castGot;
     }
 
-    bindTag* me::_getBindTag() const { return (bindTag*) bindTag::getBindTag(_itsId); }
+    life* me::_getBindTag() const { return (life*) life::getBindTag(_itsId); }
 
     void* me::cast(const type& to) {
         WHEN(!isBind()) .ret(nullptr);

@@ -8,7 +8,7 @@ struct binderTest;
 namespace by {
 
     class bindTacticable;
-    class bindTag;
+    class life;
 
     /// @ingroup memlite
     /// @brief Smart pointer with loose type checking and lifetime management
@@ -55,7 +55,7 @@ namespace by {
 
         friend class weakTactic;
         friend class strTactic;
-        friend class bindTag;       // for _get()
+        friend class life;       // for _get()
         friend struct ::binderTest; // for UT
 
     public:
@@ -101,7 +101,7 @@ namespace by {
     protected:
         nbool _assign(const binder& rhs);
         nbool _onSame(const typeProvidable& rhs) const override;
-        bindTag* _getBindTag() const;
+        life* _getBindTag() const;
 
     protected:
         id _itsId; // id for binded one
