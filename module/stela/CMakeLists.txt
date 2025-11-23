@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 
-set(moduleName "core")
+set(moduleName "stela")
 message("building ${moduleName}...")
 
 message("\tconfigure_files...")
@@ -14,21 +14,21 @@ add_definitions(${defines})
 find_package(BISON)
 find_package(FLEX)
 
-set(BYEOL_PARSER_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/worker/bison)
-set(BYEOL_BISON_COMPILE_FLAGS "-l --feature=diagnostics-show-caret --warnings --color")
-set(BYEOL_FLEX_COMPILE_FLAGS "-L --header-file=${BYEOL_PARSER_SRC_DIR}/lowscanner.hpp")
+set(STELA_PARSER_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/parser/bison)
+set(STELA_BISON_COMPILE_FLAGS "-l --feature=diagnostics-show-caret --warnings --color")
+set(STELA_FLEX_COMPILE_FLAGS "-L --header-file=${STELA_PARSER_SRC_DIR}/stelaLowscanner.hpp")
 
 if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
-    set(BYEOL_FLEX_COMPILE_FLAGS "${BYEOL_FLEX_COMPILE_FLAGS} --debug")
-    set(BYEOL_BISON_REPORT_FILENAME "bisonReport")
-    set(BYEOL_BISON_COMPILE_FLAGS "${BYEOL_BISON_COMPILE_FLAGS} --verbose --report=all --debug --graph=${BYEOL_PARSER_SRC_DIR}/${BYEOL_BISON_REPORT_FILENAME}.gv")
+    set(STELA_FLEX_COMPILE_FLAGS "${STELA_FLEX_COMPILE_FLAGS} --debug")
+    set(STELA_BISON_REPORT_FILENAME "bisonReport")
+    set(STELA_BISON_COMPILE_FLAGS "${STELA_BISON_COMPILE_FLAGS} --verbose --report=all --debug --graph=${STELA_PARSER_SRC_DIR}/${STELA_BISON_REPORT_FILENAME}.gv")
 endif (${CMAKE_BUILD_TYPE} STREQUAL Debug)
 
-message("\tbison ${BYEOL_BISON_COMPILE_FLAGS}")
+message("\tbison ${STELA_BISON_COMPILE_FLAGS}")
 
-bison_target(lowparser ${BYEOL_PARSER_SRC_DIR}/lowparser.y ${BYEOL_PARSER_SRC_DIR}/lowparser.cpp COMPILE_FLAGS ${BYEOL_BISON_COMPILE_FLAGS})
-flex_target(lowscanner ${BYEOL_PARSER_SRC_DIR}/lowscanner.l ${BYEOL_PARSER_SRC_DIR}/lowscanner.cpp COMPILE_FLAGS ${BYEOL_FLEX_COMPILE_FLAGS})
-add_flex_bison_dependency(lowscanner lowparser)
+bison_target(stelaLowparser ${STELA_PARSER_SRC_DIR}/stelaLowparser.y ${STELA_PARSER_SRC_DIR}/stelaLowparser.cpp COMPILE_FLAGS ${STELA_BISON_COMPILE_FLAGS})
+flex_target(stelaLowscanner ${STELA_PARSER_SRC_DIR}/stelaLowscanner.l ${STELA_PARSER_SRC_DIR}/stelaLowscanner.cpp COMPILE_FLAGS ${STELA_FLEX_COMPILE_FLAGS})
+add_flex_bison_dependency(stelaLowscanner stelaLowparser)
 
 #  defines:
 #      define sources:
@@ -36,11 +36,12 @@ file(GLOB_RECURSE sources
     "*.c"
     "*.cpp"
 )
-foreach(file ${BISON_lowparser_OUTPUTS})
+
+foreach(file ${BISON_stelaLowparser_OUTPUTS})
     list(APPEND sources ${file})
 endforeach(file)
 
-foreach(file ${FLEX_lowscanner_OUTPUTS})
+foreach(file ${FLEX_stelaLowscanner_OUTPUTS})
     list(APPEND sources ${file})
 endforeach(file)
 
@@ -48,10 +49,7 @@ endforeach(file)
 foreach(e ${sources})
     message("\tembeding ${e}")
 endforeach(e)
-set(dependencies ${dependencies} stela)
-IF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
-    set(dependencies ${dependencies} dl) # dynamic linking lib of posix compatiables.
-ENDIF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
+set(dependencies ${dependencies} memlite)
 foreach(e ${dependencies})
     message("\tlinking ${e}")
 endforeach(e)

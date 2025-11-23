@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 
 set(moduleName "test")
-set(dependencies ${dependencies} indep clog meta memlite core leaf ${pathGtest})
+set(dependencies ${dependencies} indep clog meta memlite core stela ${pathGtest})
 IF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
     set(dependencies ${dependencies} dl) # dynamic linking lib of posix compatiables.
 ENDIF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)

@@ -16,7 +16,7 @@ foreach(d ${dependencies})
     set(libraries ${libraries} PUBLIC ${d})
 endforeach(d)
 
-configure_file("manifest.leaf" "${packOutDir}/manifest.leaf")
+configure_file("manifest.stela" "${packOutDir}/manifest.stela")
 
 #      define sources:
 file(GLOB_RECURSE sources
@@ -35,7 +35,7 @@ install(TARGETS ${packName} DESTINATION bin/pack PERMISSIONS
     OWNER_WRITE OWNER_READ OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
     WORLD_READ WORLD_EXECUTE)
-install(FILES manifest.leaf DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/pack PERMISSIONS
+install(FILES manifest.stela DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/pack PERMISSIONS
     OWNER_WRITE OWNER_READ
     GROUP_READ
     WORLD_READ)

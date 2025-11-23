@@ -19,17 +19,17 @@ namespace by {
     }
 
     manifest me::_interpManifest(const std::string& dir, const std::string& manPath) const {
-        // TODO: open slot zip file -> extract manifest.leaf file -> interpret it & load values
-        tstr<leaf> loaded =
-            leafParser().parseFromFile(manPath) OR.err("error to load %s: interpretion err", manPath).ret(manifest());
-        leaf& root = *loaded;
+        // TODO: open slot zip file -> extract manifest.stela file -> interpret it & load values
+        tstr<stela> loaded =
+            stelaParser().parseFromFile(manPath) OR.err("error to load %s: interpretion err", manPath).ret(manifest());
+        stela& root = *loaded;
 
         std::string name = root["name"].asStr();
         std::string ver = root["ver"].asStr();
         std::string author = root["author"].asStr();
 
         entrypoints points;
-        leaf& entrypoints = root["entrypoints"];
+        stela& entrypoints = root["entrypoints"];
         WHEN(!entrypoints.isExist()) .err("entrypoints not defined.").ret(manifest());
         for(auto& pair: entrypoints) {
             const std::string& path = pair.second->sub("path").asStr();

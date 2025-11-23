@@ -6,7 +6,7 @@
 
 namespace by {
 
-    const std::string MANIFEST_FILENAME = "manifest.leaf";
+    const std::string MANIFEST_FILENAME = "manifest.stela";
 
     class node;
     class ntype;

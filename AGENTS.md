@@ -55,11 +55,11 @@ The system follows a **Layered Architecture** pattern with clear separation of c
    * Reduces garbage collection overhead
    * As a doxygen comment, this belongs to `@ingroup memlite`
 
-5. **leaf** - Configuration parsing layer
-   * Parses configuration information using the `leaf` language (derived from `byeol`)
-   * Handles `manifest.leaf` files in byeol pack distribution
+5. **stela** - Configuration parsing layer
+   * Parses configuration information using the `stela` language (derived from `byeol`)
+   * Handles `manifest.stela` files in byeol pack distribution
    * Provides structured configuration management
-   * As a doxygen comment, this belongs to `@ingroup leaf`
+   * As a doxygen comment, this belongs to `@ingroup stela`
 
 6. **core** - Core language layer
    * Contains `byeol` AST (Abstract Syntax Tree)
@@ -86,10 +86,10 @@ The system follows a **Layered Architecture** pattern with clear separation of c
 │   ├── clog/       # Logging subsystem
 │   ├── meta/       # Type metadata management
 │   ├── memlite/    # Memory management layer
-│   ├── leaf/       # Configuration parsing
+│   ├── stlea/      # Configuration parsing
 │   ├── core/       # Core language implementation
 │   ├── sys/        # System bundle pack
-│   ├── byeol/       # CLI frontend
+│   ├── byeol/      # CLI frontend
 │   └── test/       # Test cases
 ├── bin/            # Generated executables (auto-created)
 ├── external/       # External libraries (auto-generated)
