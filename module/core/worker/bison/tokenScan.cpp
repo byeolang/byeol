@@ -32,7 +32,7 @@ namespace by {
         return tok;
     }
 
-    normalScan* normalScan::_instance = new normalScan();
+    normalScan normalScan::instance;
 
     nint indentScan::onScan(parser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner,
         nbool& isBypass) {
@@ -62,6 +62,6 @@ namespace by {
         return tok;
     }
 
-    indentScan* indentScan::_instance = new indentScan();
+    indentScan indentScan::instance;
 
 } // namespace by

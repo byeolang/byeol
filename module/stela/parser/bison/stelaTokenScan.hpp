@@ -31,15 +31,14 @@ namespace by {
     /// special indentation handling. Used for regular parsing contexts.
     class _nout stelaNormalScan: public stelaTokenScan {
         BY(ME(stelaNormalScan, stelaTokenScan))
-        friend class stelaParser;
 
     public:
         using super::onScan;
         nint onScan(stelaParser& ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner,
             nbool& isBypass) override;
 
-    private:
-        static stelaNormalScan* _instance;
+    public:
+        static stelaNormalScan instance;
     };
 
     /// @ingroup stela
@@ -48,7 +47,6 @@ namespace by {
     /// Generates indent and dedent tokens based on whitespace changes.
     class _nout stelaIndentScan: public stelaTokenScan {
         BY(ME(stelaIndentScan, stelaTokenScan))
-        friend class stelaParser;
 
     public:
         using super::onScan;
@@ -59,7 +57,7 @@ namespace by {
         nint _onIndent(stelaParser& ev, ncnt col, nint tok);
         nint _onDedent(stelaParser& ev, ncnt col, nint tok);
 
-    private:
-        static stelaIndentScan* _instance;
+    public:
+        static stelaIndentScan instance;
     };
 } // namespace by

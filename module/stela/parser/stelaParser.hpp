@@ -31,7 +31,7 @@ namespace by {
 
         nbool isInit() const;
 
-        template <typename T> void setScan() { _mode = T::_instance; }
+        template <typename T> void setScan() { _mode = &T::instance; }
 
         void rel();
 

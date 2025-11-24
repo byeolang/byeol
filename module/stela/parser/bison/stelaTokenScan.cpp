@@ -32,7 +32,7 @@ namespace by {
         return tok;
     }
 
-    stelaNormalScan* stelaNormalScan::_instance = new stelaNormalScan();
+    stelaNormalScan stelaNormalScan::instance;
 
     nint stelaIndentScan::onScan(stelaParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner,
         nbool& isBypass) {
@@ -65,6 +65,6 @@ namespace by {
         return tok;
     }
 
-    stelaIndentScan* stelaIndentScan::_instance = new stelaIndentScan();
+    stelaIndentScan stelaIndentScan::instance;
 
 } // namespace by

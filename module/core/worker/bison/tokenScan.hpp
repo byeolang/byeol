@@ -23,9 +23,6 @@ namespace by {
         using tokenScanable::onScan;
         virtual nint onScan(parser& ps, YYSTYPE* yylval, YYLTYPE* loc, yyscan_t yyscanner,
             nbool& isBypass) override;
-
-    private:
-        nbool _useSmartDedent;
     };
 
     /// @ingroup core
@@ -34,15 +31,14 @@ namespace by {
     /// Used for regular parsing contexts.
     class _nout normalScan: public tokenScan {
         BY(CLASS(normalScan, tokenScan))
-        friend class parser;
 
     public:
         using super::onScan;
         nint onScan(parser& ps, YYSTYPE* yylval, YYLTYPE* loc, yyscan_t yyscanner,
             nbool& isBypass) override;
 
-    private:
-        static normalScan* _instance;
+    public:
+        static normalScan instance;
     };
 
     /// @ingroup core
@@ -51,7 +47,6 @@ namespace by {
     /// Generates indent and dedent tokens based on whitespace changes.
     class _nout indentScan: public tokenScan {
         BY(CLASS(indentScan, tokenScan))
-        friend class parser;
 
     public:
         using super::onScan;
@@ -62,7 +57,7 @@ namespace by {
         nint _onIndent(parser& ev, ncnt col, nint tok);
         nint _onDedent(parser& ev, ncnt col, nint tok);
 
-    private:
-        static indentScan* _instance;
+    public:
+        static indentScan instance;
     };
 } // namespace by

@@ -63,8 +63,8 @@ namespace by {
         nbool isInit() const;
 
         template <typename T> void setScan() {
-            BY_DI("change scanmode(%s -> %s)", _mode ? _mode->getType().getName() : "null", *T::_instance);
-            _mode = T::_instance;
+            BY_DI("change scanmode(%s -> %s)", _mode ? _mode->getType().getName() : "null", T::instance);
+            _mode = &T::instance;
         }
 
         void rel() override;
