@@ -74,10 +74,10 @@ bin/
 **/worker/bison/*.output
 **/worker/bison/*.gv
 **/worker/bison/*.jpg
-**/parser/bison/leafLowparser.cpp
-**/parser/bison/leafLowparser.hpp
-**/parser/bison/leafLowscanner.cpp
-**/parser/bison/leafLowscanner.hpp
+**/parser/bison/stelaLowparser.cpp
+**/parser/bison/stelaLowparser.hpp
+**/parser/bison/stelaLowscanner.cpp
+**/parser/bison/stelaLowscanner.hpp
 **/parser/bison/*.output
 **/parser/bison/*.gv
 **/parser/bison/*.jpg
