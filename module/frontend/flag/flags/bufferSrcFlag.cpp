@@ -6,11 +6,12 @@ namespace by {
 
     BY_DEF_ME(bufferSrcFlag)
 
-    const nchar* me::getName() const { return "-s, --script"; }
+    const nchar* me::getName() const { return "-s, --script '<source code>'"; }
 
     const nchar* me::getDescription() const {
         return R"DESC(
-    programming script can passed in as a string with this flag.)DESC";
+    programming script can passed in as a string with this flag.
+    and of course you can input newline and quote with escape sequence just like \'.)DESC";
     }
 
     const strings& me::_getRegExpr() const {
