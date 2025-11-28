@@ -18,7 +18,7 @@ namespace by {
                 tray.push_back(a[n]);
                 del.push_back(n);
 
-                for(int cn = ++n; cn < n + _onContinuousArgCount(); cn++) {
+                for(int cn = ++n; cn < n + getArgCount(); cn++) {
                     tray.push_back(a[cn]);
                     del.push_back(cn);
                 }
@@ -32,7 +32,7 @@ namespace by {
         return res;
     }
 
-    ncnt me::_onContinuousArgCount() const { return 0; }
+    ncnt me::getArgCount() const { return 0; }
 
     void me::_delArgs(flagArgs& a, std::vector<int> indices) const {
         // remove del in reverse order.

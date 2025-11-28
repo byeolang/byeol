@@ -32,7 +32,7 @@ namespace by {
     protected:
         /// when this flag matched to one of args, the value of returning this func will be
         /// count of continuous argument of this flag.
-        virtual ncnt _onContinuousArgCount() const;
+        virtual ncnt getArgCount() const;
 
         void _delArgs(flagArgs& a, std::vector<int> indices) const;
 
