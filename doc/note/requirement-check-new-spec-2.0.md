@@ -5203,7 +5203,7 @@ socket := http.openUrl(parsed?.parse(rawStr)?.url) // socket의 타입은?
 // 1. 처음이 parseErr였으니 parseErr다.
 // 2. 
 ```
-* 여기서 한가지 유력한 사실은, errType은 한 구문 내에서 err을 발생하는 것들을 deduce해서 결정해야 한다는 것이다.
+* 여기서 한가지 유력한 사실은, errType은 한 구문 내에서 err을 발생하는 것들을 infer해서 결정해야 한다는 것이다.
 
 * [ ] 변수를 정의하다가 exception이 발생한 경우는 어떻게 되는가?
 	* out of memory에 국한된게 아니다. 생성자에서 exception이 나오면 어떻게 되느냐는 것.

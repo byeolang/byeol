@@ -10,12 +10,12 @@ namespace by {
 #define _X(FUNC)                                                                            \
     tstr<arithmeticObj> me::FUNC(const arithmeticObj& rhs) const {                          \
         const auto& dummy = nVoid::singleton();                                             \
-        const ntype& deduced = getType().deduce(rhs) OR.exErr(TYPE_NOT_DEDUCED).ret(dummy); \
-        WHEN(deduced.isSub<nVoid>()) .ret(dummy);                                           \
+        const ntype& promoted = getType().promote(rhs) OR.exErr(TYPE_NOT_DEDUCED).ret(dummy); \
+        WHEN(promoted.isSub<nVoid>()) .ret(dummy);                                           \
                                                                                             \
-        nbool normalOrder = getType() == deduced;                                           \
-        const arithmeticObj& winner = getType() == deduced ? *this : rhs;                   \
-        const arithmeticObj& loser = getType() == deduced ? rhs : *this;                    \
+        nbool normalOrder = getType() == promoted;                                           \
+        const arithmeticObj& winner = getType() == promoted ? *this : rhs;                   \
+        const arithmeticObj& loser = getType() == promoted ? rhs : *this;                    \
         return winner._##FUNC(loser, !normalOrder);                                         \
     }
 

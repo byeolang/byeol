@@ -32,8 +32,8 @@ namespace by {
     ///
     class _nout ntype: public type {
         BY_ME(ntype, type)
-        typedef std::map<const ntype*, const ntype*> deducer;
-        typedef std::map<const ntype*, deducer> deducers;
+        typedef std::map<const ntype*, const ntype*> promoter;
+        typedef std::map<const ntype*, promoter> promoters;
         friend class seq;
         friend class arr;
         friend class genericOrigin;
@@ -91,18 +91,18 @@ namespace by {
         nbool isSameSign(const type& rhs) const;
 
         /// @return null if it's not relative between l & r.
-        const ntype* deduce(const ntype& r) const;
-        const ntype* deduce(const ntype* it) const BY_SIDE_FUNC(deduce);
-        const ntype* deduce(const typeProvidable& r) const;
-        const ntype* deduce(const typeProvidable* it) const BY_SIDE_FUNC(deduce);
+        const ntype* promote(const ntype& r) const;
+        const ntype* promote(const ntype* it) const BY_SIDE_FUNC(promote);
+        const ntype* promote(const typeProvidable& r) const;
+        const ntype* promote(const typeProvidable* it) const BY_SIDE_FUNC(promote);
 
-        template <typename T> const ntype* deduce() const { return deduce(ttype<T>::get()); }
+        template <typename T> const ntype* promote() const { return promote(ttype<T>::get()); }
 
         /// @return null it it's not relative between l & r.
-        static const ntype* deduce(const ntype& l, const ntype& r);
-        static const ntype* deduce(const ntype& l, const ntype* r) BY_SIDE_FUNC(r, deduce(l, *r), nullptr);
-        static const ntype* deduce(const ntype* l, const ntype& r) BY_SIDE_FUNC(l, deduce(*l, r), nullptr);
-        static const ntype* deduce(const ntype* l, const ntype* r) BY_SIDE_FUNC(l&& r, deduce(*l, *r), nullptr);
+        static const ntype* promote(const ntype& l, const ntype& r);
+        static const ntype* promote(const ntype& l, const ntype* r) BY_SIDE_FUNC(r, promote(l, *r), nullptr);
+        static const ntype* promote(const ntype* l, const ntype& r) BY_SIDE_FUNC(l, promote(*l, r), nullptr);
+        static const ntype* promote(const ntype* l, const ntype* r) BY_SIDE_FUNC(l&& r, promote(*l, *r), nullptr);
 
         const params& getParams() const BY_CONST_FUNC(getParams())
         virtual params& getParams();
@@ -121,8 +121,8 @@ namespace by {
         virtual const ases& _getAses() const;
 
     private:
-        static deducers* _makeDeducers();
-        static const ntype& _deduceSuperType(const ntype& l, const ntype& r);
+        static promoters* _makeDeducers();
+        static const ntype& _promoteSuperType(const ntype& l, const ntype& r);
 
     public:
         const static inline std::string META_TYPENAME = "ntype";

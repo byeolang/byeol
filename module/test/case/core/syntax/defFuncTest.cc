@@ -608,7 +608,7 @@ TEST_F(defFuncTest, complexConvergence) {
     //
     //  parser and expander read and evaluate codes from top to bottom.
     //  so they visit codes like '1 -> 2 -> 3' flow.
-    //  however, when expander visit code #1, it can't deduce type because name wasn't define yet.
+    //  however, when expander visit code #1, it can't infer type because name wasn't define yet.
     //  so when expander visit code #2, it also couldn't converge parameter type because age is not
     //  expanded. therefore, the appropriate expand sequence should be: 4 -> 3 -> 1 -> 2.
 

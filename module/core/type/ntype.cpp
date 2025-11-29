@@ -58,28 +58,28 @@ namespace by {
         return inner;
     }
 
-    const ntype* me::deduce(const ntype& r) const { return deduce(*this, r); }
+    const ntype* me::promote(const ntype& r) const { return promote(*this, r); }
 
-    const ntype* me::deduce(const typeProvidable& r) const { return deduce((const ntype&) r.getType()); }
+    const ntype* me::promote(const typeProvidable& r) const { return promote((const ntype&) r.getType()); }
 
-    const ntype* me::deduce(const ntype& l, const ntype& r) {
-        static deducers* inner = nullptr;
+    const ntype* me::promote(const ntype& l, const ntype& r) {
+        static promoters* inner = nullptr;
         if(!inner) inner = _makeDeducers();
 
         if(inner->find(&l) != inner->end()) {
-            deducer& dd = inner->at(&l);
+            promoter& dd = inner->at(&l);
 
             if(dd.find(&r) != dd.end()) return dd.at(&r);
         }
 
-        return &_deduceSuperType(l, r);
+        return &_promoteSuperType(l, r);
     }
 
-    me::deducers* me::_makeDeducers() {
-        // make deduce table:
+    me::promoters* me::_makeDeducers() {
+        // make promote table:
 #define _X(A) &ttype<A>::get()
 
-        deducers red = {
+        promoters red = {
             {_X(nInt),
              {
                     {_X(nInt), _X(nInt)},
@@ -139,10 +139,10 @@ namespace by {
 
 #undef _X
 
-        return new deducers(red);
+        return new promoters(red);
     }
 
-    const ntype& me::_deduceSuperType(const ntype& l, const ntype& r) {
+    const ntype& me::_promoteSuperType(const ntype& l, const ntype& r) {
         //  reducing super type between l & r algorithm:
         WHEN(l == r) .ret(l);
 

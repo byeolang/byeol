@@ -48,12 +48,12 @@ namespace by {
         const scope& subs() const BY_CONST_FUNC(subs())
         virtual tstr<nbicontainer> mySubs() const;
 
-        /// @param r type to be deduced to this type.
+        /// @param r type to be promoted to this type.
         ///          if a type is null, it means that there is no type specified.
         ///          it's complete different to 'void' type.
         /// @return null if it's not relative between l & r.
-        const node* deduce(const node& it) const;
-        const node* deduce(const node* it) const BY_SIDE_FUNC(deduce);
+        const node* promote(const node& it) const;
+        const node* promote(const node* it) const BY_SIDE_FUNC(promote);
 
         template <typename T> T* sub(std::function<nbool(const std::string&, const T&)> l);
         template <typename T>

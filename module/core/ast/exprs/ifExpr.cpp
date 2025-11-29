@@ -45,7 +45,7 @@ namespace by {
 
         // when you try to get eval from ifExpr, `then` and else block must be declared first.
         // if one of blocks has omitted, evaluation of ifExpr should be null.
-        str ret = thenEval->deduce(*elseEval); // if elseEval is null, then thenEval only left.
+        str ret = thenEval->promote(*elseEval); // if elseEval is null, then thenEval only left.
         BY_DI("thenEval[%s] + elseVal[%s] -> %s", thenEval, elseEval, ret);
         return ret;
     }

@@ -330,7 +330,7 @@ TEST_F(ifExprTest, evalIfExprReturningSomething2) {
         main() int
             val := 2 > 5
             a := if val
-                ret -1 # if whole block uses 'ret', then it would be ignored when deduce type of ifExpr.
+                ret -1 # if whole block uses 'ret', then it would be ignored when infer type of ifExpr.
             else
                 23 as str + "wow"
             ret a.len()
@@ -346,7 +346,7 @@ TEST_F(ifExprTest, evalIfExprReturningSomething3) {
             a := if val
                 23 as str + "wow"
             else
-                ret -1 # if whole block uses 'ret', then it would be ignored when deduce type of ifExpr.
+                ret -1 # if whole block uses 'ret', then it would be ignored when infer type of ifExpr.
             ret a.len()
     )SRC")
         .shouldVerified(true);

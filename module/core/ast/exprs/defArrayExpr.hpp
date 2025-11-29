@@ -28,7 +28,7 @@ namespace by {
         const narr& getElems() const BY_CONST_FUNC(getElems())
 
     private:
-        tstr<baseObj> _deduceElems() const;
+        tstr<baseObj> _promoteElems() const;
         narr& getElems();
 
     private:

@@ -305,7 +305,7 @@ namespace by {
         WHEN(!checkEvalType(lEval.get())) .myExErr(me, LHS_IS_NOT_ARITH, lEval).ret();
         WHEN(!checkEvalType(rEval.get())) .myExErr(me, RHS_IS_NOT_ARITH, rEval).ret();
 
-        WHEN_NUL(lEval->deduce(*rEval)).myExErr(me, IMPLICIT_CAST_NOT_AVAILABLE, lEval, rEval).ret();
+        WHEN_NUL(lEval->promote(*rEval)).myExErr(me, IMPLICIT_CAST_NOT_AVAILABLE, lEval, rEval).ret();
 
         auto r = me.getSymbol();
         if((lEval->isSub<nStr>() || rEval->isSub<nStr>())) {

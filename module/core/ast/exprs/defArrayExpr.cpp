@@ -27,7 +27,7 @@ namespace by {
 
     const arr& me::getOrigin() const {
         if(!_org) {
-            tstr<baseObj> typ = _type ? _type->as<baseObj>() : *_deduceElems();
+            tstr<baseObj> typ = _type ? _type->as<baseObj>() : *_promoteElems();
             _org.bind(new arr(*typ));
             for(const node& e: _elems)
                 _org->add(e);
@@ -36,19 +36,19 @@ namespace by {
         return *_org;
     }
 
-    tstr<baseObj> me::_deduceElems() const {
+    tstr<baseObj> me::_promoteElems() const {
         ncnt len = _elems.len();
-        BY_DI("deduceElems: len[%d]", len);
-        WHEN(!len) .info("len == 0. deduced type as 'void'").ret(nVoid::singleton());
+        BY_DI("promoteElems: len[%d]", len);
+        WHEN(!len) .info("len == 0. promoted type as 'void'").ret(nVoid::singleton());
 
-        str retLife = _elems[0].getEval() OR.info("deduceElem: elem0 is null").ret(nVoid::singleton());
+        str retLife = _elems[0].getEval() OR.info("promoteElem: elem0 is null").ret(nVoid::singleton());
         const node* ret = retLife.get();
         str ased;
         for(int n = 1; n < len; n++) {
             ased = _elems[n].as<node>();
-            ret = ret->deduce(*ased);
-            BY_DI("deduceElem: prevElem + elem%d[%s] --> %s", n, ased, ret);
-            WHEN_NUL(ret).info("deduceElem: elem%d was null.", n).ret(nVoid::singleton());
+            ret = ret->promote(*ased);
+            BY_DI("promoteElem: prevElem + elem%d[%s] --> %s", n, ased, ret);
+            WHEN_NUL(ret).info("promoteElem: elem%d was null.", n).ret(nVoid::singleton());
         }
 
         return ret->cast<baseObj>();

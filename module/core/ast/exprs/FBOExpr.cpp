@@ -16,7 +16,7 @@ namespace by {
         str lhsEval = _lhs->getEval() OR.ret(lhsEval);
         str rhsEval = _rhs->getEval() OR.ret(rhsEval);
 
-        return lhsEval->deduce(*rhsEval);
+        return lhsEval->promote(*rhsEval);
     }
 
     nbool me::isLogicalOp() const { return SYMBOL_LOGIC_START <= _symbol && _symbol < SYMBOL_LOGIC_END; }

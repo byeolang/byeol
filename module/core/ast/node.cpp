@@ -29,10 +29,10 @@ namespace by {
 
     tstr<nbicontainer> me::mySubs() const { return subs(); }
 
-    const node* me::deduce(const node& it) const {
+    const node* me::promote(const node& it) const {
         const ntype& ltype = getType();
         const ntype& rtype = it.getType();
-        const ntype& res = ltype.deduce(rtype) OR.ret(nullptr);
+        const ntype& res = ltype.promote(rtype) OR.ret(nullptr);
         WHEN(res == ltype) .ret(this);
         WHEN(res == rtype) .ret(&it);
 
