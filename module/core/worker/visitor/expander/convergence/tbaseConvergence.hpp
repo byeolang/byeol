@@ -30,7 +30,7 @@ namespace by {
         /// converge type to real obj type.
         /// parser registered all obj in some obj.
         /// and expander is now visiting all object's sub nodes while interaction frames.
-        /// in spite of that, getEval() of origin has been failed. which means,
+        /// in spite of that, infer()origin has been failed. which means,
         /// the origin, actually getExpr holding for a name, is refering variable not expanded yet.
         ///
         /// I need to replace 'getExpr(<name>)' type to proper real origin obj.

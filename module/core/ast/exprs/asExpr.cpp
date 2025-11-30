@@ -13,10 +13,10 @@ namespace by {
 
         str eval = _me->as<node>() OR.err("!eval.isBind()").ret(str());
 
-        return str(eval->as(*_as->getEval()));
+        return str(eval->as(*_as->infer()));
     }
 
-    str me::getEval() const { return _as; }
+    str me::infer() const { return _as; }
 
     const node& me::getMe() const { return *_me; }
 

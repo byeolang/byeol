@@ -41,7 +41,7 @@ namespace by {
         BY_DI("promoteElems: len[%d]", len);
         WHEN(!len) .info("len == 0. promoted type as 'void'").ret(nVoid::singleton());
 
-        str retLife = _elems[0].getEval() OR.info("promoteElem: elem0 is null").ret(nVoid::singleton());
+        str retLife = _elems[0].infer() OR.info("promoteElem: elem0 is null").ret(nVoid::singleton());
         const node* ret = retLife.get();
         str ased;
         for(int n = 1; n < len; n++) {
@@ -54,7 +54,7 @@ namespace by {
         return ret->cast<baseObj>();
     }
 
-    str me::getEval() const { return str(getOrigin()); }
+    str me::infer() const { return str(getOrigin()); }
 
     narr& me::getElems() { return _elems; }
 } // namespace by

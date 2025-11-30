@@ -32,7 +32,7 @@ namespace by {
         using super::run;
         str run(const args& a) override;
 
-        str getEval() const override;
+        str infer() const override;
         const node* getMe() const;
         const std::string& getName() const;
         void setName(const std::string& new1);

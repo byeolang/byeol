@@ -23,7 +23,7 @@ namespace by {
 
         const func& getOrigin() const BY_CONST_FUNC(_getOrigin())
 
-        str getEval() const override;
+        str infer() const override;
 
     private:
         scope* _cloneLocalScope(frame& fr) const;

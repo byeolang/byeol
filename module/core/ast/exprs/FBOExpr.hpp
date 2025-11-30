@@ -53,7 +53,7 @@ namespace by {
         using super::run;
         str run(const args& a) override;
 
-        str getEval() const override;
+        str infer() const override;
         const node& getLeft() const;
 
         void setLeft(const node& new1);

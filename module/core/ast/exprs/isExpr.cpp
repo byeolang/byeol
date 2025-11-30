@@ -12,10 +12,10 @@ namespace by {
 
         str eval = _me->as<node>() OR.err("!eval.isBind()").ret(str());
 
-        return new nBool(eval->is(*_to->getEval()));
+        return new nBool(eval->is(*_to->infer()));
     }
 
-    str me::getEval() const {
+    str me::infer() const {
         static nBool inner;
         return inner;
     }

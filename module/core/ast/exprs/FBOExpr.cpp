@@ -8,13 +8,13 @@ namespace by {
 
     me::FBOExpr(symbol s, const node& lhs, const node& rhs): _symbol(s), _lhs(str(lhs)), _rhs(str(rhs)) {}
 
-    str me::getEval() const {
+    str me::infer() const {
         static str inner(new nBool());
         WHEN(isLogicalOp()) .ret(inner);
 
         WHEN(!_lhs || !_rhs) .ret(str());
-        str lhsEval = _lhs->getEval() OR.ret(lhsEval);
-        str rhsEval = _rhs->getEval() OR.ret(rhsEval);
+        str lhsEval = _lhs->infer() OR.ret(lhsEval);
+        str rhsEval = _rhs->infer() OR.ret(rhsEval);
 
         return lhsEval->promote(*rhsEval);
     }

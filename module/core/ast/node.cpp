@@ -68,7 +68,7 @@ namespace by {
 
     str me::asImpli(const type& to) const { return getType().asImpli(*this, to); }
 
-    str me::getEval() const { return str(this); }
+    str me::infer() const { return str(this); }
 
     str me::_onRunSub(node& sub, const args& a) { return sub.run(a); }
 

@@ -14,7 +14,7 @@ namespace by {
     }
 
     std::string me::getEvalTypeFrom(const node& value) {
-        str eval = value.getEval();
+        str eval = value.infer();
         WHEN(eval) .ret((eval->isComplete() ? "" : "@incomplete ") + eval->getType().getName());
 
         getExpr& get = value.cast<getExpr>() OR.ret(value.getType().getName());

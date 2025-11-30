@@ -14,9 +14,9 @@ namespace by {
         const modifier& mod):
         super(name, rhs, to, s, mod), _type(type) {}
 
-    str me::getEval() const {
-        WHEN(_type) .ret(_type->getEval());
-        return super::getEval();
+    str me::infer() const {
+        WHEN(_type) .ret(_type->infer());
+        return super::infer();
     }
 
     const node* me::getExplicitType() const { return _type.get(); }

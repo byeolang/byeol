@@ -8,8 +8,8 @@ namespace by {
     BY(DEF_ME(retStateExpr), DEF_VISIT())
 
     str me::run(const args& a) {
-        thread::get()._getNowFrame() TO(setRet(*getEval()));
-        return getEval();
+        thread::get()._getNowFrame() TO(setRet(*infer()));
+        return infer();
     }
 
     priorType me::prioritize(const args& a) const { return NO_MATCH; }

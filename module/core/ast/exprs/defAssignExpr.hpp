@@ -18,7 +18,7 @@ namespace by {
             const modifier& mod);
 
     public:
-        str getEval() const override;
+        str infer() const override;
         const node* getExplicitType() const;
         void setExplicitType(const node& newType);
 

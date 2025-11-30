@@ -36,7 +36,7 @@ namespace by {
         nbool isToFrame() const;
         void setTo(const node& to);
 
-        str getEval() const override;
+        str infer() const override;
 
         void onCloneDeep(const clonable& rhs) override;
 

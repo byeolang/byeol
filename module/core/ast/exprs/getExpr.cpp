@@ -22,7 +22,7 @@ namespace by {
         return _me.get();
     }
 
-    str me::getEval() const { return _get(true); }
+    str me::infer() const { return _get(true); }
 
     str me::run(const args& a) {
         // believe that this expression was checked to be valid.
@@ -51,7 +51,7 @@ namespace by {
         return _onGet(_evalMe(evalMode).get());
     }
 
-    str me::_evalMe(nbool evalMode) const { return evalMode ? getMe() TO(getEval()) : getMe() TO(template as<node>()); }
+    str me::_evalMe(nbool evalMode) const { return evalMode ? getMe() TO(infer()) : getMe() TO(template as<node>()); }
 
     node* me::_onGet(node& me) const {
         std::string argsName = _args ? _args->asStr().c_str() : "{}";

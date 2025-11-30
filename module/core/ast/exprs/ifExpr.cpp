@@ -34,9 +34,9 @@ namespace by {
         return str(nVoid::singleton());
     }
 
-    str me::getEval() const {
-        str thenEval = _then->getEval() OR.err("thenEval is null").ret(thenEval);
-        str elseEval = (_else ? _else->getEval() : str()) OR.err("elseEval is null").ret(elseEval);
+    str me::infer() const {
+        str thenEval = _then->infer() OR.err("thenEval is null").ret(thenEval);
+        str elseEval = (_else ? _else->infer() : str()) OR.err("elseEval is null").ret(elseEval);
 
         WHEN(thenEval->isSub<retStateExpr>())
             .info("thenEval is %s, accept elseEval[%s]", thenEval, elseEval).ret(elseEval);

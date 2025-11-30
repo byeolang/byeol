@@ -66,11 +66,11 @@ namespace by {
         return ret;
     }
 
-    str me::getEval() const {
+    str me::infer() const {
         WHEN(_eval) .ret(_eval);
         WHEN(_exprs.isEmpty()) .ret(nVoid::singleton());
 
-        return _exprs.last()->getEval();
+        return _exprs.last()->infer();
     }
 
     void me::setEval(const node& newEval) { _eval.bind(newEval); }

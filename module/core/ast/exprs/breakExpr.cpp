@@ -7,7 +7,7 @@ namespace by {
 
     BY(DEF_ME(breakExpr), DEF_VISIT())
 
-    str me::getEval() const {
+    str me::infer() const {
         static breakRet inner;
         return inner;
     }

@@ -153,5 +153,5 @@ TEST_F(getExprTest, getExprEvalToExpr) {
     ASSERT_TRUE(ret);
     ASSERT_EQ(ret->get(), 22);
     ASSERT_TRUE(exp.executed);
-    ASSERT_EQ(exp2.getEval()->getType(), ttype<nInt>());
+    ASSERT_EQ(exp2.infer()->getType(), ttype<nInt>());
 }

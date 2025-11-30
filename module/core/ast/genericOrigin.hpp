@@ -31,7 +31,7 @@ namespace by {
 
         str run(const args& a) override;
 
-        str getEval() const override;
+        str infer() const override;
 
         scope& subs() override;
 

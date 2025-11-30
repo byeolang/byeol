@@ -15,7 +15,7 @@ namespace by {
         endExpr(const blockExpr& blk);
 
     public:
-        str getEval() const override;
+        str infer() const override;
     };
 
     template <typename T, typename TACTIC> class tnarr;

@@ -74,9 +74,9 @@ namespace by {
         return _subject->as<node>();
     }
 
-    str me::getEval() const {
+    str me::infer() const {
         const node& me = getMe() OR.err("me is null").ret(str());
-        str sub = _getSub(me.getEval()) OR.err("_subject.as<node>() returns null").ret(str());
+        str sub = _getSub(me.infer()) OR.err("_subject.as<node>() returns null").ret(str());
         WHEN(sub->isSub<baseObj>()) .ret(sub->isComplete() ? sub : new mockNode(*sub));
 
         baseFunc& cast = sub->cast<baseFunc>() OR.err("sub isn't obj or func. returns null").ret(str());

@@ -25,7 +25,7 @@ namespace by {
 
     str me::run(const args& a) { return getPack().run(a); }
 
-    str me::getEval() const { return getPack().getEval(); }
+    str me::infer() const { return getPack().infer(); }
 
     void me::_rel() {
         _dependents.rel();

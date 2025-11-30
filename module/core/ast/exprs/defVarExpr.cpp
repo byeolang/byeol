@@ -37,7 +37,7 @@ namespace by {
 
     nbool me::isToFrame() const { return !_to; }
 
-    str me::getEval() const { return _rhs TO(getEval()); }
+    str me::infer() const { return _rhs TO(infer()); }
 
     void me::onCloneDeep(const clonable& from) {
         me& rhs = (me&) from;

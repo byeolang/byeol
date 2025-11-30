@@ -21,7 +21,7 @@ namespace by {
         using super::run;
         str run(const args& a) override;
 
-        str getEval() const override;
+        str infer() const override;
 
         const src& getSrc() const override;
 

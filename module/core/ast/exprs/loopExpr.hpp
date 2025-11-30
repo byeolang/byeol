@@ -44,7 +44,7 @@ namespace by {
 
     public:
         blockExpr* getBlock() const;
-        str getEval() const override;
+        str infer() const override;
 
         using super::run;
         str run(const args& a) override;

@@ -15,7 +15,7 @@ namespace by {
         return str(new seq(*start, *end));
     }
 
-    str me::getEval() const {
+    str me::infer() const {
         static str inner(new seq(1, 10));
         return inner;
     }

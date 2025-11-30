@@ -7,7 +7,7 @@ namespace by {
         super(obj, fun, std::move(closure)), _org(org) {}
 
     nbool me::convergeWithoutFrame() {
-        str eval = _org->getEval() OR.ret(false);
+        str eval = _org->infer() OR.ret(false);
         baseObj* cast = eval->cast<baseObj>();
         if(cast) eval.bind(cast->getOrigin());
 

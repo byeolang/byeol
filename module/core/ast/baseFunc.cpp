@@ -25,7 +25,7 @@ namespace by {
         int n = 0;
         priorType max = EXACT_MATCH; // begining from lv0.
         for(const auto& e: a) {
-            str t = e.getEval() OR.warn("t == null").ret(NO_MATCH);
+            str t = e.infer() OR.warn("t == null").ret(NO_MATCH);
             str p = ps[n++].getOrigin().as<node>() OR.ret(NO_MATCH);
             WHEN(!t->isComplete()) .ret(NO_MATCH);
 

@@ -18,7 +18,7 @@ namespace by {
 
     const me::strings& me::getParamNames() const { return _paramNames; }
 
-    str me::getEval() const { return _org; }
+    str me::infer() const { return _org; }
 
     const std::map<std::string, tstr<obj>>& me::getCache() const { return _cache; }
 

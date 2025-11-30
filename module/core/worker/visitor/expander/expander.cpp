@@ -145,7 +145,7 @@ namespace by {
         _GUARD("onVisit()");
 
         // this lets genericOrigin make a their generic obj.
-        obj& generalizedOrg = me.getEval().cast<obj>() OR.ret(true);
+        obj& generalizedOrg = me.infer().cast<obj>() OR.ret(true);
         generalizedOrg.accept(i, *this);
         return true;
     }

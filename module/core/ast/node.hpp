@@ -153,7 +153,7 @@ namespace by {
         ///
         /// for example, the @ref expr class has derived from this node class. and if an user call the
         /// funcs to get type of it, class 'ntype' of 'expr' will be returned.
-        /// but if that user call the 'getEval()' then the 'expr' object evaluate its terms and
+        /// but if that user call the 'infer()' then the 'expr' object evaluate its terms and
         /// returns it as a node from the output. it could be an integer if it was @ref addExpr and all
         /// terms are constructed with integers.
         ///
@@ -162,7 +162,7 @@ namespace by {
         /// @remark some derived class of node may require to call this function first by @ref verifier.
         ///         if you call this function without calling @ref verifier previously will damage then
         ///         process.
-        virtual str getEval() const;
+        virtual str infer() const;
 
         virtual void accept(const visitInfo& i, visitor& v);
 

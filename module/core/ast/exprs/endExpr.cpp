@@ -7,7 +7,7 @@ namespace by {
 
     me::endExpr(const blockExpr& blk): super(blk) {}
 
-    str me::getEval() const {
+    str me::infer() const {
         static nVoid inner;
         return inner;
     }

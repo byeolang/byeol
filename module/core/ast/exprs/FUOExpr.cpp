@@ -37,7 +37,7 @@ namespace by {
 
     node& me::getOperand() { return *_it; }
 
-    str me::getEval() const { return _it->getEval(); }
+    str me::infer() const { return _it->infer(); }
 
     me::symbol me::getSymbol() const { return _symbol; }
 

@@ -19,7 +19,7 @@ namespace by {
         return ret;
     }
 
-    str me::getEval() const { return _rhs->getEval(); }
+    str me::infer() const { return _rhs->infer(); }
 
     const node& me::getLeft() const { return *_lhs; }
 

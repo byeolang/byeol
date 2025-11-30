@@ -8,7 +8,7 @@ namespace by {
 
     me::baseCtor(const mgdType& type): _type(type) {}
 
-    str me::getEval() const { return getRet(); }
+    str me::infer() const { return getRet(); }
 
     const ntype& me::getType() const { return _type; }
 

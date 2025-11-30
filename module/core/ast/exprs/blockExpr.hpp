@@ -26,7 +26,7 @@ namespace by {
         using super::run;
         str run(const args& a) override;
 
-        str getEval() const override;
+        str infer() const override;
 
         void setEval(const node& newEval);
         void setEval(const node* it) BY_SIDE_FUNC(setEval);

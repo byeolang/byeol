@@ -86,9 +86,9 @@ namespace by {
 
         _STEP("set evalType");
 
-        str left = me.getLeft().getEval() OR.myExErr(me, LHS_IS_NUL).ret();
+        str left = me.getLeft().infer() OR.myExErr(me, LHS_IS_NUL).ret();
         const ntype& ltype = left->getType();
-        str right = me.getRight().getEval() OR.myExErr(me, RHS_IS_NUL).ret();
+        str right = me.getRight().infer() OR.myExErr(me, RHS_IS_NUL).ret();
         const ntype& rtype = right->getType();
         WHEN(rtype.isSub<retStateExpr>()) .myExErr(me, CANT_ASSIGN_RET).ret();
         WHEN(!rtype.isImpli(ltype)) .myExErr(me, TYPE_NOT_COMPATIBLE, rtype, ltype).ret();
@@ -134,7 +134,7 @@ namespace by {
         const getExpr& lhs = me.getLeft().cast<getExpr>() OR.myExErr(me, ASSIGN_TO_RVALUE, me.getRight(), lhs).ret();
 
         _STEP("checks that you can't assign to a func");
-        str lhsEval = lhs.getEval();
+        str lhsEval = lhs.infer();
         WHEN(baseFunc::isFuncButNotClosure(*lhsEval)) .myExErr(me, ASSIGN_TO_FUNC).ret();
 
         _STEP("checks that try to assign to a const variable");
@@ -154,14 +154,14 @@ namespace by {
         const narr& stmts = me.getStmts();
         WHEN(stmts.len() <= 0) .ret(); // will be catched to another verification.
 
-        me.setEval(me.getEval().get());
+        me.setEval(me.infer().get());
         me.outFrame();
     }
 
     void me::_onLeave(const visitInfo& i, const loopExpr& me) {
         _recentLoops.pop_back();
 
-        str eval = me.getEval(); // it's okay forExpr not to have 'eval'.
+        str eval = me.infer(); // it's okay forExpr not to have 'eval'.
         if(eval) {
             _STEP("eval Value check: eval[%s] is an array?", eval);
             WHEN(!eval->isSub<retStateExpr>() && !eval->isSub<arr>()) .myExErr(me, LOOP_NO_RET_ARR).ret();
@@ -180,7 +180,7 @@ namespace by {
         WHEN(mod.isExplicitOverride()) .myExErr(me, OVERRIDE_NOT_ALLOWED_FOR_LOCAL, me.getName()).ret();
 
         _STEP("to define a void type property isn't allowed.");
-        str eval = me.getRight() TO(getEval()) OR.myExErr(me, RHS_IS_NUL).ret();
+        str eval = me.getRight() TO(infer()) OR.myExErr(me, RHS_IS_NUL).ret();
         WHEN(eval->isSub<nVoid>()) .myExErr(me, VOID_CANT_DEFINED).ret();
 
         obj* cast = eval->cast<obj>();
@@ -228,7 +228,7 @@ namespace by {
         _GUARD("onLeave(defPropExpr&)");
 
         _STEP("whether the 'type' object has a ctor without any paramters?");
-        str eval = me TO(getRight()) TO(getEval()) OR.myExErr(me, RHS_IS_NUL).ret();
+        str eval = me TO(getRight()) TO(infer()) OR.myExErr(me, RHS_IS_NUL).ret();
         WHEN(eval->isSub<baseObj>() && !eval->sub(ctor::CTOR_NAME, args())) .myExErr(me, DONT_HAVE_CTOR, eval).ret();
         func* fun = eval->cast<func>();
         WHEN(fun && fun->isAbstract()) .myExErr(me, YOU_CANT_DEFINE_PROPERTY_WITH_ABSTRACT_FUNC).ret();
@@ -240,13 +240,13 @@ namespace by {
         _GUARD("onLeave(defAssignExpr&)");
 
         _STEP("check rhs");
-        str eval = me TO(getRight()) TO(getEval()) OR.myExErr(me, RHS_IS_NUL).ret();
+        str eval = me TO(getRight()) TO(infer()) OR.myExErr(me, RHS_IS_NUL).ret();
         WHEN(!eval->isComplete()) .myExErr(me, ACCESS_TO_INCOMPLETE).ret();
 
         const node* explicitType = me TO(getExplicitType());
         if(explicitType) {
             _STEP("check explicit type whether it's valid");
-            str type = me TO(getEval());
+            str type = me TO(infer());
             WHEN_NUL(type).myExErr(me, EXPLICIT_TYPE_SHOULDNT_BE_NULL).ret();
             WHEN(type->isSub<nVoid>()) .myExErr(me, NO_VOID_VARIABLE).ret();
         }
@@ -284,7 +284,7 @@ namespace by {
 
         _STEP("does it have `eval`?");
         frame& fr = thread::get()._getNowFrame() OR.myExErr(me, THERE_IS_NO_FRAMES_IN_THREAD).ret();
-        str eval = me.getEval();
+        str eval = me.infer();
         WHEN_NUL(eval).myExErr(me, EXPR_EVAL_NUL).ret();
 
         _STEP("does it have a name?");
@@ -299,8 +299,8 @@ namespace by {
         _GUARD("onLeave(FBOEXpr&)");
 
         _STEP("finding eval of l(r)hs.");
-        str lEval = me.getLeft().getEval() OR.myExErr(me, LHS_IS_NUL).ret();
-        str rEval = me.getRight().getEval() OR.myExErr(me, RHS_IS_NUL).ret();
+        str lEval = me.getLeft().infer() OR.myExErr(me, LHS_IS_NUL).ret();
+        str rEval = me.getRight().infer() OR.myExErr(me, RHS_IS_NUL).ret();
 
         WHEN(!checkEvalType(lEval.get())) .myExErr(me, LHS_IS_NOT_ARITH, lEval).ret();
         WHEN(!checkEvalType(rEval.get())) .myExErr(me, RHS_IS_NOT_ARITH, rEval).ret();
@@ -330,7 +330,7 @@ namespace by {
         _GUARD("onLeave(FUOExpr&)");
 
         _STEP("string isn't proper to any FUO operator");
-        str eval = me.getEval();
+        str eval = me.infer();
         WHEN(eval && eval->isImpli<nStr>()) .myExErr(me, STRING_IS_NOT_PROPER_TO_OP).ret();
     }
 
@@ -340,7 +340,7 @@ namespace by {
         // TODO: I have to check that the evalType has what matched to given _params.
         // Until then, I rather use as() func and it makes slow emmersively.
         _STEP("isRunnable: %s.%s", me, me.getName());
-        WHEN(!me.getEval()) .myExErr(me, WHAT_IS_THIS_IDENTIFIER, me.getName()).ret();
+        WHEN(!me.infer()).myExErr(me, WHAT_IS_THIS_IDENTIFIER, me.getName()).ret();
         str match = me._get(true) OR_DO {
             const node* from = me.getMe();
             return BY_WHEN.myExErr(me, CANT_ACCESS, me._name.c_str(), from TO(getType().getName().c_str())).ret();
@@ -351,7 +351,7 @@ namespace by {
 
         _STEP("isRunnable: got=%s, me=%s", match, me.getType());
 
-        str asedMe = me.getMe() TO(getEval());
+        str asedMe = me.getMe() TO(infer());
         _STEP("accesses to incomplete 'me[%s]' object?", asedMe);
         WHEN(asedMe && !asedMe->isComplete()) .myExErr(me, ACCESS_TO_INCOMPLETE).ret();
 
@@ -375,7 +375,7 @@ namespace by {
 
         _STEP("checks evalType of func is matched to me");
         const baseFunc& f = thread::get().getNowFrame() TO(getFunc()) OR.myExErr(me, NO_FUNC_INFO).ret();
-        str myRet = me.getRet().getEval() OR.myExErr(me, EXPR_EVAL_NUL).ret();
+        str myRet = me.getRet().infer() OR.myExErr(me, EXPR_EVAL_NUL).ret();
 
         const node& funRet = f.getRet() OR.myExErr(me, NO_RET_TYPE).ret();
         _STEP("checks return[%s] == func[%s]", myRet, funRet);
@@ -389,14 +389,14 @@ namespace by {
         _STEP("is it possible to run?");
         WHEN_NUL(me.getMe()).myExErr(me, DONT_KNOW_ME).ret();
 
-        str ased = me.getMe() TO(getEval()) OR.ret();
+        str ased = me.getMe() TO(infer()) OR.ret();
         args& a = me.getArgs();
         a.setMe(*ased);
 
         node& anySub = me.getSubj();
         _STEP("anySub[%s]", anySub);
 
-        str derivedSub = anySub.getEval() OR.myExErr(me, CANT_ACCESS, ased, "sub-node").ret();
+        str derivedSub = anySub.infer() OR.myExErr(me, CANT_ACCESS, ased, "sub-node").ret();
 
         _STEP("derivedSub[%s]", derivedSub);
         if(!derivedSub->canRun(me.getArgs())) {
@@ -410,7 +410,7 @@ namespace by {
     }
 
     void me::onTraverse(runExpr& me, node& subject) {
-        str ased = me.getMe() TO(getEval()) OR.ret();
+        str ased = me.getMe() TO(infer()) OR.ret();
 
         getExpr* cast = subject.cast<getExpr>();
         if(cast) cast->setMe(*ased);
@@ -437,7 +437,7 @@ namespace by {
         _GUARD("onLeave(ctor&)");
 
         _STEP("no error allowed during running ctor");
-        const node& eval = me.getBlock().getEval().get() OR.myExErr(me, EXPR_EVAL_NUL).ret();
+        const node& eval = me.getBlock().infer().get() OR.myExErr(me, EXPR_EVAL_NUL).ret();
         WHEN(eval.isSub<baseErr>()) .myExErr(me, RET_ERR_ON_CTOR).ret();
 
         me.outFrame();
@@ -466,8 +466,8 @@ namespace by {
             WHEN(castPs.len() != len) .ret(false);
 
             for(int n = 0; n < castPs.len(); n++) {
-                str lhs = castPs[n].getOrigin().getEval();
-                str rhs = me.getParams()[n].getOrigin().getEval();
+                str lhs = castPs[n].getOrigin().infer();
+                str rhs = me.getParams()[n].getOrigin().infer();
                 WHEN(lhs->getType() != rhs->getType()) .ret(false);
             }
 
@@ -516,7 +516,7 @@ namespace by {
                 BY_WHEN.myExErr(me, PARAM_NOT_VOID, p.getName().c_str());
                 continue;
             }
-            str eval = p.getOrigin() TO(getEval()) OR_CONTINUE;
+            str eval = p.getOrigin() TO(infer()) OR_CONTINUE;
             s.add(p.getName(), *new mockNode(*eval));
         }
 
@@ -560,14 +560,14 @@ namespace by {
 
         WHEN(retType == ttype<nVoid>::get()) .info("func: implicit return won't verify WHEN retType is void.").ret();
 
-        str eval = me.getBlock().getEval() OR.myExErr(lastStmt, NO_RET_TYPE).ret();
+        str eval = me.getBlock().infer() OR.myExErr(lastStmt, NO_RET_TYPE).ret();
 
         // to get type of expr, always uses evalType.
         const ntype& lastType = eval->getType();
 
         _STEP("last stmt[%s] should matches to return type[%s]", eval, retType);
 
-        // @see retExpr::getEval() for more info.
+        // @see retExpr::infer()or more info.
         WHEN(eval->isSub<retStateExpr>()) .info("func: skip verification WHEN lastStmt is retStateExpr.").ret();
         WHEN(!lastType.isSub<baseErr>() && !lastType.isImpli(retType))
             // TODO: remove .myExErr(lastStmt ? me : lastStmt, RET_TYPE_NOT_MATCH, lastType,
@@ -639,7 +639,7 @@ namespace by {
         _recentLoops.push_back(&me);
 
         str container = me._container;
-        str conAsed = container->getEval() OR.myExErr(me, CONTAINER_IS_NUL).ret(true);
+        str conAsed = container->infer() OR.myExErr(me, CONTAINER_IS_NUL).ret(true);
         str elemType = conAsed->run("getElemType") OR.myExErr(me, ELEM_TYPE_IS_NUL).ret(true);
 
         const std::string& name = me.getLocalName();

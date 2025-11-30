@@ -25,7 +25,7 @@ namespace by {
     public:
         using super::run;
         str run(const args& a) override;
-        str getEval() const override;
+        str infer() const override;
         const node& getLeft() const;
         const node& getRight() const;
         void onCloneDeep(const clonable& from) override;

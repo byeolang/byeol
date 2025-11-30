@@ -35,7 +35,7 @@ namespace by {
 
         node& getOperand();
         const node& getOperand() const BY_CONST_FUNC(getOperand())
-        str getEval() const override;
+        str infer() const override;
         symbol getSymbol() const;
         static const nchar* getSymbolName(symbol r);
 

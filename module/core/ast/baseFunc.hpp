@@ -44,7 +44,7 @@ namespace by {
 
         /// @return node which has same type of the func.
         ///         in byeol lang, even type is an object. that's why I return this as a node.
-        /// @remark please don't confuse this to @ref node::getEval().
+        /// @remark please don't confuse this to @ref node::infer().
         ///         evaluate means program just read the code and expand or calculate then replace
         ///         it to the accurate another identifier or variable. so evalType of the func is
         ///         just the func itself because there is nothing to calculate or run.

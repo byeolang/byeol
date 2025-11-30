@@ -757,11 +757,11 @@ def B A(5) // <-- B완전객체는 만들어지고 나서 A(5) 생성자를 통�
     2. str로부터 항상 객체를 꺼내면 안된다. str.getType()을 가져와서 이 타입의 orgObj를 가져와서 여기다 대고 뭔가를 해야 한다.
     3. 각 함수나 변수등 str을 반환하는 것들마다 세심하게 type 처리를 해줘야 한다.
     4. 그리고 실제로 객체가 생성되지 않도록 해줘야 한다.
-    5. 객체에 대고 getEval()을 함부로 호출할 수 없다. 실제로 코드를 돌려버리기 때문이다. 이게 가장 애매한 부분이다.
+    5. 객체에 대고 infer()을 함부로 호출할 수 없다. 실제로 코드를 돌려버리기 때문이다. 이게 가장 애매한 부분이다.
         * 우리가 이렇게 하는 것은 코드를 돌리지 않기 위함이다. 그래서 비용을 아끼자는 것이지.
         * 그런데 일부 코드는 verifier입장에서 돌려보지 않고는 판단할 수 없는게 있다.
             * 예를들면 typeInference
-        * 아마도. 아마도 아마도. getEval()의 반환값을 ttype으로 해버리고, 모든 getEval()을 getEvalType()으로 변경하면 될 것이다.
+        * 아마도. 아마도 아마도. infer()의 반환값을 ttype으로 해버리고, 모든 infer()을 getEvalType()으로 변경하면 될 것이다.
         * 그리고 arr도 node 대신 type을 인자로 받도록 수정해야 하고.
         * asImpli(node&) 도 asImpli(type&) 이 되어야 한다. 이게 또 문제다.
             * type은 native의 type이었다. mgd의 타입은 node 였다.
@@ -3556,7 +3556,7 @@ main() void
                     * 그리고 verifier는 값을 중요하게 생각하지 않는다. type정보만 본다. 그러니 orgObj가 incomplete이든 아니든 상관 없다.
 * [u] 위의 내용을 토대로 하면, 로직은 큰 그림에서 다음과 같이 된다.
     * 사전 요구사항
-        * getEval()은 orgObj을 반환하는 함수여야 한다.
+        * infer()은 orgObj을 반환하는 함수여야 한다.
     * parse 단계
         1. pack.orgs에 pack 자신을 넣어둔다. pack도 org맞다.
         2. parser는 `A`를 보면 지금까지와 마찬가지로 `getExpr("A")`로 변환한다.
@@ -3671,8 +3671,8 @@ main() void
                     * 예를들어 expand::onVisit(defAssignExpr& e) 가 오면,
                         1. super::onVisit(e)를 돌린다. 에러있으면 바로 return
                         2. 추가로 체크할 것을 한다.
-                        3. 그래도 에러가 없다면, sub로 추가한다. 이때 e.getEval()을 해서 type을 얻어오기만 한다.
-                            * 참고로 getEval()은 orgObj를 반납하는 함수다.
+                        3. 그래도 에러가 없다면, sub로 추가한다. 이때 e.infer()을 해서 type을 얻어오기만 한다.
+                            * 참고로 infer()은 orgObj를 반납하는 함수다.
             1. 결과가 에러가 발생했다면, 다음 expand를 실행한다.
             2. 에러가 발생하지 않았다면 모든게 expand된 것이다.
                 1. 그 expand.obj에서 preEval()을 제거한다. 이제 필요없다.
@@ -3757,7 +3757,7 @@ main() void
     * 그러면 위의 모든 예제를 다 해결 할 수 있다.
     * 사전 필수 요구 조건
         * 위의 알고리즘 예시코드가 있다. 아주 좋은 알고리즘 요약이니 꼭 참조하자. 그렇게 짜면 될 것이다.
-        * getEval()은 orgObj을 반환하는 함수여야 한다.
+        * infer()은 orgObj을 반환하는 함수여야 한다.
         * preEval()의 코드는 with아니면 defAssign라는걸 확실히 하자.
         * defAssign, with는 defExpr이다. defExpr은 초기식expr에 올 수 없어야 한다.
             * 이는 defAssign, with가 preEval() 바로 밑에 있어야 한다는 조건이다. defAssign 안에 defAssign 있는 건 용납해선 안된다.
@@ -3841,7 +3841,7 @@ main() void
                              1. super::onVisit(e)를 돌린다. 에러있으면 바로 return
                              2. 추가로 체크할 것을 한다.
                              3. 그래도 에러가 없다면, 이미 추가된 sub에 새로운 tstr을 만든다. 이떄 tstr의 type은 orgObj.type, value는 orgObj가 들어간다.
-                                 * 참고로 getEval()은 orgObj를 반납하는 함수다.
+                                 * 참고로 infer()은 orgObj를 반납하는 함수다.
                              4. 그리고 @commonCtor()에 defAssignExpr을 assignExpr()로 변환하여 넣어준다.
                              5. 만약 me가 complete object라면 pack.@init() 에도 4번 expr을 push 해둔다.
                                  * 당연한 얘기겠지만, 4번을 그대로 shallow 해서 push하면 된다. clone() 할 필요는 없다.
@@ -3887,7 +3887,7 @@ main() void
         * expand 단계
             * 목적은, 타입추론하고 with를 expand해서 객체의 형태(sub 의 종류, 갯수, type)을 확정시키는 것이다.
             * 당연한 얘기지만, with 를 expand할때,
-                * expand단계에서는 with의 타입이 뭔지 getEval()만 할 수 있으면 성공이다.그걸로 일단 with expand를 하고 있으면 된다.
+                * expand단계에서는 with의 타입이 뭔지 infer()만 할 수 있으면 성공이다.그걸로 일단 with expand를 하고 있으면 된다.
                 * 하지만 preRun 단계에서 진짜로 with를 expand할때는, @commonCtor 안에서 with에 있는 expr을 먼저 run()해서 그 결과로 나온 obj의 scope을 가지고 with expand를 하게 될 텐데,
                 * 여기서 중요한 점은 expr을 먼저 run()을 --> with에 이름이 있는 경우라면 나온 obj로 with prop에 할당 --> prop의 scope을 objscope의 아래쪽에 쌓기
                 * 로 돌아가야 한다는 점이다.
@@ -4172,7 +4172,7 @@ def B
     * 그건 좀 이상하지.
 2. [u] `with` 처럼 매 obj 복제시마다 me obj가 갱신된 property를 새로 만들어서 넣는다.
     * 일단 구현은 자연스러울 것이다. with처럼 orgObj.preEvals에 넣어두기만 하면 된다.
-    * 그리고 prop.getEval()에서 반환할 str \_eval과 여기에 들어갈 orgObj을 하나 들고 있어야 한다.
+    * 그리고 prop.infer()에서 반환할 str \_eval과 여기에 들어갈 orgObj을 하나 들고 있어야 한다.
         * 이 또한 defVar처럼 parse단계에서는 \_eval에는 getExpr이 들어있을 것이다.
         * 그러다가 expand에서 직후 subs() 하면서 이 getExpr이 적절한 orgObj로 교체하면 된다.
     * expand시, prop의 경우는 어떻게 하기로 했는지 떠올려보자.
@@ -4209,9 +4209,9 @@ def B
         * 여기서 안에 있는 defVarExpr과 defPropExpr을 찾아서 적절한 obj나 prop 객체로 바꿔주고 일부는 @commonCtor에 넣어주는 역할을 수행하도록 하는게 좀 더 좋을 것 같다.
     * prop 에 대고 as()을 호출하게 되면 내부에서 getFunc을 호출한 결과를 가지고 캐스팅을 하도록 하자. 이 func을 호출하기전에 당연하지만 가지고 있는 me를 frameInteract 해줘야한다.
     * set/get은 소괄호를 적지 않는다.
-    * set의 경우는 코드상에 명시되어 있지 않지만 prop.getEval() 타입으로 정의된 `rhs` 라는 param이 정의되어 있다.
+    * set의 경우는 코드상에 명시되어 있지 않지만 prop.infer() 타입으로 정의된 `rhs` 라는 param이 정의되어 있다.
     * get/set 안에 it을 쓰게 되면 prop에 값을 정의해서 이 값을 사용하겠다는 뜻이다.
-    * get의 반환형은 당연히 prop.getEval() 타입이다.
+    * get의 반환형은 당연히 prop.infer() 타입이다.
     * set의 반환형은 void다.
     * get/set을 명시하지 않으면 기본동작이 된다.
         * innervalue를 지정한 경우라면 기본동작은 당연히 it = rhs, return it 이 된다.
@@ -5852,7 +5852,7 @@ def A
                         return getPartial(_blockStack->front());
                     }
                     int checker::onVisit(assignExpr& a) {
-                        getPartial().done[a.getName()].bind(a.getEval());
+                        getPartial().done[a.getName()].bind(a.infer());
                     }
                     int checker::onVisit(retExpr& r) {
                         partialCheck& partial = getPartial();
@@ -6050,8 +6050,8 @@ B(22).doSomething() // ok
 * [?] 만약에 통일을 해냈다고 하자. 그러면 def도 바꿔야 하는게 아닌가?
 * * *
 # [o] for문은 배열을 반환하도록 해달라? ==> **OK**
-* blockExpr::getExpr()은 return stmt[len-1].getEval() 으로 되어있는데, 이거 고쳐야 한다.
-* forExpr::getEval() { return new arr(\_block.getEval()); }
+* blockExpr::getExpr()은 return stmt[len-1].infer() 으로 되어있는데, 이거 고쳐야 한다.
+* forExpr::infer() { return new arr(\_block.infer()); }
 * * *
 # [o] static 을 없애는 방법 ==> **with로 없앴다**
 ### 함수내 변수의 경우
@@ -6247,7 +6247,7 @@ main() void
 # [x] 가능하면 변수명을 지을때 \` 도 가능하게 하자? ==> **하지말자. 그럼, 다른 기호도 해야지 일관성이 있을 것이다.**
 * `다시` 라는 뜻이 있으니까.
 * * *
-# [o] blockExpr을 가진 (함수, on, for 등)의 타입추론 알고리즘 ==> **blockExpr::getEval()이 재귀적으로 처리한다.**
+# [o] blockExpr을 가진 (함수, on, for 등)의 타입추론 알고리즘 ==> **blockExpr::infer()이 재귀적으로 처리한다.**
 * 다음 코드를 보고 어떻게 구현할까?
     ```go
     get(val int) // Type이 없다. Inference 해야 한다. A가 나와야 겠지?
@@ -6258,7 +6258,7 @@ main() void
 * 개념적으로는 비교적 명확하다.
 * 어떠한 Type으로 Inference되어야 할까?
 1. [u] blkExpr evalType을 들게끔 한다.
-    * 기존코드에서는 blkExpr.getEval()하면 무조건 마지막 stmt의 getEval()로 redirection 할 뿐이었다.
+    * 기존코드에서는 blkExpr.infer()하면 무조건 마지막 stmt의 infer()로 redirection 할 뿐이었다.
     * 그런데 이래서는 중간에 return하는 것들을 알지 못한다.
     * verifier는 어짜피 함수 하나를 위에서부터 아래로 뒤지기 때문에
     * 그걸 이제부터는, val을 switchExpr로 정의하고 switchExpr을 기존에 있던 expr을 재사용해서 구성하면 된다.
@@ -6270,26 +6270,26 @@ main() void
             }
             void verifier::onLeave(switchExpr& s) {
                 // onLeave라는 점이 중요하다. 이게 최적화가 된다.
-                // blockExpr::getEval()은, blockExpr 안의 stmt 안에 어딘가 구석에 있는 return문에 의해서 크게 영향 받는다.
-                // 그래서 blockExpr::getEval()은 blockExpr안의 stmt를 모두 한번은 verifier가 지나가고 나서 평가하는게 좋다.
+                // blockExpr::infer()은, blockExpr 안의 stmt 안에 어딘가 구석에 있는 return문에 의해서 크게 영향 받는다.
+                // 그래서 blockExpr::infer()은 blockExpr안의 stmt를 모두 한번은 verifier가 지나가고 나서 평가하는게 좋다.
                 // 그러나 항상 이렇게 verifier를 타입추론이 동작하는 것은 아니다. 그러니 다음처럼 알고리즘을 작성한다.
                 //     1. blockExpr은 기본적으로 _eval은 null이다.
-                //     2. blockExpr.getEval()을 했을 때, _eval이 null인 경우, blockExpr은 자신의 stmt들에게 getEval()을 재귀적으로 물어본다.
-                //     3. blockExpr::getEval()에서 자신의 stmt들에게 getEval()을 한 결과를 받고나서, 해당 stmt가 returnExpr이었을 경우,
-                //        자신의 _eval과 해당 stmt의 getEval() 결과값과 join해서 좀 더 일반적인 타입(node)로 자신의 _eval을 갱신한다.
+                //     2. blockExpr.infer()을 했을 때, _eval이 null인 경우, blockExpr은 자신의 stmt들에게 infer()을 재귀적으로 물어본다.
+                //     3. blockExpr::infer()에서 자신의 stmt들에게 infer()을 한 결과를 받고나서, 해당 stmt가 returnExpr이었을 경우,
+                //        자신의 _eval과 해당 stmt의 infer() 결과값과 join해서 좀 더 일반적인 타입(node)로 자신의 _eval을 갱신한다.
                 //     4. stmt가 마지막 stmt일 경우, 이것이 returnExpr인지 상관없이 자신의 _eval과 join한다.
-                //     5. 이제 이 blockExpr에게 getEval()을 또 물어보게 되면, 이제부터는 _eval이 그냥 나갈 것이다.
+                //     5. 이제 이 blockExpr에게 infer()을 또 물어보게 되면, 이제부터는 _eval이 그냥 나갈 것이다.
                 //     6. mgdFunc또한 별도로 _retType가지고 있는 게 아니라 blockExpr의 eval을 redirection해서 사용한다.
-                // 이처럼 재귀적인 동작은 blockExpr::getEval()에서 다 처리한다.
+                // 이처럼 재귀적인 동작은 blockExpr::infer()에서 다 처리한다.
                 // 근데 blockExpr과 관련된 애들은 왜 onLeave() 에서 검증해야 최적화가 된다고 하는가?
                 //     onVisit()은 onTraverse()보다 빠르다.
-                //     그러니 onVisit(blockExpr&) 에서 getEval()을 해버리면, getEval() 안에서 일단 모든 구문을 deep 하게 한번 탐색한다.
-                //     그리고 getEval()이 끝난 뒤에 visitor에 의해서 다시 한번 더 deep search로 탐색하게 되므로 2번 탐색하게 되는것이다.
-                //     그러나 onLeave(blockExpr&) 등에서 getEval()을 해버린다면 _eval 값을 그대로 전달만 하면 되므로 더 편하다.
+                //     그러니 onVisit(blockExpr&) 에서 infer()을 해버리면, infer() 안에서 일단 모든 구문을 deep 하게 한번 탐색한다.
+                //     그리고 infer()이 끝난 뒤에 visitor에 의해서 다시 한번 더 deep search로 탐색하게 되므로 2번 탐색하게 되는것이다.
+                //     그러나 onLeave(blockExpr&) 등에서 infer()을 해버린다면 _eval 값을 그대로 전달만 하면 되므로 더 편하다.
                 str evalType;
                 for(onExpr& e : s.getOns()) {
-                    e.getEval(); // e.blockExpr.getEval()을 호출한다.
-                                 // blockExpr::getEval()은
+                    e.infer(); // e.blockExpr.infer()을 호출한다.
+                                 // blockExpr::infer()은
                 }
             }
         ```
@@ -7040,7 +7040,7 @@ a := b < c = if true -> 1
     ```
 * 1에서 함수는 반드시 반환형이 있어야 한다. 함수 반환형에 대한 TypeInference는 굉장히 퍼포먼스가 많이 필요하기 때문이다.
     * 람다는 반환형을 없애도 된다. 이때 TypeInference를 하는게 아니라, 함수타입의 반환형을 그대로 가져온다.
-* 2에다가 getEval()을 하면, 2는 `whenExpr` 이기 때문에 모든 `case` 들의 eval을 merge 해야 한다. 즉 void가 된다.
+* 2에다가 infer()을 하면, 2는 `whenExpr` 이기 때문에 모든 `case` 들의 eval을 merge 해야 한다. 즉 void가 된다.
 * 참고로 각 `return` 들을 void에 대해서 명시적으로 반환하려고 하고 있기 때문에 에러다.
 * * *
 # [o] non null type에 대한 runtime error 처리 ==> **verifier는 non err type에 값을 넣었는 가를 검사한다.**

@@ -19,7 +19,7 @@ namespace by {
     str me::getContainer() { return *_container; }
 
     str me::_makeEval() const {
-        str ased = _container->getEval();
+        str ased = _container->infer();
         str elemType = ased->run("getElemType") OR.err("elemType == null").ret(str());
         frame& fr = thread::get()._getNowFrame() OR.ret(str());
 

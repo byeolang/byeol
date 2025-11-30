@@ -19,7 +19,7 @@ namespace by {
 
     scope& me::subs() { return dumScope::singleton(); }
 
-    nbool me::isImpli(const type& to) const { return getEval()->isSub(to); }
+    nbool me::isImpli(const type& to) const { return infer()->isSub(to); }
 
     priorType me::prioritize(const args& a) const { return a.len() == 0 ? EXACT_MATCH : NO_MATCH; }
 

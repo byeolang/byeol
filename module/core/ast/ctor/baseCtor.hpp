@@ -17,7 +17,7 @@ namespace by {
         baseCtor(const mgdType& type);
 
     public:
-        str getEval() const override;
+        str infer() const override;
         const ntype& getType() const override;
         const baseObj& getOrigin() const override;
 

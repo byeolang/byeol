@@ -8,13 +8,13 @@
         * propSetFunc: accessor "set" blkStmt | accessor "set"
         * defPropFuncs: propGetFunc propSetFunc | propSetFunc propGetFunc
         * defCustomizedPropExpr: defPropExpr defPropFuncs
-* 이제 `get prop.getEval()`, `setter void`를 정의할 수 있다.
+* 이제 `get prop.infer()`, `setter void`를 정의할 수 있다.
 * getter, setter에서 `it`을 사용하면 값이 있는 prop으로 parsing 한다.
     * `A B` 처럼 적었다고 해도, getter/setter 안에서 it을 사용했다면 값이 있는 prop이다.
     * `A := B` 처럼 적었는데 `it`을 사용하지 않으면 에러다.
 * prop 에 대고 as()을 호출하게 되면 내부에서 getFunc을 호출한 결과를 가지고 캐스팅을 하도록 하자. 이 func을 호출하기전에 당연하지만 가지고 있는 me를 frameInteract 해줘야한다.
 * set/get은 뒤에 소괄호를 적지 않는다.
-* set의 경우는 코드상에 명시되어 있지 않지만 prop.getEval() 타입으로 정의된 `rhs` 라는 param이 정의되어 있다.
+* set의 경우는 코드상에 명시되어 있지 않지만 prop.infer() 타입으로 정의된 `rhs` 라는 param이 정의되어 있다.
 * get/set을 명시하지 않으면 기본동작이 된다.
     * innervalue를 지정한 경우라면 기본동작은 당연히 it = rhs, return it 이 된다.
     * innervalue가 없는 경우라면 기본동작은 당연히 `호출불가` 가 된다.
@@ -369,7 +369,7 @@ partialCheck& checker::getPartial() {
 }
 
 int checker::onVisit(assignExpr& a) {
-    getPartial().done[a.getName()].bind(a.getEval());
+    getPartial().done[a.getName()].bind(a.infer());
 }
 
 int checker::onVisit(retExpr& r) {
@@ -471,7 +471,7 @@ int checker::onVisit(ifExpr& i) {
         // obj, func frameInteract가 이미 되어있다는 전제하에:
         withPropExpr& new1 = e.run();
         me.owns.add(e.name, new1);
-        new1.set(e.getEval()); // property의 setter를 호출하게 된다.
+        new1.set(e.infer()); // property의 setter를 호출하게 된다.
         ```
 * 종속성 문제를 지닌 expr은 반드시 초기식이 있는 구문이다. 초기식이 있는 구문이란 반드시 owns에 들어가는 것들이다.
 * expander는 visitor다. 다만 함수내부는 보지 않는다. 종속성문제를 야기시키는 부분만 탐색하고 수정한다.
@@ -487,9 +487,9 @@ int checker::onVisit(ifExpr& i) {
     * 그래서 이제는 expand 들어가기 전에 모든 generic객체를 만들어 놓는 방식을 택한다.
     * pack은 gorgGenerators을 가진다. generic을 genericObj 안에 생성하는 용도다.
     * gorgGenerators는 getGenericExpr, meOrg, func 2개로 구성되어 있다.
-    * gorgGenerators.getEval()을 하게 되면 meOrg, func으로 frameInteract 한 다음에 getGenericExpr이 찾은 genericObj::run()을 호출할 거고, 이 함수는 genericObj::\_cache 안에 새로운 genericObj을 만든 뒤, 이걸 반환한다.
+    * gorgGenerators.infer()을 하게 되면 meOrg, func으로 frameInteract 한 다음에 getGenericExpr이 찾은 genericObj::run()을 호출할 거고, 이 함수는 genericObj::\_cache 안에 새로운 genericObj을 만든 뒤, 이걸 반환한다.
     * parser는 getGenericExpr를 만나면, pack 안에 @gorgGenerators를 만들어 채워둔다.
-    * expander는 visit(pack) 하기전에 pack.@gorgGenerators에 대해 각각 getEval() 한 것을 pack.org에 넣어둔다.
+    * expander는 visit(pack) 하기전에 pack.@gorgGenerators에 대해 각각 infer() 한 것을 pack.org에 넣어둔다.
     * 그리고 나서 expander는 pack.@gorgGenerators를 지운다.
 * 종속성을 풀때는 위에서 아래로만 하지 않는다.
 * 최적화시에는,
@@ -500,7 +500,7 @@ int checker::onVisit(ifExpr& i) {
 아래의 알고리즘은 모두 서술된 것은 아니나, 감을 잡기에는 충분하다.
 * visit(pack)를 수행한다. 이게 진입점이다. 다른 verifier, visitor와 동일하다.
     * 이 함수가 호출되면, 다른 것보다
-        * pack.@gorgGenerators에 대해 각각 getEval() 한 것을 pack.org에 넣어둔다.
+        * pack.@gorgGenerators에 대해 각각 infer() 한 것을 pack.org에 넣어둔다.
         * 그리고 나서 expander는 pack.@gorgGenerators를 지운다.
     * resolveDep(obj& me, const string& name, const args& args = nullable)
         * e.getMe()로 orgObj를 구한다.
@@ -517,14 +517,14 @@ int checker::onVisit(ifExpr& i) {
         * **e의 종속성 문제가 모두 해결되면 e를 @expand에서 꺼내서 meObj.owns에 넣는다.**
         * res := resolveDep(me, name)
         * res가 에러면 에러를 report하고 바로 이 함수를 종료한다.
-        * me.owns에 e.getEval() 자체를 add 한다.
+        * me.owns에 e.infer() 자체를 add 한다.
         * 만약 e가 with였다면,
             ```cpp
             defWithPropExpr& e;
             // obj, func frameInteract가 이미 되어있다는 전제하에:
             withPropExpr& new1 = e.run();
             me.owns.add(e.name, new1);
-            new1.set(e.getEval()); // property의 setter를 호출하게 된다.
+            new1.set(e.infer()); // property의 setter를 호출하게 된다.
             ```
     * onTraverse(pack)
         * pack.orgs를 하나하나 traverse한다.
@@ -667,7 +667,7 @@ a := me.status // defAssign 최종 결과값인 `me.status`를 실행한 결과�
         // 이 함수호출의 eval Type은 str? 다.
         // boo()에서 err가 반환되었을 경우 foo()는 그 즉시 err를 반환한다. koo(), hoo()는 실행되지 않는다.
     ```
-* 함수호출(`runExpr`) 인자에 `?` 가 사용되었을 경우, 해당 함수호출의 getEval()은 함수반환형 + ? 타입이 된다.
+* 함수호출(`runExpr`) 인자에 `?` 가 사용되었을 경우, 해당 함수호출의 infer()은 함수반환형 + ? 타입이 된다.
 ## 에러의 처리는 지연처리와 패턴매칭으로 한다.
 * 지연처리는 합타입인 채로 들고 가다가 그걸 반환하거나, safe-navigation을 사용하거나 나중에 처리하는 방법이다.
 ## exception
@@ -938,7 +938,7 @@ def a
           2. 이때 me의 objScope이 아니라 pack에서 접근한 경우 에러를 내야한다.
 * prop이 nullable이어도 이 기능은 정상동작한다.
 * verifier는 이 간편할당문법을 발견하면 getExpr()로 나온 prop이 반드시 me의 objScope에 속해있는지 여부를 확인해야한다.
-* 그래서 getExpr::getEval()을 해서 결과로 null인가 아닌가만 체크하면 절대로 안된다. 적어도 pack은 제거한 상태에서 질의하자.
+* 그래서 getExpr::infer()을 해서 결과로 null인가 아닌가만 체크하면 절대로 안된다. 적어도 pack은 제거한 상태에서 질의하자.
 ## 특수함수
 * 객체에 이름이 이미 정해져 있는 함수들이다. 사용자가 다른 목적을 가지고 함부로 이름을 붙일 수 없는 함수명이다.
 * interpreter에 의해서 자동으로 호출되는 것들이 여기에 해당한다.
@@ -1011,15 +1011,15 @@ B().boo()
 * `null` 로 eval된 타입을 다른 값에 할당하려고 시도하면 에러를 반환한다.
     * null로 eval 된 타입을 아무런 동작을 하지 않고 놔둔다면 물론 에러가 아니다.
 ### 알고리즘
-* expr::getEval()이 null을 반환한다는 것은 `이 expr을 evalType을 무시해주세요` 라는 뜻이다.
-* `blockExpr::getEval()` 이 호출되면 마지막 stmt의 getEval()만 수행한 결과를 그대로 내보낸다.
-    * 함수는 반환형을 반드시 적어야 하도록 했기 때문에 이렇게 blockExpr은 마지막 stmt의 대한 getEval()만 하면 되는 것이다.
+* expr::infer()이 null을 반환한다는 것은 `이 expr을 evalType을 무시해주세요` 라는 뜻이다.
+* `blockExpr::infer()` 이 호출되면 마지막 stmt의 infer()만 수행한 결과를 그대로 내보낸다.
+    * 함수는 반환형을 반드시 적어야 하도록 했기 때문에 이렇게 blockExpr은 마지막 stmt의 대한 infer()만 하면 되는 것이다.
 * `if else`, `when` 처럼 여러개의 blockExpr을 들고있는 표현식은 여러개의 blockExpr의 도출된 type을 merge 한 것을 자신의 type으로 확정한다.
     * 만약 한쪽 blockExpr이 null을 반환하는 경우에는, 그 blockExpr을 merge 하지 않는다.
-* `if` 나 `when` 에서 else를 넣지 않은 경우, 그 expr의 getEval()은 null을 내보낸다.
-* `null` 로 eval된 타입을 다른 값에 할당하려고 시도하거나 함수의 getEval()로 null이 반환되면 에러를 반환한다.
+* `if` 나 `when` 에서 else를 넣지 않은 경우, 그 expr의 infer()은 null을 내보낸다.
+* `null` 로 eval된 타입을 다른 값에 할당하려고 시도하거나 함수의 infer()로 null이 반환되면 에러를 반환한다.
     * 다시말하면, 다른 상황에서 null이 반환된다면 그건 에러가 아니다.
-* expr::getEval()은 궁극적으로 타입추론을 담당한다.
+* expr::infer()은 궁극적으로 타입추론을 담당한다.
 * 타입추론은 verifier에서도 사용되고 expand에서도 사용된다.
 ## 참조자 타입 검증
 * prop이나 함수의 인자가 의미하는 타입에 올바른 객체가 들어가있는지를 verifier가 검증할 수 있어야 한다.
@@ -1044,7 +1044,7 @@ B().boo()
     2. 반드시 orgObj에 들어있는 그 unique한 애들을 넣어서 바인딩을 잘 해줘야 한다.
 ## managedType 접근 오류 수정
 * 사용자가 작성한 객체에 접근하거나 param의 타입으로 놓거나 할때마다 `getExpr`을 사용해왔다.
-* 그러나 getExpr::getEval()로 managedType인 orgObj를 추출하려고 하면 currentStackFrame에서 찾는다.
+* 그러나 getExpr::infer()로 managedType인 orgObj를 추출하려고 하면 currentStackFrame에서 찾는다.
 * 즉, currentStackFrame을 적절하게 교체해주지 않고 무작정 getOrgObj를 뽑아내려고 하면 어떨때는 전혀 다른 객체가 나오는 오류가 있었다.
 * 이걸 해결하기 위해서 expand 단계에서 expander는 코드를 순회하면서 외부에 노출된 타입들을 전부 제대로 eval한 뒤에 orgObj를 교체해주는 작업을 수행해야한다.
     * 여기서 말하는 외부에 노출된 타입이란 다음과 같은 orgObj의 directSub들로, getExpr 혹은 Param 객체다.
@@ -1133,7 +1133,7 @@ B().boo()
     * 완전객체로 변하지 않은, proxyNode()가 들어가 있는 상태의 owns 배열이다.
 * with에 대한 연결은 생성자(사용자의 생성자 혹은 @commonCtor) 안쪽에서 처리한다.
 * withExpr, defAssignExpr 은 초기식에 해당하며, 다음처럼 한다.
-    1. 초기식을 getEval() 한 orgObj을 proxyNode() 에 감싸서 owns에 넣어둔다. 이 값은 이제 verifier가 사용할 것이다.
+    1. 초기식을 infer() 한 orgObj을 proxyNode() 에 감싸서 owns에 넣어둔다. 이 값은 이제 verifier가 사용할 것이다.
     1. 초기식을 assignExpr 하는 코드를 @commonCtor에 담긴다. 생성자가 호출되면 기존의 proxyNode() 부분을 map.set() 을 통해서 교체할 것이다.
 * proxyNode::clone()은 자신을 복제한 객체에 orgObj를 얇은 복사해서 넣는 구현이다.
 * scope::clone()은 각 elem에 대해 clone() 을 해서 넣는 코드다.
@@ -1475,7 +1475,7 @@ c.foo(1, 2) // 에러! 이런 함수는 c에 없다.
     * 완전객체로 변하지 않은, proxyNode()가 들어가 있는 상태의 owns 배열이다.
 * with에 대한 연결은 생성자(사용자의 생성자 혹은 @commonCtor) 안쪽에서 처리한다.
 * withExpr, defAssignExpr 은 초기식에 해당하며, 다음처럼 한다.
-    1. 초기식을 getEval() 한 orgObj을 proxyNode() 에 감싸서 owns에 넣어둔다. 이 값은 이제 verifier가 사용할 것이다.
+    1. 초기식을 infer() 한 orgObj을 proxyNode() 에 감싸서 owns에 넣어둔다. 이 값은 이제 verifier가 사용할 것이다.
     1. 초기식을 assignExpr 하는 코드를 @commonCtor에 담긴다. 생성자가 호출되면 기존의 proxyNode() 부분을 map.set() 을 통해서 교체할 것이다.
 * proxyNode::clone()은 자신을 복제한 객체에 orgObj를 얇은 복사해서 넣는 구현이다.
 * scope::clone()은 각 elem에 대해 clone() 을 해서 넣는 코드다.
@@ -1615,14 +1615,14 @@ class safeNullNode : public baseObj {}
 * ProxyNode는 1개의 함수를 제외하고는 모든 함수를 proxy로 전달만 한다.
 * 그 1개의 함수란 바로 isComplete() 다. 항상 true를 반환한다.
 * verification 도중 defAssign 처럼 변수를 생성해야 하는 경우, ProxyNode() 객체를 생성해서 넣어두자.
-* 그리고 orgObj 안에 있는 각 prop 들은 실제 값을 run되서 들어가 있는게 아니라 getEval()로 타입만 확정된 orgObj이 들어가 있게끔 한다.
+* 그리고 orgObj 안에 있는 각 prop 들은 실제 값을 run되서 들어가 있는게 아니라 infer()로 타입만 확정된 orgObj이 들어가 있게끔 한다.
 * * *
 # for문은 마지막 실행 결과를 반환하는 게 아니라, 배열을 반환한다.
 * 매번 forExpr 실행시마다 배열을 생성해서 넘기는 것은 퍼포먼스를 많이 요구한다.
 * verifier는 forExpr을 검증할때 배열을 생성해서 넘겨야 하는지를 판단해서 forExpr에 set 주도록 한다.
 ```cpp
-str forExpr::getEval() {
-    return new arr(_block.getEval());
+str forExpr::infer() {
+    return new arr(_block.infer());
 }
 ```
 * * *

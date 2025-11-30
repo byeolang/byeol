@@ -13,7 +13,7 @@ namespace by {
         return a.getMe();
     }
 
-    str me::getEval() const { return getRet(); }
+    str me::infer() const { return getRet(); }
 
     const src& me::getSrc() const {
         static src inner(srcFile(), ctor::CTOR_NAME, point{});

@@ -51,16 +51,16 @@ namespace by {
         return super::prioritize(a);
     }
 
-    str me::getEval() const {
-        // why you don't 'getEval()' to '_ret'?:
+    str me::infer() const {
+        // why you don't 'infer()' to '_ret'?:
         //  think about a below codes:
         //      for strArr in {{"hello"}}
         //          for s in strArr
         //              ret s
         //
-        //  in this case, when you getEval() to first 'for', which type should be returned?
+        //  in this case, when you infer() to first 'for', which type should be returned?
         //  you may think like "isn't it 'strType'? because there is 'ret' keyword inside of nested
-        //  loop." and I would say no. when 'forExpr.getEval()' called, forExpr class need to return
+        //  loop." and I would say no. when 'forExpr.infer()' called, forExpr class need to return
         //  array type of stmt's eval type. so normally, first for loop should be evaluated as
         //  'arr<arr<str>>' because its nested for loop will be evaluated to 'arr<str>'.
         //
@@ -69,7 +69,7 @@ namespace by {
         //  inside. the problem is, of course, most outer for loop can't know immedately whether
         //  there is 'ret' inside of its block stmt without DFS.
         //
-        //  so I return 'retExpr' itself when getEval() called.
+        //  so I return 'retExpr' itself when infer() called.
         //  by doing this, each for loop can judge its block stmt has 'ret' or not. it affects for
         //  'for loop' which type does they should evalutes.
         //

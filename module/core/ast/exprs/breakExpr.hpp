@@ -20,6 +20,6 @@ namespace by {
         BY(CLASS(breakExpr, retStateExpr, expr::exprType), VISIT())
 
     public:
-        str getEval() const override;
+        str infer() const override;
     };
 }

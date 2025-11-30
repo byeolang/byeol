@@ -28,7 +28,7 @@ namespace by {
         using super::prioritize;
         priorType prioritize(const args& a) const override;
 
-        str getEval() const override;
+        str infer() const override;
 
     private:
         nbool _isEx(const node& got, const node& funcRet);

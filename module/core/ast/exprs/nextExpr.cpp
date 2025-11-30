@@ -7,7 +7,7 @@ namespace by {
 
     BY(DEF_ME(nextExpr), DEF_VISIT())
 
-    str me::getEval() const {
+    str me::infer() const {
         static nextRet inner;
         return inner;
     }

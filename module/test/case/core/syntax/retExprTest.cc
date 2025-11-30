@@ -37,8 +37,8 @@ TEST_F(retExprTest, simpleReturnTypeNegative) {
 
     func& make = getSubPack() TO(template sub<func>("make")) OR_ASSERT(make);
     retExpr& ret = make.getBlock().getStmts().begin().get<retExpr>() OR_ASSERT(ret);
-    ASSERT_TRUE(ret.getEval()->isSub<retExpr>());
-    ASSERT_EQ(ret.getRet().getEval()->getType(), ttype<nVoid>::get());
+    ASSERT_TRUE(ret.infer()->isSub<retExpr>());
+    ASSERT_EQ(ret.getRet().infer()->getType(), ttype<nVoid>::get());
 }
 
 TEST_F(retExprTest, implicitReturn) {

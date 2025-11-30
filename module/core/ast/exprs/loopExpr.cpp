@@ -36,14 +36,14 @@ namespace by {
 
     blockExpr* me::getBlock() const { return _blk.get(); }
 
-    str me::getEval() const {
+    str me::infer() const {
         WHEN(_eval) .ret(*_eval);
 
         return _eval = _makeEval();
     }
 
     str me::_makeEval() const {
-        str res = getBlock() TO(getEval()) OR.ret(str());
+        str res = getBlock() TO(infer()) OR.ret(str());
 
         if(res->isSub<retExpr>()) return res;
         return new arr(*res->as<baseObj>());
@@ -65,7 +65,7 @@ namespace by {
 
     tstr<arr> me::_makeRet() const {
         static dumArr inner;
-        str eval = getEval() OR.err("eval is null ").ret(nullptr);
+        str eval = infer() OR.err("eval is null ").ret(nullptr);
         WHEN(!eval->isSub<arr>()) .ret(nullptr);
 
         return *new arr(*eval->getType().getParams()[0].getOrigin().as<baseObj>());

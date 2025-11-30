@@ -23,7 +23,7 @@ namespace by {
         using super::run;
         str run(const args& a) override;
 
-        str getEval() const override;
+        str infer() const override;
 
         node* getMe();
         const node* getMe() const BY_CONST_FUNC(getMe())

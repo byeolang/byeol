@@ -22,7 +22,7 @@ namespace by {
         using super::run;
         str run(const args& a) override;
 
-        str getEval() const override;
+        str infer() const override;
         const baseObj* getArrayType() const;
         const arr& getOrigin() const;
         const narr& getElems() const BY_CONST_FUNC(getElems())
