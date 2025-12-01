@@ -39,8 +39,8 @@ namespace by {
         using super::prioritize;
         priorType prioritize(const args& a) const override;
 
-        using super::run;
-        str run(const args& a) override;
+        using super::eval;
+        str eval(const args& a) override;
 
         str infer() const override;
 

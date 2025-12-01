@@ -87,10 +87,10 @@ TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
         ASSERT_TRUE(ps[0].getOrigin().isSub<nStr>());
 
         kniz::isRun = false;
-        b->run("say", args(narr(nStr("hello"))));
+        b->eval("say", args(narr(nStr("hello"))));
         ASSERT_EQ(kniz::isRun, true);
 
-        str new1 = b->run();
+        str new1 = b->eval();
         ASSERT_TRUE(new1);
         tstr<tbridge<kniz>> cast = new1;
         ASSERT_TRUE(cast);
@@ -106,7 +106,7 @@ TEST_F(bridgeTest, testNormalWrapping) {
     ASSERT_TRUE(bridge->sub("say"));
 
     kniz::isRun = false;
-    bridge->run("say", narr{nStr("hello native!")});
+    bridge->eval("say", narr{nStr("hello native!")});
     ASSERT_TRUE(kniz::isRun);
 }
 
@@ -123,12 +123,12 @@ TEST_F(bridgeTest, passObj) {
     str winBridge(tbridger<window>::make(new window()));
     str winOpenGL(tbridger<openGL>::make(new openGL()));
 
-    winBridge->run("setY", args(narr(*new nInt(20))));
-    str res = winBridge->run("getY");
+    winBridge->eval("setY", args(narr(*new nInt(20))));
+    str res = winBridge->eval("getY");
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 20);
 
-    res = winOpenGL->run("init", args(narr(*winBridge)));
+    res = winOpenGL->eval("init", args(narr(*winBridge)));
     ASSERT_TRUE(res);
     ASSERT_EQ(*res->cast<nint>(), 25);
 }
@@ -137,8 +137,8 @@ TEST_F(bridgeTest, returnObj) {
     str winBridge(tbridger<window>::make(new window()));
     str winOpenGL(tbridger<openGL>::make(new openGL()));
 
-    str newWin = winBridge->run("new1", args(narr(*new nInt(15))));
-    str res = winOpenGL->run("init", args(narr(*newWin)));
+    str newWin = winBridge->eval("new1", args(narr(*new nInt(15))));
+    str res = winOpenGL->eval("init", args(narr(*newWin)));
     ASSERT_TRUE(res);
     ASSERT_EQ(*res->cast<nint>(), 20);
 }
@@ -167,8 +167,8 @@ TEST_F(bridgeTest, passArray) {
     narrBridge->get().add(*new nInt(0)); // call func directly.
     narrBridge->get().add(*new nInt(1));
     narrBridge->get().add(*new nInt(2));
-    mgrBridge->run("add", args(narr(*narrBridge)));
-    mgrBridge->run("del", args(narr(*new nInt(1)))); // 0, 2 remains.
+    mgrBridge->eval("add", args(narr(*narrBridge)));
+    mgrBridge->eval("del", args(narr(*new nInt(1)))); // 0, 2 remains.
 
     const narr& res = mgrBridge->cast<tbridge<windowManager>>()->get()._wins;
     ASSERT_EQ(res.len(), 2);
@@ -198,7 +198,7 @@ TEST_F(bridgeTest, passRawObj) {
     o1.age = 5;
 
     str stg(tbridger<stage>::ctor().ctor<stage>().func("foo", &stage::foo).make(new stage()));
-    str res = stg->run("foo", args(narr(o1)));
+    str res = stg->eval("foo", args(narr(o1)));
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 5);
 }
@@ -244,11 +244,11 @@ TEST_F(bridgeTest, passArr) {
                     .func("updateLen", &testObj::updateLen)
                     .func("sumOfLen", &testObj::sumOfLen)
                     .make(new testObj()));
-    str res = testobj->run("updateLen", args(narr(a)));
+    str res = testobj->eval("updateLen", args(narr(a)));
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 3);
 
-    res = testobj->run("sumOfLen");
+    res = testobj->eval("sumOfLen");
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 6);
 }
@@ -288,12 +288,12 @@ TEST_F(bridgeTest, baseObjWithBridgeOrigin) {
     ASSERT_EQ(ps.len(), 1);
     ASSERT_TRUE(ps[0].getOrigin().isSub<nInt>());
 
-    auto res = a1.run("foo", {narr{nInt(1)}});
+    auto res = a1.eval("foo", {narr{nInt(1)}});
     ASSERT_TRUE(res);
     ASSERT_TRUE(res->isSub<nInt>());
     ASSERT_EQ(*res->cast<nint>(), 2);
 
-    res = a2.run("foo", {narr{nInt(1)}});
+    res = a2.eval("foo", {narr{nInt(1)}});
     ASSERT_TRUE(res);
     ASSERT_TRUE(res->isSub<nInt>());
     ASSERT_EQ(*res->cast<nint>(), 3);
@@ -314,10 +314,10 @@ TEST_F(bridgeTest, bridgeWhatDoesntHaveDefaultCtor) {
     ASSERT_TRUE(bridge);
     ASSERT_EQ(bridge->get().age, 1);
 
-    tstr<tbridge<B>> res = bridge->run(narr{nInt(5)});
+    tstr<tbridge<B>> res = bridge->eval(narr{nInt(5)});
     ASSERT_TRUE(res);
 
-    str age = res->run("getAge");
+    str age = res->eval("getAge");
     ASSERT_TRUE(age);
     ASSERT_EQ(*age.cast<nint>(), 5);
 }

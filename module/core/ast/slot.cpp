@@ -23,7 +23,7 @@ namespace by {
 
     priorType me::prioritize(const args& a) const { return getPack().prioritize(a); }
 
-    str me::run(const args& a) { return getPack().run(a); }
+    str me::eval(const args& a) { return getPack().eval(a); }
 
     str me::infer() const { return getPack().infer(); }
 

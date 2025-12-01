@@ -19,7 +19,7 @@ namespace by {
         defaultCtor(const node& org);
 
     public:
-        using super::run;
-        str run(const args& a) override;
+        using super::eval;
+        str eval(const args& a) override;
     };
 }

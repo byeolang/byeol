@@ -43,7 +43,7 @@ namespace by {
         return EXACT_MATCH;
     }
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         std::string key = _makeKey(a);
         WHEN(key.empty()) .err("key is empty").ret(tstr<obj>());
         WHEN(_isSelfMaking(key)) .err("error: you tried to clone self generic object.").ret(tstr<obj>());

@@ -54,7 +54,7 @@ namespace by {
 
             const baseObj& getOrigin() const override { return _getOrigin(); }
 
-            str run(const args& a) override {
+            str eval(const args& a) override {
                 const params& ps = getParams();
                 WHEN(a.len() != ps.len()) .warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
                 arr& meObj = a.getMe() TO(template cast<arr>()) OR.err("meObj as arr == null").ret(str());
@@ -78,7 +78,7 @@ namespace by {
 
             const baseObj& getOrigin() const override { return _getOrigin(); }
 
-            str run(const args& a) override { return getType().getRet() TO(template as<node>()); }
+            str eval(const args& a) override { return getType().getRet() TO(template as<node>()); }
 
         private:
             mgdType _type;
@@ -189,7 +189,7 @@ namespace by {
 
             const baseObj& getOrigin() const override { return *_org; }
 
-            str run(const args& a) override {
+            str eval(const args& a) override {
                 node& src = a.getMe() OR.ret(str());
                 return (node*) src.clone();
             }

@@ -16,7 +16,7 @@ namespace {
 
         void setUp() { _executed = false; }
 
-        str run(const args& a) override {
+        str eval(const args& a) override {
             BY_I("hello world!");
             _executed = true;
             return str();
@@ -139,7 +139,7 @@ TEST_F(nodeTest, testManualNativefuncCall) {
 
     // when:
     func.setUp();
-    subs[0].run(a);
+    subs[0].eval(a);
     ASSERT_TRUE(func.isRun());
 }
 

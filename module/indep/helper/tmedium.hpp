@@ -32,7 +32,7 @@ namespace by {
     ///
     /// but, there is one problem in this way.
     /// the c++ standard does not specify that the address value of a null reference is null.
-    /// (and in fact, in an environment where optimized code is run by clang on silicon macOS,
+    /// (and in fact, in an environment where optimized code is eval by clang on silicon macOS,
     /// referencing the address value of a nulled reference returns a garbage value.)
     /// so, when a null reference is received in the constructor of the tstr class, there is no
     /// way for the tstr class to determine whether it is correct or not.

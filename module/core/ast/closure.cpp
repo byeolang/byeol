@@ -27,13 +27,13 @@ namespace by {
 
     const modifier& me::getModifier() const { return _func->getModifier(); }
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         BY_I("running closure for %s.%s", *_org, *_func);
         WHEN(!_func) .ret(str());
 
         tmay<args> evaled = a.evalAll(_func->getParams()) OR.ret(str());
         evaled->setMe(*_org);
-        return _func->run(*evaled);
+        return _func->eval(*evaled);
     }
 
     const baseObj& me::getOrigin() const { return *_org; }
@@ -74,5 +74,5 @@ namespace by {
         return new me(*meObj, cast);
     }
 
-    me* me::_make(defNestedFuncExpr& e) { return _make(e.run()->cast<func>()); }
+    me* me::_make(defNestedFuncExpr& e) { return _make(e.eval()->cast<func>()); }
 } // namespace by

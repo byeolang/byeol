@@ -9,7 +9,7 @@ namespace by {
 
     me::defSeqExpr(const node& start, const node& end): _start(start), _end(end) {}
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         tstr<nInt> start = _start TO(template as<nInt>()) OR.err("_start is null").ret(str());
         tstr<nInt> end = _end TO(template as<nInt>()) OR.err("_end is null").ret(str());
         return str(new seq(*start, *end));

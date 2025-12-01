@@ -27,7 +27,7 @@ namespace {
             BY(CLASS(myBlock, blockExpr))
 
         public:
-            str run(const args& a) override {
+            str eval(const args& a) override {
                 BY_I("hello world!");
                 _executed = true;
 
@@ -135,6 +135,6 @@ TEST_F(immutableTest, testFrameImmutability) {
     });
 
     o1.subs().add("foo", mf);
-    o1.run("foo", narr());
+    o1.eval("foo", narr());
     ASSERT_TRUE(mf.isSuccess());
 }

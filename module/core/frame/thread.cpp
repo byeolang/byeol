@@ -116,7 +116,7 @@ namespace by {
         return *_inner;
     }
 
-    str me::run(const args& a) { return str(); }
+    str me::eval(const args& a) { return str(); }
 
     me::thread(): _ex(new errReport()) {} // for singleton
 

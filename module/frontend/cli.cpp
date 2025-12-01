@@ -20,7 +20,7 @@ namespace by {
         }
     }
 
-    nint me::run(flagArgs& a) {
+    nint me::eval(flagArgs& a) {
         interpreter ip;
         errReport rpt(true); // it's noisy now.
         ip.setReport(rpt).setFlag(interpreter::DEFAULT);

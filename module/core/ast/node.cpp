@@ -41,12 +41,12 @@ namespace by {
 
     nbool me::canRun(const args& a) const { return prioritize(a) != NO_MATCH; }
 
-    str me::run() { return run(args()); }
+    str me::eval() { return eval(args()); }
 
-    str me::run(const std::string& name) { return run(name, args()); }
+    str me::eval(const std::string& name) { return eval(name, args()); }
 
-    str me::run(const std::string& name, const args& a) {
-        if(name.empty()) return run(a);
+    str me::eval(const std::string& name, const args& a) {
+        if(name.empty()) return eval(a);
         node& found = subAll(name, &a).get() OR.ret(str());
 
         return _onRunSub(found, a);
@@ -70,7 +70,7 @@ namespace by {
 
     str me::infer() const { return str(this); }
 
-    str me::_onRunSub(node& sub, const args& a) { return sub.run(a); }
+    str me::_onRunSub(node& sub, const args& a) { return sub.eval(a); }
 
     nbool me::isComplete() const { return true; }
 

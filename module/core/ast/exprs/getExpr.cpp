@@ -24,7 +24,7 @@ namespace by {
 
     str me::infer() const { return _get(true); }
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         // believe that this expression was checked to be valid.
         return _get(false);
     }

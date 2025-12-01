@@ -31,8 +31,8 @@ namespace by {
 
     scope& me::subs() { return _subs; }
 
-    str me::run(const args& a) {
-        BY_I("@%s prepare to run `%s(%s)`...", this, getSrc(), getParams());
+    str me::eval(const args& a) {
+        BY_I("@%s prepare to eval `%s(%s)`...", this, getSrc(), getParams());
         WHEN(!thread::get().isInteractable())
             .err("thread isn't interactable").ret(nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD));
 
@@ -51,8 +51,8 @@ namespace by {
 
     str me::_run(nidx exN) {
         _runEnds();
-        BY_I("@%s --> run `%s(%s)", this, getSrc(), getParams());
-        str ret = _blk->run();
+        BY_I("@%s --> eval `%s(%s)", this, getSrc(), getParams());
+        str ret = _blk->eval();
         BY_I("@%s <-- ended `%s(%s)", this, getSrc(), getParams());
         ret = _postprocess(ret, exN);
         BY_I("@%s `%s <--ret-- %s(%s)`", this, ret, getSrc(), getParams());
@@ -76,7 +76,7 @@ namespace by {
 
     void me::_runEnds() {
         for(nidx n = _ends.len() - 1; n >= 0; n--)
-            _ends[n].run();
+            _ends[n].eval();
     }
 
     void me::_setOrigin(const baseObj& org) { _org.bind(org); }

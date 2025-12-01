@@ -41,10 +41,10 @@ namespace by {
             return NO_MATCH;
         }
 
-        using super::run;
+        using super::eval;
 
-        str run(const args& a) override {
-            if(_org) return _org->run(a);
+        str eval(const args& a) override {
+            if(_org) return _org->eval(a);
             return str();
         }
 

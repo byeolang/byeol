@@ -21,7 +21,7 @@ namespace by {
 
     nbool me::isLogicalOp() const { return SYMBOL_LOGIC_START <= _symbol && _symbol < SYMBOL_LOGIC_END; }
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         tstr<arithmeticObj> lhs(_lhs TO(template as<arithmeticObj>()));
         tstr<arithmeticObj> rhs(_rhs TO(template as<arithmeticObj>()));
         WHEN(!lhs || !rhs) .info("lhs or rhs is null").ret(str());

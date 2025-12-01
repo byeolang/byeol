@@ -13,7 +13,7 @@ namespace {
 
         priorType prioritize(const args& a) const override { return NO_MATCH; }
 
-        str run(const args& a) override { return str(); }
+        str eval(const args& a) override { return str(); }
 
         int num;
     };

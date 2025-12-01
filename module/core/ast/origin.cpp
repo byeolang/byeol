@@ -100,6 +100,6 @@ namespace by {
 
     void me::_runCallComplete() {
         _state = LINKED; // set to LINKED to prevent infinite loop.
-        if(_callComplete) _callComplete->run();
+        if(_callComplete) _callComplete->eval();
     }
 } // namespace by

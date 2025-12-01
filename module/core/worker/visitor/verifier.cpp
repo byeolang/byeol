@@ -356,7 +356,7 @@ namespace by {
         WHEN(asedMe && !asedMe->isComplete()) .myExErr(me, ACCESS_TO_INCOMPLETE).ret();
 
         _STEP("check modifier.");
-        if(!match->getModifier().isPublic()) { // we only need to run verify routine when there is
+        if(!match->getModifier().isPublic()) { // we only need to eval verify routine when there is
                                                // protected modifier.
             baseObj* castedMe = asedMe->cast<baseObj>();
             if(castedMe) { // if getExpr's castedMe is not derived one of baseObj, it's frame.
@@ -386,7 +386,7 @@ namespace by {
     void me::onLeave(const visitInfo& i, runExpr& me, nbool) {
         _GUARD("onLeave(runExpr&)");
 
-        _STEP("is it possible to run?");
+        _STEP("is it possible to eval?");
         WHEN_NUL(me.getMe()).myExErr(me, DONT_KNOW_ME).ret();
 
         str ased = me.getMe() TO(infer()) OR.ret();
@@ -640,7 +640,7 @@ namespace by {
 
         str container = me._container;
         str conAsed = container->infer() OR.myExErr(me, CONTAINER_IS_NUL).ret(true);
-        str elemType = conAsed->run("getElemType") OR.myExErr(me, ELEM_TYPE_IS_NUL).ret(true);
+        str elemType = conAsed->eval("getElemType") OR.myExErr(me, ELEM_TYPE_IS_NUL).ret(true);
 
         const std::string& name = me.getLocalName();
         _STEP("define iterator '%s %s'", elemType, name);

@@ -21,14 +21,14 @@ namespace by {
 
     node& me::getCondition() { return *_expr; }
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         tstr<nBool> res = _expr->as<node>() TO(template asImpli<nBool>()) OR.ret(nVoid::singleton());
         nbool cond = *res->cast<nbool>();
         BY_DI("@%s `if %s --> to %s`", this, *_expr, cond ? "THEN" : "ELSE");
         auto* blk = cond ? _then.get() : _else.get();
         if(blk) {
             frameInteract f1(blk);
-            return blk->run();
+            return blk->eval();
         }
 
         return str(nVoid::singleton());

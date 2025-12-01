@@ -15,7 +15,7 @@ namespace {
             BY(CLASS(myBlock, blockExpr))
 
         public:
-            str run(const args& a) override {
+            str eval(const args& a) override {
                 BY_I("hello world!");
                 _executed = true;
 
@@ -72,7 +72,7 @@ namespace {
             return inner;
         }
 
-        str run(const args& a) override {
+        str eval(const args& a) override {
             _executed = true;
             _res = _lambda(a, (frames&) by::thread::get().getFrames());
             return str();
@@ -126,7 +126,7 @@ TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
     });
 
     testSlot.subs().add("foo", f1);
-    testSlot.run("foo", narr(*new nInt(1), *new nFlt(3.5f)));
+    testSlot.eval("foo", narr(*new nInt(1), *new nFlt(3.5f)));
     ASSERT_TRUE(f1.isRun());
     ASSERT_TRUE(f1.isSuccess());
 }
@@ -145,7 +145,7 @@ TEST_F(slotTest, slotIsInFrameWhenCallMgdFunc) {
     });
     testPack.subs().add("foo", f1);
 
-    testPack.run("foo", *new narr(nInt(1), *new nFlt(3.5f)));
+    testPack.eval("foo", *new narr(nInt(1), *new nFlt(3.5f)));
     ASSERT_TRUE(f1.isRun());
     ASSERT_TRUE(f1.isSuccess());
 }*/

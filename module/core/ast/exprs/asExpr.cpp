@@ -8,7 +8,7 @@ namespace by {
 
     me::asExpr(const node& me, const node& as): _me(me), _as(as) {}
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         // TODO: remove WHEN(!_me || !_as).ret(str());
 
         str eval = _me->as<node>() OR.err("!eval.isBind()").ret(str());

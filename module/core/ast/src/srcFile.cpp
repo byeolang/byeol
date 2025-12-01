@@ -13,7 +13,7 @@ namespace by {
 
     priorType me::prioritize(const args& a) const { return NO_MATCH; }
 
-    str me::run(const args& a) { return str(); }
+    str me::eval(const args& a) { return str(); }
 
     scope& me::subs() { return dumScope::singleton(); }
 

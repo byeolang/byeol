@@ -23,7 +23,7 @@ namespace by {
         tbridgeClosure(std::function<Ret(T&, Args...)> closure): _closure(closure) {}
 
     public:
-        using super::run;
+        using super::eval;
 
         const ntype& getType() const override {
             static mgdType inner("ctor", ttype<me>::get(),
@@ -37,7 +37,7 @@ namespace by {
             return inner;
         }
 
-        str run(const args& a) override {
+        str eval(const args& a) override {
             args tray;
             args& evaluated = _evalArgs(a, tray) OR.err("evaluated == null").ret(str());
 
@@ -98,9 +98,9 @@ namespace by {
             return inner;
         }
 
-        using super::run;
+        using super::eval;
 
-        str run(const args& a) override {
+        str eval(const args& a) override {
             args tray;
             args& evaluated = _evalArgs(a, tray) OR.err("evaluated == null").ret(str());
 

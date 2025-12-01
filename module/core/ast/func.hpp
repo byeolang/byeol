@@ -37,8 +37,8 @@ namespace by {
         void setBlock(const blockExpr& new1);
         scope& subs() override;
 
-        using super::run;
-        str run(const args& a) override;
+        using super::eval;
+        str eval(const args& a) override;
 
         using super::inFrame;
         void inFrame(const bicontainable* args) const override;

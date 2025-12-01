@@ -19,7 +19,7 @@ namespace by {
             BY(ME(getSeqFunc, baseFunc), CLONE(getSeqFunc))
 
         public:
-            str run(const args& a) override {
+            str eval(const args& a) override {
                 WHEN(a.len() != 1) .ret(str());
                 nStr& me = a.getMe() TO(template cast<nStr>()) OR.ret(str());
                 tstr<seq> s = a[0].as<seq>() OR.ret(str());
@@ -120,7 +120,7 @@ namespace by {
 
             const baseObj& getOrigin() const override;
 
-            str run(const args& a) override {
+            str eval(const args& a) override {
                 const params& ps = getParams();
                 WHEN(a.len() != ps.len()) .warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
                 nStr& me = a.getMe() TO(template cast<nStr>()) OR.err("me as nStr == null").ret(str());
@@ -145,7 +145,7 @@ namespace by {
 
             const baseObj& getOrigin() const override;
 
-            str run(const args& a) override { return getRet(); }
+            str eval(const args& a) override { return getRet(); }
         };
 
         static const baseObj& _defaultOrg() {

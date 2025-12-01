@@ -101,15 +101,15 @@ namespace by {
         virtual priorType prioritize(const args& a) const = 0;
         priorType prioritize(const args* it) const BY_SIDE_FUNC(it, prioritize(*it), NO_MATCH);
 
-        virtual str run(const args& a) = 0;
-        str run(const args* it) BY_SIDE_FUNC(run);
-        str run(const std::string& name, const args& a);
-        str run(const std::string& name, const args* a) BY_SIDE_FUNC(a, run(name, a), str());
-        str run(const std::string* name, const args& a) BY_SIDE_FUNC(name, run(*name, a), str());
-        str run(const std::string* name, const args* a) BY_SIDE_FUNC(name&& a, run(*name, *a), str());
-        str run(const std::string& name);
-        str run(const std::string* it) BY_SIDE_FUNC(run);
-        str run();
+        virtual str eval(const args& a) = 0;
+        str eval(const args* it) BY_SIDE_FUNC(eval);
+        str eval(const std::string& name, const args& a);
+        str eval(const std::string& name, const args* a) BY_SIDE_FUNC(a, eval(name, a), str());
+        str eval(const std::string* name, const args& a) BY_SIDE_FUNC(name, eval(*name, a), str());
+        str eval(const std::string* name, const args* a) BY_SIDE_FUNC(name&& a, eval(*name, *a), str());
+        str eval(const std::string& name);
+        str eval(const std::string* it) BY_SIDE_FUNC(eval);
+        str eval();
 
         /// release all holding resources and ready to be terminated.as(
         /// @remark some class won't be able to reinitialize after rel() got called.

@@ -83,7 +83,7 @@ TEST_F(defAssignExprTest, testNearCircularDependencies) {
     shouldVerified(true);
 
     // however when runs it, it throws an error.
-    // because assigning 1 to c will be done after evaluating of assignment of the 'a'.
+    // because assigning 1 to c will be done after runuating of assignment of the 'a'.
 }
 
 TEST_F(defAssignExprTest, testDefAssignNegative) {
@@ -324,7 +324,7 @@ TEST_F(defAssignExprTest, defAssignIfWithElse) {
     ASSERT_EQ(*res.cast<nint>(), 1);
 }
 
-TEST_F(defAssignExprTest, defAssignEvalOfSetElemConversion) {
+TEST_F(defAssignExprTest, defAssignrunOfSetElemConversion) {
     make()
         .parse(R"SRC(
         foo() int

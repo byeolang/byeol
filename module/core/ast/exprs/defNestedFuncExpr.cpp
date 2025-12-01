@@ -8,7 +8,7 @@ namespace by {
 
     me::defNestedFuncExpr(const func& org): _org(org) {}
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         if(!_org) return BY_E("_org is null"), str();
         frame& fr = thread::get()._getNowFrame() OR.err("frame doesn't exist").ret(str());
 

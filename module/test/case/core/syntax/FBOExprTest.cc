@@ -22,13 +22,13 @@ TEST_F(FBOExprTest, simpleAdd) {
     nInt b = getSubPack() TO(template sub<nInt>("b")) OR_ASSERT(b);
     ASSERT_EQ(b.get(), 2);
 
-    str res(getSubPack() TO(run("main")));
+    str res(getSubPack() TO(eval("main")));
     ASSERT_TRUE(res);
     ASSERT_TRUE(res->isSub<baseErr>());
 
     {
         threadUse thr;
-        tstr<nInt> res(getSubPack() TO(run("main")));
+        tstr<nInt> res(getSubPack() TO(eval("main")));
         ASSERT_TRUE(res);
         ASSERT_EQ(*res.cast<nint>(), 7);
     }
@@ -52,7 +52,7 @@ TEST_F(FBOExprTest, addWithDefAssign) {
     ASSERT_EQ(b.get(), 7);
 
     threadUse thr1;
-    tstr<nInt> res(getSubPack() TO(run("main")));
+    tstr<nInt> res(getSubPack() TO(eval("main")));
     ASSERT_TRUE(res);
     ASSERT_EQ(res->get(), 12);
 }
@@ -114,7 +114,7 @@ TEST_F(FBOExprTest, simpleSub) {
     ASSERT_EQ(b.get(), 2);
 
     threadUse thr;
-    tstr<nInt> res(getSubPack() TO(run("main")));
+    tstr<nInt> res(getSubPack() TO(eval("main")));
     ASSERT_TRUE(res);
     ASSERT_EQ(res->get(), 3);
 }
@@ -135,7 +135,7 @@ TEST_F(FBOExprTest, modWithDefAssign) {
     ASSERT_EQ(b.get(), 5);
 
     threadUse thr;
-    tstr<nInt> res(getSubPack() TO(run("main")));
+    tstr<nInt> res(getSubPack() TO(eval("main")));
     ASSERT_TRUE(res);
     ASSERT_EQ(res->get(), 1);
 }

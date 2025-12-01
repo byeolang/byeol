@@ -75,7 +75,7 @@ namespace by {
 
             const baseObj& getOrigin() const override { return _getOrigin(); }
 
-            str run(const args& a) override {
+            str eval(const args& a) override {
                 const params& ps = getParams();
                 WHEN(a.len() != ps.len()) .warn("a.len(%d) != ps.len(%d)", a.len(), ps.len()).ret(str());
 
@@ -102,7 +102,7 @@ namespace by {
 
             const baseObj& getOrigin() const override { return _getOrigin(); }
 
-            str run(const args& a) override { return getRet(); }
+            str eval(const args& a) override { return getRet(); }
         };
     } // namespace
 

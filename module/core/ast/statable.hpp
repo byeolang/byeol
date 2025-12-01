@@ -8,7 +8,7 @@ namespace by {
         RELEASED = 0,
         PARSED = 1, // all AST has been parsed and expanded.
         VERIFIED,   // verifier checked this node.
-        LINKED,     // run and attached to system.
+        LINKED,     // eval and attached to system.
     };
 
     /// @ingroup core

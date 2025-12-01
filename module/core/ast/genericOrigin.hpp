@@ -29,7 +29,7 @@ namespace by {
         using super::prioritize;
         priorType prioritize(const args& a) const override;
 
-        str run(const args& a) override;
+        str eval(const args& a) override;
 
         str infer() const override;
 

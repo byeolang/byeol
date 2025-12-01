@@ -8,8 +8,8 @@ namespace by {
     me::ctor(const modifier& mod, const params& ps, const blockExpr& blk):
         super(mod, typeMaker::make<me>(ps, nullptr), blk) {}
 
-    str me::run(const args& a) {
-        super::run(a);
+    str me::eval(const args& a) {
+        super::eval(a);
         return a.getMe();
     }
 

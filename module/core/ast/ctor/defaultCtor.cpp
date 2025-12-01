@@ -9,5 +9,5 @@ namespace by {
 
     me::defaultCtor(const node& org): super(typeMaker::make<defaultCtor>(params(), &org)) {}
 
-    str me::run(const args& a) { return a.getMe(); }
+    str me::eval(const args& a) { return a.getMe(); }
 }

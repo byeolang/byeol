@@ -50,8 +50,8 @@ namespace by {
         FBOExpr(symbol s, const node& lhs, const node& rhs);
 
     public:
-        using super::run;
-        str run(const args& a) override;
+        using super::eval;
+        str eval(const args& a) override;
 
         str infer() const override;
         const node& getLeft() const;

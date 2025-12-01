@@ -31,7 +31,7 @@ namespace by {
 
         protected:
             str _onAs(const baseFunc& me, const type& to) const override {
-                // if you're about to run this func, it means that our libmeta confirm that this
+                // if you're about to eval this func, it means that our libmeta confirm that this
                 // is castable action. so don't try to call `is()` again.
                 return me;
             }

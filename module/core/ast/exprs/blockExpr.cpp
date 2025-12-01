@@ -41,9 +41,9 @@ namespace by {
         fr.del();
     }
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         // for optimization, blockExpr's frame should be controlled from outside of this this.
-        // that's why I didn't use frameInteracter here. see forExpr::run().
+        // that's why I didn't use frameInteracter here. see forExpr::eval().
         str ret;
         auto addr = platformAPI::toAddrId(this);
         thread& th = thread::get();

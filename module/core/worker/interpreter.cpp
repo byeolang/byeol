@@ -48,7 +48,7 @@ namespace by {
     }
 
     void me::_showGraph(nbool showData) const {
-        // run with dumThread.
+        // eval with dumThread.
         if(isFlag(LOG_STRUCTURE) && _pser.getSubPack() && getTask())
             graphVisitor().setShowData(showData).setFlag(0).setTask(getTask()).work();
     }

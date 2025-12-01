@@ -29,8 +29,8 @@ namespace by {
         getExpr(const node& me, const std::string& name, const args& a);
 
     public:
-        using super::run;
-        str run(const args& a) override;
+        using super::eval;
+        str eval(const args& a) override;
 
         str infer() const override;
         const node* getMe() const;

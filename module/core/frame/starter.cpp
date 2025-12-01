@@ -30,21 +30,21 @@ namespace by {
         args& a = getArgs();
         node& pak = getTask() OR.err("there is no pack!").ret(str());
 
-        BY_I("run a pack");
+        BY_I("eval a pack");
         node& main = _findMain(pak, args()) OR.err("there is 0 or more than 2 main() found.").ret(str());
 
         if(main.canRun(a)) {
             threadUse thr(getReport());
             _prepareFrame(thread::get()._getFrames());
             BY_DI("-------------- SYMBOL_START ----------------");
-            str res = _postprocess(pak.run(MAIN));
+            str res = _postprocess(pak.eval(MAIN));
             BY_DI("-------------------------------------");
             return res;
         }
 
         // TODO: main(str[])
 
-        return BY_E("couldn't run main func(). it doesn't match any argument"), str();
+        return BY_E("couldn't eval main func(). it doesn't match any argument"), str();
     }
 
     str me::_postprocess(const str& res) {

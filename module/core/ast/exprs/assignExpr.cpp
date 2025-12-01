@@ -10,7 +10,7 @@ namespace by {
 
     me::assignExpr(const node& lhs, const node& rhs): _lhs(lhs), _rhs(rhs) {}
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         iter e = _getScopeIterOfLhs(); // e exists. verified.
 
         str ret = _rhs->as<node>();

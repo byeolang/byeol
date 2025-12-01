@@ -15,8 +15,8 @@ namespace by {
         isExpr(const node& me, const node& to);
 
     public:
-        using super::run;
-        str run(const args& a) override;
+        using super::eval;
+        str eval(const args& a) override;
 
         str infer() const override;
         const node& getMe() const;

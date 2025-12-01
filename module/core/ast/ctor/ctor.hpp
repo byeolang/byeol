@@ -18,8 +18,8 @@ namespace by {
         ctor(const modifier& mod, const params& ps, const blockExpr& blk);
 
     public:
-        using super::run;
-        str run(const args& a) override;
+        using super::eval;
+        str eval(const args& a) override;
 
         str infer() const override;
 

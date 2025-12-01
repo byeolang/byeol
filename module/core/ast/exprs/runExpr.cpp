@@ -15,24 +15,24 @@ namespace by {
 
     me::runExpr(const node* meObj, const args& a): _me(meObj), _args(a), _subject(meObj) {}
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         auto addr = platformAPI::toAddrId(this);
         str evaledMe = getMe() TO(template as<node>()) OR.err("@%s `me` is null. no thread found", addr).ret(str());
 
         str sub = _getSub(*evaledMe) OR.err("@%s can't find the func to `%s`", addr, evaledMe).ret(str());
 
-        BY_DI("@%s run: assigning me: me[%s] sub[%s@%s]", addr, evaledMe, sub, sub.get());
+        BY_DI("@%s eval: assigning me: me[%s] sub[%s@%s]", addr, evaledMe, sub, sub.get());
 
         nbool needMe = !sub->isSub<baseObj>() && !sub->isSub<closure>();
         if(needMe) { // if sub is a baseObj, this expr will runs ctor
                      // of it which doesn't need me obj.
             frame* fr = evaledMe->cast<frame>();
             _args.setMe(fr ? fr->getMeHaving(sub.get()) : evaledMe.get());
-            BY_DI("@%s run: setting me on args. args.me[%s]", addr, _args TO(getMe()));
+            BY_DI("@%s eval: setting me on args. args.me[%s]", addr, _args TO(getMe()));
         }
 
         BY_I("@%s it'll call `%s.%s@%s(%s)", addr, evaledMe, sub->getSrc(), sub.get(), _args.toStr());
-        str ret = sub->run(_args);
+        str ret = sub->eval(_args);
 
         BY_DI("@%s `%s.%s@%s(%s) --returned--> %s`", addr, evaledMe, sub->getSrc(), sub.get(), _args.toStr(), ret);
         _args.setMe(nullptr);

@@ -337,7 +337,7 @@ TEST_F(defFuncTest, overloadingDifferentParameters) {
         const params& ps = subs[0].getParams();
         ASSERT_EQ(ps.len(), 1);
         ASSERT_EQ(ps[0].getOrigin().getType(), ttype<nInt>());
-        str res = a.run("foo", args1);
+        str res = a.eval("foo", args1);
         ASSERT_TRUE(res);
         ASSERT_EQ(*res->cast<nint>(), 1);
     }
@@ -362,7 +362,7 @@ TEST_F(defFuncTest, overloadingSimilarParameters) {
         auto subs = a.subAll<func>("foo", args1);
         ASSERT_EQ(subs.len(), 2);
         ASSERT_EQ(subs.getPriorType(), IMPLICIT_MATCH);
-        str res = a.run("foo", args1);
+        str res = a.eval("foo", args1);
         ASSERT_FALSE(res);
     }
 
@@ -375,7 +375,7 @@ TEST_F(defFuncTest, overloadingSimilarParameters) {
                                   // bool, str) the reason is, byte <--> int casting is priority
                                   // lv1. @refers func.cpp so subs only contains 1 priority element.
         ASSERT_EQ(subs.getPriorType(), NUMERIC_MATCH);
-        str res = a.run("foo", args1);
+        str res = a.eval("foo", args1);
         ASSERT_TRUE(res);
         ASSERT_EQ(*res.cast<nint>(), 1);
     }

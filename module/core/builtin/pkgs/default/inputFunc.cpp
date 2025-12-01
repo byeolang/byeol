@@ -22,7 +22,7 @@ namespace by {
         return inner;
     }
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         const params& ps = getParams();
         if(a.len() != ps.len())
             return BY_E("length of args(%d) and typs(%d) doesn't match.", a.len(), ps.len()), nullptr;

@@ -12,6 +12,6 @@ namespace by {
     struct cli {
         const flags& getFlags() const;
 
-        nint run(flagArgs& a);
+        nint eval(flagArgs& a);
     };
 }

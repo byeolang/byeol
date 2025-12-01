@@ -11,7 +11,7 @@ namespace by {
 
     me::defArrayExpr(const narr& elems): _elems(elems) {}
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         auto* arrType = getArrayType();
         arr& ret = arrType ? *new arr(*arrType) : *new arr();
 

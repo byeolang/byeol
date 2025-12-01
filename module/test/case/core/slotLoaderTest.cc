@@ -17,11 +17,11 @@ TEST_F(slotLoaderTest, testDefaultLoaderInit) {
         ASSERT_EQ(sayFunc.getParams().len(), 0); // 'me' of func won't be passed as an argument.
 
         args a((narr(origin)));
-        str res = sayFunc.run(a);
-        ASSERT_FALSE(res);          // don't run func itself.
-        res = origin.run("say", a); // don't need to pass 'me' argument
+        str res = sayFunc.eval(a);
+        ASSERT_FALSE(res);          // don't eval func itself.
+        res = origin.eval("say", a); // don't need to pass 'me' argument
         ASSERT_FALSE(res);
-        res = origin.run("say", args());
+        res = origin.eval("say", args());
         ASSERT_TRUE(res);
         ASSERT_TRUE(res->cast<nVoid>());
     }
@@ -34,15 +34,15 @@ TEST_F(slotLoaderTest, testDefaultLoaderInit) {
         ASSERT_EQ(argTypes[1].getOrigin().getType(), ttype<nInt>::get());
 
         nInt arg1(5);
-        str retVal = add.run(args(narr(arg1))); // should nothing happen
+        str retVal = add.eval(args(narr(arg1))); // should nothing happen
         ASSERT_FALSE(retVal);
 
         args a;
         a.add(new nInt(5));
         a.add(new nInt(3));
-        retVal = add.run(a); // don't run func itself as I said before
+        retVal = add.eval(a); // don't eval func itself as I said before
         ASSERT_FALSE(retVal);
-        retVal = origin.run("add", a); // correct!
+        retVal = origin.eval("add", a); // correct!
         ASSERT_TRUE(retVal);
         ASSERT_EQ(retVal->cast<nInt>()->get(), 8);
     }

@@ -41,8 +41,8 @@ namespace by {
         nbool isImpli(const type& to) const override;
 
         using super::prioritize;
-        /// run of @ref expr class get treated like 'evaluate' in byeol.
-        /// it should not take any @ref args "arguments" to run
+        /// eval of @ref expr class get treated like 'evaluate' in byeol.
+        /// it should not take any @ref args "arguments" to eval
         priorType prioritize(const args& a) const override;
 
         const src& getSrc() const override;

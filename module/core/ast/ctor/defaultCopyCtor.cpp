@@ -11,7 +11,7 @@ namespace by {
 
     me::defaultCopyCtor(const node& org): super(typeMaker::make<me>(params(*new param("rhs", org)), &org)) {}
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         WHEN(!canRun(a)) .ret(str());
 
         const node& p = getParams()[0].getOrigin();

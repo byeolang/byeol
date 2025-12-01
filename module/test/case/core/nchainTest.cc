@@ -16,7 +16,7 @@ namespace {
 
         priorType prioritize(const args& types) const override { return NO_MATCH; }
 
-        str run(const args& a) override { return str(); }
+        str eval(const args& a) override { return str(); }
 
         int number;
     };

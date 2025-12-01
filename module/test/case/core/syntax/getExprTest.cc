@@ -109,9 +109,9 @@ struct myObj: public obj {
 public:
     myObj(): executed(false) {}
 
-    str run(const args& a) override {
+    str eval(const args& a) override {
         executed = true;
-        return super::run(a);
+        return super::eval(a);
     }
 
     nbool executed;
@@ -132,9 +132,9 @@ struct myGetExpr: public getExpr {
 public:
     myGetExpr(const node& from, const std::string& name): super(from, name), executed(false) {}
 
-    str run(const args& a) override {
+    str eval(const args& a) override {
         executed = true;
-        return super::run(a);
+        return super::eval(a);
     }
 
     nbool executed;
@@ -149,7 +149,7 @@ TEST_F(getExprTest, getExprEvalToExpr) {
     getExpr exp2(exp, "age"); // == obj2.obj1.age
 
     ASSERT_FALSE(exp.executed);
-    tstr<nInt> ret = exp2.run();
+    tstr<nInt> ret = exp2.eval();
     ASSERT_TRUE(ret);
     ASSERT_EQ(ret->get(), 22);
     ASSERT_TRUE(exp.executed);

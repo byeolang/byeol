@@ -233,7 +233,7 @@ namespace by {
         retExpr* onRet(node& exp);
         breakExpr* onBreak();
         nextExpr* onNext();
-        //      run:
+        //      eval:
         runExpr* onFillFromOfFuncCall(const node& me, runExpr& to);
         runExpr* onRunExpr(node& type, const narr& a);
         runExpr* onRunExpr(node& type, const args& a);

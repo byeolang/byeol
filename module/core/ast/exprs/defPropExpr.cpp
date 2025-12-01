@@ -13,7 +13,7 @@ namespace by {
     str me::_onMakeNew() {
         str as = getRight() TO(template as<node>()) OR.ret(str());
         // if as is a func, it doesn't need to clone deeply.
-        as = as->isSub<baseFunc>() ? as : as->run();
+        as = as->isSub<baseFunc>() ? as : as->eval();
 
         BY_DI("@%s `%s %s`", this, getName(), as.get());
         return as;

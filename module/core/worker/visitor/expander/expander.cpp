@@ -256,7 +256,7 @@ namespace by {
                 continue;
             }
 
-            stmts[n].run();
+            stmts[n].eval();
 
             BY_I("|--- SUCCESS! stmt[%d] pre-evaluated.", n);
             stmts.del(n);

@@ -14,10 +14,10 @@ namespace by {
 
     me::baseObj(const baseObj* org, /*UNUSED*/ nbool): _org(org) {}
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         tpriorities<baseFunc> matches = subAll<baseFunc>(ctor::CTOR_NAME, a);
         switch(matches.len()) {
-            case 1: return _onBeforeCtor()->run(ctor::CTOR_NAME, a);
+            case 1: return _onBeforeCtor()->eval(ctor::CTOR_NAME, a);
             case 0: return BY_W("there is no such ctor."), str();
         }
         /*// TODO: 1. change err management module to use 'err' class, not errCode.

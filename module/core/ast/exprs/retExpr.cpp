@@ -23,7 +23,7 @@ namespace by {
         }
     }
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         frame& fr = thread::get().getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(str());
         WHEN(!_ret) .ret(str(nVoid::singleton()));
 

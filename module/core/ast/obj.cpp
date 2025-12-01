@@ -94,7 +94,7 @@ namespace by {
 
     str me::_onBeforeCtor() {
         str ret = (node*) getOrigin().clone();
-        ret->run(baseObj::COMMON_NAME); // even if there is no @common, that's okay.
+        ret->eval(baseObj::COMMON_NAME); // even if there is no @common, that's okay.
         return ret;
     }
 } // namespace by

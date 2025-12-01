@@ -43,9 +43,9 @@ namespace by {
             return inner;
         }
 
-        using super::run;
+        using super::eval;
 
-        str run(const args& a) override {
+        str eval(const args& a) override {
             tmay<args> evaluated = a.evalAll(getParams()) OR.ret(str());
 
             return _runNative(*evaluated);

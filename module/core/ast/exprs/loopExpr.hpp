@@ -30,7 +30,7 @@ namespace by {
         public:
             /// @return false if exit the loop
             virtual nbool isLooping() = 0;
-            virtual void run(blockExpr& blk, frame& fr);
+            virtual void eval(blockExpr& blk, frame& fr);
             arr* getRet();
             virtual nbool postprocess(frame& fr);
 
@@ -46,8 +46,8 @@ namespace by {
         blockExpr* getBlock() const;
         str infer() const override;
 
-        using super::run;
-        str run(const args& a) override;
+        using super::eval;
+        str eval(const args& a) override;
 
     protected:
         virtual tstr<loop> _makeLoop(arr* ret) const = 0;

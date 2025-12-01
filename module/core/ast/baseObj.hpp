@@ -39,8 +39,8 @@ namespace by {
         explicit baseObj(const baseObj* org, nbool);
 
     public:
-        using super::run;
-        str run(const args& a) override;
+        using super::eval;
+        str eval(const args& a) override;
 
         using super::subs;
         scope& subs() override;

@@ -13,7 +13,7 @@ namespace by {
     me::defVarExpr(const std::string& name, const node* rhs, const node* to, const src& s, const modifier& mod):
         _name(name), _rhs(rhs), _to(to), _src(s), _mod(mod) {}
 
-    str me::run(const args& a) {
+    str me::eval(const args& a) {
         BY_DI("define variable...");
         str new1 = _makeNew() OR.err("new1 is null").ret(str());
         // below 'as' is mandatory.

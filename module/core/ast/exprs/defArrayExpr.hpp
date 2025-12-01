@@ -19,8 +19,8 @@ namespace by {
         defArrayExpr(const narr& elems);
 
     public:
-        using super::run;
-        str run(const args& a) override;
+        using super::eval;
+        str eval(const args& a) override;
 
         str infer() const override;
         const baseObj* getArrayType() const;

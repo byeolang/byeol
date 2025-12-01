@@ -627,8 +627,8 @@ namespace by {
         BY_DI("link system slots[%d]: len=%d", thread::get().getSlots().len(), subpack.subs().len());
 
         // at this far, subpack must have at least 1 default ctor created just before:
-        BY_DI("tokenEvent: onCompilationUnit: run preconstructor(%d lines)", blk.getExpands().len());
-        subpack.run(ctor::CTOR_NAME); // don't need argument. it's default ctor.
+        BY_DI("tokenEvent: onCompilationUnit: eval preconstructor(%d lines)", blk.getExpands().len());
+        subpack.eval(ctor::CTOR_NAME); // don't need argument. it's default ctor.
     }
 
     tstr<modifier> me::_makeDefaultModifier() { return *onModifier(true, false); }

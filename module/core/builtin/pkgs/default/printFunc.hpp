@@ -26,7 +26,7 @@ namespace by {
             return inner;
         }
 
-        str run(const args& a) override {
+        str eval(const args& a) override {
             const params& ps = getParams();
             WHEN(a.len() != ps.len())
                 .err("length of args(%d) and typs(%d) doesn't match.", a.len(), ps.len()).ret(nullptr);

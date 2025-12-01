@@ -23,8 +23,8 @@ namespace by {
         template <typename... Es> blockExpr(const Es&... elems): _exprs(elems...) {}
 
     public:
-        using super::run;
-        str run(const args& a) override;
+        using super::eval;
+        str eval(const args& a) override;
 
         str infer() const override;
 

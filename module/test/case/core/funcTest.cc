@@ -15,7 +15,7 @@ namespace {
             BY(CLASS(myBlock, blockExpr))
 
         public:
-            str run(const args& a) override {
+            str eval(const args& a) override {
                 if(!canRun(a)) return str();
                 BY_I("hello world!");
                 _executed = true;
@@ -107,13 +107,13 @@ TEST_F(funcTest, testfuncConstructNewFrame) {
     });
 
     ASSERT_EQ(by::thread::get().getFrames().len(), 0);
-    obj.run(funcNames[0], narr());
+    obj.eval(funcNames[0], narr());
     ASSERT_EQ(by::thread::get().getFrames().len(), 0);
     ASSERT_TRUE(func.isRun());
     ASSERT_TRUE(func.isSuccess());
 
     ASSERT_EQ(by::thread::get().getFrames().len(), 0);
-    obj.run(funcNames[0]);
+    obj.eval(funcNames[0]);
     ASSERT_EQ(by::thread::get().getFrames().len(), 0);
     ASSERT_TRUE(func.isRun());
     ASSERT_TRUE(func.isSuccess());
@@ -139,7 +139,7 @@ TEST_F(funcTest, testCallfuncInsidefunc) {
         if(!checkFrameHasfuncAndObjScope(sf[0], obj1func1, func1Name, obj1, obj1FuncNames, 2)) return false;
 
         narr funcArgs;
-        obj1.run(func2Name, funcArgs);
+        obj1.eval(func2Name, funcArgs);
         if(sf.len() != 1) return BY_I("return of %s: sf.len() != 1", func1Name), false;
         return true;
     });
@@ -151,7 +151,7 @@ TEST_F(funcTest, testCallfuncInsidefunc) {
         args funcArgs;
         funcArgs.add(obj2);
         funcArgs.setMe(obj2);
-        obj2.run(obj2FuncNames[0], funcArgs);
+        obj2.eval(obj2FuncNames[0], funcArgs);
         if(sf.len() != 2) return BY_I("return of %s: sf.len() != 2", func2Name), false;
         return true;
     });
@@ -164,16 +164,16 @@ TEST_F(funcTest, testCallfuncInsidefunc) {
 
     args a(&obj1, args());
     ASSERT_EQ(by::thread::get().getFrames().len(), 0);
-    obj1.run(func1Name, a);
+    obj1.eval(func1Name, a);
     ASSERT_EQ(by::thread::get().getFrames().len(), 0);
     ASSERT_TRUE(obj1func1.isSuccess());
 
     obj2func1.setUp();
-    obj2.run(func2Name);
+    obj2.eval(func2Name);
     ASSERT_EQ(by::thread::get().getFrames().len(), 0);
     ASSERT_FALSE(obj2func1.isSuccess());
     obj2func1.setUp();
-    obj2.run("obj2func1", narr(obj2));
+    obj2.eval("obj2func1", narr(obj2));
     ASSERT_EQ(by::thread::get().getFrames().len(), 0);
     ASSERT_FALSE(obj2func1.isSuccess());
 }
@@ -193,13 +193,13 @@ TEST_F(funcTest, testfuncHasStrParameter) {
     a.add(new nStr(expectVal));
     auto e = a.iterate(1);
 
-    func1.run(a);
+    func1.eval(a);
     ASSERT_FALSE(func1.isSuccess());
 
-    obj.run("myfunc", narr());
+    obj.eval("myfunc", narr());
     ASSERT_FALSE(func1.isSuccess());
 
-    obj.run("myfunc", a);
+    obj.eval("myfunc", a);
     ASSERT_TRUE(func1.isSuccess());
 }
 
@@ -215,7 +215,7 @@ TEST_F(funcTest, testArgsAttachedName) {
         return fr["msg"].cast<nStr>()->get() == "hello world" && fr["age"].cast<nInt>()->get() == 55;
     });
 
-    o.run("myfunc");
+    o.eval("myfunc");
     ASSERT_FALSE(f.isRun());
 
     nStr msg("hello world");
@@ -224,7 +224,7 @@ TEST_F(funcTest, testArgsAttachedName) {
     a.add(msg);
     a.add(age);
 
-    o.run("myfunc", a);
+    o.eval("myfunc", a);
     ASSERT_TRUE(f.isRun());
     ASSERT_TRUE(f.isSuccess());
 
@@ -234,7 +234,7 @@ TEST_F(funcTest, testArgsAttachedName) {
     a.add(o);
     a.add(msg);
     a.add(age);
-    o.run("myfunc", a);
+    o.eval("myfunc", a);
     ASSERT_FALSE(f.isRun());
 }
 
@@ -262,12 +262,12 @@ TEST_F(funcTest, putFuncManuallyAsParamGettingLambda) {
     ASSERT_TRUE(lambda2Type.getParams()[0].getOrigin().isSub<nFlt>());
 
     // is lambda runnable?
-    str res = o.run("myfunc", args(narr(*new getExpr(o, "lambda"))));
+    str res = o.eval("myfunc", args(narr(*new getExpr(o, "lambda"))));
     ASSERT_TRUE(f.isRun());
 
     // check lambda1 is compatible to lambda2?
     f.setUp();
-    res = o.run("myfunc", args(narr(*new getExpr(o, "lambda2"))));
+    res = o.eval("myfunc", args(narr(*new getExpr(o, "lambda2"))));
     ASSERT_FALSE(f.isRun());
 }
 
@@ -295,11 +295,11 @@ TEST_F(funcTest, putFuncManuallyAsParamLambda) {
     ASSERT_TRUE(lambda2Type.getParams()[0].getOrigin().isSub<nFlt>());
 
     // is lambda runnable?
-    str res = o.run("myfunc", args(narr(*new getExpr(o, "lambda"))));
+    str res = o.eval("myfunc", args(narr(*new getExpr(o, "lambda"))));
     ASSERT_TRUE(f.isRun());
 
     // check lambda1 is compatible to lambda2?
     f.setUp();
-    res = o.run("myfunc", args(narr(*new getExpr(o, "lambda2"))));
+    res = o.eval("myfunc", args(narr(*new getExpr(o, "lambda2"))));
     ASSERT_FALSE(f.isRun());
 }

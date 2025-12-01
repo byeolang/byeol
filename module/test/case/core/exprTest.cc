@@ -51,11 +51,11 @@ TEST_F(exprTest, standbyHelloWorldBridgeObj) {
     ASSERT_TRUE(mainFunc.canRun(a));
     ASSERT_FALSE(mainFunc.canRun(args(bridge.get(), narr(*bridge, *msg))));
     ASSERT_FALSE(helloWorld::isRun);
-    str res = mainFunc.run(a);
+    str res = mainFunc.eval(a);
     ASSERT_TRUE(res.isBind());
-    res = bridge->run("main", a);
+    res = bridge->eval("main", a);
     ASSERT_TRUE(res.isBind());
-    res = bridge->run("main", args(nullptr, narr(*msg)));
+    res = bridge->eval("main", args(nullptr, narr(*msg)));
     ASSERT_TRUE(res.isBind());
     ASSERT_TRUE(res.getType() == ttype<node>::get());
     ASSERT_TRUE(res->getType() == ttype<nVoid>::get());
@@ -78,7 +78,7 @@ TEST_F(exprTest, simpleGetExpr) {
     veri.setTask(exp).work();
     ASSERT_FALSE(rep);
 
-    str res = exp.run();
+    str res = exp.eval();
     ASSERT_TRUE(res.isBind());
     ASSERT_TRUE(res.getType() == ttype<node>::get());
     ASSERT_TRUE(res->isSub<baseFunc>());
@@ -131,7 +131,7 @@ TEST_F(exprTest, simpleRunExpr) {
     ASSERT_FALSE(rep);
     ASSERT_FALSE(helloWorld::isRun);
 
-    str res = exp1.run();
+    str res = exp1.eval();
     ASSERT_TRUE(res.isBind());
     ASSERT_TRUE(res.getType() == ttype<node>::get());
     ASSERT_TRUE(res->getType() == ttype<nVoid>::get());
@@ -150,7 +150,7 @@ TEST_F(exprTest, simpleRunExprNegative) {
 
     ASSERT_FALSE(helloWorld::isRun);
 
-    str res = exp1.run();
+    str res = exp1.eval();
     ASSERT_FALSE(res.isBind());
     ASSERT_TRUE(res.getType() == ttype<node>::get());
     ASSERT_FALSE(helloWorld::isRun);
@@ -166,7 +166,7 @@ TEST_F(exprTest, constructExprInManual) {
     auto& frs = getFrames();
     frs.add(frs.begin(), fr);
 
-    str res = r.run();
+    str res = r.eval();
     ASSERT_TRUE(res);
     ASSERT_TRUE(res.getType() == ttype<node>::get());
     ASSERT_TRUE(res->getType() == ttype<nVoid>::get());

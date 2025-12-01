@@ -22,8 +22,8 @@ namespace by {
         defVarExpr(const std::string& name, const node* rhs, const node* to, const src& src, const modifier& mod);
 
     public:
-        using super::run;
-        str run(const args& a) override;
+        using super::eval;
+        str eval(const args& a) override;
 
         const std::string& getName() const;
 

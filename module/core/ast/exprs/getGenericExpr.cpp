@@ -21,6 +21,6 @@ namespace by {
 
         node& generic = me TO(template sub<genericOrigin>(name)) OR.err("generic == null").ret(nullptr);
 
-        return generic.run(getArgs()).get();
+        return generic.eval(getArgs()).get();
     }
 }
