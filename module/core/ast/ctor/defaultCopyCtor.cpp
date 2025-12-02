@@ -12,7 +12,7 @@ namespace by {
     me::defaultCopyCtor(const node& org): super(typeMaker::make<me>(params(*new param("rhs", org)), &org)) {}
 
     str me::eval(const args& a) {
-        WHEN(!canRun(a)) .ret(str());
+        WHEN(!canEval(a)) .ret(str());
 
         const node& p = getParams()[0].getOrigin();
         return str((node*) a.begin()->as(p)->clone());

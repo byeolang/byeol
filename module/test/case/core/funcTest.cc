@@ -16,7 +16,7 @@ namespace {
 
         public:
             str eval(const args& a) override {
-                if(!canRun(a)) return str();
+                if(!canEval(a)) return str();
                 BY_I("hello world!");
                 _executed = true;
 

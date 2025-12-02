@@ -135,7 +135,7 @@ TEST_F(nodeTest, testManualNativefuncCall) {
     args a;
     auto subs = ((const myObj&) obj).subAll("myFunc", &a);
     ASSERT_EQ(subs.len(), 1);
-    ASSERT_TRUE(subs[0].canRun(a));
+    ASSERT_TRUE(subs[0].canEval(a));
 
     // when:
     func.setUp();

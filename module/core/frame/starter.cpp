@@ -33,7 +33,7 @@ namespace by {
         BY_I("eval a pack");
         node& main = _findMain(pak, args()) OR.err("there is 0 or more than 2 main() found.").ret(str());
 
-        if(main.canRun(a)) {
+        if(main.canEval(a)) {
             threadUse thr(getReport());
             _prepareFrame(thread::get()._getFrames());
             BY_DI("-------------- SYMBOL_START ----------------");

@@ -39,7 +39,7 @@ namespace by {
         return nullptr;
     }
 
-    nbool me::canRun(const args& a) const { return prioritize(a) != NO_MATCH; }
+    nbool me::canEval(const args& a) const { return prioritize(a) != NO_MATCH; }
 
     str me::eval() { return eval(args()); }
 

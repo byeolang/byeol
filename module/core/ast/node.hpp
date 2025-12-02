@@ -97,7 +97,7 @@ namespace by {
         tpriorities<T> subAll(const std::string* name, const args& a) const
             BY_SIDE_FUNC(name, subAll<T>(*name, a), tpriorities<T>());
 
-        bool canRun(const args& a) const;
+        bool canEval(const args& a) const;
         virtual priorType prioritize(const args& a) const = 0;
         priorType prioritize(const args* it) const BY_SIDE_FUNC(it, prioritize(*it), NO_MATCH);
 

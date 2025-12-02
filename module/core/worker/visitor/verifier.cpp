@@ -399,7 +399,7 @@ namespace by {
         str derivedSub = anySub.infer() OR.myExErr(me, CANT_ACCESS, ased, "sub-node").ret();
 
         _STEP("derivedSub[%s]", derivedSub);
-        if(!derivedSub->canRun(me.getArgs())) {
+        if(!derivedSub->canEval(me.getArgs())) {
             const baseFunc* derivedCast = derivedSub->cast<baseFunc>();
             std::string params = !derivedCast ? "ctor" : _asStr(derivedCast->getParams());
             return BY_WHEN.myExErr(me, OBJ_WRONG_ARGS, i.name.c_str(), me.getArgs().asStr().c_str(), params.c_str())

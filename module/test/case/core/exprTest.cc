@@ -48,8 +48,8 @@ TEST_F(exprTest, standbyHelloWorldBridgeObj) {
     args a(bridge.get(), narr(*msg));
 
     node& mainFunc = bridge->sub("main", a) OR_ASSERT(mainFunc);
-    ASSERT_TRUE(mainFunc.canRun(a));
-    ASSERT_FALSE(mainFunc.canRun(args(bridge.get(), narr(*bridge, *msg))));
+    ASSERT_TRUE(mainFunc.canEval(a));
+    ASSERT_FALSE(mainFunc.canEval(args(bridge.get(), narr(*bridge, *msg))));
     ASSERT_FALSE(helloWorld::isRun);
     str res = mainFunc.eval(a);
     ASSERT_TRUE(res.isBind());

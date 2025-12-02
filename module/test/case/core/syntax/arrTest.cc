@@ -341,10 +341,10 @@ TEST_F(arrTest, testIteratorBridgedFunc) {
 
 TEST_F(arrTest, newInstanceSharesFuncs) {
     arr a(*new nInt(0));
-    ASSERT_TRUE(a.canRun(args()));
+    ASSERT_TRUE(a.canEval(args()));
     tstr<arr> res = a.eval() OR_ASSERT(res);
 
-    ASSERT_TRUE(res->canRun(args()));
+    ASSERT_TRUE(res->canEval(args()));
     ASSERT_EQ(a.subs().len(), res->subs().len());
     ASSERT_EQ(&a.subs(), &res->subs()); // if type is same, subs should be same too.
 
