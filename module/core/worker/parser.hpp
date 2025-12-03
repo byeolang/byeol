@@ -21,7 +21,7 @@ namespace by {
     class expr;
     class ctor;
     class blockExpr;
-    class runExpr;
+    class evalExpr;
     class asExpr;
     class isExpr;
     class addExpr;
@@ -234,9 +234,9 @@ namespace by {
         breakExpr* onBreak();
         nextExpr* onNext();
         //      eval:
-        runExpr* onFillFromOfFuncCall(const node& me, runExpr& to);
-        runExpr* onRunExpr(node& type, const narr& a);
-        runExpr* onRunExpr(node& type, const args& a);
+        evalExpr* onFillFromOfFuncCall(const node& me, evalExpr& to);
+        evalExpr* onRunExpr(node& type, const narr& a);
+        evalExpr* onRunExpr(node& type, const args& a);
         //      cast:
         isExpr* onIs(const node& me, const node& to);
         asExpr* onAs(const node& me, const node& as);
@@ -245,7 +245,7 @@ namespace by {
         ifExpr* onIf(const node& condition, const blockExpr& then, const blockExpr& elseBlk);
         ifExpr* onIf(const node& condition, const blockExpr& then, const ifExpr& elseIf);
         //      in:
-        runExpr* onIn(const node& it, const node& container);
+        evalExpr* onIn(const node& it, const node& container);
 
         void onEndFunc();
         void onParseErr(const std::string& msg, const nchar* symbolName);
@@ -264,10 +264,10 @@ namespace by {
     private:
         node* _onDefAssign(const modifier& mod, const node* type, const std::string& name, const node* rhs);
         nint _onTokenEndOfInlineBlock(nint tok);
-        node* _onSetElem(runExpr& lhs, const node& rhs);
+        node* _onSetElem(evalExpr& lhs, const node& rhs);
         node* _onAssignElem(FBOExpr::symbol type, node& lhs, node& rhs);
-        node* _onConvertAssignElem(runExpr& lhs, node& rhs);
-        runExpr* _onRunExpr(node* me, node& type, const args& a);
+        node* _onConvertAssignElem(evalExpr& lhs, node& rhs);
+        evalExpr* _onRunExpr(node* me, node& type, const args& a);
 
         nint _onScan(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner);
         void _report(baseErr* new1);

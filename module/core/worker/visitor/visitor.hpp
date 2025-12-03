@@ -55,8 +55,8 @@ namespace by {
         virtual void onTraverse(const visitInfo& i, FBOExpr& f);
         virtual void onTraverse(const visitInfo& i, getExpr& e);
         virtual void onTraverse(const visitInfo& i, retExpr& b);
-        virtual void onTraverse(const visitInfo& i, runExpr& e);
-        virtual void onTraverse(runExpr& e, node& subject);
+        virtual void onTraverse(const visitInfo& i, evalExpr& e);
+        virtual void onTraverse(evalExpr& e, node& subject);
         virtual void onTraverse(const visitInfo& i, func& f);
         virtual void onTraverse(const visitInfo& i, frame& f);
         virtual void onTraverse(const visitInfo& i, forExpr& f);

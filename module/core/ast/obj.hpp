@@ -9,7 +9,7 @@ namespace by {
 
     class mgdType;
     class origin;
-    class runExpr;
+    class evalExpr;
 
     /// @ingroup core
     /// @brief Managed object in byeol programming environment

@@ -78,7 +78,7 @@ namespace by {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, runExpr& me, nbool) {
+    nbool me::onVisit(const visitInfo& i, evalExpr& me, nbool) {
         str org = _findOrigin(me.getMe());
         if(org) me.setMe(*org);
 

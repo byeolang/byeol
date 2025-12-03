@@ -158,7 +158,7 @@ namespace by {
         return true;
     }
 
-    nbool me::onVisit(const visitInfo& i, runExpr& e, nbool alreadyVisited) {
+    nbool me::onVisit(const visitInfo& i, evalExpr& e, nbool alreadyVisited) {
         onVisit(i, (node&) e, alreadyVisited);
 
         if(_isShowData)

@@ -383,8 +383,8 @@ namespace by {
         WHEN(!myRet->isSub<baseErr>() && !myRet->isImpli(funRet)) .myExErr(me, RET_TYPE_NOT_MATCH, myRet, funRet).ret();
     }
 
-    void me::onLeave(const visitInfo& i, runExpr& me, nbool) {
-        _GUARD("onLeave(runExpr&)");
+    void me::onLeave(const visitInfo& i, evalExpr& me, nbool) {
+        _GUARD("onLeave(evalExpr&)");
 
         _STEP("is it possible to eval?");
         WHEN_NUL(me.getMe()).myExErr(me, DONT_KNOW_ME).ret();
@@ -409,7 +409,7 @@ namespace by {
         a.setMe(nullptr);
     }
 
-    void me::onTraverse(runExpr& me, node& subject) {
+    void me::onTraverse(evalExpr& me, node& subject) {
         str ased = me.getMe() TO(infer()) OR.ret();
 
         getExpr* cast = subject.cast<getExpr>();

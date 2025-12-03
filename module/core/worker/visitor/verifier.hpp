@@ -41,8 +41,8 @@ namespace by {
         void onLeave(const visitInfo& i, FUOExpr& me, nbool) override;
         void onLeave(const visitInfo& i, getExpr& me, nbool) override;
         void onLeave(const visitInfo& i, retExpr& me, nbool) override;
-        void onLeave(const visitInfo& i, runExpr& me, nbool) override;
-        void onTraverse(runExpr& me, node& subject) override;
+        void onLeave(const visitInfo& i, evalExpr& me, nbool) override;
+        void onTraverse(evalExpr& me, node& subject) override;
         nbool onVisit(const visitInfo& i, func& me, nbool) override;
         void onLeave(const visitInfo& i, func& me, nbool) override;
         nbool onVisit(const visitInfo& i, closure& me, nbool) override;

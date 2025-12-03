@@ -100,7 +100,7 @@ TEST_F(exprTest, simpleGetExprNegative) {
 }
 
 TEST_F(exprTest, simpleRunExprWithoutMeObjNegative) {
-    runExpr exp1(nullptr, *bridge->sub("main"), narr(*new nStr("kniz!")));
+    evalExpr exp1(nullptr, *bridge->sub("main"), narr(*new nStr("kniz!")));
     errReport rep(false);
     verifier veri;
     veri.setReport(rep).setFlag(0).setTask(exp1).work();
@@ -113,7 +113,7 @@ TEST_F(exprTest, simpleRunExprWithoutMeObjNegative) {
 }
 
 TEST_F(exprTest, simpleRunExpr) {
-    runExpr exp1(bridge.get(), *new getExpr("main"), narr(*new nStr("kniz!")));
+    evalExpr exp1(bridge.get(), *new getExpr("main"), narr(*new nStr("kniz!")));
 
     frame fr;
     fr.add(*new scope());
@@ -141,7 +141,7 @@ TEST_F(exprTest, simpleRunExpr) {
 }
 
 TEST_F(exprTest, simpleRunExprNegative) {
-    runExpr exp1(bridge->sub("main"), narr());
+    evalExpr exp1(bridge->sub("main"), narr());
     setLine(exp1, 1, 1);
     errReport rep(false);
     verifier veri;
@@ -157,7 +157,7 @@ TEST_F(exprTest, simpleRunExprNegative) {
 }
 
 TEST_F(exprTest, constructExprInManual) {
-    runExpr r(bridge.get(), *new getExpr("main"), narr(*new nStr("kniz!")));
+    evalExpr r(bridge.get(), *new getExpr("main"), narr(*new nStr("kniz!")));
     setLine(r, 1, 1);
 
     frame fr;

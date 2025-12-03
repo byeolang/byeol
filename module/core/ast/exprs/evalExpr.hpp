@@ -11,13 +11,13 @@ namespace by {
     /// @brief Function/method call expression
     /// @details Represents function and method invocation with arguments.
     /// Handles subject evaluation, @ref args passing, and @ref func execution.
-    class _nout runExpr: public expr {
-        BY(CLASS(runExpr, expr, expr::exprType), VISIT())
+    class _nout evalExpr: public expr {
+        BY(CLASS(evalExpr, expr, expr::exprType), VISIT())
         friend class parser;
 
     public:
-        runExpr(const node* meObj, const node& subject, const args& a);
-        runExpr(const node* meObj, const args& a);
+        evalExpr(const node* meObj, const node& subject, const args& a);
+        evalExpr(const node* meObj, const args& a);
 
     public:
         using super::eval;

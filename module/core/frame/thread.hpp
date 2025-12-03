@@ -27,7 +27,7 @@ namespace by {
         friend class defNestedFuncExpr;
         friend class assignExpr;
         friend class verifier;
-        friend class runExpr;
+        friend class evalExpr;
         friend class baseFunc; // for frames.
         friend class forExpr;
         friend class whileExpr;

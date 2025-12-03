@@ -23,7 +23,7 @@ namespace by {
         nbool onVisit(const visitInfo& i, asExpr& me, nbool) override;
         nbool onVisit(const visitInfo& i, blockExpr& me, nbool) override;
         nbool onVisit(const visitInfo& i, defVarExpr& me, nbool) override;
-        nbool onVisit(const visitInfo& i, runExpr& me, nbool) override;
+        nbool onVisit(const visitInfo& i, evalExpr& me, nbool) override;
         nbool onVisit(const visitInfo& i, baseFunc& me, nbool) override;
         nbool onVisit(const visitInfo& i, ctor& me, nbool) override;
         nbool onVisit(const visitInfo& i, baseCtor& me, nbool) override;

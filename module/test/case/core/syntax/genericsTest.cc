@@ -502,11 +502,11 @@ TEST_F(genericsTest, genericObjCallCompleteShouldDifferentEach) {
     tstr<obj> strObj = org.eval(args(narr(nStr())));
     ASSERT_TRUE(strObj);
 
-    runExpr& intRun = intObj->getCallComplete() TO(template cast<runExpr>()) OR_ASSERT(intRun);
+    evalExpr& intRun = intObj->getCallComplete() TO(template cast<evalExpr>()) OR_ASSERT(intRun);
     const node& intParam = intRun.getMe() TO(getType().getParams()) TO(get(0)) TO(getOrigin()) OR_ASSERT(intParam);
     ASSERT_TRUE(intParam.cast<nInt>());
 
-    runExpr& strRun = strObj->getCallComplete() TO(template cast<runExpr>()) OR_ASSERT(strRun);
+    evalExpr& strRun = strObj->getCallComplete() TO(template cast<evalExpr>()) OR_ASSERT(strRun);
     const node& strParam = strRun.getMe() TO(getType().getParams()) TO(get(0)) TO(getOrigin()) OR_ASSERT(strParam);
     ASSERT_TRUE(strParam.cast<nStr>());
 }

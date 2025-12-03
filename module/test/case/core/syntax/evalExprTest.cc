@@ -4,10 +4,10 @@ using namespace by;
 using namespace std;
 
 namespace {
-    struct runExprTest: public byeolSyntaxTest {};
+    struct evalExprTest: public byeolSyntaxTest {};
 }
 
-TEST_F(runExprTest, simpleRunCheck) {
+TEST_F(evalExprTest, simpleRunCheck) {
     make()
         .parse(R"SRC(
         main() int
@@ -17,7 +17,7 @@ TEST_F(runExprTest, simpleRunCheck) {
         .shouldVerified(true);
 }
 
-TEST_F(runExprTest, runWithoutSpecifyingMe) {
+TEST_F(evalExprTest, runWithoutSpecifyingMe) {
     make()
         .parse(R"SRC(
         main() int
@@ -27,7 +27,7 @@ TEST_F(runExprTest, runWithoutSpecifyingMe) {
         .shouldVerified(true);
 }
 
-TEST_F(runExprTest, runAnotherFunc) {
+TEST_F(evalExprTest, runAnotherFunc) {
     make()
         .parse(R"SRC(
         foo() void
@@ -39,7 +39,7 @@ TEST_F(runExprTest, runAnotherFunc) {
         .shouldVerified(true);
 }
 
-TEST_F(runExprTest, runNotExistFuncNegative) {
+TEST_F(evalExprTest, runNotExistFuncNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -51,7 +51,7 @@ TEST_F(runExprTest, runNotExistFuncNegative) {
     shouldVerified(false);
 }
 
-TEST_F(runExprTest, runAndReturn) {
+TEST_F(evalExprTest, runAndReturn) {
     make()
         .parse(R"SRC(
         main() int
@@ -60,7 +60,7 @@ TEST_F(runExprTest, runAndReturn) {
         .shouldVerified(true); // TODO: verify this as warning of infinite reculsive.
 }
 
-TEST_F(runExprTest, ArgumentMismatchNegative) {
+TEST_F(evalExprTest, ArgumentMismatchNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -70,7 +70,7 @@ TEST_F(runExprTest, ArgumentMismatchNegative) {
         .shouldVerified(false);
 }
 
-TEST_F(runExprTest, runAndReturn2) {
+TEST_F(evalExprTest, runAndReturn2) {
     make()
         .parse(R"SRC(
         foo() flt
@@ -81,7 +81,7 @@ TEST_F(runExprTest, runAndReturn2) {
         .shouldVerified(true);
 }
 
-TEST_F(runExprTest, runAndReturn3) {
+TEST_F(evalExprTest, runAndReturn3) {
     make()
         .parse(R"SRC(
         foo() flt
@@ -92,7 +92,7 @@ TEST_F(runExprTest, runAndReturn3) {
         .shouldVerified(true);
 }
 
-TEST_F(runExprTest, runWithArgument) {
+TEST_F(evalExprTest, runWithArgument) {
     make()
         .parse(R"SRC(
         foo(age int, grade flt) flt
@@ -104,7 +104,7 @@ TEST_F(runExprTest, runWithArgument) {
     shouldVerified(true);
 }
 
-TEST_F(runExprTest, runWithArgumentNegative) {
+TEST_F(evalExprTest, runWithArgumentNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -117,7 +117,7 @@ TEST_F(runExprTest, runWithArgumentNegative) {
     shouldVerified(false);
 }
 
-TEST_F(runExprTest, runWithArgument2) {
+TEST_F(evalExprTest, runWithArgument2) {
     make()
         .negative()
         .parse(R"SRC(

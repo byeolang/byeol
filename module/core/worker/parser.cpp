@@ -514,7 +514,7 @@ namespace by {
         switch(util::checkTypeAttr(name)) {
             case ATTR_COMPLETE: // newArgs.len() can be 0.
                 ret.setCallComplete(
-                    *_maker.make<runExpr>(&ret, *_maker.make<getExpr>(ctor::CTOR_NAME, *newArgs), *newArgs));
+                    *_maker.make<evalExpr>(&ret, *_maker.make<getExpr>(ctor::CTOR_NAME, *newArgs), *newArgs));
                 break;
 
             case ATTR_INCOMPLETE:
@@ -581,7 +581,7 @@ namespace by {
         origin& org = *_maker.birth<origin>(name,
             mgdType(name, ttype<obj>::get(), params::make(typeParams), !isConcerete, nullptr));
         if(isConcerete)
-            org.setCallComplete(*_maker.make<runExpr>(_maker.make<getGenericExpr>(name, typeParams),
+            org.setCallComplete(*_maker.make<evalExpr>(_maker.make<getGenericExpr>(name, typeParams),
                 *_maker.make<getExpr>(ctor::CTOR_NAME, *newArgs), *newArgs));
 
         _onInjectObjSubs(org, blk);
@@ -759,7 +759,7 @@ namespace by {
 
     node* me::onGetElem(const node& arr, const node& idx) {
         node* ret =
-            _maker.make<runExpr>(&arr, *_maker.make<getExpr>(arr, "get", *new args(narr(idx))), args(narr(idx)));
+            _maker.make<evalExpr>(&arr, *_maker.make<getExpr>(arr, "get", *new args(narr(idx))), args(narr(idx)));
         BY_DI("tokenEvent: onGetElem(%s, %s)", arr, idx);
         return ret;
     }
@@ -769,27 +769,27 @@ namespace by {
         return _maker.make<getGenericExpr>(orgName, typeParams);
     }
 
-    runExpr* me::onRunExpr(node& trg, const narr& a) {
+    evalExpr* me::onRunExpr(node& trg, const narr& a) {
         BY_DI("tokenEvent: onRunExpr(%s, narr[%d])", trg, a.len());
         return _onRunExpr(nullptr, trg, *new args(a));
     }
 
-    runExpr* me::onRunExpr(node& trg, const args& a) {
+    evalExpr* me::onRunExpr(node& trg, const args& a) {
         BY_DI("tokenEvent: onRunExpr(%s, args[%d])", trg, a.len());
         return _onRunExpr(nullptr, trg, a);
     }
 
     // @param from  can be expr. so I need to evaluate it through 'as()'.
-    runExpr* me::onFillFromOfFuncCall(const node& me, runExpr& to) {
+    evalExpr* me::onFillFromOfFuncCall(const node& me, evalExpr& to) {
         to.setMe(me);
-        BY_DI("tokenEvent: onFillFromOfFuncCall(%s, runExpr[%s])", me, &to);
+        BY_DI("tokenEvent: onFillFromOfFuncCall(%s, evalExpr[%s])", me, &to);
         return &to;
     }
 
     node* me::onAssign(node& lhs, node& rhs) {
         // _onSetElem branch:
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
-        runExpr* r = lhs.cast<runExpr>();
+        evalExpr* r = lhs.cast<evalExpr>();
         if(r) {
             auto* name = r TO(getSubj().template cast<getExpr>()) TO(getName());
             if(name && *name == "get") return _onSetElem(*r, rhs);
@@ -800,12 +800,12 @@ namespace by {
         return ret;
     }
 
-    node* me::_onSetElem(runExpr& lhs, const node& rhs) {
+    node* me::_onSetElem(evalExpr& lhs, const node& rhs) {
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
         //  for instance,
         //  AST: before
         //      assignExpr
-        //          |-[0]: runExpr (lhs)
+        //          |-[0]: evalExpr (lhs)
         //          |       |-[0]: getExpr: "arr" from 'frame'
         //          |       |-[1]: getExpr: "get" from [0]
         //          |       |       |-[0]: nInt
@@ -813,10 +813,10 @@ namespace by {
         //          |-[1]: nInt: 1 (rhs)
         //
         //  after:
-        //      runExpr
+        //      evalExpr
         //          |-[0]: getExpr: "arr" from 'frame'
         //          |-[1]: getExpr: "set" from [0]
-        //          |-[2]: nInt: 0 // --> this was runExpr[2] of lhs.
+        //          |-[2]: nInt: 0 // --> this was evalExpr[2] of lhs.
         //          |-[3]: nInt: 1 (rhs)
         //
         //  conclusion:
@@ -836,7 +836,7 @@ namespace by {
     node* me::_onAssignElem(FBOExpr::symbol type, node& lhs, node& rhs) {
         // _onConvertAssignElem branch:
         //  if user code is 'arr[0] = 1', then it will be interpreted to 'arr.set(0, 1)'
-        runExpr* cast = lhs.cast<runExpr>();
+        evalExpr* cast = lhs.cast<evalExpr>();
         if(cast) {
             auto* name = cast->getSubj() TO(template cast<getExpr>()) TO(getName());
             if(name && *name == "get") return _onConvertAssignElem(*cast, *_maker.make<FBOExpr>(type, lhs, rhs));
@@ -847,12 +847,12 @@ namespace by {
         return ret;
     }
 
-    node* me::_onConvertAssignElem(runExpr& lhs, node& rhs) {
+    node* me::_onConvertAssignElem(evalExpr& lhs, node& rhs) {
         // if user code is 'arr[0] += 1' then it will be interpreted to 'arr.set(0, arr.get(0) + 1)
         // for instance,
         // AST: before
         //  lhs: arr.get(0)
-        //      runExpr
+        //      evalExpr
         //          |-[0]: getExpr: "arr" from 'frame'
         //          |-[1]: getExpr: "get" from [0]
         //          |-[2]: nInt: 0
@@ -860,12 +860,12 @@ namespace by {
         //      nInt: 1
         //
         // after: arr.set(0, arr.get(0) + 1)
-        //  runExpr
+        //  evalExpr
         //      |-[0]: getExpr: "arr" from 'frame
         //      |-[1]: getExpr: "set" from [0]
         //      |-[2]: nInt: 0
         //      |-[3]: FBOExpr(SYMBOL_ADD) (rhs of this func)
-        //              |-[0]: runExpr (lhs of this func)
+        //              |-[0]: evalExpr (lhs of this func)
         //              |         |-[0]: getExpr: "arr" from 'frame'
         //              |         |-[1]: getExpr: "get" from [0]
         //              |         |-[2]: nInt: 0
@@ -874,7 +874,7 @@ namespace by {
         // conclusion:
         //  1. deep clone lhs and set its[1].subName to 'set'
         //  2. (1).getArgs.add(rhs)
-        runExpr& setter = *(runExpr*) lhs.clone();
+        evalExpr& setter = *(evalExpr*) lhs.clone();
         getExpr& newSubj = *(getExpr*) setter.getSubj().clone();
         newSubj._name = "set";
         newSubj._args.rel();
@@ -884,8 +884,8 @@ namespace by {
         return &setter;
     }
 
-    runExpr* me::_onRunExpr(node* me, node& trg, const args& a) {
-        runExpr* ret = _maker.make<runExpr>(me, trg, a);
+    evalExpr* me::_onRunExpr(node* me, node& trg, const args& a) {
+        evalExpr* ret = _maker.make<evalExpr>(me, trg, a);
         getExpr* cast = trg.cast<getExpr>();
         if(cast && !cast->isSub<getGenericExpr>()) cast->setArgs(a);
         return ret;
@@ -1115,8 +1115,8 @@ namespace by {
         return ret;
     }
 
-    runExpr* me::onIn(const node& it, const node& container) {
-        runExpr* ret = _maker.make<runExpr>(&container, *_maker.make<getExpr>("in"), args(nullptr, narr(it)));
+    evalExpr* me::onIn(const node& it, const node& container) {
+        evalExpr* ret = _maker.make<evalExpr>(&container, *_maker.make<getExpr>("in"), args(nullptr, narr(it)));
         BY_DI("tokenEvent: onIn(%s, %s)", it, container);
         return ret;
     }

@@ -7,7 +7,7 @@
 namespace by {
 
     class src;
-    class runExpr;
+    class evalExpr;
 
     /// @ingroup core
     /// @brief User-defined class origin in byeol language

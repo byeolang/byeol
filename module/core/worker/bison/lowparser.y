@@ -250,7 +250,7 @@ postfix: primary { $$ = $1; }
        | postfix DOUBLE_PLUS { $$ = PS.onUnaryPostfixDoublePlus(*$1); }
        | postfix '.' access { $$ = PS.onGet(*$1, *$3); }
        | postfix '.' func-call {
-        $$ = PS.onFillFromOfFuncCall(*$1, *$3->cast<runExpr>());
+        $$ = PS.onFillFromOfFuncCall(*$1, *$3->cast<evalExpr>());
      } | func-call { $$ = $1; }
        | postfix '[' expr-inline9 ']' { $$ = PS.onGetElem(*$1, *$3); }
 

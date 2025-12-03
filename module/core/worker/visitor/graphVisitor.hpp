@@ -23,7 +23,7 @@ namespace by {
         nbool onVisit(const visitInfo& i, defNestedFuncExpr& e, nbool alreadyVisited) override;
         nbool onVisit(const visitInfo& i, genericOrigin& o, nbool alreadyVisited) override;
         nbool onVisit(const visitInfo& i, getExpr& e, nbool alreadyVisited) override;
-        nbool onVisit(const visitInfo& i, runExpr& e, nbool alreadyVisited) override;
+        nbool onVisit(const visitInfo& i, evalExpr& e, nbool alreadyVisited) override;
         nbool onVisit(const visitInfo& i, FBOExpr& e, nbool alreadyVisited) override;
         nbool onVisit(const visitInfo& i, FUOExpr& e, nbool alreadyVisited) override;
         nbool onVisit(const visitInfo& i, assignExpr& e, nbool alreadyVisited) override;

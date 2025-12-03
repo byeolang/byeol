@@ -95,7 +95,7 @@ namespace by {
         // do nothing.
     }
 
-    void me::onTraverse(const visitInfo& i, runExpr& e) {
+    void me::onTraverse(const visitInfo& i, evalExpr& e) {
         int n = 0;
         node* me = e.getMe();
         node& subject = e.getSubj();
@@ -112,7 +112,7 @@ namespace by {
             elem.accept(visitInfo("arg", &e, n++, len, i.depth + 1), *this);
     }
 
-    void me::onTraverse(runExpr& e, node& subject) {}
+    void me::onTraverse(evalExpr& e, node& subject) {}
 
     void me::onTraverse(const visitInfo& i, func& f) {
         onTraverse(i, (func::super&) f);

@@ -49,7 +49,7 @@ namespace by {
         ///         it to the accurate another identifier or variable. so evalType of the func is
         ///         just the func itself because there is nothing to calculate or eval.
         ///         that's completely different to Return type of the function.
-        ///         if there is a runExpr instance, and it takes the func and proper argument,
+        ///         if there is a evalExpr instance, and it takes the func and proper argument,
         ///         then it can be evaluated and its evalType is the return type of the func.
         virtual const node* getRet() const;
 

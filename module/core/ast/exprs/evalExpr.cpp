@@ -1,4 +1,4 @@
-#include "core/ast/exprs/runExpr.hpp"
+#include "core/ast/exprs/evalExpr.hpp"
 
 #include "core/builtin/primitive/nVoid.hpp"
 #include "core/frame/thread.hpp"
@@ -9,11 +9,11 @@
 
 namespace by {
 
-    BY(DEF_ME(runExpr), DEF_VISIT())
+    BY(DEF_ME(evalExpr), DEF_VISIT())
 
-    me::runExpr(const node* meObj, const node& subject, const args& a): _me(meObj), _args(a), _subject(subject) {}
+    me::evalExpr(const node* meObj, const node& subject, const args& a): _me(meObj), _args(a), _subject(subject) {}
 
-    me::runExpr(const node* meObj, const args& a): _me(meObj), _args(a), _subject(meObj) {}
+    me::evalExpr(const node* meObj, const args& a): _me(meObj), _args(a), _subject(meObj) {}
 
     str me::eval(const args& a) {
         auto addr = platformAPI::toAddrId(this);
