@@ -13,9 +13,13 @@ namespace by {
 
     str me::eval(const args& a) {
         WHEN(!canEval(a)) .ret(str());
+        const obj& rhs = a.begin()->cast<obj>() OR.ret(str());
+        obj& me = a.getMe()->cast<obj>() OR.ret(str());
 
-        const node& p = getParams()[0].getOrigin();
-        return str((node*) a.begin()->as(p)->clone());
+        auto& owns = me.getOwns();
+        owns.rel();
+        owns.add(rhs.getOwns());
+        return me;
     }
 
     const src& me::getSrc() const {
