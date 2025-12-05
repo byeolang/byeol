@@ -1,5 +1,5 @@
 #include "core/ast/exprs/isExpr.hpp"
-#include "core/builtin/primitive/nBool.hpp"
+#include "core/builtin/scalar/nBool.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
 namespace by {

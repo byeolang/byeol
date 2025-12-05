@@ -1,7 +1,7 @@
 /// @file
 #pragma once
 
-#include "core/builtin/primitive.hpp"
+#include "core/builtin/scalar.hpp"
 
 namespace by {
 

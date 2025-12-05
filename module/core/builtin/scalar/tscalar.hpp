@@ -6,12 +6,12 @@
 #include "core/ast/scope.hpp"
 #include "core/ast/src/dumSrc.hpp"
 #include "core/type/as/tas.hpp"
-#include "core/builtin/primitive/arithmeticObj.hpp"
+#include "core/builtin/scalar/scalar.hpp"
 
 namespace by {
 
-    template <typename T> class primitiveObj: public arithmeticObj {
-        BY(ADT(primitiveObj, arithmeticObj))
+    template <typename T> class tscalar: public scalar {
+        BY(ADT(tscalar, scalar))
         typedef T trait;
 
     protected:
@@ -27,9 +27,9 @@ namespace by {
         };
 
     public:
-        primitiveObj(): _val() {}
+        tscalar(): _val() {}
 
-        primitiveObj(const T& val): _val(val) {}
+        tscalar(const T& val): _val(val) {}
 
     public:
         T& get() { return _val; }
@@ -54,8 +54,8 @@ namespace by {
         T _val;
     };
 
-    template <> class primitiveObj<void>: public arithmeticObj {
-        BY(ADT(primitiveObj, arithmeticObj))
+    template <> class tscalar<void>: public scalar {
+        BY(ADT(tscalar, scalar))
 
     protected:
         nbool _onSame(const typeProvidable& rhs) const override { return true; }

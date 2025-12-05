@@ -1,21 +1,21 @@
-#include "core/builtin/primitive/arithmeticObj.hpp"
+#include "core/builtin/scalar/scalar.hpp"
 
 #include "core/ast/node.inl"
-#include "core/builtin/primitive/nVoid.hpp"
+#include "core/builtin/scalar/nVoid.hpp"
 
 namespace by {
 
-    BY_DEF_ME(arithmeticObj)
+    BY_DEF_ME(scalar)
 
 #define _X(FUNC)                                                                            \
-    tstr<arithmeticObj> me::FUNC(const arithmeticObj& rhs) const {                          \
+    tstr<scalar> me::FUNC(const scalar& rhs) const {                          \
         const auto& dummy = nVoid::singleton();                                             \
         const ntype& promoted = getType().promote(rhs) OR.exErr(TYPE_NOT_DEDUCED).ret(dummy); \
         WHEN(promoted.isSub<nVoid>()) .ret(dummy);                                           \
                                                                                             \
         nbool normalOrder = getType() == promoted;                                           \
-        const arithmeticObj& winner = getType() == promoted ? *this : rhs;                   \
-        const arithmeticObj& loser = getType() == promoted ? rhs : *this;                    \
+        const scalar& winner = getType() == promoted ? *this : rhs;                   \
+        const scalar& loser = getType() == promoted ? rhs : *this;                    \
         return winner._##FUNC(loser, !normalOrder);                                         \
     }
 

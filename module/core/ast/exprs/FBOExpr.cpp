@@ -1,5 +1,5 @@
 #include "core/ast/exprs/FBOExpr.hpp"
-#include "core/builtin/primitive.hpp"
+#include "core/builtin/scalar.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
 namespace by {
@@ -22,8 +22,8 @@ namespace by {
     nbool me::isLogicalOp() const { return SYMBOL_LOGIC_START <= _symbol && _symbol < SYMBOL_LOGIC_END; }
 
     str me::eval(const args& a) {
-        tstr<arithmeticObj> lhs(_lhs TO(template as<arithmeticObj>()));
-        tstr<arithmeticObj> rhs(_rhs TO(template as<arithmeticObj>()));
+        tstr<scalar> lhs(_lhs TO(template as<scalar>()));
+        tstr<scalar> rhs(_rhs TO(template as<scalar>()));
         WHEN(!lhs || !rhs) .info("lhs or rhs is null").ret(str());
 
         str ret;

@@ -1,7 +1,7 @@
 /// @file
 #pragma once
 
-#include "core/builtin/primitive/nStr.hpp"
+#include "core/builtin/scalar/nStr.hpp"
 #include "core/builtin/err/baseErr.hpp"
 
 namespace by {

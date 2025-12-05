@@ -1,6 +1,6 @@
 #include "core/ast/exprs/FUOExpr.hpp"
 
-#include "core/builtin/primitive.hpp"
+#include "core/builtin/scalar.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
 namespace by {
@@ -11,18 +11,18 @@ namespace by {
 
     str me::eval(const args& a) {
         WHEN(!_it) .ret(str());
-        tstr<arithmeticObj> it = _it->as<arithmeticObj>() OR.ret(str());
+        tstr<scalar> it = _it->as<scalar>() OR.ret(str());
 
         str ret((node*) it->cloneDeep());
         switch(_symbol) {
             case SYMBOL_POSTFIX_DOUBLE_PLUS: {
-                tstr<arithmeticObj> rhs = it->add(nInt(1));
+                tstr<scalar> rhs = it->add(nInt(1));
                 if(rhs) it->mov(*rhs);
                 break;
             }
 
             case SYMBOL_POSTFIX_DOUBLE_MINUS: {
-                tstr<arithmeticObj> rhs = it->sub(nInt(1));
+                tstr<scalar> rhs = it->sub(nInt(1));
                 if(rhs) it->mov(*rhs);
                 break;
             }

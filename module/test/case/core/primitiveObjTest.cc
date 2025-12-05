@@ -3,9 +3,9 @@
 using namespace by;
 using namespace std;
 
-struct primitiveObjTest: public byeolTest {};
+struct tscalarTest: public byeolTest {};
 
-TEST_F(primitiveObjTest, testCloneWIntInMgd) {
+TEST_F(tscalarTest, testCloneWIntInMgd) {
     nInt origin(1);
 
     tstr<nInt> inst((nInt*) origin.clone());
@@ -14,7 +14,7 @@ TEST_F(primitiveObjTest, testCloneWIntInMgd) {
     ASSERT_NE(&origin, &(*inst));
 }
 
-TEST_F(primitiveObjTest, subsIsNotDummy) {
+TEST_F(tscalarTest, subsIsNotDummy) {
     nInt val(2);
     int initial = val.subs().len();
 
@@ -27,7 +27,7 @@ TEST_F(primitiveObjTest, subsIsNotDummy) {
     ASSERT_EQ(subs.len(), initial);
 }
 
-TEST_F(primitiveObjTest, operatorExceptAddingToStrTypeShouldNotWork) {
+TEST_F(tscalarTest, operatorExceptAddingToStrTypeShouldNotWork) {
     nStr s1("123");
     nStr s2("3");
 
@@ -71,7 +71,7 @@ TEST_F(primitiveObjTest, operatorExceptAddingToStrTypeShouldNotWork) {
     ASSERT_FALSE(s1.logicalOr(s2));
 }
 
-TEST_F(primitiveObjTest, voidDoesntSupportAnyOperator) {
+TEST_F(tscalarTest, voidDoesntSupportAnyOperator) {
     nVoid v1;
     nVoid v2;
     const nVoid& expect = nVoid::singleton();
@@ -116,7 +116,7 @@ TEST_F(primitiveObjTest, voidDoesntSupportAnyOperator) {
     ASSERT_FALSE(expect.logicalOr(v2));
 }
 
-TEST_F(primitiveObjTest, byteOperators) {
+TEST_F(tscalarTest, byteOperators) {
     nByte b1(123);
     nByte b2(3);
 
@@ -164,7 +164,7 @@ TEST_F(primitiveObjTest, byteOperators) {
     ASSERT_EQ(b1.logicalOr(b2), b1.get() || b2.get());
 }
 
-TEST_F(primitiveObjTest, boolOperators) {
+TEST_F(tscalarTest, boolOperators) {
     nBool b1(true);
     nBool b2(false);
 
@@ -212,7 +212,7 @@ TEST_F(primitiveObjTest, boolOperators) {
     ASSERT_EQ(b1.logicalOr(b2), b1.get() || b2.get());
 }
 
-TEST_F(primitiveObjTest, fltOperators) {
+TEST_F(tscalarTest, fltOperators) {
     nFlt f1(12.25f);
     nFlt f2(0.25f);
 

@@ -2,7 +2,7 @@
 #include "core/ast/ctor/ctor.hpp"
 #include "core/type/as/impliAses.hpp"
 #include "core/ast/baseFunc.hpp"
-#include "core/builtin/primitive/nStr.hpp"
+#include "core/builtin/scalar/nStr.hpp"
 
 namespace by {
     BY(DEF_ME(funcType))

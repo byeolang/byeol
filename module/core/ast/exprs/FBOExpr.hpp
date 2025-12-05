@@ -1,7 +1,7 @@
 /// @file
 #pragma once
 
-#include "core/builtin/primitive/arithmeticObj.hpp"
+#include "core/builtin/scalar/scalar.hpp"
 #include "core/ast/expr.hpp"
 #include "core/ast/param.hpp"
 #include "core/ast/scope.hpp"

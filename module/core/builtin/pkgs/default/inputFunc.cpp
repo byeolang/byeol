@@ -1,7 +1,7 @@
 #include "core/builtin/pkgs/default/inputFunc.hpp"
 
 #include <iostream>
-#include "core/builtin/primitive/nStr.hpp"
+#include "core/builtin/scalar/nStr.hpp"
 #ifdef __EMSCRIPTEN__
 #    include <emscripten/emscripten.h>
 #endif

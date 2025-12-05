@@ -2,7 +2,7 @@
 #pragma once
 
 #include "core/ast/node.hpp"
-#include "core/builtin/primitive/nInt.hpp"
+#include "core/builtin/scalar/nInt.hpp"
 #include "core/builtin/container/tarrayable.hpp"
 #include "core/builtin/container/native/tnucontainer.hpp"
 

@@ -5,7 +5,7 @@
 #include "core/common/_nout.hpp"
 
 namespace by {
-    class arithmeticObj;
+    class scalar;
     class visitInfo;
     class node;
     typedef tstr<node> str;
@@ -18,8 +18,8 @@ namespace by {
     _nout strWrap __convert__(const node& it);
     _nout strWrap __convert__(const node* it);
     _nout strWrap __convert__(const str& it);
-    _nout strWrap __convert__(const arithmeticObj& it);
-    _nout strWrap __convert__(const arithmeticObj* it);
+    _nout strWrap __convert__(const scalar& it);
+    _nout strWrap __convert__(const scalar* it);
     _nout strWrap __convert__(const src& it);
     _nout strWrap __convert__(const src* it);
     _nout strWrap __convert__(const baseFunc& it);

@@ -1,7 +1,7 @@
 #include "core/ast/exprs/ifExpr.hpp"
 
-#include "core/builtin/primitive/nBool.hpp"
-#include "core/builtin/primitive/nVoid.hpp"
+#include "core/builtin/scalar/nBool.hpp"
+#include "core/builtin/scalar/nVoid.hpp"
 #include "core/frame/frameInteract.hpp"
 #include "core/worker/visitor/visitor.hpp"
 #include "core/ast/exprs/retStateExpr.hpp"

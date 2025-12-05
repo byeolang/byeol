@@ -3,7 +3,7 @@
 #include "core/ast/exprs/assignExpr.hpp"
 #include "core/ast/exprs/getExpr.hpp"
 #include "core/ast/params.hpp"
-#include "core/builtin/primitive/nVoid.hpp"
+#include "core/builtin/scalar/nVoid.hpp"
 #include "core/worker/defBlock.hpp"
 #include "core/type/typeMaker.hpp"
 

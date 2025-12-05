@@ -1,6 +1,6 @@
 #include "core/worker/visitor/verifier.hpp"
 #include "core/ast.hpp"
-#include "core/builtin/primitive.hpp"
+#include "core/builtin/scalar.hpp"
 #include "core/frame/frame.hpp"
 #include "core/frame/starter.hpp"
 #include "core/frame/thread.hpp"

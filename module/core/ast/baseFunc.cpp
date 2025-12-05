@@ -1,7 +1,7 @@
 #include "core/ast/baseFunc.hpp"
 
-#include "core/builtin/primitive/nByte.hpp"
-#include "core/builtin/primitive/nInt.hpp"
+#include "core/builtin/scalar/nByte.hpp"
+#include "core/builtin/scalar/nInt.hpp"
 #include "core/frame/frame.hpp"
 #include "core/frame/frameInteract.hpp"
 #include "core/worker/visitor/visitor.hpp"

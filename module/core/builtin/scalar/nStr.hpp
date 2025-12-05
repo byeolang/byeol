@@ -2,7 +2,7 @@
 #pragma once
 
 #include "core/builtin/container/tucontainable.hpp"
-#include "core/builtin/primitive/primitiveObj.hpp"
+#include "core/builtin/scalar/tscalar.hpp"
 
 namespace by {
 
@@ -10,7 +10,7 @@ namespace by {
     /// @brief String primitive type in byeol language
     /// @details Implements string operations, character access, and container functionality.
     /// Provides the fundamental string data type with arithmetic and container operations.
-    class _nout nStr: public primitiveObj<std::string>, public tucontainable<nStr> {
+    class _nout nStr: public tscalar<std::string>, public tucontainable<nStr> {
         struct _nout nStrType: public ntype {
         public:
             nbool isImmutable() const override;
@@ -19,7 +19,7 @@ namespace by {
         protected:
             const ases& _getAses() const override;
         };
-        BY(CLASS(nStr, primitiveObj, nStrType), VISIT())
+        BY(CLASS(nStr, tscalar, nStrType), VISIT())
 
         typedef typename tucontainable<nStr>::iter iter;
         typedef typename tucontainable<nStr>::iteration iteration;
@@ -38,7 +38,7 @@ namespace by {
 
         const baseObj& getOrigin() const override;
 
-        tstr<arithmeticObj> bitwiseNot() const override;
+        tstr<scalar> bitwiseNot() const override;
 
         /// @param end is exclusive.
         tstr<nStr> substr(nint start, nint end);
@@ -65,26 +65,26 @@ namespace by {
     protected:
         iteration* _onMakeIteration(ncnt step, nbool isReversed) const override;
 
-        tstr<arithmeticObj> _add(const arithmeticObj& rhs, nbool reversed) const override;
-        tstr<arithmeticObj> _sub(const arithmeticObj& rhs, nbool reversed) const override;
-        tstr<arithmeticObj> _mul(const arithmeticObj& rhs, nbool reversed) const override;
-        tstr<arithmeticObj> _div(const arithmeticObj& rhs, nbool reversed) const override;
-        tstr<arithmeticObj> _mod(const arithmeticObj& rhs, nbool reversed) const override;
-        tstr<arithmeticObj> _bitwiseAnd(const arithmeticObj& rhs, nbool reversed) const override;
-        tstr<arithmeticObj> _bitwiseXor(const arithmeticObj& rhs, nbool reversed) const override;
-        tstr<arithmeticObj> _bitwiseOr(const arithmeticObj& rhs, nbool reversed) const override;
-        tstr<arithmeticObj> _lshift(const arithmeticObj& rhs, nbool reversed) const override;
-        tstr<arithmeticObj> _rshift(const arithmeticObj& rhs, nbool reversed) const override;
+        tstr<scalar> _add(const scalar& rhs, nbool reversed) const override;
+        tstr<scalar> _sub(const scalar& rhs, nbool reversed) const override;
+        tstr<scalar> _mul(const scalar& rhs, nbool reversed) const override;
+        tstr<scalar> _div(const scalar& rhs, nbool reversed) const override;
+        tstr<scalar> _mod(const scalar& rhs, nbool reversed) const override;
+        tstr<scalar> _bitwiseAnd(const scalar& rhs, nbool reversed) const override;
+        tstr<scalar> _bitwiseXor(const scalar& rhs, nbool reversed) const override;
+        tstr<scalar> _bitwiseOr(const scalar& rhs, nbool reversed) const override;
+        tstr<scalar> _lshift(const scalar& rhs, nbool reversed) const override;
+        tstr<scalar> _rshift(const scalar& rhs, nbool reversed) const override;
 
-        nbool _eq(const arithmeticObj& rhs) const override;
-        nbool _ne(const arithmeticObj& rhs) const override;
-        nbool _gt(const arithmeticObj& rhs) const override;
-        nbool _lt(const arithmeticObj& rhs) const override;
-        nbool _ge(const arithmeticObj& rhs) const override;
-        nbool _le(const arithmeticObj& rhs) const override;
-        nbool _logicalAnd(const arithmeticObj& rhs) const override;
-        nbool _logicalOr(const arithmeticObj& rhs) const override;
+        nbool _eq(const scalar& rhs) const override;
+        nbool _ne(const scalar& rhs) const override;
+        nbool _gt(const scalar& rhs) const override;
+        nbool _lt(const scalar& rhs) const override;
+        nbool _ge(const scalar& rhs) const override;
+        nbool _le(const scalar& rhs) const override;
+        nbool _logicalAnd(const scalar& rhs) const override;
+        nbool _logicalOr(const scalar& rhs) const override;
 
-        arithmeticObj& _mov(const arithmeticObj& rhs) override;
+        scalar& _mov(const scalar& rhs) override;
     };
 } // namespace by

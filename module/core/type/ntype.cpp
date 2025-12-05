@@ -2,7 +2,7 @@
 #include "core/type/ntype.hpp"
 #include "core/ast/exprs/breakExpr.hpp"
 #include "core/ast/exprs/nextExpr.hpp"
-#include "core/builtin/primitive.hpp"
+#include "core/builtin/scalar.hpp"
 #include "core/type/as/impliAses.hpp"
 
 namespace by {

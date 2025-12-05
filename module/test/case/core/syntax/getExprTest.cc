@@ -117,7 +117,7 @@ public:
     nbool executed;
 };
 
-TEST_F(getExprTest, getExprSkipEvalToPrimitiveObj) {
+TEST_F(getExprTest, getExprSkipEvalTotscalar) {
     myObj obj1;
     obj1.subs().add("age", new nInt(22));
 

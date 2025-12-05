@@ -1,6 +1,6 @@
 #include "core/ast/exprs/evalExpr.hpp"
 
-#include "core/builtin/primitive/nVoid.hpp"
+#include "core/builtin/scalar/nVoid.hpp"
 #include "core/frame/thread.hpp"
 #include "core/worker/visitor/visitor.hpp"
 #include "core/ast/closure.hpp"

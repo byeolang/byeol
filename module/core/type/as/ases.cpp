@@ -2,7 +2,7 @@
 
 #include "core/ast/node.hpp"
 #include "core/builtin/container/native/tnarr.inl"
-#include "core/builtin/primitive/nVoid.hpp"
+#include "core/builtin/scalar/nVoid.hpp"
 
 namespace by {
 

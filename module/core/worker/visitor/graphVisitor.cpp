@@ -189,7 +189,7 @@ namespace by {
                  << foreColor(LIGHTGRAY) << ")";
         }
 
-        return !e.getLeft().isSub<arithmeticObj>() || !e.getRight().isSub<arithmeticObj>();
+        return !e.getLeft().isSub<scalar>() || !e.getRight().isSub<scalar>();
     }
 
     nbool me::onVisit(const visitInfo& i, FUOExpr& e, nbool alreadyVisited) {

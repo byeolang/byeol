@@ -1,8 +1,8 @@
 #include "core/common/richLog.hpp"
 
-#include "core/builtin/primitive/nInt.hpp"
-#include "core/builtin/primitive/nStr.hpp"
-#include "core/builtin/primitive/nVoid.hpp"
+#include "core/builtin/scalar/nInt.hpp"
+#include "core/builtin/scalar/nStr.hpp"
+#include "core/builtin/scalar/nVoid.hpp"
 #include "core/worker/visitor/visitInfo.hpp"
 
 namespace by {
@@ -10,7 +10,7 @@ namespace by {
     strWrap __convert__(const node* it) { return it ? __convert__(*it) : strWrap("null"); }
 
     strWrap __convert__(const node& it) {
-        const arithmeticObj* cast = it.cast<arithmeticObj>();
+        const scalar* cast = it.cast<scalar>();
         WHEN(cast) .ret(__convert__(*cast));
 
         return __convert__((typeProvidable&) it);
@@ -18,9 +18,9 @@ namespace by {
 
     strWrap __convert__(const str& it) { return it ? __convert__(*it) : strWrap("null"); }
 
-    strWrap __convert__(const arithmeticObj* it) { return it ? __convert__(*it) : strWrap("null"); }
+    strWrap __convert__(const scalar* it) { return it ? __convert__(*it) : strWrap("null"); }
 
-    strWrap __convert__(const arithmeticObj& it) {
+    strWrap __convert__(const scalar& it) {
         const std::string& name = it.getType().getName();
         WHEN(it.isSub<nVoid>()) .ret(name);
 

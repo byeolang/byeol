@@ -1,7 +1,7 @@
 #include "core/ast/exprs/blockExpr.hpp"
 
 #include "core/builtin/container/mgd/arr.hpp"
-#include "core/builtin/primitive/nVoid.hpp"
+#include "core/builtin/scalar/nVoid.hpp"
 #include "core/frame/thread.hpp"
 #include "core/worker/visitor/visitor.hpp"
 #include "core/builtin/err/nerr.hpp"

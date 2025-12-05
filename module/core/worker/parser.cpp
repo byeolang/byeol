@@ -4,7 +4,7 @@
 #include "core/ast/func.hpp"
 #include "core/ast/genericOrigin.hpp"
 #include "core/ast/origin.hpp"
-#include "core/builtin/primitive.hpp"
+#include "core/builtin/scalar.hpp"
 #include "core/frame/thread.hpp"
 #include "core/type/typeMaker.hpp"
 #include "core/worker/bison/lowparser.hpp"

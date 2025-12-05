@@ -1,5 +1,5 @@
 #include "core/ast/exprs/endExpr.hpp"
-#include "core/builtin/primitive/nVoid.hpp"
+#include "core/builtin/scalar/nVoid.hpp"
 #include "core/worker/visitor/visitor.hpp"
 
 namespace by {
