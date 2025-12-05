@@ -76,9 +76,9 @@ namespace by {
         return getOrigin().getModifier();
     }
 
-    str me::_onRunSub(node& sub, const args& a) {
+    str me::_onEvalSub(node& sub, const args& a) {
         a.setMe(*this);
-        return super::_onRunSub(sub, a);
+        return super::_onEvalSub(sub, a);
     }
 
     void me::_setSrc(const src& s) {}

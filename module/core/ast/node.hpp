@@ -174,7 +174,7 @@ namespace by {
         virtual const modifier& getModifier() const;
 
     protected:
-        virtual str _onRunSub(node& sub, const args& a);
+        virtual str _onEvalSub(node& sub, const args& a);
         virtual void _setSrc(const src& s);
         void _setSrc(const src* it) BY_SIDE_FUNC(_setSrc);
     };

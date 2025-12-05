@@ -410,11 +410,11 @@ call-access: type params {
 func-call: type func-call-tuple {
         tstr<narr> argsLife($2);
         str typeLife($1);
-        $$ = PS.onRunExpr(*typeLife, *argsLife);
+        $$ = PS.onEvalExpr(*typeLife, *argsLife);
        } | func-call func-call-tuple {
         tstr<narr> argsLife($2);
         str exprLife($1);
-        $$ = PS.onRunExpr(*$1, *$2);
+        $$ = PS.onEvalExpr(*$1, *$2);
        }
 
 //  tuple:

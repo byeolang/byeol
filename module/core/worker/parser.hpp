@@ -235,8 +235,8 @@ namespace by {
         nextExpr* onNext();
         //      eval:
         evalExpr* onFillFromOfFuncCall(const node& me, evalExpr& to);
-        evalExpr* onRunExpr(node& type, const narr& a);
-        evalExpr* onRunExpr(node& type, const args& a);
+        evalExpr* onEvalExpr(node& type, const narr& a);
+        evalExpr* onEvalExpr(node& type, const args& a);
         //      cast:
         isExpr* onIs(const node& me, const node& to);
         asExpr* onAs(const node& me, const node& as);
@@ -267,7 +267,7 @@ namespace by {
         node* _onSetElem(evalExpr& lhs, const node& rhs);
         node* _onAssignElem(FBOExpr::symbol type, node& lhs, node& rhs);
         node* _onConvertAssignElem(evalExpr& lhs, node& rhs);
-        evalExpr* _onRunExpr(node* me, node& type, const args& a);
+        evalExpr* _onEvalExpr(node* me, node& type, const args& a);
 
         nint _onScan(YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner);
         void _report(baseErr* new1);

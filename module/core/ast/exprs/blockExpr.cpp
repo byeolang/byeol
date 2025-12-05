@@ -4,7 +4,6 @@
 #include "core/builtin/primitive/nVoid.hpp"
 #include "core/frame/thread.hpp"
 #include "core/worker/visitor/visitor.hpp"
-#include "core/ast/exprs/retStateExpr.hpp"
 #include "core/builtin/err/nerr.hpp"
 
 namespace by {

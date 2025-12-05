@@ -769,14 +769,14 @@ namespace by {
         return _maker.make<getGenericExpr>(orgName, typeParams);
     }
 
-    evalExpr* me::onRunExpr(node& trg, const narr& a) {
-        BY_DI("tokenEvent: onRunExpr(%s, narr[%d])", trg, a.len());
-        return _onRunExpr(nullptr, trg, *new args(a));
+    evalExpr* me::onEvalExpr(node& trg, const narr& a) {
+        BY_DI("tokenEvent: onEvalExpr(%s, narr[%d])", trg, a.len());
+        return _onEvalExpr(nullptr, trg, *new args(a));
     }
 
-    evalExpr* me::onRunExpr(node& trg, const args& a) {
-        BY_DI("tokenEvent: onRunExpr(%s, args[%d])", trg, a.len());
-        return _onRunExpr(nullptr, trg, a);
+    evalExpr* me::onEvalExpr(node& trg, const args& a) {
+        BY_DI("tokenEvent: onEvalExpr(%s, args[%d])", trg, a.len());
+        return _onEvalExpr(nullptr, trg, a);
     }
 
     // @param from  can be expr. so I need to evaluate it through 'as()'.
@@ -884,7 +884,7 @@ namespace by {
         return &setter;
     }
 
-    evalExpr* me::_onRunExpr(node* me, node& trg, const args& a) {
+    evalExpr* me::_onEvalExpr(node* me, node& trg, const args& a) {
         evalExpr* ret = _maker.make<evalExpr>(me, trg, a);
         getExpr* cast = trg.cast<getExpr>();
         if(cast && !cast->isSub<getGenericExpr>()) cast->setArgs(a);

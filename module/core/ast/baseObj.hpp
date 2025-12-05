@@ -67,7 +67,7 @@ namespace by {
         const modifier& getModifier() const override;
 
     protected:
-        str _onRunSub(node& sub, const args& a) override;
+        str _onEvalSub(node& sub, const args& a) override;
         void _setSrc(const src& s) override;
         virtual void _inFrame(frame& fr, const bicontainable* args) const;
 

@@ -58,5 +58,5 @@ namespace by {
         return true;
     }
 
-    str me::_onRunSub(node& sub, const args& a) { return getPack()._onRunSub(sub, a); }
+    str me::_onEvalSub(node& sub, const args& a) { return getPack()._onEvalSub(sub, a); }
 } // namespace by

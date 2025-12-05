@@ -49,7 +49,7 @@ namespace by {
         if(name.empty()) return eval(a);
         node& found = subAll(name, &a).get() OR.ret(str());
 
-        return _onRunSub(found, a);
+        return _onEvalSub(found, a);
     }
 
     nbool me::is(const typeProvidable& to) const { return is(to.getType()); }
@@ -70,7 +70,7 @@ namespace by {
 
     str me::infer() const { return str(this); }
 
-    str me::_onRunSub(node& sub, const args& a) { return sub.eval(a); }
+    str me::_onEvalSub(node& sub, const args& a) { return sub.eval(a); }
 
     nbool me::isComplete() const { return true; }
 

@@ -1,7 +1,6 @@
 /// @file
 #pragma once
 
-#include "core/ast/tmock.hpp"
 #include "core/ast/baseObj.hpp"
 
 namespace by {

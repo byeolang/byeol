@@ -44,7 +44,7 @@ namespace by {
         void outFrame() const override;
 
     protected:
-        str _onRunSub(node& sub, const args& a) override;
+        str _onEvalSub(node& sub, const args& a) override;
 
     private:
         std::string _makeKey(const args& a) const;

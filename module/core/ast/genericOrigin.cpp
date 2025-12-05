@@ -26,7 +26,7 @@ namespace by {
 
     void me::outFrame() const {}
 
-    str me::_onRunSub(node& sub, const args& a) { return str(); }
+    str me::_onEvalSub(node& sub, const args& a) { return str(); }
 
     scope& me::subs() {
         WHEN(_org) .ret(_org->subs());
