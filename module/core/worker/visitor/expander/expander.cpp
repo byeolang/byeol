@@ -8,7 +8,7 @@
 #include "core/ast/obj.hpp"
 #include "core/frame/frameInteract.hpp"
 #include "core/frame/thread.hpp"
-#include "core/worker/worker.inl"
+#include "core/worker/tworker.inl"
 #include "core/worker/visitor/verifier.hpp"
 #include "core/worker/visitor/expander/convergence.hpp"
 

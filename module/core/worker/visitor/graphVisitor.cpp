@@ -4,7 +4,7 @@
 
 #include "core/ast.hpp"
 #include "core/frame/frame.hpp"
-#include "core/worker/worker.inl"
+#include "core/worker/tworker.inl"
 
 namespace by {
 

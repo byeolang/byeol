@@ -10,14 +10,14 @@
 #include "core/worker/bison/lowparser.hpp"
 #include "core/worker/bison/lowscanner.hpp"
 #include "core/worker/bison/tokenScan.hpp"
-#include "core/worker/worker.inl"
+#include "core/worker/tworker.inl"
 #include <algorithm>
 #include <cctype>
 
 namespace by {
 
     using std::string;
-    template class _nout worker<str, slot>;
+    template class _nout tworker<str, slot>;
 
     BY_DEF_ME(parser)
 

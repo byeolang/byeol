@@ -10,8 +10,8 @@ namespace by {
     /// @brief High-level interpreter for byeol language
     /// @details Coordinates parsing, expansion, and verification phases of interpretation.
     /// Manages the complete interpretation pipeline from source to executable slots.
-    class _nout interpreter: public worker<tstr<slot>, slot> {
-        typedef worker<tstr<slot>, slot> __super7;
+    class _nout interpreter: public tworker<tstr<slot>, slot> {
+        typedef tworker<tstr<slot>, slot> __super7;
         BY(CLASS(interpreter, __super7))
 
     public:

@@ -14,7 +14,7 @@
 #include "core/worker/smartDedent.hpp"
 #include "core/worker/supply/srcSupply.hpp"
 #include "core/worker/tokenDispatcher.hpp"
-#include "core/worker/worker.hpp"
+#include "core/worker/tworker.hpp"
 
 namespace by {
 
@@ -40,8 +40,8 @@ namespace by {
     /// @brief Parser for byeol language source code
     /// @details Main parser class that converts source code into abstract syntax trees.
     /// Handles tokenization, syntax analysis, and AST construction for the byeol language.
-    class _nout parser: public worker<str, slot>, public tokenScanable {
-        typedef worker<str, slot> __super5;
+    class _nout parser: public tworker<str, slot>, public tokenScanable {
+        typedef tworker<str, slot> __super5;
         BY(CLASS(parser, __super5))
         friend class srcSupply;
 

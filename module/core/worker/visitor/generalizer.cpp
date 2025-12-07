@@ -1,6 +1,6 @@
 #include "core/worker/visitor/generalizer.hpp"
 #include "core/ast.hpp"
-#include "core/worker/worker.inl"
+#include "core/worker/tworker.inl"
 
 namespace by {
 

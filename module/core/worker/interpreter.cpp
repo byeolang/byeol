@@ -5,11 +5,11 @@
 #include "core/frame/threadUse.hpp"
 #include "core/worker/visitor/graphVisitor.hpp"
 #include "core/worker/visitor/expander.hpp"
-#include "core/worker/worker.inl"
+#include "core/worker/tworker.inl"
 
 namespace by {
 
-    template class _nout worker<tstr<slot>, slot>;
+    template class _nout tworker<tstr<slot>, slot>;
 
     BY_DEF_ME(interpreter)
 

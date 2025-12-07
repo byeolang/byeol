@@ -2,7 +2,7 @@
 #pragma once
 
 #include "core/ast/origin.hpp"
-#include "core/worker/worker.inl"
+#include "core/worker/tworker.inl"
 #include "core/frame/defaultSigZone.hpp"
 
 namespace by {
@@ -11,8 +11,8 @@ namespace by {
     /// @ingroup core
     /// @brief Program execution starter
     /// @details Worker that initiates and manages byeol program execution with main function lookup.
-    class _nout starter: public worker<str, node> {
-        typedef worker<str, node> __super8;
+    class _nout starter: public tworker<str, node> {
+        typedef tworker<str, node> __super8;
         BY(CLASS(starter, __super8))
 
     public:

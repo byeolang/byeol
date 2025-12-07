@@ -2,11 +2,11 @@
 #include "core/ast.hpp"
 #include "core/builtin.hpp"
 #include "core/frame/frame.hpp"
-#include "core/worker/worker.inl"
+#include "core/worker/tworker.inl"
 
 namespace by {
 
-    template class _nout worker<void, node>;
+    template class _nout tworker<void, node>;
 
     BY_DEF_ME(visitor)
 

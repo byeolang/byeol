@@ -25,8 +25,8 @@ namespace by {
     /// @brief Base worker template for processing tasks
     /// @details Template class that provides the foundation for all workers in the byeol system.
     /// Manages task execution, error reporting, logging, and area management.
-    template <typename R, typename T> class worker: public typeProvidable, public clonable {
-        BY(ADT(worker))
+    template <typename R, typename T> class tworker: public typeProvidable, public clonable {
+        BY(ADT(tworker))
         template <typename R1, typename T1> friend struct workerAdapter;
         typedef R RetType;
 
@@ -46,7 +46,7 @@ namespace by {
         };
 
     public:
-        worker();
+        tworker();
 
     public:
         errReport& getReport();

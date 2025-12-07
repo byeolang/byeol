@@ -3,7 +3,7 @@
 
 #include "core/ast/node.hpp"
 #include "core/ast/src.hpp"
-#include "core/worker/worker.hpp"
+#include "core/worker/tworker.hpp"
 #include "core/worker/visitor/visitInfo.hpp"
 
 namespace by {
@@ -17,8 +17,8 @@ namespace by {
     /// @brief Base visitor class for AST traversal
     /// @details Implements the visitor pattern for traversing and processing AST nodes.
     /// Provides visit/leave hooks and tracks visited nodes to prevent infinite recursion.
-    class _nout visitor: public worker<void, node> {
-        typedef worker<void, node> __super6;
+    class _nout visitor: public tworker<void, node> {
+        typedef tworker<void, node> __super6;
         BY(CLASS(visitor, __super6))
 
     public:

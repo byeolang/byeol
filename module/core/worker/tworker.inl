@@ -1,21 +1,21 @@
 #pragma once
 
-#include "core/worker/worker.hpp"
+#include "core/worker/tworker.hpp"
 
 namespace by {
 
     template <typename R, typename T> struct workerAdapter {
-        static R adaptWork(worker<R, T>& w);
+        static R adaptWork(tworker<R, T>& w);
     };
 
     template <typename T> struct workerAdapter<void, T> {
-        static void adaptWork(worker<void, T>& w);
+        static void adaptWork(tworker<void, T>& w);
     };
 
 #define TEMPLATE template <typename R, typename T>
-#define ME worker<R, T>
+#define ME tworker<R, T>
 
-    TEMPLATE ME::worker(): _rpt(dummyErrReport::singleton) { _rel(); }
+    TEMPLATE ME::tworker(): _rpt(dummyErrReport::singleton) { _rel(); }
 
     TEMPLATE errReport& ME::getReport() { return *_rpt; }
 
@@ -108,22 +108,22 @@ namespace by {
 #define ME workerAdapter<R, T>
 
     TEMPLATE
-    R ME::adaptWork(worker<R, T>& w) {
-        if(w.isFlag(worker<R, T>::GUARD)) BY_I("|=== %s.work()... ==============|", w);
+    R ME::adaptWork(tworker<R, T>& w) {
+        if(w.isFlag(tworker<R, T>::GUARD)) BY_I("|=== %s.work()... ==============|", w);
 
         w._prepare();
 
         R ret;
         enablesZone internal;
-        if(!w.isFlag(worker<R, T>::INTERNAL)) internal.setEnable(false);
+        if(!w.isFlag(tworker<R, T>::INTERNAL)) internal.setEnable(false);
         ret = w._onWork();
         internal.setPrev().rel();
 
-        if(w.isFlag(worker<R, T>::GUARD)) BY_I("|--- %s._onEndWork()... --------|", w);
+        if(w.isFlag(tworker<R, T>::GUARD)) BY_I("|--- %s._onEndWork()... --------|", w);
 
         w._onEndWork();
 
-        if(w.isFlag(worker<R, T>::GUARD)) BY_I("|=== %s ends! ==================|", w);
+        if(w.isFlag(tworker<R, T>::GUARD)) BY_I("|=== %s ends! ==================|", w);
         return ret;
     }
 
@@ -133,24 +133,24 @@ namespace by {
 #define ME workerAdapter<void, T>
 
     TEMPLATE
-    void ME::adaptWork(worker<void, T>& w) {
-        if(w.isFlag(worker<void, T>::GUARD)) BY_I("|=== %s.work()... ==============|", w);
+    void ME::adaptWork(tworker<void, T>& w) {
+        if(w.isFlag(tworker<void, T>::GUARD)) BY_I("|=== %s.work()... ==============|", w);
 
         w._prepare();
 
         enablesZone prev;
         {
             enablesZone internal;
-            if(!w.isFlag(worker<void, T>::INTERNAL)) logger::get().setEnable(false);
+            if(!w.isFlag(tworker<void, T>::INTERNAL)) logger::get().setEnable(false);
             w._onWork();
         }
 
-        if(w.isFlag(worker<void, T>::GUARD)) BY_I("|--- %s._onEndWork()... --------|", w);
+        if(w.isFlag(tworker<void, T>::GUARD)) BY_I("|--- %s._onEndWork()... --------|", w);
 
         prev.setPrev();
         w._onEndWork();
 
-        if(w.isFlag(worker<void, T>::GUARD)) BY_I("|=== %s ends! ==================|", w);
+        if(w.isFlag(tworker<void, T>::GUARD)) BY_I("|=== %s ends! ==================|", w);
     }
 
 #undef ME
