@@ -42,7 +42,7 @@ namespace by {
     } while(0)
 
 #define _STEP(msg, ...) \
-    BY_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), &me, ++_stepN, ##__VA_ARGS__)
+    BY_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), (void*) &me, ++_stepN, ##__VA_ARGS__)
 
     // verification:
     void me::onLeave(const visitInfo& i, node& me, nbool) {
