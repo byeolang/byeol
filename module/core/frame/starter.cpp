@@ -7,7 +7,6 @@
 #include "core/ast/node.inl"
 #include "core/ast/obj.hpp"
 #include "core/ast/slot.hpp"
-#include "core/worker/visitor/graphVisitor.hpp"
 #include "core/frame/threadUse.hpp"
 
 namespace by {

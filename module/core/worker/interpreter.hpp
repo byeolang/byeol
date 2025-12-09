@@ -24,8 +24,10 @@ namespace by {
         interpreter();
 
     public:
-        me& addSupply(const srcSupply& supply);
-        me& relSupplies();
+        parser& getParser();
+        const parser& getParser() const BY_CONST_FUNC(getParser())
+        verifier& getVerifier();
+        const verifier& getVerifier() const BY_CONST_FUNC(getVerifier())
         nbool isParsed() const;
         nbool isVerified() const;
         node* getSubPack();

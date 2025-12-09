@@ -24,7 +24,7 @@ namespace by {
 
     me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
         for(const auto& filePath: tray)
-            ip.addSupply(*new fileSupply(filePath));
+            ip.getParser().addSupply(*new fileSupply(filePath));
         return MATCH;
     };
 }

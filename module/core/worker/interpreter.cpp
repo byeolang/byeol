@@ -15,15 +15,9 @@ namespace by {
 
     me::interpreter(): _isParsed(false) {}
 
-    me& me::addSupply(const srcSupply& supply) {
-        _pser.addSupply(supply);
-        return *this;
-    }
+    parser& me::getParser() { return _pser; }
 
-    me& me::relSupplies() {
-        _pser.relSupplies();
-        return *this;
-    }
+    verifier& me::getVerifier() { return _veri; }
 
     nbool me::isParsed() const { return _isParsed; }
 

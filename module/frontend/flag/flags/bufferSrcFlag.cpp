@@ -24,7 +24,7 @@ namespace by {
     me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
         if(tray.size() < 2) return BY_E("invalid flagArgument size < 2"), EXIT_PROGRAM;
 
-        ip.addSupply(*new bufSupply(tray[1]));
+        ip.getParser().addSupply(*new bufSupply(tray[1]));
         return MATCH;
     }
 }
