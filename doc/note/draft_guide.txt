@@ -134,6 +134,55 @@
 indep 모듈
 ##########
 
+WHEN 매크로
+===========
+byeol은 프로젝트 전체적으로 early-return pattern을 적용 하고 있다.
+이는 코드의 흐름을 알기 쉽게 해주며 block 문 depth를 줄여주는 이점이 있다.
+단점이라면 `if(checks) return res;` 와 같은 식으로 사용하기 때문에 `if` 바로 보고
+이 코드가 branching을 위한 if 인지 아니면 return하려고 하는 if인지 구분이 되지 않는
+다는 점과 `if(checks)` 뒤에 블록문이 오게 되는 경우 가독성이 떨어진다는 점이다.
+다음과 같은 코드를 보면 좀 체감이 될 것이다.
+
+@code
+    str me::eval(const args& a) {
+        std::string key = _makeKey(a);
+        if(key.empty()) {
+            BY_E("key is empty");
+            return tstr<obj>();
+        }
+        if(_isSelfMaking(key)) {
+            BY_E("error: you tried to clone self generic object.");
+            return tstr<obj>();
+        }
+
+        if(!_cache.count(key))
+            _makeGeneric(key, params::make(_paramNames, a));
+
+        return _cache[key];
+    }
+@endcode
+
+WHEN 매크로는 이 부분을 해결하는 것으로 WHEN은 early-return pattern 시에만 사용된다.
+또한 90% 이상의 early-return은 에러 발견시 로그를 찍고 에러 값을 내보내는 것 뿐이라는
+것에 착안해서 그 2가지 과정을 한 줄에 표현할 수 있도록 chaining을 지원한다.
+결과 다음과 같이 코드가 간략해지고 if의 목적이 명확해진다.
+
+@code
+    str me::eval(const args& a) {
+        std::string key = _makeKey(a);
+        WHEN(key.empty()).err("key is empty").ret(tstr<obj>());
+        WHEN(_isSelfMaking(key)).err("error: you tried to clone self generic object.").ret(tstr<obj>());
+
+        if(!_cache.count(key)) _makeGeneric(key, params::make(_paramNames, a));
+        return _cache[key];
+    }
+@endcode
+
+WHEN 매크로는 프로젝트 내에서 아주 빈번하게 사용되므로 잘 파악해 두는 게 좋다.
+
+
+
+
 fsystem 클래스
 ==============
 fsystem은 지정한 폴더에서 파일을 재귀적으로 탐색하는 간단한 클래스다.
@@ -438,6 +487,18 @@ meObj은 tstr<obj> 라는 타입이고, getName()은 std::string을 반환하지
 clog 모듈은 architecture 상 아랫부분에 위치하기 때문에 clog에 종속하는 클래스가 뭐가 있는지 알아서는 안된다.
 그렇기 때문에 richLog는 각 모듈마다 정의되어 있으며, 해당 모듈에 포함된 클래스를 어떻게 문자열로 변환할지를 정의해두고 있다.
 
+
+@section 간략화된 주소값
+richLog로 void*를 넘기게 되면 `indep` 모듈에 있는 @ref platformAPI를 사용해서 `toAddr()`를 호출한다.
+이 함수는 void*를 마지막 4 hex값을 문자열로 변환하는 함수이며, 프로젝트 내에서 주로 `@` 뒤에 적는 스타일이다.
+예를 들면 다음과 같이 로깅 된다.
+
+> Nov 18 2025  20:02:13 I verifier  <onLeave#87> '' assignExpr@9a50: step#1 --> set evalType
+
+위 로그에서 assignExpr@9a50은 assignExpr 객체가 heap 주소의 끝자리가 9a50인 곳에
+있는 인스턴스라는 얘기다.
+이는 동일한 타입에 대해 서로 다른 인스턴스가 같은 시점에 로깅되는 경우 좀 더 수월하게
+디버깅 하도록 돕는다.
 
 
 @section filterable
@@ -3084,6 +3145,20 @@ worker가 생소하다면 먼저 참조하자.
 4. 메인 함수는 1개 이상의 구문을 가져야 한다.
 
 
+@section 사용 예시
+@ref interpreter와 함께 사용하면 byeol 코드를 파싱해서 실행할 수 있다.
+
+@code
+    interpreter ip;
+    ip.work();
+    if(!ip.isVerified()) return -1;
+
+    str res = starter().setTask(ip.getSubPack()).work();
+    if(res)
+        if(res->isSub<nInt>()) return *res->cast<nint>();
+    return -1;
+@endcode
+
 
 
 parser 클래스
@@ -3318,3 +3393,420 @@ expander는 visitor를 통해서 주어진 root origin obj 를 모두 순회하�
 visitatation 도중 getExpr가 origin으로 교체되지 않은 경우 `_cons` 에 저장해 두었다가
 타입 추론이 완료된 후에 교체 작업을 1회 시도한다. 이 경우에도 실패할 경우는 그냥 무시할 뿐
 에러는 발생하지 않는다.
+
+
+
+tworker 클래스
+==============
+tworker는 대량의 배치 작업을 수행하는 데 최적화 되어있다.
+@ref errReport로 이 과정에서 발생하는 에러를 수집할 수 있으며 다양한 flag들을 지정해서
+작업 중 일부 동작을 변경시킬 수도 있다.
+@ref verifier, @ref visitor, @ref parser등 큰 작업을 수행하는 클래스 들은 tworker기반으로
+돌아간다.
+
+
+@section work와 task
+tworker는 말그대로 `work()`를 하기 위해 존재한다. 이때 작업의 대상이 되는 input을
+`task`라고 한다.
+작업전에 `_prepare()`가 호출되며 작업이 종료되면 `_onEndWork()`가 호출된다.
+
+
+@section errReport
+대량의 작업을 깊은 함수 depth를 동반하면서 수행해야 하므로, 콜스택 깊은 곳에 있는
+에러를 충분히 탐지하기 위해서는 errReport를 통해서 이를 수집할 수 있어야 한다.
+tworker는 `setReport()`를 통해서 외부로부터 errReport 객체를 넣을 수 있다.
+errReport를 할당하지 않을 경우 @ref dummyErrReport가 대신 들어간다.
+
+
+@section log flag
+tworker는 작업 도중에 로깅을 위한 다양한 flag를 가지고 있다.
+
+* LOG_ON_EX:    에러 발생시 한줄 로그를 남긴다.
+* DUMP_ON_EX:   에러 발생시 callstack을 포함한 @ref err객체를 dump 한다.
+* GUARD:        함수가 시작되고 끝날때 로깅한다.
+* INTERNAL:     에러나 GUARD를 제외한 로그를 로깅한다.
+* LOG_ON_END:   작업이 모두 완료되면, 그간 수집한 err를 모두 `log()`로 한줄 로그를 남긴다.
+* DUMP_ON_END:  작업이 모두 완료되면, 그간 수집한 err를 모두 `dump()` 한다.
+
+
+
+visitor 클래스
+==============
+byeol에서는 AST를 중점적으로 다루기 때문에 visitor를 자주 사용하게 된다.
+이때 순회하는 방법과 순회시 @ref node를 visit했을 때의 동작을 서로 분리하기 위해
+visitor이 적극적으로 활용된다.
+
+
+@section 순회
+항상 전위 순회를 따른다. 후위 순회를 하도록 변경은 불가능하다.
+visit()은,
+  1. 현재 찾은 node를 방문 (onVisit())
+  2. 다음 하위 node를 순회 (onTraverse())
+  3. 현재 찾은 node를 떠남 (onLeave())
+
+3개의 단계로 이뤄져 있다.
+
+
+@section accept를 통한 downcasting
+visitor는 onVisit(T&) 과 같이 많은 구체 타입에 대한 방문을 표현하는 virtual function을
+다수 가지고 있다.
+반면 onTraverse에서 탐색시에는 주로 @ref node의 `subs()`를 통해서 @ref tbicontainable
+인터페이스를 사용하기 때문에 node 타입을 사용하게 된다. 그래서 어디선가는 node 타입을
+@ref nInt나 @ref defNestedFuncExpr과 같이 구체타입으로 downcasting을 해야한다.
+이를 위해 node의 `accept()` 라는 virtual 함수를 호출 한다. 예시를 보자.
+
+@code
+    void defNestedFuncExpr::accept(const visitInfo& i, visitor& v) {
+        v.visit(i, *this); // visitor::visit(const visitInfo&, defNestedFuncExpr&) 호출
+    }
+@endcode
+
+가상함수 accept()가 호출되면 안에서 *this를 통해 구체타입으로써 역으로 visitor의 visit()을
+호출하는 식이다.
+이를 위해 visitation에 참여하는 모든 node의 파생클래스는 `accept()` 라는 virtual 함수를
+override 해야 하는데, 이 과정을 쉽게 하기 위해서 VISIT 매크로를 사용한다.
+실제로 다음과 같은 선언을 종종 볼 수 있다.
+
+@code
+    class _nout slot: public node {
+        BY(CLASS(slot, node), VISIT()) // <---
+
+    public:
+@endcode
+
+만약 node 파생클래스 임에도 `accept()`를 override 하지 않았다면, `onTraverse(node&)`가
+대신 사용되며, 이걸로도 충분한 경우에 해당된다.
+
+
+@section 중복 방문 제거
+AST는 참조가 서로 되어있는 경우도 종종 발생한다. 이 경우 아무런 예외처리 없이 순회하면
+이미 방문했던 node를 다시 방문하면서 무한 루프에 진입한다.
+visitor는 `_visited` 라는 map을 소유하고 있다. 이를 통해서 visit()이 호출 되었을 때
+이미 방문한 node인지를 판단해서 예외처리를 해주고 있다.
+이 방문 기록 정보는 매번 visitor가 방문을 시작하기 직전에 초기화된다.
+만약 재방문이 가능하도록 하고 싶다면 `setReturnable(true)`로 값을 변경해주자.
+
+
+
+thread 클래스
+=============
+thread는 하나의 프로그램 실행 흐름을 표현한다. 현재는 단일 스레드만 지원하고 있다.
+thread는 @ref frames와 @ref errReport를 가지고 있어, 프로그램을 실행시 @ref frame
+을 구성하고 실행 도중 발생한 @ref err을 수집할 수도 있다.
+
+
+@section builtin
+builtin pack은 byeol 언어에서 기본적으로 제공하는 타입/함수 들이다.
+별도의 manifest 선언 없이도 항상 접근 가능하다.
+standard pack과도 비슷하지만 이는 byeol 코드로 작성된 엄연히 구분되는 pack으로 되어있다.
+그러나 builtin pack은 전부 c++ native 클래스를 @ref tbridger를 활용해 노출하는 형태로
+되어있다.
+여기에 속한 타입들은 `int`, `str`, `arr`, `err`, `print()` 등 아주 기본적인 symbol 들 뿐이다.
+
+
+@section 싱글톤 속성
+thread는 `static thread& get()` 을 제공한다. 이를 통해 @ref scope나 @ref expr들이
+현재 활성화된 thread 객체에 접근한다.
+만약 기본 thread를 사용하지 않고 직접 thread 인스턴스를 만들어서 프로그램을 실행할 때는
+thread객체를 등록하고, 프로그램 종료시 원본 thread 인스턴스로 교체시켜주는 작업이
+필요하다.
+이를 편하게 하기 위해 @ref threadUse를 사용한다.
+
+@code
+    if(main.canEval(a)) {
+        threadUse thr(getReport());
+
+        // 새로운 thread로 doSomething()...
+    }
+    // 다시 빠져나오면 원본 thread 인스턴스로 교체 된다.
+    // 블록문에 들어가기 전의 프로그램 실행 상태로 복원된다.
+@endcode
+
+위 예제를 보다시피 threadUse는 생성과 동시에 내부에서 thread 객체를 자동으로 생성까지
+해준다.
+
+
+
+verifier 클래스
+===============
+@ref visitor 기반의 코드 검증을 담당한다. byeol 언어는 인터프리터의 구조를 띄고 있지만
+언어 자체는 강형 타입을 사용하고 컴파일을 실행하는 것처럼 사전에 에러를 도출한다.
+verifier는 그 기능의 핵심을 구현한다.
+@ref parser와 @ref expander로 최종 생성된 AST를 실행하기 전에 에러는 없는지 확인한다.
+
+
+@section 이해 난이도
+verifier는 다양한 모듈을 사용하는 `core` 모듈 중에서도 고급 클래스에 해당하므로,
+여러 클래스에 대해 사전에 알고 있어야 한다.
+아마도 이 프로젝트에서 가장 마지막 시점에서야 이해가 되는 클래스 중 하나일 것이다.
+@ref node, @ref visitor 뿐만 아니라 @ref expr이나 WHEN 매크로를 다 알고 있어야
+이해가 쉽다.
+
+
+@section visitor 기반
+onTraverse는 visitor에서 알아서 채워주므로, verifier는 onVisit과 onLeave시
+어떻게 해야 하는지에 대해서만 정의해두고 있다.
+
+
+@section eval과 infer
+프로그램의 실행은 결국 각 @ref node의 eval()로 이뤄지지만, verifier는 실행한 런타임
+값은 관심이 없다. 오직 실행이 가능한가, 지정한 표현식의 결과가 정의된 property의 타입과
+묵시적 변환이 허용되는 가와 같은 `타입 매칭`에만 관심이 있다.
+node의 `infer()`는 타입 추론 기능을 수행하는 것으로 실행하면 값은 모르지만 결과 타입을
+origin 객체로 반환하는 함수다. 값을 계산하지 않으므로 eval() 보다 더 빠르다.
+이제 감이 왔겠지만, verifier는 eval()보다는 infer()를 중점적으로 사용한다.
+
+@code
+    void me::onLeave(const visitInfo& i, assignExpr& me, nbool) {
+        ....
+        str left = me.getLeft().infer() OR.myExErr(me, LHS_IS_NUL).ret();
+        ....
+        str right = me.getRight().infer() OR.myExErr(me, RHS_IS_NUL).ret();
+        ....
+    }
+@endcode
+
+위의 예시처럼 eval() 대신 infer()를 주로 사용한다.
+
+
+@section 많은 코드 라인을 가진 파일
+verifier는 가장 LOC가 많은 파일 중 하나다. 이때 코드들은 크게 3 종류로 분류된다.
+
+* 검증을 위한 사전 작업
+* WHEN 매크로를 사용한 실제 검증 로직
+* 각 단계별 상세 로깅
+
+
+@section 단계별 상세 로깅
+visitor는 타입당 1개의 onVisit() 함수만 가질 수 있다. 그러나 verifier는 하나의
+타입이 주어졌을때 검증해야 하는 케이스가 대부분 2개 이상이다.
+그러니 잘못하면 하나의 onVisit() 함수는 여러개의 검증 로직으로 뒤범벅 되어 구분이
+어려워 진다.
+단계별 상세 로깅이란, 이를 도와주는 코드로, 검증 타겟이 되는 객체에 대해 진행하게 될
+검증 로직이 무엇인지를 로그를 남기는 역할을 한다. 예를 들어,
+
+@code
+    // verifier가 assignExpr 객체에 대해 검증하는 경우:
+    void me::onLeave(const visitInfo& i, assignExpr& me, nbool) {
+        _GUARD("onLeave(assignExpr&)"); // _GUARD는 assignExpr에 대한 검증이 시작됨을 로깅한다.
+
+        // 첫번째 step: evalType을 set한다.
+        _STEP("set evalType");
+
+        str left = me.getLeft().infer() OR.myExErr(me, LHS_IS_NUL).ret();
+        const ntype& ltype = left->getType();
+        str right = me.getRight().infer() OR.myExErr(me, RHS_IS_NUL).ret();
+        const ntype& rtype = right->getType();
+        WHEN(rtype.isSub<retStateExpr>()) .myExErr(me, CANT_ASSIGN_RET).ret();
+        WHEN(!rtype.isImpli(ltype)) .myExErr(me, TYPE_NOT_COMPATIBLE, rtype, ltype).ret();
+
+        ....
+
+        // 두번째 step rvalue를 검사한다.
+        _STEP("checks rvalue");
+        const getExpr& lhs = me.getLeft().cast<getExpr>() OR.myExErr(me, ASSIGN_TO_RVALUE, me.getRight(), lhs).ret();
+
+        // 3번째 step
+        _STEP("checks that you can't assign to a func");
+        str lhsEval = lhs.infer();
+        WHEN(baseFunc::isFuncButNotClosure(*lhsEval)) .myExErr(me, ASSIGN_TO_FUNC).ret();
+
+        // 4번째 step
+        _STEP("checks that try to assign to a const variable");
+        WHEN(util::checkTypeAttr(lhs.getName()) == ATTR_CONST) .myExErr(me, ASSIGN_TO_CONST, lhs.getName()).ret();
+    }
+@endcode
+
+위와 같이 하면 각 코드 뭉치가 그나마 잘 구분되며, 로그를 봐도 디버깅이 좀 더 수월하다.
+
+> Nov 18 2025  20:02:13 I verifier  <onLeave#85> '' assignExpr@assignExpr: onLeave(assignExpr&)
+> Nov 18 2025  20:02:13 I verifier  <onLeave#87> '' assignExpr@9a50: step#1 --> set evalType
+> Nov 18 2025  20:02:13 I getExpr   <_get#50> getExpr: looking for 'frame.AGE'
+> Nov 18 2025  20:02:13 I getExpr   <_onGet#58> @getExpr frame.sub("AGE", {})
+> Nov 18 2025  20:02:13 I node      <operator()#79> sub: [1/13] AGE --> me@fc80
+> Nov 18 2025  20:02:13 I node      <operator()#79> sub: [2/13] AGE --> AGE@46c0
+> Nov 18 2025  20:02:13 I verifier  <onLeave#133> '' assignExpr@9a50: step#2 --> checks rvalue
+> Nov 18 2025  20:02:13 I verifier  <onLeave#136> '' assignExpr@9a50: step#3 --> checks that you can't assign to a func
+> Nov 18 2025  20:02:13 I getExpr   <_get#50> getExpr: looking for 'frame.AGE'
+> Nov 18 2025  20:02:13 I getExpr   <_onGet#58> @getExpr frame.sub("AGE", {})
+> Nov 18 2025  20:02:13 I node      <operator()#79> sub: [1/13] AGE --> me@fc80
+> Nov 18 2025  20:02:13 I node      <operator()#79> sub: [2/13] AGE --> AGE@46c0
+> Nov 18 2025  20:02:13 I verifier  <onLeave#140> '' assignExpr@9a50: step#4 --> checks that try to assign to a const variable
+
+
+중간 중간 나오는 node나 getExpr 태그의 로그가 어떤 검사 단계중에 발생한 것인지 명확하다.
+참고로 _STEP 매크로는 verifier의 구현 파일에서만 유효하며 해당 함수내의 몇 번째 단계인지
+자동으로 count해서 로그를 보여준다.
+
+
+@section WHEN 매크로를 사용한 검증
+verifier는 `if (!check) return res;` 와 같은 검증 코드가 매우 많은 클래스다.
+그래서 verifier에는 수많은 WHEN 매크로가 존재할 수 밖에 없다.
+
+
+@section verifier vs starter
+@ref starter는 프로그램을 직접 실행한다. verifier는 검증만 수행한다. 둘의 가장 큰 차이점은
+starter가 `eval()`로 표현식을 실행할 때, verifier는 `infer()`로 타입정보만 가져온다는 점이다.
+하지만 그렇다고 해서 verifier가 starter와 동일하게 수행해햐아 하는 몇가지 작업이 존재한다.
+
+* 우선은, @ref frameInteract를 사용하는 것이다.
+  타입이 존재하는지, 현재 접근 가능한지를 알아내기 위해서는 @ref obj @ref scope이나
+  func scope을 실제로 frame에 등록해야만 한다.
+  주로 onVisit() 에서 특정 객체에 대해 inFrame()을 호출했다면 onLeave()에서는 같은
+  객체에 대해서 outFrame()을 호출하고 있을 것이다.
+
+* property를 실제로 정의한다.
+  값은 비어있지만 property 자체는 정의를 해야, 해당 property가 중복은 아닌지,
+  없는 property를 접근한 것은 아닌지 검사가 가능해진다.
+
+* generic 클래스를 실제로 생성한다.
+  그래야 generic 클래스 검증이 가능해진다.
+
+
+
+generalizer 클래스
+==================
+@ref visitor 기반의 generic타입 생성을 담당하는 클래스다.
+주로 @ref getGenericExpr에서 사용하므로 해당 클래스를 먼저 참조하자.
+
+
+>       ┃                 ┣━[0] @9068 boo() int
+>       ┃                 ┃  ┗━[0] codes blockExpr@e190
+>       ┃                 ┃     ┗━[0]  int = 3
+>       ┃                 ┣━[1] @5a40 @ctor() myObj
+>       ┃                 ┗━[2] @5c08 @ctor(rhs myObj) myObj
+>       ┣━[1] @6160 @ctor() SomeGeneric<T myObj>
+>       ┗━[2] @6328 @ctor(rhs @incomplete SomeGeneric) SomeGeneric<T myObj>
+
+가장 중요한 부분은 첫 줄로, SomeGeneric이라는 genericOrigin 인스턴스 안에 `myObj`라는 key로
+SomeGeneric<myObj>이라는 origin 객체가 들어있다는 부분이다.
+generalizer는 SomeGeneric<T>로부터 SomeGeneric<myObj>를 만드는 용도로 사용되며
+이때 단순히 `args가 T인 getExpr`객체를 찾으면 이를 `args가 myObj인 getExpr`로 교체하는 방식을
+모든 node에 걸쳐서 수행할 뿐이다.
+
+
+@section generic 타입이 만들어지는 흐름
+위의 예시에서 `main()` 함수의 print(SomeGeneric<MyObj, int>().foo()) 는 다음과 같은 AST로 표현될 수 있다.
+
+> evalExpr@09a0 = frame.print(str)
+>    ┗━[0] subject getExpr@4610 = frame.print(str)
+>       ┣━[0] me frame@2d20
+>       ┗━[1] subArg FBOExpr@cd58 = FBOExpr("FBOExpr") + str("str")
+>          ┣━[0] lhs FBOExpr@cc90 = str("str") + asExpr("asExpr")
+>          ┃  ┣━[0] lhs str = "value is "
+>          ┃  ┗━[1] rhs asExpr@bd10
+>          ┃     ┣━[0] me evalExpr@0848 = evalExpr.foo(myObj)
+>          ┃     ┃  ┣━[0] me evalExpr@06f0 = frame.SomeGeneric()
+>          ┃     ┃  ┃  ┗━[0] subject getGenericExpr@47d0 = frame.SomeGeneric(myObj)
+>          ┃     ┃  ┃     ┗━[1] subArg getExpr@46f0 = frame.myObj
+>          ┃     ┃  ┗━[1] subject getExpr@48b0 = SomeGeneric<T myObj>.foo(myObj)
+>          ┃     ┃     ┣━[0] me SomeGeneric<T myObj>@3970
+>          ┃     ┃     ┗━[1] subArg getExpr@4990 = frame.myObj
+>          ┃     ┗━[1] as str = ""
+>          ┗━[1] rhs str = ""
+
+중간에 getGenericExpr이 보일 것이다. @ref verifier나 @ref starter에 의해 해당 클래스가
+infer() 될 때 genericOrigin을 가져와서 타입파라메터를 인자인 `myObj`를 넘겨서 eval()를 호출한다.
+이때 genericOrigin은 generalizer를 사용하여 타입파라메터가 myObj인 origin 객체를 생성해서 반환하게 된다.
+자세한 내용은 genericOrigin을 참조하자.
+
+
+
+genericOrigin 클래스
+====================
+@ref 기본적으로 origin과 같은 역할을 수행하는 클래스이지만, generic을 지원한다는 점과
+이 인스턴스 자체가 origin을 담당하는 게 아니라 필요에 의해 origin을 생성/관리 한다는 점이 다르다.
+
+
+@section 동작 방식
+genericOrigin은 map으로 origin 객체를 관리하고 있다. 여기에 key로 `myObj`가 없는 경우
+원본 origin 객체인 _org를 deepClone해서 새로운 @ref origin 객체를 만든다. 그리고
+그 객체에 generalizer를 넣어서 기존에 getExpr(args = T)로 되어있던 부분을 getExpr(args = myObj)로
+인자 T를 모두 myObj로 교체하는 작업을 수행한다.
+교체된 origin은 subs()에 등록되어, 이후 호출시 key가 같은 경우는 generalizer 없이 바로
+반환되도록 한다.
+
+
+
+getGenericExpr 클래스
+=====================
+generic 클래스의 참조를 담당하며 generic 타입 생성의 진입점을 담당한다.
+내부적으로는 @ref genericOrigin에게 generic 타입을 줄 것을 요청하며, genericOrigin은
+해당 타입에 대한 generic이 있다면 그걸 바로 주고, 없다면 @ref generalizer를 통해
+generic 타입을 생성 후, 그 새로운 인스턴스를 반환한다.
+자세한 내용은 @ref genericOrigin과 @ref generalizer를 참조하자.
+
+
+
+srcSupply 클래스
+================
+@ref parser에서 사용되는 클래스로, parser에 입력되는 코드를 어떠한 형태로 제공할지를
+추상화한다.
+예를들어 파일로써 제공하는 방법도 있지만, 버퍼에 담아서 줄 수도 있고 stream으로
+주는 방법도 있을 것이다.
+
+
+
+graphVisitor 클래스
+===================
+@ref visitor 기반의 AST 로깅 클래스로, task 주어진 root @ref node를 순회 하면서
+상세 정보를 모두 로깅한다.
+@ref interpreter에 의해서 디버그 빌드에서 사용되거나 @ref defaultSigZone에 의해서
+crash 가 발생하면 출력되거나 @ref logStructureFlag에 의해서 @ref interpreter나
+@ref starter로 하여금 graphVisitor를 사용하도록 flag를 set 된다.
+
+
+@section 읽는 법
+다음과 같은 byeol 코드가 있을때,
+
+@code
+    def myObj
+        foo() void
+            print("hello")
+
+    main() void
+        myObj.foo()
+@endcode
+
+아래와 같이 AST 로그가 나오게 된다.
+
+> ┗━[0] #root slot@88c0
+>    ┣━[0] myObj myObj@cc98 [complete]
+>    ┃  ┣━[0] @6f80 foo() void
+>    ┃  ┃  ┗━[0] codes blockExpr@b6a8
+>    ┃  ┃     ┗━[0]  evalExpr@d8e0 = frame.print(str)
+>    ┃  ┃        ┣━[0] subject getExpr@4020 = frame.print(str)
+>    ┃  ┃        ┃  ┣━[0] me frame@96c0
+>    ┃  ┃        ┃  ┗━[1] subArg str = "hello"
+>    ┃  ┣━[1] @1110 @ctor() myObj
+>    ┃  ┗━[2] @12d8 @ctor(rhs myObj) myObj
+>    ┃  ┗━[0] callComplete evalExpr@da38 = myObj.@ctor()
+>    ┃     ┗━[1] subject getExpr@4100 = myObj.@ctor
+>    ┣━[1] @72f8 main() void
+>    ┃  ┗━[0] codes blockExpr@b7a0
+>    ┃     ┗━[0]  evalExpr@db90 = myObj.foo()
+>    ┃        ┣━[0] me getExpr@42c0 = frame.myObj
+>    ┃        ┗━[1] subject getExpr@43a0 = myObj.foo
+>    ┣━[2] @14a0 @ctor() {default}
+>    ┗━[3] @1668 @ctor(rhs {default}) {default}
+
+이 중에서 한 줄을 떼어서 각 정보를 설명해보자.
+
+> ┗━[0] #root slot@88c0
+
+* 모든 node는 누군가의 sub node다. 따라서 `[0]` 부분은 자신의 parent node의 몇번째
+자식인지를 인덱스를 표시한다.
+
+* `#root`는 해당 node에 붙은 이름이다. 만약에 @ref origin객체라면 byeol 코드로 사용자가 입력한
+객체 명이 들어갈 것이고, @ref getExpr같은 경우라면 c++ 상으로 literal로 지명된 해당 클래스의
+멤버변수 명이 들어가게 된다.
+
+* `slot@88c0` 부분은 해당 객체의 식별값이다. 앞의 `slot`은 이 `#root`라는 이름이 붙은
+node가 실제로는 @ref slot이라는 클래스의 인스턴스임을 알려준다. 뒤의 `@88c0`은
+`indep` 모듈의 @ref platformAPI의 `toAddrId()`로 부여받은 addrId 값이다.
+자세한 내용은 platformAPI를 참조하자.
+
+* `[complete]`는 해당 origin 객체가 완전객체임을 알려준다.
+
+* `= frame.print(str)` 은 해당 node가 @ref expr일때 그 표현식을 알아보기 쉽도록
+한줄에 표현한 것이다.
