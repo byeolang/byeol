@@ -7,16 +7,16 @@ namespace by {
 
     BY_DEF_ME(scalar)
 
-#define _X(FUNC)                                                                            \
-    tstr<scalar> me::FUNC(const scalar& rhs) const {                          \
-        const auto& dummy = nVoid::singleton();                                             \
+#define _X(FUNC)                                                                              \
+    tstr<scalar> me::FUNC(const scalar& rhs) const {                                          \
+        const auto& dummy = nVoid::singleton();                                               \
         const ntype& promoted = getType().promote(rhs) OR.exErr(TYPE_NOT_DEDUCED).ret(dummy); \
-        WHEN(promoted.isSub<nVoid>()) .ret(dummy);                                           \
-                                                                                            \
-        nbool normalOrder = getType() == promoted;                                           \
-        const scalar& winner = getType() == promoted ? *this : rhs;                   \
-        const scalar& loser = getType() == promoted ? rhs : *this;                    \
-        return winner._##FUNC(loser, !normalOrder);                                         \
+        WHEN(promoted.isSub<nVoid>()) .ret(dummy);                                            \
+                                                                                              \
+        nbool normalOrder = getType() == promoted;                                            \
+        const scalar& winner = getType() == promoted ? *this : rhs;                           \
+        const scalar& loser = getType() == promoted ? rhs : *this;                            \
+        return winner._##FUNC(loser, !normalOrder);                                           \
     }
 
     BY_EACH(_X, add, sub, mul, div, mod, bitwiseAnd, bitwiseXor, bitwiseOr, rshift, lshift)

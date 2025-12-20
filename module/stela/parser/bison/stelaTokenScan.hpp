@@ -34,8 +34,7 @@ namespace by {
 
     public:
         using super::onScan;
-        nint onScan(stelaParser& ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner,
-            nbool& isBypass) override;
+        nint onScan(stelaParser& ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner, nbool& isBypass) override;
 
     public:
         static stelaNormalScan instance;
@@ -50,8 +49,7 @@ namespace by {
 
     public:
         using super::onScan;
-        nint onScan(stelaParser& ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner,
-            nbool& isBypass) override;
+        nint onScan(stelaParser& ps, ZZSTYPE* yylval, ZZLTYPE* loc, zzscan_t yyscanner, nbool& isBypass) override;
 
     private:
         nint _onIndent(stelaParser& ev, ncnt col, nint tok);

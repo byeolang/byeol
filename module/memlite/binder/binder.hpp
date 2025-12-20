@@ -55,7 +55,7 @@ namespace by {
 
         friend class weakTactic;
         friend class strTactic;
-        friend class life;       // for _get()
+        friend class life;          // for _get()
         friend struct ::binderTest; // for UT
 
     public:

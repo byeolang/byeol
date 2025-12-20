@@ -21,8 +21,11 @@ namespace by {
 
         public:
             static const std::string& get();
+
             static constexpr nint getYear() { return BY_BUILD_DATE_YEAR; }
+
             static constexpr nint getMonth() { return BY_BUILD_DATE_MONTH; }
+
             static constexpr nint getDay() { return BY_BUILD_DATE_DAY; }
         };
 
@@ -34,8 +37,11 @@ namespace by {
 
         public:
             static const std::string& get();
+
             static constexpr nint getHour() { return BY_BUILD_TIME_HOUR; }
+
             static constexpr nint getMin() { return BY_BUILD_TIME_MINUTE; }
+
             static constexpr nint getSec() { return BY_BUILD_TIME_SECOND; }
         };
 
@@ -49,10 +55,15 @@ namespace by {
             static const std::string& get();
             static const std::string& getValue();
             static const std::string& getName();
+
             static constexpr nint getMajor() { return BY_BUILD_VERSION_MAJOR; }
+
             static constexpr nint getMinor() { return BY_BUILD_VERSION_MINOR; }
+
             static constexpr nint getFix() { return BY_BUILD_VERSION_FIX; }
+
             static constexpr nint getBuildCount() { return BY_BUILD_COUNT; }
+
             static constexpr const nchar* getCommitHash() { return BY_BUILD_GIT_COMMIT_HASH; }
         };
 
@@ -75,6 +86,7 @@ namespace by {
             static platformType get();
             static const std::string& getName();
             static const std::string& getVersion();
+
             static constexpr ncnt getArchBits() { return sizeof(void*) * 8; }
         };
 
@@ -93,6 +105,7 @@ namespace by {
 
         public:
             static buildType get();
+
             constexpr static nbool isDbg() {
 #if BY_IS_DBG
                 return true;
@@ -100,6 +113,7 @@ namespace by {
                 return false;
 #endif
             }
+
             static const std::string& getName();
         };
     };

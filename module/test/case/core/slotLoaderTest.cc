@@ -18,7 +18,7 @@ TEST_F(slotLoaderTest, testDefaultLoaderInit) {
 
         args a((narr(origin)));
         str res = sayFunc.eval(a);
-        ASSERT_FALSE(res);          // don't eval func itself.
+        ASSERT_FALSE(res);           // don't eval func itself.
         res = origin.eval("say", a); // don't need to pass 'me' argument
         ASSERT_FALSE(res);
         res = origin.eval("say", args());

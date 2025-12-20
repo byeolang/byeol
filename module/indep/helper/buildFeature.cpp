@@ -8,12 +8,10 @@ namespace by {
         return inner;
     }
 
-
     const std::string& me::time::get() {
         static std::string inner(BY_BUILD_TIME);
         return inner;
     }
-
 
     const std::string& me::version::get() {
         static std::string inner(BY_BUILD_VERSION);
@@ -29,7 +27,6 @@ namespace by {
         static std::string inner(BY_BUILD_VERSION_NAME);
         return inner;
     }
-
 
     me::platformType me::platform::get() {
         static platformType inner = PLATFORM_TYPE_START;

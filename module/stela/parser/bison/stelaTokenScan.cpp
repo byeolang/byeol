@@ -8,8 +8,7 @@ std::string getStelaTokenName(int tok);
 
 namespace by {
 
-    nint stelaTokenScan::onScan(stelaParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner,
-        nbool& isBypass) {
+    nint stelaTokenScan::onScan(stelaParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner, nbool& isBypass) {
         stelaTokenDispatcher& disp = ps.getDispatcher();
         nint tok;
 
@@ -22,8 +21,7 @@ namespace by {
         return tok;
     }
 
-    nint stelaNormalScan::onScan(stelaParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner,
-        nbool& isBypass) {
+    nint stelaNormalScan::onScan(stelaParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner, nbool& isBypass) {
         nint tok = super::onScan(ps, val, loc, scanner, isBypass);
         switch(tok) {
             case TAB: return SCAN_AGAIN;
@@ -34,8 +32,7 @@ namespace by {
 
     stelaNormalScan stelaNormalScan::instance;
 
-    nint stelaIndentScan::onScan(stelaParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner,
-        nbool& isBypass) {
+    nint stelaIndentScan::onScan(stelaParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner, nbool& isBypass) {
         nint tok = super::onScan(ps, val, loc, scanner, isBypass);
         switch(tok) {
             case NEWLINE:

@@ -41,8 +41,9 @@ namespace by {
             _stepN = 0;                                     \
     } while(0)
 
-#define _STEP(msg, ...) \
-    BY_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), (void*) &me, ++_stepN, ##__VA_ARGS__)
+#define _STEP(msg, ...)                                                                                        \
+    BY_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), (void*) &me, ++_stepN, \
+        ##__VA_ARGS__)
 
     // verification:
     void me::onLeave(const visitInfo& i, node& me, nbool) {
@@ -340,7 +341,7 @@ namespace by {
         // TODO: I have to check that the evalType has what matched to given _params.
         // Until then, I rather use as() func and it makes slow emmersively.
         _STEP("isRunnable: %s.%s", me, me.getName());
-        WHEN(!me.infer()).myExErr(me, WHAT_IS_THIS_IDENTIFIER, me.getName()).ret();
+        WHEN(!me.infer()) .myExErr(me, WHAT_IS_THIS_IDENTIFIER, me.getName()).ret();
         str match = me._get(true) OR_DO {
             const node* from = me.getMe();
             return BY_WHEN.myExErr(me, CANT_ACCESS, me._name.c_str(), from TO(getType().getName().c_str())).ret();
