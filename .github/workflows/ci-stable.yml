@@ -14,7 +14,7 @@ jobs:
       matrix:
         path:
           - check: 'module'
-            exclude: '(leafLowparser|leafLowscanner|lowparser|lowscanner)'
+            exclude: '(stelaLowparser|stelaLowscanner|lowparser|lowscanner)'
     steps:
     - name: checkout repository codes
       uses: actions/checkout@v4
@@ -137,7 +137,7 @@ jobs:
     - name: build in release mode & test current codes.
       run: |
         export C=clang CXX=clang++ PYTHON=$(which python3)
-        ls -l ${{github.workspace}}/module/leaf/parser/bison
+        ls -l ${{github.workspace}}/module/stela/parser/bison
         sudo $PYTHON ${{github.workspace}}/build/builder.py pub deb
         sudo $PYTHON ${{github.workspace}}/build/builder.py test
 
@@ -224,7 +224,7 @@ jobs:
     - name: build wasm
       run: |
         export C=clang CXX=clang++ PYTHON=$(which python3)
-        ls -l ${{github.workspace}}/module/leaf/parser
+        ls -l ${{github.workspace}}/module/stela/parser
         export PATH="$(dirname $(which emmake)):$PATH"
         $PYTHON ${{github.workspace}}/build/builder.py wasm
 
@@ -304,7 +304,7 @@ jobs:
       run: |
         export PATH="$PATH:/usr/local/opt/flex/bin:/usr/local/opt/bison/bin"
         export C=clang CXX=clang++ PYTHON=$(which python3)
-        ls -l ${{github.workspace}}/module/leaf/parser/bison
+        ls -l ${{github.workspace}}/module/stela/parser/bison
         $PYTHON ${{github.workspace}}/build/builder.py pub mac --ignore-tidy
         $PYTHON ${{github.workspace}}/build/builder.py test --ignore-tidy
 
