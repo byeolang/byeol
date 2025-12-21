@@ -102,6 +102,16 @@ str me::eval(const args& a) {
 }
 ```
 
+**WHEN 매크로의 동작 원리**
+
+WHEN 매크로는 조건이 참일 때 체이닝 가능한 헬퍼 객체를 반환합니다. 이 객체는 다음 메서드들을
+제공합니다:
+- `.err(fmt, ...)`: 에러 로그를 출력하고 자기 자신을 반환 (체이닝 가능)
+- `.ret(value)`: 주어진 값을 반환하며 함수를 종료
+
+따라서 `WHEN(condition).err("msg").ret(value)`는 condition이 참일 때만 에러를 로깅하고
+value를 반환합니다. 조건이 거짓이면 아무 동작도 하지 않고 다음 코드로 진행됩니다.
+
 WHEN 매크로는 프로젝트 내에서 아주 빈번하게 사용되므로 잘 파악해 두는 게 좋습니다.
 
 
@@ -112,12 +122,32 @@ WHEN 매크로는 프로젝트 내에서 아주 빈번하게 사용되므로 잘
 것에 가깝습니다.
 
 정상동작일 경우 tmay의 생성자로 값을 T&로 넘기면 됩니다.
-에러상황일 경우 tmedium 클래스를 nullptr로 생성해서 넘기면 됩니다.
-
-왜 `tmedium`을 사용하는지는 해당 클래스를 참조하세요.
+에러상황일 경우 기본 생성자 `tmay<T>()`를 사용하면 됩니다. 내부적으로 `tmedium` 클래스를 사용하여
+값의 유무를 추적합니다. tmedium은 값을 저장하는 중간 계층으로, T&와 nullptr 모두를 받을 수 있는
+유연한 인터페이스를 제공합니다.
 
 `has()` 나 `get()`, `rel()`, `set()` 함수를 제공하는데, 이는 프로젝트 전반적으로 많이 사용되는
 네이밍 컨벤션입니다.
+
+**사용 예시**
+
+tmay는 에러를 반환할 수 있는 함수의 반환 타입으로 사용됩니다:
+
+```cpp
+tmay<int> divide(int a, int b) {
+    if (b == 0)
+        return tmay<int>(); // 에러 상황
+    return tmay<int>(a / b); // 정상 값 반환
+}
+
+// 사용 시:
+auto result = divide(10, 2);
+if (result.has()) {
+    int value = result.get(); // 5
+} else {
+    // 에러 처리
+}
+```
 
 
 #### tres 클래스
@@ -125,6 +155,32 @@ WHEN 매크로는 프로젝트 내에서 아주 빈번하게 사용되므로 잘
 `tres` 클래스는 tmay와 동일하나, 에러일 경우, 원하는 에러 타입을 갖도록 정의할 수 있습니다.
 예를들어 tmay<A>는 에러인지 아닌지만 알 수 있지만, tres<A, std::string>으로 정의하면 에러일 경우,
 어떤 에러인지 메시지도 알 수 있도록 만들 수 있습니다.
+
+**사용 예시**
+
+tres는 tmay와 달리 에러 정보도 함께 반환할 수 있습니다:
+
+```cpp
+tres<int, std::string> parseNumber(const std::string& str) {
+    if (str.empty())
+        return tres<int, std::string>("입력이 비어있습니다");
+
+    try {
+        int num = std::stoi(str);
+        return tres<int, std::string>(num);
+    } catch(...) {
+        return tres<int, std::string>("숫자로 변환할 수 없습니다");
+    }
+}
+
+// 사용 시:
+auto result = parseNumber("123");
+if (result.has()) {
+    int value = result.get();
+} else {
+    std::string error = result.getErr(); // 에러 메시지 확인
+}
+```
 
 
 ### 플랫폼 추상화
@@ -211,7 +267,24 @@ stepForward()를 명시적으로 호출하면, 이 기본 방향과 관계없이
 STL과 마찬가지로 begin은 첫번째 원소를 가리키지만, end는 마지막 원소의 다음 위치를 가리킵니다.
 (past-the-end) 따라서 역방향 순회시에는 먼저 next()를 해야만 합니다.
 
-사용 예제는 다음과 같습니다.
+**기본 사용 예제 (정방향 순회)**
+
+먼저 간단한 정방향 순회 예제입니다:
+
+```cpp
+std::string src = "abc🏁"; // UTF8에서 🏁는 4바이트로 표현되지만 1개의 codepoint다.
+cpIter e(src); // 기본은 정방향, 첫 번째 문자를 가리킨다.
+
+while(e) { // iterator가 유효한 동안
+    std::cout << *e << " "; // 현재 codepoint 출력
+    ++e; // 다음 codepoint로 이동
+}
+// 출력: a b c 🏁
+```
+
+**역방향 순회 예제**
+
+좀 더 복잡한 역방향 순회 예제입니다:
 
 ```cpp
 std::string src = "abcd🏁efg"; // UTF8에서 🏁는 3개의 character로 표현된다.
@@ -247,12 +320,17 @@ for(int n = 0; n < 8; n++) {
 dlib은 RAII idiom으로 구현되어 있습니다. 해당 인스턴스가 소멸될때 외부로 반환된 함수포인터는 사용할
 수 없게 됩니다.
 
-사용예제는 다음과 같습니다.
+**사용예제**
+
+다음 예제는 동적 라이브러리를 로드하고 함수를 호출하는 전체 과정을 보여줍니다.
+코드에서 `rel()`은 리소스를 명시적으로 해제하는 함수로, 에러 발생 시 dlib 객체를 정리한 후
+반환하기 위해 comma 연산자 `(rel(), false)`를 사용합니다:
 
 ```cpp
 dlib lib = dlib(path); // 1번과 2번을 동시에 한다.
 auto res = lib.load(); // `res` evaluated as true when it has an error.
 WHEN(res) .err("couldn't open %s slot: %d", path, res.get()).ret((rel(), false));
+// rel()로 리소스를 먼저 해제하고, comma 연산자로 false를 반환
 
 typedef void (*entrypointFunc)(bicontainable*);
 constexpr const nchar* ENTRYPOINT_NAME = "byeol_bridge_cpp_entrypoint";
@@ -271,6 +349,22 @@ WHEN(!info.has()) // tmay의 has()로 결과 체크 중
 #### end 클래스
 
 `end` 클래스는 코드 실행을 지연시킵니다. 다른 언어에서 `defer`와 같은 키워드와 같은 역할입니다.
+
+**사용 예시**
+
+RAII 패턴을 활용하여 스코프 종료 시 특정 코드를 실행합니다:
+
+```cpp
+void processFile(const std::string& path) {
+    FILE* fp = fopen(path.c_str(), "r");
+    end cleanup([&]() {
+        if (fp) fclose(fp);  // 스코프 종료 시 자동으로 파일 닫기
+    });
+
+    // 파일 처리 작업...
+    // 함수가 어떤 경로로 종료되든 cleanup이 실행됨
+}
+```
 
 
 ## clog 모듈 - 로깅 시스템
@@ -317,15 +411,16 @@ clog 모듈의 핵심은 `stream`입니다. stream은 쉽게 말해 로깅이 �
 표현합니다. 현재는 `consoleStream`과 `fileLogStream` 2가지가 존재합니다. 모든 stream은 기본적으로
 logger 클래스가 처음부터 소유하고 있습니다.
 
-각 stream은 byeol의 기본적인 단위 클래스와 마찬가지로 다음과 같은 state 도식을 갖습니다:
+각 stream은 byeol의 핵심 클래스들과 마찬가지로 다음과 같은 상태 전이 도식을 갖습니다:
 
 ```
 RELEASED ---init()---> INITIALIZED
 RELEASED <--rel()----- INITIALIZED
 ```
 
-객체를 처음 생성하면 자동으로 init() 상태로 진입합니다. 단, 특정 stream 인스턴스를 명시적으로
-rel()한 경우는, 다시 명시적으로 init()을 하지 않으면 정상적으로 동작하지 않습니다.
+객체를 처음 생성하면 RELEASED 상태에서 시작하지만, 생성자 내부에서 자동으로 `init()`을 호출하여
+INITIALIZED 상태로 진입합니다. 단, 특정 stream 인스턴스를 명시적으로 `rel()`한 경우,
+다시 명시적으로 `init()`을 호출하지 않으면 정상적으로 동작하지 않습니다.
 
 stream은 또한 enable 여부를 관리합니다. setEnable(false)를 통해 특정 stream을 disable 시키면 해당
 stream은 동작하지 않습니다.
@@ -424,7 +519,7 @@ __convert__가 호출됩니다.
 
 그 말은, 범용적인 __convert__()와 특정 타입에 특화된 __convert__()를 동시에 정의할 수 있다는
 말입니다. 대표적으로는 __convert__(void*)가 있습니다. 어떠한 T*에도 매칭 되지 않으면 이
-__covert__가 대신 호출됩니다.
+__convert__가 대신 호출됩니다.
 
 #### wrap
 
@@ -438,6 +533,43 @@ logger::log()가 가변인자로 구성되어 있는 한은 wrap이 꼭 필요�
 __convert__() 함수들은 크게 `strWrap` 혹은 `noWrap<T>` 2가지 중 하나를 반환형으로 정의하는데
 noWrap은 아무런 가공없이 받은 걸 그대로 반환하지만 strWrap은 std::string::c_str()를 내부적으로
 호출합니다.
+
+기본적으로는 strWrap을 사용하면 되지만, richLog 호출 시 format string에 `%d`, `%f` 등 사용자가
+직접 타입을 명시하는 서식문자를 사용하고 싶을 때는 noWrap을 사용합니다. 예를 들어:
+
+```cpp
+// strWrap: 자동으로 문자열로 변환 (%s 사용)
+strWrap __convert__(const myClass& obj) { return strWrap(obj.toString()); }
+
+// noWrap: 원본 타입 유지 (%d 등 명시적 서식문자 사용 가능)
+noWrap<int> __convert__(int val) { return noWrap<int>(val); }
+```
+
+#### richLog 확장 예제
+
+각 모듈은 자신의 타입을 로깅할 수 있도록 `__convert__()` 함수를 추가로 정의합니다.
+예를 들어 meta 모듈에서는 다음과 같이 정의합니다:
+
+```cpp
+// module/meta/common/richLog.hpp
+namespace by {
+    class type;
+    class typeProvidable;
+
+    // type 클래스를 로깅할 수 있도록 __convert__ 구현
+    _nout strWrap __convert__(const type& rhs);
+    _nout strWrap __convert__(const type* rhs);
+    _nout strWrap __convert__(const typeProvidable& rhs);
+    _nout strWrap __convert__(const typeProvidable* rhs);
+}
+```
+
+이렇게 정의하면 로깅 매크로에서 해당 타입을 직접 사용할 수 있습니다:
+
+```cpp
+type& t = ttype<myClass>();
+BY_I("type is %s", t);  // __convert__(const type&)가 호출되어 적절히 문자열로 변환됨
+```
 
 
 ### 스트림 제어
@@ -614,6 +746,9 @@ isSuper와 반대로 동작합니다.
 해결합니다. 모든 클래스에 `super`가 존재한다면, ttype<super>().init()도 호출할 수 있기 때문에
 다음과 같은 간단한 코드로 클래스 계층을 재귀적으로 구성할 수 있게 됩니다.
 
+**참고**: 부모 클래스가 없는 최상위 클래스는 `typedef adam super;`로 정의하여 adam에 연결됩니다.
+이를 통해 모든 타입이 단일 계층 구조를 이루게 됩니다.
+
 ```cpp
 // 주의: 다음은 실제 코드 동작을 이해하기 쉽게 간략화 한 것이다.
 nbool me::init() {
@@ -647,6 +782,10 @@ nbool me::init() {
 
 이 매크로를 응용하면 init() 함수를 main() 함수가 호출되기 직전에 실행하는 게 가능해집니다. 한가지
 제약사항으로는 각 클래스 선언시에 BY_INIT_META(MyClass)를 추가해야 한다는 점입니다.
+
+**주의**: static 초기화 순서를 사용하므로, 여러 translation unit 간의 초기화 순서는 보장되지
+않습니다. 다만, 각 type의 `init()`은 재귀적으로 부모를 먼저 초기화하는 구조이므로, 타입 계층 구조
+내에서는 부모에서 자식으로 가는 초기화 순서가 보장됩니다.
 
 이러한 메타 DSL 형태의 매크로들은 BY 매크로에 의해서 실행되도록 컨벤션이 정해져있습니다. 그리고 core
 모듈에서도 추가로 정의해야할 메타 DSL 매크로가 있기 때문에 직접 BY_INIT_META를 호출하기 보다는
@@ -808,7 +947,10 @@ shared_ptr<Foo> foo2(raw); // foo1과 foo2 각각 control block 이 생성되므
 그리고 이 문제는 바로 프로그램이 종료하지 않기 때문에 디버깅이 아주 어렵습니다.
 
 byeol에서는 reference counting을 위한 클래스를 `life`라고 하며, 이는 `watcher`에 의해 인스턴스마다
-별도로 대여됩니다. 때문에 이중 해제문제가 발생하지 않습니다.
+별도로 제공됩니다. watcher는 내부에 `life` 객체들을 배열로 미리 대량 할당해둔 풀(pool)을 관리합니다.
+새로운 인스턴스가 바인딩될 때 사용 가능한 life를 할당하고, 인스턴스가 소멸되면 해당 life를
+사용 가능(available) 상태로 표시하여 나중에 재사용합니다. 동일한 인스턴스에 대해서는 항상 같은
+life가 할당되므로 이중 해제 문제가 발생하지 않습니다.
 
 #### ADT 제공
 
@@ -833,6 +975,8 @@ binder는 ADT이며 클래스 템플릿 조차 아닙니다. 따라서 binder::b
 걸 의미합니다.
 
 bind() 안쪽에서 meta 모듈을 사용하여 동적으로 타입을 검사해서 올바른 경우만 인스턴스가 바인딩 됩니다.
+타입이 일치하지 않을 경우, bind()는 `false`를 반환하고 바인딩을 수행하지 않습니다. 따라서 타입
+안정성이 필요한 경우 bind()의 반환값을 확인해야 합니다.
 
 #### 자체 메모리 풀 사용
 
@@ -901,8 +1045,9 @@ int64* data = static_cast<int64*>(ptr1);
 *data = 42;
 
 // 메모리 해제
-myChunk.del(ptr1);  // 첫 번째 블록 반환
-myChunk.del(ptr2);  // 두 번째 블록 반환
+// 참고: chunk::del()은 size 파라미터가 필요 없음 (내부적으로 blockSize를 알고 있음)
+myChunk.del(ptr1);  // 첫 번째 블록 메모리 해제
+myChunk.del(ptr2);  // 두 번째 블록 메모리 해제
 
 // 상태 확인
 myChunk.len();   // 현재 할당된 블록 수
@@ -912,8 +1057,9 @@ myChunk.size();  // 전체 블록 수 (100)
 **real block size**
 
 실제 메모리 할당시에는 block size 대신 real block size를 사용하는데, 이는 최적화에 따른 것입니다. CPU
-연산시 1이나 2바이트 등 작은 단위로 메모리 할당해서 계산하는 것보다 4나 8등 CPU 수준에 맞게 적당히 최소
-바이트 이상 가져가는 게 더 효율적입니다.
+연산시 1이나 2바이트 등 작은 단위로 메모리 할당해서 계산하는 것보다 CPU 아키텍처에 맞게 정렬(padding)하는 것이
+더 효율적입니다. 예를 들어, 64비트 CPU에서는 8바이트 단위로 정렬되며, 3바이트를 요청해도 실제로는
+8바이트가 할당됩니다. 이는 메모리 접근 속도를 최적화하기 위한 것입니다.
 
 **ArrayList 구현**
 
@@ -922,8 +1068,10 @@ chunk는 배열 기반 리스트(ArrayList)로 구현되어 있습니다. 크기
 
 알고리즘은 다음과 같습니다:
 
-0. 각 원소의 byte 크기는 4이상이어야 한다는 전제조건을 갖습니다. 각 원소들은 모두 동일한 byte 크기를
-   갖습니다. chunk는 어짜피 void*로 다루기 때문에, 각 원소에 값이 없을 경우에는 int타입으로 취급합니다.
+0. 각 원소의 byte 크기는 4이상이어야 한다는 전제조건을 갖습니다. 이는 앞서 설명한 real block size로
+   인한 것으로, CPU 아키텍처에 따라 1바이트를 할당하더라도 실제로는 4바이트 이상으로 정렬되기 때문입니다.
+   각 원소들은 모두 동일한 byte 크기를 갖습니다. chunk는 어짜피 void*로 다루기 때문에, 각 원소에 값이
+   없을 경우에는 int타입으로 취급합니다.
 
 1. 배열 초기화시 size를 받아 n번째 원소가 차지하는 byte 앞에 n+1를 표현하는 정수값을 넣어둡니다.
    예: size=4의 경우, [1, 2, 3, 4]
@@ -939,14 +1087,15 @@ chunk는 배열 기반 리스트(ArrayList)로 구현되어 있습니다. 크기
    _head = 1, [사용중, 2, 3, 4]
 
 5. 메모리 해제가 발생하면, parameter로 해제할 메모리 주소를 void*로 받습니다.
-   예: del(used = _heap[0])
+   예: del(used) where used = _heap[0]의 주소
 
-6. 해당 메모리에 _head 값을 할당합니다. (여기에 오기 전에 이미 소멸자가 호출되었다고 전제합니다.)
+6. 해당 메모리에 현재 _head 값을 저장합니다. (여기에 오기 전에 이미 소멸자가 호출되었다고 전제합니다.)
    *used = _head  // [1, 2, 3, 4]
 
-7. _head값을 현재 해제중인 메모리의 인덱스로 할당합니다. 이때 인덱스는 _heap에서 얼마나 _head가
-   떨어져 있는지를 pointer 연산으로 계산합니다.
-   _head = _heap - used // _heap - _heap  --> 0
+7. _head값을 현재 해제중인 메모리의 인덱스로 업데이트합니다. 이때 인덱스는 used 주소가 _heap으로부터
+   얼마나 떨어져 있는지를 pointer 연산으로 계산합니다.
+   _head = (used - _heap) / blockSize
+   예: used가 _heap[0]의 주소라면, (used - _heap) / blockSize = 0
    _head = 0, [1, 2, 3, 4]
 
 #### chunks - 다중 chunk 관리
@@ -969,8 +1118,8 @@ void* ptr2 = myChunks.new1();
 // ... 계속 할당하면 자동으로 새 chunk가 추가됨
 
 // 메모리 해제
-myChunks.del(ptr1);
-myChunks.del(ptr2);
+myChunks.del(ptr1, 16);
+myChunks.del(ptr2, 16);
 
 // 전체 chunks에서 할당 가능한 메모리가 없으면
 // 내부적으로 새로운 chunk를 자동 생성하여 추가
@@ -1106,8 +1255,8 @@ instance 주소와 id를 map에 push 합니다. instance::operator new()가 불�
 
 **속도에 있어서 instance 클래스의 중요성**
 
-byeol에서 가장 빈번히 하는 작업은 객체를 생성하면서 id를 부여하거나 binding을 하는 작업입니다. 여유가
-있을때 꼭 개선을 해야 합니다.
+byeol에서 가장 빈번히 하는 작업은 객체를 생성하면서 id를 부여하거나 binding을 하는 작업입니다. 이 부분은
+개선 예정이며, 더 나은 알고리즘에 대한 아이디어를 환영합니다.
 
 #### id 클래스
 
@@ -1197,6 +1346,9 @@ byeol 프로젝트 내부에서 자주 사용됩니다.
 
 stela 모듈은 byeol 언어의 경량화된 버전으로, manifest나 옵션과 같은 특수 목적용 언어입니다. 트리 구조로
 설정 데이터를 표현하며, `core` 모듈의 `node`와 유사한 구조를 가집니다.
+
+**참고**: stela 언어는 byeol 언어보다 덜 복잡하므로, **core 모듈의 byeol 파서를 보기 전에 stela 파서
+코드를 먼저 살펴볼 것을 권장합니다**. 파서의 기본 구조와 동작 방식을 이해하는데 더 적합합니다.
 
 ### stela 언어의 기본 기능
 
@@ -1325,7 +1477,7 @@ verStela& maxVer = pkg["maxVersion"].cast<verStela>();
 **byeol 파서와 유사한 구조**
 
 stela 언어 자체가 byeol의 특화된 언어이므로 파서 또한 byeol 언어의 파서를 기반으로 하고 있습니다.
-byeol 파서대비 덜 복잡한 언어이므로 **core 모듈을 보기 전에 이 파서 코드를 먼저 살펴볼 것을 권장합니다**.
+byeol 파서 대비 덜 복잡하여 파서의 기본 동작을 이해하기 좋습니다.
 
 **scanner - bison - stelaParser 구조**
 
@@ -1433,7 +1585,7 @@ IndentScan의 경우 대부분의 token을 무시하며 오직 공백이 몇개�
 
 **tokenScan 사용 예제**
 
-```cpp한
+```cpp
 // tokenScan의 사용법과 교체되는 방식을 보여주기 위한 예제입니다.
 // 실제 코드와는 아주 다릅니다.
 class stelaParser {
@@ -1482,6 +1634,28 @@ def config
 증명하는 공백의 수는 `smartDedent[smartDedent.len() - 1] = 6`으로 앞에 6개의 공백이 있어야 한다는 걸
 의미합니다.
 
+**stelaSmartDedent 사용 예제**
+
+```cpp
+// 실제 코드보다 단순화한 예제입니다.
+stelaSmartDedent smartDedent;
+
+// scope 진입 시 indentation 수를 추가
+smartDedent.add(0);  // 최상위 scope
+smartDedent.add(4);  // def config (4칸 들여쓰기)
+smartDedent.add(6);  // def device (6칸 들여쓰기)
+
+// 현재 라인의 indentation이 4라면, 몇 개의 scope가 닫혀야 하는가?
+ncnt dedentCount = smartDedent.dedent(4);
+// dedentCount = 1 (6칸 scope 1개가 닫힘)
+// smartDedent는 이제 [0, 4]가 됨
+
+// 만약 indentation이 0이라면?
+dedentCount = smartDedent.dedent(0);
+// dedentCount = 1 (4칸 scope 1개가 닫힘)
+// smartDedent는 이제 [0]이 됨
+```
+
 
 
 
@@ -1501,12 +1675,6 @@ Byeol의 AST는 실행 가능한 프로그램 트리입니다. 일반적인 AST�
 #### node 클래스 - AST의 기반
 
 `node` 클래스는 AST의 가장 기본이 되는 클래스입니다. AST 구조와 관련된 API와 해당 node를 평가하는 `eval()`, 자식 node를 탐색하는 API, 그리고 해당 node 객체를 다른 타입으로 형변환하는 API 등을 제공합니다.
-
-**Program Execution Tree**
-
-일반적인 언어와 달리, byeol 언어는 AST 구조를 유지한 채로 프로그램을 실행합니다. 따라서 타 언어의 AST는 말그대로 문법 구조를 트리로 표현한 중간결과물에 지나지 않지만, byeol에는 실행가능한 최종 output을 AST가 담당합니다.
-
-중요한 점은, 실행까지 염두에 두고 구현되었기 때문에 프로그램 구조를 Tree로 표현한 것은 물론이고, 형변환이나 node의 evaluation 등의 API도 같이 제공된다는 점입니다.
 
 **AST 탐색**
 
@@ -1554,6 +1722,25 @@ infered->cast<nFlt>() != nullptr; // true: 정답은 flt
 int + flt는 type promotion에 의해 flt이 되므로 infered에는 nFlt 객체가 들어갑니다. 특정 표현식에 대해 타입을 유추하려면 해당 표현식이 가지고 있는 자식 node들에게 재귀적으로 타입유추를 호출해서 계산해야 합니다.
 
 단, type inference는 어디까지나 타입을 빨리 아는 데 집중하므로 값의 계산은 수행하지 않습니다. 값을 정확하게 알고 싶다면 `eval()`을 해야만 합니다.
+
+**eval() vs infer() 비교**
+
+| 항목 | eval() | infer() |
+|------|--------|---------|
+| **목적** | 실제 값을 계산하고 반환 | 결과 타입을 추론하여 반환 |
+| **실행 시점** | 런타임 | Verification 단계 |
+| **반환값** | 실제 계산된 값 (str) | 타입 객체 (str) |
+| **값 계산** | O | X |
+| **성능** | 느림 (실제 연산 수행) | 빠름 (타입만 판단) |
+| **사용 사례** | 프로그램 실행, 실제 결과 필요 | 타입 체크, 컴파일 타임 검증 |
+
+예시:
+```cpp
+FBOExpr e = FBOExpr(FBOExpr::SYMBOL_ADD, *new nInt(2), *nFlt(3.5));
+
+str evaluated = e.eval();  // 5.5를 담은 nFlt 객체 반환 (실제 계산 수행)
+str infered = e.infer();   // nFlt 타입 객체만 반환 (값 계산 안함, 타입만 판단)
+```
 
 **타입 변환 - as()와 is()**
 
@@ -1825,6 +2012,40 @@ obj의 clone()이 발생하면:
 - shares: 원본 origin에서 참조만 가져옴
 - owns: 실제로 clone 수행
 
+**shares vs owns 예제**
+
+```cpp
+// byeol 코드:
+//  def Person
+//      name str       // property (인스턴스마다 다른 값) → owns
+//      age int        // property → owns
+//      greet() void   // 함수 (모든 인스턴스가 공유) → shares
+//          print("Hello, my name is " + name)
+
+// C++ 표현:
+origin personOrigin;
+personOrigin.shares().add("greet", new greetFunc());  // 함수는 shares에 추가
+personOrigin.owns().add("name", new nStr(""));        // property는 owns에 추가
+personOrigin.owns().add("age", new nInt(0));
+
+// 객체 복제 시:
+obj* person1 = personOrigin.clone();
+person1->subs()["name"] = new nStr("Alice");  // 각 인스턴스는 자신만의 name을 가짐
+person1->subs()["age"] = new nInt(25);
+
+obj* person2 = personOrigin.clone();
+person2->subs()["name"] = new nStr("Bob");    // person2도 자신만의 name
+person2->subs()["age"] = new nInt(30);
+
+// greet 함수는 두 인스턴스가 공유:
+// person1->subs()["greet"] == person2->subs()["greet"]  // true (같은 함수 객체)
+// 하지만 name은 각자 다름:
+// person1->subs()["name"] != person2->subs()["name"]    // true (다른 문자열 객체)
+```
+
+이러한 구조 덕분에 메모리 효율성이 크게 향상됩니다. 수천 개의 인스턴스가 생성되더라도 함수는
+단 하나만 메모리에 존재하게 됩니다.
+
 **immutable type**
 
 str, int 등 scalar 타입은 모두 immutable 타입입니다. 이는 byeol의 호출 전략이 `by object`를 따르기 때문입니다 (java, C# 등과 유사: 객체는 얇은 복사, raw 타입은 깊은 복사).
@@ -1833,7 +2054,7 @@ str, int 등 scalar 타입은 모두 immutable 타입입니다. 이는 byeol의 
 
 #### origin 클래스 - 타입의 원본
 
-byeol 언어로 사용자가 정의한, 원본이 되는 타입을 origin 객체라고 합니다. 생성자 호출을 하면 모두 origin 객체를 복사 생성해서 만들어집니다.
+byeol 언어로 사용자가 정의한, 원본이 되는 타입을 origin 객체라고 합니다. 사용자가 byeol 코드로 객체를 생성하면, 내부적으로 해당 타입의 origin 객체를 복사 생성(clone)하여 새 인스턴스를 만듭니다.
 
 **중요: origin에 대해 meta 타입 사용 금지**
 
@@ -1938,9 +2159,9 @@ baseObj에 대한 `origin` 객체를 쉽게 정의하기 위해서 사용하는 
 
 단 사용방법에서 차이가 발생합니다. 이는 baseObj 클래스의 컨셉이 obj와 다르기 때문입니다.
 
-obj와 달리 baseObj의 origin 객체는 하나만 존재합니다. 자세한 내용은 다음 섹션을 참조하세요.
+obj와 달리 baseObj의 origin 객체는 static으로 존재합니다. 자세한 내용은 다음 섹션을 참조하세요.
 
-**obj와 달리 baseObj의 origin 객체는 하나만 존재한다**
+**obj와 달리 baseObj의 origin 객체는 static으로 존재한다**
 
 obj는 byeol 언어로 작성된 객체를 표현합니다. 이 중에서도 `def` 키워드로 작성된 origin
 객체는 origin 클래스의 인스턴스로 표현됩니다.
@@ -1951,19 +2172,30 @@ obj는 byeol 언어로 작성된 객체를 표현합니다. 이 중에서도 `de
 C++ 코드로 봤을때 baseObj의 origin은 **정적**이지만 obj의 origin은 **동적**이라는
 얘기입니다. 예를 보겠습니다:
 
-```cpp
-// 앞서서 적은 baseObj의 origin 객체 예제를 다시 보자. static 객체로 되어있음을 알 수 있다.
-// 같은 걸 obj에 대해서도 할 수 있을까?
+**baseObj의 origin - static으로 선언 가능**
 
-// 사용자가 byeol 코드로 다음과 같이 작성했다고 해보자:
-//      def MyObj
-//          foo() void
-//              print("hello")
-// MyObj 라는 타입은 c++에서 봤을때는 동적이다. 그러니 class MyObj 라는 걸
-// 컴파일 타임에 만들 수 없다.
-// MyObj 자체를 byeol에서는 origin 객체라고 하며 이는 `origin` 클래스의 인스턴스로 표현된다.
+앞서 본 baseObj의 origin 객체 예제를 다시 떠올려보면, static 객체로 되어있음을 알 수 있습니다.
+C++ 클래스는 컴파일 타임에 정의되므로 origin 객체를 static으로 선언할 수 있습니다.
+
+**obj의 origin - 런타임에 동적 생성**
+
+사용자가 byeol 코드로 다음과 같이 작성했다고 해보겠습니다:
+
+```byeol
+def MyObj
+    foo() void
+        print("hello")
+```
+
+MyObj라는 타입은 C++에서 봤을 때는 동적입니다. 런타임에 parser가 이 코드를 읽기 전까지는
+`class MyObj`라는 것을 컴파일 타임에 만들 수 없습니다.
+
+MyObj 자체를 byeol에서는 origin 객체라고 하며 이는 `origin` 클래스의 인스턴스로 표현됩니다:
+
+```cpp
+// parser가 런타임에 생성
 origin org(typeMaker::make<obj>(name)); // name == "MyObj"
-// 위와 같이 런타임에 parser에 의해 만들어지기에 싱글톤이 될 수도 static이 될 수도 없다.
+// 런타임에 동적으로 만들어지기에 static이 될 수 없다.
 ```
 
 
@@ -1974,7 +2206,7 @@ origin org(typeMaker::make<obj>(name)); // name == "MyObj"
 
 #### defaultCopyCtor 클래스 - 기본 복사 생성자
 
-managed 환경에서 byeol 타입에 대해 사용자가 복사 생성자를 정의하지 않은 경우 parser에 의해 추가되는 기본 복사생성자입니다. args에 복사 대상 객체가 전달되며, 이 객체의 property들을 얇은 복사를 수행합니다.
+managed 환경에서 byeol 타입에 대해 사용자가 복사 생성자를 정의하지 않은 경우 parser에 의해 추가되는 기본 복사생성자입니다. 복사 생성자 호출 시 `args`의 첫 번째 인자로 복사 대상 객체가 전달되며, 이 객체의 property들을 얇은 복사를 수행합니다.
 
 참고로 scalar는 immutable 객체이므로 얇은 복사를 시도해도 깊은 복사처럼 동작합니다.
 
@@ -2032,6 +2264,27 @@ Byeol은 대부분이 표현식으로 구성된 언어입니다. 블록문조차
 
 **중요한 주의사항:** 이 표현식은 **scope에 등록된 참조를 바꾸는 것**이지 객체 자체에 대해 `operator=()`를 호출하는 것이 아닙니다. `obj::operator=()`를 호출하게 되면 일종의 깊은 복사처럼 동작하니 주의해야 합니다.
 
+**예제로 이해하기**
+
+```cpp
+// byeol 코드:
+//   a := 5
+//   a = 10
+
+// C++로 표현하면:
+obj* aObj = new nInt(5);
+scope["a"] = aObj;  // := 연산자: scope에 새로운 참조 등록
+
+obj* newObj = new nInt(10);
+scope["a"] = newObj;  // = 연산자: scope의 참조를 다른 객체로 변경
+                      // 이것은 aObj 자체를 수정하는 게 아니라
+                      // scope에 등록된 "a"라는 이름의 참조를 newObj로 바꾸는 것
+
+// 만약 obj::operator=()를 호출했다면:
+// *aObj = *newObj;  // 이렇게 되어 깊은 복사가 발생
+// 하지만 byeol의 assignExpr은 이렇게 동작하지 않는다!
+```
+
 
 #### blockExpr 클래스 - 블록 표현식
 
@@ -2046,7 +2299,7 @@ byeol 언어는 대부분 표현식으로 구성되며, block문도 예외가 �
 
 #### defArrayExpr 클래스 - 배열 리터럴
 
-배열 리터럴 표현식을 담당합니다. 어떠한 타입의 배열인지는 배열의 원소로 적은 리터럴 상수들의 타입들을 type promotion(`promote()`)을 해서 inference 됩니다.
+배열 리터럴 표현식을 담당합니다. 어떠한 타입의 배열인지는 배열의 원소로 적은 리터럴 상수들의 타입들을 type promotion을 통해 추론됩니다. Type promotion은 여러 타입 중 가장 넓은 범위의 타입으로 승격하는 과정입니다 (예: `[1, 2.5, 3]`이라는 배열이 있다면 int와 flt 타입이 섞여있으므로 flt 배열로 승격됩니다).
 
 `tnarr`은 native 환경에서 배열을 담당하는 클래스입니다. `arr`은 tnarr을 managed 환경에 맞게 확장한 것입니다. 이렇게 함으로써 C++에서도 byeol에서도 서로 유사한 API를 사용 가능하게 됩니다.
 
@@ -2188,6 +2441,28 @@ chn2.link(chn3);  // chn1 -> chn2 -> chn3
 
 이제 chn1을 순회하면 {0, 1, 6, 5, 2, 3} 순서로 모든 원소에 접근할 수 있습니다. 하지만 **실제로는 어떠한 복사도 일어나지 않았습니다**. 단지 참조를 chain으로 연결했을 뿐입니다.
 
+**순회 예제**
+
+```cpp
+// chn1을 순회하면 chain으로 연결된 모든 원소에 접근 가능
+for(auto& pair : chn1) {
+    std::cout << pair.first << ": " << pair.second->getValue() << std::endl;
+}
+// 출력:
+// 0: 0
+// 1: 1
+// 6: 6
+// 5: 5
+// 2: 2
+// 3: 3
+
+// len()도 chain 전체를 고려
+chn1.len();  // 6 반환 (chn1의 2개 + chn2의 2개 + chn3의 2개)
+
+// 특정 key 검색도 chain 전체에서 수행
+chn1["2"];  // chn3에 있는 원소를 반환
+```
+
 
 #### arr 클래스 - Managed 배열
 
@@ -2209,229 +2484,19 @@ byeol 언어는 AST를 그대로 프로그램 실행으로 이용하는 구조�
 
 byeol에서는 AST에서 node를 구성할때 단순하게 map을 사용할 순 없으며 multimap을 사용해야 합니다. (함수 오버로딩 때문입니다. 자세한 내용은 `node`를 참조하세요.)
 
-다만 여기서 중요한 점은 원소의 **삽입 순서는 곧 scope의 우선순위와도 직결**되는 문제이기 때문에 삽입된 순서를 기억하고 유지할 필요가 있으므로 삽입된 순서를 기억하는 multimap을 별도로 구현해 사용하고 있습니다.
+다만 여기서 중요한 점은 원소의 **삽입 순서가 scope의 검색 우선순위를 결정**한다는 것입니다. scope에서 같은 이름의 여러 심볼(예: 오버로딩된 함수들)을 찾을 때, 먼저 삽입된 것을 우선적으로 검색하고 매칭을 시도합니다. 따라서 삽입된 순서를 기억하고 유지할 필요가 있어 삽입 순서를 기억하는 multimap을 별도로 구현해 사용하고 있습니다.
 
 **API는 STL 라이브러리를 최대한 비슷하게 구성**
 
 이는 `tnarr`또한 내부적으로는 vector를 사용하므로 같은 상황에 같은 컨벤션이 되도록 의도적으로 구성한 것입니다.
 
-**왜 삽입 순서를 기억해야만 하는가?**
+**삽입 순서를 기억해야 하는 또 다른 이유: Closure의 Scope Capture**
 
 중첩 함수가 closure로 export될 때, 그 시점의 local scope를 capture하고 유지해야 하는 요구사항이 있습니다. 하지만 capture 시점 이후에 발생한 local 변수들은 중첩 함수와 아무런 관련이 없어야 합니다.
 
 이러한 이유로 closure는 전체 scope를 capture하지 않고, closure가 생성되는 시점까지의 local scope에 속한 변수들만 capture합니다. 이를 구현하려면 scope의 얕은 복사가 필요하다고 생각하기 쉽지만, `tnchain`과 `link()`를 사용해서 복사 없이 이 문제를 해결합니다.
 
 하지만 이를 위해서는 tnchain이 반복자가 삽입 순서대로 순회하는 것을 보장해야 하므로, STL의 multimap을 직접 사용할 수 없어서 smultimap을 별도로 구현했습니다.
-
-
-
-### 브리징 시스템
-
-Byeol의 브리징 시스템은 C++ native 환경과 Byeol managed 환경을 연결하는 핵심 메커니즘입니다.
-이를 통해 C++로 작성된 함수와 클래스를 간단하게 Byeol 언어에서 사용할 수 있습니다.
-
-
-#### tbridge 클래스 - Native 객체의 Wrapper
-
-`tbridger` 클래스로부터 생성된 C++ native 클래스를 모사하는 baseObj입니다.
-자세한 내용은 tbridger를 살펴보세요.
-
-
-#### tbridger 클래스 - Native-Managed Bridge
-
-tbridger는 이름에서부터 알 수 있듯이 C++ native 환경과 byeol managed 환경의 bridge 역할을
-담당합니다. 그 중에서도 tbridger는 `cpp <--> byeol`의 bridge를 담당합니다.
-
-즉, native로 정의한 함수나 클래스를 C++ 코드 몇 줄로 간단히 managed 타입이나 함수로
-노출시키는 게 목적입니다.
-
-**중요한 주의사항**
-
-tbridge를 하나의 클래스가 아니라 컴포넌트 단위로 설계되어 있습니다. 사용만 한다면
-크게 문제가 없지만, 코드를 이해하려 든다면 이쪽 관련 경험이 없을 경우 좀 난감할 수 있습니다.
-그러니 기초적인 사용법을 먼저 보고 감을 잡은 뒤에, 상세한 구조에 대해 살펴봅시다.
-
-baseObj나 obj에 대해 미리 살펴보고 오는 것을 추천합니다.
-
-**기초 사용법**
-
-```cpp
-// 이런 구조체가 2개 있다고 해보자.
-struct window {
-    int getX() { return 5; }
-    int getY() { return _y; }
-    void setY(int newY) { _y = newY; }
-
-    window& new1(int newY) {
-        window& ret = *new window();
-        ret._y = newY;
-        return ret;
-    }
-
-    int _y;
-};
-
-struct openGL {
-    int init(window* win) { return win->getY() + win->getX(); }
-};
-
-
-// openGL을 byeol 코드에서도 사용가능하도록 managed 객체로 만들고 싶다면
-// origin 객체를 정의하고, 그 origin 객체를 참조하는 복사객체를 만드는 것으로
-// 쉽게 managed 객체로 만들 수 있다.
-
-// 일단 다음과 같이 tbridge를 사용해 origin 객체를 생성할 준비를 해야 한다.
-tbridger<window>::ctor()
-    .ctor<window>()
-    .func("new1", &window::new1)
-    .func("getX", &window::getX)
-    .func("getY", &window::getY)
-    .func("setY", &window::setY);
-tbridger<openGL>::ctor().ctor<openGL>().func("init", &openGL::init);
-
-// 이제 tbridger를 사용하면 위의 타입정보를 사용해서 managed 객체를 만들 수 있다.
-node* winBridge = tbridger<window>::make(new window());
-node* winOpenGL = tbridger<openGL>::make(new openGL());
-
-// 생성한 managed 객체는 다음과 같이 C++ 코드로 사용 가능하다.
-winBridge->eval("setY", args(narr(*new nInt(20))));
-str res = winOpenGL->eval("init", args(narr(*winBridge)));
-res->cast<int>(); // 25가 나온다.
-```
-
-이 winBridge는 baseObj 계열의 인스턴스이므로 pack의 일부로써 배포가 가능합니다.
-배포에 대한 자세한 내용은 `slotLoader`나 `autoslot`이나 `sys` 모듈을 살펴보세요.
-
-배포가 되었다면 다음과 같이 byeol 코드로 위 C++과 동일한 코드를 사용할 수 있습니다:
-
-```byeol
-win := window()
-win.setY(20)
-
-res := openGL().init(win)  # res == 25
-```
-
-**설계 구조**
-
-bridge 컴포넌트의 핵심 클래스들을 간략하게 소개합니다. 자세한 동작방식이나 알고리즘은
-각 클래스를 참조하길 바랍니다.
-
-- **tbridger**는 bridge 컴포넌트의 진입점, Facade 역할을 수행합니다. tbridger는 각 C++
-  클래스를 타입파라메터로 받는 클래스 템플릿입니다. func() 등의 함수를 통해 외부에서 정의한
-  함수들을 static variable인 subs()에 저장합니다.
-
-- **tbridge**는 tbridger에 등록된 subs를 origin으로 삼아 생성된 baseObj입니다. 내부적으로
-  `tbaseObjOrigin<tbridger<T>>`과 같은 형태로 origin을 정의하고 있어서, tbridger를 통해
-  subs()를 채워넣은 후 tbridge::getOrigin()을 호출하면, tbridge 객체는 origin을 통해
-  해당 함수들을 갖고 있는 셈이 됩니다.
-
-- **tbridgeFunc**는 일반 C++ 멤버함수 포인터를 redirection하는 managed 환경의 baseFunc
-  인스턴스를 생성합니다. tbridger::func()를 하게 되면 안에서 `tbridgerFunc<....>()`의
-  형태로 tbridgeFunc 인스턴스를 만들게 됩니다. tbridgeFunc은 내부적으로 마샬링을 통해서
-  C++ native type(node*, int 등)을 적절한 managed type(str, nInt)으로 변경합니다.
-  반환값을 내보낼때도 동일하게 마샬링을 적용합니다.
-
-- **tmarshaling**은 위에서 언급한 마샬링을 처리합니다.
-
-- **tbridgeCtor**은 생성자를 위한 함수를 표현합니다. managed에서의 `ctor`은 생성자 함수일
-  뿐 객체의 생성에는 관여하지 않습니다. 이는 인스턴스 생성과 생성자의 호출이라는 역할을
-  분리시키고, 상속 관계이 있는 부모클래스의 생성자를 호출하는 로직을 간결하게 만들기
-  위한 것입니다. 그러나 tbridgeCtor은 생성자를 C++ 문법에 맞게 표현해야 하기 때문에 new를
-  통한 객체 생성과 생성자의 호출을 별도로 분리하기가 쉽지 않습니다. 따라서 tbridgeCtor은
-  `new` 키워드를 통해서 생성자 함수의 redirection과 객체의 생성을 모두 관여합니다.
-
-- **tbridgeClosure**는 C++의 람다함수를 tbridger를 통해서 노출시킬 수 있도록 도와줍니다.
-  원리 자체는 tbridgeFunc과 크게 다르지 않습니다. 다만 함수포인터 대신 람다를
-  std::function으로 받아 처리합니다.
-
-**Bridge 흐름**
-
-사용자가 bridge API를 사용했을때, 위의 소개한 각 클래스들이 어떠한 순서로 상호작용하는지
-흐름을 간략하게 적겠습니다. 먼저, 위의 코드를 다시 가져오겠습니다:
-
-```cpp
-// 사용자가 아래와 같이 했다고 가정하자.
-tbridger<window>::ctor()
-    .ctor<window>()
-    .func("new1", &window::new1)
-    .func("getX", &window::getX)
-    .func("getY", &window::getY)
-    .func("setY", &window::setY);
-```
-
-이때 다음과 같은 순서로 동작합니다:
-
-1. tbridger<window>::ctor()이 호출된다.
-2. tbridger<T>는 모든 public API를 호출하면 _get() 함수를 호출한다.
-3. tbridger<T>::_get()은 자신의 static variable을 반환하는, 싱글톤 객체를 반환하는 함수다.
-   즉 tbridger<T>는 **모노스테이트 패턴**으로 되어있다는 걸 알 수 있을 것이다.
-4. tbridger<T>::ctor()은 `new tbridgeCtor<...>()`을 통해 생성자 함수를 만들어
-   `_get().subs().add()`를 사용해서 tbridger<T>에 추가한다.
-5. 이하 tbridger<window>::func()도 비슷하게 반복됨.
-
-그 후, 사용자는 다음과 같이 객체를 만듭니다:
-
-```cpp
-node* winBridge = tbridger<window>::make(new window());
-```
-
-이때 `tbridger<window>::make()`는 인자로 들어온 native 인스턴스인 `window*`를
-tbridge<window>() 생성자에 넘깁니다.
-
-그리고 사용자는 만든 객체를 통해 함수를 호출합니다:
-
-```cpp
-winBridge->eval("setY", args(narr(*new nInt(20))));
-```
-
-이때 다음과 같은 흐름으로 C++ native 함수가 호출됩니다:
-
-1. tbridge<window>::eval(name, args)가 넘겨진다.
-2. tbridge<window>는 부모클래스인 node::eval(name, args)의 동작에 의해서 subs에서 name과
-   args를 처리할 수 있는 sub node를 찾는다. 이때 window::setY를 바탕으로 생성된 tbridgeFunc이
-   매치된다. 그 후, node::eval(name, args)는 _onEvalSub(tbridgeFunc, args)를 호출한다.
-3. baseObj::_onEvalSub(tbridgeFunc, args)에서 args에 setMe(this)를 통해 tbridge<window>를
-   주입한다. 그리고 node::_onEvalSub(tbridgeFunc, args)에 의해서 tbridgeFunc.eval(args)가
-   호출된다.
-4. tbaseBridgeFunc::eval(args)는 args.evalAll(getParams())를 통해서 args를 각 parameter로
-   필요시 묵시적 형변환을 사용해서 인자를 추출한다. 그리고 추출된 인자를 _runNative(args)로
-   호출한다.
-5. tbridgeFunc::_runNative(args)는 마샬링을 위해 tmarshaling을 사용한다.
-6. tmarshaling은 nInt로 들어온 인자를 C++ native type인 int로 변환하기 위해 marshaling의
-   toNative()를 호출한다.
-
-```cpp
-template <> struct _nout tmarshaling<nint, false>: public tnormalMarshaling<nint, nInt> {};
-
-template <typename tnativeType, typename tmarshalType> struct tnormalMarshaling: public metaIf {
-    typedef tmarshalType mgd;
-    typedef tnativeType native;
-
-    static native toNative(node& it) { return ((mgd&) it).get(); }  // <--- 여기!
-    static str toMgd(native it) { return str(new mgd(it)); }
-    ...
-};
-```
-
-7. toNative()는 builtin 객체인 nInt::get()을 호출한다. 결과 int형 값이 반환된다.
-8. tbridgeFunc::_marshal()은 parameter pack을 사용해서 위의 6,7번 과정을 각 인자마다
-   반복 수행해서 native 타입으로 expand하여 함수포인터를 실행한다.
-
-```cpp
-template <typename T, template <typename, nbool> class Marshaling, typename... Args>
-class tbridgeFunc<void, T, true, Marshaling, Args...>:
-    public tbaseBridgeFunc<void, T, Marshaling, Args...> {
-    .....
-    template <size_t... index> str _marshal(args& a, std::index_sequence<index...>) {
-        ....
-        (me.*(this->_fptr))(
-            Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>
-                ::toNative(a[index])...);
-        ....
-    }
-    ....
-};
-```
 
 
 
@@ -2446,9 +2511,9 @@ generic 클래스의 참조를 담당하며 generic 타입 생성의 진입점�
 
 내부적으로는 `genericOrigin`에게 generic 타입을 줄 것을 요청하며, genericOrigin은 해당 타입에 대한 generic이 있다면 그걸 바로 주고, 없다면 `generalizer`를 통해 generic 타입을 생성 후, 그 새로운 인스턴스를 반환합니다.
 
-**Lazy하지만 lazy하지 않다**
+**설계는 Lazy, 실제는 Eager**
 
-genericOrigin은 `eval()`로 주어진 type parameter를 사용해 lazy하게 generic 타입을 생성합니다. 하지만 `verifier`에 의해서 프로그램이 실행되기 전에 미리 생성되기 때문에 실질적으로는 lazy하게 생성되진 않습니다.
+genericOrigin은 설계상 lazy instantiation을 지원합니다. 즉, `eval()` 호출 시점에 주어진 type parameter로 generic 타입을 생성합니다. 하지만 `verifier`가 프로그램 실행 전에 모든 타입을 검증하면서 필요한 generic 인스턴스를 미리 생성하므로, 실제로는 eager instantiation처럼 동작합니다.
 
 
 #### genericOrigin 클래스 - Generic 타입의 생성과 관리
@@ -2633,6 +2698,36 @@ Byeol의 코드 실행은 scope, frame, frames, thread가 유기적으로 협력
 4. **file scope**: 소스 파일 단위의 scope, pack보다 위에 선언된 symbol
 5. **pack scope**: pack에 속한 symbol들, 외부에서 접근 가능
 
+**Scope 분류 예시**
+
+```byeol
+VERSION := "1.0"  # file scope - pack 선언 전
+
+pack myPack
+
+PI := 3.14  # pack scope - pack 내부
+
+def Calculator  # obj scope 생성
+    result := 0  # obj scope의 property
+
+    add(val int) void  # func scope 생성
+        temp := val * 2  # local scope - 함수 내 local 변수
+        if temp > 10
+            doubled := temp  # local scope - if 블록 내 local 변수
+        result = result + val  # obj scope의 property 참조
+
+main() void
+    calc := Calculator()
+    calc.add(5)
+```
+
+위 예시에서:
+- `VERSION`: file scope
+- `PI`, `Calculator`: pack scope
+- `result`, `add`: obj scope (Calculator 객체의 멤버)
+- `temp`: func scope 내 local scope (add 함수의 local 변수)
+- `doubled`: if 블록의 local scope
+
 **각 scope의 특징**
 
 **Local scope**는 함수 내 블록문이 실행될 때 생성됩니다. 최적화를 위해 `blockExpr`이 직접 생성/해제하지 않고, `frameInteract`를 통해 생성됩니다:
@@ -2662,10 +2757,10 @@ def yourObj
 IS_DBG := true  # pack scope (경고: 중복 이름)
 
 main() void
-    print(IS_DBG)  # true. pack보다 file scope이 우선됨
+    print(IS_DBG)  # false. file scope이 pack scope보다 우선됨
 ```
 
-IS_DBG는 file scope과 pack scope에 각각 1개씩 정의됩니다. 중요한 점은 **file scope는 parser에 의해 항상 pack scope를 chain**한다는 것입니다.
+IS_DBG는 file scope과 pack scope에 각각 1개씩 정의됩니다. 중요한 점은 **file scope는 parser에 의해 항상 pack scope를 chain**한다는 것입니다. Symbol을 찾을 때 file scope를 먼저 검색하고, 없을 경우 pack scope를 검색하므로, file scope에 선언된 값이 우선됩니다.
 
 
 #### frame 클래스 - Scope들의 동적 연결
@@ -2682,6 +2777,26 @@ IS_DBG는 file scope과 pack scope에 각각 1개씩 정의됩니다. 중요한 
 4. `blockExpr`: local scope으로 사용할 빈 scope 생성
 
 이 과정을 거쳐 함수 호출시 최소 5개의 scope가 frame에 등록됩니다.
+
+**실제 예시: yourObj.foo(10) 호출 시 frame 구조**
+
+앞서 본 Calculator 예시에서 `calc.add(5)` 호출 시 생성되는 frame은 다음과 같은 순서로 scope가 적층됩니다:
+
+```
+frame (calc.add(5) 실행 중)
+├─ [1] local scope (add 함수 내부 local 변수: temp 등)
+├─ [2] func scope (add 함수 자체의 scope)
+├─ [3] args scope (add의 인자: val=5)
+├─ [4] obj scope (Calculator 객체의 멤버: result, add)
+├─ [5] file scope (VERSION 등)
+└─ [6] pack scope (PI, Calculator 등)
+```
+
+Symbol 탐색은 위에서 아래로 순차 진행됩니다:
+- `temp` 검색: [1] local scope에서 발견
+- `val` 검색: [3] args scope에서 발견
+- `result` 검색: [4] obj scope에서 발견
+- `PI` 검색: [6] pack scope에서 발견
 
 **Scope 탐색의 효율성**
 
@@ -2700,7 +2815,7 @@ for(auto& elem : frame.subs()) {
 
 #### frames 클래스 - Frame 적층 관리
 
-`frames`는 하나의 `thread`에 속한 여러 `frame`을 관리합니다. byeol에서 모든 코드는 사실상 함수 안에 있으므로, 코드 실행 = 함수 실행이며, 함수 실행시 frame 객체가 생성되어 적절히 scope를 적층시킵니다.
+`frames`는 하나의 `thread`에 속한 여러 `frame`을 관리합니다. byeol에서는 최상위 코드도 암묵적으로 초기화 함수 내에서 실행되며, `main()`도 함수이므로, 모든 코드 실행은 함수 컨텍스트 안에서 이루어집니다. 따라서 코드 실행 = 함수 실행이며, 함수 실행시 frame 객체가 생성되어 적절히 scope를 적층시킵니다.
 
 **Frame 적층의 필요성**
 
@@ -2968,7 +3083,7 @@ public:
 
 **중복 방문 제거**
 
-AST는 참조가 서로 되어있는 경우도 종종 발생합니다. 이 경우 아무런 예외처리 없이 순회하면 이미 방문했던 node를 다시 방문하면서 **무한 루프**에 진입합니다.
+AST는 참조가 서로 순환하는 경우도 종종 발생합니다 (예: A가 B를 참조하고 B가 다시 A를 참조). 이 경우 아무런 예외처리 없이 순회하면 이미 방문했던 node를 다시 방문하면서 **무한 순회**에 빠집니다.
 
 visitor는 `_visited`라는 map을 소유하고 있습니다. 이를 통해서 `visit()`이 호출 되었을 때 이미 방문한 node인지를 판단해서 예외처리를 해주고 있습니다.
 
@@ -3085,55 +3200,17 @@ def A
 scope의 종료를 의미하는 **DEDENT 토큰**을 2개 먼저 추가하여 인식할 수 있도록 만들어야
 합니다.
 
-#### smartDedent 클래스 - Indentation 관리
+#### smartDedent, tokenScan 클래스 - Indentation 관리
 
-`parser`가 indentation으로 scope를 만들 때마다 몇 개의 공백이 앞에 있는지를 count해서
-배열로 관리하는 클래스입니다.
+byeol 파서의 `smartDedent`와 `tokenScan`은 stela 모듈의 `stelaSmartDedent`, `stelaTokenScan`과 동일한 원리로 동작합니다. Indentation을 배열로 관리하고, scan mode를 동적으로 전환하는 방식은 완전히 같습니다.
 
-예를 들어 다음의 byeol 코드를 파싱한다고 하면:
+상세한 동작 원리와 예제는 stela 모듈의 해당 클래스들을 참조하세요. byeol 파서만의 차이점은:
 
-```byeol
-def config
-    def device
-      name := "my device"
-      # 1)
-```
+- byeol은 더 복잡한 문법을 가지므로 명령 토큰(`SCAN_AGAIN`, `SCAN_EXIT` 등)이 더 다양합니다
+- `tokenDispatcher`를 사용하여 Flex의 `unput`보다 유연하게 토큰을 삽입할 수 있습니다
+- byeol의 offside rule이 stela보다 엄격하여 indentation 검증이 더 정교합니다
 
-1번 위치에서 파서가 파싱 중일 때, smartDedent는 `[0, 4, 6]`으로 내부 배열 값이
-구성되어 있습니다:
-
-- 가장 바깥의 scope의 공백의 수는 `smartDedent[0]`인 0
-- 가장 안쪽의 scope인 device의 scope임을 증명하는 공백의 수는
-  `smartDedent[smartDedent.len() - 1] = 6`으로 앞에 6개의 공백이 있어야 함을 의미
-
-#### tokenScan 클래스 - 스캔 모드 전략
-
-`parser`는 indentation을 정밀하게 측정하기 위해서 scan mode를 동적으로 변경해야
-합니다. `tokenScan`은 그러한 스캔 모드 전략 1개를 담당합니다.
-
-**명령 Token**
-
-Token 중에는 `SCAN_AGAIN`, `SCAN_EXIT` 등 scanner나 parser에 명령을 주는 토큰들이
-존재합니다. 자세한 내용은 `lowparser.y`의 중간의 `// mode:` 단락을 참조하세요.
-
-**isBypass**
-
-`indentScan`의 경우 대부분의 token을 무시하며 오직 공백이 몇 개인지 개수를 세는 데
-집중합니다. 하지만 이전 라인에서 여러 token을 push해둔 상황이라면 내부적으로 bypass
-모드로 동작합니다. 이때는 indentation 개수를 세는 동작을 skip하고 넣어둔 token을
-그대로 읽어서 반환합니다.
-
-`parser`는 개행이 탐지되면 `indentScan`으로 교체해서 정확하게 공백을 count해서 scope를
-결정하고, 이후에는 `normalScan`으로 교체해서 평상시처럼 공백을 다 무시합니다. 이는
-일종의 **strategy 패턴**입니다.
-
-**tokenDispatcher**
-
-Flex는 `yyin`이라는 별도로 지정된 stream을 통해서 글자를 가져와 token으로 정의합니다.
-위의 예제를 보다시피, 파싱 도중에 토큰을 추가한다는 것은 이 stream에 특정 문자를
-추가하는 것을 의미합니다. 기본적으로 이런 경우는 `unput`을 사용하나, 여러 개를 unput
-하거나 뒤가 아니라 앞에 push하는 경우 등에 유연하게 대응하기 위해, lowscanner는
-내부적으로 `tokenDispatcher`를 사용합니다.
+자세한 명령 토큰 목록은 `lowparser.y`의 `// mode:` 단락을 참조하세요.
 
 #### srcSupply 클래스 - 소스 코드 공급 추상화
 
@@ -3175,22 +3252,15 @@ def myObj
 만약 해당 모듈에서 값을 가져왔다고 가정한다면 age는 int 타입임을 알 수 있지만 name과
 msg는 타입 확정에 실패한 상태로 진행됩니다.
 
-위 문제를 어떻게하면 잘 해결할 수 있을까요? 몇 가지 방법이 있습니다:
+**현재 사용중인 타입 추론 방법**
 
-1. **고전적인 방법**: 사용자에게 문법적인 제약을 거는 방법 - age, name, msg 순으로
-   적으라고 하는 식. 하지만 함수는 그러한 제약이 없으면서 타입만 그러는 건 좀 우스우며,
-   이 방법은 너무 모던언어스럽지 않습니다.
+byeol은 이러한 타입추론 표현식들을 한곳에 모아둔 후, parsing이 종료된 후 **1줄이라도 타입추론이 성공한다면 무한루프를 도는 방법**을 사용합니다. 가지고 있는 모든 표현식이 타입추론에 실패하거나, 타입추론 표현식이 바닥나면 루프를 종료합니다.
 
-2. **종속성 그래프 방법**: 타입 추론시 실패하면 종속성 그래프를 만들어서 타입 추론
-   순서를 정하는 방법. 최초 순회하며 평가하고 실패한 것들은 평가 순서를 찾아서 한번 더
-   retry하는 것으로 완료될 수 있습니다.
+이 방식의 장단점:
+- 장점: 추론 순서를 따지지 않아도 되므로 구현이 간단
+- 단점: 속도가 느림
 
-3. **현재 사용중인 방법**: 더 간단하면서도 무식한 방법인데, 이러한 타입추론 표현식이나
-   구문들을 한곳에 몰아둔 후, parsing이 종료된 후, **1줄이라도 타입추론이 성공한다면
-   무한루프를 도는 방법**입니다. 가지고 있는 모든 표현식이 타입추론에 실패하거나,
-   타입추론 표현식이 바닥나며 무한루프를 종료합니다. 이 경우 추론 순서를 따지지
-   않아도 되니 복잡한 알고리즘 없이 간단하게 작성할 수 있지만 속도가 느립니다.
-   개선의 여지가 충분합니다.
+향후 종속성 그래프를 구축하여 타입 추론 순서를 최적화하는 방법으로 개선할 여지가 있습니다.
 
 `defBlock`은 이러한 역할을 돕습니다. defBlock에는 expand, common, scope 3종류의
 데이터가 있는데:
@@ -3249,13 +3319,14 @@ verifier는 그 기능의 핵심을 구현합니다.
 
 `parser`와 `expander`로 최종 생성된 AST를 실행하기 전에 에러는 없는지 확인합니다.
 
-**이해 난이도**
+**사전 학습 권장 사항**
 
-verifier는 다양한 모듈을 사용하는 `core` 모듈 중에서도 고급 클래스에 해당하므로, 여러
-클래스에 대해 사전에 알고 있어야 합니다. 아마도 이 프로젝트에서 가장 마지막 시점에서야
-이해가 되는 클래스 중 하나일 것입니다.
+verifier는 다양한 모듈을 종합적으로 사용하는 고급 클래스이므로, 다음 개념들을 먼저 학습한 후 접근하는 것을 권장합니다:
 
-`node`, `visitor` 뿐만 아니라 `expr`이나 WHEN 매크로를 다 알고 있어야 이해가 쉽습니다.
+- `node`: AST의 기본 구조
+- `visitor`: AST 순회 패턴
+- `expr`: 표현식 클래스들
+- WHEN 매크로: 에러 처리 패턴
 
 **visitor 기반**
 
@@ -3326,12 +3397,12 @@ void me::onLeave(const visitInfo& i, assignExpr& me, nbool) {
 
 **main 함수 Look up**
 
-메인 함수의 조건은 다음과 같습니다:
+`starter`가 메인 함수를 찾을 때 사용하는 조건:
 
-1. root(pack) 바로 밑에서 찾는다.
-2. 이름이 `main`이어야 한다.
-3. 반환형이 void 혹은 int여야 한다.
-4. 메인 함수는 1개 이상의 구문을 가져야 한다.
+- **위치**: root(pack) 바로 밑에 위치해야 함
+- **이름**: `main`이어야 함
+- **반환형**: `void` 또는 `int`
+- **내용**: 최소 1개 이상의 구문을 포함해야 함
 
 `starter`는 `interpreter`와 함께 사용하면 byeol 코드를 파싱해서 실행할 수 있습니다.
 
@@ -3355,7 +3426,7 @@ byeol 언어는 에러 처리를 위한 정교한 시스템을 갖추고 있습�
 byeol 언어에서의 err 클래스 계통의 가장 base 클래스입니다. 에러 처리에 대한 공통
 로직과 인터페이스를 포함합니다.
 
-**byeol 문법상 Error 개념과 구현의 괴리**
+**byeol Error의 문법적 구분과 내부 구현**
 
 byeol 문법상으로는 에러는 2종류로 구분됩니다:
 
@@ -3444,9 +3515,9 @@ errReport는 거의 모든 기능이 `baseErr` 객체에 대한 관리이기 때
 
 사용자가 파라메터로 flagArgs를 줘서 eval()을 호출하면 다음과 같이 실행됩니다:
 
-1. interpreter, `errReport`, `starter` 객체를 생성한다.
-2. interpreter, starter에 flag를 set한다. 이 `worker`의 flag를 말하는 것으로, cli의
-   `flag`와 다른 것이다. 자세한 내용은 worker를 참조.
+1. `interpreter`, `errReport`, `starter` 객체를 생성한다.
+2. interpreter, starter에 flag를 set한다. 이 `tworker`의 flag를 말하는 것으로, cli의
+   `flag`와 다른 것이다. 자세한 내용은 tworker를 참조.
 3. flagArgs를 파싱해서 사전 작업 수행 - flag 객체에 `take()` 함수를 호출해서 수행한다.
 4. interpreter를 수행한다.
 5. 인터프리트 결과를 체크한다. 이상이 있으면 결과를 내보내고 종료한다.
@@ -3456,7 +3527,7 @@ errReport는 거의 모든 기능이 `baseErr` 객체에 대한 관리이기 때
 
 ### flag 클래스 - 명령줄 플래그 처리
 
-shell 기반 프로그램에서 흔히 볼 수 있는 플래그들을 handling하는 클래스입니다.
+shell 기반 프로그램에서 흔히 볼 수 있는 플래그들을 처리하는 클래스입니다.
 
 한가지 착각하기 쉬운 포인트는 이 클래스는 `--version`과 같은 플래그를 표현하는 클래스가
 아니라 **그러한 플래그가 존재하는지, 존재한다면 어떤 동작을 해야 하는지를 담당**한다는
@@ -3474,6 +3545,25 @@ shell 기반 프로그램에서 흔히 볼 수 있는 플래그들을 handling�
 예를들어 `verFlag`는 `--version`이라는 문자열이 프로그램 인자로 들어와 있는지를 찾아,
 들어와 있을 경우 `buildFeature`로부터 version 정보를 가져와 출력합니다.
 
+```cpp
+// -- verFlag.cpp
+const strings& verFlag::_getRegExpr() const {
+    static strings inner{"^\\--version$"};
+    return inner;
+}
+
+me::res verFlag::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
+    std::cout << "🌟 'byeol' " << buildFeature::version::get() << "\n"
+              << "Built on " << buildFeature::date::get() << " (build " << buildFeature::version::getBuildCount()
+              << ", git " << buildFeature::version::getCommitHash() << ", " << buildFeature::config::getName()
+              << ", " << buildFeature::platform::getArchBits() << "-bit)\n"
+              << "© 2010-" << buildFeature::date::getYear()
+              << " Taehun Lee(kniz) and contributors. All rights reserved.\n";
+
+    return EXIT_PROGRAM;
+}
+```
+
 이 동작은 `flag::take()`가 호출되면 파생클래스의 `_getRegExpr()`에 정의해둔 정규식
 표현으로 각 flag 객체가 원하는 패턴을 찾는 형태로 동작합니다. 정규식으로 찾기 때문에
 flag 간 순서는 무시됩니다.
@@ -3481,13 +3571,20 @@ flag 간 순서는 무시됩니다.
 또한 정규식 패턴을 정의할 때는 여러개 패턴을 정의할 수 있습니다:
 
 ```cpp
+// -- logStructureFlag.cpp
 const strings& me::_getRegExpr() const {
     static strings inner{"^\\-S$", "^\\--show-structure$"};
     return inner;
 }
+
+me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
+    ip.addFlag(interpreter::LOG_STRUCTURE);
+    s.addFlag(starter::LOG_STRUCTURE);
+    return MATCH;
+}
 ```
 
-위는 `^\-S$` 혹은 `^\--show-structure$` 둘 중 하나라도 매칭되면 됩니다.
+위는 `-S` 혹은 `--show-structure` 둘 중 하나라도 매칭되면, 파싱된 AST의 구조와 프레임 정보를 로깅하도록 플래그를 설정합니다.
 
 **복수의 flag 인자를 consume하기**
 
@@ -3495,22 +3592,20 @@ const strings& me::_getRegExpr() const {
 있는 경우, 버전을 출력합니다. 단, 이때 또 다시 verFlag가 동작하지 않도록, 동작을 마치면
 `--version`이라는 문자열을 `flagArgs`에서 제거합니다.
 
-그러면 다음으로 `bufferSrcFlag`를 봅시다. 이 클래스는
+그러면 다음으로 `bufferSrcFlag`를 봅시다. 다음과 같이 사용합니다:
+
 ```
 --script "main() void: print("wow!)"
 ```
 
-와 같이 사용합니다. 이를 찬찬히 뜯어보면,
-- `--script`로 flag의 시작임을 알게 되면, 공백 뒤에 나오는
-- `<your code>`가 실행할 byeol 코드의 본문이라는 인자입니다.
+이 명령은 파일 없이 byeol 코드를 직접 실행합니다. 위 한 줄 코드를 풀어쓰면:
 
-한 줄로 적은 해당 byeol 코드를 풀어쓰면,
 ```byeol
 main() void
     print("wow!")
 ```
 
-가 되면서 실행 결과는 `wow!`가 화면에 출력될 것입니다.
+실행 결과는 `wow!`가 화면에 출력됩니다.
 
 이처럼 어떤 flag는 패턴과 일치하는 부분만을 consume하지 않습니다. `--script`을 찾으면
 거기서 추가적으로 1개의 인자를 더 뜯어내서 `bufferSrcFlag::_onTake()`로 전달해 함수의
@@ -3545,4 +3640,11 @@ bufferSrcFlag는 프로그램 시작 전에 사전 작업을 필요로 하는 fl
 이처럼 flag의 패턴이 매칭이 되면 동작을 하고 바로 종료하고 싶을 때는, `_onTake()`를
 오버라이딩할 때 반환값을 **EXIT_PROGRAM**으로 줍니다. bufferSrcFlag처럼 계속 동작을
 하는 경우에는 **MATCH**로 반환합니다.
+
+
+## 다음 단계
+
+이 문서는 byeol 언어의 아키텍처와 핵심 클래스들을 설명했습니다. 개념적 이해를 넘어 실제 동작을 깊이 이해하고 싶다면, `test` 모듈의 Unit Test들을 직접 읽어보는 것을 강력히 권장합니다.
+
+각 모듈별로 작성된 테스트 케이스들은 실제 사용 예제를 담고 있으며, 특정 기능이 어떻게 동작하는지 가장 명확하게 보여줍니다. 코드에 기여하기 전에 관련 테스트들을 먼저 살펴보면 이해에 큰 도움이 될 것입니다.
 
