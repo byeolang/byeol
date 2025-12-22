@@ -61,7 +61,7 @@ html {
      * font-family-monospace: used for preformatted text in memtitle, code, fragments
      */
     --font-family: Galmuri9,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
-    --font-family-monospace: Galmuri9,ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
+    --font-family-monospace: GalmuriMono11,ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
 
     /* font sizes */
     --page-font-size: 15.6px;
