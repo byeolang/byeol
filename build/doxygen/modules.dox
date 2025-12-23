@@ -22,10 +22,10 @@
 /// Provides direct memory management for performance optimization and reduces garbage collection 
 /// overhead through efficient memory pool strategies.
 
-/// @defgroup leaf
-/// @brief Leaf Language Parsing Layer that handles leaf language parsing.
-/// Parses configuration information using the leaf language (derived from byeol) and handles 
-/// `manifest.leaf` files in byeol pack distribution for structured configuration management.
+/// @defgroup stela
+/// @brief Stela Language Parsing Layer that handles stela language parsing.
+/// Parses configuration information using the stela language (derived from byeol) and handles
+/// `manifest.stela` files in byeol pack distribution for structured configuration management.
 
 /// @defgroup core
 /// @brief Core language layer containing byeol AST and core language features.
