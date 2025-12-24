@@ -19,6 +19,7 @@ Byeol 프로젝트는 엄격한 계층형 아키텍처를 따릅니다. 각 계�
 ### 계층 구조
 
 ```
+@lang: sh
 ┌───────────────────┐
 │         frontend (CLI)               │  ← 사용자 인터페이스
 ├───────────────────┤
@@ -66,7 +67,8 @@ branching을 위한 if인지 아니면 return하려고 하는 if인지 구분이
 
 다음과 같은 코드를 보면 좀 체감이 될 것입니다.
 
-```cpp
+```
+@lang: cpp
 str me::eval(const args& a) {
     std::string key = _makeKey(a);
     if(key.empty()) {

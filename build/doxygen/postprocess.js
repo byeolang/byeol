@@ -2,19 +2,36 @@ followDarkModeWithParent();
 
 document.addEventListener('DOMContentLoaded', function() {
     function makeJson(raw) {
-        function emptyJson(raw) {
+
+        function emptyJson(raw, lang) {
             return {
                 code: raw,
                 shown: raw,
-                classList: ""
+                classList: `language-${lang}`
             };
         }
 
-        if(raw[0] != '{') return emptyJson(raw);
+        function getLang(rows) {
+            const DEFAULT_LANG = "byeol";
+            if (rows.length <= 0) return DEFAULT_LANG;
+
+            const match = rows[0].match(/^@lang:\s*([\w-]+)/);
+            if(match == null) return DEFAULT_LANG;
+
+            return match[1];
+        }
+
+        const rows = raw.split("\n");
+        const lang = getLang(rows);
+
+        rows.shift();
+        const codes = rows.join("\n");
+        if(codes[0] != '{') return emptyJson(codes, lang);
+
         try {
-            return eval(`(${raw})`);
+            return eval(`(${codes})`);
         } catch (ex) {
-            return emptyJson(raw);
+            return emptyJson(codes, lang);
         }
     }
 
@@ -26,12 +43,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const fragments = document.querySelectorAll('.fragment, div.fragment, pre.fragment');
     fragments.forEach(fragment => {
         let json = makeJson(fragment.textContent);
-        fragment.innerHTML = `<pre><code class="language-byeol ${json.classList}" src="${json.code}">${json.shown}</code></pre>`;
+        fragment.innerHTML = `<pre><code class="hljs ${json.classList}" src="${json.code}">${json.shown}</code></pre>`;
     });
 });
 
 window.addEventListener('load', function() {
-    const codeBlocks = document.querySelectorAll('pre code.language-byeol');
+    const codeBlocks = document.querySelectorAll('pre code.hljs');
     codeBlocks.forEach(block => {
         hljs.highlightElement(block);
     });
