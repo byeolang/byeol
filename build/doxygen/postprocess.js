@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function emptyJson(raw, lang) {
             return {
-                code: raw,
+                code: raw.replace(/\"/g, '$quot;'),
                 shown: raw,
                 classList: `language-${lang}`
             };
