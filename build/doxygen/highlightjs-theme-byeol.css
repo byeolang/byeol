@@ -99,11 +99,11 @@ code.hljs {
 }
 
 html .hljs {
-    color: var(--byeol-moon);
+    color: var(--byeol-night3);
     background: var(--byeol-white4);
 }
 html.dark-mode .hljs {
-    color: var(--byeol-moon);
+    color: var(--byeol-white3);
     background: var(--byeol-night);
 }
 
