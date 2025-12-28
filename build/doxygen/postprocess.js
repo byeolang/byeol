@@ -4,28 +4,38 @@ document.addEventListener('DOMContentLoaded', function() {
     function makeJson(raw) {
 
         function emptyJson(raw, lang) {
+            if(lang == null) {
+                return {
+                    code: raw,
+                    shown: raw,
+                    classList: `language-byeol`
+                };
+            }
+
+            const newCode = raw.replace(/\"/g, '$quot;');
             return {
-                code: raw.replace(/\"/g, '$quot;'),
-                shown: raw,
-                classList: `language-${lang}`
+                code: newCode,
+                shown: newCode,
+                classList: `verified language-${lang}`
             };
         }
 
         function getLang(rows) {
-            const DEFAULT_LANG = "byeol";
-            if (rows.length <= 0) return DEFAULT_LANG;
+            if (rows.length <= 0) return null;
 
             const match = rows[0].match(/^@lang:\s*([\w-]+)/);
-            if(match == null) return DEFAULT_LANG;
+            if(match == null) return null;
 
             return match[1];
         }
 
         const rows = raw.split("\n");
         const lang = getLang(rows);
-
-        rows.shift();
-        const codes = rows.join("\n");
+        codes = raw;
+        if(lang != null) {
+            rows.shift();
+            codes = rows.join("\n");
+        }
         if(codes[0] != '{') return emptyJson(codes, lang);
 
         try {
@@ -53,7 +63,7 @@ window.addEventListener('load', function() {
         hljs.highlightElement(block);
     });
 
-    $('code.hljs.verified').hover(function() {
+    $('code.hljs.verified.runnable').hover(function() {
         var codeTag = $(this)[0]
         if($(this).find(".play_button").length) return
         $(this).append('<a class="play_button"><span/></a>')

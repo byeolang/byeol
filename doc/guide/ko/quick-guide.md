@@ -27,7 +27,7 @@
 
 ```byeol
 {
-    "classList": "verified",
+    "classList": "verified runnable",
     "shown":
 `
 # 한줄짜리 주석이고,
