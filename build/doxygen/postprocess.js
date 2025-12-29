@@ -12,10 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
             }
 
-            const newCode = raw.replace(/\"/g, '$quot;');
             return {
-                code: newCode,
-                shown: newCode,
+                code: raw.replace(/\"/g, '$quot;'),
+                shown: raw,
                 classList: `verified language-${lang}`
             };
         }
