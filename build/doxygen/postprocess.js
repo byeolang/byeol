@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             return {
                 code: raw.replace(/\"/g, '$quot;'),
-                shown: raw,
+                shown: raw.replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;"),
                 classList: `verified language-${lang}`
             };
         }
