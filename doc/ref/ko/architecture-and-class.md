@@ -1047,10 +1047,10 @@ memlite의 메모리 관리는 여러 계층으로 구성되어 있습니다. �
 @lang: sh
 instancer (관리자)
 ├── pool (저수준 할당자)
-│   └── chunks (블록 관리자)
-│       └── chunk (고정 크기 블록)
+│      └── chunks (블록 관리자)
+│               └── chunk (고정 크기 블록)
 └── watcher (생명주기 관리자)
-    └── life (참조 카운터)
+         └── life (참조 카운터)
 ```
 
 #### chunk - 최소 할당 단위
@@ -1083,9 +1083,9 @@ int64* data = static_cast<int64*>(ptr1);
 *data = 42;
 
 // 메모리 해제
-// 참고: chunk::del()은 size 파라미터가 필요 없음 (내부적으로 blockSize를 알고 있음)
-myChunk.del(ptr1);  // 첫 번째 블록 메모리 해제
-myChunk.del(ptr2);  // 두 번째 블록 메모리 해제
+// 참고: chunk::del()은 2번째 파라메터로 size가 있긴 하지만, 사용하지 않음
+myChunk.del(ptr1, 0);  // 첫 번째 블록 메모리 해제
+myChunk.del(ptr2, 0);  // 두 번째 블록 메모리 해제
 
 // 상태 확인
 myChunk.len();   // 현재 할당된 블록 수
@@ -1101,40 +1101,43 @@ myChunk.size();  // 전체 블록 수 (100)
 
 **ArrayList 구현**
 
-chunk는 배열 기반 리스트(ArrayList)로 구현되어 있습니다. 크기가 고정되어 있지만 크기 내에서는 추가
-삭제가 자유로우며 임의접근 속도 또한 매우 빠릅니다.
+chunk는 배열 기반 리스트(ArrayList)로 직접 구현되어 있습니다. 크기가 고정되어 있지만 크기 내에서는
+List처럼 추가 삭제가 자유로우며 임의접근 속도는 Array처럼 빠릅니다.
 
 알고리즘은 다음과 같습니다:
 
-0. 각 원소의 byte 크기는 4이상이어야 한다는 전제조건을 갖습니다. 이는 앞서 설명한 real block size로
+1. 각 원소의 byte 크기는 real block size 이상이어야 한다는 전제조건을 갖습니다. 이는 앞서 설명한 real block size로
    인한 것으로, CPU 아키텍처에 따라 1바이트를 할당하더라도 실제로는 4바이트 이상으로 정렬되기 때문입니다.
-   각 원소들은 모두 동일한 byte 크기를 갖습니다. chunk는 어짜피 void*로 다루기 때문에, 각 원소에 값이
-   없을 경우에는 int타입으로 취급합니다.
 
-1. 배열 초기화시 size를 받아 n번째 원소가 차지하는 byte 앞에 n+1를 표현하는 정수값을 넣어둡니다.
-   예: size=4의 경우, [1, 2, 3, 4]
+2. 각 원소들은 모두 동일한 byte 크기를 갖습니다.
 
-2. _head는 가장 최근에 add된 원소의 인덱스를 표현하며, 0으로 초기화되며, _heap은 heap에 할당된 메모리를
+3. chunk는 각 블록을 기본적으로는 void*로 취급하지만 값이 없을 경우에는 int타입으로 취급합니다.
+   이 int타입은 다음에 참조해야할 빈 인덱스를 가리킵니다.
+
+4. 배열을 초기화시 사용자로부터 size를 받아 n번째 원소에 n+1를 표현하는 정수값을 넣어둡니다.
+> 예: size=4의 경우, [1, 2, 3, 4]
+
+5. _head는 가장 최근에 add된 원소의 인덱스를 표현하며, 0으로 초기화되며, _heap은 heap에 할당된 메모리를
    가리킵니다.
 
-3. new1으로 외부에서 메모리 할당을 요청하면 _head를 현재 _head번째 원소의 int로 값으로 할당합니다.
-   예: new1() 경우, _head는 이제부터 _heap[0]에 담긴 `1` 값이 할당됩니다. 이는 다음 new1()을 했을때
-   _heap[1]를 메모리를 할당가능한 빈 원소로 간주한다는 얘기입니다.
+6. new1으로 외부에서 메모리 할당을 요청하면 _head를 현재 _head번째 원소의 int로 값으로 할당합니다.
+> 예: new1() 경우, _head는 이제부터 _heap[0]에 담긴 `1` 값이 할당됩니다. 이는 다음 new1()을 했을때
+   _heap[_head]인 _heap[1]를 할당가능한 유력한 빈 원소로 간주한다는 얘기입니다.
 
-4. 방금 가져온 원소에 할당된 메모리 주소를 반환합니다.
-   _head = 1, [사용중, 2, 3, 4]
+7. 방금 가져온 원소에 할당된 메모리 주소를 반환합니다.
+> _head = 1, [사용중, 2, 3, 4]
 
-5. 메모리 해제가 발생하면, parameter로 해제할 메모리 주소를 void*로 받습니다.
-   예: del(used) where used = _heap[0]의 주소
+8. 메모리 해제가 발생하면, parameter로 해제할 메모리 주소를 void*로 받습니다.
+> 예: del(used); // 이때 used = _heap[0]의 주소
 
-6. 해당 메모리에 현재 _head 값을 저장합니다. (여기에 오기 전에 이미 소멸자가 호출되었다고 전제합니다.)
-   *used = _head  // [1, 2, 3, 4]
+9. 해당 메모리에 현재 _head 값을 저장합니다. (여기에 오기 전에 이미 소멸자가 호출되었다고 전제합니다.)
+> *used = _head  // [1, 2, 3, 4]
 
-7. _head값을 현재 해제중인 메모리의 인덱스로 업데이트합니다. 이때 인덱스는 used 주소가 _heap으로부터
+10. _head값을 현재 해제중인 메모리의 인덱스로 업데이트합니다. 이때 인덱스는 used 주소가 _heap으로부터
    얼마나 떨어져 있는지를 pointer 연산으로 계산합니다.
-   _head = (used - _heap) / blockSize
-   예: used가 _heap[0]의 주소라면, (used - _heap) / blockSize = 0
-   _head = 0, [1, 2, 3, 4]
+> 예: _head = (used - _heap) / blockSize
+> 위 상황에서는 used가 _heap[0]의 주소이므로, (used - _heap) / blockSize = 0
+> _head = 0, [1, 2, 3, 4]
 
 #### chunks - 다중 chunk 관리
 
@@ -1145,6 +1148,7 @@ chunk는 배열 기반 리스트(ArrayList)로 구현되어 있습니다. 크기
 
 chunks는 chunk들을 추가하거나 삭제하므로, chunk가 각 셀마다 고정된 크기만을 사용하기 때문에 chunks 또한
 고정된 크기의 메모리만 할당할 수 있습니다.
+만약 length를 넘게되면 `resize()` 를 자동 수행합니다.
 
 ```
 @lang: cpp
@@ -1439,7 +1443,7 @@ ASSERT_EQ(ver.asFix(), 8);
 `nulStela`는 `stela`로 자식 객체를 가져올 때 보통 이름으로 가져오는데, 해당 이름을 가진 자식 객체가 없을
 경우 대신 반환됩니다.
 
-nulStela는 **null object 패턴**을 구현한 것으로, 해당 객체에 대해 값 변환을 요청할 경우 항상 해당
+nulStela는 <b>null object 패턴</b>을 구현한 것으로, 해당 객체에 대해 값 변환을 요청할 경우 항상 해당
 타입의 기본값이 반환됩니다. stela 객체가 nulStela인지 확인하려면 `isExist()` 혹은
 `operator bool()`이 false인지 확인하면 됩니다.
 
@@ -1468,7 +1472,7 @@ int val = notExist.asInt();          // 0
 
 #### valStela 클래스 - Scalar 값 표현
 
-`valStela`는 `nulStela`와 달리 int, float, string 등 **scalar 타입**을 가지고 있는 `stela`입니다.
+`valStela`는 `nulStela`와 달리 int, float, string 등 <b>scalar 타입</b>을 가지고 있는 `stela`입니다.
 내부적으로는 기본 문자열로 값을 가지고 있는 상태이며, `asInt()`와 같은 타입변환 요청에 따라서 적절한
 타입으로 변경할 수 있습니다.
 
@@ -1476,7 +1480,7 @@ int val = notExist.asInt();          // 0
 
 #### verStela 클래스 - 버전 타입
 
-`verStela`는 `valStela`와 비슷하게 **version**이라는 타입의 값을 가지고 있는 `stela`입니다.
+`verStela`는 `valStela`와 비슷하게 <b>version</b>이라는 타입의 값을 가지고 있는 `stela`입니다.
 
 **version 타입**
 
@@ -1531,14 +1535,14 @@ lowlevel scanner, parser는 parser 컴포넌트 안에만 존재하는 것으로
 `stelaParser::parse()`가 실행되면 lowscanner를 실행시키고, lowscanner는 토큰을 뜯어서 lowparser에게
 넘기고, lowparser는 받은 토큰에 대해 rule이 match 되면 그 이벤트를 다시 stelaParser에게 넘깁니다.
 
-그러므로 stelaParser의 **`on`으로 시작하는 함수들**은 그러한 이벤트를 handling 하는 함수로, 실제로
+그러므로 stelaParser의 <b>`on`으로 시작하는 함수들</b>은 그러한 이벤트를 handling 하는 함수로, 실제로
 어떻게 node를 생성해서 ast를 구축하는지를 정의합니다.
 
 ### Indentation 처리
 
 #### indentation rule
 
-stela 언어는 byeol 언어와 마찬가지로 **offside rule**을 적용하므로, indentation에 매우 민감합니다.
+stela 언어는 byeol 언어와 마찬가지로 <b>offside rule</b>을 적용하므로, indentation에 매우 민감합니다.
 일반적인 언어와 달리, 개행직후로 몇개의 공백이 있는가를 count 할 수 있어야 하며, indentation이
 확정되어 해당 코드라인이 어느 scope에 속한 것인지가 확정되면 이후로는 공백을 무시해야 합니다.
 
@@ -1562,8 +1566,28 @@ scope에 속한 것인지를 판단해야 합니다.
 점에서, foo() 본문 바로 안에 속한 코드라는 걸 알 수 있습니다.
 
 그렇다는 건, 이 시점에서 `if val > 0` 안쪽의 scope와 `if val < 5` 안쪽의 scope 2개 모두 종료되었으므로
-lowscanner는 lowparser가 `print("end of func")`를 인식하기 전에 scope의 종료를 의미하는 **`DEDENT`
-토큰을 2개 먼저 인식**할 수 있도록 만들어야 합니다.
+lowscanner는 lowparser가 `print("end of func")`를 인식하기 전에 scope의 종료를 의미하는 <b>`DEDENT`
+토큰을 2개 먼저 인식</b> 할 수 있도록 만들어야 합니다.
+
+예를들어 다음의 stela 코드를 파싱한다고 합시다:
+
+```
+@lang: byeol
+def config
+    def device
+      name := "my device"
+      // 현재 파싱 위치
+```
+
+만약 마지막 위치에서 파서가 파싱중일때, parser의 indents 객체는
+> [0, 4, 6]
+
+으로 내부 배열 값이 구성되어 있습니다. 각각은 scope이 몇 번의 공백으로 구분되고
+있는지를 나타냅니다. 즉 가장 바깥의 scope의 공백의 수는 0 이 되며, 가장 안쪽의 scope인
+device의 scope임을 증명하는 공백의 수는
+> smartDedent[smartDedent.len() - 1] = 6
+
+으로 개행 직후 6개의 공백이 나와야 한다는 걸 의미합니다.
 
 #### tokenDispatcher
 
@@ -1606,7 +1630,7 @@ while(!dispatcher.isEmpty()) {
 
 #### stelaTokenScan 클래스 - 스캔 모드 전략
 
-`stelaParser`는 indentation을 정밀하게 측정하기 위해서 **scan mode를 동적으로 변경**해야 합니다.
+`stelaParser`는 indentation을 정밀하게 측정하기 위해서 <b>scan mode를 동적으로 변경</b>해야 합니다.
 tokenScan은 그러한 스캔 모드 전략 1개를 담당합니다.
 
 **tokenScan의 동적 전환**
@@ -1617,6 +1641,9 @@ tokenScan은 그러한 스캔 모드 전략 1개를 담당합니다.
 개행이 탐지되면 indentScan으로 교체해서 정확하게 공백을 count해서 scope를 결정하고, 이후에는
 normalScan으로 교체해서 평상시처럼 공백을 다 무시합니다.
 
+**indentation 검사**
+
+
 **명령 token**
 
 token 중에는 `SCAN_AGAIN`, `SCAN_EXIT` 등 scanner나 parser에 명령을 주는 토큰들이 존재합니다.
@@ -1624,9 +1651,11 @@ token 중에는 `SCAN_AGAIN`, `SCAN_EXIT` 등 scanner나 parser에 명령을 주
 
 **isBypass**
 
-IndentScan의 경우 대부분의 token을 무시하며 오직 공백이 몇개인지 갯수를 세는 데 집중합니다. 하지만
-이전 라인에서 여러 token을 push 해둔 상황이라면 내부적으로 bypass 모드로 동작합니다.
+IndentScan의 경우 대부분의 token을 무시하며 오직 공백이 몇개인지 갯수를 세는 데 집중합니다.
+그리고 indentation이 가장 최근 scope의 indentation과 차이가 발생한 경우 DEDENT 혹은
+INDENT token을 dispatcher에 추가합니다.
 
+하지만 이전 라인에서 여러 token을 push 해둔 상황이라면 내부적으로 bypass 모드로 동작합니다.
 이때는 indentation 갯수를 세는 동작을 skip 하고 넣어둔 token을 그대로 읽어서 반환합니다.
 
 **tokenScan 사용 예제**
@@ -1643,69 +1672,67 @@ class stelaParser {
 public:
     int getNextToken() {
         // 현재 스캔 모드에서 토큰 읽기
-        int token = _currentScan->onScan();
-
-        // 개행 토큰을 만나면 indentScan으로 전환
-        if(token.type == NEWLINE) {
-            _currentScan = _indentScan;
-            return token;
-        }
-
-        // indentScan이 공백 카운트를 끝내면 normalScan으로 전환
-        if(_currentScan == _indentScan && _indentScan->isIndentDetermined()) {
-            _currentScan = _normalScan;
-        }
-
-        return token;
+        return _currentScan->onScan();
     }
 };
+
+nint indentScan::onScan(parser& ps, .....) {
+    // indentScan도 마찬가지로 공백을 무시한다.
+    // 즉 여기에 온 tok 값은 개행후 가장 먼저 발견된 공백이 아닌 token이라는 뜻이다.
+    nint tok = super::onScan(ps.....);
+
+    // 공백 계산은 뒤에서 할 것이다. 일단은 scan을 일반모드로 교체한다.
+    ps.setScan<normalScan>();
+
+    ncnt cur = loc->start.col; // 현재 token의 column이 공백의 갯수가 된다.
+    std::vector<ncnt>& ind = ps.getIndents();
+    ncnt prev = ind.back(); // 가장 최근의 indentation level
+
+    if(cur > prev) return ps.onIndent(cur, tok);
+    else if(cur < prev) return ps.onDedent(cur, tok);
+
+    return tok;
+}
+
 ```
 
 #### stelaSmartDedent 클래스 - Scope 관리
 
-`stelaSmartDedent`는 `stelaParser`가 indentation으로 scope을 만들때마다 몇개의 공백이 앞에 있는지를
-count 해서 **배열로 관리**하는 클래스입니다.
-
-예를들어 다음의 stela 코드를 파싱한다고 합시다:
+offside-rule에 의해 byeol은 개행이 있는지 여부가 매우 중요하다고 말씀드렸죠.
+byeol은 표현식 기반 문법을 가지고 있기 때문에 `for`나 `if` 문이 함수 인자로
+오는 것도 가능해야 합니다.
+이때 사용자는 간단하게 사용하기 위해 보통은 `:`을 사용하는 inline block 문법을 사용하게 되는데,
+위의 3가지가 한번에 적용되기 시작하면 예외사항이 나오기 마련이죠.
 
 ```
 @lang: byeol
-def config
-    def device
-      name := "my device"
-      // 현재 파싱 위치
+onEvent(e event) void
+foo(listener onEvent, e event) void
+    e.process()
+    listener(e)
+
+main() void
+    boo() void: print("") # 1) 이렇게 inline block을 만드는 건 아무런 문제가 없습니다.
+
+    foo((e) void
+        onAfterRender()
+    , RENDER_UI) # 2) 이렇게 lambda를 써도 문제가 없습니다만,
+
+    foo((e) void: onAfterRender(), RENDER_UI)
+    # 3) 위처럼 inline block과 람다를 한줄에 쓰면 문제가 됩니다.
+    # 왜 문제일까요?
 ```
 
-만약 마지막 위치에서 파서가 파싱중일때, smartDedent는 `[0, 4, 6]`으로 내부 배열 값이 구성되어 있습니다.
+함수 뒤에는 블록문이 옵니다. 블록문은 `<표현식> <개행>` 이 매치되면 구문으로 인식되고
+이러한 구문들만 블록문에 들어올 수 있습니다.
+1번의 경우처럼 inline block을 쓸 때도 뒤에 <개행>이 온다는 점은 유지되어야 합니다.
+하지만 3번을 보세요. inline block 뒤에 콤마가 나오는데, 이 경우 inline block의 <개행>은
+없습니다.
+그렇다고 단순히 `inline block은 개행이 있을 수도 있고 없을 수도 있다` 라고 규칙을
+정해버리면 모호한 경우가 너무 많이 생깁니다.
 
-즉 가장 바깥의 scope의 공백의 수는 smartDedent[0]인 0이 되며, 가장 안쪽의 scope인 device의 scope임을
-증명하는 공백의 수는 `smartDedent[smartDedent.len() - 1] = 6`으로 앞에 6개의 공백이 있어야 한다는 걸
-의미합니다.
-
-**stelaSmartDedent 사용 예제**
-
-```
-@lang: cpp
-// 실제 코드보다 단순화한 예제입니다.
-stelaSmartDedent smartDedent;
-
-// scope 진입 시 indentation 수를 추가
-smartDedent.add(0);  // 최상위 scope
-smartDedent.add(4);  // def config (4칸 들여쓰기)
-smartDedent.add(6);  // def device (6칸 들여쓰기)
-
-// 현재 라인의 indentation이 4라면, 몇 개의 scope가 닫혀야 하는가?
-ncnt dedentCount = smartDedent.dedent(4);
-// dedentCount = 1 (6칸 scope 1개가 닫힘)
-// smartDedent는 이제 [0, 4]가 됨
-
-// 만약 indentation이 0이라면?
-dedentCount = smartDedent.dedent(0);
-// dedentCount = 1 (4칸 scope 1개가 닫힘)
-// smartDedent는 이제 [0]이 됨
-```
-
-
+그래서 smartDedent가 나옵니다. 위와 같이 inline block을 블록을 사용하되, 콤마로 끝나는
+경우는 개행을 추가해주는 아주 단순하지만 parser의 rule의 난이도를 낮추는 역할을 합니다.
 
 
 
@@ -1713,7 +1740,7 @@ dedentCount = smartDedent.dedent(0);
 
 `core` 모듈은 Byeol 프로그래밍 언어의 핵심 구현을 담당합니다. AST(Abstract Syntax Tree) 구조, 파서, 검증기, 실행기 등 언어의 모든 핵심 기능이 이 모듈에 집중되어 있습니다.
 
-Core 모듈의 가장 큰 특징은 **AST를 직접 실행**한다는 점입니다. 일반적인 언어와 달리, Byeol 언어는 AST 구조를 유지한 채로 프로그램을 실행합니다. 따라서 타 언어의 AST는 말그대로 문법 구조를 트리로 표현한 중간결과물에 지나지 않지만, Byeol에는 실행가능한 최종 output을 AST가 담당합니다.
+Core 모듈의 가장 큰 특징은 <b>AST를 직접 실행</b>한다는 점입니다. 일반적인 언어와 달리, Byeol 언어는 AST 구조를 유지한 채로 프로그램을 실행합니다. 따라서 타 언어의 AST는 말그대로 문법 구조를 트리로 표현한 중간결과물에 지나지 않지만, Byeol에는 실행가능한 최종 output을 AST가 담당합니다.
 
 
 ### AST 기본 구조
@@ -1729,7 +1756,7 @@ Byeol의 AST는 실행 가능한 프로그램 트리입니다. 일반적인 AST�
 
 AST 특성상, node는 또 다른 node의 파생클래스의 객체도 가지고 있을 수 있어야 합니다. 때문에 마치 DOM tree처럼 composition 패턴을 사용해서 설계되어있으며 이 tree를 탐색하는 함수 또한 다양하게 지원하고 있습니다.
 
-이 tree를 byeol 언어에서는 `scope`라고 표현하고 있으며 scope은 map을 기반으로 합니다. `blockExpr` 같은 것은 node이면서도 내부에 statement 뭉치를 array로 가지고 있습니다. 따라서 AST는 전체적으로 보면 **map과 array가 혼합된 구조**로 구성되어 있음을 알 수 있습니다.
+이 tree를 byeol 언어에서는 `scope`라고 표현하고 있으며 scope은 map을 기반으로 합니다. `blockExpr` 같은 것은 node이면서도 내부에 statement 뭉치를 array로 가지고 있습니다. 따라서 AST는 전체적으로 보면 <b>map과 array가 혼합된 구조</b>로 구성되어 있음을 알 수 있습니다.
 
 AST 탐색을 위해 주로 사용하는 함수는 `operator[], sub(), subs(), in(), subAll()`입니다.
 
@@ -1751,7 +1778,7 @@ subs.len(); // root가 몇 개의 자식 node를 가지고 있는지 반환.
 
 byeol 언어는 동일한 scope내 중복 symbol을 허용하지 않습니다. 하지만 이 말은 동일한 key로 2개의 pair가 들어갈 수 없다는 뜻은 아닙니다.
 
-함수의 경우는 이름이 같을 지라도 파라메터의 갯수나 타입이 다르면 다른 symbol이 되기 때문입니다. 따라서 단순히 string 비교만으로 중복여부를 판단할 수 없기에 scope 클래스는 map 기반이 아니라 **multimap 기반**으로 되어 있습니다.
+함수의 경우는 이름이 같을 지라도 파라메터의 갯수나 타입이 다르면 다른 symbol이 되기 때문입니다. 따라서 단순히 string 비교만으로 중복여부를 판단할 수 없기에 scope 클래스는 map 기반이 아니라 <b>multimap 기반</b>으로 되어 있습니다.
 
 **eval() - 평가와 실행**
 
@@ -2065,7 +2092,7 @@ baseObj의 경우는 C++ native 클래스 기반이므로 `new`와 생성자를 
 
 managed 환경에서 객체를 정의하는 것은 `origin` 객체로부터 객체를 복제하는 행위입니다. 이때 함수는 시스템 내 한 개만 있으면 되므로 복사할 필요가 없지만, property는 인스턴스마다 다른 값이 들어가야 하므로 복사가 되어야 합니다.
 
-이를 효율적으로 하기 위해, 같은 타입의 obj끼리 공유되는 부분들을 **shares**, 복사가 되는 부분들을 **owns**로 구분합니다.
+이를 효율적으로 하기 위해, 같은 타입의 obj끼리 공유되는 부분들을 **shares**, 복사가 되는 부분들을 <b>owns</b>로 구분합니다.
 
 obj의 clone()이 발생하면:
 - shares: 원본 origin에서 참조만 가져옴
@@ -2203,8 +2230,8 @@ void main() {
 
 **중요한 유의사항**
 
-origin 자체가 obj 타입으로 사용될 것을 전제로 한 것이기에 일부를 제외하고는 거의 모든
-public 함수는 obj 타입의 API와 동일한 것입니다. 굳이 origin 타입으로 써야할 필요가
+origin 자체가 obj 타입으로 사용될 것을 전제로 한 것이기에 거의 모든
+public 함수는 obj 타입의 API와 동일한 것입니다. 대부분은 origin 타입으로 써야할 필요가
 없습니다.
 
 호출 자체는 아무런 C++ 컴파일러 제약이 없습니다. dynamic_cast를 사용한다면 안전하게
@@ -2222,8 +2249,6 @@ baseObj에 대한 `origin` 객체를 쉽게 정의하기 위해서 사용하는 
 
 단 사용방법에서 차이가 발생합니다. 이는 baseObj 클래스의 컨셉이 obj와 다르기 때문입니다.
 
-obj와 달리 baseObj의 origin 객체는 static으로 존재합니다. 자세한 내용은 다음 섹션을 참조하세요.
-
 **obj와 달리 baseObj의 origin 객체는 static으로 존재한다**
 
 obj는 byeol 언어로 작성된 객체를 표현합니다. 이 중에서도 `def` 키워드로 작성된 origin
@@ -2232,17 +2257,13 @@ obj는 byeol 언어로 작성된 객체를 표현합니다. 이 중에서도 `de
 반면 baseObj는 그 자체로 사용할 수 없으며 이를 상속한 C++의 클래스가 존재합니다. 둘의
 차이를 잘 이해해보겠습니다.
 
-C++ 코드로 봤을때 baseObj의 origin은 **정적**이지만 obj의 origin은 **동적**이라는
-얘기입니다. 예를 보겠습니다:
+C++ 코드로 봤을때 baseObj의 origin은 <b>정적</b>이지만 obj의 origin은 <b>동적</b>이라는
+얘기입니다.
 
 **baseObj의 origin - static으로 선언 가능**
 
-앞서 본 baseObj의 origin 객체 예제를 다시 떠올려보면, static 객체로 되어있음을 알 수 있습니다.
 C++ 클래스는 컴파일 타임에 정의되므로 origin 객체를 static으로 선언할 수 있습니다.
-
-**obj의 origin - 런타임에 동적 생성**
-
-사용자가 byeol 코드로 다음과 같이 작성했다고 해보겠습니다:
+반면, 사용자가 byeol 코드로 다음과 같이 작성했다고 해보겠습니다:
 
 ```
 @lang: byeol
@@ -2327,7 +2348,7 @@ Byeol은 대부분이 표현식으로 구성된 언어입니다. 블록문조차
 
 할당 표현식을 담당합니다.
 
-**중요한 주의사항:** 이 표현식은 **scope에 등록된 참조를 바꾸는 것**이지 객체 자체에 대해 `operator=()`를 호출하는 것이 아닙니다. `obj::operator=()`를 호출하게 되면 일종의 깊은 복사처럼 동작하니 주의해야 합니다.
+**중요한 주의사항:** 이 표현식은 <b>scope에 등록된 참조를 바꾸는 것</b>이지 객체 자체에 대해 `operator=()`를 호출하는 것이 아닙니다. `obj::operator=()`를 호출하게 되면 일종의 깊은 복사처럼 동작하니 주의해야 합니다.
 
 **예제로 이해하기**
 
@@ -2339,9 +2360,9 @@ Byeol은 대부분이 표현식으로 구성된 언어입니다. 블록문조차
 
 // C++로 표현하면:
 obj* aObj = new nInt(5);
-scope["a"] = aObj;  // := 연산자: scope에 새로운 참조 등록
-
 obj* newObj = new nInt(10);
+
+scope["a"] = aObj;  // := 연산자: scope에 새로운 참조 등록
 scope["a"] = newObj;  // = 연산자: scope의 참조를 다른 객체로 변경
                       // 이것은 aObj 자체를 수정하는 게 아니라
                       // scope에 등록된 "a"라는 이름의 참조를 newObj로 바꾸는 것
@@ -2360,7 +2381,7 @@ scope["a"] = newObj;  // = 연산자: scope의 참조를 다른 객체로 변경
 
 **Block문은 표현식이다**
 
-byeol 언어는 대부분 표현식으로 구성되며, block문도 예외가 아닙니다. block문은 **마지막 줄의 evaluation 결과를 반환**합니다.
+byeol 언어는 대부분 표현식으로 구성되며, block문도 예외가 아닙니다. block문은 <b>마지막 줄의 evaluation 결과를 반환</b>합니다.
 
 
 #### defArrayExpr 클래스 - 배열 리터럴
@@ -2462,13 +2483,13 @@ index를 기반으로 하는 int 배열과 유사합니다.
 
 #### tnchain 클래스 - Chain으로 연결되는 컨테이너
 
-`node`가 AST의 근간을 이루는 가장 중요한 클래스라고 한다면, **tnchain은 AST의 데이터를 보관하는 컨테이너로써 가장 중요한 클래스**라 할 수 있습니다.
+`node`가 AST의 근간을 이루는 가장 중요한 클래스라고 한다면, <b>tnchain은 AST의 데이터를 보관하는 컨테이너로써 가장 중요한 클래스</b>라 할 수 있습니다.
 
 **목적**
 
-tnchain은 말그대로 **컨테이너를 chain하면서 관리**하는 클래스로, 여러 원소들을 하나의 그룹으로 묶어서 참조하거나, 순회하거나, 다른 곳에 있는 컨테이너를 여기에 참조만 chain해서 겉으로는 마치 하나의 flatten된 map처럼 보이도록 하는 기능을 가지고 있습니다.
+tnchain은 말그대로 <b>컨테이너를 chain하면서 관리</b>하는 클래스로, 여러 원소들을 하나의 그룹으로 묶어서 참조하거나, 순회하거나, 다른 곳에 있는 컨테이너를 여기에 참조만 chain해서 겉으로는 마치 하나의 flatten된 map처럼 보이도록 하는 기능을 가지고 있습니다.
 
-쉽게 비유하면 **linked list의 각 node를 배열로 구성한 컨테이너**를 떠올리면 좋습니다.
+쉽게 비유하면 <b>linked list의 각 node를 배열로 구성한 컨테이너</b>를 떠올리면 좋습니다.
 
 **tbicontainable로도 대부분의 기능을 사용할 수 있다**
 
@@ -2552,7 +2573,7 @@ byeol 언어는 AST를 그대로 프로그램 실행으로 이용하는 구조�
 
 byeol에서는 AST에서 node를 구성할때 단순하게 map을 사용할 순 없으며 multimap을 사용해야 합니다. (함수 오버로딩 때문입니다. 자세한 내용은 `node`를 참조하세요.)
 
-다만 여기서 중요한 점은 원소의 **삽입 순서가 scope의 검색 우선순위를 결정**한다는 것입니다. scope에서 같은 이름의 여러 심볼(예: 오버로딩된 함수들)을 찾을 때, 먼저 삽입된 것을 우선적으로 검색하고 매칭을 시도합니다. 따라서 삽입된 순서를 기억하고 유지할 필요가 있어 삽입 순서를 기억하는 multimap을 별도로 구현해 사용하고 있습니다.
+다만 여기서 중요한 점은 원소의 <b>삽입 순서가 scope의 검색 우선순위를 결정</b>한다는 것입니다. scope에서 같은 이름의 여러 심볼(예: 오버로딩된 함수들)을 찾을 때, 먼저 삽입된 것을 우선적으로 검색하고 매칭을 시도합니다. 따라서 삽입된 순서를 기억하고 유지할 필요가 있어 삽입 순서를 기억하는 multimap을 별도로 구현해 사용하고 있습니다.
 
 **API는 STL 라이브러리를 최대한 비슷하게 구성**
 
@@ -2586,7 +2607,7 @@ genericOrigin은 설계상 lazy instantiation을 지원합니다. 즉, `eval()` 
 
 #### genericOrigin 클래스 - Generic 타입의 생성과 관리
 
-기본적으로 `origin`과 같은 역할을 수행하는 클래스이지만, generic을 지원한다는 점과 이 인스턴스 자체가 origin을 담당하는 게 아니라 **필요에 의해 origin을 생성/관리**한다는 점이 다릅니다.
+기본적으로 `origin`과 같은 역할을 수행하는 클래스이지만, generic을 지원한다는 점과 이 인스턴스 자체가 origin을 담당하는 게 아니라 <b>필요에 의해 origin을 생성/관리</b>한다는 점이 다릅니다.
 
 **동작 방식**
 
@@ -2643,12 +2664,12 @@ SomeGeneric<T @incomplete>@21d0
 
 ### Native-Managed 브리징 시스템
 
-Byeol은 C++로 작성된 native 코드와 byeol 언어로 작성된 managed 코드가 서로 상호작용할 수 있는 bridge 시스템을 제공합니다. 이 시스템의 핵심은 **C++ 클래스와 함수를 간단한 선언만으로 byeol 언어에서 사용 가능하도록 노출**하는 것입니다.
+Byeol은 C++로 작성된 native 코드와 byeol 언어로 작성된 managed 코드가 서로 상호작용할 수 있는 bridge 시스템을 제공합니다. 이 시스템의 핵심은 <b>C++ 클래스와 함수를 간단한 선언만으로 byeol 언어에서 사용 가능하도록 노출</b>하는 것입니다.
 
 
 #### tbridger 클래스 - Bridge 컴포넌트의 진입점
 
-`tbridger`는 bridge 시스템의 facade 역할을 합니다. C++ 클래스를 타입 파라메터로 받는 클래스 템플릿이며, **monostate 패턴**으로 설계되어 있습니다.
+`tbridger`는 bridge 시스템의 facade 역할을 합니다. C++ 클래스를 타입 파라메터로 받는 클래스 템플릿이며, <b>monostate 패턴</b>으로 설계되어 있습니다.
 
 **기본 사용법**
 
@@ -2802,7 +2823,7 @@ main() void
 
 **각 scope의 특징**
 
-**Local scope**는 함수 내 블록문이 실행될 때 생성됩니다. 최적화를 위해 `blockExpr`이 직접 생성/해제하지 않고, `frameInteract`를 통해 생성됩니다:
+<b>Local scope</b>는 함수 내 블록문이 실행될 때 생성됩니다. 최적화를 위해 `blockExpr`이 직접 생성/해제하지 않고, `frameInteract`를 통해 생성됩니다:
 
 ```
 @lang: cpp
@@ -2814,9 +2835,9 @@ str me::_interactFrame(node& meObj, scope& s, nidx exN) {
 }
 ```
 
-**Func scope**는 함수가 소유한 symbol들이 저장됩니다. 주의할 점은 매 함수 호출마다 새로 생성되는 게 아니라, **시스템 내 유일하게 존재하는 func 객체가 소유한 sub node들**이라는 것입니다.
+<b>Func scope</b>는 함수가 소유한 symbol들이 저장됩니다. 주의할 점은 매 함수 호출마다 새로 생성되는 게 아니라, <b>시스템 내 유일하게 존재하는 func 객체가 소유한 sub node들</b>이라는 것입니다.
 
-**File scope와 pack scope**는 밀접한 관계가 있습니다:
+<b>File scope와 pack scope</b>는 밀접한 관계가 있습니다:
 
 ```
 @lang: byeol
@@ -2834,7 +2855,7 @@ main() void
     print(IS_DBG)  # false. file scope이 pack scope보다 우선됨
 ```
 
-IS_DBG는 file scope과 pack scope에 각각 1개씩 정의됩니다. 중요한 점은 **file scope는 parser에 의해 항상 pack scope를 chain**한다는 것입니다. Symbol을 찾을 때 file scope를 먼저 검색하고, 없을 경우 pack scope를 검색하므로, file scope에 선언된 값이 우선됩니다.
+IS_DBG는 file scope과 pack scope에 각각 1개씩 정의됩니다. 중요한 점은 <b>file scope는 parser에 의해 항상 pack scope를 chain</b>한다는 것입니다. Symbol을 찾을 때 file scope를 먼저 검색하고, 없을 경우 pack scope를 검색하므로, file scope에 선언된 값이 우선됩니다.
 
 
 #### frame 클래스 - Scope들의 동적 연결
@@ -2922,23 +2943,23 @@ main() void
 
 ```
 @lang: sh
-   #          scope     symbol
-           ┌─────────┬───────────────┐
-        ▲  │  local  │msg("age=3")   │
-        │  ├─────────┼───────────────┤
-        │  │ foo(int)│newAge int     │
-        │  ├─────────┼───────────────┤
-        │  │ yourObj │foo, age(3)    │
-        │  ├─────────┼───────────────┤
-frame #2│  │  file   │IS_DBG, name   │
-        │  ├─────────┼───────────────┤
-        │  │  pack   │age(57),yourObj│
-        ▼  │         │main()         │
-           ├─────────┼───────────────┤
-        ▲  │  local  │name("unknown")│
-frame #1│  ├─────────┼───────────────┤
-        │  │ main()  │empty          │
-        ▼  └─────────┴───────────────┘
+   frame        scope        symbol
+            ┌─────┬────────┐
+        ▲  │  local   │msg("age=3")    │
+        │  ├─────┼────────┤
+        │  │ foo(int) │newAge int      │
+        │  ├─────┼────────┤
+        │  │ yourObj  │foo, age(3)     │
+        │  ├─────┼────────┤
+frame 2 │  │  file    │IS_DBG, name    │
+        │  ├─────┼────────┤
+        │  │  pack    │age(57),yourObj │
+        ▼  │          │main()          │
+            ├─────┼────────┤
+        ▲  │  local   │name("unknown") │
+frame 1 │  ├─────┼────────┤
+        │  │ main()   │empty           │
+        ▼  └─────┴────────┘
 ```
 
 frame #2를 보면 yourObj 아래에 file/pack scope이 다시 나타납니다. 왜 그럴까요?
@@ -2972,7 +2993,6 @@ standard pack과 비슷하지만 엄연히 구분되는 pack이며, builtin은 �
 @lang: cpp
 if(main.canEval(a)) {
     threadUse thr(getReport());
-    
     // 새로운 thread로 doSomething()...
 }
 // 블록을 빠져나오면 원본 thread로 자동 교체
@@ -3046,7 +3066,7 @@ packLoading은 native 환경에서 가져올 수도 있고(dll 혹은 so 파일)
 - **VERIFIED**: 파싱 이후, 코드의 정합성을 검증. 검증에 실패했다면 isValid값을 false로 설정
 - **LINKED**: 자신이 검증에 실패한 상태라면, 자신을 참조하는 모든 dependents에게 자신이 검증에 실패했다는 사실을 전파
 
-왜 이런 상태 관리가 필요할까요? 다음 섹션에서 설명합니다.
+왜 이런 상태 관리가 필요할까요?
 
 **동적 검증과 의존성 문제**
 
@@ -3128,7 +3148,7 @@ Byeol에서는 AST를 중점적으로 다루기 때문에 visitor를 자주 사�
 
 **순회**
 
-visitor는 항상 **전위 순회(pre-order traversal)**를 따릅니다. 후위 순회를 하도록 변경은 불가능합니다.
+visitor는 항상 <b>전위 순회(pre-order traversal)</b>를 따릅니다. 후위 순회를 하도록 변경은 불가능합니다.
 
 `visit()`은 다음 3개의 단계로 이뤄져 있습니다:
 1. 현재 찾은 node를 방문 (`onVisit()`)
@@ -3152,7 +3172,7 @@ void defNestedFuncExpr::accept(const visitInfo& i, visitor& v) {
 
 가상함수 accept()가 호출되면 안에서 *this를 통해 구체타입으로써 역으로 visitor의 visit()을 호출하는 식입니다.
 
-이를 위해 visitation에 참여하는 모든 node의 파생클래스는 `accept()`라는 virtual 함수를 override 해야 하는데, 이 과정을 쉽게 하기 위해서 **VISIT 매크로**를 사용합니다:
+이를 위해 visitation에 참여하는 모든 node의 파생클래스는 `accept()`라는 virtual 함수를 override 해야 하는데, 이 과정을 쉽게 하기 위해서 <b>VISIT 매크로</b>를 사용합니다:
 
 ```
 @lang: cpp
@@ -3166,7 +3186,7 @@ public:
 
 **중복 방문 제거**
 
-AST는 참조가 서로 순환하는 경우도 종종 발생합니다 (예: A가 B를 참조하고 B가 다시 A를 참조). 이 경우 아무런 예외처리 없이 순회하면 이미 방문했던 node를 다시 방문하면서 **무한 순회**에 빠집니다.
+AST는 참조가 서로 순환하는 경우도 종종 발생합니다 (예: A가 B를 참조하고 B가 다시 A를 참조). 이 경우 아무런 예외처리 없이 순회하면 이미 방문했던 node를 다시 방문하면서 <b>무한 순회</b>에 빠집니다.
 
 visitor는 `_visited`라는 map을 소유하고 있습니다. 이를 통해서 `visit()`이 호출 되었을 때 이미 방문한 node인지를 판단해서 예외처리를 해주고 있습니다.
 
@@ -3188,9 +3208,8 @@ graphVisitor는 AST 구조를 트리 형태로 시각화하여 출력하므로, 
 
 ### 파싱 시스템
 
-byeol 언어의 파싱 시스템은 **Flex**와 **Bison**을 사용하는 전통적인 파서 구조를 따르지만,
-byeol 언어의 특성인 **offside rule**(파이썬과 같은 indentation 기반 문법)을 지원하기 위해
-상당히 정교한 메커니즘을 갖추고 있습니다.
+byeol 언어의 파싱 시스템은 <b>Flex</b>와 <b>Bison</b>을 사용하는 전통적인 파서 구조를 따르지만,
+byeol 언어의 특성인 <b>offside rule</b>을 지원하기 위해 정교한 메커니즘을 갖추고 있습니다.
 
 #### parser 클래스 - 파싱의 진입점
 
@@ -3218,7 +3237,7 @@ Flex와 Bison을 사용하고 있으며 flex는 `lowscanner`로, bison은 `lowpa
 각 rule에서 `parser::onXXXX()` 함수들을 호출하면, 해당 함수 내에서는 `new` 키워드로
 새로운 객체를 heap에 생성해서 반환하는 경우가 많습니다. 이렇게 받은 인자를 그대로
 `tbicontainer` 등에 직접 넣으면 괜찮지만, 그렇지 않은 경우는 미리 `tstr` 등으로
-binding을 하지 않으면 **메모리 릭**이 발생하기 딱 좋습니다:
+binding을 하지 않으면 <b>메모리 릭</b>이 발생하기 딱 좋습니다:
 
 ```
 @lang: cpp
@@ -3240,7 +3259,7 @@ compilation-unit: pack defblock {
 적용됩니다:
 
 ```
-@lang: bison
+@lang: cpp
 // lowscanner.l
 <stateString>\"  {  // 문자열 scan이 종료되면
     if(!yylval->asStr) yylval->asStr = new std::string();  // string 객체를 new로 생성
@@ -3256,45 +3275,12 @@ compilation-unit: pack defblock {
 }
 ```
 
-**Indentation Rule**
-
-byeol 언어는 offside rule을 적용하므로, indentation에 매우 민감합니다. 일반적인 언어와
-달리, 개행 직후로 몇 개의 공백이 있는가를 count할 수 있어야 하며, indentation이
-확정되어 해당 코드라인이 어느 scope에 속한 것인지가 확정되면 이후로는 공백을 무시해야
-합니다.
-
-다음 byeol 언어의 예제를 보고, 이 문제에 대해 더 생각해봅시다:
-
-```
-@lang: byeol
-def A
-    foo(val int) void
-        if val > 0
-          if val < 5
-                  print("0 < val < 5")
-        print("end of func")  # 1)
-```
-
-파서가 `print("0 < val < 5")`를 파싱하고 나서 다음 줄인 `print("end of func")`를
-파싱할 때 앞에 공백이 몇 개 있는지 세야 합니다. 그리고 지금까지 각 scope별 공백
-개수와 비교해서 해당 코드라인이 어느 scope에 속한 것인지를 판단해야 합니다.
-
-위 예제를 보면, 우리는 직관적으로 `print("end of func")`이 `if val > 0`과 같은
-공백을 갖고 있다는 점에서, `foo()` 본문 바로 안에 속한 코드라는 걸 알 수 있습니다.
-그렇다는 건, 이 시점에서 `if val > 0` 안쪽의 scope와 `if val < 5` 안쪽의 scope 2개
-모두 종료되었으므로 lowscanner는 lowparser가 `print("end of func")`를 인식하기 전에
-scope의 종료를 의미하는 **DEDENT 토큰**을 2개 먼저 추가하여 인식할 수 있도록 만들어야
-합니다.
-
 #### smartDedent, tokenScan 클래스 - Indentation 관리
 
 byeol 파서의 `smartDedent`와 `tokenScan`은 stela 모듈의 `stelaSmartDedent`, `stelaTokenScan`과 동일한 원리로 동작합니다. Indentation을 배열로 관리하고, scan mode를 동적으로 전환하는 방식은 완전히 같습니다.
 
-상세한 동작 원리와 예제는 stela 모듈의 해당 클래스들을 참조하세요. byeol 파서만의 차이점은:
-
-- byeol은 더 복잡한 문법을 가지므로 명령 토큰(`SCAN_AGAIN`, `SCAN_EXIT` 등)이 더 다양합니다
-- `tokenDispatcher`를 사용하여 Flex의 `unput`보다 유연하게 토큰을 삽입할 수 있습니다
-- byeol의 offside rule이 stela보다 엄격하여 indentation 검증이 더 정교합니다
+상세한 동작 원리와 예제는 stela 모듈의 해당 클래스들을 참조하세요. byeol 파서의 경우
+더 복잡한 문법을 가지므로 명령 토큰(`SCAN_AGAIN`, `SCAN_EXIT` 등)이 더 다양합니다
 
 자세한 명령 토큰 목록은 `lowparser.y`의 `// mode:` 단락을 참조하세요.
 
@@ -3341,12 +3327,9 @@ msg는 타입 확정에 실패한 상태로 진행됩니다.
 
 **현재 사용중인 타입 추론 방법**
 
-byeol은 이러한 타입추론 표현식들을 한곳에 모아둔 후, parsing이 종료된 후 **1줄이라도 타입추론이 성공한다면 무한루프를 도는 방법**을 사용합니다. 가지고 있는 모든 표현식이 타입추론에 실패하거나, 타입추론 표현식이 바닥나면 루프를 종료합니다.
+byeol은 이러한 타입추론 표현식들을 한곳에 모아둔 후, parsing이 종료된 후 <b>1줄이라도 타입추론이 성공한다면 무한루프를 도는 방법</b>을 사용합니다. 가지고 있는 모든 표현식이 타입추론에 실패하거나, 타입추론 표현식이 바닥나면 루프를 종료합니다.
 
-이 방식의 장단점:
-- 장점: 추론 순서를 따지지 않아도 되므로 구현이 간단
-- 단점: 속도가 느림
-
+이 방식은 추론 순서를 따지지 않아도 되므로 구현이 간단하지만 속도가 느리므로,
 향후 종속성 그래프를 구축하여 타입 추론 순서를 최적화하는 방법으로 개선할 여지가 있습니다.
 
 `defBlock`은 이러한 역할을 돕습니다. defBlock에는 expand, common, scope 3종류의
@@ -3361,7 +3344,7 @@ byeol은 이러한 타입추론 표현식들을 한곳에 모아둔 후, parsing
 ### 코드 검증 및 실행
 
 파싱이 완료된 AST는 실행되기 전에 검증 과정을 거쳐야 합니다. byeol 언어는 인터프리터
-구조를 띄고 있지만 **강형 타입**을 사용하며, 컴파일 언어처럼 사전에 에러를 도출합니다.
+구조를 띄고 있지만 <b>강형 타입</b>을 사용하며, 컴파일 언어처럼 사전에 에러를 도출합니다.
 
 #### tworker 클래스 - 배치 작업의 기반
 
@@ -3424,7 +3407,7 @@ onTraverse는 visitor에서 알아서 채워주므로, verifier는 onVisit과 on
 
 프로그램의 실행은 결국 각 `node`의 `eval()`로 이뤄지지만, verifier는 실행한 런타임
 값은 관심이 없습니다. 오직 실행이 가능한가, 지정한 표현식의 결과가 정의된 property의
-타입과 묵시적 변환이 허용되는가와 같은 **타입 매칭**에만 관심이 있습니다.
+타입과 묵시적 변환이 허용되는가와 같은 <b>타입 매칭</b>에만 관심이 있습니다.
 
 node의 `infer()`는 타입 추론 기능을 수행하는 것으로 실행하면 값은 모르지만 결과 타입을
 `origin` 객체로 반환하는 함수입니다. 값을 계산하지 않으므로 `eval()`보다 더 빠릅니다.
@@ -3522,7 +3505,7 @@ byeol 문법상으로는 에러는 2종류로 구분됩니다:
 1. **Known error**: `?`로 표현되며, errorable 타입으로 명시
 2. **Exception**: errorable 타입으로 명시하지 않는 상황에서 에러가 반환되는 케이스
 
-하지만 **구현상으로는 둘은 완전히 동일한 에러 객체**입니다. 에러는 `parser`나
+하지만 <b>구현상으로는 둘은 완전히 동일한 에러 객체</b>입니다. 에러는 `parser`나
 `verifier`가 발생시킨, native 상에서 발생한 `nerr`와 byeol 코드로 인해 발생한 `err`,
 2개가 에러의 발생원에 의해 구분되고 있을 뿐입니다.
 
@@ -3535,7 +3518,7 @@ byeol 문법상으로는 에러는 2종류로 구분됩니다:
 heap에서 바로 삭제가 되진 않습니다. (이 프로젝트에서 memlite 모듈의 `tstr`에 의한
 레퍼런스 카운팅 없이 직접 heap에서 new/delete를 하는 경우는 극히 드뭅니다.)
 
-그러므로 **err가 살아있는 한 참조하는 frame 데이터 또한 유지**됩니다.
+그러므로 <b>err가 살아있는 한 참조하는 frame 데이터 또한 유지</b>됩니다.
 
 **nerr 생성**
 
@@ -3595,8 +3578,8 @@ errReport는 거의 모든 기능이 `baseErr` 객체에 대한 관리이기 때
 `cli` 클래스는 `frontend` 모듈의 핵심 클래스로, `core` 모듈의 `interpreter`를 사용해서
 코드를 파싱하고 검증하고 평가하는 일련의 과정들을 위해 적절한 클래스를 호출해서 제어합니다.
 
-즉, cli는 뭔가 알고리즘을 만들어서 동작하는 클래스가 아니라 **이미 잘 짜여진 클래스들을
-조합하는 역할**을 합니다.
+즉, cli는 뭔가 알고리즘을 만들어서 동작하는 클래스가 아니라 <b>이미 잘 짜여진 클래스들을
+조합하는 역할</b>을 합니다.
 
 파라메터로 cli 프로그램에 사용자가 입력한 인자를 받으며, 이를 적절히 파싱해서 추가로
 명령을 수행합니다. 자세한 내용은 `flags` 폴더를 참조하세요.
@@ -3620,7 +3603,7 @@ errReport는 거의 모든 기능이 `baseErr` 객체에 대한 관리이기 때
 shell 기반 프로그램에서 흔히 볼 수 있는 플래그들을 처리하는 클래스입니다.
 
 한가지 착각하기 쉬운 포인트는 이 클래스는 `--version`과 같은 플래그를 표현하는 클래스가
-아니라 **그러한 플래그가 존재하는지, 존재한다면 어떤 동작을 해야 하는지를 담당**한다는
+아니라 <b>그러한 플래그가 존재하는지, 존재한다면 어떤 동작을 해야 하는지를 담당</b>한다는
 것입니다.
 
 **Flag의 설명**
@@ -3639,7 +3622,7 @@ shell 기반 프로그램에서 흔히 볼 수 있는 플래그들을 처리하�
 @lang: cpp
 // -- verFlag.cpp
 const strings& verFlag::_getRegExpr() const {
-    static strings inner{"^\\--version$"};
+    static strings inner{"^\\--version$"}; // 이 정규식이 매치되면, _onTake()가 실행됩니다.
     return inner;
 }
 
@@ -3688,7 +3671,7 @@ me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) c
 
 ```
 @lang: sh
---script "main() void: print("wow!)"
+$ byeol --script "main() void: print("wow!)"
 ```
 
 이 명령은 파일 없이 byeol 코드를 직접 실행합니다. 위 한 줄 코드를 풀어쓰면:
@@ -3733,13 +3716,19 @@ bufferSrcFlag는 프로그램 시작 전에 사전 작업을 필요로 하는 fl
 종료합니다. (대다수 프로그램이 이렇게 동작한다는 걸 알고 있을 것입니다.)
 
 이처럼 flag의 패턴이 매칭이 되면 동작을 하고 바로 종료하고 싶을 때는, `_onTake()`를
-오버라이딩할 때 반환값을 **EXIT_PROGRAM**으로 줍니다. bufferSrcFlag처럼 계속 동작을
-하는 경우에는 **MATCH**로 반환합니다.
+오버라이딩할 때 반환값을 <b>EXIT_PROGRAM</b>으로 줍니다. bufferSrcFlag처럼 계속 동작을
+하는 경우에는 <b>MATCH</b>로 반환합니다.
 
 
 ## 다음 단계
 
-이 문서는 byeol 언어의 아키텍처와 핵심 클래스들을 설명했습니다. 개념적 이해를 넘어 실제 동작을 깊이 이해하고 싶다면, `test` 모듈의 Unit Test들을 직접 읽어보는 것을 강력히 권장합니다.
+지금까지 byeol 언어의 아키텍처, 설계 그리고 핵심 클래스들을 설명했습니다.
+가급적 예제를 직접 넣긴 했지만 그래도 완전히 이해하기에는 부족했을 거라 생각되네요.
+역시 좀 더 깊이 이해하고 싶다면, `test` 모듈의 unittest 코드들을 직접 읽어보는 것을 강력히 권장합니다.
 
-각 모듈별로 작성된 테스트 케이스들은 실제 사용 예제를 담고 있으며, 특정 기능이 어떻게 동작하는지 가장 명확하게 보여줍니다. 코드에 기여하기 전에 관련 테스트들을 먼저 살펴보면 이해에 큰 도움이 될 것입니다.
+각 모듈별로 작성된 테스트 케이스들은 실제 사용 예제를 담고 있으며, 특정 기능이 어떻게
+동작하는지 가장 명확하게 보여줍니다.
+코드에 기여하기 전에 관련 테스트들을 먼저 살펴보면 이해에 큰 도움이 될 것입니다.
+
+-- Nov 2025, kniz
 
