@@ -52,7 +52,8 @@ byeolSyntaxTest& me::parse(const by::nchar* src) {
     using namespace by;
 
     defaultSigZone<interpreter> zone(_ip);
-    _ip.getParser().addSupply(*new by::bufSupply(std::string(src))).setReport(_rpt).work();
+    _ip.getParser().addSupply(*new by::bufSupply(std::string(src)));
+    _ip.setReport(_rpt).work();
     return *this;
 }
 
