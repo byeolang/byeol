@@ -14,80 +14,66 @@
 namespace by {
 
     /// @ingroup indep
-    /// @brief WHEN macro
-    /// @details in `byeol`, I actively apply the early-return pattern.
-    /// this helps to reduce the depth, make the code clean, and handle exceptional situations
-    /// immediately.
-    /// in the case of general C++ code that applies the early pattern, you will use `if` as
-    /// follows.
-    ///     @code
-    ///         SomeAdapter* adapter = bridge.requestAdapter("token");
-    ///         if (!adapter) { // 1) ealry return
-    ///             printLogs("null adapter!");
-    ///             return;
+    /// @brief Early-return pattern macro for exception handling
+    /// @details The byeol project actively applies the early-return pattern throughout.
+    /// This helps reduce code depth, improve code flow clarity, and handle exceptional
+    /// situations immediately. However, traditional `if` statements make it difficult
+    /// to distinguish between normal branching logic and early-return exception handling.
+    ///
+    /// @section Problem
+    /// Consider this traditional early-return code:
+    /// @code
+    ///     str me::eval(const args& a) {
+    ///         std::string key = _makeKey(a);
+    ///         if(key.empty()) {
+    ///             BY_E("key is empty");
+    ///             return tstr<obj>();
+    ///         }
+    ///         if(_isSelfMaking(key)) {
+    ///             BY_E("error: you tried to clone self generic object.");
+    ///             return tstr<obj>();
     ///         }
     ///
-    ///         if (adapter->getState() == State.ACTIVATE) { // 2)
-    ///             adapter->onActivate();
-    ///         } else {
-    ///             const vector<Device>& devices = adapter->getDevices();
-    ///             if (devices.size() <= 0) { // 3) ealry return
-    ///                 printLogs("there is no device in " + adapter->getName());
-    ///                 return;
-    ///             }
+    ///         if(!_cache.count(key))
+    ///             _makeGeneric(key, params::make(_paramNames, a));
     ///
-    ///             for (const auto& device : devices) {
-    ///                 DeviceResult res = device.attach();
-    ///                 if (res == FAILURE) {
-    ///                     printLogs("device can't attach to system"); // 4) ealry early-return
-    ///                     return;
-    ///                 }
-    ///                 if (res == Pending) {
-    ///                     device.retryQueue();
-    ///                 }
-    ///             }
-    ///         }
-    ///     @endcode
+    ///         return _cache[key];
+    ///     }
+    /// @endcode
     ///
-    /// the problem is that, as can be seen in the code above, if is used so commonly that it is
-    /// difficult to immediately know whether a normal branch is made for logic or an ealry return
-    /// is made to prune in advance with exception handling. that's why in byeol, `WHEN` is used
-    /// for almost all ealry return exception handling.
+    /// The WHEN macro solves this by explicitly marking early-return cases. It is used
+    /// exclusively for early-return patterns. Additionally, since over 90% of early-returns
+    /// involve logging an error and returning an error value, WHEN supports chaining to
+    /// express both operations in a single line.
     ///
-    /// the output is very intuitive.
-    ///     @code
-    ///         SomeAdapter* adapter = bridge.requestAdapter("token");
-    ///         WHEN_NUL(adapter).err("null adapter!");
+    /// @section Solution
+    /// The same code becomes much clearer with WHEN:
+    /// @code
+    ///     str me::eval(const args& a) {
+    ///         std::string key = _makeKey(a);
+    ///         WHEN(key.empty()).err("key is empty").ret(tstr<obj>());
+    ///         WHEN(_isSelfMaking(key))
+    ///             .err("error: you tried to clone self generic object.")
+    ///             .ret(tstr<obj>());
     ///
-    ///         if (adapter->getState() == State.ACTIVATE) {
-    ///             adapter->onActivate();
-    ///         } else {
-    ///             const vector<Device>& devices = adapter->getDevices();
-    ///             WHEN(devices.size() <= 0).err("there is no device in %s", adapter->getName());
+    ///         if(!_cache.count(key)) _makeGeneric(key, params::make(_paramNames, a));
+    ///         return _cache[key];
+    ///     }
+    /// @endcode
     ///
-    ///             for (const auto& device : devices) {
-    ///                 DeviceResult res = device.attach();
-    ///                 WHEN(res == FAILURE).err("device can't attach to system");
+    /// Now the purpose of each `if` is clear, and exception handling is visually distinct
+    /// from normal branching logic.
     ///
-    ///                 if (res == Pending) {
-    ///                     device.retryQueue();
-    ///                 }
-    ///             }
-    ///         }
-    ///     @endcode
+    /// @remark WHEN macro is used very frequently throughout the project, so it's
+    /// important to understand it well.
     ///
-    /// as in the example, it is clear which part handles exceptions and sends them out, and which
-    /// part branches for logic. also, since `WHEN` is class-based, handling when the exception
-    /// handling condition is satisfied can be handled based on the class.
-
-    /// @remark __WHEN_OBJECT__?
-    /// since byeol is structured as a multi-layered architecture, if the layer is low-level, it
-    /// simply outputs the log to the screen, but in high-level layers, it requires more complex
-    /// processing, such as creating an exception as an object and including stacktrace information
-    /// to record it.
     ///
-    /// in this way, since different classes should be displayed when the `WHEN` macro is expanded
-    /// depending on the layer, this is solved by redefining `__WHEN_OBJECT__`.
+    /// @remark __WHEN_OBJECT__ customization
+    /// Since byeol uses a multi-layered architecture, different layers may need different
+    /// behavior when WHEN conditions are met. Low-level layers simply output logs to the
+    /// screen, but high-level layers require more complex processing like creating exception
+    /// objects with stacktrace information. This is solved by redefining `__WHEN_OBJECT__`
+    /// in each layer.
 
 #define __WHEN_OBJECT__ __indep_when__
 

@@ -27,6 +27,28 @@ namespace by {
         WHITE = CONSOLE_COLOR_END
     };
 
+    /// @ingroup indep
+    /// @brief Platform-independent API wrapper for OS-specific operations
+    /// @details Provides a unified interface for platform-dependent operations, acting as a
+    /// buffer layer between platform-specific APIs and the rest of the codebase.
+    ///
+    /// For example, colored text output requires different approaches on different platforms:
+    /// POSIX systems use ANSI escape sequences, while Windows uses WINAPI. Using
+    /// platformAPI::foreColor() allows writing platform-independent code.
+    ///
+    /// @section Usage
+    /// Example of platform-independent colored console output:
+    /// @code
+    ///     cout << foreColor(LIGHTGRAY) << "("
+    ///          << foreColor(YELLOW) << _encodeNewLine(rightName)
+    ///          << foreColor(LIGHTGRAY) << ")";
+    /// @endcode
+    ///
+    /// Other common operations include:
+    /// - Demangling C++ names with demangle()
+    /// - Getting call stacks with callstack()
+    /// - Cross-platform command execution with exec()
+    /// - Core dump limit management with unlimitCoreDump()
     namespace platformAPI {
         const _nout std::string& foreColor(consoleColor fore);
         const _nout std::string& backColor(consoleColor back);

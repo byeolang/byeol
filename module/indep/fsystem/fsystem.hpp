@@ -16,10 +16,24 @@
 namespace by {
 
     /// @ingroup indep
-    /// @brief Cross-platform filesystem utilities for byeol language system
-    /// @details Provides filesystem operations before C++ std::filesystem library
-    /// is fully supported across all target platforms. Handles platform-specific
-    /// file and directory operations through a unified interface.
+    /// @brief Cross-platform filesystem utilities for recursive file traversal
+    /// @details A simple class for recursively traversing files in a specified folder.
+    /// Provides platform-independent API that works on both Windows and POSIX-compliant
+    /// operating systems. Core functionality is provided through the iterator class.
+    ///
+    /// @section Usage
+    /// Basic usage example:
+    /// @code
+    ///     auto e = fsystem::find("../your/path");
+    ///     while(e.next()) { // Returns false when all files are traversed
+    ///         const std::string& path = *e; // Path of the found file
+    ///         if(*e == "../your/path/child/helloWorld.cpp") // Always uses relative paths
+    ///             doSomething(e->getDir()); // Returns the folder path of the found file
+    ///     }
+    /// @endcode
+    ///
+    /// @remark Always iterates files only
+    /// Empty folders are skipped during iteration.
     class _nout fsystem {
         BY(ME(fsystem))
 

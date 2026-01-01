@@ -20,8 +20,45 @@ namespace by {
 
     /// @ingroup indep
     /// @brief Dynamic library loading and management class
-    /// @details Provides cross-platform dynamic library loading capabilities.
-    /// Supports loading shared libraries (.so, .dll) and accessing functions within them.
+    /// @details Abbreviation for "dynamic loading for library". Handles platform-independent
+    /// dynamic loading. Can load libraries into memory and find functions to convert them
+    /// into function pointers.
+    ///
+    /// Usage follows these steps:
+    /// 1. Create dlib object
+    /// 2. Specify the location of the library to load
+    /// 3. Find desired function by name and get it as function pointer
+    ///
+    /// @remark Requires familiarity with tmay
+    /// Uses @ref tmay, so it's recommended to familiarize yourself with tmay beforehand.
+    ///
+    ///
+    /// @remark RAII idiom
+    /// dlib is implemented using RAII idiom. When the instance is destroyed, function
+    /// pointers returned externally become unusable.
+    ///
+    /// @section Usage
+    /// Example showing the complete process of loading a dynamic library and calling a function.
+    /// Note that `rel()` explicitly releases resources. When an error occurs, the comma
+    /// operator `(rel(), false)` is used to clean up the dlib object before returning:
+    /// @code
+    ///     dlib lib = dlib(path); // Performs steps 1 and 2 simultaneously
+    ///     auto res = lib.load(); // `res` evaluated as true when it has an error
+    ///     WHEN(res).err("couldn't open %s slot: %d", path, res.get())
+    ///              .ret((rel(), false));
+    ///     // Release resources with rel() first, then return false via comma operator
+    ///
+    ///     typedef void (*entrypointFunc)(bicontainable*);
+    ///     constexpr const nchar* ENTRYPOINT_NAME = "byeol_bridge_cpp_entrypoint";
+    ///     auto info = lib.accessFunc<entrypointFunc>(ENTRYPOINT_NAME); // Result as tmay
+    ///     WHEN(!info.has()) // Checking result with tmay's has()
+    ///         .err("couldn't access entrypoint of %s slot: %d", path, info.getErr())
+    ///         .ret((rel(), false));
+    ///
+    ///     (*info)(&tray); // If function is successfully retrieved, it can be called
+    ///
+    ///     // Memory is automatically released when lib is destroyed
+    /// @endcode
     class _nout dlib {
         BY(ME(dlib))
 

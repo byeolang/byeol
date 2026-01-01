@@ -11,10 +11,41 @@
 namespace by {
 
     /// @ingroup indep
-    /// @brief Optional value wrapper with byeol-style interface
-    /// @details Wrapper around std::optional with improved function names and signatures
-    /// consistent with byeol conventions. Provides safe value handling for return-by-value
-    /// scenarios. Use tstr<T> or tweak<T> for return-by-reference cases.
+    /// @brief Optional value wrapper for error indication without exceptions
+    /// @details Provides a way to indicate errors in return-by-value functions without
+    /// using slow exceptions. Functionally almost identical to std::optional<T>, but with
+    /// API naming adapted to byeol project conventions.
+    ///
+    /// For normal operation, pass the value as T& to the constructor. For error situations,
+    /// pass a tmedium class created as nullptr.
+    ///
+    /// @remark Why use tmedium?
+    /// See @ref tmedium for details on why this intermediate type is used.
+    ///
+    ///
+    /// @remark Common naming conventions
+    /// The functions `has()`, `get()`, `rel()`, and `set()` follow naming conventions used
+    /// throughout the entire project.
+    ///
+    /// @section Usage
+    /// Example of using tmay for error handling:
+    /// @code
+    ///     tmay<std::string> loadConfig(const std::string& path) {
+    ///         if(!fileExists(path))
+    ///             return tmay<std::string>(); // Return empty for error
+    ///
+    ///         std::string content = readFile(path);
+    ///         return tmay<std::string>(content); // Return value for success
+    ///     }
+    ///
+    ///     auto config = loadConfig("config.txt");
+    ///     if(config.has()) {
+    ///         std::string& value = config.get();
+    ///         processConfig(value);
+    ///     }
+    /// @endcode
+    ///
+    /// @see Use tstr<T> or tweak<T> for return-by-reference cases
     template <typename T> class tmay: private std::optional<T> {
         BY(ME(tmay, std::optional<T>))
 
