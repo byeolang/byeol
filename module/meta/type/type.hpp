@@ -6,9 +6,96 @@
 namespace by {
 
     /// @ingroup meta
-    /// @brief Base class for runtime type information in byeol language
-    /// @details Provides fundamental type metadata and operations.
-    /// Returns ttype<type> as result of getType() for type introspection.
+    /// @brief Core class for runtime type information in byeol language
+    /// @details The central class of the meta module. Provides fundamental type information APIs.
+    ///
+    /// @section Basic type identification
+    /// - isTemplate(): Returns whether this is a template class
+    /// - isAbstract(): Returns whether this is an abstract class
+    /// - getName(): Returns class name (demangled)
+    ///
+    /// @section Class hierarchy information
+    /// - getSupers(): Returns list of super classes, with direct parent at the end
+    /// - getSubs(): Returns list of sub classes, with closest descendants first
+    /// - isSuper(const type& rhs): Checks if this is a super class of rhs
+    /// - isSub(const type& rhs): Checks if this is a sub class of rhs
+    ///
+    /// Performance note: isSuper() and isSub() are more efficient than dynamic_cast.
+    /// While dynamic_cast typically loops through vtables, the meta module uses a tier
+    /// algorithm that compares tier values and char* addresses for O(1) type checking.
+    ///
+    /// @section Instance creation
+    /// - make(): Creates instance using default constructor. Returns nullptr if no
+    ///   default constructor exists.
+    ///
+    /// @section Meta type information management
+    /// - init(): Initializes type information
+    /// - rel(): Releases type information
+    ///
+    /// These are typically handled automatically via @ref BY_INIT_META macro and rarely
+    /// need direct invocation.
+    ///
+    /// @section How meta information is generated
+    /// Type information like isTemplate(), isAbstract(), and getName() is filled by
+    /// @ref ttypeBase<T> through metaprogramming. The purpose of type::init() is to
+    /// construct the class hierarchy.
+    ///
+    /// The hierarchy is built using the constraint that "all classes must define super
+    /// as a typedef". With super defined for all classes, ttype<super>().init() can be
+    /// called, enabling recursive class hierarchy construction:
+    ///
+    /// @code
+    ///     nbool type::init() {
+    ///         if(_isInit) return false;
+    ///         _isInit = true; // Executes only once
+    ///
+    ///         type& super = (type&) getSuper();
+    ///         super.init(); // Recursively calls parent's init
+    ///                       // Eventually reaches adam, which has no parent
+    ///
+    ///         types& mySupers = getSupers();
+    ///         mySupers = super.getSupers();
+    ///         mySupers.push_back(&super);
+    ///     }
+    /// @endcode
+    ///
+    /// @section Automatic meta information generation
+    /// Type objects are initialized via init() calls, but manually calling init() for
+    /// every class would be inefficient. The @ref BY_INIT_META macro solves this by
+    /// using @ref BY_INITIATOR to execute init() before main() via static object
+    /// initialization with lambda functions.
+    ///
+    /// The constraint is that each class declaration must include BY_INIT_META(MyClass).
+    /// These meta DSL-style macros are executed through the BY macro convention, and
+    /// core module adds additional meta DSL macros, so use BY(CLASS()) or BY(ADT())
+    /// instead of calling BY_INIT_META directly.
+    ///
+    /// @section Adding custom meta information
+    /// While type provides substantial type information, language implementations like
+    /// byeol may need additional information like parameters or return types. You might
+    /// think to inherit from type, but since the user entry point must always be
+    /// ttype<T>, and you cannot modify ttype<T> code from modules depending on meta,
+    /// inheritance isn't possible. Instead, inject custom meta types.
+    ///
+    /// The core code is in @ref ttypeBase<T>:
+    /// @code
+    ///     template <typename T, typename S = typename tmetaTypeDef<T>::is>
+    ///     class ttypeBase: public S { }
+    ///
+    ///     template <typename T, nbool hasMeta = tifHasMetaTypeDef<T>::is>
+    ///     struct tmetaTypeDef { using is = type; };
+    ///
+    ///     template <typename T>
+    ///     struct tmetaTypeDef<T, true> { using is = typename T::metaType; };
+    /// @endcode
+    ///
+    /// tmetaTypeDef returns T::metaType if it exists, otherwise returns type. ttype
+    /// inherits from ttypeBase, which inherits from tmetaTypeDef<T>::is. When calling
+    /// ttype<T>, if class T defines `typedef metaType MyType`, the ttype<T> object
+    /// will be based on MyType.
+    ///
+    /// This feature is actually used in the core module to inject ntype. See @ref ntype
+    /// for details.
     class _nout type {
         BY_ME(type)
 
