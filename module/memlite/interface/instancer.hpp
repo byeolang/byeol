@@ -8,8 +8,10 @@ namespace by {
 
     /// @ingroup memlite
     /// @brief Singleton manager for instance lifecycle and memory allocation
-    /// @details Central manager that coordinates memory pool, watcher, and instance binding.
-    /// Provides singleton access to memory management facilities.
+    /// @details Contains @ref pool class for low-level memory management and @ref watcher
+    /// for managing @ref instance lifecycles. Controls both to manage instance lifecycle
+    /// (allocation/destruction). Effectively serves as the entry point for dispatching work
+    /// to control classes or issuing commands for core memlite operations.
     class _nout instancer {
         BY_ME(instancer)
         BY_INIT_META(me)

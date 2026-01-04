@@ -10,8 +10,13 @@ namespace by {
 
     /// @ingroup memlite
     /// @brief Binding tag for instance reference tracking and lifecycle management
-    /// @details Manages strong and weak references to instances, providing reference counting
-    /// and automatic cleanup when references reach zero.
+    /// @details While @ref pool manages memory from a low-level block perspective, the
+    /// @ref watcher component organically manages information for each block. See watcher
+    /// first for details. life has an address value (_pt) allocated in pool and values for
+    /// reference counting.
+    ///
+    /// _strong is for reference counting, _pt directly points to an instance allocated in
+    /// pool. _id is for identifying objects, see @ref id for details.
     class _nout life: public typeProvidable, public tbindable<instance> {
         BY_ME(life)
         BY_INIT_META(me)

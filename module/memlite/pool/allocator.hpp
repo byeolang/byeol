@@ -7,8 +7,16 @@ namespace by {
 
     /// @ingroup memlite
     /// @brief Abstract allocator interface for memory management
-    /// @details Provides block-based allocation and deallocation interface.
-    /// Base class for various allocation strategies in the memory pool system.
+    /// @details Inherits from @ref memoryHaver, so can measure state and size of managed
+    /// memory. Additionally can allocate and deallocate memory.
+    ///
+    /// @remark void* and byte-only perspective
+    /// Following memlite's concept of viewing all memory only as void* and bytes, new()
+    /// and del() parameters only provide void*.
+    ///
+    /// @section memlite naming conventions
+    /// Allocation uses new1() (meaning "new one"), deallocation uses del(). This naming
+    /// is frequently used not only in memlite but throughout the byeol project.
     class _nout allocator: public memoryHaver {
         BY_ME(allocator)
         BY_INIT_META(me)

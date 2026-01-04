@@ -11,45 +11,99 @@ namespace by {
     class life;
 
     /// @ingroup memlite
-    /// @brief Smart pointer with loose type checking and lifetime management
-    /// @details Provides guaranteed instance cleanup and tracking with three key features:
-    /// 1) Distinguished abstract type checking with flexible acceptance/rejection
-    /// 2) Complete instance cleanup using RAII
-    /// 3) Notification when bound instances are replaced or freed
-    /// Prevents process halting and provides developer notifications.
+    /// @brief Generalized binding class for managing @ref instance lifecycles
+    /// @details Can bind any object inheriting from @ref instance. Uses reference counting
+    /// to properly destroy objects at appropriate times. Similar to std::weak_ptr and
+    /// std::shared_ptr, with @ref tweak handling weak pointers and @ref tstr handling
+    /// strong pointers.
     ///
-    /// type checking:
-    ///     this was most valuable requirement when I design component of bind.
-    ///     in fact, bind was suggested to replace sort of exisiting smart-ptr concept things,
-    ///     such as weakptr. because weakptr was planned to replace and enhance existing pointer
-    ///     of c/c++, they were very strict to check type and whether template param T was const
-    ///     or not. this characteristic was pretty worked good in most environment but not on
-    ///     usage of byeol framework.
+    /// @section Usage
+    /// Basic usage with bind(), isBind(), and get():
+    /// @code
+    ///     class A : public instance {}; // Inherits instance, so bindable
+    ///     A* a = new A();
     ///
-    ///     why was it not proper to use as before?:
-    ///         byeol is based on class node and make user not need to know what really was.
-    ///         all actions (including calling some func on byeol env) can be replacable to
-    ///         sending msg using "use()". to say the least, what byeol doing is loose-check.
-    ///         so, strict type-checking of existing smart pointers doesn't matched to what
-    ///         byeol framework willing to do.
+    ///     {
+    ///         tstr<A> strBinder;
+    ///         strBinder.bind(a);
+    ///         // a's life count becomes 1
     ///
-    /// design:
-    ///     binder components are mostly constructed to 3 classes and they form 2 layers
-    ///     vertically. class binder:
-    ///         represents binder on loose-checking layer.
-    ///         user can try any type to bind or get from the binded. compiler won't complain
-    ///         about. but because of loose-checking, if it's not proper request, binder will
-    ///         warn you at runtime as result.
-    ///         constness of binding instance was persisted. (for example, if user try to get
-    ///         non-const instance from consted binder, s/he will get nulled reference.)
-    ///         user needs to checks that returned value was nullref on using loose-checking
-    ///         API.
+    ///         strBinder.isBind(); // true
+    ///         a == strBinder.get(); // true
+    ///     } // strBinder destroys, life count becomes 0, a automatically destroyed
     ///
-    ///     class tweak, class tstr:
-    ///         these represent binder on strict-checking layer.
-    ///         because it was declared to class template, user need to bind or get binded using
-    ///         type T. of course these are based on class 'bind', user can use loose-check API
-    ///         case by case.
+    ///     *a; // Error: using destroyed object
+    /// @endcode
+    ///
+    /// More concise real-world usage:
+    /// @code
+    ///     class shell : public instance {
+    ///     public:
+    ///         int age;
+    ///     };
+    ///
+    ///     tstr<shell> foo() {
+    ///         tstr<shell> ptr(new shell()); // Create and bind simultaneously
+    ///         ptr->age = 57; // Supports operator->
+    ///
+    ///         tweak<shell> weak = ptr; // Binders can be compatible
+    ///         callShell(*weak); // Supports operator* too
+    ///
+    ///         return ptr; // Returns by value, count maintained
+    ///                     // shell object created with new won't be destroyed
+    ///     }
+    /// @endcode
+    ///
+    /// @section Why not use shared_ptr?
+    /// Several advantages over shared_ptr:
+    ///
+    /// 1. Reference counting block attached to instance itself
+    ///    - shared_ptr creates a "Control block" on the heap for reference counting.
+    ///      This makes the following dangerous:
+    ///    @code
+    ///        Foo* raw = new Foo();
+    ///        shared_ptr<Foo> foo1(raw);
+    ///        shared_ptr<Foo> foo2(raw); // Separate control blocks -> double delete
+    ///    @endcode
+    ///    - memlite uses @ref life class for reference counting, assigned per instance
+    ///      by @ref watcher. No double deletion problem.
+    ///
+    /// 2. Provides ADT (Abstract Data Type)
+    ///    - tstr and tweak share same binder base, enabling generic logic:
+    ///    @code
+    ///        void me::rel(binder& me) { // Works for both tstr and tweak
+    ///            WHEN(!me.isBind()) .ret();
+    ///            life* l = me._getBindTag();
+    ///            if(l) l->_onStrong(-1);
+    ///        }
+    ///    @endcode
+    ///
+    /// 3. Dynamic type checking
+    ///    - binder is ADT and not even a class template. bind() parameter is instance type.
+    ///      tstr<A> allows bind(new B()); without compile error. bind() uses meta module
+    ///      for dynamic type checking, binding only when types match.
+    ///
+    /// @remark Abstract nature
+    /// binder is abstract, so cannot create objects. Only meaningful for generic logic
+    /// using already created tstr or tweak binders.
+    ///
+    /// @section Custom memory pool
+    /// Ultimate goal of memlite is lightweight C++ memory management for byeol managed
+    /// environment. Requires GC and additional memory management, implying custom memory
+    /// pool and instance lifecycle management. All instance allocation starts with
+    /// @ref instancer.
+    ///
+    /// @section Performance improvements
+    /// shared_ptr's algorithm stores reference counting info on heap. Using faster custom
+    /// memory pool instead of heap and optimizing binding speed provides performance gains.
+    /// Binding is one of the hotspots consuming most performance in byeol.
+    ///
+    /// @section Additional information
+    /// shared_ptr creates objects on heap for reference counting. memlite uses @ref watcher
+    /// to lend empty @ref life objects from pre-allocated memory, using them as reference
+    /// counting space for instances. If GC features are added later, instances may require
+    /// additional lifecycle information. Unlike shared_ptr, managing each instance's
+    /// lifecycle information internally allows appropriate handling of such requirements.
     class _nout binder: public typeProvidable, public tbindable<instance> {
         BY(ME(binder, instance), INIT_META(me))
 

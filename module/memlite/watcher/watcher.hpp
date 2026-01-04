@@ -8,8 +8,14 @@ namespace by {
 
     /// @ingroup memlite
     /// @brief Memory watcher for tracking instance lifecycle and allocation
-    /// @details Monitors memory allocation and deallocation, providing
-    /// watch lives for tracking instance states and managing memory lifecycle.
+    /// @details One pillar of memory management that manages created object lifecycles.
+    /// Whenever an @ref instance is created, watcher additionally allocates a @ref life
+    /// object and uses reference counting to determine object destruction timing.
+    ///
+    /// @section Reference counting
+    /// When @ref binder binds an instance, life increments its strong count by 1. When
+    /// binder calls rel() on instance, decrements count by 1. At 0, deletes from memory.
+    /// instance uses `operator delete()` to make @ref instancer execute memory release work.
     class _nout watcher: public chunk {
         BY_ME(watcher, chunk)
         BY_INIT_META(me)

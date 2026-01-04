@@ -7,8 +7,52 @@ namespace by {
 
     /// @ingroup memlite
     /// @brief Memory chunk for block-based allocation
-    /// @details Manages a contiguous block of memory divided into fixed-size blocks.
-    /// Provides efficient allocation and deallocation within the chunk.
+    /// @details The minimum unit class that can actually allocate memory in memlite. All
+    /// memory management is performed by linking chunks together.
+    ///
+    /// @remark Fixed memory size
+    /// chunk has a _resize() function for flexible memory growth, but following memlite's
+    /// concept, this is not exposed publicly. Consequently, chunk memory is fixed at object
+    /// creation. If additional memory is needed, create and operate more chunk objects.
+    ///
+    /// @section Block size
+    /// chunk receives blockSize and size at creation. blockSize is the minimum unit size
+    /// one instance occupies in memory. size defines how many such instances can fit.
+    /// For example, to create a chunk holding 100 int64 values:
+    /// @code
+    ///     new chunk(sizeof(int64), 100)
+    /// @endcode
+    ///
+    /// @section Real block size
+    /// Actual memory allocation uses real block size instead of block size for optimization.
+    /// Rather than allocating in small 1 or 2 byte units during CPU operations, it's more
+    /// efficient to allocate minimum bytes appropriate for the CPU level, like 4 or 8 bytes.
+    ///
+    /// @section ArrayList implementation
+    /// chunk is implemented as an ArrayList. Size is fixed, but addition and deletion are
+    /// free within size limits, with very fast random access.
+    ///
+    /// Algorithm:
+    /// 0. Precondition: Each element's byte size must be >= 4. All elements have identical
+    ///    byte sizes. Since chunk handles everything as void*, elements without values are
+    ///    treated as int type.
+    /// 1. On array initialization with size, place integer value n+1 before the bytes
+    ///    occupied by nth element. Example: size=4 results in [1, 2, 3, 4]
+    /// 2. _head represents index of most recently added element, initialized to 0. _heap
+    ///    points to heap-allocated memory.
+    /// 3. When external new1 requests memory allocation, _head is assigned the int value at
+    ///    current _head-th element. Example: first new1() assigns _head the value `1` from
+    ///    _heap[0], meaning next new1() treats _heap[1] as available empty element.
+    /// 4. Return address of allocated memory for just-retrieved element.
+    ///    _head = 1, [in-use, 2, 3, 4]
+    /// 5. On memory release, receive memory address to release as void* parameter.
+    ///    Example: del(used = _heap[0])
+    /// 6. Assign _head value to that memory (assuming destructor already called).
+    ///    *used = _head // [1, 2, 3, 4]
+    /// 7. Assign _head to index of currently releasing memory. Calculate index via pointer
+    ///    arithmetic for _heap distance from _head.
+    ///    _head = _heap - used // _heap - _heap --> 0
+    ///    _head = 0, [1, 2, 3, 4]
     class _nout chunk: public allocator {
         BY_ME(chunk, allocator)
         BY_INIT_META(me)
