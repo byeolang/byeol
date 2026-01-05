@@ -7,8 +7,12 @@ namespace by {
 
     /// @ingroup stela
     /// @brief Version stela node for semantic version handling
-    /// @details Specialized value stela for storing and comparing semantic versions.
-    /// Supports major.minor.fix version format with comparison operations.
+    /// @details Similar to @ref valStela, this @ref stela holds a `version` type value.
+    ///
+    /// @section version type
+    /// The stela language is a lightweight version of byeol language, a special-purpose
+    /// language for manifests and options. The version type has three variables:
+    /// `major.minor.fix`, and can also express ranges.
     class _nout verStela: public valStela {
         BY_ME(verStela, valStela)
         BY_INIT_META(verStela)

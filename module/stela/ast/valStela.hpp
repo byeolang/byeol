@@ -6,9 +6,13 @@
 namespace by {
 
     /// @ingroup stela
-    /// @brief Value Stela node for storing primitive values
-    /// @details Extends Stela to store and convert primitive values like strings,
-    /// integers, floats, and booleans. Provides type conversion capabilities.
+    /// @brief Value stela node for storing primitive values
+    /// @details Unlike @ref nulStela, this @ref stela holds scalar types like int, float,
+    /// string. Internally stores value as a base string, and can convert to appropriate
+    /// types on type conversion requests like `asInt()`.
+    ///
+    /// @remark Exception on type conversion failure
+    /// If type conversion fails, an exception is thrown, so be careful.
     class _nout valStela: public stela {
         BY(ME(valStela, stela), CLONE(me), INIT_META(valStela))
 

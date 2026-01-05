@@ -12,8 +12,29 @@ namespace by {
 
     /// @ingroup stela
     /// @brief Parser for stela configuration language
-    /// @details Main parser class that converts stela language source code into AST.
-    /// Handles tokenization, parsing, and error reporting for the stela configuration format.
+    /// @details Entry point for the @ref stela parsing component. Specify scripts through
+    /// `parse()` or `parseFromFile()`, and the parsed result is returned in @ref stela
+    /// structure.
+    ///
+    /// @section Similar structure to byeol parser
+    /// Since the stela language itself is a specialized language of byeol, the parser is
+    /// also based on the byeol language parser. Since it's a less complex language than
+    /// byeol, it's recommended to examine this parser code before looking at the core module.
+    ///
+    /// @section scanner - bison - stelaParser structure
+    /// Uses flex and bison, with flex named lowscanner and bison named lowparser. These
+    /// low-level scanner and parser exist only within the parser component and are never
+    /// exposed externally. When stelaParser::parse() executes, it runs lowscanner.
+    /// lowscanner tokenizes and passes tokens to lowparser. When lowparser matches rules
+    /// on received tokens, it passes events back to stelaParser. Therefore, stelaParser's
+    /// functions starting with `on` are event handling functions that define how to create
+    /// nodes and build the AST.
+    ///
+    /// @section Indentation rule
+    /// Like the byeol language, stela applies the offside rule, making it very sensitive to
+    /// indentation. Unlike typical languages, it must count whitespace after newlines.
+    /// Once indentation is confirmed and determines which scope the code line belongs to,
+    /// whitespace should be ignored afterward.
     class _nout stelaParser: public stelaTokenScanable {
         BY(ME(stelaParser))
 

@@ -7,8 +7,46 @@ namespace by {
 
     /// @ingroup stela
     /// @brief Core AST node for stela configuration language
-    /// @details Represents a node in the stela configuration tree structure.
-    /// Supports hierarchical configuration data with key-value access patterns.
+    /// @details The fundamental unit class of the stela module, providing the following
+    /// features:
+    ///
+    /// 1. Provides type conversion APIs like asInt(), asChar() to int, char, string, bool
+    /// 2. When value exists, @ref valStela APIs execute, converting to appropriate types.
+    ///    For example, verStela(22).asStr() returns std::string("22")
+    /// 3. When no value exists, represented as @ref nulStela. Any type conversion attempt
+    ///    returns default value (empty string or 0)
+    /// 4. Provides version type with major, minor, patch versions, supporting range
+    ///    expressions
+    /// 5. stela can have other stela objects as children. Each stela has a name, so children
+    ///    are searched by name or traversed. If no child matches the name, nulStela is returned
+    ///
+    /// Similar to @ref node in the core module.
+    ///
+    /// @section Usage
+    /// Example demonstrates typical usage:
+    /// @code
+    ///     const std::string script = R"SRC(
+    ///         def man
+    ///             dummy := 5
+    ///             name := "dark souls"
+    ///             ver := 1.0.8
+    ///     )SRC";
+    ///
+    ///     root = stelaParser().parse(script);
+    ///     ASSERT_TRUE(root);
+    ///
+    ///     stela& man = root->sub("man");
+    ///     stela& name = man["name"];
+    ///     ASSERT_TRUE(name);
+    ///
+    ///     ASSERT_STREQ(name.asStr().c_str(), "dark souls");
+    ///
+    ///     verStela& ver = man["ver"].cast<verStela>() OR_ASSERT(ver);
+    ///     ASSERT_STREQ(ver.asStr().c_str(), "1.0.8");
+    ///     ASSERT_EQ(ver.asMajor(), 1);
+    ///     ASSERT_EQ(ver.asMinor(), 0);
+    ///     ASSERT_EQ(ver.asFix(), 8);
+    /// @endcode
     class _nout stela: public instance {
         BY(ME(stela, instance), CLONE(me), INIT_META(stela))
 

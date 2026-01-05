@@ -7,8 +7,15 @@ namespace by {
 
     /// @ingroup stela
     /// @brief Null stela node representing empty or undefined values
-    /// @details Singleton stela node that represents null/undefined values in the configuration.
-    /// Provides default implementations that return empty or false values.
+    /// @details When retrieving child objects from @ref stela, usually by name, if no child
+    /// with that name exists, nulStela is returned instead.
+    ///
+    /// nulStela implements the null object pattern. When value conversion is requested on
+    /// this object, it always returns the default value for that type.
+    ///
+    /// @remark Checking for nulStela
+    /// To verify if a stela object is nulStela, check if isExist() or operator bool() returns
+    /// false.
     class _nout nulStela: public stela {
         BY(ME(nulStela, stela), CLONE(me), INIT_META(nulStela))
 
