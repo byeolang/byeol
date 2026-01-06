@@ -7,8 +7,25 @@ namespace by {
 
     /// @ingroup byeol
     /// @brief Command-line interface for byeol language system
-    /// @details Handles command-line argument parsing and execution flow
-    /// for the byeol language interpreter and related tools.
+    /// @details Core class of the frontend module. Uses @ref interpreter from the core module
+    /// to parse, verify, and evaluate code, coordinating appropriate classes for these
+    /// processes. Rather than implementing algorithms itself, cli orchestrates well-designed
+    /// classes.
+    ///
+    /// Receives user-entered arguments to the CLI program as parameters and parses them to
+    /// perform additional commands. See the `flags` folder for details.
+    ///
+    /// @section Core algorithm
+    /// When user calls eval() with flagArgs parameter, execution proceeds as follows:
+    /// 1. Create interpreter, @ref errReport, @ref starter objects
+    /// 2. Set flags on interpreter and starter (refers to @ref worker flags, different from
+    ///    cli's @ref flag. See worker for details)
+    /// 3. Parse flagArgs to perform preliminary work (executed by calling `take()` on flag
+    ///    object)
+    /// 4. Execute interpreter
+    /// 5. Check interpretation results. If issues exist, output results and terminate
+    /// 6. If no issues, put verified AST into starter and execute
+    /// 7. Return starter's result
     struct cli {
         const flags& getFlags() const;
 
