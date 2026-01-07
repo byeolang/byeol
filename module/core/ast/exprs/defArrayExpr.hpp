@@ -7,9 +7,13 @@
 namespace by {
 
     /// @ingroup core
-    /// @brief @ref arr definition expression
-    /// @details Represents @ref arr literal definitions with element initialization.
-    /// Handles @ref arr creation with explicit elements or type specification.
+    /// @brief Array literal expression
+    /// @details Handles array literal expressions. The array type is inferred through type promotion (`promote()`)
+    /// of the literal constant types written as array elements.
+    ///
+    /// @remark arr class
+    /// @ref tnarr is the class handling arrays in the native environment. @ref arr extends tnarr for the managed
+    /// environment. This allows similar APIs to be used in both C++ and byeol. See arr and tnarr for details.
     class _nout defArrayExpr: public expr {
         BY(CLASS(defArrayExpr, expr, expr::exprType), VISIT())
         friend class visitor; // for getElems()

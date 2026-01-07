@@ -6,8 +6,11 @@
 namespace by {
     /// @ingroup core
     /// @brief Source location information
-    /// @details Tracks source file, position, and name information for AST nodes.
-    /// Used for debugging, error reporting, and source code mapping.
+    /// @details Contains which @ref srcFile and at what location within it the created AST @ref node was generated.
+    /// Used as a core feature in the byeol language's Context-based REPL.
+    ///
+    /// @remark src information is limited to the managed environment.
+    /// Objects created in the native environment have dummy values in src. See @ref dumSrc for details.
     class _nout src: public instance {
         BY(CLASS(src, instance))
         friend class parser;

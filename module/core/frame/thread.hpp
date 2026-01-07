@@ -14,8 +14,34 @@ namespace by {
 
     /// @ingroup core
     /// @brief Thread execution context for byeol runtime
-    /// @details Manages execution frames, error reporting, and system slots for a single thread.
-    /// Provides the main execution context for byeol program execution.
+    /// @details Represents a single program execution flow. Currently only supports single threading. thread has @ref
+    /// frames and @ref errReport, allowing it to construct @ref frame when executing a program and collect @ref err
+    /// that occurs during execution.
+    ///
+    /// @section builtin Builtin
+    /// The builtin pack consists of types/functions provided by default in the byeol language. They are always
+    /// accessible without separate manifest declaration. It's similar to the standard pack, but this is a distinctly
+    /// separate pack written in byeol code. However, the builtin pack is entirely in the form of exposing C++ native
+    /// classes using @ref tbridger. The types included here are only the most basic symbols like `int`, `str`, `arr`,
+    /// `err`, `print()`.
+    ///
+    /// @section singleton_property Singleton Property
+    /// thread provides `static thread& get()`. Through this, @ref scope or @ref expr can access the currently active
+    /// thread object. When not using the default thread and creating a thread instance directly to run a program, it's
+    /// necessary to register the thread object and replace it with the original thread instance when the program ends.
+    /// To make this easier, use @ref threadUse.
+    ///
+    /// @code
+    ///     if(main.canEval(a)) {
+    ///         threadUse thr(getReport());
+    ///
+    ///         // doSomething() with new thread...
+    ///     }
+    ///     // When exiting, it's replaced with the original thread instance.
+    ///     // The program execution state before entering the block is restored.
+    /// @endcode
+    ///
+    /// As shown in the above example, threadUse automatically creates a thread object internally upon creation.
     class _nout thread: public node, public dumpable {
         BY(CLASS(thread, node))
         friend class verifier;  // for frames

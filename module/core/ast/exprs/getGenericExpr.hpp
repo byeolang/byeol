@@ -10,8 +10,11 @@ namespace by {
 
     /// @ingroup core
     /// @brief Generic type access expression
-    /// @details Represents access to generic types with type parameters (e.g., MyType<Int>).
-    /// Handles generic type instantiation and type parameter binding.
+    /// @details Uses @ref genericOrigin objects to create generic types.
+    ///
+    /// @section lazy_but_not_lazy Lazy but Not Lazy
+    /// genericOrigin lazily creates generic types using `eval()` with given type parameters. However, since they are
+    /// created in advance by the @ref verifier before program execution, they aren't actually created lazily.
     class _nout getGenericExpr: public getExpr {
         BY(CLASS(getGenericExpr, getExpr, expr::exprType), VISIT())
         friend class verifier;

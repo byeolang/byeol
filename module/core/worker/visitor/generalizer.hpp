@@ -8,8 +8,11 @@ namespace by {
 
     /// @ingroup core
     /// @brief Visitor for generic type parameter replacement
-    /// @details Replaces generic type parameters with concrete types in AST nodes.
-    /// Used during generic type instantiation to create specialized types.
+    /// @details A class that handles generic type creation based on @ref visitor. Mainly used by @ref getGenericExpr,
+    /// so refer to that class first. The most important part is the first line where inside a genericOrigin instance
+    /// called SomeGeneric, an origin object called SomeGeneric<myObj> is stored with the key `myObj`. generalizer is
+    /// used to create SomeGeneric<myObj> from SomeGeneric<T>, and at this time it simply finds `getExpr objects whose
+    /// args is T` and replaces them with `getExpr whose args is myObj`, performing this across all nodes.
     class _nout generalizer: public visitor {
         BY(CLASS(generalizer, visitor))
 

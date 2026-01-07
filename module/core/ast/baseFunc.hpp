@@ -13,8 +13,30 @@ namespace by {
 
     /// @ingroup core
     /// @brief Base class for all function types
-    /// @details Abstract base class providing common functionality for @ref func.
-    /// Manages parameters, return types, @ref modifier, and function execution semantics.
+    /// @details Abstract base class providing common functionality for all function types including @ref func, @ref
+    /// closure, and bridged functions like @ref tbridgeFunc. Manages parameters, return types, @ref modifier, and
+    /// function execution semantics.
+    ///
+    /// @section function_hierarchy Function Hierarchy
+    /// The function class hierarchy in byeol:
+    /// - **baseFunc** - Abstract base for all functions
+    ///   - **func** - User-defined functions with @ref blockExpr bodies
+    ///   - **closure** - Nested functions with captured scope
+    ///   - **tbridgeFunc** - C++ native functions exposed to byeol
+    ///   - **ctor** - Constructor functions
+    ///
+    /// @section parameters_and_return Parameters and Return
+    /// baseFunc manages:
+    /// - **Parameters** via `getParams()` - function parameter list with names and types
+    /// - **Return type** via `getRet()` - the type this function returns when called
+    /// - **Modifiers** via `getModifier()` - access control (public/protected/override)
+    ///
+    /// Note: `getRet()` returns the return type, not the function's own type. The function's type is obtained via
+    /// `getType()` or `infer()`.
+    ///
+    /// @section prioritization Argument Prioritization
+    /// baseFunc implements sophisticated `prioritize()` logic to select the best matching function overload based on
+    /// argument types. This enables function overloading in byeol.
     class _nout baseFunc: public node {
         BY(ME(baseFunc, node), VISIT())
         friend class generalizer; // for _getType()

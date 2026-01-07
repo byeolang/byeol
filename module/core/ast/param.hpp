@@ -7,9 +7,9 @@
 
 namespace by {
     /// @ingroup core
-    /// @brief Function parameter definition
-    /// @details Represents a single function parameter with name and type information.
-    /// Used in function signatures to define parameter requirements and type checking.
+    /// @brief Function parameter
+    /// @details param literally represents a parameter. It has a name and a reference to an origin object to
+    /// represent the type.
     class _nout param: public instance {
         BY(CLASS(param, instance))
 

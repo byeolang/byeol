@@ -23,8 +23,28 @@ namespace by {
 
     /// @ingroup core
     /// @brief Base worker template for processing tasks
-    /// @details Template class that provides the foundation for all workers in the byeol system.
-    /// Manages task execution, error reporting, logging, and area management.
+    /// @details tworker is optimized for performing large batch operations. It can collect errors that occur during
+    /// this process with @ref errReport and can change some operations during work by specifying various flags. Classes
+    /// that perform large operations such as @ref verifier, @ref visitor, and @ref parser run based on tworker.
+    ///
+    /// @section work_and_task Work and Task
+    /// tworker exists literally to `work()`. At this time, the input that is the target of the work is called `task`.
+    /// `_prepare()` is called before work and `_onEndWork()` is called when work ends.
+    ///
+    /// @section err_report errReport
+    /// Since large amounts of work must be performed with deep function depth, errReport must be used to sufficiently
+    /// detect errors deep in the call stack. tworker can receive an errReport object from outside through
+    /// `setReport()`. If errReport is not allocated, @ref dummyErrReport is used instead.
+    ///
+    /// @section log_flag Log Flag
+    /// tworker has various flags for logging during work.
+    ///
+    /// * LOG_ON_EX:    Leaves a one-line log when an error occurs
+    /// * DUMP_ON_EX:   Dumps the @ref err object including callstack when an error occurs
+    /// * GUARD:        Logs when function starts and ends
+    /// * INTERNAL:     Logs all logs except errors or GUARD
+    /// * LOG_ON_END:   When work is fully completed, leaves a one-line log for all collected errors with `log()`
+    /// * DUMP_ON_END:  When work is fully completed, `dump()` all collected errors
     template <typename R, typename T> class tworker: public typeProvidable, public clonable {
         BY(ADT(tworker))
         template <typename R1, typename T1> friend struct workerAdapter;

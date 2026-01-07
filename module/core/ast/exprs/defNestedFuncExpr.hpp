@@ -6,10 +6,9 @@
 
 namespace by {
     /// @ingroup core
-    /// @brief Nested @ref func definition expression (lambda)
-    /// @details Represents lambda expressions and nested function definitions.
-    /// Captures local scope at definition time and creates @ref closure for nested functions.
-    /// @note When evaluated, clones function with shallow copied block scope for variable capture.
+    /// @brief Nested function definition expression
+    /// @details Creates byeol language nested functions @ref nestedFunc. Nested functions can omit the name when
+    /// defined and can also be used as @ref closure.
     class _nout defNestedFuncExpr: public expr {
         BY(CLASS(defNestedFuncExpr, expr, expr::exprType), VISIT())
         friend class visitor;

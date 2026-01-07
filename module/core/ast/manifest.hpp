@@ -24,8 +24,9 @@ namespace by {
     typedef std::vector<entrypoint> entrypoints;
 
     /// @ingroup core
-    /// @brief pack manifest information
-    /// @details Contains metadata about pack including name, version, author, and entry points.
+    /// @brief Pack manifest information
+    /// @details An object containing basic information for loading a pack, written in the stela language. Parsed from
+    /// a `manifest.stela` file using the stela module.
     struct manifest: public validable {
         static constexpr const nchar* DEFAULT_NAME = "{default}";
 

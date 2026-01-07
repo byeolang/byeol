@@ -18,9 +18,56 @@ namespace by {
     template <typename T> class tbaseObjOrigin;
 
     /// @ingroup core
-    /// @brief Base class for all @ref obj "objects" in byeol language
-    /// @details Handles @ref frame injection events and provides common @ref obj "object" functionality.
-    /// Manages object @ref origin, state, @ref modifier "modifiers", and @ref frame interactions for all byeol objects.
+    /// @brief Base class for representing byeol objects
+    /// @details The base class for representing objects in byeol. The core module uses both objects in the managed
+    /// environment written in byeol language (@ref obj) and objects in the native environment written using C++ code
+    /// (@ref baseObj) without distinction. Both are @ref node and baseObj. To achieve this, obj inherits from
+    /// baseObj, grouping them into the same class hierarchy. Therefore, baseObj only has functionality common to
+    /// native and managed objects. In other words, managed object obj always has more functionality than baseObj.
+    ///
+    /// @section origin_object Origin Objects
+    /// The original type defined by users in the byeol language is called an @ref origin object. Constructor calls
+    /// like @ref ctor all create by copy-constructing origin objects.
+    ///
+    /// @section override_getOrigin Override getOrigin() for baseObj
+    /// To define a new baseObj in C++ code for use in byeol code, create a C++ class inheriting baseObj and override
+    /// getOrigin() to return the appropriate baseObj origin object. For example:
+    ///
+    /// @code
+    ///     // There's a C++ class nInt inheriting from baseObj that represents integers.
+    ///     // This nInt's origin is based on the nInt C++ class itself.
+    ///     // Being based on a C++ class makes it static and can be expressed as a singleton.
+    ///     const baseObj& nInt::getOrigin() const {
+    ///         // Using tbaseObjOrigin easily creates a tbaseObjOrigin object based on nInt class.
+    ///         static tbaseObjOrigin<me> org(tbridger<me>::ctor().ctor<me>().subs());
+    ///         const baseObj& supers = super::getOrigin();
+    ///         return &supers == this ? org : supers;
+    ///     }
+    /// @endcode
+    ///
+    /// @ref tbaseObjOrigin is a class template added for convenience. See that class for details. Using @ref tbridger
+    /// allows exposing native functions as managed functions in one simple line without additional code. @ref nStr
+    /// has a good example.
+    ///
+    /// @section baseobj_only_one_origin Unlike obj, baseObj's Origin Object Exists Only Once
+    /// obj represents objects written in byeol language. Among these, origin objects written with the `def` keyword
+    /// are represented as instances of the origin class. In contrast, baseObj cannot be used by itself; there exist
+    /// C++ classes that inherit from it. Understand the difference well. From C++ code's perspective, baseObj's origin
+    /// is static while obj's origin is dynamic. For example:
+    ///
+    /// @code
+    ///     // Look again at the previously written baseObj origin object example. Note it's a static object.
+    ///     // Can we do the same for obj?
+    ///
+    ///     // Suppose a user wrote the following in byeol code:
+    ///     //      def MyObj
+    ///     //          foo() void
+    ///     //              print("hello")
+    ///     // The MyObj type is dynamic from C++'s perspective. So we can't create class MyObj at compile time.
+    ///     // MyObj itself in byeol is called an origin object and is represented as an instance of the `origin` class.
+    ///     origin org(typeMaker::make<obj>(name)); // name == "MyObj"
+    ///     // Created at runtime by the parser as above, so it can't be a singleton or static.
+    /// @endcode
     class _nout baseObj: public node, public statable {
         BY(ADT(baseObj, node))
         friend class verifier;

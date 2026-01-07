@@ -24,9 +24,173 @@ namespace by {
     template <typename T> class tmock;
 
     /// @ingroup core
-    /// @brief Base class for all AST nodes in byeol language
-    /// @details Provides common API to manipulate sub nodes and handle
-    /// the hierarchical structure of the byeol abstract syntax tree.
+    /// @brief Base class for all AST nodes in the byeol language
+    /// @details The most fundamental class in the core module. Unlike traditional AST (Abstract Syntax Tree)
+    /// implementations, byeol executes programs while maintaining the AST structure, making it more akin to a
+    /// Program Execution Tree (PET). Provides comprehensive APIs for AST structure manipulation, node evaluation,
+    /// child node traversal, and type conversion.
+    ///
+    /// @section program_execution_tree Program Execution Tree
+    /// Unlike typical programming languages, byeol executes programs while maintaining the AST structure intact.
+    /// In most languages, the AST is merely an intermediate representation of grammatical structure, but in byeol,
+    /// the AST serves as the final executable output. Because execution is considered from the start, the class
+    /// provides not only tree-based program structure representation but also APIs for type conversion and node
+    /// evaluation.
+    ///
+    /// @section fundamental_class Fundamental Base Class
+    /// Each node must be executable, so a node can be a function, an object, or an operator like `+`. The
+    /// evaluation function is provided as `eval(const args&)` to execute and evaluate values.
+    ///
+    /// @section side_funcs Side Functions
+    /// As the core base class of the byeol project, node provides numerous side functions for various operations.
+    ///
+    /// @section ast_traversal AST Traversal
+    /// Due to AST characteristics, a node can contain objects of other node-derived classes. Like a DOM tree, it
+    /// uses the composition pattern, and various functions are provided to traverse this tree. In byeol, this tree
+    /// is called @ref scope and is map-based. Classes like @ref blockExpr contain statement blocks as arrays while
+    /// also being nodes. Therefore, the overall AST structure is a mix of maps and arrays. The scope uses each
+    /// node's name as a key, where the @ref parser defines appropriate names as keys when adding instances.
+    ///
+    /// Common traversal functions: `operator[], sub(), subs(), in(), subAll()`
+    ///
+    /// @code
+    ///     const node& root = getRoot();
+    ///     root.sub("name1");             // Find node named name1 in root (unknown if function or object)
+    ///     root.sub<func>("name1");       // Get symbol named name1 only if it's a function
+    ///
+    ///     // Find all nodes named name2 that take one int argument
+    ///     tnarr found = root.subAll("name2", args(narr(*new nInt())));
+    ///
+    ///     const scope& subs = root.subs(); // Can utilize all tbicontainable APIs
+    ///                                      // Supports for loops, iterators, lambda filtering, etc.
+    ///     subs.len();                      // Returns number of child nodes root has
+    /// @endcode
+    ///
+    /// @section duplicate_symbols Handling Duplicate Symbols
+    /// Byeol doesn't allow duplicate symbols within the same scope, but this doesn't mean two pairs with the same
+    /// key cannot exist. Functions with the same name but different parameter counts or types are different
+    /// symbols. Simple string comparison cannot determine duplication, so the scope class is based on multimap
+    /// rather than map.
+    ///
+    /// @section eval_section Evaluation
+    /// A node can be a function, object, or expression. `eval(const args&)` returns the execution result of such
+    /// nodes. (Byeol has no class concept; objects replace this role. Objects can be executed like functions,
+    /// equivalent to calling a constructor.) The @ref args object containing required arguments is passed to
+    /// eval(). If the node's expected parameters differ in count or type from args, an empty @ref str may be
+    /// returned. Some node functions take a name parameter along with `eval()`, which finds child nodes matching
+    /// the node's name and passes args to evaluate them—essentially dispatching a message.
+    ///
+    /// @section infer_section Type Inference
+    /// `infer()` performs type inference. It doesn't return the exact runtime value but the type determined at
+    /// verification stage. For example:
+    ///
+    /// @code
+    ///     // In byeol language, `2 + 3.5` is represented as:
+    ///     FBOExpr e = FBOExpr(FBOExpr::SYMBOL_ADD, *new nInt(2), *nFlt(3.5));
+    ///
+    ///     str infered = e.infer();       // What type results from adding int 2 and flt 3.5?
+    ///     infered->cast<nFlt>() != nullptr; // true: answer is flt
+    /// @endcode
+    ///
+    /// This creates an expression like 2 + 3.5 by putting @ref nInt and @ref nFlt objects into @ref FBOExpr.
+    /// Calling `infer()` yields nFlt due to type promotion (int + flt = flt). Type inference for an expression
+    /// requires recursively calling type inference on child nodes, unlike `getType()` which returns immediately.
+    /// The AST must be traversed to calculate type information. Note that type inference focuses on quickly
+    /// determining types and doesn't compute values. In the example above, the nFlt value in `infered` contains
+    /// the default value—use `eval()` for accurate values.
+    ///
+    /// @section type_conversion Type Conversion
+    /// Node provides `as()` for explicit type conversion and `is()` to check conversion possibility:
+    ///
+    /// @code
+    ///     // The following byeol code translated to C++:
+    ///     //  foo(val int) void
+    ///     //      if val is flt
+    ///     //          doSomething(val as flt)
+    ///
+    ///     void foo(const nInt& val) {
+    ///         if(val.is<nFlt>()) {
+    ///             str isFlt = val.as<nFlt>();
+    ///             nflt converted = isFlt->get();
+    ///             doSomething(converted);
+    ///         }
+    ///     }
+    /// @endcode
+    ///
+    /// `as()` and `is()` provide various side functions, enabling generic functions:
+    ///
+    /// @code
+    ///     str convertIfPossible(const node& it, const node& toThisType) {
+    ///         // getType() retrieves type information (C++ class type or user-defined byeol type)
+    ///         // See type and ntype classes for details
+    ///         if(!it.is(toThisType.getType())) return str();
+    ///         return it.as(toThisType.getType());
+    ///     }
+    /// @endcode
+    ///
+    /// This example is verbose for clarity. Real code uses @ref WHEN for brevity. Rewriting foo():
+    ///
+    /// @code
+    ///     void foo(const nInt& val) {
+    ///         tstr<nFlt> converted = val OR.ret(); // early-return pattern + WHEN + OR macro
+    ///         doSomething(converted->get());
+    ///     }
+    /// @endcode
+    ///
+    /// @section managed_vs_native Managed vs Native Type Conversion
+    /// The `as()` and `is()` functions handle type conversion in the byeol language environment. For example,
+    /// @ref nInt is the C++ class representing byeol's `int`. It inherits from @ref node because int can be an AST
+    /// instance in byeol. Calling is<nFlt>() on nInt is allowed, but this doesn't mean nInt converts to nFlt in
+    /// C++ code. In C++, implicit conversion is generally only allowed when nInt is a parent class of nFlt.
+    ///
+    /// To check if nFlt is a kind of node, use the meta module's type conversion via `cast()`. The meta module
+    /// manages native environment types in C++ code. Thus, two type conversion systems exist: one for native (C++)
+    /// and one for managed (byeol language):
+    ///
+    /// @code
+    ///     // Simplified inheritance relationship of nFlt and nInt:
+    ///     class nFlt : public obj {};
+    ///     class nInt : public obj {};
+    ///     class obj : public node {};
+    ///
+    ///     nInt val1;
+    ///     nFlt val2;
+    ///
+    ///     // Native type conversion:
+    ///     nFlt* cast1 = dynamic_cast<nFlt>(val1);  // nullptr: disallowed conversion
+    ///     nFlt* cast2 = val1.cast<val2>();          // nullptr: same, using meta module conversion
+    ///     node* isNode = val1.cast<node>();         // != nullptr: upcasting allowed
+    ///     isNode->cast<nFlt>();                     // nullptr
+    ///     &val1 == isNode->cast<nInt>();            // true
+    ///
+    ///     // Managed type conversion:
+    ///     val1.is<nFlt>(); // true: byeol supports explicit int <-> flt conversion
+    /// @endcode
+    ///
+    /// The core module often implements the same concept separately for native and managed environments. Get
+    /// familiar with this pattern. See @ref ases and @ref asable for type conversion flow details.
+    ///
+    /// @section implicit_explicit Implicit vs Explicit Conversion
+    /// Implicit conversion is provided via `impliAs()` and `impliIs()`. Rarely called directly by external code;
+    /// mostly invoked by AST classes like @ref expr and @ref baseFunc. User-defined type conversions are naturally
+    /// excluded from implicit conversion, hence the distinction.
+    ///
+    /// @section visitable_class Visitable Class
+    /// AST traversal occurs for various purposes, not just `eval()` but also for debugging output. To separate
+    /// traversal methods from node processing, the visitor pattern must be applied to nodes. `accept()` is used by
+    /// the @ref visitor class, and each class header requires the VISIT macro. See @ref visitor for details.
+    ///
+    /// @section frame_interaction Frame Interaction
+    /// @ref frame manages the currently executing scope and registered symbols. Since node forms the AST base, if a
+    /// node is an object or function, it must register or unregister owned functions or properties with the frame.
+    /// `inFrame()` and `outFrame()` handle this. See @ref frame for details.
+    ///
+    /// @section message_priority Message Priority
+    /// Byeol supports function overloading, so an object may have multiple functions with the same name but
+    /// different parameters. Some functions match args exactly, while others may require type conversion. Node uses
+    /// `prioritize()` to determine how well child nodes match given args. Derived node classes return EXACT_MATCH
+    /// for precise matches and NO_MATCH otherwise. See @ref tprior and @ref priorType for detailed criteria and
+    /// algorithms.
     class _nout node: public instance, public frameInteractable {
         BY(ADT(node, instance))
         friend class exprMaker; // for _setSrc
@@ -111,8 +275,8 @@ namespace by {
         str eval(const std::string* it) BY_SIDE_FUNC(eval);
         str eval();
 
-        /// release all holding resources and ready to be terminated.as(
-        /// @remark some class won't be able to reinitialize after rel() got called.
+        /// Release all held resources and prepare for termination.
+        /// @remark Some classes won't be able to reinitialize after rel() is called.
         virtual void rel() {}
 
         template <typename T> nbool is() const { return is(ttype<T>::get()); }

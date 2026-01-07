@@ -10,7 +10,31 @@ namespace by {
 
     /// @ingroup core
     /// @brief Program execution starter
-    /// @details Worker that initiates and manages byeol program execution with main function lookup.
+    /// @details A kind of @ref worker that executes AST verified by @ref verifier. If an exception occurs in @ref
+    /// thread during execution, it dumps logs and returns the exception. See @ref worker for more details if
+    /// unfamiliar with the worker concept.
+    ///
+    /// @section main_function_lookup Main Function Look Up
+    /// The main function must meet the following conditions:
+    ///
+    /// 1. Found directly under root (pack)
+    /// 2. Name must be `main`
+    /// 3. Return type must be void or int
+    /// 4. Main function must have 1 or more statements
+    ///
+    /// @section usage_example Usage Example
+    /// Can be used with @ref interpreter to parse and execute byeol code.
+    ///
+    /// @code
+    ///     interpreter ip;
+    ///     ip.work();
+    ///     if(!ip.isVerified()) return -1;
+    ///
+    ///     str res = starter().setTask(ip.getSubPack()).work();
+    ///     if(res)
+    ///         if(res->isSub<nInt>()) return *res->cast<nInt>();
+    ///     return -1;
+    /// @endcode
     class _nout starter: public tworker<str, node> {
         typedef tworker<str, node> __super8;
         BY(CLASS(starter, __super8))

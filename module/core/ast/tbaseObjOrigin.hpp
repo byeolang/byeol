@@ -6,20 +6,23 @@
 namespace by {
 
     /// @ingroup core
-    /// @brief Template base object @ref origin for user-defined classes
-    /// @details Template for creating origin objects for user-defined classes in unmanaged code.
-    /// @note Origin should be shadowed to 'baseObj' type for proper interaction.
-    /// this baseObjOrigin class is represents user defined classes in unmanaged codes.
-    /// one important thing you must remember is, origin should be shadowed to 'baseObj' type.
-    /// every interaction you can take with origin could be handled with baseObj class.
-    /// and inherits something too origin class aren't allowed.
+    /// @brief Template for easily defining baseObj origin objects
+    /// @details A class template used to easily define @ref origin objects for baseObj.
     ///
-    /// @warning this limitation affects to usage of binder too.
-    /// simply, declaring binder with type parameter 'baseObjOrigin' is not allowed. use 'baseObj'
-    /// type instead of.
+    /// @remark See origin and @ref baseObj first.
+    ///
+    /// The structure and concept are identical to the origin class. It shadows its own type and is intended to be
+    /// treated as baseObj type. However, differences arise in usage. This is because the baseObj class concept differs
+    /// from obj.
+    ///
+    /// @remark Unlike obj, baseObj's origin object exists only once. See baseObj for details.
+    ///
+    /// @warning This limitation affects binder usage too. Simply declaring a binder with type parameter
+    /// 'baseObjOrigin' is not allowed. Use 'baseObj' type instead.
+    ///
     /// @code
     ///     tstr<baseObjOrigin> a; // X, unexpected behavior may happen.
-    ///     tstr<baseObj> a; // O
+    ///     tstr<baseObj> a;       // O
     /// @endcode
     template <typename T> class tbaseObjOrigin: public T {
         BY(ME(tbaseObjOrigin, T), INIT_META(tbaseObjOrigin))

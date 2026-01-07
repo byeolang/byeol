@@ -10,9 +10,13 @@ namespace by {
     class visitor;
 
     /// @ingroup core
-    /// @brief Pack slot for @ref packLoading "loading" and management
-    /// @details Represents a loadable package with @ref manifest information and dependencies.
-    /// Manages pack lifecycle, validation, and dependency relationships.
+    /// @brief Pack slot
+    /// @details The byeol language distributes libraries in units called `pack`, a type of compressed file. A pack
+    /// file contains a top-level `@ref obj` object, @ref manifest, and a list of dependent packs. (In byeol, to use
+    /// another pack in your code, you must declare the dependency relationship in the manifest.)
+    ///
+    /// A slot is the result created from a pack file; it doesn't handle loading the pack. See @ref packLoading or
+    /// @ref slotLoader for pack loading details.
     class _nout slot: public node {
         BY(CLASS(slot, node), VISIT())
 

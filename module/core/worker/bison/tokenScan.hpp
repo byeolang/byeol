@@ -14,8 +14,17 @@ namespace by {
 
     /// @ingroup core
     /// @brief Base class for token scanning strategies
-    /// @details Abstract base class for different token scanning modes in the parser.
-    /// Handles token processing and provides foundation for specialized scanning.
+    /// @details @ref parser dynamically switches scan modes to precisely measure indentation as mentioned in its
+    /// documentation. tokenScan represents one such scan mode strategy.
+    ///
+    /// @section command_tokens Command Tokens
+    /// Among tokens, there are command tokens like `SCAN_AGAIN` and `SCAN_EXIT` that give commands to the scanner or
+    /// parser. See the `// mode:` section in the middle of `lowparser.y` for details.
+    ///
+    /// @section is_bypass isBypass
+    /// In the case of IndentScan, most tokens are ignored and it focuses only on counting how many spaces there are.
+    /// However, if multiple tokens were pushed from the previous line, it operates in bypass mode internally. In this
+    /// case, it skips the indentation counting operation and reads and returns the stored tokens as is.
     class _nout tokenScan: public tokenScanable, public typeProvidable, public clonable {
         BY(ADT(tokenScan))
 

@@ -12,10 +12,52 @@ namespace by {
     class evalExpr;
 
     /// @ingroup core
-    /// @brief Managed object in byeol programming environment
-    /// @details Represents objects structured in the managed byeol environment.
-    /// Owned sub nodes can only be manipulated through the obj API, unlike
-    /// native objects which only have shared @ref node "nodes".
+    /// @brief Managed environment object
+    /// @details The class representing objects in the managed environment. Extends baseObj's functionality to add
+    /// scope handling and concepts for shares and owns needed only in the managed environment.
+    ///
+    /// @section obj_as_type obj as a Type
+    /// In C++, types are represented by classes, but byeol has no class concept. Since there's no distinction between
+    /// objects and classes, `obj` itself is the type. For example, look at this C++ code:
+    ///
+    /// @code
+    ///     class A {}; // In C++, class is the type.
+    ///     A* a = new A(); // Objects and classes are strictly distinguished.
+    ///
+    ///     // byeol code:
+    ///     //  def myObj
+    ///     //      name str
+    ///     //      foo() void: ...
+    ///     //
+    ///     //  myObj2 myObj
+    ///     //
+    ///     // The above code translated to C++:
+    ///     obj myObj = new obj(....);  // When created with `def` in byeol.
+    ///     obj* myObj2 = myObj.clone(); // When creating object with `myObj2 myObj` in byeol.
+    /// @endcode
+    ///
+    /// As shown, in the managed environment, objects are just obj created via two paths: `obj defined with def` and
+    /// `obj cloned from obj`. Since both are used as types, distinguishing them is meaningless.
+    ///
+    /// @section shares_owns Shares and Owns
+    /// For baseObj, since the base is a C++ native class, object creation also occurs through C++'s `new` and
+    /// constructors, simultaneously creating member variables defined in that class. But what about writing byeol code?
+    /// In the managed environment, obj representing objects can have properties like `name` in the example above. Since
+    /// defining objects in managed environment is cloning objects from @ref origin objects, calling clone() on origin
+    /// also copies properties and funcs. At this time, funcs only need one in the system and don't need to be copied
+    /// each time a func object is created. Conversely, properties like name must be copied with different values per
+    /// instance. To handle this efficiently, parts shared among objs of the same type are separated into shares, and
+    /// parts that get copied are separated into owns. Therefore, when obj's clone() occurs, shares only gets references
+    /// to shares from the original origin, and only the owns part performs clone.
+    ///
+    /// @section immutable_type Immutable Types
+    /// str, int, and other scalar types are all immutable types. This stems from byeol's calling strategy following
+    /// `by object`, which operates like C-family languages like Java and C# commonly use: `references to objects are
+    /// shallow copied, raw types are deep copied`. node is just node, and obj shouldn't know whether the node it must
+    /// insert is an immutable type. Breaking this also breaks polymorphism. So whether to copy an incoming object or
+    /// just point to a reference is determined through @ref immutableTactic.
+    ///
+    /// See @ref immutableTactic or tscalar for details.
     class _nout obj: public baseObj {
         BY(ME(obj, baseObj), INIT_META(obj), CLONE(obj), VISIT())
 

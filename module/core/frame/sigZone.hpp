@@ -6,7 +6,9 @@
 namespace by {
     /// @ingroup core
     /// @brief Signal handler zone management
-    /// @details RAII wrapper for managing signal handler registration and cleanup.
+    /// @details RAII wrapper for @ref signaler that manages signal handler registration and cleanup. When a sigZone
+    /// instance is defined within a block scope, it uses signaler to execute a lambda function if a signal arrives
+    /// during code execution within that block.
     class _nout sigZone {
         BY(ME(sigZone))
 

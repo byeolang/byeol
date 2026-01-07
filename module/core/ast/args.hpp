@@ -7,9 +7,17 @@
 namespace by {
 
     /// @ingroup core
-    /// @brief Function call arguments container
-    /// @details Container for function call arguments with 'me' object support.
-    /// Manages argument evaluation, type checking, and parameter matching for function calls.
+    /// @brief Function or object evaluation arguments
+    /// @details Represents arguments passed for `eval()` of functions or objects. Inherits from @ref narr, so all
+    /// narr APIs can be used.
+    ///
+    /// @section me_object Me Object
+    /// args is characterized by including a `me` object when passed. For example, with functions, the function
+    /// fundamentally cannot know from which runtime object the `eval()` request came. Unlike some other languages,
+    /// it doesn't create a hidden `thisptr` in args. Through separate `setMe()`, functions or properties using args
+    /// can know from which object these args were passed.
+    ///
+    /// Note that @ref baseObj calls `setMe(this)` to place itself in args when `eval(name, args)` is called.
     class _nout args: public narr {
         BY(CLASS(args, narr))
 

@@ -8,9 +8,18 @@
 namespace by {
 
     /// @ingroup core
-    /// @brief Error reporting and collection system
-    /// @details Collects and manages errors and warnings during compilation and runtime.
-    /// Provides filtering, logging, and reporting capabilities for diagnostic messages.
+    /// @brief Error report collector
+    /// @details A class that holds @ref baseErr objects. When there's logic that takes a long time or performs complex
+    /// operations, function depth becomes very deep. When errors occur in inner functions, use errReport to record
+    /// errors and continue work as much as possible while recording that errors occurred.
+    ///
+    /// @section container_section Container
+    /// Since errReport's almost all functionality is managing @ref baseErr objects, it has an interface similar to
+    /// @ref tucontainable.
+    ///
+    /// @section noisy_section Noisy
+    /// Some errReports want to automatically perform log() each time a new err object is added. In this case, specify
+    /// `setNoisy(true)`.
     class _nout errReport: public instance, public dumpable {
         BY(CLASS(errReport, instance))
 

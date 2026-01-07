@@ -7,9 +7,9 @@
 namespace by {
 
     /// @ingroup core
-    /// @brief Source file representation
-    /// @details Represents byeol source files with filename and content information.
-    /// Used for tracking source code origin and content during compilation.
+    /// @brief Source code file information
+    /// @details Literally contains information about the source code file that is the origin of the AST. Used as a
+    /// core feature in the byeol language's Context-based REPL.
     class _nout srcFile: public node {
         BY(CLASS(srcFile, node), VISIT())
 

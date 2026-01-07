@@ -9,9 +9,17 @@ namespace by {
     class errReport;
 
     /// @ingroup core
-    /// @brief Block expression containing multiple statements
-    /// @details Represents a sequence of statements executed in order.
-    /// Used for function bodies, control flow blocks, and compound statements.
+    /// @brief Block expression
+    /// @details Handles block expressions. It's frameInteractable, and when frame registration is requested
+    /// externally, it creates and registers one scope. This scope is valid only within this block statement,
+    /// commonly known as a local scope.
+    ///
+    /// @remark blockExpr doesn't create a local scope inside the eval() function. This optimizes by preventing
+    /// unnecessary scope creation in certain contexts.
+    ///
+    /// @section blocks_are_expressions Blocks are Expressions
+    /// The byeol language is mostly composed of expressions, and block statements are no exception. A block
+    /// statement returns the evaluation result of its last line.
     class _nout blockExpr: public expr {
         BY(CLASS(blockExpr, expr, expr::exprType), VISIT())
         friend class verifier;

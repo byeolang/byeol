@@ -11,9 +11,8 @@ namespace by {
     class visitor;
 
     /// @ingroup core
-    /// @brief Fundamental Unary Operation expression
-    /// @details Represents unary operations like ++, --, ~, etc.
-    /// Handles postfix increment/decrement and bitwise NOT operations on single operands.
+    /// @brief Fundamental Unary Operator expression
+    /// @details Handles unary operator expressions. One operand goes into args and must be a @ref scalar type.
     class _nout FUOExpr: public expr {
         BY(CLASS(FUOExpr, expr, expr::exprType), VISIT())
 

@@ -7,7 +7,10 @@ namespace by {
 
     /// @ingroup core
     /// @brief AST graph visualization visitor
-    /// @details Visitor that generates tree-like visual representations of AST nodes for debugging.
+    /// @details An AST logging class based on @ref visitor that logs all detailed information while traversing the
+    /// given root @ref node as task. Used by @ref interpreter in debug builds, output when a crash occurs by @ref
+    /// defaultSigZone, or flag is set by @ref logStructureFlag to make @ref interpreter or @ref starter use
+    /// graphVisitor.
     class _nout graphVisitor: public visitor {
         BY(CLASS(graphVisitor, visitor))
 

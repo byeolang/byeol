@@ -10,8 +10,15 @@ namespace by {
 
     /// @ingroup core
     /// @brief Generic type origin with type parameters
-    /// @details Manages generic type definitions with type parameter substitution.
-    /// Caches instantiated generic types and handles type parameter binding.
+    /// @details Basically performs the same role as origin class, but differs in that it supports generics and that
+    /// this instance itself is not responsible for origin but creates/manages origin as needed.
+    ///
+    /// @section operation_method Operation Method
+    /// genericOrigin manages origin objects with a map. When there's no `myObj` key in it, it deepClones the original
+    /// origin object _org to create a new @ref origin object. Then it puts generalizer into that object to perform the
+    /// operation of replacing all type parameter T with myObj, changing the existing getExpr(args = T) parts to
+    /// getExpr(args = myObj). The replaced origin is registered in subs() so that when called later with the same key,
+    /// it's returned immediately without generalizer.
     class _nout genericOrigin: public baseObj {
         BY(CLASS(genericOrigin, baseObj), VISIT())
         friend class verifier;

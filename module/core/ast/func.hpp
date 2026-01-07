@@ -14,9 +14,26 @@ namespace by {
 
     /// @ingroup core
     /// @brief Function definition in byeol language
-    /// @details Represents a function with parameters, return @ref ntype "type", and
-    /// @ref blockExpr "executable block".
+    /// @details Represents a user-defined function with parameters, return @ref ntype "type", and @ref blockExpr
+    /// "executable block". Extends @ref baseFunc to provide concrete function implementation with actual code body.
     /// Manages function execution context, parameter handling, and return value processing.
+    ///
+    /// @section function_execution Function Execution
+    /// When a func is evaluated:
+    /// 1. Creates a new @ref frame and registers it with @ref thread
+    /// 2. Binds arguments to parameters in the frame's scope
+    /// 3. Executes the @ref blockExpr body
+    /// 4. Processes return value and cleans up the frame
+    /// 5. Runs any @ref endExpr statements (cleanup code)
+    ///
+    /// @section frame_interaction Frame Interaction
+    /// func implements @ref frameInteractable, meaning it interacts with the execution frame stack. During execution,
+    /// it calls `inFrame()` to register its scope and parameters, then `outFrame()` to clean up when execution
+    /// completes.
+    ///
+    /// @section abstract_functions Abstract Functions
+    /// func can be abstract (no body) when used in type definitions. Use `isAbstract()` to check. Abstract functions
+    /// have no @ref blockExpr and cannot be executed directly.
     class _nout func: public baseFunc {
         BY(ME(func, baseFunc), CLONE(func), VISIT())
         friend class verifier;

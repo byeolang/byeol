@@ -6,9 +6,9 @@
 
 namespace by {
     /// @ingroup core
-    /// @brief Access modifier for class members and @ref func.
-    /// @details Manages visibility and override properties for @ref func and properties.
-    /// Controls public/private access and explicit override declarations.
+    /// @brief Access modifier for type members
+    /// @details Represents access modifiers for functions or properties belonging to types. The byeol language has
+    /// only three types of modifiers: public/protected/override.
     class _nout modifier: public instance {
         BY(CLASS(modifier, instance))
 

@@ -8,8 +8,29 @@ namespace by {
 
     /// @ingroup core
     /// @brief High-level interpreter for byeol language
-    /// @details Coordinates parsing, expansion, and verification phases of interpretation.
-    /// Manages the complete interpretation pipeline from source to executable slots.
+    /// @details Coordinates the complete interpretation pipeline combining @ref parser, @ref expander, and @ref
+    /// verifier. Manages the entire process from source code to executable @ref slot instances. This is the main entry
+    /// point for interpreting byeol source code.
+    ///
+    /// @section interpretation_pipeline Interpretation Pipeline
+    /// The interpreter executes the following stages in order:
+    /// 1. **Parsing** - Converts source code to AST using @ref parser
+    /// 2. **Expansion** - Performs prior type inference using @ref expander
+    /// 3. **Verification** - Validates semantics and type safety using @ref verifier
+    ///
+    /// Each stage must complete successfully before the next stage begins. If any stage fails, errors are collected in
+    /// the @ref errReport and the process stops.
+    ///
+    /// @section usage_with_starter Usage with starter
+    /// After interpretation completes successfully, use @ref starter to actually execute the verified AST:
+    ///
+    /// @code
+    ///     interpreter ip;
+    ///     ip.work();
+    ///     if(!ip.isVerified()) return -1;
+    ///
+    ///     str res = starter().setTask(ip.getSubPack()).work();
+    /// @endcode
     class _nout interpreter: public tworker<tstr<slot>, slot> {
         typedef tworker<tstr<slot>, slot> __super7;
         BY(CLASS(interpreter, __super7))

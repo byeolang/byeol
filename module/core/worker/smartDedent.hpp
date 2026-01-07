@@ -6,7 +6,19 @@
 namespace by {
     /// @ingroup core
     /// @brief Smart indentation management for code parsing
-    /// @details Handles automatic dedentation tracking during parsing with enable/disable states.
+    /// @details A class that @ref parser uses to count and manage in an array how many leading spaces there are each
+    /// time it creates a scope with indentation. For example, when parsing the following byeol code:
+    ///
+    /// @code
+    /// def config
+    ///     def device
+    ///       name := "my device"
+    ///       # 1)
+    /// @endcode
+    ///
+    /// If the parser is parsing at position 1, smartDedent's internal array value is [0, 4, 6]. That is, the number of
+    /// spaces for the outermost scope is smartDedent[0] = 0, and the number of spaces proving it's the scope of the
+    /// innermost device scope is smartDedent[smartDedent.len() - 1] = 6, meaning there should be 6 leading spaces.
     class _nout smartDedent: public typeProvidable, public clonable {
         BY(CLASS(smartDedent))
 

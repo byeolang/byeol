@@ -10,9 +10,10 @@
 namespace by {
 
     /// @ingroup core
-    /// @brief Bridge template for C++ objects
-    /// @details Template that bridges native C++ objects with byeol object system.
-    /// bridge object only can shares 'shared' sub nodes.
+    /// @brief C++ native class bridge
+    /// @details A baseObj that mimics C++ native classes, created from the @ref tbridger class. See tbridger for
+    /// details.
+    ///
     /// @param T represents native class.
     template <typename T> class tbridge: public baseObj {
         // TODO: how to impement 'as()' on bridge obj:
