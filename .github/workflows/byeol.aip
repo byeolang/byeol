@@ -49,8 +49,8 @@
     <ROW Component="clog.dll" ComponentId="{113882C1-7357-44AA-ADCB-D8AD1E8E45C7}" Directory_="byeolwinx64_Dir" Attributes="256" KeyPath="clog.dll"/>
     <ROW Component="core.dll" ComponentId="{B7AF3E23-B60F-4DA8-9D31-13E16C58548E}" Directory_="byeolwinx64_Dir" Attributes="256" KeyPath="core.dll"/>
     <ROW Component="indep.dll" ComponentId="{0BE42A17-30D2-42CE-96B8-E341C4AF5AEB}" Directory_="byeolwinx64_Dir" Attributes="256" KeyPath="indep.dll"/>
-    <ROW Component="leaf.dll" ComponentId="{6724CB6F-9620-4C4A-96E0-4E1B1D3878ED}" Directory_="byeolwinx64_Dir" Attributes="256" KeyPath="leaf.dll"/>
-    <ROW Component="manifest.leaf" ComponentId="{A5D80F60-5BF0-426A-B6B1-A37EA338DFBA}" Directory_="sys_Dir" Attributes="0" KeyPath="manifest.leaf" Type="0"/>
+    <ROW Component="stela.dll" ComponentId="{6724CB6F-9620-4C4A-96E0-4E1B1D3878ED}" Directory_="byeolwinx64_Dir" Attributes="256" KeyPath="stela.dll"/>
+    <ROW Component="manifest.stela" ComponentId="{A5D80F60-5BF0-426A-B6B1-A37EA338DFBA}" Directory_="sys_Dir" Attributes="0" KeyPath="manifest.stela" Type="0"/>
     <ROW Component="memlite.dll" ComponentId="{94222E44-89E4-4AB9-A720-E5DBA768454C}" Directory_="byeolwinx64_Dir" Attributes="256" KeyPath="memlite.dll"/>
     <ROW Component="meta.dll" ComponentId="{C596D630-E814-4365-AB15-B6590160CE6B}" Directory_="byeolwinx64_Dir" Attributes="256" KeyPath="meta.dll"/>
     <ROW Component="byeol.exe" ComponentId="{FAD5AFAC-D0CB-4D1B-AFCA-AA0E606F2EF4}" Directory_="byeolwinx64_Dir" Attributes="256" KeyPath="byeol.exe"/>
@@ -64,13 +64,13 @@
     <ROW File="clog.dll" Component_="clog.dll" FileName="clog.dll" Attributes="0" SourcePath="..\..\bin\clog.dll" SelfReg="false"/>
     <ROW File="core.dll" Component_="core.dll" FileName="core.dll" Attributes="0" SourcePath="..\..\bin\core.dll" SelfReg="false"/>
     <ROW File="indep.dll" Component_="indep.dll" FileName="indep.dll" Attributes="0" SourcePath="..\..\bin\indep.dll" SelfReg="false"/>
-    <ROW File="leaf.dll" Component_="leaf.dll" FileName="leaf.dll" Attributes="0" SourcePath="..\..\bin\leaf.dll" SelfReg="false"/>
+    <ROW File="stela.dll" Component_="stela.dll" FileName="stela.dll" Attributes="0" SourcePath="..\..\bin\stela.dll" SelfReg="false"/>
     <ROW File="LICENSE.md" Component_="CHANGELOGS.md" FileName="LICENSE.md" Attributes="0" SourcePath="..\..\bin\LICENSE.md" SelfReg="false"/>
     <ROW File="memlite.dll" Component_="memlite.dll" FileName="memlite.dll" Attributes="0" SourcePath="..\..\bin\memlite.dll" SelfReg="false"/>
     <ROW File="meta.dll" Component_="meta.dll" FileName="meta.dll" Attributes="0" SourcePath="..\..\bin\meta.dll" SelfReg="false"/>
     <ROW File="byeol.exe" Component_="byeol.exe" FileName="byeol.exe" Attributes="0" SourcePath="..\..\bin\byeol.exe" SelfReg="false" DigSign="true"/>
-    <ROW File="manifest.leaf" Component_="manifest.leaf" FileName="MANIFE~1.LEA|manifest.leaf" Attributes="0" SourcePath="..\..\bin\pack\sys\manifest.leaf" SelfReg="false"/>
-    <ROW File="sys.pack" Component_="manifest.leaf" FileName="SYS~1.PAC|sys.pack" Attributes="0" SourcePath="..\..\bin\pack\sys\sys.pack" SelfReg="false"/>
+    <ROW File="manifest.stela" Component_="manifest.stela" FileName="MANIFE~1.STE|manifest.stela" Attributes="0" SourcePath="..\..\bin\pack\sys\manifest.stela" SelfReg="false"/>
+    <ROW File="sys.pack" Component_="manifest.stela" FileName="SYS~1.PAC|sys.pack" Attributes="0" SourcePath="..\..\bin\pack\sys\sys.pack" SelfReg="false"/>
     <ROW File="README.md" Component_="CHANGELOGS.md" FileName="README.md" Attributes="0" SourcePath="..\..\bin\README.md" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
@@ -161,11 +161,11 @@
     <ROW Feature_="MainFeature" Component_="clog.dll"/>
     <ROW Feature_="MainFeature" Component_="core.dll"/>
     <ROW Feature_="MainFeature" Component_="indep.dll"/>
-    <ROW Feature_="MainFeature" Component_="leaf.dll"/>
+    <ROW Feature_="MainFeature" Component_="stela.dll"/>
     <ROW Feature_="MainFeature" Component_="memlite.dll"/>
     <ROW Feature_="MainFeature" Component_="meta.dll"/>
     <ROW Feature_="MainFeature" Component_="byeol.exe"/>
-    <ROW Feature_="MainFeature" Component_="manifest.leaf"/>
+    <ROW Feature_="MainFeature" Component_="manifest.stela"/>
     <ROW Feature_="MainFeature" Component_="SHORTCUTDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
