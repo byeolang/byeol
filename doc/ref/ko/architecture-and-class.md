@@ -19,7 +19,7 @@ Byeol 프로젝트는 엄격한 계층형 아키텍처를 따릅니다. 각 계�
 ### 계층 구조
 
 ```
-@lang: sh
+@style: language-txt verified
 ┌───────────────────┐
 │         frontend (CLI)               │  ← 사용자 인터페이스
 ├───────────────────┤
@@ -68,7 +68,7 @@ branching을 위한 if인지 아니면 return하려고 하는 if인지 구분이
 다음과 같은 코드를 보면 좀 체감이 될 것입니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 str me::eval(const args& a) {
     std::string key = _makeKey(a);
     if(key.empty()) {
@@ -94,7 +94,7 @@ WHEN 매크로는 이 부분을 해결하는 것으로 WHEN은 early-return 패�
 결과 다음과 같이 코드가 간략해지고 if의 목적이 명확해집니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 str me::eval(const args& a) {
     std::string key = _makeKey(a);
     WHEN(key.empty()).err("key is empty").ret(tstr<obj>());
@@ -137,7 +137,7 @@ WHEN 매크로는 프로젝트 내에서 아주 빈번하게 사용되므로 잘
 tmay는 에러를 반환할 수 있는 함수의 반환 타입으로 사용됩니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 tmay<int> divide(int a, int b) {
     if (b == 0)
         return tmay<int>(); // 에러 상황
@@ -165,7 +165,7 @@ if (result.has()) {
 tres는 tmay와 달리 에러 정보도 함께 반환할 수 있습니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 tres<int, std::string> parseNumber(const std::string& str) {
     if (str.empty())
         return tres<int, std::string>("입력이 비어있습니다");
@@ -199,7 +199,7 @@ if (result.has()) {
 윈도우에서는 WINAPI를 사용해야 합니다. 이때 `platformAPI::foreColor()`를 사용하면,
 
 ```
-@lang: cpp
+@style: language-cpp verified
 cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(rightName)
      << foreColor(LIGHTGRAY) << ")";
 ```
@@ -219,7 +219,7 @@ cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(right
 예:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 if(buildFeature::config::isDbg())
     platformAPI::unlimitCoreDump();
 
@@ -246,7 +246,7 @@ buildFeature::platform::getName()을 사용해서 코드를 branch 하는 건 �
 사용 예제는 아래와 같습니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 auto e = fsystem::find("../your/path");
 while(e.next()) { // 모든 파일을 탐색하면 false를 반환한다.
     const std::string& path = *e; // 찾은 파일의 경로
@@ -280,7 +280,7 @@ STL과 마찬가지로 begin은 첫번째 원소를 가리키지만, end는 마�
 먼저 간단한 정방향 순회 예제입니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 std::string src = "abc🏁"; // UTF8에서 🏁는 4바이트로 표현되지만 1개의 codepoint다.
 cpIter e(src); // 기본은 정방향, 첫 번째 문자를 가리킨다.
 
@@ -296,7 +296,7 @@ while(e) { // iterator가 유효한 동안
 좀 더 복잡한 역방향 순회 예제입니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 std::string src = "abcd🏁efg"; // UTF8에서 🏁는 3개의 character로 표현된다.
 cpIter e4(src, true); // 기본 iteration 을 역방향으로 정의한다. 이때 마지막 원소의 다음 위치를 가리킨다.
 while(*e4 != "") // 현재 end 위치에 있으므로, 이때는 ""가 반환된다.
@@ -337,7 +337,7 @@ dlib은 RAII idiom으로 구현되어 있습니다. 해당 인스턴스가 소�
 반환하기 위해 comma 연산자 `(rel(), false)`를 사용합니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 dlib lib = dlib(path); // 1번과 2번을 동시에 한다.
 auto res = lib.load(); // `res` evaluated as true when it has an error.
 WHEN(res) .err("couldn't open %s slot: %d", path, res.get()).ret((rel(), false));
@@ -366,7 +366,7 @@ WHEN(!info.has()) // tmay의 has()로 결과 체크 중
 RAII 패턴을 활용하여 스코프 종료 시 특정 코드를 실행합니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 void processFile(const std::string& path) {
     FILE* fp = fopen(path.c_str(), "r");
     end cleanup([&]() {
@@ -395,14 +395,14 @@ C++ 로깅 프레임워크의 일종의 facade입니다.
 일반적으로는 동봉되는 매크로를 통해, 다음과 같이 사용합니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 BY_I("slot[%s] origins loaded.", getName());
 ```
 
 위 코드는 다음과 같이 출력됩니다.
 
 ```
-@lang: sh
+@style language-txt verified
 Oct 22 2025  21:26:13 I cppPackLo <_loadLibs#49> slot[cpp] origins loaded.
 ```
 
@@ -428,7 +428,7 @@ logger 클래스가 처음부터 소유하고 있습니다.
 각 stream은 byeol의 핵심 클래스들과 마찬가지로 다음과 같은 상태 전이 도식을 갖습니다:
 
 ```
-@lang: sh
+@style language-txt verified
 RELEASED ---init()---> INITIALIZED
 RELEASED <--rel()----- INITIALIZED
 ```
@@ -456,7 +456,7 @@ stream은 logBypass(const nchar*) 라는 함수를 제공하는데, 이것은 �
 다음과 같이 사용합니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 BY_I("just message.")
 ```
 
@@ -464,7 +464,7 @@ Byeol 매크로 컨벤션에 따라 매크로는 항상 `BY_` prefix로 시작�
 매크로 안쪽에는 로깅할 메시지가 들어갑니다. 위와 같이 로깅할 경우 다음과 같이 출력됩니다.
 
 ```
-@lang: sh
+@style language-txt verified
 Oct 22 2025  21:26:13 I cppPackLo <_loadLibs#49> just message.
 ```
 
@@ -472,7 +472,7 @@ Oct 22 2025  21:26:13 I cppPackLo <_loadLibs#49> just message.
 바이너리에서만 로그를 출력하고 싶다면 레벨 앞에 `D`를 붙입니다. 이를테면 다음과 같습니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 BY_DE("leaf: ERR: %s", e);
 ```
 
@@ -480,7 +480,7 @@ BY_DE("leaf: ERR: %s", e);
 가능합니다. 결과는 다음과 같이 출력됩니다.
 
 ```
-@lang: sh
+@style language-txt verified
 Oct 22 2025  21:26:13 E leafPars <_finalize#263> leaf: ERR: src is empty
 ```
 
@@ -495,7 +495,7 @@ richLog로 void*를 넘기게 되면 `indep` 모듈에 있는 `platformAPI`를 �
 스타일입니다. 예를 들면 다음과 같이 로깅 됩니다.
 
 ```
-@lang: sh
+@style language-txt verified
 Nov 18 2025  20:02:13 I verifier  <onLeave#87> '' assignExpr@9a50: step#1 --> set evalType
 ```
 
@@ -516,14 +516,14 @@ clog 모듈은 architecture 상 아랫부분에 위치하기 때문에 clog에 �
 이를 사용하면 다음과 같은 코드가 가능해집니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 BY_I("make a closure for %s.%s", meObj, cast.getSrc().getName());
 ```
 
 결과는 다음과 같이 나올 수 있습니다.
 
 ```
-@lang: sh
+@style language-txt verified
 Oct 22 2025 22:01:12 I closure <_make#73> make a closure for obj.foo
 ```
 
@@ -560,7 +560,7 @@ noWrap은 아무런 가공없이 받은 걸 그대로 반환하지만 strWrap은
 직접 타입을 명시하는 서식문자를 사용하고 싶을 때는 noWrap을 사용합니다. 예를 들어:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // strWrap: 자동으로 문자열로 변환 (%s 사용)
 strWrap __convert__(const myClass& obj) { return strWrap(obj.toString()); }
 
@@ -574,7 +574,7 @@ noWrap<int> __convert__(int val) { return noWrap<int>(val); }
 예를 들어 meta 모듈에서는 다음과 같이 정의합니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // module/meta/common/richLog.hpp
 namespace by {
     class type;
@@ -591,7 +591,7 @@ namespace by {
 이렇게 정의하면 로깅 매크로에서 해당 타입을 직접 사용할 수 있습니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 type& t = ttype<myClass>();
 BY_I("type is %s", t);  // __convert__(const type&)가 호출되어 적절히 문자열로 변환됨
 ```
@@ -613,7 +613,7 @@ enable 상태를 기록했다가 enablesZone이 소멸될때 각 stream의 enabl
 보통은 다음과 같이 사용합니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // let's assume that all streams in logger are enabled.
 
 {
@@ -648,7 +648,7 @@ BY_E("this message will definitely be log on entire stream");
 있습니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 const filters& prevFilters = logger::get().getFilters();
 filters fs(new errPassFilter());
 logger::get().setFilters(fs);
@@ -722,7 +722,7 @@ super class들을 리스트에 담아 반환합니다. 이 클래스의 직접�
 예를들어 다음과 같은 코드를 보세요.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 const auto& supers = getType().getSupers();
 
 // 가장 첫번째 클래스는 항상 adam 이 된다. adam 클래스 참조.
@@ -778,7 +778,7 @@ isSuper와 반대로 동작합니다.
 이를 통해 모든 타입이 단일 계층 구조를 이루게 됩니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // 주의: 다음은 실제 코드 동작을 이해하기 쉽게 간략화 한 것이다.
 nbool me::init() {
     if(_isInit) return false;
@@ -830,7 +830,7 @@ nbool me::init() {
 있어야 합니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 const auto& types = how_to_get_all_meta_types() // ?
 for(const auto& t : types)
     cout << t.getName() << "\n";
@@ -851,7 +851,7 @@ vector<type> how_to_get_all_meta_types() {
 이제 다음과 같이 작성할 수 있게 됩니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 for(const auto& t : ttype<adam>().getSubs())
     cout << t.getName() << "\n";
 ```
@@ -870,7 +870,7 @@ return type과 같이 추가적인 정보를 담고 싶은 경우가 있습니�
 핵심 코드는 `ttypeBase<T>`에 있습니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 template <typename T, typename S = typename tmetaTypeDef<T>::is>
 class ttypeBase: public S {
     ....
@@ -921,7 +921,7 @@ shared_ptr를 이미 잘 알고 있다면 아래와 같이 사용할 수 있다�
 setter 형 API에 대해 T*와 T&를 모두 준비해두는 경우가 많으니 참고하세요.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 class A : public instance {}; // instance를 상속했으니 바인딩 가능하다.
 A* a = new A();
 
@@ -941,7 +941,7 @@ A* a = new A();
 편입니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 class shell : public instance {
 public:
     int age;
@@ -971,7 +971,7 @@ shared_ptr은 생성시 내부적으로 reference counting을 위한 `Control bl
 관리한다는 건 이미 잘 알고 있을 것입니다. 그래서 shared_ptr 사용시 다음과 같은 사용은 매우 위험합니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 Foo* raw = new Foo();
 shared_ptr<Foo> foo1(raw);
     .....
@@ -992,7 +992,7 @@ life가 할당되므로 이중 해제 문제가 발생하지 않습니다.
 tstr과 tweak는 같은 binder 기반클래스를 갖기 때문에 binder타입으로 범용적인 로직을 구현할 수 있습니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 void me::rel(binder& me) { // me가 tstr인지 tweak인지 상관없다.
     WHEN(!me.isBind()) .ret();
 
@@ -1044,7 +1044,7 @@ memlite의 메모리 관리는 여러 계층으로 구성되어 있습니다. �
 계층부터 이해하는 것이 전체 구조를 파악하는데 도움이 됩니다.
 
 ```
-@lang: sh
+@style language-txt verified
 instancer (관리자)
 ├── pool (저수준 할당자)
 │      └── chunks (블록 관리자)
@@ -1070,7 +1070,7 @@ chunk는 생성시 block size와 size 2개를 입력받습니다. blockSize는 �
 예를들어 만약 int64만 100개 담는 chunk를 만든다고 한다면, 다음과 같이 됩니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // int64 크기(8바이트)의 블록 100개를 담는 chunk 생성
 chunk myChunk(sizeof(int64), 100);
 
@@ -1151,7 +1151,7 @@ chunks는 chunk들을 추가하거나 삭제하므로, chunk가 각 셀마다 �
 만약 length를 넘게되면 `resize()` 를 자동 수행합니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // 16바이트 블록을 관리하는 chunks 생성
 chunks myChunks(16);  // blockSize = 16 bytes
 
@@ -1204,7 +1204,7 @@ pool은 chunks를 만들때 블록의 크기를 고정해서 생성하며, 외�
 요청받으면, 해당 크기의 블록을 담당하는 chunks를 찾습니다. 없을 경우 lazy 하게 생성합니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // pool 객체를 직접 사용하는 예제
 pool myPool;
 
@@ -1246,7 +1246,7 @@ void* ptr4 = sameChunks->new1();      // 빠른 재할당
 작업을 수행하기 위해 각 제어클래스들에게 작업을 분배하거나 명령을 내리는 진입점을 담당합니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // instancer를 통한 인스턴스 생성
 class MyClass : public instance {
 public:
@@ -1414,7 +1414,7 @@ stela 모듈은 byeol 언어의 경량화된 버전으로, manifest나 옵션과
 **사용 예제**
 
 ```
-@lang: cpp
+@style: language-cpp verified
 const std::string script = R"SRC(
     def man
         dummy := 5
@@ -1450,7 +1450,7 @@ nulStela는 <b>null object 패턴</b>을 구현한 것으로, 해당 객체에 �
 **사용 예제**
 
 ```
-@lang: cpp
+@style: language-cpp verified
 stela& config = root->sub("config");
 stela& device = config["device"];
 stela& notExist = config["notExistKey"];  // nulStela 반환
@@ -1490,7 +1490,7 @@ stela 언어는 byeol 언어의 경량화된 언어로, manifest나 옵션과 �
 **사용 예제**
 
 ```
-@lang: cpp
+@style: language-cpp verified
 const std::string script = R"SRC(
     def package
         name := "mylib"
@@ -1600,7 +1600,7 @@ flex는 yyin 이라는 별도로 지정된 stream을 통해서 글자를 가져�
 **사용 예제**
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // tokenDispatcher를 통한 토큰 관리
 stelaTokenDispatcher dispatcher;
 
@@ -1661,7 +1661,7 @@ INDENT token을 dispatcher에 추가합니다.
 **tokenScan 사용 예제**
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // tokenScan의 사용법과 교체되는 방식을 보여주기 위한 예제입니다.
 // 실제 코드와는 아주 다릅니다.
 class stelaParser {
@@ -1761,7 +1761,7 @@ AST 특성상, node는 또 다른 node의 파생클래스의 객체도 가지고
 AST 탐색을 위해 주로 사용하는 함수는 `operator[], sub(), subs(), in(), subAll()`입니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 const node& root = getRoot();
 root.sub("name1"); // name1이라는 이름을 가진 node를 root에서 찾는다.
                    // 이 name1이 함수인지 객체인지 모른다.
@@ -1789,7 +1789,7 @@ node는 함수일수도 있고, 객체일 수도 있고, 표현식일 수도 있
 `infer()`는 type inference를 수행합니다. 런타임의 정확한 값을 반환하는 것이 아니라 verification 단계에서 확정되는 타입을 객체로 반환합니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // byeol 언어에서 `2 + 3.5` 표현하면 아래와 같다.
 FBOExpr e = FBOExpr(FBOExpr::SYMBOL_ADD, *new nInt(2), *nFlt(3.5));
 
@@ -1814,7 +1814,7 @@ int + flt는 type promotion에 의해 flt이 되므로 infered에는 nFlt 객체
 
 예시:
 ```
-@lang: cpp
+@style: language-cpp verified
 FBOExpr e = FBOExpr(FBOExpr::SYMBOL_ADD, *new nInt(2), *nFlt(3.5));
 
 str evaluated = e.eval();  // 5.5를 담은 nFlt 객체 반환 (실제 계산 수행)
@@ -1826,7 +1826,7 @@ str infered = e.infer();   // nFlt 타입 객체만 반환 (값 계산 안함, �
 node는 명시적 타입 변환을 위한 `as()`와 타입 변환이 가능한지 체크하는 `is()`를 제공합니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // 다음의 byeol 코드를 c++로 옮긴 것이다:
 //  foo(val int) void
 //      if val is flt
@@ -1844,7 +1844,7 @@ void foo(const nInt& val) {
 실제 코드에서는 WHEN 매크로를 사용해서 더 간결하게 작성됩니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 void foo(const nInt& val) {
     tstr<nFlt> converted = val OR.ret(); // early-return pattern
     doSomething(converted->get());
@@ -1856,7 +1856,7 @@ void foo(const nInt& val) {
 앞서 설명한 `as()`, `is()`는 byeol 언어 환경에서의 타입 변환입니다. 이와 별도로 C++ native 환경에서의 타입 변환은 `cast()`가 담당합니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // 상속관계 간단 표현
 class nFlt : public obj {};
 class nInt : public obj {};
@@ -1963,7 +1963,7 @@ byeol 언어로 사용자가 정의한, 원본이 되는 타입을 `origin` 객�
 C++ 코드로 새로운 baseObj를 정의해서 byeol 코드로 사용하고 싶다면 baseObj를 상속한 C++ 클래스를 만들고 `getOrigin()`을 override해서 적절한 baseObj의 origin 객체를 반환하면 됩니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // integer를 표현하는 nInt 클래스
 const baseObj& nInt::getOrigin() const {
     // tbaseObjOrigin을 사용해서 nInt 클래스에 기반한 origin 객체를 쉽게 만들 수 있다.
@@ -1979,7 +1979,7 @@ const baseObj& nInt::getOrigin() const {
 `nStr`에 좋은 예시가 있습니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // 예시를 위해 실제코드에서 일부를 생략한다.
 class nStr : baseObj {
     // 아래 함수들을 managed 쪽으로도 노출할 거다.
@@ -2068,7 +2068,7 @@ main() void
 C++에서 타입은 클래스로 표현되지만 byeol은 클래스란 존재하지 않습니다. 객체와 클래스의 구분이 없으므로 **obj 자체가 타입**인 셈입니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // C++:
 class A {};  // 클래스 = 타입
 A* a = new A();  // 객체와 클래스는 구분됨
@@ -2101,7 +2101,7 @@ obj의 clone()이 발생하면:
 **shares vs owns 예제**
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // byeol 코드:
 //  def Person
 //      name str       // property (인스턴스마다 다른 값) → owns
@@ -2148,7 +2148,7 @@ byeol 언어로 사용자가 정의한, 원본이 되는 타입을 origin 객체
 origin 객체는 `obj`에서 상속받았으며 생성시점을 제외하고는 obj 타입으로써 사용되는 것을 전제로 작성되어 있습니다. 따라서 함부로 meta 모듈을 사용하면 안 됩니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 origin* new1 = new origin(...);  // 생성시에 origin*로 참조하는 건 괜찮지만
 new1->getType(); // origin 클래스의 특징을 이해하지 않은 상태에서,
                  // 이런식으로 `meta` 모듈을 사용해서 타입정보를 가져오는 건 권장하지 않는다.
@@ -2210,7 +2210,7 @@ mgdType은 부모클래스로 `ttype<obj>`가 되도록 parser가 연관을 지�
 그러니 obj 타입으로의 형변환이나 `cast<obj>()` 같은 것은 아무런 문제가 되지 않습니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 origin* makeOrigin() {
     mgdType t = typeMaker::make<obj>("MyObj");  // 부모가 obj, 이름은 MyObj인 타입
     return new origin(t);
@@ -2278,7 +2278,7 @@ MyObj라는 타입은 C++에서 봤을 때는 동적입니다. 런타임에 pars
 MyObj 자체를 byeol에서는 origin 객체라고 하며 이는 `origin` 클래스의 인스턴스로 표현됩니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // parser가 런타임에 생성
 origin org(typeMaker::make<obj>(name)); // name == "MyObj"
 // 런타임에 동적으로 만들어지기에 static이 될 수 없다.
@@ -2353,7 +2353,7 @@ Byeol은 대부분이 표현식으로 구성된 언어입니다. 블록문조차
 **예제로 이해하기**
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // byeol 코드:
 //   a := 5
 //   a = 10
@@ -2506,7 +2506,7 @@ tnchain은 내부적으로는 타입 파라메터로 선언한 defaultContainer�
 따라서 **외부에서 봤을때는 this container에 next chain의 원소들이 복사되어 들어간 것처럼** 코드를 작성할 수 있습니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 nchain chn1;  // defaultContainer를 명시하지 않으면 tnmap이 사용됨
 chn1.add("0", new myNode(0));
 chn1.add("1", new myNode(1));
@@ -2532,7 +2532,7 @@ chn2.link(chn3);  // chn1 -> chn2 -> chn3
 **순회 예제**
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // chn1을 순회하면 chain으로 연결된 모든 원소에 접근 가능
 for(auto& pair : chn1) {
     std::cout << pair.first << ": " << pair.second->getValue() << std::endl;
@@ -2622,7 +2622,7 @@ genericOrigin은 내부적으로 map을 사용해서 타입 파라메터별로 �
 다음은 generic 타입이 어떻게 관리되는지 보여주는 AST 덤프 예시입니다:
 
 ```
-@lang: sh
+@style language-txt verified
 SomeGeneric<T @incomplete>@21d0 
    ┣━[myObj] SomeGeneric<T myObj>@3970    // myObj로 구체화된 origin
    ┃  ┣━[0] @9068 boo() int
@@ -2676,7 +2676,7 @@ Byeol은 C++로 작성된 native 코드와 byeol 언어로 작성된 managed 코
 다음은 C++ 구조체를 byeol에서 사용 가능하도록 만드는 예시입니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // C++ 코드에 이런 구조체가 있다고 가정
 struct window {
     int getX() { return 5; }
@@ -2826,7 +2826,7 @@ main() void
 <b>Local scope</b>는 함수 내 블록문이 실행될 때 생성됩니다. 최적화를 위해 `blockExpr`이 직접 생성/해제하지 않고, `frameInteract`를 통해 생성됩니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 str me::_interactFrame(node& meObj, scope& s, nidx exN) {
     ...
     frameInteract f3(*_blk); // 여기서 local scope이 생성되어 frame에 들어감
@@ -2878,7 +2878,7 @@ IS_DBG는 file scope과 pack scope에 각각 1개씩 정의됩니다. 중요한 
 앞서 본 Calculator 예시에서 `calc.add(5)` 호출 시 생성되는 frame은 다음과 같은 순서로 scope가 적층됩니다:
 
 ```
-@lang: sh
+@style language-txt verified
 frame (calc.add(5) 실행 중)
 ├─ [1] local scope (add 함수 내부 local 변수: temp 등)
 ├─ [2] func scope (add 함수 자체의 scope)
@@ -2899,7 +2899,7 @@ Symbol 탐색은 위에서 아래로 순차 진행됩니다:
 `frame`은 `node`를 상속하므로 `subs()`를 제공합니다. 하지만 `subs()`는 `vector<scope>`가 아니라 **여러 scope이 chain으로 연결된 하나의 scope 객체**를 반환합니다. 따라서 symbol을 찾을 때:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // 마치 하나의 컨테이너를 순회하는 것처럼 간결함
 for(auto& elem : frame.subs()) {
     // 내부적으로는 여러 scope이 연결되어 있지만
@@ -2919,7 +2919,7 @@ for(auto& elem : frame.subs()) {
 다음 byeol 코드를 봅시다:
 
 ```
-@lang: sh
+@style language-txt verified
 IS_DBG := false
 name := "kniz"
 
@@ -2942,7 +2942,7 @@ main() void
 `main()` 안에서 `yourObj.foo()`를 호출하면 frame은 다음과 같이 구성됩니다:
 
 ```
-@lang: sh
+@style language-txt verified
    frame        scope        symbol
             ┌─────┬────────┐
         ▲  │  local   │msg("age=3")    │
@@ -2990,7 +2990,7 @@ standard pack과 비슷하지만 엄연히 구분되는 pack이며, builtin은 �
 기본 thread를 사용하지 않고 직접 thread 인스턴스를 만들 때는, thread 객체를 등록하고 종료시 원본으로 교체하는 작업이 필요합니다. 이를 위해 `threadUse`를 사용합니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 if(main.canEval(a)) {
     threadUse thr(getReport());
     // 새로운 thread로 doSomething()...
@@ -3041,7 +3041,7 @@ packLoading은 native 환경에서 가져올 수도 있고(dll 혹은 so 파일)
 총 4개의 상태를 가지며 다음과 같은 흐름으로 로딩 파이프라인을 갖습니다:
 
 ```
-@lang: sh
+@style language-txt verified
 ┌────────┐
 │Make an instance│
 └───┬────┘
@@ -3095,7 +3095,7 @@ autoslot은 packLoading을 통한 pack의 symbol 생성을 책임지므로, pack
 **기본 사용법**
 
 ```
-@lang: cpp
+@style: language-cpp verified
 nmap ret;
 errReport report;
 
@@ -3164,7 +3164,7 @@ visitor는 `onVisit(T&)`과 같이 많은 구체 타입에 대한 방문을 표�
 이를 위해 node의 `accept()`라는 virtual 함수를 호출합니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 void defNestedFuncExpr::accept(const visitInfo& i, visitor& v) {
     v.visit(i, *this);  // visitor::visit(const visitInfo&, defNestedFuncExpr&) 호출
 }
@@ -3175,7 +3175,7 @@ void defNestedFuncExpr::accept(const visitInfo& i, visitor& v) {
 이를 위해 visitation에 참여하는 모든 node의 파생클래스는 `accept()`라는 virtual 함수를 override 해야 하는데, 이 과정을 쉽게 하기 위해서 <b>VISIT 매크로</b>를 사용합니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 class _nout slot: public node {
     BY(CLASS(slot, node), VISIT())  // <--- VISIT 매크로
 
@@ -3240,7 +3240,7 @@ Flex와 Bison을 사용하고 있으며 flex는 `lowscanner`로, bison은 `lowpa
 binding을 하지 않으면 <b>메모리 릭</b>이 발생하기 딱 좋습니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // lowparser.y
 pack: PACK name-access NEWLINE {
     $$ = PS.onPack(*$2);  // onPack()은 new pack()을 반환한다.
@@ -3259,7 +3259,7 @@ compilation-unit: pack defblock {
 적용됩니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // lowscanner.l
 <stateString>\"  {  // 문자열 scan이 종료되면
     if(!yylval->asStr) yylval->asStr = new std::string();  // string 객체를 new로 생성
@@ -3415,7 +3415,7 @@ node의 `infer()`는 타입 추론 기능을 수행하는 것으로 실행하면
 이제 감이 왔겠지만, verifier는 `eval()`보다는 `infer()`를 중점적으로 사용합니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 void me::onLeave(const visitInfo& i, assignExpr& me, nbool) {
     ....
     str left = me.getLeft().infer() OR.myExErr(me, LHS_IS_NUL).ret();
@@ -3445,7 +3445,7 @@ visitor는 타입당 1개의 `onVisit()` 함수만 가질 수 있습니다. 그�
 검증 로직이 무엇인지를 로그를 남기는 역할을 합니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // verifier가 assignExpr 객체에 대해 검증하는 경우:
 void me::onLeave(const visitInfo& i, assignExpr& me, nbool) {
     _GUARD("onLeave(assignExpr&)");  // assignExpr에 대한 검증이 시작됨을 로깅
@@ -3526,7 +3526,7 @@ nerr은 주로 core 모듈의 `__core_when__`에 의해서 만들어집니다. �
 이뤄집니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 WHEN_NUL(stmt).exErr(IS_NUL, getReport(), "stmt").ret(blk);
 ```
 
@@ -3619,7 +3619,7 @@ shell 기반 프로그램에서 흔히 볼 수 있는 플래그들을 처리하�
 들어와 있을 경우 `buildFeature`로부터 version 정보를 가져와 출력합니다.
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // -- verFlag.cpp
 const strings& verFlag::_getRegExpr() const {
     static strings inner{"^\\--version$"}; // 이 정규식이 매치되면, _onTake()가 실행됩니다.
@@ -3645,7 +3645,7 @@ flag 간 순서는 무시됩니다.
 또한 정규식 패턴을 정의할 때는 여러개 패턴을 정의할 수 있습니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // -- logStructureFlag.cpp
 const strings& me::_getRegExpr() const {
     static strings inner{"^\\-S$", "^\\--show-structure$"};
@@ -3670,7 +3670,7 @@ me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) c
 그러면 다음으로 `bufferSrcFlag`를 봅시다. 다음과 같이 사용합니다:
 
 ```
-@lang: sh
+@style language-txt verified
 $ byeol --script "main() void: print("wow!)"
 ```
 
@@ -3692,7 +3692,7 @@ main() void
 뜯어낼 것인지를 명시합니다:
 
 ```
-@lang: cpp
+@style: language-cpp verified
 // -- bufferSrcFlag.cpp
 ncnt me::getArgCount() const { return 1; } // 1개 더 뜯을 거임.
 

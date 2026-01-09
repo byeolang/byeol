@@ -3,45 +3,44 @@ followDarkModeWithParent();
 document.addEventListener('DOMContentLoaded', function() {
     function makeJson(raw) {
 
-        function emptyJson(raw, lang) {
-            if(lang == null) {
+        function emptyJson(raw, style) {
+            if(style == null) {
                 return {
-                    code: raw,
-                    shown: raw,
-                    classList: `language-byeol`
+                    code: raw.replace(/\"/g, '$quot;'),
+                    shown: raw.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+                    classList: `language-cpp verified`
                 };
             }
 
             return {
                 code: raw.replace(/\"/g, '$quot;'),
-                shown: raw.replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;"),
-                classList: `verified language-${lang}`
+                shown: raw.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+                classList: style
             };
         }
 
-        function getLang(rows) {
+        function getStyle(rows) {
             if (rows.length <= 0) return null;
 
-            const match = rows[0].match(/^@lang:\s*([\w-]+)/);
+            const match = rows[0].match(/^@style:\s*([^\n]+)/);
             if(match == null) return null;
 
             return match[1];
         }
 
         const rows = raw.split("\n");
-        const lang = getLang(rows);
+        const style = getStyle(rows);
         codes = raw;
-        if(lang != null) {
+        if(style != null) {
             rows.shift();
             codes = rows.join("\n");
         }
-        if(codes[0] != '{') return emptyJson(codes, lang);
+        if(codes[0] != '{') return emptyJson(codes, style);
 
         try {
             return eval(`(${codes})`);
         } catch (ex) {
-            return emptyJson(codes, lang);
+            return emptyJson(codes, style);
         }
     }
 
