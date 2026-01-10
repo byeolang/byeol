@@ -70,7 +70,6 @@ jobs:
         fi
 
   build-on-linux-clang:
-    needs: [checking-code-format]
     name: build on linux with clang
     runs-on: ubuntu-22.04
 
@@ -147,7 +146,6 @@ jobs:
         path: ${{github.workspace}}/bin/byeol-ubuntu-x64.deb
 
   build-on-linux-gcc:
-    needs: [checking-code-format]
     name: build on linux with gcc
     runs-on: ubuntu-22.04
 
@@ -220,7 +218,6 @@ jobs:
         sudo $PYTHON ${{github.workspace}}/build/builder.py test
 
   build-for-wasm:
-    needs: [checking-code-format]
     name: build for wasm
     runs-on: ubuntu-22.04
 
@@ -381,7 +378,6 @@ jobs:
         files: ./build/cov.info
 
   build-on-macos:
-    needs: [checking-code-format]
     name: build on macos
     runs-on: macos-15
 
@@ -462,7 +458,6 @@ jobs:
         path: byeol-macos-arm64.tar
 
   build-on-windows:
-    needs: [checking-code-format]
     name: build on windows
     runs-on: windows-latest
 
@@ -548,7 +543,7 @@ jobs:
         path: ${{github.workspace}}\.github\workflows\byeol-win-x64.msi
 
   publish-doc:
-    needs: [build-on-linux-gcc, build-on-linux-clang, build-on-macos, build-on-windows, build-for-wasm]
+    needs: [checking-code-format, build-on-linux-gcc, build-on-linux-clang, build-on-macos, build-on-windows, build-for-wasm]
     name: publish doc
     runs-on: ubuntu-22.04
 
