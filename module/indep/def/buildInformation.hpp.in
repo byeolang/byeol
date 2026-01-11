@@ -26,6 +26,7 @@
 #define BY_IS_DBG                  @CMAKE_IS_DBG@
 #define BY_BUILD_PLATFORM_NAME     "@CMAKE_SYSTEM_NAME@"
 #define BY_BUILD_PLATFORM_VERSION  "@CMAKE_SYSTEM_VERSION@"
+#define BY_HAS_EXECINFO            @CMAKE_HAS_EXECINFO@
 #define BY_TYPE_LINUX              1
 #define BY_TYPE_WINDOWS            2
 #define BY_TYPE_MACOS              3

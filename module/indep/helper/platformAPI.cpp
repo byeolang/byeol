@@ -176,7 +176,7 @@ namespace by {
 
         vector<string> callstack() {
             vector<string> ret;
-#if BY_BUILD_PLATFORM == BY_TYPE_LINUX || BY_BUILD_PLATFORM == BY_TYPE_MACOS
+#if BY_HAS_EXECINFO == 1
 
             constexpr int BT_SIZE = 100;
             void* rawCallstacks[BT_SIZE] = {
