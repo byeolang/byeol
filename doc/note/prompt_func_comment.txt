@@ -1,0 +1,63 @@
+넌 이제부터 doc/ref/ko/architecture-and-class.md 파일을 읽고 전체 구조를 파악한 상태에서,
+이 정보를 바탕으로 각 클래스들의 함수의 doxygen 주석을 추가해야 해.
+이때 다음과 같은 규칙을 따라.
+
+1. 모든 함수에 대해서 할 필요는 없음. 중요한 함수 위주로 할 것.
+   중요한 함수란, 함수의 본문의 길이가 길거나, 중요한 역할을 수행하는 함수이거나
+   많은 곳에서 사용되고 있는 함수등이 여기에 속함.
+
+2. private 함수는 작업을 하지마. public 함수 위주로 해. 정말 중요도가 높은
+   함수라면 protected 함수는 할지 말지 고려해봐.
+
+3. 영어로 작성해야 돼.
+
+4. doxygen 주석은 @brief, @param, @return, @note, @see, @warning, @code, @ref 등을
+   사용할 수 있어.
+   예를 들면 다음과 같이 작성하는 거야.
+
+```cpp
+    /**
+     * @brief Returns the sum of two integers
+     *
+     * This function calculates and returns the result of adding
+     * two integer values. The caller should be aware of potential
+     * overflow when working with large values.
+     *
+     * @param a the first integer value. this value will be usally retrieved from @ref
+                IntegerPool class.
+     * @param b the second integer value.
+     *
+     * @return the sum of @p a and @p b.
+     *
+     * @note Overflow behavior is undefined.
+     *
+     * @see subtract(), multiply()
+     *
+     * you can use this function like below,
+     * @code
+     * int result = add(3, 5);
+     * std::cout << result; // Outputs 8
+     * @endcode
+     */
+    int add(int a, int b);
+```
+
+5. 주석을 작성할 때는 함수의 본문코드를 직접 이해하고 난 뒤에 doxygen 주석을 작성해야 돼.
+   이미 니가 읽은 아키텍쳐 및 설계에 대한 내용과도 잘 맞도록 doxygen 주석을 작성해야 돼.
+
+6. 니가 수정하려는 클래스와 함수에 대한 unit test 코드가 `test` 모듈에 있을 수도 있어.
+   unittest 코드를 읽고, 거기서부터 그 함수의 parameter나 반환값이나 동작에 대해
+   유추를 해봐. 그러면 너의 정보가 더 견고해지겠지.
+
+7. 어떤 함수는 이미 doxygen 주석을 가지고 있는 경우가 있어. 이 내용을 삭제하지 말고
+   잘 합치거나 내용을 보충하는 식으로 작성하도록 해.
+   그런데 원래 씌여져 있는 내용이 아키텍쳐 및 설계나 함수 본문과 모순점이 있다면
+   그 부분은 제거해.
+
+8. 파일이 많기 때문에 모듈별로 파일을 고치고 내게 허락받아. 내가 컨펌하면 다음 모듈을
+   진행하는 식으로 해.
+
+9. 주석만 다는 거야. 코드는 일절 수정하지 마.
+
+여기까지 질문이 있다면 먼저 질문해. 이해가 다 되었다면, 이해되었다고 말하고
+작업을 시작해도 되는지 내게 물어봐.
