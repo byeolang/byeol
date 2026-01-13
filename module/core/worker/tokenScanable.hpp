@@ -11,10 +11,11 @@ namespace by {
 
     class parser;
 
-    /// @ingroup core
-    /// @brief Interface for token scanning functionality
-    /// @details Defines the contract for token scanning implementations.
-    /// Provides hooks for custom token processing during parsing.
+    /** @ingroup core
+     *  @brief Interface for token scanning functionality
+     *  @details Defines the contract for token scanning implementations.
+     *  Provides hooks for custom token processing during parsing.
+     */
     class _nout tokenScanable {
         BY(ME(tokenScanable))
 

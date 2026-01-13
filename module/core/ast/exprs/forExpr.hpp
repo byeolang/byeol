@@ -7,10 +7,11 @@ namespace by {
 
     class frame;
 
-    /// @ingroup core
-    /// @brief For loop expression
-    /// @details Represents for-in loop constructs for iterating over containers.
-    /// Manages iterator variable binding and loop body execution.
+    /** @ingroup core
+     *  @brief For loop expression
+     *  @details Represents for-in loop constructs for iterating over containers.
+     *  Manages iterator variable binding and loop body execution.
+     */
     class _nout forExpr: public loopExpr {
         BY(CLASS(forExpr, loopExpr, expr::exprType), VISIT())
         friend class verifier;

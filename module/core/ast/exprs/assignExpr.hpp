@@ -9,12 +9,13 @@ namespace by {
 
     class visitor;
 
-    /// @ingroup core
-    /// @brief Assignment expression
-    /// @details Handles assignment expressions.
-    ///
-    /// @remark This expression changes the reference registered in the scope, not calling operator=() on the object
-    /// itself. For instance, calling obj::operator=() behaves like a deep copy, so be careful.
+    /** @ingroup core
+     *  @brief Assignment expression
+     *  @details Handles assignment expressions.
+     *
+     *  @remark This expression changes the reference registered in the scope, not calling operator=() on the object
+     *  itself. For instance, calling obj::operator=() behaves like a deep copy, so be careful.
+     */
     class _nout assignExpr: public expr {
         BY(CLASS(assignExpr, expr, expr::exprType), VISIT())
         friend class verifier;

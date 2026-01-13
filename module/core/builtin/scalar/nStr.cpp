@@ -266,7 +266,6 @@ namespace by {
         return &supers == this ? _defaultOrg() : supers;
     }
 
-    /// @param end is exclusive.
     tstr<nStr> me::substr(nint start, nint end) { return tstr<nStr>(new nStr(get().substr(start, end - start))); }
 
     nbool me::in(nidx n) const { return 0 <= n && n < get().size(); }

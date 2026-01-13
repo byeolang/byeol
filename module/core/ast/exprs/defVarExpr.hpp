@@ -10,10 +10,11 @@ namespace by {
 
     class assignExpr;
 
-    /// @ingroup core
-    /// @brief Variable definition expression base class
-    /// @details Abstract base class for variable definition expressions.
-    /// Handles variable declaration with type, initial value, and modifiers.
+    /** @ingroup core
+     *  @brief Variable definition expression base class
+     *  @details Abstract base class for variable definition expressions.
+     *  Handles variable declaration with type, initial value, and modifiers.
+     */
     class _nout defVarExpr: public expr {
         BY(ADT(defVarExpr, expr), VISIT())
 

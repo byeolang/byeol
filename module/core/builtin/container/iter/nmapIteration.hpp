@@ -1,7 +1,8 @@
-/// @file
-/// @ingroup core
-/// nested class of tnmap.hpp:
-/// this file allows to be refered by 'tnmap.hpp' file only.
+/** @file
+ *  @ingroup core
+ *  nested class of tnmap.hpp:
+ *  this file allows to be refered by 'tnmap.hpp' file only.
+ */
 class nmapIteration: public iteration {
     BY(CLASS(nmapIteration, iteration))
     friend class tnmap;
@@ -17,9 +18,11 @@ public:
 
     void rel() override { _citer = _end; }
 
-    /// if iteration reached to the last element to iterate, it can precede to next,
-    /// which means to the End of a buffer.
-    /// however, this step wasn't regarded to a step even though it proceeds.
+    /**
+     *  if iteration reached to the last element to iterate, it can precede to next,
+     *  which means to the End of a buffer.
+     *  however, this step wasn't regarded to a step even though it proceeds.
+     */
     ncnt stepForward(ncnt step) override { return _step(false, step); }
 
     ncnt stepBackward(ncnt step) override { return _step(true, step); }

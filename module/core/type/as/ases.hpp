@@ -6,9 +6,10 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief Collection of type converters
-    /// @details Container for managing multiple type conversion strategies.
+    /** @ingroup core
+     *  @brief Collection of type converters
+     *  @details Container for managing multiple type conversion strategies.
+     */
     class _nout ases: public tnarr<aser>, public asable {
         BY(CLASS(ases, tnarr<aser>))
 

@@ -13,50 +13,51 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief C++ to byeol bridge builder
-    /// @details As the name suggests, tbridger handles the bridge role between C++ native environment and byeol
-    /// managed environment. Specifically, tbridger handles the `cpp <--> byeol` bridge. The goal is to easily expose
-    /// natively defined functions or classes as managed types or functions with just a few lines of C++ code.
-    ///
-    /// @remark tbridge is designed as a component unit rather than a single class. If you just use it, there's no big
-    /// problem, but if you try to understand the code without experience in this area, it might be confusing. So let's
-    /// look at basic usage first to get a feel, then examine the detailed structure.
-    ///
-    /// @remark It's recommended to review @ref baseObj or @ref obj first.
-    ///
-    /// @section basic_usage Basic Usage
-    /// See baseObj for a complete usage example with nStr. The key is that tbridger can very easily expose
-    /// native-written functions to managed code.
-    ///
-    /// @section design_structure Design Structure
-    /// Brief introduction to core classes in the bridge component. See each class for detailed operation methods and
-    /// algorithms.
-    ///
-    /// - **tbridger** is the entry point for the bridge component, performing a Facade role. tbridger is a class
-    ///   template that takes each C++ class as a type parameter. Through functions like `func()`, it stores
-    ///   externally defined functions in static variable `subs()`.
-    ///
-    /// - **tbridge** is a baseObj created using subs registered in tbridger as origin. Internally it defines origin as
-    ///   `tbaseObjOrigin<tbridger<T>>`, so after filling subs() through tbridger and calling tbridge::getOrigin(), the
-    ///   tbridge object possesses those functions through origin.
-    ///
-    /// - **tbridgeFunc** creates a managed environment baseFunc instance that redirects general C++ member function
-    ///   pointers. Calling tbridger::func() internally creates a tbridgeFunc instance like `tbridgerFunc<....>()`.
-    ///   tbridgeFunc internally applies marshaling to convert C++ native types (node*, int, etc.) to appropriate
-    ///   managed types (str, nInt). The same marshaling applies when exporting return values.
-    ///
-    /// - **@ref tmarshaling** handles the marshaling mentioned above.
-    ///
-    /// - **tbridgeCtor** represents functions for constructors. @ref ctor in managed environment is just a constructor
-    ///   function and doesn't participate in object creation. This separates the roles of instance creation and
-    ///   constructor invocation, making logic for calling parent class constructors in inheritance relationships
-    ///   concise. However, tbridgeCtor must represent constructors according to C++ syntax, making it difficult to
-    ///   separately split object creation through new and constructor invocation. Therefore, tbridgeCtor handles both
-    ///   constructor function redirection and object creation through the `new` keyword.
-    ///
-    /// - **tbridgeClosure** helps expose C++ lambda functions through tbridger. The principle itself isn't much
-    ///   different from tbridgeFunc. It just handles lambdas as std::function instead of function pointers.
+    /** @ingroup core
+     *  @brief C++ to byeol bridge builder
+     *  @details As the name suggests, tbridger handles the bridge role between C++ native environment and byeol
+     *  managed environment. Specifically, tbridger handles the `cpp <--> byeol` bridge. The goal is to easily expose
+     *  natively defined functions or classes as managed types or functions with just a few lines of C++ code.
+     *
+     *  @remark tbridge is designed as a component unit rather than a single class. If you just use it, there's no big
+     *  problem, but if you try to understand the code without experience in this area, it might be confusing. So let's
+     *  look at basic usage first to get a feel, then examine the detailed structure.
+     *
+     *  @remark It's recommended to review @ref baseObj or @ref obj first.
+     *
+     *  @section basic_usage Basic Usage
+     *  See baseObj for a complete usage example with nStr. The key is that tbridger can very easily expose
+     *  native-written functions to managed code.
+     *
+     *  @section design_structure Design Structure
+     *  Brief introduction to core classes in the bridge component. See each class for detailed operation methods and
+     *  algorithms.
+     *
+     *  - **tbridger** is the entry point for the bridge component, performing a Facade role. tbridger is a class
+     *    template that takes each C++ class as a type parameter. Through functions like `func()`, it stores
+     *    externally defined functions in static variable `subs()`.
+     *
+     *  - **tbridge** is a baseObj created using subs registered in tbridger as origin. Internally it defines origin as
+     *    `tbaseObjOrigin<tbridger<T>>`, so after filling subs() through tbridger and calling tbridge::getOrigin(), the
+     *    tbridge object possesses those functions through origin.
+     *
+     *  - **tbridgeFunc** creates a managed environment baseFunc instance that redirects general C++ member function
+     *    pointers. Calling tbridger::func() internally creates a tbridgeFunc instance like `tbridgerFunc<....>()`.
+     *    tbridgeFunc internally applies marshaling to convert C++ native types (node*, int, etc.) to appropriate
+     *    managed types (str, nInt). The same marshaling applies when exporting return values.
+     *
+     *  - **@ref tmarshaling** handles the marshaling mentioned above.
+     *
+     *  - **tbridgeCtor** represents functions for constructors. @ref ctor in managed environment is just a constructor
+     *    function and doesn't participate in object creation. This separates the roles of instance creation and
+     *    constructor invocation, making logic for calling parent class constructors in inheritance relationships
+     *    concise. However, tbridgeCtor must represent constructors according to C++ syntax, making it difficult to
+     *    separately split object creation through new and constructor invocation. Therefore, tbridgeCtor handles both
+     *    constructor function redirection and object creation through the `new` keyword.
+     *
+     *  - **tbridgeClosure** helps expose C++ lambda functions through tbridger. The principle itself isn't much
+     *    different from tbridgeFunc. It just handles lambdas as std::function instead of function pointers.
+     */
     template <typename T, nbool isBaseObj = tifSub<typename tadaptiveSuper<T>::super, baseObj>::is> class tbridger {
         BY(ME(tbridger))
         template <typename Ret, typename T1, nbool, template <typename, nbool> class Marshaling, typename... Args>

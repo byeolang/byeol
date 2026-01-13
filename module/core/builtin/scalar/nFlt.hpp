@@ -5,14 +5,16 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief Float primitive type in byeol language
-    /// @details Implements floating-point arithmetic, bitwise operations, and comparisons.
-    /// Provides the fundamental float data type with full operator support.
+    /** @ingroup core
+     *  @brief Float primitive type in byeol language
+     *  @details Implements floating-point arithmetic, bitwise operations, and comparisons.
+     *  Provides the fundamental float data type with full operator support.
+     */
     class _nout nFlt: public tscalar<nflt> {
-        /// @ingroup core
-        /// @brief Type information for float primitive
-        /// @details Provides type metadata and conversion rules for nFlt.
+        /** @ingroup core
+         *  @brief Type information for float primitive
+         *  @details Provides type metadata and conversion rules for nFlt.
+         */
         class _nout wFltType: public ntype {
         public:
             nbool isImmutable() const override;

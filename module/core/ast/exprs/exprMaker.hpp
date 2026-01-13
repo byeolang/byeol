@@ -10,10 +10,11 @@ namespace by {
     class assignExpr;
     class defVarExpr;
 
-    /// @ingroup core
-    /// @brief Factory for creating expressions with source location information
-    /// @details Creates expression objects with proper source file and position metadata.
-    /// Used by parser to track source locations for debugging and error reporting.
+    /** @ingroup core
+     *  @brief Factory for creating expressions with source location information
+     *  @details Creates expression objects with proper source file and position metadata.
+     *  Used by parser to track source locations for debugging and error reporting.
+     */
     class _nout exprMaker: public typeProvidable, public clonable {
         BY(CLASS(exprMaker))
 
@@ -38,7 +39,9 @@ namespace by {
 
         tstr<src> makeSrc(const std::string& name) const;
 
-        /// @note when you birth your child, you must name it.
+        /**
+         *  @note when you birth your child, you must name it.
+         */
         template <typename T, typename... Args> T* birth(const std::string& name, const Args&... args) const {
             T* ret = new T(args...);
             if(_file) ret->_setSrc(*makeSrc(name));

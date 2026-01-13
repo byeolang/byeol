@@ -57,7 +57,6 @@ namespace by {
         return a.toStr();
     }
 
-    /// make a generic object.
     tstr<obj> me::_makeGeneric(const std::string& argName, const params& ps) {
         WHEN(!_org) .err("_orgObj is null").ret(tstr<obj>());
 

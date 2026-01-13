@@ -26,7 +26,9 @@ namespace by {
         nerr(const me& rhs);
 
     protected:
-        /// @hidden this's only available to marsharling.
+        /**
+         *  @hidden this's only available to marsharling.
+         */
         nerr();
 
     public:

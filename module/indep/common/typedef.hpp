@@ -1,5 +1,7 @@
-/// @file
-/// Basic type definitions used across the byeol language system
+/**
+ * @file
+ * Basic type definitions used across the byeol language system
+ */
 #pragma once
 
 #include "indep/def/common.hpp"

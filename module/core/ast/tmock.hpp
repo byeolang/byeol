@@ -6,14 +6,15 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief Proxy template for type parameter T
-    /// @details A kind of proxy class for given type parameter T. If you don't provide an instance to serve as the
-    /// original via T* at creation, it operates as a dummy object that performs no actions.
-    ///
-    /// Originally designed to optimize verification time. For example, for @ref verifier to verify whether a specific
-    /// symbol exists in scope or not, it could create a tmock that redirects just type information instead of actually
-    /// making that object. Currently that functionality is unused and it's used as a dummy object instead.
+    /** @ingroup core
+     *  @brief Proxy template for type parameter T
+     *  @details A kind of proxy class for given type parameter T. If you don't provide an instance to serve as the
+     *  original via T* at creation, it operates as a dummy object that performs no actions.
+     *
+     *  Originally designed to optimize verification time. For example, for @ref verifier to verify whether a specific
+     *  symbol exists in scope or not, it could create a tmock that redirects just type information instead of actually
+     *  making that object. Currently that functionality is unused and it's used as a dummy object instead.
+     */
     template <typename T> class _nout tmock: public T {
         BY(ME(tmock, T))
         friend class exprMaker;

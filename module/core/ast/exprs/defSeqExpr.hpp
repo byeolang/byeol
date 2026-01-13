@@ -7,13 +7,14 @@ namespace by {
 
     class visitor;
 
-    /// @ingroup core
-    /// @brief Sequence definition expression
-    /// @details Handles sequence definition expressions.
-    ///
-    /// @remark seq class
-    /// @ref nseq is the class handling arrays in the native environment. @ref seq extends nseq for the managed
-    /// environment. This allows similar APIs to be used in both C++ and byeol. See seq and nseq for details.
+    /** @ingroup core
+     *  @brief Sequence definition expression
+     *  @details Handles sequence definition expressions.
+     *
+     *  @remark seq class
+     *  @ref nseq is the class handling arrays in the native environment. @ref seq extends nseq for the managed
+     *  environment. This allows similar APIs to be used in both C++ and byeol. See seq and nseq for details.
+     */
     class _nout defSeqExpr: public expr {
         BY(CLASS(defSeqExpr, expr, expr::exprType), VISIT())
         friend class func;

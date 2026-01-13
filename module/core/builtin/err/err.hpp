@@ -5,9 +5,10 @@
 #include "core/builtin/err/baseErr.hpp"
 
 namespace by {
-    /// @ingroup core
-    /// @brief Standard error implementation
-    /// @details Concrete error class with message support for runtime errors and exceptions.
+    /** @ingroup core
+     *  @brief Standard error implementation
+     *  @details Concrete error class with message support for runtime errors and exceptions.
+     */
     class _nout err: public baseErr {
         BY(CLASS(err, baseErr))
         template <typename T, nbool> friend struct tmarshaling;

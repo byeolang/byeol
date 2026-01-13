@@ -4,9 +4,10 @@
 #include "core/frame/thread.hpp"
 
 namespace by {
-    /// @ingroup core
-    /// @brief Thread usage wrapper
-    /// @details RAII wrapper for thread management with automatic setup and cleanup.
+    /** @ingroup core
+     *  @brief Thread usage wrapper
+     *  @details RAII wrapper for thread management with automatic setup and cleanup.
+     */
     class _nout threadUse {
         BY(ME(threadUse))
 

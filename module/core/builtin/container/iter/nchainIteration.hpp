@@ -1,9 +1,10 @@
 /// @file
-/// @ingroup core
-/// @brief Chain iteration implementation
-/// @details Concrete iteration implementation for chained container structures.
-/// nested class of tnchain.hpp:
-///  this file allows to be refered by 'tnchain.hpp' file only.
+/** @ingroup core
+ *  @brief Chain iteration implementation
+ *  @details Concrete iteration implementation for chained container structures.
+ *  nested class of tnchain.hpp:
+ *   this file allows to be refered by 'tnchain.hpp' file only.
+ */
 class nchainIteration: public iteration {
     BY(CLASS(nchainIteration, iteration))
     friend class tnchain;
@@ -122,12 +123,14 @@ private:
         if(!_isDummyKey && (!_iter.getKey() || _key != *_iter.getKey())) _iter.next(1);
     }
 
-    /// create a new iter to match the container iter currently held by `chainIter`.
-    /// @param isReversed you can specify a direction when linking a chain, and since this iter
-    ///                   currently has a direction of its own, the two directions will work
-    ///                   separately.
-    ///                   this `isReversed` is the direction value that each `iter` owned by `chain`
-    ///                   object, not from `this` pointer.
+    /**
+     *  create a new iter to match the container iter currently held by `chainIter`.
+     *  @param isReversed you can specify a direction when linking a chain, and since this iter
+     *                    currently has a direction of its own, the two directions will work
+     *                    separately.
+     *                    this `isReversed` is the direction value that each `iter` owned by `chain`
+     *                    object, not from `this` pointer.
+     */
     iter _makeContainerIter(nbool isReversed) const {
         return isReversed ? (this->isReversed() ? _chainIter->_map->begin(_getFindingKey()) :
                                                   _chainIter->_map->rbegin(_getFindingKey())) :
@@ -147,23 +150,25 @@ private:
     const tnchain* _castChain(const iter& e) const BY_CONST_FUNC(_castChain(e));
     const tnchain* _castChain(const iter* e) const BY_CONST_FUNC(_castChain(e));
 
-    // check whether sub iter has been reached to reversed non-boundary end iter.
-    // e.g.
-    //  chain A has {1, 2, 3} elements.
-    //  chain B has {4, 5, 6} elements.
-    //  when A linked B from the 2nd element, chains will be follow:
-    //      {1, 2, 3, 5, 6}
-    //  in this case, what if user wants to iterate in reversed?
-    //  then elements to be out should be:
-    //      {6, 5, 3, 2, 1}
-    //  our sub iterate can detect end of the sub container inside of its logic when
-    //  you call `next()` in `_iterate()`.
-    //  however, in above example, after sub iter reached to `5`, it's not possible for it
-    //  to detect the end of iteration of the sub container. because actually there is one
-    //  more element to iterate, `4`.
-    //  so only who is capable of knowing that reversed iteration reached to the end for
-    //  reversed iterator is need to be done by `nchainIteration` class.
-    //  and this func is for that.
+    /**
+     * check whether sub iter has been reached to reversed non-boundary end iter.
+     * e.g.
+     *  chain A has {1, 2, 3} elements.
+     *  chain B has {4, 5, 6} elements.
+     *  when A linked B from the 2nd element, chains will be follow:
+     *      {1, 2, 3, 5, 6}
+     *  in this case, what if user wants to iterate in reversed?
+     *  then elements to be out should be:
+     *      {6, 5, 3, 2, 1}
+     *  our sub iterate can detect end of the sub container inside of its logic when
+     *  you call `next()` in `_iterate()`.
+     *  however, in above example, after sub iter reached to `5`, it's not possible for it
+     *  to detect the end of iteration of the sub container. because actually there is one
+     *  more element to iterate, `4`.
+     *  so only who is capable of knowing that reversed iteration reached to the end for
+     *  reversed iterator is need to be done by `nchainIteration` class.
+     *  and this func is for that.
+     */
     nbool _isSubIterEndAtMiddle()
         const { // if this iter is not reversed, there is no case you have the `end at middle`.
         WHEN(!this->isReversed()) .ret(false);
@@ -183,33 +188,39 @@ private:
     const K* _getFindingKey() const { return _isDummyKey ? nullptr : &_key; }
 
 private:
-    /// iter for tnchain.
-    /// this shouldn't be null always.
+    /**
+     *  iter for tnchain.
+     *  this shouldn't be null always.
+     */
     tstr<tnchain> _chainIter;
     K _key;
     nbool _isDummyKey;
-    //// iter for container of tnchain
+    /**
+     * / iter for container of tnchain
+     */
     iter _iter;
 
-    /// the `_boundary` means that this `_iter` is at the boundary of the chain pointed to by
-    /// `_chainIter` when it is updated.
-    ///
-    /// the chain is linked on an iterator basis. in special cases, chains may be linked by an
-    /// iterator based on a particular key.
-    /// in this case, you will have a link in a specific direction from the key, not the entire
-    /// chain with that key.
-    ///
-    /// in most cases, however, you'll want to have a link to the chain itself.
-    /// typically, you'll link to the `iter' returned by the chain's `begin()`.
-    /// but what happens if the pair that was the first iter is deleted?
-    /// in this case, it behaves just like linking a chain based on a specific key, which we
-    /// discussed earlier.
-    /// it'll go one step forward in the direction of the `iter` and find the next pair.
-    ///
-    /// the user should be able to put a new `pair` at the front of the chain after linking, or
-    /// delete the linked `pair`.
-    /// so, my linkage algorithm should be based on `iter`, but I'll need to distinguish between
-    /// linking the whole thing and linking a part of it.
-    /// and this is where `_boundary` comes in.
+    /**
+     *  the `_boundary` means that this `_iter` is at the boundary of the chain pointed to by
+     *  `_chainIter` when it is updated.
+     *
+     *  the chain is linked on an iterator basis. in special cases, chains may be linked by an
+     *  iterator based on a particular key.
+     *  in this case, you will have a link in a specific direction from the key, not the entire
+     *  chain with that key.
+     *
+     *  in most cases, however, you'll want to have a link to the chain itself.
+     *  typically, you'll link to the `iter' returned by the chain's `begin()`.
+     *  but what happens if the pair that was the first iter is deleted?
+     *  in this case, it behaves just like linking a chain based on a specific key, which we
+     *  discussed earlier.
+     *  it'll go one step forward in the direction of the `iter` and find the next pair.
+     *
+     *  the user should be able to put a new `pair` at the front of the chain after linking, or
+     *  delete the linked `pair`.
+     *  so, my linkage algorithm should be based on `iter`, but I'll need to distinguish between
+     *  linking the whole thing and linking a part of it.
+     *  and this is where `_boundary` comes in.
+     */
     nbool _isBoundary;
 };

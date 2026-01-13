@@ -9,10 +9,11 @@ namespace by {
 
     class visitor;
 
-    /// @ingroup core
-    /// @brief Type casting expression
-    /// @details Represents explicit type casting operations (e.g., value as Type).
-    /// Handles type conversion and casting validation at runtime.
+    /** @ingroup core
+     *  @brief Type casting expression
+     *  @details Represents explicit type casting operations (e.g., value as Type).
+     *  Handles type conversion and casting validation at runtime.
+     */
     class _nout asExpr: public expr {
         BY(CLASS(asExpr, expr, expr::exprType), VISIT())
         friend class verifier;

@@ -5,9 +5,10 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief Input function for reading user input
-    /// @details Built-in function that reads input from standard input.
+    /** @ingroup core
+     *  @brief Input function for reading user input
+     *  @details Built-in function that reads input from standard input.
+     */
     class _nout inputFunc: public baseFunc {
         BY(ME(inputFunc, baseFunc), CLONE(inputFunc))
 

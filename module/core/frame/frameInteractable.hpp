@@ -9,9 +9,10 @@ namespace by {
     template <typename K, typename V> class tbicontainable;
     typedef tbicontainable<std::string, node> bicontainable;
 
-    /// @ingroup core
-    /// @brief Interface for frame interaction
-    /// @details Abstract interface for objects that can enter and exit execution frames.
+    /** @ingroup core
+     *  @brief Interface for frame interaction
+     *  @details Abstract interface for objects that can enter and exit execution frames.
+     */
     class _nout frameInteractable {
     public:
         virtual ~frameInteractable() = default;

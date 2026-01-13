@@ -1,7 +1,8 @@
-/// @file
-/// @ingroup core
-/// nested class of nseq.hpp:
-///  this file allows to be refered by 'nseq.hpp' file only.
+/** @file
+ *  @ingroup core
+ *  nested class of nseq.hpp:
+ *   this file allows to be refered by 'nseq.hpp' file only.
+ */
 class nseqIteration: public iteration {
     BY(CLASS(nseqIteration, iteration))
     friend class tnseq;
@@ -19,9 +20,11 @@ public:
 
     void rel() override { _n = this->isReversed() ? -1 : _own.len(); }
 
-    /// if iteration reached to the last element to iterate, it can precede to next,
-    /// which means to the End of a buffer.
-    /// however, this step wasn't regarded to a step even though it proceeds.
+    /**
+     *  if iteration reached to the last element to iterate, it can precede to next,
+     *  which means to the End of a buffer.
+     *  however, this step wasn't regarded to a step even though it proceeds.
+     */
     ncnt stepForward(ncnt step) override {
         WHEN(step <= 0) .ret(0);
         WHEN(isEnd()) .ret(0);

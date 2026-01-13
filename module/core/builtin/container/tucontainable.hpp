@@ -12,10 +12,11 @@ namespace by {
     typedef class _nout tnarr<node, strTactic> narr;
     template <typename K, typename V> class tbicontainable;
 
-    /// @ingroup core
-    /// @brief Template unidirectional container interface
-    /// @details Container template with iterator support and element access API.
-    /// @remark tucontainable has API treating iter ref and element as its parameter.
+    /** @ingroup core
+     *  @brief Template unidirectional container interface
+     *  @details Container template with iterator support and element access API.
+     *  @remark tucontainable has API treating iter ref and element as its parameter.
+     */
     template <typename T, typename R = T*, typename RSquare = T&> class tucontainable {
         BY_ME(tucontainable)
         static constexpr nbool _IS_POINTER = std::is_pointer_v<R>;
@@ -115,7 +116,9 @@ namespace by {
         template <typename K, typename V> ncnt add(const tbicontainable<K, V>& rhs);
 
         // del:
-        /// delete last element if exists.
+        /**
+         *  delete last element if exists.
+         */
         nbool del();
         nbool del(const T& it);
         nbool del(const T* it) BY_SIDE_FUNC(del);

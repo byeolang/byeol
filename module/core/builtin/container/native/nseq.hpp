@@ -8,10 +8,11 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief Native sequence container for integer ranges
-    /// @details Immutable sequence representing integer ranges with start, end, and step.
-    /// Provides read-only access to computed sequence values without storing all elements.
+    /** @ingroup core
+     *  @brief Native sequence container for integer ranges
+     *  @details Immutable sequence representing integer ranges with start, end, and step.
+     *  Provides read-only access to computed sequence values without storing all elements.
+     */
     class _nout nseq: public tnucontainer<nInt, nInt, nInt>, public tarrayable<nInt, nInt, nInt> {
         typedef tnucontainer<nInt, nInt, nInt> _super3;
         BY(CLASS(nseq, _super3))

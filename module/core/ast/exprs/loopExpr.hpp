@@ -9,18 +9,20 @@ namespace by {
     class frame;
     class arr;
 
-    /// @ingroup core
-    /// @brief Base class for loop expressions
-    /// @details Abstract base class for all loop constructs (for, while).
-    /// Provides common loop execution logic and result collection.
+    /** @ingroup core
+     *  @brief Base class for loop expressions
+     *  @details Abstract base class for all loop constructs (for, while).
+     *  Provides common loop execution logic and result collection.
+     */
     class _nout loopExpr: public expr {
         BY(ADT(loopExpr, expr, expr::exprType), VISIT())
         friend class loop;
 
     public:
-        /// @ingroup core
-        /// @brief Loop execution controller
-        /// @details Manages loop iteration state and execution flow.
+        /** @ingroup core
+         *  @brief Loop execution controller
+         *  @details Manages loop iteration state and execution flow.
+         */
         class _nout loop: public instance {
             BY(ADT(loop))
 
@@ -28,7 +30,9 @@ namespace by {
             loop(arr* ret);
 
         public:
-            /// @return false if exit the loop
+            /**
+             *  @return false if exit the loop
+             */
             virtual nbool isLooping() = 0;
             virtual void eval(blockExpr& blk, frame& fr);
             arr* getRet();

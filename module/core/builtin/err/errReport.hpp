@@ -7,19 +7,20 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief Error report collector
-    /// @details A class that holds @ref baseErr objects. When there's logic that takes a long time or performs complex
-    /// operations, function depth becomes very deep. When errors occur in inner functions, use errReport to record
-    /// errors and continue work as much as possible while recording that errors occurred.
-    ///
-    /// @section container_section Container
-    /// Since errReport's almost all functionality is managing @ref baseErr objects, it has an interface similar to
-    /// @ref tucontainable.
-    ///
-    /// @section noisy_section Noisy
-    /// Some errReports want to automatically perform log() each time a new err object is added. In this case, specify
-    /// `setNoisy(true)`.
+    /** @ingroup core
+     *  @brief Error report collector
+     *  @details A class that holds @ref baseErr objects. When there's logic that takes a long time or performs complex
+     *  operations, function depth becomes very deep. When errors occur in inner functions, use errReport to record
+     *  errors and continue work as much as possible while recording that errors occurred.
+     *
+     *  @section container_section Container
+     *  Since errReport's almost all functionality is managing @ref baseErr objects, it has an interface similar to
+     *  @ref tucontainable.
+     *
+     *  @section noisy_section Noisy
+     *  Some errReports want to automatically perform log() each time a new err object is added. In this case, specify
+     *  `setNoisy(true)`.
+     */
     class _nout errReport: public instance, public dumpable {
         BY(CLASS(errReport, instance))
 
@@ -69,14 +70,17 @@ namespace by {
     private:
         std::vector<tstr<baseErr>> _errs;
 
-        /// if _isNoisy is true, an error is logged immediately whenever an err instance is added to
-        /// errReport.
+        /**
+         *  if _isNoisy is true, an error is logged immediately whenever an err instance is added to
+         *  errReport.
+         */
         nbool _isNoisy;
     };
 
-    /// @ingroup core
-    /// @brief Dummy error reporter that discards all errors
-    /// @details No-op error reporter used when error collection is not needed.
+    /** @ingroup core
+     *  @brief Dummy error reporter that discards all errors
+     *  @details No-op error reporter used when error collection is not needed.
+     */
     class _nout dummyErrReport: public errReport {
         BY(CLASS(dummyErrReport, errReport))
 

@@ -9,12 +9,13 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief C++ native class bridge
-    /// @details A baseObj that mimics C++ native classes, created from the @ref tbridger class. See tbridger for
-    /// details.
-    ///
-    /// @param T represents native class.
+    /** @ingroup core
+     *  @brief C++ native class bridge
+     *  @details A baseObj that mimics C++ native classes, created from the @ref tbridger class. See tbridger for
+     *  details.
+     *
+     *  @param T represents native class.
+     */
     template <typename T> class tbridge: public baseObj {
         // TODO: how to impement 'as()' on bridge obj:
         //  each tbridge obj has its unique type object. when it got called 'getType()'
@@ -36,7 +37,9 @@ namespace by {
             "is.");
 
     protected:
-        /// @hidden this api is only available to tmarshaling.
+        /**
+         *  @hidden this api is only available to tmarshaling.
+         */
         tbridge(): me(nullptr) {}
 
         tbridge(T* real, const baseObj* origin = nullptr): super(origin, false), _real(real) {}

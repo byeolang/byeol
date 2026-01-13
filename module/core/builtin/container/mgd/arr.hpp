@@ -7,10 +7,11 @@ struct arrTest;
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief Managed array container for byeol language
-    /// @details Dynamic array container with type checking and generic support.
-    /// Provides bridged access to native array with managed object semantics.
+    /** @ingroup core
+     *  @brief Managed array container for byeol language
+     *  @details Dynamic array container with type checking and generic support.
+     *  Provides bridged access to native array with managed object semantics.
+     */
     class _nout arr: public tbridge<narr>, public tucontainable<node>, public tarrayable<node> {
         // arr uses instance variable 'ntype':
         //  ntype contains beanType as 'const type*' instance variable. so user should be

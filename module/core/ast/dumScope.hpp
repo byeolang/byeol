@@ -4,9 +4,10 @@
 #include "core/ast/scope.hpp"
 
 namespace by {
-    /// @ingroup core
-    /// @brief Dummy scope implementation that ignores additions
-    /// @details No-op scope used when scope operations should be ignored.
+    /** @ingroup core
+     *  @brief Dummy scope implementation that ignores additions
+     *  @details No-op scope used when scope operations should be ignored.
+     */
     class _nout dumScope: public scope {
         BY(CLASS(dumScope, scope))
 

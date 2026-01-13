@@ -4,10 +4,11 @@
 #include "core/ast/func.hpp"
 
 namespace by {
-    /// @ingroup core
-    /// @brief Constructor function for byeol objects
-    /// @details Represents constructor functions that initialize object instances.
-    /// Handles object construction, parameter passing, and initialization logic.
+    /** @ingroup core
+     *  @brief Constructor function for byeol objects
+     *  @details Represents constructor functions that initialize object instances.
+     *  Handles object construction, parameter passing, and initialization logic.
+     */
     class _nout ctor: public func {
         // don't define `CLASS` here:
         //  CLASS overrides getType() and it returns ttype<ctor> instead of mgdType

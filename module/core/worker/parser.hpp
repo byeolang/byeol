@@ -36,93 +36,94 @@ namespace by {
     class defNestedFuncExpr;
     class endExpr;
 
-    /// @ingroup core
-    /// @brief Parser for byeol language source code
-    /// @details Entry point for the byeol parsing component, inheriting from @ref worker. `work()` returns the parsed
-    /// result as @ref slot.
-    ///
-    /// @section similar_structure_to_stela_parser Similar Structure to Stela Parser
-    /// Since the stela language itself is part of the byeol language, its parser is also based on the byeol language
-    /// parser. The stela parser is less complex compared to the byeol parser, so it's recommended to examine the stela
-    /// parser code first before looking at the core module.
-    ///
-    /// @section scanner_bison_parser_structure Scanner - Bison - Parser Structure
-    /// Uses flex and bison, naming flex as lowscanner and bison as lowparser. These low-level scanner and parser only
-    /// exist inside the parser component and are not exposed externally. When parser::work() executes, it runs
-    /// lowscanner, which tokenizes and passes tokens to lowparser. Lowparser matches rules and passes those events back
-    /// to parser. Therefore, parser's functions starting with `on` are event handling functions that define how to
-    /// create nodes and construct the AST.
-    ///
-    /// @section lowparser_lifecycle_management lowparser.y Lifecycle Management
-    /// In each rule, calling parser::onXXXX() functions often creates new objects on the heap using the `new` keyword
-    /// (not all functions do this). If these arguments are placed directly into @ref tbicontainer, that's fine, but
-    /// otherwise they must be bound with @ref tstr beforehand to avoid memory leaks.
-    ///
-    /// @code
-    ///     // - lowparser.y
-    ///     pack: PACK name-access NEWLINE {
-    ///         $$ = PS.onPack(*$2); // onPack() returns new pack()
-    ///     }
-    ///
-    ///     compilation-unit: pack defblock {
-    ///         tstr<obj> pak($1); // Without binding with tstr like this,
-    ///
-    ///         PS.onCompilationUnit(pak.get()); // if the pak value has issues inside onCompilationUnit()
-    ///                                          // and the operation is cancelled, the pack object
-    ///                                          // created on the heap becomes a memory leak.
-    ///     }
-    /// @endcode
-    ///
-    /// This applies not only to onXXXX() functions but also to string tokens. See the following code:
-    ///
-    /// @code
-    ///     // -- lowscanner.l
-    ///     <stateString>\"       { // When string scan ends
-    ///         if(!yylval->asStr) yylval->asStr = new std::string(); // Creates string object with new
-    ///         ....
-    ///         return STRVAL;
-    ///     }
-    ///
-    ///     // -- lowparser.y
-    ///         ...
-    ///        | STRVAL { // When STRVAL comes from scanner
-    ///         $$ = PS.onPrimitive<nStr>(*$1); // Pass it first. String is always immutable in this project
-    ///                                         // so the object is always copied.
-    ///         delete $1; // Since the object is copied, delete the original object.
-    /// @endcode
-    ///
-    /// @section indentation_rule Indentation Rule
-    /// The byeol language applies the offside rule, making it very sensitive to indentation. Unlike typical languages,
-    /// it must be able to count how many spaces exist immediately after a newline. Once indentation is determined and
-    /// the code line's scope is confirmed, subsequent spaces should be ignored. Consider the following byeol language
-    /// example:
-    ///
-    /// @code
-    /// def A
-    ///     foo(val int) void
-    ///         if val > 0
-    ///           if val < 5
-    ///                   print("0 < val < 5")
-    ///         print("end of func") # 1)
-    /// @endcode
-    ///
-    /// After parsing `print("0 < val < 5")`, when parsing the next line `print("end of func")`, the parser must count
-    /// the leading spaces and compare with the space counts for each scope to determine which scope this code line
-    /// belongs to. Looking at the example, we can intuitively see that `print("end of func")` has the same spacing as
-    /// `if val > 0`, meaning it belongs directly inside the foo() body. This means at this point, both the scope inside
-    /// `if val > 0` and the scope inside `if val < 5` are closed. So lowscanner must add 2 `DEDENT` tokens (signifying
-    /// scope termination) before lowparser recognizes `print("end of func")`.
-    ///
-    /// @section token_dispatcher tokenDispatcher
-    /// Flex uses a separately designated stream called yyin to get characters and define them as tokens. As shown in
-    /// the example above, adding tokens during parsing means adding specific characters to this stream. Typically unput
-    /// is used for this, but to flexibly handle multiple unputs or pushing to the front, lowscanner internally uses
-    /// @ref tokenDispatcher.
-    ///
-    /// @section token_scan tokenScan
-    /// As explained earlier, detecting indentation is crucial. Accurate space counting is required, so a strategy
-    /// pattern is applied, switching between @ref normalScan and @ref indentScan. When a newline is detected, it
-    /// switches to indentScan to count spaces accurately and determine scope.
+    /** @ingroup core
+     *  @brief Parser for byeol language source code
+     *  @details Entry point for the byeol parsing component, inheriting from @ref worker. `work()` returns the parsed
+     *  result as @ref slot.
+     *
+     *  @section similar_structure_to_stela_parser Similar Structure to Stela Parser
+     *  Since the stela language itself is part of the byeol language, its parser is also based on the byeol language
+     *  parser. The stela parser is less complex compared to the byeol parser, so it's recommended to examine the stela
+     *  parser code first before looking at the core module.
+     *
+     *  @section scanner_bison_parser_structure Scanner - Bison - Parser Structure
+     *  Uses flex and bison, naming flex as lowscanner and bison as lowparser. These low-level scanner and parser only
+     *  exist inside the parser component and are not exposed externally. When parser::work() executes, it runs
+     *  lowscanner, which tokenizes and passes tokens to lowparser. Lowparser matches rules and passes those events back
+     *  to parser. Therefore, parser's functions starting with `on` are event handling functions that define how to
+     *  create nodes and construct the AST.
+     *
+     *  @section lowparser_lifecycle_management lowparser.y Lifecycle Management
+     *  In each rule, calling parser::onXXXX() functions often creates new objects on the heap using the `new` keyword
+     *  (not all functions do this). If these arguments are placed directly into @ref tbicontainer, that's fine, but
+     *  otherwise they must be bound with @ref tstr beforehand to avoid memory leaks.
+     *
+     *  @code
+     *      // - lowparser.y
+     *      pack: PACK name-access NEWLINE {
+     *          $$ = PS.onPack(*$2); // onPack() returns new pack()
+     *      }
+     *
+     *      compilation-unit: pack defblock {
+     *          tstr<obj> pak($1); // Without binding with tstr like this,
+     *
+     *          PS.onCompilationUnit(pak.get()); // if the pak value has issues inside onCompilationUnit()
+     *                                           // and the operation is cancelled, the pack object
+     *                                           // created on the heap becomes a memory leak.
+     *      }
+     *  @endcode
+     *
+     *  This applies not only to onXXXX() functions but also to string tokens. See the following code:
+     *
+     *  @code
+     *      // -- lowscanner.l
+     *      <stateString>\"       { // When string scan ends
+     *          if(!yylval->asStr) yylval->asStr = new std::string(); // Creates string object with new
+     *          ....
+     *          return STRVAL;
+     *      }
+     *
+     *      // -- lowparser.y
+     *          ...
+     *         | STRVAL { // When STRVAL comes from scanner
+     *          $$ = PS.onPrimitive<nStr>(*$1); // Pass it first. String is always immutable in this project
+     *                                          // so the object is always copied.
+     *          delete $1; // Since the object is copied, delete the original object.
+     *  @endcode
+     *
+     *  @section indentation_rule Indentation Rule
+     *  The byeol language applies the offside rule, making it very sensitive to indentation. Unlike typical languages,
+     *  it must be able to count how many spaces exist immediately after a newline. Once indentation is determined and
+     *  the code line's scope is confirmed, subsequent spaces should be ignored. Consider the following byeol language
+     *  example:
+     *
+     *  @code
+     *  def A
+     *      foo(val int) void
+     *          if val > 0
+     *            if val < 5
+     *                    print("0 < val < 5")
+     *          print("end of func") # 1)
+     *  @endcode
+     *
+     *  After parsing `print("0 < val < 5")`, when parsing the next line `print("end of func")`, the parser must count
+     *  the leading spaces and compare with the space counts for each scope to determine which scope this code line
+     *  belongs to. Looking at the example, we can intuitively see that `print("end of func")` has the same spacing as
+     *  `if val > 0`, meaning it belongs directly inside the foo() body. This means at this point, both the scope inside
+     *  `if val > 0` and the scope inside `if val < 5` are closed. So lowscanner must add 2 `DEDENT` tokens (signifying
+     *  scope termination) before lowparser recognizes `print("end of func")`.
+     *
+     *  @section token_dispatcher tokenDispatcher
+     *  Flex uses a separately designated stream called yyin to get characters and define them as tokens. As shown in
+     *  the example above, adding tokens during parsing means adding specific characters to this stream. Typically unput
+     *  is used for this, but to flexibly handle multiple unputs or pushing to the front, lowscanner internally uses
+     *  @ref tokenDispatcher.
+     *
+     *  @section token_scan tokenScan
+     *  As explained earlier, detecting indentation is crucial. Accurate space counting is required, so a strategy
+     *  pattern is applied, switching between @ref normalScan and @ref indentScan. When a newline is detected, it
+     *  switches to indentScan to count spaces accurately and determine scope.
+     */
     class _nout parser: public tworker<str, slot>, public tokenScanable {
         typedef tworker<str, slot> __super5;
         BY(CLASS(parser, __super5))
@@ -339,9 +340,11 @@ namespace by {
         void _prepare() override;
         void _onEndWork() override;
 
-        /// parse with given srcSupply instances.
-        /// @param script is null terminated cstring.
-        /// @return last parsed sub pack.
+        /**
+         *  parse with given srcSupply instances.
+         *  @param script is null terminated cstring.
+         *  @return last parsed sub pack.
+         */
         str _onWork() override;
 
     private:

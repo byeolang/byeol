@@ -184,7 +184,7 @@ The system follows a **Layered Architecture** pattern with clear separation of c
     - `@details` provides more detailed information about what was written in `@brief`.
     - Example:
 ```cpp
-/// @ingroup indep
+[///](///) @ingroup indep
 /// @brief it manges data related to build info.
 /// @details it contains build number and version and can return whether it's debug binary or not.
 /// and you can describe more info for `@details` with newline if you want to.

@@ -1,5 +1,6 @@
-/// @file
-// nested class of bicontainable.hpp
+/** @file
+ *  nested class of bicontainable.hpp
+ */
 class iterable {
     BY_ME(iterable)
 
@@ -20,12 +21,14 @@ public:
 
     virtual void rel() = 0;
 
-    /// proceed iteration obj to point next element by given step.
-    /// @param  step    how much it proceeds.
-    ///                 positive value only.
-    /// @return how many step it proceeded. if it tries to proceed further when it reached to End()
-    ///         it won't be counted as returning value.
-    ///         it'll return '0' if it already reached to the end.
+    /**
+     *  proceed iteration obj to point next element by given step.
+     *  @param  step    how much it proceeds.
+     *                  positive value only.
+     *  @return how many step it proceeded. if it tries to proceed further when it reached to End()
+     *          it won't be counted as returning value.
+     *          it'll return '0' if it already reached to the end.
+     */
     virtual ncnt next(ncnt step) { return isReversed() ? stepBackward(step) : stepForward(step); }
 
     virtual ncnt prev(ncnt step) { return isReversed() ? stepForward(step) : stepBackward(step); }

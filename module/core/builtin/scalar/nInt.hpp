@@ -5,14 +5,16 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief Integer primitive type in byeol language
-    /// @details Implements integer arithmetic, bitwise operations, and comparisons.
-    /// Provides the fundamental integer data type with full operator support.
+    /** @ingroup core
+     *  @brief Integer primitive type in byeol language
+     *  @details Implements integer arithmetic, bitwise operations, and comparisons.
+     *  Provides the fundamental integer data type with full operator support.
+     */
     class _nout nInt: public tscalar<nint> {
-        /// @ingroup core
-        /// @brief Type information for integer primitive
-        /// @details Provides type metadata and conversion rules for nInt.
+        /** @ingroup core
+         *  @brief Type information for integer primitive
+         *  @details Provides type metadata and conversion rules for nInt.
+         */
         class _nout wIntType: public ntype {
         public:
             nbool isImmutable() const override;

@@ -13,50 +13,51 @@ namespace by {
 #include "visitee.inl"
 #undef X
 
-    /// @ingroup core
-    /// @brief Base visitor class for AST traversal
-    /// @details Since byeol focuses on AST, visitor is used frequently. visitor is actively utilized to separate the
-    /// traversal method from the actions taken when visiting @ref node during traversal.
-    ///
-    /// @section traversal Traversal
-    /// Always follows preorder traversal. Changing to postorder traversal is not possible. visit() consists of 3
-    /// stages:
-    /// 1. Visit the currently found node (onVisit())
-    /// 2. Traverse next child nodes (onTraverse())
-    /// 3. Leave the currently found node (onLeave())
-    ///
-    /// @section downcasting_through_accept Downcasting Through accept
-    /// visitor has many virtual functions that represent visits to many concrete types like onVisit(T&). On the other
-    /// hand, when searching in onTraverse, the node type is mainly used because it uses the @ref tbicontainable
-    /// interface through node's `subs()`. So somewhere the node type must be downcast to concrete types like @ref nInt
-    /// or @ref defNestedFuncExpr. For this purpose, node's virtual function `accept()` is called. See the example:
-    ///
-    /// @code
-    ///     void defNestedFuncExpr::accept(const visitInfo& i, visitor& v) {
-    ///         v.visit(i, *this); // calls visitor::visit(const visitInfo&, defNestedFuncExpr&)
-    ///     }
-    /// @endcode
-    ///
-    /// When the virtual function accept() is called, it reversely calls visitor's visit() as a concrete type through
-    /// *this. For this, all node-derived classes participating in visitation must override the virtual function
-    /// `accept()`, and the VISIT macro is used to make this process easier. You will often see declarations like this:
-    ///
-    /// @code
-    ///     class _nout slot: public node {
-    ///         BY(CLASS(slot, node), VISIT()) // <---
-    ///
-    ///     public:
-    /// @endcode
-    ///
-    /// If a node-derived class does not override `accept()`, `onTraverse(node&)` is used instead, which is sufficient
-    /// for those cases.
-    ///
-    /// @section duplicate_visit_elimination Duplicate Visit Elimination
-    /// AST sometimes has mutual references between nodes. In this case, traversing without any exception handling
-    /// revisits already visited nodes and enters an infinite loop. visitor owns a map called `_visited`. Through this,
-    /// when visit() is called, it determines if it's an already visited node and provides exception handling. This
-    /// visit history information is reset right before visitor starts visiting each time. If you want to enable
-    /// revisiting, change the value with `setReturnable(true)`.
+    /** @ingroup core
+     *  @brief Base visitor class for AST traversal
+     *  @details Since byeol focuses on AST, visitor is used frequently. visitor is actively utilized to separate the
+     *  traversal method from the actions taken when visiting @ref node during traversal.
+     *
+     *  @section traversal Traversal
+     *  Always follows preorder traversal. Changing to postorder traversal is not possible. visit() consists of 3
+     *  stages:
+     *  1. Visit the currently found node (onVisit())
+     *  2. Traverse next child nodes (onTraverse())
+     *  3. Leave the currently found node (onLeave())
+     *
+     *  @section downcasting_through_accept Downcasting Through accept
+     *  visitor has many virtual functions that represent visits to many concrete types like onVisit(T&). On the other
+     *  hand, when searching in onTraverse, the node type is mainly used because it uses the @ref tbicontainable
+     *  interface through node's `subs()`. So somewhere the node type must be downcast to concrete types like @ref nInt
+     *  or @ref defNestedFuncExpr. For this purpose, node's virtual function `accept()` is called. See the example:
+     *
+     *  @code
+     *      void defNestedFuncExpr::accept(const visitInfo& i, visitor& v) {
+     *          v.visit(i, *this); // calls visitor::visit(const visitInfo&, defNestedFuncExpr&)
+     *      }
+     *  @endcode
+     *
+     *  When the virtual function accept() is called, it reversely calls visitor's visit() as a concrete type through
+     *  *this. For this, all node-derived classes participating in visitation must override the virtual function
+     *  `accept()`, and the VISIT macro is used to make this process easier. You will often see declarations like this:
+     *
+     *  @code
+     *      class _nout slot: public node {
+     *          BY(CLASS(slot, node), VISIT()) // <---
+     *
+     *      public:
+     *  @endcode
+     *
+     *  If a node-derived class does not override `accept()`, `onTraverse(node&)` is used instead, which is sufficient
+     *  for those cases.
+     *
+     *  @section duplicate_visit_elimination Duplicate Visit Elimination
+     *  AST sometimes has mutual references between nodes. In this case, traversing without any exception handling
+     *  revisits already visited nodes and enters an infinite loop. visitor owns a map called `_visited`. Through this,
+     *  when visit() is called, it determines if it's an already visited node and provides exception handling. This
+     *  visit history information is reset right before visitor starts visiting each time. If you want to enable
+     *  revisiting, change the value with `setReturnable(true)`.
+     */
     class _nout visitor: public tworker<void, node> {
         typedef tworker<void, node> __super6;
         BY(CLASS(visitor, __super6))
@@ -66,9 +67,11 @@ namespace by {
         visitor(nbool isReturnable);
 
     public:
-        /// if you set the visitor as returnable, nodes you have already been visited,
-        /// will be visited again if it's refered by different nodes.
-        /// in default, this value is false.
+        /**
+         *  if you set the visitor as returnable, nodes you have already been visited,
+         *  will be visited again if it's refered by different nodes.
+         *  in default, this value is false.
+         */
         void setReturnable(nbool isReturnable);
         nbool isReturnable() const;
 
@@ -113,7 +116,9 @@ namespace by {
         void _prepare() override;
 
     private:
-        /// @return false if the node is already visited.
+        /**
+         *  @return false if the node is already visited.
+         */
         nbool _markVisited(node& me);
         void _rel();
 

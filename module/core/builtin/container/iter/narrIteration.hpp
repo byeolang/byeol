@@ -1,9 +1,10 @@
-/// @file
-/// @ingroup core
-/// @brief Array iteration implementation
-/// @details Concrete iteration implementation for native array containers.
-/// nested class of tnarr.hpp:
-///  this file allows to be refered by 'tnarr.hpp' file only.
+/** @file
+ *  @ingroup core
+ *  @brief Array iteration implementation
+ *  @details Concrete iteration implementation for native array containers.
+ *  nested class of tnarr.hpp:
+ *   this file allows to be refered by 'tnarr.hpp' file only.
+ */
 class narrIteration: public iteration {
     BY(CLASS(narrIteration, iteration))
     friend class tnarr;
@@ -21,9 +22,11 @@ public:
 
     void rel() override { _n = this->isReversed() ? -1 : _own.len(); }
 
-    /// if iteration reached to the last element to iterate, it can precede to next,
-    /// which means to the End of a buffer.
-    /// however, this step wasn't regarded to a step even though it proceeds.
+    /**
+     *  if iteration reached to the last element to iterate, it can precede to next,
+     *  which means to the End of a buffer.
+     *  however, this step wasn't regarded to a step even though it proceeds.
+     */
     ncnt stepForward(ncnt step) override {
         WHEN(step <= 0) .ret(0);
         WHEN(isEnd()) .ret(0);

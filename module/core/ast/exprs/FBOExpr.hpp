@@ -10,10 +10,11 @@ namespace by {
 
     class visitor;
 
-    /// @ingroup core
-    /// @brief Fundamental Binary Operator expression
-    /// @details Handles binary operator expressions. Operands go into lhs and rhs respectively, and both must be
-    /// @ref scalar types.
+    /** @ingroup core
+     *  @brief Fundamental Binary Operator expression
+     *  @details Handles binary operator expressions. Operands go into lhs and rhs respectively, and both must be
+     *  @ref scalar types.
+     */
     class _nout FBOExpr: public expr {
         BY(CLASS(FBOExpr, expr, expr::exprType), VISIT())
 

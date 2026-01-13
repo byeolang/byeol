@@ -5,22 +5,24 @@
 #include "core/common.hpp"
 
 namespace by {
-    /// smultimap:
-    ///     a multimap container class that preserves insertion order.
-    ///     in C++, a general map operates regardless of the insertion order when iteration is
-    ///     performed.
-    ///
-    ///     this class manages key and value as a pair like multimap, but when iteration is
-    ///     performed, it remembers the insertion order and iterates like a queue. This function is
-    ///     used in arguments capture features, etc., because when a nested function is exported to
-    ///     a closure, there is a requirement to capture and maintain the local scope at that time.
-    ///     Local variables that occurred after the time of capture should have no relation to the
-    ///     nested function.
-    ///
-    ///     in order to implement these functions quickly and effectively, a map container that
-    ///     remembers the insertion order is required.
-    ///
-    ///     the core ideas come from Oliver Schönrock and several great developers at bit.ly/41CwjLL
+    /**
+     *  smultimap:
+     *      a multimap container class that preserves insertion order.
+     *      in C++, a general map operates regardless of the insertion order when iteration is
+     *      performed.
+     *
+     *      this class manages key and value as a pair like multimap, but when iteration is
+     *      performed, it remembers the insertion order and iterates like a queue. This function is
+     *      used in arguments capture features, etc., because when a nested function is exported to
+     *      a closure, there is a requirement to capture and maintain the local scope at that time.
+     *      Local variables that occurred after the time of capture should have no relation to the
+     *      nested function.
+     *
+     *      in order to implement these functions quickly and effectively, a map container that
+     *      remembers the insertion order is required.
+     *
+     *      the core ideas come from Oliver Schönrock and several great developers at bit.ly/41CwjLL
+     */
     template <typename K, typename V> class smultimap {
         BY(ME(smultimap))
 
@@ -116,7 +118,9 @@ namespace by {
 
         void insert(const K& key, V&& val);
 
-        /// delete all elements matching given key.
+        /**
+         *  delete all elements matching given key.
+         */
         void erase(const K& key);
         void erase(const K* it) BY_SIDE_FUNC(erase);
         void erase(const iterator& it);

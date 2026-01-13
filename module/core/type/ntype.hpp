@@ -12,24 +12,24 @@ namespace by {
     class ases;
     class impliAses;
 
-    /// @ingroup core
-    /// @brief represents native c++ type system for byeol language
-    /// @details Core type class that provides type information, type conversion, and type deduction.
-    ///          Supports implicit/explicit casting, type compatibility checking, and parameter management.
-    ///          ntype stands for native type, representing meta-type information for C++ classes.
-    ///          mgdType stands for managed type, representing meta-type information for types defined
-    ///          in the Byeol language (such as functions or objects).
-    ///
-    ///          One important note:
-    ///          Although mgdType inherits from ntype in terms of implementation, this inheritance
-    ///          relationship does not apply at the type level when represented as type.
-    ///          In other words, when inheritance hierarchies such as getSupers() or getSubs() are represented,
-    ///          their contents can include both ntype and mgdType instances.
-    ///          mgdType::getSupers() is not restricted to containing only mgdType entries.
-    ///
-    ///          The name of an mgdType corresponds to the type name as defined in the Byeol language,
-    ///          while an ntype corresponds to the C++ class name.
-    ///
+    /** @ingroup core
+     *  @brief represents native c++ type system for byeol language
+     *  @details Core type class that provides type information, type conversion, and type deduction.
+     *           Supports implicit/explicit casting, type compatibility checking, and parameter management.
+     *           ntype stands for native type, representing meta-type information for C++ classes.
+     *           mgdType stands for managed type, representing meta-type information for types defined
+     *           in the Byeol language (such as functions or objects).
+     *
+     *           One important note:
+     *           Although mgdType inherits from ntype in terms of implementation, this inheritance
+     *           relationship does not apply at the type level when represented as type.
+     *           In other words, when inheritance hierarchies such as getSupers() or getSubs() are represented,
+     *           their contents can include both ntype and mgdType instances.
+     *           mgdType::getSupers() is not restricted to containing only mgdType entries.
+     *
+     *           The name of an mgdType corresponds to the type name as defined in the Byeol language,
+     *           while an ntype corresponds to the C++ class name.
+     */
     class _nout ntype: public type {
         BY_ME(ntype, type)
         typedef std::map<const ntype*, const ntype*> promoter;
@@ -42,13 +42,16 @@ namespace by {
         ntype() = default;
 
     public:
-        /// @brief check whether two ntype are same in both of native and managed environments
-        /// @details mgdType inherits ntype, so this operator==() is also able to checks equality in managed code.
+        /**
+         *  @brief check whether two ntype are same in both of native and managed environments
+         *  @details mgdType inherits ntype, so this operator==() is also able to checks equality in managed code.
+         */
         nbool operator==(const type& rhs) const override;
 
     public:
-        // ntype:
-        /// @brief whether variable 'it' can be a subtype of T in managed code
+        /**
+         *  @brief whether variable 'it' can be a subtype of T in managed code
+         */
         template <typename T> nbool isImpli() const { return this->isImpli(ttype<T>::get()); }
 
         virtual nbool isImpli(const type& to) const;
@@ -65,7 +68,9 @@ namespace by {
         str asImpli(const node* from, const type& to) const BY_SIDE_FUNC(from, asImpli(*from, to), str());
         str asImpli(const node* from, const type* to) const BY_SIDE_FUNC(from&& to, asImpli(*from, *to), str());
 
-        /// @return whether this's a custom type.
+        /**
+         *  @return whether this's a custom type.
+         */
         virtual nbool isCustom() const { return false; }
 
         template <typename T> nbool is() const { return this->is(ttype<T>::get()); }
@@ -84,13 +89,17 @@ namespace by {
 
         virtual nbool isImmutable() const;
 
-        /// @return true if rhs has same params and return type in managed code
-        /// @details operator==() compares type equality in the native (C++) environment — it returns true
-        ///          if both objects are of the same class.
-        ///          In contrast, isSameSign() compares type equality in the managed environment.
+        /**
+         *  @return true if rhs has same params and return type in managed code
+         *  @details operator==() compares type equality in the native (C++) environment — it returns true
+         *           if both objects are of the same class.
+         *           In contrast, isSameSign() compares type equality in the managed environment.
+         */
         nbool isSameSign(const type& rhs) const;
 
-        /// @return null if it's not relative between l & r.
+        /**
+         *  @return null if it's not relative between l & r.
+         */
         const ntype* promote(const ntype& r) const;
         const ntype* promote(const ntype* it) const BY_SIDE_FUNC(promote);
         const ntype* promote(const typeProvidable& r) const;
@@ -98,7 +107,9 @@ namespace by {
 
         template <typename T> const ntype* promote() const { return promote(ttype<T>::get()); }
 
-        /// @return null it it's not relative between l & r.
+        /**
+         *  @return null it it's not relative between l & r.
+         */
         static const ntype* promote(const ntype& l, const ntype& r);
         static const ntype* promote(const ntype& l, const ntype* r) BY_SIDE_FUNC(r, promote(l, *r), nullptr);
         static const ntype* promote(const ntype* l, const ntype& r) BY_SIDE_FUNC(l, promote(*l, r), nullptr);
@@ -116,7 +127,6 @@ namespace by {
         const nchar* getMetaTypeName() const override;
 
     protected:
-        // ntype:
         virtual const impliAses& _getImpliAses() const;
         virtual const ases& _getAses() const;
 

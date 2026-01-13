@@ -7,10 +7,11 @@ namespace by {
 
     class visitor;
 
-    /// @ingroup core
-    /// @brief Function/method call expression
-    /// @details Represents function and method invocation with arguments.
-    /// Handles subject evaluation, @ref args passing, and @ref func execution.
+    /** @ingroup core
+     *  @brief Function/method call expression
+     *  @details Represents function and method invocation with arguments.
+     *  Handles subject evaluation, @ref args passing, and @ref func execution.
+     */
     class _nout evalExpr: public expr {
         BY(CLASS(evalExpr, expr, expr::exprType), VISIT())
         friend class parser;

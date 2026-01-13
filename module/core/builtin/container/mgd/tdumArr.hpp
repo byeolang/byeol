@@ -5,9 +5,10 @@
 #include "core/ast/origin.hpp"
 
 namespace by {
-    /// @ingroup core
-    /// @brief Dummy array that ignores all modifications
-    /// @details No-op array implementation that accepts but ignores all set/add operations.
+    /** @ingroup core
+     *  @brief Dummy array that ignores all modifications
+     *  @details No-op array implementation that accepts but ignores all set/add operations.
+     */
     template <typename T, typename defaultElemType = T> class _nout tdumArr: public tarr<T, defaultElemType> {
         typedef tarr<T, defaultElemType> __super9;
         BY(CLASS(tdumArr, __super9))

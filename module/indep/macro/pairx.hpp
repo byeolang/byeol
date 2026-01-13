@@ -1,5 +1,6 @@
-/// @file
-/// Extended pair macros for advanced parameter handling
+/** @file
+ *  Extended pair macros for advanced parameter handling
+ */
 #pragma once
 
 #define PAIRX_LEFT(A, B) A,

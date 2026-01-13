@@ -11,9 +11,10 @@ namespace by {
 
     template <typename T, nbool isBaseObj> class tbridger;
 
-    /// @ingroup core
-    /// @brief Base bridge function template
-    /// @details Base template for bridging C++ member functions with byeol function interface.
+    /** @ingroup core
+     *  @brief Base bridge function template
+     *  @details Base template for bridging C++ member functions with byeol function interface.
+     */
     template <typename Ret, typename T, template <typename, nbool> class Marshaling, typename... Args>
     class tbaseBridgeFunc: public baseFunc {
         BY(ME(tbaseBridgeFunc, baseFunc))

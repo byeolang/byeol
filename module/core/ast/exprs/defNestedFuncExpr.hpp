@@ -5,10 +5,11 @@
 #include "core/ast/expr.hpp"
 
 namespace by {
-    /// @ingroup core
-    /// @brief Nested function definition expression
-    /// @details Creates byeol language nested functions @ref nestedFunc. Nested functions can omit the name when
-    /// defined and can also be used as @ref closure.
+    /** @ingroup core
+     *  @brief Nested function definition expression
+     *  @details Creates byeol language nested functions @ref nestedFunc. Nested functions can omit the name when
+     *  defined and can also be used as @ref closure.
+     */
     class _nout defNestedFuncExpr: public expr {
         BY(CLASS(defNestedFuncExpr, expr, expr::exprType), VISIT())
         friend class visitor;

@@ -1,8 +1,9 @@
 /// @file
 #include "core/builtin/container/iter/uiterable.hpp"
 
-/// @ingroup core
-/// nested class of tucontainable.hpp
+/** @ingroup core
+ *  nested class of tucontainable.hpp
+ */
 class iteration: public instance, public iterable {
     BY(ADT(iteration, instance))
     friend class iter;

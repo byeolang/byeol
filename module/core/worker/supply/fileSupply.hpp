@@ -5,9 +5,10 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief File-based source supply
-    /// @details Supplies source code from a file path to the parser.
+    /** @ingroup core
+     *  @brief File-based source supply
+     *  @details Supplies source code from a file path to the parser.
+     */
     class _nout fileSupply: public srcSupply {
         BY(CLASS(fileSupply, srcSupply))
 

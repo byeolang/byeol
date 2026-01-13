@@ -33,7 +33,6 @@ namespace by {
 
     void me::setName(const std::string& new1) { _name = new1; }
 
-    /// @return nullable
     const args& me::getArgs() const {
         static args dummy;
         WHEN(!_args.isBind()) .ret(dummy);

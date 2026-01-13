@@ -5,9 +5,10 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief Type conversion interface
-    /// @details Abstract interface for type checking and conversion operations.
+    /** @ingroup core
+     *  @brief Type conversion interface
+     *  @details Abstract interface for type checking and conversion operations.
+     */
     class _nout asable {
     public:
         virtual ~asable() = default;

@@ -6,15 +6,16 @@
 
 namespace by {
 
-    /// @ingroup meta
-    /// @brief Base class for template type metadata
-    /// @details ttypeBase returns ttypeBase<type> as its meta class.
-    /// however, this makes impossible to get specific ttypeBase instance
-    /// at a binder.
-    ///
-    /// if user typedefs SuperType at their type T, then ttypeBase
-    /// inherits from given SuperType.
-    /// this eventually make user add API to want to ttypeBase class.
+    /** @ingroup meta
+     *  @brief Base class for template type metadata
+     *  @details ttypeBase returns ttypeBase<type> as its meta class.
+     *  however, this makes impossible to get specific ttypeBase instance
+     *  at a binder.
+     *
+     *  if user typedefs SuperType at their type T, then ttypeBase
+     *  inherits from given SuperType.
+     *  this eventually make user add API to want to ttypeBase class.
+     */
     template <typename T, typename S = typename tmetaTypeDef<T>::is> class ttypeBase: public S {
         typedef ttypeBase<T, S> _T;
         BY_ME(_T, S)

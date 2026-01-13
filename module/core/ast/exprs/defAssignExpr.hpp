@@ -4,10 +4,11 @@
 #include "core/ast/exprs/defVarExpr.hpp"
 
 namespace by {
-    /// @ingroup core
-    /// @brief Variable definition with assignment expression
-    /// @details Represents variable declarations with initial value assignment.
-    /// Handles variable creation, type specification, and value initialization.
+    /** @ingroup core
+     *  @brief Variable definition with assignment expression
+     *  @details Represents variable declarations with initial value assignment.
+     *  Handles variable creation, type specification, and value initialization.
+     */
     class _nout defAssignExpr: public defVarExpr {
         BY(CLASS(defAssignExpr, defVarExpr, expr::exprType), VISIT())
 

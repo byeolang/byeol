@@ -3,7 +3,9 @@
 
 #include "meta/common/dep.hpp"
 
-/// @brief Meta-programming macro definitions for byeol type system
+/**
+ *  @brief Meta-programming macro definitions for byeol type system
+ */
 
 // byeolMeta macro's sub-commands:
 //  CLONE:
@@ -15,7 +17,9 @@ public:                                                        \
                                                                \
 private:
 
-/// @brief Define super meta type for class type introspection
+/**
+ *  @brief Define super meta type for class type introspection
+ */
 
 //  TYPE:
 //      defines super meta type.

@@ -10,10 +10,11 @@ namespace by {
     template <typename T, typename TACTIC> class tnarr;
     typedef class _nout tnarr<node, strTactic> narr;
 
-    /// @ingroup core
-    /// @brief Template bidirectional container interface
-    /// @details Key-value container template with bidirectional iterator support.
-    /// @remark tbicontainable has API treating iter ref and element as its parameter.
+    /** @ingroup core
+     *  @brief Template bidirectional container interface
+     *  @details Key-value container template with bidirectional iterator support.
+     *  @remark tbicontainable has API treating iter ref and element as its parameter.
+     */
     template <typename K, typename V> class tbicontainable {
         BY_ME(tbicontainable)
         template <typename K1, typename V1, typename defaultContainer> friend class tnchain;
@@ -85,16 +86,18 @@ namespace by {
 
         iter iterate(ncnt step) const;
 
-        /// @param  step    determines which element the `iter` will point to. If `0` is entered, an
-        /// `iter` will be
-        ///                 created that points to the frontmost element.
-        /// @param  isBoundary  determines whether this `iter` belongs to the end boundary of the
-        /// inner container.
-        ///                     for example, if there is a container with len() of 3, and a reversed
-        ///                     boundary iter that points to the 2nd element for that container is
-        ///                     created, and a chain is formed by linking this iter, when iterating
-        ///                     over the chain, the 3rd element of the container will be iterated in
-        ///                     reverse order.
+        /**
+         *  @param  step    determines which element the `iter` will point to. If `0` is entered, an
+         *  `iter` will be
+         *                  created that points to the frontmost element.
+         *  @param  isBoundary  determines whether this `iter` belongs to the end boundary of the
+         *  inner container.
+         *                      for example, if there is a container with len() of 3, and a reversed
+         *                      boundary iter that points to the 2nd element for that container is
+         *                      created, and a chain is formed by linking this iter, when iterating
+         *                      over the chain, the 3rd element of the container will be iterated in
+         *                      reverse order.
+         */
         iter iterate(ncnt step, nbool isBoundary) const;
         iter iterate(const K& key) const;
         iter iterate(const K* it) const BY_SIDE_FUNC(it, iterate(*it), begin());
@@ -117,8 +120,10 @@ namespace by {
         ncnt add(const tbicontainable& rhs);
         ncnt add(const tbicontainable* it) BY_SIDE_FUNC(add);
 
-        /// delete all elements matched by given key.
-        /// @param key key to be deleted
+        /**
+         *  delete all elements matched by given key.
+         *  @param key key to be deleted
+         */
         virtual nbool del(const K& key) = 0;
         nbool del(const K* it) BY_SIDE_FUNC(del);
         virtual nbool del(const iter& at) = 0;

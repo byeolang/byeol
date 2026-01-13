@@ -4,10 +4,11 @@
 #include "core/ast/exprs/defVarExpr.hpp"
 
 namespace by {
-    /// @ingroup core
-    /// @brief Property definition expression
-    /// @details Represents property declarations within objects and classes.
-    /// Handles property creation with type inference and initialization.
+    /** @ingroup core
+     *  @brief Property definition expression
+     *  @details Represents property declarations within objects and classes.
+     *  Handles property creation with type inference and initialization.
+     */
     class _nout defPropExpr: public defVarExpr {
         BY(CLASS(defPropExpr, defVarExpr, expr::exprType), VISIT())
 

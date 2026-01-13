@@ -5,14 +5,16 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief Boolean primitive type in byeol language
-    /// @details Implements boolean operations, logical operations, and comparisons.
-    /// Provides the fundamental boolean data type with full operator support.
+    /** @ingroup core
+     *  @brief Boolean primitive type in byeol language
+     *  @details Implements boolean operations, logical operations, and comparisons.
+     *  Provides the fundamental boolean data type with full operator support.
+     */
     class _nout nBool: public tscalar<nbool> {
-        /// @ingroup core
-        /// @brief Type information for boolean primitive
-        /// @details Provides type metadata and conversion rules for nBool.
+        /** @ingroup core
+         *  @brief Type information for boolean primitive
+         *  @details Provides type metadata and conversion rules for nBool.
+         */
         class _nout wBoolType: public ntype {
         public:
             nbool isImmutable() const override;

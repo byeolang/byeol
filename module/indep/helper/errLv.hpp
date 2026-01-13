@@ -6,9 +6,10 @@
 #include "indep/macro.hpp"
 
 namespace by {
-    /// @ingroup indep
-    /// @brief Error level definitions and utilities
-    /// @details Provides error severity levels and corresponding name lookup.
+    /** @ingroup indep
+     *  @brief Error level definitions and utilities
+     *  @details Provides error severity levels and corresponding name lookup.
+     */
     class _nout errLv {
         BY(ME(errLv))
 
@@ -20,8 +21,10 @@ namespace by {
         };
 
     public:
-        /// @brief Get human-readable name for error level
-        /// @param lv Error level to convert to string
+        /**
+         *  @brief Get human-readable name for error level
+         *  @param lv Error level to convert to string
+         */
         static const std::string& getName(level lv);
     };
 }

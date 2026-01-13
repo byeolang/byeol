@@ -5,14 +5,16 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief Byte primitive type in byeol language
-    /// @details Implements byte arithmetic, bitwise operations, and comparisons.
-    /// Provides 8-bit unsigned integer data type with full operator support.
+    /** @ingroup core
+     *  @brief Byte primitive type in byeol language
+     *  @details Implements byte arithmetic, bitwise operations, and comparisons.
+     *  Provides 8-bit unsigned integer data type with full operator support.
+     */
     class _nout nByte: public tscalar<nuchar> {
-        /// @ingroup core
-        /// @brief Type information for byte primitive
-        /// @details Provides type metadata and conversion rules for nByte.
+        /** @ingroup core
+         *  @brief Type information for byte primitive
+         *  @details Provides type metadata and conversion rules for nByte.
+         */
         class _nout nByteType: public ntype {
         public:
             nbool isImmutable() const override;

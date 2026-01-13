@@ -5,9 +5,10 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief Factory for creating managed types
-    /// @details Template-based factory for generating type objects with proper metadata.
+    /** @ingroup core
+     *  @brief Factory for creating managed types
+     *  @details Template-based factory for generating type objects with proper metadata.
+     */
     class _nout typeMaker {
         BY(ME(typeMaker))
 

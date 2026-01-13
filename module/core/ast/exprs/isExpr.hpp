@@ -4,10 +4,11 @@
 #include "core/ast/expr.hpp"
 
 namespace by {
-    /// @ingroup core
-    /// @brief @ref ntype checking expression
-    /// @details Represents type checking operations (e.g., value is Type).
-    /// Evaluates to boolean indicating whether an object is of specified type.
+    /** @ingroup core
+     *  @brief @ref ntype checking expression
+     *  @details Represents type checking operations (e.g., value is Type).
+     *  Evaluates to boolean indicating whether an object is of specified type.
+     */
     class _nout isExpr: public expr {
         BY(CLASS(isExpr, expr, expr::exprType), VISIT())
 

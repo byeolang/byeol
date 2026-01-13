@@ -6,31 +6,32 @@
 
 namespace by {
 
-    /// @ingroup indep
-    /// @brief Deferred execution utility similar to defer keyword in other languages
-    /// @details Delays code execution until the end of the current scope. Similar to
-    /// the `defer` keyword found in languages like Go or Swift.
-    ///
-    /// In byeolang, end registers code to be executed when exiting the current function.
-    /// In C++, this is implemented using RAII and is limited to scope boundaries rather
-    /// than function boundaries.
-    ///
-    /// @section Usage
-    /// Use the provided macros for convenient deferred execution:
-    /// @code
-    ///     void processFile() {
-    ///         FILE* f = fopen("data.txt", "r");
-    ///         BY_END(fclose(f)); // Automatically closes file when leaving scope
-    ///
-    ///         // Or use block form for multiple statements:
-    ///         BY_END_BLOCK({
-    ///             cleanupResource();
-    ///             logCompletion();
-    ///         });
-    ///
-    ///         // ... do work with file ...
-    ///     } // fclose(f) executes here automatically
-    /// @endcode
+    /** @ingroup indep
+     *  @brief Deferred execution utility similar to defer keyword in other languages
+     *  @details Delays code execution until the end of the current scope. Similar to
+     *  the `defer` keyword found in languages like Go or Swift.
+     *
+     *  In byeolang, end registers code to be executed when exiting the current function.
+     *  In C++, this is implemented using RAII and is limited to scope boundaries rather
+     *  than function boundaries.
+     *
+     *  @section Usage
+     *  Use the provided macros for convenient deferred execution:
+     *  @code
+     *      void processFile() {
+     *          FILE* f = fopen("data.txt", "r");
+     *          BY_END(fclose(f)); // Automatically closes file when leaving scope
+     *
+     *          // Or use block form for multiple statements:
+     *          BY_END_BLOCK({
+     *              cleanupResource();
+     *              logCompletion();
+     *          });
+     *
+     *          // ... do work with file ...
+     *      } // fclose(f) executes here automatically
+     *  @endcode
+     */
     class _nout end {
         BY(ME(end))
 

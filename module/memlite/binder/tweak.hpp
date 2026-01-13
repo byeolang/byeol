@@ -8,17 +8,17 @@ namespace by {
 
     class origin;
 
-    /// @ingroup memlite
-    /// @brief Weak reference smart pointer with type-safe access
-    /// @details Template-based weak reference binder that provides type-safe access
-    /// to instances without affecting their lifetime. Uses configurable tactics for memory management.
+    /** @ingroup memlite
+     *  @brief Weak reference smart pointer with type-safe access
+     *  @details Template-based weak reference binder that provides type-safe access
+     *  to instances without affecting their lifetime. Uses configurable tactics for memory management.
+     */
     template <typename T, typename TACTIC = weakTactic> class tweak: public binder {
         BY_ME(tweak, binder)
         BY_INIT_META(me)
         friend class life;
 
     public:
-        /// tweak:
         tweak();
         tweak(const type& subtype);
         tweak(const T& it);

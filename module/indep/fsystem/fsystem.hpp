@@ -15,25 +15,26 @@
 
 namespace by {
 
-    /// @ingroup indep
-    /// @brief Cross-platform filesystem utilities for recursive file traversal
-    /// @details A simple class for recursively traversing files in a specified folder.
-    /// Provides platform-independent API that works on both Windows and POSIX-compliant
-    /// operating systems. Core functionality is provided through the iterator class.
-    ///
-    /// @section Usage
-    /// Basic usage example:
-    /// @code
-    ///     auto e = fsystem::find("../your/path");
-    ///     while(e.next()) { // Returns false when all files are traversed
-    ///         const std::string& path = *e; // Path of the found file
-    ///         if(*e == "../your/path/child/helloWorld.cpp") // Always uses relative paths
-    ///             doSomething(e->getDir()); // Returns the folder path of the found file
-    ///     }
-    /// @endcode
-    ///
-    /// @remark Always iterates files only
-    /// Empty folders are skipped during iteration.
+    /** @ingroup indep
+     *  @brief Cross-platform filesystem utilities for recursive file traversal
+     *  @details A simple class for recursively traversing files in a specified folder.
+     *  Provides platform-independent API that works on both Windows and POSIX-compliant
+     *  operating systems. Core functionality is provided through the iterator class.
+     *
+     *  @section Usage
+     *  Basic usage example:
+     *  @code
+     *      auto e = fsystem::find("../your/path");
+     *      while(e.next()) { // Returns false when all files are traversed
+     *          const std::string& path = *e; // Path of the found file
+     *          if(*e == "../your/path/child/helloWorld.cpp") // Always uses relative paths
+     *              doSomething(e->getDir()); // Returns the folder path of the found file
+     *      }
+     *  @endcode
+     *
+     *  @remark Always iterates files only
+     *  Empty folders are skipped during iteration.
+     */
     class _nout fsystem {
         BY(ME(fsystem))
 
@@ -49,10 +50,11 @@ namespace by {
 
         typedef std::vector<entry> entries;
 
-        /// @ingroup indep
-        /// @brief Iterator for traversing filesystem entries
-        /// @details Provides sequential access to filesystem entries with platform-specific
-        /// handling for Windows and Unix-like systems.
+        /** @ingroup indep
+         *  @brief Iterator for traversing filesystem entries
+         *  @details Provides sequential access to filesystem entries with platform-specific
+         *  handling for Windows and Unix-like systems.
+         */
         class _nout iterator {
             BY(ME(iterator))
             friend class fsystem;
@@ -64,22 +66,38 @@ namespace by {
             ~iterator();
 
         public:
-            /// @brief Dereference operator to get current path
+            /**
+             *  @brief Dereference operator to get current path
+             */
             const std::string& operator*();
-            /// @brief Post-increment operator to advance iterator
+
+            /**
+             *  @brief Post-increment operator to advance iterator
+             */
             me& operator++(int);
-            /// @brief Conversion to bool for validity checking
+
+            /**
+             *  @brief Conversion to bool for validity checking
+             */
             operator nbool() const;
 
         public:
-            /// @brief Release resources held by iterator
+            /**
+             *  @brief Release resources held by iterator
+             */
             void rel();
-            /// @brief Advance to next filesystem entry
+
+            /**
+             *  @brief Advance to next filesystem entry
+             */
             nbool next();
             const std::string& get() const;
             std::string getName() const;
             std::string getDir() const;
-            /// @brief Check if iterator has reached end
+
+            /**
+             *  @brief Check if iterator has reached end
+             */
             nbool isEnd() const;
 
         private:
@@ -93,12 +111,20 @@ namespace by {
         };
 
     public:
-        /// @brief Create iterator for filesystem traversal
-        /// @param path Target directory path to traverse
+        /**
+         *  @brief Create iterator for filesystem traversal
+         *  @param path Target directory path to traverse
+         */
         static iterator find(const std::string& path);
-        /// @brief Get current working directory
+
+        /**
+         *  @brief Get current working directory
+         */
         static std::string getCurrentDir();
-        /// @brief Get platform-specific path delimiter
+
+        /**
+         *  @brief Get platform-specific path delimiter
+         */
         static const std::string& getDelimiter();
     };
 } // namespace by

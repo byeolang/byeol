@@ -6,10 +6,11 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief String primitive type in byeol language
-    /// @details Implements string operations, character access, and container functionality.
-    /// Provides the fundamental string data type with arithmetic and container operations.
+    /** @ingroup core
+     *  @brief String primitive type in byeol language
+     *  @details Implements string operations, character access, and container functionality.
+     *  Provides the fundamental string data type with arithmetic and container operations.
+     */
     class _nout nStr: public tscalar<std::string>, public tucontainable<nStr> {
         struct _nout nStrType: public ntype {
         public:
@@ -40,7 +41,9 @@ namespace by {
 
         tstr<scalar> bitwiseNot() const override;
 
-        /// @param end is exclusive.
+        /**
+         *  @param end is exclusive.
+         */
         tstr<nStr> substr(nint start, nint end);
 
         nbool in(nidx n) const;

@@ -6,10 +6,11 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief Base class for arithmetic operations on primitive types
-    /// @details Abstract base class providing arithmetic, bitwise, and comparison operations.
-    /// Implemented by all numeric primitive types to provide consistent operator behavior.
+    /** @ingroup core
+     *  @brief Base class for arithmetic operations on primitive types
+     *  @details Abstract base class providing arithmetic, bitwise, and comparison operations.
+     *  Implemented by all numeric primitive types to provide consistent operator behavior.
+     */
     class _nout scalar: public baseObj {
         BY(ADT(scalar, baseObj))
 
@@ -59,7 +60,9 @@ namespace by {
         nbool logicalOr(const me& rhs) const;
         nbool logicalOr(const me* it) const BY_SIDE_FUNC(logicalOr);
 
-        /// same to 'assign'.
+        /**
+         *  same to 'assign'.
+         */
         tstr<me> mov(const me& rhs);
         tstr<me> mov(const me* it) BY_SIDE_FUNC(mov);
 

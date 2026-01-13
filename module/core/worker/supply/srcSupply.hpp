@@ -9,14 +9,17 @@ namespace by {
     class parser;
     class exprMaker;
 
-    /// @ingroup core
-    /// @brief Source code supply interface
-    /// @details Abstract base for supplying source code to the parser from various sources.
+    /** @ingroup core
+     *  @brief Source code supply interface
+     *  @details Abstract base for supplying source code to the parser from various sources.
+     */
     class _nout srcSupply: public instance {
         BY(ADT(srcSupply, instance))
 
     public:
-        /// @return true if there is no more data to process.
+        /**
+         *  @return true if there is no more data to process.
+         */
         virtual void* onSupplySrc(parser& ps, void* scanner) const = 0;
 
     protected:

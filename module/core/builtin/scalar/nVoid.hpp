@@ -5,14 +5,16 @@
 
 namespace by {
 
-    /// @ingroup core
-    /// @brief Void primitive type in byeol language
-    /// @details Represents void/null values and no-operation results.
-    /// Used for functions that don't return values and empty expressions.
+    /** @ingroup core
+     *  @brief Void primitive type in byeol language
+     *  @details Represents void/null values and no-operation results.
+     *  Used for functions that don't return values and empty expressions.
+     */
     class _nout nVoid: public tscalar<void> {
-        /// @ingroup core
-        /// @brief Type information for void primitive
-        /// @details Provides type metadata for nVoid.
+        /** @ingroup core
+         *  @brief Type information for void primitive
+         *  @details Provides type metadata for nVoid.
+         */
         class _nout wVoidType: public ntype {
         public:
             nbool isImmutable() const override;

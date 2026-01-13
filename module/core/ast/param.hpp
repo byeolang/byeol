@@ -6,10 +6,11 @@
 #include "core/ast/immutableTactic.hpp"
 
 namespace by {
-    /// @ingroup core
-    /// @brief Function parameter
-    /// @details param literally represents a parameter. It has a name and a reference to an origin object to
-    /// represent the type.
+    /** @ingroup core
+     *  @brief Function parameter
+     *  @details param literally represents a parameter. It has a name and a reference to an origin object to
+     *  represent the type.
+     */
     class _nout param: public instance {
         BY(CLASS(param, instance))
 

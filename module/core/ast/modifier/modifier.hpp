@@ -5,10 +5,11 @@
 #include "core/type/ntype.hpp"
 
 namespace by {
-    /// @ingroup core
-    /// @brief Access modifier for type members
-    /// @details Represents access modifiers for functions or properties belonging to types. The byeol language has
-    /// only three types of modifiers: public/protected/override.
+    /** @ingroup core
+     *  @brief Access modifier for type members
+     *  @details Represents access modifiers for functions or properties belonging to types. The byeol language has
+     *  only three types of modifiers: public/protected/override.
+     */
     class _nout modifier: public instance {
         BY(CLASS(modifier, instance))
 

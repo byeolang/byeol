@@ -6,10 +6,11 @@
 
 namespace by {
 
-    /// @ingroup memlite
-    /// @brief Strong reference smart pointer with strict type checking
-    /// @details Template-based strong reference binder with configurable memory management tactics.
-    /// Provides type-safe access to instances with automatic lifetime management.
+    /** @ingroup memlite
+     *  @brief Strong reference smart pointer with strict type checking
+     *  @details Template-based strong reference binder with configurable memory management tactics.
+     *  Provides type-safe access to instances with automatic lifetime management.
+     */
     template <typename T, typename TACTIC = strTactic> class tstr: public tweak<T, TACTIC> {
         typedef tweak<T, TACTIC> _super_;
         BY_ME(tstr, _super_)
@@ -19,8 +20,11 @@ namespace by {
     public:
         //  tstr:
         tstr();
-        /// @param subType  subType is should be sub type of 'T' or type 'T' will be used from base
-        ///                 class.
+
+        /**
+         *  @param subType  subType is should be sub type of 'T' or type 'T' will be used from base
+         *                  class.
+         */
         tstr(const type& subtype);
         tstr(const T& it);
         tstr(const T* it);

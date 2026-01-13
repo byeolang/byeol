@@ -9,9 +9,10 @@ namespace by {
     template <typename T, nbool isNode = tifSub<T, node>::is>
     struct tgenericMarshaling: public tmarshaling<T, isNode> {};
 
-    /// @ingroup core
-    /// @brief Generic marshaling specialization for node reference
-    /// @details Marshaling implementation for node reference types.
+    /** @ingroup core
+     *  @brief Generic marshaling specialization for node reference
+     *  @details Marshaling implementation for node reference types.
+     */
     template <> struct _nout tgenericMarshaling<node&, true>: public metaIf {
         typedef getExpr mgdType;
 
