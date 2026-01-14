@@ -10,7 +10,6 @@
 #elif BY_BUILD_PLATFORM == BY_TYPE_LINUX || BY_BUILD_PLATFORM == BY_TYPE_MACOS
 #    include <cxxabi.h>
 #    include <dlfcn.h> // for dladdr()
-#    include <execinfo.h>
 #    include <sys/time.h>
 #    include <unistd.h>
 #    include <sys/resource.h>
@@ -20,6 +19,9 @@
 #    include <regex>
 #    include <string>
 #    include <vector>
+#endif
+#if BY_HAS_EXECINFO == 1
+#    include <execinfo.h>
 #endif
 #if BY_BUILD_PLATFORM == BY_TYPE_MACOS
 #    include <mach-o/dyld.h>
@@ -276,7 +278,7 @@ namespace by {
 
         void crash(const std::string* it) BY_SIDE_FUNC(crash);
 
-#if BY_BUILD_PLATFORM_IS_WINDOWS
+#ifdef BY_BUILD_PLATFORM_IS_WINDOWS
         namespace {
             LONG WINAPI __window_coredump_filter(EXCEPTION_POINTERS* exceptions) {
                 HANDLE file =
@@ -305,7 +307,7 @@ namespace by {
 
             return !setrlimit(RLIMIT_CORE, &limit);
 #elif BY_BUILD_PLATFORM == BY_TYPE_WINDOWS
-            SetUnhadledExceptionFilter(__window_coredump_filter)
+            SetUnhandledExceptionFilter(__window_coredump_filter)
 #else
             return false;
 #endif
