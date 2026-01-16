@@ -120,14 +120,24 @@ def _cleanParser():
         leafPathDir = cwd + "/../module/leaf/parser/bison/"
 
     printInfoEnd("removing generated parser...")
-    os.system("rm " + pathDir + "lowscanner.cpp")
-    os.system("rm " + pathDir + "lowscanner.hpp")
-    os.system("rm " + pathDir + "lowparser.cpp")
-    os.system("rm " + pathDir + "lowparser.hpp")
-    os.system("rm " + leafPathDir + "leafLowparser.cpp")
-    os.system("rm " + leafPathDir + "leafLowparser.hpp")
-    os.system("rm " + leafPathDir + "leafLowscanner.hpp")
-    os.system("rm " + leafPathDir + "leafLowscanner.cpp")
+    filesToRemove = [
+        f"{pathDir} lowscanner.cpp",
+        f"{pathDir} lowscanner.hpp",
+        f"{pathDir} lowparser.cpp",
+        f"{pathDir} lowparser.hpp",
+        f"{leafPathDir} leafLowparser.cpp",
+        f"{leafPathDir} leafLowparser.hpp",
+        f"{leafPathDir} leafLowscanner.hpp",
+        f"{leafPathDir} leafLowscanner.cpp",
+    ]
+
+    for file in filesToRemove:
+        try:
+            os.remove(file)
+        except Exception as e:
+            printErr(f"failed to remove {file}: {e}")
+
+    printOk("done")
 
 def _cleanIntermediates():
     printInfoEnd("removing intermediate outputs...")
@@ -361,10 +371,18 @@ def _cleanCoverageFiles():
 
     global cwd
     printInfoEnd("removing coverage report files...")
-    os.system("rm -rf " + cwd + "/coverage")
-    os.system("rm " + cwd + "/*.profraw")
-    os.system("rm " + cwd + "/logs")
-    os.system("rm " + cwd + "/cov.info")
+
+    if isWindow():
+        os.system(f"del /s /f /q {cwd} \\coverage")
+        os.system(f"del /s {cwd}\\*.profraw")
+        os.system(f"del /s {cwd}\\logs")
+        os.system(f"del /s {cwd}\\cov.info")
+
+    else:
+        os.system("rm -rf " + cwd + "/coverage")
+        os.system("rm " + cwd + "/*.profraw")
+        os.system("rm " + cwd + "/logs")
+        os.system("rm " + cwd + "/cov.info")
     printOk("done.")
 
 def covBuild():
