@@ -11,7 +11,7 @@ namespace by {
     const nchar* helpFlag::getDescription() const {
         return R"DESC(
     show help documents.
-    list all of available commands and description for how to use them.)DESC";
+    list all of available options and description for how to use them.)DESC";
     }
 
     const strings& helpFlag::_getRegExpr() const {
@@ -20,7 +20,7 @@ namespace by {
     }
 
     me::res helpFlag::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
-        std::cout << "Usage: byeol <option> <filepath>\n";
+        std::cout << "Usage: byeol <option> <filePath>\n";
 
         const flags& opts = c.getFlags();
         for(int n = 0; n < opts.size(); n++) {
