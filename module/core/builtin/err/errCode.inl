@@ -177,3 +177,6 @@ PAIRX(SIG_ILL, "invalid program image")
 PAIRX(SIG_ABORT, "abonormal termination condition")
 PAIRX(SIG_FPE, "erroneous arithmetic operation")
 PAIRX(SIG_TERM, "termination request")
+
+// option:
+PAIRX(OPTION_CANT_CLUSTERED, "you can't use option `%s` clustered but it needs to take arguments.\nput it at the very end.")

@@ -59,6 +59,7 @@ namespace by {
      */
     class flag: public instance {
         BY(ADT(flag, instance))
+        typedef std::vector<int> deleteIndices;
 
     public:
         enum res {
@@ -87,6 +88,9 @@ namespace by {
 
         virtual const strings& _getRegExpr() const = 0;
         virtual res _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const = 0;
+
+    private:
+        nbool _parseOption(flagArgs& a, flagArgs& tray, deleteIndices& deletes) const;
     };
 
     typedef std::vector<tstr<flag>> flags;
