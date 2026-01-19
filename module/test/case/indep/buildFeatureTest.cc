@@ -1,4 +1,4 @@
-#include "../../common/dep.hpp"
+#include "test/common/dep.hpp"
 
 using namespace by;
 

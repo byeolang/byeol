@@ -28,6 +28,7 @@ foreach(e ${dependencies})
 endforeach(e)
 
 add_executable(${moduleName} ${sources})
+add_library("frontend" ${sources}) # for test module
 target_link_libraries(${moduleName} ${libraries})
 
 IF(EMSCRIPTEN)
