@@ -29,20 +29,29 @@ namespace by {
 
     nbool me::inErr() const { return in(errLv::ERR); }
 
-    nbool me::inErr(nidx since) const { return in(errLv::ERR, since); }
+    nbool me::inErr(errCode code) const { return in(errLv::ERR, code); }
+
+    nbool me::inErr(errCode code, nidx since) const { return in(errLv::ERR, code, since); }
 
     nbool me::inWarn() const { return in(errLv::WARN); }
 
-    nbool me::inWarn(nidx since) const { return in(errLv::WARN, since); }
+    nbool me::inWarn(errCode code) const { return in(errLv::WARN, code); }
 
-    nbool me::in(errLv::level type, nidx since) const {
+    nbool me::inWarn(errCode code, nidx since) const { return in(errLv::WARN, code, since); }
+
+    nbool me::in(errLv::level type, errCode code, nidx since) const {
         if(since < 0) since = 0;
-        for(nidx n = since; n < _errs.size(); n++)
-            WHEN(_errs[n]->getLv() == type) .ret(true);
+        for(nidx n = since; n < _errs.size(); n++) {
+            const baseErr& e = _errs[n].get() OR_CONTINUE;
+            if(e.getLv() != type) continue;
+            if(code == NOT_SPECIFIED || e.getErrCode() == code) return true;
+        }
         return false;
     }
 
-    nbool me::in(errLv::level type) const { return in(type, 0); }
+    nbool me::in(errLv::level type) const { return in(type, NOT_SPECIFIED, 0); }
+
+    nbool me::in(errLv::level type, errCode code) const { return in(type, code, 0); }
 
     const baseErr* me::get(nidx n) const { return _errs[n].get(); }
 

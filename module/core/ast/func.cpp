@@ -67,7 +67,7 @@ namespace by {
 
         WHEN_NUL(res).err("res == null").ret(str());
         const errReport& errs = thread::get().getEx();
-        WHEN(errs.inErr(exN)) .ret(*errs.last()); // if new exception, I just return it.
+        WHEN(errs.inErr(NOT_SPECIFIED, exN)) .ret(*errs.last()); // if new exception, I just return it.
 
         auto* closure = closure::make(*res);
         if(closure) res.bind(closure);

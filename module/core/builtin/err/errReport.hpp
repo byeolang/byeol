@@ -36,11 +36,24 @@ namespace by {
 
     public:
         nbool inErr() const;
-        nbool inErr(nidx since) const;
+
+        /**
+         * @param code specific errCode to check.
+         *             if you pass NOT_SPECIFIED, then all errors can be candidate.
+         */
+        nbool inErr(errCode code) const;
+        nbool inErr(errCode code, nidx since) const;
         nbool inWarn() const;
-        nbool inWarn(nidx since) const;
+
+        /**
+         * @param code specific errCode to check.
+         *             if you pass NOT_SPECIFIED, then all errors can be candidate.
+         */
+        nbool inWarn(errCode code) const;
+        nbool inWarn(errCode code, nidx since) const;
         nbool in(errLv::level type) const;
-        nbool in(errLv::level type, nidx since) const;
+        nbool in(errLv::level type, errCode code) const;
+        nbool in(errLv::level type, errCode code, nidx since) const;
 
         const baseErr* get(nidx n) const;
 

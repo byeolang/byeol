@@ -28,8 +28,14 @@ namespace by {
      *  7. Return starter's result
      */
     struct cli {
+
+        struct programRes {
+            errReport rpt;
+            nint res;
+        };
+
         const flags& getFlags() const;
 
-        nint eval(flagArgs& a);
+        programRes eval(flagArgs& a);
     };
 }

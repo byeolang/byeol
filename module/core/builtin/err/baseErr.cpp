@@ -29,6 +29,8 @@ namespace by {
         return dummy;
     }
 
+    errCode me::getErrCode() const { return NOT_SPECIFIED; }
+
     const frames& me::getFrames() const { return *_frames; }
 
     void me::logStack() const { _frames->dump(); }

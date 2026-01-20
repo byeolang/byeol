@@ -14,31 +14,36 @@ namespace by {
             return ret;
         }
 
-        nbool _reportUnknownFlags(const flagArgs& remains) {
-            err("unknown flags: " + _joinString(remains)).log();
-            return false;
+        me::programRes _reportUnknownFlags(me::programRes& res, const flagArgs& remains) {
+            auto options = _joinString(remains);
+            res.rpt.add(nerr::newErr(UNKNOWN_OPTION, &options));
+            res.rpt.log();
+            return res;
         }
     }
 
-    nint me::eval(flagArgs& a) {
+    me::programRes me::eval(flagArgs& a) {
         interpreter ip;
-        errReport rpt(true); // it's noisy now.
-        ip.setReport(rpt).setFlag(interpreter::DEFAULT);
+        programRes ret{errReport(true) /* it's noisy now */, -1};
+        ip.setReport(ret.rpt).setFlag(interpreter::DEFAULT);
         starter s;
         s.setFlag(starter::DUMP_ON_EX);
 
         for(const auto& op: getFlags()) {
-            if(op->take(ip, s, *this, a) == flag::EXIT_PROGRAM) return true;
+            if(op->take(ip, s, *this, a) == flag::EXIT_PROGRAM) return ret;
             if(a.size() <= 0) break;
         }
-        if(a.size() > 0) return _reportUnknownFlags(a);
+        if(a.size() > 0) return _reportUnknownFlags(ret, a);
 
         {
             defaultSigZone<interpreter> zone(ip);
             ip.work();
         }
 
-        if(!ip.isVerified()) return -1;
+        if(!ip.isVerified()) {
+            ret.res = -1;
+            return ret;
+        }
 
         str res;
         {
@@ -46,10 +51,9 @@ namespace by {
             res = s.setTask(ip.getSubPack()).work();
         }
 
-        nint ret = 0;
         if(res) {
-            if(res->isSub<nInt>()) ret = *res->cast<nint>();
-            else if(res->isSub<baseErr>()) ret = -1;
+            if(res->isSub<nInt>()) ret.res = *res->cast<nint>();
+            else if(res->isSub<baseErr>()) ret.res = -1;
         }
 
 #ifdef __EMSCRIPTEN__
@@ -57,8 +61,6 @@ namespace by {
         // end, the line won't be printed.
         std::cout << "\n";
 #endif
-        if(rpt) // has an err
-            ret = -1;
         return ret;
     }
 

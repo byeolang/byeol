@@ -7,6 +7,7 @@ namespace by {
 
     enum errCode {
         ERR_CODE_START = 0,
+        NOT_SPECIFIED,
 #define PAIRX PAIRX_LEFT
 #include "errCode.inl"
 #undef PAIRX

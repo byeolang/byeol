@@ -10,5 +10,5 @@ int main(int argc, char* argv[]) {
     for(int n = 1; n < argc; n++)
         a.push_back(argv[n]);
 
-    return ep.eval(a);
+    return ep.eval(a).res;
 }

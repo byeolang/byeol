@@ -10,7 +10,6 @@ struct cliTest : public ::testing::Test {
         flagArgs ret;
         std::stringstream ss(programArg);
         std::string splited;
-        args.push_back("byeol"); // for program name
 
         while(std::getline(ss, splited, '\n'))
             args.push_back(splited);
@@ -18,8 +17,10 @@ struct cliTest : public ::testing::Test {
     }
 };
 
-TEST_F(cliTest, usualScenario) {
-    nint res = ep.eval(parse(""));
-    BY_I("res=%d", res);
-    ASSERT_EQ(res, 0);
+TEST_F(cliTest, noSourceCodeProvidedErrorNegative) {
+    cli::programRes res = ep.eval(parse(""));
+    ASSERT_TRUE(res.res != 0);
+    ASSERT_TRUE(res.rpt); // should have an error.
+    ASSERT_TRUE(res.rpt.inErr(by::NOT_SPECIFIED));
+    ASSERT_TRUE(res.rpt.inErr(by::NO_SRC));
 }

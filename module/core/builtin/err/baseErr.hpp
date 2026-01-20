@@ -65,6 +65,7 @@ namespace by {
         errLv::level getLv() const override;
         static scope& makeSubs();
         const std::string& getMsg() const override;
+        virtual errCode getErrCode() const;
 
     private:
         void _initStack();

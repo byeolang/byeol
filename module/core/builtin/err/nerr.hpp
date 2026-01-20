@@ -40,7 +40,7 @@ namespace by {
         void log() const override;
         void logStack() const override;
         const std::string& getMsg() const override;
-        errCode getErrCode() const;
+        errCode getErrCode() const override;
         const point& getPos() const;
 
         static const nerr& singleton();
