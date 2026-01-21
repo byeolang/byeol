@@ -24,3 +24,9 @@ TEST_F(cliTest, noSourceCodeProvidedErrorNegative) {
     ASSERT_TRUE(res.rpt.inErr(by::NOT_SPECIFIED));
     ASSERT_TRUE(res.rpt.inErr(by::NO_SRC));
 }
+
+TEST_F(cliTest, helpFlag) {
+    cli::programRes res = ep.eval(parse("-h"));
+    ASSERT_TRUE(res.res == 0);
+    ASSERT_FALSE(res.rpt);
+}

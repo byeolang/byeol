@@ -18,13 +18,14 @@ namespace by {
             auto options = _joinString(remains);
             res.rpt.add(nerr::newErr(UNKNOWN_OPTION, &options));
             res.rpt.log();
+            res.res = -1;
             return res;
         }
     }
 
     me::programRes me::eval(flagArgs& a) {
         interpreter ip;
-        programRes ret{errReport(true) /* it's noisy now */, -1};
+        programRes ret{errReport(true) /* it's noisy now */, 0};
         ip.setReport(ret.rpt).setFlag(interpreter::DEFAULT);
         starter s;
         s.setFlag(starter::DUMP_ON_EX);
