@@ -17,7 +17,7 @@ namespace by {
     }
 
     const strings& me::_getRegExpr() const {
-        static strings inner{"^\\-v$", "^\\--verbose$"};
+        static strings inner{"^\\-v", "^\\--verbose$"};
         return inner;
     }
 

@@ -16,7 +16,7 @@ namespace by {
     }
 
     const strings& me::_getRegExpr() const {
-        static strings inner{"^\\-S$", "^\\--show-structure$"};
+        static strings inner{"^\\-S", "^\\--show-structure$"};
         return inner;
     }
 

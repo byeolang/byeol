@@ -15,7 +15,7 @@ namespace by {
     }
 
     const strings& helpFlag::_getRegExpr() const {
-        static strings inner{"^\\-h$", "^\\--help$"};
+        static strings inner{"^\\-h", "^\\--help$"};
         return inner;
     }
 
