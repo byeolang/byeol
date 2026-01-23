@@ -179,5 +179,6 @@ PAIRX(SIG_FPE, "erroneous arithmetic operation")
 PAIRX(SIG_TERM, "termination request")
 
 // option:
-PAIRX(OPTION_CANT_CLUSTERED, "you can't use option `%s` clustered but it needs to take arguments.\nput it at the very end.")
+PAIRX(OPTION_CANT_CLUSTERED,
+    "you can't use option `%s` clustered but it needs to take arguments.\nput it at the very end.")
 PAIRX(UNKNOWN_OPTION, "%s")

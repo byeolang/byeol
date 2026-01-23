@@ -28,7 +28,6 @@ namespace by {
      *  7. Return starter's result
      */
     struct cli {
-
         struct programRes {
             errReport rpt;
             nint res;

@@ -40,8 +40,9 @@ namespace by {
 
         std::string getErrMsg() {
 #ifdef BY_BUILD_PLATFORM_IS_WINDOWS
-            constexpr ncnt sz = 256
-            static nchar buffer[sz] = { 0, };
+            constexpr ncnt sz = 256 static nchar buffer[sz] = {
+                0,
+            };
             auto err = GetLastError();
             if(FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                    buffer, sz, nullptr))

@@ -94,4 +94,4 @@ namespace by {
     };
 
     typedef std::vector<tstr<flag>> flags;
-}
+} // namespace by

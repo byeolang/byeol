@@ -246,18 +246,18 @@ namespace by {
         tpriorities<T> subAll(const std::string* it) const BY_SIDE_FUNC(subAll<T>)
 
 
-        /**
-         *  finds subnodes of this node, allowing implicit conversion based on name and
-         *  arguments.
-         *  @param a if you pass this as a nullptr, the argument will be ignored and all names
-         *  that are the same
-         *           will be considered to meet the condition.
-         *  @warning if you pass the argument as `args()`, it will be considered to meet the
-         *           condition only if there are no parameters and the names are the same, so
-         *           the two have completely different meanings.
-         */
-        template <typename T = me>
-        tpriorities<T> subAll(const std::string& name, const args* a) const;
+            /**
+             *  finds subnodes of this node, allowing implicit conversion based on name and
+             *  arguments.
+             *  @param a if you pass this as a nullptr, the argument will be ignored and all names
+             *  that are the same
+             *           will be considered to meet the condition.
+             *  @warning if you pass the argument as `args()`, it will be considered to meet the
+             *           condition only if there are no parameters and the names are the same, so
+             *           the two have completely different meanings.
+             */
+            template <typename T = me>
+            tpriorities<T> subAll(const std::string& name, const args* a) const;
         template <typename T = me> tpriorities<T> subAll(const std::string& name, const args& a) const;
         template <typename T = me>
         tpriorities<T> subAll(const std::string* name, const args* a) const

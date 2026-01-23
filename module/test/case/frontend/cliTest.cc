@@ -2,7 +2,7 @@
 
 using namespace by;
 
-struct cliTest : public ::testing::Test {
+struct cliTest: public ::testing::Test {
     cli ep;
     flagArgs args;
 

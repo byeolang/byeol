@@ -7,9 +7,7 @@ namespace by {
     BY_DEF_ME(flag)
 
     namespace {
-        nbool _isOptionClustered(const std::string& arg) {
-            return arg.size() > 2 && arg[0] == '-' && arg[1] != '-';
-        }
+        nbool _isOptionClustered(const std::string& arg) { return arg.size() > 2 && arg[0] == '-' && arg[1] != '-'; }
     }
 
     nbool me::_parseOption(flagArgs& a, flagArgs& tray, deleteIndices& deletes) const {
@@ -21,7 +19,7 @@ namespace by {
 
                 // check option clustring:
                 if(_isOptionClustered(arg)) {
-                    WHEN(getArgCount() > 0).exErr(OPTION_CANT_CLUSTERED).ret(false);
+                    WHEN(getArgCount() > 0) .exErr(OPTION_CANT_CLUSTERED).ret(false);
 
                     // remove `-[\w]` at the begin.
                     // I confimred that length is more than 2 in `isOptionClustered()`
@@ -48,7 +46,7 @@ namespace by {
         flagArgs tray;
 
         if(!_parseOption(a, tray, del)) return NOT_MATCH;
-        WHEN(tray.empty()).ret(NOT_MATCH);
+        WHEN(tray.empty()) .ret(NOT_MATCH);
 
         res res = _onTake(tray, c, ip, s);
         if(res == MATCH) _delArgs(a, del);
