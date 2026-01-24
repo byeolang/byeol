@@ -10,7 +10,7 @@ namespace by {
 
     template <typename T, typename Me> struct tas: public aser {
         typedef tas<T, Me> __me1;
-        BY(ADT(__me1, aser))
+        BY(ME(__me1, aser))
 
     public:
         virtual ~tas() = default;

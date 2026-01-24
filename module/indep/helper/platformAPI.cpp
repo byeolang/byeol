@@ -5,7 +5,7 @@
 #if BY_BUILD_PLATFORM == BY_TYPE_WINDOWS
 #    include <windows.h>
 #    include <dbghelp.h>
-
+#    pragma comment(lib, "dbghelp.lib")
 #    include <sstream>
 #elif BY_BUILD_PLATFORM == BY_TYPE_LINUX || BY_BUILD_PLATFORM == BY_TYPE_MACOS
 #    include <cxxabi.h>
@@ -307,7 +307,8 @@ namespace by {
 
             return !setrlimit(RLIMIT_CORE, &limit);
 #elif BY_BUILD_PLATFORM == BY_TYPE_WINDOWS
-            SetUnhandledExceptionFilter(__window_coredump_filter)
+            SetUnhandledExceptionFilter(__window_coredump_filter);
+            return true;
 #else
             return false;
 #endif
