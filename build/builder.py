@@ -121,14 +121,14 @@ def _cleanParser():
 
     printInfoEnd("removing generated parser...")
     filesToRemove = [
-        f"{pathDir} lowscanner.cpp",
-        f"{pathDir} lowscanner.hpp",
-        f"{pathDir} lowparser.cpp",
-        f"{pathDir} lowparser.hpp",
-        f"{leafPathDir} leafLowparser.cpp",
-        f"{leafPathDir} leafLowparser.hpp",
-        f"{leafPathDir} leafLowscanner.hpp",
-        f"{leafPathDir} leafLowscanner.cpp",
+        f"{pathDir}lowscanner.cpp",
+        f"{pathDir}lowscanner.hpp",
+        f"{pathDir}lowparser.cpp",
+        f"{pathDir}lowparser.hpp",
+        f"{leafPathDir}leafLowparser.cpp",
+        f"{leafPathDir}leafLowparser.hpp",
+        f"{leafPathDir}leafLowscanner.hpp",
+        f"{leafPathDir}leafLowscanner.cpp",
     ]
 
     for file in filesToRemove:
