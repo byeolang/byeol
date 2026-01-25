@@ -88,23 +88,32 @@ namespace by {
         const stream* getStream(const std::string& msg) const BY_CONST_FUNC(getStream(msg))
 
         nbool isEnable() const override;
-
-        /**
-         *  @brief Enable or disable all logging streams
-         *  @param enable True to enable all streams, false to disable
-         */
         void setEnable(nbool enable) override;
         enables getEnables() const;
         void setEnables(const enables& enbs);
         ncnt getStreamCount() const;
+
+        /**
+         * @brief Logs formatted message bypassing rich logging conversion
+         * @return true on success, false on error
+         */
         nbool logFormatBypass(const nchar* fmt, ...);
+
+        /**
+         * @brief Main logging function with full context information
+         * @return true on success, false on error
+         */
         nbool log(errLv::level lv, const std::string& filename, const nchar* func, int line, const nchar* fmt, ...);
 
+        /**
+         * @brief Adds a new logging stream to the logger
+         * @return true on success, false on error
+         */
         nbool pushStream(stream* new_stream);
         nbool pushStream(stream& new_stream);
 
         /**
-         *  @brief Get singleton logger instance
+         * @brief Get singleton logger instance
          */
         static logger& get();
 
@@ -114,26 +123,23 @@ namespace by {
         using super::logBypass;
 
         /**
-         *  @brief Log message bypassing normal filtering
-         *  @param message Message to log directly
+         * @brief Log message bypassing normal filtering
+         * @return true on success, false on error
          */
         nbool logBypass(const nchar* message) override;
 
         nbool isInit() const override;
 
         /**
-         *  @brief Set logging filters
-         *  @param newFilters Filter configuration to apply
+         * @brief Set logging filters
          */
         void setFilters(const filters& newFilters);
+
         /**
-         *  @brief Reset filters to default
+         * @brief Reset filters to default
          */
         void setFilters();
 
-        /**
-         *  @brief Get current filter configuration
-         */
         const filters& getFilters() const;
 
     private:

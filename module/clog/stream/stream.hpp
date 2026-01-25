@@ -19,7 +19,8 @@ namespace by {
 
     public:
         /**
-         *  @return true means an error.
+         * @brief Log message directly without formatting
+         * @return true on success, false on error
          */
         virtual nbool logBypass(const nchar* message);
 
@@ -27,10 +28,6 @@ namespace by {
 
         nbool isNull() const;
         virtual nbool isEnable() const;
-
-        /**
-         *  @return previous set value.
-         */
         virtual void setEnable(nbool isEnable);
         virtual const std::string& getName() const = 0;
         virtual nbool init();
