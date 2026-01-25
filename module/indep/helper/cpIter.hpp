@@ -52,10 +52,16 @@ namespace by {
         BY(ME(cpIter))
 
     public:
+        /**
+         * @brief Constructs iterator from pointer range
+         * @note Direction automatically determined: reverse if begin > from, forward otherwise
+         */
         cpIter(const nchar* begin, const nchar* from);
 
         /**
-         *  @param from externally memory-managed string object.
+         * @brief Constructs iterator from string reference
+         * @param from String must outlive this iterator
+         * @param isReversed true for reverse iteration (starts at end), false for forward
          */
         explicit cpIter(const std::string& from, nbool isReversed = false);
 
@@ -72,24 +78,27 @@ namespace by {
 
     public:
         nbool isEnd() const;
-
         void rel();
 
         /**
-         *  Moves the iterator in the direction you specified when you created it.
-         *  if you created a `reverse iterator`, this func will move it by steps in the reverse
-         *  direction.
-         *  @return stepped count.
+         * @brief Advances iterator in its default direction
+         * @return Actual codepoints moved (may be less if end reached)
+         * @note Moves forward for forward iterators, backward for reverse iterators
          */
         ncnt next(ncnt step);
 
         /**
-         *  moves `iterator` to  unconditionally forward by the given step.
-         *  note that creating a reverse iterator doesn't affect this function.
-         *  so it'll also move to forward direction.
-         *  @return stepped count.
+         * @brief Unconditionally advances iterator forward
+         * @return Actual codepoints moved (may be less if end reached)
+         * @note Direction is absolute, unaffected by iterator's reverse flag
          */
         ncnt stepForward(ncnt step);
+
+        /**
+         * @brief Unconditionally advances iterator backward
+         * @return Actual codepoints moved (may be less if beginning reached)
+         * @note Direction is absolute, unaffected by iterator's reverse flag
+         */
         ncnt stepBackward(ncnt step);
 
         std::string get() const;

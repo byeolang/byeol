@@ -66,38 +66,23 @@ namespace by {
             ~iterator();
 
         public:
-            /**
-             *  @brief Dereference operator to get current path
-             */
             const std::string& operator*();
-
-            /**
-             *  @brief Post-increment operator to advance iterator
-             */
             me& operator++(int);
-
-            /**
-             *  @brief Conversion to bool for validity checking
-             */
             operator nbool() const;
 
         public:
-            /**
-             *  @brief Release resources held by iterator
-             */
             void rel();
 
             /**
-             *  @brief Advance to next filesystem entry
+             * @brief Advances iterator to next file entry
+             * @return true if next file found, false if no more files exist.
+             * @note Automatically skips directories and recursively navigates subdirectories
              */
             nbool next();
+
             const std::string& get() const;
             std::string getName() const;
             std::string getDir() const;
-
-            /**
-             *  @brief Check if iterator has reached end
-             */
             nbool isEnd() const;
 
         private:
@@ -112,19 +97,13 @@ namespace by {
 
     public:
         /**
-         *  @brief Create iterator for filesystem traversal
-         *  @param path Target directory path to traverse
+         * @brief Creates iterator for recursive filesystem traversal
+         * @return iterator positioned at first file, or at end if path invalid
+         * @note Automatically traverses subdirectories recursively, yielding only files
          */
         static iterator find(const std::string& path);
 
-        /**
-         *  @brief Get current working directory
-         */
         static std::string getCurrentDir();
-
-        /**
-         *  @brief Get platform-specific path delimiter
-         */
         static const std::string& getDelimiter();
     };
 } // namespace by

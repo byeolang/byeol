@@ -80,15 +80,20 @@ namespace by {
         void setPath(const std::string* it) BY_SIDE_FUNC(setPath);
 
         /**
-         *  load dynamic library with given path.
-         *  @return empty may object if it's success. or return error msg.
+         * @brief Loads dynamic library into memory
+         * @return Empty tmay on success, or error message on failure
+         * @note Uses LoadLibraryA on Windows, dlopen(RTLD_LAZY) on POSIX.
+         *       Automatically calls rel() on failure.
          */
         tmay<std::string> load();
+
         nbool isLoaded() const;
 
         /**
-         *  access function and get address of it inside library.
-         *  @return `func` as nullptr if it failed or return `errMsg` as nullptr if it's success.
+         * @brief Accesses function by name and returns typed function pointer
+         * @return tres containing function pointer on success, or error message on failure
+         * @note Library must be loaded first. Uses GetProcAddress on Windows, dlsym on POSIX.
+         *       Automatically calls rel() on failure.
          */
         template <typename F> tmayFunc<F> accessFunc(const std::string& name) { return accessFunc<F>(name.c_str()); }
 

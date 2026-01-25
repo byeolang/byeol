@@ -52,31 +52,23 @@ namespace by {
 
     public:
         tmay() = default;
-
         tmay(const T& value);
-
         tmay(const tmedium<T>& value);
 
     public:
         T* operator->();
         const T* operator->() const BY_CONST_FUNC(operator->());
-
         T& operator*();
         const T& operator*() const BY_CONST_FUNC(operator*());
-
         operator T&();
         operator const T&() const;
-
         operator nbool() const;
 
     public:
         nbool has() const;
-
         T* get();
         const T* get() const BY_CONST_FUNC(get())
-
         virtual void rel();
-
         virtual void set(const T& arg);
     };
 

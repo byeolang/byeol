@@ -43,9 +43,7 @@ namespace by {
     public:
         R& getErr();
         const R& getErr() const BY_CONST_FUNC(getErr())
-
         void rel() override;
-
         void set(const T& arg) override;
         void setErr(const R& arg);
 
