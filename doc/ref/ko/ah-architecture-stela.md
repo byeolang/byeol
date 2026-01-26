@@ -9,7 +9,7 @@ Composite 패턴을 사용하여 트리 구조로 설정 데이터를 표현하�
 <b>stela 모듈의 주요 클래스:</b>
 
 @startuml
-package "파서 패키지" {
+package "Parser Package" {
     class "stelaParser" as stelaParser {
         - _scanner : stelaLowscanner*
         - _normalScan : normalScan*
@@ -20,7 +20,7 @@ package "파서 패키지" {
         + parse(script) : stela&
         + parseFromFile(path) : stela&
         ---
-        <b>Callback 함수들:</b>
+        <b>Callback Functions:</b>
         + onIndent(cur, tok) : nint
         + onDedent(cur, tok) : nint
         + onBlock() : void
@@ -62,8 +62,8 @@ package "파서 패키지" {
     class "indentScan" as indentScan {
         + onScan(parser, ...) : nint
         ---
-        - 공백 갯수 계산
-        - INDENT/DEDENT 생성
+        - Calculate space count
+        - Generate INDENT/DEDENT
     }
 
     class "stelaSmartDedent" as smartDedent {
@@ -76,7 +76,7 @@ package "파서 패키지" {
     }
 }
 
-package "AST 패키지" {
+package "AST Package" {
     class "stela" as stela {
         + asInt() : int
         + asStr() : string
@@ -91,17 +91,17 @@ package "AST 패키지" {
 
 stelaParser *-- scanner
 stelaParser *-- smartDedent
-stelaParser --> parser : 생성
-stelaParser o-- tokenScan : 필요시 전략 교체
+stelaParser --> parser : Create
+stelaParser o-- tokenScan : Switch strategy if needed
 scanner *-- dispatcher
-scanner --> parser : 토큰 전달
+scanner --> parser : Deliver token
 
 normalScan --|> tokenScan
 indentScan --|> tokenScan
 
-parser ..> stelaParser : 이벤트 콜백
+parser ..> stelaParser : Event Callback
 
-stelaParser ..> stela : 생성
+stelaParser ..> stela : Create
 
 valStela --|> stela
 verStela --|> stela
@@ -114,7 +114,7 @@ nulStela --|> stela
 ## stela 언어의 기본 기능
 
 @startuml
-package "결과 계층" {
+package "Result Hierarchy" {
     class "stela" as stela {
         + asInt() : int
         + asStr() : string
@@ -127,7 +127,7 @@ package "결과 계층" {
     class "nulStela" as nulStela
 }
 
-stelaParser ..> stela : 생성
+stelaParser ..> stela : Create
 
 valStela --|> stela
 verStela --|> stela
@@ -260,7 +260,7 @@ verStela& maxVer = pkg["maxVersion"].cast<verStela>();
 ## stela 파서 구조
 
 @startuml
-package "파서 계층" {
+package "Parser Layer" {
     class "stelaParser" as stelaParser {
         - _scanner : stelaLowscanner*
         - _normalScan : normalScan*
@@ -271,7 +271,7 @@ package "파서 계층" {
         + parse(script) : stela&
         + parseFromFile(path) : stela&
         ---
-        <b>Callback 함수들:</b>
+        <b>Callback Functions:</b>
         + onIndent(cur, tok) : nint
         + onDedent(cur, tok) : nint
         + onBlock() : void
@@ -313,8 +313,8 @@ package "파서 계층" {
     class "indentScan" as indentScan {
         + onScan(parser, ...) : nint
         ---
-        - 공백 갯수 계산
-        - INDENT/DEDENT 생성
+        - Calculate space count
+        - Generate INDENT/DEDENT
     }
 
     class "stelaSmartDedent" as smartDedent {
@@ -327,48 +327,48 @@ package "파서 계층" {
     }
 
     note top of stelaParser
-      <b>Event-driven 설계:</b>
-      lowparser에서 rule 매칭 시
-      `on함수()` 들로 이벤트 콜백
+      <b>Event-driven Design:</b>
+      On rule match in lowparser
+      Event callback via 'onFunc()'
     end note
 
     note right of scanner
-      <b>Flex 기반:</b>
-      정규표현식으로 토큰 스캐닝
+      <b>Flex-based:</b>
+      Token scanning with Regex
     end note
 
     note bottom of dispatcher
-      <b>Queue 기반 토큰 버퍼:</b>
-      - 렉서 우회하여 토큰 직접 반환
-      - 여러 토큰 순차 추가 가능
+      <b>Queue-based Token Buffer:</b>
+      - Return token directly bypassing lexer
+      - Can add multiple tokens sequentially
     end note
 
     note left of tokenScan
-      <b>Strategy 패턴:</b>
-      런타임에 스캔 전략 교체
+      <b>Strategy Pattern:</b>
+      Runtime scan strategy switch
 
-      normalScan: 공백 무시
-      indentScan: 공백 카운트
+      normalScan: Ignore spaces
+      indentScan: Count spaces
     end note
 
     note right of smartDedent
-      <b>Scope 관리:</b>
-      각 scope의 indentation
-      레벨을 스택으로 관리
+      <b>Scope Management:</b>
+      Indentation of each scope
+      Manage levels as stack
     end note
 }
 
 stelaParser *-- scanner
 stelaParser *-- smartDedent
-stelaParser --> parser : 생성
-stelaParser o-- tokenScan : 필요시 전략 교체
+stelaParser --> parser : Create
+stelaParser o-- tokenScan : Switch strategy if needed
 scanner *-- dispatcher
-scanner --> parser : 토큰 전달
+scanner --> parser : Deliver token
 
 normalScan --|> tokenScan
 indentScan --|> tokenScan
 
-parser ..> stelaParser : 이벤트 콜백
+parser ..> stelaParser : Event Callback
 @enduml
 
 ### stelaParser 클래스 - 파싱 진입점
@@ -646,7 +646,7 @@ participant "tokenDispatcher" as dispatcher
 participant "smartDedent" as smartDedent
 
 note over parser
-  <b>초기 상태:</b>
+  <b>Initial State:</b>
   currentScan = normalScan
   indents = [0]
 end note
@@ -657,29 +657,29 @@ parser -> normalScan : onScan()
 activate normalScan
 
 note right of normalScan
-  <b>normalScan 전략:</b>
-  공백 무시,
-  일반 토큰만 처리
+  <b>normalScan Strategy:</b>
+  Ignore spaces,
+  Process only normal tokens
 end note
 
-normalScan -> normalScan : 토큰 스캔
+normalScan -> normalScan : Token Scan
 normalScan --> parser : STRVAL "config"
 deactivate normalScan
 
-parser -> parser : 토큰 처리
+parser -> parser : Token Processing
 
-== normalScan: 개행 감지시 ==
+== normalScan: On Newline Detection ==
 
 parser -> normalScan : onScan()
 activate normalScan
 
-normalScan -> normalScan : 개행 문자 감지 ('\\n')
+normalScan -> normalScan : Detect newline character ('\\n')
 
 note right of normalScan
-  <b>개행 감지:</b>
-  다음 줄의 indentation 정확히 측정 필요.
+  <b>Newline Detection:</b>
+  Need precise indentation measurement of next line.
 
-  normalScan → indentScan 전환
+  Switch normalScan → indentScan
 end note
 
 normalScan -> parser : setScan<indentScan>()
@@ -694,46 +694,45 @@ parser -> indentScan : onScan()
 activate indentScan
 
 note right of indentScan
-  <b>indentScan 전략:</b>
-  개행 후 첫 번째 비공백
-  토큰까지의 column 측정
-
-  공백 갯수 = column 위치
+  <b>indentScan Strategy:</b>
+  Measure column to first non-space
+  token after newline
+  Space count = column position
 end note
 
-indentScan -> indentScan : 공백 건너뛰며 스캔
+indentScan -> indentScan : Scan skipping spaces
 note right of indentScan
   "         def device"
   ^^^^
-  4개의 공백 감지
+  4 spaces detected
 end note
 
-indentScan -> indentScan : 첫 비공백 토큰 발견
+indentScan -> indentScan : Found first non-space token
 note right of indentScan
   tok = DEF
-  col = 4 (현재 column)
+  col = 4 (current column)
 end note
 
-note right of indentScan: indentation level 비교
+note right of indentScan: Compare indentation level
 
 indentScan -> smartDedent : back()
 activate smartDedent
 
 note right of smartDedent
-  현재 indents = [0]
+  Current indents = [0]
   prev = 0
 end note
 
 smartDedent --> indentScan : prev = 0
 deactivate smartDedent
 
-indentScan -> indentScan : cur vs prev 비교
+indentScan -> indentScan : Compare cur vs prev
 note right of indentScan
   cur (4) > prev (0)
-  → INDENT 필요
+  → Need INDENT
 end note
 
-note right of indentScan: INDENT 생성하기
+note right of indentScan: Create INDENT
 
 indentScan -> parser : onIndent(cur=4, tok=DEF)
 activate parser
@@ -743,7 +742,7 @@ activate smartDedent
 
 note right of smartDedent
   indents = [0, 4]
-  새 scope 시작
+  Start new scope
 end note
 
 smartDedent --> parser : void
@@ -753,8 +752,8 @@ parser -> dispatcher : pushFront(DEF)
 activate dispatcher
 
 note right of dispatcher
-  현재 토큰을 dispatcher에
-  버퍼링하여 나중에 반환
+  Buffer current token to
+  dispatcher and return later
 end note
 
 dispatcher --> parser : void
@@ -764,9 +763,9 @@ parser --> indentScan : return INDENT
 deactivate parser
 
 note right of indentScan
-  <b>모드 전환:</b>
-  indentation 측정 완료
-  normalScan으로 복귀
+  <b>Mode Switch:</b>
+  Indentation measurement complete
+  Return to normalScan
 end note
 
 indentScan -> parser : setScan<normalScan>()
@@ -775,9 +774,9 @@ parser -> parser : currentScan = normalScan
 indentScan --> parser : INDENT
 deactivate indentScan
 
-parser -> parser : INDENT 토큰 처리
+parser -> parser : Process INDENT token
 
-== normalScan: 복귀됨 ==
+== normalScan: Returned ==
 
 parser -> normalScan : onScan()
 activate normalScan
@@ -795,7 +794,7 @@ deactivate dispatcher
 normalScan --> parser : DEF
 deactivate normalScan
 
-parser -> parser : DEF 토큰 처리
+parser -> parser : Process DEF token
 
 @enduml
 

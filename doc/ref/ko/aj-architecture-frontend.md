@@ -9,7 +9,7 @@ cli 프로그램의 가장 핵심은 flags를 어떻게 파싱하냐는 부분�
 <b>Frontend 모듈 클래스 계층도:</b>
 
 @startuml
-package "Core 모듈" {
+package "Core Module" {
     class "tworker<programRes, flagArgs>" as tworker {
     }
     class interpreter {
@@ -20,7 +20,7 @@ package "Core 모듈" {
     }
 }
 
-package "Frontend 모듈" {
+package "Frontend Module" {
     class cli {
         + getFlags() : const flags&
         # _onWork() : programRes
@@ -35,11 +35,11 @@ package "Frontend 모듈" {
     }
 
     cli --|> tworker
-    cli ..> interpreter : 생성
-    cli ..> starter : 생성
-    cli ..> errReport : 생성
+    cli ..> interpreter : Create
+    cli ..> starter : Create
+    cli ..> errReport : Create
     cli ..> flagArgs
-    cli "1" *-- "many" flag : 관리
+    cli "1" *-- "many" flag : Manage
 }
 @enduml
 
@@ -71,51 +71,51 @@ package "Frontend 모듈" {
 위를 도식화 하면 아래처럼 되죠.
 
 @startuml
-actor 사용자
+actor User
 participant "cli" as cli
 participant "flagArgs" as flags
 participant "interpreter" as ip
 participant "errReport" as report
 participant "starter" as st
 
-사용자 -> cli : eval(flagArgs)
+User -> cli : eval(flagArgs)
 activate cli
 
 cli -> ip : new interpreter()
 cli -> report : new errReport()
 cli -> st : new starter()
 
-cli -> ip : setFlag(tworker 플래그)
-cli -> st : setFlag(tworker 플래그)
+cli -> ip : setFlag(tworker flag)
+cli -> st : setFlag(tworker flag)
 
-cli -> flags : 패턴매칭
+cli -> flags : Pattern Matching
 activate flags
 note right of flags
-  여기 부분은 추후에 자세히 다룹니다.
+  This part will be covered in detail later.
 end note
-flags -> cli: 완료
+flags -> cli: Complete
 deactivate flags
 
 cli -> ip : work()
 activate ip
-ip -> ip : 소스 파싱
-ip -> ip : 타입 확장
-ip -> ip : AST 검증
-ip --> cli : 반환
+ip -> ip : Parse source
+ip -> ip : Expand type
+ip -> ip : Verify AST
+ip --> cli : Return
 deactivate ip
 
-alt 검증 실패
-    cli -> report : 에러 덤프
-    cli --> 사용자 : 에러와 함께 종료
-else 검증 성공
-    cli -> st : setTask(검증된 AST)
+alt Verification Failed
+    cli -> report : Dump error
+    cli --> User : Exit with error
+else Verification Succeeded
+    cli -> st : setTask(Verified AST)
     cli -> st : work()
     activate st
-    st -> st : main() 실행
-    st --> cli : 결과 반환
+    st -> st : Execute main()
+    st --> cli : Return result
     deactivate st
 
-    cli --> 사용자 : 결과 반환
+    cli --> User : Return result
 end
 
 deactivate cli
@@ -134,26 +134,26 @@ abstract class flag {
 }
 
 note right of flag
-  Template Method 패턴:
-  take()가 알고리즘 골격 정의
-  _getRegExpr(), _onTake()는
-  하위 클래스가 구현
+  Template Method Pattern:
+  take() defines algorithm skeleton
+  _getRegExpr(), _onTake() are
+  implemented by subclasses
 end note
 
 class verFlag {
     # _getRegExpr() : strings&
     # _onTake() : res
     --
-    정규식: "^\\\\--version$"
-    반환: EXIT_PROGRAM
+    Regex: "^\\\\--version$"
+    Return: EXIT_PROGRAM
 }
 
 class helpFlag {
     # _getRegExpr() : strings&
     # _onTake() : res
     --
-    정규식: "^\\\\-h$", "^\\\\--help$"
-    반환: EXIT_PROGRAM
+    Regex: "^\\\\-h$", "^\\\\--help$"
+    Return: EXIT_PROGRAM
 }
 
 class bufferSrcFlag {
@@ -161,17 +161,17 @@ class bufferSrcFlag {
     # _onTake() : res
     # getArgCount() : ncnt
     --
-    정규식: "^\\\\--script$"
-    인자 개수: 1
-    반환: MATCH
+    Regex: "^\\\\--script$"
+    Arg Count: 1
+    Return: MATCH
 }
 
 class logStructureFlag {
     # _getRegExpr() : strings&
     # _onTake() : res
     --
-    정규식: "^\\\\-S$", "^\\\\--show-structure$"
-    반환: MATCH
+    Regex: "^\\\\-S$", "^\\\\--show-structure$"
+    Return: MATCH
 }
 
 class fileSrcFlag {
@@ -179,8 +179,8 @@ class fileSrcFlag {
     # _onTake() : res
     # getArgCount() : ncnt
     --
-    정규식: "^[^\\\\-].*\\\\.byeol$"
-    반환: MATCH
+    Regex: "^[^\\\\-].*\\\\.byeol$"
+    Return: MATCH
 }
 
 flag <|-- verFlag
@@ -190,13 +190,13 @@ flag <|-- logStructureFlag
 flag <|-- fileSrcFlag
 
 note bottom of verFlag
-  버전 정보 출력 후
-  프로그램 즉시 종료
+  Print version info and
+  exit program immediately
 end note
 
 note bottom of bufferSrcFlag
-  추가 인자 1개 소비
-  코드 문자열을 bufSupply로 추가
+  Consume 1 additional argument
+  Add code string as bufSupply
 end note
 
 @enduml
@@ -226,38 +226,38 @@ participant "cli" as c
 participant "arguments" as a
 participant "flag" as f
 
-== 준비 과정 ==
+== Preparation ==
 
-c -> a: argv로부터 생성
+c -> a: Create from argv
 activate a
 a --> c: new arguments()
 deactivate a
 
-c -> f: 모든 flag 객체가 포함된 배열 획득.
+c -> f: Acquire array containing all flag objects.
 activate f
 f --> c: new flags{helpFlag, verFlag.....}
 deactivate f
 
 
-== 인자 consume ==
+== Consume Arguments ==
 
 c -> c: _evalArgs()
 activate c
 
-loop 각 flags의 원소, f마다
+loop For each element f in flags
   c -> f: take(arguments)
   activate f
-  f -> f: pattern문자열 가져오기
-  f -> f: arguments에 pattern이 매칭되는가?
-  alt 매칭 실패
-    f --> c: take실패함.
-  else 매칭 성공
-    f -> f: _onTake() 로 동작 수행
-    f -> a: 매칭된 패턴 삭제
+  f -> f: Get pattern string
+  f -> f: Does pattern match arguments?
+  alt Match Failed
+    f --> c: take failed.
+  else Match Succeeded
+    f -> f: Execute action with _onTake()
+    f -> a: Delete matched pattern
     activate a
-    a --> f: 삭제함.
+    a --> f: Deleted.
     deactivate a
-    f --> c: take(arguments) 완료.
+    f --> c: take(arguments) complete.
     deactivate f
   end
 end
