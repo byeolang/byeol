@@ -113,10 +113,10 @@ namespace by {
         virtual const std::string& getName() const;
 
         /**
-         *  @brief  create an instance to be refered this type.
-         *  @remark available when the type defines a ctor without any params.
-         *  @return return an address of new instance, however, if ctor without any params
-         *          isn't defined, then returns null.
+         * @brief  create an instance to be refered this type.
+         * @remark available when the type defines a ctor without any params.
+         * @return return an address of new instance, however, if ctor without any params
+         *         isn't defined, then returns null.
          */
         virtual void* make() const = 0;
 
@@ -127,54 +127,76 @@ namespace by {
         }
 
         virtual ncnt size() const = 0;
+
+        /**
+         * @brief Initializes type metadata and constructs class hierarchy
+         * @return true on success, false if already initialized
+         * @note Recursively initializes super class hierarchy. Automatically called via
+         *       BY_INIT_META macro before main(). Sets up super/sub relationships.
+         */
         virtual nbool init();
+
         virtual nbool rel();
         virtual const type& getSuper() const = 0;
         virtual const nbool& isInit() const = 0;
 
         /**
-         *  returns all most derived class from this class.
+         * @brief Returns all most derived classes (leaf nodes) from this class
+         * @return Vector of type pointers representing all leaf classes in hierarchy
          */
         const types& getLeafs() const;
+
         const types& getSubs() const;
         const types& getSupers() const;
 
+        /**
+         * @brief Checks if this type is a super class of the given type
+         * @return true if this is a super class of it, false otherwise
+         * @note Uses O(1) tier algorithm comparing tier values, much faster than dynamic_cast
+         *       which typically loops through vtables.
+         */
         virtual nbool isSuper(const type& it) const;
         nbool isSuper(const type* it) const BY_SIDE_FUNC(isSuper);
         template <typename T> nbool isSuper() const;
+
+        /**
+         * @brief Checks if this type is a sub class of the given type
+         * @return true if this is a sub class of it, false otherwise
+         * @note Uses O(1) tier algorithm. Implemented as it.isSuper(*this).
+         */
         nbool isSub(const type& it) const;
         nbool isSub(const type* it) const BY_SIDE_FUNC(isSub);
         template <typename T> nbool isSub() const;
         const type& getStatic() const BY_CONST_FUNC(_getStatic())
 
         /**
-         *  @brief Get meta type name for efficient type checking
-         *  @details This returns metaTypename.
-         *  metaTypename can be used like 'dynamic_cast<yourType>'.
-         *  as you may know, c++'s dynamic_cast is slow. because normally compilers tries to loop
-         *  in order to figure out which type is fit to given your type parameter.
-         *  'meta' library, however, uses 'tier' algorithm and it's O(1), so it's faster.
+         * @brief Get meta type name for efficient type checking
+         * @details This returns metaTypename.
+         * metaTypename can be used like 'dynamic_cast<yourType>'.
+         * as you may know, c++'s dynamic_cast is slow. because normally compilers tries to loop
+         * in order to figure out which type is fit to given your type parameter.
+         * 'meta' library, however, uses 'tier' algorithm and it's O(1), so it's faster.
          *
-         *  you can use your own metaType to represent more data on type class.
-         *  for instance, 'core' module uses 'ntype' custom type class.
-         *  but in that case, when you compare custom type class, you must compare extended data to
-         *  'rhs' variable to base type class, 'type'.
+         * you can use your own metaType to represent more data on type class.
+         * for instance, 'core' module uses 'ntype' custom type class.
+         * but in that case, when you compare custom type class, you must compare extended data to
+         * 'rhs' variable to base type class, 'type'.
          *
-         *  so how can you know that 'type' is actually instance of your derived custom type class
-         *  in 'tier' algorithm? please don't think about 'dynamic_cast'. it'll vanish our
-         *  effectiveness to use 'tier' algorithm. that's why I make 'getMetaTypeName()' func.
+         * so how can you know that 'type' is actually instance of your derived custom type class
+         * in 'tier' algorithm? please don't think about 'dynamic_cast'. it'll vanish our
+         * effectiveness to use 'tier' algorithm. that's why I make 'getMetaTypeName()' func.
          *
-         *  @return static literal c-style string for meta type name.
-         *          so you are able to use c-style casting if address of 'rhs' variables's
-         *          getMetaTypeName() isn just same to yours.
-         *  @code
-         *  yourType& a = ....;
-         *  type& rhs = ....;
-         *  if(a.getMetaTypeName() != rhs.getMetaTypeName()) return;
-         *  yourType& rhsCasted = (yourType&) rhs;
+         * @return static literal c-style string for meta type name.
+         *         so you are able to use c-style casting if address of 'rhs' variables's
+         *         getMetaTypeName() isn just same to yours.
+         * @code
+         * yourType& a = ....;
+         * type& rhs = ....;
+         * if(a.getMetaTypeName() != rhs.getMetaTypeName()) return;
+         * yourType& rhsCasted = (yourType&) rhs;
          *
-         *  ...now you can do something on yourType's data...
-         *  @endcode
+         * ...now you can do something on yourType's data...
+         * @endcode
          */
         virtual const nchar* getMetaTypeName() const;
 

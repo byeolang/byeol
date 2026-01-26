@@ -39,6 +39,11 @@ namespace by {
 
         template <typename T> const T* cast() const BY_CONST_FUNC(cast<T>())
 
+        /**
+         * @brief Safe cast to target type using type hierarchy information
+         * @return Pointer to object if cast is valid, nullptr otherwise
+         * @note Uses O(1) tier algorithm instead of slow dynamic_cast
+         */
         virtual void* cast(const type& to);
         const void* cast(const type& to) const BY_CONST_FUNC(cast(to))
         void* cast(const type* it) BY_SIDE_FUNC(cast);
