@@ -40,7 +40,13 @@ namespace by {
 
     public:
         const chunk* getChunk() const;
+
+        /**
+         * @brief Returns current strong reference count
+         * @return Number of strong references (tstr binders) pointing to this instance
+         */
         ncnt getStrongCnt() const;
+
         //  tbindable:
         void rel() override;
         nbool isBind() const override;
@@ -56,18 +62,48 @@ namespace by {
         nbool canBind(const type& cls) const override;
 
         using tbindable<instance>::bind;
+
+        /**
+         * @brief Binds instance to this life object for lifecycle tracking
+         * @return true on success, false if already bound or type mismatch
+         * @note Initializes _pt pointer and sets up reference counting. Called by instancer.
+         */
         nbool bind(const instance& new1) override;
 
         //  Instance:
         id getId() const;
         //  typeProvidable:
         const type& getType() const override;
+
+        /**
+         * @brief Retrieves life object associated with given id
+         * @return Pointer to life object, or nullptr if not found
+         * @note Used to lookup life objects from watcher by instance id
+         */
         static const life* getBindTag(id newId);
 
     private:
         //  life:
+        /**
+         * @brief Updates strong reference count by vote amount
+         * @param vote Positive to increment, negative to decrement reference count
+         * @return true on success, false on error
+         * @note When count reaches 0, triggers instance destruction via instancer
+         */
         nbool _onStrong(ncnt vote);
+
+        /**
+         * @brief Completes id assignment for newly bound instance
+         * @return true on success, false on failure
+         * @note Sets instance's internal id after binding completes
+         */
         nbool _completeId(instance& it);
+
+        /**
+         * @brief Synchronizes life object with new id
+         * @return true on success, false if already synced or invalid
+         * @note Internal synchronization for id changes
+         */
         nbool _sync(id new1);
 
     private:

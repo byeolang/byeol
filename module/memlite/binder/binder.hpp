@@ -139,8 +139,20 @@ namespace by {
         nbool isBind() const override;
         void rel() override;
         using tbindable::canBind;
+
+        /**
+         * @brief Checks if given type can be bound to this binder
+         * @return true if type matches or is subtype of binder's type, false otherwise
+         * @note Uses meta module for dynamic type checking
+         */
         nbool canBind(const type& it) const override;
         using tbindable::bind;
+
+        /**
+         * @brief Binds instance to this binder with reference counting
+         * @return true on success, false if type mismatch or binding fails
+         * @note Increases reference count. Type must match via canBind() check.
+         */
         nbool bind(const instance& it) override;
 
         instance* get();
@@ -156,8 +168,25 @@ namespace by {
         void* cast(const type& to) override;
 
     protected:
+        /**
+         * @brief Assigns binder from another binder
+         * @return true on success, false on failure
+         * @note Handles reference counting via tactic when copying bindings
+         */
         nbool _assign(const binder& rhs);
+
+        /**
+         * @brief Checks if two typeProvidable objects are same instance
+         * @return true if same object, false otherwise
+         * @note Overrides typeProvidable for binder-specific equality
+         */
         nbool _onSame(const typeProvidable& rhs) const override;
+
+        /**
+         * @brief Retrieves life object associated with bound instance
+         * @return Pointer to life object, or nullptr if not bound
+         * @note Internal accessor for reference counting operations
+         */
         life* _getBindTag() const;
 
     protected:

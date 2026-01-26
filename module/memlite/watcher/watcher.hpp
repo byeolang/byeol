@@ -39,13 +39,34 @@ namespace by {
         const life* get(nidx n) const BY_CONST_FUNC(get(n))
         const life* get(id newId) const BY_CONST_FUNC(get(newId))
         //  Allocator:
+        /**
+         * @brief Allocates new life object from pre-allocated chunk
+         * @return Pointer to available life object, or nullptr if chunk full
+         * @note Overrides chunk::new1() to provide life objects for instance tracking
+         */
         void* new1() override;
 
+        /**
+         * @brief Returns life object back to available pool
+         * @return true on success, false on failure
+         * @note Overrides chunk::del() to reclaim life objects for reuse
+         */
         nbool del(void* used, ncnt sz) override;
 
     protected:
         //  watcher:
+        /**
+         * @brief Generates unique id for instance pointer
+         * @return Generated id combining pointer address information
+         * @note Used internally to create ids for newly allocated instances
+         */
         id _genId(void* pt) const;
+
+        /**
+         * @brief Calculates index in chunk from pointer address
+         * @return Index position of object within chunk
+         * @note Helper for mapping pointers back to chunk indices
+         */
         nidx _getIdx(void* it) const;
     };
 } // namespace by

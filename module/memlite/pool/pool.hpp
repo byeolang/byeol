@@ -28,22 +28,48 @@ namespace by {
         virtual ~pool();
 
     public:
+        /**
+         * @brief Gets chunks container managing memory for given instance
+         * @return Pointer to chunks managing this instance's memory, or nullptr if not found
+         * @note Finds chunks by instance size to locate appropriate memory block
+         */
         chunks* get(const instance& it);
         chunks* get(const instance* it) BY_SIDE_FUNC(get);
+
+        /**
+         * @brief Gets chunks at specified index
+         * @return Pointer to chunks at index n, or nullptr if out of bounds
+         */
         chunks* get(nidx n);
         const chunks* get(const instance& it) const BY_CONST_FUNC(get(it))
         const chunks* get(const instance* it) const BY_CONST_FUNC(get(it))
         const chunks* get(nidx n) const BY_CONST_FUNC(get(n))
 
         using super::has;
+
+        /**
+         * @brief Checks if instance is managed by this pool
+         * @return true if instance allocated from this pool, false otherwise
+         */
         nbool has(const instance& it) const override;
 
         ncnt size() const override;
         ncnt len() const override;
+
+        /**
+         * @brief Releases all pool resources and destroys chunks
+         * @return true on success, false on failure
+         * @note Destroys all chunks and frees allocated memory
+         */
         nbool rel() override;
 
     protected:
         //  memoryHaver:
+        /**
+         * @brief Gets raw memory pointer at index
+         * @return Void pointer to memory at index n
+         * @note Internal accessor for memoryHaver interface
+         */
         void* _get(nidx n) override;
 
     private:
