@@ -41,10 +41,25 @@ namespace by {
         explicit tres(const R& value);
 
     public:
+        /**
+         * @brief Gets the contained error.
+         * @warning Should only be called when has() returns false. Accessing when has()
+         *          is true results in undefined behavior.
+         * @return A reference to the contained error object.
+         */
         R& getErr();
         const R& getErr() const BY_CONST_FUNC(getErr())
+        /**
+         * @brief Releases/clears both the contained value and the error, making the instance empty.
+         */
         void rel() override;
+        /**
+         * @brief Sets the contained value and clears any existing error.
+         */
         void set(const T& arg) override;
+        /**
+         * @brief Sets the contained error and clears any existing value.
+         */
         void setErr(const R& arg);
 
     private:

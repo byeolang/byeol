@@ -66,8 +66,17 @@ namespace by {
 
     public:
         nbool has() const;
+        /**
+         * @brief Gets the contained value.
+         * @warning Calling get() on an empty tmay instance results in undefined behavior.
+         *          It is recommended to check with has() before calling this.
+         * @return Pointer to the contained value.
+         */
         T* get();
         const T* get() const BY_CONST_FUNC(get())
+        /**
+         * @brief Releases/clears the contained value, making the instance empty.
+         */
         virtual void rel();
         virtual void set(const T& arg);
     };
