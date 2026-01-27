@@ -1,4 +1,5 @@
 /// @file
+/// @file Metaprogramming utilities and type traits for compile-time introspection.
 #pragma once
 
 #include <iostream>

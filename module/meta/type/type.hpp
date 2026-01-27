@@ -104,6 +104,13 @@ namespace by {
         virtual ~type() {}
 
     public:
+        /**
+         * @brief Checks if two type objects represent the same type.
+         * @details This comparison typically checks if the underlying type information
+         *          (e.g., name, template status) is identical.
+         * @param rhs The other type object to compare with.
+         * @return true if both type objects represent the same type, false otherwise.
+         */
         virtual nbool operator==(const me& rhs) const;
         nbool operator!=(const me& rhs) const;
 
@@ -206,6 +213,13 @@ namespace by {
         virtual types& _getSupers() = 0;
         virtual type& _getStatic() const = 0;
         void _setInit(nbool newState);
+        /**
+         * @brief Hook method called when a new subclass is registered with this type.
+         * @details Derived type classes can override this method to perform custom actions
+         *          (e.g., updating internal structures or caches) whenever a new
+         *          `subClass` is added to its hierarchy.
+         * @param subClass The new subclass being added.
+         */
         virtual void _onAddSubClass(const me& subClass);
         virtual types** _onGetLeafs() const = 0;
         void _setLeafs(types* newLeafs) const;
