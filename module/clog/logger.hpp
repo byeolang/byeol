@@ -109,7 +109,17 @@ namespace by {
          * @brief Adds a new logging stream to the logger
          * @return true on success, false on error
          */
+        /**
+         * @brief Adds a new logging stream to the logger.
+         * @param new_stream Pointer to the stream to add.
+         * @return true on success, false on error (e.g., stream already added or invalid).
+         */
         nbool pushStream(stream* new_stream);
+        /**
+         * @brief Adds a new logging stream to the logger.
+         * @param new_stream Reference to the stream to add.
+         * @return true on success, false on error (e.g., stream already added or invalid).
+         */
         nbool pushStream(stream& new_stream);
 
         /**

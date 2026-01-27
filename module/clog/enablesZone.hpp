@@ -41,15 +41,40 @@ namespace by {
 
     public:
         enablesZone();
+        /**
+         * @brief Constructs an enablesZone and immediately sets all logging streams
+         *        to the specified enable state, without capturing their previous states.
+         * @param newVal The new enable state for all streams (true for enabled, false for disabled).
+         */
         enablesZone(nbool newVal);
         ~enablesZone();
 
     public:
         const enables& getPrev() const;
+        /**
+         * @brief Captures the current enable states of all streams as the new "previous" state.
+         *        This state will be restored when the enablesZone object is destroyed.
+         * @return A reference to this enablesZone instance.
+         */
         me& setPrev();
+        /**
+         * @brief Manually releases the enablesZone, preventing restoration of stream states on destruction.
+         * @return A reference to this enablesZone instance.
+         */
         me& rel();
 
+        /**
+         * @brief Sets the enable state for all streams managed by the logger.
+         * @param newVal The new enable state (true for enabled, false for disabled).
+         * @return A reference to this enablesZone instance.
+         */
         me& setEnable(nbool newVal);
+        /**
+         * @brief Sets the enable state for a specific named stream.
+         * @param streamName The name of the stream to modify.
+         * @param newVal The new enable state (true for enabled, false for disabled).
+         * @return A reference to this enablesZone instance.
+         */
         me& setEnable(const std::string& streamName, nbool newVal);
 
     private:

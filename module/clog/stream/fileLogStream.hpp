@@ -21,6 +21,11 @@ namespace by {
         explicit fileLogStream(const std::string& new_path);
 
     public:
+        /**
+         * @brief Sets the path for the log file and attempts to open it.
+         * @param new_path The new path for the log file.
+         * @return true if the file was successfully opened or the path was set, false otherwise.
+         */
         nbool setPath(const std::string& new_path);
         const std::string& getPath() const;
         //  stream:
