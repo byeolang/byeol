@@ -421,7 +421,7 @@ jobs:
     - name: install native dependencies
       run: |
         brew unlink python && brew link --overwrite python
-        brew uninstall cmake || true
+        brew uninstall --force cmake || true
         brew install cmake wget bison flex graphviz
 
     - name: download Bison source
