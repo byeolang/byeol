@@ -15,6 +15,11 @@ namespace by {
     public:
         void add(nint newToken);
         void addFront(nint newToken);
+        /**
+         * @brief Removes a token from the front of the queue.
+         * @param output Reference to store the popped token ID.
+         * @return true if a token was successfully popped, false if the queue was empty.
+         */
         nbool pop(nint& output);
 
         ncnt len() const;

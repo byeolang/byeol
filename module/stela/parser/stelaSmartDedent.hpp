@@ -35,9 +35,25 @@ namespace by {
         stelaSmartDedent();
 
     public:
+        /**
+         * @brief Decrements the internal count, typically indicating a pending dedent.
+         * @return A reference to this stelaSmartDedent instance.
+         */
         me& countDown();
+        /**
+         * @brief Increments the internal count, typically indicating a pending dedent.
+         * @return A reference to this stelaSmartDedent instance.
+         */
         me& countUp();
+        /**
+         * @brief Enables dedent tracking for future parsing, deferring any pending dedents.
+         * @return A reference to this stelaSmartDedent instance.
+         */
         me& useLater();
+        /**
+         * @brief Generates and returns a dedent token based on the internal count.
+         * @return The token ID for DEDENT, or 0 if no dedent is pending.
+         */
         nint dedent();
         void rel();
         nbool canDedent() const;

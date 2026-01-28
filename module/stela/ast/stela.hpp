@@ -55,6 +55,11 @@ namespace by {
         typedef myMap::iterator iterator;
 
     public:
+        /**
+         * @brief Constructs a stela object with an optional name and an initializer list of child stela objects.
+         * @param subs An initializer list of stela pointers to be added as children.
+         * @param name The name of this stela object.
+         */
         stela(std::initializer_list<me*> subs, const std::string& name = "");
         stela(const me& rhs, const std::string& name = "");
         stela(const std::string& name = "");
@@ -64,6 +69,10 @@ namespace by {
         const me& operator[](const std::string& name) const BY_CONST_FUNC(operator[](name));
         me& operator[](const nchar* name);
         const me& operator[](const nchar* name) const BY_CONST_FUNC(operator[](name));
+        /**
+         * @brief Converts the stela object to a boolean, indicating its existence.
+         * @return true if the stela object is valid and exists (i.e., not a @ref nulStela), false otherwise.
+         */
         explicit operator nbool() const;
 
     public:
@@ -79,8 +88,20 @@ namespace by {
         nbool has(const std::string& name) const;
         nbool has(const std::string* it) const BY_SIDE_FUNC(has);
 
+        /**
+         * @brief Adds a stela object as a child.
+         * @param it The stela object to add as a child.
+         */
         void add(const stela& it);
+        /**
+         * @brief Adds a stela object as a child.
+         * @param it Pointer to the stela object to add as a child.
+         */
         void add(const stela* it) BY_SIDE_FUNC(add);
+        /**
+         * @brief Adds multiple stela objects from an initializer list as children.
+         * @param subs An initializer list of stela pointers to add as children.
+         */
         void add(std::initializer_list<stela*> subs);
         void del(const stela& it);
         void del(const stela* it) BY_SIDE_FUNC(del);
@@ -100,12 +121,38 @@ namespace by {
 
         const type& getType() const override;
 
+        /**
+         * @brief Converts the stela object's value to an integer.
+         * @details If the stela object has no value or is a @ref nulStela, it returns 0.
+         *          If the conversion from its internal type (e.g., string) fails, an exception may be thrown.
+         * @return The integer representation of the stela object's value.
+         */
         virtual nint asInt() const;
+        /**
+         * @brief Converts the stela object's value to a character.
+         * @details If the stela object has no value or is a @ref nulStela, it returns a null character ('\\0').
+         *          If the conversion from its internal type (e.g., string) fails, an exception may be thrown.
+         * @return The character representation of the stela object's value.
+         */
         virtual nchar asChar() const;
+        /**
+         * @brief Converts the stela object's value to a string.
+         * @details If the stela object has no value or is a @ref nulStela, it returns an empty string.
+         * @return A const reference to the string representation of the stela object's value.
+         */
         virtual const std::string& asStr() const;
+        /**
+         * @brief Converts the stela object's value to a boolean.
+         * @details If the stela object has no value or is a @ref nulStela, it returns false.
+         *          If the conversion from its internal type (e.g., string) fails, an exception may be thrown.
+         * @return The boolean representation of the stela object's value.
+         */
         virtual nbool asBool() const;
+        /**
+         * @brief Checks if the stela object is considered "existent" (i.e., not a @ref nulStela).
+         * @return true if the stela object holds a value, false if it represents a null or non-existent entry.
+         */
         virtual nbool isExist() const;
-
     private:
         myMap _subs;
         std::string _name;

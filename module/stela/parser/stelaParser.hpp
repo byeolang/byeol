@@ -43,9 +43,29 @@ namespace by {
         stelaParser();
 
     public:
+        /**
+         * @brief Parses the given string of stela code.
+         * @param codes The stela code as a string.
+         * @return A tstr to the parsed stela AST root object, or null on error.
+         */
         tstr<stela> parse(const std::string& codes);
+        /**
+         * @brief Parses the given C-style string of stela code.
+         * @param codes The stela code as a C-style string.
+         * @return A tstr to the parsed stela AST root object, or null on error.
+         */
         tstr<stela> parse(const nchar* codes);
+        /**
+         * @brief Parses stela code from the specified file path.
+         * @param path The path to the file containing stela code.
+         * @return A tstr to the parsed stela AST root object, or null on error.
+         */
         tstr<stela> parseFromFile(const std::string& path);
+        /**
+         * @brief Parses stela code from the specified C-style file path.
+         * @param path The path to the file containing stela code.
+         * @return A tstr to the parsed stela AST root object, or null on error.
+         */
         tstr<stela> parseFromFile(const nchar* path);
 
         stelaTokenDispatcher& getDispatcher();
@@ -53,24 +73,87 @@ namespace by {
 
         nbool isInit() const;
 
+        /**
+         * @brief Sets the scanning mode for the lexer.
+         * @tparam T The type of the scanner strategy (e.g., normalScan, indentScan).
+         */
         template <typename T> void setScan() { _mode = &T::instance; }
 
         void rel();
 
+        /**
+         * @brief Pushes a new Flex scanner state onto the state stack.
+         * @param newState The new state to push.
+         * @return The new state.
+         */
         int pushState(int newState);
+        /**
+         * @brief Pops a Flex scanner state from the state stack.
+         * @return The previous state.
+         */
         int popState();
 
         // events:
         //  scan:
         using stelaTokenScanable::onScan;
+        /**
+         * @brief Handles scanning for the lexer, overriding the base stelaTokenScanable behavior.
+         * @param ps The stelaParser instance.
+         * @param val The YYSTYPE value pointer for the token.
+         * @param loc The YYLTYPE location pointer for the token.
+         * @param scanner The Flex scanner instance.
+         * @param isBypass Flag indicating if indentation bypass is active.
+         * @return The token ID.
+         */
         nint onScan(stelaParser& ps, ZZSTYPE* val, ZZLTYPE* loc, zzscan_t scanner, nbool& isBypass) override;
+        /**
+         * @brief Handles the end-of-file token.
+         * @return The token ID for end-of-file.
+         */
         nint onTokenEndOfFile();
+        /**
+         * @brief Handles the colon token.
+         * @param tok The token ID of the colon.
+         * @return The token ID.
+         */
         nint onTokenColon(nint tok);
+        /**
+         * @brief Handles the newline token.
+         * @param tok The token ID of the newline.
+         * @return The token ID.
+         */
         nint onTokenNewLine(nint tok);
+        /**
+         * @brief Handles the comma token.
+         * @param tok The token ID of the comma.
+         * @return The token ID.
+         */
         nint onTokenComma(nint tok);
+        /**
+         * @brief Handles an increase in indentation.
+         * @param col The column count of the new indentation level.
+         * @param tok The token ID that triggered the indentation.
+         * @return The token ID for INDENT.
+         */
         nint onIndent(ncnt col, nint tok);
+        /**
+         * @brief Handles a decrease in indentation.
+         * @param col The column count of the new indentation level.
+         * @param tok The token ID that triggered the dedentation.
+         * @return The token ID for DEDENT.
+         */
         nint onDedent(ncnt col, nint tok);
+        /**
+         * @brief Handles ignoring indentation (e.g., for inline blocks).
+         * @param tok The token ID.
+         * @return The token ID.
+         */
         nint onIgnoreIndent(nint tok);
+        /**
+         * @brief Handles an unexpected token encountered during scanning.
+         * @param token The unexpected token string.
+         * @return The token ID for an error.
+         */
         nchar onScanUnexpected(const nchar* token);
 
         //  keyword:
@@ -81,6 +164,12 @@ namespace by {
         //  expr:
         //      def:
         //          var:
+        /**
+         * @brief Creates a @ref valStela object from a primitive value.
+         * @tparam T The primitive type of the argument (e.g., int, bool, string).
+         * @param arg The primitive value.
+         * @return A pointer to a newly created @ref valStela instance.
+         */
         template <typename T> stela* onPrimitive(const T& arg) { return new valStela(arg); }
 
         verStela* onVer(const std::string& version);
@@ -95,7 +184,16 @@ namespace by {
         //          file:
         stela* onCompilationUnit(stela* blk);
 
+        /**
+         * @brief Handles a parse error, reporting the message and the symbol where the error occurred.
+         * @param msg The error message.
+         * @param symbolName The name of the symbol causing the error.
+         */
         void onParseErr(const std::string& msg, const nchar* symbolName);
+        /**
+         * @brief Reports a message, typically an error or warning, encountered during parsing.
+         * @param msg The message to report.
+         */
         void report(const std::string& msg);
 
     private:
