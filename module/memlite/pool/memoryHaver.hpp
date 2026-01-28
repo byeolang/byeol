@@ -34,6 +34,11 @@ namespace by {
         virtual ~memoryHaver() {}
 
     public:
+        /**
+         * @brief Checks if this memory manager "owns" or contains the given instance.
+         * @param it The instance to check for.
+         * @return true if the instance is managed by this memoryHaver, false otherwise.
+         */
         virtual nbool has(const instance& it) const = 0;
         nbool has(const instance* it) const BY_SIDE_FUNC(has);
         virtual ncnt len() const = 0;
@@ -43,6 +48,11 @@ namespace by {
         nbool isCapable() const;
 
     protected:
+        /**
+         * @brief Internal method to get a pointer to memory at a specific index.
+         * @param n The index of the memory block to retrieve.
+         * @return A void pointer to the memory block.
+         */
         virtual void* _get(nidx n) = 0;
     };
 }

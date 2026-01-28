@@ -73,7 +73,18 @@ namespace by {
 
     public:
         virtual id getId() const;
+        /**
+         * @brief Checks if this instance is allocated on the heap.
+         * @return true if the instance is heap-allocated, false otherwise.
+         * @note This check is typically related to how the instance is managed by the memory pool.
+         */
         virtual nbool isHeap() const;
+        /**
+         * @brief Returns a pointer to the associated life object for reference counting.
+         * @details The `life` object is used by `binder` and `watcher` to manage the
+         *          instance's lifecycle.
+         * @return A const pointer to the `life` object, or nullptr if none is associated.
+         */
         const life* getBindTag() const;
 
     protected:

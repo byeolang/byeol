@@ -35,7 +35,14 @@ namespace by {
         nbool operator!=(const id& rhs) const;
 
     public:
+        /**
+         * @brief Resets the ID to an invalid or default state.
+         */
         void rel();
+        /**
+         * @brief Checks if the instance identified by this ID is allocated on the heap.
+         * @return true if the associated instance is heap-allocated, false otherwise.
+         */
         nbool isHeap() const;
         nbool isValid() const;
 

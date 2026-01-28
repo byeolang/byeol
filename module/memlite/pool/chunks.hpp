@@ -69,6 +69,11 @@ namespace by {
         virtual nbool resize(ncnt new1);
 
         using super::has;
+        /**
+         * @brief Checks if any of the managed chunks contain the memory allocated for the given instance.
+         * @param it The instance whose memory location is to be checked.
+         * @return true if the instance's memory is within any of this chunks' child chunks, false otherwise.
+         */
         nbool has(const instance& it) const override;
 
         ncnt len() const override;

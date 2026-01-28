@@ -39,6 +39,10 @@ namespace by {
         const instance& operator*() const BY_CONST_FUNC(operator*())
 
     public:
+        /**
+         * @brief Returns the memory chunk associated with this life object.
+         * @return A const pointer to the chunk.
+         */
         const chunk* getChunk() const;
 
         /**
@@ -48,6 +52,11 @@ namespace by {
         ncnt getStrongCnt() const;
 
         //  tbindable:
+        /**
+         * @brief Releases the binding for this life object, decrementing the strong reference count.
+         * @details When the strong count reaches zero, the associated instance is typically destroyed
+         *          via the instancer.
+         */
         void rel() override;
         nbool isBind() const override;
         const type& getBindable() const;

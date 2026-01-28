@@ -83,6 +83,11 @@ namespace by {
         nbool rel() override;
 
         using super::has;
+        /**
+         * @brief Checks if this chunk contains the memory allocated for the given instance.
+         * @param it The instance whose memory location is to be checked.
+         * @return true if the instance's memory is within this chunk, false otherwise.
+         */
         nbool has(const instance& it) const override;
 
     protected:

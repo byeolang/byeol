@@ -114,26 +114,42 @@ namespace by {
         friend struct ::binderTest; // for UT
 
     public:
+        /**
+         * @brief Constructs a binder with a specific type and binding tactic.
+         * @param type The type of the instance this binder will manage.
+         * @param tactic The binding tactic (e.g., strong or weak) to use for reference counting.
+         */
         binder(const type& type, bindTacticable& tactic);
         binder(const me& rhs);
         virtual ~binder();
 
     public:
         /**
-         *  @brief Dereference operator to access bound instance
-         *  @details This follows the same policy as tmay and stl.
-         *  that is, if the binder does not bind any instances and tries to dereference them with
-         *  `get()` or `operator*()`, it will behave as UB.
-         *  this is likely to crash.
+         * @brief Dereference operator to access bound instance
+         * @details This follows the same policy as tmay and stl.
+         *          that is, if the binder does not bind any instances and tries to dereference them with
+         *          `get()` or `operator*()`, it will behave as UB.
+         *          this is likely to crash.
          */
         instance* operator->();
         const instance* operator->() const BY_CONST_FUNC(operator->())
         instance& operator*();
         const instance& operator*() const BY_CONST_FUNC(operator*())
+        /**
+         * @brief Assigns another binder's bound instance to this binder.
+         * @details This operator handles the transfer of binding, ensuring proper
+         *          reference counting adjustments for both the source and target binders.
+         * @param rhs The binder to assign from.
+         * @return A reference to this binder.
+         */
         me& operator=(const me& rhs);
 
     public:
         //  binder:
+        /**
+         * @brief Retrieves the unique ID of the instance currently bound by this binder.
+         * @return The ID of the bound instance. Returns an invalid ID if no instance is bound.
+         */
         id getItsId() const;
         //  tbindable:
         nbool isBind() const override;

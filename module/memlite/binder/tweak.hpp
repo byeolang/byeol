@@ -41,6 +41,14 @@ namespace by {
         const T* get() const BY_CONST_FUNC(get())
 
         using super::bind;
+        /**
+         * @brief Binds a weak reference to the specified instance.
+         * @details This method establishes a weak binding to the instance, meaning it does not
+         *          increment the instance's strong reference count and thus does not affect
+         *          its lifetime.
+         * @param new1 The instance to bind a weak reference to.
+         * @return true on successful binding, false on failure (e.g., type mismatch).
+         */
         nbool bind(const T& new1);
     };
 
