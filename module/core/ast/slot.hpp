@@ -29,10 +29,18 @@ namespace by {
         manifest& getManifest();
         const manifest& getManifest() const;
         nbool isValid() const;
+        /**
+         * @brief Retrieves the top-level object (`obj`) of this pack.
+         * @return A reference to the pack's `obj`.
+         */
         virtual obj& getPack();
         const obj& getPack() const BY_CONST_FUNC(getPack())
         void rel() override;
 
+        /**
+         * @brief Adds a dependent slot to this slot.
+         * @param dependent The slot that depends on this one.
+         */
         void addDependent(me& dependent);
         void addDependent(me* it) BY_SIDE_FUNC(addDependent)
 
@@ -50,6 +58,12 @@ namespace by {
         str infer() const override;
 
     protected:
+        /**
+         * @brief Protected virtual method to invalidate the slot.
+         * @details This method is typically called internally to mark the slot as invalid,
+         *          making it unusable for further operations.
+         * @return true if the slot was successfully invalidated, false otherwise.
+         */
         virtual nbool _invalidate();
         void _setValid(nbool valid);
         str _onEvalSub(node& sub, const args& a) override;

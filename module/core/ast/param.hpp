@@ -30,6 +30,10 @@ namespace by {
         void setName(const nchar* new1) BY_SIDE_FUNC(new1, setName(std::string(new1)), void());
 
         const node& getOrigin() const;
+        /**
+         * @brief Sets the origin node (type) for this parameter.
+         * @param newType The new node to set as the parameter's origin (type).
+         */
         void setOrigin(const node& newType);
 
         void onCloneDeep(const clonable& from) override;

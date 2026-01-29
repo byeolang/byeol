@@ -62,15 +62,33 @@ namespace by {
         /**
          *  @param existing don't need to cloneChain() before passing this func.
          */
+        /**
+         * @brief Adds an existing scope to the frame's scope chain.
+         * @details This integrates the provided scope into the current frame's lookup hierarchy.
+         * @param existing The scope to add.
+         */
         void add(const scope& existing);
         void add(const scope* it) BY_SIDE_FUNC(add);
         void add(const nbicontainer& existing);
         void add(const nbicontainer* it) BY_SIDE_FUNC(add);
         void add(const node& owner);
         void add(const node* it) BY_SIDE_FUNC(add);
+        /**
+         * @brief Adds a scope associated with a specific owner node to the frame's scope chain.
+         * @details This is typically used to add object scopes or function scopes where the owner provides context.
+         * @param owner The node that "owns" the scope being added (e.g., an obj or baseFunc instance).
+         * @param s The scope to add, associated with the owner.
+         */
         virtual void add(const node* owner, const scope& s);
         void add(const node* owner, const scope* s) BY_SIDE_FUNC(s, add(owner, *s), void());
 
+        /**
+         * @brief Adds a local symbol to the innermost local scope of the current frame.
+         * @details This method is used to define variables or functions that are accessible only
+         *          within the current execution context's most specific local scope.
+         * @param name The name of the local symbol.
+         * @param n The node representing the local symbol (e.g., a variable or function).
+         */
         virtual void addLocal(const std::string& name, const node& n);
         void addLocal(const std::string* name, const node& n) BY_SIDE_FUNC(name, addLocal(*name, n), void());
         void addLocal(const std::string& name, const node* n) BY_SIDE_FUNC(n, addLocal(name, *n), void());
@@ -78,8 +96,21 @@ namespace by {
         void addLocal(const nchar* name, const node& n) BY_SIDE_FUNC(name, addLocal(std::string(name), n), void());
         void addLocal(const nchar* name, const node* n) BY_SIDE_FUNC(name&& n, addLocal(std::string(name), *n), void());
 
+        /**
+         * @brief Deletes the top-most scope from the frame's scope chain.
+         * @details This method is typically called when exiting a block or function scope,
+         *          removing the local symbols associated with that scope from the frame.
+         */
         virtual void del();
 
+        /**
+         * @brief Sets the "me" object (context) for the current frame.
+         * @details The "me" object typically represents the instance on which a method is being
+         *          invoked or the current object context.
+         * @param obj The node representing the "me" object.
+         * @return true if the "me" object was successfully set, false otherwise.
+         * @note The "me" object can be a mockNode during verification.
+         */
         virtual nbool setMe(const node& obj); // 'me' can be a mockNode during verification.
         nbool setMe(const node* it) BY_SIDE_FUNC(setMe);
         void setMe();
@@ -90,19 +121,41 @@ namespace by {
         scope* getLocals();
         const scope* getLocals() const BY_CONST_FUNC(getLocals())
 
+        /**
+         * @brief Adds a function to the current frame.
+         * @details This function becomes the "current" function for this frame, allowing
+         *          its context to be used for symbol resolution or evaluation.
+         * @param new1 The baseFunc object to add.
+         * @return true if the function was successfully added, false otherwise.
+         */
         virtual nbool addFunc(const baseFunc& new1);
         nbool addFunc(const baseFunc* it) BY_SIDE_FUNC(addFunc);
 
+        /**
+         * @brief Deletes the function associated with the current frame.
+         * @details This typically refers to the function that was most recently added
+         *          or is currently active within this frame's context.
+         */
         void delFunc();
 
         baseFunc* getFunc();
         const baseFunc* getFunc() const BY_CONST_FUNC(getFunc())
 
+        /**
+         * @brief Finds the "me" object (owner) within the frame that contains the specified sub-node.
+         * @param sub The sub-node to search for.
+         * @return A pointer to the "me" object that owns the sub-node, or nullptr if not found.
+         */
         node* getMeHaving(const node& sub);
         node* getMeHaving(const node* it) BY_SIDE_FUNC(getMeHaving);
         const node* getMeHaving(const node& sub) const BY_CONST_FUNC(getMeHaving(sub))
         const node* getMeHaving(const node* sub) const BY_CONST_FUNC(getMeHaving(sub))
 
+        /**
+         * @brief Finds the scope within the frame that contains the specified sub-node.
+         * @param sub The sub-node to search for.
+         * @return A pointer to the scope that contains the sub-node, or nullptr if not found.
+         */
         scope* getScopeHaving(const node& sub);
         scope* getScopeHaving(const node* it) BY_SIDE_FUNC(getScopeHaving);
         const scope* getScopeHaving(const node& sub) const BY_CONST_FUNC(getScopeHaving(sub))
@@ -123,6 +176,14 @@ namespace by {
 
         const std::vector<scopeRegister>& getScopeRegisters() const;
 
+        /**
+         * @brief Sets the return value for the current frame.
+         * @details This method is typically used to store the result of a function or block
+         *          execution within the frame. The method is `const` because the `_ret` member
+         *          is `mutable`, allowing the return value to be set even for `const` frame instances.
+         * @param newRet The node representing the return value.
+         * @return true if the return value was successfully set, false otherwise.
+         */
         virtual nbool setRet(const node& newRet) const;
         virtual nbool setRet(const node* it) const;
 

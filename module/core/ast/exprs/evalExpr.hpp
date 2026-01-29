@@ -18,6 +18,11 @@ namespace by {
 
     public:
         evalExpr(const node* meObj, const node& subject, const args& a);
+        /**
+         * @brief Constructs an evalExpr where the `meObj` itself is implicitly the subject of the evaluation.
+         * @param meObj The "me" object, which also acts as the subject of the evaluation.
+         * @param a The arguments for the evaluation.
+         */
         evalExpr(const node* meObj, const args& a);
 
     public:

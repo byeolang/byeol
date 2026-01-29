@@ -23,7 +23,19 @@ namespace by {
         BY_INIT_META(me)
 
     public:
+        /**
+         * @brief Pure virtual method for parsing pack content into source representations.
+         * @param rpt The error report to collect any parsing errors.
+         * @param tray A bicontainable to store intermediate parsed results or components.
+         * @return A tstr to a collection of source representations (`srcs`) on success, or null on failure.
+         */
         virtual tstr<srcs> parse(errReport& rpt, bicontainable& tray) = 0;
+        /**
+         * @brief Pure virtual method for verifying the parsed pack content.
+         * @param rpt The error report to collect any verification errors.
+         * @param pak The pack object to verify.
+         * @return true if the pack content is successfully verified, false otherwise.
+         */
         virtual nbool verify(errReport& rpt, obj& pak) = 0;
     };
 }

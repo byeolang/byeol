@@ -211,6 +211,12 @@ namespace by {
 
         virtual scope& subs() = 0;
         const scope& subs() const BY_CONST_FUNC(subs())
+        /**
+         * @brief Returns a tstr to a container of immediate sub-nodes (excluding inherited or chained ones).
+         * @details This method provides direct access to the immediate children owned by this node,
+         *          distinguishing them from children accessible via chained scopes or inheritance.
+         * @return A tstr to a container holding the immediate sub-nodes.
+         */
         virtual tstr<nbicontainer> mySubs() const;
 
         /**
@@ -349,6 +355,15 @@ namespace by {
         virtual const modifier& getModifier() const;
 
     protected:
+        /**
+         * @brief Protected virtual method for evaluating a sub-node.
+         * @details This method is a crucial part of the evaluation mechanism, allowing derived
+         *          classes to define how a specific sub-node is evaluated within the context
+         *          of the current node.
+         * @param sub The sub-node to be evaluated.
+         * @param a The arguments for evaluation.
+         * @return The result of the evaluation as a `str` object.
+         */
         virtual str _onEvalSub(node& sub, const args& a);
         virtual void _setSrc(const src& s);
         void _setSrc(const src* it) BY_SIDE_FUNC(_setSrc);

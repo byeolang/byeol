@@ -25,10 +25,20 @@ namespace by {
         me& addPath(const std::vector<std::string> paths);
         me& addPath(std::initializer_list<const nchar*> paths);
         me& addRelativePath(const std::string& path);
+        /**
+         * @brief Sets the map where loaded slots will be stored.
+         * @param s The `nmap` object to store the loaded slots.
+         * @return A reference to this `slotLoader` instance.
+         */
         me& setBaseSlots(nmap& s);
         me& setBaseSlots(nmap* it) BY_SIDE_FUNC(it, setBaseSlots(*it), *this);
         me& setReport(errReport& report);
 
+        /**
+         * @brief Initiates the pack loading process.
+         * @details This method triggers the discovery, parsing, verification, and linking
+         *          of all packs found in the configured paths.
+         */
         void load();
 
     private:

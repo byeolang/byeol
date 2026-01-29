@@ -94,10 +94,20 @@ namespace by {
         nbool isOk() const;
 
     protected:
+        /**
+         * @brief Protected virtual method for preparation before starting the work.
+         * @details This hook allows derived classes to perform any necessary setup or initialization
+         *          before `_onWork()` is invoked.
+         */
         virtual void _prepare();
 
         void _report(baseErr* e);
 
+        /**
+         * @brief Protected virtual method called after the work is completed.
+         * @details This hook allows derived classes to perform any necessary cleanup or
+         *          finalization after `_onWork()` has finished.
+         */
         virtual void _onEndWork();
         virtual R _onWork() = 0;
 

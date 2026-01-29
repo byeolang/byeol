@@ -67,11 +67,29 @@ namespace by {
         friend class slot;
 
     public:
+        /**
+         * @brief Constructs an obj representing an "any" class.
+         */
         explicit obj(); // this means 'any' class.
+        /**
+         * @brief Constructs an obj from a given scope, typically representing its initial set of children.
+         * @param subs The scope containing the initial sub-nodes (children) for this object.
+         */
         explicit obj(const scope& subs);
+        /**
+         * @brief Copy constructor for obj.
+         * @param rhs The obj to copy from.
+         */
         explicit obj(const me& rhs);
 
     protected:
+        /**
+         * @brief Protected constructor for obj, allowing explicit separation of shares and owns.
+         * @details This constructor is used internally to initialize an obj with distinct shared
+         *          and owned scopes, which is fundamental to the object model's efficiency.
+         * @param shares The scope containing shared properties and functions.
+         * @param owns The scope containing owned (instance-specific) properties.
+         */
         explicit obj(const scope& shares, scope& owns);
 
     public:
@@ -93,8 +111,18 @@ namespace by {
 
         const ntype& getType() const override;
 
+        /**
+         * @brief Performs a deep clone operation, copying the contents from another clonable object.
+         * @param from The clonable object to copy from.
+         */
         void onCloneDeep(const clonable& from) override;
 
+        /**
+         * @brief Returns the node responsible for completing the object's construction or initialization calls.
+         * @details In the Byeol language, object construction might involve specific nodes that
+         *          handle the final steps or logic after the object is initially created.
+         * @return A pointer to the node that manages constructor completion, or nullptr if none.
+         */
         virtual node* getCallComplete();
         const node* getCallComplete() const BY_CONST_FUNC(getCallComplete())
 

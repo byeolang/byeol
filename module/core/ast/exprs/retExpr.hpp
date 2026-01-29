@@ -32,6 +32,14 @@ namespace by {
         str infer() const override;
 
     private:
+        /**
+         * @brief Internal helper to check for exception conditions related to the return value.
+         * @details This method determines if the return value (`got`) indicates an exception
+         *          when compared against the function's declared return type (`funcRet`).
+         * @param got The actual value being returned.
+         * @param funcRet The declared return type of the function.
+         * @return true if an exception condition is detected, false otherwise.
+         */
         nbool _isEx(const node& got, const node& funcRet);
 
     private:

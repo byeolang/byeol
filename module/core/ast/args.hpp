@@ -31,7 +31,11 @@ namespace by {
 
     public:
         /**
-         *  @param me this should be evaluated already before you pass it to this func.
+         * @brief Sets the "me" object (context) for these arguments.
+         * @details This method is `const` because the `_me` member is `mutable`, allowing
+         *          the context to be set even for `const` argument instances.
+         * @param me The `node` representing the "me" (context) object.
+         * @return A const reference to this `args` instance.
          */
         const me& setMe(const node& me) const;
         const me& setMe(const node* me) const BY_SIDE_FUNC(me, setMe(*me), *this);
@@ -42,6 +46,14 @@ namespace by {
          */
         std::string toStr() const;
 
+        /**
+         * @brief Evaluates all arguments against a given set of parameters.
+         * @details This is an important step in function/method invocation, ensuring that
+         *          the provided arguments match the expected parameters.
+         * @param ps The parameters to evaluate the arguments against.
+         * @return A tmay containing an `args` object with evaluated arguments on success,
+         *         or an empty tmay if evaluation fails.
+         */
         tmay<me> evalAll(const params& ps) const;
         tmay<me> evalAll(const params* it) const BY_SIDE_FUNC(evalAll);
 

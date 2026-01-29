@@ -29,6 +29,10 @@ namespace by {
         const node& getMe() const;
         const node& getAs() const;
 
+        /**
+         * @brief Sets the target type for the explicit type casting expression.
+         * @param new1 The node representing the new target type.
+         */
         void setAs(const node& new1);
         void setAs(const node* it) BY_SIDE_FUNC(setAs);
 

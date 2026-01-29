@@ -66,6 +66,10 @@ namespace by {
 
     public:
         thread();
+        /**
+         * @brief Constructs a thread object with a custom error report instance.
+         * @param new1 The `errReport` instance to be used by this thread for error collection.
+         */
         thread(const errReport& new1);
 
     public:
@@ -83,6 +87,10 @@ namespace by {
          */
         errReport& getEx();
         const errReport& getEx() const BY_CONST_FUNC(getEx())
+        /**
+         * @brief Sets the error report instance for this thread.
+         * @param new1 The `errReport` instance to be used by this thread.
+         */
         virtual void setEx(const errReport& new1);
         void setEx(const errReport* it) BY_SIDE_FUNC(setEx);
 
@@ -105,6 +113,12 @@ namespace by {
 
         void dump() const override;
 
+        /**
+         * @brief Checks if the thread is currently in an interactable state.
+         * @return true if the thread is interactable, false otherwise.
+         * @details An interactable thread typically means it's ready to process user input
+         *          or continue execution.
+         */
         virtual nbool isInteractable() const;
 
     protected:

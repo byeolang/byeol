@@ -65,6 +65,10 @@ namespace by {
         void setRight(const node& new1);
         void setRight(const node* it) BY_SIDE_FUNC(setRight);
 
+        /**
+         * @brief Checks if the binary operator is a logical operator (AND, OR, NOT, etc.).
+         * @return true if the symbol represents a logical operation, false otherwise.
+         */
         nbool isLogicalOp() const;
         symbol getSymbol() const;
         static const nchar* getSymbolName(symbol s);

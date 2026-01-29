@@ -82,11 +82,17 @@ namespace by {
 
     protected:
         /**
-         *  if you don't give any subs when construct an @ref baseObj, _subs will be assigned to dummy
-         *  array. instance on ctor of derived class.
+         * @brief Default constructor for baseObj.
+         * @details If no sub-objects are provided, internal sub-containers will be assigned to a dummy array.
+         *          This is typically called in the constructor of derived classes.
          */
         explicit baseObj() = default;
-        explicit baseObj(const baseObj* org, nbool);
+        /**
+         * @brief Constructs a baseObj from an existing origin object.
+         * @param org A pointer to the origin baseObj.
+         * @param isManaged A boolean indicating whether this baseObj is part of the managed (Byeol language) environment.
+         */
+        explicit baseObj(const baseObj* org, nbool isManaged);
 
     public:
         using super::eval;
@@ -110,6 +116,11 @@ namespace by {
 
         const src& getSrc() const override;
 
+        /**
+         * @brief Retrieves a sub-package represented as a node.
+         * @details This method is used to access nested package structures or components within this base object.
+         * @return A const reference to the node representing the sub-package.
+         */
         virtual const node& getSubPack() const;
 
         virtual baseObj* make() const;
@@ -119,16 +130,41 @@ namespace by {
     protected:
         str _onEvalSub(node& sub, const args& a) override;
         void _setSrc(const src& s) override;
+        /**
+         * @brief Enters this object's frame into the current execution stack.
+         * @details This protected virtual method is a key part of the frame interaction mechanism,
+         *          allowing the object's associated scope and symbols to become active in the
+         *          current execution context.
+         * @param fr The frame to interact with.
+         * @param args Optional arguments to be pushed onto the frame.
+         */
         virtual void _inFrame(frame& fr, const bicontainable* args) const;
 
-        // update @ref origin pointer of an object.
-        // to modify origin* is very dangerous. only permitted module should do this.
+        /**
+         * @brief Updates the origin pointer of this object.
+         * @warning Modifying the origin pointer is a very dangerous operation and should only be
+         *          performed by permitted modules or internal mechanisms. Incorrect usage can lead
+         *          to severe inconsistencies in the object model.
+         * @param newOrg The new origin baseObj to set.
+         */
         void _setOrigin(const baseObj& newOrg);
 
+        /**
+         * @brief Sets the managed type for this base object.
+         * @details This method is used to associate a specific managed type (`mgdType`) with this
+         *          base object, allowing for dynamic type resolution in the Byeol language environment.
+         * @param new1 The new `mgdType` to assign.
+         */
         virtual void _setType(const mgdType& new1);
 
         virtual void _setModifier(const modifier& mod);
 
+        /**
+         * @brief Hook method called before the object's constructor is fully executed.
+         * @details This protected virtual method provides a mechanism for derived classes or the
+         *          runtime to inject logic or perform setup just before the main constructor body.
+         * @return An `str` object representing a pre-constructor state or result.
+         */
         virtual str _onBeforeCtor();
 
     public:

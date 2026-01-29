@@ -17,6 +17,15 @@ namespace by {
         explicit nestedFunc(const func& org, const scope& subs);
 
     protected:
+        /**
+         * @brief Overrides base class to handle frame interaction and local scope capture for nested functions.
+         * @details This method ensures that the nested function correctly captures and maintains its local
+         *          scope from its creation context, which is crucial for closures.
+         * @param meObj The "me" object (context) for this nested function call.
+         * @param s The scope associated with this function.
+         * @param exN An index related to exception handling.
+         * @return An `str` object representing the result of the frame interaction.
+         */
         str _interactFrame(node& meObj, scope& s, nidx exN) override;
     };
 }

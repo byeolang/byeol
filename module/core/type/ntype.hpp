@@ -85,8 +85,14 @@ namespace by {
         str as(const node& from, const type& to) const;
         str as(const node& from, const type* to) const BY_SIDE_FUNC(to, as(from, *to), str());
         str as(const node* from, const type& to) const BY_SIDE_FUNC(from, as(*from, to), str());
-        str as(const node* from, const type* to) const BY_SIDE_FUNC(from&& to, as(*from, *to), str());
+        virtual str as(const node* from, const type* to) const BY_SIDE_FUNC(from&& to, as(*from, *to), str());
 
+        /**
+         * @brief Checks if this type is immutable.
+         * @details Immutable types (like scalars) are treated differently in memory management and
+         *          pass-by-value semantics.
+         * @return true if the type is immutable, false otherwise.
+         */
         virtual nbool isImmutable() const;
 
         /**
@@ -116,6 +122,10 @@ namespace by {
         static const ntype* promote(const ntype* l, const ntype* r) BY_SIDE_FUNC(l&& r, promote(*l, *r), nullptr);
 
         const params& getParams() const BY_CONST_FUNC(getParams())
+        /**
+         * @brief Retrieves a non-const reference to the parameters associated with this type.
+         * @return A reference to the `params` object, allowing modification of the type's parameters.
+         */
         virtual params& getParams();
 
         virtual const node* getRet() const;

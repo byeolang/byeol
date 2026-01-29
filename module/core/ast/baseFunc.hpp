@@ -86,6 +86,11 @@ namespace by {
 
         virtual const baseObj& getOrigin() const = 0;
 
+        /**
+         * @brief Checks if the given node represents a function that is not a closure.
+         * @param n The node to check.
+         * @return true if the node is a function but not a closure, false otherwise.
+         */
         static nbool isFuncButNotClosure(const node& n);
         static nbool isFuncButNotClosure(const node* it) BY_SIDE_FUNC(isFuncButNotClosure);
 

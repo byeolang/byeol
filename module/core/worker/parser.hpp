@@ -133,6 +133,11 @@ namespace by {
         parser();
 
     public:
+        /**
+         * @brief Retrieves the root node of the parsed sub-pack.
+         * @details This method provides access to the top-level AST node representing the entire parsed sub-pack.
+         * @return A pointer to the root node of the sub-pack.
+         */
         node* getSubPack();
         const node* getSubPack() const BY_CONST_FUNC(getSubPack())
 
@@ -146,6 +151,11 @@ namespace by {
 
         nbool isInit() const;
 
+        /**
+         * @brief Sets the scanning mode for the lexer.
+         * @tparam T The type of the scanner strategy (e.g., `tokenScan`, `indentScan`).
+         * @note Logs the change in scan mode for debugging purposes.
+         */
         template <typename T> void setScan() {
             BY_DI("change scanmode(%s -> %s)", _mode ? _mode->getType().getName() : "null", T::instance);
             _mode = &T::instance;
@@ -153,25 +163,106 @@ namespace by {
 
         void rel() override;
 
+        /**
+         * @brief Pushes a new Flex scanner state onto the state stack.
+         * @param newState The new state to push.
+         * @return The new state.
+         */
         int pushState(int newState);
+        /**
+         * @brief Pops a Flex scanner state from the state stack.
+         * @return The previous state.
+         */
         int popState();
 
         // events:
         //  scan:
         using tokenScanable::onScan;
+        /**
+         * @brief Handles scanning for the lexer, overriding the base `tokenScanable` behavior.
+         * @param ps The `parser` instance.
+         * @param val The YYSTYPE value pointer for the token.
+         * @param loc The YYLTYPE location pointer for the token.
+         * @param scanner The Flex scanner instance.
+         * @param isBypass Flag indicating if indentation bypass is active.
+         * @return The token ID.
+         */
         nint onScan(parser& ps, YYSTYPE* val, YYLTYPE* loc, yyscan_t scanner, nbool& isBypass) override;
+        /**
+         * @brief Handles the end-of-file token.
+         * @return The token ID for end-of-file.
+         */
         nint onTokenEndOfFile();
+        /**
+         * @brief Handles the colon token.
+         * @param tok The token ID of the colon.
+         * @return The token ID.
+         */
         nint onTokenColon(nint tok);
+        /**
+         * @brief Handles the newline token.
+         * @param tok The token ID of the newline.
+         * @return The token ID.
+         */
         nint onTokenNewLine(nint tok);
+        /**
+         * @brief Handles the left parenthesis token.
+         * @param tok The token ID of the left parenthesis.
+         * @return The token ID.
+         */
         nint onTokenLParan(nint tok);
+        /**
+         * @brief Handles the right parenthesis token.
+         * @param tok The token ID of the right parenthesis.
+         * @return The token ID.
+         */
         nint onTokenRParan(nint tok);
+        /**
+         * @brief Handles the comma token.
+         * @param tok The token ID of the comma.
+         * @return The token ID.
+         */
         nint onTokenComma(nint tok);
+        /**
+         * @brief Handles the end of a braces block (e.g., `}`).
+         * @return true if the end of braces was handled, false otherwise.
+         */
         nbool onTokenEndOfBraces();
+        /**
+         * @brief Handles the start of a string template brace (e.g., `${`).
+         * @note This method is likely related to parsing interpolated strings.
+         */
         void onTokenStartOfStrTemplateBrace();
+        /**
+         * @brief Handles an increase in indentation.
+         * @param col The column count of the new indentation level.
+         * @param tok The token ID that triggered the indentation.
+         * @return The token ID for INDENT.
+         */
         nint onIndent(ncnt col, nint tok);
+        /**
+         * @brief Handles a decrease in indentation.
+         * @param col The column count of the new indentation level.
+         * @param tok The token ID that triggered the dedentation.
+         * @return The token ID for DEDENT.
+         */
         nint onDedent(ncnt col, nint tok);
+        /**
+         * @brief Handles ignoring indentation (e.g., for inline blocks).
+         * @param tok The token ID.
+         * @return The token ID.
+         */
         nint onIgnoreIndent(nint tok);
+        /**
+         * @brief Handles an unexpected token encountered during scanning.
+         * @param token The unexpected token string.
+         * @return The token ID for an error.
+         */
         nchar onScanUnexpected(const nchar* token);
+        /**
+         * @brief Callback for processing source area information from the lexer.
+         * @param area The source area (e.g., line, column) information.
+         */
         void onSrcArea(const area& area);
 
         //  err:
@@ -331,7 +422,17 @@ namespace by {
         //      in:
         evalExpr* onIn(const node& it, const node& container);
 
+        /**
+         * @brief Callback invoked at the end of parsing a function definition.
+         * @details This method handles any cleanup or finalization required after a function's
+         *          body has been parsed.
+         */
         void onEndFunc();
+        /**
+         * @brief Reports a parsing error.
+         * @param msg The error message.
+         * @param symbolName The name of the symbol related to the error.
+         */
         void onParseErr(const std::string& msg, const nchar* symbolName);
 
     protected:

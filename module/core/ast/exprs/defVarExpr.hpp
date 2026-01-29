@@ -32,8 +32,17 @@ namespace by {
         const node* getRight() const BY_CONST_FUNC(getRight())
         void setRight(const node& rhs);
 
+        /**
+         * @brief Gets the target node where the variable is to be defined.
+         * @details This can be an optional parameter, often specifying a particular scope or frame.
+         * @return A pointer to the target node.
+         */
         node* getTo();
         const node* getTo() const BY_CONST_FUNC(getTo())
+        /**
+         * @brief Checks if the target node ('to') represents a frame.
+         * @return true if the target node is a frame, false otherwise.
+         */
         nbool isToFrame() const;
         void setTo(const node& to);
 
@@ -41,6 +50,12 @@ namespace by {
 
         void onCloneDeep(const clonable& rhs) override;
 
+        /**
+         * @brief Creates a new origin object based on this variable definition.
+         * @details This is an important step in the lifecycle of a defined variable,
+         *          instantiating its initial state or value.
+         * @return A `str` object representing the newly created origin.
+         */
         str makeNewOrigin();
 
         const modifier& getNewModifier() const;

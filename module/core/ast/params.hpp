@@ -20,6 +20,13 @@ namespace by {
         params();
         params(const me& rhs) = default;
 
+        /**
+         * @brief Constructs a params object by adding multiple param elements.
+         * @details This variadic template constructor allows convenient initialization
+         *          of the params object by adding multiple param instances.
+         * @tparam Es Type of the param elements (must be convertible to param*).
+         * @param elems Pointers to the param objects to add.
+         */
         template <typename... Es> explicit params(const Es&... elems) {
             static_assert(areBaseOfT<param, Es...>::value, "some of type of args are not base of type `T`");
             add({(param*) &elems...});
@@ -36,7 +43,18 @@ namespace by {
          */
         std::string toStr() const;
 
+        /**
+         * @brief Creates a params object from a list of names and a list of argument nodes.
+         * @param names A vector of strings representing the parameter names.
+         * @param args A `narr` (native array of nodes) containing the argument nodes.
+         * @return A new `params` object.
+         */
         static me make(const strings& names, const narr& args);
+        /**
+         * @brief Creates a params object from a list of argument nodes, inferring names if possible.
+         * @param args A `narr` (native array of nodes) containing the argument nodes.
+         * @return A new `params` object.
+         */
         static me make(const narr& args);
     };
 

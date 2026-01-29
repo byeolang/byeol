@@ -29,6 +29,13 @@ namespace by {
     public:
         blockExpr();
 
+        /**
+         * @brief Constructs a blockExpr with an initializer list of child expressions (statements).
+         * @details This variadic template constructor allows convenient initialization of the
+         *          block with multiple statements.
+         * @tparam Es Types of the child expressions.
+         * @param elems The child expressions (statements) to add to this block.
+         */
         template <typename... Es> blockExpr(const Es&... elems): _exprs(elems...) {}
 
     public:
@@ -37,6 +44,10 @@ namespace by {
 
         str infer() const override;
 
+        /**
+         * @brief Sets the node whose evaluation result will be returned by this block expression.
+         * @param newEval The node representing the evaluation result of this block.
+         */
         void setEval(const node& newEval);
         void setEval(const node* it) BY_SIDE_FUNC(setEval);
 
@@ -53,6 +64,11 @@ namespace by {
 
         void onCloneDeep(const clonable& from) override;
 
+        /**
+         * @brief Checks if this block expression is abstract.
+         * @return true if the block expression is abstract, false otherwise.
+         * @note An abstract block typically means it lacks a concrete implementation or return value.
+         */
         nbool isAbstract() const;
 
     private:

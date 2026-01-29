@@ -21,6 +21,10 @@ namespace by {
     public:
         str infer() const override;
         const node* getExplicitType() const;
+        /**
+         * @brief Sets the explicitly declared type for the variable being defined.
+         * @param newType The node representing the explicit type.
+         */
         void setExplicitType(const node& newType);
 
     protected:

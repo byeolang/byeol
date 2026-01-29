@@ -28,6 +28,11 @@ namespace by {
         str eval(const args& a) override;
 
         str infer() const override;
+        /**
+         * @brief Gets the type of the array elements after type promotion.
+         * @details The type is inferred by promoting the types of all elements in the array literal.
+         * @return A const pointer to the `baseObj` representing the inferred array element type.
+         */
         const baseObj* getArrayType() const;
         const arr& getOrigin() const;
         const narr& getElems() const BY_CONST_FUNC(getElems())

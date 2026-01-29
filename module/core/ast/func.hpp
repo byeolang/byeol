@@ -66,6 +66,10 @@ namespace by {
 
         const baseObj& getOrigin() const override;
 
+        /**
+         * @brief Gets the list of `endExpr` (defer-like statements) registered for this function.
+         * @return A reference to the `ends` container holding the `endExpr` objects.
+         */
         ends& getEnds();
         const ends& getEnds() const BY_CONST_FUNC(getEnds())
 
@@ -74,6 +78,15 @@ namespace by {
         nbool isAbstract() const;
 
     protected:
+        /**
+         * @brief Protected virtual method to interact with the execution frame during function evaluation.
+         * @details This method is a crucial internal mechanism for setting up the function's execution
+         *          context within the current frame, managing `me` object and local scope.
+         * @param meObj The "me" object (context) for this function call.
+         * @param s The scope associated with this function.
+         * @param exN An index related to exception handling.
+         * @return An `str` object representing the result of the frame interaction.
+         */
         virtual str _interactFrame(node& meObj, scope& s, nidx exN);
         str _run(nidx exN);
 

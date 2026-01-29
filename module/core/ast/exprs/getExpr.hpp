@@ -37,7 +37,12 @@ namespace by {
         const node* getMe() const;
         const std::string& getName() const;
         void setName(const std::string& new1);
-        void setName(const std::string* it) BY_SIDE_FUNC(setName) void setMe(const node& newMe);
+        void setName(const std::string* it) BY_SIDE_FUNC(setName)
+        /**
+         * @brief Sets the base object ("me") for this access expression.
+         * @param newMe The new base object for the access expression.
+         */
+        void setMe(const node& newMe);
 
         /**
          *  @return nullable
@@ -48,6 +53,13 @@ namespace by {
         void onCloneDeep(const clonable& new1) override;
 
     protected:
+        /**
+         * @brief Protected virtual method for the actual "get" logic.
+         * @details This method is responsible for resolving the property or method access
+         *          on the given base object (`me`).
+         * @param me The base object (left-hand side of the dot operator).
+         * @return A pointer to the resolved node (property or method), or nullptr if not found.
+         */
         virtual node* _onGet(node& me) const;
         virtual node* _onGet(node* it) const BY_SIDE_FUNC(it, _onGet(*it), nullptr);
 
