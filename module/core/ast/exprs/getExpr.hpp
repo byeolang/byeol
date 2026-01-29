@@ -38,11 +38,11 @@ namespace by {
         const std::string& getName() const;
         void setName(const std::string& new1);
         void setName(const std::string* it) BY_SIDE_FUNC(setName)
-        /**
-         * @brief Sets the base object ("me") for this access expression.
-         * @param newMe The new base object for the access expression.
-         */
-        void setMe(const node& newMe);
+            /**
+             * @brief Sets the base object ("me") for this access expression.
+             * @param newMe The new base object for the access expression.
+             */
+            void setMe(const node& newMe);
 
         /**
          *  @return nullable

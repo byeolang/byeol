@@ -5,6 +5,16 @@
 
 namespace by {
 
+    /** @ingroup byeol
+     *  @brief Flag for specifying a byeol source code file to load and execute
+     *  @details This flag allows users to provide a file path containing byeol source code,
+     *           which will then be parsed and executed by the interpreter. It typically consumes
+     *           one additional argument: the path to the file.
+     *  @code
+     *      // Example usage:
+     *      // byeol --file "my_script.byeol"
+     *  @endcode
+     */
     class fileFlag: public flag {
         BY(CLASS(fileFlag, flag))
 

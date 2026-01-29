@@ -64,4 +64,4 @@ namespace by {
     private:
         std::vector<const filterable*> _arr;
     };
-}
+} // namespace by

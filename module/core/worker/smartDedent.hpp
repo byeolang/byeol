@@ -61,4 +61,4 @@ namespace by {
         nint _cnt;
         nbool _isEnable;
     };
-}
+} // namespace by

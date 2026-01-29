@@ -90,7 +90,8 @@ namespace by {
         /**
          * @brief Constructs a baseObj from an existing origin object.
          * @param org A pointer to the origin baseObj.
-         * @param isManaged A boolean indicating whether this baseObj is part of the managed (Byeol language) environment.
+         * @param isManaged A boolean indicating whether this baseObj is part of the managed (Byeol language)
+         * environment.
          */
         explicit baseObj(const baseObj* org, nbool isManaged);
 

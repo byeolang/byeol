@@ -84,6 +84,13 @@ namespace by {
          */
         virtual ncnt getArgCount() const;
 
+        /**
+         * @brief Deletes arguments from the `flagArgs` list.
+         * @details This method is used internally to remove arguments that have been consumed
+         *          by this flag, preventing them from being processed again by other flags.
+         * @param a The `flagArgs` instance from which arguments are to be deleted.
+         * @param indices A vector of indices indicating which arguments to delete.
+         */
         void _delArgs(flagArgs& a, std::vector<int> indices) const;
 
         virtual const strings& _getRegExpr() const = 0;

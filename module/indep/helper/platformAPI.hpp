@@ -145,5 +145,5 @@ namespace by {
          *       Should be called early in debug builds.
          */
         _nout nbool unlimitCoreDump();
-    };
+    }; // namespace platformAPI
 } // namespace by

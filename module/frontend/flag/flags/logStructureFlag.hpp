@@ -5,6 +5,16 @@
 
 namespace by {
 
+    /** @ingroup byeol
+     *  @brief Flag for enabling logging of the Abstract Syntax Tree (AST) or program structure
+     *  @details When this flag is activated, the interpreter and starter will output detailed
+     *           information about the parsed AST and its execution flow, useful for debugging.
+     *  @code
+     *      // Example usage:
+     *      // byeol --show-structure
+     *      // byeol -S
+     *  @endcode
+     */
     class logStructureFlag: public flag {
         BY(CLASS(logStructureFlag, flag))
 

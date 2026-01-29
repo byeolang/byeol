@@ -5,6 +5,15 @@
 
 namespace by {
 
+    /** @ingroup byeol
+     *  @brief Flag for providing byeol source code directly as a string argument
+     *  @details This flag allows users to pass byeol source code as a string, which is then parsed
+     *           and executed by the interpreter. It consumes one additional argument for the source code string.
+     *  @code
+     *      // Example usage:
+     *      // byeol --script "main() void: print(\"Hello, world!\")"
+     *  @endcode
+     */
     class bufferSrcFlag: public flag {
         BY(CLASS(bufferSrcFlag, flag))
 

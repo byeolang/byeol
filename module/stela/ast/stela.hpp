@@ -153,6 +153,7 @@ namespace by {
          * @return true if the stela object holds a value, false if it represents a null or non-existent entry.
          */
         virtual nbool isExist() const;
+
     private:
         myMap _subs;
         std::string _name;
