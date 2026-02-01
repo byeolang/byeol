@@ -12,7 +12,7 @@ namespace by {
 
     typedef std::vector<std::string> strings;
 
-    /** @ingroup byeol
+    /** @ingroup frontend
      *  @brief Base class for command-line flag handling
      *  @details Handles flags commonly seen in shell-based programs. Note this class doesn't
      *  represent a flag like `--version`, but rather handles whether such flags exist and
@@ -47,7 +47,7 @@ namespace by {
      *  `--script "main() void: print(\"wow!\")"`
      *
      *  Breaking this down: `--script` indicates flag start, followed by space and
-     *  `"<your code>"` which is the byeol code body argument to execute. Some flags consume
+     *  `"<your code>"` which is the frontend code body argument to execute. Some flags consume
      *  not just the matched pattern but additional arguments. Each derived flag class can
      *  override `getArgCount()` to specify how many additional arguments to extract.
      *

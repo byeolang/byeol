@@ -5,8 +5,8 @@
 
 namespace by {
 
-    /** @ingroup byeol
-     *  @brief Command-line interface for byeol language system
+    /** @ingroup frontend
+     *  @brief Command-line interface for frontend language system
      *  @details Core class of the frontend module. Uses @ref interpreter from the core module
      *  to parse, verify, and evaluate code, coordinating appropriate classes for these
      *  processes. Rather than implementing algorithms itself, cli orchestrates well-designed

@@ -5,14 +5,14 @@
 
 namespace by {
 
-    /** @ingroup byeol
+    /** @ingroup frontend
      *  @brief Flag for enabling verbose logging output
      *  @details When this flag is activated, the interpreter and related components will produce
      *           more detailed and extensive log messages, useful for in-depth debugging and monitoring.
      *  @code
      *      // Example usage:
-     *      // byeol --verbose
-     *      // byeol -v
+     *      // frontend --verbose
+     *      // frontend -v
      *  @endcode
      */
     class verboseFlag: public flag {

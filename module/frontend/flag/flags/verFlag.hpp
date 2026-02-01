@@ -5,13 +5,13 @@
 
 namespace by {
 
-    /** @ingroup byeol
+    /** @ingroup frontend
      *  @brief Flag for displaying application version information
      *  @details When this flag is activated, the program outputs details about its
      *           version, build date, and other relevant build information, then terminates.
      *  @code
      *      // Example usage:
-     *      // byeol --version
+     *      // frontend --version
      *  @endcode
      */
     class verFlag: public flag {
