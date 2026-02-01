@@ -11,17 +11,17 @@ namespace by {
      *  memory created at initialization, chunks adds/removes multiple chunks to manage
      *  memory dynamically.
      *
-     *  @section chunks also provides only fixed memory
+     *  @section fixed_memory_only chunks also provides only fixed memory
      *  Since chunks adds or removes chunks, and each chunk cell uses only fixed size,
      *  chunks can also only allocate fixed-size memory.
      *
-     *  @section Coordination with pool
+     *  @section pool_coordination Coordination with pool
      *  The first to receive memory requests is @ref pool class. When pool receives a memory
      *  size to allocate, it lazily retrieves a chunks instance capable of handling that
      *  memory size and requests new1(). chunks::new1() finds a chunk capable of allocating
      *  memory, and if none exists, creates an additional chunk.
      *
-     *  @section Available chunk search algorithm
+     *  @section chunk_search_algorithm Available chunk search algorithm
      *  The most recently memory-allocated chunk has the highest probability of being able
      *  to allocate additionally. Member variable `_s` holds the index of the most recently
      *  allocated chunk. If _chunks[_s] has no available memory, increment _s. Like a

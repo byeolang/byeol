@@ -17,11 +17,11 @@ namespace by {
      *  @details As mentioned in @ref stelaParser, the parser must dynamically change scan
      *  mode to precisely measure indentation. tokenScan handles one such scan mode strategy.
      *
-     *  @section Command tokens
+     *  @section command_tokens Command tokens
      *  Among tokens exist command tokens like `SCAN_AGAIN`, `SCAN_EXIT` that give commands
      *  to the scanner or parser. See zztokenType enum in `stelaParser.hpp` for details.
      *
-     *  @section isBypass
+     *  @section is_bypass isBypass
      *  IndentScan ignores most tokens and focuses solely on counting whitespace. However,
      *  if multiple tokens were pushed from the previous line, it operates in bypass mode
      *  internally. During this time, it skips indentation counting and simply reads and

@@ -9,12 +9,12 @@ namespace by {
      *  @brief Core class for runtime type information in byeol language
      *  @details The central class of the meta module. Provides fundamental type information APIs.
      *
-     *  @section Basic type identification
+     *  @section basic_type_identification Basic type identification
      *  - isTemplate(): Returns whether this is a template class
      *  - isAbstract(): Returns whether this is an abstract class
      *  - getName(): Returns class name (demangled)
      *
-     *  @section Class hierarchy information
+     *  @section class_hierarchy_information Class hierarchy information
      *  - getSupers(): Returns list of super classes, with direct parent at the end
      *  - getSubs(): Returns list of sub classes, with closest descendants first
      *  - isSuper(const type& rhs): Checks if this is a super class of rhs
@@ -24,18 +24,18 @@ namespace by {
      *  While dynamic_cast typically loops through vtables, the meta module uses a tier
      *  algorithm that compares tier values and char* addresses for O(1) type checking.
      *
-     *  @section Instance creation
+     *  @section instance_creation Instance creation
      *  - make(): Creates instance using default constructor. Returns nullptr if no
      *    default constructor exists.
      *
-     *  @section Meta type information management
+     *  @section meta_type_information_management Meta type information management
      *  - init(): Initializes type information
      *  - rel(): Releases type information
      *
      *  These are typically handled automatically via @ref BY_INIT_META macro and rarely
      *  need direct invocation.
      *
-     *  @section How meta information is generated
+     *  @section how_meta_information_is_generated How meta information is generated
      *  Type information like isTemplate(), isAbstract(), and getName() is filled by
      *  @ref ttypeBase<T> through metaprogramming. The purpose of type::init() is to
      *  construct the class hierarchy.
@@ -59,7 +59,7 @@ namespace by {
      *      }
      *  @endcode
      *
-     *  @section Automatic meta information generation
+     *  @section automatic_meta_information_generation Automatic meta information generation
      *  Type objects are initialized via init() calls, but manually calling init() for
      *  every class would be inefficient. The @ref BY_INIT_META macro solves this by
      *  using @ref BY_INITIATOR to execute init() before main() via static object
@@ -70,7 +70,7 @@ namespace by {
      *  core module adds additional meta DSL macros, so use BY(CLASS()) or BY(ADT())
      *  instead of calling BY_INIT_META directly.
      *
-     *  @section Adding custom meta information
+     *  @section adding_custom_meta_information Adding custom meta information
      *  While type provides substantial type information, language implementations like
      *  byeol may need additional information like parameters or return types. You might
      *  think to inherit from type, but since the user entry point must always be

@@ -11,7 +11,7 @@ namespace by {
      *  Internally has an array of @ref chunks, and since chunks has @ref chunk, effectively
      *  manages all low-level memory-related classes.
      *
-     *  @section pool lazily has chunks per allocatable size
+     *  @section lazy_chunks_allocation pool lazily has chunks per allocatable size
      *  A key point in creating a custom memory pool is increasing speed by listing same-size
      *  memory in one place. chunks has a block concept where each block can only allocate/
      *  deallocate pre-specified sized memory. pool creates chunks with fixed block size.

@@ -11,7 +11,7 @@ namespace by {
      *  While tmay<T> can only indicate whether an error occurred or not, tres<T, R> can
      *  provide detailed error information of type R when an error occurs.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  Example comparing tmay and tres:
      *  @code
      *      // Using tmay - can only tell if error occurred:

@@ -12,7 +12,7 @@ namespace by {
      *
      *  Not used directly; instead, create an instance and add it to logger.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  Example of using errPassFilter:
      *  @code
      *      const filters& prevFilters = logger::get().getFilters();

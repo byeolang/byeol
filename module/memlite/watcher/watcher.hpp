@@ -12,7 +12,7 @@ namespace by {
      *  Whenever an @ref instance is created, watcher additionally allocates a @ref life
      *  object and uses reference counting to determine object destruction timing.
      *
-     *  @section Reference counting
+     *  @section reference_counting Reference counting
      *  When @ref binder binds an instance, life increments its strong count by 1. When
      *  binder calls rel() on instance, decrements count by 1. At 0, deletes from memory.
      *  instance uses `operator delete()` to make @ref instancer execute memory release work.

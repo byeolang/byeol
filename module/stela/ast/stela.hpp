@@ -22,7 +22,7 @@ namespace by {
      *
      *  Similar to @ref node in the core module.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  Example demonstrates typical usage:
      *  @code
      *      const std::string script = R"SRC(

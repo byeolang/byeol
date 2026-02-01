@@ -15,7 +15,7 @@ namespace by {
      *  In C++, this is implemented using RAII and is limited to scope boundaries rather
      *  than function boundaries.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  Use the provided macros for convenient deferred execution:
      *  @code
      *      void processFile() {

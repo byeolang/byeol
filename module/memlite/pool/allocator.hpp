@@ -14,7 +14,7 @@ namespace by {
      *  Following memlite's concept of viewing all memory only as void* and bytes, new()
      *  and del() parameters only provide void*.
      *
-     *  @section memlite naming conventions
+     *  @section naming_conventions naming conventions
      *  Allocation uses new1() (meaning "new one"), deallocation uses del(). This naming
      *  is frequently used not only in memlite but throughout the byeol project.
      */

@@ -15,7 +15,7 @@ namespace by {
      *  concept, this is not exposed publicly. Consequently, chunk memory is fixed at object
      *  creation. If additional memory is needed, create and operate more chunk objects.
      *
-     *  @section Block size
+     *  @section block_size Block size
      *  chunk receives blockSize and size at creation. blockSize is the minimum unit size
      *  one instance occupies in memory. size defines how many such instances can fit.
      *  For example, to create a chunk holding 100 int64 values:
@@ -23,12 +23,12 @@ namespace by {
      *      new chunk(sizeof(int64), 100)
      *  @endcode
      *
-     *  @section Real block size
+     *  @section real_block_size Real block size
      *  Actual memory allocation uses real block size instead of block size for optimization.
      *  Rather than allocating in small 1 or 2 byte units during CPU operations, it's more
      *  efficient to allocate minimum bytes appropriate for the CPU level, like 4 or 8 bytes.
      *
-     *  @section ArrayList implementation
+     *  @section arraylist_implementation ArrayList implementation
      *  chunk is implemented as an ArrayList. Size is fixed, but addition and deletion are
      *  free within size limits, with very fast random access.
      *

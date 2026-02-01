@@ -17,7 +17,7 @@ namespace by {
      *  std::shared_ptr, with @ref tweak handling weak pointers and @ref tstr handling
      *  strong pointers.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  Basic usage with bind(), isBind(), and get():
      *  @code
      *      class A : public instance {}; // Inherits instance, so bindable
@@ -54,7 +54,7 @@ namespace by {
      *      }
      *  @endcode
      *
-     *  @section Why not use shared_ptr?
+     *  @section why_not_shared_ptr Why not use shared_ptr?
      *  Several advantages over shared_ptr:
      *
      *  1. Reference counting block attached to instance itself
@@ -87,18 +87,18 @@ namespace by {
      *  binder is abstract, so cannot create objects. Only meaningful for generic logic
      *  using already created tstr or tweak binders.
      *
-     *  @section Custom memory pool
+     *  @section custom_memory_pool Custom memory pool
      *  Ultimate goal of memlite is lightweight C++ memory management for byeol managed
      *  environment. Requires GC and additional memory management, implying custom memory
      *  pool and instance lifecycle management. All instance allocation starts with
      *  @ref instancer.
      *
-     *  @section Performance improvements
+     *  @section performance_improvements Performance improvements
      *  shared_ptr's algorithm stores reference counting info on heap. Using faster custom
      *  memory pool instead of heap and optimizing binding speed provides performance gains.
      *  Binding is one of the hotspots consuming most performance in byeol.
      *
-     *  @section Additional information
+     *  @section additional_information Additional information
      *  shared_ptr creates objects on heap for reference counting. memlite uses @ref watcher
      *  to lend empty @ref life objects from pre-allocated memory, using them as reference
      *  counting space for instances. If GC features are added later, instances may require

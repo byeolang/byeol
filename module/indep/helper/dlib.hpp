@@ -37,7 +37,7 @@ namespace by {
      *  dlib is implemented using RAII idiom. When the instance is destroyed, function
      *  pointers returned externally become unusable.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  Example showing the complete process of loading a dynamic library and calling a function.
      *  Note that `rel()` explicitly releases resources. When an error occurs, the comma
      *  operator `(rel(), false)` is used to clean up the dlib object before returning:

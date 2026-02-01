@@ -18,7 +18,7 @@ namespace by {
      *  instead of the default type class. This allows modules depending on meta to inject
      *  additional type information. For example, the core module uses this to inject @ref ntype.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  Basic usage pattern:
      *  @code
      *      // Always create new ttype<T> objects

@@ -15,7 +15,7 @@ namespace by {
      *  Receives user-entered arguments to the CLI program as parameters and parses them to
      *  perform additional commands. See the `flags` folder for details.
      *
-     *  @section Core algorithm
+     *  @section core_algorithm Core algorithm
      *  When user calls eval() with flagArgs parameter, execution proceeds as follows:
      *  1. Create interpreter, @ref errReport, @ref starter objects
      *  2. Set flags on interpreter and starter (refers to @ref worker flags, different from

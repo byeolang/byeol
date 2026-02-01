@@ -18,7 +18,7 @@ namespace by {
      *  records the enable state of streams upon object creation, then restores each stream's
      *  enable status to its initial state when the enablesZone is destroyed.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  Typical usage pattern:
      *  @code
      *      // Assume all streams in logger are enabled

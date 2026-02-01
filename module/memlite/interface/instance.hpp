@@ -19,7 +19,7 @@ namespace by {
      *  Only by inheriting instance can objects be referenced through @ref binder as weak
      *  or strong pointers. Instances are identified through @ref id.
      *
-     *  @section ID assignment algorithm
+     *  @section id_assignment_algorithm ID assignment algorithm
      *  The weakest part of memlite is this id assignment algorithm. Instance creation is
      *  done by @ref instancer which manages the memory pool. The instancer pushes the
      *  instance address and id to a map in the internal vault class. When

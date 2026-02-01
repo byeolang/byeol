@@ -21,7 +21,7 @@ namespace by {
      *  situations immediately. However, traditional `if` statements make it difficult
      *  to distinguish between normal branching logic and early-return exception handling.
      *
-     *  @section Problem
+     *  @section problem Problem
      *  Consider this traditional early-return code:
      *  @code
      *      str me::eval(const args& a) {
@@ -47,7 +47,7 @@ namespace by {
      *  involve logging an error and returning an error value, WHEN supports chaining to
      *  express both operations in a single line.
      *
-     *  @section Solution
+     *  @section solution Solution
      *  The same code becomes much clearer with WHEN:
      *  @code
      *      str me::eval(const args& a) {

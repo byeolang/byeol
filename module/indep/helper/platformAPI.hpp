@@ -36,7 +36,7 @@ namespace by {
      *  POSIX systems use ANSI escape sequences, while Windows uses WINAPI. Using
      *  platformAPI::foreColor() allows writing platform-independent code.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  Example of platform-independent colored console output:
      *  @code
      *      cout << foreColor(LIGHTGRAY) << "("

@@ -27,7 +27,7 @@ namespace by {
      *  The functions `has()`, `get()`, `rel()`, and `set()` follow naming conventions used
      *  throughout the entire project.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  Example of using tmay for error handling:
      *  @code
      *      tmay<std::string> loadConfig(const std::string& path) {

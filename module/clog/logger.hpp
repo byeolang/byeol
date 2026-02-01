@@ -13,7 +13,7 @@ namespace by {
      *  through multiple logging destinations called @ref stream. Typically used through
      *  accompanying macros.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  Basic usage with macros:
      *  @code
      *      BY_I("slot[%s] origins loaded.", getName());
@@ -31,7 +31,7 @@ namespace by {
      *  4. Function (_loadLibs) and line number (49)
      *  5. Log message (slot[cpp] origins loaded)
      *
-     *  @section stream
+     *  @section stream_concept stream
      *  The core of the clog module is @ref stream. A stream represents the logging output
      *  destination. Currently @ref consoleStream and @ref fileLogStream exist. All streams
      *  are owned by the logger class from the start.
@@ -47,7 +47,7 @@ namespace by {
      *  redirects each API call to all owned streams. For example, `logger::get().setEnable(false)`
      *  disables all streams.
      *
-     *  @section macro
+     *  @section logging_macros macro
      *  Use logging macros for advanced features like filename, function name, and line numbers:
      *  @code
      *      BY_I("just message.");
@@ -57,7 +57,7 @@ namespace by {
      *  Macros follow byeol convention with `BY_` prefix, followed by log level (E/W/I).
      *  Add `D` prefix for debug-only logs (e.g., BY_DE, BY_DW, BY_DI).
      *
-     *  @section richLog
+     *  @section rich_log richLog
      *  The @ref richLog feature uses polymorphism to convert format specifier arguments to
      *  appropriate types:
      *  @code
@@ -70,7 +70,7 @@ namespace by {
      *  low-level module in the architecture, richLog is defined per-module to handle
      *  module-specific class conversions.
      *
-     *  @section filterable
+     *  @section filtering filterable
      *  Log messages can be filtered based on specific conditions. The @ref filterable
      *  interface's `filt()` function determines filtering. Add filters using
      *  `setFilters(const filters&)`. For example, @ref errPassFilter only passes ERR level

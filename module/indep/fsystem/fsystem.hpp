@@ -21,7 +21,7 @@ namespace by {
      *  Provides platform-independent API that works on both Windows and POSIX-compliant
      *  operating systems. Core functionality is provided through the iterator class.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  Basic usage example:
      *  @code
      *      auto e = fsystem::find("../your/path");

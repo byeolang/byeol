@@ -27,7 +27,7 @@ namespace by {
      *  after the last element (past-the-end). Therefore, when traversing in reverse,
      *  you must call next() first.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  Basic usage example:
      *  @code
      *      std::string src = "abcd🏁efg"; // In UTF-8, 🏁 is represented by 3 characters

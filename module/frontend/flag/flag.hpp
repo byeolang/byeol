@@ -18,11 +18,11 @@ namespace by {
      *  represent a flag like `--version`, but rather handles whether such flags exist and
      *  what actions to take.
      *
-     *  @section Flag descriptions
+     *  @section flag_descriptions Flag descriptions
      *  Each flag defines not only its name but also a description of its functionality.
      *  These are used by @ref helpFlag.
      *
-     *  @section Regex pattern matching
+     *  @section regex_pattern_matching Regex pattern matching
      *  Each flag class has a defined pattern to search for. For example, @ref verFlag
      *  searches for the `--version` string in program arguments. If found, it retrieves
      *  version info from @ref buildFeature and outputs it. This behavior works by calling
@@ -38,7 +38,7 @@ namespace by {
      *  @endcode
      *  Matches either `^\-S$` or `^\--show-structure$`.
      *
-     *  @section Consuming multiple flag arguments
+     *  @section consuming_multiple_flag_arguments Consuming multiple flag arguments
      *  Consider verFlag: when `--version` exists in arguments, it outputs version. After
      *  operating, it removes `--version` from @ref flagArgs to prevent verFlag from running
      *  again.
@@ -51,7 +51,7 @@ namespace by {
      *  not just the matched pattern but additional arguments. Each derived flag class can
      *  override `getArgCount()` to specify how many additional arguments to extract.
      *
-     *  @section Terminating flags
+     *  @section terminating_flags Terminating flags
      *  bufferSrcFlag needs preliminary work before program start. Conversely, verFlag
      *  immediately outputs version and terminates without interpretation once matched (as
      *  most programs do). To terminate immediately after matching, override `_onTake()` to

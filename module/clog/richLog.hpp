@@ -14,14 +14,14 @@ namespace by {
      *
      *  richLog consists of two main parts: __convert__ and wrap.
      *
-     *  @section __convert__
+     *  @section convert __convert__
      *  Defines how to convert each module's classes into types that are easy to log.
      *  Callers simply pass their concrete type to __convert__(), and the most appropriate
      *  __convert__ is called via overloading. This means you can define both generic
      *  __convert__() and type-specific __convert__() simultaneously. A notable example is
      *  __convert__(void*), which is called when no other T* matches.
      *
-     *  @section wrap
+     *  @section wrap wrap
      *  Wrap is needed to unpack values received from __convert__() so they can pass through
      *  variadic arguments. Variadic argument functions can only pass scalar types or T*,
      *  not values. Since some __convert__() functions create new values that need to be

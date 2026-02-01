@@ -15,7 +15,7 @@ namespace by {
      *  so they can be used directly if needed. They are also frequently used in
      *  #ifdef conditionals.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  @code
      *      if(buildFeature::config::isDbg())
      *          platformAPI::unlimitCoreDump();

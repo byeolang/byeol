@@ -13,13 +13,13 @@ namespace by {
      *  memory pool and can READ that memory. Defines interfaces for querying memory size
      *  and state.
      *
-     *  @section Indirect ownership?
+     *  @section indirect_ownership Indirect ownership?
      *  "Indirect ownership" means the object doesn't directly allocate and use memory, but
      *  internal member variables handle it. If memory allocation must be done through
      *  internal members, the class should only inherit memoryHaver. If allocation is also
      *  possible, inherit @ref allocator.
      *
-     *  @section len and size
+     *  @section len_and_size len and size
      *  Allocatable memory size is expressed as size, while allocated memory is expressed
      *  as len. Control is based solely on void* and byte units.
      *

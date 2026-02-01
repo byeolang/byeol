@@ -16,7 +16,7 @@ namespace by {
      *  `parse()` or `parseFromFile()`, and the parsed result is returned in @ref stela
      *  structure.
      *
-     *  @section Similar structure to byeol parser
+     *  @section similar_structure Similar structure to byeol parser
      *  Since the stela language itself is a specialized language of byeol, the parser is
      *  also based on the byeol language parser. Since it's a less complex language than
      *  byeol, it's recommended to examine this parser code before looking at the core module.
@@ -30,7 +30,7 @@ namespace by {
      *  functions starting with `on` are event handling functions that define how to create
      *  nodes and build the AST.
      *
-     *  @section Indentation rule
+     *  @section indentation_rule Indentation rule
      *  Like the byeol language, stela applies the offside rule, making it very sensitive to
      *  indentation. Unlike typical languages, it must count whitespace after newlines.
      *  Once indentation is confirmed and determines which scope the code line belongs to,

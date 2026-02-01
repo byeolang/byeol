@@ -13,7 +13,7 @@ namespace by {
      *  To solve this, when constructing meta information, any class without a parent class
      *  is assigned adam as its parent. This allows accessing all types through adam.
      *
-     *  @section Usage
+     *  @section usage Usage
      *  Example of iterating over all types:
      *  @code
      *      // Without adam, how would you get all types?
