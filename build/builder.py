@@ -355,7 +355,7 @@ def _publishDoc():
             printErr("WARNING: Push failed (likely conflict). Continuing as success.")
 
     else:
-        print("now, please push new commit.")
+        printErr("WARNING: couldn't get token.")
 
     os.chdir(cwd)
     _cleanIntermediates()
