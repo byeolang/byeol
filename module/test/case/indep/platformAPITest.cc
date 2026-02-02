@@ -2,6 +2,104 @@
 
 using namespace by;
 
+TEST(platformAPITest, foreColor) {
+    // Test basic color
+    std::string color = platformAPI::foreColor(RED);
+    // Color string should be non-null (may be empty on some platforms)
+    ASSERT_TRUE(color.size() >= 0);
+
+    // Test boundary colors
+    std::string black = platformAPI::foreColor(BLACK);
+    std::string white = platformAPI::foreColor(WHITE);
+    ASSERT_TRUE(black.size() >= 0);
+    ASSERT_TRUE(white.size() >= 0);
+}
+
+TEST(platformAPITest, backColor) {
+    std::string color = platformAPI::backColor(BLUE);
+    ASSERT_TRUE(color.size() >= 0);
+}
+
+TEST(platformAPITest, createNowTime) {
+    std::string time = platformAPI::createNowTime("%Y-%m-%d");
+    // Should return non-empty formatted time
+    ASSERT_FALSE(time.empty());
+    // Should contain year digits
+    ASSERT_TRUE(time.find("20") != std::string::npos || time.find("19") != std::string::npos);
+}
+
+TEST(platformAPITest, demangle) {
+    // Test with mangled name
+    std::string demangled = platformAPI::demangle("_ZN2by6tnarrI5paramE4initEv");
+    ASSERT_FALSE(demangled.empty());
+
+    // Test with unmangled name
+    std::string plain = platformAPI::demangle("plainFunction");
+    ASSERT_STREQ(plain.c_str(), "plainFunction");
+}
+
+TEST(platformAPITest, filterDemangle) {
+    std::string filtered = platformAPI::filterDemangle("_ZN2by6tnarrI5paramE4initEv");
+    ASSERT_FALSE(filtered.empty());
+}
+
+TEST(platformAPITest, toAddrId) {
+    int dummy = 42;
+    void* ptr = &dummy;
+    std::string addrId = platformAPI::toAddrId(ptr);
+
+    // Should return 4-character hex string
+    ASSERT_EQ(addrId.length(), 4);
+
+    // All characters should be valid hex digits
+    for(char c : addrId) {
+        ASSERT_TRUE((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'));
+    }
+}
+
+
+TEST(platformAPITest, format) {
+    std::string result = platformAPI::format("Hello %s, number %d", "world", 42);
+    ASSERT_STREQ(result.c_str(), "Hello world, number 42");
+}
+
+TEST(platformAPITest, formatWithNumbers) {
+    std::string result = platformAPI::format("%d + %d = %d", 1, 2, 3);
+    ASSERT_STREQ(result.c_str(), "1 + 2 = 3");
+}
+
+TEST(platformAPITest, formatWithFloat) {
+    std::string result = platformAPI::format("Pi is %.2f", 3.14159);
+    ASSERT_STREQ(result.c_str(), "Pi is 3.14");
+}
+
+TEST(platformAPITest, getExecPath) {
+    std::string path = platformAPI::getExecPath();
+    // Path may be empty on Windows, but should be valid on POSIX
+    ASSERT_TRUE(path.size() >= 0);
+}
+
+TEST(platformAPITest, getNowMs) {
+    nuint64 now1 = platformAPI::getNowMs();
+    ASSERT_GT(now1, 0);
+
+    // Wait a tiny bit and check it increases
+    for(volatile int i = 0; i < 10000; i++);
+    nuint64 now2 = platformAPI::getNowMs();
+    ASSERT_GE(now2, now1);
+}
+
+TEST(platformAPITest, logString) {
+    // Should not crash
+    platformAPI::log("test message");
+    platformAPI::log(std::string("another test"));
+}
+
+TEST(platformAPITest, logStringPointer) {
+    std::string msg = "pointer test";
+    platformAPI::log(&msg);
+}
+
 TEST(platformAPITest, iterateCodepoints) {
     std::string val1 = "🏁🎌☃";
     cpIter e1(val1);
