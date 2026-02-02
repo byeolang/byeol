@@ -402,7 +402,7 @@ BY_I("slot[%s] origins loaded.", getName());
 위 코드는 다음과 같이 출력됩니다.
 
 ```
-@style language-txt verified
+@style: language-txt verified
 Oct 22 2025  21:26:13 I cppPackLo <_loadLibs#49> slot[cpp] origins loaded.
 ```
 
@@ -428,7 +428,7 @@ Oct 22 2025  21:26:13 I cppPackLo <_loadLibs#49> slot[cpp] origins loaded.
 각 stream은 byeol의 핵심 클래스들과 마찬가지로 다음과 같은 상태 전이 도식을 갖습니다:
 
 ```
-@style language-txt verified
+@style: language-txt verified
 RELEASED ---init()---> INITIALIZED
 RELEASED <--rel()----- INITIALIZED
 ```
@@ -464,7 +464,7 @@ Byeol 매크로 컨벤션에 따라 매크로는 항상 `BY_` prefix로 시작�
 매크로 안쪽에는 로깅할 메시지가 들어갑니다. 위와 같이 로깅할 경우 다음과 같이 출력됩니다.
 
 ```
-@style language-txt verified
+@style: language-txt verified
 Oct 22 2025  21:26:13 I cppPackLo <_loadLibs#49> just message.
 ```
 
@@ -480,7 +480,7 @@ BY_DE("leaf: ERR: %s", e);
 가능합니다. 결과는 다음과 같이 출력됩니다.
 
 ```
-@style language-txt verified
+@style: language-txt verified
 Oct 22 2025  21:26:13 E leafPars <_finalize#263> leaf: ERR: src is empty
 ```
 
@@ -495,7 +495,7 @@ Oct 22 2025  21:26:13 E leafPars <_finalize#263> leaf: ERR: src is empty
 스타일입니다. 예를 들면 다음과 같이 로깅 됩니다.
 
 ```
-@style language-txt verified
+@style: language-txt verified
 Nov 18 2025  20:02:13 I verifier  <onLeave#87> '' assignExpr@9a50: step#1 --> set evalType
 ```
 
@@ -523,7 +523,7 @@ BY_I("make a closure for %s.%s", meObj, cast.getSrc().getName());
 결과는 다음과 같이 나올 수 있습니다.
 
 ```
-@style language-txt verified
+@style: language-txt verified
 Oct 22 2025 22:01:12 I closure <_make#73> make a closure for obj.foo
 ```
 
@@ -1044,7 +1044,7 @@ shared_ptr은 heap에 reference counting 정보를 보관하는 객체를 생성
 계층부터 이해하는 것이 전체 구조를 파악하는데 도움이 됩니다.
 
 ```
-@style language-txt verified
+@style: language-txt verified
 instancer (관리자)
 ├── pool (저수준 할당자)
 │      └── chunks (블록 관리자)
@@ -1549,7 +1549,7 @@ stela 언어는 byeol 언어와 마찬가지로 <b>offside rule</b>을 적용하
 다음 byeol 언어의 예제를 보고, 이 문제에 대해 더 생각해봅시다:
 
 ```
-@lang: byeol
+@style: language-byeol verified
 def A
     foo(val int) void
         if val > 0
@@ -1572,7 +1572,7 @@ lowscanner는 lowparser가 `print("end of func")`를 인식하기 전에 scope�
 예를들어 다음의 stela 코드를 파싱한다고 합시다:
 
 ```
-@lang: byeol
+@style: language-byeol verified
 def config
     def device
       name := "my device"
@@ -1705,7 +1705,7 @@ byeol은 표현식 기반 문법을 가지고 있기 때문에 `for`나 `if` 문
 위의 3가지가 한번에 적용되기 시작하면 예외사항이 나오기 마련이죠.
 
 ```
-@lang: byeol
+@style: language-byeol verified
 onEvent(e event) void
 foo(listener onEvent, e event) void
     e.process()
@@ -2044,7 +2044,7 @@ class getSeqFunc: public baseFunc {
 byeol 코드에서는 다음과 같이 사용할 수 있게 됩니다:
 
 ```
-@lang: byeol
+@style: language-byeol verified
 # nStr의 이름은 byeol 환경에서는 `str`로 변경해서 내보냈다.
 foo(got str) void
     got.len()  # 5 반환. 내부적으로 nStr::len()이 호출된다
@@ -2162,7 +2162,7 @@ new1->cast<origin>();  // nullptr 반환! 위험함
 사용자가 byeol 코드로 다음과 같이 작성했다고 가정합시다:
 
 ```
-@lang: byeol
+@style: language-byeol verified
 def MyObj
     foo() void
         print("hello")
@@ -2266,7 +2266,7 @@ C++ 클래스는 컴파일 타임에 정의되므로 origin 객체를 static으�
 반면, 사용자가 byeol 코드로 다음과 같이 작성했다고 해보겠습니다:
 
 ```
-@lang: byeol
+@style: language-byeol verified
 def MyObj
     foo() void
         "void
@@ -2623,7 +2623,7 @@ genericOrigin은 내부적으로 map을 사용해서 타입 파라메터별로 �
 다음은 generic 타입이 어떻게 관리되는지 보여주는 AST 덤프 예시입니다:
 
 ```
-@style language-txt verified
+@style: language-txt verified
 SomeGeneric<T @incomplete>@21d0 
    ┣━[myObj] SomeGeneric<T myObj>@3970    // myObj로 구체화된 origin
    ┃  ┣━[0] @9068 boo() int
@@ -2722,7 +2722,7 @@ res->cast<int>(); // 25
 위 코드가 pack으로 배포되면, byeol 코드에서는 다음과 같이 사용할 수 있습니다:
 
 ```
-@lang: byeol
+@style: language-byeol verified
 win := window()
 win.setY(20)
 
@@ -2794,7 +2794,7 @@ Byeol의 코드 실행은 @ref by::scope"scop", @ref by::frame"fram", @ref by::f
 **Scope 분류 예시**
 
 ```
-@lang: byeol
+@style: language-byeol verified
 VERSION := "1.0"  # file scope - pack 선언 전
 
 pack myPack
@@ -2841,7 +2841,7 @@ str me::_interactFrame(node& meObj, scope& s, nidx exN) {
 <b>File scope와 pack scope</b>는 밀접한 관계가 있습니다:
 
 ```
-@lang: byeol
+@style: language-byeol verified
 IS_DBG := false  # file scope
 
 ####### 여기서부터 pack scope #######
@@ -2879,7 +2879,7 @@ IS_DBG는 file scope과 pack scope에 각각 1개씩 정의됩니다. 중요한 
 앞서 본 Calculator 예시에서 `calc.add(5)` 호출 시 생성되는 frame은 다음과 같은 순서로 scope가 적층됩니다:
 
 ```
-@style language-txt verified
+@style: language-txt verified
 frame (calc.add(5) 실행 중)
 ├─ [1] local scope (add 함수 내부 local 변수: temp 등)
 ├─ [2] func scope (add 함수 자체의 scope)
@@ -2920,7 +2920,7 @@ for(auto& elem : frame.subs()) {
 다음 byeol 코드를 봅시다:
 
 ```
-@style language-txt verified
+@style: language-txt verified
 IS_DBG := false
 name := "kniz"
 
@@ -2943,7 +2943,7 @@ main() void
 `main()` 안에서 `yourObj.foo()`를 호출하면 frame은 다음과 같이 구성됩니다:
 
 ```
-@style language-txt verified
+@style: language-txt verified
    frame        scope        symbol
             ┌─────┬────────┐
         ▲  │  local   │msg("age=3")    │
@@ -3042,7 +3042,7 @@ byeol 언어는 pack을 **lazy하게 동적으로** 불러옵니다. @ref by::au
 총 4개의 상태를 가지며 다음과 같은 흐름으로 로딩 파이프라인을 갖습니다:
 
 ```
-@style language-txt verified
+@style: language-txt verified
 ┌────────┐
 │Make an instance│
 └───┬────┘
@@ -3305,7 +3305,7 @@ byeol 파서의 `smartDedent`와 `tokenScan`은 @ref by::stela "stela"모듈의 
 어떠한 byeol 코드는 타입 추론시 순서를 요구합니다:
 
 ```
-@lang: byeol
+@style: language-byeol verified
 def myObj
     msg := "I'm $name and $age yo."
     name := "little man #$age"
@@ -3646,14 +3646,14 @@ me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) c
 그러면 다음으로 `bufferSrcFlag`를 봅시다. 다음과 같이 사용합니다:
 
 ```
-@style language-txt verified
+@style: language-txt verified
 $ byeol --script "main() void: print("wow!)"
 ```
 
 이 명령은 파일 없이 byeol 코드를 직접 실행합니다. 위 한 줄 코드를 풀어쓰면:
 
 ```
-@lang: byeol
+@style: language-byeol verified
 main() void
     print("wow!")
 ```
