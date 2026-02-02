@@ -14,7 +14,7 @@ byeol 언어의 문법에 대해 이해하고 있다는 전제로 시작하기 �
 ## 아키텍처 개요
 
 Byeol 프로젝트는 엄격한 계층형 아키텍처를 따릅니다. 각 계층은 하위 계층에만 의존할 수 있으며,
-`indep` 모듈 위로는 플랫폼 독립성이 유지됩니다.
+@ref indep 모듈 위로는 플랫폼 독립성이 유지됩니다.
 
 ### 계층 구조
 
@@ -37,20 +37,20 @@ Byeol 프로젝트는 엄격한 계층형 아키텍처를 따릅니다. 각 계�
 └───────────────────┘
 ```
 
-각 모듈은 하위 계층의 모듈에만 접근할 수 있습니다. 예를 들어, `core`는 `stela`, `memlite`, `meta`,
-`clog`, `indep`에 의존하지만, `frontend`나 다른 상위 모듈에는 의존하지 않습니다.
+각 모듈은 하위 계층의 모듈에만 접근할 수 있습니다. 예를 들어, @ref core 는 @ref stela, @ref memlite, @ref meta,
+@ref clog, @ref indep 에 의존하지만, @ref frontend 나 다른 상위 모듈에는 의존하지 않습니다.
 
 이러한 아키텍처는 플랫폼 독립성, 테스트 용이성, 명확한 의존성 관리를 제공합니다. 플랫폼 종속 코드는
-`indep` 모듈에만 격리되어 있어, 다른 모듈들은 플랫폼에 관계없이 동일한 방식으로 동작합니다.
+@ref indep 모듈에만 격리되어 있어, 다른 모듈들은 플랫폼에 관계없이 동일한 방식으로 동작합니다.
 
 
 ## indep 모듈 - 플랫폼 추상화 계층
 
-`indep` 모듈은 Byeol 프로젝트의 최하위 계층으로, 플랫폼 종속적인 기능을 추상화합니다. 이 모듈의
+@ref indep 모듈은 Byeol 프로젝트의 최하위 계층으로, 플랫폼 종속적인 기능을 추상화합니다. 이 모듈의
 핵심 목표는 Windows, POSIX 계열 운영체제 등 다양한 플랫폼에서 동일한 API를 제공하는 것입니다.
 
-Byeol의 아키텍처 규칙에 따라, 플랫폼 종속적인 코드(`#ifdef` 조건부 컴파일 등)는 반드시 `indep`
-모듈에만 존재해야 합니다. `indep`보다 상위의 모듈에서는 OS에 대한 조건부 컴파일이나 플랫폼별 분기를
+Byeol의 아키텍처 규칙에 따라, 플랫폼 종속적인 코드(`#ifdef` 조건부 컴파일 등)는 반드시 @ref indep
+모듈에만 존재해야 합니다. @ref indep 보다 상위의 모듈에서는 OS에 대한 조건부 컴파일이나 플랫폼별 분기를
 사용하지 않습니다.
 
 
@@ -87,7 +87,7 @@ str me::eval(const args& a) {
 }
 ```
 
-WHEN 매크로는 이 부분을 해결하는 것으로 WHEN은 early-return 패턴 시에만 사용됩니다. 또한 90%
+@ref by::WHEN "WHEN" 매크로는 이 부분을 해결하는 것으로 @ref by::WHEN "WHEN"은 early-return 패턴 시에만 사용됩니다. 또한 90%
 이상의 early-return은 에러 발견시 로그를 찍고 에러 값을 내보내는 것 뿐이라는 것에 착안해서 그 2가지
 과정을 한 줄에 표현할 수 있도록 chaining을 지원합니다.
 
@@ -107,7 +107,7 @@ str me::eval(const args& a) {
 
 **WHEN 매크로의 동작 원리**
 
-WHEN 매크로는 조건이 참일 때 체이닝 가능한 헬퍼 객체를 반환합니다. 이 객체는 다음 메서드들을
+@ref by::WHEN "WHEN" 매크로는 조건이 참일 때 체이닝 가능한 헬퍼 객체를 반환합니다. 이 객체는 다음 메서드들을
 제공합니다:
 - `.err(fmt, ...)`: 에러 로그를 출력하고 자기 자신을 반환 (체이닝 가능)
 - `.ret(value)`: 주어진 값을 반환하며 함수를 종료
@@ -115,18 +115,18 @@ WHEN 매크로는 조건이 참일 때 체이닝 가능한 헬퍼 객체를 반�
 따라서 `WHEN(condition).err("msg").ret(value)`는 condition이 참일 때만 에러를 로깅하고
 value를 반환합니다. 조건이 거짓이면 아무 동작도 하지 않고 다음 코드로 진행됩니다.
 
-WHEN 매크로는 프로젝트 내에서 아주 빈번하게 사용되므로 잘 파악해 두는 게 좋습니다.
+@ref by::WHEN "WHEN" 매크로는 프로젝트 내에서 아주 빈번하게 사용되므로 잘 파악해 두는 게 좋습니다.
 
 
 #### tmay 클래스
 
-`tmay` 클래스는 값으로 반환하는 함수에 대해 속도가 느린 exception을 사용하지 않고도 에러임을
+@ref by::tmay "tmay" 클래스는 값으로 반환하는 함수에 대해 속도가 느린 exception을 사용하지 않고도 에러임을
 알려주는 클래스입니다. `std::optional<T>`과 거의 동일합니다. API look을 프로젝트 컨벤션에 맞춘
 것에 가깝습니다.
 
-정상동작일 경우 tmay의 생성자로 값을 T&로 넘기면 됩니다.
-에러상황일 경우 기본 생성자 `tmay<T>()`를 사용하면 됩니다. 내부적으로 `tmedium` 클래스를 사용하여
-값의 유무를 추적합니다. tmedium은 값을 저장하는 중간 계층으로, T&와 nullptr 모두를 받을 수 있는
+정상동작일 경우 @ref by::tmay "tmay"의 생성자로 값을 T&로 넘기면 됩니다.
+에러상황일 경우 기본 생성자 `tmay<T>()`를 사용하면 됩니다. 내부적으로 @ref by::tmedium "tmedium" 클래스를 사용하여
+값의 유무를 추적합니다. @ref by::tmedium "tmedium"은 값을 저장하는 중간 계층으로, T&와 nullptr 모두를 받을 수 있는
 유연한 인터페이스를 제공합니다.
 
 `has()` 나 `get()`, `rel()`, `set()` 함수를 제공하는데, 이는 프로젝트 전반적으로 많이 사용되는
@@ -134,7 +134,7 @@ WHEN 매크로는 프로젝트 내에서 아주 빈번하게 사용되므로 잘
 
 **사용 예시**
 
-tmay는 에러를 반환할 수 있는 함수의 반환 타입으로 사용됩니다:
+@ref by::tmay "tmay"는 에러를 반환할 수 있는 함수의 반환 타입으로 사용됩니다:
 
 ```
 @style: language-cpp verified
@@ -156,13 +156,13 @@ if (result.has()) {
 
 #### tres 클래스
 
-`tres` 클래스는 tmay와 동일하나, 에러일 경우, 원하는 에러 타입을 갖도록 정의할 수 있습니다.
+@ref by::tres "tres" 클래스는 @ref by::tmay "tmay"와 동일하나, 에러일 경우, 원하는 에러 타입을 갖도록 정의할 수 있습니다.
 예를들어 tmay<A>는 에러인지 아닌지만 알 수 있지만, tres<A, std::string>으로 정의하면 에러일 경우,
 어떤 에러인지 메시지도 알 수 있도록 만들 수 있습니다.
 
 **사용 예시**
 
-tres는 tmay와 달리 에러 정보도 함께 반환할 수 있습니다:
+@ref by::tres "tres" 는 @ref by::tmay "tmay"와 달리 에러 정보도 함께 반환할 수 있습니다:
 
 ```
 @style: language-cpp verified
@@ -192,11 +192,11 @@ if (result.has()) {
 
 #### platformAPI 클래스
 
-`platformAPI` 클래스는 단발성으로 호출되는, 플랫폼 종속적인 API들을 독립적으로 제공하는 일종의
+@ref by::platformAPI "platformAPI" 클래스는 단발성으로 호출되는, 플랫폼 종속적인 API들을 독립적으로 제공하는 일종의
 완충작용을 합니다.
 
 예를들면 텍스트 출력시 색깔을 입히려면 posix 계열 플랫폼에서는 ANSI escape sequence를 사용하지만
-윈도우에서는 WINAPI를 사용해야 합니다. 이때 `platformAPI::foreColor()`를 사용하면,
+윈도우에서는 WINAPI를 사용해야 합니다. 이때 @ref by::platformAPI::foreColor() "foreColor()" 를 사용하면,
 
 ```
 @style: language-cpp verified
@@ -209,7 +209,7 @@ cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(right
 
 #### buildFeature 클래스
 
-`buildFeature` 클래스는 CMake에 의해서 자동으로 생성되는 buildInformation.hpp 에 정의된 정보를
+@ref by::buildFeature "buildFeature" 클래스는 CMake에 의해서 자동으로 생성되는 buildInformation.hpp 에 정의된 정보를
 반환하는 클래스입니다. 절대 수동으로 값을 변경해서는 안됩니다.
 
 빌드 일시, 버전, 빌드한 OS, 바이너리 타입에 대한 정보를 갖습니다. buildInformation.hpp에 값의
@@ -230,16 +230,16 @@ if(buildFeature::config::isDbg())
 #endif
 ```
 
-앞서 언급했듯 Byeol의 아키텍처는 플랫폼 종속적인 코드는 반드시 `indep` 모듈에 속해야 합니다. 따라서
-indep 보다 상위의 모듈에서 함부로 OS에 대한 #ifdef의 조건부 컴파일이나
-buildFeature::platform::getName()을 사용해서 코드를 branch 하는 건 권장하지 않습니다.
+앞서 언급했듯 Byeol의 아키텍처는 플랫폼 종속적인 코드는 반드시 @ref indep 모듈에 속해야 합니다. 따라서
+@ref indep 보다 상위의 모듈에서 함부로 OS에 대한 #ifdef의 조건부 컴파일이나
+@ref by::buildFeature::platform::getName() "getName()" 을 사용해서 코드를 branch 하는 건 권장하지 않습니다.
 
 
 ### 파일 시스템
 
 #### fsystem 클래스
 
-`fsystem` 클래스는 지정한 폴더에서 파일을 재귀적으로 탐색하는 간단한 클래스입니다. 윈도우와 posix
+@ref by::fsystem "fsystem" 클래스는 지정한 폴더에서 파일을 재귀적으로 탐색하는 간단한 클래스입니다. 윈도우와 posix
 계열 운영체제에서 모두 사용가능한 플랫폼 독립적인 API를 제공합니다. 핵심 API는 iterator 클래스를
 통해 이뤄집니다.
 
@@ -262,14 +262,14 @@ while(e.next()) { // 모든 파일을 탐색하면 false를 반환한다.
 
 #### cpIter 클래스
 
-`cpIter` 클래스는 문자열에 대해서 codepoint 기반의 iteration을 담당합니다. 주로 `nStr`에서 UTF8
+@ref by::cpIter "cpIter" 클래스는 문자열에 대해서 codepoint 기반의 iteration을 담당합니다. 주로 @ref by::nStr "nStr"에서 UTF8
 unicode와 같은 multibyte 문자열을 순회할 때 사용합니다.
 
 일반적인 iterator 답게, 전위 증가 및 후위증가연산자, 역참조 연산자, bool 형변환 연산자 등을
-지원합니다. cpIter를 생성할때 순회할 문자열과 함께 기본 iteration의 방향을 지정할 수 있습니다.
+지원합니다. @ref by::cpIter "cpIter"를 생성할때 순회할 문자열과 함께 기본 iteration의 방향을 지정할 수 있습니다.
 
-cpIter 생성시 입력한 방향은 iter 자체의 기본 방향과 초기 위치를 정의한 것입니다. reverse = true로
-argument로 주면 cpIter는 문자열 끝에서 역방향으로 출발합니다. 그러나 이때 stepBackward()나
+@ref by::cpIter "cpIter" 생성시 입력한 방향은 iter 자체의 기본 방향과 초기 위치를 정의한 것입니다. reverse = true로
+argument로 주면 @ref by::cpIter "cpIter"는 문자열 끝에서 역방향으로 출발합니다. 그러나 이때 stepBackward()나
 stepForward()를 명시적으로 호출하면, 이 기본 방향과 관계없이 해당 방향으로 전진합니다.
 
 STL과 마찬가지로 begin은 첫번째 원소를 가리키지만, end는 마지막 원소의 다음 위치를 가리킵니다.
@@ -317,17 +317,17 @@ for(int n = 0; n < 8; n++) {
 
 #### dlib 클래스
 
-`dlib` 클래스는 dynamic loading for library의 약자입니다. 플랫폼 독립적인 동적 로딩을 담당합니다.
+@ref by::dlib "dlib" 클래스는 dynamic loading for library의 약자입니다. 플랫폼 독립적인 동적 로딩을 담당합니다.
 라이브러리의 메모리 적재, 원하는 함수을 찾아 함수포인터로 변환할 수 있습니다.
 
 다음과 같이 사용합니다:
-1. dlib 객체를 생성한다.
+1. @ref by::dlib "dlib" 객체를 생성한다.
 2. 로딩할 라이브러리의 위치를 지정한다.
 3. 함수명을 통해 원하는 함수를 찾아 함수포인터로 받는다.
 
-`tmay`를 사용하므로 tmay를 사전에 익혀두는 걸 권장합니다.
+@ref by::tmay "tmay"를 사용하므로 @ref by::tmay "tmay"를 사전에 익혀두는 걸 권장합니다.
 
-dlib은 RAII idiom으로 구현되어 있습니다. 해당 인스턴스가 소멸될때 외부로 반환된 함수포인터는 사용할
+@ref by::dlib "dlib"은 RAII idiom으로 구현되어 있습니다. 해당 인스턴스가 소멸될때 외부로 반환된 함수포인터는 사용할
 수 없게 됩니다.
 
 **사용예제**
@@ -359,7 +359,7 @@ WHEN(!info.has()) // tmay의 has()로 결과 체크 중
 
 #### end 클래스
 
-`end` 클래스는 코드 실행을 지연시킵니다. 다른 언어에서 `defer`와 같은 키워드와 같은 역할입니다.
+@ref by::end "end" 클래스는 코드 실행을 지연시킵니다. 다른 언어에서 `defer`와 같은 키워드와 같은 역할입니다.
 
 **사용 예시**
 
@@ -381,7 +381,7 @@ void processFile(const std::string& path) {
 
 ## clog 모듈 - 로깅 시스템
 
-`clog` 모듈은 여러 출력 스트림과 필터링 기능을 갖춘 경량화된 C++ 로깅 프레임워크를 제공합니다.
+@ref by::clog "clog" 모듈은 여러 출력 스트림과 필터링 기능을 갖춘 경량화된 C++ 로깅 프레임워크를 제공합니다.
 이 모듈은 아키텍처 상 하위 계층에 위치하므로, 상위 모듈에 대한 의존성이 없습니다.
 
 
@@ -389,7 +389,7 @@ void processFile(const std::string& path) {
 
 #### logger 클래스
 
-`logger` 클래스는 `stream`이라고 불리는 복수의 로깅 경로를 통해 체계적으로 로깅이 가능한 경량화된
+@ref by::logger "logger" 클래스는 @ref by::stream "stream" 이라고 불리는 복수의 로깅 경로를 통해 체계적으로 로깅이 가능한 경량화된
 C++ 로깅 프레임워크의 일종의 facade입니다.
 
 일반적으로는 동봉되는 매크로를 통해, 다음과 같이 사용합니다.
@@ -421,9 +421,9 @@ Oct 22 2025  21:26:13 I cppPackLo <_loadLibs#49> slot[cpp] origins loaded.
 
 #### stream 클래스
 
-clog 모듈의 핵심은 `stream`입니다. stream은 쉽게 말해 로깅이 출력되는 스트림, 즉 목적지를
-표현합니다. 현재는 `consoleStream`과 `fileLogStream` 2가지가 존재합니다. 모든 stream은 기본적으로
-logger 클래스가 처음부터 소유하고 있습니다.
+@ref by::clog "clog" 모듈의 핵심은 @ref by::stream "stream"입니다. @ref by::stream "stream"은 쉽게 말해 로깅이 출력되는 스트림, 즉 목적지를
+표현합니다. 현재는 @ref by::consoleStream "consoleStream" 과 @ref by::fileLogStream "fileLogStream" 2가지가 존재합니다. 모든 @ref by::stream "stream" 은 기본적으로
+@ref by::logger "logger" 클래스가 처음부터 소유하고 있습니다.
 
 각 stream은 byeol의 핵심 클래스들과 마찬가지로 다음과 같은 상태 전이 도식을 갖습니다:
 
@@ -440,12 +440,12 @@ INITIALIZED 상태로 진입합니다. 단, 특정 stream 인스턴스를 명시
 stream은 또한 enable 여부를 관리합니다. setEnable(false)를 통해 특정 stream을 disable 시키면 해당
 stream은 동작하지 않습니다.
 
-또하나 중요한 점은 logger 클래스 자체도 stream에서 상속하기 때문에 stream과 동일한 API를 제공한다는
-점입니다. logger는 각 API에 대해 소유한 모든 stream들에 대해 redirection 하는 구성으로 구현되어
-있습니다. 예를들어 `logger::get().setEnable(false)`를 하게 되면, 모든 stream이 disable 됩니다.
+또하나 중요한 점은 @ref by::logger "logger" 클래스 자체도 @ref by::stream "stream" 에서 상속하기 때문에 @ref by::stream "stream" 과 동일한 API를 제공한다는
+점입니다. @ref by::logger "logger"는 각 API에 대해 소유한 모든 @ref by::stream "stream" 들에 대해 redirection 하는 구성으로 구현되어
+있습니다. 예를들어 `logger::get().setEnable(false)`를 하게 되면, 모든 @ref by::stream "stream" 이 disable 됩니다.
 
-stream은 logBypass(const nchar*) 라는 함수를 제공하는데, 이것은 어떠한 가공도 없이 문자열을 그대로
-지정한 stream으로 로그 메시지를 보냅니다.
+@ref by::stream "stream" 은 logBypass(const nchar*) 라는 함수를 제공하는데, 이것은 어떠한 가공도 없이 문자열을 그대로
+지정한 @ref by::stream "stream" 으로 로그 메시지를 보냅니다.
 
 
 ### 로깅 매크로 시스템
@@ -490,7 +490,7 @@ Oct 22 2025  21:26:13 E leafPars <_finalize#263> leaf: ERR: src is empty
 
 #### 간략화된 주소값
 
-richLog로 void*를 넘기게 되면 `indep` 모듈에 있는 `platformAPI`를 사용해서 `toAddr()`를 호출합니다.
+@ref by::richLog "richLog" 로 void*를 넘기게 되면 @ref indep 모듈에 있는 @ref by::platformAPI "platformAPI" 를 사용해서 `toAddr()`를 호출합니다.
 이 함수는 void*를 마지막 4 hex값을 문자열로 변환하는 함수이며, 프로젝트 내에서 주로 `@` 뒤에 적는
 스타일입니다. 예를 들면 다음과 같이 로깅 됩니다.
 
@@ -506,11 +506,11 @@ Nov 18 2025  20:02:13 I verifier  <onLeave#87> '' assignExpr@9a50: step#1 --> se
 
 ### richLog - 다형성 로깅
 
-`richLog`는 서식문자에 입력된 argument를 다형성을 활용해서 적절한 타입으로 변환해서 로깅하는
+@ref by::richLog "richLog" 는 서식문자에 입력된 argument를 다형성을 활용해서 적절한 타입으로 변환해서 로깅하는
 기능입니다.
 
-clog 모듈은 architecture 상 아랫부분에 위치하기 때문에 clog에 종속하는 클래스가 뭐가 있는지 알아서는
-안됩니다. 그렇기 때문에 richLog는 각 모듈마다 정의되어 있으며, 해당 모듈에 포함된 클래스를 어떻게
+@ref clog 모듈은 architecture 상 아랫부분에 위치하기 때문에 @ref clog 에 종속하는 클래스가 뭐가 있는지 알아서는
+안됩니다. 그렇기 때문에 @ref by::richLog "richLog" 는 각 모듈마다 정의되어 있으며, 해당 모듈에 포함된 클래스를 어떻게
 문자열로 변환할지를 정의해두고 있습니다.
 
 이를 사용하면 다음과 같은 코드가 가능해집니다.
@@ -531,9 +531,9 @@ meObj은 tstr<obj>라는 타입이고, getName()은 std::string을 반환하지�
 변환해서 로깅이 됩니다. 단 주의할 점은, `%d` 인지 `%s`를 써야 하는지 타입마다 다를 수 있다는
 점입니다. (하지만 대부분 scalar type을 제외하고는 %s를 사용합니다.)
 
-richLog는 크게 __convert__ 부분과 wrap 2부분으로 나뉘어져 있습니다.
+@ref by::richLog "richLog" 는 크게 __convert__ 부분과 wrap 2 부분으로 나뉘어져 있습니다.
 
-#### __convert__()
+#### convert()
 
 각 모듈에 속한 클래스를 어떻게 로깅하기 쉬운 타입으로 변경할지를 정의합니다. 호출자는
 __convert__()에 자신이 받은 구체타입을 넣을 뿐이며, 오버로딩에 의해서 가장 적절한 타입에 대한
@@ -550,13 +550,13 @@ wrap이 필요한 이유는 richLog() 안쪽에서 __convert__()를 호출하고
 
 가변인자 함수는 scalar type이나 T*만 넘길 수 있기 때문에 값으로는 넘길 수 없습니다. 일부
 __convert__()는 안에서 새로운 값을 만들어 값으로 넘겨야 하는 상황도 있을 수 있기 때문에
-logger::log()가 가변인자로 구성되어 있는 한은 wrap이 꼭 필요합니다.
+@ref by::logger::log() "log()" 가 가변인자로 구성되어 있는 한은 @ref by::wrap "wrap"이 꼭 필요합니다.
 
 __convert__() 함수들은 크게 `strWrap` 혹은 `noWrap<T>` 2가지 중 하나를 반환형으로 정의하는데
 noWrap은 아무런 가공없이 받은 걸 그대로 반환하지만 strWrap은 std::string::c_str()를 내부적으로
 호출합니다.
 
-기본적으로는 strWrap을 사용하면 되지만, richLog 호출 시 format string에 `%d`, `%f` 등 사용자가
+기본적으로는 @ref by::strWrap "strWrap"을 사용하면 되지만, richLog 사용 시 format string에 `%d`, `%f` 등 사용자가
 직접 타입을 명시하는 서식문자를 사용하고 싶을 때는 noWrap을 사용합니다. 예를 들어:
 
 ```
@@ -571,7 +571,7 @@ noWrap<int> __convert__(int val) { return noWrap<int>(val); }
 #### richLog 확장 예제
 
 각 모듈은 자신의 타입을 로깅할 수 있도록 `__convert__()` 함수를 추가로 정의합니다.
-예를 들어 meta 모듈에서는 다음과 같이 정의합니다:
+예를 들어 @ref meta 모듈에서는 다음과 같이 정의합니다:
 
 ```
 @style: language-cpp verified
@@ -601,14 +601,14 @@ BY_I("type is %s", t);  // __convert__(const type&)가 호출되어 적절히 �
 
 #### enablesZone 클래스
 
-`logger` 클래스는 여러개의 `stream`을 가지고 있고 특정 stream을 disable 혹은 enable 함으로써
+@ref by::logger "logger" 클래스는 여러개의 @ref by::stream "stream"을 가지고 있고 특정 @ref by::stream "stream" 을 disable 혹은 enable 함으로써
 출력되는 경로를 제어할 수 있습니다.
 
-여기서 문제는 특정 코드 블록 혹은 함수에서만 stream을 제어 한 후, 블록을 벗어날 때는 원래 상태로
+여기서 문제는 특정 코드 블록 혹은 함수에서만 @ref by::stream "stream"을 제어 한 후, 블록을 벗어날 때는 원래 상태로
 되돌리고자 하는 경우가 매우 자주 일어납니다.
 
-`enablesZone`은 이럴때 사용하는 것으로, RAII idiom으로 구현되어 있어서, 객체 생성과 동시에 stream의
-enable 상태를 기록했다가 enablesZone이 소멸될때 각 stream의 enable 여부를 초기상태로 되돌립니다.
+@ref by::enablesZone "enablesZone" 은 이럴때 사용하는 것으로, RAII idiom으로 구현되어 있어서, 객체 생성과 동시에 @ref by::stream "stream"의
+ enable 상태를 기록했다가 @ref by::enablesZone "enablesZone" 이 소멸될때 각 @ref by::stream "stream" 의 enable 여부를 초기상태로 되돌립니다.
 
 보통은 다음과 같이 사용합니다.
 
@@ -636,15 +636,15 @@ BY_E("this message will definitely be log on entire stream");
 
 #### filterable 클래스
 
-`filterable` 클래스는 `logger` 클래스가 특정한 조건에 해당하는 logging은 필터링 할 수 있게 해줍니다.
-`filt()` 함수를 제공하며, parameter로 주어진 Log 정보에 대해 true를 반환할 경우 해당 Log는 `stream`
+@ref by::filterable "filterable"클래스는 @ref by::logger "logger"클래스가 특정한 조건에 해당하는 logging은 필터링 할 수 있게 해줍니다.
+`filt()` 함수를 제공하며, parameter로 주어진 Log 정보에 대해 true를 반환할 경우 해당 Log는 @ref by::stream "stream"
 에 올려지지 않습니다.
 
-각 stream에 전달될 로그 메시지를, 특정한 조건으로 필터링 할 수 있게 해줍니다. `filterable`은
-`filt()` 함수를 통해, 메시지의 적합성을 판단해 필터링할 것인지를 결정합니다. logger 클래스의
-`setFilters(const filters&)`를 통해서 filterable을 추가할 수 있습니다.
+각 @ref by::stream "stream"에 전달될 로그 메시지를, 특정한 조건으로 필터링 할 수 있게 해줍니다. @ref by::filterable "filterable"은
+`filt()` 함수를 통해, 메시지의 적합성을 판단해 필터링할 것인지를 결정합니다. @ref by::logger "logger" 클래스의
+`setFilters(const filters&)`를 통해서 @ref by::filterable "filterable"을 추가할 수 있습니다.
 
-예를들어 `errPassFilter`는 `errLv`이 ERR일때만 통과시키는 필터입니다. 다음과 같이 사용할 수
+예를들어 @ref by::errPassFilter "errPassFilter"는 `errLv`이 ERR일때만 통과시키는 필터입니다. 다음과 같이 사용할 수
 있습니다.
 
 ```
@@ -660,18 +660,18 @@ logger::get().setFilters(prevFilters);
 
 #### filters 클래스
 
-`filters` 클래스는 `logger` 클래스에서 등록된 `filterable` 클래스들을 관리합니다. filterable과
-동일한 API를 가지며, 해당 API를 호출하면 소유한 모든 filterable에 해당 API를 호출합니다.
+@ref by::filters "filters"클래스는 @ref by::logger "logger"클래스에서 등록된 @ref by::filterable "filterable"클래스들을 관리합니다. @ref by::filterable "filterable"과
+동일한 API를 가지며, 해당 API를 호출하면 소유한 모든 @ref by::filterable "filterable"에 해당 API를 호출합니다.
 
 #### errPassFilter 클래스
 
-말그대로 err만 통과시키는 `filterable` 클래스입니다. 이 filter를 `logger`에 등록하면 warning이나
-info는 출력되지 않습니다. 직접 사용하지 않으며, 객체 생성하여 logger에 add 하는 용도로 사용합니다.
+말그대로 err만 통과시키는 @ref by::filterable "filterable"클래스입니다. 이 filter를 @ref by::logger "logger"에 등록하면 warning이나
+info는 출력되지 않습니다. 직접 사용하지 않으며, 객체 생성하여 @ref by::logger "logger"에 add 하는 용도로 사용합니다.
 
 
 ## meta 모듈 - 런타임 타입 시스템
 
-`meta` 모듈은 런타임 타입 정보(RTTI)와 리플렉션 기능을 제공합니다. C++의 기본 RTTI보다 더 강력하고
+@ref meta 모듈은 런타임 타입 정보(RTTI)와 리플렉션 기능을 제공합니다. C++의 기본 RTTI보다 더 강력하고
 효율적인 타입 시스템을 구현하고 있으며, Byeol 언어의 타입 시스템 기반이 됩니다.
 
 
@@ -693,16 +693,16 @@ info는 출력되지 않습니다. 직접 사용하지 않으며, 객체 생성�
 
 #### ttype<T> 클래스
 
-`ttype<T>` 클래스는 사용자가 메타 정보를 다루고자할때 진입점이 되는 클래스입니다. ttype<T>를
+@ref by::ttype "ttype"클래스는 사용자가 메타 정보를 다루고자할때 진입점이 되는 클래스입니다. @ref by::ttype "ttype"를
 사용할때는 매번 객체를 생성해서 사용해야 합니다. 전체적으로 monostate 패턴으로 설계 되어있어서 매번
 객체를 만들어 사용하더라도 값은 공유하기 때문에 추가비용은 들지 않습니다.
 
-meta 모듈의 전체적인 설계에 대해 파악하고자 한다면 핵심이 되는 `type`을 먼저 살펴보세요.
+@ref meta 모듈의 전체적인 설계에 대해 파악하고자 한다면 핵심이 되는 @ref by::type "type"을 먼저 살펴보세요.
 
 
 ### type 클래스의 기능
 
-`type` 클래스는 meta 모듈의 핵심이 되는 클래스입니다. type에 대한 다음의 기본적인 API를 제공합니다.
+@ref by::type "type"클래스는 @ref meta 모듈의 핵심이 되는 클래스입니다. @ref by::type "type"에 대한 다음의 기본적인 API를 제공합니다.
 
 #### 기본 타입 식별
 
@@ -766,15 +766,15 @@ isSuper와 반대로 동작합니다.
 
 #### 메타 정보가 어떻게 생성되나
 
-`isTemplate()` 이나 `isAbstract()`, `getName()` 같은 타입정보는 `ttypeBase<T>`에서
-메타프로그래밍을 통해 채워줍니다. 따라서 type::init()이 존재하는 이유는 클래스 계층을 구성하기
+`isTemplate()` 이나 `isAbstract()`, `getName()` 같은 타입정보는 @ref by::ttypeBase "ttypeBase"에서
+메타프로그래밍을 통해 채워줍니다. 따라서 @ref by::type::init() "init()"이 존재하는 이유는 클래스 계층을 구성하기
 위해서입니다.
 
 그리고 그 계층을 구성하는 핵심은 **모든 클래스는 typedef로 super를 정의해야 한다**라는 제약사항으로
-해결합니다. 모든 클래스에 `super`가 존재한다면, ttype<super>().init()도 호출할 수 있기 때문에
+해결합니다. 모든 클래스에 `super`가 존재한다면, @ref by::ttype::init() "init()"도 호출할 수 있기 때문에
 다음과 같은 간단한 코드로 클래스 계층을 재귀적으로 구성할 수 있게 됩니다.
 
-**참고**: 부모 클래스가 없는 최상위 클래스는 `typedef adam super;`로 정의하여 adam에 연결됩니다.
+**참고**: 부모 클래스가 없는 최상위 클래스는 `typedef adam super;`로 정의하여 @ref by::adam "adam"에 연결됩니다.
 이를 통해 모든 타입이 단일 계층 구조를 이루게 됩니다.
 
 ```
@@ -787,7 +787,7 @@ nbool me::init() {
     // 위 코드로 인해, 여기는 딱 1번만 실행된다.
     type& super = (type&) getSuper(); // getSuper()는 ttype<typename T::super>::get() 를 반환한다.
     super.init(); // 재귀적으로 부모의 타입을 계속 호출하는 과정이 반복된다.
-                  // 최종적으로는 adam 클래스까지 올라가게 되며, adam은 부모가 없기 때문에 취소된다.
+                  // 최종적으로는 adam 클래스까지 올라가게 되며, adam 은 부모가 없기 때문에 취소된다.
 
     types& mySupers = getSupers();
     mySupers = super.getSupers();
@@ -805,25 +805,25 @@ nbool me::init() {
 클래스들에 대한 타입 객체를 일일이 사용자가 생성하고 각각을 명시적으로 `init()`을 호출하는 것은
 굉장히 비효율적이라는 점입니다.
 
-이걸 해결하고자 `BY_INIT_META` 매크로를 사용합니다. BY_INIT_META는 `BY_INITIATOR` 매크로를
+이걸 해결하고자 BY_INIT_META 매크로를 사용합니다. BY_INIT_META 는 BY_INITIATOR 매크로를
 응용하는데, 이 매크로는 static 객체에 람다함수를 끼워넣음으로써 원하는 동작을 main() 함수가 시작되기
 전에 실행하는 매크로입니다.
 
 이 매크로를 응용하면 init() 함수를 main() 함수가 호출되기 직전에 실행하는 게 가능해집니다. 한가지
-제약사항으로는 각 클래스 선언시에 BY_INIT_META(MyClass)를 추가해야 한다는 점입니다.
+제약사항으로는 각 클래스 선언시에 BY_INIT_META (MyClass)를 추가해야 한다는 점입니다.
 
 **주의**: static 초기화 순서를 사용하므로, 여러 translation unit 간의 초기화 순서는 보장되지
 않습니다. 다만, 각 type의 `init()`은 재귀적으로 부모를 먼저 초기화하는 구조이므로, 타입 계층 구조
 내에서는 부모에서 자식으로 가는 초기화 순서가 보장됩니다.
 
-이러한 메타 DSL 형태의 매크로들은 BY 매크로에 의해서 실행되도록 컨벤션이 정해져있습니다. 그리고 core
-모듈에서도 추가로 정의해야할 메타 DSL 매크로가 있기 때문에 직접 BY_INIT_META를 호출하기 보다는
+이러한 메타 DSL 형태의 매크로들은 BY 매크로에 의해서 실행되도록 컨벤션이 정해져있습니다. 그리고 @ref core
+모듈에서도 추가로 정의해야할 메타 DSL 매크로가 있기 때문에 직접 BY_INIT_META 를 호출하기 보다는
 `BY(CLASS())` 나 `BY(ADT())`를 통해서 한번에 정의합니다.
 
 
 ### adam - 최상위 타입
 
-`adam` 클래스는 모든 타입 계층의 루트입니다. `type`의 클래스 계층구조 상 아무런 부모도 없는
+@ref by::adam "adam"클래스는 모든 타입 계층의 루트입니다. @ref by::type "type"의 클래스 계층구조 상 아무런 부모도 없는
 메타타입은 범용적으로 다루기가 어렵습니다.
 
 예를들어 모든 메타타입에 대해서 동작하는 함수를 작성하고자 한다면, 다음과 같은 코드를 작성할 수
@@ -847,7 +847,7 @@ vector<type> how_to_get_all_meta_types() {
 }
 ```
 
-이를 해결하고자 메타 정보를 구성할때 어떠한 부모클래스도 없는 클래스라면 부모를 adam으로 정의합니다.
+이를 해결하고자 메타 정보를 구성할때 어떠한 부모클래스도 없는 클래스라면 부모를 @ref by::adam "adam"으로 정의합니다.
 이제 다음과 같이 작성할 수 있게 됩니다.
 
 ```
@@ -859,15 +859,15 @@ for(const auto& t : ttype<adam>().getSubs())
 
 ### 메타 타입 확장하기
 
-type은 기본적으로도 비교적 많은 타입 정보를 제공하지만, byeol 처럼 언어를 다루는 경우에는 parameter나
+@ref by::type "type"은 기본적으로도 비교적 많은 타입 정보를 제공하지만, byeol 처럼 언어를 다루는 경우에는 parameter나
 return type과 같이 추가적인 정보를 담고 싶은 경우가 있습니다.
 
-이때 쉽게 생각하면 "type을 상속받은 클래스를 만들면 되는거 아닌가?"라는 아이디어를 떠올리기 쉽지만
+이때 쉽게 생각하면 @ref by::type "type"을 상속받은 클래스를 만들면 되는거 아닌가라는 아이디어를 떠올리기 쉽지만
 `ttype<T>`에서 언급한 것처럼, 항상 사용자의 최종 진입점은 `ttype<T>`에 접근하면서 시작되어야
-합니다. 문제는 ttype<T>의 코드를 meta 모듈을 종속하는 쪽에서 수정할 수는 없기 때문에 상속으로는
+합니다. 문제는 @ref by::ttype "ttype"의 코드를 @ref meta 모듈을 종속하는 쪽에서 수정할 수는 없기 때문에 상속으로는
 불가능하고 메타 타입을 주입하는 형태로 문제를 해결합니다.
 
-핵심 코드는 `ttypeBase<T>`에 있습니다.
+핵심 코드는 @ref by::ttypeBase "ttypeBase"에 있습니다.
 
 ```
 @style: language-cpp verified
@@ -886,21 +886,21 @@ struct tmetaTypeDef<T, true> {
 };
 ```
 
-tmetaTypeDef는 T에 typedef metaType이 있을 경우에는 해당타입을 반환하고, 없으면 type을 반환합니다.
-ttype은 ttypeBase를 상속하며, ttypeBase는 바로 tmetaTypeDef<T>::is를 상속합니다.
+tmetaTypeDef는 T에 typedef metaType이 있을 경우에는 해당타입을 반환하고, 없으면 @ref by::type "type"을 반환합니다.
+@ref by::ttype "ttype"은 @ref by::ttypeBase "ttypeBase"를 상속하며, @ref by::ttypeBase "ttypeBase"는 바로 tmetaTypeDef<T>::is를 상속합니다.
 
 이걸 통해서 만약 class T에 대해 ttype<T>를 호출하는 순간, class T의 개발자가 `typedef metaType
 MyType;` 처럼 새로운 MyType 클래스를 선언하여 추가하면 해당 ttype<T>()로 객체를 만들었을때 MyType을
 기반으로 해서 만들어지게 됩니다.
 
-실제로 이 기능은 core 모듈에서 ntype을 주입하기 위해 사용합니다. 자세한 내용은 ntype을 참조하세요.
+실제로 이 기능은 @ref core 모듈에서 @ref by::ntype "ntype"을 주입하기 위해 사용합니다. 자세한 내용은 @ref by::ntype "ntype"을 참조하세요.
 
 
 ## memlite 모듈 - 커스텀 메모리 관리
 
-`memlite` 모듈은 참조 카운팅을 갖춘 커스텀 메모리 풀 시스템을 제공하여 자동 메모리 관리를 유지합니다.
+@ref memlite 모듈은 참조 카운팅을 갖춘 커스텀 메모리 풀 시스템을 제공하여 자동 메모리 관리를 유지합니다.
 
-memlite의 궁극적인 목적은, byeol managed 환경을 실행할 수 있는 경량화된 C++ 메모리 관리에 있습니다.
+@ref memlite 의 궁극적인 목적은, byeol managed 환경을 실행할 수 있는 경량화된 C++ 메모리 관리에 있습니다.
 따라서 GC 등 추가적인 메모리 관리가 필요로 해지며, 이는 자체 메모리 풀을 가지고 있으며, 인스턴스의
 라이프사이클을 관리해야 한다는 것을 시사합니다.
 
@@ -909,9 +909,9 @@ memlite의 궁극적인 목적은, byeol managed 환경을 실행할 수 있는 
 
 #### binder 클래스
 
-`binder` 클래스는 일반화된 바인딩 클래스로 `instance` 클래스를 상속한 클래스로부터 생성된 모든 객체를
+@ref by::binder "binder"클래스는 일반화된 바인딩 클래스로 @ref instance 클래스를 상속한 클래스로부터 생성된 모든 객체를
 바인딩할 수 있습니다. reference counting으로 적절한 시점에 객체를 소멸시키며, 표준 라이브러리에 잘
-정의된 std::weak_ptr과 같은 기능을 `tweak`가, std::shared_ptr은 `tstr`이 각 담당합니다.
+정의된 std::weak_ptr과 같은 기능을 @ref by::tweak "tweak"가, std::shared_ptr은 @ref by::tstr "tstr"이 각 담당합니다.
 
 shared_ptr를 이미 잘 알고 있다면 아래와 같이 사용할 수 있다는 걸 쉽게 이해할 수 있을 것입니다.
 
@@ -981,15 +981,15 @@ shared_ptr<Foo> foo2(raw); // foo1과 foo2 각각 control block 이 생성되므
 
 그리고 이 문제는 바로 프로그램이 종료하지 않기 때문에 디버깅이 아주 어렵습니다.
 
-byeol에서는 reference counting을 위한 클래스를 `life`라고 하며, 이는 `watcher`에 의해 인스턴스마다
-별도로 제공됩니다. watcher는 내부에 `life` 객체들을 배열로 미리 대량 할당해둔 풀(pool)을 관리합니다.
-새로운 인스턴스가 바인딩될 때 사용 가능한 life를 할당하고, 인스턴스가 소멸되면 해당 life를
+byeol에서는 reference counting을 위한 클래스를 @ref by::life "life"라고 하며, 이는 @ref by::watcher "watcher"에 의해 인스턴스마다
+별도로 제공됩니다. @ref by::watcher "watcher"는 내부에 @ref by::life "life"객체들을 배열로 미리 대량 할당해둔 풀(pool)을 관리합니다.
+새로운 인스턴스가 바인딩될 때 사용 가능한 @ref by::life "life"를 할당하고, 인스턴스가 소멸되면 해당 @ref by::life "life"를
 사용 가능(available) 상태로 표시하여 나중에 재사용합니다. 동일한 인스턴스에 대해서는 항상 같은
-life가 할당되므로 이중 해제 문제가 발생하지 않습니다.
+@ref by::life "life"가 할당되므로 이중 해제 문제가 발생하지 않습니다.
 
 #### ADT 제공
 
-tstr과 tweak는 같은 binder 기반클래스를 갖기 때문에 binder타입으로 범용적인 로직을 구현할 수 있습니다.
+@ref by::tstr "tstr"과 @ref by::tweak "tweak"는 같은 @ref by::binder "binder"기반클래스를 갖기 때문에 @ref by::binder "binder"타입으로 범용적인 로직을 구현할 수 있습니다.
 
 ```
 @style: language-cpp verified
@@ -1001,22 +1001,22 @@ void me::rel(binder& me) { // me가 tstr인지 tweak인지 상관없다.
 }
 ```
 
-binder는 abstract 하므로 객체 생성이 불가능합니다. tstr이나 tweak로 이미 생성된 바인더들을 범용적인
+@ref by::binder "binder"는 abstract 하므로 객체 생성이 불가능합니다. @ref by::tstr "tstr"이나 @ref by::tweak "tweak"로 이미 생성된 바인더들을 범용적인
 로직을 작성할때만 의의를 갖습니다.
 
 #### 동적 타입 체킹
 
-binder는 ADT이며 클래스 템플릿 조차 아닙니다. 따라서 binder::bind() 함수는 parameter가 instance
+@ref by::binder "binder"는 ADT이며 클래스 템플릿 조차 아닙니다. 따라서 binder::bind() 함수는 parameter가 @ref by::instance "instance"
 타입으로 되어있습니다. 이 말은 tstr<A>라고 할지라도 bind(new B()); 컴파일 에러가 발생하지 않는다는
 걸 의미합니다.
 
-bind() 안쪽에서 meta 모듈을 사용하여 동적으로 타입을 검사해서 올바른 경우만 인스턴스가 바인딩 됩니다.
+bind() 안쪽에서 @ref meta 모듈을 사용하여 동적으로 타입을 검사해서 올바른 경우만 인스턴스가 바인딩 됩니다.
 타입이 일치하지 않을 경우, bind()는 `false`를 반환하고 바인딩을 수행하지 않습니다. 따라서 타입
 안정성이 필요한 경우 bind()의 반환값을 확인해야 합니다.
 
 #### 자체 메모리 풀 사용
 
-인스턴스 할당시 모든 작업은 `instancer`를 시작으로 이뤄집니다. 자체 메모리 풀을 사용함으로써 heap보다
+인스턴스 할당시 모든 작업은 @ref by::instancer "instancer"를 시작으로 이뤄집니다. 자체 메모리 풀을 사용함으로써 heap보다
 빠른 할당/해제가 가능합니다.
 
 #### 속도 개선
@@ -1029,9 +1029,9 @@ shared_ptr의 알고리즘은 같은 shared_ptr 끼리 공유되는 reference co
 
 #### 추가 정보 제공
 
-shared_ptr은 heap에 reference counting 정보를 보관하는 객체를 생성하고 이를 공유합니다. 반면 memlite
-모듈은 `watcher` 클래스를 통해서 이미 메모리는 할당된, 빈 `life` 하나를 내어주고, 그곳을 해당
-instance의 reference counting 공간으로 활용합니다.
+shared_ptr은 heap에 reference counting 정보를 보관하는 객체를 생성하고 이를 공유합니다. 반면 @ref memlite
+모듈은 @ref by::watcher "watcher"클래스를 통해서 이미 메모리는 할당된, 빈 @ref by::life "life"하나를 내어주고, 그곳을 해당
+@ref by::instance "instance"의 reference counting 공간으로 활용합니다.
 
 만약 이후, GC와 같은 기능이 추가되면 인스턴스마다 추가적으로 생명주기와 관련된 정보를 필요로 할 여지가
 있습니다. shared_ptr와 달리 각 인스턴스의 생명주기 정보 또한 자체적으로 관리하고 있기 때문에 그런
@@ -1040,7 +1040,7 @@ instance의 reference counting 공간으로 활용합니다.
 
 ### 메모리 풀 아키텍처
 
-memlite의 메모리 관리는 여러 계층으로 구성되어 있습니다. 각 계층은 특정한 역할을 담당하며, 하위
+@ref memlite 의 메모리 관리는 여러 계층으로 구성되어 있습니다. 각 계층은 특정한 역할을 담당하며, 하위
 계층부터 이해하는 것이 전체 구조를 파악하는데 도움이 됩니다.
 
 ```
@@ -1055,23 +1055,23 @@ instancer (관리자)
 
 #### chunk - 최소 할당 단위
 
-`chunk` 클래스는 memlite에서 메모리를 실제로 할당 가능한 최소 단위 클래스입니다. 모든 메모리 관리는
-chunk들을 엮어서 수행합니다.
+@ref by::chunk "chunk"클래스는 @ref memlite 에서 메모리를 실제로 할당 가능한 최소 단위 클래스입니다. 모든 메모리 관리는
+@ref by::chunk "chunk"들을 엮어서 수행합니다.
 
-chunk는 메모리가 flexible하게 늘어나도록 하는 _resize() 함수가 있지만, memlite의 컨셉상 이를 public으로
-공개하지 않습니다. 결과적으로 chunk의 메모리는 객체 생성시 고정되며, 추가 메모리가 필요하다면 chunk
+@ref by::chunk "chunk"는 메모리가 flexible하게 늘어나도록 하는 _resize() 함수가 있지만, @ref memlite 의 컨셉상 이를 public으로
+공개하지 않습니다. 결과적으로 @ref by::chunk "chunk"의 메모리는 객체 생성시 고정되며, 추가 메모리가 필요하다면 @ref by::chunk "chunk"
 객체를 더 생성해서 운영해야 합니다.
 
 **Block size**
 
-chunk는 생성시 block size와 size 2개를 입력받습니다. blockSize는 메모리에 인스턴스 하나가 차지하게 될
+@ref chunk 는 생성시 block size와 size 2개를 입력받습니다. blockSize는 메모리에 인스턴스 하나가 차지하게 될
 최소 단위 크기입니다. 반면 size는 그러한 인스턴스가 몇개 까지 들어갈 지를 정합니다.
 
 예를들어 만약 int64만 100개 담는 chunk를 만든다고 한다면, 다음과 같이 됩니다.
 
 ```
 @style: language-cpp verified
-// int64 크기(8바이트)의 블록 100개를 담는 chunk 생성
+// int64 크기(8바이트"바이")의 블록 100개를 담는 chunk 생성
 chunk myChunk(sizeof(int64), 100);
 
 // 메모리 할당
@@ -1101,7 +1101,7 @@ myChunk.size();  // 전체 블록 수 (100)
 
 **ArrayList 구현**
 
-chunk는 배열 기반 리스트(ArrayList)로 직접 구현되어 있습니다. 크기가 고정되어 있지만 크기 내에서는
+@ref by::chunk "chunk"는 배열 기반 리스트(ArrayList)로 직접 구현되어 있습니다. 크기가 고정되어 있지만 크기 내에서는
 List처럼 추가 삭제가 자유로우며 임의접근 속도는 Array처럼 빠릅니다.
 
 알고리즘은 다음과 같습니다:
@@ -1111,7 +1111,7 @@ List처럼 추가 삭제가 자유로우며 임의접근 속도는 Array처럼 �
 
 2. 각 원소들은 모두 동일한 byte 크기를 갖습니다.
 
-3. chunk는 각 블록을 기본적으로는 void*로 취급하지만 값이 없을 경우에는 int타입으로 취급합니다.
+3. @ref by::chunk "chunk"는 각 블록을 기본적으로는 void*로 취급하지만 값이 없을 경우에는 int타입으로 취급합니다.
    이 int타입은 다음에 참조해야할 빈 인덱스를 가리킵니다.
 
 4. 배열을 초기화시 사용자로부터 size를 받아 n번째 원소에 n+1를 표현하는 정수값을 넣어둡니다.
@@ -1141,12 +1141,12 @@ List처럼 추가 삭제가 자유로우며 임의접근 속도는 Array처럼 �
 
 #### chunks - 다중 chunk 관리
 
-`chunks` 객체는 여러개의 `chunk`의 인스턴스 관리를 담당합니다. chunk는 생성시 고정된 크기만 메모리를
-활용하기 때문에 chunks가 여러개의 chunk를 추가/삭제 함으로써 유동적으로 메모리를 관리합니다.
+@ref by::chunks "chunks"객체는 여러개의 @ref by::chunk "chunk"의 인스턴스 관리를 담당합니다. @ref by::chunk "chunk"는 생성시 고정된 크기만 메모리를
+활용하기 때문에 @ref by::chunks "chunks"가 여러개의 @ref by::chunk "chunk"를 추가/삭제 함으로써 유동적으로 메모리를 관리합니다.
 
 **chunks 역시 고정된 메모리만 제공한다**
 
-chunks는 chunk들을 추가하거나 삭제하므로, chunk가 각 셀마다 고정된 크기만을 사용하기 때문에 chunks 또한
+@ref by::chunks "chunks"는 @ref by::chunk "chunk"들을 추가하거나 삭제하므로, @ref by::chunk "chunk"가 각 셀마다 고정된 크기만을 사용하기 때문에 @ref by::chunks "chunks"또한
 고정된 크기의 메모리만 할당할 수 있습니다.
 만약 length를 넘게되면 `resize()` 를 자동 수행합니다.
 
@@ -1170,18 +1170,18 @@ myChunks.del(ptr2, 16);
 
 **pool과의 연계**
 
-최초 메모리 요청을 받는 곳은 `pool` 클래스입니다. 해당 객체에서 할당해야할 memory size를 받으면, 해당
-memory size를 처리할 수 있는 chunks 인스턴스를 lazy로 가져와, new1()를 요청하게 됩니다.
-chunks::new1()에서는 메모리 할당이 가능한 chunk를 찾고, 없을 경우는 추가로 chunk를 생성합니다.
+최초 메모리 요청을 받는 곳은 @ref by::pool "pool"클래스입니다. 해당 객체에서 할당해야할 memory size를 받으면, 해당
+memory size를 처리할 수 있는 @ref by::chunks "chunks"인스턴스를 lazy로 가져와, new1()를 요청하게 됩니다.
+@ref by::chunks::new1() "new1()"에서는 메모리 할당이 가능한 @ref by::chunk "chunk"를 찾고, 없을 경우는 추가로 @ref by::chunk "chunk"를 생성합니다.
 
 **가용 chunk 검색 알고리즘**
 
-가장 최근에 메모리를 할당한 chunk가 추가로 할당 할 가능성이 가장 높습니다. 멤버변수 `_s`는 바로 최근에
-할당한 chunk의 인덱스를 가지고 있습니다.
+가장 최근에 메모리를 할당한 @ref by::chunk "chunk"가 추가로 할당 할 가능성이 가장 높습니다. 멤버변수 `_s`는 바로 최근에
+할당한 @ref by::chunk "chunk"의 인덱스를 가지고 있습니다.
 
 만약 _chunks[_s]에 가용 메모리가 없을 경우 _s를 ++ 합니다. 이후 마치 원형배열처럼, _chunks의 끝은
 처음과 이어져 있다고 보면 됩니다. 그래서 다시 _s가 순회직전의 _s로 값이 같아질 때까지도 가용 메모리가
-없다면, chunks 전체에 가용 메모리가 없는 상태이므로 resize()에 들어갑니다.
+없다면, @ref by::chunks "chunks"전체에 가용 메모리가 없는 상태이므로 resize()에 들어갑니다.
 
 **vector를 쓰면 안된다**
 
@@ -1190,18 +1190,18 @@ chunks::new1()에서는 메모리 할당이 가능한 chunk를 찾고, 없을 �
 
 #### pool - 크기별 메모리 관리
 
-`pool` 클래스는 외부로부터 메모리 할당 요청시 가장 최초로 처리하는 클래스입니다. 내부적으로 `chunks`에
-대한 배열을 가지고 있으며, chunks는 `chunk`를 가지고 있으므로, 사실상 로우레벨의 메모리 관련 클래스를
+@ref by::pool "pool"클래스는 외부로부터 메모리 할당 요청시 가장 최초로 처리하는 클래스입니다. 내부적으로 @ref by::chunks "chunks"에
+대한 배열을 가지고 있으며, @ref by::chunks "chunks"는 @ref by::chunk "chunk"를 가지고 있으므로, 사실상 로우레벨의 메모리 관련 클래스를
 모두 관리하는 셈입니다.
 
 **pool은 할당 가능한 size 별로 lazy하게 chunks를 가진다**
 
 자체 메모리 풀을 만들때 중요한 포인트는, 같은 사이즈의 메모리를 한 곳에 나열함으로써 속도를 높이는
-것입니다. chunks는 블록이라는 개념이 있어서 각 블록은 미리 지정된 크기의 메모리만 할당/해제 될 수
+것입니다. @ref by::chunks "chunks"는 블록이라는 개념이 있어서 각 블록은 미리 지정된 크기의 메모리만 할당/해제 될 수
 있습니다.
 
-pool은 chunks를 만들때 블록의 크기를 고정해서 생성하며, 외부에 의해서 특정 사이즈의 메모리 할당을
-요청받으면, 해당 크기의 블록을 담당하는 chunks를 찾습니다. 없을 경우 lazy 하게 생성합니다.
+@ref by::pool "pool"은 @ref by::chunks "chunks"를 만들때 블록의 크기를 고정해서 생성하며, 외부에 의해서 특정 사이즈의 메모리 할당을
+요청받으면, 해당 크기의 블록을 담당하는 @ref by::chunks "chunks"를 찾습니다. 없을 경우 lazy 하게 생성합니다.
 
 ```
 @style: language-cpp verified
@@ -1239,10 +1239,10 @@ void* ptr4 = sameChunks->new1();      // 빠른 재할당
 
 #### instancer - 메모리 관리 조정자
 
-`instancer` 클래스는 low level로 메모리를 관리하는 `pool` 클래스와, `instance`들의 라이프사이클을
-관리하는 `watcher`를 가지고 있습니다.
+@ref by::instancer "instancer"클래스는 low level로 메모리를 관리하는 @ref by::pool "pool"클래스와, @ref by::instance "instance"들의 라이프사이클을
+관리하는 @ref by::watcher "watcher"를 가지고 있습니다.
 
-이 둘을 잘 제어해서 인스턴스의 생명 관리(할당/소멸)를 하는 것이 목적입니다. 사실상 memlite에서 핵심
+이 둘을 잘 제어해서 인스턴스의 생명 관리(할당/소멸)를 하는 것이 목적입니다. 사실상 @ref memlite 에서 핵심
 작업을 수행하기 위해 각 제어클래스들에게 작업을 분배하거나 명령을 내리는 진입점을 담당합니다.
 
 ```
@@ -1279,15 +1279,15 @@ ptr.rel();  // 또는 ptr이 스코프를 벗어남
 
 #### instance 클래스
 
-`instance` 클래스는 memlite 모듈의 자체 memory pool에 의해서 관리되는 객체의 기반 클래스입니다.
-instance class를 상속해야만 `binder`를 통해 weak pointer나 strong pointer로 참조 할 수 있습니다.
-instance의 식별은 `id`를 통해서 이뤄집니다.
+@ref by::instance "instance"클래스는 @ref memlite 모듈의 자체 memory pool에 의해서 관리되는 객체의 기반 클래스입니다.
+@ref by::instance "instance"클래스를 상속해야만 @ref by::binder "binder를 통해 weak pointer나 strong pointer로 참조 할 수 있습니다.
+@ref by::instance "instance"의 식별은 `id`를 통해서 이뤄집니다.
 
 **id 부여 알고리즘**
 
-memlite에서 가장 취약한 부분을 고르라면 바로 이 id 부여 알고리즘입니다. 인스턴스 생성은 memory pool을
-관리하는 `instancer`에 의해서 이뤄집니다. 이때 instancer는 `vault`라고 하는 instance 내부의 클래스에
-instance 주소와 id를 map에 push 합니다. instance::operator new()가 불리면 안쪽에서는 vault에게
+@ref memlite 에서 가장 취약한 부분을 고르라면 바로 이 id 부여 알고리즘입니다. 인스턴스 생성은 memory pool을
+관리하는 @ref by::instancer "instancer"에 의해서 이뤄집니다. 이때 @ref by::instancer "instancer"는 `vault`라고 하는 @ref by::instance "instance"내부의 클래스에
+@ref by::instance "instance"주소와 id를 map에 push 합니다. instance::operator new()가 불리면 안쪽에서는 vault에게
 `map[this]`와 같은 코드로 id값을 가져오는 방식입니다.
 
 얼핏 괜찮아 보이지만 단점이 많습니다:
@@ -1305,110 +1305,110 @@ byeol에서 가장 빈번히 하는 작업은 객체를 생성하면서 id를 �
 
 #### id 클래스
 
-`id` 클래스는 64bit integer로 되어있는 `instance` 식별자입니다. tagN은 `life`를 식별하며, chkN은
-몇번째 `chunk`인지를 나타내며 serial은 객체 검증에 사용됩니다.
+@ref by::id "id"클래스는 64bit integer로 되어있는 @ref by::instance "instance"식별자입니다. tagN은 @ref by::life "life"를 식별하며, chkN은
+몇번째 @ref by::chunk "chunk"인지를 나타내며 serial은 객체 검증에 사용됩니다.
 
 **serial은 프로세스 실행 도중 instance 객체의 생성횟수다**
 
-`pool`과 chunk를 먼저 봤다면 알겠지만, 자체 메모리 풀을 사용하기 때문에 메모리가 해제 될때는 소멸자만
+@ref by::pool "pool"과 @ref by::chunk "chunk"를 먼저 봤다면 알겠지만, 자체 메모리 풀을 사용하기 때문에 메모리가 해제 될때는 소멸자만
 호출할 뿐, 모든 메모리를 초기화 하지 않습니다.
 
 그러니 이전에 할당해서 사용후 소멸된 데이터가 그대로 남아있으며, 심지어 이 데이터에 접근도 가능합니다.
-(이미 사용한 데이터에 접근시 exception이나 UB가 된다면 weak pointer나 strong pointer를 구현한 `binder`를
+(이미 사용한 데이터에 접근시 exception이나 UB가 된다면 weak pointer나 strong pointer를 구현한 @ref by::binder "binder"를
 구현할 수 없었을 것입니다)
 
-binder에서는 이렇게 해서 가져온 데이터가 정말로 유효한 데이터인지 구분하기 위해서 serial을 추가로
+@ref by::binder "binder"에서는 이렇게 해서 가져온 데이터가 정말로 유효한 데이터인지 구분하기 위해서 serial을 추가로
 비교합니다.
 
 **tagN은 life 객체에 접근할때 사용한다**
 
-`watcher`는 자신의 배열에서 tagN 번째 `life` 객체를 가져올때 이 값을 사용합니다.
+@ref by::watcher "watcher"는 자신의 배열에서 tagN 번째 @ref by::life "life"객체를 가져올때 이 값을 사용합니다.
 
 **chkN은 chunk 객체를 가져올 때 사용한다**
 
-`pool`은 먼저 id와 매핑된 instance의 size를 계산해 `chunks`를 가져옵니다. 그리고 chunks는 자신의 chkN
+@ref by::pool "pool"은 먼저 id와 매핑된 @ref by::instance "instance"의 size를 계산해 @ref by::chunks "chunks"를 가져옵니다. 그리고 @ref by::chunks "chunks"는 자신의 chkN
 번째 원소인 메모리블록을 반환합니다. 외부에서는 전달 받은 메모리 주소와 serial 값을 비교해서 같은
 인스턴스인지를 검증합니다.
 
 #### life 클래스
 
-`pool` 클래스가 로우레벨 관점에서 블록 단위로 메모리를 관리하는 클래스라면, `watcher` 컴포넌트는 각
+@ref by::pool "pool"클래스가 로우레벨 관점에서 블록 단위로 메모리를 관리하는 클래스라면, @ref by::watcher "watcher"컴포넌트는 각
 블록의 정보를 유기적으로 관리하는 클래스입니다.
 
-life는 pool에 할당되어있는 주소값(_pt)와 reference counting을 위한 값들을 갖습니다. _strong은
-reference counting을 위한 값이며, _pt는 pool에 할당받은 인스턴스를 직접 가리킵니다. _id는 객체를
-식별하기 위한 값으로 자세한 내용은 `id`를 참고하세요.
+@ref by::life "life"는 @ref by::pool "pool"에 할당되어있는 주소값(_pt)와 reference counting을 위한 값들을 갖습니다. _strong은
+reference counting을 위한 값이며, _pt는 @ref by::pool "pool"에 할당받은 인스턴스를 직접 가리킵니다. _id는 객체를
+식별하기 위한 값으로 자세한 내용은 @ref by::id "id"를 참고하세요.
 
 #### watcher 클래스
 
-`watcher` 클래스는 메모리 관리의 한 축을 담당하는 클래스로, 생성된 객체의 라이프사이클을 관리합니다.
-`instance`가 생성될때마다 watcher는 `life` 객체를 추가로 할당해 reference counting으로 객체의
+@ref by::watcher "watcher"클래스는 메모리 관리의 한 축을 담당하는 클래스로, 생성된 객체의 라이프사이클을 관리합니다.
+@ref by::instance "instance"가 생성될때마다 @ref by::watcher "watcher"는 @ref by::life "life"객체를 추가로 할당해 reference counting으로 객체의
 소멸시점을 판별합니다.
 
 **reference counting**
 
-`binder`에 의해서 instance가 바인딩 될때마다 life가 count 하는 strong 값을 1 증가시킵니다. binder가
-instance를 rel() 할때 count를 1 감소하며, 0이 되는 순간 delete로 메모리에서 해제합니다. instance는
-`operator delete()`를 통해 `instancer`에게 메모리 해제 작업을 실행하도록 합니다.
+@ref by::binder "binder"에 의해서 @ref by::instance "instance"가 바인딩 될때마다 @ref by::life "life"가 count 하는 strong 값을 1 증가시킵니다. @ref by::binder "binder"가
+@ref by::instance "instance"를 rel() 할때 count를 1 감소하며, 0이 되는 순간 delete로 메모리에서 해제합니다. @ref by::instance "instance"는
+`operator delete()`를 통해 @ref by::instancer "instancer"에게 메모리 해제 작업을 실행하도록 합니다.
 
 
 ### 메모리 관리 인터페이스
 
 #### memoryHaver 클래스
 
-`memoryHaver` 클래스는 memory pool에서 일정 메모리를 직접 혹은 간접적으로 소유하고 있으며, 그 메모리를
+@ref by::memoryHaver "memoryHaver"클래스는 memory pool에서 일정 메모리를 직접 혹은 간접적으로 소유하고 있으며, 그 메모리를
 READ 가능한 클래스들의 기본 인터페이스를 정의합니다. 그래서 메모리의 크기나, 상태 등을 알 수 있는
 인터페이스로 정의되어 있습니다.
 
 **간접적으로 소유하다?**
 
 해당 객체가 직접 메모리를 할당받아 사용하는 것이 아니라, 내부에 멤버변수로 있는 다른 객체들이 담당하는
-경우가 있습니다. 그리고 메모리의 할당은 내부 멤버변수들을 통해 직접해야 한다면, 그 클래스는 memoryHaver만
-상속받아야 합니다. 만약 할당도 가능하다면 `allocator`를 상속하면 됩니다.
+경우가 있습니다. 그리고 메모리의 할당은 내부 멤버변수들을 통해 직접해야 한다면, 그 클래스는 @ref by::memoryHaver "memoryHaver"만
+상속받아야 합니다. 만약 할당도 가능하다면 @ref by::allocator "allocator"를 상속하면 됩니다.
 
 **len과 size**
 
 할당 가능한 메모리의 크기는 size로 표현하며, 그 중에서 할당한 메모리는 len으로 표현됩니다. void* 및 byte
 단위로만 제어하는 것을 전제로 합니다.
 
-memoryHaver의 파생클래스들은 자신들이 담당하는 메모리의 사이즈가 제각기 다르다는 것에 주의하세요.
+@ref by::memoryHaver "memoryHaver"의 파생클래스들은 자신들이 담당하는 메모리의 사이즈가 제각기 다르다는 것에 주의하세요.
 
 #### allocator 클래스
 
-`allocator` 클래스는 `memoryHaver`를 상속하고 있다는 점에서 알다시피 관리하는 메모리의 상태나 크기를
+@ref by::allocator "allocator"클래스는 @ref by::memoryHaver "memoryHaver"를 상속하고 있다는 점에서 알다시피 관리하는 메모리의 상태나 크기를
 측정할 수 있으면서, 추가적으로 메모리를 할당/소멸 할 수 있는 클래스입니다.
 
-모든 메모리는 void* 및 바이트 관점에서만 바라본다는 memlite 컨셉에 맞게, new(), del()의 파라메터는
+모든 메모리는 void* 및 바이트 관점에서만 바라본다는 @ref memlite 컨셉에 맞게, new(), del()의 파라메터는
 void*만 제공합니다.
 
 **memlite 전용의 공통 인터페이스의 네이밍 컨벤션**
 
-할당은 new1() (new one 이라는 뜻입니다.), 해제는 del()를 사용합니다. 이 네이밍은 memlite 뿐만 아니라
+할당은 new1() (new one 이라는 뜻입니다.), 해제는 del()를 사용합니다. 이 네이밍은 @ref memlite 뿐만 아니라
 byeol 프로젝트 내부에서 자주 사용됩니다.
 
 
 ## stela 모듈 - 경량 설정 언어
 
-stela 모듈은 byeol 언어의 경량화된 버전으로, manifest나 옵션과 같은 특수 목적용 언어입니다. 트리 구조로
-설정 데이터를 표현하며, `core` 모듈의 `node`와 유사한 구조를 가집니다.
+@ref stela 모듈은 byeol 언어의 경량화된 버전으로, manifest나 옵션과 같은 특수 목적용 언어입니다. 트리 구조로
+설정 데이터를 표현하며, @ref core 모듈의 @ref by::node "node"와 유사한 구조를 가집니다.
 
-**참고**: stela 언어는 byeol 언어보다 덜 복잡하므로, **core 모듈의 byeol 파서를 보기 전에 stela 파서
+**참고**: @ref stela 언어는 byeol 언어보다 덜 복잡하므로, **@ref core 모듈의 byeol 파서를 보기 전에 @ref stela 파서
 코드를 먼저 살펴볼 것을 권장합니다**. 파서의 기본 구조와 동작 방식을 이해하는데 더 적합합니다.
 
 ### stela 언어의 기본 기능
 
 #### stela 클래스
 
-`stela` 클래스는 stela 모듈의 가장 기본 단위가 되는 클래스로, 다음의 기능을 제공합니다:
+@ref by::stela "stela"클래스는 @ref stela 모듈의 가장 기본 단위가 되는 클래스로, 다음의 기능을 제공합니다:
 
 1. **타입 변환 API**: asInt(), asChar(), asStr(), asBool() 등 기본 타입으로 변환을 시도합니다.
-2. **값이 있는 경우**: `valStela`의 API가 실행되며, 적절한 값으로 변환됩니다. 예를들어 verStela(22)의
-   경우 `asStr()`을 하면 std::string("22")가 반환됩니다.
-3. **값이 없는 경우**: `nulStela`로 표현됩니다. 이 경우 어떠한 타입변환 시도에도 기본값(빈 문자열 혹은
+2. **값이 있는 경우**: @ref by::valStela "valStela"의 API가 실행되며, 적절한 값으로 변환됩니다. 예를들어 `verStela(22)`의
+   경우 `asStr()`을 하면 `std::string("22")`가 반환됩니다.
+3. **값이 없는 경우**: @ref by::nulStela "nulStela"로 표현됩니다. 이 경우 어떠한 타입변환 시도에도 기본값(빈 문자열 혹은
    0)이 반환됩니다.
 4. **버전 타입**: major, minor, patch 버전을 가지고 있으며, 범위로도 표현이 가능합니다.
-5. **트리 구조**: stela는 또다른 stela를 자식으로 둘 수 있습니다. 각 stela 객체마다 이름이 존재하므로,
-   자식을 찾을 때는 이름으로 검색하거나 순회합니다. 주어진 이름에 맞는 자식이 없는 경우 nulStela가
+5. **트리 구조**: @ref by::stela "stela"는 또다른 @ref by::stela "stela"를 자식으로 둘 수 있습니다. 각 @ref by::stela "stela"객체마다 이름이 존재하므로,
+   자식을 찾을 때는 이름으로 검색하거나 순회합니다. 주어진 이름에 맞는 자식이 없는 경우 @ref by::nulStela "nulStela"가
    반환됩니다.
 
 **사용 예제**
@@ -1440,11 +1440,11 @@ ASSERT_EQ(ver.asFix(), 8);
 
 #### nulStela 클래스 - Null Object 패턴
 
-`nulStela`는 `stela`로 자식 객체를 가져올 때 보통 이름으로 가져오는데, 해당 이름을 가진 자식 객체가 없을
+@ref by::nulStela "nulStela"는 @ref by::stela "stela"로 자식 객체를 가져올 때 보통 이름으로 가져오는데, 해당 이름을 가진 자식 객체가 없을
 경우 대신 반환됩니다.
 
-nulStela는 <b>null object 패턴</b>을 구현한 것으로, 해당 객체에 대해 값 변환을 요청할 경우 항상 해당
-타입의 기본값이 반환됩니다. stela 객체가 nulStela인지 확인하려면 `isExist()` 혹은
+@ref by::nulStela "nulStela"는 <b>null object 패턴</b>을 구현한 것으로, 해당 객체에 대해 값 변환을 요청할 경우 항상 해당
+타입의 기본값이 반환됩니다. @ref by::stela "stela"객체가 @ref by::nulStela "nulStela"인지 확인하려면 `isExist()` 혹은
 `operator bool()`이 false인지 확인하면 됩니다.
 
 **사용 예제**
@@ -1472,7 +1472,7 @@ int val = notExist.asInt();          // 0
 
 #### valStela 클래스 - Scalar 값 표현
 
-`valStela`는 `nulStela`와 달리 int, float, string 등 <b>scalar 타입</b>을 가지고 있는 `stela`입니다.
+@ref by::valStela "valStela"는 @ref by::nulStela "nulStela"와 달리 int, float, string 등 <b>scalar 타입</b>을 가지고 있는 @ref by::stela "stela"입니다.
 내부적으로는 기본 문자열로 값을 가지고 있는 상태이며, `asInt()`와 같은 타입변환 요청에 따라서 적절한
 타입으로 변경할 수 있습니다.
 
@@ -1480,11 +1480,11 @@ int val = notExist.asInt();          // 0
 
 #### verStela 클래스 - 버전 타입
 
-`verStela`는 `valStela`와 비슷하게 <b>version</b>이라는 타입의 값을 가지고 있는 `stela`입니다.
+@ref by::verStela "verStela"는 @ref by::valStela "valStela"와 비슷하게 <b>version</b>이라는 타입의 값을 가지고 있는 @ref by::stela "stela"입니다.
 
 **version 타입**
 
-stela 언어는 byeol 언어의 경량화된 언어로, manifest나 옵션과 같은 특수 목적용 언어입니다. version
+@ref by::stela "stela"언어는 byeol 언어의 경량화된 언어로, manifest나 옵션과 같은 특수 목적용 언어입니다. version
 타입은 `major.minor.fix`의 3가지 변수를 가지고 있으며 범위 표현 또한 가능한 타입입니다.
 
 **사용 예제**
@@ -1519,12 +1519,12 @@ verStela& maxVer = pkg["maxVersion"].cast<verStela>();
 
 #### stelaParser 클래스 - 파싱 진입점
 
-`stelaParser` 클래스는 stela 파싱 컴포넌트의 진입점 역할을 합니다. `parse()` 나 `parseFromFile()`을
-통해서 스크립트를 지정하면 파싱된 결과가 `stela` 구조로 반환됩니다.
+@ref by::stelaParser "stelaParser"클래스는 stela 파싱 컴포넌트의 진입점 역할을 합니다. `parse()` 나 `parseFromFile()`을
+통해서 스크립트를 지정하면 파싱된 결과가 @ref by::stela "stela"구조로 반환됩니다.
 
 **byeol 파서와 유사한 구조**
 
-stela 언어 자체가 byeol의 특화된 언어이므로 파서 또한 byeol 언어의 파서를 기반으로 하고 있습니다.
+@ref stela 언어 자체가 byeol의 특화된 언어이므로 파서 또한 byeol 언어의 파서를 기반으로 하고 있습니다.
 byeol 파서 대비 덜 복잡하여 파서의 기본 동작을 이해하기 좋습니다.
 
 **scanner - bison - stelaParser 구조**
@@ -1532,10 +1532,10 @@ byeol 파서 대비 덜 복잡하여 파서의 기본 동작을 이해하기 좋
 flex와 bison을 사용하고 있으며 flex는 lowscanner로, bison은 lowparser로 각각 명명합니다. 이
 lowlevel scanner, parser는 parser 컴포넌트 안에만 존재하는 것으로 외부에서는 일절 노출 되지 않습니다.
 
-`stelaParser::parse()`가 실행되면 lowscanner를 실행시키고, lowscanner는 토큰을 뜯어서 lowparser에게
-넘기고, lowparser는 받은 토큰에 대해 rule이 match 되면 그 이벤트를 다시 stelaParser에게 넘깁니다.
+@ref by::stelaParser::parse() "parse()" 가 실행되면 lowscanner를 실행시키고, lowscanner는 토큰을 뜯어서 lowparser에게
+넘기고, lowparser는 받은 토큰에 대해 rule이 match 되면 그 이벤트를 다시 @ref by::stelaParser "stelaParser"에게 넘깁니다.
 
-그러므로 stelaParser의 <b>`on`으로 시작하는 함수들</b>은 그러한 이벤트를 handling 하는 함수로, 실제로
+그러므로 @ref by::stelaParser "stelaParser"의 <b>`on`으로 시작하는 함수들</b>은 그러한 이벤트를 handling 하는 함수로, 실제로
 어떻게 node를 생성해서 ast를 구축하는지를 정의합니다.
 
 ### Indentation 처리
@@ -1595,7 +1595,7 @@ flex는 yyin 이라는 별도로 지정된 stream을 통해서 글자를 가져�
 보다시피, 파싱 도중에 토큰을 추가한다는 것은 이 stream에 특정 문자를 추가하는 것을 의미합니다.
 
 기본적으로 이런 경우는 unput을 사용하나, 여러개를 unput 하거나 뒤가 아니라 앞에 push 하는 경우 등에
-유연하게 대응하기 위해, stelaLowscanner는 내부적으로 `stelaTokenDispatcher`를 사용합니다.
+유연하게 대응하기 위해, stelaLowscanner는 내부적으로 @ref by::stelaTokenDispatcher "stelaTokenDispatcher"를 사용합니다.
 
 **사용 예제**
 
@@ -1630,7 +1630,7 @@ while(!dispatcher.isEmpty()) {
 
 #### stelaTokenScan 클래스 - 스캔 모드 전략
 
-`stelaParser`는 indentation을 정밀하게 측정하기 위해서 <b>scan mode를 동적으로 변경</b>해야 합니다.
+@ref by::stelaParser "stelaParser"는 indentation을 정밀하게 측정하기 위해서 <b>scan mode를 동적으로 변경</b>해야 합니다.
 tokenScan은 그러한 스캔 모드 전략 1개를 담당합니다.
 
 **tokenScan의 동적 전환**
@@ -1647,7 +1647,7 @@ normalScan으로 교체해서 평상시처럼 공백을 다 무시합니다.
 **명령 token**
 
 token 중에는 `SCAN_AGAIN`, `SCAN_EXIT` 등 scanner나 parser에 명령을 주는 토큰들이 존재합니다.
-자세한 내용은 `stelaParser.hpp`의 zztokenType enum을 참조하세요.
+자세한 내용은 @ref by::stelaParser "stelaParser"의 zztokenType enum을 참조하세요.
 
 **isBypass**
 
@@ -1731,16 +1731,16 @@ main() void
 그렇다고 단순히 `inline block은 개행이 있을 수도 있고 없을 수도 있다` 라고 규칙을
 정해버리면 모호한 경우가 너무 많이 생깁니다.
 
-그래서 smartDedent가 나옵니다. 위와 같이 inline block을 블록을 사용하되, 콤마로 끝나는
+그래서 @ref by::stelaSmartDedent "stelaSmartDedent"가 나옵니다. 위와 같이 inline block을 블록을 사용하되, 콤마로 끝나는
 경우는 개행을 추가해주는 아주 단순하지만 parser의 rule의 난이도를 낮추는 역할을 합니다.
 
 
 
 ## core 모듈 - 언어 구현의 핵심
 
-`core` 모듈은 Byeol 프로그래밍 언어의 핵심 구현을 담당합니다. AST(Abstract Syntax Tree) 구조, 파서, 검증기, 실행기 등 언어의 모든 핵심 기능이 이 모듈에 집중되어 있습니다.
+@ref core 모듈은 Byeol 프로그래밍 언어의 핵심 구현을 담당합니다. AST(Abstract Syntax Tree) 구조, 파서, 검증기, 실행기 등 언어의 모든 핵심 기능이 이 모듈에 집중되어 있습니다.
 
-Core 모듈의 가장 큰 특징은 <b>AST를 직접 실행</b>한다는 점입니다. 일반적인 언어와 달리, Byeol 언어는 AST 구조를 유지한 채로 프로그램을 실행합니다. 따라서 타 언어의 AST는 말그대로 문법 구조를 트리로 표현한 중간결과물에 지나지 않지만, Byeol에는 실행가능한 최종 output을 AST가 담당합니다.
+@ref core 모듈의 가장 큰 특징은 <b>AST를 직접 실행</b>한다는 점입니다. 일반적인 언어와 달리, Byeol 언어는 AST 구조를 유지한 채로 프로그램을 실행합니다. 따라서 타 언어의 AST는 말그대로 문법 구조를 트리로 표현한 중간결과물에 지나지 않지만, Byeol에는 실행가능한 최종 output을 AST가 담당합니다.
 
 
 ### AST 기본 구조
@@ -1750,13 +1750,13 @@ Byeol의 AST는 실행 가능한 프로그램 트리입니다. 일반적인 AST�
 
 #### node 클래스 - AST의 기반
 
-`node` 클래스는 AST의 가장 기본이 되는 클래스입니다. AST 구조와 관련된 API와 해당 node를 평가하는 `eval()`, 자식 node를 탐색하는 API, 그리고 해당 node 객체를 다른 타입으로 형변환하는 API 등을 제공합니다.
+@ref by::node "node"클래스는 AST의 가장 기본이 되는 클래스입니다. AST 구조와 관련된 API와 해당 @ref by::node "node"를 평가하는 `eval()`, 자식 @ref by::node "node"를 탐색하는 API, 그리고 해당 @ref by::node "node"객체를 다른 타입으로 형변환하는 API 등을 제공합니다.
 
 **AST 탐색**
 
-AST 특성상, node는 또 다른 node의 파생클래스의 객체도 가지고 있을 수 있어야 합니다. 때문에 마치 DOM tree처럼 composition 패턴을 사용해서 설계되어있으며 이 tree를 탐색하는 함수 또한 다양하게 지원하고 있습니다.
+AST 특성상, @ref by::node "node"는 또 다른 @ref by::node "node"의 파생클래스의 객체도 가지고 있을 수 있어야 합니다. 때문에 마치 DOM tree처럼 composition 패턴을 사용해서 설계되어있으며 이 tree를 탐색하는 함수 또한 다양하게 지원하고 있습니다.
 
-이 tree를 byeol 언어에서는 `scope`라고 표현하고 있으며 scope은 map을 기반으로 합니다. `blockExpr` 같은 것은 node이면서도 내부에 statement 뭉치를 array로 가지고 있습니다. 따라서 AST는 전체적으로 보면 <b>map과 array가 혼합된 구조</b>로 구성되어 있음을 알 수 있습니다.
+이 tree를 byeol 언어에서는 @ref by::scope "scope"라고 표현하고 있으며 @ref by::scope "scope"은 map을 기반으로 합니다. @ref by::blockExpr "blockExpr"같은 것은 @ref by::node "node"이면서도 내부에 statement 뭉치를 array로 가지고 있습니다. 따라서 AST는 전체적으로 보면 <b>map과 array가 혼합된 구조</b>로 구성되어 있음을 알 수 있습니다.
 
 AST 탐색을 위해 주로 사용하는 함수는 `operator[], sub(), subs(), in(), subAll()`입니다.
 
@@ -1778,11 +1778,11 @@ subs.len(); // root가 몇 개의 자식 node를 가지고 있는지 반환.
 
 byeol 언어는 동일한 scope내 중복 symbol을 허용하지 않습니다. 하지만 이 말은 동일한 key로 2개의 pair가 들어갈 수 없다는 뜻은 아닙니다.
 
-함수의 경우는 이름이 같을 지라도 파라메터의 갯수나 타입이 다르면 다른 symbol이 되기 때문입니다. 따라서 단순히 string 비교만으로 중복여부를 판단할 수 없기에 scope 클래스는 map 기반이 아니라 <b>multimap 기반</b>으로 되어 있습니다.
+함수의 경우는 이름이 같을 지라도 파라메터의 갯수나 타입이 다르면 다른 symbol이 되기 때문입니다. 따라서 단순히 string 비교만으로 중복여부를 판단할 수 없기에 @ref by::scope "scope"클래스는 map 기반이 아니라 <b>multimap 기반</b>으로 되어 있습니다.
 
 **eval() - 평가와 실행**
 
-node는 함수일수도 있고, 객체일 수도 있고, 표현식일 수도 있습니다. `eval(const args&)`은 이러한 node를 실행한 결과를 반환합니다. (byeol에는 클래스란 개념이 없고, 객체가 이를 대신합니다. 그러니 객체 또한 함수처럼 실행할 수 있으며, 이는 생성자가 호출되는 것과 같습니다.)
+@ref by::node "node"는 함수일수도 있고, 객체일 수도 있고, 표현식일 수도 있습니다. `eval(const args&)`은 이러한 @ref by::node "node"를 실행한 결과를 반환합니다. (byeol에는 클래스란 개념이 없고, 객체가 이를 대신합니다. 그러니 객체 또한 함수처럼 실행할 수 있으며, 이는 생성자가 호출되는 것과 같습니다.)
 
 **infer() - 타입 추론**
 
@@ -1823,7 +1823,7 @@ str infered = e.infer();   // nFlt 타입 객체만 반환 (값 계산 안함, �
 
 **타입 변환 - as()와 is()**
 
-node는 명시적 타입 변환을 위한 `as()`와 타입 변환이 가능한지 체크하는 `is()`를 제공합니다.
+@ref by::node "node"는 명시적 타입 변환을 위한 `as()`와 타입 변환이 가능한지 체크하는 `is()`를 제공합니다.
 
 ```
 @style: language-cpp verified
@@ -1872,8 +1872,8 @@ node* isNode = val1.cast<node>(); // != nullptr: upcasting은 가능
 val1.is<nFlt>(); // true: byeol 언어에서 int <-> flt의 명시적 형변환을 지원
 ```
 
-이처럼 core 모듈에는 native와 managed 별로 동일한 개념을 각각 구현한 경우가 종종 있습니다.
-형변환이 동작하는 흐름을 알고 싶다면 `ases`와 `asable`을 참조하세요.
+이처럼 @ref core 모듈에는 native와 managed 별로 동일한 개념을 각각 구현한 경우가 종종 있습니다.
+형변환이 동작하는 흐름을 알고 싶다면 @ref by::ases "ases"와 @ref by::asable "asable"을 참조하세요.
 
 **묵시적 형변환과 명시적 형변환**
 
@@ -1885,8 +1885,8 @@ val1.is<nFlt>(); // true: byeol 언어에서 int <-> flt의 명시적 형변환�
 
 **Side Funcs**
 
-node는 byeol 프로젝트의 핵심 모듈 중에서도 핵심이 되는 기본 클래스이기 때문에 매우
-다양한 side func을 제공합니다. 대부분의 기능이 node 클래스를 통해 접근 가능하도록
+@ref by::node "node"는 byeol 프로젝트의 핵심 모듈 중에서도 핵심이 되는 기본 클래스이기 때문에 매우
+다양한 side func을 제공합니다. 대부분의 기능이 @ref by::node "node"클래스를 통해 접근 가능하도록
 설계되어 있습니다.
 
 **Visitable Class - Visitor 패턴**
@@ -1894,17 +1894,17 @@ node는 byeol 프로젝트의 핵심 모듈 중에서도 핵심이 되는 기본
 AST를 순회하는 동작 자체는 매우 다양한 목적으로 발생합니다. 단순히 `eval()`을 위해서만
 아니라 디버깅 정보를 위해 AST를 출력할때도 사용됩니다.
 
-순회 방식과 node에 대한 처리를 분리시키기 위해 visitor 패턴이 node에 반드시 적용되어야
-합니다. `accept()`는 바로 이 `visitor` 클래스에 의해 사용되며, 각 클래스는 헤더에
+순회 방식과 @ref by::node "node"에 대한 처리를 분리시키기 위해 visitor 패턴이 @ref by::node "node"에 반드시 적용되어야
+합니다. `accept()`는 바로 이 @ref by::visitor "visitor"클래스에 의해 사용되며, 각 클래스는 헤더에
 이를 위해 VISIT 매크로가 추가로 필요합니다.
 
 **Frame Interaction**
 
-`frame`은 현재 실행 중인 scope와 안에 등록된 symbol 등을 관리합니다. node는 AST의
-기본을 구성하므로 node가 객체이거나 함수일 경우, frame에 자신이 소유한 함수나 property
+@ref by::frame "frame"은 현재 실행 중인 scope와 안에 등록된 symbol 등을 관리합니다. @ref by::node "node"는 AST의
+기본을 구성하므로 @ref by::node "node"가 객체이거나 함수일 경우, @ref by::frame "frame"에 자신이 소유한 함수나 property
 등을 등록하거나 해제하는 작업을 해줘야 합니다.
 
-`inFrame()`과 `outFrame()`이 이를 담당하며, 자세한 내용은 `frame`을 참조하세요.
+`inFrame()`과 `outFrame()`이 이를 담당하며, 자세한 내용은 @ref by::frame "frame"을 참조하세요.
 
 **Message Priority - 함수 우선순위**
 
@@ -1912,29 +1912,29 @@ byeol은 함수 오버로딩을 지원하므로 어떤 객체에는 같은 이�
 다른 함수가 여럿 있을 수 있습니다. 어떤 함수는 인자에 대해서 정확하게 일치할 것이고,
 어떤 함수는 약간의 타입변환이 필요할 지도 모릅니다.
 
-node는 자식 node들에 대해서 주어진 args에 대해 얼마나 잘 일치하는 가를 `prioritize()`
-함수를 통해 판단결과를 받습니다. 이때 각 node의 파생클래스는 args가 정확하게 일치하면
+@ref by::node "node"는 자식 @ref by::node "node"들에 대해서 주어진 args에 대해 얼마나 잘 일치하는 가를 `prioritize()`
+함수를 통해 판단결과를 받습니다. 이때 각 @ref by::node "node"의 파생클래스는 args가 정확하게 일치하면
 EXACT_MATCH로 반환하며, 일치하지 않으면 NO_MATCH로 반환됩니다.
 
-정확한 판단기준이나 알고리즘은 `tprior`과 `priorType`을 참고하세요.
+정확한 판단기준이나 알고리즘은 @ref by::tprior "tprior"과 @ref by::priorType "priorType"을 참고하세요.
 
 
 #### src, srcFile 클래스 - 소스 위치 정보
 
-`srcFile`은 AST의 출처가 되는 소스코드 파일에 대한 정보를 담습니다. `src`는 생성된 AST `node`가 어떠한 `srcFile` 안의 어느 위치에서 생성된 것인지를 담고있습니다.
+@ref by::srcFile "srcFile"은 AST의 출처가 되는 소스코드 파일에 대한 정보를 담습니다. @ref by::src "src"는 생성된 AST @ref by::node "node"가 어떠한 @ref by::srcFile "srcFile"안의 어느 위치에서 생성된 것인지를 담고있습니다.
 
-이 정보는 byeol 언어의 Context 기반 REPL의 핵심 기능에 사용됩니다. src 정보는 managed 환경에 국한하며, native에서 생성된 객체는 src에 더미 값이 들어갑니다.
+이 정보는 byeol 언어의 Context 기반 REPL의 핵심 기능에 사용됩니다. @ref by::src "src"정보는 managed 환경에 국한하며, native에서 생성된 객체는 @ref by::src "src"에 더미 값이 들어갑니다.
 
 
 #### args 클래스 - 함수 인자
 
-함수나 객체 `eval()`을 위해 전달하는 인자를 표현합니다. `narr`을 상속하므로 narr의 모든 API를 사용할 수 있습니다.
+함수나 객체 `eval()`을 위해 전달하는 인자를 표현합니다. @ref by::tnarr "narr"을 상속하므로 @ref by::tnarr "narr"의 모든 API를 사용할 수 있습니다.
 
 **me 객체**
 
 args는 `me` 객체가 포함되어 전달되는 게 특징입니다. 함수는 현재 런타임의 어떤 객체로부터 `eval()` 요청이 왔는지 기본적으로 알 수 없습니다. 별도로 `setMe()`를 통해 args를 사용하는 함수나 property는 어떤 객체로부터 이 args가 전달되었는지를 알 수 있습니다.
 
-참고로, `baseObj`는 `eval(name, args)`를 호출받으면 `setMe(this)`를 호출해 자신을 args에 넣습니다.
+참고로, @ref by::baseObj "baseObj"는 `eval(name, args)`를 호출받으면 `setMe(this)`를 호출해 자신을 args에 넣습니다.
 
 
 #### param 클래스 - 파라메터 정의
@@ -1950,17 +1950,17 @@ Byeol의 객체 모델은 native(C++)와 managed(Byeol 언어) 환경을 모두 
 
 #### baseObj 클래스 - 객체의 기반
 
-`baseObj`는 byeol의 객체를 표현하는 데 있어서 기반 클래스입니다. core 모듈은 byeol 언어로 작성된 managed 환경에서의 객체(`obj`)와 C++ 코드를 사용해서 작성된 native 환경에서의 객체(`baseObj`) 모두를 구분하지 않고 사용합니다.
+@ref by::baseObj "baseObj"는 byeol의 객체를 표현하는 데 있어서 기반 클래스입니다. @ref core 모듈은 byeol 언어로 작성된 managed 환경에서의 객체(@ref by::obj "obj")와 C++ 코드를 사용해서 작성된 native 환경에서의 객체(@ref by::baseObj "baseObj") 모두를 구분하지 않고 사용합니다.
 
-둘은 모두 `node`임과 동시에 baseObj일 뿐입니다. 이를 위해서 obj를 baseObj에서 상속받게 함으로써 둘을 같은 클래스 계통으로 묶었습니다. 따라서 baseObj는 native 객체와 managed 객체의 **공통된 기능만** 갖습니다.
+둘은 모두 @ref by::node "node"임과 동시에 @ref by::baseObj "baseObj"일 뿐입니다. 이를 위해서 @ref by::obj "obj"를 @ref by::baseObj "baseObj"에서 상속받게 함으로써 둘을 같은 클래스 계통으로 묶었습니다. 따라서 @ref by::baseObj "baseObj"는 native 객체와 managed 객체의 **공통된 기능만** 갖습니다.
 
 **origin 객체**
 
-byeol 언어로 사용자가 정의한, 원본이 되는 타입을 `origin` 객체라고 합니다. 생성자 호출을 하면 모두 origin 객체를 복사 생성해서 만들어집니다.
+byeol 언어로 사용자가 정의한, 원본이 되는 타입을 @ref by::origin "origin"객체라고 합니다. 생성자 호출을 하면 모두 @ref by::origin "origin"객체를 복사 생성해서 만들어집니다.
 
 **getOrigin() override**
 
-C++ 코드로 새로운 baseObj를 정의해서 byeol 코드로 사용하고 싶다면 baseObj를 상속한 C++ 클래스를 만들고 `getOrigin()`을 override해서 적절한 baseObj의 origin 객체를 반환하면 됩니다.
+C++ 코드로 새로운 @ref by::baseObj "baseObj"를 정의해서 byeol 코드로 사용하고 싶다면 @ref by::baseObj "baseObj"를 상속한 C++ 클래스를 만들고 `getOrigin()`을 override해서 적절한 @ref by::baseObj "baseObj"의 @ref by::origin "origin"객체를 반환하면 됩니다.
 
 ```
 @style: language-cpp verified
@@ -1975,8 +1975,8 @@ const baseObj& nInt::getOrigin() const {
 
 **tbridger 활용 예시**
 
-`tbridger`를 사용하면 native 함수를 매우 간단하게 managed로 노출시킬 수 있습니다.
-`nStr`에 좋은 예시가 있습니다:
+@ref by::tbridger "tbridger"를 사용하면 native 함수를 매우 간단하게 managed로 노출시킬 수 있습니다.
+@ref by::nStr "nStr"에 좋은 예시가 있습니다:
 
 ```
 @style: language-cpp verified
@@ -2037,8 +2037,8 @@ class getSeqFunc: public baseFunc {
 };
 ```
 
-이제 위 클래스를 pack으로써 노출하게 되면 byeol 코드에서도 nStr::len()이나 getSeqFunc을
-사용할 수 있습니다! 어떻게 pack으로 내보내는지는 `packLoading`이나 `autoslot` 등을
+이제 위 클래스를 pack으로써 노출하게 되면 byeol 코드에서도 @ref by::nStr::len() "len()" 이나 getSeqFunc을
+사용할 수 있습니다! 어떻게 pack으로 내보내는지는 @ref by::packLoading "packLoading"이나 @ref by::autoslot "autoslot"등을
 참조하세요.
 
 byeol 코드에서는 다음과 같이 사용할 수 있게 됩니다:
@@ -2055,17 +2055,17 @@ main() void
     foo("hello")
 ```
 
-이처럼 tbridger는 native로 작성된 함수를 매우 간단하게 managed로 노출시킬 수 있습니다.
-좀 더 자세한 tbridger 사용 방법은 해당 클래스를 참조하세요.
+이처럼 @ref by::tbridger "tbridger"는 native로 작성된 함수를 매우 간단하게 managed로 노출시킬 수 있습니다.
+좀 더 자세한 @ref by::tbridger "tbridger"사용 방법은 해당 클래스를 참조하세요.
 
 
 #### obj 클래스 - Managed 객체
 
-`obj` 클래스는 managed 환경에서의 객체를 표현합니다. baseObj의 기능을 확장해서 managed 환경에서만 필요한 scope에 대한 처리나 shares, owns에 대한 개념을 추가합니다.
+@ref by::obj "obj"클래스는 managed 환경에서의 객체를 표현합니다. @ref by::baseObj "baseObj"의 기능을 확장해서 managed 환경에서만 필요한 scope에 대한 처리나 shares, owns에 대한 개념을 추가합니다.
 
 **타입으로써의 obj**
 
-C++에서 타입은 클래스로 표현되지만 byeol은 클래스란 존재하지 않습니다. 객체와 클래스의 구분이 없으므로 **obj 자체가 타입**인 셈입니다.
+C++에서 타입은 클래스로 표현되지만 byeol은 클래스란 존재하지 않습니다. 객체와 클래스의 구분이 없으므로 **@ref by::obj "obj"자체가 타입**인 셈입니다.
 
 ```
 @style: language-cpp verified
@@ -2088,11 +2088,11 @@ managed 환경에서는 `def로 정의된 obj`와 `obj로부터 복제된 obj` 2
 
 **shares, owns**
 
-baseObj의 경우는 C++ native 클래스 기반이므로 `new`와 생성자를 통해 만들어집니다. 하지만 byeol 코드로 작성하는 managed 환경은 다릅니다.
+@ref by::baseObj "baseObj"의 경우는 C++ native 클래스 기반이므로 `new`와 생성자를 통해 만들어집니다. 하지만 byeol 코드로 작성하는 managed 환경은 다릅니다.
 
-managed 환경에서 객체를 정의하는 것은 `origin` 객체로부터 객체를 복제하는 행위입니다. 이때 함수는 시스템 내 한 개만 있으면 되므로 복사할 필요가 없지만, property는 인스턴스마다 다른 값이 들어가야 하므로 복사가 되어야 합니다.
+managed 환경에서 객체를 정의하는 것은 @ref by::origin "origin"객체로부터 객체를 복제하는 행위입니다. 이때 함수는 시스템 내 한 개만 있으면 되므로 복사할 필요가 없지만, property는 인스턴스마다 다른 값이 들어가야 하므로 복사가 되어야 합니다.
 
-이를 효율적으로 하기 위해, 같은 타입의 obj끼리 공유되는 부분들을 **shares**, 복사가 되는 부분들을 <b>owns</b>로 구분합니다.
+이를 효율적으로 하기 위해, 같은 타입의 @ref by::obj "obj"끼리 공유되는 부분들을 **shares**, 복사가 되는 부분들을 <b>owns</b>로 구분합니다.
 
 obj의 clone()이 발생하면:
 - shares: 원본 origin에서 참조만 가져옴
@@ -2136,16 +2136,16 @@ person2->subs()["age"] = new nInt(30);
 **immutable type**
 
 str, int 등 scalar 타입은 모두 immutable 타입입니다. 이는 byeol의 호출 전략이 `by object`를 따르기 때문입니다 (java, C# 등과 유사: 객체는 얇은 복사, raw 타입은 깊은 복사).
-객체에 할당을 시도할 경우 이를 복사해야하는지, 아니면 참조만 변경하면 되는지는 `immutableTactic`을 통해서 판단합니다.
+객체에 할당을 시도할 경우 이를 복사해야하는지, 아니면 참조만 변경하면 되는지는 @ref by::immutableTactic "immutableTactic"을 통해서 판단합니다.
 
 
 #### origin 클래스 - 타입의 원본
 
-byeol 언어로 사용자가 정의한, 원본이 되는 타입을 origin 객체라고 합니다. 사용자가 byeol 코드로 객체를 생성하면, 내부적으로 해당 타입의 origin 객체를 복사 생성(clone)하여 새 인스턴스를 만듭니다.
+byeol 언어로 사용자가 정의한, 원본이 되는 타입을 @ref by::origin "origin"객체라고 합니다. 사용자가 byeol 코드로 객체를 생성하면, 내부적으로 해당 타입의 @ref by::origin "origin"객체를 복사 생성(clone)하여 새 인스턴스를 만듭니다.
 
 **중요: origin에 대해 meta 타입 사용 금지**
 
-origin 객체는 `obj`에서 상속받았으며 생성시점을 제외하고는 obj 타입으로써 사용되는 것을 전제로 작성되어 있습니다. 따라서 함부로 meta 모듈을 사용하면 안 됩니다:
+@ref by::origin "origin"객체는 @ref by::obj "obj"에서 상속받았으며 생성시점을 제외하고는 @ref by::obj "obj"타입으로써 사용되는 것을 전제로 작성되어 있습니다. 따라서 함부로 @ref meta 모듈을 사용하면 안 됩니다:
 
 ```
 @style: language-cpp verified
@@ -2180,9 +2180,9 @@ def YourObj
 점입니다. 결과, 프로그램을 실행하는 `starter`는 YourObj와 MyObj를 같은 타입이라고 생각하게
 됩니다.
 
-이를 해결하기 위해 C++ obj 클래스는 멤버변수로 `mgdType` 변수를 갖습니다. mgdType은
-managed 환경에서의 byeol 타입에 대한 타입정보입니다. 자세한 내용은 mgdType을 참조하세요.
-아무튼 중요한 점은, 이 mgdType은 기존 native type의 meta 정보 트리의 구조에 확장되는
+이를 해결하기 위해 C++ @ref by::obj "obj"클래스는 멤버변수로 @ref by::mgdType "mgdType"변수를 갖습니다. @ref by::mgdType "mgdType"은
+managed 환경에서의 byeol 타입에 대한 타입정보입니다. 자세한 내용은 @ref by::mgdType "mgdType"을 참조하세요.
+아무튼 중요한 점은, 이 @ref by::mgdType "mgdType"은 기존 native type의 @ref meta 정보 트리의 구조에 확장되는
 형태로 구성되기 때문에 `ttype<obj>`를 상속한 것으로 표현된다는 점입니다.
 
 그래서 C++의 MyObj 객체에 대해 getType()을 하면 mgdType이 나오고, 이 타입은 부모클래스가
@@ -2200,12 +2200,12 @@ managed에서 생성된 객체라면 getMgdType()을 호출해서 처리를 해�
 그리고 당연히 `ttype<origin>`은 방금 생성된 mgdType 인스턴스와 아무런 상속 관계가 아니므로
 cast<origin>을 호출하면 내부에서 타입체킹에 실패하게 됩니다.
 
-따라서 핵심은 C++의 `obj` 클래스를 기점으로 기존의 C++ 클래스별로 메타 타입을 제공하던
-것이, C++ 인스턴스별로 메타타입을 제공하는 mgdType으로 전환된다는 것입니다.
+따라서 핵심은 C++의 @ref by::obj "obj"클래스를 기점으로 기존의 C++ 클래스별로 메타 타입을 제공하던
+것이, C++ 인스턴스별로 메타타입을 제공하는 @ref by::mgdType "mgdType"으로 전환된다는 것입니다.
 
-그러니 origin 객체에 대해서 함부로 meta 모듈을 사용하려고 하면 안됩니다. origin 클래스의
-getType()은 C++의 origin 타입과 아무런 관련이 없는 타입을 반환합니다. 하지만 이때의
-mgdType은 부모클래스로 `ttype<obj>`가 되도록 parser가 연관을 지어서 생성합니다.
+그러니 @ref by::origin "origin"객체에 대해서 함부로 @ref meta 모듈을 사용하려고 하면 안됩니다. @ref by::origin "origin"클래스의
+getType()은 C++의 @ref by::origin "origin"타입과 아무런 관련이 없는 타입을 반환합니다. 하지만 이때의
+@ref by::mgdType "mgdType"은 부모클래스로 `ttype<obj>`가 되도록 parser가 연관을 지어서 생성합니다.
 
 그러니 obj 타입으로의 형변환이나 `cast<obj>()` 같은 것은 아무런 문제가 되지 않습니다.
 
@@ -2242,22 +2242,22 @@ public 함수는 obj 타입의 API와 동일한 것입니다. 대부분은 origi
 
 #### tbaseObjOrigin 클래스 - baseObj Origin 템플릿
 
-baseObj에 대한 `origin` 객체를 쉽게 정의하기 위해서 사용하는 클래스 템플릿입니다.
+@ref by::baseObj "baseObj"에 대한 @ref by::origin "origin"객체를 쉽게 정의하기 위해서 사용하는 클래스 템플릿입니다.
 
-먼저 origin와 baseObj를 보고 오는 것이 좋습니다. 구조나 컨셉은 origin 클래스와 동일합니다.
-자신의 타입을 shadow하며, baseObj 타입으로 다뤄지도록 의도합니다.
+먼저 @ref by::origin "origin"와 @ref by::baseObj "baseObj"를 보고 오는 것이 좋습니다. 구조나 컨셉은 @ref by::origin "origin"클래스와 동일합니다.
+자신의 타입을 shadow하며, @ref by::baseObj "baseObj"타입으로 다뤄지도록 의도합니다.
 
-단 사용방법에서 차이가 발생합니다. 이는 baseObj 클래스의 컨셉이 obj와 다르기 때문입니다.
+단 사용방법에서 차이가 발생합니다. 이는 @ref by::baseObj "baseObj"클래스의 컨셉이 @ref by::obj "obj"와 다르기 때문입니다.
 
 **obj와 달리 baseObj의 origin 객체는 static으로 존재한다**
 
-obj는 byeol 언어로 작성된 객체를 표현합니다. 이 중에서도 `def` 키워드로 작성된 origin
-객체는 origin 클래스의 인스턴스로 표현됩니다.
+@ref by::obj "obj"는 byeol 언어로 작성된 객체를 표현합니다. 이 중에서도 `def` 키워드로 작성된 @ref by::origin
+객체는 @ref origin 클래스의 인스턴스로 표현됩니다.
 
-반면 baseObj는 그 자체로 사용할 수 없으며 이를 상속한 C++의 클래스가 존재합니다. 둘의
+반면 @ref baseObj 는 그 자체로 사용할 수 없으며 이를 상속한 C++의 클래스가 존재합니다. 둘의
 차이를 잘 이해해보겠습니다.
 
-C++ 코드로 봤을때 baseObj의 origin은 <b>정적</b>이지만 obj의 origin은 <b>동적</b>이라는
+C++ 코드로 봤을때 @ref baseObj 의 @ref origin 은 <b>정적</b>이지만 @ref obj 의 @ref origin 은 <b>동적</b>이라는
 얘기입니다.
 
 **baseObj의 origin - static으로 선언 가능**
@@ -2269,13 +2269,14 @@ C++ 클래스는 컴파일 타임에 정의되므로 origin 객체를 static으�
 @lang: byeol
 def MyObj
     foo() void
-        print("hello")
+        "void
+       print("hello")
 ```
 
 MyObj라는 타입은 C++에서 봤을 때는 동적입니다. 런타임에 parser가 이 코드를 읽기 전까지는
 `class MyObj`라는 것을 컴파일 타임에 만들 수 없습니다.
 
-MyObj 자체를 byeol에서는 origin 객체라고 하며 이는 `origin` 클래스의 인스턴스로 표현됩니다:
+MyObj 자체를 byeol에서는 @ref by::origin "origin"객체라고 하며 이는 @ref by::origin "origin"클래스의 인스턴스로 표현됩니다:
 
 ```
 @style: language-cpp verified
@@ -2292,7 +2293,7 @@ origin org(typeMaker::make<obj>(name)); // name == "MyObj"
 
 #### defaultCopyCtor 클래스 - 기본 복사 생성자
 
-managed 환경에서 byeol 타입에 대해 사용자가 복사 생성자를 정의하지 않은 경우 parser에 의해 추가되는 기본 복사생성자입니다. 복사 생성자 호출 시 `args`의 첫 번째 인자로 복사 대상 객체가 전달되며, 이 객체의 property들을 얇은 복사를 수행합니다.
+managed 환경에서 byeol 타입에 대해 사용자가 복사 생성자를 정의하지 않은 경우 parser에 의해 추가되는 기본 복사생성자입니다. 복사 생성자 호출 시 @ref by::args "args"의 첫 번째 인자로 복사 대상 객체가 전달되며, 이 객체의 property들을 얇은 복사를 수행합니다.
 
 참고로 scalar는 immutable 객체이므로 얇은 복사를 시도해도 깊은 복사처럼 동작합니다.
 
@@ -2301,21 +2302,21 @@ managed 환경에서 byeol 타입에 대해 사용자가 복사 생성자를 정
 
 str, int 등 scalar타입은 모두 immutable 타입입니다. 이는 byeol의 호출 전략이 `by object`를 따르기 때문입니다.
 
-단 이를 책임져야 하는 부분은 `node`나 `obj`와 같이 컨테이너를 소유한 객체가 아니라 `tnmap`과 같은 컨테이너 클래스 자체가 되어야 합니다.
+단 이를 책임져야 하는 부분은 @ref by::node "node"나 @ref by::obj "obj"와 같이 컨테이너를 소유한 객체가 아니라 @ref by::tnmap "tnmap"과 같은 컨테이너 클래스 자체가 되어야 합니다.
 
-obj 입장에서는 node는 그냥 node일 뿐이며, 자신이 소유한 container에 넣어야할 새로운 node가 immutable 타입인지 아닌지를 알아야할 필요가 있어서는 안됩니다. 이게 깨지는 순간 다형성도 같이 깨집니다.
+@ref by::obj "obj"입장에서는 @ref by::node "node"는 그냥 @ref by::node "node"일 뿐이며, 자신이 소유한 container에 넣어야할 새로운 @ref by::node "node"가 immutable 타입인지 아닌지를 알아야할 필요가 있어서는 안됩니다. 이게 깨지는 순간 다형성도 같이 깨집니다.
 
-그래서 객체가 들어왔는데 이를 복사해야하는지, 아니면 참조만 가리키면 되는지를 immutableTactic을 통해서 판단합니다.
+그래서 객체가 들어왔는데 이를 복사해야하는지, 아니면 참조만 가리키면 되는지를 @ref by::immutableTactic "immutableTactic"을 통해서 판단합니다.
 
 **알고리즘**
 
-판단은 단순하게 `ntype`에 정의된 `isImmutable()` 함수로 판단합니다. scalar type을 구현한 nInt, nStr 등은 자신의 타입을 내보낼때 isImmutable()이 true로 나오는 타입으로 내보냅니다. immutable 타입으로 판단되면 인자를 바로 넣지 않고 `clone()`을 호출합니다.
+판단은 단순하게 @ref by::ntype "ntype"에 정의된 `isImmutable()` 함수로 판단합니다. scalar type을 구현한 @ref by::nInt"nIn", @ref by::nStr "nStr"등은 자신의 타입을 내보낼때 isImmutable()이 true로 나오는 타입으로 내보냅니다. immutable 타입으로 판단되면 인자를 바로 넣지 않고 `clone()`을 호출합니다.
 
 
 #### manifest 클래스 - Pack 메타데이터
 
-stela 언어로 작성된, pack을 로딩하기 위한 기본정보를 담고 있는 객체입니다.
-`manifest.stela` 파일로부터 stela 모듈을 사용해 파싱됩니다.
+@ref stela 언어로 작성된, pack을 로딩하기 위한 기본정보를 담고 있는 객체입니다.
+`manifest.stela` 파일로부터 @ref stela 모듈을 사용해 파싱됩니다.
 
 
 #### tmock 클래스 - Proxy 객체
@@ -2325,8 +2326,8 @@ stela 언어로 작성된, pack을 로딩하기 위한 기본정보를 담고 �
 만약 생성시 `T*`로 원본이 될 인스턴스를 넣지 않으면 아무런 동작을 하지 않는 dummy 객체로
 동작합니다. 최초에는 검증 시간을 최적화 하기 위해 고안되었습니다.
 
-예를들어 `verifier`가 특정 symbol이 scope에 있는지 없는지 코드를 검증하려면 실제로 그
-객체를 만들기 보다 타입 정보만 redirection하는 tmock을 대신 생성하기 위해서였습니다.
+예를들어 @ref by::verifier "verifier"가 특정 symbol이 scope에 있는지 없는지 코드를 검증하려면 실제로 그
+객체를 만들기 보다 타입 정보만 redirection하는 @ref by::tmock "tmock"을 대신 생성하기 위해서였습니다.
 
 현재는 해당 기능은 사용되지 않으며 dummy 객체로 대신 사용중입니다.
 
@@ -2375,9 +2376,9 @@ scope["a"] = newObj;  // = 연산자: scope의 참조를 다른 객체로 변경
 
 #### blockExpr 클래스 - 블록 표현식
 
-블록 표현식을 담당합니다. `frameInteractable` 하며, 외부에서 frame에 등록을 요청하면 scope를 하나 생성해 등록합니다. 이 scope는 이 블록문에서만 유효한 것으로, 흔히들 말하는 local scope입니다.
+블록 표현식을 담당합니다. @ref by::frameInteractable "frameInteractable"하며, 외부에서 @ref by::frame "frame"에 등록을 요청하면 scope를 하나 생성해 등록합니다. 이 scope는 이 블록문에서만 유효한 것으로, 흔히들 말하는 local scope입니다.
 
-**최적화:** blockExpr은 `eval()` 함수 안에서 local scope를 생성하지 않습니다. 이는 특정 context에서는 불필요한 scope 생성을 막아 최적화하려는 것입니다.
+**최적화:** @ref by::blockExpr "blockExpr"은 `eval()` 함수 안에서 local scope를 생성하지 않습니다. 이는 특정 context에서는 불필요한 scope 생성을 막아 최적화하려는 것입니다.
 
 **Block문은 표현식이다**
 
@@ -2388,19 +2389,19 @@ byeol 언어는 대부분 표현식으로 구성되며, block문도 예외가 �
 
 배열 리터럴 표현식을 담당합니다. 어떠한 타입의 배열인지는 배열의 원소로 적은 리터럴 상수들의 타입들을 type promotion을 통해 추론됩니다. Type promotion은 여러 타입 중 가장 넓은 범위의 타입으로 승격하는 과정입니다 (예: `[1, 2.5, 3]`이라는 배열이 있다면 int와 flt 타입이 섞여있으므로 flt 배열로 승격됩니다).
 
-`tnarr`은 native 환경에서 배열을 담당하는 클래스입니다. `arr`은 tnarr을 managed 환경에 맞게 확장한 것입니다. 이렇게 함으로써 C++에서도 byeol에서도 서로 유사한 API를 사용 가능하게 됩니다.
+@ref by::tnarr "tnarr"은 native 환경에서 배열을 담당하는 클래스입니다. @ref by::arr "arr"은 @ref by::tnarr "tnarr"을 managed 환경에 맞게 확장한 것입니다. 이렇게 함으로써 C++에서도 byeol에서도 서로 유사한 API를 사용 가능하게 됩니다.
 
 
 #### defNestedFuncExpr 클래스 - 중첩 함수 정의
 
-byeol 언어의 중첩 함수인 `nestedFunc`을 생성합니다. 중첩함수는 정의할때는 이름을 생략할 수 있으며, `closure`로도 활용될 수 있습니다.
+byeol 언어의 중첩 함수인 @ref by::nestedFunc "nestedFunc"을 생성합니다. 중첩함수는 정의할때는 이름을 생략할 수 있으며, `closure`로도 활용될 수 있습니다.
 
 
 #### defSeqExpr 클래스 - 시퀀스 표현식
 
 시퀀스(범위) 표현식을 담당합니다.
 
-`nseq`은 native 환경에서 시퀀스를 담당하는 클래스입니다. `seq`은 nseq를 managed 환경에 맞게 확장한 것입니다. 이렇게 함으로써 C++에서도 byeol에서도 서로 유사한 API를 사용 가능하게 됩니다.
+@ref by::nseq "nseq"은 native 환경에서 시퀀스를 담당하는 클래스입니다. @ref by::seq "seq"은 @ref by::nseq "nseq"를 managed 환경에 맞게 확장한 것입니다. 이렇게 함으로써 C++에서도 byeol에서도 서로 유사한 API를 사용 가능하게 됩니다.
 
 
 #### endExpr 클래스 - End 키워드
@@ -2730,10 +2731,10 @@ res := openGL().init(win)  # res == 25
 
 **설계 구조**
 
-`tbridger`는 다음 컴포넌트들의 조합으로 동작합니다:
+@ref by::tbridger"tbridge"는 다음 컴포넌트들의 조합으로 동작합니다:
 
 - **tbridger**: Facade 패턴, `func()` 등으로 함수를 static subs()에 저장
-- **tbridge**: tbridger에 등록된 subs를 origin으로 삼아 생성된 `baseObj`
+- **tbridge**: @ref by::tbridger"tbridge"에 등록된 subs를 @ref by::origin"origi"으로 삼아 생성된 @ref by::baseObj "baseObj"
 - **tbridgeFunc**: C++ 멤버 함수 포인터를 redirect하는 managed 함수
 - **tbridgeCtor**: 생성자를 표현 (객체 생성과 생성자 호출을 모두 처리)
 - **tbridgeClosure**: C++ 람다를 byeol 함수로 노출
@@ -2762,9 +2763,9 @@ res := openGL().init(win)  # res == 25
 
 #### tbridge 클래스 - Native 클래스의 Managed 표현
 
-`tbridge`는 `tbridger`에 등록된 정보를 바탕으로 생성되는 `baseObj`입니다. 내부적으로 `tbaseObjOrigin<tbridger<T>>` 형태로 origin을 정의하고 있어서, `tbridger`를 통해 채워진 subs()를 자신의 origin으로 사용합니다.
+@ref by::tbridge"tbridg"는 @ref by::tbridger"tbridge"에 등록된 정보를 바탕으로 생성되는 @ref by::baseObj"baseOb"입니다. 내부적으로 `tbaseObjOrigin<tbridger<T>>` 형태로 @ref by::origin"origi"을 정의하고 있어서, @ref by::tbridger"tbridge"를 통해 채워진 subs()를 자신의 origin으로 사용합니다.
 
-따라서 `tbridge` 객체는 `tbridger`에 등록된 함수들을 마치 자신의 멤버 함수처럼 소유하게 됩니다.
+따라서 @ref by::tbridge "tbridge"객체는 @ref by::tbridger"tbridge"에 등록된 함수들을 마치 자신의 멤버 함수처럼 소유하게 됩니다.
 
 
 #### tmock 클래스 - Proxy와 Dummy 객체
@@ -2777,7 +2778,7 @@ res := openGL().init(win)  # res == 25
 
 ### 스코프와 실행 컨텍스트
 
-Byeol의 코드 실행은 scope, frame, frames, thread가 유기적으로 협력하여 이루어집니다. 이 시스템은 symbol 탐색, 함수 호출, 실행 흐름 관리를 담당합니다.
+Byeol의 코드 실행은 @ref by::scope"scop", @ref by::frame"fram", @ref by::frames"frame", @ref by::thread "thread"가 유기적으로 협력하여 이루어집니다. 이 시스템은 symbol 탐색, 함수 호출, 실행 흐름 관리를 담당합니다.
 
 
 #### scope 클래스 - Symbol 저장소
@@ -2835,7 +2836,7 @@ str me::_interactFrame(node& meObj, scope& s, nidx exN) {
 }
 ```
 
-<b>Func scope</b>는 함수가 소유한 symbol들이 저장됩니다. 주의할 점은 매 함수 호출마다 새로 생성되는 게 아니라, <b>시스템 내 유일하게 존재하는 func 객체가 소유한 sub node들</b>이라는 것입니다.
+<b>Func scope</b>는 함수가 소유한 symbol들이 저장됩니다. 주의할 점은 매 함수 호출마다 새로 생성되는 게 아니라, <b>시스템 내 유일하게 존재하는 @ref by::func "func"객체가 소유한 sub node들</b>이라는 것입니다.
 
 <b>File scope와 pack scope</b>는 밀접한 관계가 있습니다:
 
@@ -2855,7 +2856,7 @@ main() void
     print(IS_DBG)  # false. file scope이 pack scope보다 우선됨
 ```
 
-IS_DBG는 file scope과 pack scope에 각각 1개씩 정의됩니다. 중요한 점은 <b>file scope는 parser에 의해 항상 pack scope를 chain</b>한다는 것입니다. Symbol을 찾을 때 file scope를 먼저 검색하고, 없을 경우 pack scope를 검색하므로, file scope에 선언된 값이 우선됩니다.
+IS_DBG는 file scope과 pack scope에 각각 1개씩 정의됩니다. 중요한 점은 <b>file scope는 @ref by::parser "parser"에 의해 항상 pack scope를 chain</b>한다는 것입니다. Symbol을 찾을 때 file scope를 먼저 검색하고, 없을 경우 pack scope를 검색하므로, file scope에 선언된 값이 우선됩니다.
 
 
 #### frame 클래스 - Scope들의 동적 연결
@@ -3010,31 +3011,31 @@ Byeol은 `pack`이라는 단위로 라이브러리를 배포합니다. 패키지
 
 #### manifest 클래스 - Pack 메타데이터
 
-stela 언어로 작성된, pack을 로딩하기 위한 기본정보를 담고 있는 객체입니다. `manifest.stela` 파일로부터 stela 모듈을 사용해 파싱됩니다.
+stela 언어로 작성된, pack을 로딩하기 위한 기본정보를 담고 있는 객체입니다. `manifest.stela` 파일로부터 @ref stela 모듈을 사용해 파싱됩니다.
 
-manifest는 pack의 entrypoint, 종속성 정보 등을 포함합니다. entrypoint는 pack이 어떠한 종류의 라이브러리를 포함하고 있는지를 나타냅니다 (예: `cpp`, `byeol`).
+@ref by::manifest "manifest"는 pack의 entrypoint, 종속성 정보 등을 포함합니다. entrypoint는 pack이 어떠한 종류의 라이브러리를 포함하고 있는지를 나타냅니다 (예: `cpp`, `byeol`).
 
 
 #### slot 클래스 - Pack의 결과물
 
-byeol 언어는 `pack`이라는 일종의 압축파일 단위로 라이브러리를 배포하는데, pack 파일에는 최상위 `obj` 객체와 `manifest`, 종속하는 pack 목록이 포함됩니다.
+byeol 언어는 `pack`이라는 일종의 압축파일 단위로 라이브러리를 배포하는데, pack 파일에는 최상위 `obj` 객체와 @ref by::manifest"manifes", 종속하는 pack 목록이 포함됩니다.
 
-(byeol 언어에서 내 코드에서 다른 pack을 사용하려면 manifest에 종속관계에 있다는 걸 선언해야 합니다)
+(byeol 언어에서 내 코드에서 다른 pack을 사용하려면 @ref by::manifest "manifest"에 종속관계에 있다는 걸 선언해야 합니다)
 
-**slot은 pack 파일로부터 만들어지는 결과물**이지, pack을 불러오는 걸 담당하지 않습니다. pack 로딩에 대해서는 `packLoading`이나 `slotLoader`를 참조하세요.
+**@ref by::slot "slot"은 pack 파일로부터 만들어지는 결과물**이지, pack을 불러오는 걸 담당하지 않습니다. pack 로딩에 대해서는 `packLoading`이나 `slotLoader`를 참조하세요.
 
 
 #### autoslot 클래스 - Lazy Pack 로딩
 
-byeol 언어는 pack을 **lazy하게 동적으로** 불러옵니다. autoslot은 이 기능을 구현한 것으로, `slotLoader`가 pack 파일을 찾으면 `packLoading` 객체를 적절히 생성해서 autoslot에 넣어둡니다.
+byeol 언어는 pack을 **lazy하게 동적으로** 불러옵니다. @ref by::autoslot "autoslot"은 이 기능을 구현한 것으로, `slotLoader`가 pack 파일을 찾으면 `packLoading` 객체를 적절히 생성해서 @ref by::autoslot "autoslot"에 넣어둡니다.
 
-이후 autoslot에 접근해서 안에 포함된 symbol을 가져오려는 시도를 하면 lazy하게 packLoading이 동작해 symbol을 파일로부터 불러옵니다.
+이후 @ref by::autoslot "autoslot"에 접근해서 안에 포함된 symbol을 가져오려는 시도를 하면 lazy하게 @ref by::packLoading "packLoading"이 동작해 symbol을 파일로부터 불러옵니다.
 
 **복수의 packLoading**
 
-packLoading은 native 환경에서 가져올 수도 있고(dll 혹은 so 파일), managed 환경에서 가져올 수도 있습니다(.byeol 파일). 또는 2개가 모두 하나의 pack에 있는 경우도 있을 수 있습니다.
+@ref by::packLoading "packLoading"은 native 환경에서 가져올 수도 있고(dll 혹은 so 파일), managed 환경에서 가져올 수도 있습니다(.byeol 파일). 또는 2개가 모두 하나의 pack에 있는 경우도 있을 수 있습니다.
 
-따라서 autoslot은 항상 1개의 packLoading만 가지지 않고, 배열로 처리합니다.
+따라서 @ref by::autoslot "autoslot"은 항상 1개의 @ref by::packLoading "packLoading"만 가지지 않고, 배열로 처리합니다.
 
 **autoslot 상태 (State)**
 
@@ -3060,9 +3061,9 @@ packLoading은 native 환경에서 가져올 수도 있고(dll 혹은 so 파일)
      └───┘
 ```
 
-- **Slot 생성**: slotLoader가 slot 객체를 생성해 시스템에 추가, dependencies도 기록
-- **RELEASED**: 초기 상태로, 어떠한 메모리도 점유하지 않음. 사용하지 않는 대부분의 slot은 여기에 속함
-- **PARSED**: autoslot에 접근이 이뤄진 경우, 본격적으로 사용하기 위해 코드를 파싱. 파싱 단계가 필요없는 경우 (optimized pack 또는 native pack)에는 LINKED 상태로 바로 건너뜀
+- **Slot 생성**: @ref by::slotLoader "slotLoader"가 @ref by::slot "slot"객체를 생성해 시스템에 추가, dependencies도 기록
+- **RELEASED**: 초기 상태로, 어떠한 메모리도 점유하지 않음. 사용하지 않는 대부분의 @ref by::slot "slot"은 여기에 속함
+- **PARSED**: @ref by::autoslot "autoslot"에 접근이 이뤄진 경우, 본격적으로 사용하기 위해 코드를 파싱. 파싱 단계가 필요없는 경우 (optimized pack 또는 native pack)에는 LINKED 상태로 바로 건너뜀
 - **VERIFIED**: 파싱 이후, 코드의 정합성을 검증. 검증에 실패했다면 isValid값을 false로 설정
 - **LINKED**: 자신이 검증에 실패한 상태라면, 자신을 참조하는 모든 dependents에게 자신이 검증에 실패했다는 사실을 전파
 
@@ -3070,27 +3071,26 @@ packLoading은 native 환경에서 가져올 수도 있고(dll 혹은 so 파일)
 
 **동적 검증과 의존성 문제**
 
-모든 pack이 검증이 완료된, 완전무결한 상태라고 전제하고 그냥 로딩만 해서는 안될 수 있습니다. 때로는 pack이 올바른지 한번 더 검증할 필요가 있기에, autoslot 중 일부는 symbol을 불러올때 사전에 파싱이나 검증을 해야 합니다.
+모든 pack이 검증이 완료된, 완전무결한 상태라고 전제하고 그냥 로딩만 해서는 안될 수 있습니다. 때로는 pack이 올바른지 한번 더 검증할 필요가 있기에, @ref by::autoslot "autoslot"중 일부는 symbol을 불러올때 사전에 파싱이나 검증을 해야 합니다.
 
 문제는 어떠한 pack은 다른 pack에 종속되는 경우가 매우 많이 발생한다는 점으로, 종속한 pack이 검증에 실패하게 되면, 그 사실을 전파해서 종속된 pack들도 모두 사용이 불가능해야 합니다. 이를 위의 4가지 상태를 제어하는 알고리즘으로 해결합니다.
 
 **재귀적 로딩**
 
-pack이 다른 pack에 종속되는 경우는 부지기수로 많습니다. autoslot이 lazy하게 동작하기 때문에 어떠한 slot을 loading하다가 다른 autoslot에 접근함으로써 해당 autoslot도 재귀적으로 로딩 시퀸스에 들어가는 일도 많습니다.
+pack이 다른 pack에 종속되는 경우는 부지기수로 많습니다. @ref by::autoslot "autoslot"이 lazy하게 동작하기 때문에 어떠한 @ref by::slot "slot"을 loading하다가 다른 @ref by::autoslot "autoslot"에 접근함으로써 해당 @ref by::autoslot "autoslot"도 재귀적으로 로딩 시퀸스에 들어가는 일도 많습니다.
 
 이때 중복으로 초기화 되거나 아직 완전히 파이프라인을 통과하지 않는지 체크합니다.
 
 
 **RAII**
-autoslot은 slot에 정의된 _pack 객체를 가리킵니다. 이 객체는 외부 파일인 `pack` 을 로딩함으로써 읽어온 심볼들인데,
-autoslot은 packLoading을 통한 pack의 symbol 생성을 책임지므로, pack의 소멸 또한 책임집니다.
-그래서 RAII를 사용해, autoslot객체가 소멸될때 모든 심볼을 먼저 없애고 packLoading 객체 또한 없앰으로써 so 파일을 close 하는 등의 작업을 수행합니다.
-자세한 내용은 packLoading을 참조하세요.
+@ref by::autoslot "autoslot"은 @ref by::slot "slot"에 정의된 _pack 객체를 가리킵니다. 이 객체는 외부 파일인 `pack` 을 로딩함으로써 읽어온 심볼들인데, @ref by::autoslot "autoslot"은 @ref by::packLoading "packLoading"을 통한 pack의 symbol 생성을 책임지므로, pack의 소멸 또한 책임집니다.
+그래서 RAII를 사용해, @ref by::autoslot "autoslot"객체가 소멸될때 모든 심볼을 먼저 없애고 @ref by::packLoading "packLoading"객체 또한 없앰으로써 so 파일을 close 하는 등의 작업을 수행합니다.
+자세한 내용은 @ref by::packLoading "packLoading"을 참조하세요.
 
 
 #### slotLoader 클래스 - Pack 로더
 
-외부 pack을 로딩하는 역할을 담당합니다. `addPath()`로 탐색 경로를 추가하고, `load()`를 호출하면 pack을 불러올 수 있습니다.
+@ref by::slotLoader "slotLoader"는 외부 pack을 로딩하는 역할을 담당합니다. `addPath()`로 탐색 경로를 추가하고, `load()`를 호출하면 pack을 불러올 수 있습니다.
 
 **기본 사용법**
 
@@ -3110,11 +3110,11 @@ ret.len();  // 로딩된 slot 개수 반환
 
 **manifest와 entrypoint**
 
-pack 로딩 중에는 필연적으로 `manifest`를 파싱합니다. manifest를 통해 가장 중요한 정보는 **entrypoint**입니다. entrypoint는 pack이 어떠한 종류의 라이브러리를 포함하고 있는지를 나타냅니다.
+pack 로딩 중에는 필연적으로 @ref by::manifest "manifest"를 파싱합니다. manifest를 통해 가장 중요한 정보는 **entrypoint**입니다. entrypoint는 pack이 어떠한 종류의 라이브러리를 포함하고 있는지를 나타냅니다.
 
 예를들어 pack에 C++ 동적 라이브러리가 포함되어 있다면 entrypoint는 `cpp`가 되며, byeol 라이브러리라면 `byeol`이 됩니다.
 
-slotLoader는 manifest를 읽은 후 `autoslot`을 생성하고 entrypoint에 따라 적절한 `packLoading` 인스턴스를 autoslot에 추가합니다.
+@ref by::slotLoader "slotLoader"는 manifest를 읽은 후 @ref by::autoslot "autoslot"을 생성하고 entrypoint에 따라 적절한 @ref by::packLoading "packLoading"인스턴스를 autoslot에 추가합니다.
 
 **주의사항:**
 - 하나의 pack 라이브러리는 여러개의 entrypoint를 가질 수 있습니다
@@ -3124,7 +3124,7 @@ slotLoader는 manifest를 읽은 후 `autoslot`을 생성하고 entrypoint에 �
 
 #### packLoading 클래스 - Pack 로딩 추상 클래스
 
-`slotLoader`에 의해 패키지를 로딩할 때 사용되는 추상 클래스입니다. `packMakable` 인터페이스가 핵심 API를 제공합니다.
+`slotLoader`에 의해 패키지를 로딩할 때 사용되는 추상 클래스입니다. @ref by::packMakable "packMakable"인터페이스가 핵심 API를 제공합니다.
 
 packLoading은 `rel(), parse(), verify()` 함수를 제공하며, 이는 `autoslot`의 상태와 깊은 관련이 있습니다.
 
@@ -3135,20 +3135,20 @@ packLoading은 `rel(), parse(), verify()` 함수를 제공하며, 이는 `autosl
 
 **Entrypoint**
 
-indep 모듈의 `dlib`을 사용해서 동적 라이브러리를 로딩합니다. entrypoint는 이미 정의되어 있는 ENTRYPOINT_NAME의 값을 사용합니다.
+@ref indep 모듈의 @ref by::dlib "dlib"을 사용해서 동적 라이브러리를 로딩합니다. entrypoint는 이미 정의되어 있는 @ref by::ENTRYPOINT_NAME "ENTRYPOINT_NAME"의 값을 사용합니다.
 
 
 
 ### Visitor 패턴 및 AST 순회
 
-Byeol에서는 AST를 중점적으로 다루기 때문에 visitor를 자주 사용하게 됩니다. 순회하는 방법과 순회시 `node`를 visit했을 때의 동작을 서로 분리하기 위해 visitor가 적극적으로 활용됩니다.
+Byeol에서는 AST를 중점적으로 다루기 때문에 @ref by::visitor "visitor"를 자주 사용하게 됩니다. 순회하는 방법과 순회시 `node`를 visit했을 때의 동작을 서로 분리하기 위해 @ref by::visitor "visitor"가 적극적으로 활용됩니다.
 
 
 #### visitor 클래스 - AST 순회의 핵심
 
 **순회**
 
-visitor는 항상 <b>전위 순회(pre-order traversal)</b>를 따릅니다. 후위 순회를 하도록 변경은 불가능합니다.
+@ref by::visitor "visitor"는 항상 <b>전위 순회(pre-order traversal)</b>를 따릅니다. 후위 순회를 하도록 변경은 불가능합니다.
 
 `visit()`은 다음 3개의 단계로 이뤄져 있습니다:
 1. 현재 찾은 node를 방문 (`onVisit()`)
@@ -3157,11 +3157,11 @@ visitor는 항상 <b>전위 순회(pre-order traversal)</b>를 따릅니다. 후
 
 **accept를 통한 Downcasting**
 
-visitor는 `onVisit(T&)`과 같이 많은 구체 타입에 대한 방문을 표현하는 virtual function을 다수 가지고 있습니다.
+@ref by::visitor "visitor"는 `onVisit(T&)`과 같이 많은 구체 타입에 대한 방문을 표현하는 virtual function을 다수 가지고 있습니다.
 
 반면 onTraverse에서 탐색시에는 주로 `node`의 `subs()`를 통해서 `tbicontainable` 인터페이스를 사용하기 때문에 node 타입을 사용하게 됩니다. 그래서 어디선가는 node 타입을 `nInt`나 `defNestedFuncExpr`과 같이 구체타입으로 downcasting을 해야합니다.
 
-이를 위해 node의 `accept()`라는 virtual 함수를 호출합니다:
+이를 위해 @ref by::node "node"의 `accept()`라는 virtual 함수를 호출합니다:
 
 ```
 @style: language-cpp verified
@@ -3172,7 +3172,7 @@ void defNestedFuncExpr::accept(const visitInfo& i, visitor& v) {
 
 가상함수 accept()가 호출되면 안에서 *this를 통해 구체타입으로써 역으로 visitor의 visit()을 호출하는 식입니다.
 
-이를 위해 visitation에 참여하는 모든 node의 파생클래스는 `accept()`라는 virtual 함수를 override 해야 하는데, 이 과정을 쉽게 하기 위해서 <b>VISIT 매크로</b>를 사용합니다:
+이를 위해 visitation에 참여하는 모든 @ref by::node "node"의 파생클래스는 `accept()`라는 virtual 함수를 override 해야 하는데, 이 과정을 쉽게 하기 위해서 <b>VISIT 매크로</b>를 사용합니다:
 
 ```
 @style: language-cpp verified
@@ -3182,15 +3182,15 @@ class _nout slot: public node {
 public:
 ```
 
-만약 node 파생클래스 임에도 `accept()`를 override 하지 않았다면, `onTraverse(node&)`가 대신 사용되며, 이걸로도 충분한 경우에 해당됩니다.
+만약 @ref by::node "node"파생클래스 임에도 `accept()`를 override 하지 않았다면, `onTraverse(node&)`가 대신 사용되며, 이걸로도 충분한 경우에 해당됩니다.
 
 **중복 방문 제거**
 
-AST는 참조가 서로 순환하는 경우도 종종 발생합니다 (예: A가 B를 참조하고 B가 다시 A를 참조). 이 경우 아무런 예외처리 없이 순회하면 이미 방문했던 node를 다시 방문하면서 <b>무한 순회</b>에 빠집니다.
+AST는 참조가 서로 순환하는 경우도 종종 발생합니다 (예: A가 B를 참조하고 B가 다시 A를 참조). 이 경우 아무런 예외처리 없이 순회하면 이미 방문했던 @ref by::node "node"를 다시 방문하면서 <b>무한 순회</b>에 빠집니다.
 
-visitor는 `_visited`라는 map을 소유하고 있습니다. 이를 통해서 `visit()`이 호출 되었을 때 이미 방문한 node인지를 판단해서 예외처리를 해주고 있습니다.
+@ref by::visitor "visitor"는 `_visited`라는 map을 소유하고 있습니다. 이를 통해서 `visit()`이 호출 되었을 때 이미 방문한 @ref by::node "node"인지를 판단해서 예외처리를 해주고 있습니다.
 
-이 방문 기록 정보는 매번 visitor가 방문을 시작하기 직전에 초기화됩니다. 만약 재방문이 가능하도록 하고 싶다면 `setReturnable(true)`로 값을 변경하면 됩니다.
+이 방문 기록 정보는 매번 @ref by::visitor "visitor"가 방문을 시작하기 직전에 초기화됩니다. 만약 재방문이 가능하도록 하고 싶다면 `setReturnable(true)`로 값을 변경하면 됩니다.
 
 
 #### graphVisitor 클래스 - AST 로깅
@@ -3200,9 +3200,9 @@ visitor는 `_visited`라는 map을 소유하고 있습니다. 이를 통해서 `
 다음과 같은 상황에서 사용됩니다:
 - `interpreter`에 의해서 디버그 빌드에서 사용
 - `defaultSigZone`에 의해서 crash가 발생하면 출력
-- `logStructureFlag`에 의해서 `interpreter`나 `starter`로 하여금 graphVisitor를 사용하도록 flag가 set됨
+- `logStructureFlag`에 의해서 `interpreter`나 `starter`로 하여금 @ref by::graphVisitor "graphVisitor"를 사용하도록 flag가 set됨
 
-graphVisitor는 AST 구조를 트리 형태로 시각화하여 출력하므로, 디버깅시 AST의 구조를 파악하는 데 매우 유용합니다.
+@ref by::graphVisitor "graphVisitor"는 AST 구조를 트리 형태로 시각화하여 출력하므로, 디버깅시 AST의 구조를 파악하는 데 매우 유용합니다.
 
 
 
@@ -3219,7 +3219,7 @@ byeol 언어의 특성인 <b>offside rule</b>을 지원하기 위해 정교한 �
 **Scanner - Bison - Parser 구조**
 
 Flex와 Bison을 사용하고 있으며 flex는 `lowscanner`로, bison은 `lowparser`로 각각
-명명합니다. 이 low level인 scanner, parser는 parser 컴포넌트 안에만 존재하는 것으로
+명명합니다. 이 low level인 scanner, @ref by::parser "parser"는 @ref by::parser "parser"컴포넌트 안에만 존재하는 것으로
 외부에서는 일절 노출되지 않습니다.
 
 `parser::work()`가 실행되면 다음과 같은 흐름으로 동작합니다:
@@ -3228,9 +3228,7 @@ Flex와 Bison을 사용하고 있으며 flex는 `lowscanner`로, bison은 `lowpa
 2. lowscanner는 토큰을 뜯어서 lowparser에게 넘김
 3. lowparser는 받은 토큰에 대해 rule이 match되면 그 이벤트를 다시 parser에게 넘김
 
-그러므로 parser의 `on`으로 시작하는 함수들(예: `onPack()`, `onCompilationUnit()`)은
-그러한 이벤트를 handling하는 함수로, 실제로 어떻게 node를 생성해서 AST를 구축하는지를
-정의합니다.
+그러므로 @ref by::parser "parser"의 `on`으로 시작하는 함수들(예: `onPack()`, `onCompilationUnit()`)은 그러한 이벤트를 handling하는 함수로, 실제로 어떻게 @ref by::node "node"를 생성해서 AST를 구축하는지를 정의합니다.
 
 **lowparser.y의 Lifecycle 관리**
 
@@ -3277,20 +3275,19 @@ compilation-unit: pack defblock {
 
 #### smartDedent, tokenScan 클래스 - Indentation 관리
 
-byeol 파서의 `smartDedent`와 `tokenScan`은 stela 모듈의 `stelaSmartDedent`, `stelaTokenScan`과 동일한 원리로 동작합니다. Indentation을 배열로 관리하고, scan mode를 동적으로 전환하는 방식은 완전히 같습니다.
+byeol 파서의 `smartDedent`와 `tokenScan`은 @ref by::stela "stela"모듈의 `stelaSmartDedent`, `stelaTokenScan`과 동일한 원리로 동작합니다. Indentation을 배열로 관리하고, scan mode를 동적으로 전환하는 방식은 완전히 같습니다.
 
-상세한 동작 원리와 예제는 stela 모듈의 해당 클래스들을 참조하세요. byeol 파서의 경우
+상세한 동작 원리와 예제는 @ref stela 모듈의 해당 클래스들을 참조하세요. byeol 파서의 경우
 더 복잡한 문법을 가지므로 명령 토큰(`SCAN_AGAIN`, `SCAN_EXIT` 등)이 더 다양합니다
 
 자세한 명령 토큰 목록은 `lowparser.y`의 `// mode:` 단락을 참조하세요.
 
 #### srcSupply 클래스 - 소스 코드 공급 추상화
 
-`parser`에서 사용되는 클래스로, parser에 입력되는 코드를 어떠한 형태로 제공할지를
-추상화합니다.
+`parser`에서 사용되는 클래스로, @ref by::parser "parser"에 입력되는 코드를 어떠한 형태로 제공할지를 추상화합니다.
 
 예를 들어 파일로써 제공하는 방법도 있지만, 버퍼에 담아서 줄 수도 있고 stream으로 주는
-방법도 있을 것입니다. `srcSupply`는 이러한 다양한 소스 제공 방식을 추상화하여 parser가
+방법도 있을 것입니다. `srcSupply`는 이러한 다양한 소스 제공 방식을 추상화하여 @ref by::parser "parser"가
 일관된 인터페이스로 소스 코드를 읽을 수 있도록 합니다.
 
 #### expander 클래스 - 사전 타입 추론
@@ -3299,10 +3296,9 @@ byeol 파서의 `smartDedent`와 `tokenScan`은 stela 모듈의 `stelaSmartDeden
 모든 사전 타입 추론 표현식을 모아둔 후, 반복적으로 타입 추론을 시도하는 방식입니다.
 
 이러한 방식을 사용하기 때문에 반복적으로 표현식을 순회하며 사전 타입 추론을 시도하는
-동작을 `verifier` 안에서 한번에 수행하기에는 적합하지 않습니다. 따라서 verifier로
-검증하기 전에 expander로 사전 타입 추론을 완료해둘 필요가 있습니다.
+동작을 `verifier` 안에서 한번에 수행하기에는 적합하지 않습니다. 따라서 @ref by::verifier "verifier"로 검증하기 전에 @ref by::expander "expander"로 사전 타입 추론을 완료해둘 필요가 있습니다.
 
-기본 동작은 `visitor`에 기반하므로, 사전에 visitor를 숙지하고 오는 게 좋습니다.
+기본 동작은 `visitor`에 기반하므로, 사전에 @ref by::visitor "visitor"를 숙지하고 오는 게 좋습니다.
 
 **defBlock과 Expand**
 
@@ -3332,10 +3328,9 @@ byeol은 이러한 타입추론 표현식들을 한곳에 모아둔 후, parsing
 이 방식은 추론 순서를 따지지 않아도 되므로 구현이 간단하지만 속도가 느리므로,
 향후 종속성 그래프를 구축하여 타입 추론 순서를 최적화하는 방법으로 개선할 여지가 있습니다.
 
-`defBlock`은 이러한 역할을 돕습니다. defBlock에는 expand, common, scope 3종류의
-데이터가 있는데:
+`defBlock`은 이러한 역할을 돕습니다. @ref by::defBlock "defBlock"에는 expand, common, scope 3종류의 데이터가 있는데:
 
-- **scope**: parser에 의해서 바로 AST가 만들어지는 node
+- **scope**: @ref by::parser "parser"에 의해서 바로 AST가 만들어지는 @ref by::node "node"
 - **expand**: 파싱은 성공했지만 타입추론이 필요하여, `verifier` 동작 전에 `expander`로
   넘길 부분
 - **common**: 공통 생성자를 위한 부분
@@ -3352,12 +3347,11 @@ byeol은 이러한 타입추론 표현식들을 한곳에 모아둔 후, parsing
 과정에서 발생하는 에러를 수집할 수 있으며 다양한 flag들을 지정해서 작업 중 일부 동작을
 변경시킬 수도 있습니다.
 
-`verifier`, `visitor`, `parser` 등 큰 작업을 수행하는 클래스들은 tworker 기반으로
-돌아갑니다.
+`verifier`, `visitor`, `parser` 등 큰 작업을 수행하는 클래스들은 @ref by::tworker "tworker"기반으로 돌아갑니다.
 
 **work와 task**
 
-tworker는 말 그대로 `work()`를 하기 위해 존재합니다. 이때 작업의 대상이 되는 input을
+@ref by::tworker "tworker"는 말 그대로 `work()`를 하기 위해 존재합니다. 이때 작업의 대상이 되는 input을
 `task`라고 합니다.
 
 작업 전에 `_prepare()`가 호출되며 작업이 종료되면 `_onEndWork()`가 호출됩니다.
@@ -3365,14 +3359,13 @@ tworker는 말 그대로 `work()`를 하기 위해 존재합니다. 이때 작�
 **errReport 통합**
 
 대량의 작업을 깊은 함수 depth를 동반하면서 수행해야 하므로, 콜스택 깊은 곳에 있는
-에러를 충분히 탐지하기 위해서는 errReport를 통해서 이를 수집할 수 있어야 합니다.
+에러를 충분히 탐지하기 위해서는 @ref by::errReport "errReport"를 통해서 이를 수집할 수 있어야 합니다.
 
-tworker는 `setReport()`를 통해서 외부로부터 errReport 객체를 넣을 수 있습니다.
-errReport를 할당하지 않을 경우 `dummyErrReport`가 대신 들어갑니다.
+@ref by::tworker "tworker"는 `setReport()`를 통해서 외부로부터 @ref by::errReport "errReport"객체를 넣을 수 있습니다. @ref by::errReport "errReport"를 할당하지 않을 경우 `dummyErrReport`가 대신 들어갑니다.
 
 **Log Flag**
 
-tworker는 작업 도중에 로깅을 위한 다양한 flag를 가지고 있습니다:
+@ref by::tworker "tworker"는 작업 도중에 로깅을 위한 다양한 flag를 가지고 있습니다:
 
 - `LOG_ON_EX`: 에러 발생시 한줄 로그를 남김
 - `DUMP_ON_EX`: 에러 발생시 callstack을 포함한 `err` 객체를 dump
@@ -3384,14 +3377,13 @@ tworker는 작업 도중에 로깅을 위한 다양한 flag를 가지고 있습�
 #### verifier 클래스 - 코드 검증
 
 `visitor` 기반의 코드 검증을 담당합니다. byeol 언어는 인터프리터의 구조를 띄고 있지만
-언어 자체는 강형 타입을 사용하고 컴파일을 실행하는 것처럼 사전에 에러를 도출합니다.
-verifier는 그 기능의 핵심을 구현합니다.
+언어 자체는 강형 타입을 사용하고 컴파일을 실행하는 것처럼 사전에 에러를 도출합니다. @ref by::verifier "verifier"는 그 기능의 핵심을 구현합니다.
 
 `parser`와 `expander`로 최종 생성된 AST를 실행하기 전에 에러는 없는지 확인합니다.
 
 **사전 학습 권장 사항**
 
-verifier는 다양한 모듈을 종합적으로 사용하는 고급 클래스이므로, 다음 개념들을 먼저 학습한 후 접근하는 것을 권장합니다:
+@ref by::verifier "verifier"는 다양한 모듈을 종합적으로 사용하는 고급 클래스이므로, 다음 개념들을 먼저 학습한 후 접근하는 것을 권장합니다:
 
 - `node`: AST의 기본 구조
 - `visitor`: AST 순회 패턴
@@ -3400,19 +3392,17 @@ verifier는 다양한 모듈을 종합적으로 사용하는 고급 클래스이
 
 **visitor 기반**
 
-onTraverse는 visitor에서 알아서 채워주므로, verifier는 onVisit과 onLeave시 어떻게
-해야 하는지에 대해서만 정의해두고 있습니다.
+onTraverse는 @ref by::visitor "visitor"에서 알아서 채워주므로, @ref by::verifier "verifier"는 onVisit과 onLeave시 어떻게 해야 하는지에 대해서만 정의해두고 있습니다.
 
 **eval과 infer**
 
-프로그램의 실행은 결국 각 `node`의 `eval()`로 이뤄지지만, verifier는 실행한 런타임
-값은 관심이 없습니다. 오직 실행이 가능한가, 지정한 표현식의 결과가 정의된 property의
+프로그램의 실행은 결국 각 `node`의 `eval()`로 이뤄지지만, @ref by::verifier "verifier"는 실행한 런타임 값은 관심이 없습니다. 오직 실행이 가능한가, 지정한 표현식의 결과가 정의된 property의
 타입과 묵시적 변환이 허용되는가와 같은 <b>타입 매칭</b>에만 관심이 있습니다.
 
 node의 `infer()`는 타입 추론 기능을 수행하는 것으로 실행하면 값은 모르지만 결과 타입을
 `origin` 객체로 반환하는 함수입니다. 값을 계산하지 않으므로 `eval()`보다 더 빠릅니다.
 
-이제 감이 왔겠지만, verifier는 `eval()`보다는 `infer()`를 중점적으로 사용합니다:
+이제 감이 왔겠지만, @ref by::verifier "verifier"는 `eval()`보다는 `infer()`를 중점적으로 사용합니다:
 
 ```
 @style: language-cpp verified
@@ -3429,7 +3419,7 @@ void me::onLeave(const visitInfo& i, assignExpr& me, nbool) {
 
 **많은 코드 라인을 가진 파일**
 
-verifier는 가장 LOC가 많은 파일 중 하나입니다. 이때 코드들은 크게 3 종류로 분류됩니다:
+@ref by::verifier "verifier"는 가장 LOC가 많은 파일 중 하나입니다. 이때 코드들은 크게 3 종류로 분류됩니다:
 
 1. 검증을 위한 사전 작업
 2. WHEN 매크로를 사용한 실제 검증 로직
@@ -3437,8 +3427,7 @@ verifier는 가장 LOC가 많은 파일 중 하나입니다. 이때 코드들은
 
 **단계별 상세 로깅**
 
-visitor는 타입당 1개의 `onVisit()` 함수만 가질 수 있습니다. 그러나 verifier는 하나의
-타입이 주어졌을 때 검증해야 하는 케이스가 대부분 2개 이상입니다. 그러니 잘못하면
+@ref by::visitor "visitor"는 타입당 1개의 `onVisit()` 함수만 가질 수 있습니다. 그러나 @ref by::verifier "verifier"는 하나의 타입이 주어졌을 때 검증해야 하는 케이스가 대부분 2개 이상입니다. 그러니 잘못하면
 하나의 `onVisit()` 함수는 여러 개의 검증 로직으로 뒤범벅되어 구분이 어려워집니다.
 
 단계별 상세 로깅이란, 이를 도와주는 코드로, 검증 타겟이 되는 객체에 대해 진행하게 될
@@ -3476,14 +3465,13 @@ void me::onLeave(const visitInfo& i, assignExpr& me, nbool) {
 - **반환형**: `void` 또는 `int`
 - **내용**: 최소 1개 이상의 구문을 포함해야 함
 
-`starter`는 `interpreter`와 함께 사용하면 byeol 코드를 파싱해서 실행할 수 있습니다.
+@ref by::starter "starter"는 @ref by::interpreter "interpreter"와 함께 사용하면 byeol 코드를 파싱해서 실행할 수 있습니다.
 
 #### sigZone 클래스 - Signal 처리
 
 `signaler`에 RAII를 적용한 클래스입니다.
 
-sigZone 인스턴스가 정의된 블록문 안의 코드를 실행할 때 signal이 오면 람다를 수행하도록
-signaler를 사용합니다. RAII 패턴을 통해 블록을 벗어나면 자동으로 signal handler가
+@ref by::sigZone "sigZone"인스턴스가 정의된 블록문 안의 코드를 실행할 때 signal이 오면 람다를 수행하도록 @ref by::signaler "signaler"를 사용합니다. RAII 패턴을 통해 블록을 벗어나면 자동으로 signal handler가
 해제됩니다.
 
 
@@ -3495,7 +3483,7 @@ byeol 언어는 에러 처리를 위한 정교한 시스템을 갖추고 있습�
 
 #### baseErr 클래스 - 에러의 기반
 
-byeol 언어에서의 err 클래스 계통의 가장 base 클래스입니다. 에러 처리에 대한 공통
+byeol 언어에서의 @ref by::err "err"클래스 계통의 가장 base 클래스입니다. 에러 처리에 대한 공통
 로직과 인터페이스를 포함합니다.
 
 **byeol Error의 문법적 구분과 내부 구현**
@@ -3505,24 +3493,21 @@ byeol 문법상으로는 에러는 2종류로 구분됩니다:
 1. **Known error**: `?`로 표현되며, errorable 타입으로 명시
 2. **Exception**: errorable 타입으로 명시하지 않는 상황에서 에러가 반환되는 케이스
 
-하지만 <b>구현상으로는 둘은 완전히 동일한 에러 객체</b>입니다. 에러는 `parser`나
-`verifier`가 발생시킨, native 상에서 발생한 `nerr`와 byeol 코드로 인해 발생한 `err`,
-2개가 에러의 발생원에 의해 구분되고 있을 뿐입니다.
+하지만 <b>구현상으로는 둘은 완전히 동일한 에러 객체</b>입니다. 에러는 `parser`나 `verifier`가 발생시킨, native 상에서 발생한 `nerr`와 byeol 코드로 인해 발생한 `err`, 2개가 에러의 발생원에 의해 구분되고 있을 뿐입니다.
 
-**err는 frames에 대한 강한 참조를 갖는다**
+**@ref by::err "err"는 @ref by::frames "frames"에 대한 강한 참조를 갖는다**
 
-이 frame을 사용해서 callstack 정보를 제공합니다. `frame`에서 설명한 것처럼 frame은
-함수 호출시 baseObj에 의해서 생성됩니다.
+이 @ref by::frame "frame"을 사용해서 callstack 정보를 제공합니다. `frame`에서 설명한 것처럼 @ref by::frame "frame"은 함수 호출시 @ref by::baseObj "baseObj"에 의해서 생성됩니다.
 
-이후 frame은 `frames`에 의해서 `del()` 되는데 이때 객체의 강한 참조를 잃어버릴 뿐
+이후 @ref by::frame "frame"은 `frames`에 의해서 `del()` 되는데 이때 객체의 강한 참조를 잃어버릴 뿐
 heap에서 바로 삭제가 되진 않습니다. (이 프로젝트에서 memlite 모듈의 `tstr`에 의한
 레퍼런스 카운팅 없이 직접 heap에서 new/delete를 하는 경우는 극히 드뭅니다.)
 
-그러므로 <b>err가 살아있는 한 참조하는 frame 데이터 또한 유지</b>됩니다.
+그러므로 <b>@ref by::err "err"가 살아있는 한 참조하는 @ref by::frame "frame"데이터 또한 유지</b>됩니다.
 
 **nerr 생성**
 
-nerr은 주로 core 모듈의 `__core_when__`에 의해서 만들어집니다. 다음과 같은 코드로
+@ref by::nerr "nerr"은 주로 core 모듈의 `__core_when__`에 의해서 만들어집니다. 다음과 같은 코드로
 이뤄집니다:
 
 ```
@@ -3540,11 +3525,11 @@ WHEN_NUL(stmt).exErr(IS_NUL, getReport(), "stmt").ret(blk);
 
 **errCode**
 
-관리를 위해서 nerr는 errCode로 관리됩니다. nerr는 주로 `parser`나 `verifier`에 의해서
+관리를 위해서 @ref by::nerr "nerr"는 @ref by::errCode "errCode"로 관리됩니다. nerr는 주로 `parser`나 `verifier`에 의해서
 생성되는데, 이는 문법 에러가 발생했을 때 `Err2203`과 같이 code 2203를 같이 줌으로써
 어떤 에러인지 상세 정보를 쉽게 검색하도록 도움을 주기 위해서입니다.
 
-errCode는 리터럴 상수로 간단하게 description 문자열도 정의하고 있으니 참고하세요.
+@ref by::errCode "errCode"는 리터럴 상수로 간단하게 description 문자열도 정의하고 있으니 참고하세요.
 
 #### errReport 클래스 - 에러 수집
 
@@ -3552,37 +3537,31 @@ errCode는 리터럴 상수로 간단하게 description 문자열도 정의하�
 
 시간이 오래 걸리거나 복잡한 동작을 수행하는 로직이 있는 경우 함수의 depth가 매우
 깊어집니다. 안쪽에서 특정 함수에서 에러가 발생한 경우, 에러가 발생했다는 사실을
-기록하고 작업은 최대한 진행하고 싶을 때 errReport를 사용해서 에러를 기록합니다.
+기록하고 작업은 최대한 진행하고 싶을 때 @ref by::errReport "errReport"를 사용해서 에러를 기록합니다.
 
 **컨테이너**
 
-errReport는 거의 모든 기능이 `baseErr` 객체에 대한 관리이기 때문에 `tucontainable`과
-유사한 인터페이스를 가지고 있습니다.
+@ref by::errReport "errReport"는 거의 모든 기능이 `baseErr` 객체에 대한 관리이기 때문에 `tucontainable`과 유사한 인터페이스를 가지고 있습니다.
 
 **noisy**
 
-어떠한 errReport는 새로운 err 객체가 add될 때마다 자동으로 `log()`를 수행하고 싶을
-때가 있습니다. 이때 `setNoisy(true)`를 지정합니다. 이렇게 하면 에러가 추가되는 즉시
+어떠한 @ref by::errReport "errReport"는 새로운 @ref by::err "err"객체가 add될 때마다 자동으로 `log()`를 수행하고 싶을 때가 있습니다. 이때 `setNoisy(true)`를 지정합니다. 이렇게 하면 에러가 추가되는 즉시
 로그가 남아 디버깅이 더 쉬워집니다.
 
 
 
 ## frontend 모듈 - CLI 인터페이스
 
-`frontend` 모듈은 Byeol 언어의 명령줄 인터페이스(CLI)를 제공합니다. 이 모듈은 `core`
-모듈의 기능들을 조합하여 사용자가 Byeol 프로그램을 실행할 수 있도록 합니다.
+@ref frontend모듈은 Byeol 언어의 명령줄 인터페이스(CLI)를 제공합니다. 이 모듈은 @ref core모듈의 기능들을 조합하여 사용자가 Byeol 프로그램을 실행할 수 있도록 합니다.
 
 
 ### cli 클래스 - Frontend의 핵심
 
-`cli` 클래스는 `frontend` 모듈의 핵심 클래스로, `core` 모듈의 `interpreter`를 사용해서
-코드를 파싱하고 검증하고 평가하는 일련의 과정들을 위해 적절한 클래스를 호출해서 제어합니다.
+@ref by::cli "cli"클래스는 @ref frontend모듈의 핵심 클래스로, @ref core모듈의 @ref by::interpreter "interprete"를 사용해서 코드를 파싱하고 검증하고 평가하는 일련의 과정들을 위해 적절한 클래스를 호출해서 제어합니다.
 
-즉, cli는 뭔가 알고리즘을 만들어서 동작하는 클래스가 아니라 <b>이미 잘 짜여진 클래스들을
-조합하는 역할</b>을 합니다.
+즉, @ref by::cli "cli"는 뭔가 알고리즘을 만들어서 동작하는 클래스가 아니라 <b>이미 잘 짜여진 클래스들을 조합하는 역할</b>을 합니다.
 
-파라메터로 cli 프로그램에 사용자가 입력한 인자를 받으며, 이를 적절히 파싱해서 추가로
-명령을 수행합니다. 자세한 내용은 `flags` 폴더를 참조하세요.
+파라메터로 @ref by::cli "cli"프로그램에 사용자가 입력한 인자를 받으며, 이를 적절히 파싱해서 추가로 명령을 수행합니다. 자세한 내용은 `flags` 폴더를 참조하세요.
 
 **핵심 알고리즘**
 
@@ -3590,12 +3569,12 @@ errReport는 거의 모든 기능이 `baseErr` 객체에 대한 관리이기 때
 
 1. `interpreter`, `errReport`, `starter` 객체를 생성한다.
 2. interpreter, starter에 flag를 set한다. 이 `tworker`의 flag를 말하는 것으로, cli의
-   `flag`와 다른 것이다. 자세한 내용은 tworker를 참조.
+   `flag`와 다른 것이다. 자세한 내용은 @ref by::tworker "tworker"를 참조.
 3. flagArgs를 파싱해서 사전 작업 수행 - flag 객체에 `take()` 함수를 호출해서 수행한다.
-4. interpreter를 수행한다.
+4. @ref by::interpreter "interpreter"를 수행한다.
 5. 인터프리트 결과를 체크한다. 이상이 있으면 결과를 내보내고 종료한다.
-6. 이상이 없으면 starter에 검증된 AST를 넣고 실행한다.
-7. starter의 결과를 반환한다.
+6. 이상이 없으면 @ref by::starter "starter"에 검증된 AST를 넣고 실행한다.
+7. @ref by::starter "starter"의 결과를 반환한다.
 
 
 ### flag 클래스 - 명령줄 플래그 처리
@@ -3608,12 +3587,12 @@ shell 기반 프로그램에서 흔히 볼 수 있는 플래그들을 처리하�
 
 **Flag의 설명**
 
-각 flag는 자신의 이름 뿐만 아니라 어떠한 기능인지 description을 정의해두고 있습니다.
+각 @ref by::flag "flag"는 자신의 이름 뿐만 아니라 어떠한 기능인지 description을 정의해두고 있습니다.
 이들은 `helpFlag`에 의해서 사용됩니다.
 
 **정규식에 의한 패턴매칭**
 
-각 flag 클래스는, 자신이 찾고자 하는 패턴이 정해져 있습니다.
+각 @ref by::flag "flag"클래스는, 자신이 찾고자 하는 패턴이 정해져 있습니다.
 
 예를들어 `verFlag`는 `--version`이라는 문자열이 프로그램 인자로 들어와 있는지를 찾아,
 들어와 있을 경우 `buildFeature`로부터 version 정보를 가져와 출력합니다.
@@ -3638,8 +3617,7 @@ me::res verFlag::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter&
 }
 ```
 
-이 동작은 `flag::take()`가 호출되면 파생클래스의 `_getRegExpr()`에 정의해둔 정규식
-표현으로 각 flag 객체가 원하는 패턴을 찾는 형태로 동작합니다. 정규식으로 찾기 때문에
+이 동작은 @ref by::flag "flag"의 `take()`가 호출되면 파생클래스의 `_getRegExpr()`에 정의해둔 정규식 표현으로 각 @ref by::flag "flag"객체가 원하는 패턴을 찾는 형태로 동작합니다. 정규식으로 찾기 때문에
 flag 간 순서는 무시됩니다.
 
 또한 정규식 패턴을 정의할 때는 여러개 패턴을 정의할 수 있습니다:
@@ -3663,9 +3641,7 @@ me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) c
 
 **복수의 flag 인자를 consume하기**
 
-위에서 예로 들었던 verFlag를 다시 봅시다. `--version`이라는 문자열이 프로그램 인자에
-있는 경우, 버전을 출력합니다. 단, 이때 또 다시 verFlag가 동작하지 않도록, 동작을 마치면
-`--version`이라는 문자열을 `flagArgs`에서 제거합니다.
+위에서 예로 들었던 @ref by::verFlag "verFlag"를 다시 봅시다. `--version`이라는 문자열이 프로그램 인자에 있는 경우, 버전을 출력합니다. 단, 이때 또 다시 @ref by::verFlag "verFlag"가 동작하지 않도록, 동작을 마치면 `--version`이라는 문자열을 @ref by::flagArgs "flagArgs"에서 제거합니다.
 
 그러면 다음으로 `bufferSrcFlag`를 봅시다. 다음과 같이 사용합니다:
 
@@ -3684,12 +3660,11 @@ main() void
 
 실행 결과는 `wow!`가 화면에 출력됩니다.
 
-이처럼 어떤 flag는 패턴과 일치하는 부분만을 consume하지 않습니다. `--script`을 찾으면
+이처럼 어떤 @ref by::flag "flag"는 패턴과 일치하는 부분만을 consume하지 않습니다. `--script`을 찾으면
 거기서 추가적으로 1개의 인자를 더 뜯어내서 `bufferSrcFlag::_onTake()`로 전달해 함수의
 본문이 _onTake()로 전달되도록 해야 합니다.
 
-각 flag의 파생클래스는 원할 경우, `getArgCount()`를 오버라이드해서 몇개의 인자를 더
-뜯어낼 것인지를 명시합니다:
+각 @ref by::flag "flag"의 파생클래스는 원할 경우, `getArgCount()`를 오버라이드해서 몇개의 인자를 더 뜯어낼 것인지를 명시합니다:
 
 ```
 @style: language-cpp verified
@@ -3711,20 +3686,16 @@ me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) c
 
 **중단 가능한 flag**
 
-bufferSrcFlag는 프로그램 시작 전에 사전 작업을 필요로 하는 flag입니다. 반면 verFlag
-같은 경우는 일단 매칭이 되면 어떠한 인터프리팅도 하지 않고 그대로 버전을 출력하고
-종료합니다. (대다수 프로그램이 이렇게 동작한다는 걸 알고 있을 것입니다.)
+@ref by::bufferSrcFlag "bufferSrcFlag"는 프로그램 시작 전에 사전 작업을 필요로 하는 @ref by::flag "flag"입니다. 반면 @ref by::verFlag "verFlag"같은 경우는 일단 매칭이 되면 어떠한 인터프리팅도 하지 않고 그대로 버전을 출력하고 종료합니다. (대다수 프로그램이 이렇게 동작한다는 걸 알고 있을 것입니다.)
 
-이처럼 flag의 패턴이 매칭이 되면 동작을 하고 바로 종료하고 싶을 때는, `_onTake()`를
-오버라이딩할 때 반환값을 <b>EXIT_PROGRAM</b>으로 줍니다. bufferSrcFlag처럼 계속 동작을
-하는 경우에는 <b>MATCH</b>로 반환합니다.
+이처럼 @ref by::flag "flag"의 패턴이 매칭이 되면 동작을 하고 바로 종료하고 싶을 때는, `_onTake()`를 오버라이딩할 때 반환값을 <b>EXIT_PROGRAM</b>으로 줍니다. @ref by::bufferSrcFlag "bufferSrcFlag"처럼 계속 동작을 하는 경우에는 <b>MATCH</b>로 반환합니다.
 
 
 ## 다음 단계
 
 지금까지 byeol 언어의 아키텍처, 설계 그리고 핵심 클래스들을 설명했습니다.
 가급적 예제를 직접 넣긴 했지만 그래도 완전히 이해하기에는 부족했을 거라 생각되네요.
-역시 좀 더 깊이 이해하고 싶다면, `test` 모듈의 unittest 코드들을 직접 읽어보는 것을 강력히 권장합니다.
+역시 좀 더 깊이 이해하고 싶다면, `test` 모듈의 unit test 코드들을 직접 읽어보는 것을 강력히 권장합니다.
 
 각 모듈별로 작성된 테스트 케이스들은 실제 사용 예제를 담고 있으며, 특정 기능이 어떻게
 동작하는지 가장 명확하게 보여줍니다.
