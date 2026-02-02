@@ -354,8 +354,7 @@ def _publishDoc():
         res = system(f"{git.binary} push https://x-access-token:{token}@github.com/byeolang/website.git main")
         if res != 0:
             printErr("WARNING: Push failed (likely conflict). Continuing as success.")
-        else:
-            printOk("Push successful.")
+
     else:
         print("now, please push new commit.")
 
