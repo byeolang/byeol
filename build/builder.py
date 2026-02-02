@@ -350,7 +350,6 @@ def _publishDoc():
 
     token = os.environ.get("GH_TOKEN")
     if token:
-        printInfo("Pushing changes to remote...")
         res = system(f"{git.binary} push https://x-access-token:{token}@github.com/byeolang/website.git main")
         if res != 0:
             printErr("WARNING: Push failed (likely conflict). Continuing as success.")
