@@ -116,3 +116,48 @@ TEST_F(ttypeTest, typeOfType) {
     const auto& t = ttype<type1>::get();
     ASSERT_TRUE(t.isSub<ttype<myDerivedClass2>>());
 }
+
+TEST_F(ttypeTest, voidTypeIsNotTemplate) {
+    const type& voidType = ttype<void>::get();
+    ASSERT_FALSE(voidType.isTemplate());
+}
+
+TEST_F(ttypeTest, voidTypeIsAbstract) {
+    const type& voidType = ttype<void>::get();
+    ASSERT_TRUE(voidType.isAbstract());
+}
+
+TEST_F(ttypeTest, voidTypeMakeReturnsNull) {
+    const type& voidType = ttype<void>::get();
+    void* instance = voidType.make();
+    ASSERT_EQ(instance, nullptr);
+}
+
+TEST_F(ttypeTest, voidTypeSizeIsZero) {
+    const type& voidType = ttype<void>::get();
+    ASSERT_EQ(voidType.size(), 0);
+}
+
+TEST_F(ttypeTest, voidTypeGetName) {
+    const type& voidType = ttype<void>::get();
+    ASSERT_STREQ(voidType.getName().c_str(), "void");
+}
+
+TEST_F(ttypeTest, voidTypeGetSuper) {
+    const type& voidType = ttype<void>::get();
+    const type& superType = voidType.getSuper();
+    ASSERT_TRUE(superType.isInit());
+}
+
+TEST_F(ttypeTest, voidTypeIsInit) {
+    const type& voidType = ttype<void>::get();
+    // void type should be initialized
+    ASSERT_TRUE(voidType.isInit());
+}
+
+TEST_F(ttypeTest, voidTypeGetStatic) {
+    const type& voidType1 = ttype<void>::get();
+    const type& voidType2 = ttype<void>::get();
+    // get() should return singleton
+    ASSERT_EQ(&voidType1, &voidType2);
+}
