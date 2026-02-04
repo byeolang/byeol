@@ -410,10 +410,31 @@ def covBuild():
     if checkDependencies([LlvmCovDependency(), GcovDependency(), lcov, genhtml]):
         return -1
 
-    res = os.system(f"{lcov.binary} --directory {cwd} --base-directory {cwd} --gcov-tool {cwd}/llvm-gcov.sh --capture -o cov.info")
+    # Read exclusion patterns from .coverage-exclude file
+    def read_exclude_patterns():
+        exclude_file = os.path.join(byeolDir + slash() + "build", '.coverage-exclude')
+        if os.path.exists(exclude_file):
+            with open(exclude_file) as f:
+                return [line.strip() for line in f if line.strip() and not line.startswith('#')]
+        return []
+
+    # Collect raw coverage data
+    res = os.system(f"{lcov.binary} --directory {cwd} --base-directory {cwd} --gcov-tool {cwd}/llvm-gcov.sh --capture -o cov_raw.info --ignore-errors inconsistent,unsupported,format")
     if res != 0:
         printErr("fail to collect gcov results")
         return -1
+
+    # Apply exclusion patterns
+    exclude_patterns = read_exclude_patterns()
+    if exclude_patterns:
+        exclude_opts = ' '.join([f"'{p}'" for p in exclude_patterns])
+        res = os.system(f"{lcov.binary} --remove cov_raw.info {exclude_opts} -o cov.info --ignore-errors inconsistent,unsupported,format")
+        if res != 0:
+            printErr("fail to apply exclusion patterns")
+            return -1
+        os.remove(f"{cwd}/cov_raw.info")  # Clean up temporary file
+    else:
+        os.rename(f"{cwd}/cov_raw.info", f"{cwd}/cov.info")
 
     printOk("done")
 

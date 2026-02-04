@@ -1,0 +1,11 @@
+# Coverage exclusion patterns
+# This file contains patterns for files to exclude from code coverage reports
+# Typically used for auto-generated files (Bison/Flex parsers, etc.)
+
+# Stela module - Bison/Flex generated files
+*/stela/parser/bison/*Lowparser.cpp
+*/stela/parser/bison/*Lowscanner.*
+
+# Core module - Bison/Flex generated files (lowercase 'low')
+*/core/worker/bison/lowparser.cpp
+*/core/worker/bison/lowscanner.*
