@@ -1,2 +1,2 @@
 #!/bin/bash
-exec llvm-cov-14 gcov "$@"
+exec llvm-cov gcov "$@"
