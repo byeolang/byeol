@@ -199,3 +199,184 @@ TEST_F(basicParsing, testManifestScript) {
     ASSERT_EQ(entrys.len(), 1);
     ASSERT_STREQ(entrys["cpp"]["path"].asStr().c_str(), "./libsamplePack.pack");
 }
+
+TEST_F(basicParsing, testValStelaConstructors) {
+    valStela boolVal(true, "flag");
+    ASSERT_STREQ(boolVal.asStr().c_str(), "true");
+    ASSERT_TRUE(boolVal.asBool());
+
+    valStela boolFalse(false, "disabled");
+    ASSERT_STREQ(boolFalse.asStr().c_str(), "false");
+    ASSERT_FALSE(boolFalse.asBool());
+
+    valStela intVal(42, "number");
+    ASSERT_EQ(intVal.asInt(), 42);
+    ASSERT_STREQ(intVal.asStr().c_str(), "42");
+
+    valStela floatVal(3.14f, "pi");
+    ASSERT_STREQ(floatVal.asStr().substr(0, 4).c_str(), "3.14");
+}
+
+TEST_F(basicParsing, testValStelaAsChar) {
+    const std::string script = R"SRC(
+        letter := "A"
+        empty := ""
+    )SRC";
+
+    tstr<stela> root = stelaParser().parse(script);
+    ASSERT_TRUE(root);
+
+    stela& letter = root->sub("letter");
+    ASSERT_EQ(letter.asChar(), 'A');
+
+    stela& empty = root->sub("empty");
+    ASSERT_EQ(empty.asChar(), '\0');
+}
+
+TEST_F(basicParsing, testValStelaAsBool) {
+    const std::string script = R"SRC(
+        t1 := "true"
+        f1 := "false"
+        t2 := "TRUE"
+        f2 := "FALSE"
+        nz := "5"
+        z := "0"
+    )SRC";
+
+    tstr<stela> root = stelaParser().parse(script);
+    ASSERT_TRUE(root);
+
+    ASSERT_TRUE(root->sub("t1").asBool());
+    ASSERT_FALSE(root->sub("f1").asBool());
+    ASSERT_TRUE(root->sub("t2").asBool());
+    ASSERT_FALSE(root->sub("f2").asBool());
+    ASSERT_TRUE(root->sub("nz").asBool());
+    ASSERT_FALSE(root->sub("z").asBool());
+}
+
+TEST_F(basicParsing, testStelaDelMethod) {
+    const std::string script = R"SRC(
+        name := "test"
+        age := 25
+        city := "seoul"
+    )SRC";
+
+    tstr<stela> root = stelaParser().parse(script);
+    ASSERT_TRUE(root);
+    ASSERT_EQ(root->len(), 3);
+
+    root->del("age");
+    ASSERT_EQ(root->len(), 2);
+    ASSERT_FALSE(root->has("age"));
+    ASSERT_TRUE(root->has("name"));
+
+    stela& cityRef = root->sub("city");
+    root->del(cityRef);
+    ASSERT_EQ(root->len(), 1);
+    ASSERT_FALSE(root->has("city"));
+
+    root->del((const nchar*)"name");
+    ASSERT_EQ(root->len(), 0);
+}
+
+TEST_F(basicParsing, testStelaSetName) {
+    stela node("original");
+    ASSERT_STREQ(node.getName().c_str(), "original");
+
+    node.setName("renamed");
+    ASSERT_STREQ(node.getName().c_str(), "renamed");
+
+    node.setName((const nchar*)"cstring");
+    ASSERT_STREQ(node.getName().c_str(), "cstring");
+
+    node.setName((const nchar*)nullptr);
+    ASSERT_STREQ(node.getName().c_str(), "cstring");
+}
+
+TEST_F(basicParsing, testStelaIndexAccess) {
+    const std::string script = R"SRC(
+        first := "a"
+        second := "b"
+        third := "c"
+    )SRC";
+
+    tstr<stela> root = stelaParser().parse(script);
+    ASSERT_TRUE(root);
+
+    stela& elem0 = root->sub(0);
+    ASSERT_TRUE(elem0);
+
+    stela& elem1 = root->sub(1);
+    ASSERT_TRUE(elem1);
+
+    stela& elem2 = root->sub(2);
+    ASSERT_TRUE(elem2);
+
+    stela& outOfBounds = root->sub(10);
+    ASSERT_FALSE(outOfBounds);
+
+    stela& negative = root->sub(-1);
+    ASSERT_FALSE(negative);
+}
+
+TEST_F(basicParsing, testStelaCStringOperator) {
+    const std::string script = R"SRC(
+        def config
+            host := "localhost"
+            port := 8080
+    )SRC";
+
+    tstr<stela> root = stelaParser().parse(script);
+    ASSERT_TRUE(root);
+
+    stela& config = (*root)[(const nchar*)"config"];
+    ASSERT_TRUE(config);
+
+    stela& host = config[(const nchar*)"host"];
+    ASSERT_STREQ(host.asStr().c_str(), "localhost");
+
+    stela& notExist = config[(const nchar*)nullptr];
+    ASSERT_FALSE(notExist);
+}
+
+TEST_F(basicParsing, testStelaDefaultValues) {
+    stela emptyNode("empty");
+
+    ASSERT_EQ(emptyNode.asInt(), 0);
+    ASSERT_EQ(emptyNode.asChar(), '\0');
+    ASSERT_STREQ(emptyNode.asStr().c_str(), "");
+    ASSERT_FALSE(emptyNode.asBool());
+    ASSERT_TRUE(emptyNode.isExist());
+}
+
+TEST_F(basicParsing, testComplexNestedScript) {
+    const std::string script = R"SRC(
+        def database
+            def connection
+                host := "localhost"
+                port := 5432
+                timeout := 30
+            def credentials
+                user := "admin"
+                password := "secret"
+        def logging
+            level := "info"
+            enabled := true
+    )SRC";
+
+    tstr<stela> root = stelaParser().parse(script);
+    ASSERT_TRUE(root);
+
+    stela& db = root->sub("database");
+    ASSERT_TRUE(db);
+
+    stela& conn = db["connection"];
+    ASSERT_EQ(conn["port"].asInt(), 5432);
+    ASSERT_EQ(conn["timeout"].asInt(), 30);
+
+    stela& creds = db["credentials"];
+    ASSERT_STREQ(creds["user"].asStr().c_str(), "admin");
+
+    stela& log = root->sub("logging");
+    ASSERT_TRUE(log["enabled"].asBool());
+}
