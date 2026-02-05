@@ -169,6 +169,8 @@ namespace by {
             .setBaseSlots(*ret)
 #ifdef BY_BUILD_PLATFORM_IS_LINUX
             .addPath("/usr/share/pack/")
+#elif defined(BY_BUILD_PLATFORM_IS_MAC)
+            .addPath("/usr/local/share/byeol/")
 #endif
             .addPath("pack/")
             .load();
