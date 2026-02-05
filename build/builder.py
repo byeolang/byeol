@@ -390,6 +390,11 @@ def covBuild():
         printErr("I can collect coverages in linux only.")
         return -1
 
+    lcov = LcovDependency()
+    genhtml = GenHtmlDependency()
+    if checkDependencies([LlvmCovDependency(), GcovDependency(), lcov, genhtml]):
+        return -1
+
     global config, cwd, byeolDir
     config="-DCMAKE_BUILD_TYPE=Debug -DCOVERAGE_TOOL=gcov"
     print(config)
@@ -405,10 +410,6 @@ def covBuild():
     printOk("done.")
 
     printInfoEnd("collects gcov results...")
-    lcov = LcovDependency()
-    genhtml = GenHtmlDependency()
-    if checkDependencies([LlvmCovDependency(), GcovDependency(), lcov, genhtml]):
-        return -1
 
     # Read exclusion patterns from .coverage-exclude file
     def read_exclude_patterns():
@@ -419,7 +420,7 @@ def covBuild():
         return []
 
     # Collect raw coverage data
-    res = os.system(f"{lcov.binary} --directory {cwd} --base-directory {cwd} --gcov-tool {cwd}/llvm-gcov.sh --capture -o cov_raw.info --ignore-errors inconsistent,unsupported,format")
+    res = os.system(f"{lcov.binary} --directory {cwd} --base-directory {cwd} --gcov-tool {cwd}/llvm-gcov.sh --capture -o cov_raw.info --ignore-errors unsupported,format")
     if res != 0:
         printErr("fail to collect gcov results")
         return -1
