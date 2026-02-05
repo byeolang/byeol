@@ -275,7 +275,7 @@ TEST_F(basicParsing, testStelaDelMethod) {
     ASSERT_EQ(root->len(), 1);
     ASSERT_FALSE(root->has("city"));
 
-    root->del((const nchar*)"name");
+    root->del((const nchar*) "name");
     ASSERT_EQ(root->len(), 0);
 }
 
@@ -286,10 +286,10 @@ TEST_F(basicParsing, testStelaSetName) {
     node.setName("renamed");
     ASSERT_STREQ(node.getName().c_str(), "renamed");
 
-    node.setName((const nchar*)"cstring");
+    node.setName((const nchar*) "cstring");
     ASSERT_STREQ(node.getName().c_str(), "cstring");
 
-    node.setName((const nchar*)nullptr);
+    node.setName((const nchar*) nullptr);
     ASSERT_STREQ(node.getName().c_str(), "cstring");
 }
 
@@ -329,13 +329,13 @@ TEST_F(basicParsing, testStelaCStringOperator) {
     tstr<stela> root = stelaParser().parse(script);
     ASSERT_TRUE(root);
 
-    stela& config = (*root)[(const nchar*)"config"];
+    stela& config = (*root)[(const nchar*) "config"];
     ASSERT_TRUE(config);
 
-    stela& host = config[(const nchar*)"host"];
+    stela& host = config[(const nchar*) "host"];
     ASSERT_STREQ(host.asStr().c_str(), "localhost");
 
-    stela& notExist = config[(const nchar*)nullptr];
+    stela& notExist = config[(const nchar*) nullptr];
     ASSERT_FALSE(notExist);
 }
 

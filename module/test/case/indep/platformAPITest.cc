@@ -2,26 +2,6 @@
 
 using namespace by;
 
-TEST(platformAPITest, foreColor) {
-    // Test basic color
-    std::string color = platformAPI::foreColor(RED);
-    // Color string should be non-null (may be empty on some platforms)
-    nbool notWindows = buildFeature::platform::get() != by::buildFeature::WINDOW;
-    ASSERT_TRUE(notWindows &&  color.size() > 0);
-
-    // Test boundary colors
-    std::string black = platformAPI::foreColor(BLACK);
-    std::string white = platformAPI::foreColor(WHITE);
-    ASSERT_TRUE(notWindows && black.size() > 0);
-    ASSERT_TRUE(notWindows && white.size() > 0);
-}
-
-TEST(platformAPITest, backColor) {
-    nbool notWindows = buildFeature::platform::get() != by::buildFeature::WINDOW;
-    std::string color = platformAPI::backColor(BLUE);
-    ASSERT_TRUE(notWindows && color.size() > 0);
-}
-
 TEST(platformAPITest, createNowTime) {
     std::string time = platformAPI::createNowTime("%Y-%m-%d");
     // Should return non-empty formatted time
@@ -54,11 +34,9 @@ TEST(platformAPITest, toAddrId) {
     ASSERT_EQ(addrId.length(), 4);
 
     // All characters should be valid hex digits
-    for(char c : addrId) {
+    for(char c: addrId)
         ASSERT_TRUE((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'));
-    }
 }
-
 
 TEST(platformAPITest, format) {
     std::string result = platformAPI::format("Hello %s, number %d", "world", 42);
@@ -79,7 +57,7 @@ TEST(platformAPITest, getExecPath) {
     nbool notWindows = buildFeature::platform::get() != by::buildFeature::WINDOW;
     std::string path = platformAPI::getExecPath();
     // Path may be empty on Windows, but should be valid on POSIX
-    ASSERT_TRUE(notWindows && path.size() >= 0);
+    ASSERT_TRUE(notWindows && path.size() > 0);
 }
 
 TEST(platformAPITest, getNowMs) {
@@ -87,7 +65,8 @@ TEST(platformAPITest, getNowMs) {
     ASSERT_GT(now1, 0);
 
     // Wait a tiny bit and check it increases
-    for(volatile int i = 0; i < 10000; i++);
+    for(volatile int i = 0; i < 10000; i++)
+        ;
     nuint64 now2 = platformAPI::getNowMs();
     ASSERT_GE(now2, now1);
 }

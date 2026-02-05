@@ -91,9 +91,8 @@ TEST(tresTest, complexType) {
     struct CustomError {
         int code;
         std::string msg;
-        bool operator==(const CustomError& rhs) const {
-            return code == rhs.code && msg == rhs.msg;
-        }
+
+        bool operator==(const CustomError& rhs) const { return code == rhs.code && msg == rhs.msg; }
     };
 
     tres<int, CustomError> result(CustomError{404, "not found"});
