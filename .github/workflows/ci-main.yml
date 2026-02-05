@@ -497,6 +497,7 @@ jobs:
         cd ${{github.workspace}}
         mkdir -p staging/byeol
         cp -r bin/* staging/byeol
+        mv staging/byeol/*.pkg staging/ || true
         rm staging/byeol/logs || true
         rm staging/byeol/test || true
 
