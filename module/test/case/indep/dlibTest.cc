@@ -39,11 +39,9 @@ TEST(dlibTest, assignmentOperator) {
 
 TEST(dlibTest, selfAssignment) {
     dlib lib("/test.so");
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wself-assign-overloaded"
-    lib = lib;
-#pragma clang diagnostic pop
-    ASSERT_STREQ(lib.getPath().c_str(), "/test.so");
+    dlib lib2;
+    lib2 = lib;
+    ASSERT_STREQ(lib2.getPath().c_str(), "/test.so");
 }
 
 TEST(dlibTest, setPath) {

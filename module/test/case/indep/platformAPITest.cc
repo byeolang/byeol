@@ -6,18 +6,20 @@ TEST(platformAPITest, foreColor) {
     // Test basic color
     std::string color = platformAPI::foreColor(RED);
     // Color string should be non-null (may be empty on some platforms)
-    ASSERT_TRUE(color.size() >= 0);
+    nbool notWindows = buildFeature::platform::get() != by::buildFeature::WINDOW;
+    ASSERT_TRUE(notWindows &&  color.size() > 0);
 
     // Test boundary colors
     std::string black = platformAPI::foreColor(BLACK);
     std::string white = platformAPI::foreColor(WHITE);
-    ASSERT_TRUE(black.size() >= 0);
-    ASSERT_TRUE(white.size() >= 0);
+    ASSERT_TRUE(notWindows && black.size() > 0);
+    ASSERT_TRUE(notWindows && white.size() > 0);
 }
 
 TEST(platformAPITest, backColor) {
+    nbool notWindows = buildFeature::platform::get() != by::buildFeature::WINDOW;
     std::string color = platformAPI::backColor(BLUE);
-    ASSERT_TRUE(color.size() >= 0);
+    ASSERT_TRUE(notWindows && color.size() > 0);
 }
 
 TEST(platformAPITest, createNowTime) {
@@ -74,9 +76,10 @@ TEST(platformAPITest, formatWithFloat) {
 }
 
 TEST(platformAPITest, getExecPath) {
+    nbool notWindows = buildFeature::platform::get() != by::buildFeature::WINDOW;
     std::string path = platformAPI::getExecPath();
     // Path may be empty on Windows, but should be valid on POSIX
-    ASSERT_TRUE(path.size() >= 0);
+    ASSERT_TRUE(notWindows && path.size() >= 0);
 }
 
 TEST(platformAPITest, getNowMs) {
