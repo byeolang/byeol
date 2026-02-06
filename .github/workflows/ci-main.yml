@@ -340,10 +340,54 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-apt-coverage-
 
+    - name: cache lcov source
+      uses: actions/cache@v4
+      id: lcov-source-cache
+      with:
+        path: lcov-2.2.tar.gz
+        key: lcov-source-2.2
+
+    - name: cache lcov binary
+      uses: actions/cache@v4
+      id: lcov-binary-cache
+      with:
+        path: |
+          /usr/local/bin/lcov
+          /usr/local/bin/genhtml
+          /usr/local/bin/geninfo
+          /usr/local/bin/genpng
+          /usr/local/bin/gendesc
+          /usr/local/bin/lcov_cobertura.py
+          /usr/local/share/man/man1/lcov*.1
+          /usr/local/share/man/man1/genhtml.1
+          /usr/local/share/man/man1/geninfo.1
+          /usr/local/share/man/man5/lcovrc.5
+          /usr/local/etc/lcovrc
+          /usr/local/share/lcov
+        key: ${{ runner.os }}-lcov-binary-2.2
+
     - name: install native dependencies
       run: |
         sudo apt-get update
-        sudo apt install -y python3 python3-pip cmake wget flex graphviz clang-format clang-tidy llvm lcov
+        sudo apt install -y python3 python3-pip cmake wget flex graphviz clang-format clang-tidy llvm perl libcapture-tiny-perl libdatetime-perl libjson-xs-perl
+
+    - name: download lcov source
+      if: steps.lcov-source-cache.outputs.cache-hit != 'true'
+      run: |
+        wget https://github.com/linux-test-project/lcov/releases/download/v2.2/lcov-2.2.tar.gz
+
+    - name: build and install lcov
+      if: steps.lcov-binary-cache.outputs.cache-hit != 'true'
+      run: |
+        tar -zxvf lcov-2.2.tar.gz
+        cd lcov-2.2
+        sudo make install
+        cd ..
+        sudo rm -rf lcov-2.2
+
+    - name: verify lcov version
+      run: |
+        lcov --version
 
     - name: download Bison source
       if: steps.bison-source-cache.outputs.cache-hit != 'true'

@@ -420,7 +420,7 @@ def covBuild():
         return []
 
     # Collect raw coverage data
-    res = os.system(f"{lcov.binary} --directory {cwd} --base-directory {cwd} --gcov-tool {cwd}/llvm-gcov.sh --capture -o cov_raw.info  --ignore-errors inconsistent,unsupported,format")
+    res = os.system(f"{lcov.binary} --directory {cwd} --base-directory {cwd} --gcov-tool {cwd}/llvm-gcov.sh --capture -o cov_raw.info  --ignore-errors inconsistent,unsupported,format,range")
     if res != 0:
         printErr("fail to collect gcov results")
         return -1
@@ -429,7 +429,7 @@ def covBuild():
     exclude_patterns = read_exclude_patterns()
     if exclude_patterns:
         exclude_opts = ' '.join([f"'{p}'" for p in exclude_patterns])
-        res = os.system(f"{lcov.binary} --remove cov_raw.info {exclude_opts} -o cov.info --ignore-errors inconsistent,unsupported,format")
+        res = os.system(f"{lcov.binary} --remove cov_raw.info {exclude_opts} -o cov.info --ignore-errors inconsistent,unsupported,format,range")
         if res != 0:
             printErr("fail to apply exclusion patterns")
             return -1
@@ -440,7 +440,7 @@ def covBuild():
     printOk("done")
 
     printInfoEnd("generating coverage info in html...")
-    res = os.system(f"{genhtml.binary} {cwd}/cov.info -o coverage --ignore-errors inconsistent,category")
+    res = os.system(f"{genhtml.binary} {cwd}/cov.info -o coverage --ignore-errors inconsistent,category,range")
     if res != 0:
         printErr("fail to generate report html files.")
         return -1
