@@ -89,15 +89,18 @@ namespace by {
          * @details This method is used internally to remove arguments that have been consumed
          *          by this flag, preventing them from being processed again by other flags.
          * @param a The `flagArgs` instance from which arguments are to be deleted.
-         * @param indices A vector of indices indicating which arguments to delete.
+         * @param deleteOptionCnt a count indicating how much arguments to delete.
          */
-        void _delArgs(flagArgs& a, std::vector<int> indices) const;
+        void _delArgs(flagArgs& a, ncnt deleteOptionCnt) const;
 
         virtual const strings& _getRegExpr() const = 0;
         virtual res _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const = 0;
 
     private:
-        nbool _parseOption(flagArgs& a, flagArgs& tray, deleteIndices& deletes) const;
+        /**
+         * @return argument count to be deleted after execution.
+         */
+        ncnt _parseOption(flagArgs& a, flagArgs& tray, deleteIndices& deletes) const;
     };
 
     typedef std::vector<tstr<flag>> flags;

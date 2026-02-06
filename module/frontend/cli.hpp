@@ -36,5 +36,8 @@ namespace by {
         const flags& getFlags() const;
 
         programRes eval(flagArgs& a);
+
+    private:
+        flag::res _evalArgs(interpreter& ip, flagArgs& a, starter& s);
     };
 }

@@ -31,8 +31,15 @@ TEST_F(cliTest, helpFlag) {
     ASSERT_FALSE(res.rpt);
 }
 
-TEST_F(cliTest, tryOptionClustering) {
-    auto res = ep.eval(parse("-hv"));
+TEST_F(cliTest, tryOptionClusteringWillBeSuspendedIfProgramExit) {
+    auto res = ep.eval(parse("-Svh")); // S and v sill wants file path to execute,
+                                       // but `-h` exit the program.
     ASSERT_EQ(res.res, 0);
     ASSERT_FALSE(res.rpt);
+}
+
+TEST_F(cliTest, tryOptionClusteringNegative) {
+    auto res = ep.eval(parse("-vS"));
+    ASSERT_EQ(res.res, -1); // no source code provided
+    ASSERT_TRUE(res.rpt);
 }

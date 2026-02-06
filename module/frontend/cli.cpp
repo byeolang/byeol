@@ -30,11 +30,9 @@ namespace by {
         starter s;
         s.setFlag(starter::DUMP_ON_EX);
 
-        for(const auto& op: getFlags()) {
-            if(op->take(ip, s, *this, a) == flag::EXIT_PROGRAM) return ret;
-            if(a.size() <= 0) break;
-        }
-        if(a.size() > 0) return _reportUnknownFlags(ret, a);
+        auto evalRes = _evalArgs(ip, a, s);
+        WHEN(evalRes == flag::EXIT_PROGRAM).ret(ret);
+        WHEN(a.size() > 0).ret(_reportUnknownFlags(ret, a));
 
         {
             defaultSigZone<interpreter> zone(ip);
@@ -63,6 +61,19 @@ namespace by {
         std::cout << "\n";
 #endif
         return ret;
+    }
+
+    flag::res me::_evalArgs(interpreter& ip, flagArgs& a, starter& s) {
+        while(a.size() > 0) {
+            flag::res r = flag::NOT_MATCH;
+            for(const auto& op: getFlags()) {
+                r = op->take(ip, s, *this, a);
+                WHEN(r == flag::EXIT_PROGRAM).ret(r);
+                if(r == flag::MATCH) break;
+            }
+            WHEN(r == flag::NOT_MATCH).ret(r); // if all flags couldn't match the first argument.
+        }
+        return flag::MATCH;
     }
 
     const flags& cli::getFlags() const {
