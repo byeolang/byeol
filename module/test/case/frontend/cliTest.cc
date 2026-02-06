@@ -43,3 +43,9 @@ TEST_F(cliTest, tryOptionClusteringNegative) {
     ASSERT_EQ(res.res, -1); // no source code provided
     ASSERT_TRUE(res.rpt);
 }
+
+TEST_F(cliTest, provideNoOptionArgumentEvenIfItWantsNegative) {
+    auto res = ep.eval(parse("-s")); // -s expects a trailing argument.
+    ASSERT_EQ(res.res, -1); // no source code provided
+    ASSERT_TRUE(res.rpt);
+}
