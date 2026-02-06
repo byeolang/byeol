@@ -19,7 +19,7 @@ struct cliTest: public ::testing::Test {
 
 TEST_F(cliTest, noSourceCodeProvidedErrorNegative) {
     cli::programRes res = ep.eval(parse(""));
-    ASSERT_TRUE(res.res != 0);
+    ASSERT_NE(res.res, 0);
     ASSERT_TRUE(res.rpt); // should have an error.
     ASSERT_TRUE(res.rpt.inErr(by::NOT_SPECIFIED));
     ASSERT_TRUE(res.rpt.inErr(by::NO_SRC));
@@ -27,6 +27,12 @@ TEST_F(cliTest, noSourceCodeProvidedErrorNegative) {
 
 TEST_F(cliTest, helpFlag) {
     cli::programRes res = ep.eval(parse("-h"));
-    ASSERT_TRUE(res.res == 0);
+    ASSERT_EQ(res.res, 0);
+    ASSERT_FALSE(res.rpt);
+}
+
+TEST_F(cliTest, tryOptionClustering) {
+    auto res = ep.eval(parse("-hv"));
+    ASSERT_EQ(res.res, 0);
     ASSERT_FALSE(res.rpt);
 }

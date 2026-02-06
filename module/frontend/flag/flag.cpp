@@ -15,12 +15,13 @@ namespace by {
             for(const std::string& match: _getRegExpr()) {
                 std::regex re(match);
                 std::string& arg = a[n];
-                if(!std::regex_match(arg, re)) continue;
+                if(!std::regex_search(arg, re)) continue;
 
                 // check option clustring:
                 if(_isOptionClustered(arg)) {
                     WHEN(getArgCount() > 0) .exErr(OPTION_CANT_CLUSTERED).ret(false);
 
+                    tray.push_back(std::string("-") + arg[1]);
                     // remove `-[\w]` at the begin.
                     // I confimred that length is more than 2 in `isOptionClustered()`
                     arg = "-" + arg.substr(2);
