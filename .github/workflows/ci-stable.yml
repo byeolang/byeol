@@ -313,11 +313,17 @@ jobs:
         [ -e staging/byeol/logs ] && rm -rf staging/byeol/logs
         [ -e staging/byeol/test ] && rm -rf staging/byeol/test
 
-    - name: upload output files.
+    - name: upload portable output files.
+      uses: actions/upload-artifact@v4
+      with:
+        name: byeol-macos-arm64-portable
+        path: staging/byeol/
+
+    - name: upload pkg file
       uses: actions/upload-artifact@v4
       with:
         name: byeol-macos-arm64
-        path: staging/
+        path: staging/*.pkg
 
   build-on-windows:
     name: build on windows
