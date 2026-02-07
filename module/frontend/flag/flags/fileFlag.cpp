@@ -22,7 +22,7 @@ namespace by {
         return inner;
     }
 
-    me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
+    me::res me::_onTake(const flagArgs& tray, cli&, interpreter& ip, starter&, errReport&) const {
         for(const auto& filePath: tray)
             ip.getParser().addSupply(*new fileSupply(filePath));
         return MATCH;

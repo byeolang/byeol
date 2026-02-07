@@ -18,7 +18,7 @@ namespace by {
         return inner;
     }
 
-    me::res verFlag::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
+    me::res verFlag::_onTake(const flagArgs&, cli&, interpreter&, starter&, errReport&) const {
         std::cout << "🌟 'byeol' " << buildFeature::version::get() << "\n"
                   << "Built on " << buildFeature::date::get() << " (build " << buildFeature::version::getBuildCount()
                   << ", git " << buildFeature::version::getCommitHash() << ", " << buildFeature::config::getName()

@@ -20,7 +20,7 @@ namespace by {
         return inner;
     }
 
-    me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
+    me::res me::_onTake(const flagArgs&, cli&, interpreter& ip, starter& s, errReport&) const {
         ip.addFlag(interpreter::LOG_STRUCTURE);
         s.addFlag(starter::LOG_STRUCTURE);
         return MATCH;

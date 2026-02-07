@@ -420,7 +420,7 @@ def covBuild():
         return []
 
     # Collect raw coverage data
-    res = os.system(f"{lcov.binary} --directory {cwd} --base-directory {cwd} --gcov-tool {cwd}/llvm-gcov.sh --capture -o cov_raw.info --ignore-errors inconsistent,unsupported,format")
+    res = os.system(f"{lcov.binary} --directory {cwd} --base-directory {cwd} --gcov-tool {cwd}/llvm-gcov.sh --capture -o cov_raw.info  --ignore-errors inconsistent,unsupported,format")
     if res != 0:
         printErr("fail to collect gcov results")
         return -1
@@ -440,7 +440,7 @@ def covBuild():
     printOk("done")
 
     printInfoEnd("generating coverage info in html...")
-    res = os.system(f"{genhtml.binary} {cwd}/cov.info -o coverage --ignore-errors inconsistent")
+    res = os.system(f"{genhtml.binary} {cwd}/cov.info -o coverage --ignore-errors inconsistent,category")
     if res != 0:
         printErr("fail to generate report html files.")
         return -1
@@ -1095,6 +1095,8 @@ class GcovDependency(dependency):
 class LcovDependency(dependency):
     def getNames(self):
         return ["lcov"]
+    def getExpectVer(self):
+        return ver(2, 1, 0, False)
 
 class GenHtmlDependency(dependency):
     def getNames(self):

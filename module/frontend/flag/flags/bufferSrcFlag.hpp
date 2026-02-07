@@ -23,7 +23,7 @@ namespace by {
 
     protected:
         const strings& _getRegExpr() const override;
-        res _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const override;
+        res _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s, errReport& rpt) const override;
         ncnt getArgCount() const override;
     };
 }

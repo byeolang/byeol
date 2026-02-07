@@ -38,6 +38,6 @@ namespace by {
         programRes eval(flagArgs& a);
 
     private:
-        flag::res _evalArgs(interpreter& ip, flagArgs& a, starter& s);
+        flag::res _evalArgs(interpreter& ip, flagArgs& a, starter& s, errReport& rpt);
     };
 }

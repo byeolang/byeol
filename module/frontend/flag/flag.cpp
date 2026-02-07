@@ -10,7 +10,7 @@ namespace by {
         nbool _isOptionClustered(const std::string& arg) { return arg.size() > 2 && arg[0] == '-' && arg[1] != '-'; }
     }
 
-    ncnt me::_parseOption(flagArgs& a, flagArgs& tray, deleteIndices& deletes) const {
+    ncnt me::_parseOption(flagArgs& a, flagArgs& tray, errReport& rpt) const {
         const std::string& arg = a[0];
         ncnt deleteOptionCnt = 0;
         for(const std::string& match: _getRegExpr()) {
@@ -22,7 +22,7 @@ namespace by {
 
             // check option clustring:
             if(_isOptionClustered(arg)) {
-                WHEN(getArgCount() > 0) .exErr(OPTION_CANT_CLUSTERED).ret(0);
+                WHEN(getArgCount() > 0) .exErr(OPTION_CANT_CLUSTERED, rpt).ret(0);
 
                 // previous pushed argument will be removed after execution.
                 // so, add additional argument with rest of string using `-[\w]` at the begin.
@@ -34,7 +34,7 @@ namespace by {
             tray.push_back(matchedArg);
 
             // handle option arguments:
-            WHEN(arg.size() < getArgCount() + 1).exErr(OPTION_NEEDS_TRAILING_ARG, getName()).ret(0);
+            WHEN(a.size() < getArgCount() + 1) .exErr(OPTION_NEEDS_TRAILING_ARG, rpt, getName()).ret(0);
             deleteOptionCnt += getArgCount();
             for(int n = 1; n < getArgCount(); n++)
                 tray.push_back(a[n]);
@@ -43,15 +43,14 @@ namespace by {
         return 0;
     }
 
-    me::res me::take(interpreter& ip, starter& s, cli& c, flagArgs& a) const {
-        deleteIndices del;
+    me::res me::take(interpreter& ip, starter& s, cli& c, flagArgs& a, errReport& rpt) const {
         flagArgs tray;
 
-        ncnt deleteOptionCnt = _parseOption(a, tray, del);
-        WHEN(deleteOptionCnt <= 0).ret(NOT_MATCH);
+        ncnt deleteOptionCnt = _parseOption(a, tray, rpt);
+        WHEN(deleteOptionCnt <= 0) .ret(NOT_MATCH);
         WHEN(tray.empty()) .ret(NOT_MATCH);
 
-        res res = _onTake(tray, c, ip, s);
+        res res = _onTake(tray, c, ip, s, rpt);
         _delArgs(a, deleteOptionCnt);
         return res;
     }
@@ -60,7 +59,7 @@ namespace by {
 
     void me::_delArgs(flagArgs& a, ncnt deleteOptionCnt) const {
         // remove del in reverse order.
-        for(int n = deleteOptionCnt - 1; n >= 0 ;n--)
+        for(int n = deleteOptionCnt - 1; n >= 0; n--)
             a.erase(a.begin() + n);
     }
 } // namespace by

@@ -59,7 +59,6 @@ namespace by {
      */
     class flag: public instance {
         BY(ADT(flag, instance))
-        typedef std::vector<int> deleteIndices;
 
     public:
         enum res {
@@ -75,7 +74,7 @@ namespace by {
         /**
          *  @return false if flag wants to exit program.
          */
-        virtual res take(interpreter& ip, starter& s, cli& c, flagArgs& a) const;
+        virtual res take(interpreter& ip, starter& s, cli& c, flagArgs& a, errReport& rpt) const;
 
     protected:
         /**
@@ -94,13 +93,13 @@ namespace by {
         void _delArgs(flagArgs& a, ncnt deleteOptionCnt) const;
 
         virtual const strings& _getRegExpr() const = 0;
-        virtual res _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const = 0;
+        virtual res _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s, errReport& rpt) const = 0;
 
     private:
         /**
          * @return argument count to be deleted after execution.
          */
-        ncnt _parseOption(flagArgs& a, flagArgs& tray, deleteIndices& deletes) const;
+        ncnt _parseOption(flagArgs& a, flagArgs& tray, errReport& rpt) const;
     };
 
     typedef std::vector<tstr<flag>> flags;

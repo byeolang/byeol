@@ -21,7 +21,7 @@ namespace by {
 
     ncnt me::getArgCount() const { return 1; }
 
-    me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
+    me::res me::_onTake(const flagArgs& tray, cli&, interpreter& ip, starter&, errReport&) const {
         if(tray.size() < 2) return BY_E("invalid flagArgument size < 2"), EXIT_PROGRAM;
 
         ip.getParser().addSupply(*new bufSupply(tray[1]));

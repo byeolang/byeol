@@ -30,9 +30,9 @@ namespace by {
         starter s;
         s.setFlag(starter::DUMP_ON_EX);
 
-        auto evalRes = _evalArgs(ip, a, s);
-        WHEN(evalRes == flag::EXIT_PROGRAM).ret(ret);
-        WHEN(a.size() > 0).ret(_reportUnknownFlags(ret, a));
+        auto evalRes = _evalArgs(ip, a, s, ret.rpt);
+        WHEN(evalRes == flag::EXIT_PROGRAM) .ret(ret);
+        WHEN(a.size() > 0) .ret(_reportUnknownFlags(ret, a));
 
         {
             defaultSigZone<interpreter> zone(ip);
@@ -63,15 +63,15 @@ namespace by {
         return ret;
     }
 
-    flag::res me::_evalArgs(interpreter& ip, flagArgs& a, starter& s) {
+    flag::res me::_evalArgs(interpreter& ip, flagArgs& a, starter& s, errReport& rpt) {
         while(a.size() > 0) {
             flag::res r = flag::NOT_MATCH;
             for(const auto& op: getFlags()) {
-                r = op->take(ip, s, *this, a);
-                WHEN(r == flag::EXIT_PROGRAM).ret(r);
+                r = op->take(ip, s, *this, a, rpt);
+                WHEN(r == flag::EXIT_PROGRAM) .ret(r);
                 if(r == flag::MATCH) break;
             }
-            WHEN(r == flag::NOT_MATCH).ret(r); // if all flags couldn't match the first argument.
+            WHEN(r == flag::NOT_MATCH) .ret(r); // if all flags couldn't match the first argument.
         }
         return flag::MATCH;
     }
