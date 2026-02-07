@@ -843,6 +843,8 @@ def pub(arg, ignore_tidy=False):
         os.makedirs(f"{pkgStaging}/usr/local/share/byeol")
 
         system(f"cp {binDir}/byeol {pkgStaging}/usr/local/bin/")
+        system(f"install_name_tool -add_rpath /usr/local/lib {pkgStaging}/usr/local/bin/byeol")
+
         system(f"cp -r {binDir}/pack/* {pkgStaging}/usr/local/share/byeol/")
         system(f"cp {binDir}/*.dylib {pkgStaging}/usr/local/lib/ 2>/dev/null || true")
         system(f"cp {binDir}/*.so {pkgStaging}/usr/local/lib/ 2>/dev/null || true")
