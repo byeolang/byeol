@@ -54,7 +54,7 @@ namespace by {
                           new nBool((get() >> rhs.as<me>()->get()) != 0);
     }
 
-    tstr<scalar> me::bitwiseNot() const { return nInt(!get()); }
+    tstr<scalar> me::bitwiseNot() const { return new me(!get()); }
 
     const baseObj& me::getOrigin() const {
         static tbaseObjOrigin<me> org(tbridger<me>::ctor().ctor<me>().subs());

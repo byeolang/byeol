@@ -24,13 +24,13 @@ TEST_F(nIntTest, testConstructorWithValue) {
 TEST_F(nIntTest, testSet) {
     nInt n(10);
 
-    n.set(20);
+    n.get() = 20;
     ASSERT_EQ(n.get(), 20);
 
-    n.set(-50);
+    n.get() = -50;
     ASSERT_EQ(n.get(), -50);
 
-    n.set(0);
+    n.get() = 0;
     ASSERT_EQ(n.get(), 0);
 }
 
@@ -39,13 +39,13 @@ TEST_F(nIntTest, testAddition) {
     nInt b(20);
     nInt c(-5);
 
-    tstr<scalar> result1 = a._add(b, false);
+    tstr<scalar> result1 = a.add(b);
     ASSERT_EQ(result1.cast<nInt>()->get(), 30);
 
-    tstr<scalar> result2 = a._add(c, false);
+    tstr<scalar> result2 = a.add(c);
     ASSERT_EQ(result2.cast<nInt>()->get(), 5);
 
-    tstr<scalar> result3 = c._add(c, false);
+    tstr<scalar> result3 = c.add(c);
     ASSERT_EQ(result3.cast<nInt>()->get(), -10);
 }
 
@@ -54,13 +54,13 @@ TEST_F(nIntTest, testSubtraction) {
     nInt b(30);
     nInt c(-10);
 
-    tstr<scalar> result1 = a._sub(b, false);
+    tstr<scalar> result1 = a.sub(b);
     ASSERT_EQ(result1.cast<nInt>()->get(), 20);
 
-    tstr<scalar> result2 = a._sub(c, false);
+    tstr<scalar> result2 = a.sub(c);
     ASSERT_EQ(result2.cast<nInt>()->get(), 60);
 
-    tstr<scalar> result3 = b._sub(a, false);
+    tstr<scalar> result3 = b.sub(a);
     ASSERT_EQ(result3.cast<nInt>()->get(), -20);
 }
 
@@ -70,13 +70,13 @@ TEST_F(nIntTest, testMultiplication) {
     nInt c(-3);
     nInt zero(0);
 
-    tstr<scalar> result1 = a._mul(b, false);
+    tstr<scalar> result1 = a.mul(b);
     ASSERT_EQ(result1.cast<nInt>()->get(), 35);
 
-    tstr<scalar> result2 = a._mul(c, false);
+    tstr<scalar> result2 = a.mul(c);
     ASSERT_EQ(result2.cast<nInt>()->get(), -15);
 
-    tstr<scalar> result3 = b._mul(zero, false);
+    tstr<scalar> result3 = b.mul(zero);
     ASSERT_EQ(result3.cast<nInt>()->get(), 0);
 }
 
@@ -85,15 +85,15 @@ TEST_F(nIntTest, testDivision) {
     nInt b(5);
     nInt c(-4);
 
-    tstr<scalar> result1 = a._div(b, false);
+    tstr<scalar> result1 = a.div(b);
     ASSERT_EQ(result1.cast<nInt>()->get(), 4);
 
-    tstr<scalar> result2 = a._div(c, false);
+    tstr<scalar> result2 = a.div(c);
     ASSERT_EQ(result2.cast<nInt>()->get(), -5);
 
     nInt d(17);
     nInt e(5);
-    tstr<scalar> result3 = d._div(e, false);
+    tstr<scalar> result3 = d.div(e);
     ASSERT_EQ(result3.cast<nInt>()->get(), 3);
 }
 
@@ -103,10 +103,10 @@ TEST_F(nIntTest, testModulo) {
     nInt c(20);
     nInt d(4);
 
-    tstr<scalar> result1 = a._mod(b, false);
+    tstr<scalar> result1 = a.mod(b);
     ASSERT_EQ(result1.cast<nInt>()->get(), 2);
 
-    tstr<scalar> result2 = c._mod(d, false);
+    tstr<scalar> result2 = c.mod(d);
     ASSERT_EQ(result2.cast<nInt>()->get(), 0);
 }
 
@@ -114,7 +114,7 @@ TEST_F(nIntTest, testBitwiseAnd) {
     nInt a(12);  // 1100 in binary
     nInt b(10);  // 1010 in binary
 
-    tstr<scalar> result = a._bitwiseAnd(b, false);
+    tstr<scalar> result = a.bitwiseAnd(b);
     ASSERT_EQ(result.cast<nInt>()->get(), 8);  // 1000 in binary
 }
 
@@ -122,7 +122,7 @@ TEST_F(nIntTest, testBitwiseOr) {
     nInt a(12);  // 1100 in binary
     nInt b(10);  // 1010 in binary
 
-    tstr<scalar> result = a._bitwiseOr(b, false);
+    tstr<scalar> result = a.bitwiseOr(b);
     ASSERT_EQ(result.cast<nInt>()->get(), 14);  // 1110 in binary
 }
 
@@ -130,7 +130,7 @@ TEST_F(nIntTest, testBitwiseXor) {
     nInt a(12);  // 1100 in binary
     nInt b(10);  // 1010 in binary
 
-    tstr<scalar> result = a._bitwiseXor(b, false);
+    tstr<scalar> result = a.bitwiseXor(b);
     ASSERT_EQ(result.cast<nInt>()->get(), 6);  // 0110 in binary
 }
 
@@ -145,7 +145,7 @@ TEST_F(nIntTest, testLeftShift) {
     nInt a(5);
     nInt b(2);
 
-    tstr<scalar> result = a._lshift(b, false);
+    tstr<scalar> result = a.lshift(b);
     ASSERT_EQ(result.cast<nInt>()->get(), 20);  // 5 << 2 = 20
 }
 
@@ -153,7 +153,7 @@ TEST_F(nIntTest, testRightShift) {
     nInt a(20);
     nInt b(2);
 
-    tstr<scalar> result = a._rshift(b, false);
+    tstr<scalar> result = a.rshift(b);
     ASSERT_EQ(result.cast<nInt>()->get(), 5);  // 20 >> 2 = 5
 }
 
@@ -162,16 +162,16 @@ TEST_F(nIntTest, testEquality) {
     nInt b(42);
     nInt c(100);
 
-    ASSERT_TRUE(a._eq(b));
-    ASSERT_FALSE(a._eq(c));
+    ASSERT_TRUE(a.eq(b));
+    ASSERT_FALSE(a.eq(c));
 }
 
 TEST_F(nIntTest, testInequality) {
     nInt a(42);
     nInt b(100);
 
-    ASSERT_TRUE(a._ne(b));
-    ASSERT_FALSE(a._ne(a));
+    ASSERT_TRUE(a.ne(b));
+    ASSERT_FALSE(a.ne(a));
 }
 
 TEST_F(nIntTest, testGreaterThan) {
@@ -179,9 +179,9 @@ TEST_F(nIntTest, testGreaterThan) {
     nInt b(50);
     nInt c(100);
 
-    ASSERT_TRUE(a._gt(b));
-    ASSERT_FALSE(b._gt(a));
-    ASSERT_FALSE(a._gt(c));
+    ASSERT_TRUE(a.gt(b));
+    ASSERT_FALSE(b.gt(a));
+    ASSERT_FALSE(a.gt(c));
 }
 
 TEST_F(nIntTest, testLessThan) {
@@ -189,9 +189,9 @@ TEST_F(nIntTest, testLessThan) {
     nInt b(100);
     nInt c(50);
 
-    ASSERT_TRUE(a._lt(b));
-    ASSERT_FALSE(b._lt(a));
-    ASSERT_FALSE(a._lt(c));
+    ASSERT_TRUE(a.lt(b));
+    ASSERT_FALSE(b.lt(a));
+    ASSERT_FALSE(a.lt(c));
 }
 
 TEST_F(nIntTest, testGreaterOrEqual) {
@@ -199,9 +199,9 @@ TEST_F(nIntTest, testGreaterOrEqual) {
     nInt b(50);
     nInt c(100);
 
-    ASSERT_TRUE(a._ge(b));
-    ASSERT_TRUE(a._ge(c));
-    ASSERT_FALSE(b._ge(a));
+    ASSERT_TRUE(a.ge(b));
+    ASSERT_TRUE(a.ge(c));
+    ASSERT_FALSE(b.ge(a));
 }
 
 TEST_F(nIntTest, testLessOrEqual) {
@@ -209,9 +209,9 @@ TEST_F(nIntTest, testLessOrEqual) {
     nInt b(100);
     nInt c(50);
 
-    ASSERT_TRUE(a._le(b));
-    ASSERT_TRUE(a._le(c));
-    ASSERT_FALSE(b._le(a));
+    ASSERT_TRUE(a.le(b));
+    ASSERT_TRUE(a.le(c));
+    ASSERT_FALSE(b.le(a));
 }
 
 TEST_F(nIntTest, testLogicalAnd) {
@@ -219,9 +219,9 @@ TEST_F(nIntTest, testLogicalAnd) {
     nInt b(10);
     nInt zero(0);
 
-    ASSERT_TRUE(a._logicalAnd(b));
-    ASSERT_FALSE(a._logicalAnd(zero));
-    ASSERT_FALSE(zero._logicalAnd(b));
+    ASSERT_TRUE(a.logicalAnd(b));
+    ASSERT_FALSE(a.logicalAnd(zero));
+    ASSERT_FALSE(zero.logicalAnd(b));
 }
 
 TEST_F(nIntTest, testLogicalOr) {
@@ -229,16 +229,16 @@ TEST_F(nIntTest, testLogicalOr) {
     nInt zero1(0);
     nInt zero2(0);
 
-    ASSERT_TRUE(a._logicalOr(zero1));
-    ASSERT_TRUE(zero1._logicalOr(a));
-    ASSERT_FALSE(zero1._logicalOr(zero2));
+    ASSERT_TRUE(a.logicalOr(zero1));
+    ASSERT_TRUE(zero1.logicalOr(a));
+    ASSERT_FALSE(zero1.logicalOr(zero2));
 }
 
 TEST_F(nIntTest, testMovAssignment) {
     nInt a(10);
     nInt b(20);
 
-    a._mov(b);
+    a.mov(b);
     ASSERT_EQ(a.get(), 20);
 }
 
@@ -246,10 +246,10 @@ TEST_F(nIntTest, testNegativeNumbers) {
     nInt a(-10);
     nInt b(-20);
 
-    tstr<scalar> result1 = a._add(b, false);
+    tstr<scalar> result1 = a.add(b);
     ASSERT_EQ(result1.cast<nInt>()->get(), -30);
 
-    tstr<scalar> result2 = a._mul(b, false);
+    tstr<scalar> result2 = a.mul(b);
     ASSERT_EQ(result2.cast<nInt>()->get(), 200);
 }
 
@@ -257,9 +257,9 @@ TEST_F(nIntTest, testZero) {
     nInt zero(0);
     nInt a(42);
 
-    tstr<scalar> result1 = zero._add(a, false);
+    tstr<scalar> result1 = zero.add(a);
     ASSERT_EQ(result1.cast<nInt>()->get(), 42);
 
-    tstr<scalar> result2 = zero._mul(a, false);
+    tstr<scalar> result2 = zero.mul(a);
     ASSERT_EQ(result2.cast<nInt>()->get(), 0);
 }
