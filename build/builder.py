@@ -832,6 +832,29 @@ def pub(arg, ignore_tidy=False):
         os.chdir(binDir + "/..")
         system("tar -zcvf byeol-macos-x64.tar.gz bin")
         printOk("done")
+
+        printInfoEnd("make a package")
+        pkgStaging = binDir + "/../staging_pkg"
+        if os.path.exists(pkgStaging):
+            rmtree(pkgStaging)
+
+        os.makedirs(f"{pkgStaging}/usr/local/bin")
+        os.makedirs(f"{pkgStaging}/usr/local/lib")
+        os.makedirs(f"{pkgStaging}/usr/local/share/byeol")
+
+        system(f"cp {binDir}/byeol {pkgStaging}/usr/local/bin/")
+        system(f"install_name_tool -add_rpath /usr/local/lib {pkgStaging}/usr/local/bin/byeol")
+
+        system(f"cp -r {binDir}/pack/* {pkgStaging}/usr/local/share/byeol/")
+        system(f"cp {binDir}/*.dylib {pkgStaging}/usr/local/lib/ 2>/dev/null || true")
+        system(f"cp {binDir}/*.so {pkgStaging}/usr/local/lib/ 2>/dev/null || true")
+
+        verStr = f"{ver_major}.{ver_minor}.{ver_fix}"
+        pkgName = f"byeol-{verStr}-macos-x64.pkg"
+        system(f"pkgbuild --root {pkgStaging} --identifier io.byeol --version {verStr} --install-location / {binDir}/{pkgName}")
+        rmtree(pkgStaging)
+        printOk("done")
+
         removeTestData()
         return 0
 
