@@ -111,27 +111,27 @@ TEST_F(nIntTest, testModulo) {
 }
 
 TEST_F(nIntTest, testBitwiseAnd) {
-    nInt a(12);  // 1100 in binary
-    nInt b(10);  // 1010 in binary
+    nInt a(12); // 1100 in binary
+    nInt b(10); // 1010 in binary
 
     tstr<scalar> result = a.bitwiseAnd(b);
-    ASSERT_EQ(result.cast<nInt>()->get(), 8);  // 1000 in binary
+    ASSERT_EQ(result.cast<nInt>()->get(), 8); // 1000 in binary
 }
 
 TEST_F(nIntTest, testBitwiseOr) {
-    nInt a(12);  // 1100 in binary
-    nInt b(10);  // 1010 in binary
+    nInt a(12); // 1100 in binary
+    nInt b(10); // 1010 in binary
 
     tstr<scalar> result = a.bitwiseOr(b);
-    ASSERT_EQ(result.cast<nInt>()->get(), 14);  // 1110 in binary
+    ASSERT_EQ(result.cast<nInt>()->get(), 14); // 1110 in binary
 }
 
 TEST_F(nIntTest, testBitwiseXor) {
-    nInt a(12);  // 1100 in binary
-    nInt b(10);  // 1010 in binary
+    nInt a(12); // 1100 in binary
+    nInt b(10); // 1010 in binary
 
     tstr<scalar> result = a.bitwiseXor(b);
-    ASSERT_EQ(result.cast<nInt>()->get(), 6);  // 0110 in binary
+    ASSERT_EQ(result.cast<nInt>()->get(), 6); // 0110 in binary
 }
 
 TEST_F(nIntTest, testBitwiseNot) {
@@ -146,7 +146,7 @@ TEST_F(nIntTest, testLeftShift) {
     nInt b(2);
 
     tstr<scalar> result = a.lshift(b);
-    ASSERT_EQ(result.cast<nInt>()->get(), 20);  // 5 << 2 = 20
+    ASSERT_EQ(result.cast<nInt>()->get(), 20); // 5 << 2 = 20
 }
 
 TEST_F(nIntTest, testRightShift) {
@@ -154,7 +154,7 @@ TEST_F(nIntTest, testRightShift) {
     nInt b(2);
 
     tstr<scalar> result = a.rshift(b);
-    ASSERT_EQ(result.cast<nInt>()->get(), 5);  // 20 >> 2 = 5
+    ASSERT_EQ(result.cast<nInt>()->get(), 5); // 20 >> 2 = 5
 }
 
 TEST_F(nIntTest, testEquality) {
