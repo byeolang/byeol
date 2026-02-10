@@ -26,8 +26,11 @@
 
 ## ubuntu
 * `.deb` 파일을 다운 받아, 다음 shell 명령어로 설치합니다.
-> \# (필요시 sudo) dpkg -i <다운-받은-byeol-deb-파일> <br/>
-> sudo dpkg -i byeol-ubuntu-x64.deb
+```
+@style: language-txt
+# (필요시 sudo) dpkg -i <다운-받은-byeol-deb-파일>
+$ sudo dpkg -i byeol-ubuntu-x64.deb
+```
 
 * 설치 완료 후, `byeol --version` 을 입력해서 완료되었는지 확인합니다.
 
@@ -41,7 +44,7 @@
 
 ## WASM
 * 사용을 위해서는 추가적인 코드가 필요합니다.
-* [website](https://github.com/byeolang/website/tree/main/play) 쪽 코드를 참고하세요.
+* 실제로 [website](https://github.com/byeolang/website/tree/main/play) 를 만들때 사용하고 있습니다. 예시가 필요하다면 해당 코드를 참고하세요.
 
 
 ## 다음은,
