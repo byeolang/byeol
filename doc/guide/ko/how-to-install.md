@@ -1,6 +1,7 @@
 # 설치 방법
 * 64비트 운영체제만 지원합니다.
 * Mac OS는 Apple Silicon 만 지원합니다.
+* 간단한 코드라면 설치 없이 [웹상에서 실행](https://byeol.io/play)해볼 수도 있습니다.
 
 
 ## 다운로드
@@ -41,3 +42,7 @@
 ## WASM
 * 사용을 위해서는 추가적인 코드가 필요합니다.
 * [website](https://github.com/byeolang/website/tree/main/play) 쪽 코드를 참고하세요.
+
+
+## 다음은,
+* 설치가 완료되었으면 @ref basic-usage "사용"을 해봐야겠죠.
