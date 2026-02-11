@@ -11,3 +11,4 @@
 #include "core/ast/src.hpp"
 #include "core/ast/closure.hpp"
 #include "core/ast/tbaseObjOrigin.hpp"
+#include "core/ast/modifier.hpp"

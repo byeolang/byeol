@@ -163,3 +163,14 @@ TEST_F(modifierTest, testMultipleModifierInstances) {
     ASSERT_TRUE(m3.isPublic());
     ASSERT_FALSE(m3.isExplicitOverride());
 }
+
+TEST_F(modifierTest, testDummy) {
+    dumModifier mod;
+    ASSERT_TRUE(mod.isPublic());
+    mod.setPublic(false);
+    ASSERT_TRUE(mod.isPublic());
+
+    ASSERT_FALSE(mod.isExplicitOverride());
+    mod.setExplicitOverride(false);
+    ASSERT_FALSE(mod.isExplicitOverride());
+}
