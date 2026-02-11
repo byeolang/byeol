@@ -28,7 +28,6 @@ namespace by {
         enum Status {
             OFF = -1,
             CAUGHT = 0,
-            ON = 1,
         };
 
     public:
