@@ -36,7 +36,7 @@ namespace by {
             // handle option arguments:
             WHEN(a.size() < getArgCount() + 1) .exErr(OPTION_NEEDS_TRAILING_ARG, rpt, getName()).ret(0);
             deleteOptionCnt += getArgCount();
-            for(int n = 1; n < getArgCount(); n++)
+            for(int n = 1; n < 1 + getArgCount(); n++)
                 tray.push_back(a[n]);
             return deleteOptionCnt;
         }

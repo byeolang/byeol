@@ -1,4 +1,5 @@
 #include "frontend/cli.hpp"
+#include <algorithm>
 using namespace by;
 
 namespace by {
@@ -23,7 +24,24 @@ namespace by {
         }
     }
 
+    namespace {
+        nbool _isWhiteSpace(const std::string& it) {
+            for(nchar c : it)
+                if(!std::isspace(static_cast<unsigned char>(c))) return false;
+
+            return true;
+        }
+
+        void _refineFlagArgs(flagArgs& a) {
+            for(nidx n = a.size() - 1; n >= 0 ;n--)
+                if(_isWhiteSpace(a[n]))
+                    a.erase(a.begin() + n);
+        }
+    }
+
     me::programRes me::eval(flagArgs& a) {
+        _refineFlagArgs(a);
+
         interpreter ip;
         programRes ret{errReport(true) /* it's noisy now */, 0};
         ip.setReport(ret.rpt).setFlag(interpreter::DEFAULT);
