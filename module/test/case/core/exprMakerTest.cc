@@ -231,6 +231,7 @@ TEST_F(exprMakerTest, testGetPosAfterDefaultConstruction) {
 
     const point& pos = maker.getPos();
     // Position should be initialized (likely to 0,0 or similar)
+    (void)pos; // Intentionally unused - just testing the function works
 }
 
 TEST_F(exprMakerTest, testSetRowMultipleTimes) {

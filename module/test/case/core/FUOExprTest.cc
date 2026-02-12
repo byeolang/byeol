@@ -6,9 +6,9 @@
 using namespace by;
 using namespace std;
 
-struct FUOExprTest: public byeolTest {};
+struct FUOExprUnitTest: public byeolTest {};
 
-TEST_F(FUOExprTest, testPostfixDoublePlusConstructor) {
+TEST_F(FUOExprUnitTest, testPostfixDoublePlusConstructor) {
     nInt operand(5);
     FUOExpr expr(FUOExpr::SYMBOL_POSTFIX_DOUBLE_PLUS, operand);
 
@@ -16,7 +16,7 @@ TEST_F(FUOExprTest, testPostfixDoublePlusConstructor) {
     ASSERT_TRUE(expr.getOperand().isSub<nInt>());
 }
 
-TEST_F(FUOExprTest, testPostfixDoubleMinusConstructor) {
+TEST_F(FUOExprUnitTest, testPostfixDoubleMinusConstructor) {
     nInt operand(10);
     FUOExpr expr(FUOExpr::SYMBOL_POSTFIX_DOUBLE_MINUS, operand);
 
@@ -24,7 +24,7 @@ TEST_F(FUOExprTest, testPostfixDoubleMinusConstructor) {
     ASSERT_TRUE(expr.getOperand().isSub<nInt>());
 }
 
-TEST_F(FUOExprTest, testBitwiseNotConstructor) {
+TEST_F(FUOExprUnitTest, testBitwiseNotConstructor) {
     nInt operand(7);
     FUOExpr expr(FUOExpr::SYMBOL_BITWISE_NOT, operand);
 
@@ -32,7 +32,7 @@ TEST_F(FUOExprTest, testBitwiseNotConstructor) {
     ASSERT_TRUE(expr.getOperand().isSub<nInt>());
 }
 
-TEST_F(FUOExprTest, testGetOperand) {
+TEST_F(FUOExprUnitTest, testGetOperand) {
     nInt operand(42);
     FUOExpr expr(FUOExpr::SYMBOL_POSTFIX_DOUBLE_PLUS, operand);
 
@@ -41,7 +41,7 @@ TEST_F(FUOExprTest, testGetOperand) {
     ASSERT_EQ(retrieved.cast<nInt>()->get(), 42);
 }
 
-TEST_F(FUOExprTest, testGetOperandNonConst) {
+TEST_F(FUOExprUnitTest, testGetOperandNonConst) {
     nInt operand(42);
     FUOExpr expr(FUOExpr::SYMBOL_POSTFIX_DOUBLE_PLUS, operand);
 
@@ -50,16 +50,17 @@ TEST_F(FUOExprTest, testGetOperandNonConst) {
     ASSERT_EQ(retrieved.cast<nInt>()->get(), 42);
 }
 
-TEST_F(FUOExprTest, testInfer) {
+TEST_F(FUOExprUnitTest, testInfer) {
     nInt operand(10);
     FUOExpr expr(FUOExpr::SYMBOL_POSTFIX_DOUBLE_PLUS, operand);
 
     str inferredType = expr.infer();
     ASSERT_TRUE(inferredType);
-    ASSERT_TRUE(inferredType->isSub<ntype>());
+    // infer() returns an instance of the inferred type, not ntype itself
+    ASSERT_TRUE(inferredType->isSub<nInt>());
 }
 
-TEST_F(FUOExprTest, testGetSymbolName) {
+TEST_F(FUOExprUnitTest, testGetSymbolName) {
     const nchar* name1 = FUOExpr::getSymbolName(FUOExpr::SYMBOL_POSTFIX_DOUBLE_PLUS);
     ASSERT_TRUE(name1 != nullptr);
     ASSERT_TRUE(strlen(name1) > 0);
@@ -73,13 +74,13 @@ TEST_F(FUOExprTest, testGetSymbolName) {
     ASSERT_TRUE(strlen(name3) > 0);
 }
 
-TEST_F(FUOExprTest, testSymbolEnumRange) {
+TEST_F(FUOExprUnitTest, testSymbolEnumRange) {
     ASSERT_EQ(FUOExpr::SYMBOL_START, FUOExpr::SYMBOL_POSTFIX_DOUBLE_PLUS);
     ASSERT_EQ(FUOExpr::SYMBOL_POSTFIX_DOUBLE_PLUS, 0);
     ASSERT_GT(FUOExpr::SYMBOL_END, FUOExpr::SYMBOL_START);
 }
 
-TEST_F(FUOExprTest, testBitwiseNotWithByte) {
+TEST_F(FUOExprUnitTest, testBitwiseNotWithByte) {
     nByte operand(0b11001100);
     FUOExpr expr(FUOExpr::SYMBOL_BITWISE_NOT, operand);
 
@@ -87,7 +88,7 @@ TEST_F(FUOExprTest, testBitwiseNotWithByte) {
     ASSERT_EQ(expr.getSymbol(), FUOExpr::SYMBOL_BITWISE_NOT);
 }
 
-TEST_F(FUOExprTest, testMultipleExpressionsWithSameOperand) {
+TEST_F(FUOExprUnitTest, testMultipleExpressionsWithSameOperand) {
     nInt operand(5);
     FUOExpr expr1(FUOExpr::SYMBOL_POSTFIX_DOUBLE_PLUS, operand);
     FUOExpr expr2(FUOExpr::SYMBOL_POSTFIX_DOUBLE_MINUS, operand);
@@ -98,7 +99,7 @@ TEST_F(FUOExprTest, testMultipleExpressionsWithSameOperand) {
     ASSERT_EQ(expr3.getSymbol(), FUOExpr::SYMBOL_BITWISE_NOT);
 }
 
-TEST_F(FUOExprTest, testDifferentOperandTypes) {
+TEST_F(FUOExprUnitTest, testDifferentOperandTypes) {
     nInt intOperand(10);
     FUOExpr expr1(FUOExpr::SYMBOL_POSTFIX_DOUBLE_PLUS, intOperand);
     ASSERT_TRUE(expr1.getOperand().isSub<scalar>());
@@ -108,7 +109,7 @@ TEST_F(FUOExprTest, testDifferentOperandTypes) {
     ASSERT_TRUE(expr2.getOperand().isSub<scalar>());
 }
 
-TEST_F(FUOExprTest, testExprTypeInheritance) {
+TEST_F(FUOExprUnitTest, testExprTypeInheritance) {
     nInt operand(1);
     FUOExpr expr(FUOExpr::SYMBOL_POSTFIX_DOUBLE_PLUS, operand);
 
