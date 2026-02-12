@@ -614,7 +614,9 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = doxygen \
-                         ../doc/ref/ko \
+                         ../doc/ref/ko/MAINPAGE.md \
+                         ../doc/ref/ko/dev-env.md \
+                         ../doc/ref/ko/architecture-and-class.md \
                          ../module/clog \
                          ../module/indep \
                          ../module/core \
