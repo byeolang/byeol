@@ -3,7 +3,7 @@
 
 #include "core/bridge/cpp/tbridge.hpp"
 
-struct arrTest;
+struct arrIntegTest;
 
 namespace by {
 
@@ -27,7 +27,7 @@ namespace by {
         typedef typename tucontainable<node>::iteration iteration;
         typedef std::map<const node*, tstr<scope>> cache;
         friend class interpreter; // for _cache
-        friend struct ::arrTest;
+        friend struct ::arrIntegTest;
 
     public:
         arr();

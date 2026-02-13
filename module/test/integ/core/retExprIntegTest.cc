@@ -1,0 +1,250 @@
+#include "test/byeolIntegTest.hpp"
+
+using namespace by;
+using namespace std;
+
+namespace {
+    struct retExprIntegTest: public byeolIntegTest {};
+}
+
+TEST_F(retExprIntegTest, simpleReturnTypeCheck) {
+    make()
+        .parse(R"SRC(
+        main() int
+            ret 33
+    )SRC")
+        .shouldVerified(true);
+}
+
+TEST_F(retExprIntegTest, simpleReturnTypeCheckStr) {
+    make()
+        .parse(R"SRC(
+        main() int
+            ret "wow" == "wow"
+    )SRC")
+        .shouldVerified(true);
+}
+
+TEST_F(retExprIntegTest, simpleReturnTypeNegative) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        make() int
+            ret
+    )SRC")
+        .shouldParsed(true);
+    shouldVerified(false);
+
+    func& make = getSubPack() TO(template sub<func>("make")) OR_ASSERT(make);
+    retExpr& ret = make.getBlock().getStmts().begin().get<retExpr>() OR_ASSERT(ret);
+    ASSERT_TRUE(ret.infer()->isSub<retExpr>());
+    ASSERT_EQ(ret.getRet().infer()->getType(), ttype<nVoid>::get());
+}
+
+TEST_F(retExprIntegTest, implicitReturn) {
+    make()
+        .parse(R"SRC(
+        make() int
+            22
+    )SRC")
+        .shouldVerified(true);
+}
+
+TEST_F(retExprIntegTest, implicitReturnNegative) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        make() flt
+            "wow"
+    )SRC")
+        .shouldVerified(false);
+}
+
+TEST_F(retExprIntegTest, implicitReturnShouldNotWorkOnVoid) {
+    make()
+        .parse(R"SRC(
+        main() void
+            35
+    )SRC")
+        .shouldParsed(true);
+    shouldVerified(true);
+}
+
+TEST_F(retExprIntegTest, returnLocalVariable) {
+    make()
+        .parse(R"SRC(
+        main() int
+            age int
+            ret age
+    )SRC")
+        .shouldParsed(true);
+    shouldVerified(true);
+}
+
+TEST_F(retExprIntegTest, returnTypeImplicitCasting) {
+    make()
+        .parse(R"SRC(
+        make() int
+            ret 3.5
+    )SRC")
+        .shouldParsed(true);
+    shouldVerified(true);
+}
+
+TEST_F(retExprIntegTest, returnVoidNegative) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        main() void
+            ret 3
+    )SRC")
+        .shouldParsed(true);
+    shouldVerified(false);
+}
+
+TEST_F(retExprIntegTest, retLocalVariable) {
+    make()
+        .parse(R"SRC(
+        main() int
+            age int
+            age
+    )SRC")
+        .shouldParsed(true);
+    shouldVerified(true);
+}
+
+TEST_F(retExprIntegTest, retTypeImplicitCasting) {
+    make()
+        .parse(R"SRC(
+        make() int
+            3.5
+    )SRC")
+        .shouldParsed(true);
+    shouldVerified(true);
+}
+
+TEST_F(retExprIntegTest, retVoid) {
+    make()
+        .parse(R"SRC(
+        main() void
+            3
+    )SRC")
+        .shouldParsed(true);
+    shouldVerified(true);
+}
+
+TEST_F(retExprIntegTest, retDefAssign) {
+    make()
+        .parse(R"SRC(
+        main() int
+            a := 5
+    )SRC")
+        .shouldVerified(true);
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(*res.cast<nint>(), 5);
+}
+
+TEST_F(retExprIntegTest, retIsNotExpressionNegative) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        foo(n int) void
+            ret
+
+        main() int
+            foo(ret 3)
+    )SRC")
+        .shouldParsed(false);
+}
+
+TEST_F(retExprIntegTest, retException) {
+    make()
+        .parse(R"SRC(
+        foo(n int) int
+            ret err("err found")
+        main() void
+            print(foo(2) as str)
+            print(foo(5) as str)
+    )SRC")
+        .shouldVerified(true);
+
+    ASSERT_TRUE(run() TO(template cast<baseErr>()));
+
+    const auto& ex = getReport();
+    ASSERT_TRUE(ex);
+    ASSERT_TRUE(ex.len() > 0);
+    ASSERT_EQ(ex.len(), 1);
+}
+
+TEST_F(retExprIntegTest, retExceptionNoThrowAgain) {
+    make()
+        .parse(R"SRC(
+        foo(n int) int
+            ret err("just an err")
+        main() int
+            foo(3)
+    )SRC")
+        .shouldVerified(true);
+
+    ASSERT_TRUE(run() TO(template cast<baseErr>()));
+
+    const auto& ex = getReport();
+    ASSERT_TRUE(ex);
+    ASSERT_EQ(ex.len(), 1);
+    ASSERT_EQ(ex[0].getMsg(), "just an err");
+}
+
+TEST_F(retExprIntegTest, retExceptionNoThrowAgain2) {
+    make()
+        .parse(R"SRC(
+        foo(n int) int
+            ret err("just an err")
+        main() int
+            ret foo(3)
+    )SRC")
+        .shouldVerified(true);
+
+    ASSERT_TRUE(run() TO(template cast<baseErr>()));
+
+    const auto& ex = getReport();
+    ASSERT_TRUE(ex);
+    ASSERT_EQ(ex.len(), 2);
+}
+
+TEST_F(retExprIntegTest, dontUseRetAtMiddleOfBlockNegative) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        foo() int
+            a := 2
+            b := 3 + 1
+            ret a + b
+            c := a * b
+            ret c
+
+        main() int
+            foo()
+    )SRC")
+        .shouldVerified(false);
+
+    const auto& rpt = getReport();
+    ASSERT_TRUE(rpt.inErr());
+}
+
+TEST_F(retExprIntegTest, dontUseRetAtMiddleOfBlockNegative2) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        main() int
+            a := for n in 0..5
+                b := 3 + 1
+                ret b + n
+                c := b * n
+            ret a[1]
+    )SRC")
+        .shouldVerified(false);
+
+    const auto& rpt = getReport();
+    ASSERT_TRUE(rpt.inErr());
+}
