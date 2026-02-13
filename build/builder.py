@@ -12,6 +12,23 @@ from tempfile import gettempdir
 
 frame = "======================================================="
 
+# Termux compatibility: detect if we're running in Termux environment
+def isTermux():
+    return os.path.exists('/data/data/com.termux/files/usr')
+
+# Cross-platform system command wrapper
+# This fixes SELinux permission issues in Termux while maintaining compatibility
+# with Windows, macOS, and regular Linux
+def system(cmd):
+    if isTermux():
+        # In Termux, use subprocess with Termux's shell to avoid SELinux issues
+        # SELinux blocks /bin/sh from executing Termux binaries (app_data_file context)
+        termux_shell = '/data/data/com.termux/files/usr/bin/sh'
+        return subprocess.run(cmd, shell=True, executable=termux_shell).returncode
+    else:
+        # On other platforms, use standard os.system()
+        return os.system(cmd)
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -143,13 +160,13 @@ def _cleanIntermediates():
     printInfoEnd("removing intermediate outputs...")
     if isWindow():
         print("del /s /f /q " + cwd + "\\xml")
-        os.system("del /s /f /q " + cwd + "\\xml")
-        os.system("del /s /f /q " + cwd + "\\*.tmp")
+        system("del /s /f /q " + cwd + "\\xml")
+        system("del /s /f /q " + cwd + "\\*.tmp")
     else:
-        os.system("rm -rf " + cwd + "/xml")
-        os.system("rm -rf " + cwd + "/*.tmp")
-    os.system("git config --unset user.name") # remove local config only
-    os.system("git config --unset user.email")
+        system("rm -rf " + cwd + "/xml")
+        system("rm -rf " + cwd + "/*.tmp")
+    system("git config --unset user.name") # remove local config only
+    system("git config --unset user.email")
     printOk("done.")
     _cleanCoverageFiles()
 
@@ -160,7 +177,7 @@ def cleanGhPages(git):
     global cwd, python3, externalDir
 
     def runCommand(cmd):
-        res = os.system(cmd)
+        res = system(cmd)
         if res != 0:
             printErr("fail to clone gh-pages repo.")
             _cleanIntermediates()
@@ -171,9 +188,9 @@ def cleanGhPages(git):
 
     pathHtml = f"{cwd}{slash()}html"
     if isWindow():
-        os.system(f"del /s /f /q {pathHtml}")
+        system(f"del /s /f /q {pathHtml}")
     else:
-        os.system(f"rm -rf {pathHtml}")
+        system(f"rm -rf {pathHtml}")
 
     # standby gh-pages repo:
     printInfoEnd("cloning gh-pages branch...")
@@ -186,7 +203,7 @@ def docDoxygen(doxygen):
     global cwd, python3, externalDir
 
     def runCommand(cmd):
-        res = os.system(cmd)
+        res = system(cmd)
         if res != 0:
             printErr("fail to run doxygen.")
             _cleanIntermediates()
@@ -320,10 +337,10 @@ def _publishDoc():
     origin = cmdstr(f"{git.binary} rev-parse --verify HEAD")
     print("origin=" + str(origin))
     os.chdir(cwd + "/html")
-    os.system(f"{git.binary} add .")
-    os.system(f"{git.binary} config user.name \"autodocbot\"") # put on local config.
-    os.system(f"{git.binary} config user.email \"knizofficial@gmail.com\"")
-    res = os.system(f"{git.binary} commit -m \"The our poor little Autobot \\(❍ᴥ❍ʋ)/ generated docs for " + origin + ", clitter-clatter.\"")
+    system(f"{git.binary} add .")
+    system(f"{git.binary} config user.name \"autodocbot\"") # put on local config.
+    system(f"{git.binary} config user.email \"knizofficial@gmail.com\"")
+    res = system(f"{git.binary} commit -m \"The our poor little Autobot \\(❍ᴥ❍ʋ)/ generated docs for " + origin + ", clitter-clatter.\"")
     if res != 0:
         printErr("fail to commit on gh-pages.")
         printInfo("but it seems that nothing changed.")
@@ -349,8 +366,8 @@ def wasmBuild(arg):
 
     config="-DCMAKE_BUILD_TYPE=Release"
     clean()
-    os.system(f"{emcmake.binary} {cmake.binary} {config} {cwd}")
-    os.system(f"{emmake.binary} {make.binary} -j8 -s")
+    system(f"{emcmake.binary} {cmake.binary} {config} {cwd}")
+    system(f"{emmake.binary} {make.binary} -j8 -s")
 
 def dbgBuild(ignore_tidy=False):
     global config, cwd
@@ -373,16 +390,16 @@ def _cleanCoverageFiles():
     printInfoEnd("removing coverage report files...")
 
     if isWindow():
-        os.system(f"del /s /f /q {cwd} \\coverage")
-        os.system(f"del /s {cwd}\\*.profraw")
-        os.system(f"del /s {cwd}\\logs")
-        os.system(f"del /s {cwd}\\cov.info")
+        system(f"del /s /f /q {cwd} \\coverage")
+        system(f"del /s {cwd}\\*.profraw")
+        system(f"del /s {cwd}\\logs")
+        system(f"del /s {cwd}\\cov.info")
 
     else:
-        os.system("rm -rf " + cwd + "/coverage")
-        os.system("rm " + cwd + "/*.profraw")
-        os.system("rm " + cwd + "/logs")
-        os.system("rm " + cwd + "/cov.info")
+        system("rm -rf " + cwd + "/coverage")
+        system("rm " + cwd + "/*.profraw")
+        system("rm " + cwd + "/logs")
+        system("rm " + cwd + "/cov.info")
     printOk("done.")
 
 def covBuild():
@@ -402,7 +419,7 @@ def covBuild():
     clean()
     build(True)
     printInfoEnd("running TC files...")
-    res = os.system("cd " + byeolDir + "/bin && ./test")
+    res = system("cd " + byeolDir + "/bin && ./test")
     if res != 0:
         printErr("failed to pass TCs.")
         return -1
@@ -420,7 +437,7 @@ def covBuild():
         return []
 
     # Collect raw coverage data
-    res = os.system(f"{lcov.binary} --directory {cwd} --base-directory {cwd} --gcov-tool {cwd}/llvm-gcov.sh --capture -o cov_raw.info  --ignore-errors inconsistent,unsupported,format,range")
+    res = system(f"{lcov.binary} --directory {cwd} --base-directory {cwd} --gcov-tool {cwd}/llvm-gcov.sh --capture -o cov_raw.info  --ignore-errors inconsistent,unsupported,format,range")
     if res != 0:
         printErr("fail to collect gcov results")
         return -1
@@ -429,7 +446,7 @@ def covBuild():
     exclude_patterns = read_exclude_patterns()
     if exclude_patterns:
         exclude_opts = ' '.join([f"'{p}'" for p in exclude_patterns])
-        res = os.system(f"{lcov.binary} --remove cov_raw.info {exclude_opts} -o cov.info --ignore-errors inconsistent,unsupported,format,range")
+        res = system(f"{lcov.binary} --remove cov_raw.info {exclude_opts} -o cov.info --ignore-errors inconsistent,unsupported,format,range")
         if res != 0:
             printErr("fail to apply exclusion patterns")
             return -1
@@ -440,7 +457,7 @@ def covBuild():
     printOk("done")
 
     printInfoEnd("generating coverage info in html...")
-    res = os.system(f"{genhtml.binary} {cwd}/cov.info -o coverage --ignore-errors inconsistent,category,range")
+    res = system(f"{genhtml.binary} {cwd}/cov.info -o coverage --ignore-errors inconsistent,category,range")
     if res != 0:
         printErr("fail to generate report html files.")
         return -1
@@ -488,7 +505,7 @@ def isWindow():
 #                 # change encoding:
 #                 # beautify
 #                 print("\t" + file)
-#                 os.system("astyle --style=world " + file_path)
+#                 system("astyle --style=world " + file_path)
 
 def _createMakefiles(cmake):
     global generator, config
@@ -496,7 +513,7 @@ def _createMakefiles(cmake):
 
     printInfoEnd("generating makefiles as " + generator + "...")
 
-    res = os.system(f"{cmake.binary} -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . -G \"" + generator + "\" " + config)
+    res = system(f"{cmake.binary} -DCMAKE_EXPORT_COMPILE_COMMANDS=1 . -G \"" + generator + "\" " + config)
     if not isWindow() and res != 0:
         return -1
 
@@ -614,14 +631,14 @@ def _make(msbuild, make):
     global cwd, config, winProp
     if isWindow():
         printInfoEnd("build the generated solution using visual studio's msbuild tool...")
-        os.system("dir " + cwd + "\\module")
-        os.system("dir " + cwd + "\\module\\frontend")
-        res = os.system(f"{msbuild.binary} {winProp} {cwd}\\module\\frontend\\byeol.vcxproj")
+        system("dir " + cwd + "\\module")
+        system("dir " + cwd + "\\module\\frontend")
+        res = system(f"{msbuild.binary} {winProp} {cwd}\\module\\frontend\\byeol.vcxproj")
         if res != 0:
             printErr("failed")
             return res
 
-        res = os.system(f"{msbuild.binary} {winProp} {cwd}\\module\\bundle\\sys\\sys.vcxproj")
+        res = system(f"{msbuild.binary} {winProp} {cwd}\\module\\bundle\\sys\\sys.vcxproj")
         if res != 0:
             printErr("failed")
             return res
@@ -635,8 +652,8 @@ def _make(msbuild, make):
                             # s ->  don't print command.
     printInfoEnd("making " + make_option + "...")
     if not isWindow():
-        os.system(f"{make.binary} -v")
-        result = os.system(f"{make.binary} {make_option}")
+        system(f"{make.binary} -v")
+        result = system(f"{make.binary} {make_option}")
         if result != 0:
             printErr("failed")
             return -1
@@ -653,14 +670,14 @@ def _checkGTest(git, cmake, make):
         return
 
     _makeDir(dir)
-    os.system(f"{git.binary} clone https://github.com/google/googletest " + dir)
+    system(f"{git.binary} clone https://github.com/google/googletest " + dir)
     originDir = os.getcwd()
     os.chdir(dir)
 
     targetDir = os.path.join(dir, "CMakeLists.txt -G \"" + generator + "\"")
-    os.system(f"{cmake.binary} {targetDir}")
+    system(f"{cmake.binary} {targetDir}")
     if not isWindow():
-        os.system(f"sudo {make.binary} install")
+        system(f"sudo {make.binary} install")
 
     os.chdir(originDir)
     printOk("installed.")
@@ -716,12 +733,12 @@ def pub(arg, ignore_tidy=False):
         printInfoEnd("cleaning previous outputs of publishing...")
         debianDir = cwd + "/debian"
         os.chdir(debianDir)
-        os.system("mkdir usr")
-        os.system("mkdir usr/bin")
-        os.system("mkdir usr/lib")
-        os.system("mkdir usr/include")
-        os.system("mkdir usr/share")
-        os.system("mkdir usr/share/byeol")
+        system("mkdir usr")
+        system("mkdir usr/bin")
+        system("mkdir usr/lib")
+        system("mkdir usr/include")
+        system("mkdir usr/share")
+        system("mkdir usr/share/byeol")
         printOk("done.")
         os.chdir(cwd)
 
@@ -732,26 +749,26 @@ def pub(arg, ignore_tidy=False):
         os.chdir(debianDir)
         target = debianDir + "/usr/"
         printInfoEnd("copy outputs into debian target directory")
-        os.system("cp " + binDir + "/byeol " + target + "bin")
-        os.system("cp " + binDir + "/*.so " + target + "lib")
-        os.system("cp -r " + binDir + "/pack " + target + "share/byeol")
+        system("cp " + binDir + "/byeol " + target + "bin")
+        system("cp " + binDir + "/*.so " + target + "lib")
+        system("cp -r " + binDir + "/pack " + target + "share/byeol")
         printOk("done")
 
         printInfoEnd("packaging...")
         os.chdir(cwd)
-        os.system("dpkg -b debian")
+        system("dpkg -b debian")
         printOk("done")
 
         printInfoEnd("move package into bin/...")
-        os.system("mv debian.deb " + binDir + "/byeol-ubuntu-x64.deb")
+        system("mv debian.deb " + binDir + "/byeol-ubuntu-x64.deb")
         printOk("done")
 
         printInfoEnd("remove local shared libraries...")
-        os.system("rm " + binDir + "/*.so")
+        system("rm " + binDir + "/*.so")
         printOk("done")
 
         printInfoEnd("remove debian intermediate files...")
-        os.system("rm -rf " + "debian/usr/")
+        system("rm -rf " + "debian/usr/")
         return 0
 
     elif arg == 'mac':
@@ -761,16 +778,16 @@ def pub(arg, ignore_tidy=False):
 
         printInfoEnd("cleaning redandunt files to package")
         os.chdir(binDir)
-        os.system("rm ./test")
-        os.system("rm ./logs")
-        os.system("cp ../LICENSE.md .")
-        os.system("cp ../README.md .")
-        os.system("cp ../CHANGELOGS.md .")
+        system("rm ./test")
+        system("rm ./logs")
+        system("cp ../LICENSE.md .")
+        system("cp ../README.md .")
+        system("cp ../CHANGELOGS.md .")
 
         printOk("done")
         printInfoEnd("make an archive")
         os.chdir(binDir + "/..")
-        os.system("tar -zcvf byeol-macos-x64.tar.gz bin")
+        system("tar -zcvf byeol-macos-x64.tar.gz bin")
         printOk("done")
         return 0
 
@@ -780,17 +797,17 @@ def pub(arg, ignore_tidy=False):
 
         printInfoEnd("cleaning redandunt files to package")
         os.chdir(binDir)
-        os.system("del /S test\\*")
-        os.system("rmdir test")
-        os.system("del logs")
-        os.system("copy ..\\LICENSE.md .")
-        os.system("copy ..\\README.md .")
-        os.system("copy ..\\CHANGELOGS.md .")
-        os.system("move Release\\sys.pack .\\pack\\sys")
-        os.system("copy Release\\* .")
-        os.system("del /S /Q Release\\*")
-        os.system("rmdir Release")
-        os.system("zip -9vr byeol-win-x64.zip ..\\bin")
+        system("del /S test\\*")
+        system("rmdir test")
+        system("del logs")
+        system("copy ..\\LICENSE.md .")
+        system("copy ..\\README.md .")
+        system("copy ..\\CHANGELOGS.md .")
+        system("move Release\\sys.pack .\\pack\\sys")
+        system("copy Release\\* .")
+        system("del /S /Q Release\\*")
+        system("rmdir Release")
+        system("zip -9vr byeol-win-x64.zip ..\\bin")
 
         printOk("done")
         printInfoEnd("please make an archive.")
@@ -813,9 +830,9 @@ def test(arg, ignore_tidy=False):
     failedCnt = 0
     ret = 0
     if isWindow():
-        res = os.system(".\\test verbose " + arg)
+        res = system(".\\test verbose " + arg)
     else:
-        res = os.system("./test verbose " + arg)
+        res = system("./test verbose " + arg)
     if res != 0:
         printErr("test was failed!")
         ret = -1
@@ -1162,9 +1179,9 @@ def clean():
     _cleanDir(binDir)
     _cleanParser()
     if isWindow():
-        os.system("del /f /s /q " + cwd + "\\html")
+        system("del /f /s /q " + cwd + "\\html")
     else:
-        os.system("rm -rf " + cwd + "/html")
+        system("rm -rf " + cwd + "/html")
     printOk("was removed successfully.")
 
 def _clean(directory):
@@ -1234,7 +1251,7 @@ def _init():
         resDir = byeolDir + "\\res"
         externalDir = byeolDir + "\\external"
         # in order to color output text in windows terminal, I need this.
-        os.system('color')
+        system('color')
     else:
         byeolDir = cwd + "/.."
         binDir = byeolDir + "/bin"
