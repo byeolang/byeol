@@ -134,7 +134,7 @@ TEST_F(evalExprTest, testGetArgs) {
 
     const args& retrievedArgs = expr.getArgs();
     // Just verify we can retrieve args
-    (void)retrievedArgs; // Intentionally unused - just testing the function works
+    (void) retrievedArgs; // Intentionally unused - just testing the function works
 }
 
 TEST_F(evalExprTest, testGetArgsNonConst) {
@@ -145,7 +145,7 @@ TEST_F(evalExprTest, testGetArgsNonConst) {
 
     args& retrievedArgs = expr.getArgs();
     // Just verify we can retrieve args
-    (void)retrievedArgs; // Intentionally unused - just testing the function works
+    (void) retrievedArgs; // Intentionally unused - just testing the function works
 }
 
 TEST_F(evalExprTest, testInfer) {

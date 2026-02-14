@@ -26,16 +26,15 @@ namespace by {
 
     namespace {
         nbool _isWhiteSpace(const std::string& it) {
-            for(nchar c : it)
+            for(nchar c: it)
                 if(!std::isspace(static_cast<unsigned char>(c))) return false;
 
             return true;
         }
 
         void _refineFlagArgs(flagArgs& a) {
-            for(nidx n = a.size() - 1; n >= 0 ;n--)
-                if(_isWhiteSpace(a[n]))
-                    a.erase(a.begin() + n);
+            for(nidx n = a.size() - 1; n >= 0; n--)
+                if(_isWhiteSpace(a[n])) a.erase(a.begin() + n);
         }
     }
 

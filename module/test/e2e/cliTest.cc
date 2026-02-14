@@ -32,7 +32,7 @@ TEST_F(cliTest, helpFlag) {
 
 TEST_F(cliTest, tryOptionClusteringWillBeSuspendedIfProgramExit) {
     auto res = ep.eval(parse(1, "-Svh")); // S and v sill wants file path to execute,
-                                       // but `-h` exit the program.
+                                          // but `-h` exit the program.
     ASSERT_EQ(res.res, 0);
     ASSERT_FALSE(res.rpt);
 }
@@ -45,7 +45,7 @@ TEST_F(cliTest, tryOptionClusteringNegative) {
 
 TEST_F(cliTest, provideNoOptionArgumentEvenIfItWantsNegative) {
     auto res = ep.eval(parse(1, "-s")); // -s expects a trailing argument.
-    ASSERT_EQ(res.res, -1);          // no source code provided
+    ASSERT_EQ(res.res, -1);             // no source code provided
     ASSERT_TRUE(res.rpt);
 }
 

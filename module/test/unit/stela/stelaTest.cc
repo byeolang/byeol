@@ -16,7 +16,7 @@ TEST_F(stelaTest, checkDefaultNulStela) {
 }
 
 TEST_F(stelaTest, checkVerStela) {
-    verStela s(1,2,3);
+    verStela s(1, 2, 3);
     ASSERT_EQ(s.asMajor(), 1);
     ASSERT_EQ(s.asMinor(), 2);
     ASSERT_EQ(s.asFix(), 3);
@@ -28,6 +28,6 @@ TEST_F(stelaTest, checkVerStela) {
 
     ASSERT_TRUE(s == s2);
 
-    verStela s3(2,0,0);
+    verStela s3(2, 0, 0);
     ASSERT_TRUE(s < s3);
 }

@@ -167,7 +167,8 @@ TEST_F(ifExprTest, testInferNegative) {
     blockExpr thenBlock;
     thenBlock.getStmts().add(*new nInt(22));
 
-    threadUse th1; {
+    threadUse th1;
+    {
         obj o;
         o.inFrame();
         ifExpr expr(condition, thenBlock);
@@ -184,7 +185,8 @@ TEST_F(ifExprTest, testInfer) {
     blockExpr elseBlock;
     elseBlock.getStmts().add(*new nInt(11));
 
-    threadUse th1; {
+    threadUse th1;
+    {
         obj o;
         o.inFrame();
         ifExpr expr(condition, thenBlock, elseBlock);
@@ -228,7 +230,7 @@ TEST_F(ifExprTest, testTypeInheritance) {
 }
 
 TEST_F(ifExprTest, testConditionWithIntegerExpression) {
-    nInt condition(1);  // Non-zero should be truthy
+    nInt condition(1); // Non-zero should be truthy
     blockExpr thenBlock;
     ifExpr expr(condition, thenBlock);
 
@@ -256,7 +258,8 @@ TEST_F(ifExprTest, testInferConsistency) {
     elseBlock.getStmts().add(*new nInt(2));
     ifExpr expr(condition, thenBlock, elseBlock);
 
-    threadUse th1; {
+    threadUse th1;
+    {
         obj o;
         o.inFrame();
 

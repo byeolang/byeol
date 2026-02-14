@@ -88,7 +88,7 @@ TEST_F(getExprTest, testGetMeNull) {
 
     const node* retrievedMe = expr.getMe();
     // May be null when constructed without me
-    (void)retrievedMe; // Intentionally unused - just testing the function works
+    (void) retrievedMe; // Intentionally unused - just testing the function works
 }
 
 TEST_F(getExprTest, testSetMe) {
@@ -109,7 +109,7 @@ TEST_F(getExprTest, testGetArgs) {
 
     const args& retrievedArgs = expr.getArgs();
     // Just verify we can retrieve args
-    (void)retrievedArgs; // Intentionally unused - just testing the function works
+    (void) retrievedArgs; // Intentionally unused - just testing the function works
 }
 
 TEST_F(getExprTest, testSetArgs) {
@@ -121,7 +121,7 @@ TEST_F(getExprTest, testSetArgs) {
 
     const args& retrievedArgs = expr.getArgs();
     // Just verify we can retrieve args after setting
-    (void)retrievedArgs; // Intentionally unused - just testing the function works
+    (void) retrievedArgs; // Intentionally unused - just testing the function works
 }
 
 TEST_F(getExprTest, testInferNegative) {
@@ -137,7 +137,8 @@ TEST_F(getExprTest, testInfer) {
     std::string name = "property";
     o.getOwns().add(name, new nInt(77));
 
-    threadUse th1; {
+    threadUse th1;
+    {
         o.inFrame();
         getExpr expr(name);
         str inferredType = expr.infer();
@@ -160,7 +161,8 @@ TEST_F(getExprTest, testEval) {
     obj o;
     o.getOwns().add(name, new nInt(77));
 
-    threadUse th1; {
+    threadUse th1;
+    {
         o.inFrame();
         getExpr expr(name);
         str inferredType = expr.eval(args());
@@ -198,7 +200,8 @@ TEST_F(getExprTest, testInferConsistency) {
     std::string name = "property";
     o.getOwns().add(name, new nInt(77));
 
-    threadUse th1; {
+    threadUse th1;
+    {
         o.inFrame();
         getExpr expr(name);
 

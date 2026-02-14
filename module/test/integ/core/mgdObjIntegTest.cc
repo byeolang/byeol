@@ -4,7 +4,7 @@ using namespace by;
 using namespace std;
 
 namespace {
-    struct mgdObjIntegTest : public byeolIntegTest {};
+    struct mgdObjIntegTest: public byeolIntegTest {};
 }
 
 TEST_F(mgdObjIntegTest, testAccessCompleteObject) {

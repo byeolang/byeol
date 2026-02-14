@@ -51,7 +51,8 @@ TEST_F(retExprTest, testInfer) {
     nInt returnValue(42);
     retExpr expr(returnValue);
 
-    threadUse th1; {
+    threadUse th1;
+    {
         obj o;
         o.inFrame();
 
@@ -84,9 +85,12 @@ TEST_F(retExprTest, testEvalWithEmptyArgs) {
     func foo(modifier(true, false), typeMaker::make<func>("foo", params(), new nVoid()));
     o.getShares().add("foo", foo);
 
-    threadUse th1; {
-        frameInteract i1(o); {
-            frameInteract i2(foo); {
+    threadUse th1;
+    {
+        frameInteract i1(o);
+        {
+            frameInteract i2(foo);
+            {
                 str result = expr.eval(emptyArgs);
                 ASSERT_TRUE(result);
             }

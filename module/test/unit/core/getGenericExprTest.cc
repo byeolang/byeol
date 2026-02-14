@@ -108,7 +108,7 @@ TEST_F(getGenericExprTest, testGetArgsInherited) {
 
     const args& retrievedArgs = expr.getArgs();
     // Just verify we can retrieve args
-    (void)retrievedArgs; // Intentionally unused - just testing the function works
+    (void) retrievedArgs; // Intentionally unused - just testing the function works
 }
 
 TEST_F(getGenericExprTest, testInferInheritedNegative) {
@@ -125,7 +125,8 @@ TEST_F(getGenericExprTest, testInferInherited) {
     obj o;
     o.getOwns().add("optional", genericOrg);
 
-    threadUse th1; {
+    threadUse th1;
+    {
         o.inFrame();
 
         getGenericExpr expr("optional", *new args{narr{*new nInt()}});
@@ -150,7 +151,8 @@ TEST_F(getGenericExprTest, testEval) {
     obj o;
     o.getOwns().add("optional", genericOrg);
 
-    threadUse th1; {
+    threadUse th1;
+    {
         o.inFrame();
 
         getGenericExpr expr("optional", *new args{narr{*new nInt()}});
@@ -190,7 +192,8 @@ TEST_F(getGenericExprTest, testInferConsistency) {
     obj o;
     o.getOwns().add("Template", genericOrg);
 
-    threadUse th1; {
+    threadUse th1;
+    {
         o.inFrame();
         getGenericExpr expr("Template", *new args{narr{*new nInt()}});
 

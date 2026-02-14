@@ -98,7 +98,8 @@ TEST_F(endExprTest, testEvalInherited) {
     endExpr expr(blockExpr{*new nInt(1)});
 
     // Should inherit eval from blockExpr
-    threadUse th1; {
+    threadUse th1;
+    {
         obj o;
         o.inFrame();
         str result = expr.eval(args());
@@ -154,7 +155,7 @@ TEST_F(endExprTest, testIsAbstractInherited) {
     // Should inherit isAbstract from blockExpr
     nbool abstract = expr.isAbstract();
     // Just verify it doesn't crash
-    (void)abstract; // Intentionally unused - just testing the function works
+    (void) abstract; // Intentionally unused - just testing the function works
 }
 
 TEST_F(endExprTest, testConstructorPreservesBlockContent) {

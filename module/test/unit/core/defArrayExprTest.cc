@@ -138,7 +138,7 @@ TEST_F(defArrayExprTest, testGetArrayType) {
     const baseObj* arrayType = expr.getArrayType();
     // Should return a valid type or null
     // Just verify it doesn't crash
-    (void)arrayType; // Intentionally unused - just testing the function works
+    (void) arrayType; // Intentionally unused - just testing the function works
 }
 
 TEST_F(defArrayExprTest, testGetOrigin) {
@@ -234,7 +234,7 @@ TEST_F(defArrayExprTest, testEvalAfterConstruction) {
 
 TEST_F(defArrayExprTest, testWithManyElements) {
     narr elems;
-    for (int i = 0; i < 10; i++) {
+    for(int i = 0; i < 10; i++) {
         nInt elem(i);
         elems.add(elem);
     }

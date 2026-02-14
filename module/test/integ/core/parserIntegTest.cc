@@ -4,7 +4,7 @@ using namespace by;
 using namespace std;
 
 namespace {
-    struct parserIntegTest : public byeolIntegTest {};
+    struct parserIntegTest: public byeolIntegTest {};
 }
 
 TEST_F(parserIntegTest, slotNoOnTray) {

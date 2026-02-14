@@ -47,13 +47,13 @@ TEST_F(blockExprTest, testEvalWithEmptyArgs) {
     ASSERT_FALSE(result); // THERE_IS_NO_FRAMES_IN_THREAD
 
     obj o;
-    threadUse th1; {
+    threadUse th1;
+    {
         o.inFrame(); // let it make a frame in thread forcibly.
         str result = block.eval(emptyArgs);
         ASSERT_FALSE(result);
         ASSERT_FALSE(thread::get().getEx());
     }
-
 }
 
 TEST_F(blockExprTest, testSetEval) {
@@ -100,7 +100,7 @@ TEST_F(blockExprTest, testIsAbstract) {
     // Check if isAbstract returns a valid boolean
     nbool abstract = block.isAbstract();
     // Just verify it doesn't crash and returns a valid value
-    (void)abstract; // Intentionally unused - just testing the function works
+    (void) abstract; // Intentionally unused - just testing the function works
 }
 
 TEST_F(blockExprTest, testTypeInheritance) {
@@ -228,7 +228,8 @@ TEST_F(blockExprTest, testEvalAfterVariadicConstruction) {
     ASSERT_FALSE(result); // THERE_IS_NO_FRAMES_IN_THREAD
 
     obj o;
-    threadUse th1; {
+    threadUse th1;
+    {
         o.inFrame(); // let it make a frame in thread forcibly.
         tstr<nInt> result = block.eval(args());
         ASSERT_TRUE(result);
