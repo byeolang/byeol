@@ -162,13 +162,37 @@ TEST_F(ifExprTest, testSetConditionPointer) {
     ASSERT_TRUE(expr.getCondition().isSub<nBool>());
 }
 
+TEST_F(ifExprTest, testInferNegative) {
+    nBool condition(true);
+    blockExpr thenBlock;
+    thenBlock.getStmts().add(*new nInt(22));
+
+    threadUse th1; {
+        obj o;
+        o.inFrame();
+        ifExpr expr(condition, thenBlock);
+
+        str inferredType = expr.infer();
+        ASSERT_FALSE(inferredType); // there is no `else` block.
+    }
+}
+
 TEST_F(ifExprTest, testInfer) {
     nBool condition(true);
     blockExpr thenBlock;
-    ifExpr expr(condition, thenBlock);
+    thenBlock.getStmts().add(*new nInt(22));
+    blockExpr elseBlock;
+    elseBlock.getStmts().add(*new nInt(11));
 
-    str inferredType = expr.infer();
-    ASSERT_TRUE(inferredType);
+    threadUse th1; {
+        obj o;
+        o.inFrame();
+        ifExpr expr(condition, thenBlock, elseBlock);
+
+        str inferredType = expr.infer();
+        ASSERT_TRUE(inferredType);
+        ASSERT_TRUE(inferredType->isSub<nInt>());
+    }
 }
 
 TEST_F(ifExprTest, testInferWithElse) {
@@ -227,12 +251,19 @@ TEST_F(ifExprTest, testMultipleInstances) {
 TEST_F(ifExprTest, testInferConsistency) {
     nBool condition(true);
     blockExpr thenBlock;
-    ifExpr expr(condition, thenBlock);
+    thenBlock.getStmts().add(*new nInt(22));
+    blockExpr elseBlock;
+    elseBlock.getStmts().add(*new nInt(2));
+    ifExpr expr(condition, thenBlock, elseBlock);
 
-    // Multiple calls to infer should work
-    str infer1 = expr.infer();
-    str infer2 = expr.infer();
+    threadUse th1; {
+        obj o;
+        o.inFrame();
 
-    ASSERT_TRUE(infer1);
-    ASSERT_TRUE(infer2);
+        str infer1 = expr.infer();
+        str infer2 = expr.infer();
+
+        ASSERT_TRUE(infer1);
+        ASSERT_TRUE(infer2);
+    }
 }

@@ -111,24 +111,52 @@ TEST_F(getGenericExprTest, testGetArgsInherited) {
     (void)retrievedArgs; // Intentionally unused - just testing the function works
 }
 
-TEST_F(getGenericExprTest, testInferInherited) {
-    std::string genericName = "Optional";
-    args typeParams;
-    getGenericExpr expr(genericName, typeParams);
+TEST_F(getGenericExprTest, testInferInheritedNegative) {
+    getGenericExpr expr("Optional", args());
 
     str inferredType = expr.infer();
-    ASSERT_TRUE(inferredType);
-    // Note: infer() may return null or unexpected values in unit tests without full verification context
+    ASSERT_FALSE(inferredType);
 }
 
-TEST_F(getGenericExprTest, testEvalWithEmptyArgs) {
-    std::string genericName = "Result";
+TEST_F(getGenericExprTest, testInferInherited) {
+    origin org(typeMaker::make<obj>("optional"));
+    org.getOwns().add("age", *new getExpr("T"));
+    genericOrigin genericOrg(org, {"T"});
+    obj o;
+    o.getOwns().add("optional", genericOrg);
+
+    threadUse th1; {
+        o.inFrame();
+
+        getGenericExpr expr("optional", *new args{narr{*new nInt()}});
+        str inferredType = expr.infer();
+        ASSERT_TRUE(inferredType);
+    }
+}
+
+TEST_F(getGenericExprTest, testEvalNegative) {
     args typeParams;
-    getGenericExpr expr(genericName, typeParams);
+    getGenericExpr expr("Result", typeParams);
     args emptyArgs;
 
     str result = expr.eval(emptyArgs);
-    ASSERT_TRUE(result);
+    ASSERT_FALSE(result);
+}
+
+TEST_F(getGenericExprTest, testEval) {
+    origin org(typeMaker::make<obj>("optional"));
+    org.getOwns().add("age", *new getExpr("T"));
+    genericOrigin genericOrg(org, {"T"});
+    obj o;
+    o.getOwns().add("optional", genericOrg);
+
+    threadUse th1; {
+        o.inFrame();
+
+        getGenericExpr expr("optional", *new args{narr{*new nInt()}});
+        str inferredType = expr.eval();
+        ASSERT_TRUE(inferredType);
+    }
 }
 
 TEST_F(getGenericExprTest, testSetNameInherited) {
@@ -156,16 +184,22 @@ TEST_F(getGenericExprTest, testSetMeInherited) {
 }
 
 TEST_F(getGenericExprTest, testInferConsistency) {
-    std::string genericName = "Template";
-    args typeParams;
-    getGenericExpr expr(genericName, typeParams);
+    origin org(typeMaker::make<obj>("Template"));
+    org.getOwns().add("age", *new getExpr("T"));
+    genericOrigin genericOrg(org, {"T"});
+    obj o;
+    o.getOwns().add("Template", genericOrg);
 
-    // Multiple calls to infer should work
-    str infer1 = expr.infer();
-    str infer2 = expr.infer();
+    threadUse th1; {
+        o.inFrame();
+        getGenericExpr expr("Template", *new args{narr{*new nInt()}});
 
-    ASSERT_TRUE(infer1);
-    ASSERT_TRUE(infer2);
+        str infer1 = expr.infer();
+        str infer2 = expr.infer();
+
+        ASSERT_TRUE(infer1);
+        ASSERT_TRUE(infer2);
+    }
 }
 
 TEST_F(getGenericExprTest, testWithEmptyName) {

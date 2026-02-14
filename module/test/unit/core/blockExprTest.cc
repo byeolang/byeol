@@ -48,7 +48,7 @@ TEST_F(blockExprTest, testEvalWithEmptyArgs) {
 
     obj o;
     threadUse th1; {
-        o.inFrame(nmap()); // let it make a frame in thread forcibly.
+        o.inFrame(); // let it make a frame in thread forcibly.
         str result = block.eval(emptyArgs);
         ASSERT_FALSE(result);
         ASSERT_FALSE(thread::get().getEx());
@@ -229,7 +229,7 @@ TEST_F(blockExprTest, testEvalAfterVariadicConstruction) {
 
     obj o;
     threadUse th1; {
-        o.inFrame(nmap()); // let it make a frame in thread forcibly.
+        o.inFrame(); // let it make a frame in thread forcibly.
         tstr<nInt> result = block.eval(args());
         ASSERT_TRUE(result);
         ASSERT_EQ(result->get(), 10);

@@ -51,9 +51,13 @@ TEST_F(retExprTest, testInfer) {
     nInt returnValue(42);
     retExpr expr(returnValue);
 
-    str inferredType = expr.infer();
-    ASSERT_TRUE(inferredType);
-    // Note: infer() may return null or unexpected values in unit tests without full verification context
+    threadUse th1; {
+        obj o;
+        o.inFrame();
+
+        str inferredType = expr.infer();
+        ASSERT_TRUE(inferredType);
+    }
 }
 
 TEST_F(retExprTest, testInferWithDefaultConstructor) {
@@ -63,13 +67,31 @@ TEST_F(retExprTest, testInferWithDefaultConstructor) {
     ASSERT_TRUE(inferredType);
 }
 
-TEST_F(retExprTest, testEvalWithEmptyArgs) {
+TEST_F(retExprTest, testEvalWithEmptyArgsNegative) {
     nInt returnValue(42);
     retExpr expr(returnValue);
     args emptyArgs;
 
     str result = expr.eval(emptyArgs);
-    ASSERT_TRUE(result);
+    ASSERT_FALSE(result);
+}
+
+TEST_F(retExprTest, testEvalWithEmptyArgs) {
+    nInt returnValue(42);
+    retExpr expr(returnValue);
+    args emptyArgs;
+    obj o;
+    func foo(modifier(true, false), typeMaker::make<func>("foo", params(), new nVoid()));
+    o.getShares().add("foo", foo);
+
+    threadUse th1; {
+        frameInteract i1(o); {
+            frameInteract i2(foo); {
+                str result = expr.eval(emptyArgs);
+                ASSERT_TRUE(result);
+            }
+        }
+    }
 }
 
 TEST_F(retExprTest, testPrioritize) {
@@ -78,7 +100,7 @@ TEST_F(retExprTest, testPrioritize) {
     args emptyArgs;
 
     priorType priority = expr.prioritize(emptyArgs);
-    ASSERT_GE(priority, priorType::NO_MATCH);
+    ASSERT_EQ(priority, priorType::EXACT_MATCH); // nInt::prioritize() -> is nInt::ctor() callable?
 }
 
 TEST_F(retExprTest, testTypeInheritance) {

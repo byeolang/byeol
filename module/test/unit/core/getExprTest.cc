@@ -124,23 +124,50 @@ TEST_F(getExprTest, testSetArgs) {
     (void)retrievedArgs; // Intentionally unused - just testing the function works
 }
 
-TEST_F(getExprTest, testInfer) {
+TEST_F(getExprTest, testInferNegative) {
     std::string name = "property";
     getExpr expr(name);
 
     str inferredType = expr.infer();
-    ASSERT_TRUE(inferredType);
-    // Note: infer() may return null or unexpected values in unit tests without full verification context
+    ASSERT_FALSE(inferredType);
 }
 
-TEST_F(getExprTest, testEvalWithEmptyArgs) {
+TEST_F(getExprTest, testInfer) {
+    obj o;
+    std::string name = "property";
+    o.getOwns().add(name, new nInt(77));
+
+    threadUse th1; {
+        o.inFrame();
+        getExpr expr(name);
+        str inferredType = expr.infer();
+        ASSERT_TRUE(inferredType);
+        ASSERT_TRUE(inferredType->isSub<nInt>());
+    }
+}
+
+TEST_F(getExprTest, testEvalNegative) {
     std::string name = "property";
     getExpr expr(name);
     args emptyArgs;
 
     str result = expr.eval(emptyArgs);
-    // eval should return a result
-    ASSERT_TRUE(result);
+    ASSERT_FALSE(result);
+}
+
+TEST_F(getExprTest, testEval) {
+    std::string name = "property";
+    obj o;
+    o.getOwns().add(name, new nInt(77));
+
+    threadUse th1; {
+        o.inFrame();
+        getExpr expr(name);
+        str inferredType = expr.eval(args());
+        ASSERT_TRUE(inferredType);
+        ASSERT_TRUE(inferredType->isSub<nInt>());
+        ASSERT_EQ(*inferredType->cast<nint>(), 77);
+    }
 }
 
 TEST_F(getExprTest, testTypeInheritance) {
@@ -167,15 +194,22 @@ TEST_F(getExprTest, testMultipleInstances) {
 }
 
 TEST_F(getExprTest, testInferConsistency) {
+    obj o;
     std::string name = "property";
-    getExpr expr(name);
+    o.getOwns().add(name, new nInt(77));
 
-    // Multiple calls to infer should work
-    str infer1 = expr.infer();
-    str infer2 = expr.infer();
+    threadUse th1; {
+        o.inFrame();
+        getExpr expr(name);
 
-    ASSERT_TRUE(infer1);
-    ASSERT_TRUE(infer2);
+        // Multiple calls to infer should work
+        str infer1 = expr.infer();
+        str infer2 = expr.infer();
+
+        ASSERT_TRUE(infer1);
+        ASSERT_TRUE(infer2);
+        ASSERT_EQ(infer1->getType(), infer2->getType());
+    }
 }
 
 TEST_F(getExprTest, testExprTypeCheck) {

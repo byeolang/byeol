@@ -25,6 +25,8 @@ namespace by {
         friend class verifier;
         friend class graphVisitor;
         friend class exprMaker;
+
+    public:
         typedef std::vector<std::string> strings;
 
     public:

@@ -95,13 +95,17 @@ TEST_F(endExprTest, testGetStmtsInherited) {
 }
 
 TEST_F(endExprTest, testEvalInherited) {
-    blockExpr block;
-    endExpr expr(block);
-    args emptyArgs;
+    endExpr expr(blockExpr{*new nInt(1)});
 
     // Should inherit eval from blockExpr
-    str result = expr.eval(emptyArgs);
-    ASSERT_TRUE(result);
+    threadUse th1; {
+        obj o;
+        o.inFrame();
+        str result = expr.eval(args());
+        ASSERT_TRUE(result);
+        ASSERT_TRUE(result->isSub<nInt>());
+        ASSERT_EQ(*result->cast<nint>(), 1);
+    }
 }
 
 TEST_F(endExprTest, testWithBlockContainingMultipleStatements) {

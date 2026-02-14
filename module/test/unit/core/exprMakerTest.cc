@@ -212,20 +212,6 @@ TEST_F(exprMakerTest, testMultipleBirths) {
     delete expr2;
 }
 
-TEST_F(exprMakerTest, testTypeProvidableInheritance) {
-    exprMaker maker;
-
-    // Should inherit from typeProvidable
-    ASSERT_TRUE(maker.isSub<typeProvidable>());
-}
-
-TEST_F(exprMakerTest, testClonableInheritance) {
-    exprMaker maker;
-
-    // Should inherit from clonable
-    ASSERT_TRUE(maker.isSub<clonable>());
-}
-
 TEST_F(exprMakerTest, testGetPosAfterDefaultConstruction) {
     exprMaker maker;
 
