@@ -57,12 +57,9 @@ namespace by {
          */
         class _nout iterator {
             BY(ME(iterator))
-            friend class fsystem;
-
-        private:
-            iterator(const std::string& path);
 
         public:
+            iterator(const std::string& path);
             ~iterator();
 
         public:
