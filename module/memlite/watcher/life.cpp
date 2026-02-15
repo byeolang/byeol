@@ -36,7 +36,7 @@ namespace by {
 
     id me::getId() const { return _id; }
 
-    nbool me::_onStrong(ncnt vote) {
+    nbool me::onStrong(ncnt vote) {
         WHEN(vote < 0 && _strong <= 0) .ret(false);
         WHEN(!_id.isHeap()) .ret(false);
 
@@ -57,13 +57,13 @@ namespace by {
     nbool me::_completeId(instance& it) {
         //  complete mine:
         id mine = getId();
-        mine.chkN = it._id.chkN;
+        mine.chkN = memliteInternal::getId(it).chkN;
         //  propagate it:
         return _sync(mine);
     }
 
     nbool me::_sync(id new1) {
-        if(_pt) _pt->_setId(new1);
+        if(_pt) memliteInternal::setId(*_pt, new1);
         _id = new1;
         return true;
     }

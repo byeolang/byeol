@@ -5,6 +5,7 @@
 
 #include "memlite/interface/clonable.hpp"
 #include "memlite/interface/id.hpp"
+#include "memlite/common/memliteInternal.hpp"
 
 struct byeolTest;
 
@@ -41,11 +42,7 @@ namespace by {
     class _nout instance: public typeProvidable, public clonable {
         BY_ME(instance)
         BY_INIT_META(me)
-        friend class life;
-        friend class watcher;      // for vault.
-        friend class chunks;       // for vault.
-        friend class instancer;    // for _id.
-        friend struct ::byeolTest; // for vault.
+        friend class memliteInternal;
 
     public:
         class vault {
@@ -86,6 +83,8 @@ namespace by {
          * @return A const pointer to the `life` object, or nullptr if none is associated.
          */
         const life* getBindTag() const;
+
+        static vault& getVault();
 
     protected:
         //  instance:

@@ -16,7 +16,7 @@ void me::TearDown() {
     thr.rel();
 }
 
-by::instance::vault& me::_getVault() { return by::instance::_vault; }
+by::instance::vault& me::_getVault() { return by::instance::getVault(); }
 
 void me::_assertVault() {
     auto& v = _getVault();

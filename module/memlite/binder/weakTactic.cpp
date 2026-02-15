@@ -6,7 +6,7 @@ namespace by {
 
     BY_DEF_ME(weakTactic)
 
-    void me::rel(binder& me) { me._itsId.rel(); }
+    void me::rel(binder& me) { memliteInternal::rel(me); }
 
     nbool me::bind(binder& me, const instance& it) {
         // regardless of result from _onStrong binder can bind:
@@ -19,7 +19,7 @@ namespace by {
         //      no matter how life reacts, anyway it won't refuse binder's
         //      refering. for instance, the scenario for binding non-heap allocated
         //      instance.
-        me._itsId = it.getId();
+        memliteInternal::setBinderItsId(me, it.getId());
         return true;
     }
 

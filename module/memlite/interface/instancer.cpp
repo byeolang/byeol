@@ -33,5 +33,5 @@ namespace by {
         return _isRel ? nullptr : &inner;
     }
 
-    nbool me::_hasBindTag(const instance& it) const { return it._id.tagN != BY_INDEX_ERROR; }
+    nbool me::_hasBindTag(const instance& it) const { return it.getId().tagN != BY_INDEX_ERROR; }
 } // namespace by

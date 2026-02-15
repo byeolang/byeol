@@ -21,10 +21,6 @@ namespace by {
     class _nout life: public typeProvidable, public tbindable<instance> {
         BY_ME(life)
         BY_INIT_META(me)
-        template <typename T, typename TACTIC> friend class tweak;
-        template <typename T, typename TACTIC> friend class tstr;
-        friend class weakTactic;
-        friend class strTactic;
 
     public:
         //  life:
@@ -91,15 +87,16 @@ namespace by {
          */
         static const life* getBindTag(id newId);
 
-    private:
-        //  life:
         /**
          * @brief Updates strong reference count by vote amount
          * @param vote Positive to increment, negative to decrement reference count
          * @return true on success, false on error
          * @note When count reaches 0, triggers instance destruction via instancer
          */
-        nbool _onStrong(ncnt vote);
+        nbool onStrong(ncnt vote);
+
+    private:
+        //  life:
 
         /**
          * @brief Completes id assignment for newly bound instance

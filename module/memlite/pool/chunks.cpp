@@ -26,7 +26,7 @@ namespace by {
     void* me::new1() {
         nidx n = _findCapable();
         void* ret = _chunks[n]->new1();
-        instance::_vault.set(ret, n);
+        instance::getVault().set(ret, n);
         return ret;
     }
 
@@ -34,7 +34,7 @@ namespace by {
         //  in fact, cast wasn't be deallocated yet:
         //      if we guarrantee that destructor didn't change its _id value,
         //      _id will keep its value till now.
-        nidx chkN = ((instance*) pt)->_id.chkN;
+        nidx chkN = memliteInternal::getId(*(instance*) pt).chkN;
         return _chunks[chkN]->del(pt, sz);
     }
 

@@ -8,14 +8,13 @@
 namespace by {
 
     BY_DEF_ME(instance)
-    me::vault instance::_vault;
 
-    me::instance() { _id.chkN = _vault.get(this); }
+    me::instance() { _id.chkN = getVault().get(this); }
 
     me::instance(id newId): _id(newId) {} // no binding required.
 
     me::instance(const me& rhs) {
-        _id.chkN = _vault.get(this); // _id is only belonged to the instance. not able to be copied.
+        _id.chkN = getVault().get(this); // _id is only belonged to the instance. not able to be copied.
     }
 
     me::~instance() { _getMgr() TO(rel(*this)); }
@@ -24,9 +23,9 @@ namespace by {
 
     std::map<void*, int>& me::vault::getVaults() { return _vaults; }
 
-    void* me::operator new(size_t sz) noexcept { return _getMgr() TO(_new1(sz)); }
+    void* me::operator new(size_t sz) noexcept { return memliteInternal::new1(sz); }
 
-    void me::operator delete(void* pt, size_t sz) noexcept { _getMgr() TO(_del(pt, sz)); }
+    void me::operator delete(void* pt, size_t sz) noexcept { memliteInternal::del(pt, sz); }
 
     id me::getId() const {
         if(_id.tagN == BY_INDEX_ERROR) _getMgr() TO(bind((me&) *this));
@@ -36,6 +35,12 @@ namespace by {
     nbool me::isHeap() const { return _id.isHeap(); }
 
     const life* me::getBindTag() const { return life::getBindTag(getId()); }
+
+    me::vault me::_vault;
+
+    me::vault& me::getVault() {
+        return _vault;
+    }
 
     nbool me::_setId(id new1) {
         // rel() must not to reset Id. it's regarding to instance info.

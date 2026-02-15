@@ -2,6 +2,7 @@
 #pragma once
 
 #include "memlite/binder/tbindable.hpp"
+#include "memlite/common/memliteInternal.hpp"
 
 struct binderTest;
 
@@ -107,11 +108,8 @@ namespace by {
      */
     class _nout binder: public typeProvidable, public tbindable<instance> {
         BY(ME(binder, instance), INIT_META(me))
-
-        friend class weakTactic;
-        friend class strTactic;
-        friend class life;          // for _get()
-        friend struct ::binderTest; // for UT
+        friend class memliteInternal;
+        friend struct ::binderTest;
 
     public:
         /**

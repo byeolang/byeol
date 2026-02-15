@@ -57,7 +57,6 @@ namespace by {
     class _nout chunk: public allocator {
         BY_ME(chunk, allocator)
         BY_INIT_META(me)
-        friend class watcher;
 
     public:
         //  chunk:

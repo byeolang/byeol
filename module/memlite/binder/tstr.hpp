@@ -15,7 +15,6 @@ namespace by {
         typedef tweak<T, TACTIC> _super_;
         BY_ME(tstr, _super_)
         BY_INIT_META(me)
-        friend class ref;
 
     public:
         //  tstr:

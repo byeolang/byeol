@@ -20,8 +20,6 @@ namespace by {
     class _nout watcher: public chunk {
         BY_ME(watcher, chunk)
         BY_INIT_META(me)
-        friend class instancer;
-        friend class life;
 
     public:
         //  watcher:

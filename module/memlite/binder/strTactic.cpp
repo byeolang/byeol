@@ -10,8 +10,8 @@ namespace by {
     void me::rel(binder& me) {
         WHEN(!me.isBind()) .ret();
 
-        life* l = me._getBindTag();
-        if(l) l->_onStrong(-1);
+        life* l = memliteInternal::getBindTag(me);
+        if(l) l->onStrong(-1);
         super::rel(me);
     }
 
@@ -23,7 +23,7 @@ namespace by {
         // initially, when instance got created by new operator, the value 'strong' set to 0.
         // if strongBinder doesn't bind the instance in this circumstance, this instance keep
         // existing in heap area.
-        return me._getBindTag()->_onStrong(1);
+        return memliteInternal::getBindTag(me)->onStrong(1);
     }
 
     me me::singleton;

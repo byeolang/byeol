@@ -16,7 +16,7 @@ namespace by {
     class _nout instancer {
         BY_ME(instancer)
         BY_INIT_META(me)
-        friend class instance;
+        friend class memliteInternal;
 
     public:
         ~instancer();
