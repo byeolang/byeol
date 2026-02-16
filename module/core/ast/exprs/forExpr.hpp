@@ -14,7 +14,7 @@ namespace by {
      */
     class _nout forExpr: public loopExpr {
         BY(CLASS(forExpr, loopExpr, expr::exprType), VISIT())
-        friend class verifier;
+        friend class coreInternal;
 
     public:
         forExpr(const std::string& localName, const node& container, const blockExpr& blk);

@@ -51,9 +51,7 @@ namespace by {
      */
     class _nout frame: public node, public dumpable { // TODO: may be obj, not node.
         BY(CLASS(frame, node), VISIT())
-        friend class verifier;
         friend struct ::frameTest;
-        friend class baseObj;
 
     public:
         frame();

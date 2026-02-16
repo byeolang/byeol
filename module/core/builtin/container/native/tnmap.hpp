@@ -13,14 +13,12 @@ namespace by {
         BY(CLASS(tnmap, _super_))
 
     public:
-        template <typename K1, typename V1> friend class tmap;
         typedef tstr<V, TACTIC> wrap;
         typedef smultimap<K, wrap> cmap;
         typedef typename cmap::iterator citer;
         typedef std::pair<K, V> cpair;
         typedef typename super::iter iter;
         typedef typename super::iteration iteration;
-        friend class nmapIteration;
 #include "../iter/nmapIteration.hpp"
 
     public:

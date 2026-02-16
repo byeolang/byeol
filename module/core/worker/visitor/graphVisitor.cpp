@@ -5,6 +5,7 @@
 #include "core/ast.hpp"
 #include "core/frame/frame.hpp"
 #include "core/worker/tworker.inl"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -135,8 +136,9 @@ namespace by {
         onVisit(i, (node&) o, alreadyVisited);
 
         int n = 0;
-        ncnt len = o._cache.size();
-        for(auto e: o._cache)
+        auto& cache = coreInternal::getCache(o);
+        ncnt len = cache.size();
+        for(auto e: cache)
             e.second->accept(visitInfo{e.first, &o, n++, len, i.depth + 1}, *this);
         return true;
     }

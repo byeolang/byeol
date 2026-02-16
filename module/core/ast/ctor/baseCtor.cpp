@@ -16,6 +16,4 @@ namespace by {
         static tmock<baseObj> dummy;
         return _type.getRet() TO(template cast<baseObj>()) OR.ret(dummy);
     }
-
-    void me::_setOrigin(const baseObj& newOrg) { _type.setRet(newOrg); }
 }

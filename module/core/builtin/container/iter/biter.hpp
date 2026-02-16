@@ -9,7 +9,6 @@
  */
 class iter: public iterable, public clonable, public typeProvidable {
     BY(CLASS(iter))
-    friend class iteration;
     template <typename K1, typename V1, typename defaultContainer1> friend class tnchain;
     template <typename K1, typename V1, typename TACTIC> friend class tnmap;
 

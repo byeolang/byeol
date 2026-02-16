@@ -10,6 +10,7 @@
 #include "core/bridge/cpp/tbridgeFunc.hpp"
 #include "core/ast/src/dumSrcFile.hpp"
 #include "core/ast/ctor.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -60,9 +61,6 @@ namespace by {
      */
     template <typename T, nbool isBaseObj = tifSub<typename tadaptiveSuper<T>::super, baseObj>::is> class tbridger {
         BY(ME(tbridger))
-        template <typename Ret, typename T1, nbool, template <typename, nbool> class Marshaling, typename... Args>
-        friend class tbridgeFunc;
-        template <typename T1> friend class tbridge;
 
     private:
         tbridger() = default;
@@ -180,7 +178,7 @@ namespace by {
         static me& closure(const std::string* name, std::function<Ret(T1&)> c)
             BY_SIDE_FUNC(name, closure(*name, c), _get());
 
-        static tbridge<T>* make(T* real) { return new tbridge(real); }
+        static tbridge<T>* make(T* real) { return coreInternal::makeBridge(real); }
 
     private:
         static me& _get() {

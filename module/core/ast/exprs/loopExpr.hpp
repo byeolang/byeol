@@ -16,7 +16,6 @@ namespace by {
      */
     class _nout loopExpr: public expr {
         BY(ADT(loopExpr, expr, expr::exprType), VISIT())
-        friend class loop;
 
     public:
         /** @ingroup core

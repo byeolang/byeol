@@ -2,6 +2,7 @@
 #pragma once
 
 #include "core/builtin/scalar.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -36,9 +37,9 @@ namespace by {
 
         static tweak<T, TACTIC> toNative(node& it) { return it; }
 
-        static const mgd& onAddParam() { return *new mgd(new T()); }
+        static const mgd& onAddParam() { return *coreInternal::makeBridge(new T()); }
 
-        static const mgd* onGetRet() { return new mgd(new T()); }
+        static const mgd* onGetRet() { return coreInternal::makeBridge(new T()); }
 
         static yes canMarshal();
     };
@@ -50,9 +51,9 @@ namespace by {
 
         static tstr<T, TACTIC> toNative(node& it) { return it; }
 
-        static const mgd& onAddParam() { return *new mgd(new T()); }
+        static const mgd& onAddParam() { return *coreInternal::makeBridge(new T()); }
 
-        static const mgd* onGetRet() { return new mgd(new T()); }
+        static const mgd* onGetRet() { return coreInternal::makeBridge(new T()); }
 
         static yes canMarshal();
     };
@@ -227,13 +228,13 @@ namespace by {
     template <typename T> struct tmarshaling<T, false>: public metaIf {
         typedef class tbridge<T> mgd;
 
-        template <typename E> static str toMgd(const E& it) { return new mgd(new E(it)); }
+        template <typename E> static str toMgd(const E& it) { return coreInternal::makeBridge(new E(it)); }
 
         static T& toNative(node& it) { return *it.cast<T>(); }
 
-        static const mgd& onAddParam() { return *new mgd(); }
+        static const mgd& onAddParam() { return *coreInternal::makeBridge<T>(); }
 
-        static const mgd* onGetRet() { return new mgd(); }
+        static const mgd* onGetRet() { return coreInternal::makeBridge<T>(); }
 
         static yes canMarshal();
     };
@@ -241,13 +242,13 @@ namespace by {
     template <typename T> struct tmarshaling<T&, false>: public metaIf {
         typedef class tbridge<T> mgd;
 
-        template <typename E> static str toMgd(E& it) { return new mgd(&it); }
+        template <typename E> static str toMgd(E& it) { return coreInternal::makeBridge(&it); }
 
         static T& toNative(node& it) { return it.cast<tbridge<T>>()->get(); }
 
-        static const mgd& onAddParam() { return *new mgd(); }
+        static const mgd& onAddParam() { return *coreInternal::makeBridge<T>(); }
 
-        static const mgd* onGetRet() { return new mgd(); }
+        static const mgd* onGetRet() { return coreInternal::makeBridge<T>(); }
 
         static yes canMarshal();
     };
@@ -255,13 +256,13 @@ namespace by {
     template <typename T> struct tmarshaling<T*, false>: public metaIf {
         typedef tbridge<T> mgd;
 
-        template <typename E> static str toMgd(E* it) { return new mgd(it); }
+        template <typename E> static str toMgd(E* it) { return coreInternal::makeBridge(it); }
 
         static T* toNative(node& it) { return &it.cast<tbridge<T>>()->get(); }
 
-        static const mgd& onAddParam() { return *new mgd(); }
+        static const mgd& onAddParam() { return *coreInternal::makeBridge<T>(); }
 
-        static const mgd* onGetRet() { return new mgd(); }
+        static const mgd* onGetRet() { return coreInternal::makeBridge<T>(); }
 
         static yes canMarshal();
     };

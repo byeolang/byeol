@@ -98,13 +98,7 @@ namespace by {
      */
     class _nout origin final: public obj {
         BY(ME(origin, obj), INIT_META(origin))
-
-    public:
-        friend class genericOrigin; // for _setOrigin(), _setType
-        friend class slot;          // for _onEvalSub
-        friend class expander;
-        friend class exprMaker;
-        friend class parser;
+        friend class coreInternal;
 
     public:
         explicit origin(const mgdType& newType);
@@ -138,7 +132,6 @@ namespace by {
 
     private:
         void _setType(const mgdType& new1) override;
-        void _setSubPack(const node& newSub);
         void _setSrc(const src& s) override;
         void _setModifier(const modifier& mod) override;
         me& _assign(const me& rhs);

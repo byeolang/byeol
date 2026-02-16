@@ -17,7 +17,6 @@ namespace by {
      */
     template <typename K, typename V> class tbicontainable {
         BY_ME(tbicontainable)
-        template <typename K1, typename V1, typename defaultContainer> friend class tnchain;
 
     public:
 #include "core/builtin/container/iter/biter.hpp"

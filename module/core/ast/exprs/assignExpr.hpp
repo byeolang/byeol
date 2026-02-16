@@ -18,8 +18,6 @@ namespace by {
      */
     class _nout assignExpr: public expr {
         BY(CLASS(assignExpr, expr, expr::exprType), VISIT())
-        friend class verifier;
-        friend class func;
         typedef scope::iter iter;
 
     public:

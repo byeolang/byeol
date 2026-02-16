@@ -195,8 +195,6 @@ namespace by {
     class _nout node: public instance, public frameInteractable {
         BY(ADT(node, instance))
         friend class coreInternal;
-        friend class exprMaker; // for _setSrc
-        template <typename T> friend class tmock;
 
     public:
         me& operator[](const std::string& name);

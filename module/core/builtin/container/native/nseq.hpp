@@ -16,7 +16,7 @@ namespace by {
     class _nout nseq: public tnucontainer<nInt, nInt, nInt>, public tarrayable<nInt, nInt, nInt> {
         typedef tnucontainer<nInt, nInt, nInt> _super3;
         BY(CLASS(nseq, _super3))
-        friend class seq;
+        friend class seq; // for redirection to `_onMakeIteration()`
 
     public:
 #include "../iter/nseqIteration.hpp"

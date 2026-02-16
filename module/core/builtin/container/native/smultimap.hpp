@@ -27,15 +27,11 @@ namespace by {
         BY(ME(smultimap))
 
     public:
-        class wrap;
+        struct wrap;
         class iterator;
-        friend class iterator;
         typedef std::unordered_multimap<K, wrap> stlMap;
 
-        class wrap {
-            friend class smultimap<K, V>;
-
-        public:
+        struct wrap {
             wrap() = default;
             wrap(V&& newValue);
             wrap(const wrap& rhs);
@@ -46,18 +42,13 @@ namespace by {
             wrap& operator=(wrap&&);
 
         public:
-            const K* getKey() const;
-            V& getVal();
-            const V& getVal() const;
-
-        public:
             void clear();
 
-        private:
-            const K* _key = nullptr;
-            V _value;
-            wrap* _prev = this;
-            wrap* _next = this;
+        public:
+            const K* key = nullptr;
+            V value;
+            wrap* prev = this;
+            wrap* next = this;
         };
 
         class iterator {

@@ -23,8 +23,6 @@ namespace by {
      */
     class _nout blockExpr: public expr {
         BY(CLASS(blockExpr, expr, expr::exprType), VISIT())
-        friend class verifier;
-        friend class func;
 
     public:
         blockExpr();

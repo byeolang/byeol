@@ -16,6 +16,13 @@ namespace by {
     class parser;
     class exprMaker;
     class func;
+    class baseCtor;
+    class origin;
+    class genericOrigin;
+    class obj;
+    typedef std::map<std::string, tstr<obj>> orgCache;
+    class forExpr;
+    template <typename T> class tbridge;
     class coreInternal {
         BY(ME(coreInternal))
 
@@ -25,11 +32,20 @@ namespace by {
         static void setModifier(baseObj& me, const modifier& mod);
         static void setOrigin(baseObj& me, const baseObj& newOrg);
         static void setOrigin(func& me, const baseObj& newOrg);
+        static void setOrigin(baseCtor& me, const baseObj& newOrg);
+        static void setSubPack(origin& me, const node& subpack);
         static ntype& getType(node& me);
         static str onEvalSub(node& me, node& sub, const args& a);
         static frames* getFrames();
         static frame* getNowFrame();
         static exprMaker& getMaker(parser& me);
-
+        template <typename T>
+        static tbridge<T>* makeBridge(T* real) { return new tbridge<T>(real); }
+        template <typename T>
+        static tbridge<T>* makeBridge() { return new tbridge<T>(); }
+        template <typename T>
+        static T* getReal(tbridge<T>& me) { return me._real; }
+        static orgCache& getCache(genericOrigin& me);
+        static str getContainer(forExpr& me);
     };
 }

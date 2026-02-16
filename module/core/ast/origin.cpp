@@ -83,8 +83,6 @@ namespace by {
 
     void me::_setType(const mgdType& new1) { _type = new1; }
 
-    void me::_setSubPack(const node& subpack) { _subpack.bind(subpack); }
-
     void me::_setSrc(const src& s) { _src.bind(s); }
 
     void me::_setModifier(const modifier& mod) { _mod.bind(mod); }

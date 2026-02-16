@@ -10,12 +10,12 @@ namespace by {
         BY(ADT(tnarr, tnucontainer<T>))
 
     public:
-        friend class arr;
         typedef tstr<T, TACTIC> wrap;
         typedef typename super::iter iter;
         typedef typename super::iteration iteration;
-        friend class narrIteration;
 #include "../iter/narrIteration.hpp"
+        friend class narrIteration;
+        friend class arr; // for redirection to `_onMakeIteration()`
 
     public:
         tnarr();

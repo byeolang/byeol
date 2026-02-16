@@ -587,7 +587,7 @@ namespace by {
 
         _onInjectObjSubs(org, blk);
 
-        org._setSubPack(*_subpack);
+        coreInternal::setSubPack(org, *_subpack);
 
         std::vector<std::string> paramNames = _extractParamTypeNames(typeParams);
         std::string paramName = _joinVectorString(paramNames);

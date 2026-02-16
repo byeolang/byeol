@@ -112,7 +112,7 @@ namespace by {
         if(!cast) getReport().add(nerr::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
         else if(i.parent && i.parent == cast)
             // if this ctor belongs to root object(== generic obj):
-            me._setOrigin(cast->getOrigin());
+            coreInternal::setOrigin(me, cast->getOrigin());
 
         onVisit(i, (baseFunc&) me, false);
         return true;

@@ -3,6 +3,7 @@
 
 #include "core/ast/node.hpp"
 #include "core/ast/dumScope.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -79,7 +80,7 @@ namespace by {
 
         void _setSrc(const src& s) override {
             if(!_org) return;
-            _org->_setSrc(s);
+            coreInternal::setSrc(*_org, s);
         }
 
     private:

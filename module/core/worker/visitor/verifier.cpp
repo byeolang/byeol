@@ -614,7 +614,7 @@ namespace by {
         _GUARD("onVisit(genericOrigin&)");
 
         _STEP("cache check");
-        for(const auto& e: me._cache)
+        for(const auto& e: coreInternal::getCache(me))
             if(!e.second) BY_WHEN.myExErr(me, MAKE_GENERIC_FAIL, e.first.c_str());
 
         _STEP("did user set the name of this object like 'const'?");
@@ -640,7 +640,7 @@ namespace by {
         _GUARD("onVisit(forExpr&)");
         _recentLoops.push_back(&me);
 
-        str container = me._container;
+        str container = coreInternal::getContainer(me);
         str conAsed = container->infer() OR.myExErr(me, CONTAINER_IS_NUL).ret(true);
         str elemType = conAsed->eval("getElemType") OR.myExErr(me, ELEM_TYPE_IS_NUL).ret(true);
 

@@ -12,7 +12,7 @@ namespace by {
      */
     class baseCtor: public baseFunc {
         BY(ME(baseCtor, baseFunc), VISIT())
-        friend class generalizer; // for _setOrigin()
+        friend class coreInternal;
 
     public:
         baseCtor(const mgdType& type);
@@ -21,9 +21,6 @@ namespace by {
         str infer() const override;
         const ntype& getType() const override;
         const baseObj& getOrigin() const override;
-
-    private:
-        void _setOrigin(const baseObj& newOrg);
 
     private:
         mgdType _type;

@@ -8,25 +8,16 @@ namespace by {
 #define ME smultimap<K, V>
 
     TEMPL
-    ME::wrap::wrap(V&& newValue): _value(newValue) {}
+    ME::wrap::wrap(V&& newValue): value(newValue) {}
 
     TEMPL
-    ME::wrap::wrap(const wrap& rhs): _key(rhs._key), _value(rhs._value) {}
+    ME::wrap::wrap(const wrap& rhs): key(rhs.key), value(rhs.value) {}
 
     TEMPL
-    ME::wrap::wrap(wrap&& rhs): _key(rhs._key), _value(rhs._value) {}
+    ME::wrap::wrap(wrap&& rhs): key(rhs.key), value(rhs.value) {}
 
     TEMPL
-    const K* ME::wrap::getKey() const { return _key; }
-
-    TEMPL
-    V& ME::wrap::getVal() { return _value; }
-
-    TEMPL
-    const V& ME::wrap::getVal() const { return _value; }
-
-    TEMPL
-    void ME::wrap::clear() { _prev = _next = this; }
+    void ME::wrap::clear() { prev = next = this; }
 
     TEMPL
     typename ME::wrap& ME::wrap::operator=(const wrap&) { return *this; }
@@ -69,8 +60,8 @@ namespace by {
         const K* key = nullptr;
         for(ncnt n = 0; n < step; ++n)
             do {
-                _wrap = isReversed ? (_isReversed ? _wrap->_next : _wrap->_prev) :
-                                     (_isReversed ? _wrap->_prev : _wrap->_next);
+                _wrap = isReversed ? (_isReversed ? _wrap->next : _wrap->prev) :
+                                     (_isReversed ? _wrap->prev : _wrap->next);
                 if(_key == _getDummyKey()) break;
                 key = getKey();
                 if(!key) return *this;
@@ -110,12 +101,12 @@ namespace by {
     bool ME::iterator::isEnd() const { return _wrap == &_owner->_end; }
 
     TEMPL
-    const K* ME::iterator::getKey() const { return _wrap->getKey(); }
+    const K* ME::iterator::getKey() const { return _wrap->key; }
 
     TEMPL
     V* ME::iterator::getVal() {
         WHEN_NUL(_wrap).ret(nullptr);
-        return (V*) &_wrap->getVal();
+        return (V*) &_wrap->value;
     }
 
     TEMPL
@@ -128,7 +119,7 @@ namespace by {
     ncnt ME::size() const { return _map.size(); }
 
     TEMPL
-    typename ME::iterator ME::begin() const { return iterator(this, _end._next, false); }
+    typename ME::iterator ME::begin() const { return iterator(this, _end.next, false); }
 
     TEMPL
     typename ME::iterator ME::end() const { return iterator(this, &_end, false); }
@@ -137,7 +128,7 @@ namespace by {
     typename ME::iterator ME::begin(const K& key) const { return _begin(key, false); }
 
     TEMPL
-    typename ME::iterator ME::rbegin() const { return iterator(this, _end._prev, true); }
+    typename ME::iterator ME::rbegin() const { return iterator(this, _end.prev, true); }
 
     TEMPL
     typename ME::iterator ME::rend() const { return iterator(this, &_end, true); }
@@ -148,7 +139,7 @@ namespace by {
     TEMPL void ME::insert(const K& key, V&& val) {
         auto e = _map.insert(typename stlMap::value_type(key, wrap(std::forward<V>(val))));
         WHEN(e == _map.end()) .ret();
-        e->second._key = &e->first;
+        e->second.key = &e->first;
 
         _link(e->second);
     }
@@ -194,7 +185,7 @@ namespace by {
     void ME::_erase(const iterator& e) {
         WHEN(e.isEnd()) .ret(); // not found.
 
-        const K& key = e._wrap->getKey() OR.ret();
+        const K& key = e._wrap->key OR.ret();
         auto range = _map.equal_range(key);
         for(auto stlE = range.first; stlE != range.second; ++stlE)
             if(&stlE->second == e._wrap) return _erase(stlE), void();
@@ -202,17 +193,17 @@ namespace by {
 
     TEMPL
     void ME::_link(wrap& newTail) {
-        newTail._next = &_end;
-        auto*& curTail = _end._prev;
-        curTail->_next = &newTail;
-        newTail._prev = curTail;
+        newTail.next = &_end;
+        auto*& curTail = _end.prev;
+        curTail->next = &newTail;
+        newTail.prev = curTail;
         curTail = &newTail;
     }
 
     TEMPL
     void ME::_unlink(wrap& toDelete) {
-        toDelete._prev->_next = toDelete._next;
-        toDelete._next->_prev = toDelete._prev;
+        toDelete.prev->next = toDelete.next;
+        toDelete.next->prev = toDelete.prev;
     }
 
     TEMPL

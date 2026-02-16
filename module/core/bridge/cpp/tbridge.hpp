@@ -25,13 +25,7 @@ namespace by {
         //  tries to get ttype<T>, it's not derived from ntype so it won't have any 'as()'
         //  func. user can't operate conversion in this way.
         BY(CLASS(tbridge, baseObj))
-
-    public:
-        template <typename Ret, typename T1, nbool, template <typename, nbool> class Marshaling, typename... Args>
-        friend class tbridgeFunc;
-        template <typename T1, nbool> friend class tbridger;
-        template <typename T1, nbool> friend struct tmarshaling;
-
+        friend class coreInternal;
         static_assert(!tifSub<T, baseObj>::is,
             "parameterized type 'T' shouldn't be a derived class to baseObj. override subs() if it "
             "is.");

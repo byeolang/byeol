@@ -4,7 +4,6 @@
 // nested class of tbicontainable.hpp
 class iteration: public instance, public iterable {
     BY(ADT(iteration, instance))
-    friend class iter;
 
 public:
     iteration(nbool isReversed): _isReversed(isReversed) {}

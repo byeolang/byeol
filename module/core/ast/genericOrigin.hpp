@@ -20,11 +20,10 @@ namespace by {
      *  getExpr(args = myObj). The replaced origin is registered in subs() so that when called later with the same key,
      *  it's returned immediately without generalizer.
      */
+    typedef std::map<std::string, tstr<obj>> orgCache;
     class _nout genericOrigin: public baseObj {
         BY(CLASS(genericOrigin, baseObj), VISIT())
-        friend class verifier;
-        friend class graphVisitor;
-        friend class exprMaker;
+        friend class coreInternal;
 
     public:
         typedef std::vector<std::string> strings;
@@ -66,7 +65,7 @@ namespace by {
         nbool _isSelfMaking(const std::string& key) const;
 
     private:
-        std::map<std::string, tstr<obj>> _cache;
+        orgCache _cache;
         tstr<obj> _org;
         strings _paramNames;
     };
