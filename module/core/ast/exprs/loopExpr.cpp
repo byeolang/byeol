@@ -8,6 +8,7 @@
 #include "core/ast/exprs/breakExpr.hpp"
 #include "core/ast/exprs/nextExpr.hpp"
 #include "core/ast/exprs/retExpr.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -54,7 +55,7 @@ namespace by {
         blockExpr& blk = getBlock() OR.err("%s blk is null", addr).ret(str());
         tstr<loop> l = _makeLoop(_makeRet().get()) OR.err("%s loop is null", addr).ret(str());
 
-        frame& fr = thread::get()._getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(str());
+        frame& fr = coreInternal::getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(str());
         while(l->isLooping()) {
             frameInteract f1(getBlock());
             l->eval(blk, fr);

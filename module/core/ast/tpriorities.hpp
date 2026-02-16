@@ -58,7 +58,6 @@ namespace by {
      */
     template <typename T> class tpriorities: public tnarr<T> {
         BY(CLASS(tpriorities, tnarr<T>))
-        template <typename E> friend class tprioritiesBucket;
 
     public:
         tpriorities();
@@ -80,9 +79,7 @@ namespace by {
          *          this'll be NO_MATCH if isMatched() returns false.
          */
         priorType getPriorType() const;
-
-    protected:
-        void _setPriorType(priorType new1);
+        void setPriorType(priorType new1);
 
     private:
         priorType _type;

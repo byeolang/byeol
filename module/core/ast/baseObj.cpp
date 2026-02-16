@@ -7,6 +7,7 @@
 #include "core/ast/baseFunc.hpp"
 #include "core/ast/node.inl"
 #include "core/ast/src/dumSrc.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -40,7 +41,7 @@ namespace by {
     const baseObj& me::getOrigin() const { return _org ? *_org : *this; }
 
     void me::inFrame(const bicontainable* args) const {
-        frames& frs = by::thread::get()._getFrames();
+        frames& frs = coreInternal::getFrames() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret();
         BY_DI("%s.inFrame() frames.len[%d]", *this, frs.len());
 
         frame& fr = *new frame();
@@ -49,7 +50,7 @@ namespace by {
     }
 
     void me::outFrame() const {
-        frames& frs = by::thread::get()._getFrames();
+        frames& frs = coreInternal::getFrames() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret();
         BY_DI("%s._outFrame() frames.len[%d]", *this, frs.len() - 1);
 
         frs.del(frs.begin());

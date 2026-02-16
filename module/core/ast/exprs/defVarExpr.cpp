@@ -21,7 +21,7 @@ namespace by {
         // assume that user wrotes 'getExpr("me")' into 'as'.
         str to = _to ? _to->as<node>() : str();
 
-        scope* s = !to ? thread::get()._getNowFrame() TO(getLocals()) : &to->subs();
+        scope* s = !to ? coreInternal::getNowFrame() TO(getLocals()) : &to->subs();
         s TO(add(_name, *new1));
         return new1;
     }

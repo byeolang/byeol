@@ -84,7 +84,6 @@ namespace by {
     class _nout verifier: public visitor {
         BY(CLASS(verifier, visitor))
         friend struct ::verifierTest;
-        friend class genericOrigin;
 
     public:
         using super::onLeave;

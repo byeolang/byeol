@@ -38,7 +38,7 @@ namespace by {
     }
 
     TEMPLATE
-    void ME::_setPriorType(priorType new1) { _type = new1; }
+    void ME::setPriorType(priorType new1) { _type = new1; }
 
 #undef ME
 #undef TEMPLATE

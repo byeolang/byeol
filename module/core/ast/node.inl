@@ -40,7 +40,7 @@ namespace by {
                     tstr<tprior<T>> elem(new tprior<T>(*match, priorType(n), match.lv));
                     if(!first) {
                         first = elem;
-                        ret._setPriorType(first->type);
+                        ret.setPriorType(first->type);
                     }
                     if(!first->isSamePrecedence(*elem)) break;
 

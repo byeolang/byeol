@@ -8,6 +8,7 @@
 #include "core/ast/obj.hpp"
 #include "core/ast/slot.hpp"
 #include "core/frame/threadUse.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -34,7 +35,7 @@ namespace by {
 
         if(main.canEval(a)) {
             threadUse thr(getReport());
-            _prepareFrame(thread::get()._getFrames());
+            _prepareFrame(*coreInternal::getFrames());
             BY_DI("-------------- SYMBOL_START ----------------");
             str res = _postprocess(pak.eval(MAIN));
             BY_DI("-------------------------------------");

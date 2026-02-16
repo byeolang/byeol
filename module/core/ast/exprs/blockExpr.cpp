@@ -5,6 +5,7 @@
 #include "core/frame/thread.hpp"
 #include "core/worker/visitor/visitor.hpp"
 #include "core/builtin/err/nerr.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -29,14 +30,14 @@ namespace by {
     void me::inFrame(const bicontainable*) const {
         BY_DI("%s._onInFrame() %d stmts. frames.len[%d]", *this, getStmts().len(), thread::get().getFrames().len());
 
-        frame& fr = by::thread::get()._getNowFrame() OR.err("fr == null").ret();
+        frame& fr = coreInternal::getNowFrame() OR.err("fr == null").ret();
         fr.add(*new scope());
     }
 
     void me::outFrame() const {
         BY_DI("%s._onOutFrame() frames.len[%d]", *this, thread::get().getFrames().len());
 
-        frame& fr = by::thread::get()._getNowFrame() OR.err("fr == null").ret();
+        frame& fr = coreInternal::getNowFrame() OR.err("fr == null").ret();
         fr.del();
     }
 

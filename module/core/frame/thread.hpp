@@ -45,24 +45,8 @@ namespace by {
      */
     class _nout thread: public node, public dumpable {
         BY(CLASS(thread, node))
-        friend class verifier;  // for frames
-        friend class baseObj;   // for frames.
-        friend class func;      // for frames.
-        friend class blockExpr; // for frames.
-        friend class defPropExpr;
-        friend class defVarExpr;
-        friend class defNestedFuncExpr;
-        friend class assignExpr;
-        friend class verifier;
-        friend class evalExpr;
-        friend class baseFunc; // for frames.
-        friend class forExpr;
-        friend class whileExpr;
-        friend class retStateExpr;
-        friend class starter;
+        friend class coreInternal;
         friend struct ::exprTest;
-        friend class loopExpr;
-        friend class closure; // for _getFrames()
 
     public:
         thread();

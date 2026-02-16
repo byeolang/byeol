@@ -642,12 +642,12 @@ namespace by {
         for(auto e = blk.getScope().begin(); e; ++e) {
             // ctor case:
             ctor* c = e.getVal<ctor>();
-            if(c) c->_getType().setRet(*new mockNode(it));
+            if(c) coreInternal::getType(*c).setRet(*new mockNode(it));
 
             // shares case:
             // TODO: not only func, but also shared variable.
             func* f = e.getVal<func>();
-            if(f) f->_setOrigin(it);
+            if(f) coreInternal::setOrigin(*f, it);
             bicontainable& con = !e.getVal<baseFunc>() ? own : share;
             con.add(e.getKey(), *e);
         }
@@ -1223,6 +1223,4 @@ namespace by {
     }
 
     void me::_report(baseErr* new1) { getReport().add(new1); }
-
-    exprMaker& me::_getMaker() { return _maker; }
 } // namespace by

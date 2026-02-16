@@ -127,7 +127,7 @@ namespace by {
     class _nout parser: public tworker<str, slot>, public tokenScanable {
         typedef tworker<str, slot> __super5;
         BY(CLASS(parser, __super5))
-        friend class srcSupply;
+        friend class coreInternal;
 
     public:
         parser();

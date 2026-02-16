@@ -53,7 +53,6 @@ namespace by {
         };
 
         BY(ADT(expr, node, exprType))
-        friend class exprMaker;
         friend struct ::exprTest;
 
     public:

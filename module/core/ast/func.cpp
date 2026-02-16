@@ -8,6 +8,7 @@
 #include "core/ast/obj.hpp"
 #include "core/ast/params.hpp"
 #include "core/builtin/err/nerr.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -60,7 +61,7 @@ namespace by {
     }
 
     str me::_postprocess(const str& blkRes, nidx exN) {
-        frame& fr = thread::get()._getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(str());
+        frame& fr = coreInternal::getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(str());
         str frRes = fr.getRet();
         str res = frRes ? frRes : blkRes;
         fr.setRet(nullptr);
@@ -79,8 +80,6 @@ namespace by {
             _ends[n].eval();
     }
 
-    void me::_setOrigin(const baseObj& org) { _org.bind(org); }
-
     scope* me::_evalArgs(const args& a) {
         scope* ret = new scope();
         const params& ps = getParams();
@@ -92,7 +91,7 @@ namespace by {
     }
 
     void me::inFrame(const bicontainable* args) const {
-        frame& fr = thread::get()._getNowFrame() OR.err("fr == null").ret();
+        frame& fr = coreInternal::getNowFrame() OR.err("fr == null").ret();
 
         BY_DI("'%s'._inFrame() frames.len[%d]", *this, thread::get().getFrames().len());
         fr.addFunc(*this);
@@ -103,7 +102,7 @@ namespace by {
     void me::outFrame() const {
         BY_DI("'%s func'._outFrame() frames.len[%d]", getSrc(), thread::get().getFrames().len());
 
-        frame& fr = thread::get()._getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret();
+        frame& fr = coreInternal::getNowFrame() OR.exErr(THERE_IS_NO_FRAMES_IN_THREAD).ret();
         baseFunc* f = fr.getFunc();
         WHEN(f != this) .ret();
 

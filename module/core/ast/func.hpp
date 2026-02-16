@@ -37,10 +37,8 @@ namespace by {
      */
     class _nout func: public baseFunc {
         BY(ME(func, baseFunc), CLONE(func), VISIT())
-        friend class verifier;
-        friend class exprMaker;
-        friend class parser;
         typedef std::function<void(const std::string&, const node&)> onEval;
+        friend class coreInternal;
 
     public:
         explicit func(const modifier& mod, const funcType& type);
@@ -94,7 +92,6 @@ namespace by {
         scope* _evalArgs(const args& args);
         str _postprocess(const str& ret, nidx exN);
         void _runEnds();
-        void _setOrigin(const baseObj& org);
 
     public:
         inline static const std::string LAMBDA_NAME = "@lambda";

@@ -40,9 +40,6 @@ namespace by {
      */
     class _nout baseFunc: public node {
         BY(ME(baseFunc, node), VISIT())
-        friend class generalizer; // for _getType()
-        friend class parser;      // for _getType()
-        friend class exprMaker;   // for _setSrc()
 
     public:
         baseFunc() = default;
@@ -95,7 +92,6 @@ namespace by {
         static nbool isFuncButNotClosure(const node* it) BY_SIDE_FUNC(isFuncButNotClosure);
 
     protected:
-        ntype& _getType(); // for generalizer.
         void _setSrc(const src& newSrc) override;
 
     private:

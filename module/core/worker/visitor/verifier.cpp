@@ -6,6 +6,7 @@
 #include "core/frame/thread.hpp"
 #include "core/builtin/err/errReport.hpp"
 #include "core/worker/tworker.inl"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -174,7 +175,7 @@ namespace by {
 
         _STEP("modifier not allowed for local variables in a func.");
         const auto& mod = me.getNewModifier();
-        frame& fr = thread::get()._getNowFrame() OR.myExErr(me, THERE_IS_NO_FRAMES_IN_THREAD).ret();
+        frame& fr = coreInternal::getNowFrame() OR.myExErr(me, THERE_IS_NO_FRAMES_IN_THREAD).ret();
         const baseFunc* fun = fr.getFunc();
         nbool isInLocal = !fun || fun->getSrc().getName() != baseObj::EXPAND_NAME;
         WHEN(isInLocal && !mod.isPublic()) .myExErr(me, PROTECTED_NOT_ALLOWED_FOR_LOCAL, me.getName()).ret();
@@ -284,7 +285,7 @@ namespace by {
         _GUARD("onLeave(defNestedFuncExpr&)");
 
         _STEP("does it have `eval`?");
-        frame& fr = thread::get()._getNowFrame() OR.myExErr(me, THERE_IS_NO_FRAMES_IN_THREAD).ret();
+        frame& fr = coreInternal::getNowFrame() OR.myExErr(me, THERE_IS_NO_FRAMES_IN_THREAD).ret();
         str eval = me.infer();
         WHEN_NUL(eval).myExErr(me, EXPR_EVAL_NUL).ret();
 
@@ -449,8 +450,7 @@ namespace by {
 
         onVisit(i, (func::super&) me, false);
 
-        obj& meObj = thread::get()
-                         ._getNowFrame() TO(getMe()) TO(template cast<obj>()) OR.myExErr(me, FUNC_REDIRECTED_OBJ)
+        obj& meObj = coreInternal::getNowFrame() TO(getMe()) TO(template cast<obj>()) OR.myExErr(me, FUNC_REDIRECTED_OBJ)
                          .ret(true);
 
         _STEP("check func duplication");
@@ -492,7 +492,8 @@ namespace by {
         WHEN(!retType->isSub(ttype<node>::get())) .myExErr(me, WRONG_RET_TYPE, retType).ret(true);
 
         blockExpr& blk = me.getBlock();
-        if(blk.getStmts().len() <= 0) {
+        const auto& stmt = blk.getStmts();
+        if(stmt.len() <= 0) {
             if(i.name == starter::MAIN) BY_WHEN.myExErr(blk, MAIN_SHOULD_HAVE_STMTS);
             /*TODO: uncomment after implement abstract:
             if(!func.isAbstract() && !retType->isSub<nVoid>())
@@ -502,11 +503,11 @@ namespace by {
         }
 
         _STEP("'break' or 'next' can't be used to last stmt");
-        const node& lastStmt = *blk.getStmts().last();
+        const node& lastStmt = *stmt.last();
         WHEN(lastStmt.isSub<retStateExpr>() && !lastStmt.isSub<retExpr>())
             .myExErr(lastStmt, FUNC_SHOULD_RETURN_SOMETHING).ret(true);
 
-        _STEP("func[%s]: %s iterateBlock[%d]", i, me, me._blk->subs().len());
+        _STEP("func[%s]: %s iterateBlock[%d]", i, me, stmt.len());
 
         // sequence of adding frame matters:
         //  object scope was added at 'onVisit(visitInfo, baseObj&)
@@ -580,7 +581,7 @@ namespace by {
         _GUARD("onVisit(baseObj&)");
 
         me.inFrame();
-        frame& fr = thread::get()._getNowFrame() OR.myExErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(true);
+        frame& fr = coreInternal::getNowFrame() OR.myExErr(THERE_IS_NO_FRAMES_IN_THREAD).ret(true);
         if(!me.isComplete()) {
             fr.subs().del("me");
             fr.subs().add("me", new mockNode(me));
@@ -649,14 +650,14 @@ namespace by {
         scope* s = new scope();
         s->add(name, *((node*) elemType->clone()));
 
-        thread::get()._getNowFrame() TO(add(*s));
+        coreInternal::getNowFrame() TO(add(*s));
         return true;
     }
 
     void me::onLeave(const visitInfo& i, forExpr& me, nbool) {
         _GUARD("onLeave(forExpr&)");
 
-        thread::get()._getNowFrame() TO(del()); // for a scope containing iterator.
+        coreInternal::getNowFrame() TO(del()); // for a scope containing iterator.
         _onLeave(i, me);
     }
 

@@ -53,8 +53,6 @@ namespace by {
 
     nbool me::isFuncButNotClosure(const node& n) { return n.isSub<baseFunc>() && !n.isSub<closure>(); }
 
-    ntype& me::_getType() { return (ntype&) getType(); }
-
     params& me::getParams() { return ((ntype&) getType()).getParams(); }
 
     const node* me::getRet() const { return getType().getRet(); }

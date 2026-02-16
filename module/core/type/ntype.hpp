@@ -34,9 +34,6 @@ namespace by {
         BY_ME(ntype, type)
         typedef std::map<const ntype*, const ntype*> promoter;
         typedef std::map<const ntype*, promoter> promoters;
-        friend class seq;
-        friend class arr;
-        friend class genericOrigin;
 
     public:
         ntype() = default;

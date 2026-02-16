@@ -5,6 +5,7 @@
 #include "core/worker/visitor/visitor.hpp"
 #include "core/ast/closure.hpp"
 #include "core/ast/exprs/getExpr.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -39,7 +40,7 @@ namespace by {
     }
 
     node* me::getMe() {
-        WHEN_NUL(_me).ret(thread::get()._getNowFrame());
+        WHEN_NUL(_me).ret(coreInternal::getNowFrame());
         return _me.get();
     }
 

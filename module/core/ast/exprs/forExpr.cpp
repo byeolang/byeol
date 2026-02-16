@@ -6,6 +6,7 @@
 #include "core/frame/frameInteract.hpp"
 #include "core/frame/thread.hpp"
 #include "core/worker/visitor/visitor.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -21,7 +22,7 @@ namespace by {
     str me::_makeEval() const {
         str ased = _container->infer();
         str elemType = ased->eval("getElemType") OR.err("elemType == null").ret(str());
-        frame& fr = thread::get()._getNowFrame() OR.ret(str());
+        frame& fr = coreInternal::getNowFrame() OR.ret(str());
 
         frameInteract f1(getBlock());
         fr.addLocal(getLocalName(), *((node*) elemType->clone()));

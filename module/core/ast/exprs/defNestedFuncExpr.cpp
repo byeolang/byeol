@@ -2,6 +2,7 @@
 #include "core/ast/nestedFunc.hpp"
 #include "core/frame/thread.hpp"
 #include "core/worker/visitor/visitor.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
     BY(DEF_ME(defNestedFuncExpr), DEF_VISIT())
@@ -10,7 +11,7 @@ namespace by {
 
     str me::eval(const args& a) {
         if(!_org) return BY_E("_org is null"), str();
-        frame& fr = thread::get()._getNowFrame() OR.err("frame doesn't exist").ret(str());
+        frame& fr = coreInternal::getNowFrame() OR.err("frame doesn't exist").ret(str());
 
         nestedFunc* new1 = new nestedFunc(*_org, *_cloneLocalScope(fr));
         BY_I("def nested `%s` func in local", *_org);

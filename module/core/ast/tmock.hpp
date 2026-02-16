@@ -17,7 +17,6 @@ namespace by {
      */
     template <typename T> class _nout tmock: public T {
         BY(ME(tmock, T))
-        friend class exprMaker;
 
     public:
         tmock(): super() {}

@@ -64,7 +64,6 @@ namespace by {
 
     public:
         typedef ntype metaType;
-        friend class slot;
 
     public:
         /**

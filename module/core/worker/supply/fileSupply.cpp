@@ -1,6 +1,7 @@
 #include "core/worker/supply/fileSupply.hpp"
 
 #include "core/worker/parser.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
     BY(DEF_ME(fileSupply))
@@ -19,7 +20,7 @@ namespace by {
         buf << fout.rdbuf();
         std::string codes = buf.str();
         void* ret = _scanString(ps, codes.c_str(), scanner);
-        if(ret) _getMaker(ps).setSrcFile(*new srcFile(_path, codes));
+        if(ret) coreInternal::getMaker(ps).setSrcFile(*new srcFile(_path, codes));
         return ret;
     }
 }

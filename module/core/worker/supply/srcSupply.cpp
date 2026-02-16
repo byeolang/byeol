@@ -12,6 +12,4 @@ namespace by {
 
         return yy_scan_string((nchar*) src, (yyscan_t) scanner);
     }
-
-    exprMaker& me::_getMaker(parser& ps) const { return ps._getMaker(); }
 }

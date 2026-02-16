@@ -125,7 +125,7 @@ namespace by {
         if(retOrg) {
             BY_DI("* inject func: retType of '%s(%s) %s' --> '%s'", i, me.getParams().toStr(), me.getRet()->infer(),
                 *retOrg);
-            me._getType().setRet(*retOrg);
+            coreInternal::getType(me).setRet(*retOrg);
             if(!i.parent) getReport().add(nerr::newErr(errCode::IS_NUL, "parent"));
         }
 
@@ -138,7 +138,7 @@ namespace by {
         if(!cast) getReport().add(nerr::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
         else if(i.parent && i.parent == cast)
             // if this ctor belongs to root object(== generic obj):
-            me._getType().setRet(cast);
+            coreInternal::getType(me).setRet(cast);
 
         return super::onVisit(i, me, false);
     }
