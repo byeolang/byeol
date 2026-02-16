@@ -2,6 +2,7 @@
 #pragma once
 
 #include "core/ast/baseObj.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -35,7 +36,7 @@ namespace by {
         tbaseObjOrigin(const scope& subs): me(subs, *new modifier()) {}
 
         tbaseObjOrigin(const scope& subs, const modifier& mod): super(), _subs(subs), _mod(mod) {
-            this->_setOrigin(*this);
+            coreInternal::setOrigin(*this, *this);
         }
 
     public:
@@ -54,7 +55,7 @@ namespace by {
 
         clonable* clone() const override {
             baseObj* ret = new super(*this);
-            ret->_setOrigin(*this);
+            coreInternal::setOrigin(*ret, *this);
             return ret;
         }
 

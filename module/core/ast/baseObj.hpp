@@ -71,14 +71,7 @@ namespace by {
      */
     class _nout baseObj: public node, public statable {
         BY(ADT(baseObj, node))
-        friend class verifier;
-        friend class obj;
-        friend class defaultMakeCtor;
-        friend class parser;        // _setOrigin()
-        friend class genericOrigin; // from genericOrigin::_makeGeneric(), _setOrigin()
-        friend class exprMaker;
-        friend class defVarExpr; // for _setModifier
-        template <typename T> friend class tbaseObjOrigin;
+        friend class coreInternal;
 
     protected:
         /**
@@ -142,15 +135,6 @@ namespace by {
         virtual void _inFrame(frame& fr, const bicontainable* args) const;
 
         /**
-         * @brief Updates the origin pointer of this object.
-         * @warning Modifying the origin pointer is a very dangerous operation and should only be
-         *          performed by permitted modules or internal mechanisms. Incorrect usage can lead
-         *          to severe inconsistencies in the object model.
-         * @param newOrg The new origin baseObj to set.
-         */
-        void _setOrigin(const baseObj& newOrg);
-
-        /**
          * @brief Sets the managed type for this base object.
          * @details This method is used to associate a specific managed type (`mgdType`) with this
          *          base object, allowing for dynamic type resolution in the Byeol language environment.
@@ -172,7 +156,7 @@ namespace by {
         inline static const std::string COMMON_NAME = "@common";
         inline static const std::string EXPAND_NAME = "@expand";
 
-    private:
+    protected:
         tstr<baseObj> _org;
     };
 

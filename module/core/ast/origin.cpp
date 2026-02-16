@@ -4,18 +4,19 @@
 #include "core/frame/thread.hpp"
 #include "core/ast/exprs/evalExpr.hpp"
 #include "core/frame/frameInteract.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
 
     BY(DEF_ME(origin))
 
     me::origin(const mgdType& newType): super(), _type(newType), _src(dumSrc::singleton()), _state(RELEASED) {
-        _setOrigin(*this);
+        coreInternal::setOrigin(*this, *this);
     }
 
     me::origin(const mgdType& newType, const node& subpack):
         super(), _type(newType), _subpack(subpack), _src(dumSrc::singleton()), _state(RELEASED) {
-        _setOrigin(*this);
+        coreInternal::setOrigin(*this, *this);
     }
 
     me::origin(const me& rhs): super(rhs), _type(rhs._type) {
@@ -94,7 +95,7 @@ namespace by {
         _src = rhs._src;
         _callComplete = rhs._callComplete;
         _state = rhs._state;
-        _setOrigin(*this); // in super(rhs), it assign _org with rhs._org, not 'this' ptr.
+        coreInternal::setOrigin(*this, *this); // in super(rhs), it assign _org with rhs._org, not 'this' ptr.
         return *this;
     }
 

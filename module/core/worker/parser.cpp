@@ -11,6 +11,7 @@
 #include "core/worker/bison/lowscanner.hpp"
 #include "core/worker/bison/tokenScan.hpp"
 #include "core/worker/tworker.inl"
+#include "core/common/coreInternal.hpp"
 #include <algorithm>
 #include <cctype>
 
@@ -187,7 +188,7 @@ namespace by {
                 sub = new origin(typeMaker::make<obj>(name));
                 sub->setCallComplete(*new mockNode());
                 e->subs().add(name, sub);
-                sub->_setOrigin(*sub);
+                coreInternal::setOrigin(*sub, *sub);
             }
             e = sub;
         }

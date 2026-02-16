@@ -92,8 +92,6 @@ namespace by {
         fr.add(*s);
     }
 
-    void me::_setOrigin(const baseObj& newOrg) { _org.bind(newOrg); }
-
     void me::_setType(const mgdType& new1) {}
 
     void me::_setModifier(const modifier& mod) {}

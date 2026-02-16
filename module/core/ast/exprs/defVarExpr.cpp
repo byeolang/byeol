@@ -4,6 +4,7 @@
 
 #include "core/ast/closure.hpp"
 #include "core/ast/exprs/assignExpr.hpp"
+#include "core/common/coreInternal.hpp"
 
 namespace by {
     BY(DEF_ME(defVarExpr), DEF_VISIT())
@@ -52,10 +53,10 @@ namespace by {
         // origin's clone is making a object, not an origin:
         //  so I've to call cloneDeep().
         baseObj* newOrg = (baseObj*) cast.getOrigin().cloneDeep();
-        if(_src) newOrg->_setSrc(*_src);
-        if(_mod) newOrg->_setModifier(*_mod);
+        if(_src) coreInternal::setSrc(*newOrg, *_src); // newOrg->_setSrc(*_src);
+        if(_mod) coreInternal::setModifier(*newOrg, *_mod); // newOrg->_setModifier(*_mod);
 
-        cast._setOrigin(*newOrg);
+        coreInternal::setOrigin(cast, *newOrg);
         return ret;
     }
 

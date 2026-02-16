@@ -6,6 +6,7 @@
 #include "core/ast/baseFunc.hpp"
 #include "core/ast/dumScope.hpp"
 #include "core/ast/origin.hpp"
+#include "core/common/coreInternal.hpp"
 #include <algorithm>
 
 namespace by {
@@ -64,12 +65,12 @@ namespace by {
         tstr<obj> ret = (obj*) _org->cloneDeep(); // clone all of shares including func.
         src* s = new src(_org->getSrc());
         s->_setName(orgType.getName());
-        ret->_setSrc(*s);
+        coreInternal::setSrc(*ret, *s);
 
         // clone type:
         mgdType newType(orgType.getName(), ret->getType().getSupers());
         newType.getParams().add(ps);
-        ret->_setType(newType);
+        coreInternal::setType(*ret, newType);
 
         BY_DI("|==========================================|");
         BY_DI("|--- generic: make %s generic obj[%s] ---|", newType.createNameWithParams(),
