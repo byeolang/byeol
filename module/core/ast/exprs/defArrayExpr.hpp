@@ -17,7 +17,7 @@ namespace by {
      */
     class _nout defArrayExpr: public expr {
         BY(CLASS(defArrayExpr, expr, expr::exprType), VISIT())
-        friend class visitor; // for getElems()
+        friend class coreInternal;
 
     public:
         defArrayExpr(const node& type);
@@ -35,11 +35,11 @@ namespace by {
          */
         const baseObj* getArrayType() const;
         const arr& getOrigin() const;
-        const narr& getElems() const BY_CONST_FUNC(getElems())
+        const narr& getElems() const BY_CONST_FUNC(_getElems())
 
     private:
         tstr<baseObj> _promoteElems() const;
-        narr& getElems();
+        narr& _getElems();
 
     private:
         str _type;

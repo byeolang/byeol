@@ -56,5 +56,5 @@ namespace by {
 
     str me::infer() const { return str(getOrigin()); }
 
-    narr& me::getElems() { return _elems; }
+    narr& me::_getElems() { return _elems; }
 } // namespace by

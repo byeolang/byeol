@@ -17,11 +17,7 @@ namespace by {
      */
     class _nout getExpr: public expr {
         BY(CLASS(getExpr, expr, expr::exprType), VISIT())
-        friend class verifier;
-        friend class parser;
-        friend class visitor;     // for _me
-        friend class generalizer; // for _args
-        friend class closure;     // for `_evalMe()`
+        friend class coreInternal;
 
     public:
         getExpr(const std::string& name);
@@ -38,11 +34,11 @@ namespace by {
         const std::string& getName() const;
         void setName(const std::string& new1);
         void setName(const std::string* it) BY_SIDE_FUNC(setName)
-            /**
-             * @brief Sets the base object ("me") for this access expression.
-             * @param newMe The new base object for the access expression.
-             */
-            void setMe(const node& newMe);
+        /**
+         * @brief Sets the base object ("me") for this access expression.
+         * @param newMe The new base object for the access expression.
+         */
+        void setMe(const node& newMe);
 
         /**
          *  @return nullable

@@ -82,7 +82,7 @@ namespace by {
         // check me:
         const args& args = e.getArgs();
         nint n = 0;
-        node* me = e._me.get();
+        node* me = coreInternal::getMe(e);
         ncnt len = args.len() + (me ? 1 : 0);
         if(me) me->accept(visitInfo("me", &e, n++, len, i.depth + 1), *this);
 
@@ -193,7 +193,7 @@ namespace by {
     }
 
     void me::onTraverse(const visitInfo& i, defArrayExpr& d) {
-        narr& elems = d.getElems();
+        narr& elems = coreInternal::getElems(d);
         ncnt len = elems.len();
         nidx n = 0;
         for(node& e: elems) {

@@ -7,6 +7,8 @@
 #include "core/ast/func.hpp"
 #include "core/ast/genericOrigin.hpp"
 #include "core/ast/exprs/forExpr.hpp"
+#include "core/ast/exprs/getExpr.hpp"
+#include "core/ast/exprs/defArrayExpr.hpp"
 
 namespace by {
     BY(DEF_ME(coreInternal))
@@ -38,4 +40,12 @@ namespace by {
     orgCache& me::getCache(genericOrigin& me) { return me._cache; }
 
     str me::getContainer(forExpr& me) { return me._container; }
+
+    node* me::getMe(getExpr& me) { return me._me.get(); }
+
+    args* me::getArgs(getExpr& me) { return me._args.get(); }
+
+    node* me::onGet(const getExpr& me, node& it) { return me._onGet(it); }
+
+    narr& me::getElems(defArrayExpr& me) { return me._elems; }
 }

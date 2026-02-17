@@ -343,9 +343,9 @@ namespace by {
         // Until then, I rather use as() func and it makes slow emmersively.
         _STEP("isRunnable: %s.%s", me, me.getName());
         WHEN(!me.infer()) .myExErr(me, WHAT_IS_THIS_IDENTIFIER, me.getName()).ret();
-        str match = me._get(true) OR_DO {
+        str match = me.infer() OR_DO {
             const node* from = me.getMe();
-            return BY_WHEN.myExErr(me, CANT_ACCESS, me._name.c_str(), from TO(getType().getName().c_str())).ret();
+            return BY_WHEN.myExErr(me, CANT_ACCESS, me.getName().c_str(), from TO(getType().getName().c_str())).ret();
         }
 
         // TODO: leave logs for all ambigious candidates as err.

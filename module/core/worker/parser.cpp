@@ -825,8 +825,8 @@ namespace by {
         //      2. unbind subArgs of (1).
         //      3. lhs.getArgs().add(rhs).
         getExpr& subject = lhs.getSubj().cast<getExpr>() OR.exErr(LHS_IS_NUL).ret(nullptr);
-        subject._name = "set";
-        subject._args.rel();
+        subject.setName("set");
+        subject.setArgs(*new args());
         lhs.getArgs().add(rhs);
 
         BY_DI("tokenEvent:: _onSetElem(%s, %s)", &lhs, &rhs);
@@ -877,8 +877,8 @@ namespace by {
         //  2. (1).getArgs.add(rhs)
         evalExpr& setter = *(evalExpr*) lhs.clone();
         getExpr& newSubj = *(getExpr*) setter.getSubj().clone();
-        newSubj._name = "set";
-        newSubj._args.rel();
+        newSubj.setName("set");
+        newSubj.setArgs(*new args());
         setter._subject.bind(newSubj);
         setter.getArgs().add(rhs);
         BY_DI("tokenEvent: _onConvertAssignElem(%s, %s)", lhs, rhs);

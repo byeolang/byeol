@@ -22,7 +22,12 @@ namespace by {
     class obj;
     typedef std::map<std::string, tstr<obj>> orgCache;
     class forExpr;
+    class getExpr;
+    template <typename T, typename TACTIC> class tnarr;
+    typedef tnarr<node, strTactic> narr;
     template <typename T> class tbridge;
+    class defArrayExpr;
+
     class coreInternal {
         BY(ME(coreInternal))
 
@@ -47,5 +52,9 @@ namespace by {
         static T* getReal(tbridge<T>& me) { return me._real; }
         static orgCache& getCache(genericOrigin& me);
         static str getContainer(forExpr& me);
+        static node* getMe(getExpr& me);
+        static args* getArgs(getExpr& me);
+        static node* onGet(const getExpr& me, node& it);
+        static narr& getElems(defArrayExpr& me);
     };
 }

@@ -167,7 +167,7 @@ namespace by {
     }
 
     nbool me::onVisit(const visitInfo& i, getGenericExpr& me, nbool) {
-        args& a = me._args OR.ret(true);
+        args& a = coreInternal::getArgs(me) OR.ret(true);
 
         for(nint n = 0; n < a.len(); n++) {
             str org = _findOrigin(a[n]);

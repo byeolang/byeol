@@ -65,10 +65,11 @@ namespace by {
     }
 
     me* me::_make(const getExpr& e) {
-        str mayMe = e._evalMe(true);
+        // TODO: refactor this to not use coreInternal.
+        str mayMe = e.getMe() TO(infer());
         frame* fr = mayMe->cast<frame>();
         tstr<baseObj> meObj = (fr ? fr->getMe() TO(template cast<baseObj>()) : mayMe->cast<baseObj>()) OR.ret(nullptr);
-        baseFunc& cast = e._onGet(*mayMe) TO(template cast<baseFunc>()) OR.ret(nullptr);
+        baseFunc& cast = coreInternal::onGet(e, *mayMe) TO(template cast<baseFunc>()) OR.ret(nullptr);
 
         BY_I("make a closure for %s.%s", meObj, cast.getSrc().getName());
         return new me(*meObj, cast);
