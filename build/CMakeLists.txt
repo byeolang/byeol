@@ -1,3 +1,19 @@
+# decice compiler:
+#   variables such as CXX_COMPILER_ID and COMPILER_IS_GNUCC remain unchanged.
+#   to resolve this issue, you must determine which compiler to use before calling
+#   the project() function.
+IF(EMSCRIPTEN)
+    set(CMAKE_C_COMPILER "emcc")
+    set(CMAKE_CXX_COMPILER "emcc")
+ELSE()
+    find_program(CLANGPP_PATH clang++)
+    find_program(CLANG_PATH clang)
+    IF(CLANGPP_PATH)
+        set(CMAKE_CXX_COMPILER "${CLANGPP_PATH}")
+        set(CMAKE_C_COMPILER "${CLANG_PATH}")
+    ENDIF(CLANGPP_PATH)
+ENDIF(EMSCRIPTEN)
+
 cmake_minimum_required (VERSION 3.5)
 project(byeol C CXX)
 
@@ -12,7 +28,7 @@ set(SHOW_CMAKE_VARIABLES 1)
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 2)
 set(VERSION_FIX 10)
-set(BUILD_COUNT 1444)
+set(BUILD_COUNT 1446)
 set(VERSION_NAME "Mana")
 set(VERSION_VALUE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_FIX}")
 set(VERSION "${VERSION_NAME} Update ${VERSION_VALUE}")
@@ -35,11 +51,6 @@ message("----------------------------------------")
 message("")
 
 message("\ninitialize CMake variables...")
-
-IF(EMSCRIPTEN)
-    set(CMAKE_C_COMPILER "emcc")
-    set(CMAKE_CXX_COMPILER "emcc")
-ENDIF(EMSCRIPTEN)
 
 set(CXX_DEFINITIONS "${DEFINITIONS} -DUNICODE")
 set(CMAKE_CXX_STANDARD 17)
@@ -75,9 +86,6 @@ IF(CMAKE_SYSTEM_NAME STREQUAL Darwin OR CMAKE_SYSTEM_NAME STREQUAL Linux OR CMAK
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-zero-variadic-macro-arguments -Wno-undefined-bool-conversion -Wno-c++20-extensions")
 
     IF(NOT EMSCRIPTEN)
-        find_program(CLANGPP_PATH clang++)
-        find_program(CLANG_PATH clang)
-
         IF(CLANGPP_PATH)
             set(CMAKE_CXX_COMPILER "${CLANGPP_PATH}")
             set(CMAKE_C_COMPILER "${CLANG_PATH}")
@@ -201,8 +209,10 @@ if(SHOW_CMAKE_VARIABLES)
     message(STATUS "CMAKE_BUILD_TYPE: " ${CMAKE_BUILD_TYPE})
     message(STATUS "BUILD_SHARED_LIBS: " ${BUILD_SHARED_LIBS})
     message(STATUS "CMAKE_C_COMPILER: " ${CMAKE_C_COMPILER})
-    message(STATUS "CMAKE_CXX_COMPILER: " ${CMAKE_CXX_COMPILER})
+    message(STATUS "CMAKE_C_COMPILER_ID: " ${CMAKE_C_COMPILER_ID})
     message(STATUS "CMAKE_COMPILER_IS_GNUCC: " ${CMAKE_COMPILER_IS_GNUCC})
+    message(STATUS "CMAKE_CXX_COMPILER: " ${CMAKE_CXX_COMPILER})
+    message(STATUS "CMAKE_CXX_COMPILER_ID: " ${CMAKE_CXX_COMPILER_ID})
     message(STATUS "CMAKE_COMPILER_IS_GNUCXX : " ${CMAKE_COMPILER_IS_GNUCXX})
     message(STATUS "CMAKE_AR: " ${CMAKE_AR})
     message(STATUS "CMAKE_RANLIB: " ${CMAKE_RANLIB})
