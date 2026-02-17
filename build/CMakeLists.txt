@@ -28,7 +28,7 @@ set(SHOW_CMAKE_VARIABLES 1)
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 2)
 set(VERSION_FIX 10)
-set(BUILD_COUNT 1446)
+set(BUILD_COUNT 1455)
 set(VERSION_NAME "Mana")
 set(VERSION_VALUE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_FIX}")
 set(VERSION "${VERSION_NAME} Update ${VERSION_VALUE}")
@@ -93,6 +93,11 @@ IF(CMAKE_SYSTEM_NAME STREQUAL Darwin OR CMAKE_SYSTEM_NAME STREQUAL Linux OR CMAK
             # clang flags:
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-zero-variadic-macro-arguments -Wno-undefined-bool-conversion -Wno-c++20-extensions")
 
+            IF(COVERAGE_TOOL)
+                add_compile_options(-fprofile-instr-generate -fcoverage-mapping)
+                add_link_options(-fprofile-instr-generate -fcoverage-mapping)
+            ENDIF(COVERAGE_TOOL)
+
         ELSE(CLANGPP_PATH)
             # gcc flags:
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-dangling-reference") # False positive
@@ -100,14 +105,13 @@ IF(CMAKE_SYSTEM_NAME STREQUAL Darwin OR CMAKE_SYSTEM_NAME STREQUAL Linux OR CMAK
             #   allocation new/delete correctly. It's a sort of false positive, because it works fine in newer gccs.
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-lifetime-dse")
 
+            IF(COVERAGE_TOOL)
+                add_compile_options(-fprofile-arcs -ftest-coverage)
+                add_link_options(-fprofile-arcs -ftest-coverage)
+            ENDIF(COVERAGE_TOOL)
+
         ENDIF(CLANGPP_PATH)
     ENDIF(NOT EMSCRIPTEN)
-
-    IF(COVERAGE_TOOL)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-instr-generate -fcoverage-mapping -fprofile-arcs -ftest-coverage") # supports both of llvm-cov and gcov
-        add_compile_options(-fprofile-arcs -ftest-coverage)
-        add_link_options(-fprofile-arcs -ftest-coverage)
-    ENDIF(COVERAGE_TOOL)
 
     IF(EMSCRIPTEN)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -Wno-unused-const-variable -Wno-non-pod-varargs -Wno-unused-variable")
@@ -214,6 +218,7 @@ if(SHOW_CMAKE_VARIABLES)
     message(STATUS "CMAKE_CXX_COMPILER: " ${CMAKE_CXX_COMPILER})
     message(STATUS "CMAKE_CXX_COMPILER_ID: " ${CMAKE_CXX_COMPILER_ID})
     message(STATUS "CMAKE_COMPILER_IS_GNUCXX : " ${CMAKE_COMPILER_IS_GNUCXX})
+    message(STATUS "CMAKE_CXX_COMPILER_ID: " ${CMAKE_CXX_COMPILER_ID})
     message(STATUS "CMAKE_AR: " ${CMAKE_AR})
     message(STATUS "CMAKE_RANLIB: " ${CMAKE_RANLIB})
     message(STATUS "CMAKE_MACOSX_RPATH: " ${CMAKE_MACOSX_RPATH})

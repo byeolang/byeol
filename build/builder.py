@@ -392,12 +392,14 @@ def _cleanCoverageFiles():
     if isWindow():
         system(f"del /s /f /q {cwd} \\coverage")
         system(f"del /s {cwd}\\*.profraw")
+        system(f"del /s {cwd}\\*.profdata")
         system(f"del /s {cwd}\\logs")
         system(f"del /s {cwd}\\cov.info")
 
     else:
         system("rm -rf " + cwd + "/coverage")
         system("rm " + cwd + "/*.profraw")
+        system("rm " + cwd + "/*.profdata")
         system("rm " + cwd + "/logs")
         system("rm " + cwd + "/cov.info")
     printOk("done.")
@@ -407,18 +409,33 @@ def covBuild():
         printErr("I can collect coverages in linux only.")
         return -1
 
+
+    clang = ClangDependency()
+    hasClang = not checkDependencies([clang])
+    cov = None
+    covName = ""
+    llvmProfData = None
+    if hasClang:
+        cov = LlvmCovDependency()
+        covName = "llvm-cov"
+        llvmProfData = LlvmProfDataDependency()
+    else:
+        cov = GcovDependency()
+        covName = "gcov"
+
     lcov = LcovDependency()
     genhtml = GenHtmlDependency()
-    if checkDependencies([LlvmCovDependency(), GcovDependency(), lcov, genhtml]):
+    if checkDependencies([cov, llvmProfData, lcov, genhtml]):
         return -1
 
-    global config, cwd, byeolDir
-    config="-DCMAKE_BUILD_TYPE=Debug -DCOVERAGE_TOOL=gcov"
+    global config, cwd, byeolDir, binDir
+    config=f"-DCMAKE_BUILD_TYPE=Debug -DCOVERAGE_TOOL={covName}"
     print(config)
 
     clean()
     build(True)
     printInfoEnd("running TC files...")
+    testPath = f"{binDir}/test"
     res = system("cd " + byeolDir + "/bin && ./test")
     if res != 0:
         printErr("failed to pass TCs.")
@@ -426,27 +443,38 @@ def covBuild():
 
     printOk("done.")
 
-    printInfoEnd("collects gcov results...")
+    if hasClang:
+        printInfoEnd("getting profdata...")
+        res = system(f"mv {binDir}/default.profraw {cwd}")
+        if res != 0:
+            printErr("failed to move profraw file.")
+            return -1
+        printOk("done.")
 
-    # Read exclusion patterns from .coverage-exclude file
-    def read_exclude_patterns():
-        exclude_file = os.path.join(byeolDir + slash() + "build", '.coverage-exclude')
-        if os.path.exists(exclude_file):
-            with open(exclude_file) as f:
-                return [line.strip() for line in f if line.strip() and not line.startswith('#')]
-        return []
+    printInfoEnd(f"collects {covName} results...")
 
     # Collect raw coverage data
-    res = system(f"{lcov.binary} --directory {cwd} --base-directory {cwd} --gcov-tool {cwd}/llvm-gcov.sh --capture -o cov_raw.info  --ignore-errors inconsistent,unsupported,format,range")
+    if hasClang:
+        system(f"{llvmProfData.binary} merge -sparse ./default.profraw -o coverage.profdata")
+        res = system(f"{cov.binary} export --format=lcov --instr-profile=coverage.profdata {testPath} > cov_raw.info")
+    else:
+        res = system(f"{lcov.binary} --directory {cwd} --base-directory {cwd} --capture --rc branch_coverage=0 -o cov_raw.info  --ignore-errors inconsistent,unsupported,format,range,unused")
     if res != 0:
         printErr("fail to collect gcov results")
         return -1
 
     # Apply exclusion patterns
+    def read_exclude_patterns():
+        exclude_file = os.path.join(byeolDir + "/build", '.coverage-exclude')
+        if os.path.exists(exclude_file):
+            with open(exclude_file) as f:
+                return [line.strip() for line in f if line.strip() and not line.startswith('#')]
+        return []
+
     exclude_patterns = read_exclude_patterns()
     if exclude_patterns:
         exclude_opts = ' '.join([f"'{p}'" for p in exclude_patterns])
-        res = system(f"{lcov.binary} --remove cov_raw.info {exclude_opts} -o cov.info --ignore-errors inconsistent,unsupported,format,range")
+        res = system(f"{lcov.binary} --remove cov_raw.info {exclude_opts} -o cov.info --ignore-errors inconsistent,unsupported,format,range,unused")
         if res != 0:
             printErr("fail to apply exclusion patterns")
             return -1
@@ -457,7 +485,7 @@ def covBuild():
     printOk("done")
 
     printInfoEnd("generating coverage info in html...")
-    res = system(f"{genhtml.binary} {cwd}/cov.info -o coverage --ignore-errors inconsistent,category,range")
+    res = system(f"{genhtml.binary} {cwd}/cov.info -o coverage --ignore-errors inconsistent,category,range,unused")
     if res != 0:
         printErr("fail to generate report html files.")
         return -1
@@ -1056,6 +1084,10 @@ class LlvmCovDependency(dependency):
     def onGetInstalledVerString(self, name):
         return super().onGetInstalledVerString(name).split('\n')[0]
 
+class LlvmProfDataDependency(dependency):
+    def getNames(self):
+        return ["llvm-profdata"]
+
 class GccDependency(dependency):
     def getNames(self):
         return ["g++"]
@@ -1132,6 +1164,7 @@ def checkDependencies(deps):
 
     hasErr = False;
     for d in deps:
+        if d == None: continue
         if d.isValid() == False:
             d.showErrMsg()
             hasErr = True
