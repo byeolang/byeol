@@ -76,6 +76,43 @@ The system follows a **Layered Architecture** pattern with clear separation of c
    * Contains comprehensive test cases for all above layers
    * Ensures system reliability and correctness
 
+## When to Read Additional Documentation
+
+### ⚠️ CRITICAL: Architecture and Implementation Guidelines
+
+**BEFORE modifying C++ code, you MUST read the detailed architecture document:**
+
+📖 **READ**: `doc/ref/ko/architecture-and-class.md`
+
+**WHEN to read this document:**
+- ✅ Implementing new classes or functions in `module/` directory
+- ✅ Modifying existing C++ code structure or logic
+- ✅ Designing class hierarchies or inheritance patterns
+- ✅ Working with core language features (AST, type system, memory management)
+- ✅ Adding new features that interact with existing architecture
+- ✅ Refactoring code across multiple modules
+
+**When you DON'T need to read it:**
+- ❌ Simple documentation updates (*.md files)
+- ❌ Build script changes only (`build/` directory)
+- ❌ Test case analysis without code modification
+- ❌ Minor comment or formatting fixes
+- ❌ Configuration file updates (CMakeLists.txt, *.cmake)
+
+**WHY this is important:**
+The architecture document contains:
+- Detailed design patterns and principles specific to this codebase
+- Class relationship diagrams and inheritance hierarchies
+- Memory management rules and best practices
+- Type system implementation details
+- Critical guidelines that prevent common mistakes
+
+**Failure to read this document before code modification may result in:**
+- Violating established design patterns
+- Breaking existing abstractions
+- Introducing memory management issues
+- Creating incompatible interfaces
+
 ## Project Structure
 
 ```
