@@ -9,7 +9,7 @@ namespace by {
     class life;
     class instance;
 
-    class memliteInternal {
+    class _nhidden memliteInternal {
         BY(ME(memliteInternal))
 
     public:

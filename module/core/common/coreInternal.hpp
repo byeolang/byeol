@@ -28,7 +28,7 @@ namespace by {
     template <typename T> class tbridge;
     class defArrayExpr;
 
-    class coreInternal {
+    class _nhidden coreInternal {
         BY(ME(coreInternal))
 
     public:
