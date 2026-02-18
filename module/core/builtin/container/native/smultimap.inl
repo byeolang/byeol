@@ -60,8 +60,8 @@ namespace by {
         const K* key = nullptr;
         for(ncnt n = 0; n < step; ++n)
             do {
-                _wrap = isReversed ? (_isReversed ? _wrap->next : _wrap->prev) :
-                                     (_isReversed ? _wrap->prev : _wrap->next);
+                _wrap =
+                    isReversed ? (_isReversed ? _wrap->next : _wrap->prev) : (_isReversed ? _wrap->prev : _wrap->next);
                 if(_key == _getDummyKey()) break;
                 key = getKey();
                 if(!key) return *this;

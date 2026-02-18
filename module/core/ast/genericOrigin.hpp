@@ -21,6 +21,7 @@ namespace by {
      *  it's returned immediately without generalizer.
      */
     typedef std::map<std::string, tstr<obj>> orgCache;
+
     class _nout genericOrigin: public baseObj {
         BY(CLASS(genericOrigin, baseObj), VISIT())
         friend class coreInternal;

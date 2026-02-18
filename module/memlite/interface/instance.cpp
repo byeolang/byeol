@@ -38,9 +38,7 @@ namespace by {
 
     me::vault me::_vault;
 
-    me::vault& me::getVault() {
-        return _vault;
-    }
+    me::vault& me::getVault() { return _vault; }
 
     nbool me::_setId(id new1) {
         // rel() must not to reset Id. it's regarding to instance info.

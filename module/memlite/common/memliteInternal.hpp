@@ -8,6 +8,7 @@ namespace by {
     struct id;
     class life;
     class instance;
+
     class memliteInternal {
         BY(ME(memliteInternal))
 

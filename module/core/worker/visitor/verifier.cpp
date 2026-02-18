@@ -450,8 +450,9 @@ namespace by {
 
         onVisit(i, (func::super&) me, false);
 
-        obj& meObj = coreInternal::getNowFrame() TO(getMe()) TO(template cast<obj>()) OR.myExErr(me, FUNC_REDIRECTED_OBJ)
-                         .ret(true);
+        obj& meObj = coreInternal::getNowFrame() TO(getMe()) TO(template cast<obj>())
+                         OR.myExErr(me, FUNC_REDIRECTED_OBJ)
+                             .ret(true);
 
         _STEP("check func duplication");
         const nbicontainer& top = meObj.getShares().getContainer();

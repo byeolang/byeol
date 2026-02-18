@@ -44,12 +44,13 @@ namespace by {
         static frames* getFrames();
         static frame* getNowFrame();
         static exprMaker& getMaker(parser& me);
-        template <typename T>
-        static tbridge<T>* makeBridge(T* real) { return new tbridge<T>(real); }
-        template <typename T>
-        static tbridge<T>* makeBridge() { return new tbridge<T>(); }
-        template <typename T>
-        static T* getReal(tbridge<T>& me) { return me._real; }
+
+        template <typename T> static tbridge<T>* makeBridge(T* real) { return new tbridge<T>(real); }
+
+        template <typename T> static tbridge<T>* makeBridge() { return new tbridge<T>(); }
+
+        template <typename T> static T* getReal(tbridge<T>& me) { return me._real; }
+
         static orgCache& getCache(genericOrigin& me);
         static str getContainer(forExpr& me);
         static node* getMe(getExpr& me);
@@ -57,4 +58,4 @@ namespace by {
         static node* onGet(const getExpr& me, node& it);
         static narr& getElems(defArrayExpr& me);
     };
-}
+} // namespace by

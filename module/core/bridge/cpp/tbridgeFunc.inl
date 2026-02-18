@@ -15,9 +15,8 @@ namespace by {
         tbridge<T>& me = (tbridge<T>*) a.getMe() OR.err("object from frame does not exists.").ret(str());
         T& real = coreInternal::getReal(me) OR.err("this object doesn't have _real.").ret(str());
 
-        return Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::toMgd(
-            (real.*(this->_fptr))                                                                   // funcPtr
-            (Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(a[index])...)); // and args.
+        return Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::toMgd((real.*(this->_fptr)) // funcPtr
+            (Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(a[index])...));    // and args.
     }
 
 #undef ME
@@ -30,8 +29,7 @@ namespace by {
         tbridge<T>& me = (tbridge<T>*) a.getMe() OR.err("object from frame does not exists.").ret(str());
         T& real = coreInternal::getReal(me) OR.err("this object doesn't have _real.").ret(str());
 
-        (real.*(this->_fptr))(
-            Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(a[index])...);
+        (real.*(this->_fptr))(Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(a[index])...);
         return Marshaling<void, tifSub<void, node>::is>::toMgd();
     }
 

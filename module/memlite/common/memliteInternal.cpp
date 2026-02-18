@@ -6,9 +6,7 @@
 namespace by {
     BY(DEF_ME(memliteInternal))
 
-    void me::setBinderItsId(binder& me, const id& newId) {
-        me._itsId = newId;
-    }
+    void me::setBinderItsId(binder& me, const id& newId) { me._itsId = newId; }
 
     life* me::getBindTag(binder& me) { return me._getBindTag(); }
 

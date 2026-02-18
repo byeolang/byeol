@@ -48,4 +48,4 @@ namespace by {
     node* me::onGet(const getExpr& me, node& it) { return me._onGet(it); }
 
     narr& me::getElems(defArrayExpr& me) { return me._elems; }
-}
+} // namespace by

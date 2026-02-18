@@ -53,7 +53,7 @@ namespace by {
         // origin's clone is making a object, not an origin:
         //  so I've to call cloneDeep().
         baseObj* newOrg = (baseObj*) cast.getOrigin().cloneDeep();
-        if(_src) coreInternal::setSrc(*newOrg, *_src); // newOrg->_setSrc(*_src);
+        if(_src) coreInternal::setSrc(*newOrg, *_src);      // newOrg->_setSrc(*_src);
         if(_mod) coreInternal::setModifier(*newOrg, *_mod); // newOrg->_setModifier(*_mod);
 
         coreInternal::setOrigin(cast, *newOrg);

@@ -30,9 +30,7 @@ namespace by {
         return l.isBind();
     }
 
-    void me::rel() {
-        _tactic->rel(*this);
-    }
+    void me::rel() { _tactic->rel(*this); }
 
     id me::getItsId() const { return _itsId; }
 
