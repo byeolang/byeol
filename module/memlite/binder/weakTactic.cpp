@@ -1,6 +1,7 @@
 #include "memlite/binder/weakTactic.hpp"
 
 #include "memlite/binder/binder.hpp"
+#include "memlite/internal/memliteInternal.hpp"
 
 namespace by {
 

@@ -2,6 +2,7 @@
 
 #include "memlite/binder/tbindable.inl"
 #include "memlite/interface/instancer.hpp"
+#include "memlite/internal/memliteInternal.hpp"
 
 namespace by {
 

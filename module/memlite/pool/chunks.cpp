@@ -1,5 +1,6 @@
 #include "memlite/pool/chunks.hpp"
 #include "memlite/interface/instance.hpp"
+#include "memlite/internal/memliteInternal.hpp"
 
 namespace by {
 

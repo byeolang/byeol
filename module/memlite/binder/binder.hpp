@@ -2,7 +2,6 @@
 #pragma once
 
 #include "memlite/binder/tbindable.hpp"
-#include "memlite/common/memliteInternal.hpp"
 
 struct binderTest;
 

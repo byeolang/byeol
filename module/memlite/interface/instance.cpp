@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "memlite/interface/instancer.hpp"
+#include "memlite/internal/memliteInternal.hpp"
 
 namespace by {
 

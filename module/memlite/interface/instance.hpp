@@ -5,7 +5,6 @@
 
 #include "memlite/interface/clonable.hpp"
 #include "memlite/interface/id.hpp"
-#include "memlite/common/memliteInternal.hpp"
 
 struct byeolTest;
 
