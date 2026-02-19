@@ -17,8 +17,6 @@ namespace by {
      */
     class _nout defSeqExpr: public expr {
         BY(CLASS(defSeqExpr, expr, expr::exprType), VISIT())
-        friend class func;
-        friend class verifier;
 
     public:
         defSeqExpr(const node& start, const node& end);

@@ -18,7 +18,6 @@ namespace by {
      */
     class _nout getGenericExpr: public getExpr {
         BY(CLASS(getGenericExpr, getExpr, expr::exprType), VISIT())
-        friend class verifier;
 
     public:
         getGenericExpr(const std::string& genericName, const args& typeParams);

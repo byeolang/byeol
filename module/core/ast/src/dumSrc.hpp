@@ -15,6 +15,10 @@ namespace by {
         dumSrc();
 
     public:
+        void setFile(const srcFile& new1) override;
+        void setPos(const point& new1) override;
+        void setName(const std::string& new1) override;
+
         static me& singleton();
     };
 }

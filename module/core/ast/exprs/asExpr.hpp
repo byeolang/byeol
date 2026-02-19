@@ -16,8 +16,6 @@ namespace by {
      */
     class _nout asExpr: public expr {
         BY(CLASS(asExpr, expr, expr::exprType), VISIT())
-        friend class verifier;
-        friend class func;
 
     public:
         asExpr(const node& me, const node& as);

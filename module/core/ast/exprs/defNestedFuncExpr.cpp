@@ -28,7 +28,7 @@ namespace by {
         return ret;
     }
 
-    func& me::_getOrigin() { return *_org; }
+    func& me::getOrigin() { return *_org; }
 
     str me::infer() const { return _org->infer(); }
 } // namespace by

@@ -879,7 +879,7 @@ namespace by {
         getExpr& newSubj = *(getExpr*) setter.getSubj().clone();
         newSubj.setName("set");
         newSubj.setArgs(*new args());
-        setter._subject.bind(newSubj);
+        setter.setSubj(newSubj);
         setter.getArgs().add(rhs);
         BY_DI("tokenEvent: _onConvertAssignElem(%s, %s)", lhs, rhs);
         return &setter;

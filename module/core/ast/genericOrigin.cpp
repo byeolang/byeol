@@ -64,7 +64,7 @@ namespace by {
         const ntype& orgType = _org->getType();
         tstr<obj> ret = (obj*) _org->cloneDeep(); // clone all of shares including func.
         src* s = new src(_org->getSrc());
-        s->_setName(orgType.getName());
+        s->setName(orgType.getName());
         coreInternal::setSrc(*ret, *s);
 
         // clone type:

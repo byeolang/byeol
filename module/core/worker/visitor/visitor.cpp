@@ -203,7 +203,7 @@ namespace by {
     }
 
     void me::onTraverse(const visitInfo& i, defNestedFuncExpr& d) {
-        d._getOrigin().accept(visitInfo("origin", &d, 0, 1, i.depth + 1), *this);
+        d.getOrigin().accept(visitInfo("origin", &d, 0, 1, i.depth + 1), *this);
     }
 
     void me::onTraverse(const visitInfo& i, genericOrigin& g) {

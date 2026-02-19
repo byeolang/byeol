@@ -14,7 +14,6 @@ namespace by {
      */
     class _nout evalExpr: public expr {
         BY(CLASS(evalExpr, expr, expr::exprType), VISIT())
-        friend class parser;
 
     public:
         evalExpr(const node* meObj, const node& subject, const args& a);

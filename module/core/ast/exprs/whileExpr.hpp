@@ -12,7 +12,6 @@ namespace by {
      */
     class _nout whileExpr: public loopExpr {
         BY(CLASS(whileExpr, loopExpr, expr::exprType), VISIT())
-        friend class verifier;
 
     public:
         whileExpr(const node& condition, const blockExpr& blk);

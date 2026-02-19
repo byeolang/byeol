@@ -12,7 +12,6 @@ namespace by {
      */
     class _nout defNestedFuncExpr: public expr {
         BY(CLASS(defNestedFuncExpr, expr, expr::exprType), VISIT())
-        friend class visitor;
 
     public:
         defNestedFuncExpr(const func& org);
@@ -21,13 +20,13 @@ namespace by {
         using super::eval;
         str eval(const args& a) override;
 
-        const func& getOrigin() const BY_CONST_FUNC(_getOrigin())
+        func& getOrigin();
+        const func& getOrigin() const BY_CONST_FUNC(getOrigin())
 
         str infer() const override;
 
     private:
         scope* _cloneLocalScope(frame& fr) const;
-        func& _getOrigin();
 
     private:
         tstr<func> _org;
