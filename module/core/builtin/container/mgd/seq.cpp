@@ -21,22 +21,22 @@ namespace by {
 
     me::seq(): super(new nseq(0, 0)) {}
 
-    nInt me::operator[](nidx n) { return get()[n]; }
+    nInt me::operator[](nidx n) { return get()->get(n); }
 
     const ntype& me::getType() const {
         static mgdType inner("seq", ttype<me>::get(), params(*new param("typeParam", *new nInt())));
         return inner;
     }
 
-    ncnt me::len() const { return get().len(); }
+    ncnt me::len() const { return get()->len(); }
 
-    nbool me::in(nidx n) const { return get().in(n); }
+    nbool me::in(nidx n) const { return get()->in(n); }
 
     //  get:
-    nInt me::get(nidx n) { return get().get(n); }
+    nInt me::get(nidx n) { return get()->get(n); }
 
     //  etc:
-    void me::rel() { return get().rel(); }
+    void me::rel() { return get()->rel(); }
 
     namespace {
         typedef tucontainable<nInt, nInt, nInt>::iter niter;
@@ -87,7 +87,7 @@ namespace by {
                 nint step = *eval->cast<nint>();
                 static tucontainable<nInt, nInt, nInt>::iter (tucontainable<nInt, nInt, nInt>::*specifier)(ncnt) const =
                     &seq::iterate;
-                return new mgdIter(new niter((meObj.get().*specifier)(step)));
+                return new mgdIter(new niter((meObj.get()->*specifier)(step)));
             }
         };
 
@@ -121,7 +121,7 @@ namespace by {
     }
 
     me::iteration* me::_onMakeIteration(ncnt step, nbool isReversed) const {
-        return get()._onMakeIteration(step, isReversed);
+        return get()->_onMakeIteration(step, isReversed);
     }
 
     nbool me::set(const iter& at, const nInt& new1) { return false; }

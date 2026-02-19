@@ -8,7 +8,7 @@
 #include "core/ast/obj.hpp"
 #include "core/ast/slot.hpp"
 #include "core/frame/threadUse.hpp"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
 

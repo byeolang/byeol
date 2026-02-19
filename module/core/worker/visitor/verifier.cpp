@@ -6,7 +6,7 @@
 #include "core/frame/thread.hpp"
 #include "core/builtin/err/errReport.hpp"
 #include "core/worker/tworker.inl"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
 

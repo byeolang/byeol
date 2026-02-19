@@ -4,7 +4,7 @@
 
 #include "core/ast/closure.hpp"
 #include "core/ast/exprs/assignExpr.hpp"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
     BY(DEF_ME(defVarExpr), DEF_VISIT())

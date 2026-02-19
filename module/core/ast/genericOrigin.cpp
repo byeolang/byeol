@@ -6,7 +6,7 @@
 #include "core/ast/baseFunc.hpp"
 #include "core/ast/dumScope.hpp"
 #include "core/ast/origin.hpp"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 #include <algorithm>
 
 namespace by {

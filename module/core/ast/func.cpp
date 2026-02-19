@@ -8,7 +8,7 @@
 #include "core/ast/obj.hpp"
 #include "core/ast/params.hpp"
 #include "core/builtin/err/nerr.hpp"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
 

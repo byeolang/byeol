@@ -2,7 +2,7 @@
 #include "core/ast/nestedFunc.hpp"
 #include "core/frame/thread.hpp"
 #include "core/worker/visitor/visitor.hpp"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
     BY(DEF_ME(defNestedFuncExpr), DEF_VISIT())

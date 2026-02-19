@@ -28,7 +28,15 @@ namespace by {
     template <typename T> class tbridge;
     class defArrayExpr;
 
-    class _nhidden coreInternal {
+    /**
+     * @ingroup core
+     * @warning this is internal APIs. don't depend on them when you writes production
+     *          code in outer modules.
+     * @remark this class declared with `_nout` which means it exposed to other modules.
+     *         I expose it because I need to be able to instantiate a template class
+     *         that accesses coreInternal from other modules.
+     */
+    class _nout coreInternal {
         BY(ME(coreInternal))
 
     public:
@@ -48,8 +56,6 @@ namespace by {
         template <typename T> static tbridge<T>* makeBridge(T* real) { return new tbridge<T>(real); }
 
         template <typename T> static tbridge<T>* makeBridge() { return new tbridge<T>(); }
-
-        template <typename T> static T* getReal(tbridge<T>& me) { return me._real; }
 
         static orgCache& getCache(genericOrigin& me);
         static str getContainer(forExpr& me);

@@ -2,7 +2,6 @@
 #pragma once
 
 #include "core/ast/expr.hpp"
-#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -45,7 +44,7 @@ namespace by {
          */
         template <typename T, typename... Args> T* birth(const std::string& name, const Args&... args) const {
             T* ret = new T(args...);
-            if(_file) coreInternal::setSrc(*ret, *makeSrc(name));
+            if(_file) _setSrc(*ret, *makeSrc(name));
             return ret;
         }
 
@@ -58,7 +57,7 @@ namespace by {
          */
         template <typename T, typename... Args> T* make(const Args&... args) const {
             T* ret = new T(args...);
-            if(_file) coreInternal::setSrc(*ret, *makeSrc(""));
+            if(_file) _setSrc(*ret, *makeSrc(""));
             return ret;
         }
 
@@ -83,6 +82,7 @@ namespace by {
 
     private:
         func* _makeFunc(const std::string& name, const narr& stmts) const;
+        void _setSrc(node& me, const src& newSrc) const;
 
     private:
         tstr<srcFile> _file;

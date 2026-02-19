@@ -63,7 +63,7 @@ namespace by {
                                    .ret(str());
 
                 nint step = *eval->cast<nint>();
-                return new mgdIter(new niter(meObj.get().iterate(step)));
+                return new mgdIter(new niter(meObj.get()->iterate(step)));
             }
         };
 
@@ -94,7 +94,7 @@ namespace by {
 
     me::arr(const me& rhs): super(rhs), _type(rhs._type) {}
 
-    node& me::operator[](nidx n) { return get()[n]; }
+    node& me::operator[](nidx n) { return get()->operator[](n); }
 
     const ntype& me::getType() const { return _type; }
 
@@ -111,11 +111,11 @@ namespace by {
         return _defGeneric(paramOrg);
     }
 
-    ncnt me::len() const { return get().len(); }
+    ncnt me::len() const { return get()->len(); }
 
-    nbool me::in(nidx n) const { return get().in(n); }
+    nbool me::in(nidx n) const { return get()->in(n); }
 
-    node* me::get(nidx n) { return get().get(n); }
+    node* me::get(nidx n) { return get()->get(n); }
 
     /* TODO: can I remove this?
     node& me::get(std::function<nbool(const node&)> l) const {
@@ -131,46 +131,46 @@ namespace by {
         str ased = new1.asImpli(getType().getParams()[0].getOrigin());
         WHEN(!ased || ased->isSub<nVoid>()) .ret(false);
 
-        return get().set(at, *ased);
+        return get()->set(at, *ased);
     }
 
     nbool me::set(nidx n, const node& new1) {
         str ased = new1.asImpli(getType().getParams()[0].getOrigin());
         WHEN(!ased || ased->isSub<nVoid>()) .ret(false);
-        return get().set(n, *ased);
+        return get()->set(n, *ased);
     }
 
     nbool me::add(const iter& at, const node& new1) {
         str ased = new1.asImpli(getType().getParams()[0].getOrigin());
         WHEN(!ased || ased->isSub<nVoid>()) .ret(false);
 
-        return get().add(at, *ased);
+        return get()->add(at, *ased);
     }
 
     nbool me::add(nidx n, const node& new1) {
         str ased = new1.asImpli(getType().getParams()[0].getOrigin());
         WHEN(!ased || ased->isSub<nVoid>()) .ret(false);
 
-        return get().add(n, *ased);
+        return get()->add(n, *ased);
     }
 
-    void me::add(const iter& here, const iter& from, const iter& to) { get().add(here, from, to); }
+    void me::add(const iter& here, const iter& from, const iter& to) { get()->add(here, from, to); }
 
     //  del:
-    nbool me::del(nidx n) { return get().del(n); }
+    nbool me::del(nidx n) { return get()->del(n); }
 
-    nbool me::del(const iter& it) { return get().del(it); }
+    nbool me::del(const iter& it) { return get()->del(it); }
 
-    nbool me::del(const iter& from, const iter& to) { return get().del(from, to); }
+    nbool me::del(const iter& from, const iter& to) { return get()->del(from, to); }
 
-    void me::rel() { get().rel(); }
+    void me::rel() { get()->rel(); }
 
     const baseObj& me::getOrigin() const { return *this; }
 
-    std::string me::asStr() const { return get().asStr(); }
+    std::string me::asStr() const { return get()->asStr(); }
 
     me::iteration* me::_onMakeIteration(ncnt step, nbool isReversed) const {
-        return get()._onMakeIteration(step, isReversed);
+        return get()->_onMakeIteration(step, isReversed);
     }
 
     namespace {

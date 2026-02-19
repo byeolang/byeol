@@ -1,7 +1,7 @@
 #include "core/worker/supply/fileSupply.hpp"
 
 #include "core/worker/parser.hpp"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
     BY(DEF_ME(fileSupply))

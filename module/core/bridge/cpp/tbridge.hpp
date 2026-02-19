@@ -46,9 +46,9 @@ namespace by {
         }
 
     public:
-        T& get() { return *_real; }
+        T* get() { return _real; }
 
-        const T& get() const { return *_real; }
+        const T* get() const { return _real; }
 
         const baseObj& getOrigin() const override {
             static tbaseObjOrigin<tbridge<T>> org(

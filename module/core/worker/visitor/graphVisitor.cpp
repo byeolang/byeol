@@ -5,7 +5,7 @@
 #include "core/ast.hpp"
 #include "core/frame/frame.hpp"
 #include "core/worker/tworker.inl"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
 

@@ -6,6 +6,7 @@
 #include "core/builtin/scalar/nVoid.hpp"
 #include "core/worker/defBlock.hpp"
 #include "core/type/typeMaker.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
 
@@ -56,6 +57,8 @@ namespace by {
         ret->getBlock().getStmts().add(stmts);
         return ret;
     }
+
+    void me::_setSrc(node& me, const src& newSrc) const { coreInternal::setSrc(me, newSrc); }
 
     func* me::makeExpandFunc(const defBlock& blk) const { return _makeFunc(baseObj::EXPAND_NAME, blk.getExpands()); }
 

@@ -8,7 +8,7 @@
 #include "core/ast/exprs/breakExpr.hpp"
 #include "core/ast/exprs/nextExpr.hpp"
 #include "core/ast/exprs/retExpr.hpp"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
 

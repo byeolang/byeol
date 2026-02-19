@@ -2,7 +2,6 @@
 
 #include "core/bridge/cpp/tbridge.hpp"
 #include "core/bridge/cpp/tbridgeFunc.hpp"
-#include "core/common/coreInternal.hpp"
 
 namespace by {
 
@@ -13,7 +12,7 @@ namespace by {
     TEMPL
     template <size_t... index> str ME::_marshal(args& a, std::index_sequence<index...> s) {
         tbridge<T>& me = (tbridge<T>*) a.getMe() OR.err("object from frame does not exists.").ret(str());
-        T& real = coreInternal::getReal(me) OR.err("this object doesn't have _real.").ret(str());
+        T& real = me.get() OR.err("this object doesn't have _real.").ret(str());
 
         return Marshaling<Ret, tifSub<typename typeTrait<Ret>::Org, node>::is>::toMgd((real.*(this->_fptr)) // funcPtr
             (Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(a[index])...));    // and args.
@@ -27,7 +26,7 @@ namespace by {
     TEMPL
     template <size_t... index> str ME::_marshal(args& a, std::index_sequence<index...>) {
         tbridge<T>& me = (tbridge<T>*) a.getMe() OR.err("object from frame does not exists.").ret(str());
-        T& real = coreInternal::getReal(me) OR.err("this object doesn't have _real.").ret(str());
+        T& real = me.get() OR.err("this object doesn't have _real.").ret(str());
 
         (real.*(this->_fptr))(Marshaling<Args, tifSub<typename typeTrait<Args>::Org, node>::is>::toNative(a[index])...);
         return Marshaling<void, tifSub<void, node>::is>::toMgd();

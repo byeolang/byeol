@@ -11,7 +11,7 @@
 #include "core/worker/bison/lowscanner.hpp"
 #include "core/worker/bison/tokenScan.hpp"
 #include "core/worker/tworker.inl"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 #include <algorithm>
 #include <cctype>
 

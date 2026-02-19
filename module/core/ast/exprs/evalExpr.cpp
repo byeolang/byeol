@@ -5,7 +5,7 @@
 #include "core/worker/visitor/visitor.hpp"
 #include "core/ast/closure.hpp"
 #include "core/ast/exprs/getExpr.hpp"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
 

@@ -94,7 +94,7 @@ TEST_F(bridgeTest, makeAndReferScopeDoesLeakMemory) {
         ASSERT_TRUE(new1);
         tstr<tbridge<kniz>> cast = new1;
         ASSERT_TRUE(cast);
-        ASSERT_EQ(cast->get().isRun, true);
+        ASSERT_EQ(cast->get()->isRun, true);
     }
 }
 
@@ -164,13 +164,13 @@ TEST_F(bridgeTest, passArray) {
     a.subs(); // for bridging narr.
     tstr<tbridge<narr>> narrBridge(tbridger<narr>::make(new narr()));
 
-    narrBridge->get().add(*new nInt(0)); // call func directly.
-    narrBridge->get().add(*new nInt(1));
-    narrBridge->get().add(*new nInt(2));
+    narrBridge->get()->add(*new nInt(0)); // call func directly.
+    narrBridge->get()->add(*new nInt(1));
+    narrBridge->get()->add(*new nInt(2));
     mgrBridge->eval("add", args(narr(*narrBridge)));
     mgrBridge->eval("del", args(narr(*new nInt(1)))); // 0, 2 remains.
 
-    const narr& res = mgrBridge->cast<tbridge<windowManager>>()->get()._wins;
+    const narr& res = mgrBridge->cast<tbridge<windowManager>>()->get()->_wins;
     ASSERT_EQ(res.len(), 2);
     ASSERT_EQ(*res[0].cast<nint>(), 0);
     ASSERT_EQ(*res[1].cast<nint>(), 2);
@@ -312,7 +312,7 @@ namespace {
 TEST_F(bridgeTest, bridgeWhatDoesntHaveDefaultCtor) {
     tstr<tbridge<B>> bridge = tbridger<B>::ctor<int>().func("getAge", &B::getAge).make(new B(1));
     ASSERT_TRUE(bridge);
-    ASSERT_EQ(bridge->get().age, 1);
+    ASSERT_EQ(bridge->get()->age, 1);
 
     tstr<tbridge<B>> res = bridge->eval(narr{nInt(5)});
     ASSERT_TRUE(res);

@@ -7,7 +7,7 @@
 #include "core/ast/baseFunc.hpp"
 #include "core/ast/node.inl"
 #include "core/ast/src/dumSrc.hpp"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
 

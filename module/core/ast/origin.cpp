@@ -4,7 +4,7 @@
 #include "core/frame/thread.hpp"
 #include "core/ast/exprs/evalExpr.hpp"
 #include "core/frame/frameInteract.hpp"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
 

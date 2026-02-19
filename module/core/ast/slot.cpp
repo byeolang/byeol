@@ -6,7 +6,7 @@
 #include "core/ast/exprs/evalExpr.hpp"
 #include "core/ast/baseFunc.hpp"
 #include "core/ast/origin.hpp"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
 

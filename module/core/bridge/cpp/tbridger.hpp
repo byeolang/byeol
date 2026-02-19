@@ -10,7 +10,6 @@
 #include "core/bridge/cpp/tbridgeFunc.hpp"
 #include "core/ast/src/dumSrcFile.hpp"
 #include "core/ast/ctor.hpp"
-#include "core/common/coreInternal.hpp"
 
 namespace by {
 

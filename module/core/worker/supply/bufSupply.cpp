@@ -2,7 +2,7 @@
 
 #include "core/ast/exprs/exprMaker.hpp"
 #include "core/ast/node.hpp"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
     BY_DEF_ME(bufSupply)

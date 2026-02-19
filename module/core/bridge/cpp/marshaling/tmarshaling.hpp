@@ -2,7 +2,7 @@
 #pragma once
 
 #include "core/builtin/scalar.hpp"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
 
@@ -244,7 +244,7 @@ namespace by {
 
         template <typename E> static str toMgd(E& it) { return coreInternal::makeBridge(&it); }
 
-        static T& toNative(node& it) { return it.cast<tbridge<T>>()->get(); }
+        static T& toNative(node& it) { return *it.cast<tbridge<T>>()->get(); }
 
         static const mgd& onAddParam() { return *coreInternal::makeBridge<T>(); }
 
@@ -258,7 +258,7 @@ namespace by {
 
         template <typename E> static str toMgd(E* it) { return coreInternal::makeBridge(it); }
 
-        static T* toNative(node& it) { return &it.cast<tbridge<T>>()->get(); }
+        static T* toNative(node& it) { return it.cast<tbridge<T>>()->get(); }
 
         static const mgd& onAddParam() { return *coreInternal::makeBridge<T>(); }
 

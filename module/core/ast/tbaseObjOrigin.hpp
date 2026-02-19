@@ -2,7 +2,6 @@
 #pragma once
 
 #include "core/ast/baseObj.hpp"
-#include "core/common/coreInternal.hpp"
 
 namespace by {
 

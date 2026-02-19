@@ -3,7 +3,7 @@
 
 #include "core/ast/node.hpp"
 #include "core/ast/dumScope.hpp"
-#include "core/common/coreInternal.hpp"
+#include "core/internal/coreInternal.hpp"
 
 namespace by {
 
