@@ -305,14 +305,18 @@ jobs:
         $PYTHON ${{github.workspace}}/build/builder.py pub mac --ignore-tidy
         $PYTHON ${{github.workspace}}/build/builder.py test --ignore-tidy
 
-    - name: archive to tar files
-      run: tar -cvf byeol-macos-arm64.tar ${{github.workspace}}/bin/
+    - name: prepare upload staging
+      run: |
+        mkdir -p staging/byeol
+        cp -r bin/* staging/byeol/
+        [ -e staging/byeol/logs ] && rm -rf staging/byeol/logs
+        [ -e staging/byeol/test ] && rm -rf staging/byeol/test
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
         name: byeol-macos-arm64
-        path: byeol-macos-arm64.tar
+        path: staging/
 
   build-on-windows:
     name: build on windows
@@ -365,20 +369,21 @@ jobs:
         $env:PATH = "$env:PATH;${{github.workspace}}\flex_bison"
         python ${{github.workspace}}\build\builder.py pub win
 
-    - name: archives to zip file
+    - name: prepare portable staging
       run: |
-        7z a -r byeol-win-x64-portable.zip ${{github.workspace}}\bin
+        mkdir staging\byeol
+        xcopy /E /I /Y ${{github.workspace}}\bin staging\byeol
+      shell: pwsh
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
         name: byeol-win-x64-portable
-        path: byeol-win-x64-portable.zip
+        path: staging/
 
     - name: get advanced installer
       uses: caphyon/advinst-github-action@v2.0
       with:
-        # advinst-license:
         advinst-enable-automation: 'true'
 
     - name: build msi installer

@@ -144,7 +144,6 @@ jobs:
       with:
         name: byeol-ubuntu-x64
         path: ${{github.workspace}}/bin/byeol-ubuntu-x64.deb
-        compression-level: 0
 
   build-on-linux-gcc:
     name: build on linux with gcc
@@ -493,21 +492,19 @@ jobs:
         $PYTHON ${{github.workspace}}/build/builder.py pub mac --ignore-tidy
         $PYTHON ${{github.workspace}}/build/builder.py test --ignore-tidy
 
-    - name: archive to tar files
+    - name: prepare upload staging (Portable)
       run: |
         cd ${{github.workspace}}
-        mkdir -p byeol
-        cp -r bin/* byeol
-        rm byeol/logs
-        rm byeol/test
-        tar -cvf byeol-macos-arm64.tar byeol
+        mkdir -p staging/byeol
+        cp -r bin/* staging/byeol
+        rm staging/byeol/logs || true
+        rm staging/byeol/test || true
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
         name: byeol-macos-arm64
-        path: byeol-macos-arm64.tar
-        compression-level: 0
+        path: ${{github.workspace}}/staging/
 
   build-on-windows:
     name: build on windows
@@ -560,23 +557,21 @@ jobs:
         $env:PATH = "$env:PATH;${{github.workspace}}\flex_bison"
         python ${{github.workspace}}\build\builder.py pub win
 
-    - name: archives to zip file
+    - name: prepare portable staging
       run: |
-        mkdir byeol
-        xcopy /E /I /Y ${{github.workspace}}\bin byeol
-        7z a -r byeol-win-x64-portable.zip byeol
+        mkdir staging\byeol
+        xcopy /E /I /Y ${{github.workspace}}\bin staging\byeol
+      shell: pwsh
 
-    - name: upload output files.
+    - name: upload portable output files.
       uses: actions/upload-artifact@v4
       with:
         name: byeol-win-x64-portable
-        path: byeol-win-x64-portable.zip
-        compression-level: 0
+        path: staging/
 
     - name: get advanced installer
       uses: caphyon/advinst-github-action@v2.0
       with:
-        # advinst-license:
         advinst-enable-automation: 'true'
 
     - name: build msi installer
@@ -596,7 +591,6 @@ jobs:
       with:
         name: byeol-win-x64
         path: ${{github.workspace}}\.github\workflows\byeol-win-x64.msi
-        compression-level: 0
 
   publish-doc:
     needs: [checking-code-format, build-on-linux-gcc, build-on-linux-clang, build-on-macos, build-on-windows, build-for-wasm]
