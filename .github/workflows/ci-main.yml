@@ -493,7 +493,13 @@ jobs:
         $PYTHON ${{github.workspace}}/build/builder.py test --ignore-tidy
 
     - name: archive to tar files
-      run: tar -cvf byeol-macos-arm64.tar ${{github.workspace}}/bin/
+      run: |
+        cd ${{github.workspace}}
+        mkdir -p byeol
+        cp -r bin/* byeol
+        rm byeol/logs
+        rm byeol/test
+        tar -cvf byeol-macos-arm64.tar byeol
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
@@ -554,7 +560,9 @@ jobs:
 
     - name: archives to zip file
       run: |
-        7z a -r byeol-win-x64-portable.zip ${{github.workspace}}\bin
+        mkdir byeol
+        xcopy /E /I /Y ${{github.workspace}}\bin byeol
+        7z a -r byeol-win-x64-portable.zip byeol
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
