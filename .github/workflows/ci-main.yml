@@ -144,6 +144,7 @@ jobs:
       with:
         name: byeol-ubuntu-x64
         path: ${{github.workspace}}/bin/byeol-ubuntu-x64.deb
+        compression-level: 0
 
   build-on-linux-gcc:
     name: build on linux with gcc
@@ -506,6 +507,7 @@ jobs:
       with:
         name: byeol-macos-arm64
         path: byeol-macos-arm64.tar
+        compression-level: 0
 
   build-on-windows:
     name: build on windows
@@ -569,6 +571,7 @@ jobs:
       with:
         name: byeol-win-x64-portable
         path: byeol-win-x64-portable.zip
+        compression-level: 0
 
     - name: get advanced installer
       uses: caphyon/advinst-github-action@v2.0
@@ -593,6 +596,7 @@ jobs:
       with:
         name: byeol-win-x64
         path: ${{github.workspace}}\.github\workflows\byeol-win-x64.msi
+        compression-level: 0
 
   publish-doc:
     needs: [checking-code-format, build-on-linux-gcc, build-on-linux-clang, build-on-macos, build-on-windows, build-for-wasm]
