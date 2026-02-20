@@ -1,5 +1,84 @@
 # Changelogs
 
+## v0.2.11 Mana Update
+released on 12-13 2025 Build#1459
+
+This update focuses on code quality improvement, stabilization, and documentation in preparation for the official release, rather than adding new features.
+A significant amount of guide documentation and references have been added, along with numerous unit tests.
+
+### frontend updates
++ Option clustering is now properly supported.
+You can use it like:
+`byeol -vS ...`
+
++ Added a simple frontend usage manual.
+
+### framework updates
++ Established a pyramid-shaped test case structure
+Previously, e2e or integration tests made up the majority, which was excellent for early error detection. However, when issues occurred, analyzing them required diving deep into the parser or verifier, resulting in lengthy analysis times. Over 500 unit tests have been added, which is expected to facilitate smoother issue analysis.
+
++ Test cases are now more systematically organized
+Previously, test cases were placed without distinction by module.
+From now on, test modules have three categorized folders: unittest, integ test, and e2e test, with modules placed within each folder.
+The existing byeolSyntaxTest, which served as integration tests, has been renamed to byeolIntegTest.
+
++ Added architecture reference documentation
+Documentation systematically explaining the architecture, structure, and design of the C++ codebase has been added.
+
++ Improved doxygen reference documentation quality
+Doxygen comments have been added extensively throughout the entire codebase.
+
++ Modified to print callstack when assert fails
+
++ Implemented coredump generation when frontend crashes.
+
+- Modified friend declaration convention
+Previously, friend declarations were reluctantly accepted to avoid unnecessary API exposure to external code.
+However, this led to situations where some classes had as many as 11 friend declarations.
+
+The existing friend convention rules were found to cause the following problems:
+1. Even when code modifications made friend declarations no longer necessary, it was difficult to remove them because it was unclear which part they were added for.
+2. Since friend was applied to entire classes rather than specific functions, the scope of impact was extensive.
+
+To address this, an internal class for friend declarations has been introduced:
+The internal class exists for each module requiring friend access and contains individual functions for each part that needs friend declaration, making the scope of impact relatively minimal.
+It is defined as follows:
+```cpp
+    class _nout coreInternal {
+        BY(ME(coreInternal))
+
+    public:
+        static void setSrc(node& me, const src& s);
+        static void setType(baseObj& me, const mgdType& new1);
+        static void setModifier(baseObj& me, const modifier& mod);
+    ...
+    };
+
+    void me::setSrc(node& me, const src& s) { me._setSrc(s); }
+
+    void me::setType(baseObj& me, const mgdType& new1) { me._setType(new1); }
+
+
+    class _nout genericOrigin: public baseObj {
+        BY(CLASS(genericOrigin, baseObj), VISIT())
+        friend class coreInternal; // friend declarations now get allowed for internal class only.
+        ...
+    };
+
+    void genericOrigin::foo() {
+        ....
+        coreInternal::setSrc(*ret, *s);
+    }
+```
+
+- Disabled branch-based coverage collection
+Branch-based TC coverage was being used, but the feature had many bugs, such as incorrectly marking string literal constants and comments as coverage misses.
+The branch-based coverage collection has been temporarily disabled at the lcov level.
+Now there appears to be an opposite issue where coverage is being overly reported.
+
+- Fixed an issue where the frontend would crash if Korean characters were present in the executable or script path
+
+
 ## v0.2.10 Mana Update
 released on 07-15 2025 build#1344
 
