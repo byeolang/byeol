@@ -187,6 +187,56 @@ if (result.has()) {
 }
 ```
 
+**tmay와 tres 실전 사용 예제**
+
+```
+@style: language-cpp verified
+// tres: 에러 원인을 알아야 하는 경우
+enum class ErrorCode { NONE, ZERO_DIV, OVERFLOW };
+
+tres<int, ErrorCode> betterDivide(int a, int b) {
+    if(b == 0)
+        return tres<int, ErrorCode>(ErrorCode::ZERO_DIV);
+
+    if(a == INT_MAX && b == -1)
+        return tres<int, ErrorCode>(ErrorCode::OVERFLOW);
+
+    return tres<int, ErrorCode>(a / b);  // 성공
+}
+
+// 사용
+auto result2 = betterDivide(10, 0);
+if(result2.has()) {
+    int value = result2.get();
+} else {
+    ErrorCode err = result2.getErr();
+    switch(err) {
+        case ErrorCode::ZERO_DIV:
+            BY_E("division by zero");
+            break;
+        case ErrorCode::OVERFLOW:
+            BY_E("integer overflow");
+            break;
+    }
+}
+
+// WHEN 매크로와 함께 사용
+tmay<File*> openFile(const std::string& path) {
+    File* f = File::open(path);
+    if(!f)
+        return tmay<File*>();  // 실패
+    return tmay<File*>(*f);    // 성공
+}
+
+void processFile(const std::string& path) {
+    auto result = openFile(path);
+    WHEN(!result.has()).err("failed to open: %s", path.c_str()).ret();
+
+    File* file = result.get();
+    // file 사용...
+}
+```
+
 
 ### 플랫폼 추상화
 
@@ -447,6 +497,28 @@ stream은 동작하지 않습니다.
 @ref by::stream "stream" 은 logBypass(const nchar*) 라는 함수를 제공하는데, 이것은 어떠한 가공도 없이 문자열을 그대로
 지정한 @ref by::stream "stream" 으로 로그 메시지를 보냅니다.
 
+**stream 제어 예제**
+
+```
+@style: language-cpp verified
+logger& log = logger::get();
+
+// 특정 stream 가져오기
+stream* console = log.getStream("consoleStream");
+stream* fileLog = log.getStream("fileLogStream");
+
+// stream별로 enable/disable 제어
+console->setEnable(true);   // console 출력 활성화
+fileLog->setEnable(false);  // 파일 로깅 비활성화
+
+// 로깅 - console에만 출력됨
+BY_I("This goes to console only");
+
+// 모든 stream disable
+log.setEnable(false);
+BY_I("This won't be logged anywhere");
+```
+
 
 ### 로깅 매크로 시스템
 
@@ -699,6 +771,35 @@ info는 출력되지 않습니다. 직접 사용하지 않으며, 객체 생성�
 
 @ref meta 모듈의 전체적인 설계에 대해 파악하고자 한다면 핵심이 되는 @ref by::type "type" 을 먼저 살펴보세요.
 
+**ttype 기본 사용 예제**
+
+```
+@style: language-cpp verified
+class myClass {};
+
+class myDerivedClass : public myClass {
+    typedef myClass super;
+};
+
+// 타입 정보 조회
+const type& typeInfo = ttype<myClass>();
+std::cout << typeInfo.getName();  // "myClass" 출력
+
+// 템플릿 여부 확인
+bool isTemplate = ttype<myClass>().isTemplate();  // false
+
+// 추상 클래스 여부 확인
+bool isAbstract = ttype<myClass>().isAbstract();  // false
+
+// 부모 타입 확인
+const type& superType = ttype<myDerivedClass>().getSuper();
+std::cout << superType.getName();  // "myClass" 출력
+
+// 인스턴스 생성 (기본 생성자 필요)
+myClass* instance = ttype<myClass>().makeAs<myClass>();
+delete instance;
+```
+
 
 ### type 클래스의 기능
 
@@ -748,6 +849,41 @@ this class가 rhs보다 super 클래스 인지 체크합니다. dynamic_cast과 
 **isSub(const rhs& type)**
 
 isSuper와 반대로 동작합니다.
+
+**타입 계층 검사 예제**
+
+```
+@style: language-cpp verified
+class Animal {};
+
+class Dog : public Animal {
+    typedef Animal super;
+};
+
+class Puppy : public Dog {
+    typedef Dog super;
+};
+
+// 상속 관계 확인
+const type& animalType = ttype<Animal>();
+const type& dogType = ttype<Dog>();
+const type& puppyType = ttype<Puppy>();
+
+// Animal이 Dog의 부모인가?
+bool isParent = animalType.isSuper(dogType);  // true
+
+// Dog가 Animal의 자식인가?
+bool isChild = dogType.isSub(animalType);  // true
+
+// Puppy는 Animal의 자식인가? (간접 상속도 체크)
+bool isDescendant = puppyType.isSub(animalType);  // true
+
+// 형제 관계는 false
+class Cat : public Animal {
+    typedef Animal super;
+};
+bool areSiblings = ttype<Dog>().isSub(ttype<Cat>());  // false
+```
 
 #### 인스턴스 생성
 
@@ -856,6 +992,36 @@ for(const auto& t : ttype<adam>().getSubs())
     cout << t.getName() << "\n";
 ```
 
+**adam을 활용한 타입 순회 예제**
+
+```
+@style: language-cpp verified
+// 부모가 없는 여러 클래스들 정의
+class Shape {
+    // 부모가 없으므로 자동으로 adam이 부모가 됨
+};
+
+class Vehicle {
+    // 부모가 없으므로 자동으로 adam이 부모가 됨
+};
+
+class Animal {
+    typedef adam super;  // 명시적으로 adam을 부모로 지정
+};
+
+// 모든 최상위 타입들을 순회
+const types& allTopLevelTypes = ttype<adam>().getSubs();
+
+for(const type* t : allTopLevelTypes) {
+    std::cout << "Top-level type: " << t->getName() << std::endl;
+}
+// 출력: Shape, Vehicle, Animal 등 모든 최상위 클래스들
+
+// adam을 통해 특정 타입이 최상위 타입인지 확인
+const type& shapeType = ttype<Shape>();
+bool isTopLevel = (shapeType.getSuper() == ttype<adam>());  // true
+```
+
 
 ### 메타 타입 확장하기
 
@@ -959,6 +1125,47 @@ tstr<shell> foo() {
 }
 ```
 
+**tstr 기본 사용 예제**
+
+```
+@style: language-cpp verified
+class Person : public instance {
+public:
+    Person(int newAge) : age(newAge) {}
+    int age;
+
+    const type& getType() const override { return ttype<Person>::get(); }
+    clonable* clone() const override { return new Person(age); }
+};
+
+// 1. 생성과 동시에 바인딩
+tstr<Person> person1(new Person(25));
+person1->age;  // 25
+
+// 2. isBind()로 바인딩 상태 확인
+tstr<Person> person2;  // 빈 바인더
+person2.isBind();  // false
+
+// 3. bind()로 나중에 바인딩
+person2.bind(new Person(30));
+person2.isBind();  // true
+
+// 4. get()으로 원시 포인터 접근
+Person* raw = person2.get();
+raw->age;  // 30
+
+// 5. rel()로 바인딩 해제
+person2.rel();
+person2.isBind();  // false
+person2.get();     // nullptr
+
+// 6. 스코프를 벗어나면 자동으로 소멸
+{
+    tstr<Person> person3(new Person(40));
+    // person3->age 사용 가능
+}  // 여기서 reference count가 0이 되어 Person 객체 자동 소멸
+```
+
 
 ### std::shared_ptr 대비 장점
 
@@ -1003,6 +1210,49 @@ void me::rel(binder& me) { // me가 tstr인지 tweak인지 상관없다.
 
 @ref by::binder "binder" 는 abstract 하므로 객체 생성이 불가능합니다. @ref by::tstr "tstr" 이나 @ref by::tweak "tweak" 로 이미 생성된 바인더들을 범용적인
 로직을 작성할때만 의의를 갖습니다.
+
+**tstr과 tweak 강한/약한 참조 예제**
+
+```
+@style: language-cpp verified
+class Data : public instance {
+public:
+    int value;
+    const type& getType() const override { return ttype<Data>::get(); }
+    clonable* clone() const override { return new Data(); }
+};
+
+// 1. tstr은 강한 참조 (strong reference)
+tstr<Data> strong(new Data());
+strong->value = 100;
+
+const life& lifeTag = strong->getBindTag();
+lifeTag.getStrongCnt();  // 1
+
+// 2. tweak은 약한 참조 (weak reference)
+tweak<Data> weak(*strong);
+lifeTag.getStrongCnt();  // 여전히 1 (weak은 strong count를 증가시키지 않음)
+
+// 3. weak은 strong이 유효한 동안만 접근 가능
+weak->value;  // 100, strong이 살아있으므로 접근 가능
+
+// 4. strong을 해제하면 weak도 무효화
+strong.rel();
+weak.isBind();  // false
+weak.get();     // nullptr - 원본 객체가 소멸되었으므로 접근 불가
+
+// 5. 여러 strong 참조는 count 증가
+tstr<Data> strong1(new Data());
+tstr<Data> strong2 = strong1;
+tstr<Data> strong3 = strong1;
+strong1->getBindTag().getStrongCnt();  // 3
+
+strong2.rel();
+strong1->getBindTag().getStrongCnt();  // 2
+
+strong3.rel();
+strong1->getBindTag().getStrongCnt();  // 1
+```
 
 #### 동적 타입 체킹
 
@@ -1061,6 +1311,46 @@ instancer (관리자)
 @ref by::chunk "chunk" 는 메모리가 flexible하게 늘어나도록 하는 _resize() 함수가 있지만, @ref memlite 의 컨셉상 이를 public으로
 공개하지 않습니다. 결과적으로 @ref by::chunk "chunk" 의 메모리는 객체 생성시 고정되며, 추가 메모리가 필요하다면 @ref by::chunk "chunk"
 객체를 더 생성해서 운영해야 합니다.
+
+**chunk 기본 사용 예제**
+
+```
+@style: language-cpp verified
+// int를 100개 담을 수 있는 chunk 생성
+chunk myChunk(sizeof(int), 100);
+
+// 상태 확인
+myChunk.len();        // 0 (아직 할당 안함)
+myChunk.size();       // 100 (최대 용량)
+myChunk.getBlkSize(); // sizeof(int)와 동일하거나 큰 값 (정렬됨)
+
+// 메모리 할당
+int* ptr1 = (int*) myChunk.new1();
+*ptr1 = 42;
+
+int* ptr2 = (int*) myChunk.new1();
+*ptr2 = 57;
+
+myChunk.len();  // 2
+
+// 인덱스로 접근
+int* elem0 = (int*) myChunk[0];
+*elem0;  // 42
+
+int* elem1 = (int*) myChunk[1];
+*elem1;  // 57
+
+// 메모리 해제 (순서 무관)
+myChunk.del(ptr2, 0);
+myChunk.len();  // 1
+
+myChunk.del(ptr1, 0);
+myChunk.len();  // 0
+
+// chunk 전체 해제
+myChunk.rel();
+myChunk.size();  // 0
+```
 
 **Block size**
 
@@ -1320,6 +1610,31 @@ byeol에서 가장 빈번히 하는 작업은 객체를 생성하면서 id를 �
 @ref by::binder "binder" 에서는 이렇게 해서 가져온 데이터가 정말로 유효한 데이터인지 구분하기 위해서 serial을 추가로
 비교합니다.
 
+**id 구성 요소 확인 예제**
+
+```
+@style: language-cpp verified
+class MyData : public instance {
+public:
+    int value;
+    const type& getType() const override { return ttype<MyData>::get(); }
+    clonable* clone() const override { return new MyData(); }
+};
+
+MyData* obj = new MyData();
+
+// id 구조 확인
+id objId = obj->getId();
+objId.tagN;    // watcher의 life 배열 인덱스
+objId.chkN;    // chunks의 chunk 인덱스
+objId.serial;  // 생성 카운터 (유효성 검증용)
+objId.isHeap();  // true - heap에 할당된 객체
+
+// life 정보 접근
+const life& lifeTag = obj->getBindTag();
+lifeTag.getId();  // objId와 동일
+```
+
 **tagN은 life 객체에 접근할때 사용한다**
 
 @ref by::watcher "watcher" 는 자신의 배열에서 tagN 번째 @ref by::life "life" 객체를 가져올때 이 값을 사용합니다.
@@ -1350,6 +1665,37 @@ reference counting을 위한 값이며, _pt는 @ref by::pool "pool" 에 할당�
 @ref by::binder "binder" 에 의해서 @ref by::instance "instance" 가 바인딩 될때마다 @ref by::life "life" 가 count 하는 strong 값을 1 증가시킵니다. @ref by::binder "binder" 가
 @ref by::instance "instance" 를 rel() 할때 count를 1 감소하며, 0이 되는 순간 delete로 메모리에서 해제합니다. @ref by::instance "instance" 는
 `operator delete()`를 통해 @ref by::instancer "instancer" 에게 메모리 해제 작업을 실행하도록 합니다.
+
+**watcher와 life 사용 예제**
+
+```
+@style: language-cpp verified
+class MyData : public instance {
+public:
+    int age;
+    const type& getType() const override { return ttype<MyData>::get(); }
+    clonable* clone() const override { return new MyData(); }
+};
+
+// heap에 객체 생성
+MyData* obj = new MyData();
+
+// life 정보 확인
+const life& lifeTag = obj->getBindTag();
+lifeTag.isBind();  // true
+lifeTag.getId().serial;  // > 0
+lifeTag.getId().isHeap();  // true
+
+// chunk 정보 접근
+const chunk& chk = lifeTag.getChunk();
+chk.has(*obj);  // true - 이 chunk에 obj가 있음
+chk.len();  // > 0 - 할당된 블록 개수
+chk.size();  // > 0 - 총 용량
+
+// 바인딩 가능 타입 확인
+lifeTag.canBind(ttype<instance>());  // true
+lifeTag.getBindable();  // instance의 type 반환
+```
 
 
 ### 메모리 관리 인터페이스
@@ -1918,6 +2264,29 @@ EXACT_MATCH로 반환하며, 일치하지 않으면 NO_MATCH로 반환됩니다.
 
 정확한 판단기준이나 알고리즘은 @ref by::tprior "tprior" 과 @ref by::priorType "priorType" 을 참고하세요.
 
+**prioritize() 사용 예제**
+
+```
+@style: language-cpp verified
+// 함수 오버로딩 시나리오
+// def print(val int) void
+// def print(val str) void
+
+obj myObj;
+myObj.subs().add("print", new funcInt());   // print(int) 함수
+myObj.subs().add("print", new funcStr());   // print(str) 함수
+
+// int 인자로 호출
+args intArgs;
+intArgs.add(new nInt(42));
+
+// 각 함수의 우선순위 계산
+priorType prior1 = funcInt.prioritize(intArgs);   // EXACT_MATCH
+priorType prior2 = funcStr.prioritize(intArgs);   // IMPLICIT_MATCH (타입 변환 필요)
+
+// EXACT_MATCH가 더 높은 우선순위를 가지므로 funcInt가 선택됨
+```
+
 
 #### src, srcFile 클래스 - 소스 위치 정보
 
@@ -1936,10 +2305,57 @@ args는 `me` 객체가 포함되어 전달되는 게 특징입니다. 함수는 
 
 참고로, @ref by::baseObj "baseObj" 는 `eval(name, args)`를 호출받으면 `setMe(this)`를 호출해 자신을 args에 넣습니다.
 
+**args 사용 예제**
+
+```
+@style: language-cpp verified
+// 함수 호출을 위한 args 생성
+args myArgs;
+
+// 인자 추가 (narr 인터페이스 사용)
+myArgs.add(new nInt(10));
+myArgs.add(new nStr("hello"));
+myArgs.len();  // 2
+
+// me 객체 설정
+obj* caller = new obj();
+myArgs.setMe(*caller);
+
+// 함수 호출 시 args 전달
+func myFunc(*new modifier(), typeMaker::make<func>(params(), new nInt()));
+str result = myFunc.eval(myArgs);
+
+// args는 narr을 상속하므로 배열 접근 가능
+node& firstArg = myArgs[0];  // nInt(10)
+node& secondArg = myArgs[1];  // nStr("hello")
+```
+
 
 #### param 클래스 - 파라메터 정의
 
 param은 말 그대로 파라메터를 표현합니다. 이름과 타입을 표현하기 위한 origin 객체에 대한 참조가 있습니다.
+
+**params 사용 예제**
+
+```
+@style: language-cpp verified
+// 함수 타입 정의에 params 사용
+// int add(x int, y int) int
+
+// 파라메터 정의
+params funcParams;
+funcParams.add(new param("x", new nInt()));  // x: int
+funcParams.add(new param("y", new nInt()));  // y: int
+
+// 함수 타입 생성
+const type& funcType = typeMaker::make<func>(funcParams, new nInt());
+
+// 파라메터 정보 확인
+funcParams.len();  // 2
+param& firstParam = funcParams[0];
+firstParam.getName();  // "x"
+firstParam.getOrigin().getType();  // ttype<nInt>()
+```
 
 
 
@@ -2297,6 +2713,30 @@ managed 환경에서 byeol 타입에 대해 사용자가 복사 생성자를 정
 
 참고로 scalar는 immutable 객체이므로 얇은 복사를 시도해도 깊은 복사처럼 동작합니다.
 
+**defaultCopyCtor 동작 예제**
+
+```
+@style: language-cpp verified
+// origin 객체 생성
+origin myObj(typeMaker::make<obj>("myObj"));
+myObj.setCallComplete(new evalExpr(&myObj, args()));
+myObj.getOwns().add("age", new nInt(23));
+
+// 기본 복사 생성자 생성
+defaultCopyCtor copyCtor(myObj);
+
+// 복사할 새 객체
+obj cloned;
+
+// 복사 생성자 호출 - args에 복사 대상을 넣음
+args a{&cloned, narr{myObj}};
+str result = copyCtor.eval(a);
+
+// 복사 완료
+cloned.getOwns().len();  // 1 - property가 복사됨
+int value = cloned.getOwns()["age"].cast<int>();  // 23 - 얇은 복사
+```
+
 
 #### immutableTactic 클래스 - Immutable 타입 처리
 
@@ -2390,6 +2830,32 @@ byeol 언어는 대부분 표현식으로 구성되며, block문도 예외가 �
 배열 리터럴 표현식을 담당합니다. 어떠한 타입의 배열인지는 배열의 원소로 적은 리터럴 상수들의 타입들을 type promotion을 통해 추론됩니다. Type promotion은 여러 타입 중 가장 넓은 범위의 타입으로 승격하는 과정입니다 (예: `[1, 2.5, 3]`이라는 배열이 있다면 int와 flt 타입이 섞여있으므로 flt 배열로 승격됩니다).
 
 @ref by::tnarr "tnarr" 은 native 환경에서 배열을 담당하는 클래스입니다. @ref by::arr "arr" 은 @ref by::tnarr "tnarr" 을 managed 환경에 맞게 확장한 것입니다. 이렇게 함으로써 C++에서도 byeol에서도 서로 유사한 API를 사용 가능하게 됩니다.
+
+**tnarr 사용 예제**
+
+```
+@style: language-cpp verified
+// native 배열 생성
+tnarr<node> arr1;
+arr1.add(new nInt(10));
+arr1.add(new nInt(20));
+arr1.add(new nInt(30));
+
+// 배열 접근
+arr1.len();  // 3
+node& first = arr1[0];  // nInt(10)
+node& last = arr1[2];   // nInt(30)
+
+// 배열 순회
+for(auto& elem : arr1) {
+    int value = elem.cast<nInt>()->get();
+    // value: 10, 20, 30
+}
+
+// 타입 승격 예시 (byeol 코드)
+// [1, 2.5, 3] -> flt 배열로 승격
+// int와 flt이 섞여있으면 더 넓은 flt로 승격됨
+```
 
 
 #### defNestedFuncExpr 클래스 - 중첩 함수 정의
@@ -2530,6 +2996,55 @@ chn2.link(chn3);  // chn1 -> chn2 -> chn3
 
 이제 chn1을 순회하면 {0, 1, 6, 5, 2, 3} 순서로 모든 원소에 접근할 수 있습니다. 하지만 **실제로는 어떠한 복사도 일어나지 않았습니다**. 단지 참조를 chain으로 연결했을 뿐입니다.
 
+**tnchain link() 실전 사용 예제**
+
+```
+@style: language-cpp verified
+class Item : public node {
+public:
+    Item(int val) : value(val) {}
+    int value;
+
+    scope& subs() override { return dumScope::singleton(); }
+    priorType prioritize(const args& a) const override { return NO_MATCH; }
+    str eval(const args& a) override { return str(); }
+};
+
+// 세 개의 독립적인 컨테이너 생성
+tnchain<std::string, Item> localVars;
+localVars.add("x", new Item(10));
+localVars.add("y", new Item(20));
+
+tnchain<std::string, Item> funcParams;
+funcParams.add("arg1", new Item(100));
+funcParams.add("arg2", new Item(200));
+
+tnchain<std::string, Item> globalVars;
+globalVars.add("PI", new Item(314));
+globalVars.add("MAX", new Item(999));
+
+// 체이닝: local -> params -> global
+localVars.link(funcParams);
+funcParams.link(globalVars);
+
+// localVars를 통해 모든 변수에 접근 가능 (복사 없음!)
+localVars.len();  // 6 (2 + 2 + 2)
+
+// "arg1" 검색: local에 없으면 params에서 찾음
+Item* found = localVars.get("arg1");
+found->value;  // 100
+
+// "PI" 검색: local, params 없으면 global에서 찾음
+found = localVars.get("PI");
+found->value;  // 314
+
+// 순회: 모든 체인을 자동으로 순회
+for(auto& elem : localVars) {
+    std::cout << elem.value << " ";
+}
+// 출력: 10 20 100 200 314 999
+```
+
 **순회 예제**
 
 ```
@@ -2569,6 +3084,28 @@ byeol 언어는 AST를 그대로 프로그램 실행으로 이용하는 구조�
 
 예를들어 byeol 코드로 `3..5`라고 정의한 seq가 있다면 해당 seq[0]은 3, seq.len()은 2가 나오게 됩니다.
 
+**사용 예제**
+
+```
+@style: language-cpp verified
+// 1부터 4까지의 범위 (1, 2, 3)
+nseq s(nInt(1), nInt(4));
+
+// 반복자를 통한 순회
+auto e = s.begin();
+int expects[] = {1, 2, 3};
+for(int n = 0; n < 3; n++, ++e) {
+    int value = (*e).get();  // 1, 2, 3 순서대로
+    // value 사용...
+}
+
+// 역방향 반복자
+auto re = s.rbegin();  // 3부터 시작
+++re;  // 2
+++re;  // 1
+int value = (*re).get();  // 1
+```
+
 
 #### smultimap 클래스 - 삽입 순서를 기억하는 Multimap
 
@@ -2588,6 +3125,30 @@ byeol에서는 AST에서 node를 구성할때 단순하게 map을 사용할 순 
 
 하지만 이를 위해서는 tnchain이 반복자가 삽입 순서대로 순회하는 것을 보장해야 하므로, STL의 multimap을 직접 사용할 수 없어서 smultimap을 별도로 구현했습니다.
 
+**삽입 순서 보장 예제**
+
+```
+@style: language-cpp verified
+smultimap<std::string, str> scope;
+
+// 같은 키에 여러 값을 삽입 - 삽입 순서가 유지됨
+for(nint n = 0; n < 10; ++n) {
+    scope.insert("apple", *new nInt(n));  // 0, 1, 2, 3, ..., 9 순서대로
+    if(n == 5)
+        scope.insert("banana", *new nInt(-1));
+}
+
+// 삽입 순서대로 순회됨
+auto e = scope.begin("apple");
+for(nint n = 0; n < 10; n++) {
+    int value = *e->get()->cast<nint>();  // 0, 1, 2, ..., 9 (삽입 순서 유지)
+    ++e;
+}
+
+// 함수 오버로딩 검색 시 삽입 순서가 우선순위를 결정
+// 먼저 삽입된 함수가 우선적으로 매칭 시도됨
+```
+
 
 
 ### Generic 시스템
@@ -2600,6 +3161,23 @@ Byeol은 C++의 템플릿과 유사한 generic 타입 시스템을 제공합니�
 generic 클래스의 참조를 담당하며 generic 타입 생성의 진입점을 담당합니다. 사용자가 `SomeGeneric<MyObj>()`처럼 generic 타입을 사용하면, 이 표현식이 `getGenericExpr`로 표현됩니다.
 
 내부적으로는 `genericOrigin`에게 generic 타입을 줄 것을 요청하며, genericOrigin은 해당 타입에 대한 generic이 있다면 그걸 바로 주고, 없다면 `generalizer`를 통해 generic 타입을 생성 후, 그 새로운 인스턴스를 반환합니다.
+
+```
+@style: language-cpp verified
+// generic origin 생성 (타입 파라메터 T를 가진 Optional 클래스)
+origin org(typeMaker::make<obj>("Optional"));
+org.getOwns().add("value", *new getExpr("T"));
+genericOrigin genericOrg(org, {"T"});  // "T"가 타입 파라메터
+
+// scope에 Optional 등록
+obj myScope;
+myScope.getOwns().add("Optional", genericOrg);
+
+// Optional<nInt> 타입 생성
+myScope.inFrame();
+getGenericExpr expr("Optional", *new args{narr{*new nInt()}});
+str result = expr.eval();  // Optional<nInt> 타입의 origin 반환
+```
 
 **설계는 Lazy, 실제는 Eager**
 
@@ -3002,6 +3580,34 @@ if(main.canEval(a)) {
 
 `threadUse`는 생성과 동시에 내부에서 thread 객체를 자동 생성까지 해주므로 편리합니다.
 
+**threadUse RAII 패턴 예제**
+
+```
+@style: language-cpp verified
+// 외부 컨텍스트에서 작업 수행
+thread& originalThread = thread::get();
+
+{
+    // 새로운 thread 컨텍스트 생성
+    errReport myReport;
+    threadUse newThread(myReport);
+
+    // 이 블록 내에서는 thread::get()이 newThread의 thread를 반환
+    thread& currentThread = thread::get();
+    // currentThread != originalThread
+
+    // 이 thread에서 코드 검증/실행
+    obj myObj;
+    myObj.inFrame();
+    // frames에 frame 추가됨 (newThread의 frames)
+
+    myObj.outFrame();
+}  // RAII: threadUse 소멸 시 자동으로 originalThread로 복원
+
+// 다시 원래 thread로 돌아옴
+thread::get();  // originalThread 반환
+```
+
 
 
 ### 패키지 시스템
@@ -3191,6 +3797,49 @@ AST는 참조가 서로 순환하는 경우도 종종 발생합니다 (예: A가
 @ref by::visitor "visitor" 는 `_visited`라는 map을 소유하고 있습니다. 이를 통해서 `visit()`이 호출 되었을 때 이미 방문한 @ref by::node "node" 인지를 판단해서 예외처리를 해주고 있습니다.
 
 이 방문 기록 정보는 매번 @ref by::visitor "visitor" 가 방문을 시작하기 직전에 초기화됩니다. 만약 재방문이 가능하도록 하고 싶다면 `setReturnable(true)`로 값을 변경하면 됩니다.
+
+**visitor 구현 예제**
+
+```
+@style: language-cpp verified
+// 커스텀 visitor로 AST를 순회하며 특정 노드 찾기
+struct myVisitor: public visitor {
+    nbool foundInt;
+    nbool foundFunc;
+
+    myVisitor(): foundInt(false), foundFunc(false) {}
+
+    // nInt 노드 방문시 호출
+    nbool onVisit(const visitInfo& i, nInt& o, nbool) override {
+        if(i.name == "value")
+            foundInt = true;
+        return true;  // 계속 순회
+    }
+
+    // func 노드 방문시 호출
+    nbool onVisit(const visitInfo& i, func& fun, nbool) override {
+        if(i.name == "myFunc") {
+            foundFunc = true;
+            // 반환 타입 확인
+            fun.getRet()->isSub<nFlt>();
+        }
+        return true;
+    }
+};
+
+// AST 객체 생성
+obj myObj;
+myObj.subs().add("myFunc", new func(*new modifier(),
+                                     typeMaker::make<func>(params(), new nFlt())));
+myObj.subs().add("value", new nInt());
+
+// visitor로 순회
+myVisitor v;
+v.setTask(myObj).work();  // AST 전체를 전위 순회
+
+v.foundInt;   // true - nInt 노드를 찾음
+v.foundFunc;  // true - func 노드를 찾음
+```
 
 
 #### graphVisitor 클래스 - AST 로깅
@@ -3467,6 +4116,40 @@ void me::onLeave(const visitInfo& i, assignExpr& me, nbool) {
 
 @ref by::starter "starter" 는 @ref by::interpreter "interpreter" 와 함께 사용하면 byeol 코드를 파싱해서 실행할 수 있습니다.
 
+**interpreter와 starter를 사용한 코드 실행 예제**
+
+```
+@style: language-cpp verified
+// byeol 코드 파싱 및 실행
+const char* code = R"(
+pack myPack
+
+main() void
+    print("Hello from Byeol!")
+)";
+
+// 1. interpreter로 파싱 및 검증
+errReport report;
+interpreter ip;
+ip.setTask(*new slot(manifest("myPack")))
+  .setReport(report)
+  .getParser().addSupply(*new bufSupply(std::string(code)));
+ip.work();  // 파싱 및 검증 수행
+
+// 2. 검증 결과 확인
+if(!ip.isVerified()) {
+    // 에러 출력
+    for(const auto& err : report)
+        err->dump();
+    return;
+}
+
+// 3. starter로 실행
+starter st;
+st.setTask(ip.getTask()).setReport(report);
+st.work();  // main() 함수 실행
+```
+
 #### sigZone 클래스 - Signal 처리
 
 `signaler`에 RAII를 적용한 클래스입니다.
@@ -3547,6 +4230,30 @@ WHEN_NUL(stmt).exErr(IS_NUL, getReport(), "stmt").ret(blk);
 
 어떠한 @ref by::errReport "errReport" 는 새로운 @ref by::err "err" 객체가 add될 때마다 자동으로 `log()`를 수행하고 싶을 때가 있습니다. 이때 `setNoisy(true)`를 지정합니다. 이렇게 하면 에러가 추가되는 즉시
 로그가 남아 디버깅이 더 쉬워집니다.
+
+**사용 예제**
+
+```
+@style: language-cpp verified
+// 여러 파일을 파싱하는 배치 작업
+errReport report;
+report.setNoisy(true);  // 에러 발생 즉시 로깅
+
+// 여러 파일 파싱 - 에러가 발생해도 계속 진행
+for(const auto& file : files) {
+    parser p;
+    p.setReport(report);  // errReport를 parser에 전달
+    p.work(file);  // 파싱 실패 시 report에 에러 추가
+}
+
+// 작업 완료 후 에러 확인
+if(report.len() > 0) {
+    // 발생한 에러들을 순회
+    for(const auto& err : report) {
+        err->dump();  // 각 에러의 상세 정보 출력 (callstack 포함)
+    }
+}
+```
 
 
 
