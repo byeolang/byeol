@@ -92,3 +92,84 @@ TEST_F(cliTest, canTakeMultipleFilesAsFlags) {
     fileSupply& file2 = srcs[1].cast<fileSupply>() OR_ASSERT(file2);
     ASSERT_EQ(file2.getPath(), "b.byeol");
 }
+
+TEST_F(cliTest, canTakeMultipleStreamAsFlags) {
+    interpreter ip;
+    starter s;
+    errReport rpt;
+    callEval(ip, parse(4, "-s", R"SRC(
+def a
+    hello() void
+        print("hello\n")
+)SRC", "-s", R"SRC(
+main() void
+    a.hello()
+)SRC"), s, rpt);
+    parser& p = ip.getParser();
+    auto& srcs = p.getSrcSupplies();
+    ASSERT_EQ(srcs.len(), 2);
+
+    ASSERT_NE(srcs[0].cast<bufSupply>(), nullptr);
+    ASSERT_NE(srcs[1].cast<bufSupply>(), nullptr);
+}
+
+TEST_F(cliTest, interpretMultipleStreams) {
+    interpreter ip;
+    starter s;
+    errReport rpt;
+    cli::programRes res = ep.eval(parse(4, "-s", R"SRC(
+def a
+    hello() int
+        ret 100
+)SRC", "-s", R"SRC(
+main() int
+    a.hello()
+)SRC"));
+
+    ASSERT_FALSE(res.rpt);
+    ASSERT_EQ(res.res, 100);
+}
+
+TEST_F(cliTest, interpretMultipleStreamsWithPackSpecified) {
+    interpreter ip;
+    starter s;
+    errReport rpt;
+    cli::programRes res = ep.eval(parse(4, "-s", R"SRC(
+pack test
+def a
+    hello() int
+        ret 100
+)SRC", "-s", R"SRC(
+pack test
+main() int
+    a.hello()
+)SRC"));
+
+    ASSERT_FALSE(res.rpt);
+    ASSERT_EQ(res.res, 100);
+}
+
+TEST_F(cliTest, interpretMultipleStreamsWhenDependencyTwisted) {
+    interpreter ip;
+    starter s;
+    errReport rpt;
+    cli::programRes res = ep.eval(parse(4, "-s", R"SRC(
+pack test
+
+def a
+    age := b.age # refers b in other src file.
+    hello() int
+        ret 100 + age
+)SRC", "-s", R"SRC(
+pack test
+
+def b
+    age := 22
+
+main() int
+    a.hello()
+)SRC"));
+
+    ASSERT_FALSE(res.rpt);
+    ASSERT_EQ(res.res, 122);
+}
