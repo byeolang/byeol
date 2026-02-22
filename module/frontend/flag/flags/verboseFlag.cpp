@@ -24,8 +24,8 @@ namespace by {
     me::res me::_onTake(const flagArgs& tray, cli&, interpreter& ip, starter& s, errReport&) const {
         nint flag = interpreter::DUMP_ON_EX | interpreter::GUARD | interpreter::INTERNAL | interpreter::LOG_ON_END |
             interpreter::LOG_GRAPH_ON_EX;
-        ip.setFlag(flag);
-        s.setFlag(flag);
+        ip.addFlag(flag);
+        s.addFlag(flag);
         return MATCH;
     }
 }
