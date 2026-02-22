@@ -139,7 +139,7 @@ namespace by {
         auto& cache = coreInternal::getCache(o);
         ncnt len = cache.size();
         for(auto e: cache)
-            e.second->accept(visitInfo{e.first, &o, n++, len, i.depth + 1}, *this);
+            e.second->accept(visitInfo{e.first, &o, n++, len, 0, i.depth + 1}, *this);
         return true;
     }
 
