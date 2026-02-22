@@ -23,4 +23,6 @@ namespace by {
         if(ret) coreInternal::getMaker(ps).setSrcFile(*new srcFile(_path, codes));
         return ret;
     }
+
+    const std::string& me::getPath() const { return _path; }
 }

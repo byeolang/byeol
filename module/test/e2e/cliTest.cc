@@ -1,8 +1,9 @@
-#include "test/common/dep.hpp"
+#include "test/byeolTest.hpp"
 
 using namespace by;
+using namespace std;
 
-struct cliTest: public ::testing::Test {
+struct cliTest: public byeolTest {
     cli ep;
     flagArgs args;
 
@@ -13,6 +14,10 @@ struct cliTest: public ::testing::Test {
             args.push_back(std::string(va_arg(va, const nchar*)));
         va_end(va);
         return args;
+    }
+
+    flag::res callEval(interpreter& ip, flagArgs& a, starter& s, errReport& rpt) {
+        return ep._evalArgs(ip, a, s, rpt);
     }
 };
 
@@ -71,4 +76,19 @@ TEST_F(cliTest, verFlag) {
     cli::programRes res = ep.eval(parse(1, "--version"));
     ASSERT_EQ(res.res, 0);
     ASSERT_FALSE(res.rpt);
+}
+
+TEST_F(cliTest, canTakeMultipleFilesAsFlags) {
+    interpreter ip;
+    starter s;
+    errReport rpt;
+    callEval(ip, parse(2, "a.byeol", "b.byeol"), s, rpt);
+    parser& p = ip.getParser();
+    auto& srcs = p.getSrcSupplies();
+    ASSERT_EQ(srcs.len(), 2);
+
+    fileSupply& file1 = srcs[0].cast<fileSupply>() OR_ASSERT(file1);
+    ASSERT_EQ(file1.getPath(), "a.byeol");
+    fileSupply& file2 = srcs[1].cast<fileSupply>() OR_ASSERT(file2);
+    ASSERT_EQ(file2.getPath(), "b.byeol");
 }

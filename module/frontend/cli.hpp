@@ -3,6 +3,8 @@
 
 #include "frontend/flag/flags.hpp"
 
+struct cliTest;
+
 namespace by {
 
     /** @ingroup frontend
@@ -28,6 +30,8 @@ namespace by {
      *  7. Return starter's result
      */
     struct cli {
+        friend struct ::cliTest;
+
         struct programRes {
             errReport rpt;
             nint res;

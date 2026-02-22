@@ -17,6 +17,7 @@ namespace by {
 
     public:
         void* onSupplySrc(parser& ps, void* scanner) const override;
+        const std::string& getPath() const;
 
     private:
         std::string _path;
