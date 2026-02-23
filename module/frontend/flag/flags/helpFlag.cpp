@@ -19,7 +19,7 @@ namespace by {
         return inner;
     }
 
-    me::res helpFlag::_onTake(const flagArgs& tray, cli& c, interpreter&, starter&, errReport&) const {
+    me::res helpFlag::_onTake(const flagArgs&, cli& c, interpreter&, starter&, errReport&) const {
         std::cout << "Usage: byeol <option> <filePath>\n";
 
         const flags& opts = c.getFlags();

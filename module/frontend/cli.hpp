@@ -1,11 +1,16 @@
 /// @file
 #pragma once
 
-#include "frontend/flag/flags.hpp"
+#include "frontend/flag.hpp"
 
 struct cliTest;
 
 namespace by {
+
+    struct programRes {
+        errReport rpt;
+        nint res;
+    };
 
     /** @ingroup frontend
      *  @brief Command-line interface for frontend language system
@@ -29,17 +34,16 @@ namespace by {
      *  6. If no issues, put verified AST into starter and execute
      *  7. Return starter's result
      */
-    struct cli {
+    struct cli : public tworker<programRes, flagArgs> {
+        typedef tworker<programRes, flagArgs> __super26;
+        BY(CLASS(cli, __super26));
         friend struct ::cliTest;
 
-        struct programRes {
-            errReport rpt;
-            nint res;
-        };
-
+    public:
         const flags& getFlags() const;
 
-        programRes eval(flagArgs& a);
+    protected:
+        programRes _onWork() override;
 
     private:
         flag::res _evalArgs(interpreter& ip, flagArgs& a, starter& s, errReport& rpt);

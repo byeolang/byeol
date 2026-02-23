@@ -22,9 +22,9 @@ namespace by {
     ncnt me::getArgCount() const { return 1; }
 
     me::res me::_onTake(const flagArgs& tray, cli&, interpreter& ip, starter&, errReport&) const {
-        if(tray.size() < 2) return BY_E("invalid flagArgument size < 2"), EXIT_PROGRAM;
+        if(tray.len() < 2) return BY_E("invalid flagArgument size < 2"), EXIT_PROGRAM;
 
-        ip.getParser().addSupply(*new bufSupply(tray[1]));
+        ip.getParser().addSupply(*new bufSupply(tray[1].get()));
         return MATCH;
     }
 }

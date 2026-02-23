@@ -11,7 +11,7 @@ namespace by {
     }
 
     ncnt me::_parseOption(flagArgs& a, flagArgs& tray, errReport& rpt) const {
-        const std::string& arg = a[0];
+        const std::string& arg = a[0].get();
         ncnt deleteOptionCnt = 0;
         for(const std::string& match: _getRegExpr()) {
             std::regex re(match);
@@ -28,16 +28,16 @@ namespace by {
                 // so, add additional argument with rest of string using `-[\w]` at the begin.
                 // I confimred that length is more than 2 in `isOptionClustered()`
                 matchedArg = std::string("-") + arg[1];
-                a.push_back("-" + arg.substr(2));
+                a.add(new nStr("-" + arg.substr(2)));
             }
 
-            tray.push_back(matchedArg);
+            tray.add(new nStr(matchedArg));
 
             // handle option arguments:
-            WHEN(a.size() < getArgCount() + 1) .exErr(OPTION_NEEDS_TRAILING_ARG, rpt, getName()).ret(0);
+            WHEN(a.len() < getArgCount() + 1) .exErr(OPTION_NEEDS_TRAILING_ARG, rpt, getName()).ret(0);
             deleteOptionCnt += getArgCount();
             for(int n = 1; n < 1 + getArgCount(); n++)
-                tray.push_back(a[n]);
+                tray.add(a[n]);
             return deleteOptionCnt;
         }
         return 0;
@@ -48,7 +48,7 @@ namespace by {
 
         ncnt deleteOptionCnt = _parseOption(a, tray, rpt);
         WHEN(deleteOptionCnt <= 0) .ret(NOT_MATCH);
-        WHEN(tray.empty()) .ret(NOT_MATCH);
+        WHEN(tray.isEmpty()) .ret(NOT_MATCH);
 
         res res = _onTake(tray, c, ip, s, rpt);
         _delArgs(a, deleteOptionCnt);
@@ -60,6 +60,6 @@ namespace by {
     void me::_delArgs(flagArgs& a, ncnt deleteOptionCnt) const {
         // remove del in reverse order.
         for(int n = deleteOptionCnt - 1; n >= 0; n--)
-            a.erase(a.begin() + n);
+            a.del(n);
     }
 } // namespace by

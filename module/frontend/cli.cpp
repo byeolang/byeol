@@ -7,15 +7,15 @@ namespace by {
     BY(DEF_ME(cli))
 
     namespace {
-        std::string _joinString(const std::vector<std::string>& v) {
+        std::string _joinString(const flagArgs& v) {
             std::string ret;
             nint first = 1;
-            for(const std::string& s: v)
-                ret += (first-- ? "" : ", ") + s;
+            for(const nStr& s: v)
+                ret += (first-- ? "" : ", ") + s.get();
             return ret;
         }
 
-        me::programRes _reportUnknownFlags(me::programRes& res, const flagArgs& remains) {
+        programRes _reportUnknownFlags(programRes& res, const flagArgs& remains) {
             auto options = _joinString(remains);
             res.rpt.add(nerr::newErr(UNKNOWN_OPTION, &options));
             res.rpt.log();
@@ -33,12 +33,13 @@ namespace by {
         }
 
         void _refineFlagArgs(flagArgs& a) {
-            for(nidx n = a.size() - 1; n >= 0; n--)
-                if(_isWhiteSpace(a[n])) a.erase(a.begin() + n);
+            for(nidx n = a.len() - 1; n >= 0; n--)
+                if(_isWhiteSpace(a[n].get())) a.del(n);
         }
     }
 
-    me::programRes me::eval(flagArgs& a) {
+    programRes me::_onWork() {
+        flagArgs& a = getTask() OR.ret(programRes{errReport(), BY_INDEX_ERROR});
         _refineFlagArgs(a);
 
         interpreter ip;
@@ -49,7 +50,7 @@ namespace by {
 
         auto evalRes = _evalArgs(ip, a, s, ret.rpt);
         WHEN(evalRes == flag::EXIT_PROGRAM) .ret(ret);
-        WHEN(a.size() > 0) .ret(_reportUnknownFlags(ret, a));
+        WHEN(a.len() > 0) .ret(_reportUnknownFlags(ret, a));
 
         {
             defaultSigZone<interpreter> zone(ip);
@@ -81,7 +82,7 @@ namespace by {
     }
 
     flag::res me::_evalArgs(interpreter& ip, flagArgs& a, starter& s, errReport& rpt) {
-        while(a.size() > 0) {
+        while(a.len() > 0) {
             flag::res r = flag::NOT_MATCH;
             for(const auto& op: getFlags()) {
                 r = op->take(ip, s, *this, a, rpt);

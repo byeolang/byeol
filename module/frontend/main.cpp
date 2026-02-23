@@ -8,7 +8,7 @@ int main(int argc, char* argv[]) {
     cli ep;
     flagArgs a;
     for(int n = 1; n < argc; n++)
-        a.push_back(argv[n]);
+        a.add(new nStr(argv[n]));
 
-    return ep.eval(a).res;
+    return ep.setTask(a).work().res;
 }

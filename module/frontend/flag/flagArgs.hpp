@@ -1,9 +1,8 @@
 /// @file
 #pragma once
 
-#include <string>
-#include <vector>
+#include "frontend/common/dep.hpp"
 
 namespace by {
-    typedef std::vector<std::string> flagArgs;
+    typedef tnarr<nStr> flagArgs;
 }
