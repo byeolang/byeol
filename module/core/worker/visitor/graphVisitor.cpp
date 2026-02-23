@@ -79,6 +79,12 @@ namespace by {
         return !alreadyVisited; // don't traverse sub nodes again.
     }
 
+    nbool me::_isLastFrame(const visitInfo& i) {
+        node& parent = i.parent OR.ret(true);
+        WHEN(parent.isSub<evalExpr>() && i.name == "subject").ret(true);
+        return i.index >= i.len - 1;
+    }
+
     void me::_drawFrame(const visitInfo& i) {
         if(_isStart) cout << "\n";
         _isStart = true;
@@ -86,7 +92,7 @@ namespace by {
         _onIndent();
         _drawIndent();
 
-        nbool isLast = i.parent ? i.index >= i.len - 1 : true;
+        nbool isLast = _isLastFrame(i);
         cout << foreColor(LIGHTGRAY) << (isLast ? "┗━[" : "┣━[") << foreColor(YELLOW) << i.index << foreColor(LIGHTGRAY)
              << "] ";
         _parentsLast.push_back(isLast);

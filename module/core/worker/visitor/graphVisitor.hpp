@@ -47,6 +47,7 @@ namespace by {
         void _drawIndent();
         void _onIndent();
         void _drawFrame(const visitInfo& i);
+        nbool _isLastFrame(const visitInfo& i);
 
         template <typename T> nbool _onVisitPrimitive(const visitInfo& i, T& e) {
             _drawFrame(i);
