@@ -78,6 +78,32 @@ TEST_F(cliTest, verFlag) {
     ASSERT_FALSE(res.rpt);
 }
 
+TEST_F(cliTest, canTakeFileNameContainsHypen) {
+    interpreter ip;
+    starter s;
+    errReport rpt;
+    callEval(ip, parse(1, "a-b.byeol"), s, rpt);
+    parser& p = ip.getParser();
+    auto& srcs = p.getSrcSupplies();
+    ASSERT_EQ(srcs.len(), 1);
+
+    fileSupply& file1 = srcs[0].cast<fileSupply>() OR_ASSERT(file1);
+    ASSERT_EQ(file1.getPath(), "a-b.byeol");
+}
+
+TEST_F(cliTest, canTakeFileNameContainsDot) {
+    interpreter ip;
+    starter s;
+    errReport rpt;
+    callEval(ip, parse(1, ".a.b.byeol"), s, rpt);
+    parser& p = ip.getParser();
+    auto& srcs = p.getSrcSupplies();
+    ASSERT_EQ(srcs.len(), 1);
+
+    fileSupply& file1 = srcs[0].cast<fileSupply>() OR_ASSERT(file1);
+    ASSERT_EQ(file1.getPath(), ".a.b.byeol");
+}
+
 TEST_F(cliTest, canTakeMultipleFilesAsFlags) {
     interpreter ip;
     starter s;
