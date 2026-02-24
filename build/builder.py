@@ -750,6 +750,10 @@ def build(incVer, ignore_tidy=False):
 
     return 0
 
+def removeTestData():
+    global binDir
+    rmtree(f"{binDir}{slash()}testdata")
+
 def pub(arg, ignore_tidy=False):
     global cwd, binDir, ver_major, ver_minor, ver_fix
 
@@ -797,6 +801,8 @@ def pub(arg, ignore_tidy=False):
 
         printInfoEnd("remove debian intermediate files...")
         system("rm -rf " + "debian/usr/")
+
+        removeTestData()
         return 0
 
     elif arg == 'mac':
@@ -817,6 +823,7 @@ def pub(arg, ignore_tidy=False):
         os.chdir(binDir + "/..")
         system("tar -zcvf byeol-macos-x64.tar.gz bin")
         printOk("done")
+        removeTestData()
         return 0
 
     elif arg == 'win':
@@ -839,6 +846,7 @@ def pub(arg, ignore_tidy=False):
 
         printOk("done")
         printInfoEnd("please make an archive.")
+        removeTestData()
         return 0
 
     printErr("unknown platform name: " + arg)
