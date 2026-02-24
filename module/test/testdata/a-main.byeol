@@ -1,0 +1,5 @@
+def b
+    age := 32
+
+main() int
+    ret a.hello()

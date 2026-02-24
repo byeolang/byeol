@@ -31,6 +31,13 @@ endforeach(e)
 
 add_executable(${moduleName} ${sources})
 
+add_custom_command(TARGET ${moduleName} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${BY_TESTDATA_SRC_PATH}
+        ${BY_TESTDATA_PATH}
+    COMMENT "copying testdata to bin directory"
+)
+
 find_package(Threads REQUIRED)
 target_link_libraries(${moduleName} ${libraries}
     PRIVATE Threads::Threads)
