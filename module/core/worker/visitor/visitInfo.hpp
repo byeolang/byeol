@@ -15,8 +15,14 @@ namespace by {
         visitInfo(const std::string* name, node* parent, nidx index, ncnt len, ncnt additionalLen, nint depth):
             me(name ? *name : std::string(""), parent, index, len, additionalLen, depth) {}
 
-        visitInfo(const std::string& newName, node* newParent, nidx newIndex, ncnt newLen, ncnt newAdditionalLen, nint newDepth):
-            name(newName), parent(newParent), index(newIndex), len(newLen), additionalLen(newAdditionalLen), depth(newDepth) {}
+        visitInfo(const std::string& newName, node* newParent, nidx newIndex, ncnt newLen, ncnt newAdditionalLen,
+            nint newDepth):
+            name(newName),
+            parent(newParent),
+            index(newIndex),
+            len(newLen),
+            additionalLen(newAdditionalLen),
+            depth(newDepth) {}
 
     public:
         std::string name;

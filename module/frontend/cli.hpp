@@ -34,7 +34,7 @@ namespace by {
      *  6. If no issues, put verified AST into starter and execute
      *  7. Return starter's result
      */
-    struct cli : public tworker<programRes, flagArgs> {
+    struct cli: public tworker<programRes, flagArgs> {
         typedef tworker<programRes, flagArgs> __super26;
         BY(CLASS(cli, __super26));
         friend struct ::cliTest;

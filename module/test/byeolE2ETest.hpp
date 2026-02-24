@@ -2,7 +2,7 @@
 
 #include "test/byeolTest.hpp"
 
-struct byeolE2ETest : public byeolTest {
+struct byeolE2ETest: public byeolTest {
     byeolE2ETest();
 
 public:

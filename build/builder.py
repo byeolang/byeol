@@ -846,7 +846,6 @@ def pub(arg, ignore_tidy=False):
 
         printOk("done")
         printInfoEnd("please make an archive.")
-        removeTestData()
         return 0
 
     printErr("unknown platform name: " + arg)

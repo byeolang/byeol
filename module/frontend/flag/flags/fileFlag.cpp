@@ -18,7 +18,8 @@ namespace by {
     }
 
     const strings& me::_getRegExpr() const {
-        static strings inner{"[^\\@\\#\\$\\%\\[\\]\\+\\\\\\|\\<\\>\\=\\!\\^\\&\\*\\(\\)\\{\\}\\n\\s]+\\." FILE_EXTENSION};
+        static strings inner{
+            "[^\\@\\#\\$\\%\\[\\]\\+\\\\\\|\\<\\>\\=\\!\\^\\&\\*\\(\\)\\{\\}\\n\\s]+\\." FILE_EXTENSION};
         return inner;
     }
 

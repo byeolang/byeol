@@ -81,7 +81,7 @@ namespace by {
 
     nbool me::_isLastFrame(const visitInfo& i) {
         node& parent = i.parent OR.ret(true);
-        WHEN(parent.isSub<evalExpr>() && i.name == "subject").ret(true);
+        WHEN(parent.isSub<evalExpr>() && i.name == "subject") .ret(true);
         return i.index >= i.len - 1;
     }
 

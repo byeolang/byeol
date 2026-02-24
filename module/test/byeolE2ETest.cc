@@ -4,9 +4,7 @@ BY(DEF_ME(byeolE2ETest))
 
 using namespace by;
 
-me::byeolE2ETest() {
-    cli.setReport(rpt);
-}
+me::byeolE2ETest() { cli.setReport(rpt); }
 
 flagArgs me::parseFlag(nint argc, ...) {
     va_list va;
@@ -43,6 +41,4 @@ me& me::silenceLog() {
     return *this;
 }
 
-by::programRes me::run() {
-    return cli.work();
-}
+by::programRes me::run() { return cli.work(); }

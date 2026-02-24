@@ -3,7 +3,7 @@
 using namespace by;
 using namespace std;
 
-struct cliE2ETest : public byeolE2ETest {};
+struct cliE2ETest: public byeolE2ETest {};
 
 TEST_F(cliE2ETest, interpretPartialFileNegative) {
     auto res = negative().parse(1, "testdata/a-main.byeol").run();

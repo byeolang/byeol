@@ -6,9 +6,7 @@ using namespace std;
 struct cliTest: public byeolTest {
     cli ep;
 
-    flag::res callEval(interpreter& ip, flagArgs& a, starter& s, errReport& rpt) {
-        return ep._evalArgs(ip, a, s, rpt);
-    }
+    flag::res callEval(interpreter& ip, flagArgs& a, starter& s, errReport& rpt) { return ep._evalArgs(ip, a, s, rpt); }
 };
 
 TEST_F(cliTest, noSourceCodeProvidedErrorNegative) {
@@ -27,7 +25,7 @@ TEST_F(cliTest, helpFlag) {
 
 TEST_F(cliTest, tryOptionClusteringWillBeSuspendedIfProgramExit) {
     auto res = ep.setTask(byeolE2ETest::parseFlag(1, "-Svh")).work(); // S and v sill wants file path to execute,
-                                                                  // but `-h` exit the program.
+                                                                      // but `-h` exit the program.
     ASSERT_EQ(res.res, 0);
     ASSERT_FALSE(res.rpt);
 }
@@ -40,7 +38,7 @@ TEST_F(cliTest, tryOptionClusteringNegative) {
 
 TEST_F(cliTest, provideNoOptionArgumentEvenIfItWantsNegative) {
     auto res = ep.setTask(byeolE2ETest::parseFlag(1, "-s")).work(); // -s expects a trailing argument.
-    ASSERT_EQ(res.res, -1);             // no source code provided
+    ASSERT_EQ(res.res, -1);                                         // no source code provided
     ASSERT_TRUE(res.rpt);
 }
 
@@ -120,7 +118,8 @@ TEST_F(cliTest, canTakeMultipleStreamAsFlags) {
 def a
     hello() void
         print("hello\n")
-)SRC", "-s", R"SRC(
+)SRC",
+        "-s", R"SRC(
 main() void
     a.hello()
 )SRC");
@@ -141,10 +140,12 @@ TEST_F(cliTest, interpretMultipleStreams) {
 def a
     hello() int
         ret 100
-)SRC", "-s", R"SRC(
+)SRC",
+                                    "-s", R"SRC(
 main() int
     a.hello()
-)SRC")).work();
+)SRC"))
+                         .work();
 
     ASSERT_FALSE(res.rpt);
     ASSERT_EQ(res.res, 100);
@@ -159,11 +160,13 @@ pack test
 def a
     hello() int
         ret 100
-)SRC", "-s", R"SRC(
+)SRC",
+                                    "-s", R"SRC(
 pack test
 main() int
     a.hello()
-)SRC")).work();
+)SRC"))
+                         .work();
 
     ASSERT_FALSE(res.rpt);
     ASSERT_EQ(res.res, 100);
@@ -180,7 +183,8 @@ def a
     age := b.age # refers b in other src file.
     hello() int
         ret 100 + age
-)SRC", "-s", R"SRC(
+)SRC",
+                                    "-s", R"SRC(
 pack test
 
 def b
@@ -188,7 +192,8 @@ def b
 
 main() int
     a.hello()
-)SRC")).work();
+)SRC"))
+                         .work();
 
     ASSERT_FALSE(res.rpt);
     ASSERT_EQ(res.res, 122);
