@@ -42,7 +42,7 @@ PAIRX(SRC_EMPTY, "source code was empty string.")
 PAIRX(NO_FUNC_REGISTERED, "there is no func info registering")
 
 // starter:
-PAIRX(NO_MAIN_FUNC, "there is no main func.")
+PAIRX(NO_MAIN_FUNC, "there is 0 or more than 2 main() found.")
 
 // thread:
 PAIRX(THERE_IS_NO_FRAMES_IN_THREAD, "there is no frames in current thread.")

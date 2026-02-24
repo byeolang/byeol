@@ -47,6 +47,7 @@ namespace by {
         ip.setReport(ret.rpt).setFlag(interpreter::DEFAULT);
         starter s;
         s.setFlag(starter::DUMP_ON_EX);
+        s.setReport(ret.rpt);
 
         auto evalRes = _evalArgs(ip, a, s, ret.rpt);
         WHEN(evalRes == flag::EXIT_PROGRAM) .ret(ret);
