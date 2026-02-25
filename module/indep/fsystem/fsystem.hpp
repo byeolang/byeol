@@ -1,8 +1,10 @@
 /// @file
 #pragma once
 
+#include <regex>
 #include "indep/common.hpp"
 #include "indep/macro.hpp"
+#include "indep/helper/tmay.inl"
 #ifdef BY_BUILD_PLATFORM_IS_WINDOWS
 #    include <direct.h>
 #    include <io.h>
@@ -34,6 +36,18 @@ namespace by {
      *
      *  @remark Always iterates files only
      *  Empty folders are skipped during iteration.
+     *
+     *
+     *  @section this supports partial glob patterns
+     *  You can use aterisk (*) and question mark (?) wildcards in the pattern.
+     *  @code
+     *      auto e = fsystem::find("*.cpp"); // the only difference is here
+     *      while(e.next()) {
+     *          const std::string& path = *e;
+     *          if(*e == "your/path/child/helloWorld.cpp")
+     *              doSomething(e->getDir());
+     *      }
+     *  @endcode
      */
     class _nout fsystem {
         BY(ME(fsystem))
@@ -59,6 +73,9 @@ namespace by {
             BY(ME(iterator))
 
         public:
+            /**
+             * @param path this can be a glob pattern (supports * and ? wildcards)
+             */
             iterator(const std::string& path);
             ~iterator();
 
@@ -86,10 +103,13 @@ namespace by {
             void _addDir(const std::string& dirPath);
             void _popDir();
             std::string _filterPath(const std::string& org);
+            nbool _isGlobPattern(const std::string& path);
+            std::regex _convertToRegex(const std::string& globPattern);
 
         private:
             entries _entries;
             std::string _nowPath;
+            tmay<std::regex> _pattern;
         };
 
     public:

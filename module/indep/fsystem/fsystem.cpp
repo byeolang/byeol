@@ -1,6 +1,7 @@
 #include "indep/fsystem/fsystem.hpp"
 #include "indep/helper/typeTrait.hpp"
 #include "indep/macro/when.hpp"
+#include <filesystem>
 
 namespace by {
 
@@ -49,6 +50,8 @@ namespace by {
                 continue;
             }
 
+            if(_pattern.has() && !regex_match(name, *_pattern)) continue;
+
             _nowPath = path;
             return true;
         }
@@ -57,7 +60,21 @@ namespace by {
         return false;
     }
 
-    me::iterator::iterator(const std::string& path) { _addDir(path); }
+    using namespace std::filesystem;
+
+    me::iterator::iterator(const std::string& newPath) {
+        path p(newPath);
+        std::string fileName = p.filename().string();
+
+        if(!_isGlobPattern(fileName))
+            _addDir(newPath);
+        else {
+            _pattern.set(_convertToRegex(fileName));
+
+            std::string dir = p.parent_path().string();
+            _addDir(dir.empty() ? "." : dir);
+        }
+    }
 
     me::iterator::~iterator() { rel(); }
 
@@ -132,6 +149,26 @@ namespace by {
             return org.substr(0, idx);
 
         return org;
+    }
+
+    nbool me::iterator::_isGlobPattern(const std::string& str) {
+        return str.find_first_of("*?") != std::string::npos;
+    }
+
+    std::regex me::iterator::_convertToRegex(const std::string& globPattern) {
+        std::string ret;
+        ret.reserve(globPattern.length() * 2); // rough estimate
+
+        for(char c : globPattern) {
+            switch(c) {
+                case '*': ret += ".*"; break;
+                case '?': ret += "."; break;
+                case '.': ret += "\\."; break;
+                default: ret += c;
+            }
+        }
+
+        return std::regex(ret, std::regex::icase);
     }
 
     me::iterator me::find(const std::string& path) { return iterator(path); }
