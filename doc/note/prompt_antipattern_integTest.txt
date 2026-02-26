@@ -1,511 +1,494 @@
-# Byeol 언어 안티패턴 테스트 케이스 작성 프롬프트
+# Byeol 언어 안티패턴 테스트 케이스 작성 가이드
 
-## 목적
-byeol 언어 문법을 처음 접한 초보자가 **문법적으로는 올바르지 않지만** 창의적으로 시도할 수 있는 코드 패턴을 찾아, 이러한 안티패턴에 대해 시스템이 **exception 없이 적절한 에러를 반환하는지** 검증하는 테스트 케이스를 작성한다.
+## 1. 개요
 
-## 테스트 케이스 작성 규칙
+### 1.1 목적
+byeol 언어를 처음 접한 초보자가 **byeol 스펙에 존재하는 문법 요소(키워드, 연산자, 구문)를 잘못 사용**하여 발생할 수 있는 안티패턴을 찾아, 이에 대해 시스템이 **exception 없이 적절한 에러를 반환하는지** 검증하는 테스트 케이스를 작성한다.
 
-### 1. 파일 위치 및 명명
-- 위치: `module/test/integ/core/` 디렉토리
-- 파일명: `antipatternIntegTest.cc` (또는 관련 기능별로 분리)
-- 테스트명: `TEST_F(antipatternIntegTest, 설명Negative)`
-  - 반드시 마지막에 `Negative` 접미사 붙일 것
+**핵심 원칙:**
+- ✅ **테스트 대상**: Byeol 스펙에 **존재하는** 기능을 **잘못 사용**하는 패턴
+  - 예: `def foo(int a)` - `def`, `(`, `)`, `int` 모두 byeol에 존재하지만 순서가 잘못됨
+  - 예: `a void` - `void` 타입은 존재하지만 변수 선언에 사용 불가
+  - 예: `def MyObj<T, T>` - 제네릭 `<>` 문법은 있지만 중복 타입 파라미터는 불가
 
-### 2. 기본 구조 템플릿
+- ❌ **테스트 제외**: 다른 언어의 키워드/연산자를 단순 오타처럼 사용하는 패턴
+  - 예: `class MyObj` - `class`는 byeol에 없는 키워드 (오타)
+  - 예: `return value` - `return`은 byeol에 없음 (오타)
+  - 예: `obj->prop` - `->`는 byeol에 없는 연산자 (오타)
+  - 예: `this.age` - `this`는 byeol에 없는 키워드 (오타)
+
+**판단 기준:**
+"일반적인 개발자 기준에서 '언어 스펙에는 없지만, 보통 언어는 이렇게 하면 안되는데?'라고 생각할 수 있는 패턴"을 테스트한다. 초보 개발자가 언어 스펙을 지키면서도 의도치 않은 동작을 할 수 있는 케이스를 찾는 것이 목표다.
+
+### 1.2 역할 정의
+- ✅ **해야 할 일**: 안티패턴 negative TC 작성
+- ❌ **하지 말아야 할 일**: TC 실패 시 구현 수정 (별도 작업)
+  - TC가 정당한 negative TC인데 실패하면, 그건 구현의 문제
+  - TC는 byeol 스펙에 맞는지만 확인하면 됨
+  - 스펙 준수하는 TC가 실패하면 보고만 하고 넘어감
+
+---
+
+## 2. 환경 및 준비사항
+
+### 2.1 Byeol 언어 문법 참고 자료
+- **주 참고**: `doc/guide/ko/quick-guide.md`
+  - 절대 경로: `/Users/kniz/repo/byeolang/byeol/doc/guide/ko/quick-guide.md`
+  - 약 2000줄 분량의 Byeol 개발자 속성 가이드
+  - 언어 문법, 타입 시스템, 제어문, 객체 지향, 스코프, 에러 처리 등 모든 문법 설명 포함
+
+- **보조 참고**: 기존 positive TC 파일들
+  - 위치: `module/test/integ/core/`
+  - 예시: `defObjExprIntegTest.cc`, `defFuncIntegTest.cc`, `parserIntegTest.cc` 등
+
+### 2.2 기존 TC 파일 스타일
+
+#### 파일 구조 템플릿
 ```cpp
-TEST_F(antipatternIntegTest, callCompleteWithAssignmentNegative) {
+#include "test/byeolIntegTest.hpp"
+
+using namespace by;
+using namespace std;
+
+namespace {
+    struct xxxIntegTest: public byeolIntegTest {};
+}
+
+TEST_F(xxxIntegTest, testName) {
     make()
-        .negative()  // ← 필수: 로그 최소화
         .parse(R"SRC(
-        def myObj(a = b)  # ← 안티패턴 코드
-            age int
+        # byeol 코드
         main() void
-            myObj.age
+            ret
     )SRC")
-        .shouldParsed(false);  // ← parser에서 실패 예상
+        .shouldVerified(true);
+}
+
+TEST_F(xxxIntegTest, testNameNegative) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        # byeol 코드
+        main() void
+            invalid code
+    )SRC")
+        .shouldParsed(false);
 }
 ```
 
-### 3. 검증 단계 선택
-- **Parser 단계 실패**: `.shouldParsed(false)`
-  - 명백한 문법 오류 (예: `def foo(int a)`, `a := := 5`)
+#### 주요 스타일 규칙
+1. **헤더 인클루드**: `#include "test/byeolIntegTest.hpp"`
+2. **네임스페이스**: `using namespace by;` 및 `using namespace std;`
+3. **테스트 픽스처**: 익명 네임스페이스에 `struct xxxIntegTest: public byeolIntegTest {};` 정의
+4. **테스트 매크로**: `TEST_F(픽스처명, 테스트명)` 사용
+5. **Negative 테스트**: `.negative()` 호출 필수, 테스트명 끝에 `Negative` 접미사
+6. **코드 블록**: `R"SRC(...)SRC"` raw string literal 사용
 
-- **Verifier 단계 실패**: `.shouldParsed(true).shouldVerified(false)`
-  - 문법은 맞지만 의미론적 오류 (예: 타입 불일치, 존재하지 않는 심볼)
+---
 
-### 4. 필수 제약사항
-- **Exception 발생 금지**: 모든 안티패턴은 graceful하게 에러 반환해야 함
-- **negative() 호출 필수**: 로그 출력 최소화 (verbose 모드 제외)
-- **에러 확인**: 에러가 발생하는지만 확인, 특정 errCode는 검증하지 않음
+## 3. 파일 구조 및 명명 규칙
 
-## 안티패턴 카테고리
+### 3.1 기본 원칙
+- **위치**: `module/test/integ/antipattern/` 디렉토리
+- **파일 분리**: 카테고리별로 파일 분리 (하나의 파일에 모두 몰아넣지 않음)
+- **스타일**: `module/test/integ/core/` 내 기존 TC 파일 스타일 준수
 
-### Category 1: 객체 정의 (defObjExpr)
-초보자가 다른 언어 경험을 바탕으로 시도할 수 있는 잘못된 패턴:
+### 3.2 파일 그룹핑 (5개 파일)
 
+25개 카테고리를 유사한 것끼리 묶어 5개 파일로 분리:
+
+#### 파일 1: typeAndDeclAntipatternIntegTest.cc
+- **전체 경로**: `module/test/integ/antipattern/typeAndDeclAntipatternIntegTest.cc`
+- **테스트 픽스처**: `typeAndDeclAntipatternIntegTest`
+- **포함 카테고리** (5개):
+  - 1. 타입 선언 순서 실수 (Type Declaration Order)
+  - 2. 변수 선언/할당 혼동 (Variable Declaration vs Assignment)
+  - 9. 타입 캐스팅 오류 (Type Casting Errors)
+  - 20. 암시적 캐스팅 오해 (Implicit Casting Misunderstanding)
+  - 23. void 타입 오용 (Void Type Misuse)
+
+#### 파일 2: defExprAntipatternIntegTest.cc
+- **전체 경로**: `module/test/integ/antipattern/defExprAntipatternIntegTest.cc`
+- **테스트 픽스처**: `defExprAntipatternIntegTest`
+- **포함 카테고리** (4개):
+  - 8. 객체/함수 정의 오류 (Def Expression Errors)
+  - 14. 람다 문법 오류 (Lambda Syntax Errors)
+  - 17. 생성자 오류 (Constructor Errors)
+  - 19. 제네릭 오류 (Generic Errors)
+
+#### 파일 3: controlFlowAntipatternIntegTest.cc
+- **전체 경로**: `module/test/integ/antipattern/controlFlowAntipatternIntegTest.cc`
+- **테스트 픽스처**: `controlFlowAntipatternIntegTest`
+- **포함 카테고리** (5개):
+  - 3. 불필요한 소괄호 (Unnecessary Parentheses)
+  - 4. 블록 문법 오류 (Block Syntax Errors)
+  - 7. for/while 구문 오류 (Loop Syntax Errors)
+  - 15. ret 구문 오류 (Return Statement Errors)
+  - 22. break/next 오류 (Loop Control Errors)
+
+#### 파일 4: operatorAntipatternIntegTest.cc
+- **전체 경로**: `module/test/integ/antipattern/operatorAntipatternIntegTest.cc`
+- **테스트 픽스처**: `operatorAntipatternIntegTest`
+- **포함 카테고리** (5개):
+  - 6. 연산자 오류 (Operator Errors)
+  - 10. 접근 오류 (Access Errors)
+  - 16. me 키워드 오류 (Me Keyword Errors)
+  - 18. 스코프 오류 (Scope Errors)
+  - 21. 연산자 우선순위 오해 (Operator Precedence Errors)
+
+#### 파일 5: literalAndContainerAntipatternIntegTest.cc
+- **전체 경로**: `module/test/integ/antipattern/literalAndContainerAntipatternIntegTest.cc`
+- **테스트 픽스처**: `literalAndContainerAntipatternIntegTest`
+- **포함 카테고리** (6개):
+  - 5. 문자열 템플릿 오류 (String Template Errors)
+  - 11. 주석 문법 오류 (Comment Syntax Errors)
+  - 12. 시퀸스 오류 (Sequence Errors)
+  - 13. Map/Array 리터럴 오류 (Container Literal Errors)
+  - 24. 배열 인덱스 오류 (Array Index Errors)
+  - 25. 문자열 연산 오류 (String Operation Errors)
+
+---
+
+## 4. 테스트 케이스 작성 규칙
+
+### 4.1 기본 템플릿
 ```cpp
-// 1.1 callComplete에 잘못된 표현식
-def myObj(a = b)           // 할당 연산자
-def myObj(a + b)           // 산술 표현식
-def myObj(foo())           // 함수 호출
-def myObj(a := 5)          // 변수 선언
-
-// 1.2 타입 선언 위치 오류 (다른 언어 스타일)
-def myObj int age          // C/C++ 스타일
-def myObj: age int         // Python 스타일
-def myObj { age int }      // C/Java 스타일
-
-// 1.3 중복 정의
-def myObj
-    def myObj              // 내부에 같은 이름 객체
-    age myObj              // property와 타입 이름 충돌
+TEST_F(xxxAntipatternIntegTest, 설명Negative) {
+    make()
+        .negative()  // ← 필수: 로그 최소화
+        .parse(R"SRC(
+        # ← 안티패턴 코드 작성
+        main() void
+            invalid_code_here
+    )SRC")
+        .shouldParsed(false);  // 또는 .shouldVerified(false)
+}
 ```
 
-### Category 2: 함수 정의 (defFuncExpr)
+### 4.2 검증 단계 선택
+
+#### Parser 단계 실패: `.shouldParsed(false)`
+명백한 문법 오류를 검사:
+- 예: `def foo(int a)` - 타입이 이름 앞에 (순서 잘못됨)
+- 예: `a := := 5` - 연산자 중복
+- 예: `def foo() void::` - 콜론 중복
+
+#### Verifier 단계 실패: `.shouldParsed(true); shouldVerified(false);`
+문법은 맞지만 의미론적 오류를 검사:
+- 예: `a = 5` - 선언 없이 할당 (문법상으로는 가능하지만 변수가 없음)
+- 예: `def MyGeneric<T, T>` - 중복된 타입 파라미터명
+- 예: `x := foo()` - foo()가 void 반환인데 값으로 사용
+
+**중요:** `.shouldParsed(true)` 뒤에 `.shouldVerified(false)`를 체이닝할 수 없음!
 ```cpp
-// 2.1 파라미터 선언 오류
-def foo(int a)             // 타입이 앞에
-def foo(a, b int)          // 일부만 타입 지정
-def foo(a + b int)         // 표현식을 파라미터로
+// ❌ 잘못된 패턴
+.shouldParsed(true)
+    .shouldVerified(false);
 
-// 2.2 반환 타입 오류
-def foo() ret int          // 'ret' 키워드 사용
-def foo(): int             // 콜론 뒤 타입만
-def foo() -> int           // 화살표 문법
-
-// 2.3 함수 본문 오류
-def foo()                  // 본문 없음
-def foo(): :               // 빈 inline block의 중첩
-def foo() void::           // 콜론 중복
+// ✅ 올바른 패턴
+.shouldParsed(true);
+shouldVerified(false);
 ```
 
-### Category 3: 변수 선언 및 할당
-```cpp
-// 3.1 선언과 할당 혼동
-a = 5                      // 선언 없이 할당
-a := := 5                  // := 중복
-a int := 5                 // 타입과 := 동시 사용
-const a = 5                // const 키워드 (byeol에는 없음)
+### 4.3 필수 제약사항
+1. **Byeol 문법 요소만 사용**: 다른 언어의 키워드/연산자 사용 금지
+   - ❌ `class`, `struct`, `return`, `this`, `continue`, `->`, `=>` 등
+   - ✅ `def`, `ctor`, `ret`, `me`, `next`, `as`, `:=` 등 byeol 문법만 사용
 
-// 3.2 타입 추론 오해
-a :=                       // 우변 없음
-a := void                  // void 타입 할당
-a := b := 5                // 연속 할당
+2. **Exception 발생 금지**: 모든 안티패턴은 graceful하게 에러를 반환해야 함
+
+3. **negative() 호출 필수**: 로그 출력 최소화 (verbose 모드 제외)
+
+4. **에러 확인만**: 에러가 발생하는지만 확인, 특정 errCode는 검증하지 않음
+
+5. **테스트명 규칙**: 반드시 마지막에 `Negative` 접미사 붙일 것
+
+6. **초보자 관점**: 언어 스펙을 지키면서도 충분히 시도할 법한 패턴만 포함
+
+---
+
+## 5. 안티패턴 카테고리 (25개)
+
+각 카테고리는 **Byeol 스펙에 존재하는 기능**을 잘못 사용하는 패턴만 포함해야 함.
+
+### 1. 타입 선언 순서 실수 (Type Declaration Order)
+Byeol의 "타입은 뒤에" 규칙을 위반:
+- ✅ `def foo(int a)` - `int`와 `a` 순서가 반대
+- ✅ `int foo()` - 반환형이 함수명 앞에
+- ✅ `def Person; age int` - 프로퍼티 타입이 이름 앞에
+
+### 2. 변수 선언/할당 혼동 (Variable Declaration vs Assignment)
+`:=`와 `=` 사용 규칙 위반:
+- ✅ `a = 5` - 선언 없이 할당 시도
+- ✅ `a := := 5` - `:=` 중복
+- ✅ `a := b := 5` - 체이닝 시도
+
+**주의:** `const a := 5` 같은 패턴은 제외 (`const`는 byeol에 없는 키워드)
+
+### 3. 불필요한 소괄호 (Unnecessary Parentheses)
+Byeol의 "조건문에 괄호 없음" 규칙 위반:
+- ✅ `if (a == 5)` - 조건에 불필요한 괄호
+- ✅ `while (condition)` - while 조건에 괄호
+- ✅ `for (n in arr)` - for 구문에 괄호
+
+### 4. 블록 문법 오류 (Block Syntax Errors)
+Byeol의 블록/들여쓰기 규칙 위반:
+- ✅ `def foo() void::` - 콜론 중복
+- ✅ `if true:` - 빈 블록 (`: ;` 필요)
+- ✅ `def obj { age int }` - 중괄호 사용 (들여쓰기 필요)
+- ✅ `;;;` - 세미콜론 단독 사용
+
+### 5. 문자열 템플릿 오류 (String Template Errors)
+StringTemplate 기능의 잘못된 사용:
+- ✅ `"$$var"` - `$` 중복
+- ✅ `"$"` - `$` 단독 사용
+- ✅ `"$a+b"` - 중괄호 누락 (`${a+b}` 필요)
+- ✅ `"\z"` - 잘못된 escape sequence
+
+### 6. 연산자 오류 (Operator Errors)
+Byeol 연산자의 잘못된 사용 (존재하지 않는 연산자 제외):
+- ✅ `+++` - 연산자 중복
+- ✅ `++a++` - 전위/후위 동시 사용
+- ✅ `a === b` - `===`를 primitive 타입에 사용 (객체 전용)
+
+**주의:** `->`, `<=>`, `?.`, `??` 등은 제외 (byeol에 없는 연산자)
+
+### 7. for/while 구문 오류 (Loop Syntax Errors)
+Byeol for/while 문법 위반:
+- ✅ `for(int i=0; i<10; i++)` - C 스타일 for
+- ✅ `for n in 1..10` - 변수 선언 `:=` 누락
+- ✅ `do { } while(cond)` - do-while (byeol에 없음)
+
+**주의:** `foreach`, `each` 같은 키워드는 제외 (byeol에 없는 키워드)
+
+### 8. 객체/함수 정의 오류 (Def Expression Errors)
+`def` 구문의 잘못된 사용:
+- ✅ `def myObj(a + b)` - callComplete에 표현식
+- ✅ `def foo()` - 함수 본문 없음
+- ✅ `ctor() void` - 생성자에 반환형 지정
+
+**주의:** `class MyObj`, `function foo()` 등은 제외
+
+### 9. 타입 캐스팅 오류 (Type Casting Errors)
+`as` 연산자의 잘못된 사용:
+- ✅ `a as as int` - `as` 중복
+- ✅ `a as` - 타입 누락
+- ✅ `a as void` - void로 캐스팅
+- ✅ `is` 뒤 타입 없음
+
+**주의:** `(int)a` 같은 C 스타일은 제외 (byeol 문법 아님)
+
+### 10. 접근 오류 (Access Errors)
+`.` 접근 연산자의 잘못된 사용:
+- ✅ `obj..prop` - 점 중복
+- ✅ `.obj` - 점으로 시작
+- ✅ `obj.` - 점 뒤 없음
+
+**주의:** `obj->prop` 등은 제외 (byeol에 없는 연산자)
+
+### 11. 주석 문법 오류 (Comment Syntax Errors)
+Byeol 주석 규칙 위반:
+- ✅ `## ##` - `##` 블록 주석 잘못된 중첩
+
+**주의:** `//`, `/* */`, `"""` 등은 제외 (byeol에 없는 주석)
+
+### 12. 시퀸스 오류 (Sequence Errors)
+`..` 시퀸스 연산자의 잘못된 사용:
+- ✅ `1...10` - 점 3개 (점 2개만 가능)
+- ✅ `10..1` - 역순 시도
+- ✅ `1..10:2` - step 문법 시도
+
+### 13. Map/Array 리터럴 오류 (Container Literal Errors)
+Byeol 컨테이너 리터럴 규칙 위반:
+- ✅ `{1, 2, 3,}` - trailing comma
+- ✅ `{}` - 빈 배열 (타입 추론 불가)
+
+**주의:** `{"key": value}`, `[1, 2, 3]` 등은 제외 (byeol 문법 아님)
+
+### 14. 람다 문법 오류 (Lambda Syntax Errors)
+Byeol 람다 `():` 구문의 잘못된 사용:
+- ✅ `(n:) print(n)` - 콜론 위치 잘못됨
+- ✅ 람다를 함수 호출 밖에서 정의
+
+**주의:** `() =>`, `function() {}` 등은 제외 (byeol 문법 아님)
+
+### 15. ret 구문 오류 (Return Statement Errors)
+`ret` 키워드의 잘못된 사용:
+- ✅ `ret ret 5` - ret 중복
+- ✅ `ret value;` - 불필요한 세미콜론
+
+**주의:** `return value`, `yield` 등은 제외 (byeol에 없는 키워드)
+
+### 16. me 키워드 오류 (Me Keyword Errors)
+`me` 키워드의 잘못된 사용:
+- ✅ `Me.age` - 대문자 사용 (소문자만 가능)
+- ✅ `me` 사용 가능 범위 밖에서 사용
+
+**주의:** `this`, `self`, `@age` 등은 제외 (byeol에 없음)
+
+### 17. 생성자 오류 (Constructor Errors)
+`ctor` 키워드의 잘못된 사용:
+- ✅ `ctor(n str) void` - 반환형 지정
+- ✅ `__init__` - 함수명으로 사용 (ctor가 아님)
+
+**주의:** `constructor`, `new MyObj()` 등은 제외
+
+### 18. 스코프 오류 (Scope Errors)
+Byeol 스코프 규칙 위반:
+- ✅ `::` 연산자 오용 (byeol에서 다른 의미)
+- ✅ 잘못된 중첩 접근
+
+**주의:** `global`, `nonlocal` 등은 제외 (byeol에 없는 키워드)
+
+### 19. 제네릭 오류 (Generic Errors)
+`<>` 제네릭 구문의 잘못된 사용:
+- ✅ `def MyObj<T, T>` - 타입 파라미터 중복
+- ✅ `MyObj<>` - 빈 타입 파라미터
+
+**주의:** `where T: int`, `T extends Base` 등은 제외 (byeol 문법 아님)
+
+### 20. 암시적 캐스팅 오해 (Implicit Casting Misunderstanding)
+Byeol의 1단계 implicit 캐스팅 규칙 위반:
+- ✅ `byte → int → flt` - 2단계 캐스팅 시도
+- ✅ `str` implicit 캐스팅 시도
+
+### 21. 연산자 우선순위 오해 (Operator Precedence Errors)
+Byeol 연산자 우선순위 관련:
+- ✅ `a + b * c` - 잘못된 가정으로 괄호 누락
+- ✅ 비트 연산자와 논리 연산자 혼동
+
+### 22. break/next 오류 (Loop Control Errors)
+`break`/`next` 키워드의 잘못된 사용:
+- ✅ `break 5` - break 뒤에 값
+- ✅ `next 3` - next 뒤에 값
+
+**주의:** `continue`, `goto` 등은 제외 (byeol에 없는 키워드)
+
+### 23. void 타입 오용 (Void Type Misuse)
+`void` 타입의 잘못된 사용:
+- ✅ `a void` - void 변수 선언
+- ✅ `arr void[]` - void 배열
+- ✅ `a := void` - void를 값으로 사용
+- ✅ `x := foo()` - foo()가 void 반환
+
+### 24. 배열 인덱스 오류 (Array Index Errors)
+Byeol 배열 접근 규칙 위반:
+- ✅ `arr[-1]` - 음수 인덱스 (Python 스타일, byeol에서 동작 다름)
+- ✅ `arr[1:3]` - 슬라이싱 문법 (`arr[1..3]` 필요)
+
+### 25. 문자열 연산 오류 (String Operation Errors)
+Byeol 문자열 연산 규칙 위반:
+- ✅ `"abc" * 3` - 문자열 곱셈 시도
+- ✅ `"C:\path"` - escape 처리 누락
+- ✅ 잘못된 escape sequence
+
+---
+
+## 6. 작업 진행 방식
+
+### 6.1 작업 단계
+
+#### Step 1: 준비
+1. `doc/guide/ko/quick-guide.md` 읽고 byeol 문법 파악
+2. `module/test/integ/core/` 내 기존 TC 파일 스타일 확인
+3. `module/test/integ/antipattern/` 디렉토리 생성 (없으면)
+
+#### Step 2: TC 작성
+1. **한 카테고리씩 진행**: 각 카테고리별로 TC 작성
+2. **25개 TC 완성 시**: 빌드 및 검증 진행
+3. **사용자 컨펌**: 25개마다 보고 및 승인 받기
+4. **목표**: 총 50~100개 (최종 200~300개까지 확장 가능)
+
+#### Step 3: 빌드 및 검증
+```bash
+# Full rebuild (새 파일 추가 시)
+./build/builder.py dbg
+
+# Incremental build (코드 수정만 한 경우)
+cd build
+make -j8
 ```
 
-### Category 4: 제어문
-```cpp
-// 4.1 조건문
-if a = 5                   // 비교 대신 할당
-if (a == 5)                // 괄호 사용 (byeol에서 불필요)
-if a == 5: : print("a")    // inline block 중첩
+#### Step 4: 결과 확인 및 보고
+- TC 성공: 다음 배치 진행
+- TC 실패: 아래 대응 방식 참고
 
-// 4.2 반복문
-for a in 1..10             // Python 스타일 (byeol은 'a := 1..10')
-while true:                // 조건만 있고 본문 없음
+### 6.2 TC 실패 시 대응
+
+#### Exception 발생 시
+1. TC의 byeol 코드가 언어 스펙에 위반하는지 확인
+2. **스펙에 맞음** → TC는 정당함, 구현 문제 (보고만 하고 넘어감)
+3. **스펙에 안 맞음** → TC 수정
+
+#### 에러 미발생 시
+1. TC의 안티패턴이 실제로 잘못된 패턴인지 재확인
+2. 문법 가이드 재검토
+3. 필요 시 TC 수정 또는 제거
+
+#### 보고 형식 (25개 컨펌 시)
+```
+[완료] N개 TC 작성 및 빌드 완료
+- 파일: xxxAntipatternIntegTest.cc
+- 통과: X개
+- 실패 (구현 버그): Y개
+  - 파일:줄번호 - 간단한 설명 (스펙 내용)
 ```
 
-### Category 5: Generic & 타입
-```cpp
-// 5.1 Generic 오류
-def MyGeneric<T, T>        // 같은 타입 파라미터명
-MyGeneric<>                // 빈 타입 파라미터
-MyGeneric<int, str>()      // 파라미터 개수 불일치
+---
 
-// 5.2 타입 캐스팅 오류
-a as                       // 타입 없이 as
-a as as int                // as 중복
-a is                       // 타입 없이 is
-```
-
-### Category 6: 스코프 & 접근
-```cpp
-// 6.1 잘못된 접근
-myObj..property            // 점 중복
-myObj.                     // 점 뒤 아무것도 없음
-.myObj                     // 점으로 시작
-
-// 6.2 Modifier 오해
-public def foo()           // public 키워드 (byeol 문법과 다름)
-private age int            // private 키워드
-protected override foo()   // modifier 중복 오류
-```
-
-### Category 7: 표현식 체이닝
-```cpp
-// 7.1 잘못된 체이닝
-a...b                      // 점 3개
-a?.b                       // optional chaining (byeol에 없음)
-a!.b                       // 강제 unwrap (byeol에 없음)
-
-// 7.2 연산자 오류
-a +++ b                    // 연산자 중복
-a = = b                    // 등호 사이 공백
-a <=> b                    // 존재하지 않는 연산자
-```
-
-### Category 8: 문자열 & 리터럴
-```cpp
-// 8.1 문자열 템플릿 오류
-msg := "$"                 // $ 단독 사용
-msg := "$$name"            // $$ 중복
-msg := "$name$"            // 끝에 $
-
-// 8.2 배열 리터럴
-arr := [1, 2, 3,]          // trailing comma
-arr := []                  // 빈 배열 (타입 추론 불가)
-```
-
-## 작성 예시
+## 7. 작성 예시
 
 ```cpp
 #include "test/byeolIntegTest.hpp"
 
 using namespace by;
+using namespace std;
 
 namespace {
-    struct antipatternIntegTest: public byeolIntegTest {};
+    struct typeAndDeclAntipatternIntegTest: public byeolIntegTest {};
 }
 
-// Category 1: 객체 정의
-TEST_F(antipatternIntegTest, callCompleteWithAssignmentNegative) {
+// ✅ 올바른 예시: Byeol 문법 요소를 잘못 사용
+TEST_F(typeAndDeclAntipatternIntegTest, paramTypeBeforeNameNegative) {
     make()
         .negative()
         .parse(R"SRC(
-        def myObj(a = b)
-            age int
-        main() void: myObj.age
-    )SRC")
-        .shouldParsed(false);
-}
-
-TEST_F(antipatternIntegTest, callCompleteWithArithmeticNegative) {
-    make()
-        .negative()
-        .parse(R"SRC(
-        def myObj(a + b)
-            age int
-        main() void: myObj.age
-    )SRC")
-        .shouldParsed(false);
-}
-
-// Category 2: 함수 정의
-TEST_F(antipatternIntegTest, paramTypeBeforeNameNegative) {
-    make()
-        .negative()
-        .parse(R"SRC(
-        def foo(int a) void
+        def foo(int a) void  # def, int, a 모두 byeol에 존재하지만 순서가 잘못됨
             a + 1
         main() void: foo(5)
     )SRC")
         .shouldParsed(false);
 }
 
-TEST_F(antipatternIntegTest, returnTypeWithRetKeywordNegative) {
+TEST_F(typeAndDeclAntipatternIntegTest, voidVariableNegative) {
     make()
         .negative()
         .parse(R"SRC(
-        def foo() ret int
-            5
-        main() void: foo()
+        main() void
+            a void  # void 타입은 byeol에 존재하지만 변수 선언에는 사용 불가
     )SRC")
         .shouldParsed(false);
 }
 
-// Category 3: 변수 선언
-TEST_F(antipatternIntegTest, assignWithoutDeclareNegative) {
+TEST_F(typeAndDeclAntipatternIntegTest, assignWithoutDeclareNegative) {
     make()
         .negative()
         .parse(R"SRC(
         main() void
-            a = 5  # := 없이 = 만 사용
+            a = 5  # = 연산자는 있지만 := 없이 사용 불가
     )SRC")
-        .shouldParsed(true)
-        .shouldVerified(false);  // parser는 통과, verifier에서 실패
+        .shouldParsed(true);
+    shouldVerified(false);  # 주의: 체이닝 불가, 별도 호출
 }
 
-TEST_F(antipatternIntegTest, doubleColonEqualNegative) {
+// ❌ 잘못된 예시: 다른 언어 키워드 사용 (제외해야 함)
+TEST_F(typeAndDeclAntipatternIntegTest, classKeywordNegative) {  # 제거!
     make()
         .negative()
         .parse(R"SRC(
-        main() void
-            a := := 5
+        class MyObj  # class는 byeol에 없는 키워드 (단순 오타)
+            age := 0
     )SRC")
         .shouldParsed(false);
-}
-
-// Category 4: 제어문
-TEST_F(antipatternIntegTest, ifWithAssignmentNegative) {
-    make()
-        .negative()
-        .parse(R"SRC(
-        main() void
-            a := 5
-            if a = 10  # == 대신 = 사용
-                print("wrong")
-    )SRC")
-        .shouldParsed(true)
-        .shouldVerified(false);
-}
-
-// Category 5: Generic
-TEST_F(antipatternIntegTest, genericDuplicateTypeParamNegative) {
-    make()
-        .negative()
-        .parse(R"SRC(
-        def MyGeneric<T, T>
-            value T
-        main() void: 0
-    )SRC")
-        .shouldParsed(true)
-        .shouldVerified(false);
-}
-
-// Category 6: 스코프 & 접근
-TEST_F(antipatternIntegTest, doubleDotsAccessNegative) {
-    make()
-        .negative()
-        .parse(R"SRC(
-        def myObj
-            age := 5
-        main() void
-            myObj..age  # 점 2개
-    )SRC")
-        .shouldParsed(false);
-}
-
-// Category 7: 표현식 체이닝
-TEST_F(antipatternIntegTest, tripleOperatorNegative) {
-    make()
-        .negative()
-        .parse(R"SRC(
-        main() void
-            a := 5
-            b := a +++ 3  # +++ 연산자
-    )SRC")
-        .shouldParsed(false);
-}
-
-// Category 8: 문자열
-TEST_F(antipatternIntegTest, stringTemplateDoubleDollarNegative) {
-    make()
-        .negative()
-        .parse(R"SRC(
-        main() void
-            name := "world"
-            msg := "$$name"  # $$ 사용
-    )SRC")
-        .shouldParsed(true)
-        .shouldVerified(false);
 }
 ```
-
-## 주의사항
-1. 모든 테스트는 **exception 없이** 정상적으로 에러를 반환해야 함
-2. **negative() 호출 필수** - 로그 최소화
-3. parser 실패 vs verifier 실패를 명확히 구분
-4. 초보자 관점에서 **충분히 시도할 법한** 패턴만 포함
-5. 너무 명백한 오류(예: `asdfasdf`)는 제외
-
----
-
-## 실제 작업 가이드라인 (2025-12-21 추가)
-
-### 역할 정의
-- ✅ **해야 할 일**: 안티패턴 negative TC 작성
-- ❌ **하지 말아야 할 일**: TC 실패 시 구현 수정 (별도 작업)
-  - TC가 정당한 negative TC인데 실패하면, 그건 구현의 문제
-  - TC는 byeol 스펙에 맞는지만 확인하면 됨
-
-### 파일 구조
-- **위치**: `module/test/integ/core/antipattern/` (별도 폴더)
-- **파일 분리**: 카테고리별로 파일 분리
-  - 예: `defObjAntipatternIntegTest.cc`, `defFuncAntipatternIntegTest.cc`
-  - 하나의 `antipatternIntegTest.cc`에 모두 몰아넣지 말것
-- **스타일**: `module/test/integ/core/` 내 기존 TC 파일 스타일 준수
-
-### 작업 진행 방식 (A안)
-1. **문법 파악**
-   - `doc/guide/ko/` 내 개발자 속성 가이드 문서 읽기 (큰 파일)
-   - 기존 TC 파일 구조 확인
-
-2. **카테고리 설계**
-   - 위의 8가지 카테고리는 **예시**일 뿐
-   - 처음부터 새로운 카테고리 설계 및 선정
-   - 카테고리 리스트 작성 후 사용자 승인 받기
-
-3. **TC 작성**
-   - 목표: 50~100개 (최종 200~300개까지 확장 가능)
-   - **10개마다 사용자 컨펌** 받기
-   - 각 TC는 명확한 의도와 예상 실패 단계 포함
-
-4. **빌드 및 실행**
-   - 빌드: `./build/builder.py dbg` 또는 incremental build
-   - 실행: `cd bin && ./test --gtest_filter="*antipattern*" verbose`
-   - 결과 확인
-
-### TC 실패 시 대응
-- **Exception 발생**: TC의 byeol 문법이 스펙에 맞는지 확인
-  - 스펙에 맞음 → TC는 정당함, 구현 문제 (보고만 함)
-  - 스펙에 안 맞음 → TC 수정
-- **에러 미발생**: TC의 안티패턴이 실제로 잘못된 패턴인지 재확인
-
-### 문법 참고 자료
-- **주 참고**: `doc/guide/ko/` 내 개발자 속성 가이드 (큰 파일)
-- **보조 참고**: 기존 positive TC 파일들
-
----
-
-## 확장된 안티패턴 카테고리 (25개) - 2025-12-21
-
-초보자가 다른 언어(Python, C/C++, Java, JavaScript 등)에서 byeol로 넘어올 때 실수할 법한 패턴들:
-
-### 1. **타입 선언 순서 실수** (Type Declaration Order)
-   - C/C++ 스타일: `int age` → byeol: `age int`
-   - 함수 파라미터: `foo(int a)` → `foo(a int)`
-   - 반환형 앞에: `int foo()` → `foo() int`
-
-### 2. **변수 선언/할당 혼동** (Variable Declaration vs Assignment)
-   - 선언 없이 할당: `a = 5` (`:=` 필요)
-   - `:=` 중복: `a := := 5`
-   - const/let/var 키워드: `const a := 5`
-   - 타입과 := 동시: `a int := 5`
-
-### 3. **불필요한 소괄호** (Unnecessary Parentheses)
-   - 조건문: `if (a == 5)` → `if a == 5`
-   - while: `while (condition)`
-   - for: `for (a in arr)`
-   - 함수 정의: `def foo()`는 되지만 `def (foo)()`는 안됨
-
-### 4. **블록 문법 오류** (Block Syntax Errors)
-   - 콜론 중복: `def foo() void::`
-   - 빈 블록 잘못된 표현: `if true:` (`: ;` 필요)
-   - 중괄호 사용: `def obj { age int }`
-   - 세미콜론만 단독: `;;;`
-
-### 5. **문자열 템플릿 오류** (String Template Errors)
-   - `$$var` ($ 중복)
-   - `$` 단독 사용
-   - 중괄호 누락: `$a+b` → `${a+b}` 필요
-   - 잘못된 escape: `\n` 말고 다른 언어 스타일
-
-### 6. **연산자 오류** (Operator Errors)
-   - 존재하지 않는 연산자: `->`, `<=>`, `?.`, `??`
-   - 연산자 중복: `+++`, `---`, `***`
-   - 전위/후위 동시: `++a++`, `--a--`
-   - `===`를 일반 비교로 사용 (reference equality 전용)
-
-### 7. **for/while 구문 오류** (Loop Syntax Errors)
-   - C 스타일 for: `for(int i=0; i<10; i++)`
-   - Python 스타일: `for a in 1..10` (변수 선언 `:=` 필요)
-   - do-while: `do { } while(cond)` (byeol에 없음)
-   - foreach, each 키워드 사용
-
-### 8. **객체/함수 정의 오류** (Def Expression Errors)
-   - callComplete에 표현식: `def myObj(a + b)`
-   - 생성자 반환형: `ctor() void` (반환형 생략해야)
-   - 함수 본문 없음: `def foo()` (블록 필요)
-   - class 키워드: `class MyObj`
-
-### 9. **타입 캐스팅 오류** (Type Casting Errors)
-   - `as` 중복: `a as as int`
-   - `as` 뒤 타입 없음: `a as`
-   - void 캐스팅: `a as void`
-   - 괄호 스타일: `(int)a` → `a as int`
-
-### 10. **접근 오류** (Access Errors)
-   - 점 중복: `obj..prop`, `obj...prop`
-   - 점으로 시작: `.obj`
-   - 점 뒤 없음: `obj.`
-   - 화살표 접근: `obj->prop` (C++ 스타일)
-
-### 11. **주석 문법 오류** (Comment Syntax Errors)
-   - `//` 주석 (C/C++/Java 스타일)
-   - `/* */` 블록 주석
-   - `"""` Python docstring
-   - `##` 중첩: `## ## text ## ##`
-
-### 12. **시퀸스 오류** (Sequence Errors)
-   - inclusive 시도: `1...10` (exclusive만 가능: `1..10`)
-   - 역순 시퀸스: `10..1` (동작하지 않음)
-   - step 문법: `1..10:2` (Python range 스타일)
-   - 점 3개: `1...10`
-
-### 13. **Map/Array 리터럴 오류** (Container Literal Errors)
-   - Map 리터럴 시도: `{"key": value}` (byeol에 없음)
-   - trailing comma: `{1, 2, 3,}`
-   - 빈 배열: `{}` (타입 추론 불가)
-   - 대괄호 리터럴: `[1, 2, 3]` → `{1, 2, 3}`
-
-### 14. **람다 문법 오류** (Lambda Syntax Errors)
-   - 화살표 사용: `(a, b) => a + b` → `(a, b): a + b`
-   - function 키워드: `function(a, b) { }`
-   - 람다를 함수 호출 밖에서 정의
-   - 잘못된 콜론 위치: `(a, b:) a + b`
-
-### 15. **ret 구문 오류** (Return Statement Errors)
-   - return 키워드: `return value` → `ret value`
-   - ret 중복: `ret ret 5`
-   - ret 뒤 세미콜론: `ret value;` (불필요)
-   - yield 키워드 사용 (byeol에 없음)
-
-### 16. **me 키워드 오류** (Me Keyword Errors)
-   - this 키워드: `this.age` → `me.age`
-   - self 키워드: `self.age`
-   - @ 기호: `@age` (Ruby 스타일)
-   - Me 대문자: `Me.age` (소문자만 가능)
-
-### 17. **생성자 오류** (Constructor Errors)
-   - constructor 키워드: `constructor()`
-   - `__init__`: Python 스타일
-   - 생성자에 반환형: `ctor() void`
-   - new 키워드: `new MyObj()` → `MyObj()`
-
-### 18. **스코프 오류** (Scope Errors)
-   - global 키워드: `global x`
-   - nonlocal 키워드
-   - :: 스코프 연산자: `obj::prop` (C++ 스타일)
-   - 잘못된 중첩 접근
-
-### 19. **제네릭 오류** (Generic Errors)
-   - 같은 타입 파라미터명: `def MyObj<T, T>`
-   - 빈 타입 파라미터: `MyObj<>`
-   - where 절: `def MyObj<T> where T: int`
-   - extends 키워드: `def MyObj<T extends Base>`
-
-### 20. **암시적 캐스팅 오해** (Implicit Casting Misunderstanding)
-   - 2단계 캐스팅: `byte → int → flt` (1단계만 가능)
-   - str implicit 캐스팅 시도
-   - 잘못된 타입 조합
-   - upcasting과 downcasting 혼동
-
-### 21. **연산자 우선순위 오해** (Operator Precedence Errors)
-   - `a + b * c` 잘못된 가정
-   - 비트 연산자 우선순위 혼동
-   - `&&` vs `||` 우선순위
-   - 할당 연산자 우선순위
-
-### 22. **break/next 오류** (Loop Control Errors)
-   - continue 키워드: `continue` → `next`
-   - break 뒤 값: `break 5` (값 반환 시도)
-   - next 뒤 값: `next 3`
-   - goto 문: `goto label` (없음)
-
-### 23. **void 타입 오용** (Void Type Misuse)
-   - void 변수: `a void` (선언 불가)
-   - void 배열: `arr void[]`
-   - void 할당: `a := void`
-   - void 반환값 사용: `x := foo()` (foo가 void)
-
-### 24. **배열 인덱스 오류** (Array Index Errors)
-   - 음수 인덱스: `arr[-1]` (Python 스타일)
-   - 1-based 인덱스: `arr[1]`을 첫 원소로 착각
-   - 범위 초과 기대: 에러 대신 자동 확장 기대
-   - 슬라이싱 문법: `arr[1:3]` → `arr[1..3]`
-
-### 25. **문자열 연산 오류** (String Operation Errors)
-   - 문자열 곱셈: `"abc" * 3` (Python 스타일)
-   - 문자 인덱싱 타입: `"hello"[0]`이 char가 아닌 str
-   - 잘못된 escape sequence
-   - 역슬래시 경로: `"C:\path"` (escape 처리 필요)

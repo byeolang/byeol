@@ -66,8 +66,8 @@ TEST_F(syntaxAntipatternIntegTest, stringTemplateDoubleDollarNegative) {
             name := "world"
             msg := "$$name"
     )SRC")
-        .shouldParsed(true)
-        .shouldVerified(false);
+        .shouldParsed(true);
+    shouldVerified(false);
 }
 
 // Category 6: Operator Errors - +++ operator
@@ -91,49 +91,6 @@ TEST_F(syntaxAntipatternIntegTest, doubleDotsAccessNegative) {
             age := 5
         main() void
             myObj..age
-    )SRC")
-        .shouldParsed(false);
-}
-
-// Category 15: Return Statement - return keyword
-TEST_F(syntaxAntipatternIntegTest, returnKeywordNegative) {
-    make()
-        .negative()
-        .parse(R"SRC(
-        def foo() int
-            return 5
-        main() void
-            foo()
-    )SRC")
-        .shouldParsed(false);
-}
-
-// Category 16: Me Keyword - this keyword
-TEST_F(syntaxAntipatternIntegTest, thisKeywordNegative) {
-    make()
-        .negative()
-        .parse(R"SRC(
-        def Person
-            age := 0
-            getAge() int
-                ret this.age
-        main() void
-            Person().getAge()
-    )SRC")
-        .shouldParsed(false);
-}
-
-// Category 22: Loop Control - continue keyword
-TEST_F(syntaxAntipatternIntegTest, continueKeywordNegative) {
-    make()
-        .negative()
-        .parse(R"SRC(
-        main() void
-            arr := {1, 2, 3}
-            for n in arr
-                if n == 2
-                    continue
-                print(n as str)
     )SRC")
         .shouldParsed(false);
 }

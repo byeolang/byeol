@@ -66,8 +66,7 @@ namespace by {
         path p(newPath);
         std::string fileName = p.filename().string();
 
-        if(!_isGlobPattern(fileName))
-            _addDir(newPath);
+        if(!_isGlobPattern(fileName)) _addDir(newPath);
         else {
             _pattern.set(_convertToRegex(fileName));
 
@@ -151,15 +150,13 @@ namespace by {
         return org;
     }
 
-    nbool me::iterator::_isGlobPattern(const std::string& str) {
-        return str.find_first_of("*?") != std::string::npos;
-    }
+    nbool me::iterator::_isGlobPattern(const std::string& str) { return str.find_first_of("*?") != std::string::npos; }
 
     std::regex me::iterator::_convertToRegex(const std::string& globPattern) {
         std::string ret;
         ret.reserve(globPattern.length() * 2); // rough estimate
 
-        for(char c : globPattern) {
+        for(char c: globPattern) {
             switch(c) {
                 case '*': ret += ".*"; break;
                 case '?': ret += "."; break;
