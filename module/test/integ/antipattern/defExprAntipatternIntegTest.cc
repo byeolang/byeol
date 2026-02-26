@@ -12,6 +12,7 @@ namespace {
 // ============================================================================
 
 TEST_F(defExprAntipatternIntegTest, callCompleteWithExpressionNegative) {
+    // BUG: Parser should reject expression in callComplete, but currently accepts it
     make()
         .negative()
         .parse(R"SRC(
@@ -52,6 +53,7 @@ TEST_F(defExprAntipatternIntegTest, lambdaColonWrongPositionNegative) {
 // ============================================================================
 
 TEST_F(defExprAntipatternIntegTest, pythonInitNegative) {
+    // BUG: Verifier should reject __init__ (not a Byeol constructor name), but accepts it
     make()
         .negative()
         .parse(R"SRC(

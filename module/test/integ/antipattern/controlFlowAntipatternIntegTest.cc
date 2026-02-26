@@ -12,6 +12,7 @@ namespace {
 // ============================================================================
 
 TEST_F(controlFlowAntipatternIntegTest, ifWithParenthesesNegative) {
+    // BUG: Parser should reject parentheses in if condition, but currently accepts it
     make()
         .negative()
         .parse(R"SRC(
@@ -24,6 +25,7 @@ TEST_F(controlFlowAntipatternIntegTest, ifWithParenthesesNegative) {
 }
 
 TEST_F(controlFlowAntipatternIntegTest, whileWithParenthesesNegative) {
+    // BUG: Parser should reject parentheses in while condition, but currently accepts it
     make()
         .negative()
         .parse(R"SRC(
@@ -111,6 +113,7 @@ TEST_F(controlFlowAntipatternIntegTest, cStyleForNegative) {
 }
 
 TEST_F(controlFlowAntipatternIntegTest, forWithoutDefAssignNegative) {
+    // BUG: Parser should require := in for loop (for n := in ...), but accepts without it
     make()
         .negative()
         .parse(R"SRC(
