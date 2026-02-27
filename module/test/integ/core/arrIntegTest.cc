@@ -792,7 +792,7 @@ TEST_F(arrIntegTest, outOfBoundExOccurs) {
     }
 }
 
-TEST_F(arrIntegTest, castingNotAllowed) {
+TEST_F(arrIntegTest, castingNotAllowedNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -827,3 +827,54 @@ TEST_F(arrIntegTest, defPropWithCustomTypeShouldWork) {
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 2);
 }
+
+TEST_F(arrIntegTest, arrayLiteralTrailingComma) {
+    make()
+        .parse(R"SRC(
+        main() int
+            arr := {1, 2, 3,}
+            arr[2]
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 3);
+}
+
+TEST_F(arrIntegTest, emptyArrayWithoutType) {
+    make()
+        .parse(R"SRC(
+        main() void
+            arr := {}
+    )SRC")
+        .shouldParsed(true);
+    shouldVerified(false);
+}
+
+TEST_F(arrIntegTest, negativeArrayIndexNegative) {
+    make()
+        .parse(R"SRC(
+        main() void
+            arr := {1, 2, 3}
+            val := arr[-1]
+    )SRC")
+        .shouldVerified(true);
+
+    str res = run();
+    ASSERT_FALSE(res);
+    ASSERT_TRUE(getReport());
+}
+
+TEST_F(arrIntegTest, arrayIndexOutOfBoundsNegative) {
+    make()
+        .parse(R"SRC(
+        main() void
+            arr := {1, 2, 3}
+            val := arr[10]
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_FALSE(res);
+    ASSERT_TRUE(getReport());
+}
+

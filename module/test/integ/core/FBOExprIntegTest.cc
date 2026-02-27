@@ -583,3 +583,32 @@ TEST_F(FBOExprIntegTest, strNotSuitableToSomeOpNegative5) {
     )SRC")
         .shouldVerified(false);
 }
+
+TEST_F(FBOExprIntegTest, tripleMinusOperator) {
+    make()
+        .parse(R"SRC(
+        main() void
+            a := 5
+            b := a --- 3
+    )SRC").shouldParsed(true);
+    shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 2);
+}
+
+/* TODO:
+TEST_F(FBOExprIntegTest, referenceEqualityOnPrimitive) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        main() void
+            a := 5
+            b := 5
+            if a === b
+                print("same")
+    )SRC")
+        .shouldParsed(true);
+    shouldVerified(false);
+}*/

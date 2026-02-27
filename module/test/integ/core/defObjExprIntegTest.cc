@@ -834,3 +834,24 @@ TEST_F(defObjExprIntegTest, originShouldNotOpenAccessToPackScopeNegative) {
     )SRC")
         .shouldVerified(false);
 }
+
+/* TODO:
+TEST_F(defObjExprIntegTest, nestedAccessWithoutProperPath) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        def Outer
+            def Inner
+                val := 33
+        main() int
+            x := Outer.Inner.val
+            ret x
+    )SRC")
+        .shouldParsed(true);
+    shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res.cast<nint>(), 33);
+}
+*/

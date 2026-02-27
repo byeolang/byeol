@@ -40,3 +40,32 @@ TEST_F(stringTemplateIntegTest, testWithExpr) {
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 1);
 }
+
+TEST_F(stringTemplateIntegTest, stringTemplateDoubleDollar) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        main() int
+            name := "world"
+            msg := "hello $$name"
+            ret msg.len()
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res->cast<nint>(), 12); // hello $world
+}
+
+TEST_F(stringTemplateIntegTest, stringTemplateMissingVar) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        main() void
+            msg := "hello $"
+            ret msg.len()
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(res->cast<nint>(), 7);
+}

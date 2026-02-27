@@ -4,14 +4,10 @@ using namespace by;
 using namespace std;
 
 namespace {
-    struct typeAndDeclAntipatternIntegTest: public byeolIntegTest {};
+    struct typeAndDeclAntiTest: public byeolIntegTest {};
 }
 
-// ============================================================================
-// Category 1: Type Declaration Order
-// ============================================================================
-
-TEST_F(typeAndDeclAntipatternIntegTest, paramTypeBeforeNameNegative) {
+TEST_F(typeAndDeclAntiTest, paramTypeBeforeNameNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -22,7 +18,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, paramTypeBeforeNameNegative) {
         .shouldParsed(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, returnTypeBeforeFuncNameNegative) {
+TEST_F(typeAndDeclAntiTest, returnTypeBeforeFuncNameNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -33,7 +29,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, returnTypeBeforeFuncNameNegative) {
         .shouldParsed(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, propTypeBeforeNameNegative) {
+TEST_F(typeAndDeclAntiTest, propTypeBeforeNameNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -44,7 +40,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, propTypeBeforeNameNegative) {
         .shouldParsed(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, multipleParamTypesBeforeNamesNegative) {
+TEST_F(typeAndDeclAntiTest, multipleParamTypesBeforeNamesNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -55,7 +51,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, multipleParamTypesBeforeNamesNegative) {
         .shouldParsed(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, partialParamTypeBeforeNameNegative) {
+TEST_F(typeAndDeclAntiTest, partialParamTypeBeforeNameNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -66,11 +62,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, partialParamTypeBeforeNameNegative) {
         .shouldParsed(false);
 }
 
-// ============================================================================
-// Category 2: Variable Declaration vs Assignment
-// ============================================================================
-
-TEST_F(typeAndDeclAntipatternIntegTest, assignWithoutDeclareNegative) {
+TEST_F(typeAndDeclAntiTest, assignWithoutDeclareNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -81,7 +73,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, assignWithoutDeclareNegative) {
     shouldVerified(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, doubleColonEqualNegative) {
+TEST_F(typeAndDeclAntiTest, doubleColonEqualNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -91,7 +83,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, doubleColonEqualNegative) {
         .shouldParsed(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, defAssignWithoutRhsNegative) {
+TEST_F(typeAndDeclAntiTest, defAssignWithoutRhsNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -101,7 +93,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, defAssignWithoutRhsNegative) {
         .shouldParsed(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, chainedAssignmentNegative) {
+TEST_F(typeAndDeclAntiTest, chainedAssignmentNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -111,11 +103,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, chainedAssignmentNegative) {
         .shouldParsed(false);
 }
 
-// ============================================================================
-// Category 9: Type Casting Errors
-// ============================================================================
-
-TEST_F(typeAndDeclAntipatternIntegTest, asWithoutTypeNegative) {
+TEST_F(typeAndDeclAntiTest, asWithoutTypeNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -126,7 +114,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, asWithoutTypeNegative) {
         .shouldParsed(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, doubleAsNegative) {
+TEST_F(typeAndDeclAntiTest, doubleAsNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -137,7 +125,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, doubleAsNegative) {
         .shouldParsed(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, voidCastingNegative) {
+TEST_F(typeAndDeclAntiTest, voidCastingNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -149,7 +137,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, voidCastingNegative) {
     shouldVerified(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, cStyleCastNegative) {
+TEST_F(typeAndDeclAntiTest, cStyleCastNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -160,7 +148,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, cStyleCastNegative) {
         .shouldParsed(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, isWithoutTypeNegative) {
+TEST_F(typeAndDeclAntiTest, isWithoutTypeNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -172,11 +160,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, isWithoutTypeNegative) {
         .shouldParsed(false);
 }
 
-// ============================================================================
-// Category 20: Implicit Casting Misunderstanding
-// ============================================================================
-
-TEST_F(typeAndDeclAntipatternIntegTest, twoStepImplicitCastNegative) {
+TEST_F(typeAndDeclAntiTest, twoStepImplicitCastNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -190,7 +174,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, twoStepImplicitCastNegative) {
     shouldVerified(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, strImplicitCastNegative) {
+TEST_F(typeAndDeclAntiTest, strImplicitCastNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -204,11 +188,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, strImplicitCastNegative) {
     shouldVerified(false);
 }
 
-// ============================================================================
-// Category 23: Void Type Misuse
-// ============================================================================
-
-TEST_F(typeAndDeclAntipatternIntegTest, voidVariableNegative) {
+TEST_F(typeAndDeclAntiTest, voidVariableNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -218,7 +198,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, voidVariableNegative) {
         .shouldParsed(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, voidArrayNegative) {
+TEST_F(typeAndDeclAntiTest, voidArrayNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -228,7 +208,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, voidArrayNegative) {
         .shouldParsed(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, voidAssignmentNegative) {
+TEST_F(typeAndDeclAntiTest, voidAssignmentNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -238,7 +218,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, voidAssignmentNegative) {
         .shouldParsed(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, voidReturnValueUseNegative) {
+TEST_F(typeAndDeclAntiTest, voidReturnValueUseNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -251,7 +231,7 @@ TEST_F(typeAndDeclAntipatternIntegTest, voidReturnValueUseNegative) {
     shouldVerified(false);
 }
 
-TEST_F(typeAndDeclAntipatternIntegTest, voidMapNegative) {
+TEST_F(typeAndDeclAntiTest, voidMapNegative) {
     make()
         .negative()
         .parse(R"SRC(
