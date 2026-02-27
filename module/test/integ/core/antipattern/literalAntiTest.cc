@@ -11,9 +11,10 @@ TEST_F(literalAntiTest, stringTemplateSpaceAfterDollarNegative) {
     make()
         .negative()
         .parse(R"SRC(
-        main() void
+        main() int
             name := "world"
             msg := "hello $ name"
+            ret msg.len()
     )SRC").shouldVerified(true);
 
     str res = run();

@@ -208,10 +208,6 @@ false {
     BY_DI("\\[\\w] STRVAL=%s", yytext);
     append(yylval, unescape(yytext + 1));
 }
-<stateString>[^"\\\$]+ {
-    BY_DI("[^\"\\$]+ STRVAL=%s", yytext);
-    append(yylval, yytext);
-}
 <stateString>$\{ {
     BY_DI("${ yytext=%s", yytext);
     unput('(');
@@ -221,6 +217,10 @@ false {
     // don't return '"' here:
     // we must leave '"' with 'unput()' so that the scanner will exit current 'stateString',
     // when it meets '"' by next token.
+}
+<stateString>[^"\\]+ {
+    BY_DI("[^\"]+ STRVAL=%s", yytext);
+    append(yylval, yytext);
 }
 <stateString>\\\n     { /* A backslash at the end of the line. Do nothing */ }
 <stateString>\"       {

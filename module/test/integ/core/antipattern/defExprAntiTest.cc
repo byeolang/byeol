@@ -66,7 +66,8 @@ TEST_F(defExprAntiTest, ctorWithReturnNegative) {
         main() void
             print(Person("wow").name)
     )SRC")
-        .shouldParsed(false);
+        .shouldParsed(true);
+    shouldVerified(false);
 }
 
 TEST_F(defExprAntiTest, duplicateTypeParameterNegative) {
