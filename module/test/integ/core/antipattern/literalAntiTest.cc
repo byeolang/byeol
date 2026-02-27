@@ -18,7 +18,7 @@ TEST_F(literalAntiTest, stringTemplateSpaceAfterDollarNegative) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 12); // hello $ name
+    ASSERT_EQ(*res->cast<nint>(), 12); // hello $ name
 }
 
 TEST_F(literalAntiTest, cStyleSingleLineCommentNegative) {

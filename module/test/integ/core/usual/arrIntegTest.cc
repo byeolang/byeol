@@ -838,7 +838,7 @@ TEST_F(arrIntegTest, arrayLiteralTrailingComma) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 3);
+    ASSERT_EQ(*res.cast<nint>(), 3);
 }
 
 TEST_F(arrIntegTest, emptyArrayWithoutType) {

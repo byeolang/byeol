@@ -595,7 +595,7 @@ TEST_F(FBOExprIntegTest, tripleMinusOperator) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res.cast<nint>(), 2);
+    ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
 /* TODO:

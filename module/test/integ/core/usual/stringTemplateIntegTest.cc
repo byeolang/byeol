@@ -53,7 +53,7 @@ TEST_F(stringTemplateIntegTest, stringTemplateDoubleDollar) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 12); // hello $world
+    ASSERT_EQ(*res.cast<nint>(), 12); // hello $world
 }
 
 TEST_F(stringTemplateIntegTest, stringTemplateMissingVar) {
@@ -67,5 +67,5 @@ TEST_F(stringTemplateIntegTest, stringTemplateMissingVar) {
 
     str res = run();
     ASSERT_TRUE(res);
-    ASSERT_EQ(res->cast<nint>(), 7);
+    ASSERT_EQ(*res.cast<nint>(), 7);
 }
