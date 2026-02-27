@@ -625,6 +625,16 @@ namespace by {
         _STEP("if obj is complete, does it have ctor without params?");
         if(me.isComplete()) WHEN_NUL(me.sub(ctor::CTOR_NAME, args())).myExErr(me, COMPLETE_OBJ_BUT_NO_CTOR).ret(true);
 
+        _STEP("check whether it has duplicated type parameter");
+        const auto& params = me.getParamNames();
+        for(nidx n = 0; n < params.size(); n++) {
+            const auto& param1 = params[n];
+            for(nidx n2 = n + 1; n2 < params.size() ;n2++) {
+                const auto& param2 = params[n2];
+                WHEN(param1 == param2).myExErr(me, GENERIC_TYPE_PARAM_DUPLICATED, param1).ret(true);
+            }
+        }
+
         return true;
     }
 
