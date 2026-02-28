@@ -313,14 +313,16 @@ namespace by {
         if((lEval->isSub<nStr>() || rEval->isSub<nStr>())) {
             switch(r) {
                 case FBOExpr::SYMBOL_AND:
-                case FBOExpr::SYMBOL_OR:
                 case FBOExpr::SYMBOL_SUB:
+                case FBOExpr::SYMBOL_MUL:
                 case FBOExpr::SYMBOL_DIV:
                 case FBOExpr::SYMBOL_MOD:
                 case FBOExpr::SYMBOL_BITWISE_AND:
                 case FBOExpr::SYMBOL_BITWISE_XOR:
                 case FBOExpr::SYMBOL_BITWISE_OR:
                 case FBOExpr::SYMBOL_LSHIFT:
+                case FBOExpr::SYMBOL_EQ:
+                case FBOExpr::SYMBOL_OR:
                 case FBOExpr::SYMBOL_RSHIFT: return BY_WHEN.myExErr(me, STRING_IS_NOT_PROPER_TO_OP).ret();
 
                 default:;

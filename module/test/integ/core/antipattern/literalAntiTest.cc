@@ -90,7 +90,6 @@ TEST_F(literalAntiTest, stringSubtractionNegative) {
 
 TEST_F(literalAntiTest, stringMultiplicationNegative) {
     make()
-        .negative()
         .parse(R"SRC(
         main() void
             a := "hello"
