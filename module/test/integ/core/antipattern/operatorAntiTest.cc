@@ -15,7 +15,8 @@ TEST_F(operatorAntiTest, doublePrefixIncrementNegative) {
             a := 5
             b := ++a++
     )SRC")
-        .shouldParsed(false);
+        .shouldParsed(true);
+    shouldVerified(false);
 }
 
 TEST_F(operatorAntiTest, doublePostfixDecrementNegative) {
@@ -26,7 +27,8 @@ TEST_F(operatorAntiTest, doublePostfixDecrementNegative) {
             a := 5
             b := --a--
     )SRC")
-        .shouldParsed(false);
+        .shouldParsed(true);
+    shouldVerified(false);
 }
 
 TEST_F(operatorAntiTest, tripleStarOperatorNegative) {

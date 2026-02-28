@@ -133,7 +133,7 @@ namespace by {
         //      so, only I need to check is, lhs of AssignExpr is kind of getExpr() or not.
         //      I can care about that the last expression is valid.
         _STEP("checks rvalue");
-        const getExpr& lhs = me.getLeft().cast<getExpr>() OR.myExErr(me, ASSIGN_TO_RVALUE, me.getRight(), lhs).ret();
+        const getExpr& lhs = me.getLeft().cast<getExpr>() OR.myExErr(me, ASSIGN_TO_RVALUE, *right, *left).ret();
 
         _STEP("checks that you can't assign to a func");
         str lhsEval = lhs.infer();
