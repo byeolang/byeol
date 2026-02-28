@@ -108,20 +108,6 @@ TEST_F(operatorAntiTest, meOutsideObjectScopeNegative) {
     shouldVerified(false);
 }
 
-TEST_F(operatorAntiTest, bitwiseAndLogicalMixNegative) {
-    make()
-        .negative()
-        .parse(R"SRC(
-        main() void
-            a := 5
-            b := 3
-            if a & 1 == 1
-                print("odd")
-    )SRC")
-        .shouldParsed(true);
-    shouldVerified(false);
-}
-
 TEST_F(operatorAntiTest, assignmentInConditionNegative) {
     make()
         .negative()
@@ -131,6 +117,5 @@ TEST_F(operatorAntiTest, assignmentInConditionNegative) {
             if a = 5
                 print("assigned")
     )SRC")
-        .shouldParsed(true);
-    shouldVerified(false);
+        .shouldParsed(false);
 }

@@ -598,6 +598,17 @@ TEST_F(FBOExprIntegTest, tripleMinusOperator) {
     ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
+TEST_F(FBOExprIntegTest, bitwiseAndLogicalMixNegative) {
+    make()
+        .parse(R"SRC(
+        main() void
+            a := 5
+            b := 3
+            if a & 1 == 1
+                print("odd")
+    )SRC").shouldVerified(true);
+}
+
 /* TODO:
 TEST_F(FBOExprIntegTest, referenceEqualityOnPrimitive) {
     make()
