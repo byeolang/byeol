@@ -752,7 +752,6 @@ namespace by {
     }
 
     node* me::onGetArray(node& elemType) {
-        if(elemType.isSub<nVoid>()) _report(nerr::newErr(elemType.getSrc().getPos(), ELEM_TYPE_NOT_VOID));
         node* ret = new arr(elemType);
         BY_DI("tokenEvent: onGetArray(%s)", elemType);
         return ret;

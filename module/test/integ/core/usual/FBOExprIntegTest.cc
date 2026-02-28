@@ -587,9 +587,10 @@ TEST_F(FBOExprIntegTest, strNotSuitableToSomeOpNegative5) {
 TEST_F(FBOExprIntegTest, tripleMinusOperator) {
     make()
         .parse(R"SRC(
-        main() void
+        main() int
             a := 5
-            b := a --- 3
+            b := a --- 3 # (a--) - 3
+            ret b
     )SRC").shouldParsed(true);
     shouldVerified(true);
 

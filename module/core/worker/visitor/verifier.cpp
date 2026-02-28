@@ -321,7 +321,6 @@ namespace by {
                 case FBOExpr::SYMBOL_BITWISE_XOR:
                 case FBOExpr::SYMBOL_BITWISE_OR:
                 case FBOExpr::SYMBOL_LSHIFT:
-                case FBOExpr::SYMBOL_EQ:
                 case FBOExpr::SYMBOL_OR:
                 case FBOExpr::SYMBOL_RSHIFT: return BY_WHEN.myExErr(me, STRING_IS_NOT_PROPER_TO_OP).ret();
 
