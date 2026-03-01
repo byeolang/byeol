@@ -591,7 +591,8 @@ TEST_F(FBOExprIntegTest, tripleMinusOperator) {
             a := 5
             b := a --- 3 # (a--) - 3
             ret b
-    )SRC").shouldParsed(true);
+    )SRC")
+        .shouldParsed(true);
     shouldVerified(true);
 
     str res = run();
@@ -607,7 +608,8 @@ TEST_F(FBOExprIntegTest, bitwiseAndLogicalMixNegative) {
             b := 3
             if a & 1 == 1
                 print("odd")
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 }
 
 /* TODO:

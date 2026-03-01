@@ -630,9 +630,9 @@ namespace by {
         const auto& params = me.getParamNames();
         for(nidx n = 0; n < params.size(); n++) {
             const auto& param1 = params[n];
-            for(nidx n2 = n + 1; n2 < params.size() ;n2++) {
+            for(nidx n2 = n + 1; n2 < params.size(); n2++) {
                 const auto& param2 = params[n2];
-                WHEN(param1 == param2).myExErr(me, GENERIC_TYPE_PARAM_DUPLICATED, param1).ret(true);
+                WHEN(param1 == param2) .myExErr(me, GENERIC_TYPE_PARAM_DUPLICATED, param1).ret(true);
             }
         }
 

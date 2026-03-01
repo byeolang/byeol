@@ -49,7 +49,8 @@ TEST_F(stringTemplateIntegTest, stringTemplateDoubleDollar) {
             name := "world"
             msg := "hello $$name"
             ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -63,7 +64,8 @@ TEST_F(stringTemplateIntegTest, stringTemplateMissingVar) {
         main() void
             msg := "hello $"
             ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

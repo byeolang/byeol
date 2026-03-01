@@ -834,7 +834,8 @@ TEST_F(arrIntegTest, arrayLiteralTrailingComma) {
         main() int
             arr := {1, 2, 3,}
             arr[2]
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -871,10 +872,10 @@ TEST_F(arrIntegTest, arrayIndexOutOfBoundsNegative) {
         main() void
             arr := {1, 2, 3}
             val := arr[10]
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_FALSE(res);
     ASSERT_TRUE(getReport());
 }
-

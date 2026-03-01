@@ -14,8 +14,7 @@ namespace by {
     template <typename T, template <typename, nbool> class Marshaling = tmarshaling, typename... Args>
     class tbridgeCtor
         : public tbridgeFunc<T, T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is, Marshaling, Args...> {
-        typedef tbridgeFunc<T, T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is, Marshaling, Args...>
-            __super9;
+        typedef tbridgeFunc<T, T, tifSub<typename tadaptiveSuper<T>::super, baseObj>::is, Marshaling, Args...> __super9;
         BY(ME(tbridgeCtor, __super9), CLONE(tbridgeCtor))
 
     public:

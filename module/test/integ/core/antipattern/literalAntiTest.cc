@@ -15,7 +15,8 @@ TEST_F(literalAntiTest, stringTemplateSpaceAfterDollarNegative) {
             name := "world"
             msg := "hello $ name"
             ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

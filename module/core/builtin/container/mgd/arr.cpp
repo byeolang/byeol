@@ -173,39 +173,9 @@ namespace by {
         return get()->_onMakeIteration(step, isReversed);
     }
 
-    namespace {
-        class __copyCtor: public baseFunc {
-            BY(ME(__copyCtor, baseFunc), CLONE(__copyCtor))
-
-        public:
-            __copyCtor(const baseObj& newType): _org(new arr(newType)) {}
-
-        public:
-            const ntype& getType() const override {
-                static mgdType inner("copyctor", ttype<me>::get(), params(*new param("rhs", _org.get())), false,
-                    _org.get());
-                return inner;
-            }
-
-            const baseObj& getOrigin() const override { return *_org; }
-
-            str eval(const args& a) override {
-                node& src = a.getMe() OR.ret(str());
-                return (node*) src.clone();
-            }
-
-        private:
-            tstr<arr> _org;
-        };
-    }
-
     scope& me::_defGeneric(const baseObj& paramOrg) {
         scope* clone = (scope*) _getOriginScope().cloneDeep();
         _cache.insert({&paramOrg, clone}); // this avoids infinite loop.
-        clone->add(ctor::CTOR_NAME,
-            new tbridgeClosure<arr*, arr, tmarshaling>([&paramOrg](arr&) -> arr* { return new me(paramOrg); }));
-        clone->add(ctor::CTOR_NAME, new __copyCtor(paramOrg));
-        clone->add("getElemType", new getElemTypeFunc());
 
         generalizer g;
         g.add(*new param(TYPENAME, paramOrg)).setTask(*this).setFlag(generalizer::INTERNAL).work();
@@ -214,17 +184,18 @@ namespace by {
     }
 
     scope& me::_getOriginScope() {
-        static scope inner = tbridger<narr>::genericCtor().genericCtor<
-                                genericFunc("len", &narr::len)
-                                 .genericFunc("rel", &narr::rel)
-                                 .genericFunc<nbool, nidx>("del", &narr::del)
-                                 .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
-                                 .genericFunc<nbool, nidx, const node&>("add", &narr::add)
-                                 .genericFunc<nbool, nidx, const node&>("set", &narr::set)
-                                 .genericFuncNonConst<node*, nidx>("get", &narr::get)
-                                 .genericFunc<nbool, const node&>("in", &narr::in)
-                                 .func("iterate", new iterateFunc())
-                                 .subs();
+        static scope inner = tbridger<narr>::genericCtor().genericCtor<me>()
+                .genericFunc("len", &narr::len)
+                .genericFunc("rel", &narr::rel)
+                .genericFunc<nbool, nidx>("del", &narr::del)
+                .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
+                .genericFunc<nbool, nidx, const node&>("add", &narr::add)
+                .genericFunc<nbool, nidx, const node&>("set", &narr::set)
+                .genericFuncNonConst<node*, nidx>("get", &narr::get)
+                .genericFunc<nbool, const node&>("in", &narr::in)
+                .func("iterate", new iterateFunc())
+                .func("getElemType", new getElemTypeFunc())
+                .subs();
 
         return inner;
     }
