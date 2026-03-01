@@ -84,7 +84,7 @@ namespace by {
         static me& func(const std::string* name, const baseFunc* bridgeFunc)
             BY_SIDE_FUNC(name&& bridgeFunc, func(*name, *bridgeFunc), _get());
 
-        template <typename... Args> static me& ctor() { return func(ctor::CTOR_NAME, new tbridgeCtor<T, Args...>()); }
+        template <typename... Args> static me& ctor() { return func(ctor::CTOR_NAME, new tbridgeCtor<T, tmarshaling, Args...>()); }
 
         template <typename Ret, typename... Args> static me& func(const std::string& name, Ret (T::*fptr)(Args...)) {
             return funcNonConst(name, fptr);
@@ -119,6 +119,10 @@ namespace by {
         template <typename Ret, typename... Args>
         static me& funcConst(const std::string* name, Ret (T::*fptr)(Args...) const)
             BY_SIDE_FUNC(name, funcConst(*name, fptr), _get());
+
+        static me& genericCtor() { return func(ctor::CTOR_NAME, new tbridgeCtor<T, tgenericMarshaling>()); }
+
+        template <typename... Args> static me& genericCtor() { return func(ctor::CTOR_NAME, new tbridgeCtor<T, tgenericMarshaling, Args...>()); }
 
         template <typename Ret, typename... Args>
         static me& genericFunc(const std::string& name, Ret (T::*fptr)(Args...)) {
@@ -212,7 +216,7 @@ namespace by {
 
         static me& ctor() { return func(ctor::CTOR_NAME, new tbridgeCtor<T>()); }
 
-        template <typename... Args> static me& ctor() { return func(ctor::CTOR_NAME, new tbridgeCtor<T, Args...>()); }
+        template <typename... Args> static me& ctor() { return func(ctor::CTOR_NAME, new tbridgeCtor<T, tmarshaling, Args...>()); }
 
         /*template <typename T1, typename... Args> static me& ctorIndirect() {
             return func(ctor::CTOR_NAME, new tbridgeCtor<T1, Args...>());

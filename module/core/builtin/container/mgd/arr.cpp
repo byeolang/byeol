@@ -214,7 +214,8 @@ namespace by {
     }
 
     scope& me::_getOriginScope() {
-        static scope inner = tbridger<narr>::genericFunc("len", &narr::len)
+        static scope inner = tbridger<narr>::genericCtor().genericCtor<
+                                genericFunc("len", &narr::len)
                                  .genericFunc("rel", &narr::rel)
                                  .genericFunc<nbool, nidx>("del", &narr::del)
                                  .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
