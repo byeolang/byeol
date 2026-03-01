@@ -133,12 +133,38 @@ namespace by {
         }
     }
 
+    namespace {
+        std::string truncate(const std::string& text, ncnt maxLen) {
+            constexpr ncnt ELLIPSE_LEN = 2; // for ..
+            constexpr const nchar* ELLIPSE = "..";
+
+            // Truncate function name with "..."
+            ncnt remain = maxLen - ELLIPSE_LEN;
+            ncnt prefixLen = (remain + 1) / 2;
+            ncnt suffixLen = remain / 2;
+            return text.substr(0, prefixLen) + ELLIPSE + text.substr(text.length() - suffixLen);
+        }
+
+        std::string _getFuncInfo(const nchar* func, int line) {
+            constexpr ncnt _WIDTH = 20;
+            std::string lineStr = std::to_string(line);
+            std::string name = func;
+            ncnt maxLen = _WIDTH - 3 - lineStr.length(); // 3 for < > #
+
+            if(name.length() > maxLen) name = truncate(name, maxLen);
+
+            std::string ret = "<" + name + "#" + lineStr + ">";
+            ret.resize(_WIDTH, ' ');
+            return ret;
+        }
+    }
+
     nbool me::log(errLv::level lv, const std::string& filename, const nchar* func, int line, const nchar* fmt, ...) {
         std::string tag = _makeTag(filename);
         WHEN(_filters && !_filters->filt(lv, tag.c_str())) .ret(false);
 
         using platformAPI::foreColor;
-        *this << foreColor(BROWN) << _makeStr("%s ", platformAPI::createNowTime("%b %d %Y  %X").c_str());
+        *this << foreColor(BROWN) << _makeStr("%s ", platformAPI::createNowTime("%b %d %Y %X").c_str());
 
         consoleColor clrLv = WHITE;
         switch(lv) {
@@ -147,7 +173,7 @@ namespace by {
             case errLv::INFO: clrLv = LIGHTBLUE; break;
         }
         *this << foreColor(clrLv) << std::string(1, errLv::getName(lv)[0]) << " " << foreColor(LIGHTMAGENTA) << tag
-              << foreColor(GREEN) << " <" << func << "#" << std::to_string(line) << "> " << foreColor(LIGHTGRAY);
+              << foreColor(GREEN) << " " << _getFuncInfo(func, line) << " " << foreColor(LIGHTGRAY);
 
         va_list va;
         va_start(va, fmt);
