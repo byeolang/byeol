@@ -207,11 +207,8 @@ namespace by {
         clone->add(ctor::CTOR_NAME, new __copyCtor(paramOrg));
         clone->add("getElemType", new getElemTypeFunc());
 
-        BY_DI("|==============================================|");
-        BY_DI("|--- generic: make arr<%s> generic class ---|", paramOrg);
         generalizer g;
         g.add(*new param(TYPENAME, paramOrg)).setTask(*this).setFlag(generalizer::INTERNAL).work();
-        BY_DI("|============================|");
 
         return *clone;
     }

@@ -38,6 +38,9 @@ namespace by {
         nbool onVisit(const visitInfo& i, baseObj& me, nbool) override;
         nbool onVisit(const visitInfo& i, getGenericExpr& me, nbool) override;
 
+    protected:
+        void _onWork() override;
+
     private:
         str _findOrigin(const node& toReplace) const;
         str _findOrigin(const node* it) const BY_SIDE_FUNC(_findOrigin);

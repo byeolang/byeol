@@ -110,9 +110,12 @@ namespace by {
     nbool me::onVisit(const visitInfo& i, baseCtor& me, nbool) {
         baseObj* cast = getTask() TO(template cast<baseObj>());
         if(!cast) getReport().add(nerr::newErr(errCode::MAKE_GENERIC_FAIL, i.name.c_str()));
-        else if(i.parent && i.parent == cast)
+        else if(i.parent && i.parent == cast) {
+            const auto& org = cast->getOrigin();
+            BY_DI("* inject ctor: retType of `%s(%s)` --> '%s'", i, me.getParams().toStr(), org);
             // if this ctor belongs to root object(== generic obj):
-            coreInternal::setOrigin(me, cast->getOrigin());
+            coreInternal::setOrigin(me, org);
+        }
 
         onVisit(i, (baseFunc&) me, false);
         return true;
@@ -174,6 +177,14 @@ namespace by {
             if(org) a.set(n, *org);
         }
         return true;
+    }
+
+    void me::_onWork() {
+        const ntype& t = getTask() TO(getType()) OR.ret();
+        BY_DI("|==============================================|");
+        BY_DI("|--- generic: make %s generic obj@%s ---|", t.createNameWithParams(), platformAPI::toAddrId(getTask()));
+        super::_onWork();
+        BY_DI("|==============================================|");
     }
 
     std::string me::_makeParamsKey() const {

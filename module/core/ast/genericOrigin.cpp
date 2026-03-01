@@ -72,20 +72,14 @@ namespace by {
         newType.getParams().add(ps);
         coreInternal::setType(*ret, newType);
 
-        BY_DI("|==========================================|");
-        BY_DI("|--- generic: make %s generic obj[%s] ---|", newType.createNameWithParams(),
-            platformAPI::toAddrId(ret.get()));
-        BY_DI("|--- generic: make cache %s ---|", argName);
-
         // prevent infinite loop:
         //  now I'll run generalizer but sometimes generalizer asking this class to get generic
         //  object which is being creating. prevent such situation, I need to put a instance into
         //  cache first.
+        BY_DI("generic: make cache for %s", argName);
         _cache.insert({argName, ret});
 
         generalizer().add(*_org).add(ps).setFlag(generalizer::INTERNAL).setTask(*ret).work();
-
-        BY_DI("|============================|");
         return ret;
     }
 
