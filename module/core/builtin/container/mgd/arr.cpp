@@ -84,6 +84,47 @@ namespace by {
             mgdType _type;
         };
 
+        class __baseCtor : public baseFunc {
+            BY(ME(__baseCtor, baseFunc))
+
+        public:
+            __baseCtor(arr* org, const mgdType& newType): _org(org), _type(newType) {}
+
+        public:
+            const ntype& getType() const override { return _type; }
+
+            const baseObj& getOrigin() const override { return *_org; }
+
+        private:        
+            tstr<arr> _org;
+            mgdType _type;
+        };
+
+        class __defaultCtor: public __baseCtor {
+            BY(ME(__defaultCtor, __baseCtor), CLONE(__defaultCtor))
+
+        public:
+            __defaultCtor(arr* org): super(org, mgdType("@ctor", ttype<me>::get(), params(), false, org)) {}
+
+        public:
+            str eval(const args& a) override {
+                return new arr(getOrigin().getType().getParams()[0].getOrigin());
+            }
+        };
+
+        class __copyCtor: public __baseCtor{
+            BY(ME(__copyCtor, __baseCtor), CLONE(__copyCtor))
+
+        public:
+            __copyCtor(arr* org): super(org, mgdType("@ctor", ttype<me>::get(), params(*new param("rhs", org)), false, org)) {}
+
+        public:
+            str eval(const args& a) override {
+                node& src = a.getMe() OR.ret(str());
+                return (node*) src.clone();
+            }
+        };
+
         const static std::string paramName = "typeParam";
     } // namespace
 
@@ -176,6 +217,8 @@ namespace by {
     scope& me::_defGeneric(const baseObj& paramOrg) {
         scope* clone = (scope*) _getOriginScope().cloneDeep();
         _cache.insert({&paramOrg, clone}); // this avoids infinite loop.
+        clone->add(ctor::CTOR_NAME, new __defaultCtor(new arr(paramOrg)));
+        clone->add(ctor::CTOR_NAME, new __copyCtor(new arr(paramOrg)));
 
         generalizer g;
         g.add(*new param(TYPENAME, paramOrg)).setTask(*this).setFlag(generalizer::INTERNAL | generalizer::GUARD).work();
@@ -184,8 +227,7 @@ namespace by {
     }
 
     scope& me::_getOriginScope() {
-        static scope inner = tbridger<narr>::genericCtor().genericCtor<me>()
-                .genericFunc("len", &narr::len)
+        static scope inner = tbridger<narr>::genericFunc("len", &narr::len)
                 .genericFunc("rel", &narr::rel)
                 .genericFunc<nbool, nidx>("del", &narr::del)
                 .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
