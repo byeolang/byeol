@@ -177,7 +177,7 @@ namespace by {
 
         va_list va;
         va_start(va, fmt);
-        *this << _makeStr(fmt, va);
+        *this << line::getLine() << _makeStr(fmt, va);
         va_end(va);
         return false;
     }
