@@ -109,7 +109,10 @@ namespace by {
 
     TEMPLATE
     R ME::adaptWork(tworker<R, T>& w) {
-        if(w.isFlag(tworker<R, T>::GUARD)) BY_I("|=== %s.work()... ==============|", w);
+        if(w.isFlag(tworker<R, T>::GUARD)) {
+            line::incLv();
+            BY_I("▶ %s.work()", w);
+        }
 
         w._prepare();
 
@@ -119,11 +122,14 @@ namespace by {
         ret = w._onWork();
         internal.setPrev().rel();
 
-        if(w.isFlag(tworker<R, T>::GUARD)) BY_I("|--- %s._onEndWork()... --------|", w);
+        if(w.isFlag(tworker<R, T>::GUARD)) BY_I("%s._onEndWork()", w);
 
         w._onEndWork();
 
-        if(w.isFlag(tworker<R, T>::GUARD)) BY_I("|=== %s ends! ==================|", w);
+        if(w.isFlag(tworker<R, T>::GUARD)) {
+            line::decLv();
+            BY_I("◀ %s ends!", w);
+        }
         return ret;
     }
 
@@ -134,7 +140,10 @@ namespace by {
 
     TEMPLATE
     void ME::adaptWork(tworker<void, T>& w) {
-        if(w.isFlag(tworker<void, T>::GUARD)) BY_I("|=== %s.work()... ==============|", w);
+        if(w.isFlag(tworker<void, T>::GUARD)) {
+            BY_I("▶ %s.work()", w);
+            line::incLv();
+        }
 
         w._prepare();
 
@@ -145,12 +154,15 @@ namespace by {
             w._onWork();
         }
 
-        if(w.isFlag(tworker<void, T>::GUARD)) BY_I("|--- %s._onEndWork()... --------|", w);
+        if(w.isFlag(tworker<void, T>::GUARD)) BY_I("%s._onEndWork()", w);
 
         prev.setPrev();
         w._onEndWork();
 
-        if(w.isFlag(tworker<void, T>::GUARD)) BY_I("|=== %s ends! ==================|", w);
+        if(w.isFlag(tworker<void, T>::GUARD)) {
+            line::decLv();
+            BY_I("◀ %s ends!", w);
+        }
     }
 
 #undef ME

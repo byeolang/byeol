@@ -34,13 +34,23 @@ namespace by {
         }
 
         static ncnt _stepN = 0;
+
+        class endGuard : public end {
+            BY(ME(endGuard, end))
+
+        public:
+            endGuard(std::function<void(void)> l): super([&]() { line::decLv(); l(); }) {}
+        };
     }
 
-#define _GUARD(msg)                                         \
-    if(isFlag(GUARD)) do {                                  \
-            BY_I("'%s' %s@%s: " msg, i, me.getType(), &me); \
-            _stepN = 0;                                     \
-    } while(0)
+#define _GUARD(msg)                                 \
+    BY_I("▶ '%s' %s@%s: " msg, i, me.getType(), &me); \
+    line::incLv();                                  \
+    _stepN = 0;                                     \
+    BY_END_BLOCK({ \
+        line::decLv(); \
+        BY_I("◀ '%s' %s@%s: " msg, i, me.getType(), &me); \
+    });
 
 #define _STEP(msg, ...)                                                                                        \
     BY_I("'%s' %s@%s: step#%d --> " msg, i, ttype<typeTrait<decltype(me)>::Org>::get(), (void*) &me, ++_stepN, \

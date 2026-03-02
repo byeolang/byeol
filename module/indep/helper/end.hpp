@@ -49,6 +49,11 @@ namespace by {
 //  });
 //      or,
 //  BY_END(doSomething());
-#define BY_END_BLOCK(blockStmt) auto __defer__##__COUNTER__ = end([&]() blockStmt)
-#define BY_END(stmt) auto __defer__##__COUNTER__ = end([&]() { stmt; })
+#define BY_END_BLOCK_2(__class, blockStmt) auto BY_CONCAT(__defer__, __COUNTER__) = __class([&]() blockStmt)
+#define BY_END_BLOCK_1(blockStmt) BY_END_BLOCK_2(end, blockStmt)
+#define BY_END_BLOCK(...) BY_OVERLOAD(BY_END_BLOCK, __VA_ARGS__)
+
+#define BY_END_2(__class, stmt) auto BY_CONCAT(__defer__, __COUNTER__) = __class([&]() { stmt; })
+#define BY_END_1(stmt) BY_END_2(end, (stmt))
+#define BY_END(...) BY_OVERLOAD(BY_END, __VA_ARGS__)
 }

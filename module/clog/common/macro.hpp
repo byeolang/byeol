@@ -47,9 +47,7 @@
 #    define BY_E_SCOPE(fmt, ...) { \
         ::by::line::incLv(); \
         BY_E("▶  " fmt, ##__VA_ARGS__); \
-        auto __scopeLog__##__COUNTER__ = scopeLog([&](nllong elapsed) { \
-            BY_E("◀  " fmt, ##__VA_ARGS__); \
-        }); \
+        BY_END(scopeLog, [&](nllong elapsed) { BY_E("◀  " fmt, ##__VA_ARGS__); }); \
     }
 #else
 #    define BY_E(fmt, ...) void()
