@@ -49,20 +49,50 @@
         BY_E("▶  " fmt, ##__VA_ARGS__); \
         BY_END(scopeLog, [&](nllong elapsed) { BY_E("◀  " fmt, ##__VA_ARGS__); }); \
     }
+#    define BY_W_SCOPE(fmt, ...) { \
+        ::by::line::incLv(); \
+        BY_W("▶  " fmt, ##__VA_ARGS__); \
+        BY_END(scopeLog, [&](nllong elapsed) { BY_W("◀  " fmt, ##__VA_ARGS__); }); \
+    }
+#    define BY_I_SCOPE(fmt, ...) { \
+        ::by::line::incLv(); \
+        BY_I("▶  " fmt, ##__VA_ARGS__); \
+        BY_END(scopeLog, [&](nllong elapsed) { BY_I("◀  " fmt, ##__VA_ARGS__); }); \
+    }
 #else
 #    define BY_E(fmt, ...) void()
 #    define BY_W(fmt, ...) void()
 #    define BY_I(fmt, ...) void()
 #    define BY_E_SCOPE(fmt, ...) void()
+#    define BY_W_SCOPE(fmt, ...) void()
+#    define BY_I_SCOPE(fmt, ...) void()
 #endif
 #ifdef BY_DEBUG
 #    define BY_DE(fmt, ...) BY_E(fmt, ##__VA_ARGS__)
 #    define BY_DW(fmt, ...) BY_W(fmt, ##__VA_ARGS__)
 #    define BY_DI(fmt, ...) BY_I(fmt, ##__VA_ARGS__)
+#    define BY_DE_SCOPE(fmt, ...) { \
+        ::by::line::incLv(); \
+        BY_DE("▶  " fmt, ##__VA_ARGS__); \
+        BY_END(scopeLog, [&](nllong elapsed) { BY_DE("◀  " fmt, ##__VA_ARGS__); }); \
+    }
+#    define BY_DW_SCOPE(fmt, ...) { \
+        ::by::line::incLv(); \
+        BY_DW("▶  " fmt, ##__VA_ARGS__); \
+        BY_END(scopeLog, [&](nllong elapsed) { BY_DW("◀  " fmt, ##__VA_ARGS__); }); \
+    }
+#    define BY_DI_SCOPE(fmt, ...) { \
+        ::by::line::incLv(); \
+        BY_DI("▶  " fmt, ##__VA_ARGS__); \
+        BY_END(scopeLog, [&](nllong elapsed) { BY_DI("◀  " fmt, ##__VA_ARGS__); }); \
+    }
 #else
 #    define BY_DE(fmt, ...) void()
 #    define BY_DW(fmt, ...) void()
 #    define BY_DI(fmt, ...) void()
+#    define BY_DE_SCOPE(fmt, ...) void()
+#    define BY_DW_SCOPE(fmt, ...) void()
+#    define BY_DI_SCOPE(fmt, ...) void()
 #endif
 
 #undef BY_SIDE_FUNC_3

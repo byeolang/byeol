@@ -79,7 +79,7 @@ namespace by {
         BY_DI("generic: make cache for %s", argName);
         _cache.insert({argName, ret});
 
-        generalizer().add(*_org).add(ps).setFlag(generalizer::INTERNAL).setTask(*ret).work();
+        generalizer().add(*_org).add(ps).setFlag(generalizer::INTERNAL | generalizer::GUARD).setTask(*ret).work();
         return ret;
     }
 

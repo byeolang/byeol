@@ -178,7 +178,7 @@ namespace by {
         _cache.insert({&paramOrg, clone}); // this avoids infinite loop.
 
         generalizer g;
-        g.add(*new param(TYPENAME, paramOrg)).setTask(*this).setFlag(generalizer::INTERNAL).work();
+        g.add(*new param(TYPENAME, paramOrg)).setTask(*this).setFlag(generalizer::INTERNAL | generalizer::GUARD).work();
 
         return *clone;
     }

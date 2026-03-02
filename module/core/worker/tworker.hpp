@@ -21,6 +21,16 @@ namespace by {
 #define myExWarn_5(me, code, a1, a2, a3) exErr(me, errCode::code, getReport(), a1, a2, a3)
 #define myExWarn(...) BY_OVERLOAD(myExWarn, __VA_ARGS__)
 
+#define BY_WORKER_GUARD(msg)                                 \
+    BY_I("▶ '%s' %s@%s: " msg, i, me.getType(), &me); \
+    line::incLv();                                  \
+    _stepN = 0;                                     \
+    BY_END_BLOCK({ \
+        line::decLv(); \
+        BY_I("◀ '%s' %s@%s: " msg, i, me.getType(), &me); \
+    });
+
+
     /** @ingroup core
      *  @brief Base worker template for processing tasks
      *  @details tworker is optimized for performing large batch operations. It can collect errors that occur during
