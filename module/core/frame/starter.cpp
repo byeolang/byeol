@@ -53,6 +53,7 @@ namespace by {
             enablesZone zone(true);
             BY_DE("unhandled exception found:");
             th.dump();
+            return str();  // return null when exception exists
         }
         return res;
     }
