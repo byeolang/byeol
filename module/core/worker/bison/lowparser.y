@@ -658,6 +658,10 @@ def-obj-generic-call-complete: DEF NAME typeparams func-call-tuple indentDefBloc
 //              container:
 def-array-value: '{' tuple-items '}' { $$ = PS.onDefArray(*$2); }
                | '{' tuple-items ',' '}' { $$ = PS.onDefArray(*$2); }
+               | '{' '}' {
+                    tstr<args> emptyArgs(PS.onTuple());
+                    $$ = PS.onDefArray(*emptyArgs);
+                }
 
 //              with:
 with-inline: WITH expr-inline9 {
