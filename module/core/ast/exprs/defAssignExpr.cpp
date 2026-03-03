@@ -26,7 +26,7 @@ namespace by {
     str me::_onMakeNew() {
         WHEN(_type) .ret(getRight()->as(*_type));
 
-        str ret = getRight() TO(template as<node>());
+        str ret = getRight() TO(template as<node>()) OR.ret(str());
         BY_I("@%s `%s := %s", this, getName(), *ret);
 
         return ret;
