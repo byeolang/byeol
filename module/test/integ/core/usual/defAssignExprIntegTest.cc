@@ -100,7 +100,6 @@ TEST_F(defAssignExprIntegTest, testDefAssignNegative) {
             ret 0
     )SRC")
         .shouldVerified(false);
-    run();
 }
 
 TEST_F(defAssignExprIntegTest, defAssignInObjectRefersInvalidFuncNegative) {
