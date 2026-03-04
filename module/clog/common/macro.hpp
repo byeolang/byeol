@@ -43,22 +43,44 @@
  *     BY_E_SCOPE("count=%d", counter++);  // WRONG: counter increments twice!
  * }
  * @endcode
+ *
+ *
+ * @section be careful when you use BY_?_SCOPE macro in 'if' block statement
+ * as you can see below, it defines 'end' instance to catch when the scope ends.
+ * so if you use BY_E_SCOPE inside of block statement by expecting it works when the func ends,
+ * it won't work as you expected.
+ * @code
+ *  void foo() {
+ *      if(isVerbose) BY_I_SCOPE("okay, verbose mode is on."); 
+ *      BY_I("hello");
+ *  }
+ * @endcode
+ *
+ * in above example, macro will expand like below,
+ * @code
+ *  void foo() {
+ *      if(isVerbose) 
+ *          ::by::line::incLv();
+ *      BY_E("▶  okay, verbose mode is on."); 
+ *      BY_END(scopeLog, ...., "◀  okay, verbose mode is on.")
+ *      BY_I("hello");
+ *  }
+ * @endcode
+ *
+ * so the start and end of scope logs always printed.
  */
-#    define BY_E_SCOPE(fmt, ...) { \
+#    define BY_E_SCOPE(fmt, ...) \
         ::by::line::incLv(); \
         BY_E("▶  " fmt, ##__VA_ARGS__); \
-        BY_END(scopeLog, [&](nllong elapsed) { BY_E("◀  " fmt, ##__VA_ARGS__); }); \
-    }
-#    define BY_W_SCOPE(fmt, ...) { \
+        BY_END(scopeLog, [&](nllong elapsed) { BY_E("◀  " fmt, ##__VA_ARGS__); });
+#    define BY_W_SCOPE(fmt, ...) \
         ::by::line::incLv(); \
         BY_W("▶  " fmt, ##__VA_ARGS__); \
-        BY_END(scopeLog, [&](nllong elapsed) { BY_W("◀  " fmt, ##__VA_ARGS__); }); \
-    }
-#    define BY_I_SCOPE(fmt, ...) { \
-        ::by::line::incLv(); \
+        BY_END(scopeLog, [&](nllong elapsed) { BY_W("◀  " fmt, ##__VA_ARGS__); });
+#    define BY_I_SCOPE(fmt, ...) \
         BY_I("▶  " fmt, ##__VA_ARGS__); \
-        BY_END(scopeLog, [&](nllong elapsed) { BY_I("◀  " fmt, ##__VA_ARGS__); }); \
-    }
+        ::by::line::incLv(); \
+        BY_END(scopeLog, [&](nllong elapsed) { BY_I("◀  " fmt, ##__VA_ARGS__); });
 #else
 #    define BY_E(fmt, ...) void()
 #    define BY_W(fmt, ...) void()
@@ -71,21 +93,18 @@
 #    define BY_DE(fmt, ...) BY_E(fmt, ##__VA_ARGS__)
 #    define BY_DW(fmt, ...) BY_W(fmt, ##__VA_ARGS__)
 #    define BY_DI(fmt, ...) BY_I(fmt, ##__VA_ARGS__)
-#    define BY_DE_SCOPE(fmt, ...) { \
+#    define BY_DE_SCOPE(fmt, ...) \
         ::by::line::incLv(); \
         BY_DE("▶  " fmt, ##__VA_ARGS__); \
-        BY_END(scopeLog, [&](nllong elapsed) { BY_DE("◀  " fmt, ##__VA_ARGS__); }); \
-    }
-#    define BY_DW_SCOPE(fmt, ...) { \
+        BY_END(scopeLog, [&](nllong elapsed) { BY_DE("◀  " fmt, ##__VA_ARGS__); });
+#    define BY_DW_SCOPE(fmt, ...) \
         ::by::line::incLv(); \
         BY_DW("▶  " fmt, ##__VA_ARGS__); \
-        BY_END(scopeLog, [&](nllong elapsed) { BY_DW("◀  " fmt, ##__VA_ARGS__); }); \
-    }
-#    define BY_DI_SCOPE(fmt, ...) { \
+        BY_END(scopeLog, [&](nllong elapsed) { BY_DW("◀  " fmt, ##__VA_ARGS__); });
+#    define BY_DI_SCOPE(fmt, ...) \
         ::by::line::incLv(); \
         BY_DI("▶  " fmt, ##__VA_ARGS__); \
-        BY_END(scopeLog, [&](nllong elapsed) { BY_DI("◀  " fmt, ##__VA_ARGS__); }); \
-    }
+        BY_END(scopeLog, [&](nllong elapsed) { BY_DI("◀  " fmt, ##__VA_ARGS__); });
 #else
 #    define BY_DE(fmt, ...) void()
 #    define BY_DW(fmt, ...) void()

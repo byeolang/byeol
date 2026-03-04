@@ -33,7 +33,7 @@ namespace by {
     scope& me::subs() { return _subs; }
 
     str me::eval(const args& a) {
-        BY_I("@%s prepare to eval `%s(%s)`...", this, getSrc(), getParams());
+        BY_I_SCOPE("func %s(%s)@%s", getSrc(), getParams(), (void*) this);
         WHEN(!thread::get().isInteractable())
             .err("thread isn't interactable").ret(nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD));
 
