@@ -49,13 +49,15 @@ namespace by {
 
     str me::_postprocess(const str& res) {
         thread& th = thread::get();
-        if(th.getEx()) {
+        WHEN(!th.getEx()).ret(res);
+
+        if(isFlag(starter::DUMP_ON_END)) {
             enablesZone zone(true);
             BY_DE("unhandled exception found:");
             th.dump();
-            return str();  // return null when exception exists
         }
-        return res;
+
+        return *th.getEx().last();
     }
 
     void me::_prepareFrame(frames& fr) { fr.rel(); }

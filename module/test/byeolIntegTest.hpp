@@ -26,7 +26,7 @@ struct byeolIntegTest: public byeolTest {
     by::nbool shouldParsed(by::nbool well);
     by::nbool shouldVerified(by::nbool well);
 
-    by::str run();
+    by::str run(by::nbool silent = false);
 
 private:
     void _rel();

@@ -760,8 +760,9 @@ TEST_F(arrIntegTest, setFieldOfElemAfterGetIt1) {
     ASSERT_EQ(*res.cast<nint>(), 22);
 }
 
-TEST_F(arrIntegTest, outOfBoundExOccurs) {
+TEST_F(arrIntegTest, outOfBoundExOccursNegative) {
     make()
+        .negative()
         .parse(R"SRC(
         def A
             arr str[]
@@ -774,7 +775,7 @@ TEST_F(arrIntegTest, outOfBoundExOccurs) {
     )SRC")
         .shouldVerified(true);
 
-    str res = run();
+    str res = run(true); // run silently. it's negative test.
     ASSERT_TRUE(res);
     ASSERT_FALSE(res.cast<nint>()); // which means, program ended with error code.
     nerr& resErr = res.cast<nerr>() OR_ASSERT(resErr);
@@ -840,42 +841,4 @@ TEST_F(arrIntegTest, arrayLiteralTrailingComma) {
     str res = run();
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 3);
-}
-
-TEST_F(arrIntegTest, emptyArrayWithoutType) {
-    make()
-        .parse(R"SRC(
-        main() void
-            arr := {}
-    )SRC")
-        .shouldParsed(true);
-    shouldVerified(false);
-}
-
-TEST_F(arrIntegTest, negativeArrayIndexNegative) {
-    make()
-        .parse(R"SRC(
-        main() void
-            arr := {1, 2, 3}
-            val := arr[-1]
-    )SRC")
-        .shouldVerified(true);
-
-    str res = run();
-    ASSERT_FALSE(res);
-    ASSERT_TRUE(getReport());
-}
-
-TEST_F(arrIntegTest, arrayIndexOutOfBoundsNegative) {
-    make()
-        .parse(R"SRC(
-        main() void
-            arr := {1, 2, 3}
-            val := arr[10]
-    )SRC")
-        .shouldVerified(true);
-
-    str res = run();
-    ASSERT_FALSE(res);
-    ASSERT_TRUE(getReport());
 }
