@@ -180,7 +180,7 @@ namespace by {
     }
 
     void me::_onWork() {
-        const ntype& t = getTask() TO(getType()) OR.ret();
+        [[maybe_unused]] const ntype& t = getTask() TO(getType()) OR.ret();
         BY_DI("generic: make %s generic obj@%s", t.createNameWithParams(), platformAPI::toAddrId(getTask()));
         super::_onWork();
     }
