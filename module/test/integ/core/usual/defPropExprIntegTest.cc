@@ -151,7 +151,7 @@ TEST_F(defPropExprIntegTest, shortDefinition) {
             age := 2
 
         foo() int
-            person'
+            person`
             person.age = 3 # person is local variable.
             ret person.age
 
@@ -170,9 +170,9 @@ TEST_F(defPropExprIntegTest, shortDefinitionOnParam) {
         .parse(R"SRC(
         def person
             age := 0
-            ctor(person')
+            ctor(person`)
                 age = person.age + 1
-        foo(person') int
+        foo(person`) int
             person.age + 1
 
         main() int
@@ -190,7 +190,7 @@ TEST_F(defPropExprIntegTest, shortDefinitionNotAllowPrimitiveNegative) {
     make()
         .negative()
         .parse(R"SRC(
-        foo(int') int: 1
+        foo(int`) int: 1
         main() int
             foo(2)
     )SRC")

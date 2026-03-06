@@ -822,7 +822,7 @@ TEST_F(defFuncIntegTest, closureShouldCanCaptureInMainFunc) {
     make()
         .parse(R"SRC(
         foo(inpux int) int
-        runClosure(foo', input int) int
+        runClosure(foo`, input int) int
             foo(input) # interpreter misrecognize this as 'input()' builtin func
 
         main() int
@@ -840,7 +840,7 @@ TEST_F(defFuncIntegTest, simpleLambda) {
     make()
         .parse(R"SRC(
         foo(n int) int
-        add(foo', input int) int
+        add(foo`, input int) int
             ret foo(input)
 
         main() int
@@ -859,7 +859,7 @@ TEST_F(defFuncIntegTest, simpleLambdaInline) {
     make()
         .parse(R"SRC(
         foo(n int) int
-        add(foo', input int) int: foo(input)
+        add(foo`, input int) int: foo(input)
         main() int
             add((n int) int: n + 3, 10)
     )SRC")
@@ -885,7 +885,7 @@ TEST_F(defFuncIntegTest, voidParameterNotAllowedInLambdaNegative) {
         .negative()
         .parse(R"SRC(
         foo() int
-        callClosure(foo') int
+        callClosure(foo`) int
             foo()
         main() int
             callClosure((n void) int: 6)
@@ -902,17 +902,17 @@ TEST_F(defFuncTest, complexLambda) {
             ctor(n name): name = n
 
         def class
-            def handler((Person') void: ;)
-                onHandle(Person') void: ;
+            def handler((Person`) void: ;)
+                onHandle(Person`) void: ;
                 listener := onHandle
-                ctor(onHandle'): listener = onHandle
-                handle(Person') void: listener(person)
+                ctor(onHandle`): listener = onHandle
+                handle(Person`) void: listener(person)
 
             _hdlr := handler
             people Person[]
 
-            addHandler(handler') void: hdlr = handler
-            add(Person') void
+            addHandler(handler`) void: hdlr = handler
+            add(Person`) void
                 people.add(person)
                 hdlr.handle(person)
 

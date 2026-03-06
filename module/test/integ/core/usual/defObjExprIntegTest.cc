@@ -790,7 +790,7 @@ TEST_F(defObjExprIntegTest, passNestedFuncAsCompleteCallParam) {
         onHandle(n int) int
         def handler((n int) int: n + 3)
             value int
-            ctor(onHandle'): value = onHandle(-3) # -3 + 3 = 0
+            ctor(onHandle`): value = onHandle(-3) # -3 + 3 = 0
 
         main() int
             handler.value
@@ -808,7 +808,7 @@ TEST_F(defObjExprIntegTest, assignClosureShouldWork) {
         def handler
             onHandle(n int) int: 0
             listener onHandle
-            setHandler(onHandle') void: listener = onHandle
+            setHandler(onHandle`) void: listener = onHandle
             handle(n int) int: listener(n)
 
         main() int
