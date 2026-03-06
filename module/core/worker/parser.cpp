@@ -82,6 +82,10 @@ namespace by {
 
     void me::onTokenStartOfStrTemplateBrace() { _strTemplateCnt++; }
 
+    void me::onTokenBeginStr(nchar token) { _strOpenToken = token; }
+
+    nbool me::isClosingStrToken(nchar token) { return _strOpenToken == token; }
+
     nint me::onTokenLParan(nint tok) {
         _dedent.countUp();
         return onIgnoreIndent(tok);
@@ -1157,6 +1161,7 @@ namespace by {
         _dedent.rel();
         _supplies.rel();
         _maker.rel();
+        _strOpenToken = '\0';
         _prepare();
     }
 

@@ -216,6 +216,10 @@ namespace by {
     scope& me::_defGeneric(const baseObj& paramOrg) {
         scope* clone = (scope*) _getOriginScope().cloneDeep();
         _cache.insert({&paramOrg, clone}); // this avoids infinite loop.
+
+        // I can't use genericCtor here:
+        //  what I have to make is arr instance, not narr.
+        //  but tbridger is targeted to narr class. so it's not possible to call genericCtor.
         clone->add(ctor::CTOR_NAME, new __defaultCtor(new arr(paramOrg)));
         clone->add(ctor::CTOR_NAME, new __copyCtor(new arr(paramOrg)));
 

@@ -44,7 +44,6 @@ namespace {
 %x stateComment
 %x stateString
 
-
 /*  ============================================================================================
     |                                           RULES                                          |
     ============================================================================================  */
@@ -171,6 +170,14 @@ false {
 \" {
     yylval->asStr = nullptr;
     yylloc->strCol = yylloc->start.col;
+    PS.onTokenBeginStr('"');
+    BEGIN(PS.pushState(stateString));
+}
+
+\' {
+    yylval->asStr = nullptr;
+    yylloc->strCol = yylloc->start.col;
+    PS.onTokenBeginStr('\'');
     BEGIN(PS.pushState(stateString));
 }
 
@@ -228,16 +235,30 @@ false {
     unput(yytext[1]);
     append(yylval, "$");
 }
-<stateString>[^"\\\$]+ {
-    BY_DI("[^\"\\$]+ STRVAL=%s", yytext);
+<stateString>[^\"\'\\\$]+ {
+    BY_DI("[^\"\'\\$]+ STRVAL=%s", yytext);
     append(yylval, yytext);
 }
 <stateString>\\\n     { /* A backslash at the end of the line. Do nothing */ }
 <stateString>\"       {
-    if(!yylval->asStr) yylval->asStr = new std::string();
-    yylloc->start.col = yylloc->strCol;
-    BEGIN(PS.popState());
-    return STRVAL;
+    if(PS.isClosingStrToken('"')) {
+        if(!yylval->asStr) yylval->asStr = new std::string();
+        yylloc->start.col = yylloc->strCol;
+        BEGIN(PS.popState());
+        return STRVAL;
+    } else {
+        append(yylval, '"');
+    }
+}
+<stateString>\'       {
+    if(PS.isClosingStrToken('\'')) {
+        if(!yylval->asStr) yylval->asStr = new std::string();
+        yylloc->start.col = yylloc->strCol;
+        BEGIN(PS.popState());
+        return STRVAL;
+    } else {
+        append(yylval, '\'');
+    }
 }
 
 <<EOF>> {

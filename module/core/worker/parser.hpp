@@ -234,6 +234,23 @@ namespace by {
          */
         void onTokenStartOfStrTemplateBrace();
         /**
+         * @brief Handles the start of a string literal.
+         * @details Stores the opening quote character ('"' or '\'') to distinguish
+         *          between double-quoted and single-quoted strings during parsing.
+         *          This enables support for both quote types using the same scanner state.
+         * @param token The opening quote character ('"' or '\'')
+         */
+        void onTokenBeginStr(nchar token);
+        /**
+         * @brief Checks if the given quote character closes the current string
+         * @details Compares the given quote with the stored opening quote from
+         *          @ref onTokenBeginStr to determine if thie is the closing quote
+         *          or just a quote character to be included in the string content.
+         * @param token The quote character to check ('"' or '\'')
+         * @return true if quote matches the opening quote.
+         */
+        nbool isClosingStrToken(nchar token);
+        /**
          * @brief Handles an increase in indentation.
          * @param col The column count of the new indentation level.
          * @param tok The token ID that triggered the indentation.
@@ -482,5 +499,6 @@ namespace by {
         srcSupplies _supplies;
         std::vector<func*> _funcs;
         ncnt _strTemplateCnt;
+        nchar _strOpenToken;
     };
 } // namespace by
