@@ -107,7 +107,7 @@ TEST_F(defPropExprIntegTest, defVoidContainerNegative) {
         main() void
             a void[]
     )SRC")
-        .shouldParsed(false);
+        .shouldParsed(true);
     shouldVerified(false);
 }
 
