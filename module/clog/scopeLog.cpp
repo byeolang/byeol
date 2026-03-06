@@ -1,7 +1,10 @@
 #include "clog/scopeLog.hpp"
 #include <chrono>
 
+
 namespace by {
+    using namespace std::chrono;
+
     BY(DEF_ME(scopeLog))
 
     me::scopeLog(const std::function<void(nllong)>& l):
@@ -12,7 +15,7 @@ namespace by {
         _prev(_measureNow()) {}
 
     nllong me::_measureNow() {
-        auto now = std::chrono::steady_clock::now();
-        return duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+        auto now = steady_clock::now();
+        return duration_cast<milliseconds>(now.time_since_epoch()).count();
     }
 }
