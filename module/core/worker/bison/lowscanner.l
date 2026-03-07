@@ -190,7 +190,24 @@ false {
     append(yylval, unescape(yytext + 1));
     BY_DI("scanner: STRVAL=%s", yylval->asStr);
 }
-
+<stateString>\\[a-zA-Z\'\"]   {
+    BY_DI("\\[\\w] STRVAL=%s", yytext);
+    append(yylval, unescape(yytext + 1));
+}
+<stateString>[^\"\'\\\$]+ {
+    BY_DI("[^\"\'\\$]+ STRVAL=%s", yytext);
+    append(yylval, yytext);
+}
+<stateString>$\{ {
+    BY_DI("${ yytext=%s", yytext);
+    unput('(');
+    unput('+');
+    unput('"'); // inputStream = "+(
+    PS.onTokenStartOfStrTemplateBrace();
+    // don't return '"' here:
+    // we must leave '"' with 'unput()' so that the scanner will exit current 'stateString',
+    // when it meets '"' by next token.
+}
 <stateString>\$[a-zA-Z_]+ {
     BY_DI("\\$[a-zA-Z_]+ yytext=%s", yytext);
     std::string text = yytext;
@@ -211,20 +228,6 @@ false {
     unput('+');
     unput('"'); // inputStream = "+(<yourText> as str)+"
 }
-<stateString>\\[a-zA-Z]   {
-    BY_DI("\\[\\w] STRVAL=%s", yytext);
-    append(yylval, unescape(yytext + 1));
-}
-<stateString>$\{ {
-    BY_DI("${ yytext=%s", yytext);
-    unput('(');
-    unput('+');
-    unput('"'); // inputStream = "+(
-    PS.onTokenStartOfStrTemplateBrace();
-    // don't return '"' here:
-    // we must leave '"' with 'unput()' so that the scanner will exit current 'stateString',
-    // when it meets '"' by next token.
-}
 <stateString>\$\" {
     BY_DI("$\" yytext=%s", yytext);
     unput('"');
@@ -235,12 +238,8 @@ false {
     unput(yytext[1]);
     append(yylval, "$");
 }
-<stateString>[^\"\'\\\$]+ {
-    BY_DI("[^\"\'\\$]+ STRVAL=%s", yytext);
-    append(yylval, yytext);
-}
 <stateString>\\\n     { /* A backslash at the end of the line. Do nothing */ }
-<stateString>\"       {
+<stateString>\" {
     if(PS.isClosingStrToken('"')) {
         if(!yylval->asStr) yylval->asStr = new std::string();
         yylloc->start.col = yylloc->strCol;
@@ -250,7 +249,7 @@ false {
         append(yylval, '"');
     }
 }
-<stateString>\'       {
+<stateString>\' {
     if(PS.isClosingStrToken('\'')) {
         if(!yylval->asStr) yylval->asStr = new std::string();
         yylloc->start.col = yylloc->strCol;
