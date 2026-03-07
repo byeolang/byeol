@@ -16,6 +16,10 @@ void me::TearDown() {
     thr.rel();
 }
 
+void me::setNoisyEx(by::nbool noisy) {
+    by::thread::get().getEx().setNoisy(noisy);
+}
+
 by::instance::vault& me::_getVault() { return by::instance::getVault(); }
 
 void me::_assertVault() {

@@ -10,7 +10,7 @@ struct cliTest: public byeolTest {
 };
 
 TEST_F(cliTest, noSourceCodeProvidedErrorNegative) {
-    programRes res = ep.setTask(byeolE2ETest::parseFlag(0, "")).work();
+    programRes res = ep.setReport(*new errReport(false)).setTask(byeolE2ETest::parseFlag(0, "")).work();
     ASSERT_NE(res.res, 0);
     ASSERT_TRUE(res.rpt); // should have an error.
     ASSERT_TRUE(res.rpt.inErr(by::NOT_SPECIFIED));
@@ -31,13 +31,13 @@ TEST_F(cliTest, tryOptionClusteringWillBeSuspendedIfProgramExit) {
 }
 
 TEST_F(cliTest, tryOptionClusteringNegative) {
-    auto res = ep.setTask(byeolE2ETest::parseFlag(1, "-vS")).work();
+    auto res = ep.setReport(*new errReport(false)).setTask(byeolE2ETest::parseFlag(1, "-vS")).work();
     ASSERT_EQ(res.res, -1); // no source code provided
     ASSERT_TRUE(res.rpt);
 }
 
 TEST_F(cliTest, provideNoOptionArgumentEvenIfItWantsNegative) {
-    auto res = ep.setTask(byeolE2ETest::parseFlag(1, "-s")).work(); // -s expects a trailing argument.
+    auto res = ep.setReport(*new errReport(false)).setTask(byeolE2ETest::parseFlag(1, "-s")).work(); // -s expects a trailing argument.
     ASSERT_EQ(res.res, -1);                                         // no source code provided
     ASSERT_TRUE(res.rpt);
 }
@@ -200,7 +200,7 @@ main() int
 }
 
 TEST_F(cliTest, interpretMultipleFileNegative) {
-    auto res = ep.setTask(byeolE2ETest::parseFlag(1, "testdata/a.byeol")).work();
+    auto res = ep.setReport(*new errReport(false)).setFlag(0).setTask(byeolE2ETest::parseFlag(1, "testdata/a.byeol")).work();
     ASSERT_TRUE(res.rpt);
 }
 

@@ -43,7 +43,9 @@ TEST_F(blockExprTest, testEvalWithEmptyArgs) {
     blockExpr block;
     args emptyArgs;
 
+    setNoisyEx(false);
     str result = block.eval(emptyArgs);
+    setNoisyEx(true);
     ASSERT_FALSE(result); // THERE_IS_NO_FRAMES_IN_THREAD
 
     obj o;
@@ -224,7 +226,9 @@ TEST_F(blockExprTest, testEvalAfterVariadicConstruction) {
     nInt expr1(10);
     blockExpr block(expr1);
 
+    setNoisyEx(false);
     str result = block.eval(args());
+    setNoisyEx(true);
     ASSERT_FALSE(result); // THERE_IS_NO_FRAMES_IN_THREAD
 
     obj o;

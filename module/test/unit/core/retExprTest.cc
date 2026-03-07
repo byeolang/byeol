@@ -73,7 +73,9 @@ TEST_F(retExprTest, testEvalWithEmptyArgsNegative) {
     retExpr expr(returnValue);
     args emptyArgs;
 
+    setNoisyEx(false);
     str result = expr.eval(emptyArgs);
+    setNoisyEx(true);
     ASSERT_FALSE(result);
 }
 

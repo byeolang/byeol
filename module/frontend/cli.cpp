@@ -43,7 +43,7 @@ namespace by {
         _refineFlagArgs(a);
 
         interpreter ip;
-        programRes ret{errReport(true) /* it's noisy now */, 0};
+        programRes ret{getReport(), 0};
         ip.setReport(ret.rpt).setFlag(interpreter::DEFAULT);
         starter s;
         s.setFlag(starter::DUMP_ON_EX);

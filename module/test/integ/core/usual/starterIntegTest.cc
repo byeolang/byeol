@@ -45,6 +45,7 @@ TEST_F(starterIntegTest, mainCallFuncAndCheckReturn) {
 
 TEST_F(starterIntegTest, managedCallStack) {
     make()
+        .negative() // this code occurs exception
         .parse(R"SRC(
         def Person
             ctor():;

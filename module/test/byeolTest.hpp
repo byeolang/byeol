@@ -9,6 +9,8 @@ struct byeolTest: public ::testing::Test {
 
     void TearDown();
 
+    void setNoisyEx(by::nbool noisy);
+
 protected:
     by::instance::vault& _getVault();
 
