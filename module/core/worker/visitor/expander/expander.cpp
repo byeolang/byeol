@@ -232,6 +232,7 @@ namespace by {
     nbool me::_expand(errReport& rpt, expansion& eval) {
         obj& me = *eval.me;
         frameInteract f1(me);
+        thread::get().setEx(rpt);
 
         func& fun = *eval.fun;
         frameInteract f2(fun);
