@@ -242,14 +242,10 @@ namespace by {
          */
         void onTokenBeginStr(nchar token);
         /**
-         * @brief Checks if the given quote character closes the current string
-         * @details Compares the given quote with the stored opening quote from
-         *          @ref onTokenBeginStr to determine if thie is the closing quote
-         *          or just a quote character to be included in the string content.
-         * @param token The quote character to check ('"' or '\'')
-         * @return true if quote matches the opening quote.
+         * @brief returns quote character which used to start current string sequence.
+         * @return quote or double quote to be used to open string literal.
          */
-        nbool isClosingStrToken(nchar token);
+        nchar getOpenStrToken();
         /**
          * @brief Handles an increase in indentation.
          * @param col The column count of the new indentation level.

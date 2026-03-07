@@ -84,7 +84,7 @@ namespace by {
 
     void me::onTokenBeginStr(nchar token) { _strOpenToken = token; }
 
-    nbool me::isClosingStrToken(nchar token) { return _strOpenToken == token; }
+    nchar me::getOpenStrToken() { return _strOpenToken; }
 
     nint me::onTokenLParan(nint tok) {
         _dedent.countUp();

@@ -210,23 +210,11 @@ false {
 }
 <stateString>\$[a-zA-Z_]+ {
     BY_DI("\\$[a-zA-Z_]+ yytext=%s", yytext);
-    std::string text = yytext;
-    unput('"'); // inputStream = "
-    unput('+'); // inputStream = + "
-    unput(')'); // inputStream = ) + "
-    unput('r');
-    unput('t');
-    unput('s'); // inputStream = str) + "
-    unput(' ');
-    unput('s');
-    unput('a'); // inputStream = as str) + "
-    unput(' ');
-    for(int n= yyleng - 1; n > 0 ;n--) {
-        unput(text[n]); // inputStream = <yourText> as str) + "
-    }
-    unput('('); // inputStream = (<yourtext> as str) + "
-    unput('+');
-    unput('"'); // inputStream = "+(<yourText> as str)+"
+    by::nchar openQuote = PS.getOpenStrToken();
+    std::string text = openQuote + std::string("+(") + (yytext + 1) + std::string(" as str) +") + openQuote;
+    BY_E("text=%s", text);
+    for(int n = text.length() - 1; n >= 0 ;n--)
+        unput(text[n]); // inputStream = "+(<yourText> as str)+"
 }
 <stateString>\$\" {
     BY_DI("$\" yytext=%s", yytext);
@@ -240,7 +228,7 @@ false {
 }
 <stateString>\\\n     { /* A backslash at the end of the line. Do nothing */ }
 <stateString>\" {
-    if(PS.isClosingStrToken('"')) {
+    if(PS.getOpenStrToken() == '"') {
         if(!yylval->asStr) yylval->asStr = new std::string();
         yylloc->start.col = yylloc->strCol;
         BEGIN(PS.popState());
@@ -250,7 +238,7 @@ false {
     }
 }
 <stateString>\' {
-    if(PS.isClosingStrToken('\'')) {
+    if(PS.getOpenStrToken() == '\'') {
         if(!yylval->asStr) yylval->asStr = new std::string();
         yylloc->start.col = yylloc->strCol;
         BEGIN(PS.popState());
