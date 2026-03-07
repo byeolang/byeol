@@ -201,7 +201,7 @@ TEST_F(defPropExprIntegTest, shortDefinitionNotAllowContainerNegative) {
     make()
         .negative()
         .parse(R"SRC(
-        foo(int[]') int: 1
+        foo(int[]`) int: 1
         main() int
             foo(2)
     )SRC")
@@ -214,7 +214,7 @@ TEST_F(defPropExprIntegTest, shortDefinitionNotAllowContainerNegative2) {
         .parse(R"SRC(
         def Person
             age int
-        foo(Person[]') int: 1
+        foo(Person[]`) int: 1
         main() int
             foo({Person()})
     )SRC")
@@ -226,7 +226,7 @@ TEST_F(defPropExprIntegTest, shortDefinitionWithGenerics) {
         .parse(R"SRC(
         def Person<E>
             value E
-        foo(Person<int>') int
+        foo(Person<int>`) int
             person.value + 1 # short-definition always replaces to define lowercased name.
         main() int
             p1 Person<int>
