@@ -62,7 +62,8 @@ namespace by {
             BY_DI("|               %s                   |", v.getType().getName().c_str());
             BY_DI("======================================");
 
-            v.setFlag(i.getFlag()) // uses thread's errReport.
+            v.setReport(i.getReport())
+                .setFlag(i.getFlag()) // uses thread's errReport.
                 .delFlag(interpreter::LOG_ON_END | interpreter::DUMP_ON_END)
                 .setTask(task)
                 .work();

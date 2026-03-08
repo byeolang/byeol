@@ -24,7 +24,7 @@ namespace by {
         void rel();
 
     private:
-        thread _thr;
+        tstr<thread> _thr;
         tstr<thread> _prev;
     };
 }
