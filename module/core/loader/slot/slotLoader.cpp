@@ -9,7 +9,7 @@ namespace by {
 
     BY_DEF_ME(slotLoader)
 
-    me::slotLoader(): _report(dummyErrReport::singleton) {}
+    me::slotLoader() {}
 
     void me::load() {
         // TODO: returns result when it's fail
@@ -83,11 +83,6 @@ namespace by {
         std::string cwd = fsystem::getCurrentDir() + fsystem::getDelimiter();
         BY_I("finding slots relative to %s or absolute", cwd);
         return addPath(cwd + path);
-    }
-
-    me& me::setReport(errReport& report) {
-        _report.bind(report);
-        return *this;
     }
 
     me& me::setBaseSlots(nmap& s) {

@@ -115,6 +115,6 @@ namespace by {
 
     private:
         frames _frames;
-        tstr<errReport> _ex;
+        mutable tstr<errReport> _ex;
     };
 } // namespace by

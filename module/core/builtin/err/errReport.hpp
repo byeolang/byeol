@@ -98,6 +98,9 @@ namespace by {
         BY(CLASS(dummyErrReport, errReport))
 
     public:
+        dummyErrReport();
+
+    public:
         const baseErr& add(const baseErr& new1) override;
 
         static me singleton;

@@ -32,7 +32,6 @@ namespace by {
          */
         me& setBaseSlots(nmap& s);
         me& setBaseSlots(nmap* it) BY_SIDE_FUNC(it, setBaseSlots(*it), *this);
-        me& setReport(errReport& report);
 
         /**
          * @brief Initiates the pack loading process.
@@ -53,7 +52,6 @@ namespace by {
         const packLoadings& _getLoadings() const;
 
     private:
-        tstr<errReport> _report;
         tstr<nmap> _slots;
         std::vector<std::string> _paths;
         static constexpr nchar DELIMITER = '/';

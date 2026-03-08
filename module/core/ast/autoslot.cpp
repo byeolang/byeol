@@ -6,13 +6,14 @@
 #include "core/ast/exprs/evalExpr.hpp"
 #include "core/ast/baseFunc.hpp"
 #include "core/ast/origin.hpp"
+#include "core/frame/thread.hpp"
 
 namespace by {
 
     BY(DEF_ME(autoslot), DEF_VISIT())
 
     me::autoslot(const manifest& manifest, const packLoadings& loadings):
-        super(manifest), _loadings(loadings), _state(RELEASED), _rpt(dummyErrReport::singleton) {}
+        super(manifest), _loadings(loadings), _state(RELEASED) {}
 
     me::~autoslot() {
         // release all instance first:
@@ -27,7 +28,12 @@ namespace by {
 
     void me::_rel() {
         _state = RELEASED;
-        _rpt.bind(dummyErrReport::singleton);
+    }
+
+    namespace {
+        errReport& _getReport() {
+            return thread::get().getEx();
+        }
     }
 
     obj& me::getPack() {
@@ -37,10 +43,15 @@ namespace by {
             org.setCallComplete(*new mockNode());
             _pak.bind(org);
             BY_I("%s pack is about to interpret lazy.", name);
-            // TODO: check _rpt error count increased or not.
+
+            auto& exRpt = _getReport();
+            errReport rpt(exRpt.isNoisy());
+            // TODO: check rpt error count increased or not.
             //       if increased, then parse() function has been failed.
-            parse(*_rpt, _pak->getShares()); // recursive call wasn't allowed.
-            verify(*_rpt, *_pak);
+            parse(rpt, _pak->getShares()); // recursive call wasn't allowed.
+            verify(rpt, *_pak);
+            exRpt.add(rpt); // add errors if they occurs during loading.
+
             link();
         }
 
@@ -50,8 +61,6 @@ namespace by {
     state me::getState() const { return _state; }
 
     void me::setState(state new1) { _state = new1; }
-
-    void me::setReport(errReport& rpt) { _rpt.bind(rpt); }
 
     void me::rel() {
         _rel();
@@ -76,7 +85,7 @@ namespace by {
             load->verify(rpt, pak);
 
         _state = VERIFIED;
-        _setValid(!_rpt); // if has an error, setValid(false);
+        _setValid(!rpt); // if has an error, setValid(false);
         return true;
     }
 

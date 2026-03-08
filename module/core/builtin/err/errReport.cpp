@@ -103,6 +103,8 @@ namespace by {
         new1.log();
     }
 
+    dummyErrReport::dummyErrReport(): super(false) {}
+
     const baseErr& dummyErrReport::add(const baseErr& new1) {
         static ndummyErr dum;
         return dum;

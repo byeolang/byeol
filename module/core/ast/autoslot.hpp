@@ -92,18 +92,6 @@ namespace by {
 
         void rel() override;
 
-        /**
-         *  this report will be used while interpret @ref pack source code.
-         *  @remark when 'subs()' @ref func of the @ref pack has been called, it interprets src codes
-         *          if it's first time. during parsing and verification, this report will
-         *          collects warning & @ref err.
-         *          this @ref func usually will be called by @ref verifier when it detects the access
-         *          to a @ref pack.
-         *          please see @ref verifier class if you want to know further.
-         */
-        void setReport(errReport& rpt);
-        void setReport(errReport* it) BY_SIDE_FUNC(setReport);
-
     protected:
         nbool _invalidate() override;
 
@@ -117,6 +105,5 @@ namespace by {
         packLoadings _loadings;
         state _state;
         srcs _srcs;
-        tstr<errReport> _rpt;
     };
 } // namespace by
