@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/worker/tworker.hpp"
+#include "core/frame/thread.hpp"
 
 namespace by {
 
@@ -15,7 +16,7 @@ namespace by {
 #define TEMPLATE template <typename R, typename T>
 #define ME tworker<R, T>
 
-    TEMPLATE ME::tworker(): _rpt(dummyErrReport::singleton) { _rel(); }
+    TEMPLATE ME::tworker(): _rpt(thread::get().getEx()) { _rel(); }
 
     TEMPLATE errReport& ME::getReport() { return *_rpt; }
 

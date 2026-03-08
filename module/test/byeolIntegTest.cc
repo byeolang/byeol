@@ -17,8 +17,6 @@ by::slot* me::getSlot() { return _ip.getTask(); }
 
 const by::slot* me::getSlot() const { return _ip.getTask(); }
 
-by::errReport& me::getReport() { return _rpt; }
-
 byeolIntegTest& me::make(const std::string& name) { return make(by::manifest(name)); }
 
 byeolIntegTest& me::make() { return make(by::manifest()); }
@@ -52,21 +50,18 @@ byeolIntegTest& me::parse(const by::nchar* src) {
     using namespace by;
 
     defaultSigZone<interpreter> zone(_ip);
-    _ip.getParser().addSupply(*new by::bufSupply(std::string(src)));
-    _ip.setReport(_rpt).work();
+    _ip.getParser().addSupply(*new bufSupply(std::string(src)));
+    _ip.setReport(getReport()).work();
     return *this;
 }
 
 byeolIntegTest& me::negative() {
+    super::negative();
+
     WHEN(logger::get().isEnable()) .ret(*this); // in verbose mode, do not silence log.
     typedef by::interpreter ip;
-    _rpt.setNoisy(false);
+    getReport().setNoisy(false);
     _ip.setFlag(0);
-    return *this;
-}
-
-byeolIntegTest& me::silenceLog() {
-    _rpt.setNoisy(false);
     return *this;
 }
 
@@ -85,11 +80,11 @@ by::nbool me::shouldVerified(by::nbool expect) {
 by::str me::run(by::nbool silent) {
     using by::starter;
     auto flag = silent ? 0 : starter::LOG_STRUCTURE | starter::LOG_GRAPH_ON_EX | starter::DEFAULT;
-    return starter().setTask(getSubPack()).setReport(_rpt).setFlag(flag).work();
+    return starter().setTask(getSubPack()).setReport(getReport()).setFlag(flag).work();
 }
 
 void me::_rel() {
     _src = "";
-    _rpt.rel();
     _ip.rel();
+    getReport().rel();
 }

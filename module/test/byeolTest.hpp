@@ -11,6 +11,10 @@ struct byeolTest: public ::testing::Test {
 
     void setNoisyEx(by::nbool noisy);
 
+    virtual byeolTest& negative();
+
+    by::errReport& getReport();
+
 protected:
     by::instance::vault& _getVault();
 

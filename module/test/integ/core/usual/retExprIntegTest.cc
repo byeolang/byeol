@@ -160,6 +160,7 @@ TEST_F(retExprIntegTest, retIsNotExpressionNegative) {
 
 TEST_F(retExprIntegTest, retException) {
     make()
+        .negative() // this throws exception
         .parse(R"SRC(
         foo(n int) int
             ret err("err found")
@@ -179,6 +180,7 @@ TEST_F(retExprIntegTest, retException) {
 
 TEST_F(retExprIntegTest, retExceptionNoThrowAgain) {
     make()
+        .negative() // this throws exception
         .parse(R"SRC(
         foo(n int) int
             ret err("just an err")
@@ -197,6 +199,7 @@ TEST_F(retExprIntegTest, retExceptionNoThrowAgain) {
 
 TEST_F(retExprIntegTest, retExceptionNoThrowAgain2) {
     make()
+        .negative() // this throws exception
         .parse(R"SRC(
         foo(n int) int
             ret err("just an err")
@@ -205,7 +208,7 @@ TEST_F(retExprIntegTest, retExceptionNoThrowAgain2) {
     )SRC")
         .shouldVerified(true);
 
-    ASSERT_TRUE(run() TO(template cast<baseErr>()));
+    ASSERT_TRUE(run(true) TO(template cast<baseErr>()));
 
     const auto& ex = getReport();
     ASSERT_TRUE(ex);

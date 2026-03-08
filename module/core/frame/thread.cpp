@@ -166,7 +166,6 @@ namespace by {
         BY_I("initiates loading system slots.");
         ret.bind(new nmap());
         slotLoader()
-            .setReport(*_ex)
             .setBaseSlots(*ret)
 #ifdef BY_BUILD_PLATFORM_IS_LINUX
             .addPath("/usr/share/pack/")

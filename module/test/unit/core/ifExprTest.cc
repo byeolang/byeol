@@ -207,14 +207,16 @@ TEST_F(ifExprTest, testInferWithElse) {
     ASSERT_TRUE(inferredType);
 }
 
-TEST_F(ifExprTest, testEvalWithEmptyArgs) {
+TEST_F(ifExprTest, testEvalWithEmptyArgsNoThrow) {
     nBool condition(true);
     blockExpr thenBlock;
     ifExpr expr(condition, thenBlock);
     args emptyArgs;
 
-    str result = expr.eval(emptyArgs);
-    // eval might return a result or void depending on implementation
+    setNoisyEx(false);
+    expr.eval(emptyArgs);
+    setNoisyEx(true);
+    // eval might return an err or void depending on implementation
     // Just ensure it doesn't crash
 }
 

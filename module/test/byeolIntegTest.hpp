@@ -5,13 +5,15 @@
 #include "test/byeolTest.hpp"
 
 struct byeolIntegTest: public byeolTest {
+    BY(ME(byeolIntegTest, byeolTest))
+
+public:
     void TearDown() override;
 
     by::node* getSubPack();
     const by::node* getSubPack() const;
     by::slot* getSlot();
     const by::slot* getSlot() const;
-    by::errReport& getReport();
 
     byeolIntegTest& make(const std::string& name);
     byeolIntegTest& make();
@@ -20,8 +22,7 @@ struct byeolIntegTest: public byeolTest {
     byeolIntegTest& addFlag(by::nint Flag);
     byeolIntegTest& delFlag(by::nint flag);
     byeolIntegTest& parse(const by::nchar* src);
-    byeolIntegTest& negative();
-    byeolIntegTest& silenceLog();
+    byeolIntegTest& negative() override;
 
     by::nbool shouldParsed(by::nbool well);
     by::nbool shouldVerified(by::nbool well);
@@ -33,6 +34,5 @@ private:
 
 private:
     const by::nchar* _src;
-    by::errReport _rpt;
     by::interpreter _ip;
 };

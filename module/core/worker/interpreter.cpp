@@ -62,8 +62,7 @@ namespace by {
             BY_DI("|               %s                   |", v.getType().getName().c_str());
             BY_DI("======================================");
 
-            v.setReport(i.getReport())
-                .setFlag(i.getFlag())
+            v.setFlag(i.getFlag()) // uses thread's errReport.
                 .delFlag(interpreter::LOG_ON_END | interpreter::DUMP_ON_END)
                 .setTask(task)
                 .work();
@@ -80,14 +79,14 @@ namespace by {
     }
 
     void me::_expand() {
-        threadUse thr;
+        threadUse thr(getReport());
         expander evaler;
         WHEN_NUL(getTask()).err("_slot is null").ret();
         _visit(*this, evaler, getTask() TO(getPack()));
     }
 
     void me::_verify() {
-        threadUse thr;
+        threadUse thr(getReport());
         WHEN_NUL(getTask()).err("_slot is null").ret();
         _visit(*this, _veri, getTask() TO(getPack()));
     }

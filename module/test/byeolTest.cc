@@ -17,8 +17,15 @@ void me::TearDown() {
 }
 
 void me::setNoisyEx(by::nbool noisy) {
-    by::thread::get().getEx().setNoisy(noisy);
+    getReport().setNoisy(noisy);
 }
+
+me& me::negative() {
+    setNoisyEx(false);
+    return *this;
+}
+
+by::errReport& me::getReport() { return by::thread::get().getEx(); }
 
 by::instance::vault& me::_getVault() { return by::instance::getVault(); }
 

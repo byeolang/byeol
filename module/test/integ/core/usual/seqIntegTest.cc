@@ -85,7 +85,7 @@ TEST_F(seqIntegTest, eachReturnedValueShouldBeDifferent) {
 
 TEST_F(seqIntegTest, basicSyntaxNegative) {
     make()
-        .silenceLog() // the code below doesn't have compile error, but runtime one.
+        .negative() // the code below doesn't have compile error, but runtime one.
         .parse(R"SRC(
         print(msg str) void: 1
         main() int

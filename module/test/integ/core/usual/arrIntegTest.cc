@@ -6,7 +6,13 @@ using namespace by;
 using namespace std;
 
 struct arrIntegTest: public byeolIntegTest {
-    void SetUp() override { arr::_cache.clear(); }
+    BY(ME(arrIntegTest, byeolIntegTest))
+
+public:
+    void SetUp() override {
+        super::SetUp();
+        arr::_cache.clear();
+    }
 };
 
 namespace {
@@ -426,7 +432,6 @@ TEST_F(arrIntegTest, testImplicitlyefSyntax2) {
 
 TEST_F(arrIntegTest, arrDeductionFailNegative) {
     make()
-        .negative()
         .parse(R"SRC(
         def obj
             name := "kniz"

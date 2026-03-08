@@ -36,9 +36,4 @@ me& me::negative() {
     return *this;
 }
 
-me& me::silenceLog() {
-    cli.getReport().setNoisy(false);
-    return *this;
-}
-
 by::programRes me::run() { return cli.work(); }

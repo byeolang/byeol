@@ -24,7 +24,7 @@ TEST_F(FBOExprIntegTest, simpleAdd) {
 
     str res(getSubPack() TO(eval("main")));
     ASSERT_TRUE(res);
-    ASSERT_TRUE(res->isSub<baseErr>());
+    ASSERT_EQ(*res.cast<nint>(), 7);
 
     {
         threadUse thr;
