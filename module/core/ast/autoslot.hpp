@@ -69,12 +69,24 @@ namespace by {
      *  another autoslot, causing that autoslot to also recursively enter the loading sequence. This checks for
      *  duplicate initialization or incomplete pipeline traversal.
      *
+     *
      *  @section raii_section RAII
      *  autoslot points to the _pack object defined in @ref slot. This object contains symbols loaded from the
      *  external `pack` file. Since autoslot is responsible for pack loading through packLoading, it's also
      *  responsible for symbol and pack destruction. Using RAII, when the autoslot object is destroyed, all symbols
      *  are removed first, then the packLoading object is also removed to perform operations like closing so files.
      *  See packLoading for details.
+     *
+     *
+     *  @section thread is required to run an autoslot
+     *  when you try to load pack by accessing subs() of autoslot instance, it processes loading
+     *  and access to errReport when exception occurs during that procedure.
+     *  basically, accessing to subs() of autoslot happen when you eval your AST.
+     *  which means, you're required to prepare a thread. so autoslot will use
+     *  the errReport instance in current thread::getEx().
+     *
+     *  @remark this doesn't mean that a thread is needed when running a slotLoader
+     *          that creates autoslots.
      */
     class _nout autoslot: public slot, public packMakable, public statable {
         BY(CLASS(autoslot, slot), VISIT())
