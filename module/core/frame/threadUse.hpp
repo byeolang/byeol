@@ -25,5 +25,6 @@ namespace by {
 
     private:
         thread _thr;
+        tstr<thread> _prev;
     };
 }

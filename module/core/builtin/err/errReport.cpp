@@ -110,5 +110,7 @@ namespace by {
         return dum;
     }
 
+    me& dummyErrReport::setNoisy(nbool isNoisy) { return *this; }
+
     dummyErrReport dummyErrReport::singleton;
 } // namespace by

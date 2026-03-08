@@ -75,7 +75,7 @@ namespace by {
         void rel();
 
         nbool isNoisy() const;
-        me& setNoisy(nbool isNoisy);
+        virtual me& setNoisy(nbool isNoisy);
 
     private:
         void _noise(const baseErr& new1);
@@ -102,6 +102,8 @@ namespace by {
 
     public:
         const baseErr& add(const baseErr& new1) override;
+
+        super& setNoisy(nbool isNoisy) override;
 
         static me singleton;
     };
