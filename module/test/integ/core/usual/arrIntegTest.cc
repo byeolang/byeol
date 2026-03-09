@@ -432,6 +432,7 @@ TEST_F(arrIntegTest, testImplicitlyefSyntax2) {
 
 TEST_F(arrIntegTest, arrDeductionFailNegative) {
     make()
+        .negative()
         .parse(R"SRC(
         def obj
             name := "kniz"

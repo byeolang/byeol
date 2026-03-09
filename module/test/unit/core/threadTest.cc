@@ -3,19 +3,6 @@
 using namespace by;
 
 struct threadTest: public byeolTest {
-    thread* thr = nullptr;
-
-    void SetUp() override {
-        thr = new thread();
-        thread::set(thr);
-    }
-
-    void TearDown() override {
-        thread::set(nullptr);
-        if(thr) delete thr;
-        thr = nullptr;
-    }
-
     nbool didExceptionOccurs() const { return getExceptions().inErr(); }
 
     const errReport& getExceptions() const { return thread::get().getEx(); }
