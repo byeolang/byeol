@@ -438,7 +438,7 @@ namespace by {
     nbool me::onVisit(const visitInfo& i, ctor& me, nbool) {
         BY_WORKER_GUARD("onVisit(ctor&)");
         WHEN_NUL(me.getRet()).myExErr(me, CTOR_NOT_IN_DEF_OBJ).ret(true);
-        return onVisit(i, (func::super&) me, false);
+        return onVisit(i, (ctor::super&) me, false);
     }
 
     void me::onLeave(const visitInfo& i, ctor& me, nbool) {
