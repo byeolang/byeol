@@ -236,7 +236,7 @@ namespace by {
 
         _STEP("whether the 'type' object has a ctor without any paramters?");
         str eval = me TO(getRight()) TO(infer()) OR.myExErr(me, RHS_IS_NUL).ret();
-        WHEN(eval->isSub<baseObj>() && !eval->sub(ctor::CTOR_NAME, args())) .myExErr(me, DONT_HAVE_CTOR, eval).ret();
+        WHEN(eval->isSub<baseObj>() && !eval->sub(func::CTOR_NAME, args())) .myExErr(me, DONT_HAVE_CTOR, eval).ret();
         func* fun = eval->cast<func>();
         WHEN(fun && fun->isAbstract()) .myExErr(me, YOU_CANT_DEFINE_PROPERTY_WITH_ABSTRACT_FUNC).ret();
 
@@ -438,7 +438,7 @@ namespace by {
     nbool me::onVisit(const visitInfo& i, ctor& me, nbool) {
         BY_WORKER_GUARD("onVisit(ctor&)");
         WHEN_NUL(me.getRet()).myExErr(me, CTOR_NOT_IN_DEF_OBJ).ret(true);
-        return onVisit(i, (ctor::super&) me, false);
+        return onVisit(i, (func::super&) me, false);
     }
 
     void me::onLeave(const visitInfo& i, ctor& me, nbool) {
@@ -629,7 +629,7 @@ namespace by {
             .myExErr(me, ORIGIN_OBJ_CANT_BE_CONST, me).ret(true);
 
         _STEP("if obj is complete, does it have ctor without params?");
-        if(me.isComplete()) WHEN_NUL(me.sub(ctor::CTOR_NAME, args())).myExErr(me, COMPLETE_OBJ_BUT_NO_CTOR).ret(true);
+        if(me.isComplete()) WHEN_NUL(me.sub(func::CTOR_NAME, args())).myExErr(me, COMPLETE_OBJ_BUT_NO_CTOR).ret(true);
 
         _STEP("check whether it has duplicated type parameter");
         const auto& params = me.getParamNames();

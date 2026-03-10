@@ -16,9 +16,7 @@ void me::TearDown() {
     thr.rel();
 }
 
-void me::setNoisyEx(by::nbool noisy) {
-    getReport().setNoisy(noisy);
-}
+void me::setNoisyEx(by::nbool noisy) { getReport().setNoisy(noisy); }
 
 me& me::negative() {
     setNoisyEx(false);

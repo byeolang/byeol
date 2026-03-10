@@ -48,23 +48,23 @@ TEST_F(seqIntegTest, basicManagedBehaviorOfSeq) {
     ASSERT_TRUE(ret);
     ASSERT_EQ(*ret->cast<nint>(), s.len());
 
-    ret = s.eval("get", args(narr(*new nInt(0))));
+    ret = s.eval(func::GETTER_NAME, args(narr(*new nInt(0))));
     ASSERT_TRUE(ret);
     ASSERT_EQ(*ret->cast<nInt>(), s[0]);
 
     ASSERT_FALSE(rpt);
-    ret = s.eval("get", args(narr(*new nInt(-1))));
+    ret = s.eval(func::GETTER_NAME, args(narr(*new nInt(-1))));
     ASSERT_TRUE(ret);
     ASSERT_EQ(*ret->cast<nInt>(), s[-1]);
     ASSERT_TRUE(rpt);
     rpt.rel();
 
-    ret = s.eval("get", args(narr(*new nInt(8))));
+    ret = s.eval(func::GETTER_NAME, args(narr(*new nInt(8))));
     ASSERT_TRUE(ret);
     ASSERT_EQ(*ret->cast<nInt>(), s[8]);
 
     ASSERT_FALSE(rpt);
-    ret = s.eval("get", args(narr(*new nInt(10))));
+    ret = s.eval(func::GETTER_NAME, args(narr(*new nInt(10))));
     ASSERT_TRUE(ret);
     ASSERT_EQ(*ret->cast<nInt>(), s[10]);
     ASSERT_TRUE(rpt);
@@ -73,10 +73,10 @@ TEST_F(seqIntegTest, basicManagedBehaviorOfSeq) {
 TEST_F(seqIntegTest, eachReturnedValueShouldBeDifferent) {
     seq s(1, 10); // [1, 10)
 
-    str ret = s.eval("get", args(narr(*new nInt(0))));
+    str ret = s.eval(func::GETTER_NAME, args(narr(*new nInt(0))));
     ASSERT_TRUE(ret);
     ASSERT_EQ(*ret->cast<nInt>(), s[0]);
-    str ret2 = s.eval("get", args(narr(*new nInt(1))));
+    str ret2 = s.eval(func::GETTER_NAME, args(narr(*new nInt(1))));
     ASSERT_TRUE(ret2);
     ASSERT_EQ(*ret2->cast<nInt>(), s[1]);
 

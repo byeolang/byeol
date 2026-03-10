@@ -65,17 +65,17 @@ TEST_F(mgdObjIntegTest, distinguishPackScopeAndObjScopeByItsOwner) {
         .shouldVerified(true);
 
     obj& a = getSubPack() TO(template sub<obj>("a")) OR_ASSERT(a);
-    auto pr = a.subAll<baseFunc>(ctor::CTOR_NAME, args());
+    auto pr = a.subAll<baseFunc>(func::CTOR_NAME, args());
     ASSERT_EQ(pr.len(), 1); // 'a' obj's ctor.
 
     {
         // get all funcs regardless of argument.
-        auto matches = a.getSubPack().subAll<baseFunc>(ctor::CTOR_NAME, nullptr);
+        auto matches = a.getSubPack().subAll<baseFunc>(func::CTOR_NAME, nullptr);
         ASSERT_EQ(matches.len(), 2);
     }
 
     {
-        auto matches = a.getSubPack().subAll<baseFunc>(ctor::CTOR_NAME, args());
+        auto matches = a.getSubPack().subAll<baseFunc>(func::CTOR_NAME, args());
         ASSERT_EQ(matches.len(), 1); // default-pack's ctor.
         ASSERT_EQ(matches.len(), 1);
         ASSERT_TRUE(matches.get());

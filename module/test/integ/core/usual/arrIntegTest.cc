@@ -295,12 +295,12 @@ TEST_F(arrIntegTest, testSimpleBridgedFuncs2) {
     res = it.eval("len");
     ASSERT_EQ(*res.cast<nint>(), 2);
 
-    res = it.eval("get", args(narr(*new nInt(0))));
+    res = it.eval(func::GETTER_NAME, args(narr(*new nInt(0))));
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 2);
     ASSERT_EQ(*arr1[0].cast<nint>(), 2);
 
-    res = it.eval("set", args(narr(*new nInt(1), *new nInt(2)))); // arr: {2, 2}
+    res = it.eval(func::SETTER_NAME, args(narr(*new nInt(1), *new nInt(2)))); // arr: {2, 2}
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nbool>(), true);
     ASSERT_EQ(*arr1[0].cast<nint>(), *arr1[1].cast<nint>());
@@ -383,7 +383,7 @@ TEST_F(arrIntegTest, testBasicDefSyntax) {
             arr.add(1)
             arr.add(2.5)
             print("len=" + arr.len() as str + "\n")
-            print("arr[0]=" + arr.get(0) as str + "\n")
+            print("arr[0]=" + arr[0] as str + "\n")
             print("arr[1]=" + arr[1] as str + "\n")
             ret arr[
                 getIndex()]
@@ -516,7 +516,7 @@ TEST_F(arrIntegTest, testDeepCopy) {
         main() int
             org := {1, 2}
             copy := org(org)
-            org.set(1, 3)
+            org[1] = 3
             ret copy[1]
     )SRC")
         .shouldVerified(true);
@@ -532,7 +532,7 @@ TEST_F(arrIntegTest, testShallowCopy) {
         main() int
             org := {1, 2}
             copy := org
-            org.set(1, 3)
+            org[1] = 3
             ret copy[1]
     )SRC")
         .shouldVerified(true);
@@ -563,7 +563,7 @@ TEST_F(arrIntegTest, test2DArray2) {
             arr := {{0, 1}, {1, 2}}
             arr3 int[][]
             arr3 = arr
-            arr[1].set(1, 4)
+            arr[1][1] = 4
             arr3[1][1]
     )SRC")
         .shouldVerified(true);
@@ -817,11 +817,11 @@ TEST_F(arrIntegTest, defPropWithCustomTypeShouldWork) {
         def Person
             age int
             name str
-            ctor(a age, n name): age = a; name = n
+            @ctor(a age, n name): age = a; name = n
 
         def b
             people Person[]
-            ctor()
+            @ctor()
                 people.add(Person(11, "kid"))
                 people.add(Person(33, "parent"))
 

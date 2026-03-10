@@ -16,7 +16,7 @@ namespace by {
     str me::infer() const { return getRet(); }
 
     const src& me::getSrc() const {
-        static src inner(srcFile(), ctor::CTOR_NAME, point{});
+        static src inner(srcFile(), func::CTOR_NAME, point{});
         return inner;
     }
 }

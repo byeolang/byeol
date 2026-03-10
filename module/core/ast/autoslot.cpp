@@ -26,14 +26,10 @@ namespace by {
         _loadings.clear();
     }
 
-    void me::_rel() {
-        _state = RELEASED;
-    }
+    void me::_rel() { _state = RELEASED; }
 
     namespace {
-        errReport& _getReport() {
-            return thread::get().getEx();
-        }
+        errReport& _getReport() { return thread::get().getEx(); }
     }
 
     obj& me::getPack() {

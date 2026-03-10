@@ -3,7 +3,7 @@
 namespace by {
     BY(DEF_ME(threadUse))
 
-    me::threadUse(): me(*new errReport())  {}
+    me::threadUse(): me(*new errReport()) {}
 
     me::threadUse(const errReport& new1): _thr(new thread(new1)), _prev(thread::get()) { use(); }
 

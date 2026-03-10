@@ -1,7 +1,6 @@
 #include "clog/scopeLog.hpp"
 #include <chrono>
 
-
 namespace by {
     using namespace std::chrono;
 

@@ -220,8 +220,8 @@ namespace by {
         // I can't use genericCtor here:
         //  what I have to make is arr instance, not narr.
         //  but tbridger is targeted to narr class. so it's not possible to call genericCtor.
-        clone->add(ctor::CTOR_NAME, new __defaultCtor(new arr(paramOrg)));
-        clone->add(ctor::CTOR_NAME, new __copyCtor(new arr(paramOrg)));
+        clone->add(func::CTOR_NAME, new __defaultCtor(new arr(paramOrg)));
+        clone->add(func::CTOR_NAME, new __copyCtor(new arr(paramOrg)));
 
         generalizer g;
         g.add(*new param(TYPENAME, paramOrg)).setTask(*this).setFlag(generalizer::INTERNAL | generalizer::GUARD).work();
@@ -235,8 +235,8 @@ namespace by {
                                  .genericFunc<nbool, nidx>("del", &narr::del)
                                  .genericFunc<nbool, const node&>("add", &tucontainable<node>::add)
                                  .genericFunc<nbool, nidx, const node&>("add", &narr::add)
-                                 .genericFunc<nbool, nidx, const node&>("set", &narr::set)
-                                 .genericFuncNonConst<node*, nidx>("get", &narr::get)
+                                 .genericFunc<nbool, nidx, const node&>(func::SETTER_NAME, &narr::set)
+                                 .genericFuncNonConst<node*, nidx>(func::GETTER_NAME, &narr::get)
                                  .genericFunc<nbool, const node&>("in", &narr::in)
                                  .func("iterate", new iterateFunc())
                                  .func("getElemType", new getElemTypeFunc())

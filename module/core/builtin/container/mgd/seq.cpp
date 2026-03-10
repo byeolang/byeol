@@ -111,7 +111,7 @@ namespace by {
                                  .ctor<nint, nint, nint>()
                                  .ctor<nseq>()
                                  .func("len", &nseq::len)
-                                 .func<nInt, nint>("get", &nseq::get)
+                                 .func<nInt, nint>(func::GETTER_NAME, &nseq::get)
                                  .func<nbool, nint>("in", &nseq::in)
                                  .func("iterate", new iterateFunc())
                                  .func("getElemType", new getElemTypeFunc())

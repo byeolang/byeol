@@ -407,7 +407,7 @@ namespace by {
     }
 
     ctor* me::onCtor(const modifier& mod, const narr& a, const blockExpr& blk) {
-        ctor* ret = _maker.birth<ctor>(ctor::CTOR_NAME, mod, _asParams(args(a)), blk);
+        ctor* ret = _maker.birth<ctor>(func::CTOR_NAME, mod, _asParams(args(a)), blk);
         BY_DI("tokenEvent: onCtor(%s, args): args.len[%d]", mod, a.len());
         return ret;
     }
@@ -519,7 +519,7 @@ namespace by {
         switch(util::checkTypeAttr(name)) {
             case ATTR_COMPLETE: // newArgs.len() can be 0.
                 ret.setCallComplete(
-                    *_maker.make<evalExpr>(&ret, *_maker.make<getExpr>(ctor::CTOR_NAME, *newArgs), *newArgs));
+                    *_maker.make<evalExpr>(&ret, *_maker.make<getExpr>(func::CTOR_NAME, *newArgs), *newArgs));
                 break;
 
             case ATTR_INCOMPLETE:
@@ -587,7 +587,7 @@ namespace by {
             mgdType(name, ttype<obj>::get(), params::make(typeParams), !isConcerete, nullptr));
         if(isConcerete)
             org.setCallComplete(*_maker.make<evalExpr>(_maker.make<getGenericExpr>(name, typeParams),
-                *_maker.make<getExpr>(ctor::CTOR_NAME, *newArgs), *newArgs));
+                *_maker.make<getExpr>(func::CTOR_NAME, *newArgs), *newArgs));
 
         _onInjectObjSubs(org, blk);
 
@@ -633,7 +633,7 @@ namespace by {
 
         // at this far, subpack must have at least 1 default ctor created just before:
         BY_DI("tokenEvent: onCompilationUnit: eval preconstructor(%d lines)", blk.getExpands().len());
-        subpack.eval(ctor::CTOR_NAME); // don't need argument. it's default ctor.
+        subpack.eval(func::CTOR_NAME); // don't need argument. it's default ctor.
     }
 
     tstr<modifier> me::_makeDefaultModifier() { return *onModifier(true, false); }
@@ -660,7 +660,7 @@ namespace by {
     }
 
     nbool me::_onInjectCtor(obj& it, defBlock& blk) {
-        const auto& ctors = it.subAll<func>(ctor::CTOR_NAME);
+        const auto& ctors = it.subAll<func>(func::CTOR_NAME);
         nbool hasCopyCtor = ctors.get<func>([&](const func& f) -> nbool {
             const params& ps = f.getParams();
             WHEN(ps.len() != 1) .ret(false);
@@ -687,9 +687,9 @@ namespace by {
         BY_DI("tokenEvent: _onInjectDefaultCtor(%s, hasCtor=%s, hasCopyCtor=%s)", &it, hasCtor, hasCopyCtor);
 
         // TODO: ctor need to call superclass's ctor.
-        if(!hasCtor) it.getShares().getContainer().add(ctor::CTOR_NAME, *_maker.make<defaultCtor>(it.getOrigin()));
+        if(!hasCtor) it.getShares().getContainer().add(func::CTOR_NAME, *_maker.make<defaultCtor>(it.getOrigin()));
         if(!hasCopyCtor)
-            it.getShares().getContainer().add(ctor::CTOR_NAME, *_maker.make<defaultCopyCtor>(it.getOrigin()));
+            it.getShares().getContainer().add(func::CTOR_NAME, *_maker.make<defaultCopyCtor>(it.getOrigin()));
 
         // add postpones & common:
         //  if there is no postpones, add() will just return false.
@@ -763,7 +763,7 @@ namespace by {
 
     node* me::onGetElem(const node& arr, const node& idx) {
         node* ret =
-            _maker.make<evalExpr>(&arr, *_maker.make<getExpr>(arr, "get", *new args(narr(idx))), args(narr(idx)));
+            _maker.make<evalExpr>(&arr, *_maker.make<getExpr>(arr, func::GETTER_NAME, *new args(narr(idx))), args(narr(idx)));
         BY_DI("tokenEvent: onGetElem(%s, %s)", arr, idx);
         return ret;
     }
@@ -796,7 +796,7 @@ namespace by {
         evalExpr* r = lhs.cast<evalExpr>();
         if(r) {
             auto* name = r TO(getSubj().template cast<getExpr>()) TO(getName());
-            if(name && *name == "get") return _onSetElem(*r, rhs);
+            if(name && *name == func::GETTER_NAME) return _onSetElem(*r, rhs);
         }
 
         node* ret = _maker.make<assignExpr>(lhs, rhs);
@@ -828,7 +828,7 @@ namespace by {
         //      2. unbind subArgs of (1).
         //      3. lhs.getArgs().add(rhs).
         getExpr& subject = lhs.getSubj().cast<getExpr>() OR.exErr(LHS_IS_NUL).ret(nullptr);
-        subject.setName("set");
+        subject.setName(func::SETTER_NAME);
         subject.setArgs(*new args());
         lhs.getArgs().add(rhs);
 
@@ -843,7 +843,7 @@ namespace by {
         evalExpr* cast = lhs.cast<evalExpr>();
         if(cast) {
             auto* name = cast->getSubj() TO(template cast<getExpr>()) TO(getName());
-            if(name && *name == "get") return _onConvertAssignElem(*cast, *_maker.make<FBOExpr>(type, lhs, rhs));
+            if(name && *name == func::GETTER_NAME) return _onConvertAssignElem(*cast, *_maker.make<FBOExpr>(type, lhs, rhs));
         }
 
         node* ret = onAssign(lhs, *_maker.make<FBOExpr>(type, *(node*) lhs.clone(), rhs));
@@ -880,7 +880,7 @@ namespace by {
         //  2. (1).getArgs.add(rhs)
         evalExpr& setter = *(evalExpr*) lhs.clone();
         getExpr& newSubj = *(getExpr*) setter.getSubj().clone();
-        newSubj.setName("set");
+        newSubj.setName(func::SETTER_NAME);
         newSubj.setArgs(*new args());
         setter.setSubj(newSubj);
         setter.getArgs().add(rhs);

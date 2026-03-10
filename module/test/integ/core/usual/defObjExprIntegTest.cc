@@ -342,7 +342,7 @@ TEST_F(defObjExprIntegTest, defPropAllowedIfThereIsProperCtor) {
         .parse(R"SRC(
         def a
             age int
-            ctor()
+            @ctor()
                 age = 22
         main() int
             a1 a

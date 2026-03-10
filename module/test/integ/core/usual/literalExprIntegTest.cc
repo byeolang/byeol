@@ -215,11 +215,13 @@ TEST_F(literalExprIntegTest, escapeSequence5) {
 }
 
 TEST_F(literalExprIntegTest, strDoubleQuoteBasic) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
     main() int
         msg := "hello world"
         ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -227,11 +229,13 @@ TEST_F(literalExprIntegTest, strDoubleQuoteBasic) {
 }
 
 TEST_F(literalExprIntegTest, strSingleQuoteBasic) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
     main() int
         msg := 'hello world'
         ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -239,11 +243,13 @@ TEST_F(literalExprIntegTest, strSingleQuoteBasic) {
 }
 
 TEST_F(literalExprIntegTest, strDoubleQuoteWithSingleQuoteInside) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
     main() int
         msg := "it's working"
         ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -251,11 +257,13 @@ TEST_F(literalExprIntegTest, strDoubleQuoteWithSingleQuoteInside) {
 }
 
 TEST_F(literalExprIntegTest, strSingleQuoteWithDoubleQuoteInside) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
     main() int
         msg := 'say "hello"'
         ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -263,11 +271,13 @@ TEST_F(literalExprIntegTest, strSingleQuoteWithDoubleQuoteInside) {
 }
 
 TEST_F(literalExprIntegTest, strEmptyDoubleQuote) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
     main() int
         msg := ""
         ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -275,11 +285,13 @@ TEST_F(literalExprIntegTest, strEmptyDoubleQuote) {
 }
 
 TEST_F(literalExprIntegTest, strEmptySingleQuote) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
     main() int
         msg := ''
         ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -287,11 +299,13 @@ TEST_F(literalExprIntegTest, strEmptySingleQuote) {
 }
 
 TEST_F(literalExprIntegTest, strEscapedDoubleQuoteInDoubleQuotes) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
     main() int
         msg := "say \"hello\""
         ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -299,11 +313,13 @@ TEST_F(literalExprIntegTest, strEscapedDoubleQuoteInDoubleQuotes) {
 }
 
 TEST_F(literalExprIntegTest, strEscapedSingleQuoteInSingleQuotes) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
     main() int
         msg := 'it\'s working'
         ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -311,11 +327,13 @@ TEST_F(literalExprIntegTest, strEscapedSingleQuoteInSingleQuotes) {
 }
 
 TEST_F(literalExprIntegTest, escapeSequencesInDoubleQuote) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
     main() int
         msg := "line1\nline2"
         ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -323,11 +341,13 @@ TEST_F(literalExprIntegTest, escapeSequencesInDoubleQuote) {
 }
 
 TEST_F(literalExprIntegTest, escapeSequencesInSingleQuote) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
     main() int
         msg := 'line1\nline2'
         ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -335,12 +355,14 @@ TEST_F(literalExprIntegTest, escapeSequencesInSingleQuote) {
 }
 
 TEST_F(literalExprIntegTest, strTemplateWithDoubleQuotes) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
     main() int
         name := "world"
         msg := "hello $name"
         ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -348,12 +370,14 @@ TEST_F(literalExprIntegTest, strTemplateWithDoubleQuotes) {
 }
 
 TEST_F(literalExprIntegTest, strTemplateWithSingleQuotes) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
     main() int
         name := 'world'
         msg := 'hello $name'
         ret msg.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -361,13 +385,15 @@ TEST_F(literalExprIntegTest, strTemplateWithSingleQuotes) {
 }
 
 TEST_F(literalExprIntegTest, strMixedQuoteTypes) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := "double"
             b := 'single'
             c := a + b
             ret c.len()
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -375,12 +401,14 @@ TEST_F(literalExprIntegTest, strMixedQuoteTypes) {
 }
 
 TEST_F(literalExprIntegTest, strDoubleQuoteEquality) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := "test"
             b := "test"
             a == b
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -388,12 +416,14 @@ TEST_F(literalExprIntegTest, strDoubleQuoteEquality) {
 }
 
 TEST_F(literalExprIntegTest, strSingleQuoteEquality) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := 'test'
             b := 'test'
             a == b
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
@@ -401,12 +431,14 @@ TEST_F(literalExprIntegTest, strSingleQuoteEquality) {
 }
 
 TEST_F(literalExprIntegTest, strCrossQuoteEquality) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         main() int
             a := "test"
             b := 'test'
             a == b
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);

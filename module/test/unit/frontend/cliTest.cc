@@ -37,8 +37,10 @@ TEST_F(cliTest, tryOptionClusteringNegative) {
 }
 
 TEST_F(cliTest, provideNoOptionArgumentEvenIfItWantsNegative) {
-    auto res = ep.setReport(*new errReport(false)).setTask(byeolE2ETest::parseFlag(1, "-s")).work(); // -s expects a trailing argument.
-    ASSERT_EQ(res.res, -1);                                         // no source code provided
+    auto res = ep.setReport(*new errReport(false))
+                   .setTask(byeolE2ETest::parseFlag(1, "-s"))
+                   .work(); // -s expects a trailing argument.
+    ASSERT_EQ(res.res, -1); // no source code provided
     ASSERT_TRUE(res.rpt);
 }
 
@@ -200,7 +202,8 @@ main() int
 }
 
 TEST_F(cliTest, interpretMultipleFileNegative) {
-    auto res = ep.setReport(*new errReport(false)).setFlag(0).setTask(byeolE2ETest::parseFlag(1, "testdata/a.byeol")).work();
+    auto res =
+        ep.setReport(*new errReport(false)).setFlag(0).setTask(byeolE2ETest::parseFlag(1, "testdata/a.byeol")).work();
     ASSERT_TRUE(res.rpt);
 }
 

@@ -25,8 +25,5 @@ namespace by {
         str infer() const override;
 
         const src& getSrc() const override;
-
-    public:
-        inline static const std::string CTOR_NAME = "@ctor";
     };
 }
