@@ -152,9 +152,9 @@ namespace by {
             static tbaseObjOrigin<me> org(tbridger<me>::ctor()
                                               .ctor<nStr>()
                                               .func("len", &me::len)
-                                              .func<nchar, nidx>("get", &me::get)
+                                              .func<nchar, nidx>(func::GETTER_NAME, &me::get)
                                               .func("substr", &me::substr)
-                                              .func("get", new getSeqFunc())
+                                              .func(func::GETTER_NAME, new getSeqFunc())
                                               .func("iterate", new iterateFunc())
                                               .func("getElemType", new getElemType())
                                               .subs());
