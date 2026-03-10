@@ -448,9 +448,9 @@ TEST_F(defAssignExprIntegTest, defineVarWithoutCtorNegative) {
         .parse(R"SRC(
         def A
             _age int
-            ctor(n int): age = n
+            @ctor(n int): age = n
         main() int
-            a1 A # err: A don't have 'ctor()' func.
+            a1 A # err: A don't have '@ctor()' func.
     )SRC")
         .shouldVerified(false);
 }
@@ -460,7 +460,7 @@ TEST_F(defAssignExprIntegTest, defAssignWithTypes) {
         .parse(R"SRC(
         def Person
             age int
-            ctor(a age): age = a
+            @ctor(a age): age = a
             hello() str
                 ret "I'm " + age as str + "yo"
 

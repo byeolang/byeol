@@ -48,8 +48,8 @@ TEST_F(starterIntegTest, managedCallStack) {
         .negative() // this code occurs exception
         .parse(R"SRC(
         def Person
-            ctor():;
-            ctor(n int)
+            @ctor():;
+            @ctor(n int)
                 setAge(n)
             age int
             setAge(n int) void

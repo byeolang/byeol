@@ -361,7 +361,7 @@ TEST_F(defObjExprIntegTest, defPropNotAllowedIfThereIsNoProperCtorNegative) {
         .parse(R"SRC(
         def a
             age int
-            ctor(n int)
+            @ctor(n int)
                 age = n
         main() int
             a1 a
@@ -391,7 +391,7 @@ TEST_F(defObjExprIntegTest, simpleCompleteObjNegative) {
         .parse(R"SRC(
         def person
             age := 33
-            ctor(n int): age = n
+            @ctor(n int): age = n
         main() int
             person.age
     )SRC")
@@ -474,8 +474,8 @@ TEST_F(defObjExprIntegTest, verifierShouldVerifyCallCompleteNegative) {
         .parse(R"SRC(
         def person("unknown") # <-- complete obj. and this'll be looking for ctor(str).
             name str
-            ctor(): name = "no"
-            ctor(newName flt): name = newName # <-- but look! it's not str, but flt.
+            @ctor(): name = "no"
+            @ctor(newName flt): name = newName # <-- but look! it's not str, but flt.
         main() int: 0
     )SRC")
         .shouldVerified(false);
@@ -486,7 +486,7 @@ TEST_F(defObjExprIntegTest, callCompleteForDefaultCtor) {
         .parse(R"SRC(
         def person
             name str
-            ctor(): name = "kniz"
+            @ctor(): name = "kniz"
         main() int: person.name == "kniz"
     )SRC")
         .shouldVerified(true);
@@ -501,8 +501,8 @@ TEST_F(defObjExprIntegTest, CallCompleteMakeIncompleteToCompleteType) {
         .parse(R"SRC(
         def person("unkown")
             name str
-            ctor(): ;
-            ctor(newName str): name = newName
+            @ctor(): ;
+            @ctor(newName str): name = newName
         main() int: person.name.len()
     )SRC")
         .shouldVerified(true);
@@ -518,8 +518,8 @@ TEST_F(defObjExprIntegTest, NoCallCompleteForIncompleteNegative) {
         .parse(R"SRC(
         def Person("unkown")
             name str
-            ctor(): ;
-            ctor(newName str): name = newName
+            @ctor(): ;
+            @ctor(newName str): name = newName
         main() int: Person().name.len()
     )SRC")
         .shouldVerified(false);
@@ -530,7 +530,7 @@ TEST_F(defObjExprIntegTest, doesItHaveCommonCtor) {
         .parse(R"SRC(
         def person
             name str
-            ctor(): name = "kniz"
+            @ctor(): name = "kniz"
     )SRC")
         .shouldVerified(true);
 }
@@ -706,8 +706,8 @@ TEST_F(defObjExprIntegTest, modifierForFuncAndAnotherObjScope) {
     make()
         .parse(R"SRC(
         def person
-            ctor(): ;
-            ctor(newAge int): age = newAge
+            @ctor(): ;
+            @ctor(newAge int): age = newAge
             age := 22
             _say() int: age
             boo() int: person.say()
@@ -763,8 +763,8 @@ TEST_F(defObjExprIntegTest, iterateObj) {
             _age int
             _name str := "Unknown"
 
-            ctor(newAge age): age = newAge
-            ctor(newAge age, newName name): age = newAge; setName(newName)
+            @ctor(newAge age): age = newAge
+            @ctor(newAge age, newName name): age = newAge; setName(newName)
 
             setName(newName str) void
                 name = newName
@@ -790,7 +790,7 @@ TEST_F(defObjExprIntegTest, passNestedFuncAsCompleteCallParam) {
         onHandle(n int) int
         def handler((n int) int: n + 3)
             value int
-            ctor(onHandle`): value = onHandle(-3) # -3 + 3 = 0
+            @ctor(onHandle`): value = onHandle(-3) # -3 + 3 = 0
 
         main() int
             handler.value

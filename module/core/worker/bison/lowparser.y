@@ -124,7 +124,7 @@
 //      define:
 %token DEF WITH AS ENUM ONLY END
 //  predefined-type:
-%token _VOID_ _INT_ _STR_ _BOOL_ FLT NUL _BYTE_ ME SUPER IT CTOR PACK
+%token _VOID_ _INT_ _STR_ _BOOL_ FLT NUL _BYTE_ ME SUPER IT PACK
 //  valueless-token:
 %token NEWLINE INDENT DEDENT ENDOFFILE DOUBLE_MINUS DOUBLE_PLUS DOUBLE_DOT ARROW TAB ASSIGN DEFASSIGN
 %token OPEN_CLOSE_SQUARE_BRACKET GE LE EQ NE LOGICAL_AND LOGICAL_OR LSHIFT RSHIFT
@@ -134,6 +134,9 @@
 %token <asFlt> FLTVAL
 %token <asBool> BOOLVAL
 %token <asStr> NAME STRVAL
+//      special func:
+%token <asStr> GET SET
+%token CTOR
 
 // nonterminal:
 //  basic component:
@@ -164,7 +167,7 @@
 %type <asNode> access call-access
 %type <asNode> name-access
 //      func:
-%type <asNode> func-call
+%type <asNode> func-call callable-special-func-name
 //      tuple:
 %type <asArgs> tuple tuple-items
 %type <asArgs> func-call-tuple func-call-tuple-items
@@ -406,6 +409,14 @@ call-access: type params {
             $$ = PS.onCallAccess(*$1, *paramsLife);
          }
 
+callable-special-func-name: GET {
+                            $$ = PS.onGet(*$1);
+                            delete $1;
+                        } | SET {
+                            $$ = PS.onGet(*$1);
+                            delete $1;
+                        }
+
 //  func:
 func-call: type func-call-tuple {
         tstr<narr> argsLife($2);
@@ -415,6 +426,10 @@ func-call: type func-call-tuple {
         tstr<narr> argsLife($2);
         str exprLife($1);
         $$ = PS.onEvalExpr(*$1, *$2);
+       } | callable-special-func-name func-call-tuple {
+        tstr<narr> argsLife($2);
+        str nameLife($1);
+        $$ = PS.onEvalExpr(*nameLife, *argsLife);
        }
 
 //  tuple:

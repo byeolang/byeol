@@ -170,7 +170,7 @@ TEST_F(defPropExprIntegTest, shortDefinitionOnParam) {
         .parse(R"SRC(
         def person
             age := 0
-            ctor(person`)
+            @ctor(person`)
                 age = person.age + 1
         foo(person`) int
             person.age + 1
@@ -245,12 +245,12 @@ TEST_F(defPropExprIntegTest, userShouldBeAbleToDefineProtectedProperty) {
         .parse(R"SRC(
         def Person
             _phone Phone
-            ctor(b str): phone.brand = b
+            @ctor(b str): phone.brand = b
             hello() str: "my name is ${phone.brand}"
         def Phone
             brand str
-            ctor(): ;
-            ctor(b brand): brand = b
+            @ctor(): ;
+            @ctor(b brand): brand = b
         main() int
             Person("kniz").hello() == "my name is kniz"
     )SRC")

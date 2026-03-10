@@ -47,7 +47,7 @@ TEST_F(defExprAntiTest, ctorWithReturnTypeNegative) {
         .parse(R"SRC(
         def Person
             name str
-            ctor(n str) void: name = n
+            @ctor(n str) void: name = n
         main() void: 0
     )SRC")
         .shouldParsed(false);
@@ -59,7 +59,7 @@ TEST_F(defExprAntiTest, ctorWithReturnNegative) {
         .parse(R"SRC(
         def Person
             name str
-            ctor(n str)
+            @ctor(n str)
                 if n.len() <= 1
                     ret # <- err
                 name = n

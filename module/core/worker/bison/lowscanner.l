@@ -142,7 +142,20 @@ byte { return _BYTE_; }
 flt { return FLT; }
 nul { return NUL; }
 pack { return PACK; }
-ctor { return CTOR; }
+@ctor { 
+    BY_DI("scanner: CTOR");
+    return CTOR; 
+}
+@get {
+    yylval->asStr = new std::string(by::func::GETTER_NAME);
+    BY_DI("scanner: GET");
+    return GET; 
+}
+@set { 
+    yylval->asStr = new std::string(by::func::SETTER_NAME);
+    BY_DI("scanner: SET");
+    return SET; 
+}
 true {
     yylval->asBool = true;
     BY_DI("scanner: BOOLVAL=true");

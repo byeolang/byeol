@@ -408,7 +408,7 @@ TEST_F(genericsIntegTest, simpleCompleteObjNegative) {
         .parse(R"SRC(
         def person<E>
             age := 33
-            ctor(n E): age = n
+            @ctor(n E): age = n
         main() int
             person<int>.age
     )SRC")

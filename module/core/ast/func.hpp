@@ -95,13 +95,12 @@ namespace by {
 
     public:
         // special funcs:
-        inline static constexpr std::string_view LAMBDA_NAME = "@lambda";
-        inline static constexpr std::string_view CTOR_NAME = "@ctor";
-        inline static constexpr std::string_view GETTER_NAME = "@get";
-        inline static constexpr std::string_view SETTER_NAME = "@set";
-        inline static constexpr std::array<std::string_view, 4> SPECIAL_FUNC_NAMES = {
-            LAMBDA_NAME, CTOR_NAME, GETTER_NAME, SETTER_NAME
-        };
+        inline static const std::string LAMBDA_NAME = "@lambda";
+        inline static const std::string CTOR_NAME = "@ctor";
+        inline static const std::string GETTER_NAME = "@get";
+        inline static const std::string SETTER_NAME = "@set";
+        inline static const std::array<std::string, 4> SPECIAL_FUNC_NAMES = {LAMBDA_NAME, CTOR_NAME, GETTER_NAME,
+            SETTER_NAME};
 
     private:
         tstr<obj> _org;

@@ -762,8 +762,8 @@ namespace by {
     }
 
     node* me::onGetElem(const node& arr, const node& idx) {
-        node* ret =
-            _maker.make<evalExpr>(&arr, *_maker.make<getExpr>(arr, func::GETTER_NAME, *new args(narr(idx))), args(narr(idx)));
+        node* ret = _maker.make<evalExpr>(&arr, *_maker.make<getExpr>(arr, func::GETTER_NAME, *new args(narr(idx))),
+            args(narr(idx)));
         BY_DI("tokenEvent: onGetElem(%s, %s)", arr, idx);
         return ret;
     }
@@ -843,7 +843,8 @@ namespace by {
         evalExpr* cast = lhs.cast<evalExpr>();
         if(cast) {
             auto* name = cast->getSubj() TO(template cast<getExpr>()) TO(getName());
-            if(name && *name == func::GETTER_NAME) return _onConvertAssignElem(*cast, *_maker.make<FBOExpr>(type, lhs, rhs));
+            if(name && *name == func::GETTER_NAME)
+                return _onConvertAssignElem(*cast, *_maker.make<FBOExpr>(type, lhs, rhs));
         }
 
         node* ret = onAssign(lhs, *_maker.make<FBOExpr>(type, *(node*) lhs.clone(), rhs));

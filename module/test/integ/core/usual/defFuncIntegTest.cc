@@ -425,7 +425,7 @@ TEST_F(defFuncIntegTest, simpleCtor) {
         .parse(R"SRC(
         def Person
             name str
-            ctor(name str)
+            @ctor(name str)
                 me.name = name
         main() int
             p1 := Person("kniz")
@@ -443,8 +443,8 @@ TEST_F(defFuncIntegTest, multipleCtor) {
         .parse(R"SRC(
         def person
             name str
-            ctor(): me.name = "hello"
-            ctor(name str)
+            @ctor(): me.name = "hello"
+            @ctor(name str)
                 me.name = name
         main() int
             p1 := person("kniz")
@@ -463,7 +463,7 @@ TEST_F(defFuncIntegTest, simpleCtorNegative) {
         .parse(R"SRC(
         def person
             name str
-            ctor(name str)
+            @ctor(name str)
                 me.name = name
         main() int
             p1 := person()
@@ -673,7 +673,7 @@ TEST_F(defFuncIntegTest, capturedVariableCanChangeItsFields) {
     make()
         .parse(R"SRC(
         def Person
-            ctor(newName str): name = newName
+            @ctor(newName str): name = newName
             name str
 
         main() int
@@ -899,7 +899,7 @@ TEST_F(defFuncTest, complexLambda) {
         .parse(R"SRC(
         def Person
             name str
-            ctor(n name): name = n
+            @ctor(n name): name = n
 
         def class
             def handler((Person`) void: ;)
