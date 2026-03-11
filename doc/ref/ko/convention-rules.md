@@ -921,10 +921,3 @@ class moduleA {
     moduleB* _b;
 };
 ```
-
----
-
-## 참고 문서
-
-- 상세한 아키텍처: [architecture-and-class.md](architecture-and-class.md)
-- 설계 철학: [디자인 철학 문서](https://byeol.io/guide/generated/ko/design-philosophy.html)
