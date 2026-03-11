@@ -18,3 +18,38 @@ TEST_F(defFuncAntiTest, voidFuncWithRetValueNegative) {
     )SRC")
         .shouldVerified(false);
 }
+
+TEST_F(defFuncAntiTest, unregisteredMagicFuncInClassNegative) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        def Person
+            name str
+            @____invalid(n str): name = n
+        main() void: 0
+    )SRC")
+        .shouldParsed(false);
+}
+
+TEST_F(defFuncAntiTest, unregisteredMagicFuncGlobalNegative) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        @____notExist() void: 1
+        main() void: 0
+    )SRC")
+        .shouldParsed(false);
+}
+
+TEST_F(defFuncAntiTest, unregisteredMagicFuncCallNegative) {
+    make()
+        .negative()
+        .parse(R"SRC(
+        def MyClass
+            foo() void: 1
+        main() void
+            obj := MyClass()
+            obj.@____unknown()
+    )SRC")
+        .shouldParsed(false);
+}
