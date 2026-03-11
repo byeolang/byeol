@@ -138,108 +138,17 @@ The architecture document contains:
 - `./external/` is auto-generated for external libraries - **DO NOT MODIFY MANUALLY**
 - Each module should maintain clear interfaces and minimal dependencies
 
-## Basic Comment Usage
-- This project uses Doxygen to provide documentation.
+## Coding Conventions
 
-- Important algorithms within functions should also be commented when necessary.
+**All coding style and naming conventions are defined in:**
 
-- Doxygen comments must be added above function declarations and class declarations using Doxygen syntax.
+📖 **READ**: `doc/ref/ko/CONVENTION.md`
 
-- Exception: Files in the `test` module do not require Doxygen comments.
-
-- **Important**: Excessive information can be counterproductive. Never add comments to parts of code that are easily understood at first glance. This rule applies to all comments, including Doxygen comments.
-
-- Doxygen comments can be omitted for getter/setter functions when they are self-explanatory.
-    - Examples: getName(), setAge(), etc.
-    - However, comments must be added if there is complex logic or important considerations.
-
-- For complex APIs or special usage patterns, provide examples using `@code` blocks.
-    - Example:
-```cpp
-/// @brief Creates and initializes a user
-/// @details This involves a complex initialization process, please refer to the example below
-/// @code
-/// UserManager manager;
-/// if (manager.createUser("john", "john@email.com")) {
-///     // User creation successful
-///     manager.initializeUserData("john");
-/// }
-/// @endcode
-```
-
-- Development notes such as TODO, FIXME, HACK should be written outside of Doxygen comments.
-    - Temporary notes or work-in-progress content are prohibited in Doxygen comments.
-    - Incorrect example:
-```cpp
-/// TODO: Need to add error handling
-/// FIXME: Memory leak exists
-/// @brief Reads a file
-/// @details TODO: Need to add error handling
-```
-
-    - Correct example:
-```cpp
-// TODO: Need to add error handling
-// FIXME: Memory leak exists
-/// @brief Reads a file
-/// @details Reads a file from the specified path and returns it as a string
-```
-
-### Basic Doxygen Comment Usage
-- All Doxygen comments must use the `///` style; `/**` or `*/` style is prohibited.
-
-- Empty lines should only be used for paragraph separation within Doxygen comment blocks.
-
-- Use `@` prefix when expressing comment attributes.
-
-- Comments should not exceed 100 columns.
-
-- When providing descriptions, use `-` to separate items if needed.
-
-- Use `@note` or `@warning` for important considerations when necessary.
-
-- When referencing other classes or functions in comments, use `@ref <class or function name>`. Example:
-```cpp
-/// @brief this function extract date info from @ref buildInformation class using its @ref getDate()
-```
-
-- Doxygen comments must be added to three types: files, classes, and functions.
-
-1. File Doxygen comments must include the following:
-    - `@file` must always be positioned at the top of header files.
-    - Only for header files that contain no classes and only have #define or typedef, add additional file description after `@file` with a line break.
-    - Example:
-```cpp
-@file
-/// a bunch of string macros
-/// a more elaborated file description you explain
-```
-
-2. Class Doxygen comments must include the following information in order:
-    - `@ingroup` specifies the module this file belongs to. Group names are described in `Core Layers`.
-    - `@brief` briefly describes the role of this class in one line.
-    - `@details` provides more detailed information about what was written in `@brief`.
-    - Example:
-```cpp
-[///](///) @ingroup indep
-/// @brief it manges data related to build info.
-/// @details it contains build number and version and can return whether it's debug binary or not.
-/// and you can describe more info for `@details` with newline if you want to.
-```
-
-3. Function Doxygen comments must include the following content in order:
-    - `@brief` briefly describes the role of this function.
-    - `@param` is usually optional, but must be added in the following cases:
-        - When the parameter's purpose is not clear from its name alone
-        - When there are specific ranges or conditions (e.g., "age (0-150 range)")
-        - When null acceptance is important
-        - Example:
-```cpp
-/// @param matrix Input matrix (must not be null, NxM size)
-/// @param options Configuration options (nullptr allowed)
-```
-
-    - `@return` is usually optional, but should be described when complex or supplementary explanation is important.
+This includes:
+- Naming conventions (camelCase for classes/variables, UPPER_SNAKE_CASE for macros)
+- Code style (indentation, braces, line length, etc.)
+- Documentation standards (Doxygen comments)
+- File structure and organization
 
 
 ## Build Workflow
@@ -321,31 +230,6 @@ The architecture document contains:
 
 ## Commit Workflow
 
-### Convention Rules
-
-1. **Naming Conventions**
-   * **Classes and variables**: Always use camelCase (starting with lowercase)
-     ```cpp
-     class myClass { int myVariable; };
-     ```
-   
-   * **Macros and #define**: Use UPPER_SNAKE_CASE
-     ```cpp
-     #define MAX_BUFFER_SIZE 1024
-     ```
-
-2. **Naming Philosophy**
-   * Prefer abbreviated, semantically rich names
-   * Choose intuitive, simple names over complex ones
-   * Example: Use `make` instead of `generator`
-
-3. **Macro Usage**
-   * Actively use OR macros and TO macros for code clarity
-   * Example:
-     ```cpp
-     const nFlt& grade = fr.sub("grade") TO(template cast<nFlt>()) OR.ret(false);
-     ```
-
 ### Commit Message Format
 ```
 <type>(<scope>): <subject>
@@ -375,11 +259,11 @@ Closes #123
 ```
 
 ### Pre-commit Checklist
-- [ ] Code follows naming conventions
+- [ ] Code follows conventions in `doc/ref/ko/convention-rules.md`
 - [ ] All tests pass locally
 - [ ] Documentation updated if needed
 - [ ] No compiler warnings
-- [ ] Code formatted according to style guide
+- [ ] Code formatted with `./build/builder.py format`
 
 ## Additional Development Guidelines
 

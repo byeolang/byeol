@@ -617,6 +617,7 @@ INPUT                  = doxygen \
                          ../doc/ref/ko/MAINPAGE.md \
                          ../doc/ref/ko/dev-env.md \
                          ../doc/ref/ko/architecture-and-class.md \
+                         ../doc/ref/ko/CONVENTION.md \
                          ../module/clog \
                          ../module/indep \
                          ../module/core \
