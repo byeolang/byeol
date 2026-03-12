@@ -1,4 +1,4 @@
-# 개발환경
+# 개발환경 {#dev-env}
 * 빌드를 비롯해서, 테스트, 커버리지 확인, 코드 포맷팅 등  모든 개발 환경은 `build/builder.py` 를 통해서 이뤄집니다.
 * `builder.py` 는 작업 별로 필요로 하는 툴이나 프로그램이 무엇인지, 버전은
 만족하는 지를 사전에 체크해서 보여주기 때문에 `builder.py`를 다룰 줄만 안다면
@@ -10,7 +10,7 @@
 
 * `builder.py help` 를 실행하면 지원하는 명령어와 옵션을 자세히 알 수 있습니다.
 
-
+---
 
 ## 빌드
 * 빌드만 하고 싶은 경우, 다음 프로그램이 추가로 필요합니다.
@@ -72,7 +72,7 @@
 한 게 아니라면(CMake를 빌드할 필요가 없다면), `make` 등을 사용해서 증분 빌드를
 사용하는 게 좋습니다.
 
-
+---
 
 ## 디버깅
 * Debug 빌드나 RelDebug 빌드로 디버깅을 하는 게 좋습니다.
@@ -94,7 +94,7 @@
 * Ubuntu처럼 `gdb`나 `lldb`를 사용해도 되지만 VS Code를 사용해도 됩니다.
 * VS Code를 위한 개발 환경 파일을 별도로 [마련해두었으니](https://github.com/byeolang/byeol-vscode-env) 참고 하세요.
 
-
+---
 
 ## 테스트
 * `test` 모듈에는 수백개의 unit test, e2e test 등이 정의되어 있으며, 빌드가
@@ -118,7 +118,7 @@ $ ./test --gtest_filter=cliTest.checkDe*
 $ ./test --gtest_filter=cliTest.checkDefaultAction verbose
 ```
 
-
+---
 
 ## 가이드 / 레퍼런스 문서 생성
 * 레퍼런스 문서를 위해 `doxygen`을 사용합니다.
@@ -167,8 +167,7 @@ $ ./test --gtest_filter=cliTest.checkDefaultAction verbose
 예외처리나 syntax highlighting을 하고 있습니다.
 * 관련 파일들은 `build/doxygen` 폴더에서 찾을 수 있습니다.
 
-
-
+---
 
 ## Core dump
 * `coredump`란 프로그램이 비정상 종료될 때, 강제 종료 후의 native 환경의 메모리/변수 값을 기록한 파일입니다.
@@ -213,3 +212,6 @@ HKEY_LOCAL_MACHINE_SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps
 ```
 
 * `.dmp` 파일은 `VisualStudio` 나 `WinDbg` 등으로 확인 가능합니다.
+
+---
+**다음 문서**: @ref convention-rules

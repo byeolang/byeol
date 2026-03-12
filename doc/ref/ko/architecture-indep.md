@@ -1,8 +1,3 @@
-/**
- * @page architecture_indep indep 모듈 - 플랫폼 추상화 계층
- * @ingroup indep
- */
-
 # indep 모듈 - 플랫폼 추상화 계층 {#architecture_indep}
 
 @ref indep 모듈은 Byeol 프로젝트의 최하위 계층으로, 플랫폼 종속적인 기능을 추상화합니다. 이 모듈의
@@ -12,10 +7,9 @@ Byeol의 아키텍처 규칙에 따라, 플랫폼 종속적인 코드(`#ifdef` �
 모듈에만 존재해야 합니다. @ref indep 보다 상위의 모듈에서는 OS에 대한 조건부 컴파일이나 플랫폼별 분기를
 사용하지 않습니다.
 
+---
 
 ## Early-return 패턴과 에러 처리
-
-### WHEN 매크로
 
 Byeol은 프로젝트 전체적으로 early-return 패턴을 적용하고 있습니다. 이는 코드의 흐름을 알기 쉽게
 해주며 block 문 depth를 줄여주는 이점이 있습니다.
@@ -45,6 +39,10 @@ str me::eval(const args& a) {
     return _cache[key];
 }
 ```
+
+---
+
+## WHEN 매크로
 
 @ref by::WHEN "WHEN" 매크로는 이 부분을 해결하는 것으로 @ref by::WHEN "WHEN" 은 early-return 패턴 시에만 사용됩니다. 또한 90%
 이상의 early-return은 에러 발견시 로그를 찍고 에러 값을 내보내는 것 뿐이라는 것에 착안해서 그 2가지
@@ -76,8 +74,9 @@ value를 반환합니다. 조건이 거짓이면 아무 동작도 하지 않고 
 
 @ref by::WHEN "WHEN" 매크로는 프로젝트 내에서 아주 빈번하게 사용되므로 잘 파악해 두는 게 좋습니다.
 
+---
 
-### tmay 클래스
+## tmay 클래스
 
 @ref by::tmay "tmay" 클래스는 값으로 반환하는 함수에 대해 속도가 느린 exception을 사용하지 않고도 에러임을
 알려주는 클래스입니다. `std::optional<T>`과 거의 동일합니다. API look을 프로젝트 컨벤션에 맞춘
@@ -112,8 +111,9 @@ if (result.has()) {
 }
 ```
 
+---
 
-### tres 클래스
+## tres 클래스
 
 @ref by::tres "tres" 클래스는 @ref by::tmay "tmay" 와 동일하나, 에러일 경우, 원하는 에러 타입을 갖도록 정의할 수 있습니다.
 예를들어 tmay<A>는 에러인지 아닌지만 알 수 있지만, tres<A, std::string>으로 정의하면 에러일 경우,
@@ -196,10 +196,9 @@ void processFile(const std::string& path) {
 }
 ```
 
+---
 
-## 플랫폼 추상화
-
-### platformAPI 클래스
+## 플랫폼 추상화 - platformAPI 클래스
 
 @ref by::platformAPI "platformAPI" 클래스는 단발성으로 호출되는, 플랫폼 종속적인 API들을 독립적으로 제공하는 일종의
 완충작용을 합니다.
@@ -215,6 +214,7 @@ cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(right
 
 와 같이 사용하면 플랫폼 독립적인 코드를 작성하게 됩니다.
 
+---
 
 ### buildFeature 클래스
 
@@ -243,10 +243,9 @@ if(buildFeature::config::isDbg())
 @ref indep 보다 상위의 모듈에서 함부로 OS에 대한 #ifdef의 조건부 컴파일이나
 @ref by::buildFeature::platform::getName() "getName()" 을 사용해서 코드를 branch 하는 건 권장하지 않습니다.
 
+---
 
-## 파일 시스템
-
-### fsystem 클래스
+## 파일 시스템 - fsystem 클래스
 
 @ref by::fsystem "fsystem" 클래스는 지정한 폴더에서 파일을 재귀적으로 탐색하는 간단한 클래스입니다. 윈도우와 posix
 계열 운영체제에서 모두 사용가능한 플랫폼 독립적인 API를 제공합니다. 핵심 API는 iterator 클래스를
@@ -266,10 +265,9 @@ while(e.next()) { // 모든 파일을 탐색하면 false를 반환한다.
 
 **항상 파일만을 iterate 합니다**. 빈 폴더가 있다면 해당 폴더는 iterate시 skip 됩니다.
 
+---
 
-## 문자열 처리
-
-### cpIter 클래스
+## cpIter 클래스
 
 @ref by::cpIter "cpIter" 클래스는 문자열에 대해서 codepoint 기반의 iteration을 담당합니다. 주로 @ref by::nStr "nStr" 에서 UTF8
 unicode와 같은 multibyte 문자열을 순회할 때 사용합니다.
@@ -321,10 +319,9 @@ for(int n = 0; n < 8; n++) {
 }
 ```
 
+---
 
-## 동적 라이브러리 로딩
-
-### dlib 클래스
+## 동적 라이브러리 로딩 - dlib 클래스
 
 @ref by::dlib "dlib" 클래스는 dynamic loading for library의 약자입니다. 플랫폼 독립적인 동적 로딩을 담당합니다.
 라이브러리의 메모리 적재, 원하는 함수을 찾아 함수포인터로 변환할 수 있습니다.
@@ -363,10 +360,9 @@ WHEN(!info.has()) // tmay의 has()로 결과 체크 중
 // lib이 소멸되면서 자동으로 메모리가 해제된다.
 ```
 
+---
 
-## 기타 유틸리티
-
-### end 클래스
+## end 클래스
 
 @ref by::end "end" 클래스는 코드 실행을 지연시킵니다. 다른 언어에서 `defer`와 같은 키워드와 같은 역할입니다.
 

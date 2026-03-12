@@ -1,7 +1,5 @@
 # 테스트 케이스 작성 가이드 {#testing-guide}
 
-## 개요
-
 byeol 프로젝트에서는 Google Test 프레임워크를 사용하여 테스트를 작성합니다. 테스트는 크게 세 가지 타입으로 나뉘며, 각 타입마다 특정 베이스 클래스를 상속받아야 합니다. Unit Test는 `byeolTest`를, Integration Test는 `byeolIntegTest`를, 그리고 E2E Test는 `byeolE2ETest`를 각각 상속받습니다. 이는 필수 규칙이며, 잘못된 베이스 클래스를 사용하면 테스트가 올바르게 동작하지 않습니다.
 
 전체 테스트 구조는 `module/test/` 디렉토리 아래에 조직되어 있으며, `unit/`, `integ/`, `e2e/` 세 개의 주요 폴더로 구성됩니다. Unit Test는 각 모듈(core, memlite, indep, clog, meta, stela 등)별로 하위 폴더가 있습니다. Integration Test는 `integ/` 아래에 있으며, 일반적인 사용 패턴을 테스트하는 `usual/` 폴더와 오류 케이스를 검증하는 `antipattern/` 폴더로 나뉩니다. E2E Test는 `e2e/` 폴더에 위치합니다.
@@ -482,3 +480,7 @@ cd bin
 ```
 
 전체 테스트를 실행하면 시간이 오래 걸리므로, 개발 중에는 `--gtest_filter`를 사용하여 필요한 테스트만 실행하는 것이 좋습니다.
+
+---
+
+**다음 문서**: @ref build-structure

@@ -1,17 +1,11 @@
-/**
- * @page architecture_clog clog 모듈 - 로깅 시스템
- * @ingroup clog
- */
-
 # clog 모듈 - 로깅 시스템 {#architecture_clog}
 
 @ref by::clog "clog" 모듈은 여러 출력 스트림과 필터링 기능을 갖춘 경량화된 C++ 로깅 프레임워크를 제공합니다.
 이 모듈은 아키텍처 상 하위 계층에 위치하므로, 상위 모듈에 대한 의존성이 없습니다.
 
+---
 
 ## 로깅의 기본 사용법
-
-### logger 클래스
 
 @ref by::logger "logger" 클래스는 @ref by::stream "stream" 이라고 불리는 복수의 로깅 경로를 통해 체계적으로 로깅이 가능한 경량화된
 C++ 로깅 프레임워크의 일종의 facade입니다.
@@ -40,10 +34,9 @@ Oct 22 2025  21:26:13 I cppPackLo <_loadLibs#49> slot[cpp] origins loaded.
 
 기본적인 사용법은 여기까지만 알아도 충분합니다.
 
+---
 
 ## 로깅 시스템 아키텍처
-
-### stream 클래스
 
 @ref by::clog "clog" 모듈의 핵심은 @ref by::stream "stream" 입니다. @ref by::stream "stream" 은 쉽게 말해 로깅이 출력되는 스트림, 즉 목적지를
 표현합니다. 현재는 @ref by::consoleStream "consoleStream" 과 @ref by::fileLogStream "fileLogStream" 2가지가 존재합니다. 모든 @ref by::stream "stream" 은 기본적으로
@@ -93,6 +86,7 @@ log.setEnable(false);
 BY_I("This won't be logged anywhere");
 ```
 
+---
 
 ## 로깅 매크로 시스템
 
@@ -133,6 +127,7 @@ Oct 22 2025  21:26:13 E leafPars <_finalize#263> leaf: ERR: src is empty
 해당 macro의 구현은, 출력할 문자열 앞에 날짜나 시간 등을 붙여서 logBypass()에 전달하도록 expand 하는
 것이긴 하나, 그외에도 한가지 중요한 기능이 더 있습니다.
 
+---
 
 ### 간략화된 주소값
 
@@ -149,6 +144,7 @@ Nov 18 2025  20:02:13 I verifier  <onLeave#87> '' assignExpr@9a50: step#1 --> se
 얘기입니다. 이는 동일한 타입에 대해 서로 다른 인스턴스가 같은 시점에 로깅되는 경우 좀 더 수월하게
 디버깅 하도록 돕습니다.
 
+---
 
 ## richLog - 다형성 로깅
 
@@ -242,6 +238,7 @@ type& t = ttype<myClass>();
 BY_I("type is %s", t);  // __convert__(const type&)가 호출되어 적절히 문자열로 변환됨
 ```
 
+---
 
 ## 스트림 제어
 
@@ -277,6 +274,7 @@ BY_I("type is %s", t);  // __convert__(const type&)가 호출되어 적절히 �
 BY_E("this message will definitely be log on entire stream");
 ```
 
+---
 
 ## 필터링 시스템
 

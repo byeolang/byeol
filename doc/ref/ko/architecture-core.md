@@ -1,21 +1,17 @@
-/**
- * @page architecture_core core 모듈 - 언어 구현의 핵심
- * @ingroup core
- */
-
 # core 모듈 - 언어 구현의 핵심 {#architecture_core}
 
 @ref core 모듈은 Byeol 프로그래밍 언어의 핵심 구현을 담당합니다. AST(Abstract Syntax Tree) 구조, 파서, 검증기, 실행기 등 언어의 모든 핵심 기능이 이 모듈에 집중되어 있습니다.
 
 @ref core 모듈의 가장 큰 특징은 <b>AST를 직접 실행</b>한다는 점입니다. 일반적인 언어와 달리, Byeol 언어는 AST 구조를 유지한 채로 프로그램을 실행합니다. 따라서 타 언어의 AST는 말그대로 문법 구조를 트리로 표현한 중간결과물에 지나지 않지만, Byeol에는 실행가능한 최종 output을 AST가 담당합니다.
 
+---
 
-### AST 기본 구조
+## AST 기본 구조
 
 Byeol의 AST는 실행 가능한 프로그램 트리입니다. 일반적인 AST와 달리 평가(evaluation), 타입 추론(type inference), 프레임 관리 등 실행에 필요한 모든 기능을 포함합니다.
 
 
-#### node 클래스 - AST의 기반
+### node 클래스 - AST의 기반
 
 @ref by::node "node" 클래스는 AST의 가장 기본이 되는 클래스입니다. AST 구조와 관련된 API와 해당 @ref by::node "node" 를 평가하는 `eval()`, 자식 @ref by::node "node" 를 탐색하는 API, 그리고 해당 @ref by::node "node" 객체를 다른 타입으로 형변환하는 API 등을 제공합니다.
 
@@ -209,14 +205,14 @@ priorType prior2 = funcStr.prioritize(intArgs);   // IMPLICIT_MATCH (타입 변�
 ```
 
 
-#### src, srcFile 클래스 - 소스 위치 정보
+### src, srcFile 클래스 - 소스 위치 정보
 
 @ref by::srcFile "srcFile" 은 AST의 출처가 되는 소스코드 파일에 대한 정보를 담습니다. @ref by::src "src" 는 생성된 AST @ref by::node "node" 가 어떠한 @ref by::srcFile "srcFile" 안의 어느 위치에서 생성된 것인지를 담고있습니다.
 
 이 정보는 byeol 언어의 Context 기반 REPL의 핵심 기능에 사용됩니다. @ref by::src "src" 정보는 managed 환경에 국한하며, native에서 생성된 객체는 @ref by::src "src" 에 더미 값이 들어갑니다.
 
 
-#### args 클래스 - 함수 인자
+### args 클래스 - 함수 인자
 
 함수나 객체 `eval()`을 위해 전달하는 인자를 표현합니다. @ref by::tnarr "narr" 을 상속하므로 @ref by::tnarr "narr" 의 모든 API를 사용할 수 있습니다.
 
@@ -252,7 +248,7 @@ node& secondArg = myArgs[1];  // nStr("hello")
 ```
 
 
-#### param 클래스 - 파라메터 정의
+### param 클래스 - 파라메터 정의
 
 param은 말 그대로 파라메터를 표현합니다. 이름과 타입을 표현하기 위한 origin 객체에 대한 참조가 있습니다.
 
@@ -278,14 +274,14 @@ firstParam.getName();  // "x"
 firstParam.getOrigin().getType();  // ttype<nInt>()
 ```
 
+---
 
-
-### 객체 모델
+## 객체 모델
 
 Byeol의 객체 모델은 native(C++)와 managed(Byeol 언어) 환경을 모두 지원하도록 설계되었습니다. 두 환경의 객체가 동일한 인터페이스로 사용될 수 있으며, 이를 통해 seamless한 상호작용이 가능합니다.
 
 
-#### baseObj 클래스 - 객체의 기반
+### baseObj 클래스 - 객체의 기반
 
 @ref by::baseObj "baseObj" 는 byeol의 객체를 표현하는 데 있어서 기반 클래스입니다. @ref core 모듈은 byeol 언어로 작성된 managed 환경에서의 객체(@ref by::obj "obj")와 C++ 코드를 사용해서 작성된 native 환경에서의 객체(@ref by::baseObj "baseObj") 모두를 구분하지 않고 사용합니다.
 
@@ -396,7 +392,7 @@ main() void
 좀 더 자세한 @ref by::tbridger "tbridger" 사용 방법은 해당 클래스를 참조하세요.
 
 
-#### obj 클래스 - Managed 객체
+### obj 클래스 - Managed 객체
 
 @ref by::obj "obj" 클래스는 managed 환경에서의 객체를 표현합니다. @ref by::baseObj "baseObj" 의 기능을 확장해서 managed 환경에서만 필요한 scope에 대한 처리나 shares, owns에 대한 개념을 추가합니다.
 
@@ -476,7 +472,7 @@ str, int 등 scalar 타입은 모두 immutable 타입입니다. 이는 byeol의 
 객체에 할당을 시도할 경우 이를 복사해야하는지, 아니면 참조만 변경하면 되는지는 @ref by::immutableTactic "immutableTactic" 을 통해서 판단합니다.
 
 
-#### origin 클래스 - 타입의 원본
+### origin 클래스 - 타입의 원본
 
 byeol 언어로 사용자가 정의한, 원본이 되는 타입을 @ref by::origin "origin" 객체라고 합니다. 사용자가 byeol 코드로 객체를 생성하면, 내부적으로 해당 타입의 @ref by::origin "origin" 객체를 복사 생성(clone)하여 새 인스턴스를 만듭니다.
 
@@ -577,7 +573,7 @@ public 함수는 obj 타입의 API와 동일한 것입니다. 대부분은 origi
 사용하자는 것입니다.
 
 
-#### tbaseObjOrigin 클래스 - baseObj Origin 템플릿
+### tbaseObjOrigin 클래스 - baseObj Origin 템플릿
 
 @ref by::baseObj "baseObj" 에 대한 @ref by::origin "origin" 객체를 쉽게 정의하기 위해서 사용하는 클래스 템플릿입니다.
 
@@ -623,12 +619,12 @@ origin org(typeMaker::make<obj>(name)); // name == "MyObj"
 ```
 
 
-#### modifier 클래스 - 접근 제한자
+### modifier 클래스 - 접근 제한자
 
 타입에 속한 함수나 property에 대해 접근제한자를 표현합니다. byeol 언어에는 public/protected/override 3종류의 modifier만 존재합니다.
 
 
-#### defaultCopyCtor 클래스 - 기본 복사 생성자
+### defaultCopyCtor 클래스 - 기본 복사 생성자
 
 managed 환경에서 byeol 타입에 대해 사용자가 복사 생성자를 정의하지 않은 경우 parser에 의해 추가되는 기본 복사생성자입니다. 복사 생성자 호출 시 @ref by::args "args" 의 첫 번째 인자로 복사 대상 객체가 전달되며, 이 객체의 property들을 얇은 복사를 수행합니다.
 
@@ -659,7 +655,7 @@ int value = cloned.getOwns()["age"].cast<int>();  // 23 - 얇은 복사
 ```
 
 
-#### immutableTactic 클래스 - Immutable 타입 처리
+### immutableTactic 클래스 - Immutable 타입 처리
 
 str, int 등 scalar타입은 모두 immutable 타입입니다. 이는 byeol의 호출 전략이 `by object`를 따르기 때문입니다.
 
@@ -674,13 +670,13 @@ str, int 등 scalar타입은 모두 immutable 타입입니다. 이는 byeol의 �
 판단은 단순하게 @ref by::ntype "ntype" 에 정의된 `isImmutable()` 함수로 판단합니다. scalar type을 구현한 @ref by::nInt "nInt", @ref by::nStr "nStr" 등은 자신의 타입을 내보낼때 isImmutable()이 true로 나오는 타입으로 내보냅니다. immutable 타입으로 판단되면 인자를 바로 넣지 않고 `clone()`을 호출합니다.
 
 
-#### manifest 클래스 - Pack 메타데이터
+### manifest 클래스 - Pack 메타데이터
 
 @ref stela 언어로 작성된, pack을 로딩하기 위한 기본정보를 담고 있는 객체입니다.
 `manifest.stela` 파일로부터 @ref stela 모듈을 사용해 파싱됩니다.
 
 
-#### tmock 클래스 - Proxy 객체
+### tmock 클래스 - Proxy 객체
 
 주어진 타입 파라메터 T에 대한 일종의 proxy 클래스입니다.
 
@@ -692,21 +688,21 @@ str, int 등 scalar타입은 모두 immutable 타입입니다. 이는 byeol의 �
 
 현재는 해당 기능은 사용되지 않으며 dummy 객체로 대신 사용중입니다.
 
+---
 
-
-### 표현식 (Expression) 시스템
+## 표현식 (Expression) 시스템
 
 Byeol은 대부분이 표현식으로 구성된 언어입니다. 블록문조차도 표현식이며, 마지막 줄의 evaluation 결과를 반환합니다. 이 섹션에서는 Byeol의 다양한 표현식 클래스들을 살펴봅니다.
 
 
-#### FBOExpr, FUOExpr 클래스 - 연산자 표현식
+### FBOExpr, FUOExpr 클래스 - 연산자 표현식
 
 `FBOExpr`는 Binary Operator 표현식을 담당합니다. lhs, rhs에 각각 피연산자 표현식이 들어가며, 둘은 모두 scalar 타입이어야 합니다.
 
 `FUOExpr`는 Unary Operator 표현식을 담당합니다. args에 피연산자가 1개 들어가며 scalar 타입이어야 합니다.
 
 
-#### assignExpr 클래스 - 할당 표현식
+### assignExpr 클래스 - 할당 표현식
 
 할당 표현식을 담당합니다.
 
@@ -735,7 +731,7 @@ scope["a"] = newObj;  // = 연산자: scope의 참조를 다른 객체로 변경
 ```
 
 
-#### blockExpr 클래스 - 블록 표현식
+### blockExpr 클래스 - 블록 표현식
 
 블록 표현식을 담당합니다. @ref by::frameInteractable "frameInteractable" 하며, 외부에서 @ref by::frame "frame" 에 등록을 요청하면 scope를 하나 생성해 등록합니다. 이 scope는 이 블록문에서만 유효한 것으로, 흔히들 말하는 local scope입니다.
 
@@ -746,7 +742,7 @@ scope["a"] = newObj;  // = 연산자: scope의 참조를 다른 객체로 변경
 byeol 언어는 대부분 표현식으로 구성되며, block문도 예외가 아닙니다. block문은 <b>마지막 줄의 evaluation 결과를 반환</b>합니다.
 
 
-#### defArrayExpr 클래스 - 배열 리터럴
+### defArrayExpr 클래스 - 배열 리터럴
 
 배열 리터럴 표현식을 담당합니다. 어떠한 타입의 배열인지는 배열의 원소로 적은 리터럴 상수들의 타입들을 type promotion을 통해 추론됩니다. Type promotion은 여러 타입 중 가장 넓은 범위의 타입으로 승격하는 과정입니다 (예: `[1, 2.5, 3]`이라는 배열이 있다면 int와 flt 타입이 섞여있으므로 flt 배열로 승격됩니다).
 
@@ -779,24 +775,24 @@ for(auto& elem : arr1) {
 ```
 
 
-#### defNestedFuncExpr 클래스 - 중첩 함수 정의
+### defNestedFuncExpr 클래스 - 중첩 함수 정의
 
 byeol 언어의 중첩 함수인 @ref by::nestedFunc "nestedFunc" 을 생성합니다. 중첩함수는 정의할때는 이름을 생략할 수 있으며, `closure`로도 활용될 수 있습니다.
 
 
-#### defSeqExpr 클래스 - 시퀀스 표현식
+### defSeqExpr 클래스 - 시퀀스 표현식
 
 시퀀스(범위) 표현식을 담당합니다.
 
 @ref by::nseq "nseq" 은 native 환경에서 시퀀스를 담당하는 클래스입니다. @ref by::seq "seq" 은 @ref by::nseq "nseq" 를 managed 환경에 맞게 확장한 것입니다. 이렇게 함으로써 C++에서도 byeol에서도 서로 유사한 API를 사용 가능하게 됩니다.
 
 
-#### endExpr 클래스 - End 키워드
+### endExpr 클래스 - End 키워드
 
 `end` 키워드를 구현합니다. endExpr은 단순히 블록문을 가지고 있을 뿐입니다. `func`이 end를 실행시킵니다.
 
 
-#### retStateExpr 클래스 - 블록 종료 키워드
+### retStateExpr 클래스 - 블록 종료 키워드
 
 `blockExpr`에서 벗어나는 키워드들의 기반클래스입니다.
 
@@ -804,14 +800,14 @@ byeol 언어의 중첩 함수인 @ref by::nestedFunc "nestedFunc" 을 생성합�
 
 블록문 안에서 `ret` 등을 하여 바로 블록문을 종료해야 하는 경우, `thread`에 `setRet()`로 값을 넣어야 합니다. 각 blockExpr은 구문을 한줄 한줄 실행하다가 thread에 setRet()에 일정한 값이 발견될 경우, 모든 동작을 중단하고 해당 값을 블록문의 호출자에게 올려보냅니다.
 
+---
 
-
-### 컨테이너 시스템
+## 컨테이너 시스템
 
 Byeol의 컨테이너 시스템은 native(C++)와 managed(Byeol 언어) 환경에서 동일한 API를 제공하도록 설계되었습니다. 특히 `tnchain`은 AST 데이터를 보관하는 가장 중요한 컨테이너입니다.
 
 
-#### tucontainable, tbicontainable 클래스 - 컨테이너 인터페이스
+### tucontainable, tbicontainable 클래스 - 컨테이너 인터페이스
 
 byeol 언어에는 기본적으로 array, map, seq를 지원합니다.
 
@@ -869,7 +865,7 @@ index를 기반으로 하는 int 배열과 유사합니다.
 한다는 차이만 있을 뿐입니다.
 
 
-#### tnchain 클래스 - Chain으로 연결되는 컨테이너
+### tnchain 클래스 - Chain으로 연결되는 컨테이너
 
 `node`가 AST의 근간을 이루는 가장 중요한 클래스라고 한다면, <b>tnchain은 AST의 데이터를 보관하는 컨테이너로써 가장 중요한 클래스</b>라 할 수 있습니다.
 
@@ -990,7 +986,7 @@ chn1["2"];  // chn3에 있는 원소를 반환
 ```
 
 
-#### arr 클래스 - Managed 배열
+### arr 클래스 - Managed 배열
 
 **Native API를 byeol 환경에서도 그대로 사용**
 
@@ -999,7 +995,7 @@ byeol 언어는 AST를 그대로 프로그램 실행으로 이용하는 구조�
 노출할때는 `tbridger`를 사용해서 몇 줄만으로도 간단하게 노출시킬 수 있습니다.
 
 
-#### nseq 클래스 - 범위형 컨테이너
+### nseq 클래스 - 범위형 컨테이너
 
 `seq`의 기반이 되는 `ucontainable`를 구현한 클래스로, int를 받아서 적절한 int를 반환하는 범위형 컨테이너입니다.
 
@@ -1028,7 +1024,7 @@ int value = (*re).get();  // 1
 ```
 
 
-#### smultimap 클래스 - 삽입 순서를 기억하는 Multimap
+### smultimap 클래스 - 삽입 순서를 기억하는 Multimap
 
 byeol에서는 AST에서 node를 구성할때 단순하게 map을 사용할 순 없으며 multimap을 사용해야 합니다. (함수 오버로딩 때문입니다. 자세한 내용은 `node`를 참조하세요.)
 
@@ -1070,14 +1066,14 @@ for(nint n = 0; n < 10; n++) {
 // 먼저 삽입된 함수가 우선적으로 매칭 시도됨
 ```
 
+---
 
-
-### Generic 시스템
+## Generic 시스템
 
 Byeol은 C++의 템플릿과 유사한 generic 타입 시스템을 제공합니다. 하지만 C++ 템플릿과 달리, byeol의 generic은 **지연 인스턴스화(lazy instantiation)** 방식으로 동작합니다. 즉, generic 타입이 실제로 사용될 때만 해당 타입의 구체화된 인스턴스가 생성됩니다.
 
 
-#### getGenericExpr 클래스 - Generic 타입 참조의 진입점
+### getGenericExpr 클래스 - Generic 타입 참조의 진입점
 
 generic 클래스의 참조를 담당하며 generic 타입 생성의 진입점을 담당합니다. 사용자가 `SomeGeneric<MyObj>()`처럼 generic 타입을 사용하면, 이 표현식이 `getGenericExpr`로 표현됩니다.
 
@@ -1105,7 +1101,7 @@ str result = expr.eval();  // Optional<nInt> 타입의 origin 반환
 genericOrigin은 설계상 lazy instantiation을 지원합니다. 즉, `eval()` 호출 시점에 주어진 type parameter로 generic 타입을 생성합니다. 하지만 `verifier`가 프로그램 실행 전에 모든 타입을 검증하면서 필요한 generic 인스턴스를 미리 생성하므로, 실제로는 eager instantiation처럼 동작합니다.
 
 
-#### genericOrigin 클래스 - Generic 타입의 생성과 관리
+### genericOrigin 클래스 - Generic 타입의 생성과 관리
 
 기본적으로 `origin`과 같은 역할을 수행하는 클래스이지만, generic을 지원한다는 점과 이 인스턴스 자체가 origin을 담당하는 게 아니라 <b>필요에 의해 origin을 생성/관리</b>한다는 점이 다릅니다.
 
@@ -1135,7 +1131,7 @@ SomeGeneric<T @incomplete>@21d0
 가장 중요한 부분은 첫 줄로, SomeGeneric이라는 genericOrigin 인스턴스 안에 `myObj`라는 key로 SomeGeneric<myObj>이라는 origin 객체가 들어있다는 것입니다.
 
 
-#### generalizer 클래스 - Generic 타입의 구체화
+### generalizer 클래스 - Generic 타입의 구체화
 
 `visitor` 기반으로 동작하며, generic 타입을 구체화하는 실질적인 작업을 담당합니다. 동작은 매우 단순합니다:
 
@@ -1160,14 +1156,14 @@ SomeGeneric<T @incomplete>@21d0
 6. 완성된 origin을 map에 저장하고 반환
 7. 이후 같은 타입 요청시 4-5번 과정 없이 바로 반환
 
+---
 
-
-### Native-Managed 브리징 시스템
+## Native-Managed 브리징 시스템
 
 Byeol은 C++로 작성된 native 코드와 byeol 언어로 작성된 managed 코드가 서로 상호작용할 수 있는 bridge 시스템을 제공합니다. 이 시스템의 핵심은 <b>C++ 클래스와 함수를 간단한 선언만으로 byeol 언어에서 사용 가능하도록 노출</b>하는 것입니다.
 
 
-#### tbridger 클래스 - Bridge 컴포넌트의 진입점
+### tbridger 클래스 - Bridge 컴포넌트의 진입점
 
 `tbridger`는 bridge 시스템의 facade 역할을 합니다. C++ 클래스를 타입 파라메터로 받는 클래스 템플릿이며, <b>monostate 패턴</b>으로 설계되어 있습니다.
 
@@ -1260,27 +1256,27 @@ res := openGL().init(win)  # res == 25
 8. 반환값을 다시 managed 타입으로 변환해서 반환
 
 
-#### tbridge 클래스 - Native 클래스의 Managed 표현
+### tbridge 클래스 - Native 클래스의 Managed 표현
 
 @ref by::tbridge "tbridge" 는 @ref by::tbridger "tbridger" 에 등록된 정보를 바탕으로 생성되는 @ref by::baseObj "baseObj" 입니다. 내부적으로 `tbaseObjOrigin<tbridger<T>>` 형태로 @ref by::origin "origin" 을 정의하고 있어서, @ref by::tbridger "tbridger" 를 통해 채워진 subs()를 자신의 origin으로 사용합니다.
 
 따라서 @ref by::tbridge "tbridge" 객체는 @ref by::tbridger "tbridger" 에 등록된 함수들을 마치 자신의 멤버 함수처럼 소유하게 됩니다.
 
 
-#### tmock 클래스 - Proxy와 Dummy 객체
+### tmock 클래스 - Proxy와 Dummy 객체
 
 `tmock`은 주어진 타입 파라메터 `T`에 대한 proxy 클래스입니다. 생성시 원본 인스턴스를 넣지 않으면 아무 동작도 하지 않는 dummy 객체로 동작합니다.
 
 원래는 `verifier`가 symbol이 scope에 있는지 검증할 때, 실제 객체를 만들지 않고 타입 정보만 redirect하는 용도로 고안되었습니다. 현재는 해당 기능은 사용되지 않으며, 주로 dummy 객체 용도로 사용됩니다.
 
+---
 
-
-### 스코프와 실행 컨텍스트
+## 스코프와 실행 컨텍스트
 
 Byeol의 코드 실행은 @ref by::scope "scope", @ref by::frame "frame", @ref by::frames "frames", @ref by::thread "thread" 가 유기적으로 협력하여 이루어집니다. 이 시스템은 symbol 탐색, 함수 호출, 실행 흐름 관리를 담당합니다.
 
 
-#### scope 클래스 - Symbol 저장소
+### scope 클래스 - Symbol 저장소
 
 `scope`는 `tnchain`을 기반으로 설계되어 있습니다. byeol에서 scope는 만든 주체에 따라 5가지로 분류됩니다:
 
@@ -1358,7 +1354,7 @@ main() void
 IS_DBG는 file scope과 pack scope에 각각 1개씩 정의됩니다. 중요한 점은 <b>file scope는 @ref by::parser "parser" 에 의해 항상 pack scope를 chain</b>한다는 것입니다. Symbol을 찾을 때 file scope를 먼저 검색하고, 없을 경우 pack scope를 검색하므로, file scope에 선언된 값이 우선됩니다.
 
 
-#### frame 클래스 - Scope들의 동적 연결
+### frame 클래스 - Scope들의 동적 연결
 
 `frame`은 현재 실행중인 코드 블록에서 접근 가능한 symbol을 관리합니다. 여러 개의 `scope`를 동적으로 chain하는 방식으로 최적화된 symbol 탐색을 제공합니다.
 
@@ -1410,7 +1406,7 @@ for(auto& elem : frame.subs()) {
 이는 `scope`이 `tnchain`으로 구현되어 있기 때문에 가능합니다.
 
 
-#### frames 클래스 - Frame 적층 관리
+### frames 클래스 - Frame 적층 관리
 
 `frames`는 하나의 `thread`에 속한 여러 `frame`을 관리합니다. byeol에서는 최상위 코드도 암묵적으로 초기화 함수 내에서 실행되며, `main()`도 함수이므로, 모든 코드 실행은 함수 컨텍스트 안에서 이루어집니다. 따라서 코드 실행 = 함수 실행이며, 함수 실행시 frame 객체가 생성되어 적절히 scope를 적층시킵니다.
 
@@ -1473,7 +1469,7 @@ Symbol 탐색은 위에서 아래로 순차 탐색합니다. 만약 frame #2에�
 게다가 `tnchain`의 `link()`를 활용하면, `parser`가 obj를 생성할 때 pack과 file을 미리 chain으로 연결해두어서, obj의 scope를 frames에 추가하는 것만으로도 obj, file, pack scope이 한번에 연결됩니다. 이 과정에서 **어떠한 복사도 일어나지 않습니다**.
 
 
-#### thread 클래스 - 실행 흐름의 관리자
+### thread 클래스 - 실행 흐름의 관리자
 
 `thread`는 하나의 프로그램 실행 흐름을 표현합니다 (현재는 단일 스레드만 지원). `thread`는 `frames`와 `errReport`를 소유하여 프로그램 실행시 frame을 구성하고 에러를 수집합니다.
 
@@ -1529,21 +1525,21 @@ thread& originalThread = thread::get();
 thread::get();  // originalThread 반환
 ```
 
+---
 
-
-### 패키지 시스템
+## 패키지 시스템
 
 Byeol은 `pack`이라는 단위로 라이브러리를 배포합니다. 패키지 시스템은 pack을 동적으로 lazy 로딩하며, 종속성 관리와 검증을 담당합니다.
 
 
-#### manifest 클래스 - Pack 메타데이터
+### manifest 클래스 - Pack 메타데이터
 
 stela 언어로 작성된, pack을 로딩하기 위한 기본정보를 담고 있는 객체입니다. `manifest.stela` 파일로부터 @ref stela 모듈을 사용해 파싱됩니다.
 
 @ref by::manifest "manifest" 는 pack의 entrypoint, 종속성 정보 등을 포함합니다. entrypoint는 pack이 어떠한 종류의 라이브러리를 포함하고 있는지를 나타냅니다 (예: `cpp`, `byeol`).
 
 
-#### slot 클래스 - Pack의 결과물
+### slot 클래스 - Pack의 결과물
 
 byeol 언어는 `pack`이라는 일종의 압축파일 단위로 라이브러리를 배포하는데, pack 파일에는 최상위 `obj` 객체와 @ref by::manifest "manifest", 종속하는 pack 목록이 포함됩니다.
 
@@ -1552,7 +1548,7 @@ byeol 언어는 `pack`이라는 일종의 압축파일 단위로 라이브러리
 **@ref by::slot "slot" 은 pack 파일로부터 만들어지는 결과물**이지, pack을 불러오는 걸 담당하지 않습니다. pack 로딩에 대해서는 `packLoading`이나 `slotLoader`를 참조하세요.
 
 
-#### autoslot 클래스 - Lazy Pack 로딩
+### autoslot 클래스 - Lazy Pack 로딩
 
 byeol 언어는 pack을 **lazy하게 동적으로** 불러옵니다. @ref by::autoslot "autoslot" 은 이 기능을 구현한 것으로, `slotLoader`가 pack 파일을 찾으면 `packLoading` 객체를 적절히 생성해서 @ref by::autoslot "autoslot" 에 넣어둡니다.
 
@@ -1615,7 +1611,7 @@ pack이 다른 pack에 종속되는 경우는 부지기수로 많습니다. @ref
 자세한 내용은 @ref by::packLoading "packLoading" 을 참조하세요.
 
 
-#### slotLoader 클래스 - Pack 로더
+### slotLoader 클래스 - Pack 로더
 
 @ref by::slotLoader "slotLoader" 는 외부 pack을 로딩하는 역할을 담당합니다. `addPath()`로 탐색 경로를 추가하고, `load()`를 호출하면 pack을 불러올 수 있습니다.
 
@@ -1649,14 +1645,14 @@ pack 로딩 중에는 필연적으로 @ref by::manifest "manifest" 를 파싱합
 - 파일 탐색, 동적 라이브러리 로딩 등 플랫폼 종속적인 기능들은 indep 모듈에 위임합니다
 
 
-#### packLoading 클래스 - Pack 로딩 추상 클래스
+### packLoading 클래스 - Pack 로딩 추상 클래스
 
 `slotLoader`에 의해 패키지를 로딩할 때 사용되는 추상 클래스입니다. @ref by::packMakable "packMakable" 인터페이스가 핵심 API를 제공합니다.
 
 packLoading은 `rel(), parse(), verify()` 함수를 제공하며, 이는 `autoslot`의 상태와 깊은 관련이 있습니다.
 
 
-#### cppPackLoading 클래스 - C++ Pack 로더
+### cppPackLoading 클래스 - C++ Pack 로더
 
 `slotLoader`에 의해 cpp 패키지를 로딩할 때 사용되는 `packLoading` 중 하나입니다. 이름 그대로 C++ pack을 동적 라이브러리 파일에서 로딩하는 역할을 합니다.
 
@@ -1664,14 +1660,14 @@ packLoading은 `rel(), parse(), verify()` 함수를 제공하며, 이는 `autosl
 
 @ref indep 모듈의 @ref by::dlib "dlib" 을 사용해서 동적 라이브러리를 로딩합니다. entrypoint는 이미 정의되어 있는 @ref by::ENTRYPOINT_NAME "ENTRYPOINT_NAME" 의 값을 사용합니다.
 
+---
 
-
-### Visitor 패턴 및 AST 순회
+## Visitor 패턴 및 AST 순회
 
 Byeol에서는 AST를 중점적으로 다루기 때문에 @ref by::visitor "visitor" 를 자주 사용하게 됩니다. 순회하는 방법과 순회시 `node`를 visit했을 때의 동작을 서로 분리하기 위해 @ref by::visitor "visitor" 가 적극적으로 활용됩니다.
 
 
-#### visitor 클래스 - AST 순회의 핵심
+### visitor 클래스 - AST 순회의 핵심
 
 **순회**
 
@@ -1763,7 +1759,7 @@ v.foundFunc;  // true - func 노드를 찾음
 ```
 
 
-#### graphVisitor 클래스 - AST 로깅
+### graphVisitor 클래스 - AST 로깅
 
 `visitor` 기반의 AST 로깅 클래스로, 주어진 root `node`를 순회하면서 상세 정보를 모두 로깅합니다.
 
@@ -1774,14 +1770,14 @@ v.foundFunc;  // true - func 노드를 찾음
 
 @ref by::graphVisitor "graphVisitor" 는 AST 구조를 트리 형태로 시각화하여 출력하므로, 디버깅시 AST의 구조를 파악하는 데 매우 유용합니다.
 
+---
 
-
-### 파싱 시스템
+## 파싱 시스템
 
 byeol 언어의 파싱 시스템은 <b>Flex</b>와 <b>Bison</b>을 사용하는 전통적인 파서 구조를 따르지만,
 byeol 언어의 특성인 <b>offside rule</b>을 지원하기 위해 정교한 메커니즘을 갖추고 있습니다.
 
-#### parser 클래스 - 파싱의 진입점
+### parser 클래스 - 파싱의 진입점
 
 `parser`는 byeol 파싱 컴포넌트의 진입점 역할을 하며 `worker`를 상속합니다. `work()`을
 통해서 파싱된 결과가 `slot`으로 반환됩니다.
@@ -1843,7 +1839,7 @@ compilation-unit: pack defblock {
 }
 ```
 
-#### smartDedent, tokenScan 클래스 - Indentation 관리
+### smartDedent, tokenScan 클래스 - Indentation 관리
 
 byeol 파서의 `smartDedent`와 `tokenScan`은 @ref by::stela "stela" 모듈의 `stelaSmartDedent`, `stelaTokenScan`과 동일한 원리로 동작합니다. Indentation을 배열로 관리하고, scan mode를 동적으로 전환하는 방식은 완전히 같습니다.
 
@@ -1852,7 +1848,7 @@ byeol 파서의 `smartDedent`와 `tokenScan`은 @ref by::stela "stela" 모듈의
 
 자세한 명령 토큰 목록은 `lowparser.y`의 `// mode:` 단락을 참조하세요.
 
-#### srcSupply 클래스 - 소스 코드 공급 추상화
+### srcSupply 클래스 - 소스 코드 공급 추상화
 
 `parser`에서 사용되는 클래스로, @ref by::parser "parser" 에 입력되는 코드를 어떠한 형태로 제공할지를 추상화합니다.
 
@@ -1860,7 +1856,7 @@ byeol 파서의 `smartDedent`와 `tokenScan`은 @ref by::stela "stela" 모듈의
 방법도 있을 것입니다. `srcSupply`는 이러한 다양한 소스 제공 방식을 추상화하여 @ref by::parser "parser" 가
 일관된 인터페이스로 소스 코드를 읽을 수 있도록 합니다.
 
-#### expander 클래스 - 사전 타입 추론
+### expander 클래스 - 사전 타입 추론
 
 `parser`에서 명시한 것처럼 현재 사전 타입 추론 알고리즘은 종속성 그래프를 만들지 않고
 모든 사전 타입 추론 표현식을 모아둔 후, 반복적으로 타입 추론을 시도하는 방식입니다.
@@ -1905,13 +1901,14 @@ byeol은 이러한 타입추론 표현식들을 한곳에 모아둔 후, parsing
   넘길 부분
 - **common**: 공통 생성자를 위한 부분
 
+---
 
-### 코드 검증 및 실행
+## 코드 검증 및 실행
 
 파싱이 완료된 AST는 실행되기 전에 검증 과정을 거쳐야 합니다. byeol 언어는 인터프리터
 구조를 띄고 있지만 <b>강형 타입</b>을 사용하며, 컴파일 언어처럼 사전에 에러를 도출합니다.
 
-#### tworker 클래스 - 배치 작업의 기반
+### tworker 클래스 - 배치 작업의 기반
 
 `tworker`는 대량의 배치 작업을 수행하는 데 최적화되어 있습니다. `errReport`로 이
 과정에서 발생하는 에러를 수집할 수 있으며 다양한 flag들을 지정해서 작업 중 일부 동작을
@@ -1944,7 +1941,7 @@ byeol은 이러한 타입추론 표현식들을 한곳에 모아둔 후, parsing
 - `LOG_ON_END`: 작업이 모두 완료되면, 그간 수집한 err를 모두 `log()`로 한줄 로그를 남김
 - `DUMP_ON_END`: 작업이 모두 완료되면, 그간 수집한 err를 모두 `dump()`
 
-#### verifier 클래스 - 코드 검증
+### verifier 클래스 - 코드 검증
 
 `visitor` 기반의 코드 검증을 담당합니다. byeol 언어는 인터프리터의 구조를 띄고 있지만
 언어 자체는 강형 타입을 사용하고 컴파일을 실행하는 것처럼 사전에 에러를 도출합니다. @ref by::verifier "verifier" 는 그 기능의 핵심을 구현합니다.
@@ -2021,7 +2018,7 @@ void me::onLeave(const visitInfo& i, assignExpr& me, nbool) {
 
 이렇게 단계별로 로깅을 남기면 복잡한 검증 로직을 추적하기가 훨씬 쉬워집니다.
 
-#### starter 클래스 - AST 실행
+### starter 클래스 - AST 실행
 
 `worker`의 일종으로, `verifier`에 의해 검증이 완료된 AST를 실행합니다. 실행 결과
 `thread`에게 exception이 발생되었다면 로그를 덤프하고 exception을 반환합니다.
@@ -2071,21 +2068,22 @@ st.setTask(ip.getTask()).setReport(report);
 st.work();  // main() 함수 실행
 ```
 
-#### sigZone 클래스 - Signal 처리
+### sigZone 클래스 - Signal 처리
 
 `signaler`에 RAII를 적용한 클래스입니다.
 
 @ref by::sigZone "sigZone" 인스턴스가 정의된 블록문 안의 코드를 실행할 때 signal이 오면 람다를 수행하도록 @ref by::signaler "signaler" 를 사용합니다. RAII 패턴을 통해 블록을 벗어나면 자동으로 signal handler가
 해제됩니다.
 
+---
 
-### 에러 처리
+## 에러 처리
 
 byeol 언어는 에러 처리를 위한 정교한 시스템을 갖추고 있습니다. 에러는 단순히 발생하고
 끝나는 것이 아니라, callstack 정보와 함께 수집되며, 검증 단계에서부터 실행 단계까지
 체계적으로 관리됩니다.
 
-#### baseErr 클래스 - 에러의 기반
+### baseErr 클래스 - 에러의 기반
 
 byeol 언어에서의 @ref by::err "err" 클래스 계통의 가장 base 클래스입니다. 에러 처리에 대한 공통
 로직과 인터페이스를 포함합니다.
@@ -2135,7 +2133,7 @@ WHEN_NUL(stmt).exErr(IS_NUL, getReport(), "stmt").ret(blk);
 
 @ref by::errCode "errCode" 는 리터럴 상수로 간단하게 description 문자열도 정의하고 있으니 참고하세요.
 
-#### errReport 클래스 - 에러 수집
+### errReport 클래스 - 에러 수집
 
 `baseErr`들을 담아두는 클래스입니다.
 

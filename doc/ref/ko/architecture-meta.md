@@ -1,13 +1,9 @@
-/**
- * @page architecture_meta meta 모듈 - 런타임 타입 시스템
- * @ingroup meta
- */
-
 # meta 모듈 - 런타임 타입 시스템 {#architecture_meta}
 
 @ref meta 모듈은 런타임 타입 정보(RTTI)와 리플렉션 기능을 제공합니다. C++의 기본 RTTI보다 더 강력하고
 효율적인 타입 시스템을 구현하고 있으며, Byeol 언어의 타입 시스템 기반이 됩니다.
 
+---
 
 ## 메타 시스템 개요
 
@@ -22,6 +18,7 @@
 메타 시스템의 핵심은 Monostate 패턴을 사용하여 매번 객체를 생성해도 내부 상태는 공유된다는 점입니다.
 따라서 `ttype<MyClass>()`를 여러 번 호출해도 추가 비용이 들지 않습니다.
 
+---
 
 ## 타입 정보 사용하기
 
@@ -62,6 +59,7 @@ myClass* instance = ttype<myClass>().makeAs<myClass>();
 delete instance;
 ```
 
+---
 
 ## type 클래스의 기능
 
@@ -159,6 +157,7 @@ bool areSiblings = ttype<Dog>().isSub(ttype<Cat>());  // false
 `init()`으로 초기화를, `rel()`로 해제를 합니다. 이는 `BY_INIT_META` 매크로를 통해서 자동으로
 처리가 되는 부분이라 외부에서 직접 호출할 경우는 드뭅니다.
 
+---
 
 ## 메타 정보의 생성과 관리
 
@@ -218,6 +217,7 @@ nbool me::init() {
 모듈에서도 추가로 정의해야할 메타 DSL 매크로가 있기 때문에 직접 BY_INIT_META 를 호출하기 보다는
 `BY(CLASS())` 나 `BY(ADT())`를 통해서 한번에 정의합니다.
 
+---
 
 ## adam - 최상위 타입
 
@@ -284,6 +284,7 @@ const type& shapeType = ttype<Shape>();
 bool isTopLevel = (shapeType.getSuper() == ttype<adam>());  // true
 ```
 
+---
 
 ## 메타 타입 확장하기
 

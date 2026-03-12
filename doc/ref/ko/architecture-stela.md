@@ -1,8 +1,3 @@
-/**
- * @page architecture_stela stela 모듈 - 경량 설정 언어
- * @ingroup stela
- */
-
 # stela 모듈 - 경량 설정 언어 {#architecture_stela}
 
 @ref stela 모듈은 byeol 언어의 경량화된 버전으로, manifest나 옵션과 같은 특수 목적용 언어입니다. 트리 구조로
@@ -10,6 +5,8 @@
 
 **참고**: @ref stela 언어는 byeol 언어보다 덜 복잡하므로, **@ref core 모듈의 byeol 파서를 보기 전에 @ref stela 파서
 코드를 먼저 살펴볼 것을 권장합니다**. 파서의 기본 구조와 동작 방식을 이해하는데 더 적합합니다.
+
+---
 
 ## stela 언어의 기본 기능
 
@@ -131,6 +128,8 @@ verStela& maxVer = pkg["maxVersion"].cast<verStela>();
 // 1.0.0 <= 2.1.5 <= 3.0.0 범위 확인 가능
 ```
 
+---
+
 ## stela 파서 구조
 
 ### stelaParser 클래스 - 파싱 진입점
@@ -153,6 +152,8 @@ lowlevel scanner, parser는 parser 컴포넌트 안에만 존재하는 것으로
 
 그러므로 @ref by::stelaParser "stelaParser" 의 <b>`on`으로 시작하는 함수들</b>은 그러한 이벤트를 handling 하는 함수로, 실제로
 어떻게 node를 생성해서 ast를 구축하는지를 정의합니다.
+
+---
 
 ## Indentation 처리
 

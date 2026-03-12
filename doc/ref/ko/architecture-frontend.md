@@ -1,14 +1,10 @@
-/**
- * @page architecture_frontend frontend 모듈 - CLI 인터페이스
- * @ingroup frontend
- */
-
 # frontend 모듈 - CLI 인터페이스 {#architecture_frontend}
 
 @ref frontend모듈은 Byeol 언어의 명령줄 인터페이스(CLI)를 제공합니다. 이 모듈은 @ref core모듈의 기능들을 조합하여 사용자가 Byeol 프로그램을 실행할 수 있도록 합니다.
 
+---
 
-### cli 클래스 - Frontend의 핵심
+## cli 클래스 - Frontend의 핵심
 
 @ref by::cli "cli" 클래스는 @ref frontend모듈의 핵심 클래스로, @ref core모듈의 @ref by::interpreter "interprete" 를 사용해서 코드를 파싱하고 검증하고 평가하는 일련의 과정들을 위해 적절한 클래스를 호출해서 제어합니다.
 
@@ -29,8 +25,9 @@
 6. 이상이 없으면 @ref by::starter "starter" 에 검증된 AST를 넣고 실행한다.
 7. @ref by::starter "starter" 의 결과를 반환한다.
 
+---
 
-### flag 클래스 - 명령줄 플래그 처리
+## flag 클래스 - 명령줄 플래그 처리
 
 shell 기반 프로그램에서 흔히 볼 수 있는 플래그들을 처리하는 클래스입니다.
 
@@ -143,16 +140,19 @@ me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) c
 
 이처럼 @ref by::flag "flag" 의 패턴이 매칭이 되면 동작을 하고 바로 종료하고 싶을 때는, `_onTake()`를 오버라이딩할 때 반환값을 <b>EXIT_PROGRAM</b>으로 줍니다. @ref by::bufferSrcFlag "bufferSrcFlag" 처럼 계속 동작을 하는 경우에는 <b>MATCH</b>로 반환합니다.
 
+---
 
-## 다음 단계
+# 긴 여정을 함께하느라 고생하셨습니다.
 
 지금까지 byeol 언어의 아키텍처, 설계 그리고 핵심 클래스들을 설명했습니다.
-가급적 예제를 직접 넣긴 했지만 그래도 완전히 이해하기에는 부족했을 거라 생각되네요.
-역시 좀 더 깊이 이해하고 싶다면, `test` 모듈의 unit test 코드들을 직접 읽어보는 것을 강력히 권장합니다.
+가급적 예제를 직접 넣긴 했지만 그래도 완전히 이해하기에는 많이 부족했을 거라 생각되네요.
+역시 좀 더 깊이 이해하고 싶다면, 실제 구현코드와 함께 `test` 모듈의 unit test 코드들을 직접 읽어보는 것을 강력히 권장합니다.
 
-각 모듈별로 작성된 테스트 케이스들은 실제 사용 예제를 담고 있으며, 특정 기능이 어떻게
-동작하는지 가장 명확하게 보여줍니다.
-코드에 기여하기 전에 관련 테스트들을 먼저 살펴보면 이해에 큰 도움이 될 것입니다.
+각 모듈별로 작성된 테스트 케이스들은 실제 사용 예제를 담고 있으며, 특정 기능이 어떻게 구체적으로 동작하는지 가장 명확하게 보여줍니다.
+코드 기여하기 전에 관련 테스트들을 먼저 살펴보시면 이해에 큰 도움이 될 것입니다.
 
 -- Nov 2025, kniz
 
+---
+
+**다음 문서**: @ref testing-guide

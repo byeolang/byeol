@@ -1,8 +1,3 @@
-/**
- * @page architecture_memlite memlite 모듈 - 커스텀 메모리 관리
- * @ingroup memlite
- */
-
 # memlite 모듈 - 커스텀 메모리 관리 {#architecture_memlite}
 
 @ref memlite 모듈은 참조 카운팅을 갖춘 커스텀 메모리 풀 시스템을 제공하여 자동 메모리 관리를 유지합니다.
@@ -11,6 +6,7 @@
 따라서 GC 등 추가적인 메모리 관리가 필요로 해지며, 이는 자체 메모리 풀을 가지고 있으며, 인스턴스의
 라이프사이클을 관리해야 한다는 것을 시사합니다.
 
+---
 
 ## 바인딩 시스템 사용하기
 
@@ -107,6 +103,7 @@ person2.get();     // nullptr
 }  // 여기서 reference count가 0이 되어 Person 객체 자동 소멸
 ```
 
+---
 
 ## std::shared_ptr 대비 장점
 
@@ -228,6 +225,7 @@ shared_ptr은 heap에 reference counting 정보를 보관하는 객체를 생성
 있습니다. shared_ptr와 달리 각 인스턴스의 생명주기 정보 또한 자체적으로 관리하고 있기 때문에 그런
 요구사항에도 적절하게 대응할 수 있습니다.
 
+---
 
 ## 메모리 풀 아키텍처
 
@@ -506,6 +504,8 @@ ptr.rel();  // 또는 ptr이 스코프를 벗어남
 // 3. 소멸자 호출 후 메모리 블록 반환
 ```
 
+---
+
 ## 인스턴스 생명주기 관리
 
 ### instance 클래스
@@ -638,6 +638,7 @@ lifeTag.canBind(ttype<instance>());  // true
 lifeTag.getBindable();  // instance의 type 반환
 ```
 
+---
 
 ## 메모리 관리 인터페이스
 
