@@ -333,9 +333,3 @@ Git으로 버전 관리되는 주요 디렉토리와 파일:
    - `cmake`나 `make`를 직접 사용 시에는 증가하지 않습니다
 
 ---
-
-## 관련 문서
-
-* 개발 환경 설정: @ref dev-env.md "개발환경"
-* 코딩 규칙: @ref convention-rules "Byeol 코딩 규칙"
-* 아키텍처 상세: @ref architecture-and-class-design "아키텍쳐와 설계"

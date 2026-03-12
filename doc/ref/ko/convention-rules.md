@@ -6,9 +6,30 @@
 
 ## 시작하기 전에
 
+일단, 간단히 byeol 코드 snippet으로 스타일을 한번 살펴보죠.
+
+```cpp
+    str me::eval(const args& a) {
+        BY_I_SCOPE("func %s(%s)@%s", getSrc(), getParams(), (void*) this);
+        WHEN(!thread::get().isInteractable())
+            .err("thread isn't interactable").ret(nerr::newErr(errCode::THERE_IS_NO_FRAMES_IN_THREAD));
+
+        // s is from heap space. but freed by _outFrame() of this class.
+        tstr<scope> s = _evalArgs(a) OR.ret(str());
+        node& meObj = a.getMe() OR.err("meObj == null").ret(str());
+        return _interactFrame(meObj, *s, thread::get().getEx().len() - 1);
+    }
+```
+
+코드의 독해를 떠나서 스타일만 보셨을 때 어떠셨나요? 아마 포인터와 -> 화살표
+연산자, STL등 표준라이브러리, unique_ptr이나 snake case, 중괄호 등에
+익숙하셨을텐데 이 코드에서는 <b>일반적인 C++ 컨벤션과 많이 다르다</b>는 느낌을 받으셨을 겁니다.
+여기에는 제 개인적인 스타일 취향도 있지만, 분명 의도가 있습니다.
+
+
 ### 왜 일반적인 C++ 컨벤션과 다른가?
 
-Byeol 프로젝트의 C++ 코딩 규칙은 일반적인 C++ 컨벤션(예: Google C++ Style Guide, LLVM Coding Standards)과 <b>의도적으로 다릅니다</b>. <b>Byeol 언어의 핵심 철학을 C++ 구현체에도 그대로 적용</b>하기 위한 선택입니다.
+Byeol 프로젝트의 C++ 코딩 규칙은 일반적인 C++ 컨벤션(예: Google C++ Style Guide, LLVM Coding Standards)과 <b>의도적으로 다릅니다</b>. <b>Byeol 언어의 핵심 철학을 C++ 구현체에도 그대로 적용</b>하기 위한 선택입니다까.
 
 ### Byeol 언어의 핵심 철학을 요약하면
 
@@ -20,9 +41,9 @@ Byeol 언어는 간결함을 최우선 가치로 두고 설계되었습니다. �
 
 ### C++ 코드에 반영된 철학
 
-이러한 Byeol의 설계 철학은 C++ 코드 스타일에도 크게 반영되어 있습니다. 예를 들어 간결함을 추구하기 위해 변수명은 모두 `camelCase`로 되어 있으며 함수명도 `len()`, `get()`, `make()`처럼 짧지만 의미가 명확한 이름을 선호합니다.
+이러한 Byeol의 설계 철학은 C++ 코드 스타일에도 크게 반영되어 있습니다. 예를 들어 byeol 언어 컨벤션을 최대한 동일하게 가져가기 위해 변수명은 모두 `camelCase`로 되어 있으며 함수명도 `len()`, `get()`, `make()`처럼 짧지만 의미가 명확한 이름을 선호합니다.
 
-일관성 측면과 객체 동시에 타입이어야 한다는 부분은 모든 클래스와 변수가 예외 없이 동일한 `camelCase`를 따라야 한다는 네이밍 규칙에 반영되어 있습니다.
+byeol 언어는 클래스가 없고, 객체가 타입을 대신한다는 면에서, 클래스와 변수가 예외 없이 동일한 `camelCase`를 따라야 한다는 네이밍 규칙이 반영되어 있습니다.
 
 ```cpp
 // 일반적인 C++: PascalCase 클래스 + 장황한 이름
@@ -39,9 +60,7 @@ class userManager {
 
 이처럼 C++ 코드를 작성하면서도 Byeol 언어의 철학을 일관되게 유지함으로써, 언어 사용자가 구현체 코드를 볼 때도 같은 사고방식으로 접근할 수 있도록 했습니다.
 
-### 더 자세한 내용
-
-Byeol 언어의 설계 철학에 대한 자세한 내용은 [디자인 철학 문서](https://byeol.io/guide/generated/ko/design-philosophy.html)를 참조하세요.
+혹시 관심이 있다면 byeol 언어의 설계 철학에 대한 자세한 내용은 [디자인 철학 문서](https://byeol.io/guide/generated/ko/design-philosophy.html)를 참조하세요.
 
 ### 코딩 스타일은 clang-format으로 자동 적용
 
@@ -49,9 +68,7 @@ Byeol 언어의 설계 철학에 대한 자세한 내용은 [디자인 철학 �
 
 로컬에서 포맷을 적용하려면 프로젝트 루트에서 다음 명령을 실행하면 됩니다:
 
-```bash
-./build/builder.py format
-```
+> ./build/builder.py format
 
 이를 통해 CI에서 스타일 위반으로 빌드가 실패하는 상황을 미리 방지할 수 있습니다.
 
@@ -99,9 +116,9 @@ int my_age;                // 틀림! (snake_case 사용 금지)
 #define MaxBufferSize 1024     // 틀림! (PascalCase 사용 금지)
 ```
 
-### 멤버 변수: 언더스코어 접두사
+### non public accessor를 위한 언더스코어 접두사
 
-멤버 변수는 언더스코어(`_`)로 시작합니다.
+private, protected 접근제한자를 가진 멤버 변수나 함수는 언더스코어(`_`)로 시작합니다.
 
 ```cpp
 // ✅ 올바른 예제
@@ -643,7 +660,7 @@ int getBrushColorCode(Resource r) {
 }
 ```
 
-`WHEN`, `TO`등 매크로에 대한 자세한 내용은 [architecture-and-class.md](architecture-and-class.md) 문서를 참조하세요.
+`WHEN`, `TO`등 매크로에 대한 자세한 내용은 @ref architecture_overview 문서를 참조하세요.
 
 
 ---
@@ -926,4 +943,4 @@ class moduleA {
 
 ---
 
-**다음 문서**: @ref architecture-overview
+**다음 문서**: @ref architecture_overview
