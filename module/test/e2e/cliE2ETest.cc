@@ -16,3 +16,9 @@ TEST_F(cliE2ETest, interpretMultipleFiles) {
     ASSERT_EQ(res.res, 132); // 100 + 32
     ASSERT_FALSE(res.rpt);
 }
+
+TEST_F(cliE2ETest, exampleMikes) {
+    auto res = parse(1, "testdata/mikes.byeol").run();
+    ASSERT_EQ(res.res, 17);
+    ASSERT_FALSE(res.rpt);
+}

@@ -1,0 +1,13 @@
+def person
+    name := "default"
+    bow() int
+        name.len() + 10
+
+main() int
+    mike := person()
+    mike.name = "mike"
+
+    last := for p in {mike, mike(), mike(mike)}
+        p.bow()
+
+    ret last[1] # 7 + 10 = 17
