@@ -45,8 +45,8 @@ namespace by {
         const node* ret = retLife.get();
         str ased;
         for(int n = 1; n < len; n++) {
-            ased = _elems[n].as<node>();
-            ret = ret->promote(*ased);
+            ased = _elems[n].infer();
+            ret = ret->promote(ased.get());
             BY_DI("promoteElem: prevElem + elem%d[%s] --> %s", n, ased, ret);
             WHEN_NUL(ret).info("promoteElem: elem%d was null.", n).ret(nVoid::singleton());
         }
