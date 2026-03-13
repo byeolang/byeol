@@ -364,7 +364,7 @@ def wasmBuild(arg):
     if checkDependencies([emmake, emcmake, cmake, make]):
         return -1
 
-    config="-DCMAKE_BUILD_TYPE=Release"
+    config="-DCMAKE_BUILD_TYPE=Release -DEMSCRIPTEN=1"
     clean()
     system(f"{emcmake.binary} {cmake.binary} {config} {cwd}")
     system(f"{emmake.binary} {make.binary} -j8 -s")

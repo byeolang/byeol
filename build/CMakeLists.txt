@@ -1,4 +1,4 @@
-# decice compiler:
+# decide compiler:
 #   variables such as CXX_COMPILER_ID and COMPILER_IS_GNUCC remain unchanged.
 #   to resolve this issue, you must determine which compiler to use before calling
 #   the project() function.
@@ -28,7 +28,7 @@ set(SHOW_CMAKE_VARIABLES 1)
 set(VERSION_MAJOR 0)
 set(VERSION_MINOR 2)
 set(VERSION_FIX 11)
-set(BUILD_COUNT 1499)
+set(BUILD_COUNT 1500)
 set(VERSION_NAME "Mana")
 set(VERSION_VALUE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_FIX}")
 set(VERSION "${VERSION_NAME} Update ${VERSION_VALUE}")

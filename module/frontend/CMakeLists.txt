@@ -32,7 +32,7 @@ add_library("frontend" ${sources}) # for test module
 target_link_libraries(${moduleName} ${libraries})
 
 IF(EMSCRIPTEN)
-    set_target_properties(byeol PROPERTIES SUFFIX ".js" LINK_FLAGS "-s WASM=1 -std=c++17")
+    set_target_properties(${moduleName} PROPERTIES SUFFIX ".js" LINK_FLAGS "-s WASM=1 -std=c++17")
 ELSE(EMSCRIPTEN)
     install(TARGETS ${moduleName} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin PERMISSIONS
         OWNER_WRITE OWNER_READ OWNER_EXECUTE
