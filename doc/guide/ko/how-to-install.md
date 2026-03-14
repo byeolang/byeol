@@ -1,8 +1,9 @@
-# 설치 방법
+# 설치 방법 {#how-to-install}
 * 64비트 운영체제만 지원합니다.
 * Mac OS는 Apple Silicon 만 지원합니다.
 * 간단한 코드라면 설치 없이 [웹상에서 실행](https://byeol.io/play)해볼 수도 있습니다.
 
+---
 
 ## 다운로드
 * [릴리즈 페이지](https://github.com/byeolang/byeol/releases) 에서 가장 위에 있는 버전이 최신 버전입니다.
@@ -15,6 +16,7 @@
     * `-win-x64.msi`: Windows 64비트 설치 파일 (권장)
     * `-win-x64-portable.zip`: Windows 64비트 portable 버전 (설치 불필요)
 
+---
 
 ## Windows
 * `.msi` 설치 파일을 설치합니다.
@@ -23,6 +25,7 @@
 * `-portable.zip`의 경우에는 당연히 환경변수 등록과 같은 절차가 수행되지
 않습니다.
 
+---
 
 ## ubuntu
 * `.deb` 파일을 다운 받아, 다음 shell 명령어로 설치합니다.
@@ -34,6 +37,7 @@ $ sudo dpkg -i byeol-ubuntu-x64.deb
 
 * 설치 완료 후, `byeol --version` 을 입력해서 완료되었는지 확인합니다.
 
+---
 
 ## Mac OS
 * `arm64.zip` 파일을 다운 받습니다.
@@ -41,11 +45,11 @@ $ sudo dpkg -i byeol-ubuntu-x64.deb
 확인합니다.
 * 아직 설치버전을 제공하지 않으므로, 환경변수에 `byeol`이 등록되지는 않습니다.
 
+---
 
 ## WASM
 * 사용을 위해서는 추가적인 코드가 필요합니다.
 * 실제로 [website](https://github.com/byeolang/website/tree/main/play) 를 만들때 사용하고 있습니다. 예시가 필요하다면 해당 코드를 참고하세요.
 
-
-## 다음은,
-* 설치가 완료되었으면 @ref basic-usage "사용"을 해봐야겠죠.
+---
+**다음 문서**: @ref basic-usage
