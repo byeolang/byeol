@@ -1,4 +1,4 @@
-# frontend 모듈 - CLI 인터페이스 {#architecture_frontend}
+# frontend 모듈 - CLI 인터페이스 {#10-architecture-frontend}
 
 @ref frontend모듈은 Byeol 언어의 명령줄 인터페이스(CLI)를 제공합니다. 이 모듈은 @ref core모듈의 기능들을 조합하여 사용자가 Byeol 프로그램을 실행할 수 있도록 합니다.
 
@@ -155,4 +155,4 @@ me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) c
 
 ---
 
-**다음 문서**: @ref testing-guide
+**다음 문서**: @ref 11-testing-guide

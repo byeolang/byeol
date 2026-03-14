@@ -1,4 +1,4 @@
-# memlite 모듈 - 커스텀 메모리 관리 {#architecture_memlite}
+# memlite 모듈 - 커스텀 메모리 관리 {#07-architecture-memlite}
 
 @ref memlite 모듈은 참조 카운팅을 갖춘 커스텀 메모리 풀 시스템을 제공하여 자동 메모리 관리를 유지합니다.
 
@@ -676,4 +676,4 @@ byeol 프로젝트 내부에서 자주 사용됩니다.
 
 ---
 
-**다음 문서**: @ref architecture_stela
+**다음 문서**: @ref 08-architecture-stela

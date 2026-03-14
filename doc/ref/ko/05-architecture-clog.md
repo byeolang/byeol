@@ -1,4 +1,4 @@
-# clog 모듈 - 로깅 시스템 {#architecture_clog}
+# clog 모듈 - 로깅 시스템 {#05-architecture-clog}
 
 @ref by::clog "clog" 모듈은 여러 출력 스트림과 필터링 기능을 갖춘 경량화된 C++ 로깅 프레임워크를 제공합니다.
 이 모듈은 아키텍처 상 하위 계층에 위치하므로, 상위 모듈에 대한 의존성이 없습니다.
@@ -314,4 +314,4 @@ info는 출력되지 않습니다. 직접 사용하지 않으며, 객체 생성�
 
 ---
 
-**다음 문서**: @ref architecture_meta
+**다음 문서**: @ref 06-architecture-meta

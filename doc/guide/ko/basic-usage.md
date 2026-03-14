@@ -1,25 +1,26 @@
 # 기본 사용법 {#basic-usage}
 
-* `byeol -h` 명령을 통해 사용 가능한 옵션을 모두 볼 수 있습니다.
+`byeol -h` 명령을 통해 사용 가능한 모든 옵션을 확인할 수 있습니다.
 
 ---
 
 ## filePath
 
-* 기본적으로 `.byeol` 파일에 대한 경로를 입력해서 해당 코드를 실행할 수
-있습니다.
+기본적으로 `.byeol` 파일에 대한 경로를 입력해서 해당 코드를 실행할 수 있습니다.
+
 ```
 @style: language-txt verified
 $ byeol your/path/test.byeol
 ```
 
-* wildcard는 아직 인식이 안됩니다.
+wildcard는 아직 지원되지 않습니다.
 
 ---
 
 ## 스크립트 직접 실행
-* `-s '<byeol 코드>'` 를 사용하면 `.byeol` 파일 필요없이 cli 환경에서 직접 코드를
- 입력해서 실행합니다.
+
+`-s '<byeol 코드>'`를 사용하면 `.byeol` 파일 필요 없이 cli 환경에서 직접 코드를 입력해서 실행할 수 있습니다.
+
 ```
 @style: language-txt verified
 $ byeol -s 'main() void<br/>
@@ -30,13 +31,14 @@ $ byeol -s 'main() void<br/>
 ---
 
 ## 상세 로그 출력
-* `-v` 옵션을 주면 파싱/검증 과정에서 발생하는 상세 로그를 확인할 수 있습니다.
+
+`-v` 옵션을 주면 파싱/검증 과정에서 발생하는 상세 로그를 확인할 수 있습니다.
 
 ---
 
 ## AST 구조 출력
-* `-S` 혹은 `--show-structure` 옵션을 사용하면 파싱 후의 AST 구조를 CUI로
-표현합니다.
+
+`-S` 혹은 `--show-structure` 옵션을 사용하면 파싱 후의 AST 구조를 CUI로 표현합니다.
 ```
 @style: language-txt verified
 $ byeol -S -s 'main() void
@@ -61,13 +63,13 @@ $ byeol -S -s 'main() void
       ┗━[2] @6dd0 @ctor(rhs {default}) {default}
 hello
 ```
-* 위 로그의 각 값의 상세 정보에 대해서는 [reference가이드](https://byeol.io/ref)에서 `아키텍쳐와 설계` 를 참고하세요.
+위 로그의 각 값에 대한 상세 정보는 [reference가이드](https://byeol.io/ref)에서 `아키텍쳐와 설계`를 참고하세요.
 
 ---
 
 ## 버전 표기
-* `--version` 옵션을 사용하면 현재 byeol 바이너리의 버전과 빌드 정보가
-표시됩니다.
+
+`--version` 옵션을 사용하면 현재 byeol 바이너리의 버전과 빌드 정보가 표시됩니다.
 ```
 @style: language-txt verified
 $ byeol --version
@@ -75,7 +77,7 @@ $ byeol --version
 Built on Nov 04 2025 (build 1378, git 5ae19ea79, Release, 64-bit)
 © 2010-2025 Taehun Lee(kniz) and contributors. All rights reserved.
 ```
-* 위 예시처럼 버전(0.2.10)과 빌드 날짜(Nov 04 2025), 빌드카운트(1378), git commitId(5ae19ea79), 바이너리 타입(Debug or Release) 등이 표시됩니다
+위 예시처럼 버전(0.2.10), 빌드 날짜(Nov 04 2025), 빌드 카운트(1378), git commitId(5ae19ea79), 바이너리 타입(Debug or Release) 등이 표시됩니다.
 
 ---
 **다음 문서**: @ref how-to-code

@@ -1,4 +1,4 @@
-# 문서 작성 규칙 {#document-convention}
+# 문서 작성 규칙 {#13-document-convention}
 
 이 문서는 Byeol 프로젝트의 모든 마크다운 문서를 작성하고 수정할 때 따라야 하는 규칙과 컨벤션을 설명합니다.
 
@@ -80,12 +80,18 @@ INPUT = doxygen \
 
 파일명은 반드시 hyphen을 사용해야 합니다. `development-guide.md`처럼 작성하며, `development_guide.md`나 `developmentGuide.md`처럼 underscore나 camelCase를 사용하면 안 됩니다. 파일명과 문서 ID는 한국어 문서라 할지라도 항상 알파벳으로 작성해야 합니다.
 
-각 문서의 상단에는 `#` 제목과 함께 `{#your-document-id}` 형식으로 문서 ID를 파일명을 따서 적어야 합니다. 파일명은 hyphen을 사용하지만(예: `architecture-core.md`), 문서 ID는 underscore를 사용합니다(예: `architecture_core`).
+각 문서의 상단에는 `#` 제목과 함께 `{#your-document-id}` 형식으로 문서 ID를 적어야 합니다. <b>문서 ID는 파일명과 정확히 일치해야 합니다</b>(확장자 제외). 예를 들어 파일명이 `architecture-core.md`라면 문서 ID는 `{#architecture-core}`여야 합니다.
 
-다음은 실제 문서 ID의 예시입니다.
+<b>레퍼런스 문서의 경우</b>, Doxygen의 사이드바에서 원하는 순서대로 문서를 배치하기 위해 파일명과 문서 ID 앞에 <b>2자리 숫자 prefix를 추가</b>해야 합니다. 숫자는 01부터 시작하며 hyphen으로 구분합니다. 파일명이 `01-dev-env.md`라면 문서 ID는 `{#01-dev-env}`입니다. README.md는 메인페이지이므로 숫자를 붙이지 않습니다. 가이드 문서는 숫자 prefix를 사용하지 않습니다.
+
+다음은 실제 파일명과 문서 ID의 예시입니다.
 
 ```
-# clog 모듈 - 로깅 시스템 {#architecture_clog}
+파일명: 05-architecture-clog.md
+문서 ID: # clog 모듈 - 로깅 시스템 {#05-architecture-clog}
+
+파일명: 01-dev-env.md
+문서 ID: # 개발환경 {#01-dev-env}
 ```
 
 새로운 문서를 추가할 때는 다음 절차를 따릅니다.
@@ -130,24 +136,24 @@ INPUT = doxygen \
 
 다음은 실제 문서에서 사용되는 패턴입니다.
 
-```
+````
 #### ✅ 올바른 예제
 
-​```cpp
+```cpp
 class userManager { /* ... */ };  // 클래스명
 int myAge = 25;                   // 변수명
 std::string userName;             // 변수명
 bool isValid;                     // 변수명
-​```
+```
 
 #### ❌ 잘못된 예제
 
-​```cpp
+```cpp
 class UserManager { };     // 틀림! (PascalCase 사용 금지)
 class user_manager { };    // 틀림! (snake_case 사용 금지)
 int my_age;                // 틀림! (snake_case 사용 금지)
-​```
 ```
+````
 
 ---
 
@@ -161,13 +167,13 @@ int my_age;                // 틀림! (snake_case 사용 금지)
 
 다음은 사용 예시입니다.
 
+````
 ```
-​```
 @style: language-byeol
 age int
 age = 22
-​```
 ```
+````
 
 ### 실행 가능 코드 표시
 
@@ -191,8 +197,8 @@ shown은 보여지는 코드와 실제로 인터프리터로 실행하게 될 �
 
 다음은 실제 사용 예시입니다.
 
+````
 ```
-​```
 {
     "classList": "verified runnable language-byeol",
     "shown":
@@ -212,8 +218,8 @@ main() void
     ret
 `
 }
-​```
 ```
+````
 
 ---
 
@@ -235,3 +241,7 @@ Byeol의 아키텍처 규칙에 따라, 플랫폼 종속적인 코드(`#ifdef` �
 ```
 
 이처럼 자연스러운 문장으로 흐름을 만들어 작성해야 합니다.
+
+---
+
+**다음 문서**: @ref 11-testing-guide

@@ -1,4 +1,4 @@
-# 아키텍쳐와 설계 {#architecture_overview}
+# 아키텍쳐와 설계 {#03-architecture-overview}
 
 이 문서는 Byeol 프로그래밍 언어의 구현을 이해하기 위한 가이드입니다. Byeol은 추상 구문 트리(AST)를
 직접 실행하는 강타입 인터프리터 언어로, 계층형 아키텍처를 기반으로 설계되었습니다.
@@ -55,4 +55,4 @@ Byeol 프로젝트는 엄격한 계층형 아키텍처를 따릅니다. 각 계�
 
 ---
 
-**다음 문서**: @ref architecture_indep
+**다음 문서**: @ref 04-architecture-indep

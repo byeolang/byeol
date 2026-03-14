@@ -615,19 +615,19 @@ WARN_LOGFILE           =
 
 INPUT                  = doxygen \
                          ../doc/ref/ko/README.md \
-                         ../doc/ref/ko/dev-env.md \
-                         ../doc/ref/ko/convention-rules.md \
-                         ../doc/ref/ko/architecture-overview.md \
-                         ../doc/ref/ko/architecture-indep.md \
-                         ../doc/ref/ko/architecture-clog.md \
-                         ../doc/ref/ko/architecture-meta.md \
-                         ../doc/ref/ko/architecture-memlite.md \
-                         ../doc/ref/ko/architecture-stela.md \
-                         ../doc/ref/ko/architecture-core.md \
-                         ../doc/ref/ko/architecture-frontend.md \
-                         ../doc/ref/ko/testing-guide.md \
-                         ../doc/ref/ko/build-structure.md \
-                         ../doc/ref/ko/document-convention.md \
+                         ../doc/ref/ko/01-dev-env.md \
+                         ../doc/ref/ko/02-convention-rules.md \
+                         ../doc/ref/ko/03-architecture-overview.md \
+                         ../doc/ref/ko/04-architecture-indep.md \
+                         ../doc/ref/ko/05-architecture-clog.md \
+                         ../doc/ref/ko/06-architecture-meta.md \
+                         ../doc/ref/ko/07-architecture-memlite.md \
+                         ../doc/ref/ko/08-architecture-stela.md \
+                         ../doc/ref/ko/09-architecture-core.md \
+                         ../doc/ref/ko/10-architecture-frontend.md \
+                         ../doc/ref/ko/11-testing-guide.md \
+                         ../doc/ref/ko/12-build-structure.md \
+                         ../doc/ref/ko/13-document-convention.md \
                          ../module/clog \
                          ../module/indep \
                          ../module/core \
