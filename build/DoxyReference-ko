@@ -627,6 +627,7 @@ INPUT                  = doxygen \
                          ../doc/ref/ko/architecture-frontend.md \
                          ../doc/ref/ko/testing-guide.md \
                          ../doc/ref/ko/build-structure.md \
+                         ../doc/ref/ko/document-convention.md \
                          ../module/clog \
                          ../module/indep \
                          ../module/core \

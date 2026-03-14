@@ -150,6 +150,20 @@ This includes:
 - Documentation standards (Doxygen comments)
 - File structure and organization
 
+## Documentation Conventions
+
+**When creating or modifying markdown documentation, you MUST read:**
+
+📖 **READ**: `doc/ref/ko/document-convention.md`
+
+This includes:
+- Document tone and writing style
+- Doxygen compatibility requirements
+- Document structure and navigation patterns
+- Style annotation system for code blocks
+- Examples and their importance
+- File naming conventions and document hierarchy
+
 
 ## Build Workflow
 
