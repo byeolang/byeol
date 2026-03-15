@@ -1,4 +1,4 @@
-# stela 모듈 - 경량 설정 언어 {#08-architecture-stela}
+# stela 모듈 - 경량 설정 언어 {#ah-architecture-stela}
 
 @ref stela 모듈은 byeol 언어의 경량화된 버전으로, manifest나 옵션과 같은 특수 목적용 언어입니다. 트리 구조로
 설정 데이터를 표현하며, @ref core 모듈의 @ref by::node "node" 와 유사한 구조를 가집니다.
@@ -353,4 +353,4 @@ main() void
 
 ---
 
-**다음 문서**: @ref 09-architecture-core
+**다음 문서**: @ref ai-architecture-core

@@ -1,4 +1,4 @@
-# 개발환경 {#01-dev-env}
+# 개발환경 {#aa-dev-env}
 
 빌드를 비롯해서 테스트, 커버리지 확인, 코드 포맷팅 등 모든 개발 환경은 `build/builder.py`를 통해서 이뤄집니다. `builder.py`는 작업별로 필요로 하는 툴이나 프로그램이 무엇인지, 버전은 만족하는지를 사전에 체크해서 보여주기 때문에 `builder.py`를 다룰 줄만 안다면 기본적인 빌드 환경은 쉽게 구축할 수 있습니다.
 
@@ -160,4 +160,4 @@ HKEY_LOCAL_MACHINE_SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps
 `.dmp` 파일은 `VisualStudio`나 `WinDbg` 등으로 확인 가능합니다.
 
 ---
-**다음 문서**: @ref 02-convention-rules
+**다음 문서**: @ref ab-convention-rules

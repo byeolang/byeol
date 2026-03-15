@@ -615,19 +615,19 @@ WARN_LOGFILE           =
 
 INPUT                  = doxygen \
                          ../doc/ref/ko/README.md \
-                         ../doc/ref/ko/01-dev-env.md \
-                         ../doc/ref/ko/02-convention-rules.md \
-                         ../doc/ref/ko/03-architecture-overview.md \
-                         ../doc/ref/ko/04-architecture-indep.md \
-                         ../doc/ref/ko/05-architecture-clog.md \
-                         ../doc/ref/ko/06-architecture-meta.md \
-                         ../doc/ref/ko/07-architecture-memlite.md \
-                         ../doc/ref/ko/08-architecture-stela.md \
-                         ../doc/ref/ko/09-architecture-core.md \
-                         ../doc/ref/ko/10-architecture-frontend.md \
-                         ../doc/ref/ko/11-testing-guide.md \
-                         ../doc/ref/ko/12-build-structure.md \
-                         ../doc/ref/ko/13-document-convention.md \
+                         ../doc/ref/ko/aa-dev-env.md \
+                         ../doc/ref/ko/ab-convention-rules.md \
+                         ../doc/ref/ko/ac-architecture-overview.md \
+                         ../doc/ref/ko/ad-architecture-indep.md \
+                         ../doc/ref/ko/ae-architecture-clog.md \
+                         ../doc/ref/ko/af-architecture-meta.md \
+                         ../doc/ref/ko/ag-architecture-memlite.md \
+                         ../doc/ref/ko/ah-architecture-stela.md \
+                         ../doc/ref/ko/ai-architecture-core.md \
+                         ../doc/ref/ko/aj-architecture-frontend.md \
+                         ../doc/ref/ko/ak-testing-guide.md \
+                         ../doc/ref/ko/al-build-structure.md \
+                         ../doc/ref/ko/am-document-convention.md \
                          ../module/clog \
                          ../module/indep \
                          ../module/core \

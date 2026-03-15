@@ -1,4 +1,4 @@
-# 문서 작성 규칙 {#13-document-convention}
+# 문서 작성 규칙 {#am-document-convention}
 
 이 문서는 Byeol 프로젝트의 모든 마크다운 문서를 작성하고 수정할 때 따라야 하는 규칙과 컨벤션을 설명합니다.
 
@@ -82,16 +82,18 @@ INPUT = doxygen \
 
 각 문서의 상단에는 `#` 제목과 함께 `{#your-document-id}` 형식으로 문서 ID를 적어야 합니다. <b>문서 ID는 파일명과 정확히 일치해야 합니다</b>(확장자 제외). 예를 들어 파일명이 `architecture-core.md`라면 문서 ID는 `{#architecture-core}`여야 합니다.
 
-<b>레퍼런스 문서의 경우</b>, Doxygen의 사이드바에서 원하는 순서대로 문서를 배치하기 위해 파일명과 문서 ID 앞에 <b>2자리 숫자 prefix를 추가</b>해야 합니다. 숫자는 01부터 시작하며 hyphen으로 구분합니다. 파일명이 `01-dev-env.md`라면 문서 ID는 `{#01-dev-env}`입니다. README.md는 메인페이지이므로 숫자를 붙이지 않습니다. 가이드 문서는 숫자 prefix를 사용하지 않습니다.
+<b>레퍼런스 문서의 경우</b>, Doxygen의 사이드바에서 원하는 순서대로 문서를 배치하기 위해 파일명과 문서 ID 앞에 <b>2자리 알파벳 prefix를 추가</b>해야 합니다. 알파벳은 aa부터 시작하며 hyphen으로 구분합니다. 파일명이 `aa-dev-env.md`라면 문서 ID는 `{#aa-dev-env}`입니다. README.md는 메인페이지이므로 알파벳을 붙이지 않습니다. 가이드 문서는 알파벳 prefix를 사용하지 않습니다.
+
+알파벳 prefix는 HTML/CSS의 ID 규칙을 준수하기 위한 것입니다. CSS 셀렉터는 숫자로 시작할 수 없으므로, 숫자 대신 알파벳을 사용합니다. aa, ab, ac, ..., az 다음에는 ba, bb, bc 순으로 계속됩니다. 이 방식으로 최대 676개(26×26)의 문서를 정렬할 수 있습니다.
 
 다음은 실제 파일명과 문서 ID의 예시입니다.
 
 ```
-파일명: 05-architecture-clog.md
-문서 ID: # clog 모듈 - 로깅 시스템 {#05-architecture-clog}
+파일명: ae-architecture-clog.md
+문서 ID: # clog 모듈 - 로깅 시스템 {#ae-architecture-clog}
 
-파일명: 01-dev-env.md
-문서 ID: # 개발환경 {#01-dev-env}
+파일명: aa-dev-env.md
+문서 ID: # 개발환경 {#aa-dev-env}
 ```
 
 새로운 문서를 추가할 때는 다음 절차를 따릅니다.
@@ -244,4 +246,4 @@ Byeol의 아키텍처 규칙에 따라, 플랫폼 종속적인 코드(`#ifdef` �
 
 ---
 
-**다음 문서**: @ref 11-testing-guide
+**다음 문서**: @ref ak-testing-guide

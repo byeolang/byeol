@@ -1,4 +1,4 @@
-# 프로젝트 구조 및 빌드 산출물 {#12-build-structure}
+# 프로젝트 구조 및 빌드 산출물 {#al-build-structure}
 
 이 문서는 Byeol 프로젝트의 디렉토리 구조와 빌드 과정에서 생성되는 산출물들에 대해 설명합니다.
 
@@ -248,4 +248,4 @@ Windows에서는 동적 라이브러리 확장자로 `.dll`을 사용합니다. 
 
 ---
 
-**다음 문서**: @ref 13-document-convention
+**다음 문서**: @ref am-document-convention

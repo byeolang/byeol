@@ -1,4 +1,4 @@
-# indep 모듈 - 플랫폼 추상화 계층 {#04-architecture-indep}
+# indep 모듈 - 플랫폼 추상화 계층 {#ad-architecture-indep}
 
 @ref indep 모듈은 Byeol 프로젝트의 최하위 계층으로, 플랫폼 종속적인 기능을 추상화합니다. 이 모듈의
 핵심 목표는 Windows, POSIX 계열 운영체제 등 다양한 플랫폼에서 동일한 API를 제공하는 것입니다.
@@ -385,4 +385,4 @@ void processFile(const std::string& path) {
 
 ---
 
-**다음 문서**: @ref 05-architecture-clog
+**다음 문서**: @ref ae-architecture-clog
