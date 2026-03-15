@@ -79,7 +79,7 @@ CMake 설정 파일과 빌드 스크립트가 위치합니다. `builder.py`를 �
 
 #### byeol
 
-<b>경로</b>는 `bin/byeol`(Linux/macOS) 또는 `bin/byeol.exe`(Windows)입니다. Byeol 언어의 메인 인터프리터 실행 파일로, Byeol 스크립트 파일을 실행하거나 REPL 모드로 동작합니다. 실행 예시는 다음과 같습니다:
+<b>경로</b>는 `bin/byeol`(Linux/macOS) 또는 `bin/byeol.exe`(Windows)입니다. Byeol 언어의 메인 인터프리터 실행 파일로, Byeol 스크립트 파일을 실행하거나 REPL 모드로 동작해요. 실행 예시는 다음과 같습니다:
 ```
 @style: language-txt verified
 ./bin/byeol script.by          # 스크립트 실행
@@ -89,7 +89,7 @@ CMake 설정 파일과 빌드 스크립트가 위치합니다. `builder.py`를 �
 
 #### test
 
-<b>경로</b>는 `bin/test`입니다. Google Test 기반의 테스트 실행 파일로, 모든 모듈의 유닛 테스트 및 통합 테스트를 실행합니다. Linux와 macOS만 지원하며 Windows는 미지원입니다. 실행 예시는 다음과 같습니다:
+<b>경로</b>는 `bin/test`입니다. Google Test 기반의 테스트 실행 파일로, 모든 모듈의 유닛 테스트 및 통합 테스트를 실행합니다. Linux와 macOS만 지원하며 Windows는 미지원이에요. 실행 예시는 다음과 같습니다:
 ```
 @style: language-txt verified
 ./bin/test                               # 모든 테스트 실행
@@ -99,7 +99,7 @@ CMake 설정 파일과 빌드 스크립트가 위치합니다. `builder.py`를 �
 
 ### 동적 라이브러리
 
-각 모듈은 독립적인 동적 라이브러리로 빌드됩니다. 라이브러리 확장자는 플랫폼에 따라 다릅니다. <b>Linux</b>에서는 `.so`(Shared Object), <b>macOS</b>에서는 `.dylib`(Dynamic Library), <b>Windows</b>에서는 `.dll`(Dynamic Link Library)을 사용합니다.
+각 모듈은 독립적인 동적 라이브러리로 빌드됩니다. 라이브러리 확장자는 플랫폼에 따라 다릅니다. <b>Linux</b>에서는 `.so`(Shared Object), <b>macOS</b>에서는 `.dylib`(Dynamic Library), <b>Windows</b>에서는 `.dll`(Dynamic Link Library)을 사용해요.
 
 #### libindep
 
@@ -148,7 +148,7 @@ CMake 설정 파일과 빌드 스크립트가 위치합니다. `builder.py`를 �
 ./build/builder.py dbg
 ```
 
-<b>최적화</b>는 없음(`-O0`), <b>디버깅 심볼</b>은 포함(`-g`), <b>특수 플래그</b>로는 `-DBY_DEBUG`, `-D_GLIBCXX_DEBUG`를 사용합니다. 개발 중 디버깅과 상세한 에러 메시지 확인을 위해 사용됩니다.
+<b>최적화</b>는 없음(`-O0`), <b>디버깅 심볼</b>은 포함(`-g`), <b>특수 플래그</b>로는 `-DBY_DEBUG`, `-D_GLIBCXX_DEBUG`를 사용합니다. 개발 중 디버깅과 상세한 에러 메시지 확인을 위해 사용되죠.
 
 실행 속도가 느리고 바이너리 크기가 크지만, 디버거(gdb, lldb)로 편리하게 디버깅할 수 있습니다. 추가 런타임 검증이 활성화됩니다(STL 디버그 모드).
 

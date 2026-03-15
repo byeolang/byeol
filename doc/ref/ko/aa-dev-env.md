@@ -1,10 +1,10 @@
 # 개발환경 {#aa-dev-env}
 
-빌드를 비롯해서 테스트, 커버리지 확인, 코드 포맷팅 등 모든 개발 환경은 `build/builder.py`를 통해서 이뤄집니다. `builder.py`는 작업별로 필요로 하는 툴이나 프로그램이 무엇인지, 버전은 만족하는지를 사전에 체크해서 보여주기 때문에 `builder.py`를 다룰 줄만 안다면 기본적인 빌드 환경은 쉽게 구축할 수 있습니다.
+빌드를 비롯해서 테스트, 커버리지 확인, 코드 포맷팅 등 모든 개발 환경은 `build/builder.py`를 통해서 이뤄집니다. `builder.py`는 작업별로 필요로 하는 툴이나 프로그램이 무엇인지, 버전은 만족하는지를 사전에 체크해서 보여주기 때문에 `builder.py`를 다룰 줄만 안다면 기본적인 빌드 환경은 쉽게 구축할 수 있어요.
 
 `builder.py`를 실행하기 위해서는 `git`과 `python3` 3.6.0+이 설치되어야 합니다.
 
-`builder.py help`를 실행하면 지원하는 명령어와 옵션을 자세히 알 수 있습니다.
+`builder.py help`를 실행하면 지원하는 명령어와 옵션을 자세히 알 수 있어요.
 
 ---
 
@@ -12,17 +12,17 @@
 
 빌드만 하고 싶은 경우 다음 프로그램이 추가로 필요합니다: `CMake` 2.6.0+, `Make` 3.0+, `Clang++` 14.0+ 혹은 `gcc` 8.0.0+ 혹은 `MSBuild.exe`(VS2022) 17.0.0+, `Bison` 3.8.0+, `Flex` 2.6.0+, `clang-tidy` 14.0.0+.
 
-설치 전에 반드시 버전을 체크해서 받아야 합니다. OS별로 다음 내용을 참고해서 필요한 프로그램을 설치합니다.
+설치 전에 반드시 버전을 체크해서 받아야 합니다. OS별로 다음 내용을 참고해서 필요한 프로그램을 설치하면 됩니다.
 
 
 ### Ubuntu
 
-Bison과 Flex는 구 버전 Ubuntu에서는 apt 패키지에 포함되지 않을 가능성이 있습니다. 이때는 수동으로 Bison과 Flex를 [소스코드](http://ftp.gnu.org/gnu/bison/)를 다운받아 직접 빌드해야 합니다. 우분투는 기본적으로 gcc를 사용하는데, 현재 프로젝트는 clang++를 더 권장합니다 (물론 gcc 빌드도 지원은 하고 있습니다).
+Bison과 Flex는 구 버전 Ubuntu에서는 apt 패키지에 포함되지 않을 가능성이 있습니다. 이때는 수동으로 Bison과 Flex를 [소스코드](http://ftp.gnu.org/gnu/bison/)를 다운받아 직접 빌드해야 합니다. 우분투는 기본적으로 gcc를 사용하는데, 현재 프로젝트는 clang++를 더 권장합니다 (물론 gcc 빌드도 지원은 하고 있어요).
 
 
 ### Mac OS
 
-Mac OS는 기본적으로 clang을 사용하기 때문에 비교적 설치가 쉽습니다. Apple Silicon(arm64)이나 인텔(x64) 모두 빌드를 지원합니다.
+Mac OS는 기본적으로 clang을 사용하기 때문에 비교적 설치가 쉬워요. Apple Silicon(arm64)이나 인텔(x64) 모두 빌드를 지원합니다.
 
 
 ### Windows
@@ -41,11 +41,11 @@ WSL2를 설치합니다. 이후 작업은 Ubuntu 과정과 동일합니다.
 
 ### 빌드 실행하기
 
-각 OS별로 준비가 완료되면 `builder.py`로 빌드를 해볼 수 있습니다. `builder.py`는 Debug 빌드와 Release 빌드 그리고 RelDebug를 지원합니다.
+각 OS별로 준비가 완료되면 `builder.py`로 빌드를 해볼 수 있어요. `builder.py`는 Debug 빌드와 Release 빌드 그리고 RelDebug를 지원합니다.
 
 Debug는 디버깅 심볼이 포함되어 디버깅이 원활하지만 용량이 크고 속도가 느립니다. `builder.py dbg`로 생성합니다. Release는 최적화가 적용되므로 디버깅이 어렵습니다. 배포시 사용되며 `builder.py rel`로 생성합니다. RelDebug는 최적화가 적용되나 디버깅 심볼은 포함시킵니다. Release 빌드에서만 발생하는 오류를 디버깅할 때 사용되며 `builder.py reldbg`로 생성합니다.
 
-`builder.py`로 빌드시 빌드 카운트가 자동으로 증가되며 빌드 환경에 맞춰서 `buildInformation.hpp.in`의 내용이 갱신됩니다. `builder.py`로 갱신하면 내부적으로 `builder.py clean`을 수행해서 이전 중간산출물을 모두 삭제합니다. 그래서 새로운 파일을 추가하거나 파일을 옮기거나 한 게 아니라면(CMake를 빌드할 필요가 없다면), `make` 등을 사용해서 증분 빌드를 사용하는 게 좋습니다.
+`builder.py`로 빌드시 빌드 카운트가 자동으로 증가되며 빌드 환경에 맞춰서 `buildInformation.hpp.in`의 내용이 갱신됩니다. `builder.py`로 갱신하면 내부적으로 `builder.py clean`을 수행해서 이전 중간산출물을 모두 삭제합니다. 그래서 새로운 파일을 추가하거나 파일을 옮기거나 한 게 아니라면(CMake를 빌드할 필요가 없다면), `make` 등을 사용해서 증분 빌드를 사용하면 되죠.
 
 ---
 
@@ -60,12 +60,12 @@ Ubuntu에서는 `gdb`나 `lldb` 모두 사용 가능합니다. 여담인데, nvi
 
 ### Windows WSL
 
-WSL을 사용하지 않는 경우, Visual Studio로는 알아서 잘 됩니다. WSL에서 VS Code로 디버깅 하기 위해서는 플러그인 설치와 함께 gdb 혹은 lldb와 연결이 되어야 합니다. VS Code를 위한 개발 환경 파일을 별도로 [마련해두었으니](https://github.com/byeolang/byeol-vscode-env) 참고 하세요.
+WSL을 사용하지 않는 경우, Visual Studio로는 알아서 잘 됩니다. WSL에서 VS Code로 디버깅 하기 위해서는 플러그인 설치와 함께 gdb 혹은 lldb와 연결이 되어야 합니다. VS Code를 위한 개발 환경 파일을 별도로 [마련해두었으니](https://github.com/byeolang/byeol-vscode-env) 참고하세요.
 
 
 ### Mac OS
 
-Ubuntu처럼 `gdb`나 `lldb`를 사용해도 되지만 VS Code를 사용해도 됩니다. VS Code를 위한 개발 환경 파일을 별도로 [마련해두었으니](https://github.com/byeolang/byeol-vscode-env) 참고 하세요.
+Ubuntu처럼 `gdb`나 `lldb`를 사용해도 되지만 VS Code를 사용해도 됩니다. VS Code를 위한 개발 환경 파일을 별도로 [마련해두었으니](https://github.com/byeolang/byeol-vscode-env) 참고하세요.
 
 ---
 

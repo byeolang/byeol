@@ -32,7 +32,7 @@ Oct 22 2025  21:26:13 I cppPackLo <_loadLibs#49> slot[cpp] origins loaded.
 4. 로깅한 함수(_loadLibs)와 해당 파일내 라인번호(49)
 5. 로그 메시지(slot[cpp] origins loaded)
 
-기본적인 사용법은 여기까지만 알아도 충분합니다.
+기본적인 사용법은 여기까지만 알아도 충분해요.
 
 ---
 
@@ -52,10 +52,10 @@ RELEASED <--rel()----- INITIALIZED
 
 객체를 처음 생성하면 RELEASED 상태에서 시작하지만, 생성자 내부에서 자동으로 `init()`을 호출하여
 INITIALIZED 상태로 진입합니다. 단, 특정 stream 인스턴스를 명시적으로 `rel()`한 경우,
-다시 명시적으로 `init()`을 호출하지 않으면 정상적으로 동작하지 않습니다.
+다시 명시적으로 `init()`을 호출하지 않으면 정상적으로 동작하지 않아요.
 
 stream은 또한 enable 여부를 관리합니다. setEnable(false)를 통해 특정 stream을 disable 시키면 해당
-stream은 동작하지 않습니다.
+stream은 동작하지 않아요.
 
 또하나 중요한 점은 @ref by::logger "logger" 클래스 자체도 @ref by::stream "stream" 에서 상속하기 때문에 @ref by::stream "stream" 과 동일한 API를 제공한다는
 점입니다. @ref by::logger "logger" 는 각 API에 대해 소유한 모든 @ref by::stream "stream" 들에 대해 redirection 하는 구성으로 구현되어
@@ -91,7 +91,7 @@ BY_I("This won't be logged anywhere");
 ## 로깅 매크로 시스템
 
 앞서 언급한 `logByPass()`를 통해서 직접 로깅을 해도 되지만, 파일명이나 함수명, 라인번호 등 좀 더
-고급스러운 로깅을 하고 싶다면 로깅 매크로를 사용하면 됩니다.
+고급스러운 로깅을 하고 싶다면 로깅 매크로를 사용하면 되죠.
 
 다음과 같이 사용합니다.
 
@@ -142,7 +142,7 @@ Nov 18 2025  20:02:13 I verifier  <onLeave#87> '' assignExpr@9a50: step#1 --> se
 
 위 로그에서 assignExpr@9a50은 assignExpr 객체가 heap 주소의 끝자리가 9a50인 곳에 있는 인스턴스라는
 얘기입니다. 이는 동일한 타입에 대해 서로 다른 인스턴스가 같은 시점에 로깅되는 경우 좀 더 수월하게
-디버깅 하도록 돕습니다.
+디버깅 하도록 도와요.
 
 ---
 
@@ -153,7 +153,7 @@ Nov 18 2025  20:02:13 I verifier  <onLeave#87> '' assignExpr@9a50: step#1 --> se
 
 @ref clog 모듈은 architecture 상 아랫부분에 위치하기 때문에 @ref clog 에 종속하는 클래스가 뭐가 있는지 알아서는
 안됩니다. 그렇기 때문에 @ref by::richLog "richLog" 는 각 모듈마다 정의되어 있으며, 해당 모듈에 포함된 클래스를 어떻게
-문자열로 변환할지를 정의해두고 있습니다.
+문자열로 변환할지를 정의해두고 있어요.
 
 이를 사용하면 다음과 같은 코드가 가능해집니다.
 
@@ -230,7 +230,7 @@ namespace by {
 }
 ```
 
-이렇게 정의하면 로깅 매크로에서 해당 타입을 직접 사용할 수 있습니다:
+이렇게 정의하면 로깅 매크로에서 해당 타입을 직접 사용할 수 있어요:
 
 ```
 @style: language-cpp verified
@@ -245,7 +245,7 @@ BY_I("type is %s", t);  // __convert__(const type&)가 호출되어 적절히 �
 ### enablesZone 클래스
 
 @ref by::logger "logger" 클래스는 여러개의 @ref by::stream "stream" 을 가지고 있고 특정 @ref by::stream "stream" 을 disable 혹은 enable 함으로써
-출력되는 경로를 제어할 수 있습니다.
+출력되는 경로를 제어할 수 있어요.
 
 여기서 문제는 특정 코드 블록 혹은 함수에서만 @ref by::stream "stream" 을 제어 한 후, 블록을 벗어날 때는 원래 상태로
 되돌리고자 하는 경우가 매우 자주 일어납니다.

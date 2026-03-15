@@ -12,13 +12,13 @@ Byeol의 아키텍처 규칙에 따라, 플랫폼 종속적인 코드(`#ifdef` �
 ## Early-return 패턴과 에러 처리
 
 Byeol은 프로젝트 전체적으로 early-return 패턴을 적용하고 있습니다. 이는 코드의 흐름을 알기 쉽게
-해주며 block 문 depth를 줄여주는 이점이 있습니다.
+해주며 block 문 depth를 줄여주는 이점이 있어요.
 
 단점이라면 `if(checks) return res;`와 같은 식으로 사용하기 때문에 `if`만 보고 이 코드가
 branching을 위한 if인지 아니면 return하려고 하는 if인지 구분이 되지 않는다는 점과 `if(checks)` 뒤에
-블록문이 오게 되는 경우 가독성이 떨어진다는 점입니다.
+블록문이 오게 되는 경우 가독성이 떨어진다는 점이에요.
 
-다음과 같은 코드를 보면 좀 체감이 될 것입니다.
+다음과 같은 코드를 보면 좀 체감이 될 거예요.
 
 ```
 @style: language-cpp verified
@@ -48,7 +48,7 @@ str me::eval(const args& a) {
 이상의 early-return은 에러 발견시 로그를 찍고 에러 값을 내보내는 것 뿐이라는 것에 착안해서 그 2가지
 과정을 한 줄에 표현할 수 있도록 chaining을 지원합니다.
 
-결과 다음과 같이 코드가 간략해지고 if의 목적이 명확해집니다.
+결과 다음과 같이 코드가 간략해지고 if의 목적이 명확해져요.
 
 ```
 @style: language-cpp verified
@@ -72,7 +72,7 @@ str me::eval(const args& a) {
 따라서 `WHEN(condition).err("msg").ret(value)`는 condition이 참일 때만 에러를 로깅하고
 value를 반환합니다. 조건이 거짓이면 아무 동작도 하지 않고 다음 코드로 진행됩니다.
 
-@ref by::WHEN "WHEN" 매크로는 프로젝트 내에서 아주 빈번하게 사용되므로 잘 파악해 두는 게 좋습니다.
+@ref by::WHEN "WHEN" 매크로는 프로젝트 내에서 아주 빈번하게 사용되므로 잘 파악해 두면 좋아요.
 
 ---
 
@@ -212,7 +212,7 @@ cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(right
      << foreColor(LIGHTGRAY) << ")";
 ```
 
-와 같이 사용하면 플랫폼 독립적인 코드를 작성하게 됩니다.
+와 같이 사용하면 플랫폼 독립적인 코드를 작성하게 되죠.
 
 ---
 
@@ -222,7 +222,7 @@ cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(right
 반환하는 클래스입니다. 절대 수동으로 값을 변경해서는 안됩니다.
 
 빌드 일시, 버전, 빌드한 OS, 바이너리 타입에 대한 정보를 갖습니다. buildInformation.hpp에 값의
-원본이 #define으로 정의되어 있으므로, 필요하다면 이를 사용해도 됩니다. #ifdef시에도 종종
+원본이 #define으로 정의되어 있으므로, 필요하다면 이를 사용해도 되죠. #ifdef시에도 종종
 사용되니 참고하세요.
 
 예:
@@ -300,7 +300,7 @@ while(e) { // iterator가 유효한 동안
 
 **역방향 순회 예제**
 
-좀 더 복잡한 역방향 순회 예제입니다:
+좀 더 복잡한 역방향 순회 예제예요:
 
 ```
 @style: language-cpp verified
@@ -334,7 +334,7 @@ for(int n = 0; n < 8; n++) {
 @ref by::tmay "tmay" 를 사용하므로 @ref by::tmay "tmay" 를 사전에 익혀두는 걸 권장합니다.
 
 @ref by::dlib "dlib" 은 RAII idiom으로 구현되어 있습니다. 해당 인스턴스가 소멸될때 외부로 반환된 함수포인터는 사용할
-수 없게 됩니다.
+수 없게 되죠.
 
 **사용예제**
 

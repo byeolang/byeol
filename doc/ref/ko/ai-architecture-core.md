@@ -2,7 +2,7 @@
 
 @ref core 모듈은 Byeol 프로그래밍 언어의 핵심 구현을 담당합니다. AST(Abstract Syntax Tree) 구조, 파서, 검증기, 실행기 등 언어의 모든 핵심 기능이 이 모듈에 집중되어 있습니다.
 
-@ref core 모듈의 가장 큰 특징은 <b>AST를 직접 실행</b>한다는 점입니다. 일반적인 언어와 달리, Byeol 언어는 AST 구조를 유지한 채로 프로그램을 실행합니다. 따라서 타 언어의 AST는 말그대로 문법 구조를 트리로 표현한 중간결과물에 지나지 않지만, Byeol에는 실행가능한 최종 output을 AST가 담당합니다.
+@ref core 모듈의 가장 큰 특징은 <b>AST를 직접 실행</b>한다는 점이에요. 일반적인 언어와 달리, Byeol 언어는 AST 구조를 유지한 채로 프로그램을 실행합니다. 따라서 타 언어의 AST는 말그대로 문법 구조를 트리로 표현한 중간결과물에 지나지 않지만, Byeol에는 실행가능한 최종 output을 AST가 담당합니다.
 
 ---
 
@@ -13,7 +13,7 @@ Byeol의 AST는 실행 가능한 프로그램 트리입니다. 일반적인 AST�
 
 ### node 클래스 - AST의 기반
 
-@ref by::node "node" 클래스는 AST의 가장 기본이 되는 클래스입니다. AST 구조와 관련된 API와 해당 @ref by::node "node" 를 평가하는 `eval()`, 자식 @ref by::node "node" 를 탐색하는 API, 그리고 해당 @ref by::node "node" 객체를 다른 타입으로 형변환하는 API 등을 제공합니다.
+@ref by::node "node" 클래스는 AST의 가장 기본이 되는 클래스예요. AST 구조와 관련된 API와 해당 @ref by::node "node" 를 평가하는 `eval()`, 자식 @ref by::node "node" 를 탐색하는 API, 그리고 해당 @ref by::node "node" 객체를 다른 타입으로 형변환하는 API 등을 제공합니다.
 
 **AST 탐색**
 
@@ -41,7 +41,7 @@ subs.len(); // root가 몇 개의 자식 node를 가지고 있는지 반환.
 
 byeol 언어는 동일한 scope내 중복 symbol을 허용하지 않습니다. 하지만 이 말은 동일한 key로 2개의 pair가 들어갈 수 없다는 뜻은 아닙니다.
 
-함수의 경우는 이름이 같을 지라도 파라메터의 갯수나 타입이 다르면 다른 symbol이 되기 때문입니다. 따라서 단순히 string 비교만으로 중복여부를 판단할 수 없기에 @ref by::scope "scope" 클래스는 map 기반이 아니라 <b>multimap 기반</b>으로 되어 있습니다.
+함수의 경우는 이름이 같을 지라도 파라메터의 갯수나 타입이 다르면 다른 symbol이 되기 때문입니다. 따라서 단순히 string 비교만으로 중복여부를 판단할 수 없기에 @ref by::scope "scope" 클래스는 map 기반이 아니라 <b>multimap 기반</b>으로 되어 있어요.
 
 **eval() - 평가와 실행**
 
@@ -398,7 +398,7 @@ main() void
 
 **타입으로써의 obj**
 
-C++에서 타입은 클래스로 표현되지만 byeol은 클래스란 존재하지 않습니다. 객체와 클래스의 구분이 없으므로 **@ref by::obj "obj" 자체가 타입**인 셈입니다.
+C++에서 타입은 클래스로 표현되지만 byeol은 클래스란 존재하지 않아요. 객체와 클래스의 구분이 없으므로 **@ref by::obj "obj" 자체가 타입**인 셈입니다.
 
 ```
 @style: language-cpp verified

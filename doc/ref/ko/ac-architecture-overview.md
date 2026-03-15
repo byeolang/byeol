@@ -8,7 +8,7 @@ byeol 언어 문법을 알고 있는, 코드베이스를 처음 접하는, 경�
 byeol 언어의 문법에 대해 이해하고 있다는 전제로 시작하기 때문에 필요하다면 먼저 [언어 가이드](https://byeol.io/guide/)
 를 참고하세요.
 
-필요하다면 다음 하위 문서들로 바로 이동할 수 있습니다:
+필요하다면 다음 하위 문서들로 바로 이동할 수 있어요:
 
 - @subpage architecture_indep
 - @subpage architecture_clog
