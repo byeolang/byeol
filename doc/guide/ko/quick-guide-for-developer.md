@@ -55,6 +55,8 @@ main() void
 ```
 @style: language-byeol
 "문자열" # str: 쌍따옴표로 표현합니다.
+'문자열' # str: 작은따옴표로도 표현할 수 있습니다.
+'He said "Hello"' # 작은따옴표 안에서는 " 를 escaped sequence 없이 사용 가능합니다.
 3020202302 # int: 4byte 정수입니다.
 true # bool
 3.5 # flt: 4byte float.
@@ -558,6 +560,14 @@ print(Food().name) # "defaultName"
 
 ---
 
+## Special Functions
+
+* ✅ Special Functions는 앞에 `@` 가 붙는 특별한 함수들입니다.
+* ✅ 이들은 인터프리터에 의해 특정 시점에 자동으로 호출됩니다.
+* ✅ `@ctor`, `@get`, `@set` 등이 존재합니다.
+
+---
+
 ## Pack
 
 * ✅ `pack <객체이름>`으로 하면 그 `pack` 객체가 생성됩니다. 그 구문 밑에서
@@ -974,26 +984,26 @@ main() void
 
 ---
 
-## 변수명을 타입명과 동일하게 하려면 `'`으로 편하게 합니다.
+## 변수명을 타입명과 동일하게 하려면 백틱(`)으로 편하게 합니다.
 
-* ✅ 변수 정의시에 `button Button`을 `Button'`라고 정의할 수 있습니다.
-* ✅ `'`를 사용할때는 `int` 같은 primitive type을 사용할 수 없습니다.
+* ✅ 변수 정의시에 `button Button`을 `Button&#96;` 라고 정의할 수 있습니다.
+* ✅ 백틱(`)을 사용할때는 `int` 같은 primitive type을 사용할 수 없습니다.
 * ✅ `person[]` 와 같은 `map`, `array`, `seq` 도 사용 할 수 없습니다.
 * ✅ 변수 정의시에 사용하므로 함수 parameter에서도, 본문에서도, 프로퍼티 선언시에도 다 됩니다.
-* ✅ 불완전객체에 대해서 `'`를 사용하면 첫글자가 소문자로 풀어집니다.
+* ✅ 불완전객체에 대해서 백틱(`)을 사용하면 첫글자가 소문자로 풀어집니다.
 * ☐  함수 타입 접근시에도 사용합니다.
 
 ```
 def Abc
     foo(n int, x int) int: n + x
-    boo(int') int: int + x # err. int는 `'`를 사용할 수 없다.
+    boo(int`) int: int + x # err. int는 백틱(`)를 사용할 수 없다.
 
-koo(Abc') int # --> abc Abc 로 풀어집니다.
+koo(Abc`) int # --> abc Abc 로 풀어집니다.
     ret abc.foo(1, 2)
 
 ```
 
-* ☐  당연히, `Abe'` 와 `=Abe'`를 같이 쓸 수 없습니다.
+* ☐  당연히, `Abe&#96;` 와 `=Abe&#96;` 를 같이 쓸 수 없습니다.
 
 ---
 
@@ -2146,6 +2156,13 @@ main() void
 
 * ☐  TODO
 
+---
+
+## Annotation
+
+* ☐  Annotation은 `:` 으로 표현할 예정입니다.
+
+---
 
 # 끝맺으면서
 

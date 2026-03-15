@@ -112,7 +112,7 @@ $ ./test --gtest_filter=cliTest.checkDefaultAction verbose
 
 문서는 크게 가이드 문서와 레퍼런스 문서로 나뉘어집니다. 가이드 문서는 byeol 언어를 위한 가이드 문서로, byeol 언어의 설치부터 문법 소개까지를 다룹니다. 레퍼런스 문서는 byeol C++ 코드를 개발을 위한 문서로, 개발 환경 설정과 실행, 테스트 수행, 코드 레퍼런스 등이 포함됩니다.
 
-웹사이트에서 이 둘은 별도의 페이지로 다뤄져야 하기 때문에 각각은 별도의 `DoxygenGuide`, `DoxygenReference`라는 manifest 파일로 나뉘어집니다. 또한 웹사이트는 한국/영어 2가지 언어를 지원하기 때문에 각각은 다시 2개의 파일로 나뉘어집니다. 결과 총 4개의 파일이 존재합니다: DoxygenGuide-en은 doc/guide/en 폴더의 문서를 사용하고, DoxygenGuide-ko는 doc/guide/ko 폴더의 문서를, DoxygenReference-en은 doc/ref/en 폴더의 문서를, DoxygenReference-ko는 doc/ref/ko 폴더의 문서를 사용합니다.
+자세한 내용은 @ref am-document-convention 를 참조하세요.
 
 
 ### 문서의 doxygen 커스터마이징
