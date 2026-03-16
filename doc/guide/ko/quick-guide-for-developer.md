@@ -986,24 +986,24 @@ main() void
 
 ## 변수명을 타입명과 동일하게 하려면 백틱(`)으로 편하게 합니다.
 
-* ✅ 변수 정의시에 `button Button`을 `Button&#96;` 라고 정의할 수 있습니다.
-* ✅ 백틱(`)을 사용할때는 `int` 같은 primitive type을 사용할 수 없습니다.
+* ✅ 변수 정의시에 `button Button`을 `` Button` `` 라고 정의할 수 있습니다.
+* ✅ 백틱을 사용할때는 `int` 같은 primitive type을 사용할 수 없습니다.
 * ✅ `person[]` 와 같은 `map`, `array`, `seq` 도 사용 할 수 없습니다.
 * ✅ 변수 정의시에 사용하므로 함수 parameter에서도, 본문에서도, 프로퍼티 선언시에도 다 됩니다.
-* ✅ 불완전객체에 대해서 백틱(`)을 사용하면 첫글자가 소문자로 풀어집니다.
+* ✅ 불완전객체에 대해서 백틱을 사용하면 첫글자가 소문자로 풀어집니다.
 * ☐  함수 타입 접근시에도 사용합니다.
 
 ```
 def Abc
     foo(n int, x int) int: n + x
-    boo(int`) int: int + x # err. int는 백틱(`)를 사용할 수 없다.
+    boo(int`) int: int + x # err. int`를 사용할 수 없다.
 
 koo(Abc`) int # --> abc Abc 로 풀어집니다.
     ret abc.foo(1, 2)
 
 ```
 
-* ☐  당연히, `Abe&#96;` 와 `=Abe&#96;` 를 같이 쓸 수 없습니다.
+* ☐  당연히, `` Abe` ``와 `` =Abe` `` 를 같이 쓸 수 없습니다.
 
 ---
 
@@ -1011,8 +1011,8 @@ koo(Abc`) int # --> abc Abc 로 풀어집니다.
 
 * ✅ 사용자가 `def`를 통해 정의한 것은 클래스가 아니라 객체입니다. 이를 `origin object`라고 합니다.
 * ✅ origin 객체는 2가지로 분류합니다.
-  * 1) 하위요소(sub)를 사용할 수 있는 `complete object` 완전객체.
-  * 2) 극히 제한된 일부 요소(sub)만 사용할 수 있는 `incomplete object` 불완전객체
+  - 하위요소(sub)를 사용할 수 있는 `complete object` 완전객체.
+  - 극히 제한된 일부 요소(sub)만 사용할 수 있는 `incomplete object` 불완전객체
 * ✅ 완전객체는 origin 객체이면서도 일반적인 객체처럼 사용이 가능한 것을 말합니다.
 * ✅ 완전객체를 protected 생성자로 만들면 싱글톤이 됩니다.
 * ✅ `def` 시 소괄호를 사용해서 객체완전자를 정의하면 그 origin 객체는 완전객체가 됩니다.
