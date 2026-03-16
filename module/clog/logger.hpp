@@ -123,12 +123,6 @@ namespace by {
         nbool pushStream(stream& new_stream);
 
         /**
-         * @brief increase depth level of scope for logs when it prints logs.
-         *        this represents '┃' or '┝'.
-         */
-        ncnt incDepth();
-
-        /**
          * @brief Get singleton logger instance
          */
         static logger& get();
@@ -172,7 +166,6 @@ namespace by {
     private:
         std::vector<stream*> _streams;
         const filters* _filters;
-        static thread_local ncnt _depth;
     };
 
     logger& operator<<(logger& log, const std::string& msg);
