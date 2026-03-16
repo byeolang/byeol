@@ -214,6 +214,52 @@ flex는 yyin 이라는 별도로 지정된 stream을 통해서 글자를 가져�
 기본적으로 이런 경우는 unput을 사용하나, 여러개를 unput 하거나 뒤가 아니라 앞에 push 하는 경우 등에
 유연하게 대응하기 위해, stelaLowscanner는 내부적으로 @ref by::stelaTokenDispatcher "stelaTokenDispatcher" 를 사용합니다.
 
+**unput()과 tokenDispatcher의 차이점**
+
+`unput()`과 @ref by::tokenDispatcher "tokenDispatcher" 는 <b>근본적으로 다른 동작 방식</b>을 가지고 있습니다.
+`unput()`은 <b>스트림 자체에 문자를 추가</b>하는 반면, @ref by::tokenDispatcher "tokenDispatcher" 는 <b>렉서를 건너뛰고
+이미 결정된 토큰을 강제로 반환</b>합니다.
+
+이 차이는 매우 중요한데요, `unput()`은 문자 단위로 작동하여 렉서가 다시 토큰을 분석하게 하지만,
+@ref by::tokenDispatcher "tokenDispatcher" 는 토큰 단위로 작동하여 렉서의 분석 과정을 완전히 우회하거든요.
+예시를 한번 보죠.
+
+```
+@style: language-cpp verified
+auto& disp = PS.getDispatcher();
+
+// 개별 문자를 토큰으로 추가
+disp.add('n');
+disp.add('a');
+disp.add('m');
+disp.add('e');
+```
+
+위 코드가 `unput('e'); unput('m'); unput('a'); unput('n');`과 동일하다고 생각할 수 있지만, <b>전혀 다르게
+동작</b>합니다. `unput()`을 사용하면 렉서가 스트림에서 "name"이라는 문자열을 읽고 이를 `STRVAL` 토큰 하나로 인식합니다.
+하지만 @ref by::tokenDispatcher "tokenDispatcher" 를 사용하면 `'n'`, `'a'`, `'m'`, `'e'` 토큰을 개별적으로 파서에
+반환하게 되며, 이는 파싱 오류를 일으킵니다.
+
+**주의사항: dispatcher 사용 후 반드시 토큰을 리턴해야 합니다**
+
+@ref by::tokenDispatcher "tokenDispatcher" 를 사용할 때는 flex rule 안에서 <b>반드시 토큰을 리턴</b>해야 합니다.
+토큰을 리턴하지 않으면 dispatcher가 동작하지 않습니다. 이는 flex의 구현 방식 때문입니다:
+
+```
+@style: language-cpp verified
+// ❌ 잘못된 사용 - dispatcher가 동작하지 않음
+yourRule {
+    PS.getDispatcher().add('+');
+    // 토큰을 리턴하지 않았으므로 dispatcher가 트리거되지 않음
+}
+
+// ✅ 올바른 사용 - dispatcher가 정상 동작
+yourSecondRule {
+    PS.getDispatcher().add('+');
+    return STRVAL; // 토큰을 리턴하면 다음 토큰으로 '+'가 반환됨
+}
+```
+
 **사용 예제**
 
 ```
@@ -240,9 +286,9 @@ while(!dispatcher.isEmpty()) {
     // 토큰 처리
 }
 
-// unput과의 차이:
-// - unput: 한번에 하나씩만, 역순으로 처리됨
-// - tokenDispatcher: 여러개를 순서대로, 앞/뒤 모두 push 가능
+// unput과의 차이 정리:
+// - unput: 문자를 스트림에 추가, 렉서가 다시 분석
+// - tokenDispatcher: 이미 결정된 토큰을 직접 반환, 렉서 우회
 ```
 
 ### stelaTokenScan 클래스 - 스캔 모드 전략
