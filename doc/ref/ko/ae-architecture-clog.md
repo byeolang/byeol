@@ -127,6 +127,94 @@ Oct 22 2025  21:26:13 E leafPars <_finalize#263> leaf: ERR: src is empty
 해당 macro의 구현은, 출력할 문자열 앞에 날짜나 시간 등을 붙여서 logBypass()에 전달하도록 expand 하는
 것이긴 하나, 그외에도 한가지 중요한 기능이 더 있습니다.
 
+### Scope 로깅 매크로
+
+함수나 블록의 <b>진입과 탈출을 시각화</b>하고 싶을 때는 `BY_I_SCOPE`, `BY_E_SCOPE`, `BY_W_SCOPE` 매크로를 사용합니다.
+이 매크로들은 <b>RAII 패턴</b>으로 구현되어 있어서, 스코프에 진입할 때와 벗어날 때 자동으로 로그를 남깁니다.
+
+다음은 기본적인 사용 예시입니다:
+
+```
+@style: language-cpp verified
+void processData(int id) {
+    BY_I_SCOPE("processData id=%d", id);
+    // 함수 본문...
+    BY_I("processing...");
+}
+```
+
+위 코드는 다음과 같이 출력됩니다:
+
+```
+@style: language-txt verified
+I <processData#130> ▶  processData id=123
+I <processData#131> ┣ processing...
+I <processData#130> ◀  processData id=123
+```
+
+`▶` 기호는 스코프 진입을, `◀` 기호는 스코프 탈출을 나타냅니다. 스코프 안쪽의 로그는 `┣` 기호로
+시각적인 깊이를 표현하며, 내부적으로 @ref by::line::incLv() "line::incLv()" 를 통해 그래프 깊이가 자동으로
+증가/감소합니다.
+
+**주의사항: 인자가 두 번 평가됩니다**
+
+`BY_I_SCOPE` 매크로는 내부적으로 @ref by::BY_END "BY_END" 와 @ref by::scopeLog "scopeLog" 를 사용하는 RAII 패턴으로 구현되어 있습니다.
+이때 <b>format string의 인자가 두 번 평가</b>되므로, 부수 효과가 있는 표현식을 사용하면 안 됩니다:
+
+```
+@style: language-cpp verified
+// ✅ 올바른 사용
+void good(int id) {
+    BY_I_SCOPE("good id=%d", id);  // OK: id는 여러 번 평가해도 안전
+    // ... 작업 ...
+}
+
+// ❌ 잘못된 사용
+void bad() {
+    BY_I_SCOPE("count=%d", counter++);  // WRONG: counter가 두 번 증가함!
+}
+```
+
+**주의사항: if 블록에서 사용할 때 조심하세요**
+
+`BY_I_SCOPE` 매크로를 if 문의 블록문으로 사용하면 예상과 다르게 동작할 수 있습니다. 매크로가 expand
+되면서 여러 개의 statement로 펼쳐지기 때문이에요. 다음 예제를 보죠:
+
+```
+@style: language-cpp verified
+void foo() {
+    if(isVerbose) BY_I_SCOPE("okay, verbose mode is on.");
+    BY_I("hello");
+}
+```
+
+위 코드는 다음과 같이 expand 됩니다:
+
+```
+@style: language-cpp verified
+void foo() {
+    if(isVerbose)
+        BY_I("▶  okay, verbose mode is on.");
+    ::by::line::incLv();
+    BY_END(scopeLog, ...., "◀  okay, verbose mode is on.");
+    BY_I("hello");
+}
+```
+
+보시다시피 if 조건에 걸리는 건 시작 로그뿐이며, `incLv()`와 `BY_END`는 항상 실행됩니다. 이는 의도한
+동작이 아니죠. 이런 경우에는 <b>반드시 중괄호로 블록을 명시</b>해야 합니다:
+
+```
+@style: language-cpp verified
+// ✅ 올바른 사용
+void foo() {
+    if(isVerbose) {
+        BY_I_SCOPE("okay, verbose mode is on.");
+    }
+    BY_I("hello");
+}
+```
+
 ---
 
 ### 간략화된 주소값
