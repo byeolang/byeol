@@ -10,13 +10,13 @@ byeol 언어의 문법에 대해 이해하고 있다는 전제로 시작하기 �
 
 필요하다면 다음 하위 문서들로 바로 이동할 수 있어요:
 
-- @subpage architecture_indep
-- @subpage architecture_clog
-- @subpage architecture_meta
-- @subpage architecture_memlite
-- @subpage architecture_stela
-- @subpage architecture_core
-- @subpage architecture_frontend
+- @subpage ad-architecture-indep
+- @subpage ae-architecture-clog
+- @subpage af-architecture-meta
+- @subpage ag-architecture-memlite
+- @subpage ah-architecture-stela
+- @subpage ai-architecture-core
+- @subpage aj-architecture-frontend
 
 ---
 
