@@ -233,7 +233,8 @@ def docDoxygen(doxygen):
 def doc():
     doxygen = DoxygenDependency()
     git = GitDependency()
-    if checkDependencies([doxygen, git]):
+    jre = JREDependency()
+    if checkDependencies([doxygen, git, jre]):
         return -1
 
     if cleanGhPages(git) != 0:
@@ -1165,6 +1166,13 @@ class DockerDependency(dependency):
 class DockerClangFormatDependency(DockerDependency):
     def __init__(self):
         super().__init__("", "clang-format")
+
+class JREDependency(dependency):
+    def getNames(self):
+        return ["java"]
+
+    def getExpectVer(self):
+        return ver(1, 8, 0, False)
 
 def checkDependencies(deps):
     printInfoEnd("checking dependencies...")
