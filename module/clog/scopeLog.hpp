@@ -1,7 +1,7 @@
 /// @file
 #pragma once
 
-#include "clog/common/dep.hpp"
+#include "clog/common.hpp"
 
 namespace by {
     /**
