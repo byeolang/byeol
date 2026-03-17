@@ -1055,7 +1055,7 @@ class DoxygenDependency(dependency):
         return ["doxygen"]
 
     def getExpectVer(self):
-        return ver(1, 9, 2, False)
+        return ver(1, 10, 0, False)
 
 class EmmakeDependency(dependency):
     def getNames(self):
