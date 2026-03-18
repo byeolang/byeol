@@ -614,20 +614,7 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = doxygen \
-                         ../doc/ref/ko/README.md \
-                         ../doc/ref/ko/aa-dev-env.md \
-                         ../doc/ref/ko/ab-convention-rules.md \
-                         ../doc/ref/ko/ac-architecture-overview.md \
-                         ../doc/ref/ko/ad-architecture-indep.md \
-                         ../doc/ref/ko/ae-architecture-clog.md \
-                         ../doc/ref/ko/af-architecture-meta.md \
-                         ../doc/ref/ko/ag-architecture-memlite.md \
-                         ../doc/ref/ko/ah-architecture-stela.md \
-                         ../doc/ref/ko/ai-architecture-core.md \
-                         ../doc/ref/ko/aj-architecture-frontend.md \
-                         ../doc/ref/ko/ak-testing-guide.md \
-                         ../doc/ref/ko/al-build-structure.md \
-                         ../doc/ref/ko/am-document-convention.md \
+                         ../doc/ref/ko \
                          ../module/clog \
                          ../module/indep \
                          ../module/core \

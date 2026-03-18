@@ -816,12 +816,7 @@ WARN_LOGFILE           =
 
 # the reason why I specify individual files instead of just folder like `doc/guide/ko`
 # is because this way, the order of documents is guaranteed.
-INPUT                  = ../doc/guide/ko/README.md \
-                         ../doc/guide/ko/how-to-install.md \
-                         ../doc/guide/ko/basic-usage.md \
-                         ../doc/guide/ko/how-to-code.md \
-                         ../doc/guide/ko/language-spec.md \
-                         ../doc/guide/ko/design-philosophy.md
+INPUT                  = ../doc/guide/ko
 
 
 # This tag can be used to specify the character encoding of the source files
