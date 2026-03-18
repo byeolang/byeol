@@ -29,14 +29,12 @@
 {
     "style": "verified runnable language-byeol",
     "shown":
-`
-# 한줄짜리 주석이고,
+`# 한줄짜리 주석이고,
 
 ## 여러줄
 주석입니다.##
 `,  "code":
-`
-main() void
+`main() void
     # 한줄짜리 주석이고,
 
     ## 여러줄
@@ -53,21 +51,38 @@ main() void
 * ✅  다음의 기본타입(primitive types)이 있습니다.
 
 ```
-@style: language-byeol
-"문자열" # str: 쌍따옴표로 표현합니다.
+{
+    "style": "runnable language-byeol",
+    "shown":
+`"문자열" # str: 쌍따옴표로 표현합니다.
 '문자열' # str: 작은따옴표로도 표현할 수 있습니다.
 'He said "Hello"' # 작은따옴표 안에서는 " 를 escaped sequence 없이 사용 가능합니다.
-3020202302 # int: 4byte 정수입니다.
+3202302 # int: 4byte 정수입니다.
 true # bool
 3.5 # flt: 4byte float.
 0xff # 255를 뜻하는 16진법 int
 017 # 15를 뜻하는 8진법 int
 "a" # character type 은 존재하지 않습니다.
-"\0x2B" # ascii 2B(10진수 43)에 해당하는 '+'
-"\43" # ascii '+'. 위와 같은 코드입니다.
+"\\0x2B" # ascii 2B(10진수 43)에 해당하는 '+'
+"\\43" # ascii '+'. 위와 같은 코드입니다.
 # byte도 있어요. 0 ~ 255까지 표현 가능하죠.
-# void 도 있습니다만, 물론 void 타입의 변수를 만들
-# 수는 없죠.
+# void 도 있습니다만, 물론 void 타입의 변수를 만들 수는 없죠.`,
+"code":
+`main() void
+    print("문자열\n") # str: 쌍따옴표로 표현합니다.
+    print('문자열\n') # str: 작은따옴표로도 표현할 수 있습니다.
+    print('He said "Hello"\n') # 작은따옴표 안에서는 " 를 escaped sequence 없이 사용 가능합니다.
+    print("${3202302}\n") # int: 4byte 정수입니다.
+    print("${true}\n")# bool
+    print("${3.5}\n") # flt: 4byte float.
+    print("${0xff}\n") # 255를 뜻하는 16진법 int
+    print("${017}\n") # 15를 뜻하는 8진법 int
+    print("a\n") # character type 은 존재하지 않습니다.
+    print("${\0x2B}\n") # ascii 2B(10진수 43)에 해당하는 '+'
+    print("${\43}\n") # ascii '+'. 위와 같은 코드입니다.
+    # byte도 있어요. 0 ~ 255까지 표현 가능하죠.
+    # void 도 있습니다만, 물론 void 타입의 변수를 만들 수는 없죠.`
+}
 ```
 
 ---

@@ -3,6 +3,25 @@ followDarkModeWithParent();
 document.addEventListener('DOMContentLoaded', function() {
     function makeJson(raw) {
 
+        // prevent javascript handling string template or escape sequence append
+        // let it pass string literal to my wasm binary
+        function wrapEscapeSequence(rawStr) {
+            const pattern = /(##[\s\S]*?##)|(#.*)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g
+
+            return rawStr.replace(pattern, (match, multiComment, singleComment, string) => {
+                if(multiComment || singleComment) return match;
+                if(!string) return match;
+
+                return string
+                    .replace(/\\/g, '\\\\')
+                    .replace(/\$\{/g, '\\${')
+                    .replace(/\n/g, '\\n')
+                    .replace(/\t/g, '\\t')
+                    .replace(/\\n/g, '\\n')
+                    .replace(/\\t/g, '\\t');
+            });
+        }
+
         function emptyJson(raw, styles) {
             if(style == null) {
                 return {
@@ -30,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const rows = raw.split("\n");
         const style = getStyle(rows);
-        codes = raw;
+        codes = wrapEscapeSequence(raw);
         if(style != null) {
             rows.shift();
             codes = rows.join("\n");
@@ -40,19 +59,26 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             return eval(`(${codes})`);
         } catch (ex) {
+            console.log(ex.stack);
             return emptyJson(codes, style);
         }
-    }
-
-    function convertNewLine(shown) {
-        return shown.replace(/\\n/g, '\n');
     }
 
     // preprocess: making tags as attributes.
     const fragments = document.querySelectorAll('.fragment, div.fragment, pre.fragment');
     fragments.forEach(fragment => {
         let json = makeJson(fragment.textContent);
-        fragment.innerHTML = `<pre><code class="hljs ${json.style}" src="${json.code}">${json.shown}</code></pre>`;
+        // in default, each code block expands to fragment with lots of <div> representing a line.
+        // so, my first move is to empty all of divs and fill it new <code> tag.
+        fragment.innerHTML = "";
+        const pre = document.createElement('pre');
+        fragment.append(pre);
+        let code = document.createElement('code');
+        pre.append(code);
+        // now styling code tag:
+        code.textContent = json.shown;
+        code.classList.add('hljs', ...json.style.split(' '));
+        code.setAttribute('src', json.code);
     });
 });
 
