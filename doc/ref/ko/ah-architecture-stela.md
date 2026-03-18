@@ -6,9 +6,725 @@ Composite 패턴을 사용하여 트리 구조로 설정 데이터를 표현하�
 <b>참고</b>: @ref stela 언어는 byeol 언어보다 덜 복잡하므로, <b>@ref core 모듈의 byeol 파서를 보기 전에 @ref stela 파서
 코드를 먼저 살펴볼 것을 권장합니다</b>. 파서의 기본 구조와 동작 방식을 이해하는데 더 적합해요.
 
-TODO: stelaParser-lowscanner-lowparser의 협력 구조를 보여주는 클래스 다이어그램 필요
-TODO: tokenDispatcher의 동작 흐름을 보여주는 시퀀스 다이어그램 필요
-TODO: indentation 처리 과정(normalScan ↔ indentScan 전환)을 보여주는 시퀀스 다이어그램 필요
+@startuml
+package "파서 계층" {
+    class "stelaParser" as stelaParser {
+        - _scanner : stelaLowscanner*
+        - _normalScan : normalScan*
+        - _indentScan : indentScan*
+        - _currentScan : stelaTokenScan*
+        - _indents : smartDedent
+        ---
+        + parse(script) : stela&
+        + parseFromFile(path) : stela&
+        ---
+        <b>Callback 함수들:</b>
+        + onIndent(cur, tok) : nint
+        + onDedent(cur, tok) : nint
+        + onBlock() : void
+        + onStatement() : void
+        + onExpression() : void
+    }
+
+    class "stelaLowscanner" as scanner {
+        - _dispatcher : tokenDispatcher*
+        - _parser : stelaParser*
+        ---
+        + yylex() : nint
+        + getDispatcher() : tokenDispatcher&
+    }
+
+    class "stelaLowparser" as parser {
+        - _parser : stelaParser*
+        ---
+        + yyparse() : nint
+    }
+
+    class "tokenDispatcher" as dispatcher {
+        - _queue : deque<Token>
+        ---
+        + pushFront(tok) : void
+        + pushBack(tok) : void
+        + pop() : Token
+        + isEmpty() : nbool
+    }
+
+    class "stelaTokenScan" as tokenScan <<abstract>> {
+        + onScan(parser, ...) : nint
+    }
+
+    class "normalScan" as normalScan {
+        + onScan(parser, ...) : nint
+    }
+
+    class "indentScan" as indentScan {
+        + onScan(parser, ...) : nint
+        ---
+        - 공백 갯수 계산
+        - INDENT/DEDENT 생성
+    }
+
+    class "stelaSmartDedent" as smartDedent {
+        - _indents : vector<ncnt>
+        ---
+        + push(indent) : void
+        + pop() : void
+        + back() : ncnt
+        + len() : ncnt
+    }
+}
+
+package "결과 계층" {
+    class "stela" as stela {
+        + asInt() : int
+        + asStr() : string
+        + sub(name) : stela&
+        + operator[](name) : stela&
+    }
+
+    class "valStela" as valStela
+    class "verStela" as verStela
+    class "nulStela" as nulStela
+}
+
+note top of stelaParser
+  <b>Event-driven 아키텍처:</b>
+  lowparser에서 rule 매칭 시
+  on 함수들로 이벤트 콜백
+
+  <b>Facade 패턴:</b>
+  복잡한 파싱 서브시스템의
+  단순화된 진입점
+end note
+
+note right of scanner
+  <b>Flex 기반:</b>
+  정규표현식으로 토큰 스캐닝
+
+  tokenDispatcher를 통해
+  토큰 버퍼링 및 관리
+end note
+
+note right of parser
+  <b>Bison 기반:</b>
+  문법 규칙 매칭
+
+  규칙이 매치되면
+  stelaParser의 on 함수 호출
+end note
+
+note bottom of dispatcher
+  <b>Queue 기반 토큰 버퍼:</b>
+  - unput()과 달리 토큰 단위 동작
+  - 렉서 우회하여 토큰 직접 반환
+  - 여러 토큰 순차 추가 가능
+
+  DEDENT 여러 개를 앞에 추가할 때
+  유용함
+end note
+
+note left of tokenScan
+  <b>Strategy 패턴:</b>
+  런타임에 스캔 전략 교체
+
+  normalScan: 공백 무시
+  indentScan: 공백 카운트
+end note
+
+note right of smartDedent
+  <b>Scope 관리:</b>
+  각 scope의 indentation
+  레벨을 스택으로 관리
+
+  [0, 4, 6]
+  → 최상위, 4칸, 6칸
+end note
+
+stelaParser *-- scanner : 소유
+stelaParser *-- smartDedent : 소유
+stelaParser --> parser : 생성
+stelaParser o-- tokenScan : 현재 전략
+scanner *-- dispatcher : 소유
+scanner --> parser : 토큰 전달
+
+normalScan --|> tokenScan : 상속
+indentScan --|> tokenScan : 상속
+
+stelaParser ..> tokenScan : 전략 교체
+parser ..> stelaParser : 이벤트 콜백
+
+stelaParser ..> stela : 생성
+
+valStela --|> stela : 상속
+verStela --|> stela : 상속
+nulStela --|> stela : 상속
+
+@enduml
+
+@startuml
+participant "stelaLowscanner" as scanner
+participant "tokenDispatcher" as dispatcher
+participant "stelaLowparser" as parser
+
+== Flex Rule 매칭 ==
+
+scanner -> scanner : yylex() - 토큰 스캐닝
+activate scanner
+
+note right of scanner
+  <b>Flex Rule 예:</b>
+  개행 후 특정 상황에서
+  DEDENT 토큰 여러 개 필요
+
+  예: scope 2개 종료
+end note
+
+scanner -> dispatcher : 사용 가능한가?
+activate dispatcher
+
+dispatcher -> dispatcher : isEmpty() 체크
+dispatcher --> scanner : false (비어있음)
+
+deactivate dispatcher
+
+note right of scanner
+  dispatcher가 비어있으므로
+  새로운 토큰 스캔 필요
+end note
+
+scanner -> scanner : 토큰 매칭
+
+note right of scanner
+  <b>상황:</b>
+  개행 후 indentation이
+  2레벨 줄어듦 감지
+
+  현재 토큰: STRVAL
+  필요: DEDENT 2개
+end note
+
+== 토큰 버퍼링 ==
+
+scanner -> dispatcher : pushFront(DEDENT)
+activate dispatcher
+
+note right of dispatcher
+  <b>Queue에 추가:</b>
+  queue = [DEDENT]
+end note
+
+dispatcher --> scanner : void
+deactivate dispatcher
+
+scanner -> dispatcher : pushFront(DEDENT)
+activate dispatcher
+
+note right of dispatcher
+  queue = [DEDENT, DEDENT]
+end note
+
+dispatcher --> scanner : void
+deactivate dispatcher
+
+scanner -> dispatcher : pushFront(STRVAL)
+activate dispatcher
+
+note right of dispatcher
+  <b>현재 토큰도 추가:</b>
+  queue = [DEDENT, DEDENT, STRVAL]
+
+  순서: FIFO
+  첫 번째 DEDENT부터 반환
+end note
+
+dispatcher --> scanner : void
+deactivate dispatcher
+
+note right of scanner
+  <b>중요:</b>
+  dispatcher에 토큰 추가 후
+  반드시 토큰 리턴 필요!
+
+  리턴하지 않으면
+  dispatcher 동작 안함
+end note
+
+scanner --> parser : return 임시 토큰
+deactivate scanner
+
+== 버퍼된 토큰 읽기 (첫 번째) ==
+
+parser -> scanner : getNextToken()
+activate scanner
+
+scanner -> dispatcher : isEmpty()?
+activate dispatcher
+
+dispatcher --> scanner : false (토큰 있음)
+deactivate dispatcher
+
+scanner -> dispatcher : pop()
+activate dispatcher
+
+note right of dispatcher
+  <b>FIFO:</b>
+  첫 번째 DEDENT 반환
+  queue = [DEDENT, STRVAL]
+end note
+
+dispatcher --> scanner : DEDENT
+deactivate dispatcher
+
+scanner --> parser : DEDENT
+deactivate scanner
+
+parser -> parser : scope 종료 처리
+
+== 버퍼된 토큰 읽기 (두 번째) ==
+
+parser -> scanner : getNextToken()
+activate scanner
+
+scanner -> dispatcher : pop()
+activate dispatcher
+
+note right of dispatcher
+  queue = [STRVAL]
+end note
+
+dispatcher --> scanner : DEDENT
+deactivate dispatcher
+
+scanner --> parser : DEDENT
+deactivate scanner
+
+parser -> parser : scope 종료 처리
+
+== 버퍼된 토큰 읽기 (세 번째) ==
+
+parser -> scanner : getNextToken()
+activate scanner
+
+scanner -> dispatcher : pop()
+activate dispatcher
+
+note right of dispatcher
+  queue = []
+  이제 비어있음
+end note
+
+dispatcher --> scanner : STRVAL
+deactivate dispatcher
+
+scanner --> parser : STRVAL
+deactivate scanner
+
+parser -> parser : 문자열 처리
+
+== 일반 토큰 스캔 재개 ==
+
+parser -> scanner : getNextToken()
+activate scanner
+
+scanner -> dispatcher : isEmpty()?
+activate dispatcher
+
+dispatcher --> scanner : true
+deactivate dispatcher
+
+note right of scanner
+  dispatcher가 비어있으므로
+  일반 스캔 재개
+end note
+
+scanner -> scanner : yylex() - 새 토큰 스캔
+
+scanner --> parser : 다음 토큰
+deactivate scanner
+
+note over scanner, parser
+  <b>tokenDispatcher의 특징:</b>
+
+  1. <b>토큰 단위 동작:</b>
+     unput()은 문자 단위, dispatcher는 토큰 단위
+     렉서 분석 과정을 완전히 우회
+
+  2. <b>여러 토큰 버퍼링:</b>
+     DEDENT 여러 개를 순차적으로 반환 가능
+     unput()으로는 복잡함
+
+  3. <b>FIFO 순서 보장:</b>
+     pushFront()한 순서대로 pop()
+
+  4. <b>사용 시 주의:</b>
+     dispatcher에 추가 후 반드시 토큰 리턴!
+     리턴 안하면 dispatcher 트리거 안됨
+end note
+
+@enduml
+
+@startuml
+participant "stelaParser" as parser
+participant "normalScan" as normalScan
+participant "indentScan" as indentScan
+participant "tokenDispatcher" as dispatcher
+participant "smartDedent" as smartDedent
+
+note over parser
+  <b>초기 상태:</b>
+  currentScan = normalScan
+  indents = [0]
+end note
+
+== 일반 스캔 모드 ==
+
+parser -> normalScan : onScan()
+activate normalScan
+
+note right of normalScan
+  <b>normalScan 전략:</b>
+  공백 무시
+  일반 토큰만 처리
+end note
+
+normalScan -> normalScan : 토큰 스캔
+normalScan --> parser : STRVAL "config"
+deactivate normalScan
+
+parser -> parser : 토큰 처리
+
+== 개행 감지 ==
+
+parser -> normalScan : onScan()
+activate normalScan
+
+normalScan -> normalScan : 개행 문자 감지 ('\n')
+
+note right of normalScan
+  <b>개행 감지:</b>
+  다음 줄의 indentation
+  정확히 측정 필요
+
+  normalScan → indentScan 전환
+end note
+
+normalScan -> parser : setScan<indentScan>()
+parser -> parser : currentScan = indentScan
+
+normalScan --> parser : NEWLINE
+deactivate normalScan
+
+== indentScan 모드로 전환 ==
+
+parser -> indentScan : onScan()
+activate indentScan
+
+note right of indentScan
+  <b>indentScan 전략:</b>
+  개행 후 첫 번째 비공백
+  토큰까지의 column 측정
+
+  공백 갯수 = column 위치
+end note
+
+indentScan -> indentScan : 공백 건너뛰며 스캔
+note right of indentScan
+  "    def device"
+  ^^^^
+  4개의 공백 감지
+end note
+
+indentScan -> indentScan : 첫 비공백 토큰 발견
+note right of indentScan
+  tok = DEF
+  col = 4 (현재 column)
+end note
+
+== indentation 레벨 비교 ==
+
+indentScan -> smartDedent : back()
+activate smartDedent
+
+note right of smartDedent
+  현재 indents = [0]
+  prev = 0
+end note
+
+smartDedent --> indentScan : prev = 0
+deactivate smartDedent
+
+indentScan -> indentScan : cur vs prev 비교
+note right of indentScan
+  cur (4) > prev (0)
+  → INDENT 필요
+end note
+
+== INDENT 생성 ==
+
+indentScan -> parser : onIndent(cur=4, tok=DEF)
+activate parser
+
+parser -> smartDedent : push(4)
+activate smartDedent
+
+note right of smartDedent
+  indents = [0, 4]
+  새 scope 시작
+end note
+
+smartDedent --> parser : void
+deactivate smartDedent
+
+parser -> dispatcher : pushFront(DEF)
+activate dispatcher
+
+note right of dispatcher
+  현재 토큰을 dispatcher에
+  버퍼링하여 나중에 반환
+end note
+
+dispatcher --> parser : void
+deactivate dispatcher
+
+parser --> indentScan : return INDENT
+deactivate parser
+
+note right of indentScan
+  <b>모드 전환:</b>
+  indentation 측정 완료
+  normalScan으로 복귀
+end note
+
+indentScan -> parser : setScan<normalScan>()
+parser -> parser : currentScan = normalScan
+
+indentScan --> parser : INDENT
+deactivate indentScan
+
+== normalScan 모드로 복귀 ==
+
+parser -> parser : INDENT 토큰 처리
+
+parser -> normalScan : onScan()
+activate normalScan
+
+normalScan -> dispatcher : isEmpty()?
+activate dispatcher
+dispatcher --> normalScan : false
+deactivate dispatcher
+
+normalScan -> dispatcher : pop()
+activate dispatcher
+dispatcher --> normalScan : DEF
+deactivate dispatcher
+
+normalScan --> parser : DEF
+deactivate normalScan
+
+parser -> parser : DEF 토큰 처리
+
+== 다시 개행 감지 ==
+
+note over parser
+  다음 줄: "      name := "value""
+  6개의 공백
+end note
+
+parser -> normalScan : onScan()
+activate normalScan
+
+normalScan -> normalScan : 개행 감지
+normalScan -> parser : setScan<indentScan>()
+
+normalScan --> parser : NEWLINE
+deactivate normalScan
+
+== indentScan 재진입 (INDENT) ==
+
+parser -> indentScan : onScan()
+activate indentScan
+
+indentScan -> indentScan : 공백 스캔
+note right of indentScan
+  6개의 공백 감지
+  col = 6
+  tok = STRVAL "name"
+end note
+
+indentScan -> smartDedent : back()
+activate smartDedent
+
+smartDedent --> indentScan : prev = 4
+deactivate smartDedent
+
+indentScan -> indentScan : cur (6) > prev (4)
+
+indentScan -> parser : onIndent(6, STRVAL)
+activate parser
+
+parser -> smartDedent : push(6)
+activate smartDedent
+
+note right of smartDedent
+  indents = [0, 4, 6]
+end note
+
+smartDedent --> parser : void
+deactivate smartDedent
+
+parser -> dispatcher : pushFront(STRVAL)
+parser --> indentScan : return INDENT
+deactivate parser
+
+indentScan -> parser : setScan<normalScan>()
+indentScan --> parser : INDENT
+deactivate indentScan
+
+== 다시 개행 후 DEDENT ==
+
+note over parser
+  다음 줄: "def other"
+  0개의 공백 (최상위)
+
+  scope 2개 종료 필요!
+  indents [0, 4, 6] → [0]
+end note
+
+parser -> normalScan : onScan()
+activate normalScan
+
+normalScan -> normalScan : 개행 감지
+normalScan -> parser : setScan<indentScan>()
+normalScan --> parser : NEWLINE
+deactivate normalScan
+
+== indentScan 재진입 (DEDENT) ==
+
+parser -> indentScan : onScan()
+activate indentScan
+
+indentScan -> indentScan : 공백 없음
+note right of indentScan
+  col = 0
+  tok = DEF
+end note
+
+indentScan -> smartDedent : back()
+activate smartDedent
+
+smartDedent --> indentScan : prev = 6
+deactivate smartDedent
+
+indentScan -> indentScan : cur (0) < prev (6)
+note right of indentScan
+  DEDENT 필요
+  여러 scope 종료!
+end note
+
+== 여러 DEDENT 생성 ==
+
+indentScan -> parser : onDedent(cur=0, tok=DEF)
+activate parser
+
+parser -> smartDedent : 반복 pop()
+activate smartDedent
+
+note right of smartDedent
+  <b>DEDENT 계산:</b>
+  indents = [0, 4, 6]
+  cur = 0
+
+  pop() → 6 제거
+  6 > 0 → DEDENT 1개
+
+  pop() → 4 제거
+  4 > 0 → DEDENT 1개
+
+  back() = 0 = cur → 종료
+
+  총 2개의 DEDENT 필요
+  indents = [0]
+end note
+
+smartDedent --> parser : void
+deactivate smartDedent
+
+parser -> dispatcher : pushFront(DEF)
+parser -> dispatcher : pushFront(DEDENT)
+parser -> dispatcher : pushFront(DEDENT)
+activate dispatcher
+
+note right of dispatcher
+  queue = [DEDENT, DEDENT, DEF]
+  2개의 scope 종료를
+  순차적으로 처리
+end note
+
+dispatcher --> parser : void
+deactivate dispatcher
+
+parser --> indentScan : return 첫 번째 DEDENT
+deactivate parser
+
+indentScan -> parser : setScan<normalScan>()
+indentScan --> parser : DEDENT
+deactivate indentScan
+
+== 연속된 DEDENT 처리 ==
+
+parser -> parser : scope 종료 1
+
+parser -> normalScan : onScan()
+activate normalScan
+
+normalScan -> dispatcher : pop()
+activate dispatcher
+dispatcher --> normalScan : DEDENT
+deactivate dispatcher
+
+normalScan --> parser : DEDENT
+deactivate normalScan
+
+parser -> parser : scope 종료 2
+
+parser -> normalScan : onScan()
+activate normalScan
+
+normalScan -> dispatcher : pop()
+activate dispatcher
+dispatcher --> normalScan : DEF
+deactivate dispatcher
+
+normalScan --> parser : DEF
+deactivate normalScan
+
+note over parser, smartDedent
+  <b>normalScan ↔ indentScan 전환의 핵심:</b>
+
+  1. <b>Strategy 패턴:</b>
+     런타임에 스캔 전략을 교체하여
+     상황별 최적의 스캔 알고리즘 적용
+
+  2. <b>normalScan:</b>
+     - 일반 모드, 공백 무시
+     - 개행 감지 시 indentScan으로 전환
+
+  3. <b>indentScan:</b>
+     - 개행 후 공백 정확히 측정
+     - INDENT/DEDENT 토큰 생성
+     - 즉시 normalScan으로 복귀
+
+  4. <b>smartDedent:</b>
+     - scope별 indentation 레벨 관리
+     - 스택 구조로 push/pop
+     - 여러 DEDENT 동시 생성 가능
+
+  5. <b>tokenDispatcher 활용:</b>
+     - 여러 DEDENT를 순차적으로 버퍼링
+     - 현재 토큰도 함께 버퍼링
+end note
+
+@enduml
 
 ---
 

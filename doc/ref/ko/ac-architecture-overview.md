@@ -26,7 +26,81 @@ byeol 언어의 문법은 이미 알고 있다는 전제로 설명하므로, 필
 Byeol 프로젝트는 엄격한 Layered Architecture 패턴을 따릅니다. 각 계층은 하위 계층에만 의존할 수 있으며,
 @ref indep 모듈 위로는 플랫폼 독립성이 유지됩니다.
 
-TODO: 모듈 간 의존성 관계를 보여주는 컴포넌트 다이어그램 필요
+@startuml
+!define COMPONENT_STYLE rectangle
+
+package "애플리케이션 계층" {
+    [frontend] as frontend
+}
+
+package "언어 구현 계층" {
+    [core] as core
+}
+
+package "지원 계층" {
+    [stela] as stela
+    [memlite] as memlite
+    [meta] as meta
+    [clog] as clog
+}
+
+package "플랫폼 추상화 계층" {
+    [indep] as indep
+}
+
+frontend -down-> core : "사용"
+core -down-> stela : "사용"
+core -down-> memlite : "사용"
+core -down-> meta : "사용"
+core -down-> clog : "사용"
+
+stela -down-> memlite : "사용"
+stela -down-> meta : "사용"
+stela -down-> clog : "사용"
+
+memlite -down-> meta : "사용"
+memlite -down-> clog : "사용"
+
+meta -down-> clog : "사용"
+
+clog -down-> indep : "사용"
+
+note right of frontend
+  CLI 인터페이스
+  사용자와 상호작용
+end note
+
+note right of core
+  AST, Parser, Verifier
+  언어 핵심 구현
+end note
+
+note right of stela
+  Manifest 파싱
+  설정 파일 처리
+end note
+
+note right of memlite
+  커스텀 메모리 관리
+  Reference counting
+end note
+
+note right of meta
+  런타임 타입 정보
+  RTTI 시스템
+end note
+
+note right of clog
+  로깅 프레임워크
+  계층적 로거
+end note
+
+note right of indep
+  플랫폼 추상화
+  OS 종속 코드
+end note
+
+@enduml
 
 ### 계층 구조
 

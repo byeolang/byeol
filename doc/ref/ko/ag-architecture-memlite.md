@@ -7,9 +7,542 @@ Object Pool Pattern과 Smart Pointer Pattern을 활용하여 효율적인 메모
 따라서 GC 등 추가적인 메모리 관리가 필요로 해지며, 이는 자체 메모리 풀을 가지고 있으며, 인스턴스의
 라이프사이클을 관리해야 한다는 것을 시사합니다.
 
-TODO: instancer-pool-chunks-chunk-watcher-life의 전체 구조를 보여주는 클래스 다이어그램 필요
-TODO: chunk의 free-list 알고리즘 동작을 보여주는 시퀀스 다이어그램 필요
-TODO: 인스턴스 생성/소멸 라이프사이클을 보여주는 시퀀스 다이어그램 필요
+@startuml
+package "메모리 관리 계층" {
+    class "instancer" as instancer {
+        - _pool : pool
+        - _watcher : watcher
+        ---
+        + make(size) : void*
+        + destroy(void*) : void
+    }
+
+    class "pool" as pool {
+        - _chunks : chunks[]
+        ---
+        + get(size) : chunks*
+        + new1(size) : void*
+        + del(ptr, size) : void
+    }
+
+    class "chunks" as chunks {
+        - _chunks : chunk[]
+        - _s : ncnt
+        - _blkSize : ncnt
+        ---
+        + new1() : void*
+        + del(ptr, size) : void
+        + resize() : void
+    }
+
+    class "chunk" as chunk {
+        - _heap : void*
+        - _head : ncnt
+        - _len : ncnt
+        - _size : ncnt
+        - _blkSize : ncnt
+        ---
+        + new1() : void*
+        + del(ptr, size) : void
+        + has(ptr) : nbool
+        + operator[](idx) : void*
+    }
+
+    class "watcher" as watcher {
+        - _lives : life[]
+        ---
+        + reg(instance*) : life*
+        + unreg(id) : void
+        + get(id) : life*
+    }
+
+    class "life" as life {
+        - _pt : instance*
+        - _strong : ncnt
+        - _id : id
+        ---
+        + onStrong(delta) : void
+        + getStrongCnt() : ncnt
+        + isBind() : nbool
+        + canBind(type) : nbool
+    }
+}
+
+package "인터페이스" {
+    interface "memoryHaver" as memoryHaver {
+        + len() : ncnt
+        + size() : ncnt
+    }
+
+    interface "allocator" as allocator {
+        + new1() : void*
+        + del(ptr, size) : void
+    }
+}
+
+package "사용자 계층" {
+    class "instance" as instance {
+        - _id : id
+        ---
+        + getId() : id
+        + getBindTag() : life&
+    }
+
+    class "binder" as binder {
+        + bind(instance*) : nbool
+        + rel() : void
+        + isBind() : nbool
+        + get() : instance*
+    }
+
+    class "tstr<T>" as tstr
+    class "tweak<T>" as tweak
+}
+
+note top of instancer
+  <b>Facade 패턴:</b>
+  복잡한 메모리 관리 서브시스템에
+  대한 단순화된 인터페이스 제공
+
+  pool: 로우레벨 메모리 할당
+  watcher: 라이프사이클 관리
+end note
+
+note right of pool
+  <b>크기별 lazy chunks 관리:</b>
+  요청 크기별로 chunks를 생성
+  같은 크기는 같은 chunks 사용
+end note
+
+note right of chunk
+  <b>Free List 알고리즘:</b>
+  intrusive linked list로
+  사용 가능한 블록 추적
+
+  각 빈 블록에 다음 빈 블록의
+  인덱스 저장
+end note
+
+note bottom of watcher
+  <b>Object Pool 패턴:</b>
+  life 객체들을 미리 할당해두고
+  재사용하여 성능 향상
+end note
+
+note right of life
+  <b>Reference Counting:</b>
+  shared_ptr의 control block과
+  유사하지만 instance 자체에
+  연결되어 이중 해제 방지
+end note
+
+instancer *-- pool : 소유
+instancer *-- watcher : 소유
+pool *-- "n" chunks : lazy 생성
+chunks *-- "n" chunk : 관리
+watcher *-- "n" life : 풀 관리
+life --> instance : 참조
+
+allocator --|> memoryHaver : 상속
+chunk ..|> allocator : 구현
+chunks ..|> allocator : 구현
+pool ..|> memoryHaver : 구현
+
+binder --> life : 참조
+tstr --|> binder : 상속
+tweak --|> binder : 상속
+instance --> life : getBindTag()
+
+@enduml
+
+@startuml
+participant "chunk" as chunk
+participant "_heap[0]" as heap0
+participant "_heap[1]" as heap1
+participant "_heap[2]" as heap2
+participant "_heap[3]" as heap3
+
+note over chunk
+  <b>초기화 (size=4):</b>
+  _head = 0
+  _len = 0
+  각 원소에 다음 인덱스 저장
+end note
+
+chunk -> heap0 : *(_heap[0]) = 1
+chunk -> heap1 : *(_heap[1]) = 2
+chunk -> heap2 : *(_heap[2]) = 3
+chunk -> heap3 : *(_heap[3]) = 4
+
+note over chunk, heap3
+  초기 상태: [1, 2, 3, 4]
+  _head = 0 (다음 할당 가능 인덱스)
+end note
+
+== 첫 번째 할당: new1() ==
+
+chunk -> heap0 : ptr1 = _heap + (_head * blkSize)
+activate heap0 #lightgreen
+
+note right of chunk
+  _head를 _heap[_head] 값으로 업데이트
+  _head = _heap[0] = 1
+  _len = 1
+end note
+
+note over heap0, heap3
+  상태: [<b>사용중</b>, 2, 3, 4]
+  _head = 1
+end note
+
+== 두 번째 할당: new1() ==
+
+chunk -> heap1 : ptr2 = _heap + (_head * blkSize)
+activate heap1 #lightgreen
+
+note right of chunk
+  _head = _heap[1] = 2
+  _len = 2
+end note
+
+note over heap0, heap3
+  상태: [<b>사용중</b>, <b>사용중</b>, 3, 4]
+  _head = 2
+end note
+
+== 세 번째 할당: new1() ==
+
+chunk -> heap2 : ptr3 = _heap + (_head * blkSize)
+activate heap2 #lightgreen
+
+note right of chunk
+  _head = _heap[2] = 3
+  _len = 3
+end note
+
+note over heap0, heap3
+  상태: [<b>사용중</b>, <b>사용중</b>, <b>사용중</b>, 4]
+  _head = 3
+end note
+
+== 첫 번째 블록 해제: del(ptr1) ==
+
+note right of chunk
+  1. ptr1 위치에 현재 _head 저장
+  *ptr1 = _head = 3
+
+  2. _head를 해제한 블록 인덱스로 업데이트
+  _head = (ptr1 - _heap) / blkSize = 0
+
+  3. _len 감소
+  _len = 2
+end note
+
+chunk -> heap0 : *(_heap[0]) = 3
+deactivate heap0
+
+note over heap0, heap3
+  상태: [3, <b>사용중</b>, <b>사용중</b>, 4]
+  _head = 0
+
+  <b>Free List 구조:</b>
+  _heap[0] → _heap[3] → _heap[4] (없음)
+end note
+
+== 네 번째 할당: new1() ==
+
+chunk -> heap0 : ptr4 = _heap + (_head * blkSize)
+activate heap0 #lightgreen
+
+note right of chunk
+  <b>재사용:</b>
+  해제된 블록 0을 재사용
+  _head = _heap[0] = 3
+  _len = 3
+end note
+
+note over heap0, heap3
+  상태: [<b>사용중</b>, <b>사용중</b>, <b>사용중</b>, 4]
+  _head = 3
+
+  <b>메모리 지역성 향상:</b>
+  해제된 블록을 즉시 재사용
+end note
+
+note over chunk, heap3
+  <b>Free List 알고리즘의 특징:</b>
+
+  1. <b>Intrusive Linked List:</b>
+     빈 블록 자체에 다음 빈 블록 인덱스 저장
+     별도의 메타데이터 불필요
+
+  2. <b>O(1) 할당/해제:</b>
+     _head만 업데이트하면 되므로 상수 시간
+
+  3. <b>메모리 지역성:</b>
+     최근 해제된 블록을 먼저 재사용
+
+  4. <b>단편화 방지:</b>
+     고정 크기 블록 사용
+end note
+
+@enduml
+
+@startuml
+actor "클라이언트" as client
+participant "new" as new
+participant "instancer" as instancer
+participant "pool" as pool
+participant "chunks" as chunks
+participant "chunk" as chunk
+participant "watcher" as watcher
+participant "life" as life
+participant "instance" as instance
+participant "binder" as binder
+
+== 인스턴스 생성 단계 ==
+
+client -> new : MyClass* obj = new MyClass()
+activate new
+
+new -> instancer : operator new(size)
+activate instancer
+
+note right of instancer
+  <b>1. 메모리 할당:</b>
+  pool을 통해 메모리 확보
+end note
+
+instancer -> pool : new1(size)
+activate pool
+
+pool -> pool : get(size)
+note right of pool
+  해당 크기의 chunks를 찾음
+  없으면 lazy 생성
+end note
+
+pool -> chunks : new1()
+activate chunks
+
+chunks -> chunks : 가용 chunk 검색
+note right of chunks
+  _chunks[_s]부터 순회
+  가용 메모리 없으면 resize()
+end note
+
+chunks -> chunk : new1()
+activate chunk
+
+note right of chunk
+  <b>Free List 알고리즘:</b>
+  ptr = _heap + (_head * blkSize)
+  _head = _heap[_head]
+  _len++
+end note
+
+chunk --> chunks : void* ptr
+deactivate chunk
+
+chunks --> pool : void* ptr
+deactivate chunks
+
+pool --> instancer : void* ptr
+deactivate pool
+
+note right of instancer
+  <b>2. 생명주기 관리:</b>
+  watcher에 등록하여 life 할당
+end note
+
+instancer -> watcher : reg(ptr)
+activate watcher
+
+watcher -> watcher : 사용 가능한 life 찾기
+note right of watcher
+  life 풀에서 빈 life 할당
+  Object Pool 패턴
+end note
+
+watcher -> life : 초기화
+activate life
+
+note right of life
+  _pt = ptr
+  _strong = 0
+  _id = 생성 (tagN, chkN, serial)
+end note
+
+life --> watcher : life*
+watcher --> instancer : life*
+deactivate watcher
+
+note right of instancer
+  <b>3. ID 부여:</b>
+  vault에 인스턴스 등록
+end note
+
+instancer -> instancer : vault[ptr] = id
+
+instancer --> new : void* ptr
+deactivate instancer
+
+new -> instance : 생성자 호출
+activate instance
+
+instance -> instance : _id = vault[this]
+note right of instance
+  vault에서 id 가져오기
+end note
+
+instance --> new : 초기화 완료
+deactivate instance
+
+new --> client : MyClass* obj
+deactivate new
+
+== 바인딩 단계 ==
+
+client -> binder : tstr<MyClass> ptr(obj)
+activate binder
+
+binder -> instance : getBindTag()
+instance --> binder : life&
+
+binder -> life : onStrong(+1)
+activate life
+
+note right of life
+  <b>Reference Counting:</b>
+  _strong++
+  _strong = 1
+end note
+
+life --> binder : void
+deactivate life
+
+binder --> client : 바인딩 완료
+deactivate binder
+
+== 사용 단계 ==
+
+client -> binder : ptr->someMethod()
+binder -> instance : someMethod()
+instance --> binder : 결과
+binder --> client : 결과
+
+== 소멸 단계 ==
+
+client -> binder : ptr.rel() 또는 스코프 종료
+activate binder
+
+binder -> life : onStrong(-1)
+activate life
+
+note right of life
+  <b>Count 감소:</b>
+  _strong--
+  _strong = 0
+end note
+
+life -> life : if(_strong == 0)
+note right of life
+  참조 카운트가 0이 되면
+  인스턴스 소멸 시작
+end note
+
+life -> instance : delete _pt
+activate instance
+
+instance -> instance : ~MyClass() 소멸자 호출
+
+instance -> instancer : operator delete(ptr)
+activate instancer
+
+note right of instancer
+  <b>1. 생명주기 해제:</b>
+  watcher에서 등록 해제
+end note
+
+instancer -> watcher : unreg(id)
+activate watcher
+
+watcher -> life : 사용 가능 상태로 표시
+note right of life
+  _pt = nullptr
+  _strong = 0
+  _id 초기화
+
+  나중에 재사용 가능
+end note
+
+watcher --> instancer : void
+deactivate watcher
+deactivate life
+
+note right of instancer
+  <b>2. 메모리 반환:</b>
+  pool에 메모리 반환
+end note
+
+instancer -> pool : del(ptr, size)
+activate pool
+
+pool -> chunks : del(ptr, size)
+activate chunks
+
+chunks -> chunk : del(ptr, size)
+activate chunk
+
+note right of chunk
+  <b>Free List 업데이트:</b>
+  *ptr = _head
+  _head = (ptr - _heap) / blkSize
+  _len--
+
+  메모리 초기화 안함
+  (재사용 위해)
+end note
+
+chunk --> chunks : void
+deactivate chunk
+
+chunks --> pool : void
+deactivate chunks
+
+pool --> instancer : void
+deactivate pool
+
+instancer --> instance : void
+deactivate instancer
+
+instance --> life : void
+deactivate instance
+
+life --> binder : void
+
+binder --> client : 소멸 완료
+deactivate binder
+
+note over client, life
+  <b>메모리 관리 사이클 완료:</b>
+
+  1. 생성: instancer → pool → chunks → chunk (메모리 할당)
+           instancer → watcher → life (생명주기 관리)
+
+  2. 바인딩: binder → life (_strong 증가)
+
+  3. 소멸: life (_strong == 0) → delete instance
+          instancer → watcher (life 반환)
+          instancer → pool → chunks → chunk (메모리 반환)
+
+  <b>핵심:</b>
+  - Object Pool: life와 chunk 재사용
+  - Reference Counting: 자동 메모리 관리
+  - Free List: O(1) 할당/해제
+end note
+
+@enduml
 
 ---
 

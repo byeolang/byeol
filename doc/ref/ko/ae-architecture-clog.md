@@ -4,7 +4,116 @@
 이 모듈은 아키텍처 상 하위 계층에 위치하므로, 상위 모듈에 대한 의존성이 없습니다.
 Facade 패턴, Composite 패턴, Chain of Responsibility 패턴 등을 활용하여 유연하고 확장 가능한 로깅 시스템을 구현합니다.
 
-TODO: logger-stream-filterable 관계를 보여주는 클래스 다이어그램 필요
+<b>logger-stream-filterable 관계:</b>
+
+@startuml
+class logger {
+    - _streams : map<string, stream*>
+    - _filters : filters
+    + {static} get() : logger&
+    + logBypass(level, msg) : void
+    + getStream(name) : stream*
+    + setFilters(filters&) : void
+    + setEnable(bool) : void
+    --
+    <b>Facade 패턴</b>
+    <b>Singleton 패턴</b>
+    로깅 시스템 진입점
+}
+
+abstract class stream {
+    - _enable : nbool
+    - _state : State
+    + dump(level, msg) : void
+    + setEnable(bool) : void
+    + rel() : void
+    --
+    <b>State Machine</b>
+    출력 스트림 기반
+}
+
+class consoleStream {
+    + dump(level, msg) : void
+    --
+    콘솔 출력 스트림
+    stdout/stderr 사용
+}
+
+class fileLogStream {
+    - _file : FILE*
+    + dump(level, msg) : void
+    --
+    파일 출력 스트림
+    로그 파일에 기록
+}
+
+abstract class filterable {
+    + {abstract} filt(Log&) : nbool
+    --
+    <b>Strategy 패턴</b>
+    필터 인터페이스
+}
+
+class filters {
+    - _container : vector<filterable*>
+    + filt(Log&) : nbool
+    + add(filterable*) : void
+    --
+    <b>Composite 패턴</b>
+    여러 필터 통합 관리
+}
+
+class errPassFilter {
+    + filt(Log&) : nbool
+    --
+    ERR 레벨만 통과
+}
+
+class warnPassFilter {
+    + filt(Log&) : nbool
+    --
+    WARN 레벨만 통과
+}
+
+logger "1" *-- "0..*" stream : 소유
+logger "1" *-- "1" filters : 사용
+
+stream <|-- consoleStream
+stream <|-- fileLogStream
+
+filterable <|-- filters
+filterable <|-- errPassFilter
+filterable <|-- warnPassFilter
+
+filters "1" o-- "0..*" filterable : 통합
+
+note right of logger
+  <b>사용 흐름:</b>
+  1. logBypass() 호출
+  2. filters로 필터링
+  3. 통과한 로그만
+     모든 stream에 전달
+end note
+
+note bottom of stream
+  <b>상태 전이:</b>
+  INIT → READY → DUMPED → DONE
+
+  각 stream은 독립적으로
+  enable/disable 가능
+end note
+
+note right of filters
+  <b>Composite 패턴:</b>
+  여러 filterable을 하나처럼
+
+  filt() 호출 시
+  모든 필터 체크:
+  - 하나라도 false면 필터링
+  - 모두 true면 통과
+end note
+
+@enduml
 
 ---
 
@@ -244,7 +353,173 @@ Nov 18 2025  20:02:13 I verifier  <onLeave#87> '' assignExpr@9a50: step#1 --> se
 기능입니다. 함수 오버로딩을 통한 컴파일 타임 타입 디스패칭 기법을 사용하여, 각 타입에 맞는 변환 함수를
 자동으로 선택합니다.
 
-TODO: richLog의 convert/wrap 메커니즘과 호출 흐름을 보여주는 시퀀스 다이어그램 필요
+<b>richLog의 convert/wrap 메커니즘:</b>
+
+@startuml
+participant "사용자 코드" as user
+participant "BY_I 매크로" as macro
+participant "richLog" as richLog
+participant "convert()\n(오버로드)" as convert
+participant "wrap" as wrap
+participant "logger" as logger
+
+user -> macro : BY_I("obj: %s, val: %d", meObj, count)
+activate macro
+
+note right of macro
+  매크로 확장:
+  richLog("obj: %s, val: %d",
+          meObj, count)
+end note
+
+macro -> richLog : richLog(format, meObj, count)
+activate richLog
+
+richLog -> convert : convert(meObj)
+activate convert
+
+note right of convert
+  <b>컴파일 타임 디스패칭:</b>
+  meObj는 tstr<obj> 타입
+
+  오버로드 resolution:
+  1. convert(tstr<obj>&) 있나? → 있음!
+  2. 해당 함수 호출
+
+  obj를 문자열로 변환:
+  return strWrap(obj.getName())
+end note
+
+convert --> richLog : strWrap("obj")
+deactivate convert
+
+richLog -> convert : convert(count)
+activate convert
+
+note right of convert
+  count는 int 타입
+
+  오버로드 resolution:
+  1. convert(int) 있나? → 있음!
+  2. 해당 함수 호출
+
+  int를 그대로 전달:
+  return noWrap<int>(count)
+end note
+
+convert --> richLog : noWrap<int>(count)
+deactivate convert
+
+richLog -> wrap : strWrap.unwrap()
+activate wrap
+wrap --> richLog : "obj" (const char*)
+deactivate wrap
+
+richLog -> wrap : noWrap.unwrap()
+activate wrap
+wrap --> richLog : count (int)
+deactivate wrap
+
+richLog -> logger : log(level, "obj: %s, val: %d",\n         "obj", count)
+activate logger
+
+note right of logger
+  가변인자 함수 호출:
+  - 모든 인자가 scalar나 포인터
+  - printf 스타일 포매팅 가능
+end note
+
+logger -> logger : filters 체크
+logger -> logger : stream들에 출력
+
+logger --> richLog : void
+deactivate logger
+
+richLog --> macro : void
+deactivate richLog
+
+macro --> user : void
+deactivate macro
+
+note bottom of user
+  <b>출력 결과:</b>
+  Oct 22 2025  22:01:12 I
+    obj: obj, val: 42
+end note
+
+@enduml
+
+<b>convert/wrap의 역할:</b>
+
+@startuml
+package "richLog 시스템" {
+    abstract class "convert(T)" as convert {
+        + {static} convert(tstr<obj>&) : strWrap
+        + {static} convert(int) : noWrap<int>
+        + {static} convert(void*) : strWrap
+        --
+        <b>컴파일 타임 디스패칭</b>
+        각 타입별로 오버로드
+    }
+
+    class strWrap {
+        - _val : std::string
+        + unwrap() : const char*
+        --
+        문자열 래퍼
+        c_str() 반환
+    }
+
+    class "noWrap<T>" as noWrap {
+        - _val : T
+        + unwrap() : T
+        --
+        값 그대로 전달
+        스칼라 타입용
+    }
+}
+
+convert ..> strWrap : 생성
+convert ..> noWrap : 생성
+
+note right of convert
+  <b>오버로드 예시:</b>
+
+  // 객체 타입 → 문자열
+  strWrap convert(tstr<obj>& o) {
+      return strWrap(o->getName());
+  }
+
+  // void* → 주소 문자열
+  strWrap convert(void* ptr) {
+      return strWrap(toAddr(ptr));
+  }
+
+  // int → 그대로
+  noWrap<int> convert(int n) {
+      return noWrap<int>(n);
+  }
+end note
+
+note bottom of strWrap
+  <b>사용 이유:</b>
+  임시 string 객체의
+  lifetime 관리
+
+  unwrap() 호출 시점까지
+  string을 유지
+end note
+
+note bottom of noWrap
+  <b>사용 이유:</b>
+  %d, %f 등
+  타입별 서식 문자 지원
+
+  값을 가공 없이
+  가변인자로 전달
+end note
+
+@enduml
 
 @ref clog 모듈은 architecture 상 아랫부분에 위치하기 때문에 @ref clog 에 종속하는 클래스가 뭐가 있는지 알아서는
 안됩니다. 그렇기 때문에 @ref by::richLog "richLog" 는 각 모듈마다 정의되어 있으며, 해당 모듈에 포함된 클래스를 어떻게

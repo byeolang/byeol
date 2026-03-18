@@ -29,7 +29,62 @@
 6. 이상이 없으면 @ref by::starter "starter" 에 검증된 AST를 넣고 실행한다.
 7. @ref by::starter "starter" 의 결과를 반환한다.
 
-TODO: CLI 실행 흐름도와 flag 처리 과정 다이어그램 추가 필요
+@startuml
+actor 사용자
+participant "cli" as cli
+participant "flagArgs" as flags
+participant "interpreter" as ip
+participant "errReport" as report
+participant "starter" as st
+
+사용자 -> cli : eval(flagArgs)
+activate cli
+
+cli -> ip : new interpreter()
+cli -> report : new errReport()
+cli -> st : new starter()
+
+cli -> ip : setFlag(tworker 플래그)
+cli -> st : setFlag(tworker 플래그)
+
+cli -> flags : 파싱 및 take()
+activate flags
+loop 각 플래그마다
+    flags -> flags : 정규식 패턴 매칭
+    alt 패턴 매칭됨
+        flags -> cli : _onTake() 실행
+        note right
+          사전 작업 수행
+          (예: bufSupply 추가)
+        end note
+    end
+end
+deactivate flags
+
+cli -> ip : work()
+activate ip
+ip -> ip : 소스 파싱
+ip -> ip : 타입 확장
+ip -> ip : AST 검증
+ip --> cli : 반환
+deactivate ip
+
+alt 검증 실패
+    cli -> report : 에러 덤프
+    cli --> 사용자 : 에러와 함께 종료
+else 검증 성공
+    cli -> st : setTask(검증된 AST)
+    cli -> st : work()
+    activate st
+    st -> st : main() 실행
+    st --> cli : 결과 반환
+    deactivate st
+
+    cli --> 사용자 : 결과 반환
+end
+
+deactivate cli
+@enduml
 
 ---
 
@@ -153,7 +208,127 @@ me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) c
 
 이처럼 @ref by::flag "flag" 의 패턴이 매칭이 되면 동작을 하고 바로 종료하고 싶을 때는, `_onTake()`를 오버라이딩할 때 반환값을 <b>EXIT_PROGRAM</b>으로 줍니다. @ref by::bufferSrcFlag "bufferSrcFlag" 처럼 계속 동작을 하는 경우에는 <b>MATCH</b>로 반환합니다.
 
-TODO: flag 클래스 계층도와 정규식 매칭 프로세스 다이어그램 추가 필요
+<b>flag 클래스 계층도:</b>
+
+@startuml
+abstract class flag {
+    + take(flagArgs, cli, interpreter, starter) : res
+    # {abstract} _getRegExpr() : strings&
+    # {abstract} _onTake(flagArgs, cli, interpreter, starter) : res
+    # getArgCount() : ncnt
+}
+
+note right of flag
+  Template Method 패턴:
+  take()가 알고리즘 골격 정의
+  _getRegExpr(), _onTake()는
+  하위 클래스가 구현
+end note
+
+class verFlag {
+    # _getRegExpr() : strings&
+    # _onTake() : res
+    --
+    정규식: "^\\\\--version$"
+    반환: EXIT_PROGRAM
+}
+
+class helpFlag {
+    # _getRegExpr() : strings&
+    # _onTake() : res
+    --
+    정규식: "^\\\\-h$", "^\\\\--help$"
+    반환: EXIT_PROGRAM
+}
+
+class bufferSrcFlag {
+    # _getRegExpr() : strings&
+    # _onTake() : res
+    # getArgCount() : ncnt
+    --
+    정규식: "^\\\\--script$"
+    인자 개수: 1
+    반환: MATCH
+}
+
+class logStructureFlag {
+    # _getRegExpr() : strings&
+    # _onTake() : res
+    --
+    정규식: "^\\\\-S$", "^\\\\--show-structure$"
+    반환: MATCH
+}
+
+class fileSrcFlag {
+    # _getRegExpr() : strings&
+    # _onTake() : res
+    # getArgCount() : ncnt
+    --
+    정규식: "^[^\\\\-].*\\\\.byeol$"
+    반환: MATCH
+}
+
+flag <|-- verFlag
+flag <|-- helpFlag
+flag <|-- bufferSrcFlag
+flag <|-- logStructureFlag
+flag <|-- fileSrcFlag
+
+note bottom of verFlag
+  버전 정보 출력 후
+  프로그램 즉시 종료
+end note
+
+note bottom of bufferSrcFlag
+  추가 인자 1개 소비
+  코드 문자열을 bufSupply로 추가
+end note
+
+@enduml
+
+<b>정규식 매칭 프로세스:</b>
+
+@startuml
+start
+
+:cli가 flag들에게 take() 호출;
+
+repeat
+  :다음 flag 선택;
+
+  :flag._getRegExpr()로\n정규식 패턴 목록 획득;
+
+  repeat
+    :다음 정규식 패턴 선택;
+
+    :flagArgs에서\n패턴 매칭 시도;
+
+    if (패턴 매칭?) then (예)
+      :매칭된 인자 추출;
+
+      if (getArgCount() > 0?) then (예)
+        :추가 인자들도 추출;
+      endif
+
+      :flag._onTake(추출된 인자들) 호출;
+
+      :flagArgs에서\n매칭된 인자들 제거;
+
+      if (_onTake() 반환값?) then (EXIT_PROGRAM)
+        stop
+      else (MATCH)
+        :다음 flag로 계속;
+      endif
+    endif
+
+  repeat while (남은 패턴 있음?)
+
+repeat while (남은 flag 있음?)
+
+:모든 flag 처리 완료;
+
+stop
+@enduml
 
 ---
 

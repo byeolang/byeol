@@ -4,8 +4,169 @@
 효율적인 타입 시스템을 구현하고 있으며, Byeol 언어의 타입 시스템 기반이 됩니다.
 Monostate 패턴, Template Metaprogramming, 재귀적 초기화 등을 활용하여 설계되었습니다.
 
-TODO: type/ttype/ttypeBase/adam의 관계를 보여주는 클래스 다이어그램 필요
-TODO: 메타 정보 초기화 과정(재귀적 super 초기화)을 보여주는 시퀀스 다이어그램 필요
+@startuml
+class "adam" as adam {
+    최상위 타입
+}
+
+class "type" as type {
+    - _name : string
+    - _isTemplate : nbool
+    - _isAbstract : nbool
+    - _supers : types
+    - _subs : types
+    - _isInit : nbool
+    ---
+    + getName() : string
+    + isTemplate() : nbool
+    + isAbstract() : nbool
+    + getSupers() : types
+    + getSubs() : types
+    + isSub(type) : nbool
+    + isSuper(type) : nbool
+    + make() : instance*
+    + init() : nbool
+    + rel() : nbool
+}
+
+class "ttypeBase<T, S>" as ttypeBase {
+    + get() : S&
+    + getStatic() : S&
+}
+
+class "ttype<T>" as ttype {
+    사용자 진입점
+}
+
+note right of ttypeBase
+  <b>Template Metaprogramming:</b>
+  S = tmetaTypeDef<T>::is
+
+  T에 metaType이 있으면
+  S = T::metaType
+
+  없으면 S = type
+end note
+
+note right of type
+  <b>Monostate 패턴:</b>
+  모든 멤버 변수가 static
+
+  ttype<T>()를 여러 번
+  생성해도 내부 상태 공유
+end note
+
+note bottom of adam
+  <b>최상위 타입:</b>
+  부모가 없는 모든 클래스는
+  adam을 super로 정의
+
+  ttype<adam>().getSubs()로
+  모든 최상위 타입 순회 가능
+end note
+
+ttype --|> ttypeBase : 상속
+ttypeBase --|> type : S=type일 때 상속
+adam <-- type : 최상위 타입으로 사용
+
+@enduml
+
+@startuml
+participant "사용자코드" as user
+participant "ttype<Dog>" as ttypeDog
+participant "Dog::type" as dogType
+participant "ttype<Animal>" as ttypeAnimal
+participant "Animal::type" as animalType
+participant "ttype<adam>" as ttypeAdam
+participant "adam::type" as adamType
+
+user -> ttypeDog : ttype<Dog>().init()
+activate ttypeDog
+
+ttypeDog -> dogType : init()
+activate dogType
+
+note right of dogType
+  <b>재진입 방지:</b>
+  if(_isInit) return false;
+  _isInit = true;
+end note
+
+dogType -> dogType : getSuper()
+note right of dogType
+  typedef Animal super;
+  return ttype<Animal>::get()
+end note
+
+dogType -> ttypeAnimal : getSuper().init()
+activate ttypeAnimal
+
+ttypeAnimal -> animalType : init()
+activate animalType
+
+animalType -> animalType : getSuper()
+note right of animalType
+  typedef adam super;
+  return ttype<adam>::get()
+end note
+
+animalType -> ttypeAdam : getSuper().init()
+activate ttypeAdam
+
+ttypeAdam -> adamType : init()
+activate adamType
+
+adamType -> adamType : getSuper()
+note right of adamType
+  <b>재귀 종료:</b>
+  adam은 부모가 없음
+  빈 type 반환
+end note
+
+adamType --> ttypeAdam : 초기화 완료
+deactivate adamType
+deactivate ttypeAdam
+
+animalType -> animalType : getSupers() = super.getSupers()
+animalType -> animalType : getSupers().push_back(&super)
+
+note right of animalType
+  <b>계층 구성:</b>
+  mySupers = [adam]
+  mySupers.push_back(adam)
+
+  Animal의 supers = [adam]
+end note
+
+animalType --> dogType : 초기화 완료
+deactivate animalType
+
+dogType -> dogType : getSupers() = super.getSupers()
+dogType -> dogType : getSupers().push_back(&super)
+
+note right of dogType
+  <b>계층 구성:</b>
+  mySupers = [adam, Animal]
+
+  Dog의 supers = [adam, Animal]
+end note
+
+dogType --> ttypeDog : 초기화 완료
+deactivate dogType
+
+ttypeDog --> user : 초기화 완료
+deactivate ttypeDog
+
+note over user, adamType
+  <b>재귀적 초기화 패턴의 특징:</b>
+
+  1. 한 번만 실행: _isInit 플래그로 재진입 방지
+  2. 상향식 초기화: 자식이 부모를 먼저 초기화
+  3. 계층 구성: 부모의 supers를 복사 후 부모 추가
+  4. 안전한 종료: adam에서 재귀 종료
+end note
+
+@enduml
 
 ---
 
