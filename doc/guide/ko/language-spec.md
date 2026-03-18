@@ -1901,7 +1901,7 @@ main() void
 * ☐  에러는 `?` 로 표현됩니다. 즉 타입에 에러가 발생할 수 있다는 `?` 를 붙이면, 미리 에러가 발생할 수 있다고
      고지할 수 있습니다.
 * ☐  이를 ErrorableType이라고 합니다.
-* ☐  참고로, null 도 err를 확장한 객체에 불과합니다.
+* ☐  참고로, nul 도 err를 확장한 객체에 불과합니다.
 
 ```
 getElem(key str) int? # int일 수도 있고 에러(? 기호) 일 수도 있습니다.
@@ -1909,9 +1909,9 @@ getElem(key str) int? # int일 수도 있고 에러(? 기호) 일 수도 있습�
     ret map[key]
 
 main() void
-    elem int? := null
+    elem int? := nul
     elem = getElem("pizza") # elem은 int? 타입입니다.
-        is null: elem = -1
+        is nul: elem = -1
         is outOfBoundErr: elem = -1
     # err였을 경우 elem에는 -1이 들어갑니다.
 
@@ -1925,7 +1925,7 @@ getElem(key str) int? # int일 수도 있고 에러(? 기호) 일 수도 있습�
     ret map[key]
 
 foo() void? # void?라... 이상한가요? 그런데 말이 되는 타입입니다.
-    elem int? := null
+    elem int? := nul
     elem = getElem("pizza") # elem은 int? 타입입니다.
         is err: ret it # 에러가 나기만 했다면 에러로 반환합니다.
 
@@ -1971,7 +1971,7 @@ doSomethingWhenNoError()
 def arr
     get(n int) int # 반환형은 errorable type이 아닙니다.
         if n == 3: ret outOfBoundErr # 그런데 갑자기 err를 반환합니다. 즉 익셉션입니다.
-        if n > 4: ret null
+        if n > 4: ret nul
 
 main() void
     val := arr.get(3) # val의 타입은 함수의 반환형으로 추론되어야 합니다.
@@ -1979,7 +1979,7 @@ main() void
         is outOfBoundErr # 익셉션에 대한 예외처리를 시작합니다.
             # val에는 int타입인데도 err가 들어가 있는 상태입니다.
             val = -1 # 그러니 다시 int 타입으로 채워넣지 않으면 에러입니다.
-        is null
+        is nul
             # 이번에는 함수를 종료했습니다.
             ret
 
@@ -2044,7 +2044,7 @@ def Base # abstract를 가지고 있으니 불완전객체로 정의해야 했�
 
 def Derived
     b Base # abstract 타입으로 프로퍼티를 만들었고, 초기값도 넣지 않았습니다.
-           # 그렇다고 errorable type (Base?) 도 아닙니다. Base? 였다면 null이라도 대신 넣어줄 수 있습니다.
+           # 그렇다고 errorable type (Base?) 도 아닙니다. Base? 였다면 nul이라도 대신 넣어줄 수 있습니다.
            # 즉 b는 자연스럽게 abstract 프로퍼티가 됩니다.
 
 ```
