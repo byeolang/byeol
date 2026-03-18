@@ -820,7 +820,7 @@ INPUT                  = ../doc/guide/ko/README.md \
                          ../doc/guide/ko/how-to-install.md \
                          ../doc/guide/ko/basic-usage.md \
                          ../doc/guide/ko/how-to-code.md \
-                         ../doc/guide/ko/quick-guide-for-developer.md \
+                         ../doc/guide/ko/language-spec.md \
                          ../doc/guide/ko/design-philosophy.md
 
 
