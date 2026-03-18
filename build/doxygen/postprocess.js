@@ -3,19 +3,19 @@ followDarkModeWithParent();
 document.addEventListener('DOMContentLoaded', function() {
     function makeJson(raw) {
 
-        function emptyJson(raw, style) {
+        function emptyJson(raw, styles) {
             if(style == null) {
                 return {
                     code: raw.replace(/\"/g, '$quot;'),
                     shown: raw.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
-                    classList: `language-cpp verified`
+                    style: `language-cpp verified`
                 };
             }
 
             return {
                 code: raw.replace(/\"/g, '$quot;'),
                 shown: raw.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
-                classList: style
+                style: styles
             };
         }
 
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const fragments = document.querySelectorAll('.fragment, div.fragment, pre.fragment');
     fragments.forEach(fragment => {
         let json = makeJson(fragment.textContent);
-        fragment.innerHTML = `<pre><code class="hljs ${json.classList}" src="${json.code}">${json.shown}</code></pre>`;
+        fragment.innerHTML = `<pre><code class="hljs ${json.style}" src="${json.code}">${json.shown}</code></pre>`;
     });
 });
 

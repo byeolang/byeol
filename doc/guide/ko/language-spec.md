@@ -27,7 +27,7 @@
 
 ```
 {
-    "classList": "verified runnable language-byeol",
+    "style": "verified runnable language-byeol",
     "shown":
 `
 # 한줄짜리 주석이고,
