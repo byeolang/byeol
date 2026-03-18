@@ -1,10 +1,14 @@
 # stela 모듈 - 경량 설정 언어 {#ah-architecture-stela}
 
-@ref stela 모듈은 byeol 언어의 경량화된 버전으로, manifest나 옵션과 같은 특수 목적용 언어입니다. 트리 구조로
-설정 데이터를 표현하며, @ref core 모듈의 @ref by::node "node" 와 유사한 구조를 가집니다.
+@ref stela 모듈은 byeol 언어의 경량화된 버전으로, manifest나 옵션과 같은 특수 목적용 DSL(Domain Specific Language)입니다.
+Composite 패턴을 사용하여 트리 구조로 설정 데이터를 표현하며, @ref core 모듈의 @ref by::node "node" 와 유사한 구조를 가집니다.
 
-**참고**: @ref stela 언어는 byeol 언어보다 덜 복잡하므로, **@ref core 모듈의 byeol 파서를 보기 전에 @ref stela 파서
-코드를 먼저 살펴볼 것을 권장합니다**. 파서의 기본 구조와 동작 방식을 이해하는데 더 적합해요.
+<b>참고</b>: @ref stela 언어는 byeol 언어보다 덜 복잡하므로, <b>@ref core 모듈의 byeol 파서를 보기 전에 @ref stela 파서
+코드를 먼저 살펴볼 것을 권장합니다</b>. 파서의 기본 구조와 동작 방식을 이해하는데 더 적합해요.
+
+TODO: stelaParser-lowscanner-lowparser의 협력 구조를 보여주는 클래스 다이어그램 필요
+TODO: tokenDispatcher의 동작 흐름을 보여주는 시퀀스 다이어그램 필요
+TODO: indentation 처리 과정(normalScan ↔ indentScan 전환)을 보여주는 시퀀스 다이어그램 필요
 
 ---
 
@@ -14,17 +18,17 @@
 
 @ref by::stela "stela" 클래스는 @ref stela 모듈의 가장 기본 단위가 되는 클래스로, 다음의 기능을 제공합니다:
 
-1. **타입 변환 API**: asInt(), asChar(), asStr(), asBool() 등 기본 타입으로 변환을 시도합니다.
-2. **값이 있는 경우**: @ref by::valStela "valStela" 의 API가 실행되며, 적절한 값으로 변환됩니다. 예를들어 `verStela(22)`의
+1. <b>타입 변환 API</b>: asInt(), asChar(), asStr(), asBool() 등 기본 타입으로 변환을 시도합니다.
+2. <b>값이 있는 경우</b>: @ref by::valStela "valStela" 의 API가 실행되며, 적절한 값으로 변환됩니다. 예를들어 `verStela(22)`의
    경우 `asStr()`을 하면 `std::string("22")`가 반환됩니다.
-3. **값이 없는 경우**: @ref by::nulStela "nulStela" 로 표현됩니다. 이 경우 어떠한 타입변환 시도에도 기본값(빈 문자열 혹은
+3. <b>값이 없는 경우</b>: @ref by::nulStela "nulStela" 로 표현됩니다. 이 경우 어떠한 타입변환 시도에도 기본값(빈 문자열 혹은
    0)이 반환됩니다.
-4. **버전 타입**: major, minor, patch 버전을 가지고 있으며, 범위로도 표현이 가능합니다.
-5. **트리 구조**: @ref by::stela "stela" 는 또다른 @ref by::stela "stela" 를 자식으로 둘 수 있습니다. 각 @ref by::stela "stela" 객체마다 이름이 존재하므로,
+4. <b>버전 타입</b>: major, minor, patch 버전을 가지고 있으며, 범위로도 표현이 가능합니다.
+5. <b>트리 구조</b>: @ref by::stela "stela" 는 또다른 @ref by::stela "stela" 를 자식으로 둘 수 있습니다. 각 @ref by::stela "stela" 객체마다 이름이 존재하므로,
    자식을 찾을 때는 이름으로 검색하거나 순회합니다. 주어진 이름에 맞는 자식이 없는 경우 @ref by::nulStela "nulStela" 가
    반환됩니다.
 
-**사용 예제**
+<b>사용 예제</b>
 
 ```
 @style: language-cpp verified
@@ -60,7 +64,7 @@ ASSERT_EQ(ver.asFix(), 8);
 타입의 기본값이 반환됩니다. @ref by::stela "stela" 객체가 @ref by::nulStela "nulStela" 인지 확인하려면 `isExist()` 혹은
 `operator bool()`이 false인지 확인하면 됩니다.
 
-**사용 예제**
+<b>사용 예제</b>
 
 ```
 @style: language-cpp verified
@@ -95,12 +99,12 @@ int val = notExist.asInt();          // 0
 
 @ref by::verStela "verStela" 는 @ref by::valStela "valStela" 와 비슷하게 <b>version</b>이라는 타입의 값을 가지고 있는 @ref by::stela "stela" 입니다.
 
-**version 타입**
+<b>version 타입</b>
 
 @ref by::stela "stela" 언어는 byeol 언어의 경량화된 언어로, manifest나 옵션과 같은 특수 목적용 언어입니다. version
 타입은 `major.minor.fix`의 3가지 변수를 가지고 있으며 범위 표현 또한 가능한 타입입니다.
 
-**사용 예제**
+<b>사용 예제</b>
 
 ```
 @style: language-cpp verified
@@ -137,21 +141,21 @@ verStela& maxVer = pkg["maxVersion"].cast<verStela>();
 @ref by::stelaParser "stelaParser" 클래스는 stela 파싱 컴포넌트의 진입점 역할을 합니다. `parse()` 나 `parseFromFile()`을
 통해서 스크립트를 지정하면 파싱된 결과가 @ref by::stela "stela" 구조로 반환됩니다.
 
-**byeol 파서와 유사한 구조**
+<b>byeol 파서와 유사한 구조</b>
 
 @ref stela 언어 자체가 byeol의 특화된 언어이므로 파서 또한 byeol 언어의 파서를 기반으로 하고 있습니다.
 byeol 파서 대비 덜 복잡하여 파서의 기본 동작을 이해하기 좋습니다.
 
-**scanner - bison - stelaParser 구조**
+<b>scanner - bison - stelaParser 구조</b>
 
-flex와 bison을 사용하고 있으며 flex는 lowscanner로, bison은 lowparser로 각각 명명합니다. 이
+Flex/Bison 기반의 파서를 구현하고 있으며, flex는 lowscanner로, bison은 lowparser로 각각 명명합니다. 이
 lowlevel scanner, parser는 parser 컴포넌트 안에만 존재하는 것으로 외부에서는 일절 노출 되지 않습니다.
 
 @ref by::stelaParser::parse() "parse()" 가 실행되면 lowscanner를 실행시키고, lowscanner는 토큰을 뜯어서 lowparser에게
 넘기고, lowparser는 받은 토큰에 대해 rule이 match 되면 그 이벤트를 다시 @ref by::stelaParser "stelaParser" 에게 넘깁니다.
 
-그러므로 @ref by::stelaParser "stelaParser" 의 <b>`on`으로 시작하는 함수들</b>은 그러한 이벤트를 handling 하는 함수로, 실제로
-어떻게 node를 생성해서 ast를 구축하는지를 정의합니다.
+이는 Event-driven 아키텍처로, @ref by::stelaParser "stelaParser" 의 <b>`on`으로 시작하는 함수들</b>은 Callback 패턴을 사용하여
+그러한 이벤트를 handling 하는 함수로, 실제로 어떻게 node를 생성해서 ast를 구축하는지를 정의합니다.
 
 ---
 
@@ -213,8 +217,9 @@ flex는 yyin 이라는 별도로 지정된 stream을 통해서 글자를 가져�
 
 기본적으로 이런 경우는 unput을 사용하나, 여러개를 unput 하거나 뒤가 아니라 앞에 push 하는 경우 등에
 유연하게 대응하기 위해, stelaLowscanner는 내부적으로 @ref by::stelaTokenDispatcher "stelaTokenDispatcher" 를 사용합니다.
+이는 내부적으로 Queue를 사용하여 토큰들을 버퍼링하고 순차적으로 전달합니다.
 
-**unput()과 tokenDispatcher의 차이점**
+<b>unput()과 tokenDispatcher의 차이점</b>
 
 `unput()`과 @ref by::tokenDispatcher "tokenDispatcher" 는 <b>근본적으로 다른 동작 방식</b>을 가지고 있습니다.
 `unput()`은 <b>스트림 자체에 문자를 추가</b>하는 반면, @ref by::tokenDispatcher "tokenDispatcher" 는 <b>렉서를 건너뛰고
@@ -240,7 +245,7 @@ disp.add('e');
 하지만 @ref by::tokenDispatcher "tokenDispatcher" 를 사용하면 `'n'`, `'a'`, `'m'`, `'e'` 토큰을 개별적으로 파서에
 반환하게 되며, 이는 파싱 오류를 일으킵니다.
 
-**주의사항: dispatcher 사용 후 반드시 토큰을 리턴해야 합니다**
+<b>주의사항: dispatcher 사용 후 반드시 토큰을 리턴해야 합니다</b>
 
 @ref by::tokenDispatcher "tokenDispatcher" 를 사용할 때는 flex rule 안에서 <b>반드시 토큰을 리턴</b>해야 합니다.
 토큰을 리턴하지 않으면 dispatcher가 동작하지 않습니다. 이는 flex의 구현 방식 때문입니다:
@@ -260,7 +265,7 @@ yourSecondRule {
 }
 ```
 
-**사용 예제**
+<b>사용 예제</b>
 
 ```
 @style: language-cpp verified
@@ -294,25 +299,27 @@ while(!dispatcher.isEmpty()) {
 ### stelaTokenScan 클래스 - 스캔 모드 전략
 
 @ref by::stelaParser "stelaParser" 는 indentation을 정밀하게 측정하기 위해서 <b>scan mode를 동적으로 변경</b>해야 합니다.
-tokenScan은 그러한 스캔 모드 전략 1개를 담당합니다.
+tokenScan은 그러한 스캔 모드 전략 1개를 담당하며, Strategy 패턴을 사용하여 런타임에 스캔 알고리즘을 교체할 수 있습니다.
 
-**tokenScan의 동적 전환**
+<b>tokenScan의 동적 전환</b>
 
 앞서서 indentation을 탐지하는 게 얼마나 중요한지 설명했습니다. 정확한 공백의 갯수를 셈해야 하기 때문에
-`normalScan`과 `indentScan` 2개의 scan 객체를 전환해가며 사용합니다.
+`normalScan`과 `indentScan` 2개의 scan 객체를 전환해가며 사용합니다. 이는 Strategy 패턴의 전형적인 사용 예로,
+상황에 따라 다른 스캔 전략을 선택합니다.
 
 개행이 탐지되면 indentScan으로 교체해서 정확하게 공백을 count해서 scope를 결정하고, 이후에는
 normalScan으로 교체해서 평상시처럼 공백을 다 무시합니다.
 
-**indentation 검사**
+<b>indentation 검사</b>
 
 
-**명령 token**
+<b>명령 token</b>
 
 token 중에는 `SCAN_AGAIN`, `SCAN_EXIT` 등 scanner나 parser에 명령을 주는 토큰들이 존재합니다.
+이러한 토큰들은 일반적인 데이터 토큰과 달리, 토큰 자체가 특정 동작을 수행하도록 지시하는 명령 역할을 합니다.
 자세한 내용은 @ref by::stelaParser "stelaParser" 의 zztokenType enum을 참조하세요.
 
-**isBypass**
+<b>isBypass</b>
 
 IndentScan의 경우 대부분의 token을 무시하며 오직 공백이 몇개인지 갯수를 세는 데 집중합니다.
 그리고 indentation이 가장 최근 scope의 indentation과 차이가 발생한 경우 DEDENT 혹은
@@ -321,7 +328,7 @@ INDENT token을 dispatcher에 추가합니다.
 하지만 이전 라인에서 여러 token을 push 해둔 상황이라면 내부적으로 bypass 모드로 동작합니다.
 이때는 indentation 갯수를 세는 동작을 skip 하고 넣어둔 token을 그대로 읽어서 반환합니다.
 
-**tokenScan 사용 예제**
+<b>tokenScan 사용 예제</b>
 
 ```
 @style: language-cpp verified
@@ -399,4 +406,4 @@ main() void
 
 ---
 
-**다음 문서**: @ref ai-architecture-core
+<b>다음 문서</b>: @ref ai-architecture-core

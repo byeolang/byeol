@@ -1,10 +1,15 @@
 # memlite 모듈 - 커스텀 메모리 관리 {#ag-architecture-memlite}
 
 @ref memlite 모듈은 참조 카운팅을 갖춘 커스텀 메모리 풀 시스템을 제공하여 자동 메모리 관리를 유지합니다.
+Object Pool Pattern과 Smart Pointer Pattern을 활용하여 효율적인 메모리 관리를 구현합니다.
 
 @ref memlite 의 궁극적인 목적은, byeol managed 환경을 실행할 수 있는 경량화된 C++ 메모리 관리에 있어요.
 따라서 GC 등 추가적인 메모리 관리가 필요로 해지며, 이는 자체 메모리 풀을 가지고 있으며, 인스턴스의
 라이프사이클을 관리해야 한다는 것을 시사합니다.
+
+TODO: instancer-pool-chunks-chunk-watcher-life의 전체 구조를 보여주는 클래스 다이어그램 필요
+TODO: chunk의 free-list 알고리즘 동작을 보여주는 시퀀스 다이어그램 필요
+TODO: 인스턴스 생성/소멸 라이프사이클을 보여주는 시퀀스 다이어그램 필요
 
 ---
 
@@ -13,8 +18,8 @@
 ### binder 클래스
 
 @ref by::binder "binder" 클래스는 일반화된 바인딩 클래스로 @ref instance 클래스를 상속한 클래스로부터 생성된 모든 객체를
-바인딩할 수 있습니다. reference counting으로 적절한 시점에 객체를 소멸시키며, 표준 라이브러리에 잘
-정의된 std::weak_ptr과 같은 기능을 @ref by::tweak "tweak" 가, std::shared_ptr은 @ref by::tstr "tstr" 이 각 담당합니다.
+바인딩할 수 있습니다. Smart Pointer Pattern을 구현하여 reference counting으로 적절한 시점에 객체를 소멸시키며,
+표준 라이브러리에 잘 정의된 std::weak_ptr과 같은 기능을 @ref by::tweak "tweak" 가, std::shared_ptr은 @ref by::tstr "tstr" 이 각 담당합니다.
 
 shared_ptr를 이미 잘 알고 있다면 아래와 같이 사용할 수 있다는 걸 쉽게 이해할 수 있을 거예요.
 
@@ -62,7 +67,7 @@ tstr<shell> foo() {
 }
 ```
 
-**tstr 기본 사용 예제**
+<b>tstr 기본 사용 예제</b>
 
 ```
 @style: language-cpp verified
@@ -149,7 +154,7 @@ void me::rel(binder& me) { // me가 tstr인지 tweak인지 상관없다.
 @ref by::binder "binder" 는 abstract 하므로 객체 생성이 불가능합니다. @ref by::tstr "tstr" 이나 @ref by::tweak "tweak" 로 이미 생성된 바인더들을 범용적인
 로직을 작성할때만 의의를 갖습니다.
 
-**tstr과 tweak 강한/약한 참조 예제**
+<b>tstr과 tweak 강한/약한 참조 예제</b>
 
 ```
 @style: language-cpp verified
@@ -251,7 +256,7 @@ instancer (관리자)
 공개하지 않습니다. 결과적으로 @ref by::chunk "chunk" 의 메모리는 객체 생성시 고정되며, 추가 메모리가 필요하다면 @ref by::chunk "chunk"
 객체를 더 생성해서 운영해야 합니다.
 
-**chunk 기본 사용 예제**
+<b>chunk 기본 사용 예제</b>
 
 ```
 @style: language-cpp verified
@@ -291,7 +296,7 @@ myChunk.rel();
 myChunk.size();  // 0
 ```
 
-**Block size**
+<b>Block size</b>
 
 @ref chunk 는 생성시 block size와 size 2개를 입력받습니다. blockSize는 메모리에 인스턴스 하나가 차지하게 될
 최소 단위 크기입니다. 반면 size는 그러한 인스턴스가 몇개 까지 들어갈 지를 정합니다.
@@ -321,17 +326,19 @@ myChunk.len();   // 현재 할당된 블록 수
 myChunk.size();  // 전체 블록 수 (100)
 ```
 
-**real block size**
+<b>real block size</b>
 
 실제 메모리 할당시에는 block size 대신 real block size를 사용하는데, 이는 최적화에 따른 것입니다. CPU
 연산시 1이나 2바이트 등 작은 단위로 메모리 할당해서 계산하는 것보다 CPU 아키텍처에 맞게 정렬(padding)하는 것이
 더 효율적입니다. 예를 들어, 64비트 CPU에서는 8바이트 단위로 정렬되며, 3바이트를 요청해도 실제로는
 8바이트가 할당됩니다. 이는 메모리 접근 속도를 최적화하기 위한 것입니다.
 
-**ArrayList 구현**
+<b>ArrayList 구현</b>
 
 @ref by::chunk "chunk" 는 배열 기반 리스트(ArrayList)로 직접 구현되어 있습니다. 크기가 고정되어 있지만 크기 내에서는
-List처럼 추가 삭제가 자유로우며 임의접근 속도는 Array처럼 빠릅니다.
+List처럼 추가 삭제가 자유로우며 임의접근 속도는 Array처럼 빠릅니다. 내부적으로 Free List 알고리즘을 사용하여
+사용 가능한 메모리 블록을 추적합니다. 각 비어있는 블록은 다음 빈 블록의 인덱스를 저장하는 intrusive linked list
+구조로 연결됩니다.
 
 알고리즘은 다음과 같습니다:
 
@@ -373,7 +380,7 @@ List처럼 추가 삭제가 자유로우며 임의접근 속도는 Array처럼 �
 @ref by::chunks "chunks" 객체는 여러개의 @ref by::chunk "chunk" 의 인스턴스 관리를 담당합니다. @ref by::chunk "chunk" 는 생성시 고정된 크기만 메모리를
 활용하기 때문에 @ref by::chunks "chunks" 가 여러개의 @ref by::chunk "chunk" 를 추가/삭제 함으로써 유동적으로 메모리를 관리합니다.
 
-**chunks 역시 고정된 메모리만 제공한다**
+<b>chunks 역시 고정된 메모리만 제공한다</b>
 
 @ref by::chunks "chunks" 는 @ref by::chunk "chunk" 들을 추가하거나 삭제하므로, @ref by::chunk "chunk" 가 각 셀마다 고정된 크기만을 사용하기 때문에 @ref by::chunks "chunks" 또한
 고정된 크기의 메모리만 할당할 수 있습니다.
@@ -397,13 +404,13 @@ myChunks.del(ptr2, 16);
 // 내부적으로 새로운 chunk를 자동 생성하여 추가
 ```
 
-**pool과의 연계**
+<b>pool과의 연계</b>
 
 최초 메모리 요청을 받는 곳은 @ref by::pool "pool" 클래스입니다. 해당 객체에서 할당해야할 memory size를 받으면, 해당
 memory size를 처리할 수 있는 @ref by::chunks "chunks" 인스턴스를 lazy로 가져와, new1()를 요청하게 됩니다.
 @ref by::chunks::new1() "new1()"에서는 메모리 할당이 가능한 @ref by::chunk "chunk" 를 찾고, 없을 경우는 추가로 @ref by::chunk "chunk" 를 생성합니다.
 
-**가용 chunk 검색 알고리즘**
+<b>가용 chunk 검색 알고리즘</b>
 
 가장 최근에 메모리를 할당한 @ref by::chunk "chunk" 가 추가로 할당 할 가능성이 가장 높습니다. 멤버변수 `_s`는 바로 최근에
 할당한 @ref by::chunk "chunk" 의 인덱스를 가지고 있습니다.
@@ -412,7 +419,7 @@ memory size를 처리할 수 있는 @ref by::chunks "chunks" 인스턴스를 laz
 처음과 이어져 있다고 보면 됩니다. 그래서 다시 _s가 순회직전의 _s로 값이 같아질 때까지도 가용 메모리가
 없다면, @ref by::chunks "chunks" 전체에 가용 메모리가 없는 상태이므로 resize()에 들어갑니다.
 
-**vector를 쓰면 안된다**
+<b>vector를 쓰면 안된다</b>
 
 당연한 건데, vector는 heap으로 관리되므로 자체 메모리 풀을 만든다면서 vector를 사용해서는 안됩니다.
 차후 수정 예정입니다.
@@ -423,7 +430,7 @@ memory size를 처리할 수 있는 @ref by::chunks "chunks" 인스턴스를 laz
 대한 배열을 가지고 있으며, @ref by::chunks "chunks" 는 @ref by::chunk "chunk" 를 가지고 있으므로, 사실상 로우레벨의 메모리 관련 클래스를
 모두 관리하는 셈입니다.
 
-**pool은 할당 가능한 size 별로 lazy하게 chunks를 가진다**
+<b>pool은 할당 가능한 size 별로 lazy하게 chunks를 가진다</b>
 
 자체 메모리 풀을 만들때 중요한 포인트는, 같은 사이즈의 메모리를 한 곳에 나열함으로써 속도를 높이는
 것입니다. @ref by::chunks "chunks" 는 블록이라는 개념이 있어서 각 블록은 미리 지정된 크기의 메모리만 할당/해제 될 수
@@ -469,7 +476,8 @@ void* ptr4 = sameChunks->new1();      // 빠른 재할당
 ### instancer - 메모리 관리 조정자
 
 @ref by::instancer "instancer" 클래스는 low level로 메모리를 관리하는 @ref by::pool "pool" 클래스와, @ref by::instance "instance" 들의 라이프사이클을
-관리하는 @ref by::watcher "watcher" 를 가지고 있습니다.
+관리하는 @ref by::watcher "watcher" 를 가지고 있습니다. Facade 패턴을 사용하여 복잡한 메모리 관리 서브시스템에 대한
+단순화된 인터페이스를 제공합니다.
 
 이 둘을 잘 제어해서 인스턴스의 생명 관리(할당/소멸)를 하는 것이 목적입니다. 사실상 @ref memlite 에서 핵심
 작업을 수행하기 위해 각 제어클래스들에게 작업을 분배하거나 명령을 내리는 진입점을 담당합니다.
@@ -514,7 +522,7 @@ ptr.rel();  // 또는 ptr이 스코프를 벗어남
 @ref by::instance "instance" 클래스를 상속해야만 @ref by::binder "binder" 를 통해 weak pointer나 strong pointer로 참조 할 수 있습니다.
 @ref by::instance "instance" 의 식별은 `id`를 통해서 이뤄집니다.
 
-**id 부여 알고리즘**
+<b>id 부여 알고리즘</b>
 
 @ref memlite 에서 가장 취약한 부분을 고르라면 바로 이 id 부여 알고리즘입니다. 인스턴스 생성은 memory pool을
 관리하는 @ref by::instancer "instancer" 에 의해서 이뤄집니다. 이때 @ref by::instancer "instancer" 는 `vault`라고 하는 @ref by::instance "instance" 내부의 클래스에
@@ -529,7 +537,7 @@ ptr.rel();  // 또는 ptr이 스코프를 벗어남
 최초 구현은 vector로만 되어있었으며 FIFO로 관리했었으나, 생성자 안에서 다른 객체를 생성하는 경우에는
 추가되는 id의 순서가 FIFO가 아니게 되면서 ID가 꼬이는 문제가 있었습니다.
 
-**속도에 있어서 instance 클래스의 중요성**
+<b>속도에 있어서 instance 클래스의 중요성</b>
 
 byeol에서 가장 빈번히 하는 작업은 객체를 생성하면서 id를 부여하거나 binding을 하는 작업입니다. 이 부분은
 개선 예정이며, 더 나은 알고리즘에 대한 아이디어를 환영합니다.
@@ -539,7 +547,7 @@ byeol에서 가장 빈번히 하는 작업은 객체를 생성하면서 id를 �
 @ref by::id "id" 클래스는 64bit integer로 되어있는 @ref by::instance "instance" 식별자입니다. tagN은 @ref by::life "life" 를 식별하며, chkN은
 몇번째 @ref by::chunk "chunk" 인지를 나타내며 serial은 객체 검증에 사용됩니다.
 
-**serial은 프로세스 실행 도중 instance 객체의 생성횟수다**
+<b>serial은 프로세스 실행 도중 instance 객체의 생성횟수다</b>
 
 @ref by::pool "pool" 과 @ref by::chunk "chunk" 를 먼저 봤다면 알겠지만, 자체 메모리 풀을 사용하기 때문에 메모리가 해제 될때는 소멸자만
 호출할 뿐, 모든 메모리를 초기화 하지 않습니다.
@@ -551,7 +559,7 @@ byeol에서 가장 빈번히 하는 작업은 객체를 생성하면서 id를 �
 @ref by::binder "binder" 에서는 이렇게 해서 가져온 데이터가 정말로 유효한 데이터인지 구분하기 위해서 serial을 추가로
 비교합니다.
 
-**id 구성 요소 확인 예제**
+<b>id 구성 요소 확인 예제</b>
 
 ```
 @style: language-cpp verified
@@ -576,11 +584,11 @@ const life& lifeTag = obj->getBindTag();
 lifeTag.getId();  // objId와 동일
 ```
 
-**tagN은 life 객체에 접근할때 사용한다**
+<b>tagN은 life 객체에 접근할때 사용한다</b>
 
 @ref by::watcher "watcher" 는 자신의 배열에서 tagN 번째 @ref by::life "life" 객체를 가져올때 이 값을 사용합니다.
 
-**chkN은 chunk 객체를 가져올 때 사용한다**
+<b>chkN은 chunk 객체를 가져올 때 사용한다</b>
 
 @ref by::pool "pool" 은 먼저 id와 매핑된 @ref by::instance "instance" 의 size를 계산해 @ref by::chunks "chunks" 를 가져옵니다. 그리고 @ref by::chunks "chunks" 는 자신의 chkN
 번째 원소인 메모리블록을 반환합니다. 외부에서는 전달 받은 메모리 주소와 serial 값을 비교해서 같은
@@ -601,13 +609,13 @@ reference counting을 위한 값이며, _pt는 @ref by::pool "pool" 에 할당�
 @ref by::instance "instance" 가 생성될때마다 @ref by::watcher "watcher" 는 @ref by::life "life" 객체를 추가로 할당해 reference counting으로 객체의
 소멸시점을 판별합니다.
 
-**reference counting**
+<b>reference counting</b>
 
 @ref by::binder "binder" 에 의해서 @ref by::instance "instance" 가 바인딩 될때마다 @ref by::life "life" 가 count 하는 strong 값을 1 증가시킵니다. @ref by::binder "binder" 가
 @ref by::instance "instance" 를 rel() 할때 count를 1 감소하며, 0이 되는 순간 delete로 메모리에서 해제합니다. @ref by::instance "instance" 는
 `operator delete()`를 통해 @ref by::instancer "instancer" 에게 메모리 해제 작업을 실행하도록 합니다.
 
-**watcher와 life 사용 예제**
+<b>watcher와 life 사용 예제</b>
 
 ```
 @style: language-cpp verified
@@ -642,19 +650,23 @@ lifeTag.getBindable();  // instance의 type 반환
 
 ## 메모리 관리 인터페이스
 
+이 인터페이스들은 Interface Segregation Principle을 따라 설계되었습니다. 클라이언트가 사용하지 않는
+메서드에 의존하지 않도록, 메모리 조회 기능(@ref by::memoryHaver "memoryHaver")과 메모리 할당 기능(@ref by::allocator "allocator")을
+별도의 인터페이스로 분리했습니다.
+
 ### memoryHaver 클래스
 
 @ref by::memoryHaver "memoryHaver" 클래스는 memory pool에서 일정 메모리를 직접 혹은 간접적으로 소유하고 있으며, 그 메모리를
 READ 가능한 클래스들의 기본 인터페이스를 정의합니다. 그래서 메모리의 크기나, 상태 등을 알 수 있는
 인터페이스로 정의되어 있습니다.
 
-**간접적으로 소유하다?**
+<b>간접적으로 소유하다?</b>
 
 해당 객체가 직접 메모리를 할당받아 사용하는 것이 아니라, 내부에 멤버변수로 있는 다른 객체들이 담당하는
 경우가 있습니다. 그리고 메모리의 할당은 내부 멤버변수들을 통해 직접해야 한다면, 그 클래스는 @ref by::memoryHaver "memoryHaver" 만
 상속받아야 합니다. 만약 할당도 가능하다면 @ref by::allocator "allocator" 를 상속하면 됩니다.
 
-**len과 size**
+<b>len과 size</b>
 
 할당 가능한 메모리의 크기는 size로 표현하며, 그 중에서 할당한 메모리는 len으로 표현됩니다. void* 및 byte
 단위로만 제어하는 것을 전제로 합니다.
@@ -669,11 +681,11 @@ READ 가능한 클래스들의 기본 인터페이스를 정의합니다. 그래
 모든 메모리는 void* 및 바이트 관점에서만 바라본다는 @ref memlite 컨셉에 맞게, new(), del()의 파라메터는
 void*만 제공합니다.
 
-**memlite 전용의 공통 인터페이스의 네이밍 컨벤션**
+<b>memlite 전용의 공통 인터페이스의 네이밍 컨벤션</b>
 
 할당은 new1() (new one 이라는 뜻입니다.), 해제는 del()를 사용합니다. 이 네이밍은 @ref memlite 뿐만 아니라
 byeol 프로젝트 내부에서 자주 사용됩니다.
 
 ---
 
-**다음 문서**: @ref ah-architecture-stela
+<b>다음 문서</b>: @ref ah-architecture-stela

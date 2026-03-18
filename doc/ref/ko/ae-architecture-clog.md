@@ -2,6 +2,9 @@
 
 @ref by::clog "clog" 모듈은 여러 출력 스트림과 필터링 기능을 갖춘 경량화된 C++ 로깅 프레임워크를 제공합니다.
 이 모듈은 아키텍처 상 하위 계층에 위치하므로, 상위 모듈에 대한 의존성이 없습니다.
+Facade 패턴, Composite 패턴, Chain of Responsibility 패턴 등을 활용하여 유연하고 확장 가능한 로깅 시스템을 구현합니다.
+
+TODO: logger-stream-filterable 관계를 보여주는 클래스 다이어그램 필요
 
 ---
 
@@ -42,7 +45,7 @@ Oct 22 2025  21:26:13 I cppPackLo <_loadLibs#49> slot[cpp] origins loaded.
 표현합니다. 현재는 @ref by::consoleStream "consoleStream" 과 @ref by::fileLogStream "fileLogStream" 2가지가 존재합니다. 모든 @ref by::stream "stream" 은 기본적으로
 @ref by::logger "logger" 클래스가 처음부터 소유하고 있습니다.
 
-각 stream은 byeol의 핵심 클래스들과 마찬가지로 다음과 같은 상태 전이 도식을 갖습니다:
+각 stream은 byeol의 핵심 클래스들과 마찬가지로 다음과 같은 State Machine 패턴을 사용한 상태 전이 도식을 갖습니다:
 
 ```
 @style: language-txt verified
@@ -59,12 +62,13 @@ stream은 동작하지 않아요.
 
 또하나 중요한 점은 @ref by::logger "logger" 클래스 자체도 @ref by::stream "stream" 에서 상속하기 때문에 @ref by::stream "stream" 과 동일한 API를 제공한다는
 점입니다. @ref by::logger "logger" 는 각 API에 대해 소유한 모든 @ref by::stream "stream" 들에 대해 redirection 하는 구성으로 구현되어
-있습니다. 예를들어 `logger::get().setEnable(false)`를 하게 되면, 모든 @ref by::stream "stream" 이 disable 됩니다.
+있습니다. 이는 Composite 패턴의 전형적인 구조로, logger가 여러 stream을 하나의 트리 구조로 관리하면서
+동일한 인터페이스를 제공합니다. 예를들어 `logger::get().setEnable(false)`를 하게 되면, 모든 @ref by::stream "stream" 이 disable 됩니다.
 
 @ref by::stream "stream" 은 logBypass(const nchar*) 라는 함수를 제공하는데, 이것은 어떠한 가공도 없이 문자열을 그대로
 지정한 @ref by::stream "stream" 으로 로그 메시지를 보냅니다.
 
-**stream 제어 예제**
+<b>stream 제어 예제</b>
 
 ```
 @style: language-cpp verified
@@ -156,7 +160,7 @@ I <processData#130> ◀  processData id=123
 시각적인 깊이를 표현하며, 내부적으로 @ref by::line::incLv() "line::incLv()" 를 통해 그래프 깊이가 자동으로
 증가/감소합니다.
 
-**주의사항: 인자가 두 번 평가됩니다**
+<b>주의사항: 인자가 두 번 평가됩니다</b>
 
 `BY_I_SCOPE` 매크로는 내부적으로 @ref by::BY_END "BY_END" 와 @ref by::scopeLog "scopeLog" 를 사용하는 RAII 패턴으로 구현되어 있습니다.
 이때 <b>format string의 인자가 두 번 평가</b>되므로, 부수 효과가 있는 표현식을 사용하면 안 됩니다:
@@ -175,7 +179,7 @@ void bad() {
 }
 ```
 
-**주의사항: if 블록에서 사용할 때 조심하세요**
+<b>주의사항: if 블록에서 사용할 때 조심하세요</b>
 
 `BY_I_SCOPE` 매크로를 if 문의 블록문으로 사용하면 예상과 다르게 동작할 수 있습니다. 매크로가 expand
 되면서 여러 개의 statement로 펼쳐지기 때문이에요. 다음 예제를 보죠:
@@ -237,7 +241,10 @@ Nov 18 2025  20:02:13 I verifier  <onLeave#87> '' assignExpr@9a50: step#1 --> se
 ## richLog - 다형성 로깅
 
 @ref by::richLog "richLog" 는 서식문자에 입력된 argument를 다형성을 활용해서 적절한 타입으로 변환해서 로깅하는
-기능입니다.
+기능입니다. 함수 오버로딩을 통한 컴파일 타임 타입 디스패칭 기법을 사용하여, 각 타입에 맞는 변환 함수를
+자동으로 선택합니다.
+
+TODO: richLog의 convert/wrap 메커니즘과 호출 흐름을 보여주는 시퀀스 다이어그램 필요
 
 @ref clog 모듈은 architecture 상 아랫부분에 위치하기 때문에 @ref clog 에 종속하는 클래스가 뭐가 있는지 알아서는
 안됩니다. 그렇기 때문에 @ref by::richLog "richLog" 는 각 모듈마다 정의되어 있으며, 해당 모듈에 포함된 클래스를 어떻게
@@ -366,6 +373,9 @@ BY_E("this message will definitely be log on entire stream");
 
 ## 필터링 시스템
 
+필터링 시스템은 Strategy 패턴을 사용하여 구현되었습니다. 각 필터는 교체 가능한 알고리즘으로 동작하며,
+런타임에 원하는 필터를 선택하여 적용할 수 있습니다.
+
 ### filterable 클래스
 
 @ref by::filterable "filterable" 클래스는 @ref by::logger "logger" 클래스가 특정한 조건에 해당하는 logging은 필터링 할 수 있게 해줍니다.
@@ -394,6 +404,7 @@ logger::get().setFilters(prevFilters);
 
 @ref by::filters "filters" 클래스는 @ref by::logger "logger" 클래스에서 등록된 @ref by::filterable "filterable" 클래스들을 관리합니다. @ref by::filterable "filterable" 과
 동일한 API를 가지며, 해당 API를 호출하면 소유한 모든 @ref by::filterable "filterable" 에 해당 API를 호출합니다.
+이는 Composite 패턴으로 구현되어, 여러 필터를 하나의 필터처럼 다룰 수 있습니다.
 
 ### errPassFilter 클래스
 
@@ -402,4 +413,4 @@ info는 출력되지 않습니다. 직접 사용하지 않으며, 객체 생성�
 
 ---
 
-**다음 문서**: @ref af-architecture-meta
+<b>다음 문서</b>: @ref af-architecture-meta

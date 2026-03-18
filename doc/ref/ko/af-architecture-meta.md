@@ -2,6 +2,10 @@
 
 @ref meta 모듈은 런타임 타입 정보(RTTI)와 리플렉션 기능을 제공합니다. C++의 기본 RTTI보다 더 강력하고
 효율적인 타입 시스템을 구현하고 있으며, Byeol 언어의 타입 시스템 기반이 됩니다.
+Monostate 패턴, Template Metaprogramming, 재귀적 초기화 등을 활용하여 설계되었습니다.
+
+TODO: type/ttype/ttypeBase/adam의 관계를 보여주는 클래스 다이어그램 필요
+TODO: 메타 정보 초기화 과정(재귀적 super 초기화)을 보여주는 시퀀스 다이어그램 필요
 
 ---
 
@@ -30,7 +34,7 @@
 
 @ref meta 모듈의 전체적인 설계에 대해 파악하고자 한다면 핵심이 되는 @ref by::type "type" 을 먼저 살펴보세요.
 
-**ttype 기본 사용 예제**
+<b>ttype 기본 사용 예제</b>
 
 ```
 @style: language-cpp verified
@@ -75,7 +79,7 @@ delete instance;
 
 ### 클래스 계층 관련 정보
 
-**getSupers()**
+<b>getSupers()</b>
 
 super class들을 리스트에 담아 반환합니다. 이 클래스의 직접적인 부모 클래스는 리스트 마지막 원소에,
 보다 더 super class일 수록 리스트 앞에 담겨있습니다.
@@ -92,25 +96,26 @@ supers[0].getName() // "adam"
 supers.last()->getName() // this 클래스의 부모클래스 이름이 나온다.
 ```
 
-**getSubs()**
+<b>getSubs()</b>
 
 sub class들을 리스트에 담아 반환합니다. getSupers()와 마찬가지 방식으로, 가까운 sub 일 수록 리스트
 앞에 담겨있습니다.
 
-**isSuper(const rhs& type)**
+<b>isSuper(const rhs& type)</b>
 
 this class가 rhs보다 super 클래스 인지 체크합니다. dynamic_cast과 동일한 기능이지만 알고리즘
 복잡도가 더 뛰어납니다.
 
 일반적으로 dynamic_cast는 vtable을 순회해서 체크합니다. 반면 meta는 메타 정보 생성시 super 클래스
-계층도를 통해서 자신이 몇 tier의 자손인지를 바로 알 수 있습니다. 이 tier값과 char*의 주소값을
-비교해서 타입정보를 비교합니다.
+계층도를 통해서 자신이 몇 tier의 자손인지를 미리 계산해둡니다. 이 tier 인덱스를 사용한 배열 접근과
+타입 포인터의 주소값 비교를 통해 O(1) 시간에 타입 계층 확인이 가능합니다. 이는 vtable 순회 방식에 비해
+캐시 친화적이고 예측 가능한 성능을 제공합니다.
 
-**isSub(const rhs& type)**
+<b>isSub(const rhs& type)</b>
 
 isSuper와 반대로 동작합니다.
 
-**타입 계층 검사 예제**
+<b>타입 계층 검사 예제</b>
 
 ```
 @style: language-cpp verified
@@ -147,7 +152,7 @@ bool areSiblings = ttype<Dog>().isSub(ttype<Cat>());  // false
 
 ### 인스턴스 생성
 
-**make()**
+<b>make()</b>
 
 이 type의 기본생성자로 인스턴스를 생성합니다. 만약, 기본생성자가 없다면 nullptr가 반환되니
 주의하세요.
@@ -164,14 +169,15 @@ bool areSiblings = ttype<Dog>().isSub(ttype<Cat>());  // false
 ### 메타 정보가 어떻게 생성되나
 
 `isTemplate()` 이나 `isAbstract()`, `getName()` 같은 타입정보는 @ref by::ttypeBase "ttypeBase" 에서
-메타프로그래밍을 통해 채워줍니다. 따라서 @ref by::type::init() "init()"이 존재하는 이유는 클래스 계층을 구성하기
-위해서입니다.
+Template Metaprogramming을 통해 컴파일 타임에 채워줍니다. 따라서 @ref by::type::init() "init()"이 존재하는 이유는
+런타임에 클래스 계층을 구성하기 위해서입니다.
 
-그리고 그 계층을 구성하는 핵심은 **모든 클래스는 typedef로 super를 정의해야 한다**라는 제약사항으로
-해결합니다. 모든 클래스에 `super`가 존재한다면, @ref by::ttype::init() "init()"도 호출할 수 있기 때문에
-다음과 같은 간단한 코드로 클래스 계층을 재귀적으로 구성할 수 있게 됩니다.
+그리고 그 계층을 구성하는 핵심은 <b>모든 클래스는 typedef로 super를 정의해야 한다</b>라는 제약사항으로
+해결합니다. 이는 일종의 코딩 컨벤션이지만, 컴파일러가 이를 강제할 수 있도록 설계되었습니다.
+모든 클래스에 `super`가 존재한다면, @ref by::ttype::init() "init()"도 호출할 수 있기 때문에
+다음과 같은 간단한 재귀적 초기화 패턴으로 클래스 계층을 구성할 수 있게 됩니다.
 
-**참고**: 부모 클래스가 없는 최상위 클래스는 `typedef adam super;`로 정의하여 @ref by::adam "adam" 에 연결됩니다.
+<b>참고</b>: 부모 클래스가 없는 최상위 클래스는 `typedef adam super;`로 정의하여 @ref by::adam "adam" 에 연결됩니다.
 이를 통해 모든 타입이 단일 계층 구조를 이루게 됩니다.
 
 ```
@@ -209,7 +215,7 @@ nbool me::init() {
 이 매크로를 응용하면 init() 함수를 main() 함수가 호출되기 직전에 실행하는 게 가능해집니다. 한가지
 제약사항으로는 각 클래스 선언시에 BY_INIT_META (MyClass)를 추가해야 한다는 점입니다.
 
-**주의**: static 초기화 순서를 사용하므로, 여러 translation unit 간의 초기화 순서는 보장되지
+<b>주의</b>: static 초기화 순서를 사용하므로, 여러 translation unit 간의 초기화 순서는 보장되지
 않습니다. 다만, 각 type의 `init()`은 재귀적으로 부모를 먼저 초기화하는 구조이므로, 타입 계층 구조
 내에서는 부모에서 자식으로 가는 초기화 순서가 보장됩니다.
 
@@ -254,7 +260,7 @@ for(const auto& t : ttype<adam>().getSubs())
     cout << t.getName() << "\n";
 ```
 
-**adam을 활용한 타입 순회 예제**
+<b>adam을 활용한 타입 순회 예제</b>
 
 ```
 @style: language-cpp verified
@@ -294,7 +300,8 @@ return type과 같이 추가적인 정보를 담고 싶은 경우가 있습니�
 이때 쉽게 생각하면 @ref by::type "type" 을 상속받은 클래스를 만들면 되는거 아닌가라는 아이디어를 떠올리기 쉽지만
 `ttype<T>`에서 언급한 것처럼, 항상 사용자의 최종 진입점은 `ttype<T>`에 접근하면서 시작되어야
 합니다. 문제는 @ref by::ttype "ttype" 의 코드를 @ref meta 모듈을 종속하는 쪽에서 수정할 수는 없기 때문에 상속으로는
-불가능하고 메타 타입을 주입하는 형태로 문제를 해결합니다.
+불가능하고 메타 타입을 주입하는 형태로 문제를 해결합니다. 이는 Template Metaprogramming과
+SFINAE(Substitution Failure Is Not An Error) 기법을 사용한 Type Injection 패턴입니다.
 
 핵심 코드는 @ref by::ttypeBase "ttypeBase" 에 있습니다.
 
@@ -315,15 +322,17 @@ struct tmetaTypeDef<T, true> {
 };
 ```
 
-tmetaTypeDef는 T에 typedef metaType이 있을 경우에는 해당타입을 반환하고, 없으면 @ref by::type "type" 을 반환합니다.
-@ref by::ttype "ttype" 은 @ref by::ttypeBase "ttypeBase" 를 상속하며, @ref by::ttypeBase "ttypeBase" 는 바로 tmetaTypeDef<T>::is를 상속합니다.
+tmetaTypeDef는 template specialization을 사용하여, T에 typedef metaType이 있을 경우에는 해당타입을 반환하고,
+없으면 @ref by::type "type" 을 반환합니다. @ref by::ttype "ttype" 은 @ref by::ttypeBase "ttypeBase" 를 상속하며,
+@ref by::ttypeBase "ttypeBase" 는 바로 tmetaTypeDef<T>::is를 상속합니다.
 
 이걸 통해서 만약 class T에 대해 ttype<T>를 호출하는 순간, class T의 개발자가 `typedef metaType
 MyType;` 처럼 새로운 MyType 클래스를 선언하여 추가하면 해당 ttype<T>()로 객체를 만들었을때 MyType을
-기반으로 해서 만들어지게 됩니다.
+기반으로 해서 만들어지게 됩니다. 이 메커니즘은 Policy-based Design의 한 형태로, 타입별로 다른
+메타 타입 구현을 주입할 수 있게 합니다.
 
 실제로 이 기능은 @ref core 모듈에서 @ref by::ntype "ntype" 을 주입하기 위해 사용합니다. 자세한 내용은 @ref by::ntype "ntype" 을 참조하세요.
 
 ---
 
-**다음 문서**: @ref ag-architecture-memlite
+<b>다음 문서</b>: @ref ag-architecture-memlite

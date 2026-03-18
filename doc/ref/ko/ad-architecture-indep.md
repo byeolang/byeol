@@ -2,6 +2,9 @@
 
 @ref indep 모듈은 Byeol 프로젝트의 최하위 계층으로, 플랫폼 종속적인 기능을 추상화합니다. 이 모듈의
 핵심 목표는 Windows, POSIX 계열 운영체제 등 다양한 플랫폼에서 동일한 API를 제공하는 것입니다.
+Adapter 패턴을 사용하여 플랫폼별 차이를 감추고 일관된 인터페이스를 제공합니다.
+
+TODO: indep 모듈의 주요 클래스 관계를 보여주는 클래스 다이어그램 필요
 
 Byeol의 아키텍처 규칙에 따라, 플랫폼 종속적인 코드(`#ifdef` 조건부 컴파일 등)는 반드시 @ref indep
 모듈에만 존재해야 합니다. @ref indep 보다 상위의 모듈에서는 OS에 대한 조건부 컴파일이나 플랫폼별 분기를
@@ -62,7 +65,7 @@ str me::eval(const args& a) {
 }
 ```
 
-**WHEN 매크로의 동작 원리**
+<b>WHEN 매크로의 동작 원리</b>
 
 @ref by::WHEN "WHEN" 매크로는 조건이 참일 때 체이닝 가능한 헬퍼 객체를 반환합니다. 이 객체는 다음 메서드들을
 제공합니다:
@@ -90,7 +93,7 @@ value를 반환합니다. 조건이 거짓이면 아무 동작도 하지 않고 
 `has()` 나 `get()`, `rel()`, `set()` 함수를 제공하는데, 이는 프로젝트 전반적으로 많이 사용되는
 네이밍 컨벤션입니다.
 
-**사용 예시**
+<b>사용 예시</b>
 
 @ref by::tmay "tmay" 는 에러를 반환할 수 있는 함수의 반환 타입으로 사용됩니다:
 
@@ -115,11 +118,14 @@ if (result.has()) {
 
 ## tres 클래스
 
+TODO: tmay와 tres의 관계 및 tmedium의 역할을 보여주는 클래스 다이어그램 필요
+
 @ref by::tres "tres" 클래스는 @ref by::tmay "tmay" 와 동일하나, 에러일 경우, 원하는 에러 타입을 갖도록 정의할 수 있습니다.
 예를들어 tmay<A>는 에러인지 아닌지만 알 수 있지만, tres<A, std::string>으로 정의하면 에러일 경우,
-어떤 에러인지 메시지도 알 수 있도록 만들 수 있습니다.
+어떤 에러인지 메시지도 알 수 있도록 만들 수 있습니다. 이는 Result 타입 또는 Either 타입으로 알려진 패턴으로,
+함수형 프로그래밍에서 에러 처리를 위해 사용되는 방식입니다.
 
-**사용 예시**
+<b>사용 예시</b>
 
 @ref by::tres "tres" 는 @ref by::tmay "tmay" 와 달리 에러 정보도 함께 반환할 수 있습니다:
 
@@ -146,7 +152,7 @@ if (result.has()) {
 }
 ```
 
-**tmay와 tres 실전 사용 예제**
+<b>tmay와 tres 실전 사용 예제</b>
 
 ```
 @style: language-cpp verified
@@ -201,7 +207,7 @@ void processFile(const std::string& path) {
 ## 플랫폼 추상화 - platformAPI 클래스
 
 @ref by::platformAPI "platformAPI" 클래스는 단발성으로 호출되는, 플랫폼 종속적인 API들을 독립적으로 제공하는 일종의
-완충작용을 합니다.
+완충작용을 합니다. Facade 패턴을 사용하여 복잡한 플랫폼별 API들을 단순한 인터페이스로 제공합니다.
 
 예를들면 텍스트 출력시 색깔을 입히려면 posix 계열 플랫폼에서는 ANSI escape sequence를 사용하지만
 윈도우에서는 WINAPI를 사용해야 합니다. 이때 @ref by::platformAPI::foreColor() "foreColor()" 를 사용하면,
@@ -263,14 +269,15 @@ while(e.next()) { // 모든 파일을 탐색하면 false를 반환한다.
 }
 ```
 
-**항상 파일만을 iterate 합니다**. 빈 폴더가 있다면 해당 폴더는 iterate시 skip 됩니다.
+<b>항상 파일만을 iterate 합니다</b>. 빈 폴더가 있다면 해당 폴더는 iterate시 skip 됩니다.
 
 ---
 
 ## cpIter 클래스
 
 @ref by::cpIter "cpIter" 클래스는 문자열에 대해서 codepoint 기반의 iteration을 담당합니다. 주로 @ref by::nStr "nStr" 에서 UTF8
-unicode와 같은 multibyte 문자열을 순회할 때 사용합니다.
+unicode와 같은 multibyte 문자열을 순회할 때 사용합니다. Bidirectional Iterator 패턴을 구현하여
+정방향과 역방향 순회를 모두 지원합니다.
 
 일반적인 iterator 답게, 전위 증가 및 후위증가연산자, 역참조 연산자, bool 형변환 연산자 등을
 지원합니다. @ref by::cpIter "cpIter" 를 생성할때 순회할 문자열과 함께 기본 iteration의 방향을 지정할 수 있습니다.
@@ -282,7 +289,7 @@ stepForward()를 명시적으로 호출하면, 이 기본 방향과 관계없이
 STL과 마찬가지로 begin은 첫번째 원소를 가리키지만, end는 마지막 원소의 다음 위치를 가리킵니다.
 (past-the-end) 따라서 역방향 순회시에는 먼저 next()를 해야만 합니다.
 
-**기본 사용 예제 (정방향 순회)**
+<b>기본 사용 예제 (정방향 순회)</b>
 
 먼저 간단한 정방향 순회 예제입니다:
 
@@ -298,7 +305,7 @@ while(e) { // iterator가 유효한 동안
 // 출력: a b c 🏁
 ```
 
-**역방향 순회 예제**
+<b>역방향 순회 예제</b>
 
 좀 더 복잡한 역방향 순회 예제예요:
 
@@ -336,7 +343,7 @@ for(int n = 0; n < 8; n++) {
 @ref by::dlib "dlib" 은 RAII idiom으로 구현되어 있습니다. 해당 인스턴스가 소멸될때 외부로 반환된 함수포인터는 사용할
 수 없게 되죠.
 
-**사용예제**
+<b>사용예제</b>
 
 다음 예제는 동적 라이브러리를 로드하고 함수를 호출하는 전체 과정을 보여줍니다.
 코드에서 `rel()`은 리소스를 명시적으로 해제하는 함수로, 에러 발생 시 dlib 객체를 정리한 후
@@ -365,8 +372,9 @@ WHEN(!info.has()) // tmay의 has()로 결과 체크 중
 ## end 클래스
 
 @ref by::end "end" 클래스는 코드 실행을 지연시킵니다. 다른 언어에서 `defer`와 같은 키워드와 같은 역할입니다.
+RAII 기반의 Scope Guard 패턴을 구현하여, 스코프 종료 시 자동으로 정리 작업을 수행합니다.
 
-**사용 예시**
+<b>사용 예시</b>
 
 RAII 패턴을 활용하여 스코프 종료 시 특정 코드를 실행합니다:
 
@@ -385,4 +393,4 @@ void processFile(const std::string& path) {
 
 ---
 
-**다음 문서**: @ref ae-architecture-clog
+<b>다음 문서</b>: @ref ae-architecture-clog

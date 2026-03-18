@@ -2,6 +2,8 @@
 
 @ref frontend모듈은 Byeol 언어의 명령줄 인터페이스(CLI)를 제공합니다. 이 모듈은 @ref core모듈의 기능들을 조합하여 사용자가 Byeol 프로그램을 실행할 수 있도록 합니다.
 
+<b>사용된 디자인 패턴:</b> <b>Facade 패턴</b> (cli가 core 모듈 조합), <b>Template Method 패턴</b> (flag의 take 구조), <b>Strategy 패턴</b> (flag별 다른 동작), <b>Chain of Responsibility 패턴</b> (flag 매칭 시도), <b>Command 패턴</b> (각 flag가 command)
+
 ---
 
 ## cli 클래스 - Frontend의 핵심
@@ -11,6 +13,8 @@
 즉, @ref by::cli "cli" 는 뭔가 알고리즘을 만들어서 동작하는 클래스가 아니라 <b>이미 잘 짜여진 클래스들을 조합하는 역할</b>을 해요.
 
 파라메터로 @ref by::cli "cli" 프로그램에 사용자가 입력한 인자를 받으며, 이를 적절히 파싱해서 추가로 명령을 수행합니다. 자세한 내용은 `flags` 폴더를 참조하세요.
+
+이는 <b>Facade 패턴</b>의 전형적인 구현입니다. cli는 복잡한 core 모듈의 여러 클래스들(interpreter, errReport, starter 등)을 조합하여 단순한 인터페이스로 제공합니다. 사용자는 cli만 호출하면 되고, 내부의 복잡한 과정은 알 필요가 없습니다.
 
 **핵심 알고리즘**
 
@@ -25,6 +29,8 @@
 6. 이상이 없으면 @ref by::starter "starter" 에 검증된 AST를 넣고 실행한다.
 7. @ref by::starter "starter" 의 결과를 반환한다.
 
+TODO: CLI 실행 흐름도와 flag 처리 과정 다이어그램 추가 필요
+
 ---
 
 ## flag 클래스 - 명령줄 플래그 처리
@@ -34,6 +40,11 @@ shell 기반 프로그램에서 흔히 볼 수 있는 플래그들을 처리하�
 한가지 착각하기 쉬운 포인트는 이 클래스는 `--version`과 같은 플래그를 표현하는 클래스가
 아니라 <b>그러한 플래그가 존재하는지, 존재한다면 어떤 동작을 해야 하는지를 담당</b>한다는
 것입니다.
+
+이는 여러 디자인 패턴의 조합입니다:
+- <b>Template Method 패턴</b>: `take()` 메서드가 `_getRegExpr()`로 패턴을 얻고 `_onTake()`를 호출하는 고정된 알고리즘 구조
+- <b>Strategy 패턴</b>: 각 flag 파생 클래스가 `_onTake()`를 다르게 구현하여 서로 다른 동작 정의
+- <b>Command 패턴</b>: 각 flag가 하나의 독립적인 command로 동작하며, 실행 시점에 필요한 모든 정보를 캡슐화
 
 **Flag의 설명**
 
@@ -69,6 +80,8 @@ me::res verFlag::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter&
 
 이 동작은 @ref by::flag "flag" 의 `take()`가 호출되면 파생클래스의 `_getRegExpr()`에 정의해둔 정규식 표현으로 각 @ref by::flag "flag" 객체가 원하는 패턴을 찾는 형태로 동작합니다. 정규식으로 찾기 때문에
 flag 간 순서는 무시됩니다.
+
+여러 flag들이 순차적으로 매칭을 시도하는 것은 <b>Chain of Responsibility 패턴</b>입니다. 각 flag는 자신이 처리할 수 있는 패턴인지 확인하고, 해당되지 않으면 다음 flag로 넘어갑니다.
 
 또한 정규식 패턴을 정의할 때는 여러개 패턴을 정의할 수 있습니다:
 
@@ -139,6 +152,8 @@ me::res me::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) c
 @ref by::bufferSrcFlag "bufferSrcFlag" 는 프로그램 시작 전에 사전 작업을 필요로 하는 @ref by::flag "flag" 입니다. 반면 @ref by::verFlag "verFlag" 같은 경우는 일단 매칭이 되면 어떠한 인터프리팅도 하지 않고 그대로 버전을 출력하고 종료합니다. (대다수 프로그램이 이렇게 동작한다는 걸 알고 있을 것입니다.)
 
 이처럼 @ref by::flag "flag" 의 패턴이 매칭이 되면 동작을 하고 바로 종료하고 싶을 때는, `_onTake()`를 오버라이딩할 때 반환값을 <b>EXIT_PROGRAM</b>으로 줍니다. @ref by::bufferSrcFlag "bufferSrcFlag" 처럼 계속 동작을 하는 경우에는 <b>MATCH</b>로 반환합니다.
+
+TODO: flag 클래스 계층도와 정규식 매칭 프로세스 다이어그램 추가 필요
 
 ---
 
