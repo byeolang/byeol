@@ -81,22 +81,8 @@ package "플랫폼 추상화" {
     }
 }
 
-tmay --> tmedium : 사용
-tres --> tmedium : 사용
-
-note right of tmay
-  <b>사용 예:</b>
-  tmay<int> result = divide(10, 0);
-  if(result.has())
-      int val = result.get();
-end note
-
-note right of tres
-  <b>사용 예:</b>
-  tres<int, string> result = parse("123");
-  if(!result.has())
-      string err = result.getErr();
-end note
+tmay --> tmedium
+tres --> tmedium
 
 note bottom of platformAPI
   <b>플랫폼별 분기:</b>
@@ -106,13 +92,6 @@ note bottom of platformAPI
       // POSIX API 사용
   #endif
 end note
-
-note bottom of fsystem
-  Windows: FindFirstFile/FindNextFile
-  POSIX: opendir/readdir
-  → 동일한 iterator 인터페이스
-end note
-
 @enduml
 
 Byeol의 아키텍처 규칙에 따라, 플랫폼 종속적인 코드(`#ifdef` 조건부 컴파일 등)는 반드시 @ref indep
