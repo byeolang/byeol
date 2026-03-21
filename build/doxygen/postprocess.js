@@ -26,14 +26,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if(style == null) {
                 return {
                     code: raw.replace(/\"/g, '$quot;'),
-                    shown: raw.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+                    shown: raw,
                     style: `language-cpp verified`
                 };
             }
 
             return {
                 code: raw.replace(/\"/g, '$quot;'),
-                shown: raw.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+                shown: raw,
                 style: styles
             };
         }
