@@ -96,7 +96,7 @@ $ ./test --gtest_filter=cliTest.checkDefaultAction verbose
 
 레퍼런스 문서를 위해 `doxygen`을 사용합니다. 가이드 문서 또한 같은 페이지 내에 레퍼런스 문서와 잘 융합되어 보여져야 하기 때문에 마크다운으로 작성되어 doxygen으로 생성됩니다. 이러한 문서의 생성 또한 `builder.py doc` 명령을 통해 생성됩니다.
 
-다음과 같은 프로그램이 필요합니다: `doxygen` 1.9.2+, `graphviz` (선택 사항).
+다음과 같은 프로그램이 필요합니다: `doxygen 1.10+`, `java runtime (jre) 1.8.0+`, `graphviz(선택 사항)`.
 
 
 ### 문서 생성 알고리즘

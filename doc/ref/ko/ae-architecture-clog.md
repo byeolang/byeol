@@ -1,10 +1,11 @@
 # clog 모듈 - 로깅 시스템 {#ae-architecture-clog}
 
 @ref by::clog "clog" 모듈은 여러 출력 스트림과 필터링 기능을 갖춘 경량화된 C++ 로깅 프레임워크를 제공합니다.
-이 모듈은 아키텍처 상 하위 계층에 위치하므로, 상위 모듈에 대한 의존성이 없습니다.
-Facade 패턴, Composite 패턴, Chain of Responsibility 패턴 등을 활용하여 유연하고 확장 가능한 로깅 시스템을 구현합니다.
+이 모듈은 아키텍처 상 indep 모듈을 제외하고 상위 모듈에 대한 의존성이 없습니다.
+Facade 패턴, Composite 패턴, Chain of Responsibility 패턴 등을 활용하여 유연하고 확장 가능한 로깅 시스템으로 구현되어있고,
+richLog 기능, Scope Logging 기능을 통해 사용성이 뛰어납니다.
 
-<b>logger-stream-filterable 관계:</b>
+<b>clog 모듈의 주요 클래스:</b>
 
 @startuml
 class logger {
@@ -29,7 +30,7 @@ abstract class stream {
     + rel() : void
     --
     <b>State Machine</b>
-    출력 스트림 기반
+    로깅 메시지를 출력하게될 목적지
 }
 
 class consoleStream {
@@ -50,8 +51,7 @@ class fileLogStream {
 abstract class filterable {
     + {abstract} filt(Log&) : nbool
     --
-    <b>Strategy 패턴</b>
-    필터 인터페이스
+    <b>필터 인터페이스</b>
 }
 
 class filters {
@@ -75,8 +75,8 @@ class warnPassFilter {
     WARN 레벨만 통과
 }
 
-logger "1" *-- "0..*" stream : 소유
-logger "1" *-- "1" filters : 사용
+logger "1" *-- "0..*" stream
+logger *-- filters
 
 stream <|-- consoleStream
 stream <|-- fileLogStream
@@ -85,66 +85,9 @@ filterable <|-- filters
 filterable <|-- errPassFilter
 filterable <|-- warnPassFilter
 
-filters "1" o-- "0..*" filterable : 통합
-
-note right of logger
-  <b>사용 흐름:</b>
-  1. logBypass() 호출
-  2. filters로 필터링
-  3. 통과한 로그만
-     모든 stream에 전달
-end note
-
-note bottom of stream
-  <b>상태 전이:</b>
-  INIT → READY → DUMPED → DONE
-
-  각 stream은 독립적으로
-  enable/disable 가능
-end note
-
-note right of filters
-  <b>Composite 패턴:</b>
-  여러 filterable을 하나처럼
-
-  filt() 호출 시
-  모든 필터 체크:
-  - 하나라도 false면 필터링
-  - 모두 true면 통과
-end note
+filters "1" o-- "0..*" filterable
 
 @enduml
-
----
-
-## 로깅의 기본 사용법
-
-@ref by::logger "logger" 클래스는 @ref by::stream "stream" 이라고 불리는 복수의 로깅 경로를 통해 체계적으로 로깅이 가능한 경량화된
-C++ 로깅 프레임워크의 일종의 facade입니다.
-
-일반적으로는 동봉되는 매크로를 통해, 다음과 같이 사용합니다.
-
-```
-@style: language-cpp verified
-BY_I("slot[%s] origins loaded.", getName());
-```
-
-위 코드는 다음과 같이 출력됩니다.
-
-```
-@style: language-txt verified
-Oct 22 2025  21:26:13 I cppPackLo <_loadLibs#49> slot[cpp] origins loaded.
-```
-
-위 로그는 다음과 같은 정보를 보여줍니다:
-
-1. 로깅한 날짜(Oct 22 2025)와 시간(21:26:13)
-2. 로그 레벨(I, Info). 로그 레벨은 ERR, WARN, INFO 총 3개가 존재합니다.
-3. 로깅한 클래스명(cppPackLoading)
-4. 로깅한 함수(_loadLibs)와 해당 파일내 라인번호(49)
-5. 로그 메시지(slot[cpp] origins loaded)
-
-기본적인 사용법은 여기까지만 알아도 충분해요.
 
 ---
 
@@ -201,26 +144,35 @@ BY_I("This won't be logged anywhere");
 
 ---
 
-## 로깅 매크로 시스템
+## 로깅의 기본 사용법
 
-앞서 언급한 `logByPass()`를 통해서 직접 로깅을 해도 되지만, 파일명이나 함수명, 라인번호 등 좀 더
-고급스러운 로깅을 하고 싶다면 로깅 매크로를 사용하면 되죠.
+@ref by::logger "logger" 클래스는 @ref by::stream "stream" 이라고 불리는 복수의 로깅 경로를 통해 체계적으로 로깅이 가능한 경량화된
+C++ 로깅 프레임워크의 일종의 facade입니다.
 
-다음과 같이 사용합니다.
+일반적으로는 동봉되는 매크로를 통해, 다음과 같이 사용합니다.
 
 ```
 @style: language-cpp verified
-BY_I("just message.")
+BY_I("slot[%s] origins loaded.", getName());
 ```
 
-Byeol 매크로 컨벤션에 따라 매크로는 항상 `BY_` prefix로 시작합니다. 뒤에는 로그 레벨인 `I`가 나오며,
-매크로 안쪽에는 로깅할 메시지가 들어갑니다. 위와 같이 로깅할 경우 다음과 같이 출력됩니다.
+위 코드는 다음과 같이 출력되는데요,
 
 ```
 @style: language-txt verified
-Oct 22 2025  21:26:13 I cppPackLo <_loadLibs#49> just message.
+Oct 22 2025 21:26:13   I    cppPackLo   <_loadLibs#49>    slot[cpp] origins loaded.
+          (1)         (2)     (3)           (4)                    (5)
 ```
 
+위 메시지는 다음과 같은 정보를 보여줍니다:
+
+1. 로깅한 날짜(Oct 22 2025)와 시간(21:26:13)
+2. 로그 레벨(I, Info). 로그 레벨은 ERR, WARN, INFO 총 3개가 존재합니다.
+3. 로깅한 클래스명(cppPackLoading)
+4. 로깅한 함수(_loadLibs)와 해당 파일내 라인번호(49)
+5. 로그 메시지(slot[cpp] origins loaded)
+
+기본적인 사용법은 여기까지만 알아도 충분해요.
 로그 레벨은 Error, Warning, Info, 3개가 존재하며, 각각 매크로도 3개가 존재합니다. 또한 만약 디버그
 바이너리에서만 로그를 출력하고 싶다면 레벨 앞에 `D`를 붙입니다. 이를테면 다음과 같습니다.
 
@@ -240,6 +192,8 @@ Oct 22 2025  21:26:13 E leafPars <_finalize#263> leaf: ERR: src is empty
 해당 macro의 구현은, 출력할 문자열 앞에 날짜나 시간 등을 붙여서 logBypass()에 전달하도록 expand 하는
 것이긴 하나, 그외에도 한가지 중요한 기능이 더 있습니다.
 
+---
+
 ### Scope 로깅 매크로
 
 함수나 블록의 <b>진입과 탈출을 시각화</b>하고 싶을 때는 `BY_I_SCOPE`, `BY_E_SCOPE`, `BY_W_SCOPE` 매크로를 사용합니다.
@@ -253,6 +207,11 @@ void processData(int id) {
     BY_I_SCOPE("processData id=%d", id);
     // 함수 본문...
     BY_I("processing...");
+    foo();
+}
+void foo() {
+    BY_I_SCOPE("inside of foo");
+    BY_I("hello foo!");
 }
 ```
 
@@ -262,6 +221,9 @@ void processData(int id) {
 @style: language-txt verified
 I <processData#130> ▶  processData id=123
 I <processData#131> ┣ processing...
+I <processData#130> ┣▶  inside of foo
+I <processData#131> ┃┣ hello foo!
+I <processData#130> ┣◀  inside of foo
 I <processData#130> ◀  processData id=123
 ```
 
@@ -291,7 +253,7 @@ void bad() {
 <b>주의사항: if 블록에서 사용할 때 조심하세요</b>
 
 `BY_I_SCOPE` 매크로를 if 문의 블록문으로 사용하면 예상과 다르게 동작할 수 있습니다. 매크로가 expand
-되면서 여러 개의 statement로 펼쳐지기 때문이에요. 다음 예제를 보죠:
+되면서 여러 개의 statement로 펼쳐지기 때문이에요. 다음 예제를 보죠.
 
 ```
 @style: language-cpp verified
@@ -330,126 +292,42 @@ void foo() {
 
 ---
 
-### 간략화된 주소값
-
-@ref by::richLog "richLog" 로 void*를 넘기게 되면 @ref indep 모듈에 있는 @ref by::platformAPI "platformAPI" 를 사용해서 `toAddr()`를 호출합니다.
-이 함수는 void*를 마지막 4 hex값을 문자열로 변환하는 함수이며, 프로젝트 내에서 주로 `@` 뒤에 적는
-스타일입니다. 예를 들면 다음과 같이 로깅 됩니다.
-
-```
-@style: language-txt verified
-Nov 18 2025  20:02:13 I verifier  <onLeave#87> '' assignExpr@9a50: step#1 --> set evalType
-```
-
-위 로그에서 assignExpr@9a50은 assignExpr 객체가 heap 주소의 끝자리가 9a50인 곳에 있는 인스턴스라는
-얘기입니다. 이는 동일한 타입에 대해 서로 다른 인스턴스가 같은 시점에 로깅되는 경우 좀 더 수월하게
-디버깅 하도록 도와요.
-
----
-
 ## richLog - 다형성 로깅
 
 @ref by::richLog "richLog" 는 서식문자에 입력된 argument를 다형성을 활용해서 적절한 타입으로 변환해서 로깅하는
-기능입니다. 함수 오버로딩을 통한 컴파일 타임 타입 디스패칭 기법을 사용하여, 각 타입에 맞는 변환 함수를
-자동으로 선택합니다.
+강력한 기능입니다. 함수 오버로딩을 응용하여, 각 타입에 맞는 변환 함수를 자동으로 선택합니다.
+쉽게, 예를들어 보죠.
 
-<b>richLog의 convert/wrap 메커니즘:</b>
+```
+@style: language-cpp verified
+struct person {
+    std::string name;
+    int age;
+};
+struct address {
+    std::string state;
+    std::string city;
+};
 
-@startuml
-participant "사용자 코드" as user
-participant "BY_I 매크로" as macro
-participant "richLog" as richLog
-participant "convert()\n(오버로드)" as convert
-participant "wrap" as wrap
-participant "logger" as logger
+person p{"Harland D. Sanders", 59};
+address a{"Henryville", "Indiana"};
 
-user -> macro : BY_I("obj: %s, val: %d", meObj, count)
-activate macro
+BY_I("Hello I'm %s and %d years old. I live in %s, %s", p.name, p.age, a.city, a.state);
+// 출력: Hello I'm Harland D. Sanders and 59 years old. I live in Henryville, Indiana
+```
 
-note right of macro
-  매크로 확장:
-  richLog("obj: %s, val: %d",
-          meObj, count)
-end note
+richLog를 사용한다면, 위의 로깅은 다음과 같이 작성할 수 있게 됩니다.
 
-macro -> richLog : richLog(format, meObj, count)
-activate richLog
+```
+BY_I("Hello I'm %s. I live in %s", p, a);
+// 출력: 위와 동일.
+```
 
-richLog -> convert : convert(meObj)
-activate convert
+즉, 각 가변 인자의 타입을 보고 적절한 로깅 메시지를 생성하여 대신 전달하는 기능입니다.
+물론 공짜는 없어요. 어딘가에는 Person타입에 대해 어떠한 메시지를 생성하겠다는 걸 추가해줘야 합니다.
+하지만 그렇다곤 해도, 어떻게 이런 게 가능할까요.
 
-note right of convert
-  <b>컴파일 타임 디스패칭:</b>
-  meObj는 tstr<obj> 타입
-
-  오버로드 resolution:
-  1. convert(tstr<obj>&) 있나? → 있음!
-  2. 해당 함수 호출
-
-  obj를 문자열로 변환:
-  return strWrap(obj.getName())
-end note
-
-convert --> richLog : strWrap("obj")
-deactivate convert
-
-richLog -> convert : convert(count)
-activate convert
-
-note right of convert
-  count는 int 타입
-
-  오버로드 resolution:
-  1. convert(int) 있나? → 있음!
-  2. 해당 함수 호출
-
-  int를 그대로 전달:
-  return noWrap<int>(count)
-end note
-
-convert --> richLog : noWrap<int>(count)
-deactivate convert
-
-richLog -> wrap : strWrap.unwrap()
-activate wrap
-wrap --> richLog : "obj" (const char*)
-deactivate wrap
-
-richLog -> wrap : noWrap.unwrap()
-activate wrap
-wrap --> richLog : count (int)
-deactivate wrap
-
-richLog -> logger : log(level, "obj: %s, val: %d",\n         "obj", count)
-activate logger
-
-note right of logger
-  가변인자 함수 호출:
-  - 모든 인자가 scalar나 포인터
-  - printf 스타일 포매팅 가능
-end note
-
-logger -> logger : filters 체크
-logger -> logger : stream들에 출력
-
-logger --> richLog : void
-deactivate logger
-
-richLog --> macro : void
-deactivate richLog
-
-macro --> user : void
-deactivate macro
-
-note bottom of user
-  <b>출력 결과:</b>
-  Oct 22 2025  22:01:12 I
-    obj: obj, val: 42
-end note
-
-@enduml
-
-<b>convert/wrap의 역할:</b>
+### 핵심 알고리즘
 
 @startuml
 package "richLog 시스템" {
@@ -482,68 +360,23 @@ package "richLog 시스템" {
 convert ..> strWrap : 생성
 convert ..> noWrap : 생성
 
-note right of convert
-  <b>오버로드 예시:</b>
-
-  // 객체 타입 → 문자열
-  strWrap convert(tstr<obj>& o) {
-      return strWrap(o->getName());
-  }
-
-  // void* → 주소 문자열
-  strWrap convert(void* ptr) {
-      return strWrap(toAddr(ptr));
-  }
-
-  // int → 그대로
-  noWrap<int> convert(int n) {
-      return noWrap<int>(n);
-  }
-end note
-
-note bottom of strWrap
-  <b>사용 이유:</b>
-  임시 string 객체의
-  lifetime 관리
-
-  unwrap() 호출 시점까지
-  string을 유지
-end note
-
-note bottom of noWrap
-  <b>사용 이유:</b>
-  %d, %f 등
-  타입별 서식 문자 지원
-
-  값을 가공 없이
-  가변인자로 전달
-end note
-
 @enduml
 
-@ref clog 모듈은 architecture 상 아랫부분에 위치하기 때문에 @ref clog 에 종속하는 클래스가 뭐가 있는지 알아서는
-안됩니다. 그렇기 때문에 @ref by::richLog "richLog" 는 각 모듈마다 정의되어 있으며, 해당 모듈에 포함된 클래스를 어떻게
-문자열로 변환할지를 정의해두고 있어요.
-
-이를 사용하면 다음과 같은 코드가 가능해집니다.
+핵심은 <b>paramter pack을 활용한 변환함수 호출</b>과 <b>값 전달</b> 2가지 입니다.
+먼저 `BY_I` 와 같은 매크로를 사용하면 다음의 richLog 함수를 호출하는데요.
 
 ```
 @style: language-cpp verified
-BY_I("make a closure for %s.%s", meObj, cast.getSrc().getName());
+template <typename... Ts>
+void richLog(errLv::level lv, const std::string& filename, const nchar* func, nint line, const nchar* fmt,
+    const Ts&... args) {
+    ::by::logger::get().log(lv, filename, func, line, fmt, __convert__((const Ts&) args).unwrap()...);
+}
 ```
 
-결과는 다음과 같이 나올 수 있습니다.
+위와 같이 각각의 가변인자에 대해 __convert__()를 호출해 적절한 타입(예: 문자열)로 변환 되면 wrap<T> 객체가 반환되는데요,
+wrap::unwrap()을 통해 log() 함수의 가변인자로 넣는 거죠.
 
-```
-@style: language-txt verified
-Oct 22 2025 22:01:12 I closure <_make#73> make a closure for obj.foo
-```
-
-meObj은 tstr<obj>라는 타입이고, getName()은 std::string을 반환하지만 양쪽 모두 적절하게 문자열로
-변환해서 로깅이 됩니다. 단 주의할 점은, `%d` 인지 `%s`를 써야 하는지 타입마다 다를 수 있다는
-점입니다. (하지만 대부분 scalar type을 제외하고는 %s를 사용합니다.)
-
-@ref by::richLog "richLog" 는 크게 __convert__ 부분과 wrap 부분으로 나뉘어져 있습니다.
 
 ### convert()
 
@@ -551,18 +384,45 @@ meObj은 tstr<obj>라는 타입이고, getName()은 std::string을 반환하지�
 __convert__()에 자신이 받은 구체타입을 넣을 뿐이며, 오버로딩에 의해서 가장 적절한 타입에 대한
 __convert__가 호출됩니다.
 
-그 말은, 범용적인 __convert__()와 특정 타입에 특화된 __convert__()를 동시에 정의할 수 있다는
-말입니다. 대표적으로는 __convert__(void*)가 있습니다. 어떠한 T*에도 매칭 되지 않으면 이
+```
+@style: language-cpp verified
+noWrap<nflt> __convert__(nflt rhs) { return rhs; }
+noWrap<nflt> __convert__(nflt* rhs) { return rhs ? __convert__(*rhs) : 0.0f; }
+noWrap<const nchar*> __convert__(const nchar* rhs) { return rhs ? rhs : "null"; }
+noWrap<ndbl> __convert__(ndbl* rhs) { return rhs ? __convert__(*rhs) : 0.0; }
+strWrap __convert__(nbool rhs) { return strWrap(rhs ? "true" : "false"); }
+strWrap __convert__(nbool* rhs) { return rhs ? __convert__(*rhs) : strWrap("null"); }
+...
+```
+
+만약 앞서 언급한 Person이나 Address에 대해서도 richLog를 가능하게 하려면 어떻게 할까요?
+
+```
+strWrap __convert__(person&& p) { return p.name + p.age + " years old"; }
+strWrap __convert__(address&& a) { return a.city + ", " + a.state; }
+```
+
+생각보다 간단한가요?
+위와 같은 설계의 장점은, 범용적인 __convert__()와 특정 타입에 특화된 __convert__()를 동시에 정의할 수 있다는
+말입니다. 대표적으로는 __convert__(void*)가 있어요. 어떠한 T*에도 매칭 되지 않으면 이
 __convert__가 대신 호출됩니다.
+
+이처럼 __convert__가 필요한 이유는 쉽게 이해가 가능합니다. 근데 왜 wrap을 굳이 사용해야만 할까요?
 
 ### wrap
 
 wrap이 필요한 이유는 richLog() 안쪽에서 __convert__()를 호출하고 이때 전달받은 값들을 가변인자를
 통과할 수 있도록 풀어주는 역할을 합니다.
 
-가변인자 함수는 scalar type이나 T*만 넘길 수 있기 때문에 값으로는 넘길 수 없습니다. 일부
-__convert__()는 안에서 새로운 값을 만들어 값으로 넘겨야 하는 상황도 있을 수 있기 때문에
-@ref by::logger::log() "log()" 가 가변인자로 구성되어 있는 한은 @ref by::wrap "wrap" 이 꼭 필요합니다.
+c++ 스펙상, 가변인자 함수는 scalar type이나 T*만 넘길 수 있기 때문에 값으로는 넘길 수 없습니다.
+문제는 위의 __convert__(person&&)에서 봤듯이 상당수의 __convert__는  안에서 새로운 값을 만들어
+값으로 넘겨야 한다는 거예요.
+이때 wrap이 등장합니다. __convert__의 반환형을 보면 아시겠지만 wrap*로 넘기지 않죠. 값으로 넘깁니다.
+그러니 richLog 함수템플릿 안에선, 임시 객체인 wrap이 생성되며, __convert__안에서 임시로 생성한
+문자열 또한 안전하게 `const char* strWrap::unwrap()`을 호출하면서 char*를 가변인자 안으로 넘길 수 있습니다.
+
+즉, 요약하면 @ref by::logger::log() "log()" 가 가변인자이므로 c++ 스펙상 임시객체를 값으로 넘길 수 없기
+때문입니다.
 
 __convert__() 함수들은 크게 `strWrap` 혹은 `noWrap<T>` 2가지 중 하나를 반환형으로 정의하는데
 noWrap은 아무런 가공없이 받은 걸 그대로 반환하지만 strWrap은 std::string::c_str()를 내부적으로
@@ -580,9 +440,105 @@ strWrap __convert__(const myClass& obj) { return strWrap(obj.toString()); }
 noWrap<int> __convert__(int val) { return noWrap<int>(val); }
 ```
 
-### richLog 확장 예제
+자, 흐름을 정리해보죠.
 
-각 모듈은 자신의 타입을 로깅할 수 있도록 `__convert__()` 함수를 추가로 정의합니다.
+<b>richLog의 convert/wrap 메커니즘:</b>
+
+@startuml
+participant "사용자 코드" as user
+participant "BY_I 매크로" as macro
+participant "richLog" as richLog
+participant "convert()\n(오버로드)" as convert
+participant "wrap" as wrap
+participant "logger" as logger
+
+user -> macro : BY_I("obj: %s, val: %d", meObj, count)
+activate macro
+
+note right of macro
+  매크로 확장:
+  richLog("obj: %s, val: %d",
+          meObj, count)
+end note
+
+macro -> richLog : richLog(format, meObj, count)
+activate richLog
+
+richLog -> convert : convert(meObj)
+activate convert
+
+note right of convert
+  <b>적절한 오버로딩 convert() 중 호출:</b>
+  예: meObj는 tstr<obj>* 타입
+
+  convert(tstr<obj>*) 호출.
+  (없을 경우 convert(void*) 호출)
+
+  return strWrap(obj.getName())을 반환.
+end note
+
+convert --> richLog : strWrap("obj")
+deactivate convert
+
+richLog -> convert : convert(count)
+activate convert
+
+note right of convert
+  <b>적절한 오버로딩 convert() 중 호출:</b>
+
+  count는 int 타입.
+  convert(int) 호출.
+
+  return noWrap<int>(count)
+end note
+
+convert --> richLog : noWrap<int>(count)
+deactivate convert
+
+richLog -> wrap : strWrap.unwrap()
+activate wrap
+wrap --> richLog : "obj"
+deactivate wrap
+
+richLog -> wrap : noWrap.unwrap()
+activate wrap
+wrap --> richLog : 3 (count의 값)
+deactivate wrap
+
+richLog -> logger : log(level, "obj: %s, val: %d", "obj", 3)
+activate logger
+
+note right of logger
+  가변인자 함수 호출:
+  - 모든 인자가 scalar나 포인터
+  - printf 스타일 포매팅 가능
+end note
+
+logger -> logger : filters 체크
+logger -> logger : stream들에 출력
+
+logger --> richLog : void
+deactivate logger
+
+richLog --> macro : void
+deactivate richLog
+
+macro --> user : void
+deactivate macro
+
+note right of user
+  <b>출력 결과:</b>
+  Oct 22 2025  22:01:12 I obj: obj, val: 42
+end note
+
+@enduml
+
+
+### richLog 확장
+
+@ref clog 모듈은 architecture 상 아랫부분에 위치하기 때문에 @ref clog 에 종속하는 클래스가 뭐가 있는지 알아서는
+안됩니다. 그렇기 때문에 @ref by::richLog "richLog" 는 각 모듈마다 정의되어 있으며, 해당 모듈에 포함된 클래스를 어떻게
+문자열로 변환할지를 추가로 정의해두고 있어요.
 예를 들어 @ref meta 모듈에서는 다음과 같이 정의합니다:
 
 ```
@@ -600,13 +556,30 @@ namespace by {
 }
 ```
 
-이렇게 정의하면 로깅 매크로에서 해당 타입을 직접 사용할 수 있어요:
+이렇게 정의하면 로깅 매크로에서 해당 타입을 직접 사용할 수 있게 되는거죠.
 
 ```
 @style: language-cpp verified
 type& t = ttype<myClass>();
 BY_I("type is %s", t);  // __convert__(const type&)가 호출되어 적절히 문자열로 변환됨
 ```
+
+
+### 간략화된 주소값
+
+@ref by::richLog "richLog" 로 void*를 넘기게 되면 @ref indep 모듈에 있는 @ref by::platformAPI "platformAPI" 를 사용해서 `toAddrId()`를 호출합니다.
+addrId란 void*의 주소값의 마지막 4 hex값을 문자열로 표현한 값을 말합니다.
+프로젝트 내에서 어느 주소에 있는 객체인지를 구분하기 위해 매우 자주 사용되니 꼭 알아두세요.
+로깅할때는 항상 `@` 뒤에 addrId를 적는 코딩 컨벤션을 가지고 있습니다. 예를 들면 다음과 같이 로그를 남깁니다.
+
+```
+@style: language-txt verified
+Nov 18 2025  20:02:13 I verifier  <onLeave#87> '' assignExpr@9a50: step#1 --> set evalType
+```
+
+위 로그에서 assignExpr@9a50은 assignExpr 객체가 heap 주소의 끝자리가 9a50인 곳에 있는 인스턴스라는
+얘기입니다. 이는 동일한 타입에 대해 서로 다른 인스턴스가 같은 시점에 로깅되는 경우 좀 더 수월하게
+디버깅 하도록 도와주는 용도예요.
 
 ---
 
@@ -648,32 +621,19 @@ BY_E("this message will definitely be log on entire stream");
 
 ## 필터링 시스템
 
-필터링 시스템은 Strategy 패턴을 사용하여 구현되었습니다. 각 필터는 교체 가능한 알고리즘으로 동작하며,
-런타임에 원하는 필터를 선택하여 적용할 수 있습니다.
+로깅은 디버깅에서는 아주 유용한 도구이지만, unittest나 release 빌드에서는 필요없는 정보를 잔뜩 남겨서 혼란스럽게 하기도 합니다.
+개발중에는 이처럼, 로깅되는 메시지를 보여줬다가 감췄다가 할 필요가 있는데, 필터링은 각 로그의 상세정보를 조건으로
+로그를 걸러주는 역할을 합니다.
+
+필터링 시스템은 Strategy 패턴을 사용하여 구현되었습니다. 각 필터는 교체 가능한 알고리즘으로 동작하며, 런타임에 원하는 필터를 선택하여 적용할 수 있습니다.
 
 ### filterable 클래스
 
-@ref by::filterable "filterable" 클래스는 @ref by::logger "logger" 클래스가 특정한 조건에 해당하는 logging은 필터링 할 수 있게 해줍니다.
-`filt()` 함수를 제공하며, parameter로 주어진 Log 정보에 대해 true를 반환할 경우 해당 Log는 @ref by::stream "stream"
-에 올려지지 않습니다.
+각 필터는 filterable 인터페이스를 구현해야하는데요, @ref by::filterable "filterable"은 `filt()` 함수를 제공하며,
+filt() 함수 안쪽에서 parameter로 주어진 Log 정보에 대해 판단후, true를 반환할 경우 해당 Log는 @ref by::stream "stream"
+에 올라가지 않고 무시됩니다.
 
-각 @ref by::stream "stream" 에 전달될 로그 메시지를, 특정한 조건으로 필터링 할 수 있게 해줍니다. @ref by::filterable "filterable" 은
-`filt()` 함수를 통해, 메시지의 적합성을 판단해 필터링할 것인지를 결정합니다. @ref by::logger "logger" 클래스의
-`setFilters(const filters&)`를 통해서 @ref by::filterable "filterable" 을 추가할 수 있습니다.
-
-예를들어 @ref by::errPassFilter "errPassFilter" 는 `errLv`이 ERR일때만 통과시키는 필터입니다. 다음과 같이 사용할 수
-있습니다.
-
-```
-@style: language-cpp verified
-const filters& prevFilters = logger::get().getFilters();
-filters fs(new errPassFilter());
-logger::get().setFilters(fs);
-
-// doSomething..
-
-logger::get().setFilters(prevFilters);
-```
+@ref by::logger "logger" 클래스의 `setFilters(const filters&)`를 통해서 @ref by::filterable "filterable" 을 추가할 수 있습니다.
 
 ### filters 클래스
 
@@ -686,6 +646,18 @@ logger::get().setFilters(prevFilters);
 말 그대로 err만 통과시키는 @ref by::filterable "filterable" 클래스입니다. 이 filter를 @ref by::logger "logger" 에 등록하면 warning이나
 info는 출력되지 않습니다. 직접 사용하지 않으며, 객체 생성하여 @ref by::logger "logger" 에 add 하는 용도로 사용합니다.
 
+동작은 매우 단순한데요, `errLv`이 ERR일때만 통과시키는 필터입니다. 다음과 같이 사용할 수 있습니다.
+
+```
+@style: language-cpp verified
+const filters& prevFilters = logger::get().getFilters();
+filters fs(new errPassFilter());
+logger::get().setFilters(fs);
+
+// doSomething..
+
+logger::get().setFilters(prevFilters);
+```
 ---
 
 <b>다음 문서</b>: @ref af-architecture-meta
