@@ -4,94 +4,97 @@
 핵심 목표는 Windows, POSIX 계열 운영체제 등 다양한 플랫폼에서 동일한 API를 제공하는 것입니다.
 Adapter 패턴을 사용하여 플랫폼별 차이를 감추고 일관된 인터페이스를 제공합니다.
 
-<b>indep 모듈의 주요 클래스 관계:</b>
+또한 std::optional, result와 같은 에러를 같이 표현할 수 있는 클래스 템플릿을 제공합니다.
+
+<b>indep 모듈의 주요 클래스:</b>
 
 @startuml
 package "에러 처리" {
-    class "tmay<T>" as tmay {
-        - _val : tmedium<T>
-        + has() : nbool
-        + get() : T&
-        + rel() : void
-        + set(T&) : void
-        --
-        <b>Optional 타입</b>
-        std::optional과 유사
-    }
+  class "tmay<T>" as tmay {
+    - _val : tmedium<T>
+    + has() : nbool
+    + get() : T&
+    + rel() : void
+    + set(T&) : void
+    --
+    <b>Optional 타입</b>
+    std::optional과 유사
+  }
 
-    class "tres<T, E>" as tres {
-        - _val : tmedium<T>
-        - _err : E
-        + has() : nbool
-        + get() : T&
-        + getErr() : E&
-        --
-        <b>Result/Either 타입</b>
-        값 또는 에러 반환
-    }
+  class "tres<T, E>" as tres {
+    - _val : tmedium<T>
+    - _err : E
+    + has() : nbool
+    + get() : T&
+    + getErr() : E&
+    --
+    <b>Result/Either 타입</b>
+    값 또는 에러 반환
+  }
 
-    class "tmedium<T>" as tmedium {
-        - _ptr : T*
-        + has() : nbool
-        + get() : T&
-        + operator=(T*) : void
-        --
-        <b>내부 구현 클래스</b>
-        T&와 nullptr 처리
-    }
+  class "tmedium<T>" as tmedium {
+    - _ptr : T*
+    + has() : nbool
+    + get() : T&
+    + operator=(T*) : void
+    --
+    <b>내부 구현 클래스</b>
+    T&와 nullptr 처리
+  }
 }
 
 package "플랫폼 추상화" {
-    class platformAPI {
-        + {static} foreColor(color) : string
-        + {static} unlimitCoreDump() : void
-        + {static} getCpuCount() : nint
-        + {static} getPageSize() : nint
-        --
-        <b>Facade 패턴</b>
-        플랫폼 종속 API 통합
-    }
+  class platformAPI {
+    + {static} foreColor(color) : string
+    + {static} unlimitCoreDump() : void
+    + {static} getCpuCount() : nint
+    + {static} getPageSize() : nint
+    --
+    <b>Facade 패턴</b>
+    플랫폼 종속 API 통합
+  }
 
-    class buildFeature {
-        + {static} version::get() : string
-        + {static} date::get() : string
-        + {static} platform::getName() : string
-        + {static} config::isDbg() : nbool
-        --
-        CMake 자동 생성
-        빌드 정보 제공
-    }
+  class buildFeature {
+    + {static} version::get() : string
+    + {static} date::get() : string
+    + {static} platform::getName() : string
+    + {static} config::isDbg() : nbool
+    --
+    CMake 자동 생성
+    빌드 정보 제공
+  }
 
-    class fsystem {
-        + {static} scan(path) : iterator
-        - _impl : OS별 구현
-        --
-        <b>Adapter 패턴</b>
-        파일 시스템 추상화
-    }
+  class fsystem {
+    + {static} scan(path) : iterator
+    - _impl : OS별 구현
+    --
+    <b>Adapter 패턴</b>
+    파일 시스템 추상화
+  }
 
-    class dlib {
-        - _handle : void*
-        + load(path) : nbool
-        + getFunc(name) : void*
-        + close() : void
-        --
-        동적 라이브러리 로딩
-        dlopen/LoadLibrary 추상화
-    }
+  class dlib {
+    - _handle : void*
+    + load(path) : nbool
+    + getFunc(name) : void*
+    + close() : void
+    --
+    동적 라이브러리 로딩
+    dlopen/LoadLibrary 추상화
+  }
+
+  note bottom of platformAPI
+    <b>플랫폼별 분기:</b>
+    #ifdef BY_PLATFORM_WINDOWS
+        // Windows API 사용
+    #else
+        // POSIX API 사용
+    #endif
+  end note
 }
 
 tmay --> tmedium
 tres --> tmedium
 
-note bottom of platformAPI
-  <b>플랫폼별 분기:</b>
-  #ifdef BY_PLATFORM_WINDOWS
-      // Windows API 사용
-  #else
-      // POSIX API 사용
-  #endif
-end note
 @enduml
 
 Byeol의 아키텍처 규칙에 따라, 플랫폼 종속적인 코드(`#ifdef` 조건부 컴파일 등)는 반드시 @ref indep
@@ -153,7 +156,7 @@ str me::eval(const args& a) {
 }
 ```
 
-<b>WHEN 매크로의 동작 원리</b>
+<b>WHEN 매크로 주요 API</b>
 
 @ref by::WHEN "WHEN" 매크로는 조건이 참일 때 체이닝 가능한 헬퍼 객체를 반환합니다. 이 객체는 다음 메서드들을
 제공합니다:
@@ -218,10 +221,7 @@ class "tmedium<T>" as tmedium {
     + operator=(T*) : void
     + operator=(T&) : void
     --
-    <b>핵심 역할:</b>
-    T&와 nullptr를
-    모두 받을 수 있는
-    유연한 저장소
+    <b>indep 모듈 내부 전용 타입</b>
 }
 
 class "tmay<T>" as tmay {
@@ -234,8 +234,8 @@ class "tmay<T>" as tmay {
     + rel() : void
     + set(T&) : void
     --
-    <b>Optional 타입:</b>
-    값이 있거나 없음
+    <b>std::optional과 유사</b>
+    T값이 있거나 없음을 표현 가능
 }
 
 class "tres<T, E>" as tres {
@@ -249,69 +249,21 @@ class "tres<T, E>" as tres {
     + getErr() : E&
     + isErr() : nbool
     --
-    <b>Result 타입:</b>
-    성공 값 또는 에러
+    <b>std::exepcted와 유사:</b>
+    T값이 없을 경우 E값을 소유함.
 }
 
-tmay *-- tmedium : 값 저장
-tres *-- tmedium : 값 저장
-tres *-- "E" : 에러 저장
-
-note top of tmedium
-  <b>tmedium의 역할:</b>
-
-  1. 포인터 저장:
-     T* _ptr (값이 있으면 주소, 없으면 nullptr)
-
-  2. 참조와 포인터 모두 수용:
-     operator=(T&) : 참조 저장
-     operator=(T*) : 포인터 저장
-
-  3. 안전한 접근:
-     has() : _ptr != nullptr
-     get() : *_ptr 반환 (has()로 체크 필요)
-end note
-
-note right of tmay
-  <b>사용 패턴:</b>
-
-  // 성공
-  tmay<int> success(42);
-  if(success.has())
-      int val = success.get();
-
-  // 실패
-  tmay<int> failure;
-  if(!failure.has())
-      // 에러 처리
-end note
-
-note right of tres
-  <b>사용 패턴:</b>
-
-  // 성공
-  tres<int, string> success(42);
-
-  // 실패
-  tres<int, string> failure("에러 발생");
-  if(!failure.has())
-      string err = failure.getErr();
-
-  <b>차이점:</b>
-  tmay: 에러 정보 없음
-  tres: 에러 정보 포함 (E 타입)
-end note
+tmay *-- tmedium
+tres *-- tmedium
 
 @enduml
 
+
 @ref by::tres "tres" 클래스는 @ref by::tmay "tmay" 와 동일하나, 에러일 경우, 원하는 에러 타입을 갖도록 정의할 수 있습니다.
 예를들어 tmay<A>는 에러인지 아닌지만 알 수 있지만, tres<A, std::string>으로 정의하면 에러일 경우,
-어떤 에러인지 메시지도 알 수 있도록 만들 수 있습니다. 이는 Result 타입 또는 Either 타입으로 알려진 패턴으로,
-함수형 프로그래밍에서 에러 처리를 위해 사용되는 방식입니다.
+어떤 에러인지 메시지도 알 수 있도록 만들 수 있습니다. 이는 Result 타입 또는 Either 타입으로 알려진 idium입니다.
 
 <b>사용 예시</b>
-
-@ref by::tres "tres" 는 @ref by::tmay "tmay" 와 달리 에러 정보도 함께 반환할 수 있습니다:
 
 ```
 @style: language-cpp verified
@@ -336,65 +288,28 @@ if (result.has()) {
 }
 ```
 
-<b>tmay와 tres 실전 사용 예제</b>
-
-```
-@style: language-cpp verified
-// tres: 에러 원인을 알아야 하는 경우
-enum class ErrorCode { NONE, ZERO_DIV, OVERFLOW };
-
-tres<int, ErrorCode> betterDivide(int a, int b) {
-    if(b == 0)
-        return tres<int, ErrorCode>(ErrorCode::ZERO_DIV);
-
-    if(a == INT_MAX && b == -1)
-        return tres<int, ErrorCode>(ErrorCode::OVERFLOW);
-
-    return tres<int, ErrorCode>(a / b);  // 성공
-}
-
-// 사용
-auto result2 = betterDivide(10, 0);
-if(result2.has()) {
-    int value = result2.get();
-} else {
-    ErrorCode err = result2.getErr();
-    switch(err) {
-        case ErrorCode::ZERO_DIV:
-            BY_E("division by zero");
-            break;
-        case ErrorCode::OVERFLOW:
-            BY_E("integer overflow");
-            break;
-    }
-}
-
-// WHEN 매크로와 함께 사용
-tmay<File*> openFile(const std::string& path) {
-    File* f = File::open(path);
-    if(!f)
-        return tmay<File*>();  // 실패
-    return tmay<File*>(*f);    // 성공
-}
-
-void processFile(const std::string& path) {
-    auto result = openFile(path);
-    WHEN(!result.has()).err("failed to open: %s", path.c_str()).ret();
-
-    File* file = result.get();
-    // file 사용...
-}
-```
-
 ---
 
-## 플랫폼 추상화 - platformAPI 클래스
+## platformAPI 클래스
 
 @ref by::platformAPI "platformAPI" 클래스는 단발성으로 호출되는, 플랫폼 종속적인 API들을 독립적으로 제공하는 일종의
 완충작용을 합니다. Facade 패턴을 사용하여 복잡한 플랫폼별 API들을 단순한 인터페이스로 제공합니다.
 
 예를들면 텍스트 출력시 색깔을 입히려면 posix 계열 플랫폼에서는 ANSI escape sequence를 사용하지만
-윈도우에서는 WINAPI를 사용해야 합니다. 이때 @ref by::platformAPI::foreColor() "foreColor()" 를 사용하면,
+윈도우에서는 WINAPI를 사용해야 합니다. 이렇게요.
+
+```
+@style: language-cpp verified
+#ifdef _LINUX
+    cout << "\x1B[0;34m"; // blue
+#else _WINDOWS
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BLACK << 4 | BLUE);
+#endif
+
+cout << "some message\n";
+```
+
+이때 이 diff를 @ref by::platformAPI::foreColor() "foreColor()" 라는 함수로 잘 감싸면 사용하면,
 
 ```
 @style: language-cpp verified
@@ -402,7 +317,8 @@ cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(right
      << foreColor(LIGHTGRAY) << ")";
 ```
 
-와 같이 사용하면 플랫폼 독립적인 코드를 작성하게 되죠.
+와 같이 사용하면 플랫폼 독립적인 코드를 작성할 수 있죠.
+platformAPI는 이러한 함수들을 제공합니다.
 
 ---
 
@@ -415,14 +331,12 @@ cout << foreColor(LIGHTGRAY) << "(" << foreColor(YELLOW) << _encodeNewLine(right
 원본이 #define으로 정의되어 있으므로, 필요하다면 이를 사용해도 되죠. #ifdef시에도 종종
 사용되니 참고하세요.
 
-예:
-
 ```
 @style: language-cpp verified
-if(buildFeature::config::isDbg())
+if(buildFeature::config::isDbg()) // debug binary일때만 뭔가 하고 싶습니다:
     platformAPI::unlimitCoreDump();
 
-// 혹은,
+// 혹은, ifdef를 쓸 수도 있어요.
 
 #ifdef BY_BUILD_PLATFORM_IS_WINDOWS
 ...
@@ -491,8 +405,6 @@ while(e) { // iterator가 유효한 동안
 
 <b>역방향 순회 예제</b>
 
-좀 더 복잡한 역방향 순회 예제예요:
-
 ```
 @style: language-cpp verified
 std::string src = "abcd🏁efg"; // UTF8에서 🏁는 3개의 character로 표현된다.
@@ -536,7 +448,7 @@ for(int n = 0; n < 8; n++) {
 ```
 @style: language-cpp verified
 dlib lib = dlib(path); // 1번과 2번을 동시에 한다.
-auto res = lib.load(); // `res` evaluated as true when it has an error.
+auto res = lib.load(); // path로 지정한 so/dll 의 로딩을 시도하며, 에러 발생시 true를 반환한다.
 WHEN(res) .err("couldn't open %s slot: %d", path, res.get()).ret((rel(), false));
 // rel()로 리소스를 먼저 해제하고, comma 연산자로 false를 반환
 
