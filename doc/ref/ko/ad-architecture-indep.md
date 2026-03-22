@@ -489,4 +489,34 @@ void processFile(const std::string& path) {
 
 ---
 
+## Side Func
+
+보통의 개발자라면 편의함수를 만들어 DRY를 지키려고 노력할 겁니다.
+예를들면 다음과 같은 상황이죠.
+
+```cpp
+const node* promote(const node& it) const; // 핵심 함수
+
+// 인자는 다르지만 결국, promote(const node&)와 동작은 같습니다.
+const node* promote(const node* it) const {
+    // 이 경우, 보통 이렇게 해왔을 겁니다.
+    if(it == nullptr) return nullptr;
+    return promote(*it);
+}
+// 하지만 매번 인자를 체크하고 다른 함수를 호출하는 함수 body를 추가하는 건
+// 매우 지겹습니다.
+```
+
+byeol에서는 이 편의함수를 `Side Func` 이라고 부르고 있습니다.
+의미는 동일해요. 타입이 다른 인자를, 살짝 가공해서 메인이 되는 함수로 위임될 수
+있도록 도와주는 함수입니다.
+이 side func을 구현할때 `BY_SIDE_FUNC` 매크로를 사용해서 한줄로 표현합니다.
+
+```cpp
+const node* promote(const node& it) const; // 핵심 함수
+const node* promote(const node* it) const BY_SIDE_FUNC(promote); // 위 예제의 promote(const node*)와 동일한 함수입니다.
+```
+
+---
+
 <b>다음 문서</b>: @ref ae-architecture-clog
