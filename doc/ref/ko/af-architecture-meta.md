@@ -3,6 +3,14 @@
 @ref meta 모듈은 런타임 타입 정보(RTTI)와 리플렉션 기능을 제공합니다. C++의 기본 RTTI보다 더 강력하고
 효율적인 타입 시스템을 구현하고 있으며, Byeol 언어의 타입 시스템 기반이 됩니다.
 Monostate 패턴, Template Metaprogramming, 재귀적 초기화 등을 활용하여 설계되었습니다.
+다음과 같은 기능을 제공합니다:
+
+1. 타입 계층 구조 탐색 (상속 관계 확인)
+2. 타입 정보 조회 (이름, 추상 클래스 여부, 템플릿 여부 등)
+3. 동적 인스턴스 생성
+4. 효율적인 타입 캐스팅 (dynamic_cast보다 빠름)
+
+<b>meta 모듈의 주요 클래스:</b>
 
 @startuml
 class "adam" as adam {
@@ -38,17 +46,7 @@ class "ttype<T>" as ttype {
     사용자 진입점
 }
 
-note right of ttypeBase
-  <b>Template Metaprogramming:</b>
-  S = tmetaTypeDef<T>::is
-
-  T에 metaType이 있으면
-  S = T::metaType
-
-  없으면 S = type
-end note
-
-note right of type
+note [right](right) of type
   <b>Monostate 패턴:</b>
   모든 멤버 변수가 static
 
@@ -56,177 +54,14 @@ note right of type
   생성해도 내부 상태 공유
 end note
 
-note bottom of adam
-  <b>최상위 타입:</b>
-  부모가 없는 모든 클래스는
-  adam을 super로 정의
-
-  ttype<adam>().getSubs()로
-  모든 최상위 타입 순회 가능
-end note
-
 ttype --|> ttypeBase : 상속
 ttypeBase --|> type : S=type일 때 상속
 adam <-- type : 최상위 타입으로 사용
-
-@enduml
-
-@startuml
-participant "사용자코드" as user
-participant "ttype<Dog>" as ttypeDog
-participant "Dog::type" as dogType
-participant "ttype<Animal>" as ttypeAnimal
-participant "Animal::type" as animalType
-participant "ttype<adam>" as ttypeAdam
-participant "adam::type" as adamType
-
-user -> ttypeDog : ttype<Dog>().init()
-activate ttypeDog
-
-ttypeDog -> dogType : init()
-activate dogType
-
-note right of dogType
-  <b>재진입 방지:</b>
-  if(_isInit) return false;
-  _isInit = true;
-end note
-
-dogType -> dogType : getSuper()
-note right of dogType
-  typedef Animal super;
-  return ttype<Animal>::get()
-end note
-
-dogType -> ttypeAnimal : getSuper().init()
-activate ttypeAnimal
-
-ttypeAnimal -> animalType : init()
-activate animalType
-
-animalType -> animalType : getSuper()
-note right of animalType
-  typedef adam super;
-  return ttype<adam>::get()
-end note
-
-animalType -> ttypeAdam : getSuper().init()
-activate ttypeAdam
-
-ttypeAdam -> adamType : init()
-activate adamType
-
-adamType -> adamType : getSuper()
-note right of adamType
-  <b>재귀 종료:</b>
-  adam은 부모가 없음
-  빈 type 반환
-end note
-
-adamType --> ttypeAdam : 초기화 완료
-deactivate adamType
-deactivate ttypeAdam
-
-animalType -> animalType : getSupers() = super.getSupers()
-animalType -> animalType : getSupers().push_back(&super)
-
-note right of animalType
-  <b>계층 구성:</b>
-  mySupers = [adam]
-  mySupers.push_back(adam)
-
-  Animal의 supers = [adam]
-end note
-
-animalType --> dogType : 초기화 완료
-deactivate animalType
-
-dogType -> dogType : getSupers() = super.getSupers()
-dogType -> dogType : getSupers().push_back(&super)
-
-note right of dogType
-  <b>계층 구성:</b>
-  mySupers = [adam, Animal]
-
-  Dog의 supers = [adam, Animal]
-end note
-
-dogType --> ttypeDog : 초기화 완료
-deactivate dogType
-
-ttypeDog --> user : 초기화 완료
-deactivate ttypeDog
-
-note over user, adamType
-  <b>재귀적 초기화 패턴의 특징:</b>
-
-  1. 한 번만 실행: _isInit 플래그로 재진입 방지
-  2. 상향식 초기화: 자식이 부모를 먼저 초기화
-  3. 계층 구성: 부모의 supers를 복사 후 부모 추가
-  4. 안전한 종료: adam에서 재귀 종료
-end note
-
 @enduml
 
 ---
 
-## 메타 시스템 개요
-
-메타 시스템은 프로그램 실행 중에 타입 정보를 조회하고 조작할 수 있게 해줍니다. 이는 다음과 같은
-목적을 위해 사용됩니다:
-
-1. 타입 계층 구조 탐색 (상속 관계 확인)
-2. 타입 정보 조회 (이름, 추상 클래스 여부, 템플릿 여부 등)
-3. 동적 인스턴스 생성
-4. 효율적인 타입 캐스팅 (dynamic_cast보다 빠름)
-
-메타 시스템의 핵심은 Monostate 패턴을 사용하여 매번 객체를 생성해도 내부 상태는 공유된다는 점이에요.
-따라서 `ttype<MyClass>()`를 여러 번 호출해도 추가 비용이 들지 않습니다.
-
----
-
-## 타입 정보 사용하기
-
-### ttype<T> 클래스
-
-@ref by::ttype "ttype" 클래스는 사용자가 메타 정보를 다루고자할때 진입점이 되는 클래스예요. @ref by::ttype "ttype" 를
-사용할때는 매번 객체를 생성해서 사용해야 합니다. 전체적으로 monostate 패턴으로 설계 되어있어서 매번
-객체를 만들어 사용하더라도 값은 공유하기 때문에 추가비용은 들지 않습니다.
-
-@ref meta 모듈의 전체적인 설계에 대해 파악하고자 한다면 핵심이 되는 @ref by::type "type" 을 먼저 살펴보세요.
-
-<b>ttype 기본 사용 예제</b>
-
-```
-@style: language-cpp verified
-class myClass {};
-
-class myDerivedClass : public myClass {
-    typedef myClass super;
-};
-
-// 타입 정보 조회
-const type& typeInfo = ttype<myClass>();
-std::cout << typeInfo.getName();  // "myClass" 출력
-
-// 템플릿 여부 확인
-bool isTemplate = ttype<myClass>().isTemplate();  // false
-
-// 추상 클래스 여부 확인
-bool isAbstract = ttype<myClass>().isAbstract();  // false
-
-// 부모 타입 확인
-const type& superType = ttype<myDerivedClass>().getSuper();
-std::cout << superType.getName();  // "myClass" 출력
-
-// 인스턴스 생성 (기본 생성자 필요)
-myClass* instance = ttype<myClass>().makeAs<myClass>();
-delete instance;
-```
-
----
-
-## type 클래스의 기능
+## type 클래스
 
 @ref by::type "type" 클래스는 @ref meta 모듈의 핵심이 되는 클래스예요. @ref by::type "type" 에 대한 다음의 기본적인 API를 제공합니다.
 
@@ -325,25 +160,67 @@ bool areSiblings = ttype<Dog>().isSub(ttype<Cat>());  // false
 
 ---
 
+## ttype<T> 클래스
+
+@ref by::ttype "ttype" 클래스는 사용자가 메타 정보를 다루고자할때 진입점이 되는 클래스예요. @ref by::ttype "ttype" 를
+사용할때는 매번 객체를 생성해서 사용해야 합니다. 전체적으로 monostate 패턴으로 설계 되어있어서 매번
+객체를 만들어 사용하더라도 값은 공유하기 때문에 추가비용은 들지 않습니다.
+
+@ref meta 모듈의 전체적인 설계에 대해 파악하고자 한다면 핵심이 되는 @ref by::type "type" 을 먼저 살펴보세요.
+
+<b>ttype 기본 사용 예제</b>
+
+```
+@style: language-cpp verified
+class myClass {};
+
+class myDerivedClass : public myClass {
+    typedef myClass super;
+};
+
+// 타입 정보 조회
+const type& typeInfo = ttype<myClass>();
+std::cout << typeInfo.getName();  // "myClass" 출력
+
+// 템플릿 여부 확인
+bool isTemplate = typeInfo.isTemplate();  // false
+isTemplate == ttype<myClass>().isTemplate(); // same
+
+// 추상 클래스 여부 확인
+bool isAbstract = typeInfo.isAbstract();  // false
+
+// 부모 타입 확인
+const type& superType = ttype<myDerivedClass>().getSuper();
+std::cout << superType.getName();  // "myClass" 출력
+
+// 인스턴스 생성 (단, myClass에 기본 생성자 필요)
+myClass* instance = typeInfo.makeAs<myClass>();
+delete instance;
+```
+
+---
+
 ## 메타 정보의 생성과 관리
 
 ### 메타 정보가 어떻게 생성되나
 
 `isTemplate()` 이나 `isAbstract()`, `getName()` 같은 타입정보는 @ref by::ttypeBase "ttypeBase" 에서
-Template Metaprogramming을 통해 컴파일 타임에 채워줍니다. 따라서 @ref by::type::init() "init()"이 존재하는 이유는
-런타임에 클래스 계층을 구성하기 위해서입니다.
+Template Metaprogramming을 통해 컴파일 타임에 채워줍니다. 반면, 클래스 상속과 같은 계층 정보는 불가능해요.
+따라서 계층 정보를 채워주는 과정은 프로세스 시작후 최초 1번은 실행이 되어야 되어야 합니다.
+@ref by::type "type"에 @ref by::type::init() "init()"이 존재하는 이유는 런타임에 클래스 계층 정보를 구성하기 위해서입니다.
 
-그리고 그 계층을 구성하는 핵심은 <b>모든 클래스는 typedef로 super를 정의해야 한다</b>라는 제약사항으로
-해결합니다. 이는 일종의 코딩 컨벤션이지만, 컴파일러가 이를 강제할 수 있도록 설계되었습니다.
-모든 클래스에 `super`가 존재한다면, @ref by::ttype::init() "init()"도 호출할 수 있기 때문에
-다음과 같은 간단한 재귀적 초기화 패턴으로 클래스 계층을 구성할 수 있게 됩니다.
+그리고 그 계층을 만드는 핵심 조건은 <b>각 사용자는 자신의 클래스를 정의할때 typedef로 super를 정의해야 한다</b>라는 제약사항으로
+해결합니다.
+모든 클래스에 `super`가 존재한다면, @ref by::ttype::init() "init()"함수 안에서 `super::init()`도 호출할 수 있기 때문에
+간단한 재귀함수만으로도 클래스 계층을 구성할 수 있게 됩니다.
 
 <b>참고</b>: 부모 클래스가 없는 최상위 클래스는 `typedef adam super;`로 정의하여 @ref by::adam "adam" 에 연결됩니다.
-이를 통해 모든 타입이 단일 계층 구조를 이루게 됩니다.
+이를 통해 모든 타입이 단일 부모로부터의 계층 구조를 이루게 됩니다.
+`init()`의 예시 코드를 한번 볼까요?
 
 ```
 @style: language-cpp verified
-// 주의: 다음은 실제 코드 동작을 이해하기 쉽게 간략화 한 것이다.
+// 주의: 다음은 실제 코드 동작을 이해하기 쉽게 간략화 한 겁니다.
 nbool me::init() {
     if(_isInit) return false;
     _isInit = true;
@@ -353,14 +230,15 @@ nbool me::init() {
     super.init(); // 재귀적으로 부모의 타입을 계속 호출하는 과정이 반복된다.
                   // 최종적으로는 adam 클래스까지 올라가게 되며, adam 은 부모가 없기 때문에 취소된다.
 
+    // 클래스 계층 정보를 생성한다.
     types& mySupers = getSupers();
-    mySupers = super.getSupers();
+    mySupers = super.getSupers(); // 얇은 복사
     mySupers.push_back(&super);
     ...
 }
 ```
 
-실제 코드는 이와 크게 다르지 않습니다. 실제로 몇 줄의 간단한 코드만으로도 클래스 계층을 구성합니다.
+실제 핵심 코드는 위와 크게 다르지 않습니다. 실제로 몇 줄의 간단한 코드만으로도 클래스 계층을 구성합니다.
 이 과정은 재귀를 사용하긴 하지만, 프로그램 실행 후 1번만 발생하기 때문에 비용도 비교적 적습니다.
 
 ### 메타 정보 자동 생성
@@ -373,24 +251,58 @@ nbool me::init() {
 응용하는데, 이 매크로는 static 객체에 람다함수를 끼워넣음으로써 원하는 동작을 main() 함수가 시작되기
 전에 실행하는 매크로입니다.
 
+```
+@style: language-cpp verified
+    struct _nout Initiator {
+        template <typename T> Initiator(T func) { func(); }
+    };
+
+#define BY_INITIATOR(name, body) \
+    static inline Initiator* BY_CONCAT(__initi__##name##_, __COUNTER__) = new Initiator([]() body);
+
+// 위와 같은 코드가 있을때,
+BY_INITIATOR(hello, {
+    cout << "hello world!\n";
+})
+// 처럼 하면 main() 함수가 시작되기 전에 화면에 `hello world!` 가 출력되게 됩니다.
+```
+
 이 매크로를 응용하면 init() 함수를 main() 함수가 호출되기 직전에 실행하는 게 가능해집니다. 한가지
 제약사항으로는 각 클래스 선언시에 BY_INIT_META (MyClass)를 추가해야 한다는 점입니다.
 
 <b>주의</b>: static 초기화 순서를 사용하므로, 여러 translation unit 간의 초기화 순서는 보장되지
-않습니다. 다만, 각 type의 `init()`은 재귀적으로 부모를 먼저 초기화하는 구조이므로, 타입 계층 구조
-내에서는 부모에서 자식으로 가는 초기화 순서가 보장됩니다.
+않습니다. 다만, 각 type의 `init()`은 재귀적으로 부모를 먼저 초기화 하며, 한번 초기화 되면 두번째부터는
+skip 되는 구조이므로, 싱글 스레드 환경이라면 타입 계층 구조 내에서는 부모에서 자식으로 가는 초기화 순서가 보장됩니다.
 
-이러한 메타 DSL 형태의 매크로들은 BY 매크로에 의해서 실행되도록 컨벤션이 정해져있습니다. 그리고 @ref core
-모듈에서도 추가로 정의해야할 메타 DSL 매크로가 있기 때문에 직접 BY_INIT_META 를 호출하기 보다는
-`BY(CLASS())` 나 `BY(ADT())`를 통해서 한번에 정의합니다.
+이러한 메타 DSL 형태의 매크로들은 BY 매크로에 의해서 실행되도록 컨벤션으로 정의 되어있습니다.
+그리고 나중에 @ref core 모듈에서 후술하겠지만, 이것 말고도 추가로 DSL 매크로를 정의해야 하기 때문에,
+매번 `BY_` prefix를 붙이는 불편함과, 매크로 이름이 충돌될 가능성을 줄이기 위해
+`BY` 라는 DSL 확장 매크로를 사용합니다.
+
+`BY` 매크로는 BY() 안에 `BY_` prefix를 생략한 DSL 매크로를 `,` 을 붙여서 여러개 정의할 수 있습니다.
+
+```
+@style: language-cpp verified
+class A {
+    // core 모듈쯤 가게 되면 이렇게 DSL 매크로가 많아진다.
+    BY_INIT_META(....)
+    BY_CLONE(..)
+    BY_VISIT()
+    BY_ME(...)
+
+    // 그걸 이렇게 간략하게 줄일 수 있다.
+    BY(INIT_META(...), CLONE(..), VISIT(), ME(....))
+};
+```
+
+물론 이 역시 매번 4개나 되는 DSL 매크로를 클래스 정의시마다 추가하는건 매우 귀찮기 때문에 때문에,
+대부분의 경우는 자주 사용하는 매크로들을 조합한 `BY(CLASS())` 나 `BY(ADT())`를 통해서 한번에 정의합니다.
 
 ---
 
 ## adam - 최상위 타입
 
-@ref by::adam "adam" 클래스는 모든 타입 계층의 루트예요. @ref by::type "type" 의 클래스 계층구조 상 아무런 부모도 없는
-메타타입은 범용적으로 다루기가 어렵습니다.
-
+@ref by::type "type" 의 클래스 계층구조 상 아무런 부모도 없는 메타타입은 범용적으로 다루기가 어렵습니다.
 예를들어 모든 메타타입에 대해서 동작하는 함수를 작성하고자 한다면, 다음과 같은 코드를 작성할 수
 있어야 합니다.
 
@@ -431,11 +343,11 @@ class Shape {
 };
 
 class Vehicle {
-    // 부모가 없으므로 자동으로 adam이 부모가 됨
+    typedef adam super; // 굳이 원한다면 이렇게 해도 되긴 함.
 };
 
-class Animal {
-    typedef adam super;  // 명시적으로 adam을 부모로 지정
+class Rectangle : Shape {
+    BY(ME(Rectangle, Shape)) // typedef Rectangle this; typedef Shape super;
 };
 
 // 모든 최상위 타입들을 순회
@@ -444,11 +356,11 @@ const types& allTopLevelTypes = ttype<adam>().getSubs();
 for(const type* t : allTopLevelTypes) {
     std::cout << "Top-level type: " << t->getName() << std::endl;
 }
-// 출력: Shape, Vehicle, Animal 등 모든 최상위 클래스들
+// 출력: Shape, Vehicle 모든 최상위 클래스들
 
 // adam을 통해 특정 타입이 최상위 타입인지 확인
-const type& shapeType = ttype<Shape>();
-bool isTopLevel = (shapeType.getSuper() == ttype<adam>());  // true
+const type& shapeType = ttype<Rectangle>();
+bool isTopLevel = (shapeType.getSuper() == ttype<adam>());  // false
 ```
 
 ---
@@ -459,10 +371,11 @@ bool isTopLevel = (shapeType.getSuper() == ttype<adam>());  // true
 return type과 같이 추가적인 정보를 담고 싶은 경우가 있습니다.
 
 이때 쉽게 생각하면 @ref by::type "type" 을 상속받은 클래스를 만들면 되는거 아닌가라는 아이디어를 떠올리기 쉽지만
-`ttype<T>`에서 언급한 것처럼, 항상 사용자의 최종 진입점은 `ttype<T>`에 접근하면서 시작되어야
-합니다. 문제는 @ref by::ttype "ttype" 의 코드를 @ref meta 모듈을 종속하는 쪽에서 수정할 수는 없기 때문에 상속으로는
-불가능하고 메타 타입을 주입하는 형태로 문제를 해결합니다. 이는 Template Metaprogramming과
-SFINAE(Substitution Failure Is Not An Error) 기법을 사용한 Type Injection 패턴입니다.
+기억을 잘 떠올려보세요. 사용성을 위해서 우리는 `ttype<T>`에서 언급한 것처럼, 항상 사용자의 최종 진입점은 `ttype<T>`에 접근하면서 시작되어야
+합니다. 문제는 @ref by::ttype "ttype" 의 코드를 @ref meta 모듈에 있고, 추가타입 정보를 넣길 원하는 쪽은 meta에 종속되는
+더 상위 모듈이라는 점이죠. 이때는 종속하는 쪽에서 수정할 수는 없기 때문에 상속으로는 불가능하고
+메타 타입을 주입하는 형태로 문제를 해결합니다. 이는 Template Metaprogramming과
+SFINAE(Substitution Failure Is Not An Error) 기법을 사용한 Type Injection 이라고 부르는 패턴을 사용합니다.
 
 핵심 코드는 @ref by::ttypeBase "ttypeBase" 에 있습니다.
 
@@ -493,6 +406,114 @@ MyType;` 처럼 새로운 MyType 클래스를 선언하여 추가하면 해당 t
 메타 타입 구현을 주입할 수 있게 합니다.
 
 실제로 이 기능은 @ref core 모듈에서 @ref by::ntype "ntype" 을 주입하기 위해 사용합니다. 자세한 내용은 @ref by::ntype "ntype" 을 참조하세요.
+
+---
+
+## 시퀸스
+
+마지막으로 meta 정보가 초기화 되는 과정을 다시 복기해 보죠.
+
+@startuml
+participant "사용자코드" as user
+participant "ttype<Dog>" as ttypeDog
+participant "Dog::type" as dogType
+participant "ttype<Animal>" as ttypeAnimal
+participant "Animal::type" as animalType
+participant "ttype<adam>" as ttypeAdam
+participant "adam::type" as adamType
+
+note over user, ttypeDog
+프로세스 시작시, BY_INITIATOR에 의해,
+혹은 사용자의 명시적인 호출에 의해,
+end note
+
+user -> ttypeDog : ttype<Dog>().init()
+activate ttypeDog
+
+ttypeDog -> dogType : init()
+activate dogType
+
+note right of dogType
+  <b>재진입 방지:</b>
+  if(_isInit) return false;
+  _isInit = true;
+end note
+
+dogType -> dogType : getSuper()
+note right of dogType
+  typedef Animal super;
+  return ttype<Animal>::get()
+end note
+
+dogType -> ttypeAnimal : getSuper().init()
+activate ttypeAnimal
+
+ttypeAnimal -> animalType : init()
+activate animalType
+
+animalType -> animalType : getSuper()
+note right of animalType
+  typedef adam super;
+  return ttype<adam>::get()
+end note
+
+animalType -> ttypeAdam : getSuper().init()
+activate ttypeAdam
+
+ttypeAdam -> adamType : init()
+activate adamType
+
+adamType -> adamType : getSuper()
+note right of adamType
+  <b>재귀 종료:</b>
+  adam은 부모가 없음
+  빈 type 반환
+end note
+
+adamType --> ttypeAdam : 초기화 완료
+deactivate adamType
+deactivate ttypeAdam
+
+animalType -> animalType : getSupers() = super.getSupers()
+animalType -> animalType : getSupers().push_back(&super)
+
+note right of animalType
+  <b>계층 구성:</b>
+  mySupers = [adam]
+  mySupers.push_back(adam)
+
+  Animal의 supers = [adam]
+end note
+
+animalType --> dogType : 초기화 완료
+deactivate animalType
+
+dogType -> dogType : getSupers() = super.getSupers()
+dogType -> dogType : getSupers().push_back(&super)
+
+note right of dogType
+  <b>계층 구성:</b>
+  mySupers = [adam, Animal]
+
+  Dog의 supers = [adam, Animal]
+end note
+
+dogType --> ttypeDog : 초기화 완료
+deactivate dogType
+
+ttypeDog --> user : 초기화 완료
+deactivate ttypeDog
+
+note over user, adamType
+  <b>재귀적 초기화 패턴의 특징:</b>
+
+  1. 한 번만 실행: _isInit 플래그로 재진입 방지
+  2. 상향식 초기화: 자식이 부모를 먼저 초기화
+  3. 계층 구성: 부모의 supers를 복사 후 부모 추가
+  4. 안전한 종료: adam에서 재귀 종료
+end note
+
+@enduml
 
 ---
 
