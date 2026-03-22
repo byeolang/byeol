@@ -440,98 +440,6 @@ strWrap __convert__(const myClass& obj) { return strWrap(obj.toString()); }
 noWrap<int> __convert__(int val) { return noWrap<int>(val); }
 ```
 
-자, 흐름을 정리해보죠.
-
-<b>richLog의 convert/wrap 메커니즘:</b>
-
-@startuml
-participant "사용자 코드" as user
-participant "BY_I 매크로" as macro
-participant "richLog" as richLog
-participant "convert()\n(오버로드)" as convert
-participant "wrap" as wrap
-participant "logger" as logger
-
-user -> macro : BY_I("obj: %s, val: %d", meObj, count)
-activate macro
-
-note right of macro
-  매크로 확장:
-  richLog("obj: %s, val: %d",
-          meObj, count)
-end note
-
-macro -> richLog : richLog(format, meObj, count)
-activate richLog
-
-richLog -> convert : convert(meObj)
-activate convert
-
-note right of convert
-  <b>적절한 오버로딩 convert() 중 호출:</b>
-  예: meObj는 tstr<obj>* 타입
-
-  convert(tstr<obj>*) 호출.
-  (없을 경우 convert(void*) 호출)
-
-  return strWrap(obj.getName())을 반환.
-end note
-
-convert --> richLog : strWrap("obj")
-deactivate convert
-
-richLog -> convert : convert(count)
-activate convert
-
-note right of convert
-  <b>적절한 오버로딩 convert() 중 호출:</b>
-
-  count는 int 타입.
-  convert(int) 호출.
-
-  return noWrap<int>(count)
-end note
-
-convert --> richLog : noWrap<int>(count)
-deactivate convert
-
-richLog -> wrap : strWrap.unwrap()
-activate wrap
-wrap --> richLog : "obj"
-deactivate wrap
-
-richLog -> wrap : noWrap.unwrap()
-activate wrap
-wrap --> richLog : 3 (count의 값)
-deactivate wrap
-
-richLog -> logger : log(level, "obj: %s, val: %d", "obj", 3)
-activate logger
-
-note right of logger
-  가변인자 함수 호출:
-  - 모든 인자가 scalar나 포인터
-  - printf 스타일 포매팅 가능
-end note
-
-logger -> logger : filters 체크
-logger -> logger : stream들에 출력
-
-logger --> richLog : void
-deactivate logger
-
-richLog --> macro : void
-deactivate richLog
-
-macro --> user : void
-deactivate macro
-
-note right of user
-  <b>출력 결과:</b>
-  Oct 22 2025  22:01:12 I obj: obj, val: 42
-end note
-
-@enduml
 
 
 ### richLog 확장
@@ -658,6 +566,101 @@ logger::get().setFilters(fs);
 
 logger::get().setFilters(prevFilters);
 ```
+---
+
+## 정리
+
+자, 시퀸스 다이어그램으로 지금까지의 내용을 정리해보죠.
+
+@startuml
+participant "사용자 코드" as user
+participant "BY_I 매크로" as macro
+participant "richLog" as richLog
+participant "convert()\n(오버로드)" as convert
+participant "wrap" as wrap
+participant "logger" as logger
+
+user -> macro : BY_I("obj: %s, val: %d", meObj, count)
+activate macro
+
+note right of macro
+  매크로 확장:
+  richLog("obj: %s, val: %d",
+          meObj, count)
+end note
+
+macro -> richLog : richLog(format, meObj, count)
+activate richLog
+
+richLog -> convert : convert(meObj)
+activate convert
+
+note right of convert
+  <b>적절한 오버로딩 convert() 중 호출:</b>
+  예: meObj는 tstr<obj>* 타입
+
+  convert(tstr<obj>*) 호출.
+  (없을 경우 convert(void*) 호출)
+
+  return strWrap(obj.getName())을 반환.
+end note
+
+convert --> richLog : strWrap("obj")
+deactivate convert
+
+richLog -> convert : convert(count)
+activate convert
+
+note right of convert
+  <b>적절한 오버로딩 convert() 중 호출:</b>
+
+  count는 int 타입.
+  convert(int) 호출.
+
+  return noWrap<int>(count)
+end note
+
+convert --> richLog : noWrap<int>(count)
+deactivate convert
+
+richLog -> wrap : strWrap.unwrap()
+activate wrap
+wrap --> richLog : "obj"
+deactivate wrap
+
+richLog -> wrap : noWrap.unwrap()
+activate wrap
+wrap --> richLog : 3 (count의 값)
+deactivate wrap
+
+richLog -> logger : log(level, "obj: %s, val: %d", "obj", 3)
+activate logger
+
+note right of logger
+  가변인자 함수 호출:
+  - 모든 인자가 scalar나 포인터
+  - printf 스타일 포매팅 가능
+end note
+
+logger -> logger : filters 체크
+logger -> logger : stream들에 출력
+
+logger --> richLog : void
+deactivate logger
+
+richLog --> macro : void
+deactivate richLog
+
+macro --> user : void
+deactivate macro
+
+note right of user
+  <b>출력 결과:</b>
+  Oct 22 2025  22:01:12 I obj: obj, val: 42
+end note
+
+@enduml
+
 ---
 
 <b>다음 문서</b>: @ref af-architecture-meta

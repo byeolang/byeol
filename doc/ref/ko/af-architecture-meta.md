@@ -46,7 +46,7 @@ class "ttype<T>" as ttype {
     사용자 진입점
 }
 
-note [right](right) of type
+note right of type
   <b>Monostate 패턴:</b>
   모든 멤버 변수가 static
 
@@ -409,7 +409,7 @@ MyType;` 처럼 새로운 MyType 클래스를 선언하여 추가하면 해당 t
 
 ---
 
-## 시퀸스
+## 정리하기
 
 마지막으로 meta 정보가 초기화 되는 과정을 다시 복기해 보죠.
 
