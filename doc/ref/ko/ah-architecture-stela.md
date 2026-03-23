@@ -111,9 +111,6 @@ nulStela --|> stela
 
 ---
 
-
----
-
 ## stela 언어의 기본 기능
 
 @startuml
