@@ -23,7 +23,7 @@ namespace by {
      *  See slotLoader and packLoading for details.
      *
      *  @section multiple_packloadings Multiple packLoadings
-     *  packLoading can be retrieved from the native environment (dll or so files) or from the managed environment
+     *  packLoading can be retrieved from the native environment (dll or so files) or from the byeol runtime environment
      *  (.byeol files). Or both may exist in a single pack. Therefore, autoslot doesn't hold just one packLoading but
      *  handles them as an array.
      *

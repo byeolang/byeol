@@ -137,7 +137,7 @@ namespace by {
      *      }
      *  @endcode
      *
-     *  @section managed_vs_native Managed vs Native Type Conversion
+     *  @section scripted_vs_native Scripted vs Native Type Conversion
      *  The `as()` and `is()` functions handle type conversion in the byeol language environment. For example,
      *  @ref nInt is the C++ class representing byeol's `int`. It inherits from @ref node because int can be an AST
      *  instance in byeol. Calling is<nFlt>() on nInt is allowed, but this doesn't mean nInt converts to nFlt in
@@ -145,7 +145,7 @@ namespace by {
      *
      *  To check if nFlt is a kind of node, use the meta module's type conversion via `cast()`. The meta module
      *  manages native environment types in C++ code. Thus, two type conversion systems exist: one for native (C++)
-     *  and one for managed (byeol language):
+     *  and one for script (byeol language):
      *
      *  @code
      *      // Simplified inheritance relationship of nFlt and nInt:
@@ -163,11 +163,11 @@ namespace by {
      *      isNode->cast<nFlt>();                     // nullptr
      *      &val1 == isNode->cast<nInt>();            // true
      *
-     *      // Managed type conversion:
+     *      // Scripted type conversion:
      *      val1.is<nFlt>(); // true: byeol supports explicit int <-> flt conversion
      *  @endcode
      *
-     *  The core module often implements the same concept separately for native and managed environments. Get
+     *  The core module often implements the same concept separately for native and byeol runtime environments. Get
      *  familiar with this pattern. See @ref ases and @ref asable for type conversion flow details.
      *
      *  @section implicit_explicit Implicit vs Explicit Conversion

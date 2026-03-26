@@ -12,9 +12,9 @@ namespace by {
     class evalExpr;
 
     /** @ingroup core
-     *  @brief Managed environment object
-     *  @details The class representing objects in the managed environment. Extends baseObj's functionality to add
-     *  scope handling and concepts for shares and owns needed only in the managed environment.
+     *  @brief Byeol runtime environment object
+     *  @details The class representing objects in the byeol runtime environment. Extends baseObj's functionality to add
+     *  scope handling and concepts for shares and owns needed only in the byeol runtime environment.
      *
      *  @section obj_as_type obj as a Type
      *  In C++, types are represented by classes, but byeol has no class concept. Since there's no distinction between
@@ -36,14 +36,14 @@ namespace by {
      *      obj* myObj2 = myObj.clone(); // When creating object with `myObj2 myObj` in byeol.
      *  @endcode
      *
-     *  As shown, in the managed environment, objects are just obj created via two paths: `obj defined with def` and
+     *  As shown, in the byeol runtime environment, objects are just obj created via two paths: `obj defined with def` and
      *  `obj cloned from obj`. Since both are used as types, distinguishing them is meaningless.
      *
      *  @section shares_owns Shares and Owns
      *  For baseObj, since the base is a C++ native class, object creation also occurs through C++'s `new` and
      *  constructors, simultaneously creating member variables defined in that class. But what about writing byeol code?
-     *  In the managed environment, obj representing objects can have properties like `name` in the example above. Since
-     *  defining objects in managed environment is cloning objects from @ref origin objects, calling clone() on origin
+     *  In the byeol runtime environment, obj representing objects can have properties like `name` in the example above. Since
+     *  defining objects in byeol runtime environment is cloning objects from @ref origin objects, calling clone() on origin
      *  also copies properties and funcs. At this time, funcs only need one in the system and don't need to be copied
      *  each time a func object is created. Conversely, properties like name must be copied with different values per
      *  instance. To handle this efficiently, parts shared among objs of the same type are separated into shares, and

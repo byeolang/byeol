@@ -10,9 +10,9 @@ namespace by {
     typedef class _nout tbridge<nseq> __seqSuperClass;
 
     /** @ingroup core
-     *  @brief Managed sequence container for integer ranges
+     *  @brief scripted sequence container for integer ranges
      *  @details Immutable sequence representing integer ranges with bridged native implementation.
-     *  Provides managed object interface to native sequence functionality.
+     *  Provides script object interface to native sequence functionality.
      */
     class _nout seq: public __seqSuperClass, public tucontainable<nInt, nInt, nInt>, tarrayable<nInt, nInt, nInt> {
         // seq uses wrapType:

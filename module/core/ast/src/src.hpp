@@ -9,7 +9,7 @@ namespace by {
      *  @details Contains which @ref srcFile and at what location within it the created AST @ref node was generated.
      *  Used as a core feature in the byeol language's Context-based REPL.
      *
-     *  @remark src information is limited to the managed environment.
+     *  @remark src information is limited to the byeol runtime environment.
      *  Objects created in the native environment have dummy values in src. See @ref dumSrc for details.
      */
     class _nout src: public instance {

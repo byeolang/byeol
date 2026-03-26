@@ -40,14 +40,14 @@ namespace by {
 
     public:
         /**
-         *  @brief check whether two ntype are same in both of native and managed environments
+         *  @brief check whether two ntype are same in both of native and byeol runtime environments
          *  @details mgdType inherits ntype, so this operator==() is also able to checks equality in managed code.
          */
         nbool operator==(const type& rhs) const override;
 
     public:
         /**
-         *  @brief whether variable 'it' can be a subtype of T in managed code
+         *  @brief whether variable 'it' can be a subtype of T in runtime
          */
         template <typename T> nbool isImpli() const { return this->isImpli(ttype<T>::get()); }
 
@@ -93,10 +93,10 @@ namespace by {
         virtual nbool isImmutable() const;
 
         /**
-         *  @return true if rhs has same params and return type in managed code
-         *  @details operator==() compares type equality in the native (C++) environment — it returns true
+         *  @return true if rhs has same params and return-type in runtime
+         *  @details operator==() compares type equality in the native runtime(C++) environment — it returns true
          *           if both objects are of the same class.
-         *           In contrast, isSameSign() compares type equality in the managed environment.
+         *           In contrast, isSameSign() compares type equality in the byeol runtime environment.
          */
         nbool isSameSign(const type& rhs) const;
 

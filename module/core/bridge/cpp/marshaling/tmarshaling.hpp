@@ -130,7 +130,7 @@ namespace by {
 
     /** @ingroup core
      *  @brief Normal marshaling for primitive types
-     *  @details Template for marshaling between native and managed primitive types.
+     *  @details Template for marshaling between native and script primitive types.
      */
     template <typename tnativeType, typename tmarshalType> struct tnormalMarshaling: public metaIf {
         typedef tmarshalType mgd;

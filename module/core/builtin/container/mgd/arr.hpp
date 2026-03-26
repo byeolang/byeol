@@ -8,9 +8,9 @@ struct arrIntegTest;
 namespace by {
 
     /** @ingroup core
-     *  @brief Managed array container for byeol language
+     *  @brief Scripted array container for byeol language
      *  @details Dynamic array container with type checking and generic support.
-     *  Provides bridged access to native array with managed object semantics.
+     *  Provides bridged access to native array with script object semantics.
      */
     class _nout arr: public tbridge<narr>, public tucontainable<node>, public tarrayable<node> {
         // arr uses instance variable 'ntype':

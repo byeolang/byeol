@@ -11,8 +11,8 @@ namespace by {
     typedef tnarr<node, strTactic> narr;
 
     /** @ingroup core
-     *  @brief Managed type for byeol objects
-     *  @details Type information for managed objects with inheritance, parameters, and templates.
+     *  @brief Script type for byeol objects
+     *  @details Type information for scripted objects with inheritance, parameters, and templates.
      *  Handles complex type relationships and runtime type information.
      */
     class _nout mgdType: public ntype, public clonable {
@@ -21,8 +21,8 @@ namespace by {
     public:
         mgdType(const std::string& name, const type& super, const params& ps);
         /**
-         * @brief Constructs a managed type with name, super type, parameters, ADT status, and return node.
-         * @param name The name of the managed type.
+         * @brief Constructs a script type with name, super type, parameters, ADT status, and return node.
+         * @param name The name of the script type.
          * @param super The super type for inheritance.
          * @param ps The parameters associated with this type.
          * @param isAdt A boolean indicating if this type represents an Algebraic Data Type (ADT).
@@ -33,8 +33,8 @@ namespace by {
 
     private:
         /**
-         * @brief Protected constructor for internal use, defining a managed type with full hierarchy information.
-         * @param name The name of the managed type.
+         * @brief Protected constructor for internal use, defining a script type with full hierarchy information.
+         * @param name The name of the script type.
          * @param supers A list of super types for inheritance.
          * @param subs A list of sub types.
          * @param ps The parameters associated with this type.
@@ -52,8 +52,8 @@ namespace by {
         ncnt size() const override;
 
         /**
-         * @brief Performs a deep clone operation for this managed type instance.
-         * @details This method ensures that all components of the managed type, including its
+         * @brief Performs a deep clone operation for this script type instance.
+         * @details This method ensures that all components of the script type, including its
          *          internal structures and parameters, are deeply copied from the source.
          * @param from The clonable object to copy from.
          */

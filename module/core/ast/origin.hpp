@@ -28,7 +28,7 @@ namespace by {
      *  @endcode
      *
      *  @section why_cast_origin_returns_null Why cast<origin>() Returns nullptr
-     *  `getType()` doesn't just apply to managed object origin types defined in byeol. It also provides types for
+     *  `getType()` doesn't just apply to script object origin types defined in byeol. It also provides types for
      *  native environment C++ classes like @ref node and @ref instance. For example, suppose a user writes this byeol
      *  code:
      *
@@ -48,13 +48,13 @@ namespace by {
      *  ttype<obj>(). Result: @ref starter executing the program thinks YourObj and MyObj are the same type.
      *
      *  To solve this, the C++ obj class has a @ref mgdType variable as a member. mgdType is type information for byeol
-     *  types in the managed environment. See mgdType for details. The key point is this mgdType is structured to
+     *  types in the byeol runtime environment. See mgdType for details. The key point is this mgdType is structured to
      *  extend the existing native type meta information tree, so it's represented as inheriting from ttype<obj>.
      *  Thus, calling getType() on the C++ MyObj object yields mgdType, and this type can be distinguished from
      *  YourObj while having parent class `obj` type.
      *
      *  If we didn't do this but instead separated getType() and getMgdType(), all functions using type would need to
-     *  distinguish whether the received node* is a native or managed object, and if managed, call getMgdType() to
+     *  distinguish whether the received node* is a native or script object, and if managed, call getMgdType() to
      *  handle it.
      *
      *  Sharp readers may now understand why cast<origin>() shouldn't be used. Without any processing, origin class's

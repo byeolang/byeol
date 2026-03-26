@@ -12,7 +12,7 @@ namespace by {
      *  of the literal constant types written as array elements.
      *
      *  @remark arr class
-     *  @ref tnarr is the class handling arrays in the native environment. @ref arr extends tnarr for the managed
+     *  @ref tnarr is the class handling arrays in the native environment. @ref arr extends tnarr for the byeol runtime
      *  environment. This allows similar APIs to be used in both C++ and byeol. See arr and tnarr for details.
      */
     class _nout defArrayExpr: public expr {

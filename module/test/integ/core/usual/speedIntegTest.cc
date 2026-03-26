@@ -151,6 +151,6 @@ TEST_F(speedIntegTest, benchmarkSumOfSequence) {
     auto end2 = chrono::steady_clock::now();
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), sum);
-    BY_I("native time: %d", (nint64) ((end - start) / chrono::milliseconds(1)));
-    BY_I("managed time: %d", (nint64) ((end2 - start2) / chrono::milliseconds(1)));
+    BY_I("c++ runtime time: %d", (nint64) ((end - start) / chrono::milliseconds(1)));
+    BY_I("byeol runtime time: %d", (nint64) ((end2 - start2) / chrono::milliseconds(1)));
 }

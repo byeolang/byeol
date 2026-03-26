@@ -6,7 +6,7 @@
 namespace by {
 
     /** @ingroup core
-     *  @brief Factory for creating managed types
+     *  @brief Factory for creating script types
      *  @details Template-based factory for generating type objects with proper metadata.
      */
     class _nout typeMaker {

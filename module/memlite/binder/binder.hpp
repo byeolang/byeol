@@ -88,7 +88,7 @@ namespace by {
      *  using already created tstr or tweak binders.
      *
      *  @section custom_memory_pool Custom memory pool
-     *  Ultimate goal of memlite is lightweight C++ memory management for byeol managed
+     *  Ultimate goal of memlite is lightweight C++ memory management for byeol runtime
      *  environment. Requires GC and additional memory management, implying custom memory
      *  pool and instance lifecycle management. All instance allocation starts with
      *  @ref instancer.

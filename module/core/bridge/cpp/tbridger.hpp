@@ -16,8 +16,8 @@ namespace by {
     /** @ingroup core
      *  @brief C++ to byeol bridge builder
      *  @details As the name suggests, tbridger handles the bridge role between C++ native environment and byeol
-     *  managed environment. Specifically, tbridger handles the `cpp <--> byeol` bridge. The goal is to easily expose
-     *  natively defined functions or classes as managed types or functions with just a few lines of C++ code.
+     *  byeol runtime environment. Specifically, tbridger handles the `cpp <--> byeol` bridge. The goal is to easily expose
+     *  natively defined functions or classes as scripted types or functions with just a few lines of C++ code.
      *
      *  @remark tbridge is designed as a component unit rather than a single class. If you just use it, there's no big
      *  problem, but if you try to understand the code without experience in this area, it might be confusing. So let's
@@ -27,7 +27,7 @@ namespace by {
      *
      *  @section basic_usage Basic Usage
      *  See baseObj for a complete usage example with nStr. The key is that tbridger can very easily expose
-     *  native-written functions to managed code.
+     *  native-written functions to script code.
      *
      *  @section design_structure Design Structure
      *  Brief introduction to core classes in the bridge component. See each class for detailed operation methods and
@@ -41,14 +41,14 @@ namespace by {
      *    `tbaseObjOrigin<tbridger<T>>`, so after filling subs() through tbridger and calling tbridge::getOrigin(), the
      *    tbridge object possesses those functions through origin.
      *
-     *  - **tbridgeFunc** creates a managed environment baseFunc instance that redirects general C++ member function
+     *  - **tbridgeFunc** creates a byeol runtime environment baseFunc instance that redirects general C++ member function
      *    pointers. Calling tbridger::func() internally creates a tbridgeFunc instance like `tbridgerFunc<....>()`.
      *    tbridgeFunc internally applies marshaling to convert C++ native types (node*, int, etc.) to appropriate
-     *    managed types (str, nInt). The same marshaling applies when exporting return values.
+     *    script types (str, nInt). The same marshaling applies when exporting return values.
      *
      *  - **@ref tmarshaling** handles the marshaling mentioned above.
      *
-     *  - **tbridgeCtor** represents functions for constructors. @ref ctor in managed environment is just a constructor
+     *  - **tbridgeCtor** represents functions for constructors. @ref ctor in byeol runtime environment is just a constructor
      *    function and doesn't participate in object creation. This separates the roles of instance creation and
      *    constructor invocation, making logic for calling parent class constructors in inheritance relationships
      *    concise. However, tbridgeCtor must represent constructors according to C++ syntax, making it difficult to

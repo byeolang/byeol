@@ -8,9 +8,9 @@ namespace by {
     class visitor;
 
     /** @ingroup core
-     *  @brief Default copy constructor for managed environment
+     *  @brief Default copy constructor for byeol runtime environment
      *  @details Automatically added by the @ref parser when users don't define a copy constructor for byeol types
-     *  in the managed environment. The object to be copied is passed through args, and this constructor performs
+     *  in the byeol runtime environment. The object to be copied is passed through args, and this constructor performs
      *  shallow copying of the object's properties.
      *
      *  @remark @ref scalar objects are immutable, so even shallow copying behaves like deep copying. See

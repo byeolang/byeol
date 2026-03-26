@@ -19,11 +19,11 @@ namespace by {
 
     /** @ingroup core
      *  @brief Base class for representing byeol objects
-     *  @details The base class for representing objects in byeol. The core module uses both objects in the managed
+     *  @details The base class for representing objects in byeol. The core module uses both objects in the byeol runtime
      *  environment written in byeol language (@ref obj) and objects in the native environment written using C++ code
      *  (@ref baseObj) without distinction. Both are @ref node and baseObj. To achieve this, obj inherits from
      *  baseObj, grouping them into the same class hierarchy. Therefore, baseObj only has functionality common to
-     *  native and managed objects. In other words, managed object obj always has more functionality than baseObj.
+     *  native and script objects. In other words, managed object obj always has more functionality than baseObj.
      *
      *  @section origin_object Origin Objects
      *  The original type defined by users in the byeol language is called an @ref origin object. Constructor calls
@@ -46,7 +46,7 @@ namespace by {
      *  @endcode
      *
      *  @ref tbaseObjOrigin is a class template added for convenience. See that class for details. Using @ref tbridger
-     *  allows exposing native functions as managed functions in one simple line without additional code. @ref nStr
+     *  allows exposing native functions as script functions in one simple line without additional code. @ref nStr
      *  has a good example.
      *
      *  @section baseobj_only_one_origin Unlike obj, baseObj's Origin Object Exists Only Once
@@ -83,10 +83,10 @@ namespace by {
         /**
          * @brief Constructs a baseObj from an existing origin object.
          * @param org A pointer to the origin baseObj.
-         * @param isManaged A boolean indicating whether this baseObj is part of the managed (Byeol language)
+         * @param isScripted A boolean indicating whether this baseObj is part of the Byeol runtime
          * environment.
          */
-        explicit baseObj(const baseObj* org, nbool isManaged);
+        explicit baseObj(const baseObj* org, nbool isScripted);
 
     public:
         using super::eval;
@@ -135,8 +135,8 @@ namespace by {
         virtual void _inFrame(frame& fr, const bicontainable* args) const;
 
         /**
-         * @brief Sets the managed type for this base object.
-         * @details This method is used to associate a specific managed type (`mgdType`) with this
+         * @brief Sets the script type for this base object.
+         * @details This method is used to associate a specific script type (`mgdType`) with this
          *          base object, allowing for dynamic type resolution in the Byeol language environment.
          * @param new1 The new `mgdType` to assign.
          */

@@ -5,7 +5,7 @@
 
 namespace by {
     /** @ingroup core
-     *  @brief Managed type for function objects in byeol language.
+     *  @brief script type for function objects in byeol language.
      *  @details Specialized type information for function objects with implicit conversion support.
      */
     class _nout funcType: public mgdType {
@@ -16,9 +16,9 @@ namespace by {
 
     public:
         /**
-         *  @return true if rhs has same params and return type in managed code
+         *  @return true if rhs has same params and return type in byeol runtime code
          *  @details operator==() only compares parameter and return type equality, but not the name.
-         *           because it's for 1st citizen feature of function type in managed code.
+         *           because it's for 1st citizen feature of function type in byeol runtime code.
          */
         nbool operator==(const type& rhs) const override;
 
