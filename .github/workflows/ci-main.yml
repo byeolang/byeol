@@ -608,7 +608,7 @@ jobs:
           path: |
             /usr/local/bin/doxygen
             /usr/local/share/man/man1/doxygen.1
-          key: ${{ runner.os }}-doxygen-1.9.2
+          key: ${{ runner.os }}-doxygen-1.10.0
 
       - name: cache Ruby gems
         uses: actions/cache@v4
@@ -626,14 +626,14 @@ jobs:
 
       - name: install native dependencies
         run: |
-          sudo apt install -y graphviz python3 python3-pip ruby rubygems wget cmake flex bison libclang-dev
+          sudo apt install -y graphviz python3 python3-pip ruby rubygems wget cmake flex bison libclang-dev default-jre
 
-      - name: install doxygen 1.9.2 source
+      - name: install doxygen 1.10.0 source
         if: steps.doxygen-cache.outputs.cache-hit != 'true'
         run: |
-          wget https://github.com/doxygen/doxygen/releases/download/Release_1_9_2/doxygen-1.9.2.src.tar.gz
-          tar -xzf doxygen-1.9.2.src.tar.gz
-          cd doxygen-1.9.2
+          wget https://github.com/doxygen/doxygen/releases/download/Release_1_10_0/doxygen-1.10.0.src.tar.gz
+          tar -xzf doxygen-1.10.0.src.tar.gz
+          cd doxygen-1.10.0
           cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5
           sudo make -j$(nproc) install
 
