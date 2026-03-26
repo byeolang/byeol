@@ -17,9 +17,9 @@ class logger {
     + setFilters(filters&) : void
     + setEnable(bool) : void
     --
-    <b>Facade 패턴</b>
-    <b>Singleton 패턴</b>
-    로깅 시스템 진입점
+    <b>Facade Pattern</b>
+    <b>Singleton Pattern</b>
+    Logging system entry point
 }
 
 abstract class stream {
@@ -30,28 +30,28 @@ abstract class stream {
     + rel() : void
     --
     <b>State Machine</b>
-    로깅 메시지를 출력하게될 목적지
+    Destination for logging messages
 }
 
 class consoleStream {
     + dump(level, msg) : void
     --
-    콘솔 출력 스트림
-    stdout/stderr 사용
+    Console output stream
+    Uses stdout/stderr
 }
 
 class fileLogStream {
     - _file : FILE*
     + dump(level, msg) : void
     --
-    파일 출력 스트림
-    로그 파일에 기록
+    File output stream
+    Writes to log file
 }
 
 abstract class filterable {
     + {abstract} filt(Log&) : nbool
     --
-    <b>필터 인터페이스</b>
+    <b>Filter Interface</b>
 }
 
 class filters {
@@ -59,20 +59,20 @@ class filters {
     + filt(Log&) : nbool
     + add(filterable*) : void
     --
-    <b>Composite 패턴</b>
-    여러 필터 통합 관리
+    <b>Composite Pattern</b>
+    Manages multiple filters
 }
 
 class errPassFilter {
     + filt(Log&) : nbool
     --
-    ERR 레벨만 통과
+    Passes only ERR level
 }
 
 class warnPassFilter {
     + filt(Log&) : nbool
     --
-    WARN 레벨만 통과
+    Passes only WARN level
 }
 
 logger "1" *-- "0..*" stream
@@ -330,35 +330,35 @@ BY_I("Hello I'm %s. I live in %s", p, a);
 ### 핵심 알고리즘
 
 @startuml
-package "richLog 시스템" {
+package "richLog System" {
     abstract class "convert(T)" as convert {
         + {static} convert(tstr<obj>&) : strWrap
         + {static} convert(int) : noWrap<int>
         + {static} convert(void*) : strWrap
         --
-        <b>컴파일 타임 디스패칭</b>
-        각 타입별로 오버로드
+        <b>Compile-time Dispatching</b>
+        Overloaded for each type
     }
 
     class strWrap {
         - _val : std::string
         + unwrap() : const char*
         --
-        문자열 래퍼
-        c_str() 반환
+        String Wrapper
+        Returns c_str()
     }
 
     class "noWrap<T>" as noWrap {
         - _val : T
         + unwrap() : T
         --
-        값 그대로 전달
-        스칼라 타입용
+        Passes value as is
+        For scalar types
     }
 }
 
-convert ..> strWrap : 생성
-convert ..> noWrap : 생성
+convert ..> strWrap : Create
+convert ..> noWrap : Create
 
 @enduml
 
@@ -573,10 +573,10 @@ logger::get().setFilters(prevFilters);
 자, 시퀸스 다이어그램으로 지금까지의 내용을 정리해보죠.
 
 @startuml
-participant "사용자 코드" as user
-participant "BY_I 매크로" as macro
+participant "User Code" as user
+participant "BY_I Macro" as macro
 participant "richLog" as richLog
-participant "convert()\n(오버로드)" as convert
+participant "convert()\n(Overload)" as convert
 participant "wrap" as wrap
 participant "logger" as logger
 
@@ -584,7 +584,7 @@ user -> macro : BY_I("obj: %s, val: %d", meObj, count)
 activate macro
 
 note right of macro
-  매크로 확장:
+  Macro Expansion:
   richLog("obj: %s, val: %d",
           meObj, count)
 end note
@@ -596,13 +596,13 @@ richLog -> convert : convert(meObj)
 activate convert
 
 note right of convert
-  <b>적절한 오버로딩 convert() 중 호출:</b>
-  예: meObj는 tstr<obj>* 타입
+  <b>Calls appropriate overloaded convert():</b>
+  Ex: meObj is tstr<obj>* type
 
-  convert(tstr<obj>*) 호출.
-  (없을 경우 convert(void*) 호출)
+  Calls convert(tstr<obj>*).
+  (Calls convert(void*) if absent)
 
-  return strWrap(obj.getName())을 반환.
+  Returns strWrap(obj.getName()).
 end note
 
 convert --> richLog : strWrap("obj")
@@ -612,10 +612,10 @@ richLog -> convert : convert(count)
 activate convert
 
 note right of convert
-  <b>적절한 오버로딩 convert() 중 호출:</b>
+  <b>Calls appropriate overloaded convert():</b>
 
-  count는 int 타입.
-  convert(int) 호출.
+  count is int type.
+  Calls convert(int).
 
   return noWrap<int>(count)
 end note
@@ -630,20 +630,20 @@ deactivate wrap
 
 richLog -> wrap : noWrap.unwrap()
 activate wrap
-wrap --> richLog : 3 (count의 값)
+wrap --> richLog : 3 (value of count)
 deactivate wrap
 
 richLog -> logger : log(level, "obj: %s, val: %d", "obj", 3)
 activate logger
 
 note right of logger
-  가변인자 함수 호출:
-  - 모든 인자가 scalar나 포인터
-  - printf 스타일 포매팅 가능
+  Variadic Function Call:
+  - All args are scalar or pointer
+  - printf style formatting available
 end note
 
-logger -> logger : filters 체크
-logger -> logger : stream들에 출력
+logger -> logger : Check filters
+logger -> logger : Output to streams
 
 logger --> richLog : void
 deactivate logger
@@ -655,7 +655,7 @@ macro --> user : void
 deactivate macro
 
 note right of user
-  <b>출력 결과:</b>
+  <b>Output Result:</b>
   Oct 22 2025  22:01:12 I obj: obj, val: 42
 end note
 

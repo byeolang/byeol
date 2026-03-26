@@ -14,7 +14,7 @@ Monostate 패턴, Template Metaprogramming, 재귀적 초기화 등을 활용하
 
 @startuml
 class "adam" as adam {
-    최상위 타입
+    Top-level Type
 }
 
 class "type" as type {
@@ -43,20 +43,20 @@ class "ttypeBase<T, S>" as ttypeBase {
 }
 
 class "ttype<T>" as ttype {
-    사용자 진입점
+    User Entry Point
 }
 
 note right of type
-  <b>Monostate 패턴:</b>
-  모든 멤버 변수가 static
+  <b>Monostate Pattern:</b>
+  All member variables are static
 
-  ttype<T>()를 여러 번
-  생성해도 내부 상태 공유
+  Creating ttype<T>() multiple times
+  shares internal state
 end note
 
-ttype --|> ttypeBase : 상속
-ttypeBase --|> type : S=type일 때 상속
-adam <-- type : 최상위 타입으로 사용
+ttype --|> ttypeBase : Inherits
+ttypeBase --|> type : Inherits when S=type
+adam <-- type : Used as top-level type
 @enduml
 
 ---
@@ -414,7 +414,7 @@ MyType;` 처럼 새로운 MyType 클래스를 선언하여 추가하면 해당 t
 마지막으로 meta 정보가 초기화 되는 과정을 다시 복기해 보죠.
 
 @startuml
-participant "사용자코드" as user
+participant "User Code" as user
 participant "ttype<Dog>" as ttypeDog
 participant "Dog::type" as dogType
 participant "ttype<Animal>" as ttypeAnimal
@@ -423,8 +423,8 @@ participant "ttype<adam>" as ttypeAdam
 participant "adam::type" as adamType
 
 note over user, ttypeDog
-프로세스 시작시, BY_INITIATOR에 의해,
-혹은 사용자의 명시적인 호출에 의해,
+At process start, by BY_INITIATOR,
+or by user's explicit call,
 end note
 
 user -> ttypeDog : ttype<Dog>().init()
@@ -434,7 +434,7 @@ ttypeDog -> dogType : init()
 activate dogType
 
 note right of dogType
-  <b>재진입 방지:</b>
+  <b>Prevent Re-entry:</b>
   if(_isInit) return false;
   _isInit = true;
 end note
@@ -465,12 +465,12 @@ activate adamType
 
 adamType -> adamType : getSuper()
 note right of adamType
-  <b>재귀 종료:</b>
-  adam은 부모가 없음
-  빈 type 반환
+  <b>Recursion End:</b>
+  adam has no parent
+  Returns empty type
 end note
 
-adamType --> ttypeAdam : 초기화 완료
+adamType --> ttypeAdam : Initialization Complete
 deactivate adamType
 deactivate ttypeAdam
 
@@ -478,39 +478,39 @@ animalType -> animalType : getSupers() = super.getSupers()
 animalType -> animalType : getSupers().push_back(&super)
 
 note right of animalType
-  <b>계층 구성:</b>
+  <b>Hierarchy Construction:</b>
   mySupers = [adam]
   mySupers.push_back(adam)
 
-  Animal의 supers = [adam]
+  Animal's supers = [adam]
 end note
 
-animalType --> dogType : 초기화 완료
+animalType --> dogType : Initialization Complete
 deactivate animalType
 
 dogType -> dogType : getSupers() = super.getSupers()
 dogType -> dogType : getSupers().push_back(&super)
 
 note right of dogType
-  <b>계층 구성:</b>
+  <b>Hierarchy Construction:</b>
   mySupers = [adam, Animal]
 
-  Dog의 supers = [adam, Animal]
+  Dog's supers = [adam, Animal]
 end note
 
-dogType --> ttypeDog : 초기화 완료
+dogType --> ttypeDog : Initialization Complete
 deactivate dogType
 
-ttypeDog --> user : 초기화 완료
+ttypeDog --> user : Initialization Complete
 deactivate ttypeDog
 
 note over user, adamType
-  <b>재귀적 초기화 패턴의 특징:</b>
+  <b>Features of Recursive Initialization Pattern:</b>
 
-  1. 한 번만 실행: _isInit 플래그로 재진입 방지
-  2. 상향식 초기화: 자식이 부모를 먼저 초기화
-  3. 계층 구성: 부모의 supers를 복사 후 부모 추가
-  4. 안전한 종료: adam에서 재귀 종료
+  1. Execute once: Prevent re-entry with _isInit flag
+  2. Bottom-up Initialization: Child initializes parent first
+  3. Hierarchy Construction: Copy parent's supers then add parent
+  4. Safe Exit: End recursion at adam
 end note
 
 @enduml
