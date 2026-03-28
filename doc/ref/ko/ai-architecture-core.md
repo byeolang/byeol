@@ -711,8 +711,8 @@ abstract class baseObj {
     + clone() : baseObj*
     --
     <b>Polymorphism</b>
-    native/script 객체
-    공통 인터페이스
+    native/script object
+    Common Interface
 }
 
 class obj {
@@ -723,18 +723,18 @@ class obj {
     + getOwns() : nchain&
     + clone() : obj*
     --
-    <b>Flyweight 패턴</b>
-    shares: 공유 데이터(함수)
-    owns: 고유 데이터(property)
+    <b>Flyweight Pattern</b>
+    shares: shared data (function)
+    owns: own data (property)
 }
 
 class origin {
     + setCallComplete(...)
     + clone() : origin*
     --
-    <b>Prototype 패턴</b>
-    원본 객체를 복제하여
-    인스턴스 생성
+    <b>Prototype Pattern</b>
+    Clone original object
+    Create instance
 }
 
 class nInt {
@@ -756,33 +756,33 @@ class nFlt {
 }
 
 note top of node
-  모든 AST 노드의 기반
-  Composite 패턴의 Component
+  Base of all AST nodes
+  Component of Composite pattern
 end note
 
 note right of baseObj
-  native와 script 객체의
-  공통 기반 클래스
+  Common base class
+  of native and script object
 
-  baseObj* 포인터로
-  모든 객체 타입 통일
+  Unify all object types
+  with baseObj* pointer
 end note
 
 note right of obj
-  script 환경 객체
+  Object in script environment
 
-  - shares: 모든 인스턴스 공유
-    (함수, 상수)
-  - owns: 인스턴스별 고유
-    (변수, property)
+  - shares: Shared by all instances
+    (function, constant)
+  - owns: Unique per instance
+    (variable, property)
 end note
 
 note left of origin
-  타입의 원본 객체
+  Original object of type
 
-  <b>Prototype 패턴:</b>
-  clone()으로 새 인스턴스
-  생성 (복사 생성)
+  <b>Prototype Pattern:</b>
+  New instance with clone()
+  Create (Copy construction)
 end note
 
 node <|-- baseObj
@@ -794,8 +794,8 @@ baseObj <|-- nStr
 baseObj <|-- nFlt
 
 note bottom of nInt
-  native 환경 객체
-  (C++에서 정의)
+  Object in native environment
+  (Defined in C++)
 end note
 
 @enduml
@@ -1254,12 +1254,12 @@ abstract class "expr" as expr {
 }
 
 abstract class "retStateExpr" as retStateExpr {
-    <b>Early Exit 패턴</b>
+    <b>Early Exit Pattern</b>
     ---
     + eval(thread&) : str
     ---
-    thread에 setRet() 설정하여
-    블록 즉시 종료
+    Set setRet() to thread
+    Terminate block immediately
 }
 
 class "FBOExpr" as FBOExpr {
@@ -1297,8 +1297,8 @@ class "defArrayExpr" as defArrayExpr {
     ---
     + eval(thread&) : str
     ---
-    Type Promotion으로
-    배열 타입 추론
+    With Type Promotion
+    Infer array type
 }
 
 class "defNestedFuncExpr" as defNestedFuncExpr {
@@ -1306,7 +1306,7 @@ class "defNestedFuncExpr" as defNestedFuncExpr {
     ---
     + eval(thread&) : str
     ---
-    closure로도 활용 가능
+    Can be used as closure
 }
 
 class "defSeqExpr" as defSeqExpr {
@@ -1480,7 +1480,7 @@ byeol 언어의 중첩 함수인 @ref by::nestedFunc "nestedFunc" 을 생성합�
 Byeol의 컨테이너 시스템은 c++ runtime환경과 byeol runtime환경에서 동일한 API를 제공하도록 설계되었습니다. 특히 `tnchain`은 AST 데이터를 보관하는 가장 중요한 컨테이너입니다.
 
 @startuml
-package "컨테이너 인터페이스" {
+package "Container Interface" {
     abstract class "tucontainable<T, R, RSquare>" as tucontainable {
         + operator[](idx) : R
         + add(T) : void
@@ -1503,7 +1503,7 @@ package "컨테이너 인터페이스" {
     }
 }
 
-package "Native 타입 (n prefix)" {
+package "Native Type (n prefix)" {
     class "tnarr<T>" as tnarr {
         - _data : T*[]
         - _len : ncnt
@@ -1542,20 +1542,20 @@ package "Native 타입 (n prefix)" {
     }
 }
 
-package "script 타입" {
+package "Script Type" {
     class "arr" as arr {
-        tnarr<node>를 상속
-        byeol runtime 환경용
+        Inherits tnarr<node>
+        For byeol runtime environment
     }
 
     class "map" as map {
-        tnmap<key, node>를 상속
-        byeol runtime 환경용
+        Inherits tnmap<key, node>
+        For byeol runtime environment
     }
 
     class "seq" as seq {
-        tnseq<node>를 상속
-        byeol runtime 환경용
+        Inherits tnseq<node>
+        For byeol runtime environment
     }
 }
 
@@ -1657,6 +1657,7 @@ tnchain의 가장 중요한 컨셉으로, 외부 사용자는 bicontainer를 하
 b>link() - tnchain의 존재의의</b>
 
 @startuml
+
 object "chn1" as chn1 {
     _container = tnmap
     {"0": node(0), "1": node(1)}
@@ -1679,16 +1680,16 @@ object "chn3" as chn3 {
 }
 
 note top of chn1
-  <b>tnchain의 Linked List 구조:</b>
+  <b>Linked List structure of tnchain:</b>
 
-  각 tnchain은:
-  1. defaultContainer 소유 (tnmap 등)
-  2. next, prev 포인터로 연결
-  3. 외부에서는 flatten된 하나의 map처럼 보임
+  Each tnchain:
+  1. Owns defaultContainer (tnmap, etc.)
+  2. Linked by next, prev pointers
+  3. Looks like a single flattened map from outside
 end note
 
 note bottom of chn2
-  <b>link() 동작:</b>
+  <b>link() operation:</b>
 
   chn1.link(chn2);  // chn1._next = chn2
                     // chn2._prev = chn1
@@ -1696,32 +1697,31 @@ note bottom of chn2
   chn2.link(chn3);  // chn2._next = chn3
                     // chn3._prev = chn2
 
-  <b>순회 시:</b>
-  chn1에서 순회하면
-  {0, 1, 6, 5, 2, 3} 순서로 접근
-  (chn1 → chn2 → chn3 순회)
+  <b>When traversing:</b>
+  Traversing from chn1
+  Access in order {0, 1, 6, 5, 2, 3}
+  (Traverse chn1 → chn2 → chn3)
 end note
 
 note right of chn3
-  <b>사용 예:</b>
+  <b>Usage example:</b>
 
-  // chn1에서 "2" 검색
+  // Search "2" in chn1
   chn1["2"]
-  → chn1._container 검색 (없음)
-  → chn2._container 검색 (없음)
-  → chn3._container 검색 (발견!)
-  → node(2) 반환
+  → Search chn1._container (Not found)
+  → Search chn2._container (Not found)
+  → Search chn3._container (Found!)
+  → Return node(2)
 
-  <b>Facade 패턴:</b>
-  복잡한 linked list 구조를
-  단순한 bicontainer로 추상화
+  <b>Facade Pattern:</b>
+  Complex linked list structure
+  Abstracted as simple bicontainer
 end note
 
 chn1 -right-> chn2 : next
 chn2 -right-> chn3 : next
 chn2 -left-> chn1 : prev
 chn3 -left-> chn2 : prev
-
 @enduml
 
 tnchain은 내부적으로는 타입 파라메터로 선언한 defaultContainer를 한개 가지고 있으며, next, prev라고 하는 tnchain에 대한 참조를 갖는 일종의 linked list의 node와 비슷한 구조로 되어 있습니다.
@@ -1921,61 +1921,61 @@ Byeol은 C++의 템플릿과 유사한 generic 타입 시스템을 제공합니�
 <b>Generic 타입 생성 흐름도:</b>
 
 @startuml
-participant "사용자 코드" as user
+participant "User Code" as user
 participant "getGenericExpr" as expr
 participant "genericOrigin" as genOrigin
 participant "map<type, origin>" as cache
 participant "generalizer" as gen
-participant "원본 origin" as org
+participant "Original origin" as org
 
-user -> expr : MyByeol<int>() 호출
+user -> expr : Call MyByeol<int>()
 activate expr
 
 expr -> genOrigin : get(nInt&)
 activate genOrigin
 
-genOrigin -> cache : key를 "nInt"로 검색
+genOrigin -> cache : Search key "nInt"
 activate cache
 
-alt 캐시에 있음
-    cache --> genOrigin : 기존 origin 반환
+alt In cache
+    cache --> genOrigin : Return existing origin
     note right
       <b>Cache Hit!</b>
-      이미 생성된 origin 재사용
+      Reuse already created origin
     end note
 
-else 캐시에 없음
-    cache --> genOrigin : nullptr 반환
+else Not in cache
+    cache --> genOrigin : Return nullptr
 
     genOrigin -> org : deepClone()
     activate org
-    org --> genOrigin : origin 복사본
+    org --> genOrigin : origin copy
     deactivate org
 
-    genOrigin -> gen : generalize(복사본, T→nInt)
+    genOrigin -> gen : generalize(copy, T→nInt)
     activate gen
 
     note right of gen
       <b>AST Transformation:</b>
-      1. AST 전체 순회
-      2. getExpr("T") 노드 찾기
-      3. getExpr("nInt")로 교체
+      1. Traverse entire AST
+      2. Find getExpr("T") node
+      3. Replace with getExpr("nInt")
     end note
 
-    loop AST의 각 노드
+    loop Each node in AST
         gen -> gen : visit(node)
-        alt getExpr("T") 발견
-            gen -> gen : 노드를 getExpr("nInt")로 교체
+        alt Found getExpr("T")
+            gen -> gen : Replace node with getExpr("nInt")
         end
     end
 
-    gen --> genOrigin : 변환된 origin
+    gen --> genOrigin : Transformed origin
     deactivate gen
 
-    genOrigin -> cache : add(nInt, 변환된 origin)
+    genOrigin -> cache : add(nInt, transformed origin)
     note right
       <b>Cache Store</b>
-      다음 요청을 위해 저장
+      Save for next request
     end note
 end
 
@@ -1984,7 +1984,7 @@ deactivate cache
 genOrigin --> expr : MyByeol<int>
 deactivate genOrigin
 
-expr --> user : origin 반환
+expr --> user : Return origin
 deactivate expr
 @enduml
 
@@ -2082,7 +2082,7 @@ SomeGeneric<T @incomplete>@21d0
 Byeol은 C++로 작성된 native 코드와 byeol 언어로 작성된 script 코드가 서로 상호작용할 수 있는 bridge 시스템을 제공합니다. 이 시스템의 핵심은 <b>C++ 클래스와 함수를 간단한 선언만으로 byeol 언어에서 사용 가능하도록 노출</b>하는 것입니다.
 
 @startuml
-package "Native 환경 (C++)" {
+package "Native Environment (C++)" {
     class "window" as window {
         - _y : int
         ---
@@ -2097,7 +2097,7 @@ package "Native 환경 (C++)" {
     }
 }
 
-package "브리징 계층" {
+package "Bridging Layer" {
     class "tbridger<T>" as tbridger {
         {static} - _staticSubs : nchain
         {static} - _staticOrigin : origin*
@@ -2134,7 +2134,7 @@ package "브리징 계층" {
     }
 }
 
-package "byeol runtime 환경" {
+package "byeol Runtime Environment" {
     class "baseObj" as baseObj {
         + eval(name, args) : str
         + subs() : scope&
@@ -2148,22 +2148,22 @@ package "byeol runtime 환경" {
     class "nStr" as nStr
 }
 
-window .right.> tbridger : 등록
-openGL .right.> tbridger : 등록
+window .right.> tbridger : Register
+openGL .right.> tbridger : Register
 
-tbridger ..> tbridge : 생성
+tbridger ..> tbridge : Create
 tbridger *-- "n" tbridgeFunc
 tbridger *-- "n" tbridgeCtor
 
 tbridge --|> baseObj
 tbridge *--> window
-tbridgeFunc ..> tmarshaling : 사용
-tbridgeCtor ..> tmarshaling : 사용
+tbridgeFunc ..> tmarshaling : Use
+tbridgeCtor ..> tmarshaling : Use
 
 tbridge ..> origin
 
-nInt .up.> tmarshaling : c++ int로 변환
-nStr .up.> tmarshaling : c++ std::string으로 변환
+nInt .up.> tmarshaling : Convert to c++ int
+nStr .up.> tmarshaling : Convert to c++ std::string
 @enduml
 
 @ref by::tbridger "tbridger" 는 다음 컴포넌트들의 조합으로 동작합니다:
@@ -2178,62 +2178,63 @@ nStr .up.> tmarshaling : c++ std::string으로 변환
 <b>동작 흐름</b>
 
 @startuml
-actor "Byeol 코드" as byeol
+
+actor "Byeol Code" as byeol
 participant "tbridge<window>" as tbridge
 participant "tbridgeFunc" as tbridgeFunc
 participant "tmarshaling" as tmarshaling
 participant "window (C++)" as window
 
-== 등록 단계 (프로그램 시작) ==
+== Registration Phase (Program Start) ==
 
 note over tbridge, window
-  <b>C++ 코드에서 등록:</b>
+  <b>Register in C++ Code:</b>
 
   tbridger<window>::ctor()
     .func("setY", &window::setY)
 
-  이 시점에 tbridgeFunc 생성되고
-  tbridger의 static subs에 저장됨
+  tbridgeFunc is created at this point
+  Saved in static subs of tbridger
 end note
 
-== 호출 단계 (런타임) ==
+== Call Phase (Runtime) ==
 
 byeol -> tbridge : win.setY(20)
 activate byeol
 activate tbridge
 
 note right of byeol
-  <b>Byeol 코드:</b>
+  <b>Byeol Code:</b>
   win := window()
   win.setY(20)
 
   → eval("setY", args)
 end note
 
-tbridge -> tbridge : subs에서 "setY" 검색
+tbridge -> tbridge : Search "setY" in subs
 note right of tbridge
-  subs는 tbridger의
-  static origin을 참조
+  subs refers to
+  tbridger's static origin
 
-  "setY" → tbridgeFunc 발견
+  "setY" → tbridgeFunc found
 end note
 
 tbridge -> tbridge : _onEvalSub()
 note right of tbridge
-  <b>args에 this 주입:</b>
+  <b>Inject this into args:</b>
   args.setMe(this)
 
-  함수가 자신을 호출한
-  객체를 알 수 있도록
+  So function can know
+  the object that called it
 end note
 
 tbridge -> tbridgeFunc : eval(args)
 activate tbridgeFunc
 
 note right of tbridgeFunc
-  <b>args 내용:</b>
-  - setMe: tbridge 객체
-  - 파라미터: nInt(20)
+  <b>args content:</b>
+  - setMe: tbridge object
+  - Parameter: nInt(20)
 end note
 
 == Marshaling: Script → Native ==
@@ -2242,28 +2243,28 @@ tbridgeFunc -> tmarshaling : unwrap(nInt(20))
 activate tmarshaling
 
 note right of tmarshaling
-  <b>타입 변환:</b>
+  <b>Type Conversion:</b>
   nInt → int
 
-  script 타입을
-  native 타입으로 변환
+  Convert script type
+  to native type
 end note
 
 tmarshaling --> tbridgeFunc : int(20)
 deactivate tmarshaling
 
-tbridgeFunc -> tbridge : _native 포인터 가져오기
+tbridgeFunc -> tbridge : Get _native pointer
 tbridge --> tbridgeFunc : window*
 
-== Native 함수 호출 ==
+== Native Function Call ==
 
 tbridgeFunc -> window : window->setY(20)
 activate window
 
 note right of window
-  <b>실제 C++ 함수 실행:</b>
-  멤버 함수 포인터를 통해
-  native 코드 실행
+  <b>Execute actual C++ function:</b>
+  Via member function pointer
+  Execute native code
 
   _y = 20
 end note
@@ -2277,9 +2278,9 @@ tbridgeFunc -> tmarshaling : wrap(void)
 activate tmarshaling
 
 note right of tmarshaling
-  <b>반환값 변환:</b>
-  void인 경우
-  nulOf() 반환
+  <b>Return value conversion:</b>
+  If void
+  Return nulOf()
 end note
 
 tmarshaling --> tbridgeFunc : str(nulOf())
@@ -2293,29 +2294,29 @@ deactivate tbridge
 deactivate byeol
 
 note over byeol, window
-  <b>Marshaling 프로세스 핵심:</b>
+  <b>Core of Marshaling Process:</b>
 
   1. <b>Unwrap (Script → Native):</b>
      - nInt → int
      - nStr → string
      - tbridge<T> → T*
 
-  2. <b>Native 함수 실행:</b>
-     - 멤버 함수 포인터로 호출
-     - 실제 C++ 코드 실행
+  2. <b>Native Function Execution:</b>
+     - Called via member function pointer
+     - Executes actual C++ code
 
   3. <b>Wrap (Native → Script):</b>
      - int → nInt
      - string → nStr
      - T* → tbridge<T>
 
-  <b>자동 타입 변환으로:</b>
-  - Byeol 코드는 native 타입 몰라도 됨
-  - C++ 코드는 script 타입 몰라도 됨
-  - 완전한 투명성(transparency)
+  <b>With automatic type conversion:</b>
+  - Byeol code doesn't need to know native types
+  - C++ code doesn't need to know script types
+  - Complete transparency
 end note
 
-== 반환값이 있는 경우 예시 ==
+== Example with return value ==
 
 byeol -> tbridge : res := win.getY()
 activate byeol
@@ -2334,7 +2335,7 @@ tbridgeFunc -> tmarshaling : wrap(20)
 activate tmarshaling
 
 note right of tmarshaling
-  int → nInt 변환
+  Convert int → nInt
 end note
 
 tmarshaling --> tbridgeFunc : str(nInt(20))
@@ -2347,12 +2348,11 @@ tbridge --> byeol : str(nInt(20))
 deactivate tbridge
 
 note right of byeol
-  res는 이제 nInt(20)
-  byeol 코드에서 사용 가능
+  res is now nInt(20)
+  Available in byeol code
 end note
 
 deactivate byeol
-
 @enduml
 
 이 과정에서 <b>Marshaling</b> 이 핵심입니다.
@@ -2452,7 +2452,7 @@ class thread {
     + getFrames() : frames&
     + getReport() : errReport&
     --
-    <b>Singleton 패턴</b>
+    <b>Singleton Pattern</b>
     thread-local storage
 }
 
@@ -2463,8 +2463,8 @@ class frames {
     + len() : nint
     + operator[](nidx) : frame&
     --
-    frame 스택 관리
-    함수 호출 추적
+    Manage frame stack
+    Track function calls
 }
 
 class frame {
@@ -2473,9 +2473,9 @@ class frame {
     + inFrame() : void
     + outFrame() : void
     --
-    <b>RAII 패턴</b>
-    생성/소멸 시
-    frames에 등록/해제
+    <b>RAII Pattern</b>
+    Register/Unregister to frames
+    On creation/destruction
 }
 
 class scope {
@@ -2485,7 +2485,7 @@ class scope {
     + link(scope&) : void
     --
     <b>Chain of Responsibility</b>
-    tnchain으로 연결
+    Link with tnchain
 }
 
 class tnchain {
@@ -2496,13 +2496,13 @@ class tnchain {
     + get(key) : T*
     --
     <b>Linked List</b>
-    scope들을 연결
+    Link scopes
 }
 
 thread "1" *-- "1" frames
-frames "1" *-- "0..*" frame : 관리
-frame "1" *-- "1..*" scope : 통합
-scope "1" *-- "1" tnchain : 기반
+frames "1" *-- "0..*" frame : Manage
+frame "1" *-- "1..*" scope : Integrate
+scope "1" *-- "1" tnchain : Base
 @enduml
 
 ---
@@ -2516,33 +2516,33 @@ scope "1" *-- "1" tnchain : 기반
 @startuml
 start
 
-:symbol 이름으로 탐색 요청;
+:Request search by symbol name;
 
-:thread::get()으로\n현재 thread 획득;
+:Get current thread\nwith thread::get();
 
-:thread.getFrames()로\nframes 획득;
+:Get frames\nwith thread.getFrames();
 
-:frames의 최상위 frame 획득;
+:Get top frame of frames;
 
-:frame.subs()로\nscope chain 획득;
+:Get scope chain\nwith frame.subs();
 
 partition "Chain of Responsibility" {
     repeat
-        :현재 scope에서 symbol 검색;
+        :Search symbol in current scope;
 
-        if (symbol 발견?) then (예)
-            :symbol 반환;
+        if (Symbol found?) then (Yes)
+            :Return symbol;
             stop
         endif
 
-        :scope.getNext()로\n다음 scope 획득;
+        :Get next scope\nwith scope.getNext();
 
-    repeat while (다음 scope 존재?)
+    repeat while (Next scope exists?)
 }
 
-:symbol을 찾지 못함;
+:Symbol not found;
 
-:nullptr 반환 또는 에러;
+:Return nullptr or error;
 
 stop
 @enduml
@@ -2810,105 +2810,105 @@ thread::get();  // originalThread 반환
 Byeol은 `pack`이라는 단위로 라이브러리를 배포합니다. 패키지 시스템은 pack을 동적으로 lazy 로딩하며, 종속성 관리와 검증을 담당합니다.
 
 @startuml
-actor "사용자 코드" as user
+actor "User Code" as user
 participant "slotLoader" as loader
 participant "autoslot" as autoslot
 participant "packLoading" as packLoading
 participant "manifest" as manifest
-participant "파일 시스템" as fs
+participant "File System" as fs
 
-== Pack 등록 단계 ==
+== Pack Registration Phase ==
 
 user -> loader : addPack("mylib")
 activate loader
 
-loader -> fs : manifest.stela 찾기
+loader -> fs : Find manifest.stela
 activate fs
 
-fs --> loader : manifest 파일
+fs --> loader : manifest file
 deactivate fs
 
-loader -> manifest : 파싱
+loader -> manifest : Parse
 activate manifest
 
 note right of manifest
-  <b>Manifest 내용:</b>
+  <b>Manifest Content:</b>
   - name: "mylib"
   - version: "1.0.0"
   - dependencies: ["core"]
   - entrypoint: "byeol" or "cpp"
 end note
 
-manifest --> loader : manifest 객체
+manifest --> loader : manifest object
 deactivate manifest
 
-loader -> packLoading : 생성 (native/script)
+loader -> packLoading : Create (native/script)
 activate packLoading
 
 note right of packLoading
-  <b>packLoading 타입:</b>
-  - .byeol 파일 → script
-  - .so/.dll 파일 → native
-  - 또는 둘 다
+  <b>packLoading Type:</b>
+  - .byeol file → script
+  - .so/.dll file → native
+  - or both
 end note
 
 packLoading --> loader : packLoading[]
 deactivate packLoading
 
-loader -> autoslot : 생성 (RELEASED 상태)
+loader -> autoslot : Create (RELEASED state)
 activate autoslot
 
 note right of autoslot
-  <b>초기 상태:</b>
+  <b>Initial State:</b>
   state = RELEASED
-  메모리 점유 없음
-  packLoadings 저장만
+  No memory occupation
+  Store packLoadings only
 end note
 
-autoslot --> loader : autoslot 객체
+autoslot --> loader : autoslot object
 deactivate autoslot
 
-loader -> loader : dependencies 등록
+loader -> loader : Register dependencies
 note right of loader
-  manifest의 dependencies를
-  재귀적으로 로딩
+  Recursively load
+  dependencies from manifest
 end note
 
-loader --> user : 등록 완료
+loader --> user : Registration complete
 deactivate loader
 
-== Lazy 로딩 단계 (symbol 접근 시) ==
+== Lazy Loading Phase (On symbol access) ==
 
-user -> autoslot : mylib.someFunc() 접근
+user -> autoslot : Access mylib.someFunc()
 activate autoslot
 
 note right of user
-  <b>Lazy Loading 트리거:</b>
-  실제 사용 시점까지
-  로딩 지연
+  <b>Lazy Loading Trigger:</b>
+  Delay loading
+  until actual usage
 end note
 
 autoslot -> autoslot : state == RELEASED?
 note right of autoslot
-  첫 접근이므로
-  로딩 시작
+  Since it's first access
+  start loading
 end note
 
-== PARSED 단계 ==
+== PARSED Phase ==
 
 autoslot -> packLoading : parse()
 activate packLoading
 
-packLoading -> fs : .byeol 파일 읽기
+packLoading -> fs : Read .byeol file
 activate fs
 
-fs --> packLoading : 소스 코드
+fs --> packLoading : Source code
 deactivate fs
 
-packLoading -> packLoading : 파서 실행
+packLoading -> packLoading : Run parser
 note right of packLoading
-  AST 생성
-  (native pack은 생략)
+  Create AST
+  (Skip for native pack)
 end note
 
 packLoading --> autoslot : AST
@@ -2916,63 +2916,63 @@ deactivate packLoading
 
 autoslot -> autoslot : state = PARSED
 
-== VERIFIED 단계 ==
+== VERIFIED Phase ==
 
 autoslot -> packLoading : verify()
 activate packLoading
 
-packLoading -> packLoading : 검증 실행
+packLoading -> packLoading : Run verification
 note right of packLoading
-  <b>검증 항목:</b>
-  - 타입 체킹
-  - 문법 검증
-  - 의존성 확인
+  <b>Verification Items:</b>
+  - Type checking
+  - Syntax verification
+  - Dependency check
 end note
 
-alt 검증 성공
+alt Verification Success
 
     packLoading --> autoslot : isValid = true
     autoslot -> autoslot : state = VERIFIED
 
-else 검증 실패
+else Verification Failed
 
     packLoading --> autoslot : isValid = false
-    autoslot -> autoslot : state = VERIFIED\n(실패 표시)
+    autoslot -> autoslot : state = VERIFIED\n(Mark as failed)
 
 end
 
 deactivate packLoading
 
-== LINKED 단계 ==
+== LINKED Phase ==
 
 autoslot -> packLoading : link()
 activate packLoading
 
 alt isValid == true
 
-    packLoading -> packLoading : 링킹 완료
-    packLoading --> autoslot : 성공
+    packLoading -> packLoading : Linking complete
+    packLoading --> autoslot : Success
 
     autoslot -> autoslot : state = LINKED
 
 else isValid == false
 
-    packLoading --> autoslot : 실패
+    packLoading --> autoslot : Failure
 
-    autoslot -> autoslot : state = LINKED\n의존 pack에 전파
+    autoslot -> autoslot : state = LINKED\nPropagate to dependent packs
 
     note right of autoslot
-      <b>실패 전파:</b>
-      이 pack에 의존하는
-      모든 dependents에게
-      실패 사실 전파
+      <b>Failure Propagation:</b>
+      Propagate failure fact
+      to all dependents
+      that rely on this pack
     end note
 
 end
 
 deactivate packLoading
 
-autoslot --> user : symbol 반환 또는 에러
+autoslot --> user : Return symbol or error
 deactivate autoslot
 @enduml
 
@@ -3015,34 +3015,34 @@ byeol 언어는 pack을 <b>lazy하게 동적으로</b> 불러옵니다. @ref by:
 총 4개의 상태를 가지며 다음과 같은 흐름으로 로딩 파이프라인을 갖습니다:
 
 @startuml
-[*] --> RELEASED : autoslot 생성
+[*] --> RELEASED : Create autoslot
 
 state RELEASED {
-    RELEASED : 초기 상태
-    RELEASED : 메모리 점유 없음
-    RELEASED : 대부분의 slot이 이 상태
+    RELEASED : Initial state
+    RELEASED : No memory occupation
+    RELEASED : Most slots are in this state
 }
 
 state PARSED {
-    PARSED : 코드 파싱 완료
-    PARSED : AST 생성됨
-    PARSED : native pack은 이 단계 생략
+    PARSED : Code parsing complete
+    PARSED : AST created
+    PARSED : Native pack skips this step
 }
 
 state VERIFIED {
-    VERIFIED : 코드 검증 완료
-    VERIFIED : 타입 체킹 완료
-    VERIFIED : isValid 플래그 설정
+    VERIFIED : Code verification complete
+    VERIFIED : Type checking complete
+    VERIFIED : isValid flag set
 }
 
 state LINKED {
-    LINKED : 최종 상태
-    LINKED : 실행 준비 완료
-    LINKED : 검증 실패 시 의존 pack에 전파
+    LINKED : Final state
+    LINKED : Ready for execution
+    LINKED : Propagate to dependent pack on verification failure
 }
 
-RELEASED --> PARSED : symbol 접근 시\npackLoading.parse()
-RELEASED --> LINKED : native/optimized pack\n파싱 불필요
+RELEASED --> PARSED : On symbol access\npackLoading.parse()
+RELEASED --> LINKED : native/optimized pack\nParsing unnecessary
 
 PARSED --> VERIFIED : packLoading.verify()
 
@@ -3050,28 +3050,28 @@ VERIFIED --> LINKED : packLoading.link()
 
 note right of RELEASED
   <b>Lazy Loading:</b>
-  사용될 때까지
-  로딩 지연
+  Delay loading
+  until used
 end note
 
 note right of PARSED
-  <b>조건부 전환:</b>
-  - .byeol 파일: PARSED 거침
-  - .so/.dll 파일: LINKED로 바로
+  <b>Conditional Transition:</b>
+  - .byeol file: Go through PARSED
+  - .so/.dll file: Go straight to LINKED
 end note
 
 note bottom of VERIFIED
-  <b>검증 실패 시:</b>
-  isValid = false 설정
-  이후 LINKED 단계에서
-  의존 pack에 실패 전파
+  <b>On Verification Failure:</b>
+  Set isValid = false
+  Propagate failure
+  to dependent packs in LINKED phase
 end note
 
 note right of LINKED
-  <b>의존성 전파:</b>
-  검증 실패한 경우
-  이 pack에 의존하는
-  모든 pack도 실패 처리
+  <b>Dependency Propagation:</b>
+  If verification failed
+  Mark all packs
+  depending on this as failed
 end note
 
 @enduml
@@ -3175,7 +3175,7 @@ packLoading은 `rel(), parse(), verify()` 함수를 제공하며, 이는 `autosl
 Byeol에서는 AST를 중점적으로 다루기 때문에 @ref by::visitor "visitor" 를 자주 사용하게 됩니다. 순회하는 방법과 순회시 `node`를 visit했을 때의 동작을 서로 분리하기 위해 @ref by::visitor "visitor" 가 적극적으로 활용됩니다.
 
 @startuml
-participant "클라이언트" as client
+participant "Client" as client
 participant "visitor" as visitor
 participant "func (node)" as func
 participant "blockExpr (node)" as block
@@ -3185,31 +3185,31 @@ client -> func : accept(visitor)
 activate func
 
 note right of client
-  <b>AST 구조:</b>
+  <b>AST Structure:</b>
   func
     └─ blockExpr
         ├─ assignExpr
         └─ assignExpr
 end note
 
-== func 방문 (Pre-order) ==
+== Visit func (Pre-order) ==
 
 func -> visitor : visit(visitInfo, *this)
 activate visitor
 
 note right of func
   <b>Double Dispatch:</b>
-  1차: func.accept(visitor)
-  2차: visitor.visit(func&)
+  1st: func.accept(visitor)
+  2nd: visitor.visit(func&)
 end note
 
 visitor -> visitor : 1. onVisit(func&)
 activate visitor #lightblue
 
 note right of visitor
-  <b>Template Method 1단계:</b>
-  현재 노드 방문 처리
-  func에 대한 특정 동작 수행
+  <b>Template Method Step 1:</b>
+  Process current node visit
+  Perform specific action for func
 end note
 
 visitor --> visitor : void
@@ -3219,18 +3219,18 @@ visitor -> visitor : 2. onTraverse(func&)
 activate visitor #lightgreen
 
 note right of visitor
-  <b>Template Method 2단계:</b>
-  하위 노드 순회
-  func.subs() 접근
+  <b>Template Method Step 2:</b>
+  Traverse child nodes
+  Access func.subs()
 end note
 
 visitor -> func : subs()
-func --> visitor : scope& (blockExpr 등)
+func --> visitor : scope& (blockExpr etc)
 
 visitor -> block : accept(visitor)
 activate block
 
-== blockExpr 방문 (재귀) ==
+== Visit blockExpr (Recursive) ==
 
 block -> visitor : visit(visitInfo, *this)
 
@@ -3238,7 +3238,7 @@ visitor -> visitor : 1. onVisit(blockExpr&)
 activate visitor #lightblue
 
 note right of visitor
-  blockExpr 방문 처리
+  Process blockExpr visit
 end note
 
 visitor --> visitor : void
@@ -3248,17 +3248,17 @@ visitor -> visitor : 2. onTraverse(blockExpr&)
 activate visitor #lightgreen
 
 note right of visitor
-  blockExpr의 자식들 순회
-  _stmts 배열 순회
+  Traverse children of blockExpr
+  Traverse _stmts array
 end note
 
 visitor -> block : subs() / _stmts
-block --> visitor : narr (assignExpr 들)
+block --> visitor : narr (assignExprs)
 
 visitor -> assign : accept(visitor)
 activate assign
 
-== assignExpr 방문 ==
+== Visit assignExpr ==
 
 assign -> visitor : visit(visitInfo, *this)
 
@@ -3266,7 +3266,7 @@ visitor -> visitor : 1. onVisit(assignExpr&)
 activate visitor #lightblue
 
 note right of visitor
-  assignExpr 방문 처리
+  Process assignExpr visit
 end note
 
 visitor --> visitor : void
@@ -3276,7 +3276,7 @@ visitor -> visitor : 2. onTraverse(assignExpr&)
 activate visitor #lightgreen
 
 note right of visitor
-  assignExpr의 자식들 순회
+  Traverse children of assignExpr
   (lhs, rhs)
 end note
 
@@ -3287,9 +3287,9 @@ visitor -> visitor : 3. onLeave(assignExpr&)
 activate visitor #lightyellow
 
 note right of visitor
-  <b>Template Method 3단계:</b>
-  현재 노드를 떠남
-  assignExpr 정리 작업
+  <b>Template Method Step 3:</b>
+  Leave current node
+  Cleanup assignExpr
 end note
 
 visitor --> visitor : void
@@ -3299,11 +3299,11 @@ visitor --> assign : void
 assign --> visitor : void
 deactivate assign
 
-== blockExpr 순회 계속 ==
+== Continue traversing blockExpr ==
 
 note right of visitor
-  다른 assignExpr들도
-  같은 방식으로 방문
+  Visit other assignExprs
+  in the same way
 end note
 
 visitor --> visitor : void
@@ -3313,7 +3313,7 @@ visitor -> visitor : 3. onLeave(blockExpr&)
 activate visitor #lightyellow
 
 note right of visitor
-  blockExpr를 떠남
+  Leave blockExpr
 end note
 
 visitor --> visitor : void
@@ -3323,7 +3323,7 @@ visitor --> block : void
 block --> visitor : void
 deactivate block
 
-== func 순회 완료 ==
+== func traversal complete ==
 
 visitor --> visitor : void
 deactivate visitor
@@ -3332,8 +3332,8 @@ visitor -> visitor : 3. onLeave(func&)
 activate visitor #lightyellow
 
 note right of visitor
-  func를 떠남
-  순회 완료
+  Leave func
+  Traversal complete
 end note
 
 visitor --> visitor : void
@@ -3342,7 +3342,7 @@ deactivate visitor
 visitor --> func : void
 deactivate visitor
 
-func --> client : 순회 완료
+func --> client : Traversal complete
 deactivate func
 @enduml
 
@@ -3379,18 +3379,18 @@ void defNestedFuncExpr::accept(const visitInfo& i, visitor& v) {
 가상함수 accept()가 호출되면 안에서 *this를 통해 구체타입으로써 역으로 visitor의 visit()을 호출하는 식입니다.
 
 @startuml
-participant "클라이언트" as client
+participant "Client" as client
 participant "visitor\n(verifier)" as visitor
-participant "node*\n(런타임 타입:\nnInt)" as node
+participant "node*\n(Runtime Type:\nnInt)" as node
 participant "nInt" as nInt
 
 client -> visitor : visit(visitInfo, node*)
 activate visitor
 
 note right of visitor
-  <b>문제:</b>
-  node* 타입만 알고 있음
-  실제 타입(nInt)을 모름
+  <b>Problem:</b>
+  Only know node* type
+  Don't know actual type (nInt)
 end note
 
 visitor -> node : accept(visitInfo, *this)
@@ -3398,9 +3398,9 @@ activate node
 
 note right of node
   <b>First Dispatch:</b>
-  가상 함수 동적 바인딩
-  런타임에 실제 타입(nInt)의
-  accept() 호출
+  Virtual function dynamic binding
+  Call accept() of
+  actual type (nInt) at runtime
 end note
 
 node -> nInt : nInt::accept(visitInfo, visitor)
@@ -3410,9 +3410,9 @@ nInt -> visitor : visitor.visit(visitInfo, *this)
 
 note left of nInt
   <b>Second Dispatch:</b>
-  *this는 nInt& 타입
-  컴파일 타임 오버로드 resolution
-  visitor::visit(visitInfo, nInt&) 호출
+  *this is nInt& type
+  Compile-time overload resolution
+  Call visitor::visit(visitInfo, nInt&)
 end note
 
 activate visitor
@@ -3420,9 +3420,9 @@ activate visitor
 visitor -> visitor : onVisit(visitInfo, nInt&)
 
 note right of visitor
-  <b>성공!</b>
-  구체 타입(nInt)에 특화된
-  방문 로직 실행
+  <b>Success!</b>
+  Execute visit logic
+  specialized for concrete type (nInt)
 end note
 
 deactivate visitor
@@ -3663,26 +3663,26 @@ byeol은 이러한 타입추론 표현식들을 한곳에 모아둔 후, parsing
 구조를 띄고 있지만 <b>강형 타입</b>을 사용하며, 컴파일 언어처럼 사전에 에러를 도출합니다.
 
 @startuml
-actor "사용자" as user
+actor "User" as user
 participant "parser" as parser
 participant "expander" as expander
 participant "verifier" as verifier
 participant "interpreter" as interpreter
 participant "AST" as ast
 
-== 1. 파싱 단계 ==
+== 1. Parsing Phase ==
 
-user -> parser : 소스 코드 제공
+user -> parser : Provide source code
 activate parser
 
-parser -> ast : AST 생성
+parser -> ast : Create AST
 activate ast
 
 note right of ast
-  <b>초기 AST:</b>
-  - func, obj, expr 등
-  - 아직 미완성 상태
-  - Generic 타입 미확정
+  <b>Initial AST:</b>
+  - func, obj, expr etc
+  - Still incomplete
+  - Generic type undetermined
 end note
 
 ast -> parser: created ast
@@ -3691,35 +3691,35 @@ deactivate ast
 parser --> user : AST
 deactivate parser
 
-== 2. 확장 단계 (Expansion) ==
+== 2. Expansion Phase ==
 
-user -> expander : AST 확장 요청
+user -> expander : Request AST expansion
 activate expander
 
 note right of expander
   <b>Expander:</b>
-  - Generic 타입 인스턴스화
-  - Auto 타입 해결
-  - AST 완성
+  - Instantiate Generic type
+  - Resolve Auto type
+  - Complete AST
 end note
 
-expander -> ast : AST 수정/확장
+expander -> ast : Modify/Expand AST
 activate ast
-ast --> expander : 완성된 AST
+ast --> expander : Completed AST
 deactivate ast
 
-expander --> user : 완성된 AST
+expander --> user : Completed AST
 deactivate expander
 
-== 3. 검증 단계 (Verification) ==
+== 3. Verification Phase ==
 
-user -> verifier : AST 검증 요청
+user -> verifier : Request AST verification
 activate verifier
 
 verifier -> verifier : setTask(ast)
 verifier -> verifier : work()
 
-loop AST 순회 (Visitor 패턴)
+loop Traverse AST (Visitor Pattern)
 
     verifier -> ast : visit(node)
     activate ast
@@ -3728,24 +3728,24 @@ loop AST 순회 (Visitor 패턴)
 
     note right of verifier
       <b>Type Inference:</b>
-      eval() 대신 infer() 사용
+      Use infer() instead of eval()
     end note
 
     verifier -> ast : infer()
-    ast --> verifier : 타입 정보 (origin)
+    ast --> verifier : Type info (origin)
 
     note right of verifier
-      <b>타입 체킹:</b>
-      - 타입 매칭 확인
-      - 묵시적 변환 가능성
-      - 함수 오버로딩 해결
+      <b>Type Checking:</b>
+      - Check type matching
+      - Implicit conversion possibility
+      - Resolve function overloading
     end note
 
-    alt 타입 에러 발견
-        verifier -> verifier : errReport에 추가
+    alt Type Error Found
+        verifier -> verifier : Add to errReport
         note right of verifier
-          에러 수집만 하고
-          계속 순회
+          Collect errors
+          and continue traversing
         end note
     end
 
@@ -3756,29 +3756,29 @@ loop AST 순회 (Visitor 패턴)
 
 end
 
-verifier -> verifier : 검증 완료 판단
+verifier -> verifier : Judge verification completion
 
-alt 에러 있음
-    verifier --> user : 검증 실패\nerrReport 반환
-else 에러 없음
-    verifier --> user : 검증 성공
+alt Errors exist
+    verifier --> user : Verification failed\nReturn errReport
+else No errors
+    verifier --> user : Verification success
 end
 
 deactivate verifier
 
-== 4. 실행 단계 (Execution) ==
+== 4. Execution Phase ==
 
-user -> interpreter : 실행 요청
+user -> interpreter : Request execution
 activate interpreter
 
 interpreter -> ast : eval()
 activate ast
 
-ast -> ast : 재귀적 eval()
-ast --> interpreter : 실행 결과 (str)
+ast -> ast : Recursive eval()
+ast --> interpreter : Execution result (str)
 deactivate ast
 
-interpreter --> user : 실행 결과
+interpreter --> user : Execution result
 deactivate interpreterp
 @enduml
 
@@ -3968,7 +3968,8 @@ byeol 언어는 에러 처리를 위한 정교한 시스템을 갖추고 있습�
 체계적으로 관리됩니다.
 
 @startuml
-package "Callstack 구성" {
+
+package "Callstack Composition" {
     class "frames" as frames {
         - _stack : tnarr<frame>
         ---
@@ -4018,38 +4019,37 @@ package "Callstack 구성" {
 }
 
 note top of frames
-  <b>Callstack 스택:</b>
-  함수 호출마다 frame push
-  함수 종료 시 frame pop
+  <b>Callstack Stack:</b>
+  Push frame on every function call
+  Pop frame on function exit
 
   [frame1, frame2, frame3]
-  스택 구조
+  Stack structure
 end note
 
 note right of frame
-  <b>Frame 정보:</b>
-  - 함수명
-  - 인자
-  - 호출 위치 (src)
+  <b>Frame Info:</b>
+  - Function name
+  - Arguments
+  - Call location (src)
 
-  callstack 한 단계
+  One step of callstack
 end note
 
 note right of errReport
-  <b>에러 수집기:</b>
-  작업 중 발생한
-  모든 에러 수집
+  <b>Error Collector:</b>
+  Collect all errors
+  occurred during task
 
   noisy == true:
-  에러 추가 즉시 로깅
+  Log immediately when error added
 end note
 
 frames *-- "n" frame
 baseErr *-- frames
 nerr --|> baseErr
-errReport o-- "n" baseErr : 수집
-nerr --> errCode : 사용
-
+errReport o-- "n" baseErr : Collect
+nerr --> errCode : Use
 @enduml
 
 ### baseErr 클래스 - 에러의 기반
@@ -4159,7 +4159,7 @@ participant "frames" as frames
 participant "frame" as frame
 participant "errReport" as errReport
 
-== Callstack 구성 (정상 실행 중) ==
+== Callstack Composition (Normal Execution) ==
 
 worker -> node : func.eval(args)
 activate node
@@ -4167,58 +4167,58 @@ activate node
 node -> frames : pushFrame()
 activate frames
 
-frames -> frame : 생성 (funcName, args)
+frames -> frame : Create (funcName, args)
 activate frame
 
 frame --> frames : tstr<frame>
-frames -> frames : _stack에 push
+frames -> frames : Push to _stack
 
 note right of frames
   <b>Callstack:</b>
   [frame1, frame2, ...]
-  함수 호출 스택
+  Function call stack
 end note
 
 frames --> node : void
 deactivate frames
 
-== 에러 발생 ==
+== Error Occurrence ==
 
-node -> node : stmt 실행 중...
+node -> node : stmt executing...
 
-alt stmt가 nullptr
-    node -> node : WHEN_NUL(stmt) 감지
-    node -> nerr : 생성 (IS_NUL, "stmt")
+alt stmt is nullptr
+    node -> node : Detect WHEN_NUL(stmt)
+    node -> nerr : Create (IS_NUL, "stmt")
     activate nerr
 
     nerr -> frames : getFrames()
     frames --> nerr : tstr<frames>
 
-    nerr -> nerr : callstack 캡처
+    nerr -> nerr : Capture callstack
     note right of nerr
-      frames를 통해
-      현재 callstack 저장
+      Save current callstack
+      via frames
     end note
 
     nerr --> node : nerr*
     deactivate nerr
 
-== 에러 전파 ==
+== Error Propagation ==
 
     node -> errReport : add(nerr)
     activate errReport
 
     note right of errReport
-      <b>에러 수집:</b>
-      에러를 모아두고
-      작업 계속 진행
+      <b>Collect Error:</b>
+      Collect error
+      and continue task
     end note
 
     alt noisy == true
         errReport -> nerr : log()
         note right of nerr
-          즉시 로깅
-          디버깅 용이
+          Immediate logging
+          Easier debugging
         end note
     end
 
@@ -4227,46 +4227,46 @@ alt stmt가 nullptr
 
     note right of node
       <b>Early Return:</b>
-      WHEN매크로의 `ret(blk)`로
-      c++ 함수 즉시 종료
+      Terminate C++ function immediately
+      with `ret(blk)` of WHEN macro
     end note
 
-    node --> worker : 에러 반환
+    node --> worker : Return error
     deactivate node
 
 end
 
-== 함수 종료 (정상/에러 모두) ==
+== Function Exit (Normal/Error) ==
 
 worker -> frames : popFrame()
 activate frames
 
-frames -> frames : _stack에서 pop
+frames -> frames : Pop from _stack
 frames -> frame : del()
 frame --> frames : void
 frames --> worker : void
 deactivate frames
 
-== 에러 처리 및 출력 ==
+== Error Handling & Output ==
 
-worker -> errReport : 에러 존재?
+worker -> errReport : Errors exist?
 activate errReport
 
-errReport --> worker : true (에러 있음)
+errReport --> worker : true (Errors exist)
 deactivate errReport
 
-worker -> errReport : 모든 에러 순회
+worker -> errReport : Traverse all errors
 activate errReport
 
-loop 각 에러
+loop Each error
 
     errReport -> nerr : dump()
     activate nerr
 
     note right of nerr
-      <b>Callstack 출력:</b>
-      nerr가 참조하는 frames를
-      통해 callstack 정보 출력
+      <b>Print Callstack:</b>
+      Print callstack info
+      via frames referenced by nerr
 
       e.g.
         at func1() in file.byeol:10
@@ -4274,19 +4274,19 @@ loop 각 에러
         at main() in file.byeol:30
     end note
 
-    nerr -> frames : 각 frame 정보
+    nerr -> frames : Each frame info
     activate frames
 
     frames -> frame : getName(), getSrc()
     activate frame
 
-    frame --> frames : 함수명, 위치
+    frame --> frames : Function name, location
     deactivate frame
 
-    frames --> nerr : callstack 정보
+    frames --> nerr : callstack info
     deactivate frames
 
-    nerr -> nerr : 로그 출력
+    nerr -> nerr : Print log
 
     nerr --> errReport : void
     deactivate nerr
@@ -4297,9 +4297,9 @@ errReport --> worker : void
 deactivate errReport
 
 note right of worker
-  <b>에러 처리 완료:</b>
-  모든 에러 출력
-  작업 중단
+  <b>Error Handling Complete:</b>
+  Print all errors
+  Stop task
 end note
 
 deactivate frame
