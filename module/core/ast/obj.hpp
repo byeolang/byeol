@@ -36,17 +36,17 @@ namespace by {
      *      obj* myObj2 = myObj.clone(); // When creating object with `myObj2 myObj` in byeol.
      *  @endcode
      *
-     *  As shown, in the byeol runtime environment, objects are just obj created via two paths: `obj defined with def` and
-     *  `obj cloned from obj`. Since both are used as types, distinguishing them is meaningless.
+     *  As shown, in the byeol runtime environment, objects are just obj created via two paths: `obj defined with def`
+     * and `obj cloned from obj`. Since both are used as types, distinguishing them is meaningless.
      *
      *  @section shares_owns Shares and Owns
      *  For baseObj, since the base is a C++ native class, object creation also occurs through C++'s `new` and
      *  constructors, simultaneously creating member variables defined in that class. But what about writing byeol code?
-     *  In the byeol runtime environment, obj representing objects can have properties like `name` in the example above. Since
-     *  defining objects in byeol runtime environment is cloning objects from @ref origin objects, calling clone() on origin
-     *  also copies properties and funcs. At this time, funcs only need one in the system and don't need to be copied
-     *  each time a func object is created. Conversely, properties like name must be copied with different values per
-     *  instance. To handle this efficiently, parts shared among objs of the same type are separated into shares, and
+     *  In the byeol runtime environment, obj representing objects can have properties like `name` in the example above.
+     * Since defining objects in byeol runtime environment is cloning objects from @ref origin objects, calling clone()
+     * on origin also copies properties and funcs. At this time, funcs only need one in the system and don't need to be
+     * copied each time a func object is created. Conversely, properties like name must be copied with different values
+     * per instance. To handle this efficiently, parts shared among objs of the same type are separated into shares, and
      *  parts that get copied are separated into owns. Therefore, when obj's clone() occurs, shares only gets references
      *  to shares from the original origin, and only the owns part performs clone.
      *

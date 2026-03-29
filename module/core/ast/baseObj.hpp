@@ -19,8 +19,9 @@ namespace by {
 
     /** @ingroup core
      *  @brief Base class for representing byeol objects
-     *  @details The base class for representing objects in byeol. The core module uses both objects in the byeol runtime
-     *  environment written in byeol language (@ref obj) and objects in the native environment written using C++ code
+     *  @details The base class for representing objects in byeol. The core module uses both objects in the byeol
+     * runtime environment written in byeol language (@ref obj) and objects in the native environment written using C++
+     * code
      *  (@ref baseObj) without distinction. Both are @ref node and baseObj. To achieve this, obj inherits from
      *  baseObj, grouping them into the same class hierarchy. Therefore, baseObj only has functionality common to
      *  native and script objects. In other words, managed object obj always has more functionality than baseObj.
