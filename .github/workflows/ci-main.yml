@@ -626,6 +626,7 @@ jobs:
 
       - name: install native dependencies
         run: |
+          sudo apt-get update
           sudo apt install -y graphviz python3 python3-pip ruby rubygems wget cmake flex bison libclang-dev default-jre
 
       - name: install doxygen 1.10.0 source
