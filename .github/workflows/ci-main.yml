@@ -647,15 +647,9 @@ jobs:
         run: sudo gem install jekyll bundler
 
       - name: commit docs if it's different to previous commit
+        env:
+          GH_TOKEN: ${{secrets.PAT_TOKEN}}
         run: |
           export C=clang CXX=clang++ PYTHON=$(which python3)
           sudo $PYTHON ${{github.workspace}}/build/builder.py doc
-          sudo $PYTHON ${{github.workspace}}/build/builder.py pubdoc
-
-      - name: push the commit
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          directory: ${{github.workspace}}/build/html
-          repository: byeolang/website
-          github_token: ${{secrets.PAT_TOKEN}}
-          branch: 'main'
+          sudo -E $PYTHON ${{github.workspace}}/build/builder.py pubdoc
