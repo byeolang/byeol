@@ -141,6 +141,91 @@ class userManager {
 };
 ```
 
+### 클래스 접두사
+
+특정 목적을 가진 클래스에는 접두사를 사용하여 그 의미를 명확히 합니다.
+
+*   **t**: 템플릿 기반 클래스 (예: `tstr`, `tmay`, `tres`, `ttype`)
+    *   C++ 표준 라이브러리의 `std::unique_ptr`과 같은 역할을 하는 커스텀 스마트 포인터나 유틸리티 클래스에 사용됩니다.
+*   **n**: Native의 약자로, C++ 런타임용 클래스임을 명시할 때 사용합니다. (예: `nmap`, `narr`, `nbool`)
+    *   Byeol 언어에도 동일한 이름의 클래스(`map`, `arr` 등)가 존재할 경우, C++ 구현체(Native)와 Byeol 런타임 객체를 구분하기 위해 사용됩니다.
+    *   예: `nmap`은 C++ 런타임에서 동작하는 맵(Native Map)이며, `map`은 Byeol 런타임에서 사용되는 맵 객체입니다.
+    *   `t` 접두사와 결합하여 `tnarr`(Template Native Array)와 같이 사용될 수도 있습니다.
+
+### Enum 네이밍
+
+Enum 타입 이름은 `camelCase`를 사용하며, Enum 값은 `UPPER_SNAKE_CASE`를 사용합니다.
+
+```cpp
+// ✅ 올바른 예제
+enum priorType {
+    EXACT_MATCH = 0,
+    NUMERIC_MATCH = 1,
+    NO_MATCH
+};
+
+// ❌ 잘못된 예제
+enum PriorType {      // 틀림! PascalCase 금지
+    ExactMatch = 0,   // 틀림! PascalCase 금지
+    numeric_match     // 틀림! lower_snake_case 금지
+};
+```
+
+### 인터페이스 네이밍
+
+순수 가상 함수를 포함하는 인터페이스 성격의 클래스는 `-able` 접미사를 사용하는 것을 권장합니다. 별도의 `I` 접두사는 사용하지 않습니다.
+
+```cpp
+// ✅ 올바른 예제
+class interactable { virtual void interact() = 0; };
+class clonable { virtual object* clone() = 0; };
+class validable { virtual bool isValid() const = 0; };
+
+// ❌ 잘못된 예제
+class IInteractable { };  // 틀림! I 접두사 금지
+class interactInterface { }; // 틀림! 불필요하게 김
+```
+
+### 템플릿 구체화 네이밍
+
+`t` 접두사가 붙은 템플릿 클래스를 `typedef`나 `using`으로 구체화할 때는 `t` 접두사를 제거하여 사용합니다.
+
+```cpp
+// 템플릿 정의
+template <typename T> class tpriorities { ... };
+
+// ✅ 구체화 (t 제거)
+typedef tpriorities<node> priorities;
+
+// 사용
+priorities myPriorities;
+```
+
+### 기본 타입 사용
+
+C++ 기본 타입(`int`, `bool`, `char` 등) 대신 `by` 네임스페이스에 정의된 `n` 접두사 타입(`nint`, `nbool`, `nchar` 등)을 사용하는 것을 권장합니다. 이는 플랫폼 간의 일관성을 보장하기 위함입니다.
+
+```cpp
+// ✅ 올바른 예제
+nint count = 0;
+nbool isValid = true;
+nidx index = -1;  // nint의 typedef
+
+// ⚠️ 비권장
+int count = 0;
+bool isValid = true;
+```
+
+### 파일 명명 규칙
+
+헤더 파일과 소스 파일의 이름은 **해당 파일이 정의하는 메인 클래스의 이름과 대소문자까지 정확히 일치**해야 합니다.
+
+*   클래스 `node` -> 파일 `node.hpp`, `node.cpp`
+*   클래스 `stringUtil` -> 파일 `stringUtil.hpp`, `stringUtil.cpp`
+*   클래스 `tpriorities` -> 파일 `tpriorities.hpp`
+
+파일 이름에 `_`나 `-`를 사용하지 않고 `camelCase`를 유지합니다.
+
 ### 네이밍 철학
 
 간결하지만 의미가 명확한 이름을 선호합니다.
@@ -662,6 +747,95 @@ int getBrushColorCode(Resource r) {
 
 `WHEN`, `TO`등 매크로에 대한 자세한 내용은 @ref ae-architecture-overview 문서를 참조하세요.
 
+
+### 구현 파일 (.cpp) 규칙
+
+#### me와 super 사용
+
+구현 파일에서는 클래스 이름 반복을 피하기 위해 `me`와 `super` typedef를 적극 활용합니다.
+
+*   **me**: 현재 클래스 (`this`의 타입)
+*   **super**: 부모 클래스
+
+이를 위해 구현 파일 상단에 `BY_DEF_ME` 매크로를 사용해야 합니다.
+
+```cpp
+// myClass.cpp
+
+namespace by {
+    BY_DEF_ME(myClass)  // typedef myClass me; 정의
+
+    // 클래스 이름 대신 me 사용
+    me::myClass() {
+        // ...
+    }
+
+    void me::init() {
+        super::init();  // 부모 클래스의 init 호출
+        // ...
+    }
+}
+```
+
+#### 익명 네임스페이스
+
+파일 내부에서만 사용되는 헬퍼 함수나 상수는 `static` 대신 **익명 네임스페이스**(`namespace { ... }`)를 사용합니다.
+
+```cpp
+namespace {
+    // 이 파일 안에서만 접근 가능
+    constexpr ncnt MAX_RETRY = 3;
+
+    std::string _makeTag(const std::string& name) {
+        return "[" + name + "]";
+    }
+}
+
+void me::process() {
+    // ...
+}
+```
+
+### 기타 코딩 관습
+
+#### auto 사용
+
+`auto`는 타입이 명확하거나 너무 길어질 때 사용합니다. 단, 포인터의 경우 `auto*`를 명시하여 포인터임을 드러내는 것을 권장합니다.
+
+```cpp
+// ✅ 권장
+auto* obj = new myClass();
+for(auto& item : container) { ... }
+auto it = map.find(key);
+
+// ⚠️ 비권장 (타입이 모호함)
+auto val = getValue();
+```
+
+#### nullptr 사용
+
+포인터 초기화나 null 체크 시 `0`이나 `NULL` 대신 C++11 표준인 `nullptr`을 사용합니다.
+
+```cpp
+// ✅ 권장
+node* ptr = nullptr;
+if(ptr == nullptr) { ... }
+
+// ❌ 금지
+node* ptr = 0;
+node* ptr = NULL;
+```
+
+#### 로컬 상수 네이밍
+
+함수 내부의 `constexpr` 상수라도 `UPPER_SNAKE_CASE`를 사용합니다.
+
+```cpp
+void calculate() {
+    constexpr int MAX_BUFFER = 1024; // ✅ 올바름
+    const int maxBuffer = 1024;      // ❌ 틀림 (상수는 대문자)
+}
+```
 
 ---
 
