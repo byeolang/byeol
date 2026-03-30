@@ -1,4 +1,4 @@
-# Byeol 코딩 규칙 {#ab-convention-rules}
+# Byeol 코딩 규칙 {#ad-convention-rules}
 
 이 문서는 Byeol 프로젝트의 코딩 표준과 규칙을 정의합니다. 모든 기여자는 코드 일관성과 품질을 유지하기 위해 이 규칙을 따라야 합니다.
 
@@ -660,7 +660,7 @@ int getBrushColorCode(Resource r) {
 }
 ```
 
-`WHEN`, `TO`등 매크로에 대한 자세한 내용은 @ref ac-architecture-overview 문서를 참조하세요.
+`WHEN`, `TO`등 매크로에 대한 자세한 내용은 @ref ae-architecture-overview 문서를 참조하세요.
 
 
 ---
@@ -943,4 +943,4 @@ class moduleA {
 
 ---
 
-**다음 문서**: @ref ac-architecture-overview
+**다음 문서**: @ref ae-architecture-overview

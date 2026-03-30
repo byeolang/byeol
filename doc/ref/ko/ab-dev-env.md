@@ -1,4 +1,4 @@
-# 개발환경 {#aa-dev-env}
+# 개발환경 {#ab-dev-env}
 
 빌드를 비롯해서 테스트, 커버리지 확인, 코드 포맷팅 등 모든 개발 환경은 `build/builder.py`를 통해서 이뤄집니다. `builder.py`는 작업별로 필요로 하는 툴이나 프로그램이 무엇인지, 버전은 만족하는지를 사전에 체크해서 보여주기 때문에 `builder.py`를 다룰 줄만 안다면 기본적인 빌드 환경은 쉽게 구축할 수 있어요.
 
@@ -112,7 +112,7 @@ $ ./test --gtest_filter=cliTest.checkDefaultAction verbose
 
 문서는 크게 가이드 문서와 레퍼런스 문서로 나뉘어집니다. 가이드 문서는 byeol 언어를 위한 가이드 문서로, byeol 언어의 설치부터 문법 소개까지를 다룹니다. 레퍼런스 문서는 byeol C++ 코드를 개발을 위한 문서로, 개발 환경 설정과 실행, 테스트 수행, 코드 레퍼런스 등이 포함됩니다.
 
-자세한 내용은 @ref am-document-convention 를 참조하세요.
+자세한 내용은 @ref an-document-convention 를 참조하세요.
 
 
 ### 문서의 doxygen 커스터마이징
@@ -160,4 +160,4 @@ HKEY_LOCAL_MACHINE_SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps
 `.dmp` 파일은 `VisualStudio`나 `WinDbg` 등으로 확인 가능합니다.
 
 ---
-**다음 문서**: @ref ab-convention-rules
+**다음 문서**: @ref ac-build-structure

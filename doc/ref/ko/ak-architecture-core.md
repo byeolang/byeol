@@ -1,4 +1,4 @@
-# core 모듈 - 언어 구현의 핵심 {#ai-architecture-core}
+# core 모듈 - 언어 구현의 핵심 {#ak-architecture-core}
 
 @ref core 모듈은 Byeol 프로그래밍 언어의 핵심 구현을 담당합니다.
 AST(Abstract Syntax Tree) 구조, 파서, 검증기, 실행기 등 언어의 모든 핵심 기능이 이 모듈에 집중되어 있습니다.
@@ -4315,4 +4315,4 @@ deactivate frame
 
 ---
 
-<b>다음 문서</b>: @ref aj-architecture-frontend
+<b>다음 문서</b>: @ref al-architecture-frontend

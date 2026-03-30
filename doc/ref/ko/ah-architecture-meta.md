@@ -1,4 +1,4 @@
-# meta 모듈 - 런타임 타입 시스템 {#af-architecture-meta}
+# meta 모듈 - 런타임 타입 시스템 {#ah-architecture-meta}
 
 @ref meta 모듈은 런타임 타입 정보(RTTI)와 리플렉션 기능을 제공합니다. C++의 기본 RTTI보다 더 강력하고
 효율적인 타입 시스템을 구현하고 있으며, Byeol 언어의 타입 시스템 기반이 됩니다.
@@ -517,4 +517,4 @@ end note
 
 ---
 
-<b>다음 문서</b>: @ref ag-architecture-memlite
+<b>다음 문서</b>: @ref ai-architecture-memlite

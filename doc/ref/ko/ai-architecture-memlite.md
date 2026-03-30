@@ -1,4 +1,4 @@
-# memlite 모듈 - 커스텀 메모리 관리 {#ag-architecture-memlite}
+# memlite 모듈 - 커스텀 메모리 관리 {#ai-architecture-memlite}
 
 @ref memlite 모듈은 참조 카운팅을 갖춘 커스텀 메모리 풀 시스템을 제공합니다.
 궁극적인 목적은, byeol managed 환경에서의 경량화된 메모리 관리 구축에 있어요.
@@ -1235,4 +1235,4 @@ deactivate binder
 
 ---
 
-<b>다음 문서</b>: @ref ah-architecture-stela
+<b>다음 문서</b>: @ref aj-architecture-stela

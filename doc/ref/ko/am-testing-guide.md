@@ -1,4 +1,4 @@
-# 테스트 케이스 작성 가이드 {#ak-testing-guide}
+# 테스트 케이스 작성 가이드 {#am-testing-guide}
 
 byeol 프로젝트에서는 Google Test 프레임워크를 사용하여 테스트를 작성합니다. 테스트는 크게 세 가지 타입으로 나뉘며, 각 타입마다 특정 베이스 클래스를 상속받아야 합니다. Unit Test는 `byeolTest`를, Integration Test는 `byeolIntegTest`를, 그리고 E2E Test는 `byeolE2ETest`를 각각 상속받습니다. 이는 필수 규칙이며, 잘못된 베이스 클래스를 사용하면 테스트가 올바르게 동작하지 않습니다.
 
@@ -483,4 +483,4 @@ cd bin
 
 ---
 
-**다음 문서**: @ref al-build-structure
+**다음 문서**: @ref an-document-convention

@@ -10,4 +10,4 @@
 
 ---
 
-**다음 문서**: @ref aa-dev-env
+**다음 문서**: @ref aa-onboarding

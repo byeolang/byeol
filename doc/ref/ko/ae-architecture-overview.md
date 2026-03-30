@@ -1,4 +1,4 @@
-# 아키텍쳐와 설계 {#ac-architecture-overview}
+# 아키텍쳐와 설계 {#ae-architecture-overview}
 
 이 문서는 Byeol 프로그래밍 언어의 구현을 이해하기 위한 가이드입니다. Byeol은 추상 구문 트리(AST)를
 직접 실행하는 강타입 인터프리터 언어입니다. Tree-walking interpreter 방식으로 구현되었으며,
@@ -11,13 +11,13 @@ byeol 언어의 문법은 이미 알고 있다는 전제로 설명하므로, 필
 
 필요하다면 다음 하위 문서들로 바로 이동할 수 있어요:
 
-- @subpage ad-architecture-indep
-- @subpage ae-architecture-clog
-- @subpage af-architecture-meta
-- @subpage ag-architecture-memlite
-- @subpage ah-architecture-stela
-- @subpage ai-architecture-core
-- @subpage aj-architecture-frontend
+- @subpage af-architecture-indep
+- @subpage ag-architecture-clog
+- @subpage ah-architecture-meta
+- @subpage ai-architecture-memlite
+- @subpage aj-architecture-stela
+- @subpage ak-architecture-core
+- @subpage al-architecture-frontend
 
 ---
 
@@ -106,4 +106,4 @@ Byeol 프로젝트는 엄격한 Layered Architecture 패턴을 따릅니다. 각
 
 ---
 
-<b>다음 문서</b>: @ref ad-architecture-indep
+<b>다음 문서</b>: @ref af-architecture-indep
