@@ -44,7 +44,7 @@ namespace by {
 
         interpreter ip;
         programRes ret{getReport(), 0};
-        ip.setReport(ret.rpt).setFlag(interpreter::DEFAULT);
+        ip.setReport(ret.rpt).setFlag(getFlag());
         starter s;
         s.setFlag(starter::DUMP_ON_EX);
         s.setReport(ret.rpt);

@@ -27,7 +27,10 @@ flagArgs me::_parseFlag(nint argc, va_list va) {
 me& me::parse(by::nint argc, ...) {
     va_list va;
     va_start(va, argc);
-    cli.setFlag(cli::DUMP_ON_EX | cli::GUARD | cli::INTERNAL | cli::LOG_ON_END)
+    nbool isVerbose = logger::get().isEnable();
+    int flag = isVerbose ? interpreter::LOG_STRUCTURE | cli::DUMP_ON_EX | cli::GUARD | cli::INTERNAL | cli::LOG_ON_END | interpreter::LOG_GRAPH_ON_EX :
+        cli::DUMP_ON_EX | cli::GUARD | cli::INTERNAL | cli::LOG_ON_END;
+    cli.setFlag(flag)
         .setTask(new flagArgs(_parseFlag(argc, va)));
     va_end(va);
     return *this;
