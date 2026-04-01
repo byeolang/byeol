@@ -68,3 +68,20 @@ TEST_F(parserIntegTest, slotProperlySpecified) {
         .shouldParsed(true);
     shouldVerified(true);
 }
+
+TEST_F(parserIntegTest, parserReturnsPackAsOutput) {
+    make("sample")
+        .parse(R"SRC(
+        pack sample
+
+        def person
+            age := 32
+
+        main() void
+            ret
+    )SRC")
+        .shouldVerified(true);
+
+    node& pack = getSlot() OR_ASSERT(pack);
+    ASSERT_TRUE(pack.sub("person"));
+}
