@@ -9,7 +9,7 @@
 
 namespace by {
 
-    template class _nout tworker<tstr<slot>, slot>;
+    template class _nout tworker<tstr<pack>, pack>;
 
     BY_DEF_ME(interpreter)
 
@@ -25,7 +25,7 @@ namespace by {
 
     node* me::getSubPack() { return _pser.getSubPack(); }
 
-    tstr<slot> me::_onWork() {
+    tstr<pack> me::_onWork() {
         // TODO: don't use static variable '_cache':
         //  instead, put cache onto origin object, and if arr instance is origin, remove the cache.
         arr::_cache.clear();
@@ -82,13 +82,13 @@ namespace by {
     void me::_expand() {
         threadUse thr(getReport());
         expander evaler;
-        WHEN_NUL(getTask()).err("_slot is null").ret();
-        _visit(*this, evaler, getTask() TO(getPack()));
+        WHEN_NUL(getTask()).err("_pack is null").ret();
+        _visit(*this, evaler, getTask());
     }
 
     void me::_verify() {
         threadUse thr(getReport());
-        WHEN_NUL(getTask()).err("_slot is null").ret();
-        _visit(*this, _veri, getTask() TO(getPack()));
+        WHEN_NUL(getTask()).err("_pack is null").ret();
+        _visit(*this, _veri, getTask());
     }
 } // namespace by

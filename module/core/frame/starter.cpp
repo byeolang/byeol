@@ -6,7 +6,7 @@
 #include "core/ast/dumScope.hpp"
 #include "core/ast/node.inl"
 #include "core/ast/obj.hpp"
-#include "core/ast/slot.hpp"
+#include "core/ast/pack.hpp"
 #include "core/frame/threadUse.hpp"
 #include "core/internal/coreInternal.hpp"
 

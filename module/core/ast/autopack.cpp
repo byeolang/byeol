@@ -1,4 +1,4 @@
-#include "core/ast/autoslot.hpp"
+#include "core/ast/autopack.hpp"
 
 #include "core/type/typeMaker.hpp"
 #include "core/worker/visitor/visitor.hpp"
@@ -10,12 +10,13 @@
 
 namespace by {
 
-    BY(DEF_ME(autoslot), DEF_VISIT())
+    BY(DEF_ME(autopack), DEF_VISIT())
 
-    me::autoslot(const manifest& manifest, const packLoadings& loadings):
-        super(manifest), _loadings(loadings), _state(RELEASED) {}
+    me::autopack(const manifest& manifest, const packLoadings& loadings):
+        super(manifest), _loadings(loadings), _state(RELEASED) {
+    }
 
-    me::~autoslot() {
+    me::~autopack() {
         // release all instance first:
         //  I must release allocated shared object first,
         //  before release the handle of it by releasing packLoading instance.
@@ -32,26 +33,23 @@ namespace by {
         errReport& _getReport() { return thread::get().getEx(); }
     }
 
-    obj& me::getPack() {
+    scope& me::subs() {
         if(_state == RELEASED) {
-            const std::string& name = getManifest().name;
-            origin& org = *new origin(typeMaker::make<obj>(name));
-            org.setCallComplete(*new mockNode());
-            _pak.bind(org);
-            BY_I("%s pack is about to interpret lazy.", name);
+            BY_I("%s pack is about to load in lazy.", getManifest().name);
 
             auto& exRpt = _getReport();
             errReport rpt(exRpt.isNoisy());
             // TODO: check rpt error count increased or not.
             //       if increased, then parse() function has been failed.
-            parse(rpt, _pak->getShares()); // recursive call wasn't allowed.
-            verify(rpt, *_pak);
+            obj& org = _org->cast<obj>() OR.err("origin of pack should be an obj").ret(dumScope::singleton());
+            parse(rpt, org.getShares()); // recursive call wasn't allowed.
+            verify(rpt, org);
             exRpt.add(rpt); // add errors if they occurs during loading.
 
             link();
         }
 
-        return super::getPack();
+        return super::subs();
     }
 
     state me::getState() const { return _state; }

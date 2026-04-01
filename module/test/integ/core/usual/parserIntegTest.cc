@@ -7,28 +7,28 @@ namespace {
     struct parserIntegTest: public byeolIntegTest {};
 }
 
-TEST_F(parserIntegTest, slotNoOnTray) {
+TEST_F(parserIntegTest, packNoOnTray) {
     make().parse(R"SRC(
         main() void
             ret
     )SRC");
     shouldVerified(true);
 
-    const slot& slot = getSlot() OR_ASSERT(slot);
-    auto& owns = (scope::super&) slot.subs().getContainer();
+    const pack& pak = getPack() OR_ASSERT(slot);
+    auto& owns = (scope::super&) pak.subs().getContainer();
     ASSERT_EQ(owns.len(), 0);
-    ASSERT_EQ(slot.getManifest().name, manifest::DEFAULT_NAME);
+    ASSERT_EQ(pak.getManifest().name, manifest::DEFAULT_NAME);
 
-    scope& next = slot.subs().getNext() OR_ASSERT(next);
+    scope& next = pak.subs().getNext() OR_ASSERT(next);
     auto& shares = (scope::super&) next.getContainer();
     ASSERT_EQ(shares.len(), 3); // 2 builtin func
-    ASSERT_EQ(&slot.getPack(), getSubPack());
+    ASSERT_EQ(&pak, getSubPack());
     ASSERT_TRUE(getSubPack()->sub<func>("main"));
 }
 
-TEST_F(parserIntegTest, slotNoOnTrayWithoutMake) {
+TEST_F(parserIntegTest, packNoOnTrayWithoutMake) {
     // no make() call:
-    //  so setPack(new slot(manifest())) won't be called.
+    //  so setPack(new pack(manifest())) won't be called.
     //  but it should works too.
     parse(R"SRC(
         main() void
@@ -36,16 +36,16 @@ TEST_F(parserIntegTest, slotNoOnTrayWithoutMake) {
     )SRC");
     shouldVerified(true);
 
-    slot& slot = getSlot() OR_ASSERT(slot);
-    ASSERT_TRUE(slot.subs().getNext());
-    ASSERT_EQ(slot.getManifest().name, manifest::DEFAULT_NAME);
-    ASSERT_EQ(&slot.getPack(), getSubPack());
+    pack& pak = getPack() OR_ASSERT(pak);
+    ASSERT_TRUE(pak.subs().getNext());
+    ASSERT_EQ(pak.getManifest().name, manifest::DEFAULT_NAME);
+    ASSERT_EQ(&pak, getSubPack());
     ASSERT_TRUE(getSubPack()->sub<func>("main"));
 }
 
-TEST_F(parserIntegTest, slotNotSpecifiedButCodeSpecifyPackNegative) {
+TEST_F(parserIntegTest, packNotSpecifiedButCodeSpecifyPackNegative) {
     // make without name:
-    //  slot will be generated. but its name is '{default}'.
+    //  pack will be generated. but its name is '{default}'.
     make()
         .negative()
         .parse(R"SRC(
@@ -56,7 +56,7 @@ TEST_F(parserIntegTest, slotNotSpecifiedButCodeSpecifyPackNegative) {
         .shouldParsed(false);
 }
 
-TEST_F(parserIntegTest, slotProperlySpecified) {
+TEST_F(parserIntegTest, packProperlySpecified) {
     // make with name:
     //  pack will be generated and its name is 'demo'.
     make("demo")
@@ -82,6 +82,6 @@ TEST_F(parserIntegTest, parserReturnsPackAsOutput) {
     )SRC")
         .shouldVerified(true);
 
-    node& pack = getSlot() OR_ASSERT(pack);
+    node& pack = getPack() OR_ASSERT(pack);
     ASSERT_TRUE(pack.sub("person"));
 }

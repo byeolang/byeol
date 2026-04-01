@@ -17,7 +17,7 @@ TEST_F(parserTest, testHelloWorld) {
     rootBinder = p.relSupplies().addSupply(*new bufSupply(stringScript)).work();
     ASSERT_TRUE(rootBinder);
 
-    slot s((manifest()));
+    pack s((manifest()));
     scope& next = s.subs().getNext() OR_ASSERT(next);
     scope::super& shares = next.getContainer();
     p.setTask(s);

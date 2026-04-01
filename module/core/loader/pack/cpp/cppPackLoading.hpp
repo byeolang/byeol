@@ -1,7 +1,7 @@
 /// @file
 #pragma once
 
-#include "core/ast/slot.hpp"
+#include "core/ast/pack.hpp"
 #include "core/ast/src/src.hpp"
 #include "core/loader/pack/trustPackLoading.hpp"
 

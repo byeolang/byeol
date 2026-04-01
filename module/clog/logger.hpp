@@ -16,12 +16,12 @@ namespace by {
      *  @section usage Usage
      *  Basic usage with macros:
      *  @code
-     *      BY_I("slot[%s] origins loaded.", getName());
+     *      BY_I("packs[%s] origins loaded.", getName());
      *  @endcode
      *
      *  This produces output like:
      *  ```
-     *  Oct 22 2025  21:26:13 I cppPackLo <_loadLibs#49> slot[cpp] origins loaded.
+     *  Oct 22 2025  21:26:13 I cppPackLo <_loadLibs#49> pack[cpp] origins loaded.
      *  ```
      *
      *  The log shows:
@@ -29,7 +29,7 @@ namespace by {
      *  2. Log level (I for Info) - ERR, WARN, INFO are available
      *  3. Class name (cppPackLoading, abbreviated)
      *  4. Function (_loadLibs) and line number (49)
-     *  5. Log message (slot[cpp] origins loaded)
+     *  5. Log message (pack[cpp] origins loaded)
      *
      *  @section stream_concept stream
      *  The core of the clog module is @ref stream. A stream represents the logging output

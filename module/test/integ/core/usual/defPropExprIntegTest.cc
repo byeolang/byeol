@@ -54,11 +54,11 @@ TEST_F(defPropExprIntegTest, definePackVariable2) {
     )SRC")
         .shouldParsed(true);
     shouldVerified(true);
-    slot& s = getSlot() OR_ASSERT(s);
+    pack& s = getPack() OR_ASSERT(s);
     ASSERT_EQ(s.getManifest().name, manifest::DEFAULT_NAME);
 
-    scope::super& owns = (scope*) (getSlot() TO(subs().getContainer())) OR_ASSERT(owns);
-    scope::super& shares = (scope*) (getSlot() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& owns = (scope*) (getPack() TO(subs().getContainer())) OR_ASSERT(owns);
+    scope::super& shares = (scope*) (getPack() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(owns.len(), 3);
     ASSERT_EQ(shares.len(), 3);
     ASSERT_EQ(owns.getAll<baseObj>().len(), 3);

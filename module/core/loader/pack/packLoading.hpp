@@ -8,9 +8,9 @@
 
 namespace by {
 
-    class slot;
+    class pack;
     struct manifest;
-    typedef tnchain<std::string, slot> slotChain;
+    typedef tnchain<std::string, pack> packChain;
 
     /** @ingroup core
      *  @brief Base class for pack loading strategies
@@ -20,7 +20,7 @@ namespace by {
     class _nout packLoading: public instance, public packMakable {
         BY(ADT(packLoading, instance))
 
-        typedef nbool (me::*packEvent)(const slotChain&);
+        typedef nbool (me::*packEvent)(const packChain&);
 
     public:
         void addPath(const std::string& filePath);

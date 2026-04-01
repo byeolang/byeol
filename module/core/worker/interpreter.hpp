@@ -9,7 +9,7 @@ namespace by {
     /** @ingroup core
      *  @brief High-level interpreter for byeol language
      *  @details Coordinates the complete interpretation pipeline combining @ref parser, @ref expander, and @ref
-     *  verifier. Manages the entire process from source code to executable @ref slot instances. This is the main entry
+     *  verifier. Manages the entire process from source code to executable @ref pack instances. This is the main entry
      *  point for interpreting byeol source code.
      *
      *  @section interpretation_pipeline Interpretation Pipeline
@@ -32,8 +32,8 @@ namespace by {
      *      str res = starter().setTask(ip.getSubPack()).work();
      *  @endcode
      */
-    class _nout interpreter: public tworker<tstr<slot>, slot> {
-        typedef tworker<tstr<slot>, slot> __super7;
+    class _nout interpreter: public tworker<tstr<pack>, pack> {
+        typedef tworker<tstr<pack>, pack> __super7;
         BY(CLASS(interpreter, __super7))
 
     public:
@@ -58,7 +58,7 @@ namespace by {
         void rel() override;
 
     protected:
-        tstr<slot> _onWork() override;
+        tstr<pack> _onWork() override;
 
     private:
         nbool _isPackExist();

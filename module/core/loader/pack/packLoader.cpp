@@ -1,25 +1,25 @@
-#include "core/loader/slot/slotLoader.hpp"
+#include "core/loader/pack/packLoader.hpp"
 
-#include "core/ast/autoslot.hpp"
+#include "core/ast/autopack.hpp"
 #include "core/frame/thread.hpp"
 #include "core/builtin/err/errReport.hpp"
 #include "core/loader/pack/packLoading.hpp"
 
 namespace by {
 
-    BY_DEF_ME(slotLoader)
+    BY_DEF_ME(packLoader)
 
-    me::slotLoader() {}
+    me::packLoader() {}
 
     void me::load() {
         // TODO: returns result when it's fail
-        if(!_slots) _slots.bind(new nmap());
+        if(!_packs) _packs.bind(new nmap());
 
-        _makeSlots(*_slots);
+        _makePacks(*_packs);
     }
 
     manifest me::_interpManifest(const std::string& dir, const std::string& manPath) const {
-        // TODO: open slot zip file -> extract manifest.stela file -> interpret it & load values
+        // TODO: open pack zip file -> extract manifest.stela file -> interpret it & load values
         tstr<stela> loaded =
             stelaParser().parseFromFile(manPath) OR.err("error to load %s: interpretion err", manPath).ret(manifest());
         stela& root = *loaded;
@@ -50,7 +50,7 @@ namespace by {
             for(const type* sub: ttype<packLoading>::get().getLeafs()) {
                 packLoading* new1 = sub->makeAs<packLoading>();
                 if(!new1) {
-                    BY_E("fail to make slotMaking named to %s", sub->getName());
+                    BY_E("fail to make packMaking named to %s", sub->getName());
                     continue;
                 }
 
@@ -81,26 +81,26 @@ namespace by {
 
     me& me::addRelativePath(const std::string& path) {
         std::string cwd = fsystem::getCurrentDir() + fsystem::getDelimiter();
-        BY_I("finding slots relative to %s or absolute", cwd);
+        BY_I("finding packs relative to %s or absolute", cwd);
         return addPath(cwd + path);
     }
 
-    me& me::setBaseSlots(nmap& s) {
-        _slots.bind(s);
+    me& me::setBasePacks(nmap& s) {
+        _packs.bind(s);
         return *this;
     }
 
-    void me::_makeSlots(nmap& tray) {
+    void me::_makePacks(nmap& tray) {
         for(const std::string& path: _paths) {
-            BY_I("try slot path: %s", path);
+            BY_I("try pack path: %s", path);
 
             auto e = fsystem::find(path);
             while(e.next())
-                if(e.getName() == MANIFEST_FILENAME) _addNewSlot(tray, e.getDir(), e.getName());
+                if(e.getName() == MANIFEST_FILENAME) _addNewPack(tray, e.getDir(), e.getName());
         }
     }
 
-    void me::_addNewSlot(nmap& tray, const std::string& dirPath, const std::string& manifestName) {
+    void me::_addNewPack(nmap& tray, const std::string& dirPath, const std::string& manifestName) {
         std::string manifestPath = dirPath + fsystem::getDelimiter() + manifestName;
         BY_I("manifest path: %s", manifestPath);
 
@@ -111,7 +111,7 @@ namespace by {
         for(entrypoint& point: mani.points) {
             packLoading* newLoading = _makeLoading(point.lang);
             if(!newLoading) {
-                BY_W("%s language not supported for loading %s slot.", mani.points[0].lang, mani.name);
+                BY_W("%s language not supported for loading %s pack.", mani.points[0].lang, mani.name);
                 continue;
             }
 
@@ -123,13 +123,13 @@ namespace by {
             loadings.push_back(newLoading);
         }
 
-        slot* new1 = new autoslot(mani, loadings);
+        pack* new1 = new autopack(mani, loadings);
         tray.add(mani.name, new1);
-        _logSlot(*new1);
+        _logPack(*new1);
     }
 
-    void me::_logSlot(const slot& pak) const {
-        BY_I("new slot [%s] has been added.", pak.getManifest().name);
+    void me::_logPack(const pack& pak) const {
+        BY_I("new pack [%s] has been added.", pak.getManifest().name);
 
 #if BY_IS_DBG
         const manifest& mani = pak.getManifest();

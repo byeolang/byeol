@@ -42,8 +42,8 @@ namespace by {
      *  `accept()`, and the VISIT macro is used to make this process easier. You will often see declarations like this:
      *
      *  @code
-     *      class _nout slot: public node {
-     *          BY(CLASS(slot, node), VISIT()) // <---
+     *      class _nout pack: public node {
+     *          BY(CLASS(pack, node), VISIT()) // <---
      *
      *      public:
      *  @endcode

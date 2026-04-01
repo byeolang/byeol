@@ -13,9 +13,9 @@ by::node* me::getSubPack() { return _ip.getSubPack(); }
 
 const by::node* me::getSubPack() const { return _ip.getSubPack(); }
 
-by::slot* me::getSlot() { return _ip.getTask(); }
+by::pack* me::getPack() { return _ip.getTask(); }
 
-const by::slot* me::getSlot() const { return _ip.getTask(); }
+const by::pack* me::getPack() const { return _ip.getTask(); }
 
 byeolIntegTest& me::make(const std::string& name) { return make(by::manifest(name)); }
 
@@ -27,7 +27,7 @@ byeolIntegTest& me::make(const by::manifest& mani) {
     int flag = isVerbose ?
         interpreter::DEFAULT | interpreter::LOG_STRUCTURE | interpreter::GUARD | interpreter::LOG_GRAPH_ON_EX :
         interpreter::DUMP_ON_EX | interpreter::LOG_ON_END;
-    _ip.setTask(*new by::slot(mani)).setFlag(flag);
+    _ip.setTask(*new by::pack(mani)).setFlag(flag);
     return *this;
 }
 

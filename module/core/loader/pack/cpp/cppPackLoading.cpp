@@ -28,23 +28,23 @@ namespace by {
         for(const std::string& path: _getPaths()) {
             dlib lib = dlib(path);
             auto res = lib.load(); // `res` evaluated as true when it has an error.
-            WHEN(res) .err("couldn't open %s slot: %d", path, res.get()).ret((rel(), false));
+            WHEN(res) .err("couldn't open %s pack: %d", path, res.get()).ret((rel(), false));
 
             auto info = lib.accessFunc<entrypointFunc>(ENTRYPOINT_NAME);
             WHEN(!info.has())
-                .err("couldn't access entrypoint of %s slot: %d", path, info.getErr()).ret((rel(), false));
+                .err("couldn't access entrypoint of %s pack: %d", path, info.getErr()).ret((rel(), false));
 
             (*info)(&tray);
             if(tray.len() <= 0) {
-                BY_W("slot returns no origin object.");
+                BY_W("pack returns no origin object.");
                 lib.rel();
             }
 
             _dlibs.push_back(std::move(lib)); // don't close yet.
-            BY_I("slot[%s] loads origins from %s", getName(), path);
+            BY_I("pack[%s] loads origins from %s", getName(), path);
         }
 
-        BY_I("slot[%s] origins loaded.", getName());
+        BY_I("pack[%s] origins loaded.", getName());
         return true;
     }
 

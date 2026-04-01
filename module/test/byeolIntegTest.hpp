@@ -12,8 +12,8 @@ public:
 
     by::node* getSubPack();
     const by::node* getSubPack() const;
-    by::slot* getSlot();
-    const by::slot* getSlot() const;
+    by::pack* getPack();
+    const by::pack* getPack() const;
 
     byeolIntegTest& make(const std::string& name);
     byeolIntegTest& make();

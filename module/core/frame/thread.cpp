@@ -7,7 +7,7 @@
 #include "core/builtin/pkgs/default/printFunc.hpp"
 #include "core/builtin/err/errReport.hpp"
 #include "core/builtin/err/err.hpp"
-#include "core/loader/slot/slotLoader.hpp"
+#include "core/loader/pack/packLoader.hpp"
 
 namespace by {
 
@@ -110,9 +110,9 @@ namespace by {
         static thread_local thread* _instance = nullptr;
     } // namespace
 
-    const nmap& me::getSlots() const {
+    const nmap& me::getPacks() const {
         static tstr<nmap> _inner;
-        if(!_inner) _inner = _initSlots();
+        if(!_inner) _inner = _initPacks();
         return *_inner;
     }
 
@@ -161,12 +161,12 @@ namespace by {
         tray.add("err", new err(""));
     }
 
-    tstr<nmap> me::_initSlots() const {
+    tstr<nmap> me::_initPacks() const {
         tstr<nmap> ret;
-        BY_I("initiates loading system slots.");
+        BY_I("initiates loading system packs.");
         ret.bind(new nmap());
-        slotLoader()
-            .setBaseSlots(*ret)
+        packLoader()
+            .setBasePacks(*ret)
 #ifdef BY_BUILD_PLATFORM_IS_LINUX
             .addPath("/usr/share/pack/")
 #elif defined(BY_BUILD_PLATFORM_IS_MAC)
@@ -177,12 +177,12 @@ namespace by {
 
         _loadBuiltIns(*ret);
 
-        BY_I("%d system slots has been loaded.", ret->len());
+        BY_I("%d system packs has been loaded.", ret->len());
 
 #if BY_IS_DBG
         BY_I("next following is list for them.");
         for(const auto& s: *ret) {
-            const manifest& mani = s TO(template cast<slot>()) TO(getManifest()) OR_CONTINUE;
+            const manifest& mani = s TO(template cast<pack>()) TO(getManifest()) OR_CONTINUE;
             BY_DI(" - %s v%s", mani.name, mani.version);
         }
 #endif

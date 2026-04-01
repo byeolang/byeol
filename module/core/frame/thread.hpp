@@ -10,7 +10,7 @@ struct exprTest;
 
 namespace by {
 
-    class slotLoader;
+    class packLoader;
 
     /** @ingroup core
      *  @brief Thread execution context for byeol runtime
@@ -90,10 +90,10 @@ namespace by {
         void rel() override;
 
         /**
-         *  @return slot instances loaded by internal system.
-         *          you can cast these to 'slot' types.
+         *  @return pack instances loaded by internal system.
+         *          you can cast these to 'pack' types.
          */
-        const nmap& getSlots() const;
+        const nmap& getPacks() const;
 
         void dump() const override;
 
@@ -111,7 +111,7 @@ namespace by {
 
     private:
         void _loadBuiltIns(nmap& tray) const;
-        tstr<nmap> _initSlots() const;
+        tstr<nmap> _initPacks() const;
 
     private:
         frames _frames;

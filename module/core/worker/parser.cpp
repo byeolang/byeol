@@ -18,7 +18,7 @@
 namespace by {
 
     using std::string;
-    template class _nout tworker<str, slot>;
+    template class _nout tworker<str, pack>;
 
     BY_DEF_ME(parser)
 
@@ -172,8 +172,8 @@ namespace by {
         // pack syntax rule #1:
         //  if there is no specified name of pack, create one.
         const std::string& firstName = dotnames[0];
-        if(!getTask()) setTask(new slot(manifest(firstName)));
-        obj* e = &getTask()->getPack();
+        if(!getTask()) setTask(new pack(manifest(firstName)));
+        obj* e = getTask()->cast<pack>();
 
         const std::string& realName = getTask()->getManifest().name;
         WHEN(realName != firstName) .exErr(PACK_NOT_MATCH, getReport(), firstName.c_str(), realName.c_str()).ret(e);
@@ -219,14 +219,14 @@ namespace by {
     obj* me::onPack() {
         BY_DI("tokenEvent: onPack()");
 
-        if(!getTask()) setTask(new slot(manifest()));
+        if(!getTask()) setTask(new pack(manifest()));
 
-        auto& newSlot = *getTask();
-        const std::string& name = newSlot.getManifest().name;
+        auto& newPack = *getTask();
+        const std::string& name = newPack.getManifest().name;
         WHEN(name != manifest::DEFAULT_NAME)
-            .exErr(PACK_NOT_MATCH, getReport(), manifest::DEFAULT_NAME, name.c_str()).ret(&newSlot.getPack());
+            .exErr(PACK_NOT_MATCH, getReport(), manifest::DEFAULT_NAME, name.c_str()).ret(&newPack);
 
-        return onSubPack(newSlot.getPack()); // this is a default pack containing name as '{default}'.
+        return onSubPack(newPack); // this is a default pack containing name as '{default}'.
     }
 
     blockExpr* me::onBlock(const node* stmt) {
@@ -627,9 +627,9 @@ namespace by {
 
         _onInjectObjSubs(subpack, blk);
 
-        // link system slots:
-        subpack.getShares().link(scope::wrap(thread::get().getSlots()));
-        BY_DI("link system slots[%d]: len=%d", thread::get().getSlots().len(), subpack.subs().len());
+        // link system packs:
+        subpack.getShares().link(scope::wrap(thread::get().getPacks()));
+        BY_DI("link system packs[%d]: len=%d", thread::get().getPacks().len(), subpack.subs().len());
 
         // at this far, subpack must have at least 1 default ctor created just before:
         BY_DI("tokenEvent: onCompilationUnit: eval preconstructor(%d lines)", blk.getExpands().len());

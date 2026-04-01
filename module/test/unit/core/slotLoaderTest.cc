@@ -3,11 +3,11 @@
 using namespace by;
 using namespace std;
 
-struct slotLoaderTest: public byeolTest {};
+struct packLoaderTest: public byeolTest {};
 
-TEST_F(slotLoaderTest, testDefaultLoaderInit) {
-    nmap& systemSlots = (nmap&) by::thread::get().getSlots(); // don't worry for casting. I know what I'm doing >_o
-    slot& s = systemSlots.get<slot>([](const std::string& name, const slot& e) { return name == "sys"; }) OR_ASSERT(s);
+TEST_F(packLoaderTest, testDefaultLoaderInit) {
+    nmap& systemPacks = (nmap&) by::thread::get().getPacks(); // don't worry for casting. I know what I'm doing >_o
+    pack& s = systemPacks.get<pack>([](const std::string& name, const pack& e) { return name == "sys"; }) OR_ASSERT(s);
 
     ASSERT_EQ(s.subs().len(), 1);
     node& origin = s.sub("con") OR_ASSERT(origin);

@@ -1,7 +1,7 @@
 /// @file
 #pragma once
 
-#include "core/ast/slot.hpp"
+#include "core/ast/pack.hpp"
 
 namespace by {
 
@@ -10,15 +10,15 @@ namespace by {
     typedef std::vector<packLoading*> packLoadings;
 
     /** @ingroup core
-     *  @brief Slot loading and management system
+     *  @brief Pack loading and management system
      *  @details Manages the loading of slots from manifest files and file paths.
      *  Coordinates pack loading strategies and maintains slot hierarchies for the runtime system.
      */
-    class _nout slotLoader: public typeProvidable, public clonable {
-        BY(CLASS(slotLoader))
+    class _nout packLoader: public typeProvidable, public clonable {
+        BY(CLASS(packLoader))
 
     public:
-        slotLoader();
+        packLoader();
 
     public:
         me& addPath(const std::string& filePath);
@@ -26,12 +26,12 @@ namespace by {
         me& addPath(std::initializer_list<const nchar*> paths);
         me& addRelativePath(const std::string& path);
         /**
-         * @brief Sets the map where loaded slots will be stored.
-         * @param s The `nmap` object to store the loaded slots.
-         * @return A reference to this `slotLoader` instance.
+         * @brief Sets the map where loaded packs will be stored.
+         * @param s The `nmap` object to store the loaded packs.
+         * @return A reference to this `packLoader` instance.
          */
-        me& setBaseSlots(nmap& s);
-        me& setBaseSlots(nmap* it) BY_SIDE_FUNC(it, setBaseSlots(*it), *this);
+        me& setBasePacks(nmap& s);
+        me& setBasePacks(nmap* it) BY_SIDE_FUNC(it, setBasePacks(*it), *this);
 
         /**
          * @brief Initiates the pack loading process.
@@ -41,10 +41,10 @@ namespace by {
         void load();
 
     private:
-        void _makeSlots(nmap& tray);
-        void _addNewSlot(nmap& tray, const std::string& dirPath, const std::string& manifestName);
+        void _makePacks(nmap& tray);
+        void _addNewPack(nmap& tray, const std::string& dirPath, const std::string& manifestName);
 
-        void _logSlot(const slot& pak) const;
+        void _logPack(const pack& pak) const;
 
         manifest _interpManifest(const std::string& dir, const std::string& manPath) const;
 
@@ -52,7 +52,7 @@ namespace by {
         const packLoadings& _getLoadings() const;
 
     private:
-        tstr<nmap> _slots;
+        tstr<nmap> _packs;
         std::vector<std::string> _paths;
         static constexpr nchar DELIMITER = '/';
     };

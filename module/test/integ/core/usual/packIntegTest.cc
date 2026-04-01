@@ -6,7 +6,7 @@ using namespace by;
 using namespace std;
 
 namespace {
-    struct slotIntegTest: public byeolIntegTest {};
+    struct packIntegTest: public byeolIntegTest {};
 
     class myfunc: public func {
         BY(ME(myfunc, func), CLONE(myfunc))
@@ -85,22 +85,22 @@ namespace {
     };
 } // namespace
 
-TEST_F(slotIntegTest, parsePackTest) {
+TEST_F(packIntegTest, parsePackTest) {
     make(manifest("demo"))
         .parse(R"SRC(
 pack demo
     )SRC")
         .shouldParsed(true);
     ASSERT_TRUE(getSubPack());
-    ASSERT_TRUE(getSlot() TO(subs()));
-    scope::super& shares = (scope::super*) (getSlot() TO(subs()) TO(getNext()->getContainer())) OR_ASSERT(shares);
+    ASSERT_TRUE(getPack() TO(subs()));
+    scope::super& shares = (scope::super*) (getPack() TO(subs()) TO(getNext()->getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 2);
-    ASSERT_EQ(getSlot()->getManifest().name, "demo");
+    ASSERT_EQ(getPack()->getManifest().name, "demo");
 }
 
-TEST_F(slotIntegTest, slotIsInFrameWhenCallMgdFunc) {
+TEST_F(packIntegTest, packIsInFrameWhenCallMgdFunc) {
     // check whether pack's subnodes registered into frame when it calls:
-    slot testSlot(manifest("demo"));
+    pack testpack(manifest("demo"));
     myfunc f1;
 
     params& ps = f1.getParams();
@@ -109,7 +109,7 @@ TEST_F(slotIntegTest, slotIsInFrameWhenCallMgdFunc) {
     f1.setLambda([](const auto& contain, const auto& sf) {
         const frame& fr = sf.get(0) OR.ret(false);
 
-        // checks slot is in frame:
+        // checks pack is in frame:
         const params& ps = fr.sub<myfunc>("foo", narr(*new nInt(), *new nFlt())) TO(getParams()) OR.ret(false);
         if(ps.len() != 2) return false;
         if(ps[0].getOrigin().getType() != ttype<nInt>()) return false;
@@ -125,16 +125,16 @@ TEST_F(slotIntegTest, slotIsInFrameWhenCallMgdFunc) {
         return true;
     });
 
-    testSlot.subs().add("foo", f1);
-    testSlot.eval("foo", narr(*new nInt(1), *new nFlt(3.5f)));
+    testpack.subs().add("foo", f1);
+    testpack.eval("foo", narr(*new nInt(1), *new nFlt(3.5f)));
     ASSERT_TRUE(f1.isRun());
     ASSERT_TRUE(f1.isSuccess());
 }
 
 /* Concept changed: now, native call also make a frame instance.
- * TEST_F(slotIntegTest, slotIsNotInFrameWhenCallNativeFunc) {
-    // check whether slot's subnodes not registered into frame when it calls:
-    slot testPack(manifest("demo"), packLoadings());
+ * TEST_F(packIntegTest, packIsNotInFrameWhenCallNativeFunc) {
+    // check whether pack's subnodes not registered into frame when it calls:
+    pack testPack(manifest("demo"), packLoadings());
     nativeFunc f1;
     params& ps = f1.getParams();
     ps.add(new param("age", ttype<nInt>::get()));

@@ -6,7 +6,7 @@
 #include "core/ast/node.hpp"
 #include "core/ast/origin.hpp"
 #include "core/ast/params.hpp"
-#include "core/ast/slot.hpp"
+#include "core/ast/pack.hpp"
 #include "core/ast/func.hpp"
 #include "core/builtin/err/errReport.hpp"
 #include "core/worker/bison/tokenScan.hpp"
@@ -39,7 +39,7 @@ namespace by {
     /** @ingroup core
      *  @brief Parser for byeol language source code
      *  @details Entry point for the byeol parsing component, inheriting from @ref worker. `work()` returns the parsed
-     *  result as @ref slot.
+     *  result as @ref pack.
      *
      *  @section similar_structure_to_stela_parser Similar Structure to Stela Parser
      *  Since the stela language itself is part of the byeol language, its parser is also based on the byeol language
@@ -124,8 +124,8 @@ namespace by {
      *  pattern is applied, switching between @ref normalScan and @ref indentScan. When a newline is detected, it
      *  switches to indentScan to count spaces accurately and determine scope.
      */
-    class _nout parser: public tworker<str, slot>, public tokenScanable {
-        typedef tworker<str, slot> __super5;
+    class _nout parser: public tworker<str, pack>, public tokenScanable {
+        typedef tworker<str, pack> __super5;
         BY(CLASS(parser, __super5))
         friend class coreInternal;
 
