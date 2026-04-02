@@ -187,12 +187,13 @@ namespace by {
         //  pack object can be created on this keyword parsing.
         for(int n = 1; n < dotnames.size(); n++) {
             const std::string& name = dotnames[n];
-            origin* sub = e->sub<origin>(name);
+            obj* sub = e->sub<obj>(name);
             if(!sub) {
-                sub = new origin(typeMaker::make<obj>(name));
-                sub->setCallComplete(*new mockNode());
-                e->subs().add(name, sub);
-                coreInternal::setOrigin(*sub, *sub);
+                origin* newSub = new origin(typeMaker::make<obj>(name));
+                newSub->setCallComplete(*new mockNode());
+                e->subs().add(name, newSub);
+
+                sub = newSub;
             }
             e = sub;
         }

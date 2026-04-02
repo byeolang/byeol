@@ -1,0 +1,4 @@
+pack test.e2e.b
+
+def person
+    age := 32

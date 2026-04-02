@@ -1,0 +1,4 @@
+pack test.e2e.b
+
+main() int
+    ret person.age + 100 # person located at b.byeol file

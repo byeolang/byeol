@@ -191,8 +191,8 @@ package bridge {
 baseObj <|-- tbridge
 
 package loader {
-  class slot
-  class slotLoader
+  class pack
+  class packLoader
 }
 
 package "frame" as frame1 {
@@ -203,7 +203,7 @@ package "frame" as frame1 {
 node <|-- frame
 thread *-- frame
 starter ..> thread: make and run main()
-thread --> slotLoader: start loading
+thread --> packLoader: start loading
 
 package worker {
   class interpreter {
@@ -904,7 +904,7 @@ class getSeqFunc: public baseFunc {
 ```
 
 이제 위 클래스를 pack으로써 노출하게 되면 byeol 코드에서도 @ref by::nStr::len() "len()" 이나 getSeqFunc을
-사용할 수 있습니다! 어떻게 pack으로 내보내는지는 @ref by::packLoading "packLoading" 이나 @ref by::autoslot "autoslot" 등을
+사용할 수 있습니다! 어떻게 pack으로 내보내는지는 @ref by::packLoading "packLoading" 이나 @ref by::autopack "autopack" 등을
 참조하세요.
 
 byeol 코드에서는 다음과 같이 사용할 수 있게 됩니다:
@@ -2811,8 +2811,8 @@ Byeol은 `pack`이라는 단위로 라이브러리를 배포합니다. 패키지
 
 @startuml
 actor "User Code" as user
-participant "slotLoader" as loader
-participant "autoslot" as autoslot
+participant "packLoader" as loader
+participant "autopack" as autopack
 participant "packLoading" as packLoading
 participant "manifest" as manifest
 participant "File System" as fs
@@ -2855,18 +2855,18 @@ end note
 packLoading --> loader : packLoading[]
 deactivate packLoading
 
-loader -> autoslot : Create (RELEASED state)
-activate autoslot
+loader -> autopack : Create (RELEASED state)
+activate autopack
 
-note right of autoslot
+note right of autopack
   <b>Initial State:</b>
   state = RELEASED
   No memory occupation
   Store packLoadings only
 end note
 
-autoslot --> loader : autoslot object
-deactivate autoslot
+autopack --> loader : autopack object
+deactivate autopack
 
 loader -> loader : Register dependencies
 note right of loader
@@ -2879,8 +2879,8 @@ deactivate loader
 
 == Lazy Loading Phase (On symbol access) ==
 
-user -> autoslot : Access mylib.someFunc()
-activate autoslot
+user -> autopack : Access mylib.someFunc()
+activate autopack
 
 note right of user
   <b>Lazy Loading Trigger:</b>
@@ -2888,15 +2888,15 @@ note right of user
   until actual usage
 end note
 
-autoslot -> autoslot : state == RELEASED?
-note right of autoslot
+autopack -> autopack : state == RELEASED?
+note right of autopack
   Since it's first access
   start loading
 end note
 
 == PARSED Phase ==
 
-autoslot -> packLoading : parse()
+autopack -> packLoading : parse()
 activate packLoading
 
 packLoading -> fs : Read .byeol file
@@ -2911,14 +2911,14 @@ note right of packLoading
   (Skip for native pack)
 end note
 
-packLoading --> autoslot : AST
+packLoading --> autopack : AST
 deactivate packLoading
 
-autoslot -> autoslot : state = PARSED
+autopack -> autopack : state = PARSED
 
 == VERIFIED Phase ==
 
-autoslot -> packLoading : verify()
+autopack -> packLoading : verify()
 activate packLoading
 
 packLoading -> packLoading : Run verification
@@ -2931,13 +2931,13 @@ end note
 
 alt Verification Success
 
-    packLoading --> autoslot : isValid = true
-    autoslot -> autoslot : state = VERIFIED
+    packLoading --> autopack : isValid = true
+    autopack -> autopack : state = VERIFIED
 
 else Verification Failed
 
-    packLoading --> autoslot : isValid = false
-    autoslot -> autoslot : state = VERIFIED\n(Mark as failed)
+    packLoading --> autopack : isValid = false
+    autopack -> autopack : state = VERIFIED\n(Mark as failed)
 
 end
 
@@ -2945,23 +2945,23 @@ deactivate packLoading
 
 == LINKED Phase ==
 
-autoslot -> packLoading : link()
+autopack -> packLoading : link()
 activate packLoading
 
 alt isValid == true
 
     packLoading -> packLoading : Linking complete
-    packLoading --> autoslot : Success
+    packLoading --> autopack : Success
 
-    autoslot -> autoslot : state = LINKED
+    autopack -> autopack : state = LINKED
 
 else isValid == false
 
-    packLoading --> autoslot : Failure
+    packLoading --> autopack : Failure
 
-    autoslot -> autoslot : state = LINKED\nPropagate to dependent packs
+    autopack -> autopack : state = LINKED\nPropagate to dependent packs
 
-    note right of autoslot
+    note right of autopack
       <b>Failure Propagation:</b>
       Propagate failure fact
       to all dependents
@@ -2972,8 +2972,8 @@ end
 
 deactivate packLoading
 
-autoslot --> user : Return symbol or error
-deactivate autoslot
+autopack --> user : Return symbol or error
+deactivate autopack
 @enduml
 
 ---
@@ -2986,21 +2986,21 @@ stela 언어로 작성된, pack을 로딩하기 위한 기본정보를 담고 �
 
 ---
 
-### slot 클래스 - Pack의 결과물
+### pack 클래스 - Pack의 결과물
 
 byeol 언어는 `pack`이라는 일종의 압축파일 단위로 라이브러리를 배포하는데, pack 파일에는 최상위 `obj` 객체와 @ref by::manifest "manifest", 종속하는 pack 목록이 포함됩니다.
 
 (byeol 언어에서 내 코드에서 다른 pack을 사용하려면 @ref by::manifest "manifest" 에 종속관계에 있다는 걸 선언해야 합니다)
 
-<b>@ref by::slot "slot" 은 pack 파일로부터 만들어지는 결과물</b>이지, pack을 불러오는 걸 담당하지 않습니다. pack 로딩에 대해서는 `packLoading`이나 `slotLoader`를 참조하세요.
+<b>@ref by::pack "pack" 은 pack 파일로부터 만들어지는 결과물</b>이지, pack을 불러오는 걸 담당하지 않습니다. pack 로딩에 대해서는 `packLoading`이나 `packLoader`를 참조하세요.
 
 ---
 
-### autoslot 클래스 - Lazy Pack 로딩
+### autopack 클래스 - Lazy Pack 로딩
 
-byeol 언어는 pack을 <b>lazy하게 동적으로</b> 불러옵니다. @ref by::autoslot "autoslot" 은 이 기능을 구현한 것으로, `slotLoader`가 pack 파일을 찾으면 `packLoading` 객체를 적절히 생성해서 @ref by::autoslot "autoslot" 에 넣어둡니다.
+byeol 언어는 pack을 <b>lazy하게 동적으로</b> 불러옵니다. @ref by::autopack "autopack" 은 이 기능을 구현한 것으로, `packLoader`가 pack 파일을 찾으면 `packLoading` 객체를 적절히 생성해서 @ref by::autopack "autopack" 에 넣어둡니다.
 
-이후 @ref by::autoslot "autoslot" 에 접근해서 안에 포함된 symbol을 가져오려는 시도를 하면 lazy하게 @ref by::packLoading "packLoading" 이 동작해 symbol을 파일로부터 불러옵니다.
+이후 @ref by::autopack "autopack" 에 접근해서 안에 포함된 symbol을 가져오려는 시도를 하면 lazy하게 @ref by::packLoading "packLoading" 이 동작해 symbol을 파일로부터 불러옵니다.
 
 이는 <b>Lazy Loading 패턴</b>의 핵심 구현입니다. 필요할 때까지 리소스(pack) 로딩을 미루어 초기 로딩 시간과 메모리 사용량을 최소화합니다.
 
@@ -3008,19 +3008,19 @@ byeol 언어는 pack을 <b>lazy하게 동적으로</b> 불러옵니다. @ref by:
 
 @ref by::packLoading "packLoading" 은 native 환경에서 가져올 수도 있고(dll 혹은 so 파일), runtime 환경에서 가져올 수도 있습니다(.byeol 파일). 또는 2개가 모두 하나의 pack에 있는 경우도 있을 수 있습니다.
 
-따라서 @ref by::autoslot "autoslot" 은 항상 1개의 @ref by::packLoading "packLoading" 만 가지지 않고, 배열로 처리합니다.
+따라서 @ref by::autopack "autopack" 은 항상 1개의 @ref by::packLoading "packLoading" 만 가지지 않고, 배열로 처리합니다.
 
-<b>autoslot 상태 (State)</b>
+<b>autopack 상태 (State)</b>
 
 총 4개의 상태를 가지며 다음과 같은 흐름으로 로딩 파이프라인을 갖습니다:
 
 @startuml
-[*] --> RELEASED : Create autoslot
+[*] --> RELEASED : Create autopack
 
 state RELEASED {
     RELEASED : Initial state
     RELEASED : No memory occupation
-    RELEASED : Most slots are in this state
+    RELEASED : Most packs are in this state
 }
 
 state PARSED {
@@ -3076,11 +3076,11 @@ end note
 
 @enduml
 
-이는 <b>State Machine 패턴</b>을 응용한 부분입니다. autoslot은 정의된 상태들(RELEASED → PARSED → VERIFIED → LINKED) 사이를 전이하며, 각 상태에서 허용되는 동작이 다릅니다.
+이는 <b>State Machine 패턴</b>을 응용한 부분입니다. autopack은 정의된 상태들(RELEASED → PARSED → VERIFIED → LINKED) 사이를 전이하며, 각 상태에서 허용되는 동작이 다릅니다.
 
-- <b>Slot 생성</b>: @ref by::slotLoader "slotLoader" 가 @ref by::slot "slot" 객체를 생성해 시스템에 추가, dependencies도 기록
-- <b>RELEASED</b>: 초기 상태로, 어떠한 메모리도 점유하지 않음. 사용하지 않는 대부분의 @ref by::slot "slot" 은 여기에 속함
-- <b>PARSED</b>: @ref by::autoslot "autoslot" 에 접근이 이뤄진 경우, 본격적으로 사용하기 위해 코드를 파싱. 파싱 단계가 필요없는 경우 (optimized pack 또는 native pack)에는 LINKED 상태로 바로 건너뜀
+- <b>pack 생성</b>: @ref by::packLoader "packLoader" 가 @ref by::pack "pack" 객체를 생성해 시스템에 추가, dependencies도 기록
+- <b>RELEASED</b>: 초기 상태로, 어떠한 메모리도 점유하지 않음. 사용하지 않는 대부분의 @ref by::pack "pack" 은 여기에 속함
+- <b>PARSED</b>: @ref by::autopack "autopack" 에 접근이 이뤄진 경우, 본격적으로 사용하기 위해 코드를 파싱. 파싱 단계가 필요없는 경우 (optimized pack 또는 native pack)에는 LINKED 상태로 바로 건너뜀
 - <b>VERIFIED</b>: 파싱 이후, 코드의 정합성을 검증. 검증에 실패했다면 isValid값을 false로 설정
 - <b>LINKED</b>: 자신이 검증에 실패한 상태라면, 자신을 참조하는 모든 dependents에게 자신이 검증에 실패했다는 사실을 전파
 
@@ -3090,7 +3090,7 @@ end note
 
 <b>동적 검증과 의존성 문제</b>
 
-모든 pack이 검증이 완료된, 완전무결한 상태라고 전제하고 그냥 로딩만 해서는 안될 수 있습니다. 때로는 pack이 올바른지 한번 더 검증할 필요가 있기에, @ref by::autoslot "autoslot" 중 일부는 symbol을 불러올때 사전에 파싱이나 검증을 해야 합니다.
+모든 pack이 검증이 완료된, 완전무결한 상태라고 전제하고 그냥 로딩만 해서는 안될 수 있습니다. 때로는 pack이 올바른지 한번 더 검증할 필요가 있기에, @ref by::autopack "autopack" 중 일부는 symbol을 불러올때 사전에 파싱이나 검증을 해야 합니다.
 
 문제는 어떠한 pack은 다른 pack에 종속되는 경우가 매우 많이 발생한다는 점으로, 종속한 pack이 검증에 실패하게 되면, 그 사실을 전파해서 종속된 pack들도 모두 사용이 불가능해야 합니다. 이를 위의 4가지 상태를 제어하는 알고리즘으로 해결합니다.
 
@@ -3098,24 +3098,24 @@ end note
 
 <b>재귀적 로딩</b>
 
-pack이 다른 pack에 종속되는 경우는 부지기수로 많습니다. @ref by::autoslot "autoslot" 이 lazy하게 동작하기 때문에 어떠한 @ref by::slot "slot" 을 loading하다가 다른 @ref by::autoslot "autoslot" 에 접근함으로써 해당 @ref by::autoslot "autoslot" 도 재귀적으로 로딩 시퀸스에 들어가는 일도 많습니다.
+pack이 다른 pack에 종속되는 경우는 부지기수로 많습니다. @ref by::autopack "autopack" 이 lazy하게 동작하기 때문에 어떠한 @ref by::pack "pack" 을 loading하다가 다른 @ref by::autopack "autopack" 에 접근함으로써 해당 @ref by::autopack "autopack" 도 재귀적으로 로딩 시퀸스에 들어가는 일도 많습니다.
 
 이때 중복으로 초기화 되거나 아직 완전히 파이프라인을 통과하지 않는지 체크합니다.
 
 ---
 
 <b>RAII</b>
-@ref by::autoslot "autoslot" 은 @ref by::slot "slot" 에 정의된 _pack 객체를 가리킵니다. 이 객체는 외부 파일인 `pack` 을 로딩함으로써 읽어온 심볼들인데, @ref by::autoslot "autoslot" 은 @ref by::packLoading "packLoading" 을 통한 pack의 symbol 생성을 책임지므로, pack의 소멸 또한 책임집니다.
-그래서 RAII를 사용해, @ref by::autoslot "autoslot" 객체가 소멸될때 모든 심볼을 먼저 없애고 @ref by::packLoading "packLoading" 객체 또한 없앰으로써 so 파일을 close 하는 등의 작업을 수행합니다.
+@ref by::autopack "autopack" 은 @ref by::pack "pack" 에 정의된 _pack 객체를 가리킵니다. 이 객체는 외부 파일인 `pack` 을 로딩함으로써 읽어온 심볼들인데, @ref by::autopack "autopack" 은 @ref by::packLoading "packLoading" 을 통한 pack의 symbol 생성을 책임지므로, pack의 소멸 또한 책임집니다.
+그래서 RAII를 사용해, @ref by::autopack "autopack" 객체가 소멸될때 모든 심볼을 먼저 없애고 @ref by::packLoading "packLoading" 객체 또한 없앰으로써 so 파일을 close 하는 등의 작업을 수행합니다.
 자세한 내용은 @ref by::packLoading "packLoading" 을 참조하세요.
 
-이는 <b>RAII 패턴</b>의 전형적인 활용으로, autoslot 객체의 lifetime에 pack 리소스의 lifetime을 바인딩하여 리소스 누수를 방지합니다.
+이는 <b>RAII 패턴</b>의 전형적인 활용으로, autopack 객체의 lifetime에 pack 리소스의 lifetime을 바인딩하여 리소스 누수를 방지합니다.
 
 ---
 
-### slotLoader 클래스 - Pack 로더
+### packLoader 클래스 - Pack 로더
 
-@ref by::slotLoader "slotLoader" 는 외부 pack을 로딩하는 역할을 담당합니다. `addPath()`로 탐색 경로를 추가하고, `load()`를 호출하면 pack을 불러올 수 있습니다.
+@ref by::packLoader "packLoader" 는 외부 pack을 로딩하는 역할을 담당합니다. `addPath()`로 탐색 경로를 추가하고, `load()`를 호출하면 pack을 불러올 수 있습니다.
 
 <b>기본 사용법</b>
 
@@ -3124,16 +3124,16 @@ pack이 다른 pack에 종속되는 경우는 부지기수로 많습니다. @ref
 nmap ret;
 errReport report;
 
-slotLoader()
+packLoader()
     .setReport(report)  // report를 넣지 않으면 dummyReport가 대신 사용됨
-    .setBaseSlots(*ret)
+    .setBasePacks(*ret)
     .addPath("pack/")
     .load();
 
-ret.len();  // 로딩된 slot 개수 반환
+ret.len();  // 로딩된 pack 개수 반환
 ```
 
-메서드 체이닝(`setReport().setBaseSlots().addPath().load()`)으로 객체 구성 과정을 명확하고 읽기 쉽게 표현합니다.
+메서드 체이닝(`setReport().setBasePacks().addPath().load()`)으로 객체 구성 과정을 명확하고 읽기 쉽게 표현합니다.
 
 ---
 
@@ -3143,7 +3143,7 @@ pack 로딩 중에는 필연적으로 @ref by::manifest "manifest" 를 파싱합
 
 예를들어 pack에 C++ 동적 라이브러리가 포함되어 있다면 entrypoint는 `cpp`가 되며, byeol 라이브러리라면 `byeol`이 됩니다.
 
-@ref by::slotLoader "slotLoader" 는 manifest를 읽은 후 @ref by::autoslot "autoslot" 을 생성하고 entrypoint에 따라 적절한 @ref by::packLoading "packLoading" 인스턴스를 autoslot에 추가합니다.
+@ref by::packLoader "packLoader" 는 manifest를 읽은 후 @ref by::autopack "autopack" 을 생성하고 entrypoint에 따라 적절한 @ref by::packLoading "packLoading" 인스턴스를 autopack에 추가합니다.
 
 <b>주의사항:</b>
 - 하나의 pack 라이브러리는 여러개의 entrypoint를 가질 수 있습니다
@@ -3154,15 +3154,15 @@ pack 로딩 중에는 필연적으로 @ref by::manifest "manifest" 를 파싱합
 
 ### packLoading 클래스 - Pack 로딩 추상 클래스
 
-`slotLoader`에 의해 패키지를 로딩할 때 사용되는 추상 클래스입니다. @ref by::packMakable "packMakable" 인터페이스가 핵심 API를 제공합니다.
+`packLoader`에 의해 패키지를 로딩할 때 사용되는 추상 클래스입니다. @ref by::packMakable "packMakable" 인터페이스가 핵심 API를 제공합니다.
 
-packLoading은 `rel(), parse(), verify()` 함수를 제공하며, 이는 `autoslot`의 상태와 깊은 관련이 있습니다.
+packLoading은 `rel(), parse(), verify()` 함수를 제공하며, 이는 `autopack`의 상태와 깊은 관련이 있습니다.
 
 ---
 
 ### cppPackLoading 클래스 - C++ Pack 로더
 
-`slotLoader`에 의해 cpp 패키지를 로딩할 때 사용되는 `packLoading` 중 하나입니다. 이름 그대로 C++ pack을 동적 라이브러리 파일에서 로딩하는 역할을 합니다.
+`packLoader`에 의해 cpp 패키지를 로딩할 때 사용되는 `packLoading` 중 하나입니다. 이름 그대로 C++ pack을 동적 라이브러리 파일에서 로딩하는 역할을 합니다.
 
 <b>Entrypoint</b>
 
@@ -3439,8 +3439,8 @@ deactivate visitor
 
 ```
 @style: language-cpp verified
-class _nout slot: public node {
-    BY(CLASS(slot, node), VISIT())  // <--- VISIT 매크로
+class _nout pack: public node {
+    BY(CLASS(pack, node), VISIT())  // <--- VISIT 매크로
 
 public:
 ```
@@ -3526,7 +3526,7 @@ byeol 언어의 특성인 <b>offside rule</b>을 지원하기 위해 정교한 �
 ### parser 클래스 - 파싱의 진입점
 
 `parser`는 byeol 파싱 컴포넌트의 진입점 역할을 하며 `worker`를 상속합니다. `work()`을
-통해서 파싱된 결과가 `slot`으로 반환됩니다.
+통해서 파싱된 결과가 `pack`으로 반환됩니다.
 
 <b>Scanner - Bison - Parser 구조</b>
 
@@ -3931,7 +3931,7 @@ main() void
 // 1. interpreter로 파싱 및 검증
 errReport report;
 interpreter ip;
-ip.setTask(*new slot(manifest("myPack")))
+ip.setTask(*new pack(manifest("myPack")))
   .setReport(report)
   .getParser().addSupply(*new bufSupply(std::string(code)));
 ip.work();  // 파싱 및 검증 수행

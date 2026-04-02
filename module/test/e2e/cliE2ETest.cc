@@ -17,6 +17,12 @@ TEST_F(cliE2ETest, interpretMultipleFiles) {
     ASSERT_FALSE(res.rpt);
 }
 
+TEST_F(cliE2ETest, samePackAmongMultipleFiles) {
+    auto res = parse(2, "testdata/b-main.byeol", "testdata/b.byeol").run();
+    ASSERT_EQ(res.res, 132);
+    ASSERT_FALSE(res.rpt);
+}
+
 TEST_F(cliE2ETest, exampleMikes) {
     auto res = parse(1, "testdata/mikes.byeol").run();
     ASSERT_EQ(res.res, 17);
