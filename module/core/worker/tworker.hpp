@@ -77,6 +77,7 @@ namespace by {
 
     public:
         tworker();
+        tworker(const errReport& rpt);
 
     public:
         errReport& getReport();

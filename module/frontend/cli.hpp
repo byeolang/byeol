@@ -40,6 +40,9 @@ namespace by {
         friend struct ::cliTest;
 
     public:
+        cli();
+
+    public:
         const flags& getFlags() const;
 
     protected:

@@ -6,6 +6,8 @@ namespace by {
 
     BY(DEF_ME(cli))
 
+    me::cli(): super(*new errReport()) {}
+
     namespace {
         std::string _joinString(const flagArgs& v) {
             std::string ret;
