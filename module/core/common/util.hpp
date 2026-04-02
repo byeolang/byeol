@@ -6,6 +6,8 @@
 namespace by {
 
     class node;
+    class nStr;
+    template <typename T, typename R, typename RSquare> class tucontainable;
 
     enum typeAttr {
         ATTR_ERR,
@@ -26,5 +28,18 @@ namespace by {
         static typeAttr checkTypeAttr(const std::string* it) BY_SIDE_FUNC(checkTypeAttr);
         static std::string getEvalTypeFrom(const node& n);
         static std::string getEvalTypeFrom(const node* it) BY_SIDE_FUNC(getEvalTypeFrom);
+        static std::string joinVectorString(const std::vector<std::string>& container);
+        template <typename T>
+        static std::string joinVectorString(const T& container) {
+            std::string ret;
+            nbool isFirst = true;
+            for(auto e = container.begin(); e; e++) {
+                ret += e->get();
+
+                if(!isFirst) ret += ", ";
+                isFirst = true;
+            }
+            return ret;
+        }
     };
 }

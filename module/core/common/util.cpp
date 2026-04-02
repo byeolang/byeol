@@ -1,6 +1,7 @@
 #include "core/common/util.hpp"
 #include "core/ast/node.hpp"
 #include "core/ast/exprs/getExpr.hpp"
+#include "core/builtin/scalar/nStr.hpp"
 
 namespace by {
     BY(DEF_ME(util))

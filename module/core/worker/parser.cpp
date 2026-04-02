@@ -513,7 +513,7 @@ namespace by {
 
     obj* me::onDefOrigin(const std::string& name, const narr& a, defBlock& blk) {
         args* newArgs = new args(a);
-        std::string argNames = _joinVectorString(_extractParamTypeNames(*newArgs));
+        std::string argNames = util::joinVectorString(_extractParamTypeNames(*newArgs));
         BY_DI("tokenEvent: onDefOrigin(%s, %s, defBlock[%s])", name, argNames, &blk);
 
         origin& ret = *_maker.birth<origin>(name, typeMaker::make<obj>(name), *_subpack);
@@ -579,7 +579,7 @@ namespace by {
 
     genericOrigin* me::onDefObjGeneric(const std::string& name, const args& typeParams, const narr& a, defBlock& blk) {
         args* newArgs = new args(a);
-        std::string argNames = _joinVectorString(_extractParamTypeNames(*newArgs));
+        std::string argNames = util::joinVectorString(_extractParamTypeNames(*newArgs));
         BY_DI("tokenEvent: onDefObjGeneric(%s, type.len[%d], args[%s], defBlock[%s]", name, typeParams.len(), argNames,
             &blk);
 
@@ -595,17 +595,8 @@ namespace by {
         coreInternal::setSubPack(org, *_subpack);
 
         std::vector<std::string> paramNames = _extractParamTypeNames(typeParams);
-        std::string paramName = _joinVectorString(paramNames);
+        std::string paramName = util::joinVectorString(paramNames);
         return _maker.birth<genericOrigin>(name, org, paramNames);
-    }
-
-    std::string me::_joinVectorString(const std::vector<std::string>& container) const {
-        std::string ret;
-        for(ncnt n = 0; n < container.size(); n++) {
-            ret += container[n];
-            if(n > 0) ret += ", ";
-        }
-        return ret;
     }
 
     void me::onCompilationUnit(obj* subpack) {
