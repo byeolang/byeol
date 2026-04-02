@@ -14,6 +14,7 @@ namespace by {
 
     me::autopack(const manifest& manifest, const packLoadings& loadings):
         super(manifest), _loadings(loadings), _state(RELEASED) {
+        coreInternal::setOrigin(*this, *this);
     }
 
     me::~autopack() {
@@ -41,9 +42,8 @@ namespace by {
             errReport rpt(exRpt.isNoisy());
             // TODO: check rpt error count increased or not.
             //       if increased, then parse() function has been failed.
-            obj& org = _org->cast<obj>() OR.err("origin of pack should be an obj").ret(dumScope::singleton());
-            parse(rpt, org.getShares()); // recursive call wasn't allowed.
-            verify(rpt, org);
+            parse(rpt, getShares()); // recursive call wasn't allowed.
+            verify(rpt, *this);
             exRpt.add(rpt); // add errors if they occurs during loading.
 
             link();
