@@ -7,23 +7,23 @@ namespace by {
     static constexpr const nchar* ENTRYPOINT_NAME = "byeol_bridge_cpp_entrypoint";
     static srcs dummySrcs;
 
-    tstr<srcs> me::parse(errReport& rpt, bicontainable& tray) {
+    nbool me::parse(errReport& rpt, pack& pak) {
         enablesZone zone(rpt.isNoisy());
         tstr<srcs> ret(dummySrcs);
         for(const std::string& path: _getPaths()) {
             // With the current implementation, it is not yet possible to create an srcs
             // object for a C++ class.
             // ret.r variables won't be assigned to new data till this procedure has done.
-            if(!_loadLibs(rpt, tray)) {
-                tray.rel();
-                return BY_E("couldn't load c++ library at %s", path), ret;
+            if(!_loadLibs(rpt, pak)) {
+                pak.getShares().rel();
+                return BY_E("couldn't load c++ library at %s", path), false;
             }
         }
 
-        return ret;
+        return true;
     }
 
-    nbool me::_loadLibs(errReport& rpt, bicontainable& tray) {
+    nbool me::_loadLibs(errReport& rpt, pack& pak) {
         // TODO: use 'rpt' variable.
         for(const std::string& path: _getPaths()) {
             dlib lib = dlib(path);
@@ -34,8 +34,10 @@ namespace by {
             WHEN(!info.has())
                 .err("couldn't access entrypoint of %s pack: %d", path, info.getErr()).ret((rel(), false));
 
-            (*info)(&tray);
-            if(tray.len() <= 0) {
+            bicontainable& shares = pak.getShares();
+            ncnt prevLen = shares.len();
+            (*info)(&shares);
+            if(shares.len() <= prevLen) {
                 BY_W("pack returns no origin object.");
                 lib.rel();
             }

@@ -108,14 +108,13 @@ namespace by {
         nbool _invalidate() override;
 
     private:
-        tstr<srcs> parse(errReport& rpt, bicontainable& tray) override;
-        nbool verify(errReport& rpt, obj& pak) override;
+        nbool parse(errReport& rpt, pack& pak) override;
+        nbool verify(errReport& rpt, pack& pak) override;
         nbool link();
         void _rel();
 
     private:
         packLoadings _loadings;
         state _state;
-        srcs _srcs;
     };
 } // namespace by

@@ -54,6 +54,7 @@ PAIRX(PACK_ONLY_ALLOW_VAR_ACCESS, "variable path only allowed when you define a 
 PAIRX(NO_PACK_TRAY, "pack tray hasn't been created before")
 PAIRX(NO_PACK, "no pack has been specified")
 PAIRX(PACK_NOT_MATCH, "pack %s expected, but it was %s")
+PAIRX(PACK_NOT_LOADED, "couldn't load the pack at `%s` path")
 
 // expr:
 PAIRX(NOT_EXPR, "\'%s\' isn't a expression")

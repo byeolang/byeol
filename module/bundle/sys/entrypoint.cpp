@@ -27,8 +27,7 @@ struct con {
 };
 
 extern "C" _nout void byeol_bridge_cpp_entrypoint(bicontainable* tray) {
-    tray->add("con",
-        tbridger<con>::ctor()
+    tray->add("con", tbridger<con>::ctor()
             .ctor<con>()
             .func("say", &con::say)
             .func("add", &con::add)

@@ -42,7 +42,7 @@ namespace by {
             errReport rpt(exRpt.isNoisy());
             // TODO: check rpt error count increased or not.
             //       if increased, then parse() function has been failed.
-            parse(rpt, getShares()); // recursive call wasn't allowed.
+            parse(rpt, *this); // recursive call wasn't allowed.
             verify(rpt, *this);
             exRpt.add(rpt); // add errors if they occurs during loading.
 
@@ -61,20 +61,20 @@ namespace by {
         super::rel();
     }
 
-    tstr<srcs> me::parse(errReport& rpt, bicontainable& tray) {
+    nbool me::parse(errReport& rpt, pack& pak) {
         // You shouldn't release instances which _subs is holding:
         //  there is a scenario which _subs containing parsed instance when
         //  this function called.
         //  Only you can do here is adding new parsed instances into _subs.
         for(packLoading* load: _loadings) {
-            auto res = load->parse(rpt, tray);
-            _srcs.add(*res);
+            nbool res = load->parse(rpt, pak);
+            WHEN(!res).exErr(errCode::PACK_NOT_LOADED, rpt, getManifest().name).ret(false);
         }
         _state = PARSED; // don't need to expand.
-        return _srcs;
+        return true;
     }
 
-    nbool me::verify(errReport& rpt, obj& pak) {
+    nbool me::verify(errReport& rpt, pack& pak) {
         for(packLoading* load: _loadings)
             load->verify(rpt, pak);
 

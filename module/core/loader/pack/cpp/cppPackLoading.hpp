@@ -17,7 +17,7 @@ namespace by {
         typedef void (*entrypointFunc)(bicontainable*);
 
     public:
-        tstr<srcs> parse(errReport& rpt, bicontainable& tray) override;
+        nbool parse(errReport& rpt, pack& pak) override;
         const std::string& getName() const override;
         void rel() override;
 
@@ -31,7 +31,7 @@ namespace by {
          * @param tray A bicontainable to store the loaded components or symbols.
          * @return true on successful loading, false otherwise.
          */
-        nbool _loadLibs(errReport& rpt, bicontainable& tray);
+        nbool _loadLibs(errReport& rpt, pack& pak);
 
     private:
         dlibs _dlibs;

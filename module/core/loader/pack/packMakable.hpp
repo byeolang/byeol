@@ -8,8 +8,9 @@ namespace by {
     class obj;
     class src;
     class errReport;
-    template <typename K, typename V> class tbicontainable;
-    typedef tbicontainable<std::string, node> bicontainable;
+    class pack;
+    template <typename T, typename R, typename RSquare> class tucontainable;
+    typedef tucontainable<node, node*, node&> ucontainable;
     template <typename T, typename WRP> class tnarr;
     typedef tnarr<src, strTactic> srcs;
 
@@ -27,15 +28,15 @@ namespace by {
          * @brief Pure virtual method for parsing pack content into source representations.
          * @param rpt The error report to collect any parsing errors.
          * @param tray A bicontainable to store intermediate parsed results or components.
-         * @return A tstr to a collection of source representations (`srcs`) on success, or null on failure.
+         * @return true if success.
          */
-        virtual tstr<srcs> parse(errReport& rpt, bicontainable& tray) = 0;
+        virtual nbool parse(errReport& rpt, pack& pak) = 0;
         /**
          * @brief Pure virtual method for verifying the parsed pack content.
          * @param rpt The error report to collect any verification errors.
          * @param pak The pack object to verify.
          * @return true if the pack content is successfully verified, false otherwise.
          */
-        virtual nbool verify(errReport& rpt, obj& pak) = 0;
+        virtual nbool verify(errReport& rpt, pack& pak) = 0;
     };
 }
