@@ -281,8 +281,8 @@ const strings& verFlag::_getRegExpr() const {
 
 me::res verFlag::_onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s) const {
     std::cout << "🌟 'byeol' " << buildFeature::version::get() << "\n"
-              << "Built on " << buildFeature::date::get() << " (build " << buildFeature::version::getBuildCount()
-              << ", git " << buildFeature::version::getCommitHash() << ", " << buildFeature::config::getName()
+              << "Built on " << buildFeature::date::get() << " (git " << buildFeature::version::getCommitHash()
+              << ", " << buildFeature::config::getName()
               << ", " << buildFeature::platform::getArchBits() << "-bit)\n"
               << "© 2010-" << buildFeature::date::getYear()
               << " Taehun Lee(kniz) and contributors. All rights reserved.\n";

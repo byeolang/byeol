@@ -563,9 +563,8 @@ ver_major = 0
 ver_minor = 0
 ver_fix = 0
 ver_name = ""
-ver_buildcnt = 0
 def _extractBuildInfo(): # from CHANGELOGS.md at root directory.
-    global cwd, ver_major, ver_minor, ver_fix, ver_name, ver_buildcnt
+    global cwd, ver_major, ver_minor, ver_fix, ver_name
     if isWindow():
         path = cwd + "\\..\\CHANGELOGS.md"
     else:
@@ -609,7 +608,7 @@ def _updateLineString(lines, n, trg, basestr):
         updated = True
 
 def _injectBuildInfo():
-    global cwd, ver_major, ver_minor, ver_fix, ver_name, ver_buildcnt
+    global cwd, ver_major, ver_minor, ver_fix, ver_name
     if isWindow():
         path = cwd + "\\CMakeLists.txt"
     else:
@@ -640,29 +639,6 @@ def _injectBuildInfo():
     fp.write("".join(lines))
     fp.close()
     printOk("updated!")
-
-def _incBuildCnt():
-    global cwd
-    if isWindow():
-        path = cwd + "\\CMakeLists.txt"
-    else:
-        path = cwd + "/CMakeLists.txt"
-    printInfoEnd("Increase Build count...")
-    fp = open(path, "r")
-    lines = fp.readlines()
-    buildcnt = 0
-    for n in range(0, len(lines)):
-        line = lines[n]
-        if line[:15] in "set(BUILD_COUNT":
-            buildcnt = int(line[16:len(line)-2])
-            lines[n] = "set(BUILD_COUNT " + str(buildcnt+1) + ")\n"
-            break
-    fp.close()
-
-    fp = open(path, "w")
-    fp.write("".join(lines))
-    fp.close()
-    printOk("done")
 
 def _make(msbuild, make):
     global cwd, config, winProp
@@ -728,8 +704,6 @@ def build(incVer, ignore_tidy=False):
         _injectBuildInfo()
         if _createMakefiles(cmake):
             return -1
-
-        _incBuildCnt()
     if _make(msbuild, make):
         return -1
 
