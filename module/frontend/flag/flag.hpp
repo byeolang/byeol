@@ -76,6 +76,12 @@ namespace by {
          */
         virtual res take(interpreter& ip, starter& s, cli& c, flagArgs& a, errReport& rpt) const;
 
+        /**
+         *  @param pattern it's used to determine whether a pattern for a flag or not.
+         *                 it usually starts with one or two hyphens.
+         */
+        nbool canTake(const std::string& pattern) const;
+
     protected:
         /**
          *  when this flag matched to one of args, the value of returning this func will be

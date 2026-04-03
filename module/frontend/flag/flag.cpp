@@ -13,34 +13,30 @@ namespace by {
     ncnt me::_parseOption(flagArgs& a, flagArgs& tray, errReport& rpt) const {
         const std::string& arg = a[0].get();
         ncnt deleteOptionCnt = 0;
-        for(const std::string& match: _getRegExpr()) {
-            std::regex re(match);
-            if(!std::regex_search(arg, re)) continue;
+        WHEN(!canTake(arg)).ret(0);
 
-            std::string matchedArg = arg;
-            deleteOptionCnt = 1;
+        std::string matchedArg = arg;
+        deleteOptionCnt = 1;
 
-            // check option clustring:
-            if(_isOptionClustered(arg)) {
-                WHEN(getArgCount() > 0) .exErr(OPTION_CANT_CLUSTERED, rpt).ret(0);
+        // check option clustring:
+        if(_isOptionClustered(arg)) {
+            WHEN(getArgCount() > 0) .exErr(OPTION_CANT_CLUSTERED, rpt).ret(0);
 
-                // previous pushed argument will be removed after execution.
-                // so, add additional argument with rest of string using `-[\w]` at the begin.
-                // I confimred that length is more than 2 in `isOptionClustered()`
-                matchedArg = std::string("-") + arg[1];
-                a.add(new nStr("-" + arg.substr(2)));
-            }
-
-            tray.add(new nStr(matchedArg));
-
-            // handle option arguments:
-            WHEN(a.len() < getArgCount() + 1) .exErr(OPTION_NEEDS_TRAILING_ARG, rpt, getName()).ret(0);
-            deleteOptionCnt += getArgCount();
-            for(int n = 1; n < 1 + getArgCount(); n++)
-                tray.add(a[n]);
-            return deleteOptionCnt;
+            // previous pushed argument will be removed after execution.
+            // so, add additional argument with rest of string using `-[\w]` at the begin.
+            // I confimred that length is more than 2 in `isOptionClustered()`
+            matchedArg = std::string("-") + arg[1];
+            a.add(new nStr("-" + arg.substr(2)));
         }
-        return 0;
+
+        tray.add(new nStr(matchedArg));
+
+        // handle option arguments:
+        WHEN(a.len() < getArgCount() + 1) .exErr(OPTION_NEEDS_TRAILING_ARG, rpt, getName()).ret(0);
+        deleteOptionCnt += getArgCount();
+        for(int n = 1; n < 1 + getArgCount(); n++)
+            tray.add(a[n]);
+        return deleteOptionCnt;
     }
 
     me::res me::take(interpreter& ip, starter& s, cli& c, flagArgs& a, errReport& rpt) const {
@@ -53,6 +49,15 @@ namespace by {
         res res = _onTake(tray, c, ip, s, rpt);
         _delArgs(a, deleteOptionCnt);
         return res;
+    }
+
+    nbool me::canTake(const std::string& pattern) const {
+        for(const std::string& match: _getRegExpr()) {
+            std::regex re(match);
+            if(std::regex_search(pattern, re)) return true;
+        }
+
+        return false;
     }
 
     ncnt me::getArgCount() const { return 0; }
