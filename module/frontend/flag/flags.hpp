@@ -7,3 +7,4 @@
 #include "frontend/flag/flags/helpFlag.hpp"
 #include "frontend/flag/flags/logStructureFlag.hpp"
 #include "frontend/flag/flags/verboseFlag.hpp"
+#include "frontend/flag/flags/dirFlag.hpp"

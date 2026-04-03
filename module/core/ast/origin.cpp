@@ -14,7 +14,7 @@ namespace by {
         coreInternal::setOrigin(*this, *this);
     }
 
-    me::origin(const mgdType& newType, const node& subpack):
+    me::origin(const mgdType& newType, node* subpack):
         super(), _type(newType), _subpack(subpack), _src(dumSrc::singleton()), _state(RELEASED) {
         coreInternal::setOrigin(*this, *this);
     }

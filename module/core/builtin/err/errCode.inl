@@ -188,3 +188,6 @@ PAIRX(OPTION_CANT_CLUSTERED,
     "you can't use option `%s` clustered but it needs to take arguments.\nput it at the very end.")
 PAIRX(UNKNOWN_OPTION, "%s")
 PAIRX(OPTION_NEEDS_TRAILING_ARG, "option `%s` needs trailing arguments")
+
+// flag:
+PAIRX(NO_SRC_FOUND_ON_THE_PATH, "there is no src file in the given path, `%s`")

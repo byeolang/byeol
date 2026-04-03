@@ -21,4 +21,25 @@ namespace by {
         getExpr& get = value.cast<getExpr>() OR.ret(value.getType().getName());
         return get.getName();
     }
+
+    std::string me::joinVectorString(const std::vector<std::string>& container) {
+        std::string ret;
+        for(ncnt n = 0; n < container.size(); n++) {
+            ret += container[n];
+            if(n > 0) ret += ", ";
+        }
+        return ret;
+    }
+
+    std::string me::joinVectorString(const tucontainable<nStr, nStr*, nStr&>& container) {
+        std::string ret;
+        nbool isFirst = true;
+        for(auto e = container.begin(); e; e++) {
+            ret += e->get();
+
+            if(!isFirst) ret += ", ";
+            isFirst = true;
+        }
+        return ret;
+    }
 }

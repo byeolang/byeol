@@ -29,17 +29,6 @@ namespace by {
         static std::string getEvalTypeFrom(const node& n);
         static std::string getEvalTypeFrom(const node* it) BY_SIDE_FUNC(getEvalTypeFrom);
         static std::string joinVectorString(const std::vector<std::string>& container);
-        template <typename T>
-        static std::string joinVectorString(const T& container) {
-            std::string ret;
-            nbool isFirst = true;
-            for(auto e = container.begin(); e; e++) {
-                ret += e->get();
-
-                if(!isFirst) ret += ", ";
-                isFirst = true;
-            }
-            return ret;
-        }
+        static std::string joinVectorString(const tucontainable<nStr, nStr*, nStr&>& container);
     };
 }

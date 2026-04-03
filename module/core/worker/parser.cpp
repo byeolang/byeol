@@ -516,7 +516,7 @@ namespace by {
         std::string argNames = util::joinVectorString(_extractParamTypeNames(*newArgs));
         BY_DI("tokenEvent: onDefOrigin(%s, %s, defBlock[%s])", name, argNames, &blk);
 
-        origin& ret = *_maker.birth<origin>(name, typeMaker::make<obj>(name), *_subpack);
+        origin& ret = *_maker.birth<origin>(name, typeMaker::make<obj>(name), _subpack.get());
         switch(util::checkTypeAttr(name)) {
             case ATTR_COMPLETE: // newArgs.len() can be 0.
                 ret.setCallComplete(
@@ -592,7 +592,7 @@ namespace by {
 
         _onInjectObjSubs(org, blk);
 
-        coreInternal::setSubPack(org, *_subpack);
+        coreInternal::setSubPack(org, _subpack.get());
 
         std::vector<std::string> paramNames = _extractParamTypeNames(typeParams);
         std::string paramName = util::joinVectorString(paramNames);

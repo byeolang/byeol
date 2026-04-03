@@ -102,7 +102,7 @@ namespace by {
 
     public:
         explicit origin(const mgdType& newType);
-        explicit origin(const mgdType& newType, const node& subpack);
+        explicit origin(const mgdType& newType, node* subpack);
         explicit origin(const me& rhs);
 
     public:

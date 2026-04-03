@@ -20,7 +20,7 @@ namespace by {
     }
 
     me::res helpFlag::_onTake(const flagArgs&, cli& c, interpreter&, starter&, errReport&) const {
-        std::cout << "Usage: byeol <option> <filePath>\n";
+        std::cout << "Usage: byeol <option> <file or directory path>\n";
 
         const flags& opts = c.getFlags();
         for(int n = 0; n < opts.size(); n++) {

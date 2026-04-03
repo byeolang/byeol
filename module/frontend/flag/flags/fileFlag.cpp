@@ -6,20 +6,20 @@
 namespace by {
     BY_DEF_ME(fileFlag)
 
-#define FILE_EXTENSION "byeol"
-
-    const nchar* me::getName() const { return "<filePath>"; }
+    const nchar* me::getName() const { return "<file path>"; }
 
     const nchar* me::getDescription() const {
-        return R"DESC(
+        static std::string inner = std::string(R"DESC(
     file path of frontend language script file.
-    extension of file should be end with ')DESC" FILE_EXTENSION R"DESC('.
+    extension of file should be end with ')DESC") + FILE_EXTENSION + R"DESC('.
     wildcard and the question mark aren't allowed.)DESC";
+        return inner.c_str();
     }
 
     const strings& me::_getRegExpr() const {
         static strings inner{
-            "[^\\@\\#\\$\\%\\[\\]\\+\\\\\\|\\<\\>\\=\\!\\^\\&\\*\\(\\)\\{\\}\\n\\s]+\\." FILE_EXTENSION};
+            std::string("[^\\@\\#\\$\\%\\[\\]\\+\\\\\\|\\<\\>\\=\\!\\^\\&\\*\\(\\)\\{\\}\\n\\s]+\\.") + FILE_EXTENSION
+        };
         return inner;
     }
 

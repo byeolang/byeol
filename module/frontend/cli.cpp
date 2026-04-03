@@ -106,6 +106,7 @@ namespace by {
             inner.push_back(tstr<flag>(new bufferSrcFlag()));
             inner.push_back(tstr<flag>(new verboseFlag()));
             inner.push_back(tstr<flag>(new verFlag()));
+            inner.push_back(tstr<flag>(new dirFlag()));
         }
 
         return inner;

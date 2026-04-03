@@ -86,6 +86,8 @@ namespace by {
 
     me::iterator::operator nbool() const { return !isEnd(); }
 
+    const std::string* me::iterator::operator->() const { return &get(); }
+
     void me::iterator::rel() {
         while(!isEnd())
             _popDir();

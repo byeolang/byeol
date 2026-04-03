@@ -83,6 +83,7 @@ namespace by {
             const std::string& operator*();
             me& operator++(int);
             operator nbool() const;
+            const std::string* operator->() const;
 
         public:
             void rel();
