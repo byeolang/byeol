@@ -43,6 +43,7 @@ namespace by {
             // TODO: check rpt error count increased or not.
             //       if increased, then parse() function has been failed.
             parse(rpt, *this); // recursive call wasn't allowed.
+            expand(rpt, *this);
             verify(rpt, *this);
             exRpt.add(rpt); // add errors if they occurs during loading.
 
@@ -56,16 +57,23 @@ namespace by {
 
     void me::setState(state new1) { _state = new1; }
 
+    nbool me::isValid() const { return _state == LINKED; }
+
     void me::rel() {
         _rel();
         super::rel();
+    }
+
+    void me::_invalidate() {
+        _state = INVALID;
+        super::_invalidate();
     }
 
     nbool me::parse(errReport& rpt, pack& pak) {
         // change state first:
         //  during parsing, another nodes can call subs() of this instance
         //  which makes the chain of recursive call.
-        _state = PARSED; // and don't need to expand.
+        _state = PARSING;
 
         // You shouldn't release instances which _subs is holding:
         //  there is a scenario which _subs containing parsed instance when
@@ -73,29 +81,38 @@ namespace by {
         //  Only you can do here is adding new parsed instances into _subs.
         for(packLoading* load: _loadings) {
             nbool res = load->parse(rpt, pak);
-            WHEN(!res).exErr(errCode::PACK_NOT_LOADED, rpt, getManifest().name).ret(false);
+            WHEN(!res).exErr(PACK_NOT_LOADED, rpt, getManifest().name)
+                .run([&] { _invalidate(); }).ret(false);
         }
+
+        _state = PARSED;
+        return true;
+    }
+
+    nbool me::expand(errReport& rpt, pack& pak) {
+        for(packLoading* load : _loadings) {
+            nbool res = load->expand(rpt, pak);
+            WHEN(!res).exErr(PACK_NOT_LOADED, rpt, getManifest().name)
+                .run([&] { _invalidate(); }).ret(false);
+        }
+
+        _state = EXPANDED;
         return true;
     }
 
     nbool me::verify(errReport& rpt, pack& pak) {
-        for(packLoading* load: _loadings)
-            load->verify(rpt, pak);
+        for(packLoading* load: _loadings) {
+            nbool res = load->verify(rpt, pak);
+            WHEN(!res).exErr(PACK_NOT_LOADED, rpt, getManifest().name)
+                .run([&] { _invalidate(); }).ret(false);
+        }
 
         _state = VERIFIED;
-        _setValid(!rpt); // if has an error, setValid(false);
         return true;
     }
 
     nbool me::link() {
         _state = LINKED;
-        return !isValid() ? _invalidate() : true;
-    }
-
-    nbool me::_invalidate() {
-        _setValid(false);
-        WHEN(_state != LINKED) .ret(false);
-
-        return super::_invalidate();
+        return true;
     }
 } // namespace by

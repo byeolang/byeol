@@ -14,6 +14,7 @@ namespace by {
 
     public:
         nbool parse(errReport& rpt, pack& pak) override;
+        nbool expand(errReport& rpt, pack& pak) override;
         const std::string& getName() const override;
     };
 }

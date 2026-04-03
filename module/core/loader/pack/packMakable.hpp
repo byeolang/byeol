@@ -31,6 +31,8 @@ namespace by {
          * @return true if success.
          */
         virtual nbool parse(errReport& rpt, pack& pak) = 0;
+
+        virtual nbool expand(errReport& rpt, pack& pak) = 0;
         /**
          * @brief Pure virtual method for verifying the parsed pack content.
          * @param rpt The error report to collect any verification errors.

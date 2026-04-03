@@ -27,7 +27,7 @@ namespace by {
     public:
         manifest& getManifest();
         const manifest& getManifest() const;
-        nbool isValid() const;
+        virtual nbool isValid() const;
         void rel() override;
 
         /**
@@ -44,17 +44,14 @@ namespace by {
          * @brief Protected virtual method to invalidate the pack.
          * @details This method is typically called internally to mark the pack as invalid,
          *          making it unusable for further operations.
-         * @return true if the pack was successfully invalidated, false otherwise.
          */
-        virtual nbool _invalidate();
-        void _setValid(nbool valid);
+        virtual void _invalidate();
 
     private:
         void _rel();
 
     private:
         manifest _manifest;
-        nbool _isValid;
         tnarr<me> _dependents;
     };
 

@@ -3,6 +3,8 @@
 #include "core/ast/src/src.hpp"
 #include "core/worker/supply/fileSupply.hpp"
 #include "core/ast/pack.hpp"
+#include "core/frame/threadUse.hpp"
+#include "core/worker/visitor/expander.hpp"
 
 namespace by {
 
@@ -18,6 +20,15 @@ namespace by {
 
         str res = ps.work();
         return res.isBind();
+    }
+
+    nbool me::expand(errReport& rpt, pack& pak) {
+        threadUse thr(rpt);
+        expander ep;
+
+        ncnt count = rpt.len();
+        ep.setTask(pak).setReport(rpt).work();
+        return rpt.len() == count; // success if no change.
     }
 
     const std::string& me::getName() const {

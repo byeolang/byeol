@@ -12,7 +12,7 @@ namespace by {
 
     BY(DEF_ME(pack), DEF_VISIT())
 
-    me::pack(const manifest& mani): super(), _manifest(mani), _isValid(true) {
+    me::pack(const manifest& mani): super(), _manifest(mani) {
         origin* org = new origin(typeMaker::make<obj>(_manifest.name));
         org->setCallComplete(*new mockNode());
         coreInternal::setOrigin(*this, *org);
@@ -20,14 +20,13 @@ namespace by {
 
     void me::_rel() {
         _dependents.rel();
-        _isValid = true;
     }
 
     manifest& me::getManifest() { return _manifest; }
 
     const manifest& me::getManifest() const { return _manifest; }
 
-    nbool me::isValid() const { return _isValid; }
+    nbool me::isValid() const { return true; }
 
     void me::rel() { _rel(); }
 
@@ -35,14 +34,9 @@ namespace by {
 
     const tnarr<pack>& me::getDependents() const { return _dependents; }
 
-    void me::_setValid(nbool valid) { _isValid = valid; }
-
-    nbool me::_invalidate() {
-        _setValid(false);
-
+    void me::_invalidate() {
         // propagate result only if it's not valid.
         for(auto& e: _dependents)
             e._invalidate();
-        return true;
     }
 } // namespace by

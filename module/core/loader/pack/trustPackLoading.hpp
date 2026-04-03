@@ -16,6 +16,7 @@ namespace by {
         BY(ADT(trustPackLoading, packLoading))
 
     public:
+        nbool expand(errReport& rpt, pack& pak) override;
         nbool verify(errReport& rpt, pack& pak) override;
     };
 }

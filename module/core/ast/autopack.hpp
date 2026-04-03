@@ -38,22 +38,25 @@ namespace by {
      *  Has four states total with the following loading pipeline flow:
      *
      *  @code
-     *                     ┌────────────────┐
-     *                     │Make an instance│
-     *                     └────────┬───────┘
-     *                              │
-     *                          ┌───▼────┐
-     *                          │RELEASED│
-     *                          └───┬────┘
-     *                           ┌──▼───┐
-     *                           │PARSED│
-     *                           └──┬───┘
-     *                          ┌───▼────┐
-     *                          │VERIFIED│
-     *                          └───┬────┘
-     *                           ┌──▼───┐
-     *                           │LINKED│
-     *                           └──────┘
+     *                          ┌────────────────┐
+     *                          │Make an instance│
+     *                          └────────┬───────┘
+     *                                   │
+     *                               ┌───▼────┐
+     *                               │RELEASED├────┐
+     *                               └───┬────┘    │
+     *                                ┌──▼───┐     │
+     *                                │PARSED├─────┤
+     *                                └──┬───┘     │
+     *                               ┌───▼────┐    │
+     *                               │EXPANDED├────┤
+     *                               └───┬────┘    │
+     *                               ┌───▼────┐    │
+     *                               │VERIFIED├────┤
+     *                               └───┬────┘    │
+     *                                ┌──▼───┐ ┌───▼───┐
+     *                                │LINKED│ │INVALID│
+     *                                └──────┘ └───────┘
      *  @endcode
      *
      *  - **pack creation**: packLoader creates pack objects and adds them to the system. At this time, dependencies
@@ -61,8 +64,10 @@ namespace by {
      *  - **RELEASED**: Initial state, occupies no memory. Most unused packs belong here.
      *  - **PARSED**: When autopack is accessed, code is parsed for actual use. If parsing is unnecessary (optimized
      *                pack distribution or native pack), skips directly to LINKED state.
-     *  - **VERIFIED**: After parsing, code integrity is verified. If verification fails, isValid is set to false.
+     *  - **EXPANDED**: after parsing resolve dependencies between symbols and expressions.
+     *  - **VERIFIED**: After expanding, code integrity is verified. If verification fails, isValid is set to false.
      *  - **LINKED**: If verification failed, propagates that failure to all dependents referencing it.
+     *  - **INVALID**: pack loading has been failed for some reason. it's unable to recover it.
      *
      *  @section recursive_loading Recursive Loading
      *  Packs depending on other packs is very common. Because autopack operates lazily, loading one pack may access
@@ -101,14 +106,16 @@ namespace by {
 
         state getState() const override;
         void setState(state new1) override;
+        nbool isValid() const override;
 
         void rel() override;
 
     protected:
-        nbool _invalidate() override;
+        void _invalidate() override;
 
     private:
         nbool parse(errReport& rpt, pack& pak) override;
+        nbool expand(errReport& rpt, pack& pak) override;
         nbool verify(errReport& rpt, pack& pak) override;
         nbool link();
         void _rel();
