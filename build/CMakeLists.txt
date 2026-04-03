@@ -17,20 +17,16 @@ ENDIF(EMSCRIPTEN)
 cmake_minimum_required (VERSION 3.14)
 project(byeol C CXX)
 
-#defines:
-execute_process(
-    COMMAND git rev-parse --short HEAD
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    OUTPUT_VARIABLE GIT_COMMIT_HASH
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
+include(ByeolBuildInfo)
+include(ByeolDependencies)
+
+get_filename_component(BY_DIR ${CMAKE_SOURCE_DIR} DIRECTORY)
+byeol_check_build_dependencies()
+byeol_extract_version_from_changelog("${BY_DIR}/CHANGELOGS.md")
+byeol_get_git_commit_hash("${BY_DIR}" GIT_COMMIT_HASH)
+
 set(SHOW_CMAKE_VARIABLES 1)
-set(VERSION_MAJOR 0)
-set(VERSION_MINOR 2)
-set(VERSION_FIX 12)
-set(VERSION_NAME "Mana")
-set(VERSION_VALUE "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_FIX}")
-set(VERSION "${VERSION_NAME} Update ${VERSION_VALUE}")
 #   build-date:
 string(TIMESTAMP BUILD_DATE_YEAR "%Y")
 string(TIMESTAMP BUILD_DATE_MONTH "%m")
@@ -159,7 +155,6 @@ cmake_policy(SET CMP0042 NEW)
 
 
 set(BY_POD_EXTENSION "pod")
-get_filename_component(BY_DIR ${CMAKE_SOURCE_DIR} DIRECTORY)
 set(BY_DEFAULT_INC_DIR
     ${BY_DIR}/module
     /usr/local/include)

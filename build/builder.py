@@ -7,7 +7,6 @@ import shutil
 import platform
 import subprocess
 import re
-from operator import eq
 from tempfile import gettempdir
 
 frame = "======================================================="
@@ -556,9 +555,8 @@ def _createMakefiles(cmake):
 
     printOk("done")
 
-# World uses BuildInfo at CHANGELOGS.md
-# and builder.py drives to all world libraries and make it sync all build-info including
-# doc releasing.
+# World uses BuildInfo at CHANGELOGS.md.
+# builder.py reads it for user-facing version strings, while CMake consumes it during configure.
 ver_major = 0
 ver_minor = 0
 ver_fix = 0
@@ -574,71 +572,18 @@ def _extractBuildInfo(): # from CHANGELOGS.md at root directory.
     while True:
         line = fp.readline()
         if not line: break
-        if line[:4] in "## v":
-            minor_head_n = line.find('.', 5) + 1
-            ver_major = int(line[4:minor_head_n-1])
-            ver_minor = int(line[minor_head_n: minor_head_n+1])
-            fix_head_n = line.find('.', minor_head_n) + 1
-            ver_name_n = line.find(' ', fix_head_n+1) + 1
-            ver_fix_str = line[fix_head_n: ver_name_n]
-            if ver_fix_str in "" or ver_fix_str in " ":
-                ver_fix = 0
-            else:
-                ver_fix = int(ver_fix_str)
-            ver_name = line[ver_name_n: len(line)-8]
-            break
+
+        match = re.match(r"^## v(\d+)\.(\d+)\.(\d+)\s+(.+?)(?:\s+Update)?\s*$", line)
+        if not match:
+            continue
+
+        ver_major = int(match.group(1))
+        ver_minor = int(match.group(2))
+        ver_fix = int(match.group(3))
+        ver_name = match.group(4)
+        break
 
     fp.close()
-updated = False
-
-def _updateLine(lines, n, trg, basestr):
-    global updated
-    idx = len(basestr)-1
-    value = int(lines[n][idx:len(lines[n])-2])
-    if value != trg:
-        lines[n] = basestr + str(trg) + ")\n"
-        updated = True
-
-def _updateLineString(lines, n, trg, basestr):
-    global updated
-    idx = len(basestr)-1
-    value = lines[n][idx:len(lines[n])-2]
-    if not eq(value, trg):
-        lines[n] = basestr + "\"" + str(trg) + "\")\n"
-        updated = True
-
-def _injectBuildInfo():
-    global cwd, ver_major, ver_minor, ver_fix, ver_name
-    if isWindow():
-        path = cwd + "\\CMakeLists.txt"
-    else:
-        path = cwd + "/CMakeLists.txt"
-
-    printInfoEnd("updating buildinfo on CMakeLists.txt...")
-    global updated
-    updated = False;
-    fp = open(path, "r")
-    lines = fp.readlines()
-    for n in range(0, len(lines)):
-        line = lines[n]
-        if line[:17] in "set(VERSION_MAJOR":
-            _updateLine(lines, n, ver_major, "set(VERSION_MAJOR ")
-        elif line[:17] in "set(VERSION_MINOR":
-            _updateLine(lines, n, ver_minor, "set(VERSION_MINOR ")
-        elif line[:15] in "set(VERSION_FIX":
-            _updateLine(lines, n, ver_fix, "set(VERSION_FIX ")
-        elif line[:16] in "set(VERSION_NAME":
-            _updateLineString(lines, n, ver_name, "set(VERSION_NAME ");
-    fp.close()
-
-    if updated == False:
-        printOk("skip")
-        return
-
-    fp = open(path, "w")
-    fp.write("".join(lines))
-    fp.close()
-    printOk("updated!")
 
 def _make(msbuild, make):
     global cwd, config, winProp
@@ -701,7 +646,6 @@ def build(incVer, ignore_tidy=False):
         return -1
 
     if incVer:
-        _injectBuildInfo()
         if _createMakefiles(cmake):
             return -1
     if _make(msbuild, make):
