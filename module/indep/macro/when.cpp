@@ -8,6 +8,11 @@ namespace by {
         return inner;
     }
 
+    const me& me::run(const std::function<void(void)>& closure) const {
+        closure();
+        return *this;
+    }
+
     void me::ret() const {}
 
     void me::crash() const { abort(); }

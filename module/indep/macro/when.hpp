@@ -5,6 +5,7 @@
 
 #include <utility>
 #include <cstdlib>
+#include <functional>
 #include "indep/def/_nout.hpp"
 #include "indep/common/typedef.hpp"
 #include "indep/helper/typeTrait.hpp"
@@ -90,6 +91,8 @@ namespace by {
         template <typename R> R* ret([[maybe_unused]] R* r) const { return r; }
 
         template <typename R> R&& ret([[maybe_unused]] R&& r) const { return std::move(r); }
+
+        const me& run(const std::function<void(void)>& closure) const;
 
         void ret() const;
 
