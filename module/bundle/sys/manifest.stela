@@ -1,6 +1,8 @@
 def entrypoints
     def cpp
         path := "./sys.pack"
+    def byeol
+        path := "./wrapper"
 
 name := "sys"
 ver := 0.0.1

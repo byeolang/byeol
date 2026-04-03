@@ -569,7 +569,12 @@ namespace by {
             WHEN_NUL(next).ret(ret);
 
             iter = next->cast<getExpr>();
-            WHEN_NUL(iter).exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
+            if(!iter) {
+                // iter can be frame if parsing is doing by expander:
+                //  pack get loaded in lazy. so expander can trigger pack loading with `byeolPackLoading`.
+                WHEN(!next->cast<frame>()).exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
+                return ret;
+            }
         } while(true);
     }
 
@@ -1132,6 +1137,12 @@ namespace by {
 
     me& me::addSupply(const srcSupply& new1) {
         _supplies.add(new1);
+        return *this;
+    }
+
+    me& me::addSupply(const tucontainable<srcSupply>& new1) {
+        for(const auto& elem : new1)
+            addSupply(elem);
         return *this;
     }
 

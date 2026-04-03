@@ -27,8 +27,5 @@ namespace by {
         const strings& _getRegExpr() const override;
 
         res _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s, errReport& rpt) const override;
-
-    public:
-        static constexpr const nchar* FILE_EXTENSION = "byeol";
     };
 }

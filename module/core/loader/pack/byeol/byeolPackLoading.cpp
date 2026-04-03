@@ -14,7 +14,7 @@ namespace by {
 
         const auto& paths = _getPaths();
         for(const auto& path : paths)
-            ps.addSupply(*new fileSupply(path));
+            ps.addSupply(srcSupply::makeSuppliesFrom(path));
 
         str res = ps.work();
         return res.isBind();

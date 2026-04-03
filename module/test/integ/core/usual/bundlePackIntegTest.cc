@@ -95,3 +95,15 @@ TEST_F(bundlePackIntegTest, cloneBridgeObj) {
     )SRC")
         .shouldVerified(true);
 }
+
+TEST_F(bundlePackIntegTest, testWrapper) {
+    make().parse(R"SRC(
+        wrapper := sys.wrapper
+        make() int
+             wrapper.multiplyToAdd(2, 3)
+    )SRC").shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(*res.cast<nint>(), (2 + 3) * 2);
+}

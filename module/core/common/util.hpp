@@ -30,5 +30,9 @@ namespace by {
         static std::string getEvalTypeFrom(const node* it) BY_SIDE_FUNC(getEvalTypeFrom);
         static std::string joinVectorString(const std::vector<std::string>& container);
         static std::string joinVectorString(const tucontainable<nStr, nStr*, nStr&>& container);
+
+    public:
+        static constexpr const nchar* FILE_EXTENSION = "byeol";
+        static inline const std::string FILE_REGEX = std::string("[^\\@\\#\\$\\%\\[\\]\\+\\\\\\|\\<\\>\\=\\!\\^\\&\\*\\(\\)\\{\\}\\n\\s]+\\.") + util::FILE_EXTENSION;
     };
 }

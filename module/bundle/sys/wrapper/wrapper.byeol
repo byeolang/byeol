@@ -1,0 +1,6 @@
+pack sys
+con := sys.con
+
+def wrapper
+    multiplyToAdd(a int, b int) int
+        ret con.add(a, b) * 2

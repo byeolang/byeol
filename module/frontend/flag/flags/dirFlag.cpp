@@ -22,19 +22,13 @@ namespace by {
     }
 
     me::res me::_onTake(const flagArgs& tray, cli&, interpreter& ip, starter&, errReport& rpt) const {
-        nbool found = false;
-        for(const auto& dirPath : tray) {
-            auto iter = fsystem::find(dirPath.get());
-            while(iter.next()) {
-                const std::string& filePath = *iter;
-                if(!filePath.find(fileFlag::FILE_EXTENSION)) continue;
+        parser& ps = ip.getParser();
+        tnarr<srcSupply> supplies;
+        for(const auto& dirPath : tray)
+            supplies.add(srcSupply::makeSuppliesFrom(dirPath.get()));
 
-                ip.getParser().addSupply(*new fileSupply(filePath));
-                found = true;
-            }
-        }
-
-        if(!found) rpt.add(nerr::newErr(NO_SRC_FOUND_ON_THE_PATH, util::joinVectorString(tray).c_str()));
+        ps.addSupply(supplies);
+        if(supplies.isEmpty()) rpt.add(nerr::newErr(NO_SRC_FOUND_ON_THE_PATH, util::joinVectorString(tray).c_str()));
         return MATCH;
     }
 }

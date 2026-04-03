@@ -8,6 +8,8 @@ namespace by {
 
     class parser;
     class exprMaker;
+    class srcSupply;
+    typedef tnarr<srcSupply> srcSupplies;
 
     /** @ingroup core
      *  @brief Source code supply interface
@@ -22,9 +24,15 @@ namespace by {
          */
         virtual void* onSupplySrc(parser& ps, void* scanner) const = 0;
 
+        /**
+         * @brief if the given path points to a file, a single fileSupply will be returned.
+         *        otherwise this will traverse all sub folders to find byeol src files
+         *        and return each fileSupplies matching them.
+         * @param path for single src file or directory including src files.
+         */
+        static srcSupplies makeSuppliesFrom(const std::string& path);
+
     protected:
         void* _scanString(parser& ps, const nchar* src, void* scanner) const;
     };
-
-    typedef tnarr<srcSupply> srcSupplies;
 }

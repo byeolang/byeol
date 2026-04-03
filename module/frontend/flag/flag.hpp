@@ -1,8 +1,6 @@
 /// @file
 #pragma once
 
-#include <regex>
-
 #include "frontend/common.hpp"
 #include "frontend/flag/flagArgs.hpp"
 

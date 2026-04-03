@@ -144,6 +144,7 @@ namespace by {
         srcSupplies& getSrcSupplies();
         const srcSupplies& getSrcSupplies() const BY_CONST_FUNC(getSrcSupplies())
         me& addSupply(const srcSupply& new1);
+        me& addSupply(const tucontainable<srcSupply>& new1);
         me& relSupplies();
 
         tokenDispatcher& getDispatcher();

@@ -2,6 +2,8 @@
 #include "core/ast/node.hpp"
 #include "core/ast/exprs/getExpr.hpp"
 #include "core/builtin/scalar/nStr.hpp"
+#include "core/worker/supply/fileSupply.hpp"
+#include <regex>
 
 namespace by {
     BY(DEF_ME(util))

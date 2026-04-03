@@ -11,6 +11,8 @@ add_definitions(${defines})
 
 set(packOutDir "${BY_PACK_OUTPUT_DIRECTORY}/${packName}")
 set(dependencies ${dependencies} core)
+set(BY_WRAPPER_SRC_PATH ${PROJECT_SOURCE_DIR}/bundle/sys/wrapper)
+SET(BY_WRAPPER_DEST_PATH ${PROJECT_BINARY_DIR}/pack/sys/wrapper)
 
 foreach(d ${dependencies})
     set(libraries ${libraries} PUBLIC ${d})
@@ -39,6 +41,13 @@ install(FILES manifest.stela DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/pack PERMIS
     OWNER_WRITE OWNER_READ
     GROUP_READ
     WORLD_READ)
+
+add_custom_command(TARGET ${packName} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${BY_WRAPPER_SRC_PATH}
+        ${BY_WRAPPER_DEST_PATH}
+    COMMENT "copying wrapper to bin directory"
+)
 
 #       let MSVC follow macro expansion of standard:
 if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))

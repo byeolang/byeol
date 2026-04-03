@@ -62,6 +62,11 @@ namespace by {
     }
 
     nbool me::parse(errReport& rpt, pack& pak) {
+        // change state first:
+        //  during parsing, another nodes can call subs() of this instance
+        //  which makes the chain of recursive call.
+        _state = PARSED; // and don't need to expand.
+
         // You shouldn't release instances which _subs is holding:
         //  there is a scenario which _subs containing parsed instance when
         //  this function called.
@@ -70,7 +75,6 @@ namespace by {
             nbool res = load->parse(rpt, pak);
             WHEN(!res).exErr(errCode::PACK_NOT_LOADED, rpt, getManifest().name).ret(false);
         }
-        _state = PARSED; // don't need to expand.
         return true;
     }
 
