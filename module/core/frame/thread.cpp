@@ -167,12 +167,12 @@ namespace by {
         ret.bind(new nmap());
         packLoader()
             .setBasePacks(*ret)
+            .addPath("pack/")
 #ifdef BY_BUILD_PLATFORM_IS_LINUX
             .addPath("/usr/share/pack/")
 #elif defined(BY_BUILD_PLATFORM_IS_MAC)
             .addPath("/usr/local/share/byeol/")
 #endif
-            .addPath("pack/")
             .load();
 
         _loadBuiltIns(*ret);
