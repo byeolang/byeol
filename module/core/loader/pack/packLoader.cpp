@@ -95,17 +95,23 @@ namespace by {
             BY_I("try pack path: %s", path);
 
             auto e = fsystem::find(path);
-            while(e.next())
-                if(e.getName() == MANIFEST_FILENAME) _addNewPack(tray, e.getDir(), e.getName());
+            while(e.next()) {
+                if(e.getName() != MANIFEST_FILENAME) continue;
+
+                auto manifestPath = e.getDir() + fsystem::getDelimiter() + e.getName();
+                manifest mani = _interpManifest(e.getDir(), manifestPath);
+                if(tray.in(mani.name)) { // TODO: more concise duplication check required including version of pack.
+                    BY_W("pack '%s' is duplicated. an existed one will be used.", mani.name);
+                    continue;
+                }
+
+                _addNewPack(tray, mani, e.getDir());
+            }
         }
     }
 
-    void me::_addNewPack(nmap& tray, const std::string& dirPath, const std::string& manifestName) {
-        std::string manifestPath = dirPath + fsystem::getDelimiter() + manifestName;
-        BY_I("manifest path: %s", manifestPath);
-
-        manifest mani = _interpManifest(dirPath, manifestPath);
-        WHEN(!mani.isValid()) .err("invalid manifest[%s] found.", manifestPath.c_str()).ret();
+    void me::_addNewPack(nmap& tray, manifest& mani, const std::string& dirPath) {
+        BY_I("manifest path: %s", mani.filePath);
 
         packLoadings loadings;
         for(entrypoint& point: mani.points) {

@@ -42,7 +42,7 @@ namespace by {
 
     private:
         void _makePacks(nmap& tray);
-        void _addNewPack(nmap& tray, const std::string& dirPath, const std::string& manifestName);
+        void _addNewPack(nmap& tray, manifest& mani, const std::string& dirPath);
 
         void _logPack(const pack& pak) const;
 
