@@ -15,7 +15,7 @@ namespace by {
         ps.setTask(pak).setReport(rpt);
 
         const auto& paths = _getPaths();
-        for(const auto& path : paths)
+        for(const auto& path: paths)
             ps.addSupply(srcSupply::makeSuppliesFrom(path));
 
         str res = ps.work();

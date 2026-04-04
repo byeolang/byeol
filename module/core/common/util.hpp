@@ -33,6 +33,8 @@ namespace by {
 
     public:
         static constexpr const nchar* FILE_EXTENSION = "byeol";
-        static inline const std::string FILE_REGEX = std::string("[^\\@\\#\\$\\%\\[\\]\\+\\\\\\|\\<\\>\\=\\!\\^\\&\\*\\(\\)\\{\\}\\n\\s]+\\.") + util::FILE_EXTENSION;
+        static inline const std::string FILE_REGEX =
+            std::string("[^\\@\\#\\$\\%\\[\\]\\+\\\\\\|\\<\\>\\=\\!\\^\\&\\*\\(\\)\\{\\}\\n\\s]+\\.") +
+            util::FILE_EXTENSION;
     };
 }

@@ -3,7 +3,7 @@
 #include "frontend/flag/flag.hpp"
 
 namespace by {
-    class dirFlag : public flag {
+    class dirFlag: public flag {
         BY(CLASS(dirFlag, flag))
 
     public:

@@ -16,7 +16,7 @@ namespace by {
     }
 
     srcSupplies me::makeSuppliesFrom(const std::string& path) {
-        WHEN(_isSrcFile(path)).ret(tnarr<srcSupply>{*new fileSupply(path)});
+        WHEN(_isSrcFile(path)) .ret(tnarr<srcSupply>{*new fileSupply(path)});
 
         tnarr<srcSupply> ret;
         auto e = fsystem::find(path);

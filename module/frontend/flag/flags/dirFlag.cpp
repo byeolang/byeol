@@ -15,16 +15,14 @@ namespace by {
     }
 
     const strings& me::_getRegExpr() const {
-        static strings inner{
-            "[^\\@\\#\\$\\%\\[\\]\\+\\\\\\|\\<\\>\\=\\!\\^\\&\\*\\(\\)\\{\\}\\n\\s]+"
-        };
+        static strings inner{"[^\\@\\#\\$\\%\\[\\]\\+\\\\\\|\\<\\>\\=\\!\\^\\&\\*\\(\\)\\{\\}\\n\\s]+"};
         return inner;
     }
 
     me::res me::_onTake(const flagArgs& tray, cli&, interpreter& ip, starter&, errReport& rpt) const {
         parser& ps = ip.getParser();
         tnarr<srcSupply> supplies;
-        for(const auto& dirPath : tray)
+        for(const auto& dirPath: tray)
             supplies.add(srcSupply::makeSuppliesFrom(dirPath.get()));
 
         ps.addSupply(supplies);

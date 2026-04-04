@@ -18,9 +18,7 @@ namespace by {
         coreInternal::setOrigin(*this, *org);
     }
 
-    void me::_rel() {
-        _dependents.rel();
-    }
+    void me::_rel() { _dependents.rel(); }
 
     manifest& me::getManifest() { return _manifest; }
 

@@ -11,15 +11,14 @@ namespace by {
     const nchar* me::getDescription() const {
         static std::string inner = std::string(R"DESC(
     file path of frontend language script file.
-    extension of file should be end with ')DESC") + util::FILE_EXTENSION + R"DESC('.
+    extension of file should be end with ')DESC") +
+            util::FILE_EXTENSION + R"DESC('.
     wildcard and the question mark aren't allowed.)DESC";
         return inner.c_str();
     }
 
     const strings& me::_getRegExpr() const {
-        static strings inner{
-            util::FILE_REGEX
-        };
+        static strings inner{util::FILE_REGEX};
         return inner;
     }
 

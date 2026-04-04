@@ -9,7 +9,7 @@ namespace by {
      *  @details Loads packs written in the Byeol language.
      *  Uses the parser to convert source code into AST nodes.
      */
-    class _nout byeolPackLoading : public trustPackLoading {
+    class _nout byeolPackLoading: public trustPackLoading {
         BY(CLASS(byeolPackLoading, trustPackLoading))
 
     public:

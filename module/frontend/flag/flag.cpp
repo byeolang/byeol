@@ -13,7 +13,7 @@ namespace by {
     ncnt me::_parseOption(flagArgs& a, flagArgs& tray, errReport& rpt) const {
         const std::string& arg = a[0].get();
         ncnt deleteOptionCnt = 0;
-        WHEN(!canTake(arg)).ret(0);
+        WHEN(!canTake(arg)) .ret(0);
 
         std::string matchedArg = arg;
         deleteOptionCnt = 1;

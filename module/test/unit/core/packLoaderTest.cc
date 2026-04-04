@@ -9,7 +9,7 @@ TEST_F(packLoaderTest, testDefaultLoaderInit) {
     nmap& systemPacks = (nmap&) by::thread::get().getPacks(); // don't worry for casting. I know what I'm doing >_o
     pack& s = systemPacks.get<pack>([](const std::string& name, const pack& e) { return name == "sys"; }) OR_ASSERT(s);
 
-    ASSERT_TRUE(s.subs().len() > 1); // s get chained to system packs.
+    ASSERT_TRUE(s.subs().len() > 1);             // s get chained to system packs.
     ASSERT_EQ(s.subs().getContainer().len(), 2); // `wrapper` from byeol code and `con` from native so file.
     node& origin = s.sub("con") OR_ASSERT(origin);
     {

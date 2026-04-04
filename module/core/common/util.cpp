@@ -44,4 +44,4 @@ namespace by {
         }
         return ret;
     }
-}
+} // namespace by

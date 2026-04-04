@@ -81,8 +81,7 @@ namespace by {
         //  Only you can do here is adding new parsed instances into _subs.
         for(packLoading* load: _loadings) {
             nbool res = load->parse(rpt, pak);
-            WHEN(!res).exErr(PACK_NOT_LOADED, rpt, getManifest().name)
-                .run([&] { _invalidate(); }).ret(false);
+            WHEN(!res) .exErr(PACK_NOT_LOADED, rpt, getManifest().name).run([&] { _invalidate(); }).ret(false);
         }
 
         _state = PARSED;
@@ -90,10 +89,9 @@ namespace by {
     }
 
     nbool me::expand(errReport& rpt, pack& pak) {
-        for(packLoading* load : _loadings) {
+        for(packLoading* load: _loadings) {
             nbool res = load->expand(rpt, pak);
-            WHEN(!res).exErr(PACK_NOT_LOADED, rpt, getManifest().name)
-                .run([&] { _invalidate(); }).ret(false);
+            WHEN(!res) .exErr(PACK_NOT_LOADED, rpt, getManifest().name).run([&] { _invalidate(); }).ret(false);
         }
 
         _state = EXPANDED;
@@ -103,8 +101,7 @@ namespace by {
     nbool me::verify(errReport& rpt, pack& pak) {
         for(packLoading* load: _loadings) {
             nbool res = load->verify(rpt, pak);
-            WHEN(!res).exErr(PACK_NOT_LOADED, rpt, getManifest().name)
-                .run([&] { _invalidate(); }).ret(false);
+            WHEN(!res) .exErr(PACK_NOT_LOADED, rpt, getManifest().name).run([&] { _invalidate(); }).ret(false);
         }
 
         _state = VERIFIED;

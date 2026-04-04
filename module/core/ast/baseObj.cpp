@@ -65,7 +65,7 @@ namespace by {
     const node& me::getSubPack() const {
         static obj dummy;
         // which means, the derived origin class doesn't override getSrc(). to prevent infinite loop.
-        WHEN(&getOrigin() == this).ret(dummy);
+        WHEN(&getOrigin() == this) .ret(dummy);
         return getOrigin().getSubPack();
     }
 

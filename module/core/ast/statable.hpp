@@ -7,11 +7,11 @@ namespace by {
     enum state {
         RELEASED = 0,
         PARSING = 1,
-        PARSED,     // all AST has been parsed and expanded.
-        EXPANDED,   // expander resolved dependencies.
-        VERIFIED,   // verifier checked this node.
-        LINKED,     // eval and attached to system.
-        INVALID,    // loading of pack has been failed.
+        PARSED,   // all AST has been parsed and expanded.
+        EXPANDED, // expander resolved dependencies.
+        VERIFIED, // verifier checked this node.
+        LINKED,   // eval and attached to system.
+        INVALID,  // loading of pack has been failed.
     };
 
     /** @ingroup core

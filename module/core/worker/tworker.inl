@@ -17,6 +17,7 @@ namespace by {
 #define ME tworker<R, T>
 
     TEMPLATE ME::tworker(): tworker(thread::get().getEx()) {}
+
     TEMPLATE ME::tworker(const errReport& rpt): _rpt(rpt), _logFlag(0) {}
 
     TEMPLATE errReport& ME::getReport() { return *_rpt; }

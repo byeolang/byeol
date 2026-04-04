@@ -97,11 +97,13 @@ TEST_F(bundlePackIntegTest, cloneBridgeObj) {
 }
 
 TEST_F(bundlePackIntegTest, testWrapper) {
-    make().parse(R"SRC(
+    make()
+        .parse(R"SRC(
         wrapper := sys.wrapper
         main() int
              wrapper.multiplyToAdd(2, 3)
-    )SRC").shouldVerified(true);
+    )SRC")
+        .shouldVerified(true);
 
     str res = run();
     ASSERT_TRUE(res);
