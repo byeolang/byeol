@@ -178,9 +178,15 @@ This includes:
 
 2. **Incremental build** (if you are only modifying functions/classes):
     * If your OS is not windows, do the following.
+    * on linux:
     ```bash
     cd ./build/
     make -j$(nproc)
+    ```
+    * on mac:
+    ```bash
+    cd ./build/
+    make -j$(sysctl -n hw.ncpu)
     ```
     * If your OS is windows, do the following.
     ```
