@@ -509,3 +509,20 @@ TEST_F(literalExprIntegTest, strTemplateMissingVar) {
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 7);
 }
+
+TEST_F(literalExprIntegTest, strInterpolationExprWithSingleQuotes) {
+    make()
+        .parse(R"SRC(
+        foo() str
+            'bar'
+        main() int
+            actual := 'msg = ${foo()}'
+            expected := "msg = bar"
+            ret actual == expected
+    )SRC")
+        .shouldVerified(true);
+
+    str res = run();
+    ASSERT_TRUE(res);
+    ASSERT_EQ(*res.cast<nint>(), 1);
+}

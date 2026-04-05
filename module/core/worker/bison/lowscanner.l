@@ -58,7 +58,7 @@ namespace {
 \} {
     if(!PS.onTokenEndOfBraces()) return '}'; // it wasn't str-templating.
 
-    unput('"');
+    unput(PS.getOpenStrToken());
     unput('+'); // inputStream = + "
     unput('r');
     unput('t');
@@ -215,7 +215,7 @@ false {
     BY_DI("${ yytext=%s", yytext);
     unput('(');
     unput('+');
-    unput('"'); // inputStream = "+(
+    unput(PS.getOpenStrToken()); // inputStream = "+(
     PS.onTokenStartOfStrTemplateBrace();
     // don't return '"' here:
     // we must leave '"' with 'unput()' so that the scanner will exit current 'stateString',
@@ -232,6 +232,11 @@ false {
 <stateString>\$\" {
     BY_DI("$\" yytext=%s", yytext);
     unput('"');
+    append(yylval, "$");
+}
+<stateString>\$\' {
+    BY_DI("$\' yytext=%s", yytext);
+    unput('\'');
     append(yylval, "$");
 }
 <stateString>\$[^a-zA-Z_{"] {
