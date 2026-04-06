@@ -1,5 +1,49 @@
 # Changelogs
 
+## v0.2.12 Mana Update
+released on 02-16 2026 build#1514
+
+This update focuses on enhancing language stability, improving documentation quality, and refining the overall user experience. 
+Notably, diagrams have been added throughout the documentation, and its structure has been improved for better readability.
+
+### language updates
++ Special functions are now defined with an '@' prefix (e.g., `@ctor`, `@on`).
++ String literals can now be represented with single quotes (`'`).
++ Trailing commas are now allowed when defining array literals.
+- Fixed an issue where escape sequences (`\"`) did not work correctly in string templates.
+- Fixed an issue where `$` in a string template was not recognized as a token if not followed by an identifier or braces.
+
+### framework updates
++ Added `scopeLog` class to improve log readability. It visually emphasizes scope by drawing lines in front of log messages.
++ Added support for glob patterns in the filesystem.
++ `pack` (renamed from `slot`) now inherits from `obj`.
++ Packs can now be loaded from `byeol` source files.
++ Added `dirFlag` to handle directory paths.
+- Fixed a crash in `defAssignExpr` when using a negative index for an array.
+- Fixed a crash in `richLog` when it received a `char*`.
+- Fixed a crash in `scopeLog` due to holding a dangling pointer within a lambda.
+- `starter` now returns an exception when one is found.
+- Fixed an issue where `genericCtor` was using a static variable to store type information.
+- Fixed a crash during verification when an `FBOExpr` received a `nul` right-hand side.
+- Fixed an issue where `generic origin` didn't verify duplicate type parameters.
+
+### frontend updates
++ Can now take multiple files as input at once.
+- Fixed an issue where option clustering like `-Sv` did not work.
+- Fixed an issue where files with `.` or `-` in their names were not recognized.
+- Fixed an issue with handling single-letter filenames.
+
+### development environment updates
++ Added macOS package installer (.pkg) generation to CI.
++ Added PlantUML diagram support in Doxygen documentation.
++ Added and improved various documents, including developer onboarding and design philosophy.
++ Improved test failure reporting with more detailed output.
+- Fixed several build errors on the Windows environment.
+- Resolved a race condition issue in the CI documentation publishing workflow.
+- Fixed an issue where `<` or `>` characters were not displayed correctly in Doxygen code blocks.
+
+
+
 ## v0.2.11 Mana Update
 released on 12-13 2025 Build#1459
 
