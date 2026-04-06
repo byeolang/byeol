@@ -63,7 +63,7 @@ $ byeol -S -s 'main() void
       ┗━[2] @6dd0 @ctor(rhs {default}) {default}
 hello
 ```
-위 로그의 각 값에 대한 상세 정보는 [reference가이드](https://byeol.io/ref)에서 `아키텍쳐와 설계`를 참고하세요.
+위 로그의 각 값에 대한 상세 정보는 <a href="https://byeol.io/ref" target="_blank">레퍼런스 가이드</a>에서 `아키텍쳐와 설계`를 참고하세요.
 
 ---
 

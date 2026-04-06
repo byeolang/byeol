@@ -1,14 +1,15 @@
 # 설치 방법 {#how-to-install}
 
-Byeol은 64비트 운영체제에서만 동작합니다. Mac OS의 경우 Apple Silicon만 지원하며, Intel 기반 Mac은 지원하지 않습니다. 간단한 코드를 테스트하고 싶다면 설치 없이 [웹상에서 실행](https://byeol.io/play)해볼 수 있습니다.
+Byeol은 64비트 운영체제에서만 동작합니다. Mac OS의 경우 Apple Silicon만 정식으로 지원하며, Intel 기반 Mac을 포함하여 타 OS는 직접 빌드해야 합니다.
+간단한 코드를 테스트하고 싶다면 설치 없이 <a href="https://byeol.io/play" target="_blank">웹상에서 실행</a>해볼 수 있습니다.
 
 ---
 
 ## 다운로드
 
-[릴리즈 페이지](https://github.com/byeolang/byeol/releases)에서 가장 위에 있는 버전이 최신 버전입니다. Assets에서 운영체제에 맞는 파일을 다운로드하면 됩니다.
+<a href="https://github.com/byeolang/byeol/releases" target="_blank">릴리즈 페이지</a>에서 가장 위에 있는 버전이 최신 버전입니다. Assets에서 운영체제에 맞는 파일을 다운로드하면 됩니다.
 
-제공되는 파일은 다음과 같습니다. `-macos-arm64.zip`은 Apple Silicon용 64비트 Mac OS 바이너리이며, `-ubuntu-x64.deb`는 64비트 우분투용 패키지 파일입니다. `-wasm.zip`은 WASM 바이너리로 WASM과 WASM을 읽기 위한 json 파일만 제공됩니다. Windows 사용자는 `-win-x64.msi` 설치 파일을 사용하는 것이 권장되며, 설치가 필요 없는 portable 버전인 `-win-x64-portable.zip`도 제공됩니다.
+제공되는 파일은 다음과 같습니다. `-macos-arm64.pkg`은 Apple Silicon용 64비트 Mac OS 설치 pkg이며, `-ubuntu-x64.deb`는 64비트 우분투용 패키지 파일입니다. `-wasm.zip`은 WASM 바이너리로 WASM과 WASM을 읽기 위한 json 파일만 제공됩니다. Windows 사용자는 `-win-x64.msi` 설치 파일을 사용하는 것이 권장되며, 설치가 필요 없는 portable 버전인 `-win-x64-portable.zip`도 제공됩니다.
 
 ---
 
@@ -34,13 +35,13 @@ $ sudo dpkg -i byeol-ubuntu-x64.deb
 
 ## Mac OS
 
-`arm64.zip` 파일을 다운받아 적당한 곳에 압축을 풉니다. 해당 폴더에 들어가 `byeol --version`을 입력해 정상적으로 실행되는지 확인합니다. 아직 설치 버전을 제공하지 않으므로 환경변수에 `byeol`이 등록되지 않습니다.
+`macos-arm64.pkg` 파일을 다운받아 적당한 곳에 압축을 풉니다. 해당 폴더에 들어가 `byeol --version`을 입력해 정상적으로 실행되는지 확인합니다. 아직 설치 버전을 제공하지 않으므로 환경변수에 `byeol`이 등록되지 않습니다.
 
 ---
 
 ## WASM
 
-WASM 버전을 사용하려면 추가적인 코드가 필요합니다. 실제로 [website](https://github.com/byeolang/website/tree/main/play)를 만들 때 사용하고 있으므로, 예시가 필요하다면 해당 코드를 참고하세요.
+WASM 버전을 사용하려면 추가적인 코드가 필요합니다. 실제로 <a href="https://github.com/byeolang/website/tree/main/play" target="_blank">website</a>를 만들 때 사용하고 있으므로, 예시가 필요하다면 해당 코드를 참고하세요.
 
 ---
 **다음 문서**: @ref basic-usage
