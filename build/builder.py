@@ -830,7 +830,8 @@ def pub(arg, ignore_tidy=False):
         printOk("done")
         printInfoEnd("make an archive")
         os.chdir(binDir + "/..")
-        system("tar -zcvf byeol-macos-x64.tar.gz bin")
+        mac_arch = "arm64" if _isAppleSilicon() else "x64"
+        system(f"tar -zcvf byeol-macos-{mac_arch}.tar.gz bin")
         printOk("done")
 
         printInfoEnd("make a package")
@@ -850,7 +851,7 @@ def pub(arg, ignore_tidy=False):
         system(f"cp {binDir}/*.so {pkgStaging}/usr/local/lib/ 2>/dev/null || true")
 
         verStr = f"{ver_major}.{ver_minor}.{ver_fix}"
-        pkgName = f"byeol-{verStr}-macos-x64.pkg"
+        pkgName = f"byeol-{verStr}-macos-{mac_arch}.pkg"
         system(f"pkgbuild --root {pkgStaging} --identifier io.byeol --version {verStr} --install-location / {binDir}/{pkgName}")
         rmtree(pkgStaging)
         printOk("done")
