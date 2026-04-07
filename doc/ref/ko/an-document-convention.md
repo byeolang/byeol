@@ -45,18 +45,12 @@ Byeol 프로젝트의 문서는 크게 두 가지로 분류됩니다. 가이드 
 
 각 문서 세트는 반드시 메인페이지를 가져야 하며 항상 `README.md` 입니다.
 
-문서들은 종속성을 고려하여 위에서 아래로 배치되어야 합니다. 예를 들어 C++ 설계 문서는 C++ 컨벤션 문서에 종속되므로, 컨벤션 문서를 먼저 배치해야 합니다. 이러한 순서는 Doxygen 설정 파일의 `INPUT` 값에서 명시적으로 지정됩니다.
+문서들은 종속성을 고려하여 위에서 아래로 배치되어야 합니다. 예를 들어 C++ 설계 문서는 C++ 컨벤션 문서에 종속되므로, 컨벤션 문서를 먼저 배치해야 합니다. 이러한 순서는 파일명 앞에 <b>알파벳 prefix</b>를 붙여 보장하며, Doxygen 설정 파일(`INPUT` 태그)에는 해당 문서들이 포함된 폴더 경로를 지정하면 됩니다.
 
-다음은 DoxyReference-ko의 실제 INPUT 순서 예시입니다.
+다음은 DoxyReference-ko의 실제 INPUT 설정 예시입니다.
 
 ```
-INPUT = doxygen \
-        ../doc/ref/ko/README.md \
-        ../doc/ref/ko/dev-env.md \
-        ../doc/ref/ko/convention-rules.md \
-        ../doc/ref/ko/architecture-overview.md \
-        ../doc/ref/ko/architecture-indep.md \
-        ...
+INPUT = ../doc/ref/ko
 ```
 
 ---
@@ -82,7 +76,7 @@ INPUT = doxygen \
 
 각 문서의 상단에는 `#` 제목과 함께 `{#your-document-id}` 형식으로 문서 ID를 적어야 합니다. <b>문서 ID는 파일명과 정확히 일치해야 합니다</b>(확장자 제외). 예를 들어 파일명이 `architecture-core.md`라면 문서 ID는 `{#architecture-core}`여야 합니다.
 
-<b>레퍼런스 문서의 경우</b>, Doxygen의 사이드바에서 원하는 순서대로 문서를 배치하기 위해 파일명과 문서 ID 앞에 <b>2자리 알파벳 prefix를 추가</b>해야 합니다. 알파벳은 aa부터 시작하며 hyphen으로 구분합니다. 파일명이 `aa-dev-env.md`라면 문서 ID는 `{#aa-dev-env}`입니다. README.md는 메인페이지이므로 알파벳을 붙이지 않습니다. 가이드 문서는 알파벳 prefix를 사용하지 않습니다.
+<b>가이드 문서와 레퍼런스 문서 모두</b>, Doxygen의 사이드바에서 원하는 순서대로 문서를 배치하기 위해 파일명과 문서 ID 앞에 <b>2자리 알파벳 prefix를 추가</b>해야 합니다. 알파벳은 aa부터 시작하며 hyphen으로 구분합니다. 파일명이 `aa-dev-env.md`라면 문서 ID는 `{#aa-dev-env}`입니다. README.md는 메인페이지이므로 알파벳을 붙이지 않습니다.
 
 알파벳 prefix는 HTML/CSS의 ID 규칙을 준수하기 위한 것입니다. CSS 셀렉터는 숫자로 시작할 수 없으므로, 숫자 대신 알파벳을 사용합니다. aa, ab, ac, ..., az 다음에는 ba, bb, bc 순으로 계속됩니다. 이 방식으로 최대 676개(26×26)의 문서를 정렬할 수 있습니다.
 

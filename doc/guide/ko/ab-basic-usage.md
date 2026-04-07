@@ -1,5 +1,6 @@
-# 기본 사용법 {#basic-usage}
+# 기본 사용법 {#ab-basic-usage}
 
+byeol은 기본적으로 CLI 환경으로 제공됩니다. 터미널에서 실행해야 하죠.
 `byeol -h` 명령을 통해 사용 가능한 모든 옵션을 확인할 수 있습니다.
 
 ---
@@ -13,7 +14,15 @@
 $ byeol your/path/test.byeol
 ```
 
-wildcard는 아직 지원되지 않습니다.
+혹은 폴더 경로를 지정하면 알아서 하위 폴더를 싹 뒤져서 `.byeol` 파일을 모두 실행합니다.
+```
+@style: language-txt verified
+$ byeol your/path
+```
+
+wildcard도 지원하니 적극적으로 사용해주세요.<br/>
+만약 모든 하위폴더가 아니라 세세하게 폴더를 제어해서 소스코드를 실행하고 싶다면,
+본격적으로 manifest를 선언해서 당신 만의 `pack` 을 만들어야 합니다.
 
 ---
 
@@ -80,4 +89,4 @@ Built on Nov 04 2025 (build 1378, git 5ae19ea79, Release, 64-bit)
 위 예시처럼 버전(0.2.10), 빌드 날짜(Nov 04 2025), 빌드 카운트(1378), git commitId(5ae19ea79), 바이너리 타입(Debug or Release) 등이 표시됩니다.
 
 ---
-**다음 문서**: @ref how-to-code
+**다음 문서**: @ref ac-design-philosophy
