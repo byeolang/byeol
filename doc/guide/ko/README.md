@@ -20,4 +20,4 @@
 
 ---
 
-**가이드 문서 시작하기**: @ref aa-how-to-install
+**가이드 문서 시작하기**: @ref ab-basic-usage
