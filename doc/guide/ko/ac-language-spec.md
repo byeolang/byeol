@@ -1,4 +1,4 @@
-# 간략화된 언어 스펙 {#ad-language-spec}
+# 간략화된 언어 스펙 {#ac-language-spec}
 
 * 이 문서는 다른 프로그래밍 언어를 다뤄본적이 있는 익숙한 **개발자** 를 대상으로 작성되었습니다.
 
@@ -2196,4 +2196,4 @@ main() void
     * if, or, yield
 
 ---
-**다음 문서**: @ref guide-main
+**다음 문서**: @ref ad-design-philosophy

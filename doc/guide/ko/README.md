@@ -20,4 +20,4 @@
 
 ---
 
-**가이드 문서 시작하기**: @ref ab-basic-usage
+**가이드 문서 시작하기**: @ref aa-basic-usage

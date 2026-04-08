@@ -1,4 +1,4 @@
-# 기본 사용법 {#ab-basic-usage}
+# 기본 사용법 {#aa-basic-usage}
 
 ## 설치 방법
 
@@ -145,4 +145,4 @@ Built on Nov 04 2025 (build 1378, git 5ae19ea79, Release, 64-bit)
 위 예시처럼 버전(0.2.10), 빌드 날짜(Nov 04 2025), 빌드 카운트(1378), git commitId(5ae19ea79), 바이너리 타입(Debug or Release) 등이 표시됩니다.
 
 ---
-**다음 문서**: @ref ab-design-philosophy
+**다음 문서**: @ref ab-how-to-code
