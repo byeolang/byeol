@@ -19,11 +19,14 @@
 
 Bison과 Flex는 구 버전 Ubuntu에서는 apt 패키지에 포함되지 않을 가능성이 있습니다. 이때는 수동으로 Bison과 Flex를 [소스코드](http://ftp.gnu.org/gnu/bison/)를 다운받아 직접 빌드해야 합니다. 우분투는 기본적으로 gcc를 사용하는데, 현재 프로젝트는 clang++를 더 권장합니다 (물론 gcc 빌드도 지원은 하고 있어요).
 
+---
 
 ### Mac OS
 
 Mac OS는 기본적으로 clang을 사용하기 때문에 비교적 설치가 쉬워요. Apple Silicon(arm64)이나 인텔(x64) 모두 빌드를 지원합니다.
 
+
+---
 
 ### Windows
 
@@ -38,8 +41,9 @@ WSL2를 설치합니다. 이후 작업은 Ubuntu 과정과 동일합니다.
 
 이후 `CMake`가 설치된 상태에서 `builder.py`를 실행하면 MSVC의 경우 `.sln` 파일이 생성됩니다.
 
+---
 
-### 빌드 실행하기
+## 빌드 실행하기
 
 각 OS별로 준비가 완료되면 `builder.py`로 빌드를 해볼 수 있어요. `builder.py`는 Debug 빌드와 Release 빌드 그리고 RelDebug를 지원합니다.
 
@@ -57,11 +61,13 @@ Debug는 디버깅 심볼이 포함되어 디버깅이 원활하지만 용량이
 
 Ubuntu에서는 `gdb`나 `lldb` 모두 사용 가능합니다. 여담인데, nvim dap으로도 시도해봤고 상당히 오랫동안 사용해왔으나 속도가 너무 느립니다.
 
+---
 
 ### Windows WSL
 
 WSL을 사용하지 않는 경우, Visual Studio로는 알아서 잘 됩니다. WSL에서 VS Code로 디버깅 하기 위해서는 플러그인 설치와 함께 gdb 혹은 lldb와 연결이 되어야 합니다. VS Code를 위한 개발 환경 파일을 별도로 [마련해두었으니](https://github.com/byeolang/byeol-vscode-env) 참고하세요.
 
+---
 
 ### Mac OS
 
@@ -107,6 +113,7 @@ $ ./test --gtest_filter=cliTest.checkDefaultAction verbose
 
 생성된 웹사이트는 [jekyll](https://jekyllrb-ko.github.io/)을 통해 제공됩니다. 사이트 전체를 보려면 jekyll 설정이 필요하며, 생성된 문서만 보고 싶다면 byeol/build/html/guide/generated/ko/index.html과 같이 경로로 확인이 가능합니다.
 
+---
 
 ### 문서의 종류
 
@@ -114,6 +121,7 @@ $ ./test --gtest_filter=cliTest.checkDefaultAction verbose
 
 자세한 내용은 @ref an-document-convention 를 참조하세요.
 
+---
 
 ### 문서의 doxygen 커스터마이징
 
@@ -130,6 +138,7 @@ $ ./test --gtest_filter=cliTest.checkDefaultAction verbose
 
 coredump는 때로는 용량이 매우 클 수 있으니 주의하세요. 시스템 설정 자체를 변경해야 하니 주의가 필요합니다. `frontend`를 포함하여 모든 모듈을 `dbg` 혹은 `reldbg`로 빌드한 바이너리가 필요합니다.
 
+---
 
 ### Coredump 생성
 #### Linux / Mac
@@ -146,6 +155,7 @@ sudo sh -c `echo "%e.%p.coredump" > /proc/sys/kernel/core_pattern`
 gdb ./byeol ./byeol.3234.coredump
 ```
 
+---
 
 #### Windows
 
