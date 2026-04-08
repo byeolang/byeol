@@ -304,6 +304,10 @@ html.dark-mode {
     --fragment-linenumber-border: #1f1f1f;
 }
 
+span.tt {
+    background-color: var(--separator-color);
+}
+
 body {
     color: var(--page-foreground-color);
     background-color: var(--page-background-color);
