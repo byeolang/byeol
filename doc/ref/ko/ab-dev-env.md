@@ -2,7 +2,27 @@
 
 빌드를 비롯해서 테스트, 커버리지 확인, 코드 포맷팅 등 모든 개발 환경은 `build/builder.py`를 통해서 이뤄집니다. `builder.py`는 작업별로 필요로 하는 툴이나 프로그램이 무엇인지, 버전은 만족하는지를 사전에 체크해서 보여주기 때문에 `builder.py`를 다룰 줄만 안다면 기본적인 빌드 환경은 쉽게 구축할 수 있어요.
 
-`builder.py`를 실행하기 위해서는 `git`과 `python3` 3.6.0+이 설치되어야 합니다.
+```
+@style: language-txt verified
+# dependencies 체크 예시:
+#   wasm 바이너리 빌드 시도시
+$ ./builder.py wasm
+builder is supporting utility for building byeol Mana v0.2.12
+created by kniz, 2009-2025
+
+checking dependencies...  × emmake version  is not installed
+ × emcmake version  is not installed
+ v cmake  v make
+ × ends with -1 exit code
+```
+
+위처럼 특정 작업을 시도하면, 항상 사전에 필요한 도구나 프로그램을
+체크하며, 버전을 만족하는 지 또한 검사해서 결과를 알려줍니다.
+위의 예시에서는 wasm 바이너리를 만들기 위해서는 emmake가 설치되어야 한다는 걸
+알려줍니다. (버전은 명시되지 않음!)
+
+
+참고로 `builder.py`를 실행하기 위해서는 `git`과 `python3` 3.6.0+이 설치되어야 합니다.
 
 `builder.py help`를 실행하면 지원하는 명령어와 옵션을 자세히 알 수 있어요.
 
@@ -10,46 +30,103 @@
 
 ## 빌드
 
-빌드만 하고 싶은 경우 다음 프로그램이 추가로 필요합니다: `CMake` 2.6.0+, `Make` 3.0+, `Clang++` 14.0+ 혹은 `gcc` 8.0.0+ 혹은 `MSBuild.exe`(VS2022) 17.0.0+, `Bison` 3.8.0+, `Flex` 2.6.0+, `clang-tidy` 14.0.0+.
+### 사전 준비
 
-설치 전에 반드시 버전을 체크해서 받아야 합니다. OS별로 다음 내용을 참고해서 필요한 프로그램을 설치하면 됩니다.
+빌드만 하고 싶은 경우 다음 프로그램이 추가로 필요합니다: 
+
+* 빌드 스크립트: `CMake` 2.6.0+ 와 `Make` 3.0+
+* c++ 컴파일러: `Clang++` 14.0+ 혹은 `gcc` 8.0.0+를 준비합니다.
+  윈도우 환경이라면 `MSBuild.exe`(VS2022) 17.0.0+ (커뮤니티 버전도 OK)를 준비합니다.
+  Visual Studio의 자세한 설치 방법은 뒤에 후술합니다.
+* 컴파일러 컴파일러: `Bison` 3.8.0+ 과 `Flex` 2.6.0+
+* 정적 검사: `docker`
+
+설치 전에 반드시 버전을 체크해서 받아야 합니다. 잘 아시다시피 OS가 구버전인 경우 `apt` 나 `brew`로 설치시 구버전이 설치되는 경우가 많습니다. 이 경우 각 프로그램의 공식 배포처나 웹사이트를 참고해서 명시된 버전 이상으로 수동 설치하시길 바랍니다.<br/>
+다음은 프로그램 설치시 각 OS별 참고사항입니다.
 
 
-### Ubuntu
-
+<b>Ubuntu</b><br/>
 Bison과 Flex는 구 버전 Ubuntu에서는 apt 패키지에 포함되지 않을 가능성이 있습니다. 이때는 수동으로 Bison과 Flex를 [소스코드](http://ftp.gnu.org/gnu/bison/)를 다운받아 직접 빌드해야 합니다. 우분투는 기본적으로 gcc를 사용하는데, 현재 프로젝트는 clang++를 더 권장합니다 (물론 gcc 빌드도 지원은 하고 있어요).
 
----
 
-### Mac OS
-
-Mac OS는 기본적으로 clang을 사용하기 때문에 비교적 설치가 쉬워요. Apple Silicon(arm64)이나 인텔(x64) 모두 빌드를 지원합니다.
+<b>Mac OS</b><br/>
+Mac OS는 기본적으로 clang을 사용하기 때문에 비교적 설치가 쉬워요. Apple Silicon(arm64)이나 인텔(x64) 모두 빌드를 지원하긴 합니다만 공식적으로는 arm64만 배포를 지원하므로 CI 과정에서도 arm64에서 빌드가 되어야 합니다.
 
 
----
-
-### Windows
-
-윈도우 개발 환경은 크게 Visual Studio, VS Code 등을 사용하는 방법과 WSL을 경유해서 Ubuntu로 개발하는 방법 2가지로 분류됩니다. WSL을 사용하지 않는다면, 개인적으로는 VS Code를 더 권장합니다. 참고로 Bison과 Flex는 [win_flex](https://github.com/lexxmark/winflexbison)를 사용을 권장합니다. 설치 후 환경변수 설정이 필요하며, 이름을 `flex`, `bison`으로 각각 변경해야 합니다.
-
-#### WSL
-
-WSL2를 설치합니다. 이후 작업은 Ubuntu 과정과 동일합니다.
+<b>Windows</b><br/>
+윈도우 개발 환경은 Visual Studio를 사용하는 방법과 WSL을 경유해서 Ubuntu로 개발하는 방법 2가지로 분류됩니다.<br/>
 
 
-#### MSVC
-
-이후 `CMake`가 설치된 상태에서 `builder.py`를 실행하면 MSVC의 경우 `.sln` 파일이 생성됩니다.
+* WSL을 사용해서 Ubuntu 환경으로 개발하실 경우, Ubuntu 개발환경과 동일합니다.</br>
+* WSL을 사용하지 않는다면, VisualStudio로 개발하시면 됩니다.
+이때 중요한 건 Bison과 Flex 인데, 윈도우 용으로 배포중인 Bison은 2.4 버전으로 매우 옛날 버전이기 때문에 그렇습니다. (우리는 3.8 이상이 필요합니다.)<br/>
+권장하는 방법은 [win_flex](https://github.com/lexxmark/winflexbison)를 사용하는 겁니다.
+다만 포터블 형태로만 제공하기 때문에 설치 후 시스템 환경변수 설정이 필요하며, 이름을 `flex`, `bison`으로 각각 변경해야 합니다.<br/>
+터미널 환경에서 `flex --version` 혹은 `bison --version`으로 입력시 지정된 버전보다 최신버전이기만 하면 됩니다.
 
 ---
 
-## 빌드 실행하기
+## 빌드하기
 
-각 OS별로 준비가 완료되면 `builder.py`로 빌드를 해볼 수 있어요. `builder.py`는 Debug 빌드와 Release 빌드 그리고 RelDebug를 지원합니다.
+각 OS별로 준비가 완료되면 터미널에서 `builder.py`로 빌드를 해볼 수 있어요. `builder.py`는 Debug 빌드와 Release 빌드 그리고 RelDebug를 지원합니다.
 
-Debug는 디버깅 심볼이 포함되어 디버깅이 원활하지만 용량이 크고 속도가 느립니다. `builder.py dbg`로 생성합니다. Release는 최적화가 적용되므로 디버깅이 어렵습니다. 배포시 사용되며 `builder.py rel`로 생성합니다. RelDebug는 최적화가 적용되나 디버깅 심볼은 포함시킵니다. Release 빌드에서만 발생하는 오류를 디버깅할 때 사용되며 `builder.py reldbg`로 생성합니다.
+* Debug는 디버깅 심볼이 포함되어 디버깅이 원활하지만 용량이 크고 속도가 느립니다. `builder.py dbg`로 생성합니다.
+* Release는 최적화가 적용되므로 디버깅이 어렵습니다. 배포시 사용되며 `builder.py rel`로 생성합니다.
+* RelDebug는 최적화가 적용되나 디버깅 심볼은 포함시킵니다. Release 빌드에서만 발생하는 오류를 디버깅할 때 사용되며 `builder.py reldbg`로 생성합니다.
 
 `builder.py`로 빌드시 빌드 카운트가 자동으로 증가되며 빌드 환경에 맞춰서 `buildInformation.hpp.in`의 내용이 갱신됩니다. `builder.py`로 갱신하면 내부적으로 `builder.py clean`을 수행해서 이전 중간산출물을 모두 삭제합니다. 그래서 새로운 파일을 추가하거나 파일을 옮기거나 한 게 아니라면(CMake를 빌드할 필요가 없다면), `make` 등을 사용해서 증분 빌드를 사용하면 되죠.
+
+
+### Ubuntu / Mac
+기본적으로 사전 프로그램만 제대로 설치가 되면 빌드 방법은 동일하므로, 별도의
+설명이 크게 필요없습니다. `./build/builder.py dbg` 처럼 실행하면, 몇가지 환경설정 후 자동으로 cmake와 make 를 실행합니다.
+
+
+
+### Windows (Visual Studio)
+윈도우는 타 OS에 비해서 설치가 좀 까다롭습니다. 그래서 step by step으로 자세히
+적을께요.<br/>
+
+
+빌드시에 기본적으로는 `MSBuild.exe`를 사용하므로 Visual Studio가 필요합니다.
+CMake 설정을 바꾸실 수 있으시다면 clang++, VS Code로 개발도 물론 가능합니다.
+
+- 다음과 같이 Visual Studio Setup 프로그램을 다운받아 줍시다.
+
+- 다운받은 setup을 실행한 후, 다음과 같이 c++ 개발을 선택합니다.
+
+- 다음과 같이 상세 선택을 해주고 설치를 시작합니다. 목록은 다음과 같습니다.
+(일부는 필요없는 항목이 있을 수도 있으니, 제보바랍니다.)
+    * x64/x86용 MSVC 빌드 도구
+    * Windows용 C++ CMake 도구
+    * Windows 11 SDK
+    * vcpkg 패키지 관리자
+    * LLVM(clang-cl) 도구 집합에 대한 MSBuild 지원
+    * MSBuild
+
+
+- 설치가 완료되면 재부팅을 해줍니다.
+
+- 그 다음에는 <a href="https://cmake.org/download/" target="_blank">CMake 윈도우 버전</a>을 설치해야 합니다.
+
+- PATH에 추가하도록 해놓는 걸 잊지 마세요.
+  모든 빌드는 터미널에서 할 껍니다.
+
+- CMake 설치가 완료되었다면, 다음은 bison과 flex를 설치해야 합니다.<br/>
+  <a href="https://github.com/lexxmark/winflexbison/releases"
+  target="_blank">WinFlex</a>에서 최신버전으로 바이너리(아마도 zip)를 받아줍니다.
+
+- 압축을 풀면 `win_bison.exe`와 `win_flex.exe`가 보일겁니다.<br/>
+  이 둘을 각각 `bison.exe` 와 `flex.exe`로 이름을 직접 바꿔줍니다.
+
+
+
+---
+
+## 바이너리 확인
+이후 bin 폴더가 생성되며 바이너리를 볼 수 있습니다.
+바이너리 종류에 대해서는 @ref ac-build-structure의 <b>빌드 산출물</b> 섹션을
+참고하세요.
 
 ---
 
