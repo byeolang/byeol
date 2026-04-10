@@ -46,7 +46,7 @@ checking dependencies...  × emmake version  is not installed
 
 
 <b>Ubuntu</b><br/>
-Bison과 Flex는 구 버전 Ubuntu에서는 apt 패키지에 포함되지 않을 가능성이 있습니다. 이때는 수동으로 Bison과 Flex를 [소스코드](http://ftp.gnu.org/gnu/bison/)를 다운받아 직접 빌드해야 합니다. 우분투는 기본적으로 gcc를 사용하는데, 현재 프로젝트는 clang++를 더 권장합니다 (물론 gcc 빌드도 지원은 하고 있어요).
+Bison과 Flex는 구 버전 Ubuntu에서는 apt 패키지에 포함되지 않을 가능성이 있습니다. 이때는 수동으로 Bison과 Flex를 <a href="http://ftp.gnu.org/gnu/bison/" target="_blank">소스코드</a>를 다운받아 직접 빌드해야 합니다. 우분투는 기본적으로 gcc를 사용하는데, 현재 프로젝트는 clang++를 더 권장합니다 (물론 gcc 빌드도 지원은 하고 있어요).
 
 
 <b>Mac OS</b><br/>
@@ -60,7 +60,7 @@ Mac OS는 기본적으로 clang을 사용하기 때문에 비교적 설치가 �
 * WSL을 사용해서 Ubuntu 환경으로 개발하실 경우, Ubuntu 개발환경과 동일합니다.</br>
 * WSL을 사용하지 않는다면, VisualStudio로 개발하시면 됩니다.
 이때 중요한 건 Bison과 Flex 인데, 윈도우 용으로 배포중인 Bison은 2.4 버전으로 매우 옛날 버전이기 때문에 그렇습니다. (우리는 3.8 이상이 필요합니다.)<br/>
-권장하는 방법은 [win_flex](https://github.com/lexxmark/winflexbison)를 사용하는 겁니다.
+권장하는 방법은 <a href="https://github.com/lexxmark/winflexbison" target="_blank">win_flex</a>를 사용하는 겁니다.
 다만 포터블 형태로만 제공하기 때문에 설치 후 시스템 환경변수 설정이 필요하며, 이름을 `flex`, `bison`으로 각각 변경해야 합니다.<br/>
 터미널 환경에서 `flex --version` 혹은 `bison --version`으로 입력시 지정된 버전보다 최신버전이기만 하면 됩니다.
 
@@ -91,9 +91,11 @@ Mac OS는 기본적으로 clang을 사용하기 때문에 비교적 설치가 �
 빌드시에 기본적으로는 `MSBuild.exe`를 사용하므로 Visual Studio가 필요합니다.
 CMake 설정을 바꾸실 수 있으시다면 clang++, VS Code로 개발도 물론 가능합니다.
 
-- 다음과 같이 Visual Studio Setup 프로그램을 다운받아 줍시다.
+- 다음과 같이 Visual Studio Setup 프로그램을 다운받아 줍시다.<br/>
+  <img src="../../../assets/images/dev-env-win1.png" style="width: 50%; height: auto; border-radius: 8px;" />
 
-- 다운받은 setup을 실행한 후, 다음과 같이 c++ 개발을 선택합니다.
+- 다운받은 setup을 실행한 후, 다음과 같이 c++ 개발을 선택합니다<br/>
+  <img src="../../../assets/images/dev-env-win2.png" style="width: 50%; height: auto; border-radius: 8px;" />
 
 - 다음과 같이 상세 선택을 해주고 설치를 시작합니다. 목록은 다음과 같습니다.
 (일부는 필요없는 항목이 있을 수도 있으니, 제보바랍니다.)
@@ -102,30 +104,51 @@ CMake 설정을 바꾸실 수 있으시다면 clang++, VS Code로 개발도 물�
     * Windows 11 SDK
     * vcpkg 패키지 관리자
     * LLVM(clang-cl) 도구 집합에 대한 MSBuild 지원
-    * MSBuild
-
+    * MSBuild<br/>
+  <img src="../../../assets/images/dev-env-win3.png" style="width: 80%; height: auto; border-radius: 8px;" />
 
 - 설치가 완료되면 재부팅을 해줍니다.
 
-- 그 다음에는 <a href="https://cmake.org/download/" target="_blank">CMake 윈도우 버전</a>을 설치해야 합니다.
+- 그 다음에는 <a href="https://cmake.org/download/" target="_blank">CMake 윈도우 버전</a>을 설치해야 합니다.<br/>
+  <img src="../../../assets/images/dev-env-win4.png" style="width: 50%; height: auto; border-radius: 8px;" />
 
 - PATH에 추가하도록 해놓는 걸 잊지 마세요.
-  모든 빌드는 터미널에서 할 껍니다.
+  모든 빌드는 터미널에서 할 껍니다.<br/>
+  <img src="../../../assets/images/dev-env-win5.png" style="width: 50%; height: auto; border-radius: 8px;" />
+
 
 - CMake 설치가 완료되었다면, 다음은 bison과 flex를 설치해야 합니다.<br/>
   <a href="https://github.com/lexxmark/winflexbison/releases"
   target="_blank">WinFlex</a>에서 최신버전으로 바이너리(아마도 zip)를 받아줍니다.
 
 - 압축을 풀면 `win_bison.exe`와 `win_flex.exe`가 보일겁니다.<br/>
-  이 둘을 각각 `bison.exe` 와 `flex.exe`로 이름을 직접 바꿔줍니다.
+  이 둘을 각각 `bison.exe` 와 `flex.exe`로 이름을 직접 바꿔줍니다.<br/>
+  <img src="../../../assets/images/dev-env-win6.png" style="width: 40%; height: auto; border-radius: 8px;" />
 
+- win_flex는 포터블로만 제공하기 때문에 터미널에서 바로 사용햐려면 환경변수 PATH를 설정해야 합니다.
 
+- 시스템의 고급 시스템 설정을 열어줍니다.<br/>
+  <img src="../../../assets/images/dev-env-win7.png" style="width: 80%; height: auto; border-radius: 8px;" />
+
+- 환경변수를 클릭합니다.<br/>
+  <img src="../../../assets/images/dev-env-win8.png" style="width: 80%; height: auto; border-radius: 8px;" />
+
+- 그다음 편집을 누른 후<br/> 
+  <img src="../../../assets/images/dev-env-win9.png" style="width: 50%; height: auto; border-radius: 8px;" />
+
+- 새로 만들기를 클릭해서, win flex가 설치된 경로를 추가합니다.<br/> 
+  <img src="../../../assets/images/dev-env-win10.png" style="width: 80%; height: auto; border-radius: 8px;" />
+
+- Visual Studio 개발도구가 포함된 터미널을 열여주고, 지금까지 설치한 프로그램이 잘 실행되는지 확인해봅니다.<br/> 
+  <img src="../../../assets/images/dev-env-win11.png" style="width: 50%; height: auto; border-radius: 8px;" />
+
+- 여기까지 왔다면, 실행만 남았습니다. `build` 폴더로 이동 후, `python3 builder.py dbg` 를 입력하면 빌드가 완료됩니다.
 
 ---
 
 ## 바이너리 확인
 이후 bin 폴더가 생성되며 바이너리를 볼 수 있습니다.
-바이너리 종류에 대해서는 @ref ac-build-structure의 <b>빌드 산출물</b> 섹션을
+바이너리 종류에 대해서는 @ref ac-build-structure 의 <b>빌드 산출물</b> 섹션을
 참고하세요.
 
 ---

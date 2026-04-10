@@ -84,7 +84,7 @@ wildcard도 지원하니 적극적으로 사용해주세요.<br/>
 
 ### 스크립트 직접 실행
 
-`-s '<byeol 코드>'`를 사용하면 `.byeol` 파일 필요 없이 cli 환경에서 직접 코드를 입력해서 실행할 수 있습니다.
+`-s <byeol 코드>`를 사용하면 `.byeol` 파일 필요 없이 cli 환경에서 직접 코드를 입력해서 실행할 수 있습니다.
 
 ```
 @style: language-txt verified

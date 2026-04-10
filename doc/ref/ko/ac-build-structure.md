@@ -260,28 +260,6 @@ Git으로 버전 관리되는 주요 디렉토리와 파일은 다음과 같습�
 
 # 참고 사항
 
-## 플랫폼별 차이
-
-### Linux
-
-Linux에서는 동적 라이브러리 확장자로 `.so`를 사용합니다. 모든 빌드 타겟을 지원하며, 패키지 관리자로 의존성을 설치할 수 있습니다.
-
----
-
-### macOS
-
-macOS에서는 동적 라이브러리 확장자로 `.dylib`를 사용합니다. 모든 빌드 타겟을 지원하며, Apple Silicon(arm64)과 Intel(x64) 모두 지원합니다. Homebrew로 의존성을 설치하는 것을 권장합니다.
-
----
-
-### Windows
-
-Windows에서는 동적 라이브러리 확장자로 `.dll`을 사용합니다. `test` 빌드는 미지원이므로 테스트는 Linux/macOS에서 수행해야 합니다. MSVC(Visual Studio 2022 17+) 사용을 권장하며, Bison/Flex는 [winflexbison](https://github.com/lexxmark/winflexbison)을 사용합니다.
-
----
-
-## 주의사항
-
 <b>`bin/` 디렉토리는 수동으로 수정하지 마세요.</b> 빌드 과정에서 자동으로 생성되며, `builder.py clean` 실행 시 모두 삭제됩니다.
 
 <b>`external/` 디렉토리도 수동으로 수정하지 마세요.</b> CMake가 자동으로 관리합니다. <b>단, Google Test 오류 발생 시는 예외입니다.</b> 빌드 중 Google Test 관련 오류가 발생하거나 파일이 없다는 메시지가 나타나면, `external/googletest/` 디렉토리를 수동으로 삭제한 후 다시 빌드하세요. `builder.py clean` 명령은 `external/` 디렉토리를 삭제하지 않으므로 수동 삭제가 필요합니다.
