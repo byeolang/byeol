@@ -92,10 +92,10 @@ Mac OS는 기본적으로 clang을 사용하기 때문에 비교적 설치가 �
 CMake 설정을 바꾸실 수 있으시다면 clang++, VS Code로 개발도 물론 가능합니다.
 
 - 다음과 같이 Visual Studio Setup 프로그램을 다운받아 줍시다.<br/>
-  <img src="../../../assets/images/dev-env-win1.png" style="width: 50%; height: auto; border-radius: 8px;" />
+  <img src="../../../assets/images/dev-env-win1.PNG" style="width: 50%; height: auto; border-radius: 8px;" />
 
 - 다운받은 setup을 실행한 후, 다음과 같이 c++ 개발을 선택합니다<br/>
-  <img src="../../../assets/images/dev-env-win2.png" style="width: 50%; height: auto; border-radius: 8px;" />
+  <img src="../../../assets/images/dev-env-win2.PNG" style="width: 50%; height: auto; border-radius: 8px;" />
 
 - 다음과 같이 상세 선택을 해주고 설치를 시작합니다. 목록은 다음과 같습니다.
 (일부는 필요없는 항목이 있을 수도 있으니, 제보바랍니다.)
@@ -105,16 +105,16 @@ CMake 설정을 바꾸실 수 있으시다면 clang++, VS Code로 개발도 물�
     * vcpkg 패키지 관리자
     * LLVM(clang-cl) 도구 집합에 대한 MSBuild 지원
     * MSBuild<br/>
-  <img src="../../../assets/images/dev-env-win3.png" style="width: 80%; height: auto; border-radius: 8px;" />
+  <img src="../../../assets/images/dev-env-win3.PNG" style="width: 80%; height: auto; border-radius: 8px;" />
 
 - 설치가 완료되면 재부팅을 해줍니다.
 
 - 그 다음에는 <a href="https://cmake.org/download/" target="_blank">CMake 윈도우 버전</a>을 설치해야 합니다.<br/>
-  <img src="../../../assets/images/dev-env-win4.png" style="width: 50%; height: auto; border-radius: 8px;" />
+  <img src="../../../assets/images/dev-env-win4.PNG" style="width: 50%; height: auto; border-radius: 8px;" />
 
 - PATH에 추가하도록 해놓는 걸 잊지 마세요.
   모든 빌드는 터미널에서 할 껍니다.<br/>
-  <img src="../../../assets/images/dev-env-win5.png" style="width: 50%; height: auto; border-radius: 8px;" />
+  <img src="../../../assets/images/dev-env-win5.PNG" style="width: 50%; height: auto; border-radius: 8px;" />
 
 
 - CMake 설치가 완료되었다면, 다음은 bison과 flex를 설치해야 합니다.<br/>
@@ -123,24 +123,24 @@ CMake 설정을 바꾸실 수 있으시다면 clang++, VS Code로 개발도 물�
 
 - 압축을 풀면 `win_bison.exe`와 `win_flex.exe`가 보일겁니다.<br/>
   이 둘을 각각 `bison.exe` 와 `flex.exe`로 이름을 직접 바꿔줍니다.<br/>
-  <img src="../../../assets/images/dev-env-win6.png" style="width: 40%; height: auto; border-radius: 8px;" />
+  <img src="../../../assets/images/dev-env-win6.PNG" style="width: 40%; height: auto; border-radius: 8px;" />
 
 - win_flex는 포터블로만 제공하기 때문에 터미널에서 바로 사용햐려면 환경변수 PATH를 설정해야 합니다.
 
 - 시스템의 고급 시스템 설정을 열어줍니다.<br/>
-  <img src="../../../assets/images/dev-env-win7.png" style="width: 80%; height: auto; border-radius: 8px;" />
+  <img src="../../../assets/images/dev-env-win7.PNG" style="width: 80%; height: auto; border-radius: 8px;" />
 
 - 환경변수를 클릭합니다.<br/>
-  <img src="../../../assets/images/dev-env-win8.png" style="width: 80%; height: auto; border-radius: 8px;" />
+  <img src="../../../assets/images/dev-env-win8.PNG" style="width: 80%; height: auto; border-radius: 8px;" />
 
 - 그다음 편집을 누른 후<br/> 
-  <img src="../../../assets/images/dev-env-win9.png" style="width: 50%; height: auto; border-radius: 8px;" />
+  <img src="../../../assets/images/dev-env-win9.PNG" style="width: 50%; height: auto; border-radius: 8px;" />
 
 - 새로 만들기를 클릭해서, win flex가 설치된 경로를 추가합니다.<br/> 
-  <img src="../../../assets/images/dev-env-win10.png" style="width: 80%; height: auto; border-radius: 8px;" />
+  <img src="../../../assets/images/dev-env-win10.PNG" style="width: 80%; height: auto; border-radius: 8px;" />
 
 - Visual Studio 개발도구가 포함된 터미널을 열여주고, 지금까지 설치한 프로그램이 잘 실행되는지 확인해봅니다.<br/> 
-  <img src="../../../assets/images/dev-env-win11.png" style="width: 50%; height: auto; border-radius: 8px;" />
+  <img src="../../../assets/images/dev-env-win11.PNG" style="width: 50%; height: auto; border-radius: 8px;" />
 
 - 여기까지 왔다면, 실행만 남았습니다. `build` 폴더로 이동 후, `python3 builder.py dbg` 를 입력하면 빌드가 완료됩니다.
 
