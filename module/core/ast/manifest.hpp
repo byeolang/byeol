@@ -7,8 +7,8 @@ namespace by {
 
     // TODO: entrypoints[== filePath] can be various. but not language.
     /** @ingroup core
-     *  @brief Entry point definition for @ref packLoading "pack loading"
-     *  @details Defines language and file paths for @ref pack entry points.
+     *  @brief Entry point definition for @ref podLoading "pod loading"
+     *  @details Defines language and file paths for @ref pod entry points.
      */
     struct _nout entrypoint: public validable {
         entrypoint(const std::string& newLang, const std::vector<std::string>& newPaths);
@@ -25,8 +25,8 @@ namespace by {
     typedef std::vector<entrypoint> entrypoints;
 
     /** @ingroup core
-     *  @brief Pack manifest information
-     *  @details An object containing basic information for loading a pack, written in the stela language. Parsed from
+     *  @brief pod manifest information
+     *  @details An object containing basic information for loading a pod, written in the stela language. Parsed from
      *  a `manifest.stela` file using the stela module.
      */
     struct manifest: public validable {

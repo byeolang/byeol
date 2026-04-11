@@ -9,7 +9,7 @@ namespace by {
     /** @ingroup core
      *  @brief High-level interpreter for byeol language
      *  @details Coordinates the complete interpretation pipeline combining @ref parser, @ref expander, and @ref
-     *  verifier. Manages the entire process from source code to executable @ref pack instances. This is the main entry
+     *  verifier. Manages the entire process from source code to executable @ref pod instances. This is the main entry
      *  point for interpreting byeol source code.
      *
      *  @section interpretation_pipeline Interpretation Pipeline
@@ -29,11 +29,11 @@ namespace by {
      *      ip.work();
      *      if(!ip.isVerified()) return -1;
      *
-     *      str res = starter().setTask(ip.getSubPack()).work();
+     *      str res = starter().setTask(ip.getSubPod()).work();
      *  @endcode
      */
-    class _nout interpreter: public tworker<tstr<pack>, pack> {
-        typedef tworker<tstr<pack>, pack> __super7;
+    class _nout interpreter: public tworker<tstr<pod>, pod> {
+        typedef tworker<tstr<pod>, pod> __super7;
         BY(CLASS(interpreter, __super7))
 
     public:
@@ -52,16 +52,16 @@ namespace by {
         const verifier& getVerifier() const BY_CONST_FUNC(getVerifier())
         nbool isParsed() const;
         nbool isVerified() const;
-        node* getSubPack();
-        const node* getSubPack() const BY_CONST_FUNC(getSubPack())
+        node* getSubPod();
+        const node* getSubPod() const BY_CONST_FUNC(getSubPod())
 
         void rel() override;
 
     protected:
-        tstr<pack> _onWork() override;
+        tstr<pod> _onWork() override;
 
     private:
-        nbool _isPackExist();
+        nbool _isPodExist();
 
         void _parse();
         void _expand();

@@ -87,8 +87,8 @@ namespace by {
     node* me::getCallComplete() { return nullptr; }
 
     void me::_inFrame(frame& fr, const bicontainable* args) const {
-        const node& subpack = getOrigin().getSubPack();
-        fr.add(subpack);
+        const node& subpod = getOrigin().getSubPod();
+        fr.add(subpod);
         super::_inFrame(fr, args);
     }
 

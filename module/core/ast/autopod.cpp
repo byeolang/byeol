@@ -1,4 +1,4 @@
-#include "core/ast/autopack.hpp"
+#include "core/ast/autopod.hpp"
 
 #include "core/type/typeMaker.hpp"
 #include "core/worker/visitor/visitor.hpp"
@@ -10,17 +10,17 @@
 
 namespace by {
 
-    BY(DEF_ME(autopack), DEF_VISIT())
+    BY(DEF_ME(autopod), DEF_VISIT())
 
-    me::autopack(const manifest& manifest, const packLoadings& loadings):
+    me::autopod(const manifest& manifest, const podLoadings& loadings):
         super(manifest), _loadings(loadings), _state(RELEASED) {
         coreInternal::setOrigin(*this, *this);
     }
 
-    me::~autopack() {
+    me::~autopod() {
         // release all instance first:
         //  I must release allocated shared object first,
-        //  before release the handle of it by releasing packLoading instance.
+        //  before release the handle of it by releasing podLoading instance.
         me::rel();
 
         for(auto* e: _loadings)
@@ -36,13 +36,13 @@ namespace by {
 
     scope& me::subs() {
         if(_state == RELEASED) {
-            BY_I("%s pack is about to load in lazy.", getManifest().name);
+            BY_I("%s pod is about to load in lazy.", getManifest().name);
 
             auto& exRpt = _getReport();
             errReport rpt(exRpt.isNoisy());
             // TODO: check rpt error count increased or not.
             //       if increased, then parse() function has been failed.
-            BY_DI_SCOPE("Loading `%s` pack...", getManifest().name);
+            BY_DI_SCOPE("Loading `%s` pod...", getManifest().name);
             parse(rpt, *this); // recursive call wasn't allowed.
             expand(rpt, *this);
             verify(rpt, *this);
@@ -70,7 +70,7 @@ namespace by {
         super::_invalidate();
     }
 
-    nbool me::parse(errReport& rpt, pack& pak) {
+    nbool me::parse(errReport& rpt, pod& p) {
         // change state first:
         //  during parsing, another nodes can call subs() of this instance
         //  which makes the chain of recursive call.
@@ -80,29 +80,29 @@ namespace by {
         //  there is a scenario which _subs containing parsed instance when
         //  this function called.
         //  Only you can do here is adding new parsed instances into _subs.
-        for(packLoading* load: _loadings) {
-            nbool res = load->parse(rpt, pak);
-            WHEN(!res) .exErr(PACK_NOT_LOADED, rpt, getManifest().name).run([&] { _invalidate(); }).ret(false);
+        for(podLoading* load: _loadings) {
+            nbool res = load->parse(rpt, p);
+            WHEN(!res) .exErr(POD_NOT_LOADED, rpt, getManifest().name).run([&] { _invalidate(); }).ret(false);
         }
 
         _state = PARSED;
         return true;
     }
 
-    nbool me::expand(errReport& rpt, pack& pak) {
-        for(packLoading* load: _loadings) {
-            nbool res = load->expand(rpt, pak);
-            WHEN(!res) .exErr(PACK_NOT_LOADED, rpt, getManifest().name).run([&] { _invalidate(); }).ret(false);
+    nbool me::expand(errReport& rpt, pod& p) {
+        for(podLoading* load: _loadings) {
+            nbool res = load->expand(rpt, p);
+            WHEN(!res) .exErr(POD_NOT_LOADED, rpt, getManifest().name).run([&] { _invalidate(); }).ret(false);
         }
 
         _state = EXPANDED;
         return true;
     }
 
-    nbool me::verify(errReport& rpt, pack& pak) {
-        for(packLoading* load: _loadings) {
-            nbool res = load->verify(rpt, pak);
-            WHEN(!res) .exErr(PACK_NOT_LOADED, rpt, getManifest().name).run([&] { _invalidate(); }).ret(false);
+    nbool me::verify(errReport& rpt, pod& p) {
+        for(podLoading* load: _loadings) {
+            nbool res = load->verify(rpt, p);
+            WHEN(!res) .exErr(POD_NOT_LOADED, rpt, getManifest().name).run([&] { _invalidate(); }).ret(false);
         }
 
         _state = VERIFIED;

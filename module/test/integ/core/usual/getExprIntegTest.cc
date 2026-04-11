@@ -7,7 +7,7 @@ namespace {
     struct getExprIntegTest: public byeolIntegTest {};
 }
 
-TEST_F(getExprIntegTest, getSymbolOnPackScope) {
+TEST_F(getExprIntegTest, getSymbolOnPodScope) {
     make()
         .parse(R"SRC(
         main() void
@@ -15,11 +15,11 @@ TEST_F(getExprIntegTest, getSymbolOnPackScope) {
     )SRC")
         .shouldParsed(true);
     shouldVerified(true); // retType is void so implicit return won't work.
-    scope::super& shares = (scope::super*) (getPack() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& shares = (scope::super*) (getPod() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 3);
 }
 
-TEST_F(getExprIntegTest, getSymbolOnPackScope1) {
+TEST_F(getExprIntegTest, getSymbolOnPodScope1) {
     // control group.
     make()
         .parse(R"SRC(
@@ -28,11 +28,11 @@ TEST_F(getExprIntegTest, getSymbolOnPackScope1) {
             ret 0
     )SRC")
         .shouldVerified(true);
-    scope::super& shares = (scope::super*) (getPack() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& shares = (scope::super*) (getPod() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 3);
 }
 
-TEST_F(getExprIntegTest, getSymbolOnPackScope2) {
+TEST_F(getExprIntegTest, getSymbolOnPodScope2) {
     // experimental group.
     make()
         .parse(R"SRC(
@@ -41,14 +41,14 @@ TEST_F(getExprIntegTest, getSymbolOnPackScope2) {
             ret age
     )SRC")
         .shouldVerified(true);
-    scope::super& shares = (scope::super*) (getPack() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& shares = (scope::super*) (getPod() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 3);
-    node& age = getSubPack() TO(sub("age")) OR_ASSERT(age);
+    node& age = getSubPod() TO(sub("age")) OR_ASSERT(age);
     nInt& cast = age.cast<nInt>() OR_ASSERT(cast);
     ASSERT_EQ(cast.get(), 0); // default value of nInt
 }
 
-TEST_F(getExprIntegTest, getSymbolOnPackScope3Negative) {
+TEST_F(getExprIntegTest, getSymbolOnPodScope3Negative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -58,9 +58,9 @@ TEST_F(getExprIntegTest, getSymbolOnPackScope3Negative) {
     )SRC")
         .shouldParsed(true);
     shouldVerified(false);
-    scope::super& shares = (scope::super*) (getPack() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& shares = (scope::super*) (getPod() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 3);
-    node& age = getSubPack() TO(sub("age")) OR_ASSERT(age);
+    node& age = getSubPod() TO(sub("age")) OR_ASSERT(age);
     nStr& cast = age.cast<nStr>() OR_ASSERT(cast);
     ASSERT_EQ(cast.get(), ""); // default value of nStr
 }

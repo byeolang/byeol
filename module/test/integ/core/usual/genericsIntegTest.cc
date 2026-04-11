@@ -85,7 +85,7 @@ TEST_F(genericsIntegTest, genericTwice1) {
     )SRC")
         .shouldVerified(true);
     run();
-    node& object = getSubPack() TO(sub("object")) OR_ASSERT(object);
+    node& object = getSubPod() TO(sub("object")) OR_ASSERT(object);
     str a = object.eval(args(nullptr, narr(*new nStr()))) OR_ASSERT(a);
     str b = object.eval(args(nullptr, narr(*new nFlt()))) OR_ASSERT(b);
     ASSERT_NE(a.get(), b.get());
@@ -477,7 +477,7 @@ TEST_F(genericsIntegTest, generalizedObjShouldRemoveExpandFunc) {
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 22);
 
-    str generic = getSubPack() TO(sub("Person")) TO(eval(args(narr(nInt()))));
+    str generic = getSubPod() TO(sub("Person")) TO(eval(args(narr(nInt()))));
     ASSERT_TRUE(generic);
     ASSERT_FALSE(generic->sub(baseObj::EXPAND_NAME));
 }
@@ -496,7 +496,7 @@ TEST_F(genericsIntegTest, genericObjCallCompleteShouldDifferentEach) {
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 0);
 
-    node& org = getSubPack() TO(sub("person")) OR_ASSERT(org);
+    node& org = getSubPod() TO(sub("person")) OR_ASSERT(org);
     tstr<obj> intObj = org.eval(args(narr(nInt())));
     ASSERT_TRUE(intObj);
     tstr<obj> strObj = org.eval(args(narr(nStr())));

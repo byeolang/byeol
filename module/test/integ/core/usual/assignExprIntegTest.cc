@@ -16,7 +16,7 @@ TEST_F(assignExprIntegTest, simpleAssign) {
     )SRC")
             .shouldVerified(true)) {
         run();
-        node& res = getSubPack() OR_ASSERT(res);
+        node& res = getSubPod() OR_ASSERT(res);
 
         const nInt& o = res.sub<nInt>("age") OR_ASSERT(o);
         ASSERT_EQ(*o.cast<nint>(), 5);
@@ -72,7 +72,7 @@ TEST_F(assignExprIntegTest, assignLocalVariable) {
     )SRC")
             .shouldVerified(true)) {
         run();
-        node& res = getSubPack() OR_ASSERT(res);
+        node& res = getSubPod() OR_ASSERT(res);
 
         const nInt& o = res.sub<nInt>("age") OR_ASSERT(o);
         ASSERT_EQ(*o.cast<int>(), 5);

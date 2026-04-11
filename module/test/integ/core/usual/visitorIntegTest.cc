@@ -22,7 +22,7 @@ TEST_F(visitorIntegTest, visitComplexExpressions) {
     )SRC")
         .shouldVerified(true);
 
-    node& root = getSubPack() OR_ASSERT(root);
+    node& root = getSubPod() OR_ASSERT(root);
 
     struct myVisitor: public visitor {
         myVisitor(): metO(0), metAsFlt(0), metFlt5(false) {}
@@ -89,7 +89,7 @@ TEST_F(visitorIntegTest, visitComplexExpressions2) {
     )SRC")
         .shouldVerified(true);
 
-    node& root = getSubPack() OR_ASSERT(root);
+    node& root = getSubPod() OR_ASSERT(root);
 
     struct myVisitor: public visitor {
         myVisitor(): metInt2(false), metRet(false) {}

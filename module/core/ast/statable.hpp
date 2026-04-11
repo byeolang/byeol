@@ -11,7 +11,7 @@ namespace by {
         EXPANDED, // expander resolved dependencies.
         VERIFIED, // verifier checked this node.
         LINKED,   // eval and attached to system.
-        INVALID,  // loading of pack has been failed.
+        INVALID,  // loading of pod has been failed.
     };
 
     /** @ingroup core

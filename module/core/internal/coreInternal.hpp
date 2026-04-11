@@ -46,8 +46,8 @@ namespace by {
         static void setOrigin(baseObj& me, const baseObj& newOrg);
         static void setOrigin(func& me, const baseObj& newOrg);
         static void setOrigin(baseCtor& me, const baseObj& newOrg);
-        static void setSubPack(origin& me, const node& subpack);
-        static void setSubPack(origin& me, const node* subpack) BY_SIDE_FUNC(subpack, setSubPack(me, *subpack), void());
+        static void setSubPod(origin& me, const node& subpod);
+        static void setSubPod(origin& me, const node* subpod) BY_SIDE_FUNC(subpod, setSubPod(me, *subpod), void());
         static ntype& getType(node& me);
         static str onEvalSub(node& me, node& sub, const args& a);
         static frames* getFrames();

@@ -53,7 +53,7 @@ TEST(fsystemTest, supportGlobPatternAtTestdata) {
 }
 
 TEST(fsystemTest, supportGlobPatternWithStelaFile) {
-    auto root = fsystem::find("pack/*.stela");
+    auto root = fsystem::find("pod/*.stela");
     nbool buildFound = false;
 
     while(root.next()) {

@@ -49,12 +49,12 @@ PAIRX(THERE_IS_NO_FRAMES_IN_THREAD, "there is no frames in current thread.")
 PAIRX(FRAME_DOESNT_HAVE_OBJ_SCOPE, "current frame doesn't have any obj scope.")
 PAIRX(FRAME_DOESNT_HAVE_SCOPE_MATCHING_THIS_TYPE, "current frame doesn't have proper scope matching to %s.")
 
-// pack:
-PAIRX(PACK_ONLY_ALLOW_VAR_ACCESS, "variable path only allowed when you define a pack")
-PAIRX(NO_PACK_TRAY, "pack tray hasn't been created before")
-PAIRX(NO_PACK, "no pack has been specified")
-PAIRX(PACK_NOT_MATCH, "pack %s expected, but it was %s")
-PAIRX(PACK_NOT_LOADED, "couldn't load the pack at `%s` path")
+// pod:
+PAIRX(POD_ONLY_ALLOW_VAR_ACCESS, "variable path only allowed when you define a pod")
+PAIRX(NO_POD_TRAY, "pod tray hasn't been created before")
+PAIRX(NO_POD, "no pod has been specified")
+PAIRX(POD_NOT_MATCH, "pod %s expected, but it was %s")
+PAIRX(POD_NOT_LOADED, "couldn't load the pod at `%s` path")
 
 // expr:
 PAIRX(NOT_EXPR, "\'%s\' isn't a expression")

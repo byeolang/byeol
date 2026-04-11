@@ -20,7 +20,7 @@ TEST_F(defObjExprIntegTest, simpleDefineObject) {
     run();
 }
 
-TEST_F(defObjExprIntegTest, objMakeScopeWithOwnsAndSharesButNotPackScope) {
+TEST_F(defObjExprIntegTest, objMakeScopeWithOwnsAndSharesButNotPodScope) {
     make()
         .parse(R"SRC(
         def a
@@ -31,7 +31,7 @@ TEST_F(defObjExprIntegTest, objMakeScopeWithOwnsAndSharesButNotPackScope) {
     )SRC")
         .shouldVerified(true);
 
-    node& root = getSubPack() OR_ASSERT(root);
+    node& root = getSubPod() OR_ASSERT(root);
     node& a = root.sub("a") OR_ASSERT(a);
 
     const scope& s = a.subs();
@@ -314,7 +314,7 @@ TEST_F(defObjExprIntegTest, variableDuplication) {
     ASSERT_EQ(*res.cast<nint>(), 33);
 }
 
-TEST_F(defObjExprIntegTest, frameNotCreatedWhenCallPackFunc) {
+TEST_F(defObjExprIntegTest, frameNotCreatedWhenCallPodFunc) {
     make()
         .parse(R"SRC(
         age := 22
@@ -333,8 +333,8 @@ TEST_F(defObjExprIntegTest, frameNotCreatedWhenCallPackFunc) {
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 22);
     // byeol should return 22 in this scenario.
-    // because `boo()` belongs to this `pack` obj.
-    // so when `boo()` get called it should refer variable `age` belonged to `pack`.
+    // because `boo()` belongs to this `pod` obj.
+    // so when `boo()` get called it should refer variable `age` belonged to `pod`.
 }
 
 TEST_F(defObjExprIntegTest, defPropAllowedIfThereIsProperCtor) {
@@ -452,9 +452,9 @@ TEST_F(defObjExprIntegTest, isStateOfDefObjVerified) {
     )SRC")
         .shouldVerified(true);
 
-    obj& subpack = getSubPack()->cast<obj>() OR_ASSERT(subpack);
-    ASSERT_TRUE(subpack.getState() >= VERIFIED);
-    obj& person = subpack.sub<obj>("Person") OR_ASSERT(person);
+    obj& subpod = getSubPod()->cast<obj>() OR_ASSERT(subpod);
+    ASSERT_TRUE(subpod.getState() >= VERIFIED);
+    obj& person = subpod.sub<obj>("Person") OR_ASSERT(person);
     ASSERT_EQ(person.getState(), VERIFIED);
 
     person.subs();
@@ -822,11 +822,11 @@ TEST_F(defObjExprIntegTest, assignClosureShouldWork) {
     ASSERT_EQ(*res.cast<nint>(), 2);
 }
 
-TEST_F(defObjExprIntegTest, originShouldNotOpenAccessToPackScopeNegative) {
+TEST_F(defObjExprIntegTest, originShouldNotOpenAccessToPodScopeNegative) {
     make()
         .negative()
         .parse(R"SRC(
-        age := 12 # in pack scope
+        age := 12 # in pod scope
         def a
             foo() int: age
         main() int

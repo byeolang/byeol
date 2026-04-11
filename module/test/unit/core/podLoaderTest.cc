@@ -3,13 +3,13 @@
 using namespace by;
 using namespace std;
 
-struct packLoaderTest: public byeolTest {};
+struct podLoaderTest: public byeolTest {};
 
-TEST_F(packLoaderTest, testDefaultLoaderInit) {
-    nmap& systemPacks = (nmap&) by::thread::get().getPacks(); // don't worry for casting. I know what I'm doing >_o
-    pack& s = systemPacks.get<pack>([](const std::string& name, const pack& e) { return name == "sys"; }) OR_ASSERT(s);
+TEST_F(podLoaderTest, testDefaultLoaderInit) {
+    nmap& systemPods = (nmap&) by::thread::get().getPods(); // don't worry for casting. I know what I'm doing >_o
+    pod& s = systemPods.get<pod>([](const std::string& name, const pod& e) { return name == "sys"; }) OR_ASSERT(s);
 
-    ASSERT_TRUE(s.subs().len() > 1);             // s get chained to system packs.
+    ASSERT_TRUE(s.subs().len() > 1);             // s get chained to system pods.
     ASSERT_EQ(s.subs().getContainer().len(), 2); // `wrapper` from byeol code and `con` from native so file.
     node& origin = s.sub("con") OR_ASSERT(origin);
     {

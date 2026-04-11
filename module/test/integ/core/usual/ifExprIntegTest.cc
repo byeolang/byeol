@@ -10,7 +10,7 @@ namespace {
 TEST_F(ifExprIntegTest, simpleNestedTest) {
     make("demo")
         .parse(R"SRC(
-        pack demo
+        pod demo
         main() void
             if 11
                         22
@@ -100,7 +100,7 @@ TEST_F(ifExprIntegTest, simpleReturnDefAssignWithoutParenthesisTest) {
 TEST_F(ifExprIntegTest, NestIfTest) {
     make("demo")
         .parse(R"SRC(
-        pack demo
+        pod demo
         foo(abc int) void
            if "hello"
                        "hell  '  o"
@@ -113,7 +113,7 @@ TEST_F(ifExprIntegTest, NestIfTestNegative) {
     make("demo")
         .negative()
         .parse(R"SRC(
-        pack demo
+        pod demo
         foo(abc int) int
            if "hello"
                        "hell  '  o"

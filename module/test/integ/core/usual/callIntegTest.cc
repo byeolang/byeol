@@ -11,7 +11,7 @@ TEST_F(callIntegTest, callFunc) {
     make("demo")
         .negative()
         .parse(R"SRC(
-        pack demo
+        pod demo
         main() void
             foo()
     )SRC")
@@ -48,7 +48,7 @@ TEST_F(callIntegTest, callFunc3) {
         .shouldParsed(true);
 }
 
-TEST_F(callIntegTest, callFuncShouldNotExistOnPack) {
+TEST_F(callIntegTest, callFuncShouldNotExistOnPod) {
     make()
         .negative()
         .parse(R"SRC(

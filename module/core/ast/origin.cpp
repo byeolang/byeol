@@ -14,8 +14,8 @@ namespace by {
         coreInternal::setOrigin(*this, *this);
     }
 
-    me::origin(const mgdType& newType, node* subpack):
-        super(), _type(newType), _subpack(subpack), _src(dumSrc::singleton()), _state(RELEASED) {
+    me::origin(const mgdType& newType, node* subpod):
+        super(), _type(newType), _subpod(subpod), _src(dumSrc::singleton()), _state(RELEASED) {
         coreInternal::setOrigin(*this, *this);
     }
 
@@ -44,9 +44,9 @@ namespace by {
 
     const ntype& me::getType() const { return _type; }
 
-    const node& me::getSubPack() const {
+    const node& me::getSubPod() const {
         static mockNode dummy;
-        return _subpack ? *_subpack : dummy;
+        return _subpod ? *_subpod : dummy;
     }
 
     const src& me::getSrc() const { return *_src; }
@@ -89,7 +89,7 @@ namespace by {
 
     me& me::_assign(const me& rhs) {
         _type = rhs._type;
-        _subpack = rhs._subpack;
+        _subpod = rhs._subpod;
         _src = rhs._src;
         _callComplete = rhs._callComplete;
         _state = rhs._state;

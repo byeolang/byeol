@@ -124,7 +124,7 @@
 //      define:
 %token DEF WITH AS ENUM ONLY END
 //  predefined-type:
-%token _VOID_ _INT_ _STR_ _BOOL_ FLT NUL _BYTE_ ME SUPER IT PACK
+%token _VOID_ _INT_ _STR_ _BOOL_ FLT NUL _BYTE_ ME SUPER IT POD
 //  valueless-token:
 %token NEWLINE INDENT DEDENT ENDOFFILE DOUBLE_MINUS DOUBLE_PLUS DOUBLE_DOT ARROW TAB ASSIGN DEFASSIGN
 %token OPEN_CLOSE_SQUARE_BRACKET GE LE EQ NE LOGICAL_AND LOGICAL_OR LSHIFT RSHIFT
@@ -201,7 +201,7 @@
 //              with:
 %type <asNode> with-inline with-compound
 //  predefined-type:
-%type <asObj> pack
+%type <asObj> pod
 
 /*  ============================================================================================
     |                                     OPERATOR PRECEDENCE                                  |
@@ -220,12 +220,12 @@
 %%
 
 // basic component:
-compilation-unit: pack defblock {
+compilation-unit: pod defblock {
                 tstr<obj> pak($1);
                 tstr<defBlock> lifeBlock($2);
                 PS.onCompilationUnit(pak.get(), lifeBlock.get());
                 _onEndParse(scanner);
-              } | pack {
+              } | pod {
                 tstr<obj> pak($1);
                 PS.onCompilationUnit(pak.get());
                 _onEndParse(scanner);
@@ -690,11 +690,11 @@ with-compound: with-inline indentblock {
            }
 
 //  predefined-type:
-pack: PACK name-access NEWLINE { $$ = PS.onPack(*$2); }
-    | PACK NAME NEWLINE {
-        $$ = PS.onPack(*$2);
+pod: POD name-access NEWLINE { $$ = PS.onPod(*$2); }
+    | POD NAME NEWLINE {
+        $$ = PS.onPod(*$2);
         delete $2;
-  } | %empty { $$ = PS.onPack(); }
+  } | %empty { $$ = PS.onPod(); }
 
 %%
 

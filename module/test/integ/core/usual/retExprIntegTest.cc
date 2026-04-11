@@ -35,7 +35,7 @@ TEST_F(retExprIntegTest, simpleReturnTypeNegative) {
         .shouldParsed(true);
     shouldVerified(false);
 
-    func& make = getSubPack() TO(template sub<func>("make")) OR_ASSERT(make);
+    func& make = getSubPod() TO(template sub<func>("make")) OR_ASSERT(make);
     retExpr& ret = make.getBlock().getStmts().begin().get<retExpr>() OR_ASSERT(ret);
     ASSERT_TRUE(ret.infer()->isSub<retExpr>());
     ASSERT_EQ(ret.getRet().infer()->getType(), ttype<nVoid>::get());

@@ -1,25 +1,25 @@
-#include "core/loader/pack/packLoader.hpp"
+#include "core/loader/pod/podLoader.hpp"
 
-#include "core/ast/autopack.hpp"
+#include "core/ast/autopod.hpp"
 #include "core/frame/thread.hpp"
 #include "core/builtin/err/errReport.hpp"
-#include "core/loader/pack/packLoading.hpp"
+#include "core/loader/pod/podLoading.hpp"
 
 namespace by {
 
-    BY_DEF_ME(packLoader)
+    BY_DEF_ME(podLoader)
 
-    me::packLoader() {}
+    me::podLoader() {}
 
     void me::load() {
         // TODO: returns result when it's fail
-        if(!_packs) _packs.bind(new nmap());
+        if(!_pods) _pods.bind(new nmap());
 
-        _makePacks(*_packs);
+        _makePods(*_pods);
     }
 
     manifest me::_interpManifest(const std::string& dir, const std::string& manPath) const {
-        // TODO: open pack zip file -> extract manifest.stela file -> interpret it & load values
+        // TODO: open pod zip file -> extract manifest.stela file -> interpret it & load values
         tstr<stela> loaded =
             stelaParser().parseFromFile(manPath) OR.err("error to load %s: interpretion err", manPath).ret(manifest());
         stela& root = *loaded;
@@ -43,14 +43,14 @@ namespace by {
         return manifest{name, manPath, author, ver, points};
     }
 
-    const packLoadings& me::_getLoadings() const {
-        static packLoadings* inner = nullptr;
+    const podLoadings& me::_getLoadings() const {
+        static podLoadings* inner = nullptr;
         if(!inner) {
-            inner = new packLoadings();
-            for(const type* sub: ttype<packLoading>::get().getLeafs()) {
-                packLoading* new1 = sub->makeAs<packLoading>();
+            inner = new podLoadings();
+            for(const type* sub: ttype<podLoading>::get().getLeafs()) {
+                podLoading* new1 = sub->makeAs<podLoading>();
                 if(!new1) {
-                    BY_E("fail to make packMaking named to %s", sub->getName());
+                    BY_E("fail to make podMaking named to %s", sub->getName());
                     continue;
                 }
 
@@ -81,18 +81,18 @@ namespace by {
 
     me& me::addRelativePath(const std::string& path) {
         std::string cwd = fsystem::getCurrentDir() + fsystem::getDelimiter();
-        BY_I("finding packs relative to %s or absolute", cwd);
+        BY_I("finding pods relative to %s or absolute", cwd);
         return addPath(cwd + path);
     }
 
-    me& me::setBasePacks(nmap& s) {
-        _packs.bind(s);
+    me& me::setBasePods(nmap& s) {
+        _pods.bind(s);
         return *this;
     }
 
-    void me::_makePacks(nmap& tray) {
+    void me::_makePods(nmap& tray) {
         for(const std::string& path: _paths) {
-            BY_I("try pack path: %s", path);
+            BY_I("try pod path: %s", path);
 
             auto e = fsystem::find(path);
             while(e.next()) {
@@ -100,24 +100,24 @@ namespace by {
 
                 auto manifestPath = e.getDir() + fsystem::getDelimiter() + e.getName();
                 manifest mani = _interpManifest(e.getDir(), manifestPath);
-                if(tray.in(mani.name)) { // TODO: more concise duplication check required including version of pack.
-                    BY_W("pack '%s' is duplicated. an existed one will be used.", mani.name);
+                if(tray.in(mani.name)) { // TODO: more concise duplication check required including version of pod.
+                    BY_W("pod '%s' is duplicated. an existed one will be used.", mani.name);
                     continue;
                 }
 
-                _addNewPack(tray, mani, e.getDir());
+                _addNewPod(tray, mani, e.getDir());
             }
         }
     }
 
-    void me::_addNewPack(nmap& tray, manifest& mani, const std::string& dirPath) {
+    void me::_addNewPod(nmap& tray, manifest& mani, const std::string& dirPath) {
         BY_I("manifest path: %s", mani.filePath);
 
-        packLoadings loadings;
+        podLoadings loadings;
         for(entrypoint& point: mani.points) {
-            packLoading* newLoading = _makeLoading(point.lang);
+            podLoading* newLoading = _makeLoading(point.lang);
             if(!newLoading) {
-                BY_W("%s language not supported for loading %s pack.", mani.points[0].lang, mani.name);
+                BY_W("%s language not supported for loading %s pod.", mani.points[0].lang, mani.name);
                 continue;
             }
 
@@ -129,16 +129,16 @@ namespace by {
             loadings.push_back(newLoading);
         }
 
-        pack* new1 = new autopack(mani, loadings);
+        pod* new1 = new autopod(mani, loadings);
         tray.add(mani.name, new1);
-        _logPack(*new1);
+        _logPod(*new1);
     }
 
-    void me::_logPack(const pack& pak) const {
-        BY_I("new pack [%s] has been added.", pak.getManifest().name);
+    void me::_logPod(const pod& p) const {
+        BY_I("new pod [%s] has been added.", p.getManifest().name);
 
 #if BY_IS_DBG
-        const manifest& mani = pak.getManifest();
+        const manifest& mani = p.getManifest();
         BY_DI("\t.filePath=%s", mani.filePath);
         BY_DI("\t.author=%s", mani.author);
         BY_DI("\t.ver=%s", mani.ver);
@@ -151,11 +151,11 @@ namespace by {
 #endif
     }
 
-    packLoading* me::_makeLoading(const std::string& name) const {
-        for(const packLoading* e: _getLoadings())
-            if(e->getName() == name) return (packLoading*) e->clone();
+    podLoading* me::_makeLoading(const std::string& name) const {
+        for(const podLoading* e: _getLoadings())
+            if(e->getName() == name) return (podLoading*) e->clone();
 
-        BY_E("can't find exact packLoading like %s", name);
+        BY_E("can't find exact podLoading like %s", name);
         return nullptr;
     }
 } // namespace by

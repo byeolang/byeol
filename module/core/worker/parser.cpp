@@ -18,7 +18,7 @@
 namespace by {
 
     using std::string;
-    template class _nout tworker<str, pack>;
+    template class _nout tworker<str, pod>;
 
     BY_DEF_ME(parser)
 
@@ -164,27 +164,27 @@ namespace by {
         super::_onEndWork();
     }
 
-    obj* me::onPack(const node& path) {
+    obj* me::onPod(const node& path) {
         std::vector<string> dotnames = _toDotnames(path);
-        BY_DI("tokenEvent: onPack(%s)", join(dotnames));
+        BY_DI("tokenEvent: onPod(%s)", join(dotnames));
         WHEN(dotnames.size() <= 0) .ret(nullptr);
 
-        // pack syntax rule #1:
-        //  if there is no specified name of pack, create one.
+        // pod syntax rule #1:
+        //  if there is no specified name of pod, create one.
         const std::string& firstName = dotnames[0];
-        if(!getTask()) setTask(new pack(manifest(firstName)));
-        obj* e = getTask()->cast<pack>();
+        if(!getTask()) setTask(new pod(manifest(firstName)));
+        obj* e = getTask()->cast<pod>();
 
         const std::string& realName = getTask()->getManifest().name;
-        WHEN(realName != firstName) .exErr(PACK_NOT_MATCH, getReport(), firstName.c_str(), realName.c_str()).ret(e);
+        WHEN(realName != firstName) .exErr(POD_NOT_MATCH, getReport(), firstName.c_str(), realName.c_str()).ret(e);
 
-        // pack syntax rule #2:
+        // pod syntax rule #2:
         //  middle name automatically created if not exist.
-        //  while interpreting 'mypack' pack, user may uses 'pack' keyword with dotted-name.
+        //  while interpreting 'mypod' pod, user may uses 'pod' keyword with dotted-name.
         //  for instance,
-        //      'pack mypack.component.ui'
-        //  in this scenario, mypack instance should be created before. and component sub
-        //  pack object can be created on this keyword parsing.
+        //      'pod mypod.component.ui'
+        //  in this scenario, mypod instance should be created before. and component sub
+        //  pod object can be created on this keyword parsing.
         for(int n = 1; n < dotnames.size(); n++) {
             const std::string& name = dotnames[n];
             obj* sub = e->sub<obj>(name);
@@ -198,16 +198,16 @@ namespace by {
             e = sub;
         }
 
-        return onSubPack(*e);
+        return onSubPod(*e);
     }
 
-    obj* me::onPack(const std::string& name) { return onPack(*onGet(name)); }
+    obj* me::onPod(const std::string& name) { return onPod(*onGet(name)); }
 
-    obj* me::onSubPack(obj& subpack) {
-        BY_DI("tokenEvent: onSubPack()");
+    obj* me::onSubPod(obj& subpod) {
+        BY_DI("tokenEvent: onSubPod()");
 
-        _subpack.bind(subpack);
-        return &subpack;
+        _subpod.bind(subpod);
+        return &subpod;
     }
 
     endExpr* me::onEnd(const blockExpr& blk) {
@@ -217,17 +217,17 @@ namespace by {
         return ret;
     }
 
-    obj* me::onPack() {
-        BY_DI("tokenEvent: onPack()");
+    obj* me::onPod() {
+        BY_DI("tokenEvent: onPod()");
 
-        if(!getTask()) setTask(new pack(manifest()));
+        if(!getTask()) setTask(new pod(manifest()));
 
-        auto& newPack = *getTask();
-        const std::string& name = newPack.getManifest().name;
+        auto& newPod = *getTask();
+        const std::string& name = newPod.getManifest().name;
         WHEN(name != manifest::DEFAULT_NAME)
-            .exErr(PACK_NOT_MATCH, getReport(), manifest::DEFAULT_NAME, name.c_str()).ret(&newPack);
+            .exErr(POD_NOT_MATCH, getReport(), manifest::DEFAULT_NAME, name.c_str()).ret(&newPod);
 
-        return onSubPack(newPack); // this is a default pack containing name as '{default}'.
+        return onSubPod(newPod); // this is a default pod containing name as '{default}'.
     }
 
     blockExpr* me::onBlock(const node* stmt) {
@@ -516,7 +516,7 @@ namespace by {
         std::string argNames = util::joinVectorString(_extractParamTypeNames(*newArgs));
         BY_DI("tokenEvent: onDefOrigin(%s, %s, defBlock[%s])", name, argNames, &blk);
 
-        origin& ret = *_maker.birth<origin>(name, typeMaker::make<obj>(name), _subpack.get());
+        origin& ret = *_maker.birth<origin>(name, typeMaker::make<obj>(name), _subpod.get());
         switch(util::checkTypeAttr(name)) {
             case ATTR_COMPLETE: // newArgs.len() can be 0.
                 ret.setCallComplete(
@@ -560,7 +560,7 @@ namespace by {
     std::vector<string> me::_toDotnames(const node& path) {
         std::vector<string> ret;
         const getExpr& start =
-            path.cast<getExpr>() OR.exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
+            path.cast<getExpr>() OR.exErr(POD_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
         const auto* iter = &start;
 
         do {
@@ -571,8 +571,8 @@ namespace by {
             iter = next->cast<getExpr>();
             if(!iter) {
                 // iter can be frame if parsing is doing by expander:
-                //  pack get loaded in lazy. so expander can trigger pack loading with `byeolPackLoading`.
-                WHEN(!next->cast<frame>()) .exErr(PACK_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
+                //  pod get loaded in lazy. so expander can trigger pod loading with `byeolpodLoading`.
+                WHEN(!next->cast<frame>()) .exErr(POD_ONLY_ALLOW_VAR_ACCESS, getReport()).ret(std::vector<string>());
                 return ret;
             }
         } while(true);
@@ -597,40 +597,40 @@ namespace by {
 
         _onInjectObjSubs(org, blk);
 
-        coreInternal::setSubPack(org, _subpack.get());
+        coreInternal::setSubPod(org, _subpod.get());
 
         std::vector<std::string> paramNames = _extractParamTypeNames(typeParams);
         std::string paramName = util::joinVectorString(paramNames);
         return _maker.birth<genericOrigin>(name, org, paramNames);
     }
 
-    void me::onCompilationUnit(obj* subpack) {
-        BY_DI("tokenEvent: onCompilationUnit(%s)", subpack);
+    void me::onCompilationUnit(obj* subpod) {
+        BY_DI("tokenEvent: onCompilationUnit(%s)", subpod);
 
         tstr<defBlock> blkLife(new defBlock());
-        _onCompilationUnit(subpack, blkLife.get());
+        _onCompilationUnit(subpod, blkLife.get());
     }
 
-    void me::onCompilationUnit(obj* subpack, defBlock* blk) {
-        BY_DI("tokenEvent: onCompilationUnit(%s, defBlock[%s].expand.len()=%d)", subpack, &blk,
+    void me::onCompilationUnit(obj* subpod, defBlock* blk) {
+        BY_DI("tokenEvent: onCompilationUnit(%s, defBlock[%s].expand.len()=%d)", subpod, &blk,
             blk ? blk->getExpands().len() : 0);
 
-        _onCompilationUnit(subpack, blk);
+        _onCompilationUnit(subpod, blk);
     }
 
-    void me::_onCompilationUnit(obj* subpackable, defBlock* blkable) {
-        obj& subpack = subpackable OR.exErr(NO_PACK_TRAY, getReport()).ret();
+    void me::_onCompilationUnit(obj* subpodable, defBlock* blkable) {
+        obj& subpod = subpodable OR.exErr(NO_POD_TRAY, getReport()).ret();
         defBlock& blk = blkable OR.exErr(THERE_IS_NO_BLOCK_STMT).ret();
 
-        _onInjectObjSubs(subpack, blk);
+        _onInjectObjSubs(subpod, blk);
 
-        // link system packs:
-        subpack.getShares().link(scope::wrap(thread::get().getPacks()));
-        BY_DI("link system packs[%d]: len=%d", thread::get().getPacks().len(), subpack.subs().len());
+        // link system pods:
+        subpod.getShares().link(scope::wrap(thread::get().getPods()));
+        BY_DI("link system pods[%d]: len=%d", thread::get().getPods().len(), subpod.subs().len());
 
-        // at this far, subpack must have at least 1 default ctor created just before:
+        // at this far, subpod must have at least 1 default ctor created just before:
         BY_DI("tokenEvent: onCompilationUnit: eval preconstructor(%d lines)", blk.getExpands().len());
-        subpack.eval(func::CTOR_NAME); // don't need argument. it's default ctor.
+        subpod.eval(func::CTOR_NAME); // don't need argument. it's default ctor.
     }
 
     tstr<modifier> me::_makeDefaultModifier() { return *onModifier(true, false); }
@@ -1129,8 +1129,8 @@ namespace by {
 
     me::parser(): _mode(nullptr), _isIgnoreWhitespace(false) { rel(); }
 
-    node* me::getSubPack() {
-        return _subpack.get(); // TODO: can I remove subpack variable?
+    node* me::getSubPod() {
+        return _subpod.get(); // TODO: can I remove subpod variable?
     }
 
     srcSupplies& me::getSrcSupplies() { return _supplies; }
@@ -1173,7 +1173,7 @@ namespace by {
         super::_prepare();
 
         _mode = nullptr;
-        _subpack.rel();
+        _subpod.rel();
         _isIgnoreWhitespace = false;
         _dispatcher.rel();
         _indents.clear();
@@ -1227,7 +1227,7 @@ namespace by {
             yylex_destroy(scanner);
         }
 
-        return getSubPack();
+        return getSubPod();
     }
 
     void me::_report(baseErr* new1) { getReport().add(new1); }

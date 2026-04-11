@@ -1,4 +1,4 @@
-pack sys
+pod sys
 con := sys.con
 
 def wrapper

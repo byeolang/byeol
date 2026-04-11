@@ -141,7 +141,7 @@ bool { return _BOOL_; }
 byte { return _BYTE_; }
 flt { return FLT; }
 nul { return NUL; }
-pack { return PACK; }
+pod { return POD; }
 @ctor { 
     BY_DI("scanner: CTOR");
     return CTOR; 

@@ -15,7 +15,7 @@ TEST_F(defPropExprIntegTest, simpleDefineVariable) {
             ret
     )SRC")
             .shouldVerified(true)) {
-        node& res = getSubPack() OR_ASSERT(res);
+        node& res = getSubPod() OR_ASSERT(res);
         const func& f = res.sub<func>("main", narr()) OR_ASSERT(f);
 
         const narr& stmts = f.getBlock().getStmts();
@@ -27,7 +27,7 @@ TEST_F(defPropExprIntegTest, simpleDefineVariable) {
     }
 }
 
-TEST_F(defPropExprIntegTest, definePackVariableNegative) {
+TEST_F(defPropExprIntegTest, definePodVariableNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -42,7 +42,7 @@ TEST_F(defPropExprIntegTest, definePackVariableNegative) {
     shouldVerified(false);
 }
 
-TEST_F(defPropExprIntegTest, definePackVariable2) {
+TEST_F(defPropExprIntegTest, definePodVariable2) {
     make()
         .parse(R"SRC(
         name str
@@ -54,11 +54,11 @@ TEST_F(defPropExprIntegTest, definePackVariable2) {
     )SRC")
         .shouldParsed(true);
     shouldVerified(true);
-    pack& s = getPack() OR_ASSERT(s);
+    pod& s = getPod() OR_ASSERT(s);
     ASSERT_EQ(s.getManifest().name, manifest::DEFAULT_NAME);
 
-    scope::super& owns = (scope*) (getPack() TO(subs().getContainer())) OR_ASSERT(owns);
-    scope::super& shares = (scope*) (getPack() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& owns = (scope*) (getPod() TO(subs().getContainer())) OR_ASSERT(owns);
+    scope::super& shares = (scope*) (getPod() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(owns.len(), 3);
     ASSERT_EQ(shares.len(), 3);
     ASSERT_EQ(owns.getAll<baseObj>().len(), 3);

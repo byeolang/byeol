@@ -1,16 +1,16 @@
-#include "core/loader/pack/byeol/byeolPackLoading.hpp"
+#include "core/loader/pod/byeol/byeolPodLoading.hpp"
 #include "core/worker/parser.hpp"
 #include "core/ast/src/src.hpp"
 #include "core/worker/supply/fileSupply.hpp"
-#include "core/ast/pack.hpp"
+#include "core/ast/pod.hpp"
 #include "core/frame/threadUse.hpp"
 #include "core/worker/visitor/expander.hpp"
 
 namespace by {
 
-    BY_DEF_ME(byeolPackLoading)
+    BY_DEF_ME(byeolPodLoading)
 
-    nbool me::parse(errReport& rpt, pack& pak) {
+    nbool me::parse(errReport& rpt, pod& pak) {
         parser ps;
         ps.setFlag(0).setTask(pak).setReport(rpt); // hide logs
 
@@ -25,7 +25,7 @@ namespace by {
         return res.isBind();
     }
 
-    nbool me::expand(errReport& rpt, pack& pak) {
+    nbool me::expand(errReport& rpt, pod& pak) {
         threadUse thr(rpt);
         expander ep;
 

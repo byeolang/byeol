@@ -10,8 +10,8 @@ namespace by {
      *
      *  @section scope_concept Scope Concept in Byeol
      *  scope is classified into 5 types based on who created it: local scope (created by @ref blockExpr), func
-     *  scope (created by @ref baseFunc), obj scope (created by @ref baseObj), file scope, and pack scope. (Note:
-     *  pack is the same as @ref obj derived from baseObj code-wise, but byeol conceptually treats pack scope
+     *  scope (created by @ref baseFunc), obj scope (created by @ref baseObj), file scope, and pod scope. (Note:
+     *  pod is the same as @ref obj derived from baseObj code-wise, but byeol conceptually treats pod scope
      *  separately.)
      *
      *  @section scope_usage How Scope is Used
@@ -37,15 +37,15 @@ namespace by {
      *  See @ref obj for details.
      *
      *  @section file_scope File Scope
-     *  Literally the scope accessible only within that source code unit. In byeol code, symbols defined above `pack`
+     *  Literally the scope accessible only within that source code unit. In byeol code, symbols defined above `pod`
      *  all belong to file scope.
      *
-     *  @remark file scope is always made to chain pack scope by the @ref parser. See @ref tnchain for chaining.
+     *  @remark file scope is always made to chain pod scope by the @ref parser. See @ref tnchain for chaining.
      *
-     *  @section pack_scope Pack Scope
-     *  Scope where symbols defined directly under pack are located. Functions defined in pack have their me as
-     *  `pack`, and defined @ref origin objects have their obj scope chain pack scope. See @ref frames for why this
-     *  chaining happens. Unlike file scope, pack scope can be accessed externally if dependencies are defined in
+     *  @section pod_scope pod Scope
+     *  Scope where symbols defined directly under pod are located. Functions defined in pod have their me as
+     *  `pod`, and defined @ref origin objects have their obj scope chain pod scope. See @ref frames for why this
+     *  chaining happens. Unlike file scope, pod scope can be accessed externally if dependencies are defined in
      *  @ref manifest.
      */
     typedef tnchain<std::string, node, tnmap<std::string, node, immutableTactic>> scope;

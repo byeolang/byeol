@@ -1,6 +1,6 @@
 def entrypoints
     def cpp
-        path := "./sys.pack"
+        path := "./sys.pod"
     def byeol
         path := "./wrapper"
 

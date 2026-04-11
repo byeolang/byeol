@@ -29,7 +29,7 @@ it has following main features.
         Visualization can get strong points that make you focus the whole picture of your
         software.
 >
-> * ModuleStore: Module is simply plug-in. mostly based on c++. you download packs
+> * ModuleStore: Module is simply plug-in. mostly based on c++. you download pods
         which you want anytime.
 >
 > * Easy to use: we hope who aren't a programmer could join us to make a program with

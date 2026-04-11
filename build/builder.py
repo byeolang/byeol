@@ -792,15 +792,15 @@ def pub(arg, ignore_tidy=False):
         printInfoEnd("copy outputs into debian target directory")
         system("cp " + binDir + "/byeol " + target + "bin")
         system("cp " + binDir + "/*.so " + target + "lib")
-        system("cp -r " + binDir + "/pack " + target + "share/byeol")
+        system("cp -r " + binDir + "/pod " + target + "share/byeol")
         printOk("done")
 
-        printInfoEnd("packaging...")
+        printInfoEnd("podaging...")
         os.chdir(cwd)
         system("dpkg -b debian")
         printOk("done")
 
-        printInfoEnd("move package into bin/...")
+        printInfoEnd("move podage into bin/...")
         system("mv debian.deb " + binDir + "/byeol-ubuntu-x64.deb")
         printOk("done")
 
@@ -819,7 +819,7 @@ def pub(arg, ignore_tidy=False):
             printErr("release build failed. quit publishing.")
             return -1
 
-        printInfoEnd("cleaning redandunt files to package")
+        printInfoEnd("cleaning redandunt files to podage")
         os.chdir(binDir)
         system("rm ./test")
         system("rm ./logs")
@@ -834,7 +834,7 @@ def pub(arg, ignore_tidy=False):
         system(f"tar -zcvf byeol-macos-{mac_arch}.tar.gz bin")
         printOk("done")
 
-        printInfoEnd("make a package")
+        printInfoEnd("make a podage")
         pkgStaging = binDir + "/../staging_pkg"
         if os.path.exists(pkgStaging):
             rmtree(pkgStaging)
@@ -846,7 +846,7 @@ def pub(arg, ignore_tidy=False):
         system(f"cp {binDir}/byeol {pkgStaging}/usr/local/bin/")
         system(f"install_name_tool -add_rpath /usr/local/lib {pkgStaging}/usr/local/bin/byeol")
 
-        system(f"cp -r {binDir}/pack/* {pkgStaging}/usr/local/share/byeol/")
+        system(f"cp -r {binDir}/pod/* {pkgStaging}/usr/local/share/byeol/")
         system(f"cp {binDir}/*.dylib {pkgStaging}/usr/local/lib/ 2>/dev/null || true")
         system(f"cp {binDir}/*.so {pkgStaging}/usr/local/lib/ 2>/dev/null || true")
 
@@ -863,7 +863,7 @@ def pub(arg, ignore_tidy=False):
         if relBuild(ignore_tidy) != 0:
             printErr("release build failed. but keep publishing.")
 
-        printInfoEnd("cleaning redandunt files to package")
+        printInfoEnd("cleaning redandunt files to podage")
         os.chdir(binDir)
         system("del /S test\\*")
         system("rmdir test")
@@ -871,7 +871,7 @@ def pub(arg, ignore_tidy=False):
         system("copy ..\\LICENSE.md .")
         system("copy ..\\README.md .")
         system("copy ..\\CHANGELOGS.md .")
-        system("move Release\\sys.pack .\\pack\\sys")
+        system("move Release\\sys.pod .\\pod\\sys")
         system("copy Release\\* .")
         system("del /S /Q Release\\*")
         system("rmdir Release")

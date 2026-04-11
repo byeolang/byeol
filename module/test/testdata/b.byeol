@@ -1,4 +1,4 @@
-pack test.e2e.b
+pod test.e2e.b
 
 def person
     age := 32

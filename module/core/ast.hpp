@@ -1,7 +1,7 @@
 /// @file
 #pragma once
 
-#include "core/ast/autopack.hpp"
+#include "core/ast/autopod.hpp"
 #include "core/ast/ctor.hpp"
 #include "core/ast/exprs.hpp"
 #include "core/ast/genericOrigin.hpp"

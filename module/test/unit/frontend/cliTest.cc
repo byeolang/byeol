@@ -153,18 +153,18 @@ main() int
     ASSERT_EQ(res.res, 100);
 }
 
-TEST_F(cliTest, interpretMultipleStreamsWithPackSpecified) {
+TEST_F(cliTest, interpretMultipleStreamsWithPodSpecified) {
     interpreter ip;
     starter s;
     errReport rpt;
     programRes res = ep.setTask(byeolE2ETest::parseFlag(4, "-s", R"SRC(
-pack test
+pod test
 def a
     hello() int
         ret 100
 )SRC",
                                     "-s", R"SRC(
-pack test
+pod test
 main() int
     a.hello()
 )SRC"))
@@ -179,7 +179,7 @@ TEST_F(cliTest, interpretMultipleStreamsWhenDependencyTwisted) {
     starter s;
     errReport rpt;
     programRes res = ep.setTask(byeolE2ETest::parseFlag(4, "-s", R"SRC(
-pack test
+pod test
 
 def a
     age := b.age # refers b in other src file.
@@ -187,7 +187,7 @@ def a
         ret 100 + age
 )SRC",
                                     "-s", R"SRC(
-pack test
+pod test
 
 def b
     age := 22

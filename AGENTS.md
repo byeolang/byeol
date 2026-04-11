@@ -57,18 +57,18 @@ The system follows a **Layered Architecture** pattern with clear separation of c
 
 5. **stela** - Configuration parsing layer
    * Parses configuration information using the `stela` language (derived from `byeol`)
-   * Handles `manifest.stela` files in byeol pack distribution
+   * Handles `manifest.stela` files in byeol pod distribution
    * Provides structured configuration management
    * As a doxygen comment, this belongs to `@ingroup stela`
 
 6. **core** - Core language layer
    * Contains `byeol` AST (Abstract Syntax Tree)
-   * Handles package loading and management
+   * Handles pod loading and management
    * Implements core language features
    * As a doxygen comment, this belongs to `@ingroup core`
 
 7. **Frontend Layers**
-   * **sys** - Default bundle pack included with `byeol`
+   * **sys** - Default bundle pod ncluded with `byeol`
    * **byeol** - Command Line Interface frontend
    * As a doxygen comment, this belongs to `@ingroup frontend`
 
@@ -125,7 +125,7 @@ The architecture document contains:
 │   ├── memlite/    # Memory management layer
 │   ├── stlea/      # Configuration parsing
 │   ├── core/       # Core language implementation
-│   ├── sys/        # System bundle pack
+│   ├── sys/        # System bundle pod
 │   ├── byeol/      # CLI frontend
 │   └── test/       # Test cases
 ├── bin/            # Generated executables (auto-created)

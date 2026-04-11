@@ -25,7 +25,7 @@ namespace by {
 
     void me::setOrigin(baseCtor& me, const baseObj& newOrg) { me._type.setRet(newOrg); }
 
-    void me::setSubPack(origin& me, const node& subpack) { me._subpack.bind(subpack); }
+    void me::setSubPod(origin& me, const node& subpod) { me._subpod.bind(subpod); }
 
     ntype& me::getType(node& me) { return (ntype&) me.getType(); }
 

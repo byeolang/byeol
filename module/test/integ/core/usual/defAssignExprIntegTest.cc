@@ -18,14 +18,14 @@ TEST_F(defAssignExprIntegTest, simpleGlobalDefAssign) {
     )SRC")
         .shouldVerified(true);
 
-    scope::super& owns = (scope::super*) (getPack() TO(subs().getContainer())) OR_ASSERT(owns);
-    scope::super& shares = (scope::super*) (getPack() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
+    scope::super& owns = (scope::super*) (getPod() TO(subs().getContainer())) OR_ASSERT(owns);
+    scope::super& shares = (scope::super*) (getPod() TO(subs().getNext()) TO(getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(owns.len(), 1);
     ASSERT_EQ(shares.len(), 3);
 
     run();
 
-    ASSERT_EQ(*getSubPack()->sub<nInt>("age")->cast<int>(), 0);
+    ASSERT_EQ(*getSubPod()->sub<nInt>("age")->cast<int>(), 0);
 }
 
 TEST_F(defAssignExprIntegTest, simpleLocalDefAssign) {
@@ -43,14 +43,14 @@ TEST_F(defAssignExprIntegTest, simpleLocalDefAssign) {
 
     run();
 
-    ASSERT_EQ(*getSubPack()->sub("age")->cast<int>(), 3);
+    ASSERT_EQ(*getSubPod()->sub("age")->cast<int>(), 3);
 }
 
 TEST_F(defAssignExprIntegTest, testCircularDependencies) {
     make("holymoly")
         .negative()
         .parse(R"SRC(
-        pack holymoly
+        pod holymoly
 
         a := c
         b := a
@@ -68,7 +68,7 @@ TEST_F(defAssignExprIntegTest, testCircularDependencies) {
 TEST_F(defAssignExprIntegTest, testNearCircularDependencies) {
     make("holymoly")
         .parse(R"SRC(
-        pack holymoly
+        pod holymoly
 
         c := 1 # type can be defined.
         a := c

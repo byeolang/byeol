@@ -10,10 +10,10 @@ struct byeolIntegTest: public byeolTest {
 public:
     void TearDown() override;
 
-    by::node* getSubPack();
-    const by::node* getSubPack() const;
-    by::pack* getPack();
-    const by::pack* getPack() const;
+    by::node* getSubPod();
+    const by::node* getSubPod() const;
+    by::pod* getPod();
+    const by::pod* getPod() const;
 
     byeolIntegTest& make(const std::string& name);
     byeolIntegTest& make();

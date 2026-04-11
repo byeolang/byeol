@@ -36,7 +36,7 @@ namespace by {
      *  @section scope_linkage Scope Linkage
      *  baseFunc is the starting point that triggers all these frameInteracts. It calls in order: obj, func, blockExpr.
      *  baseObj creates a new frame object, adds it to frames, and places its subs() and `me` reference. obj adds its
-     *  current file's scope in addition to baseObj's behavior. (Pack scope is also added along with this.) func
+     *  current file's scope in addition to baseObj's behavior. (pod scope is also added along with this.) func
      *  registers its scope subs() to the frame and adds args to the frame. blockExpr creates an empty scope to use as
      *  local scope.
      *

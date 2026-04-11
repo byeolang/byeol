@@ -10,7 +10,7 @@ struct exprTest;
 
 namespace by {
 
-    class packLoader;
+    class podLoader;
 
     /** @ingroup core
      *  @brief Thread execution context for byeol runtime
@@ -19,9 +19,9 @@ namespace by {
      *  that occurs during execution.
      *
      *  @section builtin Builtin
-     *  The builtin pack consists of types/functions provided by default in the byeol language. They are always
-     *  accessible without separate manifest declaration. It's similar to the standard pack, but this is a distinctly
-     *  separate pack written in byeol code. However, the builtin pack is entirely in the form of exposing C++ native
+     *  The builtin pod consists of types/functions provided by default in the byeol language. They are always
+     *  accessible without separate manifest declaration. It's similar to the standard pod, but this is a distinctly
+     *  separate pod written in byeol code. However, the builtin pod is entirely in the form of exposing C++ native
      *  classes using @ref tbridger. The types included here are only the most basic symbols like `int`, `str`, `arr`,
      *  `err`, `print()`.
      *
@@ -90,10 +90,10 @@ namespace by {
         void rel() override;
 
         /**
-         *  @return pack instances loaded by internal system.
-         *          you can cast these to 'pack' types.
+         *  @return pod instances loaded by internal system.
+         *          you can cast these to 'pod' types.
          */
-        const nmap& getPacks() const;
+        const nmap& getPods() const;
 
         void dump() const override;
 
@@ -111,7 +111,7 @@ namespace by {
 
     private:
         void _loadBuiltIns(nmap& tray) const;
-        tstr<nmap> _initPacks() const;
+        tstr<nmap> _initPods() const;
 
     private:
         frames _frames;

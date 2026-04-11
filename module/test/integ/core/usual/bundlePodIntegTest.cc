@@ -4,10 +4,10 @@ using namespace by;
 using namespace std;
 
 namespace {
-    struct bundlePackIntegTest: public byeolIntegTest {};
+    struct bundlePodIntegTest: public byeolIntegTest {};
 }
 
-TEST_F(bundlePackIntegTest, defaultDef) {
+TEST_F(bundlePodIntegTest, defaultDef) {
     make()
         .parse(R"SRC(
         print(msg str) void: 1
@@ -19,7 +19,7 @@ TEST_F(bundlePackIntegTest, defaultDef) {
     run();
 }
 
-TEST_F(bundlePackIntegTest, defaultDef2) {
+TEST_F(bundlePodIntegTest, defaultDef2) {
     make()
         .parse(R"SRC(
         print(msg str) void: 1
@@ -32,7 +32,7 @@ TEST_F(bundlePackIntegTest, defaultDef2) {
     run();
 }
 
-TEST_F(bundlePackIntegTest, withAsNegative) {
+TEST_F(bundlePodIntegTest, withAsNegative) {
     make()
         .negative()
         .parse(R"SRC(
@@ -48,7 +48,7 @@ TEST_F(bundlePackIntegTest, withAsNegative) {
     shouldVerified(false);
 }
 
-TEST_F(bundlePackIntegTest, withAs) {
+TEST_F(bundlePodIntegTest, withAs) {
     make()
         .parse(R"SRC(
         print(msg str) void: 1
@@ -65,7 +65,7 @@ TEST_F(bundlePackIntegTest, withAs) {
     run();
 }
 
-TEST_F(bundlePackIntegTest, defaultDef3) {
+TEST_F(bundlePodIntegTest, defaultDef3) {
     make()
         .parse(R"SRC(
         print(msg str) void: 1
@@ -86,7 +86,7 @@ TEST_F(bundlePackIntegTest, defaultDef3) {
     ASSERT_EQ(*res.cast<int>(), 48268 + 3985);
 }
 
-TEST_F(bundlePackIntegTest, cloneBridgeObj) {
+TEST_F(bundlePodIntegTest, cloneBridgeObj) {
     make()
         .parse(R"SRC(
         main() int
@@ -96,7 +96,7 @@ TEST_F(bundlePackIntegTest, cloneBridgeObj) {
         .shouldVerified(true);
 }
 
-TEST_F(bundlePackIntegTest, testWrapper) {
+TEST_F(bundlePodIntegTest, testWrapper) {
     make()
         .parse(R"SRC(
         wrapper := sys.wrapper

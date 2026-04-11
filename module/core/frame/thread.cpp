@@ -7,7 +7,7 @@
 #include "core/builtin/pkgs/default/printFunc.hpp"
 #include "core/builtin/err/errReport.hpp"
 #include "core/builtin/err/err.hpp"
-#include "core/loader/pack/packLoader.hpp"
+#include "core/loader/pod/podLoader.hpp"
 
 namespace by {
 
@@ -110,9 +110,9 @@ namespace by {
         static thread_local thread* _instance = nullptr;
     } // namespace
 
-    const nmap& me::getPacks() const {
+    const nmap& me::getPods() const {
         static tstr<nmap> _inner;
-        if(!_inner) _inner = _initPacks();
+        if(!_inner) _inner = _initPods();
         return *_inner;
     }
 
@@ -161,15 +161,15 @@ namespace by {
         tray.add("err", new err(""));
     }
 
-    tstr<nmap> me::_initPacks() const {
+    tstr<nmap> me::_initPods() const {
         tstr<nmap> ret;
-        BY_I("initiates loading system packs.");
+        BY_I("initiates loading system pods.");
         ret.bind(new nmap());
-        packLoader()
-            .setBasePacks(*ret)
-            .addPath("pack/")
+        podLoader()
+            .setBasePods(*ret)
+            .addPath("pod/")
 #ifdef BY_BUILD_PLATFORM_IS_LINUX
-            .addPath("/usr/share/pack/")
+            .addPath("/usr/share/pod/")
 #elif defined(BY_BUILD_PLATFORM_IS_MAC)
             .addPath("/usr/local/share/byeol/")
 #endif
@@ -177,12 +177,12 @@ namespace by {
 
         _loadBuiltIns(*ret);
 
-        BY_I("%d system packs has been loaded.", ret->len());
+        BY_I("%d system pods has been loaded.", ret->len());
 
 #if BY_IS_DBG
         BY_I("next following is list for them.");
         for(const auto& s: *ret) {
-            const manifest& mani = s TO(template cast<pack>()) TO(getManifest()) OR_CONTINUE;
+            const manifest& mani = s TO(template cast<pod>()) TO(getManifest()) OR_CONTINUE;
             BY_DI(" - %s v%s", mani.name, mani.version);
         }
 #endif

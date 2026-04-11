@@ -18,7 +18,7 @@ TEST_F(defFuncIntegTest, distinguishDefineFuncOrCall) {
             foo(a, 22)
     )SRC")
             .shouldParsed(true)) {
-        node& res = getSubPack() OR_ASSERT(res);
+        node& res = getSubPod() OR_ASSERT(res);
 
         const baseFunc& f = res.sub<baseFunc>("main", narr()) OR_ASSERT(f);
         ASSERT_EQ(f.getParams().len(), 0);
@@ -34,7 +34,7 @@ TEST_F(defFuncIntegTest, distinguishDefineFuncOrCall) {
             foo(argc, 22)
     )SRC")
             .shouldParsed(true)) {
-        node& res = getSubPack() OR_ASSERT(res);
+        node& res = getSubPod() OR_ASSERT(res);
 
         ASSERT_FALSE(res.sub<baseFunc>("main", narr()));
         const baseFunc& f = res.sub<baseFunc>("main", narr(*new nInt(), *new nStr())) OR_ASSERT(f);
@@ -225,7 +225,7 @@ TEST_F(defFuncIntegTest, nameLikeStr) {
     shouldVerified(true);
 }
 
-TEST_F(defFuncIntegTest, defFuncAtSubPack) {
+TEST_F(defFuncIntegTest, defFuncAtSubPod) {
     make()
         .parse(R"SRC(
         print(msg str) void: 1
@@ -322,7 +322,7 @@ TEST_F(defFuncIntegTest, overloadingDifferentParameters) {
     )SRC")
         .shouldVerified(true);
 
-    node& a = getSubPack() TO(template sub<obj>("a")) OR_ASSERT(a);
+    node& a = getSubPod() TO(template sub<obj>("a")) OR_ASSERT(a);
     {
         auto subs = a.subAll<func>("foo");
         ASSERT_EQ(subs.len(), 2);
@@ -352,7 +352,7 @@ TEST_F(defFuncIntegTest, overloadingSimilarParameters) {
     )SRC")
         .shouldVerified(true);
 
-    obj& a = getSubPack() TO(template sub<obj>("a")) OR_ASSERT(a);
+    obj& a = getSubPod() TO(template sub<obj>("a")) OR_ASSERT(a);
 
     { ASSERT_EQ(a.subAll<func>("foo", args(nullptr, narr(nBool(), nInt()))).len(), 0); }
 
@@ -394,7 +394,7 @@ TEST_F(defFuncIntegTest, overloadingAmbigiousNegative) {
         .shouldParsed(true);
     shouldVerified(false);
 
-    obj& a = getSubPack() TO(template sub<obj>("a")) OR_ASSERT(a);
+    obj& a = getSubPod() TO(template sub<obj>("a")) OR_ASSERT(a);
     auto p = a.subAll<func>("foo", args(nullptr, narr(nInt(), nInt())));
     ASSERT_FALSE(p.isMatched());
     ASSERT_EQ(p.len(), 2);

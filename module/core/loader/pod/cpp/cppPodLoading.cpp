@@ -1,13 +1,13 @@
-#include "core/loader/pack/cpp/cppPackLoading.hpp"
+#include "core/loader/pod/cpp/cppPodLoading.hpp"
 
 namespace by {
 
-    BY_DEF_ME(cppPackLoading)
+    BY_DEF_ME(cppPodLoading)
 
     static constexpr const nchar* ENTRYPOINT_NAME = "byeol_bridge_cpp_entrypoint";
     static srcs dummySrcs;
 
-    nbool me::parse(errReport& rpt, pack& pak) {
+    nbool me::parse(errReport& rpt, pod& pak) {
         enablesZone zone(rpt.isNoisy());
         tstr<srcs> ret(dummySrcs);
         for(const std::string& path: _getPaths()) {
@@ -25,30 +25,30 @@ namespace by {
         return true;
     }
 
-    nbool me::_loadLibs(errReport& rpt, pack& pak) {
+    nbool me::_loadLibs(errReport& rpt, pod& pak) {
         // TODO: use 'rpt' variable.
         for(const std::string& path: _getPaths()) {
             dlib lib = dlib(path);
             auto res = lib.load(); // `res` evaluated as true when it has an error.
-            WHEN(res) .err("couldn't open %s pack: %d", path, res.get()).ret((rel(), false));
+            WHEN(res) .err("couldn't open %s pod: %d", path, res.get()).ret((rel(), false));
 
             auto info = lib.accessFunc<entrypointFunc>(ENTRYPOINT_NAME);
             WHEN(!info.has())
-                .err("couldn't access entrypoint of %s pack: %d", path, info.getErr()).ret((rel(), false));
+                .err("couldn't access entrypoint of %s pod: %d", path, info.getErr()).ret((rel(), false));
 
             bicontainable& shares = pak.getShares();
             ncnt prevLen = shares.len();
             (*info)(&shares);
             if(shares.len() <= prevLen) {
-                BY_W("pack returns no origin object.");
+                BY_W("pod returns no origin object.");
                 lib.rel();
             }
 
             _dlibs.push_back(std::move(lib)); // don't close yet.
-            BY_I("pack[%s] loads origins from %s", getName(), path);
+            BY_I("pod[%s] loads origins from %s", getName(), path);
         }
 
-        BY_I("pack[%s] origins loaded.", getName());
+        BY_I("pod[%s] origins loaded.", getName());
         return true;
     }
 

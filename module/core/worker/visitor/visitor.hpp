@@ -42,8 +42,8 @@ namespace by {
      *  `accept()`, and the VISIT macro is used to make this process easier. You will often see declarations like this:
      *
      *  @code
-     *      class _nout pack: public node {
-     *          BY(CLASS(pack, node), VISIT()) // <---
+     *      class _nout pod: public node {
+     *          BY(CLASS(pod, node), VISIT()) // <---
      *
      *      public:
      *  @endcode
@@ -124,7 +124,7 @@ namespace by {
 
     private:
         // value will be true if key is visited func or obj:
-        //  obj usually has huge subs and was chained to its subpack. but subpack also has the
+        //  obj usually has huge subs and was chained to its subpod. but subpod also has the
         //  obj as its one of subs, so visitor will fall in the infinite recursive loop.
         //  to prevent it, I prepare a map instance. that map will return true if the key,
         //  func or obj, already got visited.

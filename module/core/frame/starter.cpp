@@ -6,7 +6,7 @@
 #include "core/ast/dumScope.hpp"
 #include "core/ast/node.inl"
 #include "core/ast/obj.hpp"
-#include "core/ast/pack.hpp"
+#include "core/ast/pod.hpp"
 #include "core/frame/threadUse.hpp"
 #include "core/internal/coreInternal.hpp"
 
@@ -28,9 +28,9 @@ namespace by {
 
     str me::_onWork() {
         args& a = getArgs();
-        node& pak = getTask() OR.err("there is no pack!").ret(str());
+        node& pak = getTask() OR.err("there is no pod!").ret(str());
 
-        BY_I("eval a pack");
+        BY_I("eval a pod");
         node& main = _findMain(pak, args()) OR.exErr(NO_MAIN_FUNC).ret(str());
 
         if(main.canEval(a)) {

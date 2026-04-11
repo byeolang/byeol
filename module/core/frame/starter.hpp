@@ -17,7 +17,7 @@ namespace by {
      *  @section main_function_lookup Main Function Look Up
      *  The main function must meet the following conditions:
      *
-     *  1. Found directly under root (pack)
+     *  1. Found directly under root (pod)
      *  2. Name must be `main`
      *  3. Return type must be void or int
      *  4. Main function must have 1 or more statements
@@ -30,7 +30,7 @@ namespace by {
      *      ip.work();
      *      if(!ip.isVerified()) return -1;
      *
-     *      str res = starter().setTask(ip.getSubPack()).work();
+     *      str res = starter().setTask(ip.getSubPod()).work();
      *      if(res)
      *          if(res->isSub<nInt>()) return *res->cast<nInt>();
      *      return -1;

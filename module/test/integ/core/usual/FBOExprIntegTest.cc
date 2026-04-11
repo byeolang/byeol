@@ -17,18 +17,18 @@ TEST_F(FBOExprIntegTest, simpleAdd) {
     )SRC")
         .shouldVerified(true);
 
-    nInt& a = getSubPack() TO(template sub<nInt>("a")) OR_ASSERT(a);
+    nInt& a = getSubPod() TO(template sub<nInt>("a")) OR_ASSERT(a);
     ASSERT_EQ(a.get(), 5);
-    nInt b = getSubPack() TO(template sub<nInt>("b")) OR_ASSERT(b);
+    nInt b = getSubPod() TO(template sub<nInt>("b")) OR_ASSERT(b);
     ASSERT_EQ(b.get(), 2);
 
-    str res(getSubPack() TO(eval("main")));
+    str res(getSubPod() TO(eval("main")));
     ASSERT_TRUE(res);
     ASSERT_EQ(*res.cast<nint>(), 7);
 
     {
         threadUse thr;
-        tstr<nInt> res(getSubPack() TO(eval("main")));
+        tstr<nInt> res(getSubPod() TO(eval("main")));
         ASSERT_TRUE(res);
         ASSERT_EQ(*res.cast<nint>(), 7);
     }
@@ -46,13 +46,13 @@ TEST_F(FBOExprIntegTest, addWithDefAssign) {
     )SRC")
         .shouldVerified(true);
 
-    nInt& a = getSubPack() TO(template sub<nInt>("a")) OR_ASSERT(a);
+    nInt& a = getSubPod() TO(template sub<nInt>("a")) OR_ASSERT(a);
     ASSERT_EQ(a.get(), 5);
-    nInt b = getSubPack() TO(template sub<nInt>("b")) OR_ASSERT(b);
+    nInt b = getSubPod() TO(template sub<nInt>("b")) OR_ASSERT(b);
     ASSERT_EQ(b.get(), 7);
 
     threadUse thr1;
-    tstr<nInt> res(getSubPack() TO(eval("main")));
+    tstr<nInt> res(getSubPod() TO(eval("main")));
     ASSERT_TRUE(res);
     ASSERT_EQ(res->get(), 12);
 }
@@ -68,9 +68,9 @@ TEST_F(FBOExprIntegTest, addWithDefAssignReversed) {
     )SRC")
         .shouldVerified(true);
 
-    nInt& a = getSubPack() TO(template sub<nInt>("a")) OR_ASSERT(a);
+    nInt& a = getSubPod() TO(template sub<nInt>("a")) OR_ASSERT(a);
     ASSERT_EQ(a.get(), 5);
-    nInt& b = getSubPack() TO(template sub<nInt>("b")) OR_ASSERT(b);
+    nInt& b = getSubPod() TO(template sub<nInt>("b")) OR_ASSERT(b);
     ASSERT_EQ(b.get(), 7);
 }
 
@@ -94,7 +94,7 @@ TEST_F(FBOExprIntegTest, addIntAndStr) {
         .shouldParsed(true);
     shouldVerified(true);
 
-    nStr& a = getSubPack() TO(template sub<nStr>("a")) OR_ASSERT(a);
+    nStr& a = getSubPod() TO(template sub<nStr>("a")) OR_ASSERT(a);
     ASSERT_EQ(a.get(), std::string("hello12"));
 }
 
@@ -108,13 +108,13 @@ TEST_F(FBOExprIntegTest, simpleSub) {
     )SRC")
         .shouldVerified(true);
 
-    nInt& a = getSubPack() TO(template sub<nInt>("a")) OR_ASSERT(b);
+    nInt& a = getSubPod() TO(template sub<nInt>("a")) OR_ASSERT(b);
     ASSERT_EQ(a.get(), 5);
-    nInt b = getSubPack() TO(template sub<nInt>("b")) OR_ASSERT(b);
+    nInt b = getSubPod() TO(template sub<nInt>("b")) OR_ASSERT(b);
     ASSERT_EQ(b.get(), 2);
 
     threadUse thr;
-    tstr<nInt> res(getSubPack() TO(eval("main")));
+    tstr<nInt> res(getSubPod() TO(eval("main")));
     ASSERT_TRUE(res);
     ASSERT_EQ(res->get(), 3);
 }
@@ -129,13 +129,13 @@ TEST_F(FBOExprIntegTest, modWithDefAssign) {
     )SRC")
         .shouldVerified(true);
 
-    nInt& a = getSubPack() TO(template sub<nInt>("a")) OR_ASSERT(a);
+    nInt& a = getSubPod() TO(template sub<nInt>("a")) OR_ASSERT(a);
     ASSERT_EQ(a.get(), 10);
-    nInt b = getSubPack() TO(template sub<nInt>("b")) OR_ASSERT(b);
+    nInt b = getSubPod() TO(template sub<nInt>("b")) OR_ASSERT(b);
     ASSERT_EQ(b.get(), 5);
 
     threadUse thr;
-    tstr<nInt> res(getSubPack() TO(eval("main")));
+    tstr<nInt> res(getSubPod() TO(eval("main")));
     ASSERT_TRUE(res);
     ASSERT_EQ(res->get(), 1);
 }

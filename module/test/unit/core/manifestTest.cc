@@ -55,9 +55,9 @@ TEST_F(manifestTest, testManifestDefaultConstructor) {
 }
 
 TEST_F(manifestTest, testManifestConstructorWithName) {
-    manifest m("myPack");
+    manifest m("myPod");
 
-    ASSERT_EQ(m.name, "myPack");
+    ASSERT_EQ(m.name, "myPod");
     ASSERT_EQ(m.filePath, "");
     ASSERT_EQ(m.author, "unknown");
     ASSERT_EQ(m.ver, "");
@@ -68,10 +68,10 @@ TEST_F(manifestTest, testManifestFullConstructor) {
     entrypoint ep("byeol", paths);
     entrypoints points = {ep};
 
-    manifest m("testPack", "/path/to/pack", "John Doe", "1.0.0", points);
+    manifest m("testPod", "/path/to/pod", "John Doe", "1.0.0", points);
 
-    ASSERT_EQ(m.name, "testPack");
-    ASSERT_EQ(m.filePath, "/path/to/pack");
+    ASSERT_EQ(m.name, "testPod");
+    ASSERT_EQ(m.filePath, "/path/to/pod");
     ASSERT_EQ(m.author, "John Doe");
     ASSERT_EQ(m.ver, "1.0.0");
     ASSERT_EQ(m.points.size(), 1);
@@ -82,7 +82,7 @@ TEST_F(manifestTest, testManifestIsValidWithFullData) {
     entrypoint ep("byeol", paths);
     entrypoints points = {ep};
 
-    manifest m("pack1", "/path", "author", "1.0", points);
+    manifest m("pod1", "/path", "author", "1.0", points);
 
     ASSERT_TRUE(m.isValid());
 }
@@ -102,7 +102,7 @@ TEST_F(manifestTest, testManifestIsValidWithEmptyFilePath) {
     entrypoint ep("byeol", paths);
     entrypoints points = {ep};
 
-    manifest m("pack1", "", "author", "1.0", points);
+    manifest m("pod1", "", "author", "1.0", points);
 
     ASSERT_FALSE(m.isValid());
 }
@@ -112,7 +112,7 @@ TEST_F(manifestTest, testManifestIsValidWithEmptyAuthor) {
     entrypoint ep("byeol", paths);
     entrypoints points = {ep};
 
-    manifest m("pack1", "/path", "", "1.0", points);
+    manifest m("pod1", "/path", "", "1.0", points);
 
     ASSERT_FALSE(m.isValid());
 }
@@ -122,7 +122,7 @@ TEST_F(manifestTest, testManifestIsValidWithEmptyVersion) {
     entrypoint ep("byeol", paths);
     entrypoints points = {ep};
 
-    manifest m("pack1", "/path", "author", "", points);
+    manifest m("pod1", "/path", "author", "", points);
 
     ASSERT_FALSE(m.isValid());
 }
@@ -132,7 +132,7 @@ TEST_F(manifestTest, testManifestIsValidWithInvalidEntrypoint) {
     entrypoint invalidEp("byeol", emptyPaths);
     entrypoints points = {invalidEp};
 
-    manifest m("pack1", "/path", "author", "1.0", points);
+    manifest m("pod1", "/path", "author", "1.0", points);
 
     ASSERT_FALSE(m.isValid());
 }
@@ -145,7 +145,7 @@ TEST_F(manifestTest, testManifestWithMultipleEntrypoints) {
     entrypoint ep2("byeol", paths2);
     entrypoints points = {ep1, ep2};
 
-    manifest m("multiPack", "/multi/path", "Developer", "2.0.0", points);
+    manifest m("multiPod", "/multi/path", "Developer", "2.0.0", points);
 
     ASSERT_TRUE(m.isValid());
     ASSERT_EQ(m.points.size(), 2);
@@ -159,7 +159,7 @@ TEST_F(manifestTest, testManifestWithMixedValidAndInvalidEntrypoints) {
     entrypoint invalidEp("", emptyPaths);
     entrypoints points = {validEp, invalidEp};
 
-    manifest m("pack1", "/path", "author", "1.0", points);
+    manifest m("pod1", "/path", "author", "1.0", points);
 
     ASSERT_FALSE(m.isValid());
 }
@@ -178,7 +178,7 @@ TEST_F(manifestTest, testManifestWithDifferentLanguages) {
     entrypoint nativeEp("native", nativePaths);
     entrypoints points = {byeolEp, nativeEp};
 
-    manifest m("hybridPack", "/hybrid", "Dev Team", "1.5.0", points);
+    manifest m("hybridPod", "/hybrid", "Dev Team", "1.5.0", points);
 
     ASSERT_TRUE(m.isValid());
     ASSERT_EQ(m.points[0].lang, "byeol");

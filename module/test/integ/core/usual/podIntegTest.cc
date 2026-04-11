@@ -6,7 +6,7 @@ using namespace by;
 using namespace std;
 
 namespace {
-    struct packIntegTest: public byeolIntegTest {};
+    struct podIntegTest: public byeolIntegTest {};
 
     class myfunc: public func {
         BY(ME(myfunc, func), CLONE(myfunc))
@@ -85,22 +85,22 @@ namespace {
     };
 } // namespace
 
-TEST_F(packIntegTest, parsePackTest) {
+TEST_F(podIntegTest, parsePodTest) {
     make(manifest("demo"))
         .parse(R"SRC(
-pack demo
+pod demo
     )SRC")
         .shouldParsed(true);
-    ASSERT_TRUE(getSubPack());
-    ASSERT_TRUE(getPack() TO(subs()));
-    scope::super& shares = (scope::super*) (getPack() TO(subs()) TO(getNext()->getContainer())) OR_ASSERT(shares);
+    ASSERT_TRUE(getSubPod());
+    ASSERT_TRUE(getPod() TO(subs()));
+    scope::super& shares = (scope::super*) (getPod() TO(subs()) TO(getNext()->getContainer())) OR_ASSERT(shares);
     ASSERT_EQ(shares.len(), 2);
-    ASSERT_EQ(getPack()->getManifest().name, "demo");
+    ASSERT_EQ(getPod()->getManifest().name, "demo");
 }
 
-TEST_F(packIntegTest, packIsInFrameWhenCallMgdFunc) {
-    // check whether pack's subnodes registered into frame when it calls:
-    pack testpack(manifest("demo"));
+TEST_F(podIntegTest, podIsInFrameWhenCallMgdFunc) {
+    // check whether pod's subnodes registered into frame when it calls:
+    pod testpod(manifest("demo"));
     myfunc f1;
 
     params& ps = f1.getParams();
@@ -109,7 +109,7 @@ TEST_F(packIntegTest, packIsInFrameWhenCallMgdFunc) {
     f1.setLambda([](const auto& contain, const auto& sf) {
         const frame& fr = sf.get(0) OR.ret(false);
 
-        // checks pack is in frame:
+        // checks pod is in frame:
         const params& ps = fr.sub<myfunc>("foo", narr(*new nInt(), *new nFlt())) TO(getParams()) OR.ret(false);
         if(ps.len() != 2) return false;
         if(ps[0].getOrigin().getType() != ttype<nInt>()) return false;
@@ -125,16 +125,16 @@ TEST_F(packIntegTest, packIsInFrameWhenCallMgdFunc) {
         return true;
     });
 
-    testpack.subs().add("foo", f1);
-    testpack.eval("foo", narr(*new nInt(1), *new nFlt(3.5f)));
+    testpod.subs().add("foo", f1);
+    testpod.eval("foo", narr(*new nInt(1), *new nFlt(3.5f)));
     ASSERT_TRUE(f1.isRun());
     ASSERT_TRUE(f1.isSuccess());
 }
 
 /* Concept changed: now, native call also make a frame instance.
- * TEST_F(packIntegTest, packIsNotInFrameWhenCallNativeFunc) {
-    // check whether pack's subnodes not registered into frame when it calls:
-    pack testPack(manifest("demo"), packLoadings());
+ * TEST_F(podIntegTest, podIsNotInFrameWhenCallNativeFunc) {
+    // check whether pod's subnodes not registered into frame when it calls:
+    pod testPod(manifest("demo"), podLoadings());
     nativeFunc f1;
     params& ps = f1.getParams();
     ps.add(new param("age", ttype<nInt>::get()));
@@ -143,9 +143,9 @@ TEST_F(packIntegTest, packIsInFrameWhenCallMgdFunc) {
         const frame* fr = sf.get(0) OR.err("fr == null").ret(false);
         return true;
     });
-    testPack.subs().add("foo", f1);
+    testPod.subs().add("foo", f1);
 
-    testPack.eval("foo", *new narr(nInt(1), *new nFlt(3.5f)));
+    testPod.eval("foo", *new narr(nInt(1), *new nFlt(3.5f)));
     ASSERT_TRUE(f1.isRun());
     ASSERT_TRUE(f1.isSuccess());
 }*/

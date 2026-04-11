@@ -62,11 +62,11 @@ namespace by {
         return getOrigin().getSrc();
     }
 
-    const node& me::getSubPack() const {
+    const node& me::getSubPod() const {
         static obj dummy;
         // which means, the derived origin class doesn't override getSrc(). to prevent infinite loop.
         WHEN(&getOrigin() == this) .ret(dummy);
-        return getOrigin().getSubPack();
+        return getOrigin().getSubPod();
     }
 
     baseObj* me::make() const { return (baseObj*) clone(); }

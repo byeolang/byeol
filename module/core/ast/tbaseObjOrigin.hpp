@@ -39,7 +39,7 @@ namespace by {
         }
 
     public:
-        const node& getSubPack() const override {
+        const node& getSubPod() const override {
             static mockNode inner;
             return inner;
         }

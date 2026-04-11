@@ -44,7 +44,7 @@ TEST_F(basicParsing, testScriptEndsWithEOF) {
     ASSERT_EQ(age.asInt(), 12);
 }
 
-TEST_F(basicParsing, testScriptWithPackScope) {
+TEST_F(basicParsing, testScriptWithPodScope) {
     const std::string script = R"SRC(
         say := "html is not a programming language!"
         age := 12
@@ -180,8 +180,8 @@ TEST_F(basicParsing, testManifestScript) {
     const std::string script = R"SRC(
         def entrypoints
             def cpp
-                path := "./libsamplePack.pack"
-                name := "samplePack"
+                path := "./libsamplePod.pod"
+                name := "samplePod"
         ver := 2.1.0
         author := "kniz"
     )SRC";
@@ -197,7 +197,7 @@ TEST_F(basicParsing, testManifestScript) {
     ASSERT_TRUE(entrys);
 
     ASSERT_EQ(entrys.len(), 1);
-    ASSERT_STREQ(entrys["cpp"]["path"].asStr().c_str(), "./libsamplePack.pack");
+    ASSERT_STREQ(entrys["cpp"]["path"].asStr().c_str(), "./libsamplePod.pod");
 }
 
 TEST_F(basicParsing, testValStelaConstructors) {

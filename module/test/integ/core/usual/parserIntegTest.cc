@@ -7,28 +7,28 @@ namespace {
     struct parserIntegTest: public byeolIntegTest {};
 }
 
-TEST_F(parserIntegTest, packNoOnTray) {
+TEST_F(parserIntegTest, podNoOnTray) {
     make().parse(R"SRC(
         main() void
             ret
     )SRC");
     shouldVerified(true);
 
-    const pack& pak = getPack() OR_ASSERT(slot);
-    auto& owns = (scope::super&) pak.subs().getContainer();
+    const pod& p = getPod() OR_ASSERT(slot);
+    auto& owns = (scope::super&) p.subs().getContainer();
     ASSERT_EQ(owns.len(), 0);
-    ASSERT_EQ(pak.getManifest().name, manifest::DEFAULT_NAME);
+    ASSERT_EQ(p.getManifest().name, manifest::DEFAULT_NAME);
 
-    scope& next = pak.subs().getNext() OR_ASSERT(next);
+    scope& next = p.subs().getNext() OR_ASSERT(next);
     auto& shares = (scope::super&) next.getContainer();
     ASSERT_EQ(shares.len(), 3); // 2 builtin func
-    ASSERT_EQ(&pak, getSubPack());
-    ASSERT_TRUE(getSubPack()->sub<func>("main"));
+    ASSERT_EQ(&p, getSubPod());
+    ASSERT_TRUE(getSubPod()->sub<func>("main"));
 }
 
-TEST_F(parserIntegTest, packNoOnTrayWithoutMake) {
+TEST_F(parserIntegTest, podNoOnTrayWithoutMake) {
     // no make() call:
-    //  so setPack(new pack(manifest())) won't be called.
+    //  so setPod(new pod(manifest())) won't be called.
     //  but it should works too.
     parse(R"SRC(
         main() void
@@ -36,32 +36,32 @@ TEST_F(parserIntegTest, packNoOnTrayWithoutMake) {
     )SRC");
     shouldVerified(true);
 
-    pack& pak = getPack() OR_ASSERT(pak);
-    ASSERT_TRUE(pak.subs().getNext());
-    ASSERT_EQ(pak.getManifest().name, manifest::DEFAULT_NAME);
-    ASSERT_EQ(&pak, getSubPack());
-    ASSERT_TRUE(getSubPack()->sub<func>("main"));
+    pod& p = getPod() OR_ASSERT(pak);
+    ASSERT_TRUE(p.subs().getNext());
+    ASSERT_EQ(p.getManifest().name, manifest::DEFAULT_NAME);
+    ASSERT_EQ(&p, getSubPod());
+    ASSERT_TRUE(getSubPod()->sub<func>("main"));
 }
 
-TEST_F(parserIntegTest, packNotSpecifiedButCodeSpecifyPackNegative) {
+TEST_F(parserIntegTest, podNotSpecifiedButCodeSpecifyPodNegative) {
     // make without name:
-    //  pack will be generated. but its name is '{default}'.
+    //  pod will be generated. but its name is '{default}'.
     make()
         .negative()
         .parse(R"SRC(
-        pack demo
+        pod demo
         main() void
             ret
     )SRC")
         .shouldParsed(false);
 }
 
-TEST_F(parserIntegTest, packProperlySpecified) {
+TEST_F(parserIntegTest, podProperlySpecified) {
     // make with name:
-    //  pack will be generated and its name is 'demo'.
+    //  pod will be generated and its name is 'demo'.
     make("demo")
         .parse(R"SRC(
-        pack demo
+        pod demo
         main() void
             ret
     )SRC")
@@ -69,10 +69,10 @@ TEST_F(parserIntegTest, packProperlySpecified) {
     shouldVerified(true);
 }
 
-TEST_F(parserIntegTest, parserReturnsPackAsOutput) {
+TEST_F(parserIntegTest, parserReturnsPodAsOutput) {
     make("sample")
         .parse(R"SRC(
-        pack sample
+        pod sample
 
         def person
             age := 32
@@ -82,6 +82,6 @@ TEST_F(parserIntegTest, parserReturnsPackAsOutput) {
     )SRC")
         .shouldVerified(true);
 
-    node& pack = getPack() OR_ASSERT(pack);
-    ASSERT_TRUE(pack.sub("person"));
+    node& pod = getPod() OR_ASSERT(pod);
+    ASSERT_TRUE(pod.sub("person"));
 }

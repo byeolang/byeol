@@ -112,11 +112,11 @@ namespace by {
         const src& getSrc() const override;
 
         /**
-         * @brief Retrieves a sub-package represented as a node.
-         * @details This method is used to access nested package structures or components within this base object.
-         * @return A const reference to the node representing the sub-package.
+         * @brief Retrieves a sub-pod represented as a node.
+         * @details This method is used to access nested pod structures or components within this base object.
+         * @return A const reference to the node representing the sub-pod.
          */
-        virtual const node& getSubPack() const;
+        virtual const node& getSubPod() const;
 
         virtual baseObj* make() const;
 

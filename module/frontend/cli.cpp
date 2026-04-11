@@ -68,7 +68,7 @@ namespace by {
         str res;
         {
             defaultSigZone<starter> zone(s);
-            res = s.setTask(ip.getSubPack()).work();
+            res = s.setTask(ip.getSubPod()).work();
         }
 
         if(res) {

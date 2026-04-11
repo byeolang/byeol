@@ -6,7 +6,7 @@
 #include "core/ast/node.hpp"
 #include "core/ast/origin.hpp"
 #include "core/ast/params.hpp"
-#include "core/ast/pack.hpp"
+#include "core/ast/pod.hpp"
 #include "core/ast/func.hpp"
 #include "core/builtin/err/errReport.hpp"
 #include "core/worker/bison/tokenScan.hpp"
@@ -39,7 +39,7 @@ namespace by {
     /** @ingroup core
      *  @brief Parser for byeol language source code
      *  @details Entry point for the byeol parsing component, inheriting from @ref worker. `work()` returns the parsed
-     *  result as @ref pack.
+     *  result as @ref pod.
      *
      *  @section similar_structure_to_stela_parser Similar Structure to Stela Parser
      *  Since the stela language itself is part of the byeol language, its parser is also based on the byeol language
@@ -60,15 +60,15 @@ namespace by {
      *
      *  @code
      *      // - lowparser.y
-     *      pack: PACK name-access NEWLINE {
-     *          $$ = PS.onPack(*$2); // onPack() returns new pack()
+     *      pod: POD name-access NEWLINE {
+     *          $$ = PS.onPod(*$2); // onpod() returns new pod()
      *      }
      *
-     *      compilation-unit: pack defblock {
+     *      compilation-unit: pod defblock {
      *          tstr<obj> pak($1); // Without binding with tstr like this,
      *
      *          PS.onCompilationUnit(pak.get()); // if the pak value has issues inside onCompilationUnit()
-     *                                           // and the operation is cancelled, the pack object
+     *                                           // and the operation is cancelled, the pod object
      *                                           // created on the heap becomes a memory leak.
      *      }
      *  @endcode
@@ -124,8 +124,8 @@ namespace by {
      *  pattern is applied, switching between @ref normalScan and @ref indentScan. When a newline is detected, it
      *  switches to indentScan to count spaces accurately and determine scope.
      */
-    class _nout parser: public tworker<str, pack>, public tokenScanable {
-        typedef tworker<str, pack> __super5;
+    class _nout parser: public tworker<str, pod>, public tokenScanable {
+        typedef tworker<str, pod> __super5;
         BY(CLASS(parser, __super5))
         friend class coreInternal;
 
@@ -134,12 +134,12 @@ namespace by {
 
     public:
         /**
-         * @brief Retrieves the root node of the parsed sub-pack.
-         * @details This method provides access to the top-level AST node representing the entire parsed sub-pack.
-         * @return A pointer to the root node of the sub-pack.
+         * @brief Retrieves the root node of the parsed sub-pod.
+         * @details This method provides access to the top-level AST node representing the entire parsed sub-pod.
+         * @return A pointer to the root node of the sub-pod.
          */
-        node* getSubPack();
-        const node* getSubPack() const BY_CONST_FUNC(getSubPack())
+        node* getSubPod();
+        const node* getSubPod() const BY_CONST_FUNC(getSubPod())
 
         srcSupplies& getSrcSupplies();
         const srcSupplies& getSrcSupplies() const BY_CONST_FUNC(getSrcSupplies())
@@ -334,10 +334,10 @@ namespace by {
         node* onGetArray(node& elemType);
 
         //  keyword:
-        obj* onPack(const node& path);
-        obj* onPack(const std::string& path);
-        obj* onPack();
-        obj* onSubPack(obj& subpack);
+        obj* onPod(const node& path);
+        obj* onPod(const std::string& path);
+        obj* onPod();
+        obj* onSubPod(obj& subpod);
         endExpr* onEnd(const blockExpr& blk);
         blockExpr* onBlock(const node* stmt);
         blockExpr* onBlock(blockExpr* blk, const node* stmt);
@@ -390,8 +390,8 @@ namespace by {
         node* onDefArray(const narr& items);
         node* onDefSeq(const node& start, const node& end);
         //          file:
-        void onCompilationUnit(obj* subpack);
-        void onCompilationUnit(obj* subpack, defBlock* blk);
+        void onCompilationUnit(obj* subpod);
+        void onCompilationUnit(obj* subpod, defBlock* blk);
         //          func:
         func* onFuncSignature(const modifier& mod, const getExpr& access, const node* retType);
         func* onFuncSignature(const getExpr& access, const node* retType);
@@ -458,7 +458,7 @@ namespace by {
         /**
          *  parse with given srcSupply instances.
          *  @param script is null terminated cstring.
-         *  @return last parsed sub pack.
+         *  @return last parsed sub pod.
          */
         str _onWork() override;
 
@@ -480,7 +480,7 @@ namespace by {
         std::string _joinVectorString(const std::vector<std::string>& container) const;
         const node& _onDefArrayType(const narr& items);
         std::vector<std::string> _toDotnames(const node& path);
-        void _onCompilationUnit(obj* subpack, defBlock* blk);
+        void _onCompilationUnit(obj* subpod, defBlock* blk);
         tstr<modifier> _makeDefaultModifier();
 
     private:
@@ -488,7 +488,7 @@ namespace by {
         nbool _isIgnoreWhitespace;
         tokenDispatcher _dispatcher;
         std::vector<ncnt> _indents;
-        str _subpack;
+        str _subpod;
         tstr<scope> _filescope;
         std::vector<nint> _states;
         exprMaker _maker;

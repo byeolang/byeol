@@ -102,7 +102,7 @@ namespace by {
 
     public:
         explicit origin(const mgdType& newType);
-        explicit origin(const mgdType& newType, node* subpack);
+        explicit origin(const mgdType& newType, node* subpod);
         explicit origin(const me& rhs);
 
     public:
@@ -115,7 +115,7 @@ namespace by {
         state getState() const override;
         void setState(state new1) override;
         const ntype& getType() const override;
-        const node& getSubPack() const override;
+        const node& getSubPod() const override;
         const src& getSrc() const override;
         void onCloneDeep(const clonable& from) override;
         baseObj* make() const override;
@@ -139,7 +139,7 @@ namespace by {
 
     private:
         mgdType _type; // TODO: memory leak
-        str _subpack;
+        str _subpod;
         tstr<src> _src;
         tstr<modifier> _mod;
         str _callComplete;

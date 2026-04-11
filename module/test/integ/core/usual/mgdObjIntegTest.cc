@@ -54,29 +54,29 @@ TEST_F(mgdObjIntegTest, testAccessInCompleteObjectNegative2) {
         .shouldVerified(false);
 }
 
-TEST_F(mgdObjIntegTest, distinguishPackScopeAndObjScopeByItsOwner) {
+TEST_F(mgdObjIntegTest, distinguishPodScopeAndObjScopeByItsOwner) {
     make()
         .parse(R"SRC(
-        # there are {default} pack.@ctor()
+        # there are {default} pod.@ctor()
         def a
             # 'a' also has @ctor.
             age := 0
     )SRC")
         .shouldVerified(true);
 
-    obj& a = getSubPack() TO(template sub<obj>("a")) OR_ASSERT(a);
+    obj& a = getSubPod() TO(template sub<obj>("a")) OR_ASSERT(a);
     auto pr = a.subAll<baseFunc>(func::CTOR_NAME, args());
     ASSERT_EQ(pr.len(), 1); // 'a' obj's ctor.
 
     {
         // get all funcs regardless of argument.
-        auto matches = a.getSubPack().subAll<baseFunc>(func::CTOR_NAME, nullptr);
+        auto matches = a.getSubPod().subAll<baseFunc>(func::CTOR_NAME, nullptr);
         ASSERT_EQ(matches.len(), 2);
     }
 
     {
-        auto matches = a.getSubPack().subAll<baseFunc>(func::CTOR_NAME, args());
-        ASSERT_EQ(matches.len(), 1); // default-pack's ctor.
+        auto matches = a.getSubPod().subAll<baseFunc>(func::CTOR_NAME, args());
+        ASSERT_EQ(matches.len(), 1); // default-pod's ctor.
         ASSERT_EQ(matches.len(), 1);
         ASSERT_TRUE(matches.get());
     }
@@ -99,8 +99,8 @@ TEST_F(mgdObjIntegTest, clonedObjDoesntCloneSharesDeeply) {
     )SRC")
         .shouldVerified(true);
 
-    obj& o1 = getSubPack()->sub<obj>("o1") OR_ASSERT(o1);
-    obj& o2 = getSubPack()->sub<obj>("o2") OR_ASSERT(o2);
+    obj& o1 = getSubPod()->sub<obj>("o1") OR_ASSERT(o1);
+    obj& o2 = getSubPod()->sub<obj>("o2") OR_ASSERT(o2);
 
     ASSERT_EQ(o1.getOwns().len(), 2);
     ASSERT_EQ(*o1.getOwns()["age"].cast<nint>(), 22);

@@ -9,7 +9,7 @@
 
 namespace by {
 
-    template class _nout tworker<tstr<pack>, pack>;
+    template class _nout tworker<tstr<pod>, pod>;
 
     BY_DEF_ME(interpreter)
 
@@ -23,9 +23,9 @@ namespace by {
 
     nbool me::isVerified() const { return isParsed() && !getReport().inErr(); }
 
-    node* me::getSubPack() { return _pser.getSubPack(); }
+    node* me::getSubPod() { return _pser.getSubPod(); }
 
-    tstr<pack> me::_onWork() {
+    tstr<pod> me::_onWork() {
         // TODO: don't use static variable '_cache':
         //  instead, put cache onto origin object, and if arr instance is origin, remove the cache.
         arr::_cache.clear();
@@ -43,7 +43,7 @@ namespace by {
 
     void me::_showGraph(nbool showData) const {
         // eval with dumThread.
-        if(isFlag(LOG_STRUCTURE) && _pser.getSubPack() && getTask())
+        if(isFlag(LOG_STRUCTURE) && _pser.getSubPod() && getTask())
             graphVisitor().setShowData(showData).setFlag(0).setTask(getTask()).work();
     }
 
@@ -54,7 +54,7 @@ namespace by {
         _pser.rel();
     }
 
-    nbool me::_isPackExist() { return _pser.getSubPack() && getTask(); }
+    nbool me::_isPodExist() { return _pser.getSubPod() && getTask(); }
 
     namespace {
         template <typename T, typename E> nbool _visit(interpreter& i, T& v, E* task) {
@@ -76,19 +76,19 @@ namespace by {
         WHEN(!_visit(*this, _pser, getTask())) .ret();
         if(!getTask()) setTask(_pser.getTask());
 
-        _isParsed = _isPackExist() && _pser.isOk();
+        _isParsed = _isPodExist() && _pser.isOk();
     }
 
     void me::_expand() {
         threadUse thr(getReport());
         expander evaler;
-        WHEN_NUL(getTask()).err("_pack is null").ret();
+        WHEN_NUL(getTask()).err("_pod is null").ret();
         _visit(*this, evaler, getTask());
     }
 
     void me::_verify() {
         threadUse thr(getReport());
-        WHEN_NUL(getTask()).err("_pack is null").ret();
+        WHEN_NUL(getTask()).err("_pod is null").ret();
         _visit(*this, _veri, getTask());
     }
 } // namespace by

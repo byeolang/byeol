@@ -1,4 +1,4 @@
-#include "core/ast/pack.hpp"
+#include "core/ast/pod.hpp"
 
 #include "core/type/typeMaker.hpp"
 #include "core/worker/visitor/visitor.hpp"
@@ -10,9 +10,9 @@
 
 namespace by {
 
-    BY(DEF_ME(pack), DEF_VISIT())
+    BY(DEF_ME(pod), DEF_VISIT())
 
-    me::pack(const manifest& mani): super(), _manifest(mani) {
+    me::pod(const manifest& mani): super(), _manifest(mani) {
         origin* org = new origin(typeMaker::make<obj>(_manifest.name));
         org->setCallComplete(*new mockNode());
         coreInternal::setOrigin(*this, *org);
@@ -28,9 +28,9 @@ namespace by {
 
     void me::rel() { _rel(); }
 
-    void me::addDependent(pack& dependent) { _dependents.add(dependent); }
+    void me::addDependent(pod& dependent) { _dependents.add(dependent); }
 
-    const tnarr<pack>& me::getDependents() const { return _dependents; }
+    const tnarr<pod>& me::getDependents() const { return _dependents; }
 
     void me::_invalidate() {
         // propagate result only if it's not valid.

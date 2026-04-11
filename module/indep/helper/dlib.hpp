@@ -44,7 +44,7 @@ namespace by {
      *  @code
      *      dlib lib = dlib(path); // Performs steps 1 and 2 simultaneously
      *      auto res = lib.load(); // `res` evaluated as true when it has an error
-     *      WHEN(res).err("couldn't open %s pack: %d", path, res.get())
+     *      WHEN(res).err("couldn't open %s pod: %d", path, res.get())
      *               .ret((rel(), false));
      *      // Release resources with rel() first, then return false via comma operator
      *
@@ -52,7 +52,7 @@ namespace by {
      *      constexpr const nchar* ENTRYPOINT_NAME = "byeol_bridge_cpp_entrypoint";
      *      auto info = lib.accessFunc<entrypointFunc>(ENTRYPOINT_NAME); // Result as tmay
      *      WHEN(!info.has()) // Checking result with tmay's has()
-     *          .err("couldn't access entrypoint of %s pack: %d", path, info.getErr())
+     *          .err("couldn't access entrypoint of %s pod: %d", path, info.getErr())
      *          .ret((rel(), false));
      *
      *      (*info)(&tray); // If function is successfully retrieved, it can be called
