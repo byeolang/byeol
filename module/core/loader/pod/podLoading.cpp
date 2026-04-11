@@ -22,6 +22,7 @@ namespace by {
         // turn on temporary logger's disabled flag:
         //  podLoading occurs during verification or exapansaion in lazy.
         //  in that case, logger was set to be disabled.
+        BY_E("_tryDump!");
         enablesZone zone(true); {
             BY_W_SCOPE("Loading `%s` pod at `%s` is failed", p.getManifest().name, util::joinVectorString(_getPaths()));
             rpt.log(prevCnt);
