@@ -583,23 +583,23 @@ print(Food().name) # "defaultName"
 
 ---
 
-## Pack
+## pod
 
-* ✅ `pack <객체이름>`으로 하면 그 `pack` 객체가 생성됩니다. 그 구문 밑에서
-정의한 모든 객체며 함수는 이 `pack`에 속하게 됩니다.
+* ✅ `pod <객체이름>`으로 하면 그 `pod` 객체가 생성됩니다. 그 구문 밑에서
+정의한 모든 객체며 함수는 이 `pod`에 속하게 됩니다.
 
-* ✅ 따라서 같은 `pack`을 명시한 소스코드 끼리는 서로 공유가 됩니다.
-* ✅ `pack`의 본질은 결국 `def`처럼, 사용자가 정의한 객체에 불과합니다.
+* ✅ 따라서 같은 `pod`을 명시한 소스코드 끼리는 서로 공유가 됩니다.
+* ✅ `pod`의 본질은 결국 `def`처럼, 사용자가 정의한 객체에 불과합니다.
 
 ```
 # file "a.nm" --
-pack example # 이 파일은 example이라는 객체를 `pack` 으로 삼았습니다.
+pod example # 이 파일은 example이라는 객체를 `pod` 으로 삼았습니다.
 # 여기서부터는 사실 example이라는 객체의 내부입니다. 즉 `def example` 과 같습니다.
 # -------------------------------
 # 여기서부터는 `example`의 정의블록문 입니다.
 
 foo() int # example은 foo() 함수를 갖습니다.
-  print("this is pack 'example'\n")
+  print("this is pod 'example'\n")
   ret 33
 
 def person # person 이라는 타입도 갖습니다.
@@ -609,15 +609,15 @@ def person # person 이라는 타입도 갖습니다.
 
 ```
 
-* ✅ 이 `pack`은 시스템이 가져올 수 있는(import) module의 최소 단위입니다. 어떻게 `pack`을 import 할 수 있는지는 밑에서 얘기할께요.
+* ✅ 이 `pod`은 시스템이 가져올 수 있는(import) module의 최소 단위입니다. 어떻게 `pod`을 import 할 수 있는지는 밑에서 얘기할께요.
 
-* ✅ `main()` 함수는 특정 pack에 대한 진입점 입니다.
+* ✅ `main()` 함수는 특정 pod에 대한 진입점 입니다.
 * ✅ `main()` 함수는 반환형이 `void` 혹은 `int` 여야 합니다.
 * ✅ `main()` 함수는 parameter가 비어있거나 `str[]` 여야 합니다.
 
 ```
 # file "b.nm" --
-pack example
+pod example
 # example의 scope 입니다. 그러니 파일이 달라도 example의 모든 식별자에 바로 접근 가능합니다.
 
 main() void
@@ -642,26 +642,26 @@ main() void
   * ✅ 2) func scope: 블록문을 제외하고 함수가 가진 하위 식별자들을 scope에 등록합니다.
   함수 호출이 끝나면 scope은 등록이 해제됩니다.
   * ✅ 3) obj scope: 함수를 가지고 있는 객체의 scope 입니다. 객체가 사라질때 이 scope도 사라집니다.
-  * ✅ 4) pack scope: pack이 제공하는 obj scope 입니다. pack에 속한 obj scope은 해당 pack scope와
-  항상 연결되어 있습니다. pack은 사라지지 않습니다.
+  * ✅ 4) pod scope: pod이 제공하는 obj scope 입니다. pod에 속한 obj scope은 해당 pod scope와
+  항상 연결되어 있습니다. pod은 사라지지 않습니다.
   * ✅ 5) file scope: 각 소스코드 파일 내에서만 접근 가능한 scope 입니다. 해당 파일의 코드가 실행될때만
   scope이 등록됩니다.
 * ✅ scope의 우선순위는 위의 언급한 숫자가 작을 수록 높습니다. (local scope이 제일 높음)
-* ✅ 보통 file scope에 외부 pack을 import 하기 위한 코드를 작성합니다.
+* ✅ 보통 file scope에 외부 pod을 import 하기 위한 코드를 작성합니다.
 
 ```
-pack mypack
-# 여기서부터는 pack scope:
-age := 27 # mypack.a
+pod mypod
+# 여기서부터는 pod scope:
+age := 27 # mypod.a
 
 def Person
     # Person에 대한 obj scope:
     name str
     ctor(newName str): name = newName
     hello() void
-        # age는 pack scope에서 왔습니다.
+        # age는 pod scope에서 왔습니다.
         print("I'm $name and $age yo.\n")
-        # print("I'm ${me.name} and ${mypack.age} yo.\n") 처럼 해도 되긴 합니다.
+        # print("I'm ${me.name} and ${mypod.age} yo.\n") 처럼 해도 되긴 합니다.
 
 foo() str
     # local scope:
@@ -679,14 +679,14 @@ main() void
 
 ```
 
-* ✅ `pack` 키워드 보다 윗 공간은 file scope 입니다.
+* ✅ `pod` 키워드 보다 윗 공간은 file scope 입니다.
 * ✅ 하나의 scope 안에서 같은 식별자를 정의할 수 없습니다.
 * ✅ 위 얘기는 scope이 다르다면 이름이 같아도 된다는 뜻이죠.
 
 ```
 # file "a.nm" --
-pack example
-# 여기서부터는 pack scope.
+pod example
+# 여기서부터는 pod scope.
 age := 4
 
 foo() void
@@ -697,12 +697,12 @@ foo() void
 # 여기서부터는 file scope:
 age := 5
 # 이 age는 이 파일에서만 유효합니다.
-# example에도 `age` 라는 프로퍼티가 존재하기 때문에, 사실상 pack scope의 age를 덮어쓰는 효과가 발생합니다.
+# example에도 `age` 라는 프로퍼티가 존재하기 때문에, 사실상 pod scope의 age를 덮어쓰는 효과가 발생합니다.
 # 인터프리터가 이 점에 대해 경고를 내보낼 겁니다.
 
-pack example
+pod example
 # -----------------------------------------------
-# 여기서부터는 pack scope:
+# 여기서부터는 pod scope:
 def Person
   age := 3 # 눈치채셨나요? 사실 이 값들은 위에서 말한 우선순위를 나타내고 있습니다.
   hello() void
@@ -717,18 +717,18 @@ main() void
 
 ```
 
-* ☐  obj가 아니라 pack scope 혹은 file scope 에 속한 식별자에 접근할때는 `pack`을 사용합니다.
+* ☐  obj가 아니라 pod scope 혹은 file scope 에 속한 식별자에 접근할때는 `pod`을 사용합니다.
 
 ```
 scope := "file"
-pack example
-scope := "pack"
+pod example
+scope := "pod"
 
 def A
   age := "obj"
   foo() void
     age := "local"
-    print("$age ${me.age} ${pack.age}")
+    print("$age ${me.age} ${pod.age}")
 # 결과:
 #  local obj file
 
@@ -1116,7 +1116,7 @@ outerFunc(p p1) str
 ```
 
 * ✅ 이처럼 Byeol 언어는 클래스란 개념이 없습니다.
-* ✅ origin 객체란, pack 안에 소속되어 시스템에 Global 하게 알려진 객체 하나에 불과합니다.
+* ✅ origin 객체란, pod 안에 소속되어 시스템에 Global 하게 알려진 객체 하나에 불과합니다.
 * ✅ 그러니 클래스라는 개념은 잊어버리세요.
 
 ---
@@ -1409,7 +1409,7 @@ main() void
 * ☐  이 경우, 해당 시점부터 `with` 구문을 가지는 블록문에서 벗어날때까지 지속됩니다.
 
 ```
-pack example
+pod example
 age := 23 # example.age 입니다.
 
 def Person
@@ -1568,7 +1568,7 @@ def B
 * ☐  하지만 분명히 다릅니다.
 
 ```
-pack example
+pod example
 
 def A
     boo() void
@@ -1619,7 +1619,7 @@ main() void
 * ☐  단 `A`는 현재 `me`가 확장한 타입이어야 합니다.
 
 ```
-pack example
+pod example
 
 def A
     boo() void
@@ -1827,10 +1827,10 @@ main() void
     * 1) Module 의존관계 표현
     * 2) 해당 module의 scope을 현재 파일에 확장
 * ☐  byeol언어에서는 1은 manifest를 통해 해결합니다.
-* ☐  manifest 파일을 작성해서, 어떠한 외부 pack을 가져올 것인지 정의합니다.
+* ☐  manifest 파일을 작성해서, 어떠한 외부 pod을 가져올 것인지 정의합니다.
 * ✅ mainfest는 byeol 언어를 환경설정 목적으로 특화/경량화한 `leaf` 언어로 작성됩니다.
 * ✅ `leaf` 언어는 byeol 언어와 거의 똑같습니다.
-* ☐  import 하려는 pack들의 충돌 문제를 완화할 수 있습니다.
+* ☐  import 하려는 pod들의 충돌 문제를 완화할 수 있습니다.
 
 ```
 def manifest
@@ -1842,7 +1842,7 @@ def manifest
 * ☐  import 기능 2은 `with`나 `:=`를 사용합니다.
 
 ```
-with openai # 이제 openai pack의 모든 sub가 이 파일에 확장됩니다.
+with openai # 이제 openai pod의 모든 sub가 이 파일에 확장됩니다.
 
 main() void
     p openai.Parser
@@ -2184,7 +2184,7 @@ main() void
 * 간결한 언어입니다.
 
 * byeol:
-    * pack, def, in, as, is, for, while, next, break, with, if, else, ret, enum, get, set, end, only
+    * pod, def, in, as, is, for, while, next, break, with, if, else, ret, enum, get, set, end, only
 
 * C:
     * break, case, const, continue, return, default, do, while, else, enum, extern, for, goto, if,

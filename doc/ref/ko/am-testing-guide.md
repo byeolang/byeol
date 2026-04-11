@@ -364,7 +364,7 @@ ASSERT_TRUE(res);
 const baseFunc& f = res->sub<baseFunc>("main", narr());
 
 // OR_ASSERT 적용: 
-node& res = getSubPack() OR_ASSERT(res); // 참조자로 받을 수 있게 됨.
+node& res = getSubPod() OR_ASSERT(res); // 참조자로 받을 수 있게 됨.
 const baseFunc& f = res.sub<baseFunc>("main", narr()) OR_ASSERT(f);
 ```
 

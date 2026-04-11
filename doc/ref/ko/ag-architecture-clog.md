@@ -160,7 +160,7 @@ BY_I("slot[%s] origins loaded.", getName());
 
 ```
 @style: language-txt verified
-Oct 22 2025 21:26:13   I    cppPackLo   <_loadLibs#49>    slot[cpp] origins loaded.
+Oct 22 2025 21:26:13   I    cppPodLoa   <_loadLibs#49>    slot[cpp] origins loaded.
           (1)         (2)     (3)           (4)                    (5)
 ```
 
@@ -168,7 +168,7 @@ Oct 22 2025 21:26:13   I    cppPackLo   <_loadLibs#49>    slot[cpp] origins load
 
 1. 로깅한 날짜(Oct 22 2025)와 시간(21:26:13)
 2. 로그 레벨(I, Info). 로그 레벨은 ERR, WARN, INFO 총 3개가 존재합니다.
-3. 로깅한 클래스명(cppPackLoading)
+3. 로깅한 클래스명(cppPodLoading)
 4. 로깅한 함수(_loadLibs)와 해당 파일내 라인번호(49)
 5. 로그 메시지(slot[cpp] origins loaded)
 
@@ -362,7 +362,7 @@ convert ..> noWrap : Create
 
 @enduml
 
-핵심은 <b>paramter pack을 활용한 변환함수 호출</b>과 <b>값 전달</b> 2가지 입니다.
+핵심은 <b>paramter pod을 활용한 변환함수 호출</b>과 <b>값 전달</b> 2가지 입니다.
 먼저 `BY_I` 와 같은 매크로를 사용하면 다음의 richLog 함수를 호출하는데요.
 
 ```

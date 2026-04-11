@@ -169,7 +169,7 @@ TEST_F(primitiveTypeIntegTest, testFooFunc) {
 @style: language-txt verified
 $ ./build/builder.py dbg
 # 빌드 완료후
-$ cd /bin # TC 돌릴때는 pack 경로 문제가 있어서 bin 폴더에서 하는게 좋습니다.
+$ cd /bin # TC 돌릴때는 pod 경로 문제가 있어서 bin 폴더에서 하는게 좋습니다.
 $ ./test --gtest_filter="primitiveTypeIntegTest.testFooFunc"
 
 # 잘되면 모든 TC도 한번 돌려보죠.

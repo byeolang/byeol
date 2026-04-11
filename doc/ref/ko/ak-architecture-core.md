@@ -82,7 +82,7 @@ node --> s: main()
 group prepare thread
   create participant thread
   s -> thread: make a thread
-  s -> node: load pack holding main()
+  s -> node: load pod holding main()
   activate node
   node -> thread: load its symbol
   activate thread
@@ -191,8 +191,8 @@ package bridge {
 baseObj <|-- tbridge
 
 package loader {
-  class pack
-  class packLoader
+  class pod
+  class podLoader
 }
 
 package "frame" as frame1 {
@@ -203,7 +203,7 @@ package "frame" as frame1 {
 node <|-- frame
 thread *-- frame
 starter ..> thread: make and run main()
-thread --> packLoader: start loading
+thread --> podLoader: start loading
 
 package worker {
   class interpreter {
@@ -266,7 +266,7 @@ by::starter "starter"는 이 thread를 생성하고 프로그램을 실행하는
 c++의 @ref by::func "func" 나 @ref by::obj "obj" 클래스의 객체로 생성되는데,
 이를 <b>script object나 script func</b>이라고 합니다.
 반면, 때로는 c++ 코드 상에서 byeol 에서 사용할 객체나 함수를 위한 class를 정의하고,
-이걸 Byeol의 pack으로써 공개하는 경우도 많은데, 이처럼 <b>c++코드로 작성된 object나
+이걸 Byeol의 pod로써 공개하는 경우도 많은데, 이처럼 <b>c++코드로 작성된 object나
 func을 native object, native func</b>이라고 합니다.
 
 이렇게 생성된 native symbol (정의된 object or function)과 script symbol은 모두 @ref by::starter "starter"에
@@ -903,8 +903,8 @@ class getSeqFunc: public baseFunc {
 };
 ```
 
-이제 위 클래스를 pack으로써 노출하게 되면 byeol 코드에서도 @ref by::nStr::len() "len()" 이나 getSeqFunc을
-사용할 수 있습니다! 어떻게 pack으로 내보내는지는 @ref by::packLoading "packLoading" 이나 @ref by::autopack "autopack" 등을
+이제 위 클래스를 pod로써 노출하게 되면 byeol 코드에서도 @ref by::nStr::len() "len()" 이나 getSeqFunc을
+사용할 수 있습니다! 어떻게 pod로 내보내는지는 @ref by::podLoading "podLoading" 이나 @ref by::autopod "autopod" 등을
 참조하세요.
 
 byeol 코드에서는 다음과 같이 사용할 수 있게 됩니다:
@@ -1222,9 +1222,9 @@ str, int 등 scalar타입은 모두 immutable 타입입니다. 이는 byeol의 �
 
 ---
 
-### manifest 클래스 - Pack 메타데이터
+### manifest 클래스 - pod 메타데이터
 
-@ref stela 언어로 작성된, pack을 로딩하기 위한 기본정보를 담고 있는 객체입니다.
+@ref stela 언어로 작성된, pod을 로딩하기 위한 기본정보를 담고 있는 객체입니다.
 `manifest.stela` 파일로부터 @ref stela 모듈을 사용해 파싱됩니다.
 
 ---
@@ -2408,7 +2408,7 @@ str res = glBridge->eval("init", args(narr(*winBridge)));
 res->cast<int>(); // 25
 ```
 
-위 코드가 pack으로 배포되면, byeol 코드에서는 다음과 같이 사용할 수 있습니다:
+위 코드가 pod으로 배포되면, byeol 코드에서는 다음과 같이 사용할 수 있습니다:
 
 ```
 @style: language-byeol verified
@@ -2554,8 +2554,8 @@ stop
 1. <b>local scope</b>: `blockExpr`에 의해 생성, 블록 종료시 소멸
 2. <b>func scope</b>: 함수가 소유한 symbol 저장 (nested func, static variable 등)
 3. <b>obj scope</b>: 객체가 소유한 함수와 변수들이 속한 scope
-4. <b>file scope</b>: 소스 파일 단위의 scope, pack보다 위에 선언된 symbol
-5. <b>pack scope</b>: pack에 속한 symbol들, 외부에서 접근 가능
+4. <b>file scope</b>: 소스 파일 단위의 scope, pod보다 위에 선언된 symbol
+5. <b>pod scope</b>: pod에 속한 symbol들, 외부에서 접근 가능
 
 아, 참고로 localScope 이라는 별도의 클래스가 있다는 얘기가 아닙니다.
 개념적으로 분류하고 있을 뿐, 위의 모든 scope는 다 똑같은 `scope` 객체예요.
@@ -2564,11 +2564,11 @@ stop
 
 ```
 @style: language-byeol verified
-VERSION := "1.0"  # file scope - pack 선언 전
+VERSION := "1.0"  # file scope - pod 선언 전
 
-pack myPack
+pod myPod
 
-PI := 3.14  # pack scope - pack 내부
+PI := 3.14  # pod scope - pod 내부
 
 def Calculator  # obj scope 생성
     result := 0  # obj scope의 property
@@ -2606,25 +2606,25 @@ str me::_interactFrame(node& meObj, scope& s, nidx exN) {
 
 ---
 
-<b>File scope와 pack scope</b>는 밀접한 관계가 있습니다:
+<b>File scope와 pod scope</b>는 밀접한 관계가 있습니다:
 
 ```
 @style: language-byeol verified
 IS_DBG := false  # file scope
 
-####### 여기서부터 pack scope #######
-pack test
+####### 여기서부터 pod scope #######
+pod test
 
 def yourObj
     age := 3
 
-IS_DBG := true  # pack scope (경고: 중복 이름)
+IS_DBG := true  # pod scope (경고: 중복 이름)
 
 main() void
-    print(IS_DBG)  # false. file scope이 pack scope보다 우선됨
+    print(IS_DBG)  # false. file scope이 pod scope보다 우선됨
 ```
 
-IS_DBG는 file scope과 pack scope에 각각 1개씩 정의됩니다. 중요한 점은 <b>file scope는 @ref by::parser "parser" 에 의해 항상 pack scope를 chain</b>한다는 것입니다. Symbol을 찾을 때 file scope를 먼저 검색하고, 없을 경우 pack scope를 검색하므로, file scope에 선언된 값이 우선됩니다.
+IS_DBG는 file scope과 pod scope에 각각 1개씩 정의됩니다. 중요한 점은 <b>file scope는 @ref by::parser "parser" 에 의해 항상 pod scope를 chain</b>한다는 것입니다. Symbol을 찾을 때 file scope를 먼저 검색하고, 없을 경우 pod scope를 검색하므로, file scope에 선언된 값이 우선됩니다.
 
 ---
 
@@ -2637,7 +2637,7 @@ IS_DBG는 file scope과 pack scope에 각각 1개씩 정의됩니다. 중요한 
 `baseFunc`이 `eval()` 되면 다음 순서로 frame이 구성됩니다:
 
 1. `baseObj`: 새 frame 객체를 만들어 frames에 추가, subs()와 `me` 참조 등록
-2. `obj`: baseObj 동작에 더해 현재 file scope 추가 (pack scope도 함께)
+2. `obj`: baseObj 동작에 더해 현재 file scope 추가 (pod scope도 함께)
 3. `func`: 자신의 subs()와 args를 frame에 등록
 4. `blockExpr`: local scope으로 사용할 빈 scope 생성
 
@@ -2655,14 +2655,14 @@ frame (calc.add(5) 실행 중)
 ├─ [3] args scope (add의 인자: val=5)
 ├─ [4] obj scope (Calculator 객체의 멤버: result, add)
 ├─ [5] file scope (VERSION 등)
-└─ [6] pack scope (PI, Calculator 등)
+└─ [6] pod scope (PI, Calculator 등)
 ```
 
 Symbol 탐색은 위에서 아래로 순차 진행됩니다:
 - `temp` 검색: [1] local scope에서 발견
 - `val` 검색: [3] args scope에서 발견
 - `result` 검색: [4] obj scope에서 발견
-- `PI` 검색: [6] pack scope에서 발견
+- `PI` 검색: [6] pod scope에서 발견
 
 ---
 
@@ -2696,7 +2696,7 @@ for(auto& elem : frame.subs()) {
 IS_DBG := false
 name := "kniz"
 
-pack test
+pod test
 age := 57
 
 def yourObj
@@ -2726,7 +2726,7 @@ main() void
         │  ├─────┼────────┤
 frame 2 │  │  file    │IS_DBG, name    │
         │  ├─────┼────────┤
-        │  │  pack    │age(57),yourObj │
+        │  │  pod     │age(57),yourObj │
         ▼  │          │main()          │
             ├─────┼────────┤
         ▲  │  local   │name("unknown") │
@@ -2735,13 +2735,13 @@ frame 1 │  ├─────┼────────┤
         ▼  └─────┴────────┘
 ```
 
-frame #2를 보면 yourObj 아래에 file/pack scope이 다시 나타납니다. 왜 그럴까요?
+frame #2를 보면 yourObj 아래에 file/pod scope이 다시 나타납니다. 왜 그럴까요?
 
-Symbol 탐색은 위에서 아래로 순차 탐색합니다. 만약 frame #2에서 pack/file scope을 제거한다면, `yourObj.foo()` 안에서 `name`을 참조할 때 main()의 local scope에 있는 "unknown"이 먼저 발견됩니다. 이는 잘못된 결과입니다 (file scope의 "kniz"가 나와야 함).
+Symbol 탐색은 위에서 아래로 순차 탐색합니다. 만약 frame #2에서 pod/file scope을 제거한다면, `yourObj.foo()` 안에서 `name`을 참조할 때 main()의 local scope에 있는 "unknown"이 먼저 발견됩니다. 이는 잘못된 결과입니다 (file scope의 "kniz"가 나와야 함).
 
-올바른 결과를 위해서는 frame #2에 pack/file scope를 끼워넣어야 합니다. if-else로 scope 탐색 장소를 분리하는 것보다, <b>하나의 큰 배열을 위에서 아래로 순차 탐색</b>하는 것이 훨씬 간결합니다.
+올바른 결과를 위해서는 frame #2에 pod/file scope를 끼워넣어야 합니다. if-else로 scope 탐색 장소를 분리하는 것보다, <b>하나의 큰 배열을 위에서 아래로 순차 탐색</b>하는 것이 훨씬 간결합니다.
 
-게다가 `tnchain`의 `link()`를 활용하면, `parser`가 obj를 생성할 때 pack과 file을 미리 chain으로 연결해두어서, obj의 scope를 frames에 추가하는 것만으로도 obj, file, pack scope이 한번에 연결됩니다. 이 과정에서 <b>어떠한 복사도 일어나지 않습니다</b>.
+게다가 `tnchain`의 `link()`를 활용하면, `parser`가 obj를 생성할 때 pod과 file을 미리 chain으로 연결해두어서, obj의 scope를 frames에 추가하는 것만으로도 obj, file, pod scope이 한번에 연결됩니다. 이 과정에서 <b>어떠한 복사도 일어나지 않습니다</b>.
 
 ---
 
@@ -2749,11 +2749,11 @@ Symbol 탐색은 위에서 아래로 순차 탐색합니다. 만약 frame #2에�
 
 `thread`는 하나의 프로그램 실행 흐름을 표현합니다 (현재는 단일 스레드만 지원). `thread`는 `frames`와 `errReport`를 소유하여 프로그램 실행시 frame을 구성하고 에러를 수집합니다.
 
-<b>Builtin pack</b>
+<b>Builtin pod</b>
 
-`builtin` pack은 byeol 언어에서 기본 제공하는 타입/함수들입니다. manifest 선언 없이도 항상 접근 가능하며, `int`, `str`, `arr`, `err`, `print()` 등이 여기 속합니다.
+`builtin` pod은 byeol 언어에서 기본 제공하는 타입/함수들입니다. manifest 선언 없이도 항상 접근 가능하며, `int`, `str`, `arr`, `err`, `print()` 등이 여기 속합니다.
 
-standard pack과 비슷하지만 엄연히 구분되는 pack이며, builtin은 전부 C++ native 클래스를 `tbridger`를 활용해 노출한 형태입니다.
+standard pod과 비슷하지만 엄연히 구분되는 pod이며, builtin은 전부 C++ native 클래스를 `tbridger`를 활용해 노출한 형태입니다.
 
 ---
 
@@ -2807,19 +2807,19 @@ thread::get();  // originalThread 반환
 
 ## 패키지 시스템
 
-Byeol은 `pack`이라는 단위로 라이브러리를 배포합니다. 패키지 시스템은 pack을 동적으로 lazy 로딩하며, 종속성 관리와 검증을 담당합니다.
+Byeol은 `pod`이라는 단위로 라이브러리를 배포합니다. 패키지 시스템은 pod을 동적으로 lazy 로딩하며, 종속성 관리와 검증을 담당합니다.
 
 @startuml
 actor "User Code" as user
-participant "packLoader" as loader
-participant "autopack" as autopack
-participant "packLoading" as packLoading
+participant "pod" as loader
+participant "autopod" as autopod
+participant "podLoading" as podLoading
 participant "manifest" as manifest
 participant "File System" as fs
 
-== Pack Registration Phase ==
+== Pod Registration Phase ==
 
-user -> loader : addPack("mylib")
+user -> loader : addPod("mylib")
 activate loader
 
 loader -> fs : Find manifest.stela
@@ -2842,31 +2842,31 @@ end note
 manifest --> loader : manifest object
 deactivate manifest
 
-loader -> packLoading : Create (native/script)
-activate packLoading
+loader -> podLoading : Create (native/script)
+activate podLoading
 
-note right of packLoading
-  <b>packLoading Type:</b>
+note right of podLoading
+  <b>podLoading Type:</b>
   - .byeol file → script
   - .so/.dll file → native
   - or both
 end note
 
-packLoading --> loader : packLoading[]
-deactivate packLoading
+podLoading --> loader : podLoading[]
+deactivate podLoading
 
-loader -> autopack : Create (RELEASED state)
-activate autopack
+loader -> autopod : Create (RELEASED state)
+activate autopod
 
-note right of autopack
+note right of autopod
   <b>Initial State:</b>
   state = RELEASED
   No memory occupation
-  Store packLoadings only
+  Store podLoadings only
 end note
 
-autopack --> loader : autopack object
-deactivate autopack
+autopod --> loader : autopod object
+deactivate autopod
 
 loader -> loader : Register dependencies
 note right of loader
@@ -2879,8 +2879,8 @@ deactivate loader
 
 == Lazy Loading Phase (On symbol access) ==
 
-user -> autopack : Access mylib.someFunc()
-activate autopack
+user -> autopod : Access mylib.someFunc()
+activate autopod
 
 note right of user
   <b>Lazy Loading Trigger:</b>
@@ -2888,41 +2888,41 @@ note right of user
   until actual usage
 end note
 
-autopack -> autopack : state == RELEASED?
-note right of autopack
+autopod -> autopod : state == RELEASED?
+note right of autopod
   Since it's first access
   start loading
 end note
 
 == PARSED Phase ==
 
-autopack -> packLoading : parse()
-activate packLoading
+autopod -> podLoading : parse()
+activate podLoading
 
-packLoading -> fs : Read .byeol file
+podLoading -> fs : Read .byeol file
 activate fs
 
-fs --> packLoading : Source code
+fs --> podLoading : Source code
 deactivate fs
 
-packLoading -> packLoading : Run parser
-note right of packLoading
+podLoading -> podLoading : Run parser
+note right of podLoading
   Create AST
-  (Skip for native pack)
+  (Skip for native pod)
 end note
 
-packLoading --> autopack : AST
-deactivate packLoading
+podLoading --> autopod : AST
+deactivate podLoading
 
-autopack -> autopack : state = PARSED
+autopod -> autopod : state = PARSED
 
 == VERIFIED Phase ==
 
-autopack -> packLoading : verify()
-activate packLoading
+autopod -> podLoading : verify()
+activate podLoading
 
-packLoading -> packLoading : Run verification
-note right of packLoading
+podLoading -> podLoading : Run verification
+note right of podLoading
   <b>Verification Items:</b>
   - Type checking
   - Syntax verification
@@ -2931,102 +2931,102 @@ end note
 
 alt Verification Success
 
-    packLoading --> autopack : isValid = true
-    autopack -> autopack : state = VERIFIED
+    podLoading --> autopod : isValid = true
+    autopod -> autopod : state = VERIFIED
 
 else Verification Failed
 
-    packLoading --> autopack : isValid = false
-    autopack -> autopack : state = VERIFIED\n(Mark as failed)
+    podLoading --> autopod : isValid = false
+    autopod -> autopod : state = VERIFIED\n(Mark as failed)
 
 end
 
-deactivate packLoading
+deactivate podLoading
 
 == LINKED Phase ==
 
-autopack -> packLoading : link()
-activate packLoading
+autopod -> podLoading : link()
+activate podLoading
 
 alt isValid == true
 
-    packLoading -> packLoading : Linking complete
-    packLoading --> autopack : Success
+    podLoading -> podLoading : Linking complete
+    podLoading --> autopod : Success
 
-    autopack -> autopack : state = LINKED
+    autopod -> autopod : state = LINKED
 
 else isValid == false
 
-    packLoading --> autopack : Failure
+    podLoading --> autopod : Failure
 
-    autopack -> autopack : state = LINKED\nPropagate to dependent packs
+    autopod -> autopod : state = LINKED\nPropagate to dependent pods
 
-    note right of autopack
+    note right of autopod
       <b>Failure Propagation:</b>
       Propagate failure fact
       to all dependents
-      that rely on this pack
+      that rely on this pod
     end note
 
 end
 
-deactivate packLoading
+deactivate podLoading
 
-autopack --> user : Return symbol or error
-deactivate autopack
+autopod --> user : Return symbol or error
+deactivate autopod
 @enduml
 
 ---
 
-### manifest 클래스 - Pack 메타데이터
+### manifest 클래스 - pod 메타데이터
 
-stela 언어로 작성된, pack을 로딩하기 위한 기본정보를 담고 있는 객체입니다. `manifest.stela` 파일로부터 @ref stela 모듈을 사용해 파싱됩니다.
+stela 언어로 작성된, pod을 로딩하기 위한 기본정보를 담고 있는 객체입니다. `manifest.stela` 파일로부터 @ref stela 모듈을 사용해 파싱됩니다.
 
-@ref by::manifest "manifest" 는 pack의 entrypoint, 종속성 정보 등을 포함합니다. entrypoint는 pack이 어떠한 종류의 라이브러리를 포함하고 있는지를 나타냅니다 (예: `cpp`, `byeol`).
-
----
-
-### pack 클래스 - Pack의 결과물
-
-byeol 언어는 `pack`이라는 일종의 압축파일 단위로 라이브러리를 배포하는데, pack 파일에는 최상위 `obj` 객체와 @ref by::manifest "manifest", 종속하는 pack 목록이 포함됩니다.
-
-(byeol 언어에서 내 코드에서 다른 pack을 사용하려면 @ref by::manifest "manifest" 에 종속관계에 있다는 걸 선언해야 합니다)
-
-<b>@ref by::pack "pack" 은 pack 파일로부터 만들어지는 결과물</b>이지, pack을 불러오는 걸 담당하지 않습니다. pack 로딩에 대해서는 `packLoading`이나 `packLoader`를 참조하세요.
+@ref by::manifest "manifest" 는 pod의 entrypoint, 종속성 정보 등을 포함합니다. entrypoint는 pod이 어떠한 종류의 라이브러리를 포함하고 있는지를 나타냅니다 (예: `cpp`, `byeol`).
 
 ---
 
-### autopack 클래스 - Lazy Pack 로딩
+### pod 클래스 - pod의 결과물
 
-byeol 언어는 pack을 <b>lazy하게 동적으로</b> 불러옵니다. @ref by::autopack "autopack" 은 이 기능을 구현한 것으로, `packLoader`가 pack 파일을 찾으면 `packLoading` 객체를 적절히 생성해서 @ref by::autopack "autopack" 에 넣어둡니다.
+byeol 언어는 `pod`이라는 일종의 압축파일 단위로 라이브러리를 배포하는데, pod 파일에는 최상위 `obj` 객체와 @ref by::manifest "manifest", 종속하는 pod 목록이 포함됩니다.
 
-이후 @ref by::autopack "autopack" 에 접근해서 안에 포함된 symbol을 가져오려는 시도를 하면 lazy하게 @ref by::packLoading "packLoading" 이 동작해 symbol을 파일로부터 불러옵니다.
+(byeol 언어에서 내 코드에서 다른 pod을 사용하려면 @ref by::manifest "manifest" 에 종속관계에 있다는 걸 선언해야 합니다)
 
-이는 <b>Lazy Loading 패턴</b>의 핵심 구현입니다. 필요할 때까지 리소스(pack) 로딩을 미루어 초기 로딩 시간과 메모리 사용량을 최소화합니다.
+<b>@ref by::pod "pod" 은 pod 파일로부터 만들어지는 결과물</b>이지, pod을 불러오는 걸 담당하지 않습니다. pod 로딩에 대해서는 `podLoading`이나 `podLoader`를 참조하세요.
 
-<b>복수의 packLoading</b>
+---
 
-@ref by::packLoading "packLoading" 은 native 환경에서 가져올 수도 있고(dll 혹은 so 파일), runtime 환경에서 가져올 수도 있습니다(.byeol 파일). 또는 2개가 모두 하나의 pack에 있는 경우도 있을 수 있습니다.
+### autopod 클래스 - Lazy pod 로딩
 
-따라서 @ref by::autopack "autopack" 은 항상 1개의 @ref by::packLoading "packLoading" 만 가지지 않고, 배열로 처리합니다.
+byeol 언어는 pod을 <b>lazy하게 동적으로</b> 불러옵니다. @ref by::autopod "autopod" 은 이 기능을 구현한 것으로, `podLoader`가 pod 파일을 찾으면 `podLoading` 객체를 적절히 생성해서 @ref by::autopod "autopod" 에 넣어둡니다.
 
-<b>autopack 상태 (State)</b>
+이후 @ref by::autopod "autopod" 에 접근해서 안에 포함된 symbol을 가져오려는 시도를 하면 lazy하게 @ref by::podLoading "podLoading" 이 동작해 symbol을 파일로부터 불러옵니다.
+
+이는 <b>Lazy Loading 패턴</b>의 핵심 구현입니다. 필요할 때까지 리소스(pod) 로딩을 미루어 초기 로딩 시간과 메모리 사용량을 최소화합니다.
+
+<b>복수의 podLoading</b>
+
+@ref by::podLoading "podLoading" 은 native 환경에서 가져올 수도 있고(dll 혹은 so 파일), runtime 환경에서 가져올 수도 있습니다(.byeol 파일). 또는 2개가 모두 하나의 pod에 있는 경우도 있을 수 있습니다.
+
+따라서 @ref by::autopod "autopod" 은 항상 1개의 @ref by::podLoading "podLoading" 만 가지지 않고, 배열로 처리합니다.
+
+<b>autopod 상태 (State)</b>
 
 총 4개의 상태를 가지며 다음과 같은 흐름으로 로딩 파이프라인을 갖습니다:
 
 @startuml
-[*] --> RELEASED : Create autopack
+[*] --> RELEASED : Create autopod
 
 state RELEASED {
     RELEASED : Initial state
     RELEASED : No memory occupation
-    RELEASED : Most packs are in this state
+    RELEASED : Most pods are in this state
 }
 
 state PARSED {
     PARSED : Code parsing complete
     PARSED : AST created
-    PARSED : Native pack skips this step
+    PARSED : Native pod skips this step
 }
 
 state VERIFIED {
@@ -3038,15 +3038,15 @@ state VERIFIED {
 state LINKED {
     LINKED : Final state
     LINKED : Ready for execution
-    LINKED : Propagate to dependent pack on verification failure
+    LINKED : Propagate to dependent pod on verification failure
 }
 
-RELEASED --> PARSED : On symbol access\npackLoading.parse()
-RELEASED --> LINKED : native/optimized pack\nParsing unnecessary
+RELEASED --> PARSED : On symbol access\npodLoading.parse()
+RELEASED --> LINKED : native/optimized pod\nParsing unnecessary
 
-PARSED --> VERIFIED : packLoading.verify()
+PARSED --> VERIFIED : podLoading.verify()
 
-VERIFIED --> LINKED : packLoading.link()
+VERIFIED --> LINKED : podLoading.link()
 
 note right of RELEASED
   <b>Lazy Loading:</b>
@@ -3064,23 +3064,23 @@ note bottom of VERIFIED
   <b>On Verification Failure:</b>
   Set isValid = false
   Propagate failure
-  to dependent packs in LINKED phase
+  to dependent pods in LINKED phase
 end note
 
 note right of LINKED
   <b>Dependency Propagation:</b>
   If verification failed
-  Mark all packs
+  Mark all pods
   depending on this as failed
 end note
 
 @enduml
 
-이는 <b>State Machine 패턴</b>을 응용한 부분입니다. autopack은 정의된 상태들(RELEASED → PARSED → VERIFIED → LINKED) 사이를 전이하며, 각 상태에서 허용되는 동작이 다릅니다.
+이는 <b>State Machine 패턴</b>을 응용한 부분입니다. autopod은 정의된 상태들(RELEASED → PARSED → VERIFIED → LINKED) 사이를 전이하며, 각 상태에서 허용되는 동작이 다릅니다.
 
-- <b>pack 생성</b>: @ref by::packLoader "packLoader" 가 @ref by::pack "pack" 객체를 생성해 시스템에 추가, dependencies도 기록
-- <b>RELEASED</b>: 초기 상태로, 어떠한 메모리도 점유하지 않음. 사용하지 않는 대부분의 @ref by::pack "pack" 은 여기에 속함
-- <b>PARSED</b>: @ref by::autopack "autopack" 에 접근이 이뤄진 경우, 본격적으로 사용하기 위해 코드를 파싱. 파싱 단계가 필요없는 경우 (optimized pack 또는 native pack)에는 LINKED 상태로 바로 건너뜀
+- <b>pod 생성</b>: @ref by::podLoader "podLoader" 가 @ref by::pod "pod" 객체를 생성해 시스템에 추가, dependencies도 기록
+- <b>RELEASED</b>: 초기 상태로, 어떠한 메모리도 점유하지 않음. 사용하지 않는 대부분의 @ref by::pod "pod" 은 여기에 속함
+- <b>PARSED</b>: @ref by::autopod "autopod" 에 접근이 이뤄진 경우, 본격적으로 사용하기 위해 코드를 파싱. 파싱 단계가 필요없는 경우 (optimized pod 또는 native pod)에는 LINKED 상태로 바로 건너뜀
 - <b>VERIFIED</b>: 파싱 이후, 코드의 정합성을 검증. 검증에 실패했다면 isValid값을 false로 설정
 - <b>LINKED</b>: 자신이 검증에 실패한 상태라면, 자신을 참조하는 모든 dependents에게 자신이 검증에 실패했다는 사실을 전파
 
@@ -3090,32 +3090,32 @@ end note
 
 <b>동적 검증과 의존성 문제</b>
 
-모든 pack이 검증이 완료된, 완전무결한 상태라고 전제하고 그냥 로딩만 해서는 안될 수 있습니다. 때로는 pack이 올바른지 한번 더 검증할 필요가 있기에, @ref by::autopack "autopack" 중 일부는 symbol을 불러올때 사전에 파싱이나 검증을 해야 합니다.
+모든 pod이 검증이 완료된, 완전무결한 상태라고 전제하고 그냥 로딩만 해서는 안될 수 있습니다. 때로는 pod이 올바른지 한번 더 검증할 필요가 있기에, @ref by::autopod "autopod" 중 일부는 symbol을 불러올때 사전에 파싱이나 검증을 해야 합니다.
 
-문제는 어떠한 pack은 다른 pack에 종속되는 경우가 매우 많이 발생한다는 점으로, 종속한 pack이 검증에 실패하게 되면, 그 사실을 전파해서 종속된 pack들도 모두 사용이 불가능해야 합니다. 이를 위의 4가지 상태를 제어하는 알고리즘으로 해결합니다.
+문제는 어떠한 pod은 다른 pod에 종속되는 경우가 매우 많이 발생한다는 점으로, 종속한 pod이 검증에 실패하게 되면, 그 사실을 전파해서 종속된 pod들도 모두 사용이 불가능해야 합니다. 이를 위의 4가지 상태를 제어하는 알고리즘으로 해결합니다.
 
 ---
 
 <b>재귀적 로딩</b>
 
-pack이 다른 pack에 종속되는 경우는 부지기수로 많습니다. @ref by::autopack "autopack" 이 lazy하게 동작하기 때문에 어떠한 @ref by::pack "pack" 을 loading하다가 다른 @ref by::autopack "autopack" 에 접근함으로써 해당 @ref by::autopack "autopack" 도 재귀적으로 로딩 시퀸스에 들어가는 일도 많습니다.
+pod이 다른 pod에 종속되는 경우는 부지기수로 많습니다. @ref by::autopod "autopod" 이 lazy하게 동작하기 때문에 어떠한 @ref by::pod "pod" 을 loading하다가 다른 @ref by::autopod "autopod" 에 접근함으로써 해당 @ref by::autopod "autopod" 도 재귀적으로 로딩 시퀸스에 들어가는 일도 많습니다.
 
 이때 중복으로 초기화 되거나 아직 완전히 파이프라인을 통과하지 않는지 체크합니다.
 
 ---
 
 <b>RAII</b>
-@ref by::autopack "autopack" 은 @ref by::pack "pack" 에 정의된 _pack 객체를 가리킵니다. 이 객체는 외부 파일인 `pack` 을 로딩함으로써 읽어온 심볼들인데, @ref by::autopack "autopack" 은 @ref by::packLoading "packLoading" 을 통한 pack의 symbol 생성을 책임지므로, pack의 소멸 또한 책임집니다.
-그래서 RAII를 사용해, @ref by::autopack "autopack" 객체가 소멸될때 모든 심볼을 먼저 없애고 @ref by::packLoading "packLoading" 객체 또한 없앰으로써 so 파일을 close 하는 등의 작업을 수행합니다.
-자세한 내용은 @ref by::packLoading "packLoading" 을 참조하세요.
+@ref by::autopod "autopod" 은 @ref by::pod "pod" 에 정의된 _pod 객체를 가리킵니다. 이 객체는 외부 파일인 `pod` 을 로딩함으로써 읽어온 심볼들인데, @ref by::autopod "autopod" 은 @ref by::podLoading "podLoading" 을 통한 pod의 symbol 생성을 책임지므로, pod의 소멸 또한 책임집니다.
+그래서 RAII를 사용해, @ref by::autopod "autopod" 객체가 소멸될때 모든 심볼을 먼저 없애고 @ref by::podLoading "podLoading" 객체 또한 없앰으로써 so 파일을 close 하는 등의 작업을 수행합니다.
+자세한 내용은 @ref by::podLoading "podLoading" 을 참조하세요.
 
-이는 <b>RAII 패턴</b>의 전형적인 활용으로, autopack 객체의 lifetime에 pack 리소스의 lifetime을 바인딩하여 리소스 누수를 방지합니다.
+이는 <b>RAII 패턴</b>의 전형적인 활용으로, autopod 객체의 lifetime에 pod 리소스의 lifetime을 바인딩하여 리소스 누수를 방지합니다.
 
 ---
 
-### packLoader 클래스 - Pack 로더
+### podLoader 클래스 - pod 로더
 
-@ref by::packLoader "packLoader" 는 외부 pack을 로딩하는 역할을 담당합니다. `addPath()`로 탐색 경로를 추가하고, `load()`를 호출하면 pack을 불러올 수 있습니다.
+@ref by::podLoader "podLoader" 는 외부 pod을 로딩하는 역할을 담당합니다. `addPath()`로 탐색 경로를 추가하고, `load()`를 호출하면 pod을 불러올 수 있습니다.
 
 <b>기본 사용법</b>
 
@@ -3124,45 +3124,45 @@ pack이 다른 pack에 종속되는 경우는 부지기수로 많습니다. @ref
 nmap ret;
 errReport report;
 
-packLoader()
+podLoader()
     .setReport(report)  // report를 넣지 않으면 dummyReport가 대신 사용됨
-    .setBasePacks(*ret)
-    .addPath("pack/")
+    .setBasePods(*ret)
+    .addPath("pod/")
     .load();
 
-ret.len();  // 로딩된 pack 개수 반환
+ret.len();  // 로딩된 pod 개수 반환
 ```
 
-메서드 체이닝(`setReport().setBasePacks().addPath().load()`)으로 객체 구성 과정을 명확하고 읽기 쉽게 표현합니다.
+메서드 체이닝(`setReport().setBasePods().addPath().load()`)으로 객체 구성 과정을 명확하고 읽기 쉽게 표현합니다.
 
 ---
 
 <b>manifest와 entrypoint</b>
 
-pack 로딩 중에는 필연적으로 @ref by::manifest "manifest" 를 파싱합니다. manifest를 통해 가장 중요한 정보는 <b>entrypoint</b>입니다. entrypoint는 pack이 어떠한 종류의 라이브러리를 포함하고 있는지를 나타냅니다.
+pod 로딩 중에는 필연적으로 @ref by::manifest "manifest" 를 파싱합니다. manifest를 통해 가장 중요한 정보는 <b>entrypoint</b>입니다. entrypoint는 pod이 어떠한 종류의 라이브러리를 포함하고 있는지를 나타냅니다.
 
-예를들어 pack에 C++ 동적 라이브러리가 포함되어 있다면 entrypoint는 `cpp`가 되며, byeol 라이브러리라면 `byeol`이 됩니다.
+예를들어 pod에 C++ 동적 라이브러리가 포함되어 있다면 entrypoint는 `cpp`가 되며, byeol 라이브러리라면 `byeol`이 됩니다.
 
-@ref by::packLoader "packLoader" 는 manifest를 읽은 후 @ref by::autopack "autopack" 을 생성하고 entrypoint에 따라 적절한 @ref by::packLoading "packLoading" 인스턴스를 autopack에 추가합니다.
+@ref by::podLoader "podLoader" 는 manifest를 읽은 후 @ref by::autopod "autopod" 을 생성하고 entrypoint에 따라 적절한 @ref by::podLoading "podLoading" 인스턴스를 autopod에 추가합니다.
 
 <b>주의사항:</b>
-- 하나의 pack 라이브러리는 여러개의 entrypoint를 가질 수 있습니다
-- 경로는 항상 재귀적으로 탐색됩니다 (하위 디렉토리의 pack들도 모두 로딩)
+- 하나의 pod 라이브러리는 여러개의 entrypoint를 가질 수 있습니다
+- 경로는 항상 재귀적으로 탐색됩니다 (하위 디렉토리의 pod들도 모두 로딩)
 - 파일 탐색, 동적 라이브러리 로딩 등 플랫폼 종속적인 기능들은 indep 모듈에 위임합니다
 
 ---
 
-### packLoading 클래스 - Pack 로딩 추상 클래스
+### podLoading 클래스 - Pod 로딩 추상 클래스
 
-`packLoader`에 의해 패키지를 로딩할 때 사용되는 추상 클래스입니다. @ref by::packMakable "packMakable" 인터페이스가 핵심 API를 제공합니다.
+`podLoader`에 의해 패키지를 로딩할 때 사용되는 추상 클래스입니다. @ref by::podMakable "podMakable" 인터페이스가 핵심 API를 제공합니다.
 
-packLoading은 `rel(), parse(), verify()` 함수를 제공하며, 이는 `autopack`의 상태와 깊은 관련이 있습니다.
+podLoading은 `rel(), parse(), verify()` 함수를 제공하며, 이는 `autopod`의 상태와 깊은 관련이 있습니다.
 
 ---
 
-### cppPackLoading 클래스 - C++ Pack 로더
+### cppPodLoading 클래스 - C++ Pod 로더
 
-`packLoader`에 의해 cpp 패키지를 로딩할 때 사용되는 `packLoading` 중 하나입니다. 이름 그대로 C++ pack을 동적 라이브러리 파일에서 로딩하는 역할을 합니다.
+`podLoader`에 의해 cpp 패키지를 로딩할 때 사용되는 `podLoading` 중 하나입니다. 이름 그대로 C++ pod을 동적 라이브러리 파일에서 로딩하는 역할을 합니다.
 
 <b>Entrypoint</b>
 
@@ -3439,8 +3439,8 @@ deactivate visitor
 
 ```
 @style: language-cpp verified
-class _nout pack: public node {
-    BY(CLASS(pack, node), VISIT())  // <--- VISIT 매크로
+class _nout pod: public node {
+    BY(CLASS(pod, node), VISIT())  // <--- VISIT 매크로
 
 public:
 ```
@@ -3526,7 +3526,7 @@ byeol 언어의 특성인 <b>offside rule</b>을 지원하기 위해 정교한 �
 ### parser 클래스 - 파싱의 진입점
 
 `parser`는 byeol 파싱 컴포넌트의 진입점 역할을 하며 `worker`를 상속합니다. `work()`을
-통해서 파싱된 결과가 `pack`으로 반환됩니다.
+통해서 파싱된 결과가 `pod`으로 반환됩니다.
 
 <b>Scanner - Bison - Parser 구조</b>
 
@@ -3540,7 +3540,7 @@ Flex와 Bison을 사용하고 있으며 flex는 `lowscanner`로, bison은 `lowpa
 2. lowscanner는 토큰을 뜯어서 lowparser에게 넘김
 3. lowparser는 받은 토큰에 대해 rule이 match되면 그 이벤트를 다시 parser에게 넘김
 
-그러므로 @ref by::parser "parser" 의 `on`으로 시작하는 함수들(예: `onPack()`, `onCompilationUnit()`)은 그러한 이벤트를 handling하는 함수로, 실제로 어떻게 @ref by::node "node" 를 생성해서 AST를 구축하는지를 정의합니다.
+그러므로 @ref by::parser "parser" 의 `on`으로 시작하는 함수들(예: `onPod()`, `onCompilationUnit()`)은 그러한 이벤트를 handling하는 함수로, 실제로 어떻게 @ref by::node "node" 를 생성해서 AST를 구축하는지를 정의합니다.
 
 ---
 
@@ -3554,16 +3554,16 @@ binding을 하지 않으면 <b>메모리 릭</b>이 발생하기 딱 좋습니�
 ```
 @style: language-cpp verified
 // lowparser.y
-pack: PACK name-access NEWLINE {
-    $$ = PS.onPack(*$2);  // onPack()은 new pack()을 반환한다.
+pod: POD name-access NEWLINE {
+    $$ = PS.onPod(*$2);  // onPod()은 new pack()을 반환한다.
 }
 
-compilation-unit: pack defblock {
-    tstr<obj> pak($1);  // 이렇게 tstr로 바인딩하지 않으면,
+compilation-unit: pod defblock {
+    tstr<obj> p($1);  // 이렇게 tstr로 바인딩하지 않으면,
 
-    PS.onCompilationUnit(pak.get());  // onCompilationUnit() 안에서 주어진 pak의
-                                       // 값이 문제가 있어, 동작이 취소된 경우, heap에
-                                       // 생성한 pack 객체는 메모리릭이 된다.
+    PS.onCompilationUnit(p.get());  // onCompilationUnit() 안에서 주어진 pak의
+                                    // 값이 문제가 있어, 동작이 취소된 경우, heap에
+                                    // 생성한 pack 객체는 메모리릭이 된다.
 }
 ```
 
@@ -3909,7 +3909,7 @@ void me::onLeave(const visitInfo& i, assignExpr& me, nbool) {
 
 `starter`가 메인 함수를 찾을 때 사용하는 조건:
 
-- <b>위치</b>: root(pack) 바로 밑에 위치해야 함
+- <b>위치</b>: root(pod) 바로 밑에 위치해야 함
 - <b>이름</b>: `main`이어야 함
 - <b>반환형</b>: `void` 또는 `int`
 - <b>내용</b>: 최소 1개 이상의 구문을 포함해야 함
@@ -3922,7 +3922,7 @@ void me::onLeave(const visitInfo& i, assignExpr& me, nbool) {
 @style: language-cpp verified
 // byeol 코드 파싱 및 실행
 const char* code = R"(
-pack myPack
+pod myPod
 
 main() void
     print("Hello from Byeol!")
@@ -3931,7 +3931,7 @@ main() void
 // 1. interpreter로 파싱 및 검증
 errReport report;
 interpreter ip;
-ip.setTask(*new pack(manifest("myPack")))
+ip.setTask(*new pod(manifest("myPod")))
   .setReport(report)
   .getParser().addSupply(*new bufSupply(std::string(code)));
 ip.work();  // 파싱 및 검증 수행
