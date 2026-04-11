@@ -9,5 +9,8 @@ int main(int argc, char* argv[]) {
     for(int n = 1; n < argc; n++)
         a.add(new nStr(argv[n]));
 
-    return cli().setFlag(cli::LOG_ON_EX | cli::DUMP_ON_EX).setTask(a).work().res;
+    auto res = cli().setFlag(cli::LOG_ON_EX | cli::DUMP_ON_EX).setTask(a).work();
+    if(res.rpt)
+        res.rpt.log();
+    return res.res;
 }
