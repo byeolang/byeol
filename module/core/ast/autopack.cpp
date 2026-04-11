@@ -42,6 +42,7 @@ namespace by {
             errReport rpt(exRpt.isNoisy());
             // TODO: check rpt error count increased or not.
             //       if increased, then parse() function has been failed.
+            BY_DI_SCOPE("Loading `%s` pack...", getManifest().name);
             parse(rpt, *this); // recursive call wasn't allowed.
             expand(rpt, *this);
             verify(rpt, *this);

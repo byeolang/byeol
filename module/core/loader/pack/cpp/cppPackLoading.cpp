@@ -11,10 +11,12 @@ namespace by {
         enablesZone zone(rpt.isNoisy());
         tstr<srcs> ret(dummySrcs);
         for(const std::string& path: _getPaths()) {
+            ncnt cnt = rpt.len();
             // With the current implementation, it is not yet possible to create an srcs
             // object for a C++ class.
             // ret.r variables won't be assigned to new data till this procedure has done.
             if(!_loadLibs(rpt, pak)) {
+                _tryDump(rpt, pak, cnt);
                 pak.getShares().rel();
                 return BY_E("couldn't load c++ library at %s", path), false;
             }

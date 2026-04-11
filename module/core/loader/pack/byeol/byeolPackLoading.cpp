@@ -18,7 +18,10 @@ namespace by {
         for(const auto& path: paths)
             ps.addSupply(srcSupply::makeSuppliesFrom(path));
 
-        str res = ps.work();
+        ncnt cnt = rpt.len();
+        auto res = ps.work();
+        _tryDump(rpt, pak, cnt);
+
         return res.isBind();
     }
 
@@ -26,9 +29,11 @@ namespace by {
         threadUse thr(rpt);
         expander ep;
 
-        ncnt count = rpt.len();
+        ncnt cnt = rpt.len();
         ep.setTask(pak).setReport(rpt).work();
-        return rpt.len() == count; // success if no change.
+        _tryDump(rpt, pak, cnt);
+
+        return rpt.len() == cnt; // success if no change.
     }
 
     const std::string& me::getName() const {

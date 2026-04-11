@@ -11,6 +11,8 @@ namespace by {
     class pack;
     struct manifest;
     typedef tnchain<std::string, pack> packChain;
+    class errReport;
+    class pack;
 
     /** @ingroup core
      *  @brief Base class for pack loading strategies
@@ -32,6 +34,7 @@ namespace by {
 
     protected:
         const std::vector<std::string>& _getPaths() const;
+        virtual void _tryDump(const errReport& rpt, const pack& pak, ncnt prevCnt) const;
 
     private:
         std::vector<std::string> _paths;
