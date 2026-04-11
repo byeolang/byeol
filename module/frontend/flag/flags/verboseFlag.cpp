@@ -21,11 +21,10 @@ namespace by {
         return inner;
     }
 
-    me::res me::_onTake(const flagArgs&, cli&, interpreter& ip, starter& s, errReport&) const {
+    me::res me::_onTake(const flagArgs&, cli& c, interpreter&, starter&, errReport&) const {
         nint flag = interpreter::DUMP_ON_EX | interpreter::GUARD | interpreter::INTERNAL | interpreter::LOG_ON_END |
             interpreter::LOG_GRAPH_ON_EX;
-        ip.addFlag(flag);
-        s.addFlag(flag);
+        c.setFlag(flag);
         return MATCH;
     }
 }

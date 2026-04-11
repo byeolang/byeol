@@ -46,14 +46,14 @@ namespace by {
 
         interpreter ip;
         programRes ret{getReport(), 0};
-        ip.setReport(ret.rpt).setFlag(getFlag());
         starter s;
-        s.setFlag(starter::DUMP_ON_EX);
-        s.setReport(ret.rpt);
 
         auto evalRes = _evalArgs(ip, a, s, ret.rpt);
         WHEN(evalRes == flag::EXIT_PROGRAM) .ret(ret);
         WHEN(a.len() > 0) .ret(_reportUnknownFlags(ret, a));
+        // apply flags after evaluation:
+        ip.setReport(ret.rpt).setFlag(getFlag());
+        s.setFlag(starter::DUMP_ON_EX).setReport(ret.rpt);
 
         {
             defaultSigZone<interpreter> zone(ip);

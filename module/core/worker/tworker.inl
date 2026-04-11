@@ -120,7 +120,7 @@ namespace by {
         w._prepare();
 
         R ret;
-        enablesZone internal;
+        enablesZone internal(true);
         if(!w.isFlag(tworker<R, T>::INTERNAL)) internal.setEnable(false);
         ret = w._onWork();
         internal.setPrev().rel();

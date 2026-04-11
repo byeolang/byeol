@@ -7,8 +7,7 @@ namespace by {
 
     me::enablesZone() { _enables = logger::get().getEnables(); }
 
-    me::enablesZone(nbool newVal) {
-        _enables = logger::get().getEnables();
+    me::enablesZone(nbool newVal): me() {
         setEnable(newVal);
     }
 

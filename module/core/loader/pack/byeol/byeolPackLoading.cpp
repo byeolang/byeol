@@ -12,7 +12,7 @@ namespace by {
 
     nbool me::parse(errReport& rpt, pack& pak) {
         parser ps;
-        ps.setTask(pak).setReport(rpt);
+        ps.setFlag(0).setTask(pak).setReport(rpt); // hide logs
 
         const auto& paths = _getPaths();
         for(const auto& path: paths)
@@ -30,7 +30,7 @@ namespace by {
         expander ep;
 
         ncnt cnt = rpt.len();
-        ep.setTask(pak).setReport(rpt).work();
+        ep.setFlag(0).setTask(pak).setReport(rpt).work();
         _tryDump(rpt, pak, cnt);
 
         return rpt.len() == cnt; // success if no change.
