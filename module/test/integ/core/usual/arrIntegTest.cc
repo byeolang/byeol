@@ -789,7 +789,7 @@ TEST_F(arrIntegTest, outOfBoundExOccursNegative) {
 
     {
         auto& A = *getSubPod()->sub("A"); // A.arr is mockNode
-        str a((node*) A.clone());          // now, a.arr is not mockNode, but obj.
+        str a((node*) A.clone());         // now, a.arr is not mockNode, but obj.
         threadUse th(*new errReport(false));
         str res = a->eval("foo");
         ASSERT_TRUE(res);

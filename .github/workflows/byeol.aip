@@ -35,8 +35,8 @@
     <ROW Directory="StartMenuFolder" Directory_Parent="TARGETDIR" DefaultDir="STARTM~1|StartMenuFolder" IsPseudoRoot="1"/>
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
     <ROW Directory="byeolwinx64_Dir" Directory_Parent="ProgramFiles64Folder" DefaultDir="byeol"/>
-    <ROW Directory="pack_Dir" Directory_Parent="byeolwinx64_Dir" DefaultDir="pack"/>
-    <ROW Directory="sys_Dir" Directory_Parent="pack_Dir" DefaultDir="sys"/>
+    <ROW Directory="pod_Dir" Directory_Parent="byeolwinx64_Dir" DefaultDir="pod"/>
+    <ROW Directory="sys_Dir" Directory_Parent="pod_Dir" DefaultDir="sys"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.SideBySideGuidComponent">
     <ROW Component="APPDIR" Value="{BF8E1A82-88C4-4BC7-AF95-04C7A2EE670A}"/>
@@ -69,8 +69,8 @@
     <ROW File="memlite.dll" Component_="memlite.dll" FileName="memlite.dll" Attributes="0" SourcePath="..\..\bin\memlite.dll" SelfReg="false"/>
     <ROW File="meta.dll" Component_="meta.dll" FileName="meta.dll" Attributes="0" SourcePath="..\..\bin\meta.dll" SelfReg="false"/>
     <ROW File="byeol.exe" Component_="byeol.exe" FileName="byeol.exe" Attributes="0" SourcePath="..\..\bin\byeol.exe" SelfReg="false" DigSign="true"/>
-    <ROW File="manifest.stela" Component_="manifest.stela" FileName="MANIFE~1.STE|manifest.stela" Attributes="0" SourcePath="..\..\bin\pack\sys\manifest.stela" SelfReg="false"/>
-    <ROW File="sys.pack" Component_="manifest.stela" FileName="SYS~1.PAC|sys.pack" Attributes="0" SourcePath="..\..\bin\pack\sys\sys.pack" SelfReg="false"/>
+    <ROW File="manifest.stela" Component_="manifest.stela" FileName="MANIFE~1.STE|manifest.stela" Attributes="0" SourcePath="..\..\bin\pod\sys\manifest.stela" SelfReg="false"/>
+    <ROW File="sys.pod" Component_="manifest.stela" FileName="SYS~1.POD|sys.pod" Attributes="0" SourcePath="..\..\bin\pod\sys\sys.pod" SelfReg="false"/>
     <ROW File="README.md" Component_="CHANGELOGS.md" FileName="README.md" Attributes="0" SourcePath="..\..\bin\README.md" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">

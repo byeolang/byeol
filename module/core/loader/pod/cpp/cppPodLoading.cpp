@@ -33,8 +33,7 @@ namespace by {
             WHEN(res) .err("couldn't open %s pod: %d", path, res.get()).ret((rel(), false));
 
             auto info = lib.accessFunc<entrypointFunc>(ENTRYPOINT_NAME);
-            WHEN(!info.has())
-                .err("couldn't access entrypoint of %s pod: %d", path, info.getErr()).ret((rel(), false));
+            WHEN(!info.has()) .err("couldn't access entrypoint of %s pod: %d", path, info.getErr()).ret((rel(), false));
 
             bicontainable& shares = pak.getShares();
             ncnt prevLen = shares.len();

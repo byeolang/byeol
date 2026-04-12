@@ -17,17 +17,18 @@ namespace by {
     void me::rel() { _paths.clear(); }
 
     void me::_tryDump(const errReport& rpt, const pod& p, ncnt prevCnt) const {
-        WHEN(rpt.len() <= prevCnt).ret();
+        WHEN(rpt.len() <= prevCnt) .ret();
 
         // turn on temporary logger's disabled flag:
         //  podLoading occurs during verification or exapansaion in lazy.
         //  in that case, logger was set to be disabled.
         BY_E("_tryDump!");
-        enablesZone zone(true); {
+        enablesZone zone(true);
+        {
             BY_W_SCOPE("Loading `%s` pod at `%s` is failed", p.getManifest().name, util::joinVectorString(_getPaths()));
             rpt.log(prevCnt);
         }
     }
 
     const std::vector<std::string>& me::_getPaths() const { return _paths; }
-}
+} // namespace by

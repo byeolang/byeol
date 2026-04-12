@@ -10,7 +10,6 @@ int main(int argc, char* argv[]) {
         a.add(new nStr(argv[n]));
 
     auto res = cli().setFlag(cli::LOG_ON_EX | cli::DUMP_ON_EX).setTask(a).work();
-    if(res.rpt)
-        res.rpt.log();
+    if(res.rpt) res.rpt.log();
     return res.res;
 }
