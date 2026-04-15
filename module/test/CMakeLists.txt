@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.14)
 
 set(moduleName "test")
 set(dependencies ${dependencies} indep clog meta memlite core stela frontend ${pathGtest})
