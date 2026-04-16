@@ -48,6 +48,10 @@ FileManipulatorTest.txt
 .vscode/
 generated/
 build/*Test
+
+# for Cmake's FetchContent
+build/_deps/
+
 build/html/
 build/xml/
 external/
