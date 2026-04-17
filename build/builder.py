@@ -174,7 +174,7 @@ def slash():
     return '\\' if isWindow() else '/'
 
 def cleanGhPages(git):
-    global cwd, python3, externalDir
+    global cwd, python3
 
     def runCommand(cmd):
         res = system(cmd)
@@ -200,7 +200,7 @@ def cleanGhPages(git):
     return 0
 
 def docDoxygen(doxygen):
-    global cwd, python3, externalDir
+    global cwd, python3
 
     def runCommand(cmd):
         res = system(cmd)
@@ -697,29 +697,6 @@ def _make(msbuild, make):
 
     printOk("done")
 
-def _checkGTest(git, cmake, make):
-    global externalDir, generator
-
-    dir = os.path.join(externalDir, "googletest")
-    printInfoEnd("checking googletest repo at " + externalDir + "...")
-    if _hasDir(dir):
-        printOk("repo found. skip installing it.")
-        return
-
-    _makeDir(dir)
-    system(f"{git.binary} clone https://github.com/google/googletest " + dir)
-    originDir = os.getcwd()
-    os.chdir(dir)
-
-    targetDir = os.path.join(dir, "CMakeLists.txt -G \"" + generator + "\"")
-    system(f"{cmake.binary} {targetDir}")
-    if not isWindow():
-        system(f"sudo {make.binary} install")
-
-    os.chdir(originDir)
-    printOk("installed.")
-    _cleanIntermediates()
-
 def _makeDir(dir):
     try:
         if not os.path.exists(dir):
@@ -747,7 +724,6 @@ def build(incVer, ignore_tidy=False):
     if checkDependencies(deps):
         return -1
 
-    _checkGTest(git, cmake, make)
     if incVer:
         _injectBuildInfo()
         if _createMakefiles(cmake):
@@ -1253,7 +1229,7 @@ def help():
 
 def clean():
     printInfo("Clearing next following files...")
-    global cwd, binDir, externalDir
+    global cwd, binDir
     _clean(cwd)
     _cleanIntermediates()
     _cleanDir(binDir)
@@ -1318,25 +1294,22 @@ cwd = ""
 byeolDir = ""
 resDir = ""
 binDir = ""
-externalDir = ""
 generator = "Visual Studio 17 2022" if isWindow() else "Unix Makefiles"
 winProp = ""
 
 def _init():
-    global cwd, byeolDir, binDir, externalDir, resDir
+    global cwd, byeolDir, binDir, resDir
     cwd = os.path.dirname(os.path.realpath(sys.argv[0]))
     if isWindow():
         byeolDir = cwd + "\\.."
         binDir = byeolDir + "\\bin"
         resDir = byeolDir + "\\res"
-        externalDir = byeolDir + "\\external"
         # in order to color output text in windows terminal, I need this.
         system('color')
     else:
         byeolDir = cwd + "/.."
         binDir = byeolDir + "/bin"
         resDir = byeolDir + "/res"
-        externalDir = byeolDir + "/external"
 
     _extractBuildInfo()
     return _extractEnv()

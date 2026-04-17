@@ -1,16 +1,22 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.14)
+include(FetchContent) # requires 3.14
 
 set(moduleName "test")
-set(dependencies ${dependencies} indep clog meta memlite core stela frontend ${pathGtest})
+set(dependencies ${dependencies} indep clog meta memlite core stela frontend)
 IF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
     set(dependencies ${dependencies} dl) # dynamic linking lib of posix compatiables.
 ENDIF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
 
 message("building ${moduleName}..." "${moduleName}=1")
 
-find_library(pathGtest
-    NAMES gtest
-    REQUIRED)
+# use commitId of v1.17.0
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/52eb8108c5bdec04579160ae17225d66034bd723.zip)
+#   for Windows, prevent overriding the parent porject's compiler settings.
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
 foreach(d ${dependencies})
     set(libraries ${libraries} PUBLIC ${d})
 endforeach(d)
@@ -40,7 +46,10 @@ add_custom_command(TARGET ${moduleName} POST_BUILD
 
 find_package(Threads REQUIRED)
 target_link_libraries(${moduleName} ${libraries}
-    PRIVATE Threads::Threads)
+    PRIVATE Threads::Threads GTest::gtest_main)
+
+include(GoogleTest)
+gtest_discover_tests(${moduleName})
 
 #       let MSVC follow macro expansion of standard:
 if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))
