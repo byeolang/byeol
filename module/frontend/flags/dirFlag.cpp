@@ -29,7 +29,8 @@ namespace by {
             supplies.add(srcSupply::makeSuppliesFrom(dirPath));
 
         ps.addSupply(supplies);
-        if(supplies.isEmpty()) _cli.getReport().add(nerr::newErr(NO_SRC_FOUND_ON_THE_PATH, util::joinVectorString(tray).c_str()));
+        if(supplies.isEmpty())
+            _cli.getReport().add(nerr::newErr(NO_SRC_FOUND_ON_THE_PATH, util::joinVectorString(tray).c_str()));
         return MATCH;
     }
 }

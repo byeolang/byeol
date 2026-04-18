@@ -7,7 +7,8 @@ namespace by {
     BY(DEF_ME(cli))
 
     me::cli(): me(*new errReport()) {}
-    me::cli(errReport& rpt): super(*new errReport()) {}
+
+    me::cli(errReport& rpt): super(*new errReport()), _stacker(*this) {}
 
     namespace {
         std::string _joinString(const flagArgs& v) {
@@ -35,9 +36,14 @@ namespace by {
             return true;
         }
 
-        void _refineFlagArgs(flagArgs& a) {
-            for(nidx n = a.size() - 1; n >= 0; n--)
-                if(_isWhiteSpace(a[n])) a.erase(a.begin() + n);
+        strings _refineFlagArgs(flagStrs& a) {
+            for(nidx n = a.len() - 1; n >= 0; n--)
+                if(_isWhiteSpace(a[n].get())) a.del(n);
+
+            strings ret;
+            for(const auto& f: a)
+                ret.push_back(f.get());
+            return ret;
         }
     }
 
@@ -46,16 +52,16 @@ namespace by {
     starter& me::getStarter() { return _starter; }
 
     programRes me::_onWork() {
-        flagArgs& a = getTask() OR.ret(programRes{errReport(), BY_INDEX_ERROR});
-        _refineFlagArgs(a);
+        flagStrs& a = getTask() OR.ret(programRes{errReport(), BY_INDEX_ERROR});
+        strings converted = _refineFlagArgs(a);
 
         _interpreter.rel();
         _starter.rel();
         programRes ret{getReport(), 0};
 
-        auto evalRes = take(a);
+        auto evalRes = _stacker.take(converted);
         WHEN(evalRes == flag::EXIT_PROGRAM) .ret(ret);
-        WHEN(a.size() > 0) .ret(_reportUnknownFlags(ret, a));
+        WHEN(converted.size() > 0) .ret(_reportUnknownFlags(ret, converted));
         // apply flags after evaluation:
         _interpreter.setReport(*ret.rpt).setFlag(getFlag());
         _starter.setFlag(starter::DUMP_ON_EX).setReport(*ret.rpt);

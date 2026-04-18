@@ -1,7 +1,7 @@
 /// @file
 #pragma once
 
-#include "flagStacker/stacker.hpp"
+#include "frontend/frontendStacker.hpp"
 #include "frontend/common/dep.hpp"
 
 struct cliTest;
@@ -35,8 +35,10 @@ namespace by {
      *  6. If no issues, put verified AST into starter and execute
      *  7. Return starter's result
      */
-    struct cli: public tworker<programRes, flagArgs>, stacker {
-        typedef tworker<programRes, flagArgs> __super26;
+    typedef tnarr<nStr> flagStrs;
+
+    struct cli: public tworker<programRes, flagStrs> {
+        typedef tworker<programRes, flagStrs> __super26;
         BY(CLASS(cli, __super26));
         friend struct ::cliTest;
 
@@ -47,8 +49,6 @@ namespace by {
     public:
         const flags& getFlags() const;
 
-        void err(const std::string& msg) override;
-
         interpreter& getInterpreter();
         const interpreter& getInterpreter() const BY_CONST_FUNC(getInterpreter());
         starter& getStarter();
@@ -56,11 +56,11 @@ namespace by {
 
     protected:
         programRes _onWork() override;
-        void _initFlags(flags& tray) const override;
 
     private:
         tstr<errReport> _rpt;
         interpreter _interpreter;
         starter _starter;
+        frontendStacker _stacker;
     };
-}
+} // namespace by

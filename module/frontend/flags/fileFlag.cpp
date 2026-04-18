@@ -1,10 +1,14 @@
-#include "frontend/flag/flags/fileFlag.hpp"
+#include "frontend/flags/fileFlag.hpp"
+#include "frontend/cli.hpp"
 
 #include <fstream>
 #include <sstream>
 
 namespace by {
+
     BY_DEF_ME(fileFlag)
+
+    me::fileFlag(cli& c): _cli(c) {}
 
     const nchar* me::getName() const { return "<file path>"; }
 
@@ -22,9 +26,9 @@ namespace by {
         return inner;
     }
 
-    me::res me::_onTake(const flagArgs& tray, cli&, interpreter& ip, starter&, errReport&) const {
+    me::res me::_onTake(const flagArgs& tray) const {
         for(const auto& filePath: tray)
-            ip.getParser().addSupply(*new fileSupply(filePath.get()));
+            _cli.getInterpreter().getParser().addSupply(*new fileSupply(filePath));
         return MATCH;
     };
 }

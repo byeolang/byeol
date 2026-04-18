@@ -5,7 +5,7 @@ namespace by {
     typedef stacker me;
 
     me::~stacker() {
-        for(auto f : _flags)
+        for(auto f: _flags)
             delete f;
     }
 
@@ -30,4 +30,4 @@ namespace by {
         _initFlags(_flags);
         return _flags;
     }
-}
+} // namespace by

@@ -2,8 +2,11 @@
 #pragma once
 
 #include "flagStacker/flag/flag.hpp"
+#include "frontend/common/dep.hpp"
 
 namespace by {
+
+    struct cli;
 
     /** @ingroup frontend
      *  @brief Flag for displaying application version information
@@ -15,7 +18,7 @@ namespace by {
      *  @endcode
      */
     class verFlag: public flag {
-        BY(CLASS(verFlag, flag))
+        BY(ME(verFlag, flag))
 
     public:
         const nchar* getName() const override;
@@ -23,6 +26,6 @@ namespace by {
 
     protected:
         const strings& _getRegExpr() const override;
-        res _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s, errReport& rpt) const override;
+        res _onTake(const flagArgs& tray) const override;
     };
 }

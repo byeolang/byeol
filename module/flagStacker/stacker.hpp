@@ -4,7 +4,7 @@
 #include "flagStacker/flag/flag.hpp"
 
 namespace by {
-    class stacker : public flagable {
+    class stacker: public flagable {
     public:
         ~stacker();
 
@@ -13,8 +13,6 @@ namespace by {
         res take(flagArgs& a);
 
         nbool canTake(const std::string& pattern) const override;
-
-        virtual void err(const std::string& msg) = 0;
 
         const flags& getFlags() const;
 

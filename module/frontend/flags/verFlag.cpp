@@ -1,24 +1,23 @@
-#include "frontend/flag/flags/verFlag.hpp"
-
+#include "frontend/flags/verFlag.hpp"
 #include "frontend/cli.hpp"
 
 namespace by {
 
     BY(DEF_ME(verFlag))
 
-    const nchar* verFlag::getName() const { return "--version"; }
+    const nchar* me::getName() const { return "--version"; }
 
-    const nchar* verFlag::getDescription() const {
+    const nchar* me::getDescription() const {
         return R"DESC(
     show current version of frontend cli client.)DESC";
     }
 
-    const strings& verFlag::_getRegExpr() const {
+    const strings& me::_getRegExpr() const {
         static strings inner{"^\\--version$"};
         return inner;
     }
 
-    me::res verFlag::_onTake(const flagArgs&, cli&, interpreter&, starter&, errReport&) const {
+    me::res me::_onTake(const flagArgs&) const {
         std::cout << "🌟 'byeol' " << buildFeature::version::get() << "\n"
                   << "Built on " << buildFeature::date::get() << " (build " << buildFeature::version::getBuildCount()
                   << ", git " << buildFeature::version::getCommitHash() << ", " << buildFeature::config::getName()

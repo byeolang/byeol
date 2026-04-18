@@ -1,10 +1,12 @@
-#include "frontend/flag/flags/verboseFlag.hpp"
+#include "frontend/flags/verboseFlag.hpp"
 
 #include "frontend/cli.hpp"
 
 namespace by {
 
     BY_DEF_ME(verboseFlag)
+
+    me::verboseFlag(cli& c): _cli(c) {}
 
     const nchar* me::getName() const { return "-v, --verbose"; }
 
@@ -21,10 +23,10 @@ namespace by {
         return inner;
     }
 
-    me::res me::_onTake(const flagArgs&, cli& c, interpreter&, starter&, errReport&) const {
+    me::res me::_onTake(const flagArgs&) const {
         nint flag = interpreter::DUMP_ON_EX | interpreter::GUARD | interpreter::INTERNAL | interpreter::LOG_ON_END |
             interpreter::LOG_GRAPH_ON_EX;
-        c.setFlag(flag);
+        _cli.setFlag(flag);
         return MATCH;
     }
 }

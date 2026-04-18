@@ -56,7 +56,7 @@ namespace by {
      *  most programs do). To terminate immediately after matching, override `_onTake()` to
      *  return EXIT_PROGRAM. For continued operation like bufferSrcFlag, return MATCH.
      */
-    class flag : public flagable {
+    class flag: public flagable {
     public:
         virtual ~flag() = default;
 

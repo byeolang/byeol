@@ -1,6 +1,7 @@
 #include "flagStacker/flag/flag.hpp"
 #include "flagStacker/stacker.hpp"
 #include <regex>
+#include <iostream>
 
 namespace by {
     typedef flag me;
@@ -32,7 +33,7 @@ namespace by {
 
         // handle option arguments:
         if(a.size() < getArgCount() + 1) {
-            s.err(std::string("Option `") + getName() + "`needs trailing arguments");
+            std::cerr << std::string("Option `") + getName() + "`needs trailing arguments";
             return 0;
         }
         deleteOptionCnt += getArgCount();

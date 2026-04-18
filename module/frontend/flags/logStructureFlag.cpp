@@ -1,10 +1,11 @@
-#include "frontend/flag/flags/logStructureFlag.hpp"
-
+#include "frontend/flags/logStructureFlag.hpp"
 #include "frontend/cli.hpp"
 
 namespace by {
 
     BY_DEF_ME(logStructureFlag)
+
+    me::logStructureFlag(cli& c): _cli(c) {}
 
     const nchar* me::getName() const { return "-S, --show-structure"; }
 
@@ -20,9 +21,9 @@ namespace by {
         return inner;
     }
 
-    me::res me::_onTake(const flagArgs&, cli&, interpreter& ip, starter& s, errReport&) const {
-        ip.addFlag(interpreter::LOG_STRUCTURE);
-        s.addFlag(starter::LOG_STRUCTURE);
+    me::res me::_onTake(const flagArgs&) const {
+        _cli.getInterpreter().addFlag(interpreter::LOG_STRUCTURE);
+        _cli.getStarter().addFlag(starter::LOG_STRUCTURE);
         return MATCH;
     }
 }

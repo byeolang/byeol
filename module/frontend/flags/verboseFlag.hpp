@@ -2,8 +2,11 @@
 #pragma once
 
 #include "flagStacker/flag/flag.hpp"
+#include "frontend/common/dep.hpp"
 
 namespace by {
+
+    struct cli;
 
     /** @ingroup frontend
      *  @brief Flag for enabling verbose logging output
@@ -16,7 +19,10 @@ namespace by {
      *  @endcode
      */
     class verboseFlag: public flag {
-        BY(CLASS(verboseFlag, flag))
+        BY(ME(verboseFlag, flag))
+
+    public:
+        verboseFlag(cli& c);
 
     public:
         const nchar* getName() const override;
@@ -24,6 +30,9 @@ namespace by {
 
     protected:
         const strings& _getRegExpr() const override;
-        res _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s, errReport& rpt) const override;
+        res _onTake(const flagArgs& tray) const override;
+
+    private:
+        cli& _cli;
     };
 }
