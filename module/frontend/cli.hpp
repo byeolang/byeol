@@ -1,14 +1,15 @@
 /// @file
 #pragma once
 
-#include "frontend/flag.hpp"
+#include "flagStacker/stacker.hpp"
+#include "frontend/common/dep.hpp"
 
 struct cliTest;
 
 namespace by {
 
     struct programRes {
-        errReport rpt;
+        tstr<errReport> rpt;
         nint res;
     };
 
@@ -34,21 +35,32 @@ namespace by {
      *  6. If no issues, put verified AST into starter and execute
      *  7. Return starter's result
      */
-    struct cli: public tworker<programRes, flagArgs> {
+    struct cli: public tworker<programRes, flagArgs>, stacker {
         typedef tworker<programRes, flagArgs> __super26;
         BY(CLASS(cli, __super26));
         friend struct ::cliTest;
 
     public:
         cli();
+        cli(errReport& rpt);
 
     public:
         const flags& getFlags() const;
 
+        void err(const std::string& msg) override;
+
+        interpreter& getInterpreter();
+        const interpreter& getInterpreter() const BY_CONST_FUNC(getInterpreter());
+        starter& getStarter();
+        const starter& getStarter() const BY_CONST_FUNC(getStarter());
+
     protected:
         programRes _onWork() override;
+        void _initFlags(flags& tray) const override;
 
     private:
-        flag::res _evalArgs(interpreter& ip, flagArgs& a, starter& s, errReport& rpt);
+        tstr<errReport> _rpt;
+        interpreter _interpreter;
+        starter _starter;
     };
 }

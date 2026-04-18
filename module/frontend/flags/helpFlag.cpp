@@ -1,10 +1,11 @@
-#include "frontend/flag/flags/helpFlag.hpp"
-
+#include "frontend/flags/helpFlag.hpp"
 #include "frontend/cli.hpp"
 
 namespace by {
 
     BY(DEF_ME(helpFlag))
+
+    me::helpFlag(cli& c): _cli(c) {}
 
     const nchar* helpFlag::getName() const { return "-h, --help"; }
 
@@ -19,12 +20,12 @@ namespace by {
         return inner;
     }
 
-    me::res helpFlag::_onTake(const flagArgs&, cli& c, interpreter&, starter&, errReport&) const {
+    me::res helpFlag::_onTake(const flagArgs&) const {
         std::cout << "Usage: byeol <option> <file or directory path>\n";
 
-        const flags& opts = c.getFlags();
+        const flags& opts = _cli.getFlags();
         for(int n = 0; n < opts.size(); n++) {
-            const flag& opt = opts[n].get() OR_CONTINUE;
+            const flag& opt = opts[n] OR_CONTINUE;
             std::cout << "   " << opt.getName() << opt.getDescription() << "\n\n";
         }
 

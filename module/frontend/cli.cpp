@@ -6,21 +6,22 @@ namespace by {
 
     BY(DEF_ME(cli))
 
-    me::cli(): super(*new errReport()) {}
+    me::cli(): me(*new errReport()) {}
+    me::cli(errReport& rpt): super(*new errReport()) {}
 
     namespace {
         std::string _joinString(const flagArgs& v) {
             std::string ret;
             nint first = 1;
-            for(const nStr& s: v)
-                ret += (first-- ? "" : ", ") + s.get();
+            for(const auto& s: v)
+                ret += (first-- ? "" : ", ") + s;
             return ret;
         }
 
         programRes _reportUnknownFlags(programRes& res, const flagArgs& remains) {
             auto options = _joinString(remains);
-            res.rpt.add(nerr::newErr(UNKNOWN_OPTION, &options));
-            res.rpt.log();
+            res.rpt->add(nerr::newErr(UNKNOWN_OPTION, &options));
+            res.rpt->log();
             res.res = -1;
             return res;
         }
@@ -35,40 +36,44 @@ namespace by {
         }
 
         void _refineFlagArgs(flagArgs& a) {
-            for(nidx n = a.len() - 1; n >= 0; n--)
-                if(_isWhiteSpace(a[n].get())) a.del(n);
+            for(nidx n = a.size() - 1; n >= 0; n--)
+                if(_isWhiteSpace(a[n])) a.erase(a.begin() + n);
         }
     }
+
+    interpreter& me::getInterpreter() { return _interpreter; }
+
+    starter& me::getStarter() { return _starter; }
 
     programRes me::_onWork() {
         flagArgs& a = getTask() OR.ret(programRes{errReport(), BY_INDEX_ERROR});
         _refineFlagArgs(a);
 
-        interpreter ip;
+        _interpreter.rel();
+        _starter.rel();
         programRes ret{getReport(), 0};
-        starter s;
 
-        auto evalRes = _evalArgs(ip, a, s, ret.rpt);
+        auto evalRes = take(a);
         WHEN(evalRes == flag::EXIT_PROGRAM) .ret(ret);
-        WHEN(a.len() > 0) .ret(_reportUnknownFlags(ret, a));
+        WHEN(a.size() > 0) .ret(_reportUnknownFlags(ret, a));
         // apply flags after evaluation:
-        ip.setReport(ret.rpt).setFlag(getFlag());
-        s.setFlag(starter::DUMP_ON_EX).setReport(ret.rpt);
+        _interpreter.setReport(*ret.rpt).setFlag(getFlag());
+        _starter.setFlag(starter::DUMP_ON_EX).setReport(*ret.rpt);
 
         {
-            defaultSigZone<interpreter> zone(ip);
-            ip.work();
+            defaultSigZone<interpreter> zone(_interpreter);
+            _interpreter.work();
         }
 
-        if(!ip.isVerified()) {
+        if(!_interpreter.isVerified()) {
             ret.res = -1;
             return ret;
         }
 
         str res;
         {
-            defaultSigZone<starter> zone(s);
-            res = s.setTask(ip.getSubPod()).work();
+            defaultSigZone<starter> zone(_starter);
+            res = _starter.setTask(_interpreter.getSubPod()).work();
         }
 
         if(res) {
@@ -82,33 +87,5 @@ namespace by {
         std::cout << "\n";
 #endif
         return ret;
-    }
-
-    flag::res me::_evalArgs(interpreter& ip, flagArgs& a, starter& s, errReport& rpt) {
-        while(a.len() > 0) {
-            flag::res r = flag::NOT_MATCH;
-            for(const auto& op: getFlags()) {
-                r = op->take(ip, s, *this, a, rpt);
-                WHEN(r == flag::EXIT_PROGRAM) .ret(r);
-                if(r == flag::MATCH) break;
-            }
-            WHEN(r == flag::NOT_MATCH) .ret(r); // if all flags couldn't match the first argument.
-        }
-        return flag::MATCH;
-    }
-
-    const flags& cli::getFlags() const {
-        static flags inner;
-        if(inner.size() <= 0) {
-            inner.push_back(tstr<flag>(new helpFlag()));
-            inner.push_back(tstr<flag>(new fileFlag()));
-            inner.push_back(tstr<flag>(new logStructureFlag()));
-            inner.push_back(tstr<flag>(new bufferSrcFlag()));
-            inner.push_back(tstr<flag>(new verboseFlag()));
-            inner.push_back(tstr<flag>(new verFlag()));
-            inner.push_back(tstr<flag>(new dirFlag()));
-        }
-
-        return inner;
     }
 } // namespace by

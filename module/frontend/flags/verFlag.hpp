@@ -1,22 +1,21 @@
 /// @file
 #pragma once
 
-#include "frontend/flag/flag.hpp"
+#include "flagStacker/flag/flag.hpp"
 
 namespace by {
 
     /** @ingroup frontend
-     *  @brief Flag for enabling verbose logging output
-     *  @details When this flag is activated, the interpreter and related components will produce
-     *           more detailed and extensive log messages, useful for in-depth debugging and monitoring.
+     *  @brief Flag for displaying application version information
+     *  @details When this flag is activated, the program outputs details about its
+     *           version, build date, and other relevant build information, then terminates.
      *  @code
      *      // Example usage:
-     *      // frontend --verbose
-     *      // frontend -v
+     *      // frontend --version
      *  @endcode
      */
-    class verboseFlag: public flag {
-        BY(CLASS(verboseFlag, flag))
+    class verFlag: public flag {
+        BY(CLASS(verFlag, flag))
 
     public:
         const nchar* getName() const override;

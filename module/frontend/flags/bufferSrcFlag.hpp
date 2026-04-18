@@ -1,9 +1,12 @@
 /// @file
 #pragma once
 
-#include "frontend/flag/flag.hpp"
+#include "flagStacker/flag/flag.hpp"
+#include "frontend/common/dep.hpp"
 
 namespace by {
+
+    struct cli;
 
     /** @ingroup frontend
      *  @brief Flag for providing frontend source code directly as a string argument
@@ -15,15 +18,21 @@ namespace by {
      *  @endcode
      */
     class bufferSrcFlag: public flag {
-        BY(CLASS(bufferSrcFlag, flag))
+        BY(ME(bufferSrcFlag, flag))
+
+    public:
+        bufferSrcFlag(cli& c);
 
     public:
         const nchar* getName() const override;
         const nchar* getDescription() const override;
+        ncnt getArgCount() const override;
 
     protected:
         const strings& _getRegExpr() const override;
-        res _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s, errReport& rpt) const override;
-        ncnt getArgCount() const override;
+        res _onTake(const flagArgs& tray) const override;
+
+    private:
+        cli& _cli;
     };
 }

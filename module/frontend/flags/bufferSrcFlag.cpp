@@ -1,10 +1,12 @@
-#include "frontend/flag/flags/bufferSrcFlag.hpp"
+#include "frontend/flags/bufferSrcFlag.hpp"
 #include <iostream>
 #include "frontend/cli.hpp"
 
 namespace by {
 
     BY_DEF_ME(bufferSrcFlag)
+
+    me::bufferSrcFlag(cli& c): _cli(c) {}
 
     const nchar* me::getName() const { return "-s, --script '<source code>'"; }
 
@@ -21,10 +23,10 @@ namespace by {
 
     ncnt me::getArgCount() const { return 1; }
 
-    me::res me::_onTake(const flagArgs& tray, cli&, interpreter& ip, starter&, errReport&) const {
-        if(tray.len() < 2) return BY_E("invalid flagArgument size < 2"), EXIT_PROGRAM;
+    me::res me::_onTake(const flagArgs& tray) const {
+        if(tray.size() < 2) return BY_E("invalid flagArgument size < 2"), EXIT_PROGRAM;
 
-        ip.getParser().addSupply(*new bufSupply(tray[1].get()));
+        _cli.getInterpreter().getParser().addSupply(*new bufSupply(tray[1]));
         return MATCH;
     }
 }

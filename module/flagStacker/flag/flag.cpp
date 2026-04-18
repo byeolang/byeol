@@ -1,52 +1,54 @@
-#include "frontend/flag/flag.hpp"
-#include "frontend/cli.hpp"
+#include "flagStacker/flag/flag.hpp"
+#include "flagStacker/stacker.hpp"
 #include <regex>
 
 namespace by {
-
-    BY_DEF_ME(flag)
+    typedef flag me;
 
     namespace {
         nbool _isOptionClustered(const std::string& arg) { return arg.size() > 2 && arg[0] == '-' && arg[1] != '-'; }
     }
 
-    ncnt me::_parseOption(flagArgs& a, flagArgs& tray, errReport& rpt) const {
-        const std::string& arg = a[0].get();
+    ncnt me::_parseOption(flagArgs& a, flagArgs& tray, stacker& s) const {
+        const std::string& arg = a[0];
         ncnt deleteOptionCnt = 0;
-        WHEN(!canTake(arg)) .ret(0);
+        if(!canTake(arg)) return 0;
 
         std::string matchedArg = arg;
         deleteOptionCnt = 1;
 
         // check option clustring:
         if(_isOptionClustered(arg)) {
-            WHEN(getArgCount() > 0) .exErr(OPTION_CANT_CLUSTERED, rpt).ret(0);
+            if(getArgCount() > 0) return 0;
 
             // previous pushed argument will be removed after execution.
             // so, add additional argument with rest of string using `-[\w]` at the begin.
             // I confimred that length is more than 2 in `isOptionClustered()`
             matchedArg = std::string("-") + arg[1];
-            a.add(new nStr("-" + arg.substr(2)));
+            a.push_back(std::string("-" + arg.substr(2)));
         }
 
-        tray.add(new nStr(matchedArg));
+        tray.push_back(matchedArg);
 
         // handle option arguments:
-        WHEN(a.len() < getArgCount() + 1) .exErr(OPTION_NEEDS_TRAILING_ARG, rpt, getName()).ret(0);
+        if(a.size() < getArgCount() + 1) {
+            s.err(std::string("Option `") + getName() + "`needs trailing arguments");
+            return 0;
+        }
         deleteOptionCnt += getArgCount();
         for(int n = 1; n < 1 + getArgCount(); n++)
-            tray.add(a[n]);
+            tray.push_back(a[n]);
         return deleteOptionCnt;
     }
 
-    me::res me::take(interpreter& ip, starter& s, cli& c, flagArgs& a, errReport& rpt) const {
+    me::res me::take(flagArgs& a, stacker& s) {
         flagArgs tray;
 
-        ncnt deleteOptionCnt = _parseOption(a, tray, rpt);
-        WHEN(deleteOptionCnt <= 0) .ret(NOT_MATCH);
-        WHEN(tray.isEmpty()) .ret(NOT_MATCH);
+        ncnt deleteOptionCnt = _parseOption(a, tray, s);
+        if(deleteOptionCnt <= 0) return NOT_MATCH;
+        if(tray.size() <= 0) return NOT_MATCH;
 
-        res res = _onTake(tray, c, ip, s, rpt);
+        res res = _onTake(tray);
         _delArgs(a, deleteOptionCnt);
         return res;
     }
@@ -65,6 +67,6 @@ namespace by {
     void me::_delArgs(flagArgs& a, ncnt deleteOptionCnt) const {
         // remove del in reverse order.
         for(int n = deleteOptionCnt - 1; n >= 0; n--)
-            a.del(n);
+            a.erase(a.begin() + n);
     }
 } // namespace by

@@ -1,12 +1,13 @@
 /// @file
 #pragma once
 
-#include "frontend/common.hpp"
-#include "frontend/flag/flagArgs.hpp"
+#include "flagStacker/flag/flagable.hpp"
+#include "flagStacker/flag/flagArgs.hpp"
 
 namespace by {
 
     struct cli;
+    class stacker;
 
     typedef std::vector<std::string> strings;
 
@@ -55,15 +56,9 @@ namespace by {
      *  most programs do). To terminate immediately after matching, override `_onTake()` to
      *  return EXIT_PROGRAM. For continued operation like bufferSrcFlag, return MATCH.
      */
-    class flag: public instance {
-        BY(ADT(flag, instance))
-
+    class flag : public flagable {
     public:
-        enum res {
-            MATCH,
-            EXIT_PROGRAM,
-            NOT_MATCH
-        };
+        virtual ~flag() = default;
 
     public:
         virtual const nchar* getName() const = 0;
@@ -72,21 +67,21 @@ namespace by {
         /**
          *  @return false if flag wants to exit program.
          */
-        virtual res take(interpreter& ip, starter& s, cli& c, flagArgs& a, errReport& rpt) const;
+        virtual res take(flagArgs& a, stacker& s);
 
         /**
          *  @param pattern it's used to determine whether a pattern for a flag or not.
          *                 it usually starts with one or two hyphens.
          */
-        nbool canTake(const std::string& pattern) const;
+        virtual nbool canTake(const std::string& pattern) const;
 
-    protected:
         /**
          *  when this flag matched to one of args, the value of returning this func will be
          *  count of continuous argument of this flag.
          */
         virtual ncnt getArgCount() const;
 
+    protected:
         /**
          * @brief Deletes arguments from the `flagArgs` list.
          * @details This method is used internally to remove arguments that have been consumed
@@ -96,15 +91,16 @@ namespace by {
          */
         void _delArgs(flagArgs& a, ncnt deleteOptionCnt) const;
 
+        virtual res _onTake(const flagArgs& tray) const = 0;
+
         virtual const strings& _getRegExpr() const = 0;
-        virtual res _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s, errReport& rpt) const = 0;
 
     private:
         /**
          * @return argument count to be deleted after execution.
          */
-        ncnt _parseOption(flagArgs& a, flagArgs& tray, errReport& rpt) const;
+        ncnt _parseOption(flagArgs& a, flagArgs& tray, stacker& s) const;
     };
 
-    typedef std::vector<tstr<flag>> flags;
+    typedef std::vector<flag*> flags;
 } // namespace by

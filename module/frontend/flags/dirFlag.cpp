@@ -1,8 +1,11 @@
-#include "frontend/flag/flags/dirFlag.hpp"
-#include "frontend/flag/flags/fileFlag.hpp"
+#include "frontend/flags/dirFlag.hpp"
+#include "frontend/flags/fileFlag.hpp"
+#include "frontend/cli.hpp"
 
 namespace by {
     BY_DEF_ME(dirFlag)
+
+    me::dirFlag(cli& c): _cli(c) {}
 
     const nchar* me::getName() const { return "<directory path>"; }
 
@@ -19,14 +22,14 @@ namespace by {
         return inner;
     }
 
-    me::res me::_onTake(const flagArgs& tray, cli&, interpreter& ip, starter&, errReport& rpt) const {
-        parser& ps = ip.getParser();
+    me::res me::_onTake(const flagArgs& tray) const {
+        parser& ps = _cli.getInterpreter().getParser();
         tnarr<srcSupply> supplies;
         for(const auto& dirPath: tray)
-            supplies.add(srcSupply::makeSuppliesFrom(dirPath.get()));
+            supplies.add(srcSupply::makeSuppliesFrom(dirPath));
 
         ps.addSupply(supplies);
-        if(supplies.isEmpty()) rpt.add(nerr::newErr(NO_SRC_FOUND_ON_THE_PATH, util::joinVectorString(tray).c_str()));
+        if(supplies.isEmpty()) _cli.getReport().add(nerr::newErr(NO_SRC_FOUND_ON_THE_PATH, util::joinVectorString(tray).c_str()));
         return MATCH;
     }
 }

@@ -1,22 +1,22 @@
 /// @file
 #pragma once
 
-#include "frontend/flag/flag.hpp"
+#include "flagStacker/flag/flag.hpp"
 
 namespace by {
 
     /** @ingroup frontend
-     *  @brief Flag for displaying command-line interface help information
-     *  @details This flag, when activated, outputs a description of all available CLI flags
-     *           and their functionalities. It typically terminates the program after displaying help.
+     *  @brief Flag for enabling verbose logging output
+     *  @details When this flag is activated, the interpreter and related components will produce
+     *           more detailed and extensive log messages, useful for in-depth debugging and monitoring.
      *  @code
      *      // Example usage:
-     *      // frontend --help
-     *      // frontend -h
+     *      // frontend --verbose
+     *      // frontend -v
      *  @endcode
      */
-    class helpFlag: public flag {
-        BY(CLASS(helpFlag, flag))
+    class verboseFlag: public flag {
+        BY(CLASS(verboseFlag, flag))
 
     public:
         const nchar* getName() const override;

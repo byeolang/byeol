@@ -1,10 +1,16 @@
 #pragma once
 
-#include "frontend/flag/flag.hpp"
+#include "flagStacker/flag/flag.hpp"
+#include "frontend/common/dep.hpp"
 
 namespace by {
+    struct cli;
+
     class dirFlag: public flag {
-        BY(CLASS(dirFlag, flag))
+        BY(ME(dirFlag, flag))
+
+    public:
+        dirFlag(cli& c);
 
     public:
         const nchar* getName() const override;
@@ -12,6 +18,9 @@ namespace by {
 
     protected:
         const strings& _getRegExpr() const override;
-        res _onTake(const flagArgs& tray, cli& c, interpreter& ip, starter& s, errReport& rpt) const override;
+        res _onTake(const flagArgs& tray) const override;
+
+    private:
+        cli& _cli;
     };
 }
