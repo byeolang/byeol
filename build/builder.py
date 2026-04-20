@@ -1233,6 +1233,7 @@ def clean():
     _clean(cwd)
     _cleanIntermediates()
     _cleanDir(binDir)
+    _cleanDir(cwd + "/_deps") # for googleTest & flagStacker
     _cleanParser()
     if isWindow():
         system("del /f /s /q " + cwd + "\\html")
