@@ -9,16 +9,16 @@ me::byeolE2ETest() {
     cli.setReport(rpt);
 }
 
-flagArgs me::parseFlag(nint argc, ...) {
+flagStrs me::parseFlag(nint argc, ...) {
     va_list va;
     va_start(va, argc);
-    flagArgs ret = _parseFlag(argc, va);
+    auto ret = _parseFlag(argc, va);
     va_end(va);
     return ret;
 }
 
-flagArgs me::_parseFlag(nint argc, va_list va) {
-    flagArgs ret;
+flagStrs me::_parseFlag(nint argc, va_list va) {
+    flagStrs ret;
     for(nint n = 0; n < argc; n++)
         ret.add(new nStr(va_arg(va, const nchar*)));
     return ret;
@@ -31,7 +31,7 @@ me& me::parse(by::nint argc, ...) {
     int flag = isVerbose ? interpreter::LOG_STRUCTURE | cli::DUMP_ON_EX | cli::GUARD | cli::INTERNAL | cli::LOG_ON_END |
             interpreter::LOG_GRAPH_ON_EX :
                            cli::DUMP_ON_EX | cli::GUARD | cli::INTERNAL | cli::LOG_ON_END;
-    cli.setFlag(flag).setTask(new flagArgs(_parseFlag(argc, va)));
+    cli.setFlag(flag).setTask(new flagStrs(_parseFlag(argc, va)));
     va_end(va);
     return *this;
 }

@@ -4,7 +4,7 @@
 #include "flagStacker/flag/flag.hpp"
 
 namespace by {
-    class stacker: public flagable {
+    class _nout stacker: public flagable {
     public:
         ~stacker();
 

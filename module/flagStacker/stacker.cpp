@@ -25,6 +25,12 @@ namespace by {
         return flag::MATCH;
     }
 
+    nbool me::canTake(const std::string& pattern) const {
+        for(const auto* f : _flags)
+            if(f->canTake(pattern)) return true;
+        return false;
+    }
+
     const flags& me::getFlags() const {
         if(_flags.size() > 0) return _flags;
         _initFlags(_flags);

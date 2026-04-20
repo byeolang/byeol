@@ -6,6 +6,20 @@
 
 #include <cstdint>
 
+#ifdef WIN32
+#    undef _nout
+#    define _nhidden
+#    ifdef __flagStacker = 1 // I'm currently building flagStacker module
+#        define _nout __declspec(dllexport)
+#    else
+#        define _nout __declspec(dllimport)
+#    endif
+#else
+#    undef _nout
+#    define _nout __attribute__((visibility("default")))
+#    define _nhidden __attribute__((visibility("hidden")))
+#endif
+
 #ifdef UNICODE
 #    define tchar wchar_t
 #    define tmain wmain

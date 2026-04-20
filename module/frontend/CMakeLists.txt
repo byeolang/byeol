@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.14)
 
 set(moduleName "byeol")
-set(dependencies ${dependencies} core)
+set(dependencies ${dependencies} core flagStacker)
 IF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
     set(dependencies ${dependencies} dl) # dynamic linking lib of posix compatiables.
 ENDIF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)

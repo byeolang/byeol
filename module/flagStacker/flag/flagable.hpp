@@ -6,7 +6,7 @@
 namespace by {
     class stacker;
 
-    class flagable {
+    class _nout flagable {
     public:
         enum res {
             MATCH,

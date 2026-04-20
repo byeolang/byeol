@@ -1,3 +1,3 @@
 #pragma once
 
-#include "flagStacker/flag/flags.hpp"
+#include "flagStacker/flag/flag.hpp"

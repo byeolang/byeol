@@ -9,10 +9,10 @@ public:
     byeolE2ETest& parse(by::nint argc, ...);
     byeolE2ETest& negative();
     by::programRes run();
-    static by::flagArgs parseFlag(by::nint argc, ...);
+    static by::flagStrs parseFlag(by::nint argc, ...);
 
 private:
-    static by::flagArgs _parseFlag(by::nint argc, va_list va);
+    static by::flagStrs _parseFlag(by::nint argc, va_list va);
 
 public:
     by::cli cli;

@@ -6,15 +6,20 @@ using namespace std;
 struct cliTest: public byeolTest {
     cli ep;
 
-    flag::res callEval(interpreter& ip, flagArgs& a, starter& s, errReport& rpt) { return ep._evalArgs(ip, a, s, rpt); }
+    flag::res callEval(flagStrs& a) {
+        flagArgs converted;
+        for(const auto& arg : a)
+            converted.push_back(arg.get());
+        return ep._stacker.take(converted);
+    }
 };
 
 TEST_F(cliTest, noSourceCodeProvidedErrorNegative) {
     programRes res = ep.setReport(*new errReport(false)).setTask(byeolE2ETest::parseFlag(0, "")).work();
     ASSERT_NE(res.res, 0);
     ASSERT_TRUE(res.rpt); // should have an error.
-    ASSERT_TRUE(res.rpt.inErr(by::NOT_SPECIFIED));
-    ASSERT_TRUE(res.rpt.inErr(by::NO_SRC));
+    ASSERT_TRUE(res.rpt->inErr(by::NOT_SPECIFIED));
+    ASSERT_TRUE(res.rpt->inErr(by::NO_SRC));
 }
 
 TEST_F(cliTest, helpFlag) {
@@ -72,8 +77,8 @@ TEST_F(cliTest, canTakeFileNameContainsHypen) {
     interpreter ip;
     starter s;
     errReport rpt;
-    flagArgs flags = byeolE2ETest::parseFlag(1, "a-b.byeol");
-    callEval(ip, flags, s, rpt);
+    flagStrs flags = byeolE2ETest::parseFlag(1, "a-b.byeol");
+    callEval(flags);
     parser& p = ip.getParser();
     auto& srcs = p.getSrcSupplies();
     ASSERT_EQ(srcs.len(), 1);
@@ -86,8 +91,8 @@ TEST_F(cliTest, canTakeFileNameContainsDot) {
     interpreter ip;
     starter s;
     errReport rpt;
-    flagArgs flags = byeolE2ETest::parseFlag(1, ".a.b.byeol");
-    callEval(ip, flags, s, rpt);
+    flagStrs flags = byeolE2ETest::parseFlag(1, ".a.b.byeol");
+    callEval(flags);
     parser& p = ip.getParser();
     auto& srcs = p.getSrcSupplies();
     ASSERT_EQ(srcs.len(), 1);
@@ -100,8 +105,8 @@ TEST_F(cliTest, canTakeMultipleFilesAsFlags) {
     interpreter ip;
     starter s;
     errReport rpt;
-    flagArgs flags = byeolE2ETest::parseFlag(2, "a.byeol", "b.byeol");
-    callEval(ip, flags, s, rpt);
+    flagStrs flags = byeolE2ETest::parseFlag(2, "a.byeol", "b.byeol");
+    callEval(flags);
     parser& p = ip.getParser();
     auto& srcs = p.getSrcSupplies();
     ASSERT_EQ(srcs.len(), 2);
@@ -116,7 +121,7 @@ TEST_F(cliTest, canTakeMultipleStreamAsFlags) {
     interpreter ip;
     starter s;
     errReport rpt;
-    flagArgs flags = byeolE2ETest::parseFlag(4, "-s", R"SRC(
+    flagStrs flags = byeolE2ETest::parseFlag(4, "-s", R"SRC(
 def a
     hello() void
         print("hello\n")
@@ -125,7 +130,7 @@ def a
 main() void
     a.hello()
 )SRC");
-    callEval(ip, flags, s, rpt);
+    callEval(flags);
     parser& p = ip.getParser();
     auto& srcs = p.getSrcSupplies();
     ASSERT_EQ(srcs.len(), 2);

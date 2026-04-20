@@ -2,7 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.14)
 include(FetchContent) # requires 3.14
 
 set(moduleName "test")
-set(dependencies ${dependencies} indep clog meta memlite core stela frontend)
+set(dependencies ${dependencies} indep clog meta memlite core stela frontend flagStacker)
 IF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
     set(dependencies ${dependencies} dl) # dynamic linking lib of posix compatiables.
 ENDIF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)

@@ -47,6 +47,10 @@ namespace by {
         }
     }
 
+    const flags& me::getFlags() const {
+        return _stacker.getFlags();
+    }
+
     interpreter& me::getInterpreter() { return _interpreter; }
 
     starter& me::getStarter() { return _starter; }
