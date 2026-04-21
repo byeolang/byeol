@@ -7,6 +7,7 @@ namespace by {
     me::frontendStacker(cli& c): _cli(c) {}
 
     void me::_initFlags(flags& tray) const {
+        tray.push_back(new bufferSrcFlag(_cli));
         tray.push_back(new helpFlag(_cli));
         tray.push_back(new verFlag());
         tray.push_back(new verboseFlag(_cli));
