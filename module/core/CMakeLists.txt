@@ -18,11 +18,11 @@ set(BYEOL_PARSER_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/worker/bison)
 set(BYEOL_BISON_COMPILE_FLAGS "-l --feature=diagnostics-show-caret --warnings --color")
 set(BYEOL_FLEX_COMPILE_FLAGS "-L --header-file=${BYEOL_PARSER_SRC_DIR}/lowscanner.hpp")
 
-if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)
     set(BYEOL_FLEX_COMPILE_FLAGS "${BYEOL_FLEX_COMPILE_FLAGS} --debug")
     set(BYEOL_BISON_REPORT_FILENAME "bisonReport")
     set(BYEOL_BISON_COMPILE_FLAGS "${BYEOL_BISON_COMPILE_FLAGS} --verbose --report=all --debug --graph=${BYEOL_PARSER_SRC_DIR}/${BYEOL_BISON_REPORT_FILENAME}.gv")
-endif (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+endif ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)
 
 message("\tbison ${BYEOL_BISON_COMPILE_FLAGS}")
 

@@ -18,11 +18,11 @@ set(STELA_PARSER_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/parser/bison)
 set(STELA_BISON_COMPILE_FLAGS "-l --feature=diagnostics-show-caret --warnings --color")
 set(STELA_FLEX_COMPILE_FLAGS "-L --header-file=${STELA_PARSER_SRC_DIR}/stelaLowscanner.hpp")
 
-if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)
     set(STELA_FLEX_COMPILE_FLAGS "${STELA_FLEX_COMPILE_FLAGS} --debug")
     set(STELA_BISON_REPORT_FILENAME "bisonReport")
     set(STELA_BISON_COMPILE_FLAGS "${STELA_BISON_COMPILE_FLAGS} --verbose --report=all --debug --graph=${STELA_PARSER_SRC_DIR}/${STELA_BISON_REPORT_FILENAME}.gv")
-endif (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+endif ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)
 
 message("\tbison ${STELA_BISON_COMPILE_FLAGS}")
 
