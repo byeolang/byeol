@@ -555,7 +555,7 @@ def _createMakefiles(cmake):
 
     printOk("done")
 
-# World uses BuildInfo at CHANGELOGS.md.
+# Byeol uses BuildInfo at CHANGELOGS.md.
 # builder.py reads it for user-facing version strings, while CMake consumes it during configure.
 ver_major = 0
 ver_minor = 0
