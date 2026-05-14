@@ -8,7 +8,7 @@ struct cliTest: public byeolTest {
 
     flag::res callEval(flagStrs& a) {
         flagArgs converted;
-        for(const auto& arg : a)
+        for(const auto& arg: a)
             converted.push_back(arg.get());
         return ep._stacker.take(converted);
     }

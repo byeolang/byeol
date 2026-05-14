@@ -2,13 +2,14 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.14)
 
 include(FetchContent) # requires 3.14
 
-# fetching flagStacker(0.0.1) dependency:
+# fetching flagStacker(0.1.0) dependency:
 #   FetchContext shares parent context(e.g. cmake variables),
 #   so I have to declare it at first.
 FetchContent_Declare(
     flagStacker_dep
-    URL https://github.com/byeolang/flagStacker/archive/6615712afaa7834997b529d8d1a776d9fa79460f.zip)
-FetchContent_MakeAvailable(googletest flagStacker_dep)
+    SOURCE_SUBDIR module
+    URL https://github.com/byeolang/flagStacker/archive/560fc86c86b8b99a460a1621d3877571b3c6df3f.zip)
+FetchContent_MakeAvailable(flagStacker_dep)
 
 set(moduleName "byeol")
 set(dependencies ${dependencies} core)
