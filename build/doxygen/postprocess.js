@@ -80,6 +80,22 @@ document.addEventListener('DOMContentLoaded', function() {
         code.classList.add('hljs', ...json.style.split(' '));
         code.setAttribute('src', json.code);
     });
+
+    const scrollToTopButton = document.getElementById('scroll-to-top');
+    if(scrollToTopButton != null) {
+        const toggleScrollToTopButton = function() {
+            const isVisible = window.scrollY > 240;
+            scrollToTopButton.classList.toggle('is-visible', isVisible);
+        };
+
+        scrollToTopButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+
+        toggleScrollToTopButton();
+        window.addEventListener('scroll', toggleScrollToTopButton, {passive: true});
+    }
 });
 
 window.addEventListener('load', function() {

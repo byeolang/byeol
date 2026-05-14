@@ -101,3 +101,59 @@ a:hover {
     color: var(--byeol-nebular-light) !important;
     text-decoration: none !important;
 }
+
+a.to-top-button:link,
+a.to-top-button:visited,
+a.to-top-button:focus,
+a.to-top-button:active {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 68px;
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background-color: var(--byeol-point);
+    box-shadow: 0 8px 24px rgba(17, 42, 64, 0.2);
+    color: var(--byeol-white) !important;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none !important;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.18s ease, transform 0.18s ease, background-color 0.18s ease;
+}
+
+a.to-top-button.is-visible:link,
+a.to-top-button.is-visible:visited,
+a.to-top-button.is-visible:focus,
+a.to-top-button.is-visible:active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+a.to-top-button:hover {
+    background-color: var(--byeol-nebular);
+    color: var(--byeol-white) !important;
+}
+
+@media screen and (max-width: 767px) {
+    a.to-top-button:link,
+    a.to-top-button:visited,
+    a.to-top-button:focus,
+    a.to-top-button:active {
+        right: 16px;
+        bottom: 16px;
+        min-width: 64px;
+        height: 30px;
+        padding: 0 10px;
+    }
+}
