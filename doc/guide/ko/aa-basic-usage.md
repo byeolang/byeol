@@ -88,8 +88,8 @@ wildcard도 지원하니 적극적으로 사용해주세요.<br/>
 
 ```
 @style: language-txt verified
-$ byeol -s 'main() void<br/>
-    print("hello")<br/>
+$ byeol -s 'main() void
+    print("hello")
 '
 ```
 
