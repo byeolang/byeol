@@ -165,13 +165,13 @@ Ubuntu에서는 `gdb`나 `lldb` 모두 사용 가능합니다. 여담인데, nvi
 
 ### Windows WSL
 
-WSL을 사용하지 않는 경우, Visual Studio로는 알아서 잘 됩니다. WSL에서 VS Code로 디버깅 하기 위해서는 플러그인 설치와 함께 gdb 혹은 lldb와 연결이 되어야 합니다. VS Code를 위한 개발 환경 파일을 별도로 [마련해두었으니](https://github.com/byeolang/byeol-vscode-env) 참고하세요.
+WSL을 사용하지 않는 경우, Visual Studio로는 알아서 잘 됩니다. WSL에서 VS Code로 디버깅 하기 위해서는 플러그인 설치와 함께 gdb 혹은 lldb와 연결이 되어야 합니다. VS Code를 위한 개발 환경 파일을 별도로 <a href="https://github.com/byeolang/byeol-vscode-env" target="blank">마련해두었으니</a> 참고하세요.
 
 ---
 
 ### Mac OS
 
-Ubuntu처럼 `gdb`나 `lldb`를 사용해도 되지만 VS Code를 사용해도 됩니다. VS Code를 위한 개발 환경 파일을 별도로 [마련해두었으니](https://github.com/byeolang/byeol-vscode-env) 참고하세요.
+Ubuntu처럼 `gdb`나 `lldb`를 사용해도 되지만 VS Code를 사용해도 됩니다. VS Code를 위한 개발 환경 파일을 별도로 <a href="https://github.com/byeolang/byeol-vscode-env" target="blank">마련해두었으니</a> 참고하세요.
 
 ---
 
@@ -209,9 +209,9 @@ $ ./test --gtest_filter=cliTest.checkDefaultAction verbose
 
 가이드 및 레퍼런스 문서는 공식적으로는 웹사이트 상으로만 배포됩니다. 그러니 `builder.py doc` 명령은 해당 문서를 공식 웹사이트 배포용으로 HTML로만 생성하는 명령입니다.
 
-이 과정을 위해서 [website](https://github.com/byeolang/website)을 clone한 후에 doxygen 명령을 수행하여 markdown을 html과 관련 asset으로 생성한 후, 기존 파일에 덮어씁니다. 커밋까지는 하지 않습니다. 생성이 완료되면 `build/html` 폴더 안에 변경된 website git Repository가 들어있음을 알 수 있습니다.
+이 과정을 위해서 <a href="https://github.com/byeolang/website" target="blank">website</a>를 clone한 후에 doxygen 명령을 수행하여 markdown을 html과 관련 asset으로 생성한 후, 기존 파일에 덮어씁니다. 커밋까지는 하지 않습니다. 생성이 완료되면 `build/html` 폴더 안에 변경된 website git Repository가 들어있음을 알 수 있습니다.
 
-생성된 웹사이트는 [jekyll](https://jekyllrb-ko.github.io/)을 통해 제공됩니다. 사이트 전체를 보려면 jekyll 설정이 필요하며, 생성된 문서만 보고 싶다면 byeol/build/html/guide/generated/ko/index.html과 같이 경로로 확인이 가능합니다.
+생성된 웹사이트는 <a href="https://jekyllrb-ko.github.io" target="blank">jekyll</a>을 통해 제공됩니다. 사이트 전체를 보려면 jekyll 설정이 필요하며, 생성된 문서만 보고 싶다면 byeol/build/html/guide/generated/ko/index.html과 같이 경로로 확인이 가능합니다.
 
 ---
 
@@ -225,7 +225,7 @@ $ ./test --gtest_filter=cliTest.checkDefaultAction verbose
 
 ### 문서의 doxygen 커스터마이징
 
-생성된 html은 doxygen-awesome(https://jothepro.github.io/doxygen-awesome-css/)을 기반으로 꾸며집니다. 물론 위 코드만 그대로 사용한 건 아니고, 추가적으로 js나 asset들을 추가해서 예외처리나 syntax highlighting을 하고 있습니다. 관련 파일들은 `build/doxygen` 폴더에서 찾을 수 있습니다.
+생성된 html은 <a href="https://jothepro.github.io/doxygen-awesome-css" target="blank">doxygen-awesome-css</a>를 기반으로 꾸며집니다. 물론 위 코드만 그대로 사용한 건 아니고, 추가적으로 js나 asset들을 추가해서 예외처리나 syntax highlighting을 하고 있습니다. 관련 파일들은 `build/doxygen` 폴더에서 찾을 수 있습니다.
 
 ---
 

@@ -60,7 +60,7 @@ class userManager {
 
 이처럼 C++ 코드를 작성하면서도 Byeol 언어의 철학을 일관되게 유지함으로써, 언어 사용자가 구현체 코드를 볼 때도 같은 사고방식으로 접근할 수 있도록 했습니다.
 
-혹시 관심이 있다면 byeol 언어의 설계 철학에 대한 자세한 내용은 [디자인 철학 문서](https://byeol.io/guide/generated/ko/design-philosophy.html)를 참조하세요.
+혹시 관심이 있다면 byeol 언어의 설계 철학에 대한 자세한 내용은 <a href="https://byeol.io/guide/generated/ko/design-philosophy.html" target="blank">디자인 철학 문서</a>를 참조하세요.
 
 ### 코딩 스타일은 clang-format으로 자동 적용
 
