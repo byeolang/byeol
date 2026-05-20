@@ -941,13 +941,6 @@ class dependency:
         if self.isActivated():
             printOkEnd(self.binary)
 
-class FlexDependency(dependency):
-    def getExpectVer(self):
-        return ver(2, 6, 0, False)
-
-    def getNames(self):
-        return ["flex"]
-
 class PythonDependency(dependency):
     def getExpectVer(self):
         return ver(3, 6, 0, False)
@@ -955,51 +948,12 @@ class PythonDependency(dependency):
     def getNames(self):
         return ["python", "python3"]
 
-class GitDependency(dependency):
-    def getNames(self):
-        return ["git"]
-
-class CMakeDependency(dependency):
-    def getNames(self):
-        return ["cmake"]
-
-    def getExpectVer(self):
-        return ver(2, 6, 0, False)
-
-class MakeDependency(dependency):
-    def getNames(self):
-        return ["make"]
-
-    def getExpectVer(self):
-        return ver(3, 0, 0, False)
-
-    def isActivated(self):
-        return not isWindow()
-
 class DoxygenDependency(dependency):
     def getNames(self):
         return ["doxygen"]
 
     def getExpectVer(self):
         return ver(1, 10, 0, False)
-
-class EmmakeDependency(dependency):
-    def getNames(self):
-        return ["emmake"]
-
-class EmcmakeDependency(dependency):
-    def getNames(self):
-        return ["emcmake"]
-
-class BisonDependency(dependency):
-    def getNames(self):
-        return ["bison"]
-
-    def getExpectVer(self):
-        return ver(3, 8, 0, False)
-
-    def onGetInstalledVerString(self, name):
-        return super().onGetInstalledVerString(name).split('\n')[0]
 
 class ClangTidyDependency(dependency):
     def getNames(self):

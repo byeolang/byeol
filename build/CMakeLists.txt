@@ -17,14 +17,31 @@ ENDIF(EMSCRIPTEN)
 cmake_minimum_required (VERSION 3.14)
 project(byeol C CXX)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
-include(ByeolBuildInfo)
-include(ByeolDependencies)
+# include build-common if this is host project.
+get_property(build_common_included GLOBAL PROPERTY BUILD_COMMON_INCLUDED)
+if(NOT build_common_included)
+    list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../external/build-common)
+    include(buildCommon)
+
+    # parse version
+    by_parse_ver("${CMAKE_CURRENT_SOURCE_DIR}/../CHANGELOGS.md")
+    set(VERSION_NAME "Mana")
+endif()
+
+# dependencies check:
+by_check_dependency(NAMES git) # version is nothing matter.
+by_check_dependency(NAMES bison MIN_VERSION 3.8.0)
+by_check_dependency(NAMES flex MIN_VERSION 2.6.0)
+by_check_dependency(NAMES make MIN_VERSION 3.0.0)
+
+if(EMSCRIPTEN)
+    # you just need to have emmake. version is nothing matter.
+    by_check_dependency(NAMES emmake)
+    by_check_dependency(NAMES emcmake)
+endif(EMSCRIPTEN)
+
 
 get_filename_component(BY_DIR ${CMAKE_SOURCE_DIR} DIRECTORY)
-byeol_check_build_dependencies()
-byeol_extract_version_from_changelog("${BY_DIR}/CHANGELOGS.md")
-byeol_get_git_commit_hash("${BY_DIR}" GIT_COMMIT_HASH)
 
 set(SHOW_CMAKE_VARIABLES 1)
 #   build-date:
