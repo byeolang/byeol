@@ -8,7 +8,7 @@ include(FetchContent) # requires 3.14
 FetchContent_Declare(
     stela_dep
     SOURCE_SUBDIR build
-    URL https://github.com/byeolang/stela/archive/a09186215ce50f1f3a0a2093e17f0476209a33f5.zip)
+    URL https://github.com/byeolang/stela/archive/e29782ce3d47e3457f3d068590573e16247b071b.zip)
 FetchContent_MakeAvailable(stela_dep)
 
 set(moduleName "core")
