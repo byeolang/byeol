@@ -40,7 +40,6 @@ if(EMSCRIPTEN)
     by_check_dependency(NAMES emcmake)
 endif(EMSCRIPTEN)
 
-
 get_filename_component(BY_DIR ${CMAKE_SOURCE_DIR} DIRECTORY)
 
 set(SHOW_CMAKE_VARIABLES 1)
