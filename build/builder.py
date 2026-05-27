@@ -106,10 +106,6 @@ def branch(command):
     elif command == "wasm":
         arg3 = None if len(sys.argv) < 3 else sys.argv[2]
         return wasmBuild(arg3)
-    elif command == "test":
-        arg1 = "" if len(sys.argv) < 3 else sys.argv[2]
-        ignore_tidy = "--ignore-tidy" in sys.argv
-        return test(arg1, ignore_tidy);
     elif command == "cov":
         return covBuild()
     elif command == "doc":
@@ -779,33 +775,6 @@ def pub(arg, ignore_tidy=False):
     return -1
 
 # arg is "" for dbg or "silent" for rel
-def test(arg, ignore_tidy=False):
-    if build(False, ignore_tidy) != 0:
-        return -1;
-
-    print("")
-    printInfoEnd("let's initiate unit tests...")
-    global cwd, binDir
-
-    originDir = os.getcwd()
-    os.chdir(binDir)
-    failedCnt = 0
-    ret = 0
-    if isWindow():
-        res = system(".\\test verbose " + arg)
-    else:
-        res = system("./test verbose " + arg)
-    if res != 0:
-        printErr("test was failed!")
-        ret = -1
-        failedCnt += 1
-
-    if failedCnt > 0:
-        printErr("total " + str(failedCnt) + " TC files has reported that failed.")
-    else:
-        printOk("all TCs have been passed!");
-    os.chdir(originDir)
-    return ret
 
 class ver:
     def __init__(self, major, minor, patch, onlyThisVer):
@@ -1119,14 +1088,13 @@ def help():
     print("\t * rel           build new binary with release configuration. binary optimized, debug logs will be hidden.")
     print("\t * reldbg        same as rel. but this includes dbg info.")
     print("\t * wasm          build wasm release binary.")
-    print("\t * test          runs unit tests but skip build if they are built already.")
     print("\t * doc           generate documents only.")
     print("\t * cov           generate coverage file and visualize data with html")
     print("\t * format        apply our code convention rules to current repository. it'll be done by clang-format docker")
     print("\t                 image. and as you may know, that could lead you to download a pretty much big image file.")
     print("\t * pub <platform> publish release binary for the specified platform (deb/mac/win)")
     print("\t   optional flags:")
-    print("\t       --ignore-tidy   skip clang-tidy dependency check and configuration (available for: dbg, rel, reldbg, pub, test).")
+    print("\t       --ignore-tidy   skip clang-tidy dependency check and configuration (available for: dbg, rel, reldbg, pub).")
 
 def clean():
     printInfo("Clearing next following files...")
