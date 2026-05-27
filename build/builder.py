@@ -324,7 +324,7 @@ def formatCodesWithDocker(showLog):
     return subprocess.run([sudo, docker.binary, "rm", containerName]).returncode
 
 def prerequisites():
-    if checkDependencies([ClangDependency(), MSBuildDependency(), GitDependency(), PythonDependency(), FlexDependency(), CMakeDependency(), BisonDependency(), ClangTidyDependency(), DockerDependency()]):
+    if checkDependencies([ClangDependency(), MSBuildDependency(), GitDependency(), PythonDependency(), CMakeDependency(), ClangTidyDependency(), DockerDependency()]):
         return -1
     return 0
 
@@ -638,7 +638,7 @@ def build(incVer, ignore_tidy=False):
     make = MakeDependency()
     git = GitDependency()
 
-    deps = [ClangDependency(), msbuild, git, cmake, BisonDependency(), FlexDependency(), make]
+    deps = [ClangDependency(), msbuild, git, cmake, make]
     if not ignore_tidy:
         deps.append(ClangTidyDependency())
 
@@ -948,12 +948,41 @@ class PythonDependency(dependency):
     def getNames(self):
         return ["python", "python3"]
 
+class GitDependency(dependency):
+    def getNames(self):
+        return ["git"]
+
+class CMakeDependency(dependency):
+    def getNames(self):
+        return ["cmake"]
+
+    def getExpectVer(self):
+        return ver(2, 6, 0, False)
+
+class MakeDependency(dependency):
+    def getNames(self):
+        return ["make"]
+
+    def getExpectVer(self):
+        return ver(3, 0, 0, False)
+
+    def isActivated(self):
+        return not isWindow()
+
 class DoxygenDependency(dependency):
     def getNames(self):
         return ["doxygen"]
 
     def getExpectVer(self):
         return ver(1, 10, 0, False)
+
+class EmmakeDependency(dependency):
+    def getNames(self):
+        return ["emmake"]
+
+class EmcmakeDependency(dependency):
+    def getNames(self):
+        return ["emcmake"]
 
 class ClangTidyDependency(dependency):
     def getNames(self):
