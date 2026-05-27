@@ -335,7 +335,7 @@ def _publishDoc():
     os.chdir(cwd + "/html")
     system(f"{git.binary} add .")
     system(f"{git.binary} config user.name \"autodocbot\"") # put on local config.
-    system(f"{git.binary} config user.email \"knizofficial@gmail.com\"")
+    system(f"{git.binary} config user.email \"kniz@byeol.io\"")
     res = system(f"{git.binary} commit -m \"The our poor little Autobot \\(❍ᴥ❍ʋ)/ generated docs for " + origin + ", clitter-clatter.\"")
     if res != 0:
         printErr("fail to commit on gh-pages.")
