@@ -290,8 +290,8 @@ jobs:
 
     - name: build wasm
       run: |
-        export C=clang CXX=clang++ PYTHON=$(which python3)
-        export PATH="$(dirname $(which emmake)):$PATH"
+        export PYTHON=$(which python3)
+        export PATH="${EMSDK}/upstream/emscripten:$(dirname $(which emmake)):${PATH}"
         $PYTHON ${{github.workspace}}/build/builder.py wasm
 
     - name: upload wasm file

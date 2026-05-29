@@ -368,6 +368,16 @@ def wasmBuild(arg):
     if checkDependencies([emmake, emcmake, cmake, make]):
         return -1
 
+    # In some emsdk versions emmake/emcmake live in the emsdk root while emcc
+    # lives in upstream/emscripten. FetchContent sub-projects call project() which
+    # requires cmake to find "emcc" in PATH, so ensure that directory is present.
+    if not shutil.which("emcc"):
+        emsdk = os.environ.get("EMSDK", "")
+        if emsdk:
+            emcc_dir = os.path.join(emsdk, "upstream", "emscripten")
+            if os.path.isfile(os.path.join(emcc_dir, "emcc")):
+                os.environ["PATH"] = emcc_dir + os.pathsep + os.environ.get("PATH", "")
+
     config="-DCMAKE_BUILD_TYPE=Release -DEMSCRIPTEN=1"
     clean()
     system(f"{emcmake.binary} {cmake.binary} {config} {cwd}")
