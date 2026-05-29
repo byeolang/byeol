@@ -116,11 +116,6 @@ def branch(command):
         return doc()
     elif command == "pubdoc":
         return _publishDoc()
-    elif command == "pub":
-        arg2 = None if len(sys.argv) < 3 else sys.argv[2]
-        ignore_tidy = "--ignore-tidy" in sys.argv
-        return pub(arg2, ignore_tidy);
-
     printErr(command + " is unknown command.")
     return -1
 
@@ -691,131 +686,6 @@ def test(arg, ignore_tidy=False):
     os.chdir(originDir)
     return ret
 
-def removeTestData():
-    global binDir
-    rmtree(f"{binDir}{slash()}testdata")
-
-def pub(arg, ignore_tidy=False):
-    global cwd, binDir, ver_major, ver_minor, ver_fix
-
-    if arg == None:
-        printErr("please input a platfrom after pub command: 'deb', 'mac'")
-        return -1
-
-    if arg == "deb":
-        printInfoEnd("cleaning previous outputs of publishing...")
-        debianDir = cwd + "/debian"
-        os.chdir(debianDir)
-        system("mkdir usr")
-        system("mkdir usr/bin")
-        system("mkdir usr/lib")
-        system("mkdir usr/include")
-        system("mkdir usr/share")
-        system("mkdir usr/share/byeol")
-        printOk("done.")
-        os.chdir(cwd)
-
-        if relBuild(ignore_tidy) != 0:
-            printErr("release build failed. quit publishing.")
-            return -1
-
-        os.chdir(debianDir)
-        target = debianDir + "/usr/"
-        printInfoEnd("copy outputs into debian target directory")
-        system("cp " + binDir + "/byeol " + target + "bin")
-        system("cp " + binDir + "/*.so " + target + "lib")
-        system("cp -r " + binDir + "/pod " + target + "share/byeol")
-        printOk("done")
-
-        printInfoEnd("podaging...")
-        os.chdir(cwd)
-        system("dpkg -b debian")
-        printOk("done")
-
-        printInfoEnd("move podage into bin/...")
-        system("mv debian.deb " + binDir + "/byeol-ubuntu-x64.deb")
-        printOk("done")
-
-        printInfoEnd("remove local shared libraries...")
-        system("rm " + binDir + "/*.so")
-        printOk("done")
-
-        printInfoEnd("remove debian intermediate files...")
-        system("rm -rf " + "debian/usr/")
-
-        removeTestData()
-        return 0
-
-    elif arg == 'mac':
-        if relBuild(ignore_tidy) != 0:
-            printErr("release build failed. quit publishing.")
-            return -1
-
-        printInfoEnd("cleaning redandunt files to podage")
-        os.chdir(binDir)
-        system("rm ./test")
-        system("rm ./logs")
-        system("cp ../LICENSE.md .")
-        system("cp ../README.md .")
-        system("cp ../CHANGELOGS.md .")
-
-        printOk("done")
-        printInfoEnd("make an archive")
-        os.chdir(binDir + "/..")
-        mac_arch = "arm64" if _isAppleSilicon() else "x64"
-        system(f"tar -zcvf byeol-macos-{mac_arch}.tar.gz bin")
-        printOk("done")
-
-        printInfoEnd("make a podage")
-        pkgStaging = binDir + "/../staging_pkg"
-        if os.path.exists(pkgStaging):
-            rmtree(pkgStaging)
-
-        os.makedirs(f"{pkgStaging}/usr/local/bin")
-        os.makedirs(f"{pkgStaging}/usr/local/lib")
-        os.makedirs(f"{pkgStaging}/usr/local/share/byeol")
-
-        system(f"cp {binDir}/byeol {pkgStaging}/usr/local/bin/")
-        system(f"install_name_tool -add_rpath /usr/local/lib {pkgStaging}/usr/local/bin/byeol")
-
-        system(f"cp -r {binDir}/pod/* {pkgStaging}/usr/local/share/byeol/")
-        system(f"cp {binDir}/*.dylib {pkgStaging}/usr/local/lib/ 2>/dev/null || true")
-        system(f"cp {binDir}/*.so {pkgStaging}/usr/local/lib/ 2>/dev/null || true")
-
-        verStr = f"{ver_major}.{ver_minor}.{ver_fix}"
-        pkgName = f"byeol-{verStr}-macos-{mac_arch}.pkg"
-        system(f"pkgbuild --root {pkgStaging} --identifier io.byeol --version {verStr} --install-location / {binDir}/{pkgName}")
-        rmtree(pkgStaging)
-        printOk("done")
-
-        removeTestData()
-        return 0
-
-    elif arg == 'win':
-        if relBuild(ignore_tidy) != 0:
-            printErr("release build failed. but keep publishing.")
-
-        printInfoEnd("cleaning redandunt files to podage")
-        os.chdir(binDir)
-        system("del /S test\\*")
-        system("rmdir test")
-        system("del logs")
-        system("copy ..\\LICENSE.md .")
-        system("copy ..\\README.md .")
-        system("copy ..\\CHANGELOGS.md .")
-        system("move Release\\sys.pod .\\pod\\sys")
-        system("copy Release\\* .")
-        system("del /S /Q Release\\*")
-        system("rmdir Release")
-        system("zip -9vr byeol-win-x64.zip ..\\bin")
-
-        printOk("done")
-        printInfoEnd("please make an archive.")
-        return 0
-
-    printErr("unknown platform name: " + arg)
-    return -1
-
 # arg is "" for dbg or "silent" for rel
 
 class ver:
@@ -1135,9 +1005,8 @@ def help():
     print("\t * cov           generate coverage file and visualize data with html")
     print("\t * format        apply our code convention rules to current repository. it'll be done by clang-format docker")
     print("\t                 image. and as you may know, that could lead you to download a pretty much big image file.")
-    print("\t * pub <platform> publish release binary for the specified platform (deb/mac/win)")
     print("\t   optional flags:")
-    print("\t       --ignore-tidy   skip clang-tidy dependency check and configuration (available for: dbg, rel, reldbg, pub).")
+    print("\t       --ignore-tidy   skip clang-tidy dependency check and configuration (available for: dbg, rel, reldbg).")
 
 def clean():
     printInfo("Clearing next following files...")
