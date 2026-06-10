@@ -31,7 +31,10 @@ message("put module to ${BY_POD_OUTPUT_DIRECTORY}")
 add_library(${podName} SHARED ${sources})
 set_target_properties(${podName} PROPERTIES PREFIX "")
 set_target_properties(${podName} PROPERTIES SUFFIX ".${BY_POD_EXTENSION}")
-set_target_properties(${podName} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${podOutDir}")
+set_target_properties(${podName} PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY         "${podOutDir}"
+    LIBRARY_OUTPUT_DIRECTORY_RELEASE "${podOutDir}"
+    LIBRARY_OUTPUT_DIRECTORY_DEBUG   "${podOutDir}")
 target_link_libraries(${podName} ${dependencies})
 install(TARGETS ${podName} DESTINATION bin/pod PERMISSIONS
     OWNER_WRITE OWNER_READ OWNER_EXECUTE
