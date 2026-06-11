@@ -2,7 +2,7 @@ name: CI for stable
 
 on:
   push:
-    branches: [ stable ]
+    branches: [ feat-ci ]
   pull_request:
     branches: [ stable ]
 
@@ -136,15 +136,14 @@ jobs:
     - name: build in release mode & test current codes.
       run: |
         export C=clang CXX=clang++ PYTHON=$(which python3)
-        ls -l ${{github.workspace}}/module/stela/parser/bison
-        sudo $PYTHON ${{github.workspace}}/build/builder.py pub deb
+        sudo $PYTHON ${{github.workspace}}/build/builder.py rel
         sudo $PYTHON ${{github.workspace}}/build/builder.py test
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
         name: byeol-ubuntu-x64
-        path: ${{github.workspace}}/bin/byeol-ubuntu-x64.deb
+        path: ${{github.workspace}}/bin/*.so
 
   build-for-wasm:
     name: build for wasm
@@ -221,9 +220,8 @@ jobs:
 
     - name: build wasm
       run: |
-        export C=clang CXX=clang++ PYTHON=$(which python3)
-        ls -l ${{github.workspace}}/module/stela/parser
-        export PATH="$(dirname $(which emmake)):$PATH"
+        export PYTHON=$(which python3)
+        export PATH="${EMSDK}/upstream/emscripten:$(dirname $(which emmake)):${PATH}"
         $PYTHON ${{github.workspace}}/build/builder.py wasm
 
     - name: upload wasm file
@@ -301,8 +299,7 @@ jobs:
       run: |
         export PATH="$PATH:/usr/local/opt/flex/bin:/usr/local/opt/bison/bin"
         export C=clang CXX=clang++ PYTHON=$(which python3)
-        ls -l ${{github.workspace}}/module/stela/parser/bison
-        $PYTHON ${{github.workspace}}/build/builder.py pub mac --ignore-tidy
+        $PYTHON ${{github.workspace}}/build/builder.py rel --ignore-tidy
         $PYTHON ${{github.workspace}}/build/builder.py test --ignore-tidy
 
     - name: prepare upload staging
@@ -374,39 +371,10 @@ jobs:
     - name: build in release mode
       run: |
         $env:PATH = "$env:PATH;${{github.workspace}}\flex_bison"
-        python ${{github.workspace}}\build\builder.py pub win
-
-    - name: prepare portable staging
-      run: |
-        mkdir staging\byeol
-        xcopy /E /I /Y ${{github.workspace}}\bin staging\byeol
-      shell: pwsh
+        python ${{github.workspace}}\build\builder.py rel
 
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
-        name: byeol-win-x64-portable
-        path: staging/
-
-    - name: get advanced installer
-      uses: caphyon/advinst-github-action@v2.0
-      with:
-        advinst-enable-automation: 'true'
-
-    - name: build msi installer
-      shell: pwsh
-      run: |
-        $aipPath = "${{github.workspace}}\.github\workflows\byeol.aip";
-        Write-Host "AIP: $aipPath";
-        $advinst = new-object -com advancedinstaller;
-        $project = $advinst.LoadProject($aipPath);
-        $productDetails = $project.ProductDetails;
-        $productDetails.Version = $(python ${{github.workspace}}\build\builder.py ver)
-        Write-Host "Version: $productDetails.Version";
-        $project.Build();
-
-    - name: upload msi file
-      uses: actions/upload-artifact@v4
-      with:
         name: byeol-win-x64
-        path: ${{github.workspace}}\.github\workflows\byeol-win-x64.msi
+        path: ${{github.workspace}}\bin\*.dll

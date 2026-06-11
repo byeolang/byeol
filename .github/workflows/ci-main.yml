@@ -2,9 +2,9 @@ name: CI for main
 
 on:
   push:
-    branches: [ feat-ci ]
+    branches: [ main ]
   pull_request:
-    branches: [ feat-ci ]
+    branches: [ main ]
 
 jobs:
 #  checking-code-format:
