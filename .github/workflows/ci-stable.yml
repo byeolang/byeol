@@ -2,7 +2,7 @@ name: CI for stable
 
 on:
   push:
-    branches: [ feat-ci ]
+    branches: [ stable ]
   pull_request:
     branches: [ stable ]
 
@@ -367,6 +367,12 @@ jobs:
         unzip flex_bison.zip
         ren win_flex.exe flex.exe
         ren win_bison.exe bison.exe
+
+    - name: detect Visual Studio path for cmake
+      run: |
+        $path = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -property installationPath
+        echo "CMAKE_GENERATOR_INSTANCE=$path" >> $env:GITHUB_ENV
+      shell: pwsh
 
     - name: build in release mode
       run: |
