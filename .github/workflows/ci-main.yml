@@ -496,7 +496,7 @@ jobs:
 
   build-on-windows:
     name: build on windows
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     steps:
     - name: checkout repository codes
@@ -504,9 +504,6 @@ jobs:
 
     - name: add msbuild to PATH
       uses: microsoft/setup-msbuild@v2
-
-    - name: setup Visual Studio environment
-      uses: ilammy/msvc-dev-cmd@v1
 
     - name: cache Chocolatey packages
       uses: actions/cache@v4
