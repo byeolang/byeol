@@ -20,8 +20,8 @@ namespace by {
     me::res me::_onTake(const flagArgs&) const {
         std::cout << "🌟 'byeol' " << buildFeature::version::get() << "\n"
                   << "Built on " << buildFeature::date::get() << " (git " << buildFeature::version::getCommitHash()
-                  << ", " << buildFeature::config::getName()
-                  << ", " << buildFeature::platform::getArchBits() << "-bit)\n"
+                  << ", " << buildFeature::config::getName() << ", " << buildFeature::platform::getArchBits()
+                  << "-bit)\n"
                   << "© 2010-" << buildFeature::date::getYear()
                   << " Taehun Lee(kniz) and contributors. All rights reserved.\n";
 
