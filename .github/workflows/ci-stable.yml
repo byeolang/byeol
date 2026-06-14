@@ -324,7 +324,7 @@ jobs:
 
   build-on-windows:
     name: build on windows
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     steps:
     - name: checkout repository codes
