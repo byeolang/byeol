@@ -7,7 +7,7 @@ int main(int argc, char* argv[]) {
 
     flagStrs a;
     for(int n = 1; n < argc; n++)
-        a.add(argv[n]);
+        a.add(new nStr(argv[n]));
 
     auto res = cli().setFlag(cli::LOG_ON_EX | cli::DUMP_ON_EX).setTask(a).work();
     if(res.rpt->inErr()) res.rpt->log();
