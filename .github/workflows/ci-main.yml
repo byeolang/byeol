@@ -2,7 +2,7 @@ name: CI for main
 
 on:
   push:
-    branches: [ main ]
+    branches: [ feat-ci ]
   pull_request:
     branches: [ main ]
 
@@ -138,11 +138,19 @@ jobs:
         sudo $PYTHON ${{github.workspace}}/build/builder.py rel
         sudo $PYTHON ${{github.workspace}}/build/builder.py test
 
+    - name: prepare upload staging (Portable)
+      run: |
+        cd ${{github.workspace}}
+        mkdir -p staging/byeol
+        sudo cp -r bin/* staging/byeol
+        sudo rm staging/byeol/logs || true
+        sudo rm staging/byeol/test || true
+
     - name: upload output files.
       uses: actions/upload-artifact@v4
       with:
         name: byeol-ubuntu-x64
-        path: ${{github.workspace}}/bin/*.so
+        path: ${{github.workspace}}/staging/byeol/
 
   build-on-linux-gcc:
     name: build on linux with gcc
@@ -488,11 +496,20 @@ jobs:
         $PYTHON ${{github.workspace}}/build/builder.py rel --ignore-tidy
         $PYTHON ${{github.workspace}}/build/builder.py test --ignore-tidy
 
-    - name: upload output files.
+    - name: prepare upload staging (Portable)
+      run: |
+        cd ${{github.workspace}}
+        mkdir -p staging/byeol
+        cp -r bin/* staging/byeol
+        mv staging/byeol/*.pkg staging/ || true
+        rm staging/byeol/logs || true
+        rm staging/byeol/test || true
+
+    - name: upload portable output files.
       uses: actions/upload-artifact@v4
       with:
-        name: byeol-macos-arm64
-        path: ${{github.workspace}}/bin/*.dylib
+        name: byeol-macos-arm64-portable
+        path: ${{github.workspace}}/staging/byeol/
 
   build-on-windows:
     name: build on windows
@@ -545,11 +562,17 @@ jobs:
         $env:PATH = "$env:PATH;${{github.workspace}}\flex_bison"
         python ${{github.workspace}}\build\builder.py rel
 
-    - name: upload output files.
+    - name: prepare portable staging
+      run: |
+        mkdir staging\byeol
+        xcopy /E /I /Y ${{github.workspace}}\bin staging\byeol
+      shell: pwsh
+
+    - name: upload portable output files.
       uses: actions/upload-artifact@v4
       with:
-        name: byeol-win-x64
-        path: ${{github.workspace}}\bin\*.dll
+        name: byeol-win-x64-portable
+        path: staging/
 
   publish-doc:
 #    needs: [checking-code-format, build-on-linux-gcc, build-on-linux-clang, build-on-macos, build-on-windows, build-for-wasm]
