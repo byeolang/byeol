@@ -1,26 +1,17 @@
-# decide compiler:
-#   variables such as CXX_COMPILER_ID and COMPILER_IS_GNUCC remain unchanged.
-#   to resolve this issue, you must determine which compiler to use before calling
-#   the project() function.
-IF(EMSCRIPTEN)
-    set(CMAKE_C_COMPILER "emcc")
-    set(CMAKE_CXX_COMPILER "emcc")
-ELSE()
-    find_program(CLANGPP_PATH clang++)
-    find_program(CLANG_PATH clang)
-    IF(CLANGPP_PATH)
-        set(CMAKE_CXX_COMPILER "${CLANGPP_PATH}")
-        set(CMAKE_C_COMPILER "${CLANG_PATH}")
-    ENDIF(CLANGPP_PATH)
-ENDIF(EMSCRIPTEN)
-
 cmake_minimum_required (VERSION 3.14)
-project(byeol C CXX)
 
 # include build-common if this is host project.
 get_property(build_common_included GLOBAL PROPERTY BUILD_COMMON_INCLUDED)
+list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../external/build-common)
+
 if(NOT build_common_included)
-    list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../external/build-common)
+    include(buildCommonPre)
+endif()
+
+
+project(byeol C CXX)
+
+if(NOT build_common_included)
     include(buildCommon)
 
     # parse version
