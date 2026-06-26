@@ -2,13 +2,14 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.14)
 
 include(FetchContent) # requires 3.14
 
-# fetching stela(0.1.2) dependency:
+# fetching stela:
 #   FetchContext could overwrites parent context(e.g. cmake variables),
 #   so I have to declare mine first.
 FetchContent_Declare(
     stela_dep
     SOURCE_SUBDIR build
-    URL https://github.com/byeolang/stela/archive/e29782ce3d47e3457f3d068590573e16247b071b.zip)
+    GIT_REPOSITORY https://github.com/byeolang/stela/
+    GIT_TAG v0.1.4)
 FetchContent_MakeAvailable(stela_dep)
 
 set(moduleName "core")
