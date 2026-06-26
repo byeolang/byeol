@@ -12,6 +12,27 @@ This repository contains shared build conventions and helper modules:
 Consumer repositories should vendor release tags only.
 Do not track main directly.
 
+## How to use
+This module is split into two include files because some setup must happen
+**before** `project()` is called, whicch the rest must happen **after**.
+
+- `buildCommonPre.cmake`: include **before** `project()`. Performs work that
+  CMake locks in at the `project()` call, such as compiler selection and the
+  default `CMAKE_BUILD_TYPE`. Setting these after `project()` has no effect.
+- `buildCommon.cmake`: include **after** `project()`.
+
+### Example
+
+```cmake
+cmake_minimum_required(VERSION 3.14)
+
+list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../external/build-common)
+
+include(buildCommonPre)
+project(yourProject C CXX)
+include(buildCommon)
+```
+
 ## Custom commands
 ### by_parse_ver
 This extracts the version only when the first version-like line in the changelog starts with `## vMAJOR.MINOR.PATCH`.
