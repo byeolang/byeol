@@ -16,10 +16,6 @@ namespace by {
 
     BY(DEF_ME(expander))
 
-    namespace {
-        static ncnt _stepN = 0;
-    }
-
     nbool me::expansion::isExpanded() const {
         WHEN(!fun) .ret(true);
         return fun->getBlock().getStmts().len() <= 0;
@@ -28,7 +24,6 @@ namespace by {
 #define _GUARD(msg)                                         \
     if(isFlag(GUARD)) do {                                  \
             BY_I("'%s' %s@%s: " msg, i, me.getType(), &me); \
-            _stepN = 0;                                     \
     } while(0)
 
     me::expander() { rel(); }
