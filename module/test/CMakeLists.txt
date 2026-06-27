@@ -14,9 +14,6 @@ FetchContent_MakeAvailable(googletest)
 
 set(moduleName "test")
 set(dependencies ${dependencies} core frontend Threads::Threads GTest::gtest_main)
-IF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
-    set(dependencies ${dependencies} dl) # dynamic linking lib of posix compatiables.
-ENDIF(NOT CMAKE_SYSTEM_NAME STREQUAL Windows)
 
 message("building ${moduleName}..." "${moduleName}=1")
 
