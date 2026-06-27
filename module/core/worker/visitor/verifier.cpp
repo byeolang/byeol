@@ -33,7 +33,7 @@ namespace by {
             return false;
         }
 
-        static ncnt _stepN = 0;
+        [[maybe_unused]] static ncnt _stepN = 0;
 
         class endGuard: public end {
             BY(ME(endGuard, end))
