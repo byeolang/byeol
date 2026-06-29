@@ -11,8 +11,8 @@ add_definitions(${defines})
 
 set(podOutDir "${BY_POD_OUTPUT_DIRECTORY}/${podName}")
 set(dependencies ${dependencies} core)
-set(BY_WRAPPER_SRC_PATH ${PROJECT_SOURCE_DIR}/bundle/sys/wrapper)
-SET(BY_WRAPPER_DEST_PATH ${PROJECT_BINARY_DIR}/pod/sys/wrapper)
+set(BY_WRAPPER_SRC_PATH ${BY_MODULE_DIR}/bundle/sys/wrapper)
+SET(BY_WRAPPER_DEST_PATH ${BY_OUTPUT_DIR}/pod/sys/wrapper)
 
 foreach(d ${dependencies})
     set(libraries ${libraries} PUBLIC ${d})
