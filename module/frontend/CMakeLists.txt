@@ -8,7 +8,8 @@ include(FetchContent) # requires 3.14
 FetchContent_Declare(
     flagStacker_dep
     SOURCE_SUBDIR module
-    URL https://github.com/byeolang/flagStacker/archive/560fc86c86b8b99a460a1621d3877571b3c6df3f.zip)
+    GIT_REPOSITORY https://github.com/byeolang/flagStacker/
+    GIT_TAG v0.1.4)
 FetchContent_MakeAvailable(flagStacker_dep)
 
 set(moduleName "byeol")
