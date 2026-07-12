@@ -7,8 +7,6 @@ namespace by {
     struct cli;
 
     class dirFlag: public flag {
-        BY(ME(dirFlag, flag))
-
     public:
         dirFlag(cli& c);
 

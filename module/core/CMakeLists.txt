@@ -9,7 +9,7 @@ FetchContent_Declare(
     stela_dep
     SOURCE_SUBDIR build
     GIT_REPOSITORY https://github.com/byeolang/stela/
-    GIT_TAG v0.1.4)
+    GIT_TAG v0.1.7)
 FetchContent_MakeAvailable(stela_dep)
 
 set(moduleName "core")
