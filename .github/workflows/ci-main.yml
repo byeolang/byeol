@@ -508,7 +508,7 @@ jobs:
     - name: upload portable output files.
       uses: actions/upload-artifact@v4
       with:
-        name: byeol-macos-arm64-portable
+        name: byeol-macos-arm64
         path: ${{github.workspace}}/staging/byeol/
 
   build-on-windows:
@@ -571,7 +571,7 @@ jobs:
     - name: upload portable output files.
       uses: actions/upload-artifact@v4
       with:
-        name: byeol-win-x64-portable
+        name: byeol-win-x64
         path: staging/
 
   publish-doc:
