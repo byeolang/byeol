@@ -7,7 +7,7 @@ include(FetchContent) # requires 3.14
 #   so I have to declare it at first.
 FetchContent_Declare(
     flagStacker_dep
-    SOURCE_SUBDIR module
+    SOURCE_SUBDIR build
     GIT_REPOSITORY https://github.com/byeolang/flagStacker/
     GIT_TAG v0.1.6)
 FetchContent_MakeAvailable(flagStacker_dep)
