@@ -9,7 +9,8 @@ FetchContent_Declare(
     flagStacker_dep
     SOURCE_SUBDIR build
     GIT_REPOSITORY https://github.com/byeolang/flagStacker/
-    GIT_TAG v0.1.6)
+    GIT_TAG v0.1.7
+    GIT_SHALLOW TRUE)
 FetchContent_MakeAvailable(flagStacker_dep)
 
 set(moduleName "byeol")
