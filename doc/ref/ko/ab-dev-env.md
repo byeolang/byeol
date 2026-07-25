@@ -219,7 +219,7 @@ $ ./test --gtest_filter=cliTest.checkDefaultAction verbose
 
 문서는 크게 가이드 문서와 레퍼런스 문서로 나뉘어집니다. 가이드 문서는 byeol 언어를 위한 가이드 문서로, byeol 언어의 설치부터 문법 소개까지를 다룹니다. 레퍼런스 문서는 byeol C++ 코드를 개발을 위한 문서로, 개발 환경 설정과 실행, 테스트 수행, 코드 레퍼런스 등이 포함됩니다.
 
-자세한 내용은 @ref an-document-convention 를 참조하세요.
+자세한 내용은 @ref ao-document-convention 를 참조하세요.
 
 ---
 

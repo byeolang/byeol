@@ -1,4 +1,4 @@
-# 문서 작성 규칙 {#an-document-convention}
+# 문서 작성 규칙 {#ao-document-convention}
 
 이 문서는 Byeol 프로젝트의 모든 마크다운 문서를 작성하고 수정할 때 따라야 하는 규칙과 컨벤션을 설명합니다.
 
