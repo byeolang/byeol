@@ -7,6 +7,12 @@ Byeol is a hobby project built around one idea: you should never have to restart
 program just to see whether your fix worked. Keep that in mind and most of the
 conventions below will make sense.
 
+The documents linked below live at [byeol.io](https://byeol.io), generated from the
+sources under `doc/`. The [reference](https://byeol.io/ref/) carries the developer
+documents together with an API reference for every public header, so links here point
+there rather than at the Markdown files. The [guide](https://byeol.io/guide/) covers
+the language itself; read it first if you have not written Byeol code before.
+
 ---
 
 ## Before you start
@@ -28,7 +34,7 @@ Dependencies flow in one direction only. `byeol` depends on `stela`, `stela` dep
 dependency, that is a sign the change belongs somewhere else.
 
 For how these fit together, read
-[the architecture overview](doc/ref/ko/ae-architecture-overview.md).
+[the architecture overview](https://byeol.io/ref/generated/ko/ae-architecture-overview.html).
 
 ---
 
@@ -36,7 +42,7 @@ For how these fit together, read
 
 You will need a C++ compiler (clang is preferred), CMake 3.16+, Flex 2.6+, Bison 3.8+,
 and Python 3.8+. The full setup is described in
-[the development environment guide](doc/ref/ko/ab-dev-env.md).
+[the development environment guide](https://byeol.io/ref/generated/ko/ab-dev-env.html).
 
 ```bash
 python3 build/builder.py prerequisites   # check your tools
@@ -44,16 +50,22 @@ python3 build/builder.py dbg             # debug build
 python3 build/builder.py test            # run the test suite
 ```
 
-Note that `builder.py` does not offer the same commands in every repository. In `stela`,
-for example, there is no build command and you invoke CMake directly.
-
 ---
 
 ## Making your change
 
-Read [the coding rules](doc/ref/ko/ad-convention-rules.md) before writing C++. Byeol
-does not follow the C++ conventions you may be used to, and the reasons are explained
-there. Formatting is applied automatically, so do not hand-format:
+Read [the coding rules](https://byeol.io/ref/generated/ko/ad-convention-rules.html)
+before writing C++. Byeol does not follow the C++ conventions you may be used to, and
+the reasons are explained there. Then open a few files near the one you intend to
+change and match what you see. Naming, header layout and error handling are consistent
+across this codebase on purpose, and a patch written in a different style is harder to
+accept than one that is simply wrong.
+
+The same applies to structure. Before adding a class, find where similar ones already
+live and follow that placement. The reference has one architecture document per module,
+and the API reference shows what each public header already offers.
+
+Formatting is applied automatically, so do not hand-format:
 
 ```bash
 python3 build/builder.py format
@@ -69,7 +81,7 @@ since similar helpers live in `indep`, `memlite` and `core`. Grep the public hea
 (`module/*.hpp`) before adding anything that sounds generic.
 
 Tests are expected for behavioural changes. See
-[the testing guide](doc/ref/ko/an-testing-guide.md).
+[the testing guide](https://byeol.io/ref/generated/ko/an-testing-guide.html).
 
 ---
 
@@ -118,9 +130,9 @@ documents are in `doc/ref/ko/`, English in `doc/ref/en/`. Write in the language 
 directory you are editing.
 
 If you add or rename a document, follow
-[the document convention](doc/ref/ko/ao-document-convention.md). Filenames carry a
-two-letter prefix that determines reading order, and the document ID must match the
-filename exactly.
+[the document convention](https://byeol.io/ref/generated/ko/ao-document-convention.html).
+Filenames carry a two-letter prefix that determines reading order, and the document ID
+must match the filename exactly.
 
 ---
 
@@ -129,3 +141,6 @@ filename exactly.
 If something here is unclear or you are unsure whether an idea fits the project, open an
 issue and ask before writing the code. It is easier to redirect an idea than a finished
 patch.
+
+By contributing, you agree that your work is licensed under
+[the MIT License](LICENSE.md), the same terms as the rest of the project.
