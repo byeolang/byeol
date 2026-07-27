@@ -20,14 +20,14 @@ the language itself; read it first if you have not written Byeol code before.
 Byeol is not a single repository. Several repositories combine into one product, and
 which one you should touch depends on what you are changing.
 
-| Repository                                            | What lives there                                             |
-| ----------------------------------------------------- | ------------------------------------------------------------ |
-| [byeol](https://github.com/byeolang/byeol)             | The interpreter itself. AST, parser, verifier, runtime.       |
-| [launcher](https://github.com/byeolang/launcher)       | The `byeol` command users actually run. Resolves versions.    |
-| [stela](https://github.com/byeolang/stela)             | Configuration language, plus logging, type and memory modules.|
-| [indep](https://github.com/byeolang/indep)             | Platform abstraction. The only place `#ifdef` is allowed.     |
-| [flagStacker](https://github.com/byeolang/flagStacker) | Command line flag parsing.                                    |
-| [build-common](https://github.com/byeolang/build-common)| Shared CMake rules.                                          |
+| Repository                                            | What lives there                                              | Architecture guide                                                                          |
+| ----------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [byeol](https://github.com/byeolang/byeol)             | The interpreter itself. AST, parser, verifier, runtime.       | [core](https://byeol.io/ref/generated/ko/ak-architecture-core.html)                          |
+| [launcher](https://github.com/byeolang/launcher)       | The `byeol` command users actually run. Resolves versions.    | [deployment](https://byeol.io/ref/generated/ko/am-deployment.html)                           |
+| [stela](https://github.com/byeolang/stela)             | Configuration language, plus logging, type and memory modules.| [stela](https://byeol.io/ref/generated/ko/aj-architecture-stela.html)                        |
+| [indep](https://github.com/byeolang/indep)             | Platform abstraction. The only place `#ifdef` is allowed.     | [indep](https://byeol.io/ref/generated/ko/af-architecture-indep.html)                        |
+| [flagStacker](https://github.com/byeolang/flagStacker) | Command line flag parsing.                                    | [overview](https://byeol.io/ref/generated/ko/ae-architecture-overview.html)                  |
+| [build-common](https://github.com/byeolang/build-common)| Shared CMake rules.                                          | [overview](https://byeol.io/ref/generated/ko/ae-architecture-overview.html)                  |
 
 Dependencies flow in one direction only. `byeol` depends on `stela`, `stela` depends on
 `indep`, and nothing ever points back upward. If your change seems to need a backward
