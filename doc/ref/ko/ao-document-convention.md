@@ -238,4 +238,4 @@ Byeol의 아키텍처 규칙에 따라, 플랫폼 종속적인 코드(`#ifdef` �
 
 ---
 
-<b>다음 문서</b>: @ref ap-contribution-guide
+<b>다음 문서</b>: @ref reference-main

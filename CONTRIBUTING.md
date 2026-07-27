@@ -40,7 +40,7 @@ For how these fit together, read
 
 ## Setting up
 
-You will need a C++ compiler (clang is preferred), CMake 3.16+, Flex 2.6+, Bison 3.8+,
+You will need a C++ compiler (clang is preferred), CMake 3.14+, Flex 2.6+, Bison 3.8+,
 and Python 3.8+. The full setup is described in
 [the development environment guide](https://byeol.io/ref/generated/ko/ab-dev-env.html).
 
