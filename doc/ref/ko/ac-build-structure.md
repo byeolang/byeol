@@ -317,34 +317,6 @@ git subtree pull --prefix=external/build-common \
 평소의 SemVer 그대로입니다. API를 깨지 않으면 <b>patch</b>, 하위 호환되는 새 기능이면
 <b>minor</b>, 하위 호환을 깨는 변경이면 <b>major</b>입니다.
 
-### 릴리스 절차
-
-한 저장소에 변경이 쌓여 릴리스할 준비가 되면 아래 순서를 따릅니다.
-
-먼저 로컬에서 테스트가 통과하는지 확인합니다.
-
-```
-@style: language-txt verified
-./build/builder.py test
-```
-
-그다음 새 태그를 붙여 push합니다.
-
-```
-@style: language-txt verified
-git tag vX.Y.Z
-git push origin vX.Y.Z
-```
-
-이 태그가 원격에 올라간 시점부터 상위 저장소가 pin을 이 태그로 올릴 수 있습니다.
-상위 저장소에서는 위 표의 `GIT_TAG` 줄을 새 태그 이름으로 바꾸는 PR을 열고, 리뷰와
-CI 통과를 거쳐 머지합니다. 커밋 메시지는 `chore: bump <이름> to vX.Y.Z` 형태를 씁니다.
-
-변경이 여러 저장소에 걸쳐 있으면, 항상 가장 아래층부터 이 절차를 반복합니다. 예를 들어
-`indep`을 손봤다면 먼저 `indep`에 태그를 붙이고, 그다음 `stela`와 `launcher`가 각자
-`GIT_TAG`를 갱신하고 태그를 붙이고, 마지막으로 `byeol`이 갱신됩니다. 이 순서는 저장소
-의존 그래프의 역순입니다.
-
 ---
 
 # 빌드 타겟
