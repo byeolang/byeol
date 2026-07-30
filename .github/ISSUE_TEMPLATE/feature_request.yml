@@ -1,0 +1,34 @@
+name: Feature request
+description: Suggest a change to the language, the runtime, or the tooling.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing, please check the "요구사항" pages in the project's
+        design notes to see whether the idea has already been discussed.
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What is hard, missing, or awkward today? Describe the situation, not the fix.
+      placeholder: When I try to do X, byeol makes me do Y, and that hurts because ...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like to see
+      description: The change you have in mind. Rough is fine.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you have considered
+      description: Other approaches you thought about and why you did not pick them.
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Examples, references, links to related discussions.

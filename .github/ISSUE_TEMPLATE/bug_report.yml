@@ -1,0 +1,57 @@
+name: Bug report
+description: Something in byeol behaves incorrectly.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug. A short, focused report
+        gets triaged faster than a long one.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you expect to see, and what did you see instead?
+      placeholder: |
+        I ran `byeol foo.by` and expected X, but got Y.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How to reproduce
+      description: The smallest sequence of steps or the smallest byeol code that shows the problem.
+      render: text
+      placeholder: |
+        1. Save this as `foo.by`:
+           ...
+        2. Run `byeol foo.by`
+        3. Observe ...
+    validations:
+      required: true
+  - type: input
+    id: byeol-version
+    attributes:
+      label: byeol version
+      description: Output of `byeol --version`, or the git commit if you built from source.
+      placeholder: v0.1.7 (or commit sha)
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: e.g. Ubuntu 24.04, macOS 14.5, Windows 11
+    validations:
+      required: true
+  - type: input
+    id: compiler
+    attributes:
+      label: Compiler (if you built from source)
+      description: Compiler name and version. Leave blank if you used a released binary.
+      placeholder: e.g. clang++ 17.0.6, g++ 13.2.0
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Logs, stack traces, screenshots, or context that might help.
