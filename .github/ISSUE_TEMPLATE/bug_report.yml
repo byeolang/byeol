@@ -7,6 +7,13 @@ body:
       value: |
         Thanks for taking the time to file a bug. A short, focused report
         gets triaged faster than a long one.
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I have searched the existing issues and confirmed this bug has not already been reported.
+          required: true
   - type: textarea
     id: what-happened
     attributes:

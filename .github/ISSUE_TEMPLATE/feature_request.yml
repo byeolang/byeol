@@ -7,6 +7,13 @@ body:
       value: |
         Before filing, please check the "요구사항" pages in the project's
         design notes to see whether the idea has already been discussed.
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight
+      options:
+        - label: I have searched the existing issues and confirmed this idea has not already been proposed.
+          required: true
   - type: textarea
     id: problem
     attributes:
