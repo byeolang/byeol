@@ -279,6 +279,81 @@ IDE는 어느 버전의 인터프리터가 실제로 실행되는지 알 필요�
 
 ---
 
+## 저장소간 릴리스 {#ac-build-structure-release}
+
+byeol은 6개의 저장소로 나뉘어 있고, 상위 저장소는 하위 저장소를 <b>태그로 pin</b>해서
+가져옵니다. 새 기능이나 수정이 하위 저장소에 담긴다면, 상위 저장소가 그 변경을 실제로
+쓰기 위해서는 두 단계가 필요합니다. 하위 저장소가 먼저 태그를 붙여 릴리스하고, 그다음
+상위 저장소가 pin을 그 태그로 갱신해야 합니다. 이 순서가 뒤집힐 수 없는 이유는 단순합니다.
+pin이 태그를 가리키고 있으므로, 태그가 존재하기 전까지 상위 저장소는 그 변경을 참조할
+방법이 없습니다.
+
+### pin이 걸린 위치
+
+각 pin은 상위 저장소의 CMake 파일 안에 `FetchContent_Declare(...)` 블록의 `GIT_TAG`
+줄로 존재합니다. 갱신은 그 줄의 태그 이름을 바꾸는 커밋 하나면 됩니다.
+
+| 상위 → 하위 | 파일 |
+|-------------|------|
+| byeol → stela | `module/core/CMakeLists.txt` |
+| byeol → flagStacker | `module/frontend/CMakeLists.txt` |
+| launcher → indep | `module/launcher/CMakeLists.txt` |
+| launcher → flagStacker | `module/launcher/CMakeLists.txt` |
+| stela → indep | `module/clog/CMakeLists.txt` |
+
+`build-common`은 예외입니다. `FetchContent`가 아니라 <b>git subtree</b>로 byeol
+저장소의 `external/build-common/` 아래에 병합되어 있습니다. 그래서 태그로 pin되지
+않고, 갱신할 때는 subtree pull을 씁니다.
+
+```
+@style: language-txt verified
+git subtree pull --prefix=external/build-common \
+    https://github.com/byeolang/build-common main --squash
+```
+
+### 태그 형식
+
+모든 저장소가 SemVer 형식(`vMAJOR.MINOR.PATCH`)을 씁니다. 예: `v0.1.7`. 판정 기준은
+평소의 SemVer 그대로입니다. API를 깨지 않으면 <b>patch</b>, 하위 호환되는 새 기능이면
+<b>minor</b>, 하위 호환을 깨는 변경이면 <b>major</b>입니다.
+
+### 릴리스 절차
+
+한 저장소에 변경이 쌓여 릴리스할 준비가 되면 아래 순서를 따릅니다.
+
+먼저 로컬에서 테스트가 통과하는지 확인합니다.
+
+```
+@style: language-txt verified
+./build/builder.py test
+```
+
+그다음 새 태그를 붙여 push합니다.
+
+```
+@style: language-txt verified
+git tag vX.Y.Z
+git push origin vX.Y.Z
+```
+
+이 태그가 원격에 올라간 시점부터 상위 저장소가 pin을 이 태그로 올릴 수 있습니다.
+상위 저장소에서는 위 표의 `GIT_TAG` 줄을 새 태그 이름으로 바꾸는 PR을 열고, 리뷰와
+CI 통과를 거쳐 머지합니다. 커밋 메시지는 `chore: bump <이름> to vX.Y.Z` 형태를 씁니다.
+
+변경이 여러 저장소에 걸쳐 있으면, 항상 가장 아래층부터 이 절차를 반복합니다. 예를 들어
+`indep`을 손봤다면 먼저 `indep`에 태그를 붙이고, 그다음 `stela`와 `launcher`가 각자
+`GIT_TAG`를 갱신하고 태그를 붙이고, 마지막으로 `byeol`이 갱신됩니다. 이 순서는 저장소
+의존 그래프의 역순입니다.
+
+### 현재 상태에 대한 주의
+
+`launcher`는 아직 태그를 붙인 적이 없습니다. launcher가 릴리스되기 시작하면 위 표의
+상위 저장소 목록에 자연스럽게 추가될 것입니다. `indep`은 `v0.1.0` 이후 새 태그가
+붙지 않은 채로 커밋이 쌓여 있습니다. 이 커밋들을 상위 저장소가 쓰려면 `indep`이 먼저
+새 태그를 발행해야 합니다.
+
+---
+
 # 빌드 타겟
 
 `builder.py`는 여러 빌드 타겟을 지원합니다. 각 타겟은 최적화 수준과 디버깅 정보 포함 여부가 다릅니다.
