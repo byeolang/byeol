@@ -120,8 +120,7 @@ files is reviewable on its own; the same rename mixed with a bug fix is not.
 ## Pull requests
 
 Open pull requests against `main`. Describe what changed and why, and mention anything
-you deliberately left out. Titles and descriptions are written in English, for the same
-reason as commit messages.
+you deliberately left out. Titles and descriptions are written in English.
 
 Smaller is better. If a pull request does two unrelated things, split it. Large
 mechanical changes are fine as long as they are mechanical and say so.
@@ -143,7 +142,7 @@ are in `doc/ref/ko/` and `doc/ref/en/`, guide documents in `doc/guide/ko/` and
 
 Files at the repository root that GitHub surfaces publicly (`README.md`,
 `CONTRIBUTING.md`, `LICENSE.md`) are in English so that anyone landing on the project
-can read them, even when the deeper reference set is in Korean.
+can read them.
 
 If you add or rename a document, follow
 [the document convention](https://byeol.io/ref/generated/ko/ao-document-convention.html).
