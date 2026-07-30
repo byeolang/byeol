@@ -40,7 +40,7 @@ checking dependencies...  × emmake version  is not installed
   Visual Studio의 자세한 설치 방법은 뒤에 후술합니다.
 * 컴파일러 컴파일러: `Bison` 3.8.0+ 과 `Flex` 2.6.0+
 * 정적 검사: `docker`
-* SSL 라이브러리: `OpenSSL` 1.1.0+ 개발 패키지. `launcher`가 `curl`을 정적 링크할 때 `libssl.a`·`libcrypto.a`를 요구합니다.
+* SSL 라이브러리: `OpenSSL` 1.1.0+ 개발 패키지. `launcher`의 정적 링크된 `curl`에 `libssl.a`·`libcrypto.a`가 필요합니다.
 
 설치 전에 반드시 버전을 체크해서 받아야 합니다. 잘 아시다시피 OS가 구버전인 경우 `apt` 나 `brew`로 설치시 구버전이 설치되는 경우가 많습니다. 이 경우 각 프로그램의 공식 배포처나 웹사이트를 참고해서 명시된 버전 이상으로 수동 설치하시길 바랍니다.<br/>
 다음은 프로그램 설치시 각 OS별 참고사항입니다.
@@ -48,16 +48,16 @@ checking dependencies...  × emmake version  is not installed
 
 <b>Ubuntu</b><br/>
 Bison과 Flex는 구 버전 Ubuntu에서는 apt 패키지에 포함되지 않을 가능성이 있습니다. 이때는 수동으로 Bison과 Flex를 <a href="http://ftp.gnu.org/gnu/bison/" target="_blank">소스코드</a>를 다운받아 직접 빌드해야 합니다. 우분투는 기본적으로 gcc를 사용하는데, 현재 프로젝트는 clang++를 더 권장합니다 (물론 gcc 빌드도 지원은 하고 있어요).<br/>
-OpenSSL은 `apt install libssl-dev`로 설치합니다. 이 패키지가 정적 라이브러리(`libssl.a`, `libcrypto.a`)를 함께 배포하기 때문에 별도 조치가 필요 없습니다. RHEL/Fedora 계열은 대신 `openssl-devel`을 씁니다.
+OpenSSL은 `apt install libssl-dev`로 설치합니다. 표준 경로에 설치되므로 CMake가 자동으로 찾습니다. RHEL/Fedora 계열은 `openssl-devel`을 씁니다.
 
 
 <b>Mac OS</b><br/>
 Mac OS는 기본적으로 clang을 사용하기 때문에 비교적 설치가 쉬워요. Apple Silicon(arm64)이나 인텔(x64) 모두 빌드를 지원하긴 합니다만 공식적으로는 arm64만 배포를 지원하므로 CI 과정에서도 arm64에서 빌드가 되어야 합니다.<br/>
-OpenSSL은 Homebrew의 `openssl@3` 패키지를 씁니다. `brew install openssl@3`으로 설치한 뒤, CMake가 시스템의 LibreSSL이 아닌 이 OpenSSL을 잡도록 `OPENSSL_ROOT_DIR=/opt/homebrew/opt/openssl@3` 환경변수를 지정합니다.
+OpenSSL은 `brew install openssl@3` 후 `OPENSSL_ROOT_DIR=/opt/homebrew/opt/openssl@3`을 환경변수로 지정합니다. macOS의 시스템 LibreSSL 대신 이걸 잡도록 하기 위함입니다.
 
 
 <b>Windows</b><br/>
-윈도우 개발 환경은 Visual Studio를 사용하는 방법과 WSL을 경유해서 Ubuntu로 개발하는 방법 2가지로 분류됩니다. OpenSSL은 <a href="https://slproweb.com/products/Win32OpenSSL.html" target="_blank">공식 배포판</a> 등에서 Win64 개발 버전을 설치한 뒤 `OPENSSL_ROOT_DIR`을 그 설치 경로로 지정합니다. WSL 경로를 쓴다면 Ubuntu 절차와 동일하게 `libssl-dev`를 씁니다.<br/>
+윈도우 개발 환경은 Visual Studio를 사용하는 방법과 WSL을 경유해서 Ubuntu로 개발하는 방법 2가지로 분류됩니다. OpenSSL은 <a href="https://slproweb.com/products/Win32OpenSSL.html" target="_blank">공식 배포판</a>에서 Win64 개발 버전을 설치한 뒤 `OPENSSL_ROOT_DIR`을 그 경로로 지정합니다. WSL이라면 Ubuntu 절차와 같습니다.<br/>
 
 
 * WSL을 사용해서 Ubuntu 환경으로 개발하실 경우, Ubuntu 개발환경과 동일합니다.</br>
