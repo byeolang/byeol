@@ -120,7 +120,8 @@ files is reviewable on its own; the same rename mixed with a bug fix is not.
 ## Pull requests
 
 Open pull requests against `main`. Describe what changed and why, and mention anything
-you deliberately left out.
+you deliberately left out. Titles and descriptions are written in English, for the same
+reason as commit messages.
 
 Smaller is better. If a pull request does two unrelated things, split it. Large
 mechanical changes are fine as long as they are mechanical and say so.
@@ -136,9 +137,13 @@ Please make sure the test suite passes locally before you open the pull request.
 
 ## Documentation
 
-Documentation lives under `doc/`, split by audience and language. Korean reference
-documents are in `doc/ref/ko/`, English in `doc/ref/en/`. Write in the language of the
-directory you are editing.
+Documentation lives under `doc/`, split by audience and language. Reference documents
+are in `doc/ref/ko/` and `doc/ref/en/`, guide documents in `doc/guide/ko/` and
+`doc/guide/en/`. Write in the language of the directory you are editing.
+
+Files at the repository root that GitHub surfaces publicly (`README.md`,
+`CONTRIBUTING.md`, `LICENSE.md`) are in English so that anyone landing on the project
+can read them, even when the deeper reference set is in Korean.
 
 If you add or rename a document, follow
 [the document convention](https://byeol.io/ref/generated/ko/ao-document-convention.html).
