@@ -20,7 +20,6 @@ the language itself; read it first if you have not written Byeol code before.
 | Development environment setup | [ab-dev-env](https://byeol.io/ref/generated/ko/ab-dev-env.html) |
 | Coding rules | [ad-convention-rules](https://byeol.io/ref/generated/ko/ad-convention-rules.html) |
 | Testing guide | [an-testing-guide](https://byeol.io/ref/generated/ko/an-testing-guide.html) |
-| Deployment and execution | [ac-build-structure §deployment](https://byeol.io/ref/generated/ko/ac-build-structure.html#ac-build-structure-deployment) |
 | Document conventions | [ao-document-convention](https://byeol.io/ref/generated/ko/ao-document-convention.html) |
 | API reference | [byeol.io/ref/](https://byeol.io/ref/) |
 
