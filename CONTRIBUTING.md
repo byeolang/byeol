@@ -131,7 +131,10 @@ the pinned tag in the repository above. Since dependencies are pinned by tag, no
 downstream moves until you explicitly move it.
 
 CI checks formatting, then builds and tests on Linux, macOS, Windows and WebAssembly.
-Please make sure the test suite passes locally before you open the pull request.
+Run `python3 build/builder.py format` before you push — the CI format check rejects
+unformatted diffs, and this command is the single source of truth for what the check
+expects. Also make sure the test suite passes locally before you open the pull
+request.
 
 ---
 
