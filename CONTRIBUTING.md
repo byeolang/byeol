@@ -20,7 +20,7 @@ the language itself; read it first if you have not written Byeol code before.
 | Development environment setup | [ab-dev-env](https://byeol.io/ref/generated/ko/ab-dev-env.html) |
 | Coding rules | [ad-convention-rules](https://byeol.io/ref/generated/ko/ad-convention-rules.html) |
 | Testing guide | [an-testing-guide](https://byeol.io/ref/generated/ko/an-testing-guide.html) |
-| Deployment and execution | [am-deployment](https://byeol.io/ref/generated/ko/am-deployment.html) |
+| Deployment and execution | [ac-build-structure §deployment](https://byeol.io/ref/generated/ko/ac-build-structure.html#ac-build-structure-deployment) |
 | Document conventions | [ao-document-convention](https://byeol.io/ref/generated/ko/ao-document-convention.html) |
 | API reference | [byeol.io/ref/](https://byeol.io/ref/) |
 
@@ -51,9 +51,11 @@ For how these fit together, read
 
 ## Setting up
 
-You will need a C++ compiler (clang is preferred), CMake 3.14+, Flex 2.6+, Bison 3.8+,
-and Python 3.8+. The full setup is described in
-[the development environment guide](https://byeol.io/ref/generated/ko/ab-dev-env.html).
+You will need a C++ compiler (clang is preferred), CMake, Make, Flex, Bison, Python,
+and OpenSSL. Version requirements and platform-specific package names are listed in
+[the development environment guide](https://byeol.io/ref/generated/ko/ab-dev-env.html);
+running `builder.py prerequisites` will tell you which of them are missing or too old
+for your machine.
 
 ```bash
 python3 build/builder.py prerequisites   # check your tools
@@ -143,6 +145,10 @@ are in `doc/ref/ko/` and `doc/ref/en/`, guide documents in `doc/guide/ko/` and
 Files at the repository root that GitHub surfaces publicly (`README.md`,
 `CONTRIBUTING.md`, `LICENSE.md`) are in English so that anyone landing on the project
 can read them.
+
+`CHANGELOGS.md` is maintained by the release maintainer only. Do not edit it in a
+contribution — the entry for your change is added when the release that contains it
+is cut.
 
 If you add or rename a document, follow
 [the document convention](https://byeol.io/ref/generated/ko/ao-document-convention.html).
