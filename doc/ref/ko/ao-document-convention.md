@@ -74,15 +74,19 @@ INPUT = ../doc/ref/ko
 
 ---
 
-## 새 문서 추가 절차
+## 파일명 규칙
 
-파일명은 반드시 hyphen을 사용해야 합니다. `development-guide.md`처럼 작성하며, `development_guide.md`나 `developmentGuide.md`처럼 underscore나 camelCase를 사용하면 안 됩니다. 파일명과 문서 ID는 한국어 문서라 할지라도 항상 알파벳으로 작성해야 합니다.
+파일명은 반드시 hyphen을 사용해서 단어를 구분합니다. `development-guide.md`처럼 작성하며, `development_guide.md`처럼 underscore를 쓰거나 `developmentGuide.md`처럼 camelCase를 쓰면 안 돼요. 한국어 문서라 할지라도 파일명과 문서 ID는 항상 알파벳으로만 작성합니다. Doxygen이 생성하는 URL과 anchor가 파일명을 그대로 사용하기 때문에 다국어 문자가 섞이면 링크가 깨집니다.
 
-각 문서의 상단에는 `#` 제목과 함께 `{#your-document-id}` 형식으로 문서 ID를 적어야 합니다. <b>문서 ID는 파일명과 정확히 일치해야 합니다</b>(확장자 제외). 예를 들어 파일명이 `architecture-core.md`라면 문서 ID는 `{#architecture-core}`여야 합니다.
+각 문서의 상단에는 `#` 제목과 함께 `{#your-document-id}` 형식으로 문서 ID를 적습니다. <b>문서 ID는 파일명(확장자 제외)과 정확히 일치해야 합니다</b>. 예를 들어 파일명이 `architecture-core.md`라면 문서 ID는 `{#architecture-core}` 입니다. 다른 문서에서는 `@ref architecture-core` 로 이 문서를 참조할 수 있습니다.
 
-<b>가이드 문서와 레퍼런스 문서 모두</b>, Doxygen의 사이드바에서 원하는 순서대로 문서를 배치하기 위해 파일명과 문서 ID 앞에 <b>2자리 알파벳 prefix를 추가</b>해야 합니다. 알파벳은 aa부터 시작하며 hyphen으로 구분합니다. 파일명이 `aa-dev-env.md`라면 문서 ID는 `{#aa-dev-env}`입니다. README.md는 메인페이지이므로 알파벳을 붙이지 않습니다.
+<b>가이드 문서와 레퍼런스 문서 모두</b>, Doxygen 사이드바에서 원하는 순서대로 문서를 배치하기 위해 파일명과 문서 ID 앞에 <b>2자리 알파벳 prefix</b>를 붙입니다. 알파벳은 `aa`부터 시작하고 hyphen으로 본문과 구분합니다. 파일명이 `aa-dev-env.md`라면 문서 ID는 `{#aa-dev-env}` 이죠.
 
-알파벳 prefix는 HTML/CSS의 ID 규칙을 준수하기 위한 것입니다. CSS 셀렉터는 숫자로 시작할 수 없으므로, 숫자 대신 알파벳을 사용합니다. aa, ab, ac, ..., az 다음에는 ba, bb, bc 순으로 계속됩니다. 이 방식으로 최대 676개(26×26)의 문서를 정렬할 수 있습니다.
+알파벳 prefix인 이유는 HTML/CSS의 ID 규칙 때문입니다. CSS 셀렉터는 숫자로 시작할 수 없으므로 숫자 대신 알파벳을 씁니다. prefix는 aa, ab, ac, ..., az 다음 ba, bb, bc 순으로 이어지며, 이 방식으로 문서 세트당 최대 676개(26×26)의 문서를 정렬할 수 있어요.
+
+기존 두 문서 사이에 새 문서를 끼워 넣어야 할 때는, 뒷 문서 이후의 모든 문서의 prefix를 한 칸씩 밀어서 다시 붙입니다. 예를 들어 `ad`와 `ae` 사이에 넣을 문서가 있다면 기존 `ae` 이후의 문서를 `af`, `ag` 순으로 밀고 새 문서를 `ae`로 만듭니다. `@ref` 로 참조되던 곳도 함께 갱신해야 하니 grep으로 이전 ID의 참조를 모두 찾아서 바꿔야 합니다.
+
+메인페이지 역할을 하는 `README.md`는 예외적으로 알파벳 prefix를 붙이지 않습니다.
 
 다음은 실제 파일명과 문서 ID의 예시입니다.
 
@@ -94,10 +98,14 @@ INPUT = ../doc/ref/ko
 문서 ID: # 개발환경 {#aa-dev-env}
 ```
 
+---
+
+## 새 문서 추가 절차
+
 새로운 문서를 추가할 때는 다음 절차를 따릅니다.
 
-- 먼저 적절한 문서 세트 폴더에 `.md` 파일을 생성합니다.
-- 다음으로 해당 문서세트의 Doxygen 설정 파일을 수정합니다.
+- 위 [파일명 규칙](#파일명-규칙) 에 따라 파일명과 문서 ID를 정한 뒤, 적절한 문서 세트 폴더에 `.md` 파일을 생성합니다.
+- 다음으로 해당 문서 세트의 Doxygen 설정 파일을 수정하여 새 문서가 빌드에 포함되도록 합니다.
 
 ---
 

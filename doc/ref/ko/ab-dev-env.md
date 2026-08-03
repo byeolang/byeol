@@ -34,7 +34,7 @@ checking dependencies...  × emmake version  is not installed
 
 빌드만 하고 싶은 경우 다음 프로그램이 추가로 필요합니다: 
 
-* 빌드 스크립트: `CMake` 2.6.0+ 와 `Make` 3.0+
+* 빌드 스크립트: `CMake` 3.14+ 와 `Make` 3.0+
 * c++ 컴파일러: `Clang++` 14.0+ 혹은 `gcc` 8.0.0+를 준비합니다.
   윈도우 환경이라면 `MSBuild.exe`(VS2022) 17.0.0+ (커뮤니티 버전도 OK)를 준비합니다.
   Visual Studio의 자세한 설치 방법은 뒤에 후술합니다.
