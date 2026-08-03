@@ -80,7 +80,7 @@ INPUT = ../doc/ref/ko
 
 각 문서의 상단에는 `#` 제목과 함께 `{#your-document-id}` 형식으로 문서 ID를 적습니다. <b>문서 ID는 파일명(확장자 제외)과 정확히 일치해야 합니다</b>. 예를 들어 파일명이 `architecture-core.md`라면 문서 ID는 `{#architecture-core}` 입니다. 다른 문서에서는 `@ref architecture-core` 로 이 문서를 참조할 수 있습니다.
 
-<b>가이드 문서와 레퍼런스 문서 모두</b>, Doxygen 사이드바에서 원하는 순서대로 문서를 배치하기 위해 파일명과 문서 ID 앞에 <b>2자리 알파벳 prefix</b>를 붙입니다. 알파벳은 `aa`부터 시작하고 hyphen으로 본문과 구분합니다. 파일명이 `aa-dev-env.md`라면 문서 ID는 `{#aa-dev-env}` 이죠. 문서는 이 prefix의 오름차순으로 정렬되므로 새 문서를 추가할 때는 순서에 주의합니다.
+<b>가이드 문서와 레퍼런스 문서 모두</b>, Doxygen 사이드바는 파일명의 오름차순으로 문서를 정렬합니다. 순서를 정하려면 파일명과 문서 ID 앞에 <b>2자리 알파벳 prefix</b>를 붙이며, `aa`부터 시작하고 hyphen으로 본문과 구분합니다. 파일명이 `aa-dev-env.md`라면 문서 ID는 `{#aa-dev-env}` 이죠. 새 문서를 추가할 때는 이 순서에 주의합니다.
 
 메인페이지 역할을 하는 `README.md`는 예외적으로 알파벳 prefix를 붙이지 않습니다.
 
