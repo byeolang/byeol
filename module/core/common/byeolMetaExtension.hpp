@@ -3,31 +3,11 @@
 
 #include "core/common/dep.hpp"
 
-// INTERFACE:
-//      marks that this class is abstract.
-#define __BY__DECL_ADT_1(ME) \
-    __BY__DECL_ME_1(ME)      \
-    __BY__DECL_TYPE(ntype)   \
-    __BY__DECL_INIT_META(ME)
-#define __BY__DECL_ADT_2(ME, SUPER) __BY__DECL_ADT_3(ME, SUPER, ntype)
-#define __BY__DECL_ADT_3(ME, SUPER, SUPERTYPE) \
-    __BY__DECL_ME_2(ME, SUPER)                 \
-    __BY__DECL_TYPE(SUPERTYPE)                 \
-    __BY__DECL_INIT_META(ME)
-#define __BY__DECL_ADT(...) BY_OVERLOAD(__BY__DECL_ADT, __VA_ARGS__)
-
-// CLASS:
-//      marks that this class is concrete class.
-#define __BY__DECL_CLASS_1(ME) \
-    __BY__DECL_ADT_1(ME)       \
-    __BY__DECL_CLONE(ME)
-#define __BY__DECL_CLASS_2(ME, SUPER) \
-    __BY__DECL_ADT_2(ME, SUPER)       \
-    __BY__DECL_CLONE(ME)
-#define __BY__DECL_CLASS_3(ME, SUPER, SUPERTYPE) \
-    __BY__DECL_ADT_3(ME, SUPER, SUPERTYPE)       \
-    __BY__DECL_CLONE(ME)
-#define __BY__DECL_CLASS(...) BY_OVERLOAD(__BY__DECL_CLASS, __VA_ARGS__)
+// overriding base type of `getType()`:
+#ifdef __BY__BASE_TYPE
+#   undef __BY__BASE_TYPE
+#   define __BY__BASE_TYPE ntype
+#endif
 
 // ACCEPT:
 //      accept the visitor and let it can iterate sub elements.
