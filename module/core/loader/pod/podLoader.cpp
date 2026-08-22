@@ -36,7 +36,9 @@ namespace by {
             WHEN(path == "") .err("error to load %s: no entrypoint path", manPath).ret(manifest());
 
             // TODO: path should be multiple
-            points.push_back(entrypoint{pair.first, {fsystem::getDelimiter() + path}});
+            //  the path stays as the manifest wrote it, relative to the pod directory.
+            //  _addNewPod() is what joins the two.
+            points.push_back(entrypoint{pair.first, {path}});
         }
 
         // post: all data interpreted. merge to manifest.
@@ -80,9 +82,9 @@ namespace by {
     }
 
     me& me::addRelativePath(const std::string& path) {
-        std::string cwd = fsystem::getCurrentDir() + fsystem::getDelimiter();
-        BY_I("finding pods relative to %s or absolute", cwd);
-        return addPath(cwd + path);
+        std::filesystem::path cwd = fsystem::getCurrentDir();
+        BY_I("finding pods relative to %s or absolute", cwd.string());
+        return addPath((cwd / path).string());
     }
 
     me& me::setBasePods(nmap& s) {
@@ -96,16 +98,16 @@ namespace by {
 
             auto e = fsystem::find(path);
             while(e.next()) {
-                if(e.getName() != MANIFEST_FILENAME) continue;
+                if(e->filename() != MANIFEST_FILENAME) continue;
 
-                auto manifestPath = e.getDir() + fsystem::getDelimiter() + e.getName();
-                manifest mani = _interpManifest(e.getDir(), manifestPath);
+                std::string dir = e.getDir().string();
+                manifest mani = _interpManifest(dir, e.get().string());
                 if(tray.in(mani.name)) { // TODO: more concise duplication check required including version of pod.
                     BY_W("pod '%s' is duplicated. an existed one will be used.", mani.name);
                     continue;
                 }
 
-                _addNewPod(tray, mani, e.getDir());
+                _addNewPod(tray, mani, dir);
             }
         }
     }
@@ -123,7 +125,7 @@ namespace by {
 
             strings fullPaths;
             for(const std::string& path: point.paths)
-                fullPaths.push_back(dirPath + path);
+                fullPaths.push_back((std::filesystem::path(dirPath) / path).string());
 
             newLoading->addPath(fullPaths);
             loadings.push_back(newLoading);
