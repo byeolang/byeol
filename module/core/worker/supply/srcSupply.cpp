@@ -21,7 +21,9 @@ namespace by {
         tnarr<srcSupply> ret;
         auto e = fsystem::find(path);
         while(e.next()) {
-            const std::string& filePath = *e;
+            // path::operator string_type() gives a wstring on windows, so the
+            //  narrow form has to be asked for explicitly.
+            std::string filePath = e->string();
             if(!_isSrcFile(filePath)) continue;
 
             ret.add(*new fileSupply(filePath));
@@ -35,4 +37,4 @@ namespace by {
 
         return yy_scan_string((nchar*) src, (yyscan_t) scanner);
     }
-}
+} // namespace by
