@@ -103,13 +103,13 @@ Write commit messages in English, in the form `type(scope): subject`.
 
 ```
 fix(core): suppress unused variable warning for _stepN
-feat(ci): include byeol binary and pod/sys in release artifacts
+chore(ci): include byeol binary and pod/sys in release artifacts
 doc(reference): use hyperlink instead of markdown link syntax
 ```
 
-Use one of these types: `feat`, `fix`, `doc`, `style`, `refactor`, `test`, `build`,
-`ci`, `chore`. The scope is the module or area you touched, and it may be omitted when
-the change is repository-wide.
+Use one of these types: `feat`, `fix`, `doc`, `style`, `refactor`, `test`, `chore`.
+The scope is the module or area you touched, and it may be omitted when the change is
+repository-wide. Build, packaging and CI changes are `chore`.
 
 Explain why in the body, not what. The diff already shows what changed.
 
