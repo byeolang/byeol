@@ -385,26 +385,26 @@ class stack {
 ```sh
 // ✅ 좋은 예 - 100 컬럼 이내 (권장)
 /**
- * @brief 사용자 정보를 검증하고 데이터베이스에 저장합니다
- * @param user 검증할 사용자 객체
- * @return 성공 시 true, 실패 시 false
+ * @brief validates a user and stores it in the database
+ * @param user the user to validate
+ * @return true on success, false on failure
  */
 
 // ⚠️ 허용되지만 비권장 - 120 컬럼 이내
 /** 
- * @brief 사용자 정보를 검증하고 유효한 경우 데이터베이스에 저장하며 저장 후 로그를 남기고 캐시를 업데이트합니다
+ * @brief validates a user, stores it in the database when valid, then writes a log and updates the cache
  */
 
 // ❌ 나쁜 예 - 120 컬럼 초과 (clang-format 오류)
 /**
- * @brief 이 함수는 사용자 정보를 검증하고 유효한 경우 데이터베이스에 저장하며 저장 후 로그를 남기고 캐시를 업데이트하며 이메일 알림을 전송합니다
+ * @brief this function validates a user, stores it in the database when valid, then writes a log, updates the cache and sends an email
  */
 
 // ✅ 개선 - 여러 줄로 분리
 /**
- * @brief 사용자 정보를 검증하고 데이터베이스에 저장합니다
- * @details 검증 성공 시 데이터베이스에 저장하고,
- * 저장 후 로그를 남기며 캐시를 업데이트합니다.
+ * @brief validates a user and stores it in the database
+ * @details on a successful validation it stores the user, then writes
+ * a log and updates the cache.
  */
 ```
 
@@ -848,15 +848,15 @@ void calculate() {
 ```sh
 // ✅ 올바른 스타일
 /**
- * @brief 파일을 읽습니다
- * @param path 파일 경로
- * @return 파일 내용
+ * @brief reads a file
+ * @param path the file path
+ * @return the file content
  */
 
 // ❌ 금지된 스타일
-/// @brief 파일을 읽습니다
-/// @param path 파일 경로
-/// @return 파일 내용
+/// @brief reads a file
+/// @param path the file path
+/// @return the file content
 ```
 
 #### @ 접두사 사용
@@ -864,15 +864,15 @@ void calculate() {
 ```sh
 // ✅ 올바른 예
 /**
- * @brief 사용자를 생성합니다
- * @param name 사용자 이름
- * @return 생성된 사용자 포인터
+ * @brief creates a user
+ * @param name the user name
+ * @return a pointer to the created user
  */
 
 // ❌ 잘못된 예 - \ 사용 금지
 /**
- * \brief 사용자를 생성합니다   // 틀림!
- * \param name 사용자 이름       // 틀림!
+ * \brief creates a user      // 틀림!
+ * \param name the user name  // 틀림!
  */
 ```
 
@@ -891,7 +891,7 @@ void calculate() {
 
 /**
  * @ingroup core
- * @brief AST 노드를 표현하는 클래스
+ * @brief a node of the AST
  */
 class astNode {
     // ...
@@ -902,10 +902,10 @@ class astNode {
 // 예제 2: 매크로만 있는 헤더 - 설명 필요
 /**
  * @file
- * 문자열 조작을 위한 유틸리티 매크로
+ * utility macros for string manipulation
  *
- * 문자열 연결, 변환, 포매팅 등의 기능을 제공하는
- * 매크로 모음입니다.
+ * a collection of macros for concatenating, converting and
+ * formatting strings.
  */
 
 #pragma once
@@ -919,9 +919,9 @@ class astNode {
 // 예제 3: typedef만 있는 헤더 - 설명 필요
 /**
  * @file
- * 타입 별칭 정의
+ * type alias definitions
  *
- * 프로젝트 전반에서 사용되는 공통 타입 별칭을 정의합니다.
+ * the common type aliases used across the project.
  */
 
 #pragma once
@@ -940,9 +940,9 @@ typedef std::shared_ptr<node> nodePtr;
 ```sh
 /**
  * @ingroup core
- * @brief AST 노드의 기본 클래스
- * @details 모든 AST 노드가 상속받는 베이스 클래스입니다.
- * 노드 순회, 타입 체킹 등의 기본 기능을 제공합니다.
+ * @brief the base class of every AST node
+ * @details every AST node inherits from this. it provides the basics such
+ * as node traversal and type checking.
  */
 class astNode {
 public:
@@ -956,15 +956,15 @@ public:
 ```sh
 /**
  * @ingroup memlite
- * @brief 메모리 풀 관리자
- * @details 고성능 메모리 할당을 위한 풀 기반 메모리 관리자입니다.
+ * @brief a memory pool manager
+ * @details a pool based allocator for high performance allocation.
  *
- * 이 클래스는 고정 크기 메모리 블록을 미리 할당하고 재사용하여
- * 빈번한 메모리 할당/해제의 오버헤드를 줄입니다.
+ * it preallocates fixed size blocks and reuses them, which cuts the
+ * overhead of frequent allocation and release.
  *
- * 각 풀은 특정 크기의 객체를 관리하며, 요청된 크기에 따라
- * 적절한 풀을 자동으로 선택합니다. 스레드 안전성은 보장되지 않으므로
- * 다중 스레드 환경에서는 외부 동기화가 필요합니다.
+ * each pool manages objects of one size, and the right pool is picked
+ * automatically from the requested size. it is not thread safe, so a
+ * multithreaded caller has to synchronize on its own.
  */
 class memoryPool {
 public:
@@ -981,7 +981,7 @@ public:
 ```sh
 // 예제 1: 간단한 함수 - @param 생략 가능
 /** 
- * @brief 사용자 이름을 반환합니다
+ * @brief returns the user name
  */
 std::string getName() const {
     return _name;
@@ -989,11 +989,11 @@ std::string getName() const {
 
 // 예제 2: @param과 @return이 필요한 경우
 /**
- * @brief 사용자를 생성하고 검증합니다
- * @param username 사용자 이름 (3-20자의 영숫자)
- * @param email 이메일 주소 (게스트는 nullptr 가능)
- * @param age 나이 (0-150 범위)
- * @return 성공 시 사용자 포인터, 실패 시 nullptr
+ * @brief creates a user after validating it
+ * @param username the user name (3-20 alphanumeric characters)
+ * @param email the email address (nullptr for a guest)
+ * @param age the age (0-150)
+ * @return a pointer to the user on success, nullptr on failure
  */
 user* createUser(const std::string& username, const char* email, int age);
 ```
@@ -1004,8 +1004,8 @@ user* createUser(const std::string& username, const char* email, int age);
 
 ```sh
 /**
- * @brief 설정 파일을 로드하고 파서를 초기화합니다
- * @details 복잡한 초기화 순서가 필요하므로 아래 예제를 참고하세요
+ * @brief loads a config file and initializes the parser
+ * @details the initialization order is involved, so follow the example below
  * @code
  *  configLoader loader;
  *  if(loader.load("config.stela")) {
@@ -1022,9 +1022,9 @@ user* createUser(const std::string& username, const char* email, int age);
 
 ```sh
 /**
- * @brief @ref parser 를 사용하여 파일을 파싱합니다
- * @param p @ref parser 인스턴스
- * @return 파싱된 @ref astNode
+ * @brief parses a file with a @ref parser
+ * @param p the @ref parser instance
+ * @return the parsed @ref astNode
  */
 astNode* parseWithParser(parser& p);
 ```
@@ -1037,19 +1037,19 @@ astNode* parseWithParser(parser& p);
 // FIXME: 메모리 누수 존재
 // HACK: 임시 해결책, 나중에 리팩토링 필요
 /**
- * @brief 파일을 읽습니다
- * @param path 파일 경로
- * @return 파일 내용
+ * @brief reads a file
+ * @param path the file path
+ * @return the file content
  */
 std::string readFile(const std::string& path);
 
 // ❌ 잘못된 예
 /**
- * @brief 파일을 읽습니다
+ * @brief reads a file
  * TODO: 에러 핸들링 추가 필요        // 틀림!
  * FIXME: 메모리 누수 존재            // 틀림!
- * @param path 파일 경로
- * @return 파일 내용
+ * @param path the file path
+ * @return the file content
  */
 std::string readFile(const std::string& path);
 ```
@@ -1058,13 +1058,13 @@ std::string readFile(const std::string& path);
 
 ```sh
 // ❌ 나쁜 예 - 불필요한 주석
-/** @brief 이름을 가져옵니다 */
+/** @brief returns the name */
 std::string getName() { return _name; }  // 너무 당연함!
 
-/** @brief 나이를 설정합니다 */
+/** @brief sets the age */
 void setAge(int age) { _age = age; }     // 너무 당연함!
 
-/** @brief i를 1 증가시킵니다 */
+/** @brief increments i by one */
 i++;                                      // 너무 당연함!
 
 // ✅ 좋은 예 - 주석 없음 (자명함)
@@ -1076,10 +1076,10 @@ i++;
 ```sh
 // ✅ 좋은 예 - 주석이 필요한 경우
 /**
- * @brief 캐시를 고려하여 값을 가져옵니다
- * @details 캐시에 값이 있으면 캐시에서, 없으면 DB에서 조회하고
- * 결과를 캐시에 저장합니다. TTL은 5분입니다.
- * @return 사용자 이름
+ * @brief returns the name, going through the cache
+ * @details reads from the cache when it holds the value, otherwise queries
+ * the DB and stores the result. the TTL is five minutes.
+ * @return the user name
  */
 std::string getName() {
     if(_cache.has("name"))
