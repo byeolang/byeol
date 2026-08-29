@@ -1106,20 +1106,20 @@ std::string getName() {
 ```sh
 // ❌ 나쁜 예 - 같은 말을 세 번 반복
 /**
- * @brief 전송을 정체 기준으로 중단합니다
- * @details 이 함수는 전송이 정체되면 중단합니다. 평균 속도가 일정 시간 동안
- *          기준치 아래로 떨어지면 중단하는 방식입니다. 전체 시간에는 상한을
- *          두지 않는데, 왜냐하면 툴체인 zip 은 수십 MB 이므로 죽은 서버를
- *          잡아낼 만큼 짧은 상한을 걸면 느리지만 정상인 회선까지 함께
- *          끊어버리기 때문입니다.
+ * @brief cuts a transfer once it stalls
+ * @details this function cuts a transfer when it stalls. the way it works is
+ *          that it cuts once the average speed stays under the limit for a
+ *          while. the total time is left uncapped, because a toolchain zip is
+ *          tens of MB, so any cap short enough to catch a dead server would
+ *          also cut a slow but healthy link.
  */
 void guardByStall();
 
 // ✅ 좋은 예 - 근거만 남김
 /**
- * @brief 전송을 정체 기준으로 중단합니다
- * @details 전체 시간 상한은 두지 않습니다. 죽은 서버를 잡을 만큼 짧으면
- *          느리지만 정상인 회선도 끊기 때문입니다.
+ * @brief cuts a transfer once it stalls
+ * @details the total time is left uncapped: a cap short enough to catch a dead
+ *          server would cut a slow but healthy link too.
  */
 void guardByStall();
 ```
@@ -1128,12 +1128,12 @@ void guardByStall();
 
 ```sh
 // ❌ 나쁜 예
-// 이 파일은 실제 libcurl 대신 링크되는 가짜 libcurl 입니다. curl.cpp 는
-// 수정 없이 컴파일되며, 링커가 curl_easy_* 심볼을 이 파일의 정의로
-// 해석하고, 그 정의들은 다시 테스트가 바인딩한 mock 으로 위임합니다.
+// this file is the fake libcurl that gets linked instead of the real one.
+// curl.cpp compiles untouched, the linker resolves its curl_easy_* symbols to
+// the definitions here, and those in turn delegate to the mock a test bound.
 
 // ✅ 좋은 예
-// 실제 libcurl 대신 링크되는 가짜 libcurl.
+// the fake libcurl linked in place of the real one.
 ```
 
 ---
