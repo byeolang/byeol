@@ -1,8 +1,8 @@
 
 ##### Subject 60 characters ########################### -> |
-#<module>: <type>: <subject>
+#<type>(<scope>): <subject>
 #######################################################
-# Type can be
+# Type is one of
 #   feat:       new feature
 #   fix:        bug fix
 #   refactor:   refactoring production code
@@ -10,11 +10,16 @@
 #   doc:        changes to documentation
 #   test:       adding or refactoring tests. no production code change
 #   chore:      updating grunt tasks etc. no production code change
-# Module is one of sub module like 'interp', 'seedling' or blank if
-# the commit affects entire this repository.
+# Scope is the module or area you touched, like 'core' or 'installer'.
+# Omit it, parentheses and all, when the change is repository-wide.
 # e.g.
 #chore: change build envrionment.
-#test: interp: add new test case for parsing blank src.
+#test(interp): add new test case for parsing blank src.
+
+# Write in English. Keep it short: the subject line alone is usually
+# enough. Explain why in the body, not what -- the diff already shows
+# what changed. Reasoning that runs long belongs in the pull request
+# description instead.
 
 # one empty single line should be between subject and body.
 
