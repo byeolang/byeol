@@ -615,13 +615,13 @@ WARN_LOGFILE           =
 
 INPUT                  = doxygen \
                          ../doc/ref/ko \
-                         ../module/clog \
-                         ../module/indep \
+                         _deps/indep_dep-src/module/indep \
+                         _deps/stela_dep-src/module/clog \
+                         _deps/stela_dep-src/module/meta \
+                         _deps/stela_dep-src/module/memlite \
+                         _deps/stela_dep-src/module/stela \
                          ../module/core \
-                         ../module/memlite \
-                         ../module/meta \
-                         ../module/frontend \
-                         ../module/stela
+                         ../module/frontend
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
