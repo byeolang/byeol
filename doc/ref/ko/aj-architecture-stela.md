@@ -78,16 +78,51 @@ package "Parser Package" {
 
 package "AST Package" {
     class "stela" as stela {
+        + sub(name) : stela&
+        + sub(index) : stela&
+        + operator[](name) : stela&
+        + add(child) : void
+        + del(name) : void
+        + has(name) : nbool
+        + len() : ncnt
         + asInt() : int
         + asStr() : string
-        + sub(name) : stela&
-        + operator[](name) : stela&
+        + accept(info, visitor) : void
     }
 
     class "valStela" as valStela
+    class "strStela" as strStela
     class "verStela" as verStela
+    class "arrStela" as arrStela
     class "nulStela" as nulStela
 }
+
+package "Visitor Package" {
+    class "stelaVisitor" as visitor {
+        + work(root) : void
+        + visit(info, it) : void
+        + onVisit(info, it) : nbool
+        + onTraverse(info, it) : void
+        + onLeave(info, it) : void
+    }
+
+    class "stelaWriter" as writer {
+        + write(root) : string
+        + writeFile(root, path) : nbool
+    }
+
+    class "stelaVisitInfo" as visitInfo {
+        + name : string
+        + parent : stela*
+        + index : nidx
+        + len : ncnt
+        + depth : nint
+    }
+}
+
+writer --|> visitor
+visitor ..> visitInfo : Hand to every callback
+stela ..> visitor : accept()
 
 stelaParser *-- scanner
 stelaParser *-- smartDedent
@@ -104,8 +139,10 @@ parser ..> stelaParser : Event Callback
 stelaParser ..> stela : Create
 
 valStela --|> stela
-verStela --|> stela
+arrStela --|> stela
 nulStela --|> stela
+strStela --|> valStela
+verStela --|> valStela
 
 @enduml
 
@@ -116,22 +153,32 @@ nulStela --|> stela
 @startuml
 package "Result Hierarchy" {
     class "stela" as stela {
+        + sub(name) : stela&
+        + sub(index) : stela&
+        + operator[](name) : stela&
+        + add(child) : void
+        + del(name) : void
+        + has(name) : nbool
+        + len() : ncnt
         + asInt() : int
         + asStr() : string
-        + sub(name) : stela&
-        + operator[](name) : stela&
+        + accept(info, visitor) : void
     }
 
     class "valStela" as valStela
+    class "strStela" as strStela
     class "verStela" as verStela
+    class "arrStela" as arrStela
     class "nulStela" as nulStela
 }
 
 stelaParser ..> stela : Create
 
 valStela --|> stela
-verStela --|> stela
+arrStela --|> stela
 nulStela --|> stela
+strStela --|> valStela
+verStela --|> valStela
 
 @enduml
 
@@ -162,7 +209,7 @@ const std::string script = R"SRC(
         ver := 1.0.8
 )SRC";
 
-root = stelaParser().parse(script);
+tstr<stela> root = stelaParser().parse(script);
 ASSERT_TRUE(root);
 
 stela& man = root->sub("man");
@@ -176,6 +223,45 @@ ASSERT_STREQ(ver.asStr().c_str(), "1.0.8");
 ASSERT_EQ(ver.asMajor(), 1);
 ASSERT_EQ(ver.asMinor(), 0);
 ASSERT_EQ(ver.asFix(), 8);
+```
+
+<b>트리를 다루는 API</b>
+
+자식은 이름을 key로 하는 `std::map`에 담깁니다. 그래서 이름으로 찾는 `sub(name)` 외에도
+n번째 자식을 꺼내는 `sub(index)`, 자식 수를 세는 `len()`, 존재를 확인하는 `has(name)`,
+그리고 직접 순회할 수 있는 `begin()`과 `end()`가 제공됩니다. 트리를 고칠 때는 `add()`와
+`del()`을 쓰면 되죠.
+
+여기서 주의할 점이 두 가지 있습니다. 먼저 `add()`는 자식이 스스로 가진 이름을 key로 삼기
+때문에, 같은 이름의 자식이 이미 있으면 <b>덮어씁니다</b>. 그리고 `sub(name)`은 찾지 못했을 때
+@ref by::nulStela "nulStela" 를 돌려줄 뿐 트리에 빈 자식을 만들어 두지 않습니다. 조회가 트리를
+바꾸지 않으므로 `has()`로 먼저 확인하지 않고 바로 `sub()`를 불러도 괜찮아요.
+
+자식이 map에 담긴다는 건 순회 순서가 <b>이름의 사전순</b>이라는 뜻이기도 합니다. 원본 소스에
+적힌 순서는 보존되지 않습니다. 배열만은 예외인데, 이는 @ref by::arrStela "arrStela" 에서
+설명합니다.
+
+```
+@style: language-cpp verified
+stela root("root");
+root.add(new strStela("byeol", "name"));
+root.add(new valStela(3, "count"));
+
+ASSERT_TRUE(root.has("name"));
+ASSERT_EQ(root.len(), 2);
+ASSERT_STREQ(root.sub("name").asStr().c_str(), "byeol");
+
+// 같은 이름으로 add()하면 기존 자식을 덮어씁니다.
+root.add(new valStela(7, "count"));
+ASSERT_EQ(root.len(), 2);
+ASSERT_EQ(root.sub("count").asInt(), 7);
+
+// 없는 이름은 nulStela이며, 트리에 추가되지 않습니다.
+ASSERT_FALSE(root.sub("nope").isExist());
+ASSERT_EQ(root.len(), 2);
+
+root.del("count");
+ASSERT_EQ(root.len(), 1);
 ```
 
 ### nulStela 클래스 - Null Object 패턴
@@ -218,6 +304,22 @@ int val = notExist.asInt();          // 0
 
 만약 타입변환에 실패한다면, 예외가 발생하니 주의하세요.
 
+### strStela 클래스 - 문자열 값
+
+@ref by::strStela "strStela" 는 @ref by::valStela "valStela" 를 상속하지만 메서드를 하나도
+추가하지 않습니다. 값을 저장하고 변환하는 일은 전부 부모가 그대로 처리하죠. 그렇다면 왜 따로
+존재할까요?
+
+@ref by::stelaWriter "stelaWriter" 가 트리를 다시 소스로 옮길 때 문자열만 큰따옴표로 감싸야 하기
+때문입니다. `name := "byeol"`은 따옴표가 있어야 하지만 `count := 3`은 없어야 하는데, 값이 전부
+같은 문자열로 저장되어 있으니 저장된 값만 봐서는 둘을 구분할 수 없어요. 그래서 파서가 문자열
+리터럴을 만나면 @ref by::strStela "strStela" 로, 숫자나 불리언을 만나면
+@ref by::valStela "valStela" 로 만들어 두고, visitor가 <b>타입으로</b> 둘을 구분하도록 했습니다.
+
+이렇게 값 하나만 표시하기 위해 존재하는 타입을 이후로도 몇 번 만나게 됩니다. 값 접근이 필요한
+쪽에서는 굳이 하위 타입으로 캐스팅할 필요가 없고, 부모인 @ref by::valStela "valStela" 나
+@ref by::stela "stela" 의 인터페이스를 그대로 쓰면 됩니다.
+
 ### verStela 클래스 - 버전 타입
 
 @ref by::verStela "verStela" 는 @ref by::valStela "valStela" 와 비슷하게 <b>version</b>이라는 타입의 값을 가지고 있는 @ref by::stela "stela" 입니다.
@@ -239,21 +341,71 @@ const std::string script = R"SRC(
         maxVersion := 3.0.0
 )SRC";
 
-stela& root = stelaParser().parse(script);
+tstr<stela> root = stelaParser().parse(script);
+ASSERT_TRUE(root);
+
 stela& pkg = root->sub("package");
 
 // 버전 정보 추출
-verStela& ver = pkg["version"].cast<verStela>();
+verStela& ver = pkg["version"].cast<verStela>() OR_ASSERT(ver);
 ASSERT_EQ(ver.asMajor(), 2);
 ASSERT_EQ(ver.asMinor(), 1);
 ASSERT_EQ(ver.asFix(), 5);
 ASSERT_STREQ(ver.asStr().c_str(), "2.1.5");
 
-// 버전 범위 체크 (범위 표현 가능)
-verStela& minVer = pkg["minVersion"].cast<verStela>();
-verStela& maxVer = pkg["maxVersion"].cast<verStela>();
-// 1.0.0 <= 2.1.5 <= 3.0.0 범위 확인 가능
+// 버전 범위 체크. 비교 연산자가 모두 정의되어 있습니다.
+verStela& minVer = pkg["minVersion"].cast<verStela>() OR_ASSERT(minVer);
+verStela& maxVer = pkg["maxVersion"].cast<verStela>() OR_ASSERT(maxVer);
+ASSERT_TRUE(minVer <= ver);
+ASSERT_TRUE(ver <= maxVer);
 ```
+
+### arrStela 클래스 - 배열
+
+@ref by::arrStela "arrStela" 는 원소를 순서대로 담는 @ref by::stela "stela" 입니다. stela 소스에서는
+중괄호로 표현하며, 원소로는 어떤 값이든 올 수 있습니다.
+
+```
+@style: language-byeol verified
+deps := {10, 20, 30}
+empty := {}
+```
+
+@ref by::strStela "strStela" 와 마찬가지로 @ref by::arrStela "arrStela" 도 메서드를 추가하지
+않습니다. 원소는 그냥 평범한 자식이며, 따라서 `sub(index)`나 `len()`, 순회 같은
+@ref by::stela "stela" 의 인터페이스를 그대로 쓰면 됩니다. 원소를 꺼내려고 하위 타입으로
+캐스팅할 일은 없어요.
+
+```
+@style: language-cpp verified
+tstr<stela> root = stelaParser().parse("deps := {10, 20, 30}\n");
+ASSERT_TRUE(root);
+
+stela& deps = root->sub("deps");
+ASSERT_TRUE(deps.cast<arrStela>() != nullptr);
+ASSERT_EQ(deps.len(), 3);
+
+ASSERT_EQ(deps.sub(0).asInt(), 10);
+ASSERT_EQ(deps.sub(2).asInt(), 30);
+
+for(ncnt n = 0; n < deps.len(); ++n)
+    ASSERT_EQ(deps.sub(n).asInt(), (n + 1) * 10);
+```
+
+<b>원소의 이름과 순서</b>
+
+앞서 자식이 이름을 key로 하는 map에 담긴다고 했죠. 배열의 원소도 예외가 아니어서 이름이 필요한데,
+정작 소스에는 원소의 이름이 적혀 있지 않습니다. 그래서 파서가 `"0000"`, `"0001"`, `"0002"`처럼
+<b>0으로 채운 인덱스</b>를 이름으로 붙입니다.
+
+0을 채우는 이유는 map의 key 정렬이 사전순이기 때문입니다. 이름이 그냥 `"2"`와 `"10"`이라면
+사전순으로 `"10"`이 앞에 오게 되고, 그러면 `sub(2)`가 엉뚱한 원소를 돌려주게 되죠. 자리수를 맞춰두면
+사전순과 숫자순이 일치하므로 이 문제가 사라집니다.
+
+대신 자리수가 고정되어 있으니 한계도 생깁니다. 자리수는
+@ref by::stelaParser "stelaParser" 의 `IDX_WIDTH`가 정하며 현재 값은 4입니다. 즉 원소가 1만 개를
+넘어가면 그 이후로는 순서가 보장되지 않아요. 설정 파일에 담을 배열로는 충분한 크기라고 보고 정한
+값입니다.
 
 ---
 
@@ -631,6 +783,185 @@ main() void
 
 그래서 @ref by::stelaSmartDedent "stelaSmartDedent" 가 나옵니다. 위와 같이 inline block을 블록을 사용하되, 콤마로 끝나는
 경우는 개행을 추가해주는 아주 단순하지만 parser의 rule의 난이도를 낮추는 역할을 합니다.
+
+---
+
+## Visitor와 직렬화
+
+파싱이 끝나면 @ref by::stela "stela" 트리가 남습니다. 이 트리 전체를 훑으면서 무언가를 하고 싶을
+때가 있죠. 소스로 다시 쓴다거나, 특정 조건의 노드를 모은다거나 하는 일들 말입니다. 그럴 때 쓰라고
+@ref by::stelaVisitor "stelaVisitor" 가 있습니다.
+
+byeol @ref core 모듈의 visitor를 축소한 것이라서 구조가 거의 같습니다. 파서와 마찬가지로, 이쪽을
+먼저 읽고 core의 visitor를 보는 편이 이해하기 쉬워요.
+
+### stelaVisitor 클래스 - 트리 순회
+
+@startuml
+participant "stelaVisitor" as visitor
+participant "stela" as node
+participant "child" as child
+
+visitor -> node : accept(info, visitor)
+activate node
+node -> visitor : visit(info, *this)
+deactivate node
+
+activate visitor
+
+note right of visitor
+  <b>1) onVisit</b>
+  노드를 살펴본다.
+  false를 반환하면
+  그 아래로 내려가지 않는다.
+end note
+
+visitor -> visitor : onVisit(info, it)
+
+note right of visitor
+  <b>2) onTraverse</b>
+  자식으로 내려간다.
+  기본 구현은 자식 map을 순회한다.
+end note
+
+visitor -> visitor : onTraverse(info, it)
+visitor -> child : accept(childInfo, visitor)
+activate child
+child -> visitor : visit(childInfo, *this)
+deactivate child
+
+note right of visitor
+  <b>3) onLeave</b>
+  자식까지 모두 끝난 뒤 불린다.
+end note
+
+visitor -> visitor : onLeave(info, it)
+deactivate visitor
+
+@enduml
+
+한 번의 방문은 위 그림처럼 <b>세 단계</b>로 나뉩니다. `onVisit()`에서 노드를 살펴보고, 여기서
+`false`를 반환하면 그 아래 서브트리는 통째로 건너뜁니다. `true`라면 `onTraverse()`가 자식으로
+내려가고, 마지막으로 `onLeave()`가 불립니다. 순회 방식을 통째로 바꾸고 싶다면 `onTraverse()`를
+재정의하면 되죠.
+
+`onVisit()`과 `onLeave()`는 <b>타입별 오버로드</b>를 갖습니다. `onVisit(..., strStela&)`처럼
+관심 있는 타입만 재정의하면 되고, 재정의하지 않은 타입은 `super` 오버로드로 자동으로 넘어갑니다.
+결국 아무것도 재정의하지 않으면 모든 노드가 `onVisit(..., stela&)`로 모이는 셈이죠.
+
+트리 순회는 `work()`로 시작합니다.
+
+```
+@style: language-cpp verified
+class nameCollector: public stelaVisitor {
+    BY(CLASS(nameCollector, stelaVisitor))
+
+public:
+    // 문자열 값을 가진 노드의 이름만 모읍니다.
+    nbool onVisit(const stelaVisitInfo& i, strStela& it) override {
+        names.push_back(it.getName());
+        return true;
+    }
+
+public:
+    std::vector<std::string> names;
+};
+BY_DEF_ME(nameCollector)
+
+// ...
+
+tstr<stela> root = stelaParser().parse("a := \"x\"\nb := 1\nc := \"y\"\n");
+ASSERT_TRUE(root);
+
+nameCollector collector;
+collector.work(*root);
+
+// b는 strStela가 아니므로 걸리지 않습니다.
+ASSERT_EQ(collector.names.size(), 2);
+ASSERT_STREQ(collector.names[0].c_str(), "a");
+ASSERT_STREQ(collector.names[1].c_str(), "c");
+```
+
+### accept와 VISIT 매크로
+
+visitor가 노드의 <b>실제 타입</b>에 맞는 오버로드를 부르려면 double dispatch가 필요합니다.
+@ref by::stela "stela" 의 `accept()`가 그 역할을 합니다. 각 하위 타입이 `accept()`를 재정의해서
+`v.visit(i, *this)`를 부르면, 이때 `*this`의 정적 타입이 자기 자신이므로 알맞은 오버로드가
+선택되죠.
+
+이 `accept()`는 타입마다 똑같은 한 줄이라서 매크로로 처리합니다. 헤더에는 `VISIT()`을, 구현
+파일에는 `DEF_VISIT()`을 쓰면 됩니다. 이름은 byeol core의 매크로와 같지만 이쪽은
+@ref by::stelaVisitor "stelaVisitor" 에 묶여 있는 별개의 정의예요. stela는 byeol을 볼 수 없어서
+두 AST의 include 경로가 겹치지 않으므로 충돌하지 않습니다.
+
+visitor가 다뤄야 할 타입 목록은 `visitor/visitee.inl`이 관리합니다. 이 파일은 `X(T)` 한 줄씩만
+담고 있고, 오버로드 선언과 정의가 모두 여기서 만들어집니다. 그래서 <b>새 stela 하위 타입을 추가할
+때는 세 곳을 함께 손봐야 합니다</b>. `visitee.inl`에 `X(T)`를 등록하고, 헤더에
+`BY(CLASS(T, ...), VISIT())`를 넣고, 구현에 `BY(DEF_ME(T), DEF_VISIT())`를 넣으면 되죠.
+
+### stelaVisitInfo 클래스 - 순회 문맥
+
+모든 콜백은 첫 번째 인자로 @ref by::stelaVisitInfo "stelaVisitInfo" 를 받습니다. 지금 보고 있는
+노드가 트리의 어디쯤인지 알려주는 값이에요. 이름(`name`), 부모(`parent`), 형제 중 몇 번째인지
+(`index`), 형제가 몇인지(`len`), 그리고 루트로부터의 깊이(`depth`)를 담고 있습니다.
+
+`index`와 `len`은 `onTraverse()`가 순회하면서 이미 알고 있는 값입니다. 이를 넘겨주지 않으면
+visitor마다 같은 계산을 다시 하게 되므로 함께 실어 보냅니다. 배열 원소라면 이 `index`가 곧 배열
+안에서의 위치가 되죠.
+
+byeol core의 visitInfo와 거의 같지만 `additionalLen`은 없습니다. stela에는 대응되는 개념이
+없거든요.
+
+### stelaWriter 클래스 - 트리를 소스로
+
+@ref by::stelaWriter "stelaWriter" 는 @ref by::stelaVisitor "stelaVisitor" 를 상속해서 만든
+직렬화기입니다. 트리를 순회하면서 stela 소스 텍스트를 만들어 내죠. `write()`는 결과를 문자열로
+돌려주고, `writeFile()`은 곧바로 파일에 씁니다.
+
+```
+@style: language-cpp verified
+const std::string src = R"SRC(def pack
+    name := "byeol"
+    ver := 0.1.7
+    deps := {1, 2, 3}
+)SRC";
+
+tstr<stela> root = stelaParser().parse(src);
+ASSERT_TRUE(root);
+
+// 트리를 고친 뒤 다시 쓸 수 있습니다.
+root->sub("pack").add(new strStela("kniz", "author"));
+
+std::string out = stelaWriter().write(*root);
+ASSERT_TRUE(stelaWriter().writeFile(*root, "manifest.stela"));
+```
+
+<b>무엇이 보존되고 무엇이 사라지는가</b>
+
+@ref by::stelaWriter "stelaWriter" 가 만드는 것은 원본의 복원이 아니라 <b>정규형(canonical form)</b>
+입니다. 값과 구조는 보존되지만 나머지는 버려집니다. 주석이 사라지고, 원본의 공백과 빈 줄과 들여쓰기
+너비가 writer의 설정값으로 바뀌며, 자식의 원래 순서 대신 사전순이 되고, 숫자 리터럴의 표기
+(`1_000`이 `1000`이 되는 식)도 정규화됩니다.
+
+위 예제의 결과가 이를 잘 보여줍니다. 소스에는 `name`, `ver`, `deps` 순으로 적혀 있었지만 출력은
+사전순으로 재배열되고, 나중에 추가한 `author`가 맨 앞에 오죠.
+
+```
+@style: language-txt verified
+def pack
+    author := "kniz"
+    deps := {1, 2, 3}
+    name := "byeol"
+    ver := 0.1.7
+```
+
+그래서 이 정규형은 <b>고정점(fixed point)</b>이 됩니다. `write -> parse -> write`를 아무리 반복해도
+같은 문자열이 나오고, `parse -> 수정 -> write -> parse`를 거쳐도 값 트리는 그대로예요. 설정 파일을
+프로그램이 고쳐 쓰는 용도로는 이 성질이면 충분합니다. 사람이 쓴 주석까지 지켜야 하는 용도라면 이
+writer는 맞지 않습니다.
+
+한 가지 더, 컴파일 단위의 루트는 `def <name>` 으로 출력되지 않고 자식들만 출력됩니다. stela 소스의
+최상위가 원래 이름 없이 열려 있기 때문이죠.
 
 ---
 
