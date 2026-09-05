@@ -224,13 +224,33 @@ def docDoxygen(doxygen):
     if res != 0: return res
     printOk("done")
 
+def _ensureFetchedSources(cmake):
+    global cwd, config
+    # The reference INPUT points at _deps/{stela,indep}_dep-src, which only
+    # FetchContent creates during CMake configure. doc neither builds nor
+    # configures, so on a clean tree those inputs are missing and the stela/indep
+    # API pages come out empty. Configure once to fetch them; skip if already there.
+    srcs = [f"{cwd}{slash()}_deps{slash()}stela_dep-src",
+            f"{cwd}{slash()}_deps{slash()}indep_dep-src"]
+    if all(os.path.isdir(src) for src in srcs):
+        return 0
+
+    config = "-DCMAKE_BUILD_TYPE=Debug"
+    if _createMakefiles(cmake):
+        printErr("configure failed; the stela/indep API pages would be empty.")
+        return -1
+    return 0
+
 def doc():
     doxygen = DoxygenDependency()
     git = GitDependency()
     jre = JREDependency()
-    if checkDependencies([doxygen, git, jre]):
+    cmake = CMakeDependency()
+    if checkDependencies([doxygen, git, jre, cmake]):
         return -1
 
+    if _ensureFetchedSources(cmake) != 0:
+        return -1
     if cleanGhPages(git) != 0:
         return -1
     docDoxygen(doxygen)
