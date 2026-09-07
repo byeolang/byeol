@@ -147,7 +147,7 @@ verStela --|> valStela
 
 @startuml
 package "Result Hierarchy" {
-    class "stela" as stela {
+    abstract class "stela" as stela {
         + sub(name) : stela&
         + add(child) : void
         + del(name) : void
@@ -155,6 +155,8 @@ package "Result Hierarchy" {
         + accept(info, visitor) : void
     }
 
+    class "defStela" as defStela
+    class "rootStela" as rootStela
     class "valStela" as valStela
     class "strStela" as strStela
     class "verStela" as verStela
@@ -162,11 +164,13 @@ package "Result Hierarchy" {
     class "nulStela" as nulStela
 }
 
-stelaParser ..> stela : Create
+stelaParser ..> rootStela : Create
 
+defStela --|> stela
 valStela --|> stela
 arrStela --|> stela
 nulStela --|> stela
+rootStela --|> defStela
 strStela --|> valStela
 verStela --|> valStela
 
@@ -183,7 +187,7 @@ stela 코드를 파싱후 최종 결과를 나타냅니다.
    경우 `asStr()`을 하면 `std::string("22")`가 반환됩니다.
 3. <b>값이 없는 경우</b>: @ref by::nulStela "nulStela" 로 표현됩니다. 이 경우 어떠한 타입변환 시도에도 기본값(빈 문자열 혹은
    0)이 반환됩니다.
-4. <b>버전 타입</b>: major, minor, patch 버전을 가지고 있으며, 범위로도 표현이 가능합니다.
+4. <b>버전 타입</b>: major, minor, patch 와 선택적인 revision 버전을 가지고 있으며, 범위로도 표현이 가능합니다.
 5. <b>트리 구조</b>: @ref by::stela "stela" 는 또다른 @ref by::stela "stela" 를 자식으로 둘 수 있습니다. 각 @ref by::stela "stela" 객체마다 이름이 존재하므로,
    자식을 찾을 때는 이름으로 검색하거나 순회합니다. 주어진 이름에 맞는 자식이 없는 경우 @ref by::nulStela "nulStela" 가
    반환됩니다.
@@ -212,7 +216,7 @@ verStela& ver = *man["ver"].cast<verStela>();
 ASSERT_STREQ(ver.asStr().c_str(), "1.0.8");
 ASSERT_EQ(ver.asMajor(), 1);
 ASSERT_EQ(ver.asMinor(), 0);
-ASSERT_EQ(ver.asFix(), 8);
+ASSERT_EQ(ver.asPatch(), 8);
 ```
 
 <b>트리를 다루는 API</b>
@@ -233,7 +237,7 @@ n번째 자식을 꺼내는 `sub(index)`, 자식 수를 세는 `len()`, 존재�
 
 ```
 @style: language-cpp verified
-stela root("root");
+rootStela root("root");
 root.add(new strStela("byeol", "name"));
 root.add(new valStela(3, "count"));
 
@@ -308,7 +312,18 @@ int val = notExist.asInt();          // 0
 <b>version 타입</b>
 
 @ref by::stela "stela" 언어는 byeol 언어의 경량화된 언어로, manifest나 옵션과 같은 특수 목적용 언어입니다. version
-타입은 `major.minor.fix`의 3가지 변수를 가지고 있으며 범위 표현 또한 가능한 타입입니다.
+타입은 `major.minor.patch`에 선택적인 네 번째 자리 `revision`을 더한 형태이며, 범위 표현 또한 가능한 타입입니다.
+
+`revision`은 같은 상위 버전을 다시 낸 횟수를 세며, 위쪽 자리가 하나라도 움직이면 0으로
+돌아갑니다. `1.2.3.0`, `1.2.3.1`, 그 다음은 `1.2.4.0`입니다. .NET의
+`major.minor.build.revision`과 Debian의 `upstream_version-debian_revision`이 같은 의미로
+쓰는 이름입니다. semver에는 네 번째 자리가 아예 없고, 그 `+build` 메타데이터는 규격상
+버전 비교에서 <b>무시되어야</b> 하므로 여기에 쓸 수 없습니다 — revision은 비교에
+참여해야 하니까요.
+
+세 자리가 일반적인 경우라 세 자리로 다시 쓰입니다. `verStela("1.2")`는 `"1.2.0"`으로
+채워지지만, 없는 네 번째 자리는 없는 채로 남습니다. `asRevision()`이 이를 0으로 읽고,
+비교 연산자는 `1.2.3`과 `1.2.3.0`을 같은 버전으로 봅니다.
 
 <b>사용 예제</b>
 
@@ -331,7 +346,7 @@ stela& pkg = root->sub("package");
 verStela& ver = *pkg["version"].cast<verStela>();
 ASSERT_EQ(ver.asMajor(), 2);
 ASSERT_EQ(ver.asMinor(), 1);
-ASSERT_EQ(ver.asFix(), 5);
+ASSERT_EQ(ver.asPatch(), 5);
 ASSERT_STREQ(ver.asStr().c_str(), "2.1.5");
 
 // 버전 범위 체크. 비교 연산자가 모두 정의되어 있습니다.
