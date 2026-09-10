@@ -19,7 +19,7 @@ namespace by {
         std::stringstream buf;
         buf << fout.rdbuf();
         std::string codes = buf.str();
-        void* ret = _scanString(ps, codes.c_str(), scanner);
+        void* ret = _scanString(ps, codes, scanner);
         if(ret) coreInternal::getMaker(ps).setSrcFile(*new srcFile(_path, codes));
         return ret;
     }

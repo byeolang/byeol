@@ -11,6 +11,6 @@ namespace by {
 
     void* me::onSupplySrc(parser& ps, void* scanner) const {
         coreInternal::getMaker(ps).setSrcFile(*new srcFile("no_file", _buf));
-        return _scanString(ps, _buf.c_str(), scanner);
+        return _scanString(ps, _buf, scanner);
     }
 }

@@ -450,8 +450,6 @@ namespace by {
         void onParseErr(const std::string& msg, const nchar* symbolName);
 
     protected:
-        void* _scanString(const std::string& src, void* scanner);
-        exprMaker& _getMaker();
         void _prepare() override;
         void _onEndWork() override;
 

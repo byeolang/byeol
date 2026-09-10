@@ -33,6 +33,6 @@ namespace by {
         static srcSupplies makeSuppliesFrom(const std::string& path);
 
     protected:
-        void* _scanString(parser& ps, const nchar* src, void* scanner) const;
+        void* _scanString(parser& ps, const std::string& src, void* scanner) const;
     };
 }

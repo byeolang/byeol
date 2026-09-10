@@ -32,9 +32,26 @@ namespace by {
         return ret;
     }
 
-    void* me::_scanString(parser& ps, const nchar* src, void* scanner) const {
-        if(!src || src[0] == '\0') return ps.getReport().add(nerr::newErr(errCode::SRC_EMPTY)), nullptr;
+    namespace {
+        std::string _removeCR(const std::string& src) {
+            size_t from = 0, at = src.find("\r\n");
+            WHEN(at == std::string::npos).ret(src);
 
-        return yy_scan_string((nchar*) src, (yyscan_t) scanner);
+            std::string ret;
+            ret.reserve(src.size());
+            for(; at != std::string::npos; at = src.find("\r\n", from)) {
+                ret.append(src, from, at - from);
+                from = at + 1; // keeps the LF.
+            }
+            ret.append(src, from, std::string::npos);
+
+            return ret;
+        }
+    }
+
+    void* me::_scanString(parser& ps, const std::string& src, void* scanner) const {
+        if(src.empty() || src[0] == '\0') return ps.getReport().add(nerr::newErr(errCode::SRC_EMPTY)), nullptr;
+
+        return yy_scan_string((nchar*) _removeCR(src).c_str(), (yyscan_t) scanner);
     }
 } // namespace by
