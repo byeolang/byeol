@@ -9,6 +9,8 @@ if(build_common_included)
     return()
 endif()
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # decide compiler:
 #   variables such as CXX_COMPILER_ID and COMPILER_IS_GNUCC remain unchanged.
 #   to resolve this issue, you must determine which compiler to use before calling
