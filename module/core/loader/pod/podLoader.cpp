@@ -4,6 +4,7 @@
 #include "core/frame/thread.hpp"
 #include "core/builtin/err/errReport.hpp"
 #include "core/loader/pod/podLoading.hpp"
+#include <filesystem>
 
 namespace by {
 
@@ -98,10 +99,10 @@ namespace by {
 
             auto e = fsystem::find(path);
             while(e.next()) {
-                if(e->filename() != MANIFEST_FILENAME) continue;
+                if(e.getName() != MANIFEST_FILENAME) continue;
 
-                std::string dir = e.getDir().string();
-                manifest mani = _interpManifest(dir, e.get().string());
+                std::string dir = e.getDir();
+                manifest mani = _interpManifest(dir, e.get());
                 if(tray.in(mani.name)) { // TODO: more concise duplication check required including version of pod.
                     BY_W("pod '%s' is duplicated. an existed one will be used.", mani.name);
                     continue;

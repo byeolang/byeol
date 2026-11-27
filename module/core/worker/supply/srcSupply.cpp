@@ -23,7 +23,7 @@ namespace by {
         while(e.next()) {
             // path::operator string_type() gives a wstring on windows, so the
             //  narrow form has to be asked for explicitly.
-            std::string filePath = e->string();
+            std::string filePath = *e;
             if(!_isSrcFile(filePath)) continue;
 
             ret.add(*new fileSupply(filePath));
