@@ -1,5 +1,32 @@
 # Changelogs
 
+## v0.2.13 Mana Update
+released on 11-27 2026
+
+Byeol source files now declare modules with `pod` in place of `pack`. The
+parser accepts CRLF line endings in buffered source, and the CLI preserves
+argument strings and reports errors collected during interpretation. Release
+artifacts include the interpreter and the system pod.
+
+### framework updates
+- fix(parser): resolve Carrage Return at parser
+- fix(core): follow the std::filesystem::path fsystem API
++ refactor: migrate stela codes to seperate git repository
++ refactor(indep): remove build number
++ feat(flagStacker): move flagStacker to independent external project
++ feat(core): implement frontendStacker
+
+### frontend updates
++ feat(ci): include byeol binary and pod/sys in release artifacts
+
+### development environment updates
+* refactor(build): remove cmake duplicated settings by using build-common
++ feat(build-common): update latest buildCommon API
+- fix(cmake): output directory of windows was set to wrong one
+- fix(ci): remove `pub` command
++ feat(ci): add `test` command to run CI
+
+
 ## v0.2.12 Mana Update
 released on 02-16 2026 build#1514
 
